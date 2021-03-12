@@ -1,6 +1,13 @@
 require("@nomiclabs/hardhat-waffle");
 
-const { PRIVATE_KEY_TEST_1, PRIVATE_KEY_TEST_2 } = require('../secrets.json');
+const {
+  PRIVATE_KEY_TEST_1,
+  PRIVATE_KEY_TEST_2,
+  ALCHEMY_API_KEY,
+  INFURA_API_KEY,
+  ETHERSCAN_API_KEY,
+  MATICVIGIL_API_KEY
+} = require('../secrets.json');
 
 
 // This is a sample Hardhat task. To learn how to create your own go to
@@ -20,13 +27,13 @@ task("accounts", "Prints the list of accounts", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'rinkeby',
+  defaultNetwork: 'polygon',
   networks: {
     hardhat: {
       loggingEnabled: true,
       forking: {
-        // url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
-        url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
+        // url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
+        url: `https://eth-kovan.alchemyapi.io/v2/${ALCHEMY_API_KEY}`
         // blockNumber: 23569930
       },
       accounts: [
@@ -35,12 +42,22 @@ module.exports = {
       ]
     },
     rinkeby: {
-      url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts: [PRIVATE_KEY_TEST_1, PRIVATE_KEY_TEST_2]
+      url: `https://kovan.infura.io/v3/${INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+    },
+    polygon: {
+      url: `https://rpc-mainnet.maticvigil.com/v1/${MATICVIGIL_API_KEY}`,
+      chainId: 137,
+      accounts: [process.env.ACCOUNT_KEY],
+    },
+    mumbai: {
+      url: `https://rpc-mumbai.maticvigil.com/v1/${MATICVIGIL_API_KEY}`,
+      chainId: 80001,
+      accounts: [process.env.ACCOUNT_KEY],
     }
   },
   etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
+    apiKey: ETHERSCAN_API_KEY
   },
   solidity: '0.7.3',
   abiExporter: {
