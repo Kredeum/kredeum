@@ -1,4 +1,5 @@
 require("@nomiclabs/hardhat-waffle");
+require('hardhat-abi-exporter');
 
 const {
   PRIVATE_KEY_TEST_1,
@@ -42,7 +43,7 @@ module.exports = {
       ]
     },
     rinkeby: {
-      url: `https://kovan.infura.io/v3/${INFURA_API_KEY}`,
+      url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
     },
     polygon: {
@@ -63,7 +64,7 @@ module.exports = {
   abiExporter: {
     path: './abis',
     clear: true,
-    only: ['kru'],
+    // only: ['KRU'],
     flat: true
   }
 };

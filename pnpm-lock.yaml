@@ -1,4 +1,5 @@
 devDependencies:
+  '@metamask/detect-provider': 1.2.0
   '@nomiclabs/hardhat-ethers': 2.0.2_ethers@5.0.32+hardhat@2.1.1
   '@nomiclabs/hardhat-etherscan': 2.1.1_hardhat@2.1.1
   '@nomiclabs/hardhat-waffle': 2.0.1_a7036abe059170f7663156e7a8ba676a
@@ -430,6 +431,12 @@ packages:
     dev: true
     resolution:
       integrity: sha512-jWsEm1iJzpg9SCXnNfFz+tcp4Ofzv0TJb6mj+soCNcar9GcT0yGz62ZsHC3pLQWaF4LkCzGwRJHJTXKjHQfG1A==
+  /@metamask/detect-provider/1.2.0:
+    dev: true
+    engines:
+      node: '>= 10'
+    resolution:
+      integrity: sha512-ocA76vt+8D0thgXZ7LxFPyqw3H7988qblgzddTDA6B8a/yU0uKV42QR/DhA+Jh11rJjxW0jKvwb5htA6krNZDQ==
   /@nomiclabs/ethereumjs-vm/4.2.2:
     dependencies:
       async: 2.6.3
@@ -7962,6 +7969,7 @@ packages:
       tarball: https://codeload.github.com/ethereumjs/ethereumjs-abi/tar.gz/1a27c59c15ab1e95ee8e5c4ed6ad814c49cc439e
     version: 0.6.8
 specifiers:
+  '@metamask/detect-provider': ^1.2.0
   '@nomiclabs/hardhat-ethers': ^2.0.0
   '@nomiclabs/hardhat-etherscan': ^2.1.1
   '@nomiclabs/hardhat-waffle': ^2.0.0
