@@ -1,5 +1,5 @@
 {
-  "name": "korigin",
+  "name": "kredeum",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -32,13 +32,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Kredeum/korigin.git"
+    "url": "git+https://github.com/Kredeum/kredeum.git"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/Kredeum/korigin/issues"
+    "url": "https://github.com/Kredeum/kredeum/issues"
   },
-  "homepage": "https://github.com/Kredeum/korigin#readme"
+  "homepage": "https://github.com/Kredeum/kredeum#readme"
 }

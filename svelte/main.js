@@ -1,7 +1,7 @@
-import Korigin from './korigin.svelte';
+import Kredeum from './kredeum.svelte';
 
-const korigin = new Korigin({
+const kredeum = new Kredeum({
   target: document.body
 });
 
-export default korigin;
+export default kredeum;

@@ -33,7 +33,7 @@ export default {
   output: {
     sourcemap: true,
     format: 'iife',
-    name: 'korigin',
+    name: 'kredeum',
     file: 'public/build/bundle.js'
   },
   plugins: [
