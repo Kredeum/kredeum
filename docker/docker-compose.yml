@@ -1,0 +1,36 @@
+version: '3.9'
+
+services:
+
+  db:
+    image: mariadb:latest
+    volumes:
+      -  ${DATA_DIR}/wordpress/db:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
+      MYSQL_DATABASE: wp
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: ${DB_WORDPRESS_PASSWORD}
+
+  wordpress:
+    depends_on:
+      - db
+    image: wordpress:latest
+    volumes:
+      - ${DATA_DIR}/wordpress/html:/var/www/html
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_NAME: wp
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: ${DB_WORDPRESS_PASSWORD}
+    ports:
+      - 8000:80
+
+  adminer:
+    depends_on:
+      - db
+    image: adminer:latest
+    ports:
+      - 8001:8080
