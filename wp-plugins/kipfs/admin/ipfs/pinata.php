@@ -17,12 +17,12 @@ function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
     array(
       "type" => "json",
       "name" => "pinataOptions",
-      "content" => '{"cidVersion":' . $version . '}'
+      "content" => '{"cidVersion": "' . $version . '"}'
     ),
     array(
       "type" => "json",
       "name" => "pinataMetadata",
-      "content" => '{"name": $filename, "keyvalues":{ "address": "0x123"}}'
+      "content" => '{"name": "' . $filename . '", "keyvalues":{ "address": "0x123"}}'
     )
   );
 
@@ -34,6 +34,9 @@ function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
     'Content-Length' => strlen($buffer),
   ];
   $result = $api->post("/pinning/pinFileToIPFS", $buffer, $headers);
+
+  // echo 'KO';
+  // var_dump($result);
 
   return ($result->info->http_code == 200) ? $result->decode_response()->IpfsHash :  $result->error;
 }

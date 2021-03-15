@@ -4,4 +4,6 @@ artifacts
 abis
 public/build/
 
+**/*.env
+
 .DS_Store
