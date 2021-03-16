@@ -5,7 +5,7 @@ services:
   db:
     image: mariadb:latest
     volumes:
-      -  ${DATA_DIR}/wordpress/db:/var/lib/mysql
+      -  wordpress-db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -18,7 +18,7 @@ services:
       - db
     image: wordpress:latest
     volumes:
-      - ${DATA_DIR}/wordpress/html:/var/www/html
+      - ${PLUGINS_DIR}:/var/www/html/wp-content/plugins
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306
