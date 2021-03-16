@@ -1,40 +1,30 @@
-<svelte:options tag="kredeum-metamask" immutable="{true}" />
-
 <script>
   import detectEthereumProvider from '@metamask/detect-provider';
-  import {
-    onMount
-  } from 'svelte';
-
-  export let signer = '';
-  export let addresses = [];
-  export let chainId = '';
-  export let autoconnect = 'off';
+  import { onMount } from 'svelte';
+  import { signer, chainId, addresses } from './metamask2.mjs';
 
   async function handleChainId(_chainId) {
-    console.log('handleChainId <=', _chainId);
+    // console.log('handleChainId <=', _chainId);
     if (_chainId) {
-      chainId = _chainId;
+      $chainId = _chainId;
     }
   }
   async function handleAccounts(_accounts) {
     if (_accounts.length === 0) {
-      if (autoconnect !== 'off') connectMetamask();
-    } else if (_accounts[0] !== signer) {
-      signer = _accounts[0];
-      if (addresses.indexOf(signer) === -1) {
-        addresses.push(signer);
-        console.log('handleAccounts', _accounts, '=>', signer, addresses);
+      connectMetamask();
+    } else if (_accounts[0] !== $signer) {
+      $signer = _accounts[0];
+      if ($addresses.indexOf($signer) === -1) {
+        $addresses.push($signer);
+        // console.log('handleAccounts', _accounts, '=>', $signer, $addresses);
       }
     }
   }
   async function connectMetamask() {
-    console.log('connectMetamask');
+    // console.log('connectMetamask');
 
     ethereum
-      .request({
-        method: 'eth_requestAccounts'
-      })
+      .request({ method: 'eth_requestAccounts' })
       .then(handleAccounts)
       .catch((e) => {
         if (e.code === 4001) {
@@ -45,7 +35,7 @@
       });
   }
   onMount(async function () {
-    console.log('init');
+    // console.log('Metamask init');
     const provider = await detectEthereumProvider();
     if (provider) {
       if (provider !== window.ethereum) {
@@ -53,16 +43,12 @@
       }
 
       ethereum
-        .request({
-          method: 'eth_accounts'
-        })
+        .request({ method: 'eth_accounts' })
         .then(handleAccounts)
         .catch((e) => console.error('ERROR eth_accounts', e));
 
       ethereum
-        .request({
-          method: 'eth_chainId'
-        })
+        .request({ method: 'eth_chainId' })
         .then(handleChainId)
         .catch((e) => console.error('ERROR eth_chainId', e));
 
@@ -75,8 +61,14 @@
   });
 </script>
 
-{#if signer}
-  {signer}
+{#if $signer}
+  <small>
+    {#each $addresses as addr, i}
+      <br />address[{i}] {addr}
+    {/each}
+    <br />$signer {$signer}
+    <br />$chainId {$chainId}
+  </small>
 {:else}
   <button on:click="{connectMetamask}">Connect Metamask</button>
 {/if}

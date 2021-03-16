@@ -4,8 +4,8 @@
   import KRU from '../lib/kru.mjs';
   import endpoint from '../lib/endpoint.mjs';
 
-  import Metamask from './metamask.svelte';
-  import { signer, chainId, addresses } from './metamask.mjs';
+  import Metamask from './metamask2.svelte';
+  import { signer, chainId, addresses } from './metamask2.mjs';
 
   let pinataPins = [];
   let nftPins = [];
@@ -20,6 +20,8 @@
     const { network, url } = endpoint($chainId);
     const provider = new ethers.providers.JsonRpcProvider(url);
 
+    console.log(KRU.ADDRESS[network]);
+
     const kru = new ethers.Contract(KRU.ADDRESS[network], KRU.ABI, provider);
     console.log('name:', await kru.name());
     console.log('symbol:', await kru.symbol());
@@ -31,7 +33,11 @@
       const tockenId = await kru.tokenByIndex(index);
       const ownerOf = await kru.ownerOf(tockenId);
       const tokenURI = await kru.tokenURI(tockenId);
-      nftPins.push({ tockenId, ownerOf, tokenURI });
+      nftPins.push({
+        tockenId,
+        ownerOf,
+        tokenURI
+      });
       nftPins = nftPins;
     }
     console.log('nftPins', JSON.stringify(nftPins, null, '  '));

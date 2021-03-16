@@ -7,7 +7,7 @@
   "plugins": ["svelte3"],
   "overrides": [
     {
-      "files": ["*.svelte"],
+      "files": ["**/*.svelte"],
       "processor": "svelte3/svelte3"
     }
   ],
@@ -23,6 +23,11 @@
     "space-before-function-paren": ["error", "always"],
     "no-global-assign": ["error", { "exceptions": ["require"] }],
     "spaced-comment": "off"
+  },
+  "settings": {
+    "svelte3/compiler-options": {
+      "customElement": true
+    }
   },
   "globals": {
     "ethereum": "readonly"
