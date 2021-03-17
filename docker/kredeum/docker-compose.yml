@@ -1,11 +1,10 @@
-version: '3.9'
+version: "3.9"
 
 services:
-
   db:
     image: mariadb:latest
     volumes:
-      -  wordpress-db:/var/lib/mysql
+      - wordpress-db:/var/lib/mysql
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD}
@@ -19,6 +18,7 @@ services:
     image: wordpress:latest
     volumes:
       - ${PLUGINS_DIR}:/var/www/html/wp-content/plugins
+      - ${APP_DIR}:/var/www/html/app
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306
@@ -34,3 +34,6 @@ services:
     image: adminer:latest
     ports:
       - 8001:8080
+
+volumes:
+  wordpress-db:
