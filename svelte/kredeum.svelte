@@ -41,7 +41,8 @@
       const tockenId = await kru.tokenByIndex(index);
       const ownerOf = await kru.ownerOf(tockenId);
       const tokenURI = await kru.tokenURI(tockenId);
-      if (ownerOf.toLowerCase() === signer.toLowerCase()) {
+      // if (ownerOf.toLowerCase() === signer.toLowerCase())
+      {
         nftPins.push({
           tockenId,
           ownerOf,
@@ -65,11 +66,12 @@
     const json = await response.json();
     // console.log(json.results);
 
-    pinataPins = json.results.filter(function (item) {
-      return item.pin.meta.address.toLowerCase() === signer.toLowerCase();
-    });
-    pinataPinsCount = pinataPins.length;
+    pinataPins = json.results;
+    // pinataPins = json.results.filter(function (item) {
+    //   return item.pin.meta.address.toLowerCase() === signer.toLowerCase();
+    // });
     // console.log(JSON.stringify(pinataPins, null, '  '));
+    pinataPinsCount = pinataPins.length;
   }
 </script>
 
@@ -83,27 +85,35 @@
   <hr />
   <table>
     <th>NFT {nftPinsCount} pins</th>
-    {#each nftPins as nftPin}
-      {#if nftPin.ownerOf.toLowerCase() === signer.toLowerCase()}
-        <tr>
-          <td> </td>
-          <td>{nftPin.tockenId}</td>
-          <td>{nftPin.tokenURI}</td>
-        </tr>
-      {/if}
+    {#each nftPins as nftPin, i}
+      <tr>
+        <td>
+          {#if nftPin.ownerOf.toLowerCase() === signer.toLowerCase()}
+            MINE
+          {/if}
+        </td>
+        <td>{i}</td>
+        <td>{nftPin.tockenId}</td>
+        <td>{nftPin.tokenURI}</td>
+        <td>{nftPin.ownerOf}</td>
+      </tr>
     {/each}
   </table>
   <hr />
   <table>
     <th>PINATA {pinataPinsCount} pins</th>
     {#each pinataPins as pinataPin, i}
-      {#if pinataPin.pin.meta.address.toLowerCase() === signer.toLowerCase()}
-        <tr>
-          <td>{i}</td>
-          <td>{pinataPin.pin.name}</td>
-          <td>{pinataPin.pin.cid}</td>
-        </tr>
-      {/if}
+      <tr>
+        <td>
+          {#if pinataPin.pin.meta.address.toLowerCase() === signer.toLowerCase()}
+            MINE
+          {/if}
+        </td>
+        <td>{i}</td>
+        <td>{pinataPin.pin.name}</td>
+        <td>{pinataPin.pin.cid}</td>
+        <td>{pinataPin.pin.meta.address}</td>
+      </tr>
     {/each}
   </table>
   <hr />
