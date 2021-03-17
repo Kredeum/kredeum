@@ -1,77 +1,44 @@
 <script>
-  import { ethers } from 'ethers';
-  import KRU from '../lib/kru.mjs';
-  import endpoint from '../lib/endpoint.mjs';
   import Metamask from './metamask.svelte';
+
+  import pinata from '../lib/pinata.mjs';
+  import nft from '../lib/nft.mjs';
 
   let signer = '';
   let chainId = '0x0';
   const chainIdPolygon = '0x89';
 
-  let pinataPins = [];
-  let pinataPinsCount = 0;
+  // $: ethersSigner = new ethers.providers.Web3Provider(ethereum).getSigner();
 
-  let nftPins = [];
-  let nftPinsCount = 0;
-  let nftPinsCountAll = 0;
+  $: pinataPins = [];
+  $: nftList = [];
 
   $: if (chainId > 0) {
     if (chainId !== chainIdPolygon) {
       console.log('Wrong chainId =', chainId, ' switch to Polygon =', chainIdPolygon);
       alert('Switch to Polygon');
     } else {
-      pinataInit();
-      nftInit();
+      list();
     }
   }
-  async function nftInit() {
-    const { network, url } = endpoint(chainId);
-    const provider = new ethers.providers.JsonRpcProvider(url);
 
-    console.log(KRU.ADDRESS[network]);
+  async function list() {
+    nftList = await nft.list(chainId);
+    console.log('nftList', nftList);
 
-    const kru = new ethers.Contract(KRU.ADDRESS[network], KRU.ABI, provider);
-    console.log('name:', await kru.name());
-    console.log('symbol:', await kru.symbol());
-
-    nftPinsCountAll = (await kru.totalSupply()).toNumber();
-    console.log('nftPinsCountAll', nftPinsCountAll);
-
-    for (let index = 0; index < nftPinsCountAll; index++) {
-      const tockenId = await kru.tokenByIndex(index);
-      const ownerOf = await kru.ownerOf(tockenId);
-      const tokenURI = await kru.tokenURI(tockenId);
-      // if (ownerOf.toLowerCase() === signer.toLowerCase())
-      {
-        nftPins.push({
-          tockenId,
-          ownerOf,
-          tokenURI
-        });
-        nftPins = nftPins;
-        nftPinsCount++;
-      }
-    }
-    console.log('nftPins', JSON.stringify(nftPins, null, '  '));
+    pinataPins = await pinata.list();
+    console.log('pinataPins', pinataPins);
   }
+  async function nftMint() {
+    const num = Number(this.attributes.num.value);
+    const pin = pinataPins[num].pin;
+    console.log('nftMint', num, pin);
 
-  async function pinataInit() {
-    const response = await fetch('https://api.pinata.cloud/psa/pins?limit=99', {
-      headers: {
-        'Content-Type': 'application/json',
-        pinata_api_key: 'f710b52158cee837859d',
-        pinata_secret_api_key: '3fb4a7f92aba772082cadae63a034a91c7e048b7d62524397e7458193df3dbb0'
-      }
-    });
-    const json = await response.json();
-    // console.log(json.results);
+    const nftJson = await pinata.pinJson(pin);
+    console.log('nftJson', nftJson);
 
-    pinataPins = json.results;
-    // pinataPins = json.results.filter(function (item) {
-    //   return item.pin.meta.address.toLowerCase() === signer.toLowerCase();
-    // });
-    // console.log(JSON.stringify(pinataPins, null, '  '));
-    pinataPinsCount = pinataPins.length;
+    const nftMinted = await nft.Mint(signer, nftJson);
+    console.log('nftMinted', nftMinted);
   }
 </script>
 
@@ -84,29 +51,29 @@
 
   <table>
     <tr><td colspan="5"><hr /></td></tr>
-    <th>{nftPinsCount} Kredeum NFTs</th>
-    {#each nftPins as nftPin, i}
+    <th colspan="5">{nftList?.length} Kredeum NFTs</th>
+    {#each nftList as nft, i}
       <tr>
         <td>
-          {#if nftPin.ownerOf.toLowerCase() === signer.toLowerCase()}
+          {#if nft.ownerOf.toLowerCase() === signer.toLowerCase()}
             MINE
           {/if}
         </td>
         <td>{i}</td>
-        <td>{nftPin.tockenId}</td>
-        <td>{nftPin.tokenURI}</td>
-        <td>{nftPin.ownerOf}</td>
+        <td>{nft.tockenId}</td>
+        <td>{nft.tokenURI}</td>
+        <td>{nft.ownerOf}</td>
       </tr>
     {/each}
 
     <tr><td colspan="5"><hr /></td></tr>
 
-    <th>{pinataPinsCount} pins PINATA</th>
+    <th colspan="5">{pinataPins?.length} pins PINATA</th>
     {#each pinataPins as pinataPin, i}
       <tr>
         <td>
           {#if pinataPin.pin.meta.address.toLowerCase() === signer.toLowerCase()}
-            MINE
+            <button on:click="{nftMint}" num="{i}">MINT NFT</button>
           {/if}
         </td>
         <td>{i}</td>
@@ -125,7 +92,9 @@
     max-width: 240px;
     margin: 0 auto;
   }
-
+  th {
+    text-align: left;
+  }
   h1 {
     color: #ff3e00;
     text-transform: uppercase;

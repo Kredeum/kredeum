@@ -33,7 +33,7 @@ const toRollupConfig = function (component, dest = 'app/build', customElement = 
   return {
     input: 'svelte/' + component + (customElement ? '.svelte' : '.js'),
     output: {
-      sourcemap: false,
+      sourcemap: true,
       format: 'iife',
       name: component,
       file: `${dest}/${component}.js`
@@ -68,5 +68,4 @@ const toRollupConfig = function (component, dest = 'app/build', customElement = 
 export default [
   toRollupConfig('kredeum'),
   toRollupConfig('metamask', 'wordpress/kipfs/lib/js', true)
-  // toRollupConfig('metamask', 'wordpress/test-ajax', true)
 ];

@@ -19,7 +19,7 @@
     }
   }
   async function handleAccounts(_accounts) {
-    if (_accounts.length === 0) {
+    if (_accounts?.length === 0) {
       if (autoconnect !== 'off') connectMetamask();
     } else if (_accounts[0] !== signer) {
       signer = _accounts[0];
