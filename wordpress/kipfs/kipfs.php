@@ -3,7 +3,7 @@
 Plugin Name: WP Plugin IPFS
 Description: Allow media storage into IPFS
 Plugin URI: https://www.kredeum.com/kipfs
-Version: 0.1.2
+Version: 0.1.3
 Requires at least: 4.0.0
 Requires PHP: 5.4
 Author: Kredeum <alain@kredeum.com>
@@ -13,7 +13,7 @@ License URI: https://www.gnu.org/licenses/gpl-3.0.html
 Text domain: kipfs
 Domain Path: /languages
 
-Copyright 2020 kredeum  
+Copyright 2020-2021 kredeum  
 */
 
 
@@ -26,6 +26,8 @@ if (is_admin()) {
   define('IPFS_API', get_option('IPFS_API', [''])[0]);
   define('IPFS_CLUSTER_API', get_option('IPFS_CLUSTER_API', [''])[0]);
   define('IPFS_PINNING_API', get_option('IPFS_PINNING_API', [''])[0]);
+
+  require_once(KIPFS_PLUGIN_PATH . 'admin/ajax/ajax.php');
 
   require_once(KIPFS_PLUGIN_PATH . 'admin/ipfs/add.php');
   require_once(KIPFS_PLUGIN_PATH . 'admin/ipfs/pin.php');
@@ -42,7 +44,7 @@ if (is_admin()) {
   require_once(KIPFS_PLUGIN_PATH . 'admin/settings/fields.php');
   require_once(KIPFS_PLUGIN_PATH . 'admin/settings/settings.php');
 
-  require_once(KIPFS_PLUGIN_PATH . 'includes/restclient.php');
+  require_once(KIPFS_PLUGIN_PATH . 'lib/php/restclient.php');
 
   $api = new RestClient(['base_url' => '']);
 }

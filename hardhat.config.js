@@ -60,11 +60,28 @@ module.exports = {
   etherscan: {
     apiKey: ETHERSCAN_API_KEY
   },
-  solidity: '0.7.3',
   abiExporter: {
-    path: './abis',
+    path: './solidity/abis',
     clear: true,
     // only: ['KRU'],
     flat: true
+  },
+  solidity: {
+    version: "0.7.3",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 200
+      }
+    }
+  },
+  paths: {
+    sources: "./solidity",
+    tests: "./tests",
+    cache: "./solidity/cache",
+    artifacts: "./solidity/artifacts"
+  },
+  mocha: {
+    timeout: 20000
   }
 };

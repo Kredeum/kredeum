@@ -57,5 +57,12 @@ function kipfs_fields()
       'default' => '',
       'helper' => __('Enter your Pinata Secret', 'kipfs'),
     ),
+    array(
+      'uid' => 'metamask_address',
+      'label' => 'METAMASK_ADDRESS',
+      'section' => 'first_section',
+      'type' => 'info',
+      'placeholder' => 'Connect to Metamask to get address'
+    )
   );
 }

@@ -2,7 +2,7 @@ node_modules
 cache
 artifacts
 abis
-public/build/
+app/build/
 
 **/*.env
 

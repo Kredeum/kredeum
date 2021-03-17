@@ -1,10 +1,11 @@
-<svelte:options tag="kredeum-metamask" immutable="{true}" />
+<!-- <svelte:options tag="kredeum-metamask" immutable="{true}" /> -->
+<svelte:options tag="kredeum-metamask" />
 
 <script>
   import detectEthereumProvider from '@metamask/detect-provider';
-  import {
-    onMount
-  } from 'svelte';
+  import { onMount } from 'svelte';
+  import { createEventDispatcher } from 'svelte';
+  const dispatch = createEventDispatcher();
 
   export let signer = '';
   export let addresses = [];
@@ -22,6 +23,7 @@
       if (autoconnect !== 'off') connectMetamask();
     } else if (_accounts[0] !== signer) {
       signer = _accounts[0];
+      dispatch('address', { address: signer });
       if (addresses.indexOf(signer) === -1) {
         addresses.push(signer);
         console.log('handleAccounts', _accounts, '=>', signer, addresses);
