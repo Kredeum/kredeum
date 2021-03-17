@@ -82,9 +82,9 @@
   </small>
   <h2>Your NFTs</h2>
 
-  <hr />
   <table>
-    <th>NFT {nftPinsCount} pins</th>
+    <tr><td colspan="5"><hr /></td></tr>
+    <th>{nftPinsCount} Kredeum NFTs</th>
     {#each nftPins as nftPin, i}
       <tr>
         <td>
@@ -98,10 +98,10 @@
         <td>{nftPin.ownerOf}</td>
       </tr>
     {/each}
-  </table>
-  <hr />
-  <table>
-    <th>PINATA {pinataPinsCount} pins</th>
+
+    <tr><td colspan="5"><hr /></td></tr>
+
+    <th>{pinataPinsCount} pins PINATA</th>
     {#each pinataPins as pinataPin, i}
       <tr>
         <td>
@@ -115,8 +115,8 @@
         <td>{pinataPin.pin.meta.address}</td>
       </tr>
     {/each}
+    <tr><td colspan="5"><hr /></td></tr>
   </table>
-  <hr />
 </main>
 
 <style>
