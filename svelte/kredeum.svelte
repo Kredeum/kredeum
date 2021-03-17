@@ -1,23 +1,31 @@
 <script>
   import { ethers } from 'ethers';
-
   import KRU from '../lib/kru.mjs';
   import endpoint from '../lib/endpoint.mjs';
+  import Metamask from './metamask.svelte';
 
-  import Metamask from './metamask2.svelte';
-  import { signer, chainId, addresses } from './metamask2.mjs';
+  let signer = '';
+  let chainId = '0x0';
+  const chainIdPolygon = '0x89';
 
   let pinataPins = [];
-  let nftPins = [];
   let pinataPinsCount = 0;
-  let nftPinsCount = 0;
 
-  $: if ($chainId > 0) {
-    pinataInit();
-    nftInit();
+  let nftPins = [];
+  let nftPinsCount = 0;
+  let nftPinsCountAll = 0;
+
+  $: if (chainId > 0) {
+    if (chainId !== chainIdPolygon) {
+      console.log('Wrong chainId =', chainId, ' switch to Polygon =', chainIdPolygon);
+      alert('Switch to Polygon');
+    } else {
+      pinataInit();
+      nftInit();
+    }
   }
   async function nftInit() {
-    const { network, url } = endpoint($chainId);
+    const { network, url } = endpoint(chainId);
     const provider = new ethers.providers.JsonRpcProvider(url);
 
     console.log(KRU.ADDRESS[network]);
@@ -26,19 +34,22 @@
     console.log('name:', await kru.name());
     console.log('symbol:', await kru.symbol());
 
-    nftPinsCount = (await kru.totalSupply()).toNumber();
-    console.log('totalSupply', nftPinsCount);
+    nftPinsCountAll = (await kru.totalSupply()).toNumber();
+    console.log('nftPinsCountAll', nftPinsCountAll);
 
-    for (let index = 0; index < nftPinsCount; index++) {
+    for (let index = 0; index < nftPinsCountAll; index++) {
       const tockenId = await kru.tokenByIndex(index);
       const ownerOf = await kru.ownerOf(tockenId);
       const tokenURI = await kru.tokenURI(tockenId);
-      nftPins.push({
-        tockenId,
-        ownerOf,
-        tokenURI
-      });
-      nftPins = nftPins;
+      if (ownerOf.toLowerCase() === signer.toLowerCase()) {
+        nftPins.push({
+          tockenId,
+          ownerOf,
+          tokenURI
+        });
+        nftPins = nftPins;
+        nftPinsCount++;
+      }
     }
     console.log('nftPins', JSON.stringify(nftPins, null, '  '));
   }
@@ -52,51 +63,50 @@
       }
     });
     const json = await response.json();
-    pinataPinsCount = json.count;
-    pinataPins = json.results;
+    // console.log(json.results);
+
+    pinataPins = json.results.filter(function (item) {
+      return item.pin.meta.address.toLowerCase() === signer.toLowerCase();
+    });
+    pinataPinsCount = pinataPins.length;
     // console.log(JSON.stringify(pinataPins, null, '  '));
   }
 </script>
 
 <main>
-  <h1>NFTS Kredeum</h1>
+  <h1>Kredeum Wallet</h1>
+  <small>
+    <Metamask autoconnect="off" bind:signer bind:chainId />
+  </small>
+  <h2>Your NFTs</h2>
 
+  <hr />
   <table>
     <th>NFT {nftPinsCount} pins</th>
     {#each nftPins as nftPin}
-      <tr>
-        <td>
-          {#if nftPin.ownerOf.toLowerCase() === $signer.toLowerCase()}
-            MINE
-          {/if}
-        </td>
-        <td>{nftPin.tockenId}</td>
-        <td>{nftPin.ownerOf}</td>
-        <td>{nftPin.tokenURI}</td>
-      </tr>
+      {#if nftPin.ownerOf.toLowerCase() === signer.toLowerCase()}
+        <tr>
+          <td> </td>
+          <td>{nftPin.tockenId}</td>
+          <td>{nftPin.tokenURI}</td>
+        </tr>
+      {/if}
     {/each}
   </table>
-
   <hr />
   <table>
     <th>PINATA {pinataPinsCount} pins</th>
     {#each pinataPins as pinataPin, i}
-      <tr>
-        <td>{i}</td>
-        <td>{pinataPin.pin.name}</td>
-        <td>{pinataPin.pin.cid}</td>
-      </tr>
+      {#if pinataPin.pin.meta.address.toLowerCase() === signer.toLowerCase()}
+        <tr>
+          <td>{i}</td>
+          <td>{pinataPin.pin.name}</td>
+          <td>{pinataPin.pin.cid}</td>
+        </tr>
+      {/if}
     {/each}
   </table>
-
   <hr />
-  <Metamask />
-
-  {#if $signer !== ''}
-    <span>{$signer.toString()}</span>
-  {:else}
-    <span>Connect wallet</span>
-  {/if}
 </main>
 
 <style>

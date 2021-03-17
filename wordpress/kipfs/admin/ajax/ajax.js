@@ -1,7 +1,7 @@
 // https://codex.wordpress.org/AJAX_in_Plugins
 
 jQuery(document).ready(function () {
-  document.querySelector('kredeum-metamask').$on('address', function () {
+  document.querySelector('kredeum-metamask')?.$on('address', function () {
 
     var data = {
       action: 'address',

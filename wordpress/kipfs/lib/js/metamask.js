@@ -1,1 +1,724 @@
-var metamask=function(){"use strict";function t(){}function e(t){return t()}function n(){return Object.create(null)}function o(t){t.forEach(e)}function r(t){return"function"==typeof t}function s(t,e){return t!=t?e==e:t!==e||t&&"object"==typeof t||"function"==typeof t}function c(t,e,n){t.insertBefore(e,n||null)}function i(t){t.parentNode.removeChild(t)}function a(t){return document.createTextNode(t)}function u(t){const e={};for(const n of t)e[n.name]=n.value;return e}let d;function l(t){d=t}function h(){if(!d)throw new Error("Function called outside component initialization");return d}function f(){const t=h();return(e,n)=>{const o=t.$$.callbacks[e];if(o){const r=function(t,e){const n=document.createEvent("CustomEvent");return n.initCustomEvent(t,!1,!1,e),n}(e,n);o.slice().forEach((e=>{e.call(t,r)}))}}}const m=[],p=[],$=[],g=[],b=Promise.resolve();let w=!1;function _(t){$.push(t)}let k=!1;const E=new Set;function y(){if(!k){k=!0;do{for(let t=0;t<m.length;t+=1){const e=m[t];l(e),v(e.$$)}for(l(null),m.length=0;p.length;)p.pop()();for(let t=0;t<$.length;t+=1){const e=$[t];E.has(e)||(E.add(e),e())}$.length=0}while(m.length);for(;g.length;)g.pop()();w=!1,k=!1,E.clear()}}function v(t){if(null!==t.fragment){t.update(),o(t.before_update);const e=t.dirty;t.dirty=[-1],t.fragment&&t.fragment.p(t.ctx,e),t.after_update.forEach(_)}}const x=new Set;function M(t,e){-1===t.$$.dirty[0]&&(m.push(t),w||(w=!0,b.then(y)),t.$$.dirty.fill(0)),t.$$.dirty[e/31|0]|=1<<e%31}function C(s,c,a,u,h,f,m=[-1]){const p=d;l(s);const $=s.$$={fragment:null,ctx:null,props:f,update:t,not_equal:h,bound:n(),on_mount:[],on_destroy:[],on_disconnect:[],before_update:[],after_update:[],context:new Map(p?p.$$.context:[]),callbacks:n(),dirty:m,skip_bound:!1};let g=!1;if($.ctx=a?a(s,c.props||{},((t,e,...n)=>{const o=n.length?n[0]:e;return $.ctx&&h($.ctx[t],$.ctx[t]=o)&&(!$.skip_bound&&$.bound[t]&&$.bound[t](o),g&&M(s,t)),e})):[],$.update(),g=!0,o($.before_update),$.fragment=!!u&&u($.ctx),c.target){if(c.hydrate){const t=function(t){return Array.from(t.childNodes)}(c.target);$.fragment&&$.fragment.l(t),t.forEach(i)}else $.fragment&&$.fragment.c();c.intro&&((b=s.$$.fragment)&&b.i&&(x.delete(b),b.i(w))),function(t,n,s,c){const{fragment:i,on_mount:a,on_destroy:u,after_update:d}=t.$$;i&&i.m(n,s),c||_((()=>{const n=a.map(e).filter(r);u?u.push(...n):o(n),t.$$.on_mount=[]})),d.forEach(_)}(s,c.target,c.anchor,c.customElement),y()}var b,w;l(p)}let I;"function"==typeof HTMLElement&&(I=class extends HTMLElement{constructor(){super(),this.attachShadow({mode:"open"})}connectedCallback(){const{on_mount:t}=this.$$;this.$$.on_disconnect=t.map(e).filter(r);for(const t in this.$$.slotted)this.appendChild(this.$$.slotted[t])}attributeChangedCallback(t,e,n){this[t]=n}disconnectedCallback(){o(this.$$.on_disconnect)}$destroy(){!function(t,e){const n=t.$$;null!==n.fragment&&(o(n.on_destroy),n.fragment&&n.fragment.d(e),n.on_destroy=n.fragment=null,n.ctx=[])}(this,1),this.$destroy=t}$on(t,e){const n=this.$$.callbacks[t]||(this.$$.callbacks[t]=[]);return n.push(e),()=>{const t=n.indexOf(e);-1!==t&&n.splice(t,1)}}$set(t){var e;this.$$set&&(e=t,0!==Object.keys(e).length)&&(this.$$.skip_bound=!0,this.$$set(t),this.$$.skip_bound=!1)}});var R=function({mustBeMetaMask:t=!1,silent:e=!1,timeout:n=3e3}={}){!function(){if("boolean"!=typeof t)throw new Error("@metamask/detect-provider: Expected option 'mustBeMetaMask' to be a boolean.");if("boolean"!=typeof e)throw new Error("@metamask/detect-provider: Expected option 'silent' to be a boolean.");if("number"!=typeof n)throw new Error("@metamask/detect-provider: Expected option 'timeout' to be a number.")}();let o=!1;return new Promise((r=>{function s(){if(o)return;o=!0,window.removeEventListener("ethereum#initialized",s);const{ethereum:n}=window;if(!n||t&&!n.isMetaMask){const o=t&&n?"Non-MetaMask window.ethereum detected.":"Unable to detect window.ethereum.";!e&&console.error("@metamask/detect-provider:",o),r(null)}else r(n)}window.ethereum?s():(window.addEventListener("ethereum#initialized",s,{once:!0}),setTimeout((()=>{s()}),n))}))};function O(e){let n,o,r;return{c(){var t;t="button",n=document.createElement(t),n.textContent="Connect Metamask"},m(t,s){var i,a,u,d;c(t,n,s),o||(i=n,a="click",u=e[1],i.addEventListener(a,u,d),r=()=>i.removeEventListener(a,u,d),o=!0)},p:t,d(t){t&&i(n),o=!1,r()}}}function q(t){let e;return{c(){e=a(t[0])},m(t,n){c(t,e,n)},p(t,n){1&n&&function(t,e){e=""+e,t.wholeText!==e&&(t.data=e)}(e,t[0])},d(t){t&&i(e)}}}function L(e){let n;function o(t,e){return t[0]?q:O}let r=o(e),s=r(e);return{c(){s.c(),n=a(""),this.c=t},m(t,e){s.m(t,e),c(t,n,e)},p(t,[e]){r===(r=o(t))&&s?s.p(t,e):(s.d(1),s=r(t),s&&(s.c(),s.m(n.parentNode,n)))},i:t,o:t,d(t){s.d(t),t&&i(n)}}}function A(t,e,n){const o=f();let{signer:r=""}=e,{addresses:s=[]}=e,{chainId:c=""}=e,{autoconnect:i="off"}=e;async function a(t){console.log("handleChainId <=",t),t&&n(2,c=t)}async function u(t){0===t.length?"off"!==i&&d():t[0]!==r&&(n(0,r=t[0]),o("address",{address:r}),-1===s.indexOf(r)&&(s.push(r),console.log("handleAccounts",t,"=>",r,s)))}async function d(){console.log("connectMetamask"),ethereum.request({method:"eth_requestAccounts"}).then(u).catch((t=>{4001===t.code?alert("Please connect to MetaMask."):console.error("ERROR eth_requestAccounts",t)}))}var l;return l=async function(){console.log("init");const t=await R();t?(t!==window.ethereum&&alert("Do you have multiple wallets installed?"),ethereum.request({method:"eth_accounts"}).then(u).catch((t=>console.error("ERROR eth_accounts",t))),ethereum.request({method:"eth_chainId"}).then(a).catch((t=>console.error("ERROR eth_chainId",t))),ethereum.on("chainChanged",a),ethereum.on("accountsChanged",u)):console.log("Please install MetaMask!")},h().$$.on_mount.push(l),t.$$set=t=>{"signer"in t&&n(0,r=t.signer),"addresses"in t&&n(3,s=t.addresses),"chainId"in t&&n(2,c=t.chainId),"autoconnect"in t&&n(4,i=t.autoconnect)},[r,d,c,s,i]}class N extends I{constructor(t){super(),C(this,{target:this.shadowRoot,props:u(this.attributes),customElement:!0},A,L,s,{signer:0,addresses:3,chainId:2,autoconnect:4}),t&&(t.target&&c(t.target,this,t.anchor),t.props&&(this.$set(t.props),y()))}static get observedAttributes(){return["signer","addresses","chainId","autoconnect"]}get signer(){return this.$$.ctx[0]}set signer(t){this.$set({signer:t}),y()}get addresses(){return this.$$.ctx[3]}set addresses(t){this.$set({addresses:t}),y()}get chainId(){return this.$$.ctx[2]}set chainId(t){this.$set({chainId:t}),y()}get autoconnect(){return this.$$.ctx[4]}set autoconnect(t){this.$set({autoconnect:t}),y()}}return customElements.define("kredeum-metamask",N),N}();
+
+(function(l, r) { if (l.getElementById('livereloadscript')) return; r = l.createElement('script'); r.async = 1; r.src = '//' + (window.location.host || 'localhost').split(':')[0] + ':35732/livereload.js?snipver=1'; r.id = 'livereloadscript'; l.getElementsByTagName('head')[0].appendChild(r) })(window.document);
+var metamask = (function () {
+    'use strict';
+
+    function noop() { }
+    function add_location(element, file, line, column, char) {
+        element.__svelte_meta = {
+            loc: { file, line, column, char }
+        };
+    }
+    function run(fn) {
+        return fn();
+    }
+    function blank_object() {
+        return Object.create(null);
+    }
+    function run_all(fns) {
+        fns.forEach(run);
+    }
+    function is_function(thing) {
+        return typeof thing === 'function';
+    }
+    function safe_not_equal(a, b) {
+        return a != a ? b == b : a !== b || ((a && typeof a === 'object') || typeof a === 'function');
+    }
+    function is_empty(obj) {
+        return Object.keys(obj).length === 0;
+    }
+    function insert(target, node, anchor) {
+        target.insertBefore(node, anchor || null);
+    }
+    function detach(node) {
+        node.parentNode.removeChild(node);
+    }
+    function element(name) {
+        return document.createElement(name);
+    }
+    function text(data) {
+        return document.createTextNode(data);
+    }
+    function empty() {
+        return text('');
+    }
+    function listen(node, event, handler, options) {
+        node.addEventListener(event, handler, options);
+        return () => node.removeEventListener(event, handler, options);
+    }
+    function children(element) {
+        return Array.from(element.childNodes);
+    }
+    function custom_event(type, detail) {
+        const e = document.createEvent('CustomEvent');
+        e.initCustomEvent(type, false, false, detail);
+        return e;
+    }
+    function attribute_to_object(attributes) {
+        const result = {};
+        for (const attribute of attributes) {
+            result[attribute.name] = attribute.value;
+        }
+        return result;
+    }
+
+    let current_component;
+    function set_current_component(component) {
+        current_component = component;
+    }
+    function get_current_component() {
+        if (!current_component)
+            throw new Error('Function called outside component initialization');
+        return current_component;
+    }
+    function onMount(fn) {
+        get_current_component().$$.on_mount.push(fn);
+    }
+    function createEventDispatcher() {
+        const component = get_current_component();
+        return (type, detail) => {
+            const callbacks = component.$$.callbacks[type];
+            if (callbacks) {
+                // TODO are there situations where events could be dispatched
+                // in a server (non-DOM) environment?
+                const event = custom_event(type, detail);
+                callbacks.slice().forEach(fn => {
+                    fn.call(component, event);
+                });
+            }
+        };
+    }
+
+    const dirty_components = [];
+    const binding_callbacks = [];
+    const render_callbacks = [];
+    const flush_callbacks = [];
+    const resolved_promise = Promise.resolve();
+    let update_scheduled = false;
+    function schedule_update() {
+        if (!update_scheduled) {
+            update_scheduled = true;
+            resolved_promise.then(flush);
+        }
+    }
+    function add_render_callback(fn) {
+        render_callbacks.push(fn);
+    }
+    let flushing = false;
+    const seen_callbacks = new Set();
+    function flush() {
+        if (flushing)
+            return;
+        flushing = true;
+        do {
+            // first, call beforeUpdate functions
+            // and update components
+            for (let i = 0; i < dirty_components.length; i += 1) {
+                const component = dirty_components[i];
+                set_current_component(component);
+                update(component.$$);
+            }
+            set_current_component(null);
+            dirty_components.length = 0;
+            while (binding_callbacks.length)
+                binding_callbacks.pop()();
+            // then, once components are updated, call
+            // afterUpdate functions. This may cause
+            // subsequent updates...
+            for (let i = 0; i < render_callbacks.length; i += 1) {
+                const callback = render_callbacks[i];
+                if (!seen_callbacks.has(callback)) {
+                    // ...so guard against infinite loops
+                    seen_callbacks.add(callback);
+                    callback();
+                }
+            }
+            render_callbacks.length = 0;
+        } while (dirty_components.length);
+        while (flush_callbacks.length) {
+            flush_callbacks.pop()();
+        }
+        update_scheduled = false;
+        flushing = false;
+        seen_callbacks.clear();
+    }
+    function update($$) {
+        if ($$.fragment !== null) {
+            $$.update();
+            run_all($$.before_update);
+            const dirty = $$.dirty;
+            $$.dirty = [-1];
+            $$.fragment && $$.fragment.p($$.ctx, dirty);
+            $$.after_update.forEach(add_render_callback);
+        }
+    }
+    const outroing = new Set();
+    function transition_in(block, local) {
+        if (block && block.i) {
+            outroing.delete(block);
+            block.i(local);
+        }
+    }
+
+    const globals = (typeof window !== 'undefined'
+        ? window
+        : typeof globalThis !== 'undefined'
+            ? globalThis
+            : global);
+    function mount_component(component, target, anchor, customElement) {
+        const { fragment, on_mount, on_destroy, after_update } = component.$$;
+        fragment && fragment.m(target, anchor);
+        if (!customElement) {
+            // onMount happens before the initial afterUpdate
+            add_render_callback(() => {
+                const new_on_destroy = on_mount.map(run).filter(is_function);
+                if (on_destroy) {
+                    on_destroy.push(...new_on_destroy);
+                }
+                else {
+                    // Edge case - component was destroyed immediately,
+                    // most likely as a result of a binding initialising
+                    run_all(new_on_destroy);
+                }
+                component.$$.on_mount = [];
+            });
+        }
+        after_update.forEach(add_render_callback);
+    }
+    function destroy_component(component, detaching) {
+        const $$ = component.$$;
+        if ($$.fragment !== null) {
+            run_all($$.on_destroy);
+            $$.fragment && $$.fragment.d(detaching);
+            // TODO null out other refs, including component.$$ (but need to
+            // preserve final state?)
+            $$.on_destroy = $$.fragment = null;
+            $$.ctx = [];
+        }
+    }
+    function make_dirty(component, i) {
+        if (component.$$.dirty[0] === -1) {
+            dirty_components.push(component);
+            schedule_update();
+            component.$$.dirty.fill(0);
+        }
+        component.$$.dirty[(i / 31) | 0] |= (1 << (i % 31));
+    }
+    function init(component, options, instance, create_fragment, not_equal, props, dirty = [-1]) {
+        const parent_component = current_component;
+        set_current_component(component);
+        const $$ = component.$$ = {
+            fragment: null,
+            ctx: null,
+            // state
+            props,
+            update: noop,
+            not_equal,
+            bound: blank_object(),
+            // lifecycle
+            on_mount: [],
+            on_destroy: [],
+            on_disconnect: [],
+            before_update: [],
+            after_update: [],
+            context: new Map(parent_component ? parent_component.$$.context : []),
+            // everything else
+            callbacks: blank_object(),
+            dirty,
+            skip_bound: false
+        };
+        let ready = false;
+        $$.ctx = instance
+            ? instance(component, options.props || {}, (i, ret, ...rest) => {
+                const value = rest.length ? rest[0] : ret;
+                if ($$.ctx && not_equal($$.ctx[i], $$.ctx[i] = value)) {
+                    if (!$$.skip_bound && $$.bound[i])
+                        $$.bound[i](value);
+                    if (ready)
+                        make_dirty(component, i);
+                }
+                return ret;
+            })
+            : [];
+        $$.update();
+        ready = true;
+        run_all($$.before_update);
+        // `false` as a special case of no DOM component
+        $$.fragment = create_fragment ? create_fragment($$.ctx) : false;
+        if (options.target) {
+            if (options.hydrate) {
+                const nodes = children(options.target);
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.l(nodes);
+                nodes.forEach(detach);
+            }
+            else {
+                // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+                $$.fragment && $$.fragment.c();
+            }
+            if (options.intro)
+                transition_in(component.$$.fragment);
+            mount_component(component, options.target, options.anchor, options.customElement);
+            flush();
+        }
+        set_current_component(parent_component);
+    }
+    let SvelteElement;
+    if (typeof HTMLElement === 'function') {
+        SvelteElement = class extends HTMLElement {
+            constructor() {
+                super();
+                this.attachShadow({ mode: 'open' });
+            }
+            connectedCallback() {
+                const { on_mount } = this.$$;
+                this.$$.on_disconnect = on_mount.map(run).filter(is_function);
+                // @ts-ignore todo: improve typings
+                for (const key in this.$$.slotted) {
+                    // @ts-ignore todo: improve typings
+                    this.appendChild(this.$$.slotted[key]);
+                }
+            }
+            attributeChangedCallback(attr, _oldValue, newValue) {
+                this[attr] = newValue;
+            }
+            disconnectedCallback() {
+                run_all(this.$$.on_disconnect);
+            }
+            $destroy() {
+                destroy_component(this, 1);
+                this.$destroy = noop;
+            }
+            $on(type, callback) {
+                // TODO should this delegate to addEventListener?
+                const callbacks = (this.$$.callbacks[type] || (this.$$.callbacks[type] = []));
+                callbacks.push(callback);
+                return () => {
+                    const index = callbacks.indexOf(callback);
+                    if (index !== -1)
+                        callbacks.splice(index, 1);
+                };
+            }
+            $set($$props) {
+                if (this.$$set && !is_empty($$props)) {
+                    this.$$.skip_bound = true;
+                    this.$$set($$props);
+                    this.$$.skip_bound = false;
+                }
+            }
+        };
+    }
+
+    function dispatch_dev(type, detail) {
+        document.dispatchEvent(custom_event(type, Object.assign({ version: '3.35.0' }, detail)));
+    }
+    function insert_dev(target, node, anchor) {
+        dispatch_dev('SvelteDOMInsert', { target, node, anchor });
+        insert(target, node, anchor);
+    }
+    function detach_dev(node) {
+        dispatch_dev('SvelteDOMRemove', { node });
+        detach(node);
+    }
+    function listen_dev(node, event, handler, options, has_prevent_default, has_stop_propagation) {
+        const modifiers = options === true ? ['capture'] : options ? Array.from(Object.keys(options)) : [];
+        if (has_prevent_default)
+            modifiers.push('preventDefault');
+        if (has_stop_propagation)
+            modifiers.push('stopPropagation');
+        dispatch_dev('SvelteDOMAddEventListener', { node, event, handler, modifiers });
+        const dispose = listen(node, event, handler, options);
+        return () => {
+            dispatch_dev('SvelteDOMRemoveEventListener', { node, event, handler, modifiers });
+            dispose();
+        };
+    }
+    function set_data_dev(text, data) {
+        data = '' + data;
+        if (text.wholeText === data)
+            return;
+        dispatch_dev('SvelteDOMSetData', { node: text, data });
+        text.data = data;
+    }
+    function validate_slots(name, slot, keys) {
+        for (const slot_key of Object.keys(slot)) {
+            if (!~keys.indexOf(slot_key)) {
+                console.warn(`<${name}> received an unexpected slot "${slot_key}".`);
+            }
+        }
+    }
+
+    /**
+     * Returns a Promise that resolves to the value of window.ethereum if it is
+     * set within the given timeout, or null.
+     * The Promise will not reject, but an error will be thrown if invalid options
+     * are provided.
+     *
+     * @param options - Options bag.
+     * @param options.mustBeMetaMask - Whether to only look for MetaMask providers.
+     * Default: false
+     * @param options.silent - Whether to silence console errors. Does not affect
+     * thrown errors. Default: false
+     * @param options.timeout - Milliseconds to wait for 'ethereum#initialized' to
+     * be dispatched. Default: 3000
+     * @returns A Promise that resolves with the Provider if it is detected within
+     * given timeout, otherwise null.
+     */
+    function detectEthereumProvider({ mustBeMetaMask = false, silent = false, timeout = 3000, } = {}) {
+        _validateInputs();
+        let handled = false;
+        return new Promise((resolve) => {
+            if (window.ethereum) {
+                handleEthereum();
+            }
+            else {
+                window.addEventListener('ethereum#initialized', handleEthereum, { once: true });
+                setTimeout(() => {
+                    handleEthereum();
+                }, timeout);
+            }
+            function handleEthereum() {
+                if (handled) {
+                    return;
+                }
+                handled = true;
+                window.removeEventListener('ethereum#initialized', handleEthereum);
+                const { ethereum } = window;
+                if (ethereum && (!mustBeMetaMask || ethereum.isMetaMask)) {
+                    resolve(ethereum);
+                }
+                else {
+                    const message = mustBeMetaMask && ethereum
+                        ? 'Non-MetaMask window.ethereum detected.'
+                        : 'Unable to detect window.ethereum.';
+                    !silent && console.error('@metamask/detect-provider:', message);
+                    resolve(null);
+                }
+            }
+        });
+        function _validateInputs() {
+            if (typeof mustBeMetaMask !== 'boolean') {
+                throw new Error(`@metamask/detect-provider: Expected option 'mustBeMetaMask' to be a boolean.`);
+            }
+            if (typeof silent !== 'boolean') {
+                throw new Error(`@metamask/detect-provider: Expected option 'silent' to be a boolean.`);
+            }
+            if (typeof timeout !== 'number') {
+                throw new Error(`@metamask/detect-provider: Expected option 'timeout' to be a number.`);
+            }
+        }
+    }
+    var dist = detectEthereumProvider;
+
+    /* svelte/metamask.svelte generated by Svelte v3.35.0 */
+
+    const { console: console_1 } = globals;
+    const file = "svelte/metamask.svelte";
+
+    // (82:0) {:else}
+    function create_else_block(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			button.textContent = "Connect Metamask";
+    			add_location(button, file, 82, 2, 2181);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(button, "click", /*connectMetamask*/ ctx[1], false, false, false);
+    				mounted = true;
+    			}
+    		},
+    		p: noop,
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_else_block.name,
+    		type: "else",
+    		source: "(82:0) {:else}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (80:0) {#if signer}
+    function create_if_block(ctx) {
+    	let t;
+
+    	const block = {
+    		c: function create() {
+    			t = text(/*signer*/ ctx[0]);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, t, anchor);
+    		},
+    		p: function update(ctx, dirty) {
+    			if (dirty & /*signer*/ 1) set_data_dev(t, /*signer*/ ctx[0]);
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(t);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_if_block.name,
+    		type: "if",
+    		source: "(80:0) {#if signer}",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function create_fragment(ctx) {
+    	let if_block_anchor;
+
+    	function select_block_type(ctx, dirty) {
+    		if (/*signer*/ ctx[0]) return create_if_block;
+    		return create_else_block;
+    	}
+
+    	let current_block_type = select_block_type(ctx);
+    	let if_block = current_block_type(ctx);
+
+    	const block = {
+    		c: function create() {
+    			if_block.c();
+    			if_block_anchor = empty();
+    			this.c = noop;
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if_block.m(target, anchor);
+    			insert_dev(target, if_block_anchor, anchor);
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
+    				if_block.p(ctx, dirty);
+    			} else {
+    				if_block.d(1);
+    				if_block = current_block_type(ctx);
+
+    				if (if_block) {
+    					if_block.c();
+    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				}
+    			}
+    		},
+    		i: noop,
+    		o: noop,
+    		d: function destroy(detaching) {
+    			if_block.d(detaching);
+    			if (detaching) detach_dev(if_block_anchor);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots("kredeum-metamask", slots, []);
+    	const dispatch = createEventDispatcher();
+    	let { signer = "" } = $$props;
+    	let { addresses = [] } = $$props;
+    	let { chainId = "" } = $$props;
+    	let { autoconnect = "off" } = $$props;
+
+    	async function handleChainId(_chainId) {
+    		console.log("handleChainId <=", _chainId);
+
+    		if (_chainId) {
+    			$$invalidate(2, chainId = _chainId);
+    		}
+    	}
+
+    	async function handleAccounts(_accounts) {
+    		if (_accounts.length === 0) {
+    			if (autoconnect !== "off") connectMetamask();
+    		} else if (_accounts[0] !== signer) {
+    			$$invalidate(0, signer = _accounts[0]);
+    			dispatch("address", { address: signer });
+
+    			if (addresses.indexOf(signer) === -1) {
+    				addresses.push(signer);
+    				console.log("handleAccounts", _accounts, "=>", signer, addresses);
+    			}
+    		}
+    	}
+
+    	async function connectMetamask() {
+    		console.log("connectMetamask");
+
+    		ethereum.request({ method: "eth_requestAccounts" }).then(handleAccounts).catch(e => {
+    			if (e.code === 4001) {
+    				alert("Please connect to MetaMask.");
+    			} else {
+    				console.error("ERROR eth_requestAccounts", e);
+    			}
+    		});
+    	}
+
+    	onMount(async function () {
+    		console.log("init");
+    		const provider = await dist();
+
+    		if (provider) {
+    			if (provider !== window.ethereum) {
+    				alert("Do you have multiple wallets installed?");
+    			}
+
+    			ethereum.request({ method: "eth_accounts" }).then(handleAccounts).catch(e => console.error("ERROR eth_accounts", e));
+    			ethereum.request({ method: "eth_chainId" }).then(handleChainId).catch(e => console.error("ERROR eth_chainId", e));
+    			ethereum.on("chainChanged", handleChainId);
+    			ethereum.on("accountsChanged", handleAccounts);
+    		} else {
+    			console.log("Please install MetaMask!");
+    		}
+    	});
+
+    	const writable_props = ["signer", "addresses", "chainId", "autoconnect"];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== "$$") console_1.warn(`<kredeum-metamask> was created with unknown prop '${key}'`);
+    	});
+
+    	$$self.$$set = $$props => {
+    		if ("signer" in $$props) $$invalidate(0, signer = $$props.signer);
+    		if ("addresses" in $$props) $$invalidate(3, addresses = $$props.addresses);
+    		if ("chainId" in $$props) $$invalidate(2, chainId = $$props.chainId);
+    		if ("autoconnect" in $$props) $$invalidate(4, autoconnect = $$props.autoconnect);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		detectEthereumProvider: dist,
+    		onMount,
+    		createEventDispatcher,
+    		dispatch,
+    		signer,
+    		addresses,
+    		chainId,
+    		autoconnect,
+    		handleChainId,
+    		handleAccounts,
+    		connectMetamask
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ("signer" in $$props) $$invalidate(0, signer = $$props.signer);
+    		if ("addresses" in $$props) $$invalidate(3, addresses = $$props.addresses);
+    		if ("chainId" in $$props) $$invalidate(2, chainId = $$props.chainId);
+    		if ("autoconnect" in $$props) $$invalidate(4, autoconnect = $$props.autoconnect);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [signer, connectMetamask, chainId, addresses, autoconnect];
+    }
+
+    class Metamask extends SvelteElement {
+    	constructor(options) {
+    		super();
+
+    		init(
+    			this,
+    			{
+    				target: this.shadowRoot,
+    				props: attribute_to_object(this.attributes),
+    				customElement: true
+    			},
+    			instance,
+    			create_fragment,
+    			safe_not_equal,
+    			{
+    				signer: 0,
+    				addresses: 3,
+    				chainId: 2,
+    				autoconnect: 4
+    			}
+    		);
+
+    		if (options) {
+    			if (options.target) {
+    				insert_dev(options.target, this, options.anchor);
+    			}
+
+    			if (options.props) {
+    				this.$set(options.props);
+    				flush();
+    			}
+    		}
+    	}
+
+    	static get observedAttributes() {
+    		return ["signer", "addresses", "chainId", "autoconnect"];
+    	}
+
+    	get signer() {
+    		return this.$$.ctx[0];
+    	}
+
+    	set signer(signer) {
+    		this.$set({ signer });
+    		flush();
+    	}
+
+    	get addresses() {
+    		return this.$$.ctx[3];
+    	}
+
+    	set addresses(addresses) {
+    		this.$set({ addresses });
+    		flush();
+    	}
+
+    	get chainId() {
+    		return this.$$.ctx[2];
+    	}
+
+    	set chainId(chainId) {
+    		this.$set({ chainId });
+    		flush();
+    	}
+
+    	get autoconnect() {
+    		return this.$$.ctx[4];
+    	}
+
+    	set autoconnect(autoconnect) {
+    		this.$set({ autoconnect });
+    		flush();
+    	}
+    }
+
+    customElements.define("kredeum-metamask", Metamask);
+
+    return Metamask;
+
+}());
