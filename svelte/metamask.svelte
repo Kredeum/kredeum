@@ -2,14 +2,15 @@
 <svelte:options tag="kredeum-metamask" />
 
 <script>
+  import { ethers } from 'ethers';
   import detectEthereumProvider from '@metamask/detect-provider';
   import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
   const dispatch = createEventDispatcher();
 
-  export let signer = '';
-  export let addresses = [];
-  export let chainId = '';
+  export let signer;
+  export let address = '0x0';
+  export let chainId = '0x0';
   export let autoconnect = 'off';
 
   async function handleChainId(_chainId) {
@@ -21,13 +22,10 @@
   async function handleAccounts(_accounts) {
     if (_accounts?.length === 0) {
       if (autoconnect !== 'off') connectMetamask();
-    } else if (_accounts[0] !== signer) {
-      signer = _accounts[0];
-      dispatch('address', { address: signer });
-      if (addresses.indexOf(signer) === -1) {
-        addresses.push(signer);
-        console.log('handleAccounts', _accounts, '=>', signer, addresses);
-      }
+    } else if (_accounts[0] !== address) {
+      address = _accounts[0];
+      signer = new ethers.providers.Web3Provider(ethereum).getSigner(0);
+      dispatch('address', { address: address });
     }
   }
   async function connectMetamask() {
@@ -77,8 +75,8 @@
   });
 </script>
 
-{#if signer}
-  {signer}
+{#if address}
+  {address}
 {:else}
   <button on:click="{connectMetamask}">Connect Metamask</button>
 {/if}

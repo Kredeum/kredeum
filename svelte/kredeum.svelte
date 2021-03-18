@@ -4,24 +4,26 @@
   import pinata from '../lib/pinata.mjs';
   import nft from '../lib/nft.mjs';
 
-  let signer = '';
+  let signer;
+  let address = '0x0';
   let chainId = '0x0';
   const chainIdPolygon = '0x89';
-
-  // $: ethersSigner = new ethers.providers.Web3Provider(ethereum).getSigner();
 
   $: pinataPins = [];
   $: nftList = [];
 
   $: if (chainId > 0) {
     if (chainId !== chainIdPolygon) {
-      console.log('Wrong chainId =', chainId, ' switch to Polygon =', chainIdPolygon);
-      alert('Switch to Polygon');
+      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdPolygon);
+      alert('Switch to Matic / Polygon');
     } else {
       list();
     }
   }
 
+  $: {
+    console.log('SIGNER', signer);
+  }
   async function list() {
     nftList = await nft.list(chainId);
     console.log('nftList', nftList);
@@ -45,7 +47,7 @@
 <main>
   <h1>Kredeum Wallet</h1>
   <small>
-    <Metamask autoconnect="off" bind:signer bind:chainId />
+    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
   </small>
   <h2>Your NFTs</h2>
 
@@ -55,7 +57,7 @@
     {#each nftList as nft, i}
       <tr>
         <td>
-          {#if nft.ownerOf.toLowerCase() === signer.toLowerCase()}
+          {#if nft.ownerOf.toLowerCase() === address.toLowerCase()}
             MINE
           {/if}
         </td>
@@ -72,7 +74,7 @@
     {#each pinataPins as pinataPin, i}
       <tr>
         <td>
-          {#if pinataPin.pin.meta.address.toLowerCase() === signer.toLowerCase()}
+          {#if pinataPin.pin.meta.address.toLowerCase() === address.toLowerCase()}
             <button on:click="{nftMint}" num="{i}">MINT NFT</button>
           {/if}
         </td>
