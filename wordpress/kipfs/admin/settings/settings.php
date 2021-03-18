@@ -73,9 +73,10 @@ class Kipfs_Settings
     if (!$value) $value = $arguments['default'];
 
     switch ($arguments['type']) {
-      case 'info':
+      case 'metamask':
         wp_nonce_field('nonce_action', 'nonce_field');
         printf('<kredeum-metamask></kredeum-metamask>');
+        // printf(' - %1$s', get_user_meta(get_current_user_id(), 'ADDR', true));
         break;
       case 'text':
       case 'password':

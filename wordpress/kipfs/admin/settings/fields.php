@@ -61,7 +61,7 @@ function kipfs_fields()
       'uid' => 'metamask_address',
       'label' => 'METAMASK_ADDRESS',
       'section' => 'first_section',
-      'type' => 'info',
+      'type' => 'metamask',
       'placeholder' => 'Connect to Metamask to get address'
     )
   );

@@ -23,7 +23,7 @@ function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
       "type" => "json",
       "name" => "pinataMetadata",
       "content" => '{"name": "' . $filename . '", "keyvalues":{ "address": "' .
-        get_user_meta(get_current_user_id(), 'ADDR')[0] . '"}}'
+        get_user_meta(get_current_user_id(), 'ADDR', true) . '"}}'
     )
   );
 
@@ -37,7 +37,6 @@ function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
   ];
   $result = $api->post("/pinning/pinFileToIPFS", $buffer, $headers);
 
-  // echo 'KO';
   // var_dump($result);
 
   return ($result->info->http_code == 200) ? $result->decode_response()->IpfsHash :  $result->error;

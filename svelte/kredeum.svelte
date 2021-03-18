@@ -4,9 +4,9 @@
   import pinata from '../lib/pinata.mjs';
   import nft from '../lib/nft.mjs';
 
-  let signer;
-  let address = '0x0';
-  let chainId = '0x0';
+  let signer = '';
+  let address = '';
+  let chainId = '';
   const chainIdPolygon = '0x89';
 
   $: pinataPins = [];
@@ -53,7 +53,11 @@
 
   <table>
     <tr><td colspan="5"><hr /></td></tr>
-    <th colspan="5">{nftList?.length} Kredeum NFTs</th>
+    <th colspan="5"
+      >{nftList?.length} Kredeum NFTs
+      <a href="https://opensea.io/collection/kredeum-user/" target="_blank">view on OpenSea</a></th
+    >
+    <tr><td>i</td>tokenId<td>tokenURI</td><td>nft</td><td>owner</td><td>OpenSea</td></tr>
     {#each nftList as nft, i}
       <tr>
         <td>
@@ -63,14 +67,17 @@
         </td>
         <td>{i}</td>
         <td>{nft.tockenId}</td>
-        <td>{nft.tokenURI}</td>
-        <td>{nft.ownerOf}</td>
+        <td><a href="{nft.tokenURI}" target="_blank">{nft.tokenURI.replace(/^.*\/ipfs\//, '').substring(0, 12)}...</a></td>
+        <td><a href="https://explorer-mainnet.maticvigil.com/address/{nft.ownerOf}" target="_blank">{nft.ownerOf.substring(0, 12)}...</a></td>
+
+        <td><a href="https://opensea.io/assets/matic/0x5f13c4c75cd1eb9091525dee5282c1855429b7d4/{nft.tockenId}" target="_blank">on OpenSea</a></td>
       </tr>
     {/each}
 
     <tr><td colspan="5"><hr /></td></tr>
 
     <th colspan="5">{pinataPins?.length} pins PINATA</th>
+    <tr><td>MINT</td>i<td>name</td><td>pin</td><td>owner</td></tr>
     {#each pinataPins as pinataPin, i}
       <tr>
         <td>
@@ -80,8 +87,8 @@
         </td>
         <td>{i}</td>
         <td>{pinataPin.pin.name}</td>
-        <td>{pinataPin.pin.cid}</td>
-        <td>{pinataPin.pin.meta.address}</td>
+        <td><a href="https://gateway.pinata.cloud/ipfs/{pinataPin.pin.cid}" target="_blank">{pinataPin.pin.cid.substring(0, 12)}...</a></td>
+        <td><a href="https://explorer-mainnet.maticvigil.com/address/{pinataPin.pin.meta.address}" target="_blank">{pinataPin.pin.meta.address.substring(0, 12)}...</a></td>
       </tr>
     {/each}
     <tr><td colspan="5"><hr /></td></tr>
@@ -96,6 +103,9 @@
   }
   th {
     text-align: left;
+  }
+  td {
+    padding: 10px;
   }
   h1 {
     color: #ff3e00;

@@ -22259,7 +22259,7 @@ var metamask = (function () {
     		c: function create() {
     			button = element("button");
     			button.textContent = "Connect Metamask";
-    			add_location(button, file, 80, 2, 2133);
+    			add_location(button, file, 80, 2, 2117);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -22379,8 +22379,8 @@ var metamask = (function () {
     	validate_slots("kredeum-metamask", slots, []);
     	const dispatch = createEventDispatcher();
     	let { signer } = $$props;
-    	let { address = "0x0" } = $$props;
-    	let { chainId = "0x0" } = $$props;
+    	let { address } = $$props;
+    	let { chainId } = $$props;
     	let { autoconnect = "off" } = $$props;
 
     	async function handleChainId(_chainId) {
@@ -22500,6 +22500,14 @@ var metamask = (function () {
 
     		if (/*signer*/ ctx[2] === undefined && !("signer" in props)) {
     			console_1.warn("<kredeum-metamask> was created without expected prop 'signer'");
+    		}
+
+    		if (/*address*/ ctx[0] === undefined && !("address" in props)) {
+    			console_1.warn("<kredeum-metamask> was created without expected prop 'address'");
+    		}
+
+    		if (/*chainId*/ ctx[3] === undefined && !("chainId" in props)) {
+    			console_1.warn("<kredeum-metamask> was created without expected prop 'chainId'");
     		}
 
     		if (options) {

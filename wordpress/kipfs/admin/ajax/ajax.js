@@ -5,7 +5,7 @@ jQuery(document).ready(function () {
 
     var data = {
       action: 'address',
-      address: document.querySelector('kredeum-metamask').signer,
+      address: document.querySelector('kredeum-metamask').address,
       security: document.querySelector('input[name = nonce_field]').getAttribute('value')
     }
     console.log('AJAX CALL', data);

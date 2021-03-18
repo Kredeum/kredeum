@@ -9,8 +9,8 @@
   const dispatch = createEventDispatcher();
 
   export let signer;
-  export let address = '0x0';
-  export let chainId = '0x0';
+  export let address;
+  export let chainId;
   export let autoconnect = 'off';
 
   async function handleChainId(_chainId) {
