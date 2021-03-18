@@ -5,6 +5,6 @@ abis
 app/build/
 
 **/*.env
-**/*.js.map
+**/*.map
 
 .DS_Store

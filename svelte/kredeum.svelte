@@ -9,8 +9,10 @@
   let chainId = '';
   const chainIdPolygon = '0x89';
 
-  $: pinataPins = [];
-  $: nftList = [];
+  let NFTs = new Map();
+
+  let pinataPins = new Map();
+  let nftList = new Map();
 
   $: if (chainId > 0) {
     if (chainId !== chainIdPolygon) {
@@ -30,6 +32,9 @@
 
     pinataPins = await pinata.list();
     console.log('pinataPins', pinataPins);
+
+    NFTs = new Map([...nftList, ...pinataPins]);
+    console.log('NFTs', NFTs);
   }
   async function nftMint() {
     const num = Number(this.attributes.num.value);
@@ -58,7 +63,7 @@
       <a href="https://opensea.io/collection/kredeum-user/" target="_blank">view on OpenSea</a></th
     >
     <tr><td>i</td>tokenId<td>tokenURI</td><td>nft</td><td>owner</td><td>OpenSea</td></tr>
-    {#each nftList as nft, i}
+    {#each Array.from(nftList.values()) as nft, i}
       <tr>
         <td>
           {#if nft.ownerOf.toLowerCase() === address.toLowerCase()}
@@ -78,7 +83,7 @@
 
     <th colspan="5">{pinataPins?.length} pins PINATA</th>
     <tr><td>MINT</td>i<td>name</td><td>pin</td><td>owner</td></tr>
-    {#each pinataPins as pinataPin, i}
+    {#each Array.from(pinataPins.values()) as pinataPin, i}
       <tr>
         <td>
           {#if pinataPin.pin.meta.address.toLowerCase() === address.toLowerCase()}
@@ -87,6 +92,7 @@
         </td>
         <td>{i}</td>
         <td>{pinataPin.pin.name}</td>
+        <td><img alt="" src="https://gateway.pinata.cloud/ipfs/{pinataPin.pin.cid}" height="100" /></td>
         <td><a href="https://gateway.pinata.cloud/ipfs/{pinataPin.pin.cid}" target="_blank">{pinataPin.pin.cid.substring(0, 12)}...</a></td>
         <td><a href="https://explorer-mainnet.maticvigil.com/address/{pinataPin.pin.meta.address}" target="_blank">{pinataPin.pin.meta.address.substring(0, 12)}...</a></td>
       </tr>
