@@ -17,7 +17,7 @@ let totalSupply = (await kru.totalSupply()).toNumber();
 console.log("totalSupply", totalSupply);
 
 if (initUsers) {
-  const fleekBaseUrl = 'https://zapaz-team-bucket.storage.fleek.co/ipfs/QmTr7JD2PeFAYgBjW3cGv7uT36EBkpijJWWQkBZ8ftrnEm/';
+  const fleekBaseUrl = 'ipfs://QmTr7JD2PeFAYgBjW3cGv7uT36EBkpijJWWQkBZ8ftrnEm/';
   const yoannUri = fleekBaseUrl + 'yoann.json';
   const alexandreUri = fleekBaseUrl + 'alexandre.json';
   const alainUri = fleekBaseUrl + 'alain.json';

@@ -72,7 +72,7 @@
         </td>
         <td>{i}</td>
         <td>{nft.tockenId}</td>
-        <td><a href="{nft.tokenURI}" target="_blank">{nft.tokenURI.replace(/^.*\/ipfs\//, '').substring(0, 12)}...</a></td>
+        <td><a href="{nft.tokenURI}" target="_blank">{nft.tokenURI.replace(/^ipfs:\/\//, '').substring(0, 12)}...</a></td>
         <td><a href="https://explorer-mainnet.maticvigil.com/address/{nft.ownerOf}" target="_blank">{nft.ownerOf.substring(0, 12)}...</a></td>
 
         <td><a href="https://opensea.io/assets/matic/0x5f13c4c75cd1eb9091525dee5282c1855429b7d4/{nft.tockenId}" target="_blank">on OpenSea</a></td>
