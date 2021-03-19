@@ -22,7 +22,7 @@ function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
     array(
       "type" => "json",
       "name" => "pinataMetadata",
-      "content" => '{"name": "' . $filename . '", "keyvalues":{ "address": "' .
+      "content" => '{"name": "' . $filename . '", "keyvalues":{ "type": "image", "address": "' .
         get_user_meta(get_current_user_id(), 'ADDR', true) . '"}}'
     )
   );

@@ -4,10 +4,11 @@
   import pinata from '../lib/pinata.mjs';
   import nft from '../lib/nft.mjs';
 
-  const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
-  const maticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  const maticOpenSeaCollection = '0x5f13c4c75cd1eb9091525dee5282c1855429b7d4';
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
+  const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
+  const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
+  const OpenSeaKredeumCollectionMatic = '0x5f13c4c75cd1eb9091525dee5282c1855429b7d4';
+  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-user';
 
   let signer = '';
   let address = '';
@@ -15,9 +16,6 @@
   const chainIdPolygon = '0x89';
 
   let NFTs = new Map();
-
-  let pinataPins = new Map();
-  let nftList = new Map();
 
   $: if (chainId > 0) {
     if (chainId !== chainIdPolygon) {
@@ -32,27 +30,35 @@
     console.log('SIGNER', signer);
   }
   async function list() {
-    let [nftList, pinataPins] = await Promise.all([nft.list(chainId), pinata.list()]);
+    let [nftList, pinataList] = await Promise.all([nft.list(chainId), pinata.list()]);
     console.log('nftList', nftList);
-    console.log('pinataPins', pinataPins);
+    console.log('pinataList', pinataList);
 
-    for (const [cid, nft] of nftList) {
-      const value = NFTs.get(cid) || {};
-      value.nft = nft;
+    for (const [cid, pin] of pinataList) {
+      const value = { cid, pin };
       NFTs.set(cid, value);
     }
-    for (const [cid, pin] of pinataPins) {
-      const value = NFTs.get(cid) || {};
-      value.pin = pin;
-      NFTs.set(cid, value);
+    for (const [key, nft] of nftList) {
+      console.log('NFT', nft);
+      const { cid, tockenId } = nft;
+      const value = { cid, tockenId, nft };
+
+      const pin = NFTs.get(cid);
+      if (pin) {
+        value.pin = pin.pin;
+        NFTs.delete(cid);
+      }
+      NFTs.set(key, value);
     }
     console.log('NFTs', NFTs);
     NFTs = NFTs;
   }
   async function nftMint() {
-    const num = Number(this.attributes.num.value);
-    const pin = pinataPins[num].pin;
-    console.log('nftMint', num, pin);
+    const cid = this.attributes.cid.value;
+    console.log('nftMint cid', cid);
+
+    const pin = NFTs.get(cid).pin.pin;
+    console.log('nftMint pin', pin);
 
     const nftJson = await pinata.pinJson(pin);
     console.log('nftJson', nftJson);
@@ -63,47 +69,77 @@
 </script>
 
 <main>
-  <h1>Kredeum Wallet</h1>
+  <h1>
+    Wallet
+    <img src="klogo.png" alt="kredeum logo" height="150" />
+    NFTs Kredeum
+  </h1>
+
   <h3>
-    {NFTs?.size} NFTs Kredeum -
-    <a href="https://opensea.io/collection/kredeum-user/" target="_blank">Explore on OpenSea</a>
+    <a href="{OpenSeaKredeumCollection}" target="_blank">Sell on OpenSea</a>
   </h3>
 
   <table>
-    <tr><td colspan="10"><hr /></td></tr>
+    <tr><td colspan="8"><hr /></td></tr>
     <tr>
-      <td>cid</td><td>name NFT</td><td>name PIN</td><td>image PIN</td>
-      <td>MY NFT</td><td>owner NFT</td><td>MY PIN</td><td>owner PIN</td><td>tokenId</td><td>OpenSea</td>
+      <td>cid</td>
+      <td>json</td>
+      <td>owner</td>
+      <td>name</td>
+      <td>image</td>
+      <td>NFT</td>
     </tr>
-    <tr><td colspan="10"><hr /></td></tr>
+    <tr><td colspan="8"><hr /></td></tr>
 
-    <!-- {#each Array.from(NFTs.values()) as item, i} -->
     {#each [...NFTs] as [cid, item]}
-      <tr>
-        <td><a href="{ipfsGateway}/{cid}" target="_blank">{cid.substring(0, 12)}...</a></td>
-        <td>{item.nft?.tokenJson.name || ''}</td>
-        <td>{item.pin?.pin.name || ''}</td>
-        <td><img alt="" src="{ipfsGateway}/{cid}" height="100" /></td>
-        <td>
-          {#if item.nft?.ownerOf.toLowerCase() === address.toLowerCase()}MY NFT {/if}
-        </td>
-        <td>
-          {#if item.nft?.ownerOf}<a href="{maticEthExplorer}/address/{item.nft?.ownerOf}" target="_blank">{item.nft?.ownerOf.substring(0, 12)}...</a>{/if}
-        </td>
-        <td>
-          {#if item.pin?.pin.meta?.address?.toLowerCase() === address.toLowerCase()}MY PIN{/if}
-        </td>
-        <td>
-          {#if item.pin?.pin.meta?.address}<a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.address}" target="_blank">{item.pin?.pin.meta?.address?.substring(0, 12)}...</a
-            >{/if}
-        </td>
-        <td>{item.nft?.tockenId || ''}</td>
-        <td>
-          {#if item.nft?.tockenId}<a href="{maticOpenSeaAssets}/{maticOpenSeaCollection}/{item.nft?.tockenId}" target="_blank">view</a>{/if}
-        </td>
-      </tr>
+      {#if !item.pin?.pin.meta?.image}
+        <tr>
+          <td>
+            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.tockenId || ''}#{item.cid.substring(0, 12)}...</a>
+          </td>
+
+          <td>
+            {#if item.nft?.tokenURI}
+              <a href="{item.nft?.tokenURI}" target="_blank">{item.nft?.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+            {/if}
+          </td>
+
+          <td>
+            {#if item.nft?.ownerOf}
+              <a href="{maticEthExplorer}/address/{item.nft?.ownerOf}" target="_blank">
+                {item.nft?.ownerOf.substring(0, 12)}...
+              </a>
+              {#if item.nft?.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+            <br />
+            {#if item.pin?.pin.meta?.address}
+              <a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.address}" target="_blank">
+                {item.pin?.pin.meta?.address?.substring(0, 12)}...
+              </a>
+              {#if item.pin?.pin.meta?.address?.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+          </td>
+
+          <td>
+            {item.nft?.tokenJson.name || ''}<br />
+            {item.pin?.pin.name || ''}
+          </td>
+
+          <td>
+            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+          </td>
+
+          <td>
+            {#if item.tockenId}
+              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tockenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+            {:else}
+              <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
+            {/if}
+          </td>
+        </tr>
+      {/if}
     {/each}
-    <tr><td colspan="10"><hr /></td></tr>
+    <tr><td colspan="8"><hr /></td></tr>
   </table>
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
@@ -116,22 +152,29 @@
     max-width: 240px;
     margin: 0 auto;
   }
-  th {
-    text-align: left;
-  }
   td {
     padding: 10px;
   }
   h1 {
     color: #ff3e00;
-    text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
   }
-
+  img {
+    vertical-align: middle;
+  }
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
+  }
+  button {
+    color: white;
+  }
+  button.mint {
+    background-color: #2a81de;
+  }
+  button.sell {
+    background-color: #36d06f;
   }
 </style>
