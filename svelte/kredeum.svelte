@@ -4,13 +4,18 @@
   import pinata from '../lib/pinata.mjs';
   import nft from '../lib/nft.mjs';
 
+  const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
+  const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
+  const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
+  const OpenSeaKredeumCollectionMatic = '0x5f13c4c75cd1eb9091525dee5282c1855429b7d4';
+  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-user';
+
   let signer = '';
   let address = '';
   let chainId = '';
   const chainIdPolygon = '0x89';
 
-  $: pinataPins = [];
-  $: nftList = [];
+  let NFTs = new Map();
 
   $: if (chainId > 0) {
     if (chainId !== chainIdPolygon) {
@@ -25,16 +30,35 @@
     console.log('SIGNER', signer);
   }
   async function list() {
-    nftList = await nft.list(chainId);
+    let [nftList, pinataList] = await Promise.all([nft.list(chainId), pinata.list()]);
     console.log('nftList', nftList);
+    console.log('pinataList', pinataList);
 
-    pinataPins = await pinata.list();
-    console.log('pinataPins', pinataPins);
+    for (const [cid, pin] of pinataList) {
+      const value = { cid, pin };
+      NFTs.set(cid, value);
+    }
+    for (const [key, nft] of nftList) {
+      console.log('NFT', nft);
+      const { cid, tockenId } = nft;
+      const value = { cid, tockenId, nft };
+
+      const pin = NFTs.get(cid);
+      if (pin) {
+        value.pin = pin.pin;
+        NFTs.delete(cid);
+      }
+      NFTs.set(key, value);
+    }
+    console.log('NFTs', NFTs);
+    NFTs = NFTs;
   }
   async function nftMint() {
-    const num = Number(this.attributes.num.value);
-    const pin = pinataPins[num].pin;
-    console.log('nftMint', num, pin);
+    const cid = this.attributes.cid.value;
+    console.log('nftMint cid', cid);
+
+    const pin = NFTs.get(cid).pin.pin;
+    console.log('nftMint pin', pin);
 
     const nftJson = await pinata.pinJson(pin);
     console.log('nftJson', nftJson);
@@ -45,54 +69,81 @@
 </script>
 
 <main>
-  <h1>Kredeum Wallet</h1>
+  <h1>
+    Wallet
+    <img src="klogo.png" alt="kredeum logo" height="150" />
+    NFTs Kredeum
+  </h1>
+
+  <h3>
+    <a href="{OpenSeaKredeumCollection}" target="_blank">Sell on OpenSea</a>
+  </h3>
+
+  <table>
+    <tr><td colspan="8"><hr /></td></tr>
+    <tr>
+      <td>cid</td>
+      <td>json</td>
+      <td>owner</td>
+      <td>name</td>
+      <td>image</td>
+      <td>NFT</td>
+    </tr>
+    <tr><td colspan="8"><hr /></td></tr>
+
+    {#each [...NFTs] as [cid, item]}
+      {#if !item.pin?.pin.meta?.image}
+        <tr>
+          <td>
+            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.tockenId || ''}#{item.cid.substring(0, 12)}...</a>
+          </td>
+
+          <td>
+            {#if item.nft?.tokenURI}
+              <a href="{item.nft?.tokenURI}" target="_blank">{item.nft?.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+            {/if}
+          </td>
+
+          <td>
+            {#if item.nft?.ownerOf}
+              <a href="{maticEthExplorer}/address/{item.nft?.ownerOf}" target="_blank">
+                {item.nft?.ownerOf.substring(0, 12)}...
+              </a>
+              {#if item.nft?.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+            <br />
+            {#if item.pin?.pin.meta?.address}
+              <a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.address}" target="_blank">
+                {item.pin?.pin.meta?.address?.substring(0, 12)}...
+              </a>
+              {#if item.pin?.pin.meta?.address?.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+          </td>
+
+          <td>
+            {item.nft?.tokenJson.name || ''}<br />
+            {item.pin?.pin.name || ''}
+          </td>
+
+          <td>
+            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+          </td>
+
+          <td>
+            {#if item.tockenId}
+              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tockenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+            {:else}
+              <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
+            {/if}
+          </td>
+        </tr>
+      {/if}
+    {/each}
+    <tr><td colspan="8"><hr /></td></tr>
+  </table>
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
   </small>
-  <h2>Your NFTs</h2>
-
-  <table>
-    <tr><td colspan="5"><hr /></td></tr>
-    <th colspan="5"
-      >{nftList?.length} Kredeum NFTs
-      <a href="https://opensea.io/collection/kredeum-user/" target="_blank">view on OpenSea</a></th
-    >
-    <tr><td>i</td>tokenId<td>tokenURI</td><td>nft</td><td>owner</td><td>OpenSea</td></tr>
-    {#each nftList as nft, i}
-      <tr>
-        <td>
-          {#if nft.ownerOf.toLowerCase() === address.toLowerCase()}
-            MINE
-          {/if}
-        </td>
-        <td>{i}</td>
-        <td>{nft.tockenId}</td>
-        <td><a href="{nft.tokenURI}" target="_blank">{nft.tokenURI.replace(/^.*\/ipfs\//, '').substring(0, 12)}...</a></td>
-        <td><a href="https://explorer-mainnet.maticvigil.com/address/{nft.ownerOf}" target="_blank">{nft.ownerOf.substring(0, 12)}...</a></td>
-
-        <td><a href="https://opensea.io/assets/matic/0x5f13c4c75cd1eb9091525dee5282c1855429b7d4/{nft.tockenId}" target="_blank">on OpenSea</a></td>
-      </tr>
-    {/each}
-
-    <tr><td colspan="5"><hr /></td></tr>
-
-    <th colspan="5">{pinataPins?.length} pins PINATA</th>
-    <tr><td>MINT</td>i<td>name</td><td>pin</td><td>owner</td></tr>
-    {#each pinataPins as pinataPin, i}
-      <tr>
-        <td>
-          {#if pinataPin.pin.meta.address.toLowerCase() === address.toLowerCase()}
-            <button on:click="{nftMint}" num="{i}">MINT NFT</button>
-          {/if}
-        </td>
-        <td>{i}</td>
-        <td>{pinataPin.pin.name}</td>
-        <td><a href="https://gateway.pinata.cloud/ipfs/{pinataPin.pin.cid}" target="_blank">{pinataPin.pin.cid.substring(0, 12)}...</a></td>
-        <td><a href="https://explorer-mainnet.maticvigil.com/address/{pinataPin.pin.meta.address}" target="_blank">{pinataPin.pin.meta.address.substring(0, 12)}...</a></td>
-      </tr>
-    {/each}
-    <tr><td colspan="5"><hr /></td></tr>
-  </table>
 </main>
 
 <style>
@@ -101,22 +152,29 @@
     max-width: 240px;
     margin: 0 auto;
   }
-  th {
-    text-align: left;
-  }
   td {
     padding: 10px;
   }
   h1 {
     color: #ff3e00;
-    text-transform: uppercase;
     font-size: 4em;
     font-weight: 100;
   }
-
+  img {
+    vertical-align: middle;
+  }
   @media (min-width: 640px) {
     main {
       max-width: none;
     }
+  }
+  button {
+    color: white;
+  }
+  button.mint {
+    background-color: #2a81de;
+  }
+  button.sell {
+    background-color: #36d06f;
   }
 </style>
