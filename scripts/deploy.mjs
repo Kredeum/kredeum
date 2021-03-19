@@ -1,11 +1,14 @@
 import hre from 'hardhat';
 const { ethers } = hre;
 
-const factory = await ethers.getContractFactory("KRU");
-const kru = await factory.deploy();
-console.log(kru.address);
+const ethscan = 'https://explorer-mainnet.maticvigil.com';
 
-await kru.deployed();
-console.log('Deployed!');
+const factory = await ethers.getContractFactory("KRE");
+const kre = await factory.deploy();
+console.log(`Contract  ${ethscan}/address/${kre.address}`);
 
-console.log(await kru.symbol());
+const tx = (await kre.deployed()).deployTransaction;
+console.log(`TX        ${ethscan}/tx/${tx.hash}`);
+
+console.log('KRE deployed!');
+console.log(await kre.symbol());

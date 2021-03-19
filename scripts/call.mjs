@@ -1,4 +1,4 @@
-import KRU from '../lib/kru.mjs';
+import KRE from '../lib/kre.mjs';
 import hre from 'hardhat';
 const { ethers } = hre;
 
@@ -8,12 +8,12 @@ const initUsers = true
 const signer = (await ethers.getSigners())[0];
 console.log(signer.address);
 
-const kru = await ethers.getContractAt("KRU", KRU.ADDRESS[network], signer);
-console.log("name:", await kru.name());
-console.log("symbol:", await kru.symbol());
-console.log("balanceOf", (await kru.balanceOf(signer.address)).toString());
+const kre = await ethers.getContractAt("KRE", KRE.ADDRESS[network], signer);
+console.log("name:", await kre.name());
+console.log("symbol:", await kre.symbol());
+console.log("balanceOf", (await kre.balanceOf(signer.address)).toString());
 
-let totalSupply = (await kru.totalSupply()).toNumber();
+let totalSupply = (await kre.totalSupply()).toNumber();
 console.log("totalSupply", totalSupply);
 
 if (initUsers) {
@@ -22,17 +22,17 @@ if (initUsers) {
   const alexandreUri = fleekBaseUrl + 'alexandre.json';
   const alainUri = fleekBaseUrl + 'alain.json';
 
-  await (await kru.addUser(signer.address, alainUri)).wait();
-  await (await kru.addUser(signer.address, yoannUri)).wait();
-  await (await kru.addUser(signer.address, alexandreUri)).wait();
-  totalSupply = (await kru.totalSupply()).toNumber();
+  await (await kre.addUser(signer.address, alainUri)).wait();
+  await (await kre.addUser(signer.address, yoannUri)).wait();
+  await (await kre.addUser(signer.address, alexandreUri)).wait();
+  totalSupply = (await kre.totalSupply()).toNumber();
   console.log("totalSupply", totalSupply);
 
 }
 
 for (let index = 0; index < totalSupply; index++) {
-  const tockenId = await kru.tokenByIndex(index);
+  const tockenId = await kre.tokenByIndex(index);
   console.log("index", index, "=> tockenId", tockenId.toNumber());
-  console.log("ownerOf:", await kru.ownerOf(tockenId));
-  console.log("tokenURI:", await kru.tokenURI(tockenId));
+  console.log("ownerOf:", await kre.ownerOf(tockenId));
+  console.log("tokenURI:", await kre.tokenURI(tockenId));
 }

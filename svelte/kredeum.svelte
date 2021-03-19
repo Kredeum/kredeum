@@ -7,8 +7,8 @@
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
   const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
   const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
-  const OpenSeaKredeumCollectionMatic = '0x5f13c4c75cd1eb9091525dee5282c1855429b7d4';
-  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-user';
+  const OpenSeaKredeumCollectionMatic = '0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93';
+  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nft';
 
   let signer = '';
   let address = '';

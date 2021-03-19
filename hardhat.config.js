@@ -61,9 +61,9 @@ module.exports = {
     apiKey: ETHERSCAN_API_KEY
   },
   abiExporter: {
-    path: './solidity/abis',
+    path: 'solidity/abis',
     clear: true,
-    // only: ['KRU'],
+    // only: ['KRE'],
     flat: true
   },
   solidity: {
@@ -76,10 +76,10 @@ module.exports = {
     }
   },
   paths: {
-    sources: "./solidity",
-    tests: "./tests",
-    cache: "./solidity/cache",
-    artifacts: "./solidity/artifacts"
+    sources: "solidity/contracts",
+    tests: "tests",
+    cache: "solidity/cache",
+    artifacts: "solidity/artifacts"
   },
   mocha: {
     timeout: 20000
