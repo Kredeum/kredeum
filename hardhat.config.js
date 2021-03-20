@@ -28,7 +28,7 @@ task("accounts", "Prints the list of accounts", async () => {
  * @type import('hardhat/config').HardhatUserConfig
  */
 module.exports = {
-  defaultNetwork: 'polygon',
+  defaultNetwork: 'matic',
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -46,7 +46,7 @@ module.exports = {
       url: `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
     },
-    polygon: {
+    matic: {
       url: `https://rpc-mainnet.maticvigil.com/v1/${MATICVIGIL_API_KEY}`,
       chainId: 137,
       accounts: [process.env.ACCOUNT_KEY],

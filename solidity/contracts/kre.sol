@@ -8,7 +8,7 @@ contract KRE is ERC721 {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
-  constructor() ERC721('KRedeum NFT', 'KRE') {}
+  constructor() ERC721('Kredeum NFT', 'KRE') {}
 
   function addUser(address user, string memory tokenURI)
     public

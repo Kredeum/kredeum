@@ -1,0 +1,29 @@
+specVersion: 0.0.2
+description: Kredeum NFTs subgraph for Matic / Polygon network
+repository: https://github.com/Kredeum/kredeum-nft
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: KRE
+    network: matic
+    source:
+      address: '0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93'
+      abi: KRE
+      startBlock: 11800000
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Owner
+        - Contract
+        - Transfer
+      abis:
+        - name: KRE
+          file: ./abis/KRE.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

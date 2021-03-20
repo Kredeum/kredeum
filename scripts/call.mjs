@@ -31,8 +31,8 @@ if (initUsers) {
 }
 
 for (let index = 0; index < totalSupply; index++) {
-  const tockenId = await kre.tokenByIndex(index);
-  console.log("index", index, "=> tockenId", tockenId.toNumber());
-  console.log("ownerOf:", await kre.ownerOf(tockenId));
-  console.log("tokenURI:", await kre.tokenURI(tockenId));
+  const tokenId = await kre.tokenByIndex(index);
+  console.log("index", index, "=> tokenId", tokenId.toNumber());
+  console.log("ownerOf:", await kre.ownerOf(tokenId));
+  console.log("tokenURI:", await kre.tokenURI(tokenId));
 }

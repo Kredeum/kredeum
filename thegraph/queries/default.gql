@@ -1,0 +1,19 @@
+{
+  tokens(first: 99) {
+    id
+    owner {
+      id
+    }
+    uri
+    transfers {
+      id
+    }
+  }
+  owners(first: 99) {
+    id
+    ownedTokens {
+      id
+    }
+    balance
+  }
+}

@@ -13,35 +13,41 @@
   let signer = '';
   let address = '';
   let chainId = '';
-  const chainIdPolygon = '0x89';
+  const chainIdMatic = '0x89';
 
   let NFTs = new Map();
 
   $: if (chainId > 0) {
-    if (chainId !== chainIdPolygon) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdPolygon);
+    if (chainId !== chainIdMatic) {
+      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
       alert('Switch to Matic / Polygon');
     } else {
-      list();
+      nftList();
+      pinataList();
     }
   }
 
   $: {
     console.log('SIGNER', signer);
   }
-  async function list() {
-    let [nftList, pinataList] = await Promise.all([nft.list(chainId), pinata.list()]);
-    console.log('nftList', nftList);
-    console.log('pinataList', pinataList);
 
-    for (const [cid, pin] of pinataList) {
-      const value = { cid, pin };
-      NFTs.set(cid, value);
-    }
+  async function _findNFT(cid) {
+    let n = 0;
+    NFTs.forEach((nft) => {
+      if (nft.cid == cid) n++;
+    });
+
+    console.log('_findNFT', cid, n);
+    return n;
+  }
+
+  async function nftList() {
+    let nftList = await nft.list(chainId);
+    console.log('nftList', nftList);
+
     for (const [key, nft] of nftList) {
-      console.log('NFT', nft);
-      const { cid, tockenId } = nft;
-      const value = { cid, tockenId, nft };
+      const { cid, tokenId } = nft;
+      const value = { cid, tokenId, nft };
 
       const pin = NFTs.get(cid);
       if (pin) {
@@ -53,6 +59,22 @@
     console.log('NFTs', NFTs);
     NFTs = NFTs;
   }
+
+  async function pinataList() {
+    let pinataList = await pinata.list();
+    console.log('pinata.list', pinataList);
+
+    for (const [cid, pin] of pinataList) {
+      if (_findNFT(cid) === 0) {
+        console.log('set', cid);
+        NFTs.set(cid, { cid, pin });
+      }
+    }
+
+    console.log('NFTs', NFTs);
+    NFTs = NFTs;
+  }
+
   async function nftMint() {
     const cid = this.attributes.cid.value;
     console.log('nftMint cid', cid);
@@ -95,7 +117,7 @@
       {#if !item.pin?.pin.meta?.image}
         <tr>
           <td>
-            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.tockenId || ''}#{item.cid.substring(0, 12)}...</a>
+            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.tokenId || ''}#{item.cid.substring(0, 12)}...</a>
           </td>
 
           <td>
@@ -130,8 +152,8 @@
           </td>
 
           <td>
-            {#if item.tockenId}
-              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tockenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+            {#if item.tokenId}
+              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
             {:else}
               <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
             {/if}
