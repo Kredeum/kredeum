@@ -27,6 +27,8 @@ if (is_admin()) {
   define('IPFS_CLUSTER_API', get_option('IPFS_CLUSTER_API', [''])[0]);
   define('IPFS_PINNING_API', get_option('IPFS_PINNING_API', [''])[0]);
 
+  require_once(KIPFS_PLUGIN_PATH . 'admin/nfts/index.php');
+
   require_once(KIPFS_PLUGIN_PATH . 'admin/ajax/ajax.php');
 
   require_once(KIPFS_PLUGIN_PATH . 'admin/ipfs/add.php');
@@ -64,24 +66,3 @@ require_once(KIPFS_PLUGIN_PATH . 'public/post/bottom.php');
 add_action('plugins_loaded', function () {
   load_plugin_textdomain('kipfs', FALSE, KIPFS_PLUGIN_PATH . '/languages/');
 });
-
-
-
-
-/** Step 2 (from text above). */
-add_action('admin_menu', 'my_plugin_menu');
-
-/** Step 1. */
-function my_plugin_menu()
-{
-  add_options_page('My Plugin Options', 'Kredeum NFTs', 'manage_options', 'my-unique-identifier', 'my_plugin_options');
-}
-
-/** Step 3. */
-function my_plugin_options()
-{
-  if (!current_user_can('manage_options')) {
-    wp_die(__('You do not have sufficient permissions to access this page.'));
-  }
-  echo '<kredeum-nft/>';
-}

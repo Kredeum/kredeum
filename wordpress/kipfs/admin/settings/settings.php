@@ -20,9 +20,9 @@ class Kipfs_Settings
   public function page_create()
   {
     // Add the submenu item and page
-    $parent_slug = 'options-general.php';
-    $page_title = __('IPFS settings', 'kipfs');
-    $menu_title = 'IPFS';
+    $parent_slug = 'nfts';
+    $page_title = __('NFTs settings', 'kipfs');
+    $menu_title = __('NFTs Settings', 'kipfs');
     $capability = 'manage_options';
     $menu_slug = $this->slug;
     $callback = array($this, 'page_content');
@@ -34,7 +34,7 @@ class Kipfs_Settings
   public function page_content()
   {
     echo '<div class="wrap">';
-    echo '<h2>' . __('Kredeum IPFS', 'kipfs') . '</h2>';
+    echo '<h2>' . __('NFTs Kredeum', 'kipfs') . '</h2>';
 
     echo '<form action="options.php" method="POST">';
     settings_fields($this->slug);
