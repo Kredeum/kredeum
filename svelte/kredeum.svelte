@@ -16,12 +16,14 @@
   const chainIdMatic = '0x89';
 
   let NFTs = new Map();
+  let CIDs = new Set();
 
   $: if (chainId > 0) {
     if (chainId !== chainIdMatic) {
       console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
       alert('Switch to Matic / Polygon');
     } else {
+      nft.init(chainId);
       nftList();
       pinataList();
     }
@@ -31,31 +33,27 @@
     console.log('SIGNER', signer);
   }
 
-  async function _findNFT(cid) {
-    let n = 0;
-    NFTs.forEach((nft) => {
-      if (nft.cid == cid) n++;
-    });
+  async function nftOne(key, nft) {
+    const { cid, tokenId } = nft;
+    const value = { cid, tokenId, nft };
 
-    console.log('_findNFT', cid, n);
-    return n;
+    const pin = NFTs.get(cid);
+    if (pin) {
+      value.pin = pin.pin;
+      NFTs.delete(cid);
+    }
+    CIDs.add(cid);
+    NFTs.set(key, value);
   }
 
   async function nftList() {
-    let nftList = await nft.list(chainId);
+    let nftList = await nft.list();
     console.log('nftList', nftList);
 
     for (const [key, nft] of nftList) {
-      const { cid, tokenId } = nft;
-      const value = { cid, tokenId, nft };
-
-      const pin = NFTs.get(cid);
-      if (pin) {
-        value.pin = pin.pin;
-        NFTs.delete(cid);
-      }
-      NFTs.set(key, value);
+      nftOne(key, nft);
     }
+
     console.log('NFTs', NFTs);
     NFTs = NFTs;
   }
@@ -65,8 +63,9 @@
     console.log('pinata.list', pinataList);
 
     for (const [cid, pin] of pinataList) {
-      if (_findNFT(cid) === 0) {
+      if (!CIDs.has(cid)) {
         console.log('set', cid);
+        CIDs.add(cid);
         NFTs.set(cid, { cid, pin });
       }
     }
@@ -87,6 +86,8 @@
 
     const nftMinted = await nft.Mint(signer, nftJson);
     console.log('nftMinted', nftMinted);
+
+    nftList();
   }
 </script>
 
@@ -104,12 +105,13 @@
   <table>
     <tr><td colspan="8"><hr /></td></tr>
     <tr>
-      <td>cid</td>
-      <td>json</td>
-      <td>owner</td>
+      <td>id</td>
       <td>name</td>
       <td>image</td>
       <td>NFT</td>
+      <td>owner</td>
+      <td>ipfs</td>
+      <td>json</td>
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
 
@@ -117,12 +119,23 @@
       {#if !item.pin?.pin.meta?.image}
         <tr>
           <td>
-            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.tokenId || ''}#{item.cid.substring(0, 12)}...</a>
+            {#if item.tokenId}{item.tokenId}{/if}
           </td>
 
           <td>
-            {#if item.nft?.tokenURI}
-              <a href="{item.nft?.tokenURI}" target="_blank">{item.nft?.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+            {item.nft?.tokenJson.name || ''}<br />
+            {item.pin?.pin.name || ''}
+          </td>
+
+          <td>
+            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+          </td>
+
+          <td>
+            {#if item.tokenId}
+              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+            {:else}
+              <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
             {/if}
           </td>
 
@@ -143,19 +156,12 @@
           </td>
 
           <td>
-            {item.nft?.tokenJson.name || ''}<br />
-            {item.pin?.pin.name || ''}
+            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid.substring(0, 12)}...</a>
           </td>
 
           <td>
-            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
-          </td>
-
-          <td>
-            {#if item.tokenId}
-              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
-            {:else}
-              <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
+            {#if item.nft?.tokenURI}
+              <a href="{item.nft?.tokenURI}" target="_blank">{item.nft?.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
             {/if}
           </td>
         </tr>
