@@ -3,6 +3,7 @@
 
 add_action('admin_enqueue_scripts', function () {
   wp_enqueue_script('ajax', plugin_dir_url(__FILE__) . "ajax.js");
+  wp_enqueue_script('kredeum', plugin_dir_url(__FILE__) . "../../lib/js/kredeum.js");
   wp_enqueue_script('metamask', plugin_dir_url(__FILE__) . "../../lib/js/metamask.js");
 }, 100);
 

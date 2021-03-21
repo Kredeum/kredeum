@@ -29,7 +29,7 @@ function serve() {
   };
 }
 
-const toRollupConfig = function (component, dest = 'app/build', customElement = false) {
+const toRollupConfig = function (component, customElement = false, dest = 'app/build') {
   return {
     input: 'svelte/' + component + (customElement ? '.svelte' : '.js'),
     output: {
@@ -67,5 +67,6 @@ const toRollupConfig = function (component, dest = 'app/build', customElement = 
 
 export default [
   toRollupConfig('kredeum'),
-  toRollupConfig('metamask', 'wordpress/kipfs/lib/js', true)
+  toRollupConfig('kredeum', true, 'wordpress/kipfs/lib/js'),
+  toRollupConfig('metamask', true, 'wordpress/kipfs/lib/js')
 ];

@@ -1,4 +1,3 @@
-<!-- <svelte:options tag="kredeum-metamask" immutable="{true}" /> -->
 <svelte:options tag="kredeum-metamask" />
 
 <script>

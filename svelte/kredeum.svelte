@@ -1,3 +1,5 @@
+<svelte:options tag="kredeum-nft" />
+
 <script>
   import Metamask from './metamask.svelte';
 
@@ -94,7 +96,7 @@
 <main>
   <h1>
     Wallet
-    <img src="klogo.png" alt="kredeum logo" height="150" />
+    <img src="/wp-content/uploads/2021/03/K22.png" alt="kredeum logo" height="150" />
     NFTs Kredeum
   </h1>
 
