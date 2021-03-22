@@ -3,8 +3,10 @@ import resolve from '@rollup/plugin-node-resolve';
 import commonjs from '@rollup/plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
+import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
-
+// import nodePolyfills from 'rollup-plugin-node-polyfills';
+import builtins from 'rollup-plugin-node-builtins';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -29,7 +31,7 @@ function serve() {
   };
 }
 
-const toRollupConfig = function (component, customElement = false, dest = 'app/build') {
+const toRollupConfig = function (component, customElement = true, dest = 'app/build') {
   return {
     input: 'svelte/' + component + (customElement ? '.svelte' : '.js'),
     output: {
@@ -48,8 +50,12 @@ const toRollupConfig = function (component, customElement = false, dest = 'app/b
       css({ output: `${component}.css` }),
       resolve({
         browser: true,
-        dedupe: ['svelte']
+        dedupe: ['svelte'],
+        preferBuiltins: false
       }),
+      // nodePolyfills(),
+      builtins(),
+      json(),
       commonjs(),
       !production && serve(),
       !production && livereload('public'),
@@ -66,7 +72,8 @@ const toRollupConfig = function (component, customElement = false, dest = 'app/b
 };
 
 export default [
-  toRollupConfig('kredeum'),
-  toRollupConfig('kredeum', true, 'wordpress/kipfs/lib/js'),
-  toRollupConfig('metamask', true, 'wordpress/kipfs/lib/js')
+  // toRollupConfig('kredeum_nft', false, 'app/build'),
+  toRollupConfig('kredeum_nft'),
+  toRollupConfig('kredeum_nft_mint'),
+  toRollupConfig('kredeum_metamask')
 ];

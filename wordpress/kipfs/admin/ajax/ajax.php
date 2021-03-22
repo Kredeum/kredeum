@@ -3,8 +3,9 @@
 
 add_action('admin_enqueue_scripts', function () {
   wp_enqueue_script('ajax', plugin_dir_url(__FILE__) . "ajax.js");
-  wp_enqueue_script('kredeum', plugin_dir_url(__FILE__) . "../../lib/js/kredeum.js");
-  wp_enqueue_script('metamask', plugin_dir_url(__FILE__) . "../../lib/js/metamask.js");
+  wp_enqueue_script('kredeum_nft', plugin_dir_url(__FILE__) . "../../lib/js/kredeum_nft.js");
+  wp_enqueue_script('kredeum_nft_mint', plugin_dir_url(__FILE__) . "../../lib/js/kredeum_nft_mint.js");
+  // wp_enqueue_script('kredeum_metamask', plugin_dir_url(__FILE__) . "../../lib/js/kredeum_metamask.js");
 }, 100);
 
 

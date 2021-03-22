@@ -1,7 +1,7 @@
 <svelte:options tag="kredeum-nft" />
 
 <script>
-  import Metamask from './metamask.svelte';
+  import Metamask from './kredeum_metamask.svelte';
 
   import pinata from '../lib/pinata.mjs';
   import nft from '../lib/nft.mjs';
@@ -83,7 +83,7 @@
     const pin = NFTs.get(cid).pin.pin;
     console.log('nftMint pin', pin);
 
-    const nftJson = await pinata.pinJson(pin);
+    const nftJson = await pinata.pinJson({ cid: pin.cid, name: pin.name, owner: pin.meta.owner });
     console.log('nftJson', nftJson);
 
     const nftMinted = await nft.Mint(signer, nftJson);
@@ -149,11 +149,11 @@
               {#if item.nft?.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
             {/if}
             <br />
-            {#if item.pin?.pin.meta?.address}
-              <a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.address}" target="_blank">
-                {item.pin?.pin.meta?.address?.substring(0, 12)}...
+            {#if item.pin?.pin.meta?.owner}
+              <a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.owner}" target="_blank">
+                {item.pin?.pin.meta?.owner?.substring(0, 12)}...
               </a>
-              {#if item.pin?.pin.meta?.address?.toLowerCase() === address.toLowerCase()}*{/if}
+              {#if item.pin?.pin.meta?.owner?.toLowerCase() === address.toLowerCase()}*{/if}
             {/if}
           </td>
 
@@ -200,6 +200,7 @@
   }
   button {
     color: white;
+    border: 0px;
   }
   button.mint {
     background-color: #2a81de;
