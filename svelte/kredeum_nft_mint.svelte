@@ -5,10 +5,13 @@
   import nft from '../lib/nft.mjs';
   import pinata from '../lib/pinata.mjs';
   import hash from '../lib/hash.mjs';
-  import fetch from 'node-fetch';
+  import axios from 'axios';
+  import Metamask from './kredeum_metamask.svelte';
+  import { onMount } from 'svelte';
 
-  export let src;
+  export let url;
   export let name;
+  let cid;
 
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
   const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
@@ -17,63 +20,35 @@
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nft';
   const chainIdMatic = '0x89';
 
-  let NFTs = new Map();
-  let CIDs = new Set();
-
   let minted = false;
   let tokenId = 1;
   let chainId = chainIdMatic;
+  let signer = '';
+  let address = '';
+  let pinImage = '';
 
-  $: if (chainId > 0) {
-    if (chainId !== chainIdMatic) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
-      alert('Switch to Matic / Polygon');
-    } else {
-      nft.init(chainId);
-      nftList();
-    }
-  }
-  async function nftOne(key, nft) {
-    const { cid, tokenId } = nft;
-    const value = { cid, tokenId, nft };
+  onMount(async function () {
+    nft.init(chainIdMatic);
 
-    const pin = NFTs.get(cid);
-    if (pin) {
-      value.pin = pin.pin;
-      NFTs.delete(cid);
-    }
-    CIDs.add(cid);
-    NFTs.set(key, value);
-  }
-  async function nftList() {
-    let nftList = await nft.list();
-    console.log('nftList', nftList);
-
-    for (const [key, nft] of nftList) {
-      nftOne(key, nft);
-
-      const res = await fetch(nft.tokenURI);
-      console.log('res', res);
-      // console.log(await res.text());
-      const json = await res.text();
-      console.log('res.json', json);
-      // console.log(res.buffer());
-      console.log('cid', nft.cid, 'hash json', await hash(json));
-    }
-
-    console.log('NFTs', NFTs);
-    NFTs = NFTs;
-  }
+    cid = await hash(url);
+    console.log('nftMint cidPreview', cid);
+  });
 
   async function nftMint() {
-    console.log('nftMint', src, name);
+    console.log('nftMint url name', url, name);
 
-    console.log(await hash((await fetch(src)).buffer()));
-    const nftJson = await pinata.pinJson({ cid, name, owner });
-    console.log('nftJson', nftJson);
+    const image = { url, name, owner: address };
+    pinImage = await pinata.pinImage(image);
+    console.log('nftMint pinImage', pinImage);
+    if (pinImage.cid === cid) console.log('Good Guess !!!');
 
-    const nftMinted = await nft.Mint(signer, nftJson);
-    console.log('nftMinted', nftMinted);
+    image.cid = pinImage.cid;
+    const pinJson = await pinata.pinJson(image);
+    console.log('nftMint pinJson', pinJson);
+
+    tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
+    console.log('nftMinted', tokenId);
+    minted = true;
   }
 </script>
 
@@ -82,6 +57,13 @@
     <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
   {:else}
     <button on:click="{nftMint}" class="mint">MINT NFT</button>
+    <small>
+      <br />{url}
+      <br />{name}
+      <br />{cid}
+      <br />
+      <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+    </small>
   {/if}
 </main>
 
