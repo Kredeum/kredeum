@@ -1,79 +1,112 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  // import Metamask from './kredeum_metamask.svelte';
   import nft from '../lib/nft.mjs';
   import pinata from '../lib/pinata.mjs';
   import hash from '../lib/hash.mjs';
-  import axios from 'axios';
   import Metamask from './kredeum_metamask.svelte';
   import { onMount } from 'svelte';
 
-  export let url;
-  export let name;
+  export let src;
+  export let alt;
+  export let width = 100;
+  export let display = false;
   let cid;
 
-  const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
-  const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
   const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
   const OpenSeaKredeumCollectionMatic = '0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93';
-  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nft';
   const chainIdMatic = '0x89';
 
-  let minted = false;
+  let minted = 0;
   let tokenId = 1;
   let chainId = chainIdMatic;
   let signer = '';
   let address = '';
   let pinImage = '';
 
+  $: console.log('SIGNER', signer);
+
   onMount(async function () {
     nft.init(chainIdMatic);
 
-    cid = await hash(url);
+    cid = await hash(src);
     console.log('nftMint cidPreview', cid);
   });
 
   async function nftMint() {
-    console.log('nftMint url name', url, name);
+    console.log('nftMint src alt', src, alt);
 
-    const image = { url, name, owner: address };
-    pinImage = await pinata.pinImage(image);
-    console.log('nftMint pinImage', pinImage);
-    if (pinImage.cid === cid) console.log('Good Guess !!!');
+    if (signer) {
+      minted = 1;
 
-    image.cid = pinImage.cid;
-    const pinJson = await pinata.pinJson(image);
-    console.log('nftMint pinJson', pinJson);
+      const image = { origin: src, name: alt, minter: address };
+      pinImage = await pinata.pinImage(image);
+      console.log('nftMint pinImage', pinImage);
+      if (pinImage.cid === cid) console.log('Good Guess !!!');
 
-    tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-    console.log('nftMinted', tokenId);
-    minted = true;
+      image.cid = pinImage.cid;
+      const pinJson = await pinata.pinJson(image);
+      console.log('nftMint pinJson', pinJson);
+
+      try {
+        tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
+        console.log('nftMinted', tokenId);
+        minted = 2;
+      } catch (e) {
+        console.error('Minting ERROR', e);
+        minted = 0;
+      }
+    } else {
+      alert('You must be connected with Metamask to Mint');
+    }
   }
 </script>
 
 <main>
-  {#if minted}
-    <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+  {#if display}
+    <img src="{src}" alt="{alt}" width="{width}" /><br />
+  {/if}
+
+  {#if address}
+    {#if minted == 2}
+      <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+    {:else if minted == 1}
+      <button class="minting">MINTING...</button>
+    {:else}
+      <button on:click="{nftMint}" class="mint">MINT NFT</button>
+    {/if}
+
+    {#if display}
+      <small>
+        <br />{src}
+        <br />{alt}
+        <br />{cid}
+        <br />{address}
+      </small>
+    {/if}
   {:else}
-    <button on:click="{nftMint}" class="mint">MINT NFT</button>
-    <small>
-      <br />{url}
-      <br />{name}
-      <br />{cid}
-      <br />
-      <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
-    </small>
+    <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
   {/if}
 </main>
 
 <style>
+  main {
+    text-align: center;
+  }
   button {
     color: white;
     border: 0px;
+    margin: 10px;
+  }
+  button.mint:hover {
+    background-color: black;
+    cursor: pointer;
   }
   button.mint {
     background-color: #2a81de;
+  }
+  button.minting {
+    background-color: grey;
   }
   button.sell {
     background-color: #36d06f;

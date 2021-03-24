@@ -2,8 +2,7 @@
 
 <script>
   import Metamask from './kredeum_metamask.svelte';
-
-  import pinata from '../lib/pinata.mjs';
+  import KredeumNftMint from './kredeum_nft_mint.svelte';
   import nft from '../lib/nft.mjs';
 
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
@@ -18,7 +17,6 @@
   const chainIdMatic = '0x89';
 
   let NFTs = new Map();
-  let CIDs = new Set();
 
   $: if (chainId > 0) {
     if (chainId !== chainIdMatic) {
@@ -27,69 +25,13 @@
     } else {
       nft.init(chainId);
       nftList();
-      pinataList();
     }
   }
-
-  $: {
-    console.log('SIGNER', signer);
-  }
-
-  async function nftOne(key, nft) {
-    const { cid, tokenId } = nft;
-    const value = { cid, tokenId, nft };
-
-    const pin = NFTs.get(cid);
-    if (pin) {
-      value.pin = pin.pin;
-      NFTs.delete(cid);
-    }
-    CIDs.add(cid);
-    NFTs.set(key, value);
-  }
+  $: console.log('SIGNER', signer);
 
   async function nftList() {
-    let nftList = await nft.list();
-    console.log('nftList', nftList);
-
-    for (const [key, nft] of nftList) {
-      nftOne(key, nft);
-    }
-
+    NFTs = await nft.list();
     console.log('NFTs', NFTs);
-    NFTs = NFTs;
-  }
-
-  async function pinataList() {
-    let pinataList = await pinata.list();
-    console.log('pinata.list', pinataList);
-
-    for (const [cid, pin] of pinataList) {
-      if (!CIDs.has(cid)) {
-        console.log('set', cid);
-        CIDs.add(cid);
-        NFTs.set(cid, { cid, pin });
-      }
-    }
-
-    console.log('NFTs', NFTs);
-    NFTs = NFTs;
-  }
-
-  async function nftMint() {
-    const cid = this.attributes.cid.value;
-    console.log('nftMint cid', cid);
-
-    const pin = NFTs.get(cid).pin.pin;
-    console.log('nftMint pin', pin);
-
-    const nftJson = await pinata.pinJson({ cid: pin.cid, name: pin.name, owner: pin.meta.owner });
-    console.log('nftJson', nftJson);
-
-    const nftMinted = await nft.Mint(signer, nftJson);
-    console.log('nftMinted', nftMinted);
-
-    nftList();
   }
 </script>
 
@@ -108,66 +50,51 @@
     <tr><td colspan="8"><hr /></td></tr>
     <tr>
       <td>id</td>
-      <td>name</td>
+      <td width="200">name</td>
       <td>image</td>
-      <td>NFT</td>
+      <td>OpenSea</td>
       <td>owner</td>
       <td>ipfs</td>
       <td>json</td>
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
+    {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
+      <tr>
+        <td>
+          {tokenId}
+        </td>
 
-    {#each [...NFTs] as [cid, item]}
-      {#if !item.pin?.pin.meta?.image}
-        <tr>
-          <td>
-            {#if item.tokenId}{item.tokenId}{/if}
-          </td>
+        <td>
+          {item.tokenJson?.name || ''}
+        </td>
 
-          <td>
-            {item.nft?.tokenJson.name || ''}<br />
-            {item.pin?.pin.name || ''}
-          </td>
+        <td>
+          <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+        </td>
 
-          <td>
-            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
-          </td>
+        <td>
+          <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+        </td>
 
-          <td>
-            {#if item.tokenId}
-              <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{item.tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
-            {:else}
-              <button on:click="{nftMint}" cid="{item.cid}" class="mint">MINT NFT</button>
-            {/if}
-          </td>
+        <td>
+          {#if item.ownerOf}
+            <a href="{maticEthExplorer}/address/{item.ownerOf}" target="_blank">
+              {item.ownerOf.substring(0, 12)}...
+            </a>
+            {#if item.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
+          {/if}
+        </td>
 
-          <td>
-            {#if item.nft?.ownerOf}
-              <a href="{maticEthExplorer}/address/{item.nft?.ownerOf}" target="_blank">
-                {item.nft?.ownerOf.substring(0, 12)}...
-              </a>
-              {#if item.nft?.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
-            {/if}
-            <br />
-            {#if item.pin?.pin.meta?.owner}
-              <a href="{maticEthExplorer}/address/{item.pin?.pin.meta?.owner}" target="_blank">
-                {item.pin?.pin.meta?.owner?.substring(0, 12)}...
-              </a>
-              {#if item.pin?.pin.meta?.owner?.toLowerCase() === address.toLowerCase()}*{/if}
-            {/if}
-          </td>
+        <td>
+          <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid?.substring(0, 12)}...</a>
+        </td>
 
-          <td>
-            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid.substring(0, 12)}...</a>
-          </td>
-
-          <td>
-            {#if item.nft?.tokenURI}
-              <a href="{item.nft?.tokenURI}" target="_blank">{item.nft?.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
-            {/if}
-          </td>
-        </tr>
-      {/if}
+        <td>
+          {#if item.tokenURI}
+            <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+          {/if}
+        </td>
+      </tr>
     {/each}
     <tr><td colspan="8"><hr /></td></tr>
   </table>
