@@ -3,7 +3,7 @@
 <script>
   import nft from '../lib/nft.mjs';
   import pinata from '../lib/pinata.mjs';
-  import hash from '../lib/hash.mjs';
+  import kcid from '../lib/kcid.mjs';
   import Metamask from './kredeum_metamask.svelte';
   import { onMount } from 'svelte';
 
@@ -19,17 +19,26 @@
 
   let minted = 0;
   let tokenId = 1;
-  let chainId = chainIdMatic;
+  let pinImage = '';
+
   let signer = '';
   let address = '';
-  let pinImage = '';
+  let chainId = chainIdMatic;
 
   $: console.log('SIGNER', signer);
 
-  onMount(async function () {
-    nft.init(chainIdMatic);
+  $: if (chainId > 0) {
+    if (chainId !== chainIdMatic) {
+      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
+      // alert('Switch to Matic / Polygon');
+    } else {
+      nft.init(chainIdMatic);
+    }
+  }
+  $: console.log('SIGNER', signer);
 
-    cid = await hash(src);
+  onMount(async function () {
+    cid = await kcid.url(src);
     console.log('nftMint cidPreview', cid);
   });
 
@@ -72,6 +81,8 @@
       <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
     {:else if minted == 1}
       <button class="minting">MINTING...</button>
+    {:else if chainId !== chainIdMatic}
+      <button class="matic">Switch to MATIC</button>
     {:else}
       <button on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}
@@ -90,13 +101,14 @@
 </main>
 
 <style>
-  main {
-    text-align: center;
-  }
   button {
     color: white;
+    background-color: #2a81de;
     border: 0px;
     margin: 10px;
+  }
+  button.matic {
+    background-color: grey;
   }
   button.mint:hover {
     background-color: black;
@@ -106,6 +118,7 @@
     background-color: #2a81de;
   }
   button.minting {
+    color: black;
     background-color: grey;
   }
   button.sell {

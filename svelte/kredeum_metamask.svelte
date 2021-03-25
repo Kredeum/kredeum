@@ -79,12 +79,3 @@
 {:else}
   <button on:click="{connectMetamask}">Connect Metamask</button>
 {/if}
-
-<!-- <style>
-  button {
-    color: black;
-    border: 0px;
-    margin: 10px;
-    background-color: white;
-  }
-</style> -->

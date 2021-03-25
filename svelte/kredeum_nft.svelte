@@ -11,10 +11,10 @@
   const OpenSeaKredeumCollectionMatic = '0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93';
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nft';
 
-  let signer = '';
   let address = '';
   let chainId = '';
   const chainIdMatic = '0x89';
+  let all = false;
 
   let NFTs = new Map();
 
@@ -27,7 +27,8 @@
       nftList();
     }
   }
-  $: console.log('SIGNER', signer);
+
+  async function filter() {}
 
   async function nftList() {
     NFTs = await nft.list();
@@ -43,63 +44,80 @@
   </h1>
 
   <h3>
-    <a href="{OpenSeaKredeumCollection}" target="_blank">Sell on OpenSea</a>
+    <a href="{OpenSeaKredeumCollection}" target="_blank">Exchange Kredeum NFTs on OpenSea</a>
+    -
   </h3>
 
   <table>
-    <tr><td colspan="8"><hr /></td></tr>
+    <tr>
+      <td colspan="8">
+        <button on:click="{(e) => (all = true)}">All NFTs</button>
+        -
+        <button on:click="{(e) => (all = false)}">My NFTs</button>
+        <hr />
+      </td>
+    </tr>
     <tr>
       <td>id</td>
       <td width="200">name</td>
       <td>image</td>
-      <td>OpenSea</td>
+      <td>Sell</td>
+      <td>Re-Mint</td>
       <td>owner</td>
       <td>ipfs</td>
       <td>json</td>
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
     {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
-      <tr>
-        <td>
-          {tokenId}
-        </td>
+      {#if all || item.ownerOf.toLowerCase() === address.toLowerCase()}
+        <tr>
+          <td>
+            {tokenId}
+          </td>
 
-        <td>
-          {item.tokenJson?.name || ''}
-        </td>
+          <td>
+            {item.tokenJson?.name || ''}
+          </td>
 
-        <td>
-          <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
-        </td>
+          <td>
+            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+          </td>
 
-        <td>
-          <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
-        </td>
-
-        <td>
-          {#if item.ownerOf}
-            <a href="{maticEthExplorer}/address/{item.ownerOf}" target="_blank">
-              {item.ownerOf.substring(0, 12)}...
+          <td>
+            <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank">
+              <button class="sell"> SELL NFT </button>
             </a>
-            {#if item.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
-          {/if}
-        </td>
+          </td>
 
-        <td>
-          <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid?.substring(0, 12)}...</a>
-        </td>
+          <td>
+            <KredeumNftMint src="{ipfsGateway}/{item.cid}" alt="{item.tokenJson?.name || ''}" />
+          </td>
 
-        <td>
-          {#if item.tokenURI}
-            <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
-          {/if}
-        </td>
-      </tr>
+          <td>
+            {#if item.ownerOf}
+              <a href="{maticEthExplorer}/address/{item.ownerOf}" target="_blank">
+                {item.ownerOf.substring(0, 12)}...
+              </a>
+              {#if item.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+          </td>
+
+          <td>
+            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid?.substring(0, 12)}...</a>
+          </td>
+
+          <td>
+            {#if item.tokenURI}
+              <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+            {/if}
+          </td>
+        </tr>
+      {/if}
     {/each}
     <tr><td colspan="8"><hr /></td></tr>
   </table>
   <small>
-    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+    <Metamask autoconnect="off" bind:address bind:chainId />
   </small>
 </main>
 
@@ -125,12 +143,12 @@
       max-width: none;
     }
   }
+
   button {
     color: white;
-    border: 0px;
-  }
-  button.mint {
     background-color: #2a81de;
+    border: 0px;
+    margin: 10px;
   }
   button.sell {
     background-color: #36d06f;

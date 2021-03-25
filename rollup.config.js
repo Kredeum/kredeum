@@ -34,7 +34,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
   return {
     input: 'svelte/' + component + (customElement ? '.svelte' : '.js'),
     output: {
-      sourcemap: true,
+      sourcemap: !production,
       format: 'iife',
       name: component,
       file: `${dest}/${component}.js`
@@ -70,8 +70,6 @@ const toRollupConfig = function (component, dest, customElement = true) {
 };
 
 export default [
-  toRollupConfig('kredeum_metamask', 'wordpress/kipfs/lib/js'),
-  toRollupConfig('kredeum_nft_mint', 'wordpress/kipfs/lib/js'),
   toRollupConfig('kredeum_nft', 'wordpress/kipfs/lib/js'),
   toRollupConfig('kredeum_nft_mint', 'app/build'),
   toRollupConfig('kredeum_nft', 'app/build')
