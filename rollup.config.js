@@ -8,6 +8,7 @@ import css from 'rollup-plugin-css-only';
 import builtins from 'rollup-plugin-node-builtins';
 
 const production = !process.env.ROLLUP_WATCH;
+const production = true;
 
 function serve() {
   let server;

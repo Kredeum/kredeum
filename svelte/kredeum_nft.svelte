@@ -4,6 +4,7 @@
   import Metamask from './kredeum_metamask.svelte';
   import KredeumNftMint from './kredeum_nft_mint.svelte';
   import nft from '../lib/nft.mjs';
+  import kimages from '../lib/kimages.mjs';
 
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
   const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
@@ -39,7 +40,7 @@
 <main>
   <h1>
     Wallet
-    <img src="/wp-content/uploads/2021/03/K22.png" alt="kredeum logo" height="150" />
+    <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.klogo_png}" />
     NFTs Kredeum
   </h1>
 

@@ -78,7 +78,9 @@
 
   {#if address}
     {#if minted == 2}
-      <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank"> <button class="sell">SELL NFT</button></a>
+      <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank">
+        <button class="sell">SELL NFT</button>
+      </a>
     {:else if minted == 1}
       <button class="minting">MINTING...</button>
     {:else if chainId !== chainIdMatic}
