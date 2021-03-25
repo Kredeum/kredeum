@@ -7,8 +7,7 @@ import json from '@rollup/plugin-json';
 import css from 'rollup-plugin-css-only';
 import builtins from 'rollup-plugin-node-builtins';
 
-const production = !process.env.ROLLUP_WATCH;
-const production = true;
+const production = process.env.PROD;
 
 function serve() {
   let server;

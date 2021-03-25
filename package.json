@@ -32,7 +32,8 @@
     "web-encoding": "^1.1.0"
   },
   "scripts": {
-    "build": "rollup -c",
+    "build": "PROD=true rollup -c",
+    "build dev": "rollup -c",
     "dev": "rollup -c -w",
     "start": "sirv app",
     "test": "echo \"Error: no test specified\" && exit 1"
