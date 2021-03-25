@@ -3,7 +3,7 @@
 Plugin Name: WP Plugin IPFS
 Description: Allow media storage into IPFS
 Plugin URI: https://www.kredeum.com/kipfs
-Version: 0.2.0
+Version: 0.2.1
 Requires at least: 4.0.0
 Requires PHP: 5.4
 Author: Kredeum <alain@kredeum.com>

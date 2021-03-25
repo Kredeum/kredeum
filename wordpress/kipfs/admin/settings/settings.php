@@ -23,7 +23,7 @@ class Kipfs_Settings
     $parent_slug = 'nfts';
     $page_title = __('NFTs settings', 'kipfs');
     $menu_title = __('NFTs Settings', 'kipfs');
-    $capability = 'manage_options';
+    $capability = 'upload_files';
     $menu_slug = $this->slug;
     $callback = array($this, 'page_content');
     $position = 100;
