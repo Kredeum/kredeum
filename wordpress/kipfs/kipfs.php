@@ -3,7 +3,7 @@
 Plugin Name: WP Plugin IPFS
 Description: Allow media storage into IPFS
 Plugin URI: https://www.kredeum.com/kipfs
-Version: 0.2.5
+Version: 0.2.6
 Requires at least: 4.0.0
 Requires PHP: 5.4
 Author: Kredeum <alain@kredeum.com>
@@ -21,8 +21,11 @@ defined('ABSPATH') or die(__('Not allowed', 'kipfs'));
 define('KIPFS_PLUGIN_PATH', plugin_dir_path(__FILE__));
 
 if (is_admin()) {
-  define('IPFS_AUTO', get_option('IPFS_AUTO', [0])[0]);
-  define('IPFS_CID_VERSION', get_option('IPFS_CID_VERSION', [0])[0]);
+  define('IPFS_AUTO', '1');
+  define('IPFS_CID_VERSION', '1');
+  // define('IPFS_AUTO', get_option('IPFS_AUTO', [0])[0]);
+  // define('IPFS_CID_VERSION', get_option('IPFS_CID_VERSION', [0])[0]);
+
   define('IPFS_API', get_option('IPFS_API', [''])[0]);
   define('IPFS_CLUSTER_API', get_option('IPFS_CLUSTER_API', [''])[0]);
   define('IPFS_PINNING_API', get_option('IPFS_PINNING_API', [''])[0]);
@@ -53,7 +56,8 @@ if (is_admin()) {
 
 
 
-define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]);
+define('IPFS_GATEWAY', 'https://gateway.pinata.cloud');
+// define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]);
 define('IPFS_PINATA_API', 'https://api.pinata.cloud');
 define('IPFS_PINATA_KEY', get_option('IPFS_PINATA_KEY', ''));
 define('IPFS_PINATA_SECRET', get_option('IPFS_PINATA_SECRET', ''));
