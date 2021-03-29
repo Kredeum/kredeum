@@ -14,7 +14,7 @@ add_action('manage_media_custom_column',  function ($name) {
     if ($name === 'cid') {
       echo ipfs_link($post->CID, substr($post->CID, 0, 12) . "...");
     } else if ($name === 'mint') {
-      printf('<kredeum-nft-mint src="' . ipfs_url($post->CID) . '" name ="' . $post->post_title . '" />');
+      printf('<kredeum-nft-mint src="' . ipfs_url($post->CID) . '" alt="' . $post->post_title . '"/>');
     }
   }
 });
