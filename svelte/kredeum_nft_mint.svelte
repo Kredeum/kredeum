@@ -2,6 +2,7 @@
 
 <script>
   import nft from '../lib/nft.mjs';
+  import KRE from '../lib/kre.mjs';
   import pinata from '../lib/pinata.mjs';
   import kcid from '../lib/kcid.mjs';
   import Metamask from './kredeum_metamask.svelte';
@@ -14,7 +15,7 @@
   let cid;
 
   const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
-  const OpenSeaKredeumCollectionMatic = '0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93';
+  const OpenSeaKredeumCollectionMatic = KRE.ADDRESS['matic'];
   const chainIdMatic = '0x89';
 
   let minted = 0;

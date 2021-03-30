@@ -8,7 +8,7 @@ dataSources:
     name: KRE
     network: matic
     source:
-      address: '0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93'
+      address: '0xF6d53C7e96696391Bb8e73bE75629B37439938AF'
       abi: KRE
       startBlock: 11800000
     mapping:
