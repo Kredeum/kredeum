@@ -16,7 +16,7 @@
   let address = '';
   let chainId = '';
   const chainIdMatic = '0x89';
-  let all = false;
+  export let all = false;
 
   let NFTs = new Map();
 
