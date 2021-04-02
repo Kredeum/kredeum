@@ -74,8 +74,6 @@
   });
 </script>
 
-{#if address}
-  {address}
-{:else}
+{#if !address}
   <button on:click="{connectMetamask}">Connect Metamask</button>
 {/if}

@@ -10,6 +10,9 @@
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
   const MaticExplorer = 'https://explorer-mainnet.maticvigil.com';
   const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
+  const MaticArkaneAssets = 'https://arkane.market/inventory/MATIC';
+
+  const ArkaneAddress = '0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39';
   const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
   const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
@@ -17,7 +20,7 @@
   let address = '';
   let chainId = '';
   const MaticChainId = '0x89';
-  export let all = 3;
+  export let all = 0;
   // 0 all NFTs
   // 1 NFTs I created
   // 2 NFTs I own
@@ -72,9 +75,9 @@
       <td>id</td>
       <td width="200">name</td>
       <td>image</td>
-      <td>Sell</td>
-      <td>Creator</td>
-      <td>Owner</td>
+      <td>Arkane Market</td>
+      <td>OpenSea</td>
+      <td>creator</td>
       <td>ipfs</td>
       <td>json</td>
     </tr>
@@ -95,8 +98,26 @@
           </td>
 
           <td>
+            {#if item.ownerOf}
+              {#if item.ownerOf.toLowerCase() === ArkaneAddress.toLowerCase()}
+                <a href="{ArkaneKredeumCollection}" target="_blank">
+                  <button class="buy">BUY NFT</button>
+                </a>
+              {:else if item.ownerOf.toLowerCase() === address.toLowerCase()}
+                <a href="{MaticArkaneAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+                  <button class="sell">SELL NFT</button>
+                </a>
+              {:else}
+                <a href="{MaticExplorer}/address/{item.ownerOf}" target="_blank">
+                  <button class="grey">OWNER</button>
+                </a>
+              {/if}
+            {/if}
+          </td>
+
+          <td>
             <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
-              <button class="sell"> SELL NFT </button>
+              <button class="grey">OpenSea</button>
             </a>
           </td>
 
@@ -106,15 +127,6 @@
                 {item.tokenJson?.minter.substring(0, 12)}...
               </a>
               {#if item.tokenJson?.minter.toLowerCase() === address.toLowerCase()}*{/if}
-            {/if}
-          </td>
-
-          <td>
-            {#if item.ownerOf}
-              <a href="{MaticExplorer}/address/{item.ownerOf}" target="_blank">
-                {item.ownerOf.substring(0, 12)}...
-              </a>
-              {#if item.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
             {/if}
           </td>
 
@@ -133,6 +145,16 @@
     <tr><td colspan="8"><hr /></td></tr>
   </table>
   <small>
+    My address =
+    <a href="{MaticExplorer}/address/{address}" target="_blank">
+      {address}
+    </a><br />
+
+    Kredeum NFTs contract =
+    <a href="{MaticExplorer}/address/{MaticKredeumCollection}" target="_blank">
+      {MaticKredeumCollection}
+    </a><br />
+
     <Metamask autoconnect="off" bind:address bind:chainId />
   </small>
 </main>
@@ -168,5 +190,8 @@
   }
   button.sell {
     background-color: #36d06f;
+  }
+  button.grey {
+    background-color: grey;
   }
 </style>
