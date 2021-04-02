@@ -17,7 +17,13 @@
   let address = '';
   let chainId = '';
   const MaticChainId = '0x89';
-  export let all = false;
+  export let all = 3;
+  // 0 all NFTs
+  // 1 NFTs I created
+  // 2 NFTs I own
+  // 3 NFTs I created and I own
+
+  $: console.log('AAALLLLLLL', all);
 
   let NFTs = new Map();
 
@@ -30,8 +36,6 @@
       nftList();
     }
   }
-
-  async function filter() {}
 
   async function nftList() {
     NFTs = await nft.list();
@@ -55,12 +59,12 @@
 
   <table>
     <tr>
-      <td colspan="9">
-        <button on:click="{(e) => (all = true)}">All NFTs</button>
+      <td colspan="8">
+        <button on:click="{(e) => (all = 0)}">All NFTs</button>
         -
-        <button on:click="{(e) => (all = false)}">NFTs I created</button>
+        <button on:click="{(e) => (all = 1)}">NFTs I created</button>
         -
-        <button on:click="{(e) => (all = false)}">NFTs I own</button>
+        <button on:click="{(e) => (all = 2)}">NFTs I own</button>
         <hr />
       </td>
     </tr>
@@ -69,15 +73,14 @@
       <td width="200">name</td>
       <td>image</td>
       <td>Sell</td>
-      <td>Re-Mint</td>
       <td>Creator</td>
       <td>Owner</td>
       <td>ipfs</td>
       <td>json</td>
     </tr>
-    <tr><td colspan="9"><hr /></td></tr>
+    <tr><td colspan="8"><hr /></td></tr>
     {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
-      {#if all || item.ownerOf.toLowerCase() === address.toLowerCase()}
+      {#if all == 0 || ((all & 1) == 1 && item.tokenJson?.minter.toLowerCase() === address.toLowerCase()) || ((all & 2) == 2 && item.ownerOf.toLowerCase() === address.toLowerCase())}
         <tr>
           <td>
             {tokenId}
@@ -95,10 +98,6 @@
             <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
               <button class="sell"> SELL NFT </button>
             </a>
-          </td>
-
-          <td>
-            <KredeumNftMint src="{ipfsGateway}/{item.cid}" alt="{item.tokenJson?.name || ''}" />
           </td>
 
           <td>
@@ -131,7 +130,7 @@
         </tr>
       {/if}
     {/each}
-    <tr><td colspan="9"><hr /></td></tr>
+    <tr><td colspan="8"><hr /></td></tr>
   </table>
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId />
