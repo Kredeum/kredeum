@@ -1,6 +1,6 @@
 specVersion: 0.0.2
 description: Kredeum NFTs subgraph for Matic / Polygon network
-repository: https://github.com/Kredeum/kredeum-nft
+repository: https://github.com/Kredeum/kredeum
 schema:
   file: ./schema.graphql
 dataSources:

@@ -23,9 +23,7 @@ type Contract @entity {
 type Transfer @entity {
   id: ID!
   token: Token!
-  # Empty from is minting
   from: Owner
-  # Empty to is burning
   to: Owner
   timestamp: BigInt!
   block: BigInt!

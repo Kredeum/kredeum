@@ -14,9 +14,9 @@
   export let display = false;
   let cid;
 
-  const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
-  const OpenSeaKredeumCollectionMatic = KRE.ADDRESS['matic'];
-  const chainIdMatic = '0x89';
+  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
+  const MaticKredeumCollection = KRE.ADDRESS['matic'];
+  const MaticChainId = '0x89';
 
   let minted = 0;
   let tokenId = 1;
@@ -24,16 +24,16 @@
 
   let signer = '';
   let address = '';
-  let chainId = chainIdMatic;
+  let chainId = MaticChainId;
 
   $: console.log('SIGNER', signer);
 
   $: if (chainId > 0) {
-    if (chainId !== chainIdMatic) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
+    if (chainId !== MaticChainId) {
+      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
       // alert('Switch to Matic / Polygon');
     } else {
-      nft.init(chainIdMatic);
+      nft.init(MaticChainId);
     }
   }
   $: console.log('SIGNER', signer);
@@ -79,12 +79,12 @@
 
   {#if address}
     {#if minted == 2}
-      <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank">
+      <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
         <button class="sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
       <button class="minting">MINTING...</button>
-    {:else if chainId !== chainIdMatic}
+    {:else if chainId !== MaticChainId}
       <button class="matic">Switch to MATIC</button>
     {:else}
       <button on:click="{nftMint}" class="mint">MINT NFT</button>

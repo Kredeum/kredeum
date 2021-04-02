@@ -3,53 +3,42 @@ import { KRE, Transfer as TransferEvent } from '../generated/KRE/KRE';
 import { Token, Owner, Contract, Transfer } from '../generated/schema';
 
 export function handleTransfer(event: TransferEvent): void {
-  log.debug('Transfer detected. From: {} | To: {} | TokenID: {}', [
-    event.params.from.toHexString(),
-    event.params.to.toHexString(),
-    event.params.tokenId.toHexString(),
-  ]);
+  let from = event.params.from.toHexString();
+  let to = event.params.to.toHexString();
+  let tockenId = event.params.tokenId.toHexString();
+  let address = event.address.toHexString();
+  log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [from, to, tockenId]);
 
-  let previousOwner = Owner.load(event.params.from.toHexString());
-  let newOwner = Owner.load(event.params.to.toHexString());
-  let token = Token.load(event.params.tokenId.toHexString());
-  let transferId = event.transaction.hash
-    .toHexString()
+  let transferId = event.transaction.hash.toHexString()
     .concat(':'.concat(event.transactionLogIndex.toHexString()));
-  let transfer = Transfer.load(transferId);
-  let contract = Contract.load(event.address.toHexString());
   let instance = KRE.bind(event.address);
 
-  if (previousOwner == null) {
-    previousOwner = new Owner(event.params.from.toHexString());
-  }
+  let contract = Contract.load(address) || new Contract(address);
+  let previousOwner = Owner.load(from) || new Owner(from);
+  let newOwner = Owner.load(to) || new Owner(to);
 
-  if (newOwner == null) {
-    newOwner = new Owner(event.params.to.toHexString());
-  }
-
+  // TOKEN
+  let token = Token.load(tockenId);
   if (token == null) {
-    token = new Token(event.params.tokenId.toHexString());
-    token.owner = event.params.to.toHexString();
+    token = new Token(tockenId);
     token.contract = event.address.toHexString();
-
     let uri = instance.try_tokenURI(event.params.tokenId);
     if (!uri.reverted) {
       token.uri = uri.value;
     }
   }
+  token.owner = to;
 
+  // TRANSFERT
+  let transfer = Transfer.load(transferId);
   if (transfer == null) {
     transfer = new Transfer(transferId);
-    transfer.token = event.params.tokenId.toHexString();
-    transfer.from = event.params.from.toHexString();
-    transfer.to = event.params.to.toHexString();
+    transfer.token = tockenId;
+    transfer.from = from;
+    transfer.to = to;
     transfer.timestamp = event.block.timestamp;
     transfer.block = event.block.number;
     transfer.transactionHash = event.transaction.hash.toHexString();
-  }
-
-  if (contract == null) {
-    contract = new Contract(event.address.toHexString());
   }
 
   let name = instance.try_name();

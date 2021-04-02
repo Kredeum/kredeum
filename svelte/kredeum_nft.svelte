@@ -8,21 +8,22 @@
   import kimages from '../lib/kimages.mjs';
 
   const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
-  const maticEthExplorer = 'https://explorer-mainnet.maticvigil.com';
-  const OpenSeaAssetsMatic = 'https://opensea.io/assets/matic';
-  const OpenSeaKredeumCollectionMatic = KRE.ADDRESS['matic'];
+  const MaticExplorer = 'https://explorer-mainnet.maticvigil.com';
+  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
+  const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
+  const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
 
   let address = '';
   let chainId = '';
-  const chainIdMatic = '0x89';
+  const MaticChainId = '0x89';
   export let all = false;
 
   let NFTs = new Map();
 
   $: if (chainId > 0) {
-    if (chainId !== chainIdMatic) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', chainIdMatic);
+    if (chainId !== MaticChainId) {
+      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
       alert('Switch to Matic / Polygon');
     } else {
       nft.init(chainId);
@@ -40,22 +41,26 @@
 
 <main>
   <h1>
-    Wallet
+    Kredeum
     <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.klogo_png}" />
-    NFTs Kredeum
+    NFTs
   </h1>
 
   <h3>
-    <a href="{OpenSeaKredeumCollection}" target="_blank">Exchange Kredeum NFTs on OpenSea</a>
+    Exchange Kredeum NFTs
+    <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
+    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
   </h3>
 
   <table>
     <tr>
-      <td colspan="8">
+      <td colspan="9">
         <button on:click="{(e) => (all = true)}">All NFTs</button>
         -
-        <button on:click="{(e) => (all = false)}">My NFTs</button>
+        <button on:click="{(e) => (all = false)}">NFTs I created</button>
+        -
+        <button on:click="{(e) => (all = false)}">NFTs I own</button>
         <hr />
       </td>
     </tr>
@@ -65,11 +70,12 @@
       <td>image</td>
       <td>Sell</td>
       <td>Re-Mint</td>
-      <td>owner</td>
+      <td>Creator</td>
+      <td>Owner</td>
       <td>ipfs</td>
       <td>json</td>
     </tr>
-    <tr><td colspan="8"><hr /></td></tr>
+    <tr><td colspan="9"><hr /></td></tr>
     {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
       {#if all || item.ownerOf.toLowerCase() === address.toLowerCase()}
         <tr>
@@ -86,7 +92,7 @@
           </td>
 
           <td>
-            <a href="{OpenSeaAssetsMatic}/{OpenSeaKredeumCollectionMatic}/{tokenId}" target="_blank">
+            <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
               <button class="sell"> SELL NFT </button>
             </a>
           </td>
@@ -96,8 +102,17 @@
           </td>
 
           <td>
+            {#if item.tokenJson?.minter}
+              <a href="{MaticExplorer}/address/{item.tokenJson?.minter}" target="_blank">
+                {item.tokenJson?.minter.substring(0, 12)}...
+              </a>
+              {#if item.tokenJson?.minter.toLowerCase() === address.toLowerCase()}*{/if}
+            {/if}
+          </td>
+
+          <td>
             {#if item.ownerOf}
-              <a href="{maticEthExplorer}/address/{item.ownerOf}" target="_blank">
+              <a href="{MaticExplorer}/address/{item.ownerOf}" target="_blank">
                 {item.ownerOf.substring(0, 12)}...
               </a>
               {#if item.ownerOf.toLowerCase() === address.toLowerCase()}*{/if}
@@ -116,7 +131,7 @@
         </tr>
       {/if}
     {/each}
-    <tr><td colspan="8"><hr /></td></tr>
+    <tr><td colspan="9"><hr /></td></tr>
   </table>
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId />
