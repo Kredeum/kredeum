@@ -20,7 +20,7 @@
   let address = '';
   let chainId = '';
   const MaticChainId = '0x89';
-  export let all = 0;
+  export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created
   // 2 NFTs I own
@@ -54,7 +54,7 @@
   </h1>
 
   <h3>
-    Exchange Kredeum NFTs
+    Exchange My NFTs
     <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
     <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
@@ -63,8 +63,8 @@
   <table>
     <tr>
       <td colspan="8">
-        <button on:click="{(e) => (all = 0)}">All NFTs</button>
-        -
+        <!-- <button on:click="{(e) => (all = 0)}">All NFTs</button>
+        - -->
         <button on:click="{(e) => (all = 1)}">NFTs I created</button>
         -
         <button on:click="{(e) => (all = 2)}">NFTs I own</button>
@@ -83,7 +83,7 @@
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
     {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
-      {#if all == 0 || ((all & 1) == 1 && item.tokenJson?.minter.toLowerCase() === address.toLowerCase()) || ((all & 2) == 2 && item.ownerOf.toLowerCase() === address.toLowerCase())}
+      {#if ((all & 1) == 1 && item.tokenJson?.minter.toLowerCase() === address.toLowerCase()) || ((all & 2) == 2 && item.ownerOf.toLowerCase() === address.toLowerCase())}
         <tr>
           <td>
             {tokenId}
@@ -150,7 +150,7 @@
       {address}
     </a><br />
 
-    Kredeum NFTs contract =
+    My NFTs contract =
     <a href="{MaticExplorer}/address/{MaticKredeumCollection}" target="_blank">
       {MaticKredeumCollection}
     </a><br />
