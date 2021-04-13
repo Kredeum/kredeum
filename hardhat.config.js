@@ -3,7 +3,7 @@ require('hardhat-abi-exporter');
 
 
 module.exports = {
-  defaultNetwork: 'matic',
+  defaultNetwork: 'mumbai',
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -20,16 +20,19 @@ module.exports = {
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
+      ethscan: 'https://rinkeby.etherscan.io'
     },
     matic: {
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       chainId: 137,
       accounts: [process.env.ACCOUNT_KEY],
+      ethscan: 'https://explorer-mainnet.maticvigil.com'
     },
     mumbai: {
       url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       chainId: 80001,
       accounts: [process.env.ACCOUNT_KEY],
+      ethscan: 'https://explorer-mumbai.maticvigil.com'
     }
   },
   etherscan: {
@@ -42,7 +45,7 @@ module.exports = {
     flat: true
   },
   solidity: {
-    version: "0.7.6",
+    version: "0.8.3",
     settings: {
       optimizer: {
         enabled: true,

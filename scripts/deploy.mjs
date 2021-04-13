@@ -1,7 +1,6 @@
 import hre from 'hardhat';
 const { ethers } = hre;
-
-const ethscan = 'https://explorer-mainnet.maticvigil.com';
+const ethscan = hre.network.config.ethscan;
 
 const factory = await ethers.getContractFactory("KRE");
 const kre = await factory.deploy();
