@@ -1,5 +1,5 @@
 {
-  "name": "Kredeum NFTs",
+  "name": "KredeumNFTs",
   "version": "1.0.0",
   "description": "Kredeum NFTs WordPress plugin",
   "main": "index.js",
@@ -31,7 +31,7 @@
     "hardhat": "^2.1.2",
     "hardhat-abi-exporter": "^2.2.0",
     "multihashing-async": "^2.1.2",
-    "rollup": "^2.44.0",
+    "rollup": "^2.45.2",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-livereload": "^2.0.0",
     "rollup-plugin-node-builtins": "^2.1.2",
