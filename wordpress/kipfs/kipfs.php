@@ -3,7 +3,7 @@
 Plugin Name: WP Plugin IPFS
 Description: Allow media storage into IPFS
 Plugin URI: https://www.kredeum.com/kipfs
-Version: 0.2.11
+Version: 0.2.13
 Requires at least: 4.0.0
 Requires PHP: 5.4
 Author: Kredeum <alain@kredeum.com>
@@ -52,6 +52,10 @@ if (is_admin()) {
   require_once(KIPFS_PLUGIN_PATH . 'lib/php/restclient.php');
 
   $api = new RestClient(['base_url' => '']);
+
+  add_action('admin_enqueue_scripts', function () {
+    wp_enqueue_script('kredeum_nft', plugin_dir_url(__FILE__) . "lib/js/kredeum_nft.js");
+  }, 110);
 }
 
 

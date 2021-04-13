@@ -17,9 +17,9 @@
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
   const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
 
-  let address = '';
-  let chainId = '';
   const MaticChainId = '0x89';
+  let chainId = MaticChainId;
+  let address = '';
   export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created

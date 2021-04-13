@@ -9,12 +9,14 @@
 
   export let signer;
   export let address;
-  export let chainId = 0x89;
+  export let chainId = 'Ox89';
   export let autoconnect = 'off';
+
+  let targetChain = false;
 
   const networks = new Map([
     [
-      0x1,
+      '0x1',
       {
         chainId: '0x1',
         chainName: 'Ethereum',
@@ -28,7 +30,7 @@
       }
     ],
     [
-      0x89,
+      '0x89',
       {
         chainId: '0x89',
         chainName: 'Polygon',
@@ -44,11 +46,15 @@
   ]);
 
   async function connectNetwork() {
-    console.log('connectNetwork');
+    if (targetChain) {
+      console.log('already connecting network...');
+    }
+    targetChain = true;
+    console.log('connectNetwork', chainId);
     ethereum
       .request({
         method: 'wallet_addEthereumChain',
-        params: [networks.get(0x89)]
+        params: [networks.get(chainId)]
       })
       .catch((e) => console.error('ERROR wallet_addEthereumChain', e));
   }
@@ -117,6 +123,8 @@
   });
 </script>
 
-{#if !address}
+{#if address}
+  {address}
+{:else}
   <button on:click="{connectMetamask}">Connect Metamask</button>
 {/if}

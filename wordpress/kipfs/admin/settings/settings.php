@@ -76,7 +76,6 @@ class Kipfs_Settings
       case 'metamask':
         wp_nonce_field('nonce_action', 'nonce_field');
         printf('<kredeum-metamask />');
-        // printf(' - %1$s', get_user_meta(get_current_user_id(), 'ADDR', true));
         break;
       case 'text':
       case 'password':
