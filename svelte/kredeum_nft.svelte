@@ -26,8 +26,6 @@
   // 2 NFTs I own
   // 3 NFTs I created and I own
 
-  $: console.log('AAALLLLLLL', all);
-
   let NFTs = new Map();
 
   $: if (chainId > 0) {
