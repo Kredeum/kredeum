@@ -1,9 +1,10 @@
 require("@nomiclabs/hardhat-waffle");
+require('@nomiclabs/hardhat-etherscan');
 require('hardhat-abi-exporter');
 
 
 module.exports = {
-  defaultNetwork: 'mumbai',
+  defaultNetwork: 'goerli',
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -21,6 +22,11 @@ module.exports = {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: 'https://rinkeby.etherscan.io'
+    },
+    goerli: {
+      url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: 'https://goerli.etherscan.io'
     },
     matic: {
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,

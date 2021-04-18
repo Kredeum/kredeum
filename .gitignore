@@ -8,3 +8,5 @@ app/build/
 **/*.map
 
 .DS_Store
+
+.vscode
