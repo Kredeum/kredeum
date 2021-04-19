@@ -1,1 +1,1 @@
-npx hardhat verify --contract solidity/contracts/krm.sol:KRM --network goerli  0x97E14Cd20b84E98A48a8631144a111963066F481 420000000000000000000000
+npx hardhat verify --contract solidity/contracts/krm.sol:KRM --network goerli  0x58dd8a1427495DD057C98C80eAB4bF8810023B42
