@@ -13,6 +13,7 @@
   export let autoconnect = 'off';
 
   let targetChain = false;
+  let connectmetamask = "Connect to Metamask1";
 
   const networks = new Map([
     [
@@ -119,6 +120,7 @@
       ethereum.on('accountsChanged', handleAccounts);
     } else {
       console.log('Please install MetaMask!');
+      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }
   });
 </script>
@@ -126,5 +128,5 @@
 {#if address}
   {address}
 {:else}
-  <button on:click="{connectMetamask}">Connect Metamask</button>
+  <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}

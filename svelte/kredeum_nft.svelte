@@ -18,6 +18,10 @@
   const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
 
   const MaticChainId = '0x89';
+  const loader_ref = "<p>Data loading, please wait ...</p>" +
+   "<img alt='img' width='160' src='/wp-content/plugins/kredeum-nfts/img/loader-v1.gif' />";
+
+  let loader = loader_ref;
   let chainId = MaticChainId;
   let address = '';
   export let all = 2;
@@ -41,6 +45,7 @@
   async function nftList() {
     NFTs = await nft.list();
     console.log('NFTs', NFTs);
+    loader = "Data loading over";
   }
 </script>
 
@@ -55,7 +60,8 @@
     Exchange My NFTs
     <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
-    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
+    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a> 
+
   </h3>
 
   <table>
@@ -140,6 +146,7 @@
         </tr>
       {/if}
     {/each}
+    {@html loader}    
     <tr><td colspan="8"><hr /></td></tr>
   </table>
   <small>
