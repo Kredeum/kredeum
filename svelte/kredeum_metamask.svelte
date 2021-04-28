@@ -13,7 +13,7 @@
   export let autoconnect = 'off';
 
   let targetChain = false;
-  let connectmetamask = "Connect to Metamask1";
+  let connectmetamask = "Connect to Metamask";
 
   const networks = new Map([
     [

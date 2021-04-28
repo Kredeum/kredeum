@@ -193,6 +193,9 @@
     border: 0px;
     margin: 10px;
   }
+  button:hover {
+    cursor: pointer;
+  }
   button.sell {
     background-color: #36d06f;
   }
