@@ -16,6 +16,7 @@
   const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
   const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
+  const PolygonTechnology = 'https://polygon.technology/';
 
   const MaticChainId = '0x89';
   const loader_ref = "<p>Data loading, please wait ...</p>" +
@@ -34,7 +35,7 @@
 
   $: if (chainId > 0) {
     if (chainId !== MaticChainId) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
+      //console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
       alert('Switch to Matic / Polygon');
     } else {
       nft.init(chainId);
@@ -44,8 +45,8 @@
 
   async function nftList() {
     NFTs = await nft.list();
-    console.log('NFTs', NFTs);
-    loader = "Data loading over";
+    //console.log('NFTs', NFTs);
+    loader = "Data loading over.";
   }
 </script>
 
@@ -61,7 +62,7 @@
     <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
     <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a> 
-
+    at low cost using <a href="{PolygonTechnology}" target="_blank">Polygon / Matic</a> 
   </h3>
 
   <table>
@@ -145,10 +146,11 @@
           </td>
         </tr>
       {/if}
-    {/each}
-    {@html loader}    
+    {/each}    
+    {@html loader}
     <tr><td colspan="8"><hr /></td></tr>
   </table>
+
   <small>
     My address =
     <a href="{MaticExplorer}/address/{address}" target="_blank">

@@ -26,44 +26,45 @@
   let address = '';
   let chainId = MaticChainId;
 
-  $: console.log('SIGNER', signer);
+  //$: console.log('SIGNER', signer);
 
   $: if (chainId > 0) {
     if (chainId !== MaticChainId) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
+      //console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
       // alert('Switch to Matic / Polygon');
     } else {
       nft.init(MaticChainId);
     }
   }
-  $: console.log('SIGNER', signer);
+  $: //console.log('SIGNER', signer);
 
   onMount(async function () {
     cid = await kcid.url(src);
-    console.log('nftMint cidPreview', cid);
+    //console.log('nftMint cidPreview', cid);
   });
 
   async function nftMint() {
-    console.log('nftMint src alt', src, alt);
+    //console.log('nftMint src alt', src, alt);
 
     if (signer) {
       minted = 1;
 
       const image = { origin: src, name: alt, minter: address };
       pinImage = await pinata.pinImage(image);
-      console.log('nftMint pinImage', pinImage);
-      if (pinImage.cid === cid) console.log('Good Guess !!!');
+      //console.log('nftMint pinImage', pinImage);
+      if (pinImage.cid === cid) //console.log('Good Guess !!!');
 
       image.cid = pinImage.cid;
       const pinJson = await pinata.pinJson(image);
-      console.log('nftMint pinJson', pinJson);
+      //console.log('nftMint pinJson', pinJson);
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        console.log('nftMinted', tokenId);
+        //console.log('nftMinted', tokenId);
+
         minted = 2;
       } catch (e) {
-        console.error('Minting ERROR', e);
+        //console.error('Minting ERROR', e);
         minted = 0;
       }
     } else {
@@ -79,7 +80,8 @@
 
   {#if address}
     {#if minted == 2}
-      <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+      <!--<a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">-->
+      <a href="/wp-admin/admin.php?page=nfts">
         <button class="sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
