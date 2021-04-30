@@ -63,6 +63,7 @@
         //console.log('nftMinted', tokenId);
 
         minted = 2;
+        dispatch('minted', { minted: minted });
       } catch (e) {
         //console.error('Minting ERROR', e);
         minted = 0;
