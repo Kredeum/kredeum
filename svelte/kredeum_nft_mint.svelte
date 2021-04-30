@@ -82,14 +82,14 @@
     {#if minted == 2}
       <!--<a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">-->
       <a href="/wp-admin/admin.php?page=nfts">
-        <button class="sell">SELL NFT</button>
+        <button id='mint-button' class="sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
-      <button class="minting">MINTING...</button>
+      <button id='mint-button' class="minting">MINTING...</button>
     {:else if chainId !== MaticChainId}
-      <button class="matic">Switch to MATIC</button>
+      <button id='mint-button' class="matic">Switch to MATIC</button>
     {:else}
-      <button on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id='mint-button' on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}
 
     {#if display}
