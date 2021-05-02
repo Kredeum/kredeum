@@ -13,6 +13,7 @@
   export let autoconnect = 'off';
 
   let targetChain = false;
+  let connectmetamask = "Connect to Metamask";
 
   const networks = new Map([
     [
@@ -47,10 +48,10 @@
 
   async function connectNetwork() {
     if (targetChain) {
-      console.log('already connecting network...');
+      //console.log('already connecting network...');
     }
     targetChain = true;
-    console.log('connectNetwork', chainId);
+    //console.log('connectNetwork', chainId);
     ethereum
       .request({
         method: 'wallet_addEthereumChain',
@@ -60,9 +61,9 @@
   }
 
   async function handleChainId(_chainId) {
-    console.log('handleChainId <=', _chainId);
+    //console.log('handleChainId <=', _chainId);
     if (_chainId) {
-      console.log('_chainId', _chainId);
+      //console.log('_chainId', _chainId);
       if (_chainId != chainId) connectNetwork();
     }
   }
@@ -77,7 +78,7 @@
     }
   }
   async function connectMetamask() {
-    console.log('connectMetamask');
+    //console.log('connectMetamask');
 
     ethereum
       .request({
@@ -88,12 +89,12 @@
         if (e.code === 4001) {
           alert('Please connect to MetaMask.');
         } else {
-          console.error('ERROR eth_requestAccounts', e);
+          //console.error('ERROR eth_requestAccounts', e);
         }
       });
   }
   onMount(async function () {
-    console.log('init');
+    //console.log('init');
     const provider = await detectEthereumProvider();
     if (provider) {
       if (provider !== window.ethereum) {
@@ -118,7 +119,8 @@
 
       ethereum.on('accountsChanged', handleAccounts);
     } else {
-      console.log('Please install MetaMask!');
+      //console.log('Please install MetaMask!');
+      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }
   });
 </script>
@@ -126,5 +128,5 @@
 {#if address}
   {address}
 {:else}
-  <button on:click="{connectMetamask}">Connect Metamask</button>
+  <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}
