@@ -70,7 +70,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
 };
 
 export default [
-  toRollupConfig('kredeum_nft', 'wordpress/kipfs/lib/js'),
   toRollupConfig('kredeum_nft_mint', 'app/build'),
-  toRollupConfig('kredeum_nft', 'app/build')
+  toRollupConfig('kredeum_nft', 'app/build'),
+  toRollupConfig('kredeum_nft', '../wp-kredeum-nfts/kredeum-nfts/lib/js'),
 ];
