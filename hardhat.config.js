@@ -4,7 +4,7 @@ require('hardhat-abi-exporter');
 
 
 module.exports = {
-  defaultNetwork: 'goerli',
+  defaultNetwork: 'mumbai',
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -51,7 +51,7 @@ module.exports = {
     flat: true
   },
   solidity: {
-    version: "0.8.3",
+    version: "0.8.4",
     settings: {
       optimizer: {
         enabled: true,

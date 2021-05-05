@@ -2,6 +2,7 @@ node_modules
 solidity/cache
 solidity/artifacts
 solidity/abis
+solidity/flattened
 app/build/
 
 **/*.env
