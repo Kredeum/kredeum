@@ -25,7 +25,7 @@
     ethereum
       .request({
         method: 'wallet_addEthereumChain',
-        params: [networks.get(chainId)]
+        params: [networks.get(chainId)],
       })
       .catch((e) => console.error('ERROR wallet_addEthereumChain', e));
   }
@@ -52,7 +52,7 @@
 
     ethereum
       .request({
-        method: 'eth_requestAccounts'
+        method: 'eth_requestAccounts',
       })
       .then(handleAccounts)
       .catch((e) => {
@@ -73,14 +73,14 @@
 
       ethereum
         .request({
-          method: 'eth_accounts'
+          method: 'eth_accounts',
         })
         .then(handleAccounts)
         .catch((e) => console.error('ERROR eth_accounts', e));
 
       ethereum
         .request({
-          method: 'eth_chainId'
+          method: 'eth_chainId',
         })
         .then(handleChainId)
         .catch((e) => console.error('ERROR eth_chainId', e));
@@ -90,7 +90,8 @@
       ethereum.on('accountsChanged', handleAccounts);
     } else {
       //console.log('Please install MetaMask!');
-      connectmetamask = 'Please install MetaMask chrome extension to connect your blockchain address to your site';
+      connectmetamask =
+        'Please install MetaMask chrome extension to connect your blockchain address to your site';
     }
   });
 </script>
@@ -100,5 +101,5 @@
 {#if address}
   {address}
 {:else}
-  <button on:click="{connectMetamask}">{connectmetamask}</button>
+  <button on:click={connectMetamask}>{connectmetamask}</button>
 {/if}

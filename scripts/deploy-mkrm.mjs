@@ -2,7 +2,7 @@ import hre from 'hardhat';
 const { ethers } = hre;
 const ethscan = hre.network.config.ethscan;
 
-const factory = await ethers.getContractFactory("MKRM");
+const factory = await ethers.getContractFactory('MKRM');
 const mkrm = await factory.deploy();
 console.log(`Contract  ${ethscan}/address/${mkrm.address}`);
 

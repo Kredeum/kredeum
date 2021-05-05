@@ -2,7 +2,7 @@
 
 <script>
   import Metamask from './kredeum_metamask.svelte';
-  import KredeumNftMint from './kredeum_nft_mint.svelte';
+  // import KredeumNftMint from './kredeum_nft_mint.svelte';
   import nft from '../lib/nft.mjs';
   import KRE from '../lib/kre.mjs';
   import kimages from '../lib/kimages.mjs';
@@ -15,11 +15,14 @@
   const ArkaneAddress = '0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39';
   const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
-  const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
+  const ArkaneKredeumCollection =
+    'https://arkane.market/search?contractName=Kredeum%20NFTs';
   const PolygonTechnology = 'https://polygon.technology/';
 
   const MaticChainId = '0x89';
-  const loader_ref = '<p>Data loading, please wait ...</p>' + '<img alt="img" width="160" src="/wp-content/plugins/kredeum-nfts/img/loader-v1.gif" />';
+  const loader_ref =
+    '<p>Data loading, please wait ...</p>' +
+    '<img alt="img" width="160" src="/wp-content/plugins/kredeum-nfts/img/loader-v1.gif" />';
 
   let loader = loader_ref;
   let chainId = MaticChainId;
@@ -49,21 +52,27 @@
   }
 </script>
 
-/* eslint-disable */ // eslint-disable @svelte/missing-custom-element-compile-options
+/* eslint-disable */ // eslint-disable
+@svelte/missing-custom-element-compile-options
 
 <main>
   <h1>
     Kredeum
-    <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.klogo_png}" />
+    <img
+      alt="img"
+      width="160"
+      src="data:image/jpeg;base64,{kimages.klogo_png}"
+    />
     NFTs
   </h1>
 
   <h3>
     Exchange My NFTs
-    <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
+    <a href={ArkaneKredeumCollection} target="_blank">on Arkane Market</a>
     -
-    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
-    at low cost using <a href="{PolygonTechnology}" target="_blank">Polygon / Matic</a>
+    <a href={OpenSeaKredeumCollection} target="_blank">on OpenSea</a>
+    at low cost using
+    <a href={PolygonTechnology} target="_blank">Polygon / Matic</a>
   </h3>
 
   <table>
@@ -71,9 +80,9 @@
       <td colspan="8">
         <!-- <button on:click="{(e) => (all = 0)}">All NFTs</button>
         - -->
-        <button on:click="{(e) => (all = 1)}">NFTs I created</button>
+        <button on:click={() => (all = 1)}>NFTs I created</button>
         -
-        <button on:click="{(e) => (all = 2)}">NFTs I own</button>
+        <button on:click={() => (all = 2)}>NFTs I own</button>
         <hr />
       </td>
     </tr>
@@ -106,15 +115,21 @@
           <td>
             {#if item.ownerOf}
               {#if item.ownerOf.toLowerCase() === ArkaneAddress.toLowerCase()}
-                <a href="{ArkaneKredeumCollection}" target="_blank">
+                <a href={ArkaneKredeumCollection} target="_blank">
                   <button class="buy">BUY NFT</button>
                 </a>
               {:else if item.ownerOf.toLowerCase() === address.toLowerCase()}
-                <a href="{MaticArkaneAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+                <a
+                  href="{MaticArkaneAssets}/{MaticKredeumCollection}/{tokenId}"
+                  target="_blank"
+                >
                   <button class="sell">SELL NFT</button>
                 </a>
               {:else}
-                <a href="{MaticExplorer}/address/{item.ownerOf}" target="_blank">
+                <a
+                  href="{MaticExplorer}/address/{item.ownerOf}"
+                  target="_blank"
+                >
                   <button class="grey">OWNER</button>
                 </a>
               {/if}
@@ -122,14 +137,20 @@
           </td>
 
           <td>
-            <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+            <a
+              href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}"
+              target="_blank"
+            >
               <button class="grey">OpenSea</button>
             </a>
           </td>
 
           <td>
             {#if item.tokenJson?.minter}
-              <a href="{MaticExplorer}/address/{item.tokenJson?.minter}" target="_blank">
+              <a
+                href="{MaticExplorer}/address/{item.tokenJson?.minter}"
+                target="_blank"
+              >
                 {item.tokenJson?.minter.substring(0, 12)}...
               </a>
               {#if item.tokenJson?.minter.toLowerCase() === address.toLowerCase()}*{/if}
@@ -137,12 +158,16 @@
           </td>
 
           <td>
-            <a href="{ipfsGateway}/{item.cid}" target="_blank">{item.cid?.substring(0, 12)}...</a>
+            <a href="{ipfsGateway}/{item.cid}" target="_blank"
+              >{item.cid?.substring(0, 12)}...</a
+            >
           </td>
 
           <td>
             {#if item.tokenURI}
-              <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+              <a href={item.tokenURI} target="_blank"
+                >{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a
+              >
             {/if}
           </td>
         </tr>

@@ -2,7 +2,7 @@
 
 <script>
   import nft from '../lib/nft.mjs';
-  import KRE from '../lib/kre.mjs';
+  // import KRE from '../lib/kre.mjs';
   import pinata from '../lib/pinata.mjs';
   import kcid from '../lib/kcid.mjs';
   import Metamask from './kredeum_metamask.svelte';
@@ -13,6 +13,7 @@
   export let width = 100;
   export let display = false;
   let cid;
+  console.log(cid);
 
   // const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
   // const MaticKredeumCollection = KRE.ADDRESS['matic'];
@@ -23,7 +24,7 @@
   let pinImage = '';
 
   let signer = '';
-  // let address = '';
+  let address = '';
   let chainId = MaticChainId;
 
   //$: console.log('SIGNER', signer);
@@ -49,13 +50,17 @@
     if (signer) {
       minted = 1;
 
-      const image = { origin: src, name: alt, minter: address };
+      const image = {
+        origin: src,
+        name: alt,
+        minter: address,
+      };
       pinImage = await pinata.pinImage(image);
       //console.log('nftMint pinImage', pinImage);
-      if (pinImage.cid === cid)
+      if (pinImage.cid === cid) {
         //console.log('Good Guess !!!');
-
         image.cid = pinImage.cid;
+      }
       const pinJson = await pinata.pinJson(image);
       //console.log('nftMint pinJson', pinJson);
 
@@ -64,7 +69,10 @@
         //console.log('nftMinted', tokenId);
 
         minted = 2;
-        dispatch('minted', { minted: minted });
+        // eslint-disable-next-line no-undef
+        dispatch('minted', {
+          minted: minted,
+        });
       } catch (e) {
         //console.error('Minting ERROR', e);
         minted = 0;
@@ -77,7 +85,7 @@
 
 <main>
   {#if display}
-    <img src="{src}" alt="{alt}" width="{width}" /><br />
+    <img {src} {alt} {width} /><br />
   {/if}
 
   {#if address}
@@ -91,7 +99,7 @@
     {:else if chainId !== MaticChainId}
       <button id="mint-button" class="matic">Switch to MATIC</button>
     {:else}
-      <button id="mint-button" on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button" on:click={nftMint} class="mint">MINT NFT</button>
     {/if}
 
     {#if display}

@@ -1,0 +1,41 @@
+{
+  "extends": "eslint:recommended",
+  "env": {
+    "browser": true,
+    "node": true,
+    "es2021": true
+  },
+  "parser": "@babel/eslint-parser",
+  "parserOptions": {
+    "ecmaVersion": 2021,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": false
+    }
+  },
+  "plugins": ["svelte3", "eslint-plugin-html"],
+  "overrides": [
+    {
+      "files": ["*.svelte"],
+      "processor": "svelte3/svelte3",
+      "rules": {
+        "no-console": 0
+      },
+      "settings": {
+        "svelte3/compiler-options": {
+          "customElement": true
+        }
+      }
+    }
+  ],
+  "rules": {
+    "no-console": 0,
+    "indent": ["error", 2],
+    "semi": ["error", "always"],
+    "quotes": ["error", "single"],
+    "no-global-assign": ["error", { "exceptions": ["require"] }]
+  },
+  "globals": {
+    "ethereum": "readonly"
+  }
+}
