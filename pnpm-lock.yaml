@@ -25,6 +25,7 @@ specifiers:
   multihashing-async: ^2.1.2
   prettier: ^2.2.1
   prettier-plugin-solidity: ^1.0.0-beta.10
+  prettier-plugin-svelte: ^2.2.0
   rollup: ^2.47.0
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-livereload: ^2.0.0
@@ -63,6 +64,7 @@ devDependencies:
   multihashing-async: 2.1.2
   prettier: 2.2.1
   prettier-plugin-solidity: 1.0.0-beta.10
+  prettier-plugin-svelte: 2.2.0_prettier@2.2.1+svelte@3.38.2
   rollup: 2.47.0
   rollup-plugin-css-only: 3.1.0_rollup@2.47.0
   rollup-plugin-livereload: 2.0.0
@@ -6958,6 +6960,16 @@ packages:
       semver: 7.3.5
       solidity-comments-extractor: 0.0.7
       string-width: 4.2.2
+    dev: true
+
+  /prettier-plugin-svelte/2.2.0_prettier@2.2.1+svelte@3.38.2:
+    resolution: {integrity: sha512-Xdmqgr71tAuMqqzNCK52/v94g/Yv7V7lz+nmbO9NEA+9ol15VV3uUHOfydMNOo3SWvFaVlBcp947ebEaMWqVfQ==}
+    peerDependencies:
+      prettier: ^1.16.4 || ^2.0.0
+      svelte: ^3.2.0
+    dependencies:
+      prettier: 2.2.1
+      svelte: 3.38.2
     dev: true
 
   /prettier/1.19.1:
