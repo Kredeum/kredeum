@@ -19,8 +19,7 @@
   const PolygonTechnology = 'https://polygon.technology/';
 
   const MaticChainId = '0x89';
-  const loader_ref = "<p>Data loading, please wait ...</p>" +
-   "<img alt='img' width='160' src='/wp-content/plugins/kredeum-nfts/img/loader-v1.gif' />";
+  const loader_ref = '<p>Data loading, please wait ...</p>' + '<img alt="img" width="160" src="/wp-content/plugins/kredeum-nfts/img/loader-v1.gif" />';
 
   let loader = loader_ref;
   let chainId = MaticChainId;
@@ -46,9 +45,11 @@
   async function nftList() {
     NFTs = await nft.list();
     //console.log('NFTs', NFTs);
-    loader = "Data loading over.";
+    loader = 'Data loading over.';
   }
 </script>
+
+/* eslint-disable */ // eslint-disable @svelte/missing-custom-element-compile-options
 
 <main>
   <h1>
@@ -61,8 +62,8 @@
     Exchange My NFTs
     <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
-    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a> 
-    at low cost using <a href="{PolygonTechnology}" target="_blank">Polygon / Matic</a> 
+    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
+    at low cost using <a href="{PolygonTechnology}" target="_blank">Polygon / Matic</a>
   </h3>
 
   <table>
@@ -146,7 +147,7 @@
           </td>
         </tr>
       {/if}
-    {/each}    
+    {/each}
     {@html loader}
     <tr><td colspan="8"><hr /></td></tr>
   </table>

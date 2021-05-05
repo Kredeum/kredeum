@@ -1,14 +1,23 @@
+# NPM
 node_modules
-solidity/cache
+
+# SOLIDITY
+solidity/contracts/cache
 solidity/artifacts
 solidity/abis
 solidity/flattened
+
+# APP
 app/build/
 
+# ENV
 **/*.env
+
+# JAVASCRIPT
 **/*.map
 
+# MACOS
 .DS_Store
 
-.vscode
+# OPEN ZEPPELIN
 @openzeppelin

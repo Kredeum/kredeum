@@ -5,6 +5,7 @@
   import detectEthereumProvider from '@metamask/detect-provider';
   import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
+  import networks from '../lib/networks.mjs';
   const dispatch = createEventDispatcher();
 
   export let signer;
@@ -13,38 +14,7 @@
   export let autoconnect = 'off';
 
   let targetChain = false;
-  let connectmetamask = "Connect to Metamask";
-
-  const networks = new Map([
-    [
-      '0x1',
-      {
-        chainId: '0x1',
-        chainName: 'Ethereum',
-        nativeCurrency: {
-          name: 'Ether',
-          symbol: 'ETH',
-          decimals: 18
-        },
-        rpcUrls: ['https://mainnet.infura.io/v3'],
-        blockExplorerUrls: ['https://etherscan.io']
-      }
-    ],
-    [
-      '0x89',
-      {
-        chainId: '0x89',
-        chainName: 'Polygon',
-        nativeCurrency: {
-          name: 'Matic',
-          symbol: 'MATIC',
-          decimals: 18
-        },
-        rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
-        blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/']
-      }
-    ]
-  ]);
+  let connectmetamask = 'Connect to Metamask';
 
   async function connectNetwork() {
     if (targetChain) {
@@ -120,10 +90,12 @@
       ethereum.on('accountsChanged', handleAccounts);
     } else {
       //console.log('Please install MetaMask!');
-      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
+      connectmetamask = 'Please install MetaMask chrome extension to connect your blockchain address to your site';
     }
   });
 </script>
+
+/* eslin */
 
 {#if address}
   {address}

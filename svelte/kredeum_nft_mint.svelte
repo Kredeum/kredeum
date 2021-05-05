@@ -14,8 +14,8 @@
   export let display = false;
   let cid;
 
-  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  const MaticKredeumCollection = KRE.ADDRESS['matic'];
+  // const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
+  // const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const MaticChainId = '0x89';
 
   let minted = 0;
@@ -23,7 +23,7 @@
   let pinImage = '';
 
   let signer = '';
-  let address = '';
+  // let address = '';
   let chainId = MaticChainId;
 
   //$: console.log('SIGNER', signer);
@@ -36,9 +36,9 @@
       nft.init(MaticChainId);
     }
   }
-  $: //console.log('SIGNER', signer);
+  //console.log('SIGNER', signer);
 
-  onMount(async function () {
+  $: onMount(async function () {
     cid = await kcid.url(src);
     //console.log('nftMint cidPreview', cid);
   });
@@ -52,9 +52,10 @@
       const image = { origin: src, name: alt, minter: address };
       pinImage = await pinata.pinImage(image);
       //console.log('nftMint pinImage', pinImage);
-      if (pinImage.cid === cid) //console.log('Good Guess !!!');
+      if (pinImage.cid === cid)
+        //console.log('Good Guess !!!');
 
-      image.cid = pinImage.cid;
+        image.cid = pinImage.cid;
       const pinJson = await pinata.pinJson(image);
       //console.log('nftMint pinJson', pinJson);
 
@@ -83,14 +84,14 @@
     {#if minted == 2}
       <!--<a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">-->
       <a href="/wp-admin/admin.php?page=nfts">
-        <button id='mint-button' class="sell">SELL NFT</button>
+        <button id="mint-button" class="sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
-      <button id='mint-button' class="minting">MINTING...</button>
+      <button id="mint-button" class="minting">MINTING...</button>
     {:else if chainId !== MaticChainId}
-      <button id='mint-button' class="matic">Switch to MATIC</button>
+      <button id="mint-button" class="matic">Switch to MATIC</button>
     {:else}
-      <button id='mint-button' on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button" on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}
 
     {#if display}

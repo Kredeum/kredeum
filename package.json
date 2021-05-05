@@ -26,6 +26,8 @@
     "axios": "^0.21.1",
     "chai": "^4.3.4",
     "cids": "^1.1.6",
+    "eslint": "^7.25.0",
+    "eslint-plugin-svelte3": "^3.2.0",
     "ethereum-waffle": "^3.3.0",
     "ethers": "^5.1.4",
     "hardhat": "^2.2.1",
