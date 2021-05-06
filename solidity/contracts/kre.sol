@@ -12,10 +12,7 @@ contract KRE is ERC721, ERC721Enumerable, ERC721URIStorage {
 
   constructor() ERC721("Kredeum", "KRE") {}
 
-  function mintNFT(address minter, string memory jsonURI)
-    public
-    returns (uint256)
-  {
+  function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
@@ -25,21 +22,11 @@ contract KRE is ERC721, ERC721Enumerable, ERC721URIStorage {
     return newItemId;
   }
 
-  function tokenURI(uint256 tokenId)
-    public
-    view
-    override(ERC721, ERC721URIStorage)
-    returns (string memory)
-  {
+  function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
     return super.tokenURI(tokenId);
   }
 
-  function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    override(ERC721, ERC721Enumerable)
-    returns (bool)
-  {
+  function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
     return super.supportsInterface(interfaceId);
   }
 
