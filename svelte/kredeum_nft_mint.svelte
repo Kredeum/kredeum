@@ -2,7 +2,7 @@
 
 <script>
   import nft from '../lib/nft.mjs';
-  import KRE from '../lib/kre.mjs';
+  // import KRE from '../lib/kre.mjs';
   import pinata from '../lib/pinata.mjs';
   import kcid from '../lib/kcid.mjs';
   import Metamask from './kredeum_metamask.svelte';
@@ -13,9 +13,10 @@
   export let width = 100;
   export let display = false;
   let cid;
+  console.log(cid);
 
-  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  const MaticKredeumCollection = KRE.ADDRESS['matic'];
+  // const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
+  // const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const MaticChainId = '0x89';
 
   let minted = 0;
@@ -36,9 +37,9 @@
       nft.init(MaticChainId);
     }
   }
-  $: //console.log('SIGNER', signer);
+  //console.log('SIGNER', signer);
 
-  onMount(async function () {
+  $: onMount(async function () {
     cid = await kcid.url(src);
     //console.log('nftMint cidPreview', cid);
   });
@@ -49,12 +50,17 @@
     if (signer) {
       minted = 1;
 
-      const image = { origin: src, name: alt, minter: address };
+      const image = {
+        origin: src,
+        name: alt,
+        minter: address,
+      };
       pinImage = await pinata.pinImage(image);
       //console.log('nftMint pinImage', pinImage);
-      if (pinImage.cid === cid) //console.log('Good Guess !!!');
-
-      image.cid = pinImage.cid;
+      if (pinImage.cid === cid) {
+        //console.log('Good Guess !!!');
+        image.cid = pinImage.cid;
+      }
       const pinJson = await pinata.pinJson(image);
       //console.log('nftMint pinJson', pinJson);
 
@@ -63,7 +69,10 @@
         //console.log('nftMinted', tokenId);
 
         minted = 2;
-        dispatch('minted', { minted: minted });
+        // eslint-disable-next-line no-undef
+        dispatch('minted', {
+          minted: minted,
+        });
       } catch (e) {
         //console.error('Minting ERROR', e);
         minted = 0;
@@ -76,21 +85,21 @@
 
 <main>
   {#if display}
-    <img src="{src}" alt="{alt}" width="{width}" /><br />
+    <img {src} {alt} {width} /><br />
   {/if}
 
   {#if address}
     {#if minted == 2}
       <!--<a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">-->
       <a href="/wp-admin/admin.php?page=nfts">
-        <button id='mint-button' class="sell">SELL NFT</button>
+        <button id="mint-button" class="sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
-      <button id='mint-button' class="minting">MINTING...</button>
+      <button id="mint-button" class="minting">MINTING...</button>
     {:else if chainId !== MaticChainId}
-      <button id='mint-button' class="matic">Switch to MATIC</button>
+      <button id="mint-button" class="matic">Switch to MATIC</button>
     {:else}
-      <button id='mint-button' on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button" on:click={nftMint} class="mint">MINT NFT</button>
     {/if}
 
     {#if display}

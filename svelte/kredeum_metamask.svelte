@@ -5,6 +5,7 @@
   import detectEthereumProvider from '@metamask/detect-provider';
   import { onMount } from 'svelte';
   import { createEventDispatcher } from 'svelte';
+  import networks from '../lib/networks.mjs';
   const dispatch = createEventDispatcher();
 
   export let signer;
@@ -13,38 +14,7 @@
   export let autoconnect = 'off';
 
   let targetChain = false;
-  let connectmetamask = "Connect to Metamask";
-
-  const networks = new Map([
-    [
-      '0x1',
-      {
-        chainId: '0x1',
-        chainName: 'Ethereum',
-        nativeCurrency: {
-          name: 'Ether',
-          symbol: 'ETH',
-          decimals: 18
-        },
-        rpcUrls: ['https://mainnet.infura.io/v3'],
-        blockExplorerUrls: ['https://etherscan.io']
-      }
-    ],
-    [
-      '0x89',
-      {
-        chainId: '0x89',
-        chainName: 'Polygon',
-        nativeCurrency: {
-          name: 'Matic',
-          symbol: 'MATIC',
-          decimals: 18
-        },
-        rpcUrls: ['https://rpc-mainnet.maticvigil.com/'],
-        blockExplorerUrls: ['https://explorer-mainnet.maticvigil.com/']
-      }
-    ]
-  ]);
+  let connectmetamask = 'Connect to Metamask';
 
   async function connectNetwork() {
     if (targetChain) {
@@ -55,7 +25,7 @@
     ethereum
       .request({
         method: 'wallet_addEthereumChain',
-        params: [networks.get(chainId)]
+        params: [networks.get(chainId)],
       })
       .catch((e) => console.error('ERROR wallet_addEthereumChain', e));
   }
@@ -82,7 +52,7 @@
 
     ethereum
       .request({
-        method: 'eth_requestAccounts'
+        method: 'eth_requestAccounts',
       })
       .then(handleAccounts)
       .catch((e) => {
@@ -103,14 +73,14 @@
 
       ethereum
         .request({
-          method: 'eth_accounts'
+          method: 'eth_accounts',
         })
         .then(handleAccounts)
         .catch((e) => console.error('ERROR eth_accounts', e));
 
       ethereum
         .request({
-          method: 'eth_chainId'
+          method: 'eth_chainId',
         })
         .then(handleChainId)
         .catch((e) => console.error('ERROR eth_chainId', e));
@@ -120,13 +90,16 @@
       ethereum.on('accountsChanged', handleAccounts);
     } else {
       //console.log('Please install MetaMask!');
-      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
+      connectmetamask =
+        'Please install MetaMask chrome extension to connect your blockchain address to your site';
     }
   });
 </script>
 
+/* eslin */
+
 {#if address}
   {address}
 {:else}
-  <button on:click="{connectMetamask}">{connectmetamask}</button>
+  <button on:click={connectMetamask}>{connectmetamask}</button>
 {/if}
