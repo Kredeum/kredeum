@@ -7,11 +7,15 @@
   import kcid from "../lib/kcid.mjs";
   import Metamask from "./kredeum_metamask.svelte";
   import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
   export let src;
   export let alt;
+  export let wid;
   export let width = 100;
   export let display = false;
+  export let minted = 0;
   let cid;
   console.log(cid);
 
@@ -19,7 +23,6 @@
   // const MaticKredeumCollection = KRE.ADDRESS['matic'];
   const MaticChainId = "0x89";
 
-  let minted = 0;
   let tokenId = 1;
   let pinImage = "";
 
@@ -37,9 +40,9 @@
       nft.init(MaticChainId);
     }
   }
-  //console.log('SIGNER', signer);
+  $: console.log("SIGNER", signer);
 
-  $: onMount(async function () {
+  onMount(async function () {
     cid = await kcid.url(src);
     //console.log('nftMint cidPreview', cid);
   });
@@ -50,11 +53,10 @@
     if (signer) {
       minted = 1;
 
-      const image = {
-        origin: src,
-        name: alt,
-        minter: address
-      };
+      //dispatch('minted', { minted: minted });
+
+      const image = { origin: src, name: alt, minter: address };
+
       pinImage = await pinata.pinImage(image);
       //console.log('nftMint pinImage', pinImage);
       if (pinImage.cid === cid) {
@@ -66,13 +68,9 @@
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        //console.log('nftMinted', tokenId);
 
         minted = 2;
-        // eslint-disable-next-line no-undef
-        dispatch("minted", {
-          minted: minted
-        });
+        dispatch("minted", { tokenId: tokenId });
       } catch (e) {
         //console.error('Minting ERROR', e);
         minted = 0;
@@ -92,14 +90,14 @@
     {#if minted == 2}
       <!--<a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">-->
       <a href="/wp-admin/admin.php?page=nfts">
-        <button id="mint-button" class="sell">SELL NFT</button>
+        <button id="mint-button-{wid}" tokenId="{tokenId}" class="mint-button sell">SELL NFT</button>
       </a>
     {:else if minted == 1}
-      <button id="mint-button" class="minting">MINTING...</button>
+      <button id="mint-button-{wid}" wid="{wid}" class="mint-button minting">MINTING...</button>
     {:else if chainId !== MaticChainId}
-      <button id="mint-button" class="matic">Switch to MATIC</button>
+      <button id="mint-button-{wid}" class="mint-button matic">Switch to MATIC</button>
     {:else}
-      <button id="mint-button" on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button-{wid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}
 
     {#if display}
