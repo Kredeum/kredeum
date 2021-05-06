@@ -10,31 +10,40 @@
 
   export let signer;
   export let address;
-  export let chainId = "Ox89";
+  export let chainId;
   export let autoconnect = "off";
 
   let targetChain = false;
   let connectmetamask = "Connect to Metamask";
 
-  async function connectNetwork() {
+  async function connectNetwork(_chainId) {
     if (targetChain) {
       //console.log('already connecting network...');
     }
+    chainId = _chainId;
     targetChain = true;
-    //console.log('connectNetwork', chainId);
-    ethereum
-      .request({
-        method: "wallet_addEthereumChain",
-        params: [networks.get(chainId)]
-      })
-      .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
+    const network = networks.find((network) => Number(network.chainId) === Number(_chainId));
+    console.log("connectNetwork", _chainId, network || "unknown");
+
+    if (_chainId !== "0x1") {
+      // no need to add default ethereum chain
+      if (network) {
+        // add new chain to metamask
+        ethereum
+          .request({
+            method: "wallet_addEthereumChain",
+            params: [network]
+          })
+          .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
+      }
+    }
   }
 
   async function handleChainId(_chainId) {
     //console.log('handleChainId <=', _chainId);
     if (_chainId) {
-      //console.log('_chainId', _chainId);
-      if (_chainId != chainId) connectNetwork();
+      console.log("_chainId", _chainId);
+      if (_chainId != chainId) connectNetwork(_chainId);
     }
   }
 
@@ -94,8 +103,6 @@
     }
   });
 </script>
-
-/* eslin */
 
 {#if address}
   {address}

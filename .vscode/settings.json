@@ -1,13 +1,4 @@
 {
-  "eslint.alwaysShowStatus": true,
-  "eslint.debug": true,
-  "eslint.format.enable": false,
-  "eslint.lintTask.enable": false,
-  "eslint.lintTask.options": "**/*.mjs **/*.svelte **/*.html",
-  "eslint.packageManager": "pnpm",
-  "eslint.probe": ["javascript", "html", "markdown", "svelte"],
-  "eslint.trace.server": "verbose",
-  "eslint.validate": ["javascript", "html", "markdown", "svelte"],
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
-  "workbench.colorTheme": "Winter is Coming (Dark Blue)"
+  "workbench.colorTheme": "Dracula Soft"
 }

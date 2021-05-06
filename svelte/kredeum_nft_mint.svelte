@@ -15,31 +15,27 @@
   let cid;
   console.log(cid);
 
-  // const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  // const MaticKredeumCollection = KRE.ADDRESS['matic'];
-  const MaticChainId = "0x89";
-
   let minted = 0;
   let tokenId = 1;
   let pinImage = "";
 
   let signer = "";
   let address = "";
-  let chainId = MaticChainId;
 
-  //$: console.log('SIGNER', signer);
+  let kreAddress;
+  let chainId = 0;
+
+  $: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
-    if (chainId !== MaticChainId) {
-      //console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
-      // alert('Switch to Matic / Polygon');
-    } else {
-      nft.init(MaticChainId);
+    kreAddress = nft.init(chainId);
+    if (!kreAddress) {
+      console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
+      // alert('Switch to Matic or Mumbai on Polygon');
     }
   }
-  //console.log('SIGNER', signer);
 
-  $: onMount(async function () {
+  onMount(async function () {
     cid = await kcid.url(src);
     //console.log('nftMint cidPreview', cid);
   });
@@ -96,8 +92,8 @@
       </a>
     {:else if minted == 1}
       <button id="mint-button" class="minting">MINTING...</button>
-    {:else if chainId !== MaticChainId}
-      <button id="mint-button" class="matic">Switch to MATIC</button>
+    {:else if !kreAddress}
+      <button id="mint-button" class="matic">Switch to MATIC (or MUMBAI)</button>
     {:else}
       <button id="mint-button" on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}

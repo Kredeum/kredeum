@@ -4,28 +4,28 @@
   import Metamask from "./kredeum_metamask.svelte";
   // import KredeumNftMint from './kredeum_nft_mint.svelte';
   import nft from "../lib/nft.mjs";
-  import KRE from "../lib/kre.mjs";
   import kimages from "../lib/kimages.mjs";
 
-  const ipfsGateway = "https://gateway.pinata.cloud/ipfs";
-  const MaticExplorer = "https://explorer-mainnet.maticvigil.com";
   const MaticOpenSeaAssets = "https://opensea.io/assets/matic";
   const MaticArkaneAssets = "https://arkane.market/inventory/MATIC";
 
   const ArkaneAddress = "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
-  const MaticKredeumCollection = KRE.ADDRESS["matic"];
   const OpenSeaKredeumCollection = "https://opensea.io/collection/kredeum-nfts";
   const ArkaneKredeumCollection = "https://arkane.market/search?contractName=Kredeum%20NFTs";
+
+  const ipfsGateway = "https://gateway.pinata.cloud/ipfs";
   const PolygonTechnology = "https://polygon.technology/";
 
-  const MaticChainId = "0x89";
   const loader_ref =
     "<p>Data loading, please wait ...</p>" +
     '<img alt="img" width="160" src="/wp-content/plugins/kredeum-nfts/img/loader-v1.gif" />';
 
   let loader = loader_ref;
-  let chainId = MaticChainId;
   let address = "";
+
+  let chainId = 0;
+  let network;
+
   export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created
@@ -34,13 +34,16 @@
 
   let NFTs = new Map();
 
-  $: if (chainId > 0) {
-    if (chainId !== MaticChainId) {
-      //console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
-      alert("Switch to Matic / Polygon");
-    } else {
-      nft.init(chainId);
+  $: if (chainId > 0) nftInit();
+
+  async function nftInit() {
+    console.log("chainId", chainId);
+    network = await nft.init(chainId);
+    if (network?.KRE) {
       nftList();
+    } else {
+      // console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
+      alert("Switch to Matic or Mumbai on Polygon");
     }
   }
 
@@ -113,11 +116,11 @@
                   <button class="buy">BUY NFT</button>
                 </a>
               {:else if item.ownerOf.toLowerCase() === address.toLowerCase()}
-                <a href="{MaticArkaneAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+                <a href="{MaticArkaneAssets}/{network?.KRE}/{tokenId}" target="_blank">
                   <button class="sell">SELL NFT</button>
                 </a>
               {:else}
-                <a href="{MaticExplorer}/address/{item.ownerOf}" target="_blank">
+                <a href="{network?.blockExplorerUrls[0]}/address/{item.ownerOf}" target="_blank">
                   <button class="grey">OWNER</button>
                 </a>
               {/if}
@@ -125,14 +128,14 @@
           </td>
 
           <td>
-            <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
+            <a href="{MaticOpenSeaAssets}/{network?.KRE}/{tokenId}" target="_blank">
               <button class="grey">OpenSea</button>
             </a>
           </td>
 
           <td>
             {#if item.tokenJson?.minter}
-              <a href="{MaticExplorer}/address/{item.tokenJson?.minter}" target="_blank">
+              <a href="{network?.blockExplorerUrls[0]}/address/{item.tokenJson?.minter}" target="_blank">
                 {item.tokenJson?.minter.substring(0, 12)}...
               </a>
               {#if item.tokenJson?.minter.toLowerCase() === address.toLowerCase()}*{/if}
@@ -156,17 +159,13 @@
   </table>
 
   <small>
-    My address =
-    <a href="{MaticExplorer}/address/{address}" target="_blank">
-      {address}
+    {network?.chainName}@<a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">
+      <Metamask autoconnect="off" bind:address bind:chainId />
     </a><br />
 
-    My NFTs contract =
-    <a href="{MaticExplorer}/address/{MaticKredeumCollection}" target="_blank">
-      {MaticKredeumCollection}
-    </a><br />
-
-    <Metamask autoconnect="off" bind:address bind:chainId />
+    nft@<a href="{network?.blockExplorerUrls[0]}/address/{network?.KRE}" target="_blank">
+      {network?.KRE}
+    </a>
   </small>
 </main>
 
