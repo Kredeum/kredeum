@@ -6,6 +6,7 @@ solidity/contracts/cache
 solidity/artifacts
 solidity/abis
 solidity/flattened
+solidity/cache
 
 # APP
 app/build/

@@ -4,10 +4,7 @@
   "description": "Kredeum NFTs WordPress plugin",
   "main": "index.js",
   "scripts": {
-    "lint-sol": "npx solhint solidity/contracts/*.sol",
-    "format-sol": "prettier --write **/*.sol",
-    "format-lint-js": "npx prettier-eslint --write **/*.mjs **/*.svelte **/*.html",
-    "format-lint": "npm run format-lint-js && npm run format-sol && npm run lint-sol",
+    "format-lint": "npx prettier-eslint **/*.mjs **/*.svelte **/*.html solidity/contracts/*.sol --write",
     "build": "PROD=true rollup -c",
     "build dev": "rollup -c",
     "dev": "rollup -c -w",
