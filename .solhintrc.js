@@ -5,7 +5,7 @@ module.exports = {
     "prettier/prettier": "warn",
     "code-complexity": ["error", 10],
     "function-max-lines": ["error", 60],
-    "max-line-length": ["error", 100],
+    "max-line-length": ["error", 120],
     "max-states-count": ["error", 20],
     "no-empty-blocks": "off",
     "no-unused-vars": "error",

@@ -1,5 +1,5 @@
 {
-  "extends": "eslint:recommended",
+  "extends": ["eslint:recommended","prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -32,8 +32,13 @@
     "no-console": 0,
     "indent": ["error", 2],
     "semi": ["error", "always"],
-    "quotes": ["error", "single"],
-    "no-global-assign": ["error", { "exceptions": ["require"] }]
+    "quotes": ["error", "double"],
+    "no-global-assign": [
+      "error",
+      {
+        "exceptions": ["require"]
+      }
+    ]
   },
   "globals": {
     "ethereum": "readonly"
