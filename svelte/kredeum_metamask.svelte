@@ -125,7 +125,11 @@
 </script>
 
 {#if address}
-  <a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">{address}@{network?.chainName}</a>
+  {#if network}
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">{address}@{network?.chainName}</a>
+  {:else}
+    {address}@{network?.chainName}
+  {/if}
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}

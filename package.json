@@ -15,7 +15,8 @@
     "deploy-mumbai": "npx hardhat run scripts/deploy.mjs --network mumbai",
     "deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
     "list": "npx hardhat run scripts/list.mjs",
-    "compile": "npx hardhat compile"
+    "compile": "npx hardhat compile",
+    "re-install": "rm -rf node_modules && pnpm install"
   },
   "devDependencies": {
     "@metamask/detect-provider": "^1.2.0",

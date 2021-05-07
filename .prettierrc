@@ -5,6 +5,7 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "semi": true,
+  "plugins": ["./node_modules/prettier-plugin-svelte", "./node_modules/prettier-plugin-solidity"],
   "overrides": [{
     "files": "*.sol",
     "options": {

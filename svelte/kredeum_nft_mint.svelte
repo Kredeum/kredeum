@@ -23,7 +23,7 @@
   let address = "";
   let networkKRE = "";
 
-  const chain_ids = "0x13881,0x89";
+  const chain_ids = "0x89,0x13881";
   let chainId = 0;
 
   $: console.log("SIGNER", signer);
@@ -102,9 +102,9 @@
 
     {#if display}
       <small>
-        <br />{src}
-        <br />{alt}
-        <br />{cid}
+        <br /><a href="{src}">{src}@{alt}</a>
+
+        <br /><a href="https://ipfs.io/ipfs/{cid}">{cid}@ipfs</a>
       </small>
     {/if}
   {/if}
