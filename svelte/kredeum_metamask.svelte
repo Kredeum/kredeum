@@ -126,7 +126,8 @@
 
 {#if address}
   {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">{address}@{network?.chainName}</a>
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{address}@{network?.chainName}</a
+    >
   {:else}
     {address}@{network?.chainName}
   {/if}

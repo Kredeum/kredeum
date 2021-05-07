@@ -53,9 +53,9 @@
   $: openSeaLink = () => `${network?.openSeaKredeum}`;
   $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${network?.KRE}/${tokenId}`;
 
-  $: kreLink = () => `${network?.explorer}/address/${network?.KRE}`;
-  $: ownerLink = (item) => `${network?.explorer}/address/${item.ownerOf}`;
-  $: minterLink = (item) => `${network?.explorer}/address/${item.tokenJson?.minter}`;
+  $: kreLink = () => `${network?.explorer}/tokens/${network?.KRE}/inventory`;
+  $: ownerLink = (item) => `${network?.explorer}/address/${item.ownerOf}/tokens`;
+  $: minterLink = (item) => `${network?.explorer}/address/${item.tokenJson?.minter}/tokens`;
 
   $: show = (item) =>
     all == 0 ||
