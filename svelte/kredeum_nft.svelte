@@ -6,11 +6,8 @@
   import nft from "../lib/nft.mjs";
   import kimages from "../lib/kimages.mjs";
 
-  const MaticOpenSeaAssets = "https://opensea.io/assets/matic";
   const MaticArkaneAssets = "https://arkane.market/inventory/MATIC";
-
   const ArkaneAddress = "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
-  const OpenSeaKredeumCollection = "https://opensea.io/collection/kredeum-nfts";
   const ArkaneKredeumCollection = "https://arkane.market/search?contractName=Kredeum%20NFTs";
 
   const ipfsGateway = "https://gateway.pinata.cloud/ipfs";
@@ -23,7 +20,8 @@
   let loader = loader_ref;
   let address = "";
 
-  let chainId = 0;
+  const chainIds = ["0x89", "0x13881"];
+  let chainId;
   let network;
 
   export let all = 2;
@@ -43,7 +41,7 @@
       nftList();
     } else {
       // console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
-      alert("Switch to Matic or Mumbai on Polygon");
+      // alert("Switch to Matic or Mumbai on Polygon");
     }
   }
 
@@ -53,8 +51,6 @@
     loader = "Data loading over.";
   }
 </script>
-
-/* eslint-disable */ // eslint-disable @svelte/missing-custom-element-compile-options
 
 <main>
   <h1>
@@ -67,7 +63,7 @@
     Exchange My NFTs
     <a href="{ArkaneKredeumCollection}" target="_blank">on Arkane Market</a>
     -
-    <a href="{OpenSeaKredeumCollection}" target="_blank">on OpenSea</a>
+    <a href="{network?.KRE.openSeaKredeum}" target="_blank">on OpenSea</a>
     at low cost using
     <a href="{PolygonTechnology}" target="_blank">Polygon / Matic</a>
   </h3>
@@ -128,7 +124,7 @@
           </td>
 
           <td>
-            <a href="{MaticOpenSeaAssets}/{network?.KRE}/{tokenId}" target="_blank">
+            <a href="{network?.KRE.openSeaAssets}/{network?.KRE}/{tokenId}" target="_blank">
               <button class="grey">OpenSea</button>
             </a>
           </td>
@@ -159,12 +155,10 @@
   </table>
 
   <small>
-    {network?.chainName}@<a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">
-      <Metamask autoconnect="off" bind:address bind:chainId />
-    </a><br />
-
-    nft@<a href="{network?.blockExplorerUrls[0]}/address/{network?.KRE}" target="_blank">
-      {network?.KRE}
+    <Metamask autoconnect="off" bind:address bind:chainId chainIds="{chainIds}" />
+    <br />
+    <a href="{network?.blockExplorerUrls[0]}/address/{network?.KRE}" target="_blank">
+      {network?.KRE}@nft
     </a>
   </small>
 </main>

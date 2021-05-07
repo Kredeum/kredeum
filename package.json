@@ -12,6 +12,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "flatten": "npx hardhat flatten > solidity/flattened/all.sol",
     "deploy": "npx hardhat run scripts/deploy.mjs",
+    "deploy-mumbai": "npx hardhat run scripts/deploy.mjs --network mumbai",
+    "deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
     "list": "npx hardhat run scripts/list.mjs",
     "compile": "npx hardhat compile"
   },

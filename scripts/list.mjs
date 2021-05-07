@@ -4,7 +4,7 @@ const { ethers } = hre;
 
 const network = hre.network.name;
 
-const kre = await ethers.getContractAt("KRE", KRE.ADDRESS[network]);
+const kre = await ethers.getContractAt("KRE", KRE.ADDRESS[network][0]);
 console.log("name:", await kre.name());
 console.log("symbol:", await kre.symbol());
 

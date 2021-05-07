@@ -11,28 +11,35 @@
   export let signer;
   export let address;
   export let chainId;
-  export let autoconnect = "off";
+  export let autoconnect;
+  export let chain_ids;
+
+  let network;
 
   let targetChain = false;
   let connectmetamask = "Connect to Metamask";
 
-  async function connectNetwork(_chainId) {
+  async function addEthereumChain(_chainId) {
     if (targetChain) {
-      //console.log('already connecting network...');
+      console.log("already connecting network...");
     }
-    chainId = _chainId;
     targetChain = true;
-    const network = networks.find((network) => Number(network.chainId) === Number(_chainId));
-    console.log("connectNetwork", _chainId, network || "unknown");
 
     if (_chainId !== "0x1") {
       // no need to add default ethereum chain
-      if (network) {
+
+      const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+      console.log("baddEthereumChain", _chainId, _network || "unknown");
+
+      if (_network) {
         // add new chain to metamask
         ethereum
           .request({
             method: "wallet_addEthereumChain",
-            params: [network]
+            params: [_network]
+          })
+          .then(() => {
+            network = _network;
           })
           .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
       }
@@ -40,10 +47,23 @@
   }
 
   async function handleChainId(_chainId) {
-    //console.log('handleChainId <=', _chainId);
     if (_chainId) {
-      console.log("_chainId", _chainId);
-      if (_chainId != chainId) connectNetwork(_chainId);
+      // _chainId not null
+      if (_chainId != chainId) {
+        // _chainId changed
+
+        // transform chain_ids list to chainIds array : "0x89,0x13881" => ["0x89","0x13881"]
+        const chainIds = chain_ids?.split(",");
+        console.log("handleChainId <=", _chainId, chainIds);
+
+        if (chainIds && !chainIds.find((id) => Number(id) === Number(_chainId))) {
+          // _chainId not accepted : add first accepted chainId
+          addEthereumChain(chainIds[0]);
+        } else {
+          chainId = _chainId;
+          network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+        }
+      }
     }
   }
 
@@ -105,7 +125,7 @@
 </script>
 
 {#if address}
-  {address}
+  <a href="{network?.blockExplorerUrls[0]}/address/{address}" target="_blank">{address}@{network?.chainName}</a>
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}

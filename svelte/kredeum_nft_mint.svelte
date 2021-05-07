@@ -21,15 +21,17 @@
 
   let signer = "";
   let address = "";
+  let networkKRE = "";
 
-  let kreAddress;
+  const chain_ids = "0x13881,0x89";
   let chainId = 0;
 
   $: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
-    kreAddress = nft.init(chainId);
-    if (!kreAddress) {
+    networkKRE = nft.init(chainId);
+    console.log("networkKRE", networkKRE);
+    if (!networkKRE) {
       console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
       // alert('Switch to Matic or Mumbai on Polygon');
     }
@@ -80,7 +82,7 @@
 </script>
 
 <main>
-  {#if display}
+  {#if src}
     <img src="{src}" alt="{alt}" width="{width}" /><br />
   {/if}
 
@@ -92,8 +94,8 @@
       </a>
     {:else if minted == 1}
       <button id="mint-button" class="minting">MINTING...</button>
-    {:else if !kreAddress}
-      <button id="mint-button" class="matic">Switch to MATIC (or MUMBAI)</button>
+    {:else if !networkKRE}
+      <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
     {:else}
       <button id="mint-button" on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}
@@ -103,12 +105,12 @@
         <br />{src}
         <br />{alt}
         <br />{cid}
-        <br />{address}
       </small>
     {/if}
-  {:else}
-    <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
   {/if}
+  <small>
+    <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer chain_ids="{chain_ids}" />
+  </small>
 </main>
 
 <style>
@@ -121,7 +123,7 @@
   button:hover {
     cursor: pointer;
   }
-  button.matic {
+  button.switch {
     background-color: grey;
   }
   button.mint:hover {
