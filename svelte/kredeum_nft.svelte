@@ -5,8 +5,6 @@
   import nft from "../lib/nft.mjs";
   import kimages from "../lib/kimages.mjs";
 
-  const MaticArkaneAssets = "https://arkane.market/inventory/MATIC";
-
   const ipfsGateway = "https://ipfs.io/ipfs";
 
   let address = "";
@@ -23,9 +21,6 @@
 
   let NFTs = new Map();
   let loading = false;
-
-  const sameAddress = (a, b = address) => a.toLowerCase() === b.toLowerCase();
-  const short = (a) => `${a.substring(0, 6)}...${a.substring(a.length - 4, a.length)}`;
 
   $: if (chainId > 0) nftInit();
 
@@ -48,15 +43,19 @@
     //console.log('NFTs', NFTs);
   }
 
-  $: arkaneKredeumCollection = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
+  const sameAddress = (a, b = address) => a.toLowerCase() === b.toLowerCase();
+  const short = (a) => `${a.substring(0, 6)}...${a.substring(a.length - 4, a.length)}`;
+
+  $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
+  $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
 
   $: openSeaLink = () => `${network?.openSeaKredeum}`;
   $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${network?.KRE}/${tokenId}`;
 
-  $: kreLink = () => `${network?.blockExplorerUrls[0]}/address/${network?.KRE}`;
-  $: ownerLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.ownerOf}`;
-  $: minterLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.tokenJson?.minter}`;
+  $: kreLink = () => `${network?.explorer}/address/${network?.KRE}`;
+  $: ownerLink = (item) => `${network?.explorer}/address/${item.ownerOf}`;
+  $: minterLink = (item) => `${network?.explorer}/address/${item.tokenJson?.minter}`;
 
   $: show = (item) =>
     all == 0 ||
@@ -72,7 +71,7 @@
 
   <h3>
     Exchange my NFTs
-    <a href="{arkaneKredeumCollection()}" target="_blank">on Arkane Market</a>
+    <a href="{arkaneLinkKredeum()}" target="_blank">on Arkane Market</a>
     -
     <a href="{openSeaLink()}" target="_blank">on OpenSea</a>
   </h3>
@@ -117,11 +116,11 @@
           <td>
             {#if item.ownerOf}
               {#if sameAddress(item.ownerOf, arkaneAddress())}
-                <a href="{arkaneKredeumCollection()}" target="_blank">
+                <a href="{arkaneLinkKredeum()}" target="_blank">
                   <button class="buy">BUY NFT</button>
                 </a>
               {:else if sameAddress(item.ownerOf)}
-                <a href="{MaticArkaneAssets}/{network?.KRE}/{tokenId}" target="_blank">
+                <a href="{arkaneLinkAssets()}/{network?.KRE}/{tokenId}" target="_blank">
                   <button class="sell">SELL NFT</button>
                 </a>
               {:else}
