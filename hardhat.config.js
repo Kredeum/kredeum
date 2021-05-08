@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
 
 module.exports = {
-  defaultNetwork: "mumbai",
+  defaultNetwork: "matic",
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -51,15 +51,6 @@ module.exports = {
   },
   solidity: {
     compilers: [
-      {
-        version: "0.7.2",
-        settings: {
-          optimizer: {
-            enabled: true,
-            runs: 200
-          }
-        }
-      },
       {
         version: "0.8.4",
         settings: {
