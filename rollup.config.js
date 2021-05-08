@@ -75,5 +75,6 @@ export default [
   toRollupConfig("kredeum_metamask", "app/build"), // app/metamask.html
   toRollupConfig("kredeum_nft_mint", "app/build"), // app/mint.html
   toRollupConfig("kredeum_nft", "app/build"), // app/index.html
+  toRollupConfig("kredeum_upload", "app/build"), // app/upload.html
   toRollupConfig("kredeum_nft", "../wp-kredeum-nfts/kredeum-nfts/lib/js") // wordpress
 ];

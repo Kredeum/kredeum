@@ -11,6 +11,7 @@
   export let src;
   export let alt;
   export let width = 100;
+  export let height = 100;
   export let display = false;
   let cid;
   console.log(cid);
@@ -27,6 +28,13 @@
   let chainId = 0;
 
   $: console.log("SIGNER", signer);
+  $: console.log("ADDRESS", address);
+
+  $: logA(signer);
+
+  async function logA(s) {
+    console.log("SIGNER ADDRESS", s && (await s.getAddress()));
+  }
 
   $: if (chainId > 0) {
     networkKRE = nft.init(chainId);
@@ -39,11 +47,11 @@
 
   onMount(async function () {
     cid = await kcid.url(src);
-    //console.log('nftMint cidPreview', cid);
+    console.log("nftMint cidPreview", cid);
   });
 
   async function nftMint() {
-    //console.log('nftMint src alt', src, alt);
+    // console.log("nftMint src alt", src, alt);
 
     if (signer) {
       minted = 1;
@@ -54,17 +62,18 @@
         minter: address
       };
       pinImage = await pinata.pinImage(image);
-      //console.log('nftMint pinImage', pinImage);
+      console.log("nftMint pinImage", pinImage);
       if (pinImage.cid === cid) {
-        //console.log('Good Guess !!!');
+        console.log("Good Guess !!!");
         image.cid = pinImage.cid;
       }
       const pinJson = await pinata.pinJson(image);
-      //console.log('nftMint pinJson', pinJson);
+      console.log("nftMint pinJson", pinJson);
 
       try {
+        console.log("avant", pinJson.jsonIpfs);
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        //console.log('nftMinted', tokenId);
+        console.log("nftMinted", tokenId);
 
         minted = 2;
         // eslint-disable-next-line no-undef
@@ -83,7 +92,7 @@
 
 <main>
   {#if src}
-    <img src="{src}" alt="{alt}" width="{width}" /><br />
+    <img src="{src}" alt="{alt}" width="{width}" height="{height}" /><br />
   {/if}
 
   {#if address}

@@ -2,6 +2,8 @@
 
 <script>
   import Metamask from "./kredeum_metamask.svelte";
+  import KredeumNftMint from "./kredeum_nft_mint.svelte";
+  import KredeumUpload from "./kredeum_upload.svelte";
   import nft from "../lib/nft.mjs";
   import kimages from "../lib/kimages.mjs";
 
@@ -68,6 +70,9 @@
     <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.klogo_png}" />
     Kredeum NFTs
   </h1>
+  <p>
+    <KredeumUpload />
+  </p>
 
   <h3>
     Exchange my NFTs
@@ -109,8 +114,8 @@
             {item.tokenJson?.name || ""}
           </td>
 
-          <td>
-            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+          <td class="box-image">
+            <img alt="" src="{ipfsGateway}/{item.cid}" />
           </td>
 
           <td>
@@ -213,5 +218,15 @@
   }
   button.grey {
     background-color: grey;
+  }
+
+  img {
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .box-image {
+    height: 150px;
+    width: 200px;
   }
 </style>
