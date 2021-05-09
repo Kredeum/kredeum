@@ -11,6 +11,6 @@
     "@graphprotocol/graph-ts": "^0.20.0"
   },
   "dependencies": {
-    "solc": "^0.8.3"
+    "solc": "^0.8.4"
   }
 }
