@@ -3,7 +3,7 @@
 // https://www.smashingmagazine.com/2016/04/three-approaches-to-adding-configurable-fields-to-your-plugin/
 // https://github.com/rayman813/smashing-custom-fields/blob/master/smashing-fields-approach-1/smashing-fields.php
 
-class Kipfs_Settings
+class kredeum_nfts_Settings
 {
   private $slug = 'ipfs_settings';
 
@@ -21,8 +21,8 @@ class Kipfs_Settings
   {
     // Add the submenu item and page
     $parent_slug = 'nfts';
-    $page_title = __('NFTs settings', 'kipfs');
-    $menu_title = __('NFTs Settings', 'kipfs');
+    $page_title = __('NFTs settings', 'kredeum-nfts');
+    $menu_title = __('NFTs Settings', 'kredeum-nfts');
     $capability = 'upload_files';
     $menu_slug = $this->slug;
     $callback = array($this, 'page_content');
@@ -34,7 +34,7 @@ class Kipfs_Settings
   public function page_content()
   {
     echo '<div class="wrap">';
-    echo '<h2>' . __('NFTs Kredeum', 'kipfs') . '</h2>';
+    echo '<h2>' . __('NFTs Kredeum', 'kredeum-nfts') . '</h2>';
 
     echo '<form action="options.php" method="POST">';
     settings_fields($this->slug);
@@ -45,21 +45,21 @@ class Kipfs_Settings
 
   public function sections_create()
   {
-    add_settings_section('first_section', __('Settings', 'kipfs'), array($this, 'section_callback'), $this->slug);
+    add_settings_section('first_section', __('Settings', 'kredeum-nfts'), array($this, 'section_callback'), $this->slug);
   }
 
   public function section_callback($arguments)
   {
     switch ($arguments['id']) {
       case 'first_section':
-        echo '<p>' . __('Here you can set IPFS options', 'kipfs') . '</p>';
+        echo '<p>' . __('Here you can set IPFS options', 'kredeum-nfts') . '</p>';
         break;
     }
   }
 
   public function fields_create()
   {
-    $fields = kipfs_fields($this->slug);
+    $fields = kredeum_nfts_fields($this->slug);
 
     foreach ($fields as $field) {
       add_settings_field($field['uid'], $field['label'], array($this, 'field_callback'), $this->slug, $field['section'], $field);
@@ -123,4 +123,4 @@ class Kipfs_Settings
     }
   }
 }
-new Kipfs_Settings();
+new kredeum_nfts_Settings();

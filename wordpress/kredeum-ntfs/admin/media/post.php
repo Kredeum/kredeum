@@ -3,7 +3,7 @@
 add_action('add_meta_boxes_attachment', function () {
   add_meta_box('ipfs_link_box', 'IPFS', function ($post) {
     $cid = $post->CID;
-    if ($cid) echo __('Archive link', 'kipfs') . " : " . ipfs_link($cid);
+    if ($cid) echo __('Archive link', 'kredeum-nfts') . " : " . ipfs_link($cid);
     else {
     }
   });

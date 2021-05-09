@@ -1,6 +1,6 @@
 <?php
 // Uninstall IPFS
-defined("WP_UNINSTALL_PLUGIN") or die(__('Not allowed', 'kipfs'));
+defined("WP_UNINSTALL_PLUGIN") or die(__('Not allowed', 'kredeum-nfts'));
 
 // clear database data
 global $wpdb;

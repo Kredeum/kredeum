@@ -16,7 +16,7 @@ function ipfs_links()
   }
   if ($n > 0) {
     $s = ($n > 1) ? "s" : "";
-    $ret = __('Archive', 'kipfs') . "$s<ul>" . $ret . "</ul>";
+    $ret = __('Archive', 'kredeum-nfts') . "$s<ul>" . $ret . "</ul>";
   }
   return $ret;
 }

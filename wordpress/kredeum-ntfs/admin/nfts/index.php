@@ -4,8 +4,8 @@ add_action('admin_menu', 'nfts_menu');
 function nfts_menu()
 {
   add_menu_page(
-    __('NFTs Kredeum', 'kipfs'),
-    __('NFTs', 'kipfs'),
+    __('NFTs Kredeum', 'kredeum-nfts'),
+    __('NFTs', 'kredeum-nfts'),
     'edit_posts',
     'nfts',
     'nfts_options',
@@ -14,8 +14,8 @@ function nfts_menu()
   );
   add_submenu_page(
     'nfts',
-    __('NFTs Kredeum', 'kipfs'),
-    __('NFTs Kredeum', 'kipfs'),
+    __('NFTs Kredeum', 'kredeum-nfts'),
+    __('NFTs Kredeum', 'kredeum-nfts'),
     'edit_posts',
     'nfts'
   );

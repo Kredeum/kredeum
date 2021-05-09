@@ -2,7 +2,7 @@
 
 // add bulk archive IPFS action 
 add_filter('bulk_actions-upload', function ($bulk_actions) {
-  $bulk_actions['archive'] = __('Archive to IPFS', 'kipfs');
+  $bulk_actions['archive'] = __('Archive to IPFS', 'kredeum-nfts');
   return $bulk_actions;
 });
 
@@ -30,18 +30,18 @@ add_action('admin_notices', function () {
   if (!empty($_REQUEST['bulk_archived'])) {
     $archived_count = intval($_REQUEST['bulk_archived']);
     printf('<div id="message" class="notice notice-success is-dismissible"><p>' .
-      _n('%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kipfs')
+      _n('%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kredeum-nfts')
       . '</p></div>', $archived_count);
   }
   if (!empty($_REQUEST['bulk_modified'])) {
     $modified_count = intval($_REQUEST['bulk_modified']);
     printf('<div id="message" class="notice notice-warning is-dismissible"><p>' .
-      _n('%s IPFS media link modified', '%s IPFS medias links modified', $modified_count, 'kipfs') . '</p></div>', $modified_count);
+      _n('%s IPFS media link modified', '%s IPFS medias links modified', $modified_count, 'kredeum-nfts') . '</p></div>', $modified_count);
   }
   if (!empty($_REQUEST['bulk_unchanged'])) {
     $unchanged_count = intval($_REQUEST['bulk_unchanged']);
     printf('<div id="message" class="notice is-dismissible"><p>' .
-      _n('%s IPFS media link unchanged', '%s IPFS medias links unchanged', $unchanged_count, 'kipfs')
+      _n('%s IPFS media link unchanged', '%s IPFS medias links unchanged', $unchanged_count, 'kredeum-nfts')
       . '</p></div>', $unchanged_count);
   }
 });

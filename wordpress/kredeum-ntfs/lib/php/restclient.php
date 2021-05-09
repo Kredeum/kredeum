@@ -306,7 +306,7 @@ class RestClient implements Iterator, ArrayAccess
   }
 
 
-  // DEB AJOUT KIPFS //
+  // DEB AJOUT kredeum-nfts //
   public function multipart($parts, $boundary)
   {
     $ret = "";
@@ -316,7 +316,7 @@ class RestClient implements Iterator, ArrayAccess
       $name = array_key_exists('name', $part) ? $part['name'] : 'name';
       $content = array_key_exists('content', $part) ? $part['content'] : '';
       $headers = array_key_exists('headers', $part) ? $part['headers'] : array();
-      $disp = "Content-Disposition: form-data; name=$name;\r\n";      
+      $disp = "Content-Disposition: form-data; name=$name;\r\n";
 
       $ret .= "--$boundary\r\n";
 
@@ -341,7 +341,7 @@ class RestClient implements Iterator, ArrayAccess
 
     return  $ret;
   }
-  // FIN AJOUT KIPFS //
+  // FIN AJOUT kredeum-nfts //
 
 
 }

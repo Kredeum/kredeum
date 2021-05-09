@@ -1,6 +1,6 @@
 <?php
 
-function kipfs_fields()
+function kredeum_nfts_fields()
 {
   return array(
     array(
@@ -9,8 +9,8 @@ function kipfs_fields()
       'default' => '1',
       //'section' => 'first_section',
       // 'type' => 'select',
-      // 'options' => array(__('No', 'kipfs'), __('Yes', 'kipfs'),),
-      // 'helper' => __('Check to automaticaly push your new medias to IPFS on upload', 'kipfs'),
+      // 'options' => array(__('No', 'kredeum-nfts'), __('Yes', 'kredeum-nfts'),),
+      // 'helper' => __('Check to automaticaly push your new medias to IPFS on upload', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'ipfs_cid_version',
@@ -19,7 +19,7 @@ function kipfs_fields()
       // 'section' => 'first_section',
       // 'type' => 'select',
       // 'options' => array(0, 1),
-      // 'helper' => __('Choose IPFS CID version', 'kipfs'),
+      // 'helper' => __('Choose IPFS CID version', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'ipfs_gateway',
@@ -36,7 +36,7 @@ function kipfs_fields()
       //   'http://ipfs.lan' => 'http://ipfs.lan',
       //   'http://127.0.0.1:8080' => 'http://127.0.0.1:8080',
       // ),
-      // 'helper' => __('Choose your prefered IPFS gateway', 'kipfs'),
+      // 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'ipfs_pinata_key',
@@ -45,7 +45,7 @@ function kipfs_fields()
       'type' => 'text',
       'placeholder' => 'pinata key',
       'default' => '',
-      'helper' => __('Enter your Pinata Key', 'kipfs'),
+      'helper' => __('Enter your Pinata Key', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'ipfs_pinata_secret',
@@ -54,7 +54,7 @@ function kipfs_fields()
       'type' => 'text',
       'placeholder' => 'pinata secret',
       'default' => '',
-      'helper' => __('Enter your Pinata Secret', 'kipfs'),
+      'helper' => __('Enter your Pinata Secret', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'metamask_address',
@@ -76,7 +76,7 @@ function kipfs_fields()
     //     'http://localhost:5001/api/v0' => 'http://localhost:5001/api/v0',
     //   ),
     //   'default' => 'https://ipfs.infura.io:5001/api/v0',
-    //   'helper' => __('Choose your prefered IPFS API', 'kipfs'),
+    //   'helper' => __('Choose your prefered IPFS API', 'kredeum-nfts'),
     // ),
     // array(
     //   'uid' => 'ipfs_cluster_api',
@@ -85,7 +85,7 @@ function kipfs_fields()
     //   'type' => 'select',
     //   'options' => array('http://192.168.1.43:9094' => 'http://192.168.1.43:9094'),
     //   'default' => 'http://192.168.1.43:9094',
-    //   'helper' => __('Choose your prefered IPFS Cluster API', 'kipfs'),
+    //   'helper' => __('Choose your prefered IPFS Cluster API', 'kredeum-nfts'),
     // ),
     // array(
     //   'uid' => 'ipfs_pinning_api',
@@ -94,7 +94,7 @@ function kipfs_fields()
     //   'type' => 'select',
     //   'options' => array(false),
     //   'default' => false,
-    //   'helper' => __('Choose your prefered IPFS Pinning API', 'kipfs'),
+    //   'helper' => __('Choose your prefered IPFS Pinning API', 'kredeum-nfts'),
     // ),
   );
 }

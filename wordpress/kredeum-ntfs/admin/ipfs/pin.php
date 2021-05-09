@@ -50,7 +50,7 @@ function _ipfs_pinnning($cid)
 {
   $postfields = json_encode(array(
     "cid" => $cid,
-    "name" => "kipfs " . $cid
+    "name" => "kredeum-nfts " . $cid
   ));
   $ch = curl_init();
 

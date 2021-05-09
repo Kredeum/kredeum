@@ -2,8 +2,8 @@
 
 // add one IPFS column
 add_filter('manage_media_columns', function ($columns) {
-  $columns['mint'] = __('MINT', 'kipfs');
-  $columns['cid'] = __('IPFS Archive', 'kipfs');
+  $columns['mint'] = __('MINT', 'kredeum-nfts');
+  $columns['cid'] = __('IPFS Archive', 'kredeum-nfts');
   return $columns;
 });
 
