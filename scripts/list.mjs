@@ -1,5 +1,5 @@
-import KRE from '../lib/kre.mjs';
-import hre from 'hardhat';
+import KRE from "../lib/kre.mjs";
+import hre from "hardhat";
 const { ethers } = hre;
 
 const network = hre.network.name;

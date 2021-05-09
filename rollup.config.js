@@ -1,11 +1,11 @@
-import svelte from 'rollup-plugin-svelte';
-import resolve from '@rollup/plugin-node-resolve';
-import commonjs from '@rollup/plugin-commonjs';
-import livereload from 'rollup-plugin-livereload';
-import { terser } from 'rollup-plugin-terser';
-import json from '@rollup/plugin-json';
-import css from 'rollup-plugin-css-only';
-import builtins from 'rollup-plugin-node-builtins';
+import svelte from "rollup-plugin-svelte";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import livereload from "rollup-plugin-livereload";
+import { terser } from "rollup-plugin-terser";
+import json from "@rollup/plugin-json";
+import css from "rollup-plugin-css-only";
+import builtins from "rollup-plugin-node-builtins";
 
 const production = process.env.PROD;
 
@@ -19,23 +19,23 @@ function serve() {
   return {
     writeBundle() {
       if (server) return;
-      server = require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-        stdio: ['ignore', 'inherit', 'inherit'],
+      server = require("child_process").spawn("npm", ["run", "start", "--", "--dev"], {
+        stdio: ["ignore", "inherit", "inherit"],
         shell: true
       });
 
-      process.on('SIGTERM', toExit);
-      process.on('exit', toExit);
+      process.on("SIGTERM", toExit);
+      process.on("exit", toExit);
     }
   };
 }
 
 const toRollupConfig = function (component, dest, customElement = true) {
   return {
-    input: 'svelte/' + component + (customElement ? '.svelte' : '.js'),
+    input: "svelte/" + component + (customElement ? ".svelte" : ".js"),
     output: {
       sourcemap: !production,
-      format: 'iife',
+      format: "iife",
       name: component,
       file: `${dest}/${component}.js`
     },
@@ -44,33 +44,37 @@ const toRollupConfig = function (component, dest, customElement = true) {
         compilerOptions: {
           customElement,
           dev: !production
-        },
+        }
       }),
       css({ output: `${dest}/${component}.css` }),
       resolve({
         browser: true,
-        dedupe: ['svelte'],
+        dedupe: ["svelte"],
         preferBuiltins: false
       }),
       builtins(),
       json(),
       commonjs(),
       !production && serve(),
-      !production && livereload('public'),
+      !production && livereload("public"),
       production && terser()
     ],
     watch: {
       clearScreen: false
     },
     onwarn: function (warning) {
-      if (warning.code === 'THIS_IS_UNDEFINED') { return; }
+      if (warning.code === "THIS_IS_UNDEFINED") {
+        return;
+      }
       console.warn(warning.message);
     }
-  }
+  };
 };
 
 export default [
-  toRollupConfig('kredeum_nft', 'wordpress/kipfs/lib/js'),
-  toRollupConfig('kredeum_nft_mint', 'app/build'),
-  toRollupConfig('kredeum_nft', 'app/build')
+  toRollupConfig("kredeum_metamask", "app/build"), // app/metamask.html
+  toRollupConfig("kredeum_nft_mint", "app/build"), // app/mint.html
+  toRollupConfig("kredeum_nft", "app/build"), // app/index.html
+  toRollupConfig("kredeum_upload", "app/build"), // app/upload.html
+  toRollupConfig("kredeum_nft", "wordpress/kredeum-nfts/lib/js") // wordpress
 ];

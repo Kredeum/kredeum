@@ -1,4 +1,4 @@
-import hre from 'hardhat';
+import hre from "hardhat";
 const { ethers } = hre;
 const ethscan = hre.network.config.ethscan;
 
@@ -9,5 +9,5 @@ console.log(`Contract  ${ethscan}/address/${mkrm.address}`);
 const tx = (await mkrm.deployed()).deployTransaction;
 console.log(`TX        ${ethscan}/tx/${tx.hash}`);
 
-console.log('mKRM deployed!');
+console.log("mKRM deployed!");
 console.log(await mkrm.symbol());
