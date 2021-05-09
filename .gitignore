@@ -2,9 +2,9 @@
 node_modules
 
 # SOLIDITY
-solidity/contracts/cache
 solidity/artifacts
 solidity/abis
+solidity/cache
 
 # APP
 app/build/
@@ -20,3 +20,6 @@ app/build/
 
 # OPEN ZEPPELIN
 @openzeppelin
+
+# WORDPRESS
+wordpress/kredeum-nfts/lib/js
