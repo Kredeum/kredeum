@@ -1,4 +1,4 @@
-import hre from 'hardhat';
+import hre from "hardhat";
 const { ethers } = hre;
 const ethscan = hre.network.config.ethscan;
 // const amount = ethers.BigNumber.from(10).pow(18).mul(420000);
@@ -11,5 +11,5 @@ console.log(`Contract  ${ethscan}/address/${krm.address}`);
 const tx = (await krm.deployed()).deployTransaction;
 console.log(`TX        ${ethscan}/tx/${tx.hash}`);
 
-console.log('KRM deployed!');
+console.log("KRM deployed!");
 console.log(await krm.symbol());

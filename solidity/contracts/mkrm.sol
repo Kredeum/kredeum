@@ -6,14 +6,14 @@ import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 
 contract MKRM is ERC20, ERC20Burnable, Ownable {
-    constructor() ERC20("Kredeum", "KRM") {    }
+  constructor() ERC20("Kredeum", "KRM") {}
 
-    function deposit(address user, bytes calldata depositData) external {
-        uint256 amount = abi.decode(depositData, (uint256));
-        _mint(user,  amount);
-    }
+  function deposit(address user, bytes calldata depositData) external {
+    uint256 amount = abi.decode(depositData, (uint256));
+    _mint(user, amount);
+  }
 
-    function withdraw(uint256 amount) external {
-      _burn(msg.sender, amount);
-    }
+  function withdraw(uint256 amount) external {
+    _burn(msg.sender, amount);
+  }
 }

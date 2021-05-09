@@ -1,25 +1,25 @@
 <svelte:options tag="kredeum-nft" />
 
 <script>
-  import Metamask from './kredeum_metamask.svelte';
-  import KredeumNftMint from './kredeum_nft_mint.svelte';
-  import nft from '../lib/nft.mjs';
-  import KRE from '../lib/kre.mjs';
-  import kimages from '../lib/kimages.mjs';
+  import Metamask from "./kredeum_metamask.svelte";
+  import KredeumNftMint from "./kredeum_nft_mint.svelte";
+  import nft from "../lib/nft.mjs";
+  import KRE from "../lib/kre.mjs";
+  import kimages from "../lib/kimages.mjs";
 
-  const ipfsGateway = 'https://gateway.pinata.cloud/ipfs';
-  const MaticExplorer = 'https://explorer-mainnet.maticvigil.com';
-  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  const MaticArkaneAssets = 'https://arkane.market/inventory/MATIC';
+  const ipfsGateway = "https://gateway.pinata.cloud/ipfs";
+  const MaticExplorer = "https://explorer-mainnet.maticvigil.com";
+  const MaticOpenSeaAssets = "https://opensea.io/assets/matic";
+  const MaticArkaneAssets = "https://arkane.market/inventory/MATIC";
 
-  const ArkaneAddress = '0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39';
-  const MaticKredeumCollection = KRE.ADDRESS['matic'];
-  const OpenSeaKredeumCollection = 'https://opensea.io/collection/kredeum-nfts';
-  const ArkaneKredeumCollection = 'https://arkane.market/search?contractName=Kredeum%20NFTs';
+  const ArkaneAddress = "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
+  const MaticKredeumCollection = KRE.ADDRESS["matic"];
+  const OpenSeaKredeumCollection = "https://opensea.io/collection/kredeum-nfts";
+  const ArkaneKredeumCollection = "https://arkane.market/search?contractName=Kredeum%20NFTs";
 
-  const MaticChainId = '0x89';
+  const MaticChainId = "0x89";
   let chainId = MaticChainId;
-  let address = '';
+  let address = "";
   export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created
@@ -30,8 +30,8 @@
 
   $: if (chainId > 0) {
     if (chainId !== MaticChainId) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
-      alert('Switch to Matic / Polygon');
+      console.log("Wrong chainId =", chainId, " switch to Matic / Polygon =", MaticChainId);
+      alert("Switch to Matic / Polygon");
     } else {
       nft.init(chainId);
       nftList();
@@ -40,7 +40,7 @@
 
   async function nftList() {
     NFTs = await nft.list();
-    console.log('NFTs', NFTs);
+    console.log("NFTs", NFTs);
   }
 </script>
 
@@ -88,7 +88,7 @@
           </td>
 
           <td>
-            {item.tokenJson?.name || ''}
+            {item.tokenJson?.name || ""}
           </td>
 
           <td>
@@ -134,7 +134,7 @@
 
           <td>
             {#if item.tokenURI}
-              <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, '').substring(0, 12)}...</a>
+              <a href="{item.tokenURI}" target="_blank">{item.tokenURI.replace(/^.*ipfs\//, "").substring(0, 12)}...</a>
             {/if}
           </td>
         </tr>

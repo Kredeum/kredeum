@@ -1,12 +1,12 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import nft from '../lib/nft.mjs';
-  import KRE from '../lib/kre.mjs';
-  import pinata from '../lib/pinata.mjs';
-  import kcid from '../lib/kcid.mjs';
-  import Metamask from './kredeum_metamask.svelte';
-  import { onMount } from 'svelte';
+  import nft from "../lib/nft.mjs";
+  import KRE from "../lib/kre.mjs";
+  import pinata from "../lib/pinata.mjs";
+  import kcid from "../lib/kcid.mjs";
+  import Metamask from "./kredeum_metamask.svelte";
+  import { onMount } from "svelte";
 
   export let src;
   export let alt;
@@ -14,60 +14,60 @@
   export let display = false;
   let cid;
 
-  const MaticOpenSeaAssets = 'https://opensea.io/assets/matic';
-  const MaticKredeumCollection = KRE.ADDRESS['matic'];
-  const MaticChainId = '0x89';
+  const MaticOpenSeaAssets = "https://opensea.io/assets/matic";
+  const MaticKredeumCollection = KRE.ADDRESS["matic"];
+  const MaticChainId = "0x89";
 
   let minted = 0;
   let tokenId = 1;
-  let pinImage = '';
+  let pinImage = "";
 
-  let signer = '';
-  let address = '';
+  let signer = "";
+  let address = "";
   let chainId = MaticChainId;
 
-  $: console.log('SIGNER', signer);
+  $: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
     if (chainId !== MaticChainId) {
-      console.log('Wrong chainId =', chainId, ' switch to Matic / Polygon =', MaticChainId);
+      console.log("Wrong chainId =", chainId, " switch to Matic / Polygon =", MaticChainId);
       // alert('Switch to Matic / Polygon');
     } else {
       nft.init(MaticChainId);
     }
   }
-  $: console.log('SIGNER', signer);
+  $: console.log("SIGNER", signer);
 
   onMount(async function () {
     cid = await kcid.url(src);
-    console.log('nftMint cidPreview', cid);
+    console.log("nftMint cidPreview", cid);
   });
 
   async function nftMint() {
-    console.log('nftMint src alt', src, alt);
+    console.log("nftMint src alt", src, alt);
 
     if (signer) {
       minted = 1;
 
       const image = { origin: src, name: alt, minter: address };
       pinImage = await pinata.pinImage(image);
-      console.log('nftMint pinImage', pinImage);
-      if (pinImage.cid === cid) console.log('Good Guess !!!');
+      console.log("nftMint pinImage", pinImage);
+      if (pinImage.cid === cid) console.log("Good Guess !!!");
 
       image.cid = pinImage.cid;
       const pinJson = await pinata.pinJson(image);
-      console.log('nftMint pinJson', pinJson);
+      console.log("nftMint pinJson", pinJson);
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        console.log('nftMinted', tokenId);
+        console.log("nftMinted", tokenId);
         minted = 2;
       } catch (e) {
-        console.error('Minting ERROR', e);
+        console.error("Minting ERROR", e);
         minted = 0;
       }
     } else {
-      alert('You must be connected with Metamask to Mint');
+      alert("You must be connected with Metamask to Mint");
     }
   }
 </script>
