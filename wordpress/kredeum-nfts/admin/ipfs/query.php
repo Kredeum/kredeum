@@ -9,10 +9,11 @@ function ipfs_upsert($postId)
 }
 function ipfs_insert($postId)
 {
-  if(defined('IPFS_PINATA_SECRET') ) {
+  if (defined('IPFS_NFT_STORAGE_KEY')) {
+    $cid = ipfs_nft_storage_insert($postId);
+  } else if (defined('IPFS_PINATA_SECRET')) {
     $cid = ipfs_pinata_insert($postId);
-  }
-  else{
+  } else {
     $cid = ipfs_add($postId);
     ipfs_pin($cid);
   }

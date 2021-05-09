@@ -24,7 +24,7 @@ function kredeum_nfts_fields()
     array(
       'uid' => 'ipfs_gateway',
       'label' => 'IPFS_GATEWAY',
-      'default' => 'https://gateway.pinata.cloud',
+      'default' => 'https://ipfs.io',
       // 'section' => 'first_section',
       // 'type' => 'select',
       // 'options' => array(
@@ -37,6 +37,16 @@ function kredeum_nfts_fields()
       //   'http://127.0.0.1:8080' => 'http://127.0.0.1:8080',
       // ),
       // 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
+    ),
+
+    array(
+      'uid' => 'ipfs_nft_storage_key',
+      'label' => 'IPFS_NFT_STORAGE_KEY',
+      'section' => 'first_section',
+      'type' => 'text',
+      'placeholder' => 'NFT Storage key',
+      'default' => '',
+      'helper' => __('Enter your NFT Storage Key', 'kredeum-nfts'),
     ),
     array(
       'uid' => 'ipfs_pinata_key',
