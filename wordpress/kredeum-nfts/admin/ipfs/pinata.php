@@ -3,7 +3,7 @@
 // return cid
 function ipfs_pinata_insert($attachmentId, $version = IPFS_CID_VERSION)
 {
-  $api = new RestClient(['base_url' => IPFS_PINATA_API]);
+  $api = new RestClient(['base_url' => 'https://api.pinata.cloud']);
 
   $boundary = md5(time());
   $file = file_get_contents(get_attached_file($attachmentId));

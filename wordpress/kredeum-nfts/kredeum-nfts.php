@@ -3,7 +3,7 @@
 Plugin Name: Kredeum NFTs
 Description: Plugin to archive your medias to IPFS and mint them as NFTs
 Plugin URI: https://docs.kredeum.tech
-Version: 0.2.14
+Version: 0.4.x
 Requires at least: 4.0.0
 Requires PHP: 5.4
 Author: Kredeum <alain@kredeum.com>
@@ -36,6 +36,7 @@ if (is_admin()) {
 
   require_once(KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/add.php');
   require_once(KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/pin.php');
+  require_once(KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/nft_storage.php');
   require_once(KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/pinata.php');
   require_once(KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/query.php');
 
@@ -60,9 +61,9 @@ if (is_admin()) {
 
 
 
-define('IPFS_GATEWAY', 'https://gateway.pinata.cloud');
+define('IPFS_GATEWAY', 'https://ipfs.io');
 // define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]);
-define('IPFS_PINATA_API', 'https://api.pinata.cloud');
+define('IPFS_NFT_STORAGE_KEY', get_option('IPFS_NFT_STORAGE_KEY', ''));
 define('IPFS_PINATA_KEY', get_option('IPFS_PINATA_KEY', ''));
 define('IPFS_PINATA_SECRET', get_option('IPFS_PINATA_SECRET', ''));
 
