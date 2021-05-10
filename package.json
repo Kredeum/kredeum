@@ -16,7 +16,9 @@
     "deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
     "list": "npx hardhat run scripts/list.mjs",
     "compile": "npx hardhat compile",
-    "re-install": "rm -rf node_modules && pnpm install"
+    "re-install": "rm -rf node_modules && pnpm install",
+    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts -n",
+    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n"
   },
   "devDependencies": {
     "@metamask/detect-provider": "^1.2.0",
