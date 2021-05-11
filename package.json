@@ -4,8 +4,8 @@
   "description": "Kredeum NFTs WordPress plugin",
   "main": "index.js",
   "scripts": {
-    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts --extensions=php",
-    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=lib --extensions=php",
+    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts --extensions=php --standard=WordPress",
+    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=lib --extensions=php --standard=WordPress",
     "format-lint-php": "npm run php-fix && npm run php-check",
     "format-lint-js": "npx prettier-eslint **/*.mjs **/*.svelte **/*.html solidity/contracts/*.sol --write",
     "format-lint": "npm run format-lint-js && npm run format-lint-php",
