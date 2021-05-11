@@ -78,12 +78,18 @@ class Kredeum_Nfts_Settings {
 	public function section_callback( $arguments ) {
 		switch ( $arguments['id'] ) {
 			case 'first_section':
-				echo '<p>' . esc_html(
+				echo '<p>' . wp_kses(
 					__( 'Here you can set IPFS options and connect WordPress to your Metamask accounts. ' ) .
 					'<br><br><strong>Please read needed <a href="https://docs.kredeum.tech/wordpress-setup/pre-requirements/" target="_blank">pre-requirements</a>' .
 					' and related <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">settings doc</a></strong>.' .
 					'<br><br>Also please find our <a href="https://docs.kredeum.tech/user-guide" target="_blank">User guide</a> to archive your medias, mint them into NFTs and finally sell your media NFTs.',
 					'kredeum-nfts'
+				, array( 
+					'br' => array(), 
+					'a' => array( 
+						'href' => array() 
+						)
+					)
 				) . '</p>';
 				break;
 		}

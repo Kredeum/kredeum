@@ -35,6 +35,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/nfts/index.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax-token.php';	
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/add.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/pin.php';

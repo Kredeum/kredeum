@@ -2,24 +2,11 @@
 
 jQuery(document).ready( function($) {
 
-    console.log('ajax-token.js present v22');
-
-    // $(".column-date").click(function (e) {
-    //   console.log("test");
-    //   var data = {
-    //       action: 'token',
-    //       tokenId: 42,
-    //       pid: 12
-    //     }
-    //     console.log('AJAX CALL TEST', data);
-    //     jQuery.post(ajaxurl, data, function (response) {
-    //       console.log('AJAX RESPONSE', JSON.stringify(response));
-    //     });
-    // });
+    //console.log('ajax-token.js present v27');
 
     const mediasNftsMint = document.querySelectorAll('kredeum-nft-mint');
     mediasNftsMint.forEach(function(Item) {
-        Item?.$on('minted', function (e) {
+        Item?.$on('token', function (e) {
             console.log("change mint button v2");
             var data = {
                 action: 'token',

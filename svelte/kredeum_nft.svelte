@@ -26,11 +26,11 @@
   $: if (chainId > 0) nftInit();
 
   async function nftInit() {
-    console.log("chainId", chainId);
+    //console.log("chainId", chainId);
     network = await nft.init(chainId);
 
     if (network?.KRE) {
-      console.log(network);
+      //console.log(network);
       nftList();
     } else {
       alert("Wrong network detected");

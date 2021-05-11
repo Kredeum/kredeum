@@ -8,7 +8,7 @@
 
 jQuery( document ).ready(
 	function () {
-		document.querySelector( "kredeum-metamask" ) ? .$on(
+		document.querySelector( "kredeum-metamask" )?.$on(
 			"address",
 			function () {
 				var data = {

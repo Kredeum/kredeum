@@ -12,7 +12,7 @@
 
   export let alt;
   export let src;
-  export let wid;
+  export let pid = 0;
   export let width = 100;
   export let display = false;
   export let minted = 0;
@@ -23,15 +23,16 @@
   let signer = "";
   let address = "";
   let networkKRE = "";
+  let tokenId;
 
   const chain_ids = "0x89,0x13881";
   let chainId = 0;
 
-  $: console.log("SIGNER", signer);
+  //$: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
     networkKRE = nft.init(chainId);
-    console.log("networkKRE", networkKRE);
+    //console.log("networkKRE", networkKRE);
     if (!networkKRE) {
       console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
       // alert('Switch to Matic or Mumbai on Polygon');
@@ -65,11 +66,10 @@
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-
         minted = 2;
-        dispatch("minted", { minted: minted });
+        dispatch("token", { tokenId: tokenId });
       } catch (e) {
-        //console.error('Minting ERROR', e);
+        console.error('Minting ERROR', e);
         minted = 0;
       }
     } else {
@@ -86,14 +86,16 @@
   {#if address}
     {#if minted == 2}
       <!-- <a href="{network?.openSeaAssets}/{network?.KRE}/{tokenId}" target="_blank"> -->
-      <button class="sell">SELL NFT</button>
+      <a href="/wp-admin/admin.php?page=nfts">
+        <button class="sell">SELL NFT</button>
+      </a>
       <!-- </a> -->
     {:else if minted == 1}
       <button id="mint-button" class="minting">MINTING...</button>
     {:else if !networkKRE}
       <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
     {:else}
-      <button id="mint-button-{wid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
+      <button id="mint-button-{pid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}
 
     {#if display}
