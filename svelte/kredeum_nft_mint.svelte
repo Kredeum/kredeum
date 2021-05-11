@@ -2,7 +2,7 @@
 
 <script>
   import nft from "../lib/nft.mjs";
-  import KRE from "../lib/kre.mjs";
+  import KRE from "../lib/kre1.mjs";
   import pinata from "../lib/pinata.mjs";
   import kcid from "../lib/kcid.mjs";
   import Metamask from "./kredeum_metamask.svelte";
@@ -14,29 +14,27 @@
   export let display = false;
   let cid;
 
-  const MaticOpenSeaAssets = "https://opensea.io/assets/matic";
-  const MaticKredeumCollection = KRE.ADDRESS["matic"];
-  const MaticChainId = "0x89";
-
   let minted = 0;
   let tokenId = 1;
   let pinImage = "";
 
   let signer = "";
   let address = "";
-  let chainId = MaticChainId;
+  let networkKRE = "";
+
+  const chain_ids = "0x89,0x13881";
+  let chainId = 0;
 
   $: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
-    if (chainId !== MaticChainId) {
-      console.log("Wrong chainId =", chainId, " switch to Matic / Polygon =", MaticChainId);
-      // alert('Switch to Matic / Polygon');
-    } else {
-      nft.init(MaticChainId);
+    networkKRE = nft.init(chainId);
+    console.log("networkKRE", networkKRE);
+    if (!networkKRE) {
+      console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
+      // alert('Switch to Matic or Mumbai on Polygon');
     }
   }
-  $: console.log("SIGNER", signer);
 
   onMount(async function () {
     cid = await kcid.url(src);
@@ -73,33 +71,34 @@
 </script>
 
 <main>
-  {#if display}
+  {#if display && src}
     <img src="{src}" alt="{alt}" width="{width}" /><br />
   {/if}
 
   {#if address}
     {#if minted == 2}
-      <a href="{MaticOpenSeaAssets}/{MaticKredeumCollection}/{tokenId}" target="_blank">
-        <button class="sell">SELL NFT</button>
-      </a>
+      <!-- <a href="{network?.openSeaAssets}/{network?.KRE}/{tokenId}" target="_blank"> -->
+      <button class="sell">SELL NFT</button>
+      <!-- </a> -->
     {:else if minted == 1}
-      <button class="minting">MINTING...</button>
-    {:else if chainId !== MaticChainId}
-      <button class="matic">Switch to MATIC</button>
+      <button id="mint-button" class="minting">MINTING...</button>
+    {:else if !networkKRE}
+      <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
     {:else}
       <button on:click="{nftMint}" class="mint">MINT NFT</button>
     {/if}
 
     {#if display}
       <small>
-        <br />{src}
-        <br />{alt}
-        <br />{cid}
-        <br />{address}
+        <br /><a href="{src}">{src}@{alt}</a>
+
+        <br /><a href="https://ipfs.io/ipfs/{cid}">{cid}@ipfs</a>
       </small>
     {/if}
   {:else}
-    <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+    <small>
+      <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer chain_ids="{chain_ids}" />
+    </small>
   {/if}
 </main>
 
@@ -110,7 +109,10 @@
     border: 0px;
     margin: 10px;
   }
-  button.matic {
+  button:hover {
+    cursor: pointer;
+  }
+  button.switch {
     background-color: grey;
   }
   button.mint:hover {

@@ -5,65 +5,65 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
+  import networks from "../lib/networks.mjs";
   const dispatch = createEventDispatcher();
 
   export let signer;
   export let address;
-  export let chainId = "Ox89";
-  export let autoconnect = "off";
+  export let chainId;
+  export let autoconnect;
+  export let chain_ids;
+
+  let network;
 
   let targetChain = false;
+  let connectmetamask = "Connect to Metamask";
 
-  const networks = new Map([
-    [
-      "0x1",
-      {
-        chainId: "0x1",
-        chainName: "Ethereum",
-        nativeCurrency: {
-          name: "Ether",
-          symbol: "ETH",
-          decimals: 18
-        },
-        rpcUrls: ["https://mainnet.infura.io/v3"],
-        blockExplorerUrls: ["https://etherscan.io"]
-      }
-    ],
-    [
-      "0x89",
-      {
-        chainId: "0x89",
-        chainName: "Polygon",
-        nativeCurrency: {
-          name: "Matic",
-          symbol: "MATIC",
-          decimals: 18
-        },
-        rpcUrls: ["https://rpc-mainnet.maticvigil.com/"],
-        blockExplorerUrls: ["https://explorer-mainnet.maticvigil.com/"]
-      }
-    ]
-  ]);
-
-  async function connectNetwork() {
+  async function addEthereumChain(_chainId) {
     if (targetChain) {
       console.log("already connecting network...");
     }
     targetChain = true;
-    console.log("connectNetwork", chainId);
-    ethereum
-      .request({
-        method: "wallet_addEthereumChain",
-        params: [networks.get(chainId)]
-      })
-      .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
+
+    if (_chainId !== "0x1") {
+      // no need to add default ethereum chain
+
+      const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+      console.log("baddEthereumChain", _chainId, _network || "unknown");
+
+      if (_network) {
+        // add new chain to metamask
+        ethereum
+          .request({
+            method: "wallet_addEthereumChain",
+            params: [_network]
+          })
+          .then(() => {
+            network = _network;
+          })
+          .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
+      }
+    }
   }
 
   async function handleChainId(_chainId) {
-    console.log("handleChainId <=", _chainId);
     if (_chainId) {
-      console.log("_chainId", _chainId);
-      if (_chainId != chainId) connectNetwork();
+      // _chainId not null
+      if (_chainId != chainId) {
+        // _chainId changed
+
+        // transform chain_ids list to chainIds array : "0x89,0x13881" => ["0x89","0x13881"]
+        const chainIds = chain_ids?.split(",");
+        console.log("handleChainId <=", _chainId, chainIds);
+
+        if (chainIds && !chainIds.find((id) => Number(id) === Number(_chainId))) {
+          // _chainId not accepted : add first accepted chainId
+          addEthereumChain(chainIds[0]);
+        } else {
+          chainId = _chainId;
+          network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+        }
+      }
     }
   }
 
@@ -77,7 +77,7 @@
     }
   }
   async function connectMetamask() {
-    console.log("connectMetamask");
+    //console.log('connectMetamask');
 
     ethereum
       .request({
@@ -88,12 +88,12 @@
         if (e.code === 4001) {
           alert("Please connect to MetaMask.");
         } else {
-          console.error("ERROR eth_requestAccounts", e);
+          //console.error('ERROR eth_requestAccounts', e);
         }
       });
   }
   onMount(async function () {
-    console.log("init");
+    //console.log('init');
     const provider = await detectEthereumProvider();
     if (provider) {
       if (provider !== window.ethereum) {
@@ -118,13 +118,19 @@
 
       ethereum.on("accountsChanged", handleAccounts);
     } else {
-      console.log("Please install MetaMask!");
+      //console.log('Please install MetaMask!');
+      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }
   });
 </script>
 
 {#if address}
-  {address}
+  {#if network}
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{address}@{network?.chainName}</a
+    >
+  {:else}
+    {address}@{network?.chainName}
+  {/if}
 {:else}
-  <button on:click="{connectMetamask}">Connect Metamask</button>
+  <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}

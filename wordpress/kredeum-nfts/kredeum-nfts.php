@@ -62,8 +62,7 @@ if ( is_admin() ) {
 			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum_nft.js', array(), 'v0.4.1', true );
 		},
 		110
-	);
-}
+	);}
 
 define( 'IPFS_GATEWAY', 'https://ipfs.io' );
 // define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]); ?
