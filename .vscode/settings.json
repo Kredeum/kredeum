@@ -6,5 +6,16 @@
   },
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
-  "phpsab.standard": "WordPress"
+  "phpsab.standard": "WordPress",
+  "phpsab.snifferMode": "onType",
+  "phpsab.debug": true,
+  "phpsab.snifferArguments": [
+    "-n",
+    "--ignore=lib",
+    "--extensions=php"
+  ],
+  "phpsab.fixerArguments": [
+    "--extensions=php"
+  ],
+  "phpsab.snifferShowSources": true
 }
