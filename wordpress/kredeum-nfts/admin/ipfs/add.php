@@ -1,26 +1,37 @@
 <?php
-// ipfs add file
-// return cid
-function ipfs_add($attachmentId, $version = IPFS_CID_VERSION)
-{
-  $api = new RestClient(['base_url' => IPFS_API]);
+/**
+ * IPFS add
+ *
+ * @package kredeum/nfts
+ */
 
-  $boundary = md5(time());
-  $file = file_get_contents(get_attached_file($attachmentId));
-  $parts = array(
-    array(
-      "type" => "file",
-      "name" => ipfs_get_attached_file_meta($attachmentId)->filename,
-      "content" => $file,
-    ),
-  );
-  $buffer = $api->multipart($parts, $boundary);
-  $headers = [
-    'Content-Type' => 'multipart/form-data; boundary=' . $boundary,
-    'Content-Length' => strlen($buffer),
-  ];
-  
-  $result = $api->post("/add?cid-version=$version", $buffer, $headers);
+/**
+ * IPFS add file function
+ *
+ * @param string $attachment_id Id attachment file.
+ * @param int    $version CID version : 1 (or 0).
+ *
+ * @return string CID hash
+ */
+function ipfs_add( $attachment_id, $version = IPFS_CID_VERSION ) {
+	$api = new RestClient( array( 'base_url' => IPFS_API ) );
 
-  return ($result->info->http_code == 200) ? $result->decode_response()->Hash :  $result->error;
+	$boundary = md5( time() );
+	$file     = file_get_contents( get_attached_file( $attachment_id ) );
+	$parts    = array(
+		array(
+			'type'    => 'file',
+			'name'    => ipfs_get_attached_file_meta( $attachment_id )->filename,
+			'content' => $file,
+		),
+	);
+	$buffer   = $api->multipart( $parts, $boundary );
+	$headers  = array(
+		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
+		'Content-Length' => strlen( $buffer ),
+	);
+
+	$result = $api->post( "/add?cid-version=$version", $buffer, $headers );
+
+	return ( 200 === $result->info->http_code ) ? $result->decode_response()->Hash : $result->error;
 }
