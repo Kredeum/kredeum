@@ -7,15 +7,17 @@
   import kcid from "../lib/kcid.mjs";
   import Metamask from "./kredeum_metamask.svelte";
   import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
-  export let src;
   export let alt;
+  export let src;
+  export let wid;
   export let width = 100;
   export let display = false;
+  export let minted = 0;
   let cid;
 
-  let minted = 0;
-  let tokenId = 1;
   let pinImage = "";
 
   let signer = "";
@@ -38,30 +40,36 @@
 
   onMount(async function () {
     cid = await kcid.url(src);
-    console.log("nftMint cidPreview", cid);
+    //console.log('nftMint cidPreview', cid);
   });
 
   async function nftMint() {
-    console.log("nftMint src alt", src, alt);
+    //console.log('nftMint src alt', src, alt);
 
     if (signer) {
       minted = 1;
 
+      //dispatch('minted', { minted: minted });
+
       const image = { origin: src, name: alt, minter: address };
+
       pinImage = await pinata.pinImage(image);
-      console.log("nftMint pinImage", pinImage);
-      if (pinImage.cid === cid) console.log("Good Guess !!!");
+      //console.log('nftMint pinImage', pinImage);
+      // if (pinImage.cid === cid){
+      //   //console.log('Good Guess !!!');
+      // }
 
       image.cid = pinImage.cid;
       const pinJson = await pinata.pinJson(image);
-      console.log("nftMint pinJson", pinJson);
+      //console.log('nftMint pinJson', pinJson);
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        console.log("nftMinted", tokenId);
+
         minted = 2;
+        dispatch("minted", { minted: minted });
       } catch (e) {
-        console.error("Minting ERROR", e);
+        //console.error('Minting ERROR', e);
         minted = 0;
       }
     } else {
@@ -85,7 +93,7 @@
     {:else if !networkKRE}
       <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
     {:else}
-      <button on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button-{wid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}
 
     {#if display}

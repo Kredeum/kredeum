@@ -15,13 +15,13 @@
   export let chain_ids;
 
   let network;
+  let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
-  let connectmetamask = "Connect to Metamask";
 
   async function addEthereumChain(_chainId) {
     if (targetChain) {
-      console.log("already connecting network...");
+      //console.log('already connecting network...');
     }
     targetChain = true;
 

@@ -28,7 +28,16 @@ add_action(
 			if ( 'cid' === $name ) {
 				echo wp_kses( ipfs_link( $post->cid, substr( $post->cid, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			} elseif ( 'mint' === $name ) {
-				printf( '<kredeum-nft-mint src="' . esc_url( ipfs_url( $post->cid ) ) . '" alt="' . esc_attr( $post->post_title ) . '"/>' );
+				if ( get_post_meta( $post->ID, 'tokenId' )[0] ) {
+					printf( '<a href="/wp-admin/admin.php?page=nfts">KREDEUM NFTs</a>' );
+				} else {
+					printf(
+						'<kredeum-nft-mint minted'
+						. ' pid="' . esc_attr( $post->ID ) . '"'
+						. ' src="' . esc_url( ipfs_url( $post->cid ) ) . '"'
+						. ' alt="' . esc_attr( $post->post_title ) . '"/>'
+					);
+				}
 			}
 		}
 	}
