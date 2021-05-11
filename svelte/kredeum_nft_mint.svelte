@@ -14,6 +14,7 @@
   export let src;
   export let pid = 0;
   export let width = 100;
+  export let height = 100;
   export let display = false;
   export let minted = 0;
   let cid;
@@ -55,17 +56,20 @@
       const image = { origin: src, name: alt, minter: address };
 
       pinImage = await pinata.pinImage(image);
-      //console.log('nftMint pinImage', pinImage);
-      // if (pinImage.cid === cid){
-      //   //console.log('Good Guess !!!');
-      // }
 
+      console.log("nftMint pinImage", pinImage);
+      if (pinImage.cid !== cid) {
+        console.error("Something went wrong... pinImage.cid !== cid", pinImage.cid, cid);
+      }
       image.cid = pinImage.cid;
+
       const pinJson = await pinata.pinJson(image);
       //console.log('nftMint pinJson', pinJson);
 
       try {
+        console.log("avant", pinJson.jsonIpfs);
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
+        console.log("nftMinted", tokenId);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
@@ -80,7 +84,7 @@
 
 <main>
   {#if display && src}
-    <img src="{src}" alt="{alt}" width="{width}" /><br />
+    <img src="{src}" alt="{alt}" width="{width}" height="{height}" /><br />
   {/if}
 
   {#if address}
