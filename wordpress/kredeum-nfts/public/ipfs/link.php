@@ -1,15 +1,33 @@
 <?php
-// return IPFS url from CID
-function ipfs_url($cid)
-{
-  return $cid ? IPFS_GATEWAY . "/ipfs/$cid" : "";
+/**
+ * Public IPFS LINK function
+ *
+ * @package kredeum/nfts
+ */
+
+/**
+ * Return IPFS url
+ *
+ * @param string $cid file CID.
+ * @return string cid with path
+ */
+function ipfs_url( $cid ) {
+	return $cid ? IPFS_GATEWAY . "/ipfs/$cid" : '';
 }
 
-// return IPFS link from CID
-function ipfs_link($cid, $text = "")
-{
-  if (!$text) $text = $cid;
-  $url = ipfs_url($cid);
+/**
+ * Return IPFS link
+ *
+ * @param string $cid : file CID.
+ * @param string $text : text for the link.
+ * @return string html link to CID with text
+ */
+function ipfs_link( $cid, $text = '' ) {
+	if ( ! $text ) {
+		$text = $cid;
+	}
+	$url = esc_url( ipfs_url( $cid ) );
+	$txt = esc_html( $text );
 
-  return $cid ? "<a href='$url'>$text</a>" : "";
+	return $cid ? "<a href='$url'>$txt</a>" : '';
 }

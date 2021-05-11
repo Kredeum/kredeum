@@ -4,7 +4,11 @@
   "description": "Kredeum NFTs WordPress plugin",
   "main": "index.js",
   "scripts": {
-    "format-lint": "npx prettier-eslint **/*.mjs **/*.svelte **/*.html solidity/contracts/*.sol --write",
+    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts --extensions=php",
+    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=lib --extensions=php",
+    "format-lint-php": "npm run php-fix && npm run php-check",
+    "format-lint-js": "npx prettier-eslint **/*.mjs **/*.svelte **/*.html solidity/contracts/*.sol --write",
+    "format-lint": "npm run format-lint-js && npm run format-lint-php",
     "build": "PROD=true rollup -c",
     "build dev": "rollup -c",
     "dev": "rollup -c -w",
@@ -16,9 +20,7 @@
     "deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
     "list": "npx hardhat run scripts/list.mjs",
     "compile": "npx hardhat compile",
-    "re-install": "rm -rf node_modules && pnpm install",
-    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts -n",
-    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n"
+    "re-install": "rm -rf node_modules && pnpm install"
   },
   "devDependencies": {
     "@metamask/detect-provider": "^1.2.0",

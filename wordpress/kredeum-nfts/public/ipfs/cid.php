@@ -1,10 +1,22 @@
 <?php
-function ipfs_get_attached_file_meta($postId)
-{
-  $ret = new stdClass;
+/**
+ * Public IPFS CID function
+ *
+ * @package kredeum/nfts
+ */
 
-  $ret->cid  = get_post_meta($postId, 'CID', true);
-  $ret->filename = basename(get_post_meta($postId, '_wp_attached_file', true));
+/**
+ * Get file metadata
+ *
+ * @param int $post_id postId.
+ * @return object cid and filename
+ * @package kredeum/nfts
+ */
+function ipfs_get_attached_file_meta( $post_id ) {
+	$ret = new stdClass();
 
-  return $ret;
+	$ret->cid      = get_post_meta( $post_id, 'cid', true );
+	$ret->filename = basename( get_post_meta( $post_id, '_wp_attached_file', true ) );
+
+	return $ret;
 }
