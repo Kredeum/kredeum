@@ -86,7 +86,7 @@ class Kredeum_Nfts_Settings {
 					'kredeum-nfts',
 					array(
 						'br' => array(),
-						'a' => array(
+						'a'  => array(
 							'href' => array(),
 						),
 					)
@@ -124,7 +124,7 @@ class Kredeum_Nfts_Settings {
 
 		switch ( $arguments['type'] ) {
 			case 'metamask':
-				wp_nonce_field( 'nonce_action', 'nonce_field' );
+				wp_nonce_field( 'get-address', 'knonce' );
 				printf( '<kredeum-metamask />' );
 				break;
 			case 'text':

@@ -11,7 +11,7 @@
 add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
-		$columns['nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' );
+		$columns['nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'get-token-id', 'knonce' );
 		$columns['cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
 		return $columns;
 	}

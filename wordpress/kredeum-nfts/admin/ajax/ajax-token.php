@@ -23,6 +23,8 @@ add_action(
 add_action(
 	'wp_ajax_token',
 	function () {
+		check_ajax_referer( 'get-token-id', 'security' );
+
 		if ( isset( $_POST['pid'] ) && isset( $_POST['tokenId'] ) ) {
 			$res = add_post_meta(
 				sanitize_text_field( wp_unslash( $_POST['pid'] ) ),
