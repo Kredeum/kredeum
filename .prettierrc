@@ -5,19 +5,26 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "semi": true,
-  "plugins": ["./node_modules/prettier-plugin-svelte", "./node_modules/prettier-plugin-solidity"],
-  "overrides": [{
-    "files": "*.sol",
-    "options": {
-      "singleQuote": false
+  "plugins": [
+    "./node_modules/prettier-plugin-svelte",
+    "./node_modules/prettier-plugin-solidity",
+    "./node_modules/prettier-plugin-sh"
+  ],
+  "overrides": [
+    {
+      "files": "*.sol",
+      "options": {
+        "singleQuote": false
+      }
+    },
+    {
+      "files": "*.svelte",
+      "options": {
+        "svelteSortOrder": "options-scripts-markup-styles",
+        "svelteStrictMode": true,
+        "svelteBracketNewLine": true,
+        "svelteIndentScriptAndStyle": true
+      }
     }
-  }, {
-    "files": "*.svelte",
-    "options": {
-      "svelteSortOrder": "options-scripts-markup-styles",
-      "svelteStrictMode": true,
-      "svelteBracketNewLine": true,
-      "svelteIndentScriptAndStyle": true
-    }
-  }]
+  ]
 }
