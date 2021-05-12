@@ -83,12 +83,12 @@ class Kredeum_Nfts_Settings {
 					'<br><br><strong>Please read needed <a href="https://docs.kredeum.tech/wordpress-setup/pre-requirements/" target="_blank">pre-requirements</a>' .
 					' and related <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">settings doc</a></strong>.' .
 					'<br><br>Also please find our <a href="https://docs.kredeum.tech/user-guide" target="_blank">User guide</a> to archive your medias, mint them into NFTs and finally sell your media NFTs.',
-					'kredeum-nfts'
-				, array( 
-					'br' => array(), 
-					'a' => array( 
-						'href' => array() 
-						)
+					'kredeum-nfts',
+					array(
+						'br' => array(),
+						'a' => array(
+							'href' => array(),
+						),
 					)
 				) . '</p>';
 				break;

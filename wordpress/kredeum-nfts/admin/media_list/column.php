@@ -12,7 +12,7 @@ add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
 		$columns['nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' );
-		$columns['cid']  = __( 'IPFS Archive', 'kredeum-nfts' );
+		$columns['cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
 		return $columns;
 	}
 );
@@ -29,7 +29,7 @@ add_action(
 				echo wp_kses( ipfs_link( $post->cid, substr( $post->cid, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			} elseif ( 'nft' === $name ) {
 				if ( get_post_meta( $post->ID, 'tokenId' )[0] ) {
-					printf( '<a href="/wp-admin/admin.php?page=nfts" krd-nft=' . get_post_meta( $post->ID, 'tokenId' )[0] . '>NFT created</a>' );
+					printf( '<a href="/wp-admin/admin.php?page=nfts" krd-nft=' . esc_attr( get_post_meta( $post->ID, 'tokenId' )[0] ) . '>NFT created</a>' );
 				} else {
 					printf(
 						'<kredeum-nft-mint minted'

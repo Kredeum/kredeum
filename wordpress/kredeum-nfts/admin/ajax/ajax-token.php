@@ -30,10 +30,9 @@ add_action(
 				sanitize_text_field( wp_unslash( $_POST['tokenId'] ) ),
 				true
 			);
-			echo var_dump( $res );		
+			echo esc_html( var_dump( $res ) );
 		};
 
 		wp_die();
 	}
 );
-
