@@ -69,7 +69,7 @@
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
-        console.error('Minting ERROR', e);
+        console.error("Minting ERROR", e);
         minted = 0;
       }
     } else {
