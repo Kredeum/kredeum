@@ -19,6 +19,8 @@
  * @package kredeum/nfts
  */
 
+ define( 'KREDEUM_NFTS_VERSION', '0.4.4' );
+
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
@@ -60,7 +62,7 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function () {
-			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum_nft.js', array(), 'v0.4.1', true );
+			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum_nft.js', array(), KREDEUM_NFTS_VERSION, true );
 		},
 		110
 	);}

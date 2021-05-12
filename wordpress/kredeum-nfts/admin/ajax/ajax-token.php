@@ -12,7 +12,7 @@
 add_action(
 	'admin_enqueue_scripts',
 	function () {
-		wp_enqueue_script( 'ajax-token', plugin_dir_url( __FILE__ ) . 'ajax-token.js', array(), 42, true );
+		wp_enqueue_script( 'ajax-token', plugin_dir_url( __FILE__ ) . 'ajax-token.js', array(), KREDEUM_NFTS_VERSION, true );
 	},
 	100
 );
