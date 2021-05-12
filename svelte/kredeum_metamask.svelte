@@ -15,13 +15,13 @@
   export let chain_ids;
 
   let network;
+  let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
-  let connectmetamask = "Connect to Metamask";
 
   async function addEthereumChain(_chainId) {
     if (targetChain) {
-      console.log("already connecting network...");
+      //console.log('already connecting network...');
     }
     targetChain = true;
 
@@ -29,7 +29,7 @@
       // no need to add default ethereum chain
 
       const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
-      console.log("baddEthereumChain", _chainId, _network || "unknown");
+      //console.log("baddEthereumChain", _chainId, _network || "unknown");
 
       if (_network) {
         // add new chain to metamask
@@ -54,7 +54,7 @@
 
         // transform chain_ids list to chainIds array : "0x89,0x13881" => ["0x89","0x13881"]
         const chainIds = chain_ids?.split(",");
-        console.log("handleChainId <=", _chainId, chainIds);
+        //console.log("handleChainId <=", _chainId, chainIds);
 
         if (chainIds && !chainIds.find((id) => Number(id) === Number(_chainId))) {
           // _chainId not accepted : add first accepted chainId

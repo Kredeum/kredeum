@@ -7,29 +7,32 @@
   import kcid from "../lib/kcid.mjs";
   import Metamask from "./kredeum_metamask.svelte";
   import { onMount } from "svelte";
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
 
-  export let src;
   export let alt;
+  export let src;
+  export let pid = 0;
   export let width = 100;
   export let display = false;
+  export let minted = 0;
   let cid;
 
-  let minted = 0;
-  let tokenId = 1;
   let pinImage = "";
 
   let signer = "";
   let address = "";
   let networkKRE = "";
+  let tokenId;
 
   const chain_ids = "0x89,0x13881";
   let chainId = 0;
 
-  $: console.log("SIGNER", signer);
+  //$: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
     networkKRE = nft.init(chainId);
-    console.log("networkKRE", networkKRE);
+    //console.log("networkKRE", networkKRE);
     if (!networkKRE) {
       console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
       // alert('Switch to Matic or Mumbai on Polygon');
@@ -38,30 +41,35 @@
 
   onMount(async function () {
     cid = await kcid.url(src);
-    console.log("nftMint cidPreview", cid);
+    //console.log('nftMint cidPreview', cid);
   });
 
   async function nftMint() {
-    console.log("nftMint src alt", src, alt);
+    //console.log('nftMint src alt', src, alt);
 
     if (signer) {
       minted = 1;
 
+      //dispatch('minted', { minted: minted });
+
       const image = { origin: src, name: alt, minter: address };
+
       pinImage = await pinata.pinImage(image);
-      console.log("nftMint pinImage", pinImage);
-      if (pinImage.cid === cid) console.log("Good Guess !!!");
+      //console.log('nftMint pinImage', pinImage);
+      // if (pinImage.cid === cid){
+      //   //console.log('Good Guess !!!');
+      // }
 
       image.cid = pinImage.cid;
       const pinJson = await pinata.pinJson(image);
-      console.log("nftMint pinJson", pinJson);
+      //console.log('nftMint pinJson', pinJson);
 
       try {
         tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
-        console.log("nftMinted", tokenId);
         minted = 2;
+        dispatch("token", { tokenId: tokenId });
       } catch (e) {
-        console.error("Minting ERROR", e);
+        console.error('Minting ERROR', e);
         minted = 0;
       }
     } else {
@@ -78,14 +86,16 @@
   {#if address}
     {#if minted == 2}
       <!-- <a href="{network?.openSeaAssets}/{network?.KRE}/{tokenId}" target="_blank"> -->
-      <button class="sell">SELL NFT</button>
+      <a href="/wp-admin/admin.php?page=nfts">
+        <button class="sell">SELL NFT</button>
+      </a>
       <!-- </a> -->
     {:else if minted == 1}
       <button id="mint-button" class="minting">MINTING...</button>
     {:else if !networkKRE}
       <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
     {:else}
-      <button on:click="{nftMint}" class="mint">MINT NFT</button>
+      <button id="mint-button-{pid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}
 
     {#if display}
