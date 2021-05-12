@@ -1,5 +1,5 @@
 {
-  "extends": ["eslint:recommended","prettier"],
+  "extends": ["eslint:recommended", "prettier"],
   "env": {
     "browser": true,
     "node": true,
@@ -24,6 +24,7 @@
       }
     }
   ],
+  "ignorePatterns": ["temp.js", "**/vendor/*.js"],
   "rules": {
     "no-console": 0,
     "indent": ["error", 2],

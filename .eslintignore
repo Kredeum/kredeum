@@ -5,18 +5,8 @@ node_modules
 solidity/build
 
 # APP
-app/build
+app/build/
 
 # WORDPRESS
 wordpress/kredeum-nfts/lib/js
 wordpress/vendor
-
-
-# ENV
-**/*.env
-
-# JAVASCRIPT
-**/*.map
-
-# MACOS
-.DS_Store

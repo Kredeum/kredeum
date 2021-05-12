@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
 
 module.exports = {
-  defaultNetwork: 'mumbai',
+  defaultNetwork: "mumbai",
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -44,7 +44,7 @@ module.exports = {
     apiKey: process.env.ETHERSCAN_API_KEY
   },
   abiExporter: {
-    path: "solidity/abis",
+    path: "solidity/build/abis",
     clear: true,
     // only: ['KRE'],
     flat: true
@@ -65,8 +65,8 @@ module.exports = {
   paths: {
     sources: "solidity/contracts",
     tests: "tests",
-    cache: "solidity/cache",
-    artifacts: "solidity/artifacts"
+    cache: "solidity/build/cache",
+    artifacts: "solidity/build/artifacts"
   },
   mocha: {
     timeout: 20000
