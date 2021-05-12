@@ -1,5 +1,5 @@
 name: Check sources
-on: push
+on: [push, pull_request]
 
 jobs:
   check_php:
