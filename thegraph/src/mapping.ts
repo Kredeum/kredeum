@@ -1,5 +1,8 @@
 import { log } from '@graphprotocol/graph-ts';
-import { NFT, Transfer as TransferEvent } from '../generated/Kredeum NFTs/NFT';
+import {
+  OpenNFTs,
+  Transfer as TransferEvent,
+} from '../generated/templates/OpenNFTs/OpenNFTs';
 import { Token, Owner, Contract, Transfer } from '../generated/schema';
 
 export function handleTransfer(event: TransferEvent): void {
@@ -17,7 +20,7 @@ export function handleTransfer(event: TransferEvent): void {
   let transferId = event.transaction.hash
     .toHexString()
     .concat(':'.concat(event.transactionLogIndex.toHexString()));
-  let instance = NFT.bind(event.address);
+  let instance = OpenNFTs.bind(event.address);
 
   let contract = Contract.load(address) || new Contract(address);
   let previousOwner = Owner.load(from) || new Owner(from);
