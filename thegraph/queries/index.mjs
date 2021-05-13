@@ -11,7 +11,7 @@ async function graphQL(url, query) {
   return response;
 }
 
-const queryFile = process.argv[2] || 'default.gql';
+const queryFile = process.argv[2] || 'nft.gql';
 const url =
   process.argv[3] ||
   'https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft';

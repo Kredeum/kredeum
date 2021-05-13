@@ -1,5 +1,5 @@
 import { log } from '@graphprotocol/graph-ts';
-import { KRE, Transfer as TransferEvent } from '../generated/KRE/KRE';
+import { NFT, Transfer as TransferEvent } from '../generated/Kredeum NFTs/NFT';
 import { Token, Owner, Contract, Transfer } from '../generated/schema';
 
 export function handleTransfer(event: TransferEvent): void {
@@ -7,6 +7,7 @@ export function handleTransfer(event: TransferEvent): void {
   let to = event.params.to.toHexString();
   let tockenId = event.params.tokenId.toHexString();
   let address = event.address.toHexString();
+  let tockenIdaddress = tockenId.concat(':'.concat(address));
   log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [
     from,
     to,
@@ -16,16 +17,16 @@ export function handleTransfer(event: TransferEvent): void {
   let transferId = event.transaction.hash
     .toHexString()
     .concat(':'.concat(event.transactionLogIndex.toHexString()));
-  let instance = KRE.bind(event.address);
+  let instance = NFT.bind(event.address);
 
   let contract = Contract.load(address) || new Contract(address);
   let previousOwner = Owner.load(from) || new Owner(from);
   let newOwner = Owner.load(to) || new Owner(to);
 
   // TOKEN
-  let token = Token.load(tockenId);
+  let token = Token.load(tockenIdaddress);
   if (token == null) {
-    token = new Token(tockenId);
+    token = new Token(tockenIdaddress);
     token.contract = event.address.toHexString();
     let uri = instance.try_tokenURI(event.params.tokenId);
     if (!uri.reverted) {
