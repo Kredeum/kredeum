@@ -38,7 +38,7 @@ function ipfs_add_and_pin_pinata( $attachment_id, $version = IPFS_CID_VERSION ) 
 		),
 	);
 
-	$buffer  = $api->multipart( $parts, $boundary );
+	$buffer  = multipart( $parts, $boundary );
 	$headers = array(
 		'pinata_api_key'        => IPFS_PINATA_KEY,
 		'pinata_secret_api_key' => IPFS_PINATA_SECRET,

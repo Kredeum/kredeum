@@ -32,10 +32,11 @@ function ipfs_insert( $post_id ) {
 		$cid = ipfs_add_and_pin_nft_storage( $post_id );
 	} elseif ( defined( 'IPFS_PINATA_SECRET' ) ) {
 		$cid = ipfs_add_and_pin_pinata( $post_id );
-	} else {
-		$cid = ipfs_add( $post_id );
-		ipfs_pin( $cid );
 	}
+	// else {
+	// $cid = ipfs_add( $post_id );
+	// ipfs_pin( $cid );
+	// } .
 	update_post_meta( $post_id, 'cid', $cid );
 	return $cid;
 }

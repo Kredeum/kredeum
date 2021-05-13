@@ -27,7 +27,7 @@ function ipfs_add_and_pin_nft_storage( $attachment_id, $version = IPFS_CID_VERSI
 		),
 	);
 
-	$buffer  = $api->multipart( $parts, $boundary );
+	$buffer  = multipart( $parts, $boundary );
 	$headers = array(
 		'Authorization'  => 'Bearer ' . IPFS_NFT_STORAGE_KEY,
 		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,

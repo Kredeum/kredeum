@@ -25,7 +25,7 @@ function ipfs_add( $attachment_id, $version = IPFS_CID_VERSION ) {
 			'content' => $file,
 		),
 	);
-	$buffer   = $api->multipart( $parts, $boundary );
+	$buffer   = multipart( $parts, $boundary );
 	$headers  = array(
 		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
 		'Content-Length' => strlen( $buffer ),
