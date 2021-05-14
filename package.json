@@ -1,8 +1,5 @@
 {
   "name": "KredeumNFTs",
-  "version": "1.0.0",
-  "description": "Kredeum NFTs WordPress plugin",
-  "main": "index.js",
   "scripts": {
     "node-re-install": "rm -rf node_modules && pnpm install",
     "format-lint-php": "npm run php-fix && npm run php-check",
@@ -64,16 +61,5 @@
     "@graphprotocol/graph-cli": "^0.20.0",
     "@graphprotocol/graph-ts": "^0.20.0",
     "solc": "^0.8.4"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kredeum/kredeum.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Kredeum/kredeum/issues"
-  },
-  "homepage": "https://github.com/Kredeum/kredeum#readme"
+  }
 }
