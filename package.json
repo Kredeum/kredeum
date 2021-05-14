@@ -1,26 +1,26 @@
 {
   "name": "KredeumNFTs",
-  "version": "1.0.0",
-  "description": "Kredeum NFTs WordPress plugin",
-  "main": "index.js",
   "scripts": {
-    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts --extensions=php --standard=WordPress",
-    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
+    "node-re-install": "rm -rf node_modules && pnpm install",
     "format-lint-php": "npm run php-fix && npm run php-check",
     "format-lint-js": "npx prettier-eslint **/*.sol **/*.svelte **/*.mjs **/*.js **/*.ts **/*.json **/*.html **/*.css **/*.yaml **/*.graphql **/*.md **/*.sh  --write",
     "format-lint": "npm run format-lint-js && npm run format-lint-php",
-    "build": "PROD=true rollup -c",
-    "build dev": "rollup -c",
-    "dev": "rollup -c -w",
-    "start": "sirv app",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "flatten": "npx hardhat flatten solidity/contracts/nft.sol > solidity/flatten/nft.sol",
-    "deploy": "npx hardhat run scripts/deploy.mjs",
-    "deploy-mumbai": "npx hardhat run scripts/deploy.mjs --network mumbai",
-    "deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
-    "list": "npx hardhat run scripts/list.mjs",
-    "compile": "npx hardhat compile",
-    "re-install": "rm -rf node_modules && pnpm install"
+    "php-fix": "wordpress/vendor/bin/phpcbf wordpress/kredeum-nfts --extensions=php --standard=WordPress",
+    "php-check": "wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
+    "dapp-build": "PROD=true rollup -c",
+    "dapp-build-dev": "rollup -c",
+    "dapp-dev": "rollup -c -w",
+    "dapp-start": "sirv app",
+    "smart-flatten": "npx hardhat flatten solidity/contracts/nft.sol > solidity/flatten/nft.sol",
+    "smart-deploy": "npx hardhat run scripts/deploy.mjs",
+    "smart-deploy-mumbai": "npx hardhat run scripts/deploy.mjs --network mumbai",
+    "smart-deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
+    "smart-list": "npx hardhat run scripts/list.mjs",
+    "smart-compile": "npx hardhat compile",
+    "sub-codegen": "cd thegraph && graph codegen",
+    "sub-build": "cd thegraph && graph build",
+    "sub-deploy": "cd thegraph && graph deploy zapaz/matic-open-nft --ipfs https://api.subgraph.com/ipfs/ --node https://api.subgraph.com/deploy/",
+    "sub-deploy-mumbai": "cd thegraph && graph deploy zapaz/mumbai-open-nft --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
   },
   "devDependencies": {
     "@metamask/detect-provider": "^1.2.0",
@@ -57,17 +57,9 @@
     "solhint": "^3.3.4",
     "solhint-plugin-prettier": "^0.0.5",
     "svelte": "^3.38.2",
-    "web-encoding": "^1.1.5"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Kredeum/kredeum.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/Kredeum/kredeum/issues"
-  },
-  "homepage": "https://github.com/Kredeum/kredeum#readme"
+    "web-encoding": "^1.1.5",
+    "@graphprotocol/graph-cli": "^0.20.0",
+    "@graphprotocol/graph-ts": "^0.20.0",
+    "solc": "^0.8.4"
+  }
 }
