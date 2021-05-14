@@ -6,6 +6,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ajax;
+
 /**
  * Add action enqueue
  */

@@ -25,6 +25,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs;
+
 define( 'KREDEUM_NFTS_VERSION', '0.4.5' );
 
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
@@ -42,26 +44,24 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax-token.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/add.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/nft-storage.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/pinata.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/query.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/multipart.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/delete.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/new.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/post.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/upload.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/actions.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/column.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-kredeum-nfts-settings.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/php/multipart.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
 
-	$api = new RestClient( array( 'base_url' => '' ) );
+	$api = new \RestClient( array( 'base_url' => '' ) );
 
 	add_action(
 		'admin_enqueue_scripts',
@@ -77,9 +77,9 @@ define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
 define( 'IPFS_PINATA_KEY', get_option( 'IPFS_PINATA_KEY', '' ) );
 define( 'IPFS_PINATA_SECRET', get_option( 'IPFS_PINATA_SECRET', '' ) );
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/ipfs/cid.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/ipfs/link.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/ipfs/links.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/cid.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/link.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/links.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php';
 
 add_action(

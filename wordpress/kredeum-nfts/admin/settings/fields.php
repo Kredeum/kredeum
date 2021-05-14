@@ -5,10 +5,12 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Settings;
+
 /**
  * Kredeum NFTs fields definition
  */
-function kredeum_nfts_fields() {
+function fields() {
 	return array(
 		array(
 			'uid'     => 'ipfs_auto',

@@ -5,20 +5,22 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * List IPFS links
  * caution : all medias included in the post are not attached :-(
  *
  * @return string links
  */
-function ipfs_links() {
+function links() {
 	$ret         = '';
 	$n           = 0;
 	$attachments = get_attached_media( '' );
 	foreach ( $attachments as $attachment ) {
-		$file = ipfs_get_attached_file_meta( $attachment->ID );
+		$file = get_attached_file_meta( $attachment->ID );
 		if ( $file->cid ) {
-			$ret .= '<li>' . ipfs_link( $file->cid, $file->filename ) . '</li>';
+			$ret .= '<li>' . link( $file->cid, $file->filename ) . '</li>';
 			$n++;
 		}
 	}

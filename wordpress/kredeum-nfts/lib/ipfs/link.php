@@ -5,13 +5,15 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * Return IPFS url
  *
  * @param string $cid file CID.
  * @return string cid with path
  */
-function ipfs_url( $cid ) {
+function url( $cid ) {
 	return $cid ? IPFS_GATEWAY . "/ipfs/$cid" : '';
 }
 
@@ -22,11 +24,11 @@ function ipfs_url( $cid ) {
  * @param string $text : text for the link.
  * @return string html link to CID with text
  */
-function ipfs_link( $cid, $text = '' ) {
+function link( $cid, $text = '' ) {
 	if ( ! $text ) {
 		$text = $cid;
 	}
-	$url = esc_url( ipfs_url( $cid ) );
+	$url = esc_url( url( $cid ) );
 	$txt = esc_html( $text );
 
 	return $cid ? "<a href='$url'>$txt</a>" : '';

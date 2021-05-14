@@ -5,6 +5,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * IPFS meta_boxes action
  * affiche box avec CID
@@ -18,7 +20,8 @@ add_action(
 			function ( $post ) {
 				$cid = $post->cid;
 				if ( $cid ) {
-					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' . wp_kses( ipfs_link( $cid ), array( 'a' => array( 'href' => array() ) ) );
+					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
+					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
 				}
 			}
 		);
@@ -31,7 +34,7 @@ add_action(
 add_filter(
 	'attachment_fields_to_edit',
 	function ( $form_fields, $post ) {
-		$file = ipfs_get_attached_file_meta( $post->ID );
+		$file = get_attached_file_meta( $post->ID );
 
 		if ( ! $file->cid ) {
 			$form_fields['cid'] = array(
@@ -49,14 +52,14 @@ add_filter(
 );
 
 /**
- * IPFS edit attechement action
+ * IPFS edit attachement action
  */
 add_action(
 	'edit_attachment',
 	function ( $attachment_id ) {
 		if ( isset( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] )
 		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] ) ) ) {
-			ipfs_insert( $attachment_id );
+			insert( $attachment_id );
 		}
 	}
 );

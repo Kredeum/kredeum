@@ -7,6 +7,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ajax;
+
 /**
  * Add actions
  */

@@ -5,6 +5,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * IPFS bulk archive action
  */
@@ -27,8 +29,8 @@ add_filter(
 		$nu = 0; // number of unchanged files.
 		if ( 'archive' === $action ) {
 			foreach ( $post_ids as $post_id ) {
-				$file = ipfs_get_attached_file_meta( $post_id );
-				$cid  = ipfs_insert( $post_id );
+				$file = get_attached_file_meta( $post_id );
+				$cid  = insert( $post_id );
 				if ( $file->cid ) {
 					if ( $file->cid === $cid ) {
 						$nu++;
