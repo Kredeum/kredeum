@@ -4,7 +4,7 @@
  * Plugin Name: Kredeum NFTs
  * Description: Plugin to archive your medias to IPFS and mint them as NFTs
  * Plugin URI: https://docs.kredeum.tech
- * Version: 0.4.5
+ * Version: 0.4.6
  * Author: Kredeum <alain@kredeum.com>
  * Author URI: https://www.kredeum.com
  * Text domain: kredeum-nfts
@@ -15,7 +15,7 @@
  * Tags: nft, blockchain, ethereum, ipfs
  * Requires at least: 5.0
  * Tested up to: 5.7.2
- * Stable tag: 0.4.5
+ * Stable tag: 0.4.6
  * Requires PHP: 7.0
  * License: GPLv3 or later
  * License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -27,7 +27,7 @@
 
 namespace KredeumNFTs;
 
-define( 'KREDEUM_NFTS_VERSION', '0.4.5' );
+define( 'KREDEUM_NFTS_VERSION', '0.4.6' );
 
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -55,7 +55,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/actions.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/column.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-kredeum-nfts-settings.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
 
