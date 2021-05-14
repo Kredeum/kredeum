@@ -79,25 +79,26 @@ class Kredeum_Nfts_Settings {
 		switch ( $arguments['id'] ) {
 			case 'first_section':
 				echo '<p>' . wp_kses(
-					__( 'Here you can set IPFS options and connect WordPress to your Metamask accounts. ' ) .
-					'<br><br><strong>Please read needed <a href="https://docs.kredeum.tech/wordpress-setup/pre-requirements/" target="_blank">pre-requirements</a>' .
-					' and related <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">settings doc</a></strong>.' .
-					'<br><br>Also please find our <a href="https://docs.kredeum.tech/user-guide" target="_blank">User guide</a> to archive your medias, mint them into NFTs and finally sell your media NFTs.',
-					'kredeum-nfts',
+					__( 'Here you can set IPFS options and connect WordPress to your Metamask accounts. ', 'kredeum-nfts' ) .
+					'<br><br><strong>Please read needed ' .
+					'<a href="https://docs.kredeum.tech/wordpress-setup/pre-requirements/" target="_blank">pre-requirements</a>' .
+					' and related ' .
+					'<a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">settings doc</a>' .
+					'</strong>.<br><br>Also please find our ' .
+					'<a href="https://docs.kredeum.tech/user-guide" target="_blank">User guide</a>' .
+					' to archive your medias, mint them into NFTs and finally sell your media NFTs.',
 					array(
-						'br' => array(),
-						'a'  => array(
-							'href' => array(),
+						'br'     => array(),
+						'strong' => array(),
+						'a'      => array(
+							'href'   => array(),
+							'target' => array(),
 						),
 					)
 				) . '</p>';
 				break;
 		}
 	}
-
-
-
-
 
 	/**
 	 * Fields Create
@@ -123,18 +124,22 @@ class Kredeum_Nfts_Settings {
 		}
 
 		switch ( $arguments['type'] ) {
+
 			case 'metamask':
 				wp_nonce_field( 'get-address', 'knonce' );
 				printf( '<kredeum-metamask />' );
 				break;
+
 			case 'text':
 			case 'password':
 			case 'number':
 				printf( '<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" />', esc_html( $arguments['uid'] ), esc_html( $arguments['type'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) );
 				break;
+
 			case 'textarea':
 				esc_html( printf( '<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="50">%3$s</textarea>', esc_html( $arguments['uid'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) ) );
 				break;
+
 			case 'select':
 			case 'multiselect':
 				if ( ! empty( $arguments['options'] ) && is_array( $arguments['options'] ) ) {
@@ -145,11 +150,25 @@ class Kredeum_Nfts_Settings {
 						$options_markup .= sprintf( '<option value="%s" %s>%s</option>', $key, $selected, $label );
 					}
 					if ( 'multiselect' === $arguments['type'] ) {
-						$attributes = ' multiple="multiple" ';
+						$attributes = ' multiple ';
 					}
-					printf( '<select name="%1$s[]" id="%1$s" %2$s>%3$s</select>', esc_html( $arguments['uid'] ), esc_html( $attributes ), esc_html( $options_markup ) );
+					printf(
+						'<select name="%1$s[]" id="%1$s" %2$s>%3$s</select>',
+						esc_attr( $arguments['uid'] ),
+						esc_attr( $attributes ),
+						wp_kses(
+							$options_markup,
+							array(
+								'option' => array(
+									'value'    => array(),
+									'selected' => array(),
+								),
+							)
+						)
+					);
 				}
 				break;
+
 			case 'radio':
 			case 'checkbox':
 				if ( ! empty( $arguments['options'] ) && is_array( $arguments['options'] ) ) {

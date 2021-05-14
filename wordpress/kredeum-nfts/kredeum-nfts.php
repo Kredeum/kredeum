@@ -31,11 +31,8 @@ defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
-	define( 'IPFS_AUTO', '1' );
 	define( 'IPFS_CID_VERSION', '1' );
-	// define('IPFS_AUTO', get_option('IPFS_AUTO', [0])[0]); ?
-	// define('IPFS_CID_VERSION', get_option('IPFS_CID_VERSION', [0])[0]); ?
-
+	define( 'IPFS_AUTO', get_option( 'IPFS_AUTO', array( '' ) )[0] );
 	define( 'IPFS_API', get_option( 'IPFS_API', array( '' ) )[0] );
 	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
 	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
