@@ -5,6 +5,7 @@
  * @package kredeum/nfts
  */
 
+namespace \Admin\Ipfs;
 /**
  * IPFS add file function
  *
@@ -13,7 +14,7 @@
  *
  * @return string CID hash
  */
-function ipfs_add( $attachment_id, $version = IPFS_CID_VERSION ) {
+function add( $attachment_id, $version = IPFS_CID_VERSION ) {
 	$api = new RestClient( array( 'base_url' => IPFS_API ) );
 
 	$boundary = md5( time() );

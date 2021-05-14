@@ -5,10 +5,12 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Settings;
+
 /**
  * Kredeum NFTs fields definition
  */
-function kredeum_nfts_fields() {
+function fields() {
 	return array(
 		array(
 			'uid'     => 'ipfs_auto',
@@ -44,7 +46,7 @@ function kredeum_nfts_fields() {
 		// 'http://127.0.0.1:8080' => 'http://127.0.0.1:8080',
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
-		// ),
+		// ), .
 
 		array(
 			'uid'         => 'ipfs_nft_storage_key',

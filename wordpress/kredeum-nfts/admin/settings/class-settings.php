@@ -7,12 +7,14 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Settings;
+
 /**
  * Class Kredeum_Nfts_Settings
  *
  * @variable string $slug Settings slug
  */
-class Kredeum_Nfts_Settings {
+class Settings {
 
 	/**
 	 * Slug
@@ -104,7 +106,7 @@ class Kredeum_Nfts_Settings {
 	 * Fields Create
 	 */
 	public function fields_create() {
-		$fields = kredeum_nfts_fields( $this->slug );
+		$fields = fields( $this->slug );
 
 		foreach ( $fields as $field ) {
 			add_settings_field( $field['uid'], $field['label'], array( $this, 'field_callback' ), $this->slug, $field['section'], $field );
@@ -192,4 +194,4 @@ class Kredeum_Nfts_Settings {
 		}
 	}
 }
-new Kredeum_Nfts_Settings();
+new Settings();

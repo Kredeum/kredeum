@@ -25,6 +25,7 @@ services:
       WORDPRESS_DB_NAME: wp
       WORDPRESS_DB_USER: wp
       WORDPRESS_DB_PASSWORD: ${DB_WORDPRESS_PASSWORD}
+      WORDPRESS_DEBUG: 1
     ports:
       - 8000:80
 

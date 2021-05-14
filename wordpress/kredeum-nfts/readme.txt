@@ -4,7 +4,7 @@ Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, ipfs
 Requires at least: 5.0
 Tested up to: 5.7.2
-Stable tag: 0.4.5
+Stable tag: 0.4.6
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -40,5 +40,5 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.4.3 =
+= 0.4.6 =
 * Initial plugin release

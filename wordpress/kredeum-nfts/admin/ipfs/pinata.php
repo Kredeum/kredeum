@@ -5,6 +5,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * IPFS add and pin file with PINATA
  *
@@ -13,12 +15,12 @@
  *
  * @return string CID hash
  */
-function ipfs_add_and_pin_pinata( $attachment_id, $version = IPFS_CID_VERSION ) {
-	$api = new RestClient( array( 'base_url' => 'https://api.pinata.cloud' ) );
+function pinata_add_and_pin( $attachment_id, $version = IPFS_CID_VERSION ) {
+	$api = new \RestClient( array( 'base_url' => 'https://api.pinata.cloud' ) );
 
 	$boundary = md5( time() );
 	$file     = file_get_contents( get_attached_file( $attachment_id ) );
-	$filename = ipfs_get_attached_file_meta( $attachment_id )->filename;
+	$filename = get_attached_file_meta( $attachment_id )->filename;
 	$parts    = array(
 		array(
 			'type'    => 'file',

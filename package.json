@@ -20,7 +20,8 @@
     "sub-codegen": "cd thegraph && graph codegen",
     "sub-build": "cd thegraph && graph build",
     "sub-deploy": "cd thegraph && graph deploy zapaz/matic-open-nft --ipfs https://api.subgraph.com/ipfs/ --node https://api.subgraph.com/deploy/",
-    "sub-deploy-mumbai": "cd thegraph && graph deploy zapaz/mumbai-open-nft --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/"
+    "sub-deploy-mumbai": "cd thegraph && graph deploy zapaz/mumbai-open-nft --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
+    "start": "sirv app"
   },
   "devDependencies": {
     "@metamask/detect-provider": "^1.2.0",

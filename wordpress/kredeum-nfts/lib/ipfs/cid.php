@@ -5,6 +5,8 @@
  * @package kredeum/nfts
  */
 
+namespace KredeumNFTs\Ipfs;
+
 /**
  * Get file metadata
  *
@@ -12,8 +14,8 @@
  * @return object cid and filename
  * @package kredeum/nfts
  */
-function ipfs_get_attached_file_meta( $post_id ) {
-	$ret = new stdClass();
+function get_attached_file_meta( $post_id ) {
+	$ret = new \stdClass();
 
 	$ret->cid      = get_post_meta( $post_id, 'cid', true );
 	$ret->filename = basename( get_post_meta( $post_id, '_wp_attached_file', true ) );
