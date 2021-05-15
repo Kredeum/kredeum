@@ -31,7 +31,7 @@ function upsert( $post_id ) {
  */
 function insert( $post_id ) {
 	if ( defined( 'IPFS_NFT_STORAGE_KEY' ) ) {
-		$cid = nft_storageadd_and_pin( $post_id );
+		$cid = nft_storage_add_and_pin( $post_id );
 	} elseif ( defined( 'IPFS_PINATA_SECRET' ) ) {
 		$cid = pinata_add_and_pin( $post_id );
 	}
