@@ -56,10 +56,9 @@
         origin: src,
         minter: address
       });
-      console.log("nftMint pinJson", pinJson);
 
       try {
-        tokenId = await nft.Mint(signer, "ipfs://" + cidJson);
+        tokenId = await nft.Mint(signer, "https://ipfs.io/ipfs/" + cidJson);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
