@@ -56,7 +56,7 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function () {
-			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum_nft.js', array(), KREDEUM_NFTS_VERSION, true );
+			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nft.js', array(), KREDEUM_NFTS_VERSION, true );
 		},
 		110
 	);}

@@ -36,7 +36,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
     output: {
       sourcemap: !production,
       format: "iife",
-      name: component,
+      name: component.replace(/-/g, "_"),
       file: `${dest}/${component}.js`
     },
     plugins: [
