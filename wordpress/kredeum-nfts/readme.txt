@@ -1,10 +1,10 @@
 === Kredeum NFTs, The easiest way to sell your content to NFTs Marketplaces ===
-Contributors: apaz, yoannr35, alexr35
+Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, ipfs
 Requires at least: 5.0
 Tested up to: 5.7.2
-Stable tag: 0.4.7
+Stable tag: 0.4.8
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -40,5 +40,8 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.4.7 =
+= 0.4.8 =
+* Readme updates
+
+= 0.4.8 =
 * Initial plugin release
