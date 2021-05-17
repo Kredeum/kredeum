@@ -1,0 +1,33 @@
+<?php return array (
+  'root' => 
+  array (
+    'pretty_version' => 'dev-master',
+    'version' => 'dev-master',
+    'aliases' => 
+    array (
+    ),
+    'reference' => '967ec38c669fc98266b4b37b597aa3695797b4a7',
+    'name' => '__root__',
+  ),
+  'versions' => 
+  array (
+    '__root__' => 
+    array (
+      'pretty_version' => 'dev-master',
+      'version' => 'dev-master',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '967ec38c669fc98266b4b37b597aa3695797b4a7',
+    ),
+    'tcdent/php-restclient' => 
+    array (
+      'pretty_version' => '0.1.7',
+      'version' => '0.1.7.0',
+      'aliases' => 
+      array (
+      ),
+      'reference' => '4522e8518eaef770d715977fcb45f187f8ad7499',
+    ),
+  ),
+);
