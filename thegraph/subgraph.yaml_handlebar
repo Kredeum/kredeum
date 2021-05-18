@@ -1,0 +1,30 @@
+# prettier-ignore
+specVersion: 0.0.2
+description: Kredeum NFTs subgraph for Polygon network
+repository: https://github.com/Kredeum/kredeum
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: OpenNFTs
+    network: {{network}}
+    source:
+      address: '{{address}}'
+      abi: OpenNFTs
+      startBlock: {{startBlock}}
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.4
+      language: wasm/assemblyscript
+      entities:
+        - Token
+        - Owners
+        - Contract
+        - Transfer
+      abis:
+        - name: OpenNFTs
+          file: ./abis/OpenNFTs.json
+      eventHandlers:
+        - event: Transfer(indexed address,indexed address,indexed uint256)
+          handler: handleTransfer
+      file: ./src/mapping.ts

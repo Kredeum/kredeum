@@ -126,10 +126,10 @@
 
 {#if address}
   {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{address}@{network?.chainName}</a
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{network?.chainName}@{address}</a
     >
   {:else}
-    {address}@{network?.chainName}
+    {network?.chainName}@{address}
   {/if}
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>

@@ -2,7 +2,7 @@ import { log } from '@graphprotocol/graph-ts';
 import {
   OpenNFTs,
   Transfer as TransferEvent,
-} from '../generated/templates/OpenNFTs/OpenNFTs';
+} from '../generated/OpenNFTs/OpenNFTs';
 import { Token, Owner, Contract, Transfer } from '../generated/schema';
 
 export function handleTransfer(event: TransferEvent): void {
