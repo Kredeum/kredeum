@@ -8,7 +8,7 @@ dataSources:
     name: OpenNFTsFactory
     network: mumbai
     source:
-      address: '0xEbf2e7C69500D689B80d3d6fBb5E3aAb644C52aE'
+      address: "0xEbf2e7C69500D689B80d3d6fBb5E3aAb644C52aE"
       abi: OpenNFTsFactory
       startBlock: 13790234
     mapping:
