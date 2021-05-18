@@ -29,10 +29,10 @@ dataSources:
       file: ./src/mapping.ts
   - kind: ethereum/contract
     name: KRedeum User
-    network: mumbai
+    network: matic
     source:
       address: '0x02FEB47bFD082f76C757c3a750ea10807C529e5f'
-      abi: KRU
+      abi: KRE
       startBlock: 11480000
     mapping:
       kind: ethereum/events

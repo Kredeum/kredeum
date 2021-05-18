@@ -6,22 +6,22 @@ on:
 
 jobs:
   deploy:
+    name: Deploy Plugin
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@master
+      - name: Checkout sources
+        uses: actions/checkout@master
 
-      - uses: pnpm/action-setup@v2.0.1
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.3.0
           run_install: true
 
-      - name: Build js lib for wordpress
-        run: npm run dapp-build
+      - name: Plugin Build
+        run: pnpm run wp-build
 
-      - name: Composer Install
-        run: cd wordpress/kredeum-nfts && composer install --prefer-dist --no-progress
-
-      - name: WordPress Plugin Deploy
+      - name: Plugin Deploy
         uses: nk-o/action-wordpress-plugin-deploy@master
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}

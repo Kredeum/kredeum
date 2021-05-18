@@ -2,11 +2,13 @@ name: Check sources
 on: pull_request
 
 jobs:
-  check_php:
+  check:
+    name: Check sources
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout sources
+        uses: actions/checkout@master
 
       - name: Cache Composer packages
         id: composer-cache
@@ -16,18 +18,6 @@ jobs:
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
           restore-keys: |
             ${{ runner.os }}-php-
-
-      - name: Composer Install
-        run: composer install --prefer-dist --no-progress
-
-      - name: Php check
-        run: wordpress/vendor/bin/phpcs wordpress/kredeum-nfts -n --ignore=lib --extensions=php --standard=WordPress
-
-  check_others:
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v2
 
       - name: Cache pnpm modules
         uses: actions/cache@v2
@@ -39,9 +29,22 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-build-${{ env.cache-name }}-
 
+      - name: Composer Install
+        run: composer install --prefer-dist --no-progress
+
       - uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.3.0
           run_install: true
 
-      - run: npm run format-lint-js
+      - name: Check SmartContract
+        run: npm run smart-check
+
+      - name: Check Dapp
+        run: npm run dapp-check
+
+      - name: Check WP Plugin
+        run: npm run wp-check
+
+      - name: Check Subgraph
+        run: npm run sub-check
