@@ -72,8 +72,8 @@ const toRollupConfig = function (component, dest, customElement = true) {
 };
 
 export default [
-  toRollupConfig("kredeum_metamask", "app/build"), // app/metamask.html
-  toRollupConfig("kredeum_nft_mint", "app/build"), // app/mint.html
-  toRollupConfig("kredeum_nft", "app/build"), // app/index.html
+  // toRollupConfig("kredeum_metamask", "app/build"), // app/metamask.html
+  // toRollupConfig("kredeum_nft_mint", "app/build"), // app/mint.html
+  // toRollupConfig("kredeum_nft", "app/build"), // app/index.html
   toRollupConfig("kredeum_nft", "wordpress/kredeum-nfts/lib/js") // wordpress
 ];
