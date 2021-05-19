@@ -5,12 +5,12 @@ import fetch from "node-fetch";
 global.fetch = fetch;
 
 const txt = "Bonjour le monde";
-const txtCID = "bafybeic2defbqe6j3swepixdfeyrmx6l3pk3fch3uqbkwtxl7gzs4pspwu";
+const txtCID = "bafkreicnyrnv5u66eavfne6je3fpsw6zoef66t7f7mlkdqskbdwufduk4a";
 const key = process.env.NFT_STORAGE_KEY;
 const imgUrl = "https://www.kredeum.com/favicon.ico";
-const imgCID = "bafybeid6lyb42fm2yabxi7ur2sea4fdokikuidkyqwy54lzcytfxn44yra";
+const imgCID = "bafkreiaxjwwnei7m2wtpdyhktr5mpjs6askiqijvhl7ui2kcoffc5mwa5e";
 const jsn = { json: "file" };
-const jsnCID = "bafybeidyaf5zduqk2lsfiikpanmxmqs2imamfrz2kwnnovvmvv6pq3wcge";
+const jsnCID = "bafkreidnojnd2xzyjtlim2v5wmbnokqdzkjt4hgedzutwucxnutsht3gmy";
 
 describe("NftStorage Add Text", async function () {
   this.timeout(10000);
