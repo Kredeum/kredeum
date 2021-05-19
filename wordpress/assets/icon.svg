@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128px" height="128px" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <g id="icon" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect id="Rectangle" fill="#1B1B3A" x="0" y="0" width="128" height="128"></rect>
+        <g id="Picto" transform="translate(-29.754624, -31.193307)">
+            <g id="hexagon" transform="translate(93.122490, 94.596653) rotate(30.000000) translate(-93.122490, -94.596653) translate(26.426259, 23.872934)" stroke-width="2">
+                <polygon id="Path-2" stroke="#2E80DD" fill="#2E80DD" transform="translate(73.230974, 83.485452) rotate(-30.000000) translate(-73.230974, -83.485452) " points="27.393623 43.2538339 26.9902071 96.5433841 73.7610726 123.717071 119.471741 96.7548487 111.567001 92.1622265 73.9926287 114.099371 35.1644396 91.4819385 35.3349055 47.8699644"></polygon>
+                <polygon id="Path-2" stroke="#3ACF6E" fill="#3ACF6E" transform="translate(60.161488, 57.961987) scale(-1, -1) rotate(-30.000000) translate(-60.161488, -57.961987) " points="14.3241371 17.7303685 13.9207212 71.0199188 60.6915867 98.1936054 106.402255 71.2313833 98.4975152 66.6387612 60.9231428 88.575906 22.0949537 65.9584731 22.2654196 22.346499"></polygon>
+            </g>
+            <g id="KK" transform="translate(68.173960, 71.034890)" fill="#FFFFFF" fill-rule="nonzero">
+                <polygon id="k" points="29.0982737 44.207306 29.0609981 34.6565012 48.2952132 11.9131723 39.0694995 11.9131723 29.0609981 25.4793685 29.0609981 0 20.8976393 0 20.9349149 44.207306"></polygon>
+                <polygon id="k" points="34.5964263 33.3169819 40.2561065 41.0405936 49.9850409 41.0405936 40.2561065 27.2086372"></polygon>
+                <polygon id="k" transform="translate(7.694307, 34.124615) scale(-1, 1) translate(-7.694307, -34.124615) " points="0 33.3169819 5.65968024 41.0405936 15.3886146 41.0405936 5.65968024 27.2086372"></polygon>
+                <polygon id="k" transform="translate(15.237959, 22.103653) scale(-1, 1) translate(-15.237959, -22.103653) " points="9.62797963 44.207306 9.77708208 34.6565012 29.0112972 11.9131723 19.7855836 11.9131723 9.77708208 25.4793685 9.77708208 0 1.61372332 0 1.46462087 44.207306"></polygon>
+            </g>
+        </g>
+    </g>
+</svg>
