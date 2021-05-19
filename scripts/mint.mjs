@@ -4,7 +4,7 @@ const { ethers } = hre;
 const ethscan = hre.network.config.ethscan;
 const network = hre.network.name;
 const owner = "0x981ab0d817710d8fffc5693383c00d985a3bda38";
-const json = "https://gateway.pinata.cloud/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
+const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 
 const kre = await ethers.getContractAt("KRE", KRE.ADDRESS[network][0]);
 console.log("name:", await kre.name());

@@ -10,7 +10,7 @@
     "smart-clean": "rm -rf solidity/build",
     "smart-build": "npx hardhat compile",
     "smart-check": "npx prettier-eslint solidity/**/*.sol scripts/*js scripts/*.sh tests/*js --write",
-    "smart-test": "npx mocha tests/nft-storage.mjs tests/pinatas.mjs",
+    "smart-test": "npx mocha tests/nft-storage.mjs",
     "smart-flatten": "npx hardhat flatten solidity/contracts/OpenNFTs.sol > solidity/flatten/OpenNFTs.sol",
     "smart-deploy": "npx hardhat run scripts/deploy.mjs",
     "smart-deploy-mumbai": "npx hardhat run scripts/deploy.mjs --network mumbai",
