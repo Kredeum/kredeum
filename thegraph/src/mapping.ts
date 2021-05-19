@@ -1,31 +1,26 @@
-import { log } from '@graphprotocol/graph-ts';
-import { KRE, Transfer as TransferEvent } from '../generated/KRE/KRE';
-import { Token, Owner, Contract, Transfer } from '../generated/schema';
+import { log } from "@graphprotocol/graph-ts";
+import { OpenNFTs, Transfer as TransferEvent } from "../generated/OpenNFTs/OpenNFTs";
+import { Token, Owner, Contract, Transfer } from "../generated/schema";
 
 export function handleTransfer(event: TransferEvent): void {
   let from = event.params.from.toHexString();
   let to = event.params.to.toHexString();
   let tockenId = event.params.tokenId.toHexString();
   let address = event.address.toHexString();
-  log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [
-    from,
-    to,
-    tockenId,
-  ]);
+  let tockenIdaddress = tockenId.concat(":".concat(address));
+  log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [from, to, tockenId]);
 
-  let transferId = event.transaction.hash
-    .toHexString()
-    .concat(':'.concat(event.transactionLogIndex.toHexString()));
-  let instance = KRE.bind(event.address);
+  let transferId = event.transaction.hash.toHexString().concat(":".concat(event.transactionLogIndex.toHexString()));
+  let instance = OpenNFTs.bind(event.address);
 
   let contract = Contract.load(address) || new Contract(address);
   let previousOwner = Owner.load(from) || new Owner(from);
   let newOwner = Owner.load(to) || new Owner(to);
 
   // TOKEN
-  let token = Token.load(tockenId);
+  let token = Token.load(tockenIdaddress);
   if (token == null) {
-    token = new Token(tockenId);
+    token = new Token(tockenIdaddress);
     token.contract = event.address.toHexString();
     let uri = instance.try_tokenURI(event.params.tokenId);
     if (!uri.reverted) {

@@ -9,4 +9,4 @@ app/build/
 
 # WORDPRESS
 wordpress/kredeum-nfts/lib/js
-wordpress/vendor
+vendor

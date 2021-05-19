@@ -1,10 +1,7 @@
 // Sources flattened with hardhat v2.2.1 https://hardhat.org
 
 // File @openzeppelin/contracts/utils/introspection/IERC165.sol@v4.1.0
-
 // SPDX-License-Identifier: MIT
-
-pragma solidity ^0.8.4;
 
 /**
  * @dev Interface of the ERC165 standard, as defined in the
@@ -1224,9 +1221,11 @@ library Counters {
   }
 }
 
-// File solidity/contracts/nft.sol
+// File solidity/contracts/OpenNFTs.sol
 
-contract NFT is ERC721, ERC721Enumerable, ERC721URIStorage {
+pragma solidity ^0.8.4;
+
+contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 

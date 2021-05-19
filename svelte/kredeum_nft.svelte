@@ -103,7 +103,7 @@
       {#if show(item)}
         <tr>
           <td>
-            {tokenId}
+            {short(tokenId)}
           </td>
 
           <td>
@@ -162,8 +162,6 @@
     {#if loading}
       <p>Data loading, please wait ...</p>
       <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
-    {:else}
-      <p>Data loading over.</p>
     {/if}
     <tr><td colspan="8"><hr /></td></tr>
   </table>
@@ -171,7 +169,7 @@
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId chainIds="{chainIds}" />
     <br />
-    {#if network} <a href="{kreLink()}" target="_blank">{network?.KRE}@kredeum_nfts</a> {/if}
+    {#if network} <a href="{kreLink()}" target="_blank">kredeum_nfts@{network?.KRE}</a> {/if}
   </small>
 </main>
 

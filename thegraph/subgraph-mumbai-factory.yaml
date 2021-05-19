@@ -5,48 +5,44 @@ schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: KRE
-    network: matic
+    name: OpenNFTsFactory
+    network: mumbai
     source:
-      address: '0xF6d53C7e96696391Bb8e73bE75629B37439938AF'
-      abi: KRE
-      startBlock: 11800000
+      address: "0xEbf2e7C69500D689B80d3d6fBb5E3aAb644C52aE"
+      abi: OpenNFTsFactory
+      startBlock: 13790234
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
+      file: ./src/mapping-factory.ts
       entities:
-        - Token
-        - Owner
         - Contract
-        - Transfer
       abis:
-        - name: KRE
-          file: ./abis/KRE.json
+        - name: OpenNFTsFactory
+          file: ./abis/OpenNFTsFactory.json
       eventHandlers:
-        - event: Transfer(indexed address,indexed address,indexed uint256)
-          handler: handleTransfer
-      file: ./src/mapping.ts
+        - event: NewOpenNFTs(indexed address,indexed address)
+          handler: handleNewOpenNFTs
+templates:
   - kind: ethereum/contract
-    name: KRedeum User
-    network: matic
+    name: OpenNFTs
+    network: mumbai
     source:
-      address: '0x02FEB47bFD082f76C757c3a750ea10807C529e5f'
-      abi: KRE
-      startBlock: 11480000
+      abi: OpenNFTs
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
+      file: ./src/mapping.ts
       entities:
+        - Contract
         - Token
         - Owner
-        - Contract
         - Transfer
       abis:
-        - name: KRE
-          file: ./abis/KRE.json
+        - name: OpenNFTs
+          file: ./abis/OpenNFTs.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer
-      file: ./src/mapping.ts

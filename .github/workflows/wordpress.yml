@@ -12,14 +12,39 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@master
 
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/wordpress/vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
           version: 6.3.0
           run_install: true
 
+      - name: Plugin Install
+        run: pnpm run wp-install
+
       - name: Plugin Build
         run: pnpm run wp-build
+
+      - name: Plugin Check
+        run: pnpm run wp-check
 
       - name: Plugin Deploy
         uses: nk-o/action-wordpress-plugin-deploy@master

@@ -19,6 +19,7 @@ specifiers:
   ethers: ^5.1.4
   hardhat: ^2.2.1
   hardhat-abi-exporter: ^2.2.1
+  hbs-cli: ^1.4.0
   multihashing-async: ^2.1.2
   prettier: ^2.3.0
   prettier-eslint: ^12.0.0
@@ -59,6 +60,7 @@ devDependencies:
   ethers: 5.1.4
   hardhat: 2.2.1
   hardhat-abi-exporter: 2.2.1_hardhat@2.2.1
+  hbs-cli: 1.4.0
   multihashing-async: 2.1.2
   prettier: 2.3.0
   prettier-eslint: 12.0.0
@@ -1416,6 +1418,14 @@ packages:
     resolution: {integrity: sha512-haHyTW7Y9joE5MVs37P2lNYfU2RWBLfcRDD8OWldcdZm5TiCE91B5Xl1oWSwiDUSd4rlExpt2pu1fksYQjRBYQ==}
     dev: true
 
+  /any-promise/0.1.0:
+    resolution: {integrity: sha1-gwtoCqflbzNFHUsEnzvYBESY7ic=}
+    dev: true
+
+  /any-promise/1.3.0:
+    resolution: {integrity: sha1-q8av7tzqUugJzcA3au0845Y10X8=}
+    dev: true
+
   /anymatch/3.1.2:
     resolution: {integrity: sha512-P43ePfOAIupkguHUycrc4qJ9kz8ZiuOUijaETwX7THt0Y/GNK7v0aa8rY816xWjZ7rJdA5XdMcpVFTKMq+RvWg==}
     engines: {node: '>= 8'}
@@ -2035,6 +2045,12 @@ packages:
       lodash: 4.17.20
       mkdirp: 0.5.5
       source-map-support: 0.4.18
+    dev: true
+
+  /babel-runtime/5.8.38:
+    resolution: {integrity: sha1-HAsC62MxL18If/IEUIJ7QlydTBk=}
+    dependencies:
+      core-js: 1.2.7
     dev: true
 
   /babel-runtime/6.26.0:
@@ -2943,6 +2959,11 @@ packages:
   /core-js-pure/3.12.1:
     resolution: {integrity: sha512-1cch+qads4JnDSWsvc7d6nzlKAippwjUlf6vykkTLW53VSV+NkE6muGBToAjEA8pG90cSfcud3JgVmW2ds5TaQ==}
     requiresBuild: true
+    dev: true
+
+  /core-js/1.2.7:
+    resolution: {integrity: sha1-ZSKUwUZR2yj6k70tX/KYOk8IxjY=}
+    deprecated: core-js@<3.3 is no longer maintained and not recommended for usage due to the number of issues. Because of the V8 engine whims, feature detection in old core-js versions could cause a slowdown up to 100x even if nothing is polyfilled. Please, upgrade your dependencies to the actual version of core-js.
     dev: true
 
   /core-js/2.6.12:
@@ -4701,6 +4722,13 @@ packages:
     dev: true
     optional: true
 
+  /fs-promise/0.3.1:
+    resolution: {integrity: sha1-vzQFA2jyTW3J38ZoirXOrY+GhCo=}
+    deprecated: Use mz or fs-extra^3.0 with Promise Support
+    dependencies:
+      any-promise: 0.1.0
+    dev: true
+
   /fs.realpath/1.0.0:
     resolution: {integrity: sha1-FQStJSMVjKpA20onh8sBQRmU6k8=}
     dev: true
@@ -4817,6 +4845,11 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
+  /get-stdin/8.0.0:
+    resolution: {integrity: sha512-sY22aA6xchAzprjyqmSEQv4UbAAzRN0L2dQB0NlN5acTTK9Don6nhoc3eAbUnpZiCANAMfd/+40kVdKfFygohg==}
+    engines: {node: '>=10'}
+    dev: true
+
   /get-stream/3.0.0:
     resolution: {integrity: sha1-jpQ9E1jcN1VQVOy+LtsFqhdO3hQ=}
     engines: {node: '>=4'}
@@ -4859,6 +4892,13 @@ packages:
     engines: {node: '>= 6'}
     dependencies:
       is-glob: 4.0.1
+    dev: true
+
+  /glob-promise/1.0.6:
+    resolution: {integrity: sha1-SAWR1RCeSAXid+5JSERNNlMgKPM=}
+    engines: {node: '>=0.12'}
+    dependencies:
+      glob: 7.1.7
     dev: true
 
   /glob/7.1.3:
@@ -5004,6 +5044,19 @@ packages:
   /growl/1.10.5:
     resolution: {integrity: sha512-qBr4OuELkhPenW6goKVXiv47US3clb3/IbuWF9KNKEijAy9oeHxU9IgzjvJhHkUzhaj7rOUD7+YGWqUjLp5oSA==}
     engines: {node: '>=4.x'}
+    dev: true
+
+  /handlebars/4.7.7:
+    resolution: {integrity: sha512-aAcXm5OAfE/8IXkcZvCepKU3VzW1/39Fb5ZuqMtgI/hT8X2YgoMvBY5dLhq/cpOvw7Lk1nK/UF71aLG/ZnVYRA==}
+    engines: {node: '>=0.4.7'}
+    hasBin: true
+    dependencies:
+      minimist: 1.2.5
+      neo-async: 2.6.2
+      source-map: 0.6.1
+      wordwrap: 1.0.0
+    optionalDependencies:
+      uglify-js: 3.13.6
     dev: true
 
   /har-schema/2.0.0:
@@ -5187,6 +5240,22 @@ packages:
     dependencies:
       inherits: 2.0.4
       minimalistic-assert: 1.0.1
+    dev: true
+
+  /hbs-cli/1.4.0:
+    resolution: {integrity: sha512-HHMzByFeeu0+5qQmw4tK7lEwAoGqh2ItzmBzTVeTzIRT0HP98CGXigS3JEX7FRTn0i6IGB0W6mIc+H9GAF6Etg==}
+    hasBin: true
+    dependencies:
+      babel-runtime: 5.8.38
+      debug: 2.6.9
+      fs-promise: 0.3.1
+      get-stdin: 8.0.0
+      glob-promise: 1.0.6
+      handlebars: 4.7.7
+      lodash.merge: 3.3.2
+      minimist: 1.2.5
+      mkdirp-then: 1.2.0
+      resolve: 1.20.0
     dev: true
 
   /he/1.2.0:
@@ -6641,6 +6710,42 @@ packages:
       p-locate: 4.1.0
     dev: true
 
+  /lodash._arraycopy/3.0.0:
+    resolution: {integrity: sha1-due3wfH7klRzdIeKVi7Qaj5Q9uE=}
+    dev: true
+
+  /lodash._arrayeach/3.0.0:
+    resolution: {integrity: sha1-urFWsqkNPxu9XGU0AzSeXlkz754=}
+    dev: true
+
+  /lodash._basecopy/3.0.1:
+    resolution: {integrity: sha1-jaDmqHbPNEwK2KVIghEd08XHyjY=}
+    dev: true
+
+  /lodash._basefor/3.0.3:
+    resolution: {integrity: sha1-dVC06SGO8J+tJDQ7YSAhx5tMIMI=}
+    dev: true
+
+  /lodash._bindcallback/3.0.1:
+    resolution: {integrity: sha1-5THCdkTPi1epnhftlbNcdIeJOS4=}
+    dev: true
+
+  /lodash._createassigner/3.1.1:
+    resolution: {integrity: sha1-g4pbri/aymOsIt7o4Z+k5taXCxE=}
+    dependencies:
+      lodash._bindcallback: 3.0.1
+      lodash._isiterateecall: 3.0.9
+      lodash.restparam: 3.6.1
+    dev: true
+
+  /lodash._getnative/3.9.1:
+    resolution: {integrity: sha1-VwvH3t5G1hzc3mh9ZdPuy6o6r/U=}
+    dev: true
+
+  /lodash._isiterateecall/3.0.9:
+    resolution: {integrity: sha1-UgOte6Ql+uhCRg5pbbnPPmqsBXw=}
+    dev: true
+
   /lodash.assign/4.2.0:
     resolution: {integrity: sha1-DZnzzNem0mHRm9rrkkUAXShYCOc=}
     dev: true
@@ -6653,8 +6758,43 @@ packages:
     resolution: {integrity: sha1-4j8/nE+Pvd6HJSnBBxhXoIblzO8=}
     dev: true
 
+  /lodash.isarguments/3.1.0:
+    resolution: {integrity: sha1-L1c9hcaiQon/AGY7SRwdM4/zRYo=}
+    dev: true
+
+  /lodash.isarray/3.0.4:
+    resolution: {integrity: sha1-eeTriMNqgSKvhvhEqpvNhRtfu1U=}
+    dev: true
+
+  /lodash.isplainobject/3.2.0:
+    resolution: {integrity: sha1-moI4rhayAEMpYM1zRlEtASP79MU=}
+    dependencies:
+      lodash._basefor: 3.0.3
+      lodash.isarguments: 3.1.0
+      lodash.keysin: 3.0.8
+    dev: true
+
+  /lodash.istypedarray/3.0.6:
+    resolution: {integrity: sha1-yaR3SYYHUB2OhJTSg7h8OSgc72I=}
+    dev: true
+
   /lodash.kebabcase/4.1.1:
     resolution: {integrity: sha1-hImxyw0p/4gZXM7KRI/21swpXDY=}
+    dev: true
+
+  /lodash.keys/3.1.2:
+    resolution: {integrity: sha1-TbwEcrFWvlCgsoaFXRvQsMZWCYo=}
+    dependencies:
+      lodash._getnative: 3.9.1
+      lodash.isarguments: 3.1.0
+      lodash.isarray: 3.0.4
+    dev: true
+
+  /lodash.keysin/3.0.8:
+    resolution: {integrity: sha1-IsRJPrvtsUJ5YqVLRFssinZ/tH8=}
+    dependencies:
+      lodash.isarguments: 3.1.0
+      lodash.isarray: 3.0.4
     dev: true
 
   /lodash.lowercase/4.3.0:
@@ -6667,6 +6807,22 @@ packages:
 
   /lodash.memoize/4.1.2:
     resolution: {integrity: sha1-vMbEmkKihA7Zl/Mj6tpezRguC/4=}
+    dev: true
+
+  /lodash.merge/3.3.2:
+    resolution: {integrity: sha1-DZDZPtY3sYeEN7s+IWASYNev6ZQ=}
+    dependencies:
+      lodash._arraycopy: 3.0.0
+      lodash._arrayeach: 3.0.0
+      lodash._createassigner: 3.1.1
+      lodash._getnative: 3.9.1
+      lodash.isarguments: 3.1.0
+      lodash.isarray: 3.0.4
+      lodash.isplainobject: 3.2.0
+      lodash.istypedarray: 3.0.6
+      lodash.keys: 3.1.2
+      lodash.keysin: 3.0.8
+      lodash.toplainobject: 3.0.0
     dev: true
 
   /lodash.merge/4.6.2:
@@ -6689,12 +6845,23 @@ packages:
     resolution: {integrity: sha1-/H3oEx2MisB+S0n3T/6CnR8r7EQ=}
     dev: true
 
+  /lodash.restparam/3.6.1:
+    resolution: {integrity: sha1-k2pOMJ7zMKdkXtQUWYbIWuWyCAU=}
+    dev: true
+
   /lodash.snakecase/4.1.1:
     resolution: {integrity: sha1-OdcUo1NXFHg3rv1ktdy7Fr7Nj40=}
     dev: true
 
   /lodash.startcase/4.4.0:
     resolution: {integrity: sha1-lDbjTtJgk+1/+uGTYUQ1CRXZrdg=}
+    dev: true
+
+  /lodash.toplainobject/3.0.0:
+    resolution: {integrity: sha1-KHkK2ULSk9eKpmOgfs9/UsoEGY0=}
+    dependencies:
+      lodash._basecopy: 3.0.1
+      lodash.keysin: 3.0.8
     dev: true
 
   /lodash.trim/4.5.1:
@@ -7126,6 +7293,13 @@ packages:
     dev: true
     optional: true
 
+  /mkdirp-then/1.2.0:
+    resolution: {integrity: sha1-pJLIecpNhz9e5FAI+PVf0BUN48U=}
+    dependencies:
+      any-promise: 1.3.0
+      mkdirp: 0.5.5
+    dev: true
+
   /mkdirp/0.5.5:
     resolution: {integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==}
     hasBin: true
@@ -7421,6 +7595,10 @@ packages:
     engines: {node: '>= 0.6'}
     dev: true
     optional: true
+
+  /neo-async/2.6.2:
+    resolution: {integrity: sha512-Yd3UES5mWCSqR+qNT93S3UoYUkqAZ9lLg8a7g9rimsWmYGK8cVToA4/sF3RrshdyV3sAGMXVUmpMYOw+dLpOuw==}
+    dev: true
 
   /next-tick/1.0.0:
     resolution: {integrity: sha1-yobR/ogoFpsBICCOPchCS524NCw=}
@@ -8321,6 +8499,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
+    bundledDependencies: []
 
   /protocol-buffers-schema/3.5.1:
     resolution: {integrity: sha512-YVCvdhxWNDP8/nJDyXLuM+UFsuPk4+1PB7WGPVDzm3HTHbzFLxQYeW2iZpS4mmnXrQJGBzt230t/BbEb7PrQaw==}
@@ -10161,6 +10340,13 @@ packages:
     resolution: {integrity: sha1-XAgOXWYcu+OCWdLnCjxyU+hziB0=}
     dev: true
 
+  /uglify-js/3.13.6:
+    resolution: {integrity: sha512-rRprLwl8RVaS+Qvx3Wh5hPfPBn9++G6xkGlUupya0s5aDmNjI7z3lnRLB3u7sN4OmbB0pWgzhM9BEJyiWAwtAA==}
+    engines: {node: '>=0.8.0'}
+    hasBin: true
+    dev: true
+    optional: true
+
   /uint8arrays/2.1.5:
     resolution: {integrity: sha512-CSR7AO+4AHUeSOnZ/NBNCElDeWfRh9bXtOck27083kc7SznmmHIhNEkEOCQOn0wvrIMjS3IH0TNLR16vuc46mA==}
     dependencies:
@@ -10802,6 +10988,10 @@ packages:
   /wordwrap/0.0.3:
     resolution: {integrity: sha1-o9XabNXAvAAI03I0u68b7WMFkQc=}
     engines: {node: '>=0.4.0'}
+    dev: true
+
+  /wordwrap/1.0.0:
+    resolution: {integrity: sha1-J1hIEIkUVqQXHI0CJkQa3pDLyus=}
     dev: true
 
   /wrap-ansi/2.1.0:

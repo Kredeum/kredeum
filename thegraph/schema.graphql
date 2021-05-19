@@ -1,3 +1,11 @@
+type Contract @entity {
+  id: ID!
+  name: String
+  symbol: String
+  totalSupply: BigInt
+  mintedTokens: [Token!]! @derivedFrom(field: "contract")
+}
+
 type Token @entity {
   id: ID!
   owner: Owner
@@ -10,14 +18,6 @@ type Owner @entity {
   id: ID!
   ownedTokens: [Token!]! @derivedFrom(field: "owner")
   balance: BigInt
-}
-
-type Contract @entity {
-  id: ID!
-  name: String
-  symbol: String
-  totalSupply: BigInt
-  mintedTokens: [Token!]! @derivedFrom(field: "contract")
 }
 
 type Transfer @entity {
