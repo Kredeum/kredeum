@@ -68,7 +68,7 @@ msgstr "Définissez ici vos réglages pour IPFS"
 # 
 #. Author URI of the plugin
 msgid "https://www.kredeum.com"
-msgstr "https://www.kredeum.com/fr"
+msgstr "https://www.kredeum.com"
 
 #. URI of the plugin
 msgid "https://www.kredeum.com/kredeum-nfts"
