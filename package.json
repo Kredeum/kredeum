@@ -17,7 +17,7 @@
     "smart-deploy-matic": "npx hardhat run scripts/deploy.mjs --netwok matic",
     "smart-list": "npx hardhat run scripts/list.mjs",
     "dapp-clean": "rm -rf app/build",
-    "dapp-build": "PROD=true rollup -c && cp wordpress/kredeum-nfts/lib/js/kredeum_nft.js app/build ",
+    "dapp-build": "PROD=true rollup -c && cp wordpress/kredeum-nfts/lib/js/kredeum-nft.js app/build ",
     "dapp-build-dev": "rollup -c",
     "dapp-check": "npx prettier-eslint **/*.svelte **/*js **/*.ts **/*.json **/*.html **/*.css **/*.yaml **/*.graphql **/*.md --write",
     "dapp-test": "",

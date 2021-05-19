@@ -4,7 +4,7 @@ Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, ipfs
 Requires at least: 5.0
 Tested up to: 5.7.2
-Stable tag: 0.4.8
+Stable tag: 0.4.9
 Requires PHP: 7.0
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
@@ -39,6 +39,10 @@ Please don’t hesitate to contact us if you have any questions by email contact
 3. In list of Kredeum NFTs, click on Arkane or Opensea to see your NFTs on these marketplaces.
 
 == Changelog ==
+
+= 0.4.9 =
+* Bug fixes
+* Performance improvements thanks to [Kredeum NFTs subgraph](https://thegraph.com/explorer/subgraph/zapaz/kredeum-nft)
 
 = 0.4.8 =
 * Readme updates
