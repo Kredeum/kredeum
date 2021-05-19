@@ -40,6 +40,10 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
+= 0.4.9 =
+* Bug fixes
+* Performance improvements thanks to [Kredeum NFTs subgraph](https://thegraph.com/explorer/subgraph/zapaz/kredeum-nft)
+
 = 0.4.8 =
 * Readme updates
 
