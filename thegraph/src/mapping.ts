@@ -7,6 +7,7 @@ export function handleTransfer(event: TransferEvent): void {
   let to = event.params.to.toHexString();
   let tockenId = event.params.tokenId.toHexString();
   let address = event.address.toHexString();
+
   let tockenIdaddress = tockenId.concat(":".concat(address));
   log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [from, to, tockenId]);
 

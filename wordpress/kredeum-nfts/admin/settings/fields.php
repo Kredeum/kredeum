@@ -37,7 +37,6 @@ function fields() {
 		// 'section' => 'first_section',
 		// 'type'    => 'select',
 		// 'options' => array(
-		// 'https://gateway.pinata.cloud' => 'https://gateway.pinata.cloud',
 		// 'https://dweb.link' => 'https://dweb.link',
 		// 'https://ipfs.io' => 'https://ipfs.io',
 		// 'https://ipfs.infura.io' => 'https://ipfs.infura.io',
@@ -56,24 +55,6 @@ function fields() {
 			'placeholder' => 'NFT Storage key',
 			'default'     => '',
 			'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
-		),
-		array(
-			'uid'         => 'ipfs_pinata_key',
-			'label'       => 'IPFS_PINATA_KEY',
-			'section'     => 'first_section',
-			'type'        => 'text',
-			'placeholder' => 'pinata key',
-			'default'     => '',
-			'helper'      => __( 'Enter your Pinata Key', 'kredeum-nfts' ),
-		),
-		array(
-			'uid'         => 'ipfs_pinata_secret',
-			'label'       => 'IPFS_PINATA_SECRET',
-			'section'     => 'first_section',
-			'type'        => 'text',
-			'placeholder' => 'pinata secret',
-			'default'     => '',
-			'helper'      => __( 'Enter your Pinata Secret', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'metamask_address',

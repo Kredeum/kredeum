@@ -35,7 +35,6 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax-token.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/nft-storage.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/pinata.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/query.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/multipart.php';
 
@@ -56,7 +55,7 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function () {
-			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum_nft.js', array(), KREDEUM_NFTS_VERSION, true );
+			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nft.js', array(), KREDEUM_NFTS_VERSION, true );
 		},
 		110
 	);}
@@ -64,8 +63,6 @@ if ( is_admin() ) {
 define( 'IPFS_GATEWAY', 'https://ipfs.io' );
 // define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]); ?
 define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
-define( 'IPFS_PINATA_KEY', get_option( 'IPFS_PINATA_KEY', '' ) );
-define( 'IPFS_PINATA_SECRET', get_option( 'IPFS_PINATA_SECRET', '' ) );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/link.php';

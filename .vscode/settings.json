@@ -9,13 +9,7 @@
   "phpsab.standard": "WordPress",
   "phpsab.snifferMode": "onType",
   "phpsab.debug": true,
-  "phpsab.snifferArguments": [
-    "-n",
-    "--ignore=lib",
-    "--extensions=php"
-  ],
-  "phpsab.fixerArguments": [
-    "--extensions=php"
-  ],
+  "phpsab.snifferArguments": ["-n", "--ignore=lib", "--extensions=php"],
+  "phpsab.fixerArguments": ["--extensions=php"],
   "phpsab.snifferShowSources": true
 }

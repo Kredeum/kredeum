@@ -36,7 +36,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
     output: {
       sourcemap: !production,
       format: "iife",
-      name: component,
+      name: component.replace(/-/g, "_"),
       file: `${dest}/${component}.js`
     },
     plugins: [
@@ -75,5 +75,5 @@ export default [
   // toRollupConfig("kredeum_metamask", "app/build"), // app/metamask.html
   // toRollupConfig("kredeum_nft_mint", "app/build"), // app/mint.html
   // toRollupConfig("kredeum_nft", "app/build"), // app/index.html
-  toRollupConfig("kredeum_nft", "wordpress/kredeum-nfts/lib/js") // wordpress
+  toRollupConfig("kredeum-nft", "wordpress/kredeum-nfts/lib/js") // wordpress
 ];

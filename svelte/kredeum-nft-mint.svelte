@@ -2,21 +2,21 @@
 
 <script>
   import nft from "../lib/nft.mjs";
-  import KRE from "../lib/kre1.mjs";
-  import pinata from "../lib/pinata.mjs";
-  import kcid from "../lib/kcid.mjs";
-  import Metamask from "./kredeum_metamask.svelte";
-  import { onMount } from "svelte";
+  import NftStorage from "../lib/nft-storage.mjs";
+  import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
+  const ipfsGateway = "https://ipfs.io/ipfs";
 
+  export let key;
   export let alt;
   export let src;
   export let pid = 0;
   export let width = 100;
   export let display = false;
   export let minted = 0;
-  let cid;
+  let cidImage;
+  let cidJson;
 
   let pinImage = "";
 
@@ -39,33 +39,26 @@
     }
   }
 
-  onMount(async function () {
-    cid = await kcid.url(src);
-    //console.log('nftMint cidPreview', cid);
-  });
-
   async function nftMint() {
     //console.log('nftMint src alt', src, alt);
 
     if (signer) {
       minted = 1;
 
-      //dispatch('minted', { minted: minted });
-
-      const image = { origin: src, name: alt, minter: address };
-
-      pinImage = await pinata.pinImage(image);
-      //console.log('nftMint pinImage', pinImage);
-      // if (pinImage.cid === cid){
-      //   //console.log('Good Guess !!!');
-      // }
-
-      image.cid = pinImage.cid;
-      const pinJson = await pinata.pinJson(image);
-      //console.log('nftMint pinJson', pinJson);
+      const nftStorage = new NftStorage(key);
+      cidImage = await nftStorage.pinUrl(src);
+      cidJson = await nftStorage.pinJson({
+        name: alt,
+        description: alt,
+        cid: cidImage,
+        image: `${ipfsGateway}/${cidImage}`,
+        ipfs: "ipfs://" + cidImage,
+        origin: src,
+        minter: address
+      });
 
       try {
-        tokenId = await nft.Mint(signer, pinJson.jsonIpfs);
+        tokenId = await nft.Mint(signer, `${ipfsGateway}/${cidJson}`);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
@@ -102,7 +95,7 @@
       <small>
         <br /><a href="{src}">{src}@{alt}</a>
 
-        <br /><a href="https://ipfs.io/ipfs/{cid}">{cid}@ipfs</a>
+        <br /><a href="{ipfsGateway}/{cidImage}">{cidImage}@ipfs</a>
       </small>
     {/if}
   {:else}

@@ -35,10 +35,11 @@ add_action(
 					printf( '<a href="/wp-admin/admin.php?page=nfts" krd-nft=' . esc_attr( $token_id[0] ) . '>NFT created</a>' );
 				} else {
 					printf(
-						'<kredeum-nft-mint minted'
-						. ' pid="' . esc_attr( $post->ID ) . '"'
-						. ' src="' . esc_url( url( $post->cid ) ) . '"'
-						. ' alt="' . esc_attr( $post->post_title ) . '"/>'
+						'<kredeum-nft-mint'
+						  . ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
+							. ' pid="' . esc_attr( $post->ID ) . '"'
+							. ' src="' . esc_url( url( $post->cid ) ) . '"'
+							. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 					);
 				}
 			}

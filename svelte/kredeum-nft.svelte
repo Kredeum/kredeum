@@ -1,8 +1,8 @@
 <svelte:options tag="kredeum-nft" />
 
 <script>
-  import Metamask from "./kredeum_metamask.svelte";
-  import KredeumNftMint from "./kredeum_nft_mint.svelte";
+  import Metamask from "./kredeum-metamask.svelte";
+  import KredeumNftMint from "./kredeum-nft-mint.svelte";
   import nft from "../lib/nft.mjs";
   import kimages from "../lib/kimages.mjs";
 
@@ -50,9 +50,10 @@
   $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
   $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
+  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
 
   $: openSeaLink = () => `${network?.openSeaKredeum}`;
-  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${network?.KRE}/${tokenId}`;
+  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
 
   $: kreLink = () => `${network?.explorer}/tokens/${network?.KRE}/inventory`;
   $: ownerLink = (item) => `${network?.explorer}/address/${item.ownerOf}/tokens`;
@@ -121,7 +122,7 @@
                   <button class="buy">BUY NFT</button>
                 </a>
               {:else if sameAddress(item.ownerOf)}
-                <a href="{arkaneLinkAssets()}/{network?.KRE}/{tokenId}" target="_blank">
+                <a href="{arkaneLinkToken(tokenId)}" target="_blank">
                   <button class="sell">SELL NFT</button>
                 </a>
               {:else}
