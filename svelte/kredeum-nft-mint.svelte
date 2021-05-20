@@ -51,14 +51,14 @@
         name: alt,
         description: alt,
         cid: cidImage,
-        image: "https://ipfs.io/ipfs/" + cidImage,
+        image: `${ipfsGateway}/${cidImage}`,
         ipfs: "ipfs://" + cidImage,
         origin: src,
         minter: address
       });
 
       try {
-        tokenId = await nft.Mint(signer, "https://ipfs.io/ipfs/" + cidJson);
+        tokenId = await nft.Mint(signer, `${ipfsGateway}/${cidJson}`);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
