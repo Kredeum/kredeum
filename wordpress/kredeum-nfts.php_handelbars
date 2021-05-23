@@ -4,7 +4,7 @@
  * Plugin Name: Kredeum NFTs
  * Description: Plugin to archive your medias to IPFS and mint them as NFTs
  * Plugin URI: https://docs.kredeum.tech
- * Version: {{latest}}
+ * Version: {{version.latest}}
  * Author: Kredeum <alain@kredeum.com>
  * Author URI: https://www.kredeum.com
  * Text domain: kredeum-nfts
@@ -17,7 +17,7 @@
 
 namespace KredeumNFTs;
 
-define( 'KREDEUM_NFTS_VERSION', '{{latest}}' );
+define( 'KREDEUM_NFTS_VERSION', '{{version.latest}}' );
 
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );

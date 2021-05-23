@@ -22,10 +22,19 @@ for (const version in contracts) {
     addresses.forEach(async (address) => {
       const openNFTs = new ethers.Contract(address, abi, provider);
 
-      console.log(version, network, address);
-      console.log(openNFTs.interface.format(["json"]));
-      console.log(await openNFTs.symbol());
-      console.log((await openNFTs.totalSupply()).toString());
+      // console.log("name:", await openNFTs.name());
+      // console.log("symbol:", await openNFTs.symbol());
+
+      let totalSupply = (await openNFTs.totalSupply()).toNumber();
+      // console.log("totalSupply", totalSupply);
+      console.log(`${version}:${address}@${network} ${totalSupply}`);
+
+      // for (let index = 0; index < totalSupply; index++) {
+      //   const tokenId = await openNFTs.tokenByIndex(index);
+      //   const tokenURI = await openNFTs.tokenURI(tokenId);
+
+      //   console.log(`${version}:${address}@${network} ${tokenId} => ${tokenURI}`);
+      // }
     });
   }
 }
