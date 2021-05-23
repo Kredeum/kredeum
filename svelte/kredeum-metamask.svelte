@@ -5,7 +5,8 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import networks from "../lib/networks.mjs";
+  import networks from "../config/networks.json";
+
   const dispatch = createEventDispatcher();
 
   export let signer;

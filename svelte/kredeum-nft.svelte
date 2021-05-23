@@ -52,12 +52,12 @@
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
   $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
 
-  $: openSeaLink = () => `${network?.openSeaKredeum}`;
-  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
+  $: openSeaLink = () => `${network?.openNfts?.openSeaKredeum}`;
+  $: openSeaLinkToken = (tokenId) => `${network?.openNfts?.openSeaAssets}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
 
-  $: kreLink = () => `${network?.explorer}/tokens/${network?.KRE}/inventory`;
-  $: ownerLink = (item) => `${network?.explorer}/address/${item.ownerOf}/tokens`;
-  $: minterLink = (item) => `${network?.explorer}/address/${item.tokenJson?.minter}/tokens`;
+  $: kreLink = () => `${network?.blockExplorerUrls[0]}/tokens/${network?.KRE}/inventory`;
+  $: ownerLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.ownerOf}/tokens`;
+  $: minterLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.tokenJson?.minter}/tokens`;
 
   $: show = (item) =>
     all == 0 ||

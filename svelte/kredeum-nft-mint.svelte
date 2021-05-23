@@ -78,7 +78,7 @@
 
   {#if address}
     {#if minted == 2}
-      <!-- <a href="{network?.openSeaAssets}/{network?.KRE}/{tokenId}" target="_blank"> -->
+      <!-- <a href="{network?.openNfts?.}/{network?.KRE}/{tokenId}" target="_blank"> -->
       <a href="/wp-admin/admin.php?page=nfts">
         <button class="sell">SELL NFT</button>
       </a>
