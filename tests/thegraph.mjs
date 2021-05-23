@@ -1,22 +1,20 @@
-// npx mocha tests/nft-storage.mjs
+// npx mocha thegraph.mjs
 import { expect } from "chai";
-import TheGraph from "../lib/thegraph.mjs";
+import Ipfs from "../lib/ipfs.mjs";
+import FormData from "form-data";
 import fetch from "node-fetch";
 global.fetch = fetch;
+global.FormData = FormData;
 
-const txt = "Bonjour le monde";
-const txtCID = "bafkreicnyrnv5u66eavfne6je3fpsw6zoef66t7f7mlkdqskbdwufduk4a";
-const key = process.env.NFT_STORAGE_KEY;
+const theGraphEndpoint = "https://api.thegraph.com/ipfs";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
-const imgCID = "bafkreiaxjwwnei7m2wtpdyhktr5mpjs6askiqijvhl7ui2kcoffc5mwa5e";
-const jsn = { json: "file" };
-const jsnCID = "bafkreidnojnd2xzyjtlim2v5wmbnokqdzkjt4hgedzutwucxnutsht3gmy";
+const imgCID = "QmWqwE6kWgpX7Gjw281qW54GKYwUtUHt8dBTuzB2QCFYjh";
 
 describe("NftStorage Add Text", async function () {
   this.timeout(10000);
 
-  it("Add text should return given CID", async function () {
-    const theGraph = new TheGraph();
+  it("Add Image should return given CID", async function () {
+    const theGraph = new Ipfs(theGraphEndpoint);
     expect(await theGraph.addUrl(imgUrl)).to.be.equal(imgCID);
   });
 });

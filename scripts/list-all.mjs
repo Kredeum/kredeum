@@ -29,12 +29,12 @@ for (const version in contracts) {
       // console.log("totalSupply", totalSupply);
       console.log(`${version}:${address}@${network} ${totalSupply}`);
 
-      // for (let index = 0; index < totalSupply; index++) {
-      //   const tokenId = await openNFTs.tokenByIndex(index);
-      //   const tokenURI = await openNFTs.tokenURI(tokenId);
+      for (let index = 0; index < totalSupply; index++) {
+        const tokenId = await openNFTs.tokenByIndex(index);
+        const tokenURI = await openNFTs.tokenURI(tokenId);
 
-      //   console.log(`${version}:${address}@${network} ${tokenId} => ${tokenURI}`);
-      // }
+        console.log(tokenURI);
+      }
     });
   }
 }

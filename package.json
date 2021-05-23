@@ -36,7 +36,7 @@
     "sub-build-yaml-mumbai": "npx jq -r '.v1.instances.mumbai[0]|{network:\"mumbai\",address,startBlock}' config/contracts.json | npx hbs-cli -i thegraph/subgraph.yaml_handlebar -e yaml -o thegraph",
     "sub-build-codegen": "cd thegraph && graph codegen",
     "sub-build-subgraph": "cd thegraph && graph build",
-    "sub-build": "npm run sub-build-yaml && npm run sub-build-codegen && npm run sub-build-subgraph",
+    "sub-build": "npm run sub-build-codegen && npm run sub-build-subgraph",
     "sub-check": "npx prettier-eslint thegraph/**/*js thegraph/**/*.ts thegraph/**/*.json thegraph/**/*.yaml thegraph/**/*.graphql thegraph/**/*.md --write",
     "sub-deploy": "cd thegraph && graph deploy zapaz/${npm_config_network:-kredeum-nft} --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/",
     "sub-deploy-mumbai": "npm run sub-deploy --network=mumbai-open-nft",

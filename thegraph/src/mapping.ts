@@ -29,7 +29,7 @@ export function handleTransfer(event: TransferEvent): void {
       let cid = token.uri.substring(token.uri.lastIndexOf("/") + 1);
 
       token.json = ipfs.cat(cid).toString();
-      log.debug(`Token detected  tokenuri: {} | cid: {} | json: {}`, [token.uri, cid, token.json]);
+      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.uri, cid, token.json]);
     }
   }
   token.owner = to;
