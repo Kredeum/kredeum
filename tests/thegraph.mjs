@@ -10,7 +10,7 @@ const theGraphEndpoint = "https://api.thegraph.com/ipfs";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
 const imgCID = "QmWqwE6kWgpX7Gjw281qW54GKYwUtUHt8dBTuzB2QCFYjh";
 
-describe("NftStorage Add Text", async function () {
+describe("TheGraph Add Json", async function () {
   this.timeout(10000);
 
   it("Add Image should return given CID", async function () {

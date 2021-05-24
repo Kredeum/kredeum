@@ -8,11 +8,15 @@
 
   const ipfsGateway = "https://ipfs.io/ipfs";
 
-  let address = "";
-
   const chainIds = ["0x89", "0x13881"];
-  let chainId;
-  let openNfts, nfts, network, nftsAddress, explorer, links;
+  let chainId,
+    openNfts,
+    nfts,
+    network,
+    nftsAddress,
+    explorer,
+    address,
+    admin = "0x0";
 
   export let all = 2;
   // 0 all NFTs
@@ -27,17 +31,16 @@
 
   async function nftInit() {
     openNfts = new OpenNfts(chainId);
-    if (openNfts) {
-      // console.log(openNfts);
-
+    if (openNfts.contract) {
       nfts = openNfts.contract;
       network = openNfts.network;
 
       nftsAddress = nfts?.address;
       explorer = network?.blockExplorerUrls[0];
-      links = network?.openNfts;
+      admin = network.admin;
 
-      //console.log(openNfts?.network);
+      console.log(admin, address);
+
       nftList();
     } else {
       alert("Wrong network detected");
@@ -48,19 +51,19 @@
     loading = true;
     NFTs = await openNfts.list();
     loading = false;
-    //console.log('NFTs', NFTs);
+    console.log("NFTs", NFTs);
   }
 
-  const sameAddress = (a, b = address) => a.toLowerCase() === b.toLowerCase();
-  const short = (a) => `${a.substring(0, 6)}...${a.substring(a.length - 4, a.length)}`;
+  const sameAddress = (a, b = address) => a?.toLowerCase() === b?.toLowerCase();
+  const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
 
   $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
   $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
   $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
 
-  $: openSeaLink = () => links?.openSeaKredeum;
-  $: openSeaLinkToken = (tokenId) => `${links?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
+  $: openSeaLink = () => network?.openSeaKredeum;
+  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
 
   $: kreLink = () => `${explorer}/tokens/${nftsAddress}/inventory`;
   $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
@@ -88,11 +91,13 @@
   <table>
     <tr>
       <td colspan="8">
-        <button on:click="{(e) => (all = 0)}">All NFTs</button>
-        -
+        {#if sameAddress(admin, address)}
+          <button on:click="{() => (all = 0)}">All NFTs</button>
+          -
+        {/if}
         <button on:click="{() => (all = 1)}">NFTs I created</button>
         -
-        <button on:click="{(e) => (all = 2)}">NFTs I own</button>
+        <button on:click="{() => (all = 2)}">NFTs I own</button>
         <hr />
       </td>
     </tr>

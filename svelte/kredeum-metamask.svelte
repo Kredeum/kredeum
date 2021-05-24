@@ -30,9 +30,13 @@
       // no need to add default ethereum chain
 
       const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
-      //console.log("baddEthereumChain", _chainId, _network || "unknown");
-
       if (_network) {
+        for (const field in _network) {
+          // IEP-3085 fields only or fails
+          if (!["chainId", "blockExplorerUrls", "chainName", "iconUrls", "nativeCurrency", "rpcUrls"].includes(field)) {
+            delete _network[field];
+          }
+        }
         // add new chain to metamask
         ethereum
           .request({

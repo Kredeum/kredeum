@@ -18,19 +18,19 @@ describe("NFT", async function () {
     expect((l1 = nfts.length)).to.be.gt(1);
   });
 
-  it("Should list NFTs via SmartContract", async function () {
-    const nfts = await openNfts.listContract(); // arrray
-    l2 = nfts.length;
-    expect(l2).to.be.gt(1); // expect(l).to.be.equal(l0);
-  });
+  // it("Should list NFTs via SmartContract", async function () {
+  //   const nfts = await openNfts.listContract(); // arrray
+  //   l2 = nfts.length;
+  //   expect(l2).to.be.gt(1); // expect(l).to.be.equal(l0);
+  // });
 
   it("Should list NFTs", async function () {
     const nfts = await openNfts.list(); // map
     expect((l0 = nfts.size)).to.be.gt(1);
   });
 
-  it("Should count as much NFTs with both method", async function () {
-    expect(l1).to.be.equal(l0);
-    expect(l2).to.be.equal(l1);
-  });
+  // it("Should count as much NFTs with both method", async function () {
+  //   expect(l1).to.be.equal(l0);
+  //   expect(l2).to.be.equal(l1);
+  // });
 });

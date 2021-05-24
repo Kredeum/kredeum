@@ -18,12 +18,10 @@
   let cidImage;
   let cidJson;
 
-  let pinImage = "";
-
   let signer = "";
   let address = "";
   let tokenId;
-  let nfts, network;
+  let openNfts, nfts, network;
 
   const chain_ids = "0x89,0x13881";
   let chainId = 0;
@@ -31,15 +29,15 @@
   //$: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
-    const openNfts = new OpenNfts(chainId);
-    if (openNfts) {
+    openNfts = new OpenNfts(chainId);
+    if (openNfts.contract) {
       // console.log(openNfts);
 
       nfts = openNfts.contract;
       network = openNfts.network;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon");
-      // alert('Switch to Matic or Mumbai on Polygon');
+      alert("Switch to Matic network on Polygon");
     }
   }
 
@@ -62,7 +60,7 @@
       });
 
       try {
-        tokenId = await nfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
+        tokenId = await openNfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {

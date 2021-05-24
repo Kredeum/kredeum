@@ -15,11 +15,11 @@
       "https://polygon-explorer-mainnet.chainstacklabs.com",
       "https://explorer-mainnet.maticvigil.com"
     ],
-    "openNfts": {
-      "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
-      "openSeaAssets": "https://opensea.io/assets/matic",
-      "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts"
-    }
+
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
+    "openSeaAssets": "https://opensea.io/assets/matic",
+    "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
+    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   },
   {
     "chainId": "0x13881",
@@ -30,10 +30,9 @@
       "https://polygon-explorer-mumbai.chainstacklabs.com",
       "https://explorer-mumbai.maticvigil.com"
     ],
-    "openNfts": {
-      "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft",
-      "openSeaAssets": "https://opensea.io/assets/mumbai",
-      "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts"
-    }
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft",
+    "openSeaAssets": "https://opensea.io/assets/mumbai",
+    "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
+    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   }
 ]
