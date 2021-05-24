@@ -1,7 +1,7 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import nft from "../lib/nft.mjs";
+  import OpenNfts from "../lib/open-nfts.mjs";
   import NftStorage from "../lib/nft-storage.mjs";
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
@@ -22,8 +22,8 @@
 
   let signer = "";
   let address = "";
-  let networkKRE = "";
   let tokenId;
+  let nfts, network;
 
   const chain_ids = "0x89,0x13881";
   let chainId = 0;
@@ -31,9 +31,13 @@
   //$: console.log("SIGNER", signer);
 
   $: if (chainId > 0) {
-    networkKRE = nft.init(chainId);
-    //console.log("networkKRE", networkKRE);
-    if (!networkKRE) {
+    const openNfts = new OpenNfts(chainId);
+    if (openNfts) {
+      console.log(openNfts);
+
+      nfts = openNfts.contract;
+      network = openNfts.network;
+
       console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
       // alert('Switch to Matic or Mumbai on Polygon');
     }
@@ -58,7 +62,7 @@
       });
 
       try {
-        tokenId = await nft.Mint(signer, `${ipfsGateway}/${cidJson}`);
+        tokenId = await nfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
         minted = 2;
         dispatch("token", { tokenId: tokenId });
       } catch (e) {
@@ -78,15 +82,14 @@
 
   {#if address}
     {#if minted == 2}
-      <!-- <a href="{network?.openNfts?.}/{network?.KRE}/{tokenId}" target="_blank"> -->
       <a href="/wp-admin/admin.php?page=nfts">
         <button class="sell">SELL NFT</button>
       </a>
       <!-- </a> -->
     {:else if minted == 1}
       <button id="mint-button" class="minting">MINTING...</button>
-    {:else if !networkKRE}
-      <button id="mint-button" class="switch">Switch to MATIC (or testnet MUMBAI)</button>
+    {:else if !network}
+      <button id="mint-button" class="switch">Switch to MATIC</button>
     {:else}
       <button id="mint-button-{pid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}
