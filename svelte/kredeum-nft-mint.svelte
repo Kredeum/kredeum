@@ -33,12 +33,12 @@
   $: if (chainId > 0) {
     const openNfts = new OpenNfts(chainId);
     if (openNfts) {
-      console.log(openNfts);
+      // console.log(openNfts);
 
       nfts = openNfts.contract;
       network = openNfts.network;
-
-      console.log("Wrong chainId: switch to Matic or Mumbai on Polygon");
+    } else {
+      console.log("Wrong chainId: switch to Matic network on Polygon");
       // alert('Switch to Matic or Mumbai on Polygon');
     }
   }

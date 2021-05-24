@@ -28,7 +28,7 @@
   async function nftInit() {
     openNfts = new OpenNfts(chainId);
     if (openNfts) {
-      console.log(openNfts);
+      // console.log(openNfts);
 
       nfts = openNfts.contract;
       network = openNfts.network;
