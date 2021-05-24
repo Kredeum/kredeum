@@ -1,4 +1,4 @@
-import { log } from "@graphprotocol/graph-ts";
+import { ipfs, log } from "@graphprotocol/graph-ts";
 import { OpenNFTs, Transfer as TransferEvent } from "../generated/OpenNFTs/OpenNFTs";
 import { Token, Owner, Contract, Transfer } from "../generated/schema";
 
@@ -26,6 +26,10 @@ export function handleTransfer(event: TransferEvent): void {
     let uri = instance.try_tokenURI(event.params.tokenId);
     if (!uri.reverted) {
       token.uri = uri.value;
+      let cid = token.uri.substring(token.uri.lastIndexOf("/") + 1);
+
+      token.json = ipfs.cat(cid).toString();
+      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.uri, cid, token.json]);
     }
   }
   token.owner = to;

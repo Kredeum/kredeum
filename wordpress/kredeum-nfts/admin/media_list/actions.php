@@ -77,7 +77,7 @@ add_action(
 		}
 		if ( ! empty( $_REQUEST['bulk_unchanged'] ) ) {
 			$unchanged_count = intval( $_REQUEST['bulk_unchanged'] );
-			$medias_links    = _n( 'media link', 'medias links', $modified_count );
+			$medias_links    = _n( 'media link', 'medias links', $unchanged_count );
 			printf(
 				'<div id="message" class="notice is-dismissible"><p>%s IPFS %s unchanged</p></div>',
 				esc_html( $unchanged_count ),

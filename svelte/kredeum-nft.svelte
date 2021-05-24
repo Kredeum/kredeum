@@ -3,16 +3,20 @@
 <script>
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
-  import nft from "../lib/nft.mjs";
+  import OpenNfts from "../lib/open-nfts.mjs";
   import kimages from "../lib/kimages.mjs";
 
   const ipfsGateway = "https://ipfs.io/ipfs";
 
-  let address = "";
-
   const chainIds = ["0x89", "0x13881"];
-  let chainId;
-  let network;
+  let chainId,
+    openNfts,
+    nfts,
+    network,
+    nftsAddress,
+    explorer,
+    address,
+    admin = "0x0";
 
   export let all = 2;
   // 0 all NFTs
@@ -26,11 +30,17 @@
   $: if (chainId > 0) nftInit();
 
   async function nftInit() {
-    //console.log("chainId", chainId);
-    network = await nft.init(chainId);
+    openNfts = new OpenNfts(chainId);
+    if (openNfts.contract) {
+      nfts = openNfts.contract;
+      network = openNfts.network;
 
-    if (network?.KRE) {
-      //console.log(network);
+      nftsAddress = nfts?.address;
+      explorer = network?.blockExplorerUrls[0];
+      admin = network.admin;
+
+      console.log(admin, address);
+
       nftList();
     } else {
       alert("Wrong network detected");
@@ -39,25 +49,25 @@
 
   async function nftList() {
     loading = true;
-    NFTs = await nft.list();
+    NFTs = await openNfts.list();
     loading = false;
-    //console.log('NFTs', NFTs);
+    console.log("NFTs", NFTs);
   }
 
-  const sameAddress = (a, b = address) => a.toLowerCase() === b.toLowerCase();
-  const short = (a) => `${a.substring(0, 6)}...${a.substring(a.length - 4, a.length)}`;
+  const sameAddress = (a, b = address) => a?.toLowerCase() === b?.toLowerCase();
+  const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
 
   $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
   $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
-  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
+  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
 
-  $: openSeaLink = () => `${network?.openNfts?.openSeaKredeum}`;
-  $: openSeaLinkToken = (tokenId) => `${network?.openNfts?.openSeaAssets}/${network?.KRE}/${tokenId?.split(":", 1)[0]}`;
+  $: openSeaLink = () => network?.openSeaKredeum;
+  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
 
-  $: kreLink = () => `${network?.blockExplorerUrls[0]}/tokens/${network?.KRE}/inventory`;
-  $: ownerLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.ownerOf}/tokens`;
-  $: minterLink = (item) => `${network?.blockExplorerUrls[0]}/address/${item.tokenJson?.minter}/tokens`;
+  $: kreLink = () => `${explorer}/tokens/${nftsAddress}/inventory`;
+  $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
+  $: minterLink = (item) => `${explorer}/address/${item.tokenJson?.minter}/tokens`;
 
   $: show = (item) =>
     all == 0 ||
@@ -81,11 +91,13 @@
   <table>
     <tr>
       <td colspan="8">
-        <button on:click="{(e) => (all = 0)}">All NFTs</button>
-        -
+        {#if sameAddress(admin, address)}
+          <button on:click="{() => (all = 0)}">All NFTs</button>
+          -
+        {/if}
         <button on:click="{() => (all = 1)}">NFTs I created</button>
         -
-        <button on:click="{(e) => (all = 2)}">NFTs I own</button>
+        <button on:click="{() => (all = 2)}">NFTs I own</button>
         <hr />
       </td>
     </tr>
@@ -170,7 +182,7 @@
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId chainIds="{chainIds}" />
     <br />
-    {#if network} <a href="{kreLink()}" target="_blank">kredeum_nfts@{network?.KRE}</a> {/if}
+    {#if openNfts} <a href="{kreLink()}" target="_blank">kredeum_nfts@{nftsAddress}</a> {/if}
   </small>
 </main>
 

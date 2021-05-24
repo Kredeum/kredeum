@@ -12,6 +12,7 @@ type Token @entity {
   uri: String
   transfers: [Transfer!]! @derivedFrom(field: "token")
   contract: Contract
+  json: String
 }
 
 type Owner @entity {
