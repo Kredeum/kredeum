@@ -65,6 +65,7 @@
 
   $: openSeaLink = () => network?.openSeaKredeum;
   $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
+  $: kreLinkToken = (tokenId) => `${explorer}/tokens/${nftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
 
   $: kreLink = () => `${explorer}/tokens/${nftsAddress}/inventory`;
   $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
@@ -117,7 +118,9 @@
       {#if show(item)}
         <tr>
           <td>
-            {short(tokenId)}
+            <a href="{kreLinkToken(tokenId)}">
+              {short(tokenId)}
+            </a>
           </td>
 
           <td>
