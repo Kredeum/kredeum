@@ -135,11 +135,11 @@ class Settings {
 			case 'text':
 			case 'password':
 			case 'number':
-				printf( '<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" />', esc_html( $arguments['uid'] ), esc_html( $arguments['type'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) );
+				printf( '<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" size="60"/><br/>', esc_html( $arguments['uid'] ), esc_html( $arguments['type'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) );
 				break;
 
 			case 'textarea':
-				esc_html( printf( '<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="50">%3$s</textarea>', esc_html( $arguments['uid'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) ) );
+				esc_html( printf( '<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="60">%3$s</textarea><br/>', esc_html( $arguments['uid'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) ) );
 				break;
 
 			case 'select':

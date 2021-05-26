@@ -46,15 +46,24 @@ function fields() {
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
 		// ), .
+	array(
+		'uid'         => 'ipfs_nft_storage_key',
+		'label'       => 'IPFS_NFT_STORAGE_KEY',
+		'section'     => 'first_section',
+		'type'        => 'textarea',
+		'placeholder' => 'NFT Storage key',
+		'default'     => '',
+		'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
+	),
 
 		array(
-			'uid'         => 'ipfs_nft_storage_key',
-			'label'       => 'IPFS_NFT_STORAGE_KEY',
+			'uid'         => 'kredeum_nfts_address',
+			'label'       => 'KREDEUM_NFTS_ADDRESS',
 			'section'     => 'first_section',
 			'type'        => 'text',
-			'placeholder' => 'NFT Storage key',
-			'default'     => '',
-			'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
+			'placeholder' => 'Contract Address',
+			'default'     => '0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253',
+			'helper'      => __( 'Set Kredeum NFTs Smart Contract Address', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'metamask_address',

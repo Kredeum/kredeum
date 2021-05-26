@@ -17,7 +17,7 @@ namespace KredeumNFTs\Ipfs;
 function get_attached_file_meta( $post_id ) {
 	$ret = new \stdClass();
 
-	$ret->cid      = get_post_meta( $post_id, 'cid', true );
+	$ret->cid      = get_post_meta( $post_id, '_kre_cid', true );
 	$ret->filename = basename( get_post_meta( $post_id, '_wp_attached_file', true ) );
 
 	return $ret;

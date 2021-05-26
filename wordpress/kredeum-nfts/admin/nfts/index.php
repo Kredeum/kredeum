@@ -16,7 +16,10 @@ add_action(
 			'edit_posts',
 			'nfts',
 			function () {
-				echo '<kredeum-nft/>';
+				printf(
+					'<kredeum-nft'
+					. ' contract="' . esc_attr( KREDEUM_NFTS_ADDRESS ) . '"/>'
+				);
 			},
 			'dashicons-format-gallery',
 			11

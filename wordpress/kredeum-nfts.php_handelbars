@@ -63,6 +63,7 @@ if ( is_admin() ) {
 define( 'IPFS_GATEWAY', 'https://ipfs.io' );
 // define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]); ?
 define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
+define( 'KREDEUM_NFTS_ADDRESS', get_option( 'KREDEUM_NFTS_ADDRESS', '' ) );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/link.php';

@@ -18,7 +18,7 @@ add_action(
 			'ipfs_link_box',
 			'IPFS',
 			function ( $post ) {
-				$cid = $post->cid;
+				$cid = $post->_kre_cid;
 				if ( $cid ) {
 					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
 					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
@@ -37,7 +37,7 @@ add_filter(
 		$file = get_attached_file_meta( $post->ID );
 
 		if ( ! $file->cid ) {
-			$form_fields['cid'] = array(
+			$form_fields['_kre_cid'] = array(
 				'label' => __( 'Archive to IPFS' ),
 				'value' => '',
 				'input' => 'html',

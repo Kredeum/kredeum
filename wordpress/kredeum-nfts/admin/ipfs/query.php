@@ -37,6 +37,6 @@ function insert( $post_id ) {
 	// $cid = add( $post_id );
 	// pin( $cid );
 	// } .
-	update_post_meta( $post_id, 'cid', $cid );
+	update_post_meta( $post_id, '_kre_cid', $cid );
 	return $cid;
 }

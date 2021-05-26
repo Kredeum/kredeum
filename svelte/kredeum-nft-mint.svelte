@@ -14,13 +14,13 @@
   export let pid = 0;
   export let width = 100;
   export let display = false;
-  export let minted = 0;
+  export let minted = "";
+  let minting = false;
   let cidImage;
   let cidJson;
 
   let signer = "";
   let address = "";
-  let tokenId;
   let openNfts, nfts, network;
 
   const chain_ids = "0x89,0x13881";
@@ -45,7 +45,7 @@
     //console.log('nftMint src alt', src, alt);
 
     if (signer) {
-      minted = 1;
+      minting = true;
 
       const nftStorage = new NftStorage(key);
       cidImage = await nftStorage.pinUrl(src);
@@ -60,12 +60,12 @@
       });
 
       try {
-        tokenId = await openNfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
-        minted = 2;
-        dispatch("token", { tokenId: tokenId });
+        minted = await openNfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
+        dispatch("token", { minted });
       } catch (e) {
         console.error("Minting ERROR", e);
-        minted = 0;
+        minted = false;
+        minting = false;
       }
     } else {
       alert("You must be connected with Metamask to Mint");
@@ -79,12 +79,12 @@
   {/if}
 
   {#if address}
-    {#if minted == 2}
-      <a href="/wp-admin/admin.php?page=nfts">
+    {#if minted}
+      <a href="{minted}">
         <button class="sell">SELL NFT</button>
       </a>
       <!-- </a> -->
-    {:else if minted == 1}
+    {:else if minting}
       <button id="mint-button" class="minting">MINTING...</button>
     {:else if !network}
       <button id="mint-button" class="switch">Switch to MATIC</button>
