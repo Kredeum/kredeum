@@ -61,9 +61,9 @@ function fields() {
 			'label'       => 'KREDEUM_NFTS_ADDRESS',
 			'section'     => 'first_section',
 			'type'        => 'text',
-			'placeholder' => 'Contract Address',
-			'default'     => '0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253',
-			'helper'      => __( 'Set Kredeum NFTs Smart Contract Address', 'kredeum-nfts' ),
+			'placeholder' => 'Leave blank if you are not an advanced user',
+			'default'     => '',
+			'helper'      => __( 'Beta Feature : Set NFTs Collection Address', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'metamask_address',
