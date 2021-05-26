@@ -11,6 +11,8 @@ describe("NFT", async function () {
   it("Should init NFT library", async function () {
     openNfts = new OpenNfts("0x89");
     expect(openNfts.network.chainName).to.be.equal("matic");
+    expect(openNfts.contract).to.not.be.empty;
+    expect(openNfts.subgraphUrl).to.not.be.empty;
   });
 
   it("Should list NFTs via GraphQL Query", async function () {
@@ -24,10 +26,10 @@ describe("NFT", async function () {
   //   expect(l2).to.be.gt(1); // expect(l).to.be.equal(l0);
   // });
 
-  it("Should list NFTs", async function () {
-    const nfts = await openNfts.list(); // map
-    expect((l0 = nfts.size)).to.be.gt(1);
-  });
+  // it("Should list NFTs", async function () {
+  //   const nfts = await openNfts.list(); // map
+  //   expect((l0 = nfts.size)).to.be.gt(1);
+  // });
 
   // it("Should count as much NFTs with both method", async function () {
   //   expect(l1).to.be.equal(l0);
