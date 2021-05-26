@@ -4,6 +4,7 @@ import { expect } from "chai";
 
 import contracts from "../config/contracts.json";
 import networks from "../config/networks.json";
+import abis from "../config/abis.json";
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 const networkChainId = "0x13881";
@@ -26,13 +27,14 @@ describe("Mint Token", function () {
     expect(ethscan).to.be.equal(networkExplorer);
   });
 
-  it("Should find Contract Address", function () {
-    address = contracts.v1.instances[networkChainName][0].address;
+  it("Should find Contract", function () {
+    contract = contracts.find((_contract) => _contract.address === contractAddress);
+    address = contract.address;
     expect(address).to.be.equal(contractAddress);
   });
 
   it("Should find Contract ABI", function () {
-    abi = contracts.v1.abi;
+    abi = abis[contract.abi];
     expect(abi[0]).to.be.equal("constructor()");
   });
 

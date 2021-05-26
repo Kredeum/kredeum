@@ -1,31 +1,22 @@
-import { ethers } from "ethers";
 import fs from "fs";
-
-const MATICVIGIL_API_KEY = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
+import hre from "hardhat";
+const { ethers } = hre;
+const network = hre.network.name;
 
 const contracts = JSON.parse(fs.readFileSync("../config/contracts.json"));
-const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
+const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
-for (const version in contracts) {
-  const instances = contracts[version].instances;
-  const abi = contracts[version].abi;
-  // console.log(version, abi);
+contracts.forEach(async (contract) => {
+  if (network === contract.network) {
+    const openNFTs = await ethers.getContractAt(contract.name, contract.address);
 
-  for (const network in instances) {
-    const contractList = instances[network];
-    const configNetwork = networks.find((nw) => nw.chainName === network);
-    // console.log(version, network, contractList);
-    const provider = new ethers.providers.JsonRpcProvider(`${configNetwork.rpcUrls[0]}/${MATICVIGIL_API_KEY}`);
-
-    const addresses = contractList.map((_contract) => _contract.address);
-
-    addresses.forEach(async (address) => {
-      const openNFTs = new ethers.Contract(address, abi, provider);
-
-      console.log(version, network, address);
-      console.log(openNFTs.interface.format(["json"]));
-      console.log(await openNFTs.symbol());
-      console.log((await openNFTs.totalSupply()).toString());
-    });
+    const abi = await openNFTs.interface.format(["json"]);
+    if (JSON.stringify(abi) === JSON.stringify(abis[contract.abi])) {
+      console.log(contract.address, contract.name, contract.abi, "OK");
+    } else {
+      console.log(contract);
+      console.log("contract.abi", abis[contract.abi]);
+      console.log("contract.interface", abi);
+    }
   }
-}
+});

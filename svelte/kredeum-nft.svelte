@@ -18,6 +18,7 @@
     address,
     admin = "0x0";
 
+  export let contract;
   export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created
@@ -30,7 +31,7 @@
   $: if (chainId > 0) nftInit();
 
   async function nftInit() {
-    openNfts = new OpenNfts(chainId);
+    openNfts = new OpenNfts(chainId, contract);
     if (openNfts.contract) {
       nfts = openNfts.contract;
       network = openNfts.network;
