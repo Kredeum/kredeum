@@ -5,31 +5,36 @@
     "network": "matic",
     "abi": "kredeum-nfts-v1",
     "startBlock": 14646891,
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft"
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
+    "description": "current version"
   },
   {
     "name": "KRE",
     "address": "0x1C10a8C4E65a1185810f72bcdB0EC564845cAbcB",
     "network": "matic",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "description": "tests only"
   },
   {
     "name": "KRE",
     "address": "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
     "network": "matic",
-    "abi": "kredeum-nfts-v0"
+    "abi": "kredeum-nfts-v0",
+    "description": "tests mainly, some externals"
   },
   {
     "name": "KRE",
     "address": "0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93",
     "network": "matic",
-    "abi": "kredeum-nfts-v0"
+    "abi": "kredeum-nfts-v0",
+    "description": "previous version, more externals"
   },
   {
     "name": "KRE",
     "address": "0x5f13c4c75cd1eb9091525dee5282c1855429b7d4",
     "network": "matic",
-    "abi": "kredeum-nfts-v0"
+    "abi": "kredeum-nfts-v0",
+    "description": "tests only"
   },
   {
     "name": "OpenNFTs",
