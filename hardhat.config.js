@@ -17,6 +17,17 @@ module.exports = {
         { privateKey: process.env.PRIVATE_KEY_TEST_2, balance: "100000000000000000000" }
       ]
     },
+    arbitrum: {
+      url: `https://kovan5.arbitrum.io/rpc`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://explorer5.arbitrum.io/#/",
+      gasPrice: 0
+    },
+    kovan: {
+      url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://kovan.etherscan.io"
+    },
     rinkeby: {
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
