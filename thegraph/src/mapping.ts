@@ -23,13 +23,13 @@ export function handleTransfer(event: TransferEvent): void {
   if (token == null) {
     token = new Token(tockenIdaddress);
     token.contract = event.address.toHexString();
-    let uri = instance.try_tokenURI(event.params.tokenId);
-    if (!uri.reverted) {
-      token.uri = uri.value;
-      let cid = token.uri.substring(token.uri.lastIndexOf("/") + 1);
+    let tokenURI = instance.try_tokenURI(event.params.tokenId);
+    if (!tokenURI.reverted) {
+      token.tokenURI = tokenURI.value;
+      let cid = token.tokenURI.substring(token.tokenURI.lastIndexOf("/") + 1);
 
-      token.json = ipfs.cat(cid).toString();
-      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.uri, cid, token.json]);
+      token.tokenJSON = ipfs.cat(cid).toString();
+      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.tokenURI, cid, token.tokenJSON]);
     }
   }
   token.owner = to;

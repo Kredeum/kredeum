@@ -9,10 +9,10 @@ type Contract @entity {
 type Token @entity {
   id: ID!
   owner: Owner
-  uri: String
   transfers: [Transfer!]! @derivedFrom(field: "token")
   contract: Contract
-  json: String
+  tokenURI: String
+  tokenJSON: String
 }
 
 type Owner @entity {

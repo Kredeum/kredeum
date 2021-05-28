@@ -38,6 +38,14 @@
   },
   {
     "name": "OpenNFTs",
+    "address": "0x98d333dB22158f01797bc7B219c6F18924D0Ca16",
+    "network": "mumbai",
+    "abi": "kredeum-nfts-v1",
+    "startBlock": 14396515,
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft"
+  },
+  {
+    "name": "OpenNFTs",
     "address": "0x34538444A64251c765c5e4c9715a16723CA922D8",
     "network": "mumbai",
     "abi": "kredeum-nfts-v1",

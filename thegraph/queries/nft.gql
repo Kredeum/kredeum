@@ -4,6 +4,7 @@
     owner {
       id
     }
-    uri
+    tokenURI
+    tokenJSON
   }
 }
