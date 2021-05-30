@@ -12,8 +12,8 @@
     "rpcUrls": ["https://rpc-mainnet.maticvigil.com/v1"],
     "nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
     "blockExplorerUrls": [
-      "https://polygon-explorer-mainnet.chainstacklabs.com",
-      "https://explorer-mainnet.maticvigil.com"
+      "https://explorer-mainnet.maticvigil.com",
+      "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
 
     "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
@@ -27,8 +27,8 @@
     "rpcUrls": ["https://rpc-mumbai.maticvigil.com/v1"],
     "nativeCurrency": { "name": "Matic", "symbol": "tMATIC", "decimals": 18 },
     "blockExplorerUrls": [
-      "https://polygon-explorer-mumbai.chainstacklabs.com",
-      "https://explorer-mumbai.maticvigil.com"
+      "https://explorer-mumbai.maticvigil.com",
+      "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
     "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft",
     "openSeaAssets": "https://opensea.io/assets/mumbai",
