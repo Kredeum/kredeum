@@ -42,7 +42,7 @@
     "network": "mumbai",
     "abi": "kredeum-nfts-v1",
     "startBlock": 14396515,
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft"
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "OpenNFTs",
@@ -50,61 +50,76 @@
     "network": "mumbai",
     "abi": "kredeum-nfts-v1",
     "startBlock": 13976646,
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft"
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x8e8B4A64151b228994aA8553dB2C446AfC8E41bb",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x420C87cf8f6a2869ae8CBCFc3047FDEA69517007",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x8Bf94497bf38a12488EC4fCAb7fd19Bb5A276420",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0xafe822240383dd0ab8a19253212ea9e1d6ba5e3b",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x17fb61016939409e6b7cd7cfae468b707a896bae",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0xb05AA675e9d061C60fE050392E30AfeD22C655DA",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x89f25A1B2F1c547c469696bF076936d47DF66cf3",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x420C87cf8f6a2869ae8CBCFc3047FDEA69517007",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
   {
     "name": "KRE",
     "address": "0x02feb47bfd082f76c757c3a750ea10807c529e5f",
     "network": "mumbai",
-    "abi": "kredeum-nfts-v1"
+    "abi": "kredeum-nfts-v1",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
   },
-  { "name": "NFT", "address": "0xd97900F988DFBdEcc72a5C4Bd11425F3CdB957B1", "network": "mumbai", "abi": "erc721" }
+  {
+    "name": "NFT",
+    "address": "0xd97900F988DFBdEcc72a5C4Bd11425F3CdB957B1",
+    "network": "mumbai",
+    "abi": "erc721",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai"
+  }
 ]
