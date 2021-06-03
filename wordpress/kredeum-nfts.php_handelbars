@@ -68,7 +68,7 @@ define( 'KREDEUM_NFTS_ADDRESS', get_option( 'KREDEUM_NFTS_ADDRESS', '' ) );
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/links.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php';
+// require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 
 add_action(
 	'plugins_loaded',
