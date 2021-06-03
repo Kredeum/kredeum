@@ -33,5 +33,13 @@
     "openSeaAssets": "https://opensea.io/assets/mumbai",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
+  },
+  {
+    "chainId": "0x8376940B1DB0",
+    "chainName": "arbitrum",
+    "rpcUrls": ["https://kovan5.arbitrum.io/rpc"],
+    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "blockExplorerUrls": ["https://explorer5.arbitrum.io/#"],
+    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   }
 ]

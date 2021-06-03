@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
 
 module.exports = {
-  defaultNetwork: "mumbai",
+  defaultNetwork: "arbitrum",
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -18,7 +18,8 @@ module.exports = {
       ]
     },
     arbitrum: {
-      url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
+      // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
+      url: "https://kovan5.arbitrum.io/rpc",
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer5.arbitrum.io/#/",
       gasPrice: 0

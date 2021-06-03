@@ -23,7 +23,7 @@
   let address = "";
   let openNfts, nfts, network;
 
-  const chain_ids = "0x89,0x13881";
+  const chain_ids = "0x89,0x13881,0x8376940b1db0";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);

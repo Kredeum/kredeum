@@ -30,6 +30,7 @@
   let NFTcontracts = [];
   let loadingTokens = false;
   let loadingContracts = false;
+  let listBoxContracts = false;
 
   $: if (chainId > 0) nftInit(contract);
 
@@ -63,10 +64,15 @@
   }
 
   async function nftListContracts() {
-    loadingContracts = true;
-    NFTcontracts = await openNfts.listContracts(address);
-    loadingContracts = false;
-    console.log("NFTs", NFTs);
+    if (openNfts.supportsSubgraph()) {
+      listBoxContracts = true;
+      loadingContracts = true;
+      NFTcontracts = await openNfts.listContracts(address);
+      loadingContracts = false;
+      console.log("NFTs", NFTs);
+    } else {
+      console.error("Contract ListBox not supported by this network");
+    }
   }
 
   const sameAddress = (a, b = address) => a?.toLowerCase() === b?.toLowerCase();
@@ -104,17 +110,19 @@
     <a href="{openSeaLink()}" target="_blank">on OpenSea</a>
   </h3> -->
 
-  <!-- svelte-ignore a11y-no-onchange -->
-  <select bind:value="{selected}" on:change="{() => nftInit(selected)}">
-    {#each NFTcontracts as item}
-      <option value="{item.id}">
-        @{item.id}
-        {item.numTokens}
-        {item.symbol || "NFT"}
-        {item.name}
-      </option>
-    {/each}
-  </select>
+  {#if listBoxContracts}
+    <!-- svelte-ignore a11y-no-onchange -->
+    <select bind:value="{selected}" on:change="{() => nftInit(selected)}">
+      {#each NFTcontracts as item}
+        <option value="{item.id}">
+          @{item.id}
+          {item.numTokens}
+          {item.symbol || "NFT"}
+          {item.name}
+        </option>
+      {/each}
+    </select>
+  {/if}
 
   <table>
     <tr>

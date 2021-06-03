@@ -8,6 +8,19 @@
     "description": "current version"
   },
   {
+    "name": "OpenNFTs",
+    "address": "0x98d333dB22158f01797bc7B219c6F18924D0Ca16",
+    "network": "mumbai",
+    "abi": "kredeum-nfts-v1",
+    "startBlock": 11930232
+  },
+  {
+    "name": "OpenNFTs",
+    "address": "0xb10d1dddd6c3c9d31cc2826c6bd7dbf624081c55",
+    "network": "arbitrum",
+    "abi": "kredeum-nfts-v1"
+  },
+  {
     "name": "KRE",
     "address": "0x1C10a8C4E65a1185810f72bcdB0EC564845cAbcB",
     "network": "matic",
@@ -39,13 +52,7 @@
     "startBlock": 12646655,
     "description": "tests only"
   },
-  {
-    "name": "OpenNFTs",
-    "address": "0x98d333dB22158f01797bc7B219c6F18924D0Ca16",
-    "network": "mumbai",
-    "abi": "kredeum-nfts-v1",
-    "startBlock": 11930232
-  },
+
   {
     "name": "OpenNFTs",
     "address": "0x34538444A64251c765c5e4c9715a16723CA922D8",
