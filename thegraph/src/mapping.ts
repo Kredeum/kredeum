@@ -146,10 +146,13 @@ export function handleTransfer(event: Transfer): void {
             let cid = eip721Token.tokenURI.substring(eip721Token.tokenURI.lastIndexOf("/") + 1);
             if (cid) {
               let jsonIpfs = ipfs.cat(cid);
-              if (jsonIpfs != null) {
-                let jsonData = json.try_fromBytes(jsonIpfs as Bytes);
-                if (!jsonData.isError) {
-                  let jsonObject = jsonData.value.toObject();
+              let metadata = jsonIpfs.toString().trim();
+
+              // Either indexing CRASH on json data as array like '[{a:1,b:2}]'
+              if (jsonIpfs != null && metadata.startsWith("{") && metadata.endsWith("}")) {
+                let jsonResult = json.try_fromBytes(jsonIpfs as Bytes);
+                if (jsonResult.isOk) {
+                  let jsonObject = jsonResult.value.toObject();
                   if (jsonObject != null) {
                     eip721Token.name = jsonObject.get("name").isNull() ? "" : jsonObject.get("name").toString();
                     eip721Token.description = jsonObject.get("description").isNull()
@@ -157,9 +160,11 @@ export function handleTransfer(event: Transfer): void {
                       : jsonObject.get("description").toString();
                     eip721Token.image = jsonObject.get("image").isNull() ? "" : jsonObject.get("image").toString();
                   }
-                  eip721Token.metadata = jsonIpfs.toString();
+                } else {
+                  log.error("JSON ERROR {}", [metadata]);
                 }
               }
+              eip721Token.metadata = metadata;
             }
           }
         }
