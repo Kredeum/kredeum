@@ -1,0 +1,30 @@
+name: Tests js
+on: push
+# on: pull_request
+
+jobs:
+  check:
+    name: Check sources
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@master
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.6.2
+          run_install: true
+
+      - name: Run tests
+        run: npm run test
