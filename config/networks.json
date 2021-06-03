@@ -15,7 +15,6 @@
       "https://explorer-mainnet.maticvigil.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
-
     "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
     "openSeaAssets": "https://opensea.io/assets/matic",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
@@ -30,7 +29,7 @@
       "https://explorer-mumbai.maticvigil.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/mumbai-open-nft",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
     "openSeaAssets": "https://opensea.io/assets/mumbai",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"

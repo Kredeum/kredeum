@@ -1,0 +1,21 @@
+{
+  ownerPerTokenContracts(
+    where: {
+      owner: "0x981ab0d817710d8fffc5693383c00d985a3bda38"
+      contract: "0x98d333db22158f01797bc7b219c6f18924d0ca16"
+    }
+  ) {
+    contract {
+      tokens {
+        id
+        tokenID
+        tokenURI
+        name
+        description
+        image
+        metadata
+      }
+    }
+    numTokens
+  }
+}

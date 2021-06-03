@@ -11,8 +11,8 @@ async function graphQL(url, query) {
   return response;
 }
 
-const queryFile = process.argv[2] || "nft.gql";
-const url = process.argv[3] || "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft";
+const queryFile = process.argv[2] || "tokens-pre-contract.gql";
+const url = process.argv[3] || "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai";
 const query = fs.readFileSync(queryFile, "utf8");
 
 graphQL(url, query).then((res) => {

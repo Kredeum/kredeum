@@ -5,16 +5,17 @@ import { expect } from "chai";
 import contracts from "../config/contracts.json";
 import networks from "../config/networks.json";
 import abis from "../config/abis.json";
+import OpenNfts from "../lib/open-nfts.mjs";
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 const networkChainId = "0x13881";
 const networkChainName = "mumbai";
-const networkExplorer = "https://polygon-explorer-mumbai.chainstacklabs.com";
+const networkExplorer = "https://explorer-mumbai.maticvigil.com";
 const contractAddress = "0x34538444A64251c765c5e4c9715a16723CA922D8";
 const contractName = "Open NFTs";
 const contractSymbol = "NFT";
 
-let signer, network, address, abi, provider, contract, totalSupply, ethscan;
+let signer, network, address, abi, provider, contract, totalSupply, ethscan, openNfts;
 
 describe("Mint Token", function () {
   it("Should find Network", function () {
@@ -24,41 +25,40 @@ describe("Mint Token", function () {
 
   it("Should find Chain Explorer", function () {
     ethscan = network.blockExplorerUrls[0];
-    expect(ethscan).to.be.equal(networkExplorer);
+    expect(ethscan.startsWith("https://")).to.be.true;
   });
 
-  it("Should find Contract", function () {
-    contract = contracts.find((_contract) => _contract.address === contractAddress);
-    address = contract.address;
-    expect(address).to.be.equal(contractAddress);
+  it("Should find Contract Config", function () {
+    contract = contracts.find((_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase());
+    expect(contract.address).to.be.equal(contractAddress);
   });
 
-  it("Should find Contract ABI", function () {
-    abi = abis[contract.abi];
-    expect(abi[0]).to.be.equal("constructor()");
+  it("Should connect Contract", async function () {
+    this.timeout(20000);
+    openNfts = new OpenNfts();
+    const res = await openNfts.init(networkChainId, contractAddress);
+    expect(res).to.be.true;
+  });
+
+  it("Should get Contract Name", async function () {
+    this.timeout(5000);
+    expect(await openNfts.contract.name()).to.be.equal(contractName);
+  });
+
+  it("Should get Contract Symbol", async function () {
+    this.timeout(5000);
+    expect(await openNfts.contract.symbol()).to.be.equal(contractSymbol);
+  });
+
+  it("Should get Contract TotalSupply", async function () {
+    this.timeout(5000);
+    totalSupply = (await openNfts.contract.totalSupply()).toNumber();
+    expect(totalSupply).to.be.gt(0);
   });
 
   it("Should connect Provider", function () {
     provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${process.env.MATICVIGIL_API_KEY}`);
     expect(provider._isProvider).to.be.true;
-  });
-
-  it("Should connect Contract", function () {
-    contract = new ethers.Contract(address, abi, provider);
-    expect(provider._isProvider).to.be.true;
-  });
-
-  it("Should get Contract Name", async function () {
-    expect(await contract.name()).to.be.equal(contractName);
-  });
-
-  it("Should get Contract Symbol", async function () {
-    expect(await contract.symbol()).to.be.equal(contractSymbol);
-  });
-
-  it("Should get Contract TotalSupply", async function () {
-    totalSupply = (await contract.totalSupply()).toNumber();
-    expect(totalSupply).to.be.gt(0);
   });
 
   it("Should get Signer", async function () {
@@ -68,12 +68,12 @@ describe("Mint Token", function () {
 
   it("Should Mint one Token", async function () {
     this.timeout(20000);
-    const tx = await contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
+    const tx = await openNfts.contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
     expect((await tx.wait()).status).to.be.equal(1);
   });
 
   it("Should get +1 on Contract TotalSupply", async function () {
-    const totalSupply1 = (await contract.totalSupply()).toNumber();
+    const totalSupply1 = (await openNfts.contract.totalSupply()).toNumber();
     expect(totalSupply1).to.be.equal(totalSupply + 1);
   });
 });

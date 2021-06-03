@@ -16,7 +16,7 @@ const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
 const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
 const address = "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253";
-const contract = contracts.find((_contract) => _contract.address === address);
+const contract = contracts.find((_contract) => _contract.address.toLowerCase() === address.toLowerCase());
 
 const abi = abis[contract.abi];
 const network = networks.find((_network) => _network.chainName === contract.network);

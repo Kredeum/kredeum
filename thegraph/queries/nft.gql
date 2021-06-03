@@ -5,6 +5,6 @@
       id
     }
     tokenURI
-    tokenJSON
+    metadata
   }
 }

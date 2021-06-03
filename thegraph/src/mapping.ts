@@ -28,8 +28,8 @@ export function handleTransfer(event: TransferEvent): void {
       token.tokenURI = tokenURI.value;
       let cid = token.tokenURI.substring(token.tokenURI.lastIndexOf("/") + 1);
 
-      token.tokenJSON = ipfs.cat(cid).toString();
-      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.tokenURI, cid, token.tokenJSON]);
+      token.metadata = ipfs.cat(cid).toString();
+      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.tokenURI, cid, token.metadata]);
     }
   }
   token.owner = to;

@@ -16,6 +16,7 @@
     nftsAddress,
     explorer,
     address,
+    selected,
     admin = "0x0";
 
   export let contract;
@@ -26,12 +27,17 @@
   // 3 NFTs I created and I own
 
   let NFTs = new Map();
-  let loading = false;
+  let NFTcontracts = [];
+  let loadingTokens = false;
+  let loadingContracts = false;
 
-  $: if (chainId > 0) nftInit();
+  $: if (chainId > 0) nftInit(contract);
 
-  async function nftInit() {
-    openNfts = new OpenNfts(chainId, contract);
+  async function nftInit(_contract) {
+    console.log("nftInit", _contract);
+
+    openNfts = new OpenNfts();
+    await openNfts.init(chainId, _contract);
     if (openNfts.contract) {
       nfts = openNfts.contract;
       network = openNfts.network;
@@ -42,16 +48,24 @@
 
       console.log(admin, address);
 
-      nftList();
+      nftListContracts();
+      nftListTokens();
     } else {
       alert("Wrong network detected");
     }
   }
 
-  async function nftList() {
-    loading = true;
-    NFTs = await openNfts.list();
-    loading = false;
+  async function nftListTokens() {
+    loadingTokens = true;
+    NFTs = await openNfts.listTokens(address);
+    loadingTokens = false;
+    console.log("NFTs", NFTs);
+  }
+
+  async function nftListContracts() {
+    loadingContracts = true;
+    NFTcontracts = await openNfts.listContracts(address);
+    loadingContracts = false;
     console.log("NFTs", NFTs);
   }
 
@@ -65,7 +79,7 @@
 
   $: openSeaLink = () => network?.openSeaKredeum;
   $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
-  $: kreLinkToken = (tokenId) => `${explorer}/tokens/${nftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
+  $: kreLinkToken = (tokenId) => `${explorer}/Contracts/${nftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
 
   $: kreLink = () => `${explorer}/tokens/${nftsAddress}/inventory`;
   $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
@@ -79,16 +93,28 @@
 
 <main>
   <h1>
-    <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.klogo_png}" />
+    <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
     Kredeum NFTs
   </h1>
 
-  <h3>
+  <!-- <h3>
     Exchange my NFTs
     <a href="{arkaneLinkKredeum()}" target="_blank">on Arkane Market</a>
     -
     <a href="{openSeaLink()}" target="_blank">on OpenSea</a>
-  </h3>
+  </h3> -->
+
+  <!-- svelte-ignore a11y-no-onchange -->
+  <select bind:value="{selected}" on:change="{() => nftInit(selected)}">
+    {#each NFTcontracts as item}
+      <option value="{item.id}">
+        @{item.id}
+        {item.numTokens}
+        {item.symbol || "NFT"}
+        {item.name}
+      </option>
+    {/each}
+  </select>
 
   <table>
     <tr>
@@ -107,7 +133,7 @@
       <td>id</td>
       <td width="200">name</td>
       <td>image</td>
-      <td>Arkane Market</td>
+      <!-- <td>Arkane Market</td> -->
       <td>OpenSea</td>
       <td>creator</td>
       <td>ipfs</td>
@@ -131,23 +157,23 @@
             <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
           </td>
 
-          <td>
-            {#if item.ownerOf}
-              {#if sameAddress(item.ownerOf, arkaneAddress())}
-                <a href="{arkaneLinkKredeum()}" target="_blank">
-                  <button class="buy">BUY NFT</button>
-                </a>
-              {:else if sameAddress(item.ownerOf)}
-                <a href="{arkaneLinkToken(tokenId)}" target="_blank">
-                  <button class="sell">SELL NFT</button>
-                </a>
-              {:else}
-                <a href="{ownerLink(item)}" target="_blank">
-                  <button class="grey">OWNER</button>
-                </a>
-              {/if}
+          <!-- <td>
+          {#if item.ownerOf}
+            {#if sameAddress(item.ownerOf, arkaneAddress())}
+              <a href="{arkaneLinkKredeum()}" target="_blank">
+                <button class="buy">BUY NFT</button>
+              </a>
+            {:else if sameAddress(item.ownerOf)}
+              <a href="{arkaneLinkToken(tokenId)}" target="_blank">
+                <button class="sell">SELL NFT</button>
+              </a>
+            {:else}
+              <a href="{ownerLink(item)}" target="_blank">
+                <button class="grey">OWNER</button>
+              </a>
             {/if}
-          </td>
+          {/if}
+        </td> -->
 
           <td>
             <a href="{openSeaLinkToken(tokenId)}" target="_blank">
@@ -176,8 +202,8 @@
         </tr>
       {/if}
     {/each}
-    {#if loading}
-      <p>Data loading, please wait ...</p>
+    {#if loadingTokens}
+      <p>Data loadingTokens, please wait ...</p>
       <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
     {/if}
     <tr><td colspan="8"><hr /></td></tr>
@@ -201,7 +227,7 @@
   }
   h1 {
     color: #ff3e00;
-    font-size: 4em;
+    font-size: 3em;
     font-weight: 100;
   }
   img {

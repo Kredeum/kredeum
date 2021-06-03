@@ -17,7 +17,7 @@ describe("ABIs", function () {
       const provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`);
       const openNFTs = new ethers.Contract(address, abi, provider);
 
-      console.log(`${contract.abi}:${address}@${network.chainName}`);
+      // console.log(`${contract.abi}:${address}@${network.chainName}`);
 
       expect(JSON.stringify(openNFTs.interface.format(["json"]))).to.be.equal(JSON.stringify(abis[contract.abi]));
     });

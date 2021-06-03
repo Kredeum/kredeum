@@ -28,15 +28,18 @@
 
   //$: console.log("SIGNER", signer);
 
-  $: if (chainId > 0) {
-    openNfts = new OpenNfts(chainId);
+  $: if (chainId > 0) init(chainId);
+
+  async function init(_chainId) {
+    openNfts = new OpenNfts();
+    await openNfts.init(_chainId);
     if (openNfts.contract) {
       // console.log(openNfts);
 
       nfts = openNfts.contract;
       network = openNfts.network;
     } else {
-      console.log("Wrong chainId: switch to Matic network on Polygon");
+      console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");
     }
   }
