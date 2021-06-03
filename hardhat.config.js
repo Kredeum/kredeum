@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
 
 module.exports = {
-  defaultNetwork: "arbitrum",
+  defaultNetwork: "rinkeby",
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -24,6 +24,16 @@ module.exports = {
       ethscan: "https://explorer5.arbitrum.io/#/",
       gasPrice: 0
     },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://mainnet.etherscan.io"
+    },
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://ropsten.etherscan.io"
+    },
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],
@@ -40,13 +50,15 @@ module.exports = {
       ethscan: "https://goerli.etherscan.io"
     },
     matic: {
-      url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      // url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 137,
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer-mainnet.maticvigil.com"
     },
     mumbai: {
-      url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      // url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 80001,
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer-mumbai.maticvigil.com"

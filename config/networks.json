@@ -7,9 +7,16 @@
     "blockExplorerUrls": ["https://etherscan.io"]
   },
   {
+    "chainId": "0x4",
+    "chainName": "rinkeby",
+    "rpcUrls": ["https://rinkeby.infura.io/v3"],
+    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "blockExplorerUrls": ["https://rinkeby.etherscan.io"]
+  },
+  {
     "chainId": "0x89",
     "chainName": "matic",
-    "rpcUrls": ["https://rpc-mainnet.maticvigil.com/v1"],
+    "rpcUrls": ["https://rpc-mainnet.maticvigil.com/v1", "https://polygon-mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
     "blockExplorerUrls": [
       "https://explorer-mainnet.maticvigil.com",
@@ -23,13 +30,13 @@
   {
     "chainId": "0x13881",
     "chainName": "mumbai",
-    "rpcUrls": ["https://rpc-mumbai.maticvigil.com/v1"],
+    "rpcUrls": ["https://rpc-mumbai.maticvigil.com/v1", "https://polygon-mumbai.infura.io/v3"],
     "nativeCurrency": { "name": "Matic", "symbol": "tMATIC", "decimals": 18 },
     "blockExplorerUrls": [
       "https://explorer-mumbai.maticvigil.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
+    "subgraphUrlKO": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
     "openSeaAssets": "https://opensea.io/assets/mumbai",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"

@@ -21,9 +21,9 @@
 
   let signer = "";
   let address = "";
-  let openNfts, nfts, network;
+  let openNfts, network;
 
-  const chain_ids = "0x89,0x13881,0x8376940b1db0";
+  const chain_ids = "0x4,0x89,0x13881,0x8376940b1db0";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
@@ -31,13 +31,9 @@
   $: if (chainId > 0) init(chainId);
 
   async function init(_chainId) {
-    openNfts = new OpenNfts();
-    await openNfts.init(_chainId);
-    if (openNfts.contract) {
-      // console.log(openNfts);
-
-      nfts = openNfts.contract;
-      network = openNfts.network;
+    openNfts = await OpenNfts(_chainId);
+    if (openNfts.ok) {
+      network = openNfts.getNetwork();
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");

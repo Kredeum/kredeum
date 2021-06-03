@@ -21,6 +21,12 @@
     "abi": "kredeum-nfts-v1"
   },
   {
+    "name": "OpenNFTs",
+    "address": "0xe5eacc6f36881a68961d3af46fcf6a7a1e02160f",
+    "network": "rinkeby",
+    "abi": "kredeum-nfts-v1"
+  },
+  {
     "name": "KRE",
     "address": "0x1C10a8C4E65a1185810f72bcdB0EC564845cAbcB",
     "network": "matic",

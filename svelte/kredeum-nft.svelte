@@ -8,12 +8,11 @@
 
   const ipfsGateway = "https://ipfs.io/ipfs";
 
-  const chainIds = ["0x89", "0x13881"];
+  const chainIds = ["0x89", "0x13881", "0x4"];
   let chainId,
     openNfts,
-    nfts,
     network,
-    nftsAddress,
+    openNftsAddress,
     explorer,
     address,
     selected,
@@ -37,21 +36,18 @@
   async function nftInit(_contract) {
     console.log("nftInit", _contract);
 
-    openNfts = new OpenNfts();
-    await openNfts.init(chainId, _contract);
-    if (openNfts.contract) {
-      nfts = openNfts.contract;
-      network = openNfts.network;
+    openNfts = await OpenNfts(chainId, _contract);
+    if (openNfts.ok) {
+      openNftsAddress = openNfts.getAddress();
+      explorer = openNfts.getExplorer();
+      admin = openNfts.getAdmin();
 
-      nftsAddress = nfts?.address;
-      explorer = network?.blockExplorerUrls[0];
-      admin = network.admin;
-
-      console.log(admin, address);
+      console.log(admin, openNftsAddress);
 
       nftListContracts();
       nftListTokens();
     } else {
+      console.error(openNfts);
       alert("Wrong network detected");
     }
   }
@@ -81,13 +77,14 @@
   $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
   $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
   $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
-  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
+  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${openNftsAddress}/${tokenId?.split(":", 1)[0]}`;
 
   $: openSeaLink = () => network?.openSeaKredeum;
-  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${nftsAddress}/${tokenId?.split(":", 1)[0]}`;
-  $: kreLinkToken = (tokenId) => `${explorer}/Contracts/${nftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
+  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${openNftsAddress}/${tokenId?.split(":", 1)[0]}`;
+  $: kreLinkToken = (tokenId) =>
+    `${explorer}/Contracts/${openNftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
 
-  $: kreLink = () => `${explorer}/tokens/${nftsAddress}/inventory`;
+  $: kreLink = () => `${explorer}/tokens/${openNftsAddress}/inventory`;
   $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
   $: minterLink = (item) => `${explorer}/address/${item.tokenJson?.minter}/tokens`;
 
@@ -220,7 +217,7 @@
   <small>
     <Metamask autoconnect="off" bind:address bind:chainId chainIds="{chainIds}" />
     <br />
-    {#if openNfts} <a href="{kreLink()}" target="_blank">kredeum_nfts@{nftsAddress}</a> {/if}
+    {#if openNfts} <a href="{kreLink()}" target="_blank">kredeum_nfts@{openNftsAddress}</a> {/if}
   </small>
 </main>
 

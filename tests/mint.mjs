@@ -35,29 +35,28 @@ describe("Mint Token", function () {
 
   it("Should connect Contract", async function () {
     this.timeout(20000);
-    openNfts = new OpenNfts();
-    const res = await openNfts.init(networkChainId, contractAddress);
-    expect(res).to.be.true;
+    openNfts = await OpenNfts(networkChainId, contractAddress);
+    expect(openNfts.ok).to.be.true;
   });
 
   it("Should get Contract Name", async function () {
     this.timeout(5000);
-    expect(await openNfts.contract.name()).to.be.equal(contractName);
+    expect(await openNfts.smartContract.name()).to.be.equal(contractName);
   });
 
   it("Should get Contract Symbol", async function () {
     this.timeout(5000);
-    expect(await openNfts.contract.symbol()).to.be.equal(contractSymbol);
+    expect(await openNfts.smartContract.symbol()).to.be.equal(contractSymbol);
   });
 
   it("Should get Contract TotalSupply", async function () {
     this.timeout(5000);
-    totalSupply = (await openNfts.contract.totalSupply()).toNumber();
+    totalSupply = (await openNfts.smartContract.totalSupply()).toNumber();
     expect(totalSupply).to.be.gt(0);
   });
 
   it("Should connect Provider", function () {
-    provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${process.env.MATICVIGIL_API_KEY}`);
+    provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
     expect(provider._isProvider).to.be.true;
   });
 
@@ -68,12 +67,12 @@ describe("Mint Token", function () {
 
   it("Should Mint one Token", async function () {
     this.timeout(20000);
-    const tx = await openNfts.contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
+    const tx = await openNfts.smartContract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
     expect((await tx.wait()).status).to.be.equal(1);
   });
 
   it("Should get +1 on Contract TotalSupply", async function () {
-    const totalSupply1 = (await openNfts.contract.totalSupply()).toNumber();
+    const totalSupply1 = (await openNfts.smartContract.totalSupply()).toNumber();
     expect(totalSupply1).to.be.equal(totalSupply + 1);
   });
 });

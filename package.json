@@ -16,7 +16,7 @@
     "smart-list": "npx hardhat run scripts/list.mjs",
     "dapp-clean": "rm -rf app/build",
     "dapp-build": "PROD=true rollup -c && mkdir -p app/build && cp wordpress/kredeum-nfts/lib/js/kredeum-nft.js app/build",
-    "dapp-build-dev": "rollup -c -w",
+    "dapp-dev": "rollup -c -w",
     "dapp-check": "npx prettier-eslint **/*.svelte **/*js **/*.ts **/*.json **/*.html **/*.css **/*.yaml **/*.graphql **/*.md --write",
     "dapp-start": "sirv app",
     "wp-clean": "rm -rf wordpress/vendor wordpress/kredeum-nfts/vendor wordpress/kredeum-nfts/readme.txt wordpress/kredeum-nfts/kredeum-nfts.php wordpress/kredeum-nfts/lib/js",
