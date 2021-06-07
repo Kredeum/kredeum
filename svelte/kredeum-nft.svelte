@@ -18,7 +18,7 @@
     selected,
     admin = "0x0";
 
-  export let contract;
+  export let contract = undefined;
   export let all = 2;
   // 0 all NFTs
   // 1 NFTs I created
@@ -34,7 +34,7 @@
   $: if (chainId > 0) nftInit(contract);
 
   async function nftInit(_contract) {
-    console.log("nftInit", _contract);
+    // console.log("nftInit", _contract);
 
     openNfts = await OpenNfts(chainId, _contract);
     if (openNfts.ok) {
@@ -42,7 +42,7 @@
       explorer = openNfts.getExplorer();
       admin = openNfts.getAdmin();
 
-      console.log(admin, openNftsAddress);
+      console.log("OpenNfts", openNftsAddress);
 
       nftListContracts();
       nftListTokens();
@@ -64,14 +64,18 @@
       listBoxContracts = true;
       loadingContracts = true;
       NFTcontracts = await openNfts.listContracts(address);
+      if (NFTcontracts.length === 0) {
+        NFTcontracts[0] = await openNfts.getDefaultContract();
+        all = 0;
+      }
       loadingContracts = false;
-      console.log("NFTs", NFTs);
+      console.log("NFTcontracts", NFTcontracts);
     } else {
-      console.error("Contract ListBox not supported by this network");
+      console.info("Contract ListBox not supported by this network");
     }
   }
 
-  const sameAddress = (a, b = address) => a?.toLowerCase() === b?.toLowerCase();
+  const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
   const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
 
   $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
@@ -86,12 +90,10 @@
 
   $: kreLink = () => `${explorer}/tokens/${openNftsAddress}/inventory`;
   $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
-  $: minterLink = (item) => `${explorer}/address/${item.tokenJson?.minter}/tokens`;
+  $: minterLink = (item) => `${explorer}/address/${item.metadata?.minter}/tokens`;
 
   $: show = (item) =>
-    all == 0 ||
-    ((all & 1) == 1 && sameAddress(item.tokenJson?.minter)) ||
-    ((all & 2) == 2 && sameAddress(item.ownerOf));
+    all == 0 || ((all & 1) == 1 && sameAddress(item.metadata?.minter)) || ((all & 2) == 2 && sameAddress(item.ownerOf));
 </script>
 
 <main>
@@ -111,11 +113,10 @@
     <!-- svelte-ignore a11y-no-onchange -->
     <select bind:value="{selected}" on:change="{() => nftInit(selected)}">
       {#each NFTcontracts as item}
-        <option value="{item.id}">
-          @{item.id}
-          {item.numTokens}
-          {item.symbol || "NFT"}
-          {item.name}
+        <option value="{item.address}">
+          {item.totalSupply >= 0
+            ? `${item.totalSupply} ${item.symbol || "NFT"}`
+            : item.symbol || item.name || "NFT"}@{item.address}
         </option>
       {/each}
     </select>
@@ -124,13 +125,11 @@
   <table>
     <tr>
       <td colspan="8">
-        {#if sameAddress(admin, address)}
-          <button on:click="{() => (all = 0)}">All NFTs</button>
-          -
-        {/if}
-        <button on:click="{() => (all = 1)}">NFTs I created</button>
+        <button on:click="{() => (all = 0)}" class="{all == 0 ? 'green' : ''}">All NFTs</button>
         -
-        <button on:click="{() => (all = 2)}">NFTs I own</button>
+        <button on:click="{() => (all = 1)}" class="{all == 1 ? 'green' : ''}">NFTs I created</button>
+        -
+        <button on:click="{() => (all = 2)}" class="{all == 2 ? 'green' : ''}">NFTs I own</button>
         <hr />
       </td>
     </tr>
@@ -143,26 +142,28 @@
       <td>creator</td>
       <td>ipfs</td>
       <td>json</td>
+      <td>IMPORT</td>
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
-    {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
-      {#if show(item)}
-        <tr>
-          <td>
-            <a href="{kreLinkToken(tokenId)}">
-              {short(tokenId)}
-            </a>
-          </td>
+    {#key all && address}
+      {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
+        {#if show(item) == true}
+          <tr>
+            <td>
+              <a href="{kreLinkToken(tokenId)}">
+                {short(tokenId)}
+              </a>
+            </td>
 
-          <td>
-            {item.tokenJson?.name || ""}
-          </td>
+            <td>
+              {item.metadata?.name || ""}
+            </td>
 
-          <td>
-            <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
-          </td>
+            <td>
+              <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
+            </td>
 
-          <!-- <td>
+            <!-- <td>
           {#if item.ownerOf}
             {#if sameAddress(item.ownerOf, arkaneAddress())}
               <a href="{arkaneLinkKredeum()}" target="_blank">
@@ -180,33 +181,37 @@
           {/if}
         </td> -->
 
-          <td>
-            <a href="{openSeaLinkToken(tokenId)}" target="_blank">
-              <button class="grey">OpenSea</button>
-            </a>
-          </td>
-
-          <td>
-            {#if item.tokenJson?.minter}
-              <a href="{minterLink(item)}" target="_blank">
-                {short(item.tokenJson?.minter)}
+            <td>
+              <a href="{openSeaLinkToken(tokenId)}" target="_blank">
+                <button class="grey">OpenSea</button>
               </a>
-              {#if sameAddress(item.tokenJson?.minter)}*{/if}
-            {/if}
-          </td>
+            </td>
 
-          <td>
-            <a href="{ipfsGateway}/{item.cid}" target="_blank">{short(item.cid)}</a>
-          </td>
+            <td>
+              {#if item.metadata?.minter}
+                <a href="{minterLink(item)}" target="_blank">
+                  {short(item.metadata?.minter)}
+                </a>
+                {#if sameAddress(item.metadata?.minter)}*{/if}
+              {/if}
+            </td>
 
-          <td>
-            {#if item.tokenURI}
-              <a href="{item.tokenURI}" target="_blank">{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a>
-            {/if}
-          </td>
-        </tr>
-      {/if}
-    {/each}
+            <td>
+              <a href="{ipfsGateway}/{item.cid}" target="_blank">{short(item.cid)}</a>
+            </td>
+
+            <td>
+              {#if item.tokenURI}
+                <a href="{item.tokenURI}" target="_blank">{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a>
+              {/if}
+            </td>
+            <td>
+              <a href="./upload.php?cid={item.cid}" target="_blank">{short(item.cid)}</a>
+            </td>
+          </tr>
+        {/if}
+      {/each}
+    {/key}
     {#if loadingTokens}
       <p>Data loadingTokens, please wait ...</p>
       <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
@@ -253,7 +258,7 @@
   button:hover {
     cursor: pointer;
   }
-  button.sell {
+  button.green {
     background-color: #36d06f;
   }
   button.grey {

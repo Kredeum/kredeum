@@ -22,7 +22,7 @@
       "https://explorer-mainnet.maticvigil.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
-    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/kredeum-nft",
+    "subgraphUrlKO": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
     "openSeaAssets": "https://opensea.io/assets/matic",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
@@ -36,14 +36,14 @@
       "https://explorer-mumbai.maticvigil.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
-    "subgraphUrlKO": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
+    "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
     "openSeaAssets": "https://opensea.io/assets/mumbai",
     "openSeaKredeum": "https://opensea.io/collection/kredeum-nfts",
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   },
   {
     "chainId": "0x8376940B1DB0",
-    "chainName": "arbitrum",
+    "chainName": "arb",
     "rpcUrls": ["https://kovan5.arbitrum.io/rpc"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["https://explorer5.arbitrum.io/#"],

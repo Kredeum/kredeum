@@ -8,22 +8,24 @@
   const dispatch = createEventDispatcher();
   const ipfsGateway = "https://ipfs.io/ipfs";
 
-  export let key;
-  export let alt;
-  export let src;
+  export let key = undefined;
+  export let alt = undefined;
+  export let src = undefined;
   export let pid = 0;
   export let width = 100;
   export let display = false;
   export let minted = "";
+
   let minting = false;
   let cidImage;
   let cidJson;
 
   let signer = "";
   let address = "";
-  let openNfts, network;
+  let network = "0x89";
+  let openNfts;
 
-  const chain_ids = "0x4,0x89,0x13881,0x8376940b1db0";
+  const chain_ids = "0x89,0x13881,0x8376940b1db0,0x4";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
