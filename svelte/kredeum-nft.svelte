@@ -65,7 +65,7 @@
       loadingContracts = true;
       NFTcontracts = await openNfts.listContracts(address);
       if (NFTcontracts.length === 0) {
-        NFTcontracts[0] = await openNfts.getDefaultContract();
+        NFTcontracts[0] = await openNfts.getSmartContract();
         all = 0;
       }
       loadingContracts = false;

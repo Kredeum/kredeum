@@ -56,7 +56,7 @@ describe("Mint Token", function () {
   });
 
   it("Should connect Provider", function () {
-    provider = new ethers.providers.JsonRpcProvider(network.rpcUrls[0]);
+    provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${process.env.MATICVIGIL_API_KEY}`);
     expect(provider._isProvider).to.be.true;
   });
 
