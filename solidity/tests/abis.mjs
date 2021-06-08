@@ -1,9 +1,9 @@
 // npx mocha abis.mjs  --experimental-json-modules
 import { ethers } from "ethers";
 import { expect } from "chai";
-import contracts from "../config/contracts.json";
-import networks from "../config/networks.json";
-import abis from "../config/abis.json";
+import contracts from "../../config/contracts.json";
+import networks from "../../config/networks.json";
+import abis from "../../config/abis.json";
 
 const MATICVIGIL_API_KEY = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
 

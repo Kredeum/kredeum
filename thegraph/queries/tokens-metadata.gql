@@ -1,0 +1,10 @@
+{
+  tokens(first: 9, where: { metadata_not: "" }) {
+    id
+    tokenURI
+    name
+    description
+    image
+    metadata
+  }
+}

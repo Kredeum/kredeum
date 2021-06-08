@@ -2,10 +2,10 @@
 import { ethers } from "ethers";
 import { expect } from "chai";
 
-import contracts from "../config/contracts.json";
-import networks from "../config/networks.json";
-import abis from "../config/abis.json";
-import OpenNfts from "../lib/open-nfts.mjs";
+import contracts from "../../config/contracts.json";
+import networks from "../../config/networks.json";
+import abis from "../../config/abis.json";
+import OpenNfts from "../../lib/open-nfts.mjs";
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 const networkChainId = "0x13881";

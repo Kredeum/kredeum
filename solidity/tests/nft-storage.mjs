@@ -1,6 +1,6 @@
 // npx mocha nft-storage.mjs
 import { expect } from "chai";
-import NftStorage from "../lib/nft-storage.mjs";
+import NftStorage from "../../lib/nft-storage.mjs";
 import fetch from "node-fetch";
 global.fetch = fetch;
 

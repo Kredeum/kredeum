@@ -1,6 +1,6 @@
 // npx mocha nft-list.mjs --experimental-json-modules
 import { expect } from "chai";
-import OpenNfts from "../lib/open-nfts.mjs";
+import OpenNfts from "../../lib/open-nfts.mjs";
 import fetch from "node-fetch";
 global.fetch = fetch;
 
