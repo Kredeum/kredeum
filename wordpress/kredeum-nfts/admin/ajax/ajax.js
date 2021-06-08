@@ -6,10 +6,8 @@
  * @package kredeum/nfts
  */
 
-let knonce;
-
 function _ajax(data) {
-  data.security = knonce;
+  data.security = document.querySelector("#knonce")?.getAttribute("value");
   console.log("AJAX CALL", data);
 
   jQuery.post(ajaxurl, data, function (response) {
@@ -18,8 +16,6 @@ function _ajax(data) {
 }
 
 jQuery(document).ready(function () {
-  knonce = document.querySelector("#knonce").getAttribute("value");
-
   // ACTION GET_ADDRESS
   const kredeumMetamask = document.querySelector("kredeum-metamask");
   kredeumMetamask?.$on("address", function () {
@@ -45,11 +41,11 @@ jQuery(document).ready(function () {
   });
 
   // ACTION IMPORT_NFT
-  const importNft = document.querySelectorAll("import-nft");
-  importNft?.$on("import", function (e) {
-    _ajax({
-      action: "import",
-      url: importNft.url
-    });
-  });
+  // const importNft = document.querySelectorAll("import-nft");
+  // importNft?.$on("import", function (e) {
+  //   _ajax({
+  //     action: "import",
+  //     url: importNft.url
+  //   });
+  // });
 });
