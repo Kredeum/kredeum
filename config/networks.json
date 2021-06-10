@@ -16,11 +16,22 @@
   {
     "chainId": "0x89",
     "chainName": "matic",
-    "rpcUrls": ["https://rpc-mainnet.maticvigil.com/v1", "https://polygon-mainnet.infura.io/v3"],
+    "rpcUrls": [
+      "https://rpc-mainnet.maticvigil.com/v1",
+      "https://rpc-mainnet.matic.network",
+      "https://rpc-mainnet.matic.quiknode.pro",
+      "https://matic-mainnet.chainstacklabs.com",
+      "https://matic-mainnet-full-rpc.bwarelabs.com",
+      "https://matic-mainnet-archive-rpc.bwarelabs.com"
+    ],
     "nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
     "blockExplorerUrls": [
+      "https://polygon-mainnet.infura.io/v3",
+      "https://polygonscan.com/",
+      "https://polygon-explorer-mainnet.chainstacklabs.com",
       "https://explorer-mainnet.maticvigil.com",
-      "https://polygon-explorer-mainnet.chainstacklabs.com"
+      "https://explorer.matic.network",
+      "https://backup-explorer.matic.network"
     ],
     "subgraphUrlKO": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
     "openSeaAssets": "https://opensea.io/assets/matic",
@@ -30,11 +41,19 @@
   {
     "chainId": "0x13881",
     "chainName": "mumbai",
-    "rpcUrls": ["https://rpc-mumbai.maticvigil.com/v1", "https://polygon-mumbai.infura.io/v3"],
+    "rpcUrls": [
+      "https://polygon-mumbai.infura.io/v3",
+      "https://rpc-mumbai.maticvigil.com/v1",
+      "https://rpc-mumbai.matic.today",
+      "https://matic-mumbai.chainstacklabs.com",
+      "https://matic-testnet-archive-rpc.bwarelabs.com"
+    ],
     "nativeCurrency": { "name": "Matic", "symbol": "tMATIC", "decimals": 18 },
     "blockExplorerUrls": [
+      "https://polygon-explorer-mumbai.chainstacklabs.com",
       "https://explorer-mumbai.maticvigil.com",
-      "https://polygon-explorer-mumbai.chainstacklabs.com"
+      "https://mumbai-explorer.matic.today",
+      "https://backup-mumbai-explorer.matic.today"
     ],
     "subgraphUrl": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
     "openSeaAssets": "https://opensea.io/assets/mumbai",

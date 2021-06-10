@@ -2,9 +2,8 @@
 import { ethers } from "ethers";
 import { expect } from "chai";
 
-import contracts from "../../config/contracts.json";
-import networks from "../../config/networks.json";
-import abis from "../../config/abis.json";
+import { configNetworks, configContracts, getProvider } from "../../lib/config.mjs";
+
 import OpenNfts from "../../lib/open-nfts.mjs";
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -19,7 +18,8 @@ let signer, network, address, abi, provider, contract, totalSupply, ethscan, ope
 
 describe("Mint Token", function () {
   it("Should find Network", function () {
-    network = networks.find((nw) => nw.chainName === networkChainName);
+    network = configNetworks.find((nw) => nw.chainName === networkChainName);
+    console.log(network);
     expect(network.chainId).to.be.equal(networkChainId);
   });
 
@@ -29,7 +29,8 @@ describe("Mint Token", function () {
   });
 
   it("Should find Contract Config", function () {
-    contract = contracts.find((_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase());
+    contract = configContracts.find((_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase());
+    console.log(contract);
     expect(contract.address).to.be.equal(contractAddress);
   });
 
@@ -56,7 +57,7 @@ describe("Mint Token", function () {
   });
 
   it("Should connect Provider", function () {
-    provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${process.env.MATICVIGIL_API_KEY}`);
+    provider = getProvider(network);
     expect(provider._isProvider).to.be.true;
   });
 
