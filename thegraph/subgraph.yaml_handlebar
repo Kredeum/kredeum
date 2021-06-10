@@ -9,7 +9,8 @@ dataSources:
     name: EIP721
     network: {{network}}
     source:
-      abi: EIP721
+      abi: EIP721{{#if startBlock}}
+      startBlock: {{startBlock}}{{/if}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4

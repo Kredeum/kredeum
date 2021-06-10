@@ -11,8 +11,7 @@
     "name": "OpenNFTs",
     "address": "0x98d333dB22158f01797bc7B219c6F18924D0Ca16",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
-    "startBlock": 11930232
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
   },
   {
     "name": "OpenNFTs",
@@ -24,7 +23,8 @@
     "name": "OpenNFTs",
     "address": "0xe5eacc6f36881a68961d3af46fcf6a7a1e02160f",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
-    "network": "rinkeby"
+    "network": "rinkeby",
+    "startBlock": 3935000
   },
   {
     "name": "KRE",
