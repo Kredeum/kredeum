@@ -145,26 +145,30 @@ export function handleTransfer(event: Transfer): void {
 
             let cid = eip721Token.tokenURI.substring(eip721Token.tokenURI.lastIndexOf("/") + 1);
             if (cid) {
+              log.info("CID {}", [cid]);
               let jsonIpfs = ipfs.cat(cid);
-              let metadata = jsonIpfs.toString().trim();
 
-              // Either indexing CRASH on json data as array like '[{a:1,b:2}]'
-              if (jsonIpfs != null && metadata.startsWith("{") && metadata.endsWith("}")) {
-                let jsonResult = json.try_fromBytes(jsonIpfs as Bytes);
-                if (jsonResult.isOk) {
-                  let jsonObject = jsonResult.value.toObject();
-                  if (jsonObject != null) {
-                    eip721Token.name = jsonObject.get("name").isNull() ? "" : jsonObject.get("name").toString();
-                    eip721Token.description = jsonObject.get("description").isNull()
-                      ? ""
-                      : jsonObject.get("description").toString();
-                    eip721Token.image = jsonObject.get("image").isNull() ? "" : jsonObject.get("image").toString();
+              if (jsonIpfs != null) {
+                let metadata = jsonIpfs.toString().trim();
+
+                // Either indexing CRASH on json data as array like '[{a:1,b:2}]'
+                if (metadata.startsWith("{") && metadata.endsWith("}")) {
+                  let jsonResult = json.try_fromBytes(jsonIpfs as Bytes);
+                  if (jsonResult.isOk) {
+                    let jsonObject = jsonResult.value.toObject();
+                    if (jsonObject != null) {
+                      eip721Token.name = jsonObject.get("name").isNull() ? "" : jsonObject.get("name").toString();
+                      eip721Token.description = jsonObject.get("description").isNull()
+                        ? ""
+                        : jsonObject.get("description").toString();
+                      eip721Token.image = jsonObject.get("image").isNull() ? "" : jsonObject.get("image").toString();
+                    }
+                  } else {
+                    log.error("JSON ERROR {}", [metadata]);
                   }
-                } else {
-                  log.error("JSON ERROR {}", [metadata]);
                 }
+                eip721Token.metadata = metadata;
               }
-              eip721Token.metadata = metadata;
             }
           }
         }

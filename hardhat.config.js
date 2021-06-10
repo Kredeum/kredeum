@@ -3,7 +3,7 @@ require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
 
 module.exports = {
-  defaultNetwork: "mumbai",
+  defaultNetwork: "rinkeby",
   networks: {
     hardhat: {
       loggingEnabled: true,
@@ -50,7 +50,8 @@ module.exports = {
       ethscan: "https://goerli.etherscan.io"
     },
     matic: {
-      url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      url: `https://rpc-mainnet.maticvigil.com`,
+      // url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 137,
       accounts: [process.env.ACCOUNT_KEY],
