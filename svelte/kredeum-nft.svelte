@@ -94,6 +94,7 @@
 
   $: show = (item) =>
     all == 0 || ((all & 1) == 1 && sameAddress(item.metadata?.minter)) || ((all & 2) == 2 && sameAddress(item.ownerOf));
+
 </script>
 
 <main>
@@ -110,13 +111,18 @@
   </h3> -->
 
   {#if listBoxContracts}
+    {#if NFTcontracts.length > 1}
+      <strong>Choose NFT Collection</strong>
+    {:else}
+      <strong>Default NFT Collection</strong>
+    {/if}
     <!-- svelte-ignore a11y-no-onchange -->
     <select bind:value="{selected}" on:change="{() => nftInit(selected)}">
       {#each NFTcontracts as item}
         <option value="{item.address}">
-          {item.totalSupply >= 0
-            ? `${item.totalSupply} ${item.symbol || "NFT"}`
-            : item.symbol || item.name || "NFT"}@{item.address}
+          {item.totalSupply || ""}
+          {item.symbol || "NFT"}@{item.address}
+          {item.name ? `- ${item.name}` : ""}
         </option>
       {/each}
     </select>
@@ -264,4 +270,5 @@
   button.grey {
     background-color: grey;
   }
+
 </style>
