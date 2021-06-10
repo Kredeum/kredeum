@@ -63,7 +63,7 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Leave blank if you are not an advanced user',
 			'default'     => '',
-			'helper'      => __( 'Beta Feature : Set NFTs Collection Address', 'kredeum-nfts' ),
+			'helper'      => __( 'Alpha Feature : set default NFTs Collection Address', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'metamask_address',
