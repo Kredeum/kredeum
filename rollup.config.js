@@ -74,6 +74,5 @@ const toRollupConfig = function (component, dest, customElement = true) {
 export default [
   // toRollupConfig("kredeum-metamask", "app/build"), // app/metamask.html
   // toRollupConfig("kredeum-nft-mint", "app/build"), // app/mint.html
-  // toRollupConfig("kredeum-nft", "app/build") // app/index.html
-  toRollupConfig("kredeum-nft", "wordpress/kredeum-nfts/lib/js") // wordpress
+  toRollupConfig("kredeum-nft", "app/build")
 ];

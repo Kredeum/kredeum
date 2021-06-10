@@ -23,3 +23,12 @@
 //
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
+
+import "cypress-file-upload";
+
+Cypress.Commands.add("login", () => {
+  cy.visit("/wp-login.php");
+  cy.get("#user_login").type(Cypress.env("WP_LOGIN"));
+  cy.get("#user_pass").type(Cypress.env("WP_PASSWORD"));
+  cy.get("#wp-submit").click();
+});
