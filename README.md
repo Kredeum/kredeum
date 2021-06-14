@@ -111,6 +111,6 @@ Check package.json, for more specific scripts
 
 [![Check sources](https://github.com/Kredeum/kredeum/actions/workflows/check.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/check.yml)
 
-[![Test sources](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml/tests.svg)](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml)
+[![Test sources](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml)
 
 [![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml)
