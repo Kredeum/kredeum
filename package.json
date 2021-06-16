@@ -34,7 +34,7 @@
     "wp-tests": "cd wordpress && npx cypress run",
     "wp-dev": "rollup -c -w",
     "sub-clean": "rm -rf thegraph/build thegraph/generated thegraph/subgraph.yaml",
-    "sub-yaml": "npx jq 'limit(1;.[]|select(.network==\"${NETWORK:-mumbai}\"))' config/contracts.json | npx hbs-cli -i thegraph/subgraph.yaml_handlebar -e yaml -o thegraph",
+    "sub-yaml": "npx jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks.json | npx hbs-cli -i thegraph/subgraph.yaml_handlebar -e yaml -o thegraph",
     "sub-codegen": "cd thegraph && graph codegen",
     "sub-graph-build": "cd thegraph && graph build",
     "sub-build": "npm run sub-yaml && npm run sub-codegen && npm run sub-graph-build",

@@ -44,8 +44,8 @@ describe("NFT basics", async function () {
   });
 
   it("Should list NFTs", async function () {
-    const nfts = await openNfts.listTokens(owner); // map
-    expect((l0 = nfts.size)).to.be.gt(1);
+    const nfts = await openNfts.listTokens(owner);
+    expect((l0 = nfts.length)).to.be.gt(1);
   });
 
   it("Should count as much NFTs with both method", async function () {
@@ -54,7 +54,7 @@ describe("NFT basics", async function () {
   });
 
   it("Should list NFT contracts", async function () {
-    const nftContracts = await openNfts.listContracts(owner); // map
+    const nftContracts = await openNfts.listContracts(owner);
     expect((l0 = nftContracts.length)).to.be.gt(1);
   });
 });
@@ -67,27 +67,27 @@ describe("NFT listTokens", async function () {
     expect(openNfts.ok).to.be.true;
   });
   it("Should list NFTs of owner", async function () {
-    const nfts = await openNfts.listTokens(owner); // map
-    expect((l0 = nfts.size)).to.be.gt(1);
+    const nfts = await openNfts.listTokens(owner);
+    expect((l0 = nfts.length)).to.be.gt(1);
   });
   it("Should list all NFTs", async function () {
-    const nfts = await openNfts.listTokens(); // map
-    expect((l1 = nfts.size)).to.be.gte(l0);
+    const nfts = await openNfts.listTokens();
+    expect((l1 = nfts.length)).to.be.gte(l0);
   });
   it("Should list NFTs of owner with subgraph", async function () {
-    const nfts = await openNfts.listTokensFromTheGraph(owner); // map
+    const nfts = await openNfts.listTokensFromTheGraph(owner);
     expect((l2 = nfts.length)).to.be.equal(l0);
   });
   it("Should list all NFTs with subgraph", async function () {
-    const nfts = await openNfts.listTokensFromTheGraph(); // map
+    const nfts = await openNfts.listTokensFromTheGraph();
     expect((l3 = nfts.length)).to.be.equal(l1);
   });
   it("Should list NFTs of owner with contract", async function () {
-    const nfts = await openNfts.listTokensFromContract(owner); // map
+    const nfts = await openNfts.listTokensFromContract(owner);
     expect((l2 = nfts.length)).to.be.equal(l0);
   });
   it("Should list all NFTs with contract", async function () {
-    const nfts = await openNfts.listTokensFromContract(); // map
+    const nfts = await openNfts.listTokensFromContract();
     expect((l3 = nfts.length)).to.be.equal(l1);
   });
 });

@@ -11,7 +11,6 @@
   const chainIds = ["0x89", "0x13881", "0x4"];
   let chainId,
     openNfts,
-    network,
     openNftsAddress,
     explorer,
     address,
@@ -25,7 +24,7 @@
   // 2 NFTs I own
   // 3 NFTs I created and I own
 
-  let NFTs = new Map();
+  let NFTs = [];
   let NFTcontracts = [];
   let loadingTokens = false;
   let loadingContracts = false;
@@ -52,11 +51,18 @@
     }
   }
 
-  async function nftListTokens() {
-    loadingTokens = true;
-    NFTs = await openNfts.listTokens(address);
-    loadingTokens = false;
-    console.log("NFTs", NFTs);
+  $: nftListTokens(all);
+  async function nftListTokens(_all) {
+    if (openNfts?.ok) {
+      loadingTokens = true;
+      if (_all == 0) {
+        NFTs = await openNfts.listTokens();
+      } else {
+        NFTs = await openNfts.listTokens(address);
+      }
+      loadingTokens = false;
+      console.log("NFTs 1", NFTs);
+    }
   }
 
   async function nftListContracts() {
@@ -78,22 +84,18 @@
   const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
   const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
 
-  $: arkaneLinkAssets = () => "https://arkane.market/inventory/MATIC";
-  $: arkaneLinkKredeum = () => "https://arkane.market/search?contractName=Kredeum%20NFTs";
-  $: arkaneAddress = () => "0x1ac1cA3665b5cd5fDD8bc76f924b76c2a2889D39";
-  $: arkaneLinkToken = (tokenId) => `${arkaneLinkAssets()}/${openNftsAddress}/${tokenId?.split(":", 1)[0]}`;
+  const openSeaAssets = "https://opensea.io/assets/matic";
+  const openSeaKredeum = "https://opensea.io/collection/kredeum-nfts";
 
-  $: openSeaLink = () => network?.openSeaKredeum;
-  $: openSeaLinkToken = (tokenId) => `${network?.openSeaAssets}/${openNftsAddress}/${tokenId?.split(":", 1)[0]}`;
-  $: kreLinkToken = (tokenId) =>
-    `${explorer}/Contracts/${openNftsAddress}/instance/${tokenId?.split(":", 1)[0]}/metadata`;
+  $: openSeaLinkKredeum = () => openSeaKredeum;
+  $: openSeaLinkToken = (item) => `${openSeaAssets}/${item.contract}/${item.tokenID}`;
+  $: kreLinkToken = (item) => `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`;
 
   $: kreLink = () => `${explorer}/tokens/${openNftsAddress}/inventory`;
-  $: ownerLink = (item) => `${explorer}/address/${item.ownerOf}/tokens`;
-  $: minterLink = (item) => `${explorer}/address/${item.metadata?.minter}/tokens`;
+  $: addressLink = (address) => `${explorer}/address/${address}/tokens`;
 
   $: show = (item) =>
-    all == 0 || ((all & 1) == 1 && sameAddress(item.metadata?.minter)) || ((all & 2) == 2 && sameAddress(item.ownerOf));
+    all == 0 || ((all & 1) == 1 && sameAddress(item.minter)) || ((all & 2) == 2 && sameAddress(item.owner));
 
 </script>
 
@@ -102,13 +104,6 @@
     <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
     Kredeum NFTs
   </h1>
-
-  <!-- <h3>
-    Exchange my NFTs
-    <a href="{arkaneLinkKredeum()}" target="_blank">on Arkane Market</a>
-    -
-    <a href="{openSeaLink()}" target="_blank">on OpenSea</a>
-  </h3> -->
 
   {#if listBoxContracts}
     {#if NFTcontracts.length > 1}
@@ -130,7 +125,7 @@
 
   <table>
     <tr>
-      <td colspan="8">
+      <td colspan="9">
         <button on:click="{() => (all = 0)}" class="{all == 0 ? 'green' : ''}">All NFTs</button>
         -
         <button on:click="{() => (all = 1)}" class="{all == 1 ? 'green' : ''}">NFTs I created</button>
@@ -140,65 +135,61 @@
       </td>
     </tr>
     <tr>
-      <td>id</td>
-      <td width="200">name</td>
+      <td>tokenID</td>
+      <td width="200">description</td>
       <td>image</td>
-      <!-- <td>Arkane Market</td> -->
       <td>OpenSea</td>
+      <td>owner</td>
       <td>creator</td>
       <td>ipfs</td>
       <td>json</td>
-      <td>IMPORT</td>
+      <td>import</td>
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
     {#key all && address}
-      {#each [...NFTs].sort(([k1], [k2]) => k2 - k1) as [tokenId, item]}
+      {#each NFTs as item}
         {#if show(item) == true}
           <tr>
             <td>
-              <a href="{kreLinkToken(tokenId)}">
-                {short(tokenId)}
+              <a href="{kreLinkToken(item)}">
+                &nbsp;{item.tokenID}&nbsp;
               </a>
             </td>
 
             <td>
-              {item.metadata?.name || ""}
+              <strong>{item.name || ""}</strong><br />
+              {(item.name != item.description && item.description) || ""}
             </td>
 
             <td>
               <img alt="" src="{ipfsGateway}/{item.cid}" height="100" />
             </td>
 
-            <!-- <td>
-          {#if item.ownerOf}
-            {#if sameAddress(item.ownerOf, arkaneAddress())}
-              <a href="{arkaneLinkKredeum()}" target="_blank">
-                <button class="buy">BUY NFT</button>
-              </a>
-            {:else if sameAddress(item.ownerOf)}
-              <a href="{arkaneLinkToken(tokenId)}" target="_blank">
-                <button class="sell">SELL NFT</button>
-              </a>
-            {:else}
-              <a href="{ownerLink(item)}" target="_blank">
-                <button class="grey">OWNER</button>
-              </a>
-            {/if}
-          {/if}
-        </td> -->
-
             <td>
-              <a href="{openSeaLinkToken(tokenId)}" target="_blank">
-                <button class="grey">OpenSea</button>
+              <a href="{openSeaLinkToken(item)}" target="_blank">
+                {#if sameAddress(item.owner)}
+                  <button class="green">SELL NFT</button>
+                {:else}
+                  <button class="blue">BUY NFT</button>
+                {/if}
               </a>
             </td>
 
             <td>
-              {#if item.metadata?.minter}
-                <a href="{minterLink(item)}" target="_blank">
-                  {short(item.metadata?.minter)}
+              {#if item.owner}
+                <a href="{addressLink(item.owner)}" target="_blank">
+                  {short(item.owner)}
                 </a>
-                {#if sameAddress(item.metadata?.minter)}*{/if}
+                {#if sameAddress(item.owner)}*{/if}
+              {/if}
+            </td>
+
+            <td>
+              {#if item.minter}
+                <a href="{addressLink(item.minter)}" target="_blank">
+                  {short(item.minter)}
+                </a>
+                {#if sameAddress(item.minter)}*{/if}
               {/if}
             </td>
 
@@ -267,8 +258,8 @@
   button.green {
     background-color: #36d06f;
   }
-  button.grey {
-    background-color: grey;
+  button.blue {
+    background-color: #2a81de;
   }
 
 </style>

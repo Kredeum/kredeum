@@ -7,10 +7,10 @@ schema:
 dataSources:
   - kind: ethereum/contract
     name: EIP721
-    network: {{network}}
+    network: {{chainName}}
     source:
-      abi: EIP721{{#if startBlock}}
-      startBlock: {{startBlock}}{{/if}}
+      abi: EIP721{{#if subgraph.startBlock}}
+      startBlock: {{subgraph.startBlock}}{{/if}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
