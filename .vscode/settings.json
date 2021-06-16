@@ -1,6 +1,6 @@
 {
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
-  "workbench.colorTheme": "Dracula Soft",
+  "workbench.colorTheme": "Noctis Obscuro",
   "files.exclude": {
     "old": true
   },

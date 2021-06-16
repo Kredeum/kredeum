@@ -10,13 +10,18 @@ contracts.forEach(async (contract) => {
   if (network === contract.network) {
     const openNFTs = await ethers.getContractAt(contract.name, contract.address);
 
-    const abi = await openNFTs.interface.format(["json"]);
-    if (JSON.stringify(abi) === JSON.stringify(abis[contract.abi])) {
-      console.log(contract.address, contract.name, contract.abi, "OK");
+    let abi = [];
+    contract.interfaces.forEach((iface) => {
+      abi = abi.concat(abis[iface]);
+    });
+    const abiReal = await openNFTs.interface.format(["json"]);
+
+    if (JSON.stringify(abi) === JSON.stringify(abiReal)) {
+      console.log(contract.address, contract.name, abi, "OK");
     } else {
       console.log(contract);
-      console.log("contract.abi", abis[contract.abi]);
-      console.log("contract.interface", abi);
+      console.log("abi", abi);
+      console.log("abiReal", abiReal);
     }
   }
 });

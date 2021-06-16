@@ -5,14 +5,15 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
+import "./IOpenNFTs.sol";
 
-contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage {
+contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTs {
   using Counters for Counters.Counter;
   Counters.Counter private _tokenIds;
 
   constructor() ERC721("Open NFTs", "NFT") {}
 
-  function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
+  function mintNFT(address minter, string memory jsonURI)  public override(IOpenNFTs) returns  (uint256) {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
@@ -39,6 +40,7 @@ contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage {
   }
 
   function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
-    return super.supportsInterface(interfaceId);
+    return interfaceId == type(IOpenNFTs).interfaceId || super.supportsInterface(interfaceId);
+    // return super.supportsInterface(interfaceId);
   }
 }

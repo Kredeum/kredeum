@@ -9,7 +9,7 @@
     "ecmaVersion": 2021,
     "sourceType": "module"
   },
-  "plugins": ["svelte3", "eslint-plugin-html"],
+  "plugins": ["svelte3", "eslint-plugin-html", "cypress"],
   "overrides": [
     {
       "files": ["*.svelte"],

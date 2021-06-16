@@ -33,12 +33,12 @@ function fields() {
 		// array(
 		// 'uid'     => 'ipfs_gateway',
 		// 'label'   => 'IPFS_GATEWAY',
-		// 'default' => 'https://ipfs.io',
+		// 'default' => 'https://ipfs.io/ipfs/',
 		// 'section' => 'first_section',
 		// 'type'    => 'select',
 		// 'options' => array(
 		// 'https://dweb.link' => 'https://dweb.link',
-		// 'https://ipfs.io' => 'https://ipfs.io',
+		// 'https://ipfs.io' => 'https://ipfs.io/ipfs/',
 		// 'https://ipfs.infura.io' => 'https://ipfs.infura.io',
 		// 'http://ipfs.kredeum.tech:8080' => 'http://ipfs.kredeum.tech:8080',
 		// 'http://ipfs.lan' => 'http://ipfs.lan',
@@ -63,7 +63,7 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Leave blank if you are not an advanced user',
 			'default'     => '',
-			'helper'      => __( 'Beta Feature : Set NFTs Collection Address', 'kredeum-nfts' ),
+			'helper'      => __( 'Alpha Feature : set default NFTs Collection Address', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'metamask_address',

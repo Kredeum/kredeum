@@ -18,10 +18,21 @@ module.exports = {
       ]
     },
     arbitrum: {
-      url: `https://kovan5.arbitrum.io/rpc`,
+      // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
+      url: "https://kovan5.arbitrum.io/rpc",
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer5.arbitrum.io/#/",
       gasPrice: 0
+    },
+    mainnet: {
+      url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://mainnet.etherscan.io"
+    },
+    ropsten: {
+      url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://ropsten.etherscan.io"
     },
     kovan: {
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
@@ -40,12 +51,14 @@ module.exports = {
     },
     matic: {
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 137,
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer-mainnet.maticvigil.com"
     },
     mumbai: {
       url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
+      // url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
       chainId: 80001,
       accounts: [process.env.ACCOUNT_KEY],
       ethscan: "https://explorer-mumbai.maticvigil.com"
@@ -75,7 +88,7 @@ module.exports = {
   },
   paths: {
     sources: "solidity/contracts",
-    tests: "tests",
+    tests: "solidity/tests",
     cache: "solidity/build/cache",
     artifacts: "solidity/build/artifacts"
   },

@@ -8,35 +8,36 @@
   const dispatch = createEventDispatcher();
   const ipfsGateway = "https://ipfs.io/ipfs";
 
-  export let key;
-  export let alt;
-  export let src;
+  export let key = undefined;
+  export let alt = undefined;
+  export let src = undefined;
   export let pid = 0;
   export let width = 100;
   export let display = false;
   export let minted = "";
+
   let minting = false;
   let cidImage;
   let cidJson;
 
   let signer = "";
   let address = "";
-  let openNfts, nfts, network;
+  let network = "0x89";
+  let openNfts;
 
-  const chain_ids = "0x89,0x13881";
+  const chain_ids = "0x89,0x13881,0x8376940b1db0,0x4";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
 
-  $: if (chainId > 0) {
-    openNfts = new OpenNfts(chainId);
-    if (openNfts.contract) {
-      // console.log(openNfts);
+  $: if (chainId > 0) init(chainId);
 
-      nfts = openNfts.contract;
-      network = openNfts.network;
+  async function init(_chainId) {
+    openNfts = await OpenNfts(_chainId);
+    if (openNfts.ok) {
+      network = openNfts.getNetwork();
     } else {
-      console.log("Wrong chainId: switch to Matic network on Polygon");
+      console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");
     }
   }

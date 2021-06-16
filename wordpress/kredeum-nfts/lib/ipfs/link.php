@@ -14,7 +14,7 @@ namespace KredeumNFTs\Ipfs;
  * @return string cid with path
  */
 function url( $cid ) {
-	return $cid ? IPFS_GATEWAY . "/ipfs/$cid" : '';
+	return $cid ? IPFS_GATEWAY . $cid : '';
 }
 
 /**

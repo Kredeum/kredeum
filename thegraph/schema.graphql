@@ -1,32 +1,43 @@
-type Contract @entity {
+type All @entity {
   id: ID!
-  name: String
-  symbol: String
-  totalSupply: BigInt
-  mintedTokens: [Token!]! @derivedFrom(field: "contract")
+  numTokenContracts: BigInt!
+  numTokens: BigInt!
+  numOwners: BigInt!
 }
 
 type Token @entity {
   id: ID!
-  owner: Owner
-  uri: String
-  transfers: [Transfer!]! @derivedFrom(field: "token")
-  contract: Contract
-  json: String
+  contract: TokenContract!
+  tokenID: BigInt!
+  owner: Owner!
+  mintTime: BigInt!
+  tokenURI: String!
+  name: String!
+  description: String!
+  image: String!
+  metadata: String!
+}
+
+type TokenContract @entity {
+  id: ID!
+  name: String
+  symbol: String
+  doAllAddressesOwnTheirIdByDefault: Boolean!
+  supportsEIP721Metadata: Boolean!
+  tokens: [Token!]! @derivedFrom(field: "contract")
+  numTokens: BigInt!
+  numOwners: BigInt!
 }
 
 type Owner @entity {
   id: ID!
-  ownedTokens: [Token!]! @derivedFrom(field: "owner")
-  balance: BigInt
+  tokens: [Token!]! @derivedFrom(field: "owner")
+  numTokens: BigInt!
 }
 
-type Transfer @entity {
+type OwnerPerTokenContract @entity {
   id: ID!
-  token: Token!
-  from: Owner
-  to: Owner
-  timestamp: BigInt!
-  block: BigInt!
-  transactionHash: String!
+  owner: Owner!
+  contract: TokenContract!
+  numTokens: BigInt!
 }

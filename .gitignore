@@ -12,6 +12,9 @@ app/build
 wordpress/kredeum-nfts/lib/js
 vendor
 
+# CYPRESS
+screenshots
+videos
 
 # ENV
 **/*.env

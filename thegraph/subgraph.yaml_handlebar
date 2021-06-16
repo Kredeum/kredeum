@@ -1,29 +1,29 @@
 # prettier-ignore
 specVersion: 0.0.2
-description: Kredeum NFTs subgraph for Polygon network
+description: EIP-721, NFTs with IPFS metadata
 repository: https://github.com/Kredeum/kredeum
 schema:
   file: ./schema.graphql
 dataSources:
   - kind: ethereum/contract
-    name: OpenNFTs
-    network: {{network}}
+    name: EIP721
+    network: {{chainName}}
     source:
-      address: '{{address}}'
-      abi: OpenNFTs
-      startBlock: {{startBlock}}
+      abi: EIP721{{#if subgraph.startBlock}}
+      startBlock: {{subgraph.startBlock}}{{/if}}
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
       language: wasm/assemblyscript
       entities:
         - Token
-        - Owners
-        - Contract
-        - Transfer
+        - TokenContract
+        - Owner
+        - OwnerPerTokenContract
+        - All
       abis:
-        - name: OpenNFTs
-          file: ./abis/OpenNFTs.json
+        - name: EIP721
+          file: ./abis/All.json
       eventHandlers:
         - event: Transfer(indexed address,indexed address,indexed uint256)
           handler: handleTransfer

@@ -1,9 +1,0 @@
-{
-  tokens(first: 99) {
-    id
-    owner {
-      id
-    }
-    uri
-  }
-}

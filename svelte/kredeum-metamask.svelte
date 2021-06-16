@@ -9,11 +9,11 @@
 
   const dispatch = createEventDispatcher();
 
-  export let signer;
-  export let address;
-  export let chainId;
-  export let autoconnect;
-  export let chain_ids;
+  export let signer = undefined;
+  export let address = undefined;
+  export let chainId = undefined;
+  export let autoconnect = undefined;
+  export let chain_ids = undefined;
 
   let network;
   let connectmetamask = "Connect to Metamask";
@@ -27,9 +27,11 @@
     targetChain = true;
 
     if (_chainId !== "0x1") {
+      console.log("addEthereumChain", _chainId);
       // no need to add default ethereum chain
 
       const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+      console.log("addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
           // IEP-3085 fields only or fails

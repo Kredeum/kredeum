@@ -16,9 +16,12 @@ const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
 const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
 const address = "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253";
-const contract = contracts.find((_contract) => _contract.address === address);
+const contract = contracts.find((_contract) => _contract.address.toLowerCase() === address.toLowerCase());
 
-const abi = abis[contract.abi];
+let abi = [];
+contract.interfaces.forEach((iface) => {
+  abi = abi.concat(abis[iface]);
+});
 const network = networks.find((_network) => _network.chainName === contract.network);
 
 const provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`);
@@ -30,9 +33,9 @@ const openNFTs = new ethers.Contract(address, abi, provider);
 let totalSupply;
 try {
   totalSupply = (await openNFTs.totalSupply()).toNumber();
-  console.log(`${contract.abi}:${address}@${network.chainName} ${totalSupply}`);
+  console.log(`${address}@${network.chainName}:${contract.name} ${totalSupply} ${JSON.stringify(contract.interfaces)}`);
 } catch (e) {
-  console.log(`${contract.abi}:${address}@${network.chainName}`);
+  console.log(`${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`);
 }
 
 for (let index = 0; index < totalSupply; index++) {
