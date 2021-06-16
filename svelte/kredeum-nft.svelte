@@ -39,6 +39,7 @@
     if (openNfts.ok) {
       openNftsAddress = openNfts.getAddress();
       explorer = openNfts.getExplorer();
+      openSea = openNfts.getOpenSea();
       admin = openNfts.getAdmin();
 
       console.log("OpenNfts", openNftsAddress);
@@ -84,18 +85,18 @@
   const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
   const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
 
-  const openSeaAssets = "https://opensea.io/assets/matic";
-  const openSeaKredeum = "https://opensea.io/collection/kredeum-nfts";
-
-  $: openSeaLinkKredeum = () => openSeaKredeum;
-  $: openSeaLinkToken = (item) => `${openSeaAssets}/${item.contract}/${item.tokenID}`;
-  $: kreLinkToken = (item) => `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`;
+  $: openSeaLinkKredeum = () => openSea?.kredeum;
+  $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
+  $: kreLinkToken = (item) =>
+    `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`;
 
   $: kreLink = () => `${explorer}/tokens/${openNftsAddress}/inventory`;
   $: addressLink = (address) => `${explorer}/address/${address}/tokens`;
 
   $: show = (item) =>
-    all == 0 || ((all & 1) == 1 && sameAddress(item.minter)) || ((all & 2) == 2 && sameAddress(item.owner));
+    all == 0 ||
+    ((all & 1) == 1 && sameAddress(item.minter)) ||
+    ((all & 2) == 2 && sameAddress(item.owner));
 </script>
 
 <main>
@@ -127,7 +128,9 @@
       <td colspan="9">
         <button on:click="{() => (all = 0)}" class="{all == 0 ? 'green' : ''}">All NFTs</button>
         -
-        <button on:click="{() => (all = 1)}" class="{all == 1 ? 'green' : ''}">NFTs I created</button>
+        <button on:click="{() => (all = 1)}" class="{all == 1 ? 'green' : ''}"
+          >NFTs I created</button
+        >
         -
         <button on:click="{() => (all = 2)}" class="{all == 2 ? 'green' : ''}">NFTs I own</button>
         <hr />
@@ -198,7 +201,9 @@
 
             <td>
               {#if item.tokenURI}
-                <a href="{item.tokenURI}" target="_blank">{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a>
+                <a href="{item.tokenURI}" target="_blank"
+                  >{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a
+                >
               {/if}
             </td>
             <td>

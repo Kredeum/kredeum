@@ -35,7 +35,16 @@
       if (_network) {
         for (const field in _network) {
           // IEP-3085 fields only or fails
-          if (!["chainId", "blockExplorerUrls", "chainName", "iconUrls", "nativeCurrency", "rpcUrls"].includes(field)) {
+          if (
+            ![
+              "chainId",
+              "blockExplorerUrls",
+              "chainName",
+              "iconUrls",
+              "nativeCurrency",
+              "rpcUrls"
+            ].includes(field)
+          ) {
             delete _network[field];
           }
         }
@@ -126,14 +135,16 @@
       ethereum.on("accountsChanged", handleAccounts);
     } else {
       //console.log('Please install MetaMask!');
-      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
+      connectmetamask =
+        "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }
   });
 </script>
 
 {#if address}
   {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{network?.chainName}@{address}</a
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
+      >{network?.chainName}@{address}</a
     >
   {:else}
     {network?.chainName}@{address}

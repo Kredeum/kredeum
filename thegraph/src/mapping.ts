@@ -14,7 +14,11 @@ function toBytes(hexString: String): Bytes {
   return result as Bytes;
 }
 
-function supportsInterface(contract: EIP721, interfaceId: String, expected: boolean = true): boolean {
+function supportsInterface(
+  contract: EIP721,
+  interfaceId: String,
+  expected: boolean = true
+): boolean {
   let supports = contract.try_supportsInterface(toBytes(interfaceId));
   return !supports.reverted && supports.value == expected;
 }
@@ -59,7 +63,8 @@ export function handleTransfer(event: Transfer): void {
     let supportsEIP165Identifier = supportsInterface(contract, "01ffc9a7");
     let supportsEIP721Identifier = supportsInterface(contract, "80ac58cd");
     let supportsNullIdentifierFalse = supportsInterface(contract, "00000000", false);
-    let supportsEIP721 = supportsEIP165Identifier && supportsEIP721Identifier && supportsNullIdentifierFalse;
+    let supportsEIP721 =
+      supportsEIP165Identifier && supportsEIP721Identifier && supportsNullIdentifierFalse;
 
     let supportsEIP721Metadata = false;
     if (supportsEIP721) {
@@ -104,7 +109,9 @@ export function handleTransfer(event: Transfer): void {
         if (currentOwnerPerTokenContract.numTokens.equals(BigInt.fromI32(1))) {
           tokenContract.numOwners = tokenContract.numOwners.minus(BigInt.fromI32(1));
         }
-        currentOwnerPerTokenContract.numTokens = currentOwnerPerTokenContract.numTokens.minus(BigInt.fromI32(1));
+        currentOwnerPerTokenContract.numTokens = currentOwnerPerTokenContract.numTokens.minus(
+          BigInt.fromI32(1)
+        );
         currentOwnerPerTokenContract.save();
       }
 
@@ -154,11 +161,15 @@ export function handleTransfer(event: Transfer): void {
                 if (jsonResult.isOk) {
                   let jsonObject = jsonResult.value.toObject();
                   if (jsonObject != null) {
-                    eip721Token.name = jsonObject.get("name").isNull() ? "" : jsonObject.get("name").toString();
+                    eip721Token.name = jsonObject.get("name").isNull()
+                      ? ""
+                      : jsonObject.get("name").toString();
                     eip721Token.description = jsonObject.get("description").isNull()
                       ? ""
                       : jsonObject.get("description").toString();
-                    eip721Token.image = jsonObject.get("image").isNull() ? "" : jsonObject.get("image").toString();
+                    eip721Token.image = jsonObject.get("image").isNull()
+                      ? ""
+                      : jsonObject.get("image").toString();
                   }
                 } else {
                   log.error("JSON ERROR {}", [metadata]);
@@ -192,7 +203,9 @@ export function handleTransfer(event: Transfer): void {
       if (newOwnerPerTokenContract.numTokens.equals(BigInt.fromI32(0))) {
         tokenContract.numOwners = tokenContract.numOwners.plus(BigInt.fromI32(1));
       }
-      newOwnerPerTokenContract.numTokens = newOwnerPerTokenContract.numTokens.plus(BigInt.fromI32(1));
+      newOwnerPerTokenContract.numTokens = newOwnerPerTokenContract.numTokens.plus(
+        BigInt.fromI32(1)
+      );
       newOwnerPerTokenContract.save();
 
       tokenContract.numTokens = tokenContract.numTokens.plus(BigInt.fromI32(1));

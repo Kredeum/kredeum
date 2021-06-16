@@ -102,7 +102,13 @@
     {/if}
   {:else}
     <small>
-      <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer chain_ids="{chain_ids}" />
+      <br /><Metamask
+        autoconnect="off"
+        bind:address
+        bind:chainId
+        bind:signer
+        chain_ids="{chain_ids}"
+      />
     </small>
   {/if}
 </main>

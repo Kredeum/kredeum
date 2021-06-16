@@ -352,7 +352,11 @@ library Address {
    *
    * _Available since v3.3._
    */
-  function functionStaticCall(address target, bytes memory data) internal view returns (bytes memory) {
+  function functionStaticCall(address target, bytes memory data)
+    internal
+    view
+    returns (bytes memory)
+  {
     return functionStaticCall(target, data, "Address: low-level static call failed");
   }
 
@@ -579,7 +583,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
   /**
    * @dev See {IERC165-supportsInterface}.
    */
-  function supportsInterface(bytes4 interfaceId) public view virtual override(ERC165, IERC165) returns (bool) {
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(ERC165, IERC165)
+    returns (bool)
+  {
     return
       interfaceId == type(IERC721).interfaceId ||
       interfaceId == type(IERC721Metadata).interfaceId ||
@@ -672,7 +682,13 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
   /**
    * @dev See {IERC721-isApprovedForAll}.
    */
-  function isApprovedForAll(address owner, address operator) public view virtual override returns (bool) {
+  function isApprovedForAll(address owner, address operator)
+    public
+    view
+    virtual
+    override
+    returns (bool)
+  {
     return _operatorApprovals[owner][operator];
   }
 
@@ -685,7 +701,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     uint256 tokenId
   ) public virtual override {
     //solhint-disable-next-line max-line-length
-    require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+    require(
+      _isApprovedOrOwner(_msgSender(), tokenId),
+      "ERC721: transfer caller is not owner nor approved"
+    );
 
     _transfer(from, to, tokenId);
   }
@@ -710,7 +729,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     uint256 tokenId,
     bytes memory _data
   ) public virtual override {
-    require(_isApprovedOrOwner(_msgSender(), tokenId), "ERC721: transfer caller is not owner nor approved");
+    require(
+      _isApprovedOrOwner(_msgSender(), tokenId),
+      "ERC721: transfer caller is not owner nor approved"
+    );
     _safeTransfer(from, to, tokenId, _data);
   }
 
@@ -739,7 +761,10 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     bytes memory _data
   ) internal virtual {
     _transfer(from, to, tokenId);
-    require(_checkOnERC721Received(from, to, tokenId, _data), "ERC721: transfer to non ERC721Receiver implementer");
+    require(
+      _checkOnERC721Received(from, to, tokenId, _data),
+      "ERC721: transfer to non ERC721Receiver implementer"
+    );
   }
 
   /**
@@ -761,10 +786,17 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
    *
    * - `tokenId` must exist.
    */
-  function _isApprovedOrOwner(address spender, uint256 tokenId) internal view virtual returns (bool) {
+  function _isApprovedOrOwner(address spender, uint256 tokenId)
+    internal
+    view
+    virtual
+    returns (bool)
+  {
     require(_exists(tokenId), "ERC721: operator query for nonexistent token");
     address owner = ERC721.ownerOf(tokenId);
-    return (spender == owner || getApproved(tokenId) == spender || isApprovedForAll(owner, spender));
+    return (spender == owner ||
+      getApproved(tokenId) == spender ||
+      isApprovedForAll(owner, spender));
   }
 
   /**
@@ -903,7 +935,9 @@ contract ERC721 is Context, ERC165, IERC721, IERC721Metadata {
     bytes memory _data
   ) private returns (bool) {
     if (to.isContract()) {
-      try IERC721Receiver(to).onERC721Received(_msgSender(), from, tokenId, _data) returns (bytes4 retval) {
+      try IERC721Receiver(to).onERC721Received(_msgSender(), from, tokenId, _data) returns (
+        bytes4 retval
+      ) {
         return retval == IERC721Receiver(to).onERC721Received.selector;
       } catch (bytes memory reason) {
         if (reason.length == 0) {
@@ -958,7 +992,10 @@ interface IERC721Enumerable is IERC721 {
    * @dev Returns a token ID owned by `owner` at a given `index` of its token list.
    * Use along with {balanceOf} to enumerate all of ``owner``'s tokens.
    */
-  function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256 tokenId);
+  function tokenOfOwnerByIndex(address owner, uint256 index)
+    external
+    view
+    returns (uint256 tokenId);
 
   /**
    * @dev Returns a token ID at a given `index` of all the tokens stored by the contract.
@@ -990,14 +1027,27 @@ abstract contract ERC721Enumerable is ERC721, IERC721Enumerable {
   /**
    * @dev See {IERC165-supportsInterface}.
    */
-  function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165, ERC721) returns (bool) {
-    return interfaceId == type(IERC721Enumerable).interfaceId || super.supportsInterface(interfaceId);
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    virtual
+    override(IERC165, ERC721)
+    returns (bool)
+  {
+    return
+      interfaceId == type(IERC721Enumerable).interfaceId || super.supportsInterface(interfaceId);
   }
 
   /**
    * @dev See {IERC721Enumerable-tokenOfOwnerByIndex}.
    */
-  function tokenOfOwnerByIndex(address owner, uint256 index) public view virtual override returns (uint256) {
+  function tokenOfOwnerByIndex(address owner, uint256 index)
+    public
+    view
+    virtual
+    override
+    returns (uint256)
+  {
     require(index < ERC721.balanceOf(owner), "ERC721Enumerable: owner index out of bounds");
     return _ownedTokens[owner][index];
   }
@@ -1257,11 +1307,21 @@ contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage {
     super._burn(tokenId);
   }
 
-  function tokenURI(uint256 tokenId) public view override(ERC721, ERC721URIStorage) returns (string memory) {
+  function tokenURI(uint256 tokenId)
+    public
+    view
+    override(ERC721, ERC721URIStorage)
+    returns (string memory)
+  {
     return super.tokenURI(tokenId);
   }
 
-  function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    override(ERC721, ERC721Enumerable)
+    returns (bool)
+  {
     return super.supportsInterface(interfaceId);
   }
 }
