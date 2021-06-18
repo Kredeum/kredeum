@@ -96,7 +96,6 @@
 
   $: show = (item) =>
     all == 0 || ((all & 1) == 1 && sameAddress(item.minter)) || ((all & 2) == 2 && sameAddress(item.owner));
-
 </script>
 
 <main>
@@ -261,5 +260,4 @@
   button.blue {
     background-color: #2a81de;
   }
-
 </style>

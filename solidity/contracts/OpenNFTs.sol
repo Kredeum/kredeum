@@ -13,7 +13,7 @@ contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTs {
 
   constructor() ERC721("Open NFTs", "NFT") {}
 
-  function mintNFT(address minter, string memory jsonURI)  public override(IOpenNFTs) returns  (uint256) {
+  function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTs) returns (uint256) {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
