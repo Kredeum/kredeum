@@ -54,7 +54,7 @@ describe("NFT basics", async function () {
   });
 
   it("Should list NFT contracts", async function () {
-    const nftContracts = await openNfts.listContracts(owner);
+    const nftContracts = await openNfts.listContractsFromTheGraph(owner);
     expect((l0 = nftContracts.length)).to.be.gt(1);
   });
 });

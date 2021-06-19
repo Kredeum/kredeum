@@ -32,7 +32,7 @@
       "https://explorer.matic.network",
       "https://backup-explorer.matic.network"
     ],
-    "subgraph": {
+    "subgraphKO": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
       "startBlock": 15289000
     },
@@ -57,7 +57,7 @@
       "https://polygon-explorer-mumbai.chainstacklabs.com",
       "https://backup-mumbai-explorer.matic.today"
     ],
-    "subgraph": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
+    "subgraphKO": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
     "openSea": {
       "assets": "https://opensea.io/assets/mumbai",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"

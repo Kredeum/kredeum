@@ -13,6 +13,7 @@
     openNfts,
     openNftsAddress,
     explorer,
+    openSea,
     address,
     selected,
     admin = "0x0";
@@ -62,7 +63,7 @@
         NFTs = await openNfts.listTokens(address);
       }
       loadingTokens = false;
-      console.log("NFTs 1", NFTs);
+      console.log("NFTs", NFTs);
     }
   }
 
@@ -70,7 +71,7 @@
     if (openNfts.supportsSubgraph()) {
       listBoxContracts = true;
       loadingContracts = true;
-      NFTcontracts = await openNfts.listContracts(address);
+      NFTcontracts = await openNfts.listContractsFromTheGraph(address);
       if (NFTcontracts.length === 0) {
         NFTcontracts[0] = await openNfts.getSmartContract();
         all = 0;
@@ -145,7 +146,7 @@
       <td>creator</td>
       <td>ipfs</td>
       <td>json</td>
-      <td>import</td>
+      <!-- <td>import</td> -->
     </tr>
     <tr><td colspan="8"><hr /></td></tr>
     {#key all && address}
@@ -206,9 +207,9 @@
                 >
               {/if}
             </td>
-            <td>
+            <!-- <td>
               <a href="./upload.php?cid={item.cid}" target="_blank">{short(item.cid)}</a>
-            </td>
+            </td> -->
           </tr>
         {/if}
       {/each}
