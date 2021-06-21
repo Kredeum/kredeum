@@ -19,8 +19,8 @@ describe("NFT basics", async function () {
   it("Should init NFT library with second contract", async function () {
     openNfts = await OpenNfts(chainId, contract1);
     expect(openNfts.ok).to.be.true;
-    expect(await openNfts.getNetwork()).to.be.equal(network);
-    expect(openNfts.smartContract).to.not.be.empty;
+    expect(await openNfts.configNetwork.chainName).to.be.equal(network);
+    expect(openNfts.currentContract).to.not.be.empty;
   });
 
   it("Should init NFT library with first contract", async function () {
@@ -28,8 +28,8 @@ describe("NFT basics", async function () {
     // console.log("res", res);
     // console.log("openNfts", openNfts);
     expect(openNfts.ok).to.be.true;
-    expect(await openNfts.getNetwork()).to.be.equal(network);
-    expect(openNfts.smartContract).to.not.be.empty;
+    expect(await openNfts.configNetwork.chainName).to.be.equal(network);
+    expect(openNfts.currentContract).to.not.be.empty;
   });
 
   it("Should list NFTs via GraphQL Query", async function () {

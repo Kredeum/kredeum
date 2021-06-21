@@ -16,8 +16,8 @@ Convert, archive & sell your content (media, texts, …) to NFTs Marketplaces in
 The Wordpress Kredeum NTFs plugin allows you to:
 * Store all your medias in IPFS (decentralised storage technology), protecting your medias to be lost in case of any hosting server issues. You’ll need to create a NFT Storage (https://nft.storage/) account to manage your IPFS cloud access.
 * Create your NFTs uses [Polygon / Matic blockchain](https://matic.network/) (Ethereum layer 2 network) for a transaction cheap cost
-* Add in one click your Kredeum NFTs to NFT marketplaces [Arkane](https://arkane.network/) and soon to [OpenSea](https://opensea.io/)
-* Sell your media NFTs on these marketplaces
+* Add in one click your Kredeum NFTs to the OpenSea NFT marketplace [OpenSea](https://opensea.io/)
+* Sell your media NFTs on NFTs marketplaces
 
 Please don’t hesitate to contact us if you have any questions by email contact@kredeum.com or by joining us on Discord https://discord.gg/D7Zy4VBzYz
 
@@ -36,9 +36,12 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 1. In list of medias, Click on MINT NFT to create your NFT
 2. Click on SELL NFT to access your list of Kredeum NFTs
-3. In list of Kredeum NFTs, click on Arkane or Opensea to see your NFTs on these marketplaces.
+3. In list of Kredeum NFTs, click on Opensea to see your NFTs on theis marketplace.
 
 == Changelog ==
+
+= 0.6.x =
+* Lot of evolutions
 
 = 0.5.2 =
 * Fix bug : image links display in posts
