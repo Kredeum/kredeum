@@ -15,7 +15,9 @@ contracts.forEach(async (contract) => {
   });
   const network = networks.find((_network) => _network.chainName === contract.network);
 
-  const provider = new ethers.providers.JsonRpcProvider(`${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`);
+  const provider = new ethers.providers.JsonRpcProvider(
+    `${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`
+  );
   const openNFTs = new ethers.Contract(address, abi, provider);
 
   // console.log("name:", await openNFTs.name());
@@ -25,10 +27,14 @@ contracts.forEach(async (contract) => {
   try {
     totalSupply = (await openNFTs.totalSupply()).toNumber();
     console.log(
-      `${address}@${network.chainName}:${contract.name} ${totalSupply} ${JSON.stringify(contract.interfaces)}`
+      `${address}@${network.chainName}:${contract.name} ${totalSupply} ${JSON.stringify(
+        contract.interfaces
+      )}`
     );
   } catch (e) {
-    console.log(`${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`);
+    console.log(
+      `${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`
+    );
   }
   // console.log("totalSupply", totalSupply);
 

@@ -29,7 +29,9 @@ describe("Mint Token", function () {
   });
 
   it("Should find Contract Config", function () {
-    contract = configContracts.find((_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase());
+    contract = configContracts.find(
+      (_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase()
+    );
     console.log(contract);
     expect(contract.address).to.be.equal(contractAddress);
   });
@@ -42,17 +44,17 @@ describe("Mint Token", function () {
 
   it("Should get Contract Name", async function () {
     this.timeout(5000);
-    expect(await openNfts.smartContract.name()).to.be.equal(contractName);
+    expect(await openNfts.currentContract.name()).to.be.equal(contractName);
   });
 
   it("Should get Contract Symbol", async function () {
     this.timeout(5000);
-    expect(await openNfts.smartContract.symbol()).to.be.equal(contractSymbol);
+    expect(await openNfts.currentContract.symbol()).to.be.equal(contractSymbol);
   });
 
   it("Should get Contract TotalSupply", async function () {
     this.timeout(5000);
-    totalSupply = (await openNfts.smartContract.totalSupply()).toNumber();
+    totalSupply = (await openNfts.currentContract.totalSupply()).toNumber();
     expect(totalSupply).to.be.gt(0);
   });
 
@@ -68,12 +70,14 @@ describe("Mint Token", function () {
 
   it("Should Mint one Token", async function () {
     this.timeout(20000);
-    const tx = await openNfts.smartContract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
+    const tx = await openNfts.currentContract
+      .connect(signer)
+      .mintNFT(process.env.ACCOUNT_ADDRESS, json);
     expect((await tx.wait()).status).to.be.equal(1);
   });
 
   it("Should get +1 on Contract TotalSupply", async function () {
-    const totalSupply1 = (await openNfts.smartContract.totalSupply()).toNumber();
+    const totalSupply1 = (await openNfts.currentContract.totalSupply()).toNumber();
     expect(totalSupply1).to.be.equal(totalSupply + 1);
   });
 });

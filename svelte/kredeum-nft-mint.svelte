@@ -25,7 +25,7 @@
   let network = "0x89";
   let openNfts;
 
-  const chain_ids = "0x89,0x13881,0x8376940b1db0,0x4";
+  const chain_ids = "0x89,0x13881"; //,0x8376940b1db0,0x4";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
@@ -35,7 +35,7 @@
   async function init(_chainId) {
     openNfts = await OpenNfts(_chainId);
     if (openNfts.ok) {
-      network = openNfts.getNetwork();
+      network = openNfts.configNetwork.chainName;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");
@@ -102,7 +102,13 @@
     {/if}
   {:else}
     <small>
-      <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer chain_ids="{chain_ids}" />
+      <br /><Metamask
+        autoconnect="off"
+        bind:address
+        bind:chainId
+        bind:signer
+        chain_ids="{chain_ids}"
+      />
     </small>
   {/if}
 </main>

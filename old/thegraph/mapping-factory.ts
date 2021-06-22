@@ -6,6 +6,10 @@ export function handleNewOpenNFTs(event: NewOpenNFTsEvent): void {
   let clone = event.params.clone.toHexString();
   let creator = event.params.creator.toHexString();
   let address = event.address.toHexString();
-  log.debug(`NewOpenNFTs detected. Clone: {} | Creator: {} | Address: {}`, [clone, creator, address]);
+  log.debug(`NewOpenNFTs detected. Clone: {} | Creator: {} | Address: {}`, [
+    clone,
+    creator,
+    address
+  ]);
   OpenNFTs.create(event.params.clone);
 }

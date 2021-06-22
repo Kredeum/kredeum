@@ -20,6 +20,10 @@
 
   let targetChain = false;
 
+  function networkGet(_chainId) {
+    return networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+  }
+
   async function addEthereumChain(_chainId) {
     if (targetChain) {
       //console.log('already connecting network...');
@@ -30,12 +34,21 @@
       console.log("addEthereumChain", _chainId);
       // no need to add default ethereum chain
 
-      const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
+      const _network = networkGet(_chainId);
       console.log("addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
           // IEP-3085 fields only or fails
-          if (!["chainId", "blockExplorerUrls", "chainName", "iconUrls", "nativeCurrency", "rpcUrls"].includes(field)) {
+          if (
+            ![
+              "chainId",
+              "blockExplorerUrls",
+              "chainName",
+              "iconUrls",
+              "nativeCurrency",
+              "rpcUrls"
+            ].includes(field)
+          ) {
             delete _network[field];
           }
         }
@@ -54,22 +67,13 @@
   }
 
   async function handleChainId(_chainId) {
-    if (_chainId) {
-      // _chainId not null
-      if (_chainId != chainId) {
-        // _chainId changed
-
-        // transform chain_ids list to chainIds array : "0x89,0x13881" => ["0x89","0x13881"]
-        const chainIds = chain_ids?.split(",");
-        //console.log("handleChainId <=", _chainId, chainIds);
-
-        if (chainIds && !chainIds.find((id) => Number(id) === Number(_chainId))) {
-          // _chainId not accepted : add first accepted chainId
-          addEthereumChain(chainIds[0]);
-        } else {
-          chainId = _chainId;
-          network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
-        }
+    if (_chainId && _chainId != chainId) {
+      network = networkGet(_chainId);
+      if (network) {
+        chainId = _chainId;
+      } else {
+        // _chainId not accepted : add first accepted chainId
+        addEthereumChain(chain_ids?.split(",")[0]);
       }
     }
   }
@@ -126,17 +130,19 @@
       ethereum.on("accountsChanged", handleAccounts);
     } else {
       //console.log('Please install MetaMask!');
-      connectmetamask = "Please install MetaMask chrome extension to connect your blockchain address to your site";
+      connectmetamask =
+        "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }
   });
 </script>
 
 {#if address}
   {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">{network?.chainName}@{address}</a
+    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
+      >{network?.chainName}@{address}</a
     >
   {:else}
-    {network?.chainName}@{address}
+    @{address}
   {/if}
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>

@@ -11,7 +11,9 @@ export function handleTransfer(event: TransferEvent): void {
   let tockenIdaddress = tockenId.concat(":".concat(address));
   log.debug(`Transfer detected. From: {} | To: {} | TokenID: {}`, [from, to, tockenId]);
 
-  let transferId = event.transaction.hash.toHexString().concat(":".concat(event.transactionLogIndex.toHexString()));
+  let transferId = event.transaction.hash
+    .toHexString()
+    .concat(":".concat(event.transactionLogIndex.toHexString()));
   let instance = OpenNFTs.bind(event.address);
 
   let contract = Contract.load(address) || new Contract(address);
@@ -29,7 +31,11 @@ export function handleTransfer(event: TransferEvent): void {
       let cid = token.tokenURI.substring(token.tokenURI.lastIndexOf("/") + 1);
 
       token.metadata = ipfs.cat(cid).toString();
-      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [token.tokenURI, cid, token.metadata]);
+      log.debug(`Token detected! TokenUri: {} | cid: {} | json: {}`, [
+        token.tokenURI,
+        cid,
+        token.metadata
+      ]);
     }
   }
   token.owner = to;

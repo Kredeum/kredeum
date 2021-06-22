@@ -7,7 +7,9 @@ const endpoint = "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai";
 async function _graphQL(_url, _query) {
   let json = {};
   try {
-    json = await (await fetch(_url, { method: "POST", body: JSON.stringify({ query: _query }) })).json();
+    json = await (
+      await fetch(_url, { method: "POST", body: JSON.stringify({ query: _query }) })
+    ).json();
   } catch (e) {
     console.error("_graphQL ERROR", e, _url, json);
   }

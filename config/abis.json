@@ -17,7 +17,9 @@
     "function setApprovalForAll(address,bool)",
     "function transferFrom(address,address,uint256)"
   ],
-  "ERC721TokenReceiver": ["function onERC721Received(address,address,uint256,bytes) returns(bytes4)"],
+  "ERC721TokenReceiver": [
+    "function onERC721Received(address,address,uint256,bytes) returns(bytes4)"
+  ],
   "ERC721Metadata": [
     "function name() view returns (string)",
     "function symbol() view returns (string)",
