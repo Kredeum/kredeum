@@ -28,11 +28,11 @@
     "nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
     "blockExplorerUrls": [
       "https://polygon-explorer-mainnet.chainstacklabs.com",
-      "https://polygonscan.com/",
       "https://explorer.matic.network",
+      "https://polygonscan.com/",
       "https://backup-explorer.matic.network"
     ],
-    "subgraphKO": {
+    "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
       "startBlock": 15289000
     },
@@ -57,7 +57,7 @@
       "https://polygon-explorer-mumbai.chainstacklabs.com",
       "https://backup-mumbai-explorer.matic.today"
     ],
-    "subgraphKO": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
+    "subgraph": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
     "openSea": {
       "assets": "https://opensea.io/assets/mumbai",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"

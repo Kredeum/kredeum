@@ -28,7 +28,6 @@
       openSea = openNFTs.configNetwork?.openSea;
 
       NFTsContractsPromise = openNFTs.listContracts(address);
-      await NFTsContractsPromise;
       contract = openNFTs.currentContract?.address;
     } else {
       console.error(openNFTs);
@@ -37,11 +36,11 @@
   }
 
   async function nftsListTokens() {
-    console.log("nftsListTokens", contract);
+    // console.log("nftsListTokens", contract);
     if (openNFTs?.ok) {
       await openNFTs.setContract(contract);
       NFTsListPromise = openNFTs.listTokens(address);
-      console.log("nftsListTokens", await NFTsListPromise);
+      // console.log("nftsListTokens", await NFTsListPromise);
     }
   }
 
@@ -87,15 +86,15 @@
 
   <table>
     <tr>
-      <td>tokenID</td>
-      <td width="200">description</td>
-      <td>image</td>
-      <td>OpenSea</td>
-      <!-- <td>owner</td>
+      <td>TokenID</td>
+      <td width="200">Description</td>
+      <td>Image</td>
+      <td>MarketPlace</td>
+      <!-- <td>Owner</td>
       <td>creator</td>
-      <td>ipfs</td>
-      <td>json</td>
-      <td>import</td> -->
+      <td>Ipfs</td>
+      <td>Json</td>
+      <td>Import</td> -->
     </tr>
 
     <tr><td colspan="4"><hr /></td></tr>

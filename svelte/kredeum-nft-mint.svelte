@@ -38,7 +38,7 @@
       network = openNfts.configNetwork.chainName;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
-      // alert("Switch to Matic network on Polygon");
+      alert("Switch to Matic network on Polygon");
     }
   }
 
