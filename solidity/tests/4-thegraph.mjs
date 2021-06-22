@@ -10,9 +10,7 @@ const theGraphEndpoint = "https://api.thegraph.com/ipfs";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
 const imgCID = "QmWqwE6kWgpX7Gjw281qW54GKYwUtUHt8dBTuzB2QCFYjh";
 
-describe("TheGraph Add Json", async function () {
-  this.timeout(10000);
-
+describe("TheGraph : Add Json", async function () {
   it("Add Image should return given CID", async function () {
     const theGraph = new Ipfs(theGraphEndpoint);
     expect(await theGraph.addUrl(imgUrl)).to.be.equal(imgCID);

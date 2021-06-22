@@ -1,3 +1,4 @@
 {
-  "experimental-json-modules": true
+  "experimental-json-modules": true,
+  "timeout": 10000
 }

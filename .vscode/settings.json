@@ -2,7 +2,6 @@
   "files.exclude": {
     "old": true
   },
-  "mochaExplorer.configFile": ".mocharc.json",
   "mochaExplorer.files": "solidity/tests/*.mjs",
   "phpsab.debug": true,
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
@@ -15,6 +14,11 @@
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
   "workbench.colorTheme": "Noctis Obscuro",
-  "mochaExplorer.optsFile": ".mocharc.json",
-  "mochaExplorer.nodePath": "/usr/local/bin/node"
+  "mochaExplorer.optsFile": "",
+  "mochaExplorer.nodePath": "/usr/local/bin/node",
+  "mochaExplorer.exit": true,
+  "mochaExplorer.fullTrace": true,
+  "mochaExplorer.logpanel": true,
+  "mochaExplorer.timeout": 20000,
+  "mochaExplorer.retries": 1
 }

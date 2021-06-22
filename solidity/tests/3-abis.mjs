@@ -4,7 +4,7 @@ import { expect } from "chai";
 
 import { configNetworks, configContracts, abis, getProvider } from "../../lib/config.mjs";
 
-describe("ABIs", function () {
+describe("ABIs : Check", function () {
   it(`Should have same ABI than in config`, function () {
     configContracts.forEach(async (contract) => {
       const address = contract.address;
@@ -20,7 +20,9 @@ describe("ABIs", function () {
 
       // console.log("contract", contract);
       // console.log(JSON.stringify(abi, null, 2));
-      console.log(`${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`);
+      console.log(
+        `${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`
+      );
 
       expect(JSON.stringify(openNFTs.interface.format(["json"]))).to.be.equal(JSON.stringify(abi));
     });
