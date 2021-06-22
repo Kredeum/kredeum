@@ -14,6 +14,13 @@
     "blockExplorerUrls": ["https://rinkeby.etherscan.io"]
   },
   {
+    "chainId": "0x2a",
+    "chainName": "kovan",
+    "rpcUrls": ["https://kovan.infura.io/v3"],
+    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "blockExplorerUrls": ["https://kovan.etherscan.io"]
+  },
+  {
     "chainId": "0x89",
     "chainName": "matic",
     "rpcUrls": [

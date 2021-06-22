@@ -39,6 +39,12 @@
     "startBlock": 3935000
   },
   {
+    "name": "OpenNFTs",
+    "address": "0xEfaF5f9eda9CDf85118F08E8b0766c4fD78f9a2d",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "network": "kovan"
+  },
+  {
     "name": "KRE",
     "address": "0x1C10a8C4E65a1185810f72bcdB0EC564845cAbcB",
     "network": "matic",
