@@ -24,6 +24,11 @@ module.exports = {
       ethscan: "https://explorer5.arbitrum.io/#/",
       gasPrice: 0
     },
+    bsc: {
+      url: `https://bsc-dataseed1.binance.org`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://bscscan.com/"
+    },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts: [process.env.ACCOUNT_KEY],

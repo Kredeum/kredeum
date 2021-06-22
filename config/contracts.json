@@ -21,6 +21,12 @@
   },
   {
     "name": "OpenNFTs",
+    "address": "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "network": "bsc"
+  },
+  {
+    "name": "OpenNFTs",
     "address": "0xe5eacc6f36881a68961d3af46fcf6a7a1e02160f",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
     "network": "rinkeby",

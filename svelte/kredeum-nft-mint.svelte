@@ -25,7 +25,7 @@
   let network = "0x89";
   let openNfts;
 
-  const chain_ids = "0x89,0x13881"; //,0x8376940b1db0,0x4";
+  const chain_ids = "0x89,0x13881,0x8376940b1db0,0x4,0x38";
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
