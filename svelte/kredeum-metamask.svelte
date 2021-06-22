@@ -5,7 +5,7 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import networks from "../config/networks.json";
+  import { chainIds, getNetwork } from "../lib/config.mjs";
 
   const dispatch = createEventDispatcher();
 
@@ -13,16 +13,11 @@
   export let address = undefined;
   export let chainId = undefined;
   export let autoconnect = undefined;
-  export let chain_ids = undefined;
 
   let network;
   let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
-
-  function networkGet(_chainId) {
-    return networks.find((nw) => Number(nw.chainId) === Number(_chainId));
-  }
 
   async function addEthereumChain(_chainId) {
     if (targetChain) {
@@ -34,7 +29,7 @@
       console.log("addEthereumChain", _chainId);
       // no need to add default ethereum chain
 
-      const _network = networkGet(_chainId);
+      const _network = getNetwork(_chainId);
       console.log("addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
@@ -68,12 +63,12 @@
 
   async function handleChainId(_chainId) {
     if (_chainId && _chainId != chainId) {
-      network = networkGet(_chainId);
+      network = getNetwork(_chainId);
       if (network) {
         chainId = _chainId;
       } else {
         // _chainId not accepted : add first accepted chainId
-        addEthereumChain(chain_ids?.split(",")[0]);
+        addEthereumChain(chainIds?.split(",")[0]);
       }
     }
   }

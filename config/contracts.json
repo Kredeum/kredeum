@@ -1,6 +1,12 @@
 [
   {
     "name": "OpenNFTs",
+    "address": "",
+    "network": "mainnet",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+  },
+  {
+    "name": "OpenNFTs",
     "address": "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
     "network": "matic",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
