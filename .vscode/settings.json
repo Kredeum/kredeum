@@ -1,15 +1,20 @@
 {
-  "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
-  "workbench.colorTheme": "Noctis Obscuro",
   "files.exclude": {
     "old": true
   },
+  "mochaExplorer.configFile": ".mocharc.json",
+  "mochaExplorer.files": "solidity/tests/*.mjs",
+  "phpsab.debug": true,
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
-  "phpsab.standard": "WordPress",
-  "phpsab.snifferMode": "onType",
-  "phpsab.debug": true,
-  "phpsab.snifferArguments": ["-n", "--ignore=lib", "--extensions=php"],
   "phpsab.fixerArguments": ["--extensions=php"],
-  "phpsab.snifferShowSources": true
+  "phpsab.snifferArguments": ["-n", "--ignore=lib", "--extensions=php"],
+  "phpsab.snifferMode": "onType",
+  "phpsab.snifferShowSources": true,
+  "phpsab.standard": "WordPress",
+  "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
+  "testExplorer.codeLens": true,
+  "workbench.colorTheme": "Noctis Obscuro",
+  "mochaExplorer.optsFile": ".mocharc.json",
+  "mochaExplorer.nodePath": "/usr/local/bin/node"
 }
