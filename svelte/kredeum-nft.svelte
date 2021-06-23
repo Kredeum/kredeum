@@ -61,6 +61,9 @@
     explorer.includes("chainstacklabs.com")
       ? `${explorer}/address/${address}/tokens`
       : `${explorer}/address/${address}/token`;
+
+  $: imageLink = (item) =>
+    item.image.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
 </script>
 
 <main>
@@ -128,8 +131,8 @@
               </td>
 
               <td>
-                <a href="{item.image}" target="_blank">
-                  <img alt="___" src="{item.image}" height="100" />
+                <a href="{imageLink(item)}" target="_blank">
+                  <img alt="___" src="{imageLink(item)}" height="100" />
                 </a>
               </td>
 
