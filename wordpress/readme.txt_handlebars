@@ -40,8 +40,15 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.6.x =
-* Lot of evolutions
+= 0.6.6 =
+* Access all your NFTs on the blockchain you are connected to, in "NFTs" page
+* One NFT collection is defined per blockchain to Mint your NFT, but now a new listbox allows you to access your NFTs in other ERC721 collections (if you have some !) 
+* In addition to existing Matic/Polygon network (and Mumbai/Polygon tesnet), these blockchains are now supported :
+1 Ethereum mainnet
+1 Binance Smart Chain (BSC) 
+1 Kovan testnet
+
+* Known problem in this version : sometimes NFTs don't display, just refresh the page one or more times
 
 = 0.5.2 =
 * Fix bug : image links display in posts
