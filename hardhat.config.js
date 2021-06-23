@@ -27,7 +27,12 @@ module.exports = {
     bsc: {
       url: `https://bsc-dataseed1.binance.org`,
       accounts: [process.env.ACCOUNT_KEY],
-      ethscan: "https://bscscan.com/"
+      ethscan: "https://bscscan.com"
+    },
+    fantom: {
+      url: `https://rpcapi.fantom.network`,
+      accounts: [process.env.ACCOUNT_KEY],
+      ethscan: "https://ftmscan.com"
     },
     mainnet: {
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
