@@ -6,9 +6,6 @@
   import OpenNfts from "../lib/open-nfts.mjs";
   import kimages from "../lib/kimages.mjs";
 
-  const ipfsGateway = "https://ipfs.io/ipfs";
-
-  const chainIds = ["0x89", "0x13881"];
   let chainId, network, openNFTs, explorer, openSea, address;
 
   export let contract = undefined;
@@ -51,10 +48,19 @@
   $: openSeaLinkKredeum = () => openSea?.kredeum;
   $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
   $: kreLinkToken = (item) =>
-    `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`;
+    explorer.includes("chainstacklabs.com")
+      ? `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`
+      : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
 
-  $: kreLink = () => `${explorer}/tokens/${contract}/inventory`;
-  $: addressLink = (address) => `${explorer}/address/${address}/tokens`;
+  $: kreLink = () =>
+    explorer.includes("chainstacklabs.com")
+      ? `${explorer}/tokens/${contract}/inventory`
+      : `${explorer}/token/${contract}#inventory`;
+
+  $: addressLink = (address) =>
+    explorer.includes("chainstacklabs.com")
+      ? `${explorer}/address/${address}/tokens`
+      : `${explorer}/address/${address}/token`;
 </script>
 
 <main>
@@ -108,7 +114,7 @@
           {#each NFTs as item}
             <tr>
               <td>
-                <a href="{kreLinkToken(item)}">
+                <a href="{kreLinkToken(item)}" target="_blank">
                   &nbsp;{item.tokenID}&nbsp;
                 </a>
               </td>
@@ -122,8 +128,8 @@
               </td>
 
               <td>
-                <a href="{ipfsGateway}/{item.cid}" target="_blank">
-                  <img alt="___" src="{ipfsGateway}/{item.cid}" height="100" />
+                <a href="{item.image}" target="_blank">
+                  <img alt="___" src="{item.image}" height="100" />
                 </a>
               </td>
 
@@ -181,7 +187,7 @@
   </table>
 
   <small>
-    <Metamask autoconnect="off" bind:address bind:chainId chainIds="{chainIds}" />
+    <Metamask autoconnect="off" bind:address bind:chainId />
     <br />
     {#if openNFTs} <a href="{kreLink()}" target="_blank">kredeum_nfts@{contract}</a> {/if}
   </small>
