@@ -9,7 +9,7 @@
   const ipfsGateway = "https://ipfs.io/ipfs";
 
   const chainIds = ["0x89", "0x13881"];
-  let chainId, openNFTs, explorer, openSea, address;
+  let chainId, network, openNFTs, explorer, openSea, address;
 
   export let contract = undefined;
 
@@ -26,6 +26,7 @@
     if (openNFTs.ok) {
       explorer = openNFTs.configNetwork?.blockExplorerUrls[0];
       openSea = openNFTs.configNetwork?.openSea;
+      network = openNFTs.configNetwork?.chainName.toUpperCase();
 
       NFTsContractsPromise = openNFTs.listContracts(address);
       contract = openNFTs.currentContract?.address;
@@ -59,7 +60,7 @@
 <main>
   <h1>
     <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
-    My NFTs
+    My NFTs {network ? `on ${network}` : ""}
   </h1>
 
   <h3>
@@ -127,13 +128,15 @@
               </td>
 
               <td>
-                <a href="{openSeaLinkToken(item)}" target="_blank">
-                  {#if sameAddress(item.owner)}
-                    <button class="green">SELL NFT</button>
-                  {:else}
-                    <button class="blue">BUY NFT</button>
-                  {/if}
-                </a>
+                {#if openSea}
+                  <a href="{openSeaLinkToken(item)}" target="_blank">
+                    {#if sameAddress(item.owner)}
+                      <button class="green">SELL NFT</button>
+                    {:else}
+                      <button class="blue">BUY NFT</button>
+                    {/if}
+                  </a>
+                {/if}
               </td>
 
               <!-- <td>
