@@ -128,13 +128,15 @@
               </td>
 
               <td>
-                <a href="{openSeaLinkToken(item)}" target="_blank">
-                  {#if sameAddress(item.owner)}
-                    <button class="green">SELL NFT</button>
-                  {:else}
-                    <button class="blue">BUY NFT</button>
-                  {/if}
-                </a>
+                {#if openSea}
+                  <a href="{openSeaLinkToken(item)}" target="_blank">
+                    {#if sameAddress(item.owner)}
+                      <button class="green">SELL NFT</button>
+                    {:else}
+                      <button class="blue">BUY NFT</button>
+                    {/if}
+                  </a>
+                {/if}
               </td>
 
               <!-- <td>

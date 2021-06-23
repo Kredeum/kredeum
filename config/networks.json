@@ -4,7 +4,11 @@
     "chainName": "mainnet",
     "rpcUrls": ["https://mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://etherscan.io"]
+    "blockExplorerUrls": ["https://etherscan.io"],
+    "openSea": {
+      "assets": "https://opensea.io/assets",
+      "kredeum": "https://opensea.io/collection/kredeum-nfts"
+    }
   },
   {
     "chainId": "0x4",
@@ -65,10 +69,6 @@
       "https://backup-mumbai-explorer.matic.today"
     ],
     "subgraph": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
-    "openSea": {
-      "assets": "https://opensea.io/assets/mumbai",
-      "kredeum": "https://opensea.io/collection/kredeum-nfts"
-    },
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   },
   {
