@@ -23,7 +23,7 @@
   let signer = "";
   let address = "";
   let network = "0x89";
-  let openNfts;
+  let openNFTs, openSea;
 
   let chainId = 0;
 
@@ -32,9 +32,10 @@
   $: if (chainId > 0) init(chainId);
 
   async function init(_chainId) {
-    openNfts = await OpenNfts(_chainId);
-    if (openNfts.ok) {
-      network = openNfts.configNetwork.chainName;
+    openNFTs = await OpenNfts(_chainId);
+    if (openNFTs.ok) {
+      network = openNFTs.configNetwork?.chainName;
+      openSea = openNFTs.configNetwork?.openSea;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");
@@ -60,7 +61,7 @@
       });
 
       try {
-        minted = await openNfts.Mint(signer, `${ipfsGateway}/${cidJson}`);
+        minted = await openNFTs.Mint(signer, `${ipfsGateway}/${cidJson}`);
         dispatch("token", { minted });
       } catch (e) {
         console.error("Minting ERROR", e);
@@ -80,7 +81,7 @@
 
   {#if address}
     {#if minted}
-      <a href="{minted}">
+      <a href="{`${openSea?.assets}/${minted.contract}/${minted.tokenID}`}">
         <button class="sell">SELL NFT</button>
       </a>
       <!-- </a> -->

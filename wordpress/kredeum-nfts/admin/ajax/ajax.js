@@ -32,8 +32,8 @@ jQuery(document).ready(function () {
         action: "token",
         minted: JSON.stringify({
           chain_id: e.detail.minted.chainId,
-          address: e.detail.minted.address,
-          token_id: e.detail.minted.tokenId
+          address: e.detail.minted.contract,
+          token_id: e.detail.minted.tokenID
         }),
         pid: kredeumNftMint.pid
       });
