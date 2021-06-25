@@ -8,7 +8,8 @@
     "openSea": {
       "assets": "https://opensea.io/assets",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
-    }
+    },
+    "prod": true
   },
   {
     "chainId": "0x4",
@@ -51,7 +52,8 @@
       "assets": "https://opensea.io/assets/matic",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
-    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
+    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
+    "prod": true
   },
   {
     "chainId": "0x13881",
@@ -84,13 +86,15 @@
     "chainName": "bsc",
     "rpcUrls": ["https://bsc-dataseed1.binance.org"],
     "nativeCurrency": { "name": "BNB", "symbol": "BNB", "decimals": 18 },
-    "blockExplorerUrls": ["https://bscscan.com"]
+    "blockExplorerUrls": ["https://bscscan.com"],
+    "prod": true
   },
   {
     "chainId": "0xfa",
     "chainName": "fantom",
     "rpcUrls": ["https://rpcapi.fantom.network"],
     "nativeCurrency": { "name": "FTM", "symbol": "FTM", "decimals": 18 },
-    "blockExplorerUrls": ["https://ftmscan.com"]
+    "blockExplorerUrls": ["https://ftmscan.com"],
+    "prod": true
   }
 ]

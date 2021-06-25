@@ -189,7 +189,8 @@
   </table>
 
   <small>
-    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">{contract}@{network}</a> {/if}
+    {#if openNFTs}NFT collection <a href="{kreLink()}" target="_blank">{contract}@{network}</a>
+    {/if}
     <br />
     {#if address}My address{/if}
     <Metamask autoconnect="off" bind:address bind:chainId />

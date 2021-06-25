@@ -5,7 +5,7 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import { getNetwork, networksProd } from "../lib/config.mjs";
+  import { getNetwork, networks } from "../lib/config.mjs";
 
   const dispatch = createEventDispatcher();
 
@@ -64,7 +64,7 @@
   }
 
   async function handleChainId(_chainId) {
-    console.log("handleChainId", _chainId);
+    // console.log("handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
       network = getNetwork(_chainId);
@@ -72,7 +72,7 @@
         chainId = _chainId;
       } else {
         // _chainId not accepted : add first accepted chainId
-        addEthereumChain(networksProd[0].chainId);
+        addEthereumChain(networks[0].chainId);
       }
     }
   }
@@ -91,7 +91,7 @@
   }
 
   async function handleAccounts(_accounts) {
-    console.log("handleAccounts", _accounts);
+    // console.log("handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
@@ -160,7 +160,7 @@
   {/if}
   <small>
     (switch to
-    {#each networksProd as network}
+    {#each networks.filter((nw) => nw.prod) as network}
       {#if network.chainId !== chainId}
         &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">{network.chainName}</a
         >{/if}{/each})
