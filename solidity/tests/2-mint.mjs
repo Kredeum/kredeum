@@ -1,7 +1,7 @@
 // npx mocha mint.mjs  --experimental-json-modules
 import { ethers } from "ethers";
 import { expect } from "chai";
-import { configNetworks, configContracts, getProvider } from "../../lib/config.mjs";
+import { networks, configContracts, getProvider } from "../../lib/config.mjs";
 import OpenNfts from "../../lib/open-nfts.mjs";
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -16,7 +16,7 @@ let signer, network, address, abi, provider, contract, totalSupply, ethscan, ope
 
 describe("NFT Mint : Init", function () {
   it("Should find Network", function () {
-    network = configNetworks.find((nw) => nw.chainName === networkChainName);
+    network = networks.find((nw) => nw.chainName === networkChainName);
     console.log(network);
     expect(network.chainId).to.be.equal(networkChainId);
   });
@@ -57,7 +57,7 @@ describe("NFT Mint : Read", function () {
 });
 
 describe("NFT Mint : Mint", function () {
-  network = configNetworks.find((nw) => nw.chainName === networkChainName);
+  network = networks.find((nw) => nw.chainName === networkChainName);
 
   it("Should init NFT library", async function () {
     openNfts = await OpenNfts(networkChainId, contractAddress);

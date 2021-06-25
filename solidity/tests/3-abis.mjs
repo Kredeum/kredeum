@@ -2,13 +2,13 @@
 import { ethers } from "ethers";
 import { expect } from "chai";
 
-import { configNetworks, configContracts, abis, getProvider } from "../../lib/config.mjs";
+import { networks, configContracts, abis, getProvider } from "../../lib/config.mjs";
 
 describe("ABIs : Check", function () {
   it(`Should have same ABI than in config`, function () {
     configContracts.forEach(async (contract) => {
       const address = contract.address;
-      const network = configNetworks.find((_network) => _network.chainName === contract.network);
+      const network = networks.find((_network) => _network.chainName === contract.network);
       const provider = getProvider(network);
 
       let abi = [];

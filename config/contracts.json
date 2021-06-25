@@ -3,7 +3,8 @@
     "name": "OpenNFTs",
     "address": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
     "network": "mainnet",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "prod": true
   },
   {
     "name": "OpenNFTs",
@@ -11,7 +12,8 @@
     "network": "matic",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
     "startBlock": 14646891,
-    "description": "current version"
+    "description": "current version",
+    "prod": true
   },
   {
     "name": "OpenNFTs",
@@ -29,13 +31,15 @@
     "name": "OpenNFTs",
     "address": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
-    "network": "fantom"
+    "network": "fantom",
+    "prod": true
   },
   {
     "name": "OpenNFTs",
     "address": "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
-    "network": "bsc"
+    "network": "bsc",
+    "prod": true
   },
   {
     "name": "OpenNFTs",

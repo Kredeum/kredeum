@@ -34,8 +34,8 @@
   async function init(_chainId) {
     openNFTs = await OpenNfts(_chainId);
     if (openNFTs.ok) {
-      network = openNFTs.configNetwork?.chainName;
-      openSea = openNFTs.configNetwork?.openSea;
+      network = openNFTs.network?.chainName;
+      openSea = openNFTs.network?.openSea;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
       alert("Switch to Matic network on Polygon");
