@@ -20,9 +20,9 @@
     console.log("init", chainId, address);
     openNFTs = await OpenNfts(chainId);
     if (openNFTs.ok) {
-      explorer = openNFTs.configNetwork?.blockExplorerUrls[0];
-      openSea = openNFTs.configNetwork?.openSea;
-      network = openNFTs.configNetwork?.chainName;
+      explorer = openNFTs.network?.blockExplorerUrls[0];
+      openSea = openNFTs.network?.openSea;
+      network = openNFTs.network?.chainName;
 
       NFTsContractsPromise = openNFTs.listContracts(address);
       contract = openNFTs.currentContract?.address;

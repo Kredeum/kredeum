@@ -5,7 +5,7 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import { getNetwork, configNetworks } from "../lib/config.mjs";
+  import { getNetwork, networksProd } from "../lib/config.mjs";
 
   const dispatch = createEventDispatcher();
 
@@ -72,7 +72,7 @@
         chainId = _chainId;
       } else {
         // _chainId not accepted : add first accepted chainId
-        addEthereumChain(configNetworks[0].chainId);
+        addEthereumChain(networksProd[0].chainId);
       }
     }
   }
@@ -160,7 +160,7 @@
   {/if}
   <small>
     (switch to
-    {#each configNetworks as network}
+    {#each networksProd as network}
       {#if network.chainId !== chainId}
         &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">{network.chainName}</a
         >{/if}{/each})
