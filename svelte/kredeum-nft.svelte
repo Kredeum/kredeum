@@ -13,17 +13,16 @@
   let NFTsListPromise;
   let NFTsContractsPromise = [];
 
-  $: chainId && init();
-  $: contract && nftsListTokens();
+  $: chainId && address && init();
+  $: contract && address && nftsListTokens();
 
   async function init() {
-    console.log("init", chainId);
-
+    console.log("init", chainId, address);
     openNFTs = await OpenNfts(chainId);
     if (openNFTs.ok) {
       explorer = openNFTs.configNetwork?.blockExplorerUrls[0];
       openSea = openNFTs.configNetwork?.openSea;
-      network = openNFTs.configNetwork?.chainName.toUpperCase();
+      network = openNFTs.configNetwork?.chainName;
 
       NFTsContractsPromise = openNFTs.listContracts(address);
       contract = openNFTs.currentContract?.address;
@@ -36,7 +35,7 @@
   async function nftsListTokens() {
     // console.log("nftsListTokens", contract);
     if (openNFTs?.ok) {
-      await openNFTs.setContract(contract);
+      await openNFTs.setContract(chainId, contract);
       NFTsListPromise = openNFTs.listTokens(address);
       // console.log("nftsListTokens", await NFTsListPromise);
     }
@@ -69,7 +68,7 @@
 <main>
   <h1>
     <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
-    My NFTs {network ? `on ${network}` : ""}
+    My NFTs {network ? `on ${network.toUpperCase()}` : ""}
   </h1>
 
   <h3>
@@ -110,7 +109,7 @@
     <tr><td colspan="4"><hr /></td></tr>
     {#key address}
       {#await NFTsListPromise}
-        <p>Loading NFT Collection @{short(contract)} ...</p>
+        <p>Loading NFT Collection @{contract} ...</p>
         <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
       {:then NFTs}
         {#if NFTs && NFTs.length > 0}
@@ -190,9 +189,10 @@
   </table>
 
   <small>
-    <Metamask autoconnect="off" bind:address bind:chainId />
+    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">{contract}@{network}</a> {/if}
     <br />
-    {#if openNFTs} <a href="{kreLink()}" target="_blank">kredeum_nfts@{contract}</a> {/if}
+    {#if address}My address{/if}
+    <Metamask autoconnect="off" bind:address bind:chainId />
   </small>
 </main>
 

@@ -5,7 +5,7 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { createEventDispatcher } from "svelte";
-  import { chainIds, getNetwork } from "../lib/config.mjs";
+  import { getNetwork, configNetworks } from "../lib/config.mjs";
 
   const dispatch = createEventDispatcher();
 
@@ -20,6 +20,8 @@
   let targetChain = false;
 
   async function addEthereumChain(_chainId) {
+    console.log("addEthereumChain", _chainId);
+
     if (targetChain) {
       //console.log('already connecting network...');
     }
@@ -62,18 +64,35 @@
   }
 
   async function handleChainId(_chainId) {
+    console.log("handleChainId", _chainId);
+
     if (_chainId && _chainId != chainId) {
       network = getNetwork(_chainId);
       if (network) {
         chainId = _chainId;
       } else {
         // _chainId not accepted : add first accepted chainId
-        addEthereumChain(chainIds?.split(",")[0]);
+        addEthereumChain(configNetworks[0].chainId);
+      }
+    }
+  }
+
+  async function switchEthereumChain(_chainId) {
+    try {
+      await ethereum.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: _chainId }]
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        addEthereumChain(_chainId);
       }
     }
   }
 
   async function handleAccounts(_accounts) {
+    console.log("handleAccounts", _accounts);
+
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== address) {
@@ -134,11 +153,18 @@
 {#if address}
   {#if network}
     <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-      >{network?.chainName}@{address}</a
+      >{address}@{network?.chainName}</a
     >
   {:else}
     @{address}
   {/if}
+  <small>
+    (switch to
+    {#each configNetworks as network}
+      {#if network.chainId !== chainId}
+        &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">{network.chainName}</a
+        >{/if}{/each})
+  </small>
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>
 {/if}
