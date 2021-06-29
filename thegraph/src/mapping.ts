@@ -1,4 +1,4 @@
-import { store, Bytes, BigInt } from "@graphprotocol/graph-ts";
+import { JSONValueKind, store, Bytes, BigInt } from "@graphprotocol/graph-ts";
 import { Transfer, EIP721 } from "../generated/EIP721/EIP721";
 import { Token, TokenContract, Owner, All, OwnerPerTokenContract } from "../generated/schema";
 
@@ -140,6 +140,8 @@ export function handleTransfer(event: Transfer): void {
         eip721Token.tokenID = tokenId;
         eip721Token.mintTime = event.block.timestamp;
         eip721Token.tokenURI = "";
+
+        // BEGIN METADATA ADDITION
         eip721Token.name = "";
         eip721Token.description = "";
         eip721Token.image = "";
@@ -153,33 +155,32 @@ export function handleTransfer(event: Transfer): void {
             let cid = eip721Token.tokenURI.substring(eip721Token.tokenURI.lastIndexOf("/") + 1);
             if (cid) {
               let jsonIpfs = ipfs.cat(cid);
-              let metadata = jsonIpfs.toString().trim();
-
-              // Either indexing CRASH on json data as array like '[{a:1,b:2}]'
-              if (jsonIpfs != null && metadata.startsWith("{") && metadata.endsWith("}")) {
-                let jsonResult = json.try_fromBytes(jsonIpfs as Bytes);
-                if (jsonResult.isOk) {
-                  let jsonObject = jsonResult.value.toObject();
-                  if (jsonObject != null) {
-                    eip721Token.name = jsonObject.get("name").isNull()
-                      ? ""
-                      : jsonObject.get("name").toString();
-                    eip721Token.description = jsonObject.get("description").isNull()
-                      ? ""
-                      : jsonObject.get("description").toString();
-                    eip721Token.image = jsonObject.get("image").isNull()
-                      ? ""
-                      : jsonObject.get("image").toString();
+              if (jsonIpfs != null) {
+                let metadata = jsonIpfs.toString().trim();
+                eip721Token.metadata = metadata;
+                if (metadata.startsWith("{") && metadata.endsWith("}")) {
+                  let jsonResult = json.try_fromBytes(jsonIpfs as Bytes);
+                  if (jsonResult.isOk) {
+                    let jsonObject = jsonResult.value.toObject();
+                    if (jsonObject != null) {
+                      if (jsonObject.get("name").kind == JSONValueKind.STRING) {
+                        eip721Token.name = jsonObject.get("name").toString();
+                      }
+                      if (jsonObject.get("image").kind == JSONValueKind.STRING) {
+                        eip721Token.image = jsonObject.get("image").toString();
+                      }
+                      if (jsonObject.get("description").kind == JSONValueKind.STRING) {
+                        eip721Token.description = jsonObject.get("description").toString();
+                      }
+                    }
                   }
-                } else {
-                  log.error("JSON ERROR {}", [metadata]);
                 }
               }
-              eip721Token.metadata = metadata;
             }
           }
         }
       }
+      // END METADATA ADDITION
 
       all.numTokens = all.numTokens.plus(BigInt.fromI32(1));
       eip721Token.owner = newOwner.id;

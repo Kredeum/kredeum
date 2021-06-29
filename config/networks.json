@@ -16,7 +16,10 @@
     "chainName": "rinkeby",
     "rpcUrls": ["https://rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://rinkeby.etherscan.io"]
+    "blockExplorerUrls": ["https://rinkeby.etherscan.io"],
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby"
+    }
   },
   {
     "chainId": "0x2a",
@@ -45,8 +48,7 @@
       "https://backup-explorer.matic.network"
     ],
     "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
-      "startBlock": 15289000
+      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic"
     },
     "openSea": {
       "assets": "https://opensea.io/assets/matic",
