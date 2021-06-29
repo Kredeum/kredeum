@@ -40,6 +40,9 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
+= 0.7.2 =
+* Easy access to other networks with Metamask: links at the bottom of NFTs page
+
 = 0.7.1 =
 * Access all your NFTs on the blockchain you are connected to, in "NFTs" page
 * One NFT collection is defined per blockchain to Mint your NFT, but now a new listbox allows you to access your NFTs in other ERC721 collections (if you have some !) 
