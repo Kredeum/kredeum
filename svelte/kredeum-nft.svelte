@@ -21,6 +21,7 @@
   export let platform = undefined;
 
   let NFTsListPromise;
+  let NFTs;
   let NFTsContractsPromise = [];
 
   $: chainId && address && init();
@@ -34,6 +35,8 @@
       openSea = openNFTs.network?.openSea;
       network = openNFTs.network?.chainName;
 
+      NFTs = await openNFTs.listTokensFromCache();
+
       NFTsContractsPromise = openNFTs.listContracts(address);
       contract = openNFTs.currentContract?.address;
     } else {
@@ -46,7 +49,7 @@
     // console.log("nftsListTokens", contract);
     if (openNFTs?.ok) {
       await openNFTs.setContract(chainId, contract);
-      NFTsListPromise = openNFTs.listTokens(address);
+      NFTs = await openNFTs.listTokens(address);
       // console.log("nftsListTokens", await NFTsListPromise);
     }
   }
@@ -73,7 +76,7 @@
       : `${explorer}/address/${address}/token`;
 
   $: imageLink = (item) =>
-    item.image.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
+    item.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
@@ -83,7 +86,7 @@
 <main>
   <h1>
     <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
-    My NFTs {network ? `on ${network.toUpperCase()}` : ""}
+    My NFTs Wallet
   </h1>
 
   <h3>
@@ -95,7 +98,7 @@
     {:then NFTsContracts}
       {#if NFTsContracts.length > 0}
         <select bind:value="{contract}">
-          <option value="">Choose another Collection</option>
+          <option value="">Choose Collection</option>
           {#each NFTsContracts as item}
             <option value="{item.address}">
               {item.totalSupply || " "}
