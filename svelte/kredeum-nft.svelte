@@ -5,6 +5,9 @@
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
   import OpenNfts from "../lib/open-nfts.mjs";
   import kimages from "../lib/kimages.mjs";
+  import { createEventDispatcher } from "svelte";
+
+  const dispatch = createEventDispatcher();
 
   let chainId, network, openNFTs, explorer, openSea, address;
 
@@ -17,7 +20,7 @@
   $: contract && address && nftsListTokens();
 
   async function init() {
-    console.log("init", chainId, address);
+    // console.log("init", chainId, address);
     openNFTs = await OpenNfts(chainId);
     if (openNFTs.ok) {
       explorer = openNFTs.network?.blockExplorerUrls[0];
@@ -63,6 +66,12 @@
 
   $: imageLink = (item) =>
     item.image.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
+
+  async function importUrl(e) {
+    const url = e.target.attributes.url.value;
+    // console.log("dispatch import url", url);
+    dispatch("import", { url });
+  }
 </script>
 
 <main>
@@ -102,11 +111,11 @@
       <!-- <td>Owner</td>
       <td>creator</td>
       <td>Ipfs</td>
-      <td>Json</td>
-      <td>Import</td> -->
+      <td>Json</td> -->
+      <td>Import</td>
     </tr>
 
-    <tr><td colspan="4"><hr /></td></tr>
+    <tr><td colspan="5"><hr /></td></tr>
     {#key address}
       {#await NFTsListPromise}
         <p>Loading NFT Collection @{contract} ...</p>
@@ -175,17 +184,17 @@
                     >{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a
                   >
                 {/if}
-              </td>
+              </td> -->
 
               <td>
-                <a href="./upload.php?cid={item.cid}" target="_blank">{short(item.cid)}</a>
-              </td> -->
+                <button url="{item.image}" on:click="{importUrl}">IMPORT</button>
+              </td>
             </tr>
           {/each}
         {/if}
       {/await}
     {/key}
-    <tr><td colspan="4"><hr /></td></tr>
+    <tr><td colspan="5"><hr /></td></tr>
   </table>
 
   <small>

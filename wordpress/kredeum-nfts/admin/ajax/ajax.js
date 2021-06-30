@@ -18,16 +18,16 @@ function _ajax(data) {
 jQuery(document).ready(function () {
   // ACTION GET_ADDRESS
   const kredeumMetamask = document.querySelector("kredeum-metamask");
-  kredeumMetamask?.$on("address", function () {
+  kredeumMetamask?.$on("address", function (e) {
     _ajax({
       action: "address",
-      address: kredeumMetamask.address
+      address: e.detail.address
     });
   });
 
   // ACTION MINT_TOKEN
   document.querySelectorAll("kredeum-nft-mint").forEach(function (kredeumNftMint) {
-    kredeumNftMint?.$on("token", function (e) {
+    kredeumNftMint.$on("token", function (e) {
       _ajax({
         action: "token",
         minted: JSON.stringify({
@@ -41,11 +41,12 @@ jQuery(document).ready(function () {
   });
 
   // ACTION IMPORT_NFT
-  // const importNft = document.querySelectorAll("import-nft");
-  // importNft?.$on("import", function (e) {
-  //   _ajax({
-  //     action: "import",
-  //     url: importNft.url
-  //   });
-  // });
+  document.querySelectorAll("kredeum-nft").forEach(function (kredeumNft) {
+    kredeumNft.$on("import", function (e) {
+      _ajax({
+        action: "import",
+        url: e.detail.url
+      });
+    });
+  });
 });

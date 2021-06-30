@@ -128,7 +128,7 @@ class Settings {
 		switch ( $arguments['type'] ) {
 
 			case 'metamask':
-				wp_nonce_field( 'get-address', 'knonce' );
+				wp_nonce_field( 'ajax-address', 'knonce' );
 				printf( '<kredeum-metamask />' );
 				break;
 

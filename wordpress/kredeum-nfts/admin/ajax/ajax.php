@@ -26,7 +26,7 @@ add_action(
 add_action(
 	'wp_ajax_token',
 	function () {
-		check_ajax_referer( 'get-token-id', 'security' );
+		check_ajax_referer( 'ajax-token', 'security' );
 
 		if ( isset( $_POST['pid'] ) && isset( $_POST['minted'] ) ) {
 
@@ -60,7 +60,7 @@ add_action(
 add_action(
 	'wp_ajax_address',
 	function () {
-		check_ajax_referer( 'get-address', 'security' );
+		check_ajax_referer( 'ajax-address', 'security' );
 
 		$user_id = get_current_user_id();
 		if ( isset( $_POST['address'] ) ) {
@@ -80,13 +80,12 @@ add_action(
 add_action(
 	'wp_ajax_import',
 	function () {
-		check_ajax_referer( 'get-import', 'security' );
+		check_ajax_referer( 'ajax-import', 'security' );
 
 		if ( isset( $_POST['url'] ) ) {
-			$pid = import( url );
+			echo esc_html( sanitize_text_field( wp_unslash( $_POST['url'] ) ) );
+			$pid = \KredeumNfts\Ipfs\import( sanitize_text_field( wp_unslash( $_POST['url'] ) ) );
 		}
-
-		echo esc_html( get_post_meta( '_source_url' )[0] );
 
 		wp_die();
 	}

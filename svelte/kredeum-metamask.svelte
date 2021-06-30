@@ -98,7 +98,7 @@
     } else if (_accounts[0] !== address) {
       address = _accounts[0];
       signer = new ethers.providers.Web3Provider(ethereum).getSigner(0);
-      dispatch("address", { address: address });
+      dispatch("address", { address });
     }
   }
   async function connectMetamask() {
