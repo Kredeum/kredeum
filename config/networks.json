@@ -9,6 +9,7 @@
       "assets": "https://opensea.io/assets",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
+    "covalent": { "active": true },
     "prod": true
   },
   {
@@ -26,7 +27,8 @@
     "chainName": "kovan",
     "rpcUrls": ["https://kovan.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://kovan.etherscan.io"]
+    "blockExplorerUrls": ["https://kovan.etherscan.io"],
+    "covalent": { "active": true }
   },
   {
     "chainId": "0x89",
@@ -50,6 +52,7 @@
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic"
     },
+    "covalent": { "active": true },
     "openSea": {
       "assets": "https://opensea.io/assets/matic",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
@@ -72,7 +75,11 @@
       "https://polygon-explorer-mumbai.chainstacklabs.com",
       "https://backup-mumbai-explorer.matic.today"
     ],
-    "subgraph": { "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai" },
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
+      "active": true
+    },
+    "covalent": { "active": true },
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38"
   },
   {
@@ -89,6 +96,7 @@
     "rpcUrls": ["https://bsc-dataseed1.binance.org"],
     "nativeCurrency": { "name": "BNB", "symbol": "BNB", "decimals": 18 },
     "blockExplorerUrls": ["https://bscscan.com"],
+    "covalent": { "active": true },
     "prod": true
   },
   {
@@ -97,6 +105,7 @@
     "rpcUrls": ["https://rpcapi.fantom.network"],
     "nativeCurrency": { "name": "FTM", "symbol": "FTM", "decimals": 18 },
     "blockExplorerUrls": ["https://ftmscan.com"],
+    "covalent": { "active": true },
     "prod": true
   }
 ]
