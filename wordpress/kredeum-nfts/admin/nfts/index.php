@@ -18,9 +18,11 @@ add_action(
 			function () {
 				wp_nonce_field( 'ajax-import', 'knonce' );
 				printf(
-					'<kredeum-nft />'
-					// '<kredeum-nft'
-					// . ' contract="' . esc_attr( KREDEUM_NFTS_ADDRESS ) . '"/>'
+					// '<kredeum-nft />'
+					'<kredeum-nft'
+					// . ' contract="' . esc_attr( KREDEUM_NFTS_ADDRESS ) . '"'
+					. ' platform="wordpress"'
+					. ' />'
 				);
 			},
 			'dashicons-format-gallery',

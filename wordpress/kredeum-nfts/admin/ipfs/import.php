@@ -24,7 +24,7 @@ function import( $url ) {
 		if ( is_wp_error( $ret ) ) {
 			@unlink( $file_array['tmp_name'] );
 		} else {
-			add_post_meta( $ret, '_source_url', $url );
+			add_post_meta( $ret, '_kre_import', $url );
 		}
 	}
 	return $ret;
@@ -38,7 +38,7 @@ function import( $url ) {
  * @return string $post_id
  */
 function import_cid( $cid ) {
-	return import( IPFS_GATEWAY . $cid );
+	return import( url( $cid ) );
 }
 
 /**

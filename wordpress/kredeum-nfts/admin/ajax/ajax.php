@@ -28,26 +28,15 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-token', 'security' );
 
-		if ( isset( $_POST['pid'] ) && isset( $_POST['minted'] ) ) {
+		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
 
-			$pid    = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
-			$minted = json_decode( sanitize_text_field( wp_unslash( $_POST['minted'] ) ) );
-			echo esc_html( var_dump( $minted ) );
+			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
+			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
+			echo esc_html( var_dump( $pid ) );
+			echo esc_html( var_dump( $nid ) );
 
-			if ( isset( $minted->chain_id ) ) {
-				$res = add_post_meta( $pid, '_kre_chain_id', $minted->chain_id, true );
-				echo esc_html( var_dump( $res ) );
-			}
-
-			if ( isset( $minted->address ) ) {
-				$res = add_post_meta( $pid, '_kre_address', $minted->address, true );
-				echo esc_html( var_dump( $res ) );
-			}
-
-			if ( isset( $minted->token_id ) ) {
-				$res = add_post_meta( $pid, '_kre_token_id', $minted->token_id, true );
-				echo esc_html( var_dump( $res ) );
-			}
+			$res = add_post_meta( $pid, '_kre_nid', $nid, true );
+			echo esc_html( var_dump( $res ) );
 		};
 
 		wp_die();
@@ -82,9 +71,16 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-import', 'security' );
 
-		if ( isset( $_POST['url'] ) ) {
-			echo esc_html( sanitize_text_field( wp_unslash( $_POST['url'] ) ) );
-			$pid = \KredeumNfts\Ipfs\import( sanitize_text_field( wp_unslash( $_POST['url'] ) ) );
+		if ( isset( $_POST['src'] ) ) {
+			echo esc_html( sanitize_text_field( wp_unslash( $_POST['src'] ) ) );
+			$pid = \KredeumNfts\Ipfs\import( sanitize_text_field( wp_unslash( $_POST['src'] ) ) );
+		}
+		if ( isset( $_POST['nid'] ) ) {
+			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
+			echo esc_html( var_dump( $nid ) );
+
+			$res = add_post_meta( $pid, '_kre_nid', $nid, true );
+			echo esc_html( var_dump( $res ) );
 		}
 
 		wp_die();

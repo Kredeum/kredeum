@@ -6,12 +6,16 @@
  * @package kredeum/nfts
  */
 
+ajaxResponse = false;
+
 function _ajax(data) {
   data.security = document.querySelector("#knonce")?.getAttribute("value");
   console.log("AJAX CALL", data);
+  ajaxResponse = false;
 
   jQuery.post(ajaxurl, data, function (response) {
     console.log("AJAX RESPONSE", response);
+    ajaxResponse = true;
   });
 }
 
@@ -30,11 +34,7 @@ jQuery(document).ready(function () {
     kredeumNftMint.$on("token", function (e) {
       _ajax({
         action: "token",
-        minted: JSON.stringify({
-          chain_id: e.detail.minted.chainId,
-          address: e.detail.minted.contract,
-          token_id: e.detail.minted.tokenID
-        }),
+        nid: e.detail.nid,
         pid: kredeumNftMint.pid
       });
     });
@@ -45,7 +45,8 @@ jQuery(document).ready(function () {
     kredeumNft.$on("import", function (e) {
       _ajax({
         action: "import",
-        url: e.detail.url
+        src: e.detail.src,
+        nid: e.detail.nid
       });
     });
   });

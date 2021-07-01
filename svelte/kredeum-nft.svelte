@@ -9,9 +9,16 @@
 
   const dispatch = createEventDispatcher();
 
-  let chainId, network, openNFTs, explorer, openSea, address;
+  let chainId,
+    network,
+    openNFTs,
+    explorer,
+    openSea,
+    address,
+    importing = {};
 
   export let contract = undefined;
+  export let platform = undefined;
 
   let NFTsListPromise;
   let NFTsContractsPromise = [];
@@ -67,10 +74,8 @@
   $: imageLink = (item) =>
     item.image.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
 
-  async function importUrl(e) {
-    const url = e.target.attributes.url.value;
-    // console.log("dispatch import url", url);
-    dispatch("import", { url });
+  function sleep(ms) {
+    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 </script>
 
@@ -103,60 +108,83 @@
   </h3>
 
   <table>
-    <tr>
-      <td>TokenID</td>
-      <td width="200">Description</td>
-      <td>Image</td>
-      <td>MarketPlace</td>
-      <!-- <td>Owner</td>
-      <td>creator</td>
-      <td>Ipfs</td>
-      <td>Json</td> -->
-      <td>Import</td>
-    </tr>
+    <thead>
+      <tr>
+        <th>TokenID</th>
+        <th width="200">Description</th>
+        <th>Image</th>
+        {#if openSea}
+          <th>MarketPlace {openSea}</th>
+        {/if}
+        {#if platform}
+          <th>Import</th>
+        {/if}
+        <!-- <th>Owner</th>
+          <th>creator</th>
+          <th>Ipfs</th>
+          <th>Json</th> -->
+      </tr>
+    </thead>
 
-    <tr><td colspan="5"><hr /></td></tr>
-    {#key address}
-      {#await NFTsListPromise}
-        <p>Loading NFT Collection @{contract} ...</p>
-        <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
-      {:then NFTs}
-        {#if NFTs && NFTs.length > 0}
-          {#each NFTs as item}
-            <tr>
-              <td>
-                <a href="{kreLinkToken(item)}" target="_blank">
-                  &nbsp;{item.tokenID}&nbsp;
-                </a>
-              </td>
-
-              <td>
-                <a href="{item.tokenURI}" target="_blank">
-                  <strong>{item.name || "___"}</strong>
-                </a>
-                <br />
-                {(item.name != item.description && item.description) || " "}
-              </td>
-
-              <td>
-                <a href="{imageLink(item)}" target="_blank">
-                  <img alt="___" src="{imageLink(item)}" height="100" />
-                </a>
-              </td>
-
-              <td>
-                {#if openSea}
-                  <a href="{openSeaLinkToken(item)}" target="_blank">
-                    {#if sameAddress(item.owner)}
-                      <button class="green">SELL NFT</button>
-                    {:else}
-                      <button class="blue">BUY NFT</button>
-                    {/if}
+    <tbody>
+      {#key address && importing}
+        {#await NFTsListPromise}
+          <p>Loading NFT Collection @{contract} ...</p>
+          <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
+        {:then NFTs}
+          {#if NFTs && NFTs.length > 0}
+            {#each NFTs as item}
+              <tr>
+                <td>
+                  <a href="{kreLinkToken(item)}" target="_blank">
+                    &nbsp;{item.tokenID}&nbsp;
                   </a>
-                {/if}
-              </td>
+                </td>
 
-              <!-- <td>
+                <td>
+                  <a href="{item.tokenURI}" target="_blank">
+                    <strong>{item.name || "___"}</strong>
+                  </a>
+                  <br />
+                  {(item.name != item.description && item.description) || " "}
+                </td>
+
+                <td>
+                  <a href="{imageLink(item)}" target="_blank">
+                    <img alt="___" src="{imageLink(item)}" height="100" />
+                  </a>
+                </td>
+
+                {#if openSea}
+                  <td>
+                    <a href="{openSeaLinkToken(item)}" target="_blank">
+                      {#if sameAddress(item.owner)}
+                        <button class="green">SELL NFT</button>
+                      {:else}
+                        <button class="blue">BUY NFT</button>
+                      {/if}
+                    </a>
+                  </td>
+                {/if}
+
+                {#if platform}
+                  <td>
+                    <button
+                      url="{item.image}"
+                      class="{item.import ? (item.import == 2 ? 'green' : 'grey') : 'blue'}"
+                      on:click="{async () => {
+                        item.import = 1;
+                        dispatch('import', { src: item.image, nid: item.nid });
+                        while (window.ajaxResponse == false) await sleep(1000);
+                        item.import = 2;
+                      }}"
+                    >
+                      {item.import ? (item.import == 2 ? "IMPORTED" : "IMPORTING") : "IMPORT WP"}
+                    </button>
+                  </td>
+                {/if}
+
+                <!-- <td>
                 {#if item.owner}
                   <a href="{addressLink(item.owner)}" target="_blank">
                     {short(item.owner)}
@@ -185,16 +213,12 @@
                   >
                 {/if}
               </td> -->
-
-              <td>
-                <button url="{item.image}" on:click="{importUrl}">IMPORT</button>
-              </td>
-            </tr>
-          {/each}
-        {/if}
-      {/await}
-    {/key}
-    <tr><td colspan="5"><hr /></td></tr>
+              </tr>
+            {/each}
+          {/if}
+        {/await}
+      {/key}
+    </tbody>
   </table>
 
   <small>
@@ -243,5 +267,16 @@
   }
   button.blue {
     background-color: #2a81de;
+  }
+  button.grey {
+    background-color: grey;
+  }
+  button:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+  th {
+    border: solid;
+    border-width: 0 0 1px 0;
   }
 </style>

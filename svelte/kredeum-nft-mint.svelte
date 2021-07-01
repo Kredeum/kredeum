@@ -11,7 +11,9 @@
   export let key = undefined;
   export let alt = undefined;
   export let src = undefined;
-  export let pid = 0;
+  export let cid = undefined;
+  export let pid = undefined;
+  export let nid = undefined;
   export let width = 100;
   export let display = false;
   export let minted = "";
@@ -62,7 +64,7 @@
 
       try {
         minted = await openNFTs.Mint(signer, `${ipfsGateway}/${cidJson}`);
-        dispatch("token", { minted });
+        dispatch("token", { nid: minted.nid });
       } catch (e) {
         console.error("Minting ERROR", e);
         minted = false;

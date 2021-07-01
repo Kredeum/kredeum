@@ -37,8 +37,10 @@ add_action(
 					printf(
 						'<kredeum-nft-mint'
 						  . ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
+							. ' src="' . esc_url( url( $post->_kre_src ) ) . '"'
 							. ' pid="' . esc_attr( $post->ID ) . '"'
-							. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
+							. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
+							. ' nid="' . esc_attr( $post->_kre_nid ) . '"'
 							. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 					);
 				}
