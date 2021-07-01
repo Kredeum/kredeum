@@ -29,15 +29,12 @@ add_action(
 		check_ajax_referer( 'ajax-token', 'security' );
 
 		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
-
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			echo esc_html( var_dump( $pid ) );
-			echo esc_html( var_dump( $nid ) );
-
-			$res = add_post_meta( $pid, '_kre_nid', $nid, true );
-			echo esc_html( var_dump( $res ) );
+			 add_post_meta( $pid, '_kre_nid', $nid, true );
 		};
+
+		echo esc_html( "wp_ajax_token $pid $nid" );
 
 		wp_die();
 	}
@@ -56,7 +53,7 @@ add_action(
 			update_user_meta( $user_id, 'ADDR', sanitize_text_field( wp_unslash( $_POST['address'] ) ) );
 		}
 
-		echo esc_html( get_user_meta( $user_id, 'ADDR' )[0] );
+		echo esc_html( 'wp_ajax_address ' . get_user_meta( $user_id, 'ADDR' )[0] );
 
 		wp_die();
 	}
@@ -71,17 +68,14 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-import', 'security' );
 
-		if ( isset( $_POST['src'] ) ) {
-			echo esc_html( sanitize_text_field( wp_unslash( $_POST['src'] ) ) );
-			$pid = \KredeumNfts\Ipfs\import( sanitize_text_field( wp_unslash( $_POST['src'] ) ) );
-		}
-		if ( isset( $_POST['nid'] ) ) {
-			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			echo esc_html( var_dump( $nid ) );
+		if ( isset( $_POST['nft'] ) ) {
 
-			$res = add_post_meta( $pid, '_kre_nid', $nid, true );
-			echo esc_html( var_dump( $res ) );
+			$nft = json_decode( sanitize_text_field( wp_unslash( $_POST['nft'] ) ) );
+			$pid = \KredeumNfts\Ipfs\import_nft( $nft );
+
 		}
+
+		echo esc_html( "wp_ajax_import $pid" );
 
 		wp_die();
 	}

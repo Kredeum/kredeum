@@ -133,32 +133,32 @@
           <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
         {:then NFTs}
           {#if NFTs && NFTs.length > 0}
-            {#each NFTs as item}
+            {#each NFTs as nft}
               <tr>
                 <td>
-                  <a href="{kreLinkToken(item)}" target="_blank">
-                    &nbsp;{item.tokenID}&nbsp;
+                  <a href="{kreLinkToken(nft)}" target="_blank">
+                    &nbsp;{nft.tokenID}&nbsp;
                   </a>
                 </td>
 
                 <td>
-                  <a href="{item.tokenURI}" target="_blank">
-                    <strong>{item.name || "___"}</strong>
+                  <a href="{nft.tokenURI}" target="_blank">
+                    <strong>{nft.name || "___"}</strong>
                   </a>
                   <br />
-                  {(item.name != item.description && item.description) || " "}
+                  {(nft.name != nft.description && nft.description) || " "}
                 </td>
 
                 <td>
-                  <a href="{imageLink(item)}" target="_blank">
-                    <img alt="___" src="{imageLink(item)}" height="100" />
+                  <a href="{imageLink(nft)}" target="_blank">
+                    <img alt="___" src="{imageLink(nft)}" height="100" />
                   </a>
                 </td>
 
                 {#if openSea}
                   <td>
-                    <a href="{openSeaLinkToken(item)}" target="_blank">
-                      {#if sameAddress(item.owner)}
+                    <a href="{openSeaLinkToken(nft)}" target="_blank">
+                      {#if sameAddress(nft.owner)}
                         <button class="green">SELL NFT</button>
                       {:else}
                         <button class="blue">BUY NFT</button>
@@ -170,46 +170,46 @@
                 {#if platform}
                   <td>
                     <button
-                      url="{item.image}"
-                      class="{item.import ? (item.import == 2 ? 'green' : 'grey') : 'blue'}"
+                      url="{nft.image}"
+                      class="{nft.import ? (nft.import == 2 ? 'green' : 'grey') : 'blue'}"
                       on:click="{async () => {
-                        item.import = 1;
-                        dispatch('import', { src: item.image, nid: item.nid });
+                        nft.import = 1;
+                        dispatch('import', { nft });
                         while (window.ajaxResponse == false) await sleep(1000);
-                        item.import = 2;
+                        nft.import = 2;
                       }}"
                     >
-                      {item.import ? (item.import == 2 ? "IMPORTED" : "IMPORTING") : "IMPORT WP"}
+                      {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING") : "IMPORT WP"}
                     </button>
                   </td>
                 {/if}
 
                 <!-- <td>
-                {#if item.owner}
-                  <a href="{addressLink(item.owner)}" target="_blank">
-                    {short(item.owner)}
+                {#if nft.owner}
+                  <a href="{addressLink(nft.owner)}" target="_blank">
+                    {short(nft.owner)}
                   </a>
-                  {#if sameAddress(item.owner)}*{/if}
+                  {#if sameAddress(nft.owner)}*{/if}
                 {/if}
               </td>
 
               <td>
-                {#if item.minter}
-                  <a href="{addressLink(item.minter)}" target="_blank">
-                    {short(item.minter)}
+                {#if nft.minter}
+                  <a href="{addressLink(nft.minter)}" target="_blank">
+                    {short(nft.minter)}
                   </a>
-                  {#if sameAddress(item.minter)}*{/if}
+                  {#if sameAddress(nft.minter)}*{/if}
                 {/if}
               </td>
 
               <td>
-                <a href="{ipfsGateway}/{item.cid}" target="_blank">{short(item.cid)}</a>
+                <a href="{ipfsGateway}/{nft.cid}" target="_blank">{short(nft.cid)}</a>
               </td>
 
               <td>
-                {#if item.tokenURI}
-                  <a href="{item.tokenURI}" target="_blank"
-                    >{short(item.tokenURI.replace(/^.*ipfs\//, ""))}</a
+                {#if nft.tokenURI}
+                  <a href="{nft.tokenURI}" target="_blank"
+                    >{short(nft.tokenURI.replace(/^.*ipfs\//, ""))}</a
                   >
                 {/if}
               </td> -->

@@ -45,8 +45,7 @@ jQuery(document).ready(function () {
     kredeumNft.$on("import", function (e) {
       _ajax({
         action: "import",
-        src: e.detail.src,
-        nid: e.detail.nid
+        nft: JSON.stringify(e.detail.nft)
       });
     });
   });
