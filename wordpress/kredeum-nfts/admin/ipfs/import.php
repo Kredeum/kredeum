@@ -14,17 +14,22 @@ namespace KredeumNFTs\Ipfs;
  *
  * @return string $post_id
  */
-function import( $url ) {
-	$file_array         = array();
-	$file_array['name'] = 'media.png';
-	$ret                = download_url( $url );
-	if ( ! is_wp_error( $ret ) ) {
-		$file_array['tmp_name'] = $ret;
-		$ret                    = media_handle_sideload( $file_array );
-		if ( is_wp_error( $ret ) ) {
-			@unlink( $file_array['tmp_name'] );
-		} else {
-			add_post_meta( $ret, '_source_url', $url );
+function import_url( $url ) {
+	global $wpdb;
+	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kre_url' AND meta_value=%s", _get_meta_table( 'post' ), $url ) );
+
+	if ( 0 == $res ) {
+		$file_array         = array();
+		$file_array['name'] = 'media.png';
+		$ret                = download_url( $url );
+		if ( ! is_wp_error( $ret ) ) {
+			$file_array['tmp_name'] = $ret;
+			$ret                    = media_handle_sideload( $file_array );
+			if ( is_wp_error( $ret ) ) {
+				@unlink( $file_array['tmp_name'] );
+			} else {
+				add_post_meta( $ret, '_kre_url', $url );
+			}
 		}
 	}
 	return $ret;
@@ -38,18 +43,31 @@ function import( $url ) {
  * @return string $post_id
  */
 function import_cid( $cid ) {
-	return import( IPFS_GATEWAY . $cid );
+	global $wpdb;
+	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kre_cid' AND meta_value=%s", _get_meta_table( 'post' ), $cid ) );
+
+	if ( 0 == $res ) {
+		$ret = import_url( url( $cid ) );
+	}
+	return $ret;
 }
 
 /**
  * IPFS import NFT
  *
- * @param string $nft_token_id tokenId of NFT.
- * @param string $nft_contract address of NFT contract.
- * @param string $nft_chain_id chainId of NFT contract.
+ * @param string $nft nft data.
  *
  * @return string $post_id
  */
-function import_nft( $nft_token_id, $nft_contract, $nft_chain_id ) {
-	return import( '' );
+function import_nft( $nft ) {
+	if ( isset( $nft->cid ) ) {
+		$pid = import_cid( $nft->cid );
+	} elseif ( isset( $nft->image ) ) {
+		$pid = import_url( $nft->image );
+	}
+
+	if ( isset( $nft->nid ) ) {
+		add_post_meta( $pid, '_kre_nid', $nft->nid, true );
+	}
+	return $pid;
 }

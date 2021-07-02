@@ -6,46 +6,47 @@
  * @package kredeum/nfts
  */
 
+ajaxResponse = false;
+
 function _ajax(data) {
   data.security = document.querySelector("#knonce")?.getAttribute("value");
   console.log("AJAX CALL", data);
+  ajaxResponse = false;
 
   jQuery.post(ajaxurl, data, function (response) {
     console.log("AJAX RESPONSE", response);
+    ajaxResponse = true;
   });
 }
 
 jQuery(document).ready(function () {
   // ACTION GET_ADDRESS
   const kredeumMetamask = document.querySelector("kredeum-metamask");
-  kredeumMetamask?.$on("address", function () {
+  kredeumMetamask?.$on("address", function (e) {
     _ajax({
       action: "address",
-      address: kredeumMetamask.address
+      address: e.detail.address
     });
   });
 
   // ACTION MINT_TOKEN
   document.querySelectorAll("kredeum-nft-mint").forEach(function (kredeumNftMint) {
-    kredeumNftMint?.$on("token", function (e) {
+    kredeumNftMint.$on("token", function (e) {
       _ajax({
         action: "token",
-        minted: JSON.stringify({
-          chain_id: e.detail.minted.chainId,
-          address: e.detail.minted.contract,
-          token_id: e.detail.minted.tokenID
-        }),
+        nid: e.detail.nid,
         pid: kredeumNftMint.pid
       });
     });
   });
 
   // ACTION IMPORT_NFT
-  // const importNft = document.querySelectorAll("import-nft");
-  // importNft?.$on("import", function (e) {
-  //   _ajax({
-  //     action: "import",
-  //     url: importNft.url
-  //   });
-  // });
+  document.querySelectorAll("kredeum-nft").forEach(function (kredeumNft) {
+    kredeumNft.$on("import", function (e) {
+      _ajax({
+        action: "import",
+        nft: JSON.stringify(e.detail.nft)
+      });
+    });
+  });
 });

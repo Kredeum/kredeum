@@ -33,10 +33,6 @@ function insert( $post_id ) {
 	if ( defined( 'IPFS_NFT_STORAGE_KEY' ) ) {
 		$cid = nft_storage_add_and_pin( $post_id );
 	}
-	// else {
-	// $cid = add( $post_id );
-	// pin( $cid );
-	// } .
 	update_post_meta( $post_id, '_kre_cid', $cid );
 	return $cid;
 }

@@ -26,29 +26,15 @@ add_action(
 add_action(
 	'wp_ajax_token',
 	function () {
-		check_ajax_referer( 'get-token-id', 'security' );
+		check_ajax_referer( 'ajax-token', 'security' );
 
-		if ( isset( $_POST['pid'] ) && isset( $_POST['minted'] ) ) {
-
-			$pid    = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
-			$minted = json_decode( sanitize_text_field( wp_unslash( $_POST['minted'] ) ) );
-			echo esc_html( var_dump( $minted ) );
-
-			if ( isset( $minted->chain_id ) ) {
-				$res = add_post_meta( $pid, '_kre_chain_id', $minted->chain_id, true );
-				echo esc_html( var_dump( $res ) );
-			}
-
-			if ( isset( $minted->address ) ) {
-				$res = add_post_meta( $pid, '_kre_address', $minted->address, true );
-				echo esc_html( var_dump( $res ) );
-			}
-
-			if ( isset( $minted->token_id ) ) {
-				$res = add_post_meta( $pid, '_kre_token_id', $minted->token_id, true );
-				echo esc_html( var_dump( $res ) );
-			}
+		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
+			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
+			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
+			 add_post_meta( $pid, '_kre_nid', $nid, true );
 		};
+
+		echo esc_html( "wp_ajax_token $pid $nid" );
 
 		wp_die();
 	}
@@ -60,14 +46,14 @@ add_action(
 add_action(
 	'wp_ajax_address',
 	function () {
-		check_ajax_referer( 'get-address', 'security' );
+		check_ajax_referer( 'ajax-address', 'security' );
 
 		$user_id = get_current_user_id();
 		if ( isset( $_POST['address'] ) ) {
 			update_user_meta( $user_id, 'ADDR', sanitize_text_field( wp_unslash( $_POST['address'] ) ) );
 		}
 
-		echo esc_html( get_user_meta( $user_id, 'ADDR' )[0] );
+		echo esc_html( 'wp_ajax_address ' . get_user_meta( $user_id, 'ADDR' )[0] );
 
 		wp_die();
 	}
@@ -80,13 +66,16 @@ add_action(
 add_action(
 	'wp_ajax_import',
 	function () {
-		check_ajax_referer( 'get-import', 'security' );
+		check_ajax_referer( 'ajax-import', 'security' );
 
-		if ( isset( $_POST['url'] ) ) {
-			$pid = import( url );
+		if ( isset( $_POST['nft'] ) ) {
+
+			$nft = json_decode( sanitize_text_field( wp_unslash( $_POST['nft'] ) ) );
+			$pid = \KredeumNfts\Ipfs\import_nft( $nft );
+
 		}
 
-		echo esc_html( get_post_meta( '_source_url' )[0] );
+		echo esc_html( "wp_ajax_import $pid" );
 
 		wp_die();
 	}
