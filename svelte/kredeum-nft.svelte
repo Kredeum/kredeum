@@ -114,7 +114,7 @@
         <th width="200">Description</th>
         <th>Image</th>
         {#if openSea}
-          <th>MarketPlace {openSea}</th>
+          <th>MarketPlace</th>
         {/if}
         {#if platform}
           <th>Import</th>
@@ -179,7 +179,7 @@
                         nft.import = 2;
                       }}"
                     >
-                      {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING") : "IMPORT WP"}
+                      {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
                     </button>
                   </td>
                 {/if}

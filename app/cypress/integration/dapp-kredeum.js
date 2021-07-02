@@ -4,8 +4,8 @@ describe("Kredeum NFTs DAPP", () => {
 
     cy.location("pathname").should("eq", "/app/");
 
-    cy.contains("Kredeum NFTs");
-    cy.contains("Kredeum NFTs", { includeShadowDom: true });
-    cy.get("kredeum-nft").shadow().contains("Kredeum NFTs");
+    cy.contains("My NFTs");
+    cy.contains("My NFTs", { includeShadowDom: true });
+    cy.get("kredeum-nft").shadow().contains("My NFTs");
   });
 });

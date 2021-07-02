@@ -36,7 +36,6 @@ describe("NFT Mint : Init", function () {
 });
 
 describe("NFT Mint : Read", function () {
-  this.timeout(10000);
   it("Should connect Contract", async function () {
     openNfts = await OpenNfts(networkChainId, contractAddress);
     expect(openNfts.ok).to.be.true;

@@ -55,7 +55,7 @@ function import_cid( $cid ) {
 /**
  * IPFS import NFT
  *
- * @param string $nid nft Id.
+ * @param string $nft nft data.
  *
  * @return string $post_id
  */
