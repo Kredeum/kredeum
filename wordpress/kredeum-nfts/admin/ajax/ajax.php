@@ -41,26 +41,6 @@ add_action(
 );
 
 /**
- * Add action address
- */
-add_action(
-	'wp_ajax_address',
-	function () {
-		check_ajax_referer( 'ajax-address', 'security' );
-
-		$user_id = get_current_user_id();
-		if ( isset( $_POST['address'] ) ) {
-			update_user_meta( $user_id, 'ADDR', sanitize_text_field( wp_unslash( $_POST['address'] ) ) );
-		}
-
-		echo esc_html( 'wp_ajax_address ' . get_user_meta( $user_id, 'ADDR' )[0] );
-
-		wp_die();
-	}
-);
-
-
-/**
  * Add action import
  */
 add_action(

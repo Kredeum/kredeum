@@ -4,10 +4,7 @@
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
-  import { createEventDispatcher } from "svelte";
   import { getNetwork, networks } from "../lib/config.mjs";
-
-  const dispatch = createEventDispatcher();
 
   export let signer = undefined;
   export let address = undefined;
@@ -98,7 +95,6 @@
     } else if (_accounts[0] !== address) {
       address = _accounts[0];
       signer = new ethers.providers.Web3Provider(ethereum).getSigner(0);
-      dispatch("address", { address });
     }
   }
   async function connectMetamask() {

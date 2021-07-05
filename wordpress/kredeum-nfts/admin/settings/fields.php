@@ -67,12 +67,12 @@ function fields() {
 		// ),
 	  // .
 		array(
-			'uid'         => 'metamask_address',
+			'uid'         => null,
 			'label'       => 'METAMASK_ADDRESS',
 			'section'     => 'first_section',
 			'type'        => 'metamask',
 			'default'     => '',
-			'placeholder' => 'Connect to Metamask to get address',
+			'placeholder' => 'Connect to Metamask',
 		),
 	// array(
 	// 'uid' => 'ipfs_api',

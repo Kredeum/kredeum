@@ -20,15 +20,6 @@ function _ajax(data) {
 }
 
 jQuery(document).ready(function () {
-  // ACTION GET_ADDRESS
-  const kredeumMetamask = document.querySelector("kredeum-metamask");
-  kredeumMetamask?.$on("address", function (e) {
-    _ajax({
-      action: "address",
-      address: e.detail.address
-    });
-  });
-
   // ACTION MINT_TOKEN
   document.querySelectorAll("kredeum-nft-mint").forEach(function (kredeumNftMint) {
     kredeumNftMint.$on("token", function (e) {
