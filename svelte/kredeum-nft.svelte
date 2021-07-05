@@ -56,7 +56,8 @@
 
   $: openSeaLinkKredeum = () => openSea?.kredeum;
   $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
-  $: kreLinkToken = (item) =>
+
+  $: kreTokenLink = (item) =>
     explorer.includes("chainstacklabs.com")
       ? `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`
       : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
@@ -123,6 +124,7 @@
           <th>creator</th>
           <th>Ipfs</th>
           <th>Json</th> -->
+        <th>Infos</th>
       </tr>
     </thead>
 
@@ -136,13 +138,13 @@
             {#each NFTs as nft}
               <tr>
                 <td>
-                  <a href="{kreLinkToken(nft)}" target="_blank">
+                  <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
                     &nbsp;{nft.tokenID}&nbsp;
                   </a>
                 </td>
 
                 <td>
-                  <a href="{nft.tokenURI}" target="_blank">
+                  <a href="{nft.tokenURI}" title="{nft.tokenURI}" target="_blank">
                     <strong>{nft.name || "___"}</strong>
                   </a>
                   <br />
@@ -150,7 +152,7 @@
                 </td>
 
                 <td>
-                  <a href="{imageLink(nft)}" target="_blank">
+                  <a href="{imageLink(nft)}" title="{nft.image}" target="_blank">
                     <img alt="___" src="{imageLink(nft)}" height="100" />
                   </a>
                 </td>
@@ -213,6 +215,9 @@
                   >
                 {/if}
               </td> -->
+                <td>
+                  <div title="{JSON.stringify(nft, null, 2)}">ⓘ</div>
+                </td>
               </tr>
             {/each}
           {/if}
