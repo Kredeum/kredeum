@@ -3,54 +3,68 @@
 <script>
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
-  import OpenNfts from "../lib/open-nfts.mjs";
+  import OpenNFTs from "../lib/open-nfts.mjs";
   import kimages from "../lib/kimages.mjs";
   import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 
-  let chainId,
+  const openNFTs = new OpenNFTs();
+
+  let address,
+    chainId,
     network,
-    openNFTs,
     explorer,
     openSea,
-    address,
     importing = {};
+  let NFTsContractsPromise;
 
   export let contract = undefined;
   export let platform = undefined;
 
-  let NFTsListPromise;
   let NFTs;
-  let NFTsContractsPromise = [];
 
-  $: chainId && address && init();
-  $: contract && address && nftsListTokens();
+  // ADDRESS CHANGE
+  $: if (address) {
+    console.log("address changed", address);
+    openNFTs.setOwner(address);
+    listContracts();
+    listNFTs();
+  }
 
-  async function init() {
-    // console.log("init", chainId, address);
-    openNFTs = await OpenNfts(chainId);
-    if (openNFTs.ok) {
-      explorer = openNFTs.network?.blockExplorerUrls[0];
-      openSea = openNFTs.network?.openSea;
-      network = openNFTs.network?.chainName;
+  // NETWORK CHANGE
+  $: if (chainId) {
+    console.log("chainId changed", chainId);
+    network = openNFTs.setNetwork(chainId);
+    contract = openNFTs.getContract(chainId);
+    listContracts();
+  }
 
-      NFTs = await openNFTs.listTokensFromCache();
+  // CONTRACT CHANGE
+  $: if (contract) {
+    console.log("contract changed", contract);
+    openNFTs.setContract(contract);
+    listNFTs();
+  }
 
-      NFTsContractsPromise = openNFTs.listContracts(address);
-      contract = openNFTs.currentContract?.address;
-    } else {
-      console.error(openNFTs);
-      alert("Wrong network detected");
+  async function listContracts() {
+    if (network && address) {
+      console.log("listContracts OK", `${network} ${address}`);
+      NFTsContractsPromise = openNFTs.listContracts();
     }
   }
 
-  async function nftsListTokens() {
-    // console.log("nftsListTokens", contract);
-    if (openNFTs?.ok) {
-      await openNFTs.setContract(chainId, contract);
-      NFTs = await openNFTs.listTokens(address);
-      // console.log("nftsListTokens", await NFTsListPromise);
+  async function listNFTs() {
+    if (network && contract && address) {
+      console.log("listNFTs OK", `${network}@${contract} ${address}`);
+
+      NFTs = null;
+
+      NFTs = openNFTs.listNFTsFromCache();
+      console.log("listNFTs cache loaded", NFTs);
+
+      NFTs = await openNFTs.listNFTs();
+      console.log("listNFTs refresh done", NFTs);
     }
   }
 
@@ -61,17 +75,17 @@
   $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
 
   $: kreTokenLink = (item) =>
-    explorer.includes("chainstacklabs.com")
+    explorer?.includes("chainstacklabs.com")
       ? `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`
       : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
 
   $: kreLink = () =>
-    explorer.includes("chainstacklabs.com")
+    explorer?.includes("chainstacklabs.com")
       ? `${explorer}/tokens/${contract}/inventory`
       : `${explorer}/token/${contract}#inventory`;
 
   $: addressLink = (address) =>
-    explorer.includes("chainstacklabs.com")
+    explorer?.includes("chainstacklabs.com")
       ? `${explorer}/address/${address}/tokens`
       : `${explorer}/address/${address}/token`;
 
@@ -86,7 +100,7 @@
 <main>
   <h1>
     <img alt="img" width="80" src="data:image/jpeg;base64,{kimages.klogo_png}" />
-    My NFTs Wallet
+    My NFT Wallet
   </h1>
 
   <h3>
@@ -96,14 +110,14 @@
     {#await NFTsContractsPromise}
       <div>Loading Collections...</div>
     {:then NFTsContracts}
-      {#if NFTsContracts.length > 0}
+      {#if NFTsContracts?.length > 0}
         <select bind:value="{contract}">
           <option value="">Choose Collection</option>
-          {#each NFTsContracts as item}
-            <option value="{item.address}">
-              {item.totalSupply || " "}
-              {item.symbol || "NFT"}@{item.address}
-              {item.name ? `- ${item.name}` : " "}
+          {#each NFTsContracts as NFTsContract}
+            <option value="{NFTsContract.address}">
+              {NFTsContract.totalSupply || " "}
+              {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
+              {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
             </option>
           {/each}
         </select>
@@ -133,11 +147,12 @@
 
     <tbody>
       {#key address && importing}
-        {#await NFTsListPromise}
+        <!-- {#await NFTsListPromise}
           <p>Loading NFT Collection @{contract} ...</p>
           <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
-        {:then NFTs}
-          {#if NFTs && NFTs.length > 0}
+        {:then NFTs} -->
+        {#if NFTs}
+          {#if NFTs.length > 0}
             {#each NFTs as nft}
               <tr>
                 <td>
@@ -223,14 +238,19 @@
                 </td>
               </tr>
             {/each}
+          {:else}
+            <p><em>NO NFT found</em></p>
           {/if}
-        {/await}
+        {:else}
+          <p><em>Loading NFTs</em></p>
+        {/if}
+        <!-- {/await} -->
       {/key}
     </tbody>
   </table>
 
   <small>
-    {#if openNFTs}NFT collection <a href="{kreLink()}" target="_blank">{contract}@{network}</a>
+    {#if openNFTs}NFT collection <a href="{kreLink()}" target="_blank">{network}@{contract}</a>
     {/if}
     <br />
     {#if address}My address{/if}

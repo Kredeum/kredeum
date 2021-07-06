@@ -51,7 +51,7 @@ add_action(
 		if ( isset( $_POST['nft'] ) ) {
 
 			$nft = json_decode( sanitize_text_field( wp_unslash( $_POST['nft'] ) ) );
-			$pid = \KredeumNfts\Ipfs\import_nft( $nft );
+			$pid = \KredeumNFTs\Ipfs\import_nft( $nft );
 
 		}
 

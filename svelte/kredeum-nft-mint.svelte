@@ -1,7 +1,7 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import OpenNfts from "../lib/open-nfts.mjs";
+  import OpenNFTs from "../lib/open-nfts.mjs";
   import NftStorage from "../lib/nft-storage.mjs";
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
@@ -11,9 +11,7 @@
   export let key = undefined;
   export let alt = undefined;
   export let src = undefined;
-  export let cid = undefined;
   export let pid = undefined;
-  export let nid = undefined;
   export let width = 100;
   export let display = false;
   export let minted = "";
@@ -34,7 +32,7 @@
   $: if (chainId > 0) init(chainId);
 
   async function init(_chainId) {
-    openNFTs = await OpenNfts(_chainId);
+    openNFTs = await OpenNFTs(_chainId);
     if (openNFTs.ok) {
       network = openNFTs.network?.chainName;
       openSea = openNFTs.network?.openSea;

@@ -13,7 +13,7 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Noctis Obscuro",
+  "workbench.colorTheme": "Noctis Viola",
   "mochaExplorer.optsFile": "",
   "mochaExplorer.nodePath": "/usr/local/bin/node",
   "mochaExplorer.exit": true,

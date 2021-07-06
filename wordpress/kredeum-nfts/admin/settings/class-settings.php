@@ -10,7 +10,7 @@
 namespace KredeumNFTs\Settings;
 
 /**
- * Class Kredeum_Nfts_Settings
+ * Class Kredeum_NFTs_Settings
  *
  * @variable string $slug Settings slug
  */
