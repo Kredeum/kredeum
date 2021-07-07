@@ -1,4 +1,4 @@
-// npx mocha mint.mjs  --experimental-json-modules
+// npx mocha --experimental-json-modules 2-mint.mjs
 import { ethers } from "ethers";
 import { expect } from "chai";
 import { networks, configContracts, getProvider } from "../../lib/config.mjs";
@@ -17,7 +17,7 @@ let signer, network, address, abi, provider, contract, totalSupply, ethscan, ope
 describe("NFT Mint : Init", function () {
   it("Should find Network", function () {
     network = networks.find((nw) => nw.chainName === networkChainName);
-    console.log(network);
+    // console.log(network);
     expect(network.chainId).to.be.equal(networkChainId);
   });
 
@@ -30,40 +30,47 @@ describe("NFT Mint : Init", function () {
     contract = configContracts.find(
       (_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase()
     );
-    console.log(contract);
+    // console.log(contract);
     expect(contract.address).to.be.equal(contractAddress);
   });
 });
 
 describe("NFT Mint : Read", function () {
-  it("Should connect Contract", async function () {
-    openNFTs = await OpenNFTs(networkChainId, contractAddress);
-    expect(openNFTs.ok).to.be.true;
+  it("Should init Contract", async function () {
+    openNFTs = new OpenNFTs();
+    openNFTs.setNetwork(networkChainId);
+    openNFTs.setContract(contractAddress);
+    await openNFTs.initContract();
+    // openNFTs.setOwner(owner);
+    expect(Boolean(openNFTs)).to.be.true;
   });
 
   it("Should get Contract Name", async function () {
-    expect(await openNFTs?.currentContract.name()).to.be.equal(contractName);
+    expect(await openNFTs.contract.name()).to.be.equal(contractName);
   });
 
   it("Should get Contract Symbol", async function () {
-    expect(await openNFTs?.currentContract.symbol()).to.be.equal(contractSymbol);
+    expect(await openNFTs.contract.symbol()).to.be.equal(contractSymbol);
   });
 
   it("Should get Contract TotalSupply", async function () {
-    totalSupply = (await openNFTs?.currentContract.totalSupply())?.toNumber();
+    totalSupply = (await openNFTs.contract.totalSupply())?.toNumber();
     expect(totalSupply).to.be.gt(0);
   });
 });
 
 describe("NFT Mint : Mint", function () {
-  network = networks.find((nw) => nw.chainName === networkChainName);
-
-  it("Should init NFT library", async function () {
-    openNFTs = await OpenNFTs(networkChainId, contractAddress);
-    expect(openNFTs.ok).to.be.true;
+  it("Should init Contract", async function () {
+    openNFTs = new OpenNFTs();
+    openNFTs.setNetwork(networkChainId);
+    openNFTs.setContract(contractAddress);
+    await openNFTs.initContract();
+    // openNFTs.setOwner(owner);
+    expect(Boolean(openNFTs)).to.be.true;
   });
 
   it("Should connect Provider", function () {
+    network = networks.find((nw) => nw.chainName === networkChainName);
     provider = getProvider(network);
     expect(provider._isProvider).to.be.true;
   });
@@ -74,15 +81,13 @@ describe("NFT Mint : Mint", function () {
   });
 
   it("Should Mint one Token", async function () {
-    totalSupply = (await openNFTs?.currentContract.totalSupply()).toNumber();
-    const tx = await openNFTs?.currentContract
-      .connect(signer)
-      .mintNFT(process.env.ACCOUNT_ADDRESS, json);
+    totalSupply = (await openNFTs.contract.totalSupply()).toNumber();
+    const tx = await openNFTs.contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
     expect((await tx.wait()).status).to.be.equal(1);
   });
 
   it("Should get +1 on Contract TotalSupply", async function () {
-    const totalSupply1 = (await openNFTs?.currentContract.totalSupply()).toNumber();
+    const totalSupply1 = (await openNFTs.contract.totalSupply()).toNumber();
     expect(totalSupply1).to.be.equal(totalSupply + 1);
   });
 });

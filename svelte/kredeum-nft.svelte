@@ -16,6 +16,7 @@
     network,
     explorer,
     openSea,
+    refreshing,
     importing = {};
   let NFTsContractsPromise;
 
@@ -62,9 +63,11 @@
 
       NFTs = openNFTs.listNFTsFromCache();
       console.log("listNFTs cache loaded", NFTs);
+      refreshing = true;
 
       NFTs = await openNFTs.listNFTs();
       console.log("listNFTs refresh done", NFTs);
+      refreshing = false;
     }
   }
 
@@ -153,6 +156,9 @@
         {:then NFTs} -->
         {#if NFTs}
           {#if NFTs.length > 0}
+            {#if refreshing}
+              <p><em>Refreshing NFTs...</em></p>
+            {/if}
             {#each NFTs as nft}
               <tr>
                 <td>
@@ -239,10 +245,10 @@
               </tr>
             {/each}
           {:else}
-            <p><em>NO NFT found</em></p>
+            <p><em>NO NFT found !</em></p>
           {/if}
         {:else}
-          <p><em>Loading NFTs</em></p>
+          <p><em>Loading NFTs...</em></p>
         {/if}
         <!-- {/await} -->
       {/key}
