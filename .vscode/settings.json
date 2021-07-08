@@ -1,8 +1,24 @@
 {
+  "favorites.resources": [
+    "solidity/tests",
+    "lib",
+    "svelte",
+    "config",
+    "rollup.config.js",
+    "wordpress/readme.txt_handlebars"
+  ],
   "files.exclude": {
     "old": true
   },
+  "mochaExplorer.exit": true,
   "mochaExplorer.files": "solidity/tests/*.mjs",
+  "mochaExplorer.fullTrace": true,
+  "mochaExplorer.logpanel": true,
+  "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
+  "mochaExplorer.nodePath": "/usr/local/bin/node",
+  "mochaExplorer.optsFile": "",
+  "mochaExplorer.retries": 1,
+  "mochaExplorer.timeout": 20000,
   "phpsab.debug": true,
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
@@ -14,11 +30,5 @@
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
   "workbench.colorTheme": "Noctis Viola",
-  "mochaExplorer.optsFile": "",
-  "mochaExplorer.nodePath": "/usr/local/bin/node",
-  "mochaExplorer.exit": true,
-  "mochaExplorer.fullTrace": true,
-  "mochaExplorer.logpanel": true,
-  "mochaExplorer.timeout": 20000,
-  "mochaExplorer.retries": 1
+  "favorites.sortOrder": "ASC"
 }

@@ -40,7 +40,13 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.7.3 (latest) =
+= 0.7.5 (latest) =
+* Display performance improvements, via enabled NFTs cache in your browser via local storage
+
+= 0.7.4 =
+* Add display of NFT metadatas as information tooltip
+
+= 0.7.3 =
 * Import function from "My NFT Wallet" to "WordPress media library"
 
 = 0.7.2 (stable) =
