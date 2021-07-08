@@ -1,7 +1,7 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import OpenNfts from "../lib/open-nfts.mjs";
+  import OpenNFTs from "../lib/open-nfts.mjs";
   import NftStorage from "../lib/nft-storage.mjs";
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
@@ -11,9 +11,7 @@
   export let key = undefined;
   export let alt = undefined;
   export let src = undefined;
-  export let cid = undefined;
   export let pid = undefined;
-  export let nid = undefined;
   export let width = 100;
   export let display = false;
   export let minted = "";
@@ -25,22 +23,25 @@
   let signer = "";
   let address = "";
   let network = "0x89";
-  let openNFTs, openSea;
+  let openSea;
 
   let chainId = 0;
 
   //$: console.log("SIGNER", signer);
 
-  $: if (chainId > 0) init(chainId);
+  const openNFTs = new OpenNFTs();
 
-  async function init(_chainId) {
-    openNFTs = await OpenNfts(_chainId);
-    if (openNFTs.ok) {
-      network = openNFTs.network?.chainName;
+  $: if (chainId > 0) initContract(chainId);
+
+  async function initContract(_chainId) {
+    network = openNFTs.setNetwork(_chainId);
+    await openNFTs.initContract();
+
+    if (network) {
       openSea = openNFTs.network?.openSea;
     } else {
       console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
-      alert("Switch to Matic network on Polygon");
+      alert("Switch to a supported network");
     }
   }
 

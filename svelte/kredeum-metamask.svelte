@@ -149,7 +149,7 @@
 {#if address}
   {#if network}
     <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-      >{address}@{network?.chainName}</a
+      >{network?.chainName}@{address}</a
     >
   {:else}
     @{address}

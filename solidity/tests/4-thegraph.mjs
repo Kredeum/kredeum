@@ -1,4 +1,4 @@
-// npx mocha thegraph.mjs
+// npx mocha 4-thegraph.mjs
 import { expect } from "chai";
 import Ipfs from "../../lib/ipfs.mjs";
 import FormData from "form-data";

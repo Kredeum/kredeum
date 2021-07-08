@@ -1,4 +1,4 @@
-// npx mocha abis.mjs  --experimental-json-modules
+// npx mocha --experimental-json-modules 3-abis.mjs
 import { ethers } from "ethers";
 import { expect } from "chai";
 
@@ -20,9 +20,9 @@ describe("ABIs : Check", function () {
 
       // console.log("contract", contract);
       // console.log(JSON.stringify(abi, null, 2));
-      console.log(
-        `${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`
-      );
+      // console.log(
+      //   `${address}@${network.chainName}:${contract.name} ${JSON.stringify(contract.interfaces)}`
+      // );
 
       expect(JSON.stringify(openNFTs.interface.format(["json"]))).to.be.equal(JSON.stringify(abi));
     });
