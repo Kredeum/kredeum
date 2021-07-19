@@ -37,7 +37,11 @@
   $: if (chainId) {
     console.log("chainId changed", chainId);
     network = openNFTs.setNetwork(chainId);
+
     contract = openNFTs.getContract(chainId);
+    openSea = openNFTs.getOpenSeaUrl();
+    explorer = openNFTs.getExplorer();
+
     listContracts();
   }
 
