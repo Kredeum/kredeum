@@ -12,82 +12,78 @@ const contractAddress = "0x34538444A64251c765c5e4c9715a16723CA922D8";
 const contractName = "Open NFTs";
 const contractSymbol = "NFT";
 
-let signer, network, address, abi, provider, contract, totalSupply, ethscan, openNFTs;
+let network, provider, contract, ethscan;
 
-describe("NFT Mint : Init", function () {
-  it("Should find Network", function () {
-    network = networks.find((nw) => nw.chainName === networkChainName);
-    // console.log(network);
-    expect(network.chainId).to.be.equal(networkChainId);
+describe("NFT Mint", function () {
+  describe("Init", function () {
+    it("Should find Network", function () {
+      network = networks.find((nw) => nw.chainName === networkChainName);
+      // console.log(network);
+      expect(network.chainId).to.be.equal(networkChainId);
+    });
+
+    it("Should find Chain Explorer", function () {
+      ethscan = network.blockExplorerUrls[0];
+      expect(ethscan.startsWith("https://")).to.be.true;
+    });
+
+    it("Should find Contract Config", function () {
+      contract = configContracts.find(
+        (_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase()
+      );
+      // console.log(contract);
+      expect(contract.address).to.be.equal(contractAddress);
+    });
+
+    it("Should connect Provider", function () {
+      network = networks.find((nw) => nw.chainName === networkChainName);
+      provider = getProvider(network);
+      expect(provider._isProvider).to.be.true;
+    });
+
+    it("Should get Signer", async function () {
+      const signer = new ethers.Wallet(process.env.ACCOUNT_KEY, provider);
+      expect(signer._isSigner).to.be.true;
+    });
   });
 
-  it("Should find Chain Explorer", function () {
-    ethscan = network.blockExplorerUrls[0];
-    expect(ethscan.startsWith("https://")).to.be.true;
+  describe("Read", function () {
+    let openNFTs;
+
+    beforeEach(async () => {
+      openNFTs = new OpenNFTs();
+      openNFTs.setContract(networkChainId, contractAddress);
+      await openNFTs.initContract(networkChainId, contractAddress);
+    });
+
+    it("Should init Contract", async function () {
+      expect(Boolean(openNFTs)).to.be.true;
+    });
+    it("Should get Contract Name", async function () {
+      expect(await openNFTs.contract.name()).to.be.equal(contractName);
+    });
+    it("Should get Contract Symbol", async function () {
+      expect(await openNFTs.contract.symbol()).to.be.equal(contractSymbol);
+    });
+    it("Should get Contract TotalSupply", async function () {
+      const totalSupply = (await openNFTs.contract.totalSupply())?.toNumber();
+      expect(totalSupply).to.be.gt(0);
+    });
   });
 
-  it("Should find Contract Config", function () {
-    contract = configContracts.find(
-      (_contract) => _contract.address.toLowerCase() === contractAddress.toLowerCase()
-    );
-    // console.log(contract);
-    expect(contract.address).to.be.equal(contractAddress);
-  });
-});
+  describe("Mint", function () {
+    it("Should Mint one Token", async function () {
+      let openNFTs = new OpenNFTs();
+      openNFTs.setContract(networkChainId, contractAddress);
+      await openNFTs.initContract(networkChainId, contractAddress);
+      const signer = new ethers.Wallet(process.env.ACCOUNT_KEY, provider);
 
-describe("NFT Mint : Read", function () {
-  it("Should init Contract", async function () {
-    openNFTs = new OpenNFTs();
-    openNFTs.setNetwork(networkChainId);
-    openNFTs.setContract(contractAddress);
-    await openNFTs.initContract();
-    // openNFTs.setOwner(owner);
-    expect(Boolean(openNFTs)).to.be.true;
-  });
+      const totalSupply = (await openNFTs.contract.totalSupply()).toNumber();
+      const tx = await openNFTs.contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
+      expect((await tx.wait()).status).to.be.equal(1);
 
-  it("Should get Contract Name", async function () {
-    expect(await openNFTs.contract.name()).to.be.equal(contractName);
-  });
-
-  it("Should get Contract Symbol", async function () {
-    expect(await openNFTs.contract.symbol()).to.be.equal(contractSymbol);
-  });
-
-  it("Should get Contract TotalSupply", async function () {
-    totalSupply = (await openNFTs.contract.totalSupply())?.toNumber();
-    expect(totalSupply).to.be.gt(0);
-  });
-});
-
-describe("NFT Mint : Mint", function () {
-  it("Should init Contract", async function () {
-    openNFTs = new OpenNFTs();
-    openNFTs.setNetwork(networkChainId);
-    openNFTs.setContract(contractAddress);
-    await openNFTs.initContract();
-    // openNFTs.setOwner(owner);
-    expect(Boolean(openNFTs)).to.be.true;
-  });
-
-  it("Should connect Provider", function () {
-    network = networks.find((nw) => nw.chainName === networkChainName);
-    provider = getProvider(network);
-    expect(provider._isProvider).to.be.true;
-  });
-
-  it("Should get Signer", async function () {
-    signer = new ethers.Wallet(process.env.ACCOUNT_KEY, provider);
-    expect(signer._isSigner).to.be.true;
-  });
-
-  it("Should Mint one Token", async function () {
-    totalSupply = (await openNFTs.contract.totalSupply()).toNumber();
-    const tx = await openNFTs.contract.connect(signer).mintNFT(process.env.ACCOUNT_ADDRESS, json);
-    expect((await tx.wait()).status).to.be.equal(1);
-  });
-
-  it("Should get +1 on Contract TotalSupply", async function () {
-    const totalSupply1 = (await openNFTs.contract.totalSupply()).toNumber();
-    expect(totalSupply1).to.be.equal(totalSupply + 1);
+      const totalSupply1 = (await openNFTs.contract.totalSupply()).toNumber();
+      expect(totalSupply1).to.be.equal(totalSupply + 1);
+    });
   });
 });

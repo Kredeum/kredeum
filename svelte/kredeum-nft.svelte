@@ -5,7 +5,7 @@
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
   import OpenNFTs from "../lib/open-nfts.mjs";
   import kimages from "../lib/kimages.mjs";
-  import { createEventDispatcher } from "svelte";
+  import { createEventDispatcher, tick } from "svelte";
 
   const dispatch = createEventDispatcher();
 
@@ -36,9 +36,8 @@
   // NETWORK CHANGE
   $: if (chainId) {
     console.log("chainId changed", chainId);
-    network = openNFTs.setNetwork(chainId);
+    [network, contract] = openNFTs.setContract(chainId);
 
-    contract = openNFTs.getContract(chainId);
     openSea = openNFTs.getOpenSeaUrl();
     explorer = openNFTs.getExplorer();
 
@@ -48,7 +47,8 @@
   // CONTRACT CHANGE
   $: if (contract) {
     console.log("contract changed", contract);
-    openNFTs.setContract(contract);
+    [network, contract] = openNFTs.setContract(chainId, contract);
+
     listNFTs();
   }
 
@@ -129,33 +129,30 @@
     {/await}
   </h3>
 
-  <table>
-    <thead>
-      <tr>
-        <th>TokenID</th>
-        <th width="200">Description</th>
-        <th>Image</th>
-        {#if openSea}
-          <th>MarketPlace</th>
-        {/if}
-        {#if platform}
-          <th>Import</th>
-        {/if}
-        <!-- <th>Owner</th>
+  {#key address && importing}
+    {#if NFTs}
+      {#if NFTs.length > 0}
+        <table>
+          <thead>
+            <tr>
+              <th>TokenID</th>
+              <th width="200">Description</th>
+              <th>Image</th>
+              {#if openSea}
+                <th>MarketPlace</th>
+              {/if}
+              {#if platform}
+                <th>Import</th>
+              {/if}
+              <!-- <th>Owner</th>
           <th>creator</th>
           <th>Ipfs</th>
           <th>Json</th> -->
-        <th>Infos</th>
-      </tr>
-    </thead>
+              <th>Infos</th>
+            </tr>
+          </thead>
 
-    <tbody>
-      {#key address && importing}
-        {#if NFTs}
-          {#if NFTs.length > 0}
-            {#if refreshing}
-              <p><em>Refreshing NFTs...</em></p>
-            {/if}
+          <tbody>
             {#each NFTs as nft}
               <tr>
                 <td>
@@ -173,8 +170,8 @@
                 </td>
 
                 <td>
-                  <a href="{imageLink(nft)}" title="{nft.image}" target="_blank">
-                    <img alt="___" src="{imageLink(nft)}" height="100" />
+                  <a href="{imageLink(nft)}" title="{nft.description}" target="_blank">
+                    <img alt="{nft.name}" src="{imageLink(nft)}" height="100" />
                   </a>
                 </td>
 
@@ -241,16 +238,25 @@
                 </td>
               </tr>
             {/each}
-          {:else}
-            <p><em>NO NFT found !</em></p>
-          {/if}
-        {:else}
-          <p><em>Loading NFTs...</em></p>
-        {/if}
-        <!-- {/await} -->
-      {/key}
-    </tbody>
-  </table>
+          </tbody>
+        </table>
+
+        <p>
+          <em>
+            {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
+            {#if refreshing}
+              refreshing...
+            {/if}
+          </em>
+        </p>
+      {:else}
+        <p><em>NO NFT found !</em></p>
+      {/if}
+    {:else}
+      <p><em>Loading NFTs...</em></p>
+    {/if}
+    <!-- {/await} -->
+  {/key}
 
   <small>
     {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">nft://{network}/{contract}</a>

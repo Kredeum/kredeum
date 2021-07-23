@@ -22,7 +22,7 @@
 
   let signer = "";
   let address = "";
-  let network = "0x89";
+  let network = "";
   let openSea;
 
   let chainId = 0;
@@ -34,7 +34,8 @@
   $: if (chainId > 0) initContract(chainId);
 
   async function initContract(_chainId) {
-    network = openNFTs.setNetwork(_chainId);
+    [network] = openNFTs.setContract(_chainId);
+
     await openNFTs.initContract();
 
     if (network) {
