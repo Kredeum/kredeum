@@ -93,7 +93,7 @@
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== address) {
-      address = _accounts[0];
+      address = ethers.utils.getAddress(_accounts[0]);
       signer = new ethers.providers.Web3Provider(ethereum).getSigner(0);
     }
   }

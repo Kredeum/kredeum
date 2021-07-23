@@ -1,7 +1,6 @@
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
-import livereload from "rollup-plugin-livereload";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
 import css from "rollup-plugin-css-only";
@@ -55,8 +54,6 @@ const toRollupConfig = function (component, dest, customElement = true) {
       builtins(),
       json(),
       commonjs(),
-      !production && serve(),
-      !production && livereload({ watch: ["app/build"] }),
       production && terser()
     ],
     watch: {

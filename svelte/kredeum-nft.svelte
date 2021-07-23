@@ -61,15 +61,15 @@
 
   async function listNFTs() {
     if (network && contract && address) {
-      console.log("listNFTs OK", `${network}@${contract} ${address}`);
+      console.log("listNFTs OK", `nft://${network}/${contract} ${address}`);
 
       NFTs = null;
 
-      NFTs = openNFTs.listNFTsFromCache();
+      NFTs = openNFTs.listNFTsFromCache(address);
       console.log("listNFTs cache loaded", NFTs);
       refreshing = true;
 
-      NFTs = await openNFTs.listNFTs();
+      NFTs = await openNFTs.listNFTs(address);
       console.log("listNFTs refresh done", NFTs);
       refreshing = false;
     }
@@ -111,9 +111,6 @@
   </h1>
 
   <h3>
-    <div>
-      <strong>Collection @{contract || ""}</strong>
-    </div>
     {#await NFTsContractsPromise}
       <div>Loading Collections...</div>
     {:then NFTsContracts}
@@ -154,10 +151,6 @@
 
     <tbody>
       {#key address && importing}
-        <!-- {#await NFTsListPromise}
-          <p>Loading NFT Collection @{contract} ...</p>
-          <img alt="img" width="160" src="data:image/jpeg;base64,{kimages.loader_png}" />
-        {:then NFTs} -->
         {#if NFTs}
           {#if NFTs.length > 0}
             {#if refreshing}
@@ -260,11 +253,13 @@
   </table>
 
   <small>
-    {#if openNFTs}NFT collection <a href="{kreLink()}" target="_blank">{network}@{contract}</a>
+    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">nft://{network}/{contract}</a>
     {/if}
     <br />
-    {#if address}My address{/if}
+    {#if address}Address{/if}
     <Metamask autoconnect="off" bind:address bind:chainId />
+    <br />
+    Cache <a href on:click="{() => localStorage.clear()}">clear</a>
   </small>
 </main>
 
