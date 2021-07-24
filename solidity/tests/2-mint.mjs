@@ -72,6 +72,8 @@ describe("NFT Mint", function () {
   });
 
   describe("Mint", function () {
+    this.timeout(20000);
+
     it("Should Mint one Token", async function () {
       let openNFTs = new OpenNFTs();
       openNFTs.setContract(networkChainId, contractAddress);

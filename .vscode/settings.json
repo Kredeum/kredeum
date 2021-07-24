@@ -5,7 +5,9 @@
     "svelte",
     "config",
     "rollup.config.js",
-    "wordpress/readme.txt_handlebars"
+    "wordpress/readme.txt_handlebars",
+    "package.json",
+    ".vscode/settings.json"
   ],
   "files.exclude": {
     "old": true
