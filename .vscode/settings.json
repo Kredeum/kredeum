@@ -7,7 +7,8 @@
     "rollup.config.js",
     "wordpress/readme.txt_handlebars",
     "package.json",
-    ".vscode/settings.json"
+    ".vscode/settings.json",
+    "wordpress/kredeum-nfts/admin/ajax"
   ],
   "files.exclude": {
     "old": true

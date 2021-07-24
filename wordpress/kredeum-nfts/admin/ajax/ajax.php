@@ -54,9 +54,6 @@ add_action(
 			$pid = \KredeumNFTs\Ipfs\import_nft( $nft );
 
 		}
-
-		echo esc_html( "wp_ajax_import $pid" );
-
 		wp_die();
 	}
 );
