@@ -12,6 +12,7 @@
   export let autoconnect = undefined;
 
   let network;
+  let nameOrAddress;
   let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
@@ -94,7 +95,19 @@
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== address) {
       address = ethers.utils.getAddress(_accounts[0]);
-      signer = new ethers.providers.Web3Provider(ethereum).getSigner(0);
+
+      let name;
+      const provider = new ethers.providers.Web3Provider(ethereum);
+      try {
+        name = await provider.lookupAddress(address);
+      } catch (e) {
+        console.error("NO ENS on this chain");
+      }
+      nameOrAddress = name || address;
+
+      signer = provider.getSigner(0);
+
+      console.log("nameOrAddress", nameOrAddress, name, address);
     }
   }
   async function connectMetamask() {
@@ -149,10 +162,10 @@
 {#if address}
   {#if network}
     <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-      >{network?.chainName}@{address}</a
+      >{nameOrAddress}@{network?.chainName}</a
     >
   {:else}
-    @{address}
+    {nameOrAddress}
   {/if}
   <small>
     (switch to
