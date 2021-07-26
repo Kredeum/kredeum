@@ -11,7 +11,7 @@ namespace KredeumNFTs\Ipfs;
  *  IPFS 2 columns filter
  */
 add_filter(
-	'manage_media_columns',
+	'manage_posts_columns',
 	function ( $columns ) {
 		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
 		$columns['kre-cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
@@ -23,7 +23,7 @@ add_filter(
  *  IPFS 2 columns action
  */
 add_action(
-	'manage_media_custom_column',
+	'manage_posts_custom_column',
 	function ( $name ) {
 		global $post;
 
@@ -38,17 +38,19 @@ add_action(
 				printf( '<a href="/wp-admin/admin.php?page=nfts" nid=' . esc_attr( $post->_kre_nid ) . '>NFT link</a>' );
 			} else {
 
-				$metadata = get_metadata( 'post', $post->ID );
-				// $metadata['post'] = get_post( $post->ID );
+				$metadata = array(
+					'post'     => $post,
+					'postmeta' => get_metadata( 'post', $post->ID ),
+				);
 
 				printf(
 					'<kredeum-nft-mint'
-					. ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
-					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
+					. ' type="wordpress/post"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
-					. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
+					. ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
 					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
+					. ' src="' . esc_url( url( $post->guid ) ) . '"'
 				);
 			}
 		}

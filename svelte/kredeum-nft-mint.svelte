@@ -12,6 +12,7 @@
   export let alt = undefined;
   export let src = undefined;
   export let pid = undefined;
+  export let type = undefined;
   export let metadata = undefined;
   export let width = 100;
   export let display = false;
@@ -50,19 +51,28 @@
 
     if (signer) {
       minting = true;
-
       const nftStorage = new NftStorage(key);
-      cidImage = await nftStorage.pinUrl(src);
-      cidJson = await nftStorage.pinJson({
+      const metadataObject = JSON.parse(metadata || {});
+
+      const json = {
         name: alt,
         description: alt,
-        cid: cidImage,
-        image: `${ipfsGateway}/${cidImage}`,
-        ipfs: "ipfs://" + cidImage,
         origin: src,
         minter: address,
-        metadata: JSON.parse(metadata || {})
-      });
+        metadata: metadataObject
+      };
+
+      switch (type) {
+        case "wordpress/post":
+          json.excerpt = metadataObject.excerpt;
+          break;
+        case "wordpress/media":
+        default:
+          json.cid = await nftStorage.pinUrl(src);
+          json.ipfs = "ipfs://" + cidImage;
+          json.image = `${ipfsGateway}/${cidImage}`;
+      }
+      cidJson = await nftStorage.pinJson(json);
 
       try {
         minted = await openNFTs.Mint(signer, `${ipfsGateway}/${cidJson}`);

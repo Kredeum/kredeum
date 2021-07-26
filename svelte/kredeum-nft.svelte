@@ -132,6 +132,14 @@
   {#key address && importing}
     {#if NFTs}
       {#if NFTs.length > 0}
+        <p>
+          <em>
+            {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
+            {#if refreshing}
+              refreshing...
+            {/if}
+          </em>
+        </p>
         <table>
           <thead>
             <tr>
@@ -240,15 +248,6 @@
             {/each}
           </tbody>
         </table>
-
-        <p>
-          <em>
-            {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
-            {#if refreshing}
-              refreshing...
-            {/if}
-          </em>
-        </p>
       {:else}
         <p><em>NO NFT found !</em></p>
       {/if}
