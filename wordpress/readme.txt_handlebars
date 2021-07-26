@@ -40,7 +40,11 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.7.6 (latest) =
+= 0.7.7 (latest) =
+* Add WordPress Post metadata to NFT metadata on Mint
+* Display ENS name when available
+
+= 0.7.6 =
 * Bug fixes and performance improvements
 
 = 0.7.5 =
