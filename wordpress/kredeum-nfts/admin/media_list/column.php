@@ -37,12 +37,17 @@ add_action(
 			if ( $post->_kre_nid ) {
 				printf( '<a href="/wp-admin/admin.php?page=nfts" nid=' . esc_attr( $post->_kre_nid ) . '>NFT link</a>' );
 			} else {
+
+				$metadata = get_metadata( 'post', $post->ID );
+				// $metadata['post'] = get_post( $post->ID );
+
 				printf(
 					'<kredeum-nft-mint'
 					. ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
 					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
+					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 				);
 			}

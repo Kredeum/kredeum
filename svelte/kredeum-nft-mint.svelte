@@ -12,6 +12,7 @@
   export let alt = undefined;
   export let src = undefined;
   export let pid = undefined;
+  export let metadata = undefined;
   export let width = 100;
   export let display = false;
   export let minted = "";
@@ -26,8 +27,6 @@
   let openSea;
 
   let chainId = 0;
-
-  //$: console.log("SIGNER", signer);
 
   const openNFTs = new OpenNFTs();
 
@@ -61,7 +60,8 @@
         image: `${ipfsGateway}/${cidImage}`,
         ipfs: "ipfs://" + cidImage,
         origin: src,
-        minter: address
+        minter: address,
+        metadata: JSON.parse(metadata || {})
       });
 
       try {
