@@ -12,7 +12,7 @@
   export let autoconnect = undefined;
 
   let network;
-  let nameOrAddress;
+  let nameOrAddress = "";
   let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
@@ -103,7 +103,7 @@
       } catch (e) {
         console.error("NO ENS on this chain");
       }
-      nameOrAddress = name || address;
+      nameOrAddress = name || address || "";
 
       signer = provider.getSigner(0);
 

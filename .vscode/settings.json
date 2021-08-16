@@ -1,14 +1,13 @@
 {
   "favorites.resources": [
-    "solidity/tests",
-    "lib",
-    "svelte",
-    "config",
     "rollup.config.js",
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
-    "wordpress/kredeum-nfts/admin/ajax"
+    "hardhat.config.js",
+    "solidity/deploy/OpenNFTS.js",
+    "config/networks.json",
+    "solidity/contracts/OpenNFTs.sol"
   ],
   "files.exclude": {
     "old": true
@@ -34,5 +33,8 @@
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
   "workbench.colorTheme": "Noctis Viola",
-  "favorites.sortOrder": "ASC"
+  "favorites.sortOrder": "ASC",
+  "liveServer.settings.port": 5501,
+  "liveServer.settings.multiRootWorkspaceName": "kredeum",
+  "liveServer.settings.root": "/app"
 }

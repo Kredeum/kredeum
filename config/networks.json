@@ -19,8 +19,10 @@
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["https://rinkeby.etherscan.io"],
     "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby"
-    }
+      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
+      "active": true
+    },
+    "prod": true
   },
   {
     "chainId": "0x2a",

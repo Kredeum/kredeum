@@ -54,14 +54,14 @@
 
   async function listContracts() {
     if (network && address) {
-      console.log("listContracts OK", `${network} ${address}`);
+      console.log("listContracts", `nft://${network} ${address}`);
       NFTsContractsPromise = openNFTs.listContracts();
     }
   }
 
   async function listNFTs() {
     if (network && contract && address) {
-      console.log("listNFTs OK", `nft://${network}/${contract} ${address}`);
+      console.log("listNFTs", `nft://${network}/${contract} ${address}`);
 
       NFTs = null;
 
