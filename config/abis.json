@@ -1,7 +1,7 @@
 {
-  "KREDEUMv2": ["function mintNFT(address,string) returns (uint256)"],
-  "KREDEUMv1": ["function mintNFT(address,string) returns (uint256)"],
-  "KREDEUMv0": ["function addUser(address,string) returns (uint256)"],
+  "KredeumV2": ["function mintNFT(address,string) returns (uint256)"],
+  "KredeumV1": ["function mintNFT(address,string) returns (uint256)"],
+  "KredeumV0": ["function addUser(address,string) returns (uint256)"],
   "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],
   "ERC721": [
     "constructor()",

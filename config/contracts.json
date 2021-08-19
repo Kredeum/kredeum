@@ -3,13 +3,13 @@
     "name": "OpenNFTs",
     "address": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
     "network": "mainnet",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "OpenNFTs",
     "address": "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
     "network": "matic",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "startBlock": 14646891,
     "description": "current version"
   },
@@ -17,51 +17,51 @@
     "name": "OpenNFTs",
     "address": "0x98d333dB22158f01797bc7B219c6F18924D0Ca16",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "OpenNFTs",
     "address": "0xb10d1dddd6c3c9d31cc2826c6bd7dbf624081c55",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "arbitrum"
   },
   {
     "name": "OpenNFTs",
     "address": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "fantom"
   },
   {
     "name": "OpenNFTs",
     "address": "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "bsc"
   },
   {
     "name": "KredeumNFTs",
     "address": "0xDAa4f7dbfbef13dDd59985d0F1401781ca59750E",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv2"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV2"],
     "network": "rinkeby",
     "startBlock": 9125440
   },
   {
     "name": "OpenNFTs",
     "address": "0xe5eacc6f36881a68961d3af46fcf6a7a1e02160f",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "rinkeby",
     "startBlock": 3935000
   },
   {
     "name": "OpenNFTs",
     "address": "0xEfaF5f9eda9CDf85118F08E8b0766c4fD78f9a2d",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "kovan"
   },
   {
     "name": "KRE",
     "address": "0x1C10a8C4E65a1185810f72bcdB0EC564845cAbcB",
     "network": "matic",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "startBlock": 14296421,
     "description": "tests only"
   },
@@ -69,7 +69,7 @@
     "name": "KRE",
     "address": "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
     "network": "matic",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv0"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV0"],
     "startBlock": 12646655,
     "description": "tests mainly, some externals"
   },
@@ -77,7 +77,7 @@
     "name": "KRE",
     "address": "0x792f8e3c36ac3c1c6d62ecc44a88ca1317fece93",
     "network": "matic",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv0"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV0"],
     "startBlock": 12217017,
     "description": "previous version, more externals"
   },
@@ -85,7 +85,7 @@
     "name": "KRE",
     "address": "0x5f13c4c75cd1eb9091525dee5282c1855429b7d4",
     "network": "matic",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv0"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV0"],
     "startBlock": 12646655,
     "description": "tests only"
   },
@@ -94,62 +94,62 @@
     "name": "OpenNFTs",
     "address": "0x34538444A64251c765c5e4c9715a16723CA922D8",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"],
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "startBlock": 13976646
   },
   {
     "name": "KRE",
     "address": "0x8e8B4A64151b228994aA8553dB2C446AfC8E41bb",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x420C87cf8f6a2869ae8CBCFc3047FDEA69517007",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x8Bf94497bf38a12488EC4fCAb7fd19Bb5A276420",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0xafe822240383dd0ab8a19253212ea9e1d6ba5e3b",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x17fb61016939409e6b7cd7cfae468b707a896bae",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0xb05AA675e9d061C60fE050392E30AfeD22C655DA",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x89f25A1B2F1c547c469696bF076936d47DF66cf3",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x420C87cf8f6a2869ae8CBCFc3047FDEA69517007",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "KRE",
     "address": "0x02feb47bfd082f76c757c3a750ea10807c529e5f",
     "network": "mumbai",
-    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KREDEUMv1"]
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"]
   },
   {
     "name": "NFT",
