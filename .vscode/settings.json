@@ -1,19 +1,20 @@
 {
   "favorites.resources": [
-    "rollup.config.js",
+    "solidity",
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
     "hardhat.config.js",
     "solidity/deploy/OpenNFTS.js",
     "config/networks.json",
-    "solidity/contracts/OpenNFTs.sol"
+    "solidity/contracts/OpenNFTs.sol",
+    "hardhat.config.ts"
   ],
   "files.exclude": {
     "old": true
   },
   "mochaExplorer.exit": true,
-  "mochaExplorer.files": "solidity/tests/*.mjs",
+  "mochaExplorer.files": "solidity/tests/*.ts",
   "mochaExplorer.fullTrace": true,
   "mochaExplorer.logpanel": true,
   "mochaExplorer.nodeArgv": ["--experimental-json-modules"],

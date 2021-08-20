@@ -1,17 +1,25 @@
-require("@nomiclabs/hardhat-waffle");
-require("@nomiclabs/hardhat-etherscan");
-require("hardhat-abi-exporter");
+import "@nomiclabs/hardhat-etherscan";
+import "@nomiclabs/hardhat-ethers";
+import "@nomiclabs/hardhat-waffle";
+import "hardhat-deploy";
+import "hardhat-deploy-ethers";
+
+import "@typechain/hardhat";
+import { HardhatUserConfig } from "hardhat/types";
+import "tsconfig-paths/register";
+import "./solidity/tasks/index";
 
 const accounts = [
-  process.env.ACCOUNT_KEY,
-  process.env.PRIVATE_KEY_TEST_1,
-  process.env.PRIVATE_KEY_TEST_2
+  process.env.ACCOUNT_KEY || "",
+  process.env.PRIVATE_KEY_TEST_1 || "",
+  process.env.PRIVATE_KEY_TEST_2 || ""
 ];
 
-module.exports = {
+const config: HardhatUserConfig = {
   defaultNetwork: "rinkeby",
   namedAccounts: {
-    admin: { default: 0 }
+    admin: { default: 0 },
+    deployer: { default: 0 }
   },
   networks: {
     hardhat: {
@@ -22,83 +30,67 @@ module.exports = {
         // blockNumber: 23569930
       },
       accounts: [
-        { privateKey: process.env.PRIVATE_KEY_TEST_1, balance: "100000000000000000000" },
-        { privateKey: process.env.PRIVATE_KEY_TEST_2, balance: "100000000000000000000" }
+        { privateKey: process.env.PRIVATE_KEY_TEST_1 || "", balance: "100000000000000000000" },
+        { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
       ]
     },
     fantom: {
       chainId: 250,
       url: `https://rpcapi.fantom.network`,
-      accounts,
-      ethscan: "https://ftmscan.com"
+      accounts
     },
     mainnet: {
       chainId: 1,
       url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://mainnet.etherscan.io"
+      accounts
     },
     ropsten: {
       chainId: 3,
       url: `https://ropsten.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://ropsten.etherscan.io"
+      accounts
     },
     rinkeby: {
       chainId: 4,
       url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts,
-      ethscan: "https://rinkeby.etherscan.io"
+      gasPrice: 20000000000
     },
     goerli: {
       chainId: 5,
       url: `https://goerli.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://goerli.etherscan.io"
+      accounts
     },
     kovan: {
       chainId: 6,
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://kovan.etherscan.io"
+      accounts
     },
     bsc: {
       chainId: 56,
       url: `https://bsc-dataseed1.binance.org`,
-      accounts,
-      ethscan: "https://bscscan.com"
+      accounts
     },
     matic: {
       chainId: 137,
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://explorer-mainnet.maticvigil.com"
+      accounts
     },
     mumbai: {
       chainId: 80001,
       url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      ethscan: "https://explorer-mumbai.maticvigil.com"
+      accounts
     },
     arbitrum: {
       chainId: 421611,
       // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       url: "https://kovan5.arbitrum.io/rpc",
-      accounts,
-      ethscan: "https://explorer5.arbitrum.io/#/",
-      gasPrice: 0
+      accounts
     }
   },
   etherscan: {
     apiKey: process.env.ETHERSCAN_API_KEY
-  },
-  abiExporter: {
-    path: "solidity/build/abis",
-    clear: true,
-    // only: ['KRE'],
-    flat: true
   },
   solidity: {
     compilers: [
@@ -113,16 +105,21 @@ module.exports = {
       }
     ]
   },
+  typechain: {
+    outDir: "solidity/build/artifacts/types",
+    target: "ethers-v5"
+  },
   paths: {
     sources: "solidity/contracts",
-    tests: "solidity/tests",
-    cache: "solidity/build/cache",
-    artifacts: "solidity/build/artifacts",
-    deploy: "solidity/deploy",
-    deployments: "solidity/deployments",
-    imports: "solidity/imports"
+    deploy: "./solidity/deploy",
+    deployments: "./solidity/deployments",
+    tests: "./solidity/tests",
+    cache: "./solidity/build/cache",
+    artifacts: "./solidity/build/artifacts"
   },
   mocha: {
     timeout: 20000
   }
 };
+
+export default config;
