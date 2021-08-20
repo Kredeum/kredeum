@@ -8,6 +8,6 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "dist"
   },
-  "include": ["solidity/scripts", "solidity/tests", "solidity/deploy"],
+  "include": ["lib, solidity/scripts", "solidity/tests", "solidity/deploy"],
   "files": ["hardhat.config.ts"]
 }

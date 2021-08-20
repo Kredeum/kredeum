@@ -5,93 +5,90 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 contract CloneFactory is Ownable {
-    address[] _templates;
-    address[] _implementations;
+  address[] _templates;
+  address[] _implementations;
 
-    event NewImplementation(
-        address implementation,
-        uint256 indexed version,
-        bool indexed isTemplate,
-        address indexed creator
-    );
+  event NewImplementation(
+    address implementation,
+    uint256 indexed version,
+    bool indexed isTemplate,
+    address indexed creator
+  );
 
-    constructor() {}
+  constructor() {}
 
-    /*
-     *  SET Template
-     *
-     *  _template : Template to clone
-     */
-    function template(address _template) public onlyOwner {
-        _templates.push(_template);
-        addImplementation(_template, version(), true, owner());
-    }
+  /*
+   *  SET Template
+   *
+   *  _template : Template to clone
+   */
+  function setTemplate(address _template) public onlyOwner {
+    _templates.push(_template);
+    addImplementation(_template, version(), true, owner());
+  }
 
-    /*
-     *  Clone the Template
-     *
-     *  returns : Clone Address
-     */
-    function clone() external returns (address _clone) {
-        _clone = Clones.clone(template());
-        addImplementation(_clone, version(), false, msg.sender);
-    }
+  /*
+   *  Clone the Template
+   *
+   *  returns : Clone Address
+   */
+  function clone() external returns (address _clone) {
+    _clone = Clones.clone(template());
+    addImplementation(_clone, version(), false, msg.sender);
+  }
 
-    /*
-     *  ADD Clone
-     *
-     *  _clone : existing clone address
-     *  _version : existing clone version
-     */
-    function addImplementation(
-        address _implementation,
-        uint256 _version,
-        bool _isTemplate,
-        address _creator
-    ) public onlyOwner {
-        _implementations.push(_implementation);
+  /*
+   *  ADD Clone
+   *
+   *  _clone : existing clone address
+   *  _version : existing clone version
+   */
+  function addImplementation(
+    address _implementation,
+    uint256 _version,
+    bool _isTemplate,
+    address _creator
+  ) public onlyOwner {
+    _implementations.push(_implementation);
 
-        emit NewImplementation(
-            _implementation,
-            _version,
-            _isTemplate,
-            _creator
-        );
-    }
+    emit NewImplementation(_implementation, _version, _isTemplate, _creator);
+  }
 
-    /*
-     *  GET Version
-     *
-     *  returns : Template Version
-     */
-    function version() public view returns (uint256) {
-        return _templates.length - 1;
-    }
+  /*
+   *  GET Version
+   *
+   *  returns : Template Version
+   */
+  function version() public view returns (uint256) {
+    return _templates.length;
+  }
 
-    /*
-     *  GET Template
-     *
-     *  returns : Current Template
-     */
-    function template() public view returns (address) {
-        return _templates[version()];
-    }
+  /*
+   *  GET Template
+   *
+   *  returns : Current Template
+   */
+  function template() public view returns (address) {
+    require(_templates.length >= 1, "No template yet");
 
-    /*
-     *  GET Templates
-     *
-     *  returns : all Templates
-     */
-    function templates() public view returns (address[] memory) {
-        return _templates;
-    }
+    return _templates[version() - 1];
+  }
 
-    /*
-     *  GET Implementations
-     *
-     *  returns : all Implementations
-     */
-    function implementations() public view returns (address[] memory) {
-        return _implementations;
-    }
+  /*
+   *  GET Templates
+   *
+   *  returns : all Templates
+   */
+  function templates() public view returns (address[] memory) {
+    return _templates;
+  }
+
+  /*
+   *  GET Implementations
+   *
+   *  returns : all Implementations
+   */
+  function implementations() public view returns (address[] memory) {
+    return _implementations;
+  }
 }

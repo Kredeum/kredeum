@@ -16,19 +16,19 @@ const accounts = [
 ];
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "rinkeby",
+  defaultNetwork: "hardhat",
   namedAccounts: {
     admin: { default: 0 },
     deployer: { default: 0 }
   },
   networks: {
     hardhat: {
-      loggingEnabled: true,
-      forking: {
-        // url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
-        url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`
-        // blockNumber: 23569930
-      },
+      // loggingEnabled: true,
+      // forking: {
+      //   // url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+      //   url: `https://eth-kovan.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
+      //   blockNumber: 18000000
+      // },
       accounts: [
         { privateKey: process.env.PRIVATE_KEY_TEST_1 || "", balance: "100000000000000000000" },
         { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
@@ -106,16 +106,17 @@ const config: HardhatUserConfig = {
     ]
   },
   typechain: {
-    outDir: "solidity/build/artifacts/types",
+    outDir: "solidity/artifacts/types",
     target: "ethers-v5"
   },
   paths: {
     sources: "solidity/contracts",
-    deploy: "./solidity/deploy",
-    deployments: "./solidity/deployments",
-    tests: "./solidity/tests",
-    cache: "./solidity/build/cache",
-    artifacts: "./solidity/build/artifacts"
+    deploy: "solidity/deploy",
+    deployments: "solidity/deployments",
+    tests: "solidity/tests",
+    imports: "lib",
+    cache: "solidity/artifacts/cache",
+    artifacts: "solidity/artifacts"
   },
   mocha: {
     timeout: 20000

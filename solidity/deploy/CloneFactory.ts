@@ -1,15 +1,20 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 
+const contractName = "CloneFactory";
+
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployments, getNamedAccounts } = hre;
   const { deployer } = await getNamedAccounts();
-  deployments.log("CloneFactory deployer:", deployer);
 
-  await deployments.deploy("CloneFactory", {
+  deployments.log(`${contractName} deployer: ${deployer}`);
+
+  await deployments.deploy(contractName, {
     args: [],
     from: deployer,
     log: true
   });
 };
+func.tags = [contractName];
+
 export default func;

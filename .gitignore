@@ -3,7 +3,7 @@ node_modules
 .pnpm-debug.log 
 
 # SOLIDITY
-solidity/build
+solidity/artifacts
 
 # APP
 app/build

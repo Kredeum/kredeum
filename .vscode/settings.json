@@ -8,16 +8,17 @@
     "solidity/deploy/OpenNFTS.js",
     "config/networks.json",
     "solidity/contracts/OpenNFTs.sol",
-    "hardhat.config.ts"
+    "hardhat.config.ts",
+    "solidity/contracts/CloneFactory.sol"
   ],
   "files.exclude": {
     "old": true
   },
   "mochaExplorer.exit": true,
-  "mochaExplorer.files": "solidity/tests/*.ts",
+  "mochaExplorer.files": "solidity/tests/*.*ts",
   "mochaExplorer.fullTrace": true,
   "mochaExplorer.logpanel": true,
-  "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
+  // "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
   "mochaExplorer.nodePath": "/usr/local/bin/node",
   "mochaExplorer.optsFile": "",
   "mochaExplorer.retries": 1,
