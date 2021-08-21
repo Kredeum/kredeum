@@ -9,7 +9,8 @@
     "config/networks.json",
     "solidity/contracts/OpenNFTs.sol",
     "hardhat.config.ts",
-    "solidity/contracts/CloneFactory.sol"
+    "solidity/contracts/CloneFactory.sol",
+    "solidity/tests/2-clone-factory.ts"
   ],
   "files.exclude": {
     "old": true

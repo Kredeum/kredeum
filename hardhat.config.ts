@@ -19,7 +19,9 @@ const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   namedAccounts: {
     admin: { default: 0 },
-    deployer: { default: 0 }
+    deployer: { default: 0 },
+    tester1: { default: 1 },
+    tester2: { default: 2 }
   },
   networks: {
     hardhat: {

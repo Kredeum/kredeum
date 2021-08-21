@@ -1,9 +1,9 @@
 module.exports = async ({ getNamedAccounts, deployments }) => {
   const { deploy } = deployments;
-  const { admin } = await getNamedAccounts();
+  const { deployer } = await getNamedAccounts();
 
   await deploy("OpenNFTs", {
-    from: admin,
+    from: deployer,
     args: [],
     log: true
   });
