@@ -1,6 +1,2 @@
-import "./accounts";
-import "./accountsFromMnemonic";
-import "./blockNumber";
-import "./chainId";
-import "./get-code";
-import "./tx";
+import "./utils/index";
+import "./nfts-drop";

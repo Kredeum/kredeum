@@ -12,7 +12,8 @@ import "./solidity/tasks/index";
 const accounts = [
   process.env.ACCOUNT_KEY || "",
   process.env.PRIVATE_KEY_TEST_1 || "",
-  process.env.PRIVATE_KEY_TEST_2 || ""
+  process.env.PRIVATE_KEY_TEST_2 || "",
+  process.env.RANDOM_KEY || ""
 ];
 
 const config: HardhatUserConfig = {
@@ -21,7 +22,8 @@ const config: HardhatUserConfig = {
     admin: { default: 0 },
     deployer: { default: 0 },
     tester1: { default: 1 },
-    tester2: { default: 2 }
+    tester2: { default: 2 },
+    random: { default: 3 }
   },
   networks: {
     hardhat: {
@@ -82,7 +84,8 @@ const config: HardhatUserConfig = {
       chainId: 80001,
       url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts
+      accounts,
+      gasPrice: 20000000000
     },
     arbitrum: {
       chainId: 421611,

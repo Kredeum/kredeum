@@ -7,7 +7,7 @@
     "build": "npm run smart-build && npm run dapp-build && npm run wp-build && npm run sub-build",
     "check": "npm run smart-check && npm run dapp-check && npm run wp-check && npm run sub-check",
     "tests": "npm run smart-tests && npm run dapp-tests && npm run wp-tests && npm run sub-tests",
-    "smart-clean": "rm -rf solidity/build",
+    "smart-clean": "rm -rf solidity/artifacts",
     "smart-build": "npx hardhat compile",
     "smart-check": "npx prettier-eslint solidity/**/*.sol scripts/*js scripts/*.sh tests/*js --write",
     "smart-tests": "npx mocha --experimental-json-modules solidity/tests/*.mjs",

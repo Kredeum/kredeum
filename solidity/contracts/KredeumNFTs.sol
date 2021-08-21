@@ -8,64 +8,53 @@ import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "./IKredeumNFTs.sol";
 
-contract KredeumNFTs is
-    ERC721,
-    ERC721Enumerable,
-    ERC721URIStorage,
-    Ownable,
-    IKredeumNFTs
-{
-    using Counters for Counters.Counter;
-    Counters.Counter private _tokenIds;
+contract KredeumNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, Ownable, IKredeumNFTs {
+  using Counters for Counters.Counter;
+  Counters.Counter private _tokenIds;
 
-    constructor() ERC721("Kredeum NFTs", "NFT") {}
+  constructor() ERC721("Kredeum NFTs", "NFT") {}
 
-    function mintNFT(address minter, string memory jsonURI)
-        public
-        override(IKredeumNFTs)
-        returns (uint256)
-    {
-        _tokenIds.increment();
+  function mintNFT(address minter, string memory jsonURI)
+    public
+    override(IKredeumNFTs)
+    returns (uint256)
+  {
+    _tokenIds.increment();
 
-        uint256 newItemId = _tokenIds.current();
-        _safeMint(minter, newItemId);
-        _setTokenURI(newItemId, jsonURI);
+    uint256 newItemId = _tokenIds.current();
+    _safeMint(minter, newItemId);
+    _setTokenURI(newItemId, jsonURI);
 
-        return newItemId;
-    }
+    return newItemId;
+  }
 
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal override(ERC721, ERC721Enumerable) {
-        super._beforeTokenTransfer(from, to, tokenId);
-    }
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721, ERC721Enumerable) {
+    super._beforeTokenTransfer(from, to, tokenId);
+  }
 
-    function _burn(uint256 tokenId)
-        internal
-        override(ERC721, ERC721URIStorage)
-    {
-        super._burn(tokenId);
-    }
+  function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+    super._burn(tokenId);
+  }
 
-    function tokenURI(uint256 tokenId)
-        public
-        view
-        override(ERC721, ERC721URIStorage)
-        returns (string memory)
-    {
-        return super.tokenURI(tokenId);
-    }
+  function tokenURI(uint256 tokenId)
+    public
+    view
+    override(ERC721, ERC721URIStorage)
+    returns (string memory)
+  {
+    return super.tokenURI(tokenId);
+  }
 
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721, ERC721Enumerable)
-        returns (bool)
-    {
-        return
-            interfaceId == type(IKredeumNFTs).interfaceId ||
-            super.supportsInterface(interfaceId);
-    }
+  function supportsInterface(bytes4 interfaceId)
+    public
+    view
+    override(ERC721, ERC721Enumerable)
+    returns (bool)
+  {
+    return interfaceId == type(IKredeumNFTs).interfaceId || super.supportsInterface(interfaceId);
+  }
 }

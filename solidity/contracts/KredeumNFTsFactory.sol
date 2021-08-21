@@ -5,18 +5,18 @@ import "./KredeumNFTs.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 
 contract KredeumNFTsFactory {
-    address immutable KredeumNFTsImplementation;
+  address immutable KredeumNFTsImplementation;
 
-    event NewKredeumNFTs(address indexed clone, address indexed creator);
+  event NewKredeumNFTs(address indexed clone, address indexed creator);
 
-    constructor() {
-        KredeumNFTsImplementation = address(new KredeumNFTs());
-    }
+  constructor() {
+    KredeumNFTsImplementation = address(new KredeumNFTs());
+  }
 
-    function createKredeumNFTs() external returns (address clone) {
-        clone = Clones.clone(KredeumNFTsImplementation);
-        // KredeumNFTs(clone).initialize(msg.sender);
+  function createKredeumNFTs() external returns (address clone) {
+    clone = Clones.clone(KredeumNFTsImplementation);
+    // KredeumNFTs(clone).initialize(msg.sender);
 
-        emit NewKredeumNFTs(clone, msg.sender);
-    }
+    emit NewKredeumNFTs(clone, msg.sender);
+  }
 }

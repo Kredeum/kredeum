@@ -8,11 +8,10 @@ const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 describe("Clone Factory", function () {
   let cloneFactory: CloneFactory;
-  let deployer: string;
   let tester: string;
+  this.timeout(60000);
 
   beforeEach(async () => {
-    ({ address: deployer } = await ethers.getNamedSigner("deployer"));
     ({ address: tester } = await ethers.getNamedSigner("tester1"));
 
     await deployments.fixture(["CloneFactory"]);
@@ -29,6 +28,8 @@ describe("Clone Factory", function () {
     });
 
     it("Should get deployer as owner", async function () {
+      const { address: deployer } = await ethers.getNamedSigner("deployer");
+
       expect(await cloneFactory.owner()).to.be.equal(deployer);
     });
 

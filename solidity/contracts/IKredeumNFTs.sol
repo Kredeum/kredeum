@@ -2,7 +2,5 @@
 pragma solidity ^0.8.4;
 
 interface IKredeumNFTs {
-    function mintNFT(address minter, string memory jsonURI)
-        external
-        returns (uint256);
+  function mintNFT(address minter, string memory jsonURI) external returns (uint256);
 }
