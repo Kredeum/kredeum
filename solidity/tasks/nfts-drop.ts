@@ -10,18 +10,30 @@ task("nfts-drop", "drop all NFTs owned on a contract")
     const abi = [
       "function balanceOf(address) view returns (uint256)",
       "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)",
-      "function safeTransferFrom(address,address,uint256)"
-      // "function tokenURI(uint256) view returns (string)"
+      "function safeTransferFrom(address,address,uint256)",
+      "function tokenURI(uint256) view returns (string)"
     ];
 
     const nftContract = await hre.ethers.getContractAt(abi, _taskArgs.contract);
     const n = Number(await nftContract.balanceOf(_taskArgs.owner));
 
-    console.log("transfer", _taskArgs.owner, random);
+    console.log(`transfer from ${_taskArgs.owner} to ${random}`);
+
     for (let i = 0; i < n; i += 1) {
       const tokenId = await nftContract.tokenOfOwnerByIndex(_taskArgs.owner, i);
-      console.log("tokenId", tokenId.toString());
-      await nftContract.safeTransferFrom(_taskArgs.owner, random, tokenId);
-      // console.log(await nftContract.tokenURI(tokenId));
+      console.log("tokenId", tokenId.toString(), await nftContract.tokenURI(tokenId));
+
+      const txSend = await nftContract.safeTransferFrom(_taskArgs.owner, random, tokenId, {
+        gasLimit: 200000,
+        gasPrice: 20000000000
+      });
+      console.log(
+        `https://polygonscan.com/tx/${txSend.hash}`,
+        txSend.nonce,
+        txSend.gasPrice.toString(),
+        txSend.gasLimit.toString()
+      );
+      const txRes = await txSend.wait();
+      console.log(txRes.status);
     }
   });

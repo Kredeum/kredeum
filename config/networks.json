@@ -9,6 +9,10 @@
       "assets": "https://opensea.io/assets",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/amxx/eip721-subgraph/graphql",
+      "active": true
+    },
     "covalent": { "active": true },
     "prod": true
   },
@@ -52,8 +56,9 @@
       "https://backup-explorer.matic.network"
     ],
     "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
-      "startBlock": 16875648
+      "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
+      "startBlock": 16875648,
+      "active": false
     },
     "covalent": { "active": true },
     "openSea": {
