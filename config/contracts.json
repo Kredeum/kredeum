@@ -33,6 +33,18 @@
   },
   {
     "name": "OpenNFTs",
+    "address": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV2"],
+    "network": "avalanche"
+  },
+  {
+    "name": "OpenNFTs",
+    "address": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV2"],
+    "network": "fuji"
+  },
+  {
+    "name": "OpenNFTs",
     "address": "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "bsc"
@@ -50,6 +62,12 @@
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV1"],
     "network": "rinkeby",
     "startBlock": 3935000
+  },
+  {
+    "name": "OpenNFTs",
+    "address": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
+    "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV2"],
+    "network": "kovan"
   },
   {
     "name": "OpenNFTs",

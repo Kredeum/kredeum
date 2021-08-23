@@ -17,7 +17,7 @@ const accounts = [
 ];
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "hardhat",
+  defaultNetwork: "kovan",
   namedAccounts: {
     admin: { default: 0 },
     deployer: { default: 0 },
@@ -65,7 +65,7 @@ const config: HardhatUserConfig = {
       accounts
     },
     kovan: {
-      chainId: 6,
+      chainId: 42,
       url: `https://kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts
     },
@@ -80,6 +80,16 @@ const config: HardhatUserConfig = {
       // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts
     },
+    avalanche: {
+      chainId: 43114,
+      url: "https://api.avax.network/ext/bc/C/rpc",
+      accounts
+    },
+    fuji: {
+      chainId: 43113,
+      url: "https://api.avax-test.network/ext/bc/C/rpc",
+      accounts
+    },
     mumbai: {
       chainId: 80001,
       url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
@@ -87,10 +97,26 @@ const config: HardhatUserConfig = {
       accounts,
       gasPrice: 20000000000
     },
+    optimism: {
+      chainId: 10,
+      url: `https://optimism-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts
+    },
+    optimismkovan: {
+      chainId: 69,
+      url: `https://optimism-kovan.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      accounts
+    },
     arbitrum: {
       chainId: 421611,
+      url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
-      url: "https://kovan5.arbitrum.io/rpc",
+      accounts
+    },
+    arbitrumrinkeby: {
+      chainId: 421611,
+      url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
+      // url: `https://arb-rinkeby.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       accounts
     }
   },

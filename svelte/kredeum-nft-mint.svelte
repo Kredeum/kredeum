@@ -33,9 +33,7 @@
   $: if (chainId > 0) initContract(chainId);
 
   async function initContract(_chainId) {
-    [network] = openNFTs.setContract(_chainId);
-
-    await openNFTs.initContract();
+    [network] = await openNFTs.initContract();
 
     if (network) {
       openSea = openNFTs.network?.openSea;

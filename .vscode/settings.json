@@ -10,7 +10,10 @@
     "solidity/contracts/OpenNFTs.sol",
     "hardhat.config.ts",
     "solidity/contracts/CloneFactory.sol",
-    "solidity/tests/2-clone-factory.ts"
+    "solidity/tests/2-clone-factory.ts",
+    "config",
+    "lib/open-nfts.mjs",
+    "svelte/kredeum-nft.svelte"
   ],
   "files.exclude": {
     "old": true

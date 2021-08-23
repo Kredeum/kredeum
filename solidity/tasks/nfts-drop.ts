@@ -6,6 +6,7 @@ task("nfts-drop", "drop all NFTs owned on a contract")
   .addPositionalParam("owner", "Filter list with owner")
   .setAction(async (_taskArgs: { contract: string; owner: string }, hre) => {
     const { random } = await hre.getNamedAccounts();
+    const ethers = hre.ethers;
 
     const abi = [
       "function balanceOf(address) view returns (uint256)",
@@ -14,7 +15,7 @@ task("nfts-drop", "drop all NFTs owned on a contract")
       "function tokenURI(uint256) view returns (string)"
     ];
 
-    const nftContract = await hre.ethers.getContractAt(abi, _taskArgs.contract);
+    const nftContract = await ethers.getContractAt(abi, _taskArgs.contract);
     const n = Number(await nftContract.balanceOf(_taskArgs.owner));
 
     console.log(`transfer from ${_taskArgs.owner} to ${random}`);
@@ -24,11 +25,12 @@ task("nfts-drop", "drop all NFTs owned on a contract")
       console.log("tokenId", tokenId.toString(), await nftContract.tokenURI(tokenId));
 
       const txSend = await nftContract.safeTransferFrom(_taskArgs.owner, random, tokenId, {
-        gasLimit: 200000,
-        gasPrice: 20000000000
+        gasLimit: ethers.utils.parseUnits("200", "kwei"),
+        gasPrice: ethers.utils.parseUnits("20", "gwei")
       });
       console.log(
-        `https://polygonscan.com/tx/${txSend.hash}`,
+        // "https://polygonscan.com/tx/" +
+        txSend.hash,
         txSend.nonce,
         txSend.gasPrice.toString(),
         txSend.gasLimit.toString()
