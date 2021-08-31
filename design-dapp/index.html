@@ -21,6 +21,115 @@
                 <input type="text" id="search" placeholder="Search" />
                 <input type="submit" value="GO" />
             </form>
+
+            <section class="content">
+                <header>
+                    <div class="row aligncenter">
+                        <div class="col col-sm-3">
+                            <h1>My NFT wallet</h1>
+                        </div>
+                        <div class="col col-sm-7">All collections</div>
+                        <div class="col col-sm-2 txtright">Add files</div>
+                    </div>
+                </header>
+
+                <div class="table">
+                    <div class="row">
+                        <div class="col col-sm-3">
+                            <span class="label">Filter</span>
+                            <div class="box">
+                                <div class="box-section">
+                                    <span class="label label-big">Media type</span>
+                                    <div class="box-fields">
+                                        <input class="box-field" id="video" name="media-type" type="checkbox" value="Video">
+                                        <label class="field" for="video">Video</label>
+
+                                        <input class="box-field" id="picture" name="media-type" type="checkbox" value="Picture">
+                                        <label class="field" for="picture">Picture</label>
+
+                                        <input class="box-field" id="texte" name="media-type" type="checkbox" value="Texte">
+                                        <label class="field" for="texte">Texte</label>
+
+                                        <input class="box-field" id="music" name="media-type" type="checkbox" value="Music">
+                                        <label class="field" for="music">Music</label>
+
+                                        <input class="box-field" id="web" name="media-type" type="checkbox" value="Web">
+                                        <label class="field" for="web">Web</label>
+                                    </div>
+                                </div>
+                                <div class="box-section">
+                                    <span class="label label-big">Blockchain type</span>
+                                    <div class="box-fields">
+                                        <input class="box-field" id="ethereum" name="blockchain-type" type="checkbox" value="Ethereum">
+                                        <label class="field" for="ethereum">Ethereum</label>
+
+                                        <input class="box-field" id="bsc" name="blockchain-type" type="checkbox" value="BSC">
+                                        <label class="field" for="bsc">BSC</label>
+
+                                        <input class="box-field" id="polygon" name="blockchain-type" type="checkbox" value="Polygon">
+                                        <label class="field" for="polygon">Polygon</label>
+                                    </div>
+                                </div>
+                                <div class="box-section">
+                                    <span class="label label-big">Marketplace</span>
+                                    <div class="box-fields">
+                                        <input class="box-field" id="opensea" name="marketplace" type="checkbox" value="Ethereum">
+                                        <label class="field" for="opensea">Opensea</label>
+
+                                        <input class="box-field" id="arkane" name="marketplace" type="checkbox" value="Arkane">
+                                        <label class="field" for="arkane">Arkane</label>
+                                    </div>
+                                </div>
+                                <div class="box-section">
+                                    <span class="label label-big">Statut</span>
+                                    <div class="box-fields">
+                                        <input class="box-field" id="mint" name="statut" type="checkbox" value="Mint">
+                                        <label class="field" for="mint">Mint</label>
+
+                                        <input class="box-field" id="inactive" name="statut" type="checkbox" value="Inactive">
+                                        <label class="field" for="inactive">Inactive</label>
+
+                                        <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell">
+                                        <label class="field" for="sell">Sell</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-sm-9">
+                            <table>
+                                <thead>
+                                    <td><span class="label">Media</span></td>
+                                    <td><span class="label">Type</span></td>
+                                    <td><span class="label">Date</span></td>
+                                    <td><span class="label">Name</span></td>
+                                    <td><span class="label">Blockchain</span></td>
+                                    <td><span class="label">Marketplace</span></td>
+                                    <td><span class="label">Statut</span></td>
+                                    <td><span class="label">More</span></td>
+                                </thead>
+
+                                <tbody>
+                                    <tr class="box">
+                                        <td colspan="7">My first collection</td>
+                                        <td>...</td>
+                                    </tr>
+
+                                    <tr class="box">
+                                        <td>Image</td>
+                                        <td>Photo</td>
+                                        <td>10/02/21</td>
+                                        <td>mon_image_du_futur.jpg</td>
+                                        <td><span class="tag">Bsc</span></td>
+                                        <td>Mint</td>
+                                        <td>More</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
 		</main>
 		<footer></footer>
 	</body>

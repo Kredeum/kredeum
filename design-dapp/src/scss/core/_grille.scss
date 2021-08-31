@@ -25,6 +25,8 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
     flex: 1 0 0%;
     position: relative;
     min-height: 1px;
+    padding-left:  ceil(($grid-gutter-width / 2));
+    padding-right: floor(($grid-gutter-width / 2));
 }
 
 //row
@@ -119,8 +121,6 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
         flex: 1 0 0%;
         position: relative;
         min-height: 1px;
-        padding-left:  ceil(($grid-gutter-width / 2));
-        padding-right: floor(($grid-gutter-width / 2));
     }
 }
 

@@ -6,6 +6,10 @@ nav {
     width: 130px;
     background: $couleur1;
     height: 100vh;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
 
     .logo {
         border-bottom: 1px solid rgba($white, 0.15);
@@ -25,10 +29,11 @@ main {
     #search-top {
         width: 100%;
         position: relative;
+        margin-bottom: 50px;
 
         input[type="text"] {
             height: 65px;
-            border-radius: 6px;
+            @include border-radius;
             border: 0 none;
             padding: 0 15px;
             width: 100%;
@@ -42,8 +47,37 @@ main {
             transform: translateY(-50%);
         }
     }
+
+    .content {
+        h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        header {
+            margin-bottom: 30px;
+        }
+    }
 }
 
 footer {
 
+}
+
+
+@media screen and (max-width: $max-breakpoint-mobile) {
+    @import 'front-xs';
+}
+
+@media screen and (min-width: $min-breakpoint-tablet) {
+    @import 'front-sm';
+}
+
+@media screen and (min-width: $min-breakpoint-mobile){
+    @import 'front-md';
+}
+
+@media screen and (min-width: $min-breakpoint-desktop){
+    @import 'front-lg';
 }

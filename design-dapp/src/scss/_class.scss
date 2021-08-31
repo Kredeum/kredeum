@@ -40,3 +40,65 @@
 .txtcenter {
     text-align: center;
 }
+
+.aligncenter {
+    align-items: center;
+}
+
+.label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba($couleur1, 0.3);
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+
+    &-big {
+        font-size: 12px;
+    }
+}
+
+.box {
+    @include border-radius;
+    background: $white;
+
+    .box-section {
+        padding: 30px 30px 22px 30px;;
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba($couleur1, 0.1);
+        }
+    }
+}
+
+.box-field {
+    display: none !important;
+}
+
+.box-fields {
+    .field {
+        margin: 0 4px 8px 0;
+        padding: 10px 20px;
+        @include border-radius;
+        cursor: pointer;
+        transition: all 300ms ease-in-out;
+        display: inline-block;
+        vertical-align: middle;
+        background: rgba($grey-blue, 0.1);
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: bold;
+        color: $grey-blue;
+    }
+
+    .box-field:checked + label {
+        background: $green;
+        color: $white;
+    }
+}
+
+table {
+    width: 100%;
+}

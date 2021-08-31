@@ -37,3 +37,7 @@
     -webkit-column-gap: $column-gap;
     column-gap: $column-gap;
 }
+
+@mixin border-radius {
+  border-radius: 6px;
+}
