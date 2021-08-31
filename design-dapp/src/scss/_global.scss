@@ -36,4 +36,11 @@ body {
     background-color:$bg-color-body;
     min-height: 100vh;
     position: relative;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
 }

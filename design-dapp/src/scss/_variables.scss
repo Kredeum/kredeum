@@ -1,13 +1,13 @@
 // COLOR
 $white: 		#ffffff !default;
-$black: 		#1E1E43 !default;
-$vert:			#3ACF6E !default;
+$blue: 		#1E1E43 !default;
+$green:			#3ACF6E !default;
 
 
-$couleur1:		$black;
+$couleur1:		$blue;
 $gris:			rgba($couleur1, 0.7);
-$color-body: 	$white;
-$bg-color-body: $couleur1;
+$color-body: 	$blue;
+$bg-color-body: #F9F9FB;
 
 // FONT FAMILY
 $font-family: 'Work Sans', Arial, sans-serif;

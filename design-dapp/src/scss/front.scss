@@ -1,11 +1,47 @@
 @import '_variables';
 @import '_global';
 
-main {
-	display: flex;
-	align-items: center;
-	width: 100%;
+nav {
+    flex: 0 0 auto;
+    width: 130px;
+    background: $couleur1;
+    height: 100vh;
 
+    .logo {
+        border-bottom: 1px solid rgba($white, 0.15);
+        padding: 10px 0;
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+}
+
+main {
+    flex: 1 0 0%;
+    padding: 50px;
+
+    #search-top {
+        width: 100%;
+        position: relative;
+
+        input[type="text"] {
+            height: 65px;
+            border-radius: 6px;
+            border: 0 none;
+            padding: 0 15px;
+            width: 100%;
+            font-size: 20px;
+        }
+
+        input[type="submit"] {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+    }
 }
 
 footer {
