@@ -75,6 +75,15 @@
             background: rgba($green, 0.2);
         }
     }
+
+    &-sell {
+        color: $white;
+        background: $green;
+
+        &:hover {
+            background: darken($green, 10);
+        }
+    }
 }
 
 .box {
@@ -100,6 +109,12 @@
         cursor: pointer;
         background: rgba($grey-blue, 0.1);
         color: $grey-blue;
+
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
     }
 
     .box-field:checked + label {
@@ -178,35 +193,41 @@
     }
 
     .table-col:not(.table-col-full) {
-        //float: left;
         display: table-cell;
         vertical-align: middle;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;
         padding: 15px 5px 15px 15px;
+        max-width: 0;
 
-        &:nth-child(1),
-        &:nth-child(2),
-        &:nth-child(3) {
+        &:nth-child(1) {
+            width: 7%;
+        }
+
+        &:nth-child(2) {
             width: 8%;
         }
 
+        &:nth-child(3) {
+            width: 10%;
+        }
+
         &:nth-child(4) {
-            width: 20%;
+            width: 26%;
         }
 
         &:nth-child(5),
         &:nth-child(6) {
-            width: 18%;
-        }
-
-        &:nth-child(7) {
             width: 15%;
         }
 
+        &:nth-child(7) {
+            width: 12%;
+        }
+
         &:nth-child(8) {
-            width: 5%;
+            width: 7%;
         }
     }
 

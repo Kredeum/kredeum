@@ -4,12 +4,14 @@
 nav {
     flex: 0 0 auto;
     width: 130px;
-    background: $couleur1;
+    background: $couleur1 url("../images/bg-dapp.svg") no-repeat center top;
+    background-size: auto 80%;
     height: 100vh;
     overflow-x: hidden;
     position: fixed;
     top: 0;
     left: 0;
+
 
     .logo {
         border-bottom: 1px solid rgba($white, 0.15);
@@ -25,6 +27,9 @@ nav {
 main {
     flex: 1 0 0%;
     padding: 40px;
+    background: url("../images/bg-dapp.svg") no-repeat center -200px;
+    background-size: 100% auto;
+    background-attachment: fixed;
 
     #search-top {
         width: 100%;
@@ -76,6 +81,15 @@ main {
                 width: 40px;
                 height: 40px;
                 @include border-radius;
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                i {
+                    color: $white;
+                    display: inline-block;
+                }
 
                 &-video {
                     background: #CE2828;
@@ -83,6 +97,26 @@ main {
 
                 &-song {
                     background: #F58755;
+                }
+
+                img {
+                    object-fit: cover;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+
+            .more {
+                width: 40px;
+                height: 40px;
+                line-height: 40px;
+                border: 1px solid rgba($couleur1, 0.1);
+                text-align: center;
+                @include border-radius;
+                cursor: pointer;
+
+                i {
+                    color: $grey-blue;
                 }
             }
         }

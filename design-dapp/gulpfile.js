@@ -66,12 +66,20 @@ function css() {
         .pipe(gulp.dest("./assets/css/"))
 }
 
+function fonts() {
+  return (
+      gulp
+          .src(["./src/fonts/**/*"])
+          .pipe(gulp.dest("./assets/fonts/"))
+  )
+}
+
 // Watch files
 function watchFiles() {
     gulp.watch("./src/scss/**/*", css);
 }
 
-const build = gulp.series(clean, gulp.parallel(css, images));
+const build = gulp.series(clean, gulp.parallel(css, images), fonts);
 const watch = gulp.parallel(watchFiles);
 
 exports.images = images;
@@ -79,4 +87,5 @@ exports.css = css;
 exports.clean = clean;
 exports.build = build;
 exports.watch = watch;
+exports.fonts = fonts;
 exports.default = build;
