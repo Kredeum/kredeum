@@ -13,7 +13,8 @@
     "solidity/tests/2-clone-factory.ts",
     "config",
     "lib/open-nfts.mjs",
-    "svelte/kredeum-nft.svelte"
+    "svelte/kredeum-nft.svelte",
+    "rollup.config.js"
   ],
   "files.exclude": {
     "old": true

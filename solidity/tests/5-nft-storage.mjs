@@ -14,7 +14,7 @@ const jsnCID = "bafkreidnojnd2xzyjtlim2v5wmbnokqdzkjt4hgedzutwucxnutsht3gmy";
 
 describe("NftStorage", async function () {
   describe("Add Text", async function () {
-    it("Add text should return given CID", async function () {
+    it.only("Add text should return given CID", async function () {
       const nftStorage = new NftStorage(key);
       expect(await nftStorage.pin(txt)).to.be.equal(txtCID);
     });

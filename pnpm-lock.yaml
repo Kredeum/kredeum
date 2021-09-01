@@ -48,6 +48,7 @@ specifiers:
   prettier-plugin-svelte: ^2.3.1
   rollup: ^2.56.2
   rollup-plugin-css-only: ^3.1.0
+  rollup-plugin-dotenv: ^0.3.0
   rollup-plugin-livereload: ^2.0.5
   rollup-plugin-node-builtins: ^2.1.2
   rollup-plugin-node-polyfills: ^0.2.1
@@ -115,6 +116,7 @@ devDependencies:
   prettier-plugin-svelte: 2.3.1_prettier@2.3.2+svelte@3.42.2
   rollup: 2.56.2
   rollup-plugin-css-only: 3.1.0_rollup@2.56.2
+  rollup-plugin-dotenv: 0.3.0_rollup@2.56.2
   rollup-plugin-livereload: 2.0.5
   rollup-plugin-node-builtins: 2.1.2
   rollup-plugin-node-polyfills: 0.2.1
@@ -1045,6 +1047,16 @@ packages:
       deepmerge: 4.2.2
       is-module: 1.0.0
       resolve: 1.20.0
+      rollup: 2.56.2
+    dev: true
+
+  /@rollup/plugin-replace/2.4.2_rollup@2.56.2:
+    resolution: {integrity: sha512-IGcu+cydlUMZ5En85jxHH4qj2hta/11BHq95iHEyb2sbgiN0eCdzvUcHw5gt9pBL5lTi4JDYJ1acCoMGpTvEZg==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/pluginutils': 3.1.0_rollup@2.56.2
+      magic-string: 0.25.7
       rollup: 2.56.2
     dev: true
 
@@ -4389,6 +4401,11 @@ packages:
 
   /dotenv/10.0.0:
     resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
+    dev: true
+
+  /dotenv/8.6.0:
+    resolution: {integrity: sha512-IrPdXQsk2BbzvCBGBOTmmSH5SodmqZNt4ERAZDmW4CT+tL8VtvinqywuANaFu4bOMWki16nqf0e4oC0QIaDr/g==}
     engines: {node: '>=10'}
     dev: true
 
@@ -10825,6 +10842,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
+    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
@@ -11450,6 +11468,16 @@ packages:
       rollup: 1 || 2
     dependencies:
       '@rollup/pluginutils': 4.1.1
+      rollup: 2.56.2
+    dev: true
+
+  /rollup-plugin-dotenv/0.3.0_rollup@2.56.2:
+    resolution: {integrity: sha512-gI6Bo85j20DXyxV358ZtugBRTukmomRFtP9b2LOQrlsZwn9W536fBw5CfYnt137JUIeWZg52hdimO4IRqz0MTw==}
+    peerDependencies:
+      rollup: ^1.20.0 || ^2.0.0
+    dependencies:
+      '@rollup/plugin-replace': 2.4.2_rollup@2.56.2
+      dotenv: 8.6.0
       rollup: 2.56.2
     dev: true
 

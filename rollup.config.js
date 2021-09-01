@@ -1,5 +1,6 @@
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
+import dotenv from "rollup-plugin-dotenv";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
@@ -18,6 +19,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
       file: `${dest}/${component}.js`
     },
     plugins: [
+      dotenv(),
       svelte({
         compilerOptions: {
           customElement,

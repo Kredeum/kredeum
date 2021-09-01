@@ -8,6 +8,8 @@ import "@typechain/hardhat";
 import { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
 import "./solidity/tasks/index";
+import dotenv from "dotenv";
+dotenv.config();
 
 const accounts = [
   process.env.ACCOUNT_KEY || "",
