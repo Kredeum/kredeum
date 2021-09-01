@@ -24,3 +24,6 @@ videos
 
 # MACOS
 .DS_Store
+
+# LOCAL HISTORY
+.lh
