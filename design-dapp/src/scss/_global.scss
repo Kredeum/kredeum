@@ -41,6 +41,18 @@ body {
 }
 
 img {
-  max-width: 100%;
-  height: auto;
+    max-width: 100%;
+    height: auto;
+}
+
+figure {
+   margin: 0;
+   padding: 0;
+   overflow: hidden;
+
+   img {
+       object-fit: cover;
+       width: 100%;
+       height: 100%;
+   }
 }

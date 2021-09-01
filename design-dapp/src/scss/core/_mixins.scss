@@ -41,3 +41,14 @@
 @mixin border-radius {
   border-radius: 6px;
 }
+
+@mixin base {
+  padding: 8px 20px;
+  transition: all 300ms ease-in-out;
+  display: inline-block;
+  vertical-align: middle;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: bold;
+}

@@ -24,12 +24,12 @@ nav {
 
 main {
     flex: 1 0 0%;
-    padding: 50px;
+    padding: 40px;
 
     #search-top {
         width: 100%;
         position: relative;
-        margin-bottom: 50px;
+        margin-bottom: 40px;
 
         input[type="text"] {
             height: 65px;
@@ -57,6 +57,34 @@ main {
 
         header {
             margin-bottom: 30px;
+        }
+
+        .table {
+            margin-top: -10px;
+
+            .table-head {
+                .label {
+                    margin-bottom: 10px;
+                }
+            }
+
+            .light {
+                color: rgba($couleur1, 0.6);
+            }
+
+            .media {
+                width: 40px;
+                height: 40px;
+                @include border-radius;
+
+                &-video {
+                    background: #CE2828;
+                }
+
+                &-song {
+                    background: #F58755;
+                }
+            }
         }
     }
 }

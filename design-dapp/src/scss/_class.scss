@@ -49,13 +49,31 @@
     font-weight: bold;
     text-transform: uppercase;
     font-size: 11px;
-    color: rgba($couleur1, 0.3);
+    color: rgba($couleur1, 0.4);
     display: inline-block;
     margin-bottom: 20px;
     letter-spacing: 1px;
 
     &-big {
         font-size: 12px;
+    }
+}
+
+.btn {
+    text-decoration: none;
+
+    &-small {
+        @include base;
+        border-radius: 360px;
+    }
+
+    &-mint {
+        color: $green;
+        background: rgba($green, 0.1);
+
+        &:hover {
+            background: rgba($green, 0.2);
+        }
     }
 }
 
@@ -79,17 +97,8 @@
 .box-fields {
     .field {
         margin: 0 4px 8px 0;
-        padding: 10px 20px;
-        @include border-radius;
         cursor: pointer;
-        transition: all 300ms ease-in-out;
-        display: inline-block;
-        vertical-align: middle;
         background: rgba($grey-blue, 0.1);
-        font-size: 12px;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-        font-weight: bold;
         color: $grey-blue;
     }
 
@@ -99,6 +108,115 @@
     }
 }
 
-table {
+.tag,
+.field {
+    @include border-radius;
+    @include base;
+}
+
+.tag {
+    &-bsc {
+        color: #FFB30D;
+        background: rgba(#FFB30D, 0.1);
+    }
+
+    &-eth {
+        color: #2E80DD;
+        background: rgba(#2E80DD, 0.1);
+    }
+
+    &-polygon {
+        color: #9E2195;
+        background: rgba(#9E2195, 0.1);
+    }
+
+    &-marketplace {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+    }
+}
+
+.table {
+    display: table;
     width: 100%;
+    border-collapse: collapse;
+    border-collapse:separate;
+    border-spacing: 0 10px;
+    position: relative;
+
+    .table-row {
+        display: table-row;
+
+        &:not(.table-head) {
+            & > div {
+                background: $white;
+
+                &:first-child {
+                    border-radius: 6px 0 0 6px;
+                }
+
+                &:last-child {
+                    border-radius: 0 6px 6px 0;
+                }
+            }
+        }
+    }
+
+    .colspan {
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+
+    .table-col-full {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+        padding: 15px;
+        border-radius: 6px 6px 6px 6px !important;
+        font-size: 14px;
+    }
+
+    .table-col:not(.table-col-full) {
+        //float: left;
+        display: table-cell;
+        vertical-align: middle;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 15px 5px 15px 15px;
+
+        &:nth-child(1),
+        &:nth-child(2),
+        &:nth-child(3) {
+            width: 8%;
+        }
+
+        &:nth-child(4) {
+            width: 20%;
+        }
+
+        &:nth-child(5),
+        &:nth-child(6) {
+            width: 18%;
+        }
+
+        &:nth-child(7) {
+            width: 15%;
+        }
+
+        &:nth-child(8) {
+            width: 5%;
+        }
+    }
+
+    .table-head {
+        .label {
+            padding-left: 15px;
+        }
+
+        .table-col {
+            padding: 0;
+        }
+    }
 }
