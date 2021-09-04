@@ -81,7 +81,6 @@
   },
 
   {
-    "chainId": "0xa4b1",
     "chainName": "arbitrum",
     "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "AETH", "decimals": 18 },
