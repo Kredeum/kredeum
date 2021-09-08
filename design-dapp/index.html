@@ -24,7 +24,9 @@
         <main role="main">
             <form id="search-top" action="">
                 <input type="text" id="search" placeholder="Search" />
-                <input type="submit" value="GO" />
+                <button type="submit">
+                    <i class="fas fa-search"></i>
+                </button>
             </form>
 
             <section class="content">
@@ -33,14 +35,21 @@
                         <div class="col col-sm-3">
                             <h1>My NFT wallet</h1>
                         </div>
-                        <div class="col col-sm-7">All collections</div>
-                        <div class="col col-sm-2 txtright">Add files</div>
+                        <div class="col col-sm-7">
+                            <select>
+                                <option selected value="0">All collections</option>
+                                <option value="1">Collection 1</option>
+                                <option value="2">Collection 2</option>
+                                <option value="3">Collection 3</option>
+                            </select>
+                        </div>
+                        <div class="col col-sm-2 txtright"><a href="" class="btn btn-light" title="Add"><i class="fas fa-plus"></i>Add</a></div>
                     </div>
                 </header>
 
                 <div class="table">
                     <div class="row">
-                        <div class="col col-sm-3">
+                        <div class="col col-sm-3 col-filters">
                             <span class="label">Filter</span>
                             <div class="box">
                                 <div class="box-section">
@@ -115,8 +124,8 @@
                                 </div>
 
                                 <div class="table-row">
-                                    <div class="table-col">&nbsp;</div>
-                                    <div class="table-col table-col-full colspan">My first collection</div>
+                                    <div class="table-col no-bg">&nbsp;</div>
+                                    <div class="table-col no-bg table-col-full colspan">My first collection</div>
                                 </div>
 
                                 <div class="table-row">

@@ -59,12 +59,52 @@
     }
 }
 
+select {
+    appearance: none;
+    min-width: 200px;
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    padding: 12px 50px 12px 25px;
+    background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+    color: $couleur1;
+    border-radius: 360px;
+    cursor: pointer;
+
+    &:focus {
+        outline: none;
+    }
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
 .btn {
     text-decoration: none;
+    @include base;
+    padding: 11px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+
+    &-light {
+        background: $white;
+        color: $couleur1;
+
+        &:hover {
+            background: $couleur1;
+            color: $white;
+        }
+    }
 
     &-small {
-        @include base;
-        border-radius: 360px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 8px 15px;
+        font-weight: bold;
     }
 
     &-mint {
@@ -83,6 +123,13 @@
         &:hover {
             background: darken($green, 10);
         }
+    }
+
+    & > i {
+        margin-right: 8px;
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
     }
 }
 
@@ -127,6 +174,11 @@
 .field {
     @include border-radius;
     @include base;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 15px;
+    font-weight: bold;
 }
 
 .tag {
@@ -163,7 +215,7 @@
         display: table-row;
 
         &:not(.table-head) {
-            & > div {
+            & > div:not(.no-bg) {
                 background: $white;
 
                 &:first-child {

@@ -1,32 +1,7 @@
 @import '_variables';
 @import '_global';
 
-nav {
-    flex: 0 0 auto;
-    width: 130px;
-    background: $couleur1 url("../images/bg-dapp.svg") no-repeat center top;
-    background-size: auto 80%;
-    height: 100vh;
-    overflow-x: hidden;
-    position: fixed;
-    top: 0;
-    left: 0;
-
-
-    .logo {
-        border-bottom: 1px solid rgba($white, 0.15);
-        padding: 10px 0;
-
-        img {
-            display: block;
-            margin: 0 auto;
-        }
-    }
-}
-
 main {
-    flex: 1 0 0%;
-    padding: 40px;
     background: url("../images/bg-dapp.svg") no-repeat center -200px;
     background-size: 100% auto;
     background-attachment: fixed;
@@ -45,11 +20,18 @@ main {
             font-size: 20px;
         }
 
-        input[type="submit"] {
+        button[type="submit"] {
             position: absolute;
             right: 15px;
             top: 50%;
             transform: translateY(-50%);
+            background: none;
+            border: none;
+            cursor: pointer;
+
+            i {
+                font-size: 20px;
+            }
         }
     }
 
