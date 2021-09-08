@@ -53,3 +53,18 @@ main {
         }
     }
 }
+
+// Modal
+.modal-window {
+    overflow-y: auto;
+
+    & > div {
+        width:90%;
+        top: 20px;
+        transform: translate(-50%, 0);
+    }
+
+    .modal-body {
+        padding: 40px 20px 20px;
+    }
+}
