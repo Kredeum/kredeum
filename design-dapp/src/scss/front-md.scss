@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'core/_mixins';
 
 nav {
     flex: 0 0 auto;
@@ -20,6 +21,30 @@ nav {
             margin: 0 auto;
         }
     }
+
+    ul {
+        text-align: center;
+        margin-top: 40px;
+
+        li:not(:last-child) {
+            margin-bottom: 30px;
+        }
+
+        li {
+            a {
+                display: block;
+                transition: all 300ms ease-in-out;
+
+                &:hover {
+                    color: $white;
+                }
+            }
+
+            i {
+                font-size: 20px;
+            }
+        }
+    }
 }
 
 nav + main {
@@ -29,4 +54,16 @@ nav + main {
 main {
     flex: 1 0 0%;
     padding: 40px;
+    background-size: 100% auto;
+
+    .col-filters {
+        .box {
+            @include border-radius;
+            background: $white;
+
+            .box-section {
+                padding: 30px 30px 22px 30px;
+            }
+        }
+    }
 }

@@ -126,22 +126,12 @@ select {
     }
 
     & > i {
-        margin-right: 8px;
         display: inline-block;
         vertical-align: middle;
         font-size: 14px;
-    }
-}
 
-.box {
-    @include border-radius;
-    background: $white;
-
-    .box-section {
-        padding: 30px 30px 22px 30px;;
-
-        &:not(:last-child) {
-            border-bottom: 1px solid rgba($couleur1, 0.1);
+        & + span {
+            margin-left: 8px;
         }
     }
 }

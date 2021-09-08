@@ -7,10 +7,14 @@ nav {
     position: fixed;
     top: 0;
     left: 0;
+    padding: 0 10px;
+    z-index: 10;
 
     .logo {
+        display: inline-block;
+
         img {
-            display: inline-block;
+            display: block;
             width: 60px;
         }
     }
@@ -21,5 +25,31 @@ nav + main {
 }
 
 main {
+    background-position: center top;
+    background-size: 300% auto;
     padding: 20px;
+
+    .content {
+        header {
+            h1 {
+                margin-bottom: 20px;
+            }
+        }
+    }
+
+    .col-filters {
+        background: $white;
+
+        & > .label {
+            margin-top: 20px;
+        }
+
+        .box {
+            display: none;
+
+            .box-section {
+                padding: 30px 0 22px 0;
+            }
+        }
+    }
 }
