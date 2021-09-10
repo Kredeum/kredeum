@@ -99,12 +99,6 @@ select {
     }
 }
 
-.or {
-    display: inline-block;
-    vertical-align: middle;
-    margin: 0 10px;
-}
-
 .btn {
     text-decoration: none;
     @include base;
