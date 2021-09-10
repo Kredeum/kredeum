@@ -22,26 +22,25 @@ nav {
         }
     }
 
-    ul {
-        text-align: center;
-        margin-top: 40px;
+    .menu {
+        input {
+            display: none;
 
-        li:not(:last-child) {
-            margin-bottom: 30px;
+            & + label {
+                display: none;
+            }
         }
 
-        li {
-            a {
-                display: block;
-                transition: all 300ms ease-in-out;
+        ul {
+            li {
+                a {
 
-                &:hover {
-                    color: $white;
+                    transition: all 300ms ease-in-out;
+
+                    &:hover {
+                        color: $white;
+                    }
                 }
-            }
-
-            i {
-                font-size: 20px;
             }
         }
     }
@@ -65,11 +64,5 @@ main {
                 padding: 30px 30px 22px 30px;
             }
         }
-    }
-
-    .or {
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0 10px;
     }
 }
