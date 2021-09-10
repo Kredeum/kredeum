@@ -45,6 +45,16 @@
     align-items: center;
 }
 
+.fa-left {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.c-green {
+    color: $green;
+}
+
 .label {
     font-weight: bold;
     text-transform: uppercase;
@@ -71,6 +81,15 @@ select {
     border-radius: 360px;
     cursor: pointer;
 
+    &.custom {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+        @include border-radius();
+        width: 100%;
+        background-position: 95% 50%;
+        padding: 20px 50px 20px 15px;
+    }
+
     &:focus {
         outline: none;
     }
@@ -78,6 +97,12 @@ select {
     &::-ms-expand {
         display: none;
     }
+}
+
+.or {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
 }
 
 .btn {
@@ -88,6 +113,24 @@ select {
     border-radius: 360px;
     border: none;
     cursor: pointer;
+
+    &-default {
+        background: $couleur1;
+        color: $white;
+
+        &:hover {
+            background: lighten($couleur1, 10);
+        }
+    }
+
+    &-second {
+        background: rgba($couleur1, 0.2);
+        color: $couleur1;
+
+        &:hover {
+            background: rgba($couleur1, 0.3);
+        }
+    }
 
     &-light {
         background: $white;
@@ -133,6 +176,54 @@ select {
         & + span {
             margin-left: 8px;
         }
+    }
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.box-file {
+    background: rgba($grey-blue, 0.1);
+    color: $grey-blue;
+    width: 100%;
+    padding: 15px;
+    @include border-radius();
+}
+
+[type="file"] {
+    width: 100%;
+    font-size: 16px;
+    color: $grey-blue;
+}
+
+[type="file"]::-webkit-file-upload-button {
+    text-decoration: none;
+    @include base;
+    padding: 11px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+
+    background: $couleur1;
+    color: $white;
+
+    &:hover {
+        background: lighten($couleur1, 10);
+    }
+}
+
+.form-field {
+    input[type="text"] {
+        width: 100%;
+        background: rgba($grey-blue, 0.1);
+        color: $grey-blue;
+        width: 100%;
+        padding: 20px 15px;
+        @include border-radius();
+        border: 0;
     }
 }
 
@@ -230,7 +321,6 @@ select {
         vertical-align: middle;
         width: 100%;
         padding: 15px;
-        border-radius: 6px 6px 6px 6px !important;
         font-size: 14px;
     }
 
