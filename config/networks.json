@@ -51,10 +51,6 @@
       "https://polygonscan.com/",
       "https://backup-explorer.matic.network"
     ],
-    "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-matic",
-      "startBlock": 16875648
-    },
     "covalent": { "active": true },
     "openSea": {
       "assets": "https://opensea.io/assets/matic",

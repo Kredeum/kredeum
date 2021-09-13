@@ -17,6 +17,7 @@ specifiers:
   cids: ^1.1.7
   cypress: ^7.7.0
   cypress-file-upload: ^5.0.8
+  dotenv: ^10.0.0
   eslint: ^7.32.0
   eslint-plugin-cypress: ^2.11.3
   ethereum-waffle: ^3.4.0
@@ -74,6 +75,7 @@ devDependencies:
   cids: 1.1.7
   cypress: 7.7.0
   cypress-file-upload: 5.0.8_cypress@7.7.0
+  dotenv: 10.0.0
   eslint: 7.32.0
   eslint-plugin-cypress: 2.11.3_eslint@7.32.0
   ethereum-waffle: 3.4.0
@@ -4279,6 +4281,11 @@ packages:
 
   /dom-walk/0.1.2:
     resolution: {integrity: sha512-6QvTW9mrGeIegrFXdtQi9pk7O/nSK6lSdXW2eqUspN5LWD7UTji2Fqw5V2YLjBpHEoU9Xl/eUWNpDeZvoyOv2w==}
+    dev: true
+
+  /dotenv/10.0.0:
+    resolution: {integrity: sha512-rlBi9d8jpv9Sf1klPjNfFAuWDjKLwTIJJ/VxtoTwIR6hnZxcEOQCZg2oIL3MWBYw5GpUDKOEnND7LXTbIpQ03Q==}
+    engines: {node: '>=10'}
     dev: true
 
   /dotignore/0.1.2:
@@ -10621,6 +10628,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
+    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}

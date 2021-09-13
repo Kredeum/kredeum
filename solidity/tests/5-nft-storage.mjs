@@ -2,7 +2,9 @@
 import { expect } from "chai";
 import NftStorage from "../../lib/nft-storage.mjs";
 import fetch from "node-fetch";
+import { config } from "dotenv";
 global.fetch = fetch;
+config();
 
 const txt = "Bonjour le monde";
 const txtCID = "bafkreicnyrnv5u66eavfne6je3fpsw6zoef66t7f7mlkdqskbdwufduk4a";

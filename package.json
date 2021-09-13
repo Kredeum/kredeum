@@ -62,6 +62,7 @@
     "cids": "^1.1.7",
     "cypress": "^7.7.0",
     "cypress-file-upload": "^5.0.8",
+    "dotenv": "^10.0.0",
     "eslint": "^7.32.0",
     "eslint-plugin-cypress": "^2.11.3",
     "ethereum-waffle": "^3.4.0",
