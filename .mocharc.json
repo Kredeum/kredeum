@@ -1,4 +1,5 @@
 {
   "experimental-json-modules": true,
+  "require": "ts-node/register/files",
   "timeout": 10000
 }

@@ -12,6 +12,7 @@
   export let alt = undefined;
   export let src = undefined;
   export let pid = undefined;
+  export let contract = undefined;
   export let metadata = undefined;
   export let width = 100;
   export let display = false;
@@ -30,23 +31,19 @@
 
   const openNFTs = new OpenNFTs();
 
-  $: if (chainId > 0) initContract(chainId);
+  // CONTRACT OR NETWORK CHANGE
+  $: if (contract || chainId) {
+    console.log("<kredeum-nft-mint/> chainId or contract changed", chainId, contract);
+    initContract(chainId, contract);
+  }
 
-  async function initContract(_chainId) {
-    [network] = openNFTs.setContract(_chainId);
-
-    await openNFTs.initContract();
-
-    if (network) {
-      openSea = openNFTs.network?.openSea;
-    } else {
-      console.log("Wrong chainId: switch to Matic network on Polygon", _chainId);
-      alert("Switch to a supported network");
-    }
+  async function initContract(_chainId, _contract) {
+    console.log(`<kredeum-nft-mint/> initContract(${_chainId}, ${_contract})`);
+    ({ network, openSea } = await openNFTs.initContract(_chainId, _contract));
   }
 
   async function nftMint() {
-    //console.log('nftMint src alt', src, alt);
+    //console.log('<kredeum-nft-mint/> nftMint src alt', src, alt);
 
     if (signer) {
       minting = true;
@@ -68,7 +65,7 @@
         minted = await openNFTs.Mint(signer, `${ipfsGateway}/${cidJson}`);
         dispatch("token", { nid: minted.nid });
       } catch (e) {
-        console.error("Minting ERROR", e);
+        console.error("<kredeum-nft-mint/> Minting ERROR", e);
         minted = false;
         minting = false;
       }
@@ -92,7 +89,7 @@
     {:else if minting}
       <button id="mint-button" class="minting">MINTING...</button>
     {:else if !network}
-      <button id="mint-button" class="switch">Switch to MATIC</button>
+      <button id="mint-button" class="switch">No network</button>
     {:else}
       <button id="mint-button-{pid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
     {/if}

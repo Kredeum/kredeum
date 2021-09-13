@@ -18,7 +18,7 @@
   let targetChain = false;
 
   async function addEthereumChain(_chainId) {
-    console.log("addEthereumChain", _chainId);
+    console.log("<kredeum-metamask/> addEthereumChain", _chainId);
 
     if (targetChain) {
       //console.log('already connecting network...');
@@ -26,14 +26,14 @@
     targetChain = true;
 
     if (_chainId !== "0x1") {
-      console.log("addEthereumChain", _chainId);
+      console.log("<kredeum-metamask/> addEthereumChain", _chainId);
       // no need to add default ethereum chain
 
       const _network = getNetwork(_chainId);
-      console.log("addEthereumChain", _network);
+      console.log("<kredeum-metamask/> addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
-          // IEP-3085 fields only or fails
+          // EIP-3085 fields only or fails
           if (
             ![
               "chainId",
@@ -62,7 +62,7 @@
   }
 
   async function handleChainId(_chainId) {
-    // console.log("handleChainId", _chainId);
+    // console.log("<kredeum-metamask/> handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
       network = getNetwork(_chainId);
@@ -89,7 +89,7 @@
   }
 
   async function handleAccounts(_accounts) {
-    // console.log("handleAccounts", _accounts);
+    // console.log("<kredeum-metamask/> handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
@@ -107,7 +107,7 @@
 
       signer = provider.getSigner(0);
 
-      console.log("nameOrAddress", nameOrAddress, name, address);
+      console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
   }
   async function connectMetamask() {
@@ -168,11 +168,25 @@
     {nameOrAddress}
   {/if}
   <small>
-    (switch to
-    {#each networks.filter((nw) => nw.prod) as network}
+    switch to
+    {#each networks.filter((nw) => nw.type == "mainnet") as network}
       {#if network.chainId !== chainId}
-        &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">{network.chainName}</a
-        >{/if}{/each})
+        &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">
+          @{network.chainName}
+        </a>
+      {/if}
+    {/each}
+    {#if address == network?.admin}
+      ( testnets
+      {#each networks.filter((nw) => nw.type == "testnet") as network}
+        {#if network.chainId !== chainId}
+          &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">
+            @{network.chainName}
+          </a>
+        {/if}
+      {/each}
+      )
+    {/if}
   </small>
 {:else}
   <button on:click="{connectMetamask}">{connectmetamask}</button>

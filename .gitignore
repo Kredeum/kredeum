@@ -3,7 +3,7 @@ node_modules
 .pnpm-debug.log 
 
 # SOLIDITY
-solidity/build
+solidity/artifacts
 
 # APP
 app/build
@@ -21,6 +21,9 @@ videos
 
 # JAVASCRIPT
 **/*.map
+
+# TYPESCRIPT
+typechain
 
 # MACOS
 .DS_Store

@@ -1,22 +1,32 @@
 {
   "favorites.resources": [
-    "rollup.config.js",
+    "solidity",
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
     "hardhat.config.js",
     "solidity/deploy/OpenNFTS.js",
     "config/networks.json",
-    "solidity/contracts/OpenNFTs.sol"
+    "solidity/contracts/OpenNFTs.sol",
+    "hardhat.config.ts",
+    "solidity/contracts/CloneFactory.sol",
+    "solidity/tests/2-clone-factory.ts",
+    "config",
+    "lib/open-nfts.mjs",
+    "svelte/kredeum-nft.svelte",
+    ".env",
+    "rollup.config.js",
+    "solidity/contracts/NFTsFactory.sol",
+    "solidity/tests/nfts-factory.ts"
   ],
   "files.exclude": {
     "old": true
   },
   "mochaExplorer.exit": true,
-  "mochaExplorer.files": "solidity/tests/*.mjs",
+  "mochaExplorer.files": "solidity/tests/*.*ts",
   "mochaExplorer.fullTrace": true,
   "mochaExplorer.logpanel": true,
-  "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
+  // "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
   "mochaExplorer.nodePath": "/usr/local/bin/node",
   "mochaExplorer.optsFile": "",
   "mochaExplorer.retries": 1,
@@ -36,5 +46,6 @@
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
-  "liveServer.settings.root": "/app"
+  "liveServer.settings.root": "/app",
+  "local-history.browser.descending": false
 }

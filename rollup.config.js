@@ -1,10 +1,23 @@
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
+import replace from "@rollup/plugin-replace";
 import commonjs from "@rollup/plugin-commonjs";
+import dotenv from "dotenv";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
 import css from "rollup-plugin-css-only";
 import builtins from "rollup-plugin-node-builtins";
+
+const envKeys = () => {
+  const envRaw = dotenv.config().parsed || {};
+  return Object.keys(envRaw).reduce(
+    (envValues, envValue) => ({
+      ...envValues,
+      [`process.env.${envValue}`]: JSON.stringify(envRaw[envValue])
+    }),
+    {}
+  );
+};
 
 const production = process.env.PROD;
 
@@ -18,6 +31,10 @@ const toRollupConfig = function (component, dest, customElement = true) {
       file: `${dest}/${component}.js`
     },
     plugins: [
+      replace({
+        preventAssignment: true,
+        values: envKeys()
+      }),
       svelte({
         compilerOptions: {
           customElement,

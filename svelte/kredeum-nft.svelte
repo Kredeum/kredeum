@@ -11,72 +11,107 @@
 
   const openNFTs = new OpenNFTs();
 
-  let address,
-    chainId,
-    network,
-    explorer,
-    openSea,
-    refreshing,
-    importing = {};
-  let NFTsContractsPromise;
+  let signer = "";
+  let address;
+  let chainId;
+  let network;
+  let explorer;
+  let openSea;
+  let refreshingNFTs;
+  let refreshingContracts;
+  let importing = {};
+  let NFTs;
+  let NFTsContracts;
 
   export let contract = undefined;
   export let platform = undefined;
 
-  let NFTs;
-
   // ADDRESS CHANGE
   $: if (address) {
-    console.log("address changed", address);
+    console.log("<kredeum-nft/> address changed", address);
     openNFTs.setOwner(address);
     listContracts();
     listNFTs();
   }
 
-  // NETWORK CHANGE
-  $: if (chainId) {
-    console.log("chainId changed", chainId);
-    [network, contract] = openNFTs.setContract(chainId);
-
-    openSea = openNFTs.getOpenSeaUrl();
-    explorer = openNFTs.getExplorer();
-
-    listContracts();
+  // CONTRACT OR NETWORK CHANGE
+  $: if (contract || chainId) {
+    console.log("<kredeum-nft/> chainId or contract changed", chainId, contract);
+    initContract(chainId, contract);
   }
 
-  // CONTRACT CHANGE
-  $: if (contract) {
-    console.log("contract changed", contract);
-    [network, contract] = openNFTs.setContract(chainId, contract);
+  async function initContract(_chainId, _contract) {
+    ({ network, contract, openSea, explorer } = await openNFTs.initContract(_chainId, _contract));
 
-    listNFTs();
+    if (network) {
+      if (chainId !== network.chainId) {
+        chainId = network.chainId;
+        listContracts();
+      }
+      listNFTs();
+    }
   }
 
   async function listContracts() {
     if (network && address) {
-      console.log("listContracts", `nft://${network} ${address}`);
-      NFTsContractsPromise = openNFTs.listContracts();
+      console.log("<kredeum-nft/> listContracts", `nfts://${network}@${address}`);
+
+      NFTsContracts = null;
+
+      NFTsContracts = openNFTs.listContractsFromCache();
+      console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
+      refreshingContracts = true;
+
+      NFTsContracts = await openNFTs.listContracts();
+      console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
+      refreshingContracts = false;
     }
   }
 
   async function listNFTs() {
     if (network && contract && address) {
-      console.log("listNFTs", `nft://${network}/${contract} ${address}`);
+      console.log(
+        "<kredeum-nft/> listNFTs",
+        `nft://${network || "..."}/${contract || "..."}@${address || "..."}`
+      );
 
       NFTs = null;
 
       NFTs = openNFTs.listNFTsFromCache(address);
-      console.log("listNFTs cache loaded", NFTs);
-      refreshing = true;
+      console.log("<kredeum-nft/> listNFTs cache loaded", NFTs);
+      refreshingNFTs = true;
 
       NFTs = await openNFTs.listNFTs(address);
-      console.log("listNFTs refresh done", NFTs);
-      refreshing = false;
+      console.log("<kredeum-nft/> listNFTs refresh done", NFTs);
+      refreshingNFTs = false;
     }
   }
 
+  const short = (s = "", n = 16, p = 0) => {
+    const l = s?.toString().length;
+    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
+  };
+
   const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
-  const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
+  const shortAddress = (a) => short(a, 6, 4);
+
+  const dispatchImport = async (nft) => {
+    nft.import = 1;
+    dispatch("import", { nft });
+    while (window.ajaxResponse == false) await sleep(1000);
+    nft.import = 2;
+  };
+
+  const createCollection = () => {
+    console.log("<kredeum-nft/> createCollection");
+    if (signer) {
+      openNFTs.Clone(signer);
+    } else {
+      console.error("<kredeum-nft/> not signer");
+    }
+  };
+
+  const description = (nft) => (nft.name != nft.description && nft.description) || " ";
 
   $: openSeaLinkKredeum = () => openSea?.kredeum;
   $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
@@ -110,24 +145,30 @@
     My NFT Wallet
   </h1>
 
+  <button on:click="{createCollection}">Create Collection</button>
+
   <h3>
-    {#await NFTsContractsPromise}
-      <div>Loading Collections...</div>
-    {:then NFTsContracts}
-      {#if NFTsContracts?.length > 0}
+    {#if NFTsContracts}
+      {#if NFTsContracts.length > 0}
         <select bind:value="{contract}">
           <option value="">Choose Collection</option>
           {#each NFTsContracts as NFTsContract}
+            <!-- {#if i == 1}selected{/if} -->
             <option value="{NFTsContract.address}">
-              {NFTsContract.totalSupply || " "}
+              {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
               {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
               {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
             </option>
           {/each}
         </select>
+      {:else}
+        <p><em>NO Collection found !</em></p>
       {/if}
-    {/await}
+    {:else}
+      <p><em>Loading Collections...</em></p>
+    {/if}
   </h3>
+  {#if refreshingContracts} Refreshing Collections... {/if}
 
   {#key address && importing}
     {#if NFTs}
@@ -157,7 +198,7 @@
               <tr>
                 <td>
                   <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
-                    &nbsp;{nft.tokenID}&nbsp;
+                    &nbsp;{short(nft.tokenID, 16)}&nbsp;
                   </a>
                 </td>
 
@@ -166,7 +207,9 @@
                     <strong>{nft.name || "___"}</strong>
                   </a>
                   <br />
-                  {(nft.name != nft.description && nft.description) || " "}
+                  <p title="{description(nft)}">
+                    {short(description(nft), 140)}
+                  </p>
                 </td>
 
                 <td>
@@ -192,12 +235,7 @@
                     <button
                       url="{nft.image}"
                       class="{nft.import ? (nft.import == 2 ? 'green' : 'grey') : 'blue'}"
-                      on:click="{async () => {
-                        nft.import = 1;
-                        dispatch('import', { nft });
-                        while (window.ajaxResponse == false) await sleep(1000);
-                        nft.import = 2;
-                      }}"
+                      on:click="{dispatchImport(nft)}"
                     >
                       {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
                     </button>
@@ -244,9 +282,7 @@
         <p>
           <em>
             {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
-            {#if refreshing}
-              refreshing...
-            {/if}
+            {#if refreshingNFTs} Refreshing NFTs... {/if}
           </em>
         </p>
       {:else}
@@ -259,11 +295,13 @@
   {/key}
 
   <small>
-    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">nft://{network}/{contract}</a>
+    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">
+        nft://{network || "..."}/{contract || "..."}
+      </a>
     {/if}
     <br />
     {#if address}Address{/if}
-    <Metamask autoconnect="off" bind:address bind:chainId />
+    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
     <br />
     Cache <a href on:click="{() => localStorage.clear()}">clear</a>
   </small>

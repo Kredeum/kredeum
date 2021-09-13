@@ -18,9 +18,8 @@ add_action(
 			function () {
 				wp_nonce_field( 'ajax-import', 'knonce' );
 				printf(
-					// '<kredeum-nft />'
 					'<kredeum-nft'
-					// . ' contract="' . esc_attr( KREDEUM_NFTS_ADDRESS ) . '"'
+					. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'
 					// . ' platform="wordpress"'
 					. ' />'
 				);
