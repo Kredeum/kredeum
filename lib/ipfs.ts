@@ -10,16 +10,16 @@ class Ipfs {
     return this._endpoint;
   }
 
-  constructor(endpoint, key) {
+  constructor(endpoint: string, key: string) {
     this._endpoint = endpoint;
     this._key = key;
   }
 
-  async pin(buffer, options) {
+  async pin(buffer: Blob | string, options: Object) {
     return "Ipfs.pin is abstract";
   }
 
-  async add(buffer, options) {
+  async add(buffer: string, options: Object) {
     let cid;
     const formData = new FormData();
     formData.append("file", buffer);
@@ -39,23 +39,23 @@ class Ipfs {
     return cid;
   }
 
-  async pinUrl(url, options) {
+  async pinUrl(url: string, options: Object) {
     return await this.pin(await (await fetch(url)).blob(), options);
   }
 
-  async addUrl(url, options) {
+  async addUrl(url: string, options: Object) {
     return await this.add(await (await fetch(url)).buffer(), options);
   }
 
-  async pinJson(object, options) {
+  async pinJson(object: Object, options: Object) {
     return await this.pin(this.jsonPrepare(object), options);
   }
 
-  async addJson(object, options) {
+  async addJson(object: Object, options: Object) {
     return await this.add(this.jsonPrepare(object), options);
   }
 
-  jsonPrepare = (object) => JSON.stringify(object, null, 2);
+  jsonPrepare = (object: Object) => JSON.stringify(object, null, 2);
 }
 
 export default Ipfs;

@@ -1,13 +1,13 @@
-import Ipfs from "./ipfs.mjs";
+import Ipfs from "./ipfs";
 
 const ipfsGateway = "https://ipfs.io/ipfs";
 
 class NftStorage extends Ipfs {
-  constructor(key) {
+  constructor(key: string) {
     super("https://api.nft.storage", key);
   }
 
-  async pin(buffer) {
+  async pin(buffer: string) {
     let cid = "";
     // console.log(buffer);
 

@@ -9,7 +9,8 @@
     "allowJs": true
   },
   "include": [
-    "lib, solidity/scripts",
+    "lib",
+    "solidity/scripts",
     "solidity/tests",
     "solidity/deploy",
     "solidity/scripts/nftsfactory.ts"
