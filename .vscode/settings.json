@@ -1,23 +1,25 @@
 {
   "favorites.resources": [
+    "config",
     "solidity",
+    ".env",
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
     "hardhat.config.js",
+    "rollup.config.js",
     "solidity/deploy/OpenNFTS.js",
     "config/networks.json",
     "solidity/contracts/OpenNFTs.sol",
     "hardhat.config.ts",
     "solidity/contracts/CloneFactory.sol",
     "solidity/tests/2-clone-factory.ts",
-    "config",
     "lib/open-nfts.mjs",
     "svelte/kredeum-nft.svelte",
-    ".env",
-    "rollup.config.js",
     "solidity/contracts/NFTsFactory.sol",
-    "solidity/tests/nfts-factory.ts"
+    "solidity/tests/nfts-factory.ts",
+    "tsconfig.json",
+    "lib/nft-storage.ts"
   ],
   "files.exclude": {
     "old": true

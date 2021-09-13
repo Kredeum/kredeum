@@ -3,7 +3,9 @@ lockfileVersion: 5.3
 specifiers:
   '-': ^0.0.1
   '@ethersproject/abstract-provider': ^5.4.1
+  '@ethersproject/abstract-signer': ^5.4.1
   '@ethersproject/address': ^5.4.0
+  '@ethersproject/contracts': ^5.4.1
   '@graphprotocol/graph-cli': ^0.20.1
   '@graphprotocol/graph-ts': ^0.20.1
   '@metamask/detect-provider': ^1.2.0
@@ -14,7 +16,7 @@ specifiers:
   '@rollup/plugin-commonjs': ^20.0.0
   '@rollup/plugin-json': ^4.1.0
   '@rollup/plugin-node-resolve': 13.0.3
-  '@typechain/ethers-v5': ^7.0.1
+  '@typechain/ethers-v5': ^7.1.0
   '@typechain/hardhat': ^2.3.0
   '@types/chai': ^4.2.21
   '@types/mocha': ^9.0.0
@@ -41,7 +43,7 @@ specifiers:
   mocha: ^9.1.1
   multihashing-async: ^2.1.4
   nft.storage: ^3.2.0
-  node-fetch: ^3.0.0
+  node-fetch: ^2.6.2
   node-jq: ^2.0.0
   prettier: ^2.4.0
   prettier-eslint: ^13.0.0
@@ -75,7 +77,9 @@ specifiers:
 devDependencies:
   '-': 0.0.1
   '@ethersproject/abstract-provider': 5.4.1
+  '@ethersproject/abstract-signer': 5.4.1
   '@ethersproject/address': 5.4.0
+  '@ethersproject/contracts': 5.4.1
   '@graphprotocol/graph-cli': 0.20.1
   '@graphprotocol/graph-ts': 0.20.1
   '@metamask/detect-provider': 1.2.0
@@ -113,7 +117,7 @@ devDependencies:
   mocha: 9.1.1
   multihashing-async: 2.1.4
   nft.storage: 3.2.0
-  node-fetch: 3.0.0
+  node-fetch: 2.6.2
   node-jq: 2.0.0
   prettier: 2.4.0
   prettier-eslint: 13.0.0
@@ -6966,13 +6970,6 @@ packages:
       pend: 1.2.0
     dev: true
 
-  /fetch-blob/3.1.2:
-    resolution: {integrity: sha512-hunJbvy/6OLjCD0uuhLdp0mMPzP/yd2ssd1t2FCJsaA7wkWhpbp9xfuNVpv7Ll4jFhzp6T4LAupSiV9uOeg0VQ==}
-    engines: {node: ^12.20 || >= 14.13}
-    dependencies:
-      web-streams-polyfill: 3.1.1
-    dev: true
-
   /fetch-ponyfill/4.1.0:
     resolution: {integrity: sha1-rjzl9zLGReq4fkroeTQUcJsjmJM=}
     dependencies:
@@ -11238,14 +11235,6 @@ packages:
     engines: {node: 4.x || >=6.0.0}
     dev: true
 
-  /node-fetch/3.0.0:
-    resolution: {integrity: sha512-bKMI+C7/T/SPU1lKnbQbwxptpCrG9ashG+VkytmXCPZyuM9jB6VU+hY0oi4lC8LxTtAeWdckNCTa3nrGsAdA3Q==}
-    engines: {node: ^12.20.0 || ^14.13.1 || >=16.0.0}
-    dependencies:
-      data-uri-to-buffer: 3.0.1
-      fetch-blob: 3.1.2
-    dev: true
-
   /node-forge/0.10.0:
     resolution: {integrity: sha512-PPmu8eEeG9saEUvI97fm4OYxXVB6bFvyNTyiUOBichBpFG8A1Ljw3bY62+5oOjDEMHRnd0Y7HQ+x7uzxOzC6JA==}
     engines: {node: '>= 6.0.0'}
@@ -12322,6 +12311,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
+    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
@@ -13083,7 +13073,7 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.56.3
       serialize-javascript: 4.0.0
-      terser: 5.7.2
+      terser: 5.8.0
     dev: true
 
   /rollup-pluginutils/2.8.2:
@@ -14261,8 +14251,8 @@ packages:
       uuid: 3.4.0
     dev: true
 
-  /terser/5.7.2:
-    resolution: {integrity: sha512-0Omye+RD4X7X69O0eql3lC4Heh/5iLj3ggxR/B5ketZLOtLiOqukUgjw3q4PDnNQbsrkKr3UMypqStQG3XKRvw==}
+  /terser/5.8.0:
+    resolution: {integrity: sha512-f0JH+6yMpneYcRJN314lZrSwu9eKkUFEHLN/kNy8ceh8gaRiLgFPJqrB9HsXjhEGdv4e/ekjTOFxIlL6xlma8A==}
     engines: {node: '>=10'}
     hasBin: true
     dependencies:

@@ -23,7 +23,7 @@ const accounts = [
 ];
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "rinkeby",
+  defaultNetwork: "hardhat",
   namedAccounts: {
     admin: { default: 0 },
     deployer: { default: 0 },

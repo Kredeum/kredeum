@@ -1,10 +1,10 @@
 // npx mocha 4-thegraph.mjs
 import { expect } from "chai";
-import Ipfs from "../../lib/ipfs.mjs";
+import Ipfs from "../../lib/ipfs";
 import FormData from "form-data";
 import fetch from "node-fetch";
-global.fetch = fetch;
-global.FormData = FormData;
+global.fetch = fetch as any;
+global.FormData = FormData as any;
 
 const theGraphEndpoint = "https://api.thegraph.com/ipfs";
 const imgUrl = "https://www.kredeum.com/favicon.ico";

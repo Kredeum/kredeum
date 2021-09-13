@@ -3,14 +3,15 @@ import { expect } from "chai";
 import Ipfs from "../../lib/ipfs";
 import NftStorage from "../../lib/nft-storage";
 
+import dotenv from "dotenv";
+dotenv.config();
+
 import fetch from "node-fetch";
-import { config } from "dotenv";
-global.fetch = fetch;
-config();
+global.fetch = fetch as any;
 
 const txt = "Bonjour le monde";
 const txtCID = "bafkreicnyrnv5u66eavfne6je3fpsw6zoef66t7f7mlkdqskbdwufduk4a";
-const key = process.env.NFT_STORAGE_KEY;
+const key = process.env.NFT_STORAGE_KEY || "";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
 const imgCID = "bafkreiaxjwwnei7m2wtpdyhktr5mpjs6askiqijvhl7ui2kcoffc5mwa5e";
 const jsn = { json: "file" };
@@ -23,8 +24,8 @@ describe("NftStorage", async function () {
       expect(await nftStorage.pin(txt)).to.be.equal(txtCID);
     });
 
-    it("Add text should fail without auth key", async function () {
-      const nftStorage = new NftStorage();
+    it("Add text should fail with bad auth key", async function () {
+      const nftStorage = new NftStorage("bad_key");
       expect(await nftStorage.pin(txt)).to.be.equal("");
     });
   });

@@ -1,8 +1,7 @@
-// npx mocha --experimental-json-modules 1-nft-list.mjs
 import { expect } from "chai";
-import OpenNFTs from "../../lib/open-nfts.mjs";
+import OpenNFTs from "../../lib/open-nfts";
 import fetch from "node-fetch";
-global.fetch = fetch;
+global.fetch = fetch as any;
 
 const owner = "0x981ab0d817710d8fffc5693383c00d985a3bda38";
 
@@ -35,7 +34,7 @@ const network2 = {
 
 const chainIdKo = "0x5858";
 
-let openNFTs;
+let openNFTs: OpenNFTs;
 
 describe("NFTs Listing", async function () {
   describe("Init", async function () {
@@ -59,10 +58,6 @@ describe("NFTs Listing", async function () {
       expect(await openNFTs.initContract(chainId2)).to.eql(network2);
     });
 
-    it("Should not set Contract with invalid chainId", async function () {
-      expect(await openNFTs.initContract(chainIdKo)).to.eql({});
-    });
-
     // test setCo,ntract avec chainId invalide
     it("Should set Owner", async function () {
       openNFTs.setOwner(owner);
@@ -76,7 +71,7 @@ describe("NFTs Listing", async function () {
     beforeEach(async () => {
       openNFTs = new OpenNFTs();
       openNFTs.setOwner(owner);
-      const [network, contract] = openNFTs.setContract(chainId1, contract1default);
+      openNFTs._setContract(chainId1, contract1);
     });
 
     it("With default method", async function () {
@@ -92,12 +87,12 @@ describe("NFTs Listing", async function () {
     });
 
     it("With SmartContract", async function () {
-      await openNFTs.initContract(chainId1, contract1default);
+      await openNFTs.initContract(chainId1, contract1);
       expect((await openNFTs.listNFTsFromContract()).length).to.be.gt(1);
     });
 
     it("All methods should give same results", async function () {
-      await openNFTs.initContract(chainId1, contract1default);
+      await openNFTs.initContract(chainId1, contract1);
       const l0 = (await openNFTs.listNFTs()).length;
       expect(l0).to.be.equal((await openNFTs.listNFTsFromTheGraph()).length);
       // expect(l0).to.be.equal((await openNFTs.listNFTsFromCovalent()).length);

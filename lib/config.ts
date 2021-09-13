@@ -1,13 +1,13 @@
-import configContracts from "../config/contracts.json";
-import networks from "../config/networks.json";
+import { contracts, Contract } from "../config/contracts";
+import { networks, Network } from "../config/networks";
 import abis from "../config/abis.json";
 import { ethers } from "ethers";
 
-function getNetwork(_chainId) {
+function getNetwork(_chainId: string) {
   return networks.find((network) => Number(network.chainId) === Number(_chainId));
 }
 
-const getProvider = function (network) {
+const getProvider = function (network: Network) {
   const infuraKey = "fc2d1a3eead04bdf9dd64a8b7be9f701";
   const maticvigilKey = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
   let provider;
@@ -26,4 +26,4 @@ const getProvider = function (network) {
   return provider;
 };
 
-export { configContracts, abis, networks, getNetwork, getProvider };
+export { abis, contracts, networks, getNetwork, getProvider, Contract, Network };

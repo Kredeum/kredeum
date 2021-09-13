@@ -3,8 +3,15 @@ import Ipfs from "./ipfs";
 const ipfsGateway = "https://ipfs.io/ipfs";
 
 class NftStorage extends Ipfs {
+  _key;
+
+  get key() {
+    return this._key;
+  }
+
   constructor(key: string) {
-    super("https://api.nft.storage", key);
+    super("https://api.nft.storage");
+    this._key = key;
   }
 
   async pin(buffer: string) {
@@ -16,7 +23,7 @@ class NftStorage extends Ipfs {
         method: "POST",
         body: buffer,
         headers: {
-          Authorization: "Bearer " + super.key
+          Authorization: "Bearer " + this.key
         }
       })
     ).json();

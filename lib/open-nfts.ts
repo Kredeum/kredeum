@@ -1,33 +1,67 @@
-import { ethers } from "ethers";
-import { networks, configContracts, abis, getProvider } from "./config.mjs";
-import { BigNumber } from "ethers";
+import { ethers, BigNumber } from "ethers";
+import { networks, contracts, abis, getProvider } from "./config";
+
+import type { Contract as ContractEthers, Signer } from "ethers";
+import type { Provider } from "@ethersproject/abstract-provider";
+import type { Network, Contract } from "./config";
 
 const LIMIT = 99;
 
+type Metadata = {
+  name?: string;
+  description?: string;
+  image?: string;
+  cid?: string;
+  creator?: string;
+  minter?: string;
+  owner?: string;
+};
+
+type NftData = {
+  tokenID: string;
+  tokenURI: string;
+  owner: string;
+  name?: string;
+  description?: string;
+  image?: string;
+  metadata?: Metadata;
+  contract?: string;
+  chainName?: string;
+  creator?: string;
+  minter?: string;
+  cid?: string;
+  nid?: string;
+};
+
+type AnswerFetchJson = {
+  data?: any;
+  error?: any;
+};
+
 class OpenNFTs {
-  network; // network config
-  provider; // network provider
-  address; // contract address
-  contract; // callable contract
-  owner; // optional NFT owner
+  network?: Network; // network config
+  provider?: Provider; // network provider
+  address?: string; // contract address
+  contract?: ContractEthers; // callable contract
+  owner?: string; // optional NFT owner
   limit = LIMIT; // limit query results
 
-  cloneFactory;
+  cloneFactory?: ContractEthers;
 
-  supportsMetadata;
-  supportsEnumerable;
+  supportsMetadata?: boolean;
+  supportsEnumerable?: boolean;
   // _version0;
   // _version1;
 
   constructor() {}
 
   // SET owner
-  setOwner(_owner) {
+  setOwner(_owner: string) {
     this.owner = _owner;
   }
 
   // SET limit
-  setLimit(_limit) {
+  setLimit(_limit: number) {
     this.limit = _limit;
   }
 
@@ -41,11 +75,11 @@ class OpenNFTs {
   }
 
   getSubgraphUrl() {
-    return this.network.subgraph?.active && this.network.subgraph?.url;
+    return (this.network?.subgraph?.active && this.network?.subgraph?.url) || "";
   }
 
   getCovalent() {
-    return this.network.covalent?.active;
+    return this.network?.covalent?.active;
   }
 
   // GET explorer
@@ -59,9 +93,10 @@ class OpenNFTs {
   }
 
   // SET contract
-  _setContract(_chainId, _address) {
+  _setContract(_chainId?: string, _address?: string) {
     const newNetwork =
-      _chainId && networks.find((_network) => Number(_network.chainId) === Number(_chainId));
+      _chainId &&
+      networks.find((_network: Network) => Number(_network.chainId) === Number(_chainId));
 
     if (newNetwork && newNetwork !== this.network) {
       this.network = newNetwork;
@@ -71,8 +106,8 @@ class OpenNFTs {
     if (_address) {
       this.address = _address;
     } else {
-      const configContract = configContracts.find(
-        (_contract) => _contract.network === this.network?.chainName
+      const configContract = contracts.find(
+        (_contract: Contract) => _contract.network === this.network?.chainName
       );
       if (configContract) {
         this.address = configContract.address;
@@ -84,7 +119,7 @@ class OpenNFTs {
     }
   }
 
-  async initContract(_chainId, _address) {
+  async initContract(_chainId?: string, _address?: string) {
     console.log("initContract", _chainId, _address);
 
     this._setContract(_chainId, _address);
@@ -106,9 +141,9 @@ class OpenNFTs {
         abi = abi.concat(abis["KredeumV2"]);
         this.contract = new ethers.Contract(this.address, abi, this.provider);
 
-        if (this.network.cloneFactory) {
+        if (this.network?.cloneFactory) {
           this.cloneFactory = new ethers.Contract(
-            this.network.cloneFactory,
+            this.network?.cloneFactory,
             abis["CloneFactory"],
             this.provider
           );
@@ -128,8 +163,8 @@ class OpenNFTs {
     return ret;
   }
 
-  async fetchJson(_url, _config = {}) {
-    let json = {};
+  async fetchJson(_url: string, _config: Object = {}): Promise<AnswerFetchJson> {
+    let json: AnswerFetchJson = {};
     if (_url) {
       try {
         const res = await fetch(_url, _config);
@@ -137,25 +172,28 @@ class OpenNFTs {
         json = await res.json();
       } catch (e) {
         console.error("OpenNFTs.fetchJson ERROR", e, _url, json);
+        json = { error: e };
       }
     } else {
-      console.error("OpenNFTs.fetchJson URL not defined");
+      const e = "OpenNFTs.fetchJson URL not defined";
+      console.error(e);
+      json = { error: e };
     }
     return json;
   }
 
-  async fetchGQL(_url, _query) {
+  async fetchGQL(_url: string, _query: string) {
     console.log(`OpenNFTs.fetchGQL\n${_url}\n${_query}`);
 
     const config = { method: "POST", body: JSON.stringify({ query: _query }) };
-    const answerGQL = await this.fetchJson(_url, config);
+    const answerGQL = (await this.fetchJson(_url, config)) as AnswerFetchJson;
     console.log(answerGQL);
 
-    if (answerGQL.errors) console.error("OpenNFTs.fetchGQL ERROR", answerGQL.errors);
+    if (answerGQL.error) console.error("OpenNFTs.fetchGQL ERROR", answerGQL.error);
     return answerGQL.data;
   }
 
-  async fetchCov(_path) {
+  async fetchCov(_path: string) {
     const loginPass = `${process.env.COVALENT_API_KEY}:`;
     const url = `https://api.covalenthq.com/v1${_path}&key=${loginPass}`;
     const config = {
@@ -165,7 +203,7 @@ class OpenNFTs {
         Accept: "application/json"
       }
     };
-    const json = await this.fetchJson(url, config);
+    const json: AnswerFetchJson = await this.fetchJson(url, config);
     // console.log(url, "\n", json);
     return json;
   }
@@ -191,21 +229,21 @@ class OpenNFTs {
   // PID = WP IP = "123"
   ////////////////////////////////////////////////////////
 
-  cidExtract(_uri) {
-    let cid;
+  cidExtract(_uri: string): string {
+    let cid: string = "";
     if (_uri) {
       const cid1 = _uri.match(/^ipfs:\/\/(.*)$/i);
       const cid2 = _uri.match(/^.*\/ipfs\/([^\/]*)(.*)$/i);
-      cid = (cid1 && cid1[1]) || (cid2 && cid2[1]);
+      cid = (cid1 && cid1[1]) || (cid2 && cid2[1]) || "";
     }
     // console.log('cid' cid, '<=', _image);
     return cid;
   }
 
-  addTokenDataSync(_token) {
+  addTokenDataSync(_token: NftData): NftData {
     const contract = _token.contract || this.address || "";
-    const chainName = _token.chainName || this.network.chainName || "";
-    const metadata = _token.metadata || {};
+    const chainName = _token.chainName || this.network?.chainName || "";
+    const metadata: Metadata = _token.metadata || {};
     const image = _token.image || metadata.image || "";
 
     return {
@@ -235,24 +273,24 @@ class OpenNFTs {
     };
   }
 
-  async addTokenData(_token) {
-    _token.metadata = _token.metadata || (await this.fetchJson(_token.tokenURI)) || {};
+  async addTokenData(_token: NftData): Promise<NftData> {
+    _token.metadata = _token.metadata || (await this.fetchJson(_token.tokenURI)).data || {};
     return this.addTokenDataSync(_token);
   }
 
-  async getNFTFromContract(_index) {
+  async getNFTFromContract(_index: number): Promise<NftData> {
     let tokenID, tokenURI, owner;
 
     try {
       if (this.owner) {
-        tokenID = (await this.contract.tokenOfOwnerByIndex(this.owner, _index)).toString();
+        tokenID = (await this.contract?.tokenOfOwnerByIndex(this.owner, _index)).toString();
         owner = this.owner;
       } else {
-        tokenID = (await this.contract.tokenByIndex(_index)).toString();
-        owner = await this.contract.ownerOf(tokenID);
+        tokenID = (await this.contract?.tokenByIndex(_index)).toString();
+        owner = await this.contract?.ownerOf(tokenID);
       }
       if (this.supportsMetadata) {
-        tokenURI = await this.contract.tokenURI(tokenID);
+        tokenURI = await this.contract?.tokenURI(tokenID);
       }
     } catch (e) {
       console.error("OpenNFTs.getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
@@ -261,15 +299,15 @@ class OpenNFTs {
     return { tokenID, tokenURI, owner };
   }
 
-  async listNFTsFromContract() {
+  async listNFTsFromContract(owner?: string, limit?: number): Promise<Array<NftData>> {
     console.log("OpenNFTs.listNFTsFromContract", this.address);
 
     let tokens = [];
 
     try {
       const nbTokens = this.owner
-        ? (await this.contract.balanceOf(this.owner)).toNumber()
-        : (await this.contract.totalSupply()).toNumber();
+        ? (await this.contract?.balanceOf(this.owner)).toNumber()
+        : (await this.contract?.totalSupply()).toNumber();
       // console.log("OpenNFTs.listNFTsFromContract totalSupply", nbTokens);
 
       for (let index = 0; index < Math.min(nbTokens, this.limit); index++) {
@@ -285,13 +323,13 @@ class OpenNFTs {
     return tokens;
   }
 
-  async listNFTsFromCovalent() {
+  async listNFTsFromCovalent(owner?: string, limit?: number): Promise<Array<NftData>> {
     console.log("OpenNFTs.listNFTsFromCovalent", this.owner, this.limit);
 
-    let tokens = [];
+    let tokens: Array<NftData> = [];
     let path;
-    const chainId = parseInt(this.network.chainId);
-    const contract = this.address.toLowerCase();
+    const chainId = parseInt(this.network?.chainId || "1");
+    const contract = this.address?.toLowerCase();
 
     if (this.owner) {
       const match = `{contract_address:"${contract}"}`;
@@ -307,7 +345,7 @@ class OpenNFTs {
       console.log("listNFTsFromCovalent", answerCov);
 
       if (answerCov.error) {
-        console.error("answerCov.error", answerCov.error_message);
+        console.error("answerCov.error", answerCov.error);
       } else {
         const tokensJson = answerCov?.data?.items[0]?.nft_data || [];
         // console.log(answerCov?.data?.items[0]);
@@ -334,12 +372,12 @@ class OpenNFTs {
     return tokens;
   }
 
-  async listNFTsFromTheGraph() {
+  async listNFTsFromTheGraph(owner?: string, limit?: number): Promise<Array<NftData>> {
     console.log("OpenNFTs.listNFTsFromTheGraph", this.owner, this.limit);
 
     let tokens = [];
 
-    const currentContractAddress = this.address.toLowerCase();
+    const currentContractAddress = this.address?.toLowerCase();
     const whereOwner = this.owner
       ? `where: 
     { owner: "${this.owner.toLowerCase()}" }`
@@ -362,7 +400,7 @@ class OpenNFTs {
     // image
 
     // console.log(query);
-    const answerGQL = await this.fetchGQL(this.getSubgraphUrl(), query);
+    const answerGQL = await this.fetchGQL(this.getSubgraphUrl() || "", query);
     const tokensJson = answerGQL?.tokenContract?.tokens || [];
     // console.log(tokensJson[0]);
     // console.log("OpenNFTs.listNFTsFromTheGraph nbTokens", tokensJson.length);
@@ -387,25 +425,25 @@ class OpenNFTs {
     return tokens;
   }
 
-  async listNFTs(_owner, _type) {
+  async listNFTs(_owner?: string, _type?: string): Promise<Array<NftData>> {
     console.log("OpenNFTs.listNFTs", _owner, _type, this.address);
-    let tokens = [];
+    let nfts: Array<NftData> = [];
 
     if (_type === "subgraph" && this.getSubgraphUrl()) {
-      tokens = await this.listNFTsFromTheGraph(this.owner, this.limit);
+      nfts = (await this.listNFTsFromTheGraph(this.owner, this.limit)) as Array<NftData>;
     } else if (this.supportsEnumerable) {
-      tokens = await this.listNFTsFromContract(this.owner, this.limit);
+      nfts = (await this.listNFTsFromContract(this.owner, this.limit)) as Array<NftData>;
     } else if (this.getCovalent()) {
-      tokens = await this.listNFTsFromCovalent(this.owner, this.limit);
+      nfts = (await this.listNFTsFromCovalent(this.owner, this.limit)) as Array<NftData>;
     } else {
       console.error("No way to list NFTs :-(");
     }
 
-    tokens.sort((a, b) => b.tokenID - a.tokenID);
-    for (let index = 0; index < Math.min(tokens.length, this.limit); index++) {
-      const token = await this.addTokenData(tokens[index]);
+    nfts.sort((a, b) => (BigNumber.from(b.tokenID).gt(BigNumber.from(a.tokenID)) ? 1 : -1));
+    for (let index = 0; index < Math.min(nfts.length, this.limit); index++) {
+      const token: NftData = await this.addTokenData(nfts[index]);
       if (_owner === "undefined" || token?.owner?.toLowerCase() === _owner?.toLowerCase()) {
-        tokens[index] = token;
+        nfts[index] = token;
       }
 
       if (typeof localStorage !== "undefined") {
@@ -414,12 +452,12 @@ class OpenNFTs {
       }
     }
 
-    // console.log("OpenNFTs.listNFTs", tokens.length);
-    console.log("OpenNFTs.listNFTs", this.address, tokens);
-    return tokens;
+    // console.log("OpenNFTs.listNFTs", nfts.length);
+    console.log("OpenNFTs.listNFTs", this.address, nfts);
+    return nfts;
   }
 
-  listNFTsFromCache(_owner) {
+  listNFTsFromCache(_owner: string) {
     const chainContract = this.getChainContractAddress()?.toLowerCase();
     console.log("OpenNFTs.listNFTsFromCache", _owner, chainContract);
 
@@ -428,8 +466,8 @@ class OpenNFTs {
     for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
 
-      if (key.startsWith("nft://") && key.includes(chainContract)) {
-        const token = JSON.parse(localStorage.getItem(key));
+      if (key?.startsWith("nft://") && key?.includes(chainContract)) {
+        const token = JSON.parse(localStorage.getItem(key) || "{}");
         if (_owner === "undefined" || token?.owner?.toLowerCase() === _owner?.toLowerCase()) {
           tokens.push(token);
         }
@@ -440,12 +478,12 @@ class OpenNFTs {
     return tokens.length > 0 && tokens;
   }
 
-  async listContractsFromCovalent() {
-    let contracts = [];
+  async listContractsFromCovalent(): Promise<Array<Contract>> {
+    let contracts: Array<Contract> = [];
     let path;
 
     if (this.owner) {
-      const chainId = parseInt(this.network.chainId);
+      const chainId = parseInt(this.network?.chainId || "1");
       const match = `{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}`;
 
       path =
@@ -457,19 +495,23 @@ class OpenNFTs {
       const answerCov = await this.fetchCov(path);
       // console.log(path, answerCov);
 
-      const contractsJson = answerCov?.data?.items || [];
-      // console.log(contractsJson[0]);
-      // console.log("OpenNFTs.listContractsFromCovalent nbContracts", contractsJson.length);
+      if (answerCov.error) {
+        console.error("answerCov.error", answerCov.error);
+      } else {
+        const contractsJson = answerCov?.data?.items || [];
+        // console.log(contractsJson[0]);
+        // console.log("OpenNFTs.listContractsFromCovalent nbContracts", contractsJson.length);
 
-      for (let index = 0; index < contractsJson.length; index++) {
-        const contract = contractsJson[index];
+        for (let index = 0; index < contractsJson.length; index++) {
+          const contract = contractsJson[index];
 
-        contracts.push({
-          address: contract.contract_address,
-          name: contract.contract_name,
-          symbol: contract.contract_ticker_symbol,
-          totalSupply: contract.balance
-        });
+          contracts.push({
+            address: contract.contract_address,
+            name: contract.contract_name,
+            symbol: contract.contract_ticker_symbol,
+            totalSupply: contract.balance
+          });
+        }
       }
     }
     // console.log("OpenNFTs.listContractsFromCovalent nbContracts ERC721", contracts.length);
@@ -478,9 +520,9 @@ class OpenNFTs {
     return contracts;
   }
 
-  async listContractsFromTheGraph() {
+  async listContractsFromTheGraph(): Promise<Array<Contract>> {
     console.log("OpenNFTs.listContractsFromTheGraph");
-    let contracts = [];
+    let contracts: Array<Contract> = [];
 
     if (this.owner) {
       const owner = this.owner.toLowerCase();
@@ -513,7 +555,7 @@ class OpenNFTs {
             address: contract.id,
             name: contract.name,
             symbol: contract.symbol,
-            totalSupply: Math.max(currentContractResponse.numTokens, 0).toString()
+            totalSupply: Math.max(currentContractResponse.numTokens, 0)
           };
           index2++;
         }
@@ -523,14 +565,14 @@ class OpenNFTs {
     return contracts;
   }
 
-  listContractsFromConfig() {
+  listContractsFromConfig(): Array<Contract> {
     console.log("OpenNFTs.listContractsFromConfig");
-    let contracts = configContracts.filter(
-      (_contract) => _contract.network === this.network?.chainName
+    let _contracts: Array<Contract> = contracts.filter(
+      (_contract: Contract) => _contract.network === this.network?.chainName
     );
 
-    console.log("OpenNFTs.listContractsFromConfig", contracts);
-    return contracts;
+    console.log("OpenNFTs.listContractsFromConfig", _contracts);
+    return _contracts;
   }
 
   async listContractsFromFactory() {
@@ -540,14 +582,14 @@ class OpenNFTs {
     if (this.cloneFactory) {
       implementations = await this.cloneFactory.implementations();
     }
-    return implementations.map((k) => ({ address: k }));
+    return implementations.map((k: any) => ({ address: k }));
   }
 
-  async listContracts() {
+  async listContracts(): Promise<Array<Contract>> {
     console.log("OpenNFTs.listContracts");
-    let contracts = [];
-    let contractsOwner = [];
-    let contractsKredeum = [];
+    let contracts: Array<Contract> = [];
+    let contractsKredeum: Array<Contract> = [];
+    let contractsOwner: Array<Contract> = [];
 
     // GET user contracts
     if (this.getSubgraphUrl()) {
@@ -566,20 +608,20 @@ class OpenNFTs {
 
     // MERGE contractsOwner and contractsKredeum
     contracts = contractsOwner.concat(
-      contractsKredeum.filter((contract) => contractsOwner.indexOf(contract) < 0)
+      contractsKredeum.filter((contract: Contract) => contractsOwner.indexOf(contract) < 0)
     );
 
-    contracts.forEach((contract) => {
-      if (contract.totalSupply === undefined) {
-        contract.totalSupply = await;
-      }
-    });
+    // contracts.forEach((contract) => {
+    //   if (contract.totalSupply === undefined) {
+    //     contract.totalSupply = await;
+    //   }
+    // });
 
     if (typeof localStorage !== "undefined") {
       console.log(contracts);
       contracts?.forEach((contract) => {
         localStorage.setItem(
-          `nfts://${this.network.chainName}/${contract.address?.toLowerCase()}`,
+          `nfts://${this.network?.chainName}/${contract.address?.toLowerCase()}`,
           JSON.stringify(contract, null, 2)
         );
       });
@@ -595,20 +637,20 @@ class OpenNFTs {
     for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
 
-      if (key.startsWith("nfts://")) {
-        const contract = JSON.parse(localStorage.getItem(key));
+      if (key?.startsWith("nfts://")) {
+        const contract = JSON.parse(localStorage.getItem(key) || "{}");
         contracts.push(contract);
       }
     }
     return contracts;
   }
 
-  async Clone(_signer) {
+  async Clone(_signer: Signer) {
     const address = await _signer.getAddress();
 
     console.log("OpenNFTs.Clone", address, this.address);
 
-    const tx1 = await this.cloneFactory.connect(_signer).clone();
+    const tx1 = await this.cloneFactory?.connect(_signer).clone();
     console.log(`${this.network?.blockExplorerUrls[0]}/tx/` + tx1.hash);
 
     const res = await tx1.wait();
@@ -620,18 +662,18 @@ class OpenNFTs {
     return BigNumber.from(res.events[0]?.data).toHexString();
   }
 
-  async Mint(_signer, _urlJson) {
+  async Mint(_signer: Signer, _urlJson: string) {
     const address = await _signer.getAddress();
 
     console.log("OpenNFTs.Mint", _urlJson, address, this.address);
 
-    //  const tx1 = await this.contract.connect(_signer).addUser(address, _urlJson);
+    //  const tx1 = await this.contract?.connect(_signer).addUser(address, _urlJson);
     const txOptions = {
       maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
       type: 2
     };
 
-    const tx1 = await this.contract.connect(_signer).mintNFT(address, _urlJson, txOptions);
+    const tx1 = await this.contract?.connect(_signer).mintNFT(address, _urlJson, txOptions);
     console.log(`${this.network?.blockExplorerUrls[0]}/tx/` + tx1.hash);
 
     const res = await tx1.wait();
