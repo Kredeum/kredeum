@@ -3,6 +3,8 @@ import { ethers } from "ethers";
 import { expect } from "chai";
 import { networks, configContracts, getProvider } from "../../lib/config.mjs";
 import OpenNFTs from "../../lib/open-nfts.mjs";
+import { config } from "dotenv";
+config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 const networkChainId = "0x13881";

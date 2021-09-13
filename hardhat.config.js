@@ -1,6 +1,11 @@
 require("@nomiclabs/hardhat-waffle");
 require("@nomiclabs/hardhat-etherscan");
 require("hardhat-abi-exporter");
+require("dotenv").config();
+
+if (!process.env.ALCHEMY_API_KEY){
+  console.error("ENV not loaded !")
+}
 
 const accounts = [
   process.env.ACCOUNT_KEY,

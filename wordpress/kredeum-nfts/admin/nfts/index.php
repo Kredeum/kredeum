@@ -21,7 +21,7 @@ add_action(
 					// '<kredeum-nft />'
 					'<kredeum-nft'
 					// . ' contract="' . esc_attr( KREDEUM_NFTS_ADDRESS ) . '"'
-					. ' platform="wordpress"'
+					// . ' platform="wordpress"'
 					. ' />'
 				);
 			},
