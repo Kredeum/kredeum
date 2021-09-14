@@ -15,7 +15,7 @@ type Network = {
   type?: string;
   admin?: string;
   openSea?: { assets?: string; kredeum?: string };
-  cloneFactory?: string;
+  nftsFactory?: string;
 };
 
 const networks = networksJson as Array<Network>;

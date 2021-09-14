@@ -46,7 +46,7 @@ class OpenNFTs {
   owner?: string; // optional NFT owner
   limit = LIMIT; // limit query results
 
-  cloneFactory?: ContractEthers;
+  nftsFactory?: ContractEthers;
 
   supportsMetadata?: boolean;
   supportsEnumerable?: boolean;
@@ -70,8 +70,8 @@ class OpenNFTs {
     return `${this.network?.chainName}/${this.address}`;
   }
 
-  getCloneFactory() {
-    return this.cloneFactory;
+  getNFTsFactory() {
+    return this.nftsFactory;
   }
 
   getSubgraphUrl() {
@@ -141,9 +141,9 @@ class OpenNFTs {
         abi = abi.concat(abis.KredeumV2);
         this.contract = new ethers.Contract(this.address, abi, this.provider);
 
-        if (this.network?.cloneFactory) {
-          this.cloneFactory = new ethers.Contract(
-            this.network?.cloneFactory,
+        if (this.network?.nftsFactory) {
+          this.nftsFactory = new ethers.Contract(
+            this.network?.nftsFactory,
             abis.CloneFactory,
             this.provider
           );
@@ -579,13 +579,13 @@ class OpenNFTs {
     console.log("OpenNFTs.listContractsFromFactory");
 
     let implementations = [];
-    if (this.cloneFactory) {
-      implementations = await this.cloneFactory.implementations();
+    if (this.nftsFactory) {
+      implementations = await this.nftsFactory.implementations();
     }
     return implementations.map((k: any) => ({ address: k }));
   }
 
-  async listContracts(): Promise<Array<Contract>> {
+  async ww(): Promise<Array<Contract>> {
     console.log("OpenNFTs.listContracts");
     let contracts: Array<Contract> = [];
     let contractsKredeum: Array<Contract> = [];
@@ -598,7 +598,7 @@ class OpenNFTs {
       contractsOwner = await this.listContractsFromCovalent();
     }
 
-    if (this.getCloneFactory()) {
+    if (this.getNFTsFactory()) {
       // GET Kredeum contracts from Factory
       contractsKredeum = await this.listContractsFromFactory();
     } else {
@@ -650,7 +650,7 @@ class OpenNFTs {
 
     console.log("OpenNFTs.Clone", address, this.address);
 
-    const tx1 = await this.cloneFactory?.connect(_signer).clone();
+    const tx1 = await this.nftsFactory?.connect(_signer).clone();
     console.log(`${this.network?.blockExplorerUrls[0]}/tx/` + tx1.hash);
 
     const res = await tx1.wait();

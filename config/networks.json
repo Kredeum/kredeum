@@ -26,7 +26,7 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "cloneFactory": "0x477f9e7F4c71b2C99aeC41c58D5CB786dCbB5Cf2",
+    "nftsFactory": "0x477f9e7F4c71b2C99aeC41c58D5CB786dCbB5Cf2",
     "type": "testnet"
   },
   {
@@ -36,7 +36,7 @@
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["https://kovan.etherscan.io"],
     "covalent": { "active": false },
-    "cloneFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
+    "nftsFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
     "type": "testnet"
   },
   {
@@ -76,7 +76,7 @@
     },
     "covalent": { "active": true },
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
-    "cloneFactory": "0xf209D4e88f2846ed796FC51Db05cEcBD386D2547",
+    "nftsFactory": "0xf209D4e88f2846ed796FC51Db05cEcBD386D2547",
     "type": "testnet"
   },
   {
@@ -95,7 +95,7 @@
     "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ARETH", "decimals": 18 },
     "blockExplorerUrls": ["https://rinkeby-explorer.arbitrum.io"],
-    "cloneFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
+    "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "covalent": { "active": true },
     "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
     "type": "testnet"
