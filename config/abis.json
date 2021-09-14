@@ -6,6 +6,7 @@
     "function clone()",
     "function implementations() external view returns (address[] memory)"
   ],
+  "NFTsFactory": [],
   "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],
   "ERC721": [
     "constructor()",

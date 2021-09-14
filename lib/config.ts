@@ -1,10 +1,10 @@
-import { contracts, Contract } from "../config/contracts";
-import { networks, Network } from "../config/networks";
-import abis from "../config/abis.json";
+import { contracts, Contract } from "./config/contracts";
+import { networks, Network } from "./config/networks";
+import { abis } from "./config/abis";
 import { ethers } from "ethers";
 
 function getNetwork(_chainId: string) {
-  return networks.find((network) => Number(network.chainId) === Number(_chainId));
+  return networks.find((network: Network) => Number(network.chainId) === Number(_chainId));
 }
 
 const getProvider = function (network: Network) {

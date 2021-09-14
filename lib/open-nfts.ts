@@ -126,9 +126,9 @@ class OpenNFTs {
 
     if (this.address && this.provider) {
       try {
-        const checkContract = new ethers.Contract(this.address, abis["ERC165"], this.provider);
+        const checkContract = new ethers.Contract(this.address, abis.ERC165, this.provider);
 
-        let abi = abis["ERC721"];
+        let abi = abis.ERC721;
 
         const waitMetadata = checkContract.supportsInterface("0x5b5e139f");
         const waitEnumerable = checkContract.supportsInterface("0x780e9d63");
@@ -136,15 +136,15 @@ class OpenNFTs {
           waitMetadata,
           waitEnumerable
         ]);
-        if (this.supportsMetadata) abi = abi.concat(abis["ERC721Metadata"]);
-        if (this.supportsEnumerable) abi = abi.concat(abis["ERC721Enumerable"]);
-        abi = abi.concat(abis["KredeumV2"]);
+        if (this.supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
+        if (this.supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
+        abi = abi.concat(abis.KredeumV2);
         this.contract = new ethers.Contract(this.address, abi, this.provider);
 
         if (this.network?.cloneFactory) {
           this.cloneFactory = new ethers.Contract(
             this.network?.cloneFactory,
-            abis["CloneFactory"],
+            abis.CloneFactory,
             this.provider
           );
         }
@@ -429,7 +429,7 @@ class OpenNFTs {
     console.log("OpenNFTs.listNFTs", _owner, _type, this.address);
     let nfts: Array<NftData> = [];
 
-    if (_type === "subgraph" && this.getSubgraphUrl()) {
+    if (this.getSubgraphUrl()) {
       nfts = (await this.listNFTsFromTheGraph(this.owner, this.limit)) as Array<NftData>;
     } else if (this.supportsEnumerable) {
       nfts = (await this.listNFTsFromContract(this.owner, this.limit)) as Array<NftData>;
