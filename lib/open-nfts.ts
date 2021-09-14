@@ -585,7 +585,7 @@ class OpenNFTs {
     return implementations.map((k: any) => ({ address: k }));
   }
 
-  async ww(): Promise<Array<Contract>> {
+  async listContracts(): Promise<Array<Contract>> {
     console.log("OpenNFTs.listContracts");
     let contracts: Array<Contract> = [];
     let contractsKredeum: Array<Contract> = [];

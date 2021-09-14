@@ -7,7 +7,7 @@ import "hardhat-deploy-ethers";
 import "@typechain/hardhat";
 import { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
-import "./solidity/tasks/index";
+import "./tasks/index";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -149,16 +149,16 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     target: "ethers-v5",
-    outDir: "solidity/artifacts/types"
+    outDir: "./artifacts/types"
   },
   paths: {
-    sources: "solidity/contracts",
-    deploy: "solidity/deploy",
-    deployments: "solidity/deployments",
-    tests: "solidity/tests",
-    imports: "lib",
-    cache: "solidity/artifacts/cache",
-    artifacts: "solidity/artifacts"
+    sources: "./contracts",
+    deploy: "./deploy",
+    deployments: "./deployments",
+    tests: "./tests",
+    imports: "../lib",
+    cache: "./artifacts/cache",
+    artifacts: "./artifacts"
   },
   mocha: {
     timeout: 200000

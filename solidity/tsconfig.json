@@ -13,12 +13,6 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": [
-    "lib",
-    "solidity/scripts",
-    "solidity/tests",
-    "solidity/deploy",
-    "solidity/scripts/nftsfactory.ts"
-  ],
+  "include": ["../lib", "./scripts", "./tests", "./deploy", "./scripts/nftsfactory.ts"],
   "files": ["hardhat.config.ts"]
 }
