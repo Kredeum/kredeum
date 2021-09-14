@@ -141,6 +141,19 @@ main {
                     color: $grey-blue;
                 }
             }
+
+            .detail {
+                height: 100px;
+                position: absolute;
+                left: 0;
+                opacity: 1;
+            }
+
+            .closed .detail {
+                height: 0;
+                overflow: hidden;
+                opacity: 0;
+            }
         }
     }
 }

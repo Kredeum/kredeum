@@ -14,6 +14,8 @@
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
+
+
 	</head>
 
 	<body>
@@ -144,10 +146,13 @@
 
                                 <div class="table-row">
                                     <div class="table-col no-bg">&nbsp;</div>
-                                    <div class="table-col no-bg table-col-full colspan">My first collection</div>
+                                    <div class="table-col no-bg table-col-full colspan">
+                                        <input id="menu" type="checkbox" />
+                                        My first collection <label for="menu" class="fas fa-ellipsis-v"></label>
+                                    </div>
                                 </div>
 
-                                <div class="table-row">
+                                <div class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-photo"><img src="https://picsum.photos/40" /></div></div>
                                     <div class="table-col"><strong>Photo</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -155,10 +160,12 @@
                                     <div class="table-col"><span class="tag tag-bsc">Bsc</span></div>
                                     <div class="table-col"><span class="tag tag-marketplace">Opensea</span></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    <div class="table-col"><div class="more"><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
+
+                                    <div class="detail">test</div>
                                 </div>
 
-                                <div class="table-row">
+                                <div class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-video"><i class="fas fa-play"></i></div></div>
                                     <div class="table-col"><strong>Video</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -166,10 +173,10 @@
                                     <div class="table-col"></div>
                                     <div class="table-col"></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    <div class="table-col"><div class="more"><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
                                 </div>
 
-                                <div class="table-row">
+                                <div class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-song"><i class="fas fa-music"></i></div></div>
                                     <div class="table-col"><strong>Song</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -177,7 +184,7 @@
                                     <div class="table-col"><span class="tag tag-polygon">Polygon</span></div>
                                     <div class="table-col"></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
-                                    <div class="table-col"><div class="more"><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
                                 </div>
                             </div>
                         </div>
@@ -285,5 +292,24 @@
                 </div>
             </div>
         </div>
+
+        <script type="text/javascript">
+            (function() {
+                var accItem = document.getElementsByClassName("table-drop");
+                var accHD = document.getElementsByClassName("more");
+
+                for (i = 0; i < accHD.length; i++) {
+                    accHD[i].addEventListener("click", toggleItem, false);
+                }
+
+                function toggleItem() {
+                    var itemClass = this.parentNode.className;
+
+                    if (itemClass == "table-row table-drop closed") {
+                        this.parentNode.className = "table-row table-drop";
+                    }
+                }
+            })();
+        </script>
 	</body>
 </html>
