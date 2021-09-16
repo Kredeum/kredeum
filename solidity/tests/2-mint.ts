@@ -66,7 +66,7 @@ describe("NFT Mint", function () {
     beforeEach(async () => {
       openNFTs = new OpenNFTs();
       openNFTs._setContract(networkChainId, contractAddress);
-      await openNFTs.initContract(networkChainId, contractAddress);
+      await openNFTs.init(networkChainId, contractAddress);
     });
 
     it("Should init Contract", async function () {
@@ -90,7 +90,7 @@ describe("NFT Mint", function () {
     it("Should Mint one Token", async function () {
       let openNFTs = new OpenNFTs();
       openNFTs._setContract(networkChainId, contractAddress);
-      await openNFTs.initContract(networkChainId, contractAddress);
+      await openNFTs.init(networkChainId, contractAddress);
       const signer = new ethers.Wallet(process.env.ACCOUNT_KEY || "", provider);
 
       const totalSupply = (await openNFTs.contract?.totalSupply()).toNumber();

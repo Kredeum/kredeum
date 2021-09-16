@@ -10,7 +10,7 @@ function curlEth () {
 source ./.env
 
 URL=https://rinkeby.infura.io/v3/$INFURA_API_KEY
-# URL=https://eth-rinkeby.alchemyapi.io/v2/$ALCHEMY_ID
+# URL=https://eth-rinkeby.alchemyapi.io/v2/$ALCHEMY_API_KEY
 echo $URL
 
 # DATA='{"jsonrpc":"2.0","method":"web3_clientVersion","params":[],"id":0}'

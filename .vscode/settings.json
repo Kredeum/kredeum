@@ -19,7 +19,8 @@
     "solidity/contracts/NFTsFactory.sol",
     "solidity/tests/nfts-factory.ts",
     "tsconfig.json",
-    "lib/nft-storage.ts"
+    "lib/nft-storage.ts",
+    "lib/open-nfts.ts"
   ],
   "files.exclude": {
     "old": true

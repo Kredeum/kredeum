@@ -34,12 +34,12 @@
   // CONTRACT OR NETWORK CHANGE
   $: if (contract || chainId) {
     console.log("<kredeum-nft-mint/> chainId or contract changed", chainId, contract);
-    initContract(chainId, contract);
+    init(chainId, contract);
   }
 
-  async function initContract(_chainId, _contract) {
-    console.log(`<kredeum-nft-mint/> initContract(${_chainId}, ${_contract})`);
-    ({ network, openSea } = await openNFTs.initContract(_chainId, _contract));
+  async function init(_chainId, _contract) {
+    console.log(`<kredeum-nft-mint/> init(${_chainId}, ${_contract})`);
+    ({ network, openSea } = await openNFTs.init(_chainId, _contract));
   }
 
   async function nftMint() {

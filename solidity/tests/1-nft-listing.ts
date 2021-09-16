@@ -47,15 +47,15 @@ describe("NFTs Listing", async function () {
     });
 
     it("Should set Contract without address", async function () {
-      expect(await openNFTs.initContract(chainId1)).to.be.eql(network1);
+      expect(await openNFTs.init(chainId1)).to.be.eql(network1);
     });
 
     it("Should set Contract with address", async function () {
-      expect(await openNFTs.initContract(chainId1, contract1b)).to.eql(network1b);
+      expect(await openNFTs.init(chainId1, contract1b)).to.eql(network1b);
     });
 
     it("Should set Contract2", async function () {
-      expect(await openNFTs.initContract(chainId2)).to.eql(network2);
+      expect(await openNFTs.init(chainId2)).to.eql(network2);
     });
 
     // test setCo,ntract avec chainId invalide
@@ -87,12 +87,12 @@ describe("NFTs Listing", async function () {
     });
 
     it("With SmartContract", async function () {
-      await openNFTs.initContract(chainId1, contract1);
+      await openNFTs.init(chainId1, contract1);
       expect((await openNFTs.listNFTsFromContract()).length).to.be.gt(1);
     });
 
     it("All methods should give same results", async function () {
-      await openNFTs.initContract(chainId1, contract1);
+      await openNFTs.init(chainId1, contract1);
       const l0 = (await openNFTs.listNFTs()).length;
       expect(l0).to.be.equal((await openNFTs.listNFTsFromTheGraph()).length);
       // expect(l0).to.be.equal((await openNFTs.listNFTsFromCovalent()).length);
@@ -104,7 +104,7 @@ describe("NFTs Listing", async function () {
     beforeEach(async () => {
       openNFTs = new OpenNFTs();
       openNFTs.setOwner(owner);
-      const { network, contract } = await openNFTs.initContract(chainId1, contract1);
+      const { network, contract } = await openNFTs.init(chainId1, contract1);
     });
 
     it("With default method", async function () {

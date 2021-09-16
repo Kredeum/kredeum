@@ -52,7 +52,7 @@ const config: HardhatUserConfig = {
     mainnet: {
       chainId: 1,
       // url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_ID}`,
+      url: `https://eth-mainnet.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       accounts
     },
     ropsten: {
@@ -62,7 +62,7 @@ const config: HardhatUserConfig = {
     },
     rinkeby: {
       chainId: 4,
-      url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_ID}`,
+      url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       // url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts,
       gasPrice: 20000000000

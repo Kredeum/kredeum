@@ -12,6 +12,16 @@ import autoPreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
 
+const envKeys = () => {
+  const envRaw = dotenv.config().parsed || {};
+  return Object.keys(envRaw).reduce(
+    (envValues, envValue) => ({
+      ...envValues,
+      [`process.env.${envValue}`]: JSON.stringify(envRaw[envValue])
+    }),
+    {}
+  );
+};
 const production = process.env.PROD;
 
 const toRollupConfig = function (component, dest, customElement = true) {
@@ -24,22 +34,17 @@ const toRollupConfig = function (component, dest, customElement = true) {
       file: `${dest}/${component}.js`
     },
     plugins: [
-      // replace({
-      //   preventAssignment: true,
-      //   values: envKeys()
-      // }),
       svelte({
-        preprocess: [
-          autoPreprocess({
-            replace: [[/process\.env\.(\w+)/g, (_, prop) => JSON.stringify(process.env[prop])]]
-          })
-        ],
+        preprocess: [autoPreprocess({})],
         compilerOptions: {
           customElement,
           dev: !production
         }
       }),
-      replace({ "process.env.NODE_DEBUG": "false" }), // utils lib bug !
+      replace({
+        preventAssignment: true,
+        values: envKeys()
+      }),
       typescript({ sourceMap: !production }),
       css({ output: `${dest}/${component}.css` }),
       resolve({

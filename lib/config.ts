@@ -1,6 +1,8 @@
-import { contracts, Contract } from "../config/types/contracts";
-import { networks, Network } from "../config/types/networks";
-import { abis } from "../config/types/abis";
+import networks from "../config/networks.json";
+import contracts from "../config/contracts.json";
+import abis from "../config/abis.json";
+import type { Contract, Network, ABIS, Metadata, NftData, KredeumKeys, ErcKeys } from "./types";
+
 import { ethers } from "ethers";
 
 function getNetwork(_chainId: string) {
@@ -25,4 +27,4 @@ const getProvider = function (network: Network) {
 };
 
 export { abis, contracts, networks, getNetwork, getProvider };
-export type { Contract, Network };
+export type { Contract, Network, ABIS, Metadata, NftData, KredeumKeys, ErcKeys };
