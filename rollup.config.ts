@@ -1,23 +1,16 @@
 import svelte from "rollup-plugin-svelte";
 import resolve from "@rollup/plugin-node-resolve";
-import replace from "@rollup/plugin-replace";
 import commonjs from "@rollup/plugin-commonjs";
-import dotenv from "dotenv";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
 import css from "rollup-plugin-css-only";
 import builtins from "rollup-plugin-node-builtins";
+import replace from "@rollup/plugin-replace";
 
-const envKeys = () => {
-  const envRaw = dotenv.config().parsed || {};
-  return Object.keys(envRaw).reduce(
-    (envValues, envValue) => ({
-      ...envValues,
-      [`process.env.${envValue}`]: JSON.stringify(envRaw[envValue])
-    }),
-    {}
-  );
-};
+import typescript from "@rollup/plugin-typescript";
+import autoPreprocess from "svelte-preprocess";
+
+import dotenv from "dotenv";
 
 const production = process.env.PROD;
 
@@ -31,16 +24,23 @@ const toRollupConfig = function (component, dest, customElement = true) {
       file: `${dest}/${component}.js`
     },
     plugins: [
-      replace({
-        preventAssignment: true,
-        values: envKeys()
-      }),
+      // replace({
+      //   preventAssignment: true,
+      //   values: envKeys()
+      // }),
       svelte({
+        preprocess: [
+          autoPreprocess({
+            replace: [[/process\.env\.(\w+)/g, (_, prop) => JSON.stringify(process.env[prop])]]
+          })
+        ],
         compilerOptions: {
           customElement,
           dev: !production
         }
       }),
+      replace({ "process.env.NODE_DEBUG": "false" }), // utils lib bug !
+      typescript({ sourceMap: !production }),
       css({ output: `${dest}/${component}.css` }),
       resolve({
         browser: true,
@@ -56,7 +56,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
       clearScreen: false
     },
     onwarn: function (warning) {
-      if (warning.code === "THIS_IS_UNDEFINED") {
+      if (warning.code === "THIS_IS_UNDEFINED" || warning.code === "CIRCULAR_DEPENDENCY") {
         return;
       }
       console.warn(warning.message);
@@ -65,7 +65,8 @@ const toRollupConfig = function (component, dest, customElement = true) {
 };
 
 export default [
-  // toRollupConfig("kredeum-metamask", "app/build"), // app/metamask.html
-  // toRollupConfig("kredeum-nft-mint", "app/build"), // app/mint.html
+  // toRollupConfig("kredeum-metamask", "build"),
+  // toRollupConfig("kredeum-nft-mint", "build")
   toRollupConfig("kredeum-nft", "app/build")
+  // toRollupConfig("vide", "app/build")
 ];

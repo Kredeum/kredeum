@@ -149,16 +149,16 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     target: "ethers-v5",
-    outDir: "./artifacts/types"
+    outDir: "artifacts/types"
   },
   paths: {
-    sources: "./contracts",
-    deploy: "./deploy",
-    deployments: "./deployments",
-    tests: "./tests",
-    imports: "../lib",
-    cache: "./artifacts/cache",
-    artifacts: "./artifacts"
+    sources: "contracts",
+    deploy: "deploy",
+    deployments: "deployments",
+    tests: "tests",
+    imports: ".lib",
+    cache: "artifacts/cache",
+    artifacts: "artifacts"
   },
   mocha: {
     timeout: 200000

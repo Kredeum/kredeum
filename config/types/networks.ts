@@ -1,4 +1,4 @@
-import networksJson from "../../config/networks.json";
+import networksJson from "../networks.json";
 
 type Network = {
   chainId: string;

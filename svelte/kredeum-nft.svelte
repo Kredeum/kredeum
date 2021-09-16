@@ -3,9 +3,9 @@
 <script>
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
-  import OpenNFTs from "../lib/open-nfts.mjs";
-  import kimages from "../lib/kimages.mjs";
-  import { createEventDispatcher, tick } from "svelte";
+  import OpenNFTs from "../lib/open-nfts";
+  import kimages from "../lib/kimages";
+  import { createEventDispatcher } from "svelte";
 
   const dispatch = createEventDispatcher();
 

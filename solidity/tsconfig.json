@@ -1,8 +1,8 @@
 {
   "compilerOptions": {
+    "rootDir": "..",
     "baseUrl": "./",
     "allowJs": true,
-    "outDir": ".types",
     "target": "es2021",
     "module": "commonjs",
     "moduleResolution": "node",
@@ -13,6 +13,6 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../lib", "./scripts", "./tests", "./deploy", "./scripts/nftsfactory.ts"],
-  "files": ["hardhat.config.ts"]
+  "include": ["../lib", "./scripts", "./tests", "./deploy"],
+  "files": ["./hardhat.config.ts"]
 }

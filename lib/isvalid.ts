@@ -16,7 +16,7 @@ const isValid = {
   _isChecksumAddress: function (_address: string) {
     _address = _address.replace("0x", "");
 
-    let _addressHash = sha3(_address.toLowerCase());
+    let _addressHash = global.sha3(_address.toLowerCase());
 
     for (var i = 0; i < 40; i++) {
       // the nth letter should be uppercase if the nth digit of casemap is 1

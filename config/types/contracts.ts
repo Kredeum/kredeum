@@ -1,4 +1,4 @@
-import contractsJson from "../../config/contracts.json";
+import contractsJson from "../contracts.json";
 
 type Contract = {
   name: string;

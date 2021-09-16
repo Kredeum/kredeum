@@ -1,8 +1,8 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import OpenNFTs from "../lib/open-nfts.mjs";
-  import NftStorage from "../lib/nft-storage.mjs";
+  import OpenNFTs from "../lib/open-nfts";
+  import NftStorage from "../lib/nft-storage";
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();

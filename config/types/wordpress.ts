@@ -1,4 +1,4 @@
-import wordpressJson from "../../config/wordpress.json";
+import wordpressJson from "../wordpress.json";
 
 type WordPress = {
   version: { latest: string; stable: string };
@@ -7,4 +7,3 @@ type WordPress = {
 const wordpress = wordpressJson as WordPress;
 
 export { wordpress };
-export type { WordPress };

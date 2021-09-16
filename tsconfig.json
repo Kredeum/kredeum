@@ -1,0 +1,8 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "rootDir": ".",
+    "resolveJsonModule": true
+  },
+  "include": ["app/svelte/**/*", "config/**/*", "config/types/**/*", "lib/**/*", "old/lib/kcid.ts"]
+}

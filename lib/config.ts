@@ -1,6 +1,6 @@
-import { contracts, Contract } from "./config/contracts";
-import { networks, Network } from "./config/networks";
-import { abis } from "./config/abis";
+import { contracts, Contract } from "../config/types/contracts";
+import { networks, Network } from "../config/types/networks";
+import { abis } from "../config/types/abis";
 import { ethers } from "ethers";
 
 function getNetwork(_chainId: string) {
@@ -8,8 +8,6 @@ function getNetwork(_chainId: string) {
 }
 
 const getProvider = function (network: Network) {
-  const infuraKey = "fc2d1a3eead04bdf9dd64a8b7be9f701";
-  const maticvigilKey = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
   let provider;
 
   if (network) {
@@ -26,4 +24,5 @@ const getProvider = function (network: Network) {
   return provider;
 };
 
-export { abis, contracts, networks, getNetwork, getProvider, Contract, Network };
+export { abis, contracts, networks, getNetwork, getProvider };
+export type { Contract, Network };
