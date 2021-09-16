@@ -70,7 +70,7 @@ class OpenNFTs {
   }
 
   // SET network
-  _setNetwork(_chainId: string = this.defaultChainId): Network {
+  _setNetwork(_chainId: string = this.defaultChainId): Network | undefined {
     const oldNetwork = this.network;
 
     // Search new network
@@ -86,8 +86,8 @@ class OpenNFTs {
     return this.network;
   }
 
-  _setContract(_address?: string): Contract {
-    let contract: Contract;
+  _setContract(_address?: string): Contract | undefined {
+    let contract: Contract | undefined;
 
     if (_address) {
       // Search contract with this address on same network
@@ -120,7 +120,7 @@ class OpenNFTs {
   async init(
     _chainId?: string,
     _address?: string
-  ): Promise<{ network: Network; contract: Contract }> {
+  ): Promise<{ network?: Network; contract?: Contract }> {
     // console.log("init", _chainId, _address);
 
     // Set network with chainId (or default if network not set)
@@ -520,7 +520,7 @@ class OpenNFTs {
   async listNFTs(_owner?: string, _type?: string): Promise<Array<NftData>> {
     console.log("OpenNFTs.listNFTs", _owner, _type, this.contract?.address);
     let nfts: Array<NftData> = [];
-    let type: string;
+    let type: string = "none";
 
     if (this.getSubgraphUrl()) {
       nfts = (await this.listNFTsFromTheGraph(this.owner, this.limit)) as Array<NftData>;
@@ -574,7 +574,7 @@ class OpenNFTs {
     tokens.sort((a, b) => (BigNumber.from(b.tokenID) > BigNumber.from(a.tokenID) ? 1 : 0));
 
     console.log(`OpenNFTs.listNFTsFromCache ${tokens.length}`);
-    return tokens.length > 0 && tokens;
+    return tokens;
   }
 
   listContractsFromConfig(): Array<Contract> {

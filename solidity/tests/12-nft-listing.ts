@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import OpenNFTs from "../../lib/open-nfts";
 import fetch from "node-fetch";
+import { Network, Contract } from "../../lib/types";
 global.fetch = fetch as any;
 
 const owner = "0x981ab0d817710d8fffc5693383c00d985a3bda38";
@@ -8,14 +9,16 @@ const owner = "0x981ab0d817710d8fffc5693383c00d985a3bda38";
 const chainId1 = "0x13881";
 const contract1 = "0x98d333dB22158f01797bc7B219c6F18924D0Ca16";
 const network1 = {
-  network: "mumbai",
+  chainId: "0x13881",
+  chainName: "mumbai",
   contract: contract1,
   openSea: {},
   explorer: "https://mumbai.polygonscan.com"
 };
-const contract1b = "0xb05AA675e9d061C60fE050392E30AfeD22C655DA";
+const contract1b = "0x98d333dB22158f01797bc7B219c6F18924D0Ca16";
 const network1b = {
-  network: "mumbai",
+  chainId: "0x13881",
+  chainName: "mumbai",
   contract: contract1b,
   openSea: {},
   explorer: "https://mumbai.polygonscan.com"
@@ -23,7 +26,8 @@ const network1b = {
 
 const chainId2 = "0x89";
 const network2 = {
-  network: "matic",
+  chainId: "0x89",
+  chainName: "matic",
   contract: "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
   openSea: {
     assets: "https://opensea.io/assets/matic",
@@ -35,6 +39,8 @@ const network2 = {
 const chainIdKo = "0x5858";
 
 let openNFTs: OpenNFTs;
+let network: Network | undefined;
+let contract: Contract | undefined;
 
 describe("NFTs Listing", async function () {
   describe("Init", async function () {
@@ -47,15 +53,24 @@ describe("NFTs Listing", async function () {
     });
 
     it("Should set Contract without address", async function () {
-      expect(await openNFTs.init(chainId1)).to.be.eql(network1);
+      ({ network } = await openNFTs.init(chainId1));
+      expect(network?.chainId).to.be.eq(network1.chainId);
+      expect(network?.chainName).to.be.eq(network1.chainName);
     });
 
     it("Should set Contract with address", async function () {
-      expect(await openNFTs.init(chainId1, contract1b)).to.eql(network1b);
+      ({ network, contract } = await openNFTs.init(chainId1, contract1b));
+      expect(network?.chainId).to.be.eq(network1.chainId);
+      expect(network?.chainName).to.be.eq(network1.chainName);
+      expect(contract?.address).to.be.eq(network1.contract);
+      expect(contract?.address).to.be.eq(contract1b);
     });
 
     it("Should set Contract2", async function () {
-      expect(await openNFTs.init(chainId2)).to.eql(network2);
+      ({ network, contract } = await openNFTs.init(chainId2));
+      expect(network?.chainId).to.be.eq(network2.chainId);
+      expect(network?.chainName).to.be.eq(network2.chainName);
+      expect(contract?.address).to.be.eq(network2.contract);
     });
 
     // test setCo,ntract avec chainId invalide
@@ -71,7 +86,7 @@ describe("NFTs Listing", async function () {
     beforeEach(async () => {
       openNFTs = new OpenNFTs();
       openNFTs.setOwner(owner);
-      openNFTs._setContract(chainId1, contract1);
+      openNFTs.init(chainId1, contract1);
     });
 
     it("With default method", async function () {

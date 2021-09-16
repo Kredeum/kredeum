@@ -301,7 +301,7 @@
 
   <small>
     {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">
-        nft://{network || "..."}/{address || "..."}
+        nft://{network?.chainName || "..."}/{address || "..."}
       </a>
     {/if}
     <br />

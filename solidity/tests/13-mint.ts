@@ -65,7 +65,6 @@ describe("NFT Mint", function () {
 
     beforeEach(async () => {
       openNFTs = new OpenNFTs();
-      openNFTs._setContract(networkChainId, contractAddress);
       await openNFTs.init(networkChainId, contractAddress);
     });
 
@@ -73,13 +72,13 @@ describe("NFT Mint", function () {
       expect(Boolean(openNFTs)).to.be.true;
     });
     it("Should get Contract Name", async function () {
-      expect(await openNFTs.contract?.name()).to.be.equal(contractName);
+      expect(await openNFTs.smartcontract?.name()).to.be.equal(contractName);
     });
     it("Should get Contract Symbol", async function () {
-      expect(await openNFTs.contract?.symbol()).to.be.equal(contractSymbol);
+      expect(await openNFTs.smartcontract?.symbol()).to.be.equal(contractSymbol);
     });
     it("Should get Contract TotalSupply", async function () {
-      const totalSupply = (await openNFTs.contract?.totalSupply())?.toNumber();
+      const totalSupply = (await openNFTs.smartcontract?.totalSupply())?.toNumber();
       expect(totalSupply).to.be.gt(0);
     });
   });
@@ -89,17 +88,16 @@ describe("NFT Mint", function () {
 
     it("Should Mint one Token", async function () {
       let openNFTs = new OpenNFTs();
-      openNFTs._setContract(networkChainId, contractAddress);
       await openNFTs.init(networkChainId, contractAddress);
       const signer = new ethers.Wallet(process.env.ACCOUNT_KEY || "", provider);
 
-      const totalSupply = (await openNFTs.contract?.totalSupply()).toNumber();
-      const tx = await openNFTs.contract
+      const totalSupply = (await openNFTs.smartcontract?.totalSupply()).toNumber();
+      const tx = await openNFTs.smartcontract
         ?.connect(signer)
         .mintNFT(process.env.ACCOUNT_ADDRESS, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
-      const totalSupply1 = (await openNFTs.contract?.totalSupply()).toNumber();
+      const totalSupply1 = (await openNFTs.smartcontract?.totalSupply()).toNumber();
       expect(totalSupply1).to.be.equal(totalSupply + 1);
     });
   });
