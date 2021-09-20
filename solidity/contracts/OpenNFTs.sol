@@ -1,27 +1,34 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
-import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
-import "@openzeppelin/contracts/utils/Counters.sol";
-import "./IOpenNFTs.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
+import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "./interfaces/IOpenNFTs.sol";
 
-contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTs {
-  using Counters for Counters.Counter;
-  Counters.Counter private _tokenIds;
+contract OpenNFTs is
+  ERC721Upgradeable,
+  ERC721EnumerableUpgradeable,
+  ERC721URIStorageUpgradeable,
+  OwnableUpgradeable
+{
+  using CountersUpgradeable for CountersUpgradeable.Counter;
+  CountersUpgradeable.Counter private _tokenIds;
 
-  constructor() ERC721("Open NFTs", "NFT") {}
+  constructor() ERC721Upgradeable() {}
 
-  function mintNFT(address minter, string memory jsonURI)
-    public
-    override(IOpenNFTs)
-    returns (uint256)
-  {
+  function initialize() public initializer {
+    __Ownable_init();
+    __ERC721_init("Open NFTs", "NFT");
+  }
+
+  function mintNFT(string memory jsonURI) public returns (uint256) {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
-    _safeMint(minter, newItemId);
+    _safeMint(msg.sender, newItemId);
     _setTokenURI(newItemId, jsonURI);
 
     return newItemId;
@@ -31,18 +38,21 @@ contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTs {
     address from,
     address to,
     uint256 tokenId
-  ) internal override(ERC721, ERC721Enumerable) {
+  ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
     super._beforeTokenTransfer(from, to, tokenId);
   }
 
-  function _burn(uint256 tokenId) internal override(ERC721, ERC721URIStorage) {
+  function _burn(uint256 tokenId)
+    internal
+    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
+  {
     super._burn(tokenId);
   }
 
   function tokenURI(uint256 tokenId)
     public
     view
-    override(ERC721, ERC721URIStorage)
+    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
     returns (string memory)
   {
     return super.tokenURI(tokenId);
@@ -51,7 +61,7 @@ contract OpenNFTs is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTs {
   function supportsInterface(bytes4 interfaceId)
     public
     view
-    override(ERC721, ERC721Enumerable)
+    override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     returns (bool)
   {
     return interfaceId == type(IOpenNFTs).interfaceId || super.supportsInterface(interfaceId);

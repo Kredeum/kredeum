@@ -2,8 +2,8 @@
 import { ethers } from "ethers";
 import { expect } from "chai";
 
-import { networks, contracts, abis, getProvider } from "../../lib/config";
-import type { Network, Contract } from "../../lib/config";
+import { networks, contracts, abis, getProvider } from "../../lib/kconfig";
+import type { Network, Contract } from "../../lib/kconfig";
 
 describe("ABIs : Check", function () {
   it(`Should have same ABI than in config`, function () {

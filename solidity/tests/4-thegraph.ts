@@ -1,6 +1,6 @@
 // npx mocha 4-thegraph.mjs
 import { expect } from "chai";
-import Ipfs from "../../lib/ipfs";
+import Ipfs from "../../lib/kipfs";
 import FormData from "form-data";
 import fetch from "node-fetch";
 global.fetch = fetch as any;

@@ -5,7 +5,7 @@ import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 
 import "@typechain/hardhat";
-import { HardhatUserConfig } from "hardhat/types";
+import type { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
 import "./tasks/index";
 import dotenv from "dotenv";
@@ -27,7 +27,7 @@ const config: HardhatUserConfig = {
   namedAccounts: {
     admin: { default: 0 },
     deployer: { default: 0 },
-    tester1: { default: 0 },
+    tester1: { default: 1 },
     tester2: { default: 2 },
     random: { default: 3 }
   },
@@ -156,7 +156,7 @@ const config: HardhatUserConfig = {
     deploy: "deploy",
     deployments: "deployments",
     tests: "tests",
-    imports: ".lib",
+    imports: "lib",
     cache: "artifacts/cache",
     artifacts: "artifacts"
   },

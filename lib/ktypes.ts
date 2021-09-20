@@ -33,7 +33,7 @@ type Network = {
   nftsFactory?: string;
 };
 
-type Metadata = {
+type NftMetadata = {
   name?: string;
   description?: string;
   image?: string;
@@ -49,7 +49,7 @@ type NftData = {
   owner: string;
   name?: string;
   description?: string;
-  metadata?: Metadata;
+  metadata?: NftMetadata;
   image?: string;
   contract?: string;
   chainName?: string;
@@ -59,4 +59,4 @@ type NftData = {
   nid?: string;
 };
 
-export type { Contract, Network, ABIS, Metadata, NftData, KredeumKeys, ErcKeys };
+export type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys };

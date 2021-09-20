@@ -1,12 +1,8 @@
 class Ipfs {
-  _endpoint;
-
-  get endpoint() {
-    return this._endpoint;
-  }
+  endpoint: string;
 
   constructor(endpoint: string) {
-    this._endpoint = endpoint;
+    this.endpoint = endpoint;
   }
 
   async pin(buffer: Blob | string, options?: Object) {

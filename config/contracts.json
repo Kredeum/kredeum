@@ -39,7 +39,7 @@
   },
   {
     "name": "OpenNFTs",
-    "address": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
+    "address": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "interfaces": ["ERC165", "ERC721", "ERC721Metadata", "ERC721Enumerable", "KredeumV2"],
     "network": "fuji"
   },

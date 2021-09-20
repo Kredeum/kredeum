@@ -4,7 +4,7 @@
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
-  import { getNetwork, networks } from "../lib/config";
+  import { getNetwork, networks } from "../lib/kconfig";
 
   export let signer = undefined;
   export let address = undefined;

@@ -1,19 +1,22 @@
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { DeployFunction } from "hardhat-deploy/types";
+import type { HardhatRuntimeEnvironment } from "hardhat/types";
+import type { DeployFunction } from "hardhat-deploy/types";
 
 const contractName = "OpenNFTs";
 
 const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployments, getNamedAccounts } = hre;
-  const { deployer } = await getNamedAccounts();
+  const { deployments, getNamedAccounts, ethers } = hre;
+  const deployer = await ethers.getNamedSigner("deployer");
 
-  deployments.log(`${contractName} deployer: ${deployer}`);
+  deployments.log(`${contractName} deployer: ${deployer.address}`);
 
   await deployments.deploy(contractName, {
     args: [],
-    from: deployer,
+    from: deployer.address,
     log: true
   });
+
+  const openNFTs = await ethers.getContract(contractName, deployer);
+  await openNFTs.connect(deployer).initialize();
 };
 func.tags = [contractName];
 

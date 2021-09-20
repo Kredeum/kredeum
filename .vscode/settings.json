@@ -23,7 +23,7 @@
     "lib/open-nfts.ts"
   ],
   "files.exclude": {
-    "old": true
+    "old2": true
   },
   "mochaExplorer.exit": true,
   "mochaExplorer.files": "solidity/tests/*.*ts",
@@ -50,5 +50,8 @@
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
   "liveServer.settings.root": "/app",
-  "local-history.browser.descending": false
+  "local-history.browser.descending": false,
+  "search.exclude": {
+    "**/lib/js": true
+  }
 }

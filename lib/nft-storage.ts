@@ -1,25 +1,22 @@
-import Ipfs from "./ipfs";
+import Ipfs from "./kipfs";
 
-const ipfsGateway = "https://ipfs.io/ipfs";
+const nftStorageEndpoint = "https://api.nft.storage";
 
 class NftStorage extends Ipfs {
-  _key;
-
-  get key() {
-    return this._key;
-  }
+  key: string;
 
   constructor(key: string) {
-    super("https://api.nft.storage");
-    this._key = key;
+    super(nftStorageEndpoint);
+    this.key = key;
   }
 
-  async pin(buffer: string) {
+  async pin(buffer: Blob | string) {
     let cid = "";
-    // console.log(buffer);
 
+    const url = `${this.endpoint}/upload`;
+    console.log(`NftStorage.pin ${url} ${this.key.substring(0, 16)}...`);
     const data = await (
-      await fetch(`${super.endpoint}/upload`, {
+      await fetch(url, {
         method: "POST",
         body: buffer,
         headers: {
@@ -27,13 +24,13 @@ class NftStorage extends Ipfs {
         }
       })
     ).json();
-    // console.log(data);
+
     if (data.ok) {
       cid = data.value?.cid;
-      // console.log(`${ipfsGateway}/${cid}`);
     } else {
       console.error("NftStorage.pin", data.error);
     }
+    console.log(`NftStorage.pin ...${cid}`);
 
     return cid;
   }

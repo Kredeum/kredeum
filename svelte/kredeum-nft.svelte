@@ -3,20 +3,19 @@
 <script lang="ts">
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
-  import OpenNFTs from "../lib/open-nfts";
   import kimages from "../lib/kimages";
   import { createEventDispatcher } from "svelte";
-  import type { Contract, Network } from "../lib/config";
-  import type { NftData } from "../lib/open-nfts";
+  import { utils } from "ethers";
+  import { Contract, getNetwork, Network, NftData } from "../lib/kconfig";
+
+  import { listContracts, listContractsFromCache, Clone } from "../lib/nfts-factory";
+  import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
 
   const dispatch = createEventDispatcher();
 
-  const openNFTs = new OpenNFTs();
-
   let network: Network;
-  let contract: Contract;
   let signer: string;
-  let owner: string;
+  let address: string;
   let chainId: string;
   let explorer: string;
   let openSea: string;
@@ -26,68 +25,64 @@
   let NFTs: Array<NftData>;
   let NFTsContracts: Array<Contract>;
 
-  export let address: string = undefined; // NFT smartcontract address
+  export let contract: string = undefined; // NFT smartcontract address
   export let platform: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS CHANGE
-  $: if (owner) {
-    console.log("<kredeum-nft/> owner changed", owner);
-    openNFTs.setOwner(owner);
-    listContracts();
-    listNFTs();
+  $: if (address) {
+    console.log("<kredeum-nft/> address changed", address);
+    _listContracts();
+    _listNFTs();
   }
 
   // CONTRACT OR NETWORK CHANGE
-  $: if (address || chainId) {
-    console.log("<kredeum-nft/> chainId or address changed", chainId, address);
-    init(chainId, address);
+  $: if (contract || chainId) {
+    console.log("<kredeum-nft/> chainId or contract changed :", chainId, contract);
+    init(chainId, contract);
   }
 
-  async function init(_chainId?: string, _address?: string): void {
-    ({ network, contract } = await openNFTs.init(_chainId, _address));
-    openSea = network.openSea?.assets || "";
-    explorer = network.blockExplorerUrls[0] || "";
-
+  async function init(_chainId?: string, _address?: string): Promise<void> {
+    network = getNetwork(_chainId);
     if (network) {
-      if (chainId !== network.chainId) {
-        chainId = network.chainId;
-        listContracts();
-      }
-      listNFTs();
+      chainId = network.chainId;
+      openSea = network.openSea?.assets || "";
+      explorer = network.blockExplorerUrls[0] || "";
+      _listContracts();
+      _listNFTs();
     }
   }
 
-  async function listContracts() {
-    if (network && owner) {
-      console.log("<kredeum-nft/> listContracts", `nfts://${network}@${owner}`);
+  async function _listContracts() {
+    if (network && address) {
+      console.log("<kredeum-nft/> _listContracts", `nfts://${network.chainName}@${address}`);
 
       NFTsContracts = null;
 
-      NFTsContracts = openNFTs.listContractsFromCache();
+      NFTsContracts = listContractsFromCache(chainId);
       console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
       refreshingContracts = true;
 
-      NFTsContracts = await openNFTs.listContracts();
+      NFTsContracts = await listContracts(chainId, address);
       console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
       refreshingContracts = false;
     }
   }
 
-  async function listNFTs() {
-    if (network && address && owner) {
+  async function _listNFTs() {
+    if (network && contract && address) {
       console.log(
-        "<kredeum-nft/> listNFTs",
-        `nft://${network || "..."}/${address || "..."}@${owner || "..."}`
+        "<kredeum-nft/> _listNFTs",
+        `nft://${network || "..."}/${contract} || "..."}@${address || "..."}`
       );
 
       NFTs = null;
 
-      NFTs = openNFTs.listNFTsFromCache(owner);
-      console.log("<kredeum-nft/> listNFTs cache loaded", NFTs);
+      NFTs = listNFTsFromCache(chainId, address);
+      console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
       refreshingNFTs = true;
 
-      NFTs = await openNFTs.listNFTs(owner);
-      console.log("<kredeum-nft/> listNFTs refresh done", NFTs);
+      NFTs = await listNFTs(chainId, address);
+      console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
       refreshingNFTs = false;
     }
   }
@@ -97,8 +92,8 @@
     return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
   };
 
-  const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
-  const shortAddress = (a) => short(a, 6, 4);
+  const sameAddress = (a, b = address) => utils.getAddress(a) === utils.getAddress(b);
+  const shortAddress = (a) => short(utils.getAddress(a), 6, 4);
 
   const dispatchImport = async (nft) => {
     nft.import = 1;
@@ -110,7 +105,7 @@
   const createCollection = () => {
     console.log("<kredeum-nft/> createCollection");
     if (signer) {
-      openNFTs.Clone(signer);
+      Clone(chainId, address, signer);
     } else {
       console.error("<kredeum-nft/> not signer");
     }
@@ -128,8 +123,8 @@
 
   $: kreLink = () =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/tokens/${address}/inventory`
-      : `${explorer}/token/${address}#inventory`;
+      ? `${explorer}/tokens/${contract}/inventory`
+      : `${explorer}/token/${contract}#inventory`;
 
   $: addressLink = (address) =>
     explorer?.includes("chainstacklabs.com")
@@ -155,11 +150,11 @@
   <h3>
     {#if NFTsContracts}
       {#if NFTsContracts.length > 0}
-        <select bind:value="{address}">
+        <select bind:value="{contract}">
           <option value="">Choose Collection</option>
           {#each NFTsContracts as NFTsContract}
             <!-- {#if i == 1}selected{/if} -->
-            <option value="{NFTsContract.address}">
+            <option value="{utils.getAddress(NFTsContract.address)}">
               {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
               {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
               {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
@@ -175,7 +170,7 @@
   </h3>
   {#if refreshingContracts} Refreshing Collections... {/if}
 
-  {#key owner && importing}
+  {#key address && importing}
     {#if NFTs}
       {#if NFTs.length > 0}
         <table>
@@ -301,12 +296,12 @@
 
   <small>
     {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">
-        nft://{network?.chainName || "..."}/{address || "..."}
+        nft://{network?.chainName || "..."}/{contract || "..."}
       </a>
     {/if}
     <br />
-    {#if owner}Address{/if}
-    <Metamask autoconnect="off" bind:owner bind:chainId bind:signer />
+    {#if address}Address{/if}
+    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
     <br />
     Cache <a href on:click="{() => localStorage.clear()}">clear</a>
   </small>

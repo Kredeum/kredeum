@@ -1,7 +1,7 @@
 <svelte:options tag="kredeum-nft-mint" />
 
 <script>
-  import OpenNFTs from "../lib/open-nfts";
+  import { Mint } from "../lib/open-nfts";
   import NftStorage from "../lib/nft-storage";
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
@@ -29,8 +29,6 @@
 
   let chainId = 0;
 
-  const openNFTs = new OpenNFTs();
-
   // CONTRACT OR NETWORK CHANGE
   $: if (contract || chainId) {
     console.log("<kredeum-nft-mint/> chainId or contract changed", chainId, contract);
@@ -43,7 +41,7 @@
   }
 
   async function nftMint() {
-    //console.log('<kredeum-nft-mint/> nftMint src alt', src, alt);
+    console.log("<kredeum-nft-mint/> nftMint src alt", src, alt);
 
     if (signer) {
       minting = true;
@@ -62,7 +60,7 @@
       });
 
       try {
-        minted = await openNFTs.Mint(signer, `${ipfsGateway}/${cidJson}`);
+        minted = await Mint(_chainId, _contract, `${ipfsGateway}/${cidJson}`);
         dispatch("token", { nid: minted.nid });
       } catch (e) {
         console.error("<kredeum-nft-mint/> Minting ERROR", e);
