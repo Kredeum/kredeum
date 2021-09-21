@@ -3,8 +3,7 @@ import {
   listContractsFromCache,
   listContractsFromCovalent,
   listContractsFromTheGraph,
-  listContractsFromFactory,
-  listContractsFromConfig
+  listContractsFromFactory
 } from "../../lib/nfts-factory";
 import type { Network, Contract } from "../../lib/ktypes";
 import { getNetwork } from "../../lib/kconfig";
@@ -34,10 +33,6 @@ describe("NFTsContracts", async function () {
 
     it("List with NFTsFactory", async function () {
       expect((await listContractsFromFactory(network, owner)).size).to.be.gt(1);
-    });
-
-    it("List with config", async function () {
-      expect((await listContractsFromConfig(network)).size).to.be.gt(1);
     });
 
     it.skip("With Covalent", async function () {

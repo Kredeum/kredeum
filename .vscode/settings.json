@@ -20,7 +20,8 @@
     "solidity/tests/nfts-factory.ts",
     "tsconfig.json",
     "lib/nft-storage.ts",
-    "lib/open-nfts.ts"
+    "lib/open-nfts.ts",
+    "lib/nfts-factory.ts"
   ],
   "files.exclude": {
     "old2": true

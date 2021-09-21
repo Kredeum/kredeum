@@ -18,7 +18,6 @@
       "assets": "https://opensea.io/assets/matic",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
-    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
     "nftsFactory": "0x1CcC83c7419E56cbb56022A199c72E27f30DCfd2",
     "type": "mainnet"
   },
@@ -79,8 +78,8 @@
       "active": true
     },
     "covalent": { "active": true },
-    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
-    "nftsFactory": "0x4266eb1E511B61F087147A0b901199B996933a57",
+    "nftsFactory": "0x7De3572Ea3ac699e6DE74f87dBdBeA5403593417",
+    "openNFTs": "0x933E3468e940fb310fFE625E63c42930D2861464",
     "type": "testnet"
   },
   {
@@ -90,7 +89,6 @@
     "nativeCurrency": { "name": "Ether", "symbol": "AETH", "decimals": 18 },
     "blockExplorerUrls": ["https://explorer.arbitrum.io"],
     "covalent": { "active": true },
-    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
     "type": "off"
   },
   {
@@ -101,7 +99,6 @@
     "blockExplorerUrls": ["https://rinkeby-explorer.arbitrum.io"],
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "covalent": { "active": true },
-    "admin": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
     "type": "testnet"
   },
   {

@@ -5,9 +5,10 @@ type ABIS = {
 };
 
 type Contract = {
+  chainId: string;
   address: string;
   name?: string;
-  network?: string;
+  chainName?: string;
   interfaces?: Array<string>;
   symbol?: string;
   totalSupply?: number;
@@ -30,6 +31,7 @@ type Network = {
   type?: string;
   admin?: string;
   openSea?: { assets?: string; kredeum?: string };
+  openNFTs?: string;
   nftsFactory?: string;
 };
 
@@ -47,12 +49,13 @@ type NftData = {
   tokenID: string;
   tokenURI: string;
   owner: string;
+  chainId: string;
+  chainName?: string;
   name?: string;
   description?: string;
   metadata?: NftMetadata;
   image?: string;
   contract?: string;
-  chainName?: string;
   creator?: string;
   minter?: string;
   cid?: string;

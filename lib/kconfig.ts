@@ -1,5 +1,4 @@
 import networks from "../config/networks.json";
-import contracts from "../config/contracts.json";
 import abis from "../config/abis.json";
 import type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys } from "./ktypes";
 
@@ -8,7 +7,7 @@ import { ethers, Signer } from "ethers";
 const _networks = new Map(networks.map((network) => [network.chainId, network]));
 
 function getNetwork(_chainId: string): Network {
-  return _networks.get(_chainId) || networks[0];
+  return _networks.get(_chainId);
 }
 
 const getProvider = function (network: Network) {
@@ -48,14 +47,36 @@ const getOpenSea = function (_network: Network) {
   return _network?.openSea || {};
 };
 
+// nfts url : nfts://chainName/contractAddress
+const nftsUrl = function (_network: string, _address: string): string {
+  return "nfts://" + (_network ? _network + (_address ? "/" + _address : "...") : "...");
+};
+
+// nft url : nft://chainName/contractAddress/tokenID
+const nftUrl = function (
+  _network: string,
+  _contract: string,
+  _tokenId: string,
+  plus: string = "..."
+): string {
+  const ret =
+    "nft://" +
+    (_network
+      ? _network + (_contract ? "/" + (_contract + (_tokenId ? "/" + _tokenId : plus)) : plus)
+      : plus);
+  console.log("nftUrl", _network, _contract, _tokenId, plus, ret);
+  return ret;
+};
+
 export {
   abis,
-  contracts,
   networks,
   getNetwork,
   getProvider,
   getSubgraphUrl,
   getCovalent,
-  getExplorer
+  getExplorer,
+  nftUrl,
+  nftsUrl
 };
 export type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys };

@@ -2,7 +2,7 @@
 import { utils } from "ethers";
 import { ethers, deployments } from "hardhat";
 import { expect } from "chai";
-import { networks, contracts, getProvider, getNetwork } from "../../lib/kconfig";
+import { networks, getProvider, getNetwork } from "../../lib/kconfig";
 import { Mint, getOpenNFTs } from "../../lib/open-nfts";
 
 import type { Network, Contract } from "../../lib/kconfig";
@@ -16,7 +16,7 @@ const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyv
 const networkChainId = "0x13881";
 const networkChainName = "mumbai";
 const networkExplorer = "https://explorer-mumbai.maticvigil.com";
-const contractAddress = "0x34538444A64251c765c5e4c9715a16723CA922D8";
+const contractAddress = "0x933E3468e940fb310fFE625E63c42930D2861464";
 const contractName = "Open NFTs";
 const contractSymbol = "NFT";
 
@@ -29,7 +29,7 @@ describe("NFT Mint", function () {
   describe("Init", function () {
     it("Should find Network", function () {
       network = networks.find((nw) => nw.chainName === networkChainName);
-      // console.log(network);
+      console.log(network);
       expect(network?.chainId).to.be.equal(networkChainId);
     });
 
@@ -39,11 +39,11 @@ describe("NFT Mint", function () {
     });
 
     it("Should find Contract Config", function () {
-      contract = contracts.find(
-        (_contract) => utils.getAddress(_contract.address) === utils.getAddress(contractAddress)
-      );
-      // console.log(contract);
-      expect(contract?.address).to.be.equal(contractAddress);
+      const contract = network?.openNFTs;
+
+      console.log(network);
+      console.log(contract);
+      expect(contract).to.be.equal(contractAddress);
     });
 
     it("Should connect Provider", function () {

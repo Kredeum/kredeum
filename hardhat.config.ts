@@ -7,7 +7,7 @@ import "hardhat-deploy-ethers";
 import "@typechain/hardhat";
 import type { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
-import "./tasks/index";
+import "./solidity/tasks/index";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -43,6 +43,9 @@ const config: HardhatUserConfig = {
         { privateKey: process.env.PRIVATE_KEY_TEST_1 || "", balance: "100000000000000000000" },
         { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
       ]
+    },
+    local: {
+      url: "http://127.0.0.1:8545"
     },
     fantom: {
       chainId: 250,
@@ -149,19 +152,20 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     target: "ethers-v5",
-    outDir: "artifacts/types"
+    outDir: "solidity/artifacts/types"
   },
   paths: {
-    sources: "contracts",
-    deploy: "deploy",
-    deployments: "deployments",
-    tests: "tests",
+    sources: "solidity/contracts",
+    deploy: "solidity/deploy",
+    deployments: "solidity/deployments",
+    tests: "solidity/tests",
     imports: "lib",
-    cache: "artifacts/cache",
-    artifacts: "artifacts"
+    cache: "solidity/artifacts/cache",
+    artifacts: "solidity/artifacts"
   },
   mocha: {
-    timeout: 200000
+    timeout: 200000,
+    bail: true
   }
 };
 

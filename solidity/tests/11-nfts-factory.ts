@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
+import type { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
 import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 

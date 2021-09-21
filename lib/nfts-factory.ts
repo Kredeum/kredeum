@@ -1,12 +1,8 @@
 import { ethers, BigNumber, utils, Signer, Contract as ContractEthers } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { abis, contracts, getNetwork, getProvider, getSubgraphUrl, getCovalent } from "./kconfig";
+import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
 import type { Network, Contract } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
-
-function _nfts(_network: string, _address: string): string {
-  return "nfts://" + (_network ? _network + (_address ? "/" + _address : "...") : "...");
-}
 
 function getNFTsFactory(_network: Network, _signer?: Signer): NFTsFactory {
   return new ContractEthers(
@@ -45,11 +41,13 @@ async function listContractsFromCovalent(
 
       for (let index = 0; index < contractsJson.length; index++) {
         const contract = contractsJson[index];
-        const network = _network.chainName;
+        const chainId = _network.chainId;
+        const chainName = _network.chainName;
         const address = contract.contract_address;
 
-        contracts.set(_nfts(network, address), {
-          network,
+        contracts.set(nftsUrl(chainName, address), {
+          chainId,
+          chainName,
           address,
           name: contract.contract_name,
           symbol: contract.contract_ticker_symbol,
@@ -98,12 +96,14 @@ async function listContractsFromTheGraph(
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
       const { id: address, name, symbol } = contract;
-      const network = _network.chainName;
+      const chainId = _network.chainId;
+      const chainName = _network.chainName;
       const totalSupply = Math.max(numTokens, 0);
 
       if (currentContractResponse.numTokens > 0) {
-        contracts.set(_nfts(network, address), {
-          network,
+        contracts.set(nftsUrl(chainName, address), {
+          chainId,
+          chainName,
           address,
           name,
           symbol,
@@ -132,15 +132,17 @@ async function listContractsFromFactory(
     // console.log("balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
-      const network = _network.chainName;
+      const chainId = _network.chainId;
+      const chainName = _network.chainName;
       const balance = balances[index];
       const address = utils.getAddress(balance[0]);
       const name = balance[1];
       const symbol = balance[2];
       const totalSupply = Number(balance[3]);
-      contracts.set(`nfts://${network}/${address}`, {
+      contracts.set(`nfts://${chainName}/${address}`, {
         totalSupply,
-        network,
+        chainId,
+        chainName,
         name,
         symbol,
         address
@@ -148,19 +150,8 @@ async function listContractsFromFactory(
     }
   }
 
-  // console.log("listContractsFromFactory", contracts);
+  console.log("listContractsFromFactory", contracts);
   return contracts;
-}
-
-function listContractsFromConfig(_network: Network): Map<string, Contract> {
-  // console.log("listContractsFromConfig");
-  const network = _network?.chainName;
-
-  const _contracts = contracts.filter((_contract: Contract) => _contract.network === network);
-  const contractsMap = new Map(_contracts.map((item) => [_nfts(network, item.address), item]));
-
-  // console.log("listContractsFromConfig", contractsMap);
-  return contractsMap;
 }
 
 async function listContracts(_chainId: string, _owner?: string): Promise<Array<Contract>> {
@@ -178,12 +169,7 @@ async function listContracts(_chainId: string, _owner?: string): Promise<Array<C
     } else if (getCovalent(network)) {
       contractsOwner = await listContractsFromCovalent(network, _owner);
     }
-
     contractsKredeum = await listContractsFromFactory(network, _owner);
-    if (contractsKredeum.size === 0) {
-      // GET Kredeum contracts from Config
-      contractsKredeum = listContractsFromConfig(network);
-    }
 
     // MERGE contractsOwner and contractsKredeum
     const contractsMap = new Map([...contractsOwner, ...contractsKredeum]);
@@ -206,19 +192,21 @@ async function listContracts(_chainId: string, _owner?: string): Promise<Array<C
 }
 
 function listContractsFromCache(_chainId: string) {
-  // console.log("listContractsFromCache");
   const contracts = [];
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
+    console.log("listContractsFromCache", key, index);
 
     if (key?.startsWith("nfts://")) {
       const contract = JSON.parse(localStorage.getItem(key) || "{}");
+      console.log("listContractsFromCache OKOKOKOK", contract);
       if (_chainId && _chainId === contract.chainId) {
         contracts.push(contract);
       }
     }
   }
+  console.log("listContractsFromCache", contracts);
   return contracts;
 }
 
@@ -253,7 +241,6 @@ export {
   listContractsFromCovalent,
   listContractsFromTheGraph,
   listContractsFromFactory,
-  listContractsFromConfig,
   getNFTsFactory
 };
 export type { NFTsFactory };

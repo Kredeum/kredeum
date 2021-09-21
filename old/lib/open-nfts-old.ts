@@ -1,11 +1,11 @@
 import { BigNumber, Contract as SmartContract } from "ethers";
-import { networks, contracts, abis, getProvider } from "./kconfig";
-import { getNFTsFactory, NFTsFactory } from "./nfts-factory";
-import { addNftData } from "./open-nfts";
+import { networks, contracts, abis, getProvider } from "../../lib/kconfig";
+import { getNFTsFactory, NFTsFactory } from "../../lib/nfts-factory";
+import { addNftData } from "../../lib/open-nfts";
 
 import type { Signer } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Network, Contract, NftData } from "./kconfig";
+import type { Network, Contract, NftData } from "../../lib/kconfig";
 
 class OpenNFTs {
   network?: Network;
