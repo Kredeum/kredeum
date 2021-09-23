@@ -104,7 +104,7 @@ contract CloneFactory is Ownable {
     uint256 _version,
     bool _isTemplate,
     address _creator
-  ) internal onlyOwner {
+  ) internal {
     require(_version > 0 && _version <= version(), "Wrong version");
 
     _implementations.push(_implementation);

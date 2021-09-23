@@ -3,17 +3,30 @@ import { fetchCov, fetchGQL } from "./kfetch";
 import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
 import type { Network, Contract } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
+import type { Provider } from "@ethersproject/abstract-provider";
 
-function getNFTsFactory(_network: Network, _signer?: Signer): NFTsFactory {
-  return new ContractEthers(
-    _network.nftsFactory || "",
-    abis.CloneFactory.concat(abis.NFTsFactory),
-    _signer || getProvider(_network)
-  ) as NFTsFactory;
+function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory {
+  console.log("getNFTsFactory", chainId);
+  let nftsFactory: NFTsFactory;
+
+  const network = getNetwork(chainId);
+  console.log("getNFTsFactory", chainId);
+
+  if (network?.nftsFactory) {
+    _providerOrSigner = _providerOrSigner || getProvider(chainId);
+
+    nftsFactory = new ContractEthers(
+      network?.nftsFactory || "",
+      abis.CloneFactory.concat(abis.NFTsFactory),
+      _providerOrSigner
+    ) as NFTsFactory;
+  }
+
+  return nftsFactory;
 }
 
 async function listContractsFromCovalent(
-  chainId: string,
+  chainId: number,
   _owner?: string
 ): Promise<Map<string, Contract>> {
   let contracts: Map<string, Contract> = new Map();
@@ -21,11 +34,10 @@ async function listContractsFromCovalent(
   const network = getNetwork(chainId);
 
   if (network && _owner) {
-    const chainIdInt = parseInt(chainId);
     const match = `{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}`;
 
     path =
-      `/${chainIdInt}/address/${_owner}/balances_v2/` +
+      `/${chainId}/address/${_owner}/balances_v2/` +
       `?nft=true` +
       `&no-nft-fetch=false` +
       `&match=${encodeURIComponent(match)}`;
@@ -63,10 +75,10 @@ async function listContractsFromCovalent(
 }
 
 async function listContractsFromTheGraph(
-  chainId: string,
+  chainId: number,
   _owner?: string
 ): Promise<Map<string, Contract>> {
-  // console.log("listContractsFromTheGraph");
+  console.log("listContractsFromTheGraph");
   let contracts: Map<string, Contract> = new Map();
   const network = getNetwork(chainId);
 
@@ -118,19 +130,21 @@ async function listContractsFromTheGraph(
 }
 
 async function listContractsFromFactory(
-  chainId: string,
-  _owner: string = ethers.constants.AddressZero
+  chainId: number,
+  _owner: string = ethers.constants.AddressZero,
+  _provider?: Provider
 ): Promise<Map<string, Contract>> {
   console.log("listContractsFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
   let contracts: Map<string, Contract> = new Map();
-  const factory: NFTsFactory = getNFTsFactory(network);
+  const factory: NFTsFactory = getNFTsFactory(chainId, _provider);
+  console.log("listContractsFromFactory factory ok ?", factory ? "OK" : "KO");
 
   if (factory) {
     let balances;
     balances = await factory.balancesOf(_owner);
-    // console.log("balances", balances);
+    console.log("balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network.chainName;
@@ -139,15 +153,15 @@ async function listContractsFromFactory(
       const name = balance[1];
       const symbol = balance[2];
       const totalSupply = Number(balance[3]);
-      // const owner = utils.getAddress(balance[4]);
+      const owner = utils.getAddress(balance[4]);
       contracts.set(`nfts://${chainName}/${address}`, {
         totalSupply,
         chainId,
         chainName,
         name,
         symbol,
-        address
-        // owner
+        address,
+        owner
       });
     }
   }
@@ -156,7 +170,11 @@ async function listContractsFromFactory(
   return contracts;
 }
 
-async function listContracts(chainId: string, _owner?: string): Promise<Array<Contract>> {
+async function listContracts(
+  chainId: number,
+  _owner?: string,
+  _provider?: Provider
+): Promise<Array<Contract>> {
   // console.log("listContracts");
   let contracts: Array<Contract> = [];
 
@@ -171,7 +189,7 @@ async function listContracts(chainId: string, _owner?: string): Promise<Array<Co
     } else if (getCovalent(chainId)) {
       contractsOwner = await listContractsFromCovalent(chainId, _owner);
     }
-    contractsKredeum = await listContractsFromFactory(chainId, _owner);
+    contractsKredeum = await listContractsFromFactory(chainId, _owner, _provider);
 
     // MERGE contractsOwner and contractsKredeum
     const contractsMap = new Map([...contractsOwner, ...contractsKredeum]);
@@ -193,7 +211,7 @@ async function listContracts(chainId: string, _owner?: string): Promise<Array<Co
   return contracts;
 }
 
-function listContractsFromCache(chainId: string) {
+function listContractsFromCache(chainId: number) {
   const contracts = [];
 
   for (let index = 0; index < localStorage.length; index++) {
@@ -212,14 +230,14 @@ function listContractsFromCache(chainId: string) {
   return contracts;
 }
 
-async function Clone(chainId: string, _contract: string, _cloner: Signer): Promise<string> {
+async function Clone(chainId: number, _contract: string, _cloner: Signer): Promise<string> {
   const cloner = await _cloner.getAddress();
   console.log("Clone", chainId, _contract, cloner);
 
   let ret: string = "";
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory = getNFTsFactory(network, _cloner);
+  const nftsFactory: NFTsFactory = getNFTsFactory(chainId, _cloner);
 
   if (nftsFactory) {
     const tx1 = await nftsFactory.clone();

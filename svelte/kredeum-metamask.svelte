@@ -25,9 +25,9 @@
     }
     targetChain = true;
 
+    // no need to add default ethereum chain
     if (chainId !== "0x1") {
       console.log("<kredeum-metamask/> addEthereumChain", chainId);
-      // no need to add default ethereum chain
 
       const _network = getNetwork(chainId);
       console.log("<kredeum-metamask/> addEthereumChain", _network);
@@ -59,7 +59,7 @@
   }
 
   async function handleChainId(_chainId) {
-    // console.log("<kredeum-metamask/> handleChainId", _chainId);
+    console.log("<kredeum-metamask/> handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
       const _network = getNetwork(_chainId);
@@ -109,7 +109,7 @@
     }
   }
   async function connectMetamask() {
-    //console.log('connectMetamask');
+    console.log("connectMetamask");
 
     ethereum
       .request({
@@ -120,12 +120,12 @@
         if (e.code === 4001) {
           alert("Please connect to MetaMask.");
         } else {
-          //console.error('ERROR eth_requestAccounts', e);
+          console.error("ERROR eth_requestAccounts", e);
         }
       });
   }
   onMount(async function () {
-    //console.log('init');
+    console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
       if (provider !== window.ethereum) {
@@ -150,7 +150,7 @@
 
       ethereum.on("accountsChanged", handleAccounts);
     } else {
-      //console.log('Please install MetaMask!');
+      console.log("Please install MetaMask!");
       connectmetamask =
         "Please install MetaMask chrome extension to connect your blockchain address to your site";
     }

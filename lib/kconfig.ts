@@ -2,16 +2,18 @@ import networks from "../config/networks.json";
 import abis from "../config/abis.json";
 import type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys } from "./ktypes";
 
-import { ethers, Signer } from "ethers";
+import { ethers, providers, Signer } from "ethers";
+import type { Provider } from "@ethersproject/abstract-provider";
 
-const _networks = new Map(networks.map((network) => [network.chainId, network]));
+const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-function getNetwork(chainId: string): Network {
-  return _networks.get(chainId);
+function getNetwork(chainId: number): Network {
+  return networksMap.get(Number(chainId));
 }
 
-const getProvider = function (network: Network) {
-  let provider;
+const getProvider = function (chainId: number): Provider {
+  let provider: Provider;
+  const network = getNetwork(chainId);
 
   if (network) {
     const url = network.rpcUrls[0];
@@ -24,42 +26,42 @@ const getProvider = function (network: Network) {
       : null;
     apiKey = apiKey ? "/" + apiKey : "";
 
-    provider = new ethers.providers.JsonRpcProvider(`${url}${apiKey}`);
+    provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
   }
   return provider;
 };
 
-const getSubgraphUrl = function (chainId: string): string {
+const getSubgraphUrl = function (chainId: number): string {
   const network = getNetwork(chainId);
   return (network?.subgraph?.active && network?.subgraph?.url) || "";
 };
 
-const getCovalent = function (chainId: string) {
+const getCovalent = function (chainId: number) {
   const network = getNetwork(chainId);
   return network?.covalent?.active;
 };
 
 // GET explorer
-const getExplorer = function (chainId: string) {
+const getExplorer = function (chainId: number) {
   const network = getNetwork(chainId);
   return network?.blockExplorerUrls[0] || "";
 };
 
 // GET OpenSea
-const getOpenSea = function (chainId: string) {
+const getOpenSea = function (chainId: number) {
   const network = getNetwork(chainId);
   return network?.openSea || {};
 };
 
 // nfts url : nfts://chainName/contractAddress
-const nftsUrl = function (chainId: string, _address: string): string {
+const nftsUrl = function (chainId: number, _address: string): string {
   const network = getNetwork(chainId);
   return "nfts://" + (network ? network.chainName + (_address ? "/" + _address : "...") : "...");
 };
 
 // nft url : nft://chainName/contractAddress/tokenID
 const nftUrl = function (
-  chainId: string,
+  chainId: number,
   _contract: string,
   _tokenId: string,
   plus: string = "..."

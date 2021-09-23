@@ -13,6 +13,13 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "include": ["../lib", "./scripts", "./tests", "./deploy", "../old/lib/isvalid.ts"],
+  "include": [
+    "../lib",
+    "./scripts",
+    "./tests",
+    "./deploy",
+    "../old/lib/isvalid.ts",
+    "tests/10-clone-factory.ts"
+  ],
   "files": ["../hardhat.config.ts"]
 }

@@ -30,7 +30,7 @@ class OpenNFTs {
   }
 
   // SET network
-  _setNetwork(_chainId: string = this.defaultChainId): Network | undefined {
+  _setNetwork(_chainId: number = this.defaultChainId): Network | undefined {
     const oldNetwork = this.network;
 
     // Search new network

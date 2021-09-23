@@ -37,27 +37,23 @@ contract NFTsFactory is CloneFactory {
     iface[OpenNFTs] = OpenNFTsSig;
     bool[] memory supportInterface = nft.getSupportedInterfaces(iface);
 
-    // ERC721
     if (supportInterface[ERC721]) {
       nftData.nft = nft;
 
-      // ERC721Metadata
-      if (supportInterface[1]) {
+      if (supportInterface[ERC721Metadata]) {
         nftData.name = IERC721Metadata(nft).name();
         nftData.symbol = IERC721Metadata(nft).symbol();
       }
 
       if (owner == address(0)) {
-        // ERC721Enumerable
-        if (supportInterface[2]) {
+        if (supportInterface[ERC721Enumerable]) {
           nftData.balance = IERC721Enumerable(nft).totalSupply();
         }
       } else {
         nftData.balance = IERC721(nft).balanceOf(owner);
       }
 
-      // OpenNFTs
-      if (supportInterface[3]) {
+      if (supportInterface[OpenNFTs]) {
         nftData.owner = IOpenNFTs(nft).owner();
       }
     }

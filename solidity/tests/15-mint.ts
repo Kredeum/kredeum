@@ -12,45 +12,38 @@ import { config } from "dotenv";
 config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
-const networkChainId = "0x13881";
-const networkChainName = "mumbai";
-const networkExplorer = "https://explorer-mumbai.maticvigil.com";
-const contractAddress = "0x933E3468e940fb310fFE625E63c42930D2861464";
+
 const contractName = "Open NFTs";
 const contractSymbol = "NFT";
-const artistAddress = "0x02aa887ae5ee49077f229a9f9a7decda66e516a810b0825de4f6e749224eac9c83";
-
-let ethscan: string | undefined;
-let network: Network | undefined;
-let contract: Contract | undefined;
-let provider: Provider | undefined;
+const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
 describe("NFT Mint", function () {
   describe("Init", function () {
+    let ethscan: string | undefined;
+    let network: Network | undefined;
+    let provider: Provider | undefined;
+    let chainId: number;
+    let chainName: string;
+
+    before(async () => {
+      ({ chainId, name: chainName } = await ethers.provider.getNetwork());
+      network = networks.find((nw) => nw.chainId === chainId);
+    });
+
     it("Should find Network", function () {
-      network = networks.find((nw) => nw.chainName === networkChainName);
-      console.log(network);
-      expect(network?.chainId).to.be.equal(networkChainId);
+      expect(network?.chainName).to.be.string;
     });
 
     it("Should find Chain Explorer", function () {
       ethscan = network?.blockExplorerUrls[0];
-      expect(ethscan?.startsWith("https://")).to.be.true;
-    });
-
-    it("Should find Contract Config", function () {
-      const contract = network?.openNFTs;
-
-      console.log(network);
-      console.log(contract);
-      expect(contract).to.be.equal(contractAddress);
+      expect(ethscan?.startsWith("http")).to.be.true;
     });
 
     it("Should connect Provider", function () {
-      network = networks.find((nw) => nw.chainName === networkChainName);
+      // network = networks.find((nw) => nw.chainName === networkChainName);
       expect(network).to.not.be.undefined;
       if (network) {
-        provider = getProvider(network);
+        provider = getProvider(network.chainId);
         expect(provider).to.not.be.undefined;
         expect(provider?._isProvider).to.be.true;
       }
@@ -73,8 +66,8 @@ describe("NFT Mint", function () {
       }
       openNFTs = await ethers.getContract("OpenNFTs", signer);
 
-      console.log(openNFTs.address);
-      console.log(await openNFTs.name());
+      // console.log(openNFTs.address);
+      // console.log(await openNFTs.name());
     });
 
     it("Should init Contract", async function () {
@@ -92,7 +85,7 @@ describe("NFT Mint", function () {
     });
 
     it("Should Mint one Token", async function () {
-      this.timeout(20000);
+      this.timeout(50000);
       const totalSupply = (await openNFTs?.totalSupply()).toNumber();
       const tx = await openNFTs.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);

@@ -1,6 +1,6 @@
 [
   {
-    "chainId": "0x89",
+    "chainId": 137,
     "chainName": "matic",
     "rpcUrls": ["https://polygon-mainnet.infura.io/v3", "https://rpc-mainnet.maticvigil.com/v1"],
     "nativeCurrency": { "name": "Matic", "symbol": "MATIC", "decimals": 18 },
@@ -23,7 +23,7 @@
     "type": "mainnet"
   },
   {
-    "chainId": "0x1",
+    "chainId": 1,
     "chainName": "mainnet",
     "rpcUrls": ["https://mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
@@ -41,7 +41,7 @@
     "type": "mainnet"
   },
   {
-    "chainId": "0x4",
+    "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": ["https://rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
@@ -50,13 +50,13 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "nftsFactory": "0xdf4453504dFD2D5837FED6ba639dDfb72e107CC9",
+    "nftsFactory": "0xe7C193cB3520723ced8e409Badb2B8c22B515c5e",
     "openNFTs": "0x11a29626a070FE931D8F2bC6BEE8962B84b38Ec3",
     "eip1559": true,
     "type": "testnet"
   },
   {
-    "chainId": "0x2a",
+    "chainId": 42,
     "chainName": "kovan",
     "rpcUrls": ["https://kovan.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
@@ -67,7 +67,7 @@
     "type": "testnet"
   },
   {
-    "chainId": "0x13881",
+    "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": ["https://polygon-mumbai.infura.io/v3", "https://rpc-mumbai.maticvigil.com/v1"],
     "nativeCurrency": { "name": "Matic", "symbol": "tMATIC", "decimals": 18 },
@@ -85,7 +85,7 @@
     "type": "testnet"
   },
   {
-    "chainId": "",
+    "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "AETH", "decimals": 18 },
@@ -94,7 +94,7 @@
     "type": "off"
   },
   {
-    "chainId": "0x66eeb",
+    "chainId": 421611,
     "chainName": "arbitrumrinkeby",
     "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ARETH", "decimals": 18 },
@@ -104,7 +104,7 @@
     "type": "testnet"
   },
   {
-    "chainId": "0x38",
+    "chainId": 56,
     "chainName": "bsc",
     "rpcUrls": ["https://bsc-dataseed1.binance.org"],
     "nativeCurrency": { "name": "BNB", "symbol": "BNB", "decimals": 18 },
@@ -113,7 +113,7 @@
     "type": "mainnet"
   },
   {
-    "chainId": "0xa",
+    "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": ["https://kovan.optimism.io/rpc"],
     "nativeCurrency": { "name": "ETH", "symbol": "ETH", "decimals": 18 },
@@ -122,7 +122,7 @@
     "type": "off"
   },
   {
-    "chainId": "0x45",
+    "chainId": 69,
     "chainName": "optimismkovan",
     "rpcUrls": ["https://kovan.optimism.io/rpc"],
     "nativeCurrency": { "name": "ETH", "symbol": "ETH", "decimals": 18 },
@@ -131,7 +131,7 @@
     "type": "testnet"
   },
   {
-    "chainId": "0xfa",
+    "chainId": 250,
     "chainName": "fantom",
     "rpcUrls": ["https://rpcapi.fantom.network"],
     "nativeCurrency": { "name": "FTM", "symbol": "FTM", "decimals": 18 },
@@ -140,7 +140,7 @@
     "type": "mainnet"
   },
   {
-    "chainId": "0xa86a",
+    "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
@@ -149,12 +149,21 @@
     "type": "mainnet"
   },
   {
-    "chainId": "0xa869",
+    "chainId": 43113,
     "chainName": "fuji",
     "rpcUrls": ["https://api.avax-test.network/ext/bc/C/rpc"],
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
     "blockExplorerUrls": ["https://cchain.explorer.avax-test.network"],
     "covalent": { "active": true },
+    "type": "testnet"
+  },
+  {
+    "chainId": 31337,
+    "chainName": "hardhat",
+    "rpcUrls": ["http://127.0.0.1:8545"],
+    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "blockExplorerUrls": ["http://localhost/explorer"],
+    "nftsFactory": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
     "type": "testnet"
   }
 ]

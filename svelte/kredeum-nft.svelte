@@ -16,9 +16,9 @@
   let network: Network;
   let signer: string;
   let address: string;
-  let chainId: string;
+  let chainId: number;
   let explorer: string;
-  let openSea: string;
+  let openSea: Network["openSea"];
   let refreshingNFTs: boolean;
   let refreshingContracts: boolean;
   let importing: boolean = true;
@@ -40,7 +40,7 @@
       if (network) {
         console.log("<kredeum-nft/> init", chainId, contract, address, network);
 
-        openSea = network.openSea?.assets || "";
+        openSea = network.openSea;
         explorer = network.blockExplorerUrls[0] || "";
 
         // chain change : force contract to default
@@ -123,12 +123,12 @@
   const description = (nft) => (nft.name != nft.description && nft.description) || " ";
 
   $: openSeaLinkKredeum = () => openSea?.kredeum;
-  $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.address}/${item.tokenID}`;
+  $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
 
   $: kreTokenLink = (item) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/tokens/${item.address}/instance/${item.tokenID}/metadata`
-      : `${explorer}/token/${item.address}?a=${item.tokenID}`;
+      ? `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`
+      : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
 
   $: kreLink = () =>
     explorer?.includes("chainstacklabs.com")
@@ -137,8 +137,8 @@
 
   $: addressLink = (address) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/address/${address}/tokens`
-      : `${explorer}/address/${address}/token`;
+      ? `${explorer}/address/${contract}/tokens`
+      : `${explorer}/address/${contract}/token`;
 
   $: imageLink = (item) =>
     item.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
