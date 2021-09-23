@@ -21,7 +21,8 @@
     "tsconfig.json",
     "lib/nft-storage.ts",
     "lib/open-nfts.ts",
-    "lib/nfts-factory.ts"
+    "lib/nfts-factory.ts",
+    "lib/ktypes.ts"
   ],
   "files.exclude": {
     "old2": true
@@ -46,7 +47,7 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Noctis Viola",
+  "workbench.colorTheme": "One Dark Pro",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",

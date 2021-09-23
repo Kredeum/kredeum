@@ -1,5 +1,5 @@
 {
-  "KredeumV2": ["function mintNFT(string) returns (uint256)"],
+  "KredeumV2": ["function mintNFT(address,string) returns (uint256)"],
   "KredeumV1": ["function mintNFT(address,string) returns (uint256)"],
   "KredeumV0": ["function addUser(address,string) returns (uint256)"],
   "CloneFactory": [
@@ -15,8 +15,8 @@
     "function transferOwnership(address)"
   ],
   "NFTsFactory": [
-    "function balanceOf(address,address) view returns (tuple(address,string,string,uint256))",
-    "function balancesOf(address) view returns (tuple(address,string,string,uint256)[])"
+    "function balanceOf(address,address) view returns (tuple(address,string,string,uint256,address))",
+    "function balancesOf(address) view returns (tuple(address,string,string,uint256,address)[])"
   ],
   "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],
   "ERC721": [

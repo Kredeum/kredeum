@@ -16,11 +16,14 @@ import type { NftMetadata, NftData } from "./ktypes";
 
 const LIMIT = 99;
 
-async function getOpenNFTs(_contract: string, _signerOrProvider?: Signer | Provider): Promise<any> {
+async function getOpenNFTs(chainId: string, _contract: string): Promise<any> {
+  console.log(`getOpenNFTs ${chainId} ${_contract}`);
+
   let smartcontract: any;
+  const provider = getProvider(getNetwork(chainId));
 
   try {
-    const checkContract = new ethers.Contract(_contract, abis.ERC165, _signerOrProvider);
+    const checkContract = new ethers.Contract(_contract, abis.ERC165, provider);
     let abi = abis.ERC721;
 
     const waitMetadata = checkContract.supportsInterface("0x5b5e139f");
@@ -33,9 +36,9 @@ async function getOpenNFTs(_contract: string, _signerOrProvider?: Signer | Provi
     if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
     abi = abi.concat(abis.KredeumV2);
 
-    smartcontract = new ethers.Contract(_contract, abi, _signerOrProvider);
+    smartcontract = new ethers.Contract(_contract, abi, provider);
   } catch (e) {
-    console.error("ERROR getOpenNFTs", _contract, e);
+    console.error(`ERROR getOpenNFTs ${_contract}\n`, e);
   }
 
   return smartcontract;
@@ -103,7 +106,7 @@ function addNftDataSync(chainId: string, _contract: string, _token: NftData): Nf
     owner: _token.owner || metadata.owner || "",
 
     cid: _token.cid || metadata.cid || cidExtract(_token.tokenURI) || cidExtract(image) || "",
-    nid: _token.nid || nftUrl(chainName, contract, tokenID)
+    nid: _token.nid || nftUrl(chainId, contract, tokenID)
   };
 
   console.log("addNftDataSync", _token, "=>", nftData);
@@ -128,7 +131,6 @@ async function getNFTFromContract(
   _owner?: string
 ): Promise<NftData> {
   let tokenID, tokenURI, owner;
-  console.log("getNFTFromContract", _smartcontract);
 
   try {
     if (_owner) {
@@ -158,11 +160,10 @@ async function listNFTsFromContract(
 
   let nfts = [];
   const network = getNetwork(chainId);
-  const provider = getProvider(network);
 
   if (network && _contract) {
     try {
-      const smartcontract = await getOpenNFTs(_contract, provider);
+      const smartcontract = await getOpenNFTs(chainId, _contract);
       if (smartcontract) {
         const nbTokens = _owner
           ? (await smartcontract.balanceOf(_owner)).toNumber()
@@ -183,7 +184,7 @@ async function listNFTsFromContract(
   }
 
   // console.log("listNFTsFromContract", nfts.length);
-  // console.log("listNFTsFromContract", nfts);
+  console.log("listNFTsFromContract", nfts);
   return nfts;
 }
 
@@ -280,7 +281,7 @@ async function listNFTsFromTheGraph(
     // image
 
     console.log(query);
-    const answerGQL = await fetchGQL(getSubgraphUrl(network) || "", query);
+    const answerGQL = await fetchGQL(getSubgraphUrl(chainId) || "", query);
     const nftsJson = answerGQL?.tokenContract?.nfts || [];
     console.log(nftsJson[0]);
     // console.log("listNFTsFromTheGraph nbTokens", nftsJson.length);
@@ -320,9 +321,9 @@ async function listNFTs(
   if (network) {
     nfts = (await listNFTsFromContract(chainId, _contract, _owner, _limit)) as Array<NftData>;
     if (nfts.length === 0) {
-      if (getSubgraphUrl(network)) {
+      if (getSubgraphUrl(chainId)) {
         nfts = (await listNFTsFromTheGraph(chainId, _contract, _owner, _limit)) as Array<NftData>;
-      } else if (getCovalent(network)) {
+      } else if (getCovalent(chainId)) {
         nfts = (await listNFTsFromCovalent(chainId, _contract, _owner, _limit)) as Array<NftData>;
       } else {
         console.error("No NFTs found:-(");
@@ -332,6 +333,7 @@ async function listNFTs(
     if (nfts.length) {
       nfts.sort((a, b) => (BigNumber.from(b.tokenID).gt(BigNumber.from(a.tokenID)) ? 1 : -1));
       for (let index = 0; index < Math.min(nfts.length, _limit); index++) {
+        console.log(`OpenNFTs.listNFTs addNftData`, index, nfts[index]);
         const token: NftData = await addNftData(chainId, _contract, nfts[index]);
         if (!_owner || utils.getAddress(token.owner) === utils.getAddress(_owner)) {
           nfts[index] = token;
@@ -362,7 +364,7 @@ function listNFTsFromCache(
   if (chainName) {
     for (let index = 0; index < Math.min(localStorage.length, _limit); index++) {
       const key = localStorage.key(index);
-      if (key?.startsWith(nftUrl(chainName, _contract || "", "", ""))) {
+      if (key?.startsWith(nftUrl(chainId, _contract || "", "", ""))) {
         const json = localStorage.getItem(key);
         json && nfts.push(JSON.parse(json));
       }
@@ -386,7 +388,7 @@ async function Mint(
   const network = getNetwork(chainId);
 
   let token: NftData | undefined;
-  const smartcontract = await getOpenNFTs(_contract, _minter);
+  const smartcontract = await getOpenNFTs(chainId, _contract);
 
   if (smartcontract) {
     // const txOptions = {
@@ -395,7 +397,7 @@ async function Mint(
     //   type: 2
     // };
 
-    const tx1 = await smartcontract.mintNFT(minter, _urlJson);
+    const tx1 = await smartcontract.connect(_minter).mintNFT(minter, _urlJson);
     console.log(`${network.blockExplorerUrls[0]}/tx/` + tx1.hash);
 
     const res = await tx1.wait();

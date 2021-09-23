@@ -17,19 +17,19 @@
 
   let targetChain = false;
 
-  async function addEthereumChain(_chainId) {
-    console.log("<kredeum-metamask/> addEthereumChain", _chainId);
+  async function addEthereumChain() {
+    console.log("<kredeum-metamask/> addEthereumChain", chainId);
 
     if (targetChain) {
-      //console.log('already connecting network...');
+      console.log("already connecting network...");
     }
     targetChain = true;
 
-    if (_chainId !== "0x1") {
-      console.log("<kredeum-metamask/> addEthereumChain", _chainId);
+    if (chainId !== "0x1") {
+      console.log("<kredeum-metamask/> addEthereumChain", chainId);
       // no need to add default ethereum chain
 
-      const _network = getNetwork(_chainId);
+      const _network = getNetwork(chainId);
       console.log("<kredeum-metamask/> addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
@@ -53,9 +53,6 @@
             method: "wallet_addEthereumChain",
             params: [_network]
           })
-          .then(() => {
-            network = _network;
-          })
           .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
       }
     }
@@ -65,9 +62,10 @@
     // console.log("<kredeum-metamask/> handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
-      network = getNetwork(_chainId);
-      if (network) {
+      const _network = getNetwork(_chainId);
+      if (_network) {
         chainId = _chainId;
+        network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
         addEthereumChain(networks[0].chainId);

@@ -18,6 +18,7 @@ describe("NFTsContracts", async function () {
 
   describe("Public functions", async function () {
     it("List with default method", async function () {
+      console.log((await listContracts(chainId1, owner)).length);
       expect((await listContracts(chainId1, owner)).length).to.be.gt(1);
     });
   });
@@ -28,20 +29,20 @@ describe("NFTsContracts", async function () {
     });
 
     it("List with The Graph", async function () {
-      expect((await listContractsFromTheGraph(network, owner)).size).to.be.gt(1);
+      expect((await listContractsFromTheGraph(chainId1, owner)).size).to.be.gt(1);
     });
 
-    it("List with NFTsFactory", async function () {
-      expect((await listContractsFromFactory(network, owner)).size).to.be.gt(1);
+    it.skip("List with NFTsFactory", async function () {
+      expect((await listContractsFromFactory(chainId1, owner)).size).to.be.gt(1);
     });
 
     it.skip("With Covalent", async function () {
-      expect((await listContractsFromCovalent(network, owner)).size).to.be.gt(1);
+      expect((await listContractsFromCovalent(chainId1, owner)).size).to.be.gt(1);
     });
 
     it.skip("Both methods should give same results", async function () {
-      expect((await listContractsFromTheGraph(network, owner)).size).to.be.equal(
-        (await listContractsFromCovalent(network, owner)).size
+      expect((await listContractsFromTheGraph(chainId1, owner)).size).to.be.equal(
+        (await listContractsFromCovalent(chainId1, owner)).size
       );
     });
   });

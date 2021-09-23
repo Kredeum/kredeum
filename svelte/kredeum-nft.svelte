@@ -174,7 +174,7 @@
   </h3>
   {#if refreshingContracts} Refreshing Collections... {/if}
 
-  {#key address && importing}
+  {#key address && importing && refreshingNFTs}
     {#if NFTs?.length > 0}
       <table>
         <thead>
@@ -299,7 +299,7 @@
 
   <small>
     {#if network}Collection <a href="{kreLink()}" target="_blank">
-        {nftsUrl(network?.chainName, contract)}
+        {nftsUrl(chainId, contract)}
       </a>
     {/if}
     <br />

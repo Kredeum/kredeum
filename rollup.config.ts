@@ -24,20 +24,28 @@ const envKeys = () => {
 };
 const production = process.env.PROD;
 
-const toRollupConfig = function (component, dest, customElement = true) {
+const toRollupConfig = function (component) {
   return {
-    input: "svelte/" + component + (customElement ? ".svelte" : ".js"),
-    output: {
-      sourcemap: !production,
-      format: "iife",
-      name: component.replace(/-/g, "_"),
-      file: `${dest}/${component}.js`
-    },
+    input: `svelte/${component}.svelte`,
+    output: [
+      {
+        sourcemap: !production,
+        format: "iife",
+        name: component.replace(/-/g, "_"),
+        file: `app/build/${component}.js`
+      },
+      {
+        sourcemap: !production,
+        format: "iife",
+        name: component.replace(/-/g, "_"),
+        file: `wordpress/kredeum-nfts/lib/js/${component}.js`
+      }
+    ],
     plugins: [
       svelte({
         preprocess: [autoPreprocess({})],
         compilerOptions: {
-          customElement,
+          customElement: true,
           dev: !production
         }
       }),
@@ -46,13 +54,13 @@ const toRollupConfig = function (component, dest, customElement = true) {
         values: envKeys()
       }),
       typescript({ sourceMap: !production }),
-      css({ output: `${dest}/${component}.css` }),
       resolve({
         browser: true,
         dedupe: ["svelte"],
         preferBuiltins: false
       }),
       builtins(),
+      css(),
       json(),
       commonjs(),
       production && terser()
@@ -70,8 +78,7 @@ const toRollupConfig = function (component, dest, customElement = true) {
 };
 
 export default [
-  // toRollupConfig("kredeum-metamask", "build"),
-  // toRollupConfig("kredeum-nft-mint", "build")
-  toRollupConfig("kredeum-nft", "app/build")
-  // toRollupConfig("vide", "app/build")
+  // toRollupConfig("kredeum-metamask"),
+  // toRollupConfig("kredeum-nft-mint")
+  toRollupConfig("kredeum-nft")
 ];

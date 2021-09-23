@@ -3,7 +3,6 @@ import { utils } from "ethers";
 import { ethers, deployments } from "hardhat";
 import { expect } from "chai";
 import { networks, getProvider, getNetwork } from "../../lib/kconfig";
-import { Mint, getOpenNFTs } from "../../lib/open-nfts";
 
 import type { Network, Contract } from "../../lib/kconfig";
 import type { Provider } from "@ethersproject/abstract-provider";
@@ -19,6 +18,7 @@ const networkExplorer = "https://explorer-mumbai.maticvigil.com";
 const contractAddress = "0x933E3468e940fb310fFE625E63c42930D2861464";
 const contractName = "Open NFTs";
 const contractSymbol = "NFT";
+const artistAddress = "0x02aa887ae5ee49077f229a9f9a7decda66e516a810b0825de4f6e749224eac9c83";
 
 let ethscan: string | undefined;
 let network: Network | undefined;
@@ -94,7 +94,7 @@ describe("NFT Mint", function () {
     it("Should Mint one Token", async function () {
       this.timeout(20000);
       const totalSupply = (await openNFTs?.totalSupply()).toNumber();
-      const tx = await openNFTs.mintNFT(json);
+      const tx = await openNFTs.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
       const totalSupply1 = (await openNFTs?.totalSupply()).toNumber();

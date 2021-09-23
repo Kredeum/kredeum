@@ -9,14 +9,16 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   deployments.log(`${contractName} deployer: ${deployer.address}`);
 
-  await deployments.deploy(contractName, {
+  const tx = await deployments.deploy(contractName, {
     args: [],
     from: deployer.address,
     log: true
   });
 
-  const openNFTs = await ethers.getContract(contractName, deployer);
-  await openNFTs.connect(deployer).initialize();
+  if (tx.newlyDeployed) {
+    const openNFTs = await ethers.getContract(contractName, deployer);
+    await openNFTs.connect(deployer).initialize();
+  }
 };
 func.tags = [contractName];
 

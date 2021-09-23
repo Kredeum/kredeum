@@ -24,11 +24,11 @@ contract OpenNFTs is
     __ERC721_init("Open NFTs", "NFT");
   }
 
-  function mintNFT(string memory jsonURI) public returns (uint256) {
+  function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();
-    _safeMint(msg.sender, newItemId);
+    _safeMint(minter, newItemId);
     _setTokenURI(newItemId, jsonURI);
 
     return newItemId;

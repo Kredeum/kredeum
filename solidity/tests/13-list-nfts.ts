@@ -1,15 +1,21 @@
 import { expect } from "chai";
-import { Mint } from "../../lib/open-nfts";
+import {
+  listNFTs,
+  listNFTsFromTheGraph,
+  listNFTsFromContract,
+  listNFTsFromCovalent,
+  getOpenNFTs
+} from "../../lib/open-nfts";
 import fetch from "node-fetch";
 import type { Network, Contract } from "../../lib/ktypes";
-global.fetch = fetch as any;
-
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+
+global.fetch = fetch as any;
 
 const owner = "0x981ab0d817710d8fffc5693383c00d985a3bda38";
 
 const chainId1 = "0x13881";
-const contract1 = "0x98d333dB22158f01797bc7B219c6F18924D0Ca16";
+const contract1 = "0x2c68ca36Cb543485aD2dDF88350d6d3e4262F0f1";
 const network1 = {
   chainId: "0x13881",
   chainName: "mumbai",
@@ -44,84 +50,34 @@ let network: Network | undefined;
 let contract: Contract | undefined;
 
 describe("NFTs Listing", async function () {
-  // describe("Init", async function () {
-  //   beforeEach(async () => {
-  //     openNFTs = new OpenNFTs();
-  //   });
-  //   it("Should init NFT library", async function () {
-  //     expect(Boolean(openNFTs)).to.be.true;
-  //   });
-  //   it("Should set Contract without address", async function () {
-  //     ({ network } = await openNFTs.init(chainId1));
-  //     expect(network?.chainId).to.be.eq(network1.chainId);
-  //     expect(network?.chainName).to.be.eq(network1.chainName);
-  //   });
-  //   it("Should set Contract with address", async function () {
-  //     ({ network, contract } = await openNFTs.init(chainId1, contract1b));
-  //     expect(network?.chainId).to.be.eq(network1.chainId);
-  //     expect(network?.chainName).to.be.eq(network1.chainName);
-  //     expect(contract?.address).to.be.eq(network1.contract);
-  //     expect(contract?.address).to.be.eq(contract1b);
-  //   });
-  //   it("Should set Contract2", async function () {
-  //     ({ network, contract } = await openNFTs.init(chainId2));
-  //     expect(network?.chainId).to.be.eq(network2.chainId);
-  //     expect(network?.chainName).to.be.eq(network2.chainName);
-  //     expect(contract?.address).to.be.eq(network2.contract);
-  //   });
-  //   // test setCo,ntract avec chainId invalide
-  //   it("Should set Owner", async function () {
-  //     openNFTs.setOwner(owner);
-  //     expect(openNFTs.owner).to.be.equal(owner);
-  //   });
-  // });
-  // describe("List NFTs", async function () {
-  //   this.timeout(20000);
-  //   beforeEach(async () => {
-  //     openNFTs = new OpenNFTs();
-  //     openNFTs.setOwner(owner);
-  //     openNFTs.init(chainId1, contract1);
-  //   });
-  //   it("With default method", async function () {
-  //     expect((await openNFTs.listNFTs()).length).to.be.gt(1);
-  //   });
-  //   it("With TheGraph", async function () {
-  //     expect((await openNFTs.listNFTsFromTheGraph()).length).to.be.gt(1);
-  //   });
-  //   it.skip("With Covalent", async function () {
-  //     expect((await openNFTs.listNFTsFromCovalent()).length).to.be.gt(1);
-  //   });
-  //   it("With SmartContract", async function () {
-  //     await openNFTs.init(chainId1, contract1);
-  //     expect((await openNFTs.listNFTsFromContract()).length).to.be.gt(1);
-  //   });
-  //   it("All methods should give same results", async function () {
-  //     await openNFTs.init(chainId1, contract1);
-  //     const l0 = (await openNFTs.listNFTs()).length;
-  //     expect(l0).to.be.equal((await openNFTs.listNFTsFromTheGraph()).length);
-  //     // expect(l0).to.be.equal((await openNFTs.listNFTsFromCovalent()).length);
-  //     expect(l0).to.be.equal((await openNFTs.listNFTsFromContract()).length);
-  //   });
-  // });
-  // describe("List Contracts", async function () {
-  //   beforeEach(async () => {
-  //     openNFTs = new OpenNFTs();
-  //     openNFTs.setOwner(owner);
-  //     const { network, contract } = await openNFTs.init(chainId1, contract1);
-  //   });
-  //   it("With default method", async function () {
-  //     expect((await openNFTs.listContracts()).length).to.be.gt(1);
-  //   });
-  //   it("With The Graph", async function () {
-  //     expect((await openNFTs.listContractsFromTheGraph()).size).to.be.gt(1);
-  //   });
-  //   it.skip("With Covalent", async function () {
-  //     expect((await openNFTs.listContractsFromCovalent()).size).to.be.gt(1);
-  //   });
-  //   it.skip("Both methods should give same results", async function () {
-  //     expect((await openNFTs.listContractsFromTheGraph()).size + 1).to.be.equal(
-  //       (await openNFTs.listContractsFromCovalent()).size
-  //     );
-  //   });
-  // });
+  describe("Should get OpenNFTs", async function () {
+    it("With default method", async function () {
+      const openNFTs = (await getOpenNFTs(chainId1, contract1)) as OpenNFTs;
+      expect(openNFTs.address).to.be.properAddress;
+    });
+  });
+
+  describe("List NFTs", async function () {
+    this.timeout(20000);
+    beforeEach(async () => {});
+
+    it("With default method", async function () {
+      expect((await listNFTs(chainId1, contract1)).length).to.be.gt(1);
+    });
+    it("With TheGraph", async function () {
+      expect((await listNFTsFromTheGraph(chainId1, contract1)).length).to.be.gt(1);
+    });
+    it.skip("With Covalent", async function () {
+      expect((await listNFTsFromCovalent(chainId1, contract1)).length).to.be.gt(1);
+    });
+    it("With SmartContract", async function () {
+      expect((await listNFTsFromContract(chainId1, contract1)).length).to.be.gt(1);
+    });
+    it("All methods should give same results", async function () {
+      const l0 = (await listNFTs(chainId1, contract1)).length;
+      expect(l0).to.be.equal((await listNFTsFromTheGraph(chainId1, contract1)).length);
+      // expect(l0).to.be.equal((await listNFTsFromCovalent()).length);
+      expect(l0).to.be.equal((await listNFTsFromContract(chainId1, contract1)).length);
+    });
+  });
 });

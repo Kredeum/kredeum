@@ -7,6 +7,7 @@ type ABIS = {
 type Contract = {
   chainId: string;
   address: string;
+  owner?: string;
   name?: string;
   chainName?: string;
   interfaces?: Array<string>;

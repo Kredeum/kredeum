@@ -14,7 +14,9 @@ describe("NFTs Factory", function () {
     maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     type: 2
   };
+  const artist = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
+  ethers;
   before(async () => {
     const chainId = (await ethers.provider.getNetwork()).chainId;
     const signer = await ethers.getNamedSigner("deployer");
@@ -24,16 +26,20 @@ describe("NFTs Factory", function () {
       await deployments.fixture(["OpenNFTs"]);
     }
     openNFTs = await ethers.getContract("OpenNFTs", signer);
+    expect(openNFTs.address).to.be.properAddress;
+
     if (chainId === 31337) {
       await deployments.fixture(["NFTsFactory"]);
     }
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
+    expect(nftsFactory.address).to.be.properAddress;
 
     await (await nftsFactory.addTemplate(openNFTs.address, txOptions)).wait();
-    await (await openNFTs.mintNFT("", txOptions)).wait();
+    await (await openNFTs.mintNFT(artist, "", txOptions)).wait();
   });
 
   it("Should get sighash", async function () {
+    console.log("owner", nftsFactory.interface.getSighash("owner"));
     expect(nftsFactory.interface.getSighash("balanceOf")).to.be.equal("0xf7888aec");
     expect(nftsFactory.interface.getSighash("balancesOf")).to.be.equal("0x6392a51f");
     expect(openNFTs.interface.getSighash("balanceOf")).to.be.equal("0x70a08231");
@@ -45,14 +51,14 @@ describe("NFTs Factory", function () {
   });
 
   it("Should get openNFTs balanceOf", async function () {
-    expect(await openNFTs.balanceOf(owner)).to.be.equal(1);
+    expect(await openNFTs.balanceOf(artist)).to.be.equal(1);
   });
 
   it("Should get nftsFactory balanceOf", async function () {
-    console.log("BEFORE", openNFTs.address, owner);
-    const bal = await nftsFactory.balanceOf(openNFTs.address, owner);
-    console.log("AFTER");
-    console.log("2", bal);
+    console.log(
+      `nftsFactory.balanceOf ${artist} ${await nftsFactory.balanceOf(openNFTs.address, artist)}`
+    );
+    const bal = await nftsFactory.balanceOf(openNFTs.address, artist);
     expect(bal.balance).to.be.gte(1);
   });
 

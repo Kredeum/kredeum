@@ -6,8 +6,8 @@ import { ethers, Signer } from "ethers";
 
 const _networks = new Map(networks.map((network) => [network.chainId, network]));
 
-function getNetwork(_chainId: string): Network {
-  return _networks.get(_chainId);
+function getNetwork(chainId: string): Network {
+  return _networks.get(chainId);
 }
 
 const getProvider = function (network: Network) {
@@ -29,42 +29,49 @@ const getProvider = function (network: Network) {
   return provider;
 };
 
-const getSubgraphUrl = function (_network: Network): string {
-  return (_network?.subgraph?.active && _network?.subgraph?.url) || "";
+const getSubgraphUrl = function (chainId: string): string {
+  const network = getNetwork(chainId);
+  return (network?.subgraph?.active && network?.subgraph?.url) || "";
 };
 
-const getCovalent = function (_network: Network) {
-  return _network?.covalent?.active;
+const getCovalent = function (chainId: string) {
+  const network = getNetwork(chainId);
+  return network?.covalent?.active;
 };
 
 // GET explorer
-const getExplorer = function (_network: Network) {
-  return _network?.blockExplorerUrls[0] || "";
+const getExplorer = function (chainId: string) {
+  const network = getNetwork(chainId);
+  return network?.blockExplorerUrls[0] || "";
 };
 
 // GET OpenSea
-const getOpenSea = function (_network: Network) {
-  return _network?.openSea || {};
+const getOpenSea = function (chainId: string) {
+  const network = getNetwork(chainId);
+  return network?.openSea || {};
 };
 
 // nfts url : nfts://chainName/contractAddress
-const nftsUrl = function (_network: string, _address: string): string {
-  return "nfts://" + (_network ? _network + (_address ? "/" + _address : "...") : "...");
+const nftsUrl = function (chainId: string, _address: string): string {
+  const network = getNetwork(chainId);
+  return "nfts://" + (network ? network.chainName + (_address ? "/" + _address : "...") : "...");
 };
 
 // nft url : nft://chainName/contractAddress/tokenID
 const nftUrl = function (
-  _network: string,
+  chainId: string,
   _contract: string,
   _tokenId: string,
   plus: string = "..."
 ): string {
+  const network = getNetwork(chainId);
   const ret =
     "nft://" +
-    (_network
-      ? _network + (_contract ? "/" + (_contract + (_tokenId ? "/" + _tokenId : plus)) : plus)
+    (network
+      ? network.chainName +
+        (_contract ? "/" + (_contract + (_tokenId ? "/" + _tokenId : plus)) : plus)
       : plus);
-  console.log("nftUrl", _network, _contract, _tokenId, plus, ret);
+  console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
 
