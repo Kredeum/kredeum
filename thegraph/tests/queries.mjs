@@ -20,7 +20,7 @@ describe("Subgraph Queries", async function () {
   let nfts, nft;
 
   it("Should get one NFT", async function () {
-    this.timeout(20000);
+    this.timeout(50000);
 
     nfts = await _graphQL(
       endpoint,

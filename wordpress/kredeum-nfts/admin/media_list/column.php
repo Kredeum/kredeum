@@ -47,6 +47,7 @@ add_action(
 					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
+					. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'
 					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 				);

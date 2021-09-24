@@ -26,10 +26,10 @@ async function supports(codeName, code) {
 }
 // for (const code in codes) supports(code, codes[code]);
 
-let iface = new ethers.utils.Interface(abis["ERC165"]);
+let iface = new ethers.utils.Interface(abis.ERC165);
 console.log("sigHash", iface.getSighash(iface.fragments[0]));
 
-iface = new ethers.utils.Interface(abis["ERC721Metadata"]);
+iface = new ethers.utils.Interface(abis.ERC721Metadata);
 console.log("sigHash0", iface.getSighash(iface.fragments[0]));
 console.log("sigHash1", iface.getSighash(iface.fragments[1]));
 console.log("sigHash2", iface.getSighash(iface.fragments[2]));
@@ -42,8 +42,8 @@ console.log(
     .toString(16)
 );
 
-iface = new ethers.utils.Interface(abis["kredeum-nfts-v0"]);
+iface = new ethers.utils.Interface(abis.kredeum - nfts - v0);
 console.log("sigHash kredeum-nfts-v0", iface.getSighash(iface.fragments[0]));
 
-iface = new ethers.utils.Interface(abis["kredeum-nfts-v1"]);
+iface = new ethers.utils.Interface(abis.kredeum - nfts - v1);
 console.log("sigHash kredeum-nfts-v1", iface.getSighash(iface.fragments[0]));

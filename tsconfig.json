@@ -1,0 +1,15 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "rootDir": ".",
+    "resolveJsonModule": true
+  },
+  "include": [
+    "app/svelte/*.ts",
+    "app/svelte/*.svelte",
+    "config/*.json",
+    "lib/*.ts",
+    "old/lib/isvalid.ts"
+  ]
+}

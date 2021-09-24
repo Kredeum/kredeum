@@ -1,27 +1,42 @@
 {
   "favorites.resources": [
-    "rollup.config.js",
+    "config",
+    "solidity",
+    ".env",
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
     "hardhat.config.js",
+    "rollup.config.js",
     "solidity/deploy/OpenNFTS.js",
     "config/networks.json",
-    "solidity/contracts/OpenNFTs.sol"
+    "solidity/contracts/OpenNFTs.sol",
+    "hardhat.config.ts",
+    "solidity/contracts/CloneFactory.sol",
+    "solidity/tests/2-clone-factory.ts",
+    "lib/open-nfts.mjs",
+    "svelte/kredeum-nft.svelte",
+    "solidity/contracts/NFTsFactory.sol",
+    "solidity/tests/nfts-factory.ts",
+    "tsconfig.json",
+    "lib/nft-storage.ts",
+    "lib/open-nfts.ts",
+    "lib/nfts-factory.ts",
+    "lib/ktypes.ts"
   ],
   "files.exclude": {
-    "old": true
+    "old2": true
   },
   "mochaExplorer.exit": true,
-  "mochaExplorer.files": "solidity/tests/*.mjs",
+  "mochaExplorer.files": "solidity/tests/*.*ts",
   "mochaExplorer.fullTrace": true,
   "mochaExplorer.logpanel": true,
-  "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
+  // "mochaExplorer.nodeArgv": ["--experimental-json-modules"],
   "mochaExplorer.nodePath": "/usr/local/bin/node",
   "mochaExplorer.optsFile": "",
-  "mochaExplorer.retries": 1,
+  "mochaExplorer.retries": 2,
   "mochaExplorer.timeout": 20000,
-  "mochaExplorer.jobs": 6,
+  "mochaExplorer.jobs": 1,
   "phpsab.debug": true,
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
@@ -32,9 +47,14 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Noctis Viola",
+  "workbench.colorTheme": "Morass Contrast (rainglow)",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
-  "liveServer.settings.root": "/app"
+  "liveServer.settings.root": "/app",
+  "local-history.browser.descending": false,
+  "search.exclude": {
+    "**/lib/js": true
+  },
+  "workbench.editor.decorations.colors": false
 }

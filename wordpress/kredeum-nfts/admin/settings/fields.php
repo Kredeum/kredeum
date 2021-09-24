@@ -56,16 +56,16 @@ function fields() {
 		'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
 	),
 
-		// array(
-		// 'uid'         => 'kredeum_nfts_address',
-		// 'label'       => 'KREDEUM_NFTS_ADDRESS',
-		// 'section'     => 'first_section',
-		// 'type'        => 'text',
-		// 'placeholder' => 'Leave blank if you are not an advanced user',
-		// 'default'     => '',
-		// 'helper'      => __( 'Alpha Feature : set default NFTs Collection Address', 'kredeum-nfts' ),
-		// ),
-	  // .
+		array(
+			'uid'         => 'default_collection',
+			'label'       => 'DEFAULT_COLLECTION',
+			'section'     => 'first_section',
+			'type'        => 'text',
+			'placeholder' => 'Default Collection Address',
+			'default'     => '',
+			'helper'      => __( 'Caution Alpha Feature: leave field blank if you are not an advanced user !', 'kredeum-nfts' ),
+		),
+
 		array(
 			'uid'         => null,
 			'label'       => 'METAMASK_ADDRESS',

@@ -1,4 +1,4 @@
-import { ethers } from "ethers";
+import { providers, Contract, utils } from "ethers";
 import fs from "fs";
 import Ipfs from "../lib/ipfs.mjs";
 import FormData from "form-data";
@@ -11,13 +11,12 @@ const theGraph = new Ipfs(theGraphEndpoint);
 
 const MATICVIGIL_API_KEY = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
 
-const contracts = JSON.parse(fs.readFileSync("../config/contracts.json"));
 const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
 const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
 const address = "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253";
 const contract = contracts.find(
-  (_contract) => _contract.address.toLowerCase() === address.toLowerCase()
+  (_contract) => utils.getAddress(_contract.address) === utils.getAddress(address)
 );
 
 let abi = [];
@@ -26,10 +25,8 @@ contract.interfaces.forEach((iface) => {
 });
 const network = networks.find((_network) => _network.chainName === contract.network);
 
-const provider = new ethers.providers.JsonRpcProvider(
-  `${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`
-);
-const openNFTs = new ethers.Contract(address, abi, provider);
+const provider = new providers.JsonRpcProvider(`${network.rpcUrls[0]}/${MATICVIGIL_API_KEY}`);
+const openNFTs = new Contract(address, abi, provider);
 
 // console.log("name:", await openNFTs.name());
 // console.log("symbol:", await openNFTs.symbol());

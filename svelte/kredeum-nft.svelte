@@ -1,82 +1,130 @@
 <svelte:options tag="kredeum-nft" />
 
-<script>
+<script lang="ts">
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
-  import OpenNFTs from "../lib/open-nfts.mjs";
-  import kimages from "../lib/kimages.mjs";
-  import { createEventDispatcher, tick } from "svelte";
+  import kimages from "../lib/kimages";
+  import { createEventDispatcher } from "svelte";
+  import { Signer, utils } from "ethers";
+  import { Contract, getNetwork, Network, NftData, nftUrl, nftsUrl } from "../lib/kconfig";
+
+  import { listContracts, listContractsFromCache, Clone } from "../lib/nfts-factory";
+  import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
 
   const dispatch = createEventDispatcher();
 
-  const openNFTs = new OpenNFTs();
+  let network: Network;
+  let signer: Signer;
+  let address: string;
+  let chainId: number;
+  let explorer: string;
+  let openSea: Network["openSea"];
+  let refreshingNFTs: boolean;
+  let refreshingContracts: boolean;
+  let cloning: boolean = false;
+  let cloneAddress: string;
+  let nftImport: number;
+  let NFTs: Array<NftData>;
+  let NFTsContracts: Array<Contract>;
+  let chainIdOld: number;
+  let contractOld: string;
+  let addressOld: string;
 
-  let address,
-    chainId,
-    network,
-    explorer,
-    openSea,
-    refreshing,
-    importing = {};
-  let NFTsContractsPromise;
+  export let contract: string = "0x933E3468e940fb310fFE625E63c42930D2861464"; // NFT smartcontract address
+  export let platform: string = undefined; // platform : WordPress or Dapp
 
-  export let contract = undefined;
-  export let platform = undefined;
+  // ADDRESS, CONTRACT OR NETWORK CHANGE
+  $: if (address || contract || chainId) _listsUpdate();
 
-  let NFTs;
+  async function _listsUpdate(): Promise<void> {
+    if (chainId && address) {
+      network = getNetwork(chainId);
+      if (network) {
+        console.log("<kredeum-nft/> init", chainId, contract, address, network);
 
-  // ADDRESS CHANGE
-  $: if (address) {
-    console.log("address changed", address);
-    openNFTs.setOwner(address);
-    listContracts();
-    listNFTs();
-  }
+        openSea = network.openSea;
+        explorer = network.blockExplorerUrls[0] || "";
 
-  // NETWORK CHANGE
-  $: if (chainId) {
-    console.log("chainId changed", chainId);
-    [network, contract] = openNFTs.setContract(chainId);
+        // chain change : force contract to default
+        if (chainId != chainIdOld) {
+          contract = network.openNFTs;
+        }
 
-    openSea = openNFTs.getOpenSeaUrl();
-    explorer = openNFTs.getExplorer();
+        // chain or address changed : refresh list contract
+        if (chainId != chainIdOld || address != addressOld) {
+          _listContracts();
+        }
+        _listNFTs();
 
-    listContracts();
-  }
-
-  // CONTRACT CHANGE
-  $: if (contract) {
-    console.log("contract changed", contract);
-    [network, contract] = openNFTs.setContract(chainId, contract);
-
-    listNFTs();
-  }
-
-  async function listContracts() {
-    if (network && address) {
-      console.log("listContracts", `nft://${network} ${address}`);
-      NFTsContractsPromise = openNFTs.listContracts();
+        chainIdOld = chainId;
+        addressOld = address;
+        contractOld = contract;
+      }
     }
   }
 
-  async function listNFTs() {
+  async function _listContracts() {
+    if (network && address) {
+      console.log("<kredeum-nft/> _listContracts", `nfts://${network?.chainName}@${address}`);
+
+      NFTsContracts = null;
+
+      NFTsContracts = listContractsFromCache(chainId);
+      console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
+      refreshingContracts = true;
+
+      NFTsContracts = await listContracts(chainId, address);
+      console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
+      refreshingContracts = false;
+    }
+  }
+
+  async function _listNFTs() {
     if (network && contract && address) {
-      console.log("listNFTs", `nft://${network}/${contract} ${address}`);
+      console.log(
+        "<kredeum-nft/> _listNFTs",
+        `nft://${network?.chainName || "..."}/${contract || "..."}@${address || "..."}`
+      );
 
       NFTs = null;
 
-      NFTs = openNFTs.listNFTsFromCache(address);
-      console.log("listNFTs cache loaded", NFTs);
-      refreshing = true;
+      NFTs = listNFTsFromCache(chainId, contract);
+      console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
+      refreshingNFTs = true;
 
-      NFTs = await openNFTs.listNFTs(address);
-      console.log("listNFTs refresh done", NFTs);
-      refreshing = false;
+      NFTs = await listNFTs(chainId, contract, address);
+      console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
+      refreshingNFTs = false;
     }
   }
 
-  const sameAddress = (a, b = address) => a && a?.toLowerCase() === b?.toLowerCase();
-  const short = (a) => `${a?.substring(0, 6)}...${a?.substring(a?.length - 4, a?.length)}`;
+  const short = (s = "", n = 16, p = 0) => {
+    const l = s?.toString().length;
+    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
+  };
+
+  const sameAddress = (a, b = address) => utils.getAddress(a) === utils.getAddress(b);
+  const shortAddress = (a) => short(utils.getAddress(a), 6, 4);
+
+  const dispatchImport = async (nft) => {
+    nftImport = 1;
+    dispatch("import", { nft });
+    while (window.ajaxResponse == false) await sleep(1000);
+    nftImport = 2;
+  };
+
+  const createCollection = async () => {
+    console.log("<kredeum-nft/> createCollection");
+    if (signer) {
+      cloning = true;
+      cloneAddress = await Clone(chainId, address, signer);
+      cloning = false;
+    } else {
+      console.error("<kredeum-nft/> not signer");
+    }
+  };
+
+  const description = (nft) => (nft.name != nft.description && nft.description) || " ";
 
   $: openSeaLinkKredeum = () => openSea?.kredeum;
   $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
@@ -93,8 +141,8 @@
 
   $: addressLink = (address) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/address/${address}/tokens`
-      : `${explorer}/address/${address}/token`;
+      ? `${explorer}/address/${contract}/tokens`
+      : `${explorer}/address/${contract}/token`;
 
   $: imageLink = (item) =>
     item.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
@@ -110,160 +158,131 @@
     My NFT Wallet
   </h1>
 
+  {#if cloneAddress}
+    Collection created: {cloneAddress}
+  {:else if cloning}
+    Creating collection... sign the transaction and wait till completed, it may takes one minute or
+    more.
+  {:else}
+    <button on:click="{createCollection}">Create Collection</button>
+  {/if}
+
   <h3>
-    {#await NFTsContractsPromise}
-      <div>Loading Collections...</div>
-    {:then NFTsContracts}
-      {#if NFTsContracts?.length > 0}
-        <select bind:value="{contract}">
-          <option value="">Choose Collection</option>
-          {#each NFTsContracts as NFTsContract}
-            <option value="{NFTsContract.address}">
-              {NFTsContract.totalSupply || " "}
-              {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
-              {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
-            </option>
-          {/each}
-        </select>
-      {/if}
-    {/await}
-  </h3>
-
-  {#key address && importing}
-    {#if NFTs}
-      {#if NFTs.length > 0}
-        <table>
-          <thead>
-            <tr>
-              <th>TokenID</th>
-              <th width="200">Description</th>
-              <th>Image</th>
-              {#if openSea}
-                <th>MarketPlace</th>
-              {/if}
-              {#if platform}
-                <th>Import</th>
-              {/if}
-              <!-- <th>Owner</th>
-          <th>creator</th>
-          <th>Ipfs</th>
-          <th>Json</th> -->
-              <th>Infos</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            {#each NFTs as nft}
-              <tr>
-                <td>
-                  <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
-                    &nbsp;{nft.tokenID}&nbsp;
-                  </a>
-                </td>
-
-                <td>
-                  <a href="{nft.tokenURI}" title="{nft.tokenURI}" target="_blank">
-                    <strong>{nft.name || "___"}</strong>
-                  </a>
-                  <br />
-                  {(nft.name != nft.description && nft.description) || " "}
-                </td>
-
-                <td>
-                  <a href="{imageLink(nft)}" title="{nft.description}" target="_blank">
-                    <img alt="{nft.name}" src="{imageLink(nft)}" height="100" />
-                  </a>
-                </td>
-
-                {#if openSea}
-                  <td>
-                    <a href="{openSeaLinkToken(nft)}" target="_blank">
-                      {#if sameAddress(nft.owner)}
-                        <button class="green">SELL NFT</button>
-                      {:else}
-                        <button class="blue">BUY NFT</button>
-                      {/if}
-                    </a>
-                  </td>
-                {/if}
-
-                {#if platform}
-                  <td>
-                    <button
-                      url="{nft.image}"
-                      class="{nft.import ? (nft.import == 2 ? 'green' : 'grey') : 'blue'}"
-                      on:click="{async () => {
-                        nft.import = 1;
-                        dispatch('import', { nft });
-                        while (window.ajaxResponse == false) await sleep(1000);
-                        nft.import = 2;
-                      }}"
-                    >
-                      {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
-                    </button>
-                  </td>
-                {/if}
-
-                <!-- <td>
-                {#if nft.owner}
-                  <a href="{addressLink(nft.owner)}" target="_blank">
-                    {short(nft.owner)}
-                  </a>
-                  {#if sameAddress(nft.owner)}*{/if}
-                {/if}
-              </td>
-
-              <td>
-                {#if nft.minter}
-                  <a href="{addressLink(nft.minter)}" target="_blank">
-                    {short(nft.minter)}
-                  </a>
-                  {#if sameAddress(nft.minter)}*{/if}
-                {/if}
-              </td>
-
-              <td>
-                <a href="{ipfsGateway}/{nft.cid}" target="_blank">{short(nft.cid)}</a>
-              </td>
-
-              <td>
-                {#if nft.tokenURI}
-                  <a href="{nft.tokenURI}" target="_blank"
-                    >{short(nft.tokenURI.replace(/^.*ipfs\//, ""))}</a
-                  >
-                {/if}
-              </td> -->
-                <td>
-                  <div title="{JSON.stringify(nft, null, 2)}">ⓘ</div>
-                </td>
-              </tr>
-            {/each}
-          </tbody>
-        </table>
-
-        <p>
-          <em>
-            {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
-            {#if refreshing}
-              refreshing...
-            {/if}
-          </em>
-        </p>
-      {:else}
-        <p><em>NO NFT found !</em></p>
-      {/if}
+    {#if NFTsContracts?.length > 0}
+      <select bind:value="{contract}">
+        <option value="">Choose Collection</option>
+        {#each NFTsContracts as NFTsContract}
+          <option value="{utils.getAddress(NFTsContract.address)}">
+            {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
+            {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
+            {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
+          </option>
+        {/each}
+      </select>
     {:else}
-      <p><em>Loading NFTs...</em></p>
+      <p><em>NO Collection found !</em></p>
     {/if}
+  </h3>
+  {#if refreshingContracts} Refreshing Collections... {/if}
+
+  {#key address && refreshingNFTs}
+    {#if NFTs?.length > 0}
+      <table>
+        <thead>
+          <tr>
+            <th>TokenID</th>
+            <th width="200">Description</th>
+            <th>Image</th>
+            {#if openSea}
+              <th>MarketPlace</th>
+            {/if}
+            {#if platform}
+              <th>Import</th>
+            {/if}
+            <th>Infos</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          {#each NFTs as nft}
+            <tr>
+              <td>
+                <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
+                  &nbsp;{short(nft.tokenID, 16)}&nbsp;
+                </a>
+              </td>
+
+              <td>
+                <a href="{nft.tokenURI}" title="{nft.tokenURI}" target="_blank">
+                  <strong>{nft.name || "___"}</strong>
+                </a>
+                <br />
+                <p title="{description(nft)}">
+                  {short(description(nft), 140)}
+                </p>
+              </td>
+
+              <td>
+                <a href="{imageLink(nft)}" title="{nft.description}" target="_blank">
+                  <img alt="{nft.name}" src="{imageLink(nft)}" height="100" />
+                </a>
+              </td>
+
+              {#if openSea}
+                <td>
+                  <a href="{openSeaLinkToken(nft)}" target="_blank">
+                    {#if sameAddress(nft.owner)}
+                      <button class="green">SELL NFT</button>
+                    {:else}
+                      <button class="blue">BUY NFT</button>
+                    {/if}
+                  </a>
+                </td>
+              {/if}
+
+              {#if platform}
+                <td>
+                  <button
+                    url="{nft.image}"
+                    class="{nftImport ? (nftImport == 2 ? 'green' : 'grey') : 'blue'}"
+                    on:click="{dispatchImport(nft)}"
+                  >
+                    {nftImport ? (nftImport == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
+                  </button>
+                </td>
+              {/if}
+
+              <td>
+                <div title="{JSON.stringify(nft, null, 2)}">ⓘ</div>
+              </td>
+            </tr>
+          {/each}
+        </tbody>
+      </table>
+
+      <p>
+        {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
+      </p>
+    {:else}
+      <p>NO NFT found !</p>
+    {/if}
+    <p>
+      <em
+        >{#if refreshingNFTs}Refreshing NFTs...{/if}</em
+      >
+    </p>
+
     <!-- {/await} -->
   {/key}
 
   <small>
-    {#if openNFTs}Collection <a href="{kreLink()}" target="_blank">nft://{network}/{contract}</a>
+    {#if network}Collection <a href="{kreLink()}" target="_blank">
+        {nftsUrl(chainId, contract)}
+      </a>
     {/if}
     <br />
     {#if address}Address{/if}
-    <Metamask autoconnect="off" bind:address bind:chainId />
+    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
     <br />
     Cache <a href on:click="{() => localStorage.clear()}">clear</a>
   </small>
