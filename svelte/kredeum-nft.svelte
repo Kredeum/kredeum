@@ -5,7 +5,7 @@
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
   import kimages from "../lib/kimages";
   import { createEventDispatcher } from "svelte";
-  import { utils } from "ethers";
+  import { Signer, utils } from "ethers";
   import { Contract, getNetwork, Network, NftData, nftUrl, nftsUrl } from "../lib/kconfig";
 
   import { listContracts, listContractsFromCache, Clone } from "../lib/nfts-factory";
@@ -14,17 +14,19 @@
   const dispatch = createEventDispatcher();
 
   let network: Network;
-  let signer: string;
+  let signer: Signer;
   let address: string;
   let chainId: number;
   let explorer: string;
   let openSea: Network["openSea"];
   let refreshingNFTs: boolean;
   let refreshingContracts: boolean;
-  let importing: boolean = true;
+  let cloning: boolean = false;
+  let cloneAddress: string;
+  let nftImport: number;
   let NFTs: Array<NftData>;
   let NFTsContracts: Array<Contract>;
-  let chainIdOld: string;
+  let chainIdOld: number;
   let contractOld: string;
   let addressOld: string;
 
@@ -105,16 +107,18 @@
   const shortAddress = (a) => short(utils.getAddress(a), 6, 4);
 
   const dispatchImport = async (nft) => {
-    nft.import = 1;
+    nftImport = 1;
     dispatch("import", { nft });
     while (window.ajaxResponse == false) await sleep(1000);
-    nft.import = 2;
+    nftImport = 2;
   };
 
-  const createCollection = () => {
+  const createCollection = async () => {
     console.log("<kredeum-nft/> createCollection");
     if (signer) {
-      Clone(chainId, address, signer);
+      cloning = true;
+      cloneAddress = await Clone(chainId, address, signer);
+      cloning = false;
     } else {
       console.error("<kredeum-nft/> not signer");
     }
@@ -154,7 +158,14 @@
     My NFT Wallet
   </h1>
 
-  <button on:click="{createCollection}">Create Collection</button>
+  {#if cloneAddress}
+    Collection created: {cloneAddress}
+  {:else if cloning}
+    Creating collection... sign the transaction and wait till completed, it may takes one minute or
+    more.
+  {:else}
+    <button on:click="{createCollection}">Create Collection</button>
+  {/if}
 
   <h3>
     {#if NFTsContracts?.length > 0}
@@ -174,7 +185,7 @@
   </h3>
   {#if refreshingContracts} Refreshing Collections... {/if}
 
-  {#key address && importing && refreshingNFTs}
+  {#key address && refreshingNFTs}
     {#if NFTs?.length > 0}
       <table>
         <thead>
@@ -188,10 +199,6 @@
             {#if platform}
               <th>Import</th>
             {/if}
-            <!-- <th>Owner</th>
-          <th>creator</th>
-          <th>Ipfs</th>
-          <th>Json</th> -->
             <th>Infos</th>
           </tr>
         </thead>
@@ -237,43 +244,14 @@
                 <td>
                   <button
                     url="{nft.image}"
-                    class="{nft.import ? (nft.import == 2 ? 'green' : 'grey') : 'blue'}"
+                    class="{nftImport ? (nftImport == 2 ? 'green' : 'grey') : 'blue'}"
                     on:click="{dispatchImport(nft)}"
                   >
-                    {nft.import ? (nft.import == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
+                    {nftImport ? (nftImport == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
                   </button>
                 </td>
               {/if}
 
-              <!-- <td>
-                {#if nft.owner}
-                  <a href="{addressLink(nft.owner)}" target="_blank">
-                    {short(nft.owner)}
-                  </a>
-                  {#if sameAddress(nft.owner)}*{/if}
-                {/if}
-              </td>
-
-              <td>
-                {#if nft.minter}
-                  <a href="{addressLink(nft.minter)}" target="_blank">
-                    {short(nft.minter)}
-                  </a>
-                  {#if sameAddress(nft.minter)}*{/if}
-                {/if}
-              </td>
-
-              <td>
-                <a href="{ipfsGateway}/{nft.cid}" target="_blank">{short(nft.cid)}</a>
-              </td>
-
-              <td>
-                {#if nft.tokenURI}
-                  <a href="{nft.tokenURI}" target="_blank"
-                    >{short(nft.tokenURI.replace(/^.*ipfs\//, ""))}</a
-                  >
-                {/if}
-              </td> -->
               <td>
                 <div title="{JSON.stringify(nft, null, 2)}">ⓘ</div>
               </td>

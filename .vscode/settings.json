@@ -47,7 +47,7 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "One Dark Pro",
+  "workbench.colorTheme": "Morass Contrast (rainglow)",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
@@ -55,5 +55,6 @@
   "local-history.browser.descending": false,
   "search.exclude": {
     "**/lib/js": true
-  }
+  },
+  "workbench.editor.decorations.colors": false
 }

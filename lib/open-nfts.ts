@@ -16,7 +16,7 @@ import { fetchCov, fetchGQL, fetchJson } from "./kfetch";
 import type { Network, Contract } from "./kconfig";
 import type { NftMetadata, NftData } from "./ktypes";
 
-const LIMIT = 99;
+const LIMIT = 10;
 
 async function getOpenNFTs(
   chainId: number,
