@@ -7,8 +7,8 @@ specifiers:
   '@ethersproject/abstract-signer': ^5.4.1
   '@ethersproject/address': ^5.4.0
   '@ethersproject/contracts': ^5.4.1
-  '@graphprotocol/graph-cli': ^0.22.1
-  '@graphprotocol/graph-ts': ^0.22.1
+  '@graphprotocol/graph-cli': ^0.21.1
+  '@graphprotocol/graph-ts': ^0.20.1
   '@metamask/detect-provider': ^1.2.0
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers@^0.3.0-beta.10
   '@nomiclabs/hardhat-etherscan': ^2.1.6
@@ -93,8 +93,8 @@ devDependencies:
   '@ethersproject/abstract-signer': 5.4.1
   '@ethersproject/address': 5.4.0
   '@ethersproject/contracts': 5.4.1
-  '@graphprotocol/graph-cli': 0.22.1
-  '@graphprotocol/graph-ts': 0.22.1
+  '@graphprotocol/graph-cli': 0.21.1
+  '@graphprotocol/graph-ts': 0.20.1
   '@metamask/detect-provider': 1.2.0
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.10_ethers@5.4.7+hardhat@2.6.4
   '@nomiclabs/hardhat-etherscan': 2.1.6_hardhat@2.6.4
@@ -1954,12 +1954,11 @@ packages:
       '@ethersproject/strings': 5.4.0
     dev: true
 
-  /@graphprotocol/graph-cli/0.22.1:
-    resolution: {integrity: sha512-MV1MbDRGZUATdjSMoFLBNnGchQy4W5nYIFmWd+6ImGC7IjoVE4V1kgJ/Pq0IkDYwEp1g0PRA+xGrausIPeQ+8Q==}
+  /@graphprotocol/graph-cli/0.21.1:
+    resolution: {integrity: sha512-bqHlHZTzfEJICUpGQQr4Pru07OiGiOpIiwkVSdQMJaiuwu+bflMmLJNYNbSRH2byqaWDZvc4MI3U9CwUYXdRRw==}
     hasBin: true
     dependencies:
-      assemblyscript: 0.19.10
-      binary-install-raw: 0.0.13_debug@4.3.2
+      assemblyscript: github.com/AssemblyScript/assemblyscript/3ed76a97f05335504166fce1653da75f4face28f
       chalk: 3.0.0
       chokidar: 3.5.2
       debug: 4.3.2
@@ -1977,9 +1976,7 @@ packages:
       pkginfo: 0.4.1
       prettier: 1.19.1
       request: 2.88.2
-      semver: 7.3.5
       tmp-promise: 3.0.2
-      which: 2.0.2
       yaml: 1.10.2
     transitivePeerDependencies:
       - bufferutil
@@ -1987,10 +1984,10 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@graphprotocol/graph-ts/0.22.1:
-    resolution: {integrity: sha512-T5xrHN0tHJwd7ZnSTLhk5hAL3rCIp6rJ40kBCrETnv1mfK9hVyoojJK6VtBQXTbLsYtKe4SYjjD0cdOsAR9QiA==}
+  /@graphprotocol/graph-ts/0.20.1:
+    resolution: {integrity: sha512-JATb0tERXt+JZUYuW9rwfnLzIM4EOBHf/EEZir5JMiIVMP55CoOyQGAwH2dvKSm5O8WQ1BfdbnOvk7YNVMFHsg==}
     dependencies:
-      assemblyscript: 0.19.10
+      assemblyscript: github.com/AssemblyScript/assemblyscript/3ed76a97f05335504166fce1653da75f4face28f
     dev: true
 
   /@hapi/hoek/9.2.0:
@@ -2113,6 +2110,10 @@ packages:
 
   /@polka/url/1.0.0-next.20:
     resolution: {integrity: sha512-88p7+M0QGxKpmnkfXjS4V26AnoC/eiqZutE8GLdaI5X12NY75bXSdTY9NkmYb2Xyk1O+MmkuO6Frmsj84V6I8Q==}
+    dev: true
+
+  /@protobufjs/utf8/1.1.0:
+    resolution: {integrity: sha1-p3c2C1s5oaLlEG+OhY8v0tBgxXA=}
     dev: true
 
   /@resolver-engine/core/0.3.3:
@@ -3226,14 +3227,6 @@ packages:
       safer-buffer: 2.1.2
     dev: true
 
-  /assemblyscript/0.19.10:
-    resolution: {integrity: sha512-HavcUBXB3mBTRGJcpvaQjmnmaqKHBGREjSPNsIvnAk2f9dj78y4BkMaSSdvBQYWcDDzsHQjyUC8stICFkD1Odg==}
-    hasBin: true
-    dependencies:
-      binaryen: 101.0.0-nightly.20210723
-      long: 4.0.0
-    dev: true
-
   /assert-plus/1.0.0:
     resolution: {integrity: sha1-8S4PPF13sLHN2RRpQuTpbB5N1SU=}
     engines: {node: '>=0.8'}
@@ -3992,19 +3985,8 @@ packages:
     engines: {node: '>=8'}
     dev: true
 
-  /binary-install-raw/0.0.13_debug@4.3.2:
-    resolution: {integrity: sha512-v7ms6N/H7iciuk6QInon3/n2mu7oRX+6knJ9xFPsJ3rQePgAqcR3CRTwUheFd8SLbiq4LL7Z4G/44L9zscdt9A==}
-    engines: {node: '>=10'}
-    dependencies:
-      axios: 0.21.4_debug@4.3.2
-      rimraf: 3.0.2
-      tar: 6.1.11
-    transitivePeerDependencies:
-      - debug
-    dev: true
-
-  /binaryen/101.0.0-nightly.20210723:
-    resolution: {integrity: sha512-eioJNqhHlkguVSbblHOtLqlhtC882SOEPKmNFZaDuz1hzQjolxZ+eu3/kaS10n3sGPONsIZsO7R9fR00UyhEUA==}
+  /binaryen/77.0.0-nightly.20190407:
+    resolution: {integrity: sha512-1mxYNvQ0xywMe582K7V6Vo2zzhZZxMTeGHH8aE/+/AND8f64D8Q1GThVY3RVRwGY/4p+p95ccw9Xbw2ovFXRIg==}
     hasBin: true
     dev: true
 
@@ -4641,11 +4623,6 @@ packages:
 
   /chownr/1.1.4:
     resolution: {integrity: sha512-jJ0bqzaylmJtVnNgzTeSOs8DPavpbYgEr/b0YL8/2GO3xJEhInFmhKMUnEJQjZumK7KXGFhUy89PrsJWlakBVg==}
-    dev: true
-
-  /chownr/2.0.0:
-    resolution: {integrity: sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==}
-    engines: {node: '>=10'}
     dev: true
 
   /ci-info/2.0.0:
@@ -6037,7 +6014,7 @@ packages:
     resolution: {integrity: sha512-NJ6Yn3FuDinBaBRWl/q5X/s4koRHBrgKAu+yGI6JCBeiu3qrcbJhwT2GeR/EXVfylRk8dpQVJoLEFhK+Mu31NA==}
     dependencies:
       d: 1.0.1
-      ext: 1.5.0
+      ext: 1.6.0
     dev: true
 
   /escalade/3.1.1:
@@ -6886,8 +6863,8 @@ packages:
       sort-keys-length: 1.0.1
     dev: true
 
-  /ext/1.5.0:
-    resolution: {integrity: sha512-+ONcYoWj/SoQwUofMr94aGu05Ou4FepKi7N7b+O8T4jVfyIsZQV1/xeS8jpaBzF0csAk0KLXoHCxU7cKYZjo1Q==}
+  /ext/1.6.0:
+    resolution: {integrity: sha512-sdBImtzkq2HpkdRLtlLWDa6w4DX22ijZLKx8BMPUuKe1c5lbN6xwQDQCxSfxBQnHZ13ls/FH0MQZx/q/gr6FQg==}
     dependencies:
       type: 2.5.0
     dev: true
@@ -7471,13 +7448,6 @@ packages:
     resolution: {integrity: sha512-GWSSJGFy4e9GUeCcbIkED+bgAoFyj7XF1mV8rma3QW4NIqX9Kyx79N/PF61H5udOV3aY1IaMLs6pGbH71nlCTA==}
     dependencies:
       minipass: 2.9.0
-    dev: true
-
-  /fs-minipass/2.1.0:
-    resolution: {integrity: sha512-V/JgOLFCS+R6Vcq0slCuaeWEdNC3ouDlJMNIsacH2VtALiu9mV4LPrHc5cDl8k5aw6J8jwgWWpiTo5RYhmIzvg==}
-    engines: {node: '>= 8'}
-    dependencies:
-      minipass: 3.1.5
     dev: true
 
   /fs-promise/0.3.1:
@@ -10811,25 +10781,10 @@ packages:
       yallist: 3.1.1
     dev: true
 
-  /minipass/3.1.5:
-    resolution: {integrity: sha512-+8NzxD82XQoNKNrl1d/FSi+X8wAEWR+sbYAfIvub4Nz0d22plFG72CEVVaufV8PNf4qSslFTD8VMOxNVhHCjTw==}
-    engines: {node: '>=8'}
-    dependencies:
-      yallist: 4.0.0
-    dev: true
-
   /minizlib/1.3.3:
     resolution: {integrity: sha512-6ZYMOEnmVsdCeTJVE0W9ZD+pVnE8h9Hma/iOwwRDsdQoePpoX56/8B6z3P9VNwppJuBKNRuFDRNRqRWexT9G9Q==}
     dependencies:
       minipass: 2.9.0
-    dev: true
-
-  /minizlib/2.1.2:
-    resolution: {integrity: sha512-bAxsR8BVfj60DWXHE3u30oHzfl4G7khkSuPW+qvpd7jFRHm7dLxOjUk1EHACJ/hxLY8phGJ0YhYHZo7jil7Qdg==}
-    engines: {node: '>= 8'}
-    dependencies:
-      minipass: 3.1.5
-      yallist: 4.0.0
     dev: true
 
   /mixin-deep/1.3.2:
@@ -11561,6 +11516,11 @@ packages:
     dependencies:
       is-docker: 2.2.1
       is-wsl: 2.2.0
+    dev: true
+
+  /opencollective-postinstall/2.0.3:
+    resolution: {integrity: sha512-8AV/sCtuzUeTo8gQK5qDZzARrulB3egtLzFgteqB2tcT4Mw7B8Kt7JcDHmltjz6FOAHsvTevk70gZEbhM4ZS9Q==}
+    hasBin: true
     dev: true
 
   /optimist/0.3.7:
@@ -12312,7 +12272,6 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
-    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
@@ -14306,18 +14265,6 @@ packages:
       yallist: 3.1.1
     dev: true
 
-  /tar/6.1.11:
-    resolution: {integrity: sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==}
-    engines: {node: '>= 10'}
-    dependencies:
-      chownr: 2.0.0
-      fs-minipass: 2.1.0
-      minipass: 3.1.5
-      minizlib: 2.1.2
-      mkdirp: 1.0.4
-      yallist: 4.0.0
-    dev: true
-
   /temp-dir/1.0.0:
     resolution: {integrity: sha1-CnwOom06Oa+n4OvqnB/AvE2qAR0=}
     engines: {node: '>=4'}
@@ -16246,6 +16193,22 @@ packages:
   /yocto-queue/0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
+    dev: true
+
+  github.com/AssemblyScript/assemblyscript/3ed76a97f05335504166fce1653da75f4face28f:
+    resolution: {tarball: https://codeload.github.com/AssemblyScript/assemblyscript/tar.gz/3ed76a97f05335504166fce1653da75f4face28f}
+    name: assemblyscript
+    version: 0.6.0
+    engines: {node: '>=8'}
+    hasBin: true
+    requiresBuild: true
+    dependencies:
+      '@protobufjs/utf8': 1.1.0
+      binaryen: 77.0.0-nightly.20190407
+      glob: 7.2.0
+      long: 4.0.0
+      opencollective-postinstall: 2.0.3
+      source-map-support: 0.5.20
     dev: true
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:

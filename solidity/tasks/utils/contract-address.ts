@@ -13,4 +13,3 @@ task("contract-address", "Print future contract address.")
 
     console.log(`${futureAddress}   <= ${from}::${nonce}`);
   });
-0x9219d44191b2709955fe67d03814b0da6b224e0b;

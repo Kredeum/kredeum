@@ -18,8 +18,8 @@
       "assets": "https://opensea.io/assets/matic",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
-    "nftsFactory": "0x73ad5c28e0b715c1a69e7f88e26e0c3b5ae27688",
-    "openNFTs": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
+    "nftsFactory": "0x2bA0d47f388334fB340576256c29fD15250c3A8C",
+    "openNFTs": "0xE5D9688CdFa70D90E40D99d59632eEfB63779A43",
     "type": "mainnet"
   },
   {
@@ -80,8 +80,8 @@
       "active": true
     },
     "covalent": { "active": true },
-    "nftsFactory": "0x7De3572Ea3ac699e6DE74f87dBdBeA5403593417",
-    "openNFTs": "0x2c68ca36Cb543485aD2dDF88350d6d3e4262F0f1",
+    "nftsFactory": "0xEadAE683aa5Eb2e3dAE79d35aA959bfc17100aB7",
+    "openNFTs": "0x6E94bAe8bB5505ad9f6eF6E902193E4dE8eE1bd9",
     "type": "testnet"
   },
   {
