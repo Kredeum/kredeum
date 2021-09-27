@@ -3,112 +3,75 @@ pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
+import "./interfaces/IContractProbe.sol";
+import "hardhat/console.sol";
 
 contract CloneFactory is Ownable {
-  address[] _templates;
-  address[] _implementations;
+  // implementations : template or clone
+  address[] public implementations;
+  address public template;
 
-  event NewImplementation(
-    address implementation,
-    uint256 indexed version,
-    bool indexed isTemplate,
-    address indexed creator
-  );
+  mapping(address => address) public templates;
 
-  constructor() {}
+  address private contractProbe;
 
-  /*
-   *  ADD Template
-   *
-   *  _template : Template to clone
-   */
-  function addTemplate(address _template) external onlyOwner {
-    _templates.push(_template);
-    addImplementation(_template, version(), true, owner());
-  }
+  event NewImplementation(address implementation, address template, address creator);
+  event NewTemplate(address template, address creator);
 
-  /*
-   *  Clone the Template
-   *
-   *  returns : Clone Address
-   */
-  function clone() external returns (address _clone) {
-    _clone = Clones.clone(template());
-    addImplementation(_clone, version(), false, msg.sender);
-  }
-
-  /*
-   *  ADD Clone
-   *
-   *  _clone : existing clone address
-   *  _version : existing clone version
-   */
-  function addClone(
-    address _clone,
-    uint256 _version,
-    address _creator
-  ) external onlyOwner {
-    require(version() >= 1, "No template yet");
-
-    addImplementation(_clone, _version, false, _creator);
-  }
-
-  /*
-   *  GET Version
-   *
-   *  returns : Template Version
-   */
-  function version() public view returns (uint256) {
-    return _templates.length;
-  }
-
-  /*
-   *  GET Template
-   *
-   *  returns : Current Template
-   */
-  function template() public view returns (address) {
-    require(version() >= 1, "No template yet");
-
-    return _templates[version() - 1];
-  }
-
-  /*
-   *  GET Templates
-   *
-   *  returns : all Templates
-   */
-  function templates() external view returns (address[] memory) {
-    return _templates;
-  }
-
-  /*
-   *  GET Implementations
-   *
-   *  returns : all Implementations
-   */
-  function implementations() external view returns (address[] memory) {
-    return _implementations;
+  constructor(address _contractProbe) {
+    contractProbe = _contractProbe;
   }
 
   /*
    *  ADD Implementation
    *
-   *  _implementation : implementation address
-   *  _version : template version
-   *  _isTemplate : is template or clone
-   *  _creator : creator address
+   *  _implementation : Implementation address
    */
-  function addImplementation(
-    address _implementation,
-    uint256 _version,
-    bool _isTemplate,
-    address _creator
-  ) internal {
-    require(_version > 0 && _version <= version(), "Wrong version");
+  function addImplementation(address _implementation) public onlyOwner {
+    require(templates[_implementation] == address(0), "Implementation already exists");
 
-    _implementations.push(_implementation);
+    (bool _isContract, address _template) = IContractProbe(contractProbe).probe(_implementation);
 
-    emit NewImplementation(_implementation, _version, _isTemplate, _creator);
+    require(_isContract, "Implementation is not a Contract");
+
+    implementations.push(_implementation);
+    templates[_implementation] = _template;
+
+    emit NewImplementation(_implementation, _template, msg.sender);
+  }
+
+  /*
+   *  SET default Template to be Cloned
+   *
+   *  _template : Template address
+   */
+  function setDefaultTemplate(address _template) external onlyOwner {
+    if (templates[_template] == address(0)) addImplementation(_template);
+    require(templates[_template] == _template, "Template is a Clone");
+
+    template = _template;
+
+    emit NewTemplate(_template, msg.sender);
+  }
+
+  /*
+   *  Implementations count
+   *
+   *  returns : Number of implementation
+   */
+  function implementationsCount() public view returns (uint256 count) {
+    return implementations.length;
+  }
+
+  /*
+   *  Clone Template
+   *
+   *  returns : Clone Address
+   */
+  function clone() public payable virtual returns (address _clone) {
+    require(template != address(0), "Template doesn't exist");
+
+    _clone = Clones.clone(template);
+    addImplementation(_clone);
   }
 }

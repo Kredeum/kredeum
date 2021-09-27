@@ -6,12 +6,10 @@
     "wordpress/readme.txt_handlebars",
     "package.json",
     ".vscode/settings.json",
-    "hardhat.config.ts",
     "rollup.config.ts",
     "solidity/deploy/OpenNFTS.ts",
     "config/networks.json",
     "solidity/contracts/OpenNFTs.sol",
-    "hardhat.config.ts",
     "solidity/contracts/CloneFactory.sol",
     "solidity/tests/2-clone-factory.ts",
     "lib/open-nfts.ts",
@@ -22,10 +20,12 @@
     "lib/nft-storage.ts",
     "lib/open-nfts.ts",
     "lib/nfts-factory.ts",
-    "lib/ktypes.ts"
+    "lib/ktypes.ts",
+    "hardhat.config.ts"
   ],
   "files.exclude": {
-    "old2": true
+    "old2": true,
+    ".lh": true
   },
   "mochaExplorer.exit": true,
   "mochaExplorer.files": "solidity/tests/*.*ts",

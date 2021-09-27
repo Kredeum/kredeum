@@ -7,6 +7,7 @@ import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
+import "hardhat/console.sol";
 
 contract NFTsFactory is CloneFactory {
   using ERC165Checker for address;
@@ -28,6 +29,8 @@ contract NFTsFactory is CloneFactory {
     uint256 balance;
     address owner;
   }
+
+  constructor(address _contractprobe) CloneFactory(_contractprobe) {}
 
   function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
     bytes4[] memory iface = new bytes4[](4);
@@ -60,9 +63,19 @@ contract NFTsFactory is CloneFactory {
   }
 
   function balancesOf(address owner) external view returns (NftData[] memory nftData) {
-    nftData = new NftData[](_implementations.length);
-    for (uint256 i = 0; i < _implementations.length; i += 1) {
-      nftData[i] = balanceOf(_implementations[i], owner);
+    nftData = new NftData[](implementations.length);
+    for (uint256 i = 0; i < implementations.length; i += 1) {
+      nftData[i] = balanceOf(implementations[i], owner);
     }
+  }
+
+  function clone() public payable override returns (address _clone) {
+    console.log("value %s", msg.value);
+    require(msg.value > 1, "Clone is payable");
+
+    _clone = super.clone();
+    require(_clone.supportsInterface(OpenNFTsSig), "Clone is not Open NFTs contract");
+
+    IOpenNFTs(_clone).initialize("Open NFTs", "NFT");
   }
 }

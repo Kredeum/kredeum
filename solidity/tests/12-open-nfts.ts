@@ -33,7 +33,7 @@ describe("Open NFTs contract", function () {
 
   it("Should get OpenNFTs name and NFT symbol", async function () {
     expect(await openNFTs.symbol()).to.be.equal("NFT");
-    expect(await openNFTs.name()).to.be.equal("Open NFTs");
+    expect(await openNFTs.name()).to.be.equal("Original Open NFTs");
   });
 
   it("Should get openNFTs balanceOf", async function () {

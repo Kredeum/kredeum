@@ -10,7 +10,7 @@ function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider):
   let nftsFactory: NFTsFactory;
 
   const network = getNetwork(chainId);
-  console.log("getNFTsFactory", chainId);
+  console.log("getNFTsFactory", network);
 
   if (network?.nftsFactory) {
     _providerOrSigner = _providerOrSigner || getProvider(chainId);

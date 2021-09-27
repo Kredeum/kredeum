@@ -13,7 +13,7 @@ config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 
-const contractName = "Open NFTs";
+const contractName = "Original Open NFTs";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
