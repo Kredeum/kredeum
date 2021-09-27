@@ -18,7 +18,7 @@
   let targetChain = false;
 
   async function addEthereumChain() {
-    console.log("<kredeum-metamask/> addEthereumChain", chainId);
+    // console.log("<kredeum-metamask/> addEthereumChain", chainId);
 
     if (targetChain) {
       console.log("already connecting network...");
@@ -27,10 +27,8 @@
 
     // no need to add default ethereum chain
     if (chainId !== "0x1") {
-      console.log("<kredeum-metamask/> addEthereumChain", chainId);
 
       const _network = getNetwork(chainId);
-      console.log("<kredeum-metamask/> addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
           // EIP-3085 fields only or fails
@@ -59,7 +57,7 @@
   }
 
   async function handleChainId(_chainId) {
-    console.log("<kredeum-metamask/> handleChainId", _chainId);
+    // console.log("<kredeum-metamask/> handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
       const _network = getNetwork(_chainId);
@@ -105,11 +103,11 @@
 
       signer = provider.getSigner(0);
 
-      console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
+      // console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
   }
   async function connectMetamask() {
-    console.log("connectMetamask");
+    // console.log("connectMetamask");
 
     ethereum
       .request({
@@ -125,7 +123,7 @@
       });
   }
   onMount(async function () {
-    console.log("init");
+    // console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
       if (provider !== window.ethereum) {

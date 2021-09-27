@@ -9,6 +9,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 import { config } from "dotenv";
+import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -65,7 +66,7 @@ describe("NFT Mint", function () {
         await deployments.fixture(["OpenNFTs"]);
       }
       openNFTs = await ethers.getContract("OpenNFTs", signer);
-
+      await (await openNFTs.initialize(contractName, contractSymbol)).wait();
       // console.log(openNFTs.address);
       // console.log(await openNFTs.name());
     });

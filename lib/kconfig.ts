@@ -7,7 +7,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-function getNetwork(chainId: number): Network {
+function getNetwork(chainId: number | string): Network {
   return networksMap.get(Number(chainId));
 }
 

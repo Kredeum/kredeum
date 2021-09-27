@@ -64,29 +64,29 @@ describe("Clone Factory contract", function () {
     });
   });
 
-  describe("Clone", function () {
-    let clone: string;
-    let nClone: BigNumber;
-    beforeEach(async () => {
-      await (await cloneFactory.clone()).wait();
-    });
+  // describe("Clone", function () {
+  //   let clone: string;
+  //   let nClone: BigNumber;
+  //   beforeEach(async () => {
+  //     await (await cloneFactory._clone()).wait();
+  //   });
 
-    it.only("Should clone", async function () {
-      nClone = await cloneFactory.implementationsCount();
-      expect(nClone).to.be.gte(2);
-      clone = await cloneFactory.implementations(nClone.sub(1));
-      expect(clone).to.be.properAddress;
-      expect(clone).to.be.not.equal(openNFTs.address);
-    });
+  //   it("Should clone", async function () {
+  //     nClone = await cloneFactory.implementationsCount();
+  //     expect(nClone).to.be.gte(2);
+  //     clone = await cloneFactory.implementations(nClone.sub(1));
+  //     expect(clone).to.be.properAddress;
+  //     expect(clone).to.be.not.equal(openNFTs.address);
+  //   });
 
-    it("Should give at least 2 implementations: the default template and one clone", async function () {
-      expect(await cloneFactory.implementationsCount()).to.be.gte(2);
-      expect(await cloneFactory.implementationsCount()).to.be.gte(nClone);
-    });
+  //   it("Should give at least 2 implementations: the default template and one clone", async function () {
+  //     expect(await cloneFactory.implementationsCount()).to.be.gte(2);
+  //     expect(await cloneFactory.implementationsCount()).to.be.gte(nClone);
+  //   });
 
-    it("Should give back template of clone", async function () {
-      const cloneAddress = await cloneFactory.implementations(nClone.sub(1));
-      expect(await cloneFactory.templates(cloneAddress)).to.be.equal(await cloneFactory.template());
-    });
-  });
+  //   it("Should give back template of clone", async function () {
+  //     const cloneAddress = await cloneFactory.implementations(nClone.sub(1));
+  //     expect(await cloneFactory.templates(cloneAddress)).to.be.equal(await cloneFactory.template());
+  //   });
+  // });
 });

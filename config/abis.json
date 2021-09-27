@@ -1,22 +1,28 @@
 {
-  "KredeumV2": ["function mintNFT(address,string) returns (uint256)"],
+  "KredeumV2": [
+    "function mintNFT(address,string) returns (uint256)",
+    "function initialize(string,string)"
+  ],
   "KredeumV1": ["function mintNFT(address,string) returns (uint256)"],
   "KredeumV0": ["function addUser(address,string) returns (uint256)"],
   "CloneFactory": [
-    "function addClone(address,uint256,address)",
-    "function addTemplate(address)",
-    "function clone() returns (address)",
-    "function implementations() view returns (address[])",
+    "function addImplementation(address _implementation)",
+    "function implementations(uint256) view returns (address)",
+    "function implementationsCount() view returns (uint256 count)",
     "function owner() view returns (address)",
-    "function template() view returns (address)",
-    "function templates() view returns (address[])",
-    "function version() view returns (uint256)",
     "function renounceOwnership()",
-    "function transferOwnership(address)"
+    "function setDefaultTemplate(address _template)",
+    "function template() view returns (address)",
+    "function templates(address) view returns (address)",
+    "function transferOwnership(address newOwner)"
   ],
   "NFTsFactory": [
-    "function balanceOf(address,address) view returns (tuple(address,string,string,uint256,address))",
-    "function balancesOf(address) view returns (tuple(address,string,string,uint256,address)[])"
+    "function balanceOf(address nft, address owner) view returns (tuple(address nft, string name, string symbol, uint256 balance, address owner) nftData)",
+    "function balancesOf(address owner) view returns (tuple(address nft, string name, string symbol, uint256 balance, address owner)[] nftData)",
+    "function clone(string,string) payable returns (address _clone)",
+    "function cloneCost() view returns (uint256)",
+    "function setCloneCost(uint256 _cloneCost)",
+    "function withdrawEther()"
   ],
   "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],
   "ERC721": [
