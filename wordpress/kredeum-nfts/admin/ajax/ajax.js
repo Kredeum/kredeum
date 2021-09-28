@@ -31,13 +31,21 @@ jQuery(document).ready(function () {
     });
   });
 
-  // ACTION IMPORT_NFT
-  document.querySelectorAll("kredeum-nft").forEach(function (kredeumNft) {
+  if ((kredeumNft = document.querySelector("kredeum-nft"))) {
+    // ACTION CREATE_COLLECTION
+    kredeumNft.$on("collection", function (e) {
+      _ajax({
+        action: "collection",
+        collection: e.detail.collection
+      });
+    });
+
+    // ACTION IMPORT_NFT
     kredeumNft.$on("import", function (e) {
       _ajax({
         action: "import",
         nft: JSON.stringify(e.detail.nft)
       });
     });
-  });
+  }
 });

@@ -46,7 +46,7 @@ add_action(
 add_action(
 	'wp_ajax_import',
 	function () {
-		check_ajax_referer( 'ajax-import', 'security' );
+		check_ajax_referer( 'ajax-kredeum-nft', 'security' );
 
 		if ( isset( $_POST['nft'] ) ) {
 
@@ -54,6 +54,24 @@ add_action(
 			$pid = \KredeumNFTs\Ipfs\import_nft( $nft );
 
 		}
+		wp_die();
+	}
+);
+
+/**
+ * Add action collection
+ */
+add_action(
+	'wp_ajax_collection',
+	function () {
+		check_ajax_referer( 'ajax-kredeum-nft', 'security' );
+
+		if ( isset( $_POST['collection'] ) ) {
+
+			$collection = sanitize_text_field( wp_unslash( $_POST['collection'] ) );
+			update_option( 'default_collection', $collection );
+		}
+
 		wp_die();
 	}
 );

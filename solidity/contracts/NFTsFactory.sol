@@ -30,7 +30,7 @@ contract NFTsFactory is CloneFactory {
     uint256 balance;
     address owner;
   }
-  event NewCloneCost(uint256 cloneCost);
+  event NewCloneCost(uint256 indexed cloneCost);
 
   constructor(
     uint256 _cloneCost,

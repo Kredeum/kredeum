@@ -16,7 +16,7 @@ add_action(
 			'edit_posts',
 			'nfts',
 			function () {
-				wp_nonce_field( 'ajax-import', 'knonce' );
+				wp_nonce_field( 'ajax-kredeum-nft', 'knonce' );
 				printf(
 					'<kredeum-nft'
 					. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'

@@ -371,6 +371,7 @@ async function listNFTs(
 function listNFTsFromCache(
   chainId: number,
   _contract?: string,
+  _owner?: string,
   _limit: number = LIMIT
 ): Array<NftData> {
   // console.log("listNFTsFromCache", chainId, _contract, _limit);
@@ -383,7 +384,10 @@ function listNFTsFromCache(
       const key = localStorage.key(index);
       if (key?.startsWith(nftUrl(chainId, _contract || "", "", ""))) {
         const json = localStorage.getItem(key);
-        json && nfts.push(JSON.parse(json));
+        const nft = JSON.parse(json);
+        if (!_owner || utils.getAddress(nft?.owner) == utils.getAddress(_owner)) {
+          nfts.push(nft);
+        }
       }
     }
     nfts.sort((a, b) => (BigNumber.from(b.tokenID) > BigNumber.from(a.tokenID) ? 1 : 0));
@@ -421,11 +425,15 @@ async function Mint(
     const res = await tx1.wait();
     //console.log(res.events);
 
+    // Transfer(address from, address to, string tokenId);
+    // First event NewImplementation events(0), third parameter args(2)
+    const tokenID = res.events[0].args[2].toString();
+
     if (res.events) {
       token = await addNftData(chainId, minter, {
         chainId,
         contract,
-        tokenID: res.events[0]?.args[2]?.toString(),
+        tokenID,
         tokenURI: _urlJson,
         creator: minter,
         minter: minter,

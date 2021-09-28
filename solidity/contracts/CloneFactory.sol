@@ -16,8 +16,12 @@ contract CloneFactory is Ownable {
 
   address private contractProbe;
 
-  event NewImplementation(address implementation, address template, address creator);
-  event NewTemplate(address template, address creator);
+  event NewImplementation(
+    address indexed implementation,
+    address indexed template,
+    address indexed creator
+  );
+  event NewTemplate(address indexed template, address indexed creator);
 
   constructor(address _contractProbe) {
     contractProbe = _contractProbe;

@@ -22,7 +22,7 @@
   let refreshingNFTs: boolean;
   let refreshingContracts: boolean;
   let cloning: boolean = false;
-  let cloneAddress: string;
+  let collection: string;
   let nftImport: number;
   let NFTs: Array<NftData>;
   let NFTsContracts: Array<Contract>;
@@ -30,7 +30,7 @@
   let contractOld: string;
   let addressOld: string;
 
-  export let contract: string = "0x933E3468e940fb310fFE625E63c42930D2861464"; // NFT smartcontract address
+  export let contract: string = undefined; // NFT smartcontract address
   export let platform: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS, CONTRACT OR NETWORK CHANGE
@@ -46,9 +46,9 @@
         explorer = network.blockExplorerUrls[0] || "";
 
         // chain change : force contract to default
-        if (chainId != chainIdOld) {
-          contract = network.openNFTs;
-        }
+        // if (chainId != chainIdOld) {
+        //   contract = network.openNFTs;
+        // }
 
         // chain or address changed : refresh list contract
         if (chainId != chainIdOld || address != addressOld) {
@@ -88,7 +88,7 @@
 
       NFTs = null;
 
-      NFTs = listNFTsFromCache(chainId, contract);
+      NFTs = listNFTsFromCache(chainId, contract, address);
       // console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
       refreshingNFTs = true;
 
@@ -117,7 +117,12 @@
     // console.log("<kredeum-nft/> createCollection");
     if (signer) {
       cloning = true;
-      cloneAddress = await Clone(chainId, address, signer);
+
+      collection = await Clone(chainId, address, signer);
+      contract = collection;
+
+      dispatch("collection", { collection });
+
       cloning = false;
     } else {
       console.error("<kredeum-nft/> not signer");
@@ -158,8 +163,8 @@
     My NFT Wallet
   </h1>
 
-  {#if cloneAddress}
-    Collection created: {cloneAddress}
+  {#if collection}
+    Collection created: {collection}
   {:else if cloning}
     Creating collection... sign the transaction and wait till completed, it may takes one minute or
     more.

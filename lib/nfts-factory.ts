@@ -249,7 +249,9 @@ async function Clone(chainId: number, _contract: string, _cloner: Signer): Promi
     const res = await tx1.wait();
     // console.log(res);
     if (res.events) {
-      ret = BigNumber.from(res.events[0]?.data).toHexString();
+      // NewImplementation(address indexed implementation, address indexed template, address indexed creator)
+      // first event NewImplementation events(0), first parameter topics(1)
+      ret = BigNumber.from(res.events[0].topics[1]).toHexString();
     }
   }
 
