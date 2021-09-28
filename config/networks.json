@@ -18,8 +18,9 @@
       "assets": "https://opensea.io/assets/matic",
       "kredeum": "https://opensea.io/collection/kredeum-nfts"
     },
-    "nftsFactory": "0x2bA0d47f388334fB340576256c29fD15250c3A8C",
-    "openNFTs": "0xE5D9688CdFa70D90E40D99d59632eEfB63779A43",
+    "nftsFactory": "0x430958603147437F6c45A7085649355490bEa74D",
+    "openNFTs": "0x957d3242Bd250DaD521cCdE1980F6Bd3e91Cb52d",
+    "costClone": "10",
     "type": "mainnet"
   },
   {
@@ -38,6 +39,7 @@
     },
     "covalent": { "active": true },
     "eip1559": true,
+    "costClone": "0.01",
     "type": "mainnet"
   },
   {
@@ -50,9 +52,10 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "nftsFactory": "0x35dDDeb338F25db4306469527a1B5b79F4851498",
-    "openNFTs": "0x11a29626a070FE931D8F2bC6BEE8962B84b38Ec3",
+    "nftsFactory": "0x5f3c8D2EA2b45421a59D8dEFd23A790226fA3155",
+    "openNFTs": "0x0ba91E7C517230C8fd56959c1c5EEeFEd3a7abbA",
     "eip1559": true,
+    "costClone": "0.01",
     "type": "testnet"
   },
   {
@@ -64,6 +67,7 @@
     "covalent": { "active": false },
     "nftsFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
     "eip1559": true,
+    "costClone": "0.01",
     "type": "testnet"
   },
   {
@@ -80,8 +84,9 @@
       "active": true
     },
     "covalent": { "active": true },
-    "nftsFactory": "0xEadAE683aa5Eb2e3dAE79d35aA959bfc17100aB7",
-    "openNFTs": "0x6E94bAe8bB5505ad9f6eF6E902193E4dE8eE1bd9",
+    "nftsFactory": "0x4AF92b3794926D426DC7E981bf83Fd352C8d6ba2",
+    "openNFTs": "0xC37529b0ccce171D0FEA8F5e20FFefB459F1bB9f",
+    "costClone": "0.01",
     "type": "testnet"
   },
   {
@@ -163,7 +168,9 @@
     "rpcUrls": ["http://127.0.0.1:8545"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["http://localhost/explorer"],
-    "nftsFactory": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
+    "nftsFactory": "0x8521D459A41931b40D00Bc3Ea36c9E17A64c9042",
+    "openNFTs": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
+    "costClone": "0.0001",
     "type": "testnet"
   }
 ]

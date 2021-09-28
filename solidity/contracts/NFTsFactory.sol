@@ -11,6 +11,8 @@ import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 contract NFTsFactory is CloneFactory {
   using ERC165Checker for address;
 
+  uint256 public cloneCost;
+
   uint8 constant ERC721 = 0;
   uint8 constant ERC721Metadata = 1;
   uint8 constant ERC721Enumerable = 2;
@@ -27,6 +29,16 @@ contract NFTsFactory is CloneFactory {
     string symbol;
     uint256 balance;
     address owner;
+  }
+  event NewCloneCost(uint256 cloneCost);
+
+  constructor(
+    uint256 _cloneCost,
+    address _openNFTs,
+    address _contractprobe
+  ) CloneFactory(_contractprobe) {
+    setCloneCost(_cloneCost);
+    setDefaultTemplate(_openNFTs);
   }
 
   function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
@@ -60,9 +72,34 @@ contract NFTsFactory is CloneFactory {
   }
 
   function balancesOf(address owner) external view returns (NftData[] memory nftData) {
-    nftData = new NftData[](_implementations.length);
-    for (uint256 i = 0; i < _implementations.length; i += 1) {
-      nftData[i] = balanceOf(_implementations[i], owner);
+    nftData = new NftData[](implementations.length);
+    for (uint256 i = 0; i < implementations.length; i += 1) {
+      nftData[i] = balanceOf(implementations[i], owner);
     }
+  }
+
+  function setCloneCost(uint256 _cloneCost) public onlyOwner {
+    cloneCost = _cloneCost;
+
+    emit NewCloneCost(cloneCost);
+  }
+
+  function clone(string memory _name, string memory _symbol)
+    public
+    payable
+    returns (address clone_)
+  {
+    require(msg.value >= cloneCost && cloneCost > 0, "Clone is payable");
+
+    clone_ = _clone();
+    require(clone_.supportsInterface(OpenNFTsSig), "Clone is not Open NFTs contract");
+
+    IOpenNFTs(clone_).initialize(_name, _symbol);
+    IOpenNFTs(clone_).transferOwnership(msg.sender);
+  }
+
+  function withdrawEther() external onlyOwner {
+    (bool succeed, ) = msg.sender.call{value: address(this).balance}("");
+    require(succeed, "Failed to withdraw Ether");
   }
 }

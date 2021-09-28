@@ -33,12 +33,12 @@
 
   // CONTRACT OR NETWORK CHANGE
   $: if (chainId) {
-    console.log("<kredeum-nft-mint/> chainId changed", chainId);
+    // console.log("<kredeum-nft-mint/> chainId changed", chainId);
     init();
   }
 
   async function init() {
-    console.log(`<kredeum-nft-mint/> init ${chainId}`);
+    // console.log(`<kredeum-nft-mint/> init ${chainId}`);
     network = getNetwork(chainId);
     if (network) {
       if (!contract && chainId != chainIdOld) {
@@ -52,7 +52,7 @@
   }
 
   async function nftMint() {
-    console.log("<kredeum-nft-mint/> nftMint src alt", src, alt);
+    // console.log("<kredeum-nft-mint/> nftMint src alt", src, alt);
 
     if (signer) {
       minting = true;

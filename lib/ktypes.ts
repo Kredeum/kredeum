@@ -33,6 +33,7 @@ type Network = {
   admin?: string;
   openSea?: { assets?: string; kredeum?: string };
   openNFTs?: string;
+  costClone?: string;
   nftsFactory?: string;
   eip1559?: boolean;
 };

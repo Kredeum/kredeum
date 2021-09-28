@@ -23,7 +23,7 @@ async function getOpenNFTs(
   _contract: string,
   _providerOrSigner?: Provider | Signer
 ): Promise<OpenNFTs> {
-  console.log(`getOpenNFTs ${_contract}`);
+  // console.log(`getOpenNFTs ${_contract}`);
 
   let smartcontract: OpenNFTs;
   _providerOrSigner = _providerOrSigner || getProvider(chainId);
@@ -83,7 +83,7 @@ function cidExtract(_uri: string): string {
 }
 
 function addNftDataSync(chainId: number, _contract: string, _token: NftData): NftData {
-  console.log(`addNftDataSync ${chainId} ${_contract}`, _token);
+  // console.log(`addNftDataSync ${chainId} ${_contract}`, _token);
 
   const network = getNetwork(chainId);
   const contract = _token.contract || _contract || "";
@@ -115,18 +115,18 @@ function addNftDataSync(chainId: number, _contract: string, _token: NftData): Nf
     nid: _token.nid || nftUrl(chainId, contract, tokenID)
   };
 
-  console.log("addNftDataSync", _token, "=>", nftData);
+  // console.log("addNftDataSync", _token, "=>", nftData);
   return nftData;
 }
 
 async function addNftData(chainId: number, _contract: string, _token: NftData): Promise<NftData> {
-  console.log("_token", _token);
-  console.log("_token.tokenURI", _token.tokenURI);
+  // console.log("_token", _token);
+  // console.log("_token.tokenURI", _token.tokenURI);
   _token.metadata =
     _token.metadata || _token.tokenURI
       ? ((await fetchJson(_token.tokenURI)) as NftMetadata) || {}
       : {};
-  console.log("_token.metadata", _token.metadata);
+  // console.log("_token.metadata", _token.metadata);
   return addNftDataSync(chainId, _contract, _token);
 }
 
@@ -153,7 +153,7 @@ async function getNFTFromContract(
   } catch (e) {
     console.error("OpenNFTs.getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
   }
-  console.log("getNFTFromContract #" + tokenID, tokenURI, owner);
+  // console.log("getNFTFromContract #" + tokenID, tokenURI, owner);
   return { chainId, contract, tokenID, tokenURI, owner };
 }
 async function listNFTsFromCovalent(
@@ -162,13 +162,13 @@ async function listNFTsFromCovalent(
   _owner?: string,
   _limit: number = LIMIT
 ): Promise<Array<NftData>> {
-  console.log(
-    "OpenNFTs.listNFTlistNFTsFromCovalentsFromTheGraph",
-    chainId,
-    _contract,
-    _owner,
-    _limit
-  );
+  // console.log(
+  //   "OpenNFTs.listNFTlistNFTsFromCovalentsFromTheGraph",
+  //   chainId,
+  //   _contract,
+  //   _owner,
+  //   _limit
+  // );
 
   let nfts: Array<NftData> = [];
   const contract = _contract;
@@ -182,9 +182,9 @@ async function listNFTsFromCovalent(
       // `&limit=${_limit}` + // not working with match...
       `&match=${encodeURIComponent(match)}`;
 
-    console.log("listNFTsFromCovalent", path);
+    // console.log("listNFTsFromCovalent", path);
     const answerCov = await fetchCov(path);
-    console.log("listNFTsFromCovalent", answerCov);
+    // console.log("listNFTsFromCovalent", answerCov);
 
     if (answerCov.error) {
       console.error("answerCov.error", answerCov.error);
@@ -224,7 +224,7 @@ async function listNFTsFromTheGraph(
   _owner?: string,
   _limit: number = LIMIT
 ): Promise<Array<NftData>> {
-  console.log("listNFTsFromTheGraph", chainId, _contract, _owner, _limit);
+  // console.log("listNFTsFromTheGraph", chainId, _contract, _owner, _limit);
 
   let nfts: Array<NftData> = [];
   const network = getNetwork(chainId);
@@ -254,7 +254,7 @@ async function listNFTsFromTheGraph(
     console.log(query);
     const answerGQL = await fetchGQL(getSubgraphUrl(chainId) || "", query);
     const nftsJson = answerGQL?.tokenContract?.nfts || [];
-    console.log(nftsJson[0]);
+    // console.log(nftsJson[0]);
     // console.log("listNFTsFromTheGraph nbTokens", nftsJson.length);
     // console.log(nftsJson);
 
@@ -286,7 +286,7 @@ async function listNFTsFromContract(
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Array<NftData>> {
-  console.log("listNFTsFromContract", chainId, _contract, _owner, _limit);
+  // console.log("listNFTsFromContract", chainId, _contract, _owner, _limit);
 
   let nfts = [];
 
@@ -300,11 +300,11 @@ async function listNFTsFromContract(
           ? (await smartcontract.totalSupply()).toNumber()
           : 0;
 
-        console.log("listNFTsFromContract totalSupply", nbTokens);
+        // console.log("listNFTsFromContract totalSupply", nbTokens);
 
         for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
           nfts[index] = await getNFTFromContract(chainId, smartcontract, index, _owner);
-          console.log("listNFTsFromContract item", index + 1, nfts[index]);
+          // console.log("listNFTsFromContract item", index + 1, nfts[index]);
         }
       }
     } catch (e) {
@@ -313,7 +313,7 @@ async function listNFTsFromContract(
   }
 
   // console.log("listNFTsFromContract", nfts.length);
-  console.log("listNFTsFromContract", nfts);
+  // console.log("listNFTsFromContract", nfts);
   return nfts;
 }
 
@@ -324,7 +324,7 @@ async function listNFTs(
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Array<NftData>> {
-  console.log("listNFTs", chainId, _contract, _owner, _limit);
+  // console.log("listNFTs", chainId, _contract, _owner, _limit);
 
   let nfts: Array<NftData> = [];
   const network = getNetwork(chainId);
@@ -350,7 +350,7 @@ async function listNFTs(
     if (nfts.length) {
       nfts.sort((a, b) => (BigNumber.from(b.tokenID).gt(BigNumber.from(a.tokenID)) ? 1 : -1));
       for (let index = 0; index < Math.min(nfts.length, _limit); index++) {
-        console.log(`OpenNFTs.listNFTs addNftData`, index, nfts[index]);
+        // console.log(`OpenNFTs.listNFTs addNftData`, index, nfts[index]);
         const token: NftData = await addNftData(chainId, _contract, nfts[index]);
         if (!_owner || utils.getAddress(token.owner) === utils.getAddress(_owner)) {
           nfts[index] = token;
@@ -364,7 +364,7 @@ async function listNFTs(
     }
   }
   // console.log("listNFTs", nfts.length);
-  console.log(`OpenNFTs.listNFTs from ${_contract}`, nfts);
+  // console.log(`OpenNFTs.listNFTs from ${_contract}`, nfts);
   return nfts;
 }
 
@@ -373,7 +373,7 @@ function listNFTsFromCache(
   _contract?: string,
   _limit: number = LIMIT
 ): Array<NftData> {
-  console.log("listNFTsFromCache", chainId, _contract, _limit);
+  // console.log("listNFTsFromCache", chainId, _contract, _limit);
 
   const nfts: Array<NftData> = [];
   const { chainName } = getNetwork(chainId);
@@ -389,7 +389,7 @@ function listNFTsFromCache(
     nfts.sort((a, b) => (BigNumber.from(b.tokenID) > BigNumber.from(a.tokenID) ? 1 : 0));
   }
 
-  console.log(`OpenNFTs.listNFTsFromCache ${nfts.length}`);
+  // console.log(`OpenNFTs.listNFTsFromCache ${nfts.length}`);
   return nfts;
 }
 
@@ -400,7 +400,7 @@ async function Mint(
   _urlJson: string
 ): Promise<NftData | undefined> {
   const minter = await _minter.getAddress();
-  console.log("OpenNFTs.Mint", chainId, _contract, minter, _urlJson);
+  // console.log("OpenNFTs.Mint", chainId, _contract, minter, _urlJson);
 
   const network = getNetwork(chainId);
   const contract = _contract;

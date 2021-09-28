@@ -40,7 +40,7 @@
     if (chainId && address) {
       network = getNetwork(chainId);
       if (network) {
-        console.log("<kredeum-nft/> init", chainId, contract, address, network);
+        // console.log("<kredeum-nft/> init", chainId, contract, address, network);
 
         openSea = network.openSea;
         explorer = network.blockExplorerUrls[0] || "";
@@ -70,11 +70,11 @@
       NFTsContracts = null;
 
       NFTsContracts = listContractsFromCache(chainId);
-      console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
+      // console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
       refreshingContracts = true;
 
       NFTsContracts = await listContracts(chainId, address);
-      console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
+      // console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
       refreshingContracts = false;
     }
   }
@@ -89,11 +89,11 @@
       NFTs = null;
 
       NFTs = listNFTsFromCache(chainId, contract);
-      console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
+      // console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
       refreshingNFTs = true;
 
       NFTs = await listNFTs(chainId, contract, address);
-      console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
+      // console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
       refreshingNFTs = false;
     }
   }
@@ -114,7 +114,7 @@
   };
 
   const createCollection = async () => {
-    console.log("<kredeum-nft/> createCollection");
+    // console.log("<kredeum-nft/> createCollection");
     if (signer) {
       cloning = true;
       cloneAddress = await Clone(chainId, address, signer);

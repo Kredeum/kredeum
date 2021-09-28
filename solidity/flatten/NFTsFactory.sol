@@ -176,124 +176,104 @@ library Clones {
   }
 }
 
+// File solidity/contracts/interfaces/IContractProbe.sol
+
+interface IContractProbe {
+  function probe(address _address) external view returns (bool isContract, address forwardedTo);
+}
+
 // File solidity/contracts/CloneFactory.sol
 
-pragma solidity ^0.8.4;
+contract Name {
+
+}
 
 contract CloneFactory is Ownable {
-  address[] _templates;
-  address[] _implementations;
+  // implementations : template or clone
+  address[] public implementations;
+  address public template;
 
-  event NewImplementation(
-    address implementation,
-    uint256 indexed version,
-    bool indexed isTemplate,
-    address indexed creator
-  );
+  mapping(address => address) public templates;
 
-  constructor() {}
+  address private contractProbe;
 
-  /*
-   *  ADD Template
-   *
-   *  _template : Template to clone
-   */
-  function addTemplate(address _template) external onlyOwner {
-    _templates.push(_template);
-    addImplementation(_template, version(), true, owner());
+  event NewImplementation(address implementation, address template, address creator);
+  event NewTemplate(address template, address creator);
+
+  constructor(address _contractProbe) {
+    contractProbe = _contractProbe;
   }
 
   /*
-   *  Clone the Template
+   *  ADD Implementation onlyOwner
+   *
+   *  _implementation : Implementation address
+   */
+  function addImplementation(address _implementation) public onlyOwner {
+    _addImplementation(_implementation);
+  }
+
+  /*
+   *  SET default Template to be Cloned
+   *
+   *  _template : Template address
+   */
+  function setDefaultTemplate(address _template) public onlyOwner {
+    if (templates[_template] == address(0)) addImplementation(_template);
+    require(templates[_template] == _template, "Template is a Clone");
+
+    template = _template;
+
+    emit NewTemplate(_template, msg.sender);
+  }
+
+  /*
+   *  Implementations count
+   *
+   *  returns : Number of implementation
+   */
+  function implementationsCount() public view returns (uint256 count) {
+    return implementations.length;
+  }
+
+  /*
+   *  ADD Implementation internal
+   *
+   *  _implementation : Implementation address
+   */
+  function _addImplementation(address _implementation) internal {
+    require(templates[_implementation] == address(0), "Implementation already exists");
+
+    (bool _isContract, address _template) = IContractProbe(contractProbe).probe(_implementation);
+
+    require(_isContract, "Implementation is not a Contract");
+
+    implementations.push(_implementation);
+    templates[_implementation] = _template;
+
+    emit NewImplementation(_implementation, _template, msg.sender);
+  }
+
+  /*
+   *  Clone Template
    *
    *  returns : Clone Address
    */
-  function clone() external returns (address _clone) {
-    _clone = Clones.clone(template());
-    addImplementation(_clone, version(), false, msg.sender);
-  }
+  function _clone() internal virtual returns (address clone_) {
+    require(template != address(0), "Template doesn't exist");
 
-  /*
-   *  ADD Clone
-   *
-   *  _clone : existing clone address
-   *  _version : existing clone version
-   */
-  function addClone(
-    address _clone,
-    uint256 _version,
-    address _creator
-  ) external onlyOwner {
-    require(version() >= 1, "No template yet");
-
-    addImplementation(_clone, _version, false, _creator);
-  }
-
-  /*
-   *  GET Version
-   *
-   *  returns : Template Version
-   */
-  function version() public view returns (uint256) {
-    return _templates.length;
-  }
-
-  /*
-   *  GET Template
-   *
-   *  returns : Current Template
-   */
-  function template() public view returns (address) {
-    require(version() >= 1, "No template yet");
-
-    return _templates[version() - 1];
-  }
-
-  /*
-   *  GET Templates
-   *
-   *  returns : all Templates
-   */
-  function templates() external view returns (address[] memory) {
-    return _templates;
-  }
-
-  /*
-   *  GET Implementations
-   *
-   *  returns : all Implementations
-   */
-  function implementations() external view returns (address[] memory) {
-    return _implementations;
-  }
-
-  /*
-   *  ADD Implementation
-   *
-   *  _implementation : implementation address
-   *  _version : template version
-   *  _isTemplate : is template or clone
-   *  _creator : creator address
-   */
-  function addImplementation(
-    address _implementation,
-    uint256 _version,
-    bool _isTemplate,
-    address _creator
-  ) internal {
-    require(_version > 0 && _version <= version(), "Wrong version");
-
-    _implementations.push(_implementation);
-
-    emit NewImplementation(_implementation, _version, _isTemplate, _creator);
+    clone_ = Clones.clone(template);
+    _addImplementation(clone_);
   }
 }
 
 // File solidity/contracts/interfaces/IOpenNFTs.sol
 
-pragma solidity ^0.8.4;
-
 interface IOpenNFTs {
+  function transferOwnership(address newOwner) external;
+
+  function initialize(string memory name_, string memory symbol_) external;
+
   function mintNFT(address minter, string memory jsonURI) external returns (uint256);
 
   function owner() external view returns (address);
@@ -634,10 +614,10 @@ library ERC165Checker {
 
 // File solidity/contracts/NFTsFactory.sol
 
-pragma solidity ^0.8.4;
-
 contract NFTsFactory is CloneFactory {
   using ERC165Checker for address;
+
+  uint256 public cloneCost;
 
   uint8 constant ERC721 = 0;
   uint8 constant ERC721Metadata = 1;
@@ -655,6 +635,16 @@ contract NFTsFactory is CloneFactory {
     string symbol;
     uint256 balance;
     address owner;
+  }
+  event NewCloneCost(uint256 cloneCost);
+
+  constructor(
+    uint256 _cloneCost,
+    address _openNFTs,
+    address _contractprobe
+  ) CloneFactory(_contractprobe) {
+    setCloneCost(_cloneCost);
+    setDefaultTemplate(_openNFTs);
   }
 
   function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
@@ -688,9 +678,34 @@ contract NFTsFactory is CloneFactory {
   }
 
   function balancesOf(address owner) external view returns (NftData[] memory nftData) {
-    nftData = new NftData[](_implementations.length);
-    for (uint256 i = 0; i < _implementations.length; i += 1) {
-      nftData[i] = balanceOf(_implementations[i], owner);
+    nftData = new NftData[](implementations.length);
+    for (uint256 i = 0; i < implementations.length; i += 1) {
+      nftData[i] = balanceOf(implementations[i], owner);
     }
+  }
+
+  function setCloneCost(uint256 _cloneCost) public onlyOwner {
+    cloneCost = _cloneCost;
+
+    emit NewCloneCost(cloneCost);
+  }
+
+  function clone(string memory _name, string memory _symbol)
+    public
+    payable
+    returns (address clone_)
+  {
+    require(msg.value >= cloneCost && cloneCost > 0, "Clone is payable");
+
+    clone_ = _clone();
+    require(clone_.supportsInterface(OpenNFTsSig), "Clone is not Open NFTs contract");
+
+    IOpenNFTs(clone_).initialize(_name, _symbol);
+    IOpenNFTs(clone_).transferOwnership(msg.sender);
+  }
+
+  function withdrawEther() external onlyOwner {
+    (bool succeed, ) = msg.sender.call{value: address(this).balance}("");
+    require(succeed, "Failed to withdraw Ether");
   }
 }

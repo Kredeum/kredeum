@@ -1440,6 +1440,10 @@ library CountersUpgradeable {
 // File solidity/contracts/interfaces/IOpenNFTs.sol
 
 interface IOpenNFTs {
+  function transferOwnership(address newOwner) external;
+
+  function initialize(string memory name_, string memory symbol_) external;
+
   function mintNFT(address minter, string memory jsonURI) external returns (uint256);
 
   function owner() external view returns (address);
@@ -1458,9 +1462,9 @@ contract OpenNFTs is
 
   constructor() ERC721Upgradeable() {}
 
-  function initialize() public initializer {
+  function initialize(string memory _name, string memory _symbol) external initializer {
     __Ownable_init();
-    __ERC721_init("Open NFTs", "NFT");
+    __ERC721_init(_name, _symbol);
   }
 
   function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
