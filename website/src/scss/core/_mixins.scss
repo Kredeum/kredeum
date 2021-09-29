@@ -47,3 +47,8 @@
     display: inline-block;
     vertical-align: middle;
 }
+
+@mixin anim {
+    opacity: 0;
+    animation: fade-in-bottom 300ms ease-in forwards;
+}

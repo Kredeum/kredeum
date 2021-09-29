@@ -1,0 +1,35 @@
+@import '_variables';
+
+header {
+    .logo {
+        span {
+            font-size: 20px;
+        }
+    }
+
+    nav {
+        li {
+            &:not(:last-child) {
+                margin-right: 20px;
+            }
+        }
+    }
+}
+
+main {
+    h1 {
+        font-size: 32px;
+    }
+
+    h2 {
+        font-size: 25px;
+    }
+
+    .hero {
+        margin-top: 50px;
+
+        .schema {
+            font-size: 0.6em;
+        }
+    }
+}

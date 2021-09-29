@@ -9,9 +9,17 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
 
 
 @mixin container-fixed($gutter: $grid-gutter-width) {
-    padding-left:  floor(($gutter / 2));
-    padding-right: ceil(($gutter / 2));
     @include clearfix;
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        padding-left:  floor(($gutter / 4));
+        padding-right: ceil(($gutter / 4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        padding-left:  floor(($gutter / 2));
+        padding-right: ceil(($gutter / 2));
+    }
 }
 
 .container {
@@ -31,17 +39,33 @@ $grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
     flex: 1 0 0%;
     position: relative;
     min-height: 1px;
-    padding-left:  ceil(($grid-gutter-width / 2));
-    padding-right: floor(($grid-gutter-width / 2));
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        padding-left:  ceil(($grid-gutter-width / 4));
+        padding-right: floor(($grid-gutter-width / 4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        padding-left:  ceil(($grid-gutter-width / 2));
+        padding-right: floor(($grid-gutter-width / 2));
+    }
 }
 
 //row
 @mixin make-row($gutter: $grid-gutter-width) {
-    margin-left:  ceil(($gutter / -2));
-    margin-right: floor(($gutter / -2));
     @include clearfix;
     display: flex;
     flex-wrap: wrap;
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        margin-left:  floor(($gutter / -4));
+        margin-right: ceil(($gutter / -4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        margin-left:  floor(($gutter / -2));
+        margin-right: ceil(($gutter / -2));
+    }
 }
 
 // Generate the extra small columns

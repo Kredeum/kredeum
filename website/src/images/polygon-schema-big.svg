@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="194px" height="212px" viewBox="0 0 194 212" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Path</title>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="91.5066998%" id="linearGradient-1">
+            <stop stop-color="#184783" offset="0%"></stop>
+            <stop stop-color="#37377C" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.491234189" stroke-opacity="0.340472028">
+        <g id="Kredeum_site_V2" transform="translate(-913.000000, -295.000000)" fill="url(#linearGradient-1)" fill-rule="nonzero" stroke="#FFFFFF">
+            <g id="hexagon" transform="translate(914.376638, 296.236004)">
+                <path d="M189.845752,52.9521306 L98.1875847,0.576034758 C96.8434013,-0.192011586 95.2021472,-0.192011586 93.8579638,0.576034758 L2.19979603,52.9521306 C0.838017534,53.7291791 0,55.1781147 0,56.7408046 L0,152.763783 C0,154.326473 0.838017534,155.775409 2.19979603,156.552457 L93.8579638,208.928553 C94.5302601,209.312781 95.2721184,209.50469 96.0229789,209.50469 C96.7738393,209.50469 97.5156976,209.312781 98.1879939,208.928553 L189.846162,156.552457 C191.20794,155.775409 192.045958,154.326473 192.045958,152.763783 L192.045958,56.7408046 C192.045958,55.1781147 191.207531,53.7291791 189.845752,52.9521306 Z" id="Path"></path>
+            </g>
+        </g>
+    </g>
+</svg>

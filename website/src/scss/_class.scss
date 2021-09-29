@@ -121,13 +121,14 @@ select {
         }
     }
 
-    &-second {
-        background: rgba($couleur1, 0.2);
-        color: $couleur1;
+    &-disabled {
+      color: currentColor;
+      cursor: not-allowed;
+      opacity: 0.5;
+      text-decoration: none;
 
-        &:hover {
-            background: rgba($couleur1, 0.3);
-        }
+      background: rgba($grey-blue, 0.2);
+      color: $grey-blue;
     }
 }
 

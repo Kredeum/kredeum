@@ -74,13 +74,11 @@ function fonts() {
 
 // Transpile, concatenate and minify scripts
 function scripts() {
-    return (
-        gulp
-          .src(["./src/js/**/*"])
-          .pipe(plumber())
-          .pipe(!config.production ? uglify().on('error', swallow) : util.noop())
-          .pipe(gulp.dest("./assets/js/"))
-    );
+    return gulp
+        .src(["./src/js/**/*"])
+        .pipe(plumber())
+        .pipe(!config.production ? uglify().on('error', swallow) : util.noop())
+        .pipe(gulp.dest("./assets/js/"))
 }
 
 // Watch files
@@ -98,5 +96,4 @@ exports.css = css;
 exports.clean = clean;
 exports.build = build;
 exports.watch = watch;
-exports.fonts = fonts;
 exports.default = build;

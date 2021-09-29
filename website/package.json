@@ -26,6 +26,9 @@
   "author": "Polux",
   "license": "ISC",
   "dependencies": {
+    "gulp-babel": "^8.0.0",
+    "gulp-uglify-es": "^3.0.0",
+    "gulp-webp": "^4.0.1",
     "package.json": "^2.0.1"
   }
 }

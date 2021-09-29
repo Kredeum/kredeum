@@ -1,0 +1,348 @@
+@import '_variables';
+@import '_global';
+
+@keyframes animFade {
+    to {
+        opacity: 1;
+        margin-top: 0;
+    }
+}
+
+@keyframes fade-in-bottom {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.anim {
+    @include anim();
+}
+
+header {
+    width: 100%;
+
+    .logo {
+        margin-left: -20px;
+
+        img {
+            width: 80px;
+        }
+
+        img, span {
+            display: inline-block;
+            vertical-align: middle;
+        }
+
+        span {
+            font-weight: bold;
+            letter-spacing: -1px;
+            margin-left: -15px;
+        }
+    }
+
+    nav {
+        li {
+            display: inline-block;
+            vertical-align: middle;
+
+            a {
+                color: $white;
+                font-weight: bold;
+                text-decoration: none;
+                transition: all 300ms ease-in-out;
+
+                img {
+                    transition: all 300ms ease-in-out;
+                }
+            }
+        }
+    }
+}
+
+main {
+    width: 100%;
+
+    p {
+        opacity: 0.7;
+    }
+
+    h1, h2 {
+        line-height: 1.2;
+        margin: 0;
+    }
+
+    h3 {
+        font-size: 24px;
+        margin: 0;
+    }
+
+    .hero {
+        position: relative;
+
+        p {
+            margin: 30px 0;
+        }
+
+        .schema {
+            background: url("../images/bg-schema.svg") no-repeat center center;
+            background-size: 100% auto;
+            display: inline-block;
+            vertical-align: middle;
+            position: relative;
+            animation-delay: 800ms;
+            width: 28.4375em;
+            height: 25.625em;
+
+            .logo {
+                width: 9em;
+                height: 9.6em;
+                position: absolute;
+                top: 47%;
+                left: 52%;
+                transform: translate(-50%,-50%);
+                background: url("../images/polygon-schema-small.svg") no-repeat center center;
+                background-size: 99% auto;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+
+                margin-top: 10px;
+                opacity: 0;
+                animation: animFade 300ms ease-in forwards;
+                animation-delay: 2000ms;
+
+                &::after {
+                    content: '';
+                    background: url("../images/polygon-schema-big.svg") no-repeat center center;
+                    background-size: 99% auto;
+                    width: 11.875em;
+                    height: 13.125em;
+                    display: block;
+                    position: absolute;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%,-50%);
+                    z-index: -1;
+
+                    margin-top: 10px;
+                    opacity: 0;
+                    animation: animFade 300ms ease-in forwards;
+                    animation-delay: 2200ms;
+                }
+            }
+
+            .elem {
+                @include border-radius();
+                background: red;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: absolute;
+                transform: translateY(10px);
+
+                i.small {
+                    font-size: 1.2em;
+                }
+
+                i.big {
+                    font-size: 2.2em;
+                }
+
+                &-1, &-4, &-6 {
+                    background: $yellow;
+                }
+
+                &-2, &-8 {
+                    background: $blue-light;
+                }
+
+                &-3, &-7 {
+                    background: $green;
+                }
+
+                &-1 {
+                    width: 4.6875em;
+                    height: 4.6875em;
+                    top: 0;
+                    left: 3.625em;
+                    animation-delay: 1000ms;
+                }
+
+                &-2 {
+                    width: 3.25em;
+                    height: 3.25em;
+                    top: -1.5625em;
+                    right: 9.375em;
+                    animation-delay: 1200ms;
+                }
+
+                &-3 {
+                    width: 5em;
+                    height: 5em;
+                    top: 2.8125em;
+                    right: 0;
+                    animation-delay: 1100ms;
+                }
+
+                &-4 {
+                    width: 2.8125em;
+                    height: 2.8125em;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    right: -1.5625em;
+                    animation-delay: 1400ms;
+                }
+
+                &-5 {
+                    width: 6.25em;
+                    height: 6.25em;
+                    bottom: 0;
+                    right: 2.5em;
+                    background: #8673E8;
+                    animation-delay: 1200ms;
+                }
+
+                &-6 {
+                    width: 3.75em;
+                    height: 3.75em;
+                    bottom: -1.875em;
+                    left: 10em;
+                    animation-delay: 1300ms;
+                }
+
+                &-7 {
+                    width: 5em;
+                    height: 5em;
+                    bottom: 3.75em;
+                    left: 3.125em;
+                    animation-delay: 1500ms;
+                }
+
+                &-8 {
+                    width: 3.25em;
+                    height: 3.25em;
+                    top: 10em;
+                    left: -1em;
+                    animation-delay: 1800ms;
+                }
+            }
+        }
+
+        .dapp {
+            display: block;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+        }
+    }
+
+    #project {
+        background: $white;
+
+        h2, h3, p {
+            color: $couleur1;
+        }
+
+        .list {
+            margin-bottom: 120px;
+
+            .col {
+                padding-top: 60px;
+
+                &:nth-child(1) {
+                    background: url("../images/icon-fast.svg") no-repeat 40px top;
+                }
+
+                &:nth-child(2) {
+                    background: url("../images/icon-secure.svg") no-repeat 40px top;
+                }
+
+                &:nth-child(3) {
+                    background: url("../images/icon-global.svg") no-repeat 40px top;
+                }
+
+                &:nth-child(4) {
+                    background: url("../images/icon-scalable.svg") no-repeat 40px top;
+                }
+            }
+        }
+
+        .cards {
+            margin-top: 50px;
+        }
+
+        .card {
+            @include border-radius();
+            border: 1px solid rgba($grey-blue, 0.3);
+            padding: 60px 40px;
+            text-align: center;
+
+            p {
+                opacity: 1;
+            }
+
+            img {
+                height: 60px;
+                margin-bottom: 40px;
+            }
+        }
+    }
+}
+
+footer {
+    background: url("../images/bg-hero.png") no-repeat right -200px;
+
+    .col {
+        text-align: center;
+    }
+
+    .left {
+        a {
+            text-decoration: none;
+            color: $white;
+            padding: 15px 0 15px 65px;
+            background: url("../images/icon-discord.svg") no-repeat left center;
+        }
+    }
+
+    .logo {
+        h2 {
+            margin: 0;
+        }
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+
+        span {
+            display: block;
+            font-weight: bold;
+            letter-spacing: -1px;
+            margin-top: -30px;
+        }
+    }
+
+    .right {
+        span {
+            padding: 15px 0 15px 65px;
+            background: url("../images/icon-mail.svg") no-repeat left center;
+            display: inline-block;
+        }
+    }
+}
+
+@media screen and (max-width: $max-breakpoint-mobile) {
+    @import 'front-xs';
+}
+
+@media screen and (min-width: $min-breakpoint-tablet) {
+    @import 'front-sm';
+}
+
+@media screen and (min-width: $min-breakpoint-mobile){
+    @import 'front-md';
+}
+
+@media screen and (min-width: $min-breakpoint-desktop){
+    @import 'front-lg';
+}

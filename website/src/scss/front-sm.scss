@@ -1,0 +1,120 @@
+@import '_variables';
+@import 'core/_mixins';
+
+header {
+	padding-top: 15px;
+
+	.logo {
+		span {
+			font-size: 24px;
+		}
+	}
+
+	nav {
+		li {
+            &:not(:last-child) {
+                margin-right: 40px;
+            }
+
+			a {
+				&:hover {
+					color: $green;
+
+					img {
+						opacity: 0.6;
+					}
+				}
+			}
+		}
+	}
+}
+
+main {
+    h1 {
+        font-size: 40px;
+    }
+
+    h2 {
+        font-size: 35px;
+    }
+
+	.hero {
+		margin-top: 18vh;
+
+        &::after {
+            content: '';
+            background: $white;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            position: absolute;
+            z-index: -1;
+            height: 80px;
+        }
+
+		.row:nth-child(1) {
+			margin-bottom: 200px;
+		}
+
+		.schema {
+			font-size: 1em;
+		}
+	}
+
+    #project {
+        padding: 150px 0;
+    }
+}
+
+footer {
+    padding: 200px 0;
+
+    .left,
+    .right {
+        a, span {
+            font-size: 18px;
+        }
+    }
+
+    .left {
+        a {
+            transition: all 300ms ease-in-out;
+
+            &:hover {
+                color: $green;
+            }
+        }
+    }
+
+    .logo {
+        h2 {
+            font-size: 35px;
+        }
+
+        img {
+            width: 200px;
+        }
+
+        span {
+            font-size: 22px;
+        }
+    }
+}
+
+html.js {
+    .animation {
+        @supports not (-ms-high-contrast: none) {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        @media (prefers-reduced-motion: no-preference) {
+            &.animated {
+                animation-name: fade-in-bottom;
+                animation-duration: 1s;
+                animation-timing-function: ease-in-out;
+                animation-fill-mode: forwards;
+            }
+        }
+    }
+}
