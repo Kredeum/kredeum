@@ -1,0 +1,67 @@
+@import '_variables';
+
+header {
+	padding-top: 15px;
+	
+	.logo {
+		img {
+			width: 80px;
+		}
+		
+		span {
+			font-size: 24px;
+		}
+	}
+	
+	nav {
+		li {
+			display: inline-block;
+			vertical-align: middle;
+			
+			&:not(:last-child) {
+				margin-right: 40px;
+			}
+			
+			a {
+				color: $white;
+				font-weight: bold;
+				text-decoration: none;
+				transition: all 300ms ease-in-out;
+				
+				img {
+					transition: all 300ms ease-in-out;
+				}
+				
+				&:hover {
+					color: $green;
+					
+					img {
+						opacity: 0.6;
+					}
+				}
+			}
+		}
+	}
+}
+
+main {
+	.hero {
+		margin-top: 200px;
+		
+		h1 {
+			font-size: 40px;
+		}
+		
+		h2 {
+			font-size: 35px;
+		}
+		
+		.row:nth-child(1) {
+			margin-bottom: 150px;
+		}
+		
+		.schema {
+			font-size: 1em;
+		}
+	}
+}

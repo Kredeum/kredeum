@@ -1,0 +1,45 @@
+@at-root {
+  @-ms-viewport {
+    width: device-width;
+  }
+}
+
+// For desktops
+@include responsive-invisibility('.visible-xs');
+@include responsive-invisibility('.visible-sm');
+@include responsive-invisibility('.visible-md');
+@include responsive-invisibility('.visible-lg');
+
+
+@media (max-width: $max-breakpoint-mobile) {
+    @include responsive-visibility('.visible-xs');
+}
+
+@media (min-width: $min-breakpoint-tablet) {
+    @include responsive-visibility('.visible-sm');
+}
+
+@media (min-width: $min-breakpoint-mobile){
+    @include responsive-visibility('.visible-md');
+}
+
+@media (min-width: $min-breakpoint-desktop){
+    @include responsive-visibility('.visible-lg');
+}
+
+
+@media (max-width: $max-breakpoint-mobile) {
+    @include responsive-invisibility('.hidden-xs');
+}
+
+@media (min-width: $min-breakpoint-tablet) {
+    @include responsive-invisibility('.hidden-sm');
+}
+
+@media (min-width: $min-breakpoint-mobile) {
+    @include responsive-invisibility('.hidden-md');
+}
+
+@media (min-width: $min-breakpoint-desktop) {
+    @include responsive-invisibility('.hidden-lg');
+}
