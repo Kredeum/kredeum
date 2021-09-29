@@ -56,7 +56,7 @@
                         <div class="col col-xs-12 col-sm-3">
                             <h1>My NFT wallet</h1>
                         </div>
-                        <div class="col col-sm-7">
+                        <div class="col col-sm-6">
                             <select>
                                 <option selected value="0">All collections</option>
                                 <option value="1">Collection 1</option>
@@ -64,7 +64,7 @@
                                 <option value="3">Collection 3</option>
                             </select>
                         </div>
-                        <div class="col col-sm-2 txtright"><a href="#create" class="btn btn-light" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a></div>
+                        <div class="col col-sm-3 txtright"><a href="#create" class="btn btn-light" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a></div>
                     </div>
                 </header>
 
@@ -152,7 +152,7 @@
                                     </div>
                                 </div>
 
-                                <div class="table-row table-drop closed">
+                                <div id="table-drop-1" class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-photo"><img src="https://picsum.photos/40" /></div></div>
                                     <div class="table-col"><strong>Photo</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -160,12 +160,12 @@
                                     <div class="table-col"><span class="tag tag-bsc">Bsc</span></div>
                                     <div class="table-col"><span class="tag tag-marketplace">Opensea</span></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
 
                                     <div class="detail">test</div>
                                 </div>
 
-                                <div class="table-row table-drop closed">
+                                <div id="table-drop-2" class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-video"><i class="fas fa-play"></i></div></div>
                                     <div class="table-col"><strong>Video</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -173,10 +173,10 @@
                                     <div class="table-col"></div>
                                     <div class="table-col"></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
                                 </div>
 
-                                <div class="table-row table-drop closed">
+                                <div id="table-drop-3" class="table-row table-drop closed">
                                     <div class="table-col"><div class="media media-song"><i class="fas fa-music"></i></div></div>
                                     <div class="table-col"><strong>Song</strong></div>
                                     <div class="table-col light">10/02/21</div>
@@ -184,7 +184,7 @@
                                     <div class="table-col"><span class="tag tag-polygon">Polygon</span></div>
                                     <div class="table-col"></div>
                                     <div class="table-col"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
-                                    <div class="table-col more"><div class=""><i class="fas fa-chevron-down"></i></div></div>
+                                    <div class="table-col more"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
                                 </div>
                             </div>
                         </div>
@@ -230,20 +230,20 @@
                             <div class="section">
                                 <span class="label label-big">Media type</span>
                                 <div class="box-fields">
-                                    <input class="box-field" id="video" name="media-type" type="checkbox" value="Video">
-                                    <label class="field" for="video"><i class="fas fa-play"></i>Video</label>
+                                    <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video">
+                                    <label class="field" for="create-type-video"><i class="fas fa-play"></i>Video</label>
 
-                                    <input class="box-field" id="picture" name="media-type" type="checkbox" value="Picture">
-                                    <label class="field" for="picture"><i class="fas fa-image"></i>Picture</label>
+                                    <input class="box-field" id="create-type-picture" name="media-type" type="checkbox" value="Picture">
+                                    <label class="field" for="create-type-picture"><i class="fas fa-image"></i>Picture</label>
 
-                                    <input class="box-field" id="texte" name="media-type" type="checkbox" value="Texte">
-                                    <label class="field" for="texte"><i class="fas fa-file-alt"></i>Texte</label>
+                                    <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte">
+                                    <label class="field" for="create-type-texte"><i class="fas fa-file-alt"></i>Texte</label>
 
-                                    <input class="box-field" id="music" name="media-type" type="checkbox" value="Music">
-                                    <label class="field" for="music"><i class="fas fa-music"></i>Music</label>
+                                    <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music">
+                                    <label class="field" for="create-type-music"><i class="fas fa-music"></i>Music</label>
 
-                                    <input class="box-field" id="web" name="media-type" type="checkbox" value="Web">
-                                    <label class="field" for="web"><i class="fas fa-code"></i>Web</label>
+                                    <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web">
+                                    <label class="field" for="create-type-web"><i class="fas fa-code"></i>Web</label>
                                 </div>
                             </div>
 
@@ -304,9 +304,21 @@
 
                 function toggleItem() {
                     var itemClass = this.parentNode.className;
+                    var detail = this.parentNode.getElementsByClassName('detail')[0].offsetHeight;
+                    var heightEl = detail + 70;
+                    var tableDrop = this.parentNode.getAttribute('id');
+
+                    /*for (i = 0; i < accItem.length; i++) {
+                        accItem[i].className = "table-row table-drop closed";
+                    }*/
+
+                    this.parentNode.className = "table-row table-drop closed";
 
                     if (itemClass == "table-row table-drop closed") {
                         this.parentNode.className = "table-row table-drop";
+                        document.getElementById(tableDrop).style.height = heightEl + "px";
+                    } else {
+                        document.getElementById(tableDrop).style.height = "auto";
                     }
                 }
             })();

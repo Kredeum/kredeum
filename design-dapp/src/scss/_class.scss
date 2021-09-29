@@ -334,7 +334,7 @@ select {
 
     .table-col:not(.table-col-full) {
         display: table-cell;
-        vertical-align: middle;
+        vertical-align: top;
         text-overflow: ellipsis;
         white-space: nowrap;
         overflow: hidden;

@@ -128,7 +128,7 @@ main {
                 }
             }
 
-            .more {
+            .more-button {
                 width: 40px;
                 height: 40px;
                 line-height: 40px;
@@ -142,15 +142,20 @@ main {
                 }
             }
 
+            .table-drop {
+                position: relative;
+            }
+
             .detail {
-                height: 100px;
                 position: absolute;
                 left: 0;
+                right: 0;
                 opacity: 1;
+                padding: 15px;
+                top: 70px;
             }
 
             .closed .detail {
-                height: 0;
                 overflow: hidden;
                 opacity: 0;
             }
