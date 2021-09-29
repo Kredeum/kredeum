@@ -1,0 +1,10 @@
+#!/bin/zsh
+
+# stop nginx
+nginx -s stop
+
+# generate certificate
+certbot certonly --standalone --agree-tos --preferred-challenges http -d kredeum.tech
+
+# start nginx
+nginx
