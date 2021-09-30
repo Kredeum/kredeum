@@ -23,6 +23,7 @@
   let refreshingContracts: boolean;
   let cloning: boolean = false;
   let collection: string;
+  let collectionName: string;
   let nftImport: number;
   let NFTs: Array<NftData>;
   let NFTsContracts: Array<Contract>;
@@ -118,7 +119,7 @@
     if (signer) {
       cloning = true;
 
-      collection = await Clone(chainId, address, signer);
+      collection = await Clone(chainId, address, collectionName, signer);
       contract = collection;
 
       dispatch("collection", { collection });
@@ -169,6 +170,7 @@
     Creating collection... sign the transaction and wait till completed, it may takes one minute or
     more.
   {:else}
+    <input bind:value="{collectionName}" placeholder="Collection name" />
     <button on:click="{createCollection}">Create Collection</button>
   {/if}
 

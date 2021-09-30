@@ -230,7 +230,12 @@ function listContractsFromCache(chainId: number) {
   return contracts;
 }
 
-async function Clone(chainId: number, _contract: string, _cloner: Signer): Promise<string> {
+async function Clone(
+  chainId: number,
+  _contract: string,
+  _name: string,
+  _cloner: Signer
+): Promise<string> {
   const cloner = await _cloner.getAddress();
   // console.log("Clone", chainId, _contract, cloner);
 
@@ -241,9 +246,11 @@ async function Clone(chainId: number, _contract: string, _cloner: Signer): Promi
 
   if (nftsFactory) {
     const cost = await nftsFactory.cloneCost();
+    const n = await nftsFactory.implementationsCount();
+    const name = _name || `Open NFTs #${n}`;
     // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-    const tx1 = await nftsFactory.clone("Open NFTs", "NFT", { value: cost });
+    const tx1 = await nftsFactory.clone(name, `NFT${n}`, { value: cost });
     console.log(`${network.blockExplorerUrls[0]}/tx/` + tx1.hash);
 
     const res = await tx1.wait();
