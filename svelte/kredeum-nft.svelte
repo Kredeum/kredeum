@@ -174,22 +174,36 @@
     <button on:click="{createCollection}">Create Collection</button>
   {/if}
 
-  <h3>
-    {#if NFTsContracts?.length > 0}
-      <select bind:value="{contract}">
-        <option value="">Choose Collection</option>
-        {#each NFTsContracts as NFTsContract}
-          <option value="{utils.getAddress(NFTsContract.address)}">
-            {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
-            {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
-            {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
-          </option>
-        {/each}
-      </select>
-    {:else}
-      <p><em>NO Collection found !</em></p>
-    {/if}
-  </h3>
+  <header>
+    <div class="row aligncenter">
+      <div class="col col-xs-12 col-sm-3">
+        <h1>My NFT wallet</h1>
+      </div>
+      <div class="col col-sm-6">
+        {#if NFTsContracts?.length > 0}
+          <select bind:value="{contract}">
+            <!-- <option value="">Choose Collection</option> -->
+            <option selected value="0">All collections</option>
+            {#each NFTsContracts as NFTsContract}
+              <option value="{utils.getAddress(NFTsContract.address)}">
+                {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
+                {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
+                {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
+              </option>
+            {/each}
+          </select>
+        {:else}
+          <p><em>NO Collection found !</em></p>
+        {/if}
+      </div>
+      <div class="col col-sm-3 txtright">
+        <a href="#create" class="btn btn-light" title="Create"
+          ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
+        >
+      </div>
+    </div>
+  </header>
+
   {#if refreshingContracts} Refreshing Collections... {/if}
 
   {#key address && refreshingNFTs}

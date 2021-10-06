@@ -48,5 +48,6 @@
   "search.exclude": {
     "**/lib/js": true
   },
-  "workbench.editor.decorations.colors": false
+  "workbench.editor.decorations.colors": false,
+  "liveServer.settings.ignoreFiles": [".vscode/**", "**/*.scss", "**/*.sass", "**/*.ts"]
 }
