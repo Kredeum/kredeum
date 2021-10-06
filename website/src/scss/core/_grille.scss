@@ -1,0 +1,237 @@
+@import '_variables';
+
+
+// Navbar collapse
+//** Point at which the navbar becomes uncollapsed.
+$grid-float-breakpoint:     $min-breakpoint-desktop !default;
+//** Point at which the navbar begins collapsing.
+$grid-float-breakpoint-max: ($grid-float-breakpoint - 1) !default;
+
+
+@mixin container-fixed($gutter: $grid-gutter-width) {
+    @include clearfix;
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        padding-left:  floor(($gutter / 4));
+        padding-right: ceil(($gutter / 4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        padding-left:  floor(($gutter / 2));
+        padding-right: ceil(($gutter / 2));
+    }
+}
+
+.container {
+    @include container-fixed;
+    max-width: ($width-container + $grid-gutter-width);
+    margin: 0 auto;
+    width: 100%;
+}
+
+.container-fluid {
+    @include container-fixed;
+    margin: 0 auto;
+    width: 100%;
+}
+
+.col {
+    flex: 1 0 0%;
+    position: relative;
+    min-height: 1px;
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        padding-left:  ceil(($grid-gutter-width / 4));
+        padding-right: floor(($grid-gutter-width / 4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        padding-left:  ceil(($grid-gutter-width / 2));
+        padding-right: floor(($grid-gutter-width / 2));
+    }
+}
+
+//row
+@mixin make-row($gutter: $grid-gutter-width) {
+    @include clearfix;
+    display: flex;
+    flex-wrap: wrap;
+
+    @media screen and (max-width: $max-breakpoint-mobile) {
+        margin-left:  floor(($gutter / -4));
+        margin-right: ceil(($gutter / -4));
+    }
+
+    @media screen and (min-width: $min-breakpoint-tablet) {
+        margin-left:  floor(($gutter / -2));
+        margin-right: ceil(($gutter / -2));
+    }
+}
+
+// Generate the extra small columns
+@mixin make-xs-column($columns, $gutter: $grid-gutter-width) {
+    width: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-column-offset($columns) {
+    margin-left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-column-push($columns) {
+    left: percentage(($columns / $grid-columns));
+}
+@mixin make-xs-column-pull($columns) {
+    right: percentage(($columns / $grid-columns));
+}
+
+// Generate the medium columns
+@mixin make-sm-column($columns, $gutter: $grid-gutter-width) {
+    width: percentage(($columns / $grid-columns));
+}
+@mixin make-sm-column-offset($columns) {
+    @media (min-width: $min-breakpoint-mobile) {
+        margin-left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-sm-column-push($columns) {
+    @media (min-width: $min-breakpoint-mobile) {
+        left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-sm-column-pull($columns) {
+    @media (min-width: $min-breakpoint-mobile) {
+        right: percentage(($columns / $grid-columns));
+    }
+}
+
+// Generate the large columns
+@mixin make-md-column($columns, $gutter: $grid-gutter-width) {
+    width: percentage(($columns / $grid-columns));
+}
+@mixin make-md-column-offset($columns) {
+    @media (min-width: $min-breakpoint-tablet) {
+        margin-left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-md-column-push($columns) {
+    @media (min-width: $min-breakpoint-tablet) {
+        left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-md-column-pull($columns) {
+    @media (min-width: $min-breakpoint-tablet) {
+        right: percentage(($columns / $grid-columns));
+    }
+}
+
+// Generate the x-large columns
+@mixin make-lg-column($columns, $gutter: $grid-gutter-width) {
+    width: percentage(($columns / $grid-columns));
+}
+@mixin make-lg-column-offset($columns) {
+    @media (min-width: $min-breakpoint-desktop) {
+        margin-left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-lg-column-push($columns) {
+    @media (min-width: $min-breakpoint-desktop) {
+        left: percentage(($columns / $grid-columns));
+    }
+}
+@mixin make-lg-column-pull($columns) {
+    @media (min-width: $min-breakpoint-desktop) {
+        right: percentage(($columns / $grid-columns));
+    }
+}
+
+//colones
+@mixin make-grid-columns($i: 1, $list: ".col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}") {
+    @for $i from (1 + 1) through $grid-columns {
+        $list: "#{$list}, .col-xs-#{$i}, .col-sm-#{$i}, .col-md-#{$i}, .col-lg-#{$i}";
+    }
+    #{$list} {
+        flex: 1 0 0%;
+        position: relative;
+        min-height: 1px;
+    }
+}
+
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin float-grid-columns($class, $i: 1, $list: ".col-#{$class}-#{$i}") {
+    @for $i from (1 + 1) through $grid-columns {
+        $list: "#{$list}, .col-#{$class}-#{$i}";
+    }
+}
+
+
+@mixin calc-grid-column($index, $class, $type) {
+    @if ($type == width) and ($index > 0) {
+        .col-#{$class}-#{$index} {
+          width: percentage(($index / $grid-columns));
+          flex: 0 0 auto;
+        }
+    }
+    @if ($type == push) and ($index > 0) {
+        .col-#{$class}-push-#{$index} {
+          left: percentage(($index / $grid-columns));
+        }
+    }
+    @if ($type == push) and ($index == 0) {
+        .col-#{$class}-push-0 {
+          left: auto;
+        }
+    }
+    @if ($type == pull) and ($index > 0) {
+        .col-#{$class}-pull-#{$index} {
+          right: percentage(($index / $grid-columns));
+        }
+    }
+    @if ($type == pull) and ($index == 0) {
+        .col-#{$class}-pull-0 {
+          right: auto;
+        }
+    }
+    @if ($type == offset) {
+        .col-#{$class}-offset-#{$index} {
+          margin-left: percentage(($index / $grid-columns));
+        }
+    }
+}
+
+// [converter] This is defined recursively in LESS, but Sass supports real loops
+@mixin loop-grid-columns($columns, $class, $type) {
+    @for $i from 0 through $columns {
+        @include calc-grid-column($i, $class, $type);
+    }
+}
+
+
+// Create grid for specific class
+@mixin make-grid($class) {
+    @include float-grid-columns($class);
+    @include loop-grid-columns($grid-columns, $class, width);
+    @include loop-grid-columns($grid-columns, $class, pull);
+    @include loop-grid-columns($grid-columns, $class, push);
+    @include loop-grid-columns($grid-columns, $class, offset);
+}
+
+.row {
+    @include make-row;
+}
+
+@include make-grid-columns;
+
+@media screen and (max-width: $max-breakpoint-mobile) {
+	@include make-grid(xs);
+}
+
+@media screen and (min-width: $min-breakpoint-tablet) {
+	@include make-grid(sm);
+}
+
+@media screen and (min-width: $min-breakpoint-mobile) {
+    @include make-grid(md);
+}
+
+@media screen and (min-width: $min-breakpoint-desktop) {
+    @include make-grid(lg);
+}

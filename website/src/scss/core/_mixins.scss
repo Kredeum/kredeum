@@ -1,0 +1,54 @@
+@mixin clearfix() {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+// pour les hide et show selon les breakpoints
+@mixin responsive-visibility($parent) {
+  #{$parent} {
+    display: block !important;
+  }
+  table#{$parent}  { display: table !important; }
+  tr#{$parent}     { display: table-row !important; }
+  th#{$parent},
+  td#{$parent}     { display: table-cell !important; }
+}
+
+// [converter] $parent hack
+@mixin responsive-invisibility($parent) {
+  #{$parent} {
+    display: none !important;
+  }
+}
+
+//column
+@mixin column-count($column-count) {
+    -moz-column-count: $column-count;
+    -webkit-column-count: $column-count;
+    column-count: $column-count;
+}
+
+// column_gap
+@mixin column-gap($column-gap) {
+    -moz-column-gap: $column-gap;
+    -webkit-column-gap: $column-gap;
+    column-gap: $column-gap;
+}
+
+@mixin border-radius {
+  border-radius: 10px;
+}
+
+@mixin base {
+    transition: all 300ms ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+@mixin anim {
+    opacity: 0;
+    animation: fade-in-bottom 300ms ease-in forwards;
+}

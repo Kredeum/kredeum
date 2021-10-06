@@ -1,0 +1,134 @@
+//
+// utilitaires
+//
+
+.clearfix {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.relative {
+	position: relative;
+}
+
+.txtright {
+    text-align: right;
+}
+
+.txtleft {
+    text-align: left;
+}
+
+.txtcenter {
+    text-align: center;
+}
+
+.aligncenter {
+    align-items: center;
+}
+
+.aligncentercontent {
+    justify-content: center;
+}
+
+.fa-left {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.c-green {
+    color: $green;
+}
+
+.label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba($couleur1, 0.4);
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+
+    &-big {
+        font-size: 12px;
+    }
+}
+
+select {
+    appearance: none;
+    min-width: 200px;
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    padding: 12px 50px 12px 25px;
+    background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+    color: $couleur1;
+    border-radius: 360px;
+    cursor: pointer;
+
+    &.custom {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+        @include border-radius();
+        width: 100%;
+        background-position: 95% 50%;
+        padding: 20px 50px 20px 15px;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+.btn {
+    text-decoration: none;
+    @include base;
+    padding: 15px 30px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+    font-weight: bold;
+
+    &-default {
+        background: $green;
+        color: $white;
+
+        &:hover {
+            background: darken($green, 10);
+        }
+    }
+
+    &-disabled {
+      color: currentColor;
+      cursor: not-allowed;
+      opacity: 0.5;
+      text-decoration: none;
+
+      background: rgba($grey-blue, 0.2);
+      color: $grey-blue;
+    }
+}
+
