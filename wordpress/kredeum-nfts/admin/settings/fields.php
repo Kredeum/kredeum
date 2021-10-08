@@ -19,7 +19,7 @@ function fields() {
 			'section' => 'first_section',
 			'type'    => 'select',
 			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-			'helper'  => __( 'Check to automaticaly push your new medias to IPFS on upload', 'kredeum-nfts' ),
+			'helper'  => __( 'Choose "yes" to automaticaly push your new medias to IPFS on upload', 'kredeum-nfts' ),
 		),
 		// array(
 		// 'uid'     => 'ipfs_cid_version',
@@ -46,16 +46,15 @@ function fields() {
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
 		// ), .
-	array(
-		'uid'         => 'ipfs_nft_storage_key',
-		'label'       => 'IPFS_NFT_STORAGE_KEY',
-		'section'     => 'first_section',
-		'type'        => 'textarea',
-		'placeholder' => 'NFT Storage key',
-		'default'     => '',
-		'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
-	),
-
+	  array(
+		  'uid'         => 'ipfs_nft_storage_key',
+		  'label'       => 'IPFS_NFT_STORAGE_KEY',
+		  'section'     => 'first_section',
+		  'type'        => 'textarea',
+		  'placeholder' => 'NFT Storage key',
+		  'default'     => '',
+		  'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
+	  ),
 		array(
 			'uid'         => 'default_collection',
 			'label'       => 'DEFAULT_COLLECTION',
@@ -63,9 +62,17 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Default Collection Address',
 			'default'     => '',
-			'helper'      => __( 'Caution Alpha Feature: leave field blank if you are not an advanced user !', 'kredeum-nfts' ),
+			'helper'      => __( 'Caution beta feature: leave field blank if you are not an advanced user !', 'kredeum-nfts' ),
 		),
-
+		array(
+			'uid'     => 'kredeum_beta',
+			'label'   => 'KREDEUM_BETA',
+			'default' => '0',
+			'section' => 'first_section',
+			'type'    => 'select',
+			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
+			'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
+		),
 		array(
 			'uid'         => null,
 			'label'       => 'METAMASK_ADDRESS',
@@ -74,6 +81,7 @@ function fields() {
 			'default'     => '',
 			'placeholder' => 'Connect to Metamask',
 		),
+
 	// array(
 	// 'uid' => 'ipfs_api',
 	// 'label' => 'IPFS_API',

@@ -94,7 +94,7 @@
     "chainName": "arbitrum",
     "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "AETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://explorer.arbitrum.io"],
+    "blockExplorerUrls": ["https://arbiscan.io/", "https://explorer.arbitrum.io"],
     "covalent": { "active": true },
     "type": "off"
   },
@@ -103,8 +103,9 @@
     "chainName": "arbitrumrinkeby",
     "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ARETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://rinkeby-explorer.arbitrum.io"],
-    "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
+    "blockExplorerUrls": ["https://testnet.arbiscan.io/", "https://rinkeby-explorer.arbitrum.io"],
+    "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "openNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "covalent": { "active": true },
     "type": "testnet"
   },

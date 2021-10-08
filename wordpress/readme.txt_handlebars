@@ -40,7 +40,11 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.8.0 (latest) =
+= 0.8.1 (latest) =
+* Deployment on Avalanche / AVAX
+* Beta setting allowing activation of beta features (2 in this version : import and personnalized collections)
+
+= 0.8.0 =
 * Personalized collections
 
 = 0.7.10 (stable) =

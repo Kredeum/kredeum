@@ -250,7 +250,7 @@
                 </td>
               {/if}
 
-              {#if platform}
+              {#if beta}
                 <td>
                   <button
                     url="{nft.image}"
