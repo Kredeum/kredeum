@@ -31,8 +31,8 @@
   let contractOld: string;
   let addressOld: string;
 
+  export const platform: string = undefined; // platform : WordPress or Dapp
   export let contract: string = undefined; // NFT smartcontract address
-  export let platform: string = undefined; // platform : WordPress or Dapp
   export let beta: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS, CONTRACT OR NETWORK CHANGE

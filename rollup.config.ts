@@ -12,17 +12,23 @@ import autoPreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
 
+if (!process.env.PROD) {
+  dotenv.config();
+}
+if (!process.env.INFURA_API_KEY) {
+  throw new Error("ENV variables not set!");
+}
+const production = process.env.PROD;
+
 const envKeys = () => {
-  const envRaw = dotenv.config().parsed || {};
-  return Object.keys(envRaw).reduce(
+  return Object.keys(process.env).reduce(
     (envValues, envValue) => ({
       ...envValues,
-      [`process.env.${envValue}`]: JSON.stringify(envRaw[envValue])
+      [`process.env.${envValue}`]: JSON.stringify(process.env[envValue])
     }),
     {}
   );
 };
-const production = process.env.PROD;
 
 const toRollupConfig = function (component) {
   return {
