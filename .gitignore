@@ -28,3 +28,4 @@ videos
 # IGNORE ASSETS GULP
 design-dapp/assets/*
 website/assets/*
+package-lock.json
