@@ -7,27 +7,26 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-function getNetwork(chainId: number | string): Network {
+function getNetwork(chainId: number | string): Network | undefined {
   return networksMap.get(Number(chainId));
 }
 
-const getProvider = function (chainId: number): Provider {
+const getProvider = function (chainId: number): Provider | undefined {
   let provider: Provider;
   const network = getNetwork(chainId);
+  console.log("getProvider", chainId, "=>", network);
 
-  if (network) {
-    const url = network.rpcUrls[0];
-    let apiKey = url.includes("infura.io")
-      ? process.env.INFURA_API_KEY
-      : url.includes("etherscan.io")
-      ? process.env.ETHERSCAN_API_KEY
-      : url.includes("maticvigil.com")
-      ? process.env.MATICVIGIL_API_KEY
-      : null;
-    apiKey = apiKey ? "/" + apiKey : "";
+  const url = network?.rpcUrls[0];
+  let apiKey = url?.includes("infura.io")
+    ? process.env.INFURA_API_KEY
+    : url?.includes("etherscan.io")
+    ? process.env.ETHERSCAN_API_KEY
+    : url?.includes("maticvigil.com")
+    ? process.env.MATICVIGIL_API_KEY
+    : null;
+  apiKey = apiKey ? "/" + apiKey : "";
+  provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
 
-    provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
-  }
   return provider;
 };
 

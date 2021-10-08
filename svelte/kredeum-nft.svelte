@@ -33,6 +33,7 @@
 
   export let contract: string = undefined; // NFT smartcontract address
   export let platform: string = undefined; // platform : WordPress or Dapp
+  export let beta: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS, CONTRACT OR NETWORK CHANGE
   $: if (address || contract || chainId) _listsUpdate();
@@ -41,7 +42,7 @@
     if (chainId && address) {
       network = getNetwork(chainId);
       if (network) {
-        // console.log("<kredeum-nft/> init", chainId, contract, address, network);
+        console.log("<kredeum-nft/> init", chainId, contract, address, network);
 
         openSea = network.openSea;
         explorer = network.blockExplorerUrls[0] || "";
@@ -141,7 +142,7 @@
       : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
 
   $: kreLink = () =>
-    explorer?.includes("chainstacklabs.com")
+    explorer?.includes("chainstacklabs.com") || explorer?.includes("cchain.explorer")
       ? `${explorer}/tokens/${contract}/inventory`
       : `${explorer}/token/${contract}#inventory`;
 
@@ -164,14 +165,16 @@
     My NFT Wallet
   </h1>
 
-  {#if collection}
-    Collection created: {collection}
-  {:else if cloning}
-    Creating collection... sign the transaction and wait till completed, it may takes one minute or
-    more.
-  {:else}
-    <input bind:value="{collectionName}" placeholder="Collection name" />
-    <button on:click="{createCollection}">Create Collection</button>
+  {#if beta}
+    {#if collection}
+      Collection created: {collection}
+    {:else if cloning}
+      Creating collection... sign the transaction and wait till completed, it may takes one minute
+      or more.
+    {:else}
+      <input bind:value="{collectionName}" placeholder="Collection name" />
+      <button on:click="{createCollection}">Create Collection</button>
+    {/if}
   {/if}
 
   <h3>
@@ -203,7 +206,7 @@
             {#if openSea}
               <th>MarketPlace</th>
             {/if}
-            {#if platform}
+            {#if beta}
               <th>Import</th>
             {/if}
             <th>Infos</th>

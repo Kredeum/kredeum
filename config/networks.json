@@ -20,7 +20,7 @@
     },
     "nftsFactory": "0x632Be7c4fC601314B821D301971ee3f1E49b9824",
     "openNFTs": "0x39F3Ad85CAbba0630E2875379c8334Ee3C5F87b2",
-    "costClone": "10",
+    "costClone": 10,
     "type": "mainnet"
   },
   {
@@ -39,7 +39,7 @@
     },
     "covalent": { "active": true },
     "eip1559": true,
-    "costClone": "0.01",
+    "costClone": 0.01,
     "type": "mainnet"
   },
   {
@@ -55,7 +55,7 @@
     "nftsFactory": "0xA622C7EDcbe09A3CeaED12Ede5100197396C6eC4",
     "openNFTs": "0x0ba91E7C517230C8fd56959c1c5EEeFEd3a7abbA",
     "eip1559": true,
-    "costClone": "0.01",
+    "costClone": 0.01,
     "type": "testnet"
   },
   {
@@ -67,7 +67,7 @@
     "covalent": { "active": false },
     "nftsFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
     "eip1559": true,
-    "costClone": "0.01",
+    "costClone": 0.01,
     "type": "testnet"
   },
   {
@@ -86,7 +86,7 @@
     "covalent": { "active": true },
     "nftsFactory": "0xD9eaC415409f4c80B52a237eE3275bc68497874F",
     "openNFTs": "0x94f842706ceb375BF0d2602E61D13D449c0e150f",
-    "costClone": "0.01",
+    "costClone": 0.01,
     "type": "testnet"
   },
   {
@@ -151,6 +151,8 @@
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
     "blockExplorerUrls": ["https://cchain.explorer.avax.network"],
     "covalent": { "active": true },
+    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
     "type": "mainnet"
   },
   {
@@ -160,6 +162,9 @@
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
     "blockExplorerUrls": ["https://cchain.explorer.avax-test.network"],
     "covalent": { "active": true },
+    "nftsFactory": "0xF6169393986b38e57D61187051c3F5B554796f83",
+    "openNFTs": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
+    "costClone": 0.2,
     "type": "testnet"
   },
   {
@@ -170,7 +175,7 @@
     "blockExplorerUrls": ["http://localhost/explorer"],
     "nftsFactory": "0x8521D459A41931b40D00Bc3Ea36c9E17A64c9042",
     "openNFTs": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
-    "costClone": "0.0001",
+    "costClone": 0.0001,
     "type": "testnet"
   }
 ]

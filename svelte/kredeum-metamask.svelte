@@ -5,6 +5,7 @@
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { getNetwork, networks } from "../lib/kconfig";
+  import { hexConcat } from "ethers/lib/utils";
 
   export let signer = undefined;
   export let address = undefined;
@@ -17,6 +18,10 @@
 
   let targetChain = false;
 
+  async function hex(ch) {
+    return `0x${ch.toString(16)}`;
+  }
+
   async function addEthereumChain() {
     // console.log("<kredeum-metamask/> addEthereumChain", chainId);
 
@@ -26,10 +31,10 @@
     targetChain = true;
 
     // no need to add default ethereum chain
-    if (chainId !== "0x1") {
-
+    if (chainId !== 1) {
       const _network = getNetwork(chainId);
       if (_network) {
+        _network.chainId = hex(chainId);
         for (const field in _network) {
           // EIP-3085 fields only or fails
           if (
@@ -75,7 +80,7 @@
     try {
       await ethereum.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: _chainId }]
+        params: [{ chainId: hex(_chainId) }]
       });
     } catch (switchError) {
       if (switchError.code === 4902) {

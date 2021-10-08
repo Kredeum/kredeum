@@ -1,22 +1,27 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import { networks, getNetwork } from "../../lib/kconfig";
+import { getNetwork } from "../../lib/kconfig";
 
 const deployNFTsFactoryFunction: DeployFunction = async function ({
   deployments,
   ethers,
   getChainId
 }) {
-  const deployer = await ethers.getNamedSigner("deployer");
+  const network = getNetwork(await getChainId());
+  if (network) {
+    const deployer = await ethers.getNamedSigner("deployer");
 
-  const costClone = ethers.utils.parseEther(`${getNetwork(await getChainId()).costClone}`);
-  const openNFTs = (await ethers.getContract("OpenNFTs")).address;
-  const contractProbe = (await ethers.getContract("ContractProbe")).address;
+    const costClone = ethers.utils.parseEther(`${network.costClone || 0}`);
+    const openNFTs = (await ethers.getContract("OpenNFTs")).address;
+    const contractProbe = (await ethers.getContract("ContractProbe")).address;
 
-  await deployments.deploy("NFTsFactory", {
-    from: deployer.address,
-    args: [costClone, openNFTs, contractProbe],
-    log: true
-  });
+    await deployments.deploy("NFTsFactory", {
+      from: deployer.address,
+      args: [costClone, openNFTs, contractProbe],
+      log: true
+    });
+  } else {
+    console.error("unkwown network");
+  }
 };
 deployNFTsFactoryFunction.tags = ["NFTsFactory"];
 deployNFTsFactoryFunction.dependencies = ["ContractProbe", "OpenNFTs"];
