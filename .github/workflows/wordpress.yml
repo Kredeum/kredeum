@@ -42,6 +42,13 @@ jobs:
 
       - name: Plugin Build
         run: pnpm run wp-build
+        env:
+          PROD: true
+          NODE_DEBUG: false
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+          ETHERSCAN_API_KEY: ${{ secrets.ETHERSCAN_API_KEY }}
+          MATICVIGIL_API_KEY: ${{ secrets.MATICVIGIL_API_KEY }}
+          COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
 
       - name: Plugin Check
         run: pnpm run wp-check
