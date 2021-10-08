@@ -177,7 +177,7 @@ async function listNFTsFromCovalent(
   if (network && _contract && _owner) {
     const match = `{contract_address:"${utils.getAddress(_contract)}"}`;
     const path =
-      `/${chainId}/address/${_owner}/balances_v2/` +
+      `/${Number(chainId)}/address/${_owner}/balances_v2/` +
       `?nft=true&no-nft-fetch=false` +
       // `&limit=${_limit}` + // not working with match...
       `&match=${encodeURIComponent(match)}`;

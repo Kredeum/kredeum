@@ -37,7 +37,7 @@ async function listContractsFromCovalent(
     const match = `{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}`;
 
     path =
-      `/${chainId}/address/${_owner}/balances_v2/` +
+      `/${Number(chainId)}/address/${_owner}/balances_v2/` +
       `?nft=true` +
       `&no-nft-fetch=false` +
       `&match=${encodeURIComponent(match)}`;

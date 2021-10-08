@@ -17,13 +17,10 @@ add_action(
 			'nfts',
 			function () {
 				wp_nonce_field( 'ajax-kredeum-nft', 'knonce' );
-				if ( KREDEUM_BETA ) {
-					$beta = ' beta="true"';
-				}
 					printf(
 						'<kredeum-nft'
 						. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'
-						. esc_attr( $beta )
+						. esc_attr( KREDEUM_BETA ? ' beta="true"' : '' )
 						// . ' platform="wordpress"'
 						. ' />'
 					);
