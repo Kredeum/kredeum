@@ -25,4 +25,6 @@ videos
 # MACOS
 .DS_Store
 
-/assets/*
+# IGNORE ASSETS GULP
+design-dapp/assets/*
+website/assets/*
