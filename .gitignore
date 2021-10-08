@@ -1,6 +1,6 @@
 # NPM
 node_modules
-.pnpm-debug.log 
+.pnpm-debug.log
 
 # SOLIDITY
 solidity/build
@@ -24,3 +24,5 @@ videos
 
 # MACOS
 .DS_Store
+
+/assets/*
