@@ -116,19 +116,33 @@ select {
         background: $green;
         color: $white;
 
-        &:hover {
-            background: darken($green, 10);
+        &:not(.btn-disabled-color) {
+           &:hover {
+               background: darken($green, 10);
+           }
+        }
+    }
+
+    &-disabled-color {
+        cursor: not-allowed;
+
+        span {
+            background: rgba($blue, 0.2);
+            font-size: 12px;
+            border-radius: 20px;
+            padding: 5px 15px;
+            display: inline-block;
+            margin-left: 10px;
         }
     }
 
     &-disabled {
-      color: currentColor;
-      cursor: not-allowed;
-      opacity: 0.5;
-      text-decoration: none;
+        cursor: not-allowed;
+        opacity: 0.5;
+        text-decoration: none;
 
-      background: rgba($grey-blue, 0.2);
-      color: $grey-blue;
+        background: rgba($grey-blue, 0.2);
+        color: $grey-blue;
     }
 }
 

@@ -39,21 +39,14 @@ main {
     }
 
 	.hero {
-		margin-top: 18vh;
-
-        &::after {
-            content: '';
-            background: $white;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            position: absolute;
-            z-index: -1;
-            height: 80px;
+        .hero-top {
+            .col:nth-child(2) {
+                margin-bottom: 40px;
+            }
         }
 
 		.row:nth-child(1) {
-			margin-bottom: 200px;
+			margin-bottom: 100px;
 		}
 
 		.schema {

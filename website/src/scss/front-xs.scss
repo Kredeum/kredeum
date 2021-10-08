@@ -25,11 +25,73 @@ main {
         font-size: 25px;
     }
 
+    .row {
+        .col:not(:last-child) {
+            margin-bottom: 30px;
+        }
+    }
+
     .hero {
         margin-top: 50px;
+        padding-bottom: 50px;
+
+        .hero-top {
+            text-align: center;
+
+            .col:nth-child(1) {
+                order: 2;
+            }
+
+            .col:nth-child(2) {
+                order: 1;
+            }
+        }
+
+        .row:nth-child(1) {
+            margin-bottom: 50px;
+        }
 
         .schema {
             font-size: 0.6em;
+            margin: 20px 0 70px 0;
         }
+    }
+
+    #project {
+        padding: 40px 0;
+
+        .list {
+            .col {
+                background-position: 20px top !important;
+            }
+        }
+    }
+}
+
+footer {
+    padding: 100px 0;
+
+    .logo {
+        order: 1;
+
+        img {
+            width: 180px;
+        }
+
+        span {
+            font-size: 25px;
+        }
+    }
+
+    .left {
+        order: 2;
+    }
+
+    .right {
+        order: 3;
+    }
+
+    .col:not(:last-child) {
+        margin-bottom: 50px;
     }
 }
