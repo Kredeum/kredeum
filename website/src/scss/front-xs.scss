@@ -1,6 +1,8 @@
 @import '_variables';
 
 header {
+    padding-top: 20px;
+
     .logo {
         span {
             font-size: 20px;
@@ -75,7 +77,7 @@ footer {
         order: 1;
 
         img {
-            width: 180px;
+            width: 90px;
         }
 
         span {

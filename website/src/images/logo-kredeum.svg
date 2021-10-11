@@ -1,20 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="104px" height="106px" viewBox="0 0 104 106" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>Picto</title>
+<svg width="127px" height="147px" viewBox="0 0 127 147" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>Group 7</title>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Kredeum_dapp_home" transform="translate(-13.000000, -12.000000)">
-            <g id="Picto" transform="translate(14.845778, 14.000000)">
-                <g id="hexagon" transform="translate(50.154222, 51.000000) rotate(30.000000) translate(-50.154222, -51.000000) translate(14.284561, 12.819631)">
-                    <polygon id="Path-2" stroke="#2E80DD" fill="#2E80DD" transform="translate(39.374122, 45.193097) rotate(-30.000000) translate(-39.374122, -45.193097) " points="14.6159447 23.5743581 14.4835936 52.1603598 39.7025346 66.8118365 64.2646498 52.4209619 60.002399 49.9447172 39.8118716 61.6528868 18.8755441 49.4582057 18.8979032 26.0632717"></polygon>
-                    <polygon id="Path-2" stroke="#3ACF6E" fill="#3ACF6E" transform="translate(32.365199, 31.167641) scale(-1, -1) rotate(-30.000000) translate(-32.365199, -31.167641) " points="7.60702221 9.54890218 7.47467115 38.1349039 32.6936121 52.7863806 57.2557273 38.395506 52.9934765 35.9192613 32.8029491 47.6274309 11.8666216 35.4327497 11.8889807 12.0378158"></polygon>
-                </g>
-                <g id="KK" transform="translate(35.062907, 36.342310)" fill="#FFFFFF" fill-rule="nonzero">
-                    <polygon id="k" points="17.445718 26.3236191 17.4233697 20.6365105 28.9551429 7.0938005 23.4239145 7.0938005 17.4233697 15.1719082 17.4233697 0 12.5290705 0 12.5514189 26.3236191"></polygon>
-                    <polygon id="k" points="20.7421067 19.8388823 24.1353385 24.437973 29.9682703 24.437973 24.1353385 16.2016161"></polygon>
-                    <polygon id="k" transform="translate(4.613082, 20.319795) scale(-1, 1) translate(-4.613082, -20.319795) " points="0 19.8388823 3.39323174 24.437973 9.22616357 24.437973 3.39323174 16.2016161"></polygon>
-                    <polygon id="k" transform="translate(9.135839, 13.161810) scale(-1, 1) translate(-9.135839, -13.161810) " points="5.77240492 26.3236191 5.86179851 20.6365105 17.3935718 7.0938005 11.8623433 7.0938005 5.86179851 15.1719082 5.86179851 0 0.967499389 0 0.878105798 26.3236191"></polygon>
-                </g>
-            </g>
+        <g id="Group-7">
+            <polygon id="Fill-1" fill="#FFFFFF" points="57.6414 40.6989 57.6914 99.8529 68.6904 99.8529 68.6404 87.0729 94.5544 56.6409 82.1244 56.6409 68.6404 74.7939 68.6404 40.6989"></polygon>
+            <polygon id="Fill-2" fill="#FFFFFF" points="76.0977 85.2813 83.7237 95.6163 96.8307 95.6163 83.7237 77.1073"></polygon>
+            <polygon id="Fill-3" fill="#FFFFFF" points="29.4858 95.616 42.5948 95.616 50.2188 85.281 42.5948 77.107"></polygon>
+            <polygon id="Fill-4" fill="#FFFFFF" points="57.3741 40.6989 57.3741 74.7939 43.8891 56.6409 31.4591 56.6409 57.3741 87.0729 57.5751 99.8529 68.5731 99.8529 68.3721 40.6989"></polygon>
+            <polygon id="Fill-5" fill="#3ACF6E" points="63.216 0 0.307 36.321 14.674 44.617 63.159 16.624 111.644 44.617 111.644 100.602 126.126 108.963 126.126 36.321"></polygon>
+            <polygon id="Fill-6" fill="#2E80DD" points="0 110.3625 62.91 146.6835 125.819 110.3625 111.337 102.0015 62.853 129.9945 14.368 102.0015 14.368 46.0165 0 37.7205"></polygon>
         </g>
     </g>
 </svg>

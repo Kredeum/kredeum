@@ -23,10 +23,8 @@ header {
     width: 100%;
 
     .logo {
-        margin-left: -20px;
-
         img {
-            width: 80px;
+            width: 45px;
         }
 
         img, span {
@@ -37,7 +35,6 @@ header {
         span {
             font-weight: bold;
             letter-spacing: -1px;
-            margin-left: -15px;
         }
     }
 
@@ -111,6 +108,10 @@ main {
                 opacity: 0;
                 animation: animFade 300ms ease-in forwards;
                 animation-delay: 2000ms;
+
+                img {
+                    width: 40%;
+                }
 
                 &::after {
                     content: '';
@@ -282,7 +283,7 @@ main {
 
             img {
                 height: 60px;
-                margin-bottom: 40px;
+                margin-bottom: 10px;
             }
         }
     }
@@ -311,14 +312,13 @@ footer {
 
         img {
             display: block;
-            margin: 0 auto;
+            margin: 20px auto 10px auto;
         }
 
         span {
             display: block;
             font-weight: bold;
             letter-spacing: -1px;
-            margin-top: -30px;
         }
     }
 
