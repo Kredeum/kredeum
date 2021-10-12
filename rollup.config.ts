@@ -32,13 +32,15 @@ const envKeys = () => {
 
 const toRollupConfig = function (component) {
   return {
-    input: `svelte/${component}.svelte`,
+    // input: `svelte/${component}.svelte`,
+    input: `svelte/main.js`,
     output: [
       {
         sourcemap: !production,
         format: "iife",
         name: component.replace(/-/g, "_"),
-        file: `app/build/${component}.js`
+        // file: `app/build/${component}.js`
+        file: `app/build/bundle.js`
       },
       {
         sourcemap: !production,
@@ -51,10 +53,11 @@ const toRollupConfig = function (component) {
       svelte({
         preprocess: [autoPreprocess({})],
         compilerOptions: {
-          customElement: true,
+          // customElement: true,
           dev: !production
         }
       }),
+      css({ output: "bundle.css" }),
       replace({
         preventAssignment: true,
         values: envKeys()
@@ -66,7 +69,6 @@ const toRollupConfig = function (component) {
         preferBuiltins: false
       }),
       builtins(),
-      css(),
       json(),
       commonjs(),
       production && terser()

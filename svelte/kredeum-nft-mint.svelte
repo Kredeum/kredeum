@@ -1,5 +1,3 @@
-<svelte:options tag="kredeum-nft-mint" />
-
 <script>
   import { Mint } from "../lib/open-nfts";
   import NftStorage from "../lib/nft-storage";

@@ -1,5 +1,3 @@
-<svelte:options tag="kredeum-metamask" />
-
 <script>
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";

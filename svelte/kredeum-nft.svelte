@@ -1,5 +1,3 @@
-<svelte:options tag="kredeum-nft" />
-
 <script lang="ts">
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumNftMint from "./kredeum-nft-mint.svelte";
