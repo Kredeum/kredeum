@@ -83,22 +83,30 @@
 </script>
 
 <main>
+  IMAGE
   {#if display && src}
     <img src="{src}" alt="{alt}" width="{width}" /><br />
   {/if}
 
   {#if address}
     {#if minted}
-      <a href="{`${openSea?.assets}/${minted.contract}/${minted.tokenID}`}">
-        <button class="sell">SELL NFT</button>
-      </a>
+      <a
+        href="{`${openSea?.assets}/${minted.contract}/${minted.tokenID}`}"
+        class="btn btn-small btn-sell"
+        title="Sell">SELL NFT</a
+      >
+
       <!-- </a> -->
     {:else if minting}
       <button id="mint-button" class="minting">MINTING...</button>
     {:else if !network}
       <button id="mint-button" class="switch">No network</button>
     {:else}
-      <button id="mint-button-{pid}" on:click="{nftMint}" class="mint-button mint">MINT NFT</button>
+      <!-- <a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a> -->
+
+      <button id="mint-button-{pid}" on:click="{nftMint}" class="btn btn-small btn-mint">
+        MINT NFT
+      </button>
     {/if}
 
     {#if display}
@@ -113,33 +121,18 @@
       <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
     </small>
   {/if}
-</main>
 
-<style>
-  button {
-    color: white;
-    background-color: #2a81de;
-    border: 0px;
-    margin: 10px;
-  }
-  button:hover {
-    cursor: pointer;
-  }
-  button.switch {
-    background-color: grey;
-  }
-  button.mint:hover {
-    background-color: black;
-    cursor: pointer;
-  }
-  button.mint {
-    background-color: #2a81de;
-  }
-  button.minting {
-    color: black;
-    background-color: grey;
-  }
-  button.sell {
-    background-color: #36d06f;
-  }
-</style>
+  <div class="box-section">
+    <span class="label label-big">Statut</span>
+    <div class="box-fields">
+      <input class="box-field" id="mint" name="statut" type="checkbox" value="Mint" />
+      <label class="field" for="mint">Mint</label>
+
+      <input class="box-field" id="inactive" name="statut" type="checkbox" value="Inactive" />
+      <label class="field" for="inactive">Inactive</label>
+
+      <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell" />
+      <label class="field" for="sell">Sell</label>
+    </div>
+  </div>
+</main>

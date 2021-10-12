@@ -1,7 +1,7 @@
-import App from './kredeum-nft.svelte';
+import App from "./kredeum.svelte";
 
 var app = new App({
-	target: document.body
+  target: document.body
 });
 
 export default app;

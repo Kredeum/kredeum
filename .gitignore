@@ -1,6 +1,6 @@
 # NPM
 node_modules
-.pnpm-debug.log 
+.pnpm-debug.log
 
 # SOLIDITY
 solidity/artifacts
@@ -28,5 +28,6 @@ typechain
 # MACOS
 .DS_Store
 
-# LOCAL HISTORY
-.lh
+# IGNORE ASSETS GULP
+design-dapp/assets/*
+website/assets/*

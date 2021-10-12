@@ -1,0 +1,47 @@
+/* Font en local */
+
+@font-face {
+  font-family: 'Work sans';
+  src: url('#{$urlDossierFont}/worksans-bold-webfont.woff2') format('woff2'),
+     url('#{$urlDossierFont}/worksans-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Work sans';
+  src: url('#{$urlDossierFont}/worksans-medium-webfont.woff2') format('woff2'),
+     url('#{$urlDossierFont}/worksans-medium-webfont.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Work sans';
+  src: url('#{$urlDossierFont}/worksans-regular-webfont.woff2') format('woff2'),
+     url('#{$urlDossierFont}/worksans-regular-webfont.woff') format('woff');
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@import '_font-awesome';
+
+@font-face {
+    font-family: 'FontAwesome';
+    font-style: normal;
+    font-weight: 900;
+    font-display: block;
+    src: url("#{$urlDossierFont}/fa-solid-900.woff2") format("woff2"),
+      url("#{$urlDossierFont}/fa-solid-900.woff") format("woff");
+}
+
+.fa,
+.fas {
+  font-family: 'FontAwesome';
+  font-weight: 900;
+  display: inline-block;
+  vertical-align: middle;
+}

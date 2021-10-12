@@ -1,0 +1,383 @@
+//
+// utilitaires
+//
+
+.clearfix {
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
+}
+
+.hidden {
+    display: none !important;
+    visibility: hidden;
+}
+
+.visually-hidden {
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
+}
+
+.relative {
+	position: relative;
+}
+
+.txtright {
+    text-align: right;
+}
+
+.txtleft {
+    text-align: left;
+}
+
+.txtcenter {
+    text-align: center;
+}
+
+.aligncenter {
+    align-items: center;
+}
+
+.fa-left {
+    display: inline-block;
+    vertical-align: middle;
+    margin-right: 8px;
+}
+
+.c-green {
+    color: $green;
+}
+
+.label {
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba($couleur1, 0.4);
+    display: inline-block;
+    margin-bottom: 20px;
+    letter-spacing: 1px;
+
+    &-big {
+        font-size: 12px;
+    }
+}
+
+select {
+    appearance: none;
+    min-width: 200px;
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    padding: 12px 50px 12px 25px;
+    background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+    color: $couleur1;
+    border-radius: 360px;
+    cursor: pointer;
+
+    &.custom {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+        @include border-radius();
+        width: 100%;
+        background-position: 95% 50%;
+        padding: 20px 50px 20px 15px;
+    }
+
+    &:focus {
+        outline: none;
+    }
+
+    &::-ms-expand {
+        display: none;
+    }
+}
+
+.btn {
+    text-decoration: none;
+    @include base;
+    padding: 11px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+
+    &-default {
+        background: $couleur1;
+        color: $white;
+
+        &:hover {
+            background: lighten($couleur1, 10);
+        }
+    }
+
+    &-second {
+        background: rgba($couleur1, 0.2);
+        color: $couleur1;
+
+        &:hover {
+            background: rgba($couleur1, 0.3);
+        }
+    }
+
+    &-light {
+        background: $white;
+        color: $couleur1;
+
+        &:hover {
+            background: $couleur1;
+            color: $white;
+        }
+    }
+
+    &-small {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 8px 15px;
+        font-weight: bold;
+    }
+
+    &-mint {
+        color: $green;
+        background: rgba($green, 0.1);
+
+        &:hover {
+            background: rgba($green, 0.2);
+        }
+    }
+
+    &-sell {
+        color: $white;
+        background: $green;
+
+        &:hover {
+            background: darken($green, 10);
+        }
+    }
+
+    & > i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+
+        & + span {
+            margin-left: 8px;
+        }
+    }
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.box-file {
+    background: rgba($grey-blue, 0.1);
+    color: $grey-blue;
+    width: 100%;
+    padding: 15px;
+    @include border-radius();
+}
+
+[type="file"] {
+    width: 100%;
+    font-size: 16px;
+    color: $grey-blue;
+}
+
+[type="file"]::-webkit-file-upload-button {
+    text-decoration: none;
+    @include base;
+    padding: 11px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+
+    background: $couleur1;
+    color: $white;
+
+    &:hover {
+        background: lighten($couleur1, 10);
+    }
+}
+
+.form-field {
+    input[type="text"] {
+        width: 100%;
+        background: rgba($grey-blue, 0.1);
+        color: $grey-blue;
+        width: 100%;
+        padding: 20px 15px;
+        @include border-radius();
+        border: 0;
+    }
+}
+
+.box-field {
+    display: none !important;
+}
+
+.box-fields {
+    .field {
+        margin: 0 4px 8px 0;
+        cursor: pointer;
+        background: rgba($grey-blue, 0.1);
+        color: $grey-blue;
+
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
+    }
+
+    .box-field:checked + label {
+        background: $couleur1;
+        color: $white;
+    }
+}
+
+.tag,
+.field {
+    @include border-radius;
+    @include base;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    padding: 8px 15px;
+    font-weight: bold;
+}
+
+.tag {
+    &-bsc {
+        color: #FFB30D;
+        background: rgba(#FFB30D, 0.1);
+    }
+
+    &-eth {
+        color: #2E80DD;
+        background: rgba(#2E80DD, 0.1);
+    }
+
+    &-polygon {
+        color: #9E2195;
+        background: rgba(#9E2195, 0.1);
+    }
+
+    &-marketplace {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+    }
+}
+
+.table {
+    display: table;
+    width: 100%;
+    border-collapse: collapse;
+    border-collapse:separate;
+    border-spacing: 0 10px;
+    position: relative;
+
+    .table-row {
+        display: table-row;
+
+        &:not(.table-head) {
+            & > div:not(.no-bg) {
+                background: $white;
+
+                &:first-child {
+                    border-radius: 6px 0 0 6px;
+                }
+
+                &:last-child {
+                    border-radius: 0 6px 6px 0;
+                }
+            }
+        }
+    }
+
+    .colspan {
+        position: absolute;
+        left: 0;
+        width: 100%;
+    }
+
+    .table-col-full {
+        display: table-cell;
+        vertical-align: middle;
+        width: 100%;
+        padding: 15px;
+        font-size: 14px;
+
+        input[type="checkbox"] {
+            display: none;
+        }
+
+        label {
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 20px;
+            cursor: pointer;
+            color: $grey-blue;
+        }
+    }
+
+    .table-col:not(.table-col-full) {
+        display: table-cell;
+        vertical-align: top;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        padding: 15px 5px 15px 15px;
+        max-width: 0;
+
+        &:nth-child(1) {
+            width: 7%;
+        }
+
+        &:nth-child(2) {
+            width: 8%;
+        }
+
+        &:nth-child(3) {
+            width: 10%;
+        }
+
+        &:nth-child(4) {
+            width: 26%;
+        }
+
+        &:nth-child(5),
+        &:nth-child(6) {
+            width: 15%;
+        }
+
+        &:nth-child(7) {
+            width: 12%;
+        }
+
+        &:nth-child(8) {
+            width: 7%;
+        }
+    }
+
+    .table-head {
+        .label {
+            padding-left: 15px;
+        }
+
+        .table-col {
+            padding: 0;
+        }
+    }
+}

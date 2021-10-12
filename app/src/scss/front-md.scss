@@ -1,0 +1,68 @@
+@import '_variables';
+@import 'core/_mixins';
+
+nav {
+    flex: 0 0 auto;
+    width: 130px;
+    background: $couleur1 url("../images/bg-dapp.svg") no-repeat center top;
+    background-size: auto 80%;
+    height: 100vh;
+    overflow-x: hidden;
+    position: fixed;
+    top: 0;
+    left: 0;
+
+    .logo {
+        border-bottom: 1px solid rgba($white, 0.15);
+        padding: 10px 0;
+
+        img {
+            display: block;
+            margin: 0 auto;
+        }
+    }
+
+    .menu {
+        input {
+            display: none;
+
+            & + label {
+                display: none;
+            }
+        }
+
+        ul {
+            li {
+                a {
+
+                    transition: all 300ms ease-in-out;
+
+                    &:hover {
+                        color: $white;
+                    }
+                }
+            }
+        }
+    }
+}
+
+nav + main {
+    padding-left: 170px;
+}
+
+main {
+    flex: 1 0 0%;
+    padding: 40px;
+    background-size: 100% auto;
+
+    .col-filters {
+        .box {
+            @include border-radius;
+            background: $white;
+
+            .box-section {
+                padding: 30px 30px 22px 30px;
+            }
+        }
+    }
+}
