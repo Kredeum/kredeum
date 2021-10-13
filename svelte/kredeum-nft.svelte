@@ -8,6 +8,7 @@
 
   import { listContracts, listContractsFromCache, Clone } from "../lib/nfts-factory";
   import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
+  import { log } from "console";
 
   const dispatch = createEventDispatcher();
 
@@ -83,7 +84,8 @@
     if (network && contract && address) {
       console.log(
         "<kredeum-nft/> _listNFTs",
-        `nft://${network?.chainName || "..."}/${contract || "..."}@${address || "..."}`
+        `nft://${network?.chainName || "..."}/${contract || "..."}@${address || "..."}`,
+        network
       );
 
       NFTs = null;
@@ -97,6 +99,9 @@
       refreshingNFTs = false;
     }
   }
+
+  const current = () =>
+    NFTsContracts.find((_contract: Contract) => _contract.address === contract).name;
 
   const short = (s = "", n = 16, p = 0) => {
     const l = s?.toString().length;
@@ -158,12 +163,12 @@
 </script>
 
 <div>
-  <form id="search-top" action="">
+  <!-- <form id="search-top" action="">
     <input type="text" id="search" placeholder="Search" />
     <button type="submit">
       <i class="fas fa-search"></i>
     </button>
-  </form>
+  </form> -->
 
   <section class="content">
     <header>
@@ -327,27 +332,27 @@
               {#if NFTs?.length > 0}
                 <div class="table-row table-head hidden-xs">
                   <div class="table-col"><span class="label">Media</span></div>
-                  <div class="table-col"><span class="label">Type</span></div>
+                  <!-- <div class="table-col"><span class="label">Type</span></div>
                   <div class="table-col"><span class="label">Date</span></div>
+                  <div class="table-col"><span class="label">Network</span></div> -->
                   <div class="table-col"><span class="label">Description</span></div>
-                  <div class="table-col"><span class="label">Network</span></div>
                   {#if openSea}
                     <div class="table-col"><span class="label">Marketplace</span></div>
                   {/if}
                   <div class="table-col"><span class="label">Statut</span></div>
                   <div class="table-col"><span class="label">More</span></div>
-                  <div class="table-col"><span class="label">ID</span></div>
+                  <!-- <div class="table-col"><span class="label">ID</span></div>
                   {#if beta}
                     <div class="table-col"><span class="label">Import</span></div>
-                  {/if}
-                  <div class="table-col"><span class="label">Import</span></div>
+                  {/if} -->
                 </div>
 
                 <div class="table-row">
                   <div class="table-col no-bg">&nbsp;</div>
                   <div class="table-col no-bg table-col-full colspan">
                     <input id="menu" type="checkbox" />
-                    My first collection <label for="menu" class="fas fa-ellipsis-v"></label>
+                    Collection {current()}
+                    <label for="menu" class="fas fa-ellipsis-v"></label>
                   </div>
                 </div>
 
@@ -360,20 +365,23 @@
                         </a>
                       </div>
                     </div>
-                    <div class="table-col"><strong>Photo</strong></div>
-                    <div class="table-col light">10/02/21</div>
-                    <div class="table-col light">
+                    <!-- <div class="table-col"><strong>Photo</strong></div>
+                    <div class="table-col light">10/02/21</div> -->
+                    <!-- <div class="table-col">
+                      <span class="tag tag-{nft.chainName.toLowerCase()}">{nft.chainName}</span>
+                    </div> -->
+                    <div class="table-col">
                       <p title="{description(nft)}">
                         {short(description(nft), 140)}
                       </p>
                     </div>
-                    <div class="table-col"><span class="tag tag-bsc">Bsc</span></div>
                     {#if openSea}
                       <div class="table-col">
                         <span class="tag tag-marketplace">
                           {#if sameAddress(nft.owner)}
-                            <button class="btn btn-small btn-sell" title="Sell NFT">SELL NFT</button
-                            >
+                            <button class="btn btn-small btn-sell" title="Sell NFT">
+                              SELL NFT
+                            </button>
                           {:else}
                             <button class="btn btn-small btn-buy" title="Buy NFT">BUY NFT</button>
                           {/if}</span
@@ -387,7 +395,7 @@
                       <div class="more-button"><i class="fas fa-chevron-down"></i></div>
                     </div>
 
-                    <div class="table-col more">
+                    <!-- <div class="table-col more">
                       <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
                         &nbsp;{short(nft.tokenID, 16)}&nbsp;
                       </a>
@@ -397,9 +405,9 @@
                       <a href="{nft.tokenURI}" title="{nft.tokenURI}" target="_blank">
                         <strong>{nft.name || "___"}</strong>
                       </a>
-                    </div>
+                    </div> -->
 
-                    <div class="table-col more">
+                    <!-- <div class="table-col more">
                       <a href="{openSeaLinkToken(nft)}" target="_blank"> </a>
                     </div>
 
@@ -417,7 +425,7 @@
                           {nftImport ? (nftImport == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
                         </button>
                       </div>
-                    {/if}
+                    {/if} -->
 
                     <div class="detail">test</div>
                   </div>

@@ -10,7 +10,7 @@
   export let chainId = undefined;
   export let autoconnect = undefined;
 
-  const testnets = true;
+  const testnets = false;
   const short = (s = "", n = 16, p = 8) => {
     const l = s?.toString().length;
     return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
@@ -71,7 +71,7 @@
     if (_chainId && _chainId != chainId) {
       const _network = getNetwork(_chainId);
       if (_network) {
-        chainId = _chainId;
+        chainId = Number(_chainId);
         network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
@@ -174,7 +174,7 @@
         name="blockchain-type"
         type="checkbox"
         value="{network.chainName}"
-        checked="{network.chainId == Number(chainId)}"
+        checked="{network.chainId == chainId}"
         on:click="{() => switchEthereumChain(network.chainId)}"
       />
       <label class="field" for="{network.chainName}">{network.chainName}</label>
@@ -193,7 +193,7 @@
           name="blockchain-type"
           type="checkbox"
           value="{network.chainName}"
-          checked="{network.chainId == Number(chainId)}"
+          checked="{network.chainId == chainId}"
           on:click="{() => switchEthereumChain(network.chainId)}"
         />
         <label class="field" for="{network.chainName}">{network.chainName}</label>
