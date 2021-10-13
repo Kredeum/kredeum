@@ -218,8 +218,51 @@
           <span class="label">Filter</span>
           <div class="box">
             <div class="box-section">
+              <div>
+                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+              </div>
+            </div>
+
+            <div class="box-section">
+              <span class="label label-big">Statut</span>
+              <div class="box-fields">
+                <input
+                  class="box-field"
+                  id="mint"
+                  name="statut"
+                  type="checkbox"
+                  value="Mint"
+                  checked
+                />
+                <label class="field" for="mint">Mint</label>
+
+                <input
+                  class="box-field"
+                  id="inactive"
+                  name="statut"
+                  type="checkbox"
+                  value="Inactive"
+                />
+                <label class="field" for="inactive">Inactive</label>
+
+                <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell" />
+                <label class="field" for="sell">Sell</label>
+              </div>
+            </div>
+
+            <div class="box-section">
               <span class="label label-big">Media type</span>
               <div class="box-fields">
+                <input
+                  class="box-field"
+                  id="picture"
+                  name="media-type"
+                  type="checkbox"
+                  value="Picture"
+                  checked
+                />
+                <label class="field" for="picture"><i class="fas fa-image"></i>Picture</label>
+
                 <input
                   class="box-field"
                   id="video"
@@ -228,15 +271,6 @@
                   value="Video"
                 />
                 <label class="field" for="video"><i class="fas fa-play"></i>Video</label>
-
-                <input
-                  class="box-field"
-                  id="picture"
-                  name="media-type"
-                  type="checkbox"
-                  value="Picture"
-                />
-                <label class="field" for="picture"><i class="fas fa-image"></i>Picture</label>
 
                 <input
                   class="box-field"
@@ -260,37 +294,7 @@
                 <label class="field" for="web"><i class="fas fa-code"></i>Web</label>
               </div>
             </div>
-            <div class="box-section">
-              <span class="label label-big">Blockchain</span>
-              <div class="box-fields">
-                <input
-                  class="box-field"
-                  id="ethereum"
-                  name="blockchain-type"
-                  type="checkbox"
-                  value="Ethereum"
-                />
-                <label class="field" for="ethereum">Ethereum</label>
 
-                <input
-                  class="box-field"
-                  id="bsc"
-                  name="blockchain-type"
-                  type="checkbox"
-                  value="BSC"
-                />
-                <label class="field" for="bsc">BSC</label>
-
-                <input
-                  class="box-field"
-                  id="polygon"
-                  name="blockchain-type"
-                  type="checkbox"
-                  value="Polygon"
-                />
-                <label class="field" for="polygon">Polygon</label>
-              </div>
-            </div>
             <div class="box-section">
               <span class="label label-big">Marketplace</span>
               <div class="box-fields">
@@ -300,36 +304,18 @@
                   name="marketplace"
                   type="checkbox"
                   value="Ethereum"
+                  checked
                 />
                 <label class="field" for="opensea">Opensea</label>
 
                 <input
                   class="box-field"
-                  id="arkane"
+                  id="venly"
                   name="marketplace"
                   type="checkbox"
-                  value="Arkane"
+                  value="Venly"
                 />
-                <label class="field" for="arkane">Arkane</label>
-              </div>
-            </div>
-            <div class="box-section">
-              <span class="label label-big">Statut</span>
-              <div class="box-fields">
-                <input class="box-field" id="mint" name="statut" type="checkbox" value="Mint" />
-                <label class="field" for="mint">Mint</label>
-
-                <input
-                  class="box-field"
-                  id="inactive"
-                  name="statut"
-                  type="checkbox"
-                  value="Inactive"
-                />
-                <label class="field" for="inactive">Inactive</label>
-
-                <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell" />
-                <label class="field" for="sell">Sell</label>
+                <label class="field" for="venly">Venly</label>
               </div>
             </div>
           </div>
@@ -344,7 +330,7 @@
                   <div class="table-col"><span class="label">Type</span></div>
                   <div class="table-col"><span class="label">Date</span></div>
                   <div class="table-col"><span class="label">Description</span></div>
-                  <div class="table-col"><span class="label">Blockchain</span></div>
+                  <div class="table-col"><span class="label">Network</span></div>
                   {#if openSea}
                     <div class="table-col"><span class="label">Marketplace</span></div>
                   {/if}
@@ -457,14 +443,16 @@
   </section>
 
   <small>
-    {#if network}Collection <a href="{kreLink()}" target="_blank">
-        {nftsUrl(chainId, contract)}
-      </a>
+    {#if network}
+      <div>
+        Collection
+        <a href="{kreLink()}" target="_blank">
+          {nftsUrl(chainId, contract)}
+        </a>
+      </div>
     {/if}
-    <br />
-    {#if address}Address{/if}
-    <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
-    <br />
-    Cache <a href="." on:click="{() => localStorage.clear()}">clear</a>
+    <div>
+      Cache <a href="." on:click="{() => localStorage.clear()}">clear</a>
+    </div>
   </small>
 </div>

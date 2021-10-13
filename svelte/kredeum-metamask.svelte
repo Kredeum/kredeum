@@ -10,13 +10,19 @@
   export let chainId = undefined;
   export let autoconnect = undefined;
 
+  const testnets = true;
+  const short = (s = "", n = 16, p = 8) => {
+    const l = s?.toString().length;
+    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
+  };
+
   let network;
   let nameOrAddress = "";
   let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
 
-  async function hex(ch) {
+  function hex(ch) {
     return `0x${ch.toString(16)}`;
   }
 
@@ -152,41 +158,63 @@
       ethereum.on("accountsChanged", handleAccounts);
     } else {
       console.log("Please install MetaMask!");
-      connectmetamask =
-        "Please install MetaMask chrome extension to connect your blockchain address to your site";
+      connectmetamask = "Please install MetaMask chrome extension to connect with your address";
     }
   });
 </script>
 
-{#if address}
-  {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-      >{nameOrAddress}@{network?.chainName}</a
-    >
-  {:else}
-    {nameOrAddress}
-  {/if}
-  <small>
-    switch to
+<div>
+  <span class="label label-big">Networks</span>
+
+  <div class="box-fields">
     {#each networks.filter((nw) => nw.type == "mainnet") as network}
-      {#if network.chainId !== chainId}
-        &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">
-          @{network.chainName}
-        </a>
-      {/if}
+      <input
+        class="box-field"
+        id="{network.chainName}"
+        name="blockchain-type"
+        type="checkbox"
+        value="{network.chainName}"
+        checked="{network.chainId == Number(chainId)}"
+        on:click="{() => switchEthereumChain(network.chainId)}"
+      />
+      <label class="field" for="{network.chainName}">{network.chainName}</label>
     {/each}
-    {#if address == network?.admin}
-      ( testnets
+  </div>
+
+  {#if testnets}
+    <div><br /></div>
+    <span class="label label-big">Testnets</span>
+
+    <div class="box-fields">
       {#each networks.filter((nw) => nw.type == "testnet") as network}
-        {#if network.chainId !== chainId}
-          &nbsp;<a href on:click="{() => switchEthereumChain(network.chainId)}">
-            @{network.chainName}
-          </a>
-        {/if}
+        <input
+          class="box-field"
+          id="{network.chainName}"
+          name="blockchain-type"
+          type="checkbox"
+          value="{network.chainName}"
+          checked="{network.chainId == Number(chainId)}"
+          on:click="{() => switchEthereumChain(network.chainId)}"
+        />
+        <label class="field" for="{network.chainName}">{network.chainName}</label>
       {/each}
-      )
-    {/if}
-  </small>
-{:else}
-  <button on:click="{connectMetamask}">{connectmetamask}</button>
-{/if}
+    </div>
+  {/if}
+
+  {#if address}
+    <div><br /></div>
+    <div>
+      {#if network}
+        <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
+          >{short(nameOrAddress)}@{network.chainName}</a
+        >
+      {:else}
+        {short(nameOrAddress)}
+      {/if}
+    </div>
+  {:else}
+    <div>
+      <button on:click="{connectMetamask}">{connectmetamask}</button>
+    </div>
+  {/if}
+</div>

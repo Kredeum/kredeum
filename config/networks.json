@@ -1,5 +1,24 @@
 [
   {
+    "chainId": 1,
+    "chainName": "mainnet",
+    "rpcUrls": ["https://mainnet.infura.io/v3"],
+    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
+    "blockExplorerUrls": ["https://etherscan.io"],
+    "openSea": {
+      "assets": "https://opensea.io/assets",
+      "kredeum": "https://opensea.io/collection/kredeum-nfts"
+    },
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/amxx/eip721-subgraph/graphql",
+      "active": false
+    },
+    "covalent": { "active": true },
+    "eip1559": true,
+    "costClone": 0.01,
+    "type": "mainnet"
+  },
+  {
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": ["https://polygon-mainnet.infura.io/v3", "https://rpc-mainnet.maticvigil.com/v1"],
@@ -21,25 +40,6 @@
     "nftsFactory": "0x632Be7c4fC601314B821D301971ee3f1E49b9824",
     "openNFTs": "0x39F3Ad85CAbba0630E2875379c8334Ee3C5F87b2",
     "costClone": 10,
-    "type": "mainnet"
-  },
-  {
-    "chainId": 1,
-    "chainName": "mainnet",
-    "rpcUrls": ["https://mainnet.infura.io/v3"],
-    "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
-    "blockExplorerUrls": ["https://etherscan.io"],
-    "openSea": {
-      "assets": "https://opensea.io/assets",
-      "kredeum": "https://opensea.io/collection/kredeum-nfts"
-    },
-    "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/amxx/eip721-subgraph/graphql",
-      "active": false
-    },
-    "covalent": { "active": true },
-    "eip1559": true,
-    "costClone": 0.01,
     "type": "mainnet"
   },
   {
