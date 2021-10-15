@@ -28,10 +28,11 @@
 
             void 0 === window._axcb && (window._axcb = []);
             window._axcb.push(function(axeptio) {
-            axeptio.on("cookies:complete", function(choices) {
-                if(choices.google_analytics) {
-                    launchGA();
-                }
+                axeptio.on("cookies:complete", function(choices) {
+                    if(choices.google_analytics) {
+                        launchGA();
+                    }
+                })
             });
         </script>
 	</head>
