@@ -380,7 +380,7 @@ function listNFTsFromCache(
   const { chainName } = getNetwork(chainId);
 
   if (chainName) {
-    for (let index = 0; index < Math.min(localStorage.length, _limit); index++) {
+    for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
       if (key?.startsWith(nftUrl(chainId, _contract || "", "", ""))) {
         const json = localStorage.getItem(key);
@@ -388,6 +388,7 @@ function listNFTsFromCache(
         if (!_owner || utils.getAddress(nft?.owner) == utils.getAddress(_owner)) {
           nfts.push(nft);
         }
+        if (nfts.length >= _limit) break;
       }
     }
     nfts.sort((a, b) => (BigNumber.from(b.tokenID) > BigNumber.from(a.tokenID) ? 1 : 0));

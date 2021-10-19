@@ -18,40 +18,41 @@
   let chainId: number;
   let explorer: string;
   let openSea: Network["openSea"];
-  let refreshingNFTs: boolean;
-  let refreshingContracts: boolean;
+  let refreshingCollection: boolean;
+  let refreshingCollections: boolean;
   let cloning: boolean = false;
-  let collection: string;
-  let collectionName: string;
+  let collectionNew: string;
+  let collectionNewName: string;
   let nftImport: number;
   let NFTs: Array<NftData>;
-  let NFTsContracts: Array<Contract>;
+  let Collections: Array<Contract>;
+  let collectionContract: Contract;
   let chainIdOld: number;
-  let contractOld: string;
+  let collectionOld: string;
   let addressOld: string;
 
   export const platform: string = undefined; // platform : WordPress or Dapp
-  export let contract: string = undefined; // NFT smartcontract address
+  export let collection: string = undefined; // NFT smartcontract address
   export let beta: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS, CONTRACT OR NETWORK CHANGE
-  $: if (address || contract || chainId) _listsUpdate();
+  $: if (address || collection || chainId) _listsUpdate();
 
   async function _listsUpdate(): Promise<void> {
     if (chainId && address) {
       network = getNetwork(chainId);
       if (network) {
-        console.log("<kredeum-nft/> init", chainId, contract, address, network);
+        console.log("<kredeum-nft/> init", chainId, collection, address, network);
 
         openSea = network.openSea;
         explorer = network.blockExplorerUrls[0] || "";
 
-        // chain change : force contract to default
+        // chain change : force collection to default
         // if (chainId != chainIdOld) {
-        //   contract = network.openNFTs;
+        //   collection = network.openNFTs;
         // }
 
-        // chain or address changed : refresh list contract
+        // chain or address changed : refresh list collection
         if (chainId != chainIdOld || address != addressOld) {
           _listContracts();
         }
@@ -59,7 +60,7 @@
 
         chainIdOld = chainId;
         addressOld = address;
-        contractOld = contract;
+        collectionOld = collection;
       }
     }
   }
@@ -68,40 +69,41 @@
     if (network && address) {
       console.log("<kredeum-nft/> _listContracts", `nfts://${network?.chainName}@${address}`);
 
-      NFTsContracts = null;
+      Collections = null;
 
-      NFTsContracts = listContractsFromCache(chainId);
-      // console.log("<kredeum-nft/> NFTsContracts cache loaded", NFTsContracts);
-      refreshingContracts = true;
+      Collections = listContractsFromCache(chainId);
+      // console.log("<kredeum-nft/> Collections cache loaded", Collections);
+      refreshingCollections = true;
 
-      NFTsContracts = await listContracts(chainId, address);
-      // console.log("<kredeum-nft/> NFTsContracts refresh done", NFTsContracts);
-      refreshingContracts = false;
+      Collections = await listContracts(chainId, address);
+      // console.log("<kredeum-nft/> Collections refresh done", Collections);
+      refreshingCollections = false;
     }
   }
 
   async function _listNFTs() {
-    if (network && contract && address) {
+    collectionContract = Collections.find(
+      (_contract: Contract) => _contract.address === collection
+    );
+
+    if (network && collection && collectionContract && address) {
       console.log(
         "<kredeum-nft/> _listNFTs",
-        `nft://${network?.chainName || "..."}/${contract || "..."}@${address || "..."}`,
+        `nft://${network?.chainName || "..."}/${collection || "..."}@${address || "..."}`,
         network
       );
 
       NFTs = null;
 
-      NFTs = listNFTsFromCache(chainId, contract, address);
+      NFTs = listNFTsFromCache(chainId, collection, address);
       // console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
-      refreshingNFTs = true;
+      refreshingCollection = true;
 
-      NFTs = await listNFTs(chainId, contract, address);
+      NFTs = await listNFTs(chainId, collection, address);
       // console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
-      refreshingNFTs = false;
+      refreshingCollection = false;
     }
   }
-
-  const current = () =>
-    NFTsContracts.find((_contract: Contract) => _contract.address === contract).name;
 
   const short = (s = "", n = 16, p = 0) => {
     const l = s?.toString().length;
@@ -123,10 +125,10 @@
     if (signer) {
       cloning = true;
 
-      collection = await Clone(chainId, address, collectionName, signer);
-      contract = collection;
+      collectionNew = await Clone(chainId, address, collectionNewName, signer);
+      collection = collectionNew;
 
-      dispatch("collection", { collection });
+      dispatch("collectionNew", { collectionNew });
 
       cloning = false;
     } else {
@@ -134,35 +136,50 @@
     }
   };
 
-  const description = (nft) => (nft.name != nft.description && nft.description) || " ";
+  // Collection helpers
+  const collectionName = (collContract) => collContract.name || "No name";
+  const collectionSymbol = (collContract) => collContract.symbol || "NFT";
+  const collectionTotalSupply = (collContract) =>
+    collContract.totalSupply || (collContract.totalSupply == 0 ? "0" : "?");
+  const collectionNameAndTotalSupply = (collContract) =>
+    `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`;
 
-  $: openSeaLinkKredeum = () => openSea?.kredeum;
-  $: openSeaLinkToken = (item) => `${openSea?.assets}/${item.contract}/${item.tokenID}`;
-
-  $: kreTokenLink = (item) =>
+  const collectionOpenSeaLink = (collAddress) => openSea?.kredeum;
+  const collectionExplorerLink = (collAddress) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/tokens/${item.contract}/instance/${item.tokenID}/metadata`
-      : `${explorer}/token/${item.contract}?a=${item.tokenID}`;
+      ? `${explorer}/collection/${collAddress}/tokens`
+      : `${explorer}/token/${collAddress}`;
 
-  $: kreLink = () =>
+  const collectionExplorerInventoryLink = (collAddress) =>
     explorer?.includes("chainstacklabs.com") || explorer?.includes("cchain.explorer")
-      ? `${explorer}/tokens/${contract}/inventory`
-      : `${explorer}/token/${contract}#inventory`;
+      ? `${explorer}/tokens/${collAddress}/inventory`
+      : `${explorer}/token/${collAddress}#inventory`;
 
-  $: addressLink = (address) =>
+  // Nfts helpers
+  const nftsSupply = (nfts) => nfts.length || 0;
+  const nftsSupplyAndName = (nfts, collContract) =>
+    `${nftsSupply(nfts)} ${collectionSymbol(collContract)}${nftsSupply(nfts) > 1 ? "s" : ""}`;
+
+  // Nft helpers
+  const nftName = (nft) => nft.name;
+  const nftDescription = (nft) =>
+    (nft.name != nft.description && nft.description) ||
+    `${collectionContract.name} #${nft.tokenID}`;
+  const nftDescriptionShort = (nft) => short(nftDescription(nft), 140);
+  const nftImageLink = (nft) =>
+    nft.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
+  const nftOpenSeaLink = (nft) => `${openSea?.assets}/${collection}/${nft.tokenID}`;
+  const nftExplorerLink = (nft) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/address/${contract}/tokens`
-      : `${explorer}/address/${contract}/token`;
-
-  $: imageLink = (item) =>
-    item.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
+      ? `${explorer}/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`
+      : `${explorer}/token/${nft.collection}?a=${nft.tokenID}`;
 
   function sleep(ms) {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 </script>
 
-<div>
+<div id="kredeum-nft">
   <!-- <form id="search-top" action="">
     <input type="text" id="search" placeholder="Search" />
     <button type="submit">
@@ -178,21 +195,21 @@
         </div>
 
         <div class="col col-sm-6">
-          {#if NFTsContracts?.length > 0}
-            <select bind:value="{contract}">
+          {#if Collections?.length > 0}
+            <select bind:value="{collection}">
               <option value="">Choose Collection</option>
-              {#each NFTsContracts as NFTsContract}
-                <option value="{utils.getAddress(NFTsContract.address)}">
-                  {NFTsContract.totalSupply || (NFTsContract.totalSupply == 0 ? "0" : "?")}
-                  {NFTsContract.symbol || "NFT"}@{NFTsContract.address}
-                  {NFTsContract.name ? `- ${NFTsContract.name}` : " "}
+              {#each Collections as coll}
+                <option value="{utils.getAddress(coll.address)}">
+                  {collectionNameAndTotalSupply(coll)}
                 </option>
               {/each}
             </select>
           {:else}
             <p><em>NO Collection found !</em></p>
           {/if}
-          {#if refreshingContracts} Refreshing Collections... {/if}
+          <p>
+            {#if refreshingCollections}Refreshing Collection list... {/if}
+          </p>
         </div>
 
         <div class="col col-sm-3 txtright">
@@ -203,13 +220,13 @@
 
         <div>
           {#if beta}
-            {#if collection}
-              Collection created: {collection}
+            {#if collectionNew}
+              Collection created: {collectionNew}
             {:else if cloning}
-              Creating collection... sign the transaction and wait till completed, it may takes one
-              minute or more.
+              Creating new collection... sign the transaction and wait till completed, it may takes
+              one minute or more.
             {:else}
-              <input bind:value="{collectionName}" placeholder="Collection name" />
+              <input bind:value="{collectionNewName}" placeholder="Collection name" />
               <button on:click="{createCollection}">Create Collection</button>
             {/if}
           {/if}
@@ -220,14 +237,18 @@
     <div class="table">
       <div class="row">
         <div class="col col-xs-12 col-md-3 col-filters">
-          <span class="label">Filter</span>
+          <!-- <span class="label">Filter</span> -->
           <div class="box">
+            <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+
             <div class="box-section">
+              <span class="label label-big">Cache</span>
               <div>
-                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+                <a href="." on:click="{() => localStorage.clear()}">clear</a>
               </div>
             </div>
 
+            <!-- 
             <div class="box-section">
               <span class="label label-big">Statut</span>
               <div class="box-fields">
@@ -253,9 +274,9 @@
                 <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell" />
                 <label class="field" for="sell">Sell</label>
               </div>
-            </div>
+            </div> -->
 
-            <div class="box-section">
+            <!-- <div class="box-section">
               <span class="label label-big">Media type</span>
               <div class="box-fields">
                 <input
@@ -298,9 +319,9 @@
                 <input class="box-field" id="web" name="media-type" type="checkbox" value="Web" />
                 <label class="field" for="web"><i class="fas fa-code"></i>Web</label>
               </div>
-            </div>
+            </div> -->
 
-            <div class="box-section">
+            <!-- <div class="box-section">
               <span class="label label-big">Marketplace</span>
               <div class="box-fields">
                 <input
@@ -322,14 +343,27 @@
                 />
                 <label class="field" for="venly">Venly</label>
               </div>
-            </div>
+            </div> -->
           </div>
         </div>
 
         <div class="col col-xs-12 col-md-9">
           <div class="table">
-            {#key address && refreshingNFTs}
+            {#key address && refreshingCollection}
               {#if NFTs?.length > 0}
+                <div class="table-row">
+                  <div class="table-col no-bg">&nbsp;</div>
+                  <div class="table-col no-bg table-col-full colspan">
+                    <input id="menu" type="checkbox" />
+                    Collection {collectionName(collectionContract)}
+                    <span title="{nftsUrl(chainId, collection)}">ⓘ</span>
+                    <a href="{collectionExplorerInventoryLink(collection)}" target="_blank">
+                      explorer
+                    </a>
+                    <label for="menu" class="fas fa-ellipsis-v"></label>
+                  </div>
+                </div>
+
                 <div class="table-row table-head hidden-xs">
                   <div class="table-col"><span class="label">Media</span></div>
                   <!-- <div class="table-col"><span class="label">Type</span></div>
@@ -339,7 +373,7 @@
                   {#if openSea}
                     <div class="table-col"><span class="label">Marketplace</span></div>
                   {/if}
-                  <div class="table-col"><span class="label">Statut</span></div>
+                  <!-- <div class="table-col"><span class="label">Statut</span></div> -->
                   <div class="table-col"><span class="label">More</span></div>
                   <!-- <div class="table-col"><span class="label">ID</span></div>
                   {#if beta}
@@ -347,21 +381,12 @@
                   {/if} -->
                 </div>
 
-                <div class="table-row">
-                  <div class="table-col no-bg">&nbsp;</div>
-                  <div class="table-col no-bg table-col-full colspan">
-                    <input id="menu" type="checkbox" />
-                    Collection {current()}
-                    <label for="menu" class="fas fa-ellipsis-v"></label>
-                  </div>
-                </div>
-
                 {#each NFTs as nft}
                   <div id="table-drop-1" class="table-row table-drop closed">
                     <div class="table-col">
                       <div class="media media-photo">
-                        <a href="{imageLink(nft)}" title="{nft.description}" target="_blank">
-                          <img alt="{nft.name}" src="{imageLink(nft)}" height="100" />
+                        <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
+                          <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="100" />
                         </a>
                       </div>
                     </div>
@@ -371,32 +396,47 @@
                       <span class="tag tag-{nft.chainName.toLowerCase()}">{nft.chainName}</span>
                     </div> -->
                     <div class="table-col">
-                      <p title="{description(nft)}">
-                        {short(description(nft), 140)}
+                      <p title="{nftDescription(nft)}">
+                        {nftDescriptionShort(nft)}
                       </p>
                     </div>
                     {#if openSea}
                       <div class="table-col">
-                        <span class="tag tag-marketplace">
-                          {#if sameAddress(nft.owner)}
-                            <button class="btn btn-small btn-sell" title="Sell NFT">
-                              SELL NFT
-                            </button>
-                          {:else}
-                            <button class="btn btn-small btn-buy" title="Buy NFT">BUY NFT</button>
-                          {/if}</span
-                        >
+                        {#if sameAddress(nft.owner)}
+                          <a
+                            href="{nftOpenSeaLink(nft)}"
+                            class="btn btn-small btn-sell"
+                            title="Sell"
+                            target="_blank"
+                          >
+                            Sell
+                          </a>
+                        {:else}
+                          <a
+                            href="{nftOpenSeaLink(nft)}"
+                            class="btn btn-small btn-sell"
+                            title="Buy"
+                            target="_blank"
+                          >
+                            Buy
+                          </a>
+                        {/if}
                       </div>
                     {/if}
-                    <div class="table-col">
+
+                    <!-- <div class="table-col">
                       <a href="." class="btn btn-small btn-mint" title="Mint">Mint</a>
-                    </div>
+                    </div> -->
+
+                    <!-- <div class="table-col more">
+                      <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+                    </div> -->
                     <div class="table-col more">
                       <div class="more-button"><i class="fas fa-chevron-down"></i></div>
                     </div>
 
                     <!-- <div class="table-col more">
-                      <a href="{kreTokenLink(nft)}" title="{nft.nid}" target="_blank">
+                      <a href="{nftExplorerLink(nft)}" title="{nft.nid}" target="_blank">
                         &nbsp;{short(nft.tokenID, 16)}&nbsp;
                       </a>
                     </div>
@@ -427,40 +467,38 @@
                       </div>
                     {/if} -->
 
-                    <div class="detail">test</div>
+                    <div class="detail">
+                      <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="600" />
+                      <p title="{nftDescription(nft)}">
+                        {nftDescription(nft)}
+                      </p>
+                    </div>
                   </div>
                 {/each}
 
-                <div>
-                  <em
-                    >{#if refreshingNFTs}Refreshing NFTs...{/if}</em
-                  >
+                <div class="table-row">
+                  <div class="table-col no-bg table-col-full colspan">
+                    {nftsSupplyAndName(NFTs, collectionContract)}
+                  </div>
                 </div>
-
-                <p>
-                  {NFTs.length} NFT{NFTs.length > 1 ? "s" : ""}
-                </p>
               {:else}
-                <p>NO NFT found !</p>
+                <div class="table-row">
+                  <div class="table-col no-bg table-col-full colspan">NO NFT found !</div>
+                </div>
               {/if}
+              <div class="table-row">
+                <div class="table-col no-bg table-col-full colspan">
+                  {#if refreshingCollection}
+                    <p>
+                      <em>Refreshing Collection...</em>
+                    </p>
+                  {/if}
+                </div>
+              </div>
             {/key}
           </div>
         </div>
       </div>
     </div>
   </section>
-
-  <small>
-    {#if network}
-      <div>
-        Collection
-        <a href="{kreLink()}" target="_blank">
-          {nftsUrl(chainId, contract)}
-        </a>
-      </div>
-    {/if}
-    <div>
-      Cache <a href="." on:click="{() => localStorage.clear()}">clear</a>
-    </div>
-  </small>
 </div>

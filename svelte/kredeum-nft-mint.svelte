@@ -82,7 +82,7 @@
   }
 </script>
 
-<main>
+<main id="kredeum-nft-min">
   IMAGE
   {#if display && src}
     <img src="{src}" alt="{alt}" width="{width}" /><br />

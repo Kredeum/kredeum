@@ -129,7 +129,7 @@ class Settings {
 
 			case 'metamask':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<kredeum-metamask />' );
+				printf( '<div id="kredeum-metamask" />' );
 				break;
 
 			case 'text':

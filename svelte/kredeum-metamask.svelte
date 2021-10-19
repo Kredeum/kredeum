@@ -163,8 +163,8 @@
   });
 </script>
 
-<div>
-  <span class="label label-big">Networks</span>
+<div class="box-section">
+  <span class="label label-big">Network</span>
 
   <div class="box-fields">
     {#each networks.filter((nw) => nw.type == "mainnet") as network}
@@ -200,14 +200,17 @@
       {/each}
     </div>
   {/if}
+</div>
+
+<div class="box-section">
+  <span class="label label-big">Address</span>
 
   {#if address}
-    <div><br /></div>
     <div>
       {#if network}
-        <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-          >{short(nameOrAddress)}@{network.chainName}</a
-        >
+        <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">
+          {short(nameOrAddress)}@{network.chainName}
+        </a>
       {:else}
         {short(nameOrAddress)}
       {/if}

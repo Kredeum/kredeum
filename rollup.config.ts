@@ -18,7 +18,7 @@ if (!process.env.PROD) {
 if (!process.env.INFURA_API_KEY) {
   throw new Error("ENV variables not set!");
 }
-const production = false; // process.env.PROD;
+const production = Boolean(process.env.PROD); 
 
 const envKeys = () => {
   return Object.keys(process.env).reduce(
