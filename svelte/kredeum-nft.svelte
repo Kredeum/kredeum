@@ -174,9 +174,16 @@
       ? `${explorer}/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`
       : `${explorer}/token/${nft.collection}?a=${nft.tokenID}`;
 
-  function sleep(ms) {
-    return new Promise((resolve) => setTimeout(resolve, ms));
-  }
+  const moreToggle = (i: number) => {
+    const divTableDrop = document.getElementById(`table-drop-${i}`);
+    const divMoreDetail = document.getElementById(`more-detail-${i}`);
+
+    divTableDrop.classList.toggle("closed");
+    divTableDrop.style.height = divTableDrop.classList.contains("closed")
+      ? "auto"
+      : `${divMoreDetail.offsetHeight + 70}px`;
+  };
+  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 </script>
 
 <div id="kredeum-nft">
@@ -381,9 +388,9 @@
                   {/if} -->
                 </div>
 
-                {#each NFTs as nft}
-                  <div id="table-drop-1" class="table-row table-drop closed">
-                    <div class="table-col">
+                {#each NFTs as nft, i}
+                  <div id="table-drop-{i}" class="table-row table-drop closed">
+                    <div id="media-{i}" class="table-col">
                       <div class="media media-photo">
                         <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
                           <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="100" />
@@ -395,13 +402,13 @@
                     <!-- <div class="table-col">
                       <span class="tag tag-{nft.chainName.toLowerCase()}">{nft.chainName}</span>
                     </div> -->
-                    <div class="table-col">
+                    <div id="description-{i}" class="table-col">
                       <p title="{nftDescription(nft)}">
                         {nftDescriptionShort(nft)}
                       </p>
                     </div>
                     {#if openSea}
-                      <div class="table-col">
+                      <div id="opensea-{i}" class="table-col">
                         {#if sameAddress(nft.owner)}
                           <a
                             href="{nftOpenSeaLink(nft)}"
@@ -431,9 +438,6 @@
                     <!-- <div class="table-col more">
                       <div class="more-button"><i class="fas fa-chevron-down"></i></div>
                     </div> -->
-                    <div class="table-col more">
-                      <div class="more-button"><i class="fas fa-chevron-down"></i></div>
-                    </div>
 
                     <!-- <div class="table-col more">
                       <a href="{nftExplorerLink(nft)}" title="{nft.nid}" target="_blank">
@@ -467,7 +471,11 @@
                       </div>
                     {/if} -->
 
-                    <div class="detail">
+                    <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
+                      <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+                    </div>
+
+                    <div id="more-detail-{i}" class="detail">
                       <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="600" />
                       <p title="{nftDescription(nft)}">
                         {nftDescription(nft)}
