@@ -3,7 +3,12 @@ import { fetchCov, fetchGQL } from "./kfetch";
 import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
 import type { Network, Contract } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
-import type { Provider } from "@ethersproject/abstract-provider";
+import type {
+  Provider,
+  TransactionRequest,
+  TransactionResponse,
+  TransactionReceipt
+} from "@ethersproject/abstract-provider";
 
 function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory {
   // console.log("getNFTsFactory", chainId);
@@ -230,19 +235,19 @@ function listContractsFromCache(chainId: number) {
   return contracts;
 }
 
-async function Clone(
+async function CloneResponse(
   chainId: number,
   _contract: string,
   _name: string,
   _cloner: Signer
-): Promise<string> {
+): Promise<TransactionResponse> {
   const cloner = await _cloner.getAddress();
-  // console.log("Clone", chainId, _contract, cloner);
+  // console.log("CloneResponse", chainId, _contract, cloner);
 
-  let ret: string = "";
+  let txResp: TransactionResponse;
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory = getNFTsFactory(chainId, _cloner);
+  const nftsFactory = getNFTsFactory(chainId, _cloner);
 
   if (nftsFactory) {
     const cost = await nftsFactory.cloneCost();
@@ -250,24 +255,51 @@ async function Clone(
     const name = _name || `Open NFTs #${n}`;
     // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-    const tx1 = await nftsFactory.clone(name, `NFT${n}`, { value: cost });
-    console.log(`${network.blockExplorerUrls[0]}/tx/` + tx1.hash);
-
-    const res = await tx1.wait();
-    // console.log(res);
-    if (res.events) {
-      // NewImplementation(address indexed implementation, address indexed template, address indexed creator)
-      // first event NewImplementation events(0), first parameter topics(1)
-      ret = BigNumber.from(res.events[0].topics[1]).toHexString();
-    }
+    txResp = await nftsFactory.clone(name, `NFT${n}`, { value: cost });
+    console.log(`${network.blockExplorerUrls[0]}/tx/` + txResp.hash);
   }
 
-  // console.log(ret);
-  return ret;
+  return txResp;
+}
+
+async function CloneReceipt(txResp: TransactionResponse): Promise<TransactionReceipt> {
+  return await txResp.wait();
+}
+
+function CloneAddress(txReceipt: TransactionReceipt): string {
+  let implementation: string = "";
+
+  console.log("txReceipt", txReceipt);
+  if (txReceipt.logs) {
+    const abi = [
+      "event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"
+    ];
+    const iface = new ethers.utils.Interface(abi);
+    const log = iface.parseLog(txReceipt.logs[0]);
+    ({ implementation } = log.args);
+  }
+
+  //  console.log("CloneAddress", implementation);
+  return implementation;
+}
+
+async function Clone(
+  chainId: number,
+  _contract: string,
+  _name: string,
+  _cloner: Signer
+): Promise<string> {
+  const txResp = await CloneResponse(chainId, _contract, _name, _cloner);
+  const txReceipt = await CloneReceipt(txResp);
+  const address = CloneAddress(txReceipt);
+  return address;
 }
 
 export {
   Clone,
+  CloneResponse,
+  CloneReceipt,
+  CloneAddress,
   listContracts,
   listContractsFromCache,
   listContractsFromCovalent,

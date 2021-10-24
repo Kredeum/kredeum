@@ -39,7 +39,7 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Morass Contrast (rainglow)",
+  "workbench.colorTheme": "GitHub Light Default",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",

@@ -6,9 +6,15 @@
   import { Signer, utils } from "ethers";
   import { Contract, getNetwork, Network, NftData, nftUrl, nftsUrl } from "../lib/kconfig";
 
-  import { listContracts, listContractsFromCache, Clone } from "../lib/nfts-factory";
+  import {
+    listContracts,
+    listContractsFromCache,
+    Clone,
+    CloneResponse,
+    CloneReceipt,
+    CloneAddress
+  } from "../lib/nfts-factory";
   import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
-  import { log } from "console";
 
   const dispatch = createEventDispatcher();
 
@@ -21,6 +27,7 @@
   let refreshingCollection: boolean;
   let refreshingCollections: boolean;
   let cloning: boolean = false;
+  let cloningTxHash: string;
   let collectionNew: string;
   let collectionNewName: string;
   let nftImport: number;
@@ -33,7 +40,7 @@
 
   export const platform: string = undefined; // platform : WordPress or Dapp
   export let collection: string = undefined; // NFT smartcontract address
-  export let beta: string = undefined; // platform : WordPress or Dapp
+  // export let beta: string = undefined; // platform : WordPress or Dapp
 
   // ADDRESS, CONTRACT OR NETWORK CHANGE
   $: if (address || collection || chainId) _listsUpdate();
@@ -107,16 +114,16 @@
 
   const short = (s = "", n = 16, p = 0) => {
     const l = s?.toString().length;
-    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
+    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
   };
 
-  const sameAddress = (a, b = address) => utils.getAddress(a) === utils.getAddress(b);
-  const shortAddress = (a) => short(utils.getAddress(a), 6, 4);
+  const sameAddress = (a: string, b = address) => a.toLowerCase() === b.toLowerCase();
+  const shortAddress = (a: string) => short(a, 8, 8);
 
-  const dispatchImport = async (nft) => {
+  const dispatchImport = async (nft: NftData) => {
     nftImport = 1;
     dispatch("import", { nft });
-    while (window.ajaxResponse == false) await sleep(1000);
+    while ((window as any).ajaxResponse == false) await sleep(1000);
     nftImport = 2;
   };
 
@@ -124,8 +131,14 @@
     // console.log("<kredeum-nft/> createCollection");
     if (signer) {
       cloning = true;
+      cloningTxHash = null;
 
-      collectionNew = await Clone(chainId, address, collectionNewName, signer);
+      const txResp = await CloneResponse(chainId, address, collectionNewName, signer);
+      cloningTxHash = txResp.hash;
+
+      const txReceipt = await CloneReceipt(txResp);
+      collectionNew = CloneAddress(txReceipt);
+
       collection = collectionNew;
 
       dispatch("collectionNew", { collectionNew });
@@ -136,43 +149,49 @@
     }
   };
 
+  // General helpers
+  const explorerLink = (type: string, address: string) =>
+    `<a href="${explorer}/${type}/${address}" target="_blank">${shortAddress(address)}</a>`;
+  const explorerAddressLink = (address: string) => explorerLink("address", address);
+  const explorerTxLink = (tx: string) => explorerLink("tx", tx);
+
   // Collection helpers
-  const collectionName = (collContract) => collContract.name || "No name";
-  const collectionSymbol = (collContract) => collContract.symbol || "NFT";
-  const collectionTotalSupply = (collContract) =>
+  const collectionName = (collContract: Contract) => collContract.name || "No name";
+  const collectionSymbol = (collContract: Contract) => collContract.symbol || "NFT";
+  const collectionTotalSupply = (collContract: Contract) =>
     collContract.totalSupply || (collContract.totalSupply == 0 ? "0" : "?");
-  const collectionNameAndTotalSupply = (collContract) =>
+  const collectionNameAndTotalSupply = (collContract: Contract) =>
     `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`;
 
-  const collectionOpenSeaLink = (collAddress) => openSea?.kredeum;
-  const collectionExplorerLink = (collAddress) =>
+  const collectionOpenSeaLink = (collAddress: string) => openSea?.kredeum;
+  const collectionExplorerLink = (collAddress: string) =>
     explorer?.includes("chainstacklabs.com")
       ? `${explorer}/collection/${collAddress}/tokens`
       : `${explorer}/token/${collAddress}`;
 
-  const collectionExplorerInventoryLink = (collAddress) =>
+  const collectionExplorerInventoryLink = (collAddress: string) =>
     explorer?.includes("chainstacklabs.com") || explorer?.includes("cchain.explorer")
       ? `${explorer}/tokens/${collAddress}/inventory`
       : `${explorer}/token/${collAddress}#inventory`;
 
   // Nfts helpers
-  const nftsSupply = (nfts) => nfts.length || 0;
-  const nftsSupplyAndName = (nfts, collContract) =>
+  const nftsSupply = (nfts: Array<NftData>) => nfts.length || 0;
+  const nftsSupplyAndName = (nfts: Array<NftData>, collContract: Contract) =>
     `${nftsSupply(nfts)} ${collectionSymbol(collContract)}${nftsSupply(nfts) > 1 ? "s" : ""}`;
 
   // Nft helpers
-  const nftName = (nft) => nft.name;
-  const nftDescription = (nft) =>
+  const nftName = (nft: NftData) => nft.name;
+  const nftDescription = (nft: NftData) =>
     (nft.name != nft.description && nft.description) ||
     `${collectionContract.name} #${nft.tokenID}`;
-  const nftDescriptionShort = (nft) => short(nftDescription(nft), 140);
-  const nftImageLink = (nft) =>
+  const nftDescriptionShort = (nft: NftData) => short(nftDescription(nft), 140);
+  const nftImageLink = (nft: NftData) =>
     nft.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
-  const nftOpenSeaLink = (nft) => `${openSea?.assets}/${collection}/${nft.tokenID}`;
-  const nftExplorerLink = (nft) =>
+  const nftOpenSeaLink = (nft: NftData) => `${openSea?.assets}/${collection}/${nft.tokenID}`;
+  const nftExplorerLink = (nft: NftData) =>
     explorer?.includes("chainstacklabs.com")
-      ? `${explorer}/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`
-      : `${explorer}/token/${nft.collection}?a=${nft.tokenID}`;
+      ? `${explorer}/tokens/${nft.contract}/instance/${nft.tokenID}/metadata`
+      : `${explorer}/token/${nft.contract}?a=${nft.tokenID}`;
 
   const moreToggle = (i: number) => {
     const divTableDrop = document.getElementById(`table-drop-${i}`);
@@ -183,7 +202,7 @@
       ? "auto"
       : `${divMoreDetail.offsetHeight + 70}px`;
   };
-  const sleep = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
+  const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 </script>
 
 <div id="kredeum-nft">
@@ -223,20 +242,6 @@
           <a href="#create" class="btn btn-light" title="Create"
             ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
           >
-        </div>
-
-        <div>
-          {#if beta}
-            {#if collectionNew}
-              Collection created: {collectionNew}
-            {:else if cloning}
-              Creating new collection... sign the transaction and wait till completed, it may takes
-              one minute or more.
-            {:else}
-              <input bind:value="{collectionNewName}" placeholder="Collection name" />
-              <button on:click="{createCollection}">Create Collection</button>
-            {/if}
-          {/if}
         </div>
       </div>
     </header>
@@ -509,4 +514,169 @@
       </div>
     </div>
   </section>
+
+  <!-- Modal create -->
+  <div id="create" class="modal-window">
+    <div>
+      <div class="modal-content">
+        <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+        <div class="modal-body">
+          <div class="titre">
+            <i class="fas fa-plus fa-left c-green"></i>What do you want to do ?
+          </div>
+
+          <div class="txtcenter">
+            <a href="#create-nft" class="btn btn-default" title="Create NFT">Create NFT</a>
+            <span class="or">Or</span>
+            <a href="#add-collection" class="btn btn-second" title="Add a new collection">
+              Add a new collection
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal create NFT -->
+  <div id="create-nft" class="modal-window">
+    <div>
+      <div class="modal-content">
+        <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+        <div class="modal-body">
+          <div class="titre"><i class="fas fa-plus fa-left c-green"></i>Create NFT</div>
+
+          <form method="POST" action="" enctype="multipart/form-data">
+            <div class="section">
+              <div class="box-file"><input type="file" id="file" name="file" /></div>
+            </div>
+
+            <div class="section">
+              <span class="label label-big">Media type</span>
+              <div class="box-fields">
+                <input
+                  class="box-field"
+                  id="create-type-video"
+                  name="media-type"
+                  type="checkbox"
+                  value="Video"
+                />
+                <label class="field" for="create-type-video"><i class="fas fa-play"></i>Video</label
+                >
+
+                <input
+                  class="box-field"
+                  id="create-type-picture"
+                  name="media-type"
+                  type="checkbox"
+                  value="Picture"
+                />
+                <label class="field" for="create-type-picture"
+                  ><i class="fas fa-image"></i>Picture</label
+                >
+
+                <input
+                  class="box-field"
+                  id="create-type-texte"
+                  name="media-type"
+                  type="checkbox"
+                  value="Texte"
+                />
+                <label class="field" for="create-type-texte"
+                  ><i class="fas fa-file-alt"></i>Texte</label
+                >
+
+                <input
+                  class="box-field"
+                  id="create-type-music"
+                  name="media-type"
+                  type="checkbox"
+                  value="Music"
+                />
+                <label class="field" for="create-type-music"
+                  ><i class="fas fa-music"></i>Music</label
+                >
+
+                <input
+                  class="box-field"
+                  id="create-type-web"
+                  name="media-type"
+                  type="checkbox"
+                  value="Web"
+                />
+                <label class="field" for="create-type-web"><i class="fas fa-code"></i>Web</label>
+              </div>
+            </div>
+
+            <div class="section">
+              <span class="label label-big">Add to an existing collection ?</span>
+              <div>
+                <select class="custom">
+                  <option selected value="0">Collection 0</option>
+                  <option value="1">Collection 1</option>
+                  <option value="2">Collection 2</option>
+                  <option value="3">Collection 3</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="txtright">
+              <button class="btn btn-default btn-sell" type="submit">Add file</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal add collection -->
+  <div id="add-collection" class="modal-window">
+    <div>
+      <div class="modal-content">
+        <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+        <div class="modal-body">
+          <div>
+            {#if collectionNew}
+              <div>
+                <div class="titre">
+                  <i class="fas fa-check fa-left c-green"></i>
+                  Collection created @ {@html explorerAddressLink(collectionNew)}
+                </div>
+              </div>
+            {:else if cloning}
+              <div class="titre">
+                <i class="fas fa-sync fa-left c-green"></i>Creating new collection...
+              </div>
+              <div>
+                Sign the transaction and wait till completed, it may takes one minute or more.
+              </div>
+            {:else}
+              <div class="titre">
+                <i class="fas fa-plus fa-left c-green"></i>Name your collection
+              </div>
+
+              <div class="section">
+                <div class="form-field">
+                  <input type="text" placeholder="My collection" bind:value="{collectionNewName}" />
+                </div>
+              </div>
+
+              <div class="txtright">
+                <button class="btn btn-default btn-sell" type="submit" on:click="{createCollection}"
+                  >Create</button
+                >
+              </div>
+            {/if}
+            {#if cloningTxHash}
+              <div>
+                Transaction : {@html explorerTxLink(cloningTxHash)}
+              </div>
+            {/if}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
