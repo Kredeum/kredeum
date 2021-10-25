@@ -42,7 +42,7 @@ add_action(
 				// $metadata['post'] = get_post( $post->ID );
 
 				printf(
-					'<kredeum-nft-mint'
+					'<kredeum-nfts-mint'
 					. ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
 					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'

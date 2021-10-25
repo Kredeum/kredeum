@@ -1,5 +1,5 @@
 <script type="text/javascript">
-  import KredeumNft from "./kredeum-nft.svelte";
+  import KredeumNfts from "./kredeum-nfts.svelte";
 
   // (function () {
   //   var accItem = document.getElementsByClassName("table-drop");
@@ -63,7 +63,7 @@
 </nav>
 
 <main role="main">
-  <KredeumNft />
+  <KredeumNfts />
 </main>
 
 <footer></footer>

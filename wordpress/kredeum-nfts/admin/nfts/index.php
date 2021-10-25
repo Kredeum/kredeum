@@ -16,9 +16,9 @@ add_action(
 			'edit_posts',
 			'nfts',
 			function () {
-				wp_nonce_field( 'ajax-kredeum-nft', 'knonce' );
+				wp_nonce_field( 'ajax-kredeum-nfts', 'knonce' );
 					printf(
-						'<kredeum-nft'
+						'<kredeum-nfts'
 						. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'
 						. esc_attr( KREDEUM_BETA ? ' beta="true"' : '' )
 						// . ' platform="wordpress"'

@@ -6,6 +6,6 @@ describe("Kredeum NFTs DAPP", () => {
 
     cy.contains("My NFTs");
     cy.contains("My NFTs", { includeShadowDom: true });
-    cy.get("kredeum-nft").shadow().contains("My NFTs");
+    cy.get("kredeum-nfts").shadow().contains("My NFTs");
   });
 });

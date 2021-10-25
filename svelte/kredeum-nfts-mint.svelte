@@ -31,12 +31,12 @@
 
   // CONTRACT OR NETWORK CHANGE
   $: if (chainId) {
-    // console.log("<kredeum-nft-mint/> chainId changed", chainId);
+    // console.log("<kredeum-nfts-mint/> chainId changed", chainId);
     init();
   }
 
   async function init() {
-    // console.log(`<kredeum-nft-mint/> init ${chainId}`);
+    // console.log(`<kredeum-nfts-mint/> init ${chainId}`);
     network = getNetwork(chainId);
     if (network) {
       if (!contract && chainId != chainIdOld) {
@@ -50,7 +50,7 @@
   }
 
   async function nftMint() {
-    // console.log("<kredeum-nft-mint/> nftMint src alt", src, alt);
+    // console.log("<kredeum-nfts-mint/> nftMint src alt", src, alt);
 
     if (signer) {
       minting = true;
@@ -72,7 +72,7 @@
         minted = await Mint(chainId, contract, signer, `${ipfsGateway}/${cidJson}`);
         dispatch("token", { nid: minted.nid });
       } catch (e) {
-        console.error("<kredeum-nft-mint/> Minting ERROR", e);
+        console.error("<kredeum-nfts-mint/> Minting ERROR", e);
         minted = false;
         minting = false;
       }
@@ -82,7 +82,7 @@
   }
 </script>
 
-<main id="kredeum-nft-min">
+<main id="kredeum-nfts-min">
   IMAGE
   {#if display && src}
     <img src="{src}" alt="{alt}" width="{width}" /><br />

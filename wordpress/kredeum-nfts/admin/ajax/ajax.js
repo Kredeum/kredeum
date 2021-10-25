@@ -21,7 +21,7 @@ function _ajax(data) {
 
 jQuery(document).ready(function () {
   // ACTION MINT_TOKEN
-  document.querySelectorAll("kredeum-nft-mint").forEach(function (kredeumNftMint) {
+  document.querySelectorAll("kredeum-nfts-mint").forEach(function (kredeumNftMint) {
     kredeumNftMint.$on("token", function (e) {
       _ajax({
         action: "token",
@@ -31,7 +31,7 @@ jQuery(document).ready(function () {
     });
   });
 
-  if ((kredeumNft = document.querySelector("kredeum-nft"))) {
+  if ((kredeumNft = document.querySelector("kredeum-nfts"))) {
     // ACTION CREATE_COLLECTION
     kredeumNft.$on("collection", function (e) {
       _ajax({

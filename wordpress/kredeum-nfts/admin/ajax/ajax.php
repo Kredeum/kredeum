@@ -46,7 +46,7 @@ add_action(
 add_action(
 	'wp_ajax_import',
 	function () {
-		check_ajax_referer( 'ajax-kredeum-nft', 'security' );
+		check_ajax_referer( 'ajax-kredeum-nfts', 'security' );
 
 		if ( isset( $_POST['nft'] ) ) {
 
@@ -64,7 +64,7 @@ add_action(
 add_action(
 	'wp_ajax_collection',
 	function () {
-		check_ajax_referer( 'ajax-kredeum-nft', 'security' );
+		check_ajax_referer( 'ajax-kredeum-nfts', 'security' );
 
 		if ( isset( $_POST['collection'] ) ) {
 

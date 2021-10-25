@@ -1,6 +1,6 @@
 <script lang="ts">
   import Metamask from "./kredeum-metamask.svelte";
-  import KredeumNftMint from "./kredeum-nft-mint.svelte";
+  import KredeumNftsMint from "./kredeum-nfts-mint.svelte";
   import kimages from "../lib/kimages";
   import { createEventDispatcher } from "svelte";
   import { Signer, utils } from "ethers";
@@ -49,7 +49,7 @@
     if (chainId && address) {
       network = getNetwork(chainId);
       if (network) {
-        console.log("<kredeum-nft/> init", chainId, collection, address, network);
+        console.log("<kredeum-nfts/> init", chainId, collection, address, network);
 
         openSea = network.openSea;
         explorer = network.blockExplorerUrls[0] || "";
@@ -74,16 +74,16 @@
 
   async function _listContracts() {
     if (network && address) {
-      console.log("<kredeum-nft/> _listContracts", `nfts://${network?.chainName}@${address}`);
+      console.log("<kredeum-nfts/> _listContracts", `nfts://${network?.chainName}@${address}`);
 
       Collections = null;
 
       Collections = listContractsFromCache(chainId);
-      // console.log("<kredeum-nft/> Collections cache loaded", Collections);
+      // console.log("<kredeum-nfts/> Collections cache loaded", Collections);
       refreshingCollections = true;
 
       Collections = await listContracts(chainId, address);
-      // console.log("<kredeum-nft/> Collections refresh done", Collections);
+      // console.log("<kredeum-nfts/> Collections refresh done", Collections);
       refreshingCollections = false;
     }
   }
@@ -95,7 +95,7 @@
 
     if (network && collection && collectionContract && address) {
       console.log(
-        "<kredeum-nft/> _listNFTs",
+        "<kredeum-nfts/> _listNFTs",
         `nft://${network?.chainName || "..."}/${collection || "..."}@${address || "..."}`,
         network
       );
@@ -103,11 +103,11 @@
       NFTs = null;
 
       NFTs = listNFTsFromCache(chainId, collection, address);
-      // console.log("<kredeum-nft/> _listNFTs cache loaded", NFTs);
+      // console.log("<kredeum-nfts/> _listNFTs cache loaded", NFTs);
       refreshingCollection = true;
 
       NFTs = await listNFTs(chainId, collection, address);
-      // console.log("<kredeum-nft/> _listNFTs refresh done", NFTs);
+      // console.log("<kredeum-nfts/> _listNFTs refresh done", NFTs);
       refreshingCollection = false;
     }
   }
@@ -128,7 +128,7 @@
   };
 
   const createCollection = async () => {
-    // console.log("<kredeum-nft/> createCollection");
+    // console.log("<kredeum-nfts/> createCollection");
     if (signer) {
       cloning = true;
       cloningTxHash = null;
@@ -145,7 +145,7 @@
 
       cloning = false;
     } else {
-      console.error("<kredeum-nft/> not signer");
+      console.error("<kredeum-nfts/> not signer");
     }
   };
 
@@ -205,7 +205,7 @@
   const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 </script>
 
-<div id="kredeum-nft">
+<div id="kredeum-nfts">
   <!-- <form id="search-top" action="">
     <input type="text" id="search" placeholder="Search" />
     <button type="submit">

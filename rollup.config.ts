@@ -18,7 +18,7 @@ if (!process.env.PROD) {
 if (!process.env.INFURA_API_KEY) {
   throw new Error("ENV variables not set!");
 }
-const production = Boolean(process.env.PROD); 
+const production = Boolean(process.env.PROD);
 
 const envKeys = () => {
   return Object.keys(process.env).reduce(
@@ -87,6 +87,6 @@ const toRollupConfig = function (component) {
 
 export default [
   // toRollupConfig("kredeum-metamask"),
-  // toRollupConfig("kredeum-nft-mint")
-  toRollupConfig("kredeum-nft")
+  // toRollupConfig("kredeum-nfts-mint")
+  toRollupConfig("kredeum-nfts")
 ];
