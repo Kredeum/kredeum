@@ -1,7 +1,7 @@
-import { ethers, BigNumber, utils, Signer, Contract as ContractEthers } from "ethers";
+import { ethers, BigNumber, utils, Signer, Contract } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
-import type { Network, Contract } from "./kconfig";
+import type { Network, Collection } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
 import type {
   Provider,
@@ -10,7 +10,7 @@ import type {
   TransactionReceipt
 } from "@ethersproject/abstract-provider";
 
-function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory {
+const getNFTsFactory = (chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory => {
   // console.log("getNFTsFactory", chainId);
   let nftsFactory: NFTsFactory;
 
@@ -20,7 +20,7 @@ function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider):
   if (network?.nftsFactory) {
     _providerOrSigner = _providerOrSigner || getProvider(chainId);
 
-    nftsFactory = new ContractEthers(
+    nftsFactory = new Contract(
       network?.nftsFactory || "",
       abis.CloneFactory.concat(abis.NFTsFactory),
       _providerOrSigner
@@ -28,13 +28,13 @@ function getNFTsFactory(chainId: number, _providerOrSigner?: Signer | Provider):
   }
 
   return nftsFactory;
-}
+};
 
-async function listContractsFromCovalent(
+const listCollectionsFromCovalent = async (
   chainId: number,
   _owner?: string
-): Promise<Map<string, Contract>> {
-  let contracts: Map<string, Contract> = new Map();
+): Promise<Map<string, Collection>> => {
+  let collections: Map<string, Collection> = new Map();
   let path;
   const network = getNetwork(chainId);
 
@@ -53,38 +53,38 @@ async function listContractsFromCovalent(
     if (answerCov.error) {
       console.error("answerCov.error", answerCov.error);
     } else {
-      const contractsJson = answerCov?.data?.items || [];
-      // console.log(contractsJson[0]);
-      // console.log("listContractsFromCovalent nbContracts", contractsJson.length);
+      const collectionsJson = answerCov?.data?.items || [];
+      // console.log(collectionsJson[0]);
+      // console.log("listCollectionsFromCovalent nbContracts", collectionsJson.length);
 
-      for (let index = 0; index < contractsJson.length; index++) {
-        const contract = contractsJson[index];
+      for (let index = 0; index < collectionsJson.length; index++) {
+        const collection = collectionsJson[index];
         const chainName = network.chainName;
-        const address = contract.contract_address;
+        const address = collection.contract_address;
 
-        contracts.set(nftsUrl(chainId, address), {
+        collections.set(nftsUrl(chainId, address), {
           chainId,
           chainName,
           address,
-          name: contract.contract_name,
-          symbol: contract.contract_ticker_symbol,
-          totalSupply: contract.balance
+          name: collection.contract_name,
+          symbol: collection.contract_ticker_symbol,
+          totalSupply: collection.balance
         });
       }
     }
   }
-  // console.log("listContractsFromCovalent nbContracts ERC721", contracts.length);
-  // console.log("listContractsFromCovalent", contracts);
+  // console.log("listCollectionsFromCovalent nbContracts ERC721", collections.length);
+  // console.log("listCollectionsFromCovalent", collections);
 
-  return contracts;
-}
+  return collections;
+};
 
-async function listContractsFromTheGraph(
+const listCollectionsFromTheGraph = async (
   chainId: number,
   _owner?: string
-): Promise<Map<string, Contract>> {
-  // console.log("listContractsFromTheGraph");
-  let contracts: Map<string, Contract> = new Map();
+): Promise<Map<string, Collection>> => {
+  // console.log("listCollectionsFromTheGraph");
+  let collections: Map<string, Collection> = new Map();
   const network = getNetwork(chainId);
 
   if (_owner) {
@@ -112,39 +112,39 @@ async function listContractsFromTheGraph(
     let index2 = 0;
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
-      const { contract, numTokens } = currentContractResponse;
-      const { id: address, name, symbol } = contract;
+      const { collection, numTokens } = currentContractResponse;
+      const { id: address, name, symbol } = collection;
       const chainName = network.chainName;
       const totalSupply = Math.max(numTokens, 0);
 
       if (currentContractResponse.numTokens > 0) {
-        contracts.set(nftsUrl(chainId, address), {
+        collections.set(nftsUrl(chainId, address), {
           chainId,
           chainName,
           address,
           name,
           symbol,
           totalSupply
-        } as Contract);
+        } as Collection);
         index2++;
       }
     }
   }
-  // console.log("listcontractsFromTheGraph", contracts);
-  return contracts;
-}
+  // console.log("listcollectionsFromTheGraph", collections);
+  return collections;
+};
 
-async function listContractsFromFactory(
+const listCollectionsFromFactory = async (
   chainId: number,
   _owner: string = ethers.constants.AddressZero,
   _provider?: Provider
-): Promise<Map<string, Contract>> {
-  // console.log("listContractsFromFactory", chainId, _owner);
+): Promise<Map<string, Collection>> => {
+  // console.log("listCollectionsFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
-  let contracts: Map<string, Contract> = new Map();
+  let collections: Map<string, Collection> = new Map();
   const nftsFactory: NFTsFactory = getNFTsFactory(chainId, _provider);
-  // console.log("listContractsFromFactory nftsFactory ok ?", nftsFactory ? "OK" : "KO");
+  // console.log("listCollectionsFromFactory nftsFactory ok ?", nftsFactory ? "OK" : "KO");
 
   if (nftsFactory) {
     let balances = [];
@@ -159,7 +159,7 @@ async function listContractsFromFactory(
       const symbol = balance[2];
       const totalSupply = Number(balance[3]);
       const owner = utils.getAddress(balance[4]);
-      contracts.set(`nfts://${chainName}/${address}`, {
+      collections.set(`nfts://${chainName}/${address}`, {
         totalSupply,
         chainId,
         chainName,
@@ -171,76 +171,76 @@ async function listContractsFromFactory(
     }
   }
 
-  // console.log("listContractsFromFactory", contracts);
-  return contracts;
-}
+  // console.log("listCollectionsFromFactory", collections);
+  return collections;
+};
 
-async function listContracts(
+const listCollections = async (
   chainId: number,
   _owner?: string,
   _provider?: Provider
-): Promise<Array<Contract>> {
-  // console.log("listContracts");
-  let contracts: Array<Contract> = [];
+): Promise<Array<Collection>> => {
+  // console.log("listCollections");
+  let collections: Array<Collection> = [];
 
   const network = getNetwork(chainId);
   if (network) {
-    let contractsOwner: Map<string, Contract> = new Map();
-    let contractsKredeum: Map<string, Contract> = new Map();
+    let collectionsOwner: Map<string, Collection> = new Map();
+    let collectionsKredeum: Map<string, Collection> = new Map();
 
-    // GET user contracts
+    // GET user collections
     if (getSubgraphUrl(chainId)) {
-      contractsOwner = await listContractsFromTheGraph(chainId, _owner);
+      collectionsOwner = await listCollectionsFromTheGraph(chainId, _owner);
     } else if (getCovalent(chainId)) {
-      contractsOwner = await listContractsFromCovalent(chainId, _owner);
+      collectionsOwner = await listCollectionsFromCovalent(chainId, _owner);
     }
-    contractsKredeum = await listContractsFromFactory(chainId, _owner, _provider);
+    collectionsKredeum = await listCollectionsFromFactory(chainId, _owner, _provider);
 
-    // MERGE contractsOwner and contractsKredeum
-    const contractsMap = new Map([...contractsOwner, ...contractsKredeum]);
-    // console.log("listContracts", contractsMap);
-    contracts = [...contractsMap.values()];
+    // MERGE collectionsOwner and collectionsKredeum
+    const collectionsMap = new Map([...collectionsOwner, ...collectionsKredeum]);
+    // console.log("listCollections", collectionsMap);
+    collections = [...collectionsMap.values()];
 
     if (typeof localStorage !== "undefined") {
-      contracts?.forEach((contract, i) => {
-        const address = utils.getAddress(contract.address);
-        contracts[i].address = address;
+      collections?.forEach((collection, i) => {
+        const address = utils.getAddress(collection.address);
+        collections[i].address = address;
         localStorage.setItem(
           `nfts://${network.chainName}/${address}`,
-          JSON.stringify(contract, null, 2)
+          JSON.stringify(collection, null, 2)
         );
       });
     }
   }
-  // console.log("listContracts", contracts);
-  return contracts;
-}
+  // console.log("listCollections", collections);
+  return collections;
+};
 
-function listContractsFromCache(chainId: number) {
-  const contracts = [];
+const listCollectionsFromCache = (chainId: number): Array<Collection> => {
+  const collections = [];
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
-    // console.log("listContractsFromCache", key, index);
+    // console.log("listCollectionsFromCache", key, index);
 
     if (key?.startsWith("nfts://")) {
-      const contract = JSON.parse(localStorage.getItem(key) || "{}");
-      // console.log("listContractsFromCache", contract);
-      if (chainId && chainId === contract.chainId) {
-        contracts.push(contract);
+      const collection = JSON.parse(localStorage.getItem(key) || "{}");
+      // console.log("listCollectionsFromCache", collection);
+      if (chainId && chainId === collection.chainId) {
+        collections.push(collection);
       }
     }
   }
-  // console.log("listContractsFromCache", contracts);
-  return contracts;
-}
+  // console.log("listCollectionsFromCache", collections);
+  return collections;
+};
 
-async function CloneResponse(
+const CloneResponse = async (
   chainId: number,
   _contract: string,
   _name: string,
   _cloner: Signer
-): Promise<TransactionResponse> {
+): Promise<TransactionResponse> => {
   const cloner = await _cloner.getAddress();
   // console.log("CloneResponse", chainId, _contract, cloner);
 
@@ -260,13 +260,13 @@ async function CloneResponse(
   }
 
   return txResp;
-}
+};
 
-async function CloneReceipt(txResp: TransactionResponse): Promise<TransactionReceipt> {
+const CloneReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
   return await txResp.wait();
-}
+};
 
-function CloneAddress(txReceipt: TransactionReceipt): string {
+const CloneAddress = (txReceipt: TransactionReceipt): string => {
   let implementation: string = "";
 
   console.log("txReceipt", txReceipt);
@@ -281,30 +281,30 @@ function CloneAddress(txReceipt: TransactionReceipt): string {
 
   //  console.log("CloneAddress", implementation);
   return implementation;
-}
+};
 
-async function Clone(
+const Clone = async (
   chainId: number,
   _contract: string,
   _name: string,
   _cloner: Signer
-): Promise<string> {
+): Promise<string> => {
   const txResp = await CloneResponse(chainId, _contract, _name, _cloner);
   const txReceipt = await CloneReceipt(txResp);
   const address = CloneAddress(txReceipt);
   return address;
-}
+};
 
 export {
   Clone,
   CloneResponse,
   CloneReceipt,
   CloneAddress,
-  listContracts,
-  listContractsFromCache,
-  listContractsFromCovalent,
-  listContractsFromTheGraph,
-  listContractsFromFactory,
+  listCollections,
+  listCollectionsFromCache,
+  listCollectionsFromCovalent,
+  listCollectionsFromTheGraph,
+  listCollectionsFromFactory,
   getNFTsFactory
 };
 export type { NFTsFactory };

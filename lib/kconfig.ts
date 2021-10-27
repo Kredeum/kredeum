@@ -1,17 +1,17 @@
 import networks from "../config/networks.json";
 import abis from "../config/abis.json";
-import type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys } from "./ktypes";
+import type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys } from "./ktypes";
 
-import { ethers, providers, Signer } from "ethers";
+import { providers } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-function getNetwork(chainId: number | string): Network | undefined {
+const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
-}
+};
 
-const getProvider = function (chainId: number): Provider | undefined {
+const getProvider = (chainId: number): Provider | undefined => {
   let provider: Provider;
   const network = getNetwork(chainId);
   console.log("getProvider", chainId, "=>", network);
@@ -30,41 +30,47 @@ const getProvider = function (chainId: number): Provider | undefined {
   return provider;
 };
 
-const getSubgraphUrl = function (chainId: number): string {
+const getSubgraphUrl = (chainId: number): string => {
   const network = getNetwork(chainId);
   return (network?.subgraph?.active && network?.subgraph?.url) || "";
 };
 
-const getCovalent = function (chainId: number) {
+const getCovalent = (chainId: number) => {
   const network = getNetwork(chainId);
   return network?.covalent?.active;
 };
 
+// GET chain name
+const getChainName = (chainId: number) => {
+  const network = getNetwork(chainId);
+  return network?.chainName || "";
+};
+
 // GET explorer
-const getExplorer = function (chainId: number) {
+const getExplorer = (chainId: number) => {
   const network = getNetwork(chainId);
   return network?.blockExplorerUrls[0] || "";
 };
 
 // GET OpenSea
-const getOpenSea = function (chainId: number) {
+const getOpenSea = (chainId: number) => {
   const network = getNetwork(chainId);
   return network?.openSea || {};
 };
 
 // nfts url : nfts://chainName/contractAddress
-const nftsUrl = function (chainId: number, _address: string): string {
+const nftsUrl = (chainId: number, _address: string): string => {
   const network = getNetwork(chainId);
   return "nfts://" + (network ? network.chainName + (_address ? "/" + _address : "...") : "...");
 };
 
 // nft url : nft://chainName/contractAddress/tokenID
-const nftUrl = function (
+const nftUrl = (
   chainId: number,
   _contract: string,
   _tokenId: string,
   plus: string = "..."
-): string {
+): string => {
   const network = getNetwork(chainId);
   const ret =
     "nft://" +
@@ -79,12 +85,14 @@ const nftUrl = function (
 export {
   abis,
   networks,
+  getChainName,
   getNetwork,
   getProvider,
   getSubgraphUrl,
+  getOpenSea,
   getCovalent,
   getExplorer,
   nftUrl,
   nftsUrl
 };
-export type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys };
+export type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };

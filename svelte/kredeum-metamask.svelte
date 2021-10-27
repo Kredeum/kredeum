@@ -1,20 +1,23 @@
-<script>
+<script lang="ts">
+  import type { Signer } from "ethers";
+  import type { EthereumProvider } from "hardhat/types";
+  import type { Web3Provider } from "@ethersproject/providers";
+
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { getNetwork, networks } from "../lib/kconfig";
-  import { hexConcat } from "ethers/lib/utils";
+  import { addressShort, numberToHexString } from "../lib/knfts";
 
-  export let signer = undefined;
-  export let address = undefined;
-  export let chainId = undefined;
-  export let autoconnect = undefined;
+  export let signer: Signer;
+  export let address: string;
+  export let chainId: number;
+  export let autoconnect: string;
 
-  const testnets = false;
-  const short = (s = "", n = 16, p = 8) => {
-    const l = s?.toString().length;
-    return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - 4, l) : ""));
-  };
+  const testnets = true;
+
+  let ethereumProvider: EthereumProvider;
+  let ethersProvider: Web3Provider;
 
   let network;
   let nameOrAddress = "";
@@ -22,12 +25,8 @@
 
   let targetChain = false;
 
-  function hex(ch) {
-    return `0x${ch.toString(16)}`;
-  }
-
-  async function addEthereumChain() {
-    // console.log("<kredeum-metamask/> addEthereumChain", chainId);
+  async function addEthereumChain(_chainId) {
+    // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
 
     if (targetChain) {
       console.log("already connecting network...");
@@ -35,10 +34,10 @@
     targetChain = true;
 
     // no need to add default ethereum chain
-    if (chainId !== 1) {
-      const _network = getNetwork(chainId);
+    if (_chainId !== 1) {
+      const _network = getNetwork(_chainId);
       if (_network) {
-        _network.chainId = hex(chainId);
+        _network.chainId = chainId;
         for (const field in _network) {
           // EIP-3085 fields only or fails
           if (
@@ -55,7 +54,7 @@
           }
         }
         // add new chain to metamask
-        ethereum
+        ethereumProvider
           .request({
             method: "wallet_addEthereumChain",
             params: [_network]
@@ -81,10 +80,11 @@
   }
 
   async function switchEthereumChain(_chainId) {
+    console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
     try {
-      await ethereum.request({
+      await ethereumProvider.request({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: hex(_chainId) }]
+        params: [{ chainId: numberToHexString(_chainId) }]
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
@@ -102,23 +102,23 @@
       address = ethers.utils.getAddress(_accounts[0]);
 
       let name;
-      const provider = new ethers.providers.Web3Provider(ethereum);
       try {
-        name = await provider.lookupAddress(address);
+        name = await ethersProvider.lookupAddress(address);
       } catch (e) {
         console.error("NO ENS on this chain");
       }
       nameOrAddress = name || address || "";
 
-      signer = provider.getSigner(0);
+      signer = ethersProvider.getSigner(0);
 
       // console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
   }
+
   async function connectMetamask() {
     // console.log("connectMetamask");
 
-    ethereum
+    ethereumProvider
       .request({
         method: "eth_requestAccounts"
       })
@@ -131,6 +131,7 @@
         }
       });
   }
+
   onMount(async function () {
     // console.log("init");
     const provider = await detectEthereumProvider();
@@ -139,23 +140,26 @@
         alert("Do you have multiple wallets installed?");
       }
 
-      ethereum
+      ethereumProvider = window.ethereum as EthereumProvider;
+      ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
+
+      ethereumProvider
         .request({
           method: "eth_accounts"
         })
         .then(handleAccounts)
         .catch((e) => console.error("ERROR eth_accounts", e));
 
-      ethereum
+      ethereumProvider
         .request({
           method: "eth_chainId"
         })
         .then(handleChainId)
         .catch((e) => console.error("ERROR eth_chainId", e));
 
-      ethereum.on("chainChanged", handleChainId);
+      ethereumProvider.on("chainChanged", handleChainId);
 
-      ethereum.on("accountsChanged", handleAccounts);
+      ethereumProvider.on("accountsChanged", handleAccounts);
     } else {
       console.log("Please install MetaMask!");
       connectmetamask = "Please install MetaMask chrome extension to connect with your address";
@@ -163,30 +167,12 @@
   });
 </script>
 
-<div class="box-section">
-  <span class="label label-big">Network</span>
-
-  <div class="box-fields">
-    {#each networks.filter((nw) => nw.type == "mainnet") as network}
-      <input
-        class="box-field"
-        id="{network.chainName}"
-        name="blockchain-type"
-        type="checkbox"
-        value="{network.chainName}"
-        checked="{network.chainId == chainId}"
-        on:click="{() => switchEthereumChain(network.chainId)}"
-      />
-      <label class="field" for="{network.chainName}">{network.chainName}</label>
-    {/each}
-  </div>
-
-  {#if testnets}
-    <div><br /></div>
-    <span class="label label-big">Testnets</span>
+<div id="kredeum-metamask">
+  <div class="box-section">
+    <span class="label label-big">Network</span>
 
     <div class="box-fields">
-      {#each networks.filter((nw) => nw.type == "testnet") as network}
+      {#each networks.filter((nw) => nw.type == "mainnet") as network}
         <input
           class="box-field"
           id="{network.chainName}"
@@ -199,25 +185,45 @@
         <label class="field" for="{network.chainName}">{network.chainName}</label>
       {/each}
     </div>
-  {/if}
-</div>
 
-<div class="box-section">
-  <span class="label label-big">Address</span>
+    {#if testnets}
+      <div><br /></div>
+      <span class="label label-big">Testnets</span>
 
-  {#if address}
-    <div>
-      {#if network}
-        <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">
-          {short(nameOrAddress)}@{network.chainName}
-        </a>
-      {:else}
-        {short(nameOrAddress)}
-      {/if}
-    </div>
-  {:else}
-    <div>
-      <button on:click="{connectMetamask}">{connectmetamask}</button>
-    </div>
-  {/if}
+      <div class="box-fields">
+        {#each networks.filter((nw) => nw.type == "testnet") as network}
+          <input
+            class="box-field"
+            id="{network.chainName}"
+            name="blockchain-type"
+            type="checkbox"
+            value="{network.chainName}"
+            checked="{network.chainId == chainId}"
+            on:click="{() => switchEthereumChain(network.chainId)}"
+          />
+          <label class="field" for="{network.chainName}">{network.chainName}</label>
+        {/each}
+      </div>
+    {/if}
+  </div>
+
+  <div class="box-section">
+    <span class="label label-big">Address</span>
+
+    {#if address}
+      <div>
+        {#if network}
+          <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">
+            {addressShort(nameOrAddress)}@{network.chainName}
+          </a>
+        {:else}
+          {addressShort(nameOrAddress)}
+        {/if}
+      </div>
+    {:else}
+      <div>
+        <button on:click="{connectMetamask}">{connectmetamask}</button>
+      </div>
+    {/if}
+  </div>
 </div>

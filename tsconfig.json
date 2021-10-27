@@ -3,13 +3,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "rootDir": ".",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "downlevelIteration": true
   },
-  "include": [
-    "app/svelte/*.ts",
-    "app/svelte/*.svelte",
-    "config/*.json",
-    "lib/*.ts",
-    "old/lib/isvalid.ts"
-  ]
+  "include": ["lib/*.ts", "app/svelte/*.ts", "app/svelte/*.svelte", "config/*.json"]
 }

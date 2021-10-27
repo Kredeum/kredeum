@@ -4,7 +4,7 @@ import { ethers, deployments } from "hardhat";
 import { expect } from "chai";
 import { networks, getProvider, getNetwork } from "../../lib/kconfig";
 
-import type { Network, Contract } from "../../lib/kconfig";
+import type { Network } from "../../lib/kconfig";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 

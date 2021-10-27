@@ -3,7 +3,7 @@ type AnswerFetchJson = {
   error?: any;
 };
 
-async function fetchJson(_url: string, _config: Object = {}): Promise<AnswerFetchJson> {
+const fetchJson = async (_url: string, _config: Object = {}): Promise<AnswerFetchJson> => {
   let json: AnswerFetchJson = {};
   if (_url) {
     try {
@@ -21,9 +21,9 @@ async function fetchJson(_url: string, _config: Object = {}): Promise<AnswerFetc
   }
   console.log("fetchJson(", _url, _config, ") =>", json);
   return json;
-}
+};
 
-async function fetchGQL(_url: string, _query: string) {
+const fetchGQL = async (_url: string, _query: string) => {
   // console.log(`OpenNFTs.fetchGQL\n${_url}\n${_query}`);
 
   const config = { method: "POST", body: JSON.stringify({ query: _query }) };
@@ -32,9 +32,9 @@ async function fetchGQL(_url: string, _query: string) {
 
   if (answerGQL.error) console.error("OpenNFTs.fetchGQL ERROR", answerGQL.error);
   return answerGQL.data;
-}
+};
 
-async function fetchCov(_path: string) {
+const fetchCov = async (_path: string) => {
   const loginPass = `${process.env.COVALENT_API_KEY}:`;
   const url = `https://api.covalenthq.com/v1${_path}&key=${loginPass}`;
   const config = {
@@ -47,6 +47,6 @@ async function fetchCov(_path: string) {
   const json: AnswerFetchJson = await fetchJson(url, config);
   // console.log(url, "\n", json);
   return json;
-}
+};
 
 export { fetchJson, fetchGQL, fetchCov };

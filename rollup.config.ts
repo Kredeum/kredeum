@@ -1,5 +1,5 @@
 import svelte from "rollup-plugin-svelte";
-import resolve from "@rollup/plugin-node-resolve";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
@@ -12,13 +12,14 @@ import autoPreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
 
-if (!process.env.PROD) {
+if (process.env.ENVIR === undefined) {
   dotenv.config();
 }
 if (!process.env.INFURA_API_KEY) {
   throw new Error("ENV variables not set!");
 }
-const production = Boolean(process.env.PROD);
+const production = process.env.ENVIR == "PROD";
+console.log("production", production);
 
 const envKeys = () => {
   return Object.keys(process.env).reduce(
@@ -39,8 +40,7 @@ const toRollupConfig = function (component) {
         sourcemap: !production,
         format: "iife",
         name: component.replace(/-/g, "_"),
-        // file: `app/build/${component}.js`
-        file: `app/build/bundle.js`
+        file: `app/build/${component}.js`
       },
       {
         sourcemap: !production,
@@ -63,7 +63,7 @@ const toRollupConfig = function (component) {
         values: envKeys()
       }),
       typescript({ sourceMap: !production }),
-      resolve({
+      nodeResolve({
         browser: true,
         dedupe: ["svelte"],
         preferBuiltins: false
@@ -85,8 +85,4 @@ const toRollupConfig = function (component) {
   };
 };
 
-export default [
-  // toRollupConfig("kredeum-metamask"),
-  // toRollupConfig("kredeum-nfts-mint")
-  toRollupConfig("kredeum-nfts")
-];
+export default [toRollupConfig("kredeum-nfts")];

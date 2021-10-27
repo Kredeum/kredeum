@@ -21,19 +21,19 @@ function _ajax(data) {
 
 jQuery(document).ready(function () {
   // ACTION MINT_TOKEN
-  document.querySelectorAll("kredeum-nfts-mint").forEach(function (kredeumNftMint) {
-    kredeumNftMint.$on("token", function (e) {
+  document.querySelectorAll("kredeum-nfts-mint").forEach(function (kredeumNftsMint) {
+    kredeumNftsMint.$on("token", function (e) {
       _ajax({
         action: "token",
         nid: e.detail.nid,
-        pid: kredeumNftMint.pid
+        pid: kredeumNftsMint.pid
       });
     });
   });
 
-  if ((kredeumNft = document.querySelector("kredeum-nfts"))) {
+  if ((kredeumNfts = document.querySelector("kredeum-nfts"))) {
     // ACTION CREATE_COLLECTION
-    kredeumNft.$on("collection", function (e) {
+    kredeumNfts.$on("collection", function (e) {
       _ajax({
         action: "collection",
         collection: e.detail.collection
@@ -41,7 +41,7 @@ jQuery(document).ready(function () {
     });
 
     // ACTION IMPORT_NFT
-    kredeumNft.$on("import", function (e) {
+    kredeumNfts.$on("import", function (e) {
       _ajax({
         action: "import",
         nft: JSON.stringify(e.detail.nft)

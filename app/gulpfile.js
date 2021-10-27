@@ -12,71 +12,66 @@ const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
 const log = require("fancy-log");
-const sourcemaps = require('gulp-sourcemaps');
-const util = require('gulp-util');
-const gulpif = require('gulp-if');
+const sourcemaps = require("gulp-sourcemaps");
+const util = require("gulp-util");
+const gulpif = require("gulp-if");
 
 var config = {
-    production: !!util.env.production
+  production: !!util.env.production
 };
 
 // Clean assets
 function clean() {
-    return del(["./assets/"]);
+  return del(["./assets/"]);
 }
 
 function swallow(err) {
-    console.log(err.message);
-    this.emit('end');
+  console.log(err.message);
+  this.emit("end");
 }
-
 
 // Optimize Images
 function images() {
-    return gulp
-        .src("./src/images/**/*")
-        .pipe(newer("./assets/images"))
-        .pipe(
-          imagemin([
-            imagemin.gifsicle({ interlaced: true }),
-            imagemin.mozjpeg({ progressive: true }),
-            imagemin.optipng({ optimizationLevel: 5 }),
-            imagemin.svgo({
-              plugins: [
-                {
-                  removeViewBox: false,
-                  collapseGroups: true
-                }
-              ]
-            })
-          ])
-        )
-        .pipe(gulp.dest("./assets/images"));
+  return gulp
+    .src("./src/images/**/*")
+    .pipe(newer("./assets/images"))
+    .pipe(
+      imagemin([
+        imagemin.gifsicle({ interlaced: true }),
+        imagemin.mozjpeg({ progressive: true }),
+        imagemin.optipng({ optimizationLevel: 5 }),
+        imagemin.svgo({
+          plugins: [
+            {
+              removeViewBox: false,
+              collapseGroups: true
+            }
+          ]
+        })
+      ])
+    )
+    .pipe(gulp.dest("./assets/images"));
 }
 
 // CSS task
 function css() {
-    return gulp
-        .src("./src/scss/**/*.scss")
-        .pipe(!config.production ? sourcemaps.init() : util.noop())
-        .pipe(plumber())
-        .pipe(sass({outputStyle: 'expanded'}).on('error', sass.logError, swallow))
-        .pipe(postcss([autoprefixer(), cssnano()]))
-        .pipe(sourcemaps.write('.', { sourceRoot: 'css-source' }))
-        .pipe(gulp.dest("./assets/css/"))
+  return gulp
+    .src("./src/scss/**/*.scss")
+    .pipe(!config.production ? sourcemaps.init() : util.noop())
+    .pipe(plumber())
+    .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
+    .pipe(postcss([autoprefixer(), cssnano()]))
+    .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
+    .pipe(gulp.dest("./assets/css/"));
 }
 
 function fonts() {
-  return (
-      gulp
-          .src(["./src/fonts/**/*"])
-          .pipe(gulp.dest("./assets/fonts/"))
-  )
+  return gulp.src(["./src/fonts/**/*"]).pipe(gulp.dest("./assets/fonts/"));
 }
 
 // Watch files
 function watchFiles() {
-    gulp.watch("./src/scss/**/*", css);
+  gulp.watch("./src/scss/**/*", css);
 }
 
 const build = gulp.series(clean, gulp.parallel(css, images), fonts);

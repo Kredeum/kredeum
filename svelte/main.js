@@ -1,15 +1,7 @@
-import KPage from "./kredeum-nfts-page.svelte";
-import KMetamask from "./kredeum-metamask.svelte";
-import KMint from "./kredeum-nfts-mint.svelte";
+import KredeumNfts from "./kredeum-nfts.svelte";
 
-var kNft = new KPage({
+var app = new KredeumNfts({
   target: document.body
 });
-// var kMint = new KMint({
-//   target: document.getElementById("kredeum-nfts-mint")
-// });
-// var kMetamask = new KMetamask({
-//   target: document.getElementById("kredeum-metamask")
-// });
 
-// export default { kNft, kMint, kMetamask };
+export default app;

@@ -4,19 +4,6 @@ type ABIS = {
   [Key in ErcKeys | KredeumKeys]: Array<string>;
 };
 
-type Contract = {
-  chainId: number;
-  address: string;
-  owner?: string;
-  name?: string;
-  chainName?: string;
-  interfaces?: Array<string>;
-  symbol?: string;
-  totalSupply?: number;
-  startBlock?: number;
-  description?: string;
-};
-
 type Network = {
   chainId: number;
   chainName: string;
@@ -38,31 +25,37 @@ type Network = {
   eip1559?: boolean;
 };
 
-type NftMetadata = {
-  name?: string;
-  description?: string;
-  image?: string;
-  cid?: string;
-  creator?: string;
-  minter?: string;
+type Collection = {
+  chainId: number;
+  address: string;
   owner?: string;
+  name?: string;
+  symbol?: string;
+  chainName?: string;
+  interfaces?: Array<string>;
+  totalSupply?: number;
+  startBlock?: number;
+  description?: string;
 };
 
-type NftData = {
+type Nft = {
   chainId: number;
-  contract: string;
+  collection: string;
   tokenID: string;
   tokenURI: string;
   owner: string;
   chainName?: string;
   name?: string;
+  contractName?: string;
   description?: string;
-  metadata?: NftMetadata;
+  metadata?: any;
   image?: string;
+  ipfs?: string;
+  origin?: string;
   creator?: string;
   minter?: string;
   cid?: string;
   nid?: string;
 };
 
-export type { Contract, Network, ABIS, NftMetadata, NftData, KredeumKeys, ErcKeys };
+export type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };

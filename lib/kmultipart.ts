@@ -1,4 +1,4 @@
-const multipart = function (parts: Array<any>, boundary: string) {
+const multipart = (parts: Array<any>, boundary: string): string => {
   let ret = "";
 
   parts.forEach((part) => {

@@ -1,6 +1,4 @@
-<svelte:options tag="kredeum-web3modal" />
-
-<script>
+<script lang="ts">
   // import Web3 from "web3";
   import Web3Modal from "web3modal";
 
@@ -91,7 +89,9 @@
 
   async function handleAccounts(_accounts) {
     if (_accounts?.length === 0) {
-      if (autoconnect !== "off") connectMetamask();
+      if (autoconnect !== "off") {
+        // connectMetamask();
+      }
     } else if (_accounts[0] !== address) {
       address = _accounts[0];
       signer = new ethers.providers.Web3Provider(provider).getSigner(0);
@@ -117,14 +117,16 @@
   });
 </script>
 
-{#if address}
-  {#if network}
-    <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
-      >{network?.chainName}@{address}</a
-    >
+<div id="kredeum-web3modal">
+  {#if address}
+    {#if network}
+      <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank"
+        >{network?.chainName}@{address}</a
+      >
+    {:else}
+      {network?.chainName}@{address}
+    {/if}
   {:else}
-    {network?.chainName}@{address}
+    <button on:click>Connect ?</button>
   {/if}
-{:else}
-  <button on:click>Connect ?</button>
-{/if}
+</div>

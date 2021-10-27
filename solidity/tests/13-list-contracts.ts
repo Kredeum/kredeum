@@ -2,10 +2,10 @@ import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { BigNumber } from "ethers";
 import {
-  listContracts,
-  listContractsFromCovalent,
-  listContractsFromTheGraph,
-  listContractsFromFactory
+  listCollections,
+  listCollectionsFromCovalent,
+  listCollectionsFromTheGraph,
+  listCollectionsFromFactory
 } from "../../lib/nfts-factory";
 import type { NFTsFactory } from "../../lib/nfts-factory";
 
@@ -64,23 +64,23 @@ describe("List contracts lib", async function () {
   it("List with NFTsFactory", async function () {
     console.log((await nftsFactory.implementationsCount()).toString());
     console.log(await nftsFactory.balancesOf(owner));
-    console.log(await listContractsFromFactory(chainId, owner, ethers.provider));
-    // expect((await listContractsFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
+    console.log(await listCollectionsFromFactory(chainId, owner, ethers.provider));
+    // expect((await listCollectionsFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
   });
 
   it("List with default method", async function () {
-    expect((await listContracts(chainId, artist, ethers.provider)).length).to.be.gte(1);
+    expect((await listCollections(chainId, artist, ethers.provider)).length).to.be.gte(1);
   });
 
   it("List with The Graph", async function () {
     if (network.subgraph) {
-      expect((await listContractsFromTheGraph(chainId, owner)).size).to.be.gte(1);
+      expect((await listCollectionsFromTheGraph(chainId, owner)).size).to.be.gte(1);
     }
   });
 
   it("With Covalent", async function () {
     if (network.covalent) {
-      expect((await listContractsFromCovalent(chainId, artist)).size).to.be.gte(1);
+      expect((await listCollectionsFromCovalent(chainId, artist)).size).to.be.gte(1);
     }
   });
 });

@@ -16,8 +16,7 @@
     "solidity/flatten"
   ],
   "files.exclude": {
-    "old2": true,
-    ".lh": true
+    "old": true
   },
   "mochaExplorer.exit": true,
   "mochaExplorer.files": "solidity/tests/*.*ts",
@@ -39,12 +38,11 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "GitHub Light Default",
+  "workbench.colorTheme": "Jumper Contrast (rainglow)",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
   "liveServer.settings.root": "/app",
-  "local-history.browser.descending": false,
   "search.exclude": {
     "**/lib/js": true
   },
