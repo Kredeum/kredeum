@@ -13,7 +13,7 @@ const txt = "Bonjour le monde";
 const txtCID = "bafkreicnyrnv5u66eavfne6je3fpsw6zoef66t7f7mlkdqskbdwufduk4a";
 const key = process.env.NFT_STORAGE_KEY || "";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
-const imgCID = "bafkreiaxjwwnei7m2wtpdyhktr5mpjs6askiqijvhl7ui2kcoffc5mwa5e";
+const imgCID = "bafkreifhd3etz6mwjjlisuvaxj4crzqsu4d36ggp5jkhv4i7nnqx5pu3bi";
 const jsn = { json: "file" };
 const jsnCID = "bafkreidnojnd2xzyjtlim2v5wmbnokqdzkjt4hgedzutwucxnutsht3gmy";
 

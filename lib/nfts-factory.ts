@@ -112,8 +112,8 @@ const listCollectionsFromTheGraph = async (
     let index2 = 0;
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
-      const { collection, numTokens } = currentContractResponse;
-      const { id: address, name, symbol } = collection;
+      const { contract, numTokens } = currentContractResponse;
+      const { id: address, name, symbol } = contract;
       const chainName = network.chainName;
       const totalSupply = Math.max(numTokens, 0);
 

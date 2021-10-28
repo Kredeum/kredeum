@@ -56,7 +56,9 @@
           <div class="titre">
             <i class="fas fa-sync fa-left c-green"></i>Creating new collection...
           </div>
-          <div>Sign the transaction and wait till completed, it may takes one minute or more.</div>
+          <div class="section">
+            Sign the transaction and wait till completed, it may takes one minute or more.
+          </div>
         {:else}
           <div class="titre">
             <i class="fas fa-plus fa-left c-green"></i>Name your collection
@@ -75,8 +77,8 @@
           </div>
         {/if}
         {#if cloningTxHash}
-          <div>
-            Transaction : {@html explorerTxLink(chainId, cloningTxHash)}
+          <div class="section">
+            Transaction: {@html explorerTxLink(chainId, cloningTxHash)}
           </div>
         {/if}
       </div>

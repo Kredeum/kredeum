@@ -7,21 +7,18 @@ const deployNFTsFactoryFunction: DeployFunction = async function ({
   getChainId
 }) {
   const network = getNetwork(await getChainId());
-  if (network) {
-    const deployer = await ethers.getNamedSigner("deployer");
 
-    const costClone = ethers.utils.parseEther(`${network.costClone || 0}`);
-    const openNFTs = (await ethers.getContract("OpenNFTs")).address;
-    const contractProbe = (await ethers.getContract("ContractProbe")).address;
+  const deployer = await ethers.getNamedSigner("deployer");
 
-    await deployments.deploy("NFTsFactory", {
-      from: deployer.address,
-      args: [costClone, openNFTs, contractProbe],
-      log: true
-    });
-  } else {
-    console.error("unkwown network");
-  }
+  const costClone = ethers.utils.parseEther(`${network?.costClone || 0}`);
+  const openNFTs = (await ethers.getContract("OpenNFTs")).address;
+  const contractProbe = (await ethers.getContract("ContractProbe")).address;
+
+  await deployments.deploy("NFTsFactory", {
+    from: deployer.address,
+    args: [costClone, openNFTs, contractProbe],
+    log: true
+  });
 };
 deployNFTsFactoryFunction.tags = ["NFTsFactory"];
 deployNFTsFactoryFunction.dependencies = ["ContractProbe", "OpenNFTs"];

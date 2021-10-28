@@ -1,20 +1,21 @@
+import type { NFTsFactory } from "../../lib/nfts-factory";
 import { expect } from "chai";
-import { ethers, deployments } from "hardhat";
 import { BigNumber } from "ethers";
+
 import {
   listCollections,
   listCollectionsFromCovalent,
   listCollectionsFromTheGraph,
   listCollectionsFromFactory
 } from "../../lib/nfts-factory";
-import type { NFTsFactory } from "../../lib/nfts-factory";
-
 import { getNetwork, Network } from "../../lib/kconfig";
+
+import hre from "hardhat";
+const { ethers, deployments } = hre;
 
 const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 describe("List contracts lib", async function () {
-  let chainId: number;
   let owner: string;
   const artist = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
   const txOptions = {
@@ -22,17 +23,25 @@ describe("List contracts lib", async function () {
     maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     type: 2
   };
-  let network: Network;
+  let configNetwork: Network | undefined;
   let nftsFactory: NFTsFactory;
+
+  let network: string;
+  let chainId: number;
+  let live: boolean;
 
   beforeEach(async () => {
     const signer = await ethers.getNamedSigner("deployer");
     owner = signer.address;
 
-    chainId = (await ethers.provider.getNetwork()).chainId;
-    network = getNetwork(chainId);
+    network = hre.network.name;
+    chainId = Number(await hre.getChainId());
+    live = hre.network.live;
+    console.log("network", network, chainId, live);
+
+    configNetwork = getNetwork(chainId);
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTs", "NFTsFactory"]);
+      await deployments.fixture(["NFTsFactory"]);
     }
 
     const openNFTs = await ethers.getContract("OpenNFTs", signer);
@@ -73,13 +82,13 @@ describe("List contracts lib", async function () {
   });
 
   it("List with The Graph", async function () {
-    if (network.subgraph) {
+    if (configNetwork?.subgraph) {
       expect((await listCollectionsFromTheGraph(chainId, owner)).size).to.be.gte(1);
     }
   });
 
   it("With Covalent", async function () {
-    if (network.covalent) {
+    if (configNetwork?.covalent) {
       expect((await listCollectionsFromCovalent(chainId, artist)).size).to.be.gte(1);
     }
   });
