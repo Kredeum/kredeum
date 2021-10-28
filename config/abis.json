@@ -20,8 +20,6 @@
     "function balanceOf(address nft, address owner) view returns (tuple(address nft, string name, string symbol, uint256 balance, address owner) nftData)",
     "function balancesOf(address owner) view returns (tuple(address nft, string name, string symbol, uint256 balance, address owner)[] nftData)",
     "function clone(string,string) payable returns (address _clone)",
-    "function cloneCost() view returns (uint256)",
-    "function setCloneCost(uint256 _cloneCost)",
     "function withdrawEther()"
   ],
   "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],

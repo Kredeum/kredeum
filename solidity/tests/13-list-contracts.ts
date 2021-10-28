@@ -60,7 +60,6 @@ describe("List contracts lib", async function () {
 
   it("Should clone", async function () {
     const txOptions = {
-      value: ethers.utils.parseEther("2"),
       maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
       maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
       type: 2

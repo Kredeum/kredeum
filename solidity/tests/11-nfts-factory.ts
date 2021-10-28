@@ -38,10 +38,7 @@ describe("NFTs Factory contract", function () {
     expect(nftsFactory.interface.getSighash("balancesOf")).to.be.equal("0x6392a51f");
   });
 
-  it("Should clone when paid", async function () {
-    txOptions.value = ethers.utils.parseEther("2");
-    console.log(`cost ${await nftsFactory.cloneCost()}`);
-
+  it("Should clone", async function () {
     await (await nftsFactory.connect(signer).clone("Open NFTs", "NFT", txOptions)).wait();
     const nClone = await nftsFactory.implementationsCount();
     expect(nClone).to.be.gte(2);

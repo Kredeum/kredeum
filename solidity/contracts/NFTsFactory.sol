@@ -11,8 +11,6 @@ import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 contract NFTsFactory is CloneFactory {
   using ERC165Checker for address;
 
-  uint256 public cloneCost;
-
   uint8 constant ERC721 = 0;
   uint8 constant ERC721Metadata = 1;
   uint8 constant ERC721Enumerable = 2;
@@ -30,14 +28,8 @@ contract NFTsFactory is CloneFactory {
     uint256 balance;
     address owner;
   }
-  event NewCloneCost(uint256 indexed cloneCost);
 
-  constructor(
-    uint256 _cloneCost,
-    address _openNFTs,
-    address _contractprobe
-  ) CloneFactory(_contractprobe) {
-    setCloneCost(_cloneCost);
+  constructor(address _openNFTs, address _contractprobe) CloneFactory(_contractprobe) {
     setDefaultTemplate(_openNFTs);
   }
 
@@ -78,19 +70,7 @@ contract NFTsFactory is CloneFactory {
     }
   }
 
-  function setCloneCost(uint256 _cloneCost) public onlyOwner {
-    cloneCost = _cloneCost;
-
-    emit NewCloneCost(cloneCost);
-  }
-
-  function clone(string memory _name, string memory _symbol)
-    public
-    payable
-    returns (address clone_)
-  {
-    require(msg.value >= cloneCost && cloneCost > 0, "Clone is payable");
-
+  function clone(string memory _name, string memory _symbol) public returns (address clone_) {
     clone_ = _clone();
     require(clone_.supportsInterface(OpenNFTsSig), "Clone is not Open NFTs contract");
 

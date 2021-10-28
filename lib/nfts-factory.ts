@@ -250,12 +250,11 @@ const CloneResponse = async (
   const nftsFactory = getNFTsFactory(chainId, _cloner);
 
   if (nftsFactory) {
-    const cost = await nftsFactory.cloneCost();
     const n = await nftsFactory.implementationsCount();
     const name = _name || `Open NFTs #${n}`;
     // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-    txResp = await nftsFactory.clone(name, `NFT${n}`, { value: cost });
+    txResp = await nftsFactory.clone(name, `NFT${n}`);
     console.log(`${network.blockExplorerUrls[0]}/tx/` + txResp.hash);
   }
 
