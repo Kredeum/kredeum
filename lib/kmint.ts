@@ -4,16 +4,15 @@ import NftStorage from "./nft-storage";
 import { Mint } from "./open-nfts";
 import { ipfsUrl, ipfsGatewayUrl } from "./knfts";
 
-let keyDefault: string = "";
 let nftStorage: NftStorage;
 
-const mintImagePinUrl = async (src: string, key: string = keyDefault): Promise<string> => {
+const mintImagePinUrl = async (src: string, key?: string): Promise<string> => {
   nftStorage ??= new NftStorage(key);
 
   return await nftStorage.pinUrl(src);
 };
 
-const mintImagePinJson = async (nftData: Object, key: string = keyDefault): Promise<string> => {
+const mintImagePinJson = async (nftData: Object, key?: string): Promise<string> => {
   nftStorage ??= new NftStorage(key);
 
   return await nftStorage.pinJson(nftData);

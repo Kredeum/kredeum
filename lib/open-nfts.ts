@@ -475,6 +475,10 @@ const Mint = async (
 };
 
 export {
+  MintResponse,
+  MintReceipt,
+  MintTokenID,
+  MintNft,
   Mint,
   listNFTs,
   listNFTsFromCache,

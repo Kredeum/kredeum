@@ -1,13 +1,14 @@
 import Ipfs from "./kipfs";
 
 const nftStorageEndpoint = "https://api.nft.storage";
+const keyDefault: string = process.env.NFT_STORAGE_KEY;
 
 class NftStorage extends Ipfs {
   key: string;
 
   constructor(key: string) {
     super(nftStorageEndpoint);
-    this.key = key;
+    this.key = key || keyDefault;
   }
 
   async pin(buffer: Blob | string) {

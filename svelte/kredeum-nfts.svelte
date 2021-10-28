@@ -28,9 +28,9 @@
     <div class="nav">
       <ul>
         <li class="active"><a href="."><i class="fas fa-columns"></i></a></li>
-        <li><a href="."><i class="fas fa-cog"></i></a></li>
+        <!-- <li><a href="."><i class="fas fa-cog"></i></a></li>
         <li><a href="."><i class="fas fa-user"></i></a></li>
-        <li><a href="."><i class="fas fa-bell"></i></a></li>
+        <li><a href="."><i class="fas fa-bell"></i></a></li> -->
       </ul>
     </div>
   </div>

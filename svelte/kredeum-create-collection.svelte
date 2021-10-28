@@ -57,7 +57,11 @@
             <i class="fas fa-sync fa-left c-green"></i>Creating new collection...
           </div>
           <div class="section">
-            Sign the transaction and wait till completed, it may takes one minute or more.
+            {#if cloningTxHash}
+              Wait till completed, it may takes one minute or more.
+            {:else}
+              Sign the transaction
+            {/if}
           </div>
         {:else}
           <div class="titre">

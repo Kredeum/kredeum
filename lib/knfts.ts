@@ -38,11 +38,17 @@ const collectionName = (collection: Collection): string => collection.name || "N
 const collectionSymbol = (collection: Collection): string => collection.symbol || "NFT";
 const collectionOpenSeaLink = (chainId: number, collAddress: string): string =>
   getOpenSea(chainId)?.kredeum;
-const collectionExplorerurl = (chainId: number, collAddress: string): string =>
+
+const explorerCollectionLink = (chainId: number, collAddress: string): string =>
+  urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
+const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
     ? explorerUrl(chainId, `/collection/${collAddress}/tokens`)
     : explorerUrl(chainId, `/token/${collAddress}`);
-const collectionExplorerInventoryUrl = (chainId: number, collAddress: string): string =>
+
+const explorerCollectionInventoryLink = (chainId: number, collAddress: string): string =>
+  urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
+const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
   getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
@@ -64,7 +70,10 @@ const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   const openSea = getOpenSea(chainId);
   return `${openSea?.assets}/${nft.collection}/${nft.tokenID}`;
 };
-const nftExplorerUrl = (chainId: number, nft: Nft): string =>
+
+const explorerNftLink = (chainId: number, nft: Nft): string =>
+  urlToLink(explorerNftUrl(chainId, nft), nftName(nft));
+const explorerNftUrl = (chainId: number, nft: Nft): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
     ? explorerUrl(chainId, `/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`)
     : explorerUrl(chainId, `/token/${nft.collection}?a=${nft.tokenID}`);
@@ -81,17 +90,20 @@ export {
   addressShort,
   collectionName,
   collectionSymbol,
-  collectionExplorerInventoryUrl,
   collectionOpenSeaLink,
-  collectionExplorerurl,
   nftImageLink,
   nftDescription,
   nftDescriptionShort,
   nftName,
   nftsSupplyAndName,
-  nftExplorerUrl,
   nftOpenSeaUrl,
   explorerLink,
   explorerAddressLink,
-  explorerTxLink
+  explorerTxLink,
+  explorerCollectionInventoryUrl,
+  explorerCollectionInventoryLink,
+  explorerCollectionUrl,
+  explorerCollectionLink,
+  explorerNftUrl,
+  explorerNftLink
 };

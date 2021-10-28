@@ -3,7 +3,7 @@
   import {
     sleep,
     collectionName,
-    collectionExplorerInventoryUrl,
+    explorerCollectionInventoryUrl,
     nftImageLink,
     nftDescription,
     nftDescriptionShort,
@@ -83,7 +83,7 @@
           <input id="menu" type="checkbox" />
           Collection {collectionName(collection)}
           <a
-            href="{collectionExplorerInventoryUrl(chainId, collection.address)}"
+            href="{explorerCollectionInventoryUrl(chainId, collection.address)}"
             target="_blank"
             title="{nftsUrl(chainId, collection.address)}"
           >
@@ -162,7 +162,7 @@
                     </div> -->
 
           <!-- <div class="table-col more">
-                      <a href="{nftExplorerUrl(nft)}" title="{nft.nid}" target="_blank">
+                      <a href="{explorerNftUrl(nft)}" title="{nft.nid}" target="_blank">
                         &nbsp;{textShort(nft.tokenID, 16)}&nbsp;
                       </a>
                     </div>
