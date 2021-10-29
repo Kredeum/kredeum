@@ -442,7 +442,7 @@ const MintTokenID = (txReceipt: TransactionReceipt): string => {
   return tokenID;
 };
 
-const MintNft = async (
+const MintedNft = async (
   chainId: number,
   collection: string,
   tokenID: string,
@@ -470,7 +470,7 @@ const Mint = async (
   const txResp = await MintResponse(chainId, collection, urlJson, minter);
   const txReceipt = await MintReceipt(txResp);
   const tokenID = MintTokenID(txReceipt);
-  const nft = await MintNft(chainId, collection, tokenID, urlJson, await minter.getAddress());
+  const nft = await MintedNft(chainId, collection, tokenID, urlJson, await minter.getAddress());
   return nft;
 };
 
@@ -478,7 +478,7 @@ export {
   MintResponse,
   MintReceipt,
   MintTokenID,
-  MintNft,
+  MintedNft,
   Mint,
   listNFTs,
   listNFTsFromCache,

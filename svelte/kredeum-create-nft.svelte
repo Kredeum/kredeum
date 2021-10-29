@@ -1,23 +1,36 @@
 <script lang="ts">
-  import type { Collection } from "../lib/kconfig";
+  import { Collection } from "../lib/kconfig";
+  import { nftExplorerLink } from "../lib/knfts";
   import type { Signer } from "ethers";
   import type { Nft } from "../lib/ktypes";
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "../lib/kmint";
-  import { ipfsUrl, ipfsGatewayUrl, explorerTxLink, explorerNftLink } from "../lib/knfts";
-  import { MintResponse, MintReceipt, MintTokenID, MintNft } from "../lib/open-nfts";
+  import {
+    textShort,
+    ipfsUrl,
+    ipfsGatewayUrl,
+    ipfsGatewayLink,
+    explorerTxLink,
+    explorerNftLink
+  } from "../lib/knfts";
+  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "../lib/open-nfts";
+  import { onMount } from "svelte";
 
   export let chainId: number = undefined;
   export let address: string = undefined;
   export let signer: Signer = undefined;
   export let collection: Collection = undefined;
 
-  let nftMinted: Nft;
-  let minting: boolean;
+  let mintedNft: Nft;
+  let minting: number;
   let mintingTxHash: string;
+  let cidImage: string;
+  let cidJson: string;
+  let tokenID: string;
+  let imageName: string;
 
-  let files, image, imageName;
+  let files, image;
 
   $: if (files) {
     let reader = new FileReader();
@@ -28,16 +41,24 @@
     };
   }
 
+  onMount(async () => {
+    minting = 0;
+  });
+
   const mint = async (): Promise<Nft> => {
-    minting = true;
+    minting = 1;
+
     mintingTxHash = null;
-    nftMinted = null;
+    mintedNft = null;
+    cidImage = null;
+    cidJson = null;
 
     const signerAddress = await signer.getAddress();
 
-    console.log("mint image");
-    const cidImage = await mintImagePinUrl(image);
+    cidImage = await mintImagePinUrl(image);
     console.log("cidImage", cidImage);
+
+    minting = 2;
 
     const nftData = {
       name: imageName,
@@ -45,28 +66,35 @@
       cid: cidImage,
       image: ipfsGatewayUrl(cidImage),
       ipfs: ipfsUrl(cidImage),
-      origin: image,
+      origin: textShort(image, 140),
       minter: signerAddress,
       metadata: {}
     };
-    const cidJson = await mintImagePinJson(nftData);
+    cidJson = await mintImagePinJson(nftData);
     const urlJson = ipfsGatewayUrl(cidJson);
+    console.log("urlJson", urlJson);
+
+    minting = 3;
 
     console.log("MintResponse", chainId, collection.address, urlJson, signer);
     const txResp = await MintResponse(chainId, collection.address, urlJson, signer);
     console.log("txResp", txResp);
     mintingTxHash = txResp.hash;
 
+    minting = 4;
+
     const txReceipt = await MintReceipt(txResp);
     console.log("txReceipt", txReceipt);
 
-    const tokenID = MintTokenID(txReceipt);
+    tokenID = MintTokenID(txReceipt);
     console.log("tokenID", tokenID);
 
-    nftMinted = await MintNft(chainId, collection.address, tokenID, urlJson, signerAddress);
-    console.log("nftMinted", nftMinted);
+    mintedNft = await MintedNft(chainId, collection.address, tokenID, urlJson, signerAddress);
+    console.log("mintedNft", mintedNft);
 
-    return nftMinted;
+    minting = 5;
+
+    return mintedNft;
   };
 </script>
 
@@ -75,21 +103,27 @@
     <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
 
     <div class="modal-body">
-      {#if nftMinted}
+      {#if mintedNft}
         <div class="titre">
           <i class="fas fa-check fa-left c-green"></i>
-          NFT minted @ {@html explorerNftLink(chainId, nftMinted)}
+          NFT '{@html explorerNftLink(chainId, mintedNft)}' minted!
         </div>
       {:else if minting}
         <div class="titre">
           <i class="fas fa-sync fa-left c-green"></i>Minting your NFT...
         </div>
         <div class="section">
-          {#if mintingTxHash}
-            Wait till completed, it may takes one minute or more.
-          {:else}
-            Sign the transaction
-          {/if}
+          <i>
+            {#if minting == 1}
+              Wait till Image stored on IPFS
+            {:else if minting == 2}
+              Wait till Metadata stored on IPFS
+            {:else if minting == 3}
+              Please, sign the transaction
+            {:else if minting == 4}
+              Wait till transaction completed, it may takes one minute or more...
+            {/if}
+          </i>
         </div>
       {:else}
         <div class="titre"><i class="fas fa-plus fa-left c-green"></i>Mint NFT</div>
@@ -115,14 +149,42 @@
           <button class="btn btn-default btn-sell" on:click="{mint}">Mint NFT</button>
         </div>
       {/if}
-      {#if mintingTxHash}
-        <div class="section">
-          Transaction: {@html explorerTxLink(chainId, mintingTxHash)}
-        </div>
-      {/if}
+
       {#if image}
         <div class="section">
           <img src="{image}" alt="nft" />
+        </div>
+      {/if}
+      {#if minting}
+        <div class="section">
+          Image IPFS CID:
+          {#if cidImage}
+            {@html ipfsGatewayLink(cidImage)}
+          {/if}
+        </div>
+        <div class="section">
+          Metadata IPFS CID:
+          {#if cidJson}
+            {@html ipfsGatewayLink(cidJson)}
+          {/if}
+        </div>
+        <div class="section">
+          Transaction:
+          {#if mintingTxHash}
+            {@html explorerTxLink(chainId, mintingTxHash)}
+          {/if}
+        </div>
+        <div class="section">
+          Token ID:
+          {#if tokenID}
+            {tokenID}
+          {/if}
+        </div>
+        <div class="section">
+          NFT :
+          {#if mintedNft}
+            {@html nftExplorerLink(mintedNft)}
+          {/if}
         </div>
       {/if}
     </div>

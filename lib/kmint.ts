@@ -2,7 +2,7 @@ import type { Signer } from "ethers";
 import type { Nft } from "./ktypes";
 import NftStorage from "./nft-storage";
 import { Mint } from "./open-nfts";
-import { ipfsUrl, ipfsGatewayUrl } from "./knfts";
+import { ipfsUrl, ipfsGatewayUrl, textShort } from "./knfts";
 
 let nftStorage: NftStorage;
 
@@ -50,7 +50,7 @@ const mintImage = async (
     cid: cidImage,
     image: ipfsGatewayUrl(cidImage),
     ipfs: ipfsUrl(cidImage),
-    origin: src,
+    origin: textShort(src, 140),
     minter: await signer.getAddress(),
     metadata: JSON.parse(metadata) || {}
   };

@@ -1,4 +1,4 @@
-import { getExplorer, getOpenSea } from "./kconfig";
+import { getExplorer, getOpenSea, nftUrl } from "./kconfig";
 import type { Collection, Nft } from "./kconfig";
 
 // CONSTANT
@@ -15,13 +15,13 @@ const textShort = (s: string = "", n: number = 16, p: number = 0): string => {
 };
 const addressShort = (a: string = ""): string => textShort(a, 8, 8);
 
-const urlToLink = (url: string, label: string): string =>
-  `<a href="${url}" target="_blank">${label}</a>`;
+const urlToLink = (url: string, label?: string): string =>
+  `<a href="${url}" target="_blank">${label || url}</a>`;
 
 // IPFS helpers
 const ipfsUrl = (cid: string): string => `ipfs://${cid}`;
 const ipfsGatewayUrl = (cid: string): string => `${ipfsGateway}/${cid}`;
-const ipfsGatewayLink = (cid: string): string => urlToLink(ipfsGatewayUrl(cid), `${cid}@ipfs`);
+const ipfsGatewayLink = (cid: string): string => urlToLink(ipfsGatewayUrl(cid), addressShort(cid));
 
 // EXPLORER helpers
 const explorerUrl = (chainId: number, path: string): string =>
@@ -60,6 +60,8 @@ const nftsSupplyAndName = (nfts: Array<Nft>, collection: Collection): string =>
   `${nftsSupply(nfts)} ${collectionSymbol(collection)}${nftsSupply(nfts) > 1 ? "s" : ""}`;
 
 // NFT helpers
+const nftExplorerLink = (nft: Nft): string =>
+  urlToLink(explorerNftUrl(nft.chainId, nft), nftUrl(nft.chainId, nft.collection, nft.tokenID));
 const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.tokenID}`;
 const nftDescription = (nft: Nft): string =>
   (nft.name != nft.description && nft.description) || nftName(nft);
@@ -71,12 +73,12 @@ const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   return `${openSea?.assets}/${nft.collection}/${nft.tokenID}`;
 };
 
-const explorerNftLink = (chainId: number, nft: Nft): string =>
-  urlToLink(explorerNftUrl(chainId, nft), nftName(nft));
 const explorerNftUrl = (chainId: number, nft: Nft): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
     ? explorerUrl(chainId, `/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`)
     : explorerUrl(chainId, `/token/${nft.collection}?a=${nft.tokenID}`);
+const explorerNftLink = (chainId: number, nft: Nft, label?: string): string =>
+  urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 export {
   sleep,
@@ -94,6 +96,7 @@ export {
   nftImageLink,
   nftDescription,
   nftDescriptionShort,
+  nftExplorerLink,
   nftName,
   nftsSupplyAndName,
   nftOpenSeaUrl,
