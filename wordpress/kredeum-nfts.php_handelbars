@@ -56,8 +56,12 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function () {
-			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
-		},
+      wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
+      wp_register_style( 'kredeum_nft1', plugin_dir_url( __FILE__ ) . 'lib/css/front.css' );
+      wp_enqueue_style( 'kredeum_nft1' );
+      wp_register_style( 'kredeum_nft2', plugin_dir_url( __FILE__ ) . 'lib/css/bundle.css' );
+      wp_enqueue_style( 'kredeum_nft2' );
+    },
 		110
 	);}
 

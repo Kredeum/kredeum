@@ -49,7 +49,7 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green"></i>
-              Collection created @ {@html explorerAddressLink(chainId, collectionCreated.address)}
+              Collection '{@html explorerAddressLink(chainId, collectionCreated.name)}' created!
             </div>
           </div>
         {:else if cloning}

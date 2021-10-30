@@ -22,7 +22,7 @@ var config = {
 
 // Clean assets
 function clean() {
-  return del(["./assets/"]);
+  return del(["./app/assets/"]);
 }
 
 function swallow(err) {
@@ -34,7 +34,7 @@ function swallow(err) {
 function images() {
   return gulp
     .src("./src/images/**/*")
-    .pipe(newer("./assets/images"))
+    .pipe(newer("./app/assets/images"))
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
@@ -50,7 +50,7 @@ function images() {
         })
       ])
     )
-    .pipe(gulp.dest("./assets/images"));
+    .pipe(gulp.dest("./app/assets/images"));
 }
 
 // CSS task
@@ -62,11 +62,11 @@ function css() {
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
-    .pipe(gulp.dest("./assets/css/"));
+    .pipe(gulp.dest("./app/assets/css/"));
 }
 
 function fonts() {
-  return gulp.src(["./src/fonts/**/*"]).pipe(gulp.dest("./assets/fonts/"));
+  return gulp.src(["./src/fonts/**/*"]).pipe(gulp.dest("./app/assets/fonts/"));
 }
 
 // Watch files

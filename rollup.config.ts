@@ -40,7 +40,7 @@ const toRollupConfig = function (component) {
         sourcemap: !production,
         format: "iife",
         name: component.replace(/-/g, "_"),
-        file: `app/build/${component}.js`
+        file: `web/app/assets/${component}.js`
       },
       {
         sourcemap: !production,
@@ -57,7 +57,7 @@ const toRollupConfig = function (component) {
           dev: !production
         }
       }),
-      css({ output: "bundle.css" }),
+      css({ output: `${component}.css` }),
       replace({
         preventAssignment: true,
         values: envKeys()

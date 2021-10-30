@@ -6,6 +6,8 @@
  * @package kredeum/nfts
  */
 
+const { Console } = require("console");
+
 ajaxResponse = false;
 
 function _ajax(data) {
@@ -21,7 +23,7 @@ function _ajax(data) {
 
 jQuery(document).ready(function () {
   // ACTION MINT_TOKEN
-  document.querySelectorAll("kredeum-nfts-mint").forEach(function (kredeumNftsMint) {
+  document.querySelectorAll("kredeum-mint").forEach(function (kredeumNftsMint) {
     kredeumNftsMint.$on("token", function (e) {
       _ajax({
         action: "token",
@@ -31,7 +33,7 @@ jQuery(document).ready(function () {
     });
   });
 
-  if ((kredeumNfts = document.querySelector("kredeum-nfts"))) {
+  if ((kredeumNfts = document.getElementById("kredeum-nfts"))) {
     // ACTION CREATE_COLLECTION
     kredeumNfts.$on("collection", function (e) {
       _ajax({
