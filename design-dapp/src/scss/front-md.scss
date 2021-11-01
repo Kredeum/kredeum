@@ -65,4 +65,10 @@ main {
             }
         }
     }
+
+    .table {
+        .table-col:not(.table-col-full) {
+            padding: 15px 5px 15px 15px;
+        }
+    }
 }

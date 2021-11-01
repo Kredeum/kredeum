@@ -14,8 +14,6 @@
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
-
-
 	</head>
 
 	<body>
@@ -43,20 +41,13 @@
         </nav>
 
         <main role="main">
-            <form id="search-top" action="">
-                <input type="text" id="search" placeholder="Search" />
-                <button type="submit">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-
             <section class="content">
                 <header>
-                    <div class="row aligncenter">
+                    <h1 class="mb40">My NFT wallet</h1>
+
+                    <div class="row">
                         <div class="col col-xs-12 col-sm-3">
-                            <h1>My NFT wallet</h1>
-                        </div>
-                        <div class="col col-sm-6">
+                            <span class="label">Network</span>
                             <select>
                                 <option selected value="0">All collections</option>
                                 <option value="1">Collection 1</option>
@@ -64,217 +55,67 @@
                                 <option value="3">Collection 3</option>
                             </select>
                         </div>
-                        <div class="col col-sm-3 txtright"><a href="#create" class="btn btn-light" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a></div>
+
+                        <div class="col col-xs-12 col-sm-3">
+                            <span class="label">Collection</span>
+                            <select>
+                                <option selected value="0">All collections</option>
+                                <option value="1">Collection 1</option>
+                                <option value="2">Collection 2</option>
+                                <option value="3">Collection 3</option>
+                            </select>
+                        </div>
+
+                        <div class="col col-xs-12 col-sm-3">
+                            <span class="label">Address</span>
+                            <input type="text" />
+                        </div>
+
+                        <div class="col col-sm-3 txtright"><a href="#create" class="btn btn-default" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a></div>
                     </div>
                 </header>
 
                 <div class="table">
-                    <div class="row">
-                        <div class="col col-xs-12 col-md-3 col-filters">
-                            <span class="label">Filter</span>
-                            <div class="box">
-                                <div class="box-section">
-                                    <span class="label label-big">Media type</span>
-                                    <div class="box-fields">
-                                        <input class="box-field" id="video" name="media-type" type="checkbox" value="Video">
-                                        <label class="field" for="video"><i class="fas fa-play"></i>Video</label>
+                    <h2>Collection MaticPunk</h2>
 
-                                        <input class="box-field" id="picture" name="media-type" type="checkbox" value="Picture">
-                                        <label class="field" for="picture"><i class="fas fa-image"></i>Picture</label>
+                    <div class="table-row table-head hidden-xs">
+                        <div class="table-col"><span class="label">Media</span></div>
+                        <div class="table-col"><span class="label">Marketplace</span></div>
+                        <div class="table-col"><span class="label">Action</span></div>
+                        <div class="table-col"><span class="label">More</span></div>
+                    </div>
 
-                                        <input class="box-field" id="texte" name="media-type" type="checkbox" value="Texte">
-                                        <label class="field" for="texte"><i class="fas fa-file-alt"></i>Texte</label>
-
-                                        <input class="box-field" id="music" name="media-type" type="checkbox" value="Music">
-                                        <label class="field" for="music"><i class="fas fa-music"></i>Music</label>
-
-                                        <input class="box-field" id="web" name="media-type" type="checkbox" value="Web">
-                                        <label class="field" for="web"><i class="fas fa-code"></i>Web</label>
-                                    </div>
-                                </div>
-                                <div class="box-section">
-                                    <span class="label label-big">Blockchain type</span>
-                                    <div class="box-fields">
-                                        <input class="box-field" id="ethereum" name="blockchain-type" type="checkbox" value="Ethereum">
-                                        <label class="field" for="ethereum">Ethereum</label>
-
-                                        <input class="box-field" id="bsc" name="blockchain-type" type="checkbox" value="BSC">
-                                        <label class="field" for="bsc">BSC</label>
-
-                                        <input class="box-field" id="polygon" name="blockchain-type" type="checkbox" value="Polygon">
-                                        <label class="field" for="polygon">Polygon</label>
-                                    </div>
-                                </div>
-                                <div class="box-section">
-                                    <span class="label label-big">Marketplace</span>
-                                    <div class="box-fields">
-                                        <input class="box-field" id="opensea" name="marketplace" type="checkbox" value="Ethereum">
-                                        <label class="field" for="opensea">Opensea</label>
-
-                                        <input class="box-field" id="arkane" name="marketplace" type="checkbox" value="Arkane">
-                                        <label class="field" for="arkane">Arkane</label>
-                                    </div>
-                                </div>
-                                <div class="box-section">
-                                    <span class="label label-big">Statut</span>
-                                    <div class="box-fields">
-                                        <input class="box-field" id="mint" name="statut" type="checkbox" value="Mint">
-                                        <label class="field" for="mint">Mint</label>
-
-                                        <input class="box-field" id="inactive" name="statut" type="checkbox" value="Inactive">
-                                        <label class="field" for="inactive">Inactive</label>
-
-                                        <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell">
-                                        <label class="field" for="sell">Sell</label>
-                                    </div>
-                                </div>
+                    <div id="table-drop-1" class="table-row table-drop closed">
+                        <div class="table-col">
+                            <div class="table-col-content">
+                                <div class="media media-photo"><img src="https://picsum.photos/40" /></div>
+                                <strong>MaticPunk #8373</strong>
                             </div>
                         </div>
+                        <div class="table-col">
+                            <div class="table-col-content"><span class="tag tag-marketplace">Opensea</span></div>
+                        </div>
+                        <div class="table-col">
+                            <div class="table-col-content"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
+                        </div>
+                        <div class="table-col more">
+                            <div class="table-col-content"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
+                        </div>
 
-                        <div class="col col-xs-12 col-md-9">
-                            <div class="table">
-                                <div class="table-row table-head hidden-xs">
-                                    <div class="table-col"><span class="label">Media</span></div>
-                                    <div class="table-col"><span class="label">Type</span></div>
-                                    <div class="table-col"><span class="label">Date</span></div>
-                                    <div class="table-col"><span class="label">Name</span></div>
-                                    <div class="table-col"><span class="label">Blockchain</span></div>
-                                    <div class="table-col"><span class="label">Marketplace</span></div>
-                                    <div class="table-col"><span class="label">Statut</span></div>
-                                    <div class="table-col"><span class="label">More</span></div>
-                                </div>
-
-                                <div class="table-row">
-                                    <div class="table-col no-bg">&nbsp;</div>
-                                    <div class="table-col no-bg table-col-full colspan">
-                                        <input id="menu" type="checkbox" />
-                                        My first collection <label for="menu" class="fas fa-ellipsis-v"></label>
-                                    </div>
-                                </div>
-
-                                <div id="table-drop-1" class="table-row table-drop closed">
-                                    <div class="table-col">
-                                        <div class="table-col-content"><div class="media media-photo"><img src="https://picsum.photos/40" /></div></div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><strong>Photo</strong></div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">10/02/21</div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">mon_image_du_futur.jpg</div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><span class="tag tag-bsc">Bsc</span></div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><span class="tag tag-marketplace">Opensea</span></div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    </div>
-                                    <div class="table-col more">
-                                        <div class="table-col-content"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
-                                    </div>
-
-                                    <div class="detail">
-                                        <ul>
-                                            <li>
-                                                <strong>Adresse IPFS</strong> <span>QmRA3NWM82ZGynMbYzAgYTSXCVM14Wx1RZ8fKP42G6gjgj</span>
-                                            </li>
-                                            <li>
-                                                <strong>Creator</strong>
-                                                <span>NWM82ZGynMbYzAgYTSXCVM14Wx1R</span>
-                                            </li>
-                                            <li>
-                                                <strong>ID</strong>
-                                                <span>GynMbYzANWM82ZGynMbYzAgYTSXCVM14Wx1RYTSXCV</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div id="table-drop-2" class="table-row table-drop closed">
-                                    <div class="table-col">
-                                        <div class="table-col-content"><div class="media media-video"><i class="fas fa-play"></i></div></div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><strong>Video</strong></div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">10/02/21</div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">lorem_ipsum_dolor.mp4</div>
-                                    </div>
-                                    <div class="table-col"></div>
-                                    <div class="table-col"></div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a></div>
-                                    </div>
-                                    <div class="table-col more">
-                                        <div class="table-col-content"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
-                                    </div>
-
-                                    <div class="detail">
-                                        <ul>
-                                            <li>
-                                                <strong>Adresse IPFS</strong> <span>QmRA3NWM82ZGynMbYzAgYTSXCVM14Wx1RZ8fKP42G6gjgj</span>
-                                            </li>
-                                            <li>
-                                                <strong>Creator</strong>
-                                                <span>NWM82ZGynMbYzAgYTSXCVM14Wx1R</span>
-                                            </li>
-                                            <li>
-                                                <strong>ID</strong>
-                                                <span>GynMbYzANWM82ZGynMbYzAgYTSXCVM14Wx1RYTSXCV</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-
-                                <div id="table-drop-3" class="table-row table-drop closed">
-                                    <div class="table-col">
-                                        <div class="table-col-content"><div class="media media-song"><i class="fas fa-music"></i></div></div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><strong>Song</strong></div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">10/02/21</div>
-                                    </div>
-                                    <div class="table-col light">
-                                        <div class="table-col-content">my_amazing_song_lorem_ipsum_dolor.mp3</div>
-                                    </div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><span class="tag tag-polygon">Polygon</span></div>
-                                    </div>
-                                    <div class="table-col"></div>
-                                    <div class="table-col">
-                                        <div class="table-col-content"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
-                                    </div>
-                                    <div class="table-col more">
-                                        <div class="table-col-content"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
-                                    </div>
-
-                                    <div class="detail">
-                                        <ul>
-                                            <li>
-                                                <strong>Adresse IPFS</strong> <span>QmRA3NWM82ZGynMbYzAgYTSXCVM14Wx1RZ8fKP42G6gjgj</span>
-                                            </li>
-                                            <li>
-                                                <strong>Creator</strong>
-                                                <span>NWM82ZGynMbYzAgYTSXCVM14Wx1R</span>
-                                            </li>
-                                            <li>
-                                                <strong>ID</strong>
-                                                <span>GynMbYzANWM82ZGynMbYzAgYTSXCVM14Wx1RYTSXCV</span>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                            </div>
+                        <div class="detail">
+                            <ul>
+                                <li>
+                                    <strong>Adresse IPFS</strong> <span>QmRA3NWM82ZGynMbYzAgYTSXCVM14Wx1RZ8fKP42G6gjgj</span>
+                                </li>
+                                <li>
+                                    <strong>Creator</strong>
+                                    <span>NWM82ZGynMbYzAgYTSXCVM14Wx1R</span>
+                                </li>
+                                <li>
+                                    <strong>ID</strong>
+                                    <span>GynMbYzANWM82ZGynMbYzAgYTSXCVM14Wx1RYTSXCV</span>
+                                </li>
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -381,35 +222,6 @@
             </div>
         </div>
 
-        <script type="text/javascript">
-            (function() {
-                var accItem = document.getElementsByClassName("table-drop");
-                var accHD = document.getElementsByClassName("more");
-
-                for (i = 0; i < accHD.length; i++) {
-                    accHD[i].addEventListener("click", toggleItem, false);
-                }
-
-                function toggleItem() {
-                    var itemClass = this.parentNode.className;
-                    var detail = this.parentNode.getElementsByClassName('detail')[0].offsetHeight;
-                    var heightEl = detail + 70;
-                    var tableDrop = this.parentNode.getAttribute('id');
-
-                    /*for (i = 0; i < accItem.length; i++) {
-                        accItem[i].className = "table-row table-drop closed";
-                    }*/
-
-                    this.parentNode.className = "table-row table-drop closed";
-
-                    if (itemClass == "table-row table-drop closed") {
-                        this.parentNode.className = "table-row table-drop";
-                        document.getElementById(tableDrop).style.height = heightEl + "px";
-                    } else {
-                        document.getElementById(tableDrop).style.height = "auto";
-                    }
-                }
-            })();
-        </script>
+        <script type="text/javascript" src="./assets/js/front.js"></script>
 	</body>
 </html>

@@ -89,16 +89,6 @@ main {
         .table {
             margin-top: -10px;
 
-            .table-head {
-                .label {
-                    margin-bottom: 10px;
-                }
-            }
-
-            .light {
-                color: rgba($couleur1, 0.6);
-            }
-
             .table-row {
                 transition: all 300ms ease-in-out;
             }
@@ -108,9 +98,12 @@ main {
                 height: 40px;
                 @include border-radius;
                 overflow: hidden;
-                display: flex;
+                display: inline-block;
+                vertical-align: middle;
                 align-items: center;
                 justify-content: center;
+                max-width: 100%;
+                margin-right: 10px;
 
                 i {
                     color: $white;
@@ -129,6 +122,11 @@ main {
                     object-fit: cover;
                     width: 100%;
                     height: 100%;
+                }
+
+                & + strong {
+                    display: inline-block;
+                    vertical-align: middle;
                 }
             }
 

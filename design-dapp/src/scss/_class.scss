@@ -61,7 +61,7 @@
     font-size: 11px;
     color: rgba($couleur1, 0.4);
     display: inline-block;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
     letter-spacing: 1px;
 
     &-big {
@@ -298,7 +298,7 @@ select {
                     border-radius: 6px 0 0 6px;
                 }
 
-                &:last-child {
+                &:nth-last-child(2) {
                     border-radius: 0 6px 6px 0;
                 }
             }
@@ -317,87 +317,42 @@ select {
         width: 100%;
         padding: 15px;
         font-size: 14px;
-
-        input[type="checkbox"] {
-            display: none;
-        }
-
-        label {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            cursor: pointer;
-            color: $grey-blue;
-        }
+        font-weight: bold;
     }
 
     .table-col:not(.table-col-full) {
         display: table-cell;
         vertical-align: top;
-        padding: 15px 5px 15px 15px;
         max-width: 0;
 
         .table-col-content {
             text-overflow: ellipsis;
             white-space: nowrap;
             overflow: hidden;
+            font-size: 14px;
         }
 
         &:nth-child(2),
-        &:nth-child(3),
-        &:nth-child(4) {
-            .table-col-content {
-                padding-top: 10px;
-            }
-        }
-
-        &:nth-child(5),
-        &:nth-child(6),
-        &:nth-child(7) {
+        &:nth-child(3) {
             .table-col-content {
                 padding-top: 5px;
             }
         }
 
         &:nth-child(1) {
-            width: 7%;
+            width: 60%;
         }
 
         &:nth-child(2) {
-            width: 8%;
-        }
-
-        &:nth-child(3) {
-            width: 10%;
-        }
-
-        &:nth-child(4) {
-            width: 26%;
-        }
-
-        &:nth-child(5),
-        &:nth-child(6) {
             width: 15%;
         }
 
-        &:nth-child(7) {
-            width: 12%;
+        &:nth-child(3) {
+            width: 15%;
         }
 
-        &:nth-child(8) {
-            width: 7%;
-        }
-    }
-
-    .table-head {
-        .label {
-            padding-left: 15px;
-        }
-
-        .table-col {
-            padding: 0;
+        &:nth-child(4) {
+            width: 10%;
         }
     }
 }

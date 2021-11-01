@@ -137,6 +137,20 @@ main {
             }
         }
     }
+
+    .table {
+        .table-col:not(.table-col-full) {
+            padding: 10px 5px;
+
+            &:first-child {
+                padding-left: 10px;
+            }
+
+            &:nth-last-child(2) {
+                padding-right: 10px;
+            }
+        }
+    }
 }
 
 // Modal
