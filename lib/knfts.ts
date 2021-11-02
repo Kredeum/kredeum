@@ -26,7 +26,7 @@ const urlToLink = (url: string, label?: string): string =>
 
 // IPFS helpers
 const ipfsUrl = (cid: string): string => `ipfs://${cid}`;
-const ipfsGatewayUrl = (cid: string): string => `${ipfsGateway}/${cid}`;
+const ipfsGatewayUrl = (cid: string): string => `${ipfsGateway}${cid}`;
 const ipfsGatewayLink = (cid: string): string => urlToLink(ipfsGatewayUrl(cid), addressShort(cid));
 
 // EXPLORER helpers

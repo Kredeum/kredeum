@@ -90,6 +90,7 @@
     // console.log("tokenID", tokenID);
 
     mintedNft = await MintedNft(chainId, collection.address, tokenID, urlJson, signerAddress);
+    mintedNft.cidJson = cidJson;
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
