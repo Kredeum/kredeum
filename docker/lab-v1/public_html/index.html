@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.min.js" integrity="sha384-skAcpIdS7UcVUC05LJ9Dxay8AXcDYfBJqt1CJ85S/CFujBsIzCIv+l9liuYLaMQ/" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-/bQdsTh/da6pkI1MST/rWKFNjaCP5gBSY4sEBT38Q/9RBh9AH40zEOg7Hlq2THRZ" crossorigin="anonymous"></script>
+    <script src="https://cdn.ethers.io/lib/ethers-5.2.umd.min.js" type="application/javascript"></script>    
   </head>
   <body>
     <h1>Analyze Open NFTs using Moralis</h1>
@@ -18,27 +19,105 @@
     <br><br>
     <div class="container">
       <div class="row">
-        <div class="col">
-          <canvas id="graph-mint" width="200px" height="200px"></canvas>
-        </div>
-        <div class="col">
-          <canvas id="graph-transfer" width="200px" height="200px"></canvas>
-        </div>
+        <p>address Open NFTs 0xbeaab0f00d236862527dcf5a88df3ced043ab253</p>
       </div>
+      <div class="row">
+        <div class="col">
+          <canvas id="graph-mint" height="250px"></canvas>
+        </div>
+        <div class="col">
+          <canvas id="graph-minters" height="250px"></canvas>
+        </div>
+        <div class="col">
+          <canvas id="graph-transfer" height="250px"></canvas>
+        </div>        
+      </div>   
       <div class="row">
         <div class="col">
           <div id="nft-transaction-list"></canvas>
         </div>     
-      </div>        
+      </div>
+      <div class="row">
+        <div class="col">
+          <div id="info"></canvas>
+        </div>     
+      </div>      
     </div>
     <script>
+      // Alain main address
+      const address_alain = "0x981ab0D817710d8FFFC5693383C00D985A3BDa38";
+
       // connect to Moralis server Eth
       // Moralis.initialize("yBXILEwjhZt6X01PCRqvStEyHeh99JVhA1jb06cI");
       // Moralis.serverURL = "https://gueyag1qmapm.bigmoralis.com:2053/server";
 
       // connect to Moralis server Polygon
-      Moralis.initialize("I6ItZghflhpDz4XL9m0mUCaf5XreAQzXVMLIJ2R4");
-      Moralis.serverURL = "https://re3nyibaexwp.bigmoralis.com:2053/server";
+      //Moralis.initialize("I6ItZghflhpDz4XL9m0mUCaf5XreAQzXVMLIJ2R4");
+      //Moralis.serverURL = "https://re3nyibaexwp.bigmoralis.com:2053/server";
+
+      const serverUrl = "https://re3nyibaexwp.bigmoralis.com:2053/server";
+      const appId = "I6ItZghflhpDz4XL9m0mUCaf5XreAQzXVMLIJ2R4";
+      Moralis.start({ serverUrl, appId });
+
+      //getNFTs();
+      //getTransactions();
+
+      Tests();
+
+      // Get User NFTs
+      async function Tests() {
+        // A Web3Provider wraps a standard Web3 provider, which is
+        // what MetaMask injects as window.ethereum into each page
+        const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+        // The MetaMask plugin also allows signing transactions to
+        // send ether and pay to change state within the blockchain.
+        // For this, you need the account signer...
+        const signer = provider.getSigner();
+        let value = await signer.getAddress();
+        console.log(value);
+        //console.log(balance);        
+      }
+
+
+
+
+      // Get User NFTs
+      async function getNFTs() {
+        // Alain main address
+        const address_alain = "0x981ab0D817710d8FFFC5693383C00D985A3BDa38";
+        const options = { chain: 'matic', address: address_alain };
+        const polygonNFTs = await Moralis.Web3API.account.getNFTs(options);
+        console.log('polygonNFTs');
+        console.log(polygonNFTs);
+      }
+
+
+
+
+      // Get User NFTs
+      async function getTransactions() {
+
+        //const web3 = await Moralis.enableWeb3();
+        //const chainId = await Moralis.getChainId();
+        //console.log(chainId); // 56 
+
+        // get a web3 instance for a specific chain
+        // https://docs.moralis.io/moralis-server/cloud-code/cloud-functions#web3
+        //const web3 = Moralis.web3ByChain("0x89"); // mainnet
+        
+
+        //const options = { chain: "matic", address: address_alain, order: "desc", from_block: "0" };
+        //const transactions = await Moralis.Web3API.account.getTransactions(options);
+        //console.log('transactions');
+        //console.log(transactions);
+        //$.each( transactions.result, function( index1, value1 ){
+          //console.log(value1.to_address);
+        //  if (value1.to_address == "0xbeaab0f00d236862527dcf5a88df3ced043ab253") {
+        //    //console.log(value1);
+        //  }
+        //});
+      }
 
 
       // add from here down
@@ -74,7 +153,7 @@
 
       function watchAddress() {
         const address = document.getElementById("btn-get-opennft").getAttribute("address");
-        const chain = document.getElementById("btn-get-opennft").getAttribute("chain");        
+        const chain = document.getElementById("btn-get-opennft").getAttribute("chain");
         RunWatchAddress(address, chain);
       }
 
@@ -92,8 +171,8 @@
       }
 
       function CreateGraph(div, table, title) {
-        console.log(div);
-        console.log(table);        
+        //console.log(div);
+        //console.log(table);        
 
         var ctx = document.getElementById(div).getContext('2d');
         var graph = new Chart(ctx, {
@@ -116,14 +195,17 @@
         console.log(address);
         if ((chain)&&(address)) {
           const options = { address: address, chain: chain };
+          console.log("hello 1");
+          console.log(options);
           const NFTs = await Moralis.Web3API.token.getNFTOwners(options);
+          console.log("hello 2");
           console.log(NFTs);
           const nftTransfers = await Moralis.Web3API.token.getContractNFTTransfers(options);
           console.log(nftTransfers);
           $.each( nftTransfers, function( index1, value1 ){
             if (index1 == "result") {
               value1 = sortByKeyDesc(value1, "block_timestamp");
-              console.log(value1);
+              //console.log(value1);
               var i = 0;
               var month = new Array();
               month[0] = "January";
@@ -139,7 +221,10 @@
               month[10] = "November";
               month[11] = "December";
               var table_mint = Array();
+              var table_mint_owner = Array();
+              var table_mint_owner_m = Array();              
               var table_transfer = Array();
+
               $.each( value1, function( index2, value2 ){
                 var objDate = new Date(value2.block_timestamp);
                 var m = objDate.getMonth() + 1;
@@ -149,26 +234,39 @@
                     table_mint[m] = table_mint[m] + 1;                    
                   } else {
                     table_mint[m] = 1;
+                    table_mint_owner_m[m] = 1;
+                    table_mint_owner[m] = Array();
+                    table_mint_owner[m][value2.to_address] = 1;
+                  }
+                  //console.log(table_mint_owner[m][value2.to_address]);
+                  //console.log(table_mint_owner[m][1]);
+                  if (table_mint_owner[m][value2.to_address]) {
+                    table_mint_owner[m][value2.to_address] = table_mint_owner[m][value2.to_address] + 1;
+                  } else {
+                    table_mint_owner_m[m] = table_mint_owner_m[m] + 1;
+                    table_mint_owner[m][value2.to_address] = 1;
                   }
                 } else {
                   if (table_transfer[m]) {
                     table_transfer[m] = table_transfer[m] + 1;                    
                   } else {
                     table_transfer[m] = 1;
-                  }
-                  $("#nft-transaction-list").append("<div>" +
-                    "<col> " + m + " </col>" +
-                    "<col> " + value2.block_timestamp + " </col>" +
-                  "</div>");                  
+                  }                 
                 }
                 //getTokenIdMetadata(address, value2.token_id, chain);
                 i++;
                 //if (i > 10) { return false; }  
               });
-              console.log(table_mint);
-              console.log(table_transfer);
-              CreateGraph("graph-mint",table_mint, "Open NFTs - Number of Mints");
-              CreateGraph("graph-transfer",table_transfer, "Open NFTs - Numbers of transfers");              
+              //console.log(table_mint);
+              //console.log(table_transfer);
+              console.log(table_mint_owner);
+              //console.log(table_mint_owner_m);
+              CreateGraph("graph-mint",table_mint, "Open NFTs - Number of mints");
+              CreateGraph("graph-minters",table_mint_owner_m, "Open NFTs - Numbers of minters");
+              CreateGraph("graph-transfer",table_transfer, "Open NFTs - Numbers of transfers");
+              //$("#nft-transaction-list").append("<div>" +
+              //      table_mint_owner + 
+              //    "</div>");               
             }
           });               
         }
