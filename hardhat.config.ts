@@ -91,7 +91,7 @@ const config: HardhatUserConfig = {
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts,
-      gasPrice: 5000000000
+      gasPrice: 50000000000
     },
     avalanche: {
       chainId: 43114,
