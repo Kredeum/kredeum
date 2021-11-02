@@ -44,7 +44,7 @@ main {
         }
 
         header {
-            margin-bottom: 30px;
+            margin-bottom: 50px;
 
             input[type="text"] {
                 width: 100%;
@@ -99,26 +99,22 @@ main {
             }
         }
 
-        .col-filters {
-            .box {
-                .box-section {
-                    &:not(:last-child) {
-                        border-bottom: 1px solid rgba($couleur1, 0.1);
-                    }
-                }
-            }
+        h2 {
+            font-size: 18px;
         }
 
         .table {
-            margin-top: -10px;
-
             .table-row {
                 transition: all 300ms ease-in-out;
             }
 
+            .table-col {
+                .label {
+                    margin-bottom: 0;
+                }
+            }
+
             .media {
-                width: 40px;
-                height: 40px;
                 @include border-radius;
                 overflow: hidden;
                 display: inline-block;
@@ -126,7 +122,16 @@ main {
                 align-items: center;
                 justify-content: center;
                 max-width: 100%;
-                margin-right: 10px;
+                height: 130px;
+                width: 130px;
+
+                &-small {
+                    opacity: 0;
+                    visibility: hidden;
+                    width: 0;
+                    transition: opacity 300ms ease-in-out;
+                    height: 40px;
+                }
 
                 i {
                     color: $white;
@@ -161,6 +166,7 @@ main {
                 text-align: center;
                 @include border-radius;
                 cursor: pointer;
+                display: inline-block;
 
                 i {
                     color: $grey-blue;
@@ -183,19 +189,19 @@ main {
                 top: 70px;
                 transition: all 100ms ease-in-out;
 
-                ul {
-                    margin: 0 0 0 15px;
-                    padding: 0;
+                .media,
+                .description {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
 
-                    li {
-                        span {
-                            opacity: 0.7;
-                        }
-                    }
+                .media {
+                    width: 130px;
+                    margin-right: 20px;
+                }
 
-                    li:not(:last-child) {
-                        margin-bottom: 10px;
-                    }
+                .description {
+                    width: calc(100%-160px);
                 }
             }
 
@@ -206,6 +212,14 @@ main {
                     }
                 }
 
+                .media-small {
+                    opacity: 1;
+                    visibility: visible;
+                    width: 40px;
+                    margin-right: 10px;
+                    transition: opacity 300ms ease-in-out;
+                }
+
                 .detail {
                     overflow: hidden;
                     opacity: 0;
@@ -214,10 +228,6 @@ main {
             }
         }
     }
-}
-
-footer {
-
 }
 
 // Modal

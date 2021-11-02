@@ -263,21 +263,6 @@ select {
 }
 
 .tag {
-    &-bsc {
-        color: #FFB30D;
-        background: rgba(#FFB30D, 0.1);
-    }
-
-    &-eth {
-        color: #2E80DD;
-        background: rgba(#2E80DD, 0.1);
-    }
-
-    &-polygon {
-        color: #9E2195;
-        background: rgba(#9E2195, 0.1);
-    }
-
     &-marketplace {
         color: $grey-blue;
         border: 1px solid rgba($grey-blue, 0.3);
@@ -296,36 +281,19 @@ select {
         display: table-row;
 
         &:not(.table-head) {
-            & > div:not(.no-bg) {
-                background: $white;
+            background: $white;
 
-                &:first-child {
-                    border-radius: 6px 0 0 6px;
-                }
+            &:first-child {
+                border-radius: 6px 0 0 6px;
+            }
 
-                &:nth-last-child(2) {
-                    border-radius: 0 6px 6px 0;
-                }
+            &:nth-last-child(2) {
+                border-radius: 0 6px 6px 0;
             }
         }
     }
 
-    .colspan {
-        position: absolute;
-        left: 0;
-        width: 100%;
-    }
-
-    .table-col-full {
-        display: table-cell;
-        vertical-align: middle;
-        width: 100%;
-        padding: 15px;
-        font-size: 14px;
-        font-weight: bold;
-    }
-
-    .table-col:not(.table-col-full) {
+    .table-col {
         display: table-cell;
         vertical-align: top;
         max-width: 0;

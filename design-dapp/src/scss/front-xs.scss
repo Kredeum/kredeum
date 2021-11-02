@@ -131,7 +131,7 @@ main {
     }
 
     .table {
-        .table-col:not(.table-col-full) {
+        .table-col {
             padding: 10px 5px;
 
             &:first-child {
