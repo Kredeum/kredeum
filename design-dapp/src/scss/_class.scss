@@ -2,6 +2,14 @@
 // utilitaires
 //
 
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+.refresh {
+    animation: rotate 1s infinite linear;
+}
+
 .clearfix {
     &::after {
         content: '';
