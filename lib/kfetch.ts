@@ -19,7 +19,7 @@ const fetchJson = async (_url: string, _config: Object = {}): Promise<AnswerFetc
     console.error(e);
     json = { error: e };
   }
-  console.log("fetchJson(", _url, _config, ") =>", json);
+  // console.log("fetchJson(", _url, _config, ") =>", json);
   return json;
 };
 

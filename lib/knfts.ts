@@ -2,8 +2,14 @@ import { getExplorer, getOpenSea, nftUrl } from "./kconfig";
 import type { Collection, Nft } from "./kconfig";
 
 // CONSTANT
-const ipfsGateway = "https://ipfs.io/ipfs";
+const ipfsGateway = "https://ipfs.io/ipfs/";
 
+const ipfsReplace = (url: string = ""): string => {
+  url = url.replace("ipfs://ipfs/", ipfsGateway);
+  url = url.replace("ipfs://", ipfsGateway);
+  url = url.replace("https://gateway.pinata.cloud/ipfs/", ipfsGateway);
+  return url;
+};
 // GENERIC helpers
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toLowerCase();
@@ -66,8 +72,7 @@ const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.to
 const nftDescription = (nft: Nft): string =>
   (nft.name != nft.description && nft.description) || nftName(nft);
 const nftDescriptionShort = (nft: Nft): string => textShort(nftDescription(nft), 140);
-const nftImageLink = (nft: Nft): string =>
-  nft.image?.replace("https://gateway.pinata.cloud/ipfs/", " https://ipfs.io/ipfs/");
+const nftImageLink = (nft: Nft): string => ipfsReplace(nft.image);
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   const openSea = getOpenSea(chainId);
   return `${openSea?.assets}/${nft.collection}/${nft.tokenID}`;

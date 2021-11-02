@@ -268,7 +268,7 @@ const CloneReceipt = async (txResp: TransactionResponse): Promise<TransactionRec
 const CloneAddress = (txReceipt: TransactionReceipt): string => {
   let implementation: string = "";
 
-  console.log("txReceipt", txReceipt);
+  // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
     const abi = [
       "event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"

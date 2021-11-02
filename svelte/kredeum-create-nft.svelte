@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { Collection } from "../lib/kconfig";
   import { nftExplorerLink } from "../lib/knfts";
   import type { Signer } from "ethers";
   import type { Nft } from "../lib/ktypes";
+  import type { Collection } from "../lib/kconfig";
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "../lib/kmint";
@@ -56,7 +56,7 @@
     const signerAddress = await signer.getAddress();
 
     cidImage = await mintImagePinUrl(image);
-    console.log("cidImage", cidImage);
+    // console.log("cidImage", cidImage);
 
     minting = 2;
 
@@ -72,25 +72,25 @@
     };
     cidJson = await mintImagePinJson(nftData);
     const urlJson = ipfsGatewayUrl(cidJson);
-    console.log("urlJson", urlJson);
+    // console.log("urlJson", urlJson);
 
     minting = 3;
 
-    console.log("MintResponse", chainId, collection.address, urlJson, signer);
+    // console.log("MintResponse", chainId, collection.address, urlJson, signer);
     const txResp = await MintResponse(chainId, collection.address, urlJson, signer);
-    console.log("txResp", txResp);
+    // console.log("txResp", txResp);
     mintingTxHash = txResp.hash;
 
     minting = 4;
 
     const txReceipt = await MintReceipt(txResp);
-    console.log("txReceipt", txReceipt);
+    // console.log("txReceipt", txReceipt);
 
     tokenID = MintTokenID(txReceipt);
-    console.log("tokenID", tokenID);
+    // console.log("tokenID", tokenID);
 
     mintedNft = await MintedNft(chainId, collection.address, tokenID, urlJson, signerAddress);
-    console.log("mintedNft", mintedNft);
+    // console.log("mintedNft", mintedNft);
 
     minting = 5;
 

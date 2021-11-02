@@ -106,7 +106,8 @@ const addNftDataSync = (chainId: number, _collection: string, _token: Nft): Nft 
     minter: _token.minter || metadata.minter || "",
     owner: _token.owner || metadata.owner || "",
 
-    cid: _token.cid || metadata.cid || cidExtract(_token.tokenURI) || cidExtract(image) || "",
+    cid: _token.cid || metadata.cid || cidExtract(image) || "",
+    cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
     nid: _token.nid || nftUrl(chainId, collection, tokenID)
   };
 
@@ -147,7 +148,7 @@ const getNFTFromContract = async (
   } catch (e) {
     console.error("OpenNFTs.getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
   }
-  console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
+  // console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
   return { chainId, collection, contractName, tokenID, tokenURI, owner };
 };
 
@@ -244,7 +245,7 @@ const listNFTsFromTheGraph = async (
     // description
     // image
 
-    console.log(query);
+    // console.log(query);
     const answerGQL = await fetchGQL(getSubgraphUrl(chainId) || "", query);
     const nftsJson = answerGQL?.tokenContract?.nfts || [];
     // console.log(nftsJson[0]);
@@ -279,7 +280,7 @@ const listNFTsFromContract = async (
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Array<Nft>> => {
-  console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
+  // console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
 
   let nfts = [];
 
@@ -297,7 +298,7 @@ const listNFTsFromContract = async (
 
         for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
           nfts[index] = await getNFTFromContract(chainId, contract, index, _owner);
-          console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
+          // console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
         }
       }
     } catch (e) {
@@ -428,7 +429,7 @@ const MintReceipt = async (txResp: TransactionResponse): Promise<TransactionRece
 const MintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID: string = "";
 
-  console.log("txReceipt", txReceipt);
+  // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
     const abi = [
       "event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"

@@ -28,16 +28,16 @@
   $: if (chainId && address) _listCollections();
 
   async function _listCollections(): Promise<void> {
-    console.log("<kredeum-nfts/> listCollections", `nfts://${getChainName(chainId)}@${address}`);
+    // console.log("<kredeum-nfts/> listCollections", `nfts://${getChainName(chainId)}@${address}`);
 
     Collections = null;
 
     Collections = listCollectionsFromCache(chainId);
-    console.log("<kredeum-nfts/> Collections cache loaded", Collections);
+    // console.log("<kredeum-nfts/> Collections cache loaded", Collections);
     refreshingCollections = true;
 
     Collections = await listCollections(chainId, address);
-    console.log("<kredeum-nfts/> Collections refresh done", Collections);
+    // console.log("<kredeum-nfts/> Collections refresh done", Collections);
     refreshingCollections = false;
   }
 </script>

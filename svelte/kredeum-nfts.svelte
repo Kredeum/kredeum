@@ -6,11 +6,14 @@
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
+  import { getNetwork } from "../lib/kconfig";
 
   let collection: Collection;
   let address: string;
   let chainId: number;
   let signer: Signer;
+
+  $: network = getNetwork(chainId);
 </script>
 
 <div id="kredeum-nfts">
@@ -51,9 +54,11 @@
             </div>
 
             <div class="col col-sm-3 txtright">
-              <a href="#create" class="btn btn-light" title="Create"
-                ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
-              >
+              {#if network?.create}
+                <a href="#create" class="btn btn-light" title="Create"
+                  ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
+                >
+              {/if}
             </div>
           </div>
         </header>

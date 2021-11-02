@@ -78,7 +78,7 @@ const nftUrl = (
       ? network.chainName +
         (_contract ? "/" + (_contract + (_tokenId ? "/" + _tokenId : plus)) : plus)
       : plus);
-  console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
+  // console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
 

@@ -172,36 +172,36 @@
     <span class="label label-big">Network</span>
 
     <div class="box-fields">
-      {#each networks.filter((nw) => nw.type == "mainnet") as network}
+      {#each networks.filter((nw) => nw.mainnet) as _network}
         <input
           class="box-field"
-          id="{network.chainName}"
+          id="{_network.chainName}"
           name="blockchain-type"
           type="checkbox"
-          value="{network.chainName}"
-          checked="{network.chainId == chainId}"
-          on:click="{() => switchEthereumChain(network.chainId)}"
+          value="{_network.chainName}"
+          checked="{_network.chainId == chainId}"
+          on:click="{() => switchEthereumChain(_network.chainId)}"
         />
-        <label class="field" for="{network.chainName}">{network.chainName}</label>
+        <label class="field" for="{_network.chainName}">{_network.chainName}</label>
       {/each}
     </div>
 
-    {#if testnets}
+    {#if network?.testnet}
       <div><br /></div>
       <span class="label label-big">Testnets</span>
 
       <div class="box-fields">
-        {#each networks.filter((nw) => nw.type == "testnet") as network}
+        {#each networks.filter((nw) => nw.testnet) as _network}
           <input
             class="box-field"
-            id="{network.chainName}"
+            id="{_network.chainName}"
             name="blockchain-type"
             type="checkbox"
-            value="{network.chainName}"
-            checked="{network.chainId == chainId}"
-            on:click="{() => switchEthereumChain(network.chainId)}"
+            value="{_network.chainName}"
+            checked="{_network.chainId == chainId}"
+            on:click="{() => switchEthereumChain(_network.chainId)}"
           />
-          <label class="field" for="{network.chainName}">{network.chainName}</label>
+          <label class="field" for="{_network.chainName}">{_network.chainName}</label>
         {/each}
       </div>
     {/if}

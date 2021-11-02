@@ -10,8 +10,12 @@
     nftName,
     nftsSupplyAndName,
     nftOpenSeaUrl,
-    addressSame
+    ipfsGatewayLink,
+    nftExplorerLink,
+    addressSame,
+    urlToLink
   } from "../lib/knfts";
+
   import { nftsUrl } from "../lib/kconfig";
   import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
 
@@ -38,11 +42,11 @@
   async function _listNFTs() {
     network = getNetwork(chainId);
     if (network && address && collection) {
-      console.log(
-        "<kredeum-nfts/> _listNFTs",
-        `nft://${network?.chainName && "..."}/${collection.address || "..."}@${address || "..."}`,
-        network
-      );
+      // console.log(
+      //   "<kredeum-nfts/> _listNFTs",
+      //   `nft://${network?.chainName && "..."}/${collection.address || "..."}@${address || "..."}`,
+      //   network
+      // );
 
       NFTs = null;
 
@@ -115,7 +119,7 @@
           <div id="media-{i}" class="table-col">
             <div class="media media-photo">
               <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
-                <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="100" />
+                <img alt="link" src="{nftImageLink(nft)}" height="100" />
               </a>
             </div>
           </div>
@@ -198,10 +202,38 @@
           </div>
 
           <div id="more-detail-{i}" class="detail">
-            <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="600" />
-            <p title="{nftDescription(nft)}">
-              {nftDescription(nft)}
-            </p>
+            <div class="table">
+              <div class="table-row">
+                <div class="table-col">
+                  <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="600" />
+                  <p title="{nftDescription(nft)}">
+                    {nftDescription(nft)}
+                  </p>
+                </div>
+                <div class="table-col">
+                  <div class="section">
+                    Token ID: {nft.tokenID}
+                  </div>
+                  <div class="section">
+                    Metadata JSON :
+                    {@html urlToLink(nft.tokenURI, nft.cidJson)}
+                  </div>
+                  <div class="section">
+                    Image :
+                    {@html urlToLink(nft.image, nft.cid)}
+                  </div>
+                  <div class="section">
+                    NFT details : {@html nftExplorerLink(nft)}
+                  </div>
+                </div>
+
+                <!-- <div class="table-col">
+                  <pre>
+                    {JSON.stringify(nft, null, 2)}
+                  </pre>
+                </div> -->
+              </div>
+            </div>
           </div>
         </div>
       {/each}

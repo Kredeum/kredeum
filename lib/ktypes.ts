@@ -16,7 +16,9 @@ type Network = {
     active?: boolean;
   };
   covalent?: { active: boolean };
-  type?: string;
+  mainnet?: boolean;
+  testnet?: boolean;
+  create?: boolean;
   admin?: string;
   openSea?: { assets?: string; kredeum?: string };
   openNFTs?: string;
@@ -54,6 +56,7 @@ type Nft = {
   origin?: string;
   creator?: string;
   minter?: string;
+  cidJson?: string;
   cid?: string;
   nid?: string;
 };

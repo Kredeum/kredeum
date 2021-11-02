@@ -31,11 +31,11 @@
     targetChain = true;
 
     if (_chainId !== "0x1") {
-      console.log("addEthereumChain", _chainId);
+      // console.log("addEthereumChain", _chainId);
       // no need to add default provider chain
 
       const _network = networks.find((nw) => Number(nw.chainId) === Number(_chainId));
-      console.log("addEthereumChain", _network);
+      // console.log("addEthereumChain", _network);
       if (_network) {
         for (const field in _network) {
           // IEP-3085 fields only or fails
