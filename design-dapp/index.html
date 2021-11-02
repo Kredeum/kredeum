@@ -45,15 +45,23 @@
                 <header>
                     <h1 class="mb40">My NFT wallet</h1>
 
-                    <div class="row">
+                    <div class="row alignbottom">
                         <div class="col col-xs-12 col-sm-3">
                             <span class="label">Network</span>
-                            <select>
-                                <option selected value="0">All collections</option>
-                                <option value="1">Collection 1</option>
-                                <option value="2">Collection 2</option>
-                                <option value="3">Collection 3</option>
-                            </select>
+                            <div class="select-wrapper select-network">
+                                <div class="select">
+                                    <div class="select-trigger">
+                                        <span class="polygon">Polygon</span>
+                                    </div>
+                                    <div class="custom-options">
+                                        <span class="custom-option selected" data-value="polygon">Polygon</span>
+                                        <span class="custom-option" data-value="ethereum">Ethereum</span>
+                                        <span class="custom-option" data-value="bsc">BSC</span>
+                                        <span class="custom-option" data-value="fantom">Fantom</span>
+                                        <span class="custom-option" data-value="avalanche">Avalanche</span>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         <div class="col col-xs-12 col-sm-3">
@@ -68,10 +76,20 @@
 
                         <div class="col col-xs-12 col-sm-3">
                             <span class="label">Address</span>
-                            <input type="text" />
+                            <div class="form-field">
+                                <input type="text" />
+                            </div>
                         </div>
 
-                        <div class="col col-sm-3 txtright"><a href="#create" class="btn btn-default" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a></div>
+                        <div class="col col-sm-3 col-actions">
+                            <button class="clear">
+                                <i class="fas fa-sync-alt"></i>
+                            </button>
+
+                            <div class="txtright">
+                                <a href="#create" class="btn btn-default" title="Create"><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a>
+                            </div>
+                        </div>
                     </div>
                 </header>
 

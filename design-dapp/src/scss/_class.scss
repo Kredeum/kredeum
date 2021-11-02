@@ -45,6 +45,10 @@
     align-items: center;
 }
 
+.alignbottom {
+    align-items: end;
+}
+
 .fa-left {
     display: inline-block;
     vertical-align: middle;
@@ -71,16 +75,16 @@
 
 select {
     appearance: none;
-    min-width: 200px;
-    max-width: 300px;
+    width: 100%;
     border: 0;
     outline: 0;
     font-size: 15px;
-    padding: 12px 50px 12px 25px;
+    padding-left: 25px;
     background: $white url('../images/chevron.svg') no-repeat 90% 50%;
     color: $couleur1;
     border-radius: 360px;
     cursor: pointer;
+    height: 50px;
 
     &.custom {
         color: $grey-blue;
@@ -89,6 +93,7 @@ select {
         width: 100%;
         background-position: 95% 50%;
         padding: 20px 50px 20px 15px;
+        height: auto;
     }
 
     &:focus {
@@ -103,7 +108,7 @@ select {
 .btn {
     text-decoration: none;
     @include base;
-    padding: 11px 25px;
+    padding: 15px 25px;
     font-size: 15px;
     border-radius: 360px;
     border: none;
@@ -192,7 +197,7 @@ select {
     color: $grey-blue;
 }
 
-[type="file"]::-webkit-file-upload-button {
+[type="file"]::file-selector-button {
     text-decoration: none;
     @include base;
     padding: 11px 25px;
@@ -356,3 +361,80 @@ select {
         }
     }
 }
+
+.select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+
+    .select {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .select-trigger {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        color: $couleur1;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+        border-radius: 360px;
+        font-size: 15px;
+
+        span {
+            font-size: 15px;
+        }
+    }
+
+    .custom-options {
+        position: absolute;
+        display: block;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-top: 0;
+        background: $white;
+        transition: all 0.5s;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 2;
+        padding: 20px;
+        border-radius: 30px;
+        box-shadow: 0 0 4rem rgba(0,0,0,.1);
+
+        .custom-option {
+            position: relative;
+            display: block;
+            padding: 0 20px 0 35px;
+            font-size: 15px;
+            font-weight: 300;
+            color: $couleur1;
+            line-height: 50px;
+            cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover {
+                opacity: 0.7;
+            }
+
+            &.selected {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .select.open .custom-options {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        top: calc(100% + 10px);
+    }
+}
+
