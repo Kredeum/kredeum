@@ -293,22 +293,6 @@ select {
 .table {
     width: 100%;
     position: relative;
-
-    .table-row {
-        &:not(.table-head) {
-            .table-col {
-                background: $white;
-
-                &:first-child {
-                    border-radius: 6px 0 0 6px;
-                }
-
-                &:nth-last-child(2) {
-                    border-radius: 0 6px 6px 0;
-                }
-            }
-        }
-    }
 }
 
 .select-wrapper {

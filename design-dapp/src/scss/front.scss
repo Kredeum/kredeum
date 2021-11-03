@@ -71,6 +71,12 @@ main {
         header {
             margin-bottom: 50px;
 
+            h1 + .btn {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
             input[type="text"] {
                 width: 100%;
                 border: 0;
@@ -105,15 +111,13 @@ main {
                 }
             }
 
-            .col-actions {
-                button {
-                    height: 50px;
-                    width: 50px;
-                    border-radius: 50px;
-                    background: $white;
-                    border: 0 none;
-                    cursor: pointer;
-                }
+            .clear {
+                height: 50px;
+                width: 50px;
+                border-radius: 50px;
+                background: $white;
+                border: 0 none;
+                cursor: pointer;
             }
         }
 
@@ -197,23 +201,10 @@ main {
                 right: 0;
                 opacity: 1;
                 visibility: visible;
-                padding: 15px;
-                top: 70px;
                 transition: all 100ms ease-in-out;
-
-                .media,
-                .description {
-                    display: inline-block;
-                    vertical-align: middle;
-                }
 
                 .media {
                     width: 130px;
-                    margin-right: 20px;
-                }
-
-                .description {
-                    width: calc(100%-160px);
                 }
             }
 
@@ -262,8 +253,6 @@ main {
     }
 
     li {
-        display: flex;
-        align-items: center;
         position: relative;
         padding-left: 25px;
 
@@ -300,29 +289,18 @@ main {
         }
 
         .flex {
-            flex: 0 0 auto;
-            width: 50%;
-
-
             .label {
                 font-size: 12px;
                 margin-bottom: 0;
             }
 
             & + .flex {
-                text-align: right;
-
                 .t-light {
                     opacity: 0.5;
                 }
 
                 a {
                     color: $couleur1;
-                    transition: all 300ms ease-in-out;
-
-                    &:hover {
-                        color: $green;
-                    }
                 }
             }
         }

@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'core/_mixins';
 
 nav {
     width: 100%;
@@ -125,28 +126,53 @@ main {
         position: relative;
         padding-top: 10px;
 
-        h1 + .btn {
-            display: inline-block !important;
-            position: absolute;
-            right: 0;
-            top: 0;
-        }
-
         .col:not(:last-child) {
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
     }
 
     .table {
-        .table-col {
-            padding: 10px 5px;
+        .media + strong {
+            font-size: 14px;
+        }
 
-            &:first-child {
-                padding-left: 10px;
+        .table-row {
+            margin-bottom: 10px;
+            position: relative;
+            background: $white;
+            @include border-radius();
+            padding: 10px;
+            overflow: hidden;
+
+            .more {
+                width: 40px;
+                padding: 0;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+        }
+
+        .table-col {
+            padding: 10px;
+
+            &:nth-child(2),
+            &:nth-child(3) {
+                width: 49%;
+                display: inline-block;
             }
 
-            &:nth-last-child(2) {
-                padding-right: 10px;
+            &:nth-child(3) {
+                text-align: right;
+            }
+        }
+
+        .detail {
+            padding: 20px;
+            top: 120px;
+
+            .media {
+                margin-bottom: 20px;
             }
         }
     }

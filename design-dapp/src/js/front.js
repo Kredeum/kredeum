@@ -9,7 +9,11 @@
     function toggleItem() {
         var itemClass = this.parentNode.className;
         var detail = this.parentNode.getElementsByClassName('detail')[0].offsetHeight;
-        var heightEl = detail + 70;
+        if (window.innerWidth > 991) {
+            var heightEl = detail + 70;
+        } else {
+            var heightEl = detail + 120;
+        }
         var tableDrop = this.parentNode.getAttribute('id');
 
         /*for (i = 0; i < accItem.length; i++) {

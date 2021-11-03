@@ -65,24 +65,32 @@ main {
     padding: 40px;
     background-size: 100% auto;
 
-    .col-filters {
-        .box {
-            @include border-radius;
-            background: $white;
-
-            .box-section {
-                padding: 30px 30px 22px 30px;
-            }
-        }
+    header {
+        position: relative;
+        padding-top: 10px;
     }
 
     .table {
         display: table;
-        border-collapse: collapse;
+        border-collapse: separate;
         border-spacing: 0 10px;
 
         .table-row {
             display: table-row;
+
+            &:not(.table-head) {
+                .table-col {
+                    background: $white;
+
+                    &:first-child {
+                        border-radius: 6px 0 0 6px;
+                    }
+
+                    &:nth-last-child(2) {
+                        border-radius: 0 6px 6px 0;
+                    }
+                }
+            }
         }
 
         .table-col {
@@ -118,6 +126,25 @@ main {
 
             &:nth-child(4) {
                 width: 10%;
+            }
+        }
+
+        .detail {
+            padding: 15px;
+            top: 70px;
+
+            .media,
+            .description {
+                display: inline-block;
+                vertical-align: middle;
+            }
+
+            .media {
+                margin-right: 20px;
+            }
+
+            .description {
+                width: calc(100%-160px);
             }
         }
     }
