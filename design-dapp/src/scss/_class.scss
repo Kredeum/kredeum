@@ -278,62 +278,22 @@ select {
 }
 
 .table {
-    display: table;
     width: 100%;
-    border-collapse: collapse;
-    border-collapse:separate;
-    border-spacing: 0 10px;
     position: relative;
 
     .table-row {
-        display: table-row;
-
         &:not(.table-head) {
-            background: $white;
+            .table-col {
+                background: $white;
 
-            &:first-child {
-                border-radius: 6px 0 0 6px;
+                &:first-child {
+                    border-radius: 6px 0 0 6px;
+                }
+
+                &:nth-last-child(2) {
+                    border-radius: 0 6px 6px 0;
+                }
             }
-
-            &:nth-last-child(2) {
-                border-radius: 0 6px 6px 0;
-            }
-        }
-    }
-
-    .table-col {
-        display: table-cell;
-        vertical-align: top;
-        max-width: 0;
-
-        .table-col-content {
-            text-overflow: ellipsis;
-            white-space: nowrap;
-            overflow: hidden;
-            font-size: 14px;
-        }
-
-        &:nth-child(2),
-        &:nth-child(3) {
-            .table-col-content {
-                padding-top: 5px;
-            }
-        }
-
-        &:nth-child(1) {
-            width: 60%;
-        }
-
-        &:nth-child(2) {
-            width: 15%;
-        }
-
-        &:nth-child(3) {
-            width: 15%;
-        }
-
-        &:nth-child(4) {
-            width: 10%;
         }
     }
 }

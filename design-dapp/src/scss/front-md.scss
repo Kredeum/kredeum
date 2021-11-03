@@ -34,7 +34,6 @@ nav {
         ul {
             li {
                 a {
-
                     transition: all 300ms ease-in-out;
 
                     &:hover {
@@ -42,6 +41,17 @@ nav {
                     }
                 }
             }
+        }
+    }
+
+    .discord-link {
+        left: 50%;
+        bottom: 30px;
+        transform: translateX(-50%);
+        transition: all 300ms ease-in-out;
+
+        &:hover {
+            color: $white;
         }
     }
 }
@@ -67,8 +77,49 @@ main {
     }
 
     .table {
+        display: table;
+        border-collapse: collapse;
+        border-spacing: 0 10px;
+
+        .table-row {
+            display: table-row;
+        }
+
         .table-col {
+            display: table-cell;
+            vertical-align: top;
+            max-width: 0;
             padding: 15px;
+
+            .table-col-content {
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                overflow: hidden;
+                font-size: 14px;
+            }
+
+            &:nth-child(2),
+            &:nth-child(3) {
+                .table-col-content {
+                    padding-top: 5px;
+                }
+            }
+
+            &:nth-child(1) {
+                width: 60%;
+            }
+
+            &:nth-child(2) {
+                width: 15%;
+            }
+
+            &:nth-child(3) {
+                width: 15%;
+            }
+
+            &:nth-child(4) {
+                width: 10%;
+            }
         }
     }
 }

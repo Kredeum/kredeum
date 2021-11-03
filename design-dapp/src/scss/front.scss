@@ -29,6 +29,15 @@ nav {
             }
         }
     }
+
+    .discord-link {
+        position: absolute;
+        color: rgba($white, 0.4);
+
+        i {
+            font-size: 30px;
+        }
+    }
 }
 
 main {
@@ -81,20 +90,13 @@ main {
             }
 
             .col-actions {
-                display: flex;
-
                 button {
-                    flex: 0;
                     height: 50px;
-                    flex-basis: 50px;
+                    width: 50px;
                     border-radius: 50px;
                     background: $white;
                     border: 0 none;
                     cursor: pointer;
-
-                    & + div {
-                        flex: 1;
-                    }
                 }
             }
         }
@@ -177,6 +179,7 @@ main {
 
             .table-drop {
                 position: relative;
+                box-shadow: 0 0 4rem rgba(0,0,0,.1);
             }
 
             .detail {
@@ -206,6 +209,8 @@ main {
             }
 
             .closed {
+                box-shadow: none;
+
                 .more-button {
                     i {
                         transform: rotate(0deg);

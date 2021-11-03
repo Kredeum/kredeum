@@ -104,6 +104,12 @@ nav {
             opacity: 0;
         }
     }
+
+    .discord-link {
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
 }
 
 nav + main {
@@ -116,6 +122,16 @@ main {
     padding: 20px;
 
     header {
+        position: relative;
+        padding-top: 10px;
+
+        h1 + .btn {
+            display: inline-block !important;
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+
         .col:not(:last-child) {
             margin-bottom: 20px;
         }
