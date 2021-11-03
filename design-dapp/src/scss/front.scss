@@ -40,6 +40,22 @@ nav {
     }
 }
 
+.media {
+    @include border-radius;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: 130px;
+    width: 130px;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
+}
+
 main {
     background: url("../images/bg-dapp.svg") no-repeat center -200px;
     background-attachment: fixed;
@@ -117,15 +133,8 @@ main {
             }
 
             .media {
-                @include border-radius;
-                overflow: hidden;
-                display: inline-block;
-                vertical-align: middle;
                 align-items: center;
                 justify-content: center;
-                max-width: 100%;
-                height: 130px;
-                width: 130px;
 
                 &-small {
                     opacity: 0;
@@ -229,6 +238,91 @@ main {
                     overflow: hidden;
                     opacity: 0;
                     visibility: hidden;
+                }
+            }
+        }
+    }
+}
+
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 40px 0 0 0;
+    position: relative;
+
+    &::after {
+        content: '';
+        width: 1px;
+        top: 5px;
+        bottom: 5px;
+        left: 8px;
+        background: rgba($couleur1, 0.1);
+        position: absolute;
+        z-index: -1;
+    }
+
+    li {
+        display: flex;
+        align-items: center;
+        position: relative;
+        padding-left: 25px;
+
+        &::before {
+            content: '';
+            border: 1px solid rgba($couleur1, 0.1);
+            box-shadow: 0 0 1px 2px $white;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: $white;
+            border-radius: 16px;
+        }
+
+        &.complete {
+            &::after {
+                content: '';
+                position: absolute;
+                left: 4px;
+                top: 50%;
+                background: $green;
+                width: 8px;
+                height: 8px;
+                border-radius: 8px;
+                transform: translateY(-50%);
+            }
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        .flex {
+            flex: 0 0 auto;
+            width: 50%;
+
+
+            .label {
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+            & + .flex {
+                text-align: right;
+
+                .t-light {
+                    opacity: 0.5;
+                }
+
+                a {
+                    color: $couleur1;
+                    transition: all 300ms ease-in-out;
+
+                    &:hover {
+                        color: $green;
+                    }
                 }
             }
         }

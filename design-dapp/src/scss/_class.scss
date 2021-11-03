@@ -57,14 +57,27 @@
     align-items: end;
 }
 
-.fa-left {
+.fa-left,
+.fa-right {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
+}
+
+
+.fa-left {
     margin-right: 8px;
+}
+
+.fa-right {
+    margin-left: 8px;
 }
 
 .c-green {
     color: $green;
+}
+
+.mt-20 {
+    margin-top: 20px;
 }
 
 .label {
