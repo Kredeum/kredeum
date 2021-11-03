@@ -31,58 +31,62 @@ const envKeys = () => {
   );
 };
 
-const toRollupConfig = function (component) {
+const outputToPath = (path) => {
   return {
-    // input: `svelte/${component}.svelte`,
-    input: `svelte/main.js`,
-    output: [
-      {
-        sourcemap: !production,
-        format: "iife",
-        name: component.replace(/-/g, "_"),
-        file: `web/app/assets/${component}.js`
-      },
-      {
-        sourcemap: !production,
-        format: "iife",
-        name: component.replace(/-/g, "_"),
-        file: `wordpress/kredeum-nfts/lib/js/${component}.js`
-      }
-    ],
-    plugins: [
-      svelte({
-        preprocess: [autoPreprocess({})],
-        compilerOptions: {
-          // customElement: true,
-          dev: !production
-        }
-      }),
-      css({ output: `${component}.css` }),
-      replace({
-        preventAssignment: true,
-        values: envKeys()
-      }),
-      typescript({ sourceMap: !production }),
-      nodeResolve({
-        browser: true,
-        dedupe: ["svelte"],
-        preferBuiltins: false
-      }),
-      builtins(),
-      json(),
-      commonjs(),
-      production && terser()
-    ],
-    watch: {
-      clearScreen: false
-    },
-    onwarn: function (warning) {
-      if (warning.code === "THIS_IS_UNDEFINED" || warning.code === "CIRCULAR_DEPENDENCY") {
-        return;
-      }
-      console.warn(warning.message);
-    }
+    sourcemap: !production,
+    format: "iife",
+    name: "kredeum-nfts.js",
+    file: `${path}/kredeum-nfts.js`
   };
 };
+const svelteOptions = (customElement = false) => {
+  const options = {
+    preprocess: [autoPreprocess({})],
+    compilerOptions: {
+      customElement,
+      dev: !production
+    },
+    include: "**",
+    exclude: ""
+  };
+  if (customElement) {
+    options.include = "**/*.wc.svelte/";
+  } else {
+    options.include = "**/*.svelte";
+    options.exclude = "**/*.wc.svelte/";
+  }
+  return options;
+};
 
-export default [toRollupConfig("kredeum-nfts")];
+export default {
+  input: "svelte/index.js",
+  output: [outputToPath("web/app/assets/"), outputToPath("wordpress/kredeum-nfts/lib/js/")],
+  plugins: [
+    svelte(svelteOptions(true)),
+    svelte(svelteOptions(false)),
+    css({ output: "kredeum-nfts.css" }),
+    replace({
+      preventAssignment: true,
+      values: envKeys()
+    }),
+    typescript({ sourceMap: !production }),
+    nodeResolve({
+      browser: true,
+      dedupe: ["svelte"],
+      preferBuiltins: false
+    }),
+    builtins(),
+    json(),
+    commonjs(),
+    production && terser()
+  ],
+  watch: {
+    clearScreen: false
+  },
+  onwarn: function (warning) {
+    if (warning.code === "THIS_IS_UNDEFINED" || warning.code === "CIRCULAR_DEPENDENCY") {
+      return;
+    }
+    console.warn(warning.message);
+  }
+};

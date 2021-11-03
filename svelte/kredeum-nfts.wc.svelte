@@ -1,11 +1,14 @@
+<svelte:options tag="kredeum-nfts" />
+
 <script lang="ts">
+  import "./front.css";
   import type { Signer } from "ethers";
   import type { Collection } from "../lib/kconfig";
-  import Metamask from "./kredeum-metamask.svelte";
-  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
-  import KredeumListNfts from "./kredeum-list-nfts.svelte";
-  import KredeumCreateNft from "./kredeum-create-nft.svelte";
-  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
+  import KredeumMetamask from "./kredeum-metamask.svelte";
+  // import KredeumSelectCollection from "./kredeum-select-collection.svelte";
+  // import KredeumListNfts from "./kredeum-list-nfts.svelte";
+  // import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  // import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import { getNetwork } from "../lib/kconfig";
 
   let collection: Collection;
@@ -50,7 +53,7 @@
             </div>
 
             <div class="col col-sm-6">
-              <KredeumSelectCollection bind:address bind:chainId bind:collection />
+              <!-- <KredeumSelectCollection bind:address bind:chainId bind:collection /> -->
             </div>
 
             <div class="col col-sm-3 txtright">
@@ -68,7 +71,7 @@
             <div class="col col-xs-12 col-md-3 col-filters">
               <!-- <span class="label">Filter</span> -->
               <div class="box">
-                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+                <KredeumMetamask autoconnect="off" bind:address bind:chainId bind:signer />
 
                 <div class="box-section">
                   <span class="label label-big">Cache</span>
@@ -80,7 +83,7 @@
             </div>
 
             <div class="col col-xs-12 col-md-9">
-              <KredeumListNfts bind:collection bind:address bind:chainId />
+              <!-- <KredeumListNfts bind:collection bind:address bind:chainId /> -->
             </div>
           </div>
         </div>
@@ -115,12 +118,12 @@
 
   <!-- Modal create NFT -->
   <div id="create-nft" class="modal-window">
-    <KredeumCreateNft bind:collection bind:address bind:chainId bind:signer />
+    <!-- <KredeumCreateNft bind:collection bind:address bind:chainId bind:signer /> -->
   </div>
 
   <!-- Modal add collection -->
   <div id="add-collection" class="modal-window">
-    <KredeumCreateCollection bind:collection bind:address bind:chainId bind:signer />
+    <!-- <KredeumCreateCollection bind:collection bind:address bind:chainId bind:signer /> -->
   </div>
 </div>
 
