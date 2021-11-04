@@ -1,0 +1,199 @@
+@import '_variables';
+@import 'core/_mixins';
+
+nav {
+    width: 100%;
+    height: 60px;
+    background: $couleur1;
+    position: fixed;
+    top: 0;
+    left: 0;
+    padding: 0 10px;
+    z-index: 10;
+
+    .logo {
+        display: inline-block;
+
+        img {
+            display: block;
+            width: 60px;
+        }
+    }
+
+    .menu {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        display: none;
+
+        input {
+            display: block;
+            width: 40px;
+            height: 30px;
+            position: absolute;
+            top: -6px;
+            left: -7px;
+            cursor: pointer;
+            opacity: 0;
+            z-index: 2;
+            -webkit-touch-callout: none;
+        }
+
+        label {
+            position: relative;
+            height: 20px;
+            width: 25px;
+            display: block;
+        }
+
+        span {
+            display: block;
+            width: 25px;
+            height: 3px;
+            margin-bottom: 5px;
+            position: absolute;
+            background: $white;
+            border-radius: 3px;
+            z-index: 1;
+            transition: all 300ms ease-in-out;
+
+            &:nth-child(1) {
+                top: 0;
+                transition: rotate, 0.3s;
+            }
+
+            &:nth-child(2) {
+                top: 50%;
+            }
+
+            &:nth-child(3) {
+                top: 100%;
+                transition: rotate, 0.3s;
+            }
+        }
+
+        input:checked ~ label span:nth-child(1) {
+            top: 10px;
+            right: 0;
+            transform: rotate(45deg);
+        }
+
+        input:checked ~ label span:nth-child(2) {
+            opacity: 0;
+        }
+
+        input:checked ~ label span:nth-child(3) {
+            top: 10px;
+            right: 0;
+            transform: rotate(-45deg);
+        }
+
+        input:checked ~ label + .nav {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .nav {
+            background: $couleur1;
+            position: fixed;
+            left: 0;
+            right: 0;
+            top: 61px;
+            padding-bottom: 40px;
+            transform: translateY(-150%);
+            transition: all 300ms ease-in-out;
+            opacity: 0;
+        }
+    }
+
+    .discord-link {
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
+}
+
+nav + main {
+  padding-top: 80px;
+}
+
+main {
+    background-position: center top;
+    background-size: 300% auto;
+    padding: 20px;
+
+    header {
+        position: relative;
+        padding-top: 10px;
+
+        .col:not(:last-child) {
+            margin-bottom: 15px;
+        }
+    }
+
+    .table {
+        .media + strong {
+            font-size: 14px;
+        }
+
+        .table-row {
+            margin-bottom: 10px;
+            position: relative;
+            background: $white;
+            @include border-radius();
+            padding: 10px;
+            overflow: hidden;
+
+            .more {
+                width: 40px;
+                padding: 0;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+        }
+
+        .table-col {
+            padding: 10px;
+
+            &:nth-child(2),
+            &:nth-child(3) {
+                width: 49%;
+                display: inline-block;
+            }
+
+            &:nth-child(3) {
+                text-align: right;
+            }
+        }
+
+        .detail {
+            padding: 20px;
+            top: 120px;
+
+            .media {
+                margin-bottom: 20px;
+            }
+        }
+    }
+}
+
+// Modal
+.modal-window {
+    overflow-y: auto;
+
+    & > div {
+        width:90%;
+        top: 20px;
+        transform: translate(-50%, 0);
+    }
+
+    .modal-body {
+        padding: 40px 20px;
+    }
+
+    .or {
+        display: block;
+        margin: 10px auto;
+    }
+}

@@ -1,0 +1,53 @@
+@import '_variables';
+
+.steps {
+    li {
+        display: flex;
+        align-items: center;
+
+        .flex {
+            flex: 0 0 auto;
+            width: 50%;
+
+            & + .flex {
+                text-align: right;
+
+                a {
+                    transition: all 300ms ease-in-out;
+
+                    &:hover {
+                        color: $green;
+                    }
+                }
+            }
+        }
+    }
+}
+
+// Modal
+.modal-window {
+    & > div {
+        max-height: calc(100% - 100px);
+        width: 85%;
+        top: 50%;
+        transform: translate(-50%, -50%);
+        min-width: 700px;
+    }
+
+    .modal-content {
+        max-height: calc(100vh - 100px);
+        padding: 60px;
+    }
+
+    .modal-body {
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+        padding: 0 20px;
+    }
+
+    .or {
+        display: inline-block;
+        vertical-align: middle;
+        margin: 0 10px;
+    }
+}
