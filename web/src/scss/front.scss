@@ -29,6 +29,31 @@ nav {
             }
         }
     }
+
+    .discord-link {
+        position: absolute;
+        color: rgba($white, 0.4);
+
+        i {
+            font-size: 30px;
+        }
+    }
+}
+
+.media {
+    @include border-radius;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: middle;
+    max-width: 100%;
+    height: 130px;
+    width: 130px;
+
+    img {
+        object-fit: cover;
+        width: 100%;
+        height: 100%;
+    }
 }
 
 main {
@@ -36,81 +61,92 @@ main {
     background-attachment: fixed;
     width: 100%;
 
-    #search-top {
-        width: 100%;
-        position: relative;
-        margin-bottom: 40px;
-
-        input[type="text"] {
-            height: 65px;
-            @include border-radius;
-            border: 0 none;
-            padding: 0 15px;
-            width: 100%;
-            font-size: 20px;
-        }
-
-        button[type="submit"] {
-            position: absolute;
-            right: 15px;
-            top: 50%;
-            transform: translateY(-50%);
-            background: none;
-            border: none;
-            cursor: pointer;
-
-            i {
-                font-size: 20px;
-            }
-        }
-    }
-
     .content {
         h1 {
-            margin: 0;
+            margin: 0 0 30px 0;
             font-size: 22px;
             font-weight: bold;
         }
 
         header {
-            margin-bottom: 30px;
-        }
+            margin-bottom: 50px;
 
-        .col-filters {
-            .box {
-                .box-section {
-                    &:not(:last-child) {
-                        border-bottom: 1px solid rgba($couleur1, 0.1);
+            h1 + .btn {
+                position: absolute;
+                right: 0;
+                top: 0;
+            }
+
+            input[type="text"] {
+                width: 100%;
+                border: 0;
+                outline: 0;
+                font-size: 15px;
+                padding-left: 25px;
+                background: $white;
+                color: $couleur1;
+                border-radius: 360px;
+                height: 50px;
+            }
+
+            .select-network {
+                .select-trigger {
+                    span {
+                        padding-left: 35px;
                     }
                 }
+
+                $names: "polygon", "ethereum", "bsc", "fantom", "avalanche";
+
+                @each $name in $names {
+                    [data-value=#{$name}],
+                    .#{$name} {
+                        background: url('../images/icon-#{$name}.png') no-repeat left center;
+                    }
+                }
+
+                .custom-option,
+                .select-trigger span {
+                    background-size: 25px;
+                }
             }
+
+            .clear {
+                height: 50px;
+                width: 50px;
+                border-radius: 50px;
+                background: $white;
+                border: 0 none;
+                cursor: pointer;
+            }
+        }
+
+        h2 {
+            font-size: 18px;
         }
 
         .table {
-            margin-top: -10px;
-
-            .table-head {
-                .label {
-                    margin-bottom: 10px;
-                }
-            }
-
-            .light {
-                color: rgba($couleur1, 0.6);
-            }
-
             .table-row {
                 transition: all 300ms ease-in-out;
             }
 
+            .table-col {
+                .label {
+                    margin-bottom: 0;
+                }
+            }
+
             .media {
-                width: 40px;
-                height: 40px;
-                @include border-radius;
-                overflow: hidden;
-                display: flex;
                 align-items: center;
                 justify-content: center;
+
+                &-small {
+                    opacity: 0;
+                    visibility: hidden;
+                    width: 0;
+                    transition: opacity 300ms ease-in-out;
+                    height: 40px;
+                }
 
                 i {
                     color: $white;
@@ -130,6 +166,11 @@ main {
                     width: 100%;
                     height: 100%;
                 }
+
+                & + strong {
+                    display: inline-block;
+                    vertical-align: middle;
+                }
             }
 
             .more-button {
@@ -140,6 +181,7 @@ main {
                 text-align: center;
                 @include border-radius;
                 cursor: pointer;
+                display: inline-block;
 
                 i {
                     color: $grey-blue;
@@ -150,6 +192,7 @@ main {
 
             .table-drop {
                 position: relative;
+                box-shadow: 0 0 4rem rgba(0,0,0,.1);
             }
 
             .detail {
@@ -158,31 +201,28 @@ main {
                 right: 0;
                 opacity: 1;
                 visibility: visible;
-                padding: 15px;
-                top: 70px;
                 transition: all 100ms ease-in-out;
 
-                ul {
-                    margin: 0 0 0 15px;
-                    padding: 0;
-
-                    li {
-                        span {
-                            opacity: 0.7;
-                        }
-                    }
-
-                    li:not(:last-child) {
-                        margin-bottom: 10px;
-                    }
+                .media {
+                    width: 130px;
                 }
             }
 
             .closed {
+                box-shadow: none;
+
                 .more-button {
                     i {
                         transform: rotate(0deg);
                     }
+                }
+
+                .media-small {
+                    opacity: 1;
+                    visibility: visible;
+                    width: 40px;
+                    margin-right: 10px;
+                    transition: opacity 300ms ease-in-out;
                 }
 
                 .detail {
@@ -195,8 +235,76 @@ main {
     }
 }
 
-footer {
+.steps {
+    list-style: none;
+    padding: 0;
+    margin: 40px 0 0 0;
+    position: relative;
 
+    &::after {
+        content: '';
+        width: 1px;
+        top: 5px;
+        bottom: 5px;
+        left: 8px;
+        background: rgba($couleur1, 0.1);
+        position: absolute;
+        z-index: -1;
+    }
+
+    li {
+        position: relative;
+        padding-left: 25px;
+
+        &::before {
+            content: '';
+            border: 1px solid rgba($couleur1, 0.1);
+            box-shadow: 0 0 1px 2px $white;
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 16px;
+            height: 16px;
+            background: $white;
+            border-radius: 16px;
+        }
+
+        &.complete {
+            &::after {
+                content: '';
+                position: absolute;
+                left: 4px;
+                top: 50%;
+                background: $green;
+                width: 8px;
+                height: 8px;
+                border-radius: 8px;
+                transform: translateY(-50%);
+            }
+        }
+
+        &:not(:last-child) {
+            margin-bottom: 20px;
+        }
+
+        .flex {
+            .label {
+                font-size: 12px;
+                margin-bottom: 0;
+            }
+
+            & + .flex {
+                .t-light {
+                    opacity: 0.5;
+                }
+
+                a {
+                    color: $couleur1;
+                }
+            }
+        }
+    }
 }
 
 // Modal

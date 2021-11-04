@@ -2,386 +2,372 @@
 // utilitaires
 //
 
+@keyframes rotate {
+    100% { transform: rotate(360deg); }
+}
+
+.refresh {
+    animation: rotate 1s infinite linear;
+}
+
 .clearfix {
-  &::after {
-    content: "";
-    display: table;
-    clear: both;
-  }
+    &::after {
+        content: '';
+        display: table;
+        clear: both;
+    }
 }
 
 .hidden {
-  display: none !important;
-  visibility: hidden;
+    display: none !important;
+    visibility: hidden;
 }
 
 .visually-hidden {
-  position: absolute !important;
-  clip: rect(1px, 1px, 1px, 1px);
-  padding: 0 !important;
-  border: 0 !important;
-  height: 1px !important;
-  width: 1px !important;
-  overflow: hidden;
+    position: absolute !important;
+    clip: rect(1px, 1px, 1px, 1px);
+    padding: 0 !important;
+    border: 0 !important;
+    height: 1px !important;
+    width: 1px !important;
+    overflow: hidden;
 }
 
 .relative {
-  position: relative;
+	position: relative;
 }
 
 .txtright {
-  text-align: right;
+    text-align: right;
 }
 
 .txtleft {
-  text-align: left;
+    text-align: left;
 }
 
 .txtcenter {
-  text-align: center;
+    text-align: center;
 }
 
 .aligncenter {
-  align-items: center;
+    align-items: center;
 }
 
+.alignbottom {
+    align-items: end;
+}
+
+.fa-left,
+.fa-right {
+    display: inline-block;
+    vertical-align: baseline;
+}
+
+
 .fa-left {
-  display: inline-block;
-  vertical-align: middle;
-  margin-right: 8px;
+    margin-right: 8px;
+}
+
+.fa-right {
+    margin-left: 8px;
 }
 
 .c-green {
-  color: $green;
+    color: $green;
+}
+
+.mt-20 {
+    margin-top: 20px;
 }
 
 .label {
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 11px;
-  color: rgba($couleur1, 0.4);
-  display: inline-block;
-  margin-bottom: 20px;
-  letter-spacing: 1px;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 11px;
+    color: rgba($couleur1, 0.4);
+    display: inline-block;
+    margin-bottom: 10px;
+    letter-spacing: 1px;
 
-  &-big {
-    font-size: 12px;
-  }
+    &-big {
+        font-size: 12px;
+    }
 }
 
 select {
-  appearance: none;
-  min-width: 200px;
-  max-width: 300px;
-  border: 0;
-  outline: 0;
-  font-size: 15px;
-  padding: 12px 50px 12px 25px;
-  background: $white url("../images/chevron.svg") no-repeat 90% 50%;
-  color: $couleur1;
-  border-radius: 360px;
-  cursor: pointer;
-
-  &.custom {
-    color: $grey-blue;
-    border: 1px solid rgba($grey-blue, 0.3);
-    @include border-radius();
+    appearance: none;
     width: 100%;
-    background-position: 95% 50%;
-    padding: 20px 50px 20px 15px;
-  }
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    padding-left: 25px;
+    background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+    color: $couleur1;
+    border-radius: 360px;
+    cursor: pointer;
+    height: 50px;
 
-  &:focus {
-    outline: none;
-  }
+    &.custom {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+        @include border-radius();
+        width: 100%;
+        background-position: 95% 50%;
+        padding: 20px 50px 20px 15px;
+        height: auto;
+    }
 
-  &::-ms-expand {
-    display: none;
-  }
+    &:focus {
+        outline: none;
+    }
+
+    &::-ms-expand {
+        display: none;
+    }
 }
 
 .btn {
-  text-decoration: none;
-  @include base;
-  padding: 11px 25px;
-  font-size: 15px;
-  border-radius: 360px;
-  border: none;
-  cursor: pointer;
+    text-decoration: none;
+    @include base;
+    padding: 15px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
 
-  &-default {
+    &-default {
+        background: $couleur1;
+        color: $white;
+
+        &:hover {
+            background: lighten($couleur1, 10);
+        }
+    }
+
+    &-second {
+        background: rgba($couleur1, 0.2);
+        color: $couleur1;
+
+        &:hover {
+            background: rgba($couleur1, 0.3);
+        }
+    }
+
+    &-light {
+        background: $white;
+        color: $couleur1;
+
+        &:hover {
+            background: $couleur1;
+            color: $white;
+        }
+    }
+
+    &-small {
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        padding: 8px 15px;
+        font-weight: bold;
+    }
+
+    &-mint {
+        color: $green;
+        background: rgba($green, 0.1);
+
+        &:hover {
+            background: rgba($green, 0.2);
+        }
+    }
+
+    &-sell {
+        color: $white;
+        background: $green;
+
+        &:hover {
+            background: darken($green, 10);
+        }
+    }
+
+    & > i {
+        display: inline-block;
+        vertical-align: middle;
+        font-size: 14px;
+
+        & + span {
+            margin-left: 8px;
+        }
+    }
+}
+
+.section {
+    margin-bottom: 30px;
+}
+
+.box-file {
+    background: rgba($grey-blue, 0.1);
+    color: $grey-blue;
+    width: 100%;
+    padding: 15px;
+    @include border-radius();
+}
+
+[type="file"] {
+    width: 100%;
+    font-size: 16px;
+    color: $grey-blue;
+}
+
+[type="file"]::file-selector-button {
+    text-decoration: none;
+    @include base;
+    padding: 11px 25px;
+    font-size: 15px;
+    border-radius: 360px;
+    border: none;
+    cursor: pointer;
+    margin-right: 10px;
+
     background: $couleur1;
     color: $white;
 
     &:hover {
-      background: lighten($couleur1, 10);
+        background: lighten($couleur1, 10);
     }
-  }
+}
 
-  &-second {
-    background: rgba($couleur1, 0.2);
-    color: $couleur1;
-
-    &:hover {
-      background: rgba($couleur1, 0.3);
+.form-field {
+    input[type="text"] {
+        width: 100%;
+        background: rgba($grey-blue, 0.1);
+        color: $grey-blue;
+        width: 100%;
+        padding: 20px 15px;
+        @include border-radius();
+        border: 0;
     }
-  }
+}
 
-  &-light {
-    background: $white;
-    color: $couleur1;
+.box-field {
+    display: none !important;
+}
 
-    &:hover {
-      background: $couleur1;
-      color: $white;
+.box-fields {
+    .field {
+        margin: 0 4px 8px 0;
+        cursor: pointer;
+        background: rgba($grey-blue, 0.1);
+        color: $grey-blue;
+
+        i {
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 5px;
+        }
     }
-  }
 
-  &-small {
+    .box-field:checked + label {
+        background: $couleur1;
+        color: $white;
+    }
+}
+
+.tag,
+.field {
+    @include border-radius;
+    @include base;
     font-size: 12px;
     text-transform: uppercase;
     letter-spacing: 1px;
     padding: 8px 15px;
     font-weight: bold;
-  }
-
-  &-mint {
-    color: $green;
-    background: rgba($green, 0.1);
-
-    &:hover {
-      background: rgba($green, 0.2);
-    }
-  }
-
-  &-sell {
-    color: $white;
-    background: $green;
-
-    &:hover {
-      background: darken($green, 10);
-    }
-  }
-
-  & > i {
-    display: inline-block;
-    vertical-align: middle;
-    font-size: 14px;
-
-    & + span {
-      margin-left: 8px;
-    }
-  }
-}
-
-.section {
-  margin-bottom: 30px;
-}
-
-.box-file {
-  background: rgba($grey-blue, 0.1);
-  color: $grey-blue;
-  width: 100%;
-  padding: 15px;
-  @include border-radius();
-}
-
-[type="file"] {
-  width: 100%;
-  font-size: 16px;
-  color: $grey-blue;
-}
-
-[type="file"]::-webkit-file-upload-button {
-  text-decoration: none;
-  @include base;
-  padding: 11px 25px;
-  font-size: 15px;
-  border-radius: 360px;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-
-  background: $couleur1;
-  color: $white;
-
-  &:hover {
-    background: lighten($couleur1, 10);
-  }
-}
-
-.form-field {
-  input[type="text"] {
-    width: 100%;
-    background: rgba($grey-blue, 0.1);
-    color: $grey-blue;
-    width: 100%;
-    padding: 20px 15px;
-    @include border-radius();
-    border: 0;
-  }
-}
-
-.box-field {
-  display: none !important;
-}
-
-.box-fields {
-  .field {
-    margin: 0 4px 8px 0;
-    cursor: pointer;
-    background: rgba($grey-blue, 0.1);
-    color: $grey-blue;
-
-    i {
-      display: inline-block;
-      vertical-align: middle;
-      margin-right: 5px;
-    }
-  }
-
-  .box-field:checked + label {
-    background: $couleur1;
-    color: $white;
-  }
-}
-
-.tag,
-.field {
-  @include border-radius;
-  @include base;
-  font-size: 12px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  padding: 8px 15px;
-  font-weight: bold;
 }
 
 .tag {
-  &-bsc {
-    color: #ffb30d;
-    background: rgba(#ffb30d, 0.1);
-  }
-
-  &-eth {
-    color: #2e80dd;
-    background: rgba(#2e80dd, 0.1);
-  }
-
-  &-polygon {
-    color: #9e2195;
-    background: rgba(#9e2195, 0.1);
-  }
-
-  &-marketplace {
-    color: $grey-blue;
-    border: 1px solid rgba($grey-blue, 0.3);
-  }
+    &-marketplace {
+        color: $grey-blue;
+        border: 1px solid rgba($grey-blue, 0.3);
+    }
 }
 
 .table {
-  display: table;
-  width: 100%;
-  border-collapse: collapse;
-  border-collapse: separate;
-  border-spacing: 0 10px;
-  position: relative;
-
-  .table-row {
-    display: table-row;
-
-    &:not(.table-head) {
-      & > div:not(.no-bg) {
-        background: $white;
-
-        &:first-child {
-          border-radius: 6px 0 0 6px;
-        }
-
-        &:last-child {
-          border-radius: 0 6px 6px 0;
-        }
-      }
-    }
-  }
-
-  .colspan {
-    position: absolute;
-    left: 0;
     width: 100%;
-  }
-
-  .table-col-full {
-    display: table-cell;
-    vertical-align: middle;
-    width: 100%;
-    padding: 15px;
-    font-size: 14px;
-
-    input[type="checkbox"] {
-      display: none;
-    }
-
-    label {
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-      font-size: 20px;
-      cursor: pointer;
-      color: $grey-blue;
-    }
-  }
-
-  .table-col:not(.table-col-full) {
-    display: table-cell;
-    vertical-align: top;
-    padding: 15px 5px 15px 15px;
-    max-width: 0;
-
-    .table-col-content {
-      text-overflow: ellipsis;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-
-    &:nth-child(2),
-    &:nth-child(3) {
-      .table-col-content {
-        padding-top: 10px;
-      }
-    }
-
-    &:nth-child(4) {
-      .table-col-content {
-        padding-top: 5px;
-      }
-    }
-
-    &:nth-child(1) {
-      width: 20%;
-    }
-
-    &:nth-child(2) {
-      width: 60%;
-    }
-
-    &:nth-child(3) {
-      width: 10%;
-    }
-
-    &:nth-child(4) {
-      width: 10%;
-    }
-  }
-
-  .table-head {
-    .label {
-      padding-left: 15px;
-    }
-
-    .table-col {
-      padding: 0;
-    }
-  }
+    position: relative;
 }
+
+.select-wrapper {
+    position: relative;
+    user-select: none;
+    width: 100%;
+
+    .select {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .select-trigger {
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+        color: $couleur1;
+        height: 50px;
+        line-height: 50px;
+        cursor: pointer;
+        background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+        border-radius: 360px;
+        font-size: 15px;
+
+        span {
+            font-size: 15px;
+        }
+    }
+
+    .custom-options {
+        position: absolute;
+        display: block;
+        top: 100%;
+        left: 0;
+        right: 0;
+        border-top: 0;
+        background: $white;
+        transition: all 0.5s;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        z-index: 2;
+        padding: 20px;
+        border-radius: 30px;
+        box-shadow: 0 0 4rem rgba(0,0,0,.1);
+
+        .custom-option {
+            position: relative;
+            display: block;
+            padding: 0 20px 0 35px;
+            font-size: 15px;
+            font-weight: 300;
+            color: $couleur1;
+            line-height: 50px;
+            cursor: pointer;
+            transition: all 0.5s;
+
+            &:hover {
+                opacity: 0.7;
+            }
+
+            &.selected {
+                font-weight: bold;
+            }
+        }
+    }
+
+    .select.open .custom-options {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: all;
+        top: calc(100% + 10px);
+    }
+}
+

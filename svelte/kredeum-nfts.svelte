@@ -31,34 +31,65 @@
 
       <div class="nav">
         <ul>
-          <!-- <li class="active"><a href="."><i class="fas fa-columns"></i></a></li> -->
-          <!-- <li><a href="."><i class="fas fa-cog"></i></a></li>
-        <li><a href="."><i class="fas fa-user"></i></a></li>
-        <li><a href="."><i class="fas fa-bell"></i></a></li> -->
+          <!-- <li class="active"><a href=""><i class="fas fa-columns"></i></a></li> -->
         </ul>
       </div>
     </div>
+
+    <a
+      class="discord-link"
+      href="https://discord.gg/Vz5AyU2Nfx"
+      target="_blank"
+      title="Discord Kredem"><i class="fas fa-discord"></i></a
+    >
   </nav>
 
   <main role="main">
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <div class="row aligncenter">
+          <h1>My NFT wallet</h1>
+          {#if network?.create}
+            <a href="#create" class="btn btn-default" title="Create"
+              ><i class="fas fa-plus fa-left"></i>Create</a
+            >
+          {/if}
+
+          <div class="row alignbottom">
             <div class="col col-xs-12 col-sm-3">
-              <h1>My NFT wallet</h1>
+              <span class="label">Network</span>
+              <div class="select-wrapper select-network">
+                <div class="select">
+                  <div class="select-trigger">
+                    <span class="polygon">Polygon</span>
+                  </div>
+                  <div class="custom-options">
+                    <span class="custom-option selected" data-value="polygon">Polygon</span>
+                    <span class="custom-option" data-value="ethereum">Ethereum</span>
+                    <span class="custom-option" data-value="bsc">BSC</span>
+                    <span class="custom-option" data-value="fantom">Fantom</span>
+                    <span class="custom-option" data-value="avalanche">Avalanche</span>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            <div class="col col-sm-6">
+            <div class="col col-xs-12 col-sm-3">
+              <span class="label">Collection</span>
               <KredeumSelectCollection bind:address bind:chainId bind:collection />
             </div>
 
-            <div class="col col-sm-3 txtright">
-              {#if network?.create}
-                <a href="#create" class="btn btn-light" title="Create"
-                  ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
-                >
-              {/if}
+            <div class="col col-xs-12 col-sm-3">
+              <span class="label">Address</span>
+              <div class="form-field">
+                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+              </div>
+            </div>
+
+            <div class="col col-sm-3">
+              <button class="clear">
+                <i class="fas fa-redo-alt refresh"></i>
+              </button>
             </div>
           </div>
         </header>
@@ -102,7 +133,7 @@
           </div>
 
           <div class="txtcenter">
-            <a href="#create-nft" class="btn btn-default" title="Create NFT">Mint NFT</a>
+            <a href="#create-nft" class="btn btn-default" title="Create NFT">Create NFT</a>
             <span class="or">Or</span>
             <a href="#add-collection" class="btn btn-second" title="Add a new collection"
               >Add a new collection</a

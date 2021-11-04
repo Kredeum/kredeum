@@ -1,4 +1,5 @@
 @import '_variables';
+@import 'core/_mixins';
 
 nav {
     width: 100%;
@@ -23,6 +24,7 @@ nav {
         position: absolute;
         top: 20px;
         right: 20px;
+        display: none;
 
         input {
             display: block;
@@ -103,6 +105,12 @@ nav {
             opacity: 0;
         }
     }
+
+    .discord-link {
+        top: 50%;
+        right: 20px;
+        transform: translateY(-50%);
+    }
 }
 
 nav + main {
@@ -114,26 +122,57 @@ main {
     background-size: 300% auto;
     padding: 20px;
 
-    .content {
-        header {
-            h1 {
-                margin-bottom: 20px;
-            }
+    header {
+        position: relative;
+        padding-top: 10px;
+
+        .col:not(:last-child) {
+            margin-bottom: 15px;
         }
     }
 
-    .col-filters {
-        background: $white;
-
-        & > .label {
-            margin-top: 20px;
+    .table {
+        .media + strong {
+            font-size: 14px;
         }
 
-        .box {
-            display: none;
+        .table-row {
+            margin-bottom: 10px;
+            position: relative;
+            background: $white;
+            @include border-radius();
+            padding: 10px;
+            overflow: hidden;
 
-            .box-section {
-                padding: 30px 0 22px 0;
+            .more {
+                width: 40px;
+                padding: 0;
+                position: absolute;
+                right: 20px;
+                top: 20px;
+            }
+        }
+
+        .table-col {
+            padding: 10px;
+
+            &:nth-child(2),
+            &:nth-child(3) {
+                width: 49%;
+                display: inline-block;
+            }
+
+            &:nth-child(3) {
+                text-align: right;
+            }
+        }
+
+        .detail {
+            padding: 20px;
+            top: 120px;
+
+            .media {
+                margin-bottom: 20px;
             }
         }
     }
