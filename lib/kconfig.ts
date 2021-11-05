@@ -14,7 +14,7 @@ const getNetwork = (chainId: number | string): Network | undefined => {
 const getProvider = (chainId: number): Provider | undefined => {
   let provider: Provider;
   const network = getNetwork(chainId);
-  console.log("getProvider", chainId, "=>", network);
+  // console.log("getProvider", chainId, "=>", network);
 
   const url = network?.rpcUrls[0];
   let apiKey = url?.includes("infura.io")

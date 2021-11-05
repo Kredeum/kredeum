@@ -13,7 +13,8 @@
   let address: string;
   let chainId: number;
   let signer: Signer;
-
+  let refreshing: boolean = false;
+  let refreshNFTs;
   $: network = getNetwork(chainId);
 </script>
 
@@ -72,19 +73,29 @@
             </div>
 
             <div class="col col-sm-3">
-              <button class="clear" on:click="{() => localStorage.clear()}">
-                <i class="fas fa-redo-alt "></i>
+              <button
+                class="clear"
+                on:click="{() => {
+                  localStorage.clear();
+                  refreshNFTs();
+                }}"
+              >
+                <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}"></i>
               </button>
             </div>
           </div>
         </header>
+
+        <KredeumListNfts
+          bind:collection
+          bind:address
+          bind:chainId
+          bind:refreshing
+          bind:refreshNFTs
+        />
       </section>
     </div>
   </main>
-
-  <footer></footer>
-
-  <!-- <KredeumListNfts bind:collection bind:address bind:chainId /> -->
 
   <!-- Modal create -->
   <div id="create" class="modal-window">

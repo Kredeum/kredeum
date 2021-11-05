@@ -23,7 +23,6 @@
   const dispatch = createEventDispatcher();
 
   let network: Network;
-  let refreshingCollection: boolean;
 
   let NFTs: Array<Nft>;
   let Collections: Array<Collection>;
@@ -35,15 +34,13 @@
   export let chainId: number = undefined;
   export let address: string = undefined;
   export let collection: Collection = undefined;
+  export let refreshing: boolean;
 
-  // ON NETWORK, ADDRESS OR COLLECTION CHANGE
-  $: if (chainId && address && collection) _listNFTs();
-
-  async function _listNFTs() {
+  export const refreshNFTs = async () => {
     network = getNetwork(chainId);
     if (network && address && collection) {
       // console.log(
-      //   "<kredeum-nfts/> _listNFTs",
+      //   "<kredeum-nfts/> refreshNFTs",
       //   `nft://${network?.chainName && "..."}/${collection.address || "..."}@${address || "..."}`,
       //   network
       // );
@@ -51,14 +48,18 @@
       NFTs = null;
 
       NFTs = listNFTsFromCache(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> _listNFTs cache loaded", NFTs);
-      refreshingCollection = true;
+      // console.log("<kredeum-nfts/> refreshNFTs from cache loaded", NFTs);
+
+      refreshing = true;
 
       NFTs = await listNFTs(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> _listNFTs refresh done", NFTs);
-      refreshingCollection = false;
+      // console.log("<kredeum-nfts/> refreshNFTs done", NFTs);
+      refreshing = false;
     }
-  }
+  };
+
+  // ON NETWORK, ADDRESS OR COLLECTION CHANGE
+  $: if (chainId && address && collection) refreshNFTs();
 
   const dispatchImport = async (nft: Nft) => {
     nftImport = 1;
@@ -70,7 +71,8 @@
   const moreToggle = (i: number) => {
     const divTableDrop = document.getElementById(`table-drop-${i}`);
     const divMoreDetail = document.getElementById(`more-detail-${i}`);
-
+    const divDescShort = document.getElementById(`description-short-${i}`);
+    divDescShort.classList.toggle("hidden");
     divTableDrop.classList.toggle("closed");
     divTableDrop.style.height = divTableDrop.classList.contains("closed")
       ? "auto"
@@ -78,128 +80,124 @@
   };
 </script>
 
-<div id="kredeum-list-nfts" class="table">
-  {#key address && refreshingCollection}
-    {#if NFTs?.length > 0}
-      <div class="table-row">
-        <div class="table-col no-bg">&nbsp;</div>
-        <div class="table-col no-bg table-col-full colspan">
-          <input id="menu" type="checkbox" />
-          Collection {collectionName(collection)}
-          <a
-            href="{explorerCollectionInventoryUrl(chainId, collection.address)}"
-            target="_blank"
-            title="{nftsUrl(chainId, collection.address)}"
-          >
-            <i class="fas fa-external-link-alt"></i>
-          </a>
-          <label for="menu" class="fas fa-ellipsis-v"></label>
-        </div>
-      </div>
+{#key address && refreshing}
+  {#if NFTs?.length > 0}
+    <h2>
+      Collection {collectionName(collection)}
+    </h2>
+    {nftsSupplyAndName(NFTs, collection)}
+    <a
+      href="{explorerCollectionInventoryUrl(chainId, collection?.address)}"
+      target="_blank"
+      title="{nftsUrl(chainId, collection?.address)}"
+    >
+      <i class="fas fa-external-link-alt"></i>
+    </a>
 
+    <div class="table">
       <div class="table-row table-head hidden-xs">
         <div class="table-col"><span class="label">Media</span></div>
-        <!-- <div class="table-col"><span class="label">Type</span></div>
-                  <div class="table-col"><span class="label">Date</span></div>
-                  <div class="table-col"><span class="label">Network</span></div> -->
-        <div class="table-col"><span class="label">Description</span></div>
         {#if network?.openSea}
           <div class="table-col"><span class="label">Marketplace</span></div>
         {/if}
-        <!-- <div class="table-col"><span class="label">Statut</span></div> -->
-        <div class="table-col"><span class="label">More</span></div>
-        <!-- <div class="table-col"><span class="label">ID</span></div>
-                  {#if beta}
-                    <div class="table-col"><span class="label">Import</span></div>
-                  {/if} -->
-      </div>
 
+        <div class="table-col"><span class="label">Infos</span></div>
+      </div>
       {#each NFTs as nft, i}
         <div id="table-drop-{i}" class="table-row table-drop closed">
           <div id="media-{i}" class="table-col">
-            <div class="media media-photo">
-              <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
+            <div class="table-col-content">
+              <div class="media media-small media-photo">
                 <img alt="link" src="{nftImageLink(nft)}" height="100" />
-              </a>
+              </div>
+              <strong>{nftName(nft)}</strong>
+              <span id="description-short-{i}">{nftDescriptionShort(nft, 64)}</span>
             </div>
           </div>
-          <!-- <div class="table-col"><strong>Photo</strong></div>
-                    <div class="table-col light">10/02/21</div> -->
-          <!-- <div class="table-col">
-                      <span class="tag tag-{nft.chainName.toLowerCase()}">{nft.chainName}</span>
-                    </div> -->
-          <div id="description-{i}" class="table-col">
-            <p title="{nftDescription(nft)}">
-              {nftDescriptionShort(nft)}
-            </p>
-          </div>
+
           {#if network?.openSea}
-            <div id="opensea-{i}" class="table-col">
-              {#if addressSame(nft.owner, address)}
-                <a
-                  href="{nftOpenSeaUrl(chainId, nft)}"
-                  class="btn btn-small btn-sell"
-                  title="Sell"
-                  target="_blank"
-                >
-                  Sell
-                </a>
-              {:else}
-                <a
-                  href="{nftOpenSeaUrl(chainId, nft)}"
-                  class="btn btn-small btn-sell"
-                  title="Buy"
-                  target="_blank"
-                >
-                  Buy
-                </a>
-              {/if}
+            <div id="marketplace-{i}" class="table-col">
+              <div class="table-col-content">
+                {#if addressSame(nft.owner, address)}
+                  <a
+                    href="{nftOpenSeaUrl(chainId, nft)}"
+                    class="btn btn-small btn-sell"
+                    title="Sell"
+                    target="_blank"
+                  >
+                    Sell
+                  </a>
+                {:else}
+                  <a
+                    href="{nftOpenSeaUrl(chainId, nft)}"
+                    class="btn btn-small btn-sell"
+                    title="Buy"
+                    target="_blank"
+                  >
+                    Buy
+                  </a>
+                {/if}
+              </div>
             </div>
           {/if}
 
-          <!-- <div class="table-col">
-                      <a href="." class="btn btn-small btn-mint" title="Mint">Mint</a>
-                    </div> -->
-
-          <!-- <div class="table-col more">
-                      <div class="more-button"><i class="fas fa-chevron-down"></i></div>
-                    </div> -->
-
-          <!-- <div class="table-col more">
-                      <a href="{explorerNftUrl(nft)}" title="{nft.nid}" target="_blank">
-                        &nbsp;{textShort(nft.tokenID, 16)}&nbsp;
-                      </a>
-                    </div>
-
-                    <div class="table-col more">
-                      <a href="{nft.tokenURI}" title="{nft.tokenURI}" target="_blank">
-                        <strong>{nft.name || "___"}</strong>
-                      </a>
-                    </div> -->
-
-          <!-- <div class="table-col more">
-                      <a href="{openSeaLinkToken(nft)}" target="_blank"> </a>
-                    </div>
-
-                    <div class="table-col more">
-                      <div title="{JSON.stringify(nft, null, 2)}">ⓘ</div>
-                    </div>
-
-                    {#if beta}
-                      <div class="table-col more">
-                        <button
-                          url="{nft.image}"
-                          class="{nftImport ? (nftImport == 2 ? 'green' : 'grey') : 'blue'}"
-                          on:click="{dispatchImport(nft)}"
-                        >
-                          {nftImport ? (nftImport == 2 ? "IMPORTED" : "IMPORTING...") : "IMPORT WP"}
-                        </button>
-                      </div>
-                    {/if} -->
+          <div class="table-col">
+            <div class="table-col-content">
+              <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
+                <i class="fas fa-external-link-alt"></i>
+              </a>
+            </div>
+          </div>
 
           <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
-            <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+            <div class="table-col-content txtright">
+              <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+            </div>
           </div>
+
+          <div class="detail">
+            <div id="media-full-{i}" class="media media-photo">
+              <img alt="link" src="{nftImageLink(nft)}" />
+            </div>
+            <div id="description-{i}" class="description">
+              <strong>Description</strong>
+              <p>
+                {nftDescription(nft)}
+              </p>
+              <p>
+                Token ID: {nft.tokenID}
+              </p>
+              <p>
+                Metadata JSON :
+                {@html urlToLink(nft.tokenURI, nft.cidJson)}
+              </p>
+              <p>
+                Image :
+                {@html urlToLink(nft.image, nft.cid)}
+              </p>
+              <p>
+                NFT details : {@html nftExplorerLink(nft)}
+              </p>
+            </div>
+          </div>
+        </div>
+      {/each}
+    </div>
+  {:else}
+    <div class="table-row">
+      <div class="table-col no-bg table-col-full colspan">NO NFT found !</div>
+    </div>
+  {/if}
+{/key}
+
+<div id="kredeum-list-nfts" class="table">
+  {#key address && refreshing}
+    {#if NFTs?.length > 0}
+      {#each NFTs as nft, i}
+        <div id="table-drop-{i}" class="table-row table-drop closed">
+          <!-- <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
+            <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+          </div> -->
 
           <div id="more-detail-{i}" class="detail">
             <div class="table">
@@ -210,52 +208,12 @@
                     {nftDescription(nft)}
                   </p>
                 </div>
-                <div class="table-col">
-                  <div class="section">
-                    Token ID: {nft.tokenID}
-                  </div>
-                  <div class="section">
-                    Metadata JSON :
-                    {@html urlToLink(nft.tokenURI, nft.cidJson)}
-                  </div>
-                  <div class="section">
-                    Image :
-                    {@html urlToLink(nft.image, nft.cid)}
-                  </div>
-                  <div class="section">
-                    NFT details : {@html nftExplorerLink(nft)}
-                  </div>
-                </div>
-
-                <!-- <div class="table-col">
-                  <pre>
-                    {JSON.stringify(nft, null, 2)}
-                  </pre>
-                </div> -->
+                <div class="table-col"></div>
               </div>
             </div>
           </div>
         </div>
       {/each}
-
-      <div class="table-row">
-        <div class="table-col no-bg table-col-full colspan">
-          {nftsSupplyAndName(NFTs, collection)}
-        </div>
-      </div>
-    {:else}
-      <div class="table-row">
-        <div class="table-col no-bg table-col-full colspan">NO NFT found !</div>
-      </div>
     {/if}
-    <div class="table-row">
-      <div class="table-col no-bg table-col-full colspan">
-        {#if refreshingCollection}
-          <p>
-            <em>Refreshing Collection...</em>
-          </p>
-        {/if}
-      </div>
-    </div>
   {/key}
 </div>
