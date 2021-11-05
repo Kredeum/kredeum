@@ -1,4 +1,4 @@
-import { getExplorer, getOpenSea, nftUrl } from "./kconfig";
+import { getExplorer, getOpenSea, getOpenNFTsAddress, nftUrl } from "./kconfig";
 import type { Collection, Nft } from "./kconfig";
 
 // CONSTANT
@@ -15,7 +15,8 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toLowerCase();
 
 const numberToHexString = (num: number): string => `0x${num.toString(16)}`;
-const textShort = (s: string = "", n: number = 16, p: number = 0): string => {
+const textShort = (s: string = "", n: number = 16, p?: number): string => {
+  p = p || n;
   const l = s?.toString().length;
   return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
 };
@@ -34,6 +35,8 @@ const explorerUrl = (chainId: number, path: string): string =>
   getExplorer(chainId) + "/" + path.replace(/^\//, "");
 const explorerLink = (chainId: number, path: string, label: string): string =>
   urlToLink(explorerUrl(chainId, path), label);
+const explorerAddressUrl = (chainId: number, address: string): string =>
+  explorerUrl(chainId, `/address/${address}`);
 const explorerAddressLink = (chainId: number, address: string): string =>
   explorerLink(chainId, `/address/${address}`, addressShort(address));
 const explorerTxLink = (chainId: number, tx: string): string =>
@@ -45,12 +48,16 @@ const collectionSymbol = (collection: Collection): string => collection.symbol |
 const collectionOpenSeaLink = (chainId: number, collAddress: string): string =>
   getOpenSea(chainId)?.kredeum;
 
-const explorerCollectionLink = (chainId: number, collAddress: string): string =>
-  urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
 const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
     ? explorerUrl(chainId, `/collection/${collAddress}/tokens`)
     : explorerUrl(chainId, `/token/${collAddress}`);
+const explorerCollectionLink = (chainId: number, collAddress: string): string =>
+  urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
+const explorerOpenNFTsUrl = (chainId: number): string => {
+  console.log("getOpenNFTsAddress(chainId)", chainId, getOpenNFTsAddress(chainId));
+  return explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
+};
 
 const explorerCollectionInventoryLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
@@ -105,7 +112,9 @@ export {
   nftName,
   nftsSupplyAndName,
   nftOpenSeaUrl,
+  explorerOpenNFTsUrl,
   explorerLink,
+  explorerAddressUrl,
   explorerAddressLink,
   explorerTxLink,
   explorerCollectionInventoryUrl,

@@ -2,12 +2,20 @@
   import type { Signer } from "ethers";
   import type { EthereumProvider } from "hardhat/types";
   import type { Web3Provider } from "@ethersproject/providers";
+  import type { Network } from "../lib/kconfig";
 
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { getNetwork, networks } from "../lib/kconfig";
-  import { addressShort, numberToHexString } from "../lib/knfts";
+  import {
+    addressShort,
+    textShort,
+    numberToHexString,
+    explorerAddressLink,
+    explorerAddressUrl,
+    explorerOpenNFTsUrl
+  } from "../lib/knfts";
 
   export let signer: Signer;
   export let address: string;
@@ -19,11 +27,17 @@
   let ethereumProvider: EthereumProvider;
   let ethersProvider: Web3Provider;
 
-  let network;
+  let network: Network;
   let nameOrAddress = "";
   let connectmetamask = "Connect to Metamask";
 
   let targetChain = false;
+
+  const strUpFirst = (str: string): string =>
+    str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "";
+
+  const chainname = (network: Network): string => network?.chainName || "unknown";
+  const chainName = (network: Network): string => strUpFirst(chainname(network));
 
   async function addEthereumChain(_chainId) {
     // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
@@ -167,12 +181,56 @@
   });
 </script>
 
-<div id="kredeum-metamask">
-  <div class="box-section">
-    <span class="label label-big">Network</span>
+<div class="col col-xs-12 col-sm-3">
+  <span class="label"
+    >Address &nbsp;&nbsp;&nbsp;
+    <a href="{explorerAddressUrl(chainId, address)}" target="_blank">
+      <i class="fas fa-external-link-alt"></i>
+    </a>
+  </span>
+  <div class="form-field">
+    {#if address}
+      <input type="text" value="{textShort(nameOrAddress, 12)}" />
+    {:else}
+      <button on:click="{connectMetamask}">{connectmetamask}</button>
+    {/if}
+  </div>
+</div>
+
+<!-- <main id="kredeum-metamask"> -->
+<div class="col col-xs-12 col-sm-3">
+  <span class="label"
+    >Network &nbsp;&nbsp;&nbsp;
+    <a href="{explorerOpenNFTsUrl(chainId)}" target="_blank">
+      <i class="fas fa-external-link-alt"></i>
+    </a>
+  </span>
+  <div class="select-wrapper select-network">
+    <div class="select">
+      <div class="select-trigger">
+        <span class="{chainname(network)}">{chainName(network)}</span>
+      </div>
+      <div class="custom-options">
+        {#each networks.filter((nw) => nw.mainnet) as _network}
+          <span
+            class="custom-option {_network.chainId == chainId && 'selected'}"
+            data-value="{chainname(_network)}"
+            on:click="{() => switchEthereumChain(_network.chainId)}"
+          >
+            {chainName(_network)}
+          </span>
+        {/each}
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- {#if network?.testnet}
+    <div><br /></div>
+    <span class="label label-big">Testnets</span>
 
     <div class="box-fields">
-      {#each networks.filter((nw) => nw.mainnet) as _network}
+      {#each networks.filter((nw) => nw.testnet) as _network}
         <input
           class="box-field"
           id="{_network.chainName}"
@@ -185,45 +243,5 @@
         <label class="field" for="{_network.chainName}">{_network.chainName}</label>
       {/each}
     </div>
-
-    {#if network?.testnet}
-      <div><br /></div>
-      <span class="label label-big">Testnets</span>
-
-      <div class="box-fields">
-        {#each networks.filter((nw) => nw.testnet) as _network}
-          <input
-            class="box-field"
-            id="{_network.chainName}"
-            name="blockchain-type"
-            type="checkbox"
-            value="{_network.chainName}"
-            checked="{_network.chainId == chainId}"
-            on:click="{() => switchEthereumChain(_network.chainId)}"
-          />
-          <label class="field" for="{_network.chainName}">{_network.chainName}</label>
-        {/each}
-      </div>
-    {/if}
-  </div>
-
-  <div class="box-section">
-    <span class="label label-big">Address</span>
-
-    {#if address}
-      <div>
-        {#if network}
-          <a href="{network?.blockExplorerUrls[0]}/address/{address}/tokens" target="_blank">
-            {addressShort(nameOrAddress)}@{network.chainName}
-          </a>
-        {:else}
-          {addressShort(nameOrAddress)}
-        {/if}
-      </div>
-    {:else}
-      <div>
-        <button on:click="{connectMetamask}">{connectmetamask}</button>
-      </div>
-    {/if}
-  </div>
-</div>
+  {/if} -->
+<!-- </main> -->

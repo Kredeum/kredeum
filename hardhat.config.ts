@@ -42,9 +42,9 @@ const config: HardhatUserConfig = {
       accounts: [
         {
           privateKey: process.env.PRIVATE_KEY_TEST_1 || "",
-          balance: "100_000_000_000_000_000_000"
+          balance: "100000000000000000000"
         },
-        { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100_000_000_000_000_000_000" }
+        { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
       ]
     },
     local: {

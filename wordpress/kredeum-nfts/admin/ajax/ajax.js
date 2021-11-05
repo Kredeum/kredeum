@@ -6,8 +6,6 @@
  * @package kredeum/nfts
  */
 
-const { Console } = require("console");
-
 ajaxResponse = false;
 
 function _ajax(data) {

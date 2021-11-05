@@ -52,6 +52,12 @@ const getExplorer = (chainId: number) => {
   return network?.blockExplorerUrls[0] || "";
 };
 
+// GET openNFTs
+const getOpenNFTsAddress = (chainId: number): string => {
+  const network = getNetwork(chainId);
+  return network?.openNFTs || "";
+};
+
 // GET OpenSea
 const getOpenSea = (chainId: number) => {
   const network = getNetwork(chainId);
@@ -90,6 +96,7 @@ export {
   getProvider,
   getSubgraphUrl,
   getOpenSea,
+  getOpenNFTsAddress,
   getCovalent,
   getExplorer,
   nftUrl,

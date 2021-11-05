@@ -42,7 +42,7 @@
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
-  "liveServer.settings.root": "/app",
+  "liveServer.settings.root": "/web/app",
   "search.exclude": {
     "**/lib/js": true
   },

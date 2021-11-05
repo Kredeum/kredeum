@@ -7,6 +7,7 @@
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import { getNetwork } from "../lib/kconfig";
+  import { explorerCollectionUrl } from "../lib/knfts";
 
   let collection: Collection;
   let address: string;
@@ -56,70 +57,34 @@
           {/if}
 
           <div class="row alignbottom">
-            <div class="col col-xs-12 col-sm-3">
-              <span class="label">Network</span>
-              <div class="select-wrapper select-network">
-                <div class="select">
-                  <div class="select-trigger">
-                    <span class="polygon">Polygon</span>
-                  </div>
-                  <div class="custom-options">
-                    <span class="custom-option selected" data-value="polygon">Polygon</span>
-                    <span class="custom-option" data-value="ethereum">Ethereum</span>
-                    <span class="custom-option" data-value="bsc">BSC</span>
-                    <span class="custom-option" data-value="fantom">Fantom</span>
-                    <span class="custom-option" data-value="avalanche">Avalanche</span>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
 
             <div class="col col-xs-12 col-sm-3">
-              <span class="label">Collection</span>
+              <span class="label"
+                >Collection &nbsp;&nbsp;&nbsp;
+                {#if collection}
+                  <a href="{explorerCollectionUrl(chainId, collection?.address)}" target="_blank">
+                    <i class="fas fa-external-link-alt"></i>
+                  </a>
+                {/if}
+              </span>
               <KredeumSelectCollection bind:address bind:chainId bind:collection />
             </div>
 
-            <div class="col col-xs-12 col-sm-3">
-              <span class="label">Address</span>
-              <div class="form-field">
-                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
-              </div>
-            </div>
-
             <div class="col col-sm-3">
-              <button class="clear">
-                <i class="fas fa-redo-alt refresh"></i>
+              <button class="clear" on:click="{() => localStorage.clear()}">
+                <i class="fas fa-redo-alt "></i>
               </button>
             </div>
           </div>
         </header>
-
-        <div class="table">
-          <div class="row">
-            <div class="col col-xs-12 col-md-3 col-filters">
-              <!-- <span class="label">Filter</span> -->
-              <div class="box">
-                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
-
-                <div class="box-section">
-                  <span class="label label-big">Cache</span>
-                  <div>
-                    <a href="." on:click="{() => localStorage.clear()}">clear</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col col-xs-12 col-md-9">
-              <KredeumListNfts bind:collection bind:address bind:chainId />
-            </div>
-          </div>
-        </div>
       </section>
     </div>
   </main>
 
   <footer></footer>
+
+  <!-- <KredeumListNfts bind:collection bind:address bind:chainId /> -->
 
   <!-- Modal create -->
   <div id="create" class="modal-window">

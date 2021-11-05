@@ -17,6 +17,7 @@
     "eip1559": true,
     "costClone": 0.01,
     "create": false,
+    "openNFTs": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
     "mainnet": true
   },
   {
@@ -119,6 +120,7 @@
     "nativeCurrency": { "name": "BNB", "symbol": "BNB", "decimals": 18 },
     "blockExplorerUrls": ["https://bscscan.com"],
     "covalent": { "active": true },
+    "openNFTs": "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9",
     "mainnet": true
   },
   {
@@ -145,6 +147,7 @@
     "nativeCurrency": { "name": "FTM", "symbol": "FTM", "decimals": 18 },
     "blockExplorerUrls": ["https://ftmscan.com"],
     "covalent": { "active": true },
+    "openNFTs": "0xB10D1ddDd6c3C9D31cC2826c6bD7dBf624081c55",
     "mainnet": true
   },
   {
