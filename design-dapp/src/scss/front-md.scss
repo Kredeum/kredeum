@@ -113,7 +113,7 @@ main {
             }
 
             &:nth-child(1) {
-                width: 60%;
+                width: 75%;
             }
 
             &:nth-child(2) {
@@ -121,10 +121,6 @@ main {
             }
 
             &:nth-child(3) {
-                width: 15%;
-            }
-
-            &:nth-child(4) {
                 width: 10%;
             }
         }
@@ -133,10 +129,15 @@ main {
             padding: 15px;
             top: 70px;
 
+            .media {
+                width: 340px;
+                height: 340px;
+            }
+
             .media,
             .description {
                 display: inline-block;
-                vertical-align: middle;
+                vertical-align: top;
             }
 
             .media {
@@ -144,7 +145,7 @@ main {
             }
 
             .description {
-                width: calc(100%-160px);
+                width: calc(100%-370px);
             }
         }
     }

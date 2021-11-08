@@ -94,6 +94,23 @@
     }
 }
 
+.info-button {
+    display: inline-block;
+    vertical-align: baseline;
+    color: rgba($couleur1, 0.4);
+    transition: all 300ms ease-in-out;
+
+    i {
+        display: inline-block;
+        vertical-align: baseline;
+        font-size: 14px;
+    }
+
+    &:hover {
+        color: $couleur1;
+    }
+}
+
 select {
     appearance: none;
     width: 100%;
@@ -123,6 +140,15 @@ select {
 
     &::-ms-expand {
         display: none;
+    }
+}
+
+.link {
+    color: $couleur1;
+    transition: all 300ms ease-in-out;
+
+    &:hover {
+        color: $green;
     }
 }
 
@@ -158,7 +184,7 @@ select {
         color: $couleur1;
 
         &:hover {
-            background: $couleur1;
+            background-color: $couleur1;
             color: $white;
         }
     }
@@ -167,7 +193,7 @@ select {
         font-size: 12px;
         text-transform: uppercase;
         letter-spacing: 1px;
-        padding: 8px 15px;
+        padding: 8px 30px;
         font-weight: bold;
     }
 
@@ -198,6 +224,17 @@ select {
             margin-left: 8px;
         }
     }
+
+    &-metamask {
+        background: $white url("../images/icon-metamask.svg") no-repeat 25px center;
+        padding-left: 60px;
+    }
+}
+
+.card {
+    background: $white;
+    padding: 20px;
+    @include border-radius();
 }
 
 .section {

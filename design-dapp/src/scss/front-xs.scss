@@ -156,14 +156,12 @@ main {
         .table-col {
             padding: 10px;
 
-            &:nth-child(2),
-            &:nth-child(3) {
-                width: 49%;
-                display: inline-block;
-            }
+            &:nth-child(2) {
+                text-align: center;
 
-            &:nth-child(3) {
-                text-align: right;
+                .btn {
+                    width: 100%;
+                }
             }
         }
 
