@@ -30,6 +30,19 @@ const getProvider = (chainId: number): Provider | undefined => {
   return provider;
 };
 
+const getEnsName = async (address: string): Promise<string> => {
+  let name: string;
+  try {
+    const ensProvider: Provider = new providers.JsonRpcProvider(
+      `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
+    );
+    name = await ensProvider.lookupAddress(address);
+  } catch (e) {
+    console.error("NO ENS found");
+  }
+  return name || address || "";
+};
+
 const getSubgraphUrl = (chainId: number): string => {
   const network = getNetwork(chainId);
   return (network?.subgraph?.active && network?.subgraph?.url) || "";
@@ -93,6 +106,7 @@ export {
   networks,
   getChainName,
   getNetwork,
+  getEnsName,
   getProvider,
   getSubgraphUrl,
   getOpenSea,

@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { Signer } from "ethers";
   import type { EthereumProvider } from "hardhat/types";
-  import type { Web3Provider } from "@ethersproject/providers";
+  import type { Web3Provider, Provider } from "@ethersproject/providers";
   import type { Network } from "../lib/kconfig";
 
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
-  import { getNetwork, networks } from "../lib/kconfig";
+  import { getNetwork, getEnsName, networks } from "../lib/kconfig";
   import {
     addressShort,
     textShort,
@@ -29,9 +29,15 @@
 
   let network: Network;
   let nameOrAddress = "";
-  let connectmetamask = "Connect to Metamask";
 
+  let connectmetamask = "Connect to Metamask";
   let targetChain = false;
+
+  $: if (address) setEnsName();
+  const setEnsName = async () => {
+    nameOrAddress = address;
+    nameOrAddress = await getEnsName(address);
+  };
 
   const strUpFirst = (str: string): string =>
     str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "";
@@ -39,7 +45,7 @@
   const chainname = (network: Network): string => network?.chainName || "unknown";
   const chainName = (network: Network): string => strUpFirst(chainname(network));
 
-  async function addEthereumChain(_chainId) {
+  const addEthereumChain = async (_chainId) => {
     // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
 
     if (targetChain) {
@@ -76,9 +82,9 @@
           .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
       }
     }
-  }
+  };
 
-  async function handleChainId(_chainId) {
+  const handleChainId = async (_chainId) => {
     // console.log("<kredeum-metamask/> handleChainId", _chainId);
 
     if (_chainId && _chainId != chainId) {
@@ -91,9 +97,9 @@
         addEthereumChain(networks[0].chainId);
       }
     }
-  }
+  };
 
-  async function switchEthereumChain(_chainId) {
+  const switchEthereumChain = async (_chainId) => {
     console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
     try {
       await ethereumProvider.request({
@@ -105,9 +111,9 @@
         addEthereumChain(_chainId);
       }
     }
-  }
+  };
 
-  async function handleAccounts(_accounts) {
+  const handleAccounts = async (_accounts) => {
     // console.log("<kredeum-metamask/> handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
@@ -115,21 +121,13 @@
     } else if (_accounts[0] !== address) {
       address = ethers.utils.getAddress(_accounts[0]);
 
-      let name;
-      try {
-        name = await ethersProvider.lookupAddress(address);
-      } catch (e) {
-        console.error("NO ENS on this chain");
-      }
-      nameOrAddress = name || address || "";
-
       signer = ethersProvider.getSigner(0);
 
       // console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
-  }
+  };
 
-  async function connectMetamask() {
+  const connectMetamask = async () => {
     // console.log("connectMetamask");
 
     ethereumProvider
@@ -144,9 +142,9 @@
           console.error("ERROR eth_requestAccounts", e);
         }
       });
-  }
+  };
 
-  onMount(async function () {
+  onMount(async () => {
     // console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
@@ -190,7 +188,7 @@
   </span>
   <div class="form-field">
     {#if address}
-      <input type="text" value="{textShort(nameOrAddress, 12)}" />
+      <input type="text" value="{addressShort(nameOrAddress, 10)}" />
     {:else}
       <button on:click="{connectMetamask}">{connectmetamask}</button>
     {/if}

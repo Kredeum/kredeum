@@ -20,7 +20,8 @@ const textShort = (s: string = "", n: number = 16, p?: number): string => {
   const l = s?.toString().length;
   return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
 };
-const addressShort = (a: string = ""): string => textShort(a, 8, 8);
+const addressShort = (a: string = "", n: number = 8): string =>
+  a.endsWith(".eth") ? textShort(a, 2 * n, 0) : textShort(a, n, n);
 
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" target="_blank">${label || url}</a>`;
