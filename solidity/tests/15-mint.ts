@@ -87,11 +87,11 @@ describe("NFT Mint", function () {
 
     it("Should Mint one Token", async function () {
       this.timeout(50000);
-      const totalSupply = (await openNFTs?.totalSupply()).toNumber();
+      const totalSupply = (await openNFTs.totalSupply()).toNumber();
       const tx = await openNFTs.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
-      const totalSupply1 = (await openNFTs?.totalSupply()).toNumber();
+      const totalSupply1 = (await openNFTs.totalSupply()).toNumber();
       expect(totalSupply1).to.be.equal(totalSupply + 1);
     });
   });

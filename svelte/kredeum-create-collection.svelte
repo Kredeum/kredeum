@@ -11,7 +11,7 @@
   export let signer: Signer = undefined;
   export let collection: Collection = undefined;
 
-  let cloning: boolean = false;
+  let cloning = false;
   let cloningTxHash: string;
   let collectionCreated: Collection;
   let collectionName: string;
@@ -41,20 +41,20 @@
 
 <div id="kredeum-create-collection">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>
         {#if collectionCreated}
           <div>
             <div class="titre">
-              <i class="fas fa-check fa-left c-green"></i>
+              <i class="fas fa-check fa-left c-green" />
               Collection '{@html explorerAddressLink(chainId, collectionCreated.name)}' created!
             </div>
           </div>
         {:else if cloning}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green"></i>Creating new collection...
+            <i class="fas fa-sync fa-left c-green" />Creating new collection...
           </div>
           <div class="section">
             {#if cloningTxHash}
@@ -65,17 +65,17 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green"></i>Name your collection
+            <i class="fas fa-plus fa-left c-green" />Name your collection
           </div>
 
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="My collection" bind:value="{collectionName}" />
+              <input type="text" placeholder="My collection" bind:value={collectionName} />
             </div>
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click="{createCollection}"
+            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
               >Create</button
             >
           </div>

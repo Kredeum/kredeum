@@ -101,23 +101,23 @@
 
 <div id="kredeum-create-nft">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       {#if minting}
         <div class="titre">
-          <i class="fas fa-spinner fa-left c-green refresh"></i>Minting NFT
+          <i class="fas fa-spinner fa-left c-green refresh" />Minting NFT
         </div>
 
         {#if mintedNft}
           <div class="titre">
-            <i class="fas fa-check fa-left c-green"></i>
+            <i class="fas fa-check fa-left c-green" />
             NFT '{@html explorerNftLink(chainId, mintedNft)}' minted!
           </div>
         {/if}
 
         <div class="media media-photo">
-          <img src="{image}" alt="nft" />
+          <img src={image} alt="nft" />
         </div>
 
         <div class="section">
@@ -132,13 +132,13 @@
               <span class="t-light">
                 Wait till transaction completed, it may takes one minute or more...
               </span>
-              <i class="fas fa-spinner fa-right c-green refresh"></i>
+              <i class="fas fa-spinner fa-right c-green refresh" />
             {/if}
           </i>
         </div>
 
         <ul class="steps">
-          <li class="{minting >= 2 ? 'complete' : ''}">
+          <li class={minting >= 2 ? "complete" : ""}>
             <div class="flex"><span class="label">Image ipfs cid</span></div>
             <div class="flex">
               {#if cidImage}
@@ -146,7 +146,7 @@
               {/if}
             </div>
           </li>
-          <li class="{minting >= 3 ? 'complete' : ''}">
+          <li class={minting >= 3 ? "complete" : ""}>
             <div class="flex"><span class="label">Metadata ipfs cid</span></div>
             <div class="flex">
               {#if cidJson}
@@ -154,7 +154,7 @@
               {/if}
             </div>
           </li>
-          <li class="{minting >= 4 ? 'complete' : ''}">
+          <li class={minting >= 4 ? "complete" : ""}>
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxHash}
@@ -162,7 +162,7 @@
               {/if}
             </div>
           </li>
-          <li class="{minting >= 5 ? 'complete' : ''}">
+          <li class={minting >= 5 ? "complete" : ""}>
             <div class="flex"><span class="label">Token ID</span></div>
             <div class="flex">
               {#if tokenID}
@@ -170,7 +170,7 @@
               {/if}
             </div>
           </li>
-          <li class="{mintedNft ? 'complete' : ''}">
+          <li class={mintedNft ? "complete" : ""}>
             <div class="flex"><span class="label">NFT</span></div>
             <div class="flex">
               {#if mintedNft}
@@ -180,13 +180,13 @@
           </li>
         </ul>
       {:else}
-        <div class="titre"><i class="fas fa-plus fa-left c-green"></i>Mint NFT</div>
+        <div class="titre"><i class="fas fa-plus fa-left c-green" />Mint NFT</div>
 
         <div class="section">
           <div class="box-file">
             {#if image}
               <div class="media media-photo mt-20">
-                <img src="{image}" alt="nft" />
+                <img src={image} alt="nft" />
               </div>
             {:else}
               <input type="file" id="file" name="file" bind:files />
@@ -204,7 +204,7 @@
               type="checkbox"
               value="Video"
             />
-            <label class="field" for="create-type-video"><i class="fas fa-play"></i>Video</label>
+            <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
             <input
               class="box-field"
@@ -214,9 +214,7 @@
               value="Picture"
               checked
             />
-            <label class="field" for="create-type-picture"
-              ><i class="fas fa-image"></i>Picture</label
-            >
+            <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
             <input
               class="box-field"
@@ -225,8 +223,7 @@
               type="checkbox"
               value="Texte"
             />
-            <label class="field" for="create-type-texte"><i class="fas fa-file-alt"></i>Texte</label
-            >
+            <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
 
             <input
               class="box-field"
@@ -235,7 +232,7 @@
               type="checkbox"
               value="Music"
             />
-            <label class="field" for="create-type-music"><i class="fas fa-music"></i>Music</label>
+            <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
             <input
               class="box-field"
@@ -244,7 +241,7 @@
               type="checkbox"
               value="Web"
             />
-            <label class="field" for="create-type-web"><i class="fas fa-code"></i>Web</label>
+            <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>
 
@@ -254,7 +251,7 @@
         </div>
 
         <div class="txtright">
-          <button class="btn btn-default btn-sell" on:click="{mint}">Mint NFT</button>
+          <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
         </div>
       {/if}
     </div>

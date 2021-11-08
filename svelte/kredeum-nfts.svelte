@@ -13,7 +13,7 @@
   let address: string;
   let chainId: number;
   let signer: Signer;
-  let refreshing: boolean = false;
+  let refreshing = false;
   let refreshNFTs;
   $: network = getNetwork(chainId);
 </script>
@@ -26,9 +26,9 @@
       <input id="burger" type="checkbox" />
 
       <label for="burger">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
       </label>
 
       <div class="nav">
@@ -42,7 +42,7 @@
       class="discord-link"
       href="https://discord.gg/Vz5AyU2Nfx"
       target="_blank"
-      title="Discord Kredem"><i class="fas fa-discord"></i></a
+      title="Discord Kredem"><i class="fas fa-discord" /></a
     >
   </nav>
 
@@ -53,7 +53,7 @@
           <h1>My NFT wallet</h1>
           {#if network?.create}
             <a href="#create" class="btn btn-default" title="Create"
-              ><i class="fas fa-plus fa-left"></i>Create</a
+              ><i class="fas fa-plus fa-left" />Create</a
             >
           {/if}
 
@@ -64,8 +64,8 @@
               <span class="label"
                 >Collection &nbsp;&nbsp;&nbsp;
                 {#if collection}
-                  <a href="{explorerCollectionUrl(chainId, collection?.address)}" target="_blank">
-                    <i class="fas fa-external-link-alt"></i>
+                  <a href={explorerCollectionUrl(chainId, collection?.address)} target="_blank">
+                    <i class="fas fa-external-link-alt" />
                   </a>
                 {/if}
               </span>
@@ -75,12 +75,12 @@
             <div class="col col-sm-3">
               <button
                 class="clear"
-                on:click="{() => {
+                on:click={() => {
                   localStorage.clear();
                   refreshNFTs();
-                }}"
+                }}
               >
-                <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}"></i>
+                <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
               </button>
             </div>
           </div>
@@ -101,11 +101,11 @@
   <div id="create" class="modal-window">
     <div>
       <div class="modal-content">
-        <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+        <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
         <div class="modal-body">
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green"></i>What do you want to do ?
+            <i class="fas fa-plus fa-left c-green" />What do you want to do ?
           </div>
 
           <div class="txtcenter">

@@ -8,13 +8,13 @@ const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");
-const rename = require("gulp-rename");
 const sass = require("gulp-sass");
 const uglify = require("gulp-uglify");
-const log = require("fancy-log");
 const sourcemaps = require("gulp-sourcemaps");
 const util = require("gulp-util");
-const gulpif = require("gulp-if");
+// const log = require("fancy-log");
+// const rename = require("gulp-rename");
+// const gulpif = require("gulp-if");
 
 var config = {
   production: !!util.env.production

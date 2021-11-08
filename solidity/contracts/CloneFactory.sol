@@ -1,6 +1,4 @@
-contract Name {
-
-} // SPDX-License-Identifier: MIT
+// SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -14,7 +12,7 @@ contract CloneFactory is Ownable {
 
   mapping(address => address) public templates;
 
-  address private contractProbe;
+  address private _contractProbe;
 
   event NewImplementation(
     address indexed implementation,
@@ -23,8 +21,8 @@ contract CloneFactory is Ownable {
   );
   event NewTemplate(address indexed template, address indexed creator);
 
-  constructor(address _contractProbe) {
-    contractProbe = _contractProbe;
+  constructor(address contractProbe) {
+    _contractProbe = contractProbe;
   }
 
   /*
@@ -67,7 +65,7 @@ contract CloneFactory is Ownable {
   function _addImplementation(address _implementation) internal {
     require(templates[_implementation] == address(0), "Implementation already exists");
 
-    (bool _isContract, address _template) = IContractProbe(contractProbe).probe(_implementation);
+    (bool _isContract, address _template) = IContractProbe(_contractProbe).probe(_implementation);
 
     require(_isContract, "Implementation is not a Contract");
 

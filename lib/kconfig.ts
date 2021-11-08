@@ -12,7 +12,6 @@ const getNetwork = (chainId: number | string): Network | undefined => {
 };
 
 const getProvider = (chainId: number): Provider | undefined => {
-  let provider: Provider;
   const network = getNetwork(chainId);
   // console.log("getProvider", chainId, "=>", network);
 
@@ -25,18 +24,18 @@ const getProvider = (chainId: number): Provider | undefined => {
     ? process.env.MATICVIGIL_API_KEY
     : null;
   apiKey = apiKey ? "/" + apiKey : "";
-  provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
+  const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
 
   return provider;
 };
 
 const getEnsName = async (address: string): Promise<string> => {
-  let name: string;
+  let name = "";
   try {
     const ensProvider: Provider = new providers.JsonRpcProvider(
       `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`
     );
-    name = await ensProvider.lookupAddress(address);
+    name = (await ensProvider.lookupAddress(address)) || "";
   } catch (e) {
     console.error("NO ENS found");
   }
@@ -84,12 +83,7 @@ const nftsUrl = (chainId: number, _address: string): string => {
 };
 
 // nft url : nft://chainName/contractAddress/tokenID
-const nftUrl = (
-  chainId: number,
-  _contract: string,
-  _tokenId: string,
-  plus: string = "..."
-): string => {
+const nftUrl = (chainId: number, _contract: string, _tokenId: string, plus = "..."): string => {
   const network = getNetwork(chainId);
   const ret =
     "nft://" +

@@ -4,7 +4,11 @@
     "baseUrl": ".",
     "rootDir": ".",
     "resolveJsonModule": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "remove",
+    // "strict": true
   },
-  "include": ["lib/*.ts", "app/svelte/*.ts", "app/svelte/*.svelte", "config/*.json"]
+  "include": ["lib/*.ts", "**/*.svelte"],
+  "exclude": ["solidity","node_modules","old","thegraph"]
 }

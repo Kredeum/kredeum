@@ -17,16 +17,16 @@
   export let pid: string;
   export let collection: string;
   export let metadata: string;
-  export let width: number = 100;
-  export let display: boolean = false;
+  export let width = 100;
+  export let display = false;
   export let minted: Nft;
 
-  let minting: boolean = false;
+  let minting = false;
   let cidImage: string;
   let cidJson: string;
 
   let signer: Signer;
-  let address: string = "";
+  let address = "";
   let network: Network;
 
   let chainId;
@@ -57,12 +57,12 @@
 <main id="kredeum-mint">
   IMAGE
   {#if display && src}
-    <img src="{src}" alt="{alt}" width="{width}" /><br />
+    <img {src} {alt} {width} /><br />
   {/if}
 
   {#if address}
     {#if minted}
-      <a href="{nftOpenSeaUrl(chainId, minted)}" class="btn btn-small btn-sell" title="Sell"
+      <a href={nftOpenSeaUrl(chainId, minted)} class="btn btn-small btn-sell" title="Sell"
         >SELL NFT</a
       >
 
@@ -74,7 +74,7 @@
     {:else}
       <!-- <a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a> -->
 
-      <button id="mint-button-{pid}" on:click="{_mintImage}" class="btn btn-small btn-mint">
+      <button id="mint-button-{pid}" on:click={_mintImage} class="btn btn-small btn-mint">
         MINT NFT
       </button>
     {/if}

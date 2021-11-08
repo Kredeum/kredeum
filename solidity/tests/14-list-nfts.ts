@@ -18,7 +18,7 @@ const txOptions = {
 };
 let contract: string;
 let chainId: number;
-let network: Network;
+let network: Network | undefined;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
@@ -63,13 +63,13 @@ describe("List NFTs lib", async function () {
     });
 
     it("With TheGraph", async function () {
-      if (network.subgraph) {
+      if (network?.subgraph) {
         expect((await listNFTsFromTheGraph(chainId, contract)).length).to.be.gte(1);
       }
     });
 
     it("With Covalent", async function () {
-      if (network.covalent) {
+      if (network?.covalent) {
         expect((await listNFTsFromCovalent(chainId, contract)).length).to.be.gte(1);
       }
     });

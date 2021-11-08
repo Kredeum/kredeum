@@ -182,15 +182,15 @@
 <div class="col col-xs-12 col-sm-3">
   <span class="label"
     >Address &nbsp;&nbsp;&nbsp;
-    <a href="{explorerAddressUrl(chainId, address)}" target="_blank">
-      <i class="fas fa-external-link-alt"></i>
+    <a href={explorerAddressUrl(chainId, address)} target="_blank">
+      <i class="fas fa-external-link-alt" />
     </a>
   </span>
   <div class="form-field">
     {#if address}
-      <input type="text" value="{addressShort(nameOrAddress, 10)}" />
+      <input type="text" value={addressShort(nameOrAddress, 10)} />
     {:else}
-      <button on:click="{connectMetamask}">{connectmetamask}</button>
+      <button on:click={connectMetamask}>{connectmetamask}</button>
     {/if}
   </div>
 </div>
@@ -199,21 +199,21 @@
 <div class="col col-xs-12 col-sm-3">
   <span class="label"
     >Network &nbsp;&nbsp;&nbsp;
-    <a href="{explorerOpenNFTsUrl(chainId)}" target="_blank">
-      <i class="fas fa-external-link-alt"></i>
+    <a href={explorerOpenNFTsUrl(chainId)} target="_blank">
+      <i class="fas fa-external-link-alt" />
     </a>
   </span>
   <div class="select-wrapper select-network">
     <div class="select">
       <div class="select-trigger">
-        <span class="{chainname(network)}">{chainName(network)}</span>
+        <span class={chainname(network)}>{chainName(network)}</span>
       </div>
       <div class="custom-options">
         {#each networks.filter((nw) => nw.mainnet) as _network}
           <span
             class="custom-option {_network.chainId == chainId && 'selected'}"
-            data-value="{chainname(_network)}"
-            on:click="{() => switchEthereumChain(_network.chainId)}"
+            data-value={chainname(_network)}
+            on:click={() => switchEthereumChain(_network.chainId)}
           >
             {chainName(_network)}
           </span>

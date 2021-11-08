@@ -53,7 +53,7 @@ const config: HardhatUserConfig = {
     },
     fantom: {
       chainId: 250,
-      url: `https://rpcapi.fantom.network`,
+      url: "https://rpcapi.fantom.network",
       accounts
     },
     mainnet: {
@@ -86,7 +86,7 @@ const config: HardhatUserConfig = {
     },
     bsc: {
       chainId: 56,
-      url: `https://bsc-dataseed1.binance.org`,
+      url: "https://bsc-dataseed1.binance.org",
       accounts
     },
     matic: {

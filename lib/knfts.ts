@@ -4,7 +4,7 @@ import type { Collection, Nft } from "./kconfig";
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
 
-const ipfsReplace = (url: string = ""): string => {
+const ipfsReplace = (url = ""): string => {
   url = url.replace("ipfs://ipfs/", ipfsGateway);
   url = url.replace("ipfs://", ipfsGateway);
   url = url.replace("https://gateway.pinata.cloud/ipfs/", ipfsGateway);
@@ -15,12 +15,12 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toLowerCase();
 
 const numberToHexString = (num: number): string => `0x${num.toString(16)}`;
-const textShort = (s: string = "", n: number = 16, p?: number): string => {
+const textShort = (s = "", n = 16, p?: number): string => {
   p = p === undefined ? n : p;
   const l = s?.toString().length;
   return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
 };
-const addressShort = (a: string = "", n: number = 8): string =>
+const addressShort = (a = "", n = 8): string =>
   a.endsWith(".eth") ? textShort(a, 2 * n, 0) : textShort(a, n, n);
 
 const urlToLink = (url: string, label?: string): string =>
@@ -46,8 +46,7 @@ const explorerTxLink = (chainId: number, tx: string): string =>
 // COLLECTION helpers
 const collectionName = (collection: Collection): string => collection?.name || "No name";
 const collectionSymbol = (collection: Collection): string => collection?.symbol || "NFT";
-const collectionOpenSeaLink = (chainId: number, collAddress: string): string =>
-  getOpenSea(chainId)?.kredeum;
+const collectionOpenSeaLink = (chainId: number): string => getOpenSea(chainId)?.kredeum;
 
 const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
@@ -86,8 +85,7 @@ const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
 const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.tokenID}`;
 const nftDescription = (nft: Nft): string =>
   (nft.name != nft.description && nft.description) || nftName(nft);
-const nftDescriptionShort = (nft: Nft, n: number = 16): string =>
-  textShort(nftDescription(nft), n, 0);
+const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 
 const explorerNftUrl = (chainId: number, nft: Nft): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")

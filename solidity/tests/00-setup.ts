@@ -1,8 +1,7 @@
 import { expect } from "chai";
-import { ethers } from "hardhat";
 
-describe("Setup TS", async function () {
-  it("Should be OK", async function () {
+describe("Setup TS", () => {
+  it("Should be OK", () => {
     expect(true).to.be.true;
   });
 });

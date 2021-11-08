@@ -87,11 +87,11 @@
     </h2>
     {nftsSupplyAndName(NFTs, collection)}
     <a
-      href="{explorerCollectionInventoryUrl(chainId, collection?.address)}"
+      href={explorerCollectionInventoryUrl(chainId, collection?.address)}
       target="_blank"
-      title="{nftsUrl(chainId, collection?.address)}"
+      title={nftsUrl(chainId, collection?.address)}
     >
-      <i class="fas fa-external-link-alt"></i>
+      <i class="fas fa-external-link-alt" />
     </a>
 
     <div class="table">
@@ -108,7 +108,7 @@
           <div id="media-{i}" class="table-col">
             <div class="table-col-content">
               <div class="media media-small media-photo">
-                <img alt="link" src="{nftImageLink(nft)}" height="100" />
+                <img alt="link" src={nftImageLink(nft)} height="100" />
               </div>
               <strong>{nftName(nft)}</strong>
               <span id="description-short-{i}">{nftDescriptionShort(nft, 64)}</span>
@@ -120,7 +120,7 @@
               <div class="table-col-content">
                 {#if addressSame(nft.owner, address)}
                   <a
-                    href="{nftOpenSeaUrl(chainId, nft)}"
+                    href={nftOpenSeaUrl(chainId, nft)}
                     class="btn btn-small btn-sell"
                     title="Sell"
                     target="_blank"
@@ -129,7 +129,7 @@
                   </a>
                 {:else}
                   <a
-                    href="{nftOpenSeaUrl(chainId, nft)}"
+                    href={nftOpenSeaUrl(chainId, nft)}
                     class="btn btn-small btn-sell"
                     title="Buy"
                     target="_blank"
@@ -143,21 +143,21 @@
 
           <div class="table-col">
             <div class="table-col-content">
-              <a href="{nftImageLink(nft)}" title="{nftDescription(nft)}" target="_blank">
-                <i class="fas fa-external-link-alt"></i>
+              <a href={nftImageLink(nft)} title={nftDescription(nft)} target="_blank">
+                <i class="fas fa-external-link-alt" />
               </a>
             </div>
           </div>
 
-          <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
+          <div id="more-{i}" class="table-col more" on:click={() => moreToggle(i)}>
             <div class="table-col-content txtright">
-              <div class="more-button"><i class="fas fa-chevron-down"></i></div>
+              <div class="more-button"><i class="fas fa-chevron-down" /></div>
             </div>
           </div>
 
           <div class="detail">
             <div id="media-full-{i}" class="media media-photo">
-              <img alt="link" src="{nftImageLink(nft)}" />
+              <img alt="link" src={nftImageLink(nft)} />
             </div>
             <div id="description-{i}" class="description">
               <strong>Description</strong>
@@ -203,12 +203,12 @@
             <div class="table">
               <div class="table-row">
                 <div class="table-col">
-                  <img alt="{nftName(nft)}" src="{nftImageLink(nft)}" height="600" />
-                  <p title="{nftDescription(nft)}">
+                  <img alt={nftName(nft)} src={nftImageLink(nft)} height="600" />
+                  <p title={nftDescription(nft)}>
                     {nftDescription(nft)}
                   </p>
                 </div>
-                <div class="table-col"></div>
+                <div class="table-col" />
               </div>
             </div>
           </div>

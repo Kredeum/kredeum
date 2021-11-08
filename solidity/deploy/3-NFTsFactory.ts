@@ -1,11 +1,7 @@
 import type { DeployFunction } from "hardhat-deploy/types";
 import { getNetwork } from "../../lib/kconfig";
 
-const deployNFTsFactoryFunction: DeployFunction = async function ({
-  deployments,
-  ethers,
-  getChainId
-}) {
+const deployNFTsFactoryFunction: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");
 
   const openNFTs = (await ethers.getContract("OpenNFTs")).address;

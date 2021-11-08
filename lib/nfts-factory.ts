@@ -1,31 +1,27 @@
-import { ethers, BigNumber, utils, Signer, Contract } from "ethers";
+import { ethers, utils, Signer, Contract, BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
-import type { Network, Collection } from "./kconfig";
+import type { Collection } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
 import type {
   Provider,
-  TransactionRequest,
   TransactionResponse,
   TransactionReceipt
 } from "@ethersproject/abstract-provider";
 
 const getNFTsFactory = (chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory => {
   // console.log("getNFTsFactory", chainId);
-  let nftsFactory: NFTsFactory;
 
   const network = getNetwork(chainId);
   // console.log("getNFTsFactory", network);
 
-  if (network?.nftsFactory) {
-    _providerOrSigner = _providerOrSigner || getProvider(chainId);
+  _providerOrSigner = _providerOrSigner || getProvider(chainId);
 
-    nftsFactory = new Contract(
-      network?.nftsFactory || "",
-      abis.CloneFactory.concat(abis.NFTsFactory),
-      _providerOrSigner
-    ) as NFTsFactory;
-  }
+  const nftsFactory = new Contract(
+    network?.nftsFactory || "",
+    abis.CloneFactory.concat(abis.NFTsFactory),
+    _providerOrSigner
+  ) as NFTsFactory;
 
   return nftsFactory;
 };
@@ -34,43 +30,48 @@ const listCollectionsFromCovalent = async (
   chainId: number,
   _owner?: string
 ): Promise<Map<string, Collection>> => {
-  let collections: Map<string, Collection> = new Map();
-  let path;
+  const collections: Map<string, Collection> = new Map();
+  let path: string;
   const network = getNetwork(chainId);
 
   if (network && _owner) {
-    const match = `{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}`;
+    const match =
+      // eslint-disable-next-line quotes
+      '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
 
     path =
       `/${Number(chainId)}/address/${_owner}/balances_v2/` +
-      `?nft=true` +
-      `&no-nft-fetch=false` +
+      "?nft=true" +
+      "&no-nft-fetch=false" +
       `&match=${encodeURIComponent(match)}`;
 
-    const answerCov = await fetchCov(path);
-    // console.log(path, answerCov);
+    type CollectionCov = {
+      contract_name: string;
+      contract_ticker_symbol: string;
+      contract_address: string;
+      balance: BigNumber;
+    };
+    type AnswerCollectionsCov = {
+      items: Array<CollectionCov>;
+    };
+    const collectionsCov = ((await fetchCov(path)) as AnswerCollectionsCov).items;
 
-    if (answerCov.error) {
-      console.error("answerCov.error", answerCov.error);
-    } else {
-      const collectionsJson = answerCov?.data?.items || [];
-      // console.log(collectionsJson[0]);
-      // console.log("listCollectionsFromCovalent nbContracts", collectionsJson.length);
+    // console.log(collectionsCov[0]);
+    // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
 
-      for (let index = 0; index < collectionsJson.length; index++) {
-        const collection = collectionsJson[index];
-        const chainName = network.chainName;
-        const address = collection.contract_address;
+    for (let index = 0; index < collectionsCov.length; index++) {
+      const collection: CollectionCov = collectionsCov[index];
+      const chainName: string = network.chainName;
+      const address: string = collection.contract_address;
 
-        collections.set(nftsUrl(chainId, address), {
-          chainId,
-          chainName,
-          address,
-          name: collection.contract_name,
-          symbol: collection.contract_ticker_symbol,
-          totalSupply: collection.balance
-        });
-      }
+      collections.set(nftsUrl(chainId, address), {
+        chainId,
+        chainName,
+        address,
+        name: collection.contract_name,
+        symbol: collection.contract_ticker_symbol,
+        totalSupply: Number(collection.balance)
+      });
     }
   }
   // console.log("listCollectionsFromCovalent nbContracts ERC721", collections.length);
@@ -84,7 +85,7 @@ const listCollectionsFromTheGraph = async (
   _owner?: string
 ): Promise<Map<string, Collection>> => {
   // console.log("listCollectionsFromTheGraph");
-  let collections: Map<string, Collection> = new Map();
+  const collections: Map<string, Collection> = new Map();
   const network = getNetwork(chainId);
 
   if (_owner) {
@@ -105,16 +106,21 @@ const listCollectionsFromTheGraph = async (
           }
         }
     `;
-    const answerGQL = await fetchGQL(getSubgraphUrl(chainId), query);
+    type AnswerCollectionsGQL = {
+      ownerPerTokenContracts: Array<{
+        contract: { id: string; name: string; symbol: string };
+        numTokens: number;
+      }>;
+    };
+    const answerGQL = (await fetchGQL(getSubgraphUrl(chainId), query)) as AnswerCollectionsGQL;
     const currentContracts = answerGQL?.ownerPerTokenContracts || [];
     // console.log(currentContracts[0]);
 
-    let index2 = 0;
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
       const { id: address, name, symbol } = contract;
-      const chainName = network.chainName;
+      const chainName = network?.chainName;
       const totalSupply = Math.max(numTokens, 0);
 
       if (currentContractResponse.numTokens > 0) {
@@ -126,7 +132,6 @@ const listCollectionsFromTheGraph = async (
           symbol,
           totalSupply
         } as Collection);
-        index2++;
       }
     }
   }
@@ -142,23 +147,26 @@ const listCollectionsFromFactory = async (
   // console.log("listCollectionsFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
-  let collections: Map<string, Collection> = new Map();
+  const collections: Map<string, Collection> = new Map();
   const nftsFactory: NFTsFactory = getNFTsFactory(chainId, _provider);
   // console.log("listCollectionsFromFactory nftsFactory ok ?", nftsFactory ? "OK" : "KO");
 
   if (nftsFactory) {
-    let balances = [];
+    type BalanceOf = [string, string, string, BigNumber, string];
+    let balances: Array<BalanceOf> = [];
     balances = await nftsFactory.balancesOf(_owner);
     // console.log("balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
-      const chainName = network.chainName;
-      const balance = balances[index];
-      const address = utils.getAddress(balance[0]);
-      const name = balance[1];
-      const symbol = balance[2];
+      const chainName = network?.chainName;
+      const balance: BalanceOf = balances[index];
+
+      const address: string = utils.getAddress(balance[0]);
+      const name: string = balance[1];
+      const symbol: string = balance[2];
       const totalSupply = Number(balance[3]);
-      const owner = utils.getAddress(balance[4]);
+      const owner: string = utils.getAddress(balance[4]);
+
       collections.set(`nfts://${chainName}/${address}`, {
         totalSupply,
         chainId,
@@ -217,14 +225,14 @@ const listCollections = async (
 };
 
 const listCollectionsFromCache = (chainId: number): Array<Collection> => {
-  const collections = [];
+  const collections: Array<Collection> = [];
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
     // console.log("listCollectionsFromCache", key, index);
 
     if (key?.startsWith("nfts://")) {
-      const collection = JSON.parse(localStorage.getItem(key) || "{}");
+      const collection = JSON.parse(localStorage.getItem(key) || "{}") as Collection;
       // console.log("listCollectionsFromCache", collection);
       if (chainId && chainId === collection.chainId) {
         collections.push(collection);
@@ -241,22 +249,18 @@ const CloneResponse = async (
   _name: string,
   _cloner: Signer
 ): Promise<TransactionResponse> => {
-  const cloner = await _cloner.getAddress();
-  // console.log("CloneResponse", chainId, _contract, cloner);
+  // console.log("CloneResponse", chainId, _contract, await _cloner.getAddress());
 
-  let txResp: TransactionResponse;
   const network = getNetwork(chainId);
 
   const nftsFactory = getNFTsFactory(chainId, _cloner);
 
-  if (nftsFactory) {
-    const n = await nftsFactory.implementationsCount();
-    const name = _name || `Open NFTs #${n}`;
-    // console.log(`cost ${ethers.utils.formatEther(cost)}`);
+  const n: string = (await nftsFactory.implementationsCount()).toString();
+  const name = _name || `Open NFTs #${n}`;
+  // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-    txResp = await nftsFactory.clone(name, `NFT${n}`);
-    console.log(`${network.blockExplorerUrls[0]}/tx/` + txResp.hash);
-  }
+  const txResp = await nftsFactory.clone(name, `NFT${n}`);
+  console.log(`${network?.blockExplorerUrls[0]}/tx/` + txResp.hash);
 
   return txResp;
 };
@@ -266,7 +270,7 @@ const CloneReceipt = async (txResp: TransactionResponse): Promise<TransactionRec
 };
 
 const CloneAddress = (txReceipt: TransactionReceipt): string => {
-  let implementation: string = "";
+  let implementation = "";
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
