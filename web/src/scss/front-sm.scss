@@ -11,14 +11,6 @@
 
             & + .flex {
                 text-align: right;
-
-                a {
-                    transition: all 300ms ease-in-out;
-
-                    &:hover {
-                        color: $green;
-                    }
-                }
             }
         }
     }
