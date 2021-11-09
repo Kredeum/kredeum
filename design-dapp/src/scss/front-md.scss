@@ -1,7 +1,7 @@
 @import '_variables';
 @import 'core/_mixins';
 
-nav {
+.nav-krd {
     flex: 0 0 auto;
     width: 130px;
     background: $couleur1 url("../images/bg-dapp.svg") no-repeat center top;
@@ -56,11 +56,11 @@ nav {
     }
 }
 
-nav + main {
+.nav-krd + .main-krd {
     padding-left: 170px;
 }
 
-main {
+.main-krd {
     flex: 1 0 0%;
     padding: 40px;
     background-size: 100% auto;
