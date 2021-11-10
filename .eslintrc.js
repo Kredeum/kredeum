@@ -9,7 +9,7 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
     tsconfigRootDir: "./",
-    project: ["./tsconfig.json"],
+    project: ["./tsconfig.json", "./solidity/tsconfig.json"],
     extraFileExtensions: [".svelte"]
   },
   env: {

@@ -13,12 +13,10 @@
     "noFallthroughCasesInSwitch": true,
     "forceConsistentCasingInFileNames": true
   },
-  "files": ["../hardhat.config.ts"],
   "include": [
     "../lib/*.ts",
-    "./scripts/*.ts",
-    "./tests/*.ts",
-    "./deploy/*.ts",
+    "../hardhat.config.ts",
+    "**/*.ts"
   ],
   "exclude": ["artifacts"]
 }

@@ -1,6 +1,4 @@
-import type { NFTsFactory } from "../../lib/nfts-factory";
 import { expect } from "chai";
-import { BigNumber } from "ethers";
 
 import {
   listCollections,
@@ -8,14 +6,16 @@ import {
   listCollectionsFromTheGraph,
   listCollectionsFromFactory
 } from "../../lib/nfts-factory";
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
+
 import { getNetwork, Network } from "../../lib/kconfig";
 
 import hre from "hardhat";
 const { ethers, deployments } = hre;
 
-const zeroAddress = "0x0000000000000000000000000000000000000000";
-
-describe("List contracts lib", async function () {
+describe("List contracts lib", function () {
   let owner: string;
   const artist = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
   const txOptions = {
@@ -44,16 +44,16 @@ describe("List contracts lib", async function () {
       await deployments.fixture(["NFTsFactory"]);
     }
 
-    const openNFTs = await ethers.getContract("OpenNFTs", signer);
+    const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
-    await (await openNFTs.mintNFT(artist, "", txOptions)).wait();
+    await (await openNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
     const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
-    const newOpenNFTs = await openNFTsFactory.deploy();
-    await (await newOpenNFTs.mintNFT(artist, "", txOptions)).wait();
+    const newOpenNFTs: OpenNFTs = await openNFTsFactory.deploy() as OpenNFTs;
+    await (await newOpenNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
 
     await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
   });

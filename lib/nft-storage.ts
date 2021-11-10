@@ -1,7 +1,7 @@
 import Ipfs from "./kipfs";
 
 const nftStorageEndpoint = "https://api.nft.storage";
-const keyDefault: string = process.env.NFT_STORAGE_KEY;
+const keyDefault: string = process.env.NFT_STORAGE_KEY || "";
 
 type NftStorageResponse = {
   ok: boolean;
@@ -34,7 +34,7 @@ class NftStorage extends Ipfs {
     const data = (await resp.json()) as NftStorageResponse;
 
     if (data.ok) {
-      cid = data.value?.cid;
+      cid = data.value?.cid || "";
     } else {
       console.error("NftStorage.pin", data.error);
     }

@@ -1,15 +1,13 @@
-// npx mocha --experimental-json-modules 2-mint.mjs
-import { utils } from "ethers";
+
 import { ethers, deployments } from "hardhat";
 import { expect } from "chai";
-import { networks, getProvider, getNetwork } from "../../lib/kconfig";
+import { networks, getProvider } from "../../lib/kconfig";
 
 import type { Network } from "../../lib/kconfig";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 import { config } from "dotenv";
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
 config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -32,7 +30,7 @@ describe("NFT Mint", function () {
     });
 
     it("Should find Network", function () {
-      expect(network?.chainName).to.be.string;
+      expect(network?.chainName).to.be.equal(chainName);
     });
 
     it("Should find Chain Explorer", function () {
@@ -50,7 +48,7 @@ describe("NFT Mint", function () {
       }
     });
 
-    it("Should get Signer", async function () {
+    it("Should get Signer", function () {
       const signer = new ethers.Wallet(process.env.ACCOUNT_KEY || "", provider);
       expect(signer._isSigner).to.be.true;
     });
@@ -71,7 +69,7 @@ describe("NFT Mint", function () {
       // console.log(await openNFTs.name());
     });
 
-    it("Should init Contract", async function () {
+    it("Should init Contract", function () {
       expect(Boolean(openNFTs)).to.be.true;
     });
     it("Should get Contract Name", async function () {

@@ -12,7 +12,7 @@ class Ipfs {
 
   async add(buffer: Blob | string, options: RequestInit = {}) {
     type IpfsResponse = { Hash: string };
-    let cid: string;
+    let cid = "";
     const formData = new FormData();
     formData.append("file", buffer);
     options.method = "POST";

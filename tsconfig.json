@@ -9,6 +9,6 @@
     "importsNotUsedAsValues": "remove",
     // "strict": true
   },
-  "include": ["lib/*.ts", "**/*.svelte"],
-  "exclude": ["solidity","node_modules","old","thegraph"]
+  "include": ["**/*.ts", "**/*.svelte"],
+  "exclude": ["solidity","node_modules","old", "thegraph"]
 }

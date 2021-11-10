@@ -8,16 +8,15 @@ const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");
-const sass = require("gulp-sass");
+const sass = require("gulp-sass")(require("sass"));
 const uglify = require("gulp-uglify");
 const sourcemaps = require("gulp-sourcemaps");
-const util = require("gulp-util");
-// const log = require("fancy-log");
-// const rename = require("gulp-rename");
-// const gulpif = require("gulp-if");
+const noop = require("gulp-noop");
+const dotenv = require("dotenv");
+dotenv.config();
 
 var config = {
-  production: !!util.env.production
+  production: process.env.ENVIR == "PROD"
 };
 
 // Clean assets
@@ -57,7 +56,7 @@ function images() {
 function css() {
   return gulp
     .src("./src/scss/**/*.scss")
-    .pipe(!config.production ? sourcemaps.init() : util.noop())
+    .pipe(!config.production ? sourcemaps.init() : noop())
     .pipe(plumber())
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
@@ -74,7 +73,7 @@ function scripts() {
   return gulp
     .src(["./src/js/**/*"])
     .pipe(plumber())
-    .pipe(!config.production ? uglify().on("error", swallow) : util.noop())
+    .pipe(!config.production ? uglify().on("error", swallow) : noop())
     .pipe(gulp.dest("./app/assets/js/"));
 }
 
