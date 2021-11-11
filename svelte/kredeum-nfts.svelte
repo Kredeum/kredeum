@@ -64,9 +64,12 @@
               <span class="label"
                 >Collection &nbsp;&nbsp;&nbsp;
                 {#if collection}
-                  <a href={explorerCollectionUrl(chainId, collection?.address)} target="_blank">
-                    <i class="fas fa-external-link-alt" />
-                  </a>
+                  <a
+                    class="info-button"
+                    href={explorerCollectionUrl(chainId, collection?.address)}
+                    title={collection?.address}
+                    target="_blank"><i class="fas fa-info-circle" /></a
+                  >
                 {/if}
               </span>
               <KredeumSelectCollection bind:address bind:chainId bind:collection />

@@ -182,9 +182,12 @@
 <div class="col col-xs-12 col-sm-3">
   <span class="label"
     >Address &nbsp;&nbsp;&nbsp;
-    <a href={explorerAddressUrl(chainId, address)} target="_blank">
-      <i class="fas fa-external-link-alt" />
-    </a>
+    <a
+      class="info-button"
+      href={explorerAddressUrl(chainId, address)}
+      target="_blank"
+      title={address}><i class="fas fa-info-circle" /></a
+    >
   </span>
   <div class="form-field">
     {#if address}
@@ -198,9 +201,12 @@
 <div class="col col-xs-12 col-sm-3">
   <span class="label"
     >Network &nbsp;&nbsp;&nbsp;
-    <a href={explorerOpenNFTsUrl(chainId)} target="_blank">
-      <i class="fas fa-external-link-alt" />
-    </a>
+    <a
+      class="info-button"
+      href={explorerOpenNFTsUrl(chainId)}
+      target="_blank"
+      title={chainId?.toString()}><i class="fas fa-info-circle" /></a
+    >
   </span>
   <div class="select-wrapper select-network">
     <div class="select">

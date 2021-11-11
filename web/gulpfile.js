@@ -61,7 +61,8 @@ function css() {
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
-    .pipe(gulp.dest("./app/assets/css/"));
+    .pipe(gulp.dest("./app/assets/css/"))
+    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/css/"));
 }
 
 function fonts() {

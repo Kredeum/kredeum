@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CloneResponse, CloneReceipt, CloneAddress } from "../lib/nfts-factory";
-  import { explorerAddressLink, explorerTxLink } from "../lib/knfts";
+  import { explorerTxUrl, explorerAddressUrl, addressShort } from "../lib/knfts";
   import type { Collection } from "../lib/kconfig";
   import type { Signer } from "ethers";
   import { createEventDispatcher } from "svelte";
@@ -49,7 +49,11 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '{@html explorerAddressLink(chainId, collectionCreated.name)}' created!
+              Collection '<a
+                class="link"
+                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                target="_blank">{collectionCreated?.name}</a
+              >' created!
             </div>
           </div>
         {:else if cloning}
@@ -81,8 +85,10 @@
           </div>
         {/if}
         {#if cloningTxHash}
-          <div class="section">
-            Transaction: {@html explorerTxLink(chainId, cloningTxHash)}
+          <div class="flex">
+            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
+              >{addressShort(cloningTxHash)}</a
+            >
           </div>
         {/if}
       </div>

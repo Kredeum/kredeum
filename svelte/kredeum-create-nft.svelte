@@ -8,11 +8,12 @@
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "../lib/kmint";
   import {
     textShort,
+    addressShort,
     ipfsUrl,
     ipfsGatewayUrl,
-    ipfsGatewayLink,
-    explorerTxLink,
-    explorerNftLink
+    explorerTxUrl,
+    explorerNftUrl,
+    nftName
   } from "../lib/knfts";
   import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "../lib/open-nfts";
   import { onMount } from "svelte";
@@ -112,7 +113,9 @@
         {#if mintedNft}
           <div class="titre">
             <i class="fas fa-check fa-left c-green" />
-            NFT '{@html explorerNftLink(chainId, mintedNft)}' minted!
+            NFT '<a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+              >{nftName(mintedNft)}</a
+            >' minted!
           </div>
         {/if}
 
@@ -120,8 +123,8 @@
           <img src={image} alt="nft" />
         </div>
 
-        <div class="section">
-          <i>
+        <div class="description">
+          <p>
             {#if minting == 1}
               Wait till Image stored on IPFS
             {:else if minting == 2}
@@ -134,7 +137,7 @@
               </span>
               <i class="fas fa-spinner fa-right c-green refresh" />
             {/if}
-          </i>
+          </p>
         </div>
 
         <ul class="steps">
@@ -142,7 +145,9 @@
             <div class="flex"><span class="label">Image ipfs cid</span></div>
             <div class="flex">
               {#if cidImage}
-                {@html ipfsGatewayLink(cidImage)}
+                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank"
+                  >{addressShort(cidImage)}</a
+                >
               {/if}
             </div>
           </li>
@@ -150,7 +155,9 @@
             <div class="flex"><span class="label">Metadata ipfs cid</span></div>
             <div class="flex">
               {#if cidJson}
-                {@html ipfsGatewayLink(cidJson)}
+                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank"
+                  >{addressShort(cidJson)}</a
+                >
               {/if}
             </div>
           </li>
@@ -158,7 +165,9 @@
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxHash}
-                {@html explorerTxLink(chainId, mintingTxHash)}
+                <a class="link" href={explorerTxUrl(chainId, mintingTxHash)} target="_blank"
+                  >{addressShort(mintingTxHash)}</a
+                >
               {/if}
             </div>
           </li>
@@ -166,7 +175,7 @@
             <div class="flex"><span class="label">Token ID</span></div>
             <div class="flex">
               {#if tokenID}
-                {tokenID}
+                <strong>{tokenID}</strong>
               {/if}
             </div>
           </li>
@@ -175,6 +184,9 @@
             <div class="flex">
               {#if mintedNft}
                 {@html nftExplorerLink(mintedNft)}
+                <a class="link" href={explorerTxUrl(chainId, mintingTxHash)} target="_blank"
+                  >{addressShort(mintingTxHash)}</a
+                >
               {/if}
             </div>
           </li>

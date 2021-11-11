@@ -87,21 +87,20 @@
     </h2>
     {nftsSupplyAndName(NFTs, collection)}
     <a
+      class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
-      target="_blank"
-      title={nftsUrl(chainId, collection?.address)}
+      title={collection?.address}
+      target="_blank"><i class="fas fa-info-circle" /></a
     >
-      <i class="fas fa-external-link-alt" />
-    </a>
 
     <div class="table">
       <div class="table-row table-head hidden-xs">
         <div class="table-col"><span class="label">Media</span></div>
         {#if network?.openSea}
           <div class="table-col"><span class="label">Marketplace</span></div>
+        {:else}
+          <div class="table-col"><span class="label">Infos</span></div>
         {/if}
-
-        <div class="table-col"><span class="label">Infos</span></div>
       </div>
       {#each NFTs as nft, i}
         <div id="table-drop-{i}" class="table-row table-drop closed">
@@ -139,15 +138,18 @@
                 {/if}
               </div>
             </div>
-          {/if}
-
-          <div class="table-col">
-            <div class="table-col-content">
-              <a href={nftImageLink(nft)} title={nftDescription(nft)} target="_blank">
-                <i class="fas fa-external-link-alt" />
-              </a>
+          {:else}
+            <div class="table-col">
+              <div class="table-col-content">
+                <a
+                  class="info-button"
+                  href={nftImageLink(nft)}
+                  title={nftDescription(nft)}
+                  target="_blank"><i class="fas fa-info-circle" /></a
+                >
+              </div>
             </div>
-          </div>
+          {/if}
 
           <div id="more-{i}" class="table-col more" on:click={() => moreToggle(i)}>
             <div class="table-col-content txtright">

@@ -40,8 +40,10 @@ const explorerAddressUrl = (chainId: number, address: string): string =>
   explorerUrl(chainId, `/address/${address}`);
 const explorerAddressLink = (chainId: number, address: string): string =>
   explorerLink(chainId, `/address/${address}`, addressShort(address));
+const explorerTxUrl = (chainId: number, tx: string): string =>
+  explorerUrl(chainId, `/tx/${tx}`);
 const explorerTxLink = (chainId: number, tx: string): string =>
-  explorerLink(chainId, `/tx/${tx}`, addressShort(tx));
+  urlToLink(explorerTxUrl(chainId, tx), addressShort(tx));
 
 // COLLECTION helpers
 const collectionName = (collection: Collection): string => collection?.name || "No name";
@@ -63,7 +65,7 @@ const explorerCollectionInventoryLink = (chainId: number, collAddress: string): 
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
-  getExplorer(chainId)?.includes("cchain.explorer")
+    getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
     : explorerUrl(chainId, `/token/${collAddress}#inventory`);
 
@@ -118,6 +120,7 @@ export {
   explorerLink,
   explorerAddressUrl,
   explorerAddressLink,
+  explorerTxUrl,
   explorerTxLink,
   explorerCollectionInventoryUrl,
   explorerCollectionInventoryLink,
