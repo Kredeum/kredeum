@@ -1,7 +1,7 @@
 @import '_variables';
 @import '_global';
 
-nav {
+.nav-krd {
     ul {
         padding: 0;
         margin: 0;
@@ -56,7 +56,7 @@ nav {
     }
 }
 
-main {
+.main-krd {
     background: url("../images/bg-dapp.svg") no-repeat center -200px;
     background-attachment: fixed;
     width: 100%;

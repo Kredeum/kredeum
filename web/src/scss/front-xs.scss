@@ -1,7 +1,7 @@
 @import '_variables';
 @import 'core/_mixins';
 
-nav {
+.nav-krd {
     width: 100%;
     height: 60px;
     background: $couleur1;
@@ -113,11 +113,11 @@ nav {
     }
 }
 
-nav + main {
+.nav-krd + .main-krd {
   padding-top: 80px;
 }
 
-main {
+.main-krd {
     background-position: center top;
     background-size: 300% auto;
     padding: 20px;
