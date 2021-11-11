@@ -180,22 +180,28 @@
 </script>
 
 <div class="col col-xs-12 col-sm-3">
-  <span class="label"
-    >Address &nbsp;&nbsp;&nbsp;
-    <a
-      class="info-button"
-      href={explorerAddressUrl(chainId, address)}
-      target="_blank"
-      title={address}><i class="fas fa-info-circle" /></a
-    >
-  </span>
-  <div class="form-field">
-    {#if address}
+  {#if address}
+    <span class="label"
+      >Address
+      <a
+        class="info-button"
+        href={explorerAddressUrl(chainId, address)}
+        target="_blank"
+        title={address}><i class="fas fa-info-circle" /></a
+      >
+    </span>
+    <div class="form-field">
       <input type="text" value={addressShort(nameOrAddress, 10)} />
-    {:else}
-      <button on:click={connectMetamask}>{connectmetamask}</button>
-    {/if}
-  </div>
+    </div>
+  {:else}
+    <span class="label">Connect </span>
+    <a
+      href="."
+      on:click={connectMetamask}
+      class="btn btn-light btn-metamask"
+      title="Connect to Metamask">Connect to Metamask</a
+    >
+  {/if}
 </div>
 
 <div class="col col-xs-12 col-sm-3">

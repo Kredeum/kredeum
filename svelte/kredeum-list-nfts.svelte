@@ -5,15 +5,17 @@
     collectionName,
     explorerCollectionInventoryUrl,
     nftImageLink,
+    explorerCollectionUrl,
     nftDescription,
     nftDescriptionShort,
     nftName,
     nftsSupplyAndName,
     nftOpenSeaUrl,
-    ipfsGatewayLink,
     nftExplorerLink,
     addressSame,
-    urlToLink
+    addressShort,
+    explorerNftUrl,
+    nftUrl
   } from "../lib/knfts";
 
   import { nftsUrl } from "../lib/kconfig";
@@ -166,28 +168,38 @@
               <p>
                 {nftDescription(nft)}
               </p>
-              <p>
-                Token ID: {nft.tokenID}
-              </p>
-              <p>
-                Metadata JSON :
-                {@html urlToLink(nft.tokenURI, nft.cidJson)}
-              </p>
-              <p>
-                Image :
-                {@html urlToLink(nft.image, nft.cid)}
-              </p>
-              <p>
-                NFT details : {@html nftExplorerLink(nft)}
-              </p>
+              <ul class="steps">
+                <li class="complete">
+                  <div class="flex"><span class="label">Token ID</span></div>
+                  <div class="flex">
+                    <a class="link" href={explorerNftUrl(nft.chainId, nft)} target="_blank"
+                      ><strong>{nft.tokenID}</strong></a
+                    >
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Metadata CID</span></div>
+                  <div class="flex">
+                    <a class="link" href={nft.tokenURI} target="_blank"
+                      >{addressShort(nft.cidJson)}</a
+                    >
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Image CID</span></div>
+                  <div class="flex">
+                    <a class="link" href={nft.image} target="_blank">{addressShort(nft.cid)}</a>
+                  </div>
+                </li>
+              </ul>
             </div>
           </div>
         </div>
       {/each}
     </div>
   {:else}
-    <div class="table-row">
-      <div class="table-col no-bg table-col-full colspan">NO NFT found !</div>
+    <div class="card">
+      <p>No NFTs ✌️</p>
     </div>
   {/if}
 {/key}
