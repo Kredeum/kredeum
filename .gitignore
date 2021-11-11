@@ -9,6 +9,7 @@ solidity/artifacts
 web/app/assets
 
 # WORDPRESS
+wordpress/kredeum-nfts/lib/fonts
 wordpress/kredeum-nfts/lib/js
 vendor
 

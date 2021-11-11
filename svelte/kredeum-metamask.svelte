@@ -195,7 +195,6 @@
   </div>
 </div>
 
-<!-- <main id="kredeum-metamask"> -->
 <div class="col col-xs-12 col-sm-3">
   <span class="label"
     >Network &nbsp;&nbsp;&nbsp;
@@ -242,4 +241,3 @@
       {/each}
     </div>
   {/if} -->
-<!-- </main> -->

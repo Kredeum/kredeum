@@ -31,7 +31,8 @@ jQuery(document).ready(function () {
     });
   });
 
-  if ((kredeumNfts = document.getElementById("kredeum-nfts"))) {
+  const kredeumNfts = document.getElementById("kredeum-nfts");
+  if (kredeumNfts.$on) {
     // ACTION CREATE_COLLECTION
     kredeumNfts.$on("collection", function (e) {
       _ajax({

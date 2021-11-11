@@ -65,7 +65,10 @@ function css() {
 }
 
 function fonts() {
-  return gulp.src(["./src/fonts/**/*"]).pipe(gulp.dest("./app/assets/fonts/"));
+  return gulp
+    .src(["./src/fonts/**/*"])
+    .pipe(gulp.dest("./app/assets/fonts/"))
+    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/fonts/"));
 }
 
 // Transpile, concatenate and minify scripts
