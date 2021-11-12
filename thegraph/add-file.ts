@@ -13,4 +13,4 @@ async function _post(url, stream) {
 }
 
 console.log("IPFS ADD FILE");
-await _post(ADD, fs.createReadStream("fic.txt"));
+_post(ADD, fs.createReadStream("fic.txt"));

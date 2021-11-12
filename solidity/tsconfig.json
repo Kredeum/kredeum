@@ -14,12 +14,9 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": [
-    "../lib",
-    "./scripts",
-    "./tests",
-    "./deploy",
-    "../old/lib/isvalid.ts",
-    "tests/10-clone-factory.ts"
+    "../lib/*.ts",
+    "../hardhat.config.ts",
+    "**/*.ts"
   ],
-  "files": ["../hardhat.config.ts"]
+  "exclude": ["artifacts"]
 }

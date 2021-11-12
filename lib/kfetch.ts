@@ -1,18 +1,18 @@
-type AnswerFetchJson = {
-  data?: any;
-  error?: any;
+type FetchResponse = {
+  data?: unknown;
+  error?: unknown;
 };
 
-const fetchJson = async (_url: string, _config: Object = {}): Promise<AnswerFetchJson> => {
-  let json: AnswerFetchJson = {};
+const fetchJson = async (_url: string, _config: RequestInit = {}): Promise<FetchResponse> => {
+  let json: FetchResponse;
   if (_url) {
     try {
       const res = await fetch(_url, _config);
       // console.log(res);
-      json = await res.json();
+      json = (await res.json()) as FetchResponse;
     } catch (e) {
-      console.error("OpenNFTs.fetchJson ERROR", e, _url, json);
       json = { error: e };
+      console.error("OpenNFTs.fetchJson ERROR", e, _url, json);
     }
   } else {
     const e = "OpenNFTs.fetchJson URL not defined";
@@ -23,30 +23,30 @@ const fetchJson = async (_url: string, _config: Object = {}): Promise<AnswerFetc
   return json;
 };
 
-const fetchGQL = async (_url: string, _query: string) => {
-  // console.log(`OpenNFTs.fetchGQL\n${_url}\n${_query}`);
-
+const fetchGQL = async (_url: string, _query: string): Promise<unknown> => {
   const config = { method: "POST", body: JSON.stringify({ query: _query }) };
-  const answerGQL = (await fetchJson(_url, config)) as AnswerFetchJson;
-  // console.log(answerGQL);
 
-  if (answerGQL.error) console.error("OpenNFTs.fetchGQL ERROR", answerGQL.error);
-  return answerGQL.data;
+  const answerGQL = await fetchJson(_url, config);
+
+  if (answerGQL.error) console.error("fetchGQL ERROR", answerGQL.error);
+  return answerGQL?.data;
 };
 
-const fetchCov = async (_path: string) => {
+const fetchCov = async (_path: string): Promise<unknown> => {
   const loginPass = `${process.env.COVALENT_API_KEY}:`;
   const url = `https://api.covalenthq.com/v1${_path}&key=${loginPass}`;
   const config = {
     method: "GET",
     headers: {
-      Authorization: `Basic ${btoa(loginPass)}`,
+      // Authorization: `Basic ${btoa(loginPass)}`,
       Accept: "application/json"
     }
   };
-  const json: AnswerFetchJson = await fetchJson(url, config);
-  // console.log(url, "\n", json);
-  return json;
+
+  const answerCov: FetchResponse = await fetchJson(url, config);
+
+  if (answerCov.error) console.error("fetchCov ERROR", answerCov.error);
+  return answerCov?.data;
 };
 
 export { fetchJson, fetchGQL, fetchCov };

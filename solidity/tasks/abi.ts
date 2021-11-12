@@ -16,7 +16,7 @@ task("abi", "Get contract abi")
     let contractFactory;
     let deploy: Deployment = { address: "", abi: [] };
     const { chainId, name: chainName } = await ethers.provider.getNetwork();
-    let name: string = "";
+    let name = "";
 
     if (chainId == 31337) {
       try {

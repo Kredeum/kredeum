@@ -7,102 +7,112 @@
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import { getNetwork } from "../lib/kconfig";
+  import { explorerCollectionUrl } from "../lib/knfts";
 
   let collection: Collection;
   let address: string;
   let chainId: number;
   let signer: Signer;
-
+  let refreshing = false;
+  let refreshNFTs;
   $: network = getNetwork(chainId);
 </script>
 
 <div id="kredeum-nfts">
-  <nav role="navigation">
+  <nav class="nav-krd" role="navigation">
     <div class="logo"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></div>
 
     <div class="menu">
       <input id="burger" type="checkbox" />
 
       <label for="burger">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
       </label>
 
       <div class="nav">
         <ul>
-          <!-- <li class="active"><a href="."><i class="fas fa-columns"></i></a></li> -->
-          <!-- <li><a href="."><i class="fas fa-cog"></i></a></li>
-        <li><a href="."><i class="fas fa-user"></i></a></li>
-        <li><a href="."><i class="fas fa-bell"></i></a></li> -->
+          <!-- <li class="active"><a href=""><i class="fas fa-columns"></i></a></li> -->
         </ul>
       </div>
     </div>
+
+    <a
+      class="discord-link"
+      href="https://discord.gg/Vz5AyU2Nfx"
+      target="_blank"
+      title="Discord Kredem"><i class="fas fa-discord" /></a
+    >
   </nav>
 
-  <main role="main">
+  <main class="main-krd" role="main">
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <div class="row aligncenter">
-            <div class="col col-xs-12 col-sm-3">
-              <h1>My NFT wallet</h1>
-            </div>
+          <h1>My NFT wallet</h1>
+          {#if network?.create}
+            <a href="#create" class="btn btn-default" title="Create"
+              ><i class="fas fa-plus fa-left" />Create</a
+            >
+          {/if}
 
-            <div class="col col-sm-6">
+          <div class="row alignbottom">
+            <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+
+            <div class="col col-xs-12 col-sm-3">
+              <span class="label"
+                >Collection &nbsp;&nbsp;&nbsp;
+                {#if collection}
+                  <a
+                    class="info-button"
+                    href={explorerCollectionUrl(chainId, collection?.address)}
+                    title={collection?.address}
+                    target="_blank"><i class="fas fa-info-circle" /></a
+                  >
+                {/if}
+              </span>
               <KredeumSelectCollection bind:address bind:chainId bind:collection />
             </div>
 
-            <div class="col col-sm-3 txtright">
-              {#if network?.create}
-                <a href="#create" class="btn btn-light" title="Create"
-                  ><i class="fas fa-plus"></i><span class="hidden-xs">Create</span></a
-                >
-              {/if}
+            <div class="col col-sm-3">
+              <button
+                class="clear"
+                on:click={() => {
+                  localStorage.clear();
+                  refreshNFTs();
+                }}
+              >
+                <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
+              </button>
             </div>
           </div>
         </header>
 
-        <div class="table">
-          <div class="row">
-            <div class="col col-xs-12 col-md-3 col-filters">
-              <!-- <span class="label">Filter</span> -->
-              <div class="box">
-                <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
-
-                <div class="box-section">
-                  <span class="label label-big">Cache</span>
-                  <div>
-                    <a href="." on:click="{() => localStorage.clear()}">clear</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col col-xs-12 col-md-9">
-              <KredeumListNfts bind:collection bind:address bind:chainId />
-            </div>
-          </div>
-        </div>
+        <KredeumListNfts
+          bind:collection
+          bind:address
+          bind:chainId
+          bind:refreshing
+          bind:refreshNFTs
+        />
       </section>
     </div>
   </main>
-
-  <footer></footer>
 
   <!-- Modal create -->
   <div id="create" class="modal-window">
     <div>
       <div class="modal-content">
-        <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+        <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
         <div class="modal-body">
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green"></i>What do you want to do ?
+            <i class="fas fa-plus fa-left c-green" />What do you want to do ?
           </div>
 
           <div class="txtcenter">
-            <a href="#create-nft" class="btn btn-default" title="Create NFT">Mint NFT</a>
+            <a href="#create-nft" class="btn btn-default" title="Create NFT">Create NFT</a>
             <span class="or">Or</span>
             <a href="#add-collection" class="btn btn-second" title="Add a new collection"
               >Add a new collection</a

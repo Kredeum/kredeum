@@ -1,7 +1,7 @@
 @import '_variables';
 @import '_global';
 
-nav {
+.nav-krd {
     ul {
         padding: 0;
         margin: 0;
@@ -56,7 +56,7 @@ nav {
     }
 }
 
-main {
+.main-krd {
     background: url("../images/bg-dapp.svg") no-repeat center -200px;
     background-attachment: fixed;
     width: 100%;
@@ -118,6 +118,10 @@ main {
                 background: $white;
                 border: 0 none;
                 cursor: pointer;
+            }
+
+            .label {
+                display: block;
             }
         }
 
@@ -202,10 +206,6 @@ main {
                 opacity: 1;
                 visibility: visible;
                 transition: all 100ms ease-in-out;
-
-                .media {
-                    width: 130px;
-                }
             }
 
             .closed {
@@ -240,52 +240,49 @@ main {
     padding: 0;
     margin: 40px 0 0 0;
     position: relative;
+    border: 1px solid rgba($couleur1, 0.1);
+    @include border-radius();
 
-    &::after {
-        content: '';
-        width: 1px;
-        top: 5px;
-        bottom: 5px;
-        left: 8px;
-        background: rgba($couleur1, 0.1);
-        position: absolute;
-        z-index: -1;
+    &.process {
+        li {
+            padding: 15px 15px 15px 40px;
+
+            &::before {
+                content: '';
+                border: 1px solid rgba($couleur1, 0.1);
+                box-shadow: 0 0 1px 2px $white;
+                position: absolute;
+                left: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                width: 16px;
+                height: 16px;
+                background: $white;
+                border-radius: 16px;
+            }
+
+            &.complete {
+                &::after {
+                    content: '';
+                    position: absolute;
+                    left: 19px;
+                    top: 50%;
+                    background: $green;
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 8px;
+                    transform: translateY(-50%);
+                }
+            }
+        }
     }
 
     li {
         position: relative;
-        padding-left: 25px;
-
-        &::before {
-            content: '';
-            border: 1px solid rgba($couleur1, 0.1);
-            box-shadow: 0 0 1px 2px $white;
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            background: $white;
-            border-radius: 16px;
-        }
-
-        &.complete {
-            &::after {
-                content: '';
-                position: absolute;
-                left: 4px;
-                top: 50%;
-                background: $green;
-                width: 8px;
-                height: 8px;
-                border-radius: 8px;
-                transform: translateY(-50%);
-            }
-        }
+        padding: 15px;
 
         &:not(:last-child) {
-            margin-bottom: 20px;
+            border-bottom: 1px solid rgba($couleur1, 0.1);
         }
 
         .flex {
@@ -297,10 +294,6 @@ main {
             & + .flex {
                 .t-light {
                     opacity: 0.5;
-                }
-
-                a {
-                    color: $couleur1;
                 }
             }
         }

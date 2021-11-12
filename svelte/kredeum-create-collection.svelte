@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CloneResponse, CloneReceipt, CloneAddress } from "../lib/nfts-factory";
-  import { explorerAddressLink, explorerTxLink } from "../lib/knfts";
+  import { explorerTxUrl, explorerAddressUrl, addressShort } from "../lib/knfts";
   import type { Collection } from "../lib/kconfig";
   import type { Signer } from "ethers";
   import { createEventDispatcher } from "svelte";
@@ -11,7 +11,7 @@
   export let signer: Signer = undefined;
   export let collection: Collection = undefined;
 
-  let cloning: boolean = false;
+  let cloning = false;
   let cloningTxHash: string;
   let collectionCreated: Collection;
   let collectionName: string;
@@ -41,20 +41,24 @@
 
 <div id="kredeum-create-collection">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>
         {#if collectionCreated}
           <div>
             <div class="titre">
-              <i class="fas fa-check fa-left c-green"></i>
-              Collection '{@html explorerAddressLink(chainId, collectionCreated.name)}' created!
+              <i class="fas fa-check fa-left c-green" />
+              Collection '<a
+                class="link"
+                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                target="_blank">{collectionCreated?.name}</a
+              >' created!
             </div>
           </div>
         {:else if cloning}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green"></i>Creating new collection...
+            <i class="fas fa-sync fa-left c-green" />Creating new collection...
           </div>
           <div class="section">
             {#if cloningTxHash}
@@ -65,24 +69,26 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green"></i>Name your collection
+            <i class="fas fa-plus fa-left c-green" />Name your collection
           </div>
 
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="My collection" bind:value="{collectionName}" />
+              <input type="text" placeholder="My collection" bind:value={collectionName} />
             </div>
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click="{createCollection}"
+            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
               >Create</button
             >
           </div>
         {/if}
         {#if cloningTxHash}
-          <div class="section">
-            Transaction: {@html explorerTxLink(chainId, cloningTxHash)}
+          <div class="flex">
+            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
+              >{addressShort(cloningTxHash)}</a
+            >
           </div>
         {/if}
       </div>

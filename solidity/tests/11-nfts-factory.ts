@@ -33,7 +33,7 @@ describe("NFTs Factory contract", function () {
     await (await openNFTs.mintNFT(owner, "", txOptions)).wait();
   });
 
-  it("Should get sighash", async function () {
+  it("Should get sighash", function () {
     expect(nftsFactory.interface.getSighash("balanceOf")).to.be.equal("0xf7888aec");
     expect(nftsFactory.interface.getSighash("balancesOf")).to.be.equal("0x6392a51f");
   });
@@ -49,17 +49,17 @@ describe("NFTs Factory contract", function () {
 
   it("Should get nftsFactory balanceOf", async function () {
     const bal = await nftsFactory.balanceOf(openNFTs.address, owner);
-    console.log(`nftsFactory.balanceOf ${owner} ${bal}`);
+    console.log(`nftsFactory.balanceOf ${owner}`, bal);
     expect(bal.balance).to.be.gte(1);
   });
 
   it("Should get nftsFactory balancesOf", async function () {
     console.log(await nftsFactory.populateTransaction.balancesOf(owner));
-    console.log(`nftsFactory.balancesOf ${owner} ${await nftsFactory.balancesOf(owner)}`);
-    expect(await nftsFactory.balancesOf(owner)).to.be.string;
+    // console.log(`nftsFactory.balancesOf ${owner} ${await nftsFactory.balancesOf(owner)}`);
+    void expect(await nftsFactory.balancesOf(owner)).to.be.string;
   });
 
-  it("Should get nftsFactory abis", async function () {
+  it("Should get nftsFactory abis", function () {
     // console.log(nftsFactory.interface.format("minimal"));
     expect(nftsFactory.interface.format("minimal").length).to.be.gt(1);
   });

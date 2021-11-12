@@ -18,11 +18,11 @@ add_action(
 			function () {
 				wp_nonce_field( 'ajax-kredeum-nfts', 'knonce' );
 					printf(
-						'<kredeum-nfts'
+						'<div id="kredeum-app"'
 						. ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"'
 						. esc_attr( KREDEUM_BETA ? ' beta="true"' : '' )
 						// . ' platform="wordpress"'
-						. ' />'
+						. '></div>'
 					);
 			},
 			'dashicons-format-gallery',

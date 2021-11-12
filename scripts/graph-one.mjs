@@ -1,6 +1,6 @@
 import { providers, Contract, utils } from "ethers";
 import fs from "fs";
-import Ipfs from "../lib/ipfs.mjs";
+import Ipfs from "../common/ipfs.mjs";
 import FormData from "form-data";
 import fetch from "node-fetch";
 global.fetch = fetch;

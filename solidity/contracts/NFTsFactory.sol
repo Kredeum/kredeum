@@ -11,16 +11,6 @@ import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 contract NFTsFactory is CloneFactory {
   using ERC165Checker for address;
 
-  uint8 constant ERC721 = 0;
-  uint8 constant ERC721Metadata = 1;
-  uint8 constant ERC721Enumerable = 2;
-  uint8 constant OpenNFTs = 3;
-
-  bytes4 constant ERC721Sig = bytes4(0x80ac58cd);
-  bytes4 constant ERC721MetadataSig = bytes4(0x780e9d63);
-  bytes4 constant ERC721EnumerableSig = bytes4(0x780e9d63);
-  bytes4 constant OpenNFTsSig = type(IOpenNFTs).interfaceId;
-
   struct NftData {
     address nft;
     string name;
@@ -29,38 +19,23 @@ contract NFTsFactory is CloneFactory {
     address owner;
   }
 
+  uint8 public constant ERC721 = 0;
+  uint8 public constant ERC721_METADATA = 1;
+  uint8 public constant ERC721_ENUMERABLE = 2;
+  uint8 public constant OPEN_NFTS = 3;
+
+  bytes4 public constant ERC721_SIG = bytes4(0x80ac58cd);
+  bytes4 public constant ERC721_METADATA_SIG = bytes4(0x780e9d63);
+  bytes4 public constant ERC721_ENUMERABLE_SIG = bytes4(0x780e9d63);
+  bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTs).interfaceId;
+
   constructor(address _openNFTs, address _contractprobe) CloneFactory(_contractprobe) {
     setDefaultTemplate(_openNFTs);
   }
 
-  function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
-    bytes4[] memory iface = new bytes4[](4);
-    iface[ERC721] = ERC721Sig;
-    iface[ERC721Metadata] = ERC721MetadataSig;
-    iface[ERC721Enumerable] = ERC721EnumerableSig;
-    iface[OpenNFTs] = OpenNFTsSig;
-    bool[] memory supportInterface = nft.getSupportedInterfaces(iface);
-
-    if (supportInterface[ERC721]) {
-      nftData.nft = nft;
-
-      if (supportInterface[ERC721Metadata]) {
-        nftData.name = IERC721Metadata(nft).name();
-        nftData.symbol = IERC721Metadata(nft).symbol();
-      }
-
-      if (owner == address(0)) {
-        if (supportInterface[ERC721Enumerable]) {
-          nftData.balance = IERC721Enumerable(nft).totalSupply();
-        }
-      } else {
-        nftData.balance = IERC721(nft).balanceOf(owner);
-      }
-
-      if (supportInterface[OpenNFTs]) {
-        nftData.owner = IOpenNFTs(nft).owner();
-      }
-    }
+  function withdrawEther() external onlyOwner {
+    (bool succeed, ) = msg.sender.call{value: address(this).balance}("");
+    require(succeed, "Failed to withdraw Ether");
   }
 
   function balancesOf(address owner) external view returns (NftData[] memory nftData) {
@@ -72,14 +47,39 @@ contract NFTsFactory is CloneFactory {
 
   function clone(string memory _name, string memory _symbol) public returns (address clone_) {
     clone_ = _clone();
-    require(clone_.supportsInterface(OpenNFTsSig), "Clone is not Open NFTs contract");
+    require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
     IOpenNFTs(clone_).initialize(_name, _symbol);
     IOpenNFTs(clone_).transferOwnership(msg.sender);
   }
 
-  function withdrawEther() external onlyOwner {
-    (bool succeed, ) = msg.sender.call{value: address(this).balance}("");
-    require(succeed, "Failed to withdraw Ether");
+  function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
+    bytes4[] memory iface = new bytes4[](4);
+    iface[ERC721] = ERC721_SIG;
+    iface[ERC721_METADATA] = ERC721_METADATA_SIG;
+    iface[ERC721_ENUMERABLE] = ERC721_ENUMERABLE_SIG;
+    iface[OPEN_NFTS] = OPEN_NFTS_SIG;
+    bool[] memory supportInterface = nft.getSupportedInterfaces(iface);
+
+    if (supportInterface[ERC721]) {
+      nftData.nft = nft;
+
+      if (supportInterface[ERC721_METADATA]) {
+        nftData.name = IERC721Metadata(nft).name();
+        nftData.symbol = IERC721Metadata(nft).symbol();
+      }
+
+      if (owner == address(0)) {
+        if (supportInterface[ERC721_ENUMERABLE]) {
+          nftData.balance = IERC721Enumerable(nft).totalSupply();
+        }
+      } else {
+        nftData.balance = IERC721(nft).balanceOf(owner);
+      }
+
+      if (supportInterface[OPEN_NFTS]) {
+        nftData.owner = IOpenNFTs(nft).owner();
+      }
+    }
   }
 }

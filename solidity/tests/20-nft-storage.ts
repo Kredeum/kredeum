@@ -1,12 +1,11 @@
-// npx mocha nft-storage.mjs
 import { expect } from "chai";
-import Ipfs from "../../lib/kipfs";
 import NftStorage from "../../lib/nft-storage";
 
 import dotenv from "dotenv";
 dotenv.config();
 
 import fetch from "node-fetch";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment,@typescript-eslint/no-explicit-any
 global.fetch = fetch as any;
 
 const txt = "Bonjour le monde";
@@ -17,8 +16,8 @@ const imgCID = "bafkreifhd3etz6mwjjlisuvaxj4crzqsu4d36ggp5jkhv4i7nnqx5pu3bi";
 const jsn = { json: "file" };
 const jsnCID = "bafkreidnojnd2xzyjtlim2v5wmbnokqdzkjt4hgedzutwucxnutsht3gmy";
 
-describe("NftStorage", async function () {
-  describe("Add Text", async function () {
+describe("NftStorage", function () {
+  describe("Add Text", function () {
     it("Add text should return given CID", async function () {
       const nftStorage = new NftStorage(key);
       expect(await nftStorage.pin(txt)).to.be.equal(txtCID);
@@ -30,14 +29,14 @@ describe("NftStorage", async function () {
     });
   });
 
-  describe("Add Image", async function () {
+  describe("Add Image", function () {
     it("Add image should return given CID", async function () {
       const nftStorage = new NftStorage(key);
       expect(await nftStorage.pinUrl(imgUrl)).to.be.equal(imgCID);
     });
   });
 
-  describe("Add Json", async function () {
+  describe("Add Json", function () {
     it("Add json should return given CID", async function () {
       const nftStorage = new NftStorage(key);
       expect(await nftStorage.pinJson(jsn)).to.be.equal(jsnCID);

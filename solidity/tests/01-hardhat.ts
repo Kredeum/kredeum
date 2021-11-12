@@ -11,7 +11,7 @@ describe("HardHat environment", function () {
     expect(accounts.length).to.be.gt(0);
   });
 
-  it("Should get network name", async function () {
+  it("Should get network name", function () {
     expect(network.name).to.be.equal(hardhatArguments.network || config.defaultNetwork);
   });
 

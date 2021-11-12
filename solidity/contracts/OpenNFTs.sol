@@ -34,21 +34,6 @@ contract OpenNFTs is
     return newItemId;
   }
 
-  function _beforeTokenTransfer(
-    address from,
-    address to,
-    uint256 tokenId
-  ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-    super._beforeTokenTransfer(from, to, tokenId);
-  }
-
-  function _burn(uint256 tokenId)
-    internal
-    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-  {
-    super._burn(tokenId);
-  }
-
   function tokenURI(uint256 tokenId)
     public
     view
@@ -66,5 +51,20 @@ contract OpenNFTs is
   {
     return interfaceId == type(IOpenNFTs).interfaceId || super.supportsInterface(interfaceId);
     // return super.supportsInterface(interfaceId);
+  }
+
+  function _beforeTokenTransfer(
+    address from,
+    address to,
+    uint256 tokenId
+  ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+    super._beforeTokenTransfer(from, to, tokenId);
+  }
+
+  function _burn(uint256 tokenId)
+    internal
+    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
+  {
+    super._burn(tokenId);
   }
 }

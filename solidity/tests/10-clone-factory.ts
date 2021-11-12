@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import type { Signer, BigNumber } from "ethers";
+import type { Signer } from "ethers";
 import type { CloneFactory } from "../artifacts/types/CloneFactory";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
@@ -30,7 +30,7 @@ describe("Clone Factory contract", function () {
   });
 
   describe("Setup", function () {
-    it("Should deploy", async function () {
+    it("Should deploy", function () {
       expect(cloneFactory.address).to.be.properAddress;
     });
 

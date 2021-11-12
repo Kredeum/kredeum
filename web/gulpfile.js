@@ -8,16 +8,15 @@ const imagemin = require("gulp-imagemin");
 const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");
-const rename = require("gulp-rename");
-const sass = require("gulp-sass");
+const sass = require("gulp-sass")(require("sass"));
 const uglify = require("gulp-uglify");
-const log = require("fancy-log");
 const sourcemaps = require("gulp-sourcemaps");
-const util = require("gulp-util");
-const gulpif = require("gulp-if");
+const noop = require("gulp-noop");
+const dotenv = require("dotenv");
+dotenv.config();
 
 var config = {
-  production: !!util.env.production
+  production: process.env.ENVIR == "PROD"
 };
 
 // Clean assets
@@ -57,24 +56,38 @@ function images() {
 function css() {
   return gulp
     .src("./src/scss/**/*.scss")
-    .pipe(!config.production ? sourcemaps.init() : util.noop())
+    .pipe(!config.production ? sourcemaps.init() : noop())
     .pipe(plumber())
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
-    .pipe(gulp.dest("./app/assets/css/"));
+    .pipe(gulp.dest("./app/assets/css/"))
+    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/css/"));
 }
 
 function fonts() {
-  return gulp.src(["./src/fonts/**/*"]).pipe(gulp.dest("./app/assets/fonts/"));
+  return gulp
+    .src(["./src/fonts/**/*"])
+    .pipe(gulp.dest("./app/assets/fonts/"))
+    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/fonts/"));
+}
+
+// Transpile, concatenate and minify scripts
+function scripts() {
+  return gulp
+    .src(["./src/js/**/*"])
+    .pipe(plumber())
+    .pipe(!config.production ? uglify().on("error", swallow) : noop())
+    .pipe(gulp.dest("./app/assets/js/"));
 }
 
 // Watch files
 function watchFiles() {
   gulp.watch("./src/scss/**/*", css);
+  gulp.watch("./src/js/**/*", gulp.series(scripts));
 }
 
-const build = gulp.series(clean, gulp.parallel(css, images), fonts);
+const build = gulp.series(clean, gulp.parallel(css, images, scripts), fonts);
 const watch = gulp.parallel(watchFiles);
 
 exports.images = images;

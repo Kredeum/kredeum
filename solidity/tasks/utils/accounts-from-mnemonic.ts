@@ -13,7 +13,7 @@ task("accounts-from-mnemonic", "prints the first few accounts of a mnemonic")
     const { mnemonic } = taskArgs;
 
     if (!mnemonic) {
-      throw new Error(`Missing task argument --mnemonic `);
+      throw new Error("Missing task argument --mnemonic ");
     }
     const masterKey = await Promise.resolve(ethers.utils.HDNode.fromMnemonic(mnemonic));
 

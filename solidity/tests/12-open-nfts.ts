@@ -4,7 +4,6 @@ import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 describe("Open NFTs contract", function () {
   let openNFTs: OpenNFTs;
-  let owner: string;
   const txOptions = {
     maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
@@ -16,7 +15,6 @@ describe("Open NFTs contract", function () {
   before(async () => {
     const chainId = (await ethers.provider.getNetwork()).chainId;
     const signer = await ethers.getNamedSigner("deployer");
-    owner = signer.address;
 
     if (chainId === 31337) {
       await deployments.fixture(["OpenNFTs"]);
@@ -27,7 +25,7 @@ describe("Open NFTs contract", function () {
     await (await openNFTs.mintNFT(artist, "", txOptions)).wait();
   });
 
-  it("Should get sighash", async function () {
+  it("Should get sighash", function () {
     expect(openNFTs.interface.getSighash("balanceOf")).to.be.equal("0x70a08231");
   });
 
@@ -39,7 +37,7 @@ describe("Open NFTs contract", function () {
     expect(await openNFTs.symbol()).to.be.equal(rsymbol);
     expect(await openNFTs.name()).to.be.equal(rname);
 
-    expect(openNFTs.initialize(rname, rsymbol)).to.be.revertedWith(
+    void expect(openNFTs.initialize(rname, rsymbol)).to.be.revertedWith(
       "Initializable: contract is already initialized"
     );
   });

@@ -1,10 +1,10 @@
-import { getExplorer, getOpenSea, nftUrl } from "./kconfig";
+import { getExplorer, getOpenSea, getOpenNFTsAddress, nftUrl } from "./kconfig";
 import type { Collection, Nft } from "./kconfig";
 
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
 
-const ipfsReplace = (url: string = ""): string => {
+const ipfsReplace = (url = ""): string => {
   url = url.replace("ipfs://ipfs/", ipfsGateway);
   url = url.replace("ipfs://", ipfsGateway);
   url = url.replace("https://gateway.pinata.cloud/ipfs/", ipfsGateway);
@@ -15,11 +15,13 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toLowerCase();
 
 const numberToHexString = (num: number): string => `0x${num.toString(16)}`;
-const textShort = (s: string = "", n: number = 16, p: number = 0): string => {
+const textShort = (s = "", n = 16, p?: number): string => {
+  p = p === undefined ? n : p;
   const l = s?.toString().length;
   return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
 };
-const addressShort = (a: string = ""): string => textShort(a, 8, 8);
+const addressShort = (a = "", n = 8): string =>
+  a.endsWith(".eth") ? textShort(a, 2 * n, 0) : textShort(a, n, n);
 
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" target="_blank">${label || url}</a>`;
@@ -34,23 +36,29 @@ const explorerUrl = (chainId: number, path: string): string =>
   getExplorer(chainId) + "/" + path.replace(/^\//, "");
 const explorerLink = (chainId: number, path: string, label: string): string =>
   urlToLink(explorerUrl(chainId, path), label);
+const explorerAddressUrl = (chainId: number, address: string): string =>
+  explorerUrl(chainId, `/address/${address}`);
 const explorerAddressLink = (chainId: number, address: string): string =>
   explorerLink(chainId, `/address/${address}`, addressShort(address));
+const explorerTxUrl = (chainId: number, tx: string): string => explorerUrl(chainId, `/tx/${tx}`);
 const explorerTxLink = (chainId: number, tx: string): string =>
-  explorerLink(chainId, `/tx/${tx}`, addressShort(tx));
+  urlToLink(explorerTxUrl(chainId, tx), addressShort(tx));
 
 // COLLECTION helpers
-const collectionName = (collection: Collection): string => collection.name || "No name";
-const collectionSymbol = (collection: Collection): string => collection.symbol || "NFT";
-const collectionOpenSeaLink = (chainId: number, collAddress: string): string =>
-  getOpenSea(chainId)?.kredeum;
+const collectionName = (collection: Collection): string => collection?.name || "No name";
+const collectionSymbol = (collection: Collection): string => collection?.symbol || "NFT";
+const collectionOpenSeaLink = (chainId: number): string => getOpenSea(chainId)?.kredeum;
 
-const explorerCollectionLink = (chainId: number, collAddress: string): string =>
-  urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
 const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
     ? explorerUrl(chainId, `/collection/${collAddress}/tokens`)
     : explorerUrl(chainId, `/token/${collAddress}`);
+const explorerCollectionLink = (chainId: number, collAddress: string): string =>
+  urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
+const explorerOpenNFTsUrl = (chainId: number): string => {
+  console.log("getOpenNFTsAddress(chainId)", chainId, getOpenNFTsAddress(chainId));
+  return explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
+};
 
 const explorerCollectionInventoryLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
@@ -68,15 +76,17 @@ const nftsSupplyAndName = (nfts: Array<Nft>, collection: Collection): string =>
 // NFT helpers
 const nftExplorerLink = (nft: Nft): string =>
   urlToLink(explorerNftUrl(nft.chainId, nft), nftUrl(nft.chainId, nft.collection, nft.tokenID));
-const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.tokenID}`;
-const nftDescription = (nft: Nft): string =>
-  (nft.name != nft.description && nft.description) || nftName(nft);
-const nftDescriptionShort = (nft: Nft): string => textShort(nftDescription(nft), 140);
 const nftImageLink = (nft: Nft): string => ipfsReplace(nft.image);
+
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   const openSea = getOpenSea(chainId);
   return `${openSea?.assets}/${nft.collection}/${nft.tokenID}`;
 };
+
+const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.tokenID}`;
+const nftDescription = (nft: Nft): string =>
+  (nft.name != nft.description && nft.description) || nftName(nft);
+const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 
 const explorerNftUrl = (chainId: number, nft: Nft): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
@@ -98,6 +108,7 @@ export {
   collectionName,
   collectionSymbol,
   collectionOpenSeaLink,
+  nftUrl,
   nftImageLink,
   nftDescription,
   nftDescriptionShort,
@@ -105,8 +116,11 @@ export {
   nftName,
   nftsSupplyAndName,
   nftOpenSeaUrl,
+  explorerOpenNFTsUrl,
   explorerLink,
+  explorerAddressUrl,
   explorerAddressLink,
+  explorerTxUrl,
   explorerTxLink,
   explorerCollectionInventoryUrl,
   explorerCollectionInventoryLink,

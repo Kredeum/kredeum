@@ -45,10 +45,10 @@
 <div id="kredeum-select-collection">
   {#if Collections}
     {#if Collections.length > 0}
-      <select bind:value="{collectionAddress}">
+      <select bind:value={collectionAddress}>
         <option value="">Choose Collection</option>
         {#each Collections as coll}
-          <option value="{utils.getAddress(coll.address)}">
+          <option value={utils.getAddress(coll.address)}>
             {collectionNameAndTotalSupply(coll)}
           </option>
         {/each}

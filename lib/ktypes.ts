@@ -50,7 +50,7 @@ type Nft = {
   name?: string;
   contractName?: string;
   description?: string;
-  metadata?: any;
+  metadata?: unknown;
   image?: string;
   ipfs?: string;
   origin?: string;

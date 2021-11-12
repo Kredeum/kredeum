@@ -1,8 +1,6 @@
 module.exports = {
   extends: "solhint:recommended",
-  plugins: ["prettier"],
   rules: {
-    "prettier/prettier": "warn",
     "code-complexity": ["error", 10],
     "function-max-lines": ["error", 60],
     "max-line-length": ["error", 120],
@@ -32,7 +30,7 @@ module.exports = {
     "avoid-throw": "error",
     "avoid-tx-origin": "off",
     "check-send-result": "error",
-    "compiler-version": ["error", ">=0.6.0"],
+    "compiler-version": ["error", ">=0.4.23"],
     "mark-callable-contracts": "off",
     "func-visibility": ["error", { ignoreConstructors: true }],
     "multiple-sends": "error",
@@ -41,6 +39,6 @@ module.exports = {
     "not-rely-on-block-hash": "error",
     reentrancy: "error",
     "state-visibility": "error",
-    "not-rely-on-time": "off",
-  },
+    "not-rely-on-time": "off"
+  }
 };

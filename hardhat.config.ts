@@ -40,7 +40,10 @@ const config: HardhatUserConfig = {
       //   blockNumber: 18000000
       // },
       accounts: [
-        { privateKey: process.env.PRIVATE_KEY_TEST_1 || "", balance: "100000000000000000000" },
+        {
+          privateKey: process.env.PRIVATE_KEY_TEST_1 || "",
+          balance: "100000000000000000000"
+        },
         { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
       ]
     },
@@ -50,7 +53,7 @@ const config: HardhatUserConfig = {
     },
     fantom: {
       chainId: 250,
-      url: `https://rpcapi.fantom.network`,
+      url: "https://rpcapi.fantom.network",
       accounts
     },
     mainnet: {
@@ -69,7 +72,7 @@ const config: HardhatUserConfig = {
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       // url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts,
-      gasPrice: 20000000000
+      gasPrice: 20_000_000_000
     },
     goerli: {
       chainId: 5,
@@ -83,7 +86,7 @@ const config: HardhatUserConfig = {
     },
     bsc: {
       chainId: 56,
-      url: `https://bsc-dataseed1.binance.org`,
+      url: "https://bsc-dataseed1.binance.org",
       accounts
     },
     matic: {
@@ -91,7 +94,7 @@ const config: HardhatUserConfig = {
       url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       // url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       accounts,
-      gasPrice: 50000000000
+      gasPrice: 50_000_000_000
     },
     avalanche: {
       chainId: 43114,
@@ -108,7 +111,7 @@ const config: HardhatUserConfig = {
       url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       accounts,
-      gasPrice: 20000000000
+      gasPrice: 20_000_000_000
     },
     optimism: {
       chainId: 10,
@@ -133,7 +136,7 @@ const config: HardhatUserConfig = {
       // url: "https://rinkeby.arbitrum.io/rpc",
       // url: `https://arb-rinkeby.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       accounts,
-      gasPrice: 20000000000
+      gasPrice: 20_000_000_000
     }
   },
   etherscan: {
@@ -169,8 +172,8 @@ const config: HardhatUserConfig = {
     artifacts: "solidity/artifacts"
   },
   mocha: {
-    timeout: 200000,
-    bail: true
+    timeout: 200_000,
+    bail: false
   }
 };
 

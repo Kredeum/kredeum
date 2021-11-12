@@ -1,15 +1,14 @@
-// npx mocha --experimental-json-modules 2-mint.mjs
-import { utils } from "ethers";
-import { ethers, deployments } from "hardhat";
+
 import { expect } from "chai";
-import { networks, getProvider, getNetwork } from "../../lib/kconfig";
+import { networks, getProvider } from "../../lib/kconfig";
 
 import type { Network } from "../../lib/kconfig";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 import { config } from "dotenv";
-import { SSL_OP_DONT_INSERT_EMPTY_FRAGMENTS } from "constants";
+import hre from "hardhat";
+const { ethers, deployments } = hre;
 config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -25,14 +24,19 @@ describe("NFT Mint", function () {
     let provider: Provider | undefined;
     let chainId: number;
     let chainName: string;
+    let live: boolean;
 
     before(async () => {
-      ({ chainId, name: chainName } = await ethers.provider.getNetwork());
+      chainId = Number(await hre.getChainId());
+      chainName = hre.network.name;
+      live = hre.network.live;
+      console.log("network", chainName, chainId, live);
+
       network = networks.find((nw) => nw.chainId === chainId);
     });
 
     it("Should find Network", function () {
-      expect(network?.chainName).to.be.string;
+      expect(network?.chainId).to.be.equal(chainId);
     });
 
     it("Should find Chain Explorer", function () {
@@ -50,7 +54,7 @@ describe("NFT Mint", function () {
       }
     });
 
-    it("Should get Signer", async function () {
+    it("Should get Signer", function () {
       const signer = new ethers.Wallet(process.env.ACCOUNT_KEY || "", provider);
       expect(signer._isSigner).to.be.true;
     });
@@ -71,7 +75,7 @@ describe("NFT Mint", function () {
       // console.log(await openNFTs.name());
     });
 
-    it("Should init Contract", async function () {
+    it("Should init Contract", function () {
       expect(Boolean(openNFTs)).to.be.true;
     });
     it("Should get Contract Name", async function () {
@@ -87,11 +91,11 @@ describe("NFT Mint", function () {
 
     it("Should Mint one Token", async function () {
       this.timeout(50000);
-      const totalSupply = (await openNFTs?.totalSupply()).toNumber();
+      const totalSupply = (await openNFTs.totalSupply()).toNumber();
       const tx = await openNFTs.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
-      const totalSupply1 = (await openNFTs?.totalSupply()).toNumber();
+      const totalSupply1 = (await openNFTs.totalSupply()).toNumber();
       expect(totalSupply1).to.be.equal(totalSupply + 1);
     });
   });

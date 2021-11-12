@@ -1,10 +1,16 @@
 @import '_variables';
 
-main {
-    .content {
-        header {
-            h1 {
-                margin-bottom: 0;
+.steps {
+    li {
+        display: flex;
+        align-items: center;
+
+        .flex {
+            flex: 0 0 auto;
+            width: 50%;
+
+            & + .flex {
+                text-align: right;
             }
         }
     }

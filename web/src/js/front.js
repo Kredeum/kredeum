@@ -16,10 +16,6 @@
         }
         var tableDrop = this.parentNode.getAttribute('id');
 
-        /*for (i = 0; i < accItem.length; i++) {
-            accItem[i].className = "table-row table-drop closed";
-        }*/
-
         this.parentNode.className = "table-row table-drop closed";
 
         if (itemClass == "table-row table-drop closed") {

@@ -1,4 +1,10 @@
-const multipart = (parts: Array<any>, boundary: string): string => {
+type Part = {
+  type: string;
+  name: string;
+  content: string;
+};
+
+const multipart = (parts: Array<Part>, boundary: string): string => {
   let ret = "";
 
   parts.forEach((part) => {
@@ -17,8 +23,6 @@ const multipart = (parts: Array<any>, boundary: string): string => {
       disp = `Content-Disposition: form-data; name=file; filename=${name}\r\n`;
     } else if (type == "json") {
       ret += "Content-Type: application/json\r\n";
-    } else if (type == "text") {
-      ret += "Content-Type: text/plain\r\n";
     } else if (type == "html") {
       ret += "Content-Type: text/html\r\n";
     }

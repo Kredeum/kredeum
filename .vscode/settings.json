@@ -42,9 +42,25 @@
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
-  "liveServer.settings.root": "/app",
+  "liveServer.settings.root": "/web/app",
   "search.exclude": {
     "**/lib/js": true
   },
-  "workbench.editor.decorations.colors": false
+  "workbench.editor.decorations.colors": false,
+  "eslint.alwaysShowStatus": true,
+  "eslint.lintTask.enable": true,
+  "eslint.onIgnoredFiles": "warn",
+  "eslint.packageManager": "pnpm",
+  "eslint.probe": [
+    "javascript",
+    "javascriptreact",
+    "typescript",
+    "typescriptreact",
+    "html",
+    "vue",
+    "markdown",
+    "svelte"
+  ],
+  "eslint.run": "onSave",
+  "eslint.useESLintClass": true
 }

@@ -56,12 +56,10 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function () {
-      wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
-      wp_register_style( 'kredeum_nft1', plugin_dir_url( __FILE__ ) . 'lib/css/front.css' );
-      wp_enqueue_style( 'kredeum_nft1' );
-      wp_register_style( 'kredeum_nft2', plugin_dir_url( __FILE__ ) . 'lib/css/bundle.css' );
-      wp_enqueue_style( 'kredeum_nft2' );
-    },
+			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
+			wp_register_style( 'kredeum_nft_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
+			wp_enqueue_style( 'kredeum_nft_css' );
+		},
 		110
 	);}
 
@@ -70,9 +68,9 @@ define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
 define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
 define( 'DEFAULT_COLLECTION', get_option( 'DEFAULT_COLLECTION', '' ) );
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/cid.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/link.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'lib/ipfs/links.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
 // require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 
 add_action(
