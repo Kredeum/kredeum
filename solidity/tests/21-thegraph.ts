@@ -14,6 +14,8 @@ const imgCID = "Qmdzo9j2hH75iRuGRP61BQEwj7WF1p5EtJxChz7b7W3aBc";
 describe("TheGraph : Add Json", () => {
   it("Add Image should return given CID", async () => {
     const theGraph = new Ipfs(theGraphEndpoint);
-    expect(await theGraph.addUrl(imgUrl)).to.be.equal(imgCID);
+    const cid = await theGraph.addUrl(imgUrl);
+    console.log(cid);
+    expect(cid).to.be.equal(imgCID);
   });
 });

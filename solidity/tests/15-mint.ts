@@ -1,5 +1,4 @@
 
-import { ethers, deployments } from "hardhat";
 import { expect } from "chai";
 import { networks, getProvider } from "../../lib/kconfig";
 
@@ -8,6 +7,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 import { config } from "dotenv";
+import hre from "hardhat";
+const { ethers, deployments } = hre;
 config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
@@ -23,14 +24,19 @@ describe("NFT Mint", function () {
     let provider: Provider | undefined;
     let chainId: number;
     let chainName: string;
+    let live: boolean;
 
     before(async () => {
-      ({ chainId, name: chainName } = await ethers.provider.getNetwork());
+      chainId = Number(await hre.getChainId());
+      chainName = hre.network.name;
+      live = hre.network.live;
+      console.log("network", chainName, chainId, live);
+
       network = networks.find((nw) => nw.chainId === chainId);
     });
 
     it("Should find Network", function () {
-      expect(network?.chainName).to.be.equal(chainName);
+      expect(network?.chainId).to.be.equal(chainId);
     });
 
     it("Should find Chain Explorer", function () {

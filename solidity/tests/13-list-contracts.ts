@@ -13,6 +13,7 @@ import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
 import { getNetwork, Network } from "../../lib/kconfig";
 
 import hre from "hardhat";
+import { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
 const { ethers, deployments } = hre;
 
 describe("List contracts lib", function () {
@@ -29,16 +30,19 @@ describe("List contracts lib", function () {
   let network: string;
   let chainId: number;
   let live: boolean;
+  let signer: SignerWithAddress;
 
-  beforeEach(async () => {
-    const signer = await ethers.getNamedSigner("deployer");
+  before(async () => {
+    signer = await ethers.getNamedSigner("deployer");
     owner = signer.address;
 
     network = hre.network.name;
     chainId = Number(await hre.getChainId());
     live = hre.network.live;
     console.log("network", network, chainId, live);
+  });
 
+  beforeEach(async () => {
     configNetwork = getNetwork(chainId);
     if (chainId === 31337) {
       await deployments.fixture(["NFTsFactory"]);
@@ -70,14 +74,18 @@ describe("List contracts lib", function () {
   });
 
   it("List with NFTsFactory", async function () {
-    console.log((await nftsFactory.implementationsCount()).toString());
-    console.log(await nftsFactory.balancesOf(owner));
-    console.log(await listCollectionsFromFactory(chainId, owner, ethers.provider));
-    // expect((await listCollectionsFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
+    if (chainId !== 31337) {
+      console.log((await nftsFactory.implementationsCount()).toString());
+      console.log(await nftsFactory.balancesOf(owner));
+      console.log(await listCollectionsFromFactory(chainId, owner, ethers.provider));
+      expect((await listCollectionsFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
+    }
   });
 
   it("List with default method", async function () {
-    expect((await listCollections(chainId, artist, ethers.provider)).length).to.be.gte(1);
+    if (chainId !== 31337) {
+      expect((await listCollections(chainId, artist, ethers.provider)).length).to.be.gte(1);
+    }
   });
 
   it("List with The Graph", async function () {

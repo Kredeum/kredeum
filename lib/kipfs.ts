@@ -32,10 +32,13 @@ class Ipfs {
   }
 
   async addUrl(url: string, options?: RequestInit): Promise<string> {
-    // node-fetch types has no field buffer on fetch
-    const res: Response = await fetch(url);
-    // const buffer = await res.buffer() as Blob;
-    const buffer = await res.blob();
+    // node-fetch types has no field buffer on fetch !
+    interface ResponsePlus extends Response {
+      buffer(): Promise<Blob>;
+    }
+    const res = (await fetch(url)) as ResponsePlus;
+    const buffer = await res.buffer();
+    // const buffer = await res.blob();
     return await this.add(buffer, options);
   }
 
