@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { Signer } from "ethers";
-  import type { Collection } from "../lib/kconfig";
+  import type { Collection } from "lib/kconfig";
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import { getNetwork } from "../lib/kconfig";
-  import { explorerCollectionUrl } from "../lib/knfts";
+  import { getNetwork } from "lib/kconfig";
+  import { explorerCollectionUrl } from "lib/knfts";
 
   let collection: Collection;
   let address: string;

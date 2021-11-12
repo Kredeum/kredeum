@@ -2,12 +2,12 @@
   import type { Signer } from "ethers";
   import type { EthereumProvider } from "hardhat/types";
   import type { Web3Provider, Provider } from "@ethersproject/providers";
-  import type { Network } from "../lib/kconfig";
+  import type { Network } from "lib/kconfig";
 
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
-  import { getNetwork, getEnsName, networks } from "../lib/kconfig";
+  import { getNetwork, getEnsName, networks } from "lib/kconfig";
   import {
     addressShort,
     textShort,
@@ -15,7 +15,7 @@
     explorerAddressLink,
     explorerAddressUrl,
     explorerOpenNFTsUrl
-  } from "../lib/knfts";
+  } from "lib/knfts";
 
   export let signer: Signer;
   export let address: string;

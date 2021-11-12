@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { nftExplorerLink } from "../lib/knfts";
+  import { nftExplorerLink } from "lib/knfts";
   import type { Signer } from "ethers";
-  import type { Nft } from "../lib/ktypes";
-  import type { Collection } from "../lib/kconfig";
+  import type { Nft } from "lib/ktypes";
+  import type { Collection } from "lib/kconfig";
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
-  import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "../lib/kmint";
+  import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
   import {
     textShort,
     addressShort,
@@ -14,8 +14,8 @@
     explorerTxUrl,
     explorerNftUrl,
     nftName
-  } from "../lib/knfts";
-  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "../lib/open-nfts";
+  } from "lib/knfts";
+  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/open-nfts";
   import { onMount } from "svelte";
 
   export let chainId: number = undefined;

@@ -17,11 +17,13 @@ const getNFTsFactory = (chainId: number, _providerOrSigner?: Signer | Provider):
 
   _providerOrSigner = _providerOrSigner || getProvider(chainId);
 
-  const nftsFactory = new Contract(
-    network?.nftsFactory || "",
-    abis.CloneFactory.concat(abis.NFTsFactory),
-    _providerOrSigner
-  ) as NFTsFactory;
+  const nftsFactory =
+    network?.nftsFactory &&
+    (new Contract(
+      network?.nftsFactory,
+      abis.CloneFactory.concat(abis.NFTsFactory),
+      _providerOrSigner
+    ) as NFTsFactory);
 
   return nftsFactory;
 };

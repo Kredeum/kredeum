@@ -1,11 +1,11 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import type { Signer } from "ethers";
-  import type { Collection } from "../lib/kconfig";
-  import { getChainName } from "../lib/kconfig";
+  import type { Collection } from "lib/kconfig";
+  import { getChainName } from "lib/kconfig";
 
-  import { listCollections, listCollectionsFromCache } from "../lib/nfts-factory";
-  import { collectionName } from "../lib/knfts";
+  import { listCollections, listCollectionsFromCache } from "lib/nfts-factory";
+  import { collectionName } from "lib/knfts";
   import { utils } from "ethers";
   let collectionAddress: string;
   let Collections: Array<Collection>;

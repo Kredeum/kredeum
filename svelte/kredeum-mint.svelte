@@ -1,15 +1,15 @@
 <script lang="ts">
   import type { Signer } from "ethers";
-  import type { Nft } from "../lib/ktypes";
+  import type { Nft } from "lib/ktypes";
 
-  import { mintImage } from "../lib/kmint";
+  import { mintImage } from "lib/kmint";
 
   import Metamask from "./kredeum-metamask.svelte";
   import { createEventDispatcher } from "svelte";
   import { getNetwork, Network } from "lib/kconfig";
   const dispatch = createEventDispatcher();
 
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "../lib/knfts";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
 
   export let key: string;
   export let alt: string;

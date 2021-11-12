@@ -1,16 +1,20 @@
+import { RollupOptions, Plugin } from "rollup";
 import svelte from "rollup-plugin-svelte";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
-import css from "rollup-plugin-css-only";
-import builtins from "rollup-plugin-node-builtins";
 import replace from "@rollup/plugin-replace";
+import _css from "rollup-plugin-css-only";
+import _builtins from "rollup-plugin-node-builtins";
 
 import typescript from "@rollup/plugin-typescript";
 import autoPreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
+
+const builtins = _builtins as { (): Plugin };
+const css = _css as { (Options): Plugin };
 
 if (process.env.ENVIR === undefined) {
   dotenv.config();
@@ -31,10 +35,10 @@ const envKeys = () => {
   );
 };
 
-const toRollupConfig = function (component) {
+const toRollupConfig = function (component: string): RollupOptions {
   return {
     // input: `svelte/${component}.svelte`,
-    input: "svelte/main.js",
+    input: ["svelte/main.js"],
     output: [
       {
         sourcemap: !production,
@@ -53,7 +57,7 @@ const toRollupConfig = function (component) {
       svelte({
         preprocess: [autoPreprocess({})],
         compilerOptions: {
-          // customElement: true,
+          customElement: false,
           dev: !production
         }
       }),
@@ -62,7 +66,7 @@ const toRollupConfig = function (component) {
         preventAssignment: true,
         values: envKeys()
       }),
-      typescript({ sourceMap: !production }),
+      typescript({ sourceMap: !production, inlineSources: !production }),
       nodeResolve({
         browser: true,
         dedupe: ["svelte"],
@@ -76,7 +80,7 @@ const toRollupConfig = function (component) {
     watch: {
       clearScreen: false
     },
-    onwarn: function (warning) {
+    onwarn: function (warning: { code: string; message: string }): void {
       if (warning.code === "THIS_IS_UNDEFINED" || warning.code === "CIRCULAR_DEPENDENCY") {
         return;
       }

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { Collection, getNetwork, Network, Nft } from "../lib/kconfig";
+  import { Collection, getNetwork, Network, Nft } from "lib/kconfig";
   import {
     sleep,
     collectionName,
@@ -16,10 +16,10 @@
     addressShort,
     explorerNftUrl,
     nftUrl
-  } from "../lib/knfts";
+  } from "lib/knfts";
 
-  import { nftsUrl } from "../lib/kconfig";
-  import { listNFTs, listNFTsFromCache } from "../lib/open-nfts";
+  import { nftsUrl } from "lib/kconfig";
+  import { listNFTs, listNFTsFromCache } from "lib/open-nfts";
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
