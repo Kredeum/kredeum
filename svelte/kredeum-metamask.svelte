@@ -187,7 +187,8 @@
         class="info-button"
         href={explorerAddressUrl(chainId, address)}
         target="_blank"
-        title={address}><i class="fas fa-info-circle" /></a
+        title="&#009;Account address (click to view account in explorer )&#013;{address}"
+        ><i class="fas fa-info-circle" /></a
       >
     </span>
     <div class="form-field">
@@ -211,7 +212,8 @@
       class="info-button"
       href={explorerOpenNFTsUrl(chainId)}
       target="_blank"
-      title={chainId?.toString()}><i class="fas fa-info-circle" /></a
+      title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
+      ><i class="fas fa-info-circle" /></a
     >
   </span>
   <div class="select-wrapper select-network">

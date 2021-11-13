@@ -38,19 +38,21 @@ const getOpenNFTs = async (
       abis.ERC165,
       _providerOrSigner
     ) as ERC165Upgradeable;
-    let abi = abis.ERC721;
 
-    const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
-    const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
-    const [supportsMetadata, supportsEnumerable] = await Promise.all([
-      waitMetadata,
-      waitEnumerable
-    ]);
-    if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
-    if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
-    abi = abi.concat(abis.KredeumV2);
+    if (checkContract) {
+      const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
+      const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
+      const [supportsMetadata, supportsEnumerable] = await Promise.all([
+        waitMetadata,
+        waitEnumerable
+      ]);
+      let abi = abis.ERC721;
+      if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
+      if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
+      abi = abi.concat(abis.KredeumV2);
 
-    contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
+      contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
+    }
   } catch (e) {
     console.error(`ERROR getOpenNFTs ${collection}\n`, e);
   }
@@ -211,9 +213,9 @@ const listNFTsFromCovalent = async (
       original_owner: string;
     };
     type AnswerNftsCov = {
-      items: [nft_data: NftsCov];
+      items?: [nft_data: NftsCov];
     };
-    const nftsJson: Array<NftsCov> = ((await fetchCov(path)) as AnswerNftsCov).items;
+    const nftsJson: Array<NftsCov> = ((await fetchCov(path)) as AnswerNftsCov)?.items || [];
 
     for (let index = 0, n = 0; index < Math.min(nftsJson.length, _limit); index++) {
       const _token = nftsJson[index];
@@ -312,24 +314,28 @@ const listNFTsFromContract = async (
   const nfts: Array<Nft> = [];
 
   if (chainId && collection) {
-    try {
-      const contract = await getOpenNFTs(chainId, collection, _provider);
-      if (contract) {
-        let nbTokens = 0;
-        if (_owner) {
-          nbTokens = Number(await contract.balanceOf(_owner));
-        } else {
-          nbTokens = contract.totalSupply ? Number(await contract.totalSupply()) : 0;
-        }
-        // console.log("listNFTsFromContract totalSupply", nbTokens);
+    const network = getNetwork(chainId);
 
-        for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
-          nfts[index] = await getNFTFromContract(chainId, contract, index, _owner);
-          // console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
+    if (network.nftsFactory) {
+      try {
+        const contract = await getOpenNFTs(chainId, collection, _provider);
+        if (contract) {
+          let nbTokens = 0;
+          if (_owner) {
+            nbTokens = Number(await contract.balanceOf(_owner));
+          } else {
+            nbTokens = contract.totalSupply ? Number(await contract.totalSupply()) : 0;
+          }
+          // console.log("listNFTsFromContract totalSupply", nbTokens);
+
+          for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
+            nfts[index] = await getNFTFromContract(chainId, contract, index, _owner);
+            // console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
+          }
         }
+      } catch (e) {
+        console.error("OpenNFTs.listNFTsFromContract ERROR", e);
       }
-    } catch (e) {
-      console.error("OpenNFTs.listNFTsFromContract ERROR", e);
     }
   }
 

@@ -6,7 +6,7 @@
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import { getNetwork } from "lib/kconfig";
+  import { getNetwork, nftUrl, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
   let collection: Collection;
@@ -67,7 +67,10 @@
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
-                    title={collection?.address}
+                    title="&#009;Collection address (click to view in explorer )&#013;{nftsUrl(
+                      chainId,
+                      collection?.address
+                    )}"
                     target="_blank"><i class="fas fa-info-circle" /></a
                   >
                 {/if}

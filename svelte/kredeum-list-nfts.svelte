@@ -91,7 +91,10 @@
     <a
       class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
-      title={collection?.address}
+      title="&#009;Collection address (click to view collection in explorer)&#013;{nftsUrl(
+        chainId,
+        collection?.address
+      )}"
       target="_blank"><i class="fas fa-info-circle" /></a
     >
 
@@ -113,6 +116,16 @@
               </div>
               <strong>{nftName(nft)}</strong>
               <span id="description-short-{i}">{nftDescriptionShort(nft, 64)}</span>
+              <a
+                class="info-button"
+                href={nftImageLink(nft)}
+                title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
+                  chainId,
+                  nft.collection,
+                  nft.tokenID
+                )}"
+                target="_blank"><i class="fas fa-info-circle" /></a
+              >
             </div>
           </div>
 
@@ -146,7 +159,11 @@
                 <a
                   class="info-button"
                   href={nftImageLink(nft)}
-                  title={nftDescription(nft)}
+                  title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
+                    chainId,
+                    nft.collection,
+                    nft.tokenID
+                  )}"
                   target="_blank"><i class="fas fa-info-circle" /></a
                 >
               </div>
