@@ -56,6 +56,7 @@
 
       NFTs = await listNFTs(chainId, collection.address, address);
       // console.log("<kredeum-nfts/> refreshNFTs done", NFTs);
+      console.log(NFTs);
       refreshing = false;
     }
   };
@@ -189,6 +190,14 @@
                   <div class="flex"><span class="label">Image CID</span></div>
                   <div class="flex">
                     <a class="link" href={nft.image} target="_blank">{addressShort(nft.cid)}</a>
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Sell button</span></div>
+                  <div class="flex">
+                    <pre>
+                      [kredeum-sell collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum-sell]
+                    </pre>                      
                   </div>
                 </li>
               </ul>

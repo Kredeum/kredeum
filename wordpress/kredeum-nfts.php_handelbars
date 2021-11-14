@@ -48,6 +48,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/shortcode/shortcode.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
 
@@ -57,6 +58,7 @@ if ( is_admin() ) {
 		'admin_enqueue_scripts',
 		function () {
 			wp_enqueue_script( 'kredeum_nft', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
+			wp_enqueue_script( 'kredeum_nft_button', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts-button.js', array(), KREDEUM_NFTS_VERSION, true );
 			wp_register_style( 'kredeum_nft_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
 			wp_enqueue_style( 'kredeum_nft_css' );
 		},
