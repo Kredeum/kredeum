@@ -22,6 +22,8 @@ define( 'KREDEUM_NFTS_VERSION', '{{version.latest}}' );
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/shortcode/shortcode.php';
+
 if ( is_admin() ) {
 	define( 'IPFS_CID_VERSION', '1' );
 	define( 'IPFS_AUTO', get_option( 'IPFS_AUTO', array( '' ) )[0] );
@@ -48,7 +50,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/shortcode/shortcode.php';
+
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
 

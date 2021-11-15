@@ -1,4 +1,5 @@
 <script lang="ts">
+  import Clipboard from "svelte-clipboard";
   import { Collection, getNetwork, Network, Nft } from "../lib/kconfig";
   import {
     sleep,
@@ -193,11 +194,19 @@
                   </div>
                 </li>
                 <li class="complete">
-                  <div class="flex"><span class="label">Sell button</span></div>
+                  <div class="flex"><span class="label">WP NFT Sell button</span></div>
                   <div class="flex">
-                    <pre>
-                      [kredeum-sell collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum-sell]
-                    </pre>                      
+                    <Clipboard
+                      text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]"
+                      let:copy
+                      on:copy={() => {
+                        console.log('Has Copied');
+                      }}>
+                      <button class='btn btn-small btn-sell' on:click={copy}>Copy shortcode</button>
+                    </Clipboard>
+<!--                     <pre>
+                      [kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]
+                    </pre> --> 
                   </div>
                 </li>
               </ul>

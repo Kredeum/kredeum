@@ -2,6 +2,12 @@ var kredeum_nfts = (function () {
     'use strict';
 
     function noop() { }
+    function assign(tar, src) {
+        // @ts-ignore
+        for (const k in src)
+            tar[k] = src[k];
+        return tar;
+    }
     function add_location(element, file, line, column, char) {
         element.__svelte_meta = {
             loc: { file, line, column, char }
@@ -32,6 +38,52 @@ var kredeum_nfts = (function () {
     }
     function is_empty(obj) {
         return Object.keys(obj).length === 0;
+    }
+    function create_slot(definition, ctx, $$scope, fn) {
+        if (definition) {
+            const slot_ctx = get_slot_context(definition, ctx, $$scope, fn);
+            return definition[0](slot_ctx);
+        }
+    }
+    function get_slot_context(definition, ctx, $$scope, fn) {
+        return definition[1] && fn
+            ? assign($$scope.ctx.slice(), definition[1](fn(ctx)))
+            : $$scope.ctx;
+    }
+    function get_slot_changes(definition, $$scope, dirty, fn) {
+        if (definition[2] && fn) {
+            const lets = definition[2](fn(dirty));
+            if ($$scope.dirty === undefined) {
+                return lets;
+            }
+            if (typeof lets === 'object') {
+                const merged = [];
+                const len = Math.max($$scope.dirty.length, lets.length);
+                for (let i = 0; i < len; i += 1) {
+                    merged[i] = $$scope.dirty[i] | lets[i];
+                }
+                return merged;
+            }
+            return $$scope.dirty | lets;
+        }
+        return $$scope.dirty;
+    }
+    function update_slot_base(slot, slot_definition, ctx, $$scope, slot_changes, get_slot_context_fn) {
+        if (slot_changes) {
+            const slot_context = get_slot_context(slot_definition, ctx, $$scope, get_slot_context_fn);
+            slot.p(slot_context, slot_changes);
+        }
+    }
+    function get_all_dirty_from_scope($$scope) {
+        if ($$scope.ctx.length > 32) {
+            const dirty = [];
+            const length = $$scope.ctx.length / 32;
+            for (let i = 0; i < length; i++) {
+                dirty[i] = -1;
+            }
+            return dirty;
+        }
+        return -1;
     }
     function append(target, node) {
         target.appendChild(node);
@@ -167,6 +219,10 @@ var kredeum_nfts = (function () {
             update_scheduled = true;
             resolved_promise.then(flush);
         }
+    }
+    function tick() {
+        schedule_update();
+        return resolved_promise;
     }
     function add_render_callback(fn) {
         render_callbacks.push(fn);
@@ -25692,7 +25748,7 @@ var kredeum_nfts = (function () {
 
     const { console: console_1$2 } = globals;
 
-    const file$5 = "svelte/kredeum-metamask.svelte";
+    const file$6 = "svelte/kredeum-metamask.svelte";
 
     function get_each_context$2(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -25716,11 +25772,11 @@ var kredeum_nfts = (function () {
     			a = element("a");
     			a.textContent = "Connect to Metamask";
     			attr_dev(span, "class", "label");
-    			add_location(span, file$5, 161, 4, 5427);
+    			add_location(span, file$6, 161, 4, 5427);
     			attr_dev(a, "href", ".");
     			attr_dev(a, "class", "btn btn-light btn-metamask");
     			attr_dev(a, "title", "Connect to Metamask");
-    			add_location(a, file$5, 162, 4, 5467);
+    			add_location(a, file$6, 162, 4, 5467);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -25775,19 +25831,19 @@ var kredeum_nfts = (function () {
     			div = element("div");
     			input = element("input");
     			attr_dev(i, "class", "fas fa-info-circle");
-    			add_location(i, file$5, 154, 24, 5249);
+    			add_location(i, file$6, 154, 24, 5249);
     			attr_dev(a, "class", "info-button");
     			attr_dev(a, "href", a_href_value = explorerAddressUrl(/*chainId*/ ctx[1], /*address*/ ctx[0]));
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "title", /*address*/ ctx[0]);
-    			add_location(a, file$5, 150, 6, 5118);
+    			add_location(a, file$6, 150, 6, 5118);
     			attr_dev(span, "class", "label");
-    			add_location(span, file$5, 148, 4, 5077);
+    			add_location(span, file$6, 148, 4, 5077);
     			attr_dev(input, "type", "text");
     			input.value = input_value_value = addressShort(/*nameOrAddress*/ ctx[3], 10);
-    			add_location(input, file$5, 158, 6, 5340);
+    			add_location(input, file$6, 158, 6, 5340);
     			attr_dev(div, "class", "form-field");
-    			add_location(div, file$5, 157, 4, 5309);
+    			add_location(div, file$6, 157, 4, 5309);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -25850,7 +25906,7 @@ var kredeum_nfts = (function () {
     			t1 = space();
     			attr_dev(span, "class", span_class_value = "custom-option " + (/*_network*/ ctx[20].chainId == /*chainId*/ ctx[1] && 'selected'));
     			attr_dev(span, "data-value", /*chainname*/ ctx[4](/*_network*/ ctx[20]));
-    			add_location(span, file$5, 188, 10, 6209);
+    			add_location(span, file$6, 188, 10, 6209);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, span, anchor);
@@ -25887,7 +25943,7 @@ var kredeum_nfts = (function () {
     	return block;
     }
 
-    function create_fragment$5(ctx) {
+    function create_fragment$6(ctx) {
     	let div0;
     	let t0;
     	let div5;
@@ -25947,28 +26003,28 @@ var kredeum_nfts = (function () {
     			}
 
     			attr_dev(div0, "class", "col col-xs-12 col-sm-3");
-    			add_location(div0, file$5, 146, 0, 5020);
+    			add_location(div0, file$6, 146, 0, 5020);
     			attr_dev(i, "class", "fas fa-info-circle");
-    			add_location(i, file$5, 178, 34, 5860);
+    			add_location(i, file$6, 178, 34, 5860);
     			attr_dev(a, "class", "info-button");
     			attr_dev(a, "href", a_href_value = explorerOpenNFTsUrl(/*chainId*/ ctx[1]));
     			attr_dev(a, "target", "_blank");
     			attr_dev(a, "title", a_title_value = /*chainId*/ ctx[1]?.toString());
-    			add_location(a, file$5, 174, 4, 5733);
+    			add_location(a, file$6, 174, 4, 5733);
     			attr_dev(span0, "class", "label");
-    			add_location(span0, file$5, 172, 2, 5677);
+    			add_location(span0, file$6, 172, 2, 5677);
     			attr_dev(span1, "class", span1_class_value = /*chainname*/ ctx[4](/*network*/ ctx[2]));
-    			add_location(span1, file$5, 184, 8, 6026);
+    			add_location(span1, file$6, 184, 8, 6026);
     			attr_dev(div1, "class", "select-trigger");
-    			add_location(div1, file$5, 183, 6, 5989);
+    			add_location(div1, file$6, 183, 6, 5989);
     			attr_dev(div2, "class", "custom-options");
-    			add_location(div2, file$5, 186, 6, 6106);
+    			add_location(div2, file$6, 186, 6, 6106);
     			attr_dev(div3, "class", "select");
-    			add_location(div3, file$5, 182, 4, 5962);
+    			add_location(div3, file$6, 182, 4, 5962);
     			attr_dev(div4, "class", "select-wrapper select-network");
-    			add_location(div4, file$5, 181, 2, 5914);
+    			add_location(div4, file$6, 181, 2, 5914);
     			attr_dev(div5, "class", "col col-xs-12 col-sm-3");
-    			add_location(div5, file$5, 171, 0, 5638);
+    			add_location(div5, file$6, 171, 0, 5638);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -26059,7 +26115,7 @@ var kredeum_nfts = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$5.name,
+    		id: create_fragment$6.name,
     		type: "component",
     		source: "",
     		ctx
@@ -26071,7 +26127,7 @@ var kredeum_nfts = (function () {
     const testnets = true;
     const func = nw => nw.mainnet;
 
-    function instance$5($$self, $$props, $$invalidate) {
+    function instance$6($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Kredeum_metamask', slots, []);
     	let { signer } = $$props;
@@ -26302,7 +26358,7 @@ var kredeum_nfts = (function () {
     	constructor(options) {
     		super(options);
 
-    		init(this, options, instance$5, create_fragment$5, safe_not_equal, {
+    		init(this, options, instance$6, create_fragment$6, safe_not_equal, {
     			signer: 8,
     			address: 0,
     			chainId: 1,
@@ -26313,7 +26369,7 @@ var kredeum_nfts = (function () {
     			component: this,
     			tagName: "Kredeum_metamask",
     			options,
-    			id: create_fragment$5.name
+    			id: create_fragment$6.name
     		});
 
     		const { ctx } = this.$$;
@@ -26609,7 +26665,7 @@ var kredeum_nfts = (function () {
     };
 
     /* svelte/kredeum-select-collection.svelte generated by Svelte v3.44.1 */
-    const file$4 = "svelte/kredeum-select-collection.svelte";
+    const file$5 = "svelte/kredeum-select-collection.svelte";
 
     function get_each_context$1(ctx, list, i) {
     	const child_ctx = ctx.slice();
@@ -26626,7 +26682,7 @@ var kredeum_nfts = (function () {
     		c: function create() {
     			p = element("p");
     			if (if_block) if_block.c();
-    			add_location(p, file$4, 46, 4, 1868);
+    			add_location(p, file$5, 46, 4, 1868);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -26749,8 +26805,8 @@ var kredeum_nfts = (function () {
     			p = element("p");
     			em = element("em");
     			em.textContent = "NO Collection found !";
-    			add_location(em, file$4, 43, 9, 1809);
-    			add_location(p, file$4, 43, 6, 1806);
+    			add_location(em, file$5, 43, 9, 1809);
+    			add_location(p, file$5, 43, 6, 1806);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, p, anchor);
@@ -26799,9 +26855,9 @@ var kredeum_nfts = (function () {
 
     			option.__value = "";
     			option.value = option.__value;
-    			add_location(option, file$4, 35, 8, 1549);
+    			add_location(option, file$5, 35, 8, 1549);
     			if (/*collectionAddress*/ ctx[0] === void 0) add_render_callback(() => /*select_change_handler*/ ctx[7].call(select));
-    			add_location(select, file$4, 34, 6, 1501);
+    			add_location(select, file$5, 34, 6, 1501);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, select, anchor);
@@ -26881,7 +26937,7 @@ var kredeum_nfts = (function () {
     			t1 = space();
     			option.__value = option_value_value = getAddress(/*coll*/ ctx[10].address);
     			option.value = option.__value;
-    			add_location(option, file$4, 37, 10, 1639);
+    			add_location(option, file$5, 37, 10, 1639);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, option, anchor);
@@ -26912,7 +26968,7 @@ var kredeum_nfts = (function () {
     	return block;
     }
 
-    function create_fragment$4(ctx) {
+    function create_fragment$5(ctx) {
     	let div;
 
     	function select_block_type(ctx, dirty) {
@@ -26928,7 +26984,7 @@ var kredeum_nfts = (function () {
     			div = element("div");
     			if_block.c();
     			attr_dev(div, "id", "kredeum-select-collection");
-    			add_location(div, file$4, 31, 0, 1405);
+    			add_location(div, file$5, 31, 0, 1405);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -26960,7 +27016,7 @@ var kredeum_nfts = (function () {
 
     	dispatch_dev("SvelteRegisterBlock", {
     		block,
-    		id: create_fragment$4.name,
+    		id: create_fragment$5.name,
     		type: "component",
     		source: "",
     		ctx
@@ -26969,7 +27025,7 @@ var kredeum_nfts = (function () {
     	return block;
     }
 
-    function instance$4($$self, $$props, $$invalidate) {
+    function instance$5($$self, $$props, $$invalidate) {
     	let { $$slots: slots = {}, $$scope } = $$props;
     	validate_slots('Kredeum_select_collection', slots, []);
     	let collectionAddress;
@@ -27073,13 +27129,13 @@ var kredeum_nfts = (function () {
     class Kredeum_select_collection extends SvelteComponentDev {
     	constructor(options) {
     		super(options);
-    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { chainId: 5, address: 6, collection: 4 });
+    		init(this, options, instance$5, create_fragment$5, safe_not_equal, { chainId: 5, address: 6, collection: 4 });
 
     		dispatch_dev("SvelteRegisterComponent", {
     			component: this,
     			tagName: "Kredeum_select_collection",
     			options,
-    			id: create_fragment$4.name
+    			id: create_fragment$5.name
     		});
     	}
 
@@ -27105,6 +27161,172 @@ var kredeum_nfts = (function () {
 
     	set collection(value) {
     		throw new Error("<Kredeum_select_collection>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+    }
+
+    /* node_modules/.pnpm/svelte-clipboard@1.0.0/node_modules/svelte-clipboard/src/Clipboard.svelte generated by Svelte v3.44.1 */
+    const file$4 = "node_modules/.pnpm/svelte-clipboard@1.0.0/node_modules/svelte-clipboard/src/Clipboard.svelte";
+    const get_default_slot_changes = dirty => ({});
+    const get_default_slot_context = ctx => ({ copy: /*copy*/ ctx[2] });
+
+    function create_fragment$4(ctx) {
+    	let t;
+    	let textarea_1;
+    	let current;
+    	const default_slot_template = /*#slots*/ ctx[4].default;
+    	const default_slot = create_slot(default_slot_template, ctx, /*$$scope*/ ctx[3], get_default_slot_context);
+
+    	const block = {
+    		c: function create() {
+    			if (default_slot) default_slot.c();
+    			t = space();
+    			textarea_1 = element("textarea");
+    			textarea_1.value = /*text*/ ctx[0];
+    			attr_dev(textarea_1, "class", "svelte-w8w2mp");
+    			add_location(textarea_1, file$4, 34, 0, 537);
+    		},
+    		l: function claim(nodes) {
+    			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
+    		},
+    		m: function mount(target, anchor) {
+    			if (default_slot) {
+    				default_slot.m(target, anchor);
+    			}
+
+    			insert_dev(target, t, anchor);
+    			insert_dev(target, textarea_1, anchor);
+    			/*textarea_1_binding*/ ctx[5](textarea_1);
+    			current = true;
+    		},
+    		p: function update(ctx, [dirty]) {
+    			if (default_slot) {
+    				if (default_slot.p && (!current || dirty & /*$$scope*/ 8)) {
+    					update_slot_base(
+    						default_slot,
+    						default_slot_template,
+    						ctx,
+    						/*$$scope*/ ctx[3],
+    						!current
+    						? get_all_dirty_from_scope(/*$$scope*/ ctx[3])
+    						: get_slot_changes(default_slot_template, /*$$scope*/ ctx[3], dirty, get_default_slot_changes),
+    						get_default_slot_context
+    					);
+    				}
+    			}
+
+    			if (!current || dirty & /*text*/ 1) {
+    				prop_dev(textarea_1, "value", /*text*/ ctx[0]);
+    			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(default_slot, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(default_slot, local);
+    			current = false;
+    		},
+    		d: function destroy(detaching) {
+    			if (default_slot) default_slot.d(detaching);
+    			if (detaching) detach_dev(t);
+    			if (detaching) detach_dev(textarea_1);
+    			/*textarea_1_binding*/ ctx[5](null);
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_fragment$4.name,
+    		type: "component",
+    		source: "",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    function instance$4($$self, $$props, $$invalidate) {
+    	let { $$slots: slots = {}, $$scope } = $$props;
+    	validate_slots('Clipboard', slots, ['default']);
+    	const dispatch = createEventDispatcher();
+    	let { text } = $$props;
+    	let textarea;
+
+    	async function copy() {
+    		textarea.select();
+    		document.execCommand("Copy");
+    		await tick();
+    		textarea.blur();
+    		dispatch("copy");
+    	}
+
+    	const writable_props = ['text'];
+
+    	Object.keys($$props).forEach(key => {
+    		if (!~writable_props.indexOf(key) && key.slice(0, 2) !== '$$' && key !== 'slot') console.warn(`<Clipboard> was created with unknown prop '${key}'`);
+    	});
+
+    	function textarea_1_binding($$value) {
+    		binding_callbacks[$$value ? 'unshift' : 'push'](() => {
+    			textarea = $$value;
+    			$$invalidate(1, textarea);
+    		});
+    	}
+
+    	$$self.$$set = $$props => {
+    		if ('text' in $$props) $$invalidate(0, text = $$props.text);
+    		if ('$$scope' in $$props) $$invalidate(3, $$scope = $$props.$$scope);
+    	};
+
+    	$$self.$capture_state = () => ({
+    		onMount,
+    		tick,
+    		createEventDispatcher,
+    		dispatch,
+    		text,
+    		textarea,
+    		copy
+    	});
+
+    	$$self.$inject_state = $$props => {
+    		if ('text' in $$props) $$invalidate(0, text = $$props.text);
+    		if ('textarea' in $$props) $$invalidate(1, textarea = $$props.textarea);
+    	};
+
+    	if ($$props && "$$inject" in $$props) {
+    		$$self.$inject_state($$props.$$inject);
+    	}
+
+    	return [text, textarea, copy, $$scope, slots, textarea_1_binding];
+    }
+
+    class Clipboard extends SvelteComponentDev {
+    	constructor(options) {
+    		super(options);
+    		init(this, options, instance$4, create_fragment$4, safe_not_equal, { text: 0 });
+
+    		dispatch_dev("SvelteRegisterComponent", {
+    			component: this,
+    			tagName: "Clipboard",
+    			options,
+    			id: create_fragment$4.name
+    		});
+
+    		const { ctx } = this.$$;
+    		const props = options.props || {};
+
+    		if (/*text*/ ctx[0] === undefined && !('text' in props)) {
+    			console.warn("<Clipboard> was created without expected prop 'text'");
+    		}
+    	}
+
+    	get text() {
+    		throw new Error("<Clipboard>: Props cannot be read directly from the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
+    	}
+
+    	set text(value) {
+    		throw new Error("<Clipboard>: Props cannot be set directly on the component instance unless compiling with 'accessors: true' or '<svelte:options accessors/>'");
     	}
     }
 
@@ -27445,19 +27667,19 @@ var kredeum_nfts = (function () {
 
     function get_each_context(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[16] = i;
+    	child_ctx[15] = list[i];
+    	child_ctx[17] = i;
     	return child_ctx;
     }
 
     function get_each_context_1(ctx, list, i) {
     	const child_ctx = ctx.slice();
-    	child_ctx[14] = list[i];
-    	child_ctx[16] = i;
+    	child_ctx[15] = list[i];
+    	child_ctx[17] = i;
     	return child_ctx;
     }
 
-    // (180:2) {:else}
+    // (189:2) {:else}
     function create_else_block_3(ctx) {
     	let div;
     	let p;
@@ -27467,15 +27689,17 @@ var kredeum_nfts = (function () {
     			div = element("div");
     			p = element("p");
     			p.textContent = "No NFTs ✌️";
-    			add_location(p, file$3, 181, 6, 6910);
+    			add_location(p, file$3, 190, 6, 7441);
     			attr_dev(div, "class", "card");
-    			add_location(div, file$3, 180, 4, 6885);
+    			add_location(div, file$3, 189, 4, 7416);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
     			append_dev(div, p);
     		},
     		p: noop,
+    		i: noop,
+    		o: noop,
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div);
     		}
@@ -27485,14 +27709,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_else_block_3.name,
     		type: "else",
-    		source: "(180:2) {:else}",
+    		source: "(189:2) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (58:2) {#if NFTs?.length > 0}
+    // (59:2) {#if NFTs?.length > 0}
     function create_if_block_1$3(ctx) {
     	let h2;
     	let t0;
@@ -27513,6 +27737,7 @@ var kredeum_nfts = (function () {
     	let span;
     	let t7;
     	let t8;
+    	let current;
 
     	function select_block_type_1(ctx, dirty) {
     		if (/*network*/ ctx[4]?.openSea) return create_if_block_4$1;
@@ -27528,6 +27753,10 @@ var kredeum_nfts = (function () {
     	for (let i = 0; i < each_value_1.length; i += 1) {
     		each_blocks[i] = create_each_block_1(get_each_context_1(ctx, each_value_1, i));
     	}
+
+    	const out = i => transition_out(each_blocks[i], 1, 1, () => {
+    		each_blocks[i] = null;
+    	});
 
     	const block = {
     		c: function create() {
@@ -27553,22 +27782,22 @@ var kredeum_nfts = (function () {
     				each_blocks[i].c();
     			}
 
-    			add_location(h2, file$3, 58, 4, 2339);
+    			add_location(h2, file$3, 59, 4, 2381);
     			attr_dev(i, "class", "fas fa-info-circle");
-    			add_location(i, file$3, 66, 22, 2605);
+    			add_location(i, file$3, 67, 22, 2647);
     			attr_dev(a, "class", "info-button");
     			attr_dev(a, "href", a_href_value = explorerCollectionInventoryUrl(/*chainId*/ ctx[1], /*collection*/ ctx[3]?.address));
     			attr_dev(a, "title", a_title_value = /*collection*/ ctx[3]?.address);
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file$3, 62, 4, 2446);
+    			add_location(a, file$3, 63, 4, 2488);
     			attr_dev(span, "class", "label");
-    			add_location(span, file$3, 71, 31, 2754);
+    			add_location(span, file$3, 72, 31, 2796);
     			attr_dev(div0, "class", "table-col");
-    			add_location(div0, file$3, 71, 8, 2731);
+    			add_location(div0, file$3, 72, 8, 2773);
     			attr_dev(div1, "class", "table-row table-head hidden-xs");
-    			add_location(div1, file$3, 70, 6, 2678);
+    			add_location(div1, file$3, 71, 6, 2720);
     			attr_dev(div2, "class", "table");
-    			add_location(div2, file$3, 69, 4, 2652);
+    			add_location(div2, file$3, 70, 4, 2694);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, h2, anchor);
@@ -27591,16 +27820,18 @@ var kredeum_nfts = (function () {
     			for (let i = 0; i < each_blocks.length; i += 1) {
     				each_blocks[i].m(div2, null);
     			}
+
+    			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*collection*/ 8 && t1_value !== (t1_value = collectionName(/*collection*/ ctx[3]) + "")) set_data_dev(t1, t1_value);
-    			if (dirty & /*NFTs, collection*/ 40 && t3_value !== (t3_value = nftsSupplyAndName(/*NFTs*/ ctx[5], /*collection*/ ctx[3]) + "")) set_data_dev(t3, t3_value);
+    			if ((!current || dirty & /*collection*/ 8) && t1_value !== (t1_value = collectionName(/*collection*/ ctx[3]) + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty & /*NFTs, collection*/ 40) && t3_value !== (t3_value = nftsSupplyAndName(/*NFTs*/ ctx[5], /*collection*/ ctx[3]) + "")) set_data_dev(t3, t3_value);
 
-    			if (dirty & /*chainId, collection*/ 10 && a_href_value !== (a_href_value = explorerCollectionInventoryUrl(/*chainId*/ ctx[1], /*collection*/ ctx[3]?.address))) {
+    			if (!current || dirty & /*chainId, collection*/ 10 && a_href_value !== (a_href_value = explorerCollectionInventoryUrl(/*chainId*/ ctx[1], /*collection*/ ctx[3]?.address))) {
     				attr_dev(a, "href", a_href_value);
     			}
 
-    			if (dirty & /*collection*/ 8 && a_title_value !== (a_title_value = /*collection*/ ctx[3]?.address)) {
+    			if (!current || dirty & /*collection*/ 8 && a_title_value !== (a_title_value = /*collection*/ ctx[3]?.address)) {
     				attr_dev(a, "title", a_title_value);
     			}
 
@@ -27614,7 +27845,7 @@ var kredeum_nfts = (function () {
     				}
     			}
 
-    			if (dirty & /*nftName, NFTs, collection, addressShort, explorerNftUrl, nftDescription, nftImageLink, moreToggle, nftOpenSeaUrl, chainId, addressSame, address, network, nftDescriptionShort*/ 126) {
+    			if (dirty & /*network, collection, NFTs, nftName, console, copy, addressShort, explorerNftUrl, nftDescription, nftImageLink, moreToggle, nftOpenSeaUrl, chainId, addressSame, address, nftDescriptionShort*/ 524414) {
     				each_value_1 = /*NFTs*/ ctx[5];
     				validate_each_argument(each_value_1);
     				let i;
@@ -27624,19 +27855,41 @@ var kredeum_nfts = (function () {
 
     					if (each_blocks[i]) {
     						each_blocks[i].p(child_ctx, dirty);
+    						transition_in(each_blocks[i], 1);
     					} else {
     						each_blocks[i] = create_each_block_1(child_ctx);
     						each_blocks[i].c();
+    						transition_in(each_blocks[i], 1);
     						each_blocks[i].m(div2, null);
     					}
     				}
 
-    				for (; i < each_blocks.length; i += 1) {
-    					each_blocks[i].d(1);
+    				group_outros();
+
+    				for (i = each_value_1.length; i < each_blocks.length; i += 1) {
+    					out(i);
     				}
 
-    				each_blocks.length = each_value_1.length;
+    				check_outros();
     			}
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+
+    			for (let i = 0; i < each_value_1.length; i += 1) {
+    				transition_in(each_blocks[i]);
+    			}
+
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			each_blocks = each_blocks.filter(Boolean);
+
+    			for (let i = 0; i < each_blocks.length; i += 1) {
+    				transition_out(each_blocks[i]);
+    			}
+
+    			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(h2);
@@ -27655,14 +27908,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_if_block_1$3.name,
     		type: "if",
-    		source: "(58:2) {#if NFTs?.length > 0}",
+    		source: "(59:2) {#if NFTs?.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (75:8) {:else}
+    // (76:8) {:else}
     function create_else_block_2(ctx) {
     	let div;
     	let span;
@@ -27673,9 +27926,9 @@ var kredeum_nfts = (function () {
     			span = element("span");
     			span.textContent = "Infos";
     			attr_dev(span, "class", "label");
-    			add_location(span, file$3, 75, 33, 2951);
+    			add_location(span, file$3, 76, 33, 2993);
     			attr_dev(div, "class", "table-col");
-    			add_location(div, file$3, 75, 10, 2928);
+    			add_location(div, file$3, 76, 10, 2970);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -27690,14 +27943,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_else_block_2.name,
     		type: "else",
-    		source: "(75:8) {:else}",
+    		source: "(76:8) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (73:8) {#if network?.openSea}
+    // (74:8) {#if network?.openSea}
     function create_if_block_4$1(ctx) {
     	let div;
     	let span;
@@ -27708,9 +27961,9 @@ var kredeum_nfts = (function () {
     			span = element("span");
     			span.textContent = "Marketplace";
     			attr_dev(span, "class", "label");
-    			add_location(span, file$3, 73, 33, 2857);
+    			add_location(span, file$3, 74, 33, 2899);
     			attr_dev(div, "class", "table-col");
-    			add_location(div, file$3, 73, 10, 2834);
+    			add_location(div, file$3, 74, 10, 2876);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -27725,14 +27978,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_if_block_4$1.name,
     		type: "if",
-    		source: "(73:8) {#if network?.openSea}",
+    		source: "(74:8) {#if network?.openSea}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (115:10) {:else}
+    // (116:10) {:else}
     function create_else_block_1$2(ctx) {
     	let div1;
     	let div0;
@@ -27748,16 +28001,16 @@ var kredeum_nfts = (function () {
     			a = element("a");
     			i = element("i");
     			attr_dev(i, "class", "fas fa-info-circle");
-    			add_location(i, file$3, 121, 34, 4610);
+    			add_location(i, file$3, 122, 34, 4652);
     			attr_dev(a, "class", "info-button");
-    			attr_dev(a, "href", a_href_value = nftImageLink(/*nft*/ ctx[14]));
-    			attr_dev(a, "title", a_title_value = nftDescription(/*nft*/ ctx[14]));
+    			attr_dev(a, "href", a_href_value = nftImageLink(/*nft*/ ctx[15]));
+    			attr_dev(a, "title", a_title_value = nftDescription(/*nft*/ ctx[15]));
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file$3, 117, 16, 4446);
+    			add_location(a, file$3, 118, 16, 4488);
     			attr_dev(div0, "class", "table-col-content");
-    			add_location(div0, file$3, 116, 14, 4398);
+    			add_location(div0, file$3, 117, 14, 4440);
     			attr_dev(div1, "class", "table-col");
-    			add_location(div1, file$3, 115, 12, 4360);
+    			add_location(div1, file$3, 116, 12, 4402);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -27766,11 +28019,11 @@ var kredeum_nfts = (function () {
     			append_dev(a, i);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*NFTs*/ 32 && a_href_value !== (a_href_value = nftImageLink(/*nft*/ ctx[14]))) {
+    			if (dirty & /*NFTs*/ 32 && a_href_value !== (a_href_value = nftImageLink(/*nft*/ ctx[15]))) {
     				attr_dev(a, "href", a_href_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && a_title_value !== (a_title_value = nftDescription(/*nft*/ ctx[14]))) {
+    			if (dirty & /*NFTs*/ 32 && a_title_value !== (a_title_value = nftDescription(/*nft*/ ctx[15]))) {
     				attr_dev(a, "title", a_title_value);
     			}
     		},
@@ -27783,21 +28036,21 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_else_block_1$2.name,
     		type: "else",
-    		source: "(115:10) {:else}",
+    		source: "(116:10) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (91:10) {#if network?.openSea}
+    // (92:10) {#if network?.openSea}
     function create_if_block_2$2(ctx) {
     	let div1;
     	let div0;
     	let show_if;
 
     	function select_block_type_3(ctx, dirty) {
-    		if (show_if == null || dirty & /*NFTs, address*/ 36) show_if = !!addressSame(/*nft*/ ctx[14].owner, /*address*/ ctx[2]);
+    		if (show_if == null || dirty & /*NFTs, address*/ 36) show_if = !!addressSame(/*nft*/ ctx[15].owner, /*address*/ ctx[2]);
     		if (show_if) return create_if_block_3$2;
     		return create_else_block$2;
     	}
@@ -27811,10 +28064,10 @@ var kredeum_nfts = (function () {
     			div0 = element("div");
     			if_block.c();
     			attr_dev(div0, "class", "table-col-content");
-    			add_location(div0, file$3, 92, 14, 3632);
-    			attr_dev(div1, "id", "marketplace-" + /*i*/ ctx[16]);
+    			add_location(div0, file$3, 93, 14, 3674);
+    			attr_dev(div1, "id", "marketplace-" + /*i*/ ctx[17]);
     			attr_dev(div1, "class", "table-col");
-    			add_location(div1, file$3, 91, 12, 3573);
+    			add_location(div1, file$3, 92, 12, 3615);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div1, anchor);
@@ -27844,14 +28097,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_if_block_2$2.name,
     		type: "if",
-    		source: "(91:10) {#if network?.openSea}",
+    		source: "(92:10) {#if network?.openSea}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (103:16) {:else}
+    // (104:16) {:else}
     function create_else_block$2(ctx) {
     	let a;
     	let t;
@@ -27861,18 +28114,18 @@ var kredeum_nfts = (function () {
     		c: function create() {
     			a = element("a");
     			t = text("Buy");
-    			attr_dev(a, "href", a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[14]));
+    			attr_dev(a, "href", a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[15]));
     			attr_dev(a, "class", "btn btn-small btn-sell");
     			attr_dev(a, "title", "Buy");
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file$3, 103, 18, 4024);
+    			add_location(a, file$3, 104, 18, 4066);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
     			append_dev(a, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*chainId, NFTs*/ 34 && a_href_value !== (a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[14]))) {
+    			if (dirty & /*chainId, NFTs*/ 34 && a_href_value !== (a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[15]))) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -27885,14 +28138,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_else_block$2.name,
     		type: "else",
-    		source: "(103:16) {:else}",
+    		source: "(104:16) {:else}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (94:16) {#if addressSame(nft.owner, address)}
+    // (95:16) {#if addressSame(nft.owner, address)}
     function create_if_block_3$2(ctx) {
     	let a;
     	let t;
@@ -27902,18 +28155,18 @@ var kredeum_nfts = (function () {
     		c: function create() {
     			a = element("a");
     			t = text("Sell");
-    			attr_dev(a, "href", a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[14]));
+    			attr_dev(a, "href", a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[15]));
     			attr_dev(a, "class", "btn btn-small btn-sell");
     			attr_dev(a, "title", "Sell");
     			attr_dev(a, "target", "_blank");
-    			add_location(a, file$3, 94, 18, 3736);
+    			add_location(a, file$3, 95, 18, 3778);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, a, anchor);
     			append_dev(a, t);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*chainId, NFTs*/ 34 && a_href_value !== (a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[14]))) {
+    			if (dirty & /*chainId, NFTs*/ 34 && a_href_value !== (a_href_value = nftOpenSeaUrl(/*chainId*/ ctx[1], /*nft*/ ctx[15]))) {
     				attr_dev(a, "href", a_href_value);
     			}
     		},
@@ -27926,14 +28179,66 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_if_block_3$2.name,
     		type: "if",
-    		source: "(94:16) {#if addressSame(nft.owner, address)}",
+    		source: "(95:16) {#if addressSame(nft.owner, address)}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (79:6) {#each NFTs as nft, i}
+    // (170:20) <Clipboard                       text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>
+    function create_default_slot(ctx) {
+    	let button;
+    	let mounted;
+    	let dispose;
+
+    	const block = {
+    		c: function create() {
+    			button = element("button");
+    			button.textContent = "Copy shortcode";
+    			attr_dev(button, "class", "btn btn-small btn-sell");
+    			add_location(button, file$3, 175, 22, 6936);
+    		},
+    		m: function mount(target, anchor) {
+    			insert_dev(target, button, anchor);
+
+    			if (!mounted) {
+    				dispose = listen_dev(
+    					button,
+    					"click",
+    					function () {
+    						if (is_function(/*copy*/ ctx[19])) /*copy*/ ctx[19].apply(this, arguments);
+    					},
+    					false,
+    					false,
+    					false
+    				);
+
+    				mounted = true;
+    			}
+    		},
+    		p: function update(new_ctx, dirty) {
+    			ctx = new_ctx;
+    		},
+    		d: function destroy(detaching) {
+    			if (detaching) detach_dev(button);
+    			mounted = false;
+    			dispose();
+    		}
+    	};
+
+    	dispatch_dev("SvelteRegisterBlock", {
+    		block,
+    		id: create_default_slot.name,
+    		type: "slot",
+    		source: "(170:20) <Clipboard                       text=\\\"[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]\\\"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>",
+    		ctx
+    	});
+
+    	return block;
+    }
+
+    // (80:6) {#each NFTs as nft, i}
     function create_each_block_1(ctx) {
     	let div17;
     	let div2;
@@ -27943,11 +28248,11 @@ var kredeum_nfts = (function () {
     	let img0_src_value;
     	let t0;
     	let strong0;
-    	let t1_value = nftName(/*nft*/ ctx[14]) + "";
+    	let t1_value = nftName(/*nft*/ ctx[15]) + "";
     	let t1;
     	let t2;
     	let span0;
-    	let t3_value = nftDescriptionShort(/*nft*/ ctx[14], 64) + "";
+    	let t3_value = nftDescriptionShort(/*nft*/ ctx[15], 64) + "";
     	let t3;
     	let t4;
     	let t5;
@@ -27965,7 +28270,7 @@ var kredeum_nfts = (function () {
     	let strong1;
     	let t9;
     	let p;
-    	let t10_value = nftDescription(/*nft*/ ctx[14]) + "";
+    	let t10_value = nftDescription(/*nft*/ ctx[15]) + "";
     	let t10;
     	let t11;
     	let ul;
@@ -27976,7 +28281,7 @@ var kredeum_nfts = (function () {
     	let div8;
     	let a0;
     	let strong2;
-    	let t14_value = /*nft*/ ctx[14].tokenID + "";
+    	let t14_value = /*nft*/ ctx[15].tokenID + "";
     	let t14;
     	let a0_href_value;
     	let t15;
@@ -27986,7 +28291,7 @@ var kredeum_nfts = (function () {
     	let t17;
     	let div10;
     	let a1;
-    	let t18_value = addressShort(/*nft*/ ctx[14].cidJson) + "";
+    	let t18_value = addressShort(/*nft*/ ctx[15].cidJson) + "";
     	let t18;
     	let a1_href_value;
     	let t19;
@@ -27996,7 +28301,7 @@ var kredeum_nfts = (function () {
     	let t21;
     	let div12;
     	let a2;
-    	let t22_value = addressShort(/*nft*/ ctx[14].cid) + "";
+    	let t22_value = addressShort(/*nft*/ ctx[15].cid) + "";
     	let t22;
     	let a2_href_value;
     	let t23;
@@ -28005,18 +28310,9 @@ var kredeum_nfts = (function () {
     	let span4;
     	let t25;
     	let div14;
-    	let pre;
+    	let clipboard;
     	let t26;
-    	let t27_value = /*collection*/ ctx[3]?.address + "";
-    	let t27;
-    	let t28;
-    	let t29_value = /*nft*/ ctx[14].tokenID + "";
-    	let t29;
-    	let t30;
-    	let t31_value = nftName(/*nft*/ ctx[14]) + "";
-    	let t31;
-    	let t32;
-    	let t33;
+    	let current;
     	let mounted;
     	let dispose;
 
@@ -28029,8 +28325,25 @@ var kredeum_nfts = (function () {
     	let if_block = current_block_type(ctx);
 
     	function click_handler() {
-    		return /*click_handler*/ ctx[9](/*i*/ ctx[16]);
+    		return /*click_handler*/ ctx[9](/*i*/ ctx[17]);
     	}
+
+    	clipboard = new Clipboard({
+    			props: {
+    				text: "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]",
+    				$$slots: {
+    					default: [
+    						create_default_slot,
+    						({ copy }) => ({ 19: copy }),
+    						({ copy }) => copy ? 524288 : 0
+    					]
+    				},
+    				$$scope: { ctx }
+    			},
+    			$$inline: true
+    		});
+
+    	clipboard.$on("copy", /*copy_handler*/ ctx[10]);
 
     	const block = {
     		c: function create() {
@@ -28096,105 +28409,97 @@ var kredeum_nfts = (function () {
     			li3 = element("li");
     			div13 = element("div");
     			span4 = element("span");
-    			span4.textContent = "Sell button";
+    			span4.textContent = "WP NFT Sell button";
     			t25 = space();
     			div14 = element("div");
-    			pre = element("pre");
-    			t26 = text("[kredeum-sell collection=");
-    			t27 = text(t27_value);
-    			t28 = text(" tokenid=");
-    			t29 = text(t29_value);
-    			t30 = text("]");
-    			t31 = text(t31_value);
-    			t32 = text("[/kredeum-sell]");
-    			t33 = space();
+    			create_component(clipboard.$$.fragment);
+    			t26 = space();
     			attr_dev(img0, "alt", "link");
-    			if (!src_url_equal(img0.src, img0_src_value = nftImageLink(/*nft*/ ctx[14]))) attr_dev(img0, "src", img0_src_value);
+    			if (!src_url_equal(img0.src, img0_src_value = nftImageLink(/*nft*/ ctx[15]))) attr_dev(img0, "src", img0_src_value);
     			attr_dev(img0, "height", "100");
-    			add_location(img0, file$3, 83, 16, 3283);
+    			add_location(img0, file$3, 84, 16, 3325);
     			attr_dev(div0, "class", "media media-small media-photo");
-    			add_location(div0, file$3, 82, 14, 3223);
-    			add_location(strong0, file$3, 85, 14, 3374);
-    			attr_dev(span0, "id", "description-short-" + /*i*/ ctx[16]);
-    			add_location(span0, file$3, 86, 14, 3420);
+    			add_location(div0, file$3, 83, 14, 3265);
+    			add_location(strong0, file$3, 86, 14, 3416);
+    			attr_dev(span0, "id", "description-short-" + /*i*/ ctx[17]);
+    			add_location(span0, file$3, 87, 14, 3462);
     			attr_dev(div1, "class", "table-col-content");
-    			add_location(div1, file$3, 81, 12, 3177);
-    			attr_dev(div2, "id", "media-" + /*i*/ ctx[16]);
+    			add_location(div1, file$3, 82, 12, 3219);
+    			attr_dev(div2, "id", "media-" + /*i*/ ctx[17]);
     			attr_dev(div2, "class", "table-col");
-    			add_location(div2, file$3, 80, 10, 3126);
+    			add_location(div2, file$3, 81, 10, 3168);
     			attr_dev(i_1, "class", "fas fa-chevron-down");
-    			add_location(i_1, file$3, 129, 39, 4897);
+    			add_location(i_1, file$3, 130, 39, 4939);
     			attr_dev(div3, "class", "more-button");
-    			add_location(div3, file$3, 129, 14, 4872);
+    			add_location(div3, file$3, 130, 14, 4914);
     			attr_dev(div4, "class", "table-col-content txtright");
-    			add_location(div4, file$3, 128, 12, 4817);
-    			attr_dev(div5, "id", "more-" + /*i*/ ctx[16]);
+    			add_location(div4, file$3, 129, 12, 4859);
+    			attr_dev(div5, "id", "more-" + /*i*/ ctx[17]);
     			attr_dev(div5, "class", "table-col more");
-    			add_location(div5, file$3, 127, 10, 4731);
+    			add_location(div5, file$3, 128, 10, 4773);
     			attr_dev(img1, "alt", "link");
-    			if (!src_url_equal(img1.src, img1_src_value = nftImageLink(/*nft*/ ctx[14]))) attr_dev(img1, "src", img1_src_value);
-    			add_location(img1, file$3, 135, 14, 5083);
-    			attr_dev(div6, "id", "media-full-" + /*i*/ ctx[16]);
+    			if (!src_url_equal(img1.src, img1_src_value = nftImageLink(/*nft*/ ctx[15]))) attr_dev(img1, "src", img1_src_value);
+    			add_location(img1, file$3, 136, 14, 5125);
+    			attr_dev(div6, "id", "media-full-" + /*i*/ ctx[17]);
     			attr_dev(div6, "class", "media media-photo");
-    			add_location(div6, file$3, 134, 12, 5017);
-    			add_location(strong1, file$3, 138, 14, 5218);
-    			add_location(p, file$3, 139, 14, 5261);
+    			add_location(div6, file$3, 135, 12, 5059);
+    			add_location(strong1, file$3, 139, 14, 5260);
+    			add_location(p, file$3, 140, 14, 5303);
     			attr_dev(span1, "class", "label");
-    			add_location(span1, file$3, 144, 36, 5429);
+    			add_location(span1, file$3, 145, 36, 5471);
     			attr_dev(div7, "class", "flex");
-    			add_location(div7, file$3, 144, 18, 5411);
-    			add_location(strong2, file$3, 147, 23, 5623);
+    			add_location(div7, file$3, 145, 18, 5453);
+    			add_location(strong2, file$3, 148, 23, 5665);
     			attr_dev(a0, "class", "link");
-    			attr_dev(a0, "href", a0_href_value = explorerNftUrl(/*nft*/ ctx[14].chainId, /*nft*/ ctx[14]));
+    			attr_dev(a0, "href", a0_href_value = explorerNftUrl(/*nft*/ ctx[15].chainId, /*nft*/ ctx[15]));
     			attr_dev(a0, "target", "_blank");
-    			add_location(a0, file$3, 146, 20, 5528);
+    			add_location(a0, file$3, 147, 20, 5570);
     			attr_dev(div8, "class", "flex");
-    			add_location(div8, file$3, 145, 18, 5489);
+    			add_location(div8, file$3, 146, 18, 5531);
     			attr_dev(li0, "class", "complete");
-    			add_location(li0, file$3, 143, 16, 5371);
+    			add_location(li0, file$3, 144, 16, 5413);
     			attr_dev(span2, "class", "label");
-    			add_location(span2, file$3, 152, 36, 5800);
+    			add_location(span2, file$3, 153, 36, 5842);
     			attr_dev(div9, "class", "flex");
-    			add_location(div9, file$3, 152, 18, 5782);
+    			add_location(div9, file$3, 153, 18, 5824);
     			attr_dev(a1, "class", "link");
-    			attr_dev(a1, "href", a1_href_value = /*nft*/ ctx[14].tokenURI);
+    			attr_dev(a1, "href", a1_href_value = /*nft*/ ctx[15].tokenURI);
     			attr_dev(a1, "target", "_blank");
-    			add_location(a1, file$3, 154, 20, 5903);
+    			add_location(a1, file$3, 155, 20, 5945);
     			attr_dev(div10, "class", "flex");
-    			add_location(div10, file$3, 153, 18, 5864);
+    			add_location(div10, file$3, 154, 18, 5906);
     			attr_dev(li1, "class", "complete");
-    			add_location(li1, file$3, 151, 16, 5742);
+    			add_location(li1, file$3, 152, 16, 5784);
     			attr_dev(span3, "class", "label");
-    			add_location(span3, file$3, 160, 36, 6152);
+    			add_location(span3, file$3, 161, 36, 6194);
     			attr_dev(div11, "class", "flex");
-    			add_location(div11, file$3, 160, 18, 6134);
+    			add_location(div11, file$3, 161, 18, 6176);
     			attr_dev(a2, "class", "link");
-    			attr_dev(a2, "href", a2_href_value = /*nft*/ ctx[14].image);
+    			attr_dev(a2, "href", a2_href_value = /*nft*/ ctx[15].image);
     			attr_dev(a2, "target", "_blank");
-    			add_location(a2, file$3, 162, 20, 6252);
+    			add_location(a2, file$3, 163, 20, 6294);
     			attr_dev(div12, "class", "flex");
-    			add_location(div12, file$3, 161, 18, 6213);
+    			add_location(div12, file$3, 162, 18, 6255);
     			attr_dev(li2, "class", "complete");
-    			add_location(li2, file$3, 159, 16, 6094);
+    			add_location(li2, file$3, 160, 16, 6136);
     			attr_dev(span4, "class", "label");
-    			add_location(span4, file$3, 166, 36, 6450);
+    			add_location(span4, file$3, 167, 36, 6492);
     			attr_dev(div13, "class", "flex");
-    			add_location(div13, file$3, 166, 18, 6432);
-    			add_location(pre, file$3, 168, 20, 6552);
+    			add_location(div13, file$3, 167, 18, 6474);
     			attr_dev(div14, "class", "flex");
-    			add_location(div14, file$3, 167, 18, 6513);
+    			add_location(div14, file$3, 168, 18, 6562);
     			attr_dev(li3, "class", "complete");
-    			add_location(li3, file$3, 165, 16, 6392);
+    			add_location(li3, file$3, 166, 16, 6434);
     			attr_dev(ul, "class", "steps");
-    			add_location(ul, file$3, 142, 14, 5336);
-    			attr_dev(div15, "id", "description-" + /*i*/ ctx[16]);
+    			add_location(ul, file$3, 143, 14, 5378);
+    			attr_dev(div15, "id", "description-" + /*i*/ ctx[17]);
     			attr_dev(div15, "class", "description");
-    			add_location(div15, file$3, 137, 12, 5157);
+    			add_location(div15, file$3, 138, 12, 5199);
     			attr_dev(div16, "class", "detail");
-    			add_location(div16, file$3, 133, 10, 4984);
-    			attr_dev(div17, "id", "table-drop-" + /*i*/ ctx[16]);
+    			add_location(div16, file$3, 134, 10, 5026);
+    			attr_dev(div17, "id", "table-drop-" + /*i*/ ctx[17]);
     			attr_dev(div17, "class", "table-row table-drop closed");
-    			add_location(div17, file$3, 79, 8, 3054);
+    			add_location(div17, file$3, 80, 8, 3096);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div17, anchor);
@@ -28257,15 +28562,9 @@ var kredeum_nfts = (function () {
     			append_dev(div13, span4);
     			append_dev(li3, t25);
     			append_dev(li3, div14);
-    			append_dev(div14, pre);
-    			append_dev(pre, t26);
-    			append_dev(pre, t27);
-    			append_dev(pre, t28);
-    			append_dev(pre, t29);
-    			append_dev(pre, t30);
-    			append_dev(pre, t31);
-    			append_dev(pre, t32);
-    			append_dev(div17, t33);
+    			mount_component(clipboard, div14, null);
+    			append_dev(div17, t26);
+    			current = true;
 
     			if (!mounted) {
     				dispose = listen_dev(div5, "click", click_handler, false, false, false);
@@ -28275,12 +28574,12 @@ var kredeum_nfts = (function () {
     		p: function update(new_ctx, dirty) {
     			ctx = new_ctx;
 
-    			if (dirty & /*NFTs*/ 32 && !src_url_equal(img0.src, img0_src_value = nftImageLink(/*nft*/ ctx[14]))) {
+    			if (!current || dirty & /*NFTs*/ 32 && !src_url_equal(img0.src, img0_src_value = nftImageLink(/*nft*/ ctx[15]))) {
     				attr_dev(img0, "src", img0_src_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && t1_value !== (t1_value = nftName(/*nft*/ ctx[14]) + "")) set_data_dev(t1, t1_value);
-    			if (dirty & /*NFTs*/ 32 && t3_value !== (t3_value = nftDescriptionShort(/*nft*/ ctx[14], 64) + "")) set_data_dev(t3, t3_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t1_value !== (t1_value = nftName(/*nft*/ ctx[15]) + "")) set_data_dev(t1, t1_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t3_value !== (t3_value = nftDescriptionShort(/*nft*/ ctx[15], 64) + "")) set_data_dev(t3, t3_value);
 
     			if (current_block_type === (current_block_type = select_block_type_2(ctx)) && if_block) {
     				if_block.p(ctx, dirty);
@@ -28294,36 +28593,51 @@ var kredeum_nfts = (function () {
     				}
     			}
 
-    			if (dirty & /*NFTs*/ 32 && !src_url_equal(img1.src, img1_src_value = nftImageLink(/*nft*/ ctx[14]))) {
+    			if (!current || dirty & /*NFTs*/ 32 && !src_url_equal(img1.src, img1_src_value = nftImageLink(/*nft*/ ctx[15]))) {
     				attr_dev(img1, "src", img1_src_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && t10_value !== (t10_value = nftDescription(/*nft*/ ctx[14]) + "")) set_data_dev(t10, t10_value);
-    			if (dirty & /*NFTs*/ 32 && t14_value !== (t14_value = /*nft*/ ctx[14].tokenID + "")) set_data_dev(t14, t14_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t10_value !== (t10_value = nftDescription(/*nft*/ ctx[15]) + "")) set_data_dev(t10, t10_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t14_value !== (t14_value = /*nft*/ ctx[15].tokenID + "")) set_data_dev(t14, t14_value);
 
-    			if (dirty & /*NFTs*/ 32 && a0_href_value !== (a0_href_value = explorerNftUrl(/*nft*/ ctx[14].chainId, /*nft*/ ctx[14]))) {
+    			if (!current || dirty & /*NFTs*/ 32 && a0_href_value !== (a0_href_value = explorerNftUrl(/*nft*/ ctx[15].chainId, /*nft*/ ctx[15]))) {
     				attr_dev(a0, "href", a0_href_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && t18_value !== (t18_value = addressShort(/*nft*/ ctx[14].cidJson) + "")) set_data_dev(t18, t18_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t18_value !== (t18_value = addressShort(/*nft*/ ctx[15].cidJson) + "")) set_data_dev(t18, t18_value);
 
-    			if (dirty & /*NFTs*/ 32 && a1_href_value !== (a1_href_value = /*nft*/ ctx[14].tokenURI)) {
+    			if (!current || dirty & /*NFTs*/ 32 && a1_href_value !== (a1_href_value = /*nft*/ ctx[15].tokenURI)) {
     				attr_dev(a1, "href", a1_href_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && t22_value !== (t22_value = addressShort(/*nft*/ ctx[14].cid) + "")) set_data_dev(t22, t22_value);
+    			if ((!current || dirty & /*NFTs*/ 32) && t22_value !== (t22_value = addressShort(/*nft*/ ctx[15].cid) + "")) set_data_dev(t22, t22_value);
 
-    			if (dirty & /*NFTs*/ 32 && a2_href_value !== (a2_href_value = /*nft*/ ctx[14].image)) {
+    			if (!current || dirty & /*NFTs*/ 32 && a2_href_value !== (a2_href_value = /*nft*/ ctx[15].image)) {
     				attr_dev(a2, "href", a2_href_value);
     			}
 
-    			if (dirty & /*collection*/ 8 && t27_value !== (t27_value = /*collection*/ ctx[3]?.address + "")) set_data_dev(t27, t27_value);
-    			if (dirty & /*NFTs*/ 32 && t29_value !== (t29_value = /*nft*/ ctx[14].tokenID + "")) set_data_dev(t29, t29_value);
-    			if (dirty & /*NFTs*/ 32 && t31_value !== (t31_value = nftName(/*nft*/ ctx[14]) + "")) set_data_dev(t31, t31_value);
+    			const clipboard_changes = {};
+    			if (dirty & /*network, collection, NFTs*/ 56) clipboard_changes.text = "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]";
+
+    			if (dirty & /*$$scope, copy*/ 1572864) {
+    				clipboard_changes.$$scope = { dirty, ctx };
+    			}
+
+    			clipboard.$set(clipboard_changes);
+    		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(clipboard.$$.fragment, local);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(clipboard.$$.fragment, local);
+    			current = false;
     		},
     		d: function destroy(detaching) {
     			if (detaching) detach_dev(div17);
     			if_block.d();
+    			destroy_component(clipboard);
     			mounted = false;
     			dispose();
     		}
@@ -28333,24 +28647,29 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_each_block_1.name,
     		type: "each",
-    		source: "(79:6) {#each NFTs as nft, i}",
+    		source: "(80:6) {#each NFTs as nft, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (57:0) {#key address && refreshing}
+    // (58:0) {#key address && refreshing}
     function create_key_block_1(ctx) {
+    	let current_block_type_index;
+    	let if_block;
     	let if_block_anchor;
+    	let current;
+    	const if_block_creators = [create_if_block_1$3, create_else_block_3];
+    	const if_blocks = [];
 
     	function select_block_type(ctx, dirty) {
-    		if (/*NFTs*/ ctx[5]?.length > 0) return create_if_block_1$3;
-    		return create_else_block_3;
+    		if (/*NFTs*/ ctx[5]?.length > 0) return 0;
+    		return 1;
     	}
 
-    	let current_block_type = select_block_type(ctx);
-    	let if_block = current_block_type(ctx);
+    	current_block_type_index = select_block_type(ctx);
+    	if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
 
     	const block = {
     		c: function create() {
@@ -28358,24 +28677,48 @@ var kredeum_nfts = (function () {
     			if_block_anchor = empty();
     		},
     		m: function mount(target, anchor) {
-    			if_block.m(target, anchor);
+    			if_blocks[current_block_type_index].m(target, anchor);
     			insert_dev(target, if_block_anchor, anchor);
+    			current = true;
     		},
     		p: function update(ctx, dirty) {
-    			if (current_block_type === (current_block_type = select_block_type(ctx)) && if_block) {
-    				if_block.p(ctx, dirty);
-    			} else {
-    				if_block.d(1);
-    				if_block = current_block_type(ctx);
+    			let previous_block_index = current_block_type_index;
+    			current_block_type_index = select_block_type(ctx);
 
-    				if (if_block) {
+    			if (current_block_type_index === previous_block_index) {
+    				if_blocks[current_block_type_index].p(ctx, dirty);
+    			} else {
+    				group_outros();
+
+    				transition_out(if_blocks[previous_block_index], 1, 1, () => {
+    					if_blocks[previous_block_index] = null;
+    				});
+
+    				check_outros();
+    				if_block = if_blocks[current_block_type_index];
+
+    				if (!if_block) {
+    					if_block = if_blocks[current_block_type_index] = if_block_creators[current_block_type_index](ctx);
     					if_block.c();
-    					if_block.m(if_block_anchor.parentNode, if_block_anchor);
+    				} else {
+    					if_block.p(ctx, dirty);
     				}
+
+    				transition_in(if_block, 1);
+    				if_block.m(if_block_anchor.parentNode, if_block_anchor);
     			}
     		},
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(if_block);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(if_block);
+    			current = false;
+    		},
     		d: function destroy(detaching) {
-    			if_block.d(detaching);
+    			if_blocks[current_block_type_index].d(detaching);
     			if (detaching) detach_dev(if_block_anchor);
     		}
     	};
@@ -28384,14 +28727,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_key_block_1.name,
     		type: "key",
-    		source: "(57:0) {#key address && refreshing}",
+    		source: "(58:0) {#key address && refreshing}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (189:4) {#if NFTs?.length > 0}
+    // (198:4) {#if NFTs?.length > 0}
     function create_if_block$3(ctx) {
     	let each_1_anchor;
     	let each_value = /*NFTs*/ ctx[5];
@@ -28452,14 +28795,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_if_block$3.name,
     		type: "if",
-    		source: "(189:4) {#if NFTs?.length > 0}",
+    		source: "(198:4) {#if NFTs?.length > 0}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (190:6) {#each NFTs as nft, i}
+    // (199:6) {#each NFTs as nft, i}
     function create_each_block(ctx) {
     	let div5;
     	let div4;
@@ -28471,7 +28814,7 @@ var kredeum_nfts = (function () {
     	let img_src_value;
     	let t0;
     	let p;
-    	let t1_value = nftDescription(/*nft*/ ctx[14]) + "";
+    	let t1_value = nftDescription(/*nft*/ ctx[15]) + "";
     	let t1;
     	let p_title_value;
     	let t2;
@@ -28492,26 +28835,26 @@ var kredeum_nfts = (function () {
     			t2 = space();
     			div1 = element("div");
     			t3 = space();
-    			attr_dev(img, "alt", img_alt_value = nftName(/*nft*/ ctx[14]));
-    			if (!src_url_equal(img.src, img_src_value = nftImageLink(/*nft*/ ctx[14]))) attr_dev(img, "src", img_src_value);
+    			attr_dev(img, "alt", img_alt_value = nftName(/*nft*/ ctx[15]));
+    			if (!src_url_equal(img.src, img_src_value = nftImageLink(/*nft*/ ctx[15]))) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "height", "600");
-    			add_location(img, file$3, 199, 18, 7527);
-    			attr_dev(p, "title", p_title_value = nftDescription(/*nft*/ ctx[14]));
-    			add_location(p, file$3, 200, 18, 7609);
+    			add_location(img, file$3, 208, 18, 8058);
+    			attr_dev(p, "title", p_title_value = nftDescription(/*nft*/ ctx[15]));
+    			add_location(p, file$3, 209, 18, 8140);
     			attr_dev(div0, "class", "table-col");
-    			add_location(div0, file$3, 198, 16, 7485);
+    			add_location(div0, file$3, 207, 16, 8016);
     			attr_dev(div1, "class", "table-col");
-    			add_location(div1, file$3, 204, 16, 7745);
+    			add_location(div1, file$3, 213, 16, 8276);
     			attr_dev(div2, "class", "table-row");
-    			add_location(div2, file$3, 197, 14, 7445);
+    			add_location(div2, file$3, 206, 14, 7976);
     			attr_dev(div3, "class", "table");
-    			add_location(div3, file$3, 196, 12, 7411);
-    			attr_dev(div4, "id", "more-detail-" + /*i*/ ctx[16]);
+    			add_location(div3, file$3, 205, 12, 7942);
+    			attr_dev(div4, "id", "more-detail-" + /*i*/ ctx[17]);
     			attr_dev(div4, "class", "detail");
-    			add_location(div4, file$3, 195, 10, 7357);
-    			attr_dev(div5, "id", "table-drop-" + /*i*/ ctx[16]);
+    			add_location(div4, file$3, 204, 10, 7888);
+    			attr_dev(div5, "id", "table-drop-" + /*i*/ ctx[17]);
     			attr_dev(div5, "class", "table-row table-drop closed");
-    			add_location(div5, file$3, 190, 8, 7093);
+    			add_location(div5, file$3, 199, 8, 7624);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -28528,17 +28871,17 @@ var kredeum_nfts = (function () {
     			append_dev(div5, t3);
     		},
     		p: function update(ctx, dirty) {
-    			if (dirty & /*NFTs*/ 32 && img_alt_value !== (img_alt_value = nftName(/*nft*/ ctx[14]))) {
+    			if (dirty & /*NFTs*/ 32 && img_alt_value !== (img_alt_value = nftName(/*nft*/ ctx[15]))) {
     				attr_dev(img, "alt", img_alt_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && !src_url_equal(img.src, img_src_value = nftImageLink(/*nft*/ ctx[14]))) {
+    			if (dirty & /*NFTs*/ 32 && !src_url_equal(img.src, img_src_value = nftImageLink(/*nft*/ ctx[15]))) {
     				attr_dev(img, "src", img_src_value);
     			}
 
-    			if (dirty & /*NFTs*/ 32 && t1_value !== (t1_value = nftDescription(/*nft*/ ctx[14]) + "")) set_data_dev(t1, t1_value);
+    			if (dirty & /*NFTs*/ 32 && t1_value !== (t1_value = nftDescription(/*nft*/ ctx[15]) + "")) set_data_dev(t1, t1_value);
 
-    			if (dirty & /*NFTs*/ 32 && p_title_value !== (p_title_value = nftDescription(/*nft*/ ctx[14]))) {
+    			if (dirty & /*NFTs*/ 32 && p_title_value !== (p_title_value = nftDescription(/*nft*/ ctx[15]))) {
     				attr_dev(p, "title", p_title_value);
     			}
     		},
@@ -28551,14 +28894,14 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_each_block.name,
     		type: "each",
-    		source: "(190:6) {#each NFTs as nft, i}",
+    		source: "(199:6) {#each NFTs as nft, i}",
     		ctx
     	});
 
     	return block;
     }
 
-    // (188:2) {#key address && refreshing}
+    // (197:2) {#key address && refreshing}
     function create_key_block(ctx) {
     	let if_block_anchor;
     	let if_block = /*NFTs*/ ctx[5]?.length > 0 && create_if_block$3(ctx);
@@ -28596,7 +28939,7 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_key_block.name,
     		type: "key",
-    		source: "(188:2) {#key address && refreshing}",
+    		source: "(197:2) {#key address && refreshing}",
     		ctx
     	});
 
@@ -28608,6 +28951,7 @@ var kredeum_nfts = (function () {
     	let t;
     	let div;
     	let previous_key_1 = /*address*/ ctx[2] && /*refreshing*/ ctx[0];
+    	let current;
     	let key_block0 = create_key_block_1(ctx);
     	let key_block1 = create_key_block(ctx);
 
@@ -28619,7 +28963,7 @@ var kredeum_nfts = (function () {
     			key_block1.c();
     			attr_dev(div, "id", "kredeum-list-nfts");
     			attr_dev(div, "class", "table");
-    			add_location(div, file$3, 186, 0, 6955);
+    			add_location(div, file$3, 195, 0, 7486);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");
@@ -28629,12 +28973,16 @@ var kredeum_nfts = (function () {
     			insert_dev(target, t, anchor);
     			insert_dev(target, div, anchor);
     			key_block1.m(div, null);
+    			current = true;
     		},
     		p: function update(ctx, [dirty]) {
     			if (dirty & /*address, refreshing*/ 5 && safe_not_equal(previous_key, previous_key = /*address*/ ctx[2] && /*refreshing*/ ctx[0])) {
-    				key_block0.d(1);
+    				group_outros();
+    				transition_out(key_block0, 1, 1, noop);
+    				check_outros();
     				key_block0 = create_key_block_1(ctx);
     				key_block0.c();
+    				transition_in(key_block0);
     				key_block0.m(t.parentNode, t);
     			} else {
     				key_block0.p(ctx, dirty);
@@ -28649,8 +28997,15 @@ var kredeum_nfts = (function () {
     				key_block1.p(ctx, dirty);
     			}
     		},
-    		i: noop,
-    		o: noop,
+    		i: function intro(local) {
+    			if (current) return;
+    			transition_in(key_block0);
+    			current = true;
+    		},
+    		o: function outro(local) {
+    			transition_out(key_block0);
+    			current = false;
+    		},
     		d: function destroy(detaching) {
     			key_block0.d(detaching);
     			if (detaching) detach_dev(t);
@@ -28736,6 +29091,10 @@ var kredeum_nfts = (function () {
 
     	const click_handler = i => moreToggle(i);
 
+    	const copy_handler = () => {
+    		console.log('Has Copied');
+    	};
+
     	$$self.$$set = $$props => {
     		if ('chainId' in $$props) $$invalidate(1, chainId = $$props.chainId);
     		if ('address' in $$props) $$invalidate(2, address = $$props.address);
@@ -28744,6 +29103,7 @@ var kredeum_nfts = (function () {
     	};
 
     	$$self.$capture_state = () => ({
+    		Clipboard,
     		getNetwork,
     		sleep,
     		collectionName,
@@ -28807,7 +29167,8 @@ var kredeum_nfts = (function () {
     		moreToggle,
     		platform,
     		refreshNFTs,
-    		click_handler
+    		click_handler,
+    		copy_handler
     	];
     }
 
