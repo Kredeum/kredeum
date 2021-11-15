@@ -69,7 +69,6 @@
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["https://kovan.etherscan.io"],
     "covalent": { "active": false },
-    "nftsFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
     "eip1559": true,
     "costClone": 0.01,
     "testnet": true
@@ -108,7 +107,6 @@
     "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ARETH", "decimals": 18 },
     "blockExplorerUrls": ["https://testnet.arbiscan.io/", "https://rinkeby-explorer.arbitrum.io"],
-    "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "openNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "covalent": { "active": true },
     "testnet": true
@@ -155,9 +153,8 @@
     "chainName": "avalanche",
     "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
-    "blockExplorerUrls": ["https://cchain.explorer.avax.network"],
+    "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
     "covalent": { "active": true },
-    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
     "mainnet": true
   },
@@ -166,9 +163,11 @@
     "chainName": "fuji",
     "rpcUrls": ["https://api.avax-test.network/ext/bc/C/rpc"],
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
-    "blockExplorerUrls": ["https://cchain.explorer.avax-test.network"],
+    "blockExplorerUrls": [
+      "https://testnet.snowtrace.io",
+      "https://cchain.explorer.avax-test.network"
+    ],
     "covalent": { "active": true },
-    "nftsFactory": "0xF6169393986b38e57D61187051c3F5B554796f83",
     "openNFTs": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
     "costClone": 0.2,
     "testnet": true
@@ -179,7 +178,6 @@
     "rpcUrls": ["http://127.0.0.1:8545"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["http://localhost/explorer"],
-    "nftsFactory": "0x8521D459A41931b40D00Bc3Ea36c9E17A64c9042",
     "openNFTs": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
     "costClone": 0.0001,
     "testnet": true

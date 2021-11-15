@@ -222,7 +222,7 @@
         <span class={chainname(network)}>{chainName(network)}</span>
       </div>
       <div class="custom-options">
-        {#each networks.filter((nw) => nw.mainnet) as _network}
+        {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory) as _network}
           <span
             class="custom-option {_network.chainId == chainId && 'selected'}"
             data-value={chainname(_network)}
@@ -231,27 +231,18 @@
             {chainName(_network)}
           </span>
         {/each}
+        <!-- {#if network?.testnet} -->
+        {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+          <span
+            class="custom-option {_network.chainId == chainId && 'selected'}"
+            data-value={chainname(_network)}
+            on:click={() => switchEthereumChain(_network.chainId)}
+          >
+            {chainName(_network)}
+          </span>
+        {/each}
+        <!-- {/if} -->
       </div>
     </div>
   </div>
 </div>
-
-<!-- {#if network?.testnet}
-    <div><br /></div>
-    <span class="label label-big">Testnets</span>
-
-    <div class="box-fields">
-      {#each networks.filter((nw) => nw.testnet) as _network}
-        <input
-          class="box-field"
-          id="{_network.chainName}"
-          name="blockchain-type"
-          type="checkbox"
-          value="{_network.chainName}"
-          checked="{_network.chainId == chainId}"
-          on:click="{() => switchEthereumChain(_network.chainId)}"
-        />
-        <label class="field" for="{_network.chainName}">{_network.chainName}</label>
-      {/each}
-    </div>
-  {/if} -->

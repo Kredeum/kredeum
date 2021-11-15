@@ -54,9 +54,9 @@ const listCollectionsFromCovalent = async (
       balance: BigNumber;
     };
     type AnswerCollectionsCov = {
-      items: Array<CollectionCov>;
+      items?: Array<CollectionCov>;
     };
-    const collectionsCov = ((await fetchCov(path)) as AnswerCollectionsCov).items;
+    const collectionsCov = ((await fetchCov(path)) as AnswerCollectionsCov)?.items;
 
     // console.log(collectionsCov[0]);
     // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);

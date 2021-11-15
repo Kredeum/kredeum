@@ -15,8 +15,8 @@ specifiers:
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers@^0.3.0-beta.11
   '@nomiclabs/hardhat-etherscan': ^2.1.7
   '@nomiclabs/hardhat-waffle': ^2.0.1
-  '@openzeppelin/contracts': ^4.3.2
-  '@openzeppelin/contracts-upgradeable': ^4.3.2
+  '@openzeppelin/contracts': ^4.3.3
+  '@openzeppelin/contracts-upgradeable': ^4.3.3
   '@rollup/plugin-commonjs': ^20.0.0
   '@rollup/plugin-json': ^4.1.0
   '@rollup/plugin-node-resolve': 13.0.3
@@ -63,7 +63,7 @@ specifiers:
   handlebars: ^4.7.7
   hardhat: ^2.6.8
   hardhat-abi-exporter: ^2.3.1
-  hardhat-deploy: ^0.9.6
+  hardhat-deploy: ^0.9.8
   hardhat-deploy-ethers: ^0.3.0-beta.11
   hbs-cli: ^1.4.1
   husky: ^7.0.4
@@ -71,15 +71,15 @@ specifiers:
   mocha: ^9.1.3
   multihashing-async: ^2.1.4
   nft.storage: ^3.4.0
-  node-fetch: ^2.6.4
-  node-jq: ^2.0.0
+  node-fetch: ^2.6.6
+  node-jq: ^2.0.1
   pkg.json: ^2.0.8
   postcss: ^8.3.11
   postcss-loader: ^6.2.0
   prettier: ^2.4.1
   prettier-plugin-sh: ^0.7.1
-  prettier-plugin-solidity: ^1.0.0-beta.18
-  prettier-plugin-svelte: ^2.4.0
+  prettier-plugin-solidity: ^1.0.0-beta.19
+  prettier-plugin-svelte: ^2.5.0
   rollup: ^2.60.0
   rollup-plugin-css-only: ^3.1.0
   rollup-plugin-dotenv: ^0.3.0
@@ -96,7 +96,7 @@ specifiers:
   solhint-plugin-prettier: ^0.0.5
   string-to-file-stream: ^1.3.0
   svelte: ^3.44.1
-  svelte-check: ^2.2.8
+  svelte-check: ^2.2.9
   svelte-preprocess: ^4.9.8
   through2: ^4.0.2
   ts-migrate: ^0.1.26
@@ -124,8 +124,8 @@ devDependencies:
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.11_ethers@5.5.1+hardhat@2.6.8
   '@nomiclabs/hardhat-etherscan': 2.1.7_hardhat@2.6.8
   '@nomiclabs/hardhat-waffle': 2.0.1_c9094d2ef20e934542ddc19d65a47a00
-  '@openzeppelin/contracts': 4.3.2
-  '@openzeppelin/contracts-upgradeable': 4.3.2
+  '@openzeppelin/contracts': 4.3.3
+  '@openzeppelin/contracts-upgradeable': 4.3.3
   '@rollup/plugin-commonjs': 20.0.0_rollup@2.60.0
   '@rollup/plugin-json': 4.1.0_rollup@2.60.0
   '@rollup/plugin-node-resolve': 13.0.3_rollup@2.60.0
@@ -172,7 +172,7 @@ devDependencies:
   handlebars: 4.7.7
   hardhat: 2.6.8
   hardhat-abi-exporter: 2.3.1_hardhat@2.6.8
-  hardhat-deploy: 0.9.6_hardhat@2.6.8
+  hardhat-deploy: 0.9.8_hardhat@2.6.8
   hardhat-deploy-ethers: 0.3.0-beta.11_ethers@5.5.1+hardhat@2.6.8
   hbs-cli: 1.4.1
   husky: 7.0.4
@@ -181,14 +181,14 @@ devDependencies:
   multihashing-async: 2.1.4
   nft.storage: 3.4.0
   node-fetch: 2.6.6
-  node-jq: 2.0.0
+  node-jq: 2.0.1
   pkg.json: 2.0.8
   postcss: 8.3.11
   postcss-loader: 6.2.0_postcss@8.3.11
   prettier: 2.4.1
   prettier-plugin-sh: 0.7.1_prettier@2.4.1
   prettier-plugin-solidity: 1.0.0-beta.19_prettier@2.4.1
-  prettier-plugin-svelte: 2.4.0_prettier@2.4.1+svelte@3.44.1
+  prettier-plugin-svelte: 2.5.0_prettier@2.4.1+svelte@3.44.1
   rollup: 2.60.0
   rollup-plugin-css-only: 3.1.0_rollup@2.60.0
   rollup-plugin-dotenv: 0.3.0_rollup@2.60.0
@@ -205,7 +205,7 @@ devDependencies:
   solhint-plugin-prettier: 0.0.5_d5ff50432f7eabdd00345c0d52ad3cee
   string-to-file-stream: 1.3.0
   svelte: 3.44.1
-  svelte-check: 2.2.8_210a682e3c539664016a09fdf260fd16
+  svelte-check: 2.2.9_210a682e3c539664016a09fdf260fd16
   svelte-preprocess: 4.9.8_0817bf3c3dfca1bb72a040b4f6836cb8
   through2: 4.0.2
   ts-migrate: 0.1.26_typescript@4.4.4
@@ -298,7 +298,7 @@ packages:
       '@babel/compat-data': 7.16.0
       '@babel/core': 7.16.0
       '@babel/helper-validator-option': 7.14.5
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       semver: 6.3.0
     dev: true
 
@@ -2210,12 +2210,12 @@ packages:
       hardhat: 2.6.8
     dev: true
 
-  /@openzeppelin/contracts-upgradeable/4.3.2:
-    resolution: {integrity: sha512-i/pOaOtcqDk4UqsrOv735uYyTbn6dvfiuVu5hstsgV6c4ZKUtu88/31zT2BzkCg+3JfcwOfgg2TtRKVKKZIGkQ==}
+  /@openzeppelin/contracts-upgradeable/4.3.3:
+    resolution: {integrity: sha512-2ELsJkBQ0xirVQnx0utl3N+/iTPF+S0r3j0IVQIMG0HgAWreFXumY+yhGcwSV5JZ/yNNAXWR4mjIYRH/FEgu2Q==}
     dev: true
 
-  /@openzeppelin/contracts/4.3.2:
-    resolution: {integrity: sha512-AybF1cesONZStg5kWf6ao9OlqTZuPqddvprc0ky7lrUVOjXeKpmQ2Y9FK+6ygxasb+4aic4O5pneFBfwVsRRRg==}
+  /@openzeppelin/contracts/4.3.3:
+    resolution: {integrity: sha512-tDBopO1c98Yk7Cv/PZlHqrvtVjlgK5R4J6jxLwoO7qxK4xqOiZG+zSkIvGFpPZ0ikc3QOED3plgdqjgNTnBc7g==}
     dev: true
 
   /@polka/url/1.0.0-next.21:
@@ -2683,8 +2683,8 @@ packages:
       '@types/node': 16.11.7
     dev: true
 
-  /@types/prettier/2.4.1:
-    resolution: {integrity: sha512-Fo79ojj3vdEZOHg3wR9ksAMRz4P3S5fDB5e/YWZiFnyFQI1WY2Vftu9XoXVVtJfxB7Bpce/QTqWSSntkz2Znrw==}
+  /@types/prettier/2.4.2:
+    resolution: {integrity: sha512-ekoj4qOQYp7CvjX8ZDBgN86w3MqQhLE1hczEJbEIjgFEumDy+na/4AJAbLXfgEWFNB2pKadM5rPFtuSGMWK7xA==}
     dev: true
 
   /@types/pug/2.0.5:
@@ -3130,8 +3130,8 @@ packages:
       uri-js: 4.4.1
     dev: true
 
-  /ajv/8.7.1:
-    resolution: {integrity: sha512-gPpOObTO1QjbnN1sVMjJcp1TF9nggMfO4MBR5uQl6ZVTOaEPq5i4oq/6R9q2alMMPB3eg53wFv1RuJBLuxf3Hw==}
+  /ajv/8.8.0:
+    resolution: {integrity: sha512-L+cJ/+pkdICMueKR6wIx3VP2fjIx3yAhuvadUv/osv9yFD7OVZy442xFF+Oeu3ZvmhBGQzoF6mTSt+LUWBmGQg==}
     dependencies:
       fast-deep-equal: 3.1.3
       json-schema-traverse: 1.0.0
@@ -3610,7 +3610,7 @@ packages:
     peerDependencies:
       postcss: ^8.1.0
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       caniuse-lite: 1.0.30001280
       fraction.js: 4.1.2
       normalize-range: 0.1.2
@@ -4573,16 +4573,16 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001280
-      electron-to-chromium: 1.3.895
+      electron-to-chromium: 1.3.896
     dev: true
 
-  /browserslist/4.17.6:
-    resolution: {integrity: sha512-uPgz3vyRTlEiCv4ee9KlsKgo2V6qPk7Jsn0KAn2OBqbqKo3iNcPEC1Ti6J4dwnz+aIRfEEEuOzC9IBk8tXUomw==}
+  /browserslist/4.18.0:
+    resolution: {integrity: sha512-ER2M0g5iAR84fS/zjBDqEgU6iO5fS9JI2EkHr5zxDxYEFk3LjhU9Vpp/INb6RMQphxko7PDV1FH38H/qVP5yCA==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001280
-      electron-to-chromium: 1.3.895
+      electron-to-chromium: 1.3.896
       escalade: 3.1.1
       node-releases: 2.0.1
       picocolors: 1.0.0
@@ -4813,8 +4813,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /camelcase/6.2.0:
-    resolution: {integrity: sha512-c7wVvbw3f37nuobQNtgsgG9POC9qMbNuMQmTCqZv23b6MIz0fcYpBiOlv9gEN/hdLdnZTDQhg6e9Dq5M1vKvfg==}
+  /camelcase/6.2.1:
+    resolution: {integrity: sha512-tVI4q5jjFV5CavAU8DXfza/TJcZutVKo/5Foskmsqcm0MsL91moHvwiGNnqaa2o6PF/7yT5ikDRcVcl8Rj6LCA==}
     engines: {node: '>=10'}
     dev: true
 
@@ -4825,7 +4825,7 @@ packages:
   /caniuse-api/3.0.0:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       caniuse-lite: 1.0.30001280
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
@@ -5441,7 +5441,7 @@ packages:
   /core-js-compat/3.19.1:
     resolution: {integrity: sha512-Q/VJ7jAF/y68+aUsQJ/afPOewdsGkDtcMb40J8MbuWKlK3Y+wtHq8bTHKPj2WKWLIqmS5JhHs4CzHtz6pT2W6g==}
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       semver: 7.0.0
     dev: true
 
@@ -6578,8 +6578,8 @@ packages:
     requiresBuild: true
     dev: true
 
-  /electron-to-chromium/1.3.895:
-    resolution: {integrity: sha512-9Ww3fB8CWctjqHwkOt7DQbMZMpal2x2reod+/lU4b9axO1XJEDUpPMBxs7YnjLhhqpKXIIB5SRYN/B4K0QpvyQ==}
+  /electron-to-chromium/1.3.896:
+    resolution: {integrity: sha512-NcGkBVXePiuUrPLV8IxP43n1EOtdg+dudVjrfVEUd/bOqpQUFZ2diL5PPYzbgEhZFEltdXV3AcyKwGnEQ5lhMA==}
     dev: true
 
   /elliptic/6.5.4:
@@ -9372,8 +9372,8 @@ packages:
       hardhat: 2.6.8
     dev: true
 
-  /hardhat-deploy/0.9.6_hardhat@2.6.8:
-    resolution: {integrity: sha512-4yaG+RSpZhrqIzOrbesObZS0UTB8iKyG9PdGSAYjeiteG24y5AX9Cx5ex0cmOsdfJ2B9Bl7Si/lXTHNXZeC3TQ==}
+  /hardhat-deploy/0.9.8_hardhat@2.6.8:
+    resolution: {integrity: sha512-f7s3mG4wHnZuQWR+W4QVnPIE0OshgBrf19gvqRBqMbH9cDw4IxBXKWYSVTPXHXNITjwE3CA9Rqx+52Ee1ovtAA==}
     peerDependencies:
       '@ethersproject/hardware-wallets': ^5.0.14
       hardhat: ^2.0.0
@@ -12922,8 +12922,8 @@ packages:
     hasBin: true
     dev: true
 
-  /node-jq/2.0.0:
-    resolution: {integrity: sha512-gp8Xkr5RlZrXVK+VuUaF0JKtsGrElHb1hOjugdJFiCMHUup1OqsSBXZyeuwPkpty3P9taFHJmw4uzjQFIMFv4g==}
+  /node-jq/2.0.1:
+    resolution: {integrity: sha512-AkB5AwJ9A47dizAa6ZpKGYGq+x0YtXjUbn7TJjqm2Wf+GuSSekgADDNbAOxasW4eHzuy/UD/FmqbEB7RRNj5mw==}
     engines: {npm: '>=6.0.0'}
     requiresBuild: true
     dependencies:
@@ -13967,7 +13967,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       caniuse-api: 3.0.0
       colord: 2.9.1
       postcss: 8.3.11
@@ -14066,7 +14066,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       caniuse-api: 3.0.0
       cssnano-utils: 2.0.1_postcss@8.3.11
       postcss: 8.3.11
@@ -14103,7 +14103,7 @@ packages:
       postcss: ^8.2.15
     dependencies:
       alphanum-sort: 1.0.2
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       cssnano-utils: 2.0.1_postcss@8.3.11
       postcss: 8.3.11
       postcss-value-parser: 4.1.0
@@ -14189,7 +14189,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       postcss: 8.3.11
       postcss-value-parser: 4.1.0
     dev: true
@@ -14233,7 +14233,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       caniuse-api: 3.0.0
       postcss: 8.3.11
     dev: true
@@ -14388,8 +14388,8 @@ packages:
       string-width: 4.2.3
     dev: true
 
-  /prettier-plugin-svelte/2.4.0_prettier@2.4.1+svelte@3.44.1:
-    resolution: {integrity: sha512-JwJ9bOz4XHLQtiLnX4mTSSDUdhu12WH8sTwy/XTDCSyPlah6IcV7NWeYBZscPEcceu2YnW8Y9sJCP40Z2UH9GA==}
+  /prettier-plugin-svelte/2.5.0_prettier@2.4.1+svelte@3.44.1:
+    resolution: {integrity: sha512-+iHY2uGChOngrgKielJUnqo74gIL/EO5oeWm8MftFWjEi213lq9QYTOwm1pv4lI1nA61tdgf80CF2i5zMcu1kw==}
     peerDependencies:
       prettier: ^1.16.4 || ^2.0.0
       svelte: ^3.2.0
@@ -14479,7 +14479,6 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
-    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
@@ -15373,7 +15372,9 @@ packages:
       jest-worker: 26.6.2
       rollup: 2.60.0
       serialize-javascript: 4.0.0
-      terser: 5.9.0
+      terser: 5.10.0
+    transitivePeerDependencies:
+      - acorn
     dev: true
 
   /rollup-pluginutils/2.8.2:
@@ -16085,7 +16086,7 @@ packages:
     resolution: {integrity: sha512-cOYcUWwhCuHCXi49RhFRCyJEK3iPj1Ziz9DpViV3tbZOwXD49QzIN3MpOLJNxh2qwq2lJJZaKMVw9qNi4jTC0w==}
     dependencies:
       spdx-expression-parse: 3.0.1
-      spdx-license-ids: 3.0.10
+      spdx-license-ids: 3.0.11
     dev: true
 
   /spdx-exceptions/2.3.0:
@@ -16096,11 +16097,11 @@ packages:
     resolution: {integrity: sha512-cbqHunsQWnJNE6KhVSMsMeH5H/L9EpymbzqTQ3uLwNCLZ1Q481oWaofqH7nO6V07xlXwY6PhQdQ2IedWx/ZK4Q==}
     dependencies:
       spdx-exceptions: 2.3.0
-      spdx-license-ids: 3.0.10
+      spdx-license-ids: 3.0.11
     dev: true
 
-  /spdx-license-ids/3.0.10:
-    resolution: {integrity: sha512-oie3/+gKf7QtpitB0LYLETe+k8SifzsX4KixvpOsbI6S0kRiRQ5MKOio8eMSAKQ17N06+wdEOXRiId+zOxo0hA==}
+  /spdx-license-ids/3.0.11:
+    resolution: {integrity: sha512-Ctl2BrFiM0X3MANYgj3CkygxhRmr9mi6xhejbdO960nF6EDJApTYpn0BQnDKlnNBULKiCN1n3w9EBkHK8ZWg+g==}
     dev: true
 
   /split-ca/1.0.1:
@@ -16455,7 +16456,7 @@ packages:
     peerDependencies:
       postcss: ^8.2.15
     dependencies:
-      browserslist: 4.17.6
+      browserslist: 4.18.0
       postcss: 8.3.11
       postcss-selector-parser: 6.0.6
     dev: true
@@ -16506,8 +16507,8 @@ packages:
       has-flag: 4.0.0
     dev: true
 
-  /svelte-check/2.2.8_210a682e3c539664016a09fdf260fd16:
-    resolution: {integrity: sha512-y8BmSf3v+jOoVwKY0K3wAiIt3hupLiUS4HYqXSZPXJZrChKddp+N8fyNeClsDChLt2sLUo6sOAhlnok/RJ+iIw==}
+  /svelte-check/2.2.9_210a682e3c539664016a09fdf260fd16:
+    resolution: {integrity: sha512-au77iP0v2f8F0gWu5Nk3dPkASk4H6DyLQEDQrQR6a7BWJaTnGEZKFhe5EsD8f9tHLyA4awPBi+D56hVuRsbgNA==}
     hasBin: true
     peerDependencies:
       svelte: ^3.24.0
@@ -16666,7 +16667,7 @@ packages:
     resolution: {integrity: sha512-5DkIxeA7XERBqMwJq0aHZOdMadBx4e6eDoFRuyT5VR82J0Ycg2DwM6GfA/EQAhJ+toRTaS1lIdSQCqgrmhPnlw==}
     engines: {node: '>=10.0.0'}
     dependencies:
-      ajv: 8.7.1
+      ajv: 8.8.0
       lodash.truncate: 4.4.2
       slice-ansi: 4.0.0
       string-width: 4.2.3
@@ -16792,10 +16793,15 @@ packages:
       through2: 3.0.2
     dev: true
 
-  /terser/5.9.0:
-    resolution: {integrity: sha512-h5hxa23sCdpzcye/7b8YqbE5OwKca/ni0RQz1uRX3tGh8haaGHqcuSqbGRybuAKNdntZ0mDgFNXPJ48xQ2RXKQ==}
+  /terser/5.10.0:
+    resolution: {integrity: sha512-AMmF99DMfEDiRJfxfY5jj5wNH/bYO09cniSqhfoyxc8sFoYIgkJy86G04UoZU5VjlpnplVu0K6Tx6E9b5+DlHA==}
     engines: {node: '>=10'}
     hasBin: true
+    peerDependencies:
+      acorn: ^8.5.0
+    peerDependenciesMeta:
+      acorn:
+        optional: true
     dependencies:
       commander: 2.20.3
       source-map: 0.7.3
@@ -17082,7 +17088,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/mkdirp': 0.5.2
-      '@types/prettier': 2.4.1
+      '@types/prettier': 2.4.2
       '@types/resolve': 0.0.8
       chalk: 2.4.2
       glob: 7.2.0
@@ -17296,7 +17302,7 @@ packages:
     peerDependencies:
       typescript: '>=4.1.0'
     dependencies:
-      '@types/prettier': 2.4.1
+      '@types/prettier': 2.4.2
       command-line-args: 4.0.7
       debug: 4.3.2
       fs-extra: 7.0.1
@@ -18762,7 +18768,7 @@ packages:
     resolution: {integrity: sha512-7pRTIA9Qc1caZ0bZ6RYRGbHJthJWuakf+WmHK0rVeLkNrrGhfoabBNdue6kdINI6r4if7ocq9aD/n7xwKOdzOA==}
     engines: {node: '>=10'}
     dependencies:
-      camelcase: 6.2.0
+      camelcase: 6.2.1
       decamelize: 4.0.0
       flat: 5.0.2
       is-plain-obj: 2.1.0
