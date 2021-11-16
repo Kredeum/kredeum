@@ -309,14 +309,15 @@ const listNFTsFromContract = async (
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Array<Nft>> => {
-  // console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
+  console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
 
   const nfts: Array<Nft> = [];
 
   if (chainId && collection) {
     const network = getNetwork(chainId);
+    console.log("listNFTsFromContract network", network);
 
-    if (network.nftsFactory) {
+    if (network?.nftsFactory) {
       try {
         const contract = await getOpenNFTs(chainId, collection, _provider);
         if (contract) {
@@ -326,11 +327,11 @@ const listNFTsFromContract = async (
           } else {
             nbTokens = contract.totalSupply ? Number(await contract.totalSupply()) : 0;
           }
-          // console.log("listNFTsFromContract totalSupply", nbTokens);
+          console.log("listNFTsFromContract totalSupply", nbTokens);
 
           for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
             nfts[index] = await getNFTFromContract(chainId, contract, index, _owner);
-            // console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
+            console.log("listNFTsFromContract item", index + 1, chainId, nfts[index]);
           }
         }
       } catch (e) {
@@ -339,8 +340,8 @@ const listNFTsFromContract = async (
     }
   }
 
-  // console.log("listNFTsFromContract", nfts.length);
-  // console.log("listNFTsFromContract", nfts);
+  console.log("listNFTsFromContract", nfts.length);
+  console.log("listNFTsFromContract", nfts);
   return nfts;
 };
 
@@ -384,8 +385,8 @@ const listNFTs = async (
       }
     }
   }
-  // console.log("listNFTs", nfts.length);
-  // console.log(`OpenNFTs.listNFTs from ${collection}`, nfts);
+  console.log("listNFTs", nfts.length);
+  console.log(`OpenNFTs.listNFTs from ${collection}`, nfts);
   return nfts;
 };
 

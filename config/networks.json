@@ -178,6 +178,7 @@
     "rpcUrls": ["http://127.0.0.1:8545"],
     "nativeCurrency": { "name": "Ether", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["http://localhost/explorer"],
+    "nftsFactory": "0xd91fdC4F5f9A062bd99f29facF8B4e7A86C9A1e5",
     "openNFTs": "0x4403599Dbaf405D1483CbC0230AC8435635C46e0",
     "costClone": 0.0001,
     "testnet": true
