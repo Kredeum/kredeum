@@ -33,7 +33,7 @@
 
       <div class="nav">
         <ul>
-          <!-- <li class="active"><a href=""><i class="fas fa-columns"></i></a></li> -->
+          <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
         </ul>
       </div>
     </div>
@@ -51,7 +51,7 @@
       <section class="content">
         <header>
           <h1>My NFT wallet</h1>
-          {#if network?.create}
+          {#if address && network?.create}
             <a href="#create" class="btn btn-default" title="Create"
               ><i class="fas fa-plus fa-left" />Create</a
             >
@@ -61,9 +61,9 @@
             <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
 
             <div class="col col-xs-12 col-sm-3">
-              <span class="label"
-                >Collection &nbsp;&nbsp;&nbsp;
-                {#if collection}
+              {#if address && network?.nftsFactory}
+                <span class="label"
+                  >Collection &nbsp;&nbsp;&nbsp;
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
@@ -73,21 +73,23 @@
                     )}"
                     target="_blank"><i class="fas fa-info-circle" /></a
                   >
-                {/if}
-              </span>
-              <KredeumSelectCollection bind:address bind:chainId bind:collection />
+                </span>
+                <KredeumSelectCollection bind:address bind:chainId bind:collection />
+              {/if}
             </div>
 
             <div class="col col-sm-3">
-              <button
-                class="clear"
-                on:click={() => {
-                  localStorage.clear();
-                  refreshNFTs();
-                }}
-              >
-                <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
-              </button>
+              {#if address && network?.nftsFactory}
+                <button
+                  class="clear"
+                  on:click={() => {
+                    localStorage.clear();
+                    refreshNFTs();
+                  }}
+                >
+                  <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
+                </button>
+              {/if}
             </div>
           </div>
         </header>

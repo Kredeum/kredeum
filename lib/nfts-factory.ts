@@ -9,21 +9,25 @@ import type {
   TransactionReceipt
 } from "@ethersproject/abstract-provider";
 
-const getNFTsFactory = (chainId: number, _providerOrSigner?: Signer | Provider): NFTsFactory => {
+const getNFTsFactory = (
+  chainId: number,
+  _providerOrSigner?: Signer | Provider
+): NFTsFactory | undefined => {
   // console.log("getNFTsFactory", chainId);
 
   const network = getNetwork(chainId);
   // console.log("getNFTsFactory", network);
 
   _providerOrSigner = _providerOrSigner || getProvider(chainId);
+  let nftsFactory: NFTsFactory | undefined;
 
-  const nftsFactory =
-    network?.nftsFactory &&
-    (new Contract(
+  if (network?.nftsFactory) {
+    nftsFactory = new Contract(
       network?.nftsFactory,
       abis.CloneFactory.concat(abis.NFTsFactory),
       _providerOrSigner
-    ) as NFTsFactory);
+    ) as NFTsFactory;
+  }
 
   return nftsFactory;
 };
@@ -56,24 +60,27 @@ const listCollectionsFromCovalent = async (
     type AnswerCollectionsCov = {
       items?: Array<CollectionCov>;
     };
-    const collectionsCov = ((await fetchCov(path)) as AnswerCollectionsCov)?.items;
+    const answerCollectionsCov = (await fetchCov(path)) as AnswerCollectionsCov;
 
-    // console.log(collectionsCov[0]);
-    // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
+    const collectionsCov = answerCollectionsCov?.items;
+    if (collectionsCov?.length) {
+      // console.log(collectionsCov[0]);
+      // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
 
-    for (let index = 0; index < collectionsCov.length; index++) {
-      const collection: CollectionCov = collectionsCov[index];
-      const chainName: string = network.chainName;
-      const address: string = collection.contract_address;
+      for (let index = 0; index < collectionsCov.length; index++) {
+        const collection: CollectionCov = collectionsCov[index];
+        const chainName: string = network.chainName;
+        const address: string = collection.contract_address;
 
-      collections.set(nftsUrl(chainId, address), {
-        chainId,
-        chainName,
-        address,
-        name: collection.contract_name,
-        symbol: collection.contract_ticker_symbol,
-        totalSupply: Number(collection.balance)
-      });
+        collections.set(nftsUrl(chainId, address), {
+          chainId,
+          chainName,
+          address,
+          name: collection.contract_name,
+          symbol: collection.contract_ticker_symbol,
+          totalSupply: Number(collection.balance)
+        });
+      }
     }
   }
   // console.log("listCollectionsFromCovalent nbContracts ERC721", collections.length);
@@ -150,7 +157,7 @@ const listCollectionsFromFactory = async (
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory: NFTsFactory = getNFTsFactory(chainId, _provider);
+  const nftsFactory: NFTsFactory | undefined = getNFTsFactory(chainId, _provider);
   // console.log("listCollectionsFromFactory nftsFactory ok ?", nftsFactory ? "OK" : "KO");
 
   if (nftsFactory) {
@@ -250,19 +257,22 @@ const CloneResponse = async (
   _contract: string,
   _name: string,
   _cloner: Signer
-): Promise<TransactionResponse> => {
+): Promise<TransactionResponse | undefined> => {
   // console.log("CloneResponse", chainId, _contract, await _cloner.getAddress());
 
   const network = getNetwork(chainId);
 
   const nftsFactory = getNFTsFactory(chainId, _cloner);
+  let txResp: TransactionResponse | undefined;
 
-  const n: string = (await nftsFactory.implementationsCount()).toString();
-  const name = _name || `Open NFTs #${n}`;
-  // console.log(`cost ${ethers.utils.formatEther(cost)}`);
+  if (nftsFactory) {
+    const n: string = (await nftsFactory.implementationsCount()).toString();
+    const name = _name || `Open NFTs #${n}`;
+    // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-  const txResp = await nftsFactory.clone(name, `NFT${n}`);
-  console.log(`${network?.blockExplorerUrls[0]}/tx/` + txResp.hash);
+    txResp = await nftsFactory.clone(name, `NFT${n}`);
+    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
+  }
 
   return txResp;
 };
@@ -295,8 +305,11 @@ const Clone = async (
   _cloner: Signer
 ): Promise<string> => {
   const txResp = await CloneResponse(chainId, _contract, _name, _cloner);
-  const txReceipt = await CloneReceipt(txResp);
-  const address = CloneAddress(txReceipt);
+  let address = "";
+  if (txResp) {
+    const txReceipt = await CloneReceipt(txResp);
+    address = CloneAddress(txReceipt);
+  }
   return address;
 };
 

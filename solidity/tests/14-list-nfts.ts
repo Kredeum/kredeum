@@ -21,7 +21,7 @@ let network: Network | undefined;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe("List NFTs lib", function () {
+describe.only("List NFTs lib", function () {
   beforeEach(async () => {
     chainId = (await ethers.provider.getNetwork()).chainId;
     network = getNetwork(chainId);
@@ -30,7 +30,7 @@ describe("List NFTs lib", function () {
       await deployments.fixture(["OpenNFTs"]);
     }
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs");
-    await (await openNFTs.mintNFT(artistAddress, "", txOptions) as TransactionResponse).wait();
+    await ((await openNFTs.mintNFT(artistAddress, "", txOptions)) as TransactionResponse).wait();
 
     contract = openNFTs.address;
 

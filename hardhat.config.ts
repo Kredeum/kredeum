@@ -10,9 +10,11 @@ import "tsconfig-paths/register";
 import "./solidity/tasks/index";
 import dotenv from "dotenv";
 
-dotenv.config();
 if (!process.env.INFURA_API_KEY) {
-  throw new Error("ENV Variable INFURA_API_KEY not set!");
+  dotenv.config();
+  if (!process.env.INFURA_API_KEY) {
+    throw new Error("ENV Variable INFURA_API_KEY not set!");
+  }
 }
 
 const accounts = [
