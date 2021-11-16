@@ -61,7 +61,7 @@ const listCollectionsFromCovalent = async (
     // console.log(collectionsCov[0]);
     // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
 
-    for (let index = 0; index < collectionsCov.length; index++) {
+    for (let index = 0; index < collectionsCov?.length || 0; index++) {
       const collection: CollectionCov = collectionsCov[index];
       const chainName: string = network.chainName;
       const address: string = collection.contract_address;

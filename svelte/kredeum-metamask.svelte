@@ -42,8 +42,9 @@
   const strUpFirst = (str: string): string =>
     str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "";
 
-  const chainname = (network: Network): string => network?.chainName || "unknown";
-  const chainName = (network: Network): string => strUpFirst(chainname(network));
+  const chainname = (_network: Network): string => _network?.chainName || "unknown";
+  const chainName = (_network: Network): string =>
+    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (not available yet)");
 
   const addEthereumChain = async (_chainId) => {
     // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
@@ -206,6 +207,7 @@
 </div>
 
 <div class="col col-xs-12 col-sm-3">
+  <!-- {#if address} -->
   <span class="label"
     >Network &nbsp;&nbsp;&nbsp;
     <a
@@ -222,7 +224,7 @@
         <span class={chainname(network)}>{chainName(network)}</span>
       </div>
       <div class="custom-options">
-        {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory) as _network}
+        {#each networks.filter((nw) => nw.mainnet) as _network}
           <span
             class="custom-option {_network.chainId == chainId && 'selected'}"
             data-value={chainname(_network)}
@@ -231,18 +233,19 @@
             {chainName(_network)}
           </span>
         {/each}
-        <!-- {#if network?.testnet} -->
-        {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
-          <span
-            class="custom-option {_network.chainId == chainId && 'selected'}"
-            data-value={chainname(_network)}
-            on:click={() => switchEthereumChain(_network.chainId)}
-          >
-            {chainName(_network)}
-          </span>
-        {/each}
-        <!-- {/if} -->
+        {#if network?.testnet}
+          {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+            <span
+              class="custom-option {_network.chainId == chainId && 'selected'}"
+              data-value={chainname(_network)}
+              on:click={() => switchEthereumChain(_network.chainId)}
+            >
+              {chainName(_network)}
+            </span>
+          {/each}
+        {/if}
       </div>
     </div>
   </div>
+  <!-- {/if} -->
 </div>
