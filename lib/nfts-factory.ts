@@ -262,7 +262,7 @@ const CloneResponse = async (
   // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
   const txResp = await nftsFactory.clone(name, `NFT${n}`);
-  console.log(`${network?.blockExplorerUrls[0]}/tx/` + txResp.hash);
+  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
 
   return txResp;
 };

@@ -45,7 +45,7 @@
     "sub-codegen": "cd thegraph && graph codegen",
     "sub-graph-build": "cd thegraph && graph build",
     "sub-build": "npm run sub-yaml && npm run sub-codegen && npm run sub-graph-build",
-    "sub-check": "npx prettier thegraph/**/*ts  thegraph/**/*.yaml thegraph/**/*.graphql --write",
+    "sub-check": "npx prettier --no-error-on-unmatched-pattern thegraph/**/*ts  thegraph/**/*.yaml thegraph/**/*.graphql --write",
     "sub-tests": "npx mocha --experimental-json-modules thegraph/tests/*.mjs",
     "sub-predeploy": "npm run sub-clean && npm run sub-yaml && npm run sub-codegen && npm run sub-build && npm run sub-check",
     "sub-predeploy-matic": "NETWORK=matic npm run sub-predeploy",

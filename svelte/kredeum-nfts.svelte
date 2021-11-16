@@ -33,7 +33,7 @@
 
       <div class="nav">
         <ul>
-          <!-- <li class="active"><a href=""><i class="fas fa-columns"></i></a></li> -->
+          <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
         </ul>
       </div>
     </div>
@@ -46,7 +46,6 @@
     >
   </nav>
 
-  <!-- {#key address} -->
   <main class="main-krd" role="main">
     <div id="kredeum-list">
       <section class="content">
@@ -62,7 +61,7 @@
             <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
 
             <div class="col col-xs-12 col-sm-3">
-              {#if address && collection}
+              {#if address && network?.nftsFactory}
                 <span class="label"
                   >Collection &nbsp;&nbsp;&nbsp;
                   <a
@@ -80,7 +79,7 @@
             </div>
 
             <div class="col col-sm-3">
-              {#if address}
+              {#if address && network?.nftsFactory}
                 <button
                   class="clear"
                   on:click={() => {
@@ -105,7 +104,6 @@
       </section>
     </div>
   </main>
-  <!-- {/key} -->
 
   <!-- Modal create -->
   <div id="create" class="modal-window">

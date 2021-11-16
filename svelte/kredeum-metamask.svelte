@@ -177,26 +177,33 @@
       console.log("Please install MetaMask!");
       connectmetamask = "Please install MetaMask chrome extension to connect with your address";
     }
+
+    window.addEventListener("click", (e: Event): void => {
+      const select = document.querySelector(".select-network .select");
+      if (select.contains(e.target as HTMLElement)) {
+        select.classList.toggle("open");
+      } else {
+        select.classList.remove("open");
+      }
+    });
   });
 </script>
 
 <div class="col col-xs-12 col-sm-3">
   {#if address}
-    <span class="label"
-      >Address
-      <a
-        class="info-button"
-        href={explorerAddressUrl(chainId, address)}
-        target="_blank"
-        title="&#009;Account address (click to view account in explorer )&#013;{address}"
-        ><i class="fas fa-info-circle" /></a
-      >
-    </span>
+    <span class="label">Address</span>
+    <a
+      class="info-button"
+      href={explorerAddressUrl(chainId, address)}
+      target="_blank"
+      title="&#009;Account address (click to view account in explorer )&#013;{address}"
+      ><i class="fas fa-info-circle" /></a
+    >
     <div class="form-field">
       <input type="text" value={addressShort(nameOrAddress, 10)} />
     </div>
   {:else}
-    <span class="label">Connect </span>
+    <span class="label">Connect</span>
     <a
       href="."
       on:click={connectMetamask}
@@ -207,34 +214,24 @@
 </div>
 
 <div class="col col-xs-12 col-sm-3">
-  <!-- {#if address} -->
-  <span class="label"
-    >Network &nbsp;&nbsp;&nbsp;
-    <a
-      class="info-button"
-      href={explorerOpenNFTsUrl(chainId)}
-      target="_blank"
-      title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
-      ><i class="fas fa-info-circle" /></a
-    >
-  </span>
-  <div class="select-wrapper select-network">
-    <div class="select">
-      <div class="select-trigger">
-        <span class={chainname(network)}>{chainName(network)}</span>
-      </div>
-      <div class="custom-options">
-        {#each networks.filter((nw) => nw.mainnet) as _network}
-          <span
-            class="custom-option {_network.chainId == chainId && 'selected'}"
-            data-value={chainname(_network)}
-            on:click={() => switchEthereumChain(_network.chainId)}
-          >
-            {chainName(_network)}
-          </span>
-        {/each}
-        {#if network?.testnet}
-          {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+  {#if address}
+    <span class="label"
+      >Network &nbsp;&nbsp;&nbsp;
+      <a
+        class="info-button"
+        href={explorerOpenNFTsUrl(chainId)}
+        target="_blank"
+        title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
+        ><i class="fas fa-info-circle" /></a
+      >
+    </span>
+    <div class="select-wrapper select-network">
+      <div class="select">
+        <div class="select-trigger">
+          <span class={chainname(network)}>{chainName(network)}</span>
+        </div>
+        <div class="custom-options">
+          {#each networks.filter((nw) => nw.mainnet) as _network}
             <span
               class="custom-option {_network.chainId == chainId && 'selected'}"
               data-value={chainname(_network)}
@@ -243,9 +240,19 @@
               {chainName(_network)}
             </span>
           {/each}
-        {/if}
+          {#if network?.testnet}
+            {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+              <span
+                class="custom-option {_network.chainId == chainId && 'selected'}"
+                data-value={chainname(_network)}
+                on:click={() => switchEthereumChain(_network.chainId)}
+              >
+                {chainName(_network)}
+              </span>
+            {/each}
+          {/if}
+        </div>
       </div>
     </div>
-  </div>
-  <!-- {/if} -->
+  {/if}
 </div>
