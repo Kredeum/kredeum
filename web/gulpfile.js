@@ -49,7 +49,7 @@ function images() {
       ])
     )
     .pipe(gulp.dest("./app/assets/images"))
-    .pipe(gulp.dest("./wordpress/kredeum-nfts/lib/images"));
+    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/images"));
 }
 
 // CSS task
