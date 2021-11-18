@@ -10,15 +10,18 @@
   let collectionAddress: string;
   let Collections: Array<Collection>;
   let refreshingCollections: boolean;
+  let open = false;
 
   export let chainId: number = undefined;
   export let address: string = undefined;
   export let collection: Collection = undefined;
 
   const collectionTotalSupply = (collContract: Collection) =>
-    collContract.totalSupply || (collContract.totalSupply == 0 ? "0" : "?");
+    collContract?.totalSupply || (collContract?.totalSupply == 0 ? "0" : "?");
   const collectionNameAndTotalSupply = (collContract: Collection) =>
-    `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`;
+    collContract
+      ? `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`
+      : "Choose collection";
 
   $: if (collectionAddress) {
     collection = Collections?.find((_collection) => _collection.address == collectionAddress);
@@ -40,19 +43,36 @@
     // console.log("<kredeum-nfts/> Collections refresh done", Collections);
     refreshingCollections = false;
   }
+
+  onMount(async () => {
+    window.addEventListener("click", (e: Event): void => {
+      if (!document.querySelector(".select-collection").contains(e.target as HTMLElement)) {
+        open = false;
+      }
+    });
+  });
 </script>
 
-<div id="kredeum-select-collection">
+<div class="select-wrapper select-collection" on:click={() => (open = !open)}>
   {#if Collections}
     {#if Collections.length > 0}
-      <select bind:value={collectionAddress}>
-        <option value="">Choose Collection</option>
-        {#each Collections as coll}
-          <option value={utils.getAddress(coll.address)}>
-            {collectionNameAndTotalSupply(coll)}
-          </option>
-        {/each}
-      </select>
+      <div class="select" class:open>
+        <div class="select-trigger">
+          <span>{collectionNameAndTotalSupply(collection)}</span>
+        </div>
+        <div class="custom-options">
+          {#each Collections as coll}
+            <span
+              class="custom-option {utils.getAddress(coll.address) == collectionAddress &&
+                'selected'}"
+              data-value={utils.getAddress(coll.address)}
+              on:click={() => (collectionAddress = utils.getAddress(coll.address))}
+            >
+              {collectionNameAndTotalSupply(coll)}
+            </span>
+          {/each}
+        </div>
+      </div>
     {:else}
       <p><em>NO Collection found !</em></p>
     {/if}
