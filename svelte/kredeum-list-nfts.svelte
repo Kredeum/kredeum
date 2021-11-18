@@ -86,17 +86,16 @@
   {#if NFTs?.length > 0}
     <h2>
       Collection {collectionName(collection)}
+      <a
+        class="info-button"
+        href={explorerCollectionInventoryUrl(chainId, collection?.address)}
+        title="&#009;Collection address (click to view collection in explorer)&#013;{nftsUrl(
+          chainId,
+          collection?.address
+        )}"
+        target="_blank"><i class="fas fa-info-circle"></i>
+      </a>
     </h2>
-    {nftsSupplyAndName(NFTs, collection)}
-    <a
-      class="info-button"
-      href={explorerCollectionInventoryUrl(chainId, collection?.address)}
-      title="&#009;Collection address (click to view collection in explorer)&#013;{nftsUrl(
-        chainId,
-        collection?.address
-      )}"
-      target="_blank"><i class="fas fa-info-circle" /></a
-    >
 
     <div class="table">
       <div class="table-row table-head hidden-xs">
@@ -124,8 +123,8 @@
                   nft.collection,
                   nft.tokenID
                 )}"
-                target="_blank"><i class="fas fa-info-circle" /></a
-              >
+                target="_blank"><i class="fas fa-info-circle"></i>
+              </a>
             </div>
           </div>
 
@@ -164,8 +163,8 @@
                     nft.collection,
                     nft.tokenID
                   )}"
-                  target="_blank"><i class="fas fa-info-circle" /></a
-                >
+                  target="_blank"><i class="fas fa-info-circle" />
+                </a>
               </div>
             </div>
           {/if}
@@ -215,7 +214,7 @@
       {/each}
     </div>
   {:else}
-    <div class="card">
+    <div class="card-krd">
       <p>No NFTs ✌️</p>
     </div>
   {/if}

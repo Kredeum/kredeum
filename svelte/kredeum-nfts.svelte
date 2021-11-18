@@ -33,7 +33,7 @@
 
       <div class="nav">
         <ul>
-          <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
+          <li class="active"><a href="."><i class="fas fa-columns"></i></a></li>
         </ul>
       </div>
     </div>
@@ -42,7 +42,7 @@
       class="discord-link"
       href="https://discord.gg/Vz5AyU2Nfx"
       target="_blank"
-      title="Discord Kredem"><i class="fas fa-discord" /></a
+      title="Discord Kredem"><i class="fas fa-discord"></i></a
     >
   </nav>
 
@@ -53,8 +53,8 @@
           <h1>My NFT wallet</h1>
           {#if address && network?.create}
             <a href="#create" class="btn btn-default" title="Create"
-              ><i class="fas fa-plus fa-left" />Create</a
-            >
+              ><i class="fas fa-plus fa-left" />Create
+            </a>
           {/if}
 
           <div class="row alignbottom">
@@ -63,7 +63,7 @@
             <div class="col col-xs-12 col-sm-3">
               {#if address && network?.nftsFactory}
                 <span class="label"
-                  >Collection &nbsp;&nbsp;&nbsp;
+                  >Collection
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
@@ -87,7 +87,7 @@
                     refreshNFTs();
                   }}
                 >
-                  <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
+                  <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}"></i>
                 </button>
               {/if}
             </div>
@@ -138,9 +138,3 @@
     <KredeumCreateCollection bind:collection bind:address bind:chainId bind:signer />
   </div>
 </div>
-
-<style>
-  #kredeum-nfts {
-    width: 97%;
-  }
-</style>

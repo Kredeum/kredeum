@@ -189,41 +189,44 @@
   });
 </script>
 
-<div class="col col-xs-12 col-sm-3">
-  {#if address}
+
+{#if address}
+  <div class="col col-xs-12 col-sm-3">
     <span class="label">Address</span>
     <a
       class="info-button"
       href={explorerAddressUrl(chainId, address)}
       target="_blank"
       title="&#009;Account address (click to view account in explorer )&#013;{address}"
-      ><i class="fas fa-info-circle" /></a
-    >
+      ><i class="fas fa-info-circle"></i>
+    </a>
     <div class="form-field">
       <input type="text" value={addressShort(nameOrAddress, 10)} />
     </div>
-  {:else}
+  </div>
+{:else}
+  <div class="col">
     <span class="label">Connect</span>
     <a
       href="."
       on:click={connectMetamask}
       class="btn btn-light btn-metamask"
-      title="Connect to Metamask">Connect to Metamask</a
-    >
-  {/if}
-</div>
+      title="Connect to Metamask">Connect to Metamask
+    </a>
+  </div>
+{/if}
 
-<div class="col col-xs-12 col-sm-3">
-  {#if address}
-    <span class="label"
-      >Network &nbsp;&nbsp;&nbsp;
+
+{#if address}
+  <div class="col col-xs-12 col-sm-3">
+    <span class="label">Network
       <a
         class="info-button"
         href={explorerOpenNFTsUrl(chainId)}
         target="_blank"
         title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
-        ><i class="fas fa-info-circle" /></a
-      >
+        ><i class="fas fa-info-circle"></i>
+      </a>
     </span>
     <div class="select-wrapper select-network">
       <div class="select">
@@ -254,5 +257,6 @@
         </div>
       </div>
     </div>
+  </div>
   {/if}
-</div>
+
