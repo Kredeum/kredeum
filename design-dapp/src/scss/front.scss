@@ -57,8 +57,6 @@
 }
 
 .main-krd {
-    background: url("../images/bg-dapp.svg") no-repeat center -200px;
-    background-attachment: fixed;
     width: 100%;
 
     .content {
@@ -90,6 +88,12 @@
             }
 
             .select-network {
+                .custom-options {
+                    .custom-option {
+                        padding-left: 35px;
+                    }
+                }
+
                 .select-trigger {
                     span {
                         padding-left: 35px;
@@ -130,6 +134,8 @@
         }
 
         .table {
+            overflow: hidden;
+
             .table-row {
                 transition: all 300ms ease-in-out;
             }
@@ -196,7 +202,6 @@
 
             .table-drop {
                 position: relative;
-                box-shadow: 0 0 4rem rgba(0,0,0,.1);
             }
 
             .detail {
@@ -209,8 +214,6 @@
             }
 
             .closed {
-                box-shadow: none;
-
                 .more-button {
                     i {
                         transform: rotate(0deg);

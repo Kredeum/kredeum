@@ -231,7 +231,7 @@ select {
     }
 }
 
-.card {
+.card-krd {
     background: $white;
     padding: 20px;
     @include border-radius();
@@ -382,7 +382,6 @@ select {
         .custom-option {
             position: relative;
             display: block;
-            padding: 0 20px 0 35px;
             font-size: 15px;
             font-weight: 300;
             color: $couleur1;
