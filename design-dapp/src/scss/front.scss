@@ -1,6 +1,18 @@
 @import '_variables';
 @import '_global';
 
+#kredeum-app.wordpress {
+    header {
+        padding: 0;
+
+        h1 {
+            background: url('../images/logo-kredeum-bl.svg') no-repeat left center;
+            padding: 10px 0 10px 50px;
+            background-size: 40px auto;
+        }
+    }
+}
+
 .nav-krd {
     ul {
         padding: 0;
@@ -90,7 +102,7 @@
             .select-network {
                 .custom-options {
                     .custom-option {
-                        padding-left: 35px;
+                        padding: 5px 0 5px 35px;
                     }
                 }
 
