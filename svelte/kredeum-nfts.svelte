@@ -42,7 +42,8 @@
       class="discord-link"
       href="https://discord.gg/Vz5AyU2Nfx"
       target="_blank"
-      title="Discord Kredem"><i class="fas fa-discord" /></a
+      alt="Discord Kredeum"
+      title="Discord Kredeum"><i class="fab fa-discord" /></a
     >
   </nav>
 
@@ -138,9 +139,3 @@
     <KredeumCreateCollection bind:collection bind:address bind:chainId bind:signer />
   </div>
 </div>
-
-<style>
-  #kredeum-nfts {
-    width: 97%;
-  }
-</style>

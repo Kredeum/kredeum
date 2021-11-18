@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Kredeum dapp</title>
+		<meta name="description" content="The decentralized NFT platform" />
+		<link rel="stylesheet" href="assets/css/front.css">
+
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
+	</head>
+
+	<body>
+		<div id="kredeum-app">
+            <div id="kredeum-nfts">
+                <nav class="nav-krd" role="navigation">
+                    <div class="logo"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></div>
+
+                    <div class="menu">
+                        <input id="burger" type="checkbox" />
+
+                        <label for="burger">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </label>
+
+                        <div class="nav">
+                            <ul>
+                                <li class="active"><a href=""><i class="fas fa-columns"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <a class="discord-link" href="https://discord.gg/Vz5AyU2Nfx" target="_blank" title="Discord Kredem"><i class="fas fa-discord"></i></a>
+                </nav>
+
+                <main class="main-krd" role="main">
+                    <section class="content">
+                        <header>
+                            <h1>My NFT wallet</h1>
+                            <a href="#create" class="btn btn-default" title="Create"><i class="fas fa-plus fa-left"></i>Create</a>
+
+                            <div class="row alignbottom">
+                                <div class="col col-xs-12 col-sm-3">
+                                    <span class="label">Network <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a></span>
+                                    <div class="select-wrapper select-network">
+                                        <div class="select">
+                                            <div class="select-trigger">
+                                                <span class="polygon">Polygon</span>
+                                            </div>
+                                            <div class="custom-options">
+                                                <span class="custom-option selected" data-value="polygon">Polygon</span>
+                                                <span class="custom-option" data-value="ethereum">Ethereum</span>
+                                                <span class="custom-option" data-value="bsc">BSC</span>
+                                                <span class="custom-option" data-value="fantom">Fantom</span>
+                                                <span class="custom-option" data-value="avalanche">Avalanche</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-xs-12 col-sm-3">
+                                    <span class="label">Collection <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a></span>
+
+                                    <div class="select-wrapper">
+                                        <div class="select">
+                                            <div class="select-trigger">
+                                                <span>All collections</span>
+                                            </div>
+                                            <div class="custom-options">
+                                                <span class="custom-option selected">All collections</span>
+                                                <span class="custom-option">Collection 1</span>
+                                                <span class="custom-option">Collection 2</span>
+                                                <span class="custom-option">Collection 3</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="col col-xs-12 col-sm-3">
+                                    <span class="label">Address <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a></span>
+                                    <div class="form-field">
+                                        <input type="text" />
+                                    </div>
+                                </div>
+
+                                <div class="col col-sm-3">
+                                    <button class="clear">
+                                        <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </header>
+
+                        <h2>Collection MaticPunk <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a></h2>
+
+                        <div class="table">
+                            <div class="table-row table-head hidden-xs">
+                                <div class="table-col"><span class="label">Media</span></div>
+                                <div class="table-col"><span class="label">Action</span></div>
+                            </div>
+
+                            <div id="table-drop-1" class="table-row table-drop closed">
+                                <div class="table-col">
+                                    <div class="table-col-content">
+                                        <div class="media media-small media-photo"><img src="https://picsum.photos/40" /></div>
+                                        <strong>MaticPunk #8373</strong>
+                                        <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a>
+                                    </div>
+                                </div>
+                                <div class="table-col">
+                                    <div class="table-col-content"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
+                                </div>
+                                <div class="table-col more">
+                                    <div class="table-col-content txtright"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
+                                </div>
+
+                                <div class="detail">
+                                    <div class="media media-photo"><img src="https://picsum.photos/340" /></div>
+                                    <div class="description">
+                                        <strong>Description</strong>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel lectus. Integer arcu est, laoreet ut dui ac, cursus suscipit metus.</p>
+                                        <ul class="steps">
+                                            <li>
+                                                <div class="flex"><span class="label">Token ID</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank"><strong>#8373</strong></a></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Image</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Transaction</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">0x2435…4536</a></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="table-drop-2" class="table-row table-drop closed">
+                                <div class="table-col">
+                                    <div class="table-col-content">
+                                        <div class="media media-small media-photo"><img src="https://picsum.photos/40" /></div>
+                                        <strong>MaticPunk #8373</strong>
+                                        <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle"></i></a>
+                                    </div>
+                                </div>
+                                <div class="table-col">
+                                    <div class="table-col-content"><a href="#" class="btn btn-small btn-sell" title="Sell">Sell</a></div>
+                                </div>
+                                <div class="table-col more">
+                                    <div class="table-col-content txtright"><div class="more-button"><i class="fas fa-chevron-down"></i></div></div>
+                                </div>
+
+                                <div class="detail">
+                                    <div class="media media-photo"><img src="https://picsum.photos/340" /></div>
+                                    <div class="description">
+                                        <strong>Description</strong>
+                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel lectus. Integer arcu est, laoreet ut dui ac, cursus suscipit metus.</p>
+                                        <ul class="steps">
+                                            <li>
+                                                <div class="flex"><span class="label">Token ID</span></div>
+                                                <div class="flex"><strong>#8373</strong></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Image</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                            </li>
+                                            <li>
+                                                <div class="flex"><span class="label">Transaction</span></div>
+                                                <div class="flex"><a class="link" href="" target="_blank">0x2435…4536</a></div>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+		        </main>
+
+                <!-- Modal create -->
+                <div id="create" class="modal-window">
+                    <div>
+                        <div class="modal-content">
+                            <a href="#" title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+                            <div class="modal-body">
+                                <div class="titre"><i class="fas fa-plus fa-left c-green"></i>What do you want to do ?</div>
+
+                                <div class="txtcenter">
+                                    <a href="#create-nft" class="btn btn-default" title="Create NFT">Create NFT</a>
+                                    <span class="or">Or</span>
+                                    <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal create NFT -->
+                <div id="create-nft" class="modal-window">
+                    <div>
+                        <div class="modal-content">
+                            <a href="#" title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+                            <div class="modal-body">
+                                <div class="titre"><i class="fas fa-plus fa-left c-green"></i>Create NFT</div>
+
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    <div class="section">
+                                        <div class="box-file"><input type="file" id="file" name="file" /></div>
+                                        <div class="media media-photo mt-20"><img src="https://picsum.photos/130" /></div>
+                                    </div>
+
+                                    <div class="section">
+                                        <span class="label label-big">Media type</span>
+                                        <div class="box-fields">
+                                            <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video">
+                                            <label class="field" for="create-type-video"><i class="fas fa-play"></i>Video</label>
+
+                                            <input class="box-field" id="create-type-picture" name="media-type" type="checkbox" value="Picture">
+                                            <label class="field" for="create-type-picture"><i class="fas fa-image"></i>Picture</label>
+
+                                            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte">
+                                            <label class="field" for="create-type-texte"><i class="fas fa-file-alt"></i>Texte</label>
+
+                                            <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music">
+                                            <label class="field" for="create-type-music"><i class="fas fa-music"></i>Music</label>
+
+                                            <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web">
+                                            <label class="field" for="create-type-web"><i class="fas fa-code"></i>Web</label>
+                                        </div>
+                                    </div>
+
+                                    <div class="section">
+                                        <span class="label label-big">Add to an existing collection ?</span>
+                                        <div>
+                                            <select class="custom">
+                                                <option selected value="0">Collection 0</option>
+                                                <option value="1">Collection 1</option>
+                                                <option value="2">Collection 2</option>
+                                                <option value="3">Collection 3</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="txtright">
+                                        <button class="btn btn-default btn-sell" type="submit">Add file</button>
+                                    </div>
+                                </form>
+
+                                <div class="titre"><i class="fas fa-spinner fa-left c-green refresh"></i>Minting NFT</div>
+                                <div class="media media-photo"><img src="https://picsum.photos/130" /></div>
+                                <ul class="steps process">
+                                    <li class="complete">
+                                        <div class="flex"><span class="label">Image ipfs cid</span></div>
+                                        <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                    </li>
+                                    <li class="complete">
+                                        <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+                                        <div class="flex"><a class="link" href="" target="_blank">bakrefile…tghekjele</a></div>
+                                    </li>
+                                    <li class="complete">
+                                        <div class="flex"><span class="label">Transaction</span></div>
+                                        <div class="flex"><a class="link" href="" target="_blank">0x2435…4536</a></div>
+                                    </li>
+                                    <li>
+                                        <div class="flex"><span class="label">Token ID</span></div>
+                                        <div class="flex"><span class="t-light">It may takes one minute more</span><i class="fas fa-spinner fa-right c-green refresh"></i></div>
+                                    </li>
+                                    <li>
+                                        <div class="flex"><span class="label">NFT</span></div>
+                                        <div class="flex"><span class="t-light">It may takes one minute more</span><i class="fas fa-spinner fa-right c-green refresh"></i></div>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Modal add collection -->
+                <div id="add-collection" class="modal-window">
+                    <div>
+                        <div class="modal-content">
+                            <a href="#" title="Close" class="modal-close"><i class="fa fa-times"></i></a>
+
+                            <div class="modal-body">
+                                <div class="titre"><i class="fas fa-plus fa-left c-green"></i>Name your collection</div>
+
+                                <form method="POST" action="" enctype="multipart/form-data">
+                                    <div class="section">
+                                        <div class="form-field">
+                                            <input type="text" id="collection" name="collection" placeholder="My collection" />
+                                        </div>
+                                    </div>
+
+                                    <div class="txtright">
+                                        <button class="btn btn-default btn-sell" type="submit">Create</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="text/javascript" src="./assets/js/front.js"></script>
+	</body>
+</html>

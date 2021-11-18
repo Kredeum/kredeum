@@ -21,7 +21,7 @@ var config = {
 
 // Clean assets
 function clean() {
-  return del(["./app/assets/"]);
+  return del(["./app/assets/", "./maq/", "./wordpress/kredeum-nfts/lib/"]);
 }
 
 function swallow(err) {
@@ -33,7 +33,6 @@ function swallow(err) {
 function images() {
   return gulp
     .src("./src/images/**/*")
-    .pipe(newer("./app/assets/images"))
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
@@ -49,7 +48,8 @@ function images() {
         })
       ])
     )
-    .pipe(gulp.dest("./app/assets/images"));
+    .pipe(gulp.dest("./app/assets/images"))
+    .pipe(gulp.dest("./wordpress/kredeum-nfts/lib/images"));
 }
 
 // CSS task
@@ -72,23 +72,27 @@ function fonts() {
     .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/fonts/"));
 }
 
+// Copy html
+function htmls() {
+  return gulp.src(["./src/html/**/*"]).pipe(gulp.dest("./app"));
+}
+
 // Transpile, concatenate and minify scripts
-// function scripts() {
-//   return gulp
-//     .src(["./src/js/**/*"])
-//     .pipe(plumber())
-//     .pipe(!config.production ? uglify().on("error", swallow) : noop())
-//     .pipe(gulp.dest("./app/assets/js/"));
-// }
+function scripts() {
+  return gulp
+    .src(["./src/js/**/*"])
+    .pipe(plumber())
+    .pipe(!config.production ? uglify().on("error", swallow) : noop())
+    .pipe(gulp.dest("./app/assets/js/"));
+}
 
 // Watch files
 function watchFiles() {
   gulp.watch("./src/scss/**/*", css);
-  // gulp.watch("./src/js/**/*", gulp.series(scripts));
+  gulp.watch("./src/js/**/*", gulp.series(scripts));
 }
 
-// const build = gulp.series(clean, gulp.parallel(css, images, scripts), fonts);
-const build = gulp.series(clean, gulp.parallel(css, images), fonts);
+const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);
 const watch = gulp.parallel(watchFiles);
 
 exports.images = images;

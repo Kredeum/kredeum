@@ -44,7 +44,7 @@
 
   const chainname = (_network: Network): string => _network?.chainName || "unknown";
   const chainName = (_network: Network): string =>
-    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (not available yet)");
+    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (soon available)");
 
   const addEthereumChain = async (_chainId) => {
     // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
