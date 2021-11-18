@@ -2,6 +2,10 @@
 @import '_global';
 
 #kredeum-app.wordpress {
+    .nav-krd {
+        display: none;
+    }
+
     header {
         padding: 0;
 

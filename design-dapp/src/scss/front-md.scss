@@ -1,6 +1,12 @@
 @import '_variables';
 @import 'core/_mixins';
 
+#kredeum-app:not(.wordpress) {
+    .main-krd {
+        padding-left: 170px;
+    }
+}
+
 .nav-krd {
     flex: 0 0 auto;
     width: 130px;
@@ -54,10 +60,6 @@
             color: $white;
         }
     }
-}
-
-.nav-krd + .main-krd {
-    padding-left: 170px;
 }
 
 .main-krd {
