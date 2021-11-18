@@ -33,6 +33,8 @@
   let connectmetamask = "Connect to Metamask";
   let targetChain = false;
 
+  let open = false;
+
   $: if (address) setEnsName();
   const setEnsName = async () => {
     nameOrAddress = address;
@@ -44,7 +46,7 @@
 
   const chainname = (_network: Network): string => _network?.chainName || "unknown";
   const chainName = (_network: Network): string =>
-    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (not available yet)");
+    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (soon available)");
 
   const addEthereumChain = async (_chainId) => {
     // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
@@ -179,11 +181,8 @@
     }
 
     window.addEventListener("click", (e: Event): void => {
-      const select = document.querySelector(".select-network .select");
-      if (select.contains(e.target as HTMLElement)) {
-        select.classList.toggle("open");
-      } else {
-        select.classList.remove("open");
+      if (!document.querySelector(".select-network").contains(e.target as HTMLElement)) {
+        open = false;
       }
     });
   });
@@ -225,8 +224,9 @@
         ><i class="fas fa-info-circle" /></a
       >
     </span>
-    <div class="select-wrapper select-network">
-      <div class="select">
+
+    <div class="select-wrapper select-network" on:click={() => (open = !open)}>
+      <div class="select" class:open>
         <div class="select-trigger">
           <span class={chainname(network)}>{chainName(network)}</span>
         </div>

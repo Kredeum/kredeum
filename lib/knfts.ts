@@ -55,11 +55,8 @@ const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
     : explorerUrl(chainId, `/token/${collAddress}`);
 const explorerCollectionLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), addressShort(collAddress));
-const explorerOpenNFTsUrl = (chainId: number): string => {
-  console.log("getOpenNFTsAddress(chainId)", chainId, getOpenNFTsAddress(chainId));
-  return explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
-};
-
+const explorerOpenNFTsUrl = (chainId: number): string =>
+  explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
 const explorerCollectionInventoryLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
