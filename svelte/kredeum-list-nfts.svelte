@@ -194,7 +194,7 @@
                   </div>
                 </li>
                 <li class="complete">
-                  <div class="flex"><span class="label">WP NFT Sell button</span></div>
+                  <div class="flex"><span class="label">Sell button</span></div>
                   <div class="flex">
                     <Clipboard
                       text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]"
