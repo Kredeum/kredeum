@@ -118,7 +118,7 @@ select {
     outline: 0;
     font-size: 15px;
     padding-left: 25px;
-    background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+    background: $white url('../images/chevron.svg') no-repeat right 20px center;
     color: $couleur1;
     border-radius: 360px;
     cursor: pointer;
@@ -353,7 +353,7 @@ select {
         height: 50px;
         line-height: 50px;
         cursor: pointer;
-        background: $white url('../images/chevron.svg') no-repeat 90% 50%;
+        background: $white url('../images/chevron.svg') no-repeat right 20px center;
         border-radius: 360px;
         font-size: 15px;
 
@@ -374,13 +374,12 @@ select {
         border-top: 0;
         background: $white;
         transition: all 0.5s;
-        opacity: 0;
-        visibility: hidden;
         pointer-events: none;
         z-index: 2;
         padding: 20px;
         border-radius: 30px;
-        box-shadow: 0 0 4rem rgba(0,0,0,.1);
+        box-shadow: 0 0 20px rgba(0,0,0,.1);
+        display: none;
 
         .custom-option {
             position: relative;
@@ -405,11 +404,18 @@ select {
         }
     }
 
-    .select.open .custom-options {
-        opacity: 1;
-        visibility: visible;
-        pointer-events: all;
-        top: calc(100% + 10px);
+    .select.open {
+        .custom-options {
+            pointer-events: all;
+            top: calc(100% + 10px);
+            display: block;
+        }
+    }
+}
+
+.modal-window {
+    .select-trigger {
+        border: 1px solid rgba($grey-blue, 0.3);
     }
 }
 
