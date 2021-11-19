@@ -140,7 +140,7 @@
           </p>
         </div>
 
-        <ul class="steps">
+        <ul class="steps process">
           <li class={minting >= 2 ? "complete" : ""}>
             <div class="flex"><span class="label">Image ipfs cid</span></div>
             <div class="flex">
