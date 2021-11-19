@@ -27689,9 +27689,9 @@ var kredeum_nfts = (function () {
     			div = element("div");
     			p = element("p");
     			p.textContent = "No NFTs ✌️";
-    			add_location(p, file$3, 190, 6, 7441);
+    			add_location(p, file$3, 190, 6, 7448);
     			attr_dev(div, "class", "card");
-    			add_location(div, file$3, 189, 4, 7416);
+    			add_location(div, file$3, 189, 4, 7423);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div, anchor);
@@ -28186,7 +28186,7 @@ var kredeum_nfts = (function () {
     	return block;
     }
 
-    // (170:20) <Clipboard                       text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>
+    // (170:20) <Clipboard                       text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID} cid={nft.cid}]{nftName(nft)}[/kredeum_sell]"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>
     function create_default_slot(ctx) {
     	let button;
     	let mounted;
@@ -28197,7 +28197,7 @@ var kredeum_nfts = (function () {
     			button = element("button");
     			button.textContent = "Copy shortcode";
     			attr_dev(button, "class", "btn btn-small btn-sell");
-    			add_location(button, file$3, 175, 22, 6936);
+    			add_location(button, file$3, 175, 22, 6943);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, button, anchor);
@@ -28231,7 +28231,7 @@ var kredeum_nfts = (function () {
     		block,
     		id: create_default_slot.name,
     		type: "slot",
-    		source: "(170:20) <Clipboard                       text=\\\"[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]\\\"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>",
+    		source: "(170:20) <Clipboard                       text=\\\"[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID} cid={nft.cid}]{nftName(nft)}[/kredeum_sell]\\\"                       let:copy                       on:copy={() => {                         console.log('Has Copied');                       }}>",
     		ctx
     	});
 
@@ -28330,7 +28330,7 @@ var kredeum_nfts = (function () {
 
     	clipboard = new Clipboard({
     			props: {
-    				text: "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]",
+    				text: "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + " cid=" + /*nft*/ ctx[15].cid + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]",
     				$$slots: {
     					default: [
     						create_default_slot,
@@ -28409,7 +28409,7 @@ var kredeum_nfts = (function () {
     			li3 = element("li");
     			div13 = element("div");
     			span4 = element("span");
-    			span4.textContent = "WP NFT Sell button";
+    			span4.textContent = "Sell button";
     			t25 = space();
     			div14 = element("div");
     			create_component(clipboard.$$.fragment);
@@ -28487,7 +28487,7 @@ var kredeum_nfts = (function () {
     			attr_dev(div13, "class", "flex");
     			add_location(div13, file$3, 167, 18, 6474);
     			attr_dev(div14, "class", "flex");
-    			add_location(div14, file$3, 168, 18, 6562);
+    			add_location(div14, file$3, 168, 18, 6555);
     			attr_dev(li3, "class", "complete");
     			add_location(li3, file$3, 166, 16, 6434);
     			attr_dev(ul, "class", "steps");
@@ -28617,7 +28617,7 @@ var kredeum_nfts = (function () {
     			}
 
     			const clipboard_changes = {};
-    			if (dirty & /*network, collection, NFTs*/ 56) clipboard_changes.text = "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]";
+    			if (dirty & /*network, collection, NFTs*/ 56) clipboard_changes.text = "[kredeum_sell chain=" + /*network*/ ctx[4]?.chainName + " collection=" + /*collection*/ ctx[3]?.address + " tokenid=" + /*nft*/ ctx[15].tokenID + " cid=" + /*nft*/ ctx[15].cid + "]" + nftName(/*nft*/ ctx[15]) + "[/kredeum_sell]";
 
     			if (dirty & /*$$scope, copy*/ 1572864) {
     				clipboard_changes.$$scope = { dirty, ctx };
@@ -28838,23 +28838,23 @@ var kredeum_nfts = (function () {
     			attr_dev(img, "alt", img_alt_value = nftName(/*nft*/ ctx[15]));
     			if (!src_url_equal(img.src, img_src_value = nftImageLink(/*nft*/ ctx[15]))) attr_dev(img, "src", img_src_value);
     			attr_dev(img, "height", "600");
-    			add_location(img, file$3, 208, 18, 8058);
+    			add_location(img, file$3, 208, 18, 8065);
     			attr_dev(p, "title", p_title_value = nftDescription(/*nft*/ ctx[15]));
-    			add_location(p, file$3, 209, 18, 8140);
+    			add_location(p, file$3, 209, 18, 8147);
     			attr_dev(div0, "class", "table-col");
-    			add_location(div0, file$3, 207, 16, 8016);
+    			add_location(div0, file$3, 207, 16, 8023);
     			attr_dev(div1, "class", "table-col");
-    			add_location(div1, file$3, 213, 16, 8276);
+    			add_location(div1, file$3, 213, 16, 8283);
     			attr_dev(div2, "class", "table-row");
-    			add_location(div2, file$3, 206, 14, 7976);
+    			add_location(div2, file$3, 206, 14, 7983);
     			attr_dev(div3, "class", "table");
-    			add_location(div3, file$3, 205, 12, 7942);
+    			add_location(div3, file$3, 205, 12, 7949);
     			attr_dev(div4, "id", "more-detail-" + /*i*/ ctx[17]);
     			attr_dev(div4, "class", "detail");
-    			add_location(div4, file$3, 204, 10, 7888);
+    			add_location(div4, file$3, 204, 10, 7895);
     			attr_dev(div5, "id", "table-drop-" + /*i*/ ctx[17]);
     			attr_dev(div5, "class", "table-row table-drop closed");
-    			add_location(div5, file$3, 199, 8, 7624);
+    			add_location(div5, file$3, 199, 8, 7631);
     		},
     		m: function mount(target, anchor) {
     			insert_dev(target, div5, anchor);
@@ -28963,7 +28963,7 @@ var kredeum_nfts = (function () {
     			key_block1.c();
     			attr_dev(div, "id", "kredeum-list-nfts");
     			attr_dev(div, "class", "table");
-    			add_location(div, file$3, 195, 0, 7486);
+    			add_location(div, file$3, 195, 0, 7493);
     		},
     		l: function claim(nodes) {
     			throw new Error("options.hydrate only works if the component was compiled with the `hydratable: true` option");

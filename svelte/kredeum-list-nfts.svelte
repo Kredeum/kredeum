@@ -197,7 +197,7 @@
                   <div class="flex"><span class="label">Sell button</span></div>
                   <div class="flex">
                     <Clipboard
-                      text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID}]{nftName(nft)}[/kredeum_sell]"
+                      text="[kredeum_sell chain={network?.chainName} collection={collection?.address} tokenid={nft.tokenID} cid={nft.cid}]{nftName(nft)}[/kredeum_sell]"
                       let:copy
                       on:copy={() => {
                         console.log('Has Copied');

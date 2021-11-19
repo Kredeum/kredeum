@@ -24,17 +24,26 @@ function kredeum_sell_shortcode( $atts = [], $content = null, $tag = '' ) {
     // override default attributes with user attributes
     $args = shortcode_atts(
         array(
-            'chain' => '',            
+            'chain' => '',
             'collection' => '',
-            'tokenid' => '',            
+            'tokenid' => '',
+            'cid' => '',
+            'image' => '',
         ), $atts
     );
  
-    $o = '<a href="https://opensea.io/assets/' .  $args['chain'] . '/' .  $args['collection'] . '/' .  $args['tokenid'] . '" target="_blank">';
+//    var_dump($args['image']);
+
+    $o = '<div>';
+    $o .= ' <a href="https://opensea.io/assets/' .  $args['chain'] . '/' .  $args['collection'] . '/' .  $args['tokenid'] . '" target="_blank">';
     $o .= ' <button class="kredeum-sell btn btn-small btn-sell"';
     $o .= ' collection="' . $args['collection'] . '"';
     $o .= ' tokenid="' . $args['tokenid'] . '">';
     $o .= 'Buy NFT: ' . $content;
     $o .= '</button></a>';
+    if (isset($args['image'])&&($args['image'] > 0)) {
+        $o .= '<br><br><div><img src="https://ipfs.io/ipfs/' . $args['cid'] . '" width="' . $args['image'] . '%"></img></div>';
+    }    
+    $o .= '</div>';    
     return $o;
 }
