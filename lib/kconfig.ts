@@ -1,11 +1,15 @@
 import networks from "../config/networks.json";
 import abis from "../config/abis.json";
-import type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys } from "./ktypes";
+import type { Collection, Address, Network, ABIS, Nft, KredeumKeys, ErcKeys } from "./ktypes";
 
-import { providers } from "ethers";
+import { providers, utils } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
+
+const getChecksumAddress = (address: Address | string | undefined): Address => {
+  return address ? utils.getAddress(address) : "";
+};
 
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
@@ -19,10 +23,10 @@ const getProvider = (chainId: number): Provider | undefined => {
   let apiKey = url?.includes("infura.io")
     ? process.env.INFURA_API_KEY
     : url?.includes("etherscan.io")
-      ? process.env.ETHERSCAN_API_KEY
-      : url?.includes("maticvigil.com")
-        ? process.env.MATICVIGIL_API_KEY
-        : null;
+    ? process.env.ETHERSCAN_API_KEY
+    : url?.includes("maticvigil.com")
+    ? process.env.MATICVIGIL_API_KEY
+    : null;
   apiKey = apiKey ? "/" + apiKey : "";
   const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
 
@@ -65,9 +69,9 @@ const getExplorer = (chainId: number) => {
 };
 
 // GET openNFTs
-const getOpenNFTsAddress = (chainId: number): string => {
+const getOpenNFTsAddress = (chainId: number): Address | undefined => {
   const network = getNetwork(chainId);
-  return network?.openNFTs || "";
+  return getChecksumAddress(network?.openNFTs);
 };
 
 // GET OpenSea
@@ -77,19 +81,24 @@ const getOpenSea = (chainId: number) => {
 };
 
 // nfts url : nfts://chainName/contractAddress
-const nftsUrl = (chainId: number, _address: string): string => {
+const nftsUrl = (chainId: number, _address: Address): string => {
   const network = getNetwork(chainId);
-  return "nfts://" + (network ? network.chainName + (_address ? "/" + _address : "...") : "...");
+  return (
+    "nfts://" +
+    (network ? network.chainName + (_address ? "/" + getChecksumAddress(_address) : "...") : "...")
+  );
 };
 
 // nft url : nft://chainName/contractAddress/tokenID
-const nftUrl = (chainId: number, _contract: string, _tokenId: string, plus = "..."): string => {
+const nftUrl = (chainId: number, _contract: Address, _tokenId: string, plus = "..."): string => {
   const network = getNetwork(chainId);
   const ret =
     "nft://" +
     (network
       ? network.chainName +
-        (_contract ? "/" + (_contract + (_tokenId ? "/" + _tokenId : plus)) : plus)
+        (_contract
+          ? "/" + (getChecksumAddress(_contract) + (_tokenId ? "/" + _tokenId : plus))
+          : plus)
       : plus);
   // console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -99,6 +108,7 @@ export {
   abis,
   networks,
   getChainName,
+  getChecksumAddress,
   getNetwork,
   getEnsName,
   getProvider,

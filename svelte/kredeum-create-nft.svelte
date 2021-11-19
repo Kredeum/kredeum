@@ -4,7 +4,7 @@
   import type { Nft } from "lib/ktypes";
   import type { Collection } from "lib/kconfig";
 
-  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
+  import KredeumSelectCollection from "./kredeum-list-collections.svelte";
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
   import {
     textShort,

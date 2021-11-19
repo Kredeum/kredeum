@@ -2,7 +2,7 @@
   import type { Signer } from "ethers";
   import type { Collection } from "lib/kconfig";
   import Metamask from "./kredeum-metamask.svelte";
-  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
+  import KredeumSelectCollection from "./kredeum-list-collections.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";

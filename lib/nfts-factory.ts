@@ -1,6 +1,14 @@
-import { ethers, utils, Signer, Contract, BigNumber } from "ethers";
+import { ethers, Signer, Contract, BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { abis, getNetwork, getProvider, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
+import {
+  abis,
+  getChecksumAddress,
+  getNetwork,
+  getProvider,
+  getSubgraphUrl,
+  getCovalent,
+  nftsUrl
+} from "./kconfig";
 import type { Collection } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
 import type {
@@ -70,7 +78,7 @@ const listCollectionsFromCovalent = async (
       for (let index = 0; index < collectionsCov.length; index++) {
         const collection: CollectionCov = collectionsCov[index];
         const chainName: string = network.chainName;
-        const address: string = collection.contract_address;
+        const address: string = getChecksumAddress(collection.contract_address);
 
         collections.set(nftsUrl(chainId, address), {
           chainId,
@@ -128,7 +136,8 @@ const listCollectionsFromTheGraph = async (
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
-      const { id: address, name, symbol } = contract;
+      const { id, name, symbol } = contract;
+      const address = getChecksumAddress(id);
       const chainName = network?.chainName;
       const totalSupply = Math.max(numTokens, 0);
 
@@ -170,13 +179,13 @@ const listCollectionsFromFactory = async (
       const chainName = network?.chainName;
       const balance: BalanceOf = balances[index];
 
-      const address: string = utils.getAddress(balance[0]);
+      const address: string = getChecksumAddress(balance[0]);
       const name: string = balance[1];
       const symbol: string = balance[2];
       const totalSupply = Number(balance[3]);
-      const owner: string = utils.getAddress(balance[4]);
+      const owner: string = getChecksumAddress(balance[4]);
 
-      collections.set(`nfts://${chainName}/${address}`, {
+      collections.set(nftsUrl(chainId, address), {
         totalSupply,
         chainId,
         chainName,
@@ -215,17 +224,14 @@ const listCollections = async (
 
     // MERGE collectionsOwner and collectionsKredeum
     const collectionsMap = new Map([...collectionsOwner, ...collectionsKredeum]);
-    // console.log("listCollections", collectionsMap);
+    console.log("listCollections", collectionsMap);
     collections = [...collectionsMap.values()];
 
     if (typeof localStorage !== "undefined") {
       collections?.forEach((collection, i) => {
-        const address = utils.getAddress(collection.address);
+        const address = getChecksumAddress(collection.address);
         collections[i].address = address;
-        localStorage.setItem(
-          `nfts://${network.chainName}/${address}`,
-          JSON.stringify(collection, null, 2)
-        );
+        localStorage.setItem(nftsUrl(chainId, address), JSON.stringify(collection, null, 2));
       });
     }
   }

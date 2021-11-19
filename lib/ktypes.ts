@@ -4,6 +4,8 @@ type ABIS = {
   [Key in ErcKeys | KredeumKeys]: Array<string>;
 };
 
+type Address = string;
+
 type Network = {
   chainId: number;
   chainName: string;
@@ -61,4 +63,4 @@ type Nft = {
   nid?: string;
 };
 
-export type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };
+export type { Address, Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };

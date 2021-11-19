@@ -2,7 +2,7 @@ import { ethers, Contract, utils, Signer, BigNumber } from "ethers";
 import {
   abis,
   getNetwork,
-  Network,
+  getChecksumAddress,
   getProvider,
   getSubgraphUrl,
   getCovalent,
@@ -105,7 +105,7 @@ const addNftDataSync = (chainId: number, _collection: string, _token: Nft): Nft 
   };
 
   const network = getNetwork(chainId);
-  const collection: string = _token.collection || _collection || "";
+  const collection: string = getChecksumAddress(_token.collection || _collection);
 
   const chainName: string = _token.chainName || network?.chainName || "";
   const metadata: Metadata = (_token.metadata as Metadata) || {};
@@ -126,9 +126,9 @@ const addNftDataSync = (chainId: number, _collection: string, _token: Nft): Nft 
     name: _token.name || metadata.name || "",
     description: _token.description || metadata.description || "",
 
-    creator: _token.creator || metadata.creator || "",
-    minter: _token.minter || metadata.minter || "",
-    owner: _token.owner || metadata.owner || "",
+    creator: getChecksumAddress(_token.creator || metadata.creator),
+    minter: getChecksumAddress(_token.minter || metadata.minter),
+    owner: getChecksumAddress(_token.owner || metadata.owner),
 
     cid: _token.cid || metadata.cid || cidExtract(image) || "",
     cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
@@ -161,7 +161,7 @@ const getNFTFromContract = async (
     contractName = "";
 
   try {
-    collection = _smartcontract.address;
+    collection = getChecksumAddress(_smartcontract.address);
     contractName = await _smartcontract.name();
     if (_owner) {
       tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
@@ -198,7 +198,7 @@ const listNFTsFromCovalent = async (
   const network = getNetwork(chainId);
 
   if (network && collection && _owner) {
-    const match = `{contract_address:"${utils.getAddress(collection)}"}`;
+    const match = `{contract_address:"${getChecksumAddress(collection)}"}`;
     const path =
       `/${Number(chainId)}/address/${_owner}/balances_v2/` +
       "?nft=true&no-nft-fetch=false" +
@@ -223,12 +223,12 @@ const listNFTsFromCovalent = async (
       if (n < _limit) {
         nfts.push({
           chainId,
-          collection,
+          collection: getChecksumAddress(collection),
           tokenID: _token.token_id,
           tokenURI: _token.token_url,
-          owner: _token.owner || _owner || "",
           metadata: _token.external_data,
-          minter: _token.original_owner || ""
+          owner: getChecksumAddress(_token.owner || _owner),
+          minter: getChecksumAddress(_token.original_owner)
         });
       }
     }
@@ -286,10 +286,10 @@ const listNFTsFromTheGraph = async (
 
       nfts.push({
         chainId,
-        collection,
+        collection: getChecksumAddress(collection),
         tokenID: _token.tokenID,
         tokenURI: _token.tokenURI,
-        owner: _token.owner?.id || ""
+        owner: getChecksumAddress(_token.owner?.id)
         // metadata: _token.metadata && JSON.parse(_token.metadata),
         // name: _token.name,
         // description: _token.description,
@@ -374,7 +374,7 @@ const listNFTs = async (
       for (let index = 0; index < Math.min(nfts.length, _limit); index++) {
         // console.log(`OpenNFTs.listNFTs addNftData`, index, nfts[index]);
         const token: Nft = await addNftData(chainId, collection, nfts[index]);
-        if (!_owner || utils.getAddress(token.owner) === utils.getAddress(_owner)) {
+        if (!_owner || getChecksumAddress(token.owner) === getChecksumAddress(_owner)) {
           nfts[index] = token;
         }
 
@@ -407,7 +407,7 @@ const listNFTsFromCache = (
       if (key?.startsWith(nftUrl(chainId, collection || "", "", ""))) {
         const json = localStorage.getItem(key) || "";
         const nft = JSON.parse(json) as Nft;
-        if (!_owner || utils.getAddress(nft?.owner) == utils.getAddress(_owner)) {
+        if (!_owner || getChecksumAddress(nft?.owner) == getChecksumAddress(_owner)) {
           nfts.push(nft);
         }
         if (nfts.length >= _limit) break;

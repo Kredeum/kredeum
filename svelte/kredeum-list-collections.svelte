@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import type { Signer } from "ethers";
   import type { Collection } from "lib/kconfig";
-  import { getChainName } from "lib/kconfig";
+  import { getChainName, getChecksumAddress } from "lib/kconfig";
 
   import { listCollections, listCollectionsFromCache } from "lib/nfts-factory";
   import { collectionName } from "lib/knfts";
@@ -63,10 +63,10 @@
         <div class="custom-options">
           {#each Collections as coll}
             <span
-              class="custom-option {utils.getAddress(coll.address) == collectionAddress &&
+              class="custom-option {getChecksumAddress(coll.address) == collectionAddress &&
                 'selected'}"
-              data-value={utils.getAddress(coll.address)}
-              on:click={() => (collectionAddress = utils.getAddress(coll.address))}
+              data-value={getChecksumAddress(coll.address)}
+              on:click={() => (collectionAddress = getChecksumAddress(coll.address))}
             >
               {collectionNameAndTotalSupply(coll)}
             </span>

@@ -7,7 +7,7 @@
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
-  import { getNetwork, getEnsName, networks } from "lib/kconfig";
+  import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
   import {
     addressShort,
     textShort,
@@ -122,7 +122,7 @@
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== address) {
-      address = ethers.utils.getAddress(_accounts[0]);
+      address = getChecksumAddress(_accounts[0]);
 
       signer = ethersProvider.getSigner(0);
 
