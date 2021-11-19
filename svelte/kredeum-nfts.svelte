@@ -54,8 +54,8 @@
           <h1>My NFT wallet</h1>
           {#if address && network?.create}
             <a href="#create" class="btn btn-default" title="Create"
-              ><i class="fas fa-plus fa-left" />Create</a
-            >
+              ><i class="fas fa-plus fa-left" />Create
+            </a>
           {/if}
 
           <div class="row alignbottom">
@@ -63,8 +63,7 @@
 
             <div class="col col-xs-12 col-sm-3">
               {#if address && network?.nftsFactory}
-                <span class="label"
-                  >Collection &nbsp;&nbsp;&nbsp;
+                <span class="label">Collection
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
@@ -72,8 +71,8 @@
                       chainId,
                       collection?.address
                     )}"
-                    target="_blank"><i class="fas fa-info-circle" /></a
-                  >
+                    target="_blank"><i class="fas fa-info-circle" />
+                  </a>
                 </span>
                 <KredeumSelectCollection bind:address bind:chainId bind:collection />
               {/if}

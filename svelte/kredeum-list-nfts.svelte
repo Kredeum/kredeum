@@ -215,7 +215,7 @@
       {/each}
     </div>
   {:else}
-    <div class="card">
+    <div class="card-krd">
       <p>No NFTs ✌️</p>
     </div>
   {/if}
