@@ -15,6 +15,7 @@
   export let chainId: number = undefined;
   export let address: string = undefined;
   export let collection: Collection = undefined;
+  export let popup: boolean = false;
 
   const collectionTotalSupply = (collContract: Collection) =>
     collContract?.totalSupply || (collContract?.totalSupply == 0 ? "0" : "?");
@@ -46,7 +47,10 @@
 
   onMount(async () => {
     window.addEventListener("click", (e: Event): void => {
-      if (!document.querySelector(".select-collection").contains(e.target as HTMLElement)) {
+      if (
+        !popup &&
+        !document.querySelector(".select-collection").contains(e.target as HTMLElement)
+      ) {
         open = false;
       }
     });
@@ -63,8 +67,9 @@
         <div class="custom-options">
           {#each Collections as coll}
             <span
-              class="custom-option {getChecksumAddress(coll.address) == collectionAddress &&
-                'selected'}"
+              class="custom-option {getChecksumAddress(coll.address) == collectionAddress
+                ? 'selected'
+                : ''}"
               data-value={getChecksumAddress(coll.address)}
               on:click={() => (collectionAddress = getChecksumAddress(coll.address))}
             >

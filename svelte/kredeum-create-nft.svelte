@@ -4,7 +4,7 @@
   import type { Nft } from "lib/ktypes";
   import type { Collection } from "lib/kconfig";
 
-  import KredeumSelectCollection from "./kredeum-list-collections.svelte";
+  import KredeumListCollection from "./kredeum-list-collections.svelte";
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
   import {
     textShort,
@@ -71,7 +71,7 @@
       minter: signerAddress,
       metadata: {}
     };
-    cidJson = await mintImagePinJson(nftData);
+    cidJson = await mintImagePinJson(nftData as Nft);
     const urlJson = ipfsGatewayUrl(cidJson);
     // console.log("urlJson", urlJson);
 
@@ -259,7 +259,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumSelectCollection bind:address bind:chainId bind:collection />
+          <KredeumListCollection bind:address bind:chainId bind:collection popup />
         </div>
 
         <div class="txtright">

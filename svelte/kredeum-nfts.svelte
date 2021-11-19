@@ -2,7 +2,7 @@
   import type { Signer } from "ethers";
   import type { Collection } from "lib/kconfig";
   import Metamask from "./kredeum-metamask.svelte";
-  import KredeumSelectCollection from "./kredeum-list-collections.svelte";
+  import KredeumListCollection from "./kredeum-list-collections.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
@@ -75,7 +75,7 @@
                     target="_blank"><i class="fas fa-info-circle" /></a
                   >
                 </span>
-                <KredeumSelectCollection bind:address bind:chainId bind:collection />
+                <KredeumListCollection bind:address bind:chainId bind:collection />
               {/if}
             </div>
 
