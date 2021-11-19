@@ -19,7 +19,7 @@
 // Modal
 .modal-window {
     & > div {
-        max-height: calc(100% - 100px);
+        max-height: calc(100% - 50px);
         width: 85%;
         top: 50%;
         transform: translate(-50%, -50%);
@@ -27,7 +27,7 @@
     }
 
     .modal-content {
-        max-height: calc(100vh - 100px);
+        max-height: calc(100vh - 50px);
         padding: 60px;
     }
 
