@@ -19,13 +19,7 @@
   } from "lib/knfts";
 
   import { nftsUrl } from "lib/kconfig";
-  import {
-    listNFTs,
-    listNFTsTokenIds,
-    listNFTsWithMetadata,
-    listNFTsFromCache,
-    addNftMetadata
-  } from "lib/klist-nfts";
+  import { listNFTsTokenIds, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
@@ -78,6 +72,8 @@
 
   // ON NETWORK, ADDRESS OR COLLECTION CHANGE
   $: if (chainId && address && collection) refreshNFTs();
+
+  $: console.log("collection changed !", collection);
 
   const dispatchImport = async (nft: Nft) => {
     nftImport = 1;

@@ -7,7 +7,8 @@ import {
   getProvider,
   getSubgraphUrl,
   getCovalent,
-  nftsUrl
+  nftsUrl,
+  urlCache
 } from "./kconfig";
 import type { Collection } from "./kconfig";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
@@ -42,19 +43,19 @@ const getNFTsFactory = (
 
 const listCollectionsFromCovalent = async (
   chainId: number,
-  _owner?: string
+  owner: string
 ): Promise<Map<string, Collection>> => {
   const collections: Map<string, Collection> = new Map();
   let path: string;
   const network = getNetwork(chainId);
 
-  if (network && _owner) {
+  if (network && owner) {
     const match =
       // eslint-disable-next-line quotes
       '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
 
     path =
-      `/${Number(chainId)}/address/${_owner}/balances_v2/` +
+      `/${Number(chainId)}/address/${owner}/balances_v2/` +
       "?nft=true" +
       "&no-nft-fetch=false" +
       `&match=${encodeURIComponent(match)}`;
@@ -91,27 +92,24 @@ const listCollectionsFromCovalent = async (
       }
     }
   }
-  // console.log("listCollectionsFromCovalent nbContracts ERC721", collections.length);
-  // console.log("listCollectionsFromCovalent", collections);
-
+  // console.log("listCollectionsFromCovalent", path, collections.size, collections);
   return collections;
 };
 
 const listCollectionsFromTheGraph = async (
   chainId: number,
-  _owner?: string
+  owner: string
 ): Promise<Map<string, Collection>> => {
   // console.log("listCollectionsFromTheGraph");
   const collections: Map<string, Collection> = new Map();
   const network = getNetwork(chainId);
 
-  if (_owner) {
-    const owner = _owner?.toLowerCase();
+  if (owner) {
     const query = `
         {
           ownerPerTokenContracts(
             where: {
-              owner: "${owner}"
+              owner: "${owner.toLowerCase()}"
               }
           ) {
             contract {
@@ -159,10 +157,10 @@ const listCollectionsFromTheGraph = async (
 
 const listCollectionsFromFactory = async (
   chainId: number,
-  _owner: string = ethers.constants.AddressZero,
+  owner: string = ethers.constants.AddressZero,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromFactory", chainId, _owner);
+  // console.log("listCollectionsFromFactory", chainId, owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
@@ -172,7 +170,7 @@ const listCollectionsFromFactory = async (
   if (nftsFactory) {
     type BalanceOf = [string, string, string, BigNumber, string];
     let balances: Array<BalanceOf> = [];
-    balances = await nftsFactory.balancesOf(_owner);
+    balances = await nftsFactory.balancesOf(owner);
     // console.log("balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
@@ -203,7 +201,7 @@ const listCollectionsFromFactory = async (
 
 const listCollections = async (
   chainId: number,
-  _owner?: string,
+  owner: string,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
   // console.log("listCollections");
@@ -216,11 +214,11 @@ const listCollections = async (
 
     // GET user collections
     if (getSubgraphUrl(chainId)) {
-      collectionsOwner = await listCollectionsFromTheGraph(chainId, _owner);
+      collectionsOwner = await listCollectionsFromTheGraph(chainId, owner);
     } else if (getCovalent(chainId)) {
-      collectionsOwner = await listCollectionsFromCovalent(chainId, _owner);
+      collectionsOwner = await listCollectionsFromCovalent(chainId, owner);
     }
-    collectionsKredeum = await listCollectionsFromFactory(chainId, _owner, _provider);
+    collectionsKredeum = await listCollectionsFromFactory(chainId, owner, _provider);
 
     // MERGE collectionsOwner and collectionsKredeum
     const collections = new Map([...collectionsOwner, ...collectionsKredeum]);
@@ -228,7 +226,7 @@ const listCollections = async (
 
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {
-        localStorage.setItem(nid, JSON.stringify(collection, null, 2));
+        localStorage.setItem(urlCache(nid, owner), JSON.stringify(collection, null, 2));
       }
     }
   }
@@ -236,20 +234,18 @@ const listCollections = async (
   return collections;
 };
 
-const listCollectionsFromCache = (): Map<string, Collection> => {
+const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
+  // console.log("listCollectionsFromCache", owner);
   const collections: Map<string, Collection> = new Map();
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
 
-    if (key?.startsWith("nfts://")) {
-      const json = localStorage.getItem(key);
-
-      if (json) {
-        collections.set(key, JSON.parse(json) as Collection);
-      }
+    if (key?.startsWith("nfts://") && key?.endsWith(`@${owner}`)) {
+      collections.set(key, JSON.parse(localStorage.getItem(key)) as Collection);
     }
   }
+  // console.log("listCollectionsFromCache", collections);
   return collections;
 };
 

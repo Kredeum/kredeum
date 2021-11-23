@@ -51,19 +51,19 @@ const getSubgraphUrl = (chainId: number): string => {
   return (network?.subgraph?.active && network?.subgraph?.url) || "";
 };
 
-const getCovalent = (chainId: number) => {
+const getCovalent = (chainId: number): boolean => {
   const network = getNetwork(chainId);
-  return network?.covalent?.active;
+  return Boolean(network?.covalent?.active);
 };
 
 // GET chain name
-const getChainName = (chainId: number) => {
+const getChainName = (chainId: number): string => {
   const network = getNetwork(chainId);
   return network?.chainName || "";
 };
 
 // GET explorer
-const getExplorer = (chainId: number) => {
+const getExplorer = (chainId: number): string => {
   const network = getNetwork(chainId);
   return network?.blockExplorerUrls[0] || "";
 };
@@ -74,20 +74,42 @@ const getOpenNFTsAddress = (chainId: number): Address | undefined => {
   return getChecksumAddress(network?.openNFTs);
 };
 
-// GET OpenSea
-const getOpenSea = (chainId: number) => {
+// GET OpenSeaKredeum
+const getOpenSeaKredeum = (chainId: number): string => {
   const network = getNetwork(chainId);
-  return network?.openSea || {};
+  return network?.openSea?.kredeum || "";
 };
+
+// GET OpenSea
+const getOpenSeaAssets = (chainId: number): string => {
+  const network = getNetwork(chainId);
+  return network?.openSea?.assets || "";
+};
+
+// GET NftsFactory
+const getNftsFactory = (chainId: number): string => {
+  const network = getNetwork(chainId);
+  return network?.nftsFactory || "";
+};
+
+// GET Create
+const getCreate = (chainId: number): boolean => {
+  const network = getNetwork(chainId);
+  return Boolean(network?.create);
+};
+
 
 // nfts url : nfts://chainName/contractAddress
 const nftsUrl = (chainId: number, _address: Address): string => {
   const network = getNetwork(chainId);
   return (
     "nfts://" +
-    (network ? network.chainName + (_address ? "/" + getChecksumAddress(_address) : "...") : "...")
+    (network ? network.chainName : "...") + (_address ? "/" + getChecksumAddress(_address) : "...")
   );
 };
+
+// nfts url  cache: nfts://chainName/contractAddress@address
+const urlCache = (url: string, _owner: Address): string => url + (_owner ? "@" + getChecksumAddress(_owner) : "");
 
 // nft url : nft://chainName/contractAddress/tokenID
 const nftUrl = (chainId: number, _contract: Address, _tokenId = "", plus = ""): string => {
@@ -96,9 +118,9 @@ const nftUrl = (chainId: number, _contract: Address, _tokenId = "", plus = ""): 
     "nft://" +
     (network
       ? network.chainName +
-        (_contract
-          ? "/" + (getChecksumAddress(_contract) + (_tokenId ? "/" + _tokenId : plus))
-          : plus)
+      (_contract
+        ? "/" + (getChecksumAddress(_contract) + (_tokenId ? "/" + _tokenId : plus))
+        : plus)
       : plus);
   // console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -113,11 +135,15 @@ export {
   getEnsName,
   getProvider,
   getSubgraphUrl,
-  getOpenSea,
+  getOpenSeaKredeum,
+  getOpenSeaAssets,
+  getCreate,
+  getNftsFactory,
   getOpenNFTsAddress,
   getCovalent,
   getExplorer,
   nftUrl,
-  nftsUrl
+  nftsUrl,
+  urlCache
 };
 export type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };

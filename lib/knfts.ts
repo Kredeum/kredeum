@@ -1,4 +1,4 @@
-import { getExplorer, getOpenSea, getOpenNFTsAddress, nftUrl } from "./kconfig";
+import { getExplorer, getOpenSeaAssets, getOpenNFTsAddress, nftUrl } from "./kconfig";
 import type { Collection, Nft } from "./kconfig";
 
 // CONSTANT
@@ -47,7 +47,6 @@ const explorerTxLink = (chainId: number, tx: string): string =>
 // COLLECTION helpers
 const collectionName = (collection: Collection): string => collection?.name || "No name";
 const collectionSymbol = (collection: Collection): string => collection?.symbol || "NFT";
-const collectionOpenSeaLink = (chainId: number): string => getOpenSea(chainId)?.kredeum;
 
 const explorerCollectionUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
@@ -76,8 +75,8 @@ const nftExplorerLink = (nft: Nft): string =>
 const nftImageLink = (nft: Nft): string => ipfsReplace(nft.image);
 
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
-  const openSea = getOpenSea(chainId);
-  return `${openSea?.assets}/${nft.collection}/${nft.tokenID}`;
+  const openSeaAssets = getOpenSeaAssets(chainId);
+  return `${openSeaAssets}/${nft.collection}/${nft.tokenID}`;
 };
 
 const nftName = (nft: Nft): string => nft.name || `${nft.contractName} #${nft.tokenID}`;
@@ -104,7 +103,6 @@ export {
   addressShort,
   collectionName,
   collectionSymbol,
-  collectionOpenSeaLink,
   nftUrl,
   nftImageLink,
   nftDescription,

@@ -6,7 +6,7 @@
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import { getNetwork, nftUrl, nftsUrl } from "lib/kconfig";
+  import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
   import { clearCache } from "lib/klist-nfts";
 
@@ -16,7 +16,6 @@
   let signer: Signer;
   let refreshing: boolean;
   let refreshNFTs;
-  $: network = getNetwork(chainId);
 </script>
 
 <div id="kredeum-nfts">
@@ -53,7 +52,7 @@
       <section class="content">
         <header>
           <h1>My NFT wallet</h1>
-          {#if address && network?.create}
+          {#if address && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Create"
               ><i class="fas fa-plus fa-left" />Create</a
             >
@@ -63,7 +62,7 @@
             <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
 
             <div class="col col-xs-12 col-sm-3">
-              {#if address && network?.nftsFactory}
+              {#if address && getNftsFactory(chainId)}
                 <span class="label"
                   >Collection &nbsp;&nbsp;&nbsp;
                   <a
@@ -81,7 +80,7 @@
             </div>
 
             <div class="col col-sm-3">
-              {#if address && network?.nftsFactory}
+              {#if address && getNftsFactory(chainId)}
                 <button
                   class="clear"
                   on:click={() => {

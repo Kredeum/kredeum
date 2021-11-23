@@ -1,11 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { getChecksumAddress, nftsUrl } from "lib/kconfig";
+  import { nftsUrl, urlCache, getOpenNFTsAddress } from "lib/kconfig";
   import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
   import { collectionName } from "lib/knfts";
 
   import type { Collection } from "lib/kconfig";
-  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
 
   let collectionAddress: string;
   let allCollections: Map<string, Collection>;
@@ -25,24 +24,29 @@
       ? `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`
       : "Choose collection";
 
-  $: if (collectionAddress) {
-    collection = allCollections.get(nftsUrl(chainId, collectionAddress));
+  $: if (collectionAddress && address) {
+    collection = allCollections.get(urlCache(nftsUrl(chainId, collectionAddress), address));
   }
 
   // ON NETWORK OR ADDRESS
   $: if (chainId && address) _listCollections();
 
   const getCollections = async () => {
-    allCollections = listCollectionsFromCache();
+    allCollections = listCollectionsFromCache(address);
+    console.log("getOpenNFTsAddress(chainId)", getOpenNFTsAddress(chainId));
     collections = new Map(
       [...allCollections]
-        .filter(
-          ([, collection]) =>
-            // FILTER NETWORK
+        .filter(([, collection]) => {
+          console.log("collection.address", collection.address);
+          // FILTER NETWORK
+          return (
             collection.chainId === chainId &&
-            // FILTER COLLECTION NOT EMPTY OR MINE
-            (collection.totalSupply > 0 || collection.owner === address)
-        )
+            // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
+            (collection.totalSupply > 0 ||
+              collection.owner === address ||
+              collection.address === getOpenNFTsAddress(chainId))
+          );
+        })
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.totalSupply - a.totalSupply)
     );
