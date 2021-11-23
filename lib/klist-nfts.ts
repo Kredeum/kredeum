@@ -365,7 +365,7 @@ const listNFTsTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    nftsTokenIds = await listNFTsFromContract(chainId, collection, _owner, _limit, _provider);
+    nftsTokenIds = await listNFTsFromContract(chainId, collection, _owner, _limit);
     if (nftsTokenIds.size === 0) {
       if (getSubgraphUrl(chainId)) {
         nftsTokenIds = await listNFTsFromTheGraph(chainId, collection, _owner, _limit);
