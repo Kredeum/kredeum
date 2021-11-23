@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/nfts-factory";
+  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
   import { explorerTxUrl, explorerAddressUrl, addressShort } from "lib/knfts";
   import type { Collection } from "lib/kconfig";
   import type { Signer } from "ethers";

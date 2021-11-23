@@ -38,7 +38,6 @@
   "phpsab.standard": "WordPress",
   "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Jumper Contrast (rainglow)",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
@@ -62,5 +61,7 @@
     "svelte"
   ],
   "eslint.run": "onSave",
-  "eslint.useESLintClass": true
+  "editor.fontLigatures": true,
+  "workbench.colorTheme": "Dark++ Italic",
+  "editor.fontFamily": "Fira Code iScript"
 }

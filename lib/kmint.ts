@@ -1,7 +1,7 @@
 import type { Signer } from "ethers";
 import type { Nft } from "./ktypes";
-import NftStorage from "./nft-storage";
-import { Mint } from "./open-nfts";
+import NftStorage from "./knft-storage";
+import { Mint } from "./klist-nfts";
 import { ipfsUrl, ipfsGatewayUrl, textShort } from "./knfts";
 
 let nftStorage: NftStorage;

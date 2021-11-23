@@ -1,21 +1,22 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import type { Signer } from "ethers";
-  import type { Collection } from "lib/kconfig";
-  import { getChainName, getChecksumAddress } from "lib/kconfig";
-
-  import { listCollections, listCollectionsFromCache } from "lib/nfts-factory";
+  import { getChecksumAddress, nftsUrl } from "lib/kconfig";
+  import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
   import { collectionName } from "lib/knfts";
-  import { utils } from "ethers";
+
+  import type { Collection } from "lib/kconfig";
+  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
+
   let collectionAddress: string;
-  let Collections: Array<Collection>;
+  let allCollections: Map<string, Collection>;
+  let collections: Map<string, Collection>;
   let refreshingCollections: boolean;
   let open = false;
 
   export let chainId: number = undefined;
   export let address: string = undefined;
   export let collection: Collection = undefined;
-  export let popup: boolean = false;
+  export let popup = false;
 
   const collectionTotalSupply = (collContract: Collection) =>
     collContract?.totalSupply || (collContract?.totalSupply == 0 ? "0" : "?");
@@ -25,25 +26,42 @@
       : "Choose collection";
 
   $: if (collectionAddress) {
-    collection = Collections?.find((_collection) => _collection.address == collectionAddress);
+    collection = allCollections.get(nftsUrl(chainId, collectionAddress));
   }
 
   // ON NETWORK OR ADDRESS
   $: if (chainId && address) _listCollections();
 
-  async function _listCollections(): Promise<void> {
-    // console.log("<kredeum-nfts/> listCollections", `nfts://${getChainName(chainId)}@${address}`);
+  const getCollections = async () => {
+    allCollections = listCollectionsFromCache();
+    collections = new Map(
+      [...allCollections]
+        .filter(
+          ([, collection]) =>
+            // FILTER NETWORK
+            collection.chainId === chainId &&
+            // FILTER COLLECTION NOT EMPTY OR MINE
+            (collection.totalSupply > 0 || collection.owner === address)
+        )
+        // SORT PER SUPPLY DESC
+        .sort(([, a], [, b]) => b.totalSupply - a.totalSupply)
+    );
+    // SET FIRST AS DEFAULT COLLECTION
+    if (!collectionAddress) {
+      const [firstCollection] = collections.values();
+      collectionAddress = firstCollection?.address || "";
+    }
+  };
 
-    Collections = null;
+  const _listCollections = async (): Promise<void> => {
+    getCollections();
 
-    Collections = listCollectionsFromCache(chainId);
-    // console.log("<kredeum-nfts/> Collections cache loaded", Collections);
     refreshingCollections = true;
-
-    Collections = await listCollections(chainId, address);
-    // console.log("<kredeum-nfts/> Collections refresh done", Collections);
+    allCollections = await listCollections(chainId, address);
     refreshingCollections = false;
-  }
+
+    getCollections();
+  };
 
   onMount(async () => {
     window.addEventListener("click", (e: Event): void => {
@@ -58,20 +76,18 @@
 </script>
 
 <div class="select-wrapper select-collection" on:click={() => (open = !open)}>
-  {#if Collections}
-    {#if Collections.length > 0}
+  {#if collections}
+    {#if collections.size > 0}
       <div class="select" class:open>
         <div class="select-trigger">
           <span>{collectionNameAndTotalSupply(collection)}</span>
         </div>
         <div class="custom-options">
-          {#each Collections as coll}
+          {#each [...collections] as [, coll]}
             <span
-              class="custom-option {getChecksumAddress(coll.address) == collectionAddress
-                ? 'selected'
-                : ''}"
-              data-value={getChecksumAddress(coll.address)}
-              on:click={() => (collectionAddress = getChecksumAddress(coll.address))}
+              class="custom-option {coll.address == collectionAddress ? 'selected' : ''}"
+              data-value={coll.address}
+              on:click={() => (collectionAddress = coll.address)}
             >
               {collectionNameAndTotalSupply(coll)}
             </span>

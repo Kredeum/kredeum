@@ -181,7 +181,8 @@
     }
 
     window.addEventListener("click", (e: Event): void => {
-      if (!document.querySelector(".select-network").contains(e.target as HTMLElement)) {
+      const select = document.querySelector(".select-network");
+      if (select && !select.contains(e.target as HTMLElement)) {
         open = false;
       }
     });

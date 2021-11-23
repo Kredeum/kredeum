@@ -61,13 +61,13 @@ const explorerCollectionInventoryLink = (chainId: number, collAddress: string): 
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), addressShort(collAddress));
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
-  getExplorer(chainId)?.includes("cchain.explorer")
+    getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
     : explorerUrl(chainId, `/token/${collAddress}#inventory`);
 
 // NFTS helpers
-const nftsSupply = (nfts: Array<Nft>): number => nfts.length || 0;
-const nftsSupplyAndName = (nfts: Array<Nft>, collection: Collection): string =>
+const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
+const nftsSupplyAndName = (nfts: Map<string, Nft>, collection: Collection): string =>
   `${nftsSupply(nfts)} ${collectionSymbol(collection)}${nftsSupply(nfts) > 1 ? "s" : ""}`;
 
 // NFT helpers

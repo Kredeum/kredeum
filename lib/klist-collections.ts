@@ -205,9 +205,9 @@ const listCollections = async (
   chainId: number,
   _owner?: string,
   _provider?: Provider
-): Promise<Array<Collection>> => {
+): Promise<Map<string, Collection>> => {
   // console.log("listCollections");
-  let collections: Array<Collection> = [];
+  const collections: Map<string, Collection> = new Map();
 
   const network = getNetwork(chainId);
   if (network) {
@@ -223,38 +223,33 @@ const listCollections = async (
     collectionsKredeum = await listCollectionsFromFactory(chainId, _owner, _provider);
 
     // MERGE collectionsOwner and collectionsKredeum
-    const collectionsMap = new Map([...collectionsOwner, ...collectionsKredeum]);
-    console.log("listCollections", collectionsMap);
-    collections = [...collectionsMap.values()];
+    const collections = new Map([...collectionsOwner, ...collectionsKredeum]);
+    console.log("listCollections", collections);
 
     if (typeof localStorage !== "undefined") {
-      collections?.forEach((collection, i) => {
-        const address = getChecksumAddress(collection.address);
-        collections[i].address = address;
-        localStorage.setItem(nftsUrl(chainId, address), JSON.stringify(collection, null, 2));
-      });
+      for (const [nid, collection] of collections) {
+        localStorage.setItem(nid, JSON.stringify(collection, null, 2));
+      }
     }
   }
   // console.log("listCollections", collections);
   return collections;
 };
 
-const listCollectionsFromCache = (chainId: number): Array<Collection> => {
-  const collections: Array<Collection> = [];
+const listCollectionsFromCache = (): Map<string, Collection> => {
+  const collections: Map<string, Collection> = new Map();
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
-    // console.log("listCollectionsFromCache", key, index);
 
     if (key?.startsWith("nfts://")) {
-      const collection = JSON.parse(localStorage.getItem(key) || "{}") as Collection;
-      // console.log("listCollectionsFromCache", collection);
-      if (chainId && chainId === collection.chainId) {
-        collections.push(collection);
+      const json = localStorage.getItem(key);
+
+      if (json) {
+        collections.set(key, JSON.parse(json) as Collection);
       }
     }
   }
-  // console.log("listCollectionsFromCache", collections);
   return collections;
 };
 

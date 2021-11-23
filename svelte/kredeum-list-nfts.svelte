@@ -19,14 +19,21 @@
   } from "lib/knfts";
 
   import { nftsUrl } from "lib/kconfig";
-  import { listNFTs, listNFTsFromCache } from "lib/open-nfts";
+  import {
+    listNFTs,
+    listNFTsTokenIds,
+    listNFTsWithMetadata,
+    listNFTsFromCache,
+    addNftMetadata
+  } from "lib/klist-nfts";
 
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   let network: Network;
 
-  let NFTs: Array<Nft>;
+  let NFTs: Map<string, Nft>;
+  let allNFTs: Map<string, Nft>;
   let Collections: Array<Collection>;
   let nftImport: number;
 
@@ -40,22 +47,31 @@
 
   export const refreshNFTs = async () => {
     network = getNetwork(chainId);
+
     if (network && address && collection) {
-      // console.log(
-      //   "<kredeum-nfts/> refreshNFTs",
-      //   `nft://${network?.chainName && "..."}/${collection.address || "..."}@${address || "..."}`,
-      //   network
-      // );
-
-      NFTs = null;
-
-      NFTs = listNFTsFromCache(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> refreshNFTs from cache loaded", NFTs);
-
+      allNFTs = listNFTsFromCache();
+      NFTs = new Map(
+        [...allNFTs].filter(
+          ([, nft]) => nft.chainId === chainId && nft.collection === collection.address
+        )
+      );
       refreshing = true;
 
-      NFTs = await listNFTs(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> refreshNFTs done", NFTs);
+      const nftsMap = await listNFTsTokenIds(chainId, collection.address, address);
+      const nftsTokenIds = [...nftsMap.values()];
+
+      for (let index = 0; index < nftsTokenIds.length; index++) {
+        const nftTokenId = nftsTokenIds[index];
+        console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
+
+        const nft = await addNftMetadata(chainId, collection.address, nftTokenId);
+
+        console.log("nftWithMetadata nid", nft.nid, nft);
+
+        if (nft.chainId === chainId && nft.collection === collection.address)
+          NFTs.set(nft.nid, nft);
+        else break;
+      }
       refreshing = false;
     }
   };
@@ -83,7 +99,7 @@
 </script>
 
 {#key address && refreshing}
-  {#if NFTs?.length > 0}
+  {#if NFTs?.size > 0}
     <h2>
       Collection {collectionName(collection)}
     </h2>
@@ -107,7 +123,7 @@
           <div class="table-col"><span class="label">Infos</span></div>
         {/if}
       </div>
-      {#each NFTs as nft, i}
+      {#each [...NFTs.values()] as nft, i}
         <div id="table-drop-{i}" class="table-row table-drop closed">
           <div id="media-{i}" class="table-col">
             <div class="table-col-content">
@@ -176,7 +192,7 @@
             </div>
           </div>
 
-          <div class="detail">
+          <div id="more-detail-{i}" class="detail">
             <div id="media-full-{i}" class="media media-photo">
               <img alt="link" src={nftImageLink(nft)} />
             </div>
@@ -220,31 +236,3 @@
     </div>
   {/if}
 {/key}
-
-<div id="kredeum-list-nfts" class="table">
-  {#key address && refreshing}
-    {#if NFTs?.length > 0}
-      {#each NFTs as nft, i}
-        <div id="table-drop-{i}" class="table-row table-drop closed">
-          <!-- <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
-            <div class="more-button"><i class="fas fa-chevron-down"></i></div>
-          </div> -->
-
-          <div id="more-detail-{i}" class="detail">
-            <div class="table">
-              <div class="table-row">
-                <div class="table-col">
-                  <img alt={nftName(nft)} src={nftImageLink(nft)} height="600" />
-                  <p title={nftDescription(nft)}>
-                    {nftDescription(nft)}
-                  </p>
-                </div>
-                <div class="table-col" />
-              </div>
-            </div>
-          </div>
-        </div>
-      {/each}
-    {/if}
-  {/key}
-</div>

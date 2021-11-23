@@ -5,7 +5,7 @@ import {
   listCollectionsFromCovalent,
   listCollectionsFromTheGraph,
   listCollectionsFromFactory
-} from "../../lib/nfts-factory";
+} from "../../lib/klist-collections";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 import type { NFTsFactory } from "../artifacts/types/NFTsFactory";

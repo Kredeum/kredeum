@@ -8,12 +8,13 @@
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import { getNetwork, nftUrl, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
+  import { clearCache } from "lib/klist-nfts";
 
   let collection: Collection;
   let address: string;
   let chainId: number;
   let signer: Signer;
-  let refreshing = false;
+  let refreshing: boolean;
   let refreshNFTs;
   $: network = getNetwork(chainId);
 </script>
@@ -84,8 +85,10 @@
                 <button
                   class="clear"
                   on:click={() => {
-                    localStorage.clear();
-                    refreshNFTs();
+                    if (chainId && collection?.address) {
+                      clearCache(chainId, collection.address);
+                      refreshNFTs();
+                    }
                   }}
                 >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />

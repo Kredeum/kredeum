@@ -5,7 +5,7 @@ import {
   listNFTsFromTheGraph,
   listNFTsFromContract,
   listNFTsFromCovalent
-} from "../../lib/open-nfts";
+} from "../../lib/klist-nfts";
 import { getNetwork, Network } from "../../lib/kconfig";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
@@ -49,25 +49,25 @@ describe.only("List NFTs lib", function () {
 
     it("With SmartContract", async function () {
       expect(
-        (await listNFTsFromContract(chainId, contract, artistAddress, 9, ethers.provider)).length
+        (await listNFTsFromContract(chainId, contract, artistAddress, 9, ethers.provider)).size
       ).to.be.gte(1);
     });
 
     it("With default method", async function () {
       expect(
-        (await listNFTs(chainId, contract, artistAddress, 9, ethers.provider)).length
+        (await listNFTs(chainId, contract, artistAddress, 9, ethers.provider)).size
       ).to.be.gte(1);
     });
 
     it("With TheGraph", async function () {
       if (network?.subgraph) {
-        expect((await listNFTsFromTheGraph(chainId, contract)).length).to.be.gte(1);
+        expect((await listNFTsFromTheGraph(chainId, contract)).size).to.be.gte(1);
       }
     });
 
     it("With Covalent", async function () {
       if (network?.covalent) {
-        expect((await listNFTsFromCovalent(chainId, contract)).length).to.be.gte(1);
+        expect((await listNFTsFromCovalent(chainId, contract)).size).to.be.gte(1);
       }
     });
   });

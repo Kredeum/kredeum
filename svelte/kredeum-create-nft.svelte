@@ -15,7 +15,7 @@
     explorerNftUrl,
     nftName
   } from "lib/knfts";
-  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/open-nfts";
+  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/klist-nfts";
   import { onMount } from "svelte";
 
   export let chainId: number = undefined;
