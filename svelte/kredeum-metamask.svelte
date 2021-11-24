@@ -30,7 +30,9 @@
   let network: Network;
   let nameOrAddress = "";
 
-  let connectmetamask = "Connect to Metamask";
+  const connectMetamaskMessage = "Connect to Metamask";
+  const installMetamaskMessage = "Please install MetaMask extension to connect";
+  let noMetamask = false;
   let targetChain = false;
 
   let open = false;
@@ -140,7 +142,7 @@
       .then(handleAccounts)
       .catch((e) => {
         if (e.code === 4001) {
-          alert("Please connect to MetaMask.");
+          alert(connectMetamaskMessage);
         } else {
           console.error("ERROR eth_requestAccounts", e);
         }
@@ -151,6 +153,8 @@
     // console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
+      noMetamask = false;
+
       if (provider !== window.ethereum) {
         alert("Do you have multiple wallets installed?");
       }
@@ -176,8 +180,8 @@
 
       ethereumProvider.on("accountsChanged", handleAccounts);
     } else {
-      console.log("Please install MetaMask!");
-      connectmetamask = "Please install MetaMask chrome extension to connect with your address";
+      noMetamask = true;
+      console.log(installMetamaskMessage);
     }
 
     window.addEventListener("click", (e: Event): void => {
@@ -206,12 +210,15 @@
     </div>
   {:else}
     <span class="label">Connect</span>
-    <a
-      href="."
-      on:click={connectMetamask}
-      class="btn btn-light btn-metamask"
-      title="Connect to Metamask">Connect to Metamask</a
-    >
+    {#if noMetamask}
+      <div class="btn btn-light btn-metamask">
+        {installMetamaskMessage}
+      </div>
+    {:else}
+      <a href="." on:click={connectMetamask} class="btn btn-light btn-metamask"
+        >{connectMetamaskMessage}</a
+      >
+    {/if}
   {/if}
 </div>
 

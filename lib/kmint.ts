@@ -34,7 +34,7 @@ const mintImageCallContract = async (
   try {
     nft = await Mint(chainId, collection, ipfsGatewayUrl(cidJson), signer);
   } catch (e) {
-    console.error("<kredeum-nfts-mint/> Minting ERROR", e);
+    console.error("kredeum-nfts-mint Minting ERROR", e);
   }
 
   return nft;
