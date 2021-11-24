@@ -6,7 +6,7 @@ node_modules
 solidity/artifacts
 
 # APP
-web/app
+#web/app
 
 # WORDPRESS
 wordpress/kredeum-nfts/lib
