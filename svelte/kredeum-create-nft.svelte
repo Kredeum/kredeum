@@ -8,7 +8,6 @@
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
   import {
     textShort,
-    addressShort,
     ipfsUrl,
     ipfsGatewayUrl,
     explorerTxUrl,
@@ -105,48 +104,57 @@
     <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
+      <div class="titre">
+        <i class="fas fa-plus fa-left c-green" />Mint NFT
+      </div>
+
       {#if minting}
-        <div class="titre">
-          <i class="fas fa-spinner fa-left c-green refresh" />Minting NFT
-        </div>
-
-        {#if mintedNft}
-          <div class="titre">
-            <i class="fas fa-check fa-left c-green" />
-            NFT '<a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
-              >{nftName(mintedNft)}</a
-            >' minted!
-          </div>
-        {/if}
-
         <div class="media media-photo">
           <img src={image} alt="nft" />
         </div>
 
-        <div class="description">
-          <p>
-            {#if minting == 1}
-              Wait till Image stored on IPFS
-            {:else if minting == 2}
-              Wait till Metadata stored on IPFS
-            {:else if minting == 3}
-              Please, sign the transaction
-            {:else if minting == 4}
-              <span class="t-light">
-                Wait till transaction completed, it may takes one minute or more...
-              </span>
-              <i class="fas fa-spinner fa-right c-green refresh" />
-            {/if}
-          </p>
-        </div>
+        <ul class="steps process">
+          {#if mintedNft}
+            <li class="complete">
+              <div class="flex">
+                <span class="titre"
+                  >NFT '<a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+                    >{nftName(mintedNft)}</a
+                  >' minted!
+                  <i class="fas fa-check fa-left c-green" />
+                </span>
+              </div>
+            </li>
+          {:else}
+            <li>
+              <div class="flex">
+                <span class="titre">
+                  Minting NFT
+                  <i class="fas fa-spinner fa-left c-green refresh" />
+                </span>
+              </div>
+              <div class="flex">
+                <span class="t-light">
+                  {#if minting == 1}
+                    Wait till Image stored on IPFS
+                  {:else if minting == 2}
+                    Wait till Metadata stored on IPFS
+                  {:else if minting == 3}
+                    Please, sign the transaction
+                  {:else if minting == 4}
+                    Wait till transaction completed, it may takes one minute or more...
+                  {/if}
+                </span>
+              </div>
+            </li>
+          {/if}
 
-        <ul class="steps">
           <li class={minting >= 2 ? "complete" : ""}>
             <div class="flex"><span class="label">Image ipfs cid</span></div>
             <div class="flex">
               {#if cidImage}
                 <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank"
-                  >{addressShort(cidImage)}</a
+                  >{textShort(cidImage, 15)}</a
                 >
               {/if}
             </div>
@@ -156,7 +164,7 @@
             <div class="flex">
               {#if cidJson}
                 <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank"
-                  >{addressShort(cidJson)}</a
+                  >{textShort(cidJson, 15)}</a
                 >
               {/if}
             </div>
@@ -166,7 +174,7 @@
             <div class="flex">
               {#if mintingTxHash}
                 <a class="link" href={explorerTxUrl(chainId, mintingTxHash)} target="_blank"
-                  >{addressShort(mintingTxHash)}</a
+                  >{textShort(mintingTxHash, 15)}</a
                 >
               {/if}
             </div>
@@ -183,17 +191,12 @@
             <div class="flex"><span class="label">NFT</span></div>
             <div class="flex">
               {#if mintedNft}
-                {@html nftExplorerLink(mintedNft)}
-                <a class="link" href={explorerTxUrl(chainId, mintingTxHash)} target="_blank"
-                  >{addressShort(mintingTxHash)}</a
-                >
+                {@html nftExplorerLink(mintedNft, 6)}
               {/if}
             </div>
           </li>
         </ul>
       {:else}
-        <div class="titre"><i class="fas fa-plus fa-left c-green" />Mint NFT</div>
-
         <div class="section">
           <div class="box-file">
             {#if image}
@@ -215,6 +218,7 @@
               name="media-type"
               type="checkbox"
               value="Video"
+              disabled
             />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
@@ -234,6 +238,7 @@
               name="media-type"
               type="checkbox"
               value="Texte"
+              disabled
             />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
 
@@ -243,6 +248,7 @@
               name="media-type"
               type="checkbox"
               value="Music"
+              disabled
             />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
@@ -252,6 +258,7 @@
               name="media-type"
               type="checkbox"
               value="Web"
+              disabled
             />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>

@@ -37,7 +37,6 @@
     collections = new Map(
       [...allCollections]
         .filter(([, collection]) => {
-          console.log("collection.address", collection.address);
           // FILTER NETWORK
           return (
             collection.chainId === chainId &&

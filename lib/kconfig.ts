@@ -7,9 +7,20 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
+const textShort = (s = "", n = 16, p?: number): string => {
+  p = p === undefined ? n : p;
+  const l = s?.toString().length;
+  return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
+};
+
 const getChecksumAddress = (address: Address | string | undefined): Address => {
   return address ? utils.getAddress(address) : "";
 };
+
+const getShortAddress = (address = "", n = 8): string =>
+  address.endsWith(".eth")
+    ? textShort(address, 2 * n, 0)
+    : textShort(getChecksumAddress(address), n, n);
 
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
@@ -98,38 +109,39 @@ const getCreate = (chainId: number): boolean => {
   return Boolean(network?.create);
 };
 
-
 // nfts url : nfts://chainName/contractAddress
 const nftsUrl = (chainId: number, _address: Address): string => {
   const network = getNetwork(chainId);
   return (
     "nfts://" +
-    (network ? network.chainName : "...") + (_address ? "/" + getChecksumAddress(_address) : "...")
+    (network ? network.chainName : "...") +
+    (_address ? "/" + getChecksumAddress(_address) : "...")
   );
 };
 
 // nfts url  cache: nfts://chainName/contractAddress@address
-const urlCache = (url: string, _owner: Address): string => url + (_owner ? "@" + getChecksumAddress(_owner) : "");
+const urlCache = (url: string, _owner: Address): string =>
+  url + (_owner ? "@" + getChecksumAddress(_owner) : "");
 
 // nft url : nft://chainName/contractAddress/tokenID
-const nftUrl = (chainId: number, _contract: Address, _tokenId = "", plus = ""): string => {
+const nftUrl = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
   const network = getNetwork(chainId);
   const ret =
     "nft://" +
     (network
       ? network.chainName +
-      (_contract
-        ? "/" + (getChecksumAddress(_contract) + (_tokenId ? "/" + _tokenId : plus))
-        : plus)
-      : plus);
+        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
+      : "");
   // console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
 
 export {
   abis,
+  textShort,
   networks,
   getChainName,
+  getShortAddress,
   getChecksumAddress,
   getNetwork,
   getEnsName,

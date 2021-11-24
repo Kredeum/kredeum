@@ -53,8 +53,8 @@
         <header>
           <h1>My NFT wallet</h1>
           {#if address && getCreate(chainId)}
-            <a href="#create" class="btn btn-default" title="Create"
-              ><i class="fas fa-plus fa-left" />Create</a
+            <a href="#create" class="btn btn-default" title="Mint"
+              ><i class="fas fa-plus fa-left" />Mint</a
             >
           {/if}
 
@@ -64,7 +64,7 @@
             <div class="col col-xs-12 col-sm-3">
               {#if address && getNftsFactory(chainId)}
                 <span class="label"
-                  >Collection &nbsp;&nbsp;&nbsp;
+                  >Collection
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
@@ -120,7 +120,7 @@
           </div>
 
           <div class="txtcenter">
-            <a href="#create-nft" class="btn btn-default" title="Create NFT">Create NFT</a>
+            <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
             <span class="or">Or</span>
             <a href="#add-collection" class="btn btn-second" title="Add a new collection"
               >Add a new collection</a

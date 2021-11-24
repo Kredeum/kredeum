@@ -1,11 +1,10 @@
 <script lang="ts">
-  import { Collection, getNetwork, Network, Nft } from "lib/kconfig";
+  import { Collection, getNetwork, getShortAddress, Network, Nft } from "lib/kconfig";
   import {
     sleep,
     collectionName,
     explorerCollectionInventoryUrl,
     nftImageLink,
-    explorerCollectionUrl,
     nftDescription,
     nftDescriptionShort,
     nftName,
@@ -13,7 +12,7 @@
     nftOpenSeaUrl,
     nftExplorerLink,
     addressSame,
-    addressShort,
+    textShort,
     explorerNftUrl,
     nftUrl
   } from "lib/knfts";
@@ -201,23 +200,38 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Token ID</span></div>
                   <div class="flex">
-                    <a class="link" href={explorerNftUrl(nft.chainId, nft)} target="_blank"
-                      ><strong>{nft.tokenID}</strong></a
-                    >
+                    <strong>{nft.tokenID}</strong>
                   </div>
                 </li>
                 <li class="complete">
+                  <div class="flex"><span class="label">Token REF</span></div>
+                  <div class="flex">
+                    <a class="link" href={explorerNftUrl(nft.chainId, nft)} target="_blank">
+                      {@html nftExplorerLink(nft, 10)}
+                    </a>
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Collection @</span></div>
+                  <div class="flex">
+                    <a
+                      class="link"
+                      href={nftUrl(chainId, nft.collection, nft.tokenID)}
+                      target="_blank">{getShortAddress(collection?.address, 15)}</a
+                    >
+                  </div>
+                </li>
+
+                <li class="complete">
                   <div class="flex"><span class="label">Metadata CID</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.tokenURI} target="_blank"
-                      >{addressShort(nft.cidJson)}</a
-                    >
+                    <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.cidJson)}</a>
                   </div>
                 </li>
                 <li class="complete">
                   <div class="flex"><span class="label">Image CID</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.image} target="_blank">{addressShort(nft.cid)}</a>
+                    <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
                   </div>
                 </li>
               </ul>

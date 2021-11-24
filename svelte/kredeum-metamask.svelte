@@ -9,7 +9,7 @@
   import { onMount } from "svelte";
   import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
   import {
-    addressShort,
+    getShortAddress,
     textShort,
     numberToHexString,
     explorerAddressLink,
@@ -191,16 +191,18 @@
 
 <div class="col col-xs-12 col-sm-3">
   {#if address}
-    <span class="label">Address</span>
-    <a
-      class="info-button"
-      href={explorerAddressUrl(chainId, address)}
-      target="_blank"
-      title="&#009;Account address (click to view account in explorer )&#013;{address}"
-      ><i class="fas fa-info-circle" /></a
-    >
+    <span class="label"
+      >Address
+      <a
+        class="info-button"
+        href={explorerAddressUrl(chainId, address)}
+        target="_blank"
+        title="&#009;Account address (click to view account in explorer )&#013;{address}"
+        ><i class="fas fa-info-circle" /></a
+      >
+    </span>
     <div class="form-field">
-      <input type="text" value={addressShort(nameOrAddress, 10)} />
+      <input type="text" value={getShortAddress(nameOrAddress, 10)} />
     </div>
   {:else}
     <span class="label">Connect</span>
@@ -216,7 +218,7 @@
 <div class="col col-xs-12 col-sm-3">
   {#if address}
     <span class="label"
-      >Network &nbsp;&nbsp;&nbsp;
+      >Network
       <a
         class="info-button"
         href={explorerOpenNFTsUrl(chainId)}

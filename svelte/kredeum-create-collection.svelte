@@ -1,6 +1,6 @@
 <script lang="ts">
   import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
-  import { explorerTxUrl, explorerAddressUrl, addressShort } from "lib/knfts";
+  import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
   import type { Collection } from "lib/kconfig";
   import type { Signer } from "ethers";
   import { createEventDispatcher } from "svelte";
@@ -80,14 +80,14 @@
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
-              >Create</button
+              >Mint</button
             >
           </div>
         {/if}
         {#if cloningTxHash}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
-              >{addressShort(cloningTxHash)}</a
+              >{textShort(cloningTxHash)}</a
             >
           </div>
         {/if}
