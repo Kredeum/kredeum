@@ -60,7 +60,7 @@ const explorerCollectionInventoryLink = (chainId: number, collAddress: string): 
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), getShortAddress(collAddress));
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
-  getExplorer(chainId)?.includes("cchain.explorer")
+    getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
     : explorerUrl(chainId, `/token/${collAddress}#inventory`);
 
@@ -71,7 +71,7 @@ const nftsSupplyAndName = (nfts: Map<string, Nft>, collection: Collection): stri
 
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string =>
-  urlToLink(explorerNftUrl(nft.chainId, nft), nftUrl(nft.chainId, nft.collection, nft.tokenID, n));
+  urlToLink(explorerNftUrl(nft.chainId, nft), nftUrl(nft, n));
 const nftImageLink = (nft: Nft): string => ipfsReplace(nft.image);
 
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
@@ -104,7 +104,6 @@ export {
   getShortAddress,
   collectionName,
   collectionSymbol,
-  nftUrl,
   nftImageLink,
   nftDescription,
   nftDescriptionShort,

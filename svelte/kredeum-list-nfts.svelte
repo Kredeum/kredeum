@@ -13,11 +13,10 @@
     nftExplorerLink,
     addressSame,
     textShort,
-    explorerNftUrl,
-    nftUrl
+    explorerNftUrl
   } from "lib/knfts";
 
-  import { nftsUrl } from "lib/kconfig";
+  import { nftUrl, nftsUrl } from "lib/kconfig";
   import { listNFTsTokenIds, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
 
   import { createEventDispatcher } from "svelte";
@@ -42,27 +41,29 @@
     network = getNetwork(chainId);
 
     if (network && address && collection) {
+      // Concurrent runs make collection undefined in this block !
+      const collectionAddress = collection.address;
+
       allNFTs = listNFTsFromCache();
       NFTs = new Map(
         [...allNFTs].filter(
-          ([, nft]) => nft.chainId === chainId && nft.collection === collection.address
+          ([, nft]) => nft.chainId === chainId && nft.collection === collectionAddress
         )
       );
       refreshing = true;
 
-      const nftsMap = await listNFTsTokenIds(chainId, collection.address, address);
+      const nftsMap = await listNFTsTokenIds(chainId, collectionAddress, address);
       const nftsTokenIds = [...nftsMap.values()];
 
       for (let index = 0; index < nftsTokenIds.length; index++) {
         const nftTokenId = nftsTokenIds[index];
         console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
 
-        const nft = await addNftMetadata(chainId, collection.address, nftTokenId);
+        const nft = await addNftMetadata(chainId, collectionAddress, nftTokenId);
 
         console.log("nftWithMetadata nid", nft.nid, nft);
 
-        if (nft.chainId === chainId && nft.collection === collection.address)
-          NFTs.set(nft.nid, nft);
+        if (nft.chainId === chainId && nft.collection === collectionAddress) NFTs.set(nft.nid, nft);
         else break;
       }
       refreshing = false;
@@ -130,11 +131,8 @@
               <a
                 class="info-button"
                 href={nftImageLink(nft)}
-                title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
-                  chainId,
-                  nft.collection,
-                  nft.tokenID
-                )}"
+                title="&#009;{nftDescription(nft)} 
+                (click to view NFT in explorer)&#013.{nftUrl(nft)}"
                 target="_blank"><i class="fas fa-info-circle" /></a
               >
             </div>
@@ -170,11 +168,8 @@
                 <a
                   class="info-button"
                   href={nftImageLink(nft)}
-                  title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
-                    chainId,
-                    nft.collection,
-                    nft.tokenID
-                  )}"
+                  title="&#009;{nftDescription(nft)} 
+                  (click to view NFT in explorer)&#013.{nftUrl(nft)}"
                   target="_blank"><i class="fas fa-info-circle" /></a
                 >
               </div>
@@ -214,10 +209,8 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Collection @</span></div>
                   <div class="flex">
-                    <a
-                      class="link"
-                      href={nftUrl(chainId, nft.collection, nft.tokenID)}
-                      target="_blank">{getShortAddress(collection?.address, 15)}</a
+                    <a class="link" href={nftUrl(nft)} target="_blank"
+                      >{getShortAddress(collection?.address, 15)}</a
                     >
                   </div>
                 </li>

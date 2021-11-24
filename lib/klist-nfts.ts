@@ -7,7 +7,7 @@ import {
   getProvider,
   getSubgraphUrl,
   getCovalent,
-  nftUrl
+  nftUrl3
 } from "./kconfig";
 
 import type { ERC165Upgradeable } from "../solidity/artifacts/types/ERC165Upgradeable";
@@ -131,7 +131,7 @@ const addNftMetadataSync = (chainId: number, _collection: string, _token: Nft): 
 
     cid: _token.cid || metadata.cid || cidExtract(image) || "",
     cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
-    nid: _token.nid || nftUrl(chainId, collection, tokenID)
+    nid: _token.nid || nftUrl3(chainId, collection, tokenID)
   };
   // STORE in cache if exists
   if (typeof localStorage !== "undefined") {
@@ -179,7 +179,7 @@ const getNFTFromContract = async (
   } catch (e) {
     console.error("OpenNFTs.getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
   }
-  const nid = nftUrl(chainId, collection, tokenID);
+  const nid = nftUrl3(chainId, collection, tokenID);
   // console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
   return { chainId, collection, contractName, tokenID, tokenURI, owner, nid };
 };
@@ -234,7 +234,7 @@ const listNFTsFromCovalent = async (
           metadata: _token.external_data,
           owner: getChecksumAddress(_token.owner || _owner),
           minter: getChecksumAddress(_token.original_owner),
-          nid: nftUrl(chainId, collection, _token.token_id)
+          nid: nftUrl3(chainId, collection, _token.token_id)
         };
         console.log("listNFTsFromCovalent nid", nft.nid, nft);
         nfts.set(nft.nid, nft);
@@ -298,7 +298,7 @@ const listNFTsFromTheGraph = async (
         tokenID: _token.tokenID,
         tokenURI: _token.tokenURI,
         owner: getChecksumAddress(_token.owner?.id),
-        nid: nftUrl(chainId, collection, _token.tokenID)
+        nid: nftUrl3(chainId, collection, _token.tokenID)
         // metadata: _token.metadata && JSON.parse(_token.metadata),
         // name: _token.name,
         // description: _token.description,

@@ -12,11 +12,11 @@
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
 
   export let key: string;
+  export let metadata: string;
   export let alt: string;
   export let src: string;
   export let pid: string;
   export let collection: string;
-  export let metadata: string;
   export let width = 100;
   export let display = false;
   export let minted: Nft;
@@ -39,7 +39,7 @@
   }
 
   async function init() {
-    // console.log(`<kredeum-nfts-mint/> init ${chainId}`);
+    console.log(`<kredeum-nfts-mint/> init ${chainId}`, key, metadata);
     network = getNetwork(chainId);
     if (network) {
       if (!collection && chainId != chainIdOld) {

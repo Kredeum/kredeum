@@ -124,17 +124,18 @@ const urlCache = (url: string, _owner: Address): string =>
   url + (_owner ? "@" + getChecksumAddress(_owner) : "");
 
 // nft url : nft://chainName/contractAddress/tokenID
-const nftUrl = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
+const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
   const network = getNetwork(chainId);
   const ret =
     "nft://" +
     (network
       ? network.chainName +
-        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
+      (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
       : "");
-  // console.log("nftUrl", chainId, _contract, _tokenId, plus, ret);
+  // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
+const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
 export {
   abis,
@@ -154,6 +155,7 @@ export {
   getOpenNFTsAddress,
   getCovalent,
   getExplorer,
+  nftUrl3,
   nftUrl,
   nftsUrl,
   urlCache

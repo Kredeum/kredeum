@@ -4,16 +4,10 @@
   import type { Nft } from "lib/ktypes";
   import type { Collection } from "lib/kconfig";
 
+  import { nftUrl } from "lib/kconfig";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
   import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
-  import {
-    textShort,
-    ipfsUrl,
-    ipfsGatewayUrl,
-    explorerTxUrl,
-    explorerNftUrl,
-    nftName
-  } from "lib/knfts";
+  import { textShort, ipfsUrl, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/klist-nfts";
   import { onMount } from "svelte";
 
@@ -118,11 +112,14 @@
             <li class="complete">
               <div class="flex">
                 <span class="titre"
-                  >NFT '<a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
-                    >{nftName(mintedNft)}</a
-                  >' minted!
+                  >NFT Minted, congrats!
                   <i class="fas fa-check fa-left c-green" />
                 </span>
+              </div>
+              <div class="flex">
+                <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+                  >{nftUrl(mintedNft, 6)}</a
+                >
               </div>
             </li>
           {:else}
@@ -184,14 +181,6 @@
             <div class="flex">
               {#if tokenID}
                 <strong>{tokenID}</strong>
-              {/if}
-            </div>
-          </li>
-          <li class={mintedNft ? "complete" : ""}>
-            <div class="flex"><span class="label">NFT</span></div>
-            <div class="flex">
-              {#if mintedNft}
-                {@html nftExplorerLink(mintedNft, 6)}
               {/if}
             </div>
           </li>
