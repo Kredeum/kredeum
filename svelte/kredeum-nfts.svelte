@@ -26,9 +26,9 @@
       <input id="burger" type="checkbox" />
 
       <label for="burger">
-        <span />
-        <span />
-        <span />
+        <span></span>
+        <span></span>
+        <span></span>
       </label>
 
       <div class="nav">
@@ -43,7 +43,7 @@
       href="https://discord.gg/Vz5AyU2Nfx"
       target="_blank"
       alt="Discord Kredeum"
-      title="Discord Kredeum"><i class="fab fa-discord" /></a
+      title="Discord Kredeum"><i class="icon-discord"></i></a
     >
   </nav>
 
@@ -54,7 +54,7 @@
           <h1>My NFT wallet</h1>
           {#if address && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
-              ><i class="fas fa-plus fa-left" />Mint</a
+              ><i class="fas fa-plus fa-left"></i>Mint</a
             >
           {/if}
 
@@ -63,8 +63,7 @@
 
             <div class="col col-xs-12 col-sm-3">
               {#if address && getNftsFactory(chainId)}
-                <span class="label"
-                  >Collection
+                <span class="label">Collection
                   <a
                     class="info-button"
                     href={explorerCollectionUrl(chainId, collection?.address)}
