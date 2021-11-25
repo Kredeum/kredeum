@@ -50,8 +50,12 @@
         position: absolute;
         color: rgba($white, 0.4);
 
-        i {
-            background: url('') no-rea
+        .icon-discord {
+            background: url('../images/icon-discord.svg') no-repeat center center;
+            display: block;
+            width: 30px;
+            height: 30px;
+            background-size: 100% auto;
         }
     }
 }
