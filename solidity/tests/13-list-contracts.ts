@@ -50,14 +50,14 @@ describe("List contracts lib", function () {
 
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
-    await (await openNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
+    await ((await openNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
     const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
-    const newOpenNFTs: OpenNFTs = await openNFTsFactory.deploy() as OpenNFTs;
-    await (await newOpenNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
+    const newOpenNFTs: OpenNFTs = (await openNFTsFactory.deploy()) as OpenNFTs;
+    await ((await newOpenNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
   });
@@ -84,7 +84,7 @@ describe("List contracts lib", function () {
 
   it("List with default method", async function () {
     if (chainId !== 31337) {
-      expect((await listCollections(chainId, artist, ethers.provider)).length).to.be.gte(1);
+      expect((await listCollections(chainId, artist, ethers.provider)).size).to.be.gte(1);
     }
   });
 

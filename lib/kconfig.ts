@@ -1,6 +1,6 @@
 import networks from "../config/networks.json";
 import abis from "../config/abis.json";
-import type { Collection, Address, Network, ABIS, Nft, KredeumKeys, ErcKeys } from "./ktypes";
+import type { Collection, Address, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys } from "./ktypes";
 
 import { providers, utils } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
@@ -34,10 +34,10 @@ const getProvider = (chainId: number): Provider | undefined => {
   let apiKey = url?.includes("infura.io")
     ? process.env.INFURA_API_KEY
     : url?.includes("etherscan.io")
-      ? process.env.ETHERSCAN_API_KEY
-      : url?.includes("maticvigil.com")
-        ? process.env.MATICVIGIL_API_KEY
-        : null;
+    ? process.env.ETHERSCAN_API_KEY
+    : url?.includes("maticvigil.com")
+    ? process.env.MATICVIGIL_API_KEY
+    : null;
   apiKey = apiKey ? "/" + apiKey : "";
   const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
 
@@ -88,7 +88,7 @@ const getOpenNFTsAddress = (chainId: number): Address | undefined => {
 // GET OpenSeaKredeum
 const getOpenSeaKredeum = (chainId: number): string => {
   const network = getNetwork(chainId);
-  return network?.openSea?.kredeum || "";
+  return network?.openSea?.openNFTs || "";
 };
 
 // GET OpenSea
@@ -130,12 +130,13 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-      (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
+        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
-const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
+const nftUrl = (nft: Nft, n?: number): string =>
+  nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
 export {
   abis,
@@ -160,4 +161,4 @@ export {
   nftsUrl,
   urlCache
 };
-export type { Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };
+export type { Collection, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys };

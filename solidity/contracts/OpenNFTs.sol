@@ -6,7 +6,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import "./interfaces/IOpenNFTs.sol";
+import "./interfaces/IOpenNFTsV2.sol";
 
 contract OpenNFTs is
   ERC721Upgradeable,
@@ -49,8 +49,8 @@ contract OpenNFTs is
     override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     returns (bool)
   {
-    return interfaceId == type(IOpenNFTs).interfaceId || super.supportsInterface(interfaceId);
-    // return super.supportsInterface(interfaceId);
+    // IOpenNFTsV2 => 0xA6123562
+    return interfaceId == type(IOpenNFTsV2).interfaceId || super.supportsInterface(interfaceId);
   }
 
   function _beforeTokenTransfer(

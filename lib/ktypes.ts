@@ -1,7 +1,7 @@
-type KredeumKeys = "KredeumV2" | "KredeumV1" | "KredeumV0" | "CloneFactory" | "NFTsFactory";
+type OpenNFTsKeys = "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "CloneFactory" | "NFTsFactory";
 type ErcKeys = "ERC165" | "ERC721" | "ERC721TokenReceiver" | "ERC721Metadata" | "ERC721Enumerable";
 type ABIS = {
-  [Key in ErcKeys | KredeumKeys]: Array<string>;
+  [Key in ErcKeys | OpenNFTsKeys]: Array<string>;
 };
 
 type Address = string;
@@ -22,7 +22,7 @@ type Network = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
-  openSea?: { assets?: string; kredeum?: string };
+  openSea?: { assets?: string; openNFTs?: string };
   openNFTs?: string;
   costClone?: number;
   nftsFactory?: string;
@@ -63,4 +63,4 @@ type Nft = {
   nid?: string;
 };
 
-export type { Address, Collection, Network, ABIS, Nft, KredeumKeys, ErcKeys };
+export type { Address, Collection, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys };

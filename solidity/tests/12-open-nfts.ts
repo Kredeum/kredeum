@@ -49,4 +49,8 @@ describe("Open NFTs contract", function () {
   it("Should get openNFTs totalSupply", async function () {
     expect(await openNFTs.totalSupply()).to.be.gte(1);
   });
+
+  it("Should check openNFTsV2 interface", async function () {
+    expect(await openNFTs.supportsInterface("0xA6123562")).to.be.true;
+  });
 });

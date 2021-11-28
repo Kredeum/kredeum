@@ -242,7 +242,7 @@ const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
     const key = localStorage.key(index);
 
     if (key?.startsWith("nfts://") && key?.endsWith(`@${owner}`)) {
-      collections.set(key, JSON.parse(localStorage.getItem(key)) as Collection);
+      collections.set(key, JSON.parse(localStorage.getItem(key) || "") as Collection);
     }
   }
   // console.log("listCollectionsFromCache", collections);

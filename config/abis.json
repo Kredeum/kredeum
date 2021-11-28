@@ -1,10 +1,10 @@
 {
-  "KredeumV2": [
+  "OpenNFTsV2": [
     "function mintNFT(address,string) returns (uint256)",
     "function initialize(string,string)"
   ],
-  "KredeumV1": ["function mintNFT(address,string) returns (uint256)"],
-  "KredeumV0": ["function addUser(address,string) returns (uint256)"],
+  "OpenNFTsV1": ["function mintNFT(address,string) returns (uint256)"],
+  "OpenNFTsV0": ["function addUser(address,string) returns (uint256)"],
   "CloneFactory": [
     "function addImplementation(address _implementation)",
     "function implementations(uint256) view returns (address)",

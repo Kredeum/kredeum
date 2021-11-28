@@ -39,16 +39,18 @@ const getOpenNFTs = async (
     ) as ERC165Upgradeable;
 
     if (checkContract) {
+      const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xa6123562");
       const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
       const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
-      const [supportsMetadata, supportsEnumerable] = await Promise.all([
+      const [supportsOpenNFTsV2, supportsMetadata, supportsEnumerable] = await Promise.all([
+        waitOpenNFTsV2,
         waitMetadata,
         waitEnumerable
       ]);
       let abi = abis.ERC721;
       if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
       if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
-      abi = abi.concat(abis.KredeumV2);
+      if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2);
 
       contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
     }
@@ -68,7 +70,7 @@ const getOpenNFTs = async (
 // owner     = "0xbbb...bbb"
 ////////////////////////////////////////////////////////
 // METADATA?
-// tokenURI    = "https://ipfs.io/iofs/bafaaaaa...aaaa"
+// tokenURI    = "https://ipfs.io/ipfs/bafaaaaa...aaaa"
 // metadata    = {...}
 // image       =
 // name        = "image name"
@@ -341,7 +343,7 @@ const listNFTsFromContract = async (
           for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
             const nft = await getNFTFromContract(chainId, contract, index, _owner);
             console.log("listNFTsFromContract nid", nft.nid, nft);
-            nfts.set(nft.nid, nft);
+            nfts.set(nft.nid || "", nft);
           }
         }
       } catch (e) {
@@ -357,7 +359,8 @@ const listNFTsTokenIds = async (
   chainId: number,
   collection: string,
   _owner?: string,
-  _limit: number = LIMIT
+  _limit: number = LIMIT,
+  _provider?: Provider
 ): Promise<Map<string, Nft>> => {
   console.log("listNFTs", chainId, collection, _owner, _limit);
 
@@ -365,7 +368,7 @@ const listNFTsTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    nftsTokenIds = await listNFTsFromContract(chainId, collection, _owner, _limit);
+    nftsTokenIds = await listNFTsFromContract(chainId, collection, _owner, _limit, _provider);
     if (nftsTokenIds.size === 0) {
       if (getSubgraphUrl(chainId)) {
         nftsTokenIds = await listNFTsFromTheGraph(chainId, collection, _owner, _limit);
@@ -405,7 +408,7 @@ const listNFTsWithMetadata = async (
   for (let index = 0; index < Math.min(nftsTokenIds.length, _limit); index++) {
     const nft = await addNftMetadata(chainId, collection, nftsTokenIds[index]);
     console.log("listNFTsWithMetadata nid", nft.nid, nft);
-    nftsWithMetadata.set(nft.nid, nft);
+    nftsWithMetadata.set(nft.nid || "", nft);
   }
 
   console.log(`listNFTsWithMetadata from ${collection}`, nftsWithMetadata);
@@ -421,7 +424,7 @@ const clearCache = (chainId: number, collectionAddress = ""): void => {
     for (let index = 0; index < indexMax; index++) {
       const key = localStorage.key(index);
       const sig = `${chainName}/${collectionAddress}`;
-      if (key.includes(sig)) {
+      if (key?.includes(sig)) {
         keys.push(key);
       }
     }
@@ -452,7 +455,8 @@ const listNFTs = async (
   chainId: number,
   collection: string,
   _owner?: string,
-  _limit: number = LIMIT
+  _limit: number = LIMIT,
+  _provider?: Provider
 ): Promise<Map<string, Nft>> => {
   console.log("listNFTs", chainId, collection, _owner, _limit);
 
@@ -460,7 +464,8 @@ const listNFTs = async (
     chainId,
     collection,
     _owner,
-    _limit
+    _limit,
+    _provider
   );
   const nftsWithMetadata: Map<string, Nft> = await listNFTsWithMetadata(
     chainId,
