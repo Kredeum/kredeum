@@ -21,12 +21,12 @@ import type {
 
 const LIMIT = 10;
 
-const getOpenNFTs = async (
+const getCollection = async (
   chainId: number,
   collection: string,
   _providerOrSigner?: Provider | Signer
 ): Promise<OpenNFTs | undefined> => {
-  // console.log(`getOpenNFTs ${collection}`);
+  // console.log(`getCollection ${collection}`);
 
   let contract: OpenNFTs | undefined = undefined;
   _providerOrSigner = _providerOrSigner || getProvider(chainId);
@@ -55,7 +55,7 @@ const getOpenNFTs = async (
       contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
     }
   } catch (e) {
-    console.error(`ERROR getOpenNFTs ${collection}\n`, e);
+    console.error(`ERROR getCollection ${collection}\n`, e);
   }
 
   return contract;
@@ -167,11 +167,15 @@ const getNFTFromContract = async (
 
   try {
     collection = getChecksumAddress(_smartcontract.address);
-    contractName = await _smartcontract.name();
+    if (_smartcontract.name) {
+      contractName = await _smartcontract.name();
+    }
     if (_owner) {
-      tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
-      owner = _owner;
-    } else {
+      if (_smartcontract.tokenOfOwnerByIndex) {
+        tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
+        owner = _owner;
+      }
+    } else if (_smartcontract.tokenByIndex) {
       tokenID = (await _smartcontract.tokenByIndex(_index)).toString();
       owner = await _smartcontract.ownerOf(tokenID);
     }
@@ -327,28 +331,26 @@ const listNFTsFromContract = async (
   const nfts: Map<string, Nft> = new Map();
 
   if (chainId && collection) {
-    const network = getNetwork(chainId);
-
-    if (network?.nftsFactory) {
-      try {
-        const contract = await getOpenNFTs(chainId, collection, _provider);
-        if (contract) {
-          let nbTokens = 0;
-          if (_owner) {
-            nbTokens = Number(await contract.balanceOf(_owner));
-          } else {
-            nbTokens = contract.totalSupply ? Number(await contract.totalSupply()) : 0;
-          }
-
-          for (let index = 0; index < Math.min(nbTokens, _limit); index++) {
-            const nft = await getNFTFromContract(chainId, contract, index, _owner);
-            console.log("listNFTsFromContract nid", nft.nid, nft);
-            nfts.set(nft.nid || "", nft);
+    try {
+      const contract = await getCollection(chainId, collection, _provider);
+      if (contract) {
+        let nbTokens = _limit;
+        if (_owner) {
+          nbTokens = Number(await contract.balanceOf(_owner));
+        } else {
+          if (contract.totalSupply) {
+            nbTokens = Number(await contract.totalSupply());
           }
         }
-      } catch (e) {
-        console.error("OpenNFTs.listNFTsFromContract ERROR", e);
+
+        for (let index = 0; index <= Math.min(nbTokens, _limit); index++) {
+          const nft = await getNFTFromContract(chainId, contract, index, _owner);
+          console.log("listNFTsFromContract nid", nft.nid, nft);
+          nfts.set(nft.nid || "", nft);
+        }
       }
+    } catch (e) {
+      console.error("OpenNFTs.listNFTsFromContract ERROR", e);
     }
   }
   console.log("listNFTsFromContract", nfts);
@@ -424,6 +426,10 @@ const clearCache = (chainId: number, collectionAddress = ""): void => {
     for (let index = 0; index < indexMax; index++) {
       const key = localStorage.key(index);
       const sig = `${chainName}/${collectionAddress}`;
+
+      // Clear NFTs from the specified collection
+      // and list of collections ?
+      // if (key?.includes(sig) || key?.includes("nfts://")) {
       if (key?.includes(sig)) {
         keys.push(key);
       }
@@ -491,7 +497,7 @@ const MintResponse = async (
 
   const network = getNetwork(chainId);
 
-  const contract = await getOpenNFTs(chainId, collection);
+  const contract = await getCollection(chainId, collection);
 
   if (contract) {
     // const txOptions = {
@@ -583,5 +589,5 @@ export {
   listNFTsFromTheGraph,
   clearCache,
   addNftMetadata,
-  getOpenNFTs
+  getCollection
 };
