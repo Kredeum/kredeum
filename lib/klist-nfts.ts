@@ -1,4 +1,4 @@
-import { ethers, Contract, Signer } from "ethers";
+import { Contract, Signer } from "ethers";
 import { fetchCov, fetchGQL, fetchJson } from "./kfetch";
 import {
   abis,
@@ -13,11 +13,7 @@ import {
 import type { ERC165Upgradeable } from "../solidity/artifacts/types/ERC165Upgradeable";
 import type { OpenNFTs } from "../solidity/artifacts/types/OpenNFTs";
 import type { Nft } from "./ktypes";
-import type {
-  Provider,
-  TransactionResponse,
-  TransactionReceipt
-} from "@ethersproject/abstract-provider";
+import type { Provider } from "@ethersproject/abstract-provider";
 
 const LIMIT = 10;
 
@@ -484,102 +480,7 @@ const listNFTs = async (
   return nftsWithMetadata;
 };
 
-const MintResponse = async (
-  chainId: number,
-  collection: string,
-  _urlJson: string,
-  _minter: Signer
-): Promise<TransactionResponse | null> => {
-  let txResp: TransactionResponse | null = null;
-
-  const minter = await _minter.getAddress();
-  // console.log("OpenNFTs.Mint", chainId, collection, _urlJson, minter);
-
-  const network = getNetwork(chainId);
-
-  const contract = await getCollection(chainId, collection);
-
-  if (contract) {
-    // const txOptions = {
-    //   maxPriorityFeePerGas: utils.parseUnits("50", "gwei"),
-    //   maxFeePerGas: utils.parseUnits("50", "gwei"),
-    //   type: 2
-    // };
-
-    txResp = await contract.connect(_minter).mintNFT(minter, _urlJson);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/` + txResp.hash);
-  }
-
-  return txResp;
-};
-
-const MintReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
-  return await txResp.wait();
-};
-
-const MintTokenID = (txReceipt: TransactionReceipt): string => {
-  let tokenID = "";
-
-  // console.log("txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = [
-      "event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"
-    ];
-    const iface = new ethers.utils.Interface(abi);
-    const log = iface.parseLog(txReceipt.logs[0]);
-    ({ tokenID } = log.args);
-  }
-
-  // const tokenID = res.events[0].args[2].toString();
-  return tokenID;
-};
-
-const MintedNft = async (
-  chainId: number,
-  collection: string,
-  tokenID: string,
-  urlJson: string,
-  minterAddress: string
-): Promise<Nft> => {
-  const nft = await addNftMetadata(chainId, collection, {
-    chainId,
-    collection,
-    tokenID,
-    tokenURI: urlJson,
-    creator: minterAddress,
-    minter: minterAddress,
-    owner: minterAddress
-  });
-  return nft;
-};
-
-const Mint = async (
-  chainId: number,
-  collection: string,
-  urlJson: string,
-  minter: Signer
-): Promise<Nft | undefined> => {
-  let nft: Nft | undefined = undefined;
-
-  const txResp = await MintResponse(chainId, collection, urlJson, minter);
-  if (txResp) {
-    const txReceipt = await MintReceipt(txResp);
-    if (txReceipt) {
-      const tokenID = MintTokenID(txReceipt);
-      if (tokenID) {
-        nft = await MintedNft(chainId, collection, tokenID, urlJson, await minter.getAddress());
-      }
-    }
-  }
-  return nft;
-};
-
 export {
-  MintResponse,
-  MintReceipt,
-  MintTokenID,
-  MintedNft,
-  Mint,
   listNFTs,
   listNFTsTokenIds,
   listNFTsWithMetadata,
@@ -589,5 +490,6 @@ export {
   listNFTsFromTheGraph,
   clearCache,
   addNftMetadata,
+  cidExtract,
   getCollection
 };

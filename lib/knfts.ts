@@ -60,7 +60,7 @@ const explorerCollectionInventoryLink = (chainId: number, collAddress: string): 
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), getShortAddress(collAddress));
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
-    getExplorer(chainId)?.includes("cchain.explorer")
+  getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
     : explorerUrl(chainId, `/token/${collAddress}#inventory`);
 
@@ -71,24 +71,24 @@ const nftsSupplyAndName = (nfts: Map<string, Nft>, collection: Collection): stri
 
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string =>
-  urlToLink(explorerNftUrl(nft.chainId, nft), nftUrl(nft, n));
-const nftImageLink = (nft: Nft): string => ipfsReplace(nft.image);
+  urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
+const nftImageLink = (nft: Nft): string => ipfsReplace(nft?.image);
 
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   const openSeaAssets = getOpenSeaAssets(chainId);
-  return `${openSeaAssets}/${nft.collection}/${nft.tokenID}`;
+  return `${openSeaAssets}/${nft?.collection}/${nft?.tokenID}`;
 };
 
 const nftName = (nft: Nft): string =>
-  nft.name || `${nft.contractName || "No name"} #${nft.tokenID}`;
+  nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
 const nftDescription = (nft: Nft): string =>
-  (nft.name != nft.description && nft.description) || nftName(nft);
+  (nft?.name != nft?.description && nft?.description) || nftName(nft);
 const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 
 const explorerNftUrl = (chainId: number, nft: Nft): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com")
-    ? explorerUrl(chainId, `/tokens/${nft.collection}/instance/${nft.tokenID}/metadata`)
-    : explorerUrl(chainId, `/token/${nft.collection}?a=${nft.tokenID}`);
+    ? explorerUrl(chainId, `/tokens/${nft?.collection}/instance/${nft?.tokenID}/metadata`)
+    : explorerUrl(chainId, `/token/${nft?.collection}?a=${nft?.tokenID}`);
 const explorerNftLink = (chainId: number, nft: Nft, label?: string): string =>
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 

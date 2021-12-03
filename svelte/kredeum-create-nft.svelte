@@ -5,9 +5,14 @@
 
   import { nftUrl } from "lib/kconfig";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
-  import { mintImagePinUrl, mintImagePinJson } from "lib/kmint";
-  import { textShort, ipfsUrl, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
-  import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/klist-nfts";
+  import {
+    mintingTexts,
+    mint1ImageCid,
+    mint2MetadataUrl,
+    mint3TxResponse,
+    mint4Nft
+  } from "lib/kmint";
+  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { onMount } from "svelte";
 
   export let chainId: number = undefined;
@@ -18,6 +23,7 @@
   let mintedNft: Nft;
   let minting: number;
   let mintingTxHash: string;
+
   let cidImage: string;
   let cidJson: string;
   let tokenID: string;
@@ -40,51 +46,30 @@
   });
 
   const mint = async (): Promise<Nft> => {
-    minting = 1;
-
     mintingTxHash = null;
     mintedNft = null;
-    cidImage = null;
-    cidJson = null;
 
     const signerAddress = await signer.getAddress();
 
-    cidImage = await mintImagePinUrl(image);
-    // console.log("cidImage", cidImage);
+    minting = 1;
+
+    const cidImage = await mint1ImageCid(image);
+    console.log("cidImage", cidImage);
 
     minting = 2;
 
-    const nftData = {
-      name: imageName,
-      description: imageName || "",
-      cid: cidImage,
-      image: ipfsGatewayUrl(cidImage),
-      ipfs: ipfsUrl(cidImage),
-      origin: textShort(image, 140),
-      minter: signerAddress,
-      metadata: {}
-    };
-    cidJson = await mintImagePinJson(nftData as Nft);
-    const urlJson = ipfsGatewayUrl(cidJson);
-    // console.log("urlJson", urlJson);
+    const urlJson = await mint2MetadataUrl(imageName, cidImage, signerAddress, image);
+    console.log("urlJson", urlJson);
 
     minting = 3;
 
-    // console.log("MintResponse", chainId, collection.address, urlJson, signer);
-    const txResp = await MintResponse(chainId, collection.address, urlJson, signer);
+    const txResp = await mint3TxResponse(chainId, collection.address, urlJson, signer);
     // console.log("txResp", txResp);
     mintingTxHash = txResp.hash;
 
     minting = 4;
 
-    const txReceipt = await MintReceipt(txResp);
-    // console.log("txReceipt", txReceipt);
-
-    tokenID = MintTokenID(txReceipt);
-    // console.log("tokenID", tokenID);
-
-    mintedNft = await MintedNft(chainId, collection.address, tokenID, urlJson, signerAddress);
-    mintedNft.cidJson = cidJson;
+    mintedNft = await mint4Nft(chainId, address, txResp, urlJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -132,14 +117,8 @@
               </div>
               <div class="flex">
                 <span class="t-light">
-                  {#if minting == 1}
-                    Wait till Image stored on IPFS
-                  {:else if minting == 2}
-                    Wait till Metadata stored on IPFS
-                  {:else if minting == 3}
-                    Please, sign the transaction
-                  {:else if minting == 4}
-                    Wait till transaction completed, it may takes one minute or more...
+                  {#if 1 <= minting && minting <= 5}
+                    {mintingTexts[minting]}
                   {/if}
                 </span>
               </div>

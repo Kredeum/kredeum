@@ -22,7 +22,7 @@
     "smart-list": "npx hardhat run scripts/list.mjs",
     "dapp-clean": "rm -rf web/app/assets",
     "dapp-gulp": "cd web && npx gulp",
-    "dapp-build": "npm run dapp-gulp && rollup -c --configPlugin typescript",
+    "dapp-build": "npm run dapp-gulp && rollup -c --configPlugin typescript && cp web/app/assets/kredeum-nfts.css wordpress/kredeum-nfts/lib/css",
     "dapp-dev": "npm run dev",
     "dapp-prettier": "npx prettier **/*.svelte **/*.ts --write --loglevel error",
     "dapp-eslint": "npx eslint **/*.ts **/*.svelte --ignore-pattern solidity --ignore-pattern thegraph --fix --quiet",
