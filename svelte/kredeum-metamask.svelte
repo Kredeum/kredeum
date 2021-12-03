@@ -17,10 +17,10 @@
     explorerOpenNFTsUrl
   } from "lib/knfts";
 
-  export let signer: Signer;
-  export let address: string;
-  export let chainId: number;
-  export let autoconnect: string;
+  export let signer: Signer = undefined;
+  export let address: string = undefined;
+  export let chainId: number = undefined;
+  export let autoconnect: string = undefined;
 
   const testnets = true;
 

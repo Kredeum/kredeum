@@ -1,12 +1,11 @@
 <script lang="ts">
-  import { nftExplorerLink } from "lib/knfts";
   import type { Signer } from "ethers";
   import type { Nft } from "lib/ktypes";
   import type { Collection } from "lib/kconfig";
 
   import { nftUrl } from "lib/kconfig";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
-  import { mintImagePinUrl, mintImagePinJson, mintImageCallContract } from "lib/kmint";
+  import { mintImagePinUrl, mintImagePinJson } from "lib/kmint";
   import { textShort, ipfsUrl, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { MintResponse, MintReceipt, MintTokenID, MintedNft } from "lib/klist-nfts";
   import { onMount } from "svelte";
@@ -24,14 +23,15 @@
   let tokenID: string;
   let imageName: string;
 
-  let files, image;
+  let files: FileList;
+  let image: string;
 
   $: if (files) {
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     imageName = files[0].name;
     reader.onload = (e) => {
-      image = e.target.result;
+      image = `${e.target.result}`;
     };
   }
 

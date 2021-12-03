@@ -153,7 +153,7 @@
                 {:else}
                   <a
                     href={nftOpenSeaUrl(chainId, nft)}
-                    class="btn btn-small btn-sell"
+                    class="btn btn-small btn-buy"
                     title="Buy"
                     target="_blank"
                   >

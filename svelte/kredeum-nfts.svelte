@@ -16,6 +16,16 @@
   let signer: Signer;
   let refreshing: boolean;
   let refreshNFTs;
+
+  const _refreshNFTs = (): void => {
+    if (chainId && collection?.address) {
+      clearCache(chainId, collection.address);
+      refreshNFTs();
+    }
+  };
+  const _explorerCollectionUrl = (): string => explorerCollectionUrl(chainId, collection?.address);
+
+  const _nftsUrl = (): string => nftsUrl(chainId, collection?.address);
 </script>
 
 <div id="kredeum-nfts">
@@ -26,9 +36,9 @@
       <input id="burger" type="checkbox" />
 
       <label for="burger">
-        <span></span>
-        <span></span>
-        <span></span>
+        <span />
+        <span />
+        <span />
       </label>
 
       <div class="nav">
@@ -43,7 +53,7 @@
       href="https://discord.gg/Vz5AyU2Nfx"
       target="_blank"
       alt="Discord Kredeum"
-      title="Discord Kredeum"><i class="icon-discord"></i></a
+      title="Discord Kredeum"><i class="icon-discord" /></a
     >
   </nav>
 
@@ -54,7 +64,7 @@
           <h1>My NFT wallet</h1>
           {#if address && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
-              ><i class="fas fa-plus fa-left"></i>Mint</a
+              ><i class="fas fa-plus fa-left" />Mint</a
             >
           {/if}
 
@@ -63,14 +73,12 @@
 
             <div class="col col-xs-12 col-sm-3">
               {#if address && getNftsFactory(chainId)}
-                <span class="label">Collection
+                <span class="label"
+                  >Collection
                   <a
                     class="info-button"
-                    href={explorerCollectionUrl(chainId, collection?.address)}
-                    title="&#009;Collection address (click to view in explorer )&#013;{nftsUrl(
-                      chainId,
-                      collection?.address
-                    )}"
+                    href={_explorerCollectionUrl()}
+                    title="&#009;Collection address (click to view in explorer )&#013;{_nftsUrl()}"
                     target="_blank"><i class="fas fa-info-circle" /></a
                   >
                 </span>
@@ -80,15 +88,7 @@
 
             <div class="col col-sm-3">
               {#if address && getNftsFactory(chainId)}
-                <button
-                  class="clear"
-                  on:click={() => {
-                    if (chainId && collection?.address) {
-                      clearCache(chainId, collection.address);
-                      refreshNFTs();
-                    }
-                  }}
-                >
+                <button class="clear" on:click={_refreshNFTs}>
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
                 </button>
               {/if}

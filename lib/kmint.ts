@@ -47,7 +47,9 @@ const mintImage = async (
   collection: string,
   signer: Signer
 ): Promise<Nft> => {
+  // console.log("mintImage", src, metadata, chainId, collection);
   const cidImage = await mintImagePinUrl(src);
+  // console.log("mintImage cidImage", cidImage);
 
   const nftData = {
     name: metadata?.name || "",
@@ -59,9 +61,13 @@ const mintImage = async (
     minter: await signer.getAddress(),
     metadata: metadata || {}
   };
+  // console.log("mintImage nftData", nftData);
+
   const cidJson = await mintImagePinJson(nftData as Nft);
+  // console.log("mintImage cidJson", cidJson);
 
   const nft: Nft = await Mint(chainId, collection, cidJson, signer);
+  // console.log("mintImage nft", nft);
 
   return nft;
 };

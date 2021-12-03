@@ -8,6 +8,9 @@ solidity/artifacts
 # APP
 web/app
 
+# SVELTE
+/public/build/
+
 # WORDPRESS
 wordpress/kredeum-nfts/lib
 vendor

@@ -26,6 +26,7 @@
     "dapp-dev": "npm run dev",
     "dapp-prettier": "npx prettier **/*.svelte **/*.ts --write --loglevel error",
     "dapp-eslint": "npx eslint **/*.ts **/*.svelte --ignore-pattern solidity --ignore-pattern thegraph --fix --quiet",
+    "dapp-svelte-check": "npx svelte-check",
     "dapp-check": "npm run dapp-prettier && npm run dapp-eslint",
     "dapp-tests": "cd web && npx cypress run",
     "dapp-start": "sirv web",
