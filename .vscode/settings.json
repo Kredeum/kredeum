@@ -36,7 +36,6 @@
   "phpsab.snifferMode": "onType",
   "phpsab.snifferShowSources": true,
   "phpsab.standard": "WordPress",
-  "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,

@@ -23,9 +23,13 @@
       refreshNFTs();
     }
   };
-  const _explorerCollectionUrl = (): string => explorerCollectionUrl(chainId, collection?.address);
+  const _explorerCollectionUrl = (_collectionAddress: string): string => {
+    const ret = explorerCollectionUrl(chainId, _collectionAddress);
+    console.log("_explorerCollectionUrl", ret);
+    return ret;
+  };
 
-  const _nftsUrl = (): string => nftsUrl(chainId, collection?.address);
+  const _nftsUrl = (_collectionAddress: string): string => nftsUrl(chainId, _collectionAddress);
 </script>
 
 <div id="kredeum-nfts">
@@ -75,12 +79,16 @@
               {#if address && getNftsFactory(chainId)}
                 <span class="label"
                   >Collection
-                  <a
-                    class="info-button"
-                    href={_explorerCollectionUrl()}
-                    title="&#009;Collection address (click to view in explorer )&#013;{_nftsUrl()}"
-                    target="_blank"><i class="fas fa-info-circle" /></a
-                  >
+                  {#if collection}
+                    <a
+                      class="info-button"
+                      href={_explorerCollectionUrl(collection.address)}
+                      title="&#009;Collection address (click to view in explorer )&#013;{_nftsUrl(
+                        collection.address
+                      )}"
+                      target="_blank"><i class="fas fa-info-circle" /></a
+                    >
+                  {/if}
                 </span>
                 <KredeumListCollection bind:address bind:chainId bind:collection />
               {/if}

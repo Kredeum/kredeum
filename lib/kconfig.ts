@@ -1,6 +1,6 @@
 import networks from "../config/networks.json";
 import abis from "../config/abis.json";
-import type { Collection, Address, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys } from "./ktypes";
+import type { Address, Network, Nft } from "./ktypes";
 
 import { providers, utils } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
@@ -161,4 +161,3 @@ export {
   nftsUrl,
   urlCache
 };
-export type { Collection, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys };

@@ -5,15 +5,10 @@
 
   import { nftUrl } from "lib/kconfig";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
-  import {
-    mintingTexts,
-    mint1ImageCid,
-    mint2MetadataUrl,
-    mint3TxResponse,
-    mint4Nft
-  } from "lib/kmint";
+  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { onMount } from "svelte";
+  import { TransactionResponse } from "@ethersproject/abstract-provider";
 
   export let chainId: number = undefined;
   export let address: string = undefined;
@@ -22,11 +17,10 @@
 
   let mintedNft: Nft;
   let minting: number;
-  let mintingTxHash: string;
+  let mintingTxResp: TransactionResponse;
 
   let cidImage: string;
   let cidJson: string;
-  let tokenID: string;
   let imageName: string;
 
   let files: FileList;
@@ -46,30 +40,31 @@
   });
 
   const mint = async (): Promise<Nft> => {
-    mintingTxHash = null;
+    cidImage = null;
+    cidJson = null;
+    mintingTxResp = null;
     mintedNft = null;
 
     const signerAddress = await signer.getAddress();
 
     minting = 1;
 
-    const cidImage = await mint1ImageCid(image);
+    cidImage = await mint1cidImage(image);
     console.log("cidImage", cidImage);
 
     minting = 2;
 
-    const urlJson = await mint2MetadataUrl(imageName, cidImage, signerAddress, image);
-    console.log("urlJson", urlJson);
+    cidJson = await mint2cidJson(imageName, cidImage, signerAddress, image);
+    console.log("json", cidJson);
 
     minting = 3;
 
-    const txResp = await mint3TxResponse(chainId, collection.address, urlJson, signer);
+    mintingTxResp = await mint3TxResponse(chainId, collection.address, cidJson, signer);
     // console.log("txResp", txResp);
-    mintingTxHash = txResp.hash;
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, address, txResp, urlJson, signerAddress);
+    mintedNft = await mint4Nft(chainId, address, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -148,9 +143,9 @@
           <li class={minting >= 4 ? "complete" : ""}>
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
-              {#if mintingTxHash}
-                <a class="link" href={explorerTxUrl(chainId, mintingTxHash)} target="_blank"
-                  >{textShort(mintingTxHash, 15)}</a
+              {#if mintingTxResp}
+                <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
+                  >{textShort(mintingTxResp.hash, 15)}</a
                 >
               {/if}
             </div>
@@ -158,8 +153,8 @@
           <li class={minting >= 5 ? "complete" : ""}>
             <div class="flex"><span class="label">Token ID</span></div>
             <div class="flex">
-              {#if tokenID}
-                <strong>{tokenID}</strong>
+              {#if mintedNft}
+                <strong>{mintedNft?.tokenID}</strong>
               {/if}
             </div>
           </li>

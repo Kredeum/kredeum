@@ -1,14 +1,16 @@
-import { expect } from "chai";
-import { ethers, deployments } from "hardhat";
+import type { Network } from "../../lib/ktypes";
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+
 import {
   listNFTs,
   listNFTsFromTheGraph,
   listNFTsFromContract,
   listNFTsFromCovalent
 } from "../../lib/klist-nfts";
-import { getNetwork, Network } from "../../lib/kconfig";
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import { expect } from "chai";
+import { ethers, deployments } from "hardhat";
+import { getNetwork } from "../../lib/kconfig";
 
 const txOptions = {
   maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),

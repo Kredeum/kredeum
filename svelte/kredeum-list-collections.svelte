@@ -1,21 +1,21 @@
 <script lang="ts">
+  import type { Collection } from "lib/ktypes";
+
   import { onMount } from "svelte";
   import { nftsUrl, urlCache, getOpenNFTsAddress } from "lib/kconfig";
   import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
   import { collectionName } from "lib/knfts";
 
-  import type { Collection } from "lib/kconfig";
+  export let chainId: number = undefined;
+  export let address: string = undefined;
+  export let collection: Collection = undefined;
+  export let popup = false;
 
   let collectionAddress: string;
   let allCollections: Map<string, Collection>;
   let collections: Map<string, Collection>;
   let refreshingCollections: boolean;
   let open = false;
-
-  export let chainId: number = undefined;
-  export let address: string = undefined;
-  export let collection: Collection = undefined;
-  export let popup = false;
 
   const collectionTotalSupply = (collContract: Collection) =>
     collContract?.totalSupply || (collContract?.totalSupply == 0 ? "0" : "?");
@@ -34,21 +34,25 @@
   const getCollections = async () => {
     allCollections = listCollectionsFromCache(address);
     console.log("getOpenNFTsAddress(chainId)", getOpenNFTsAddress(chainId));
+
     collections = new Map(
       [...allCollections]
         .filter(([, collection]) => {
-          // FILTER NETWORK
           return (
+            // FILTER NETWORK
             collection.chainId === chainId &&
             // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
             (collection.totalSupply > 0 ||
               collection.owner === address ||
-              collection.address === getOpenNFTsAddress(chainId))
+              collection.address === getOpenNFTsAddress(chainId)) &&
+            // FILTER OpenNFTs collection inside popup
+            (!popup || collection.openNFTsVersion)
           );
         })
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.totalSupply - a.totalSupply)
     );
+    console.log(collections);
     // SET FIRST AS DEFAULT COLLECTION
     if (!collectionAddress) {
       const [firstCollection] = collections.values();

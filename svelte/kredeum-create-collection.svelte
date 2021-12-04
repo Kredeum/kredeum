@@ -27,7 +27,12 @@
       cloningTxHash = txResp.hash;
 
       const txReceipt = await CloneReceipt(txResp);
-      collectionCreated = { chainId, name: collectionName, address: CloneAddress(txReceipt) };
+      collectionCreated = {
+        openNFTsVersion: 2,
+        chainId,
+        name: collectionName,
+        address: CloneAddress(txReceipt)
+      };
       collection = collectionCreated;
 
       dispatch("collection", { collection: collectionCreated.address });
@@ -80,7 +85,7 @@
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
-              >Mint</button
+              >Create</button
             >
           </div>
         {/if}

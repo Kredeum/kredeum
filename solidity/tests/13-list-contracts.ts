@@ -1,4 +1,7 @@
-import { expect } from "chai";
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
+import type { Network } from "../../lib/ktypes";
 
 import {
   listCollections,
@@ -6,12 +9,8 @@ import {
   listCollectionsFromTheGraph,
   listCollectionsFromFactory
 } from "../../lib/klist-collections";
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
-import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
-
-import { getNetwork, Network } from "../../lib/kconfig";
-
+import { expect } from "chai";
+import { getNetwork } from "../../lib/kconfig";
 import hre from "hardhat";
 import { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
 const { ethers, deployments } = hre;

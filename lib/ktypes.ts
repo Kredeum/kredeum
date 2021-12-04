@@ -30,6 +30,7 @@ type Network = {
 };
 
 type Collection = {
+  openNFTsVersion: number;
   chainId: number;
   address: string;
   owner?: string;

@@ -2,17 +2,9 @@
   import type { Signer } from "ethers";
   import type { Nft } from "lib/ktypes";
 
-  import {
-    mintingTexts,
-    mint1ImageCid,
-    mint2MetadataUrl,
-    mint3TxResponse,
-    mint4Nft
-  } from "lib/kmint";
+  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import Metamask from "./kredeum-metamask.svelte";
-  import { createEventDispatcher } from "svelte";
   import { getNetwork, Network } from "lib/kconfig";
-  const dispatch = createEventDispatcher();
 
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
 
@@ -27,11 +19,8 @@
 
   let mintedNft: Nft;
   let minting: number;
-  let mintingTxHash: string;
 
   let cidImage: string;
-  let cidJson: string;
-
   let signer: Signer;
   let address = "";
   let network: Network;
@@ -67,30 +56,29 @@
   const mint = async (e: Event): Promise<Nft> => {
     e.preventDefault();
 
-    mintingTxHash = null;
+    cidImage = null;
     mintedNft = null;
 
     const signerAddress = await signer.getAddress();
 
     minting = 1;
 
-    const cidImage = await mint1ImageCid(src);
+    cidImage = await mint1cidImage(src);
     console.log("cidImage", cidImage);
 
     minting = 2;
 
-    const urlJson = await mint2MetadataUrl(alt, cidImage, signerAddress, src);
-    console.log("urlJson", urlJson);
+    const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
+    console.log("json", cidJson);
 
     minting = 3;
 
-    const txResp = await mint3TxResponse(chainId, collection, urlJson, signer);
+    const mintingTxResp = await mint3TxResponse(chainId, collection, cidJson, signer);
     // console.log("txResp", txResp);
-    mintingTxHash = txResp.hash;
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, address, txResp, urlJson, signerAddress);
+    mintedNft = await mint4Nft(chainId, address, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;

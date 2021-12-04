@@ -161,28 +161,36 @@ const getNFTFromContract = async (
     collection = "",
     contractName = "";
 
+  console.log("getNFTFromContract", chainId, _index, _owner);
+
   try {
     collection = getChecksumAddress(_smartcontract.address);
+    console.log("getNFTFromContract collection", collection);
+
     if (_smartcontract.name) {
       contractName = await _smartcontract.name();
+      console.log("getNFTFromContract contractName", contractName);
     }
     if (_owner) {
       if (_smartcontract.tokenOfOwnerByIndex) {
         tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
+        console.log("getNFTFromContract tokenOfOwnerByIndex tokenID", tokenID);
         owner = _owner;
       }
     } else if (_smartcontract.tokenByIndex) {
       tokenID = (await _smartcontract.tokenByIndex(_index)).toString();
+      console.log("getNFTFromContract tokenByIndex tokenID", tokenID);
       owner = await _smartcontract.ownerOf(tokenID);
     }
     if (_smartcontract.tokenURI) {
       tokenURI = await _smartcontract.tokenURI(tokenID);
+      console.log("getNFTFromContract tokenURI", tokenURI);
     }
   } catch (e) {
     console.error("OpenNFTs.getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
   }
   const nid = nftUrl3(chainId, collection, tokenID);
-  // console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
+  console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
   return { chainId, collection, contractName, tokenID, tokenURI, owner, nid };
 };
 
@@ -322,7 +330,7 @@ const listNFTsFromContract = async (
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Map<string, Nft>> => {
-  console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
+  // console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
 
   const nfts: Map<string, Nft> = new Map();
 
@@ -341,7 +349,7 @@ const listNFTsFromContract = async (
 
         for (let index = 0; index <= Math.min(nbTokens, _limit); index++) {
           const nft = await getNFTFromContract(chainId, contract, index, _owner);
-          console.log("listNFTsFromContract nid", nft.nid, nft);
+          // console.log("listNFTsFromContract nid", nft.nid, nft);
           nfts.set(nft.nid || "", nft);
         }
       }
@@ -349,7 +357,7 @@ const listNFTsFromContract = async (
       console.error("OpenNFTs.listNFTsFromContract ERROR", e);
     }
   }
-  console.log("listNFTsFromContract", nfts);
+  // console.log("listNFTsFromContract", nfts);
   return nfts;
 };
 

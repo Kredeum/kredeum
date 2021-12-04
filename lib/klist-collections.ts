@@ -10,7 +10,7 @@ import {
   nftsUrl,
   urlCache
 } from "./kconfig";
-import type { Collection } from "./kconfig";
+import type { Collection } from "./ktypes";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
 import type {
   Provider,
@@ -82,6 +82,7 @@ const listCollectionsFromCovalent = async (
         const address: string = getChecksumAddress(collection.contract_address);
 
         collections.set(nftsUrl(chainId, address), {
+          openNFTsVersion: 2,
           chainId,
           chainName,
           address,
@@ -184,6 +185,7 @@ const listCollectionsFromFactory = async (
       const owner: string = getChecksumAddress(balance[4]);
 
       collections.set(nftsUrl(chainId, address), {
+        openNFTsVersion: 2,
         totalSupply,
         chainId,
         chainName,
