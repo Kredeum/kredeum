@@ -35,7 +35,7 @@ const getCollection = async (
     ) as ERC165Upgradeable;
 
     if (checkContract) {
-      const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xa6123562");
+      const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xd94a1db2");
       const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
       const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
       const [supportsOpenNFTsV2, supportsMetadata, supportsEnumerable] = await Promise.all([

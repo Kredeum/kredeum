@@ -55,8 +55,8 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "nftsFactory": "0xB6136d04D5b6c2dEE74A695DFC6c2D773D23AE39",
-    "openNFTs": "0xaB1Ebb285d3a49cC7E1BED9B17CEDF0D2906d5dc",
+    "nftsFactory": "0x96bccA8EE5EB047cf5081d2d62577A45f217fAca",
+    "openNFTs": "0x173E79EFAF94c1BdFC8FB6165FA16DAd930A03Dd",
     "eip1559": true,
     "costClone": 0.01,
     "create": true,

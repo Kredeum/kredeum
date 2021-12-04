@@ -10,5 +10,8 @@ const deployInterfacesIds: DeployFunction = async function ({ deployments, ether
   });
 };
 deployInterfacesIds.tags = ["InterfacesIds"];
+deployInterfacesIds.skip = async ({ getChainId }) => {
+  return Number(await getChainId()) != 31337;
+};
 
 export default deployInterfacesIds;

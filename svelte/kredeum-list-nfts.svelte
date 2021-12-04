@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { Collection, getNetwork, getShortAddress, Network, Nft } from "lib/kconfig";
+  import type { Collection, Network, Nft } from "lib/ktypes";
+
   import {
     sleep,
     collectionName,
@@ -15,53 +16,48 @@
     textShort,
     explorerNftUrl
   } from "lib/knfts";
-
+  import { getNetwork, getShortAddress } from "lib/kconfig";
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { listNFTsTokenIds, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
-
   import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-
-  let network: Network;
-
-  let NFTs: Map<string, Nft>;
-  let allNFTs: Map<string, Nft>;
-  let Collections: Array<Collection>;
-  let nftImport: number;
 
   // export let beta: string = undefined; // platform : WordPress or Dapp
   export const platform: string = undefined; // platform : WordPress or Dapp
 
   export let chainId: number = undefined;
-  export let address: string = undefined;
+  export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let refreshing: boolean;
 
   export const refreshNFTs = async () => {
     network = getNetwork(chainId);
 
-    if (network && address && collection) {
+    if (network && owner && collection) {
       // Concurrent runs make collection undefined in this block !
-      const collectionAddress = collection.address;
+      const collectionAddress = collection?.address;
 
       allNFTs = listNFTsFromCache();
+      console.log("allNFTs", allNFTs);
+
       NFTs = new Map(
         [...allNFTs].filter(
-          ([, nft]) => nft.chainId === chainId && nft.collection === collectionAddress
+          ([, nft]) =>
+            nft.chainId === chainId && nft.collection === collectionAddress && nft.owner === owner
         )
       );
+      console.log("NFTs", NFTs);
       refreshing = true;
 
-      const nftsMap = await listNFTsTokenIds(chainId, collectionAddress, address);
+      const nftsMap = await listNFTsTokenIds(chainId, collectionAddress, owner);
       const nftsTokenIds = [...nftsMap.values()];
 
       for (let index = 0; index < nftsTokenIds.length; index++) {
         const nftTokenId = nftsTokenIds[index];
-        console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
+        // console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
 
         const nft = await addNftMetadata(chainId, collectionAddress, nftTokenId);
 
-        console.log("nftWithMetadata nid", nft.nid, nft);
+        // console.log("nftWithMetadata nid", nft.nid, nft);
 
         if (nft.chainId === chainId && nft.collection === collectionAddress) NFTs.set(nft.nid, nft);
         else break;
@@ -70,8 +66,17 @@
     }
   };
 
+  let network: Network;
+
+  let NFTs: Map<string, Nft>;
+  let allNFTs: Map<string, Nft>;
+  let Collections: Array<Collection>;
+  let nftImport: number;
+
+  const dispatch = createEventDispatcher();
+
   // ON NETWORK, ADDRESS OR COLLECTION CHANGE
-  $: if (chainId && address && collection) refreshNFTs();
+  $: if (chainId && owner && collection) refreshNFTs();
 
   $: console.log("collection changed !", collection);
 
@@ -94,7 +99,7 @@
   };
 </script>
 
-{#key address && refreshing}
+{#key owner && refreshing}
   {#if NFTs?.size > 0}
     <h2>
       Collection {collectionName(collection)}
@@ -141,7 +146,7 @@
           {#if network?.openSea}
             <div id="marketplace-{i}" class="table-col">
               <div class="table-col-content">
-                {#if addressSame(nft.owner, address)}
+                {#if addressSame(nft.owner, owner)}
                   <a
                     href={nftOpenSeaUrl(chainId, nft)}
                     class="btn btn-small btn-sell"

@@ -106,7 +106,7 @@
 
         <KredeumListNfts
           bind:collection
-          bind:address
+          bind:owner={address}
           bind:chainId
           bind:refreshing
           bind:refreshNFTs

@@ -12,9 +12,9 @@ const provider = new ethers.providers.JsonRpcProvider(rpcUrl);
 const codes = {
   ERC165: "0x01ffc9a7",
   ERC721: "0x80ac58cd",
+  ERC721TokenReceiver: "0x150b7a02",
   ERC721Metadata: "0x5b5e139f",
   ERC721Enumerable: "0x780e9d63",
-  ERC721TokenReceiver: "0x150b7a02",
   FALSE: "0xffffffff"
 };
 

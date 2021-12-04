@@ -3,7 +3,6 @@ pragma solidity ^0.8.4;
 
 import "./CloneFactory.sol";
 import "./interfaces/IOpenNFTsV2.sol";
-import "./interfaces/IOwnable.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
@@ -51,7 +50,7 @@ contract NFTsFactory is CloneFactory {
     require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
     IOpenNFTsV2(clone_).initialize(_name, _symbol);
-    IOwnable(clone_).transferOwnership(msg.sender);
+    IOpenNFTsV2(clone_).transferOwnership(msg.sender);
   }
 
   function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
@@ -79,7 +78,7 @@ contract NFTsFactory is CloneFactory {
       }
 
       if (supportInterface[OPEN_NFTS]) {
-        nftData.owner = IOwnable(nft).owner();
+        nftData.owner = IOpenNFTsV2(nft).owner();
       }
     }
   }
