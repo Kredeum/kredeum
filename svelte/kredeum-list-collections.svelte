@@ -17,11 +17,11 @@
   let refreshingCollections: boolean;
   let open = false;
 
-  const collectionTotalSupply = (collContract: Collection) =>
-    collContract?.totalSupply || (collContract?.totalSupply == 0 ? "0" : "?");
-  const collectionNameAndTotalSupply = (collContract: Collection) =>
+  const collectionBalanceOf = (collContract: Collection) =>
+    collContract?.balanceOf || (collContract?.balanceOf == 0 ? "0" : "?");
+  const collectionNameAndBalanceOf = (collContract: Collection) =>
     collContract
-      ? `${collectionName(collContract)} (${collectionTotalSupply(collContract)})`
+      ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})`
       : "Choose collection";
 
   $: if (collectionAddress && address) {
@@ -42,7 +42,7 @@
             // FILTER NETWORK
             collection.chainId === chainId &&
             // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
-            (collection.totalSupply > 0 ||
+            (collection.balanceOf > 0 ||
               collection.owner === address ||
               collection.address === getOpenNFTsAddress(chainId)) &&
             // FILTER OpenNFTs collection inside popup
@@ -50,7 +50,7 @@
           );
         })
         // SORT PER SUPPLY DESC
-        .sort(([, a], [, b]) => b.totalSupply - a.totalSupply)
+        .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
     console.log(collections);
     // SET FIRST AS DEFAULT COLLECTION
@@ -87,7 +87,7 @@
     {#if collections.size > 0}
       <div class="select" class:open>
         <div class="select-trigger">
-          <span>{collectionNameAndTotalSupply(collection)}</span>
+          <span>{collectionNameAndBalanceOf(collection)}</span>
         </div>
         <div class="custom-options">
           {#each [...collections] as [, coll]}
@@ -96,7 +96,7 @@
               data-value={coll.address}
               on:click={() => (collectionAddress = coll.address)}
             >
-              {collectionNameAndTotalSupply(coll)}
+              {collectionNameAndBalanceOf(coll)}
             </span>
           {/each}
         </div>

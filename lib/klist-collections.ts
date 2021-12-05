@@ -77,19 +77,20 @@ const listCollectionsFromCovalent = async (
       // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
 
       for (let index = 0; index < collectionsCov.length; index++) {
-        const collection: CollectionCov = collectionsCov[index];
+        const collectionCov: CollectionCov = collectionsCov[index];
         const chainName: string = network.chainName;
-        const address: string = getChecksumAddress(collection.contract_address);
+        const address: string = getChecksumAddress(collectionCov.contract_address);
 
-        collections.set(nftsUrl(chainId, address), {
+        const collection: Collection = {
           openNFTsVersion: 2,
           chainId,
           chainName,
           address,
-          name: collection.contract_name,
-          symbol: collection.contract_ticker_symbol,
-          totalSupply: Number(collection.balance)
-        });
+          name: collectionCov.contract_name,
+          symbol: collectionCov.contract_ticker_symbol,
+          balanceOf: Number(collectionCov.balance)
+        };
+        collections.set(nftsUrl(chainId, address), collection);
       }
     }
   }
@@ -117,6 +118,7 @@ const listCollectionsFromTheGraph = async (
               id
               name
               symbol
+              numTokens
             }
             numTokens
           }
@@ -124,7 +126,7 @@ const listCollectionsFromTheGraph = async (
     `;
     type AnswerCollectionsGQL = {
       ownerPerTokenContracts: Array<{
-        contract: { id: string; name: string; symbol: string };
+        contract: { id: string; name: string; symbol: string; numTokens: number };
         numTokens: number;
       }>;
     };
@@ -135,20 +137,22 @@ const listCollectionsFromTheGraph = async (
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
-      const { id, name, symbol } = contract;
+      const { id, name, symbol, numTokens: totalSupply } = contract;
       const address = getChecksumAddress(id);
       const chainName = network?.chainName;
-      const totalSupply = Math.max(numTokens, 0);
+      const balanceOf = Math.max(numTokens, 0);
 
       if (currentContractResponse.numTokens > 0) {
-        collections.set(nftsUrl(chainId, address), {
+        const collection: Collection = {
           chainId,
           chainName,
           address,
           name,
           symbol,
+          balanceOf,
           totalSupply
-        } as Collection);
+        };
+        collections.set(nftsUrl(chainId, address), collection);
       }
     }
   }

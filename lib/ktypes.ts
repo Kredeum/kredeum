@@ -30,7 +30,7 @@ type Network = {
 };
 
 type Collection = {
-  openNFTsVersion: number;
+  openNFTsVersion?: number;
   chainId: number;
   address: string;
   owner?: string;
@@ -38,6 +38,7 @@ type Collection = {
   symbol?: string;
   chainName?: string;
   interfaces?: Array<string>;
+  balanceOf?: number;
   totalSupply?: number;
   startBlock?: number;
   description?: string;

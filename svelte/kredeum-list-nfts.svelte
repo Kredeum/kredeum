@@ -18,7 +18,12 @@
   } from "lib/knfts";
   import { getNetwork, getShortAddress } from "lib/kconfig";
   import { nftUrl, nftsUrl } from "lib/kconfig";
-  import { listNFTsTokenIds, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
+  import {
+    listNFTsTokenId,
+    listNFTsTokenIds,
+    listNFTsFromCache,
+    addNftMetadata
+  } from "lib/klist-nfts";
   import { createEventDispatcher } from "svelte";
 
   // export let beta: string = undefined; // platform : WordPress or Dapp
@@ -30,7 +35,24 @@
   export let refreshing: boolean;
 
   export const refreshNFTs = async () => {
-    network = getNetwork(chainId);
+    console.log("refreshNFTS");
+    if ((await _refreshNFTsFromCache()) === 0) {
+      _refreshNFTsFromLib();
+    }
+  };
+
+  let index: number;
+  let network: Network;
+
+  let NFTs: Map<string, Nft>;
+  let allNFTs: Map<string, Nft>;
+  let Collections: Array<Collection>;
+  let nftImport: number;
+
+  const dispatch = createEventDispatcher();
+
+  const _refreshNFTsFromCache = async () => {
+    console.log("_refreshNFTsFromCache");
 
     if (network && owner && collection) {
       // Concurrent runs make collection undefined in this block !
@@ -46,39 +68,52 @@
         )
       );
       console.log("NFTs", NFTs);
+    }
+    return NFTs?.size;
+  };
+
+  const _refreshNFTsFromLib = async () => {
+    console.log("_refreshNFTsFromLib");
+    network = getNetwork(chainId);
+
+    if (network && owner && collection) {
+      // Concurrent runs make collection undefined in this block !
+      const collectionAddress = collection?.address;
+
       refreshing = true;
 
-      const nftsMap = await listNFTsTokenIds(chainId, collectionAddress, owner);
-      const nftsTokenIds = [...nftsMap.values()];
+      const numNFTs = collection.balanceOf || collection.totalSupply;
+      console.log("numNFTs", numNFTs);
 
-      for (let index = 0; index < nftsTokenIds.length; index++) {
-        const nftTokenId = nftsTokenIds[index];
+      for (index = 0; index < numNFTs; index++) {
+        const nftTokenId = await listNFTsTokenId(chainId, collectionAddress, index, owner);
         // console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
 
         const nft = await addNftMetadata(chainId, collectionAddress, nftTokenId);
 
         // console.log("nftWithMetadata nid", nft.nid, nft);
 
-        if (nft.chainId === chainId && nft.collection === collectionAddress) NFTs.set(nft.nid, nft);
-        else break;
+        if (nft.chainId === chainId && nft.collection === collectionAddress) {
+          NFTs.set(nft.nid, nft);
+          console.log("NEW NFT !!!");
+        } else break;
       }
-      refreshing = false;
     }
+    refreshing = false;
+    return NFTs?.size;
   };
 
-  let network: Network;
+  // ON CHAINID  CHANGE
+  $: {
+    console.log("chainId changed !", chainId);
+    network = getNetwork(chainId);
+  }
 
-  let NFTs: Map<string, Nft>;
-  let allNFTs: Map<string, Nft>;
-  let Collections: Array<Collection>;
-  let nftImport: number;
-
-  const dispatch = createEventDispatcher();
-
-  // ON NETWORK, ADDRESS OR COLLECTION CHANGE
-  $: if (chainId && owner && collection) refreshNFTs();
-
-  $: console.log("collection changed !", collection);
+  // ON CHAINID, OWNER OR COLLECTION CHANGE
+  $: {
+    console.log("chainId, owner, collection changed !", chainId, owner, collection);
+    refreshNFTs();
+  }
 
   const dispatchImport = async (nft: Nft) => {
     nftImport = 1;
@@ -99,7 +134,7 @@
   };
 </script>
 
-{#key owner && refreshing}
+{#key owner && index}
   {#if NFTs?.size > 0}
     <h2>
       Collection {collectionName(collection)}
