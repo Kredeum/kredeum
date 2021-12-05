@@ -18,6 +18,7 @@
     "costClone": 0.01,
     "create": false,
     "openNFTs": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
+    "ContractProbe": "0x4B6B2db16E3EEe4EE52bC3888c38a76C20d375f1",
     "mainnet": true
   },
   {
@@ -57,6 +58,7 @@
     },
     "nftsFactory": "0x6E54C3c0462Cb31a52aC22c0d2040782E91FB99E",
     "openNFTs": "0x173E79EFAF94c1BdFC8FB6165FA16DAd930A03Dd",
+    "ContractProbe": "0x74f06a973046999fcd3905461baf8cbce596668f",
     "eip1559": true,
     "costClone": 0.01,
     "create": true,

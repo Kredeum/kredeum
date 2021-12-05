@@ -10,5 +10,8 @@ const deployContractProbeFunction: DeployFunction = async function ({ deployment
   });
 };
 deployContractProbeFunction.tags = ["ContractProbe"];
+deployContractProbeFunction.skip = async ({ getChainId }) => {
+  return Number(await getChainId()) === 1;
+};
 
 export default deployContractProbeFunction;
