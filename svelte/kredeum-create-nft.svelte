@@ -50,12 +50,12 @@
     minting = 1;
 
     cidImage = await mint1cidImage(image);
-    console.log("cidImage", cidImage);
+    // console.log("cidImage", cidImage);
 
     minting = 2;
 
     cidJson = await mint2cidJson(imageName, cidImage, signerAddress, image);
-    console.log("json", cidJson);
+    // console.log("json", cidJson);
 
     minting = 3;
 

@@ -23,7 +23,7 @@
   };
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl(chainId, _collectionAddress);
-    console.log("_explorerCollectionUrl", ret);
+    // console.log("_explorerCollectionUrl", ret);
     return ret;
   };
 

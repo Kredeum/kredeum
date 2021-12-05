@@ -42,7 +42,7 @@
   const dispatch = createEventDispatcher();
 
   export const refreshNFTs = async (force = false) => {
-    console.log("refreshNFTS", force, collection);
+    // console.log("refreshNFTS", force, collection);
     network = getNetwork(chainId);
 
     if (network && collection && owner) {
@@ -73,7 +73,7 @@
     _owner: string
   ): number => {
     allNFTs = listNFTsFromCache();
-    console.log("allNFTs", allNFTs);
+    // console.log("allNFTs", allNFTs);
 
     NFTs = new Map(
       [...allNFTs].filter(
@@ -82,15 +82,15 @@
       )
     );
 
-    console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
+    // console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
     return NFTs?.size;
   };
 
   const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _owner: string) => {
-    console.log("_refreshNFTsFromLib");
+    // console.log("_refreshNFTsFromLib");
 
     const numNFTs = _collection.balanceOf || _collection.totalSupply;
-    console.log("_refreshNFTsFromLib numNFTs", numNFTs);
+    // console.log("_refreshNFTsFromLib numNFTs", numNFTs);
 
     for (index = 0; index < numNFTs; index++) {
       refreshing = true;
@@ -101,20 +101,25 @@
       // chainId and collection have not changed while loading NFTs
       if (chainId === _chainId && collection?.address === _collection.address) {
         NFTs.set(nft.nid, nft);
-        console.log("no break", chainId, _chainId, collection?.address, _collection.address);
+        // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
       } else {
-        console.log("break");
+        // console.log("break");
         break;
       }
     }
     refreshing = false;
 
-    console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
+    // console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
   };
 
   // ON CHAINID, OWNER OR COLLECTION CHANGE
   $: {
-    console.log("chainId, collection or owner changed !", chainId, owner, collection);
+    console.log(
+      "chainId, collection or owner changed, refresh NFTs...",
+      chainId,
+      owner,
+      collection
+    );
     refreshNFTs();
   }
 

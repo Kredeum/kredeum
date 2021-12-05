@@ -97,7 +97,7 @@ const mint3TxResponse = async (
   const network = getNetwork(chainId);
   const urlJson = ipfsGatewayUrl(cidJson);
   const contract = await getCollection(chainId, collection);
-  console.log("contract", contract);
+  // console.log("contract", contract);
 
   if (contract?.mintNFT) {
     // const txOptions = {

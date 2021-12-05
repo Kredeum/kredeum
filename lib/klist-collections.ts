@@ -165,7 +165,7 @@ const listCollectionsFromFactory = async (
   owner: string = ethers.constants.AddressZero,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  console.log("listCollectionsFromFactory", chainId, owner);
+  // console.log("listCollectionsFromFactory", chainId, owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
@@ -174,7 +174,7 @@ const listCollectionsFromFactory = async (
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
     const balances: Array<BalanceOf> = await nftsFactory.balancesOf(owner);
-    console.log("listCollectionsFromFactory balances", balances);
+    // console.log("listCollectionsFromFactory balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network?.chainName;
@@ -201,7 +201,7 @@ const listCollectionsFromFactory = async (
     }
   }
 
-  console.log("listCollectionsFromFactory", collections);
+  // console.log("listCollectionsFromFactory", collections);
   return collections;
 };
 
@@ -228,7 +228,7 @@ const listCollections = async (
 
     // MERGE collectionsOwner and collectionsKredeum
     const collections = new Map([...collectionsOwner, ...collectionsKredeum]);
-    console.log("listCollections", collections);
+    // console.log("listCollections", collections);
 
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {

@@ -161,36 +161,36 @@ const getNFTFromContract = async (
     collection = "",
     contractName = "";
 
-  console.log("getNFTFromContract", chainId, _index, _owner);
+  // console.log("getNFTFromContract", chainId, _index, _owner);
 
   try {
     collection = getChecksumAddress(_smartcontract.address);
-    console.log("getNFTFromContract collection", collection);
+    // console.log("getNFTFromContract collection", collection);
 
     if (_smartcontract.name) {
       contractName = await _smartcontract.name();
-      console.log("getNFTFromContract contractName", contractName);
+      // console.log("getNFTFromContract contractName", contractName);
     }
     if (_owner) {
       if (_smartcontract.tokenOfOwnerByIndex) {
         tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
-        console.log("getNFTFromContract tokenOfOwnerByIndex tokenID", tokenID);
+        // console.log("getNFTFromContract tokenOfOwnerByIndex tokenID", tokenID);
         owner = _owner;
       }
     } else if (_smartcontract.tokenByIndex) {
       tokenID = (await _smartcontract.tokenByIndex(_index)).toString();
-      console.log("getNFTFromContract tokenByIndex tokenID", tokenID);
+      // console.log("getNFTFromContract tokenByIndex tokenID", tokenID);
       owner = await _smartcontract.ownerOf(tokenID);
     }
     if (_smartcontract.tokenURI) {
       tokenURI = await _smartcontract.tokenURI(tokenID);
-      console.log("getNFTFromContract tokenURI", tokenURI);
+      // console.log("getNFTFromContract tokenURI", tokenURI);
     }
   } catch (e) {
     console.error("getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
   }
   const nid = nftUrl3(chainId, collection, tokenID);
-  console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
+  // console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
   return { chainId, collection, contractName, tokenID, tokenURI, owner, nid };
 };
 
@@ -246,7 +246,7 @@ const listNFTsFromCovalent = async (
           minter: getChecksumAddress(_token.original_owner),
           nid: nftUrl3(chainId, collection, _token.token_id)
         };
-        console.log("listNFTsFromCovalent nid", nft.nid, nft);
+        // console.log("listNFTsFromCovalent nid", nft.nid, nft);
         nfts.set(nft.nid, nft);
       }
     }
@@ -314,7 +314,7 @@ const listNFTsFromTheGraph = async (
         // description: _token.description,
         // image: _token.image
       };
-      console.log("listNFTsFromTheGraph nid", nft.nid, nft);
+      // console.log("listNFTsFromTheGraph nid", nft.nid, nft);
       nfts.set(nft.nid, nft);
     }
   }
@@ -386,7 +386,7 @@ const listNFTsTokenIds = async (
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Map<string, Nft>> => {
-  console.log("listNFTs", chainId, collection, _owner, _limit);
+  // console.log("listNFTs", chainId, collection, _owner, _limit);
 
   let nftsTokenIds: Map<string, Nft> = new Map();
   const network = getNetwork(chainId);
@@ -414,7 +414,7 @@ const listNFTsTokenIds = async (
   // }
   // nftsTokenIds.sort((a, b) => (BigNumber.from(b.tokenID).gt(BigNumber.from(a.tokenID)) ? 1 : -1));
 
-  console.log(`listNFTsTokenIds from ${collection}`, nftsTokenIds);
+  // console.log(`listNFTsTokenIds from ${collection}`, nftsTokenIds);
   return nftsTokenIds;
 };
 
@@ -431,11 +431,11 @@ const listNFTsWithMetadata = async (
 
   for (let index = 0; index < Math.min(nftsTokenIds.length, _limit); index++) {
     const nft = await addNftMetadata(chainId, collection, nftsTokenIds[index]);
-    console.log("listNFTsWithMetadata nid", nft.nid, nft);
+    // console.log("listNFTsWithMetadata nid", nft.nid, nft);
     nftsWithMetadata.set(nft.nid || "", nft);
   }
 
-  console.log(`listNFTsWithMetadata from ${collection}`, nftsWithMetadata);
+  // console.log(`listNFTsWithMetadata from ${collection}`, nftsWithMetadata);
   return nftsWithMetadata;
 };
 
@@ -486,7 +486,7 @@ const listNFTs = async (
   _limit: number = LIMIT,
   _provider?: Provider
 ): Promise<Map<string, Nft>> => {
-  console.log("listNFTs", chainId, collection, _owner, _limit);
+  // console.log("listNFTs", chainId, collection, _owner, _limit);
 
   const nftsTokenIds: Map<string, Nft> = await listNFTsTokenIds(
     chainId,

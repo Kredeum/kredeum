@@ -33,7 +33,7 @@
 
   const getCollections = async () => {
     allCollections = listCollectionsFromCache(address);
-    console.log("getOpenNFTsAddress(chainId)", getOpenNFTsAddress(chainId));
+    // console.log("getOpenNFTsAddress(chainId)", getOpenNFTsAddress(chainId));
 
     collections = new Map(
       [...allCollections]
@@ -52,7 +52,7 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    console.log(collections);
+    // console.log(collections);
     // SET FIRST AS DEFAULT COLLECTION
     if (!collectionAddress) {
       const [firstCollection] = collections.values();
