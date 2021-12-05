@@ -17,7 +17,7 @@ const getChecksumAddress = (address: Address | string | undefined): Address => {
   return address ? utils.getAddress(address) : "";
 };
 
-const getShortAddress = (address = "", n = 8): string =>
+const getShortAddress = (address = "?", n = 8): string =>
   address.endsWith(".eth")
     ? textShort(address, 2 * n, 0)
     : textShort(getChecksumAddress(address), n, n);

@@ -9,22 +9,19 @@
     nftDescription,
     nftDescriptionShort,
     nftName,
-    nftsSupplyAndName,
+    nftsBalanceAndName,
     nftOpenSeaUrl,
     nftExplorerLink,
     addressSame,
     textShort,
-    explorerNftUrl
+    explorerNftUrl,
+    explorerAddressLink
   } from "lib/knfts";
   import { getNetwork, getShortAddress } from "lib/kconfig";
   import { nftUrl, nftsUrl } from "lib/kconfig";
-  import {
-    listNFTsTokenId,
-    listNFTsTokenIds,
-    listNFTsFromCache,
-    addNftMetadata
-  } from "lib/klist-nfts";
+  import { listNFTsTokenId, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
   import { createEventDispatcher } from "svelte";
+  import { clearCache } from "lib/klist-nfts";
 
   // export let beta: string = undefined; // platform : WordPress or Dapp
   export const platform: string = undefined; // platform : WordPress or Dapp
@@ -33,13 +30,6 @@
   export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let refreshing: boolean;
-
-  export const refreshNFTs = async () => {
-    console.log("refreshNFTS");
-    if ((await _refreshNFTsFromCache()) === 0) {
-      _refreshNFTsFromLib();
-    }
-  };
 
   let index: number;
   let network: Network;
@@ -51,67 +41,80 @@
 
   const dispatch = createEventDispatcher();
 
-  const _refreshNFTsFromCache = async () => {
-    console.log("_refreshNFTsFromCache");
+  export const refreshNFTs = async (force = false) => {
+    console.log("refreshNFTS", force, collection);
+    network = getNetwork(chainId);
 
-    if (network && owner && collection) {
-      // Concurrent runs make collection undefined in this block !
-      const collectionAddress = collection?.address;
+    if (network && collection && owner) {
+      let refreshLib: boolean;
 
-      allNFTs = listNFTsFromCache();
-      console.log("allNFTs", allNFTs);
+      if (force) {
+        refreshLib = true;
+      } else {
+        // LOAD NFTs from cache
+        const numNFTs = _refreshNFTsFromCache(chainId, collection, owner);
 
-      NFTs = new Map(
-        [...allNFTs].filter(
-          ([, nft]) =>
-            nft.chainId === chainId && nft.collection === collectionAddress && nft.owner === owner
-        )
-      );
-      console.log("NFTs", NFTs);
+        // REFRESH LIB WHEN NFT count found in cache not good
+        refreshLib = numNFTs !== collection.balanceOf;
+      }
+
+      // LOAD NFTs from lib
+      if (refreshLib) {
+        clearCache(chainId, collection.address);
+        NFTs = new Map();
+        _refreshNFTsFromLib(chainId, collection, owner);
+      }
     }
+  };
+
+  const _refreshNFTsFromCache = (
+    _chainId: number,
+    _collection: Collection,
+    _owner: string
+  ): number => {
+    allNFTs = listNFTsFromCache();
+    console.log("allNFTs", allNFTs);
+
+    NFTs = new Map(
+      [...allNFTs].filter(
+        ([, nft]) =>
+          nft.chainId === chainId && nft.collection === collection.address && nft.owner === owner
+      )
+    );
+
+    console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
     return NFTs?.size;
   };
 
-  const _refreshNFTsFromLib = async () => {
+  const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _owner: string) => {
     console.log("_refreshNFTsFromLib");
-    network = getNetwork(chainId);
 
-    if (network && owner && collection) {
-      // Concurrent runs make collection undefined in this block !
-      const collectionAddress = collection?.address;
+    const numNFTs = _collection.balanceOf || _collection.totalSupply;
+    console.log("_refreshNFTsFromLib numNFTs", numNFTs);
 
+    for (index = 0; index < numNFTs; index++) {
       refreshing = true;
 
-      const numNFTs = collection.balanceOf || collection.totalSupply;
-      console.log("numNFTs", numNFTs);
+      const nftTokenId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
+      const nft = await addNftMetadata(chainId, _collection.address, nftTokenId);
 
-      for (index = 0; index < numNFTs; index++) {
-        const nftTokenId = await listNFTsTokenId(chainId, collectionAddress, index, owner);
-        // console.log("nftTokenId nid", nftTokenId.nid, index, nftsTokenIds.length, nftTokenId);
-
-        const nft = await addNftMetadata(chainId, collectionAddress, nftTokenId);
-
-        // console.log("nftWithMetadata nid", nft.nid, nft);
-
-        if (nft.chainId === chainId && nft.collection === collectionAddress) {
-          NFTs.set(nft.nid, nft);
-          console.log("NEW NFT !!!");
-        } else break;
+      // chainId and collection have not changed while loading NFTs
+      if (chainId === _chainId && collection?.address === _collection.address) {
+        NFTs.set(nft.nid, nft);
+        console.log("no break", chainId, _chainId, collection?.address, _collection.address);
+      } else {
+        console.log("break");
+        break;
       }
     }
     refreshing = false;
-    return NFTs?.size;
-  };
 
-  // ON CHAINID  CHANGE
-  $: {
-    console.log("chainId changed !", chainId);
-    network = getNetwork(chainId);
-  }
+    console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
+  };
 
   // ON CHAINID, OWNER OR COLLECTION CHANGE
   $: {
-    console.log("chainId, owner, collection changed !", chainId, owner, collection);
+    console.log("chainId, collection or owner changed !", chainId, owner, collection);
     refreshNFTs();
   }
 
@@ -135,11 +138,11 @@
 </script>
 
 {#key owner && index}
-  {#if NFTs?.size > 0}
+  {#if collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
     </h2>
-    {nftsSupplyAndName(NFTs, collection)}
+    {nftsBalanceAndName(collection)}
     <a
       class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
@@ -236,6 +239,12 @@
                   <div class="flex"><span class="label">Token ID</span></div>
                   <div class="flex">
                     <strong>{nft.tokenID}</strong>
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Owner</span></div>
+                  <div class="flex">
+                    {@html explorerAddressLink(chainId, nft.owner, 15)}
                   </div>
                 </li>
                 <li class="complete">

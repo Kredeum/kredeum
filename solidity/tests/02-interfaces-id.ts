@@ -14,7 +14,7 @@ const setup = deployments.createFixture(
   }
 );
 
-describe.only("Call interfacesId", () => {
+describe("Call interfacesId", () => {
   let chainId: number;
   // let signer: Signer;
   let contract: InterfacesIds;

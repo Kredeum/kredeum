@@ -39,8 +39,8 @@
       "assets": "https://opensea.io/assets/matic",
       "openNFTs": "https://opensea.io/collection/kredeum-nfts"
     },
-    "nftsFactory": "0x842Da5c29cfca34b8CFB167b8442267966A123BE",
-    "openNFTs": "0x39F3Ad85CAbba0630E2875379c8334Ee3C5F87b2",
+    "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
+    "openNFTs": "0x687F79058Da0689d7715F9bb6A95f4d9190168Cf",
     "costClone": 10,
     "create": true,
     "mainnet": true
@@ -55,7 +55,7 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "nftsFactory": "0x96bccA8EE5EB047cf5081d2d62577A45f217fAca",
+    "nftsFactory": "0x6E54C3c0462Cb31a52aC22c0d2040782E91FB99E",
     "openNFTs": "0x173E79EFAF94c1BdFC8FB6165FA16DAd930A03Dd",
     "eip1559": true,
     "costClone": 0.01,

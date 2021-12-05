@@ -165,43 +165,43 @@ const listCollectionsFromFactory = async (
   owner: string = ethers.constants.AddressZero,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromFactory", chainId, owner);
+  console.log("listCollectionsFromFactory", chainId, owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
   const nftsFactory: NFTsFactory | undefined = getNFTsFactory(chainId, _provider);
-  // console.log("listCollectionsFromFactory nftsFactory ok ?", nftsFactory ? "OK" : "KO");
 
   if (nftsFactory) {
-    type BalanceOf = [string, string, string, BigNumber, string];
-    let balances: Array<BalanceOf> = [];
-    balances = await nftsFactory.balancesOf(owner);
-    // console.log("balances", balances);
+    type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
+    const balances: Array<BalanceOf> = await nftsFactory.balancesOf(owner);
+    console.log("listCollectionsFromFactory balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network?.chainName;
       const balance: BalanceOf = balances[index];
 
       const address: string = getChecksumAddress(balance[0]);
-      const name: string = balance[1];
-      const symbol: string = balance[2];
-      const totalSupply = Number(balance[3]);
-      const owner: string = getChecksumAddress(balance[4]);
+      const balanceOf = Number(balance[1]);
+      const owner: string = getChecksumAddress(balance[2]);
+      const name: string = balance[3];
+      const symbol: string = balance[4];
+      const totalSupply = Number(balance[5]);
 
       collections.set(nftsUrl(chainId, address), {
-        openNFTsVersion: 2,
-        totalSupply,
         chainId,
         chainName,
+        openNFTsVersion: 2,
+        address,
+        balanceOf,
+        owner,
         name,
         symbol,
-        address,
-        owner
+        totalSupply
       });
     }
   }
 
-  // console.log("listCollectionsFromFactory", collections);
+  console.log("listCollectionsFromFactory", collections);
   return collections;
 };
 

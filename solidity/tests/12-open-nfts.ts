@@ -51,6 +51,6 @@ describe("Open NFTs contract", function () {
   });
 
   it("Should check openNFTsV2 interface", async function () {
-    expect(await openNFTs.supportsInterface("0xA6123562")).to.be.true;
+    expect(await openNFTs.supportsInterface("0xd94a1db2")).to.be.true;
   });
 });

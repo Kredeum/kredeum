@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Signer } from "ethers";
-  import type { Collection } from "lib/kconfig";
+  import type { Collection } from "lib/ktypes";
   import Metamask from "./kredeum-metamask.svelte";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
@@ -8,7 +8,6 @@
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
-  import { clearCache } from "lib/klist-nfts";
 
   let collection: Collection;
   let address: string;
@@ -19,8 +18,7 @@
 
   const _refreshNFTs = (): void => {
     if (chainId && collection?.address) {
-      clearCache(chainId, collection.address);
-      refreshNFTs();
+      refreshNFTs(true);
     }
   };
   const _explorerCollectionUrl = (_collectionAddress: string): string => {

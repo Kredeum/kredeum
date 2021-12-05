@@ -45,8 +45,8 @@ const explorerLink = (chainId: number, path: string, label: string): string =>
 const explorerAddressUrl = (chainId: number, address: string): string =>
   explorerUrl(chainId, `/address/${address}`);
 
-const explorerAddressLink = (chainId: number, address: string): string =>
-  explorerLink(chainId, `/address/${address}`, getShortAddress(address));
+const explorerAddressLink = (chainId: number, address: string, n?: number): string =>
+  explorerLink(chainId, `/address/${address}`, getShortAddress(address, n));
 
 const explorerTxUrl = (chainId: number, tx: string): string => explorerUrl(chainId, `/tx/${tx}`);
 
@@ -81,8 +81,8 @@ const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): s
 // NFTS helpers
 const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
 
-const nftsSupplyAndName = (nfts: Map<string, Nft>, collection: Collection): string =>
-  `${nftsSupply(nfts)} ${collectionSymbol(collection)}${nftsSupply(nfts) > 1 ? "s" : ""}`;
+const nftsBalanceAndName = (collection: Collection): string =>
+  `${collection?.balanceOf} ${collectionSymbol(collection)}${collection?.balanceOf > 1 ? "s" : ""}`;
 
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string =>
@@ -128,7 +128,7 @@ export {
   nftDescriptionShort,
   nftExplorerLink,
   nftName,
-  nftsSupplyAndName,
+  nftsBalanceAndName,
   nftOpenSeaUrl,
   explorerOpenNFTsUrl,
   explorerLink,

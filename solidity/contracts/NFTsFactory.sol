@@ -13,10 +13,11 @@ contract NFTsFactory is CloneFactory {
 
   struct NftData {
     address nft;
+    uint256 balanceOf;
+    address owner;
     string name;
     string symbol;
-    uint256 balance;
-    address owner;
+    uint256 totalSupply;
   }
 
   uint8 public constant ERC721 = 0;
@@ -63,18 +64,15 @@ contract NFTsFactory is CloneFactory {
 
     if (supportInterface[ERC721]) {
       nftData.nft = nft;
+      nftData.balanceOf = IERC721(nft).balanceOf(owner);
 
       if (supportInterface[ERC721_METADATA]) {
         nftData.name = IERC721Metadata(nft).name();
         nftData.symbol = IERC721Metadata(nft).symbol();
       }
 
-      if (owner == address(0)) {
-        if (supportInterface[ERC721_ENUMERABLE]) {
-          nftData.balance = IERC721Enumerable(nft).totalSupply();
-        }
-      } else {
-        nftData.balance = IERC721(nft).balanceOf(owner);
+      if (supportInterface[ERC721_ENUMERABLE]) {
+        nftData.totalSupply = IERC721Enumerable(nft).totalSupply();
       }
 
       if (supportInterface[OPEN_NFTS]) {
