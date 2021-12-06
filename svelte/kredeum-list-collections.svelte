@@ -18,7 +18,7 @@
   let open = false;
 
   // ON CHAINID or OWNER change THEN LIST collections
-  $: {
+  $: if (chainId && owner) {
     // console.log("KredeumListCollections chainId or owner changed", chainId, owner);
     _setCollection("");
     _listCollections(chainId, owner);

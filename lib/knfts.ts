@@ -82,7 +82,9 @@ const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): s
 const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
 
 const nftsBalanceAndName = (collection: Collection): string =>
-  `${collection?.balanceOf} ${collectionSymbol(collection)}${collection?.balanceOf > 1 ? "s" : ""}`;
+  `${collection?.balanceOf} ${collectionSymbol(collection)}${
+    (collection?.balanceOf || 0) > 1 ? "s" : ""
+  }`;
 
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string =>

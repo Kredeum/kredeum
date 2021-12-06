@@ -378,10 +378,10 @@ const listNFTsTokenId = async (
   _index: number,
   _owner?: string,
   _provider?: Provider
-): Promise<Nft> => {
+): Promise<Nft | undefined> => {
   // console.log("listNFTsTokenId", chainId, collection, _owner);
 
-  let nft: Nft = undefined;
+  let nft: Nft | undefined;
 
   if (chainId && collection) {
     const contract = await getCollection(chainId, collection, _provider);

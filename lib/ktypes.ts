@@ -38,10 +38,11 @@ type Collection = {
   symbol?: string;
   chainName?: string;
   interfaces?: Array<string>;
-  balanceOf?: number;
   totalSupply?: number;
   startBlock?: number;
   description?: string;
+  user: string;
+  balanceOf?: number;
 };
 
 type Nft = {

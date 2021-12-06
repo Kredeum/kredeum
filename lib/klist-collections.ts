@@ -45,6 +45,8 @@ const listCollectionsFromCovalent = async (
   chainId: number,
   owner: string
 ): Promise<Map<string, Collection>> => {
+  // console.log("listCollectionsFromCovalent", chainId, owner);
+
   const collections: Map<string, Collection> = new Map();
   let path: string;
   const network = getNetwork(chainId);
@@ -78,17 +80,22 @@ const listCollectionsFromCovalent = async (
 
       for (let index = 0; index < collectionsCov.length; index++) {
         const collectionCov: CollectionCov = collectionsCov[index];
-        const chainName: string = network.chainName;
+
+        const chainName: string = network?.chainName;
         const address: string = getChecksumAddress(collectionCov.contract_address);
+        const name = collectionCov.contract_name || "";
+        const symbol = collectionCov.contract_ticker_symbol || "";
+        const user = owner || "";
+        const balanceOf = Number(collectionCov.balance);
 
         const collection: Collection = {
-          openNFTsVersion: 2,
           chainId,
           chainName,
           address,
-          name: collectionCov.contract_name,
-          symbol: collectionCov.contract_ticker_symbol,
-          balanceOf: Number(collectionCov.balance)
+          name,
+          symbol,
+          user,
+          balanceOf
         };
         collections.set(nftsUrl(chainId, address), collection);
       }
@@ -102,7 +109,8 @@ const listCollectionsFromTheGraph = async (
   chainId: number,
   owner: string
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromTheGraph");
+  // console.log("listCollectionsFromTheGraph", chainId, owner);
+
   const collections: Map<string, Collection> = new Map();
   const network = getNetwork(chainId);
 
@@ -141,6 +149,7 @@ const listCollectionsFromTheGraph = async (
       const address = getChecksumAddress(id);
       const chainName = network?.chainName;
       const balanceOf = Math.max(numTokens, 0);
+      const user = owner || "";
 
       if (currentContractResponse.numTokens > 0) {
         const collection: Collection = {
@@ -149,8 +158,9 @@ const listCollectionsFromTheGraph = async (
           address,
           name,
           symbol,
-          balanceOf,
-          totalSupply
+          totalSupply,
+          user,
+          balanceOf
         };
         collections.set(nftsUrl(chainId, address), collection);
       }
@@ -162,10 +172,10 @@ const listCollectionsFromTheGraph = async (
 
 const listCollectionsFromFactory = async (
   chainId: number,
-  owner: string = ethers.constants.AddressZero,
+  _owner: string,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromFactory", chainId, owner);
+  // console.log("listCollectionsFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
@@ -173,7 +183,7 @@ const listCollectionsFromFactory = async (
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
-    const balances: Array<BalanceOf> = await nftsFactory.balancesOf(owner);
+    const balances: Array<BalanceOf> = await nftsFactory.balancesOf(_owner);
     // console.log("listCollectionsFromFactory balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
@@ -181,22 +191,24 @@ const listCollectionsFromFactory = async (
       const balance: BalanceOf = balances[index];
 
       const address: string = getChecksumAddress(balance[0]);
-      const balanceOf = Number(balance[1]);
       const owner: string = getChecksumAddress(balance[2]);
       const name: string = balance[3];
       const symbol: string = balance[4];
       const totalSupply = Number(balance[5]);
+      const user: string = _owner;
+      const balanceOf = Number(balance[1]);
 
       collections.set(nftsUrl(chainId, address), {
         chainId,
         chainName,
         openNFTsVersion: 2,
         address,
-        balanceOf,
         owner,
         name,
         symbol,
-        totalSupply
+        totalSupply,
+        user,
+        balanceOf
       });
     }
   }
@@ -210,11 +222,12 @@ const listCollections = async (
   owner: string,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollections");
+  // console.log("listCollections", chainId, owner);
+
   const collections: Map<string, Collection> = new Map();
 
   const network = getNetwork(chainId);
-  if (network) {
+  if (network && owner) {
     let collectionsOwner: Map<string, Collection> = new Map();
     let collectionsKredeum: Map<string, Collection> = new Map();
 
