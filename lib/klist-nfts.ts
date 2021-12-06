@@ -51,7 +51,7 @@ const getCollection = async (
       contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
     }
   } catch (e) {
-    console.error(`ERROR getCollection ${collection}\n`, e);
+    console.error(`ERROR getCollection : ${chainId} ${collection}\n`, e);
   }
 
   return contract;
@@ -155,11 +155,11 @@ const getNFTFromContract = async (
   _index: number,
   _owner?: string
 ): Promise<Nft> => {
-  let tokenID = "",
-    tokenURI = "",
-    owner = "",
-    collection = "",
-    contractName = "";
+  let tokenID = "";
+  let tokenURI = "";
+  let owner = "";
+  let collection = "";
+  let contractName = "";
 
   // console.log("getNFTFromContract", chainId, _index, _owner);
 
@@ -187,7 +187,18 @@ const getNFTFromContract = async (
       // console.log("getNFTFromContract tokenURI", tokenURI);
     }
   } catch (e) {
-    console.error("getNFTFromContract ERROR", e, tokenID, tokenURI, owner);
+    console.error(
+      "getNFTFromContract ERROR",
+      e,
+      tokenID,
+      tokenURI,
+      owner,
+      collection,
+      contractName,
+      chainId,
+      _index,
+      _owner
+    );
   }
   const nid = nftUrl3(chainId, collection, tokenID);
   // console.log("getNFTFromContract #" + tokenID, chainId, collection, tokenURI, owner);
@@ -368,6 +379,8 @@ const listNFTsTokenId = async (
   _owner?: string,
   _provider?: Provider
 ): Promise<Nft> => {
+  // console.log("listNFTsTokenId", chainId, collection, _owner);
+
   let nft: Nft = undefined;
 
   if (chainId && collection) {

@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Signer } from "ethers";
   import type { Collection } from "lib/ktypes";
-  import Metamask from "./kredeum-metamask.svelte";
-  import KredeumListCollection from "./kredeum-list-collections.svelte";
+  import KredeumMetamask from "./kredeum-metamask.svelte";
+  import KredeumListCollections from "./kredeum-list-collections.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
@@ -10,17 +10,21 @@
   import { explorerCollectionUrl } from "lib/knfts";
 
   let collection: Collection;
-  let address: string;
   let chainId: number;
-  let signer: Signer;
   let refreshing: boolean;
   let refreshNFTs;
+  let signer: Signer;
+  let owner: string;
 
-  const _refreshNFTs = (): void => {
-    if (chainId && collection?.address) {
-      refreshNFTs(true);
-    }
-  };
+  // ON CHAINID, OWNER OR COLLECTION CHANGE
+  $: logChange(chainId, owner, collection);
+  const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
+    console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
+
+  // SET owner WHEN signer change
+  $: setOwner(signer);
+  const setOwner = async (_signer) => (owner = await _signer.getAddress());
+
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl(chainId, _collectionAddress);
     // console.log("_explorerCollectionUrl", ret);
@@ -64,37 +68,37 @@
       <section class="content">
         <header>
           <h1>My NFT wallet</h1>
-          {#if address && getCreate(chainId)}
+          {#if owner && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
               ><i class="fas fa-plus fa-left" />Mint</a
             >
           {/if}
 
           <div class="row alignbottom">
-            <Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+            <KredeumMetamask autoconnect="off" bind:chainId bind:signer />
 
             <div class="col col-xs-12 col-sm-3">
-              {#if address && getNftsFactory(chainId)}
+              {#if owner && getNftsFactory(chainId)}
                 <span class="label"
                   >Collection
                   {#if collection}
                     <a
                       class="info-button"
                       href={_explorerCollectionUrl(collection.address)}
-                      title="&#009;Collection address (click to view in explorer )&#013;{_nftsUrl(
+                      title="&#009;Collection owner (click to view in explorer )&#013;{_nftsUrl(
                         collection.address
                       )}"
                       target="_blank"><i class="fas fa-info-circle" /></a
                     >
                   {/if}
                 </span>
-                <KredeumListCollection bind:address bind:chainId bind:collection />
+                <KredeumListCollections bind:owner bind:chainId bind:collection />
               {/if}
             </div>
 
             <div class="col col-sm-3">
-              {#if address && getNftsFactory(chainId)}
-                <button class="clear" on:click={_refreshNFTs}>
+              {#if owner && collection && getNftsFactory(chainId)}
+                <button class="clear" on:click={() => refreshNFTs(true)}>
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
                 </button>
               {/if}
@@ -102,13 +106,7 @@
           </div>
         </header>
 
-        <KredeumListNfts
-          bind:collection
-          bind:owner={address}
-          bind:chainId
-          bind:refreshing
-          bind:refreshNFTs
-        />
+        <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
       </section>
     </div>
   </main>
@@ -138,11 +136,11 @@
 
   <!-- Modal create NFT -->
   <div id="create-nft" class="modal-window">
-    <KredeumCreateNft bind:collection bind:address bind:chainId bind:signer />
+    <KredeumCreateNft bind:collection bind:chainId bind:signer />
   </div>
 
   <!-- Modal add collection -->
   <div id="add-collection" class="modal-window">
-    <KredeumCreateCollection bind:collection bind:address bind:chainId bind:signer />
+    <KredeumCreateCollection bind:collection bind:chainId bind:signer />
   </div>
 </div>

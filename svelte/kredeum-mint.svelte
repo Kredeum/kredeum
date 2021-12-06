@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Signer } from "ethers";
-  import type { Nft } from "lib/ktypes";
+  import type { Nft, Network } from "lib/ktypes";
 
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import Metamask from "./kredeum-metamask.svelte";
-  import { getNetwork, Network } from "lib/kconfig";
+  import { getNetwork } from "lib/kconfig";
 
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
 

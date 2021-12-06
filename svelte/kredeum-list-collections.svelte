@@ -2,12 +2,12 @@
   import type { Collection } from "lib/ktypes";
 
   import { onMount } from "svelte";
-  import { nftsUrl, urlCache, getOpenNFTsAddress } from "lib/kconfig";
+  import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
   import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
   import { collectionName } from "lib/knfts";
 
   export let chainId: number = undefined;
-  export let address: string = undefined;
+  export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let popup = false;
 
@@ -17,23 +17,37 @@
   let refreshingCollections: boolean;
   let open = false;
 
-  const collectionBalanceOf = (collContract: Collection) =>
-    collContract?.balanceOf || (collContract?.balanceOf == 0 ? "0" : "?");
-  const collectionNameAndBalanceOf = (collContract: Collection) =>
-    collContract
-      ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})`
-      : "Choose collection";
-
-  $: if (collectionAddress && address) {
-    collection = allCollections.get(urlCache(nftsUrl(chainId, collectionAddress), address));
+  // ON CHAINID or OWNER change THEN LIST collections
+  $: {
+    // console.log("KredeumListCollections chainId or owner changed", chainId, owner);
+    _setCollection("");
+    _listCollections(chainId, owner);
   }
 
-  // ON NETWORK OR ADDRESS
-  $: if (chainId && address) _listCollections();
+  const _setCollection = async (_collectionAddress: string): Promise<void> => {
+    // console.log("KredeumListCollections _setCollection", _collectionAddress);
+    collectionAddress = _collectionAddress;
+    if (chainId && owner && collectionAddress) {
+      collection = allCollections.get(urlOwner(nftsUrl(chainId, collectionAddress), owner));
+    } else {
+      collection = null;
+    }
+  };
+
+  const _listCollections = async (_chainId: number, _owner: string): Promise<void> => {
+    // console.log("KredeumListCollections _listCollections", _chainId, _owner);
+    getCollections();
+
+    refreshingCollections = true;
+    allCollections = await listCollections(_chainId, _owner);
+    refreshingCollections = false;
+
+    getCollections();
+  };
 
   const getCollections = async () => {
-    allCollections = listCollectionsFromCache(address);
-    // console.log("getOpenNFTsAddress(chainId)", getOpenNFTsAddress(chainId));
+    // console.log("KredeumListCollections getCollections");
+    allCollections = listCollectionsFromCache(owner);
 
     collections = new Map(
       [...allCollections]
@@ -43,7 +57,7 @@
             collection.chainId === chainId &&
             // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
             (collection.balanceOf > 0 ||
-              collection.owner === address ||
+              collection.owner === owner ||
               collection.address === getOpenNFTsAddress(chainId)) &&
             // FILTER OpenNFTs collection inside popup
             (!popup || collection.openNFTsVersion)
@@ -53,22 +67,20 @@
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
     // console.log(collections);
+
     // SET FIRST AS DEFAULT COLLECTION
     if (!collectionAddress) {
       const [firstCollection] = collections.values();
-      collectionAddress = firstCollection?.address || "";
+      _setCollection(firstCollection?.address || "");
     }
   };
 
-  const _listCollections = async (): Promise<void> => {
-    getCollections();
-
-    refreshingCollections = true;
-    allCollections = await listCollections(chainId, address);
-    refreshingCollections = false;
-
-    getCollections();
-  };
+  const collectionBalanceOf = (collContract: Collection) =>
+    collContract?.balanceOf || (collContract?.balanceOf == 0 ? "0" : "?");
+  const collectionNameAndBalanceOf = (collContract: Collection) =>
+    collContract
+      ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})`
+      : "Choose collection";
 
   onMount(async () => {
     window.addEventListener("click", (e: Event): void => {
@@ -94,7 +106,7 @@
             <span
               class="custom-option {coll.address == collectionAddress ? 'selected' : ''}"
               data-value={coll.address}
-              on:click={() => (collectionAddress = coll.address)}
+              on:click={() => _setCollection(coll.address)}
             >
               {collectionNameAndBalanceOf(coll)}
             </span>

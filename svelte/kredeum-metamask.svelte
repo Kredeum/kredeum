@@ -2,7 +2,7 @@
   import type { Signer } from "ethers";
   import type { EthereumProvider } from "hardhat/types";
   import type { Web3Provider, Provider } from "@ethersproject/providers";
-  import type { Network } from "lib/kconfig";
+  import type { Network } from "lib/ktypes";
 
   import { ethers } from "ethers";
   import detectEthereumProvider from "@metamask/detect-provider";
@@ -17,9 +17,8 @@
     explorerOpenNFTsUrl
   } from "lib/knfts";
 
-  export let signer: Signer = undefined;
-  export let address: string = undefined;
   export let chainId: number = undefined;
+  export let signer: Signer = undefined;
   export let autoconnect: string = undefined;
 
   const testnets = true;
@@ -29,6 +28,7 @@
 
   let network: Network;
   let nameOrAddress = "";
+  let owner = "";
 
   const connectMetamaskMessage = "Connect to Metamask";
   const installMetamaskMessage = "Please install MetaMask extension to connect";
@@ -37,10 +37,15 @@
 
   let open = false;
 
-  $: if (address) setEnsName();
+  // // ON CHAINID, OWNER OR COLLECTION CHANGE
+  // $: logChange(chainId, signer);
+  // const logChange = async (_chainId: number, _signer: Signer) =>
+  //   console.log("KredeumMetamask chainId or signer changed", _chainId, await _signer.getAddress());
+
+  $: if (owner) setEnsName();
   const setEnsName = async () => {
-    nameOrAddress = address;
-    nameOrAddress = await getEnsName(address);
+    nameOrAddress = owner;
+    nameOrAddress = await getEnsName(owner);
   };
 
   const strUpFirst = (str: string): string =>
@@ -62,7 +67,6 @@
     if (_chainId !== 1) {
       const _network = getNetwork(_chainId);
       if (_network) {
-        _network.chainId = chainId;
         for (const field in _network) {
           // EIP-3085 fields only or fails
           if (
@@ -96,6 +100,7 @@
       const _network = getNetwork(_chainId);
       if (_network) {
         chainId = Number(_chainId);
+        console.log("chainId", chainId);
         network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
@@ -123,12 +128,9 @@
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
-    } else if (_accounts[0] !== address) {
-      address = getChecksumAddress(_accounts[0]);
-
+    } else if (_accounts[0] !== owner) {
+      owner = getChecksumAddress(_accounts[0]);
       signer = ethersProvider.getSigner(0);
-
-      // console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
   };
 
@@ -194,14 +196,14 @@
 </script>
 
 <div class="col col-xs-12 col-sm-3">
-  {#if address}
+  {#if owner}
     <span class="label"
       >Address
       <a
         class="info-button"
-        href={explorerAddressUrl(chainId, address)}
+        href={explorerAddressUrl(chainId, owner)}
         target="_blank"
-        title="&#009;Account address (click to view account in explorer )&#013;{address}"
+        title="&#009;Account address (click to view account in explorer )&#013;{owner}"
         ><i class="fas fa-info-circle" /></a
       >
     </span>
@@ -223,7 +225,7 @@
 </div>
 
 <div class="col col-xs-12 col-sm-3">
-  {#if address}
+  {#if owner}
     <span class="label"
       >Network
       <a

@@ -8,7 +8,7 @@ import {
   getSubgraphUrl,
   getCovalent,
   nftsUrl,
-  urlCache
+  urlOwner
 } from "./kconfig";
 import type { Collection } from "./ktypes";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
@@ -232,7 +232,7 @@ const listCollections = async (
 
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {
-        localStorage.setItem(urlCache(nid, owner), JSON.stringify(collection, null, 2));
+        localStorage.setItem(urlOwner(nid, owner), JSON.stringify(collection, null, 2));
       }
     }
   }
@@ -247,7 +247,7 @@ const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);
 
-    if (key?.startsWith("nfts://") && key?.endsWith(`@${owner}`)) {
+    if (key?.startsWith("nfts://") && key?.endsWith(`/${owner}`)) {
       collections.set(key, JSON.parse(localStorage.getItem(key) || "") as Collection);
     }
   }
@@ -257,11 +257,10 @@ const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
 
 const CloneResponse = async (
   chainId: number,
-  _contract: string,
   _name: string,
   _cloner: Signer
 ): Promise<TransactionResponse | undefined> => {
-  // console.log("CloneResponse", chainId, _contract, await _cloner.getAddress());
+  // console.log("CloneResponse", chainId, await _cloner.getAddress());
 
   const network = getNetwork(chainId);
 
@@ -301,13 +300,8 @@ const CloneAddress = (txReceipt: TransactionReceipt): string => {
   return implementation;
 };
 
-const Clone = async (
-  chainId: number,
-  _contract: string,
-  _name: string,
-  _cloner: Signer
-): Promise<string> => {
-  const txResp = await CloneResponse(chainId, _contract, _name, _cloner);
+const Clone = async (chainId: number, _name: string, _cloner: Signer): Promise<string> => {
+  const txResp = await CloneResponse(chainId, _name, _cloner);
   let address = "";
   if (txResp) {
     const txReceipt = await CloneReceipt(txResp);

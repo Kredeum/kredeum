@@ -109,21 +109,21 @@ const getCreate = (chainId: number): boolean => {
   return Boolean(network?.create);
 };
 
-// nfts url : nfts://chainName/contractAddress
-const nftsUrl = (chainId: number, _address: Address): string => {
+// nfts url : nfts://chainName/collectionAddress
+const nftsUrl = (chainId: number, _collectionAddress: Address): string => {
   const network = getNetwork(chainId);
   return (
     "nfts://" +
     (network ? network.chainName : "...") +
-    (_address ? "/" + getChecksumAddress(_address) : "...")
+    (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "...")
   );
 };
 
-// nfts url  cache: nfts://chainName/contractAddress@address
-const urlCache = (url: string, _owner: Address): string =>
-  url + (_owner ? "@" + getChecksumAddress(_owner) : "");
+// url @ owner : url://xyz@ownerAddress
+const urlOwner = (_url: string, _ownerAddress: Address): string =>
+  _url + (_ownerAddress ? "/" + getChecksumAddress(_ownerAddress) : "");
 
-// nft url : nft://chainName/contractAddress/tokenID
+// nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
   const network = getNetwork(chainId);
   const ret =
@@ -159,5 +159,5 @@ export {
   nftUrl3,
   nftUrl,
   nftsUrl,
-  urlCache
+  urlOwner
 };

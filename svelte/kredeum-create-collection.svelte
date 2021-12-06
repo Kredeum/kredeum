@@ -1,13 +1,13 @@
 <script lang="ts">
+  import type { Collection } from "lib/ktypes";
+  import type { Signer } from "ethers";
+
   import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
-  import type { Collection } from "lib/kconfig";
-  import type { Signer } from "ethers";
   import { createEventDispatcher } from "svelte";
   const dispatch = createEventDispatcher();
 
   export let chainId: number = undefined;
-  export let address: string = undefined;
   export let signer: Signer = undefined;
   export let collection: Collection = undefined;
 
@@ -23,7 +23,7 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await CloneResponse(chainId, address, collectionName, signer);
+      const txResp = await CloneResponse(chainId, collectionName, signer);
       cloningTxHash = txResp.hash;
 
       const txReceipt = await CloneReceipt(txResp);

@@ -26,13 +26,13 @@
   // export let beta: string = undefined; // platform : WordPress or Dapp
   export const platform: string = undefined; // platform : WordPress or Dapp
 
-  export let chainId: number = undefined;
   export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let refreshing: boolean;
 
   let index: number;
   let network: Network;
+  let chainId: number;
 
   let NFTs: Map<string, Nft>;
   let allNFTs: Map<string, Nft>;
@@ -40,6 +40,19 @@
   let nftImport: number;
 
   const dispatch = createEventDispatcher();
+
+  // ON OWNER OR COLLECTION CHANGE
+  $: {
+    console.log(
+      "KredeumListNfts owner or collection changed, so refresh NFTs...",
+      owner,
+      collection
+    );
+    if (owner && collection) {
+      chainId = collection?.chainId;
+      refreshNFTs();
+    }
+  }
 
   export const refreshNFTs = async (force = false) => {
     // console.log("refreshNFTS", force, collection);
@@ -111,17 +124,6 @@
 
     // console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
   };
-
-  // ON CHAINID, OWNER OR COLLECTION CHANGE
-  $: {
-    console.log(
-      "chainId, collection or owner changed, refresh NFTs...",
-      chainId,
-      owner,
-      collection
-    );
-    refreshNFTs();
-  }
 
   const dispatchImport = async (nft: Nft) => {
     nftImport = 1;

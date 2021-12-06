@@ -1,22 +1,20 @@
 <script lang="ts">
   import type { Signer } from "ethers";
   import type { Nft } from "lib/ktypes";
-  import type { Collection } from "lib/kconfig";
+  import type { Collection } from "lib/ktypes";
 
-  import { nftUrl } from "lib/kconfig";
   import KredeumListCollection from "./kredeum-list-collections.svelte";
+  import { nftUrl } from "lib/kconfig";
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
-  import { onMount } from "svelte";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
 
   export let chainId: number = undefined;
-  export let address: string = undefined;
-  export let signer: Signer = undefined;
   export let collection: Collection = undefined;
+  export let signer: Signer = undefined;
 
   let mintedNft: Nft;
-  let minting: number;
+  let minting = 0;
   let mintingTxResp: TransactionResponse;
 
   let cidImage: string;
@@ -26,6 +24,13 @@
   let files: FileList;
   let image: string;
 
+  let owner: string;
+
+  // SET owner WHEN signer change
+  $: setOwner(signer);
+  const setOwner = async (_signer) => (owner = await _signer.getAddress());
+
+  // DISPLAY image AFTER upload
   $: if (files) {
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
@@ -34,10 +39,6 @@
       image = `${e.target.result}`;
     };
   }
-
-  onMount(async () => {
-    minting = 0;
-  });
 
   const mint = async (): Promise<Nft> => {
     cidImage = null;
@@ -64,7 +65,7 @@
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, address, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await mint4Nft(chainId, collection.address, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -229,7 +230,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollection bind:address bind:chainId bind:collection popup />
+          <KredeumListCollection bind:owner bind:chainId bind:collection popup />
         </div>
 
         <div class="txtright">
