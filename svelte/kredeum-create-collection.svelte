@@ -1,13 +1,12 @@
 <script lang="ts">
-  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/nfts-factory";
-  import { explorerTxUrl, explorerAddressUrl, addressShort } from "lib/knfts";
-  import type { Collection } from "lib/kconfig";
+  import type { Collection } from "lib/ktypes";
   import type { Signer } from "ethers";
+
+  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
+  import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
   import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 
   export let chainId: number = undefined;
-  export let address: string = undefined;
   export let signer: Signer = undefined;
   export let collection: Collection = undefined;
 
@@ -16,6 +15,8 @@
   let collectionCreated: Collection;
   let collectionName: string;
 
+  const dispatch = createEventDispatcher();
+
   const createCollection = async () => {
     // console.log("<kredeum-nfts-create /> createCollection");
     if (signer) {
@@ -23,11 +24,17 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await CloneResponse(chainId, address, collectionName, signer);
+      const txResp = await CloneResponse(chainId, collectionName, signer);
       cloningTxHash = txResp.hash;
 
       const txReceipt = await CloneReceipt(txResp);
-      collectionCreated = { chainId, name: collectionName, address: CloneAddress(txReceipt) };
+      collectionCreated = {
+        openNFTsVersion: 2,
+        chainId,
+        name: collectionName,
+        address: CloneAddress(txReceipt),
+        user: await signer.getAddress()
+      };
       collection = collectionCreated;
 
       dispatch("collection", { collection: collectionCreated.address });
@@ -87,7 +94,7 @@
         {#if cloningTxHash}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
-              >{addressShort(cloningTxHash)}</a
+              >{textShort(cloningTxHash)}</a
             >
           </div>
         {/if}

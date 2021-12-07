@@ -21,18 +21,21 @@ function _ajax(data) {
 
 jQuery(document).ready(function () {
   // ACTION MINT_TOKEN
-  document.querySelectorAll("kredeum-mint").forEach(function (kredeumNftsMint) {
-    kredeumNftsMint.$on("token", function (e) {
-      _ajax({
-        action: "token",
-        nid: e.detail.nid,
-        pid: kredeumNftsMint.pid
+  const targets = document.querySelectorAll(".kredeum-nfts-mint");
+  targets?.forEach(function (kredeumNftsMint) {
+    if (kredeumNftsMint.$on) {
+      kredeumNftsMint.$on("token", function (e) {
+        _ajax({
+          action: "token",
+          nid: e.detail.nid,
+          pid: kredeumNftsMint.pid
+        });
       });
-    });
+    }
   });
 
-  const kredeumNfts = document.getElementById("kredeum-nfts");
-  if (kredeumNfts.$on) {
+  const kredeumNfts = document.querySelector("#kredeum-app");
+  if (kredeumNfts?.$on) {
     // ACTION CREATE_COLLECTION
     kredeumNfts.$on("collection", function (e) {
       _ajax({

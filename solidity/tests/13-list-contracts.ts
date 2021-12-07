@@ -1,17 +1,16 @@
-import { expect } from "chai";
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
+import type { Network } from "../../lib/ktypes";
 
 import {
   listCollections,
   listCollectionsFromCovalent,
   listCollectionsFromTheGraph,
   listCollectionsFromFactory
-} from "../../lib/nfts-factory";
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
-import type { NFTsFactory } from "../artifacts/types/NFTsFactory";
-
-import { getNetwork, Network } from "../../lib/kconfig";
-
+} from "../../lib/klist-collections";
+import { expect } from "chai";
+import { getNetwork } from "../../lib/kconfig";
 import hre from "hardhat";
 import { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
 const { ethers, deployments } = hre;
@@ -50,14 +49,14 @@ describe("List contracts lib", function () {
 
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
-    await (await openNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
+    await ((await openNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
     const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
-    const newOpenNFTs: OpenNFTs = await openNFTsFactory.deploy() as OpenNFTs;
-    await (await newOpenNFTs.mintNFT(artist, "", txOptions) as TransactionResponse).wait();
+    const newOpenNFTs: OpenNFTs = (await openNFTsFactory.deploy()) as OpenNFTs;
+    await ((await newOpenNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
   });
@@ -84,7 +83,7 @@ describe("List contracts lib", function () {
 
   it("List with default method", async function () {
     if (chainId !== 31337) {
-      expect((await listCollections(chainId, artist, ethers.provider)).length).to.be.gte(1);
+      expect((await listCollections(chainId, artist, ethers.provider)).size).to.be.gte(1);
     }
   });
 

@@ -1,19 +1,65 @@
 {
   "favorites.resources": [
-    "config",
-    ".env",
-    "wordpress/readme.txt_handlebars",
-    "package.json",
-    ".vscode/settings.json",
-    "rollup.config.ts",
-    "tsconfig.json",
-    "hardhat.config.ts",
-    "solidity/contracts",
-    "solidity/deploy",
-    "solidity/tests",
-    "lib",
-    "svelte",
-    "solidity/flatten"
+    {
+      "filePath": "config",
+      "group": "Default"
+    },
+    {
+      "filePath": ".env",
+      "group": "Default"
+    },
+    {
+      "filePath": "wordpress/readme.txt_handlebars",
+      "group": "Default"
+    },
+    {
+      "filePath": "package.json",
+      "group": "Default"
+    },
+    {
+      "filePath": ".vscode/settings.json",
+      "group": "Default"
+    },
+    {
+      "filePath": "rollup.config.ts",
+      "group": "Default"
+    },
+    {
+      "filePath": "tsconfig.json",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat.config.ts",
+      "group": "Default"
+    },
+    {
+      "filePath": "solidity/contracts",
+      "group": "Default"
+    },
+    {
+      "filePath": "solidity/deploy",
+      "group": "Default"
+    },
+    {
+      "filePath": "solidity/tests",
+      "group": "Default"
+    },
+    {
+      "filePath": "lib",
+      "group": "Default"
+    },
+    {
+      "filePath": "svelte",
+      "group": "Default"
+    },
+    {
+      "filePath": "solidity/flatten",
+      "group": "Default"
+    },
+    {
+      "filePath": "wordpress/kredeum-nfts.php_handelbars",
+      "group": "Default"
+    }
   ],
   "files.exclude": {
     "old": true
@@ -36,9 +82,7 @@
   "phpsab.snifferMode": "onType",
   "phpsab.snifferShowSources": true,
   "phpsab.standard": "WordPress",
-  "solidity.compileUsingRemoteVersion": "v0.8.4+commit.c7e474f2",
   "testExplorer.codeLens": true,
-  "workbench.colorTheme": "Jumper Contrast (rainglow)",
   "favorites.sortOrder": "ASC",
   "liveServer.settings.port": 5501,
   "liveServer.settings.multiRootWorkspaceName": "kredeum",
@@ -62,5 +106,7 @@
     "svelte"
   ],
   "eslint.run": "onSave",
-  "eslint.useESLintClass": true
+  "editor.fontLigatures": true,
+  "workbench.colorTheme": "Dark++ Italic",
+  "editor.fontFamily": "Fira Code iScript"
 }

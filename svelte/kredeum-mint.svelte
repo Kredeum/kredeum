@@ -1,45 +1,45 @@
 <script lang="ts">
+  import type { Nft, Network } from "lib/ktypes";
   import type { Signer } from "ethers";
-  import type { Nft } from "lib/ktypes";
 
-  import { mintImage } from "lib/kmint";
+  import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import Metamask from "./kredeum-metamask.svelte";
-  import { createEventDispatcher } from "svelte";
-  import { getNetwork, Network } from "lib/kconfig";
-  const dispatch = createEventDispatcher();
-
+  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
+  import { getNetwork } from "lib/kconfig";
 
-  export let key: string;
-  export let alt: string;
-  export let src: string;
-  export let pid: string;
-  export let collection: string;
-  export let metadata: string;
+  export const key: string = undefined;
+  export const metadata: string = undefined;
+  export let alt: string = undefined;
+  export let src: string = undefined;
+  export let pid: string = undefined;
+  export let collection: string = undefined;
   export let width = 100;
   export let display = false;
-  export let minted: Nft;
 
-  let minting = false;
+  let mintedNft: Nft;
+  let minting: number;
+
   let cidImage: string;
-  let cidJson: string;
-
   let signer: Signer;
-  let address = "";
+  let owner = "";
   let network: Network;
 
   let chainId;
   let chainIdOld;
 
+  // SET owner WHEN signer change
+  $: setOwner(signer);
+  const setOwner = async (_signer) => (owner = await _signer.getAddress());
+
   // CONTRACT OR NETWORK CHANGE
   $: if (chainId) {
-    // console.log("<kredeum-nfts-mint/> chainId changed", chainId);
+    // console.log("kredeum-mint chainId changed", chainId);
     init();
   }
 
   async function init() {
-    // console.log(`<kredeum-nfts-mint/> init ${chainId}`);
+    // console.log(`kredeum-mint init ${chainId}`, key, metadata);
     network = getNetwork(chainId);
     if (network) {
       if (!collection && chainId != chainIdOld) {
@@ -51,58 +51,102 @@
     }
   }
 
-  const _mintImage = () => mintImage(src, {}, chainId, collection, signer);
+  const sell = async (e: Event): Promise<void> => {
+    e.preventDefault();
+
+    location.href = nftOpenSeaUrl(chainId, mintedNft);
+  };
+
+  const mint = async (e: Event): Promise<Nft> => {
+    e.preventDefault();
+
+    cidImage = null;
+    mintedNft = null;
+
+    const signerAddress = await signer.getAddress();
+
+    minting = 1;
+
+    cidImage = await mint1cidImage(src);
+    // console.log("cidImage", cidImage);
+
+    minting = 2;
+
+    const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
+    // console.log("json", cidJson);
+
+    minting = 3;
+
+    const mintingTxResp = await mint3TxResponse(chainId, collection, cidJson, signer);
+    // console.log("txResp", txResp);
+
+    minting = 4;
+
+    mintedNft = await mint4Nft(chainId, collection, mintingTxResp, cidJson, signerAddress);
+    // console.log("mintedNft", mintedNft);
+
+    minting = 5;
+
+    return mintedNft;
+  };
 </script>
 
 <main id="kredeum-mint">
-  IMAGE
   {#if display && src}
     <img {src} {alt} {width} /><br />
   {/if}
 
-  {#if address}
-    {#if minted}
-      <a href={nftOpenSeaUrl(chainId, minted)} class="btn btn-small btn-sell" title="Sell"
-        >SELL NFT</a
-      >
-
-      <!-- </a> -->
-    {:else if minting}
-      <button id="mint-button" class="minting">MINTING...</button>
-    {:else if !network}
-      <button id="mint-button" class="switch">No network</button>
+  {#if owner}
+    {#if minting}
+      {#if mintedNft}
+        <button on:click={sell} class="btn btn-small btn-sell">SELL NFT</button>
+      {:else if 1 <= minting && minting <= 5}
+        <div>
+          <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
+        </div>
+        <div>
+          <em>{mintingTexts[minting]}</em>
+        </div>
+      {/if}
     {:else}
-      <!-- <a href="#" class="btn btn-small btn-mint" title="Mint">Mint</a> -->
-
-      <button id="mint-button-{pid}" on:click={_mintImage} class="btn btn-small btn-mint">
+      <button id="mint-button-{pid}" on:click={mint} class="btn btn-small btn-mint">
         MINT NFT
       </button>
     {/if}
-
-    {#if display}
-      <small>
-        <br />{urlToLink(src, `${src}@${alt}`)}
-
-        <br />{ipfsGatewayLink(cidImage)}
-      </small>
-    {/if}
   {:else}
     <small>
-      <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+      <br /><KredeumMetamask autoconnect="off" bind:chainId bind:signer />
     </small>
   {/if}
 
-  <div class="box-section">
-    <span class="label label-big">Statut</span>
-    <div class="box-fields">
-      <input class="box-field" id="mint" name="statut" type="checkbox" value="Mint" />
-      <label class="field" for="mint">Mint</label>
+  {#if display}
+    <small>
+      <br />{urlToLink(src, `${src}@${alt}`)}
 
-      <input class="box-field" id="inactive" name="statut" type="checkbox" value="Inactive" />
-      <label class="field" for="inactive">Inactive</label>
-
-      <input class="box-field" id="sell" name="statut" type="checkbox" value="Sell" />
-      <label class="field" for="sell">Sell</label>
-    </div>
-  </div>
+      <br />{ipfsGatewayLink(cidImage)}
+    </small>
+  {/if}
 </main>
+
+<style>
+  button.btn {
+    color: white;
+    background-color: #2a81de;
+    border: 0px;
+    margin: 10px;
+  }
+  button.btn-mint {
+    background-color: #2a81de;
+  }
+  button.btn-minting {
+    /* color: black; */
+    background-color: grey;
+  }
+  button.btn-mint:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+  button.btn-sell {
+    background-color: #36d06f;
+  }
+</style>

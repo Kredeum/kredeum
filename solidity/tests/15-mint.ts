@@ -1,10 +1,9 @@
-import { expect } from "chai";
-import { networks, getProvider } from "../../lib/kconfig";
-
-import type { Network } from "../../lib/kconfig";
+import type { Network } from "../../lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
+import { expect } from "chai";
+import { networks, getProvider } from "../../lib/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;

@@ -1,8 +1,9 @@
-import { expect } from "chai";
-import { ethers, deployments } from "hardhat";
 import type { Signer } from "ethers";
 import type { CloneFactory } from "../artifacts/types/CloneFactory";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+
+import { expect } from "chai";
+import { ethers, deployments } from "hardhat";
 
 const zeroAddress = "0x0000000000000000000000000000000000000000";
 
@@ -63,30 +64,4 @@ describe("Clone Factory contract", function () {
       expect(await cloneFactory.implementationsCount()).to.be.gte(1);
     });
   });
-
-  // describe("Clone", function () {
-  //   let clone: string;
-  //   let nClone: BigNumber;
-  //   beforeEach(async () => {
-  //     await (await cloneFactory._clone()).wait();
-  //   });
-
-  //   it("Should clone", async function () {
-  //     nClone = await cloneFactory.implementationsCount();
-  //     expect(nClone).to.be.gte(2);
-  //     clone = await cloneFactory.implementations(nClone.sub(1));
-  //     expect(clone).to.be.properAddress;
-  //     expect(clone).to.be.not.equal(openNFTs.address);
-  //   });
-
-  //   it("Should give at least 2 implementations: the default template and one clone", async function () {
-  //     expect(await cloneFactory.implementationsCount()).to.be.gte(2);
-  //     expect(await cloneFactory.implementationsCount()).to.be.gte(nClone);
-  //   });
-
-  //   it("Should give back template of clone", async function () {
-  //     const cloneAddress = await cloneFactory.implementations(nClone.sub(1));
-  //     expect(await cloneFactory.templates(cloneAddress)).to.be.equal(await cloneFactory.template());
-  //   });
-  // });
 });

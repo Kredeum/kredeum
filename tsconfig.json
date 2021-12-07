@@ -6,14 +6,15 @@
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
-    "importsNotUsedAsValues": "remove",
+    "importsNotUsedAsValues": "remove"
     // "strict": true
   },
   "include": [
     "hardhat.config.ts",
     "rollup.config.ts",
-    "lib/*.ts", 
+    "lib/*.ts",
     "svelte/global.d.ts",
-    "svelte/*.svelte"],
-  "exclude": ["solidity","node_modules","old", "thegraph"]
+    "svelte/*"
+  ],
+  "exclude": ["solidity", "node_modules", "old", "thegraph"]
 }

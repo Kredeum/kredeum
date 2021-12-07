@@ -50,7 +50,7 @@ describe("NFTs Factory contract", function () {
   it("Should get nftsFactory balanceOf", async function () {
     const bal = await nftsFactory.balanceOf(openNFTs.address, owner);
     console.log(`nftsFactory.balanceOf ${owner}`, bal);
-    expect(bal.balance).to.be.gte(1);
+    expect(bal.balanceOf).to.be.gte(1);
   });
 
   it("Should get nftsFactory balancesOf", async function () {

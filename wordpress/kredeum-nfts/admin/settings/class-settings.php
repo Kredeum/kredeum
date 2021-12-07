@@ -80,24 +80,30 @@ class Settings {
 	public function section_callback( $arguments ) {
 		switch ( $arguments['id'] ) {
 			case 'first_section':
-				echo '<p>' . wp_kses(
-					__( 'Here you can set IPFS options and connect WordPress to your Metamask accounts. ', 'kredeum-nfts' ) .
-					'<br><br><strong>Please read needed ' .
-					'<a href="https://docs.kredeum.tech/wordpress-setup/pre-requirements/" target="_blank">pre-requirements</a>' .
-					' and related ' .
-					'<a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">settings doc</a>' .
-					'</strong>.<br><br>Also please find our ' .
-					'<a href="https://docs.kredeum.tech/user-guide" target="_blank">User guide</a>' .
-					' to archive your medias, mint them into NFTs and finally sell your media NFTs.',
+				echo wp_kses(
+					'<p>' .
+					__( 'Setup here your IPFS options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
+					'</p><p>' .
+					__( 'For any help read the', 'kredeum-nfts' ) .
+					' <a href="https://docs.kredeum.tech/user-guide" target="_blank">' .
+					__( 'User Guide', 'kredeum-nfts' ) .
+					'</a> ' .
+					__( 'and related ', 'kredeum-nfts' ) .
+					' <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">' .
+					__( 'Settings instructions', 'kredeum-nfts' ) .
+					'</a> ' .
+					__( 'or join us on', 'kredeum-nfts' ) .
+					' <a href="https://discord.gg/Vz5AyU2Nfx" target="_blank">' .
+					__( 'Discord', 'kredeum-nfts' ) .
+					'</a></p>',
 					array(
-						'br'     => array(),
-						'strong' => array(),
-						'a'      => array(
+						'p' => array(),
+						'a' => array(
 							'href'   => array(),
 							'target' => array(),
 						),
 					)
-				) . '</p>';
+				);
 				break;
 		}
 	}
@@ -129,7 +135,7 @@ class Settings {
 
 			case 'metamask':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<div id="kredeum-metamask" />' );
+				printf( '<div id="kredeum-metamask" txt="true"/>' );
 				break;
 
 			case 'text':

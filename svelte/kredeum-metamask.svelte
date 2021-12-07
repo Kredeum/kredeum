@@ -1,26 +1,26 @@
 <script lang="ts">
-  import type { Signer } from "ethers";
-  import type { EthereumProvider } from "hardhat/types";
   import type { Web3Provider, Provider } from "@ethersproject/providers";
-  import type { Network } from "lib/kconfig";
+  import type { EthereumProvider } from "hardhat/types";
+  import type { Network } from "lib/ktypes";
+  import type { Signer } from "ethers";
 
-  import { ethers } from "ethers";
-  import detectEthereumProvider from "@metamask/detect-provider";
-  import { onMount } from "svelte";
-  import { getNetwork, getEnsName, networks } from "lib/kconfig";
   import {
-    addressShort,
+    getShortAddress,
     textShort,
     numberToHexString,
     explorerAddressLink,
     explorerAddressUrl,
     explorerOpenNFTsUrl
   } from "lib/knfts";
+  import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
+  import detectEthereumProvider from "@metamask/detect-provider";
+  import { onMount } from "svelte";
+  import { ethers } from "ethers";
 
-  export let signer: Signer;
-  export let address: string;
-  export let chainId: number;
-  export let autoconnect: string;
+  export let chainId: number = undefined;
+  export let signer: Signer = undefined;
+  export let autoconnect: string = undefined;
+  export let txt: boolean = undefined;
 
   const testnets = true;
 
@@ -29,11 +29,19 @@
 
   let network: Network;
   let nameOrAddress = "";
+  let address = "";
 
-  let connectmetamask = "Connect to Metamask";
+  const connectMetamaskMessage = "Connect to Metamask";
+  const installMetamaskMessage = "Please install MetaMask extension to connect";
+  let noMetamask = false;
   let targetChain = false;
 
   let open = false;
+
+  // // ON CHAINID, OWNER OR COLLECTION CHANGE
+  // $: logChange(chainId, signer);
+  // const logChange = async (_chainId: number, _signer: Signer) =>
+  //   console.log("KredeumMetamask chainId or signer changed", _chainId, await _signer.getAddress());
 
   $: if (address) setEnsName();
   const setEnsName = async () => {
@@ -60,7 +68,6 @@
     if (_chainId !== 1) {
       const _network = getNetwork(_chainId);
       if (_network) {
-        _network.chainId = chainId;
         for (const field in _network) {
           // EIP-3085 fields only or fails
           if (
@@ -94,6 +101,7 @@
       const _network = getNetwork(_chainId);
       if (_network) {
         chainId = Number(_chainId);
+        console.log("chainId", chainId);
         network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
@@ -122,15 +130,13 @@
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== address) {
-      address = ethers.utils.getAddress(_accounts[0]);
-
+      address = getChecksumAddress(_accounts[0]);
       signer = ethersProvider.getSigner(0);
-
-      // console.log(`<kredeum-metamask/> nameOrAddress ${nameOrAddress} ${name ? address : ""}`);
     }
   };
 
-  const connectMetamask = async () => {
+  const connectMetamask = async (e?: Event) => {
+    e.preventDefault();
     // console.log("connectMetamask");
 
     ethereumProvider
@@ -140,7 +146,7 @@
       .then(handleAccounts)
       .catch((e) => {
         if (e.code === 4001) {
-          alert("Please connect to MetaMask.");
+          alert(connectMetamaskMessage);
         } else {
           console.error("ERROR eth_requestAccounts", e);
         }
@@ -151,6 +157,8 @@
     // console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
+      noMetamask = false;
+
       if (provider !== window.ethereum) {
         alert("Do you have multiple wallets installed?");
       }
@@ -176,72 +184,79 @@
 
       ethereumProvider.on("accountsChanged", handleAccounts);
     } else {
-      console.log("Please install MetaMask!");
-      connectmetamask = "Please install MetaMask chrome extension to connect with your address";
+      noMetamask = true;
+      console.log(installMetamaskMessage);
     }
 
     window.addEventListener("click", (e: Event): void => {
-      if (!document.querySelector(".select-network").contains(e.target as HTMLElement)) {
+      const select = document.querySelector(".select-network");
+      if (select && !select.contains(e.target as HTMLElement)) {
         open = false;
       }
     });
   });
 </script>
 
-<div class="col col-xs-12 col-sm-3">
+{#if txt}
   {#if address}
-    <span class="label">Address</span>
-    <a
-      class="info-button"
-      href={explorerAddressUrl(chainId, address)}
-      target="_blank"
-      title="&#009;Account address (click to view account in explorer )&#013;{address}"
-      ><i class="fas fa-info-circle" /></a
-    >
-    <div class="form-field">
-      <input type="text" value={addressShort(nameOrAddress, 10)} />
-    </div>
+    {nameOrAddress}@{chainname(network)}
+    {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory && nw.chainId !== chainId) as _network}
+      &nbsp;<a href="." on:click={() => switchEthereumChain(_network.chainId)}
+        >@{chainname(_network)}</a
+      >&nbsp;
+    {/each}
+  {:else if noMetamask}
+    {installMetamaskMessage}
   {:else}
-    <span class="label">Connect</span>
-    <a
-      href="."
-      on:click={connectMetamask}
-      class="btn btn-light btn-metamask"
-      title="Connect to Metamask">Connect to Metamask</a
-    >
+    <a href="." on:click={connectMetamask}>{connectMetamaskMessage}</a>
   {/if}
-</div>
-
-<div class="col col-xs-12 col-sm-3">
-  {#if address}
-    <span class="label"
-      >Network &nbsp;&nbsp;&nbsp;
-      <a
-        class="info-button"
-        href={explorerOpenNFTsUrl(chainId)}
-        target="_blank"
-        title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
-        ><i class="fas fa-info-circle" /></a
+{:else}
+  <div class="col col-xs-12 col-sm-3">
+    {#if address}
+      <span class="label"
+        >Address
+        <a
+          class="info-button"
+          href={explorerAddressUrl(chainId, address)}
+          target="_blank"
+          title="&#009;Account address (click to view account in explorer )&#013;{address}"
+          ><i class="fas fa-info-circle" /></a
+        >
+      </span>
+      <div class="form-field">
+        <input type="text" value={getShortAddress(nameOrAddress, 10)} />
+      </div>
+    {:else if noMetamask}
+      <div class="btn btn-light btn-metamask">
+        {installMetamaskMessage}
+      </div>
+    {:else}
+      <a href="." on:click={connectMetamask} class="btn btn-light btn-metamask"
+        >{connectMetamaskMessage}</a
       >
-    </span>
+    {/if}
+  </div>
 
-    <div class="select-wrapper select-network" on:click={() => (open = !open)}>
-      <div class="select" class:open>
-        <div class="select-trigger">
-          <span class={chainname(network)}>{chainName(network)}</span>
-        </div>
-        <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet) as _network}
-            <span
-              class="custom-option {_network.chainId == chainId && 'selected'}"
-              data-value={chainname(_network)}
-              on:click={() => switchEthereumChain(_network.chainId)}
-            >
-              {chainName(_network)}
-            </span>
-          {/each}
-          {#if network?.testnet}
-            {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+  <div class="col col-xs-12 col-sm-3">
+    {#if address}
+      <span class="label"
+        >Network
+        <a
+          class="info-button"
+          href={explorerOpenNFTsUrl(chainId)}
+          target="_blank"
+          title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
+          ><i class="fas fa-info-circle" /></a
+        >
+      </span>
+
+      <div class="select-wrapper select-network" on:click={() => (open = !open)}>
+        <div class="select" class:open>
+          <div class="select-trigger">
+            <span class={chainname(network)}>{chainName(network)}</span>
+          </div>
+          <div class="custom-options">
+            {#each networks.filter((nw) => nw.mainnet) as _network}
               <span
                 class="custom-option {_network.chainId == chainId && 'selected'}"
                 data-value={chainname(_network)}
@@ -250,9 +265,20 @@
                 {chainName(_network)}
               </span>
             {/each}
-          {/if}
+            {#if network?.testnet}
+              {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+                <span
+                  class="custom-option {_network.chainId == chainId && 'selected'}"
+                  data-value={chainname(_network)}
+                  on:click={() => switchEthereumChain(_network.chainId)}
+                >
+                  {chainName(_network)}
+                </span>
+              {/each}
+            {/if}
+          </div>
         </div>
       </div>
-    </div>
-  {/if}
-</div>
+    {/if}
+  </div>
+{/if}

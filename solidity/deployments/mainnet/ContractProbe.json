@@ -1,0 +1,28 @@
+{
+  "address": "0x4B6B2db16E3EEe4EE52bC3888c38a76C20d375f1",
+  "abi": [
+    {
+      "constant": true,
+      "inputs": [
+        {
+          "name": "_addr",
+          "type": "address"
+        }
+      ],
+      "name": "probe",
+      "outputs": [
+        {
+          "name": "isContract",
+          "type": "bool"
+        },
+        {
+          "name": "forwardedTo",
+          "type": "address"
+        }
+      ],
+      "payable": false,
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ]
+}

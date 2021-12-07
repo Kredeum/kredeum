@@ -30,22 +30,21 @@
 @import '_font-awesome';
 
 @font-face {
-    font-family: 'FontAwesome';
+    font-family: 'Font Awesome';
     font-style: normal;
     font-weight: 900;
-    font-display: block;
-    src: url("#{$urlDossierFont}/fa-solid-900.woff2") format("woff2"),
-      url("#{$urlDossierFont}/fa-solid-900.woff") format("woff");
-}
+    src: url('#{$urlDossierFont}/fa-solid-900.eot');
+    src: url('#{$urlDossierFont}/fa-solid-900.eot?#iefix') format('embedded-opentype'),
+    url('#{$urlDossierFont}/fa-solid-900.woff2') format('woff2'),
+    url('#{$urlDossierFont}/fa-solid-900.woff') format('woff'),
+    url('#{$urlDossierFont}/fa-solid-900.ttf') format('truetype'),
+    url('#{$urlDossierFont}/fa-solid-900.svg#fontawesome') format('svg');
+  }
 
-.fa,
-.fas,
-.far,
-.fal,
-.fad,
-.fab {
-  font-family: 'FontAwesome';
-  font-weight: 900;
-  display: inline-block;
-  vertical-align: middle;
-}
+  .fa,
+  .fas {
+    font-family: 'Font Awesome';
+    font-weight: 900;
+    display: inline-block;
+    vertical-align: middle;
+  }

@@ -1,14 +1,16 @@
-import { expect } from "chai";
-import { ethers, deployments } from "hardhat";
+import type { Network } from "../../lib/ktypes";
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+
 import {
   listNFTs,
   listNFTsFromTheGraph,
   listNFTsFromContract,
   listNFTsFromCovalent
-} from "../../lib/open-nfts";
-import { getNetwork, Network } from "../../lib/kconfig";
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+} from "../../lib/klist-nfts";
+import { expect } from "chai";
+import { ethers, deployments } from "hardhat";
+import { getNetwork } from "../../lib/kconfig";
 
 const txOptions = {
   maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
@@ -21,7 +23,7 @@ let network: Network | undefined;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe.only("List NFTs lib", function () {
+describe("List NFTs lib", function () {
   beforeEach(async () => {
     chainId = (await ethers.provider.getNetwork()).chainId;
     network = getNetwork(chainId);
@@ -49,25 +51,25 @@ describe.only("List NFTs lib", function () {
 
     it("With SmartContract", async function () {
       expect(
-        (await listNFTsFromContract(chainId, contract, artistAddress, 9, ethers.provider)).length
+        (await listNFTsFromContract(chainId, contract, artistAddress, 9, ethers.provider)).size
       ).to.be.gte(1);
     });
 
     it("With default method", async function () {
-      expect(
-        (await listNFTs(chainId, contract, artistAddress, 9, ethers.provider)).length
-      ).to.be.gte(1);
+      expect((await listNFTs(chainId, contract, artistAddress, 9, ethers.provider)).size).to.be.gte(
+        1
+      );
     });
 
     it("With TheGraph", async function () {
       if (network?.subgraph) {
-        expect((await listNFTsFromTheGraph(chainId, contract)).length).to.be.gte(1);
+        expect((await listNFTsFromTheGraph(chainId, contract)).size).to.be.gte(1);
       }
     });
 
     it("With Covalent", async function () {
       if (network?.covalent) {
-        expect((await listNFTsFromCovalent(chainId, contract)).length).to.be.gte(1);
+        expect((await listNFTsFromCovalent(chainId, contract)).size).to.be.gte(1);
       }
     });
   });

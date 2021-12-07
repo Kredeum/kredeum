@@ -1,67 +1,128 @@
 <script lang="ts">
-  import { Collection, getNetwork, Network, Nft } from "lib/kconfig";
+  import type { Collection, Network, Nft } from "lib/ktypes";
+
   import {
     sleep,
     collectionName,
     explorerCollectionInventoryUrl,
     nftImageLink,
-    explorerCollectionUrl,
     nftDescription,
     nftDescriptionShort,
     nftName,
-    nftsSupplyAndName,
+    nftsBalanceAndName,
     nftOpenSeaUrl,
     nftExplorerLink,
     addressSame,
-    addressShort,
+    textShort,
     explorerNftUrl,
-    nftUrl
+    explorerAddressLink
   } from "lib/knfts";
-
-  import { nftsUrl } from "lib/kconfig";
-  import { listNFTs, listNFTsFromCache } from "lib/open-nfts";
-
+  import { listNFTsTokenId, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
+  import { getNetwork, getShortAddress } from "lib/kconfig";
   import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
-
-  let network: Network;
-
-  let NFTs: Array<Nft>;
-  let Collections: Array<Collection>;
-  let nftImport: number;
+  import { nftUrl, nftsUrl } from "lib/kconfig";
+  import { clearCache } from "lib/klist-nfts";
 
   // export let beta: string = undefined; // platform : WordPress or Dapp
   export const platform: string = undefined; // platform : WordPress or Dapp
-
-  export let chainId: number = undefined;
-  export let address: string = undefined;
+  export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let refreshing: boolean;
 
-  export const refreshNFTs = async () => {
+  let index: number;
+  let network: Network;
+  let chainId: number;
+
+  let NFTs: Map<string, Nft>;
+  let allNFTs: Map<string, Nft>;
+  let Collections: Array<Collection>;
+  let nftImport: number;
+
+  const dispatch = createEventDispatcher();
+
+  // ON OWNER OR COLLECTION CHANGE
+  $: {
+    console.log(
+      "KredeumListNfts owner or collection changed, so refresh NFTs...",
+      owner,
+      collection
+    );
+    if (owner && collection) {
+      chainId = collection?.chainId;
+      refreshNFTs();
+    }
+  }
+
+  export const refreshNFTs = async (force = false) => {
+    // console.log("refreshNFTS", force, collection);
     network = getNetwork(chainId);
-    if (network && address && collection) {
-      // console.log(
-      //   "<kredeum-nfts/> refreshNFTs",
-      //   `nft://${network?.chainName && "..."}/${collection.address || "..."}@${address || "..."}`,
-      //   network
-      // );
 
-      NFTs = null;
+    if (network && collection && owner) {
+      let refreshLib: boolean;
 
-      NFTs = listNFTsFromCache(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> refreshNFTs from cache loaded", NFTs);
+      if (force) {
+        refreshLib = true;
+      } else {
+        // LOAD NFTs from cache
+        const numNFTs = _refreshNFTsFromCache(chainId, collection, owner);
 
-      refreshing = true;
+        // REFRESH LIB WHEN NFT count found in cache not good
+        refreshLib = numNFTs !== collection.balanceOf;
+      }
 
-      NFTs = await listNFTs(chainId, collection.address, address);
-      // console.log("<kredeum-nfts/> refreshNFTs done", NFTs);
-      refreshing = false;
+      // LOAD NFTs from lib
+      if (refreshLib) {
+        clearCache(chainId, collection.address);
+        NFTs = new Map();
+        _refreshNFTsFromLib(chainId, collection, owner);
+      }
     }
   };
 
-  // ON NETWORK, ADDRESS OR COLLECTION CHANGE
-  $: if (chainId && address && collection) refreshNFTs();
+  const _refreshNFTsFromCache = (
+    _chainId: number,
+    _collection: Collection,
+    _owner: string
+  ): number => {
+    allNFTs = listNFTsFromCache();
+    // console.log("allNFTs", allNFTs);
+
+    NFTs = new Map(
+      [...allNFTs].filter(
+        ([, nft]) =>
+          nft.chainId === chainId && nft.collection === collection.address && nft.owner === owner
+      )
+    );
+
+    // console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
+    return NFTs?.size;
+  };
+
+  const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _owner: string) => {
+    // console.log("_refreshNFTsFromLib");
+
+    const numNFTs = _collection.balanceOf || _collection.totalSupply;
+    // console.log("_refreshNFTsFromLib numNFTs", numNFTs);
+
+    for (index = 0; index < numNFTs; index++) {
+      refreshing = true;
+
+      const nftTokenId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
+      const nft = await addNftMetadata(chainId, _collection.address, nftTokenId);
+
+      // chainId and collection have not changed while loading NFTs
+      if (chainId === _chainId && collection?.address === _collection.address) {
+        NFTs.set(nft.nid, nft);
+        // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
+      } else {
+        // console.log("break");
+        break;
+      }
+    }
+    refreshing = false;
+
+    // console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
+  };
 
   const dispatchImport = async (nft: Nft) => {
     nftImport = 1;
@@ -82,12 +143,12 @@
   };
 </script>
 
-{#key address && refreshing}
-  {#if NFTs?.length > 0}
+{#key owner && index}
+  {#if collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
     </h2>
-    {nftsSupplyAndName(NFTs, collection)}
+    {nftsBalanceAndName(collection)}
     <a
       class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
@@ -107,7 +168,7 @@
           <div class="table-col"><span class="label">Infos</span></div>
         {/if}
       </div>
-      {#each NFTs as nft, i}
+      {#each [...NFTs.values()] as nft, i}
         <div id="table-drop-{i}" class="table-row table-drop closed">
           <div id="media-{i}" class="table-col">
             <div class="table-col-content">
@@ -119,11 +180,8 @@
               <a
                 class="info-button"
                 href={nftImageLink(nft)}
-                title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
-                  chainId,
-                  nft.collection,
-                  nft.tokenID
-                )}"
+                title="&#009;{nftDescription(nft)} 
+                (click to view NFT in explorer)&#013.{nftUrl(nft)}"
                 target="_blank"><i class="fas fa-info-circle" /></a
               >
             </div>
@@ -132,7 +190,7 @@
           {#if network?.openSea}
             <div id="marketplace-{i}" class="table-col">
               <div class="table-col-content">
-                {#if addressSame(nft.owner, address)}
+                {#if addressSame(nft.owner, owner)}
                   <a
                     href={nftOpenSeaUrl(chainId, nft)}
                     class="btn btn-small btn-sell"
@@ -144,7 +202,7 @@
                 {:else}
                   <a
                     href={nftOpenSeaUrl(chainId, nft)}
-                    class="btn btn-small btn-sell"
+                    class="btn btn-small btn-buy"
                     title="Buy"
                     target="_blank"
                   >
@@ -159,11 +217,8 @@
                 <a
                   class="info-button"
                   href={nftImageLink(nft)}
-                  title="&#009;{nftDescription(nft)} (click to view NFT in explorer)&#013.{nftUrl(
-                    chainId,
-                    nft.collection,
-                    nft.tokenID
-                  )}"
+                  title="&#009;{nftDescription(nft)} 
+                  (click to view NFT in explorer)&#013.{nftUrl(nft)}"
                   target="_blank"><i class="fas fa-info-circle" /></a
                 >
               </div>
@@ -176,7 +231,7 @@
             </div>
           </div>
 
-          <div class="detail">
+          <div id="more-detail-{i}" class="detail">
             <div id="media-full-{i}" class="media media-photo">
               <img alt="link" src={nftImageLink(nft)} />
             </div>
@@ -189,23 +244,44 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Token ID</span></div>
                   <div class="flex">
-                    <a class="link" href={explorerNftUrl(nft.chainId, nft)} target="_blank"
-                      ><strong>{nft.tokenID}</strong></a
-                    >
+                    <strong>{nft.tokenID}</strong>
                   </div>
                 </li>
                 <li class="complete">
+                  <div class="flex"><span class="label">Owner</span></div>
+                  <div class="flex">
+                    {@html explorerAddressLink(chainId, nft.owner, 15)}
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Token REF</span></div>
+                  <div class="flex">
+                    <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank">
+                      {@html nftExplorerLink(nft, 10)}
+                    </a>
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Collection @</span></div>
+                  <div class="flex">
+                    <a
+                      class="link"
+                      href={explorerCollectionInventoryUrl(chainId, nft?.collection)}
+                      target="_blank">{getShortAddress(collection?.address, 15)}</a
+                    >
+                  </div>
+                </li>
+
+                <li class="complete">
                   <div class="flex"><span class="label">Metadata CID</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.tokenURI} target="_blank"
-                      >{addressShort(nft.cidJson)}</a
-                    >
+                    <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.cidJson)}</a>
                   </div>
                 </li>
                 <li class="complete">
                   <div class="flex"><span class="label">Image CID</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.image} target="_blank">{addressShort(nft.cid)}</a>
+                    <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
                   </div>
                 </li>
               </ul>
@@ -215,36 +291,8 @@
       {/each}
     </div>
   {:else}
-    <div class="card">
+    <div class="card-krd">
       <p>No NFTs ✌️</p>
     </div>
   {/if}
 {/key}
-
-<div id="kredeum-list-nfts" class="table">
-  {#key address && refreshing}
-    {#if NFTs?.length > 0}
-      {#each NFTs as nft, i}
-        <div id="table-drop-{i}" class="table-row table-drop closed">
-          <!-- <div id="more-{i}" class="table-col more" on:click="{() => moreToggle(i)}">
-            <div class="more-button"><i class="fas fa-chevron-down"></i></div>
-          </div> -->
-
-          <div id="more-detail-{i}" class="detail">
-            <div class="table">
-              <div class="table-row">
-                <div class="table-col">
-                  <img alt={nftName(nft)} src={nftImageLink(nft)} height="600" />
-                  <p title={nftDescription(nft)}>
-                    {nftDescription(nft)}
-                  </p>
-                </div>
-                <div class="table-col" />
-              </div>
-            </div>
-          </div>
-        </div>
-      {/each}
-    {/if}
-  {/key}
-</div>
