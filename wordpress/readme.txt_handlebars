@@ -14,33 +14,61 @@ Convert, archive & sell your content (media, texts, …) to NFTs Marketplaces in
 == Description ==
 
 The Wordpress Kredeum NTFs plugin allows you to:
-* Store all your medias in IPFS (decentralised storage technology), protecting your medias to be lost in case of any hosting server issues. You’ll need to create a NFT Storage (https://nft.storage/) account to manage your IPFS cloud access.
-* Create your NFTs uses [Polygon / Matic blockchain](https://matic.network/) (Ethereum layer 2 network) for a transaction cheap cost, Ethereum or BSC (Binance Smart Chain)
+* Store all your medias in IPFS (decentralised storage technology), protecting your medias to be lost in case of any hosting server issues. 
+* Create your own NFT collections
+* Create your own NFTs
+* Associate your collections / NFTs to one of these blockchains: [Polygon / Matic blockchain](https://matic.network/), Bsc (Binance Smart Chain), Fantom, Avalanche for a transaction cheap cost, Ethereum (soon) 
 * Add in one click your Kredeum NFTs to the OpenSea NFT marketplace [OpenSea](https://opensea.io/)
-* Sell your media NFTs on NFTs marketplaces
+* Add a sell NFT shortcode button in your pages / posts
+* Sell your media NFTs on OpenSea NFT marketplace
 
-Please don’t hesitate to contact us if you have any questions by email contact@kredeum.com or by joining us on Discord https://discord.gg/D7Zy4VBzYz
+Please don’t hesitate to contact us if you have any questions by email contact@kredeum.com or by joining us on Discord https://discord.gg/Vz5AyU2Nfx
 
 == Useful links / docs ==
 
 * [Read Kredeum NFTs documentation, installation and user guide](https://docs.kredeum.tech/)
-* [Watch Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=PWYbeLTXTKE)
+* [Watch Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=gRhz99FiEUs)
 
 == Pre-requirements ==
 
 1. Need to install Metamask extension on your chrome browser + create Metamask account: https://metamask.io/download.html
-2. Buy Polygon / Matic, BSC or Ethereum on token exchange platforms like Binance, Bittrex, Coinbase, Ledger Live, … and transfer your new tokens to your Metamask account
-3. Create your [NFT Storage](https://nft.storage/) account and get needed keys requested in Kredeum NFTs Settings admin page /wp-admin/admin.php?page=ipfs_settings
+2. Buy native cryptocurrency Polygon / Matic, Fantom, Avalanche, BSC for cheap transactions or Ethereum (soon) and transfer your new tokens to your Metamask account. Careful native cryptocurrencies are different from Ethereum tokens. You can use bridges to buy native cryptocurrencies like [Polygon bridge](https://wallet.polygon.technology)
 
-== How can you sell one of your wordpress medias? ==
+== How can you create your own collections? ==
 
-1. In list of medias, Click on MINT NFT to create your NFT
-2. Click on SELL NFT to access your list of Kredeum NFTs
-3. In list of Kredeum NFTs, click on Opensea to see your NFTs on theis marketplace.
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on “Mint” button
+3. Click on “Add a new collection”
+
+== How can you create your own NFTs? ==
+
+Option 1
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on “Mint” button
+3. Click on “Mint NFT”
+
+Option 2
+1. In list of medias, Click on MINT NFT for each wordpress medias
+
+== How can you sell one of your wordpress media? ==
+
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on Sell button to be redirected to OpenSea NFT page and configure your NFT price / availability
+3. Click on Copy NFT shortcode and paste it in your worpdress posts / pages
+4. Kredeum NFT shortcode is a button that redirect users to the dedicated OpenSea NFT page
+
+== Are NFTs accessible outside my wordpress back-office site ? ==
+
+You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can even create them directly in our DAPP.
+
 
 == Changelog ==
 
-= 0.8.4 (latest) =
+= 0.9.0 (latest) =
+* Integrate Kredeum DAPP inside Wordpress back-office
+* Add Kredeum sell button shortcode
+
+= 0.8.4 =
 * Fix some bugs from previous version  0.8.1
 
 = 0.8.1 =
