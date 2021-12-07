@@ -1,13 +1,14 @@
 <script lang="ts">
-  import type { Signer } from "ethers";
-  import type { Nft } from "lib/ktypes";
   import type { Collection } from "lib/ktypes";
+  import type { Nft } from "lib/ktypes";
+  import type { Signer } from "ethers";
 
   import KredeumListCollection from "./kredeum-list-collections.svelte";
-  import { nftUrl } from "lib/kconfig";
+
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
+  import { nftUrl } from "lib/kconfig";
 
   export let chainId: number = undefined;
   export let collection: Collection = undefined;

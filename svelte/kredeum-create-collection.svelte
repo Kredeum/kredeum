@@ -5,7 +5,6 @@
   import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
   import { createEventDispatcher } from "svelte";
-  const dispatch = createEventDispatcher();
 
   export let chainId: number = undefined;
   export let signer: Signer = undefined;
@@ -15,6 +14,8 @@
   let cloningTxHash: string;
   let collectionCreated: Collection;
   let collectionName: string;
+
+  const dispatch = createEventDispatcher();
 
   const createCollection = async () => {
     // console.log("<kredeum-nfts-create /> createCollection");
@@ -31,7 +32,8 @@
         openNFTsVersion: 2,
         chainId,
         name: collectionName,
-        address: CloneAddress(txReceipt)
+        address: CloneAddress(txReceipt),
+        user: await signer.getAddress()
       };
       collection = collectionCreated;
 

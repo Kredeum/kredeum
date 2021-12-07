@@ -1,11 +1,13 @@
 <script lang="ts">
-  import type { Signer } from "ethers";
   import type { Collection } from "lib/ktypes";
-  import KredeumMetamask from "./kredeum-metamask.svelte";
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumListNfts from "./kredeum-list-nfts.svelte";
-  import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import type { Signer } from "ethers";
+
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
+  import KredeumListCollections from "./kredeum-list-collections.svelte";
+  import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import KredeumListNfts from "./kredeum-list-nfts.svelte";
+  import KredeumMetamask from "./kredeum-metamask.svelte";
+
   import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 

@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { Signer } from "ethers";
   import type { Nft, Network } from "lib/ktypes";
+  import type { Signer } from "ethers";
+
+  import KredeumMetamask from "./kredeum-metamask.svelte";
 
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
-  import Metamask from "./kredeum-metamask.svelte";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
   import { getNetwork } from "lib/kconfig";
 
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
-
-  export let key: string = undefined;
-  export let metadata: string = undefined;
+  export const key: string = undefined;
+  export const metadata: string = undefined;
   export let alt: string = undefined;
   export let src: string = undefined;
   export let pid: string = undefined;
@@ -22,11 +22,15 @@
 
   let cidImage: string;
   let signer: Signer;
-  let address = "";
+  let owner = "";
   let network: Network;
 
   let chainId;
   let chainIdOld;
+
+  // SET owner WHEN signer change
+  $: setOwner(signer);
+  const setOwner = async (_signer) => (owner = await _signer.getAddress());
 
   // CONTRACT OR NETWORK CHANGE
   $: if (chainId) {
@@ -78,7 +82,7 @@
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, address, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await mint4Nft(chainId, collection, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -92,7 +96,7 @@
     <img {src} {alt} {width} /><br />
   {/if}
 
-  {#if address}
+  {#if owner}
     {#if minting}
       {#if mintedNft}
         <button on:click={sell} class="btn btn-small btn-sell">SELL NFT</button>
@@ -111,7 +115,7 @@
     {/if}
   {:else}
     <small>
-      <br /><Metamask autoconnect="off" bind:address bind:chainId bind:signer />
+      <br /><KredeumMetamask autoconnect="off" bind:chainId bind:signer />
     </small>
   {/if}
 

@@ -17,15 +17,14 @@
     explorerNftUrl,
     explorerAddressLink
   } from "lib/knfts";
-  import { getNetwork, getShortAddress } from "lib/kconfig";
-  import { nftUrl, nftsUrl } from "lib/kconfig";
   import { listNFTsTokenId, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
+  import { getNetwork, getShortAddress } from "lib/kconfig";
   import { createEventDispatcher } from "svelte";
+  import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
   // export let beta: string = undefined; // platform : WordPress or Dapp
   export const platform: string = undefined; // platform : WordPress or Dapp
-
   export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let refreshing: boolean;
@@ -257,7 +256,7 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Token REF</span></div>
                   <div class="flex">
-                    <a class="link" href={explorerNftUrl(nft.chainId, nft)} target="_blank">
+                    <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank">
                       {@html nftExplorerLink(nft, 10)}
                     </a>
                   </div>
@@ -265,8 +264,10 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Collection @</span></div>
                   <div class="flex">
-                    <a class="link" href={nftUrl(nft)} target="_blank"
-                      >{getShortAddress(collection?.address, 15)}</a
+                    <a
+                      class="link"
+                      href={explorerCollectionInventoryUrl(chainId, nft?.collection)}
+                      target="_blank">{getShortAddress(collection?.address, 15)}</a
                     >
                   </div>
                 </li>

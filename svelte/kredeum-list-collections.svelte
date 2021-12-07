@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
 
-  import { onMount } from "svelte";
-  import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
   import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
+  import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
   import { collectionName } from "lib/knfts";
+  import { onMount } from "svelte";
 
   export let chainId: number = undefined;
   export let owner: string = undefined;

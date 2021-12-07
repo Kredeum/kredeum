@@ -46,15 +46,24 @@ function fields() {
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
 		// ), .
-	  array(
-		  'uid'         => 'ipfs_nft_storage_key',
-		  'label'       => 'IPFS_NFT_STORAGE_KEY',
-		  'section'     => 'first_section',
-		  'type'        => 'textarea',
-		  'placeholder' => 'NFT Storage key',
-		  'default'     => '',
-		  'helper'      => __( 'Enter your NFT Storage Key', 'kredeum-nfts' ),
-	  ),
+	  // array(
+		// 'uid'         => 'ipfs_nft_storage_key',
+		// 'label'       => 'IPFS_NFT_STORAGE_KEY',
+		// 'section'     => 'first_section',
+		// 'type'        => 'textarea',
+		// 'placeholder' => 'NFT Storage key',
+		// 'default'     => '',
+		// 'helper'      => __( 'Enter your own NFT Storage Key (leave blank to use Kredeum generic key)', 'kredeum-nfts' ),
+	  // ),.
+	array(
+		'uid'     => 'kredeum_beta',
+		'label'   => 'KREDEUM_BETA',
+		'default' => '0',
+		'section' => 'first_section',
+		'type'    => 'select',
+		'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
+		'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
+	),
 		array(
 			'uid'         => 'default_collection',
 			'label'       => 'DEFAULT_COLLECTION',
@@ -62,16 +71,7 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Default Collection Address',
 			'default'     => '',
-			'helper'      => __( 'Caution beta feature: leave field blank if you are not an advanced user !', 'kredeum-nfts' ),
-		),
-		array(
-			'uid'     => 'kredeum_beta',
-			'label'   => 'KREDEUM_BETA',
-			'default' => '0',
-			'section' => 'first_section',
-			'type'    => 'select',
-			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-			'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
+			'helper'      => __( 'Default Collection Address to Mint into (may change for each network)', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => null,
@@ -79,7 +79,7 @@ function fields() {
 			'section'     => 'first_section',
 			'type'        => 'metamask',
 			'default'     => '',
-			'placeholder' => 'Connect to Metamask',
+			'placeholder' => __( 'Connect to Metamask', 'kredeum-nfts' ),
 		),
 
 	// array(

@@ -1,13 +1,9 @@
 <script lang="ts">
-  import type { Signer } from "ethers";
-  import type { EthereumProvider } from "hardhat/types";
   import type { Web3Provider, Provider } from "@ethersproject/providers";
+  import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
+  import type { Signer } from "ethers";
 
-  import { ethers } from "ethers";
-  import detectEthereumProvider from "@metamask/detect-provider";
-  import { onMount } from "svelte";
-  import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
   import {
     getShortAddress,
     textShort,
@@ -16,10 +12,15 @@
     explorerAddressUrl,
     explorerOpenNFTsUrl
   } from "lib/knfts";
+  import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
+  import detectEthereumProvider from "@metamask/detect-provider";
+  import { onMount } from "svelte";
+  import { ethers } from "ethers";
 
   export let chainId: number = undefined;
   export let signer: Signer = undefined;
   export let autoconnect: string = undefined;
+  export let txt: boolean = undefined;
 
   const testnets = true;
 
@@ -28,7 +29,7 @@
 
   let network: Network;
   let nameOrAddress = "";
-  let owner = "";
+  let address = "";
 
   const connectMetamaskMessage = "Connect to Metamask";
   const installMetamaskMessage = "Please install MetaMask extension to connect";
@@ -42,10 +43,10 @@
   // const logChange = async (_chainId: number, _signer: Signer) =>
   //   console.log("KredeumMetamask chainId or signer changed", _chainId, await _signer.getAddress());
 
-  $: if (owner) setEnsName();
+  $: if (address) setEnsName();
   const setEnsName = async () => {
-    nameOrAddress = owner;
-    nameOrAddress = await getEnsName(owner);
+    nameOrAddress = address;
+    nameOrAddress = await getEnsName(address);
   };
 
   const strUpFirst = (str: string): string =>
@@ -128,13 +129,14 @@
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
-    } else if (_accounts[0] !== owner) {
-      owner = getChecksumAddress(_accounts[0]);
+    } else if (_accounts[0] !== address) {
+      address = getChecksumAddress(_accounts[0]);
       signer = ethersProvider.getSigner(0);
     }
   };
 
-  const connectMetamask = async () => {
+  const connectMetamask = async (e?: Event) => {
+    e.preventDefault();
     // console.log("connectMetamask");
 
     ethereumProvider
@@ -195,24 +197,36 @@
   });
 </script>
 
-<div class="col col-xs-12 col-sm-3">
-  {#if owner}
-    <span class="label"
-      >Address
-      <a
-        class="info-button"
-        href={explorerAddressUrl(chainId, owner)}
-        target="_blank"
-        title="&#009;Account address (click to view account in explorer )&#013;{owner}"
-        ><i class="fas fa-info-circle" /></a
-      >
-    </span>
-    <div class="form-field">
-      <input type="text" value={getShortAddress(nameOrAddress, 10)} />
-    </div>
+{#if txt}
+  {#if address}
+    {nameOrAddress}@{chainname(network)}
+    {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory && nw.chainId !== chainId) as _network}
+      &nbsp;<a href="." on:click={() => switchEthereumChain(_network.chainId)}
+        >@{chainname(_network)}</a
+      >&nbsp;
+    {/each}
+  {:else if noMetamask}
+    {installMetamaskMessage}
   {:else}
-    <span class="label">Connect</span>
-    {#if noMetamask}
+    <a href="." on:click={connectMetamask}>{connectMetamaskMessage}</a>
+  {/if}
+{:else}
+  <div class="col col-xs-12 col-sm-3">
+    {#if address}
+      <span class="label"
+        >Address
+        <a
+          class="info-button"
+          href={explorerAddressUrl(chainId, address)}
+          target="_blank"
+          title="&#009;Account address (click to view account in explorer )&#013;{address}"
+          ><i class="fas fa-info-circle" /></a
+        >
+      </span>
+      <div class="form-field">
+        <input type="text" value={getShortAddress(nameOrAddress, 10)} />
+      </div>
+    {:else if noMetamask}
       <div class="btn btn-light btn-metamask">
         {installMetamaskMessage}
       </div>
@@ -221,39 +235,28 @@
         >{connectMetamaskMessage}</a
       >
     {/if}
-  {/if}
-</div>
+  </div>
 
-<div class="col col-xs-12 col-sm-3">
-  {#if owner}
-    <span class="label"
-      >Network
-      <a
-        class="info-button"
-        href={explorerOpenNFTsUrl(chainId)}
-        target="_blank"
-        title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
-        ><i class="fas fa-info-circle" /></a
-      >
-    </span>
+  <div class="col col-xs-12 col-sm-3">
+    {#if address}
+      <span class="label"
+        >Network
+        <a
+          class="info-button"
+          href={explorerOpenNFTsUrl(chainId)}
+          target="_blank"
+          title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
+          ><i class="fas fa-info-circle" /></a
+        >
+      </span>
 
-    <div class="select-wrapper select-network" on:click={() => (open = !open)}>
-      <div class="select" class:open>
-        <div class="select-trigger">
-          <span class={chainname(network)}>{chainName(network)}</span>
-        </div>
-        <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet) as _network}
-            <span
-              class="custom-option {_network.chainId == chainId && 'selected'}"
-              data-value={chainname(_network)}
-              on:click={() => switchEthereumChain(_network.chainId)}
-            >
-              {chainName(_network)}
-            </span>
-          {/each}
-          {#if network?.testnet}
-            {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+      <div class="select-wrapper select-network" on:click={() => (open = !open)}>
+        <div class="select" class:open>
+          <div class="select-trigger">
+            <span class={chainname(network)}>{chainName(network)}</span>
+          </div>
+          <div class="custom-options">
+            {#each networks.filter((nw) => nw.mainnet) as _network}
               <span
                 class="custom-option {_network.chainId == chainId && 'selected'}"
                 data-value={chainname(_network)}
@@ -262,9 +265,20 @@
                 {chainName(_network)}
               </span>
             {/each}
-          {/if}
+            {#if network?.testnet}
+              {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+                <span
+                  class="custom-option {_network.chainId == chainId && 'selected'}"
+                  data-value={chainname(_network)}
+                  on:click={() => switchEthereumChain(_network.chainId)}
+                >
+                  {chainName(_network)}
+                </span>
+              {/each}
+            {/if}
+          </div>
         </div>
       </div>
-    </div>
-  {/if}
-</div>
+    {/if}
+  </div>
+{/if}
