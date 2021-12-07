@@ -1,10 +1,6 @@
 import type { DeployFunction } from "hardhat-deploy/types";
 
-const deployCloneFactoryFunction: DeployFunction = async function ({
-  deployments,
-  getChainId,
-  ethers
-}) {
+const deployCloneFactoryFunction: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");
   const contractProbe = (await ethers.getContract("ContractProbe")).address;
 
