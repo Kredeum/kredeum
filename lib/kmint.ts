@@ -107,7 +107,7 @@ const mint3TxResponse = async (
     // };
 
     txResp = await contract.connect(minter).mintNFT(await minter.getAddress(), urlJson);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}` );
+    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   } else {
     console.error("No OpenNFTs contract found @", explorerCollectionUrl(chainId, collection));
   }
