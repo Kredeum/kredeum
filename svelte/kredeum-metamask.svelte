@@ -216,7 +216,16 @@
         <option value={_network.chainId} selected={_network.chainId == chainId}>
           {getChainName(_network)}
           &nbsp;
-        </option>{/each}
+        </option>
+      {/each}
+      {#if network?.testnet}
+        {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+          <option value={_network.chainId} selected={_network.chainId == chainId}>
+            {getChainName(_network)}
+            &nbsp;
+          </option>
+        {/each}
+      {/if}
     </select>
     {nameOrAddress}@{getChainname(network)}
   {:else if noMetamask}

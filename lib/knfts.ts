@@ -130,6 +130,7 @@ export {
   nftDescriptionShort,
   nftExplorerLink,
   nftName,
+  nftsSupply,
   nftsBalanceAndName,
   nftOpenSeaUrl,
   explorerOpenNFTsUrl,

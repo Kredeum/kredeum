@@ -9,7 +9,7 @@
   import { explorerCollectionUrl } from "lib/knfts";
 
   // down from parent
-  export let txt: boolean = false;
+  export let txt = false;
   // up from KredeumMetamask up to parent
   export let chainId: number;
   export let signer: Signer;

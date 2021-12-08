@@ -1,6 +1,9 @@
 module.exports = {
+  root: true,
   parser: "@typescript-eslint/parser",
+  plugins: ["svelte3", "@typescript-eslint"],
   extends: [
+    "prettier",
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking"
@@ -9,7 +12,7 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
     tsconfigRootDir: "./",
-    project: ["./tsconfig.json", "./solidity/tsconfig.json"],
+    project: ["./tsconfig.json"],
     extraFileExtensions: [".svelte"]
   },
   env: {
@@ -37,7 +40,6 @@ module.exports = {
     // See https://github.com/sveltejs/eslint-plugin-svelte3/issues/70
     "svelte3/ignore-styles": () => true
   },
-  plugins: ["svelte3", "@typescript-eslint"],
   ignorePatterns: ["node_modules", "**/vendor/*.js"],
   rules: {
     "@typescript-eslint/no-unsafe-assignment": "warn",

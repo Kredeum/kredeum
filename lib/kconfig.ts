@@ -34,10 +34,10 @@ const getProvider = (chainId: number): Provider | undefined => {
   let apiKey = url?.includes("infura.io")
     ? process.env.INFURA_API_KEY
     : url?.includes("etherscan.io")
-    ? process.env.ETHERSCAN_API_KEY
-    : url?.includes("maticvigil.com")
-    ? process.env.MATICVIGIL_API_KEY
-    : null;
+      ? process.env.ETHERSCAN_API_KEY
+      : url?.includes("maticvigil.com")
+        ? process.env.MATICVIGIL_API_KEY
+        : null;
   apiKey = apiKey ? "/" + apiKey : "";
   const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
 

@@ -9,8 +9,8 @@
   // down to component
   export let chainId: number = undefined;
   export let owner: string = undefined;
-  export let filter: boolean = false;
-  export let txt: boolean = false;
+  export let filter = false;
+  export let txt = false;
   // up to parent
   export let collection: Collection = undefined;
 
@@ -104,7 +104,7 @@
     {#if collections.size > 0}
       Collection
       <select on:change={(e) => _setCollection(e.target.value)}>
-        {#each [...collections] as [, coll]}
+        {#each [...collections] as [coll]}
           <option selected={coll.address == collectionAddress} value={coll.address}>
             {collectionNameAndBalanceOf(coll)}
           </option>
@@ -126,7 +126,7 @@
             <span>{collectionNameAndBalanceOf(collection)}</span>
           </div>
           <div class="custom-options">
-            {#each [...collections] as [, coll]}
+            {#each [...collections] as [coll]}
               <span
                 class="custom-option {coll.address == collectionAddress ? 'selected' : ''}"
                 data-value={coll.address}

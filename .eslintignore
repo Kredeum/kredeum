@@ -2,13 +2,13 @@
 node_modules
 
 # SOLIDITY
-solidity/build
+solidity/artifacts
 
 # APP
-app/build/
+web/app
 
 # WORDPRESS
-wordpress/kredeum-nfts/lib/js
+wordpress/kredeum-nfts/lib
 vendor
 
 # OLD files
