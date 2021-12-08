@@ -8,29 +8,32 @@
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
   import { getNetwork } from "lib/kconfig";
 
-  export const key: string = undefined;
-  export const metadata: string = undefined;
+  // down to component
+  // export let key: string = undefined;
+  // export let metadata: string = undefined;
   export let alt: string = undefined;
   export let src: string = undefined;
   export let pid: string = undefined;
-  export let collection: string = undefined;
   export let width = 100;
   export let display = false;
+  // down to component with default
+  export let collection: string = undefined;
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // <KredeumMetamask autoconnect="off" bind:chainId bind:signer />
+  //
+  // up from KredeumMetamask
+  let chainId;
+  let signer: Signer;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   let mintedNft: Nft;
   let minting: number;
 
   let cidImage: string;
-  let signer: Signer;
-  let owner = "";
   let network: Network;
 
-  let chainId;
   let chainIdOld;
-
-  // SET owner WHEN signer change
-  $: setOwner(signer);
-  const setOwner = async (_signer) => (owner = await _signer.getAddress());
 
   // CONTRACT OR NETWORK CHANGE
   $: if (chainId) {
@@ -96,7 +99,7 @@
     <img {src} {alt} {width} /><br />
   {/if}
 
-  {#if owner}
+  {#if signer}
     {#if minting}
       {#if mintedNft}
         <button on:click={sell} class="btn btn-small btn-sell">SELL NFT</button>

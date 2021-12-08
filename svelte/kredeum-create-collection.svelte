@@ -6,8 +6,10 @@
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
   import { createEventDispatcher } from "svelte";
 
+  // down to component
   export let chainId: number = undefined;
   export let signer: Signer = undefined;
+  // up to parent
   export let collection: Collection = undefined;
 
   let cloning = false;

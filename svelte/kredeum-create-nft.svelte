@@ -3,16 +3,26 @@
   import type { Nft } from "lib/ktypes";
   import type { Signer } from "ethers";
 
-  import KredeumListCollection from "./kredeum-list-collections.svelte";
+  import KredeumListCollections from "./kredeum-list-collections.svelte";
 
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
 
-  export let chainId: number = undefined;
+  // down to component
   export let collection: Collection = undefined;
+
+  // down to component down to KredeumListCollections
+  export let chainId: number = undefined;
   export let signer: Signer = undefined;
+
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // <KredeumListCollections bind:owner bind:chainId bind:collection filter />;
+  //
+  // down to KredeumListCollections
+  let owner: string;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   let mintedNft: Nft;
   let minting = 0;
@@ -25,11 +35,9 @@
   let files: FileList;
   let image: string;
 
-  let owner: string;
-
   // SET owner WHEN signer change
   $: setOwner(signer);
-  const setOwner = async (_signer) => (owner = await _signer.getAddress());
+  const setOwner = async (_signer) => _signer && (owner = await _signer.getAddress());
 
   // DISPLAY image AFTER upload
   $: if (files) {
@@ -231,7 +239,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollection bind:owner bind:chainId bind:collection popup />
+          <KredeumListCollections bind:owner bind:chainId bind:collection filter />
         </div>
 
         <div class="txtright">

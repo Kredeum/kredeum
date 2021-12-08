@@ -65,22 +65,20 @@ function fields() {
 		'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
 	),
 		array(
-			'uid'         => 'default_collection',
-			'label'       => 'DEFAULT_COLLECTION',
-			'section'     => 'first_section',
-			'type'        => 'text',
-			'placeholder' => 'Default Collection Address',
-			'default'     => '',
-			'helper'      => __( 'Default Collection Address to Mint into (may change for each network)', 'kredeum-nfts' ),
+			'uid'     => 'select_collection',
+			'label'   => 'Connect Metamask and select Network and Collection to Mint',
+			'section' => 'first_section',
+			'type'    => 'kcollections',
+			'default' => '',
 		),
-		array(
-			'uid'         => null,
-			'label'       => 'METAMASK_ADDRESS',
-			'section'     => 'first_section',
-			'type'        => 'metamask',
-			'default'     => '',
-			'placeholder' => __( 'Connect to Metamask', 'kredeum-nfts' ),
-		),
+		// array(
+		// 'uid'         => null,
+		// 'label'       => 'METAMASK_ADDRESS',
+		// 'section'     => 'first_section',
+		// 'type'        => 'kmetamask',
+		// 'default'     => '',
+		// 'placeholder' => __( 'Connect to Metamask', 'kredeum-nfts' ),
+		// ), .
 
 	// array(
 	// 'uid' => 'ipfs_api',

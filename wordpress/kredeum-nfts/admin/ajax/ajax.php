@@ -69,7 +69,7 @@ add_action(
 		if ( isset( $_POST['collection'] ) ) {
 
 			$collection = sanitize_text_field( wp_unslash( $_POST['collection'] ) );
-			update_option( 'default_collection', $collection );
+			update_option( 'select_collection', $collection );
 		}
 
 		wp_die();

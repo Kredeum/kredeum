@@ -23,10 +23,12 @@
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
-  // export let beta: string = undefined; // platform : WordPress or Dapp
-  export const platform: string = undefined; // platform : WordPress or Dapp
+  // export let platform: string = undefined; // platform : WordPress or Dapp
+
+  // down to component
   export let owner: string = undefined;
   export let collection: Collection = undefined;
+  // up to parent
   export let refreshing: boolean;
 
   let index: number;

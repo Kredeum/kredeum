@@ -29,15 +29,14 @@ describe("Open NFTs contract", function () {
     expect(openNFTs.interface.getSighash("balanceOf")).to.be.equal("0x70a08231");
   });
 
-  it("Should set OpenNFTs name and NFT symbol only once", async function () {
-    const rname = "sTFN nepO";
-    const rsymbol = "TFN";
-    await openNFTs.initialize(rname, rsymbol);
+  it("Should not initialize OpenNFTs name and NFT symbol after deploy", async function () {
+    const name = "Open NFTs";
+    const symbol = "NFT";
 
-    expect(await openNFTs.symbol()).to.be.equal(rsymbol);
-    expect(await openNFTs.name()).to.be.equal(rname);
+    expect(await openNFTs.symbol()).to.be.equal(symbol);
+    expect(await openNFTs.name()).to.be.equal(name);
 
-    void expect(openNFTs.initialize(rname, rsymbol)).to.be.revertedWith(
+    void expect(openNFTs.initialize(name, symbol)).to.be.revertedWith(
       "Initializable: contract is already initialized"
     );
   });

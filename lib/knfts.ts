@@ -23,7 +23,7 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 
 const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toLowerCase();
 
-const numberToHexString = (num: number): string => `0x${num.toString(16)}`;
+const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" target="_blank">${label || url}</a>`;

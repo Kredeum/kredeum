@@ -17,10 +17,14 @@
   import { onMount } from "svelte";
   import { ethers } from "ethers";
 
+  // down to component
+  export let txt: boolean = undefined;
+  export let autoconnect: string = undefined;
+  // up to parent
   export let chainId: number = undefined;
   export let signer: Signer = undefined;
-  export let autoconnect: string = undefined;
-  export let txt: boolean = undefined;
+
+  let chainIdSelected: number;
 
   const testnets = true;
 
@@ -38,11 +42,6 @@
 
   let open = false;
 
-  // // ON CHAINID, OWNER OR COLLECTION CHANGE
-  // $: logChange(chainId, signer);
-  // const logChange = async (_chainId: number, _signer: Signer) =>
-  //   console.log("KredeumMetamask chainId or signer changed", _chainId, await _signer.getAddress());
-
   $: if (address) setEnsName();
   const setEnsName = async () => {
     nameOrAddress = address;
@@ -52,44 +51,53 @@
   const strUpFirst = (str: string): string =>
     str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "";
 
-  const chainname = (_network: Network): string => _network?.chainName || "unknown";
-  const chainName = (_network: Network): string =>
-    strUpFirst(chainname(_network)) + (_network?.nftsFactory ? "" : " (soon available)");
+  const getChainname = (_network: Network): string => _network?.chainName || "unknown";
+  const getChainName = (_network: Network): string =>
+    strUpFirst(getChainname(_network)) + (_network?.nftsFactory ? "" : " (soon available)");
 
   const addEthereumChain = async (_chainId) => {
-    // console.log("<kredeum-metamask/> addEthereumChain", _chainId);
+    if (_chainId) {
+      console.log("addEthereumChain", _chainId);
 
-    if (targetChain) {
-      console.log("already connecting network...");
-    }
-    targetChain = true;
+      if (targetChain) {
+        console.log("already connecting network...");
+      }
+      targetChain = true;
 
-    // no need to add default ethereum chain
-    if (_chainId !== 1) {
-      const _network = getNetwork(_chainId);
-      if (_network) {
-        for (const field in _network) {
+      // no need to add default ethereum chain
+      if (_chainId !== 1) {
+        const _network = getNetwork(_chainId);
+        if (_network) {
           // EIP-3085 fields only or fails
-          if (
-            ![
-              "chainId",
-              "blockExplorerUrls",
-              "chainName",
-              "iconUrls",
-              "nativeCurrency",
-              "rpcUrls"
-            ].includes(field)
-          ) {
-            delete _network[field];
-          }
+          type EthereumChainParameter = {
+            chainId: string;
+            blockExplorerUrls?: string[];
+            chainName?: string;
+            iconUrls?: string[];
+            nativeCurrency?: {
+              name: string;
+              symbol: string;
+              decimals: number;
+            };
+            rpcUrls?: string[];
+          };
+          const params: EthereumChainParameter = {
+            chainId: numberToHexString(_network.chainId),
+            blockExplorerUrls: _network.blockExplorerUrls,
+            chainName: _network.chainName,
+            iconUrls: [],
+            nativeCurrency: _network.nativeCurrency,
+            rpcUrls: _network.rpcUrls
+          };
+
+          // add new chain to metamask
+          ethereumProvider
+            .request({
+              method: "wallet_addEthereumChain",
+              params: [params]
+            })
+            .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
         }
-        // add new chain to metamask
-        ethereumProvider
-          .request({
-            method: "wallet_addEthereumChain",
-            params: [_network]
-          })
-          .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
       }
     }
   };
@@ -105,27 +113,30 @@
         network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
-        addEthereumChain(networks[0].chainId);
+        switchEthereumChain(networks[0].chainId);
       }
     }
   };
 
-  const switchEthereumChain = async (_chainId) => {
-    console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
-    try {
-      await ethereumProvider.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: numberToHexString(_chainId) }]
-      });
-    } catch (switchError) {
-      if (switchError.code === 4902) {
-        addEthereumChain(_chainId);
+  const switchEthereumChain = async (_chainId, e?: Event) => {
+    e?.preventDefault();
+    if (_chainId && _chainId != chainId) {
+      console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
+      try {
+        await ethereumProvider.request({
+          method: "wallet_switchEthereumChain",
+          params: [{ chainId: numberToHexString(_chainId) }]
+        });
+      } catch (switchError) {
+        if (switchError.code === 4902) {
+          addEthereumChain(_chainId);
+        }
       }
     }
   };
 
   const handleAccounts = async (_accounts) => {
-    // console.log("<kredeum-metamask/> handleAccounts", _accounts);
+    // console.log("handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
@@ -199,12 +210,15 @@
 
 {#if txt}
   {#if address}
-    {nameOrAddress}@{chainname(network)}
-    {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory && nw.chainId !== chainId) as _network}
-      &nbsp;<a href="." on:click={() => switchEthereumChain(_network.chainId)}
-        >@{chainname(_network)}</a
-      >&nbsp;
-    {/each}
+    Network
+    <select on:change={(e) => switchEthereumChain(e.target.value)}>
+      {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory) as _network}
+        <option value={_network.chainId} selected={_network.chainId == chainId}>
+          {getChainName(_network)}
+          &nbsp;
+        </option>{/each}
+    </select>
+    {nameOrAddress}@{getChainname(network)}
   {:else if noMetamask}
     {installMetamaskMessage}
   {:else}
@@ -253,26 +267,26 @@
       <div class="select-wrapper select-network" on:click={() => (open = !open)}>
         <div class="select" class:open>
           <div class="select-trigger">
-            <span class={chainname(network)}>{chainName(network)}</span>
+            <span class={getChainname(network)}>{getChainName(network)}</span>
           </div>
           <div class="custom-options">
             {#each networks.filter((nw) => nw.mainnet) as _network}
               <span
                 class="custom-option {_network.chainId == chainId && 'selected'}"
-                data-value={chainname(_network)}
-                on:click={() => switchEthereumChain(_network.chainId)}
+                data-value={getChainname(_network)}
+                on:click={(e) => switchEthereumChain(_network.chainId, e)}
               >
-                {chainName(_network)}
+                {getChainName(_network)}
               </span>
             {/each}
             {#if network?.testnet}
               {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
                 <span
                   class="custom-option {_network.chainId == chainId && 'selected'}"
-                  data-value={chainname(_network)}
-                  on:click={() => switchEthereumChain(_network.chainId)}
+                  data-value={getChainname(_network)}
+                  on:click={(e) => switchEthereumChain(_network.chainId, e)}
                 >
-                  {chainName(_network)}
+                  {getChainName(_network)}
                 </span>
               {/each}
             {/if}

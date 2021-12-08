@@ -2,21 +2,38 @@
   import type { Collection } from "lib/ktypes";
   import type { Signer } from "ethers";
 
-  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
-  import KredeumMetamask from "./kredeum-metamask.svelte";
+  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
+  import KredeumCreateNft from "./kredeum-create-nft.svelte";
 
-  import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
+  import { nftsUrl, getCreate, getNftsFactory } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
-  let collection: Collection;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
+  // <KredeumCreateCollection bind:collection bind:chainId bind:signer />
+  // <KredeumCreateNft bind:collection bind:chainId bind:signer />
+  //
+  // up from KredeumMetamask component
+  // and down to KredeumListCollections, KredeumListNfts, KredeumCreateCollection and KredeumCreateNft
   let chainId: number;
+  //
+  // up from KredeumSelectCollection component
+  // and down to KredeumCreateCollection and KredeumCreateNft
+  let signer: Signer;
+  //
+  // down to KredeumListNfts components
+  let owner: string;
+  //
+  // up from KredeumSelectCollection and KredeumCreateCollection components
+  // and down to KredeumListNfts, KredeumCreateNft
+  let collection: Collection;
+  //
+  // down to KredeumListNfts component
   let refreshing: boolean;
   let refreshNFTs;
-  let signer: Signer;
-  let owner: string;
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // ON CHAINID, OWNER OR COLLECTION CHANGE
   $: logChange(chainId, owner, collection);
@@ -25,7 +42,7 @@
 
   // SET owner WHEN signer change
   $: setOwner(signer);
-  const setOwner = async (_signer) => (owner = await _signer.getAddress());
+  const setOwner = async (_signer) => _signer && (owner = await _signer.getAddress());
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl(chainId, _collectionAddress);
@@ -77,26 +94,7 @@
           {/if}
 
           <div class="row alignbottom">
-            <KredeumMetamask autoconnect="off" bind:chainId bind:signer />
-
-            <div class="col col-xs-12 col-sm-3">
-              {#if owner && getNftsFactory(chainId)}
-                <span class="label"
-                  >Collection
-                  {#if collection}
-                    <a
-                      class="info-button"
-                      href={_explorerCollectionUrl(collection.address)}
-                      title="&#009;Collection owner (click to view in explorer )&#013;{_nftsUrl(
-                        collection.address
-                      )}"
-                      target="_blank"><i class="fas fa-info-circle" /></a
-                    >
-                  {/if}
-                </span>
-                <KredeumListCollections bind:owner bind:chainId bind:collection />
-              {/if}
-            </div>
+            <KredeumSelectCollection bind:collection bind:chainId bind:signer />
 
             <div class="col col-sm-3">
               {#if owner && collection && getNftsFactory(chainId)}

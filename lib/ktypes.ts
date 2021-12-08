@@ -10,6 +10,7 @@ type Network = {
   chainId: number;
   chainName: string;
   rpcUrls: Array<string>;
+  iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
   subgraph?: {
