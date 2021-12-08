@@ -11,7 +11,7 @@ namespace KredeumNFTs\Ipfs;
  * IPFS new action
  * archive IPFS on media upload
  */
-if ( IPFS_AUTO ) {
+if ( KREDEUM_NFTS_IPFS_AUTO ) {
 	add_action(
 		'add_attachment',
 		function ( $post_id ) {

@@ -13,8 +13,8 @@ namespace KredeumNFTs\Settings;
 function fields() {
 	return array(
 		array(
-			'uid'     => 'ipfs_auto',
-			'label'   => 'IPFS_AUTO',
+			'uid'     => 'kredeum_ntfs_ipfs_auto',
+			'label'   => 'KREDEUM_NFTS_IPFS_AUTO',
 			'default' => '1',
 			'section' => 'first_section',
 			'type'    => 'select',
@@ -22,8 +22,8 @@ function fields() {
 			'helper'  => __( 'Choose "yes" to automaticaly push your new medias to IPFS on upload', 'kredeum-nfts' ),
 		),
 		// array(
-		// 'uid'     => 'ipfs_cid_version',
-		// 'label'   => 'IPFS_CID_VERSION',
+		// 'uid'     => 'kredeum_ntfs_ipfs_cid_version',
+		// 'label'   => 'KREDEUM_NFTS_IPFS_CID_VERSION',
 		// 'default' => '1',
 		// 'section' => 'first_section',
 		// 'type'    => 'select',
@@ -31,8 +31,8 @@ function fields() {
 	  // 'helper' => __('Choose IPFS CID version', 'kredeum-nfts'),
 		// ),
 		// array(
-		// 'uid'     => 'ipfs_gateway',
-		// 'label'   => 'IPFS_GATEWAY',
+		// 'uid'     => 'kredeum_ntfs_ipfs_gateway',
+		// 'label'   => 'KREDEUM_NFTS_IPFS_GATEWAY',
 		// 'default' => 'https://ipfs.io/ipfs/',
 		// 'section' => 'first_section',
 		// 'type'    => 'select',
@@ -46,18 +46,9 @@ function fields() {
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
 		// ), .
-	  // array(
-		// 'uid'         => 'ipfs_nft_storage_key',
-		// 'label'       => 'IPFS_NFT_STORAGE_KEY',
-		// 'section'     => 'first_section',
-		// 'type'        => 'textarea',
-		// 'placeholder' => 'NFT Storage key',
-		// 'default'     => '',
-		// 'helper'      => __( 'Enter your own NFT Storage Key (leave blank to use Kredeum generic key)', 'kredeum-nfts' ),
-	  // ),.
 	array(
-		'uid'     => 'kredeum_beta',
-		'label'   => 'KREDEUM_BETA',
+		'uid'     => 'kredeum_ntfs_beta',
+		'label'   => 'KREDEUM_NFTS_BETA',
 		'default' => '0',
 		'section' => 'first_section',
 		'type'    => 'select',
@@ -65,26 +56,34 @@ function fields() {
 		'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
 	),
 		array(
-			'uid'         => 'default_collection',
-			'label'       => 'DEFAULT_COLLECTION',
+			'uid'         => 'kredeum_ntfs_ipfs_nft_storage_key',
+			'label'       => 'KREDEUM_NFTS_IPFS_NFT_STORAGE_KEY',
 			'section'     => 'first_section',
-			'type'        => 'text',
-			'placeholder' => 'Default Collection Address',
+			'type'        => 'textarea',
+			'placeholder' => 'NFT Storage key',
 			'default'     => '',
-			'helper'      => __( 'Default Collection Address to Mint into (may change for each network)', 'kredeum-nfts' ),
+			'helper'      => __( 'Enter your own NFT Storage Key', 'kredeum-nfts' ),
 		),
 		array(
-			'uid'         => null,
-			'label'       => 'METAMASK_ADDRESS',
+			'uid'         => 'kredeum_ntfs_default_collection',
+			'label'       => 'KREDEUM_NFTS_DEFAULT_COLLECTION',
 			'section'     => 'first_section',
-			'type'        => 'metamask',
+			'type'        => 'kredeum_ntfs_collection',
+			'default'     => '',
+			'placeholder' => __( 'Default Collection Address', 'kredeum-nfts' ),
+		),
+		array(
+			'uid'         => 'kredeum_ntfs_metamask_address',
+			'label'       => 'KREDEUM_NFTS_METAMASK_ADDRESS',
+			'section'     => 'first_section',
+			'type'        => 'kredeum_ntfs_metamask',
 			'default'     => '',
 			'placeholder' => __( 'Connect to Metamask', 'kredeum-nfts' ),
 		),
 
 	// array(
-	// 'uid' => 'ipfs_api',
-	// 'label' => 'IPFS_API',
+	// 'uid' => 'kredeum_ntfs_ipfs_api',
+	// 'label' => 'KREDEUM_NFTS_IPFS_API',
 	// 'section' => 'first_section',
 	// 'type' => 'select',
 	// 'options' => array(
@@ -97,8 +96,8 @@ function fields() {
 	// 'helper' => __('Choose your prefered IPFS API', 'kredeum-nfts'),
 	// ),
 	// array(
-	// 'uid' => 'ipfs_cluster_api',
-	// 'label' => 'IPFS_CLUSTER_API',
+	// 'uid' => 'kredeum_ntfs_ipfs_cluster_api',
+	// 'label' => 'KREDEUM_NFTS_IPFS_CLUSTER_API',
 	// 'section' => 'first_section',
 	// 'type' => 'select',
 	// 'options' => array('http://192.168.1.43:9094' => 'http://192.168.1.43:9094'),
@@ -106,8 +105,8 @@ function fields() {
 	// 'helper' => __('Choose your prefered IPFS Cluster API', 'kredeum-nfts'),
 	// ),
 	// array(
-	// 'uid' => 'ipfs_pinning_api',
-	// 'label' => 'IPFS_PINNING_API',
+	// 'uid' => 'kredeum_ntfs_ipfs_pinning_api',
+	// 'label' => 'KREDEUM_NFTS_IPFS_PINNING_API',
 	// 'section' => 'first_section',
 	// 'type' => 'select',
 	// 'options' => array(false),

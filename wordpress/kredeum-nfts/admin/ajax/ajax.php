@@ -31,7 +31,7 @@ add_action(
 		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			 add_post_meta( $pid, '_kre_nid', $nid, true );
+			 add_post_meta( $pid, '_kredeum_ntfs_nid', $nid, true );
 		};
 
 		echo esc_html( "wp_ajax_token $pid $nid" );
@@ -69,7 +69,7 @@ add_action(
 		if ( isset( $_POST['collection'] ) ) {
 
 			$collection = sanitize_text_field( wp_unslash( $_POST['collection'] ) );
-			update_option( 'default_collection', $collection );
+			update_option( 'kredeum_ntfs_default_collection', $collection );
 		}
 
 		wp_die();

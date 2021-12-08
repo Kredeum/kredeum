@@ -23,12 +23,12 @@ defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
-	define( 'IPFS_CID_VERSION', '1' );
-	define( 'IPFS_AUTO', get_option( 'IPFS_AUTO', array( '' ) )[0] );
-	define( 'KREDEUM_BETA', get_option( 'KREDEUM_BETA', array( '' ) )[0] );
-	define( 'IPFS_API', get_option( 'IPFS_API', array( '' ) )[0] );
-	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
-	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
+	define( 'KREDEUM_NFTS_IPFS_CID_VERSION', '1' );
+	define( 'KREDEUM_NFTS_IPFS_AUTO', get_option( 'KREDEUM_NFTS_IPFS_AUTO', array( '' ) )[0] );
+	define( 'KREDEUM_NFTS_BETA', get_option( 'KREDEUM_NFTS_BETA', array( '' ) )[0] );
+	define( 'KREDEUM_NFTS_IPFS_API', get_option( 'KREDEUM_NFTS_IPFS_API', array( '' ) )[0] );
+	define( 'KREDEUM_NFTS_IPFS_CLUSTER_API', get_option( 'KREDEUM_NFTS_IPFS_CLUSTER_API', array( '' ) )[0] );
+	define( 'KREDEUM_NFTS_IPFS_PINNING_API', get_option( 'KREDEUM_NFTS_IPFS_PINNING_API', array( '' ) )[0] );
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/nfts/index.php';
 
@@ -70,10 +70,10 @@ if ( is_admin() ) {
 	);
 }
 
-define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
-// define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]); ?
-define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
-define( 'DEFAULT_COLLECTION', get_option( 'DEFAULT_COLLECTION', '' ) );
+define( 'KREDEUM_NFTS_IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
+// define('KREDEUM_NFTS_IPFS_GATEWAY', get_option('KREDEUM_NFTS_IPFS_GATEWAY', [''])[0]); ?
+define( 'KREDEUM_NFTS_IPFS_NFT_STORAGE_KEY', get_option( 'KREDEUM_NFTS_IPFS_NFT_STORAGE_KEY', '' ) );
+define( 'KREDEUM_NFTS_DEFAULT_COLLECTION', get_option( 'KREDEUM_NFTS_DEFAULT_COLLECTION', '' ) );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';

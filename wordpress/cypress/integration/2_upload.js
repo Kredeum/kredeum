@@ -16,12 +16,17 @@ describe("Test upload image", function () {
     // cy.visit("/wp-admin/upload.php");
 
     // Verify IPFS link
-    cy.get("#the-list tr:first td.kre-cid a")
+    cy.get("#the-list tr:first td.kredeum-nfts-cid a")
       .invoke("attr", "href")
-      .should("eq", "https://ipfs.io/ipfs/bafkreia756ojs2x7ld7m6jjlz7djojgonh4sgnqotxsiorhux3az6v45ly");
+      .should(
+        "eq",
+        "https://ipfs.io/ipfs/bafkreia756ojs2x7ld7m6jjlz7djojgonh4sgnqotxsiorhux3az6v45ly"
+      );
 
     // Delete Media just created
-    cy.get("#the-list tr:first td.column-title div.row-actions span.delete a").click({ force: true });
+    cy.get("#the-list tr:first td.column-title div.row-actions span.delete a").click({
+      force: true
+    });
     cy.on("window:confirm", () => true);
   });
 });

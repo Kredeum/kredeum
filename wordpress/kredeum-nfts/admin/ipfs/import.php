@@ -16,7 +16,7 @@ namespace KredeumNFTs\Ipfs;
  */
 function import_url( $url ) {
 	global $wpdb;
-	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kre_url' AND meta_value=%s", _get_meta_table( 'post' ), $url ) );
+	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kredeum_ntfs_url' AND meta_value=%s", _get_meta_table( 'post' ), $url ) );
 
 	if ( 0 == $res ) {
 		$file_array         = array();
@@ -28,7 +28,7 @@ function import_url( $url ) {
 			if ( is_wp_error( $ret ) ) {
 				@unlink( $file_array['tmp_name'] );
 			} else {
-				add_post_meta( $ret, '_kre_url', $url );
+				add_post_meta( $ret, '_kredeum_ntfs_url', $url );
 			}
 		}
 	}
@@ -44,7 +44,7 @@ function import_url( $url ) {
  */
 function import_cid( $cid ) {
 	global $wpdb;
-	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kre_cid' AND meta_value=%s", _get_meta_table( 'post' ), $cid ) );
+	$res = $wpdb->query( $wpdb->prepare( "SELECT * FROM `%1s` WHERE meta_key='_kredeum_ntfs_cid' AND meta_value=%s", _get_meta_table( 'post' ), $cid ) );
 
 	if ( 0 == $res ) {
 		$ret = import_url( url( $cid ) );
@@ -67,7 +67,7 @@ function import_nft( $nft ) {
 	}
 
 	if ( isset( $nft->nid ) ) {
-		add_post_meta( $pid, '_kre_nid', $nft->nid, true );
+		add_post_meta( $pid, '_kredeum_ntfs_nid', $nft->nid, true );
 	}
 	return $pid;
 }

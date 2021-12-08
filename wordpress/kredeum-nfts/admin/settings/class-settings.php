@@ -133,9 +133,14 @@ class Settings {
 
 		switch ( $arguments['type'] ) {
 
-			case 'metamask':
+			case 'kredeum_ntfs_metamask':
 				wp_nonce_field( 'ajax-address', 'knonce' );
 				printf( '<div id="kredeum-metamask" txt="true"/>' );
+				break;
+
+			case 'kredeum_ntfs_collection':
+				wp_nonce_field( 'ajax-address', 'knonce' );
+				printf( '<div id="kredeum-list-collections" txt="true" filter="true" />' );
 				break;
 
 			case 'text':

@@ -19,8 +19,8 @@ add_action(
 				wp_nonce_field( 'ajax-kredeum-nfts', 'knonce' );
 					printf(
 						'<div id="kredeum-app"'
-						. ( boolval( DEFAULT_COLLECTION ) ? ' contract="' . esc_attr( DEFAULT_COLLECTION ) . '"' : '' )
-						. ( boolval( KREDEUM_BETA ) ? ' beta="true"' : '' )
+						. ( boolval( KREDEUM_NFTS_DEFAULT_COLLECTION ) ? ' contract="' . esc_attr( KREDEUM_NFTS_DEFAULT_COLLECTION ) . '"' : '' )
+						. ( boolval( KREDEUM_NFTS_BETA ) ? ' beta="true"' : '' )
 						. ' class="wordpress"'
 						. '></div>'
 					);

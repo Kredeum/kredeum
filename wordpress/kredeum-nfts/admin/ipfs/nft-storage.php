@@ -30,7 +30,7 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	);
 	$buffer   = multipart( $parts, $boundary );
 	$headers  = array(
-		'Authorization'  => 'Bearer ' . IPFS_NFT_STORAGE_KEY,
+		'Authorization'  => 'Bearer ' . KREDEUM_NFTS_IPFS_NFT_STORAGE_KEY,
 		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
 		'Content-Length' => strlen( $buffer ),
 	);
@@ -61,7 +61,7 @@ function nft_storage_add_and_pin( $attachment_id ) {
 	$filename = get_attached_file_meta( $attachment_id )->filename;
 
 	$headers = array(
-		'Authorization' => 'Bearer ' . IPFS_NFT_STORAGE_KEY,
+		'Authorization' => 'Bearer ' . KREDEUM_NFTS_IPFS_NFT_STORAGE_KEY,
 	);
 
 	$result = $api->post( '/upload', $file, $headers );
