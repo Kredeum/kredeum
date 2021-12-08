@@ -21,9 +21,10 @@
   let open = false;
 
   const _setCollection = async (_collectionAddress: string): Promise<void> => {
-    console.log("KredeumListCollections _setCollection", _collectionAddress);
-    if (collectionAddress !== _collectionAddress) {
+    if (_collectionAddress && collectionAddress !== _collectionAddress) {
       collectionAddress = _collectionAddress;
+      
+      console.log("KredeumListCollections _setCollection", collectionAddress);
 
       if (chainId && owner && collectionAddress) {
         localStorage.setItem(`defaultCollection/${chainId}/${owner}`, collectionAddress);
@@ -104,7 +105,7 @@
     {#if collections.size > 0}
       Collection
       <select on:change={(e) => _setCollection(e.target.value)}>
-        {#each [...collections] as [coll]}
+        {#each [...collections] as [url, coll]}
           <option selected={coll.address == collectionAddress} value={coll.address}>
             {collectionNameAndBalanceOf(coll)}
           </option>
@@ -126,7 +127,7 @@
             <span>{collectionNameAndBalanceOf(collection)}</span>
           </div>
           <div class="custom-options">
-            {#each [...collections] as [coll]}
+            {#each [...collections] as [url, coll]}
               <span
                 class="custom-option {coll.address == collectionAddress ? 'selected' : ''}"
                 data-value={coll.address}
