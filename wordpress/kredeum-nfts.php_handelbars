@@ -48,21 +48,20 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
 
 	$api = new \RestClient( array( 'base_url' => '' ) );
 
 	add_action(
 		'admin_enqueue_scripts',
-		function ($hook) {
+		function ( $hook ) {
 			if ( 'nfts_page_ipfs_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
-        wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/css/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
-        wp_enqueue_style( 'kredeum_nfts_css' );
+				wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/css/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
+				wp_enqueue_style( 'kredeum_nfts_css' );
 			}
 			if ( 'toplevel_page_nfts' === $hook ) {
-        wp_register_style( 'kredeum_nfts_front_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
+				wp_register_style( 'kredeum_nfts_front_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_front_css' );
 			}
 		},
