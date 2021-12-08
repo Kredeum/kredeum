@@ -13,15 +13,18 @@ const uglify = require("gulp-uglify");
 const sourcemaps = require("gulp-sourcemaps");
 const noop = require("gulp-noop");
 const dotenv = require("dotenv");
-dotenv.config();
 
-var config = {
-  production: process.env.ENVIR == "PROD"
-};
+if (process.env.ENVIR === undefined) {
+  dotenv.config();
+}
+if (!process.env.ENVIR) {
+  throw new Error("ENV variables not set!");
+}
+var production = process.env.ENVIR == "PROD";
 
 // Clean assets
 function clean() {
-  return del(["./app/assets/", "./maq/", "./wordpress/kredeum-nfts/lib/"]);
+  return del(["./web/app/", "./wordpress/kredeum-nfts/lib/"]);
 }
 
 function swallow(err) {
@@ -32,7 +35,7 @@ function swallow(err) {
 // Optimize Images
 function images() {
   return gulp
-    .src("./src/images/**/*")
+    .src("./web/src/images/**/*")
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
@@ -48,33 +51,33 @@ function images() {
         })
       ])
     )
-    .pipe(gulp.dest("./app/assets/images"))
-    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/images"));
+    .pipe(gulp.dest("./web/app/assets/images"))
+    .pipe(gulp.dest("./wordpress/kredeum-nfts/lib/images"));
 }
 
 // CSS task
 function css() {
   return gulp
-    .src("./src/scss/**/*.scss")
-    .pipe(!config.production ? sourcemaps.init() : noop())
+    .src("./web/src/scss/**/*.scss")
+    .pipe(!production ? sourcemaps.init() : noop())
     .pipe(plumber())
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
-    .pipe(gulp.dest("./app/assets/css/"))
-    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/css/"));
+    .pipe(gulp.dest("./web/app/assets/css/"))
+    .pipe(gulp.dest("./wordpress/kredeum-nfts/lib/css/"));
 }
 
 function fonts() {
   return gulp
-    .src(["./src/fonts/**/*"])
-    .pipe(gulp.dest("./app/assets/fonts/"))
-    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/fonts/"));
+    .src(["./web/src/fonts/**/*"])
+    .pipe(gulp.dest("./web/app/assets/fonts/"))
+    .pipe(gulp.dest("./wordpress/kredeum-nfts/lib/fonts/"));
 }
 
 // Copy html
 function htmls() {
-  return gulp.src(["./src/html/**/*"]).pipe(gulp.dest("./app"));
+  return gulp.src(["./web/src/html/**/*"]).pipe(gulp.dest("./web/app"));
 }
 
 // Transpile, concatenate and minify scripts
@@ -82,8 +85,8 @@ function scripts() {
   return gulp
     .src(["./src/js/**/*"])
     .pipe(plumber())
-    .pipe(!config.production ? uglify().on("error", swallow) : noop())
-    .pipe(gulp.dest("./app/assets/js/"));
+    .pipe(!production ? uglify().on("error", swallow) : noop())
+    .pipe(gulp.dest("./web/app/assets/js/"));
 }
 
 // Watch files

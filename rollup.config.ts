@@ -5,7 +5,8 @@ import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
 import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
-import _css from "rollup-plugin-css-only";
+// import _css from "rollup-plugin-css-only";
+import _postcss from "rollup-plugin-postcss";
 import _builtins from "rollup-plugin-node-builtins";
 
 import typescript from "@rollup/plugin-typescript";
@@ -14,7 +15,8 @@ import autoPreprocess from "svelte-preprocess";
 import dotenv from "dotenv";
 
 const builtins = _builtins as { (): Plugin };
-const css = _css as { (Options): Plugin };
+// const css = _css as { (Options): Plugin };
+const postcss = _postcss as { (Options): Plugin };
 
 if (process.env.ENVIR === undefined) {
   dotenv.config();
@@ -61,7 +63,10 @@ const toRollupConfig = function (component: string): RollupOptions {
           dev: !production
         }
       }),
-      css({ output: `${component}.css` }),
+      // css({ output: `${component}.css` }),
+      postcss({
+        extract: true,
+      }),
       replace({
         preventAssignment: true,
         values: envKeys()

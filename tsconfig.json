@@ -20,5 +20,5 @@
     "solidity/tasks/**/*.ts",
     "solidity/tests/**/*.ts"
   ],
-  "exclude": ["solidity/artifacts", "node_modules", "old", "thegraph"]
+  "exclude": ["gulpfile.js", "solidity/artifacts", "node_modules", "old", "thegraph"]
 }
