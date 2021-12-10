@@ -5,8 +5,8 @@
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
   import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
-  import { getNetwork } from "lib/kconfig";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, nftImageLink } from "lib/knfts";
+  import { getNetwork, getOpenNFTsAddress } from "lib/kconfig";
 
   // down to component
   // export let key: string = undefined;
@@ -33,26 +33,23 @@
   let cidImage: string;
   let network: Network;
 
-  let chainIdOld;
+  let signerAddress: string;
 
-  // CONTRACT OR NETWORK CHANGE
-  $: if (chainId) {
-    // console.log("kredeum-mint chainId changed", chainId);
-    init();
-  }
+  // ON network or account change
+  $: handleChange(chainId, signer);
 
-  async function init() {
-    // console.log(`kredeum-mint init ${chainId}`, key, metadata);
-    network = getNetwork(chainId);
-    if (network) {
-      if (!collection && chainId != chainIdOld) {
-        // chain changed : force collection to default
-        collection = network.openNFTs;
-      }
+  const handleChange = async (_chainId: string, _signer: Signer) => {
+    if (_chainId && _signer) {
+      signerAddress = await _signer.getAddress();
+      console.log("kredeum-mint handleChange", _chainId, signerAddress);
 
-      chainIdOld = chainId;
+      collection =
+        // default user collection
+        localStorage.getItem(`defaultCollection/${chainId}/${signerAddress}`) ||
+        // default OpenNFTs collection
+        getOpenNFTsAddress(chainId);
     }
-  }
+  };
 
   const sell = async (e: Event): Promise<void> => {
     e.preventDefault();
@@ -60,13 +57,17 @@
     location.href = nftOpenSeaUrl(chainId, mintedNft);
   };
 
-  const mint = async (e: Event): Promise<Nft> => {
+  const view = async (e: Event): Promise<void> => {
     e.preventDefault();
 
+    location.href = nftImageLink(mintedNft);
+  };
+
+  const mint = async (e: Event): Promise<Nft> => {
+    e.preventDefault();
+    console.log("collection", collection);
     cidImage = null;
     mintedNft = null;
-
-    const signerAddress = await signer.getAddress();
 
     minting = 1;
 
@@ -102,7 +103,15 @@
   {#if signer}
     {#if minting}
       {#if mintedNft}
-        <button on:click={sell} class="btn btn-small btn-sell">SELL NFT</button>
+        {#if network?.openSea}
+          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea"
+            >SELL NFT</button
+          >
+        {:else}
+          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer"
+            >VIEW NFT</button
+          >
+        {/if}
       {:else if 1 <= minting && minting <= 5}
         <div>
           <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>

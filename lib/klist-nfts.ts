@@ -89,64 +89,79 @@ const cidExtract = (_uri: string): string => {
   return cid;
 };
 
-const addNftMetadataSync = (chainId: number, _collection: string, _token: Nft): Nft => {
+const addNftMetadataSync = (chainId: number, _token: Nft, _collection?: string): Nft => {
   // console.log(`addNftMetadataSync ${chainId} ${_collection}`, _token);
-  type Metadata = {
-    name?: string;
-    description?: string;
-    creator?: string;
-    minter?: string;
-    owner?: string;
-    image?: string;
-    cid?: string;
-  };
+  let nftData: Nft;
 
-  const network = getNetwork(chainId);
-  const collection: string = getChecksumAddress(_token.collection || _collection);
+  if (chainId && _token) {
 
-  const chainName: string = _token.chainName || network?.chainName || "";
-  const metadata: Metadata = (_token.metadata as Metadata) || {};
-  const image: string = _token.image || metadata.image || "";
-  const tokenID: string = _token.tokenID || "";
+    type Metadata = {
+      name?: string;
+      description?: string;
+      creator?: string;
+      minter?: string;
+      owner?: string;
+      image?: string;
+      cid?: string;
+    };
 
-  const nftData: Nft = {
-    tokenID: _token.tokenID || "",
-    tokenURI: _token.tokenURI || "",
+    const network = getNetwork(chainId);
+    const collection: string = getChecksumAddress(_token.collection || _collection);
 
-    collection,
-    chainId,
-    chainName,
+    const chainName: string = _token.chainName || network?.chainName || "";
+    const metadata: Metadata = (_token.metadata as Metadata) || {};
+    const image: string = _token.image || metadata.image || "";
+    const tokenID: string = _token.tokenID || "";
 
-    metadata,
-    image,
+    nftData = {
+      tokenID: _token.tokenID || "",
+      tokenURI: _token.tokenURI || "",
 
-    name: _token.name || metadata.name || "",
-    description: _token.description || metadata.description || "",
+      collection,
+      chainId,
+      chainName,
 
-    creator: getChecksumAddress(_token.creator || metadata.creator),
-    minter: getChecksumAddress(_token.minter || metadata.minter),
-    owner: getChecksumAddress(_token.owner || metadata.owner),
+      metadata,
+      image,
 
-    cid: _token.cid || metadata.cid || cidExtract(image) || "",
-    cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
-    nid: _token.nid || nftUrl3(chainId, collection, tokenID)
-  };
-  // STORE in cache if exists
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem(nftData.nid || "", JSON.stringify(nftData, null, 2));
+      name: _token.name || metadata.name || "",
+      description: _token.description || metadata.description || "",
+
+      creator: getChecksumAddress(_token.creator || metadata.creator),
+      minter: getChecksumAddress(_token.minter || metadata.minter),
+      owner: getChecksumAddress(_token.owner || metadata.owner),
+
+      cid: _token.cid || metadata.cid || cidExtract(image) || "",
+      cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
+      nid: _token.nid || nftUrl3(chainId, collection, tokenID)
+    };
+    // STORE in cache if exists
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(nftData.nid || "", JSON.stringify(nftData, null, 2));
+    }
   }
 
   // console.log("addNftMetadataSync", _token, "=>", nftData);
   return nftData;
 };
 
-const addNftMetadata = async (chainId: number, _collection: string, _token: Nft): Promise<Nft> => {
-  // console.log("_token", _token);
-  // console.log("_token.tokenURI", _token.tokenURI);
-  _token.metadata =
-    _token.metadata || _token.tokenURI ? (await fetchJson(_token.tokenURI)) || {} : {};
-  // console.log("_token.metadata", _token.metadata);
-  return addNftMetadataSync(chainId, _collection, _token);
+const addNftMetadata = async (chainId: number, _token: Nft, _collection?: string): Promise<Nft> => {
+  // console.log("addNftMetadata chainId _token", chainId, _token);
+  let nftDataSync: Nft;
+
+  if (chainId && _token) {
+    const metadataUrl = ((_token.metadata as string) || _token.tokenURI);
+
+    if (metadataUrl) {
+      const metadataAnswer = await fetchJson(metadataUrl);
+
+      if (metadataAnswer.error) { console.error("metadataAnswer ERROR", metadataAnswer.error); }
+      else { _token.metadata = metadataAnswer; }
+    }
+    nftDataSync = addNftMetadataSync(chainId, _token, _collection);
+  }
+  // console.log("addNftMetadata nftDataSync", nftDataSync);
+  return nftDataSync;
 };
 
 const getNFTFromContract = async (
@@ -440,10 +455,10 @@ const listNFTsWithMetadata = async (
 ): Promise<Map<string, Nft>> => {
   const nftsWithMetadata: Map<string, Nft> = new Map();
 
-  const nftsTokenIds = [...nfts.values()];
+  const nftsFromIds = [...nfts.values()];
 
-  for (let index = 0; index < Math.min(nftsTokenIds.length, _limit); index++) {
-    const nft = await addNftMetadata(chainId, collection, nftsTokenIds[index]);
+  for (let index = 0; index < Math.min(nftsFromIds.length, _limit); index++) {
+    const nft = await addNftMetadata(chainId, nftsFromIds[index], collection);
     // console.log("listNFTsWithMetadata nid", nft.nid, nft);
     nftsWithMetadata.set(nft.nid || "", nft);
   }

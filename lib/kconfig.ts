@@ -1,16 +1,19 @@
 import networks from "../config/networks.json";
-import abis from "../config/abis.json";
+import config from "../config/config.json";
+import abis from "./abis.json";
 import type { Address, Network, Nft } from "./ktypes";
 
 import { providers, utils } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
 
+const version = config.version;
+
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-const textShort = (s = "", n = 16, p?: number): string => {
-  p = p === undefined ? n : p;
-  const l = s?.toString().length;
-  return s?.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? s?.substring(l - p, l) : ""));
+const textShort = (s: string, n = 16, p = n): string => {
+  const str: string = s?.toString() || "";
+  const l: number = str.length || 0;
+  return str.substring(0, n) + ((l < n) ? "" : ("..." + (p > 0 ? str.substring(l - p, l) : "")));
 };
 
 const getChecksumAddress = (address: Address | string | undefined): Address => {
@@ -130,7 +133,7 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + _tokenId : "")) : "")
+      (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -139,6 +142,7 @@ const nftUrl = (nft: Nft, n?: number): string =>
   nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
 export {
+  version,
   abis,
   textShort,
   networks,

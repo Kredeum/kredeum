@@ -7,6 +7,7 @@ const fetchJson = async (_url: string, _config: RequestInit = {}): Promise<Fetch
   let json: FetchResponse;
   if (_url) {
     try {
+      // console.log(_url, _config);
       const res = await fetch(_url, _config);
       // console.log(res);
       json = (await res.json()) as FetchResponse;

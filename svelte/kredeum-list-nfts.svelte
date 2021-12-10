@@ -44,11 +44,11 @@
 
   // ON OWNER OR COLLECTION CHANGE
   $: {
-    console.log(
-      "KredeumListNfts owner or collection changed, so refresh NFTs...",
-      owner,
-      collection
-    );
+    // console.log(
+    //   "KredeumListNfts owner or collection changed, so refresh NFTs...",
+    //   owner,
+    //   collection
+    // );
     if (owner && collection) {
       chainId = collection?.chainId;
       refreshNFTs();
@@ -109,8 +109,8 @@
     for (index = 0; index < numNFTs; index++) {
       refreshing = true;
 
-      const nftTokenId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
-      const nft = await addNftMetadata(chainId, _collection.address, nftTokenId);
+      const nftFromId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
+      const nft = await addNftMetadata(chainId, nftFromId, _collection.address);
 
       // chainId and collection have not changed while loading NFTs
       if (chainId === _chainId && collection?.address === _collection.address) {
@@ -189,9 +189,9 @@
             </div>
           </div>
 
-          {#if network?.openSea}
-            <div id="marketplace-{i}" class="table-col">
-              <div class="table-col-content">
+          <div id="marketplace-{i}" class="table-col">
+            <div class="table-col-content">
+              {#if network?.openSea}
                 {#if addressSame(nft.owner, owner)}
                   <a
                     href={nftOpenSeaUrl(chainId, nft)}
@@ -211,11 +211,7 @@
                     Buy
                   </a>
                 {/if}
-              </div>
-            </div>
-          {:else}
-            <div class="table-col">
-              <div class="table-col-content">
+              {:else}
                 <a
                   class="info-button"
                   href={nftImageLink(nft)}
@@ -223,9 +219,12 @@
                   (click to view NFT in explorer)&#013.{nftUrl(nft)}"
                   target="_blank"><i class="fas fa-info-circle" /></a
                 >
-              </div>
+              {/if}
+              <span id="token-id-{i}" title="  #{nft.tokenID}">
+                &nbsp;&nbsp;<strong>#{textShort(nft.tokenID)}</strong>
+              </span>
             </div>
-          {/if}
+          </div>
 
           <div id="more-{i}" class="table-col more" on:click={() => moreToggle(i)}>
             <div class="table-col-content txtright">
@@ -244,12 +243,6 @@
               </p>
               <ul class="steps">
                 <li class="complete">
-                  <div class="flex"><span class="label">Token ID</span></div>
-                  <div class="flex">
-                    <strong>{nft.tokenID}</strong>
-                  </div>
-                </li>
-                <li class="complete">
                   <div class="flex"><span class="label">Owner</span></div>
                   <div class="flex">
                     {@html explorerAddressLink(chainId, nft.owner, 15)}
@@ -259,7 +252,7 @@
                   <div class="flex"><span class="label">Token REF</span></div>
                   <div class="flex">
                     <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank">
-                      {@html nftExplorerLink(nft, 10)}
+                      {@html nftUrl(nft, 10)}
                     </a>
                   </div>
                 </li>

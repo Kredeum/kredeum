@@ -40,9 +40,10 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Changelog ==
 
-= 0.9.6 (latest) =
-* Bug fixes and improvments
-* Integration of complete new design
+= 0.9.10 (latest) =
+* New design
+* Personalized collections
+* Deployed on Polygon / Fantom / Avalanche / BSC
 
 = 0.8.4 =
 * Fix some bugs from previous version  0.8.1

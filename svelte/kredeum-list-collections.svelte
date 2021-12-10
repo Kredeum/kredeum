@@ -20,11 +20,15 @@
   let refreshingCollections: boolean;
   let open = false;
 
+  const _setCollectionFromEvent = async (e: Event): Promise<void> => {
+    return _setCollection((e.target as HTMLInputElement).value);
+  };
+
   const _setCollection = async (_collectionAddress: string): Promise<void> => {
-    if (_collectionAddress && collectionAddress !== _collectionAddress) {
+    if (_collectionAddress) {
       collectionAddress = _collectionAddress;
-      
-      console.log("KredeumListCollections _setCollection", collectionAddress);
+
+      // console.log("KredeumListCollections _setCollection", collectionAddress);
 
       if (chainId && owner && collectionAddress) {
         localStorage.setItem(`defaultCollection/${chainId}/${owner}`, collectionAddress);
@@ -39,7 +43,7 @@
   $: _listCollections(chainId, owner);
 
   const _listCollections = async (_chainId: number, _owner: string): Promise<void> => {
-    console.log("KredeumListCollections _listCollections", _chainId, _owner);
+    // console.log("KredeumListCollections _listCollections", _chainId, _owner);
     if (_chainId && _owner) {
       _listCollectionsFromCache(_chainId, _owner);
 
@@ -52,7 +56,7 @@
   };
 
   const _listCollectionsFromCache = async (_chainId: number, _owner: string) => {
-    console.log("KredeumListCollections _listCollectionsFromCache");
+    // console.log("KredeumListCollections _listCollectionsFromCache");
     allCollections = listCollectionsFromCache(_owner);
 
     collections = new Map(
@@ -72,6 +76,8 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
+    // console.log("allCollections", allCollections);
+    // console.log("collections", collections);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =
@@ -104,7 +110,7 @@
   {#if collections}
     {#if collections.size > 0}
       Collection
-      <select on:change={(e) => _setCollection(e.target.value)}>
+      <select on:change={(e) => _setCollectionFromEvent(e)}>
         {#each [...collections] as [url, coll]}
           <option selected={coll.address == collectionAddress} value={coll.address}>
             {collectionNameAndBalanceOf(coll)}
@@ -120,9 +126,9 @@
   {/if}
 {:else}
   <div class="select-wrapper select-collection" on:click={() => (open = !open)}>
-    {#if collections}
-      {#if collections.size > 0}
-        <div class="select" class:open>
+    <div class="select" class:open>
+      {#key refreshingCollections}
+        {#if collections && collections.size > 0}
           <div class="select-trigger">
             <span>{collectionNameAndBalanceOf(collection)}</span>
           </div>
@@ -137,16 +143,12 @@
               </span>
             {/each}
           </div>
-        </div>
-      {:else}
-        <p><em>NO Collection found !</em></p>
-      {/if}
-    {:else}
-      <p>
-        {#if refreshingCollections}
-          Refreshing Collection list...
+        {:else if refreshingCollections}
+          <div class="select-trigger">Refreshing Collection list...</div>
+        {:else}
+          <div class="select-trigger"><em>NO Collection found !</em></div>
         {/if}
-      </p>
-    {/if}
+      {/key}
+    </div>
   </div>
 {/if}

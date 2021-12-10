@@ -34,7 +34,7 @@ const _mintedNft = async (
   urlJson: string,
   minterAddress: string
 ): Promise<Nft> => {
-  const nft = await addNftMetadata(chainId, collection, {
+  const nft = await addNftMetadata(chainId, {
     chainId,
     collection,
     tokenID,
@@ -92,7 +92,7 @@ const mint3TxResponse = async (
 ): Promise<TransactionResponse | null> => {
   let txResp: TransactionResponse | null = null;
 
-  console.log("mint3TxResponse", chainId, collection, cidJson, await minter.getAddress());
+  // console.log("mint3TxResponse", chainId, collection, cidJson, await minter.getAddress());
 
   const network = getNetwork(chainId);
   const urlJson = ipfsGatewayUrl(cidJson);
@@ -134,7 +134,7 @@ const mint4Nft = async (
       // console.log("tokenID", tokenID);
 
       if (_tokenID) {
-        _nft = await _mintedNft(_chainId, _address, _tokenID, _metadataCid, _minter);
+        _nft = await _mintedNft(_chainId, _address, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
         _nft.cidJson = _metadataCid;
         // console.log("mint4Nft", _nft);
       }

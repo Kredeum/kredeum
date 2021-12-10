@@ -7,7 +7,7 @@
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
 
-  import { nftsUrl, getCreate, getNftsFactory } from "lib/kconfig";
+  import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -36,9 +36,9 @@
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // ON CHAINID, OWNER OR COLLECTION CHANGE
-  $: logChange(chainId, owner, collection);
-  const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
-    console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
+  // $: logChange(chainId, owner, collection);
+  // const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
+  //   console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
 
   // SET owner WHEN signer change
   $: setOwner(signer);
@@ -86,7 +86,7 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1>My NFT wallet</h1>
+          <h1 title="Kredeum NFTs v{version.latest}">My NFT wallet</h1>
           {#if owner && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
               ><i class="fas fa-plus fa-left" />Mint</a
@@ -98,7 +98,13 @@
 
             <div class="col col-sm-3">
               {#if owner && collection && getNftsFactory(chainId)}
-                <button class="clear" on:click={() => refreshNFTs(true)}>
+                <button
+                  class="clear"
+                  on:click={() => refreshNFTs(true)}
+                  title="      {refreshing
+                    ? 'Refreshing NFTs...'
+                    : 'Refresh NFTs from this Collection'}"
+                >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
                 </button>
               {/if}

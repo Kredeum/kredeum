@@ -74,7 +74,7 @@ const explorerCollectionInventoryLink = (chainId: number, collAddress: string): 
 
 const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): string =>
   getExplorer(chainId)?.includes("chainstacklabs.com") ||
-  getExplorer(chainId)?.includes("cchain.explorer")
+    getExplorer(chainId)?.includes("cchain.explorer")
     ? explorerUrl(chainId, `/tokens/${collAddress}/inventory`)
     : explorerUrl(chainId, `/token/${collAddress}#inventory`);
 
@@ -82,8 +82,7 @@ const explorerCollectionInventoryUrl = (chainId: number, collAddress: string): s
 const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
 
 const nftsBalanceAndName = (collection: Collection): string =>
-  `${collection?.balanceOf} ${collectionSymbol(collection)}${
-    (collection?.balanceOf || 0) > 1 ? "s" : ""
+  `${collection?.balanceOf} ${collectionSymbol(collection)}${(collection?.balanceOf || 0) > 1 ? "s" : ""
   }`;
 
 // NFT helpers
