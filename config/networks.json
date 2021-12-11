@@ -56,10 +56,9 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
     },
-    "nftsFactory": "0x6E54C3c0462Cb31a52aC22c0d2040782E91FB99E",
-    "openNFTs": "0x173E79EFAF94c1BdFC8FB6165FA16DAd930A03Dd",
-    "ContractProbe": "0x74f06a973046999fcd3905461baf8cbce596668f",
     "eip1559": true,
+    "nftsFactory": "0xffC40300fFF4B4c72bA91745D8465a109c656760",
+    "openNFTs": "0x266CD3AB0Cf7aD0452aB5cC469ADa4386a936942",
     "costClone": 0.01,
     "create": true,
     "testnet": true
@@ -72,7 +71,10 @@
     "blockExplorerUrls": ["https://kovan.etherscan.io"],
     "covalent": { "active": false },
     "eip1559": true,
-    "costClone": 0.01,
+    "nftsFactory": "0x1A98919c6C4Eb379Fc0Fa21b7AD080C87688Ef63",
+    "openNFTs": "0x2ac5247d5D3f88F3129Fc65E2867DCDb894bf2fC",
+    "costClone": 0,
+    "create": true,
     "testnet": true
   },
   {
@@ -89,8 +91,8 @@
       "active": true
     },
     "covalent": { "active": true },
-    "nftsFactory": "0x788351A3ecBE6C2E78fb6dB9171E7602Db1d40dF",
-    "openNFTs": "0x8AC7CfD35cA12762a3723C3003CEcD817EEE6174",
+    "nftsFactory": "0x67f34c28c32422a80BE0208bD81DD9ee7457A400",
+    "openNFTs": "0x7D4c91D3F030064d8d42AC6181Cde9016fb6Ea5a",
     "costClone": 0.01,
     "create": true,
     "testnet": true
@@ -109,8 +111,11 @@
     "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": { "name": "Ether", "symbol": "ARETH", "decimals": 18 },
     "blockExplorerUrls": ["https://testnet.arbiscan.io/", "https://rinkeby-explorer.arbitrum.io"],
-    "openNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "covalent": { "active": true },
+    "nftsFactory": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
+    "openNFTs": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
+    "costClone": 0.01,
+    "create": true,
     "testnet": true
   },
   {
@@ -145,6 +150,10 @@
     "nativeCurrency": { "name": "ETH", "symbol": "ETH", "decimals": 18 },
     "blockExplorerUrls": ["https://kovan-optimistic.etherscan.io"],
     "covalent": { "active": false },
+    "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
+    "costClone": 0.01,
+    "create": true,
     "testnet": true
   },
   {
@@ -154,8 +163,8 @@
     "nativeCurrency": { "name": "FTM", "symbol": "FTM", "decimals": 18 },
     "blockExplorerUrls": ["https://ftmscan.com"],
     "covalent": { "active": true },
-    "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
     "costClone": 0,
     "create": true,
     "mainnet": true
@@ -167,8 +176,8 @@
     "nativeCurrency": { "name": "AVAX", "symbol": "AVAX", "decimals": 18 },
     "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
     "covalent": { "active": true },
-    "openNFTs": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
     "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
+    "openNFTs": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
     "costClone": 0,
     "create": true,
     "mainnet": true
@@ -184,8 +193,8 @@
       "https://cchain.explorer.avax-test.network"
     ],
     "covalent": { "active": true },
-    "nftsFactory": "0xf783B0aad3120cB14De9f5C785561e1a0b985920",
-    "openNFTs": "0x17b5cC29c8fEE4A7f4a9a4D3aA89CEeceb1e2127",
+    "nftsFactory": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "openNFTs": "0x8a324A30C8ca1E9CFcea267C2116968cAacEd1D6",
     "costClone": 0.2,
     "create": true,
     "testnet": true
