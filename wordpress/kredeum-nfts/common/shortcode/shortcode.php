@@ -16,11 +16,20 @@ namespace KredeumNFTs\Shortcode;
 
 add_shortcode( 'kredeum_sell', 'KredeumNFTs\Shortcode\kredeum_sell_shortcode' );
 
+/**
+ * Get shortcode
+ *
+ * @param array  $atts attributs.
+ * @param string $content contenu.
+ * @param string $tag tag.
+ * @return string shortcode
+ * @package kredeum/nfts
+ */
 function kredeum_sell_shortcode( $atts = array(), $content = null, $tag = '' ) {
-	// normalize attribute keys, lowercase
+	// Normalize attribute keys, lowercase.
 	$atts = array_change_key_case( (array) $atts, CASE_LOWER );
 
-	// override default attributes with user attributes
+	// Override default attributes with user attributes.
 	$args = shortcode_atts(
 		array(
 			'chain'      => '',
@@ -32,7 +41,7 @@ function kredeum_sell_shortcode( $atts = array(), $content = null, $tag = '' ) {
 		$atts
 	);
 
-	// var_dump($args['image']);
+	// var_dump($args['image']); .
 
 	$o  = '<div>';
 	$o .= ' <a href="https://opensea.io/assets/' . $args['chain'] . '/' . $args['collection'] . '/' . $args['tokenid'] . '" target="_blank">';

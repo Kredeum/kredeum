@@ -144,28 +144,13 @@
       : `${divMoreDetail.offsetHeight + 70}px`;
   };
 
-  function krd_shortcode_click(nft) {
-    const data =
-      "[kredeum_sell chain=" +
-      network?.chainName +
-      " collection=" +
-      collection?.address +
-      " tokenid=" +
-      nft.tokenID +
-      " cid=" +
-      nft.cid +
-      "]" +
-      nftName(nft) +
-      "[/kredeum_sell]";
-    navigator.clipboard.writeText(data).then(
-      function () {
-        console.log("Copied");
-      },
-      function () {
-        console.log("Not copied");
-      }
-    );
-  }
+  const shortcode = async (nft: Nft) => {
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" 
+     tokenid="${nft.tokenID}" cid="${nft.cid}"]${nftName(nft)}[kredeum_sell]`;
+
+    await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+    console.log("Copied");
+  };
 </script>
 
 {#key owner && index}
@@ -305,7 +290,7 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Copy shortcode sell button</span></div>
                   <div class="flex">
-                    <button onclick={() => krd_shortcode_click(nft)} class="btn krd_shortcode_data"
+                    <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
                       >Shortcode</button
                     >
                   </div>
