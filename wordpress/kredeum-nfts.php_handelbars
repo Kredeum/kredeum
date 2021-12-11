@@ -54,7 +54,7 @@ if ( is_admin() ) {
 
 	add_action(
 		'admin_enqueue_scripts',
-    function ( $hook ) {
+		function ( $hook ) {
 			if ( 'nfts_page_ipfs_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
 				wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/css/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );

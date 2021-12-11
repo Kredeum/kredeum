@@ -10,6 +10,8 @@
   import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
+  export let platform = "dapp";
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
   // <KredeumCreateCollection bind:collection bind:chainId bind:signer />
@@ -119,7 +121,13 @@
           </div>
         </header>
 
-        <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
+        <KredeumListNfts
+          bind:collection
+          bind:owner
+          bind:refreshing
+          bind:refreshNFTs
+          bind:platform
+        />
       </section>
     </div>
   </main>

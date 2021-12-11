@@ -11,10 +11,10 @@
   // down from parent
   export let txt = false;
   // up from KredeumMetamask up to parent
-  export let chainId: number;
-  export let signer: Signer;
+  export let chainId: number = undefined;
+  export let signer: Signer = undefined;
   // up to parent
-  export let collection: Collection;
+  export let collection: Collection = undefined;
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <KredeumMetamask autoconnect="off" bind:chainId bind:signer />

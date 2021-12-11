@@ -23,11 +23,10 @@
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
-  // export let platform: string = undefined; // platform : WordPress or Dapp
-
   // down to component
   export let owner: string = undefined;
   export let collection: Collection = undefined;
+  export let platform: string = undefined; // platform : wordPress or dapp
   // up to parent
   export let refreshing: boolean;
 
@@ -145,8 +144,9 @@
   };
 
   const shortcode = async (nft: Nft) => {
-    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" 
-     tokenid="${nft.tokenID}" cid="${nft.cid}"]${nftName(nft)}[kredeum_sell]`;
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
+      nft.tokenID
+    }" cid="${nft.cid}"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
     console.log("Copied");
@@ -287,14 +287,16 @@
                     <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
                   </div>
                 </li>
-                <li class="complete">
-                  <div class="flex"><span class="label">Copy shortcode sell button</span></div>
-                  <div class="flex">
-                    <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
-                      >Shortcode</button
-                    >
-                  </div>
-                </li>
+                {#if platform === "wordpress"}
+                  <li class="complete">
+                    <div class="flex"><span class="label">Copy shortcode sell button</span></div>
+                    <div class="flex">
+                      <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
+                        >Shortcode</button
+                      >
+                    </div>
+                  </li>
+                {/if}
               </ul>
             </div>
           </div>

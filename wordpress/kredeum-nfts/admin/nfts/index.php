@@ -21,6 +21,7 @@ add_action(
 						'<div id="kredeum-app"'
 						// . ( boolval( SELECT_COLLECTION ) ? ' contract="' . esc_attr( SELECT_COLLECTION ) . '"' : '' )
 						. ( boolval( KREDEUM_BETA ) ? ' beta="true"' : '' )
+						. ' platform="wordpress"'
 						. ' class="wordpress"'
 						. '></div>'
 					);
