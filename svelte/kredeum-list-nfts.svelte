@@ -143,6 +143,14 @@
       ? "auto"
       : `${divMoreDetail.offsetHeight + 70}px`;
   };
+
+  const shortcode = async (nft: Nft) => {
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" 
+     tokenid="${nft.tokenID}" cid="${nft.cid}"]${nftName(nft)}[kredeum_sell]`;
+
+    await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+    console.log("Copied");
+  };
 </script>
 
 {#key owner && index}
@@ -277,6 +285,14 @@
                   <div class="flex"><span class="label">Image CID</span></div>
                   <div class="flex">
                     <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
+                  </div>
+                </li>
+                <li class="complete">
+                  <div class="flex"><span class="label">Copy shortcode sell button</span></div>
+                  <div class="flex">
+                    <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
+                      >Shortcode</button
+                    >
                   </div>
                 </li>
               </ul>
