@@ -10,7 +10,8 @@
     numberToHexString,
     explorerAddressLink,
     explorerAddressUrl,
-    explorerOpenNFTsUrl
+    explorerOpenNFTsUrl,
+    explorerNFTsFactoryUrl
   } from "lib/knfts";
   import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
@@ -266,9 +267,9 @@
         >Network
         <a
           class="info-button"
-          href={explorerOpenNFTsUrl(chainId)}
+          href={explorerNFTsFactoryUrl(chainId)}
           target="_blank"
-          title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
+          title="&#009; NFTs Factory address (click to view in explorer )"
           ><i class="fas fa-info-circle" /></a
         >
       </span>

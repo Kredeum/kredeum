@@ -2,6 +2,7 @@ import {
   getExplorer,
   getOpenSeaAssets,
   getOpenNFTsAddress,
+  getNFTsFactoryAddress,
   getShortAddress,
   textShort,
   nftUrl
@@ -69,6 +70,9 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 const explorerOpenNFTsUrl = (chainId: number): string =>
   explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
 
+const explorerNFTsFactoryUrl = (chainId: number): string =>
+  explorerCollectionUrl(chainId, getNFTsFactoryAddress(chainId));
+
 const explorerCollectionInventoryLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionInventoryUrl(chainId, collAddress), getShortAddress(collAddress));
 
@@ -133,6 +137,7 @@ export {
   nftsBalanceAndName,
   nftOpenSeaUrl,
   explorerOpenNFTsUrl,
+  explorerNFTsFactoryUrl,
   explorerLink,
   explorerAddressUrl,
   explorerAddressLink,

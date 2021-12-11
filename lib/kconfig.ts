@@ -88,6 +88,13 @@ const getOpenNFTsAddress = (chainId: number): Address | undefined => {
   return getChecksumAddress(network?.openNFTs);
 };
 
+
+// GET NFTs Factory
+const getNFTsFactoryAddress = (chainId: number): Address | undefined => {
+  const network = getNetwork(chainId);
+  return getChecksumAddress(network?.nftsFactory);
+};
+
 // GET OpenSeaKredeum
 const getOpenSeaKredeum = (chainId: number): string => {
   const network = getNetwork(chainId);
@@ -158,6 +165,7 @@ export {
   getCreate,
   getNftsFactory,
   getOpenNFTsAddress,
+  getNFTsFactoryAddress,
   getCovalent,
   getExplorer,
   nftUrl3,

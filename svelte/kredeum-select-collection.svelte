@@ -58,7 +58,7 @@
           <a
             class="info-button"
             href={_explorerCollectionUrl(collection.address)}
-            title="&#009;Collection owner (click to view in explorer )&#013;{_nftsUrl(
+            title="&#009;Collection owner addess (click to view in explorer)&#013;{_nftsUrl(
               collection.address
             )}"
             target="_blank"><i class="fas fa-info-circle" /></a
