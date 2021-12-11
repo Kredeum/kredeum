@@ -67,8 +67,8 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string =>
 const explorerCollectionLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), getShortAddress(collAddress));
 
-const explorerOpenNFTsUrl = (chainId: number): string =>
-  explorerCollectionUrl(chainId, getOpenNFTsAddress(chainId));
+const explorerOpenNFTsUrl = async (chainId: number): Promise<string> =>
+  explorerCollectionUrl(chainId, await getOpenNFTsAddress(chainId));
 
 const explorerNFTsFactoryUrl = (chainId: number): string =>
   explorerCollectionUrl(chainId, getNFTsFactoryAddress(chainId));
@@ -126,6 +126,7 @@ export {
   ipfsGatewayLink,
   addressSame,
   getShortAddress,
+  getNFTsFactoryAddress,
   collectionName,
   collectionSymbol,
   nftImageLink,

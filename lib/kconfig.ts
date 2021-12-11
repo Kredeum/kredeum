@@ -5,6 +5,7 @@ import type { Address, Network, Nft } from "./ktypes";
 
 import { providers, utils } from "ethers";
 import type { Provider } from "@ethersproject/abstract-provider";
+import { getNFTsFactory } from "./klist-collections";
 
 const version = config.version;
 
@@ -13,7 +14,7 @@ const networksMap = new Map(networks.map((network) => [network.chainId, network]
 const textShort = (s: string, n = 16, p = n): string => {
   const str: string = s?.toString() || "";
   const l: number = str.length || 0;
-  return str.substring(0, n) + ((l < n) ? "" : ("..." + (p > 0 ? str.substring(l - p, l) : "")));
+  return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
 
 const getChecksumAddress = (address: Address | string | undefined): Address => {
@@ -82,18 +83,13 @@ const getExplorer = (chainId: number): string => {
   return network?.blockExplorerUrls[0] || "";
 };
 
-// GET openNFTs
-const getOpenNFTsAddress = (chainId: number): Address | undefined => {
-  const network = getNetwork(chainId);
-  return getChecksumAddress(network?.openNFTs);
-};
-
-
 // GET NFTs Factory
-const getNFTsFactoryAddress = (chainId: number): Address | undefined => {
-  const network = getNetwork(chainId);
-  return getChecksumAddress(network?.nftsFactory);
-};
+const getNFTsFactoryAddress = (chainId: number): Address | undefined =>
+  getChecksumAddress(getNetwork(chainId)?.nftsFactory);
+
+// GET openNFTs
+const getOpenNFTsAddress = async (chainId: number): Promise<Address | undefined> =>
+  getChecksumAddress(await getNFTsFactory(chainId)?.template());
 
 // GET OpenSeaKredeum
 const getOpenSeaKredeum = (chainId: number): string => {
@@ -140,7 +136,9 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-      (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
+        (_contract
+          ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
+          : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;

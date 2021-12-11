@@ -134,7 +134,13 @@ const mint4Nft = async (
       // console.log("tokenID", tokenID);
 
       if (_tokenID) {
-        _nft = await _mintedNft(_chainId, _address, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
+        _nft = await _mintedNft(
+          _chainId,
+          _address,
+          _tokenID,
+          ipfsGatewayUrl(_metadataCid),
+          _minter
+        );
         _nft.cidJson = _metadataCid;
         // console.log("mint4Nft", _nft);
       }

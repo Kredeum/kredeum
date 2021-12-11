@@ -8,7 +8,8 @@ import {
   getSubgraphUrl,
   getCovalent,
   nftsUrl,
-  urlOwner
+  urlOwner,
+  getNFTsFactoryAddress
 } from "./kconfig";
 import type { Collection } from "./ktypes";
 import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
@@ -18,26 +19,27 @@ import type {
   TransactionReceipt
 } from "@ethersproject/abstract-provider";
 
+const nftsFactories: Map<number, NFTsFactory> = new Map();
+
 const getNFTsFactory = (
   chainId: number,
   _providerOrSigner?: Signer | Provider
 ): NFTsFactory | undefined => {
   // console.log("getNFTsFactory", chainId);
+  let nftsFactory = nftsFactories.get(chainId);
 
-  const network = getNetwork(chainId);
-  // console.log("getNFTsFactory", network);
+  if (!nftsFactory) {
+    const nftsFactoryAddress = getNFTsFactoryAddress(chainId);
+    if (nftsFactoryAddress) {
+      nftsFactory = new Contract(
+        nftsFactoryAddress,
+        abis.CloneFactory.concat(abis.NFTsFactory),
+        _providerOrSigner || getProvider(chainId)
+      ) as NFTsFactory;
 
-  _providerOrSigner = _providerOrSigner || getProvider(chainId);
-  let nftsFactory: NFTsFactory | undefined;
-
-  if (network?.nftsFactory) {
-    nftsFactory = new Contract(
-      network?.nftsFactory,
-      abis.CloneFactory.concat(abis.NFTsFactory),
-      _providerOrSigner
-    ) as NFTsFactory;
+      nftsFactories.set(chainId, nftsFactory);
+    }
   }
-
   return nftsFactory;
 };
 

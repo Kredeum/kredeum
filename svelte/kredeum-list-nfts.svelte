@@ -162,10 +162,8 @@
     <a
       class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
-      title="&#009;Collection address (click to view in explorer)&#013;{nftsUrl(
-        chainId,
-        collection?.address
-      )}"
+      title="&#009;Collection address (click to view in explorer)&#013;
+      {nftsUrl(chainId, collection?.address)}"
       target="_blank"><i class="fas fa-info-circle" /></a
     >
 
