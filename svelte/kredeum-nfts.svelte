@@ -55,7 +55,14 @@
 
 <div id="kredeum-nfts">
   <nav class="nav-krd" role="navigation">
-    <div class="logo"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></div>
+    <div class="logo">
+      <a
+        href="https://www.kredeum.com"
+        target="_blank"
+        alt="Kredeum website"
+        title="Kredeum website"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
+      >
+    </div>
 
     <div class="menu">
       <input id="burger" type="checkbox" />
