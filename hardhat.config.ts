@@ -53,11 +53,6 @@ const config: HardhatUserConfig = {
       chainId: 31337,
       url: "http://127.0.0.1:8545"
     },
-    fantom: {
-      chainId: 250,
-      url: "https://rpcapi.fantom.network",
-      accounts
-    },
     mainnet: {
       chainId: 1,
       // url: `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
@@ -73,8 +68,8 @@ const config: HardhatUserConfig = {
       chainId: 4,
       url: `https://eth-rinkeby.alchemyapi.io/v2/${process.env.ALCHEMY_API_KEY}`,
       // url: `https://rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      accounts,
-      gasPrice: 20_000_000_000
+      // gasPrice: 20_000_000_000,
+      accounts
     },
     goerli: {
       chainId: 5,
@@ -89,23 +84,33 @@ const config: HardhatUserConfig = {
     bsc: {
       chainId: 56,
       url: "https://bsc-dataseed1.binance.org",
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_BINANCE },
       accounts
     },
     matic: {
       chainId: 137,
       url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
-      accounts,
-      gasPrice: 50_000_000_000
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_POLYGON },
+      // gasPrice: 50_000_000_000,
+      accounts
     },
-    avalanche: {
-      chainId: 43114,
-      url: "https://api.avax.network/ext/bc/C/rpc",
+    fantom: {
+      chainId: 250,
+      url: "https://rpcapi.fantom.network",
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_FANTOM },
       accounts
     },
     fuji: {
       chainId: 43113,
       url: "https://api.avax-test.network/ext/bc/C/rpc",
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE },
+      accounts
+    },
+    avalanche: {
+      chainId: 43114,
+      url: "https://api.avax.network/ext/bc/C/rpc",
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE },
       accounts
     },
     mumbai: {
@@ -113,7 +118,9 @@ const config: HardhatUserConfig = {
       url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       accounts,
-      gasPrice: 20_000_000_000
+      // gasPrice: 20_000_000_000,
+      live: true,
+      etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_POLYGON }
     },
     optimism: {
       chainId: 10,
@@ -137,12 +144,9 @@ const config: HardhatUserConfig = {
       url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: "https://rinkeby.arbitrum.io/rpc",
       // url: `https://arb-rinkeby.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
-      accounts,
-      gasPrice: 20_000_000_000
+      // gasPrice: 20_000_000_000,
+      accounts
     }
-  },
-  etherscan: {
-    apiKey: process.env.ETHERSCAN_API_KEY
   },
   solidity: {
     compilers: [
@@ -179,7 +183,8 @@ const config: HardhatUserConfig = {
   mocha: {
     timeout: 200_000,
     bail: false
-  }
+  },
+  etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_ETHEREUM }
 };
 
 export default config;
