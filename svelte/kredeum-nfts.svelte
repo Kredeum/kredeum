@@ -93,7 +93,7 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1 title="Kredeum NFTs v{version.latest}">My NFT wallet</h1>
+          <h1 title="Kredeum NFTs v{version.latest}">My NFTs Factory</h1>
           {#if owner && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
               ><i class="fas fa-plus fa-left" />Mint</a
