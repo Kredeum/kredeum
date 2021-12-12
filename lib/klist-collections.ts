@@ -285,9 +285,8 @@ const CloneResponse = async (
   if (nftsFactory) {
     const n: string = (await nftsFactory.implementationsCount()).toString();
     const name = _name || `Open NFTs #${n}`;
-    // console.log(`cost ${ethers.utils.formatEther(cost)}`);
 
-    txResp = await nftsFactory.clone(name, `NFT${n}`);
+    txResp = await nftsFactory.connect(_cloner).clone(name, `NFT${n}`);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
   }
 
