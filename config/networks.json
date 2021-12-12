@@ -21,7 +21,7 @@
       "active": true
     },
     "eip1559": true,
-    "create": true,
+    "create": false,
     "mainnet": true,
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039"
   },
