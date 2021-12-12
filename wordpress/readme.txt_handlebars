@@ -64,7 +64,10 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 == Changelog ==
 
-= 0.9.11 (latest) =
+= 0.9.12 (latest) =
+* Fix bug while creation collection from previous v0.9.11 version
+ 
+= 0.9.11  =
 * Deployment of new version on Ethereum Mainnet
 * New Sell Button to generate WP shortcode to insert in FrontEnd Pages
  
