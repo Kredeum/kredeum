@@ -64,7 +64,11 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 == Changelog ==
 
-= 0.9.10 (latest) =
+= 0.9.11 (latest) =
+* Deployment of new version on Ethereum Mainnet
+* New Sell Button to generate WP shortcode to insert in FrontEnd Pages
+ 
+= 0.9.10 (stable) =
 * New design
 * Personalized collections
 * Deployed on Polygon / Fantom / Avalanche / BSC
@@ -79,7 +83,7 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 = 0.8.0 =
 * Personalized collections
 
-= 0.7.10 (stable) =
+= 0.7.10 =
 * First stable version since 0.7.2
 * Including WordPress Metadata (0.7.4), NFTs cache management (0.7.5) and ENS resolution (0.7.7)
 * Doesn't include unstable import feature (0.7.3): use v0.8+ to test beta import
@@ -134,4 +138,3 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 = 0.4.7 =
 * Initial plugin release
-
