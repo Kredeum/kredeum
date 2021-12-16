@@ -52,6 +52,7 @@ specifiers:
   ethereum-waffle: ^3.4.0
   ethers: ^5.5.2
   fancy-log: ^1.3.3
+  find-config: ^1.0.0
   form-data: ^4.0.0
   gulp: ^4.0.2
   gulp-if: ^3.0.0
@@ -171,6 +172,7 @@ devDependencies:
   ethereum-waffle: 3.4.0_typescript@4.5.4
   ethers: 5.5.2
   fancy-log: 1.3.3
+  find-config: 1.0.0
   form-data: 4.0.0
   gulp: 4.0.2
   gulp-if: 3.0.0
@@ -8972,6 +8974,13 @@ packages:
       pkg-dir: 3.0.0
     dev: true
 
+  /find-config/1.0.0:
+    resolution: {integrity: sha1-6vorm8B/qckOmgw++c7PHMgA9TA=}
+    engines: {node: '>= 0.12'}
+    dependencies:
+      user-home: 2.0.0
+    dev: true
+
   /find-replace/1.0.3:
     resolution: {integrity: sha1-uI5zZNLZyVlVnziMZmcNYTBEH6A=}
     engines: {node: '>=4.0.0'}
@@ -16220,6 +16229,7 @@ packages:
     resolution: {integrity: sha512-N9iVG+CGJsI4b4ZGazjwLnxErD2d9Pe4DPvvXSxYA9tFNu8ymXME4Qs5HIQ0LMJpNM7zj+m0NlNnNeqFpKzqnA==}
     deprecated: Unmaintained
     dev: true
+    bundledDependencies: []
 
   /prop-types/15.7.2:
     resolution: {integrity: sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==}
@@ -19725,6 +19735,13 @@ packages:
   /use/3.1.1:
     resolution: {integrity: sha512-cwESVXlO3url9YWlFW/TA9cshCEhtu7IKJ/p5soJ/gGpj7vbvFrAY/eIioQ6Dw23KjZhYgiIo8HOs1nQ2vr/oQ==}
     engines: {node: '>=0.10.0'}
+    dev: true
+
+  /user-home/2.0.0:
+    resolution: {integrity: sha1-nHC/2Babwdy/SGBODwS4tJzenp8=}
+    engines: {node: '>=0.10.0'}
+    dependencies:
+      os-homedir: 1.0.2
     dev: true
 
   /utf-8-validate/5.0.7:

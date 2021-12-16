@@ -110,6 +110,7 @@
     "ethereum-waffle": "^3.4.0",
     "ethers": "^5.5.2",
     "fancy-log": "^1.3.3",
+    "find-config": "^1.0.0",
     "form-data": "^4.0.0",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",

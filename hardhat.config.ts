@@ -8,10 +8,12 @@ import "@typechain/hardhat";
 import type { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
 import "./solidity/tasks/index";
+
 import dotenv from "dotenv";
+import findConfig from "find-config";
 
 if (!process.env.INFURA_API_KEY) {
-  dotenv.config();
+  dotenv.config({ path: findConfig(".env") || ".env" });
   if (!process.env.INFURA_API_KEY) {
     throw new Error("ENV Variable INFURA_API_KEY not set!");
   }
