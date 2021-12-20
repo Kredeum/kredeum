@@ -65,7 +65,6 @@
             if (e.target.id == "collection-type-custom") {
                 div_ctc.style.display = 'block';
             }   
-        })        
-
+        })
     }
 })();
