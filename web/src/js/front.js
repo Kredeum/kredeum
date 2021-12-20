@@ -52,4 +52,22 @@
         }
     });
 
+    var radio_ctr = document.getElementById("collection-type-royalties");
+    var div_ctr = document.getElementById("config-royalties");
+
+    var radio_ctc = document.getElementById("collection-type-custom");    
+    var div_ctc = document.getElementById("message-custom");    
+
+    for (const ct of document.querySelectorAll(".collection-type")) {
+        ctr.style.display = 'none';
+        ctc.style.display = 'none';
+
+        console.log(ct.id);
+        if (ct.id = "collection-type-royalties") {
+            ctr.style.display = 'inline-block';
+        }
+        if (ct.id = "collection-type-custom") {
+            ctc.style.display = 'inline-block';
+        }   
+    }
 })();

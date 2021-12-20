@@ -314,11 +314,30 @@
                                         </div>
                                     </div>
                                     <div class="section">
-                                        <div class="form-field">
-                                            <input type="text" id="collection" name="collection" placeholder="My collection" />
-                                        </div>
-                                    </div>                                    
+                                        <span class="label label-big">Collection type</span>
+                                        <div class="box-fields">
+                                            <input class="box-field collection-type" id="collection-type-default" name="collection-type" type="radio" value="Default" data-toggle="tooltip" title="Default Kredeum collection to sell his NFTs" checked>
+                                            <label class="field" for="collection-type-default"><i class="fas fa-play"></i>Default</label>
 
+                                            <input class="box-field collection-type" id="collection-type-royalties" name="collection-type" type="radio" value="Royalties" data-toggle="tooltip" title="Allow minter to receive royalties for each future NFT sells">
+                                            <label class="field" for="collection-type-royalties"><i class="fas fa-image"></i>Minter royalties</label>
+
+                                            <input class="box-field collection-type" id="collection-type-custom" name="collection-type" type="radio" value="Custom" data-toggle="tooltip" title="Kredeum can create your own Business NFT rules">
+                                            <label class="field" for="collection-type-custom"><i class="fas fa-file-alt"></i>Custom</label>
+                                        </div>
+                                    </div>
+                                    <div class="section collection-type-params" id='config-royalties' style="display:none">
+                                        <span class="label label-big">Define your % royalties</span>
+                                        <div class="form-field">                                            
+                                            <input type="text" id="royalties" name="royalties" placeholder="5" />
+                                        </div>
+                                    </div>
+                                    <div class="section collection-type-params" id='message-custom' style="display:none">
+                                        <span class="label label-big">Let discuss first ...</span>
+                                        <div class="form-field">
+                                            <a href='https://discord.gg/Vz5AyU2Nfx'>Join us on Discord</a>
+                                        </div>
+                                    </div>
                                     <div class="txtright">
                                         <button class="btn btn-default btn-sell" type="submit">Create</button>
                                     </div>
