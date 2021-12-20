@@ -9,4 +9,5 @@ services:
     volumes:
       - ${DATA_DIR}/nginx/templates:/etc/nginx/templates
       - ${DATA_DIR}/nginx/app:/usr/share/nginx/html/app
+      - ${DATA_DIR}/nginx/nginx.conf:/usr/share/nginx/nginx.conf
 
