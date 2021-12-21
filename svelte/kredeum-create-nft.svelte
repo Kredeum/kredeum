@@ -23,6 +23,7 @@
   let minting = 0;
   let mintingTxResp: TransactionResponse;
 
+  let nftTitle: string;
   let cidImage: string;
   let cidJson: string;
   let imageName: string;
@@ -53,7 +54,8 @@
 
     minting = 2;
 
-    cidJson = await mint2cidJson(imageName, cidImage, $owner, image);
+    // cidJson = await mint2cidJson(imageName, cidImage, $owner, image);
+    cidJson = await mint2cidJson(nftTitle, cidImage, $owner, image);
     // console.log("json", cidJson);
 
     minting = 3;
@@ -160,6 +162,13 @@
         </ul>
       {:else}
         <div class="section">
+          <span class="label label-big">NFT title</span>
+          <div class="form-field">
+            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
+          </div>
+        </div>
+        <div class="section">
+          <span class="label label-big">NFT file</span>
           <div class="box-file">
             {#if image}
               <div class="media media-photo mt-20">
