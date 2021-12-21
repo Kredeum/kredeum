@@ -10,10 +10,10 @@ import "tsconfig-paths/register";
 import "./solidity/tasks/index";
 
 import dotenv from "dotenv";
-import findConfig from "find-config";
+import { resolve } from "path";
 
 if (!process.env.INFURA_API_KEY) {
-  dotenv.config({ path: findConfig(".env") || ".env" });
+  dotenv.config({ path: resolve(__dirname, "./.env") });
   if (!process.env.INFURA_API_KEY) {
     throw new Error("ENV Variable INFURA_API_KEY not set!");
   }
@@ -139,6 +139,12 @@ const config: HardhatUserConfig = {
       // url: "https://arb1.arbitrum.io/rpc",
       url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
+      accounts
+    },    
+    xdai: {
+      chainId: 100,
+      url: "https://rpc.xdaichain.com/",
+      gasPrice: 80_000_000_000,
       accounts
     },
     arbitrumrinkeby: {
