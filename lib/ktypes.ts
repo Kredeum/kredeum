@@ -56,6 +56,13 @@ type Nft = {
   description?: string;
   metadata?: unknown;
   image?: string;
+  image_url?: string;
+  image_data?: string;
+  external_url?: string;
+  animation_url?: string;
+  youtube_url?: string;
+  background_color?: string;
+  attributes?: unknown;
   ipfs?: string;
   origin?: string;
   creator?: string;
