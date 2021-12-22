@@ -109,7 +109,7 @@ const addNftMetadataSync = (chainId: number, _token: Nft, _collection?: string):
 
     const chainName: string = _token.chainName || network?.chainName || "";
     const metadata: Metadata = (_token.metadata as Metadata) || {};
-    const image: string = _token.image || metadata.image || "";
+    const image: string = _token.image || metadata.image || metadata.image_url || "";
     const tokenID: string = _token.tokenID || "";
 
     nftData = {
