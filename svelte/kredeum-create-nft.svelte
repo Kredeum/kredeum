@@ -26,27 +26,53 @@
   let nftTitle: string;
   let cidImage: string;
   let cidJson: string;
-  let imageName: string;
+  let imageName = "My NFT title";
 
   let files: FileList;
   let image: string;
 
+  let errormsg = "";
+
   // DISPLAY image AFTER upload
-  $: if (files) {
+  /*   $: if (files) {
     let reader = new FileReader();
     reader.readAsDataURL(files[0]);
     imageName = files[0].name;
     reader.onload = (e) => {
       image = `${e.target.result}`;
     };
+  } */
+
+  function fileload() {
+    if (files) {
+      let reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      imageName = files[0].name;
+      //nftTitle = imageName;
+      reader.onload = (e) => {
+        image = `${e.target.result}`;
+      };
+    }
   }
 
   const mint = async (): Promise<Nft> => {
+    errormsg = null;
     cidImage = null;
     cidJson = null;
     mintingTxResp = null;
     mintedNft = null;
 
+    console.log("image", image);
+    console.log("nftTitle", nftTitle);
+    if (image == undefined) {
+      errormsg = "Missing NFT file. Sorry can't mint.";
+      return;
+    }
+
+    if (nftTitle == undefined) {
+      errormsg = "Missing NFT title. Sorry can't mint.";
+      return;
+    }
     minting = 1;
 
     cidImage = await mint1cidImage(image);
@@ -175,7 +201,7 @@
                 <img src={image} alt="nft" />
               </div>
             {:else}
-              <input type="file" id="file" name="file" bind:files />
+              <input type="file" id="file" name="file" bind:files on:change={fileload} />
             {/if}
           </div>
         </div>
@@ -242,6 +268,11 @@
 
         <div class="txtright">
           <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+        </div>
+        <div class="section">
+          <p class="txtright errormsg">
+            {errormsg}
+          </p>
         </div>
       {/if}
     </div>
