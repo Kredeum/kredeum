@@ -1,5 +1,5 @@
 name: Check sources
-on: pull_request
+on: push
 
 jobs:
   check:

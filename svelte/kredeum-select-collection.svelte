@@ -11,10 +11,10 @@
   // down from parent
   export let txt = false;
   // up from KredeumMetamask up to parent
-  export let chainId: number;
-  export let signer: Signer;
+  export let chainId: number = undefined;
+  export let signer: Signer = undefined;
   // up to parent
-  export let collection: Collection;
+  export let collection: Collection = undefined;
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <KredeumMetamask autoconnect="off" bind:chainId bind:signer />
@@ -58,9 +58,8 @@
           <a
             class="info-button"
             href={_explorerCollectionUrl(collection.address)}
-            title="&#009;Collection owner (click to view in explorer )&#013;{_nftsUrl(
-              collection.address
-            )}"
+            title="&#009;Collection owner addess (click to view in explorer)&#013;
+            {_nftsUrl(collection.address)}"
             target="_blank"><i class="fas fa-info-circle" /></a
           >
         {/if}

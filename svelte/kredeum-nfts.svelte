@@ -10,6 +10,8 @@
   import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
+  export let platform = "dapp";
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
   // <KredeumCreateCollection bind:collection bind:chainId bind:signer />
@@ -55,7 +57,14 @@
 
 <div id="kredeum-nfts">
   <nav class="nav-krd" role="navigation">
-    <div class="logo"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></div>
+    <div class="logo">
+      <a
+        href="https://www.kredeum.com"
+        target="_blank"
+        alt="Kredeum website"
+        title="Kredeum website"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
+      >
+    </div>
 
     <div class="menu">
       <input id="burger" type="checkbox" />
@@ -86,7 +95,7 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1 title="Kredeum NFTs v{version.latest}">My NFT wallet</h1>
+          <h1 title="Kredeum NFTs v{version.latest}">My NFTs Factory (beta)</h1>
           {#if owner && getCreate(chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
               ><i class="fas fa-plus fa-left" />Mint</a
@@ -112,7 +121,13 @@
           </div>
         </header>
 
-        <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
+        <KredeumListNfts
+          bind:collection
+          bind:owner
+          bind:refreshing
+          bind:refreshNFTs
+          bind:platform
+        />
       </section>
     </div>
   </main>

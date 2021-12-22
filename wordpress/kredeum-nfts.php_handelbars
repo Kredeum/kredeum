@@ -77,6 +77,9 @@ define( 'SELECT_COLLECTION', get_option( 'SELECT_COLLECTION', '' ) );
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
+
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
+
 // require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 
 add_action(

@@ -47,7 +47,7 @@
         // default user collection
         localStorage.getItem(`defaultCollection/${chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        getOpenNFTsAddress(chainId);
+        (await getOpenNFTsAddress(chainId));
     }
   };
 

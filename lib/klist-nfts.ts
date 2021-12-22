@@ -94,7 +94,6 @@ const addNftMetadataSync = (chainId: number, _token: Nft, _collection?: string):
   let nftData: Nft;
 
   if (chainId && _token) {
-
     type Metadata = {
       name?: string;
       description?: string;
@@ -150,13 +149,16 @@ const addNftMetadata = async (chainId: number, _token: Nft, _collection?: string
   let nftDataSync: Nft;
 
   if (chainId && _token) {
-    const metadataUrl = ((_token.metadata as string) || _token.tokenURI);
+    const metadataUrl = (_token.metadata as string) || _token.tokenURI;
 
     if (metadataUrl) {
       const metadataAnswer = await fetchJson(metadataUrl);
 
-      if (metadataAnswer.error) { console.error("metadataAnswer ERROR", metadataAnswer.error); }
-      else { _token.metadata = metadataAnswer; }
+      if (metadataAnswer.error) {
+        console.error("metadataAnswer ERROR", metadataAnswer.error);
+      } else {
+        _token.metadata = metadataAnswer;
+      }
     }
     nftDataSync = addNftMetadataSync(chainId, _token, _collection);
   }

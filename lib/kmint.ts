@@ -96,20 +96,20 @@ const mint3TxResponse = async (
 
   const network = getNetwork(chainId);
   const urlJson = ipfsGatewayUrl(cidJson);
-  const contract = await getCollection(chainId, collection);
-  // console.log("contract", contract);
+  const openNFTs = await getCollection(chainId, collection);
+  // console.log("openNFTs", openNFTs);
 
-  if (contract?.mintNFT) {
+  if (openNFTs?.mintNFT) {
     // const txOptions = {
     //   maxPriorityFeePerGas: utils.parseUnits("50", "gwei"),
     //   maxFeePerGas: utils.parseUnits("50", "gwei"),
     //   type: 2
     // };
 
-    txResp = await contract.connect(minter).mintNFT(await minter.getAddress(), urlJson);
+    txResp = await openNFTs.connect(minter).mintNFT(await minter.getAddress(), urlJson);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   } else {
-    console.error("No OpenNFTs contract found @", explorerCollectionUrl(chainId, collection));
+    console.error("No OpenNFTs openNFTs found @", explorerCollectionUrl(chainId, collection));
   }
 
   return txResp;
@@ -134,7 +134,13 @@ const mint4Nft = async (
       // console.log("tokenID", tokenID);
 
       if (_tokenID) {
-        _nft = await _mintedNft(_chainId, _address, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
+        _nft = await _mintedNft(
+          _chainId,
+          _address,
+          _tokenID,
+          ipfsGatewayUrl(_metadataCid),
+          _minter
+        );
         _nft.cidJson = _metadataCid;
         // console.log("mint4Nft", _nft);
       }
