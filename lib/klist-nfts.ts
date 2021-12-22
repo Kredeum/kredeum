@@ -94,6 +94,7 @@ const addNftMetadataSync = (chainId: number, _token: Nft, _collection?: string):
   let nftData: Nft;
 
   if (chainId && _token) {
+    // TODO : Extend NFT type with Metadata type...
     type Metadata = {
       name?: string;
       description?: string;
@@ -101,6 +102,7 @@ const addNftMetadataSync = (chainId: number, _token: Nft, _collection?: string):
       minter?: string;
       owner?: string;
       image?: string;
+      image_url?: string;
       cid?: string;
     };
 
