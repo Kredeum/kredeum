@@ -266,7 +266,8 @@
     },
     "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet/"],
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
-    "testnet": true
+    "create": true,
+    "mainnet": true
   },
   {
     "chainId": 43113,
