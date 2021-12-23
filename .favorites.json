@@ -30,5 +30,21 @@
         "workspaceRoot": "/Users/alain/DEV/kredeum",
         "workspacePath": ".env",
         "id": "5r3NYB8GWaOdCo1Z"
+    },
+    {
+        "type": "File",
+        "name": "/Users/alain/DEV/kredeum/svelte/kredeum-nfts.svelte",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "svelte/kredeum-nfts.svelte",
+        "id": "gxFVRcl6CpEsjPdU"
+    },
+    {
+        "type": "File",
+        "name": "/Users/alain/DEV/kredeum/svelte/kredeum-list-nfts.svelte",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "svelte/kredeum-list-nfts.svelte",
+        "id": "FwPgf0NImWTB7hz3"
     }
 ]
