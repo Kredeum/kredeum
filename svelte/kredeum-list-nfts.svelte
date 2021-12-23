@@ -39,6 +39,9 @@
   let Collections: Array<Collection>;
   let nftImport: number;
 
+  // Track NFTs div offsetHeight with "more" details
+  let mores: Array<number> = [];
+
   const dispatch = createEventDispatcher();
 
   // ON OWNER OR COLLECTION CHANGE
@@ -74,6 +77,7 @@
       // LOAD NFTs from lib
       if (refreshLib) {
         clearCache(chainId, collection.address);
+        mores = [];
         NFTs = new Map();
         _refreshNFTsFromLib(chainId, collection, owner);
       }
@@ -132,15 +136,8 @@
     nftImport = 2;
   };
 
-  const moreToggle = (i: number) => {
-    const divTableDrop = document.getElementById(`table-drop-${i}`);
-    const divMoreDetail = document.getElementById(`more-detail-${i}`);
-    const divDescShort = document.getElementById(`description-short-${i}`);
-    divDescShort.classList.toggle("hidden");
-    divTableDrop.classList.toggle("closed");
-    divTableDrop.style.height = divTableDrop.classList.contains("closed")
-      ? "auto"
-      : `${divMoreDetail.offsetHeight + 70}px`;
+  const moreToggle = (i: number): void => {
+    mores[i] = mores[i] ? 0 : (document.getElementById(`more-detail-${i}`)?.offsetHeight || 0) + 70;
   };
 
   const shortcode = async (nft: Nft) => {
@@ -177,14 +174,21 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, i}
-        <div id="table-drop-{i}" class="table-row table-drop closed">
+        <div
+          id="table-drop-{i}"
+          class="table-row table-drop"
+          class:closed={!mores[i]}
+          style="height: {mores[i] ? `${mores[i]}px` : 'auto'};"
+        >
           <div id="media-{i}" class="table-col">
             <div class="table-col-content">
               <div class="media media-small media-photo">
                 <img alt="link" src={nftImageLink(nft)} height="100" />
               </div>
               <strong>{nftName(nft)}</strong>
-              <span id="description-short-{i}">{nftDescriptionShort(nft, 64)}</span>
+              <span id="description-short-{i}" class:hidden={mores[i]}
+                >{nftDescriptionShort(nft, 64)}
+              </span>
               <a
                 class="info-button"
                 href={nftImageLink(nft)}
