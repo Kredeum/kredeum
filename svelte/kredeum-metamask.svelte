@@ -7,7 +7,7 @@
   import {
     getShortAddress,
     numberToHexString,
-    explorerAddressUrl,
+    explorerAccountUrl,
     explorerNFTsFactoryUrl,
     getNFTsFactoryAddress
   } from "lib/knfts";
@@ -239,7 +239,7 @@
         >Address
         <a
           class="info-button"
-          href={explorerAddressUrl(chainId, address)}
+          href={explorerAccountUrl(chainId, address)}
           target="_blank"
           title="&#009;Account address (click to view account in explorer )&#013;{address}"
           ><i class="fas fa-info-circle" /></a
