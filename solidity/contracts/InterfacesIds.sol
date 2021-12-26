@@ -2,10 +2,16 @@
 pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
+
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721Receiver.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
+
+import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
+import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
+import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol";
+
 import "./interfaces/IOpenNFTsV0.sol";
 import "./interfaces/IOpenNFTsV1.sol";
 import "./interfaces/IOpenNFTsV2.sol";
@@ -20,14 +26,20 @@ contract InterfacesIds is IInterfacesIds {
   /// @notice No params
   /// @return interfacesIds : Array of all interfaceIds
   function ids() public pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
-    interfacesIds = new bytes4[](8);
+    interfacesIds = new bytes4[](11);
     interfacesIds[0] = type(IERC165).interfaceId;
+
     interfacesIds[1] = type(IERC721).interfaceId;
     interfacesIds[2] = type(IERC721Receiver).interfaceId;
     interfacesIds[3] = type(IERC721Metadata).interfaceId;
     interfacesIds[4] = type(IERC721Enumerable).interfaceId;
-    interfacesIds[5] = type(IOpenNFTsV0).interfaceId;
-    interfacesIds[6] = type(IOpenNFTsV1).interfaceId;
-    interfacesIds[7] = type(IOpenNFTsV2).interfaceId;
+
+    interfacesIds[5] = type(IERC1155).interfaceId;
+    interfacesIds[6] = type(IERC1155Receiver).interfaceId;
+    interfacesIds[7] = type(IERC1155MetadataURI).interfaceId;
+
+    interfacesIds[8] = type(IOpenNFTsV0).interfaceId;
+    interfacesIds[9] = type(IOpenNFTsV1).interfaceId;
+    interfacesIds[10] = type(IOpenNFTsV2).interfaceId;
   }
 }

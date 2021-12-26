@@ -1,7 +1,12 @@
 type OpenNFTsKeys = "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "CloneFactory" | "NFTsFactory";
-type ErcKeys = "ERC165" | "ERC721" | "ERC721TokenReceiver" | "ERC721Metadata" | "ERC721Enumerable";
+type ErcKeys = "ERC165" |
+  "ERC721" | "ERC721TokenReceiver" | "ERC721Metadata" | "ERC721Enumerable" |
+  "ERC1155" | "ERC1155TokenReceiver" | "ERC1155Metadata_URI";
 type ABIS = {
-  [Key in ErcKeys | OpenNFTsKeys]: Array<string>;
+  [Key in ErcKeys | OpenNFTsKeys]: {
+    abi: Array<string>;
+    interfaceId?: string;
+  };
 };
 
 type Address = string;

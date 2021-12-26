@@ -25,6 +25,7 @@ const getNFTsFactory = (
   signerOrProvider: Signer | Provider
 ): NFTsFactory | undefined => {
   // console.log("getNFTsFactory", chainId);
+
   let nftsFactory: NFTsFactory;
 
   if (chainId && signerOrProvider) {
@@ -34,7 +35,7 @@ const getNFTsFactory = (
       if (nftsFactoryAddress) {
         nftsFactory = new Contract(
           nftsFactoryAddress,
-          abis.CloneFactory.concat(abis.NFTsFactory),
+          abis.CloneFactory.abi.concat(abis.NFTsFactory.abi),
           signerOrProvider
         ) as NFTsFactory;
         nftsFactories.set(chainId, nftsFactory);

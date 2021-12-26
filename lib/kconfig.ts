@@ -1,13 +1,15 @@
+
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address, Network, Nft } from "./ktypes";
+import type { ABIS, Address, Network, Nft } from "./ktypes";
 
 import networks from "../config/networks.json";
 import config from "../config/config.json";
-import abis from "./abis.json";
+import abisJson from "./abis.json";
 
 import { providers, utils } from "ethers";
 import { getNFTsFactory } from "./klist-collections";
 
+const abis = abisJson as ABIS;
 const version = config.version;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
