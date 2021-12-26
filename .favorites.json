@@ -54,5 +54,13 @@
         "workspaceRoot": "/Users/alain/DEV/kredeum",
         "workspacePath": "svelte",
         "id": "i6q5VTU4NIPfC39m"
+    },
+    {
+        "type": "File",
+        "name": "/Users/alain/DEV/kredeum/lib/abis.json",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "lib/abis.json",
+        "id": "CDH4Z1uIxcm9d7NT"
     }
 ]
