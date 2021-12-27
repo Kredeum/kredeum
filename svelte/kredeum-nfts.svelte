@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { Signer } from "ethers";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
@@ -10,23 +10,14 @@
   import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
+  import { chainId, owner } from "./network.js";
+
   export let platform = "dapp";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
-  // <KredeumCreateCollection bind:collection bind:chainId bind:signer />
-  // <KredeumCreateNft bind:collection bind:chainId bind:signer />
-  //
-  // up from KredeumMetamask component
-  // and down to KredeumListCollections, KredeumListNfts, KredeumCreateCollection and KredeumCreateNft
-  let chainId: number;
-  //
-  // up from KredeumSelectCollection component
-  // and down to KredeumCreateCollection and KredeumCreateNft
-  let signer: Signer;
-  //
-  // down to KredeumListNfts components
-  let owner: string;
+  // <KredeumCreateCollection bind:collection />
+  // <KredeumCreateNft bind:collection />
   //
   // up from KredeumSelectCollection and KredeumCreateCollection components
   // and down to KredeumListNfts, KredeumCreateNft
@@ -42,17 +33,13 @@
   // const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
   //   console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
 
-  // SET owner WHEN signer change
-  $: setOwner(signer);
-  const setOwner = async (_signer) => _signer && (owner = await _signer.getAddress());
-
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
-    const ret = explorerCollectionUrl(chainId, _collectionAddress);
+    const ret = explorerCollectionUrl($chainId, _collectionAddress);
     // console.log("_explorerCollectionUrl", ret);
     return ret;
   };
 
-  const _nftsUrl = (_collectionAddress: string): string => nftsUrl(chainId, _collectionAddress);
+  const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 </script>
 
 <div id="kredeum-nfts">
@@ -96,17 +83,17 @@
       <section class="content">
         <header>
           <h1 title="Kredeum NFTs v{version.latest}">My NFTs Factory (beta)</h1>
-          {#if owner && getCreate(chainId)}
+          {#if $owner && getCreate($chainId)}
             <a href="#create" class="btn btn-default" title="Mint"
               ><i class="fas fa-plus fa-left" />Mint</a
             >
           {/if}
 
           <div class="row alignbottom">
-            <KredeumSelectCollection bind:collection bind:chainId bind:signer />
+            <KredeumSelectCollection bind:collection />
 
             <div class="col col-sm-3">
-              {#if owner && collection && getNftsFactory(chainId)}
+              {#if $owner && collection && getNftsFactory($chainId)}
                 <button
                   class="clear"
                   on:click={() => refreshNFTs(true)}
@@ -121,13 +108,7 @@
           </div>
         </header>
 
-        <KredeumListNfts
-          bind:collection
-          bind:owner
-          bind:refreshing
-          bind:refreshNFTs
-          bind:platform
-        />
+        <KredeumListNfts bind:collection bind:refreshing bind:refreshNFTs bind:platform />
       </section>
     </div>
   </main>
@@ -157,11 +138,11 @@
 
   <!-- Modal create NFT -->
   <div id="create-nft" class="modal-window">
-    <KredeumCreateNft bind:collection bind:chainId bind:signer />
+    <KredeumCreateNft bind:collection />
   </div>
 
   <!-- Modal add collection -->
   <div id="add-collection" class="modal-window">
-    <KredeumCreateCollection bind:collection bind:chainId bind:signer />
+    <KredeumCreateCollection bind:collection />
   </div>
 </div>

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Nft, Network } from "lib/ktypes";
-  import type { Signer } from "ethers";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
@@ -19,13 +19,7 @@
   // down to component with default
   export let collection: string = undefined;
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumMetamask autoconnect="off" bind:chainId bind:signer />
-  //
-  // up from KredeumMetamask
-  let chainId;
-  let signer: Signer;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  import { chainId, signer } from "./network.js";
 
   let mintedNft: Nft;
   let minting: number;
@@ -36,25 +30,25 @@
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange(chainId, signer);
+  $: handleChange($chainId, $signer);
 
-  const handleChange = async (_chainId: string, _signer: Signer) => {
+  const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
     if (_chainId && _signer) {
       signerAddress = await _signer.getAddress();
       console.log("kredeum-mint handleChange", _chainId, signerAddress);
 
       collection =
         // default user collection
-        localStorage.getItem(`defaultCollection/${chainId}/${signerAddress}`) ||
+        localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await getOpenNFTsAddress(chainId));
+        (await getOpenNFTsAddress($chainId));
     }
   };
 
   const sell = async (e: Event): Promise<void> => {
     e.preventDefault();
 
-    location.href = nftOpenSeaUrl(chainId, mintedNft);
+    location.href = nftOpenSeaUrl($chainId, mintedNft);
   };
 
   const view = async (e: Event): Promise<void> => {
@@ -81,12 +75,12 @@
 
     minting = 3;
 
-    const mintingTxResp = await mint3TxResponse(chainId, collection, cidJson, signer);
+    const mintingTxResp = await mint3TxResponse($chainId, collection, cidJson, $signer);
     // console.log("txResp", txResp);
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, collection, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await mint4Nft($chainId, collection, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -100,7 +94,7 @@
     <img {src} {alt} {width} /><br />
   {/if}
 
-  {#if signer}
+  {#if $signer}
     {#if minting}
       {#if mintedNft}
         {#if network?.openSea}
@@ -127,7 +121,7 @@
     {/if}
   {:else}
     <small>
-      <br /><KredeumMetamask autoconnect="off" bind:chainId bind:signer />
+      <br /><KredeumMetamask autoconnect="off" />
     </small>
   {/if}
 

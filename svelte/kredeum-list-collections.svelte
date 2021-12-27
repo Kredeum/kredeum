@@ -6,9 +6,9 @@
   import { collectionName } from "lib/knfts";
   import { onMount } from "svelte";
 
+  import { chainId, owner } from "./network.js";
+
   // down to component
-  export let chainId: number = undefined;
-  export let owner: string = undefined;
   export let filter = false;
   export let txt = false;
   // up to parent
@@ -30,9 +30,9 @@
 
       // console.log("KredeumListCollections _setCollection", collectionAddress);
 
-      if (chainId && owner && collectionAddress) {
-        localStorage.setItem(`defaultCollection/${chainId}/${owner}`, collectionAddress);
-        collection = allCollections.get(urlOwner(nftsUrl(chainId, collectionAddress), owner));
+      if ($chainId && $owner && collectionAddress) {
+        localStorage.setItem(`defaultCollection/${$chainId}/${$owner}`, collectionAddress);
+        collection = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
       } else {
         collection = null;
       }
@@ -40,7 +40,7 @@
   };
 
   // ON CHAINID or OWNER change THEN list collections
-  $: _listCollections(chainId, owner);
+  $: _listCollections($chainId, $owner);
 
   const _listCollections = async (_chainId: number, _owner: string): Promise<void> => {
     // console.log("KredeumListCollections _listCollections", _chainId, _owner);
@@ -58,7 +58,7 @@
   const _listCollectionsFromCache = async (_chainId: number, _owner: string) => {
     // console.log("KredeumListCollections _listCollectionsFromCache");
     allCollections = listCollectionsFromCache(_owner);
-    const openNFTsAddress = await getOpenNFTsAddress(chainId);
+    const openNFTsAddress = await getOpenNFTsAddress(_chainId);
 
     collections = new Map(
       [...allCollections]
@@ -82,7 +82,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await getOpenNFTsAddress(chainId));
+      (await getOpenNFTsAddress($chainId));
     _setCollection(defaultCollection);
     // console.log(collections);
   };
@@ -117,7 +117,7 @@
           </option>
         {/each}
       </select>
-      {nftsUrl(chainId, collectionAddress)}
+      {nftsUrl($chainId, collectionAddress)}
     {:else}
       NO Collection found !
     {/if}

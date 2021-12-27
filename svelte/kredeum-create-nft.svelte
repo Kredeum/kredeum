@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
-  import type { Signer } from "ethers";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
@@ -10,18 +10,13 @@
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
 
+  import { chainId, signer, owner } from "./network.js";
+
   // down to component
   export let collection: Collection = undefined;
 
-  // down to component down to KredeumListCollections
-  export let chainId: number = undefined;
-  export let signer: Signer = undefined;
-
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumListCollections bind:owner bind:chainId bind:collection filter />;
-  //
-  // down to KredeumListCollections
-  let owner: string;
+  // <KredeumListCollections bind:collection filter />;
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   let mintedNft: Nft;
@@ -34,10 +29,6 @@
 
   let files: FileList;
   let image: string;
-
-  // SET owner WHEN signer change
-  $: setOwner(signer);
-  const setOwner = async (_signer) => _signer && (owner = await _signer.getAddress());
 
   // DISPLAY image AFTER upload
   $: if (files) {
@@ -55,8 +46,6 @@
     mintingTxResp = null;
     mintedNft = null;
 
-    const signerAddress = await signer.getAddress();
-
     minting = 1;
 
     cidImage = await mint1cidImage(image);
@@ -64,17 +53,17 @@
 
     minting = 2;
 
-    cidJson = await mint2cidJson(imageName, cidImage, signerAddress, image);
+    cidJson = await mint2cidJson(imageName, cidImage, $owner, image);
     // console.log("json", cidJson);
 
     minting = 3;
 
-    mintingTxResp = await mint3TxResponse(chainId, collection.address, cidJson, signer);
+    mintingTxResp = await mint3TxResponse($chainId, collection.address, cidJson, $signer);
     // console.log("txResp", txResp);
 
     minting = 4;
 
-    mintedNft = await mint4Nft(chainId, collection.address, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await mint4Nft($chainId, collection.address, mintingTxResp, cidJson, $owner);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -107,7 +96,7 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank"
                   >{nftUrl(mintedNft, 6)}</a
                 >
               </div>
@@ -154,7 +143,7 @@
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxResp}
-                <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
+                <a class="link" href={explorerTxUrl($chainId, mintingTxResp.hash)} target="_blank"
                   >{textShort(mintingTxResp.hash, 15)}</a
                 >
               {/if}
@@ -239,7 +228,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollections bind:owner bind:chainId bind:collection filter />
+          <KredeumListCollections bind:collection filter />
         </div>
 
         <div class="txtright">

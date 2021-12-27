@@ -2,7 +2,7 @@
   // import Web3 from "web3";
   import Web3Modal from "web3modal";
 
-  import networks from "../config/networks.json";
+  import networks from "../../config/networks.json";
   import { createEventDispatcher } from "svelte";
   import { onMount } from "svelte";
   import { ethers } from "ethers";

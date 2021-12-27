@@ -23,8 +23,9 @@
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
+  import { chainId, owner } from "./network.js";
+
   // down to component
-  export let owner: string = undefined;
   export let collection: Collection = undefined;
   export let platform: string = undefined; // platform : wordPress or dapp
   // up to parent
@@ -32,7 +33,6 @@
 
   let index: number;
   let network: Network;
-  let chainId: number;
 
   let NFTs: Map<string, Nft>;
   let allNFTs: Map<string, Nft>;
@@ -51,24 +51,24 @@
     //   owner,
     //   collection
     // );
-    if (owner && collection) {
-      chainId = collection?.chainId;
+    if ($owner && collection) {
+      // chainId.set(collection?.chainId);
       refreshNFTs();
     }
   }
 
   export const refreshNFTs = async (force = false) => {
     // console.log("refreshNFTS", force, collection);
-    network = getNetwork(chainId);
+    network = getNetwork($chainId);
 
-    if (network && collection && owner) {
+    if (network && collection && $owner) {
       let refreshLib: boolean;
 
       if (force) {
         refreshLib = true;
       } else {
         // LOAD NFTs from cache
-        const numNFTs = _refreshNFTsFromCache(chainId, collection, owner);
+        const numNFTs = _refreshNFTsFromCache($chainId, collection, $owner);
 
         // REFRESH LIB WHEN NFT count found in cache not good
         refreshLib = numNFTs !== collection.balanceOf;
@@ -76,10 +76,10 @@
 
       // LOAD NFTs from lib
       if (refreshLib) {
-        clearCache(chainId, collection.address);
+        clearCache($chainId, collection.address);
         mores = [];
         NFTs = new Map();
-        _refreshNFTsFromLib(chainId, collection, owner);
+        _refreshNFTsFromLib($chainId, collection, $owner);
       }
     }
   };
@@ -95,7 +95,7 @@
     NFTs = new Map(
       [...allNFTs].filter(
         ([, nft]) =>
-          nft.chainId === chainId && nft.collection === collection.address && nft.owner === owner
+          nft.chainId === $chainId && nft.collection === collection.address && nft.owner === $owner
       )
     );
 
@@ -113,10 +113,10 @@
       refreshing = true;
 
       const nftFromId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
-      const nft = await addNftMetadata(chainId, nftFromId, _collection.address);
+      const nft = await addNftMetadata($chainId, nftFromId, _collection.address);
 
       // chainId and collection have not changed while loading NFTs
-      if (chainId === _chainId && collection?.address === _collection.address) {
+      if ($chainId === _chainId && collection?.address === _collection.address) {
         NFTs.set(nft.nid, nft);
         // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
       } else {
@@ -150,7 +150,7 @@
   };
 </script>
 
-{#key owner && index}
+{#key $owner && index}
   {#if collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
@@ -158,9 +158,9 @@
     {nftsBalanceAndName(collection)}
     <a
       class="info-button"
-      href={explorerCollectionUrl(chainId, collection?.address)}
+      href={explorerCollectionUrl($chainId, collection?.address)}
       title="&#009;Collection address (click to view in explorer)&#013;
-      {nftsUrl(chainId, collection?.address)}"
+      {nftsUrl($chainId, collection?.address)}"
       target="_blank"><i class="fas fa-info-circle" /></a
     >
 
@@ -202,9 +202,9 @@
           <div id="marketplace-{i}" class="table-col">
             <div class="table-col-content">
               {#if network?.openSea}
-                {#if addressSame(nft.owner, owner)}
+                {#if addressSame(nft.owner, $owner)}
                   <a
-                    href={nftOpenSeaUrl(chainId, nft)}
+                    href={nftOpenSeaUrl($chainId, nft)}
                     class="btn btn-small btn-sell"
                     title="Sell"
                     target="_blank"
@@ -213,7 +213,7 @@
                   </a>
                 {:else}
                   <a
-                    href={nftOpenSeaUrl(chainId, nft)}
+                    href={nftOpenSeaUrl($chainId, nft)}
                     class="btn btn-small btn-buy"
                     title="Buy"
                     target="_blank"
@@ -255,13 +255,13 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Owner</span></div>
                   <div class="flex">
-                    {@html explorerAddressLink(chainId, nft.owner, 15)}
+                    {@html explorerAddressLink($chainId, nft.owner, 15)}
                   </div>
                 </li>
                 <li class="complete">
                   <div class="flex"><span class="label">Token REF</span></div>
                   <div class="flex">
-                    <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank">
+                    <a class="link" href={explorerNftUrl($chainId, nft)} target="_blank">
                       {@html nftUrl(nft, 10)}
                     </a>
                   </div>
@@ -271,7 +271,7 @@
                   <div class="flex">
                     <a
                       class="link"
-                      href={explorerCollectionUrl(chainId, nft?.collection)}
+                      href={explorerCollectionUrl($chainId, nft?.collection)}
                       target="_blank">{getShortAddress(collection?.address, 15)}</a
                     >
                   </div>

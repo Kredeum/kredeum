@@ -1,9 +1,9 @@
 <script lang="ts">
-  import type { Web3Provider, Provider } from "@ethersproject/providers";
+  import type { Web3Provider, Provider, JsonRpcSigner } from "@ethersproject/providers";
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
-  import type { Signer } from "ethers";
 
+  import { chainId, owner, signer } from "./network.js";
   import {
     getShortAddress,
     numberToHexString,
@@ -19,9 +19,6 @@
   // down to component
   export let txt: boolean = undefined;
   export let autoconnect: string = undefined;
-  // up to parent
-  export let chainId: number = undefined;
-  export let signer: Signer = undefined;
 
   let chainIdSelected: number;
 
@@ -32,7 +29,6 @@
 
   let network: Network;
   let nameOrAddress = "";
-  let address = "";
 
   const connectMetamaskMessage = "Connect to Metamask";
   const installMetamaskMessage = "Please install MetaMask extension to connect";
@@ -41,10 +37,10 @@
 
   let open = false;
 
-  $: if (address) setEnsName();
+  $: if ($owner) setEnsName();
   const setEnsName = async () => {
-    nameOrAddress = address;
-    nameOrAddress = await getEnsName(address);
+    nameOrAddress = $owner;
+    nameOrAddress = await getEnsName($owner);
   };
 
   const strUpFirst = (str: string): string =>
@@ -104,11 +100,12 @@
   const handleChainId = async (_chainId) => {
     // console.log("<kredeum-metamask/> handleChainId", _chainId);
 
-    if (_chainId && _chainId != chainId) {
+    if (_chainId && _chainId != $chainId) {
       const _network = getNetwork(_chainId);
       if (_network) {
-        chainId = Number(_chainId);
-        console.log("chainId", chainId);
+        chainId.set(Number(_chainId));
+
+        console.log("chainId", $chainId);
         network = _network;
       } else {
         // _chainId not accepted : add first accepted chainId
@@ -119,7 +116,7 @@
 
   const switchEthereumChain = async (_chainId, e?: Event) => {
     e?.preventDefault();
-    if (_chainId && _chainId != chainId) {
+    if (_chainId && _chainId != $chainId) {
       console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
       try {
         await ethereumProvider.request({
@@ -139,9 +136,9 @@
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
-    } else if (_accounts[0] !== address) {
-      address = getChecksumAddress(_accounts[0]);
-      signer = ethersProvider.getSigner(0);
+    } else if (_accounts[0] !== $owner) {
+      owner.set(getChecksumAddress(_accounts[0]));
+      signer.set(ethersProvider.getSigner(0));
     }
   };
 
@@ -208,18 +205,18 @@
 </script>
 
 {#if txt}
-  {#if address}
+  {#if $owner}
     Network
     <select on:change={(e) => switchEthereumChain(e.target.value)}>
       {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory) as _network}
-        <option value={_network.chainId} selected={_network.chainId == chainId}>
+        <option value={_network.chainId} selected={_network.chainId == $chainId}>
           {getChainName(_network)}
           &nbsp;
         </option>
       {/each}
       {#if network?.testnet}
         {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
-          <option value={_network.chainId} selected={_network.chainId == chainId}>
+          <option value={_network.chainId} selected={_network.chainId == $chainId}>
             {getChainName(_network)}
             &nbsp;
           </option>
@@ -234,14 +231,14 @@
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if address}
+    {#if $owner}
       <span class="label"
         >Address
         <a
           class="info-button"
-          href={explorerAccountUrl(chainId, address)}
+          href={explorerAccountUrl($chainId, $owner)}
           target="_blank"
-          title="&#009;Account address (click to view account in explorer )&#013;{address}"
+          title="&#009;Owner address (click to view account in explorer )&#013;{$owner}"
           ><i class="fas fa-info-circle" /></a
         >
       </span>
@@ -260,15 +257,15 @@
   </div>
 
   <div class="col col-xs-12 col-sm-3">
-    {#if address}
+    {#if $owner}
       <span class="label"
         >Network
         <a
           class="info-button"
-          href={explorerNFTsFactoryUrl(chainId)}
+          href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
-          title="&#009; NFTs Factory address (click to view in explorer )
-          {getNFTsFactoryAddress(chainId)}"><i class="fas fa-info-circle" /></a
+          title="&#009; NFTs Factory owner address (click to view in explorer )
+          {getNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 
@@ -280,7 +277,7 @@
           <div class="custom-options">
             {#each networks.filter((nw) => nw.mainnet) as _network}
               <span
-                class="custom-option {_network.chainId == chainId && 'selected'}"
+                class="custom-option {_network.chainId == $chainId && 'selected'}"
                 data-value={getChainname(_network)}
                 on:click={(e) => switchEthereumChain(_network.chainId, e)}
               >
@@ -290,7 +287,7 @@
             {#if network?.testnet}
               {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
                 <span
-                  class="custom-option {_network.chainId == chainId && 'selected'}"
+                  class="custom-option {_network.chainId == $chainId && 'selected'}"
                   data-value={getChainname(_network)}
                   on:click={(e) => switchEthereumChain(_network.chainId, e)}
                 >
