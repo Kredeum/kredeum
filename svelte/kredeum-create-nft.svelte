@@ -10,7 +10,7 @@
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
 
-  import { chainId, signer, owner } from "./network.js";
+  import { chainId, signer, owner } from "./network";
 
   // down to component
   export let collection: Collection = undefined;

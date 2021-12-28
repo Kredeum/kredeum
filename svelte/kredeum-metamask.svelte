@@ -3,7 +3,7 @@
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
-  import { chainId, owner, signer } from "./network.js";
+  import { chainId, signer, owner, provider } from "./network";
   import {
     getShortAddress,
     numberToHexString,
@@ -52,10 +52,10 @@
 
   const addEthereumChain = async (_chainId) => {
     if (_chainId) {
-      console.log("addEthereumChain", _chainId);
+      console.log("KredeumMetamask addEthereumChain", _chainId);
 
       if (targetChain) {
-        console.log("already connecting network...");
+        console.log("KredeumMetamask already connecting network...");
       }
       targetChain = true;
 
@@ -91,24 +91,24 @@
               method: "wallet_addEthereumChain",
               params: [params]
             })
-            .catch((e) => console.error("ERROR wallet_addEthereumChain", e));
+            .catch((e) => console.error("KredeumMetamask ERROR wallet_addEthereumChain", e));
         }
       }
     }
   };
 
   const handleChainId = async (_chainId) => {
-    // console.log("<kredeum-metamask/> handleChainId", _chainId);
+    console.log(`KredeumMetamask handleChainId ${_chainId}`);
 
     if (_chainId && _chainId != $chainId) {
       const _network = getNetwork(_chainId);
       if (_network) {
         chainId.set(Number(_chainId));
 
-        console.log("chainId", $chainId);
+        console.log("KredeumMetamask chainId", $chainId);
         network = _network;
       } else {
-        // _chainId not accepted : add first accepted chainId
+        // _chainId not accepted : switch to first accepted chainId
         switchEthereumChain(networks[0].chainId);
       }
     }
@@ -117,7 +117,7 @@
   const switchEthereumChain = async (_chainId, e?: Event) => {
     e?.preventDefault();
     if (_chainId && _chainId != $chainId) {
-      console.log("switchEthereumChain", _chainId, numberToHexString(_chainId));
+      console.log("KredeumMetamask switchEthereumChain", _chainId, numberToHexString(_chainId));
       try {
         await ethereumProvider.request({
           method: "wallet_switchEthereumChain",
@@ -132,13 +132,16 @@
   };
 
   const handleAccounts = async (_accounts) => {
-    // console.log("handleAccounts", _accounts);
+    console.log("KredeumMetamask handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== $owner) {
-      owner.set(getChecksumAddress(_accounts[0]));
+      // owner.set(getChecksumAddress(_accounts[0]));
+      // provider.set(ethersProvider);
       signer.set(ethersProvider.getSigner(0));
+      owner.set(getChecksumAddress(await $signer.getAddress()));
+      provider.set($signer.provider);
     }
   };
 
@@ -155,13 +158,13 @@
         if (e.code === 4001) {
           alert(connectMetamaskMessage);
         } else {
-          console.error("ERROR eth_requestAccounts", e);
+          console.error("KredeumMetamask ERROR eth_requestAccounts", e);
         }
       });
   };
 
   onMount(async () => {
-    // console.log("init");
+    console.log("KredeumMetamask init");
     const provider = await detectEthereumProvider();
     if (provider) {
       noMetamask = false;
@@ -171,28 +174,28 @@
       }
 
       ethereumProvider = window.ethereum as EthereumProvider;
-      ethersProvider = new ethers.providers.Web3Provider(window.ethereum);
+      ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
       ethereumProvider
         .request({
           method: "eth_accounts"
         })
         .then(handleAccounts)
-        .catch((e) => console.error("ERROR eth_accounts", e));
+        .catch((e) => console.error("KredeumMetamask ERROR eth_accounts", e));
 
       ethereumProvider
         .request({
           method: "eth_chainId"
         })
         .then(handleChainId)
-        .catch((e) => console.error("ERROR eth_chainId", e));
+        .catch((e) => console.error("KredeumMetamask ERROR eth_chainId", e));
 
       ethereumProvider.on("chainChanged", handleChainId);
 
       ethereumProvider.on("accountsChanged", handleAccounts);
     } else {
       noMetamask = true;
-      console.log(installMetamaskMessage);
+      console.log("KredeumMetamask", installMetamaskMessage);
     }
 
     window.addEventListener("click", (e: Event): void => {

@@ -6,7 +6,7 @@
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
   import { createEventDispatcher } from "svelte";
 
-  import { chainId, signer } from "./network.js";
+  import { chainId, signer } from "./network";
 
   // up to parent
   export let collection: Collection = undefined;

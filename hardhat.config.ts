@@ -12,18 +12,17 @@ import "./solidity/tasks/index";
 import dotenv from "dotenv";
 import { resolve } from "path";
 
-if (!process.env.INFURA_API_KEY) {
+if (!process.env.ENVIR) {
   dotenv.config({ path: resolve(__dirname, "./.env") });
-  if (!process.env.INFURA_API_KEY) {
-    throw new Error("ENV Variable INFURA_API_KEY not set!");
+  if (!process.env.ENVIR) {
+    throw new Error("HARDHAT : ENV variable ENVIR not set!");
   }
 }
 
 const accounts = [
-  process.env.ACCOUNT_KEY || "",
-  process.env.PRIVATE_KEY_TEST_1 || "",
-  process.env.PRIVATE_KEY_TEST_2 || "",
-  process.env.RANDOM_KEY || ""
+  process.env.PRIVATE_KEY_0_DEPLOY || "",
+  process.env.PRIVATE_KEY_1_TEST || "",
+  process.env.PRIVATE_KEY_2_TEST || "",
 ];
 
 const config: HardhatUserConfig = {
@@ -32,8 +31,7 @@ const config: HardhatUserConfig = {
     admin: { default: 0 },
     deployer: { default: 0 },
     tester1: { default: 1 },
-    tester2: { default: 2 },
-    random: { default: 3 }
+    random: { default: 2 }
   },
   networks: {
     hardhat: {
@@ -45,10 +43,13 @@ const config: HardhatUserConfig = {
       // },
       accounts: [
         {
-          privateKey: process.env.PRIVATE_KEY_TEST_1 || "",
+          privateKey: process.env.PRIVATE_KEY_0_DEPLOY || "",
           balance: "100000000000000000000"
         },
-        { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
+        {
+          privateKey: process.env.PRIVATE_KEY_1_TEST || "",
+          balance: "100000000000000000000"
+        }
       ]
     },
     local: {
@@ -92,7 +93,6 @@ const config: HardhatUserConfig = {
     matic: {
       chainId: 137,
       url: `https://polygon-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      // url: `https://rpc-mainnet.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_POLYGON },
       // gasPrice: 50_000_000_000,
       accounts
@@ -118,7 +118,6 @@ const config: HardhatUserConfig = {
     mumbai: {
       chainId: 80001,
       url: `https://polygon-mumbai.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      // url: `https://rpc-mumbai.maticvigil.com/v1/${process.env.MATICVIGIL_API_KEY}`,
       accounts,
       // gasPrice: 20_000_000_000,
       live: true,
@@ -138,9 +137,8 @@ const config: HardhatUserConfig = {
       chainId: 42161,
       // url: "https://arb1.arbitrum.io/rpc",
       url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
-      // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       accounts
-    },    
+    },
     xdai: {
       chainId: 100,
       url: "https://rpc.xdaichain.com/",
@@ -151,7 +149,6 @@ const config: HardhatUserConfig = {
       chainId: 421611,
       url: `https://arbitrum-rinkeby.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: "https://rinkeby.arbitrum.io/rpc",
-      // url: `https://arb-rinkeby.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       // gasPrice: 20_000_000_000,
       accounts
     }

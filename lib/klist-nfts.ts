@@ -4,7 +4,6 @@ import {
   abis,
   getNetwork,
   getChecksumAddress,
-  getProvider,
   getSubgraphUrl,
   getCovalent,
   nftUrl3
@@ -20,38 +19,35 @@ const LIMIT = 10;
 const getCollection = async (
   chainId: number,
   collection: string,
-  _providerOrSigner?: Provider | Signer
+  signerOrProvider: Signer | Provider
 ): Promise<OpenNFTs | undefined> => {
   // console.log(`getCollection ${collection}`);
 
   let contract: OpenNFTs | undefined = undefined;
-  _providerOrSigner = _providerOrSigner || getProvider(chainId);
 
-  try {
-    const checkContract = new Contract(
-      collection,
-      abis.ERC165,
-      _providerOrSigner
-    ) as ERC165Upgradeable;
+  if (chainId && collection && signerOrProvider) {
+    try {
+      const checkContract = new Contract(collection, abis.ERC165, signerOrProvider) as ERC165Upgradeable;
 
-    if (checkContract) {
-      const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xd94a1db2");
-      const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
-      const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
-      const [supportsOpenNFTsV2, supportsMetadata, supportsEnumerable] = await Promise.all([
-        waitOpenNFTsV2,
-        waitMetadata,
-        waitEnumerable
-      ]);
-      let abi = abis.ERC721;
-      if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
-      if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
-      if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2);
+      if (checkContract) {
+        const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xd94a1db2");
+        const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
+        const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
+        const [supportsOpenNFTsV2, supportsMetadata, supportsEnumerable] = await Promise.all([
+          waitOpenNFTsV2,
+          waitMetadata,
+          waitEnumerable
+        ]);
+        let abi = abis.ERC721;
+        if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
+        if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
+        if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2);
 
-      contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
+        contract = new Contract(collection, abi, signerOrProvider) as OpenNFTs;
+      }
+    } catch (e) {
+      console.error(`ERROR getCollection : ${chainId} ${collection}\n`, e);
     }
-  } catch (e) {
-    console.error(`ERROR getCollection : ${chainId} ${collection}\n`, e);
   }
 
   return contract;
@@ -356,9 +352,9 @@ const listNFTsFromTheGraph = async (
 const listNFTsFromContract = async (
   chainId: number,
   collection: string,
+  _provider: Provider,
   _owner?: string,
-  _limit: number = LIMIT,
-  _provider?: Provider
+  _limit: number = LIMIT
 ): Promise<Map<string, Nft>> => {
   // console.log("listNFTsFromContract", chainId, collection, _owner, _limit);
 
@@ -395,8 +391,8 @@ const listNFTsTokenId = async (
   chainId: number,
   collection: string,
   _index: number,
-  _owner?: string,
-  _provider?: Provider
+  _provider: Provider,
+  _owner?: string
 ): Promise<Nft | undefined> => {
   // console.log("listNFTsTokenId", chainId, collection, _owner);
 
@@ -424,7 +420,7 @@ const listNFTsTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    nftsTokenIds = await listNFTsFromContract(chainId, collection, _owner, _limit, _provider);
+    nftsTokenIds = await listNFTsFromContract(chainId, collection, _provider, _owner, _limit);
     if (nftsTokenIds.size === 0) {
       if (getSubgraphUrl(chainId)) {
         nftsTokenIds = await listNFTsFromTheGraph(chainId, collection, _owner, _limit);

@@ -8,7 +8,7 @@
   import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
-  import { chainId, owner } from "./network.js";
+  import { chainId, owner } from "./network";
 
   // down from parent
   export let txt = false;

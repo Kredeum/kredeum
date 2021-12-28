@@ -5,9 +5,6 @@ node_modules
 # SOLIDITY
 solidity/artifacts
 
-# APP
-web/app
-
 # SVELTE
 /public/build/
 

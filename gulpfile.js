@@ -14,11 +14,13 @@ const sourcemaps = require("gulp-sourcemaps");
 const noop = require("gulp-noop");
 const dotenv = require("dotenv");
 
+console.log(process.env);
+
 if (process.env.ENVIR === undefined) {
   dotenv.config();
 }
 if (!process.env.ENVIR) {
-  throw new Error("ENV variables not set!");
+  throw new Error("GULP : ENV variable ENVIR not set!");
 }
 var production = process.env.ENVIR == "PROD";
 

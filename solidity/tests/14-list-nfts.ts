@@ -51,7 +51,7 @@ describe("List NFTs lib", function () {
 
     it("With SmartContract", async function () {
       expect(
-        (await listNFTsFromContract(chainId, contract, artistAddress, 9, ethers.provider)).size
+        (await listNFTsFromContract(chainId, contract, ethers.provider, artistAddress, 9)).size
       ).to.be.gte(1);
     });
 

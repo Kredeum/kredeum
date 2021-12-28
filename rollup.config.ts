@@ -21,8 +21,8 @@ const postcss = _postcss as { (Options): Plugin };
 if (process.env.ENVIR === undefined) {
   dotenv.config();
 }
-if (!process.env.INFURA_API_KEY) {
-  throw new Error("ENV variables not set!");
+if (!process.env.ENVIR) {
+  throw new Error("ROLLUP : ENV variable ENVIR not set!");
 }
 const production = process.env.ENVIR == "PROD";
 console.log("production", production);

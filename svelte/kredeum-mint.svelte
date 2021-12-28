@@ -19,7 +19,7 @@
   // down to component with default
   export let collection: string = undefined;
 
-  import { chainId, signer } from "./network.js";
+  import { chainId, signer, provider } from "./network";
 
   let mintedNft: Nft;
   let minting: number;
@@ -41,7 +41,7 @@
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await getOpenNFTsAddress($chainId));
+        (await getOpenNFTsAddress($chainId, _signer));
     }
   };
 
