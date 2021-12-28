@@ -14,8 +14,6 @@ const sourcemaps = require("gulp-sourcemaps");
 const noop = require("gulp-noop");
 const dotenv = require("dotenv");
 
-console.log(process.env);
-
 if (process.env.ENVIR === undefined) {
   dotenv.config();
 }

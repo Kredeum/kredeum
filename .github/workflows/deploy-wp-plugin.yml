@@ -1,4 +1,4 @@
-name: WordPress
+name: Deploy WP plugin
 on:
   push:
     tags:

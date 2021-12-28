@@ -1,0 +1,38 @@
+name: Deploy beta dapp
+on:
+  push:
+    branches:
+      - beta
+
+jobs:
+  check:
+    name: Deploy beta dapp to fleek.co
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@master
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.6.2
+          run_install: true
+
+      - name: Run dapp-deploy-beta
+        run: npm run dapp-deploy-beta
+        env:
+          ENVIR: PROD
+          NODE_DEBUG: false
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+          COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
+          NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
