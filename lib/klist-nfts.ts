@@ -27,7 +27,11 @@ const getCollection = async (
 
   if (chainId && collection && signerOrProvider) {
     try {
-      const checkContract = new Contract(collection, abis.ERC165, signerOrProvider) as ERC165Upgradeable;
+      const checkContract = new Contract(
+        collection,
+        abis.ERC165,
+        signerOrProvider
+      ) as ERC165Upgradeable;
 
       if (checkContract) {
         const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xd94a1db2");
