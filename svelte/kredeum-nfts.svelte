@@ -10,7 +10,7 @@
   import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
   import { explorerCollectionUrl } from "lib/knfts";
 
-  import { chainId, owner } from "./network.js";
+  import { chainId, owner } from "./network";
 
   export let platform = "dapp";
 

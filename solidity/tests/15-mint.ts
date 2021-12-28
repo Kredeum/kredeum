@@ -3,7 +3,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
 
 import { expect } from "chai";
-import { networks, getProvider } from "../../lib/kconfig";
+import { networks } from "../../lib/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;
@@ -42,18 +42,8 @@ describe("NFT Mint", function () {
       expect(ethscan?.startsWith("http")).to.be.true;
     });
 
-    it("Should connect Provider", function () {
-      // network = networks.find((nw) => nw.chainName === networkChainName);
-      expect(network).to.not.be.undefined;
-      if (network) {
-        provider = getProvider(network.chainId);
-        expect(provider).to.not.be.undefined;
-        expect(provider?._isProvider).to.be.true;
-      }
-    });
-
     it("Should get Signer", function () {
-      const signer = new ethers.Wallet(process.env.ACCOUNT_KEY || "", provider);
+      const signer = new ethers.Wallet(process.env.PRIVATE_KEY_0_DEPLOY || "", provider);
       expect(signer._isSigner).to.be.true;
     });
   });

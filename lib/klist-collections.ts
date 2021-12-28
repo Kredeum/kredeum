@@ -4,7 +4,6 @@ import {
   abis,
   getChecksumAddress,
   getNetwork,
-  getProvider,
   getSubgraphUrl,
   getCovalent,
   nftsUrl,
@@ -23,21 +22,23 @@ const nftsFactories: Map<number, NFTsFactory> = new Map();
 
 const getNFTsFactory = (
   chainId: number,
-  _providerOrSigner?: Signer | Provider
+  signerOrProvider: Signer | Provider
 ): NFTsFactory | undefined => {
   // console.log("getNFTsFactory", chainId);
-  let nftsFactory = nftsFactories.get(chainId);
+  let nftsFactory: NFTsFactory;
 
-  if (!nftsFactory) {
-    const nftsFactoryAddress = getNFTsFactoryAddress(chainId);
-    if (nftsFactoryAddress) {
-      nftsFactory = new Contract(
-        nftsFactoryAddress,
-        abis.CloneFactory.concat(abis.NFTsFactory),
-        _providerOrSigner || getProvider(chainId)
-      ) as NFTsFactory;
-
-      nftsFactories.set(chainId, nftsFactory);
+  if (chainId && signerOrProvider) {
+    nftsFactory = nftsFactories.get(chainId);
+    if (!nftsFactory) {
+      const nftsFactoryAddress = getNFTsFactoryAddress(chainId);
+      if (nftsFactoryAddress) {
+        nftsFactory = new Contract(
+          nftsFactoryAddress,
+          abis.CloneFactory.concat(abis.NFTsFactory),
+          signerOrProvider
+        ) as NFTsFactory;
+        nftsFactories.set(chainId, nftsFactory);
+      }
     }
   }
   return nftsFactory;
@@ -175,13 +176,13 @@ const listCollectionsFromTheGraph = async (
 const listCollectionsFromFactory = async (
   chainId: number,
   _owner: string,
-  _provider?: Provider
+  provider: Provider
 ): Promise<Map<string, Collection>> => {
   // console.log("listCollectionsFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory: NFTsFactory | undefined = getNFTsFactory(chainId, _provider);
+  const nftsFactory: NFTsFactory | undefined = getNFTsFactory(chainId, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];

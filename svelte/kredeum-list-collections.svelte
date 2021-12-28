@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
+  import type { Provider } from "@ethersproject/providers";
 
   import { listCollections, listCollectionsFromCache } from "lib/klist-collections";
   import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
   import { collectionName } from "lib/knfts";
   import { onMount } from "svelte";
 
-  import { chainId, owner } from "./network.js";
+  import { chainId, owner, provider } from "./network";
 
   // down to component
   export let filter = false;
@@ -40,25 +41,33 @@
   };
 
   // ON CHAINID or OWNER change THEN list collections
-  $: _listCollections($chainId, $owner);
+  $: _listCollections($chainId, $owner, $provider);
 
-  const _listCollections = async (_chainId: number, _owner: string): Promise<void> => {
+  const _listCollections = async (
+    _chainId: number,
+    _owner: string,
+    _provider: Provider
+  ): Promise<void> => {
     // console.log("KredeumListCollections _listCollections", _chainId, _owner);
     if (_chainId && _owner) {
-      _listCollectionsFromCache(_chainId, _owner);
+      _listCollectionsFromCache(_chainId, _owner, _provider);
 
       refreshingCollections = true;
       allCollections = await listCollections(_chainId, _owner);
       refreshingCollections = false;
 
-      _listCollectionsFromCache(_chainId, _owner);
+      _listCollectionsFromCache(_chainId, _owner, _provider);
     }
   };
 
-  const _listCollectionsFromCache = async (_chainId: number, _owner: string) => {
+  const _listCollectionsFromCache = async (
+    _chainId: number,
+    _owner: string,
+    _provider: Provider
+  ) => {
     // console.log("KredeumListCollections _listCollectionsFromCache");
     allCollections = listCollectionsFromCache(_owner);
-    const openNFTsAddress = await getOpenNFTsAddress(_chainId);
+    const openNFTsAddress = await getOpenNFTsAddress(_chainId, _provider);
 
     collections = new Map(
       [...allCollections]
@@ -82,7 +91,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await getOpenNFTsAddress($chainId));
+      (await getOpenNFTsAddress($chainId, $provider));
     _setCollection(defaultCollection);
     // console.log(collections);
   };

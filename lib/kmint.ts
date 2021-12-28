@@ -96,7 +96,7 @@ const mint3TxResponse = async (
 
   const network = getNetwork(chainId);
   const urlJson = ipfsGatewayUrl(cidJson);
-  const openNFTs = await getCollection(chainId, collection);
+  const openNFTs = await getCollection(chainId, collection, minter.provider);
   // console.log("openNFTs", openNFTs);
 
   if (openNFTs?.mintNFT) {

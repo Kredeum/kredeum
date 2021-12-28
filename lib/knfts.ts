@@ -1,3 +1,6 @@
+import type { Provider } from "@ethersproject/providers";
+import type { Collection, Nft } from "./ktypes";
+
 import {
   getExplorer,
   getOpenSeaAssets,
@@ -7,7 +10,6 @@ import {
   textShort,
   nftUrl
 } from "./kconfig";
-import type { Collection, Nft } from "./ktypes";
 
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
@@ -134,9 +136,9 @@ const explorerNFTsFactoryUrl = (chainId: number): string =>
   explorerContractUrl(chainId, getNFTsFactoryAddress(chainId));
 
 // OPEN_NFTS URL
-const explorerOpenNFTsUrl = async (chainId: number): Promise<string> =>
+const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await getOpenNFTsAddress(chainId));
+  explorerContractUrl(chainId, await getOpenNFTsAddress(chainId, provider));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

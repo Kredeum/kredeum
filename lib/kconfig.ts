@@ -1,10 +1,12 @@
+import type { Provider } from "@ethersproject/abstract-provider";
+import type { Address, Network, Nft } from "./ktypes";
+import type { Signer } from "ethers";
+
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 import abis from "./abis.json";
-import type { Address, Network, Nft } from "./ktypes";
 
 import { providers, utils } from "ethers";
-import type { Provider } from "@ethersproject/abstract-provider";
 import { getNFTsFactory } from "./klist-collections";
 
 const version = config.version;
@@ -28,24 +30,6 @@ const getShortAddress = (address = "?", n = 8): string =>
 
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
-};
-
-const getProvider = (chainId: number): Provider | undefined => {
-  const network = getNetwork(chainId);
-  // console.log("getProvider", chainId, "=>", network);
-
-  const url = network?.rpcUrls[0];
-  let apiKey = url?.includes("infura.io")
-    ? process.env.INFURA_API_KEY
-    : url?.includes("etherscan.io")
-      ? process.env.ETHERSCAN_API_KEY
-      : url?.includes("maticvigil.com")
-        ? process.env.MATICVIGIL_API_KEY
-        : null;
-  apiKey = apiKey ? "/" + apiKey : "";
-  const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
-
-  return provider;
 };
 
 const getEnsName = async (address: string): Promise<string> => {
@@ -83,13 +67,19 @@ const getExplorer = (chainId: number): string => {
   return network?.blockExplorerUrls[0] || "";
 };
 
+// GET openNFTs via onchain call
+const getOpenNFTsAddress = async (
+  chainId: number,
+  provider: Provider
+): Promise<Address | undefined> => {
+  const nftsFactory = getNFTsFactory(chainId, provider);
+  const template = await nftsFactory.template();
+  return template ? template : "";
+};
+
 // GET NFTs Factory
 const getNFTsFactoryAddress = (chainId: number): Address | undefined =>
   getChecksumAddress(getNetwork(chainId)?.nftsFactory);
-
-// GET openNFTs
-const getOpenNFTsAddress = async (chainId: number): Promise<Address | undefined> =>
-  getChecksumAddress(await getNFTsFactory(chainId)?.template());
 
 // GET OpenSeaKredeum
 const getOpenSeaKredeum = (chainId: number): string => {
@@ -136,9 +126,9 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-        (_contract
-          ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
-          : "")
+      (_contract
+        ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
+        : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -156,7 +146,6 @@ export {
   getChecksumAddress,
   getNetwork,
   getEnsName,
-  getProvider,
   getSubgraphUrl,
   getOpenSeaKredeum,
   getOpenSeaAssets,

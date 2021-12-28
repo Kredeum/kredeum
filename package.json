@@ -30,6 +30,7 @@
     "dapp-tests": "",
     "dapp--tests": "cd web && npx cypress run",
     "dapp-start": "sirv web",
+    "dapp-deploy": "git checkout beta && git checkout -B build && rm -f web/.gitignore && npm run dapp-build",
     "wp-clean": "npm run wp-clean-kredeum && rm -rf  wordpress/vendor",
     "wp-clean-kredeum": "rm -rf wordpress/kredeum-nfts/lib wordpress/kredeum-nfts/vendor wordpress/kredeum-nfts/readme.txt wordpress/kredeum-nfts/kredeum-nfts.php",
     "wp-install": "rm -rf wordpress/vendor && composer install --prefer-dist --no-progress",

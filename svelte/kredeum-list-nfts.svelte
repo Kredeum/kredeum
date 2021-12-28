@@ -23,7 +23,8 @@
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
-  import { chainId, owner } from "./network.js";
+  import { chainId, owner, provider } from "./network";
+  import { Provider } from "@ethersproject/abstract-provider";
 
   // down to component
   export let collection: Collection = undefined;
@@ -79,7 +80,7 @@
         clearCache($chainId, collection.address);
         mores = [];
         NFTs = new Map();
-        _refreshNFTsFromLib($chainId, collection, $owner);
+        _refreshNFTsFromLib($chainId, collection, $provider, $owner);
       }
     }
   };
@@ -103,7 +104,12 @@
     return NFTs?.size;
   };
 
-  const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _owner: string) => {
+  const _refreshNFTsFromLib = async (
+    _chainId: number,
+    _collection: Collection,
+    _provider: Provider,
+    _owner: string
+  ) => {
     // console.log("_refreshNFTsFromLib");
 
     const numNFTs = _collection.balanceOf || _collection.totalSupply;
@@ -112,7 +118,13 @@
     for (index = 0; index < numNFTs; index++) {
       refreshing = true;
 
-      const nftFromId = await listNFTsTokenId(_chainId, _collection.address, index, _owner);
+      const nftFromId = await listNFTsTokenId(
+        _chainId,
+        _collection.address,
+        index,
+        _provider,
+        _owner
+      );
       const nft = await addNftMetadata($chainId, nftFromId, _collection.address);
 
       // chainId and collection have not changed while loading NFTs
