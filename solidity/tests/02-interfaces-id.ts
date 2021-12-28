@@ -1,5 +1,5 @@
 import type { Signer } from "@ethersproject/abstract-signer";
-import type { InterfacesIds } from "../artifacts/types/InterfacesIds";
+import type { InterfacesIds } from "../types/InterfacesIds";
 import { expect } from "chai";
 import { getChainId, ethers, deployments, network } from "hardhat";
 

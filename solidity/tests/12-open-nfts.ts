@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import type { OpenNFTs } from "../types/OpenNFTs";
 
 describe("Open NFTs contract", function () {
   let openNFTs: OpenNFTs;

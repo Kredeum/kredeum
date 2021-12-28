@@ -11,7 +11,7 @@ import {
   getNFTsFactoryAddress
 } from "./kconfig";
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
+import type { NFTsFactory } from "../solidity/types/NFTsFactory";
 import type {
   Provider,
   TransactionResponse,

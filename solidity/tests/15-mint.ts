@@ -1,6 +1,6 @@
 import type { Network } from "../../lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "../artifacts/types/OpenNFTs";
+import type { OpenNFTs } from "../types/OpenNFTs";
 
 import { expect } from "chai";
 import { networks } from "../../lib/kconfig";

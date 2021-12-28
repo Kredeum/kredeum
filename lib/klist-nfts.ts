@@ -9,8 +9,8 @@ import {
   nftUrl3
 } from "./kconfig";
 
-import type { ERC165Upgradeable } from "../solidity/artifacts/types/ERC165Upgradeable";
-import type { OpenNFTs } from "../solidity/artifacts/types/OpenNFTs";
+import type { ERC165Upgradeable } from "../solidity/types/ERC165Upgradeable";
+import type { OpenNFTs } from "../solidity/types/OpenNFTs";
 import type { Nft } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
