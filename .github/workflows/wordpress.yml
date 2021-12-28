@@ -1,4 +1,4 @@
-name: Deploy to WordPress.org
+name: WordPress
 on:
   push:
     tags:
@@ -6,7 +6,7 @@ on:
 
 jobs:
   deploy:
-    name: Deploy Plugin
+    name: Deploy Plugin to WordPress.org
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources

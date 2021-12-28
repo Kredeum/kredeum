@@ -1,9 +1,9 @@
-name: Tests js
+name: Tests
 on: pull_request
 
 jobs:
   check:
-    name: Check sources
+    name: Tests hardhat
     runs-on: ubuntu-latest
 
     steps:
