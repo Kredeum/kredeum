@@ -54,7 +54,7 @@ export interface IContractProbe extends BaseContract {
 
   functions: {
     probe(
-      _address: string,
+      addr: string,
       overrides?: CallOverrides
     ): Promise<
       [boolean, string] & { isContract: boolean; forwardedTo: string }
@@ -62,13 +62,13 @@ export interface IContractProbe extends BaseContract {
   };
 
   probe(
-    _address: string,
+    addr: string,
     overrides?: CallOverrides
   ): Promise<[boolean, string] & { isContract: boolean; forwardedTo: string }>;
 
   callStatic: {
     probe(
-      _address: string,
+      addr: string,
       overrides?: CallOverrides
     ): Promise<
       [boolean, string] & { isContract: boolean; forwardedTo: string }
@@ -78,12 +78,12 @@ export interface IContractProbe extends BaseContract {
   filters: {};
 
   estimateGas: {
-    probe(_address: string, overrides?: CallOverrides): Promise<BigNumber>;
+    probe(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
     probe(
-      _address: string,
+      addr: string,
       overrides?: CallOverrides
     ): Promise<PopulatedTransaction>;
   };

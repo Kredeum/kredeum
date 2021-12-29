@@ -10,10 +10,10 @@ import "tsconfig-paths/register";
 import "./solidity/tasks/index";
 
 import dotenv from "dotenv";
-import { resolve } from "path";
+import findupSync from "findup-sync";
 
 if (!process.env.ENVIR) {
-  dotenv.config({ path: resolve(__dirname, "./.env") });
+  dotenv.config({ path: findupSync(".env") });
   if (!process.env.ENVIR) {
     throw new Error("HARDHAT : ENV variable ENVIR not set!");
   }
@@ -174,7 +174,7 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     target: "ethers-v5",
-    outDir: "solidity/artifacts/types"
+    outDir: "solidity/types"
   },
   paths: {
     sources: "solidity/contracts",

@@ -56,10 +56,12 @@ export interface NFTsFactoryInterface extends utils.Interface {
     "balanceOf(address,address)": FunctionFragment;
     "balancesOf(address)": FunctionFragment;
     "clone(string,string)": FunctionFragment;
+    "contractProbe()": FunctionFragment;
     "implementations(uint256)": FunctionFragment;
     "implementationsCount()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "setContractProbe(address)": FunctionFragment;
     "setDefaultTemplate(address)": FunctionFragment;
     "template()": FunctionFragment;
     "templates(address)": FunctionFragment;
@@ -107,6 +109,10 @@ export interface NFTsFactoryInterface extends utils.Interface {
     values: [string, string]
   ): string;
   encodeFunctionData(
+    functionFragment: "contractProbe",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
     functionFragment: "implementations",
     values: [BigNumberish]
   ): string;
@@ -118,6 +124,10 @@ export interface NFTsFactoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setContractProbe",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setDefaultTemplate",
@@ -165,6 +175,10 @@ export interface NFTsFactoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "balancesOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "clone", data: BytesLike): Result;
   decodeFunctionResult(
+    functionFragment: "contractProbe",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "implementations",
     data: BytesLike
   ): Result;
@@ -175,6 +189,10 @@ export interface NFTsFactoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setContractProbe",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -270,7 +288,7 @@ export interface NFTsFactory extends BaseContract {
     OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<[string]>;
 
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -286,10 +304,12 @@ export interface NFTsFactory extends BaseContract {
     ): Promise<[NftDataStructOutput[]] & { nftData: NftDataStructOutput[] }>;
 
     clone(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    contractProbe(overrides?: CallOverrides): Promise<[string]>;
 
     implementations(
       arg0: BigNumberish,
@@ -306,8 +326,13 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -342,7 +367,7 @@ export interface NFTsFactory extends BaseContract {
   OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<string>;
 
   addImplementation(
-    _implementation: string,
+    addr: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -358,10 +383,12 @@ export interface NFTsFactory extends BaseContract {
   ): Promise<NftDataStructOutput[]>;
 
   clone(
-    _name: string,
-    _symbol: string,
+    name_: string,
+    symbol_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  contractProbe(overrides?: CallOverrides): Promise<string>;
 
   implementations(
     arg0: BigNumberish,
@@ -376,8 +403,13 @@ export interface NFTsFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setContractProbe(
+    addr: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setDefaultTemplate(
-    _template: string,
+    addr: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -411,10 +443,7 @@ export interface NFTsFactory extends BaseContract {
 
     OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<string>;
 
-    addImplementation(
-      _implementation: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addImplementation(addr: string, overrides?: CallOverrides): Promise<void>;
 
     balanceOf(
       nft: string,
@@ -428,10 +457,12 @@ export interface NFTsFactory extends BaseContract {
     ): Promise<NftDataStructOutput[]>;
 
     clone(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: CallOverrides
     ): Promise<string>;
+
+    contractProbe(overrides?: CallOverrides): Promise<string>;
 
     implementations(
       arg0: BigNumberish,
@@ -444,10 +475,9 @@ export interface NFTsFactory extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    setDefaultTemplate(
-      _template: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setContractProbe(addr: string, overrides?: CallOverrides): Promise<void>;
+
+    setDefaultTemplate(addr: string, overrides?: CallOverrides): Promise<void>;
 
     template(overrides?: CallOverrides): Promise<string>;
 
@@ -510,7 +540,7 @@ export interface NFTsFactory extends BaseContract {
     OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<BigNumber>;
 
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -523,10 +553,12 @@ export interface NFTsFactory extends BaseContract {
     balancesOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     clone(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    contractProbe(overrides?: CallOverrides): Promise<BigNumber>;
 
     implementations(
       arg0: BigNumberish,
@@ -541,8 +573,13 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -582,7 +619,7 @@ export interface NFTsFactory extends BaseContract {
     OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
@@ -598,10 +635,12 @@ export interface NFTsFactory extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     clone(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    contractProbe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     implementations(
       arg0: BigNumberish,
@@ -618,8 +657,13 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

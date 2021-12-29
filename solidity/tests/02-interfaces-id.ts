@@ -40,6 +40,6 @@ describe("Call interfacesId", () => {
     expect(ids[4]).to.be.equal("0x780e9d63"); // ERC721Enumerable
     expect(ids[5]).to.be.equal("0x4b68d431"); // OpenNFTsV0
     expect(ids[6]).to.be.equal("0xeacabe14"); // OpenNFTsV1
-    expect(ids[7]).to.be.equal("0xd94a1db2"); // OpenNFTsV2
+    expect(ids[7]).to.be.equal("0xa6123562"); // OpenNFTsV2
   });
 });

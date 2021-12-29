@@ -247,8 +247,8 @@ export interface OpenNFTs extends BaseContract {
     ): Promise<[string]>;
 
     initialize(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -350,8 +350,8 @@ export interface OpenNFTs extends BaseContract {
   ): Promise<string>;
 
   initialize(
-    _name: string,
-    _symbol: string,
+    name_: string,
+    symbol_: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -447,8 +447,8 @@ export interface OpenNFTs extends BaseContract {
     ): Promise<string>;
 
     initialize(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: CallOverrides
     ): Promise<void>;
 
@@ -587,8 +587,8 @@ export interface OpenNFTs extends BaseContract {
     ): Promise<BigNumber>;
 
     initialize(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -694,8 +694,8 @@ export interface OpenNFTs extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     initialize(
-      _name: string,
-      _symbol: string,
+      name_: string,
+      symbol_: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

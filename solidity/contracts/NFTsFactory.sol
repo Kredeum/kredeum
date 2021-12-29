@@ -2,23 +2,17 @@
 pragma solidity ^0.8.4;
 
 import "./CloneFactory.sol";
+import "./interfaces/INFTsFactory.sol";
 import "./interfaces/IOpenNFTsV2.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
-contract NFTsFactory is CloneFactory {
+contract NFTsFactory is CloneFactory, INFTsFactory {
   using ERC165Checker for address;
-
-  struct NftData {
-    address nft;
-    uint256 balanceOf;
-    address owner;
-    string name;
-    string symbol;
-    uint256 totalSupply;
-  }
 
   uint8 public constant ERC721 = 0;
   uint8 public constant ERC721_METADATA = 1;
@@ -30,31 +24,40 @@ contract NFTsFactory is CloneFactory {
   bytes4 public constant ERC721_ENUMERABLE_SIG = bytes4(0x780e9d63);
   bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV2).interfaceId;
 
-  constructor(address _openNFTs, address _contractprobe) CloneFactory(_contractprobe) {
-    setDefaultTemplate(_openNFTs);
+  function withdrawEther() external override(INFTsFactory) onlyOwner {
+    Address.sendValue(payable(msg.sender), address(this).balance);
   }
 
-  function withdrawEther() external onlyOwner {
-    (bool succeed, ) = msg.sender.call{value: address(this).balance}("");
-    require(succeed, "Failed to withdraw Ether");
-  }
-
-  function balancesOf(address owner) external view returns (NftData[] memory nftData) {
+  function balancesOf(address owner)
+    external
+    view
+    override(INFTsFactory)
+    returns (NftData[] memory nftData)
+  {
     nftData = new NftData[](implementations.length);
     for (uint256 i = 0; i < implementations.length; i += 1) {
       nftData[i] = balanceOf(implementations[i], owner);
     }
   }
 
-  function clone(string memory _name, string memory _symbol) public returns (address clone_) {
+  function clone(string memory name_, string memory symbol_)
+    public
+    override(INFTsFactory)
+    returns (address clone_)
+  {
     clone_ = _clone();
     require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
-    IOpenNFTsV2(clone_).initialize(_name, _symbol);
-    IOpenNFTsV2(clone_).transferOwnership(msg.sender);
+    IOpenNFTsV2(clone_).initialize(name_, symbol_);
+    OwnableUpgradeable(clone_).transferOwnership(msg.sender);
   }
 
-  function balanceOf(address nft, address owner) public view returns (NftData memory nftData) {
+  function balanceOf(address nft, address owner)
+    public
+    view
+    override(INFTsFactory)
+    returns (NftData memory nftData)
+  {
     bytes4[] memory iface = new bytes4[](4);
     iface[ERC721] = ERC721_SIG;
     iface[ERC721_METADATA] = ERC721_METADATA_SIG;
@@ -76,7 +79,7 @@ contract NFTsFactory is CloneFactory {
       }
 
       if (supportInterface[OPEN_NFTS]) {
-        nftData.owner = IOpenNFTsV2(nft).owner();
+        nftData.owner = OwnableUpgradeable(nft).owner();
       }
     }
   }
