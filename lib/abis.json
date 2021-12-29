@@ -1,4 +1,11 @@
 {
+  "OpenNFTsV3": {
+    "interfaceId": "0xa6123562",
+    "abi": [
+      "function initialize(string memory name_, string memory symbol_) external",
+      "function mintNFT(address minter, string memory jsonURI) external returns (uint256)"
+    ]
+  },
   "OpenNFTsV2": {
     "interfaceId": "0xd94a1db2",
     "abi": [

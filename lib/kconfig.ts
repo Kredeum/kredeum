@@ -1,4 +1,3 @@
-
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { ABIS, Address, Network, Nft } from "./ktypes";
 
@@ -127,9 +126,9 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-      (_contract
-        ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
-        : "")
+        (_contract
+          ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
+          : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;

@@ -6,10 +6,10 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import "./interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
 
 contract OpenNFTs is
-  IOpenNFTsV2,
+  IOpenNFTsV3,
   ERC721Upgradeable,
   ERC721EnumerableUpgradeable,
   ERC721URIStorageUpgradeable,
@@ -20,7 +20,7 @@ contract OpenNFTs is
 
   function initialize(string memory name_, string memory symbol_)
     external
-    override(IOpenNFTsV2)
+    override(IOpenNFTsV3)
     initializer
   {
     __Ownable_init();
@@ -29,7 +29,7 @@ contract OpenNFTs is
 
   function mintNFT(address minter, string memory jsonURI)
     public
-    override(IOpenNFTsV2)
+    override(IOpenNFTsV3)
     returns (uint256)
   {
     _tokenIds.increment();
@@ -56,8 +56,8 @@ contract OpenNFTs is
     override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     returns (bool)
   {
-    // IOpenNFTsV2 => 0xa6123562
-    return interfaceId == type(IOpenNFTsV2).interfaceId || super.supportsInterface(interfaceId);
+    // IOpenNFTsV3 => 0xa6123562
+    return interfaceId == type(IOpenNFTsV3).interfaceId || super.supportsInterface(interfaceId);
   }
 
   function _beforeTokenTransfer(

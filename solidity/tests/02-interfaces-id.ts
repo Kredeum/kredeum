@@ -30,7 +30,6 @@ const interfaceId = (abi: Array<string>): string => {
   return ethers.utils.hexlify(id);
 };
 
-
 describe("Call interfacesId", () => {
   let chainId: number;
   // let signer: Signer;
@@ -61,19 +60,27 @@ describe("Call interfacesId", () => {
     expect(ids[8]).to.be.equal(abis.OpenNFTsV0.interfaceId);
     expect(ids[9]).to.be.equal(abis.OpenNFTsV1.interfaceId);
     expect(ids[10]).to.be.equal(abis.OpenNFTsV2.interfaceId);
+    expect(ids[11]).to.be.equal(abis.OpenNFTsV3.interfaceId);
   });
 
   it("Config should have same interfaceId than config abi", () => {
     expect(interfaceId(abis.ERC165.abi)).to.be.equal(abis.ERC165.interfaceId);
     expect(interfaceId(abis.ERC721.abi)).to.be.equal(abis.ERC721.interfaceId);
-    expect(interfaceId(abis.ERC721TokenReceiver.abi)).to.be.equal(abis.ERC721TokenReceiver.interfaceId);
+    expect(interfaceId(abis.ERC721TokenReceiver.abi)).to.be.equal(
+      abis.ERC721TokenReceiver.interfaceId
+    );
     expect(interfaceId(abis.ERC721Metadata.abi)).to.be.equal(abis.ERC721Metadata.interfaceId);
     expect(interfaceId(abis.ERC721Enumerable.abi)).to.be.equal(abis.ERC721Enumerable.interfaceId);
     expect(interfaceId(abis.ERC1155.abi)).to.be.equal(abis.ERC1155.interfaceId);
-    expect(interfaceId(abis.ERC1155TokenReceiver.abi)).to.be.equal(abis.ERC1155TokenReceiver.interfaceId);
-    expect(interfaceId(abis.ERC1155Metadata_URI.abi)).to.be.equal(abis.ERC1155Metadata_URI.interfaceId);
+    expect(interfaceId(abis.ERC1155TokenReceiver.abi)).to.be.equal(
+      abis.ERC1155TokenReceiver.interfaceId
+    );
+    expect(interfaceId(abis.ERC1155Metadata_URI.abi)).to.be.equal(
+      abis.ERC1155Metadata_URI.interfaceId
+    );
     expect(interfaceId(abis.OpenNFTsV0.abi)).to.be.equal(abis.OpenNFTsV0.interfaceId);
     expect(interfaceId(abis.OpenNFTsV1.abi)).to.be.equal(abis.OpenNFTsV1.interfaceId);
     expect(interfaceId(abis.OpenNFTsV2.abi)).to.be.equal(abis.OpenNFTsV2.interfaceId);
+    expect(interfaceId(abis.OpenNFTsV3.abi)).to.be.equal(abis.OpenNFTsV3.interfaceId);
   });
 });

@@ -15,6 +15,7 @@ import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol
 import "./interfaces/IOpenNFTsV0.sol";
 import "./interfaces/IOpenNFTsV1.sol";
 import "./interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
 import "./interfaces/IInterfacesIds.sol";
 
 /// @title InterfaceIds calculation
@@ -26,7 +27,7 @@ contract InterfacesIds is IInterfacesIds {
   /// @notice No params
   /// @return interfacesIds : Array of all interfaceIds
   function ids() public pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
-    interfacesIds = new bytes4[](11);
+    interfacesIds = new bytes4[](12);
     interfacesIds[0] = type(IERC165).interfaceId;
 
     interfacesIds[1] = type(IERC721).interfaceId;
@@ -41,5 +42,6 @@ contract InterfacesIds is IInterfacesIds {
     interfacesIds[8] = type(IOpenNFTsV0).interfaceId;
     interfacesIds[9] = type(IOpenNFTsV1).interfaceId;
     interfacesIds[10] = type(IOpenNFTsV2).interfaceId;
+    interfacesIds[11] = type(IOpenNFTsV3).interfaceId;
   }
 }
