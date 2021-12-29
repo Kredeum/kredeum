@@ -20,10 +20,12 @@ import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 export interface CloneFactoryInterface extends utils.Interface {
   functions: {
     "addImplementation(address)": FunctionFragment;
+    "contractProbe()": FunctionFragment;
     "implementations(uint256)": FunctionFragment;
     "implementationsCount()": FunctionFragment;
     "owner()": FunctionFragment;
     "renounceOwnership()": FunctionFragment;
+    "setContractProbe(address)": FunctionFragment;
     "setDefaultTemplate(address)": FunctionFragment;
     "template()": FunctionFragment;
     "templates(address)": FunctionFragment;
@@ -33,6 +35,10 @@ export interface CloneFactoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "addImplementation",
     values: [string]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "contractProbe",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "implementations",
@@ -46,6 +52,10 @@ export interface CloneFactoryInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "renounceOwnership",
     values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "setContractProbe",
+    values: [string]
   ): string;
   encodeFunctionData(
     functionFragment: "setDefaultTemplate",
@@ -63,6 +73,10 @@ export interface CloneFactoryInterface extends utils.Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "contractProbe",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "implementations",
     data: BytesLike
   ): Result;
@@ -73,6 +87,10 @@ export interface CloneFactoryInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "renounceOwnership",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "setContractProbe",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -148,9 +166,11 @@ export interface CloneFactory extends BaseContract {
 
   functions: {
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
+
+    contractProbe(overrides?: CallOverrides): Promise<[string]>;
 
     implementations(
       arg0: BigNumberish,
@@ -167,8 +187,13 @@ export interface CloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<ContractTransaction>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
@@ -183,9 +208,11 @@ export interface CloneFactory extends BaseContract {
   };
 
   addImplementation(
-    _implementation: string,
+    addr: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
+
+  contractProbe(overrides?: CallOverrides): Promise<string>;
 
   implementations(
     arg0: BigNumberish,
@@ -200,8 +227,13 @@ export interface CloneFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
+  setContractProbe(
+    addr: string,
+    overrides?: Overrides & { from?: string | Promise<string> }
+  ): Promise<ContractTransaction>;
+
   setDefaultTemplate(
-    _template: string,
+    addr: string,
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
@@ -215,10 +247,9 @@ export interface CloneFactory extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    addImplementation(
-      _implementation: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addImplementation(addr: string, overrides?: CallOverrides): Promise<void>;
+
+    contractProbe(overrides?: CallOverrides): Promise<string>;
 
     implementations(
       arg0: BigNumberish,
@@ -231,10 +262,9 @@ export interface CloneFactory extends BaseContract {
 
     renounceOwnership(overrides?: CallOverrides): Promise<void>;
 
-    setDefaultTemplate(
-      _template: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setContractProbe(addr: string, overrides?: CallOverrides): Promise<void>;
+
+    setDefaultTemplate(addr: string, overrides?: CallOverrides): Promise<void>;
 
     template(overrides?: CallOverrides): Promise<string>;
 
@@ -279,9 +309,11 @@ export interface CloneFactory extends BaseContract {
 
   estimateGas: {
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
+
+    contractProbe(overrides?: CallOverrides): Promise<BigNumber>;
 
     implementations(
       arg0: BigNumberish,
@@ -296,8 +328,13 @@ export interface CloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<BigNumber>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
@@ -313,9 +350,11 @@ export interface CloneFactory extends BaseContract {
 
   populateTransaction: {
     addImplementation(
-      _implementation: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
+
+    contractProbe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     implementations(
       arg0: BigNumberish,
@@ -332,8 +371,13 @@ export interface CloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
+    setContractProbe(
+      addr: string,
+      overrides?: Overrides & { from?: string | Promise<string> }
+    ): Promise<PopulatedTransaction>;
+
     setDefaultTemplate(
-      _template: string,
+      addr: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 

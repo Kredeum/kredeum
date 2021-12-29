@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
@@ -9,9 +9,17 @@ import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 import "./interfaces/IOpenNFTsV0.sol";
 import "./interfaces/IOpenNFTsV1.sol";
 import "./interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IInterfacesIds.sol";
 
-contract InterfacesIds {
-  function ids() public pure returns (bytes4[] memory interfacesIds) {
+/// @title InterfaceIds calculation
+/// @author zapaz.eth
+/// @notice Calculates various ERC165, ERC721 and ERC1155 interface Ids
+/// @notice and Kredeum OpenNFTs interface Ids
+contract InterfacesIds is IInterfacesIds {
+  /// @notice Main and only function to calculate Interface Ids
+  /// @notice No params
+  /// @return interfacesIds : Array of all interfaceIds
+  function ids() public pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
     interfacesIds = new bytes4[](8);
     interfacesIds[0] = type(IERC165).interfaceId;
     interfacesIds[1] = type(IERC721).interfaceId;

@@ -62,5 +62,13 @@
         "workspaceRoot": "/Users/alain/DEV/kredeum",
         "workspacePath": "lib/abis.json",
         "id": "CDH4Z1uIxcm9d7NT"
+    },
+    {
+        "type": "File",
+        "name": "/Users/alain/DEV/kredeum/package.json",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "package.json",
+        "id": "Qk5K48L10Yj6ZDb2"
     }
 ]

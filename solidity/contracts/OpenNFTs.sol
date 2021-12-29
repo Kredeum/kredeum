@@ -9,6 +9,7 @@ import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "./interfaces/IOpenNFTsV2.sol";
 
 contract OpenNFTs is
+  IOpenNFTsV2,
   ERC721Upgradeable,
   ERC721EnumerableUpgradeable,
   ERC721URIStorageUpgradeable,
@@ -17,14 +18,20 @@ contract OpenNFTs is
   using CountersUpgradeable for CountersUpgradeable.Counter;
   CountersUpgradeable.Counter private _tokenIds;
 
-  constructor() ERC721Upgradeable() {}
-
-  function initialize(string memory _name, string memory _symbol) external initializer {
+  function initialize(string memory name_, string memory symbol_)
+    external
+    override(IOpenNFTsV2)
+    initializer
+  {
     __Ownable_init();
-    __ERC721_init(_name, _symbol);
+    __ERC721_init(name_, symbol_);
   }
 
-  function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
+  function mintNFT(address minter, string memory jsonURI)
+    public
+    override(IOpenNFTsV2)
+    returns (uint256)
+  {
     _tokenIds.increment();
 
     uint256 newItemId = _tokenIds.current();

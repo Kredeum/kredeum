@@ -14,24 +14,24 @@ import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
 import { TypedEventFilter, TypedEvent, TypedListener, OnEvent } from "./common";
 
-export interface IContractProbeInterface extends utils.Interface {
+export interface IInterfacesIdsInterface extends utils.Interface {
   functions: {
-    "probe(address)": FunctionFragment;
+    "ids()": FunctionFragment;
   };
 
-  encodeFunctionData(functionFragment: "probe", values: [string]): string;
+  encodeFunctionData(functionFragment: "ids", values?: undefined): string;
 
-  decodeFunctionResult(functionFragment: "probe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ids", data: BytesLike): Result;
 
   events: {};
 }
 
-export interface IContractProbe extends BaseContract {
+export interface IInterfacesIds extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
   attach(addressOrName: string): this;
   deployed(): Promise<this>;
 
-  interface: IContractProbeInterface;
+  interface: IInterfacesIdsInterface;
 
   queryFilter<TEvent extends TypedEvent>(
     event: TypedEventFilter<TEvent>,
@@ -53,38 +53,24 @@ export interface IContractProbe extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    probe(
-      addr: string,
+    ids(
       overrides?: CallOverrides
-    ): Promise<
-      [boolean, string] & { isContract: boolean; forwardedTo: string }
-    >;
+    ): Promise<[string[]] & { interfacesIds: string[] }>;
   };
 
-  probe(
-    addr: string,
-    overrides?: CallOverrides
-  ): Promise<[boolean, string] & { isContract: boolean; forwardedTo: string }>;
+  ids(overrides?: CallOverrides): Promise<string[]>;
 
   callStatic: {
-    probe(
-      addr: string,
-      overrides?: CallOverrides
-    ): Promise<
-      [boolean, string] & { isContract: boolean; forwardedTo: string }
-    >;
+    ids(overrides?: CallOverrides): Promise<string[]>;
   };
 
   filters: {};
 
   estimateGas: {
-    probe(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
+    ids(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    probe(
-      addr: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ids(overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

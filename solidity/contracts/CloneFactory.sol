@@ -1,89 +1,115 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.4;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
+import "./interfaces/ICloneFactory.sol";
 import "./interfaces/IContractProbe.sol";
 
-contract CloneFactory is Ownable {
-  // implementations : template or clone
+/// @title Clone Factory
+/// @notice
+contract CloneFactory is ICloneFactory, Ownable {
+  /// @notice implementations : template or clone contracts
   address[] public implementations;
+
+  /// @notice template : template contract to be cloned
   address public template;
 
+  /// @notice contract probe address
+  address public contractProbe;
+
+  /// @notice templates : list template "parent" contract of each clone
   mapping(address => address) public templates;
 
-  address private _contractProbe;
-
+  /// @notice NewImplementation : new template or new clone
+  /// @dev if implementation and template equal
+  /// @dev then implementation is a template
+  /// @dev else implementation is a clone
   event NewImplementation(
     address indexed implementation,
     address indexed template,
     address indexed creator
   );
+
+  /// @notice NewTemplate : new template
   event NewTemplate(address indexed template, address indexed creator);
 
-  constructor(address contractProbe) {
-    _contractProbe = contractProbe;
+  /// @notice SET contractProbe Address
+  /// @param  addr : contractProbe smartcontract address
+  function setContractProbe(address addr) external override(ICloneFactory) onlyOwner {
+    contractProbe = addr;
   }
 
-  /*
-   *  ADD Implementation onlyOwner
-   *
-   *  _implementation : Implementation address
-   */
-  function addImplementation(address _implementation) public onlyOwner {
-    _addImplementation(_implementation);
+  /// @notice ADD Implementation onlyOwner
+  /// @param  addr : smartcontract address of candidate implementation
+  function addImplementation(address addr) public override(ICloneFactory) onlyOwner {
+    (bool isImplementation, address forwardTo) = _probe(addr);
+    require(!isImplementation, "Implementation already exists");
+
+    _addImplementation(addr, forwardTo);
   }
 
-  /*
-   *  SET default Template to be Cloned
-   *
-   *  _template : Template address
-   */
-  function setDefaultTemplate(address _template) public onlyOwner {
-    if (templates[_template] == address(0)) addImplementation(_template);
-    require(templates[_template] == _template, "Template is a Clone");
+  /// @notice SET default Template to be cloned
+  /// @param addr : smartcontract address of candidate template
+  function setDefaultTemplate(address addr) public override(ICloneFactory) onlyOwner {
+    /// @notice probe addr
+    (bool isImplementation, address forwardTo) = _probe(addr);
+    require((forwardTo == addr), "Template is a Clone");
 
-    template = _template;
+    /// @notice addr not already registered as an implementation, so add it
+    if (!isImplementation) addImplementation(addr);
 
-    emit NewTemplate(_template, msg.sender);
+    /// @notice set addr as default template
+    template = addr;
+
+    /// @notice emit event NewTemplate
+    emit NewTemplate(addr, msg.sender);
   }
 
-  /*
-   *  Implementations count
-   *
-   *  returns : Number of implementation
-   */
-  function implementationsCount() public view returns (uint256 count) {
+  /// @notice Implementations count
+  /// @return count : Number of implementations
+  function implementationsCount() public view override(ICloneFactory) returns (uint256 count) {
     return implementations.length;
   }
 
-  /*
-   *  ADD Implementation internal
-   *
-   *  _implementation : Implementation address
-   */
-  function _addImplementation(address _implementation) internal {
-    require(templates[_implementation] == address(0), "Implementation already exists");
+  /// @notice ADD Implementation internal
+  /// @param  impl : implementation address
+  /// @param  tmpl : template address
+  function _addImplementation(address impl, address tmpl) internal {
+    /// @notice register implementation
+    implementations.push(impl);
 
-    (bool _isContract, address _template) = IContractProbe(_contractProbe).probe(_implementation);
+    /// @notice register template
+    templates[impl] = tmpl;
 
-    require(_isContract, "Implementation is not a Contract");
-
-    implementations.push(_implementation);
-    templates[_implementation] = _template;
-
-    emit NewImplementation(_implementation, _template, msg.sender);
+    /// @notice emit event NewImplementation
+    emit NewImplementation(impl, tmpl, msg.sender);
   }
 
-  /*
-   *  Clone Template
-   *
-   *  returns : Clone Address
-   */
-  function _clone() internal virtual returns (address clone_) {
+  /// @notice Clone Template
+  /// @param  addr : clone address
+  function _clone() internal returns (address addr) {
     require(template != address(0), "Template doesn't exist");
 
-    clone_ = Clones.clone(template);
-    _addImplementation(clone_);
+    /// @notice clone template and get clone address
+    addr = Clones.clone(template);
+
+    /// @notice register clone as new implementation
+    _addImplementation(addr, template);
+  }
+
+  /// @dev probe if address is contract and/or clone
+  /// @param addr : probe address
+  /// @notice revert if probe address is not contract
+  /// @notice throws if forwardTo not found
+  /// @return isImplementation : true if probe address is implemention
+  /// @return forwardTo : parent template address if clone, probe address otherwise
+  function _probe(address addr) internal view returns (bool isImplementation, address forwardTo) {
+    bool isContract;
+    (isContract, forwardTo) = IContractProbe(contractProbe).probe(addr);
+    require(isContract, "Not a Contract");
+    assert(forwardTo != address(0));
+
+    isImplementation = (templates[addr] != address(0));
   }
 }

@@ -10,8 +10,7 @@ const deployInterfacesIds: DeployFunction = async function ({ deployments, ether
   });
 };
 deployInterfacesIds.tags = ["InterfacesIds"];
-deployInterfacesIds.skip = async ({ getChainId }) => {
-  return Number(await getChainId()) != 31337;
-};
+// eslint-disable-next-line @typescript-eslint/require-await
+deployInterfacesIds.skip = async ({ network }) => network.name !== "hardhat";
 
 export default deployInterfacesIds;
