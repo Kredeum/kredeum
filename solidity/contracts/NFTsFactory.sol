@@ -9,6 +9,7 @@ import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
 import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
+import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 contract NFTsFactory is CloneFactory, INFTsFactory {
   using ERC165Checker for address;
@@ -48,7 +49,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
     require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
     IOpenNFTsV2(clone_).initialize(name_, symbol_);
-    IOpenNFTsV2(clone_).transferOwnership(msg.sender);
+    OwnableUpgradeable(clone_).transferOwnership(msg.sender);
   }
 
   function balanceOf(address nft, address owner)
@@ -78,7 +79,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
       }
 
       if (supportInterface[OPEN_NFTS]) {
-        nftData.owner = IOpenNFTsV2(nft).owner();
+        nftData.owner = OwnableUpgradeable(nft).owner();
       }
     }
   }

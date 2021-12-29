@@ -56,7 +56,7 @@ contract OpenNFTs is
     override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
     returns (bool)
   {
-    // IOpenNFTsV2 => 0xd94a1db2
+    // IOpenNFTsV2 => 0xa6123562
     return interfaceId == type(IOpenNFTsV2).interfaceId || super.supportsInterface(interfaceId);
   }
 
