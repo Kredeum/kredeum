@@ -187,7 +187,7 @@ const config: HardhatUserConfig = {
   },
   mocha: {
     timeout: 200_000,
-    bail: false
+    bail: true
   },
   etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_ETHEREUM }
 };

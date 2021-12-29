@@ -17,7 +17,11 @@ const deployNFTsFactoryFunction: DeployFunction = async function ({
   });
 
   if (deployResult.newlyDeployed) {
-    const nftsFactory = new ethers.Contract(deployResult.address, deployResult.abi, deployer) as NFTsFactory;
+    const nftsFactory = new ethers.Contract(
+      deployResult.address,
+      deployResult.abi,
+      deployer
+    ) as NFTsFactory;
     const contractProbeAddress = (await ethers.getContract("ContractProbe")).address;
     const openNFTsAddress = (await ethers.getContract("OpenNFTs")).address;
 

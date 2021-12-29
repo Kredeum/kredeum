@@ -3,7 +3,7 @@ pragma solidity ^0.8.4;
 
 import "./CloneFactory.sol";
 import "./interfaces/INFTsFactory.sol";
-import "./interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
@@ -22,7 +22,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
   bytes4 public constant ERC721_SIG = bytes4(0x80ac58cd);
   bytes4 public constant ERC721_METADATA_SIG = bytes4(0x780e9d63);
   bytes4 public constant ERC721_ENUMERABLE_SIG = bytes4(0x780e9d63);
-  bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV2).interfaceId;
+  bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV3).interfaceId;
 
   function withdrawEther() external override(INFTsFactory) onlyOwner {
     Address.sendValue(payable(msg.sender), address(this).balance);
@@ -48,7 +48,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
     clone_ = _clone();
     require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
-    IOpenNFTsV2(clone_).initialize(name_, symbol_);
+    IOpenNFTsV3(clone_).initialize(name_, symbol_);
     OwnableUpgradeable(clone_).transferOwnership(msg.sender);
   }
 

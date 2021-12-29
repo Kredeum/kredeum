@@ -1,3 +1,8 @@
+import type { ERC165Upgradeable } from "../solidity/types/ERC165Upgradeable";
+import type { OpenNFTs } from "../solidity/types/OpenNFTs";
+import type { Nft } from "./ktypes";
+import type { Provider } from "@ethersproject/abstract-provider";
+
 import { Contract, Signer } from "ethers";
 import { fetchCov, fetchGQL, fetchJson } from "./kfetch";
 import {
@@ -9,11 +14,6 @@ import {
   nftUrl3
 } from "./kconfig";
 
-import type { ERC165Upgradeable } from "../solidity/types/ERC165Upgradeable";
-import type { OpenNFTs } from "../solidity/types/OpenNFTs";
-import type { Nft } from "./ktypes";
-import type { Provider } from "@ethersproject/abstract-provider";
-
 const LIMIT = 10;
 
 const getCollection = async (
@@ -23,37 +23,60 @@ const getCollection = async (
 ): Promise<OpenNFTs | undefined> => {
   // console.log(`getCollection ${collection}`);
 
+  let abi: Array<string> = [];
   let contract: OpenNFTs | undefined = undefined;
 
+  // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collection && signerOrProvider) {
     try {
       const checkContract = new Contract(
         collection,
-        abis.ERC165,
+        abis.ERC165.abi,
         signerOrProvider
       ) as ERC165Upgradeable;
 
       if (checkContract) {
-        const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface("0xa6123562");
-        const waitMetadata: Promise<boolean> = checkContract.supportsInterface("0x5b5e139f");
-        const waitEnumerable: Promise<boolean> = checkContract.supportsInterface("0x780e9d63");
-        const [supportsOpenNFTsV2, supportsMetadata, supportsEnumerable] = await Promise.all([
-          waitOpenNFTsV2,
-          waitMetadata,
-          waitEnumerable
-        ]);
-        let abi = abis.ERC721;
-        if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
-        if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
-        if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2);
+        const waitERC721: Promise<boolean> = checkContract.supportsInterface(
+          abis.ERC721.interfaceId
+        );
+        const waitERC1155: Promise<boolean> = checkContract.supportsInterface(
+          abis.ERC1155.interfaceId
+        );
+        const [supportsERC721, supportsERC1155] = await Promise.all([waitERC721, waitERC1155]);
 
+        if (supportsERC721) {
+          abi = abis.ERC721.abi;
+          const waitMetadata: Promise<boolean> = checkContract.supportsInterface(
+            abis.ERC721Metadata.interfaceId
+          );
+          const waitEnumerable: Promise<boolean> = checkContract.supportsInterface(
+            abis.ERC721Enumerable.interfaceId
+          );
+          const waitOpenNFTsV2: Promise<boolean> = checkContract.supportsInterface(
+            abis.OpenNFTsV2.interfaceId
+          );
+          const waitOpenNFTsV3: Promise<boolean> = checkContract.supportsInterface(
+            abis.OpenNFTsV3.interfaceId
+          );
+          const [supportsOpenNFTsV2, supportsOpenNFTsV3, supportsMetadata, supportsEnumerable] =
+            await Promise.all([waitOpenNFTsV2, waitOpenNFTsV3, waitMetadata, waitEnumerable]);
+          if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata.abi);
+          if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable.abi);
+          if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2.abi);
+          if (supportsOpenNFTsV3) abi = abi.concat(abis.OpenNFTsV3.abi);
+        } else if (supportsERC1155) {
+          abi = abis.ERC1155.abi;
+          const supportsMetadata = await checkContract.supportsInterface(
+            abis.ERC1155Metadata_URI.interfaceId
+          );
+          if (supportsMetadata) abi = abi.concat(abis.ERC1155Metadata_URI.abi);
+        }
         contract = new Contract(collection, abi, signerOrProvider) as OpenNFTs;
       }
     } catch (e) {
       console.error(`ERROR getCollection : ${chainId} ${collection}\n`, e);
     }
   }
-
   return contract;
 };
 
@@ -181,6 +204,7 @@ const getNFTFromContract = async (
   let contractName = "";
 
   // console.log("getNFTFromContract", chainId, _index, _owner);
+  // console.log("getNFTFromContract", _smartcontract);
 
   try {
     collection = getChecksumAddress(_smartcontract.address);
