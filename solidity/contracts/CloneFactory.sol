@@ -7,31 +7,40 @@ import "./interfaces/ICloneFactory.sol";
 import "./interfaces/IContractProbe.sol";
 
 /// @title Clone Factory
-/// @notice
+/// Generic Clone Factory to create multiple Clones from Templates
+/// @dev CloneFactory is ICloneFactory and Ownable
 contract CloneFactory is ICloneFactory, Ownable {
-  /// @notice implementations : template or clone contracts
-  address[] public implementations;
-
-  /// @notice template : template contract to be cloned
+  /// Current Template used for cloning
+  /// @return template address
   address public template;
 
-  /// @notice contract probe address
+  /// External Probe smartcontract used for clone probing
+  /// @return contractProbe address
   address public contractProbe;
 
-  /// @notice templates : list template "parent" contract of each clone
+  /// Get implementation
+  /// @return implementation address
+  address[] public implementations;
+
+  /// Map each Implementation with "parent" Template
+  /// @return templates mapping
   mapping(address => address) public templates;
 
-  /// @notice NewImplementation : new template or new clone
-  /// @dev if implementation and template equal
-  /// @dev then implementation is a template
-  /// @dev else implementation is a clone
+  /// New Implemention Event
+  /// @dev if implementation equal template
+  /// then implementation is Template else Clone
+  /// @param implementation implementation address
+  /// @param template template address
+  /// @param creator creator address
   event NewImplementation(
     address indexed implementation,
     address indexed template,
     address indexed creator
   );
 
-  /// @notice NewTemplate : new template
+  /// @notice New Template Event
+  /// @param template template address
+  /// @param creator creator address
   event NewTemplate(address indexed template, address indexed creator);
 
   /// @notice SET contractProbe Address
@@ -40,7 +49,7 @@ contract CloneFactory is ICloneFactory, Ownable {
     contractProbe = addr;
   }
 
-  /// @notice ADD Implementation onlyOwner
+  /// @notice Add Implementation - restricted to onlyOwner
   /// @param  addr : smartcontract address of candidate implementation
   function addImplementation(address addr) public override(ICloneFactory) onlyOwner {
     (bool isImplementation, address forwardTo) = _probe(addr);
@@ -67,7 +76,7 @@ contract CloneFactory is ICloneFactory, Ownable {
   }
 
   /// @notice Implementations count
-  /// @return count : Number of implementations
+  /// @return count : number of implementations
   function implementationsCount() public view override(ICloneFactory) returns (uint256 count) {
     return implementations.length;
   }
@@ -101,7 +110,7 @@ contract CloneFactory is ICloneFactory, Ownable {
   /// @dev probe if address is contract and/or clone
   /// @param addr : probe address
   /// @notice revert if probe address is not contract
-  /// @notice throws if forwardTo not found
+  /// throws if forwardTo not found
   /// @return isImplementation : true if probe address is implemention
   /// @return forwardTo : parent template address if clone, probe address otherwise
   function _probe(address addr) internal view returns (bool isImplementation, address forwardTo) {

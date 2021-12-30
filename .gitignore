@@ -5,6 +5,7 @@ node_modules
 # SOLIDITY
 solidity/artifacts
 solidity/types
+solidity/docs
 
 # SVELTE
 /public/build/
