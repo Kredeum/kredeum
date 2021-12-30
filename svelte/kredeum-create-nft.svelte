@@ -23,7 +23,7 @@
   let minting = 0;
   let mintingTxResp: TransactionResponse;
 
-  let nftTitle: string;
+  let nftTitle: string = "My NFT title";
   let cidImage: string;
   let cidJson: string;
   let imageName = "My NFT title";
@@ -34,21 +34,12 @@
   let errormsg = "";
 
   // DISPLAY image AFTER upload
-  /*   $: if (files) {
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    imageName = files[0].name;
-    reader.onload = (e) => {
-      image = `${e.target.result}`;
-    };
-  } */
-
   function fileload() {
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       imageName = files[0].name;
-      //nftTitle = imageName;
+      nftTitle = imageName;
       reader.onload = (e) => {
         image = `${e.target.result}`;
       };
@@ -69,10 +60,6 @@
       return;
     }
 
-    if (nftTitle == undefined) {
-      errormsg = "Missing NFT title. Sorry can't mint.";
-      return;
-    }
     minting = 1;
 
     cidImage = await mint1cidImage(image);
@@ -188,12 +175,6 @@
         </ul>
       {:else}
         <div class="section">
-          <span class="label label-big">NFT title</span>
-          <div class="form-field">
-            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
-          </div>
-        </div>
-        <div class="section">
           <span class="label label-big">NFT file</span>
           <div class="box-file">
             {#if image}
@@ -203,6 +184,12 @@
             {:else}
               <input type="file" id="file" name="file" bind:files on:change={fileload} />
             {/if}
+          </div>
+        </div>
+        <div class="section">
+          <span class="label label-big">NFT title</span>
+          <div class="form-field">
+            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
           </div>
         </div>
 
