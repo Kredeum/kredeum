@@ -6,13 +6,12 @@
 
   import {
     getShortAddress,
-    textShort,
     numberToHexString,
-    explorerAddressLink,
     explorerAddressUrl,
-    explorerOpenNFTsUrl
+    explorerNFTsFactoryUrl,
+    getNFTsFactoryAddress
   } from "lib/knfts";
-  import { getChecksumAddress, getNetwork, getEnsName, networks } from "lib/kconfig";
+  import { getChecksumAddress, getNetwork, getEnsName, networks, nftsUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { ethers } from "ethers";
@@ -266,10 +265,10 @@
         >Network
         <a
           class="info-button"
-          href={explorerOpenNFTsUrl(chainId)}
+          href={explorerNFTsFactoryUrl(chainId)}
           target="_blank"
-          title="&#009;ChainId {chainId?.toString()} (click to view default collection in explorer )"
-          ><i class="fas fa-info-circle" /></a
+          title="&#009; NFTs Factory address (click to view in explorer )
+          {getNFTsFactoryAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 

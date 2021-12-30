@@ -58,21 +58,21 @@
   const _listCollectionsFromCache = async (_chainId: number, _owner: string) => {
     // console.log("KredeumListCollections _listCollectionsFromCache");
     allCollections = listCollectionsFromCache(_owner);
+    const openNFTsAddress = await getOpenNFTsAddress(chainId);
 
     collections = new Map(
       [...allCollections]
-        .filter(([, collection]) => {
-          return (
+        .filter(
+          ([, collection]) =>
             // FILTER NETWORK
             collection.chainId === _chainId &&
             // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
             (collection.balanceOf > 0 ||
               collection.owner === _owner ||
-              collection.address === getOpenNFTsAddress(chainId)) &&
+              collection.address === openNFTsAddress) &&
             // FILTER OpenNFTs collection
             (!filter || collection.openNFTsVersion)
-          );
-        })
+        )
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
@@ -82,7 +82,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      getOpenNFTsAddress(chainId);
+      (await getOpenNFTsAddress(chainId));
     _setCollection(defaultCollection);
     // console.log(collections);
   };

@@ -23,11 +23,10 @@
   import { nftUrl, nftsUrl } from "lib/kconfig";
   import { clearCache } from "lib/klist-nfts";
 
-  // export let platform: string = undefined; // platform : WordPress or Dapp
-
   // down to component
   export let owner: string = undefined;
   export let collection: Collection = undefined;
+  export let platform: string = undefined; // platform : wordPress or dapp
   // up to parent
   export let refreshing: boolean;
 
@@ -143,6 +142,15 @@
       ? "auto"
       : `${divMoreDetail.offsetHeight + 70}px`;
   };
+
+  const shortcode = async (nft: Nft) => {
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
+      nft.tokenID
+    }" cid="${nft.cid}"]${nftName(nft)}[/kredeum_sell]`;
+
+    await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+    console.log("Copied");
+  };
 </script>
 
 {#key owner && index}
@@ -154,10 +162,8 @@
     <a
       class="info-button"
       href={explorerCollectionInventoryUrl(chainId, collection?.address)}
-      title="&#009;Collection address (click to view collection in explorer)&#013;{nftsUrl(
-        chainId,
-        collection?.address
-      )}"
+      title="&#009;Collection address (click to view in explorer)&#013;
+      {nftsUrl(chainId, collection?.address)}"
       target="_blank"><i class="fas fa-info-circle" /></a
     >
 
@@ -183,7 +189,7 @@
                 class="info-button"
                 href={nftImageLink(nft)}
                 title="&#009;{nftDescription(nft)} 
-                (click to view NFT in explorer)&#013.{nftUrl(nft)}"
+                NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
                 target="_blank"><i class="fas fa-info-circle" /></a
               >
             </div>
@@ -216,7 +222,7 @@
                   class="info-button"
                   href={nftImageLink(nft)}
                   title="&#009;{nftDescription(nft)} 
-                  (click to view NFT in explorer)&#013.{nftUrl(nft)}"
+                  NFT address (click to view explorer)&#013.{nftUrl(nft)}"
                   target="_blank"><i class="fas fa-info-circle" /></a
                 >
               {/if}
@@ -279,6 +285,16 @@
                     <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
                   </div>
                 </li>
+                {#if platform === "wordpress"}
+                  <li class="complete">
+                    <div class="flex"><span class="label">Copy shortcode sell button</span></div>
+                    <div class="flex">
+                      <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
+                        >Shortcode</button
+                      >
+                    </div>
+                  </li>
+                {/if}
               </ul>
             </div>
           </div>
