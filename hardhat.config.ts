@@ -3,6 +3,7 @@ import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
+import "hardhat-docgen";
 
 import "@typechain/hardhat";
 import type { HardhatUserConfig } from "hardhat/types";
@@ -188,6 +189,11 @@ const config: HardhatUserConfig = {
   mocha: {
     timeout: 200_000,
     bail: true
+  },
+  docgen: {
+    path: "solidity/docs",
+    clear: true,
+    runOnCompile: true,
   },
   etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_ETHEREUM }
 };
