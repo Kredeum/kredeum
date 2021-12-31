@@ -5,7 +5,13 @@
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
-  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
+  import {
+    nftMintTexts,
+    nftMint1CidImage,
+    nftMint2CidJson,
+    nftMint3TxResponse,
+    nftMint4
+  } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
@@ -60,31 +66,25 @@
     if (image) {
       minting = 1;
 
-      cidImage = await mint1cidImage(image);
+      cidImage = await nftMint1CidImage(image);
       // console.log("cidImage", cidImage);
 
       if (cidImage) {
         minting = 2;
 
-        cidJson = await mint2cidJson(nftTitle, cidImage, $owner, image);
+        cidJson = await nftMint2CidJson(nftTitle, cidImage, $owner, image);
         // console.log("json", cidJson);
 
         if (cidJson) {
           minting = 3;
 
-          mintingTxResp = await mint3TxResponse($chainId, collection.address, cidJson, $signer);
+          mintingTxResp = await nftMint3TxResponse($chainId, collection.address, cidJson, $signer);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await mint4Nft(
-              $chainId,
-              collection.address,
-              mintingTxResp,
-              cidJson,
-              $owner
-            );
+            mintedNft = await nftMint4($chainId, collection, mintingTxResp, cidJson, $owner);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {
@@ -159,7 +159,7 @@
                   {#if mintingError}
                     {mintingError}
                   {:else if 1 <= minting && minting <= 5}
-                    {mintingTexts[minting]}
+                    {nftMintTexts[minting]}
                   {/if}
                 </span>
               </div>

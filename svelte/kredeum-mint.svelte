@@ -1,14 +1,19 @@
 <script lang="ts">
-  import type { Nft, Network } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { Nft, Network, Collection } from "lib/ktypes";
+  import type { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
+  import {
+    nftMintTexts,
+    nftMint1CidImage,
+    nftMint2CidJson,
+    nftMint3TxResponse,
+    nftMint4
+  } from "lib/knft-mint";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, nftImageLink } from "lib/knfts";
   import { getNetwork, getOpenNFTsAddress } from "lib/kconfig";
 
-  // down to component
   // export let key: string = undefined;
   // export let metadata: string = undefined;
   export let alt: string = undefined;
@@ -17,9 +22,10 @@
   export let width = 100;
   export let display = false;
   // down to component with default
-  export let collection: string = undefined;
+  export let collection: Collection = undefined;
 
   import { chainId, signer, provider } from "./network";
+  import { collectionGet } from "lib/kcollection-get";
 
   let mintedNft: Nft;
   let minting: number;
@@ -30,18 +36,23 @@
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange($chainId, $signer);
+  $: handleChange($chainId, $signer, $provider);
 
-  const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
+  const handleChange = async (
+    _chainId: number,
+    _signer: JsonRpcSigner,
+    _provider: JsonRpcProvider
+  ) => {
     if (_chainId && _signer) {
       signerAddress = await _signer.getAddress();
-      console.log("kredeum-mint handleChange", _chainId, signerAddress);
+      // console.log("kredeum-mint handleChange", _chainId, signerAddress);
 
-      collection =
+      const collectionAddress =
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await getOpenNFTsAddress($chainId, _signer));
+        (await getOpenNFTsAddress($chainId, _provider));
+      collection = await collectionGet(_chainId, collectionAddress);
     }
   };
 
@@ -59,28 +70,28 @@
 
   const mint = async (e: Event): Promise<Nft> => {
     e.preventDefault();
-    console.log("collection", collection);
+    // console.log("collection", collection);
     cidImage = null;
     mintedNft = null;
 
     minting = 1;
 
-    cidImage = await mint1cidImage(src);
+    cidImage = await nftMint1CidImage(src);
     // console.log("cidImage", cidImage);
 
     minting = 2;
 
-    const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
+    const cidJson = await nftMint2CidJson(alt, cidImage, signerAddress, src);
     // console.log("json", cidJson);
 
     minting = 3;
 
-    const mintingTxResp = await mint3TxResponse($chainId, collection, cidJson, $signer);
+    const mintingTxResp = await nftMint3TxResponse($chainId, collection, cidJson, $signer);
     // console.log("txResp", txResp);
 
     minting = 4;
 
-    mintedNft = await mint4Nft($chainId, collection, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await nftMint4($chainId, collection, mintingTxResp, cidJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -111,7 +122,7 @@
           <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
         </div>
         <div>
-          <em>{mintingTexts[minting]}</em>
+          <em>{nftMintTexts[minting]}</em>
         </div>
       {/if}
     {:else}

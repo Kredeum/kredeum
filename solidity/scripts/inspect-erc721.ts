@@ -1,35 +1,56 @@
 import type { OpenNFTs } from "solidity/types/OpenNFTs";
+import type { AbiType } from "../../lib/ktypes";
 
 import { ethers, network, getChainId } from "hardhat";
-import { expect } from "chai";
 import abis from "../../lib/abis.json";
+import { collectionGet, collectionGetContract } from "../../lib/kcollection-get";
 
-const openNFTsAddress = "0xE5EaCc6F36881A68961d3Af46fcF6a7A1E02160F";
-const openNFTsAbi = abis.ERC165.abi
-  .concat(abis.ERC721.abi)
-  .concat(abis.ERC721Enumerable.abi)
-  .concat(abis.OpenNFTsV2.abi);
+const collectionAddress = "0xd07dc4262BCDbf85190C01c996b4C06a461d2430";
 const owner = "0x981ab0D817710d8FFFC5693383C00D985A3BDa38";
+const supported = new Map();
 
 const main = async (): Promise<boolean> => {
   const signer = await ethers.getNamedSigner("deployer");
+  const chainId = Number(await getChainId());
 
-  console.log("network", network.name, await getChainId());
-  const openNFTs: OpenNFTs = await ethers.getContractAt(openNFTsAbi, openNFTsAddress, signer);
+  console.log("network", network.name, chainId);
 
-  // what version ?
-  console.log("V0", await openNFTs.supportsInterface(abis.OpenNFTsV0.interfaceId));
-  console.log("V1", await openNFTs.supportsInterface(abis.OpenNFTsV1.interfaceId));
-  console.log("V2", await openNFTs.supportsInterface(abis.OpenNFTsV2.interfaceId));
-  console.log("V3", await openNFTs.supportsInterface(abis.OpenNFTsV3.interfaceId));
+  const collection: OpenNFTs = await collectionGetContract(
+    chainId,
+    collectionGet(chainId, collectionAddress),
+    signer
+  );
 
-  expect(openNFTs.interface.getSighash("balanceOf")).to.be.equal("0x70a08231");
-  const balanceOf = Number(await openNFTs.balanceOf(owner));
-  console.log("balanceOf", balanceOf.toString());
+  if (collection) {
+    console.log(collection.functions);
 
-  for (let index = 0; index < balanceOf; index++) {
-    const tokenId = await openNFTs.tokenOfOwnerByIndex(owner, index);
-    console.log("tokenId", index, "=", tokenId.toString());
+    for await (const key of Object.keys(abis)) {
+      const abi = abis[key] as AbiType;
+      if (abi.interfaceId && (await collection.supportsInterface(abi.interfaceId))) {
+        supported.set(key, true);
+        console.log(key, "supported");
+      }
+    }
+
+    if (supported.get("ERC721")) {
+      console.error("ERC721");
+
+      const balanceOf = Number(await collection.balanceOf(owner));
+      console.log("balanceOf", balanceOf.toString());
+
+      for (let index = 0; index < balanceOf; index++) {
+        const tokenId = await collection.tokenOfOwnerByIndex(owner, index);
+        console.log("tokenId", index, "=", tokenId.toString());
+      }
+    }
+    if (supported.get("ERC1155")) {
+      console.error("ERC1155");
+
+      const balanceOf = Number(await collection.balanceOf(owner));
+      console.log("balanceOf", balanceOf.toString());
+    }
+  } else {
+    console.error("Collection not found", chainId, collectionAddress);
   }
 
   return true;

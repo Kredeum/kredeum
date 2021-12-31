@@ -1,16 +1,17 @@
-import type { Network } from "../../lib/ktypes";
+import type { Network, Collection } from "../../lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTs } from "../types/OpenNFTs";
 
 import {
-  listNFTs,
-  listNFTsFromTheGraph,
-  listNFTsFromContract,
-  listNFTsFromCovalent
-} from "../../lib/klist-nfts";
+  nftsList,
+  nftsListFromTheGraph,
+  nftsListFromContract,
+  nftsListFromCovalent
+} from "../../lib/knft-list";
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { getNetwork } from "../../lib/kconfig";
+import { collectionGet } from "../../lib/kcollection-get";
 
 const txOptions = {
   maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
@@ -48,28 +49,34 @@ describe("List NFTs lib", function () {
 
   describe("List NFTs", function () {
     this.timeout(50000);
+    let collection: Collection;
+
+    before(() => {
+      collection = collectionGet(chainId, contract);
+      console.log("collection", collection);
+    });
 
     it("With SmartContract", async function () {
       expect(
-        (await listNFTsFromContract(chainId, contract, ethers.provider, artistAddress, 9)).size
+        (await nftsListFromContract(chainId, collection, ethers.provider, artistAddress, 9)).size
       ).to.be.gte(1);
     });
 
     it("With default method", async function () {
-      expect((await listNFTs(chainId, contract, artistAddress, 9, ethers.provider)).size).to.be.gte(
-        1
-      );
+      expect(
+        (await nftsList(chainId, collection, artistAddress, 9, ethers.provider)).size
+      ).to.be.gte(1);
     });
 
     it("With TheGraph", async function () {
       if (network?.subgraph) {
-        expect((await listNFTsFromTheGraph(chainId, contract)).size).to.be.gte(1);
+        expect((await nftsListFromTheGraph(chainId, collection)).size).to.be.gte(1);
       }
     });
 
     it("With Covalent", async function () {
       if (network?.covalent) {
-        expect((await listNFTsFromCovalent(chainId, contract)).size).to.be.gte(1);
+        expect((await nftsListFromCovalent(chainId, collection)).size).to.be.gte(1);
       }
     });
   });

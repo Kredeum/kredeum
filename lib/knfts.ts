@@ -5,7 +5,7 @@ import {
   getExplorer,
   getOpenSeaAssets,
   getOpenNFTsAddress,
-  getNFTsFactoryAddress,
+  collectionGetNFTsFactoryAddress,
   getShortAddress,
   textShort,
   nftUrl
@@ -133,7 +133,7 @@ const explorerNftUrl = (chainId: number, nft: Nft): string => {
 const explorerNFTsFactoryUrl = (chainId: number): string =>
   // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
   // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
-  explorerContractUrl(chainId, getNFTsFactoryAddress(chainId));
+  explorerContractUrl(chainId, collectionGetNFTsFactoryAddress(chainId));
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -206,7 +206,7 @@ export {
   ipfsGatewayLink,
   addressSame,
   getShortAddress,
-  getNFTsFactoryAddress,
+  collectionGetNFTsFactoryAddress,
   collectionName,
   collectionSymbol,
   nftImageLink,

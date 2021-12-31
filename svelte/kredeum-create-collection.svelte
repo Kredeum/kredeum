@@ -2,8 +2,13 @@
   import type { Collection } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
+  import {
+    collectionCloneResponse,
+    collectionCloneReceipt,
+    collectionCloneAddress
+  } from "lib/kcollection-clone";
+
   import { createEventDispatcher } from "svelte";
 
   import { chainId, signer } from "./network";
@@ -25,15 +30,15 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await CloneResponse($chainId, collectionName, $signer);
+      const txResp = await collectionCloneResponse($chainId, collectionName, $signer);
       cloningTxHash = txResp.hash;
 
-      const txReceipt = await CloneReceipt(txResp);
+      const txReceipt = await collectionCloneReceipt(txResp);
       collectionCreated = {
         openNFTsVersion: 2,
         chainId: $chainId,
         name: collectionName,
-        address: CloneAddress(txReceipt),
+        address: collectionCloneAddress(txReceipt),
         user: await $signer.getAddress()
       };
       collection = collectionCreated;

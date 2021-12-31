@@ -14,11 +14,9 @@ type ErcKeys =
   | "ERC1155"
   | "ERC1155TokenReceiver"
   | "ERC1155Metadata_URI";
+type AbiType = { abi: Array<string>; interfaceId?: string };
 type ABIS = {
-  [Key in ErcKeys | OpenNFTsKeys]: {
-    abi: Array<string>;
-    interfaceId?: string;
-  };
+  [Key in ErcKeys | OpenNFTsKeys]: AbiType;
 };
 
 type Address = string;
@@ -57,8 +55,23 @@ type Collection = {
   totalSupply?: number;
   startBlock?: number;
   description?: string;
-  user: string;
+  user?: string;
   balanceOf?: number;
+  supports?: CollectionSupports;
+};
+type CollectionSupports = {
+  ERC165?: boolean;
+  ERC721?: boolean;
+  ERC1155?: boolean;
+  ERC721TokenReceiver?: boolean;
+  ERC721Metadata?: boolean;
+  ERC721Enumerable?: boolean;
+  ERC1155TokenReceiver?: boolean;
+  ERC1155Metadata_URI?: boolean;
+  OpenNFTsV0?: boolean;
+  OpenNFTsV1?: boolean;
+  OpenNFTsV2?: boolean;
+  OpenNFTsV3?: boolean;
 };
 
 type Nft = {
@@ -89,4 +102,14 @@ type Nft = {
   nid?: string;
 };
 
-export type { Address, Collection, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys };
+export type {
+  Address,
+  Collection,
+  CollectionSupports,
+  Network,
+  ABIS,
+  AbiType,
+  Nft,
+  OpenNFTsKeys,
+  ErcKeys
+};

@@ -6,7 +6,7 @@ import config from "../config/config.json";
 import abisJson from "./abis.json";
 
 import { providers, utils } from "ethers";
-import { getNFTsFactory } from "./klist-collections";
+import { collectionGetNFTsFactory } from "./kcollection-get";
 
 const abis = abisJson as ABIS;
 const version = config.version;
@@ -72,13 +72,13 @@ const getOpenNFTsAddress = async (
   chainId: number,
   provider: Provider
 ): Promise<Address | undefined> => {
-  const nftsFactory = getNFTsFactory(chainId, provider);
+  const nftsFactory = collectionGetNFTsFactory(chainId, provider);
   const template = await nftsFactory.template();
   return template ? template : "";
 };
 
 // GET NFTs Factory
-const getNFTsFactoryAddress = (chainId: number): Address | undefined =>
+const collectionGetNFTsFactoryAddress = (chainId: number): Address | undefined =>
   getChecksumAddress(getNetwork(chainId)?.nftsFactory);
 
 // GET OpenSeaKredeum
@@ -152,7 +152,7 @@ export {
   getCreate,
   getNftsFactory,
   getOpenNFTsAddress,
-  getNFTsFactoryAddress,
+  collectionGetNFTsFactoryAddress,
   getCovalent,
   getExplorer,
   nftUrl3,

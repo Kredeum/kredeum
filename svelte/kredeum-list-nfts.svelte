@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Collection, Network, Nft } from "lib/ktypes";
+  import type { Provider } from "@ethersproject/abstract-provider";
 
   import {
     sleep,
@@ -17,14 +18,12 @@
     explorerNftUrl,
     explorerAddressLink
   } from "lib/knfts";
-  import { listNFTsTokenId, listNFTsFromCache, addNftMetadata } from "lib/klist-nfts";
-  import { getNetwork, getShortAddress } from "lib/kconfig";
-  import { createEventDispatcher } from "svelte";
-  import { nftUrl, nftsUrl } from "lib/kconfig";
-  import { clearCache } from "lib/klist-nfts";
-
   import { chainId, owner, provider } from "./network";
-  import { Provider } from "@ethersproject/abstract-provider";
+  import { getNetwork, getShortAddress, nftUrl, nftsUrl } from "lib/kconfig";
+  import { clearCache, nftsListFromCache } from "lib/knft-list";
+  import { nftGetFromIndex, nftGetMetadata } from "lib/knft-get";
+
+  import { createEventDispatcher } from "svelte";
 
   // down to component
   export let collection: Collection = undefined;
@@ -47,11 +46,6 @@
 
   // ON OWNER OR COLLECTION CHANGE
   $: {
-    // console.log(
-    //   "KredeumListNfts owner or collection changed, so refresh NFTs...",
-    //   owner,
-    //   collection
-    // );
     if ($owner && collection) {
       // chainId.set(collection?.chainId);
       refreshNFTs();
@@ -90,7 +84,7 @@
     _collection: Collection,
     _owner: string
   ): number => {
-    allNFTs = listNFTsFromCache();
+    allNFTs = nftsListFromCache();
     // console.log("allNFTs", allNFTs);
 
     NFTs = new Map(
@@ -110,35 +104,40 @@
     _provider: Provider,
     _owner: string
   ) => {
-    // console.log("_refreshNFTsFromLib");
+    // console.log("_refreshNFTsFromLib IN", _chainId, _collection, _owner);
 
     const numNFTs = _collection.balanceOf || _collection.totalSupply;
     // console.log("_refreshNFTsFromLib numNFTs", numNFTs);
 
-    for (index = 0; index < numNFTs; index++) {
-      refreshing = true;
+    let tokenIds: Array<string> = [];
 
-      const nftFromId = await listNFTsTokenId(
-        _chainId,
-        _collection.address,
-        index,
-        _provider,
-        _owner
-      );
-      const nft = await addNftMetadata($chainId, nftFromId, _collection.address);
+    // if ERC721 ENUMERABLE
+    if (_collection.supports.ERC721Enumerable) {
+      for (index = 0; index < numNFTs; index++) {
+        // console.log("_refreshNFTsFromLib index", index);
+        refreshing = true;
 
-      // chainId and collection have not changed while loading NFTs
-      if ($chainId === _chainId && collection?.address === _collection.address) {
-        NFTs.set(nft.nid, nft);
-        // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
-      } else {
-        // console.log("break");
-        break;
+        const nftFromId = await nftGetFromIndex(_chainId, _collection, index, _provider, _owner);
+        // console.log("_refreshNFTsFromLib nftFromId", nftFromId);
+
+        const nft = await nftGetMetadata($chainId, nftFromId, _collection);
+        // console.log("_refreshNFTsFromLib nft", nft);
+
+        // chainId and collection have not changed while loading NFTs
+        if ($chainId === _chainId && collection?.address === _collection.address) {
+          NFTs.set(nft.nid, nft);
+          // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
+        } else {
+          // console.log("break");
+          break;
+        }
       }
+    } else {
+      // else nftsListTokenIds(_chainId, _collection, _provider);
     }
     refreshing = false;
 
-    // console.log("_refreshNFTsFromLib =>", NFTs?.size, NFTs);
+    // console.log("_refreshNFTsFromLib OUT=>", NFTs?.size, NFTs);
   };
 
   const dispatchImport = async (nft: Nft) => {

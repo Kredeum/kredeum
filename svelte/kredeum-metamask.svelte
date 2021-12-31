@@ -9,7 +9,7 @@
     numberToHexString,
     explorerAccountUrl,
     explorerNFTsFactoryUrl,
-    getNFTsFactoryAddress
+    collectionGetNFTsFactoryAddress
   } from "lib/knfts";
   import { getChecksumAddress, getNetwork, getEnsName, networks, nftsUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
@@ -98,7 +98,7 @@
   };
 
   const handleChainId = async (_chainId) => {
-    console.log(`KredeumMetamask handleChainId ${_chainId}`);
+    // console.log(`KredeumMetamask handleChainId ${_chainId}`);
 
     if (_chainId && _chainId != $chainId) {
       const _network = getNetwork(_chainId);
@@ -164,7 +164,7 @@
   };
 
   onMount(async () => {
-    console.log("KredeumMetamask init");
+    // console.log("KredeumMetamask init");
     const provider = await detectEthereumProvider();
     if (provider) {
       noMetamask = false;
@@ -268,7 +268,7 @@
           href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
           title="&#009; NFTs Factory owner address (click to view in explorer )
-          {getNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
+          {collectionGetNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 
