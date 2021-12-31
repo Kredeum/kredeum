@@ -149,7 +149,8 @@ const listCollectionsFromTheGraph = async (
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
-      const { id, name, symbol, numTokens: totalSupply } = contract;
+      const { id, name, symbol, numTokens: numTokensTotal } = contract;
+      const totalSupply = Number(numTokensTotal);
       const address = getChecksumAddress(id);
       const chainName = network?.chainName;
       const balanceOf = Math.max(numTokens, 0);
@@ -205,7 +206,7 @@ const listCollectionsFromFactory = async (
       collections.set(nftsUrl(chainId, address), {
         chainId,
         chainName,
-        openNFTsVersion: 2,
+        // openNFTsVersion: 2,
         address,
         owner,
         name,

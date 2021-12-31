@@ -53,7 +53,7 @@
       _listCollectionsFromCache(_chainId, _owner, _provider);
 
       refreshingCollections = true;
-      allCollections = await listCollections(_chainId, _owner);
+      allCollections = await listCollections(_chainId, _owner, _provider);
       refreshingCollections = false;
 
       _listCollectionsFromCache(_chainId, _owner, _provider);
