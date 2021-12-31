@@ -70,5 +70,13 @@
         "workspaceRoot": "/Users/alain/DEV/kredeum",
         "workspacePath": "package.json",
         "id": "Qk5K48L10Yj6ZDb2"
+    },
+    {
+        "type": "File",
+        "name": "/Users/alain/DEV/kredeum/rollup.config.ts",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "rollup.config.ts",
+        "id": "RWIxaLoT9wNczJ1k"
     }
 ]
