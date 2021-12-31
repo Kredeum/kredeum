@@ -19,7 +19,7 @@
   // <KredeumListCollections bind:collection filter />;
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  let nftTitle: string = "My NFT title";
+  let nftTitle: string;
 
   let files: FileList;
   let image: string;
@@ -41,18 +41,18 @@
   };
 
   // DISPLAY image AFTER upload
-  function fileload() {
+  const fileload = () => {
     mintReset();
 
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
-      nftTitle = files[0].name;
+      nftTitle = nftTitle || files[0].name;
       reader.onload = (e) => {
         image = `${e.target.result}`;
       };
     }
-  }
+  };
 
   const mint = async (): Promise<Nft> => {
     mintReset();
