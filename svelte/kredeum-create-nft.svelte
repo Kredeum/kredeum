@@ -19,54 +19,94 @@
   // <KredeumListCollections bind:collection filter />;
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  let mintedNft: Nft;
-  let minting = 0;
-  let mintingTxResp: TransactionResponse;
-
-  let cidImage: string;
-  let cidJson: string;
-  let imageName: string;
+  let nftTitle: string;
 
   let files: FileList;
   let image: string;
 
-  // DISPLAY image AFTER upload
-  $: if (files) {
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    imageName = files[0].name;
-    reader.onload = (e) => {
-      image = `${e.target.result}`;
-    };
-  }
+  let cidImage: string;
+  let cidJson: string;
+  let minting: number;
+  let mintingTxResp: TransactionResponse;
+  let mintedNft: Nft;
+  let mintingError: string;
 
-  const mint = async (): Promise<Nft> => {
+  const mintReset = (): void => {
     cidImage = null;
     cidJson = null;
+    minting = 0;
     mintingTxResp = null;
     mintedNft = null;
+    mintingError = null;
+  };
 
-    minting = 1;
+  // DISPLAY image AFTER upload
+  const fileload = () => {
+    mintReset();
 
-    cidImage = await mint1cidImage(image);
-    // console.log("cidImage", cidImage);
+    if (files) {
+      let reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      nftTitle = nftTitle || files[0].name;
+      reader.onload = (e) => {
+        image = `${e.target.result}`;
+      };
+    }
+  };
 
-    minting = 2;
+  const mint = async (): Promise<Nft> => {
+    mintReset();
 
-    cidJson = await mint2cidJson(imageName, cidImage, $owner, image);
-    // console.log("json", cidJson);
+    if (image) {
+      minting = 1;
 
-    minting = 3;
+      cidImage = await mint1cidImage(image);
+      // console.log("cidImage", cidImage);
 
-    mintingTxResp = await mint3TxResponse($chainId, collection.address, cidJson, $signer);
-    // console.log("txResp", txResp);
+      if (cidImage) {
+        minting = 2;
 
-    minting = 4;
+        cidJson = await mint2cidJson(nftTitle, cidImage, $owner, image);
+        // console.log("json", cidJson);
 
-    mintedNft = await mint4Nft($chainId, collection.address, mintingTxResp, cidJson, $owner);
-    // console.log("mintedNft", mintedNft);
+        if (cidJson) {
+          minting = 3;
 
-    minting = 5;
+          mintingTxResp = await mint3TxResponse($chainId, collection.address, cidJson, $signer);
+          // console.log("txResp", txResp);
+
+          if (mintingTxResp) {
+            minting = 4;
+
+            mintedNft = await mint4Nft(
+              $chainId,
+              collection.address,
+              mintingTxResp,
+              cidJson,
+              $owner
+            );
+            // console.log("mintedNft", mintedNft);
+
+            if (mintedNft) {
+              minting = 5;
+            } else {
+              mintingError = "Problem with sent transaction.";
+            }
+          } else {
+            mintingError = "Problem while sending transaction.";
+          }
+        } else {
+          mintingError = "Problem while archiving metadata on IPFS.";
+        }
+      } else {
+        mintingError = "Problem while archiving image on IPFS.";
+      }
+    } else {
+      mintingError = "Missing NFT file. Sorry can't mint.";
+    }
+    if (mintingError) {
+      console.error("ERROR", mintingError);
+    }
 
     return mintedNft;
   };
@@ -105,13 +145,20 @@
             <li>
               <div class="flex">
                 <span class="titre">
-                  Minting NFT
-                  <i class="fas fa-spinner fa-left c-green refresh" />
+                  {#if mintingError}
+                    Minting Error
+                    <i class="fa fa-times fa-left" />
+                  {:else}
+                    Minting NFT
+                    <i class="fas fa-spinner fa-left c-green refresh" />
+                  {/if}
                 </span>
               </div>
               <div class="flex">
                 <span class="t-light">
-                  {#if 1 <= minting && minting <= 5}
+                  {#if mintingError}
+                    {mintingError}
+                  {:else if 1 <= minting && minting <= 5}
                     {mintingTexts[minting]}
                   {/if}
                 </span>
@@ -160,14 +207,21 @@
         </ul>
       {:else}
         <div class="section">
+          <span class="label label-big">NFT file</span>
           <div class="box-file">
             {#if image}
               <div class="media media-photo mt-20">
                 <img src={image} alt="nft" />
               </div>
             {:else}
-              <input type="file" id="file" name="file" bind:files />
+              <input type="file" id="file" name="file" bind:files on:change={fileload} />
             {/if}
+          </div>
+        </div>
+        <div class="section">
+          <span class="label label-big">NFT title</span>
+          <div class="form-field">
+            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
           </div>
         </div>
 
@@ -234,6 +288,13 @@
         <div class="txtright">
           <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
         </div>
+        {#if mintingError}
+          <div class="section">
+            <p class="txtright errormsg">
+              {mintingError}
+            </p>
+          </div>
+        {/if}
       {/if}
     </div>
   </div>
