@@ -7,16 +7,14 @@ import { abis } from "../../lib/kconfig";
 import { BigNumber } from "ethers";
 import { expect } from "chai";
 
-const setup = deployments.createFixture(
-  async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
-    await deployments.fixture("InterfacesIds");
+const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
+  await deployments.fixture("InterfacesIds");
 
-    const signer = await ethers.getNamedSigner("deployer");
-    const contract: InterfacesIds = await ethers.getContract("InterfacesIds", signer);
+  const signer = await ethers.getNamedSigner("deployer");
+  const contract: InterfacesIds = await ethers.getContract("InterfacesIds", signer);
 
-    return { contract, signer };
-  }
-);
+  return { contract, signer };
+});
 
 const interfaceId = (abi: Array<string>): string => {
   const iface = new Interface(abi);
@@ -66,18 +64,12 @@ describe("Call interfacesId", () => {
   it("Config should have same interfaceId than config abi", () => {
     expect(interfaceId(abis.ERC165.abi)).to.be.equal(abis.ERC165.interfaceId);
     expect(interfaceId(abis.ERC721.abi)).to.be.equal(abis.ERC721.interfaceId);
-    expect(interfaceId(abis.ERC721TokenReceiver.abi)).to.be.equal(
-      abis.ERC721TokenReceiver.interfaceId
-    );
+    expect(interfaceId(abis.ERC721TokenReceiver.abi)).to.be.equal(abis.ERC721TokenReceiver.interfaceId);
     expect(interfaceId(abis.ERC721Metadata.abi)).to.be.equal(abis.ERC721Metadata.interfaceId);
     expect(interfaceId(abis.ERC721Enumerable.abi)).to.be.equal(abis.ERC721Enumerable.interfaceId);
     expect(interfaceId(abis.ERC1155.abi)).to.be.equal(abis.ERC1155.interfaceId);
-    expect(interfaceId(abis.ERC1155TokenReceiver.abi)).to.be.equal(
-      abis.ERC1155TokenReceiver.interfaceId
-    );
-    expect(interfaceId(abis.ERC1155Metadata_URI.abi)).to.be.equal(
-      abis.ERC1155Metadata_URI.interfaceId
-    );
+    expect(interfaceId(abis.ERC1155TokenReceiver.abi)).to.be.equal(abis.ERC1155TokenReceiver.interfaceId);
+    expect(interfaceId(abis.ERC1155Metadata_URI.abi)).to.be.equal(abis.ERC1155Metadata_URI.interfaceId);
     expect(interfaceId(abis.OpenNFTsV0.abi)).to.be.equal(abis.OpenNFTsV0.interfaceId);
     expect(interfaceId(abis.OpenNFTsV1.abi)).to.be.equal(abis.OpenNFTsV1.interfaceId);
     expect(interfaceId(abis.OpenNFTsV2.abi)).to.be.equal(abis.OpenNFTsV2.interfaceId);

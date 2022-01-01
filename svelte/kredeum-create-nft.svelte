@@ -5,13 +5,7 @@
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
-  import {
-    nftMintTexts,
-    nftMint1CidImage,
-    nftMint2CidJson,
-    nftMint3TxResponse,
-    nftMint4
-  } from "lib/knft-mint";
+  import { nftMintTexts, nftMint1CidImage, nftMint2CidJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
@@ -136,9 +130,7 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank"
-                  >{nftUrl(mintedNft, 6)}</a
-                >
+                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}
@@ -170,9 +162,7 @@
             <div class="flex"><span class="label">Image ipfs cid</span></div>
             <div class="flex">
               {#if cidImage}
-                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank"
-                  >{textShort(cidImage, 15)}</a
-                >
+                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank">{textShort(cidImage, 15)}</a>
               {/if}
             </div>
           </li>
@@ -180,9 +170,7 @@
             <div class="flex"><span class="label">Metadata ipfs cid</span></div>
             <div class="flex">
               {#if cidJson}
-                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank"
-                  >{textShort(cidJson, 15)}</a
-                >
+                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank">{textShort(cidJson, 15)}</a>
               {/if}
             </div>
           </li>
@@ -228,14 +216,7 @@
         <div class="section">
           <span class="label label-big">Media type</span>
           <div class="box-fields">
-            <input
-              class="box-field"
-              id="create-type-video"
-              name="media-type"
-              type="checkbox"
-              value="Video"
-              disabled
-            />
+            <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video" disabled />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
             <input
@@ -248,34 +229,13 @@
             />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input
-              class="box-field"
-              id="create-type-texte"
-              name="media-type"
-              type="checkbox"
-              value="Texte"
-              disabled
-            />
+            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte" disabled />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
 
-            <input
-              class="box-field"
-              id="create-type-music"
-              name="media-type"
-              type="checkbox"
-              value="Music"
-              disabled
-            />
+            <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-            <input
-              class="box-field"
-              id="create-type-web"
-              name="media-type"
-              type="checkbox"
-              value="Web"
-              disabled
-            />
+            <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>

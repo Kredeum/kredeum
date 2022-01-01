@@ -45,11 +45,8 @@
 <div id="kredeum-nfts">
   <nav class="nav-krd" role="navigation">
     <div class="logo">
-      <a
-        href="https://www.kredeum.com"
-        target="_blank"
-        alt="Kredeum website"
-        title="Kredeum website"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
+      <a href="https://www.kredeum.com" target="_blank" alt="Kredeum website" title="Kredeum website"
+        ><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
       >
     </div>
 
@@ -82,13 +79,9 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1 title="Kredeum NFTs v{version.latest} ({process.env.GIT_SHORT})">
-            My NFTs Factory (beta)
-          </h1>
+          <h1 title="Kredeum NFTs v{version.latest} ({process.env.GIT_SHORT})">My NFTs Factory (beta)</h1>
           {#if $owner && getCreate($chainId)}
-            <a href="#create" class="btn btn-default" title="Mint"
-              ><i class="fas fa-plus fa-left" />Mint</a
-            >
+            <a href="#create" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</a>
           {/if}
 
           <div class="row alignbottom">
@@ -99,9 +92,7 @@
                 <button
                   class="clear"
                   on:click={() => refreshNFTs(true)}
-                  title="      {refreshing
-                    ? 'Refreshing NFTs...'
-                    : 'Refresh NFTs from this Collection'}"
+                  title="      {refreshing ? 'Refreshing NFTs...' : 'Refresh NFTs from this Collection'}"
                 >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
                 </button>
@@ -129,9 +120,7 @@
           <div class="txtcenter">
             <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
             <span class="or">Or</span>
-            <a href="#add-collection" class="btn btn-second" title="Add a new collection"
-              >Add a new collection</a
-            >
+            <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
           </div>
         </div>
       </div>

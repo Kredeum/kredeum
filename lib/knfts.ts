@@ -28,8 +28,7 @@ const addressSame = (a: string, b: string): boolean => a.toLowerCase() === b.toL
 
 const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 
-const urlToLink = (url: string, label?: string): string =>
-  `<a href="${url}" target="_blank">${label || url}</a>`;
+const urlToLink = (url: string, label?: string): string => `<a href="${url}" target="_blank">${label || url}</a>`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -63,10 +62,7 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {
   let url = "";
-  if (
-    getExplorer(chainId)?.includes("chainstacklabs.com") ||
-    getExplorer(chainId)?.includes("blockscout.com")
-  ) {
+  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://polygon-explorer-mumbai.chainstacklabs.com/address/0x79ae5d3FE295d81342A49aECE586716D60b37C6b/tokens
     // https://blockscout.com/xdai/mainnet/address/0x981ab0D817710d8FFFC5693383C00D985A3BDa38/tokens
     url = explorerUrl(chainId, `/address/${address}/tokens/`);
@@ -82,10 +78,7 @@ const explorerAccountUrl = (chainId: number, address: string): string => {
 // CONTRACT URL
 const explorerContractUrl = (chainId: number, address: string): string => {
   let url = "";
-  if (
-    getExplorer(chainId)?.includes("chainstacklabs.com") ||
-    getExplorer(chainId)?.includes("blockscout.com")
-  ) {
+  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://polygon-explorer-mumbai.chainstacklabs.com/address/0x601f2A498dAabd94cc4bBb2F04F21aff7f6D9175/contracts
     // https://blockscout.com/xdai/mainnet/address/0x22C1f6050E56d2876009903609a2cC3fEf83B415/contracts
     url = explorerUrl(chainId, `/address/${address}/contracts`);
@@ -99,10 +92,7 @@ const explorerContractUrl = (chainId: number, address: string): string => {
 // COLLECTION URL
 const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
   let url = "";
-  if (
-    getExplorer(chainId)?.includes("chainstacklabs.com") ||
-    getExplorer(chainId)?.includes("blockscout.com")
-  ) {
+  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://blockscout.com/xdai/mainnet/token/0x74e596525C63393f42C76987b6A66F4e52733efa/inventory
     url = explorerUrl(chainId, `/token/${collAddress}/inventory`);
   } else {
@@ -115,10 +105,7 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: Nft): string => {
   let url = "";
-  if (
-    getExplorer(chainId)?.includes("chainstacklabs.com") ||
-    getExplorer(chainId)?.includes("blockscout.com")
-  ) {
+  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://blockscout.com/xdai/mainnet/token/0x22C1f6050E56d2876009903609a2cC3fEf83B415/instance/3249859/metadata
     url = explorerUrl(chainId, `/tokens/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
     url = explorerUrl(chainId, `/token/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
@@ -172,13 +159,10 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
 
 const nftsBalanceAndName = (collection: Collection): string =>
-  `${collection?.balanceOf} ${collectionSymbol(collection)}${
-    (collection?.balanceOf || 0) > 1 ? "s" : ""
-  }`;
+  `${collection?.balanceOf} ${collectionSymbol(collection)}${(collection?.balanceOf || 0) > 1 ? "s" : ""}`;
 
 // NFT helpers
-const nftExplorerLink = (nft: Nft, n?: number): string =>
-  urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
+const nftExplorerLink = (nft: Nft, n?: number): string => urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
 const nftImageLink = (nft: Nft): string => ipfsReplace(nft?.image);
 
@@ -187,11 +171,9 @@ const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   return `${openSeaAssets}/${nft?.collection}/${nft?.tokenID}`;
 };
 
-const nftName = (nft: Nft): string =>
-  nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
+const nftName = (nft: Nft): string => nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
 
-const nftDescription = (nft: Nft): string =>
-  (nft?.name != nft?.description && nft?.description) || nftName(nft);
+const nftDescription = (nft: Nft): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 
 const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////

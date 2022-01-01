@@ -45,11 +45,7 @@
   // ON CHAINID or OWNER change THEN list collections
   $: _collectionList($chainId, $owner, $provider);
 
-  const _collectionList = async (
-    _chainId: number,
-    _owner: string,
-    _provider: Provider
-  ): Promise<void> => {
+  const _collectionList = async (_chainId: number, _owner: string, _provider: Provider): Promise<void> => {
     // console.log("KredeumListCollections _collectionList", _chainId, _owner);
     if (_chainId && _owner) {
       _collectionListFromCache(_chainId, _owner, _provider);
@@ -62,11 +58,7 @@
     }
   };
 
-  const _collectionListFromCache = async (
-    _chainId: number,
-    _owner: string,
-    _provider: Provider
-  ) => {
+  const _collectionListFromCache = async (_chainId: number, _owner: string, _provider: Provider) => {
     // console.log("KredeumListCollections _collectionListFromCache");
     allCollections = collectionListFromCache(_owner);
     const openNFTsAddress = await getOpenNFTsAddress(_chainId, _provider);
@@ -99,16 +91,11 @@
   const collectionBalanceOf = (collContract: Collection) =>
     collContract?.balanceOf || (collContract?.balanceOf == 0 ? "0" : "?");
   const collectionNameAndBalanceOf = (collContract: Collection) =>
-    collContract
-      ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})`
-      : "Choose collection";
+    collContract ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})` : "Choose collection";
 
   onMount(async () => {
     window.addEventListener("click", (e: Event): void => {
-      if (
-        !filter &&
-        !document.querySelector(".select-collection")?.contains(e.target as HTMLElement)
-      ) {
+      if (!filter && !document.querySelector(".select-collection")?.contains(e.target as HTMLElement)) {
         open = false;
       }
     });

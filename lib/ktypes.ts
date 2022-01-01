@@ -1,10 +1,4 @@
-type OpenNFTsKeys =
-  | "OpenNFTsV3"
-  | "OpenNFTsV2"
-  | "OpenNFTsV1"
-  | "OpenNFTsV0"
-  | "CloneFactory"
-  | "NFTsFactory";
+type OpenNFTsKeys = "OpenNFTsV3" | "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "CloneFactory" | "NFTsFactory";
 type ErcKeys =
   | "ERC165"
   | "ERC721"
@@ -102,14 +96,4 @@ type Nft = {
   nid?: string;
 };
 
-export type {
-  Address,
-  Collection,
-  CollectionSupports,
-  Network,
-  ABIS,
-  AbiType,
-  Nft,
-  OpenNFTsKeys,
-  ErcKeys
-};
+export type { Address, Collection, CollectionSupports, Network, ABIS, AbiType, Nft, OpenNFTsKeys, ErcKeys };

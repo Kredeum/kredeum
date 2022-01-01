@@ -10,10 +10,7 @@ import { abis, collectionGetNFTsFactoryAddress } from "./kconfig";
 
 const nftsFactories: Map<number, NFTsFactory> = new Map();
 
-const collectionGetNFTsFactory = (
-  chainId: number,
-  signerOrProvider: Signer | Provider
-): NFTsFactory | undefined => {
+const collectionGetNFTsFactory = (chainId: number, signerOrProvider: Signer | Provider): NFTsFactory | undefined => {
   // console.log("collectionGetNFTsFactory", chainId);
 
   let nftsFactory: NFTsFactory;
@@ -85,11 +82,7 @@ const collectionGetMetadata = async (
     try {
       const supports: CollectionSupports = {};
 
-      const contract = new Contract(
-        collection.address,
-        abis.ERC165.abi,
-        signerOrProvider
-      ) as IERC165;
+      const contract = new Contract(collection.address, abis.ERC165.abi, signerOrProvider) as IERC165;
 
       if (contract) {
         supports.ERC165 = true;
@@ -103,16 +96,10 @@ const collectionGetMetadata = async (
           const waitEnumerable = contract.supportsInterface(abis.ERC721Enumerable.interfaceId);
           const waitOpenNFTsV2 = contract.supportsInterface(abis.OpenNFTsV2.interfaceId);
           const waitOpenNFTsV3 = contract.supportsInterface(abis.OpenNFTsV3.interfaceId);
-          [
-            supports.ERC721Metadata,
-            supports.ERC721Enumerable,
-            supports.OpenNFTsV2,
-            supports.OpenNFTsV3
-          ] = await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
+          [supports.ERC721Metadata, supports.ERC721Enumerable, supports.OpenNFTsV2, supports.OpenNFTsV3] =
+            await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
         } else if (supports.ERC1155) {
-          supports.ERC1155Metadata_URI = await contract.supportsInterface(
-            abis.ERC1155Metadata_URI.interfaceId
-          );
+          supports.ERC1155Metadata_URI = await contract.supportsInterface(abis.ERC1155Metadata_URI.interfaceId);
         }
         collection.supports = supports;
       }

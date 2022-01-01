@@ -48,11 +48,7 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
   return implementation;
 };
 
-const collectionClone = async (
-  chainId: number,
-  _name: string,
-  _cloner: Signer
-): Promise<string> => {
+const collectionClone = async (chainId: number, _name: string, _cloner: Signer): Promise<string> => {
   const txResp = await collectionCloneResponse(chainId, _name, _cloner);
   let address = "";
   if (txResp) {

@@ -4,13 +4,7 @@
 
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import {
-    nftMintTexts,
-    nftMint1CidImage,
-    nftMint2CidJson,
-    nftMint3TxResponse,
-    nftMint4
-  } from "lib/knft-mint";
+  import { nftMintTexts, nftMint1CidImage, nftMint2CidJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, nftImageLink } from "lib/knfts";
   import { getNetwork, getOpenNFTsAddress } from "lib/kconfig";
 
@@ -38,11 +32,7 @@
   // ON network or account change
   $: handleChange($chainId, $signer, $provider);
 
-  const handleChange = async (
-    _chainId: number,
-    _signer: JsonRpcSigner,
-    _provider: JsonRpcProvider
-  ) => {
+  const handleChange = async (_chainId: number, _signer: JsonRpcSigner, _provider: JsonRpcProvider) => {
     if (_chainId && _signer) {
       signerAddress = await _signer.getAddress();
       // console.log("kredeum-mint handleChange", _chainId, signerAddress);
@@ -52,7 +42,7 @@
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
         (await getOpenNFTsAddress($chainId, _provider));
-      collection = await collectionGet(_chainId, collectionAddress);
+      collection = collectionGet(_chainId, collectionAddress);
     }
   };
 
@@ -109,13 +99,9 @@
     {#if minting}
       {#if mintedNft}
         {#if network?.openSea}
-          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea"
-            >SELL NFT</button
-          >
+          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
         {:else}
-          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer"
-            >VIEW NFT</button
-          >
+          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
         {/if}
       {:else if 1 <= minting && minting <= 5}
         <div>
@@ -126,9 +112,7 @@
         </div>
       {/if}
     {:else}
-      <button id="mint-button-{pid}" on:click={mint} class="btn btn-small btn-mint">
-        MINT NFT
-      </button>
+      <button id="mint-button-{pid}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
     {/if}
   {:else}
     <small>

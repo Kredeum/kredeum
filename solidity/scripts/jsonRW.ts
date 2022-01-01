@@ -10,6 +10,4 @@ networks[num].nftsFactory = "OK";
 
 console.log(networks);
 
-fs.writeFile("./config/networks2.json", JSON.stringify(networks, null, 2)).catch((err) =>
-  console.log(err)
-);
+fs.writeFile("./config/networks2.json", JSON.stringify(networks, null, 2)).catch((err) => console.log(err));

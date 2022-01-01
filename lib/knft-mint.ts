@@ -16,9 +16,7 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = [
-      "event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"
-    ];
+    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"];
     const iface = new ethers.utils.Interface(abi);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ tokenID } = log.args);
@@ -62,13 +60,7 @@ const nftMint1CidImage = async (image: string, key = ""): Promise<string> => {
 };
 
 // GET ipfs metadata url
-const nftMint2CidJson = async (
-  _name = "No name",
-  _cid = "",
-  _address = "",
-  _image = "",
-  key = ""
-): Promise<string> => {
+const nftMint2CidJson = async (_name = "No name", _cid = "", _address = "", _image = "", key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
 
   const cidJson = await nftStorage.pinJson({
@@ -110,10 +102,7 @@ const nftMint3TxResponse = async (
     txResp = await openNFTs.connect(minter).mintNFT(await minter.getAddress(), urlJson);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   } else {
-    console.error(
-      "No OpenNFTs openNFTs found @",
-      explorerCollectionUrl(chainId, collection.address)
-    );
+    console.error("No OpenNFTs openNFTs found @", explorerCollectionUrl(chainId, collection.address));
   }
 
   return txResp;
@@ -138,13 +127,7 @@ const nftMint4 = async (
       // console.log("tokenID", tokenID);
 
       if (_tokenID) {
-        _nft = await _mintedNft(
-          _chainId,
-          _collection,
-          _tokenID,
-          ipfsGatewayUrl(_metadataCid),
-          _minter
-        );
+        _nft = await _mintedNft(_chainId, _collection, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
         _nft.cidJson = _metadataCid;
         // console.log("nftMint4", _nft);
       }

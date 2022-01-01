@@ -24,9 +24,7 @@ const getChecksumAddress = (address: Address | string | undefined): Address => {
 };
 
 const getShortAddress = (address = "?", n = 8): string =>
-  address.endsWith(".eth")
-    ? textShort(address, 2 * n, 0)
-    : textShort(getChecksumAddress(address), n, n);
+  address.endsWith(".eth") ? textShort(address, 2 * n, 0) : textShort(getChecksumAddress(address), n, n);
 
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
@@ -68,10 +66,7 @@ const getExplorer = (chainId: number): string => {
 };
 
 // GET openNFTs via onchain call
-const getOpenNFTsAddress = async (
-  chainId: number,
-  provider: Provider
-): Promise<Address | undefined> => {
+const getOpenNFTsAddress = async (chainId: number, provider: Provider): Promise<Address | undefined> => {
   const nftsFactory = collectionGetNFTsFactory(chainId, provider);
   const template = await nftsFactory.template();
   return template ? template : "";
@@ -126,15 +121,12 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-        (_contract
-          ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
-          : "")
+        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
-const nftUrl = (nft: Nft, n?: number): string =>
-  nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
+const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
 export {
   version,

@@ -15,11 +15,7 @@ const main = async (): Promise<boolean> => {
 
   console.log("network", network.name, chainId);
 
-  const collection: OpenNFTs = await collectionGetContract(
-    chainId,
-    collectionGet(chainId, collectionAddress),
-    signer
-  );
+  const collection: OpenNFTs = await collectionGetContract(chainId, collectionGet(chainId, collectionAddress), signer);
 
   if (collection) {
     console.log(collection.functions);

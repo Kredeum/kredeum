@@ -5,19 +5,9 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { collectionGetNFTsFactory } from "./kcollection-get";
-import {
-  getChecksumAddress,
-  getNetwork,
-  getSubgraphUrl,
-  getCovalent,
-  nftsUrl,
-  urlOwner
-} from "./kconfig";
+import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
-const collectionListFromCovalent = async (
-  chainId: number,
-  owner: string
-): Promise<Map<string, Collection>> => {
+const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();
@@ -78,10 +68,7 @@ const collectionListFromCovalent = async (
   return collections;
 };
 
-const collectionListFromTheGraph = async (
-  chainId: number,
-  owner: string
-): Promise<Map<string, Collection>> => {
+const collectionListFromTheGraph = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromTheGraph", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();

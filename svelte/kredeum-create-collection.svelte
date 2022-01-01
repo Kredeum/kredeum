@@ -3,11 +3,7 @@
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
-  import {
-    collectionCloneResponse,
-    collectionCloneReceipt,
-    collectionCloneAddress
-  } from "lib/kcollection-clone";
+  import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
 
@@ -62,10 +58,8 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a
-                class="link"
-                href={explorerAddressUrl($chainId, collectionCreated.address)}
-                target="_blank">{collectionCreated?.name}</a
+              Collection '<a class="link" href={explorerAddressUrl($chainId, collectionCreated.address)} target="_blank"
+                >{collectionCreated?.name}</a
               >' created!
             </div>
           </div>
@@ -92,16 +86,12 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
-              >Create</button
-            >
+            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>
           </div>
         {/if}
         {#if cloningTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, cloningTxHash)} target="_blank"
-              >{textShort(cloningTxHash)}</a
-            >
+            <a class="link" href={explorerTxUrl($chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
           </div>
         {/if}
       </div>

@@ -360,7 +360,7 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "nftsFactory": "0x58EC9b18a5cb891a4b130cc37a7f0F9677b00B19",
+    "nftsFactory": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "testnet": true
   }
 ]
