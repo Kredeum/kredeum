@@ -27,6 +27,8 @@
   };
 
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
+  const _supports = (_collection: Collection): string =>
+    collection?.supports?.ERC721 ? "ERC721" : collection?.supports?.ERC1155 ? "ERC1155" : "";
 </script>
 
 <KredeumMetamask autoconnect="off" bind:txt />
@@ -45,7 +47,7 @@
           <a
             class="info-button"
             href={_explorerCollectionUrl(collection.address)}
-            title="&#009;Collection owner addess (click to view in explorer)&#013;
+            title="&#009; {_supports(collection)}  Collection address (click to view in explorer)&#013;
             {_nftsUrl(collection.address)}"
             target="_blank"><i class="fas fa-info-circle" /></a
           >

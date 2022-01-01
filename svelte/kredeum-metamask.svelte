@@ -43,8 +43,7 @@
     nameOrAddress = await getEnsName($owner);
   };
 
-  const strUpFirst = (str: string): string =>
-    str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "";
+  const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "");
 
   const getChainname = (_network: Network): string => _network?.chainName || "unknown";
   const getChainName = (_network: Network): string =>
@@ -52,10 +51,10 @@
 
   const addEthereumChain = async (_chainId) => {
     if (_chainId) {
-      console.log("KredeumMetamask addEthereumChain", _chainId);
+      console.log("addEthereumChain", _chainId);
 
       if (targetChain) {
-        console.log("KredeumMetamask already connecting network...");
+        console.warn("Already connecting network...");
       }
       targetChain = true;
 
@@ -105,7 +104,7 @@
       if (_network) {
         chainId.set(Number(_chainId));
 
-        console.log("KredeumMetamask chainId", $chainId);
+        console.log("chainId", $chainId, numberToHexString(_chainId));
         network = _network;
       } else {
         // _chainId not accepted : switch to first accepted chainId
@@ -117,7 +116,7 @@
   const switchEthereumChain = async (_chainId, e?: Event) => {
     e?.preventDefault();
     if (_chainId && _chainId != $chainId) {
-      console.log("KredeumMetamask switchEthereumChain", _chainId, numberToHexString(_chainId));
+      console.log("switchEthereumChain", _chainId);
       try {
         await ethereumProvider.request({
           method: "wallet_switchEthereumChain",
@@ -132,7 +131,7 @@
   };
 
   const handleAccounts = async (_accounts) => {
-    console.log("KredeumMetamask handleAccounts", _accounts);
+    console.log("handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
@@ -164,7 +163,7 @@
   };
 
   onMount(async () => {
-    // console.log("KredeumMetamask init");
+    // console.log("init");
     const provider = await detectEthereumProvider();
     if (provider) {
       noMetamask = false;
@@ -195,7 +194,7 @@
       ethereumProvider.on("accountsChanged", handleAccounts);
     } else {
       noMetamask = true;
-      console.log("KredeumMetamask", installMetamaskMessage);
+      console.log(installMetamaskMessage);
     }
 
     window.addEventListener("click", (e: Event): void => {
@@ -253,9 +252,7 @@
         {installMetamaskMessage}
       </div>
     {:else}
-      <a href="." on:click={connectMetamask} class="btn btn-light btn-metamask"
-        >{connectMetamaskMessage}</a
-      >
+      <a href="." on:click={connectMetamask} class="btn btn-light btn-metamask">{connectMetamaskMessage}</a>
     {/if}
   </div>
 
@@ -267,7 +264,7 @@
           class="info-button"
           href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
-          title="&#009; NFTs Factory owner address (click to view in explorer )
+          title="&#009; NFTs Factory address (click to view in explorer )
           {collectionGetNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>

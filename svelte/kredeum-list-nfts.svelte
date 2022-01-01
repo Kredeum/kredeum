@@ -19,11 +19,12 @@
     explorerAddressLink
   } from "lib/knfts";
   import { chainId, owner, provider } from "./network";
-  import { getNetwork, getShortAddress, nftUrl, nftsUrl } from "lib/kconfig";
-  import { clearCache, nftsListFromCache } from "lib/knft-list";
-  import { nftGetFromIndex, nftGetMetadata } from "lib/knft-get";
+  import { getNetwork, getShortAddress, nftUrl, nftsUrl } from "../lib/kconfig";
+  import { clearCache, nftListFromCache, nftListTokenIds } from "../lib/knft-list";
+  import { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata } from "../lib/knft-get";
 
   import { createEventDispatcher } from "svelte";
+  import { BigNumber } from "ethers";
 
   // down to component
   export let collection: Collection = undefined;
@@ -63,7 +64,7 @@
         refreshLib = true;
       } else {
         // LOAD NFTs from cache
-        const numNFTs = _refreshNFTsFromCache($chainId, collection, $owner);
+        const numNFTs = refreshNFTsFromCache($chainId, collection, $owner);
 
         // REFRESH LIB WHEN NFT count found in cache not good
         refreshLib = numNFTs !== collection.balanceOf;
@@ -74,70 +75,59 @@
         clearCache($chainId, collection.address);
         mores = [];
         NFTs = new Map();
-        _refreshNFTsFromLib($chainId, collection, $provider, $owner);
+        refreshNFTsFromLib($chainId, collection, $provider, $owner);
       }
     }
   };
 
-  const _refreshNFTsFromCache = (
-    _chainId: number,
-    _collection: Collection,
-    _owner: string
-  ): number => {
-    allNFTs = nftsListFromCache();
+  const refreshNFTsFromCache = (_chainId: number, _collection: Collection, _owner: string): number => {
+    allNFTs = nftListFromCache();
     // console.log("allNFTs", allNFTs);
 
     NFTs = new Map(
       [...allNFTs].filter(
-        ([, nft]) =>
-          nft.chainId === $chainId && nft.collection === collection.address && nft.owner === $owner
+        ([, nft]) => nft.chainId === $chainId && nft.collection === collection.address && nft.owner === $owner
       )
     );
 
-    // console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
+    // console.log("refreshNFTsFromCache =>", NFTs?.size, NFTs);
     return NFTs?.size;
   };
 
-  const _refreshNFTsFromLib = async (
-    _chainId: number,
-    _collection: Collection,
-    _provider: Provider,
-    _owner: string
-  ) => {
-    // console.log("_refreshNFTsFromLib IN", _chainId, _collection, _owner);
+  const unchanged = async (_chainId: number, _collection: Collection): Promise<boolean> => {
+    // chainId and collection have not changed while loading NFTs
+    return $chainId === _chainId && collection?.address === _collection.address;
+  };
 
-    const numNFTs = _collection.balanceOf || _collection.totalSupply;
-    // console.log("_refreshNFTsFromLib numNFTs", numNFTs);
+  const refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _provider: Provider, _owner: string) => {
+    console.log("refreshNFTsFromLib", _chainId, _owner, _collection);
 
-    let tokenIds: Array<string> = [];
+    if (_collection.supports) {
+      const numNFTs = _collection.balanceOf || _collection.totalSupply;
+      // console.log("refreshNFTsFromLib numNFTs", numNFTs);
 
-    // if ERC721 ENUMERABLE
-    if (_collection.supports.ERC721Enumerable) {
-      for (index = 0; index < numNFTs; index++) {
-        // console.log("_refreshNFTsFromLib index", index);
-        refreshing = true;
+      refreshing = true;
 
-        const nftFromId = await nftGetFromIndex(_chainId, _collection, index, _provider, _owner);
-        // console.log("_refreshNFTsFromLib nftFromId", nftFromId);
-
-        const nft = await nftGetMetadata($chainId, nftFromId, _collection);
-        // console.log("_refreshNFTsFromLib nft", nft);
-
-        // chainId and collection have not changed while loading NFTs
-        if ($chainId === _chainId && collection?.address === _collection.address) {
-          NFTs.set(nft.nid, nft);
-          // console.log("no break", chainId, _chainId, collection?.address, _collection.address);
-        } else {
-          // console.log("break");
-          break;
+      if (_collection.supports.ERC721Enumerable) {
+        for (index = 0; index < numNFTs && unchanged(_chainId, _collection); index++) {
+          const nftIndex = await nftGetFromContractEnumerable(_chainId, _collection, index, _provider, _owner);
+          const nft = await nftGetMetadata(_chainId, nftIndex, _collection);
+          if (nft?.nid) NFTs.set(nft.nid, nft);
         }
+      } else {
+        const nftsTokenIds = await nftListTokenIds(_chainId, _collection, _provider, _owner);
+        nftsTokenIds.forEach(async (nftTokenId) => {
+          const nft = await nftGetMetadata(_chainId, nftTokenId, _collection);
+          if (nft?.nid) NFTs.set(nft.nid, nft);
+          NFTs = NFTs; // needed in Svelte for Map reactivity !
+        });
       }
-    } else {
-      // else nftsListTokenIds(_chainId, _collection, _provider);
-    }
-    refreshing = false;
 
-    // console.log("_refreshNFTsFromLib OUT=>", NFTs?.size, NFTs);
+      refreshing = false;
+      console.log("refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
+    } else {
+      console.error("refreshNFTsFromLib Collection not ready", _collection);
+    }
   };
 
   const dispatchImport = async (nft: Nft) => {
@@ -152,16 +142,16 @@
   };
 
   const shortcode = async (nft: Nft) => {
-    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
-      nft.tokenID
-    }" cid="${nft.cid}"]${nftName(nft)}[/kredeum_sell]`;
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${nft.tokenID}" cid="${
+      nft.cid
+    }"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
     console.log("Copied");
   };
 </script>
 
-{#key $owner && index}
+{#key $owner && index && NFTs}
   {#if collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
@@ -197,9 +187,7 @@
                 <img alt="link" src={nftImageLink(nft)} height="100" />
               </div>
               <strong>{nftName(nft)}</strong>
-              <span id="description-short-{i}" class:hidden={mores[i]}
-                >{nftDescriptionShort(nft, 64)}
-              </span>
+              <span id="description-short-{i}" class:hidden={mores[i]}>{nftDescriptionShort(nft, 64)} </span>
               <a
                 class="info-button"
                 href={nftImageLink(nft)}
@@ -214,21 +202,11 @@
             <div class="table-col-content">
               {#if network?.openSea}
                 {#if addressSame(nft.owner, $owner)}
-                  <a
-                    href={nftOpenSeaUrl($chainId, nft)}
-                    class="btn btn-small btn-sell"
-                    title="Sell"
-                    target="_blank"
-                  >
+                  <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                     Sell
                   </a>
                 {:else}
-                  <a
-                    href={nftOpenSeaUrl($chainId, nft)}
-                    class="btn btn-small btn-buy"
-                    title="Buy"
-                    target="_blank"
-                  >
+                  <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank">
                     Buy
                   </a>
                 {/if}
@@ -280,10 +258,8 @@
                 <li class="complete">
                   <div class="flex"><span class="label">Collection @</span></div>
                   <div class="flex">
-                    <a
-                      class="link"
-                      href={explorerCollectionUrl($chainId, nft?.collection)}
-                      target="_blank">{getShortAddress(collection?.address, 15)}</a
+                    <a class="link" href={explorerCollectionUrl($chainId, nft?.collection)} target="_blank"
+                      >{getShortAddress(collection?.address, 15)}</a
                     >
                   </div>
                 </li>
@@ -304,9 +280,7 @@
                   <li class="complete">
                     <div class="flex"><span class="label">Copy shortcode sell button</span></div>
                     <div class="flex">
-                      <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data"
-                        >Shortcode</button
-                      >
+                      <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data">Shortcode</button>
                     </div>
                   </li>
                 {/if}

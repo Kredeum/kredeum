@@ -22,7 +22,7 @@
     "smart-list": "npx hardhat run scripts/list.mjs",
     "dapp-clean": "rm -rf web/app",
     "dapp-build": "npm run dapp-clean && npx gulp && GIT_SHORT=$(git rev-parse --short HEAD) rollup -c --configPlugin typescript",
-    "dapp-dev": "npm run dev",
+    "dapp-dev": "GIT_SHORT=$(git rev-parse --short HEAD) npm run dev",
     "dapp-prettier": "npx prettier svelte/*.svelte svelte/*.ts lib/*.ts --write --loglevel error",
     "dapp-eslint": "npx eslint svelte/*.svelte svelte/*.ts lib/*.ts --fix --quiet",
     "dapp-svelte-check": "npx svelte-check",

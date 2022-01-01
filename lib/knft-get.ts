@@ -1,10 +1,10 @@
-import type { OpenNFTs } from "../solidity/types/OpenNFTs";
 import type { Collection, Nft } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchJson } from "./kfetch";
 import { getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
 import { collectionGetContract } from "./kcollection-get";
+import { BigNumber } from "ethers";
 
 ////////////////////////////////////////////////////////
 // TOKEN
@@ -38,11 +38,11 @@ const cidExtract = (_uri: string): string => {
   return cid;
 };
 
-const nftGetMetadataSync = (chainId: number, _token: Nft, _collection?: Collection): Nft => {
-  // console.log(`nftGetMetadataSync ${chainId} ${_collection.address}`, _token);
+const nftGetMetadataSync = (chainId: number, token: Nft, collection?: Collection): Nft => {
+  // console.log(`nftGetMetadataSync ${chainId} ${collection.address}`, token);
   let nftData: Nft;
 
-  if (chainId && _token) {
+  if (chainId && token) {
     // TODO : Extend NFT type with Metadata type...
     type Metadata = {
       name?: string;
@@ -56,16 +56,16 @@ const nftGetMetadataSync = (chainId: number, _token: Nft, _collection?: Collecti
     };
 
     const network = getNetwork(chainId);
-    const collectionAddress: string = getChecksumAddress(_token.collection || _collection.address);
+    const collectionAddress: string = getChecksumAddress(token.collection || collection.address);
 
-    const chainName: string = _token.chainName || network?.chainName || "";
-    const metadata: Metadata = (_token.metadata as Metadata) || {};
-    const image: string = _token.image || metadata.image || metadata.image_url || "";
-    const tokenID: string = _token.tokenID || "";
+    const chainName: string = token.chainName || network?.chainName || "";
+    const metadata: Metadata = (token.metadata as Metadata) || {};
+    const image: string = token.image || metadata.image || metadata.image_url || "";
+    const tokenID: string = token.tokenID || "";
 
     nftData = {
-      tokenID: _token.tokenID || "",
-      tokenURI: _token.tokenURI || "",
+      tokenID: token.tokenID || "",
+      tokenURI: token.tokenURI || "",
 
       collection: collectionAddress,
       chainId,
@@ -74,16 +74,16 @@ const nftGetMetadataSync = (chainId: number, _token: Nft, _collection?: Collecti
       metadata,
       image,
 
-      name: _token.name || metadata.name || "",
-      description: _token.description || metadata.description || "",
+      name: token.name || metadata.name || "",
+      description: token.description || metadata.description || "",
 
-      creator: getChecksumAddress(_token.creator || metadata.creator),
-      minter: getChecksumAddress(_token.minter || metadata.minter),
-      owner: getChecksumAddress(_token.owner || metadata.owner),
+      creator: getChecksumAddress(token.creator || metadata.creator),
+      minter: getChecksumAddress(token.minter || metadata.minter),
+      owner: getChecksumAddress(token.owner || metadata.owner),
 
-      cid: _token.cid || metadata.cid || cidExtract(image) || "",
-      cidJson: _token.cidJson || cidExtract(_token.tokenURI) || "",
-      nid: _token.nid || nftUrl3(chainId, collectionAddress, tokenID)
+      cid: token.cid || metadata.cid || cidExtract(image) || "",
+      cidJson: token.cidJson || cidExtract(token.tokenURI) || "",
+      nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
@@ -91,127 +91,103 @@ const nftGetMetadataSync = (chainId: number, _token: Nft, _collection?: Collecti
     }
   }
 
-  // console.log("nftGetMetadataSync", _token, "=>", nftData);
+  // console.log("nftGetMetadataSync", token, "=>", nftData);
   return nftData;
 };
 
-const nftGetMetadata = async (
-  chainId: number,
-  _token: Nft,
-  _collection?: Collection
-): Promise<Nft> => {
-  // console.log("nftGetMetadata chainId _token", chainId, _token);
-  let nftDataSync: Nft;
+const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
+  // console.log("nftGetMetadata", chainId, token, collection);
+  let nftDataSync = token;
 
-  if (chainId && _token) {
-    const metadataUrl = (_token.metadata as string) || _token.tokenURI;
+  if (chainId && token) {
+    // console.log("nftGetMetadata chainId token", chainId, token);
 
-    if (metadataUrl) {
-      const metadataAnswer = await fetchJson(metadataUrl);
+    if (!token.metadata) {
+      const metadataUrl = token.tokenURI;
 
-      if (metadataAnswer.error) {
-        console.error("metadataAnswer ERROR", metadataAnswer.error);
-      } else {
-        _token.metadata = metadataAnswer;
+      if (metadataUrl) {
+        const metadataAnswer = await fetchJson(metadataUrl);
+
+        if (metadataAnswer.error) {
+          console.error("metadataAnswer ERROR", metadataAnswer.error);
+        } else {
+          token.metadata = metadataAnswer;
+        }
       }
     }
-    nftDataSync = nftGetMetadataSync(chainId, _token, _collection);
+    nftDataSync = nftGetMetadataSync(chainId, token, collection);
   }
   // console.log("nftGetMetadata nftDataSync", nftDataSync);
   return nftDataSync;
 };
 
-const nftGetFromIndex = async (
-  chainId: number,
-  collection: Collection,
-  _index: number,
-  _provider: Provider,
-  _owner?: string
-): Promise<Nft | undefined> => {
-  // console.log("nftGetFromIndex", chainId, collection, _owner);
-
-  let nft: Nft | undefined;
-
-  if (chainId && collection) {
-    const contract = await collectionGetContract(chainId, collection, _provider);
-    if (contract) {
-      nft = await nftGetFromContract(chainId, contract, _index, _owner);
-    }
-  }
-  return nft;
-};
-
-const nftGetFromTokenID = async (
-  chainId: number,
-  _smartcontract: OpenNFTs,
-  _tokenId: number,
-  _owner?: string
-): Promise<Nft> => {
-  const nft: Nft = null;
-  return nft;
-};
-
 const nftGetFromContract = async (
   chainId: number,
-  _smartcontract: OpenNFTs,
-  _index: number,
-  _owner?: string
+  collection: Collection,
+  tokenID: string,
+  provider: Provider,
+  owner: string
 ): Promise<Nft> => {
-  let tokenID = "";
   let tokenURI = "";
-  let owner = "";
-  let collection = "";
   let contractName = "";
 
-  // console.log("nftGetFromContract  IN", chainId, _index, _owner);
-  // console.log("nftGetFromContract", _smartcontract);
+  let nft: Nft;
 
-  try {
-    collection = getChecksumAddress(_smartcontract.address);
-    // console.log("nftGetFromContract collection", collection);
+  if (chainId && collection) {
+    try {
+      const contract = await collectionGetContract(chainId, collection, provider);
+      contractName = collection.name;
 
-    if (_smartcontract.name) {
-      contractName = await _smartcontract.name();
-      // console.log("nftGetFromContract contractName", contractName);
-    }
-    if (_owner) {
-      if (_smartcontract.tokenOfOwnerByIndex) {
-        tokenID = (await _smartcontract.tokenOfOwnerByIndex(_owner, _index)).toString();
-        // console.log("nftGetFromContract tokenOfOwnerByIndex tokenID", tokenID);
-        owner = _owner;
+      if (collection?.supports?.ERC721Metadata) {
+        contractName = contractName || (await contract.name());
+        owner = owner || (await contract.ownerOf(tokenID));
+        tokenURI = await contract.tokenURI(tokenID);
       }
-    } else if (_smartcontract.tokenByIndex) {
-      tokenID = (await _smartcontract.tokenByIndex(_index)).toString();
-      // console.log("nftGetFromContract tokenByIndex tokenID", tokenID);
-      owner = await _smartcontract.ownerOf(tokenID);
+
+      const nid = nftUrl3(chainId, collection.address, tokenID);
+      nft = {
+        chainId,
+        collection: collection.address,
+        contractName,
+        tokenID,
+        tokenURI,
+        owner,
+        nid
+      };
+    } catch (e) {
+      console.error("ERROR nftGetFromContract", e);
     }
-    if (_smartcontract.tokenURI) {
-      tokenURI = await _smartcontract.tokenURI(tokenID);
-      // console.log("nftGetFromContract tokenURI", tokenURI);
-    }
-  } catch (e) {
-    console.error(
-      "nftGetFromContract ERROR",
-      e,
-      tokenID,
-      tokenURI,
-      owner,
-      collection,
-      contractName,
-      chainId,
-      _index,
-      _owner
-    );
   }
-  const nid = nftUrl3(chainId, collection, tokenID);
-  // console.log("nftGetFromContract #" + tokenID, chainId, collection, tokenURI, owner);
-  return { chainId, collection, contractName, tokenID, tokenURI, owner, nid };
+  // console.log("nftGetFromContract", nft);
+  return nft;
 };
 
-export {
-  nftGetFromIndex,
-  nftGetFromTokenID,
-  nftGetFromContract,
-  nftGetMetadata,
-  collectionGetContract
+const nftGetFromContractEnumerable = async (
+  chainId: number,
+  collection: Collection,
+  index: number,
+  provider: Provider,
+  owner?: string
+): Promise<Nft> => {
+  let nft: Nft;
+  let tokID: BigNumber;
+
+  if (chainId && collection?.supports?.ERC721Enumerable) {
+    try {
+      const contract = await collectionGetContract(chainId, collection, provider);
+      if (owner) {
+        tokID = await contract.tokenOfOwnerByIndex(owner, index);
+      } else {
+        tokID = await contract.tokenByIndex(index);
+        owner = await contract.ownerOf(tokID);
+      }
+      nft = await nftGetFromContract(chainId, collection, tokID.toString(), provider, owner);
+    } catch (e) {
+      console.error("ERROR nftGetFromContractEnumerable", e);
+    }
+  }
+  // console.log("nftGetFromContractEnumerable #", index, nft);
+  return nft;
 };
+
+export { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata, collectionGetContract };
