@@ -1,7 +1,8 @@
-import type { Collection, Nft } from "./ktypes";
+import type { Collection, Nft, NftMetadata } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchJson } from "./kfetch";
+import { ipfsGetLink, ipfsGatewayUrl } from "./knfts";
 import { getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
 import { collectionGetContract } from "./kcollection-get";
 import { BigNumber } from "ethers";
@@ -27,45 +28,39 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-const cidExtract = (_uri: string): string => {
-  let cid = "";
-  if (_uri) {
-    const cid1 = _uri.match(/^ipfs:\/\/(.*)$/i);
-    const cid2 = _uri.match(/^.*\/ipfs\/([^/]*)(.*)$/i);
-    cid = (cid1 && cid1[1]) || (cid2 && cid2[1]) || "";
-  }
-  // console.log('cid' cid, '<=', _image);
-  return cid;
-};
+const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image) || "";
 
-const nftGetMetadataSync = (chainId: number, token: Nft, collection?: Collection): Nft => {
-  // console.log(`nftGetMetadataSync ${chainId} ${collection.address}`, token);
-  let nftData: Nft;
+const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
+  console.log("nftGetMetadata", chainId, token, collection);
+  // TODO : Extend NFT type with Metadata type...
+  let nftMetadata: Nft;
 
   if (chainId && token) {
-    // TODO : Extend NFT type with Metadata type...
-    type Metadata = {
-      name?: string;
-      description?: string;
-      creator?: string;
-      minter?: string;
-      owner?: string;
-      image?: string;
-      image_url?: string;
-      cid?: string;
-    };
-
     const network = getNetwork(chainId);
     const collectionAddress: string = getChecksumAddress(token.collection || collection.address);
 
+    let tokenJson: NftMetadata = {};
+
+    // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
+    if (token.tokenURI) {
+      const tokenURIAnswer = await fetchJson(token.tokenURI);
+      if (tokenURIAnswer.error) {
+        console.error("tokenURIAnswer ERROR", tokenURIAnswer.error);
+      } else {
+        console.log("nftGetMetadata tokenJson", tokenURIAnswer);
+        tokenJson = tokenURIAnswer as NftMetadata;
+      }
+    }
+
     const chainName: string = token.chainName || network?.chainName || "";
-    const metadata: Metadata = (token.metadata as Metadata) || {};
+    const metadata = { ...token.metadata, ...tokenJson };
     const image: string = token.image || metadata.image || metadata.image_url || "";
     const tokenID: string = token.tokenID || "";
 
-    nftData = {
+    nftMetadata = {
       tokenID: token.tokenID || "",
       tokenURI: token.tokenURI || "",
+      tokenJson,
 
       collection: collectionAddress,
       chainId,
@@ -81,44 +76,20 @@ const nftGetMetadataSync = (chainId: number, token: Nft, collection?: Collection
       minter: getChecksumAddress(token.minter || metadata.minter),
       owner: getChecksumAddress(token.owner || metadata.owner),
 
-      cid: token.cid || metadata.cid || cidExtract(image) || "",
-      cidJson: token.cidJson || cidExtract(token.tokenURI) || "",
+      ipfs: token.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
+      ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
+    const response = await fetch(nftGetImageLink(nftMetadata));
+    nftMetadata.contentType = response.headers.get("content-type");
+
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem(nftData.nid || "", JSON.stringify(nftData, null, 2));
+      localStorage.setItem(nftMetadata.nid || "", JSON.stringify(nftMetadata, null, 2));
     }
   }
-
-  // console.log("nftGetMetadataSync", token, "=>", nftData);
-  return nftData;
-};
-
-const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
-  // console.log("nftGetMetadata", chainId, token, collection);
-  let nftDataSync = token;
-
-  if (chainId && token) {
-    // console.log("nftGetMetadata chainId token", chainId, token);
-
-    if (!token.metadata) {
-      const metadataUrl = token.tokenURI;
-
-      if (metadataUrl) {
-        const metadataAnswer = await fetchJson(metadataUrl);
-
-        if (metadataAnswer.error) {
-          console.error("metadataAnswer ERROR", metadataAnswer.error);
-        } else {
-          token.metadata = metadataAnswer;
-        }
-      }
-    }
-    nftDataSync = nftGetMetadataSync(chainId, token, collection);
-  }
-  // console.log("nftGetMetadata nftDataSync", nftDataSync);
-  return nftDataSync;
+  // console.log("nftGetMetadata nftMetadata", nftMetadata);
+  return nftMetadata;
 };
 
 const nftGetFromContract = async (
@@ -190,4 +161,4 @@ const nftGetFromContractEnumerable = async (
   return nft;
 };
 
-export { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata, collectionGetContract };
+export { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink, collectionGetContract };

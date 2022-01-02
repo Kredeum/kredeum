@@ -4,7 +4,7 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abs
 
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
-import { ipfsUrl, ipfsGatewayUrl, textShort, explorerCollectionUrl } from "./knfts";
+import { ipfsGatewayUrl, textShort, explorerCollectionUrl } from "./knfts";
 import { nftGetMetadata } from "./knft-get";
 import { collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
@@ -53,42 +53,41 @@ const nftMintTexts = [
   "Wait till transaction completed, it may takes one minute or more..."
 ];
 
-// GET ipfs image cid
-const nftMint1CidImage = async (image: string, key = ""): Promise<string> => {
+// GET ipfs image link
+const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
-  return await nftStorage.pinUrl(image);
+  return `^ipfs:\\${await nftStorage.pinUrl(image)}`;
 };
 
 // GET ipfs metadata url
-const nftMint2CidJson = async (_name = "No name", _cid = "", _address = "", _image = "", key = ""): Promise<string> => {
+const nftMint2IpfsJson = async (name = "No name", ipfs = "", address = "", image = "", key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
 
-  const cidJson = await nftStorage.pinJson({
-    name: _name,
-    description: _name || "",
-    cid: _cid,
-    image: ipfsGatewayUrl(_cid),
-    ipfs: ipfsUrl(_cid),
-    origin: textShort(_image, 140),
-    minter: _address,
+  const ipfsJson = await nftStorage.pinJson({
+    name,
+    description: name || "",
+    image: ipfsGatewayUrl(ipfs),
+    ipfs,
+    origin: textShort(image, 140),
+    minter: address,
     metadata: {}
   } as Nft);
-  return cidJson;
+  return ipfsJson;
 };
 
 // GET minting tx response
 const nftMint3TxResponse = async (
   chainId: number,
   collection: Collection,
-  cidJson: string,
+  ipfsJson: string,
   minter: Signer
 ): Promise<TransactionResponse | null> => {
   let txResp: TransactionResponse | null = null;
 
-  // console.log("nftMint3TxResponse", chainId, collection.address, cidJson, await minter.getAddress());
+  // console.log("nftMint3TxResponse", chainId, collection.address, ipfsJson, await minter.getAddress());
 
   const network = getNetwork(chainId);
-  const urlJson = ipfsGatewayUrl(cidJson);
+  const urlJson = ipfsGatewayUrl(ipfsJson);
   const openNFTs = await collectionGetContract(chainId, collection, minter.provider);
   // console.log("openNFTs", openNFTs);
 
@@ -128,7 +127,7 @@ const nftMint4 = async (
 
       if (_tokenID) {
         _nft = await _mintedNft(_chainId, _collection, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
-        _nft.cidJson = _metadataCid;
+        _nft.ipfsJson = _metadataCid;
         // console.log("nftMint4", _nft);
       }
     }
@@ -137,4 +136,4 @@ const nftMint4 = async (
   return _nft;
 };
 
-export { nftMintTexts, nftMint1CidImage, nftMint2CidJson, nftMint3TxResponse, nftMint4 };
+export { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 };

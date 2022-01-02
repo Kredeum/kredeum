@@ -53,7 +53,7 @@ const nftListFromCovalent = async (
             collection: getChecksumAddress(collection.address),
             tokenID: _token.token_id,
             tokenURI: _token.token_url,
-            metadata: _token.external_data,
+            external_data: _token.external_data,
             owner: getChecksumAddress(_token.owner || owner),
             minter: getChecksumAddress(_token.original_owner),
             nid: nftUrl3(chainId, collection.address, _token.token_id)

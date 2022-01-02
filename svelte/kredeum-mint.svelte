@@ -4,9 +4,10 @@
 
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import { nftMintTexts, nftMint1CidImage, nftMint2CidJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, nftImageLink } from "lib/knfts";
-  import { getNetwork, getOpenNFTsAddress } from "lib/kconfig";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
+  import { nftGetImageLink } from "lib/knft-get";
+  import { getOpenNFTsAddress } from "lib/kconfig";
 
   // export let key: string = undefined;
   // export let metadata: string = undefined;
@@ -24,7 +25,7 @@
   let mintedNft: Nft;
   let minting: number;
 
-  let cidImage: string;
+  let ipfsImage: string;
   let network: Network;
 
   let signerAddress: string;
@@ -55,33 +56,33 @@
   const view = async (e: Event): Promise<void> => {
     e.preventDefault();
 
-    location.href = nftImageLink(mintedNft);
+    location.href = nftGetImageLink(mintedNft);
   };
 
   const mint = async (e: Event): Promise<Nft> => {
     e.preventDefault();
     // console.log("collection", collection);
-    cidImage = null;
+    ipfsImage = null;
     mintedNft = null;
 
     minting = 1;
 
-    cidImage = await nftMint1CidImage(src);
-    // console.log("cidImage", cidImage);
+    ipfsImage = await nftMint1IpfsImage(src);
+    // console.log("ipfsImage", ipfsImage);
 
     minting = 2;
 
-    const cidJson = await nftMint2CidJson(alt, cidImage, signerAddress, src);
-    // console.log("json", cidJson);
+    const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src);
+    // console.log("json", ipfsJson);
 
     minting = 3;
 
-    const mintingTxResp = await nftMint3TxResponse($chainId, collection, cidJson, $signer);
+    const mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
     // console.log("txResp", txResp);
 
     minting = 4;
 
-    mintedNft = await nftMint4($chainId, collection, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -124,7 +125,7 @@
     <small>
       <br />{urlToLink(src, `${src}@${alt}`)}
 
-      <br />{ipfsGatewayLink(cidImage)}
+      <br />{ipfsGatewayLink(ipfsImage)}
     </small>
   {/if}
 </main>

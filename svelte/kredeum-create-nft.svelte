@@ -5,7 +5,7 @@
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
-  import { nftMintTexts, nftMint1CidImage, nftMint2CidJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
@@ -24,16 +24,16 @@
   let files: FileList;
   let image: string;
 
-  let cidImage: string;
-  let cidJson: string;
+  let ipfsImage: string;
+  let ipfsJson: string;
   let minting: number;
   let mintingTxResp: TransactionResponse;
   let mintedNft: Nft;
   let mintingError: string;
 
   const mintReset = (): void => {
-    cidImage = null;
-    cidJson = null;
+    ipfsImage = null;
+    ipfsJson = null;
     minting = 0;
     mintingTxResp = null;
     mintedNft = null;
@@ -60,25 +60,25 @@
     if (image) {
       minting = 1;
 
-      cidImage = await nftMint1CidImage(image);
-      // console.log("cidImage", cidImage);
+      ipfsImage = await nftMint1IpfsImage(image);
+      // console.log("ipfsImage", ipfsImage);
 
-      if (cidImage) {
+      if (ipfsImage) {
         minting = 2;
 
-        cidJson = await nftMint2CidJson(nftTitle, cidImage, $owner, image);
-        // console.log("json", cidJson);
+        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, $owner, image);
+        // console.log("json", ipfsJson);
 
-        if (cidJson) {
+        if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse($chainId, collection.address, cidJson, $signer);
+          mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await nftMint4($chainId, collection, mintingTxResp, cidJson, $owner);
+            mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, $owner);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {
@@ -159,18 +159,18 @@
           {/if}
 
           <li class={minting >= 2 ? "complete" : ""}>
-            <div class="flex"><span class="label">Image ipfs cid</span></div>
+            <div class="flex"><span class="label">Image ipfs link</span></div>
             <div class="flex">
-              {#if cidImage}
-                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank">{textShort(cidImage, 15)}</a>
+              {#if ipfsImage}
+                <a class="link" href={ipfsGatewayUrl(ipfsImage)} target="_blank">{textShort(ipfsImage, 15)}</a>
               {/if}
             </div>
           </li>
           <li class={minting >= 3 ? "complete" : ""}>
-            <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+            <div class="flex"><span class="label">Metadata ipfs link</span></div>
             <div class="flex">
-              {#if cidJson}
-                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank">{textShort(cidJson, 15)}</a>
+              {#if ipfsJson}
+                <a class="link" href={ipfsGatewayUrl(ipfsJson)} target="_blank">{textShort(ipfsJson, 15)}</a>
               {/if}
             </div>
           </li>

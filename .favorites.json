@@ -78,5 +78,37 @@
         "workspaceRoot": "/Users/alain/DEV/kredeum",
         "workspacePath": "rollup.config.ts",
         "id": "RWIxaLoT9wNczJ1k"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/alain/DEV/kredeum/lib",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "lib",
+        "id": "Kd4L3tuRAQ5TC7gY"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/alain/DEV/kredeum/config",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "config",
+        "id": "2qsBIkbZmScgo3QU"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/alain/DEV/kredeum/solidity/contracts",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "solidity/contracts",
+        "id": "tGM6d2VQBqEva5xy"
+    },
+    {
+        "type": "Directory",
+        "name": "/Users/alain/DEV/kredeum/solidity/tests",
+        "parent_id": null,
+        "workspaceRoot": "/Users/alain/DEV/kredeum",
+        "workspacePath": "solidity/tests",
+        "id": "t2PMkUsQnK7yXRF8"
     }
 ]

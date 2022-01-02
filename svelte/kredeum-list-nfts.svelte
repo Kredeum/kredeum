@@ -6,13 +6,11 @@
     sleep,
     collectionName,
     explorerCollectionUrl,
-    nftImageLink,
     nftDescription,
     nftDescriptionShort,
     nftName,
     nftsBalanceAndName,
     nftOpenSeaUrl,
-    nftExplorerLink,
     addressSame,
     textShort,
     explorerNftUrl,
@@ -21,10 +19,10 @@
   import { chainId, owner, provider } from "./network";
   import { getNetwork, getShortAddress, nftUrl, nftsUrl } from "../lib/kconfig";
   import { clearCache, nftListFromCache, nftListTokenIds } from "../lib/knft-list";
-  import { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata } from "../lib/knft-get";
+  import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "../lib/knft-get";
 
   import { createEventDispatcher } from "svelte";
-  import { BigNumber } from "ethers";
+  // import { fileTypeFromStream } from "file-type";
 
   // down to component
   export let collection: Collection = undefined;
@@ -142,9 +140,9 @@
   };
 
   const shortcode = async (nft: Nft) => {
-    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${nft.tokenID}" cid="${
-      nft.cid
-    }"]${nftName(nft)}[/kredeum_sell]`;
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
+      nft.tokenID
+    }" ipfs="${nft.ipfs}"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
     console.log("Copied");
@@ -175,6 +173,7 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, i}
+        {console.log(JSON.stringify(nft, null, 2))}
         <div
           id="table-drop-{i}"
           class="table-row table-drop"
@@ -184,13 +183,13 @@
           <div id="media-{i}" class="table-col">
             <div class="table-col-content">
               <div class="media media-small media-photo">
-                <img alt="link" src={nftImageLink(nft)} height="100" />
+                <img alt="link" src={nftGetImageLink(nft)} height="100" />
               </div>
               <strong>{nftName(nft)}</strong>
               <span id="description-short-{i}" class:hidden={mores[i]}>{nftDescriptionShort(nft, 64)} </span>
               <a
                 class="info-button"
-                href={nftImageLink(nft)}
+                href={nftGetImageLink(nft)}
                 title="&#009;{nftDescription(nft)} 
                 NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
                 target="_blank"><i class="fas fa-info-circle" /></a
@@ -213,7 +212,7 @@
               {:else}
                 <a
                   class="info-button"
-                  href={nftImageLink(nft)}
+                  href={nftGetImageLink(nft)}
                   title="&#009;{nftDescription(nft)} 
                   NFT address (click to view explorer)&#013.{nftUrl(nft)}"
                   target="_blank"><i class="fas fa-info-circle" /></a
@@ -233,7 +232,7 @@
 
           <div id="more-detail-{i}" class="detail">
             <div id="media-full-{i}" class="media media-photo">
-              <img alt="link" src={nftImageLink(nft)} />
+              <img alt="link" src={nftGetImageLink(nft)} />
             </div>
             <div id="description-{i}" class="description">
               <strong>Description</strong>
@@ -265,15 +264,15 @@
                 </li>
 
                 <li class="complete">
-                  <div class="flex"><span class="label">Metadata CID</span></div>
+                  <div class="flex"><span class="label">Metadata IPFS</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.cidJson)}</a>
+                    <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.ipfsJson)}</a>
                   </div>
                 </li>
                 <li class="complete">
-                  <div class="flex"><span class="label">Image CID</span></div>
+                  <div class="flex"><span class="label">Image IPFS</span></div>
                   <div class="flex">
-                    <a class="link" href={nft.image} target="_blank">{textShort(nft.cid)}</a>
+                    <a class="link" href={nft.image} target="_blank">{textShort(nft.ipfs)}</a>
                   </div>
                 </li>
                 {#if platform === "wordpress"}

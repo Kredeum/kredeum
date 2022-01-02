@@ -68,6 +68,17 @@ type CollectionSupports = {
   OpenNFTsV3?: boolean;
 };
 
+type NftMetadata = {
+  name?: string;
+  description?: string;
+  creator?: string;
+  minter?: string;
+  owner?: string;
+  image?: string;
+  image_url?: string;
+  ipfs?: string;
+};
+
 type Nft = {
   chainId: number;
   collection: string;
@@ -78,7 +89,8 @@ type Nft = {
   name?: string;
   contractName?: string;
   description?: string;
-  metadata?: unknown;
+  tokenJson?: NftMetadata;
+  metadata?: NftMetadata;
   image?: string;
   image_url?: string;
   image_data?: string;
@@ -88,12 +100,23 @@ type Nft = {
   background_color?: string;
   attributes?: unknown;
   ipfs?: string;
+  ipfsJson?: string;
   origin?: string;
   creator?: string;
   minter?: string;
-  cidJson?: string;
-  cid?: string;
   nid?: string;
+  contentType?: string;
 };
 
-export type { Address, Collection, CollectionSupports, Network, ABIS, AbiType, Nft, OpenNFTsKeys, ErcKeys };
+export type {
+  Address,
+  Collection,
+  CollectionSupports,
+  Network,
+  ABIS,
+  AbiType,
+  Nft,
+  NftMetadata,
+  OpenNFTsKeys,
+  ErcKeys
+};

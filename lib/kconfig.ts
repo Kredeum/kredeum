@@ -1,6 +1,7 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { ABIS, Address, Network, Nft } from "./ktypes";
 
+import { ipfsLinkToCid } from "./knfts";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 import abisJson from "./abis.json";
@@ -14,7 +15,8 @@ const version = config.version;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
 const textShort = (s: string, n = 16, p = n): string => {
-  const str: string = s?.toString() || "";
+  const ipfsStr: string = s?.toString() || "";
+  const str: string = ipfsLinkToCid(ipfsStr);
   const l: number = str.length || 0;
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };

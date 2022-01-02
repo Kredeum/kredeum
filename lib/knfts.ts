@@ -14,13 +14,6 @@ import {
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
 
-const ipfsReplace = (url = ""): string => {
-  url = url.replace("ipfs://ipfs/", ipfsGateway);
-  url = url.replace("ipfs://", ipfsGateway);
-  url = url.replace("https://gateway.pinata.cloud/ipfs/", ipfsGateway);
-  return url;
-};
-
 // GENERIC helpers
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -34,11 +27,26 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // IPFS helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsUrl = (cid: string): string => `ipfs://${cid}`;
+const ipfsGetLink = (uri: string): string => {
+  let ipfsGetLink = "";
 
-const ipfsGatewayUrl = (cid: string): string => `${ipfsGateway}${cid}`;
+  const cid = uri.match(/^.*\/ipfs\/(.*)$/i);
+  if (cid) {
+    ipfsGetLink = ipfsCidToLink(cid[1]);
+  } else if (uri.startsWith("ipfs://")) {
+    ipfsGetLink = uri;
+  }
+  console.log("ipfsGetLink", uri, "=>", ipfsGetLink);
+  return ipfsGetLink;
+};
 
-const ipfsGatewayLink = (cid: string): string => urlToLink(ipfsGatewayUrl(cid), textShort(cid));
+const ipfsCidToLink = (cid: string): string => (cid ? `ipfs://${cid}` : "");
+
+const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
+
+const ipfsGatewayUrl = (ipfs: string): string => `${ipfsGateway}${ipfsLinkToCid(ipfs)}`;
+
+const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs), textShort(ipfs));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -164,8 +172,6 @@ const nftsBalanceAndName = (collection: Collection): string =>
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string => urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftImageLink = (nft: Nft): string => ipfsReplace(nft?.image);
-
 const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
   const openSeaAssets = getOpenSeaAssets(chainId);
   return `${openSeaAssets}/${nft?.collection}/${nft?.tokenID}`;
@@ -183,7 +189,9 @@ export {
   textShort,
   numberToHexString,
   urlToLink,
-  ipfsUrl,
+  ipfsCidToLink,
+  ipfsLinkToCid,
+  ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
   addressSame,
@@ -191,7 +199,6 @@ export {
   collectionGetNFTsFactoryAddress,
   collectionName,
   collectionSymbol,
-  nftImageLink,
   nftDescription,
   nftDescriptionShort,
   nftExplorerLink,
