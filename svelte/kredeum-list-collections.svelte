@@ -8,13 +8,13 @@
   import { collectionName } from "lib/knfts";
   import { onMount } from "svelte";
 
-  import { chainId, owner, provider } from "./network";
+  import { chainId, provider, owner } from "./network";
 
   // down to component
   export let filter = false;
   export let txt = false;
   // up to parent
-  export let collection: Collection = undefined;
+  export let collection: Collection;
 
   let collectionAddress: string;
   let allCollections: Map<string, Collection>;

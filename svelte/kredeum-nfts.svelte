@@ -14,19 +14,9 @@
 
   export let platform = "dapp";
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
-  // <KredeumCreateCollection bind:collection />
-  // <KredeumCreateNft bind:collection />
-  //
-  // up from KredeumSelectCollection and KredeumCreateCollection components
-  // and down to KredeumListNfts, KredeumCreateNft
   let collection: Collection;
-  //
-  // down to KredeumListNfts component
   let refreshing: boolean;
   let refreshNFTs;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // ON CHAINID, OWNER OR COLLECTION CHANGE
   // $: logChange(chainId, owner, collection);
@@ -101,7 +91,7 @@
           </div>
         </header>
 
-        <KredeumListNfts bind:collection bind:refreshing bind:refreshNFTs bind:platform />
+        <KredeumListNfts {collection} refreshing {refreshNFTs} {platform} />
       </section>
     </div>
   </main>

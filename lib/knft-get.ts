@@ -43,12 +43,16 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
 
     // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
     if (token.tokenURI) {
-      const tokenURIAnswer = await fetchJson(token.tokenURI);
-      if (tokenURIAnswer.error) {
-        console.error("tokenURIAnswer ERROR", tokenURIAnswer.error);
-      } else {
-        console.log("nftGetMetadata tokenJson", tokenURIAnswer);
-        tokenJson = tokenURIAnswer as NftMetadata;
+      try {
+        const tokenURIAnswer = await fetchJson(token.tokenURI);
+        if (tokenURIAnswer.error) {
+          console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
+        } else {
+          console.log("nftGetMetadata tokenJson", tokenURIAnswer);
+          tokenJson = tokenURIAnswer as NftMetadata;
+        }
+      } catch (e) {
+        console.error("ERROR nftGetMetadata tokenURIAnswer", e);
       }
     }
 
@@ -80,8 +84,13 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
-    const response = await fetch(nftGetImageLink(nftMetadata));
-    nftMetadata.contentType = response.headers.get("content-type");
+
+    try {
+      const response = await fetch(nftGetImageLink(nftMetadata));
+      nftMetadata.contentType = response.headers.get("content-type");
+    } catch (e) {
+      console.error("ERROR nftGetMetadata contentType", e);
+    }
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {

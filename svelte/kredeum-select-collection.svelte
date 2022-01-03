@@ -10,15 +10,8 @@
 
   import { chainId, owner } from "./network";
 
-  // down from parent
   export let txt = false;
-  // up to parent
   export let collection: Collection = undefined;
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumMetamask autoconnect="off" />
-  // <KredeumListCollections bind:collection />
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);
@@ -31,11 +24,11 @@
     collection?.supports?.ERC721 ? "ERC721" : collection?.supports?.ERC1155 ? "ERC1155" : "";
 </script>
 
-<KredeumMetamask autoconnect="off" bind:txt />
+<KredeumMetamask autoconnect="off" {txt} />
 {#if txt}
   {#if $owner && getNftsFactory($chainId)}
     <p>
-      <KredeumListCollections bind:collection bind:txt />
+      <KredeumListCollections bind:collection {txt} />
     </p>
   {/if}
 {:else}
@@ -53,7 +46,7 @@
           >
         {/if}
       </span>
-      <KredeumListCollections bind:collection bind:txt />
+      <KredeumListCollections bind:collection {txt} />
     {/if}
   </div>
 {/if}

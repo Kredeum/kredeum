@@ -19,14 +19,13 @@
   // down to component with default
   export let collection: Collection = undefined;
 
-  import { chainId, signer, provider } from "./network";
+  import { chainId, network, provider, signer } from "./network";
   import { collectionGet } from "lib/kcollection-get";
 
   let mintedNft: Nft;
   let minting: number;
 
   let ipfsImage: string;
-  let network: Network;
 
   let signerAddress: string;
 
@@ -99,7 +98,7 @@
   {#if $signer}
     {#if minting}
       {#if mintedNft}
-        {#if network?.openSea}
+        {#if $network?.openSea}
           <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
         {:else}
           <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>

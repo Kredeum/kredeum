@@ -3,7 +3,7 @@
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
-  import { chainId, signer, owner, provider } from "./network";
+  import { chainId, network, provider, signer, owner } from "./network";
   import {
     getShortAddress,
     numberToHexString,
@@ -20,14 +20,11 @@
   export let txt: boolean = undefined;
   export let autoconnect: string = undefined;
 
-  let chainIdSelected: number;
-
   const testnets = true;
 
   let ethereumProvider: EthereumProvider;
   let ethersProvider: Web3Provider;
 
-  let network: Network;
   let nameOrAddress = "";
 
   const connectMetamaskMessage = "Connect to Metamask";
@@ -103,9 +100,8 @@
       const _network = getNetwork(_chainId);
       if (_network) {
         chainId.set(Number(_chainId));
-
+        network.set(_network);
         console.log("chainId", $chainId, numberToHexString(_chainId));
-        network = _network;
       } else {
         // _chainId not accepted : switch to first accepted chainId
         switchEthereumChain(networks[0].chainId);
@@ -216,7 +212,7 @@
           &nbsp;
         </option>
       {/each}
-      {#if network?.testnet}
+      {#if $network?.testnet}
         {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
           <option value={_network.chainId} selected={_network.chainId == $chainId}>
             {getChainName(_network)}
@@ -225,7 +221,7 @@
         {/each}
       {/if}
     </select>
-    {nameOrAddress}@{getChainname(network)}
+    {nameOrAddress}@{getChainname($network)}
   {:else if noMetamask}
     {installMetamaskMessage}
   {:else}
@@ -272,7 +268,7 @@
       <div class="select-wrapper select-network" on:click={() => (open = !open)}>
         <div class="select" class:open>
           <div class="select-trigger">
-            <span class={getChainname(network)}>{getChainName(network)}</span>
+            <span class={getChainname($network)}>{getChainName($network)}</span>
           </div>
           <div class="custom-options">
             {#each networks.filter((nw) => nw.mainnet) as _network}
@@ -284,7 +280,7 @@
                 {getChainName(_network)}
               </span>
             {/each}
-            {#if network?.testnet}
+            {#if $network?.testnet}
               {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
                 <span
                   class="custom-option {_network.chainId == $chainId && 'selected'}"
