@@ -90,8 +90,7 @@
             </div>
           </div>
         </header>
-
-        <KredeumListNfts {collection} refreshing {refreshNFTs} {platform} />
+        <KredeumListNfts {collection} refreshing bind:refreshNFTs {platform} />
       </section>
     </div>
   </main>

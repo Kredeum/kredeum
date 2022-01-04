@@ -14,7 +14,7 @@
   export let filter = false;
   export let txt = false;
   // up to parent
-  export let collection: Collection;
+  export let collection: Collection = undefined;
 
   let collectionAddress: string;
   let allCollections: Map<string, Collection>;
