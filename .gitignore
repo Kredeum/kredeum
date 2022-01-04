@@ -1,6 +1,7 @@
 # NPM
 node_modules
 .pnpm-debug.log
+.favorites.json
 
 # SOLIDITY
 solidity/artifacts
