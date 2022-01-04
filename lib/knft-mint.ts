@@ -23,7 +23,7 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   }
 
   // const tokenID = res.events[0].args[2].toString();
-  return tokenID;
+  return tokenID.toString();
 };
 
 const _mintedNft = async (
@@ -56,7 +56,7 @@ const nftMintTexts = [
 // GET ipfs image link
 const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
-  return `^ipfs:\\${await nftStorage.pinUrl(image)}`;
+  return `ipfs://${await nftStorage.pinUrl(image)}`;
 };
 
 // GET ipfs metadata url

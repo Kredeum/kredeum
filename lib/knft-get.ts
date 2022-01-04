@@ -30,6 +30,17 @@ import { BigNumber } from "ethers";
 
 const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image) || "";
 
+const nftGetContentType = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
+  const nft = token;
+  try {
+    const response = await fetch(nftGetImageLink(token));
+    nft.contentType = response.headers.get("content-type");
+  } catch (e) {
+    console.error("ERROR nftGetMetadata contentType", e);
+  }
+  return nft;
+};
+
 const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
   console.log("nftGetMetadata", chainId, token, collection);
   // TODO : Extend NFT type with Metadata type...
@@ -84,13 +95,6 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
-
-    try {
-      const response = await fetch(nftGetImageLink(nftMetadata));
-      nftMetadata.contentType = response.headers.get("content-type");
-    } catch (e) {
-      console.error("ERROR nftGetMetadata contentType", e);
-    }
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
@@ -170,4 +174,11 @@ const nftGetFromContractEnumerable = async (
   return nft;
 };
 
-export { nftGetFromContract, nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink, collectionGetContract };
+export {
+  nftGetFromContract,
+  nftGetFromContractEnumerable,
+  nftGetMetadata,
+  nftGetContentType,
+  nftGetImageLink,
+  collectionGetContract
+};

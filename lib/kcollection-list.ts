@@ -162,7 +162,7 @@ const collectionListFromFactory = async (
       collections.set(nftsUrl(chainId, address), {
         chainId,
         chainName,
-        // openNFTsVersion: 2,
+        openNFTsVersion: 2,
         address,
         owner,
         name,

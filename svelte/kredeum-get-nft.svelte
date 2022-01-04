@@ -36,16 +36,21 @@
     console.log("Copied");
   };
 
+  const divMediaImage = (nft: Nft) => `<img alt="link" src=${nftGetImageLink(nft)} />`;
+
+  const divMediaVideo = (nft: Nft) =>
+    `<video autoplay=""  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">
+      <source src="${nftGetImageLink(nft)}" type="video/mp4">
+     </video>`;
+
   const divMedia = (nft: Nft, index: number) => {
     const mediaType = nft.contentType?.startsWith("video") ? "video" : "photo";
 
     let div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
-    div +=
-      mediaType === "photo"
-        ? `<img alt="link" src=${nftGetImageLink(nft)} />`
-        : `<video autoplay=""  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">
-          <source src="${nftGetImageLink(nft)}" type="video/mp4"></video>`;
-    div += `</div>`;
+
+    div += mediaType === "video" ? divMediaVideo(nft) : divMediaImage(nft);
+
+    div += "</div>";
     return div;
   };
 
