@@ -5,7 +5,7 @@
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
-  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
@@ -15,25 +15,21 @@
   // down to component
   export let collection: Collection = undefined;
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumListCollections bind:collection filter />;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   let nftTitle: string;
 
   let files: FileList;
   let image: string;
 
-  let cidImage: string;
-  let cidJson: string;
+  let ipfsImage: string;
+  let ipfsJson: string;
   let minting: number;
   let mintingTxResp: TransactionResponse;
   let mintedNft: Nft;
   let mintingError: string;
 
   const mintReset = (): void => {
-    cidImage = null;
-    cidJson = null;
+    ipfsImage = null;
+    ipfsJson = null;
     minting = 0;
     mintingTxResp = null;
     mintedNft = null;
@@ -60,31 +56,25 @@
     if (image) {
       minting = 1;
 
-      cidImage = await mint1cidImage(image);
-      // console.log("cidImage", cidImage);
+      ipfsImage = await nftMint1IpfsImage(image);
+      // console.log("ipfsImage", ipfsImage);
 
-      if (cidImage) {
+      if (ipfsImage) {
         minting = 2;
 
-        cidJson = await mint2cidJson(nftTitle, cidImage, $owner, image);
-        // console.log("json", cidJson);
+        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, $owner, image);
+        // console.log("json", ipfsJson);
 
-        if (cidJson) {
+        if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await mint3TxResponse($chainId, collection.address, cidJson, $signer);
+          mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await mint4Nft(
-              $chainId,
-              collection.address,
-              mintingTxResp,
-              cidJson,
-              $owner
-            );
+            mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, $owner);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {
@@ -136,9 +126,7 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank"
-                  >{nftUrl(mintedNft, 6)}</a
-                >
+                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}
@@ -159,7 +147,7 @@
                   {#if mintingError}
                     {mintingError}
                   {:else if 1 <= minting && minting <= 5}
-                    {mintingTexts[minting]}
+                    {nftMintTexts[minting]}
                   {/if}
                 </span>
               </div>
@@ -167,22 +155,18 @@
           {/if}
 
           <li class={minting >= 2 ? "complete" : ""}>
-            <div class="flex"><span class="label">Image ipfs cid</span></div>
+            <div class="flex"><span class="label">Image ipfs link</span></div>
             <div class="flex">
-              {#if cidImage}
-                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank"
-                  >{textShort(cidImage, 15)}</a
-                >
+              {#if ipfsImage}
+                <a class="link" href={ipfsGatewayUrl(ipfsImage)} target="_blank">{textShort(ipfsImage, 15)}</a>
               {/if}
             </div>
           </li>
           <li class={minting >= 3 ? "complete" : ""}>
-            <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+            <div class="flex"><span class="label">Metadata ipfs link</span></div>
             <div class="flex">
-              {#if cidJson}
-                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank"
-                  >{textShort(cidJson, 15)}</a
-                >
+              {#if ipfsJson}
+                <a class="link" href={ipfsGatewayUrl(ipfsJson)} target="_blank">{textShort(ipfsJson, 15)}</a>
               {/if}
             </div>
           </li>
@@ -228,14 +212,7 @@
         <div class="section">
           <span class="label label-big">Media type</span>
           <div class="box-fields">
-            <input
-              class="box-field"
-              id="create-type-video"
-              name="media-type"
-              type="checkbox"
-              value="Video"
-              disabled
-            />
+            <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video" disabled />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
             <input
@@ -248,34 +225,13 @@
             />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input
-              class="box-field"
-              id="create-type-texte"
-              name="media-type"
-              type="checkbox"
-              value="Texte"
-              disabled
-            />
+            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte" disabled />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
 
-            <input
-              class="box-field"
-              id="create-type-music"
-              name="media-type"
-              type="checkbox"
-              value="Music"
-              disabled
-            />
+            <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-            <input
-              class="box-field"
-              id="create-type-web"
-              name="media-type"
-              type="checkbox"
-              value="Web"
-              disabled
-            />
+            <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>

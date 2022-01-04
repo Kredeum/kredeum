@@ -1,10 +1,4 @@
-type OpenNFTsKeys =
-  | "OpenNFTsV3"
-  | "OpenNFTsV2"
-  | "OpenNFTsV1"
-  | "OpenNFTsV0"
-  | "CloneFactory"
-  | "NFTsFactory";
+type OpenNFTsKeys = "OpenNFTsV3" | "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "CloneFactory" | "NFTsFactory";
 type ErcKeys =
   | "ERC165"
   | "ERC721"
@@ -14,11 +8,9 @@ type ErcKeys =
   | "ERC1155"
   | "ERC1155TokenReceiver"
   | "ERC1155Metadata_URI";
+type AbiType = { abi: Array<string>; interfaceId?: string };
 type ABIS = {
-  [Key in ErcKeys | OpenNFTsKeys]: {
-    abi: Array<string>;
-    interfaceId?: string;
-  };
+  [Key in ErcKeys | OpenNFTsKeys]: AbiType;
 };
 
 type Address = string;
@@ -57,8 +49,34 @@ type Collection = {
   totalSupply?: number;
   startBlock?: number;
   description?: string;
-  user: string;
+  user?: string;
   balanceOf?: number;
+  supports?: CollectionSupports;
+};
+type CollectionSupports = {
+  ERC165?: boolean;
+  ERC721?: boolean;
+  ERC1155?: boolean;
+  ERC721TokenReceiver?: boolean;
+  ERC721Metadata?: boolean;
+  ERC721Enumerable?: boolean;
+  ERC1155TokenReceiver?: boolean;
+  ERC1155Metadata_URI?: boolean;
+  OpenNFTsV0?: boolean;
+  OpenNFTsV1?: boolean;
+  OpenNFTsV2?: boolean;
+  OpenNFTsV3?: boolean;
+};
+
+type NftMetadata = {
+  name?: string;
+  description?: string;
+  creator?: string;
+  minter?: string;
+  owner?: string;
+  image?: string;
+  image_url?: string;
+  ipfs?: string;
 };
 
 type Nft = {
@@ -71,7 +89,8 @@ type Nft = {
   name?: string;
   contractName?: string;
   description?: string;
-  metadata?: unknown;
+  tokenJson?: NftMetadata;
+  metadata?: NftMetadata;
   image?: string;
   image_url?: string;
   image_data?: string;
@@ -81,12 +100,23 @@ type Nft = {
   background_color?: string;
   attributes?: unknown;
   ipfs?: string;
+  ipfsJson?: string;
   origin?: string;
   creator?: string;
   minter?: string;
-  cidJson?: string;
-  cid?: string;
   nid?: string;
+  contentType?: string;
 };
 
-export type { Address, Collection, Network, ABIS, Nft, OpenNFTsKeys, ErcKeys };
+export type {
+  Address,
+  Collection,
+  CollectionSupports,
+  Network,
+  ABIS,
+  AbiType,
+  Nft,
+  NftMetadata,
+  OpenNFTsKeys,
+  ErcKeys
+};

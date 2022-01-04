@@ -2,8 +2,9 @@
   import type { Collection } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import { CloneResponse, CloneReceipt, CloneAddress } from "lib/klist-collections";
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/knfts";
+  import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
+
   import { createEventDispatcher } from "svelte";
 
   import { chainId, signer } from "./network";
@@ -25,15 +26,15 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await CloneResponse($chainId, collectionName, $signer);
+      const txResp = await collectionCloneResponse($chainId, collectionName, $signer);
       cloningTxHash = txResp.hash;
 
-      const txReceipt = await CloneReceipt(txResp);
+      const txReceipt = await collectionCloneReceipt(txResp);
       collectionCreated = {
         openNFTsVersion: 2,
         chainId: $chainId,
         name: collectionName,
-        address: CloneAddress(txReceipt),
+        address: collectionCloneAddress(txReceipt),
         user: await $signer.getAddress()
       };
       collection = collectionCreated;
@@ -57,10 +58,8 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a
-                class="link"
-                href={explorerAddressUrl($chainId, collectionCreated.address)}
-                target="_blank">{collectionCreated?.name}</a
+              Collection '<a class="link" href={explorerAddressUrl($chainId, collectionCreated.address)} target="_blank"
+                >{collectionCreated?.name}</a
               >' created!
             </div>
           </div>
@@ -87,16 +86,12 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}
-              >Create</button
-            >
+            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>
           </div>
         {/if}
         {#if cloningTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, cloningTxHash)} target="_blank"
-              >{textShort(cloningTxHash)}</a
-            >
+            <a class="link" href={explorerTxUrl($chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
           </div>
         {/if}
       </div>

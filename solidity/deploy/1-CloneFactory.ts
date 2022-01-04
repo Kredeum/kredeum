@@ -11,11 +11,7 @@ const deployCloneFactoryFunction: DeployFunction = async function ({ deployments
   });
 
   if (deployResult.newlyDeployed) {
-    const cloneFactory = new ethers.Contract(
-      deployResult.address,
-      deployResult.abi,
-      deployer
-    ) as CloneFactory;
+    const cloneFactory = new ethers.Contract(deployResult.address, deployResult.abi, deployer) as CloneFactory;
     const contractProbeAddress = (await ethers.getContract("ContractProbe")).address;
 
     await cloneFactory.connect(deployer).setContractProbe(contractProbeAddress);

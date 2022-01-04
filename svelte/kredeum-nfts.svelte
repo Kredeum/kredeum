@@ -14,24 +14,9 @@
 
   export let platform = "dapp";
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumListNfts bind:collection bind:owner bind:refreshing bind:refreshNFTs />
-  // <KredeumCreateCollection bind:collection />
-  // <KredeumCreateNft bind:collection />
-  //
-  // up from KredeumSelectCollection and KredeumCreateCollection components
-  // and down to KredeumListNfts, KredeumCreateNft
   let collection: Collection;
-  //
-  // down to KredeumListNfts component
   let refreshing: boolean;
   let refreshNFTs;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  // ON CHAINID, OWNER OR COLLECTION CHANGE
-  // $: logChange(chainId, owner, collection);
-  // const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
-  //   console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);
@@ -45,11 +30,8 @@
 <div id="kredeum-nfts">
   <nav class="nav-krd" role="navigation">
     <div class="logo">
-      <a
-        href="https://www.kredeum.com"
-        target="_blank"
-        alt="Kredeum website"
-        title="Kredeum website"><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
+      <a href="https://www.kredeum.com" target="_blank" alt="Kredeum website" title="Kredeum website"
+        ><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
       >
     </div>
 
@@ -82,13 +64,9 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1 title="Kredeum NFTs v{version.latest} ({process.env.GIT_SHORT})">
-            My NFTs Factory (beta)
-          </h1>
+          <h1 title="Kredeum NFTs v{version.latest} ({process.env.GIT_SHORT})">My NFTs Factory (beta)</h1>
           {#if $owner && getCreate($chainId)}
-            <a href="#create" class="btn btn-default" title="Mint"
-              ><i class="fas fa-plus fa-left" />Mint</a
-            >
+            <a href="#create" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</a>
           {/if}
 
           <div class="row alignbottom">
@@ -99,9 +77,7 @@
                 <button
                   class="clear"
                   on:click={() => refreshNFTs(true)}
-                  title="      {refreshing
-                    ? 'Refreshing NFTs...'
-                    : 'Refresh NFTs from this Collection'}"
+                  title="      {refreshing ? 'Refreshing NFTs...' : 'Refresh NFTs from this Collection'}"
                 >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
                 </button>
@@ -109,8 +85,7 @@
             </div>
           </div>
         </header>
-
-        <KredeumListNfts bind:collection bind:refreshing bind:refreshNFTs bind:platform />
+        <KredeumListNfts {collection} refreshing bind:refreshNFTs {platform} />
       </section>
     </div>
   </main>
@@ -129,9 +104,7 @@
           <div class="txtcenter">
             <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
             <span class="or">Or</span>
-            <a href="#add-collection" class="btn btn-second" title="Add a new collection"
-              >Add a new collection</a
-            >
+            <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
           </div>
         </div>
       </div>

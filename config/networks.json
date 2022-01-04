@@ -2,17 +2,13 @@
   {
     "chainId": 1,
     "chainName": "mainnet",
-    "rpcUrls": [
-      "https://mainnet.infura.io/v3"
-    ],
+    "rpcUrls": ["https://mainnet.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://etherscan.io"],
     "openSea": {
       "assets": "https://opensea.io/assets",
       "openNFTs": "https://opensea.io/collection/kredeum-nfts"
@@ -32,19 +28,13 @@
   {
     "chainId": 137,
     "chainName": "matic",
-    "rpcUrls": [
-      "https://polygon-mainnet.infura.io/v3",
-      "https://rpc-mainnet.maticvigil.com/v1"
-    ],
+    "rpcUrls": ["https://polygon-mainnet.infura.io/v3", "https://rpc-mainnet.maticvigil.com/v1"],
     "nativeCurrency": {
       "name": "Matic",
       "symbol": "MATIC",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://polygonscan.com",
-      "https://polygon-explorer-mainnet.chainstacklabs.com"
-    ],
+    "blockExplorerUrls": ["https://polygonscan.com", "https://polygon-explorer-mainnet.chainstacklabs.com"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
@@ -64,17 +54,13 @@
   {
     "chainId": 4,
     "chainName": "rinkeby",
-    "rpcUrls": [
-      "https://rinkeby.infura.io/v3"
-    ],
+    "rpcUrls": ["https://rinkeby.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://rinkeby.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://rinkeby.etherscan.io"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
       "active": true
@@ -87,17 +73,13 @@
   {
     "chainId": 5,
     "chainName": "goerli",
-    "rpcUrls": [
-      "https://goerli.infura.io/v3"
-    ],
+    "rpcUrls": ["https://goerli.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://goerli.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://goerli.etherscan.io"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
       "active": false
@@ -110,17 +92,13 @@
   {
     "chainId": 42,
     "chainName": "kovan",
-    "rpcUrls": [
-      "https://kovan.infura.io/v3"
-    ],
+    "rpcUrls": ["https://kovan.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://kovan.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://kovan.etherscan.io"],
     "covalent": {
       "active": false
     },
@@ -132,19 +110,13 @@
   {
     "chainId": 80001,
     "chainName": "mumbai",
-    "rpcUrls": [
-      "https://polygon-mumbai.infura.io/v3",
-      "https://rpc-mumbai.maticvigil.com/v1"
-    ],
+    "rpcUrls": ["https://polygon-mumbai.infura.io/v3", "https://rpc-mumbai.maticvigil.com/v1"],
     "nativeCurrency": {
       "name": "Matic",
       "symbol": "tMATIC",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://mumbai.polygonscan.com",
-      "https://polygon-explorer-mumbai.chainstacklabs.com"
-    ],
+    "blockExplorerUrls": ["https://mumbai.polygonscan.com", "https://polygon-explorer-mumbai.chainstacklabs.com"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
@@ -159,18 +131,13 @@
   {
     "chainId": 42161,
     "chainName": "arbitrum",
-    "rpcUrls": [
-      "https://arbitrum-mainnet.infura.io/v3"
-    ],
+    "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "AETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://arbiscan.io/",
-      "https://explorer.arbitrum.io"
-    ],
+    "blockExplorerUrls": ["https://arbiscan.io/", "https://explorer.arbitrum.io"],
     "covalent": {
       "active": true
     }
@@ -178,18 +145,13 @@
   {
     "chainId": 421611,
     "chainName": "arbitrumrinkeby",
-    "rpcUrls": [
-      "https://arbitrum-rinkeby.infura.io/v3"
-    ],
+    "rpcUrls": ["https://arbitrum-rinkeby.infura.io/v3"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ARETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.arbiscan.io/",
-      "https://rinkeby-explorer.arbitrum.io"
-    ],
+    "blockExplorerUrls": ["https://testnet.arbiscan.io/", "https://rinkeby-explorer.arbitrum.io"],
     "covalent": {
       "active": true
     },
@@ -210,9 +172,7 @@
       "symbol": "BNB",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://bscscan.com"
-    ],
+    "blockExplorerUrls": ["https://bscscan.com"],
     "covalent": {
       "active": true
     },
@@ -223,17 +183,13 @@
   {
     "chainId": 10,
     "chainName": "optimism",
-    "rpcUrls": [
-      "https://kovan.optimism.io/rpc"
-    ],
+    "rpcUrls": ["https://kovan.optimism.io/rpc"],
     "nativeCurrency": {
       "name": "ETH",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://kovan-optimistic.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://kovan-optimistic.etherscan.io"],
     "covalent": {
       "active": false
     }
@@ -241,17 +197,13 @@
   {
     "chainId": 69,
     "chainName": "optimismkovan",
-    "rpcUrls": [
-      "https://kovan.optimism.io/rpc"
-    ],
+    "rpcUrls": ["https://kovan.optimism.io/rpc"],
     "nativeCurrency": {
       "name": "ETH",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://kovan-optimistic.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://kovan-optimistic.etherscan.io"],
     "covalent": {
       "active": false
     },
@@ -262,18 +214,13 @@
   {
     "chainId": 250,
     "chainName": "fantom",
-    "rpcUrls": [
-      "https://rpc.ftm.tools/",
-      "https://rpcapi.fantom.network"
-    ],
+    "rpcUrls": ["https://rpc.ftm.tools/", "https://rpcapi.fantom.network"],
     "nativeCurrency": {
       "name": "FTM",
       "symbol": "FTM",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://ftmscan.com"
-    ],
+    "blockExplorerUrls": ["https://ftmscan.com"],
     "covalent": {
       "active": true
     },
@@ -284,18 +231,13 @@
   {
     "chainId": 43114,
     "chainName": "avalanche",
-    "rpcUrls": [
-      "https://api.avax.network/ext/bc/C/rpc"
-    ],
+    "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
     "nativeCurrency": {
       "name": "AVAX",
       "symbol": "AVAX",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://snowtrace.io",
-      "https://cchain.explorer.avax.network"
-    ],
+    "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
     "covalent": {
       "active": true
     },
@@ -306,19 +248,13 @@
   {
     "chainId": 100,
     "chainName": "xdai",
-    "rpcUrls": [
-      "https://rpc.xdaichain.com",
-      "https://xdai.poanetwork.dev/",
-      "https://dai.poa.network/"
-    ],
+    "rpcUrls": ["https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
     "nativeCurrency": {
       "name": "xDAI",
       "symbol": "xDAI",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://blockscout.com/xdai/mainnet/"
-    ],
+    "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet/"],
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "create": true,
     "mainnet": true
@@ -326,9 +262,7 @@
   {
     "chainId": 43113,
     "chainName": "fuji",
-    "rpcUrls": [
-      "https://api.avax-test.network/ext/bc/C/rpc"
-    ],
+    "rpcUrls": ["https://api.avax-test.network/ext/bc/C/rpc"],
     "nativeCurrency": {
       "name": "AVAX",
       "symbol": "AVAX",
@@ -349,18 +283,14 @@
   {
     "chainId": 31337,
     "chainName": "hardhat",
-    "rpcUrls": [
-      "http://127.0.0.1:8545"
-    ],
+    "rpcUrls": ["http://127.0.0.1:8545"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "http://localhost/explorer"
-    ],
-    "nftsFactory": "0x58EC9b18a5cb891a4b130cc37a7f0F9677b00B19",
+    "blockExplorerUrls": ["http://localhost/explorer"],
+    "nftsFactory": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "testnet": true
   }
 ]

@@ -46,5 +46,6 @@
   "eslint.run": "onSave",
   "editor.fontLigatures": true,
   "workbench.colorTheme": "Dark++ Italic",
-  "editor.fontFamily": "Fira Code iScript"
+  "editor.fontFamily": "Fira Code iScript",
+  "favorites.sortDirection": "ASC"
 }

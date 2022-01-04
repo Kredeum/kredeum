@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { Nft, Network } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { Nft, Network, Collection } from "lib/ktypes";
+  import type { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, nftImageLink } from "lib/knfts";
-  import { getNetwork, getOpenNFTsAddress } from "lib/kconfig";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
+  import { nftGetImageLink } from "lib/knft-get";
+  import { getOpenNFTsAddress } from "lib/kconfig";
 
-  // down to component
   // export let key: string = undefined;
   // export let metadata: string = undefined;
   export let alt: string = undefined;
@@ -17,31 +17,32 @@
   export let width = 100;
   export let display = false;
   // down to component with default
-  export let collection: string = undefined;
+  export let collection: Collection = undefined;
 
-  import { chainId, signer, provider } from "./network";
+  import { chainId, network, provider, signer } from "./network";
+  import { collectionGet } from "lib/kcollection-get";
 
   let mintedNft: Nft;
   let minting: number;
 
-  let cidImage: string;
-  let network: Network;
+  let ipfsImage: string;
 
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange($chainId, $signer);
+  $: handleChange($chainId, $signer, $provider);
 
-  const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
+  const handleChange = async (_chainId: number, _signer: JsonRpcSigner, _provider: JsonRpcProvider) => {
     if (_chainId && _signer) {
       signerAddress = await _signer.getAddress();
-      console.log("kredeum-mint handleChange", _chainId, signerAddress);
+      // console.log("kredeum-mint handleChange", _chainId, signerAddress);
 
-      collection =
+      const collectionAddress =
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await getOpenNFTsAddress($chainId, _signer));
+        (await getOpenNFTsAddress($chainId, _provider));
+      collection = collectionGet(_chainId, collectionAddress);
     }
   };
 
@@ -54,33 +55,33 @@
   const view = async (e: Event): Promise<void> => {
     e.preventDefault();
 
-    location.href = nftImageLink(mintedNft);
+    location.href = nftGetImageLink(mintedNft);
   };
 
   const mint = async (e: Event): Promise<Nft> => {
     e.preventDefault();
-    console.log("collection", collection);
-    cidImage = null;
+    // console.log("collection", collection);
+    ipfsImage = null;
     mintedNft = null;
 
     minting = 1;
 
-    cidImage = await mint1cidImage(src);
-    // console.log("cidImage", cidImage);
+    ipfsImage = await nftMint1IpfsImage(src);
+    // console.log("ipfsImage", ipfsImage);
 
     minting = 2;
 
-    const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
-    // console.log("json", cidJson);
+    const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src);
+    // console.log("json", ipfsJson);
 
     minting = 3;
 
-    const mintingTxResp = await mint3TxResponse($chainId, collection, cidJson, $signer);
+    const mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
     // console.log("txResp", txResp);
 
     minting = 4;
 
-    mintedNft = await mint4Nft($chainId, collection, mintingTxResp, cidJson, signerAddress);
+    mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, signerAddress);
     // console.log("mintedNft", mintedNft);
 
     minting = 5;
@@ -97,27 +98,21 @@
   {#if $signer}
     {#if minting}
       {#if mintedNft}
-        {#if network?.openSea}
-          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea"
-            >SELL NFT</button
-          >
+        {#if $network?.openSea}
+          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
         {:else}
-          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer"
-            >VIEW NFT</button
-          >
+          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
         {/if}
       {:else if 1 <= minting && minting <= 5}
         <div>
           <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
         </div>
         <div>
-          <em>{mintingTexts[minting]}</em>
+          <em>{nftMintTexts[minting]}</em>
         </div>
       {/if}
     {:else}
-      <button id="mint-button-{pid}" on:click={mint} class="btn btn-small btn-mint">
-        MINT NFT
-      </button>
+      <button id="mint-button-{pid}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
     {/if}
   {:else}
     <small>
@@ -129,7 +124,7 @@
     <small>
       <br />{urlToLink(src, `${src}@${alt}`)}
 
-      <br />{ipfsGatewayLink(cidImage)}
+      <br />{ipfsGatewayLink(ipfsImage)}
     </small>
   {/if}
 </main>

@@ -36,9 +36,7 @@ describe("Open NFTs contract", function () {
     expect(await openNFTs.symbol()).to.be.equal(symbol);
     expect(await openNFTs.name()).to.be.equal(name);
 
-    void expect(openNFTs.initialize(name, symbol)).to.be.revertedWith(
-      "Initializable: contract is already initialized"
-    );
+    void expect(openNFTs.initialize(name, symbol)).to.be.revertedWith("Initializable: contract is already initialized");
   });
 
   it("Should get openNFTs balanceOf", async function () {

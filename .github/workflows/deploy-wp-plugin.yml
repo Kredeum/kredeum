@@ -40,8 +40,8 @@ jobs:
       - name: Install plugin
         run: pnpm run wp-install && ls -la wordpress/vendor/bin
 
-      - name: Build all
-        run: pnpm run build
+      - name: Build plugin
+        run: pnpm run wp-build
         env:
           ENVIR: PROD
           NODE_DEBUG: false
@@ -49,10 +49,10 @@ jobs:
           COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 
-      - name: Plugin Check
+      - name: Check plugin
         run: pnpm run wp-check
 
-      - name: Plugin Deploy
+      - name: Deploy plugin
         uses: nk-o/action-wordpress-plugin-deploy@master
         env:
           SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}

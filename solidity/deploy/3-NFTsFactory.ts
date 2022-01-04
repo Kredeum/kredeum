@@ -3,11 +3,7 @@ import networks from "../../config/networks.json";
 import type { DeployFunction } from "hardhat-deploy/types";
 import type { NFTsFactory } from "../types/NFTsFactory";
 
-const deployNFTsFactoryFunction: DeployFunction = async function ({
-  deployments,
-  ethers,
-  getChainId
-}) {
+const deployNFTsFactoryFunction: DeployFunction = async function ({ deployments, ethers, getChainId }) {
   const deployer = await ethers.getNamedSigner("deployer");
 
   const deployResult = await deployments.deploy("NFTsFactory", {
@@ -17,11 +13,7 @@ const deployNFTsFactoryFunction: DeployFunction = async function ({
   });
 
   if (deployResult.newlyDeployed) {
-    const nftsFactory = new ethers.Contract(
-      deployResult.address,
-      deployResult.abi,
-      deployer
-    ) as NFTsFactory;
+    const nftsFactory = new ethers.Contract(deployResult.address, deployResult.abi, deployer) as NFTsFactory;
     const contractProbeAddress = (await ethers.getContract("ContractProbe")).address;
     const openNFTsAddress = (await ethers.getContract("OpenNFTs")).address;
 
