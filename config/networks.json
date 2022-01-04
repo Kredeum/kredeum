@@ -34,10 +34,7 @@
       "symbol": "MATIC",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://polygonscan.com",
-      "https://polygon-explorer-mainnet.chainstacklabs.com"
-    ],
+    "blockExplorerUrls": ["https://polygonscan.com", "https://polygon-explorer-mainnet.chainstacklabs.com"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
@@ -119,10 +116,7 @@
       "symbol": "tMATIC",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://mumbai.polygonscan.com",
-      "https://polygon-explorer-mumbai.chainstacklabs.com"
-    ],
+    "blockExplorerUrls": ["https://mumbai.polygonscan.com", "https://polygon-explorer-mumbai.chainstacklabs.com"],
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
@@ -254,11 +248,7 @@
   {
     "chainId": 100,
     "chainName": "xdai",
-    "rpcUrls": [
-      "https://rpc.xdaichain.com",
-      "https://xdai.poanetwork.dev/",
-      "https://dai.poa.network/"
-    ],
+    "rpcUrls": ["https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
     "nativeCurrency": {
       "name": "xDAI",
       "symbol": "xDAI",
@@ -266,7 +256,8 @@
     },
     "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet/"],
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
-    "testnet": true
+    "create": true,
+    "mainnet": true
   },
   {
     "chainId": 43113,
@@ -299,7 +290,7 @@
       "decimals": 18
     },
     "blockExplorerUrls": ["http://localhost/explorer"],
-    "nftsFactory": "0x09F8C3dbD8f4a397894f25f0f4aacD88Ce7CB4a2",
+    "nftsFactory": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "testnet": true
   }
 ]

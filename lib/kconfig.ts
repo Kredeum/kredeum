@@ -1,18 +1,22 @@
+import type { Provider } from "@ethersproject/abstract-provider";
+import type { ABIS, Address, Network, Nft } from "./ktypes";
+
+import { ipfsLinkToCid } from "./knfts";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
-import abis from "./abis.json";
-import type { Address, Network, Nft } from "./ktypes";
+import abisJson from "./abis.json";
 
 import { providers, utils } from "ethers";
-import type { Provider } from "@ethersproject/abstract-provider";
-import { getNFTsFactory } from "./klist-collections";
+import { collectionGetNFTsFactory } from "./kcollection-get";
 
+const abis = abisJson as ABIS;
 const version = config.version;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
 const textShort = (s: string, n = 16, p = n): string => {
-  const str: string = s?.toString() || "";
+  const ipfsStr: string = s?.toString() || "";
+  const str: string = ipfsLinkToCid(ipfsStr);
   const l: number = str.length || 0;
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
@@ -22,30 +26,10 @@ const getChecksumAddress = (address: Address | string | undefined): Address => {
 };
 
 const getShortAddress = (address = "?", n = 8): string =>
-  address.endsWith(".eth")
-    ? textShort(address, 2 * n, 0)
-    : textShort(getChecksumAddress(address), n, n);
+  address.endsWith(".eth") ? textShort(address, 2 * n, 0) : textShort(getChecksumAddress(address), n, n);
 
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
-};
-
-const getProvider = (chainId: number): Provider | undefined => {
-  const network = getNetwork(chainId);
-  // console.log("getProvider", chainId, "=>", network);
-
-  const url = network?.rpcUrls[0];
-  let apiKey = url?.includes("infura.io")
-    ? process.env.INFURA_API_KEY
-    : url?.includes("etherscan.io")
-      ? process.env.ETHERSCAN_API_KEY
-      : url?.includes("maticvigil.com")
-        ? process.env.MATICVIGIL_API_KEY
-        : null;
-  apiKey = apiKey ? "/" + apiKey : "";
-  const provider = new providers.JsonRpcProvider(`${url}${apiKey}`);
-
-  return provider;
 };
 
 const getEnsName = async (address: string): Promise<string> => {
@@ -83,13 +67,16 @@ const getExplorer = (chainId: number): string => {
   return network?.blockExplorerUrls[0] || "";
 };
 
-// GET NFTs Factory
-const getNFTsFactoryAddress = (chainId: number): Address | undefined =>
-  getChecksumAddress(getNetwork(chainId)?.nftsFactory);
+// GET openNFTs via onchain call
+const getOpenNFTsAddress = async (chainId: number, provider: Provider): Promise<Address | undefined> => {
+  const nftsFactory = collectionGetNFTsFactory(chainId, provider);
+  const template = await nftsFactory.template();
+  return template ? template : "";
+};
 
-// GET openNFTs
-const getOpenNFTsAddress = async (chainId: number): Promise<Address | undefined> =>
-  getChecksumAddress(await getNFTsFactory(chainId)?.template());
+// GET NFTs Factory
+const collectionGetNFTsFactoryAddress = (chainId: number): Address | undefined =>
+  getChecksumAddress(getNetwork(chainId)?.nftsFactory);
 
 // GET OpenSeaKredeum
 const getOpenSeaKredeum = (chainId: number): string => {
@@ -136,15 +123,12 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
     "nft://" +
     (network
       ? network.chainName +
-        (_contract
-          ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : ""))
-          : "")
+        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
-const nftUrl = (nft: Nft, n?: number): string =>
-  nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
+const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
 export {
   version,
@@ -156,14 +140,13 @@ export {
   getChecksumAddress,
   getNetwork,
   getEnsName,
-  getProvider,
   getSubgraphUrl,
   getOpenSeaKredeum,
   getOpenSeaAssets,
   getCreate,
   getNftsFactory,
   getOpenNFTsAddress,
-  getNFTsFactoryAddress,
+  collectionGetNFTsFactoryAddress,
   getCovalent,
   getExplorer,
   nftUrl3,

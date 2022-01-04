@@ -27,53 +27,54 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
 contract ContractProbe {
-  function probe(address _addr) public view returns (bool isContract, address forwardedTo) {
-    bytes
-      memory clone = hex"363d3d373d3d3d363d73bebebebebebebebebebebebebebebebebebebebe5af43d82803e903d91602b57fd5bf3";
-    uint256 size;
-    bytes memory code;
+    // solhint-disable-next-line comprehensive-interface
+    function probe(address addr) public view returns (bool isContract, address forwardedTo) {
+        bytes
+            memory clone = hex"363d3d373d3d3d363d73bebebebebebebebebebebebebebebebebebebebe5af43d82803e903d91602b57fd5bf3";
+        uint256 size;
+        bytes memory code;
 
-    assembly {
-      //solhint-disable-line
-      size := extcodesize(_addr)
-    }
-
-    isContract = size > 0;
-    forwardedTo = _addr;
-
-    if (size <= 45 && size >= 41) {
-      bool matches = true;
-      uint256 i;
-
-      assembly {
-        //solhint-disable-line
-        code := mload(0x40)
-        mstore(0x40, add(code, and(add(add(size, 0x20), 0x1f), not(0x1f))))
-        mstore(code, size)
-        extcodecopy(_addr, add(code, 0x20), 0, size)
-      }
-      for (i = 0; matches && i < 9; i++) {
-        matches = code[i] == clone[i];
-      }
-      for (i = 0; matches && i < 15; i++) {
-        if (i == 4) {
-          matches = code[code.length - i - 1] == bytes1(uint256(clone[45 - i - 1]) - (45 - size));
-        } else {
-          matches = code[code.length - i - 1] == clone[45 - i - 1];
-        }
-      }
-      if (code[9] != bytes1(0x73 - (45 - size))) {
-        matches = false;
-      }
-      uint256 forwardedToBuffer;
-      if (matches) {
+        // solhint-disable-next-line no-inline-assembly
         assembly {
-          //solhint-disable-line
-          forwardedToBuffer := mload(add(code, 30))
+            size := extcodesize(addr)
         }
-        forwardedToBuffer &= (0x1 << (20 * 8)) - 1;
-        forwardedTo = address(forwardedToBuffer >> ((45 - size) * 8));
-      }
+
+        isContract = size > 0;
+        forwardedTo = addr;
+
+        if (size <= 45 && size >= 41) {
+            bool matches = true;
+            uint256 i;
+
+            // solhint-disable-next-line no-inline-assembly
+            assembly {
+                code := mload(0x40)
+                mstore(0x40, add(code, and(add(add(size, 0x20), 0x1f), not(0x1f))))
+                mstore(code, size)
+                extcodecopy(addr, add(code, 0x20), 0, size)
+            }
+            for (i = 0; matches && i < 9; i++) {
+                matches = code[i] == clone[i];
+            }
+            for (i = 0; matches && i < 15; i++) {
+                if (i == 4) {
+                    matches = code[code.length - i - 1] == bytes1(uint256(clone[45 - i - 1]) - (45 - size));
+                } else {
+                    matches = code[code.length - i - 1] == clone[45 - i - 1];
+                }
+            }
+            if (code[9] != bytes1(0x73 - (45 - size))) {
+                matches = false;
+            }
+            uint256 forwardedToBuffer;
+            if (matches) {
+                // solhint-disable-next-line no-inline-assembly
+                assembly {
+                    forwardedToBuffer := mload(add(code, 30))
+                }
+                forwardedToBuffer &= (0x1 << (20 * 8)) - 1;
+                forwardedTo = address(forwardedToBuffer >> ((45 - size) * 8));
+            }
+        }
     }
-  }
 }

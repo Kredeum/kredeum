@@ -1,54 +1,111 @@
 {
-  "OpenNFTsV2": [
-    "function mintNFT(address,string) returns (uint256)",
-    "function initialize(string,string)"
-  ],
-  "OpenNFTsV1": ["function mintNFT(address,string) returns (uint256)"],
-  "OpenNFTsV0": ["function addUser(address,string) returns (uint256)"],
-  "CloneFactory": [
-    "function addImplementation(address _implementation)",
-    "function implementations(uint256) view returns (address)",
-    "function implementationsCount() view returns (uint256 count)",
-    "function owner() view returns (address)",
-    "function renounceOwnership()",
-    "function setDefaultTemplate(address _template)",
-    "function template() view returns (address)",
-    "function templates(address) view returns (address)",
-    "function transferOwnership(address newOwner)"
-  ],
-  "NFTsFactory": [
-    "function balanceOf(address nft, address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply) nftData)",
-    "function balancesOf(address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply)[] nftData)",
-    "function clone(string _name, string _symbol) returns (address clone_)",
-    "function withdrawEther()"
-  ],
-  "ERC165": ["function supportsInterface(bytes4) view returns (bool)"],
-  "ERC721": [
-    "constructor()",
-    "event Approval(address indexed,address indexed,uint256 indexed)",
-    "event ApprovalForAll(address indexed,address indexed,bool)",
-    "event Transfer(address indexed,address indexed,uint256 indexed)",
-    "function approve(address,uint256)",
-    "function balanceOf(address) view returns (uint256)",
-    "function getApproved(uint256) view returns (address)",
-    "function isApprovedForAll(address,address) view returns (bool)",
-    "function ownerOf(uint256) view returns (address)",
-    "function safeTransferFrom(address,address,uint256)",
-    "function safeTransferFrom(address,address,uint256,bytes)",
-    "function setApprovalForAll(address,bool)",
-    "function transferFrom(address,address,uint256)"
-  ],
-  "ERC721TokenReceiver": [
-    "function onERC721Received(address,address,uint256,bytes) returns(bytes4)"
-  ],
-  "ERC721Metadata": [
-    "function name() view returns (string)",
-    "function symbol() view returns (string)",
-    "function tokenURI(uint256) view returns (string)"
-  ],
-  "ERC721Enumerable": [
-    "function totalSupply() view returns (uint256)",
-    "function tokenByIndex(uint256) view returns (uint256)",
-    "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)"
-  ]
+  "OpenNFTsV3": {
+    "interfaceId": "0xa6123562",
+    "abi": [
+      "function initialize(string memory name_, string memory symbol_) external",
+      "function mintNFT(address minter, string memory jsonURI) external returns (uint256)"
+    ]
+  },
+  "OpenNFTsV2": {
+    "interfaceId": "0xd94a1db2",
+    "abi": [
+      "function transferOwnership(address newOwner) external",
+      "function initialize(string memory name_, string memory symbol_) external",
+      "function mintNFT(address minter, string memory jsonURI) external returns (uint256)",
+      "function owner() external view returns (address)"
+    ]
+  },
+  "OpenNFTsV1": {
+    "interfaceId": "0xeacabe14",
+    "abi": ["function mintNFT(address,string) returns (uint256)"]
+  },
+  "OpenNFTsV0": {
+    "interfaceId": "0x4b68d431",
+    "abi": ["function addUser(address,string) returns (uint256)"]
+  },
+  "CloneFactory": {
+    "abi": [
+      "function addImplementation(address _implementation)",
+      "function implementations(uint256) view returns (address)",
+      "function implementationsCount() view returns (uint256 count)",
+      "function owner() view returns (address)",
+      "function renounceOwnership()",
+      "function setDefaultTemplate(address _template)",
+      "function template() view returns (address)",
+      "function templates(address) view returns (address)",
+      "function transferOwnership(address newOwner)"
+    ]
+  },
+  "NFTsFactory": {
+    "abi": [
+      "function balanceOf(address nft, address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply))",
+      "function balancesOf(address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply)[])",
+      "function clone(string _name, string _symbol) returns (address clone_)",
+      "function withdrawEther()"
+    ]
+  },
+  "ERC165": {
+    "interfaceId": "0x01ffc9a7",
+    "abi": ["function supportsInterface(bytes4) view returns (bool)"]
+  },
+  "ERC721": {
+    "interfaceId": "0x80ac58cd",
+    "abi": [
+      "constructor()",
+      "event Approval(address indexed,address indexed,uint256 indexed)",
+      "event ApprovalForAll(address indexed,address indexed,bool)",
+      "event Transfer(address indexed,address indexed,uint256 indexed)",
+      "function approve(address,uint256)",
+      "function balanceOf(address) view returns (uint256)",
+      "function getApproved(uint256) view returns (address)",
+      "function isApprovedForAll(address,address) view returns (bool)",
+      "function ownerOf(uint256) view returns (address)",
+      "function safeTransferFrom(address,address,uint256)",
+      "function safeTransferFrom(address,address,uint256,bytes)",
+      "function setApprovalForAll(address,bool)",
+      "function transferFrom(address,address,uint256)"
+    ]
+  },
+  "ERC721TokenReceiver": {
+    "interfaceId": "0x150b7a02",
+    "abi": ["function onERC721Received(address,address,uint256,bytes) returns(bytes4)"]
+  },
+  "ERC721Metadata": {
+    "interfaceId": "0x5b5e139f",
+    "abi": [
+      "function name() view returns (string)",
+      "function symbol() view returns (string)",
+      "function tokenURI(uint256) view returns (string)"
+    ]
+  },
+  "ERC721Enumerable": {
+    "interfaceId": "0x780e9d63",
+    "abi": [
+      "function totalSupply() view returns (uint256)",
+      "function tokenByIndex(uint256) view returns (uint256)",
+      "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)"
+    ]
+  },
+  "ERC1155": {
+    "interfaceId": "0xd9b67a26",
+    "abi": [
+      "function safeTransferFrom(address,address,uint256,uint256,bytes)",
+      "function safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)",
+      "function balanceOf(address,uint256) view returns (uint256)",
+      "function balanceOfBatch(address[],uint256[]) view returns (uint256[])",
+      "function setApprovalForAll(address,bool)",
+      "function isApprovedForAll(address,address) view returns (bool)"
+    ]
+  },
+  "ERC1155TokenReceiver": {
+    "interfaceId": "0x4e2312e0",
+    "abi": [
+      "function onERC1155Received(address,address,uint256,uint256,bytes) returns(bytes4)",
+      "function onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) returns(bytes4)"
+    ]
+  },
+  "ERC1155Metadata_URI": {
+    "interfaceId": "0x0e89341c",
+    "abi": ["function uri(uint256) view returns (string)"]
+  }
 }

@@ -1,9 +1,9 @@
-name: Check sources
+name: Check
 on: push
 
 jobs:
   check:
-    name: Check sources
+    name: Check all sources
     runs-on: ubuntu-latest
 
     steps:

@@ -1,83 +1,102 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
-  import type { Signer } from "ethers";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
-  import { mintingTexts, mint1cidImage, mint2cidJson, mint3TxResponse, mint4Nft } from "lib/kmint";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
   import { nftUrl } from "lib/kconfig";
 
+  import { chainId, signer, owner } from "./network";
+
   // down to component
   export let collection: Collection = undefined;
 
-  // down to component down to KredeumListCollections
-  export let chainId: number = undefined;
-  export let signer: Signer = undefined;
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // <KredeumListCollections bind:owner bind:chainId bind:collection filter />;
-  //
-  // down to KredeumListCollections
-  let owner: string;
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  let mintedNft: Nft;
-  let minting = 0;
-  let mintingTxResp: TransactionResponse;
-
-  let cidImage: string;
-  let cidJson: string;
-  let imageName: string;
+  let nftTitle: string;
 
   let files: FileList;
   let image: string;
 
-  // SET owner WHEN signer change
-  $: setOwner(signer);
-  const setOwner = async (_signer) => _signer && (owner = await _signer.getAddress());
+  let ipfsImage: string;
+  let ipfsJson: string;
+  let minting: number;
+  let mintingTxResp: TransactionResponse;
+  let mintedNft: Nft;
+  let mintingError: string;
 
-  // DISPLAY image AFTER upload
-  $: if (files) {
-    let reader = new FileReader();
-    reader.readAsDataURL(files[0]);
-    imageName = files[0].name;
-    reader.onload = (e) => {
-      image = `${e.target.result}`;
-    };
-  }
-
-  const mint = async (): Promise<Nft> => {
-    cidImage = null;
-    cidJson = null;
+  const mintReset = (): void => {
+    ipfsImage = null;
+    ipfsJson = null;
+    minting = 0;
     mintingTxResp = null;
     mintedNft = null;
+    mintingError = null;
+  };
 
-    const signerAddress = await signer.getAddress();
+  // DISPLAY image AFTER upload
+  const fileload = () => {
+    mintReset();
 
-    minting = 1;
+    if (files) {
+      let reader = new FileReader();
+      reader.readAsDataURL(files[0]);
+      nftTitle = nftTitle || files[0].name;
+      reader.onload = (e) => {
+        image = `${e.target.result}`;
+      };
+    }
+  };
 
-    cidImage = await mint1cidImage(image);
-    // console.log("cidImage", cidImage);
+  const mint = async (): Promise<Nft> => {
+    mintReset();
 
-    minting = 2;
+    if (image) {
+      minting = 1;
 
-    cidJson = await mint2cidJson(imageName, cidImage, signerAddress, image);
-    // console.log("json", cidJson);
+      ipfsImage = await nftMint1IpfsImage(image);
+      // console.log("ipfsImage", ipfsImage);
 
-    minting = 3;
+      if (ipfsImage) {
+        minting = 2;
 
-    mintingTxResp = await mint3TxResponse(chainId, collection.address, cidJson, signer);
-    // console.log("txResp", txResp);
+        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, $owner, image);
+        // console.log("json", ipfsJson);
 
-    minting = 4;
+        if (ipfsJson) {
+          minting = 3;
 
-    mintedNft = await mint4Nft(chainId, collection.address, mintingTxResp, cidJson, signerAddress);
-    // console.log("mintedNft", mintedNft);
+          mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
+          // console.log("txResp", txResp);
 
-    minting = 5;
+          if (mintingTxResp) {
+            minting = 4;
+
+            mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, $owner);
+            // console.log("mintedNft", mintedNft);
+
+            if (mintedNft) {
+              minting = 5;
+            } else {
+              mintingError = "Problem with sent transaction.";
+            }
+          } else {
+            mintingError = "Problem while sending transaction.";
+          }
+        } else {
+          mintingError = "Problem while archiving metadata on IPFS.";
+        }
+      } else {
+        mintingError = "Problem while archiving image on IPFS.";
+      }
+    } else {
+      mintingError = "Missing NFT file. Sorry can't mint.";
+    }
+    if (mintingError) {
+      console.error("ERROR", mintingError);
+    }
 
     return mintedNft;
   };
@@ -107,23 +126,28 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
-                  >{nftUrl(mintedNft, 6)}</a
-                >
+                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}
             <li>
               <div class="flex">
                 <span class="titre">
-                  Minting NFT
-                  <i class="fas fa-spinner fa-left c-green refresh" />
+                  {#if mintingError}
+                    Minting Error
+                    <i class="fa fa-times fa-left" />
+                  {:else}
+                    Minting NFT
+                    <i class="fas fa-spinner fa-left c-green refresh" />
+                  {/if}
                 </span>
               </div>
               <div class="flex">
                 <span class="t-light">
-                  {#if 1 <= minting && minting <= 5}
-                    {mintingTexts[minting]}
+                  {#if mintingError}
+                    {mintingError}
+                  {:else if 1 <= minting && minting <= 5}
+                    {nftMintTexts[minting]}
                   {/if}
                 </span>
               </div>
@@ -131,22 +155,18 @@
           {/if}
 
           <li class={minting >= 2 ? "complete" : ""}>
-            <div class="flex"><span class="label">Image ipfs cid</span></div>
+            <div class="flex"><span class="label">Image ipfs link</span></div>
             <div class="flex">
-              {#if cidImage}
-                <a class="link" href={ipfsGatewayUrl(cidImage)} target="_blank"
-                  >{textShort(cidImage, 15)}</a
-                >
+              {#if ipfsImage}
+                <a class="link" href={ipfsGatewayUrl(ipfsImage)} target="_blank">{textShort(ipfsImage, 15)}</a>
               {/if}
             </div>
           </li>
           <li class={minting >= 3 ? "complete" : ""}>
-            <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+            <div class="flex"><span class="label">Metadata ipfs link</span></div>
             <div class="flex">
-              {#if cidJson}
-                <a class="link" href={ipfsGatewayUrl(cidJson)} target="_blank"
-                  >{textShort(cidJson, 15)}</a
-                >
+              {#if ipfsJson}
+                <a class="link" href={ipfsGatewayUrl(ipfsJson)} target="_blank">{textShort(ipfsJson, 15)}</a>
               {/if}
             </div>
           </li>
@@ -154,7 +174,7 @@
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxResp}
-                <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
+                <a class="link" href={explorerTxUrl($chainId, mintingTxResp.hash)} target="_blank"
                   >{textShort(mintingTxResp.hash, 15)}</a
                 >
               {/if}
@@ -171,28 +191,28 @@
         </ul>
       {:else}
         <div class="section">
+          <span class="label label-big">NFT file</span>
           <div class="box-file">
             {#if image}
               <div class="media media-photo mt-20">
                 <img src={image} alt="nft" />
               </div>
             {:else}
-              <input type="file" id="file" name="file" bind:files />
+              <input type="file" id="file" name="file" bind:files on:change={fileload} />
             {/if}
+          </div>
+        </div>
+        <div class="section">
+          <span class="label label-big">NFT title</span>
+          <div class="form-field">
+            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
           </div>
         </div>
 
         <div class="section">
           <span class="label label-big">Media type</span>
           <div class="box-fields">
-            <input
-              class="box-field"
-              id="create-type-video"
-              name="media-type"
-              type="checkbox"
-              value="Video"
-              disabled
-            />
+            <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video" disabled />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
             <input
@@ -205,46 +225,32 @@
             />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input
-              class="box-field"
-              id="create-type-texte"
-              name="media-type"
-              type="checkbox"
-              value="Texte"
-              disabled
-            />
+            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte" disabled />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
 
-            <input
-              class="box-field"
-              id="create-type-music"
-              name="media-type"
-              type="checkbox"
-              value="Music"
-              disabled
-            />
+            <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-            <input
-              class="box-field"
-              id="create-type-web"
-              name="media-type"
-              type="checkbox"
-              value="Web"
-              disabled
-            />
+            <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollections bind:owner bind:chainId bind:collection filter />
+          <KredeumListCollections bind:collection filter />
         </div>
 
         <div class="txtright">
           <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
         </div>
+        {#if mintingError}
+          <div class="section">
+            <p class="txtright errormsg">
+              {mintingError}
+            </p>
+          </div>
+        {/if}
       {/if}
     </div>
   </div>

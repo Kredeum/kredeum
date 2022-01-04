@@ -1,53 +1,14 @@
-import { ethers, Signer, Contract, BigNumber } from "ethers";
-import { fetchCov, fetchGQL } from "./kfetch";
-import {
-  abis,
-  getChecksumAddress,
-  getNetwork,
-  getProvider,
-  getSubgraphUrl,
-  getCovalent,
-  nftsUrl,
-  urlOwner,
-  getNFTsFactoryAddress
-} from "./kconfig";
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "../solidity/artifacts/types/NFTsFactory";
-import type {
-  Provider,
-  TransactionResponse,
-  TransactionReceipt
-} from "@ethersproject/abstract-provider";
+import type { NFTsFactory } from "../solidity/types/NFTsFactory";
+import type { Provider } from "@ethersproject/abstract-provider";
 
-const nftsFactories: Map<number, NFTsFactory> = new Map();
+import { BigNumber } from "ethers";
+import { fetchCov, fetchGQL } from "./kfetch";
+import { collectionGetNFTsFactory } from "./kcollection-get";
+import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
-const getNFTsFactory = (
-  chainId: number,
-  _providerOrSigner?: Signer | Provider
-): NFTsFactory | undefined => {
-  // console.log("getNFTsFactory", chainId);
-  let nftsFactory = nftsFactories.get(chainId);
-
-  if (!nftsFactory) {
-    const nftsFactoryAddress = getNFTsFactoryAddress(chainId);
-    if (nftsFactoryAddress) {
-      nftsFactory = new Contract(
-        nftsFactoryAddress,
-        abis.CloneFactory.concat(abis.NFTsFactory),
-        _providerOrSigner || getProvider(chainId)
-      ) as NFTsFactory;
-
-      nftsFactories.set(chainId, nftsFactory);
-    }
-  }
-  return nftsFactory;
-};
-
-const listCollectionsFromCovalent = async (
-  chainId: number,
-  owner: string
-): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromCovalent", chainId, owner);
+const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
+  // console.log("collectionListFromCovalent", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();
   let path: string;
@@ -78,7 +39,7 @@ const listCollectionsFromCovalent = async (
     const collectionsCov = answerCollectionsCov?.items;
     if (collectionsCov?.length) {
       // console.log(collectionsCov[0]);
-      // console.log("listCollectionsFromCovalent nbContracts", collectionsCov.length);
+      // console.log("collectionListFromCovalent nbContracts", collectionsCov.length);
 
       for (let index = 0; index < collectionsCov.length; index++) {
         const collectionCov: CollectionCov = collectionsCov[index];
@@ -103,15 +64,12 @@ const listCollectionsFromCovalent = async (
       }
     }
   }
-  // console.log("listCollectionsFromCovalent", path, collections.size, collections);
+  // console.log("collectionListFromCovalent", path, collections.size, collections);
   return collections;
 };
 
-const listCollectionsFromTheGraph = async (
-  chainId: number,
-  owner: string
-): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromTheGraph", chainId, owner);
+const collectionListFromTheGraph = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
+  // console.log("collectionListFromTheGraph", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();
   const network = getNetwork(chainId);
@@ -147,7 +105,8 @@ const listCollectionsFromTheGraph = async (
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
       const { contract, numTokens } = currentContractResponse;
-      const { id, name, symbol, numTokens: totalSupply } = contract;
+      const { id, name, symbol, numTokens: numTokensTotal } = contract;
+      const totalSupply = Number(numTokensTotal);
       const address = getChecksumAddress(id);
       const chainName = network?.chainName;
       const balanceOf = Math.max(numTokens, 0);
@@ -172,21 +131,21 @@ const listCollectionsFromTheGraph = async (
   return collections;
 };
 
-const listCollectionsFromFactory = async (
+const collectionListFromFactory = async (
   chainId: number,
   _owner: string,
-  _provider?: Provider
+  provider: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollectionsFromFactory", chainId, _owner);
+  // console.log("collectionListFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory: NFTsFactory | undefined = getNFTsFactory(chainId, _provider);
+  const nftsFactory: NFTsFactory | undefined = collectionGetNFTsFactory(chainId, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
     const balances: Array<BalanceOf> = await nftsFactory.balancesOf(_owner);
-    // console.log("listCollectionsFromFactory balances", balances);
+    // console.log("collectionListFromFactory balances", balances);
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network?.chainName;
@@ -215,18 +174,18 @@ const listCollectionsFromFactory = async (
     }
   }
 
-  // console.log("listCollectionsFromFactory", collections);
+  // console.log("collectionListFromFactory", collections);
   return collections;
 };
 
-const listCollections = async (
+const collectionList = async (
   chainId: number,
   owner: string,
   _provider?: Provider
 ): Promise<Map<string, Collection>> => {
-  // console.log("listCollections", chainId, owner);
+  // console.log("collectionList", chainId, owner);
 
-  const collections: Map<string, Collection> = new Map();
+  let collections: Map<string, Collection>;
 
   const network = getNetwork(chainId);
   if (network && owner) {
@@ -235,15 +194,15 @@ const listCollections = async (
 
     // GET user collections
     if (getSubgraphUrl(chainId)) {
-      collectionsOwner = await listCollectionsFromTheGraph(chainId, owner);
+      collectionsOwner = await collectionListFromTheGraph(chainId, owner);
     } else if (getCovalent(chainId)) {
-      collectionsOwner = await listCollectionsFromCovalent(chainId, owner);
+      collectionsOwner = await collectionListFromCovalent(chainId, owner);
     }
-    collectionsKredeum = await listCollectionsFromFactory(chainId, owner, _provider);
+    collectionsKredeum = await collectionListFromFactory(chainId, owner, _provider);
 
     // MERGE collectionsOwner and collectionsKredeum
-    const collections = new Map([...collectionsOwner, ...collectionsKredeum]);
-    // console.log("listCollections", collections);
+    collections = new Map([...collectionsOwner, ...collectionsKredeum]);
+    // console.log("collectionList", collections);
 
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {
@@ -251,12 +210,12 @@ const listCollections = async (
       }
     }
   }
-  // console.log("listCollections", collections);
+  // console.log("collectionList", collections);
   return collections;
 };
 
-const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
-  // console.log("listCollectionsFromCache", owner);
+const collectionListFromCache = (owner: string): Map<string, Collection> => {
+  // console.log("collectionListFromCache", owner);
   const collections: Map<string, Collection> = new Map();
 
   for (let index = 0; index < localStorage.length; index++) {
@@ -266,74 +225,15 @@ const listCollectionsFromCache = (owner: string): Map<string, Collection> => {
       collections.set(key, JSON.parse(localStorage.getItem(key) || "") as Collection);
     }
   }
-  // console.log("listCollectionsFromCache", collections);
+  // console.log("collectionListFromCache", collections);
   return collections;
 };
 
-const CloneResponse = async (
-  chainId: number,
-  _name: string,
-  _cloner: Signer
-): Promise<TransactionResponse | undefined> => {
-  // console.log("CloneResponse", chainId, await _cloner.getAddress());
-
-  const network = getNetwork(chainId);
-
-  const nftsFactory = getNFTsFactory(chainId, _cloner);
-  let txResp: TransactionResponse | undefined;
-
-  if (nftsFactory) {
-    const n: string = (await nftsFactory.implementationsCount()).toString();
-    const name = _name || `Open NFTs #${n}`;
-
-    txResp = await nftsFactory.connect(_cloner).clone(name, `NFT${n}`);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
-  }
-
-  return txResp;
-};
-
-const CloneReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
-  return await txResp.wait();
-};
-
-const CloneAddress = (txReceipt: TransactionReceipt): string => {
-  let implementation = "";
-
-  // console.log("txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = [
-      "event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"
-    ];
-    const iface = new ethers.utils.Interface(abi);
-    const log = iface.parseLog(txReceipt.logs[0]);
-    ({ implementation } = log.args);
-  }
-
-  //  console.log("CloneAddress", implementation);
-  return implementation;
-};
-
-const Clone = async (chainId: number, _name: string, _cloner: Signer): Promise<string> => {
-  const txResp = await CloneResponse(chainId, _name, _cloner);
-  let address = "";
-  if (txResp) {
-    const txReceipt = await CloneReceipt(txResp);
-    address = CloneAddress(txReceipt);
-  }
-  return address;
-};
-
 export {
-  Clone,
-  CloneResponse,
-  CloneReceipt,
-  CloneAddress,
-  listCollections,
-  listCollectionsFromCache,
-  listCollectionsFromCovalent,
-  listCollectionsFromTheGraph,
-  listCollectionsFromFactory,
-  getNFTsFactory
+  collectionList,
+  collectionListFromCache,
+  collectionListFromCovalent,
+  collectionListFromTheGraph,
+  collectionListFromFactory
 };
 export type { NFTsFactory };

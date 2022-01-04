@@ -6,65 +6,61 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import "./interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
 
 contract OpenNFTs is
-  ERC721Upgradeable,
-  ERC721EnumerableUpgradeable,
-  ERC721URIStorageUpgradeable,
-  OwnableUpgradeable
+    IOpenNFTsV3,
+    ERC721Upgradeable,
+    ERC721EnumerableUpgradeable,
+    ERC721URIStorageUpgradeable,
+    OwnableUpgradeable
 {
-  using CountersUpgradeable for CountersUpgradeable.Counter;
-  CountersUpgradeable.Counter private _tokenIds;
+    using CountersUpgradeable for CountersUpgradeable.Counter;
+    CountersUpgradeable.Counter private _tokenIds;
 
-  constructor() ERC721Upgradeable() {}
+    function initialize(string memory name_, string memory symbol_) external override(IOpenNFTsV3) initializer {
+        __Ownable_init();
+        __ERC721_init(name_, symbol_);
+    }
 
-  function initialize(string memory _name, string memory _symbol) external initializer {
-    __Ownable_init();
-    __ERC721_init(_name, _symbol);
-  }
+    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) returns (uint256) {
+        _tokenIds.increment();
 
-  function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
-    _tokenIds.increment();
+        uint256 newItemId = _tokenIds.current();
+        _safeMint(minter, newItemId);
+        _setTokenURI(newItemId, jsonURI);
 
-    uint256 newItemId = _tokenIds.current();
-    _safeMint(minter, newItemId);
-    _setTokenURI(newItemId, jsonURI);
+        return newItemId;
+    }
 
-    return newItemId;
-  }
+    function tokenURI(uint256 tokenId)
+        public
+        view
+        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
+        returns (string memory)
+    {
+        return super.tokenURI(tokenId);
+    }
 
-  function tokenURI(uint256 tokenId)
-    public
-    view
-    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-    returns (string memory)
-  {
-    return super.tokenURI(tokenId);
-  }
+    function supportsInterface(bytes4 interfaceId)
+        public
+        view
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        returns (bool)
+    {
+        // IOpenNFTsV3 => 0xa6123562
+        return interfaceId == type(IOpenNFTsV3).interfaceId || super.supportsInterface(interfaceId);
+    }
 
-  function supportsInterface(bytes4 interfaceId)
-    public
-    view
-    override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
-    returns (bool)
-  {
-    // IOpenNFTsV2 => 0xd94a1db2
-    return interfaceId == type(IOpenNFTsV2).interfaceId || super.supportsInterface(interfaceId);
-  }
+    function _beforeTokenTransfer(
+        address from,
+        address to,
+        uint256 tokenId
+    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+        super._beforeTokenTransfer(from, to, tokenId);
+    }
 
-  function _beforeTokenTransfer(
-    address from,
-    address to,
-    uint256 tokenId
-  ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-    super._beforeTokenTransfer(from, to, tokenId);
-  }
-
-  function _burn(uint256 tokenId)
-    internal
-    override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-  {
-    super._burn(tokenId);
-  }
+    function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+        super._burn(tokenId);
+    }
 }

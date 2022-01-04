@@ -1,7 +1,7 @@
 # PRE INSTALLATION
 
 It's mandatory to pre-install "node" and ".env" file,
-and recommanded to pre-install "pnpm" and "VS-Code" with some extensions :
+and recommanded to pre-install "pnpm" and "Visual Studio Code" with some extensions :
 
 ### MANDATORY
 
@@ -12,22 +12,39 @@ and recommanded to pre-install "pnpm" and "VS-Code" with some extensions :
   - or via **brew** on MacOS : `brew install node`
 
 - **.env** environment file :
-  You have to keep these variables secure in an environmment file .env **outside** the git repository :
+  You have to keep these variables secure in an environmment .env file :
 
-  - ACCOUNT_ADDRESS
-  - ACCOUNT_KEY
-  - MATICVIGIL_API_KEY
-  - THEGRAPH_KEY
-  - NFT_STORAGE_KEY
-  - and may be some others...
+  # PROD MANDATORY
 
-  [Example.file](./.env.example)
-  You can get these API KEY free from different providers
+  - ENVIR=DEV
+  - NODE_DEBUG=false
+  - INFURA_API_KEY=""
+  - COVALENT_API_KEY=""
+  - NFT_STORAGE_KEY=""
 
-  _ACCOUNT_ADDRESS and ACCOUNT_KEY are some public and private keys that requires some coins in order to interact with the blockchains. Faucet coins on the testsnets are ok and riskless, but real coins are needed on the mainnets, for specific tests and for deployments, so be carefull, and don't share these keys on the github repo._
+  # OPTIONAL FOR TESTS or DEPLOY
 
-  We recommand to put this .env file in some directory on your hard idsk (for example in `~/.secret_dir_24123`), and "source" it when launching your terminal. With zsh you can do this by adding this line at the end of your ~/zshrc : `source ~/.secret_dir_24123/.env`
-  (relaunch your terminal to take this into account...)
+  - PRIVATE_KEY_0_DEPLOY=""
+  - ETHERSCAN_API_KEY_ETHEREUM=""
+  - ETHERSCAN_API_KEY_AVALANCHE=""
+  - ETHERSCAN_API_KEY_POLYGON=""
+  - ETHERSCAN_API_KEY_FANTOM=""
+  - ETHERSCAN_API_KEY_BINANCE=""
+  - THEGRAPH_KEY=""
+
+  # OPTIONAL FOR TESTS ONLY
+
+  PRIVATE_KEY_1_TEST=""
+  PRIVATE_KEY_2_TEST=""
+
+  - ALCHEMY_API_KEY=""
+
+  You can get API_KEYs free from different providers
+
+  Use .env.example to start with [Example.file](./.env.example)
+
+  _ PRIVATE_KEY_0_DEPLOY is a private keys that requires some coins in order to deploy smartcontracts, be carefull to not share this key on the github repo._
+  _ PRIVATE_KEY_1_TEST and PRIVATE_KEY_2_TEST are private keys only needed for testing, don't use private keys with real tokens._
 
 ### OPTIONAL
 

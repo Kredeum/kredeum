@@ -1,12 +1,12 @@
 # NPM
 node_modules
 .pnpm-debug.log
+.favorites.json
 
 # SOLIDITY
 solidity/artifacts
-
-# APP
-web/app
+solidity/types
+solidity/docs
 
 # SVELTE
 /public/build/

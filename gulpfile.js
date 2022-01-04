@@ -18,7 +18,7 @@ if (process.env.ENVIR === undefined) {
   dotenv.config();
 }
 if (!process.env.ENVIR) {
-  throw new Error("ENV variables not set!");
+  throw new Error("GULP : ENV variable ENVIR not set!");
 }
 var production = process.env.ENVIR == "PROD";
 
