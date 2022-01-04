@@ -23,7 +23,7 @@ if (!process.env.ENVIR) {
 const accounts = [
   process.env.PRIVATE_KEY_0_DEPLOY || "",
   process.env.PRIVATE_KEY_1_TEST || "",
-  process.env.PRIVATE_KEY_2_TEST || "",
+  process.env.PRIVATE_KEY_2_TEST || ""
 ];
 
 const config: HardhatUserConfig = {
@@ -193,7 +193,7 @@ const config: HardhatUserConfig = {
   docgen: {
     path: "solidity/docs",
     clear: true,
-    runOnCompile: false,
+    runOnCompile: false
   },
   etherscan: { apiKey: process.env.ETHERSCAN_API_KEY_ETHEREUM }
 };
