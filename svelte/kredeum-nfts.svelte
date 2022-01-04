@@ -18,11 +18,6 @@
   let refreshing: boolean;
   let refreshNFTs;
 
-  // ON CHAINID, OWNER OR COLLECTION CHANGE
-  // $: logChange(chainId, owner, collection);
-  // const logChange = async (_chainId: number, _owner: string, _collection: Collection) =>
-  //   console.log("KredeumNfts chainId, owner or collection changed", _chainId, _owner, _collection);
-
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);
     // console.log("_explorerCollectionUrl", ret);

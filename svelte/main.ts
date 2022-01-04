@@ -8,6 +8,7 @@ type Attr = { name: string; value: string };
 
 // convert HTML attributes to SVELTE props
 // be carefull : attributes are lowercase, props can be mixed case
+// filters 'id' and 'class'
 const _props = (target: HTMLElement): Props => {
   const props: Props = {};
   Array.from(target?.attributes || []).forEach((attr: Attr): void => {
@@ -15,7 +16,7 @@ const _props = (target: HTMLElement): Props => {
 
     if (attrName === "chainid") {
       attrName = "chainId";
-    } else if (attrName === "id") {
+    } else if (attrName === "id" || attrName === "class") {
       attrName = null;
     }
 

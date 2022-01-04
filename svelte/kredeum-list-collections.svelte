@@ -63,7 +63,7 @@
     allCollections = collectionListFromCache(_owner);
     const openNFTsAddress = await getOpenNFTsAddress(_chainId, _provider);
 
-    console.log("allCollections", allCollections);
+    // console.log("allCollections", allCollections);
     collections = new Map(
       [...allCollections]
         .filter(
@@ -78,7 +78,7 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    console.log("collections", collections);
+    // console.log("collections", collections);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =
