@@ -64,14 +64,25 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 == Changelog ==
 
-= 0.9.13 (latest) =
+= 0.9.16 (latest) =
+* New deployment on xDai, in order to get POAP or GitCoin Kudos collections
+* Better links on new NFTs page on Etherscan explorer 
+* Fix bug : NFT panel closing while loading new NFTs after refresh or first loading
+
+= 0.9.15 =
+* Bug fixes and performance improvements
+
+= 0.9.14 (stable) =
+* Fix bug while deleting plugin
+
+= 0.9.13 =
 * Fix bug while creation collection from previous v0.9.11 version
  
 = 0.9.11  =
 * Deployment of new version on Ethereum Mainnet
 * New Sell Button to generate WP shortcode to insert in FrontEnd Pages
  
-= 0.9.10 (stable) =
+= 0.9.10 =
 * New design
 * Personalized collections
 * Deployed on Polygon / Fantom / Avalanche / BSC
