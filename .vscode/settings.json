@@ -47,5 +47,5 @@
   "editor.fontLigatures": true,
   "workbench.colorTheme": "Dark++ Italic",
   "editor.fontFamily": "Fira Code iScript",
-  "favorites.sortDirection": "ASC"
+  "favorites.sortDirection": "DESC"
 }

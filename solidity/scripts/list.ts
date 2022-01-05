@@ -1,7 +1,10 @@
-// import type { Network } from "../../lib/ktypes";
-// import { ethers, changeNetwork } from "hardhat";
-// import { NFTsFactory } from "../types/NFTsFactory";
+import type { Web3Provider } from "@ethersproject/providers";
+import type { EthereumProvider } from "hardhat/types";
+import type { NFTsFactory } from "../types/NFTsFactory";
+
+import hre from "hardhat";
 import networks from "../../config/networks.json";
+import { ethers } from "ethers";
 
 const ABI = [
   "function implementations(uint256 index) external view returns (address implementation)",
@@ -9,17 +12,17 @@ const ABI = [
 ];
 
 const main = async (): Promise<boolean> => {
-  // const signer = await ethers.getNamedSigner("deployer");
-
   for await (const network of networks) {
     if (network.mainnet && network.nftsFactory) {
-      console.log(network.chainName);
-      console.log("nftsFactory", network.nftsFactory);
+      hre.changeNetwork(network.chainName);
 
-      // changeNetwork(network.chainName);
-      // const nftsFactory: NFTsFactory = await ethers.getContractAt(ABI, network.nftsFactory, signer);
-      // console.log("nb implementations", await nftsFactory.implementationsCount());
-      console.log();
+      // console.log("nftsFactory", network.nftsFactory);
+
+      const signer = await hre.ethers.getNamedSigner("deployer");
+
+      const nftsFactory: NFTsFactory = await hre.ethers.getContractAt("NFTsFactory", network.nftsFactory, signer);
+      const nb = Number(await nftsFactory.implementationsCount());
+      console.log(`${network.chainName}: ${nb} collection${nb > 1 ? "s" : ""}`);
     }
   }
 
