@@ -12,7 +12,7 @@ import {
 import { expect } from "chai";
 import { getNetwork } from "../../lib/kconfig";
 import hre from "hardhat";
-import { SignerWithAddress } from "hardhat-deploy-ethers/dist/src/signers";
+import { Signer } from "ethers";
 const { ethers, deployments } = hre;
 
 describe("List contracts lib", function () {
@@ -29,11 +29,11 @@ describe("List contracts lib", function () {
   let network: string;
   let chainId: number;
   let live: boolean;
-  let signer: SignerWithAddress;
+  let signer: Signer;
 
   before(async () => {
-    signer = await ethers.getNamedSigner("deployer");
-    owner = signer.address;
+    signer = (await ethers.getNamedSigner("deployer")) as Signer;
+    owner = await signer.getAddress();
 
     network = hre.network.name;
     chainId = Number(await hre.getChainId());

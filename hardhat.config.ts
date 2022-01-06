@@ -4,6 +4,7 @@ import "@nomiclabs/hardhat-waffle";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 import "hardhat-docgen";
+import "hardhat-change-network";
 
 import "@typechain/hardhat";
 import type { HardhatUserConfig } from "hardhat/types";
