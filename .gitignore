@@ -22,6 +22,9 @@ videos
 # ENV
 **/*.env
 
+# VSCODE
+.vscode
+
 # JAVASCRIPT
 **/*.map
 
