@@ -1,3 +1,5 @@
+import type { HardhatUserConfig } from "hardhat/types";
+
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
@@ -5,17 +7,19 @@ import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 import "hardhat-docgen";
 import "hardhat-change-network";
+import "hardhat-gas-reporter";
+import "solidity-coverage";
 
 import "@typechain/hardhat";
-import type { HardhatUserConfig } from "hardhat/types";
 import "tsconfig-paths/register";
+
 import "./solidity/tasks/index";
 
 import dotenv from "dotenv";
 import findupSync from "findup-sync";
 
 if (!process.env.ENVIR) {
-  dotenv.config({ path: findupSync(".env") });
+  dotenv.config({ path: findupSync(".env") || "" });
   if (!process.env.ENVIR) {
     throw new Error("HARDHAT : ENV variable ENVIR not set!");
   }
