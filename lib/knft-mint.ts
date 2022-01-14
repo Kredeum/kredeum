@@ -50,7 +50,7 @@ const nftMintTexts = [
   "Wait till Image stored on IPFS",
   "Wait till Metadata stored on IPFS",
   "Please, sign the transaction",
-  "Wait till transaction completed, it may takes one minute or more..."
+  "Wait till transaction completed, it may take one minute or more..."
 ];
 
 // GET ipfs image link

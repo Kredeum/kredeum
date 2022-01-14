@@ -225,8 +225,8 @@
             />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Texte" disabled />
-            <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Texte</label>
+            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Text" disabled />
+            <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
             <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
