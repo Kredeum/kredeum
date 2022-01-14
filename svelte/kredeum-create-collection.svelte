@@ -69,7 +69,7 @@
           </div>
           <div class="section">
             {#if cloningTxHash}
-              Wait till completed, it may takes one minute or more.
+              Wait till completed, it may take one minute or more.
             {:else}
               Sign the transaction
             {/if}
