@@ -4,7 +4,6 @@
   import {
     getShortAddress,
     nftUrl,
-    sleep,
     explorerCollectionUrl,
     nftDescription,
     nftDescriptionShort,
@@ -15,7 +14,8 @@
     explorerNftUrl,
     explorerAddressLink
   } from "lib/kconfig";
-  import { chainId, network, owner } from "./network";
+  import { chainId, network, owner, signer } from "./network";
+  import { transferNft } from "lib/ktransfer";
   import { nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
 
@@ -55,6 +55,10 @@
     div += mediaType === "video" ? divMediaVideo(src) : divMediaImage(src);
     div += "</div>";
     return div;
+  };
+
+  const transfer = async (nft: Nft) => {
+    await transferNft(nft, $signer);
   };
 
   onMount(async () => {
@@ -118,6 +122,7 @@
     {@html divMedia(nft, index)}
     <div id="description-{index}" class="description">
       <strong>Description</strong>
+      <i on:click={() => transfer(nft)} class="fas fa-gift" />
       <p>
         {nftDescription(nft)}
       </p>
