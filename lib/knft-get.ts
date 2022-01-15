@@ -2,8 +2,7 @@ import type { Collection, Nft, NftMetadata } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchJson } from "./kfetch";
-import { ipfsGetLink, ipfsGatewayUrl } from "./knfts";
-import { getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
+import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
 import { collectionGetContract } from "./kcollection-get";
 import { BigNumber } from "ethers";
 

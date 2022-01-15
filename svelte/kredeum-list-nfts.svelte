@@ -3,9 +3,8 @@
   import type { Provider } from "@ethersproject/abstract-provider";
   import KredeumGetNft from "./kredeum-get-nft.svelte";
 
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName } from "lib/knfts";
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "../lib/kconfig";
   import { chainId, network, provider, owner } from "./network";
-  import { nftsUrl } from "../lib/kconfig";
   import { clearCache, nftListFromCache, nftListTokenIds } from "../lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "../lib/knft-get";
 

@@ -7,8 +7,7 @@
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
 
-  import { nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
-  import { explorerCollectionUrl } from "lib/knfts";
+  import { explorerCollectionUrl, nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
 
   import { chainId, owner } from "./network";
 

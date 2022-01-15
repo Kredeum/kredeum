@@ -4,10 +4,9 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abs
 
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
-import { ipfsGatewayUrl, textShort, explorerCollectionUrl } from "./knfts";
+import { ipfsGatewayUrl, textShort, explorerCollectionUrl, getNetwork } from "./kconfig";
 import { nftGetMetadata } from "./knft-get";
 import { collectionGetContract } from "./kcollection-get";
-import { getNetwork } from "./kconfig";
 
 let nftStorage: NftStorage;
 

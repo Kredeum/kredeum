@@ -3,12 +3,23 @@ import type { IERC165 } from "../solidity/types/IERC165";
 import type { OpenNFTs } from "../solidity/types/OpenNFTs";
 
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Collection, CollectionSupports, AbiType } from "./ktypes";
+import type { Collection, CollectionSupports, AbiType, Address } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
-import { abis, collectionGetNFTsFactoryAddress } from "./kconfig";
+import { abis, getChecksumAddress, getNetwork, explorerContractUrl } from "./kconfig";
 
 const nftsFactories: Map<number, NFTsFactory> = new Map();
+
+// GET openNFTs via onchain call
+const getOpenNFTsAddress = async (chainId: number, provider: Provider): Promise<Address | undefined> => {
+  const nftsFactory = collectionGetNFTsFactory(chainId, provider);
+  const template = await nftsFactory.template();
+  return template ? template : "";
+};
+
+// GET NFTs Factory
+const collectionGetNFTsFactoryAddress = (chainId: number): Address | undefined =>
+  getChecksumAddress(getNetwork(chainId)?.nftsFactory);
 
 const collectionGetNFTsFactory = (chainId: number, signerOrProvider: Signer | Provider): NFTsFactory | undefined => {
   // console.log("collectionGetNFTsFactory", chainId);
@@ -31,6 +42,18 @@ const collectionGetNFTsFactory = (chainId: number, signerOrProvider: Signer | Pr
   }
   return nftsFactory;
 };
+
+// NFTS_FACTORY URL
+const explorerNFTsFactoryUrl = (chainId: number): string =>
+  // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
+  // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
+  explorerContractUrl(chainId, collectionGetNFTsFactoryAddress(chainId));
+
+// OPEN_NFTS URL
+const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
+  // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
+  explorerContractUrl(chainId, await getOpenNFTsAddress(chainId, provider));
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const collectionGetContract = async (
   chainId: number,
@@ -111,5 +134,14 @@ const collectionGetMetadata = async (
   return collection;
 };
 
-export { collectionGetContract, collectionGetMetadata, collectionGet, collectionGetNFTsFactory };
+export {
+  collectionGetContract,
+  collectionGetMetadata,
+  collectionGet,
+  collectionGetNFTsFactory,
+  collectionGetNFTsFactoryAddress,
+  explorerOpenNFTsUrl,
+  explorerNFTsFactoryUrl,
+  getOpenNFTsAddress
+};
 export type { NFTsFactory };

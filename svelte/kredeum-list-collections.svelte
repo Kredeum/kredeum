@@ -3,9 +3,8 @@
   import type { Provider } from "@ethersproject/providers";
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
-  import { collectionGetMetadata } from "lib/kcollection-get";
-  import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
-  import { collectionName } from "lib/knfts";
+  import { collectionGetMetadata, getOpenNFTsAddress } from "lib/kcollection-get";
+  import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
   import { chainId, provider, owner } from "./network";

@@ -8,10 +8,13 @@
     getShortAddress,
     numberToHexString,
     explorerAccountUrl,
-    explorerNFTsFactoryUrl,
-    collectionGetNFTsFactoryAddress
-  } from "lib/knfts";
-  import { getChecksumAddress, getNetwork, getEnsName, networks, nftsUrl } from "lib/kconfig";
+    getChecksumAddress,
+    getNetwork,
+    getEnsName,
+    networks,
+    nftsUrl
+  } from "lib/kconfig";
+  import { explorerNFTsFactoryUrl, collectionGetNFTsFactoryAddress } from "lib/kcollection-get";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { ethers } from "ethers";

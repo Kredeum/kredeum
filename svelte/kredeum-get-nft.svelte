@@ -2,6 +2,8 @@
   import type { Nft } from "lib/ktypes";
 
   import {
+    getShortAddress,
+    nftUrl,
     sleep,
     explorerCollectionUrl,
     nftDescription,
@@ -12,9 +14,8 @@
     textShort,
     explorerNftUrl,
     explorerAddressLink
-  } from "lib/knfts";
+  } from "lib/kconfig";
   import { chainId, network, owner } from "./network";
-  import { getShortAddress, nftUrl } from "../lib/kconfig";
   import { nftGetImageLink } from "../lib/knft-get";
   import { onMount } from "svelte";
 

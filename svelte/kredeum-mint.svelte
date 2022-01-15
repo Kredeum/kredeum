@@ -5,9 +5,9 @@
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
   import { nftGetImageLink } from "lib/knft-get";
-  import { getOpenNFTsAddress } from "lib/kconfig";
+  import { getOpenNFTsAddress } from "lib/kcollection-get";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/kconfig";
 
   // export let key: string = undefined;
   // export let metadata: string = undefined;
