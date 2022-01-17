@@ -10,7 +10,7 @@ import _postcss from "rollup-plugin-postcss";
 import _builtins from "rollup-plugin-node-builtins";
 
 import typescript from "@rollup/plugin-typescript";
-import autoPreprocess from "svelte-preprocess";
+import sveltePreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
 
@@ -57,7 +57,7 @@ const toRollupConfig = function (component: string): RollupOptions {
     ],
     plugins: [
       svelte({
-        preprocess: [autoPreprocess({})],
+        preprocess: [sveltePreprocess({})],
         compilerOptions: {
           customElement: false,
           dev: !production
@@ -65,7 +65,7 @@ const toRollupConfig = function (component: string): RollupOptions {
       }),
       // css({ output: `${component}.css` }),
       postcss({
-        extract: true,
+        extract: true
       }),
       replace({
         preventAssignment: true,
