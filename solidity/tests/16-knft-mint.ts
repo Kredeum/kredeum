@@ -85,5 +85,17 @@ describe("NFT Mint", function () {
       const totalSupply1: number = (await openNFTs.totalSupply()).toNumber();
       expect(totalSupply1).to.be.equal(totalSupply + Number(1));
     });
+
+    describe("Ownable", function () {
+      it("Should be not allowed to Mint", async function () {
+        const tx = await openNFTs.mintNFT(artistAddress, json);
+        expect((await tx.wait()).status).to.be.equal(1);
+      });
+
+      it("Should be allowed to Mint", async function () {
+        const tx = await openNFTs.mintNFT(artistAddress, json);
+        expect((await tx.wait()).status).to.be.equal(1);
+      });
+    });
   });
 });
