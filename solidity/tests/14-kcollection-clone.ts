@@ -2,16 +2,19 @@ import type { Signer } from "ethers";
 
 import { expect } from "chai";
 import { collectionClone } from "lib/kcollection-clone";
-// import { ethers } from "ethers";
-import { ethers, getChainId } from "hardhat";
+import { ethers, getChainId, deployments } from "hardhat";
 
 describe("Clone collection", function () {
   let signer: Signer;
   let chainId: number;
 
   before(async () => {
-    signer = (await ethers.getNamedSigner("deployer")) as Signer;
+    signer = await ethers.getNamedSigner("deployer");
     chainId = Number(await getChainId());
+
+    if ((await ethers.provider.getNetwork()).chainId == 31337) {
+      await deployments.fixture(["NFTsFactory"]);
+    }
   });
 
   // beforeEach(() => {});
@@ -21,8 +24,6 @@ describe("Clone collection", function () {
   });
 
   it("Should clone collection", async function () {
-    // const collectionClone = async (chainId: number, _name: string, _cloner: Signer): Promise<string> => {
-    const result = await collectionClone(chainId, "Test clone collection", signer);
-    console.log("collectionClone ~ result", result);
+    expect(await collectionClone(chainId, "Test", signer)).to.be.properAddress;
   });
 });

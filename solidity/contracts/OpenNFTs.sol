@@ -23,7 +23,7 @@ contract OpenNFTs is
         __ERC721_init(name_, symbol_);
     }
 
-    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) returns (uint256) {
+    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyOwner returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();

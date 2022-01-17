@@ -22,6 +22,8 @@ const collectionCloneResponse = async (
 
     txResp = await nftsFactory.connect(_cloner).clone(name, `NFT${n}`);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
+  } else {
+    console.error("collectionCloneResponse nftsFactory not found");
   }
 
   return txResp;
