@@ -68,7 +68,7 @@ contract CloneFactory is ICloneFactory, Ownable {
         template = addr;
 
         /// @notice emit event NewTemplate
-        emit NewTemplate(addr, msg.sender);
+        emit NewTemplate(addr, _msgSender());
     }
 
     /// @notice Implementations count
@@ -88,7 +88,7 @@ contract CloneFactory is ICloneFactory, Ownable {
         templates[impl] = tmpl;
 
         /// @notice emit event NewImplementation
-        emit NewImplementation(impl, tmpl, msg.sender);
+        emit NewImplementation(impl, tmpl, _msgSender());
     }
 
     /// @notice Clone Template

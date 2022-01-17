@@ -16,7 +16,7 @@ const contractName = "Open NFTs";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe.only("NFT Mint", function () {
+describe("NFT Mint", function () {
   let ethscan: string | undefined;
   let network: Network | undefined;
   let chainId: number;
@@ -85,7 +85,9 @@ describe.only("NFT Mint", function () {
 
   describe("Ownable", function () {
     it("Should not be allowed to Mint", async function () {
-      await expect(openNFTs.connect(tester).mintNFT(artistAddress, json)).to.be.revertedWith("caller is not the owner");
+      await expect(openNFTs.connect(tester).mintNFT(artistAddress, json)).to.be.revertedWith(
+        "OpenNFTs: caller is not minter"
+      );
     });
 
     it("Should be allowed to Mint", async function () {

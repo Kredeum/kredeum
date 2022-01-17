@@ -25,7 +25,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
     bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV3).interfaceId;
 
     function withdrawEther() external override(INFTsFactory) onlyOwner {
-        Address.sendValue(payable(msg.sender), address(this).balance);
+        Address.sendValue(payable(_msgSender()), address(this).balance);
     }
 
     function balancesOf(address owner) external view override(INFTsFactory) returns (NftData[] memory nftData) {
@@ -40,7 +40,7 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
         require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
         IOpenNFTsV3(clone_).initialize(name_, symbol_);
-        OwnableUpgradeable(clone_).transferOwnership(msg.sender);
+        OwnableUpgradeable(clone_).transferOwnership(_msgSender());
     }
 
     function balanceOf(address nft, address owner) public view override(INFTsFactory) returns (NftData memory nftData) {

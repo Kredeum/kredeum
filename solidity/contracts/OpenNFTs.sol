@@ -18,12 +18,17 @@ contract OpenNFTs is
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIds;
 
+    modifier onlyMinter() {
+        require(_isMinter(), "OpenNFTs: caller is not minter");
+        _;
+    }
+
     function initialize(string memory name_, string memory symbol_) external override(IOpenNFTsV3) initializer {
         __Ownable_init();
         __ERC721_init(name_, symbol_);
     }
 
-    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyOwner returns (uint256) {
+    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -31,6 +36,10 @@ contract OpenNFTs is
         _setTokenURI(newItemId, jsonURI);
 
         return newItemId;
+    }
+
+    function _isMinter() internal view returns (bool) {
+        return owner() == _msgSender();
     }
 
     function tokenURI(uint256 tokenId)
