@@ -27,17 +27,17 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image) || "";
+const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image || "");
 
-const nftGetContentType = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
-  const nft = token;
+const nftGetContentType = async (nft: Nft): Promise<string> => {
+  let contentType: string;
   try {
-    const response = await fetch(nftGetImageLink(token));
-    nft.contentType = response.headers.get("content-type");
+    const response = await fetch(nftGetImageLink(nft));
+    contentType = response.headers.get("content-type");
   } catch (e) {
     console.error("ERROR nftGetMetadata contentType", e);
   }
-  return nft;
+  return contentType;
 };
 
 const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
@@ -94,6 +94,7 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
+    nftMetadata.contentType = await nftGetContentType(nftMetadata);
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
