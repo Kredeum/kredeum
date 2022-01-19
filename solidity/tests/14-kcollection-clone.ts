@@ -4,7 +4,7 @@ import { expect } from "chai";
 import { collectionClone } from "lib/kcollection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
 
-describe("Clone collection", function () {
+describe("14 Clone collection", function () {
   let signer: Signer;
   let chainId: number;
 

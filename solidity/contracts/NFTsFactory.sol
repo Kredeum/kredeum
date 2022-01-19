@@ -11,6 +11,8 @@ import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
+/// @title NFTsFactory smartcontract
+/// @dev is CloneFactory
 contract NFTsFactory is CloneFactory, INFTsFactory {
     using ERC165Checker for address;
 
@@ -24,25 +26,36 @@ contract NFTsFactory is CloneFactory, INFTsFactory {
     bytes4 public constant ERC721_ENUMERABLE_SIG = bytes4(0x780e9d63);
     bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV3).interfaceId;
 
+    /// @notice withdrawEther
     function withdrawEther() external override(INFTsFactory) onlyOwner {
         Address.sendValue(payable(_msgSender()), address(this).balance);
     }
 
-    function balancesOf(address owner) external view override(INFTsFactory) returns (NftData[] memory nftData) {
+    /// @notice balancesOf address
+    /// @param addr  address of account
+    /// @return nftData Array of nftData balances
+    function balancesOf(address addr) external view override(INFTsFactory) returns (NftData[] memory nftData) {
         nftData = new NftData[](implementations.length);
         for (uint256 i = 0; i < implementations.length; i += 1) {
-            nftData[i] = balanceOf(implementations[i], owner);
+            nftData[i] = balanceOf(implementations[i], addr);
         }
     }
 
+    /// @notice clone template
+    /// @param name_ name of Clone collection
+    /// @param symbol_ symbol of Clone collection
+    /// @return clone_ Address of Clone collection
     function clone(string memory name_, string memory symbol_) public override(INFTsFactory) returns (address clone_) {
         clone_ = _clone();
         require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
-        IOpenNFTsV3(clone_).initialize(name_, symbol_);
-        OwnableUpgradeable(clone_).transferOwnership(_msgSender());
+        IOpenNFTsV3(clone_).initialize(name_, symbol_, _msgSender(), false);
     }
 
+    /// @notice balanceOf
+    /// @param nft nft address of NFT collection
+    /// @param owner address of account
+    /// @return nftData nftData balances
     function balanceOf(address nft, address owner) public view override(INFTsFactory) returns (NftData memory nftData) {
         bytes4[] memory iface = new bytes4[](4);
         iface[ERC721] = ERC721_SIG;

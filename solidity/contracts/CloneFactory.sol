@@ -7,28 +7,28 @@ import "./interfaces/ICloneFactory.sol";
 import "./interfaces/IContractProbe.sol";
 
 /// @title Clone Factory
-/// Generic Clone Factory to create multiple Clones from Templates
+/// @notice Generic Clone Factory to create multiple Clones from Templates
 /// @dev CloneFactory is ICloneFactory and Ownable
 contract CloneFactory is ICloneFactory, Ownable {
-    /// Current Template used for cloning
+    /// @notice Current Template used for cloning
     /// @return template address
     address public template;
 
-    /// External Probe smartcontract used for clone probing
+    /// @notice External Probe smartcontract used for clone probing
     /// @return contractProbe address
     address public contractProbe;
 
-    /// Get implementation
+    /// @notice Get implementation
     /// @return implementation address
     address[] public implementations;
 
-    /// Map each Implementation with "parent" Template
+    /// @notice Map each Implementation with "parent" Template
     /// @return templates mapping
     mapping(address => address) public templates;
 
-    /// New Implemention Event
+    /// @notice New Implemention Event
     /// @dev if implementation equal template
-    /// then implementation is Template else Clone
+    /// @dev then implementation is Template else Clone
     /// @param implementation implementation address
     /// @param template template address
     /// @param creator creator address
@@ -106,7 +106,7 @@ contract CloneFactory is ICloneFactory, Ownable {
     /// @dev probe if address is contract and/or clone
     /// @param addr : probe address
     /// @notice revert if probe address is not contract
-    /// throws if forwardTo not found
+    /// @notice throws if forwardTo not found
     /// @return isImplementation : true if probe address is implemention
     /// @return forwardTo : parent template address if clone, probe otherwise
     function _probe(address addr) internal view returns (bool isImplementation, address forwardTo) {

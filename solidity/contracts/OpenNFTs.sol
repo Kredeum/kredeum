@@ -8,6 +8,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "./interfaces/IOpenNFTsV3.sol";
 
+/// @title OpenNFTs smartcontract
 contract OpenNFTs is
     IOpenNFTsV3,
     ERC721Upgradeable,
@@ -18,17 +19,37 @@ contract OpenNFTs is
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIds;
 
+    /// @notice whether minting open to everyone (true) or only owner (false)
+    bool public openMinting;
+
+    /// @notice onlyMinter, either evrybody in generic collection,
+    /// @notice either only owner in specific collection
     modifier onlyMinter() {
-        require(_isMinter(), "OpenNFTs: caller is not minter");
+        require(openMinting || (owner() == _msgSender()), "OpenNFTs: caller is not minter");
         _;
     }
 
-    function initialize(string memory name_, string memory symbol_) external override(IOpenNFTsV3) initializer {
+    /// @notice initialize
+    /// @param name_ name of the NFT Collection
+    /// @param symbol_ symbol of the NFT Collection
+    /// @param owner_ owner of the NFT Collection
+    /// @param openMinting_ select minting open to everyone or only owner
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address owner_,
+        bool openMinting_
+    ) external override(IOpenNFTsV3) initializer {
         __Ownable_init();
         __ERC721_init(name_, symbol_);
+        transferOwnership(owner_);
+        openMinting = openMinting_;
     }
 
-    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
+    /// @notice mint
+    /// @param minter address of minter
+    /// @param jsonURI json URI of NFT metadata
+    function mint(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -38,19 +59,26 @@ contract OpenNFTs is
         return newItemId;
     }
 
-    function _isMinter() internal view returns (bool) {
-        return owner() == _msgSender();
+    /// @notice burn NFT
+    /// @param tokenId tokenID of NFT to burn
+    function burn(uint256 tokenId) public override(IOpenNFTsV3) onlyOwner {
+        _burn(tokenId);
     }
 
+    /// @notice Get tokenURI
+    /// @param tokenId tokenId of NFT
+    /// @param tokenURI_ token URI of NFT
     function tokenURI(uint256 tokenId)
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-        returns (string memory)
+        returns (string memory tokenURI_)
     {
-        return super.tokenURI(tokenId);
+        tokenURI_ = super.tokenURI(tokenId);
     }
 
+    /// @notice test if this interface is supported
+    /// @param interfaceId interfaceId to test
     function supportsInterface(bytes4 interfaceId)
         public
         view

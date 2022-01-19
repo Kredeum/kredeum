@@ -15,7 +15,7 @@ import hre from "hardhat";
 import { Signer } from "ethers";
 const { ethers, deployments } = hre;
 
-describe("List contracts lib", function () {
+describe("13 List contracts lib", function () {
   let owner: string;
   const artist = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
   const txOptions = {
@@ -49,14 +49,14 @@ describe("List contracts lib", function () {
 
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
-    await ((await openNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
+    await ((await openNFTs.mint(artist, "", txOptions)) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
     const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
     const newOpenNFTs: OpenNFTs = (await openNFTsFactory.deploy()) as OpenNFTs;
-    await ((await newOpenNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
+    await ((await newOpenNFTs.mint(artist, "", txOptions)) as TransactionResponse).wait();
 
     await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
   });
@@ -68,8 +68,8 @@ describe("List contracts lib", function () {
       type: 2
     };
 
-    await (await nftsFactory.clone("Open NFTs 1", "NFT1", txOptions)).wait();
-    await (await nftsFactory.clone("Open NFTs 2", "NFT2", txOptions)).wait();
+    await (await nftsFactory.clone("Open NFTs 1", "NFT1")).wait();
+    await (await nftsFactory.clone("Open NFTs 2", "NFT2")).wait();
   });
 
   it("List with NFTsFactory", async function () {

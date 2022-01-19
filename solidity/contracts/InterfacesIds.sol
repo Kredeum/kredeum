@@ -21,10 +21,10 @@ import "./interfaces/IInterfacesIds.sol";
 /// @title InterfaceIds calculation
 /// @author zapaz.eth
 /// @notice Calculates various ERC165, ERC721 and ERC1155 interface Ids
-/// and Kredeum OpenNFTs interface Ids
+///  @notice and Kredeum OpenNFTs interface Ids
 contract InterfacesIds is IInterfacesIds {
     /// @notice Main and only function to calculate Interface Ids
-    /// No params
+    /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
     function ids() public pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         interfacesIds = new bytes4[](12);

@@ -5,7 +5,7 @@ import type { SignerWithAddress } from "hardhat-deploy-ethers/src/signers";
 import type { NFTsFactory } from "../types/NFTsFactory";
 import type { OpenNFTs } from "../types/OpenNFTs";
 
-describe("NFTs Factory contract", function () {
+describe("11 NFTs Factory contract", function () {
   let nftsFactory: NFTsFactory;
   let openNFTs: OpenNFTs;
   let owner: string;
@@ -30,7 +30,7 @@ describe("NFTs Factory contract", function () {
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    await (await openNFTs.mintNFT(owner, "", txOptions)).wait();
+    await (await openNFTs.mint(owner, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {

@@ -1,5 +1,13 @@
 {
   "OpenNFTsV3": {
+    "interfaceId": "0xce58130a",
+    "abi": [
+      "function initialize(string memory name, string memory symbol, address owner, bool openMinting) external",
+      "function mint(address minter, string memory jsonURI) external returns (uint256 tokenID)",
+      "function burn(uint256 tokenID) external"
+    ]
+  },
+  "OpenNFTsV3alpha": {
     "interfaceId": "0xa6123562",
     "abi": [
       "function initialize(string memory name_, string memory symbol_) external",

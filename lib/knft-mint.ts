@@ -90,14 +90,14 @@ const nftMint3TxResponse = async (
   const openNFTs = await collectionGetContract(chainId, collection, minter.provider);
   // console.log("openNFTs", openNFTs);
 
-  if (openNFTs?.mintNFT) {
+  if (openNFTs?.mint) {
     // const txOptions = {
     //   maxPriorityFeePerGas: utils.parseUnits("50", "gwei"),
     //   maxFeePerGas: utils.parseUnits("50", "gwei"),
     //   type: 2
     // };
 
-    txResp = await openNFTs.connect(minter).mintNFT(await minter.getAddress(), urlJson);
+    txResp = await openNFTs.connect(minter).mint(await minter.getAddress(), urlJson);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   } else {
     console.error("No OpenNFTs openNFTs found @", explorerCollectionUrl(chainId, collection.address));
