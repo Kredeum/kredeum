@@ -30,12 +30,18 @@ import { BigNumber } from "ethers";
 const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image || "");
 
 const nftGetContentType = async (nft: Nft): Promise<string> => {
+  // console.log("nftGetContentType");
+
   let contentType: string;
   try {
-    const response = await fetch(nftGetImageLink(nft));
+    const url = nftGetImageLink(nft);
+    const options = { method: "HEAD" };
+    const response = await fetch(url, options);
     contentType = response.headers.get("content-type");
+
+    console.log("nftGetContentType", contentType, url);
   } catch (e) {
-    console.error("ERROR nftGetMetadata contentType", e);
+    console.error("ERROR nftGetContentType", e);
   }
   return contentType;
 };
