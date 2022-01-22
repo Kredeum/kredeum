@@ -22,8 +22,7 @@ if (!process.env.INFURA_API_KEY) {
 const accounts = [
   process.env.PRIVATE_KEY_0_DEPLOY || "",
   process.env.PRIVATE_KEY_1_TEST || "",
-  process.env.PRIVATE_KEY_2_TEST || "",
-  process.env.PRIVATE_KEY_3_TEST || ""
+  process.env.PRIVATE_KEY_2_TEST || ""
 ];
 
 const config: HardhatUserConfig = {
@@ -32,8 +31,7 @@ const config: HardhatUserConfig = {
     admin: { default: 0 },
     deployer: { default: 0 },
     tester1: { default: 1 },
-    tester2: { default: 2 },
-    random: { default: 3 }
+    random: { default: 2 }
   },
   networks: {
     hardhat: {
