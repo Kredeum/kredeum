@@ -1,0 +1,35 @@
+list_contracts.txt
+
+MATIC
+
+nftsFactory
+0x842Da5c29cfca34b8CFB167b8442267966A123BE
+  openNFTs
+  0x39F3Ad85CAbba0630E2875379c8334Ee3C5F87b2 OK
+  0x364EcC8d6C11b3AA2E002A3D3DD2B2Bbe6240976 OK
+  0xbe4fC61898741b6E0E84184cc2fB0544E2F7D7a6 OK
+  0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253 OK
+  0xf6d53c7e96696391bb8e73be75629b37439938af OK
+
+nftsFactory
+0x632Be7c4fC601314B821D301971ee3f1E49b9824 (20 Matics)
+  openNFTs
+  0x39F3Ad85CAbba0630E2875379c8334Ee3C5F87b2 OK
+  0x1C3099A6455Ce3Fb582AdCCA018C59d798a0d779 1 NFT
+  0xF598f7E92DD80AD2b9A5E913795e6D49Dc0Ab7c3 1 NFT 
+
+Open Sea - openNFTs
+  MATIC "Open NFTs" 159 items
+  0xbeaab0f00d236862527dcf5a88df3ced043ab253
+  https://opensea.io/collection/open-nfts
+  https://opensea.io/assets/matic/0xbeaab0f00d236862527dcf5a88df3ced043ab253/1
+  
+  MATIC "Kredeum NFTs" 68 items
+  0xf6d53c7e96696391bb8e73be75629b37439938af
+  https://opensea.io/collection/kredeum-nfts
+  https://opensea.io/assets/matic/0xf6d53c7e96696391bb8e73be75629b37439938af/1
+
+  ETHEREUM "Open NFTs V2" 14 items
+  0x82a398243ebc2cb26a4a21b9427ec6db8c224471
+  https://opensea.io/collection/open-nfts-v2
+  https://opensea.io/assets/0x82a398243ebc2cb26a4a21b9427ec6db8c224471/1

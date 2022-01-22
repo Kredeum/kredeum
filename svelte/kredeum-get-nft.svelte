@@ -37,20 +37,21 @@
     console.log("Copied");
   };
 
-  const divMediaImage = (nft: Nft) => `<img alt="link" src=${nftGetImageLink(nft)} />`;
+  const divMediaImage = (src: string, height?: number) => {
+    return `<img alt="link" src=${src} ${height ? 'height="' + height + '"' : ""}/>`;
+  };
 
-  const divMediaVideo = (nft: Nft) =>
-    `<video autoplay=""  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">
-      <source src="${nftGetImageLink(nft)}" type="video/mp4">
+  const divMediaVideo = (src: string) =>
+    `<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">
+      <source src="${src}" type="video/mp4">
      </video>`;
 
   const divMedia = (nft: Nft, index: number) => {
     const mediaType = nft.contentType?.startsWith("video") ? "video" : "photo";
+    const src = nftGetImageLink(nft);
 
     let div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
-
-    div += mediaType === "video" ? divMediaVideo(nft) : divMediaImage(nft);
-
+    div += mediaType === "video" ? divMediaVideo(src) : divMediaImage(src);
     div += "</div>";
     return div;
   };
@@ -69,7 +70,7 @@
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
       <div class="media media-small media-photo">
-        <img alt="link" src={nftGetImageLink(nft)} height="100" />
+        {@html divMediaImage(nftGetImageLink(nft), 100)}
       </div>
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>

@@ -2,7 +2,9 @@ import type { NFTsFactory } from "../types/NFTsFactory";
 import type { IERC165 } from "../types/IERC165";
 import type { IERC721Enumerable } from "../types/IERC721Enumerable";
 import type { IERC721Metadata } from "../types/IERC721Metadata";
-import type { Signer } from "ethers";
+import type { Provider } from "@ethersproject/abstract-provider";
+
+import { collectionGetSupportedInterfaces, collectionGet } from "../../lib/kcollection-get";
 
 import hre from "hardhat";
 import networks from "../../config/networks.json";
@@ -22,11 +24,12 @@ const ABI_NFT = [
 
 const s = (n: number): string => (n > 1 ? "s" : "");
 
-const logCollection = async (nftsFactory: NFTsFactory, max: number, signer: Signer) => {
+const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: number, provider: Provider) => {
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
+    let output = collectionAddress;
 
-    const collection = await hre.ethers.getContractAt(ABI_NFT, collectionAddress, signer);
+    const collection = new hre.ethers.Contract(collectionAddress, ABI_NFT, provider);
     // bug sur XDAI
     if (collection.address !== nftsFactory.address) {
       const nb = (await (collection as IERC165).supportsInterface("0x780e9d63"))
@@ -41,27 +44,38 @@ const logCollection = async (nftsFactory: NFTsFactory, max: number, signer: Sign
       }
       name = name || "No name";
       symbol = symbol || `NFT${s(nb)}`;
+      const supports = (
+        await collectionGetSupportedInterfaces(chainId, collectionGet(chainId, collectionAddress), provider)
+      ).supports;
 
-      console.log(collectionAddress, String(nb).padStart(8), symbol.padEnd(6), `'${name}'`);
+      output += `${String(nb).padStart(8)} ${symbol.padEnd(5)} ${name.padEnd(32)}`;
+      Object.keys(supports).forEach((key) => {
+        if (supports[key]) output += ` ${key}`;
+      });
     } else {
-      console.log(collectionAddress, "  not ERC721");
+      output += " not ERC721";
     }
+    console.log(output);
   }
 };
 const main = async (): Promise<void> => {
   for await (const network of networks) {
     if (network.mainnet && network.nftsFactory) {
       hre.changeNetwork(network.chainName);
-      const signer = await hre.ethers.getNamedSigner("deployer");
+      const provider = hre.ethers.provider;
 
-      const nftsFactory: NFTsFactory = await hre.ethers.getContractAt(ABI_FACTORY, network.nftsFactory, signer);
+      const nftsFactory: NFTsFactory = new hre.ethers.Contract(
+        network.nftsFactory,
+        ABI_FACTORY,
+        provider
+      ) as NFTsFactory;
       const nb = Number(await nftsFactory.implementationsCount());
       console.log(
         nftsFactory.address,
         `${String(nb).padStart(8)} Collection${s(nb)} ${network.chainName.padStart(10)}`
       );
 
-      await logCollection(nftsFactory, nb, signer);
+      await logCollection(network.chainId, nftsFactory, nb, provider);
       console.log();
     }
   }

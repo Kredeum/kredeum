@@ -49,7 +49,7 @@ contract OpenNFTs is
     /// @notice mint
     /// @param minter address of minter
     /// @param jsonURI json URI of NFT metadata
-    function mint(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
+    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -61,7 +61,7 @@ contract OpenNFTs is
 
     /// @notice burn NFT
     /// @param tokenId tokenID of NFT to burn
-    function burn(uint256 tokenId) public override(IOpenNFTsV3) onlyOwner {
+    function burnNFT(uint256 tokenId) public override(IOpenNFTsV3) onlyOwner {
         _burn(tokenId);
     }
 

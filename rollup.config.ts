@@ -1,4 +1,5 @@
-import { RollupOptions, Plugin } from "rollup";
+import type { RollupOptions, Plugin } from "rollup";
+
 import svelte from "rollup-plugin-svelte";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";

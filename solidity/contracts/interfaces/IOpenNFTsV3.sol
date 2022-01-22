@@ -9,7 +9,7 @@ interface IOpenNFTsV3 {
         bool openMinting
     ) external;
 
-    function mint(address minter, string memory jsonURI) external returns (uint256 tokenID);
+    function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID);
 
-    function burn(uint256 tokenID) external;
+    function burnNFT(uint256 tokenID) external;
 }

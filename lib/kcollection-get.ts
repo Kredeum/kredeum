@@ -68,7 +68,7 @@ const collectionGetContract = async (
   if (chainId && collection && signerOrProvider) {
     try {
       if (!collection.supports) {
-        collection = await collectionGetMetadata(chainId, collection, signerOrProvider);
+        collection = await collectionGetSupportedInterfaces(chainId, collection, signerOrProvider);
       }
 
       let abi: Array<string> = [];
@@ -93,12 +93,17 @@ const collectionGet = (chainId: number, collectionAddress: string): Collection =
   return { chainId, address: collectionAddress };
 };
 
-const collectionGetMetadata = async (
+const collectionGetSupportedInterfaces = async (
   chainId: number,
   collection: Collection,
   signerOrProvider: Signer | Provider
 ): Promise<Collection> => {
-  // console.log("collectionGetMetadata", chainId, collection);
+  // console.log("collectionGetSupportedInterfaces", chainId, collection);
+
+  const openNFTsV1 = {
+    1: ["0x82a398243EBc2CB26a4A21B9427EC6Db8c224471"],
+    137: ["0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253", "0xF6d53C7e96696391Bb8e73bE75629B37439938AF"]
+  };
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collection && signerOrProvider) {
@@ -124,19 +129,22 @@ const collectionGetMetadata = async (
         } else if (supports.ERC1155) {
           supports.ERC1155Metadata_URI = await contract.supportsInterface(abis.ERC1155Metadata_URI.interfaceId);
         }
+        const adresses = (openNFTsV1[chainId] || []) as Array<string>;
+        supports.OpenNFTsV1 = Boolean(adresses.includes(collection.address));
+
         collection.supports = supports;
       }
     } catch (e) {
       console.error(`ERROR collectionGetContract : ${chainId} ${collection.address}\n`, e);
     }
   }
-  // console.log("collectionGetMetadata", collection);
+  // console.log("collectionGetSupportedInterfaces", collection);
   return collection;
 };
 
 export {
   collectionGetContract,
-  collectionGetMetadata,
+  collectionGetSupportedInterfaces,
   collectionGet,
   collectionGetNFTsFactory,
   collectionGetNFTsFactoryAddress,
