@@ -20,10 +20,10 @@ if (!process.env.INFURA_API_KEY) {
 }
 
 const accounts = [
-  process.env.ACCOUNT_KEY || "",
-  process.env.PRIVATE_KEY_TEST_1 || "",
-  process.env.PRIVATE_KEY_TEST_2 || "",
-  process.env.RANDOM_KEY || ""
+  process.env.PRIVATE_KEY_0_DEPLOY || "",
+  process.env.PRIVATE_KEY_1_TEST || "",
+  process.env.PRIVATE_KEY_2_TEST || "",
+  process.env.PRIVATE_KEY_3_TEST || ""
 ];
 
 const config: HardhatUserConfig = {
@@ -45,10 +45,10 @@ const config: HardhatUserConfig = {
       // },
       accounts: [
         {
-          privateKey: process.env.PRIVATE_KEY_TEST_1 || "",
+          privateKey: process.env.PRIVATE_KEY_1_TEST || "",
           balance: "100000000000000000000"
         },
-        { privateKey: process.env.PRIVATE_KEY_TEST_2 || "", balance: "100000000000000000000" }
+        { privateKey: process.env.PRIVATE_KEY_2_TEST || "", balance: "100000000000000000000" }
       ]
     },
     local: {
@@ -140,7 +140,7 @@ const config: HardhatUserConfig = {
       url: `https://arbitrum-mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`,
       // url: `https://arb-mainnet.g.alchemy.com/v2/${process.env.ARBITRUM_API_KEY}`,
       accounts
-    },    
+    },
     xdai: {
       chainId: 100,
       url: "https://rpc.xdaichain.com/",

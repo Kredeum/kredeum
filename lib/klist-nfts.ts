@@ -43,9 +43,21 @@ const getCollection = async (
         waitMetadata,
         waitEnumerable
       ]);
+
+      const openNFTsV1 = {
+        1: ["0x82a398243EBc2CB26a4A21B9427EC6Db8c224471"],
+        137: [
+          "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
+          "0xF6d53C7e96696391Bb8e73bE75629B37439938AF"
+        ]
+      };
+      const adresses = (openNFTsV1[chainId] || []) as Array<string>;
+      const supportsOpenNFTsV1 = Boolean(adresses.includes(collection));
+
       let abi = abis.ERC721;
       if (supportsMetadata) abi = abi.concat(abis.ERC721Metadata);
       if (supportsEnumerable) abi = abi.concat(abis.ERC721Enumerable);
+      if (supportsOpenNFTsV1) abi = abi.concat(abis.OpenNFTsV1);
       if (supportsOpenNFTsV2) abi = abi.concat(abis.OpenNFTsV2);
 
       contract = new Contract(collection, abi, _providerOrSigner) as OpenNFTs;
