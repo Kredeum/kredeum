@@ -30,7 +30,7 @@ describe("11 NFTs Factory contract", function () {
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    await (await openNFTs.mint(owner, "", txOptions)).wait();
+    await (await openNFTs.mintNFT(owner, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {

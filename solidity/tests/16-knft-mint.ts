@@ -76,7 +76,7 @@ describe("16 NFT Mint", function () {
     it("Should Mint one Token", async function () {
       this.timeout(50000);
       const totalSupply: number = (await openNFTs.totalSupply()).toNumber();
-      const tx = await openNFTs.mint(artistAddress, json);
+      const tx = await openNFTs.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
       const totalSupply1: number = (await openNFTs.totalSupply()).toNumber();
@@ -91,13 +91,13 @@ describe("16 NFT Mint", function () {
     });
 
     it("Should not be allowed to Mint", async function () {
-      await expect(cloneOpenNFTs.connect(tester).mint(artistAddress, json)).to.be.revertedWith(
+      await expect(cloneOpenNFTs.connect(tester).mintNFT(artistAddress, json)).to.be.revertedWith(
         "OpenNFTs: caller is not minter"
       );
     });
 
     it("Should be allowed to Mint", async function () {
-      await expect(cloneOpenNFTs.connect(deployer).mint(artistAddress, json)).to.be.not.reverted;
+      await expect(cloneOpenNFTs.connect(deployer).mintNFT(artistAddress, json)).to.be.not.reverted;
     });
   });
 });

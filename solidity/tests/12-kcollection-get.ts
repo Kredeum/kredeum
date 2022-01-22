@@ -22,7 +22,7 @@ describe("12 Open NFTs contract", function () {
     openNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
 
-    await (await openNFTs.mint(artist, "", txOptions)).wait();
+    await (await openNFTs.mintNFT(artist, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {

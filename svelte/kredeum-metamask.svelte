@@ -163,6 +163,9 @@
 
   onMount(async () => {
     // console.log("init");
+
+    const urlParams = new URLSearchParams(window.location.search);
+
     const provider = await detectEthereumProvider();
     if (provider) {
       noMetamask = false;
@@ -181,12 +184,16 @@
         .then(handleAccounts)
         .catch((e) => console.error("KredeumMetamask ERROR eth_accounts", e));
 
-      ethereumProvider
-        .request({
-          method: "eth_chainId"
-        })
-        .then(handleChainId)
-        .catch((e) => console.error("KredeumMetamask ERROR eth_chainId", e));
+      if (urlParams.has("chainId")) {
+        switchEthereumChain(urlParams.get("chainId"));
+      } else {
+        ethereumProvider
+          .request({
+            method: "eth_chainId"
+          })
+          .then(handleChainId)
+          .catch((e) => console.error("KredeumMetamask ERROR eth_chainId", e));
+      }
 
       ethereumProvider.on("chainChanged", handleChainId);
 

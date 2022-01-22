@@ -49,14 +49,14 @@ describe("13 List contracts lib", function () {
 
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
     expect(openNFTs.address).to.be.properAddress;
-    await ((await openNFTs.mint(artist, "", txOptions)) as TransactionResponse).wait();
+    await ((await openNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
     const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
     const newOpenNFTs: OpenNFTs = (await openNFTsFactory.deploy()) as OpenNFTs;
-    await ((await newOpenNFTs.mint(artist, "", txOptions)) as TransactionResponse).wait();
+    await ((await newOpenNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
   });

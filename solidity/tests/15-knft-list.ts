@@ -5,7 +5,7 @@ import type { OpenNFTs } from "../types/OpenNFTs";
 import { nftList, nftListFromTheGraph, nftListFromContract, nftListFromCovalent } from "../../lib/knft-list";
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
-import { collectionGet, collectionGetMetadata } from "../../lib/kcollection-get";
+import { collectionGet, collectionGetSupportedInterfaces } from "../../lib/kcollection-get";
 import { getNetwork } from "../../lib/kconfig";
 
 const txOptions = {
@@ -28,7 +28,7 @@ describe("15 List NFTs lib", function () {
       await deployments.fixture(["OpenNFTs"]);
     }
     const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs");
-    await ((await openNFTs.mint(artistAddress, "", txOptions)) as TransactionResponse).wait();
+    await ((await openNFTs.mintNFT(artistAddress, "", txOptions)) as TransactionResponse).wait();
 
     contract = openNFTs.address;
 
@@ -47,7 +47,7 @@ describe("15 List NFTs lib", function () {
     let collection: Collection;
 
     before(async () => {
-      collection = await collectionGetMetadata(chainId, collectionGet(chainId, contract), ethers.provider);
+      collection = await collectionGetSupportedInterfaces(chainId, collectionGet(chainId, contract), ethers.provider);
       console.log("collection", collection);
     });
 

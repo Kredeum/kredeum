@@ -3,7 +3,7 @@
   import type { Provider } from "@ethersproject/providers";
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
-  import { collectionGetMetadata, getOpenNFTsAddress } from "lib/kcollection-get";
+  import { collectionGetSupportedInterfaces, getOpenNFTsAddress } from "lib/kcollection-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
@@ -34,7 +34,7 @@
       if ($chainId && $owner && collectionAddress) {
         localStorage.setItem(`defaultCollection/${$chainId}/${$owner}`, collectionAddress);
         const coll = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
-        collection = await collectionGetMetadata($chainId, coll, $provider);
+        collection = await collectionGetSupportedInterfaces($chainId, coll, $provider);
       } else {
         collection = null;
       }
