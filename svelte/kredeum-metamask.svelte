@@ -14,7 +14,7 @@
     networks,
     nftsUrl
   } from "lib/kconfig";
-  import { explorerNFTsFactoryUrl, collectionGetNFTsFactoryAddress } from "lib/kcollection-get";
+  import { explorerNFTsFactoryUrl, factoryGetAddress } from "lib/kcollection-get";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { ethers } from "ethers";
@@ -271,7 +271,7 @@
           href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-          {collectionGetNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
+          {factoryGetAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 

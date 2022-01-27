@@ -3,7 +3,7 @@ import type { AbiType } from "../../lib/ktypes";
 
 import { ethers, network, getChainId } from "hardhat";
 import abis from "../../lib/abis.json";
-import { collectionGet, collectionGetContract } from "../../lib/kcollection-get";
+import { collectionGetContract } from "../../lib/kcollection-get";
 
 const collectionAddress = "0xd07dc4262BCDbf85190C01c996b4C06a461d2430";
 const owner = "0x981ab0D817710d8FFFC5693383C00D985A3BDa38";
@@ -15,7 +15,7 @@ const main = async (): Promise<boolean> => {
 
   console.log("network", network.name, chainId);
 
-  const collection: OpenNFTs = await collectionGetContract(chainId, collectionGet(chainId, collectionAddress), signer);
+  const collection: OpenNFTs = await collectionGetContract(chainId, collectionAddress, signer);
 
   if (collection) {
     console.log(collection.functions);

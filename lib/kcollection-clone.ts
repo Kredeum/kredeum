@@ -2,7 +2,7 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abs
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
-import { collectionGetNFTsFactory, NFTsFactory } from "./kcollection-get";
+import { factoryGetContract, NFTsFactory } from "./kcollection-get";
 
 const collectionCloneResponse = async (
   chainId: number,
@@ -13,7 +13,7 @@ const collectionCloneResponse = async (
 
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory = collectionGetNFTsFactory(chainId, _cloner);
+  const nftsFactory: NFTsFactory = factoryGetContract(chainId, _cloner);
   let txResp: TransactionResponse | undefined;
 
   if (nftsFactory) {

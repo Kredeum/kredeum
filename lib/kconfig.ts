@@ -1,6 +1,7 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { ABIS, Address, Network, Collection, Nft } from "./ktypes";
 
+import { factoryGetAddress, factoryGetOpenNFTsDefault } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 import abisJson from "./abis.json";
@@ -173,6 +174,17 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   explorerUrl(chainId, `/tx/${tx}`);
 
+// NFTS_FACTORY URL
+const explorerNFTsFactoryUrl = (chainId: number): string =>
+  // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
+  // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
+  explorerContractUrl(chainId, factoryGetAddress(chainId));
+
+// OPEN_NFTS URL
+const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
+  // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
+  explorerContractUrl(chainId, await factoryGetOpenNFTsDefault(chainId, provider));
+
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {
   let url = "";
@@ -294,6 +306,8 @@ export {
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
+  explorerNFTsFactoryUrl,
+  explorerOpenNFTsUrl,
   getChainName,
   getShortAddress,
   getChecksumAddress,

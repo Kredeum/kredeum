@@ -5,7 +5,7 @@ import type { OpenNFTs } from "../types/OpenNFTs";
 import { nftList, nftListFromTheGraph, nftListFromContract, nftListFromCovalent } from "../../lib/knft-list";
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
-import { collectionGet, collectionGetSupportedInterfaces } from "../../lib/kcollection-get";
+import { collectionGet } from "../../lib/kcollection-get";
 import { getNetwork } from "../../lib/kconfig";
 
 const txOptions = {
@@ -13,9 +13,9 @@ const txOptions = {
   maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
   type: 2
 };
-let contract: string;
 let chainId: number;
 let networkConfig: Network | undefined;
+let openNFTs: OpenNFTs;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
@@ -27,18 +27,16 @@ describe("15 List NFTs lib", function () {
     if (chainId === 31337) {
       await deployments.fixture(["OpenNFTs"]);
     }
-    const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs");
+    openNFTs = await ethers.getContract("OpenNFTs");
     await ((await openNFTs.mintNFT(artistAddress, "", txOptions)) as TransactionResponse).wait();
 
-    contract = openNFTs.address;
-
     console.log("totalSupply", (await openNFTs.totalSupply()).toNumber());
-    // console.log(chainId, contract);
+    // console.log(chainId, openNFTs.address);
   });
 
   describe("Setup", function () {
     it("Should get OpenNFTs contract address", function () {
-      expect(contract).to.be.properAddress;
+      expect(openNFTs.address).to.be.properAddress;
     });
   });
 
@@ -47,7 +45,7 @@ describe("15 List NFTs lib", function () {
     let collection: Collection;
 
     before(async () => {
-      collection = await collectionGetSupportedInterfaces(chainId, collectionGet(chainId, contract), ethers.provider);
+      collection = await collectionGet(chainId, openNFTs.address, ethers.provider);
       console.log("collection", collection);
     });
 
