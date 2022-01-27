@@ -14,7 +14,8 @@
     networks,
     nftsUrl
   } from "lib/kconfig";
-  import { explorerNFTsFactoryUrl, factoryGetAddress } from "lib/kcollection-get";
+  import { factoryGetAddress } from "lib/kfactory-get";
+  import { explorerNFTsFactoryUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { ethers } from "ethers";

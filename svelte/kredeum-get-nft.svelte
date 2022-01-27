@@ -38,7 +38,8 @@
   };
 
   const divMediaImage = (src: string, height?: number) => {
-    return `<img alt="link" src=${src} ${height ? 'height="' + height + '"' : ""}/>`;
+    const heightString = height ? `height="${height}"` : "";
+    return `<img alt="link" src=${src} ${heightString}/>`;
   };
 
   const divMediaVideo = (src: string) =>

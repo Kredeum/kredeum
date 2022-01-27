@@ -70,6 +70,7 @@ type CollectionSupports = {
   ERC1155TokenReceiver?: boolean;
   ERC1155Metadata_URI?: boolean;
   OpenNFTs?: boolean;
+  OpenNFTsV0?: boolean;
   OpenNFTsV1?: boolean;
   OpenNFTsV2?: boolean;
   OpenNFTsV3?: boolean;

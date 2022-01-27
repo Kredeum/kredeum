@@ -4,7 +4,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { factoryGetContract } from "./kcollection-get";
+import { factoryGetContract } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {

@@ -12,7 +12,7 @@ const collectionGetSupportedInterfaces = async (
   collectionOrAddress: Collection | string,
   signerOrProvider: Signer | Provider
 ): Promise<CollectionSupports> => {
-  console.log(`collectionGetSupportedInterfaces ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGetSupportedInterfaces ${chainId}`, collectionOrAddress);
 
   const openNFTsV1 = {
     1: ["0x82a398243EBc2CB26a4A21B9427EC6Db8c224471"],
@@ -60,7 +60,7 @@ const collectionGetSupportedInterfaces = async (
       console.error(`ERROR collectionGetSupportedInterfaces : ${chainId} ${contract.address}\n`, e);
     }
   }
-  console.log("collectionGetSupportedInterfaces", supports);
+  // console.log("collectionGetSupportedInterfaces", supports);
   return supports;
 };
 
@@ -69,7 +69,7 @@ const collectionGet = async (
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
 ): Promise<Collection> => {
-  console.log(`collectionGet ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: Collection;
 
@@ -89,6 +89,7 @@ const collectionGet = async (
       }
     }
   }
+  // console.log(`collectionGet ${chainId}`, collection);
   return collection;
 };
 
@@ -97,7 +98,7 @@ const collectionGetContract = async (
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
 ): Promise<OpenNFTs> => {
-  console.log(`collectionGetContract ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGetContract ${chainId}`, collectionOrAddress);
 
   let collection: Collection;
   let contract: OpenNFTs;
@@ -126,7 +127,7 @@ const collectionGetContract = async (
       console.error(`ERROR collectionGetContract : ${chainId} ${collection.address}\n`, e);
     }
   }
-  console.log("collectionGetContract", contract);
+  // console.log("collectionGetContract", contract);
   return contract;
 };
 

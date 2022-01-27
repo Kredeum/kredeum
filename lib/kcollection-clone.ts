@@ -1,8 +1,9 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { NFTsFactory } from "./kfactory-get";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
-import { factoryGetContract, NFTsFactory } from "./kcollection-get";
+import { factoryGetContract } from "./kfactory-get";
 
 const collectionCloneResponse = async (
   chainId: number,

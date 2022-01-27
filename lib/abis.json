@@ -31,6 +31,10 @@
     "interfaceId": "0x4b68d431",
     "abi": ["function addUser(address,string) returns (uint256)"]
   },
+  "OpenNFTs": {
+    "interfaceId": "0x00000000",
+    "abi": []
+  },
   "CloneFactory": {
     "abi": [
       "function addImplementation(address _implementation)",

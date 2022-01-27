@@ -4,7 +4,7 @@ import type { IERC721Enumerable } from "../types/IERC721Enumerable";
 import type { IERC721Metadata } from "../types/IERC721Metadata";
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import { collectionGetContract } from "../../lib/kcollection-get";
+import { collectionGetContract, collectionGetSupportedInterfaces } from "../../lib/kcollection-get";
 
 import networks from "../../config/networks.json";
 import hre from "hardhat";
@@ -28,9 +28,6 @@ let totalNFTs = 0;
 
 const s = (n: number): string => (n > 1 ? "s" : "");
 
-const isOpenNFTs = (collection: Collection): boolean => {
-  return true;
-};
 const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: number, provider: Provider) => {
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
@@ -41,9 +38,9 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
       output += " is NFTsFactory";
     } else {
       const collection = await collectionGetContract(chainId, collectionAddress, provider);
+      const supports = await collectionGetSupportedInterfaces(chainId, collectionAddress, provider);
 
       const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;
-      totalNFTs += nb;
 
       const name = collection.name ? await collection.name() : "No name";
       const symbol = collection.symbol ? await collection.symbol() : `NFT${s(nb)}`;
@@ -52,6 +49,10 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
       Object.keys(supports).forEach((key) => {
         if (supports[key]) output += ` ${key}`;
       });
+      if (supports.OpenNFTs) {
+        totalCollections++;
+        totalNFTs += nb;
+      }
     }
     console.log(output);
   }
@@ -71,7 +72,6 @@ const main = async (): Promise<void> => {
         provider
       ) as NFTsFactory;
       const nb = Number(await nftsFactory.implementationsCount());
-      totalCollections += nb;
 
       console.log(
         nftsFactory.address,
