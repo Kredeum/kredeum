@@ -16,6 +16,7 @@
   let cloningTxHash: string;
   let collectionCreated: Collection;
   let collectionName: string;
+  let collectionSymbol: string;  
 
   const dispatch = createEventDispatcher();
 
@@ -26,7 +27,7 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await collectionCloneResponse($chainId, collectionName, $signer);
+      const txResp = await collectionCloneResponse($chainId, collectionName, collectionSymbol, $signer);
       cloningTxHash = txResp.hash;
 
       const txReceipt = await collectionCloneReceipt(txResp);
@@ -34,6 +35,7 @@
         openNFTsVersion: 2,
         chainId: $chainId,
         name: collectionName,
+        symbol: collectionSymbol,        
         address: collectionCloneAddress(txReceipt),
         user: await $signer.getAddress()
       };
@@ -84,6 +86,11 @@
               <input type="text" placeholder="My collection" bind:value={collectionName} />
             </div>
           </div>
+          <div class="section">
+            <div class="form-field">
+              <input type="text" placeholder="My collection symbol" bind:value={collectionSymbol} />
+            </div>
+          </div>          
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>
