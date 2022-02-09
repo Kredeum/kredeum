@@ -34,7 +34,7 @@ const fetchGQL = async (_url: string, _query: string): Promise<unknown> => {
 };
 
 const fetchCov = async (_path: string): Promise<unknown> => {
-  const loginPass = `${process.env.COVALENT_API_KEY}:`;
+  const loginPass = `${process.env.COVALENT_API_KEY}`;
   const url = `https://api.covalenthq.com/v1${_path}&key=${loginPass}`;
   const config = {
     method: "GET",
