@@ -61,7 +61,8 @@ add_action(
 			$archived_count = intval( $_REQUEST['bulk_archived'] );
 			$medias         = _n( 'media', 'medias', $archived_count );
 			printf(
-				'<div id="message" class="notice notice-success is-dismissible"><p>' . __( '%s %s archived to IPFS', 'kredeum-nfts' ) . '</p></div>',
+			// translators: must explain %1 %2.
+				'<div id="message" class="notice notice-success is-dismissible"><p>' . esc_html( __( '%1$s %2$s archived to IPFS', 'kredeum-nfts' ) ) . '</p></div>',
 				esc_html( $archived_count ),
 				esc_html( $medias )
 			);
@@ -70,7 +71,8 @@ add_action(
 			$modified_count = intval( $_REQUEST['bulk_modified'] );
 			$medias_links   = _n( 'media link', 'medias links', $modified_count );
 			printf(
-				'<div id="message" class="notice notice-warning is-dismissible"><p>' . __( '%s IPFS %s modified', 'kredeum-nfts' ) . '</p></div>',
+			// translators: must explain %1 %2.
+				'<div id="message" class="notice notice-warning is-dismissible"><p>' . esc_html( __( '%1$s IPFS %2$s modified', 'kredeum-nfts' ) ) . '</p></div>',
 				esc_html( $modified_count ),
 				esc_html( $medias_links )
 			);
@@ -79,7 +81,8 @@ add_action(
 			$unchanged_count = intval( $_REQUEST['bulk_unchanged'] );
 			$medias_links    = _n( 'media link', 'medias links', $unchanged_count );
 			printf(
-				'<div id="message" class="notice is-dismissible"><p>' . __( '%s IPFS %s unchanged', 'kredeum-nfts' ) . '</p></div>',
+			// translators: must explain %1 %2.
+				'<div id="message" class="notice is-dismissible"><p>' . esc_html( __( '%1$s IPFS %2$s unchanged', 'kredeum-nfts' ) ) . '</p></div>',
 				esc_html( $unchanged_count ),
 				esc_html( $medias_links )
 			);
