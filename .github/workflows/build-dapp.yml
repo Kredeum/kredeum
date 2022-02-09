@@ -51,7 +51,7 @@ jobs:
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add web/app
-          git commit -am "Dapp build!"
+          git commit -am "${{ github.ref }} dapp build!"
 
       - name: Push Dapp build
         uses: ad-m/github-push-action@master

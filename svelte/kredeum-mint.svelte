@@ -21,7 +21,6 @@
   export let collection: Collection = undefined;
 
   import { chainId, network, provider, signer } from "./network";
-  import { collectionGet } from "lib/kcollection-get";
 
   let mintedNft: Nft;
   let minting: number;
