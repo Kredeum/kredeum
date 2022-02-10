@@ -1,6 +1,7 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import type { OpenNFTs } from "../types/OpenNFTs";
+import { abis } from "../../lib/kconfig";
 
 describe("12 Open NFTs contract", function () {
   let openNFTs: OpenNFTs;
@@ -50,6 +51,6 @@ describe("12 Open NFTs contract", function () {
   });
 
   it("Should check openNFTsV3 interface", async function () {
-    expect(await openNFTs.supportsInterface("0xce58130a")).to.be.true;
+    expect(await openNFTs.supportsInterface(abis.OpenNFTsV3.interfaceId)).to.be.true;
   });
 });

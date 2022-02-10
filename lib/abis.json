@@ -1,6 +1,6 @@
 {
   "OpenNFTsV3": {
-    "interfaceId": "0xce58130a",
+    "interfaceId": "0x9e4ad480",
     "abi": [
       "function initialize(string memory name, string memory symbol, address owner, bool openMinting) external",
       "function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID)",

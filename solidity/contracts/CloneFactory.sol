@@ -73,7 +73,7 @@ contract CloneFactory is ICloneFactory, Ownable {
 
     /// @notice Implementations count
     /// @return count : number of implementations
-    function implementationsCount() public view override(ICloneFactory) returns (uint256 count) {
+    function implementationsCount() public view override(ICloneFactory) returns (uint256) {
         return implementations.length;
     }
 

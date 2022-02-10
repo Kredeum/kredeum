@@ -29,7 +29,7 @@
 </script>
 
 <div id="kredeum-nfts">
-  <nav class="nav-krd" role="navigation">
+  <nav class="nav-krd">
     <div class="logo">
       <a href="https://www.kredeum.com" target="_blank" alt="Kredeum website" title="Kredeum website"
         ><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
@@ -61,7 +61,7 @@
     >
   </nav>
 
-  <main class="main-krd" role="main">
+  <main class="main-krd">
     <div id="kredeum-list">
       <section class="content">
         <header>

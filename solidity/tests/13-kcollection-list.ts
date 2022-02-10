@@ -54,20 +54,10 @@ describe("13 List contracts lib", function () {
     nftsFactory = await ethers.getContract("NFTsFactory", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    const openNFTsFactory = await ethers.getContractFactory("OpenNFTs");
-    const newOpenNFTs: OpenNFTs = (await openNFTsFactory.deploy()) as OpenNFTs;
-    await ((await newOpenNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
-
-    await (await nftsFactory.setDefaultTemplate(newOpenNFTs.address, txOptions)).wait();
+    await (await nftsFactory.setDefaultTemplate(openNFTs.address, txOptions)).wait();
   });
 
   it("Should clone", async function () {
-    const txOptions = {
-      maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
-      maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
-      type: 2
-    };
-
     await (await nftsFactory.clone("Open NFTs 1", "NFT1")).wait();
     await (await nftsFactory.clone("Open NFTs 2", "NFT2")).wait();
   });
