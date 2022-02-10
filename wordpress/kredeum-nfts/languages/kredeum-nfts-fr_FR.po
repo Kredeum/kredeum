@@ -25,7 +25,7 @@ msgstr "Archive"
 msgid "Archive link"
 msgstr "Lien d'Archive"
 
-#: admin/media_list/actions.php:16
+#: admin/media-list/actions.php:16
 msgid "Archive to IPFS"
 msgstr "Archiver sur IPFS"
 
@@ -60,7 +60,7 @@ msgstr "https://docs.kredeum.tech"
 msgid "https://www.kredeum.com"
 msgstr "https://www.kredeum.com"
 
-#: admin/media_list/column.php:17
+#: admin/media-list/column.php:17
 msgid "IPFS Archive"
 msgstr "Archie IPFS"
 
@@ -68,7 +68,7 @@ msgstr "Archie IPFS"
 msgid "Kredeum <alain@kredeum.com>"
 msgstr "Kredeum <alain@kredeum.com>"
 
-#: admin/media_list/column.php:16
+#: admin/media-list/column.php:16
 #| msgid "Kredeum IPFS"
 msgid "KREDEUM NFTs"
 msgstr "Kredeum NFTs"
