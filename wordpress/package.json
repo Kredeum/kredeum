@@ -1,0 +1,26 @@
+{
+  "name": "wordpress",
+  "version": "1.0.0",
+  "description": "=== Kredeum NFTs, The easiest way to sell your content to NFTs Marketplaces === Contributors: yoannr35, alexr35, alain Donate link:  https://www.kredeum.com/ Tags: nft, blockchain, ethereum, ipfs Requires at least: 5.0 Tested up to: 5.8 Stable tag: {{version.stable}} Requires PHP: 7.0 License: GPLv3 or later License URI: https://www.gnu.org/licenses/gpl-3.0.html",
+  "main": "index.js",
+  "scripts": {
+    "clean": "npm run clean-kredeum && rm -rf  vendor",
+    "clean-kredeum": "rm -rf kredeum-nfts/lib kredeum-nfts/vendor kredeum-nfts/readme.txt kredeum-nfts/kredeum-nfts.php",
+    "instal": "rm -rf vendor && composer install --prefer-dist --no-progress",
+    "build-txt": "npx hbs-cli -D config/config.json readme.txt_handlebars -o kredeum-nfts -e txt",
+    "build-php": "npx hbs-cli -D config/config.json kredeum-nfts.php_handelbars -o kredeum-nfts -e php",
+    "build-vendor": "cd kredeum-nfts && composer install --prefer-dist --no-progress",
+    "build": "npm run clean-kredeum && npm run build-txt && npm run build-php && npm run build-vendor",
+    "fix": "vendor/bin/phpcbf kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
+    "format": "vendor/bin/phpcs kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
+    "check": "npm run fix && npm run format",
+    "tests": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "^9.4.1",
+    "cypress-file-upload": "^5.0.8"
+  }
+}
