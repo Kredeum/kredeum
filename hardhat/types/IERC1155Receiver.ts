@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -33,23 +33,11 @@ export interface IERC1155ReceiverInterface extends utils.Interface {
     functionFragment: "onERC1155Received",
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
 
-  decodeFunctionResult(
-    functionFragment: "onERC1155BatchReceived",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "onERC1155Received",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "onERC1155BatchReceived", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "onERC1155Received", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
 
   events: {};
 }
@@ -68,13 +56,9 @@ export interface IERC1155Receiver extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -100,10 +84,7 @@ export interface IERC1155Receiver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
   };
 
   onERC1155BatchReceived(
@@ -124,10 +105,7 @@ export interface IERC1155Receiver extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  supportsInterface(
-    interfaceId: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
     onERC1155BatchReceived(
@@ -148,10 +126,7 @@ export interface IERC1155Receiver extends BaseContract {
       overrides?: CallOverrides
     ): Promise<string>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {};
@@ -175,10 +150,7 @@ export interface IERC1155Receiver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -200,9 +172,6 @@ export interface IERC1155Receiver extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

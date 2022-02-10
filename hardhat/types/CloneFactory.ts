@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -33,77 +33,29 @@ export interface CloneFactoryInterface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "addImplementation",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "contractProbe",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementations",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementationsCount",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "addImplementation", values: [string]): string;
+  encodeFunctionData(functionFragment: "contractProbe", values?: undefined): string;
+  encodeFunctionData(functionFragment: "implementations", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "implementationsCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setContractProbe",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDefaultTemplate",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "renounceOwnership", values?: undefined): string;
+  encodeFunctionData(functionFragment: "setContractProbe", values: [string]): string;
+  encodeFunctionData(functionFragment: "setDefaultTemplate", values: [string]): string;
   encodeFunctionData(functionFragment: "template", values?: undefined): string;
   encodeFunctionData(functionFragment: "templates", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "transferOwnership", values: [string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "addImplementation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "contractProbe",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementations",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementationsCount",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "addImplementation", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "contractProbe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementations", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementationsCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setContractProbe",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDefaultTemplate",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "renounceOwnership", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setContractProbe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setDefaultTemplate", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "template", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "templates", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "transferOwnership", data: BytesLike): Result;
 
   events: {
     "NewImplementation(address,address,address)": EventFragment;
@@ -121,23 +73,15 @@ export type NewImplementationEvent = TypedEvent<
   { implementation: string; template: string; creator: string }
 >;
 
-export type NewImplementationEventFilter =
-  TypedEventFilter<NewImplementationEvent>;
+export type NewImplementationEventFilter = TypedEventFilter<NewImplementationEvent>;
 
-export type NewTemplateEvent = TypedEvent<
-  [string, string],
-  { template: string; creator: string }
->;
+export type NewTemplateEvent = TypedEvent<[string, string], { template: string; creator: string }>;
 
 export type NewTemplateEventFilter = TypedEventFilter<NewTemplateEvent>;
 
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
->;
+export type OwnershipTransferredEvent = TypedEvent<[string, string], { previousOwner: string; newOwner: string }>;
 
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+export type OwnershipTransferredEventFilter = TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface CloneFactory extends BaseContract {
   contractName: "CloneFactory";
@@ -153,13 +97,9 @@ export interface CloneFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -174,18 +114,13 @@ export interface CloneFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<[string]>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     implementationsCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
     setContractProbe(
       addr: string,
@@ -214,18 +149,13 @@ export interface CloneFactory extends BaseContract {
 
   contractProbe(overrides?: CallOverrides): Promise<string>;
 
-  implementations(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   setContractProbe(
     addr: string,
@@ -251,10 +181,7 @@ export interface CloneFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<string>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -270,10 +197,7 @@ export interface CloneFactory extends BaseContract {
 
     templates(arg0: string, overrides?: CallOverrides): Promise<string>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    transferOwnership(newOwner: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -288,55 +212,32 @@ export interface CloneFactory extends BaseContract {
       creator?: string | null
     ): NewImplementationEventFilter;
 
-    "NewTemplate(address,address)"(
-      template?: string | null,
-      creator?: string | null
-    ): NewTemplateEventFilter;
-    NewTemplate(
-      template?: string | null,
-      creator?: string | null
-    ): NewTemplateEventFilter;
+    "NewTemplate(address,address)"(template?: string | null, creator?: string | null): NewTemplateEventFilter;
+    NewTemplate(template?: string | null, creator?: string | null): NewTemplateEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(previousOwner?: string | null, newOwner?: string | null): OwnershipTransferredEventFilter;
   };
 
   estimateGas: {
-    addImplementation(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    addImplementation(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     contractProbe(overrides?: CallOverrides): Promise<BigNumber>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
-    setContractProbe(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    setContractProbe(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
-    setDefaultTemplate(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    setDefaultTemplate(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     template(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -356,20 +257,13 @@ export interface CloneFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementationsCount(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementationsCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
 
     setContractProbe(
       addr: string,
@@ -383,10 +277,7 @@ export interface CloneFactory extends BaseContract {
 
     template(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    templates(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    templates(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,

@@ -10,7 +10,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -25,27 +25,15 @@ export interface IOpenNFTsV2Interface extends utils.Interface {
     "transferOwnership(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintNFT",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "initialize", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "mintNFT", values: [string, string]): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "transferOwnership", values: [string]): string;
 
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "mintNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "transferOwnership", data: BytesLike): Result;
 
   events: {};
 }
@@ -64,13 +52,9 @@ export interface IOpenNFTsV2 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -118,24 +102,13 @@ export interface IOpenNFTsV2 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    initialize(
-      name: string,
-      symbol: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    initialize(name: string, symbol: string, overrides?: CallOverrides): Promise<void>;
 
-    mintNFT(
-      minter: string,
-      jsonURI: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    mintNFT(minter: string, jsonURI: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<string>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    transferOwnership(newOwner: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};

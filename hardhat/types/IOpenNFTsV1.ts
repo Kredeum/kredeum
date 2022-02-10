@@ -10,7 +10,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -22,10 +22,7 @@ export interface IOpenNFTsV1Interface extends utils.Interface {
     "mintNFT(address,string)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "mintNFT",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "mintNFT", values: [string, string]): string;
 
   decodeFunctionResult(functionFragment: "mintNFT", data: BytesLike): Result;
 
@@ -46,13 +43,9 @@ export interface IOpenNFTsV1 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -74,11 +67,7 @@ export interface IOpenNFTsV1 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    mintNFT(
-      minter: string,
-      jsonURI: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    mintNFT(minter: string, jsonURI: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {};

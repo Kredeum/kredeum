@@ -1,11 +1,7 @@
 {
-  "name": "common",
+  "name": "web",
   "version": "1.0.0",
-  "description": "",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
     "clean": "rm -rf node_modules",
     "build": "echo build",
@@ -15,8 +11,5 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "@ethersproject/abstract-provider": "^5.5.1",
-    "ethers": "^5.5.4"
-  }
+  "description": ""
 }

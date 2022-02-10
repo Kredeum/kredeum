@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -31,67 +31,25 @@ export interface IERC721Interface extends utils.Interface {
     "transferFrom(address,address,uint256)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "approve",
-    values: [string, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "approve", values: [string, BigNumberish]): string;
   encodeFunctionData(functionFragment: "balanceOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "getApproved",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedForAll",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ownerOf",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "safeTransferFrom",
-    values: [string, string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setApprovalForAll",
-    values: [string, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "transferFrom",
-    values: [string, string, BigNumberish]
-  ): string;
+  encodeFunctionData(functionFragment: "getApproved", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "isApprovedForAll", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "ownerOf", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "safeTransferFrom", values: [string, string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "setApprovalForAll", values: [string, boolean]): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
+  encodeFunctionData(functionFragment: "transferFrom", values: [string, string, BigNumberish]): string;
 
   decodeFunctionResult(functionFragment: "approve", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "getApproved",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "getApproved", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isApprovedForAll", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ownerOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "safeTransferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "transferFrom",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "safeTransferFrom", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setApprovalForAll", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "transferFrom", data: BytesLike): Result;
 
   events: {
     "Approval(address,address,uint256)": EventFragment;
@@ -118,10 +76,7 @@ export type ApprovalForAllEvent = TypedEvent<
 
 export type ApprovalForAllEventFilter = TypedEventFilter<ApprovalForAllEvent>;
 
-export type TransferEvent = TypedEvent<
-  [string, string, BigNumber],
-  { from: string; to: string; tokenId: BigNumber }
->;
+export type TransferEvent = TypedEvent<[string, string, BigNumber], { from: string; to: string; tokenId: BigNumber }>;
 
 export type TransferEventFilter = TypedEventFilter<TransferEvent>;
 
@@ -139,13 +94,9 @@ export interface IERC721 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -159,26 +110,13 @@ export interface IERC721 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    balanceOf(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber] & { balance: BigNumber }>;
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<[BigNumber] & { balance: BigNumber }>;
 
-    getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string] & { operator: string }>;
+    getApproved(tokenId: BigNumberish, overrides?: CallOverrides): Promise<[string] & { operator: string }>;
 
-    isApprovedForAll(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    isApprovedForAll(owner: string, operator: string, overrides?: CallOverrides): Promise<[boolean]>;
 
-    ownerOf(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string] & { owner: string }>;
+    ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<[string] & { owner: string }>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -201,10 +139,7 @@ export interface IERC721 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
 
     transferFrom(
       from: string,
@@ -222,16 +157,9 @@ export interface IERC721 extends BaseContract {
 
   balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-  getApproved(
-    tokenId: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  getApproved(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-  isApprovedForAll(
-    owner: string,
-    operator: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  isApprovedForAll(owner: string, operator: string, overrides?: CallOverrides): Promise<boolean>;
 
   ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -256,10 +184,7 @@ export interface IERC721 extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  supportsInterface(
-    interfaceId: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
   transferFrom(
     from: string,
@@ -269,24 +194,13 @@ export interface IERC721 extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    approve(
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    approve(to: string, tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    getApproved(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
-    isApprovedForAll(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    isApprovedForAll(owner: string, operator: string, overrides?: CallOverrides): Promise<boolean>;
 
     ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
@@ -305,23 +219,11 @@ export interface IERC721 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setApprovalForAll(
-      operator: string,
-      _approved: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setApprovalForAll(operator: string, _approved: boolean, overrides?: CallOverrides): Promise<void>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
-    transferFrom(
-      from: string,
-      to: string,
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    transferFrom(from: string, to: string, tokenId: BigNumberish, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {
@@ -330,33 +232,21 @@ export interface IERC721 extends BaseContract {
       approved?: string | null,
       tokenId?: BigNumberish | null
     ): ApprovalEventFilter;
-    Approval(
-      owner?: string | null,
-      approved?: string | null,
-      tokenId?: BigNumberish | null
-    ): ApprovalEventFilter;
+    Approval(owner?: string | null, approved?: string | null, tokenId?: BigNumberish | null): ApprovalEventFilter;
 
     "ApprovalForAll(address,address,bool)"(
       owner?: string | null,
       operator?: string | null,
       approved?: null
     ): ApprovalForAllEventFilter;
-    ApprovalForAll(
-      owner?: string | null,
-      operator?: string | null,
-      approved?: null
-    ): ApprovalForAllEventFilter;
+    ApprovalForAll(owner?: string | null, operator?: string | null, approved?: null): ApprovalForAllEventFilter;
 
     "Transfer(address,address,uint256)"(
       from?: string | null,
       to?: string | null,
       tokenId?: BigNumberish | null
     ): TransferEventFilter;
-    Transfer(
-      from?: string | null,
-      to?: string | null,
-      tokenId?: BigNumberish | null
-    ): TransferEventFilter;
+    Transfer(from?: string | null, to?: string | null, tokenId?: BigNumberish | null): TransferEventFilter;
   };
 
   estimateGas: {
@@ -368,21 +258,11 @@ export interface IERC721 extends BaseContract {
 
     balanceOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    getApproved(tokenId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    isApprovedForAll(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    isApprovedForAll(owner: string, operator: string, overrides?: CallOverrides): Promise<BigNumber>;
 
-    ownerOf(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -405,10 +285,7 @@ export interface IERC721 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
 
     transferFrom(
       from: string,
@@ -425,26 +302,13 @@ export interface IERC721 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    balanceOf(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balanceOf(owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    getApproved(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    getApproved(tokenId: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    isApprovedForAll(
-      owner: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    isApprovedForAll(owner: string, operator: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    ownerOf(
-      tokenId: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ownerOf(tokenId: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     "safeTransferFrom(address,address,uint256)"(
       from: string,
@@ -467,10 +331,7 @@ export interface IERC721 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferFrom(
       from: string,

@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -27,14 +27,7 @@ export declare namespace INFTsFactory {
     totalSupply: BigNumberish;
   };
 
-  export type NftDataStructOutput = [
-    string,
-    BigNumber,
-    string,
-    string,
-    string,
-    BigNumber
-  ] & {
+  export type NftDataStructOutput = [string, BigNumber, string, string, string, BigNumber] & {
     nft: string;
     balanceOf: BigNumber;
     owner: string;
@@ -53,27 +46,15 @@ export interface INFTsFactoryInterface extends utils.Interface {
     "withdrawEther()": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "balanceOf",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string, string]): string;
   encodeFunctionData(functionFragment: "balancesOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "clone",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawEther",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "clone", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "withdrawEther", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balancesOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "clone", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawEther",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "withdrawEther", data: BytesLike): Result;
 
   events: {};
 }
@@ -92,13 +73,9 @@ export interface INFTsFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -131,21 +108,12 @@ export interface INFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
   };
 
-  balanceOf(
-    nft: string,
-    owner: string,
-    overrides?: CallOverrides
-  ): Promise<INFTsFactory.NftDataStructOutput>;
+  balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput>;
 
-  balancesOf(
-    owner: string,
-    overrides?: CallOverrides
-  ): Promise<INFTsFactory.NftDataStructOutput[]>;
+  balancesOf(owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput[]>;
 
   clone(
     name: string,
@@ -153,27 +121,14 @@ export interface INFTsFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  withdrawEther(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   callStatic: {
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<INFTsFactory.NftDataStructOutput>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput>;
 
-    balancesOf(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<INFTsFactory.NftDataStructOutput[]>;
+    balancesOf(owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput[]>;
 
-    clone(
-      name: string,
-      symbol: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    clone(name: string, symbol: string, overrides?: CallOverrides): Promise<string>;
 
     withdrawEther(overrides?: CallOverrides): Promise<void>;
   };
@@ -181,11 +136,7 @@ export interface INFTsFactory extends BaseContract {
   filters: {};
 
   estimateGas: {
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     balancesOf(owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -195,22 +146,13 @@ export interface INFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    balancesOf(
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balancesOf(owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     clone(
       name: string,
@@ -218,8 +160,6 @@ export interface INFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
   };
 }

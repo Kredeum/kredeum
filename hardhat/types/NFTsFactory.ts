@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -27,14 +27,7 @@ export declare namespace INFTsFactory {
     totalSupply: BigNumberish;
   };
 
-  export type NftDataStructOutput = [
-    string,
-    BigNumber,
-    string,
-    string,
-    string,
-    BigNumber
-  ] & {
+  export type NftDataStructOutput = [string, BigNumber, string, string, string, BigNumber] & {
     nft: string;
     balanceOf: BigNumber;
     owner: string;
@@ -73,145 +66,52 @@ export interface NFTsFactoryInterface extends utils.Interface {
   };
 
   encodeFunctionData(functionFragment: "ERC721", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "ERC721_ENUMERABLE",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ERC721_ENUMERABLE_SIG",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ERC721_METADATA",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ERC721_METADATA_SIG",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "ERC721_SIG",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "ERC721_ENUMERABLE", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ERC721_ENUMERABLE_SIG", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ERC721_METADATA", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ERC721_METADATA_SIG", values?: undefined): string;
+  encodeFunctionData(functionFragment: "ERC721_SIG", values?: undefined): string;
   encodeFunctionData(functionFragment: "OPEN_NFTS", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "OPEN_NFTS_SIG",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "addImplementation",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "balanceOf",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "OPEN_NFTS_SIG", values?: undefined): string;
+  encodeFunctionData(functionFragment: "addImplementation", values: [string]): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string, string]): string;
   encodeFunctionData(functionFragment: "balancesOf", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "clone",
-    values: [string, string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "contractProbe",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementations",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementationsCount",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "clone", values: [string, string]): string;
+  encodeFunctionData(functionFragment: "contractProbe", values?: undefined): string;
+  encodeFunctionData(functionFragment: "implementations", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "implementationsCount", values?: undefined): string;
   encodeFunctionData(functionFragment: "owner", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "renounceOwnership",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setContractProbe",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDefaultTemplate",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "renounceOwnership", values?: undefined): string;
+  encodeFunctionData(functionFragment: "setContractProbe", values: [string]): string;
+  encodeFunctionData(functionFragment: "setDefaultTemplate", values: [string]): string;
   encodeFunctionData(functionFragment: "template", values?: undefined): string;
   encodeFunctionData(functionFragment: "templates", values: [string]): string;
-  encodeFunctionData(
-    functionFragment: "transferOwnership",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "withdrawEther",
-    values?: undefined
-  ): string;
+  encodeFunctionData(functionFragment: "transferOwnership", values: [string]): string;
+  encodeFunctionData(functionFragment: "withdrawEther", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "ERC721", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "ERC721_ENUMERABLE",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ERC721_ENUMERABLE_SIG",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ERC721_METADATA",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "ERC721_METADATA_SIG",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "ERC721_ENUMERABLE", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ERC721_ENUMERABLE_SIG", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ERC721_METADATA", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "ERC721_METADATA_SIG", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "ERC721_SIG", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "OPEN_NFTS", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "OPEN_NFTS_SIG",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "addImplementation",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "OPEN_NFTS_SIG", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "addImplementation", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "balancesOf", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "clone", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "contractProbe",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementations",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementationsCount",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "contractProbe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementations", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementationsCount", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "owner", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "renounceOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setContractProbe",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDefaultTemplate",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "renounceOwnership", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setContractProbe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setDefaultTemplate", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "template", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "templates", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "transferOwnership",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "withdrawEther",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "transferOwnership", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "withdrawEther", data: BytesLike): Result;
 
   events: {
     "NewImplementation(address,address,address)": EventFragment;
@@ -229,23 +129,15 @@ export type NewImplementationEvent = TypedEvent<
   { implementation: string; template: string; creator: string }
 >;
 
-export type NewImplementationEventFilter =
-  TypedEventFilter<NewImplementationEvent>;
+export type NewImplementationEventFilter = TypedEventFilter<NewImplementationEvent>;
 
-export type NewTemplateEvent = TypedEvent<
-  [string, string],
-  { template: string; creator: string }
->;
+export type NewTemplateEvent = TypedEvent<[string, string], { template: string; creator: string }>;
 
 export type NewTemplateEventFilter = TypedEventFilter<NewTemplateEvent>;
 
-export type OwnershipTransferredEvent = TypedEvent<
-  [string, string],
-  { previousOwner: string; newOwner: string }
->;
+export type OwnershipTransferredEvent = TypedEvent<[string, string], { previousOwner: string; newOwner: string }>;
 
-export type OwnershipTransferredEventFilter =
-  TypedEventFilter<OwnershipTransferredEvent>;
+export type OwnershipTransferredEventFilter = TypedEventFilter<OwnershipTransferredEvent>;
 
 export interface NFTsFactory extends BaseContract {
   contractName: "NFTsFactory";
@@ -261,13 +153,9 @@ export interface NFTsFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -323,18 +211,13 @@ export interface NFTsFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<[string]>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     implementationsCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
     owner(overrides?: CallOverrides): Promise<[string]>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
     setContractProbe(
       addr: string,
@@ -355,9 +238,7 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<ContractTransaction>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
   };
 
   ERC721(overrides?: CallOverrides): Promise<number>;
@@ -381,16 +262,9 @@ export interface NFTsFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  balanceOf(
-    nft: string,
-    owner: string,
-    overrides?: CallOverrides
-  ): Promise<INFTsFactory.NftDataStructOutput>;
+  balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput>;
 
-  balancesOf(
-    addr: string,
-    overrides?: CallOverrides
-  ): Promise<INFTsFactory.NftDataStructOutput[]>;
+  balancesOf(addr: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput[]>;
 
   clone(
     name_: string,
@@ -400,18 +274,13 @@ export interface NFTsFactory extends BaseContract {
 
   contractProbe(overrides?: CallOverrides): Promise<string>;
 
-  implementations(
-    arg0: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
   owner(overrides?: CallOverrides): Promise<string>;
 
-  renounceOwnership(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   setContractProbe(
     addr: string,
@@ -432,9 +301,7 @@ export interface NFTsFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  withdrawEther(
-    overrides?: Overrides & { from?: string | Promise<string> }
-  ): Promise<ContractTransaction>;
+  withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<ContractTransaction>;
 
   callStatic: {
     ERC721(overrides?: CallOverrides): Promise<number>;
@@ -455,29 +322,15 @@ export interface NFTsFactory extends BaseContract {
 
     addImplementation(addr: string, overrides?: CallOverrides): Promise<void>;
 
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<INFTsFactory.NftDataStructOutput>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput>;
 
-    balancesOf(
-      addr: string,
-      overrides?: CallOverrides
-    ): Promise<INFTsFactory.NftDataStructOutput[]>;
+    balancesOf(addr: string, overrides?: CallOverrides): Promise<INFTsFactory.NftDataStructOutput[]>;
 
-    clone(
-      name_: string,
-      symbol_: string,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    clone(name_: string, symbol_: string, overrides?: CallOverrides): Promise<string>;
 
     contractProbe(overrides?: CallOverrides): Promise<string>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -493,10 +346,7 @@ export interface NFTsFactory extends BaseContract {
 
     templates(arg0: string, overrides?: CallOverrides): Promise<string>;
 
-    transferOwnership(
-      newOwner: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    transferOwnership(newOwner: string, overrides?: CallOverrides): Promise<void>;
 
     withdrawEther(overrides?: CallOverrides): Promise<void>;
   };
@@ -513,23 +363,14 @@ export interface NFTsFactory extends BaseContract {
       creator?: string | null
     ): NewImplementationEventFilter;
 
-    "NewTemplate(address,address)"(
-      template?: string | null,
-      creator?: string | null
-    ): NewTemplateEventFilter;
-    NewTemplate(
-      template?: string | null,
-      creator?: string | null
-    ): NewTemplateEventFilter;
+    "NewTemplate(address,address)"(template?: string | null, creator?: string | null): NewTemplateEventFilter;
+    NewTemplate(template?: string | null, creator?: string | null): NewTemplateEventFilter;
 
     "OwnershipTransferred(address,address)"(
       previousOwner?: string | null,
       newOwner?: string | null
     ): OwnershipTransferredEventFilter;
-    OwnershipTransferred(
-      previousOwner?: string | null,
-      newOwner?: string | null
-    ): OwnershipTransferredEventFilter;
+    OwnershipTransferred(previousOwner?: string | null, newOwner?: string | null): OwnershipTransferredEventFilter;
   };
 
   estimateGas: {
@@ -549,16 +390,9 @@ export interface NFTsFactory extends BaseContract {
 
     OPEN_NFTS_SIG(overrides?: CallOverrides): Promise<BigNumber>;
 
-    addImplementation(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    addImplementation(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     balancesOf(addr: string, overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -570,28 +404,17 @@ export interface NFTsFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<BigNumber>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     owner(overrides?: CallOverrides): Promise<BigNumber>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
-    setContractProbe(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    setContractProbe(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
-    setDefaultTemplate(
-      addr: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    setDefaultTemplate(addr: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     template(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -602,9 +425,7 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
   };
 
   populateTransaction: {
@@ -612,15 +433,11 @@ export interface NFTsFactory extends BaseContract {
 
     ERC721_ENUMERABLE(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    ERC721_ENUMERABLE_SIG(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ERC721_ENUMERABLE_SIG(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ERC721_METADATA(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    ERC721_METADATA_SIG(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    ERC721_METADATA_SIG(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     ERC721_SIG(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
@@ -633,16 +450,9 @@ export interface NFTsFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    balanceOf(
-      nft: string,
-      owner: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balanceOf(nft: string, owner: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    balancesOf(
-      addr: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balancesOf(addr: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     clone(
       name_: string,
@@ -652,20 +462,13 @@ export interface NFTsFactory extends BaseContract {
 
     contractProbe(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementations(
-      arg0: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementations(arg0: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementationsCount(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementationsCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     owner(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    renounceOwnership(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    renounceOwnership(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
 
     setContractProbe(
       addr: string,
@@ -679,18 +482,13 @@ export interface NFTsFactory extends BaseContract {
 
     template(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    templates(
-      arg0: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    templates(arg0: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     transferOwnership(
       newOwner: string,
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    withdrawEther(
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<PopulatedTransaction>;
+    withdrawEther(overrides?: Overrides & { from?: string | Promise<string> }): Promise<PopulatedTransaction>;
   };
 }

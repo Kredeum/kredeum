@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -27,47 +27,17 @@ export interface ICloneFactoryInterface extends utils.Interface {
     "setDefaultTemplate(address)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "addImplementation",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementations",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "implementationsCount",
-    values?: undefined
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setContractProbe",
-    values: [string]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "setDefaultTemplate",
-    values: [string]
-  ): string;
+  encodeFunctionData(functionFragment: "addImplementation", values: [string]): string;
+  encodeFunctionData(functionFragment: "implementations", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "implementationsCount", values?: undefined): string;
+  encodeFunctionData(functionFragment: "setContractProbe", values: [string]): string;
+  encodeFunctionData(functionFragment: "setDefaultTemplate", values: [string]): string;
 
-  decodeFunctionResult(
-    functionFragment: "addImplementation",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementations",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "implementationsCount",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setContractProbe",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setDefaultTemplate",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "addImplementation", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementations", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "implementationsCount", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setContractProbe", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setDefaultTemplate", data: BytesLike): Result;
 
   events: {};
 }
@@ -86,13 +56,9 @@ export interface ICloneFactory extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -105,10 +71,7 @@ export interface ICloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    implementations(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[string]>;
+    implementations(index: BigNumberish, overrides?: CallOverrides): Promise<[string]>;
 
     implementationsCount(overrides?: CallOverrides): Promise<[BigNumber]>;
 
@@ -128,10 +91,7 @@ export interface ICloneFactory extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  implementations(
-    index: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<string>;
+  implementations(index: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
   implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
@@ -146,24 +106,15 @@ export interface ICloneFactory extends BaseContract {
   ): Promise<ContractTransaction>;
 
   callStatic: {
-    addImplementation(
-      implementation: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    addImplementation(implementation: string, overrides?: CallOverrides): Promise<void>;
 
-    implementations(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<string>;
+    implementations(index: BigNumberish, overrides?: CallOverrides): Promise<string>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
     setContractProbe(probe: string, overrides?: CallOverrides): Promise<void>;
 
-    setDefaultTemplate(
-      template: string,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setDefaultTemplate(template: string, overrides?: CallOverrides): Promise<void>;
   };
 
   filters: {};
@@ -174,17 +125,11 @@ export interface ICloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    implementations(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    implementations(index: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
     implementationsCount(overrides?: CallOverrides): Promise<BigNumber>;
 
-    setContractProbe(
-      probe: string,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    setContractProbe(probe: string, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     setDefaultTemplate(
       template: string,
@@ -198,14 +143,9 @@ export interface ICloneFactory extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    implementations(
-      index: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementations(index: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    implementationsCount(
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    implementationsCount(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     setContractProbe(
       probe: string,

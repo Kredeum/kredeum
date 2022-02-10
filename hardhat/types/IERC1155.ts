@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result, EventFragment } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -29,18 +29,9 @@ export interface IERC1155Interface extends utils.Interface {
     "supportsInterface(bytes4)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "balanceOf",
-    values: [string, BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "balanceOfBatch",
-    values: [string[], BigNumberish[]]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "isApprovedForAll",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "balanceOf", values: [string, BigNumberish]): string;
+  encodeFunctionData(functionFragment: "balanceOfBatch", values: [string[], BigNumberish[]]): string;
+  encodeFunctionData(functionFragment: "isApprovedForAll", values: [string, string]): string;
   encodeFunctionData(
     functionFragment: "safeBatchTransferFrom",
     values: [string, string, BigNumberish[], BigNumberish[], BytesLike]
@@ -49,40 +40,16 @@ export interface IERC1155Interface extends utils.Interface {
     functionFragment: "safeTransferFrom",
     values: [string, string, BigNumberish, BigNumberish, BytesLike]
   ): string;
-  encodeFunctionData(
-    functionFragment: "setApprovalForAll",
-    values: [string, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "supportsInterface",
-    values: [BytesLike]
-  ): string;
+  encodeFunctionData(functionFragment: "setApprovalForAll", values: [string, boolean]): string;
+  encodeFunctionData(functionFragment: "supportsInterface", values: [BytesLike]): string;
 
   decodeFunctionResult(functionFragment: "balanceOf", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "balanceOfBatch",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "isApprovedForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "safeBatchTransferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "safeTransferFrom",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "setApprovalForAll",
-    data: BytesLike
-  ): Result;
-  decodeFunctionResult(
-    functionFragment: "supportsInterface",
-    data: BytesLike
-  ): Result;
+  decodeFunctionResult(functionFragment: "balanceOfBatch", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "isApprovedForAll", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "safeBatchTransferFrom", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "safeTransferFrom", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "setApprovalForAll", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "supportsInterface", data: BytesLike): Result;
 
   events: {
     "ApprovalForAll(address,address,bool)": EventFragment;
@@ -130,10 +97,7 @@ export type TransferSingleEvent = TypedEvent<
 
 export type TransferSingleEventFilter = TypedEventFilter<TransferSingleEvent>;
 
-export type URIEvent = TypedEvent<
-  [string, BigNumber],
-  { value: string; id: BigNumber }
->;
+export type URIEvent = TypedEvent<[string, BigNumber], { value: string; id: BigNumber }>;
 
 export type URIEventFilter = TypedEventFilter<URIEvent>;
 
@@ -151,13 +115,9 @@ export interface IERC1155 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -165,23 +125,11 @@ export interface IERC1155 extends BaseContract {
   removeListener: OnEvent<this>;
 
   functions: {
-    balanceOf(
-      account: string,
-      id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
+    balanceOf(account: string, id: BigNumberish, overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    balanceOfBatch(
-      accounts: string[],
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<[BigNumber[]]>;
+    balanceOfBatch(accounts: string[], ids: BigNumberish[], overrides?: CallOverrides): Promise<[BigNumber[]]>;
 
-    isApprovedForAll(
-      account: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    isApprovedForAll(account: string, operator: string, overrides?: CallOverrides): Promise<[boolean]>;
 
     safeBatchTransferFrom(
       from: string,
@@ -207,29 +155,14 @@ export interface IERC1155 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<ContractTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<[boolean]>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<[boolean]>;
   };
 
-  balanceOf(
-    account: string,
-    id: BigNumberish,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
+  balanceOf(account: string, id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-  balanceOfBatch(
-    accounts: string[],
-    ids: BigNumberish[],
-    overrides?: CallOverrides
-  ): Promise<BigNumber[]>;
+  balanceOfBatch(accounts: string[], ids: BigNumberish[], overrides?: CallOverrides): Promise<BigNumber[]>;
 
-  isApprovedForAll(
-    account: string,
-    operator: string,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  isApprovedForAll(account: string, operator: string, overrides?: CallOverrides): Promise<boolean>;
 
   safeBatchTransferFrom(
     from: string,
@@ -255,29 +188,14 @@ export interface IERC1155 extends BaseContract {
     overrides?: Overrides & { from?: string | Promise<string> }
   ): Promise<ContractTransaction>;
 
-  supportsInterface(
-    interfaceId: BytesLike,
-    overrides?: CallOverrides
-  ): Promise<boolean>;
+  supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
 
   callStatic: {
-    balanceOf(
-      account: string,
-      id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    balanceOf(account: string, id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    balanceOfBatch(
-      accounts: string[],
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber[]>;
+    balanceOfBatch(accounts: string[], ids: BigNumberish[], overrides?: CallOverrides): Promise<BigNumber[]>;
 
-    isApprovedForAll(
-      account: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    isApprovedForAll(account: string, operator: string, overrides?: CallOverrides): Promise<boolean>;
 
     safeBatchTransferFrom(
       from: string,
@@ -297,16 +215,9 @@ export interface IERC1155 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    setApprovalForAll(
-      operator: string,
-      approved: boolean,
-      overrides?: CallOverrides
-    ): Promise<void>;
+    setApprovalForAll(operator: string, approved: boolean, overrides?: CallOverrides): Promise<void>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<boolean>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<boolean>;
   };
 
   filters: {
@@ -315,11 +226,7 @@ export interface IERC1155 extends BaseContract {
       operator?: string | null,
       approved?: null
     ): ApprovalForAllEventFilter;
-    ApprovalForAll(
-      account?: string | null,
-      operator?: string | null,
-      approved?: null
-    ): ApprovalForAllEventFilter;
+    ApprovalForAll(account?: string | null, operator?: string | null, approved?: null): ApprovalForAllEventFilter;
 
     "TransferBatch(address,address,address,uint256[],uint256[])"(
       operator?: string | null,
@@ -351,31 +258,16 @@ export interface IERC1155 extends BaseContract {
       value?: null
     ): TransferSingleEventFilter;
 
-    "URI(string,uint256)"(
-      value?: null,
-      id?: BigNumberish | null
-    ): URIEventFilter;
+    "URI(string,uint256)"(value?: null, id?: BigNumberish | null): URIEventFilter;
     URI(value?: null, id?: BigNumberish | null): URIEventFilter;
   };
 
   estimateGas: {
-    balanceOf(
-      account: string,
-      id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    balanceOf(account: string, id: BigNumberish, overrides?: CallOverrides): Promise<BigNumber>;
 
-    balanceOfBatch(
-      accounts: string[],
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    balanceOfBatch(accounts: string[], ids: BigNumberish[], overrides?: CallOverrides): Promise<BigNumber>;
 
-    isApprovedForAll(
-      account: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    isApprovedForAll(account: string, operator: string, overrides?: CallOverrides): Promise<BigNumber>;
 
     safeBatchTransferFrom(
       from: string,
@@ -401,30 +293,15 @@ export interface IERC1155 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<BigNumber>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   populateTransaction: {
-    balanceOf(
-      account: string,
-      id: BigNumberish,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balanceOf(account: string, id: BigNumberish, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    balanceOfBatch(
-      accounts: string[],
-      ids: BigNumberish[],
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    balanceOfBatch(accounts: string[], ids: BigNumberish[], overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
-    isApprovedForAll(
-      account: string,
-      operator: string,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    isApprovedForAll(account: string, operator: string, overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     safeBatchTransferFrom(
       from: string,
@@ -450,9 +327,6 @@ export interface IERC1155 extends BaseContract {
       overrides?: Overrides & { from?: string | Promise<string> }
     ): Promise<PopulatedTransaction>;
 
-    supportsInterface(
-      interfaceId: BytesLike,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
+    supportsInterface(interfaceId: BytesLike, overrides?: CallOverrides): Promise<PopulatedTransaction>;
   };
 }

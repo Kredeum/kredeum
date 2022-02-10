@@ -1,0 +1,50 @@
+{
+  "name": "kredeum",
+  "version": "1.0.0",
+  "description": "## Installation",
+  "main": "index.js",
+  "scripts": {
+    "clean-hardhat": "cd hardhat && pnpm run clean",
+    "clean-wordpress": "cd wordpress && pnpm run clean",
+    "clean-thegraph": "cd thegraph && pnpm run clean",
+    "clean-web": "cd web && pnpm run clean",
+    "clean-common": "cd common && pnpm run clean",
+    "clean-all": "pnpm run clean-hardhat && pnpm run clean-wordpress && pnpm run clean-thegraph && pnpm run clean-web && pnpm run clean-common",
+    "install-hardhat": "cd hardhat && pnpm install",
+    "install-wordpress": "cd wordpress && pnpm install && pnpm run instal",
+    "install-thegraph": "cd thegraph && pnpm install",
+    "install-web": "cd web && pnpm install",
+    "install-common": "cd common && pnpm install",
+    "install-all": "pnpm run install-hardhat && pnpm run install-wordpress && pnpm run install-thegraph && pnpm run install-web && pnpm run install-common",
+    "build-hardhat": "cd hardhat && pnpm run build",
+    "build-wordpress": "cd wordpress && pnpm run build",
+    "build-thegraph": "cd thegraph && pnpm run build",
+    "build-web": "cd web && pnpm run build",
+    "build-common": "cd common && pnpm run build",
+    "build-all": "pnpm run build-hardhat && pnpm run build-wordpress && pnpm run build-thegraph && pnpm run build-web && pnpm run build-common",
+    "check-hardhat": "cd hardhat && pnpm run check",
+    "check-wordpress": "cd wordpress && pnpm run check",
+    "check-thegraph": "cd thegraph && pnpm run check",
+    "check-web": "cd web && pnpm run check",
+    "check-common": "cd common && pnpm run check",
+    "check-all": "pnpm run check-hardhat && pnpm run check-wordpress && pnpm run check-thegraph && pnpm run check-web && pnpm run check-common",
+    "tests-hardhat": "cd hardhat && pnpm run tests",
+    "tests-wordpress": "cd wordpress && pnpm run tests",
+    "tests-thegraph": "cd thegraph && pnpm run tests",
+    "tests-web": "cd web && pnpm run tests",
+    "tests-common": "cd common && pnpm run tests",
+    "tests-all": "pnpm run tests-hardhat && pnpm run tests-wordpress && pnpm run tests-thegraph && pnpm run tests-web && pnpm run tests-common",
+    "all": "pnpm run clean-all && pnpm run install-all && pnpm run build-all && pnpm run check-all && pnpm run tests-all"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kredeum/kredeum.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Kredeum/kredeum/issues"
+  },
+  "homepage": "https://github.com/Kredeum/kredeum#readme"
+}

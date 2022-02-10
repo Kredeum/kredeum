@@ -7,6 +7,6 @@
     "baseUrl": "./",
     "resolveJsonModule": true
   },
-  "include": ["./scripts", "./test", "../common/lib"],
+  "include": ["./scripts", "./tests", "./deploy", "../common/lib"],
   "files": ["./hardhat.config.ts"]
 }

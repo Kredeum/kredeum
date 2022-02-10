@@ -11,7 +11,7 @@ import {
   Overrides,
   PopulatedTransaction,
   Signer,
-  utils,
+  utils
 } from "ethers";
 import { FunctionFragment, Result } from "@ethersproject/abi";
 import { Listener, Provider } from "@ethersproject/providers";
@@ -25,18 +25,9 @@ export interface IOpenNFTsV3Interface extends utils.Interface {
     "mintNFT(address,string)": FunctionFragment;
   };
 
-  encodeFunctionData(
-    functionFragment: "burnNFT",
-    values: [BigNumberish]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "initialize",
-    values: [string, string, string, boolean]
-  ): string;
-  encodeFunctionData(
-    functionFragment: "mintNFT",
-    values: [string, string]
-  ): string;
+  encodeFunctionData(functionFragment: "burnNFT", values: [BigNumberish]): string;
+  encodeFunctionData(functionFragment: "initialize", values: [string, string, string, boolean]): string;
+  encodeFunctionData(functionFragment: "mintNFT", values: [string, string]): string;
 
   decodeFunctionResult(functionFragment: "burnNFT", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "initialize", data: BytesLike): Result;
@@ -59,13 +50,9 @@ export interface IOpenNFTsV3 extends BaseContract {
     toBlock?: string | number | undefined
   ): Promise<Array<TEvent>>;
 
-  listeners<TEvent extends TypedEvent>(
-    eventFilter?: TypedEventFilter<TEvent>
-  ): Array<TypedListener<TEvent>>;
+  listeners<TEvent extends TypedEvent>(eventFilter?: TypedEventFilter<TEvent>): Array<TypedListener<TEvent>>;
   listeners(eventName?: string): Array<Listener>;
-  removeAllListeners<TEvent extends TypedEvent>(
-    eventFilter: TypedEventFilter<TEvent>
-  ): this;
+  removeAllListeners<TEvent extends TypedEvent>(eventFilter: TypedEventFilter<TEvent>): this;
   removeAllListeners(eventName?: string): this;
   off: OnEvent<this>;
   on: OnEvent<this>;
@@ -123,20 +110,13 @@ export interface IOpenNFTsV3 extends BaseContract {
       overrides?: CallOverrides
     ): Promise<void>;
 
-    mintNFT(
-      minter: string,
-      jsonURI: string,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
+    mintNFT(minter: string, jsonURI: string, overrides?: CallOverrides): Promise<BigNumber>;
   };
 
   filters: {};
 
   estimateGas: {
-    burnNFT(
-      tokenID: BigNumberish,
-      overrides?: Overrides & { from?: string | Promise<string> }
-    ): Promise<BigNumber>;
+    burnNFT(tokenID: BigNumberish, overrides?: Overrides & { from?: string | Promise<string> }): Promise<BigNumber>;
 
     initialize(
       name: string,
