@@ -53,7 +53,17 @@
   "main": "index.js",
   "name": "hardhat",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "clean": "rm -rf solidity/artifacts",
+    "build": "cd solidity && hardhat compile && hardhat docgen",
+    "prettier": "prettier solidity/contracts/**/*.sol lib/*.ts solidity/**/*.ts --write --loglevel error",
+    "solhint": "solhint solidity/contracts/**/*.sol --fix",
+    "eslint": "eslint hardhat.config.ts lib/*.ts solidity/**/*.ts --ignore-pattern types --fix --quiet",
+    "check": "npm run prettier && npm run solhint && npm run eslint",
+    "tests": "cd solidity && hardhat test",
+    "flatten": "cd solidity && hardhat flatten solidity/contracts/OpenNFTs.sol > solidity/flatten/OpenNFTs.sol",
+    "deploy": "cd solidity && hardhat run scripts/deploy.mjs --network ${NETWORK:-mumbai}",
+    "deploy-matic": "NETWORK=matic npm run deploy",
+    "list": "hardhat run scripts/list.mjs"
   },
   "version": "1.0.0"
 }
