@@ -1,0 +1,12 @@
+#! /bin/zsh
+
+# docker-compose uses .env file per default to get ENV variables
+# with dock you can define host.env if installed on multiple hosts
+
+ENV_FILE="$(hostname).env"
+
+if [[ -f $ENV_FILE ]] then
+  docker-compose --env-file $ENV_FILE $@ 
+else
+  docker-compose $@ 
+fi
