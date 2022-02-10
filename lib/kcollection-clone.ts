@@ -1,8 +1,9 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { NFTsFactory } from "./kfactory-get";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
-import { collectionGetNFTsFactory, NFTsFactory } from "./kcollection-get";
+import { factoryGetContract } from "./kfactory-get";
 
 const collectionCloneResponse = async (
   chainId: number,
@@ -13,7 +14,7 @@ const collectionCloneResponse = async (
 
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory = collectionGetNFTsFactory(chainId, _cloner);
+  const nftsFactory: NFTsFactory = factoryGetContract(chainId, _cloner);
   let txResp: TransactionResponse | undefined;
 
   if (nftsFactory) {
@@ -22,6 +23,8 @@ const collectionCloneResponse = async (
 
     txResp = await nftsFactory.connect(_cloner).clone(name, `NFT${n}`);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
+  } else {
+    console.error("collectionCloneResponse nftsFactory not found");
   }
 
   return txResp;

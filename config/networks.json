@@ -3,7 +3,7 @@
     "chainId": 1,
     "chainName": "mainnet",
     "rpcUrls": [
-      "https://mainnet.infura.io/v3"
+      "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -33,8 +33,8 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
-      "https://polygon-mainnet.infura.io/v3",
-      "https://rpc-mainnet.maticvigil.com/v1"
+      "https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      "https://polygon-rpc.com/"
     ],
     "nativeCurrency": {
       "name": "Matic",
@@ -65,7 +65,7 @@
     "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": [
-      "https://rinkeby.infura.io/v3"
+      "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -88,7 +88,7 @@
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
-      "https://goerli.infura.io/v3"
+      "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -111,7 +111,7 @@
     "chainId": 42,
     "chainName": "kovan",
     "rpcUrls": [
-      "https://kovan.infura.io/v3"
+      "https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -133,8 +133,9 @@
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
-      "https://polygon-mumbai.infura.io/v3",
-      "https://rpc-mumbai.maticvigil.com/v1"
+      "https://matic-mumbai.chainstacklabs.com",
+      "https://rpc-mumbai.maticvigil.com/v1",
+      "https://polygon-mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Matic",
@@ -160,7 +161,7 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
-      "https://arbitrum-mainnet.infura.io/v3"
+      "https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -179,7 +180,7 @@
     "chainId": 421611,
     "chainName": "arbitrumrinkeby",
     "rpcUrls": [
-      "https://arbitrum-rinkeby.infura.io/v3"
+      "https://arbitrum-rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -360,7 +361,7 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "nftsFactory": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
+    "nftsFactory": "0x57BDf6E59C2652D349f7022beB8D1B7458CA09EB",
     "testnet": true
   }
 ]

@@ -6,9 +6,8 @@
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl } from "lib/knfts";
+  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
   import { TransactionResponse } from "@ethersproject/abstract-provider";
-  import { nftUrl } from "lib/kconfig";
 
   import { chainId, signer, owner } from "./network";
 

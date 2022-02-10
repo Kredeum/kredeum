@@ -63,11 +63,14 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.10.1 (latest) =
+= 0.10.2 (latest) =
 * Better support for ERC1155 NFTs
 * Bug fixes and performance improvements
 
-= 0.9.16 (stable) =
+= 0.9.17 (stable) =
+* Fix a Minting bug with old OpenNFTs SmartContracts, mainly on Ethereum Mainnet
+
+= 0.9.16 =
 * New deployment on xDai, in order to get POAP or GitCoin Kudos collections
 * Better links on new NFTs page on Etherscan explorer 
 * Fix bug : NFT panel closing while loading new NFTs after refresh or first loading
@@ -78,7 +81,7 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 = 0.9.13 =
 * Fix bug while creation collection from previous v0.9.11 version
  
-= 0.9.11  =
+= 0.9.11 =
 * Deployment of new version on Ethereum Mainnet
 * New Sell Button to generate WP shortcode to insert in FrontEnd Pages
  

@@ -1,6 +1,6 @@
 import { expect } from "chai";
 
-describe("Setup TS", () => {
+describe("00 Setup TS", () => {
   it("Should be OK", () => {
     expect(true).to.be.true;
   });

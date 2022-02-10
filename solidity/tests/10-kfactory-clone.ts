@@ -7,7 +7,7 @@ import { ethers, deployments } from "hardhat";
 
 const zeroAddress = "0x0000000000000000000000000000000000000000";
 
-describe("Clone Factory contract", function () {
+describe("10 Clone Factory contract", function () {
   let cloneFactory: CloneFactory;
   let openNFTs: OpenNFTs;
   let tester1: Signer;

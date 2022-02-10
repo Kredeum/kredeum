@@ -185,13 +185,17 @@
 
         &-video {
           background: #ce2828;
+          text-align: center;
+          line-height: 40px;
         }
 
         &-song {
           background: #f58755;
+          text-align: center;
+          line-height: 40px;
         }
 
-        img {
+        img, video {
           object-fit: cover;
           width: 100%;
           height: 100%;

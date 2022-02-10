@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, network, hardhatArguments, config, getChainId } from "hardhat";
 
-describe("HardHat environment", function () {
+describe("01 HardHat environment", function () {
   it("Should get accounts", async function () {
     const accounts = await ethers.getSigners();
 

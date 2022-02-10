@@ -7,7 +7,7 @@ import "hardhat-deploy";
 import "hardhat-deploy-ethers";
 import "hardhat-docgen";
 import "hardhat-change-network";
-import "hardhat-gas-reporter";
+// import "hardhat-gas-reporter";
 import "solidity-coverage";
 
 import "@typechain/hardhat";

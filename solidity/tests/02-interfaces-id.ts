@@ -28,7 +28,7 @@ const interfaceId = (abi: Array<string>): string => {
   return ethers.utils.hexlify(id);
 };
 
-describe("Call interfacesId", () => {
+describe("02 Call interfacesId", () => {
   let chainId: number;
   // let signer: Signer;
   let contract: InterfacesIds;

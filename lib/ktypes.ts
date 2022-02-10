@@ -1,4 +1,11 @@
-type OpenNFTsKeys = "OpenNFTsV3" | "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "CloneFactory" | "NFTsFactory";
+type OpenNFTsKeys =
+  | "OpenNFTs"
+  | "OpenNFTsV3"
+  | "OpenNFTsV2"
+  | "OpenNFTsV1"
+  | "OpenNFTsV0"
+  | "CloneFactory"
+  | "NFTsFactory";
 type ErcKeys =
   | "ERC165"
   | "ERC721"
@@ -62,6 +69,7 @@ type CollectionSupports = {
   ERC721Enumerable?: boolean;
   ERC1155TokenReceiver?: boolean;
   ERC1155Metadata_URI?: boolean;
+  OpenNFTs?: boolean;
   OpenNFTsV0?: boolean;
   OpenNFTsV1?: boolean;
   OpenNFTsV2?: boolean;

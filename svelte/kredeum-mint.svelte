@@ -5,9 +5,10 @@
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/knfts";
   import { nftGetImageLink } from "lib/knft-get";
-  import { getOpenNFTsAddress } from "lib/kconfig";
+  import { factoryGetOpenNFTsDefault } from "lib/kfactory-get";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/kconfig";
+  import { collectionGet } from "lib/kcollection-get";
 
   // export let key: string = undefined;
   // export let metadata: string = undefined;
@@ -20,7 +21,6 @@
   export let collection: Collection = undefined;
 
   import { chainId, network, provider, signer } from "./network";
-  import { collectionGet } from "lib/kcollection-get";
 
   let mintedNft: Nft;
   let minting: number;
@@ -41,8 +41,8 @@
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await getOpenNFTsAddress($chainId, _provider));
-      collection = collectionGet(_chainId, collectionAddress);
+        (await factoryGetOpenNFTsDefault($chainId, _provider));
+      collection = await collectionGet(_chainId, collectionAddress);
     }
   };
 

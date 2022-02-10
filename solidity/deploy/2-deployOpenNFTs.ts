@@ -5,14 +5,14 @@ const deployOpenNFTsFunction: DeployFunction = async function ({ deployments, et
   const deployer = await ethers.getNamedSigner("deployer");
 
   const deployResult = await deployments.deploy("OpenNFTs", {
-    args: [],
     from: deployer.address,
+    args: [],
     log: true
   });
 
   if (deployResult.newlyDeployed) {
     const openNFTs = new ethers.Contract(deployResult.address, deployResult.abi) as OpenNFTs;
-    await openNFTs.connect(deployer).initialize("Open NFTs", "NFT");
+    await openNFTs.connect(deployer).initialize("Open NFTs", "NFT", deployer.address, true);
   }
 };
 deployOpenNFTsFunction.tags = ["OpenNFTs"];

@@ -1,5 +1,13 @@
 {
   "OpenNFTsV3": {
+    "interfaceId": "0x9e4ad480",
+    "abi": [
+      "function initialize(string memory name, string memory symbol, address owner, bool openMinting) external",
+      "function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID)",
+      "function burnNFT(uint256 tokenID) external"
+    ]
+  },
+  "OpenNFTsV3alpha": {
     "interfaceId": "0xa6123562",
     "abi": [
       "function initialize(string memory name_, string memory symbol_) external",
@@ -22,6 +30,10 @@
   "OpenNFTsV0": {
     "interfaceId": "0x4b68d431",
     "abi": ["function addUser(address,string) returns (uint256)"]
+  },
+  "OpenNFTs": {
+    "interfaceId": "0x00000000",
+    "abi": []
   },
   "CloneFactory": {
     "abi": [

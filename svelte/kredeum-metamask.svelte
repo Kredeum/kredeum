@@ -8,10 +8,14 @@
     getShortAddress,
     numberToHexString,
     explorerAccountUrl,
-    explorerNFTsFactoryUrl,
-    collectionGetNFTsFactoryAddress
-  } from "lib/knfts";
-  import { getChecksumAddress, getNetwork, getEnsName, networks, nftsUrl } from "lib/kconfig";
+    getChecksumAddress,
+    getNetwork,
+    getEnsName,
+    networks,
+    nftsUrl
+  } from "lib/kconfig";
+  import { factoryGetAddress } from "lib/kfactory-get";
+  import { explorerNFTsFactoryUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
   import { ethers } from "ethers";
@@ -160,6 +164,9 @@
 
   onMount(async () => {
     // console.log("init");
+
+    const urlParams = new URLSearchParams(window.location.search);
+
     const provider = await detectEthereumProvider();
     if (provider) {
       noMetamask = false;
@@ -178,12 +185,16 @@
         .then(handleAccounts)
         .catch((e) => console.error("KredeumMetamask ERROR eth_accounts", e));
 
-      ethereumProvider
-        .request({
-          method: "eth_chainId"
-        })
-        .then(handleChainId)
-        .catch((e) => console.error("KredeumMetamask ERROR eth_chainId", e));
+      if (urlParams.has("chainId")) {
+        switchEthereumChain(urlParams.get("chainId"));
+      } else {
+        ethereumProvider
+          .request({
+            method: "eth_chainId"
+          })
+          .then(handleChainId)
+          .catch((e) => console.error("KredeumMetamask ERROR eth_chainId", e));
+      }
 
       ethereumProvider.on("chainChanged", handleChainId);
 
@@ -261,7 +272,7 @@
           href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-          {collectionGetNFTsFactoryAddress($chainId)}"><i class="fas fa-info-circle" /></a
+          {factoryGetAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 

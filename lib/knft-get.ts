@@ -2,8 +2,7 @@ import type { Collection, Nft, NftMetadata } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchJson } from "./kfetch";
-import { ipfsGetLink, ipfsGatewayUrl } from "./knfts";
-import { getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
+import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
 import { collectionGetContract } from "./kcollection-get";
 import { BigNumber } from "ethers";
 
@@ -28,17 +27,23 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image) || "";
+const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image || "");
 
-const nftGetContentType = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
-  const nft = token;
+const nftGetContentType = async (nft: Nft): Promise<string> => {
+  // console.log("nftGetContentType");
+
+  let contentType: string;
   try {
-    const response = await fetch(nftGetImageLink(token));
-    nft.contentType = response.headers.get("content-type");
+    const url = nftGetImageLink(nft);
+    const options = { method: "HEAD" };
+    const response = await fetch(url, options);
+    contentType = response.headers.get("content-type");
+
+    console.log("nftGetContentType", contentType, url);
   } catch (e) {
-    console.error("ERROR nftGetMetadata contentType", e);
+    console.error("ERROR nftGetContentType", e);
   }
-  return nft;
+  return contentType;
 };
 
 const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft> => {
@@ -95,6 +100,7 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
+    nftMetadata.contentType = await nftGetContentType(nftMetadata);
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {

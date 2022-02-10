@@ -3,9 +3,9 @@
   import type { Provider } from "@ethersproject/providers";
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
-  import { collectionGetMetadata } from "lib/kcollection-get";
-  import { nftsUrl, urlOwner, getOpenNFTsAddress } from "lib/kconfig";
-  import { collectionName } from "lib/knfts";
+  import { collectionGet } from "lib/kcollection-get";
+  import { factoryGetOpenNFTsDefault } from "lib/kfactory-get";
+  import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
   import { chainId, provider, owner } from "./network";
@@ -35,7 +35,7 @@
       if ($chainId && $owner && collectionAddress) {
         localStorage.setItem(`defaultCollection/${$chainId}/${$owner}`, collectionAddress);
         const coll = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
-        collection = await collectionGetMetadata($chainId, coll, $provider);
+        collection = await collectionGet($chainId, coll, $provider);
       } else {
         collection = null;
       }
@@ -61,7 +61,7 @@
   const _collectionListFromCache = async (_chainId: number, _owner: string, _provider: Provider) => {
     // console.log("KredeumListCollections _collectionListFromCache");
     allCollections = collectionListFromCache(_owner);
-    const openNFTsAddress = await getOpenNFTsAddress(_chainId, _provider);
+    const openNFTsAddress = await factoryGetOpenNFTsDefault(_chainId, _provider);
 
     // console.log("allCollections", allCollections);
     collections = new Map(
@@ -83,7 +83,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await getOpenNFTsAddress($chainId, $provider));
+      (await factoryGetOpenNFTsDefault($chainId, $provider));
     _setCollection(defaultCollection);
     // console.log(collections);
   };

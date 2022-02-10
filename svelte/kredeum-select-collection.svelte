@@ -5,8 +5,7 @@
   import KredeumListCollections from "./kredeum-list-collections.svelte";
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import { getCreate, getNftsFactory, nftsUrl } from "lib/kconfig";
-  import { explorerCollectionUrl } from "lib/knfts";
+  import { getCreate, getNftsFactory, nftsUrl, explorerCollectionUrl } from "lib/kconfig";
 
   import { chainId, owner } from "./network";
 
