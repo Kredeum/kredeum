@@ -1,7 +1,0 @@
-version: "3.9"
-
-services:
-  gulp:
-    image: andreysenov/node-gyp
-    volumes:    
-      - ${SRC_DIR}:/data
