@@ -26,6 +26,7 @@
     "@tsconfig/svelte": "^3.0.0",
     "dotenv": "^16.0.0",
     "ethers": "^5.5.4",
+    "findup-sync": "^5.0.0",
     "postcss": "^8.4.6",
     "rollup": "^2.67.2",
     "rollup-plugin-css-only": "^3.1.0",

@@ -14,19 +14,21 @@ import typescript from "@rollup/plugin-typescript";
 import sveltePreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
+import findupSync from "findup-sync";
 
 const builtins = _builtins as { (): Plugin };
 // const css = _css as { (Options): Plugin };
 const postcss = _postcss as { (Options): Plugin };
 
-if (process.env.ENVIR === undefined) {
-  dotenv.config();
-}
 if (!process.env.ENVIR) {
-  throw new Error("ROLLUP : ENV variable ENVIR not set!");
+  dotenv.config({ path: findupSync(".env") || "" });
+  if (!process.env.ENVIR) {
+    throw new Error("ENV Variable ENVIR not set!");
+  }
 }
 const production = process.env.ENVIR == "PROD";
 console.log("production", production);
+console.log(process.env);
 
 const envKeys = () => {
   return Object.keys(process.env).reduce(

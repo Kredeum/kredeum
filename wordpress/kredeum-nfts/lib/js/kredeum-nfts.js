@@ -17923,7 +17923,7 @@ var kredeum_nfts = (function (exports) {
         return answerGQL === null || answerGQL === void 0 ? void 0 : answerGQL.data;
     };
     const fetchCov = async (_path) => {
-        const loginPass = `${process.env.COVALENT_API_KEY}`;
+        const loginPass = `${"ckey_98d4408f061540cca3687f0d3a0"}`;
         const url = `https://api.covalenthq.com/v1${_path}&key=${loginPass}`;
         const config = {
             method: "GET",
@@ -18479,7 +18479,7 @@ var kredeum_nfts = (function (exports) {
     const getEnsName = async (address) => {
         let name = "";
         try {
-            const ensProvider = new JsonRpcProvider$1(`https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY}`);
+            const ensProvider = new JsonRpcProvider$1(`https://mainnet.infura.io/v3/${"fc2d1a3eead04bdf9dd64a8b7be9f701"}`);
             name = (await ensProvider.lookupAddress(address)) || "";
         }
         catch (e) {
@@ -47617,7 +47617,7 @@ var kredeum_nfts = (function (exports) {
     }
 
     const nftStorageEndpoint = "https://api.nft.storage";
-    const keyDefault = process.env.NFT_STORAGE_KEY || "";
+    const keyDefault = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDcyMDA4ODA4NjAxQjNmNmU0OEZCQTZlNjIzM2E4RDkwQ2VmRjhiMDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzMTc5NDgzODYwMywibmFtZSI6IkRFViJ9.1vUbgACZJYsiAK280fg3IeKjToYrEKFpI0-IkMTZWsM" ;
     class NftStorage extends Ipfs {
         constructor(key) {
             super(nftStorageEndpoint);
@@ -49683,7 +49683,7 @@ var kredeum_nfts = (function (exports) {
     			add_location(a2, file$1, 41, 4, 1477);
     			attr_dev(nav, "class", "nav-krd");
     			add_location(nav, file$1, 20, 2, 912);
-    			attr_dev(h1, "title", "Kredeum NFTs v" + version$q.latest + " (" + "8b5aa84" + ")");
+    			attr_dev(h1, "title", "Kredeum NFTs v" + version$q.latest + " (" + "a53402e" + ")");
     			add_location(h1, file$1, 48, 10, 1756);
     			attr_dev(div3, "class", "col col-sm-3");
     			add_location(div3, file$1, 58, 12, 2163);
