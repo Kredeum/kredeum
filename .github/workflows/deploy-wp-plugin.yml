@@ -1,0 +1,62 @@
+name: Deploy WP plugin
+on:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  deploy:
+    name: Deploy Plugin to WordPress.org
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@master
+
+      - name: Cache Composer packages
+        id: composer-cache
+        uses: actions/cache@v2
+        with:
+          path: ~/wordpress/vendor
+          key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-php-
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        env:
+          cache-name: cache-pnpm-modules
+        with:
+          path: ~/.pnpm-store
+          key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package.json') }}
+          restore-keys: |
+            ${{ runner.os }}-build-${{ env.cache-name }}-
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.23.6
+          run_install: true
+
+      - name: Install plugin
+        run: pnpm run wp-install && ls -la wordpress/vendor/bin
+
+      - name: Build plugin
+        run: pnpm run wp-build
+        env:
+          ENVIR: PROD
+          NODE_DEBUG: false
+          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+          COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
+          NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
+
+      - name: Check plugin
+        run: pnpm run wp-check
+
+      - name: Deploy plugin
+        uses: nk-o/action-wordpress-plugin-deploy@master
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SOURCE_DIR: wordpress/kredeum-nfts/
+          ASSETS_DIR: wordpress/assets
+          SLUG: kredeum-nfts
