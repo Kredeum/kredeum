@@ -171,12 +171,12 @@ const config: HardhatUserConfig = {
   },
   typechain: {
     target: "ethers-v5",
-    outDir: "types"
+    outDir: "../common/types"
   },
   paths: {
     sources: "contracts",
     deploy: "deploy",
-    deployments: "deployments",
+    deployments: "../common/deployments",
     tests: "tests",
     imports: "lib",
     cache: "cache",

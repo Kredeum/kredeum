@@ -1,0 +1,61 @@
+name: Build Dapp
+on:
+  push:
+    branches:
+      - monorepo
+      # - beta
+      # - alpha
+
+jobs:
+  check:
+    name: Build Dapp, ready to be deployed
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout sources
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+          fetch-depth: 0
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2.0.1
+        with:
+          version: 6.6.2
+          run_install: true
+
+      - name: Cache pnpm modules
+        uses: actions/cache@v2
+        with:
+          path: ~/.pnpm-store
+          key: pnpm-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
+
+      - name: Install
+        run: pnpm run install-wordpress
+
+      # - name: Delete .gitignore to include web/app in commit
+      #   run: rm web/.gitignore
+
+      # - name: Run Dapp build
+      #   run: npm run dapp-build
+      #   env:
+      #     ENVIR: PROD
+      #     NODE_DEBUG: false
+      #     INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+      #     COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
+      #     NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
+
+      # - name: Commit Dapp build
+      #   run: |
+      #     git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
+      #     git config --local user.name "github-actions[bot]"
+      #     git add web/app
+      #     git commit -am "${{ github.ref }} dapp build!"
+
+      # - name: Push Dapp build
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: ${{ github.ref }}-build
+      #     force: true
+      #     directory: "web/app"

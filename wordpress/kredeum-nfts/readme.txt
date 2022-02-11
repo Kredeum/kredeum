@@ -1,0 +1,157 @@
+=== Kredeum NFTs, The easiest way to sell your content to NFTs Marketplaces ===
+Contributors: yoannr35, alexr35, alain
+Donate link:  https://www.kredeum.com/
+Tags: nft, blockchain, ethereum, ipfs
+Requires at least: 5.0
+Tested up to: 5.8
+Stable tag: 0.9.17
+Requires PHP: 7.0
+License: GPLv3 or later
+License URI: https://www.gnu.org/licenses/gpl-3.0.html
+
+Convert, archive & sell your content (media, texts, …) to NFTs Marketplaces in an easy and fast way.
+
+== Description ==
+
+The Wordpress Kredeum NTFs plugin allows you to:
+* Store all your medias in IPFS (decentralised storage technology), protecting your medias to be lost in case of any hosting server issues. 
+* Create your own NFT collections
+* Create your own NFTs
+* Associate your collections / NFTs to one of these blockchains: [Polygon / Matic blockchain](https://matic.network/), Bsc (Binance Smart Chain), Fantom, Avalanche for a transaction cheap cost, Ethereum (soon) 
+* Add in one click your Kredeum NFTs to the OpenSea NFT marketplace [OpenSea](https://opensea.io/)
+* Add a sell NFT shortcode button in your pages / posts
+* Sell your media NFTs on OpenSea NFT marketplace
+
+Please don’t hesitate to contact us if you have any questions by email contact@kredeum.com or by joining us on Discord https://discord.gg/Vz5AyU2Nfx
+
+== Useful links / docs ==
+
+* [Read Kredeum NFTs documentation, installation and user guide](https://docs.kredeum.tech/)
+* [Watch Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=gRhz99FiEUs)
+
+== Pre-requirements ==
+
+1. Need to install Metamask extension on your chrome browser + create Metamask account: https://metamask.io/download.html
+2. Buy native cryptocurrency Polygon / Matic, Fantom, Avalanche, BSC for cheap transactions or Ethereum (soon) and transfer your new tokens to your Metamask account. Careful native cryptocurrencies are different from Ethereum tokens. You can use bridges to buy native cryptocurrencies like [Polygon bridge](https://wallet.polygon.technology) or [direct onramp solutions](https://global.transak.com/)
+
+== How can you create your own collections? ==
+
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on “Mint” button
+3. Click on “Add a new collection”
+
+== How can you create your own NFTs? ==
+
+Option 1
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on “Mint” button
+3. Click on “Mint NFT”
+
+Option 2
+1. In list of medias, Click on MINT NFT for each wordpress medias
+
+== How can you sell one of your wordpress media? ==
+
+1. In the back-office, go to NFTs > “NFTs Kredeum” page
+2. Click on Sell button to be redirected to OpenSea NFT page and configure your NFT price / availability
+3. Click on Copy NFT shortcode and paste it in your worpdress posts / pages
+4. Kredeum NFT shortcode is a button that redirect users to the dedicated OpenSea NFT page
+
+== Are NFTs accessible outside my wordpress back-office site ? ==
+
+You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can even create them directly in our DAPP.
+
+
+== Changelog ==
+= 0.10.2 (latest) =
+* Better support for ERC1155 NFTs
+* Bug fixes and performance improvements
+
+= 0.9.17 (stable) =
+* Fix a Minting bug with old OpenNFTs SmartContracts, mainly on Ethereum Mainnet
+
+= 0.9.16 =
+* New deployment on xDai, in order to get POAP or GitCoin Kudos collections
+* Better links on new NFTs page on Etherscan explorer 
+* Fix bug : NFT panel closing while loading new NFTs after refresh or first loading
+
+= 0.9.15 =
+* Bug fixes and performance improvements
+
+= 0.9.13 =
+* Fix bug while creation collection from previous v0.9.11 version
+ 
+= 0.9.11 =
+* Deployment of new version on Ethereum Mainnet
+* New Sell Button to generate WP shortcode to insert in FrontEnd Pages
+ 
+= 0.9.10 =
+* New design
+* Personalized collections
+* Deployed on Polygon / Fantom / Avalanche / BSC
+
+= 0.8.4 =
+* Fix some bugs from previous version  0.8.1
+
+= 0.8.1 =
+* Deployment on Avalanche / AVAX
+* Beta setting allowing activation of beta features (2 in this version : import and personnalized collections)
+
+= 0.8.0 =
+* Personalized collections
+
+= 0.7.10 =
+* First stable version since 0.7.2
+* Including WordPress Metadata (0.7.4), NFTs cache management (0.7.5) and ENS resolution (0.7.7)
+* Doesn't include unstable import feature (0.7.3): use v0.8+ to test beta import
+
+= 0.7.8 =
+* Ethereum rpc key changed
+* Minor improvments
+
+= 0.7.7 =
+* Add WordPress Post metadata to NFT metadata on Mint
+* Display ENS name when available
+
+= 0.7.6 =
+* Bug fixes and performance improvements
+
+= 0.7.5 =
+* Display performance improvements, via enabled NFTs cache in your browser via local storage
+
+= 0.7.4 =
+* Add display of NFT metadatas as information tooltip
+
+= 0.7.3 =
+* Import function from "My NFT Wallet" to "WordPress media library"
+
+= 0.7.2 =
+* Easy access to other networks with Metamask: links at the bottom of NFTs page
+
+= 0.7.1 =
+* Access all your NFTs on the blockchain you are connected to, in "NFTs" page
+* One NFT collection is defined per blockchain to Mint your NFT, but now a new listbox allows you to access your NFTs in other ERC721 collections (if you have some !) 
+* In addition to existing Matic/Polygon network (and Mumbai/Polygon tesnet), these blockchains are now supported :
+- Ethereum mainnet
+- Fantom
+- Binance Smart Chain (BSC) 
+- Kovan testnet
+
+= 0.5.2 =
+* Fix bug : image links display in posts
+
+= 0.5.1 =
+* Loading and Display improved times
+
+= 0.5.0 =
+* Settings simplification : only NFT Storage settings needed
+
+= 0.4.9 =
+* Bug fixes
+* Performance improvements thanks to [Kredeum NFTs subgraph](https://thegraph.com/explorer/subgraph/zapaz/kredeum-nft)
+
+= 0.4.8 =
+* Readme updates
+
+= 0.4.7 =
+* Initial plugin release
