@@ -2,12 +2,12 @@
   import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
-  import { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import { chainId, signer, owner } from "./network";
 
@@ -103,16 +103,16 @@
 
 <div id="kredeum-create-nft">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="." title="Close" class="modal-close"><i class="fa fa-times"></i></a>
 
     <div class="modal-body">
       <div class="titre">
-        <i class="fas fa-plus fa-left c-green" />Mint NFT
+        <i class="fas fa-plus fa-left c-green"></i>Mint NFT
       </div>
 
       {#if minting}
         <div class="media media-photo">
-          <img src={image} alt="nft" />
+          <img src="{image}" alt="nft" />
         </div>
 
         <ul class="steps process">
@@ -121,11 +121,11 @@
               <div class="flex">
                 <span class="titre"
                   >NFT Minted, congrats!
-                  <i class="fas fa-check fa-left c-green" />
+                  <i class="fas fa-check fa-left c-green"></i>
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
+                <a class="link" href="{explorerNftUrl($chainId, mintedNft)}" target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}
@@ -134,10 +134,10 @@
                 <span class="titre">
                   {#if mintingError}
                     Minting Error
-                    <i class="fa fa-times fa-left" />
+                    <i class="fa fa-times fa-left"></i>
                   {:else}
                     Minting NFT
-                    <i class="fas fa-spinner fa-left c-green refresh" />
+                    <i class="fas fa-spinner fa-left c-green refresh"></i>
                   {/if}
                 </span>
               </div>
@@ -153,33 +153,31 @@
             </li>
           {/if}
 
-          <li class={minting >= 2 ? "complete" : ""}>
+          <li class="{minting >= 2 ? 'complete' : ''}">
             <div class="flex"><span class="label">Image ipfs link</span></div>
             <div class="flex">
               {#if ipfsImage}
-                <a class="link" href={ipfsGatewayUrl(ipfsImage)} target="_blank">{textShort(ipfsImage, 15)}</a>
+                <a class="link" href="{ipfsGatewayUrl(ipfsImage)}" target="_blank">{textShort(ipfsImage, 15)}</a>
               {/if}
             </div>
           </li>
-          <li class={minting >= 3 ? "complete" : ""}>
+          <li class="{minting >= 3 ? 'complete' : ''}">
             <div class="flex"><span class="label">Metadata ipfs link</span></div>
             <div class="flex">
               {#if ipfsJson}
-                <a class="link" href={ipfsGatewayUrl(ipfsJson)} target="_blank">{textShort(ipfsJson, 15)}</a>
+                <a class="link" href="{ipfsGatewayUrl(ipfsJson)}" target="_blank">{textShort(ipfsJson, 15)}</a>
               {/if}
             </div>
           </li>
-          <li class={minting >= 4 ? "complete" : ""}>
+          <li class="{minting >= 4 ? 'complete' : ''}">
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxResp}
-                <a class="link" href={explorerTxUrl($chainId, mintingTxResp.hash)} target="_blank"
-                  >{textShort(mintingTxResp.hash, 15)}</a
-                >
+                <a class="link" href="{explorerTxUrl($chainId, mintingTxResp.hash)}" target="_blank">{textShort(mintingTxResp.hash, 15)}</a>
               {/if}
             </div>
           </li>
-          <li class={minting >= 5 ? "complete" : ""}>
+          <li class="{minting >= 5 ? 'complete' : ''}">
             <div class="flex"><span class="label">Token ID</span></div>
             <div class="flex">
               {#if mintedNft}
@@ -194,17 +192,17 @@
           <div class="box-file">
             {#if image}
               <div class="media media-photo mt-20">
-                <img src={image} alt="nft" />
+                <img src="{image}" alt="nft" />
               </div>
             {:else}
-              <input type="file" id="file" name="file" bind:files on:change={fileload} />
+              <input type="file" id="file" name="file" bind:files on:change="{fileload}" />
             {/if}
           </div>
         </div>
         <div class="section">
           <span class="label label-big">NFT title</span>
           <div class="form-field">
-            <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
+            <input type="text" placeholder="My NFT title" bind:value="{nftTitle}" id="title-nft" />
           </div>
         </div>
 
@@ -212,26 +210,19 @@
           <span class="label label-big">Media type</span>
           <div class="box-fields">
             <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video" disabled />
-            <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
+            <label class="field" for="create-type-video"><i class="fas fa-play"></i>Video</label>
 
-            <input
-              class="box-field"
-              id="create-type-picture"
-              name="media-type"
-              type="checkbox"
-              value="Picture"
-              checked
-            />
-            <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
+            <input class="box-field" id="create-type-picture" name="media-type" type="checkbox" value="Picture" checked />
+            <label class="field" for="create-type-picture"><i class="fas fa-image"></i>Picture</label>
 
             <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Text" disabled />
-            <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
+            <label class="field" for="create-type-texte"><i class="fas fa-file-alt"></i>Text</label>
 
             <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
-            <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
+            <label class="field" for="create-type-music"><i class="fas fa-music"></i>Music</label>
 
             <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
-            <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
+            <label class="field" for="create-type-web"><i class="fas fa-code"></i>Web</label>
           </div>
         </div>
 
@@ -241,7 +232,7 @@
         </div>
 
         <div class="txtright">
-          <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+          <button class="btn btn-default btn-sell" on:click="{mint}">Mint NFT</button>
         </div>
         {#if mintingError}
           <div class="section">

@@ -1,5 +1,5 @@
-import type { IERC165 } from "../../hardhat/types/IERC165";
-import type { OpenNFTs } from "../../hardhat/types/OpenNFTs";
+import type { IERC165 } from "../types/IERC165";
+import type { OpenNFTs } from "../types/OpenNFTs";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, CollectionSupports, AbiType, ErcKeys, OpenNFTsKeys } from "./ktypes";

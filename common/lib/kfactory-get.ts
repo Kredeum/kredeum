@@ -1,4 +1,4 @@
-import type { NFTsFactory } from "../../hardhat/types/NFTsFactory";
+import type { NFTsFactory } from "../types/NFTsFactory";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address } from "./ktypes";
@@ -28,7 +28,11 @@ const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider
     if (!nftsFactory) {
       const nftsFactoryAddress = factoryGetAddress(chainId);
       if (nftsFactoryAddress) {
-        nftsFactory = new Contract(nftsFactoryAddress, abis.CloneFactory.abi.concat(abis.NFTsFactory.abi), signerOrProvider) as NFTsFactory;
+        nftsFactory = new Contract(
+          nftsFactoryAddress,
+          abis.CloneFactory.abi.concat(abis.NFTsFactory.abi),
+          signerOrProvider
+        ) as NFTsFactory;
         nftsFactories.set(chainId, nftsFactory);
       }
     }
