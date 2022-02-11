@@ -1,0 +1,6 @@
+[
+  "function initialize(string,string)",
+  "function mintNFT(address,string) returns (uint256)",
+  "function owner() view returns (address)",
+  "function transferOwnership(address)"
+]
