@@ -1,7 +1,7 @@
 {
   "name": "kredeum",
   "version": "1.0.0",
-  "description": "## Installation",
+  "description": "Kredeum NFTS Factory",
   "main": "index.js",
   "scripts": {
     "clean-hardhat": "cd hardhat && pnpm run clean",
@@ -46,5 +46,5 @@
   "bugs": {
     "url": "https://github.com/Kredeum/kredeum/issues"
   },
-  "homepage": "https://github.com/Kredeum/kredeum#readme"
+  "homepage": "https://www.kredeum.com"
 }
