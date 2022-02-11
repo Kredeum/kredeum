@@ -2,29 +2,22 @@
 
 ## Installation
 
-Before installation, you need "node" and "pnpm" installed and a ".env" file setup.
-_Check page's bottom to get pre-installation instructions_
+Before installation, you need "node" and "pnpm" installed and a ".env" file setup
+(_go to [pre-installation instructions](#pre-installation)_)
 
-### Running the Dapp
+### Building Dapp and Plugin : `npm run build`
 
-Build the DAPP via this command :
+### Running the Dapp : `npm run dapp`
 
-- `npm run build-dapp`
+### Running the Plugin :
 
-and then go to http://localhost:5000
+Install WordPress locally and link `wordpress/kredeum-nfts` inside the plugin directory of your WordPress installation
 
-## Running the Plugin
+Open your WordPress BackOffice with some URL like http://localhost:8000/wp-admin/admin.php?page=nfts
 
-In order to run the plugin you need a WordPress installation on your local disk
-and link `wordpress/kredeum-nfts` inside the pugin directory of your WordPress installation
+## Modules :
 
-Then, you have to rebuild the js lib, after each modification, to take effect :
-
-- `npm run build-plugin`
-
-## More advanced commands
-
-#### Kredeum NFTs is splitted in modules like this :
+Kredeum Factory is splitted in various modules listed bellow :
 
 1. wordPress : WordPress Plugin
 1. hardhat : Smartcontrats hardhat environment
@@ -34,7 +27,13 @@ Then, you have to rebuild the js lib, after each modification, to take effect :
 1. common : common library, config and other common datas
 1. misc : other tools, datas and archives (old)
 
-In each of these specifi directories you will acces more advance commands
+In each of these specific directories you will access more advanced commands
+
+## GitHub Action
+
+[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/build-dapp.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/build-dapp.yml)
+
+[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress-deploy.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress-deploy.yml)
 
 ## Pre installation
 
@@ -75,9 +74,3 @@ In each of these specifi directories you will acces more advance commands
 
   For your convenience, you can also add at the end of your ~/zshrc : `alias npm=pnpm`
   to keep typing `npm` instead of `pnpm`
-
-### Access GitHub Action
-
-[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml)
-
-[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml)
