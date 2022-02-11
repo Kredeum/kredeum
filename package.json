@@ -9,7 +9,8 @@
     "build-svelte": "cd svelte && npm run clean && pnpm install && npm run build && npm run check",
     "build-dapp": "rm -rf dapp/build && npm run build-gulp && npm run build-svelte",
     "build-wordpress": "cd wordpress && npm run clean && pnpm install && npm run instal && npm run build && npm run check",
-    "build": "npm run build-wordpress && npm run build-dapp"
+    "build": "npm run build-wordpress && npm run build-dapp",
+    "check": "(cd hardhat && pnpm install && npm run check) && (cd svelte && pnpm install && npm run check) && (cd wordpress && pnpm install && npm run instal && npm run check)"
   },
   "repository": {
     "type": "git",
