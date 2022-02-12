@@ -1,12 +1,12 @@
-import type { NFTsFactory } from "../types/NFTsFactory";
-import type { IERC165 } from "../types/IERC165";
-import type { IERC721Enumerable } from "../types/IERC721Enumerable";
-import type { IERC721Metadata } from "../types/IERC721Metadata";
+import type { NFTsFactory } from "types/NFTsFactory";
+import type { IERC165 } from "types/IERC165";
+import type { IERC721Enumerable } from "types/IERC721Enumerable";
+import type { IERC721Metadata } from "types/IERC721Metadata";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { collectionGetContract, collectionGetSupportedInterfaces } from "../../common/lib/kcollection-get";
 
-import networks from "../../common/config/networks.json";
+import networks from "config/networks.json";
 import hre from "hardhat";
 
 const ABI_FACTORY = [

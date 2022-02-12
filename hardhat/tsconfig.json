@@ -5,7 +5,12 @@
     "strict": true,
     "esModuleInterop": true,
     "baseUrl": "./",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "paths": {
+      "lib/*": ["../common/lib/*"],
+      "config/*": ["../common/config/*"],
+      "types/*": ["../common/types/*"]
+    }
   },
   "include": ["./scripts", "./tests", "./deploy", "../common/lib"],
   "files": ["./hardhat.config.ts"]

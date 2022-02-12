@@ -1,9 +1,9 @@
 import type { Signer } from "@ethersproject/abstract-signer";
-import type { IInterfacesIds } from "../types/IInterfacesIds";
+import type { IInterfacesIds } from "types/IInterfacesIds";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { getChainId, ethers, deployments, network } from "hardhat";
-import { abis } from "../../common/lib/kconfig";
+import { abis } from "lib/kconfig";
 import { BigNumber } from "ethers";
 import { expect } from "chai";
 
