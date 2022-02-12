@@ -42,7 +42,7 @@ class Settings {
 		// Add the submenu item and page.
 		$parent_slug = 'nfts';
 		$page_title  = __( 'NFTs settings', 'kredeum-nfts' );
-		$menu_title  = __( 'NFTs Settings', 'kredeum-nfts' );
+		$menu_title  = __( 'NFTs settings', 'kredeum-nfts' );
 		$capability  = 'upload_files';
 		$menu_slug   = $this->slug;
 		$callback    = array( $this, 'page_content' );

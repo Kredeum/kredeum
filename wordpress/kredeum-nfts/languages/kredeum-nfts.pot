@@ -3,7 +3,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Kredeum NFTs\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-19 15:02+0000\n"
+"POT-Creation-Date: 2022-02-12 14:45+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: \n"
@@ -15,6 +15,30 @@ msgstr ""
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.5.7; wp-5.8.3\n"
 "X-Domain: kredeum-nfts"
+
+#. %s = $modified_count = number of medias modified.
+#: admin/media-list/actions.php:76
+#, php-format
+msgid "%s IPFS media link modified"
+msgid_plural "%s IPFS medias links modified"
+msgstr[0] ""
+msgstr[1] ""
+
+#. %s = $unchanged_count = number of medias unchanged.
+#: admin/media-list/actions.php:87
+#, php-format
+msgid "%s IPFS media link unchanged"
+msgid_plural "%s IPFS medias links unchanged"
+msgstr[0] ""
+msgstr[1] ""
+
+#. %s = $archived_count = number of medias archived.
+#: admin/media-list/actions.php:65
+#, php-format
+msgid "%s media archived to IPFS"
+msgid_plural "%s medias archived to IPFS"
+msgstr[0] ""
+msgstr[1] ""
 
 #: admin/settings/class-settings.php:91
 msgid "and related "
@@ -72,20 +96,20 @@ msgstr ""
 msgid "Kredeum NFTs"
 msgstr ""
 
+#: admin/nfts/index.php:35
+msgid "My NFTs"
+msgstr ""
+
 #: admin/nfts/index.php:15
 msgid "NFTs"
 msgstr ""
 
-#: admin/nfts/index.php:14 admin/nfts/index.php:34 admin/nfts/index.php:35
+#: admin/nfts/index.php:14 admin/nfts/index.php:34
 #: admin/settings/class-settings.php:59
 msgid "NFTs Kredeum"
 msgstr ""
 
-#: admin/settings/class-settings.php:45
-msgid "NFTs Settings"
-msgstr ""
-
-#: admin/settings/class-settings.php:44
+#: admin/settings/class-settings.php:44 admin/settings/class-settings.php:45
 msgid "NFTs settings"
 msgstr ""
 

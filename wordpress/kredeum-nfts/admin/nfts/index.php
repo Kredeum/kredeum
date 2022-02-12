@@ -32,7 +32,7 @@ add_action(
 		add_submenu_page(
 			'nfts',
 			__( 'NFTs Kredeum', 'kredeum-nfts' ),
-			__( 'NFTs Kredeum', 'kredeum-nfts' ),
+			__( 'My NFTs', 'kredeum-nfts' ),
 			'edit_posts',
 			'nfts'
 		);

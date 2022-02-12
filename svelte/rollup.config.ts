@@ -51,7 +51,7 @@ const toRollupConfig = function (component: string): RollupOptions {
         sourcemap: !production,
         format: "iife",
         name: component.replace(/-/g, "_"),
-        file: `../wordpress/kredeum-nfts/lib/js/${component}.js`
+        file: `../wordpress/plugins/kredeum-nfts/lib/js/${component}.js`
       }
     ],
     plugins: [
