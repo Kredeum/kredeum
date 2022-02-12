@@ -1,0 +1,12 @@
+# NPM
+node_modules
+
+# SOLIDITY
+artifacts
+cache
+
+# ENV
+**/*.env
+
+# MACOS
+.DS_Store

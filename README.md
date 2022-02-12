@@ -2,115 +2,75 @@
 
 ## Installation
 
-After [pre-installation](./PRE_INSTALL.md), installation process is quite simple :
+Before installation, you need "node" and "pnpm" installed and a ".env" file setup
+(_go to [pre-installation instructions](#pre-installation)_)
 
-- `npm install && npm run build`
+### Building Dapp and Plugin : `npm run build`
 
-In case of a re-installation, launch `npm run clean` before
+### Running the Dapp : `npm run dapp`
 
-## Running the Dapp
+### Running the Plugin :
 
-You can run the DAPP via this command , :
+Install WordPress locally and link `wordpress/kredeum-nfts` inside the plugin directory of your WordPress installation
 
-- `npm run dapp-dev`
+Open your WordPress BackOffice with some URL like http://localhost:8000/wp-admin/admin.php?page=nfts
 
-and then go to http://localhost:5000
+## Modules :
 
-## Running the Plugin
+Kredeum Factory is splitted in various modules listed bellow :
 
-In order to run the plugin you need a WordPress installation on your local disk
-and link `wordpress/kredeum-nfts` inside the pugin directory of your WordPress installation
+1. wordPress : WordPress Plugin
+1. hardhat : Smartcontrats hardhat environment
+1. gulp : Gulp static UI builder
+1. svelte : Svelte dynamic UI builder
+1. thegraph : The Graph subgraph to index NFTs
+1. common : common library, config and other common datas
+1. misc : other tools, datas and archives (old)
 
-Then, you have to rebuild the js lib, after each modification, to take effect :
+In each of these specific directories you will access more advanced commands
 
-- `npm run wp-build-js`
+## GitHub Action
 
-that will rebuild the js library and copy it to `wordpress/kredeum-nfts/lib/js/kredeum-nfts.js`
+[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/build-dapp.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/build-dapp.yml)
 
-## More advanced commands
+[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress-deploy.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress-deploy.yml)
 
-#### Kredeum NFTs is splitted in 4 modules:
+## Pre installation
 
-1. WordPress (wp) : one or more WordPress Plugin
-1. Solidity (smart) : one or more Solidity ERC721 smartcontrats
-1. Dapp (dapp) : UI to access NFTs wallet (independently, outside of Wordpress)
-1. Subgraphs (sub) : subgraph deployments to index all NFTs on different blockchain
+- **NODE** v14 :
+  Install node v14
 
-#### Development Workflow is splitted in these following Steps :
+  - via this [download page](https://nodejs.org/en/download/)
+  - or via **brew** on MacOS : `brew install node`
 
-1. Install
-1. Build
-1. Check
-1. Tests
-1. Deploy
-1. Clean
+- **ENV** .env environment file :
+  You have to keep these variables secure in an environmment .env file :
 
-**Each workflow can be launched on each module, or globally via the "npm" command , for example:**
+  - ENVIR=DEV
+  - NODE_DEBUG=false
+  - INFURA_API_KEY=""
+  - COVALENT_API_KEY=""
+  - NFT_STORAGE_KEY=""
+    optional for tests and deploy :
+  - PRIVATE_KEY_0_DEPLOY=""
+  - ALCHEMY_API_KEY=""
+  - THEGRAPH_KEY=""
+  - ETHERSCAN_API_KEY=""
+  - ETHERSCAN_API_KEY_AVALANCHE=""
+  - ETHERSCAN_API_KEY_POLYGON=""
+  - ETHERSCAN_API_KEY_FANTOM=""
+  - ETHERSCAN_API_KEY_BINANCE=""
 
-- `npm smart-build` build on smart module
-- `npm wp-tests` tests ob wordpress module
-- `npm check` source checks on all modules
+  You can get API_KEYs free from different providers
 
-Check package.json, for more specific scripts
+  Use .env.example to start with [Example.file](./.env.example)
 
-### Global module
+  _PRIVATE_KEY_0_DEPLOY is a private keys that requires some token in order to deploy smartcontracts, be carefull to not share this key on the github repo._
 
-- "all" : install all after cleanup
-- "clean" : cleanup the repo
-- "install" : install the repo
-- "build": build the repo
-- "check" : check the repo, beautifier + eslint checkin
-- "test" : run some test on the repo
+- **PNPM** package manager : [homepage](https://github.com/pnpm/pnpm)
 
-### Solidity module
+  Install latest version, can be done via this command
+  `curl -f https://get.pnpm.io/v6.js | node - add --global pnpm`
 
-- "smart-clean" : cleanup the solidity smartcontract module
-- "smart-build" : compile all the solidity files
-- "smart-check" : check the solidity smartcontract module
-- "smart-flatten" : flatten the Kredeum NFTs smartcontract in one file
-- "smart-deploy" : deploy the Kredeum NFTs smartcontract
-- "smart-deploy-mumbai" : deploy the Kredeum NFTs smartcontract to mumbai network
-- "smart-deploy-matic" : deploy the Kredeum NFTs smartcontract to matic network
-- "smart-list" : list all Kredeum NFTs smartcontract
-
-### Dapp module
-
-- "dapp-clean" : cleanup the dapp module
-- "dapp-build" : build dapp
-- "dapp-build-dev" : run Dapp in dev mode
-- "dapp-check" : check dapp
-- "dapp-start" : run Dapp in build mode
-
-### Wordpress module
-
-- "wp-clean" : cleanup the WordPress module
-- "wp-install" : install wordpress depedencies
-- "wp-build-txt" : build/pre-process wordpress readme txt
-- "wp-build-php" : build/pre-process wordpress php
-- "wp-build-vendor" : build depedencies
-- "wp-build-js": build Kredeum NFTs webcomponent and install on Wordpress
-- "wp-build": build WordPress Plugin
-- "wp-format" : format the wordpress module
-- "wp-fix": fix wordpress errors
-- "wp-check": check the repo, format + fix checking
-- "wp-dev": run wordpress dev
-
-### Subgraph module
-
-- "sub-clean" : cleanup the Subgraph module
-- "sub-build-yaml-matic" : build matic subraph.yaml file
-- "sub-build-yaml-mumbai": build mumbai subraph.yaml file
-- "sub-build-codegen": run `graph codegen` on subgraph.yaml and abis
-- "sub-build-subgraph": run `graph build`
-- "sub-build": build the subgraph module
-- "sub-check": check the subgraph module
-- "sub-deploy": deploy the subgraph module on default network (matic)
-- "sub-deploy-mumbai": deploy the subgraph module on mumbai
-
-### Access GitHub Action
-
-[![Check sources](https://github.com/Kredeum/kredeum/actions/workflows/check.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/check.yml)
-
-[![Test sources](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/tests.yml)
-
-[![Deploy to WordPress.org](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml/badge.svg)](https://github.com/Kredeum/kredeum/actions/workflows/wordpress.yml)
+  For your convenience, you can also add at the end of your ~/zshrc : `alias npm=pnpm`
+  to keep typing `npm` instead of `pnpm`
