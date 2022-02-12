@@ -1,8 +1,8 @@
 name: Deploy WP plugin
 on:
   push:
-    # tags:
-    #   - "v*"
+    tags:
+      - "v*"
 
 jobs:
   deploy:
@@ -42,11 +42,11 @@ jobs:
           COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 
-      # - name: Deploy
-      #   uses: nk-o/action-wordpress-plugin-deploy@master
-      #   env:
-      #     SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
-      #     SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
-      #     SOURCE_DIR: wordpress/kredeum-nfts/
-      #     ASSETS_DIR: wordpress/assets
-      #     SLUG: kredeum-nfts
+      - name: Deploy
+        uses: nk-o/action-wordpress-plugin-deploy@master
+        env:
+          SVN_PASSWORD: ${{ secrets.SVN_PASSWORD }}
+          SVN_USERNAME: ${{ secrets.SVN_USERNAME }}
+          SOURCE_DIR: wordpress/plugins/kredeum-nfts/
+          ASSETS_DIR: wordpress/assets
+          SLUG: kredeum-nfts
