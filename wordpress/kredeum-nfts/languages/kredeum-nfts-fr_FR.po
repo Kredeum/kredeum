@@ -1,68 +1,58 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Kredeum IPFS\n"
+"Project-Id-Version: Kredeum NFTs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-13 20:19+0000\n"
-"PO-Revision-Date: 2020-12-15 14:28+0000\n"
-"Last-Translator: \n"
+"PO-Revision-Date: 2022-01-19 15:22+0000\n"
+"Last-Translator: Kredeum\n"
 "Language-Team: Français\n"
 "Language: fr_FR\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.4.6; wp-5.6"
+"X-Generator: Loco https://localise.biz/"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/media_list/actions.php:39
-#, php-format
-msgid "%s IPFS media link modified"
-msgid_plural "%s IPFS medias links modified"
-msgstr[0] "%s lien IPFS modifié"
-msgstr[1] "%s liens IPFS modifiés"
+#: admin/settings/class-settings.php:91
+msgid "and related "
+msgstr "et"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/media_list/actions.php:44
-#, php-format
-msgid "%s IPFS media link unchanged"
-msgid_plural "%s IPFS medias links unchanged"
-msgstr[0] "%s lien IPFS inchangé"
-msgstr[1] "%s liens IPFS inchangés"
-
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/media_list/actions.php:33
-#, php-format
-msgid "%s media archived to IPFS"
-msgid_plural "%s medias archived to IPFS"
-msgstr[0] "%s media archivé sur IPFS"
-msgstr[1] "%s medias archivés sur IPFS"
-
-#. Description of the plugin
-msgid "Allow media storage into IPFS"
-msgstr "Archive vos médias sur IPFS"
-
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/ipfs/links.php:19
+#: common/ipfs/links.php:29
 msgid "Archive"
 msgstr "Archive"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/media_list/actions.php:5
+#: admin/media/post.php:23
+msgid "Archive link"
+msgstr "Lien d'Archive"
+
+#: admin/media-list/actions.php:16
 msgid "Archive to IPFS"
 msgstr "Archiver sur IPFS"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/fields.php:16
-msgid "Check to automaticaly push your new medias to IPFS on upload"
+#: admin/settings/fields.php:22
+#| msgid "Check to automaticaly push your new medias to IPFS on upload"
+msgid "Choose \"yes\" to automaticaly push your new medias to IPFS on upload"
 msgstr ""
-"Cocher pour pousser automatiquement vos média vers IPFS après chargement"
+"Choisissez \"Oui\" pour pousser automatiquement vos média vers IPFS après "
+"chargement"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/fields.php:28
-msgid "Choose IPFS CID version"
-msgstr "Choisissez la version de CID pour IPFS"
+#: admin/settings/class-settings.php:97
+msgid "Discord"
+msgstr "Discord"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/fields.php:42
-msgid "Choose your prefered IPFS gateway"
-msgstr "Choisissez votre passerelle IPFS préférée"
+#: admin/settings/class-settings.php:87
+msgid "For any help read the"
+msgstr "Pour vous aider consultez le"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/settings.php:55
-msgid "Here you can set IPFS options"
-msgstr "Définissez ici vos réglages pour IPFS"
+#: admin/settings/fields.php:65
+msgid "For degens ! Choose \"yes\" to use beta features..."
+msgstr ""
+"Pour les degens ! Choisissez \"Oui\" pour utiliser les fonctionnalités en "
+"beta..."
+
+#. URI of the plugin
+msgid "https://docs.kredeum.tech"
+msgstr "https://docs.kredeum.tech"
 
 # 
 # 
@@ -70,43 +60,74 @@ msgstr "Définissez ici vos réglages pour IPFS"
 msgid "https://www.kredeum.com"
 msgstr "https://www.kredeum.com"
 
-#. URI of the plugin
-msgid "https://www.kredeum.com/kredeum-nfts"
-msgstr "https://www.kredeum.com/kredeum-nfts"
-
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/media_list/column.php:5
-msgid "IPFS archive link"
-msgstr "Lien archive IPFS"
-
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/settings.php:24
-msgid "IPFS settings"
-msgstr "Réglages IPFS"
+#: admin/media-list/column.php:17
+msgid "IPFS Archive"
+msgstr "Archie IPFS"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"
 msgstr "Kredeum <alain@kredeum.com>"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/settings.php:37
-msgid "Kredeum IPFS"
-msgstr "Kredeum IPFS"
+#: admin/media-list/column.php:16
+#| msgid "Kredeum IPFS"
+msgid "KREDEUM NFTs"
+msgstr "Kredeum NFTs"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/fields.php:12
+#. Name of the plugin
+msgid "Kredeum NFTs"
+msgstr "Kredeum NFTs"
+
+#: admin/nfts/index.php:15
+msgid "NFTs"
+msgstr "NFTs"
+
+#: admin/nfts/index.php:14 admin/nfts/index.php:34 admin/nfts/index.php:35
+#: admin/settings/class-settings.php:59
+msgid "NFTs Kredeum"
+msgstr "NFTs Kredeum"
+
+#: admin/settings/class-settings.php:45
+msgid "NFTs Settings"
+msgstr "Paramétrage NFTs"
+
+#: admin/settings/class-settings.php:44
+#| msgid "IPFS settings"
+msgid "NFTs settings"
+msgstr "Réglages IPFS"
+
+#: admin/settings/fields.php:21 admin/settings/fields.php:64
 msgid "No"
 msgstr "Non"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/kredeum-nfts.php:19
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/uninstall.php:3
+#: kredeum-nfts.php:22 uninstall.php:8
 msgid "Not allowed"
 msgstr "Accès interdit"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/settings.php:48
+#: admin/settings/class-settings.php:95
+msgid "or join us on"
+msgstr "ou rejoignez-nous sur"
+
+#. Description of the plugin
+msgid "Plugin to archive your medias to IPFS and mint them as NFTs"
+msgstr "Plugin pour archier vos medias sur IPFS et les minter en NFTs "
+
+#: admin/settings/class-settings.php:72
 msgid "Settings"
 msgstr "Réglages"
 
-#. Name of the plugin
-msgid "WP Plugin IPFS"
-msgstr "WP Plugin IPFS"
+#: admin/settings/class-settings.php:93
+msgid "Settings instructions"
+msgstr "Instructions de paramétrage"
 
-#: Users/alain/DEV/wp-plugin-ipfs/plugins/kredeum-nfts/settings/fields.php:13
+#: admin/settings/class-settings.php:85
+msgid ""
+"Setup here your IPFS options and connect your Metamask account with WordPress"
+msgstr "Paramétrez vos options IPFS et connectez votre Metamask avec WordPress"
+
+#: admin/settings/class-settings.php:89
+msgid "User Guide"
+msgstr "Guide d'Utilisation"
+
+#: admin/settings/fields.php:21 admin/settings/fields.php:64
 msgid "Yes"
 msgstr "Oui"
