@@ -7,6 +7,8 @@
 
 namespace KredeumNFTs\Ipfs;
 
+define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDcyMDA4ODA4NjAxQjNmNmU0OEZCQTZlNjIzM2E4RDkwQ2VmRjhiMDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzMTc5NDgzODYwMywibmFtZSI6IkRFViJ9.1vUbgACZJYsiAK280fg3IeKjToYrEKFpI0-IkMTZWsM' ) );
+
 /**
  * IPFS add and pin file inside directory with NFT Storage
  *
@@ -30,7 +32,7 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	);
 	$buffer   = multipart( $parts, $boundary );
 	$headers  = array(
-		'Authorization'  => 'Bearer ' . IPFS_NFT_STORAGE_KEY,
+		'Authorization'  => 'Bearer ' . NFT_STORAGE_KEY,
 		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
 		'Content-Length' => strlen( $buffer ),
 	);
@@ -47,13 +49,13 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	: $result->error;
 }
 
-/**
- * IPFS add and pin file with NFT Storage
- *
- * @param string $attachment_id Id attachment file.
- *
- * @return string CID hash
- */
+	/**
+	 * IPFS add and pin file with NFT Storage
+	 *
+	 * @param string $attachment_id Id attachment file.
+	 *
+	 * @return string CID hash
+	 */
 function nft_storage_add_and_pin( $attachment_id ) {
 	$api = new \RestClient( array( 'base_url' => 'https://api.nft.storage' ) );
 
@@ -61,7 +63,7 @@ function nft_storage_add_and_pin( $attachment_id ) {
 	$filename = get_attached_file_meta( $attachment_id )->filename;
 
 	$headers = array(
-		'Authorization' => 'Bearer ' . IPFS_NFT_STORAGE_KEY,
+		'Authorization' => 'Bearer ' . NFT_STORAGE_KEY,
 	);
 
 	$result = $api->post( '/upload', $file, $headers );

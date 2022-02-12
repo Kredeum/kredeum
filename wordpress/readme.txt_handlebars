@@ -63,7 +63,10 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.10.2 (latest) =
+= 0.10.3 (latest) =
+* Fix and Rrset the option to define your own NFT Storage key (or leave default to use a common key) 
+
+= 0.10.2 =
 * Better support for ERC1155 NFTs
 * Bug fixes and performance improvements
 

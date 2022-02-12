@@ -20,5 +20,5 @@ $wpdb->query( $wpdb->prepare( 'DELETE FROM %1s WHERE meta_key LIKE %s', _get_met
 */
 delete_option( 'ipfs_auto' );
 delete_option( 'kredeum_beta' );
-delete_option( 'ipfs_nft_storage_key' );
+delete_option( 'nft_storage_key' );
 delete_option( 'select_collection' );

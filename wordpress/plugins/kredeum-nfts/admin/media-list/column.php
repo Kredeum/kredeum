@@ -43,11 +43,9 @@ add_action(
 
 				printf(
 					'<div class="kredeum-nfts-mint"'
-					// . ' key="' . esc_attr( IPFS_NFT_STORAGE_KEY ) . '"'
 					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
-					// . ' collection="' . esc_attr( SELECT_COLLECTION ) . '"'
 					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 				);

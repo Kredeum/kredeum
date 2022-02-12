@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Kredeum NFTs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-13 20:19+0000\n"
-"PO-Revision-Date: 2022-02-12 14:45+0000\n"
+"PO-Revision-Date: 2022-02-12 15:54+0000\n"
 "Last-Translator: \n"
 "Language-Team: Français\n"
 "Language: fr_FR\n"
@@ -19,7 +19,7 @@ msgstr ""
 #, php-format
 msgid "%s IPFS media link modified"
 msgid_plural "%s IPFS medias links modified"
-msgstr[0] ""
+msgstr[0] "%s lien IPFS modifié"
 msgstr[1] "%s liens IPFS modifiés"
 
 #. %s = $unchanged_count = number of medias unchanged.
@@ -54,7 +54,7 @@ msgstr "Lien d'Archive"
 msgid "Archive to IPFS"
 msgstr "Archiver sur IPFS"
 
-#: admin/settings/fields.php:22
+#: admin/settings/fields.php:23
 #| msgid "Check to automaticaly push your new medias to IPFS on upload"
 msgid "Choose \"yes\" to automaticaly push your new medias to IPFS on upload"
 msgstr ""
@@ -65,11 +65,17 @@ msgstr ""
 msgid "Discord"
 msgstr "Discord"
 
+#: admin/settings/fields.php:48
+msgid "Enter your own NFT Storage Key, or leave blank to use common key"
+msgstr ""
+"Entrez votre propre clef NFT Storage, ou laisser vide pour utiliser la clef "
+"commune"
+
 #: admin/settings/class-settings.php:87
 msgid "For any help read the"
 msgstr "Pour vous aider consultez le"
 
-#: admin/settings/fields.php:65
+#: admin/settings/fields.php:32
 msgid "For degens ! Choose \"yes\" to use beta features..."
 msgstr ""
 "Pour les degens ! Choisissez \"Oui\" pour utiliser les fonctionnalités en "
@@ -102,7 +108,7 @@ msgstr "Kredeum NFTs"
 msgid "Kredeum NFTs"
 msgstr "Kredeum NFTs"
 
-#: admin/nfts/index.php:35
+#: admin/nfts/index.php:34
 msgid "My NFTs"
 msgstr "Mes NFTs"
 
@@ -110,7 +116,7 @@ msgstr "Mes NFTs"
 msgid "NFTs"
 msgstr "NFTs"
 
-#: admin/nfts/index.php:14 admin/nfts/index.php:34
+#: admin/nfts/index.php:14 admin/nfts/index.php:33
 #: admin/settings/class-settings.php:59
 msgid "NFTs Kredeum"
 msgstr "NFTs Kredeum"
@@ -120,7 +126,7 @@ msgstr "NFTs Kredeum"
 msgid "NFTs settings"
 msgstr "Paramétrages"
 
-#: admin/settings/fields.php:21 admin/settings/fields.php:64
+#: admin/settings/fields.php:22 admin/settings/fields.php:31
 msgid "No"
 msgstr "Non"
 
@@ -153,6 +159,6 @@ msgstr "Paramétrez vos options IPFS et connectez votre Metamask avec WordPress"
 msgid "User Guide"
 msgstr "Guide d'Utilisation"
 
-#: admin/settings/fields.php:21 admin/settings/fields.php:64
+#: admin/settings/fields.php:22 admin/settings/fields.php:31
 msgid "Yes"
 msgstr "Oui"
