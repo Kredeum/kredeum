@@ -18,7 +18,6 @@ services:
     image: wordpress:latest
     volumes:
       - ${PLUGINS_DIR}:/var/www/html/wp-content/plugins
-      - ${APP_DIR}:/var/www/html/app
     restart: always
     environment:
       WORDPRESS_DB_HOST: db:3306

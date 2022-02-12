@@ -1,3 +1,6 @@
 {
-  "workbench.colorTheme": "Dark++ Italic"
+  "workbench.colorTheme": "Dark++ Italic",
+  "phpsab.standard": "WordPress",
+  "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
+  "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs"
 }

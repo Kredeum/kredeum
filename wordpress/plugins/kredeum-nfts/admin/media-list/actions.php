@@ -59,29 +59,34 @@ add_action(
 	function () {
 		if ( ! empty( $_REQUEST['bulk_archived'] ) ) {
 			$archived_count = intval( $_REQUEST['bulk_archived'] );
-			$medias         = _n( 'media', 'medias', $archived_count );
 			printf(
-				'<div id="message" class="notice notice-success is-dismissible"><p>%s %s archived to IPFS</p></div>',
+				'<div id="message" class="notice notice-success is-dismissible"><p>'
+				// translators: %s = $archived_count = number of medias archived.
+				. esc_html( _n( '%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kredeum-nfts' ) )
+				. '</p></div>',
 				esc_html( $archived_count ),
-				esc_html( $medias )
 			);
 		}
 		if ( ! empty( $_REQUEST['bulk_modified'] ) ) {
 			$modified_count = intval( $_REQUEST['bulk_modified'] );
-			$medias_links   = _n( 'media link', 'medias links', $modified_count );
 			printf(
-				'<div id="message" class="notice notice-warning is-dismissible"><p>%s IPFS %s modified</p></div>',
-				esc_html( $modified_count ),
-				esc_html( $medias_links )
+			// translators: must explain %1 %2.
+				'<div id="message" class="notice notice-warning is-dismissible"><p>'
+				// translators: %s = $modified_count = number of medias modified.
+				. esc_html( _n( '%s IPFS media link modified', '%s IPFS medias links modified', $modified_count, 'kredeum-nfts' ) )
+				. '</p></div>',
+				esc_html( $modified_count )
 			);
 		}
 		if ( ! empty( $_REQUEST['bulk_unchanged'] ) ) {
 			$unchanged_count = intval( $_REQUEST['bulk_unchanged'] );
-			$medias_links    = _n( 'media link', 'medias links', $unchanged_count );
 			printf(
-				'<div id="message" class="notice is-dismissible"><p>%s IPFS %s unchanged</p></div>',
-				esc_html( $unchanged_count ),
-				esc_html( $medias_links )
+			// translators: must explain %1 %2.
+				'<div id="message" class="notice is-dismissible"><p>'
+				// translators: %s = $unchanged_count = number of medias unchanged.
+				. esc_html( _n( '%s IPFS media link unchanged', '%s IPFS medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
+				. '</p></div>',
+				esc_html( $unchanged_count )
 			);
 		}
 	}

@@ -24,7 +24,7 @@ var production = process.env.ENVIR == "PROD";
 
 // Clean assets
 function clean() {
-  return del(["../dapp/build/", ".../wordpress/kredeum-nfts/lib/"], { force: true });
+  return del(["../dapp/build/", ".../wordpress/plugins/kredeum-nfts/lib/"], { force: true });
 }
 
 function swallow(err) {
@@ -52,7 +52,7 @@ function images() {
       ])
     )
     .pipe(gulp.dest("../dapp/build/assets/images"))
-    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/images"));
+    .pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/images"));
 }
 
 // CSS task
@@ -65,11 +65,11 @@ function css() {
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
     .pipe(gulp.dest("../dapp/build/assets/css/"))
-    .pipe(gulp.dest("../wordpress/kredeum-nfts/lib/css/"));
+    .pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/css/"));
 }
 
 function fonts() {
-  return gulp.src(["./fonts/**/*"]).pipe(gulp.dest("../dapp/build/assets/fonts/")).pipe(gulp.dest("../wordpress/kredeum-nfts/lib/fonts/"));
+  return gulp.src(["./fonts/**/*"]).pipe(gulp.dest("../dapp/build/assets/fonts/")).pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/fonts/"));
 }
 
 // Copy html

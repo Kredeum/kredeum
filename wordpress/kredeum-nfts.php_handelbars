@@ -10,7 +10,7 @@
  * Text domain: kredeum-nfts
  * Domain Path: /languages
  *
- * Copyright 2020-2021 kredeum
+ * Copyright 2020-2022 Kredeum
  *
  * @package kredeum/nfts
  */
@@ -42,8 +42,8 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/post.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/upload.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/actions.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media_list/column.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/actions.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/column.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
@@ -85,6 +85,6 @@ require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
 add_action(
 	'plugins_loaded',
 	function () {
-		load_plugin_textdomain( 'kredeum-nfts', false, KREDEUM_NFTS_PLUGIN_PATH . '/languages/' );
+		load_plugin_textdomain( 'kredeum-nfts', false, KREDEUM_NFTS_PLUGIN_PATH . 'languages/' );
 	}
 );
