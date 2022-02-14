@@ -52,4 +52,19 @@
         }
     });
 
+    var div_ctr = document.getElementById("config-royalties");
+    var div_ctc = document.getElementById("message-custom");    
+
+    for (const ct of document.querySelectorAll(".collection-type")) {
+        ct.addEventListener('click', function(e) {
+            div_ctr.style.display = 'none';
+            div_ctc.style.display = 'none';            
+            if (e.target.id == "collection-type-royalties") {
+                div_ctr.style.display = 'block';
+            }
+            if (e.target.id == "collection-type-custom") {
+                div_ctc.style.display = 'block';
+            }   
+        })
+    }
 })();
