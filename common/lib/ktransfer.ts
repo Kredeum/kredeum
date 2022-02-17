@@ -41,13 +41,13 @@ const transferNft = async (
   tokenID: string,
   destinationAddress: string,
   owner: Signer
-): Promise<TransactionResponse | null> => {
+): Promise<TransactionReceipt | null> => {
   // console.log("transferNft", chainId, collectionAddress, tokenID, destinationAddress);
 
   const txResp = await transferNftResponse(chainId, collectionAddress, tokenID, destinationAddress, owner);
   const txReceipt = await transferNftReceipt(txResp);
 
-  return txResp;
+  return txReceipt;
 };
 
 export { transferNft, transferNftResponse, transferNftReceipt };
