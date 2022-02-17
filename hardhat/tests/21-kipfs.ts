@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { expect } from "chai";
-import Ipfs from "../../common/lib/kipfs";
+import Ipfs from "lib/kipfs";
 import FormData from "form-data";
 import fetch from "node-fetch";
 global.fetch = fetch as any;

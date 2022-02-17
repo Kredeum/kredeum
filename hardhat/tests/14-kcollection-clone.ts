@@ -1,7 +1,7 @@
 import type { Signer } from "ethers";
 
 import { expect } from "chai";
-import { collectionClone } from "../../common/lib/kcollection-clone";
+import { collectionClone } from "lib/kcollection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
 
 describe("14 Clone collection", function () {

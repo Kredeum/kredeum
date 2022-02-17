@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import type { OpenNFTs } from "../types/OpenNFTs";
-import { abis } from "../../common/lib/kconfig";
+import type { OpenNFTs } from "types/OpenNFTs";
+import { abis } from "lib/kconfig";
 
 describe("12 Open NFTs contract", function () {
   let openNFTs: OpenNFTs;
