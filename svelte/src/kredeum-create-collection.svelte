@@ -13,9 +13,10 @@
   export let collection: Collection = undefined;
 
   let cloning = false;
-  let cloningTxHash: string;
-  let collectionCreated: Collection;
-  let collectionName: string;
+  let cloningTxHash: string = null;
+  let collectionCreated: Collection = null;
+
+  let collectionName = "";
 
   const dispatch = createEventDispatcher();
 
@@ -30,16 +31,18 @@
       cloningTxHash = txResp.hash;
 
       const txReceipt = await collectionCloneReceipt(txResp);
-      collectionCreated = {
-        openNFTsVersion: 2,
-        chainId: $chainId,
-        name: collectionName,
-        address: collectionCloneAddress(txReceipt),
-        user: await $signer.getAddress()
-      };
-      collection = collectionCreated;
+      if (txReceipt.status) {
+        collectionCreated = {
+          openNFTsVersion: 2,
+          chainId: $chainId,
+          name: collectionName,
+          address: collectionCloneAddress(txReceipt),
+          user: await $signer.getAddress()
+        };
+        collection = collectionCreated;
 
-      dispatch("collection", { collection: collectionCreated.address });
+        dispatch("collection", { collection: collectionCreated.address });
+      }
 
       cloning = false;
     } else {

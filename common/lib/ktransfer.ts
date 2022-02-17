@@ -1,27 +1,53 @@
 import type { Signer } from "ethers";
 import type { Nft } from "./ktypes";
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
 
 import { collectionGet, collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
-const transferNft = async (nft: Nft, owner: Signer): Promise<TransactionResponse | null> => {
+const transferNftResponse = async (
+  chainId: number,
+  collectionAddress: string,
+  tokenID: string,
+  destinationAddress: string,
+  owner: Signer
+): Promise<TransactionResponse | undefined> => {
+  // console.log("transferNftResponse", chainId, collectionAddress, tokenID, destinationAddress);
+
   let txResp: TransactionResponse | null = null;
 
-  if (nft) {
-    const network = getNetwork(nft.chainId);
+  if (chainId && collectionAddress && tokenID && destinationAddress && owner) {
+    const network = getNetwork(chainId);
     const ownerAddress = await owner.getAddress();
-    console.log("transferNft", nft, ownerAddress);
+    // console.log("transferNftResponse owner", ownerAddress);
 
-    const openNFTs = await collectionGetContract(nft.chainId, collectionGet(nft.chainId, nft.collection), owner);
+    const openNFTs = await collectionGetContract(chainId, collectionAddress, owner);
 
-    // Waiting UI with valid TO
-    const to = ownerAddress;
-    txResp = await openNFTs.connect(owner).transferFrom(ownerAddress, to, nft.tokenID);
+    // console.log("transferFrom", ownerAddress, destinationAddress, tokenID);
+    txResp = await openNFTs.connect(owner).transferFrom(ownerAddress, destinationAddress, tokenID);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   }
 
   return txResp;
 };
 
-export { transferNft };
+const transferNftReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
+  return await txResp.wait();
+};
+
+const transferNft = async (
+  chainId: number,
+  collectionAddress: string,
+  tokenID: string,
+  destinationAddress: string,
+  owner: Signer
+): Promise<TransactionResponse | null> => {
+  // console.log("transferNft", chainId, collectionAddress, tokenID, destinationAddress);
+
+  const txResp = await transferNftResponse(chainId, collectionAddress, tokenID, destinationAddress, owner);
+  const txReceipt = await transferNftReceipt(txResp);
+
+  return txResp;
+};
+
+export { transferNft, transferNftResponse, transferNftReceipt };
