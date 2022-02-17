@@ -72,19 +72,20 @@ const collectionGet = async (
   // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: Collection;
+  if (chainId && collectionOrAddress) {
+    // TODO : Get supported interfaces via onchain proxy smartcontract
+    if (typeof collectionOrAddress === "string") {
+      collection = { chainId, address: collectionOrAddress };
+    } else {
+      collection = collectionOrAddress;
+    }
 
-  // TODO : Get supported interfaces via onchain proxy smartcontract
-  if (typeof collectionOrAddress === "string") {
-    collection = { chainId, address: collectionOrAddress };
-  } else {
-    collection = collectionOrAddress;
-  }
-
-  if (!collection.supports && signerOrProvider) {
-    try {
-      collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
-    } catch (e) {
-      console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
+    if (!collection.supports && signerOrProvider) {
+      try {
+        collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      } catch (e) {
+        console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
+      }
     }
   }
   // console.log(`collectionGet ${chainId}`, collection);
