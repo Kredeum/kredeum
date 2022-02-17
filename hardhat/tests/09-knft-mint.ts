@@ -1,10 +1,10 @@
-import type { Network } from "../../common/lib/ktypes";
-import type { OpenNFTs } from "../types/OpenNFTs";
+import type { Network } from "lib/ktypes";
+import type { OpenNFTs } from "types/OpenNFTs";
 import type { Signer } from "ethers";
 
-import { collectionClone } from "../../common/lib/kcollection-clone";
+import { collectionClone } from "lib/kcollection-clone";
 import { expect } from "chai";
-import { abis, networks } from "../../common/lib/kconfig";
+import { abis, networks } from "lib/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;

@@ -89,32 +89,52 @@ const config: HardhatUserConfig = {
     bsc: {
       chainId: 56,
       url: "https://bsc-dataseed1.binance.org",
-      etherscan: { apiKey: ETHERSCAN_API_KEY_BINANCE },
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_BINANCE
+        }
+      },
       accounts
     },
     matic: {
       chainId: 137,
       url: `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`,
-      etherscan: { apiKey: ETHERSCAN_API_KEY_POLYGON },
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
+        }
+      },
       // gasPrice: 50_000_000_000,
       accounts
     },
     fantom: {
       chainId: 250,
       url: "https://rpcapi.fantom.network",
-      etherscan: { apiKey: ETHERSCAN_API_KEY_FANTOM },
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_FANTOM
+        }
+      },
       accounts
     },
     fuji: {
       chainId: 43113,
       url: "https://api.avax-test.network/ext/bc/C/rpc",
-      etherscan: { apiKey: ETHERSCAN_API_KEY_AVALANCHE },
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE
+        }
+      },
       accounts
     },
     avalanche: {
       chainId: 43114,
       url: "https://api.avax.network/ext/bc/C/rpc",
-      etherscan: { apiKey: ETHERSCAN_API_KEY_AVALANCHE },
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE
+        }
+      },
       accounts
     },
     mumbai: {
@@ -122,7 +142,11 @@ const config: HardhatUserConfig = {
       url: `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`,
       accounts,
       live: true,
-      etherscan: { apiKey: ETHERSCAN_API_KEY_POLYGON }
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
+        }
+      }
     },
     optimism: {
       chainId: 10,

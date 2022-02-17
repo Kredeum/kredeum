@@ -1,5 +1,5 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import type { CloneFactory } from "../types/CloneFactory";
+import type { CloneFactory } from "types/CloneFactory";
 
 const deployCloneFactoryFunction: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");

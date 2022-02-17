@@ -1,7 +1,7 @@
 import * as fs from "fs/promises";
-import networks from "../../common/config/networks.json";
+import networks from "config/networks.json";
 import type { DeployFunction } from "hardhat-deploy/types";
-import type { NFTsFactory } from "../types/NFTsFactory";
+import type { NFTsFactory } from "types/NFTsFactory";
 
 const deployNFTsFactoryFunction: DeployFunction = async function ({ deployments, ethers, getChainId }) {
   const deployer = await ethers.getNamedSigner("deployer");
@@ -25,7 +25,7 @@ const deployNFTsFactoryFunction: DeployFunction = async function ({ deployments,
     networks[index].nftsFactory = deployResult.address;
 
     await fs
-      .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+      .writeFile(`${__dirname}/config/networks.json`, JSON.stringify(networks, null, 2))
       .catch((err) => console.log(err));
   }
 };

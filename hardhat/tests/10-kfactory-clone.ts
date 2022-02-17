@@ -1,6 +1,6 @@
 import type { Signer } from "ethers";
-import type { CloneFactory } from "../types/CloneFactory";
-import type { OpenNFTs } from "../types/OpenNFTs";
+import type { CloneFactory } from "types/CloneFactory";
+import type { OpenNFTs } from "types/OpenNFTs";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
