@@ -134,25 +134,54 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // IPFS helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGetLink = (uri: string): string => {
   let ipfsGetLink = "";
 
-  const cid = uri.match(/^.*\/ipfs\/(.*)$/i);
-  if (cid) {
-    ipfsGetLink = ipfsCidToLink(cid[1]);
-  } else if (uri.startsWith("ipfs://")) {
+  if (uri.startsWith("ipfs://")) {
     ipfsGetLink = uri;
+  } else {
+    const cid = uri.match(/^.*\/ipfs\/([^\/]*)$/i);
+    if (cid) {
+      ipfsGetLink = ipfsCidToLink(cid[1]);
+    }
   }
   console.log("ipfsGetLink", uri, "=>", ipfsGetLink);
   return ipfsGetLink;
 };
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const ipfsToUrlHttp = (url: string): string => (url.startsWith("ipfs://") ? ipfsGatewayUrl(url) : url);
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsCidToLink = (cid: string): string => (cid ? `ipfs://${cid}` : "");
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayUrl = (ipfs: string): string => `${ipfsGateway}${ipfsLinkToCid(ipfs)}`;
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank">bafk...cek624</a>
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs), textShort(ipfs));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -320,6 +349,7 @@ export {
   getNftsFactory,
   getCovalent,
   getExplorer,
+  ipfsToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,
