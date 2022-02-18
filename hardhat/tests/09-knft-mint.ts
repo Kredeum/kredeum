@@ -86,7 +86,7 @@ describe("16 NFT Mint", function () {
 
   describe("Ownable", function () {
     before(async () => {
-      const cloneAddress = await collectionClone(chainId, "Test", deployer);
+      const cloneAddress = await collectionClone(chainId, "ownable", "Test", deployer);
       cloneOpenNFTs = new ethers.Contract(cloneAddress, abis.OpenNFTsV3.abi, deployer) as OpenNFTs;
     });
 

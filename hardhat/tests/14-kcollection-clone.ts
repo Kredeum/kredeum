@@ -23,7 +23,11 @@ describe("14 Clone collection", function () {
     expect(true).to.be.true;
   });
 
-  it("Should clone collection", async function () {
-    expect(await collectionClone(chainId, "Test", signer)).to.be.properAddress;
+  it("Should clone Ownable collection", async function () {
+    expect(await collectionClone(chainId, "ownable", "Test", signer)).to.be.properAddress;
+  });
+
+  it("Should clone Generic collection", async function () {
+    expect(await collectionClone(chainId, "generic", "Test", signer)).to.be.properAddress;
   });
 });

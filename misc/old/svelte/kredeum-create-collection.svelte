@@ -9,18 +9,14 @@
 
   import { chainId, signer } from "./network";
 
-  import KredeumListTemplates from "./kredeum-list-templates.svelte";
-
   // up to parent
   export let collection: Collection = undefined;
-  let template: string = undefined;
 
   let cloning = false;
   let cloningTxHash: string = null;
   let collectionCreated: Collection = null;
 
   let collectionName = "";
-  let collectionSymbol = "";
 
   const dispatch = createEventDispatcher();
 
@@ -31,7 +27,7 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await collectionCloneResponse($chainId, collectionName, collectionSymbol, template, $signer);
+      const txResp = await collectionCloneResponse($chainId, collectionName, $signer);
       cloningTxHash = txResp.hash;
 
       const txReceipt = await collectionCloneReceipt(txResp);
@@ -72,7 +68,7 @@
           </div>
         {:else if cloning}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Creating new Collection...
+            <i class="fas fa-sync fa-left c-green" />Creating new collection...
           </div>
           <div class="section">
             {#if cloningTxHash}
@@ -83,27 +79,13 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Name your Collection
+            <i class="fas fa-plus fa-left c-green" />Name your collection
           </div>
 
           <div class="section">
             <div class="form-field">
               <input type="text" placeholder="My collection" bind:value={collectionName} />
             </div>
-          </div>
-
-          <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
-          </div>
-
-          <div class="section">
-            <div class="form-field">
-              <input type="text" placeholder="MyNFTs" bind:value={collectionSymbol} />
-            </div>
-          </div>
-
-          <div class="section">
-            <KredeumListTemplates bind:template />
           </div>
 
           <div class="txtright">

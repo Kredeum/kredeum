@@ -5,19 +5,26 @@ import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 
-const collectionCloneResponse = async (chainId: number, _name: string, _cloner: Signer): Promise<TransactionResponse | undefined> => {
-  // console.log("collectionCloneResponse", chainId, await _cloner.getAddress());
+const collectionCloneResponse = async (
+  chainId: number,
+  name: string,
+  symbol: string,
+  template: string,
+  cloner: Signer
+): Promise<TransactionResponse | undefined> => {
+  // console.log("collectionCloneResponse", chainId, await cloner.getAddress());
 
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory | undefined = factoryGetContract(chainId, _cloner);
+  const nftsFactory: NFTsFactory | undefined = factoryGetContract(chainId, cloner);
   let txResp: TransactionResponse | undefined;
 
   if (nftsFactory) {
     const n: string = (await nftsFactory.implementationsCount()).toString();
-    const name = _name || `Open NFTs #${n}`;
 
-    txResp = await nftsFactory.connect(_cloner).clone(name, `NFT${n}`);
+    txResp = await nftsFactory
+      .connect(cloner)
+      .clone(name || `Open NFTs #${n}`, symbol || `NFTs${n}`, template || "ownable");
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
   } else {
     console.error("collectionCloneResponse nftsFactory not found");
@@ -35,7 +42,9 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = ["event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"];
+    const abi = [
+      "event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"
+    ];
     const iface = new ethers.utils.Interface(abi);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ implementation } = log.args);
@@ -45,8 +54,14 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
   return implementation;
 };
 
-const collectionClone = async (chainId: number, _name: string, _cloner: Signer): Promise<string> => {
-  const txResp = await collectionCloneResponse(chainId, _name, _cloner);
+const collectionClone = async (
+  chainId: number,
+  name: string,
+  symbol: string,
+  template: string,
+  cloner: Signer
+): Promise<string> => {
+  const txResp = await collectionCloneResponse(chainId, name, symbol, template, cloner);
   let address = "";
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
