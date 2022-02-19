@@ -4,7 +4,6 @@
   import {
     getShortAddress,
     nftUrl,
-    sleep,
     explorerCollectionUrl,
     nftDescription,
     nftDescriptionShort,
@@ -15,9 +14,11 @@
     explorerNftUrl,
     explorerAddressLink
   } from "lib/kconfig";
-  import { chainId, network, owner } from "./network";
+  import { chainId, network, owner, signer } from "./network";
   import { nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
+
+  import TransferNft from "./kredeum-transfer-nft.svelte";
 
   export let nft: Nft;
   export let index: number;
@@ -118,6 +119,7 @@
     {@html divMedia(nft, index)}
     <div id="description-{index}" class="description">
       <strong>Description</strong>
+
       <p>
         {nftDescription(nft)}
       </p>
@@ -151,10 +153,18 @@
             <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.ipfsJson)}</a>
           </div>
         </li>
+
         <li class="complete">
           <div class="flex"><span class="label">Image IPFS</span></div>
           <div class="flex">
             <a class="link" href={nft.image} target="_blank">{textShort(nft.ipfs)}</a>
+          </div>
+        </li>
+        <li class="complete">
+          <div class="flex">
+            <a href="#transfert-nft-{nft.tokenID}" class="btn btn-small btn-default" title="Transfer NFT">
+              <i class="fas fa-gift" /> Transfer
+            </a>
           </div>
         </li>
         {#if platform === "wordpress"}
@@ -167,5 +177,10 @@
         {/if}
       </ul>
     </div>
+  </div>
+
+  <!-- Modal transfer nft -->
+  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
+    <TransferNft bind:nft />
   </div>
 </div>

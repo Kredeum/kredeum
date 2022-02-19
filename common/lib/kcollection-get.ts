@@ -68,10 +68,10 @@ const collectionGet = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
-): Promise<Collection> => {
+): Promise<Collection | undefined> => {
   // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
-  let collection: Collection;
+  let collection: Collection | undefined = undefined;
   if (chainId && collectionOrAddress) {
     // TODO : Get supported interfaces via onchain proxy smartcontract
     if (typeof collectionOrAddress === "string") {

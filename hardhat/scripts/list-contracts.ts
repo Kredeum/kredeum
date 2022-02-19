@@ -40,18 +40,21 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
       const collection = await collectionGetContract(chainId, collectionAddress, provider);
       const supports = await collectionGetSupportedInterfaces(chainId, collectionAddress, provider);
 
-      const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;
+      if (collection) {
+        const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;
 
-      const name = collection.name ? await collection.name() : "No name";
-      const symbol = collection.symbol ? await collection.symbol() : `NFT${s(nb)}`;
+        const name = collection.name ? await collection.name() : "No name";
+        const symbol = collection.symbol ? await collection.symbol() : `NFT${s(nb)}`;
 
-      output += `${String(nb).padStart(8)} ${symbol.padEnd(5)} ${name.padEnd(32)}`;
-      Object.keys(supports).forEach((key) => {
-        if (supports[key]) output += ` ${key}`;
-      });
-      if (supports.OpenNFTs) {
-        totalCollections++;
-        totalNFTs += nb;
+        output += `${String(nb).padStart(8)} ${symbol.padEnd(5)} ${name.padEnd(32)}`;
+
+        for (const [iface, supported] of Object.entries(supports)) {
+          if (supported) output += ` ${iface}`;
+        }
+        if (supports.OpenNFTs) {
+          totalCollections++;
+          totalNFTs += nb;
+        }
       }
     }
     console.log(output);
