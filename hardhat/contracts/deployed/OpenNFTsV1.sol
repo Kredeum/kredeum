@@ -5,7 +5,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./interfaces/IOpenNFTsV1.sol";
+import "../interfaces/IOpenNFTsV1.sol";
 
 contract OpenNFTsV1 is ERC721, ERC721Enumerable, ERC721URIStorage, IOpenNFTsV1 {
     using Counters for Counters.Counter;

@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
-import "./interfaces/IOpenNFTsV3.sol";
+import "../interfaces/IOpenNFTsV3.sol";
 
 /// @title OpenNFTs smartcontract
-contract OpenNFTs is
+contract OpenNFTsV3 is
     IOpenNFTsV3,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
@@ -49,7 +49,12 @@ contract OpenNFTs is
     /// @notice mint
     /// @param minter address of minter
     /// @param jsonURI json URI of NFT metadata
-    function mintNFT(address minter, string memory jsonURI) public override(IOpenNFTsV3) onlyMinter returns (uint256) {
+    function mintNFT(address minter, string memory jsonURI)
+        external
+        override(IOpenNFTsV3)
+        onlyMinter
+        returns (uint256)
+    {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
@@ -61,7 +66,7 @@ contract OpenNFTs is
 
     /// @notice burn NFT
     /// @param tokenId tokenID of NFT to burn
-    function burnNFT(uint256 tokenId) public override(IOpenNFTsV3) onlyOwner {
+    function burnNFT(uint256 tokenId) external override(IOpenNFTsV3) onlyOwner {
         _burn(tokenId);
     }
 

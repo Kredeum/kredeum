@@ -80,7 +80,7 @@
       "active": true
     },
     "eip1559": true,
-    "nftsFactory": "0xec7EBB4E7cdcE23e992BFDc4fc81D89Cc9Ac9A74",
+    "nftsFactory": "0x290Aa8d147bD6Ac50061aFb1fFE22F7cBC969890",
     "create": true,
     "testnet": true
   },
@@ -361,7 +361,7 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "nftsFactory": "0x57BDf6E59C2652D349f7022beB8D1B7458CA09EB",
+    "nftsFactory": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
     "testnet": true
   }
 ]

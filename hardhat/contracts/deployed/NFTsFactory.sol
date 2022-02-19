@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.4;
 
-import "./CloneFactoryV2.sol";
-import "./interfaces/INFTsFactoryV2.sol";
-import "./interfaces/IOpenNFTsV3.sol";
+import "./CloneFactory.sol";
+import "../interfaces/INFTsFactory.sol";
+import "../interfaces/IOpenNFTsV3.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
@@ -13,7 +13,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 
 /// @title NFTsFactory smartcontract
 /// @dev is CloneFactory
-contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
+contract NFTsFactory is CloneFactory, INFTsFactory {
     using ERC165Checker for address;
 
     uint8 public constant ERC721 = 0;
@@ -27,14 +27,14 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     bytes4 public constant OPEN_NFTS_SIG = type(IOpenNFTsV3).interfaceId;
 
     /// @notice withdrawEther
-    function withdrawEther() external override(INFTsFactoryV2) onlyOwner {
+    function withdrawEther() external override(INFTsFactory) onlyOwner {
         Address.sendValue(payable(_msgSender()), address(this).balance);
     }
 
     /// @notice balancesOf address
     /// @param addr  address of account
     /// @return nftData Array of nftData balances
-    function balancesOf(address addr) external view override(INFTsFactoryV2) returns (NftData[] memory nftData) {
+    function balancesOf(address addr) external view override(INFTsFactory) returns (NftData[] memory nftData) {
         nftData = new NftData[](implementations.length);
         for (uint256 i = 0; i < implementations.length; i += 1) {
             nftData[i] = balanceOf(implementations[i], addr);
@@ -45,13 +45,9 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     /// @param name_ name of Clone collection
     /// @param symbol_ symbol of Clone collection
     /// @return clone_ Address of Clone collection
-    function clone(
-        string memory name_,
-        string memory symbol_,
-        address template
-    ) public override(INFTsFactoryV2) returns (address clone_) {
-        require(template.supportsInterface(OPEN_NFTS_SIG), "Template is not Open NFTs contract");
-        clone_ = _clone(template);
+    function clone(string memory name_, string memory symbol_) public override(INFTsFactory) returns (address clone_) {
+        clone_ = _clone();
+        require(clone_.supportsInterface(OPEN_NFTS_SIG), "Clone is not Open NFTs contract");
 
         IOpenNFTsV3(clone_).initialize(name_, symbol_, _msgSender(), false);
     }
@@ -60,12 +56,7 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     /// @param nft nft address of NFT collection
     /// @param owner address of account
     /// @return nftData nftData balances
-    function balanceOf(address nft, address owner)
-        public
-        view
-        override(INFTsFactoryV2)
-        returns (NftData memory nftData)
-    {
+    function balanceOf(address nft, address owner) public view override(INFTsFactory) returns (NftData memory nftData) {
         bytes4[] memory iface = new bytes4[](4);
         iface[ERC721] = ERC721_SIG;
         iface[ERC721_METADATA] = ERC721_METADATA_SIG;
