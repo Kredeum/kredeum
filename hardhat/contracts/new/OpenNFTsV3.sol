@@ -25,7 +25,7 @@ contract OpenNFTsV3 is
     /// @notice onlyMinter, either evrybody in generic collection,
     /// @notice either only owner in specific collection
     modifier onlyMinter() {
-        require(openMinting || (owner() == _msgSender()), "OpenNFTs: caller is not minter");
+        require(openMinting || (owner() == _msgSender()), "Not minter");
         _;
     }
 

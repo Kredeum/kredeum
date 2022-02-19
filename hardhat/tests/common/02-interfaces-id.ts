@@ -32,6 +32,7 @@ describe("02 Call interfacesId", () => {
   let chainId: number;
   // let signer: Signer;
   let contract: IInterfacesIds;
+  let ids: Array<string>;
 
   before(async () => {
     chainId = Number(await getChainId());
@@ -45,7 +46,7 @@ describe("02 Call interfacesId", () => {
   });
 
   it("Config should have same interfaceId than solidity", async () => {
-    const ids: Array<string> = await contract.ids();
+    ids = await contract.ids();
     console.log(ids);
     expect(ids[0]).to.be.equal(abis.ERC165.interfaceId);
     expect(ids[1]).to.be.equal(abis.ERC721.interfaceId);
@@ -59,6 +60,10 @@ describe("02 Call interfacesId", () => {
     expect(ids[9]).to.be.equal(abis.OpenNFTsV1.interfaceId);
     expect(ids[10]).to.be.equal(abis.OpenNFTsV2.interfaceId);
     expect(ids[11]).to.be.equal(abis.OpenNFTsV3.interfaceId);
+    expect(ids[12]).to.be.equal(abis.CloneFactory.interfaceId);
+    expect(ids[13]).to.be.equal(abis.CloneFactoryV2.interfaceId);
+    expect(ids[14]).to.be.equal(abis.NFTsFactory.interfaceId);
+    expect(ids[15]).to.be.equal(abis.NFTsFactoryV2.interfaceId);
   });
 
   it("Config should have same interfaceId than config abi", () => {
@@ -74,5 +79,9 @@ describe("02 Call interfacesId", () => {
     expect(interfaceId(abis.OpenNFTsV1.abi)).to.be.equal(abis.OpenNFTsV1.interfaceId);
     expect(interfaceId(abis.OpenNFTsV2.abi)).to.be.equal(abis.OpenNFTsV2.interfaceId);
     expect(interfaceId(abis.OpenNFTsV3.abi)).to.be.equal(abis.OpenNFTsV3.interfaceId);
+    expect(interfaceId(abis.CloneFactory.abi)).to.be.equal(abis.CloneFactory.interfaceId);
+    expect(interfaceId(abis.CloneFactoryV2.abi)).to.be.equal(abis.CloneFactoryV2.interfaceId);
+    expect(interfaceId(abis.NFTsFactory.abi)).to.be.equal(abis.NFTsFactory.interfaceId);
+    expect(interfaceId(abis.NFTsFactoryV2.abi)).to.be.equal(abis.NFTsFactoryV2.interfaceId);
   });
 });

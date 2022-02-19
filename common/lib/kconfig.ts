@@ -1,7 +1,7 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { ABIS, Address, Network, Collection, Nft } from "./ktypes";
 
-import { factoryGetAddress, factoryGetOpenNFTsDefault } from "./kfactory-get";
+import { factoryGetAddress, factoryGetTemplate } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 import abisJson from "./abis.json";
@@ -212,7 +212,7 @@ const explorerNFTsFactoryUrl = (chainId: number): string =>
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetOpenNFTsDefault(chainId, provider));
+  explorerContractUrl(chainId, await factoryGetTemplate(chainId, "", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {

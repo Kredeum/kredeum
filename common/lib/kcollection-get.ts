@@ -1,5 +1,5 @@
 import type { IERC165 } from "../types/IERC165";
-import type { OpenNFTs } from "../types/OpenNFTs";
+import type { OpenNFTsV2 } from "../types/OpenNFTsV2";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, CollectionSupports, AbiType, ErcKeys, OpenNFTsKeys } from "./ktypes";
@@ -68,24 +68,23 @@ const collectionGet = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
-): Promise<Collection | undefined> => {
+): Promise<Collection> => {
   // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: Collection | undefined = undefined;
-  if (chainId && collectionOrAddress) {
-    // TODO : Get supported interfaces via onchain proxy smartcontract
-    if (typeof collectionOrAddress === "string") {
-      collection = { chainId, address: collectionOrAddress };
-    } else {
-      collection = collectionOrAddress;
-    }
 
-    if (!collection.supports && signerOrProvider) {
-      try {
-        collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
-      } catch (e) {
-        console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
-      }
+  // TODO : Get supported interfaces via onchain proxy smartcontract
+  if (typeof collectionOrAddress === "string") {
+    collection = { chainId, address: collectionOrAddress };
+  } else {
+    collection = collectionOrAddress;
+  }
+
+  if (!collection.supports && signerOrProvider) {
+    try {
+      collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+    } catch (e) {
+      console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
     }
   }
   // console.log(`collectionGet ${chainId}`, collection);
@@ -96,11 +95,11 @@ const collectionGetContract = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
-): Promise<OpenNFTs | undefined> => {
+): Promise<OpenNFTsV2 | undefined> => {
   // console.log(`collectionGetContract ${chainId}`, collectionOrAddress);
 
   let collection: Collection;
-  let contract: OpenNFTs | undefined;
+  let contract: OpenNFTsV2 | undefined;
   let abi: Array<string> = [];
 
   if (chainId && collectionOrAddress && signerOrProvider) {
@@ -120,7 +119,7 @@ const collectionGetContract = async (
       }
 
       try {
-        contract = new Contract(collection.address, abi, signerOrProvider) as OpenNFTs;
+        contract = new Contract(collection.address, abi, signerOrProvider) as OpenNFTsV2;
       } catch (e) {
         console.error(`ERROR collectionGetContract : ${chainId} ${collection.address}\n`, e);
       }

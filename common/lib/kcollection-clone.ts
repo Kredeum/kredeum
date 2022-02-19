@@ -1,5 +1,5 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
-import type { NFTsFactory } from "./kfactory-get";
+import type { NFTsFactoryV2 } from "./kfactory-get";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
@@ -11,24 +11,19 @@ const collectionCloneResponse = async (
   symbol: string,
   template: string,
   cloner: Signer
-): Promise<TransactionResponse | undefined> => {
-  // console.log("collectionCloneResponse", chainId, await cloner.getAddress());
+): Promise<TransactionResponse> => {
+  console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
 
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactory | undefined = factoryGetContract(chainId, cloner);
-  let txResp: TransactionResponse | undefined;
+  const nftsFactory: NFTsFactoryV2 = factoryGetContract(chainId, cloner);
+  let txResp: TransactionResponse;
+  console.log("collectionCloneResponse", nftsFactory);
 
-  if (nftsFactory) {
-    const n: string = (await nftsFactory.implementationsCount()).toString();
+  const n: string = (await nftsFactory.implementationsCount()).toString();
 
-    txResp = await nftsFactory
-      .connect(cloner)
-      .clone(name || `Open NFTs #${n}`, symbol || `NFTs${n}`, template || "ownable");
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
-  } else {
-    console.error("collectionCloneResponse nftsFactory not found");
-  }
+  txResp = await nftsFactory.connect(cloner).clone(name || `Open NFTs #${n}`, symbol || `NFTs${n}`, template);
+  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
 
   return txResp;
 };
@@ -42,9 +37,7 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = [
-      "event NewImplementation(address indexed implementation, address indexed template, address indexed creator)"
-    ];
+    const abi = ["event ImplementationNew(address indexed implementation, address indexed creator, uint256 count)"];
     const iface = new ethers.utils.Interface(abi);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ implementation } = log.args);

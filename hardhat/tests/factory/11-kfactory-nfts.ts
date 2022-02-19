@@ -2,12 +2,12 @@ import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { BigNumber, Signer } from "ethers";
 import type { SignerWithAddress } from "hardhat-deploy-ethers/src/signers";
-import type { NFTsFactory } from "types/NFTsFactory";
-import type { OpenNFTs } from "types/OpenNFTs";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 describe("11 NFTs Factory contract", function () {
-  let nftsFactory: NFTsFactory;
-  let openNFTs: OpenNFTs;
+  let nftsFactory: NFTsFactoryV2;
+  let openNFTsV3: OpenNFTsV3;
   let owner: string;
   let signer: Signer;
   const txOptions = {
@@ -20,37 +20,38 @@ describe("11 NFTs Factory contract", function () {
   before(async () => {
     signer = (await ethers.getNamedSigner("deployer")) as Signer;
     owner = await signer.getAddress();
+    const { deployer } = await ethers.getNamedSigners();
 
     if ((await ethers.provider.getNetwork()).chainId === 31337) {
-      await deployments.fixture(["OpenNFTs", "NFTsFactory"]);
+      await deployments.fixture(["OpenNFTsV3", "NFTsFactoryV2"]);
     }
-    openNFTs = await ethers.getContract("OpenNFTs", signer);
-    expect(openNFTs.address).to.be.properAddress;
+    openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
+    expect(openNFTsV3.address).to.be.properAddress;
 
-    nftsFactory = await ethers.getContract("NFTsFactory", signer);
+    nftsFactory = await ethers.getContract("NFTsFactoryV2", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    await (await openNFTs.mintNFT(owner, "", txOptions)).wait();
+    await nftsFactory.connect(deployer).templateSet(openNFTsV3.address, "generic");
+
+    await (await openNFTsV3.mintNFT(owner, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {
-    expect(nftsFactory.interface.getSighash("balanceOf")).to.be.equal("0xf7888aec");
     expect(nftsFactory.interface.getSighash("balancesOf")).to.be.equal("0x6392a51f");
   });
 
   it("Should clone", async function () {
-    await (await nftsFactory.connect(signer).clone("Open NFTs", "NFT", txOptions)).wait();
-    const nClone = await nftsFactory.implementationsCount();
-    expect(nClone).to.be.gte(2);
+    let nClone = await nftsFactory.implementationsCount();
+    expect(nClone).to.be.equal(0);
+
+    await (await nftsFactory.connect(signer).clone("Open NFTs", "NFT", "generic", txOptions)).wait();
+
+    nClone = await nftsFactory.implementationsCount();
+    expect(nClone).to.be.equal(1);
+
     const clone = await nftsFactory.implementations(nClone.sub(1));
     expect(clone).to.be.properAddress;
-    expect(clone).to.be.not.equal(openNFTs.address);
-  });
-
-  it("Should get nftsFactory balanceOf", async function () {
-    const bal = await nftsFactory.balanceOf(openNFTs.address, owner);
-    console.log(`nftsFactory.balanceOf ${owner}`, bal);
-    expect(bal.balanceOf).to.be.gte(1);
+    expect(clone).to.be.not.equal(openNFTsV3.address);
   });
 
   it("Should get nftsFactory balancesOf", async function () {

@@ -5,7 +5,9 @@ type OpenNFTsKeys =
   | "OpenNFTsV1"
   | "OpenNFTsV0"
   | "CloneFactory"
-  | "NFTsFactory";
+  | "NFTsFactory"
+  | "CloneFactoryV2"
+  | "NFTsFactoryV2";
 type ErcKeys =
   | "ERC165"
   | "ERC721"

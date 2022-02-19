@@ -18,6 +18,11 @@ import "../interfaces/IOpenNFTsV2.sol";
 import "../interfaces/IOpenNFTsV3.sol";
 import "../interfaces/IInterfacesIds.sol";
 
+import "../interfaces/ICloneFactory.sol";
+import "../interfaces/ICloneFactoryV2.sol";
+import "../interfaces/INFTsFactory.sol";
+import "../interfaces/INFTsFactoryV2.sol";
+
 /// @title InterfaceIds calculation
 /// @author zapaz.eth
 /// @notice Calculates various ERC165, ERC721 and ERC1155 interface Ids
@@ -27,7 +32,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
-        interfacesIds = new bytes4[](12);
+        interfacesIds = new bytes4[](16);
         interfacesIds[0] = type(IERC165).interfaceId;
 
         interfacesIds[1] = type(IERC721).interfaceId;
@@ -43,5 +48,10 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[9] = type(IOpenNFTsV1).interfaceId;
         interfacesIds[10] = type(IOpenNFTsV2).interfaceId;
         interfacesIds[11] = type(IOpenNFTsV3).interfaceId;
+
+        interfacesIds[12] = type(ICloneFactory).interfaceId;
+        interfacesIds[13] = type(ICloneFactoryV2).interfaceId;
+        interfacesIds[14] = type(INFTsFactory).interfaceId;
+        interfacesIds[15] = type(INFTsFactoryV2).interfaceId;
     }
 }

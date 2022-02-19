@@ -43,7 +43,6 @@ export type { IOpenNFTsV3 } from "./IOpenNFTsV3";
 export type { CloneFactoryV2 } from "./CloneFactoryV2";
 export type { InterfacesIds } from "./InterfacesIds";
 export type { NFTsFactoryV2 } from "./NFTsFactoryV2";
-export type { OpenNFTs } from "./OpenNFTs";
 export type { OpenNFTsV3 } from "./OpenNFTsV3";
 
 export { OwnableUpgradeable__factory } from "./factories/OwnableUpgradeable__factory";
@@ -88,5 +87,4 @@ export { IOpenNFTsV3__factory } from "./factories/IOpenNFTsV3__factory";
 export { CloneFactoryV2__factory } from "./factories/CloneFactoryV2__factory";
 export { InterfacesIds__factory } from "./factories/InterfacesIds__factory";
 export { NFTsFactoryV2__factory } from "./factories/NFTsFactoryV2__factory";
-export { OpenNFTs__factory } from "./factories/OpenNFTs__factory";
 export { OpenNFTsV3__factory } from "./factories/OpenNFTsV3__factory";

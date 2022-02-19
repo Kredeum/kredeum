@@ -28,7 +28,7 @@
     ]
   ]);
 
-  const _setTemplate = (tmpl: string): void => {
+  const _templateSet = (tmpl: string): void => {
     template = tmpl;
   };
 </script>
@@ -46,7 +46,7 @@
         data-toggle="tooltip"
         title={value.description}
         checked={key == template}
-        on:click={() => _setTemplate(key)}
+        on:click={() => _templateSet(key)}
       />
       <label class="field" for="collection-type-{key}"><i class="fas fa-{value.icon}" />{value.name}</label>
     {/each}

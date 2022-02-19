@@ -30,7 +30,7 @@ import { BigNumber } from "ethers";
 const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
 
 const nftGetContentType = async (nft: Nft): Promise<string> => {
-  // console.log("nftGetContentType");
+  // console.log("nftGetContentType", nft);
 
   let contentType: string = "";
   try {

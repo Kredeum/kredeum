@@ -1,12 +1,15 @@
 import type { Network, Collection } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "types/OpenNFTs";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 import { nftList, nftListFromTheGraph, nftListFromContract, nftListFromCovalent } from "lib/knft-list";
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
 import { collectionGet } from "lib/kcollection-get";
 import { getNetwork } from "lib/kconfig";
+
+import fetch from "node-fetch";
+global.fetch = fetch as any;
 
 const txOptions = {
   maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
@@ -15,9 +18,10 @@ const txOptions = {
 };
 let chainId: number;
 let networkConfig: Network | undefined;
-let openNFTs: OpenNFTs;
+let openNFTsV3: OpenNFTsV3;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
+const jsonURI = "https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
 
 describe("15 List NFTs lib", function () {
   beforeEach(async () => {
@@ -25,18 +29,18 @@ describe("15 List NFTs lib", function () {
     networkConfig = getNetwork(chainId);
 
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTs"]);
+      await deployments.fixture(["OpenNFTsV3"]);
     }
-    openNFTs = await ethers.getContract("OpenNFTs");
-    await ((await openNFTs.mintNFT(artistAddress, "", txOptions)) as TransactionResponse).wait();
+    openNFTsV3 = await ethers.getContract("OpenNFTsV3");
+    await ((await openNFTsV3.mintNFT(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
 
-    console.log("totalSupply", (await openNFTs.totalSupply()).toNumber());
-    // console.log(chainId, openNFTs.address);
+    console.log("totalSupply", (await openNFTsV3.totalSupply()).toNumber());
+    // console.log(chainId, openNFTsV3.address);
   });
 
   describe("Setup", function () {
-    it("Should get OpenNFTs contract address", function () {
-      expect(openNFTs.address).to.be.properAddress;
+    it("Should get OpenNFTsV3 contract address", function () {
+      expect(openNFTsV3.address).to.be.properAddress;
     });
   });
 
@@ -45,7 +49,7 @@ describe("15 List NFTs lib", function () {
     let collection: Collection;
 
     before(async () => {
-      collection = await collectionGet(chainId, openNFTs.address, ethers.provider);
+      collection = await collectionGet(chainId, openNFTsV3.address, ethers.provider);
       console.log("collection", collection);
     });
 

@@ -1,6 +1,6 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTs } from "types/OpenNFTs";
-import type { NFTsFactory } from "types/NFTsFactory";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { Network } from "lib/ktypes";
 
 import {
@@ -24,7 +24,8 @@ describe("13 List contracts lib", function () {
     type: 2
   };
   let configNetwork: Network | undefined;
-  let nftsFactory: NFTsFactory;
+  let nftsFactory: NFTsFactoryV2;
+  let openNFTsV3: OpenNFTsV3;
 
   let network: string;
   let chainId: number;
@@ -43,26 +44,28 @@ describe("13 List contracts lib", function () {
 
   beforeEach(async () => {
     configNetwork = getNetwork(chainId);
+    const { deployer } = await ethers.getNamedSigners();
+
     if (chainId === 31337) {
-      await deployments.fixture(["NFTsFactory"]);
+      await deployments.fixture(["OpenNFTsV3", "NFTsFactoryV2"]);
     }
 
-    const openNFTs: OpenNFTs = await ethers.getContract("OpenNFTs", signer);
-    expect(openNFTs.address).to.be.properAddress;
-    await ((await openNFTs.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
+    openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
+    expect(openNFTsV3.address).to.be.properAddress;
+    await ((await openNFTsV3.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
-    nftsFactory = await ethers.getContract("NFTsFactory", signer);
+    nftsFactory = await ethers.getContract("NFTsFactoryV2", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    await (await nftsFactory.setDefaultTemplate(openNFTs.address, txOptions)).wait();
+    await nftsFactory.connect(deployer).templateSet(openNFTsV3.address, "generic");
   });
 
   it("Should clone", async function () {
-    await (await nftsFactory.clone("Open NFTs 1", "NFT1")).wait();
-    await (await nftsFactory.clone("Open NFTs 2", "NFT2")).wait();
+    await (await nftsFactory.clone("Open NFTs 1", "NFT1", "generic")).wait();
+    await (await nftsFactory.clone("Open NFTs 2", "NFT2", "generic")).wait();
   });
 
-  it("List with NFTsFactory", async function () {
+  it("List with NFTsFactoryV2", async function () {
     if (chainId !== 31337) {
       console.log((await nftsFactory.implementationsCount()).toString());
       console.log(await nftsFactory.balancesOf(owner));

@@ -3,8 +3,8 @@ pragma solidity ^0.8.7;
 
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
+import "@openzeppelin/contracts/utils/Address.sol";
 import "../interfaces/ICloneFactoryV2.sol";
-import "../interfaces/IContractProbe.sol";
 
 /// @title Clone Factory
 /// @notice Generic Clone Factory to create multiple Clones from Templates
@@ -12,26 +12,6 @@ import "../interfaces/IContractProbe.sol";
 contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
     /// @notice Implementations addresses
     address[] public implementations;
-
-    /// @notice Probe smartcontract address
-    address private immutable contractProbe;
-
-    /// @notice New Implemention Event
-    /// @param implementation implementation address
-    /// @param template template address
-    /// @param creator creator address
-    /// @param count implementations count
-    event ImplementationNew(
-        address indexed implementation,
-        address indexed template,
-        address indexed creator,
-        uint256 count
-    );
-
-    /// @notice initialize probe smartcontract
-    constructor(address probe) {
-        contractProbe = probe;
-    }
 
     /// @notice Implementations count
     /// @return count : number of implementations
@@ -49,12 +29,8 @@ contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
 
     /// @notice ADD Implementation internal
     /// @param  implementationToAdd : implementation address
-    /// @dev Only add if contract, and add proxied template
-    function _implementationAdd(address implementationToAdd) internal {
-        (bool isContract, address forwardTo) = IContractProbe(contractProbe).probe(implementationToAdd);
-        if (isContract) {
-            _implementationNew(implementationToAdd, forwardTo);
-        }
+    function _implementationAdd(address implementationToAdd) internal virtual {
+        _implementationNew(implementationToAdd);
     }
 
     /// @notice Clone Template
@@ -65,16 +41,16 @@ contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
         addr = Clones.clone(template);
 
         /// @notice register clone as new implementation
-        _implementationNew(addr, template);
+        _implementationNew(addr);
     }
 
     /// @notice NEW Implementation internal
     /// @param  implementation : implementation address
-    function _implementationNew(address implementation, address template) internal {
+    function _implementationNew(address implementation) internal {
         /// @notice register implementation
         implementations.push(implementation);
 
         /// @notice emit event ImplementationNew
-        emit ImplementationNew(implementation, template, _msgSender(), implementationsCount());
+        emit ImplementationNew(implementation, _msgSender(), implementationsCount());
     }
 }

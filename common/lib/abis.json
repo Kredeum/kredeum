@@ -2,14 +2,10 @@
   "OpenNFTsV3": {
     "interfaceId": "0x9e4ad480",
     "abi": [
-      "function initialize(string memory name, string memory symbol, address owner, bool openMinting) external",
-      "function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID)",
-      "function burnNFT(uint256 tokenID) external"
+      "function initialize(string,string,address,bool)",
+      "function mintNFT(address,string) returns (uint256)",
+      "function burnNFT(uint256)"
     ]
-  },
-  "OpenNFTsV3alpha": {
-    "interfaceId": "0xa6123562",
-    "abi": ["function initialize(string memory name_, string memory symbol_) external", "function mintNFT(address minter, string memory jsonURI) external returns (uint256)"]
   },
   "OpenNFTsV2": {
     "interfaceId": "0xd94a1db2",
@@ -32,26 +28,40 @@
     "interfaceId": "0x00000000",
     "abi": []
   },
-  "CloneFactory": {
-    "interfaceId": "0x00000000",
+  "CloneFactoryV2": {
+    "interfaceId": "0xc7808abe",
     "abi": [
-      "function addImplementation(address _implementation)",
+      "event ImplementationNew(address indexed,address indexed,uint256)",
       "function implementations(uint256) view returns (address)",
-      "function implementationsCount() view returns (uint256 count)",
-      "function owner() view returns (address)",
-      "function renounceOwnership()",
-      "function setDefaultTemplate(address _template)",
-      "function template() view returns (address)",
-      "function templates(address) view returns (address)",
-      "function transferOwnership(address newOwner)"
+      "function implementationsAdd(address[])",
+      "function implementationsCount() view returns (uint256)"
+    ]
+  },
+  "CloneFactory": {
+    "interfaceId": "0x9817bfbf",
+    "abi": [
+      "function addImplementation(address)",
+      "function implementations(uint256) view returns (address)",
+      "function implementationsCount() view returns (uint256)",
+      "function setContractProbe(address)",
+      "function setDefaultTemplate(address)"
+    ]
+  },
+  "NFTsFactoryV2": {
+    "interfaceId": "0x1d487cb2",
+    "abi": [
+      "event TemplateNew(address indexed,string indexed)",
+      "function balancesOf(address) view returns (tuple(address,uint256,address,string,string,uint256)[])",
+      "function clone(string,string,string) returns (address)",
+      "function templateSet(address,string)"
     ]
   },
   "NFTsFactory": {
-    "interfaceId": "0x00000000",
+    "interfaceId": "0x74618347",
     "abi": [
-      "function balanceOf(address nft, address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply))",
-      "function balancesOf(address owner) view returns (tuple(address nft, uint256 balanceOf, address owner, string name, string symbol, uint256 totalSupply)[])",
-      "function clone(string _name, string _symbol) returns (address clone_)",
+      "function balanceOf(address,address) view returns (tuple(address,uint256,address,string,string,uint256))",
+      "function balancesOf(address) view returns (tuple(address,uint256,address,string,string,uint256)[])",
+      "function clone(string,string) returns (address)",
       "function withdrawEther()"
     ]
   },
@@ -83,11 +93,19 @@
   },
   "ERC721Metadata": {
     "interfaceId": "0x5b5e139f",
-    "abi": ["function name() view returns (string)", "function symbol() view returns (string)", "function tokenURI(uint256) view returns (string)"]
+    "abi": [
+      "function name() view returns (string)",
+      "function symbol() view returns (string)",
+      "function tokenURI(uint256) view returns (string)"
+    ]
   },
   "ERC721Enumerable": {
     "interfaceId": "0x780e9d63",
-    "abi": ["function totalSupply() view returns (uint256)", "function tokenByIndex(uint256) view returns (uint256)", "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)"]
+    "abi": [
+      "function totalSupply() view returns (uint256)",
+      "function tokenByIndex(uint256) view returns (uint256)",
+      "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)"
+    ]
   },
   "ERC1155": {
     "interfaceId": "0xd9b67a26",
@@ -102,7 +120,10 @@
   },
   "ERC1155TokenReceiver": {
     "interfaceId": "0x4e2312e0",
-    "abi": ["function onERC1155Received(address,address,uint256,uint256,bytes) returns(bytes4)", "function onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) returns(bytes4)"]
+    "abi": [
+      "function onERC1155Received(address,address,uint256,uint256,bytes) returns(bytes4)",
+      "function onERC1155BatchReceived(address,address,uint256[],uint256[],bytes) returns(bytes4)"
+    ]
   },
   "ERC1155Metadata_URI": {
     "interfaceId": "0x0e89341c",

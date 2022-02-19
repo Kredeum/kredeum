@@ -4,7 +4,7 @@
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
-  import { factoryGetOpenNFTsDefault } from "lib/kfactory-get";
+  import { factoryGetTemplate } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
@@ -61,7 +61,7 @@
   const _collectionListFromCache = async (_chainId: number, _owner: string, _provider: Provider) => {
     // console.log("KredeumListCollections _collectionListFromCache");
     allCollections = collectionListFromCache(_owner);
-    const openNFTsAddress = await factoryGetOpenNFTsDefault(_chainId, _provider);
+    const openNFTsAddress = await factoryGetTemplate(_chainId, "", _provider);
 
     // console.log("allCollections", allCollections);
     collections = new Map(
@@ -83,7 +83,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetOpenNFTsDefault($chainId, $provider));
+      (await factoryGetTemplate($chainId, "", $provider));
     _setCollection(defaultCollection);
     // console.log(collections);
   };

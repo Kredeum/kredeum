@@ -5,11 +5,10 @@ import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 const deployNFTsFactoryV2Function: DeployFunction = async function ({ deployments, ethers, getChainId }) {
   const deployer = await ethers.getNamedSigner("deployer");
-  const contractProbeAddress = (await ethers.getContract("ContractProbe")).address;
 
   const deployResult = await deployments.deploy("NFTsFactoryV2", {
     from: deployer.address,
-    args: [contractProbeAddress],
+    args: [],
     log: true
   });
 

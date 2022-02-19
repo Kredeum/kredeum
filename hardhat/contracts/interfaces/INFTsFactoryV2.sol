@@ -11,15 +11,15 @@ interface INFTsFactoryV2 {
         uint256 totalSupply;
     }
 
-    function withdrawEther() external;
+    event TemplateNew(address indexed template, string indexed templateName);
+
+    function balancesOf(address owner) external view returns (NftData[] memory);
+
+    function templateSet(address template, string calldata templateName) external;
 
     function clone(
         string memory name,
         string memory symbol,
-        address template
+        string memory templateName
     ) external returns (address);
-
-    function balancesOf(address owner) external view returns (NftData[] memory);
-
-    function balanceOf(address nft, address owner) external view returns (NftData memory);
 }

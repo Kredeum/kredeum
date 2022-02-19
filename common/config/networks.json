@@ -361,7 +361,7 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "nftsFactory": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
+    "nftsFactory": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
     "testnet": true
   }
 ]
