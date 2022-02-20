@@ -61,8 +61,8 @@
   "main": "index.js",
   "name": "hardhat",
   "scripts": {
-    "clean": "rm -rf artifacts cache node_modules",
-    "build": "hardhat compile && hardhat docgen",
+    "clean": "rm -rf artifacts cache node_modules docs",
+    "build": "hardhat clean && hardhat typechain && hardhat compile && hardhat docgen",
     "prettier": "prettier contracts/**/*.sol **/*.ts --write --loglevel error",
     "solhint": "solhint contracts/**/*.sol --fix",
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",

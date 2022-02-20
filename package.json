@@ -5,12 +5,25 @@
   "main": "index.js",
   "scripts": {
     "dapp": "http-server dapp/build",
-    "build-gulp": "cd gulp && npm run clean && pnpm install && npm run build",
-    "build-svelte": "cd svelte && npm run clean && pnpm install && npm run build && npm run check",
-    "build-dapp": "rm -rf dapp/build && npm run build-gulp && npm run build-svelte",
-    "build-wordpress": "cd wordpress && npm run clean && pnpm install && npm run instal && npm run build && npm run check",
-    "build": "npm run build-wordpress && npm run build-dapp",
-    "check": "(cd hardhat && pnpm install && npm run check) && (cd svelte && pnpm install && npm run check) && (cd wordpress && pnpm install && npm run instal && npm run check)"
+    "clean:common": "cd common && npm run clean",
+    "clean:hardhat": "cd hardhat && npm run clean",
+    "clean:gulp": "cd gulp && npm run clean",
+    "clean:svelte": "cd svelte && npm run clean",
+    "clean:dapp": "rm -rf dapp/build",
+    "clean:wordpress": "cd wordpress && npm run clean",
+    "clean:thegraph": "cd thegraph && npm run clean",
+    "build:common": "cd common && pnpm install",
+    "build:hardhat": "cd hardhat && pnpm install && npm run build",
+    "build:gulp": "cd gulp && pnpm install && npm run build",
+    "build:svelte": "cd svelte && pnpm install && npm run build",
+    "build:wordpress": "cd wordpress && pnpm install && npm run instal && npm run build",
+    "build:thegraph": "cd thegraph && pnpm install && npm run build",
+    "check:hardhat": "cd hardhat && npm run check",
+    "check:svelte": "cd svelte && npm run check",
+    "check:wordpress": "cd wordpress && npm run check",
+    "clean": "npm-run-all clean:*",
+    "build": "npm-run-all build:*",
+    "check": "npm-run-all check:*"
   },
   "repository": {
     "type": "git",
@@ -24,6 +37,7 @@
   },
   "homepage": "https://www.kredeum.com",
   "devDependencies": {
-    "http-server": "^14.1.0"
+    "http-server": "^14.1.0",
+    "npm-run-all": "^4.1.5"
   }
 }
