@@ -45,7 +45,7 @@ const toRollupConfig = function (component: string): RollupOptions {
         sourcemap: !production,
         format: "iife",
         name: component.replace(/-/g, "_"),
-        file: `../dapp/build/assets/${component}.js`
+        file: `../web/dapp/assets/${component}.js`
       },
       {
         sourcemap: !production,

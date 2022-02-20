@@ -43,7 +43,7 @@ jobs:
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add dapp/build
+          git add web/dapp
           git commit -am "${{ github.ref_name }} dapp build !"
 
       - name: Push Dapp build
@@ -52,4 +52,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: build/${{ github.ref_name }}
           force: true
-          directory: "dapp/build"
+          directory: "web/dapp"
