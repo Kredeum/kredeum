@@ -3,10 +3,11 @@
   import type { Provider } from "@ethersproject/abstract-provider";
   import KredeumGetNft from "./kredeum-get-nft.svelte";
 
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
   import { chainId, network, provider, owner } from "./network";
   import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
+  import { onMount } from "svelte";
 
   // down to component
   export let collection: Collection = undefined;
@@ -20,6 +21,7 @@
   let allNFTs: Map<string, Nft>;
   let Collections: Array<Collection>;
   let nftImport: number;
+  let tokenID = "";
 
   // Track NFTs div offsetHeight with "more" details
   let mores: Array<number> = [];
@@ -107,6 +109,10 @@
       console.error("refreshNFTsFromLib Collection not ready", _collection);
     }
   };
+  onMount(async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("tokenID")) tokenID = urlParams.get("tokenID");
+  });
 </script>
 
 {#key $owner && numNFT && NFTs}
@@ -133,7 +139,11 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, index}
-        <KredeumGetNft {nft} {index} {platform} more={mores[index]} />
+        {#if tokenID == ""}
+          <KredeumGetNft {nft} {index} {platform} more={mores[index]} />
+        {:else if tokenID == nft.tokenID}
+          <KredeumGetNft {nft} {index} {platform} more={-1} />
+        {/if}
       {/each}
     </div>
   {:else}

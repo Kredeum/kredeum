@@ -27,7 +27,7 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-const nftGetImageLink = (nft: Nft): string => (nft.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft.image || "");
+const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
 
 const nftGetContentType = async (nft: Nft): Promise<string> => {
   // console.log("nftGetContentType");

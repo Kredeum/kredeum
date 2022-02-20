@@ -26,7 +26,7 @@
   export let platform: string;
 
   const moreToggle = (): void => {
-    more = more ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
+    more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
   const shortcode = async (nft: Nft) => {
@@ -60,6 +60,7 @@
 
   onMount(async () => {
     console.log("NFT", nft);
+    if (more == -1) moreToggle();
   });
 </script>
 

@@ -99,6 +99,11 @@
         open = false;
       }
     });
+
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.has("collectionAddress")) {
+      _setCollection(urlParams.get("collectionAddress"));
+    }
   });
 </script>
 

@@ -19,6 +19,7 @@
   };
 
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
+
   const _supports = (_collection: Collection): string =>
     collection?.supports?.ERC721 ? "ERC721" : collection?.supports?.ERC1155 ? "ERC1155" : "";
 </script>
