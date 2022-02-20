@@ -12,6 +12,6 @@
     }
     // "strict": true
   },
-  "include": ["rollup.config.ts", "src/*.svelte", "src/*.ts", "../common/lib/*.ts"],
+  "include": ["rollup.config.ts", "svelte/*.svelte", "svelte/*.ts", "../common/lib/*.ts"],
   "exclude": ["node_modules"]
 }

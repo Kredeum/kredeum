@@ -20,12 +20,12 @@ Open your WordPress BackOffice with some URL like http://localhost:8000/wp-admin
 Kredeum Factory is splitted in various modules listed bellow :
 
 1. wordPress : WordPress Plugin
-1. hardhat : Smartcontrats hardhat environment
+1. hardhat : Hardhat smartcontrats environment
 1. gulp : Gulp static UI builder
-1. svelte : Svelte dynamic UI builder
+1. rollup : Rollup for Svelte dynamic UI builder
 1. thegraph : The Graph subgraph to index NFTs
-1. common : common library, config and other common datas
-1. misc : other tools, datas and archives (old)
+1. common : Common library, config and other common datas
+1. misc : Other tools, datas and archives (old)
 
 In each of these specific directories you will access more advanced commands
 
