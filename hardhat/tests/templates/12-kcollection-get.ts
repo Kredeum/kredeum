@@ -1,7 +1,9 @@
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+
+import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
-import { abis } from "lib/kconfig";
+import { interfaceId } from "lib/kconfig";
 
 describe("12 Open NFTs contract", function () {
   let openNFTsV3: OpenNFTsV3;
@@ -51,6 +53,6 @@ describe("12 Open NFTs contract", function () {
   });
 
   it("Should check openNFTsV3 interface", async function () {
-    expect(await openNFTsV3.supportsInterface(abis.OpenNFTsV3.interfaceId || "")).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTsV3))).to.be.true;
   });
 });

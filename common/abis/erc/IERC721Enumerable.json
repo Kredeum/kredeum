@@ -1,0 +1,5 @@
+[
+  "function tokenByIndex(uint256) view returns (uint256)",
+  "function tokenOfOwnerByIndex(address,uint256) view returns (uint256)",
+  "function totalSupply() view returns (uint256)"
+]

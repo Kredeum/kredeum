@@ -1,14 +1,12 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { ABIS, Address, Network, Collection, Nft } from "./ktypes";
 
+import { Fragment, Interface } from "@ethersproject/abi";
+import { providers, utils, BigNumber } from "ethers";
 import { factoryGetAddress, factoryGetTemplate } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
-import abisJson from "./abis.json";
 
-import { providers, utils } from "ethers";
-
-const abis = abisJson as ABIS;
 const version = config.version;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -319,8 +317,21 @@ const nftDescription = (nft: Nft): string => (nft?.name != nft?.description && n
 const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const interfaceId = (abi: Array<string>): string => {
+  const iface = new Interface(abi);
+
+  let id = BigNumber.from(0);
+  iface.fragments.forEach((f: Fragment): void => {
+    if (f.type === "function") {
+      id = id.xor(BigNumber.from(iface.getSighash(f)));
+    }
+  });
+  return utils.hexlify(id);
+};
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export {
-  abis,
   addressSame,
   collectionName,
   collectionSymbol,
@@ -355,6 +366,7 @@ export {
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  interfaceId,
   nftUrl3,
   nftUrl,
   nftsUrl,

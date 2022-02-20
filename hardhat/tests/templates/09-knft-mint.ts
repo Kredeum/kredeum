@@ -4,7 +4,7 @@ import type { Signer } from "ethers";
 
 import { collectionClone } from "lib/kcollection-clone";
 import { expect } from "chai";
-import { abis, networks } from "lib/kconfig";
+import { networks } from "lib/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;

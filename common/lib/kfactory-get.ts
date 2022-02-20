@@ -4,7 +4,9 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
-import { abis, getChecksumAddress, getNetwork } from "./kconfig";
+import { getChecksumAddress, getNetwork } from "./kconfig";
+import ICloneFactoryV2 from "abis/new/ICloneFactoryV2.json";
+import INFTsFactoryV2 from "abis/new/INFTsFactoryV2.json";
 
 const nftsFactories: Map<number, NFTsFactoryV2> = new Map();
 
@@ -25,7 +27,7 @@ const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider
   if (!nftsFactory) {
     nftsFactory = new Contract(
       factoryGetAddress(chainId),
-      abis.CloneFactoryV2.abi.concat(abis.NFTsFactoryV2.abi),
+      ICloneFactoryV2.concat(INFTsFactoryV2),
       signerOrProvider
     ) as NFTsFactoryV2;
     nftsFactories.set(chainId, nftsFactory);

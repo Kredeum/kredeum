@@ -1,11 +1,21 @@
-import type { IERC165 } from "../types/IERC165";
+import type { IERC165 as ContractERC165 } from "../types/IERC165";
 import type { OpenNFTsV2 } from "../types/OpenNFTsV2";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, CollectionSupports, AbiType, ErcKeys, OpenNFTsKeys } from "./ktypes";
+import { interfaceId } from "./kconfig";
 
 import { Signer, Contract } from "ethers";
-import { abis } from "./kconfig";
+
+import IERC165 from "abis/erc/IERC165.json";
+import IERC721 from "abis/erc/IERC721.json";
+import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
+import IERC721Metadata from "abis/erc/IERC721Metadata.json";
+import IERC1155 from "abis/erc/IERC1155.json";
+import IERC1155MetadataURI from "abis/erc/IERC1155MetadataURI.json";
+
+import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
+import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
 
 const collectionGetSupportedInterfaces = async (
   chainId: number,
@@ -24,7 +34,7 @@ const collectionGetSupportedInterfaces = async (
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collectionOrAddress && signerOrProvider) {
-    let contract: IERC165;
+    let contract: ContractERC165;
 
     // Suppose supports ERC165, should revert otherwise
     supports.ERC165 = true;
@@ -36,22 +46,22 @@ const collectionGetSupportedInterfaces = async (
     }
 
     try {
-      contract = new Contract(collectionAddress, abis.ERC165.abi, signerOrProvider) as IERC165;
+      contract = new Contract(collectionAddress, IERC165, signerOrProvider) as ContractERC165;
 
-      const waitERC721 = contract.supportsInterface(abis.ERC721.interfaceId || "");
-      const waitERC1155 = contract.supportsInterface(abis.ERC1155.interfaceId || "");
+      const waitERC721 = contract.supportsInterface(interfaceId(IERC721));
+      const waitERC1155 = contract.supportsInterface(interfaceId(IERC1155));
       [supports.ERC721, supports.ERC1155] = await Promise.all([waitERC721, waitERC1155]);
 
       if (supports.ERC721) {
-        const waitMetadata = contract.supportsInterface(abis.ERC721Metadata.interfaceId || "");
-        const waitEnumerable = contract.supportsInterface(abis.ERC721Enumerable.interfaceId || "");
-        const waitOpenNFTsV2 = contract.supportsInterface(abis.OpenNFTsV2.interfaceId || "");
-        const waitOpenNFTsV3 = contract.supportsInterface(abis.OpenNFTsV3.interfaceId || "");
+        const waitMetadata = contract.supportsInterface(interfaceId(IERC721Metadata));
+        const waitEnumerable = contract.supportsInterface(interfaceId(IERC721Enumerable));
+        const waitOpenNFTsV2 = contract.supportsInterface(interfaceId(IOpenNFTsV2));
+        const waitOpenNFTsV3 = contract.supportsInterface(interfaceId(IOpenNFTsV3));
 
         [supports.ERC721Metadata, supports.ERC721Enumerable, supports.OpenNFTsV2, supports.OpenNFTsV3] =
           await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
       } else if (supports.ERC1155) {
-        supports.ERC1155Metadata_URI = await contract.supportsInterface(abis.ERC1155Metadata_URI.interfaceId || "");
+        supports.ERC1155Metadata_URI = await contract.supportsInterface(interfaceId(IERC1155MetadataURI));
       }
       supports.OpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
 

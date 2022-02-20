@@ -17,6 +17,8 @@ interface INFTsFactoryV2 {
 
     function templateSet(address template, string calldata templateName) external;
 
+    function templates(string memory) external view returns (address);
+
     function clone(
         string memory name,
         string memory symbol,

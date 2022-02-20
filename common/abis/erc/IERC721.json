@@ -10,6 +10,5 @@
   "function safeTransferFrom(address,address,uint256)",
   "function safeTransferFrom(address,address,uint256,bytes)",
   "function setApprovalForAll(address,bool)",
-  "function supportsInterface(bytes4) view returns (bool)",
   "function transferFrom(address,address,uint256)"
 ]

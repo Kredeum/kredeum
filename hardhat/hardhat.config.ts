@@ -199,9 +199,11 @@ const config: HardhatUserConfig = {
     outDir: "../common/types"
   },
   abiExporter: {
-    path: "../common/abis",
+    path: "../common/abis/new",
     runOnCompile: true,
-    clear: true,
+    clear: false,
+    flat: true,
+    only: ["new/interfaces"],
     spacing: 2,
     pretty: true
   },

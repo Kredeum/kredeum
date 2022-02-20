@@ -4,7 +4,7 @@ pragma solidity ^0.8.7;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
-import "../interfaces/ICloneFactoryV2.sol";
+import "./interfaces/ICloneFactoryV2.sol";
 
 /// @title Clone Factory
 /// @notice Generic Clone Factory to create multiple Clones from Templates

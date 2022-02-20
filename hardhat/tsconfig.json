@@ -9,7 +9,8 @@
     "paths": {
       "lib/*": ["../common/lib/*"],
       "config/*": ["../common/config/*"],
-      "types/*": ["../common/types/*"]
+      "types/*": ["../common/types/*"],
+      "abis/*": ["../common/abis/*"]
     }
   },
   "include": ["./scripts", "./tests", "./deploy", "../common/lib"],

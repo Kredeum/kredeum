@@ -8,6 +8,5 @@
   "function isApprovedForAll(address,address) view returns (bool)",
   "function safeBatchTransferFrom(address,address,uint256[],uint256[],bytes)",
   "function safeTransferFrom(address,address,uint256,uint256,bytes)",
-  "function setApprovalForAll(address,bool)",
-  "function supportsInterface(bytes4) view returns (bool)"
+  "function setApprovalForAll(address,bool)"
 ]

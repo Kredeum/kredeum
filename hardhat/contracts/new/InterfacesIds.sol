@@ -12,16 +12,16 @@ import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol";
 
-import "../interfaces/IOpenNFTsV0.sol";
-import "../interfaces/IOpenNFTsV1.sol";
-import "../interfaces/IOpenNFTsV2.sol";
-import "../interfaces/IOpenNFTsV3.sol";
-import "../interfaces/IInterfacesIds.sol";
+import "../deployed/interfaces/IOpenNFTsV0.sol";
+import "../deployed/interfaces/IOpenNFTsV1.sol";
+import "../deployed/interfaces/IOpenNFTsV2.sol";
+import "../deployed/interfaces/ICloneFactory.sol";
+import "../deployed/interfaces/INFTsFactory.sol";
 
-import "../interfaces/ICloneFactory.sol";
-import "../interfaces/ICloneFactoryV2.sol";
-import "../interfaces/INFTsFactory.sol";
-import "../interfaces/INFTsFactoryV2.sol";
+import "./interfaces/IInterfacesIds.sol";
+import "./interfaces/IOpenNFTsV3.sol";
+import "./interfaces/ICloneFactoryV2.sol";
+import "./interfaces/INFTsFactoryV2.sol";
 
 /// @title InterfaceIds calculation
 /// @author zapaz.eth

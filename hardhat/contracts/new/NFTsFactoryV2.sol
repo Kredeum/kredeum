@@ -2,9 +2,9 @@
 pragma solidity ^0.8.7;
 
 import "./CloneFactoryV2.sol";
-import "../interfaces/INFTsFactoryV2.sol";
-import "../interfaces/IOpenNFTsV2.sol";
-import "../interfaces/IOpenNFTsV3.sol";
+import "./interfaces/INFTsFactoryV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
+import "../deployed/interfaces/IOpenNFTsV2.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";

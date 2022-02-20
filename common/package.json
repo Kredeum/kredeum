@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "clean": "rm -rf node_modules abis types",
+    "clean": "rm -rf node_modules abis/new types",
     "build": "echo build",
     "check": "echo check",
     "tests": "echo tests"
