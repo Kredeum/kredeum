@@ -28,7 +28,7 @@ function clean() {
 }
 
 function swallow(err) {
-  console.log(err.message);
+  console.error(err.message);
   this.emit("end");
 }
 

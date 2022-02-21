@@ -65,13 +65,13 @@ describe("10 Clone Factory contract", function () {
     });
 
     it("Should set Template", async function () {
-      await expect(nftsFactoryV2.connect(deployer).templateSet(openNFTsV3.address, "generic"))
+      await expect(nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address))
         .to.emit(nftsFactoryV2, "TemplateNew")
         .withArgs(openNFTsV3.address, "generic");
     });
 
     it("Should set template and clone", async function () {
-      await nftsFactoryV2.connect(deployer).templateSet(openNFTsV3.address, "generic");
+      await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address);
       await expect(nftsFactoryV2.connect(deployer).clone("NFT collection", "COLL", "generic")).to.emit(
         nftsFactoryV2,
         "ImplementationNew"
@@ -81,7 +81,7 @@ describe("10 Clone Factory contract", function () {
     });
 
     it("Should set older template and clone", async function () {
-      await nftsFactoryV2.connect(deployer).templateSet(openNFTsV2.address, "older");
+      await nftsFactoryV2.connect(deployer).templateSet("older", openNFTsV2.address);
       await expect(nftsFactoryV2.connect(deployer).clone("Old NFT collection", "OLD", "older")).to.emit(
         nftsFactoryV2,
         "ImplementationNew"

@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "paths": {
+      "lib/*": ["lib/*"],
+      "config/*": ["config/*"],
+      "types/*": ["types/*"],
+      "abis/*": ["abis/*"]
+    }
+  },
+  "include": ["lib/*.ts", "types/*.ts", "abis/*.ts"]
+}

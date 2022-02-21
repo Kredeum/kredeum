@@ -27,6 +27,7 @@ describe("15 List NFTs lib", function () {
   beforeEach(async () => {
     chainId = Number(await getChainId());
     networkConfig = getNetwork(chainId);
+    console.log("beforeEach ~ networkConfig", networkConfig);
 
     if (chainId === 31337) {
       await deployments.fixture(["OpenNFTsV3"]);

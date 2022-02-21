@@ -4,7 +4,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { factoryGetContract, NFTsFactoryV2 } from "./kfactory-get";
+import { factoryGetContract } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
@@ -140,7 +140,7 @@ const collectionListFromFactory = async (
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory: NFTsFactoryV2 = factoryGetContract(chainId, provider);
+  const nftsFactory = factoryGetContract(chainId, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];

@@ -18,8 +18,8 @@ describe("14 Clone collection", function () {
     }
     const nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
     const openNFTsV3 = await ethers.getContract("OpenNFTsV3");
-    await nftsFactoryV2.connect(deployer).templateSet(openNFTsV3.address, "ownable");
-    await nftsFactoryV2.connect(deployer).templateSet(openNFTsV3.address, "generic");
+    await nftsFactoryV2.connect(deployer).templateSet("ownable", openNFTsV3.address);
+    await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address);
   });
 
   // beforeEach(() => {});

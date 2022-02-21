@@ -13,11 +13,13 @@ interface INFTsFactoryV2 {
 
     event TemplateNew(address indexed template, string indexed templateName);
 
+    function version() external view returns (uint8);
+
     function balancesOf(address owner) external view returns (NftData[] memory);
 
-    function templateSet(address template, string calldata templateName) external;
+    function templateSet(string calldata templateName, address template) external;
 
-    function templates(string memory) external view returns (address);
+    function templates(string calldata) external view returns (address);
 
     function clone(
         string memory name,

@@ -47,7 +47,7 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
 };
 
 const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft | undefined> => {
-  console.log("nftGetMetadata", chainId, token, collection);
+  // console.log("nftGetMetadata", chainId, token, collection);
   // TODO : Extend NFT type with Metadata type...
   let nftMetadata: Nft | undefined;
 
@@ -64,7 +64,7 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
         if (tokenURIAnswer.error) {
           console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
         } else {
-          console.log("nftGetMetadata tokenJson", tokenURIAnswer);
+          // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
           tokenJson = tokenURIAnswer as NftMetadata;
         }
       } catch (e) {
@@ -116,7 +116,7 @@ const nftGetFromContract = async (
   collection: Collection,
   tokenID: string,
   provider: Provider,
-  owner: string
+  owner: string = ""
 ): Promise<Nft | undefined> => {
   let tokenURI = "";
   let contractName = "";
@@ -128,7 +128,7 @@ const nftGetFromContract = async (
       const contract = await collectionGetContract(chainId, collection, provider);
       contractName = collection.name || "No name";
 
-      if (contract && collection?.supports?.ERC721Metadata) {
+      if (contract && collection?.supports?.IERC721Metadata) {
         contractName = contractName || (await contract.name());
         owner = owner || (await contract.ownerOf(tokenID));
         tokenURI = await contract.tokenURI(tokenID);
@@ -162,7 +162,7 @@ const nftGetFromContractEnumerable = async (
   let nft: Nft | undefined;
   let tokID: BigNumber;
 
-  if (chainId && collection?.supports?.ERC721Enumerable) {
+  if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
       const contract = await collectionGetContract(chainId, collection, provider);
       if (contract) {

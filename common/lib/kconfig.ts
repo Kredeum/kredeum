@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { ABIS, Address, Network, Collection, Nft } from "./ktypes";
+import type { Address, Network, Collection, Nft } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";

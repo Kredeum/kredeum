@@ -131,7 +131,7 @@
   };
 
   const handleAccounts = async (_accounts) => {
-    console.log("handleAccounts", _accounts);
+    // console.log("handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();

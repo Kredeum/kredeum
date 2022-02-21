@@ -57,7 +57,7 @@ describe("13 List contracts lib", function () {
     nftsFactory = await ethers.getContract("NFTsFactoryV2", signer);
     expect(nftsFactory.address).to.be.properAddress;
 
-    await nftsFactory.connect(deployer).templateSet(openNFTsV3.address, "generic");
+    await nftsFactory.connect(deployer).templateSet("generic", openNFTsV3.address);
   });
 
   it("Should clone", async function () {

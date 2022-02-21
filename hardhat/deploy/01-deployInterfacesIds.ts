@@ -10,7 +10,7 @@ const deployInterfacesIds: DeployFunction = async function ({ deployments, ether
   });
 };
 deployInterfacesIds.tags = ["InterfacesIds"];
-// eslint-disable-next-line @typescript-eslint/require-await
+
 deployInterfacesIds.skip = async ({ network }) => network.name !== "hardhat";
 
 export default deployInterfacesIds;

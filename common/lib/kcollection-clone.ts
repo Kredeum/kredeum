@@ -1,5 +1,4 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
-import type { NFTsFactoryV2 } from "./kfactory-get";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
@@ -12,17 +11,24 @@ const collectionCloneResponse = async (
   template: string,
   cloner: Signer
 ): Promise<TransactionResponse> => {
-  console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
+  // console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
 
   const network = getNetwork(chainId);
 
-  const nftsFactory: NFTsFactoryV2 = factoryGetContract(chainId, cloner);
+  const nftsFactory = factoryGetContract(chainId, cloner);
   let txResp: TransactionResponse;
-  console.log("collectionCloneResponse", nftsFactory);
+  // console.log("collectionCloneResponse", nftsFactory);
 
   const n: string = (await nftsFactory.implementationsCount()).toString();
+  const _name = name || `Open NFTs #${n}`;
+  const _symbol = symbol || `NFTs${n}`;
 
-  txResp = await nftsFactory.connect(cloner).clone(name || `Open NFTs #${n}`, symbol || `NFTs${n}`, template);
+  // only V2 has version
+  if (nftsFactory.version) {
+    txResp = await nftsFactory.connect(cloner).clone(_name, _symbol, template);
+  } else {
+    txResp = await nftsFactory.connect(cloner).clone(_name, _symbol);
+  }
   console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
 
   return txResp;

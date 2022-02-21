@@ -203,7 +203,7 @@ const config: HardhatUserConfig = {
     runOnCompile: true,
     clear: false,
     flat: true,
-    only: ["new/interfaces"],
+    only: ["new"],
     spacing: 2,
     pretty: true
   },

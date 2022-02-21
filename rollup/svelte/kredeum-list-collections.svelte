@@ -31,13 +31,14 @@
       collectionAddress = _collectionAddress;
 
       // console.log("KredeumListCollections _setCollection", collectionAddress);
+      collection = null;
 
       if ($chainId && $owner && collectionAddress) {
         localStorage.setItem(`defaultCollection/${$chainId}/${$owner}`, collectionAddress);
         const coll = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
-        collection = await collectionGet($chainId, coll, $provider);
-      } else {
-        collection = null;
+        if (coll) {
+          collection = await collectionGet($chainId, coll, $provider);
+        }
       }
     }
   };
@@ -59,11 +60,11 @@
   };
 
   const _collectionListFromCache = async (_chainId: number, _owner: string, _provider: Provider) => {
-    // console.log("KredeumListCollections _collectionListFromCache");
     allCollections = collectionListFromCache(_owner);
+    console.log("_collectionListFromCache ~ allCollections", allCollections);
+
     const openNFTsAddress = await factoryGetTemplate(_chainId, "", _provider);
 
-    // console.log("allCollections", allCollections);
     collections = new Map(
       [...allCollections]
         .filter(
@@ -83,9 +84,11 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetTemplate($chainId, "", $provider));
+      (await factoryGetTemplate($chainId, "generic", $provider));
+
+    console.log("_collectionListFromCache ~ defaultCollection", defaultCollection);
+
     _setCollection(defaultCollection);
-    // console.log(collections);
   };
 
   const collectionBalanceOf = (collContract: Collection) =>

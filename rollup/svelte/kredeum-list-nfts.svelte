@@ -80,7 +80,7 @@
   };
 
   const refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _provider: Provider, _owner: string) => {
-    console.log("refreshNFTsFromLib", _chainId, _owner, _collection);
+    // console.log("refreshNFTsFromLib", _chainId, _owner, _collection);
 
     if (_collection.supports) {
       const nbNFTs = _collection.balanceOf || _collection.totalSupply;
@@ -104,7 +104,7 @@
       }
 
       refreshing = false;
-      console.log("refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
+      // console.log("refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
     } else {
       console.error("refreshNFTsFromLib Collection not ready", _collection);
     }

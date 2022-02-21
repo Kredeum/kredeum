@@ -1,7 +1,6 @@
 import type { Signer } from "@ethersproject/abstract-signer";
-import type { IInterfacesIds } from "types/IInterfacesIds";
+import type { InterfacesIds } from "types/InterfacesIds";
 
-import { Fragment, Interface } from "@ethersproject/abi";
 import { getChainId, ethers, deployments, network } from "hardhat";
 import { interfaceId } from "lib/kconfig";
 
@@ -27,19 +26,19 @@ import INFTsFactoryV2 from "abis/new/INFTsFactoryV2.json";
 import { BigNumber } from "ethers";
 import { expect } from "chai";
 
-const setup = deployments.createFixture(async (): Promise<{ contract: IInterfacesIds; signer: Signer }> => {
+const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
   await deployments.fixture("InterfacesIds");
 
   const signer = await ethers.getNamedSigner("deployer");
-  const contract: IInterfacesIds = await ethers.getContract("InterfacesIds", signer);
+  const contract: InterfacesIds = await ethers.getContract("InterfacesIds", signer);
 
   return { contract, signer };
 });
 
-describe.only("02 Call interfacesId", () => {
+describe("02 Call interfacesId", () => {
   let chainId: number;
   // let signer: Signer;
-  let contract: IInterfacesIds;
+  let contract: InterfacesIds;
   let ids: Array<string>;
 
   before(async () => {

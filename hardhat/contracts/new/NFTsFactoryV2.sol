@@ -18,6 +18,8 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
 
     mapping(string => address) public templates;
 
+    uint8 public constant version = 2;
+
     uint8 internal constant ERC721 = 0;
     uint8 internal constant ERC721_METADATA = 1;
     uint8 internal constant ERC721_ENUMERABLE = 2;
@@ -40,7 +42,7 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
         }
     }
 
-    function templateSet(address template, string calldata templateName) external {
+    function templateSet(string calldata templateName, address template) external {
         require(template.supportsInterface(ERC721_SIG), "Implementation not ERC721 contract");
         templates[templateName] = template;
 

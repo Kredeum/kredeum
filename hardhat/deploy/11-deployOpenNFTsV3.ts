@@ -1,7 +1,7 @@
 import type { DeployFunction } from "hardhat-deploy/types";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
-const deployOpenNFTsV3Function: DeployFunction = async function ({ deployments, ethers }) {
+const deployOpenNFTsV3: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");
 
   const deployResult = await deployments.deploy("OpenNFTsV3", {
@@ -15,6 +15,6 @@ const deployOpenNFTsV3Function: DeployFunction = async function ({ deployments, 
     await openNFTsV3.connect(deployer).initialize("Open NFTs", "NFT", deployer.address, false);
   }
 };
-deployOpenNFTsV3Function.tags = ["OpenNFTsV3"];
+deployOpenNFTsV3.tags = ["OpenNFTsV3"];
 
-export default deployOpenNFTsV3Function;
+export default deployOpenNFTsV3;
