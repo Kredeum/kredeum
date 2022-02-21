@@ -63,15 +63,11 @@
   "scripts": {
     "clean": "rm -rf artifacts cache node_modules docs",
     "build": "hardhat clean && hardhat typechain && hardhat compile && hardhat docgen",
-    "prettier": "prettier contracts/**/*.sol **/*.ts --write --loglevel error",
-    "solhint": "solhint contracts/**/*.sol --fix",
+    "prettier": "prettier contracts/new/*.sol **/*.ts --write --loglevel error",
+    "solhint": "solhint contracts/new/*.sol --fix",
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",
     "check": "npm run prettier && npm run solhint && npm run eslint",
-    "tests": "hardhat test",
-    "flatten": "hardhat flatten contracts/OpenNFTs.sol > flatten/OpenNFTs.sol",
-    "deploy": "hardhat run scripts/deploy.mjs --network ${NETWORK:-mumbai}",
-    "deploy-matic": "NETWORK=matic npm run deploy",
-    "list": "hardhat run scripts/list.mjs"
+    "tests": "hardhat test"
   },
   "version": "1.0.0"
 }

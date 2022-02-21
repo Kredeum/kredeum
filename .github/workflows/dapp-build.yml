@@ -32,12 +32,13 @@ jobs:
         env:
           ENVIR: PROD
           NODE_DEBUG: false
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
           COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 
-      - name: Delete .gitignore to include dapp/build in commit
-        run: rm dapp/.gitignore
+      - name: Delete .gitignore to include web/dapp in commit
+        run: rm web/.gitignore
 
       - name: Commit Dapp build
         run: |

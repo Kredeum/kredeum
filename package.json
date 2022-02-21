@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dapp": "http-server web/dapp",
+    "build-dapp": "rm -rf web/dapp && npm run build:hardhat && npm run build:gulp && npm run build:rollup",
     "clean:common": "cd common && npm run clean",
     "clean:hardhat": "cd hardhat && npm run clean",
     "clean:gulp": "cd gulp && npm run clean",
