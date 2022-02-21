@@ -38,12 +38,13 @@ const {
   ETHERSCAN_API_KEY_BINANCE
 } = process.env;
 
-const accounts = [DEPLOYER_PRIVATE_KEY || ""];
-for (let i = 1; i <= 5; i++) accounts.push(Wallet.createRandom().privateKey);
-const accountsHardhat: HardhatNetworkAccountUserConfig[] = accounts.map((account) => ({
+const accountsRandom = [];
+for (let i = 0; i < 5; i++) accountsRandom.push(Wallet.createRandom().privateKey);
+const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((account) => ({
   privateKey: account || "",
   balance: "2000000000000000000000"
 }));
+const accounts = [DEPLOYER_PRIVATE_KEY || ""].concat(accountsRandom);
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
