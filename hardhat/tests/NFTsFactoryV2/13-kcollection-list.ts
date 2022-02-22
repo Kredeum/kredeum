@@ -60,16 +60,11 @@ describe("13 List contracts lib", function () {
     await nftsFactory.connect(deployer).templateSet("generic", openNFTsV3.address);
   });
 
-  it("Should clone", async function () {
-    await (await nftsFactory.clone("Open NFTs 1", "NFT1", "generic")).wait();
-    await (await nftsFactory.clone("Open NFTs 2", "NFT2", "generic")).wait();
-  });
-
   it("List with NFTsFactoryV2", async function () {
     if (chainId !== 31337) {
-      console.log((await nftsFactory.implementationsCount()).toString());
-      console.log(await nftsFactory.balancesOf(owner));
-      console.log(await collectionListFromFactory(chainId, owner, ethers.provider));
+      // console.log((await nftsFactory.implementationsCount()).toString());
+      // console.log(await nftsFactory.balancesOf(owner));
+      // console.log(await collectionListFromFactory(chainId, owner, ethers.provider));
       expect((await collectionListFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
     }
   });

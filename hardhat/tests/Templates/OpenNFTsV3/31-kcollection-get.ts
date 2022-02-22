@@ -5,7 +5,7 @@ import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { interfaceId } from "lib/kconfig";
 
-describe("12 Open NFTs contract", function () {
+describe("31 OpenNFTsV3 contract", function () {
   let openNFTsV3: OpenNFTsV3;
   const txOptions = {
     maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),

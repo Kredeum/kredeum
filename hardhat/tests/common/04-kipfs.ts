@@ -11,7 +11,7 @@ const theGraphEndpoint = "https://api.thegraph.com/ipfs";
 const imgUrl = "https://www.kredeum.com/favicon.ico";
 const imgCID = "Qmdzo9j2hH75iRuGRP61BQEwj7WF1p5EtJxChz7b7W3aBc";
 
-describe("21 TheGraph : Add Json", () => {
+describe.skip("04 TheGraph : Add Json", () => {
   it("Add Image should return given CID", async () => {
     const theGraph = new Ipfs(theGraphEndpoint);
     const cid = await theGraph.addUrl(imgUrl);

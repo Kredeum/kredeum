@@ -1,5 +1,5 @@
 import type { Network } from "lib/ktypes";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { OpenNFTsV2 } from "types/OpenNFTsV2";
 import type { Signer } from "ethers";
 
 import { collectionClone } from "lib/kcollection-clone";
@@ -16,14 +16,14 @@ const contractName = "Open NFTs";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe("09 NFT Mint", function () {
+describe("20 OpenNFTsV2 Mint", function () {
   let ethscan: string | undefined;
   let network: Network | undefined;
   let chainId: number;
   let deployer: Signer;
   let tester: Signer;
-  let openNFTsV3: OpenNFTsV3;
-  let cloneOpenNFTsV3: OpenNFTsV3;
+  let openNFTsV2: OpenNFTsV2;
+  let cloneOpenNFTsV2: OpenNFTsV2;
 
   before(async () => {
     chainId = Number(await hre.getChainId());
@@ -34,12 +34,12 @@ describe("09 NFT Mint", function () {
     deployer = await ethers.getNamedSigner("deployer");
     tester = await ethers.getNamedSigner("tester1");
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTsV3", "NFTsFactory"]);
+      await deployments.fixture(["OpenNFTsV2", "NFTsFactory"]);
     }
 
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3", deployer);
-    // console.log(openNFTsV3.address);
-    // console.log(await openNFTsV3.name());
+    openNFTsV2 = await ethers.getContract("OpenNFTsV2", deployer);
+    // console.log(openNFTsV2.address);
+    // console.log(await openNFTsV2.name());
   });
 
   describe("Init", function () {
@@ -55,20 +55,20 @@ describe("09 NFT Mint", function () {
 
   describe("Read", function () {
     it("Should init Contract", function () {
-      expect(Boolean(openNFTsV3)).to.be.true;
+      expect(Boolean(openNFTsV2)).to.be.true;
     });
     it("Should get Contract Name", async function () {
-      expect(await openNFTsV3.name()).to.be.equal(contractName);
+      expect(await openNFTsV2.name()).to.be.equal(contractName);
     });
     it("Should get Contract Symbol", async function () {
-      expect(await openNFTsV3.symbol()).to.be.equal(contractSymbol);
+      expect(await openNFTsV2.symbol()).to.be.equal(contractSymbol);
     });
     it("Should get Contract TotalSupply", async function () {
-      const totalSupply = (await openNFTsV3.totalSupply())?.toNumber();
+      const totalSupply = (await openNFTsV2.totalSupply())?.toNumber();
       expect(totalSupply).to.be.gte(0);
     });
     it("Should get Contract owner", async function () {
-      const owner = await openNFTsV3.owner();
+      const owner = await openNFTsV2.owner();
       expect(owner).to.be.properAddress;
     });
   });
@@ -76,22 +76,22 @@ describe("09 NFT Mint", function () {
   describe("Mint", function () {
     it("Should Mint one Token", async function () {
       this.timeout(50000);
-      const totalSupply: number = (await openNFTsV3.totalSupply()).toNumber();
-      const tx = await openNFTsV3.mintNFT(artistAddress, json);
+      const totalSupply: number = (await openNFTsV2.totalSupply()).toNumber();
+      const tx = await openNFTsV2.mintNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
-      const totalSupply1: number = (await openNFTsV3.totalSupply()).toNumber();
+      const totalSupply1: number = (await openNFTsV2.totalSupply()).toNumber();
       expect(totalSupply1).to.be.equal(totalSupply + Number(1));
     });
   });
 
   describe("Ownable", function () {
     it("Should be allowed to Mint", async function () {
-      await expect(openNFTsV3.connect(deployer).mintNFT(artistAddress, json)).to.be.not.reverted;
+      await expect(openNFTsV2.connect(deployer).mintNFT(artistAddress, json)).to.be.not.reverted;
     });
 
-    it("Should not be allowed to Mint", async function () {
-      await expect(openNFTsV3.connect(tester).mintNFT(artistAddress, json)).to.be.revertedWith("Not minter");
+    it("Should be allowed to Mint even if not owner", async function () {
+      await expect(openNFTsV2.connect(tester).mintNFT(artistAddress, json)).to.be.not.reverted;
     });
   });
 });

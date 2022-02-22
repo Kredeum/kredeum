@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.9;
 
 import "./CloneFactoryV2.sol";
 import "./interfaces/INFTsFactoryV2.sol";
@@ -42,8 +42,8 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
         }
     }
 
-    function templateSet(string calldata templateName, address template) external {
-        require(template.supportsInterface(ERC721_SIG), "Implementation not ERC721 contract");
+    function templateSet(string calldata templateName, address template) external onlyOwner {
+        require(template.supportsInterface(ERC721_SIG), "Template not ERC721 contract");
         templates[templateName] = template;
 
         emit TemplateNew(template, templateName);
@@ -62,7 +62,7 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
         require(template != address(0), "Bad Template");
         require(
             template.supportsInterface(OPEN_NFTS_V2_SIG) || template.supportsInterface(OPEN_NFTS_V3_SIG),
-            "Template not OpenNFTs V2 orV3 contract"
+            "Template not OpenNFTs V2 or V3 contract"
         );
         clone_ = _clone(templates[templateName]);
 

@@ -23,7 +23,7 @@ let openNFTsV3: OpenNFTsV3;
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 const jsonURI = "https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
 
-describe("15 List NFTs lib", function () {
+describe("32 List OpenNFTsV3 lib", function () {
   beforeEach(async () => {
     chainId = Number(await getChainId());
     networkConfig = getNetwork(chainId);

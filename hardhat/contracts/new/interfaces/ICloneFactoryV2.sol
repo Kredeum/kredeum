@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.7;
+pragma solidity 0.8.9;
 
 interface ICloneFactoryV2 {
     event ImplementationNew(address indexed implementation, address indexed creator, uint256 count);
