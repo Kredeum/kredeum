@@ -1,6 +1,6 @@
 import type { HardhatUserConfig, HardhatNetworkAccountUserConfig } from "hardhat/types";
 
-import { Wallet } from "ethers";
+import { Wallet, BigNumber } from "ethers";
 import "@nomiclabs/hardhat-etherscan";
 import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
@@ -16,6 +16,8 @@ import "@typechain/hardhat";
 import "tsconfig-paths/register";
 
 import "./tasks/index";
+
+import { getSingletonFactoryInfo } from "@gnosis.pm/safe-singleton-factory";
 
 import dotenv from "dotenv";
 import findupSync from "findup-sync";
@@ -45,6 +47,18 @@ const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((a
   balance: "2000000000000000000000"
 }));
 const accounts = accountsRandom;
+
+const deterministicDeployment = (network: string) => {
+  const info = getSingletonFactoryInfo(parseInt(network));
+  console.log("deterministicDeployment ~ info", info);
+  if (!info) return undefined;
+  return {
+    factory: info.address,
+    deployer: info.signerAddress,
+    funding: BigNumber.from(info.gasLimit).mul(BigNumber.from(info.gasPrice)).toString(),
+    signedTx: info.transaction
+  };
+};
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -217,6 +231,7 @@ const config: HardhatUserConfig = {
     cache: "cache",
     artifacts: "artifacts"
   },
+  deterministicDeployment,
   mocha: {
     timeout: 200_000,
     bail: true

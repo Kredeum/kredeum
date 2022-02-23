@@ -9,6 +9,7 @@ specifiers:
   '@ethersproject/contracts': ^5.5.0
   '@ethersproject/hardware-wallets': ^5.5.0
   '@ethersproject/providers': ^5.5.3
+  '@gnosis.pm/safe-singleton-factory': ^1.0.8
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers@^0.3.0-beta.13
   '@nomiclabs/hardhat-etherscan': ^3.0.1
   '@nomiclabs/hardhat-waffle': ^2.0.2
@@ -61,6 +62,7 @@ devDependencies:
   '@ethersproject/contracts': 5.5.0
   '@ethersproject/hardware-wallets': 5.5.0
   '@ethersproject/providers': 5.5.3
+  '@gnosis.pm/safe-singleton-factory': 1.0.8
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.13_ethers@5.5.4+hardhat@2.8.4
   '@nomiclabs/hardhat-etherscan': 3.0.1_hardhat@2.8.4
   '@nomiclabs/hardhat-waffle': 2.0.2_43bc8e33ea81bc07604139fcb91133d0
@@ -662,6 +664,10 @@ packages:
       '@ethersproject/logger': 5.5.0
       '@ethersproject/properties': 5.5.0
       '@ethersproject/strings': 5.5.0
+    dev: true
+
+  /@gnosis.pm/safe-singleton-factory/1.0.8:
+    resolution: {integrity: sha512-z8Ww/KaJk3CK17PlmmOrX4S40jxOw2ryEsZjO35JXYvSxej2uIWq9ZHxcZWvIcXPh7lkYFaFzDQvnOLL3g843A==}
     dev: true
 
   /@humanwhocodes/config-array/0.9.3:
