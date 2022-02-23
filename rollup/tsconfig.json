@@ -9,7 +9,8 @@
     "importsNotUsedAsValues": "remove",
     "paths": {
       "lib/*": ["../common/lib/*"],
-      "abis/*": ["../common/abis/*"]
+      "abis/*": ["../common/abis/*"],
+      "types/*": ["../common/types/*"]
     }
     // "strict": true
   },

@@ -2,7 +2,6 @@ import type { Network } from "lib/ktypes";
 import type { OpenNFTsV2 } from "types/OpenNFTsV2";
 import type { Signer } from "ethers";
 
-import { collectionClone } from "lib/kcollection-clone";
 import { expect } from "chai";
 import { networks } from "lib/kconfig";
 import { config } from "dotenv";

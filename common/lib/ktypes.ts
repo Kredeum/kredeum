@@ -24,7 +24,6 @@ type Network = {
   admin?: string;
   openSea?: { assets?: string; openNFTs?: string };
   nftsFactory?: string;
-  nftsFactoryV2?: string;
   eip1559?: boolean;
 };
 

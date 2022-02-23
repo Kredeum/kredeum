@@ -1,13 +1,12 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
 
-  import { explorerCollectionUrl, nftsUrl, getCreate, getNftsFactory, version } from "lib/kconfig";
+  import { explorerCollectionUrl, nftsUrl, getCreate, getNftsFactory, config } from "lib/kconfig";
 
   import { chainId, owner } from "./network";
 
@@ -65,7 +64,7 @@
     <div id="kredeum-list">
       <section class="content">
         <header>
-          <h1 title="Kredeum NFTs v{version.latest} ({process.env.GIT_SHORT})">
+          <h1 title="Kredeum NFTs v{config.version.latest} ({process.env.GIT_SHORT})">
             My NFTs Factory {label()}
           </h1>
           {#if $owner && getCreate($chainId)}

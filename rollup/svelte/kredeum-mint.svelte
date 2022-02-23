@@ -20,7 +20,7 @@
   // down to component with default
   export let collection: Collection = undefined;
 
-  import { chainId, network, provider, signer } from "./network";
+  import { chainId, network, provider, signer, version } from "./network";
 
   let mintedNft: Nft;
   let minting: number;
@@ -30,10 +30,15 @@
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange($chainId, $signer, $provider);
+  $: handleChange($chainId, $version, $signer, $provider);
 
-  const handleChange = async (_chainId: number, _signer: JsonRpcSigner, _provider: JsonRpcProvider) => {
-    if (_chainId && _signer) {
+  const handleChange = async (
+    _chainId: number,
+    _version: number,
+    _signer: JsonRpcSigner,
+    _provider: JsonRpcProvider
+  ) => {
+    if (_chainId && _version && _signer) {
       signerAddress = await _signer.getAddress();
       // console.log("kredeum-mint handleChange", _chainId, signerAddress);
 
@@ -41,7 +46,7 @@
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await factoryGetTemplate($chainId, "", _provider));
+        (await factoryGetTemplate(_chainId, _version, "generic", _provider));
       collection = await collectionGet(_chainId, collectionAddress);
     }
   };

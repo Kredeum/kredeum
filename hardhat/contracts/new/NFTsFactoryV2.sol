@@ -32,6 +32,10 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     bytes4 internal constant OPEN_NFTS_V2_SIG = type(IOpenNFTsV2).interfaceId;
     bytes4 internal constant OPEN_NFTS_V3_SIG = type(IOpenNFTsV3).interfaceId;
 
+    constructor(address initialOwner) {
+        _transferOwnership(initialOwner);
+    }
+
     /// @notice balancesOf address
     /// @param addr  address of account
     /// @return nftData Array of nftData balances

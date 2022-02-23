@@ -3,7 +3,7 @@
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
-  import { chainId, network, provider, signer, owner } from "./network";
+  import { chainId, network, provider, signer, owner, version } from "./network";
   import {
     getShortAddress,
     numberToHexString,
@@ -11,10 +11,9 @@
     getChecksumAddress,
     getNetwork,
     getEnsName,
-    networks,
-    nftsUrl
+    networks
   } from "lib/kconfig";
-  import { factoryGetAddress } from "lib/kfactory-get";
+  import { factoryGetAddress, factoryGetVersion } from "lib/kfactory-get";
   import { explorerNFTsFactoryUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
@@ -105,6 +104,8 @@
       if (_network) {
         chainId.set(Number(_chainId));
         network.set(_network);
+        provider.set(ethersProvider);
+        version.set(await factoryGetVersion($chainId, $provider));
         console.log("chainId", $chainId, numberToHexString(_chainId));
       } else {
         // _chainId not accepted : switch to first accepted chainId
@@ -140,7 +141,6 @@
       // provider.set(ethersProvider);
       signer.set(ethersProvider.getSigner(0));
       owner.set(getChecksumAddress(await $signer.getAddress()));
-      provider.set($signer.provider);
     }
   };
 
@@ -268,10 +268,10 @@
         >Network
         <a
           class="info-button"
-          href={explorerNFTsFactoryUrl($chainId)}
+          href={explorerNFTsFactoryUrl($chainId, $version)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-          {factoryGetAddress($chainId)}"><i class="fas fa-info-circle" /></a
+          {factoryGetAddress($chainId, $version)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 

@@ -7,7 +7,7 @@
 
   import { createEventDispatcher } from "svelte";
 
-  import { chainId, signer } from "./network";
+  import { chainId, signer, version } from "./network";
 
   import KredeumListTemplates from "./kredeum-list-templates.svelte";
 
@@ -31,7 +31,14 @@
       cloningTxHash = null;
       collectionCreated = null;
 
-      const txResp = await collectionCloneResponse($chainId, collectionName, collectionSymbol, template, $signer);
+      const txResp = await collectionCloneResponse(
+        $chainId,
+        $version,
+        collectionName,
+        collectionSymbol,
+        template,
+        $signer
+      );
       cloningTxHash = txResp.hash;
 
       const txReceipt = await collectionCloneReceipt(txResp);

@@ -3,5 +3,6 @@
   "function implementations(uint256) view returns (address)",
   "function implementationsCount() view returns (uint256)",
   "function setContractProbe(address)",
-  "function setDefaultTemplate(address)"
+  "function setDefaultTemplate(address)",
+  "function template() view returns (address)"
 ]

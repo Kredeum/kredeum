@@ -1,11 +1,21 @@
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { Provider, TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { NFTsFactory } from "types/NFTsFactory";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
-import { factoryGetContract } from "./kfactory-get";
+import { factoryGetContract, factoryGetVersion } from "./kfactory-get";
+
+const _cloneParams = async (nftsFactory: NFTsFactory | NFTsFactoryV2, name: string, symbol: string) => {
+  const n = (await nftsFactory.implementationsCount()).toString();
+  const _name = name || `Open NFTs #${n}`;
+  const _symbol = symbol || `NFTs${n}`;
+  return { _name, _symbol };
+};
 
 const collectionCloneResponse = async (
   chainId: number,
+  version: number,
   name: string,
   symbol: string,
   template: string,
@@ -15,20 +25,19 @@ const collectionCloneResponse = async (
 
   const network = getNetwork(chainId);
 
-  const nftsFactory = factoryGetContract(chainId, cloner);
   let txResp: TransactionResponse;
   // console.log("collectionCloneResponse", nftsFactory);
 
-  const n: string = (await nftsFactory.implementationsCount()).toString();
-  const _name = name || `Open NFTs #${n}`;
-  const _symbol = symbol || `NFTs${n}`;
-
-  // only V2 has version
-  if (nftsFactory.version) {
-    txResp = await nftsFactory.connect(cloner).clone(_name, _symbol, template);
+  if (version == 2) {
+    const nftsFactoryV2 = factoryGetContract(chainId, version, cloner) as NFTsFactoryV2;
+    const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
+    txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template);
   } else {
+    const nftsFactory = factoryGetContract(chainId, version, cloner) as NFTsFactory;
+    const { _name, _symbol } = await _cloneParams(nftsFactory, name, symbol);
     txResp = await nftsFactory.connect(cloner).clone(_name, _symbol);
   }
+
   console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
 
   return txResp;
@@ -55,12 +64,13 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
 
 const collectionClone = async (
   chainId: number,
+  version: number,
   name: string,
   symbol: string,
   template: string,
   cloner: Signer
 ): Promise<string> => {
-  const txResp = await collectionCloneResponse(chainId, name, symbol, template, cloner);
+  const txResp = await collectionCloneResponse(chainId, version, name, symbol, template, cloner);
   let address = "";
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);

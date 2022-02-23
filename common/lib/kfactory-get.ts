@@ -1,10 +1,10 @@
-import type { NFTsFactoryV2 } from "../types/NFTsFactoryV2";
-
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address, AbiType } from "./ktypes";
+import type { NFTsFactory } from "types/NFTsFactory";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { Signer, Contract } from "ethers";
-import { getChecksumAddress, getNetwork } from "./kconfig";
+import { getNetwork, config } from "./kconfig";
 
 // ! MUST manage simultaneously NFTsFactory V1 and V2
 // ! until all networks are on NFTsFactory V2
@@ -16,47 +16,77 @@ import INFTsFactoryV2 from "abis/new/INFTsFactoryV2.json";
 // nftsFactory cache over networks
 const nftsFactories: Map<number, Contract> = new Map();
 
-const factoryGetVersion = (chainId: number): number => {
-  const network = getNetwork(chainId);
-  return network?.nftsFactoryV2 ? 2 : network?.nftsFactory ? 1 : 0;
+const factoryGetVersion = async (chainId: number, provider: Provider | undefined): Promise<number> => {
+  console.log("factoryGetVersion ~ chainId", chainId, provider);
+
+  const code = (await provider?.getCode(config.nftsFactoryV2)) || "0x";
+  // console.log("factoryGetVersion ~ code", code);
+
+  console.log("factoryGetVersion ~ version BEFORE");
+  const version = code != "0x" ? 2 : getNetwork(chainId)?.nftsFactory ? 1 : 0;
+  console.log("factoryGetVersion ~ version AFTER", version);
+
+  return version;
 };
 
-const factoryGetAddress = (chainId: number): string => {
-  const network = getNetwork(chainId);
-  return getChecksumAddress(network?.nftsFactoryV2 || network?.nftsFactory || "");
+const factoryGetAddress = (chainId: number, version: number): string => {
+  console.log("factoryGetAddress", chainId, version);
+
+  const address = version == 2 ? config.nftsFactoryV2 : getNetwork(chainId)?.nftsFactory || "";
+  console.log("factoryGetAddress ~ address", address);
+
+  return address;
 };
 
-const factoryGetAbi = (chainId: number): Array<string> => {
-  const network = getNetwork(chainId);
-  const factoryAbi = network?.nftsFactoryV2
-    ? ICloneFactoryV2.concat(INFTsFactoryV2)
-    : network?.nftsFactory
-    ? ICloneFactory.concat(INFTsFactory)
-    : [];
+const factoryGetAbi = (chainId: number, version: number): string[] => {
+  console.log("factoryGetAbi", chainId, version);
+  const factoryAbi =
+    version == 2
+      ? ICloneFactoryV2.concat(INFTsFactoryV2)
+      : getNetwork(chainId)?.nftsFactory
+      ? ICloneFactory.concat(INFTsFactory)
+      : [];
+  console.log("factoryAbi", version, factoryAbi);
   return factoryAbi;
 };
 
 // GET NFTsFactory Contract
-const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider): Contract => {
-  // console.log("factoryGetContract", chainId);
+const factoryGetContract = (
+  chainId: number,
+  version: number,
+  signerOrProvider: Signer | Provider
+): NFTsFactory | NFTsFactoryV2 => {
+  console.log("factoryGetContract", chainId, version);
 
-  let nftsFactory = nftsFactories.get(chainId);
+  let nftsFactory = nftsFactories.get(chainId) as NFTsFactory | NFTsFactoryV2;
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), factoryGetAbi(chainId), signerOrProvider);
+    nftsFactory = new Contract(
+      factoryGetAddress(chainId, version),
+      factoryGetAbi(chainId, version),
+      signerOrProvider
+    ) as NFTsFactory | NFTsFactoryV2;
     nftsFactories.set(chainId, nftsFactory);
   }
+  console.log("nftsFactory", nftsFactory);
+
   return nftsFactory;
 };
 
 // GET OpenNFTs default template via onchain call
-const factoryGetTemplate = async (chainId: number, template: string, provider: Provider): Promise<Address> => {
-  const nftsFactory = factoryGetContract(chainId, provider);
+const factoryGetTemplate = async (
+  chainId: number,
+  version: number,
+  template: string,
+  provider: Provider
+): Promise<Address> => {
+  console.log("factoryGetTemplate", chainId, version, template);
 
   let templateAddress = "";
-  // Only V2 has version
-  if (nftsFactory.version) {
-    templateAddress = await nftsFactory.templates("generic");
+  if (version == 2) {
+    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactoryV2;
+    templateAddress = await nftsFactory.templates(template);
   } else {
+    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactory;
     templateAddress = await nftsFactory.template();
   }
 
@@ -64,4 +94,4 @@ const factoryGetTemplate = async (chainId: number, template: string, provider: P
   return templateAddress;
 };
 
-export { factoryGetContract, factoryGetAddress, factoryGetTemplate };
+export { factoryGetContract, factoryGetAddress, factoryGetTemplate, factoryGetVersion };

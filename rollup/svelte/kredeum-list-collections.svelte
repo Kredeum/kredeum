@@ -8,7 +8,7 @@
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
-  import { chainId, provider, owner } from "./network";
+  import { chainId, provider, owner, version } from "./network";
 
   // down to component
   export let filter = false;
@@ -44,26 +44,32 @@
   };
 
   // ON CHAINID or OWNER change THEN list collections
-  $: _collectionList($chainId, $owner, $provider);
+  $: _collectionList($chainId, $version, $owner, $provider);
 
-  const _collectionList = async (_chainId: number, _owner: string, _provider: Provider): Promise<void> => {
-    // console.log("KredeumListCollections _collectionList", _chainId, _owner);
-    if (_chainId && _owner) {
-      _collectionListFromCache(_chainId, _owner, _provider);
+  const _collectionList = async (
+    _chainId: number,
+    _version: number,
+    _owner: string,
+    _provider: Provider
+  ): Promise<void> => {
+    console.log("KredeumListCollections _collectionList", _chainId, _owner, _provider);
+
+    if (_chainId && _version && _owner && _provider) {
+      _collectionListFromCache(_chainId, _version, _owner, _provider);
 
       refreshingCollections = true;
       allCollections = await collectionList(_chainId, _owner, _provider);
       refreshingCollections = false;
 
-      _collectionListFromCache(_chainId, _owner, _provider);
+      _collectionListFromCache(_chainId, _version, _owner, _provider);
     }
   };
 
-  const _collectionListFromCache = async (_chainId: number, _owner: string, _provider: Provider) => {
+  const _collectionListFromCache = async (_chainId: number, _version: number, _owner: string, _provider: Provider) => {
     allCollections = collectionListFromCache(_owner);
     console.log("_collectionListFromCache ~ allCollections", allCollections);
 
-    const openNFTsAddress = await factoryGetTemplate(_chainId, "", _provider);
+    const openNFTsAddress = await factoryGetTemplate(_chainId, _version, "generic", _provider);
 
     collections = new Map(
       [...allCollections]
@@ -84,7 +90,7 @@
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetTemplate($chainId, "generic", $provider));
+      (await factoryGetTemplate(_chainId, _version, "generic", _provider));
 
     console.log("_collectionListFromCache ~ defaultCollection", defaultCollection);
 

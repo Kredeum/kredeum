@@ -1,10 +1,10 @@
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "../types/NFTsFactory";
+import type { NFTsFactory } from "types/NFTsFactory";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { factoryGetContract } from "./kfactory-get";
+import { factoryGetContract, factoryGetVersion } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
@@ -140,7 +140,9 @@ const collectionListFromFactory = async (
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory = factoryGetContract(chainId, provider);
+
+  const version = await factoryGetVersion(chainId, provider);
+  const nftsFactory = factoryGetContract(chainId, version, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];

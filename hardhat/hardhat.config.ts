@@ -38,13 +38,13 @@ const {
   ETHERSCAN_API_KEY_BINANCE
 } = process.env;
 
-const accountsRandom = [];
+const accountsRandom = [DEPLOYER_PRIVATE_KEY || ""];
 for (let i = 0; i < 5; i++) accountsRandom.push(Wallet.createRandom().privateKey);
 const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((account) => ({
   privateKey: account || "",
   balance: "2000000000000000000000"
 }));
-const accounts = [DEPLOYER_PRIVATE_KEY || ""].concat(accountsRandom);
+const accounts = accountsRandom;
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -108,6 +108,17 @@ const config: HardhatUserConfig = {
       // gasPrice: 50_000_000_000,
       accounts
     },
+    mumbai: {
+      chainId: 80001,
+      url: `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`,
+      accounts,
+      live: true,
+      verify: {
+        etherscan: {
+          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
+        }
+      }
+    },
     fantom: {
       chainId: 250,
       url: "https://rpcapi.fantom.network",
@@ -137,17 +148,6 @@ const config: HardhatUserConfig = {
         }
       },
       accounts
-    },
-    mumbai: {
-      chainId: 80001,
-      url: `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`,
-      accounts,
-      live: true,
-      verify: {
-        etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
-        }
-      }
     },
     optimism: {
       chainId: 10,
@@ -179,7 +179,7 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.7",
+        version: "0.8.9",
         settings: {
           optimizer: {
             enabled: true,
@@ -188,7 +188,7 @@ const config: HardhatUserConfig = {
         }
       },
       {
-        version: "0.8.9"
+        version: "0.8.7"
       },
       {
         version: "0.4.23"
