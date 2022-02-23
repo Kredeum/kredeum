@@ -3,7 +3,7 @@ import type { Address, Network, Collection, Nft } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
-import { factoryGetAddress, factoryGetTemplate } from "./kfactory-get";
+import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 
@@ -208,7 +208,7 @@ const explorerNFTsFactoryUrl = (chainId: number, version: number): string =>
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, version: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetTemplate(chainId, version, "generic", provider));
+  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, version, "generic", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {

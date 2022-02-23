@@ -4,7 +4,7 @@
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
-  import { factoryGetTemplate } from "lib/kfactory-get";
+  import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
@@ -52,9 +52,9 @@
     _owner: string,
     _provider: Provider
   ): Promise<void> => {
-    console.log("KredeumListCollections _collectionList", _chainId, _owner, _provider);
-
     if (_chainId && _version && _owner && _provider) {
+      // console.log("KredeumListCollections _collectionList", _chainId, _version, _owner);
+
       _collectionListFromCache(_chainId, _version, _owner, _provider);
 
       refreshingCollections = true;
@@ -66,10 +66,12 @@
   };
 
   const _collectionListFromCache = async (_chainId: number, _version: number, _owner: string, _provider: Provider) => {
+    console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
+
     allCollections = collectionListFromCache(_owner);
     console.log("_collectionListFromCache ~ allCollections", allCollections);
 
-    const openNFTsAddress = await factoryGetTemplate(_chainId, _version, "generic", _provider);
+    const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "generic", _provider);
 
     collections = new Map(
       [...allCollections]
@@ -77,20 +79,20 @@
           ([, coll]) =>
             // FILTER NETWORK
             coll.chainId === _chainId &&
-            // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
-            (coll.balanceOf > 0 || coll.owner === _owner || coll.address === openNFTsAddress) &&
+            // // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT   // || coll.address === openNFTsAddress
+            (coll.balanceOf > 0 || coll.owner === _owner) &&
             // FILTER OpenNFTs collection
             (!filter || coll.openNFTsVersion)
         )
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    // console.log("collections", collections);
+    console.log("collections", collections);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetTemplate(_chainId, _version, "generic", _provider));
+      (await factoryGetTemplateAddress(_chainId, _version, "generic", _provider));
 
     console.log("_collectionListFromCache ~ defaultCollection", defaultCollection);
 

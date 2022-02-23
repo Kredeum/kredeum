@@ -6,7 +6,7 @@
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get";
-  import { factoryGetTemplate } from "lib/kfactory-get";
+  import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/kconfig";
   import { collectionGet } from "lib/kcollection-get";
 
@@ -46,7 +46,7 @@
         // default user collection
         localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
         // default OpenNFTs collection
-        (await factoryGetTemplate(_chainId, _version, "generic", _provider));
+        (await factoryGetTemplateAddress(_chainId, _version, "generic", _provider));
       collection = await collectionGet(_chainId, collectionAddress);
     }
   };

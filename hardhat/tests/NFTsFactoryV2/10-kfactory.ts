@@ -1,6 +1,5 @@
 import type { Signer } from "ethers";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { OpenNFTsV1 } from "types/OpenNFTsV1";
 import type { OpenNFTsV2 } from "types/OpenNFTsV2";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 

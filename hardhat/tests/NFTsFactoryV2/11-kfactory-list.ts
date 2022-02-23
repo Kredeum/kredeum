@@ -1,9 +1,9 @@
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { BigNumber, Signer } from "ethers";
-import type { SignerWithAddress } from "hardhat-deploy-ethers/src/signers";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 describe("11 NFTs Factory contract", function () {
   let nftsFactoryV2: NFTsFactoryV2;

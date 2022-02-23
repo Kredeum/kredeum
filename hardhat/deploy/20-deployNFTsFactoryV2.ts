@@ -8,11 +8,16 @@ const deployNFTsFactoryV2: DeployFunction = async function ({ deployments, ether
   const deployOptions = {
     from: deployer.address,
     args: [deployer.address],
-    salt: ethers.utils.hashMessage("NFTsFactoryV2"),
+    salt: ethers.utils.hashMessage("01 NFTsFactoryV2"),
     log: true
   };
   const deployDeterministic = await deployments.deterministic("NFTsFactoryV2", deployOptions);
   const deployResult = await deployDeterministic.deploy();
+  // const deployResult = await deployments.deploy("NFTsFactoryV2", deployOptions);
+
+  if (deployResult.address != deployDeterministic.address) {
+    console.error("ERROR not deterministic", deployDeterministic.address, deployResult.address);
+  }
 
   if (deployResult.newlyDeployed) {
     if (deployResult.address != config.nftsFactoryV2) {
@@ -28,7 +33,8 @@ const deployNFTsFactoryV2: DeployFunction = async function ({ deployments, ether
     const openNFTsV3 = await ethers.getContract("OpenNFTsV3");
     await nftsFactoryV2.connect(deployer).templateSet("ownable", openNFTsV3.address);
     await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV2.address);
-    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "ONFT", "generic");
+    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "GENC", "generic");
+    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "ONFT", "ownable");
   }
 };
 deployNFTsFactoryV2.tags = ["NFTsFactoryV2"];

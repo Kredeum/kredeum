@@ -4,7 +4,7 @@ import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { ethers, Signer } from "ethers";
 import { getNetwork } from "./kconfig";
-import { factoryGetContract, factoryGetVersion } from "./kfactory-get";
+import { factoryGetContract } from "./kfactory-get";
 
 const _cloneParams = async (nftsFactory: NFTsFactory | NFTsFactoryV2, name: string, symbol: string) => {
   const n = (await nftsFactory.implementationsCount()).toString();
