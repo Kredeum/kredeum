@@ -35,7 +35,9 @@ const {
   ETHERSCAN_API_KEY_FANTOM,
   ETHERSCAN_API_KEY_POLYGON,
   ETHERSCAN_API_KEY_AVALANCHE,
-  ETHERSCAN_API_KEY_BINANCE
+  ETHERSCAN_API_KEY_BINANCE,
+  ETHERSCAN_API_KEY_ARBITRUM,
+  ETHERSCAN_API_KEY_OPTIMISM
 } = process.env;
 
 const accountsRandom = [DEPLOYER_PRIVATE_KEY || ""];
@@ -92,39 +94,39 @@ const config: HardhatUserConfig = {
       url: "https://bsc-dataseed1.binance.org",
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_BINANCE
+          apiKey: ETHERSCAN_API_KEY_BINANCE
         }
       },
       accounts
     },
-    matic: {
+    polygon: {
       chainId: 137,
       url: `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+      // gasPrice: 50_000_000_000,
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
+          apiKey: ETHERSCAN_API_KEY_POLYGON
         }
       },
-      // gasPrice: 50_000_000_000,
       accounts
     },
-    mumbai: {
+    polygonMumbai: {
       chainId: 80001,
       url: `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`,
       accounts,
-      live: true,
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_POLYGON
+          apiKey: ETHERSCAN_API_KEY_POLYGON
         }
-      }
+      },
+      live: true
     },
     fantom: {
       chainId: 250,
       url: "https://rpcapi.fantom.network",
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_FANTOM
+          apiKey: ETHERSCAN_API_KEY_FANTOM
         }
       },
       accounts
@@ -134,7 +136,7 @@ const config: HardhatUserConfig = {
       url: "https://api.avax-test.network/ext/bc/C/rpc",
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE
+          apiKey: ETHERSCAN_API_KEY_AVALANCHE
         }
       },
       accounts
@@ -144,7 +146,7 @@ const config: HardhatUserConfig = {
       url: "https://api.avax.network/ext/bc/C/rpc",
       verify: {
         etherscan: {
-          apiKey: process.env.ETHERSCAN_API_KEY_AVALANCHE
+          apiKey: ETHERSCAN_API_KEY_AVALANCHE
         }
       },
       accounts
@@ -152,16 +154,31 @@ const config: HardhatUserConfig = {
     optimism: {
       chainId: 10,
       url: `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+      verify: {
+        etherscan: {
+          apiKey: ETHERSCAN_API_KEY_OPTIMISM
+        }
+      },
       accounts
     },
     optimismkovan: {
       chainId: 69,
       url: `https://optimism-kovan.infura.io/v3/${INFURA_API_KEY}`,
+      verify: {
+        etherscan: {
+          apiKey: ETHERSCAN_API_KEY_OPTIMISM
+        }
+      },
       accounts
     },
     arbitrum: {
       chainId: 42161,
       url: `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`,
+      verify: {
+        etherscan: {
+          apiKey: ETHERSCAN_API_KEY_ARBITRUM
+        }
+      },
       accounts
     },
     xdai: {
@@ -226,7 +243,9 @@ const config: HardhatUserConfig = {
     clear: true,
     runOnCompile: false
   },
-  etherscan: { apiKey: ETHERSCAN_API_KEY }
+  etherscan: {
+    apiKey: { mainnet: ETHERSCAN_API_KEY, polygon: ETHERSCAN_API_KEY_POLYGON, polygonMumbai: ETHERSCAN_API_KEY_POLYGON }
+  }
 };
 
 export default config;

@@ -13,6 +13,6 @@
       "abis/*": ["../common/abis/*"]
     }
   },
-  "include": ["./scripts", "./tests", "./deploy", "../common/lib"],
+  "include": ["./scripts", "./tests", "./deploy", "../common/lib", "tasks/migrateV2toV3.ts"],
   "files": ["./hardhat.config.ts"]
 }
