@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
@@ -12,16 +12,20 @@ import "@openzeppelin/contracts/token/ERC1155/IERC1155.sol";
 import "@openzeppelin/contracts/token/ERC1155/IERC1155Receiver.sol";
 import "@openzeppelin/contracts/token/ERC1155/extensions/IERC1155MetadataURI.sol";
 
+import "./interfaces/IERC173.sol";
+
+import "./interfaces/IOpenNFTs.sol";
 import "../deployed/interfaces/IOpenNFTsV0.sol";
 import "../deployed/interfaces/IOpenNFTsV1.sol";
 import "../deployed/interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV3.sol";
+
 import "../deployed/interfaces/ICloneFactory.sol";
 import "../deployed/interfaces/INFTsFactory.sol";
-
-import "./interfaces/IInterfacesIds.sol";
-import "./interfaces/IOpenNFTsV3.sol";
 import "./interfaces/ICloneFactoryV2.sol";
 import "./interfaces/INFTsFactoryV2.sol";
+
+import "./interfaces/IInterfacesIds.sol";
 
 /// @title InterfaceIds calculation
 /// @author zapaz.eth
@@ -32,7 +36,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
-        interfacesIds = new bytes4[](16);
+        interfacesIds = new bytes4[](18);
         interfacesIds[0] = type(IERC165).interfaceId;
 
         interfacesIds[1] = type(IERC721).interfaceId;
@@ -44,14 +48,17 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[6] = type(IERC1155Receiver).interfaceId;
         interfacesIds[7] = type(IERC1155MetadataURI).interfaceId;
 
-        interfacesIds[8] = type(IOpenNFTsV0).interfaceId;
-        interfacesIds[9] = type(IOpenNFTsV1).interfaceId;
-        interfacesIds[10] = type(IOpenNFTsV2).interfaceId;
-        interfacesIds[11] = type(IOpenNFTsV3).interfaceId;
+        interfacesIds[8] = type(IERC173).interfaceId;
 
-        interfacesIds[12] = type(ICloneFactory).interfaceId;
-        interfacesIds[13] = type(ICloneFactoryV2).interfaceId;
-        interfacesIds[14] = type(INFTsFactory).interfaceId;
-        interfacesIds[15] = type(INFTsFactoryV2).interfaceId;
+        interfacesIds[9] = type(IOpenNFTs).interfaceId;
+        interfacesIds[10] = type(IOpenNFTsV0).interfaceId;
+        interfacesIds[11] = type(IOpenNFTsV1).interfaceId;
+        interfacesIds[12] = type(IOpenNFTsV2).interfaceId;
+        interfacesIds[13] = type(IOpenNFTsV3).interfaceId;
+
+        interfacesIds[14] = type(ICloneFactory).interfaceId;
+        interfacesIds[15] = type(INFTsFactory).interfaceId;
+        interfacesIds[16] = type(ICloneFactoryV2).interfaceId;
+        interfacesIds[17] = type(INFTsFactoryV2).interfaceId;
     }
 }

@@ -14,6 +14,7 @@ import IERC721Metadata from "abis/erc/IERC721Metadata.json";
 import IERC1155 from "abis/erc/IERC1155.json";
 import IERC1155MetadataURI from "abis/erc/IERC1155MetadataURI.json";
 
+import IOpenNFTs from "abis/new/IOpenNFTs.json";
 import IOpenNFTsV1 from "abis/deployed/IOpenNFTsV1.json";
 import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
@@ -25,6 +26,7 @@ const abis = {
   IERC721Metadata,
   IERC1155,
   IERC1155MetadataURI,
+  IOpenNFTs,
   IOpenNFTsV1,
   IOpenNFTsV2,
   IOpenNFTsV3
@@ -76,6 +78,9 @@ const collectionGetSupportedInterfaces = async (
       } else if (supports.IERC1155) {
         supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(IERC1155MetadataURI));
       }
+      if (supports.IOpenNFTsV3) {
+        supports.IOpenNFTs = true;
+      }
       supports.IOpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
     } catch (e) {
       console.error(`ERROR collectionGetSupportedInterfaces : ${chainId} ${collectionAddress}\n`, e);
@@ -90,7 +95,7 @@ const collectionGet = async (
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
 ): Promise<Collection> => {
-  console.log(`collectionGet ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: Collection | undefined = undefined;
 
@@ -140,6 +145,7 @@ const collectionGetContract = async (
       abi = abi.concat(abis[key as ABIS]);
     }
   }
+  // console.log("abi", abi);
   contract = new Contract(collection.address, abi, signerOrProvider);
 
   // console.log("collectionGetContract", contract);

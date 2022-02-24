@@ -20,7 +20,7 @@ const factoryGetVersion = async (chainId: number, provider: Provider | undefined
   const code = (await provider?.getCode(config.nftsFactoryV2)) || "0x";
   const version = code != "0x" ? 2 : getNetwork(chainId)?.nftsFactory ? 1 : 0;
 
-  console.info("factoryGetVersion", chainId, version);
+  // console.info("factoryGetVersion", chainId, version);
   return version;
 };
 
@@ -83,7 +83,7 @@ const factoryGetTemplateAddress = async (
     templateAddress = await nftsFactory.template();
   }
 
-  console.log("factoryGetTemplateAddress", chainId, version, template, templateAddress);
+  // console.log("factoryGetTemplateAddress", chainId, version, template, templateAddress);
   return templateAddress;
 };
 

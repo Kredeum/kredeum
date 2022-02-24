@@ -76,7 +76,7 @@ describe("30 OpenNFTsV3 Mint", function () {
     it("Should Mint one Token", async function () {
       this.timeout(50000);
       const totalSupply: number = (await openNFTsV3.totalSupply()).toNumber();
-      const tx = await openNFTsV3.mintNFT(artistAddress, json);
+      const tx = await openNFTsV3.mintOpenNFT(artistAddress, json);
       expect((await tx.wait()).status).to.be.equal(1);
 
       const totalSupply1: number = (await openNFTsV3.totalSupply()).toNumber();
@@ -86,11 +86,11 @@ describe("30 OpenNFTsV3 Mint", function () {
 
   describe("Ownable", function () {
     it("Should be allowed to Mint", async function () {
-      await expect(openNFTsV3.connect(deployer).mintNFT(artistAddress, json)).to.be.not.reverted;
+      await expect(openNFTsV3.connect(deployer).mintOpenNFT(artistAddress, json)).to.be.not.reverted;
     });
 
     it("Should not be allowed to Mint", async function () {
-      await expect(openNFTsV3.connect(tester).mintNFT(artistAddress, json)).to.be.revertedWith("Not minter");
+      await expect(openNFTsV3.connect(tester).mintOpenNFT(artistAddress, json)).to.be.revertedWith("Not minter");
     });
   });
 });

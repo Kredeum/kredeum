@@ -1,5 +1,4 @@
-import { task } from "hardhat/config";
-import * as paramType from "hardhat/internal/core/params/argumentTypes";
+import { task, types } from "hardhat/config";
 
 function pause(duration: number): Promise<void> {
   return new Promise((res) => setTimeout(res, duration * 1000));
@@ -10,14 +9,16 @@ task("deploy-verify", "Deploy and verify contracts")
     "tags",
     "Specify which deploy script to execute via tags, separated by commas",
     undefined,
-    paramType.string
+    types.string
   )
-  .addOptionalParam("sec", "Pause duration between deploy and verify", 30, paramType.int)
-  .setAction(async (taskArgs: { tags: string; sec: number }, hre) => {
-    await hre.run("deploy", taskArgs);
+  .addFlag("now", "Wait 30 seconds between deploy and verify")
+  .setAction(async ({ tags, now }, hre) => {
+    await hre.run("deploy", tags);
 
-    console.log(`Waiting ${taskArgs.sec} seconds for etherscan to be ready...`);
-    await pause(taskArgs.sec);
+    if (!now) {
+      console.log(`Waiting 30 seconds for etherscan to be ready...`);
+      await pause(30);
+    }
 
     await hre.run("etherscan-verify");
   });

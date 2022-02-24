@@ -33,7 +33,7 @@ describe("32 List OpenNFTsV3 lib", function () {
       await deployments.fixture(["OpenNFTsV3"]);
     }
     openNFTsV3 = await ethers.getContract("OpenNFTsV3");
-    await ((await openNFTsV3.mintNFT(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
+    await ((await openNFTsV3.mintOpenNFT(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
 
     console.log("totalSupply", (await openNFTsV3.totalSupply()).toNumber());
     // console.log(chainId, openNFTsV3.address);

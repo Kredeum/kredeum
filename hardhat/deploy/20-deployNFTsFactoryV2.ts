@@ -29,12 +29,10 @@ const deployNFTsFactoryV2: DeployFunction = async function ({ deployments, ether
     }
 
     const nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
-    const openNFTsV2 = await ethers.getContract("OpenNFTsV2");
     const openNFTsV3 = await ethers.getContract("OpenNFTsV3");
-    await nftsFactoryV2.connect(deployer).templateSet("ownable", openNFTsV3.address);
-    await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV2.address);
-    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "GENC", "generic");
-    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "ONFT", "ownable");
+    await nftsFactoryV2.connect(deployer).templateSet("OpenNFTsV3", openNFTsV3.address);
+    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "GENC", "OpenNFTsV3", [true, false]);
+    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "ONFT", "OpenNFTsV3", [false, true]);
   }
 };
 deployNFTsFactoryV2.tags = ["NFTsFactoryV2"];

@@ -33,7 +33,7 @@ describe("11 NFTs Factory contract", function () {
 
     await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address);
 
-    await (await openNFTsV3.mintNFT(owner, "", txOptions)).wait();
+    await (await openNFTsV3.mintOpenNFT(owner, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {

@@ -66,10 +66,9 @@
   };
 
   const _collectionListFromCache = async (_chainId: number, _version: number, _owner: string, _provider: Provider) => {
-    console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
+    // console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
 
     allCollections = collectionListFromCache(_owner);
-    console.log("_collectionListFromCache ~ allCollections", allCollections);
 
     const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "generic", _provider);
 
@@ -87,14 +86,11 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    console.log("collections", collections);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
       (await factoryGetTemplateAddress(_chainId, _version, "generic", _provider));
-
-    console.log("_collectionListFromCache ~ defaultCollection", defaultCollection);
 
     _setCollection(defaultCollection);
   };

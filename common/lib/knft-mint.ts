@@ -87,17 +87,11 @@ const nftMint3TxResponse = async (
 
   const network = getNetwork(chainId);
   const urlJson = ipfsGatewayUrl(ipfsJson);
-  const openNFTs = await collectionGetContract(chainId, collection, minter.provider);
+  const openNFTs = await collectionGetContract(chainId, collection, minter);
   // console.log("openNFTs", openNFTs);
 
-  if (openNFTs?.mintNFT) {
-    // const txOptions = {
-    //   maxPriorityFeePerGas: utils.parseUnits("50", "gwei"),
-    //   maxFeePerGas: utils.parseUnits("50", "gwei"),
-    //   type: 2
-    // };
-
-    txResp = await openNFTs.connect(minter).mintNFT(await minter.getAddress(), urlJson);
+  if (openNFTs?.mintOpenNFT) {
+    txResp = await openNFTs.connect(minter).mintOpenNFT(await minter.getAddress(), urlJson);
     console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
   } else {
     console.error("No OpenNFTs openNFTs found @", explorerCollectionUrl(chainId, collection.address));

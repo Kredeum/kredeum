@@ -31,7 +31,7 @@ const {
   DEPLOYER_PRIVATE_KEY,
   ALCHEMY_API_KEY,
   INFURA_API_KEY,
-  ETHERSCAN_API_KEY,
+  ETHERSCAN_API_KEY_ETHEREUM,
   ETHERSCAN_API_KEY_FANTOM,
   ETHERSCAN_API_KEY_POLYGON,
   ETHERSCAN_API_KEY_AVALANCHE,
@@ -244,7 +244,7 @@ const config: HardhatUserConfig = {
     runOnCompile: false
   },
   etherscan: {
-    apiKey: { mainnet: ETHERSCAN_API_KEY, polygon: ETHERSCAN_API_KEY_POLYGON, polygonMumbai: ETHERSCAN_API_KEY_POLYGON }
+    apiKey: ETHERSCAN_API_KEY_ETHEREUM
   }
 };
 

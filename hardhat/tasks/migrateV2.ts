@@ -58,9 +58,9 @@ task("migrateV2", "Migrate NFTsFactory implementations to NFTsFactoryV2")
     if (n > 0) {
       console.log(n, "implementations to migrate to V2", toMigrate);
       if (go) {
-        console.log("Migrating START...");
+        console.log("START Migration...");
         await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate)).wait();
-        console.log("Migrating END !");
+        console.log("END   Migration !");
 
         const implV2new = await addresses(network, nftsFactoryV2);
         console.log(implV2new.length, "implementations NFTsFactoryV2", implV2new);

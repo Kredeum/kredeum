@@ -1,15 +1,8 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.9;
 
 interface IOpenNFTsV3 {
-    function initialize(
-        string memory name,
-        string memory symbol,
-        address owner,
-        bool openMinting
-    ) external;
+    function open() external view returns (bool);
 
-    function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID);
-
-    function burnNFT(uint256 tokenID) external;
+    function burnable() external view returns (bool);
 }

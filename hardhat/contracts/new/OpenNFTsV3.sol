@@ -1,16 +1,18 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
+import "./interfaces/IOpenNFTs.sol";
 import "./interfaces/IOpenNFTsV3.sol";
+import "./interfaces/IERC173.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV3 is
-    IOpenNFTsV3,
+    IOpenNFTs,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
     ERC721URIStorageUpgradeable,
@@ -19,39 +21,50 @@ contract OpenNFTsV3 is
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIds;
 
-    /// @notice whether minting open to everyone (true) or only owner (false)
-    bool public openMinting;
+    /// @notice Mint NFT allowed to everyone or only collection owner
+    bool public open;
 
-    /// @notice onlyMinter, either evrybody in generic collection,
+    /// @notice Burn NFT allowed or not (to owner only)
+    bool public burnable;
+
+    /// @notice onlyMinter, either everybody in open collection,
     /// @notice either only owner in specific collection
     modifier onlyMinter() {
-        require(openMinting || (owner() == _msgSender()), "Not minter");
+        require(open || (owner() == _msgSender()), "Not minter");
+        _;
+    }
+
+    /// @notice onlyBurner, only owner can burn if burnable
+    modifier onlyBurner() {
+        require(burnable, "Not burnable");
+        require(owner() == _msgSender(), "Not owner");
         _;
     }
 
     /// @notice initialize
-    /// @param name_ name of the NFT Collection
-    /// @param symbol_ symbol of the NFT Collection
-    /// @param owner_ owner of the NFT Collection
-    /// @param openMinting_ select minting open to everyone or only owner
+    /// @param name name of the NFT Collection
+    /// @param symbol symbol of the NFT Collection
+    /// @param owner owner of the NFT Collection
+    /// @param options select minting open to everyone or only owner
     function initialize(
-        string memory name_,
-        string memory symbol_,
-        address owner_,
-        bool openMinting_
-    ) external override(IOpenNFTsV3) initializer {
+        string memory name,
+        string memory symbol,
+        address owner,
+        bool[] memory options
+    ) external initializer {
         __Ownable_init();
-        __ERC721_init(name_, symbol_);
-        transferOwnership(owner_);
-        openMinting = openMinting_;
+        __ERC721_init(name, symbol);
+        transferOwnership(owner);
+        open = options[0];
+        burnable = options[1];
     }
 
     /// @notice mint
     /// @param minter address of minter
     /// @param jsonURI json URI of NFT metadata
-    function mintNFT(address minter, string memory jsonURI)
+    function mintOpenNFT(address minter, string memory jsonURI)
         external
-        override(IOpenNFTsV3)
+        override(IOpenNFTs)
         onlyMinter
         returns (uint256)
     {
@@ -66,7 +79,7 @@ contract OpenNFTsV3 is
 
     /// @notice burn NFT
     /// @param tokenId tokenID of NFT to burn
-    function burnNFT(uint256 tokenId) external override(IOpenNFTsV3) onlyOwner {
+    function burnOpenNFT(uint256 tokenId) external override(IOpenNFTs) onlyBurner {
         _burn(tokenId);
     }
 
@@ -90,8 +103,11 @@ contract OpenNFTsV3 is
         override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
         returns (bool)
     {
-        // IOpenNFTsV3 => 0xa6123562
-        return interfaceId == type(IOpenNFTsV3).interfaceId || super.supportsInterface(interfaceId);
+        return
+            interfaceId == type(IOpenNFTs).interfaceId ||
+            interfaceId == type(IOpenNFTsV3).interfaceId ||
+            interfaceId == type(IERC173).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     function _beforeTokenTransfer(

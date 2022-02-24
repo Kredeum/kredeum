@@ -1,6 +1,10 @@
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
+import IOpenNFTs from "abis/new/IOpenNFTs.json";
+import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
+import IERC173 from "abis/new/IERC173.json";
+
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { interfaceId } from "lib/kconfig";
@@ -25,7 +29,7 @@ describe("31 OpenNFTsV3 contract", function () {
     openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
     expect(openNFTsV3.address).to.be.properAddress;
 
-    await (await openNFTsV3.mintNFT(artist, "", txOptions)).wait();
+    await (await openNFTsV3.mintOpenNFT(artist, "", txOptions)).wait();
   });
 
   it("Should get sighash", function () {
@@ -39,7 +43,7 @@ describe("31 OpenNFTsV3 contract", function () {
     expect(await openNFTsV3.symbol()).to.be.equal(symbol);
     expect(await openNFTsV3.name()).to.be.equal(name);
 
-    void expect(openNFTsV3.initialize(name, symbol, artist, true)).to.be.revertedWith(
+    void expect(openNFTsV3.initialize(name, symbol, artist, [true, false])).to.be.revertedWith(
       "Initializable: contract is already initialized"
     );
   });
@@ -54,5 +58,8 @@ describe("31 OpenNFTsV3 contract", function () {
 
   it("Should check openNFTsV3 interface", async function () {
     expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTsV3))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTs))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTsV2))).to.be.false;
+    expect(await openNFTsV3.supportsInterface(interfaceId(IERC173))).to.be.true;
   });
 });

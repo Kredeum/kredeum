@@ -52,7 +52,7 @@ describe("13 List contracts lib", function () {
 
     openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
     expect(openNFTsV3.address).to.be.properAddress;
-    await ((await openNFTsV3.mintNFT(artist, "", txOptions)) as TransactionResponse).wait();
+    await ((await openNFTsV3.mintOpenNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
     nftsFactory = await ethers.getContract("NFTsFactoryV2", signer);
     expect(nftsFactory.address).to.be.properAddress;

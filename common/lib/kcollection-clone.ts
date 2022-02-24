@@ -26,14 +26,18 @@ const collectionCloneResponse = async (
   const network = getNetwork(chainId);
 
   let txResp: TransactionResponse;
-  // console.log("collectionCloneResponse", nftsFactory);
 
   if (version == 2) {
     const nftsFactoryV2 = factoryGetContract(chainId, version, cloner) as NFTsFactoryV2;
+
     const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
-    txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template);
+    const options: boolean[] = template == "ownable" ? [false, true] : [true, false];
+    // console.log("nftsFactoryV2", _name, _symbol, template, options);
+
+    txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, "OpenNFTsV3", options);
   } else {
     const nftsFactory = factoryGetContract(chainId, version, cloner) as NFTsFactory;
+
     const { _name, _symbol } = await _cloneParams(nftsFactory, name, symbol);
     txResp = await nftsFactory.connect(cloner).clone(_name, _symbol);
   }
