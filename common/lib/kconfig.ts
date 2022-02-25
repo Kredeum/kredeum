@@ -137,28 +137,25 @@ const ipfsGetLink = (uri: string): string => {
   let ipfsLink: string = "";
   let cid: string = "";
 
-  // ipfs uri
-  if (uri.startsWith("ipfs://")) {
-    // wrong ipfs uri, fix it (rarible)
+  if (uri.startsWith("Qm") || uri.startsWith("ba")) {
+    cid = uri;
+  } else if (uri.startsWith("ipfs://")) {
     if (uri.startsWith("ipfs://ipfs/")) {
-      ipfsLink = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
+      cid = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
     } else {
       ipfsLink = uri;
     }
   } else {
-    if (uri.startsWith("Qm")) {
-      cid = uri;
-    } else {
-      // find cid in uri
-      const res = uri.match(/^.*\/ipfs\/([^/]*)$/i);
-      cid = (res && res[1]) || "";
-    }
-    if (cid) {
-      // reconstruct ipfs uri
-      ipfsLink = ipfsCidToLink(cid);
-    }
+    // find cid in uri
+    const res = uri.match(/^.*\/ipfs\/(.*)$/i);
+    cid = (res && res[1]) || "";
+    // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
   }
-  console.log("ipfsGetLink", uri, "=>", ipfsLink, cid);
+  if (cid) {
+    // reconstruct ipfs uri
+    ipfsLink = ipfsCidToLink(cid);
+  }
+  // console.log("ipfsGetLink", uri, "=>", ipfsLink, cid);
   return ipfsLink;
 };
 
