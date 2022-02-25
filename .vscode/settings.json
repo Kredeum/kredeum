@@ -9,6 +9,22 @@
     {
       "filePath": "hardhat/hardhat.config.ts",
       "group": "Default"
+    },
+    {
+      "filePath": "rollup/svelte",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat/contracts/new",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat/tests",
+      "group": "Default"
+    },
+    {
+      "filePath": "common/lib",
+      "group": "Default"
     }
   ]
 }

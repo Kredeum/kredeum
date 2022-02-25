@@ -146,7 +146,7 @@ const ipfsGetLink = (uri: string): string => {
     }
   } else {
     // find cid in uri
-    const cid = uri.match(/^.*\/ipfs\/([^\/]*)$/i);
+    const cid = uri.match(/^.*\/ipfs\/([^/]*)$/i);
     if (cid) {
       // reconstruct ipfs uri
       ipfsGetLink = ipfsCidToLink(cid[1]);

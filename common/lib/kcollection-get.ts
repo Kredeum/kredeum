@@ -126,7 +126,6 @@ const collectionGetContract = async (
 
   let abi: Array<string> = [];
   let collection: Collection;
-  let contract: Contract;
 
   if (typeof collectionOrAddress === "string") {
     collection = { chainId, address: collectionOrAddress };
@@ -146,7 +145,7 @@ const collectionGetContract = async (
     }
   }
   // console.log("abi", abi);
-  contract = new Contract(collection.address, abi, signerOrProvider);
+  const contract = new Contract(collection.address, abi, signerOrProvider);
 
   // console.log("collectionGetContract", contract);
   return contract;

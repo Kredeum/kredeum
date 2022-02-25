@@ -36,8 +36,8 @@ const factoryGetAbi = (chainId: number, version: number): string[] => {
     version == 2
       ? ICloneFactoryV2.concat(INFTsFactoryV2)
       : getNetwork(chainId)?.nftsFactory
-      ? ICloneFactory.concat(INFTsFactory)
-      : [];
+        ? ICloneFactory.concat(INFTsFactory)
+        : [];
 
   // console.log("factoryGetAbi", chainId, version, factoryAbi);
   return factoryAbi;

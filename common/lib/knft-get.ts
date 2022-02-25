@@ -32,7 +32,7 @@ const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ip
 const nftGetContentType = async (nft: Nft): Promise<string> => {
   // console.log("nftGetContentType", nft);
 
-  let contentType: string = "";
+  let contentType = "";
   try {
     const url = nftGetImageLink(nft);
     const options = { method: "HEAD" };
@@ -116,7 +116,7 @@ const nftGetFromContract = async (
   collection: Collection,
   tokenID: string,
   provider: Provider,
-  owner: string = ""
+  owner = ""
 ): Promise<Nft | undefined> => {
   let tokenURI = "";
   let contractName = "";

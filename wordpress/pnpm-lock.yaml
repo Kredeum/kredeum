@@ -1,12 +1,12 @@
 lockfileVersion: 5.3
 
 specifiers:
-  cypress: ^9.4.1
+  cypress: ^9.5.0
   cypress-file-upload: ^5.0.8
 
 devDependencies:
-  cypress: 9.4.1
-  cypress-file-upload: 5.0.8_cypress@9.4.1
+  cypress: 9.5.0
+  cypress-file-upload: 5.0.8_cypress@9.5.0
 
 packages:
 
@@ -41,8 +41,8 @@ packages:
       lodash.once: 4.1.1
     dev: true
 
-  /@types/node/14.18.11:
-    resolution: {integrity: sha512-zCoCEMA+IPpsRkyCFBqew5vGb7r8RSiB3uwdu/map7uwLAfu1MTazW26/pUDWoNnF88vJz4W3U56i5gtXNqxGg==}
+  /@types/node/14.18.12:
+    resolution: {integrity: sha512-q4jlIR71hUpWTnGhXWcakgkZeHa3CCjcQcnuzU8M891BAWA2jHiziiWEPEkdS5pFsz7H9HJiy8BrK7tBRNrY7A==}
     dev: true
 
   /@types/sinonjs__fake-timers/8.1.1:
@@ -57,7 +57,7 @@ packages:
     resolution: {integrity: sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==}
     requiresBuild: true
     dependencies:
-      '@types/node': 14.18.11
+      '@types/node': 14.18.12
     dev: true
     optional: true
 
@@ -285,24 +285,24 @@ packages:
       which: 2.0.2
     dev: true
 
-  /cypress-file-upload/5.0.8_cypress@9.4.1:
+  /cypress-file-upload/5.0.8_cypress@9.5.0:
     resolution: {integrity: sha512-+8VzNabRk3zG6x8f8BWArF/xA/W0VK4IZNx3MV0jFWrJS/qKn8eHfa5nU73P9fOQAgwHFJx7zjg4lwOnljMO8g==}
     engines: {node: '>=8.2.1'}
     peerDependencies:
       cypress: '>3.0.0'
     dependencies:
-      cypress: 9.4.1
+      cypress: 9.5.0
     dev: true
 
-  /cypress/9.4.1:
-    resolution: {integrity: sha512-+JgMG9uT+QFx97JU9kOHE3jO3+0UdkQ9H1oCBiC7A74qme7Jkdy2sYDBCPjjGczutnWnGUTMRlwiNMP/Uq6LrQ==}
+  /cypress/9.5.0:
+    resolution: {integrity: sha512-rC5QPolKsVjJ8QJZ7IeZ6HlKM4gswBGZc0XvoAJNL8urQCSL8zTX0A/ai/h35WfF47NQ0iSZnwIXBlHX3MOUIQ==}
     engines: {node: '>=12.0.0'}
     hasBin: true
     requiresBuild: true
     dependencies:
       '@cypress/request': 2.88.10
       '@cypress/xvfb': 1.2.4
-      '@types/node': 14.18.11
+      '@types/node': 14.18.12
       '@types/sinonjs__fake-timers': 8.1.1
       '@types/sizzle': 2.3.3
       arch: 2.2.0
@@ -522,7 +522,7 @@ packages:
       fs.realpath: 1.0.0
       inflight: 1.0.6
       inherits: 2.0.4
-      minimatch: 3.0.5
+      minimatch: 3.1.2
       once: 1.4.0
       path-is-absolute: 1.0.1
     dev: true
@@ -738,8 +738,8 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /minimatch/3.0.5:
-    resolution: {integrity: sha512-tUpxzX0VAzJHjLu0xUfFv1gwVp9ba3IOuRAVH2EGuRW8a5emA2FlACLqiT/lDVtS1W+TGNwqz3sWaNyLgDJWuw==}
+  /minimatch/3.1.2:
+    resolution: {integrity: sha512-J7p63hRiAjw1NDEww1W7i37+ByIrOWO5XQQAzZ3VOcL0PNybwpfmV/N05zFAzwQ9USyEcX6t3UO+K5aqBQOIHw==}
     dependencies:
       brace-expansion: 1.1.11
     dev: true

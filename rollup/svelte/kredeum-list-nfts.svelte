@@ -88,7 +88,7 @@
 
       refreshing = true;
 
-      if (_collection.supports.ERC721Enumerable) {
+      if (_collection.supports.IERC721Enumerable) {
         for (numNFT = 0; numNFT < nbNFTs && unchanged(_chainId, _collection); numNFT++) {
           const nftIndex = await nftGetFromContractEnumerable(_chainId, _collection, numNFT, _provider, _owner);
           const nft = await nftGetMetadata(_chainId, nftIndex, _collection);
