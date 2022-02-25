@@ -55,7 +55,9 @@
   };
 
   const divMedia = (nft: Nft, index: number, small = false) => {
-    const mediaType = nft.contentType?.startsWith("video") ? "video" : "photo";
+    const mediaContentType = nft.contentType.split("/");
+    const mediaType = mediaContentType[0];
+
     const mediaSrc = nftGetImageLink(nft);
     let div: string;
     if (small) {
@@ -65,12 +67,14 @@
     }
     if (mediaType == "video") {
       div += divMediaVideo(mediaSrc, small);
-    } else {
+    } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
+    } else {
+      div += `<div class="media-text"></div>`;
     }
     div += "</div>";
 
-    console.log("divMedia div", div);
+    // console.log("divMedia div", div);
     return div;
   };
 

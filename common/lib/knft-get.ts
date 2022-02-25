@@ -32,17 +32,22 @@ const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ip
 const nftGetContentType = async (nft: Nft): Promise<string> => {
   // console.log("nftGetContentType", nft);
 
-  let contentType = "";
-  try {
-    const url = nftGetImageLink(nft);
-    const options = { method: "HEAD" };
-    const response = await fetch(url, options);
-    contentType = response.headers.get("content-type") || "";
+  let contentType = "text";
+  const url = nftGetImageLink(nft);
 
-    console.log("nftGetContentType", contentType, url);
-  } catch (e) {
-    console.error("ERROR nftGetContentType", e);
+  if (url) {
+    contentType = "image";
+    try {
+      const options = { method: "HEAD" };
+      const response = await fetch(url, options);
+      contentType = response.headers.get("content-type") || "text";
+
+      console.log("nftGetContentType", contentType, url);
+    } catch (e) {
+      console.error("ERROR nftGetContentType", e);
+    }
   }
+  console.log("nftGetContentType", url, contentType);
   return contentType;
 };
 

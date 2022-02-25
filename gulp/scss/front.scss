@@ -183,8 +183,9 @@
           display: inline-block;
         }
 
+        &-text,
         &-video {
-          background: #ce2828;
+          background: lightgrey;
           text-align: center;
           line-height: 40px;
         }
@@ -195,7 +196,8 @@
           line-height: 40px;
         }
 
-        img, video {
+        img,
+        video {
           object-fit: cover;
           width: 100%;
           height: 100%;
