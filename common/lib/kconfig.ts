@@ -136,11 +136,19 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 const ipfsGetLink = (uri: string): string => {
   let ipfsGetLink = "";
 
+  // ipfs uri
   if (uri.startsWith("ipfs://")) {
-    ipfsGetLink = uri;
+    // wrong ipfs uri, fix it (rarible)
+    if (uri.startsWith("ipfs://ipfs/")) {
+      ipfsGetLink = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
+    } else {
+      ipfsGetLink = uri;
+    }
   } else {
+    // find cid in uri
     const cid = uri.match(/^.*\/ipfs\/([^\/]*)$/i);
     if (cid) {
+      // reconstruct ipfs uri
       ipfsGetLink = ipfsCidToLink(cid[1]);
     }
   }
