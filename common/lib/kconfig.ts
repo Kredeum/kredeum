@@ -134,26 +134,32 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 // => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGetLink = (uri: string): string => {
-  let ipfsGetLink = "";
+  let ipfsLink: string = "";
+  let cid: string = "";
 
   // ipfs uri
   if (uri.startsWith("ipfs://")) {
     // wrong ipfs uri, fix it (rarible)
     if (uri.startsWith("ipfs://ipfs/")) {
-      ipfsGetLink = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
+      ipfsLink = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
     } else {
-      ipfsGetLink = uri;
+      ipfsLink = uri;
     }
   } else {
-    // find cid in uri
-    const cid = uri.match(/^.*\/ipfs\/([^/]*)$/i);
+    if (uri.startsWith("Qm")) {
+      cid = uri;
+    } else {
+      // find cid in uri
+      const res = uri.match(/^.*\/ipfs\/([^/]*)$/i);
+      cid = (res && res[1]) || "";
+    }
     if (cid) {
       // reconstruct ipfs uri
-      ipfsGetLink = ipfsCidToLink(cid[1]);
+      ipfsLink = ipfsCidToLink(cid);
     }
   }
-  console.log("ipfsGetLink", uri, "=>", ipfsGetLink);
-  return ipfsGetLink;
+  console.log("ipfsGetLink", uri, "=>", ipfsLink, cid);
+  return ipfsLink;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
