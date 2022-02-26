@@ -29,23 +29,21 @@
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
   const cacheVersion = (_version: string) => {
-    version = _version;
-    console.log("Kredeum NFTs version", version);
-
     const versionOld = localStorage.getItem("version") || "";
-    if (!semverSatisfies(version, `~${versionOld}`)) {
+    if (!semverSatisfies(_version, `~${versionOld}`)) {
       console.info(`New version, previously ${versionOld} => cache cleared!`);
       localStorage.clear();
     }
-    localStorage.setItem("version", version);
+    localStorage.setItem("version", _version);
   };
 
   onMount(async () => {
-    console.log("INIT Kredeum NFTs Factory");
+    version = config.version.latest;
+    console.log(`INIT Kredeum NFTs Factory v${version}`);
 
     label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH}) ${version}`;
 
-    cacheVersion(config.version.latest);
+    cacheVersion(version);
   });
 </script>
 

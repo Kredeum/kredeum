@@ -36,11 +36,33 @@ const factoryGetAbi = (chainId: number, version: number): string[] => {
     version == 2
       ? ICloneFactoryV2.concat(INFTsFactoryV2)
       : getNetwork(chainId)?.nftsFactory
-        ? ICloneFactory.concat(INFTsFactory)
-        : [];
+      ? ICloneFactory.concat(INFTsFactory)
+      : [];
 
   // console.log("factoryGetAbi", chainId, version, factoryAbi);
   return factoryAbi;
+};
+
+// GET OpenNFTs default template via onchain call
+const factoryGetTemplateAddress = async (
+  chainId: number,
+  version: number,
+  template: string,
+  provider: Provider
+): Promise<Address> => {
+  // console.log("factoryGetTemplateAddress", chainId, version, template);
+
+  let templateAddress = "";
+  if (version == 2) {
+    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactoryV2;
+    templateAddress = await nftsFactory.templates(template);
+  } else {
+    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactory;
+    templateAddress = await nftsFactory.template();
+  }
+
+  // console.log("factoryGetTemplateAddress", chainId, version, template, templateAddress);
+  return templateAddress;
 };
 
 // GET NFTsFactory Contract
@@ -66,25 +88,21 @@ const factoryGetContract = (
 };
 
 // GET OpenNFTs default template via onchain call
-const factoryGetTemplateAddress = async (
+const factoryGetDefaultImplementation = async (
   chainId: number,
   version: number,
-  template: string,
   provider: Provider
 ): Promise<Address> => {
-  // console.log("factoryGetTemplateAddress", chainId, version, template);
+  const nftsFactory = factoryGetContract(chainId, version, provider);
+  const defaultImplementation = (await nftsFactory.implementations(0)) as Address;
 
-  let templateAddress = "";
-  if (version == 2) {
-    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactoryV2;
-    templateAddress = await nftsFactory.templates(template);
-  } else {
-    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactory;
-    templateAddress = await nftsFactory.template();
-  }
-
-  // console.log("factoryGetTemplateAddress", chainId, version, template, templateAddress);
-  return templateAddress;
+  return defaultImplementation;
 };
 
-export { factoryGetContract, factoryGetAddress, factoryGetTemplateAddress, factoryGetVersion };
+export {
+  factoryGetContract,
+  factoryGetAddress,
+  factoryGetTemplateAddress,
+  factoryGetVersion,
+  factoryGetDefaultImplementation
+};

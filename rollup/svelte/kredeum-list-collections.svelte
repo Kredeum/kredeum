@@ -4,7 +4,7 @@
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
-  import { factoryGetTemplateAddress } from "lib/kfactory-get";
+  import { factoryGetTemplateAddress, factoryGetDefaultImplementation } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
@@ -69,8 +69,16 @@
     // console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
 
     allCollections = collectionListFromCache(_owner);
+    console.log("const_collectionListFromCache= ~ allCollections", allCollections);
 
     const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "generic", _provider);
+
+    // SET DEFAULT COLLECTION
+    const defaultCollection =
+      localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
+      (await factoryGetDefaultImplementation(_chainId, _version, _provider));
+
+    console.log("const_collectionListFromCache= ~ defaultCollection", defaultCollection);
 
     collections = new Map(
       [...allCollections]
@@ -79,18 +87,13 @@
             // FILTER NETWORK
             coll.chainId === _chainId &&
             // // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT   // || coll.address === openNFTsAddress
-            (coll.balanceOf > 0 || coll.owner === _owner) &&
+            (coll.balanceOf > 0 || coll.owner === _owner || coll.address == defaultCollection) &&
             // FILTER OpenNFTs collection
             (!filter || coll.openNFTsVersion)
         )
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-
-    // SET DEFAULT COLLECTION
-    const defaultCollection =
-      localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetTemplateAddress(_chainId, _version, "generic", _provider));
 
     _setCollection(defaultCollection);
   };
