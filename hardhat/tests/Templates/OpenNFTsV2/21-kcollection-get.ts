@@ -3,7 +3,7 @@ import type { OpenNFTsV2 } from "types/OpenNFTsV2";
 import IOpenNFTs from "abis/new/IOpenNFTs.json";
 import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
-import IERC173 from "abis/new/IERC173.json";
+import IERC173 from "abis/erc/IERC173.json";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";

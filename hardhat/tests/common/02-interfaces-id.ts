@@ -15,7 +15,7 @@ import IERC1155 from "abis/erc/IERC1155.json";
 import IERC1155MetadataURI from "abis/erc/IERC1155MetadataURI.json";
 import IERC1155TokenReceiver from "abis/erc/IERC1155TokenReceiver.json";
 
-import IERC173 from "abis/new/IERC173.json";
+import IERC173 from "abis/erc/IERC173.json";
 
 import IOpenNFTs from "abis/new/IOpenNFTs.json";
 import IOpenNFTsV0 from "abis/deployed/IOpenNFTsV0.json";

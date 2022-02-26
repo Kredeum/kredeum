@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "./interfaces/IOpenNFTs.sol";
 import "./interfaces/IOpenNFTsV3.sol";
-import "./interfaces/IERC173.sol";
+import "../erc/interfaces/IERC173.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV3 is
