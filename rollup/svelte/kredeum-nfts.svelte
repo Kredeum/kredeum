@@ -5,6 +5,8 @@
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import { onMount } from "svelte";
+  import semverSatisfies from "semver/functions/satisfies";
 
   import { explorerCollectionUrl, nftsUrl, getCreate, getNftsFactory, config } from "lib/kconfig";
 
@@ -15,6 +17,8 @@
   let collection: Collection;
   let refreshing: boolean;
   let refreshNFTs;
+  let label: string = "";
+  let version: string = "";
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);
@@ -24,7 +28,25 @@
 
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
-  const label = () => (process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`);
+  const cacheVersion = (_version: string) => {
+    version = _version;
+    console.log("Kredeum NFTs version", version);
+
+    const versionOld = localStorage.getItem("version") || "";
+    if (!semverSatisfies(version, `~${versionOld}`)) {
+      console.info(`New version, previously ${versionOld} => cache cleared!`);
+      localStorage.clear();
+    }
+    localStorage.setItem("version", version);
+  };
+
+  onMount(async () => {
+    console.log("INIT Kredeum NFTs Factory");
+
+    label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH}) ${version}`;
+
+    cacheVersion(config.version.latest);
+  });
 </script>
 
 <div id="kredeum-nfts">
@@ -65,7 +87,7 @@
       <section class="content">
         <header>
           <h1 title="Kredeum NFTs v{config.version.latest} ({process.env.GIT_SHORT})">
-            My NFTs Factory {label()}
+            My NFTs Factory {label}
           </h1>
           {#if $owner && getCreate($chainId)}
             <a href="#create" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</a>
