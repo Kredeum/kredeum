@@ -2,6 +2,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { NFTsFactory } from "types/NFTsFactory";
 
 import INFTsFactory from "abis/deployed/INFTsFactory.json";
+import ICloneFactory from "abis/deployed/ICloneFactory.json";
 import IERC165 from "abis/erc/IERC165.json";
 import IERC721 from "abis/erc/IERC721.json";
 import IERC721Metadata from "abis/erc/IERC721Metadata.json";
@@ -10,7 +11,7 @@ import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
 import { collectionGetContract, collectionGetSupportedInterfaces } from "../../common/lib/kcollection-get";
 
 import networks from "config/networks.json";
-import { ethers, changeNetwork } from "hardhat";
+import hre from "hardhat";
 
 const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable);
 
@@ -43,7 +44,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
         for (const [iface, supported] of Object.entries(supports)) {
           if (supported) output += ` ${iface}`;
         }
-        if (supports.OpenNFTs) {
+        if (supports.IOpenNFTsV2) {
           totalCollections++;
           totalNFTs += nb;
         }
@@ -58,10 +59,14 @@ const main = async (): Promise<void> => {
     if (network.mainnet && network.nftsFactory) {
       totalChains++;
 
-      changeNetwork(network.chainName);
-      const provider = ethers.provider;
+      hre.changeNetwork(network.chainName);
+      const provider = hre.ethers.provider;
 
-      const nftsFactory: NFTsFactory = new ethers.Contract(network.nftsFactory, INFTsFactory, provider) as NFTsFactory;
+      const nftsFactory: NFTsFactory = new hre.ethers.Contract(
+        network.nftsFactory,
+        INFTsFactory.concat(ICloneFactory),
+        provider
+      ) as NFTsFactory;
       const nb = Number(await nftsFactory.implementationsCount());
 
       console.log(
