@@ -1,4 +1,4 @@
-import type { HardhatUserConfig, HardhatNetworkAccountUserConfig } from "hardhat/types";
+import type { HardhatUserConfig, HttpNetworkUserConfig, HardhatNetworkAccountUserConfig } from "hardhat/types";
 
 import { Wallet } from "ethers";
 import "@nomiclabs/hardhat-etherscan";
@@ -48,6 +48,17 @@ const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((a
 }));
 const accounts = accountsRandom;
 
+const netConf = (
+  chainId: number,
+  url: string,
+  apiKey?: string,
+  options: { live?: boolean; gasPrice?: number } = {}
+): HttpNetworkUserConfig => {
+  const networkConfig: HttpNetworkUserConfig = { chainId, url, accounts };
+  if (apiKey) networkConfig.verify = { etherscan: { apiKey } };
+  return Object.assign(networkConfig, options);
+};
+
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
   namedAccounts: {
@@ -57,141 +68,26 @@ const config: HardhatUserConfig = {
     random: { default: 2 }
   },
   networks: {
-    hardhat: {
-      accounts: accountsHardhat
-    },
-    local: {
-      chainId: 31337,
-      url: "http://127.0.0.1:8545"
-    },
-    mainnet: {
-      chainId: 1,
-      url: `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-      accounts
-    },
-    ropsten: {
-      chainId: 3,
-      url: `https://ropsten.infura.io/v3/${INFURA_API_KEY}`,
-      accounts
-    },
-    rinkeby: {
-      chainId: 4,
-      url: `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`,
-      accounts
-    },
-    goerli: {
-      chainId: 5,
-      url: `https://goerli.infura.io/v3/${INFURA_API_KEY}`,
-      accounts
-    },
-    kovan: {
-      chainId: 42,
-      url: `https://kovan.infura.io/v3/${INFURA_API_KEY}`,
-      accounts
-    },
-    bsc: {
-      chainId: 56,
-      url: "https://bsc-dataseed1.binance.org",
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_BINANCE
-        }
-      },
-      accounts
-    },
-    polygon: {
-      chainId: 137,
-      url: `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`,
-      // gasPrice: 50_000_000_000,
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_POLYGON
-        }
-      },
-      accounts
-    },
-    polygonMumbai: {
-      chainId: 80001,
-      url: `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`,
-      accounts,
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_POLYGON
-        }
-      },
+    hardhat: { accounts: accountsHardhat },
+    local: netConf(31337, "http://127.0.0.1:8545"),
+    mainnet: netConf(1, `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
+    ropsten: netConf(3, `https://ropsten.infura.io/v3/${INFURA_API_KEY}`),
+    rinkeby: netConf(4, `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
+    goerli: netConf(5, `https://goerli.infura.io/v3/${INFURA_API_KEY}`),
+    kovan: netConf(42, `https://kovan.infura.io/v3/${INFURA_API_KEY}`),
+    bsc: netConf(56, `https://bsc-dataseed1.binance.org`, ETHERSCAN_API_KEY_BINANCE),
+    matic: netConf(137, `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON),
+    fantom: netConf(250, `https://rpcapi.fantom.network`, ETHERSCAN_API_KEY_FANTOM),
+    avalanche: netConf(43114, `https://api.avax.network/ext/bc/C/rpc`, ETHERSCAN_API_KEY_AVALANCHE),
+    optimism: netConf(10, `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
+    arbitrum: netConf(42161, `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_ARBITRUM),
+    fuji: netConf(43113, `https://api.avax-test.network/ext/bc/C/rpc`, ETHERSCAN_API_KEY_AVALANCHE),
+    optimismkovan: netConf(69, `https://optimism-kovan.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
+    arbitrumrinkeby: netConf(421611, `https://arbitrum-rinkeby.infura.io/v3/${INFURA_API_KEY}`),
+    xdai: netConf(100, `https://rpc.xdaichain.com/`, "", { gasPrice: 80_000_000_000 }),
+    mumbai: netConf(80001, `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON, {
       live: true
-    },
-    fantom: {
-      chainId: 250,
-      url: "https://rpcapi.fantom.network",
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_FANTOM
-        }
-      },
-      accounts
-    },
-    fuji: {
-      chainId: 43113,
-      url: "https://api.avax-test.network/ext/bc/C/rpc",
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_AVALANCHE
-        }
-      },
-      accounts
-    },
-    avalanche: {
-      chainId: 43114,
-      url: "https://api.avax.network/ext/bc/C/rpc",
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_AVALANCHE
-        }
-      },
-      accounts
-    },
-    optimism: {
-      chainId: 10,
-      url: `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`,
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_OPTIMISM
-        }
-      },
-      accounts
-    },
-    optimismkovan: {
-      chainId: 69,
-      url: `https://optimism-kovan.infura.io/v3/${INFURA_API_KEY}`,
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_OPTIMISM
-        }
-      },
-      accounts
-    },
-    arbitrum: {
-      chainId: 42161,
-      url: `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`,
-      verify: {
-        etherscan: {
-          apiKey: ETHERSCAN_API_KEY_ARBITRUM
-        }
-      },
-      accounts
-    },
-    xdai: {
-      chainId: 100,
-      url: "https://rpc.xdaichain.com/",
-      gasPrice: 80_000_000_000,
-      accounts
-    },
-    arbitrumrinkeby: {
-      chainId: 421611,
-      url: `https://arbitrum-rinkeby.infura.io/v3/${INFURA_API_KEY}`,
-      accounts
-    }
+    })
   },
   solidity: {
     compilers: [
