@@ -41,8 +41,6 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
       const options = { method: "HEAD" };
       const response = await fetch(url, options);
       contentType = response.headers.get("content-type") || "text";
-
-      console.log("nftGetContentType", contentType, url);
     } catch (e) {
       console.error("ERROR nftGetContentType", e);
     }

@@ -41,7 +41,7 @@
     version = config.version.latest;
     console.log(`INIT Kredeum NFTs Factory v${version}`);
 
-    label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH}) ${version}`;
+    label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
 
     cacheVersion(version);
   });

@@ -15,7 +15,7 @@ const prompt = Prompt();
 
 const random = "0x41ea3c9e0f803905983bda6f484d438f9a066106";
 
-const addresses = async (network: Network, nftsFactoryV2orV3: NFTsFactory | NFTsFactoryV2): Promise<string[]> => {
+const addresses = async (nftsFactoryV2orV3: NFTsFactory | NFTsFactoryV2): Promise<string[]> => {
   const addresses: string[] = [];
   const balances = await nftsFactoryV2orV3.balancesOf(random);
   balances.forEach((balance) => addresses.push(balance[0]));
@@ -46,10 +46,10 @@ const main = async () => {
   console.log("nftsFactory  ", nftsFactory.address);
   console.log("nftsFactoryV2", nftsFactoryV2.address);
 
-  const impl = await addresses(network, nftsFactory);
+  const impl = await addresses(nftsFactory);
   console.log(impl.length, "implementations NFTsFactory", impl);
 
-  const implV2 = await addresses(network, nftsFactoryV2);
+  const implV2 = await addresses(nftsFactoryV2);
   console.log(implV2.length, "implementations NFTsFactoryV2", implV2);
 
   const toMigrate = impl.filter((addr) => implV2.indexOf(addr) == -1);
@@ -64,7 +64,7 @@ const main = async () => {
       await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate)).wait();
       console.log("END   Migration !");
 
-      const implV2new = await addresses(network, nftsFactoryV2);
+      const implV2new = await addresses(nftsFactoryV2);
       console.log(implV2new.length, "implementations NFTsFactoryV2", implV2new);
     }
   } else {
