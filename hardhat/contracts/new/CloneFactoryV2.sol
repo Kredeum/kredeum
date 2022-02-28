@@ -53,15 +53,6 @@ abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
         emit ImplementationNew(implementation, _msgSender(), implementations.length - 1);
     }
 
-    /// @notice Get Template
-    /// @param  templateName : template name
-    /// @return  template : template address
-    function _template(string memory templateName) internal view virtual returns (address template) {
-        require(templates[templateName] != address(0), "Bad Template");
-
-        template = templates[templateName];
-    }
-
     /// @notice Clone Template
     /// @param  templateName : template name
     /// @return clone_ : clone address
@@ -71,5 +62,14 @@ abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
 
         /// @notice register clone as new implementation
         _implementationNew(clone_);
+    }
+
+    /// @notice Get Template
+    /// @param  templateName : template name
+    /// @return  template : template address
+    function _template(string memory templateName) internal view virtual returns (address template) {
+        require(templates[templateName] != address(0), "Bad Template");
+
+        template = templates[templateName];
     }
 }

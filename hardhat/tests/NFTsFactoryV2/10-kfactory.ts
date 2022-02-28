@@ -55,10 +55,6 @@ describe("10 Clone Factory contract", function () {
     it("Should have 2 implementations after deploy", async function () {
       expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
-
-    it("Should get version 2", async function () {
-      expect(await nftsFactoryV2.VERSION()).to.be.equal(2);
-    });
   });
 
   describe("Should Add Implementations", function () {

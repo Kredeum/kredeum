@@ -1,5 +1,6 @@
 import type { NFTsFactory } from "types/NFTsFactory";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { ERC165 } from "types/ERC165";
 import type { Network } from "lib/ktypes";
 
 import networks from "config/networks.json";
@@ -55,15 +56,21 @@ const main = async () => {
 
   const toMigrate: string[] = [];
   for await (const impl of impls) {
-    const contract = new ethers.Contract(impl, IERC165, deployer);
-    let isERC721 = false;
-    try {
-      isERC721 = await contract.supportsInterface("0x80ac58cd");
-    } catch (e) {
-      console.error(e);
+    let isERC721andNotV2 = false;
+
+    // Not in V2
+    if (implsV2.indexOf(impl) == -1) {
+      const contract = new ethers.Contract(impl, IERC165, deployer) as ERC165;
+      try {
+        isERC721andNotV2 = await contract.supportsInterface("0x80ac58cd");
+      } catch (e) {
+        console.error(impl, e);
+      }
     }
-    console.log(impl, isERC721, implsV2.indexOf(impl) == -1);
-    if (isERC721 && implsV2.indexOf(impl) == -1) toMigrate.push(impl);
+    if (isERC721andNotV2) {
+      console.log(impl);
+      toMigrate.push(impl);
+    }
   }
   const n = toMigrate.length;
 

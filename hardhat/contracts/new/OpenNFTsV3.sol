@@ -46,6 +46,7 @@ contract OpenNFTsV3 is
     /// @param symbol symbol of the NFT Collection
     /// @param owner owner of the NFT Collection
     /// @param options select minting open to everyone or only owner
+    // solhint-disable-next-line comprehensive-interface
     function initialize(
         string memory name,
         string memory symbol,

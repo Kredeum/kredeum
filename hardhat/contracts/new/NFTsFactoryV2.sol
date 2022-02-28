@@ -21,8 +21,6 @@ import "../erc/interfaces/IERC173.sol";
 contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     using ERC165Checker for address;
 
-    uint8 public constant VERSION = 2;
-
     uint8 internal constant _IERC721 = 0;
     uint8 internal constant _IERC721_METADATA = 1;
     uint8 internal constant _IERC721_ENUMERABLE = 2;
@@ -37,6 +35,20 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
 
     constructor(address initialOwner) {
         _transferOwnership(initialOwner);
+    }
+
+    /// @notice clone template
+    /// @param name name of Clone collection
+    /// @param symbol symbol of Clone collection
+    /// @return clone_ Address of Clone collection
+    function clone(
+        string memory name,
+        string memory symbol,
+        string memory templateName,
+        bool[] memory options
+    ) external override(INFTsFactoryV2) returns (address clone_) {
+        clone_ = _clone(templateName);
+        IOpenNFTs(clone_).initialize(name, symbol, _msgSender(), options);
     }
 
     /// @notice balancesOf address for each implementations
@@ -64,20 +76,6 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
         require(implementation.supportsInterface(_IERC721_SIG), "Not ERC721");
 
         super._implementationNew(implementation);
-    }
-
-    /// @notice clone template
-    /// @param name name of Clone collection
-    /// @param symbol symbol of Clone collection
-    /// @return clone_ Address of Clone collection
-    function clone(
-        string memory name,
-        string memory symbol,
-        string memory templateName,
-        bool[] memory options
-    ) external override(INFTsFactoryV2) returns (address clone_) {
-        clone_ = _clone(templateName);
-        IOpenNFTs(clone_).initialize(name, symbol, _msgSender(), options);
     }
 
     /// @notice _balanceOf

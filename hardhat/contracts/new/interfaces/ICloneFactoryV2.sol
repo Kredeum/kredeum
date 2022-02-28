@@ -18,6 +18,10 @@ interface ICloneFactoryV2 {
     /// @param template Address of the template
     function templateSet(string calldata templateName, address template) external;
 
+    /// @notice Add Implementation
+    /// @param implementationToAdd Addresses of implementations to add
+    function implementationsAdd(address[] calldata implementationToAdd) external;
+
     /// @notice Get Template
     /// @param templateName Name of the template
     /// @param template Address of the template
@@ -31,8 +35,4 @@ interface ICloneFactoryV2 {
     /// @param index Index of implementation
     /// @return implementation Address of implementation
     function implementations(uint256 index) external view returns (address implementation);
-
-    /// @notice Add Implementation
-    /// @param implementationToAdd Addresses of implementations to add
-    function implementationsAdd(address[] calldata implementationToAdd) external;
 }

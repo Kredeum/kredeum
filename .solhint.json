@@ -9,7 +9,7 @@
     "avoid-tx-origin": "warn",
     "check-send-result": "error",
     "code-complexity": ["error", 10],
-    "compiler-version": ["error", ">=0.4.23"],
+    "compiler-version": ["error", "^0.8.0"],
     "comprehensive-interface": "warn",
     "const-name-snakecase": "error",
     "constructor-syntax": "warn",
@@ -31,7 +31,7 @@
     "modifier-name-mixedcase": "error",
     "multiple-sends": "error",
     "no-complex-fallback": "error",
-    "no-empty-blocks": "warn",
+    "no-empty-blocks": "off",
     "no-inline-assembly": "warn",
     "no-unused-vars": "error",
     "not-rely-on-block-hash": "error",
@@ -55,6 +55,6 @@
     "state-visibility": "error",
     "use-forbidden-name": "error",
     "var-name-mixedcase": "error",
-    "visibility-modifier-order": "error"
+    "visibility-modifier-order": "warn"
   }
 }

@@ -11,14 +11,12 @@ interface INFTsFactoryV2 {
         uint256 totalSupply;
     }
 
-    function VERSION() external view returns (uint8);
-
-    function balancesOf(address owner) external view returns (NftData[] memory);
-
     function clone(
         string memory name,
         string memory symbol,
         string memory templateName,
         bool[] memory options
     ) external returns (address);
+
+    function balancesOf(address owner) external view returns (NftData[] memory);
 }
