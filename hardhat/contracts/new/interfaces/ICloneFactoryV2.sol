@@ -27,8 +27,6 @@ interface ICloneFactoryV2 {
     /// @return count Number of implementations
     function implementationsCount() external view returns (uint256 count);
 
-    function implementationsList() external view returns (address[] memory implList);
-
     /// @notice Get Implementation from Implementations array
     /// @param index Index of implementation
     /// @return implementation Address of implementation

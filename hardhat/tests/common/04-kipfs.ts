@@ -13,7 +13,7 @@ const imgUrl = "https://www.kredeum.com/favicon.ico";
 const imgCID = "Qmdzo9j2hH75iRuGRP61BQEwj7WF1p5EtJxChz7b7W3aBc";
 
 describe("04 IPFS", () => {
-  describe.skip("04 TheGraph : Add Json", () => {
+  describe("04 TheGraph : Add Json", () => {
     it("Add Image should return given CID", async () => {
       const theGraph = new Ipfs(theGraphEndpoint);
       const cid = await theGraph.addUrl(imgUrl);
@@ -22,7 +22,7 @@ describe("04 IPFS", () => {
     });
   });
 
-  describe.only("Check ipfsGetLink", () => {
+  describe("Check ipfsGetLink", () => {
     const expectEquiv = (imageUri: string, ipfs: string) => expect(ipfsGetLink(imageUri)).to.be.equal(ipfs);
 
     it("Should not modify ipfs:// imageUri", async () => {

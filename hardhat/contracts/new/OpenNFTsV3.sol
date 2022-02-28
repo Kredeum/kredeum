@@ -24,7 +24,7 @@ contract OpenNFTsV3 is
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
 
-    /// @notice Burn NFT allowed or not (to owner only)
+    /// @notice Burn NFT allowed or not
     bool public burnable;
 
     /// @notice onlyMinter, either everybody in open collection,

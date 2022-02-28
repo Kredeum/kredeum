@@ -6,8 +6,8 @@ import "@openzeppelin/contracts/proxy/Clones.sol";
 import "@openzeppelin/contracts/utils/Address.sol";
 import "./interfaces/ICloneFactoryV2.sol";
 
-/// @title Abstract Clone Factory
-/// @notice Generic Clone Factory to create multiple Clones from Templates
+/// @title Abstract Clone Factory V2
+/// @notice Generic Clone Factory to clone Templates
 /// @dev CloneFactory is ICloneFactory and Ownable
 abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
     /// @notice Implementations addresses
@@ -15,10 +15,6 @@ abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
 
     /// @notice Named Templates
     mapping(string => address) public templates;
-
-    function implementationsList() external view override(ICloneFactoryV2) returns (address[] memory) {
-        return implementations;
-    }
 
     /// @notice Add Implementations, public onlyOwner
     /// @param  implementationsToAdd : new implementations addresses
@@ -34,7 +30,7 @@ abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
         return implementations.length;
     }
 
-    /// @notice Set Template
+    /// @notice Set Template by Name
     /// @param templateName Name of the template
     /// @param template Address of the template
     function templateSet(string calldata templateName, address template)
@@ -45,19 +41,21 @@ abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
     {
         templates[templateName] = template;
 
+        /// @notice emit event ImplementationNew
         emit TemplateSet(templateName, template);
     }
 
-    /// @notice New Implementation internall
+    /// @notice New Implementation
     /// @param  implementation : implementation address
     function _implementationNew(address implementation) internal virtual {
-        /// @notice register implementation
         implementations.push(implementation);
 
-        /// @notice emit event ImplementationNew
         emit ImplementationNew(implementation, _msgSender(), implementations.length - 1);
     }
 
+    /// @notice Get Template
+    /// @param  templateName : template name
+    /// @return  template : template address
     function _template(string memory templateName) internal view virtual returns (address template) {
         require(templates[templateName] != address(0), "Bad Template");
 

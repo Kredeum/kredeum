@@ -9,7 +9,7 @@ import "hardhat-deploy-ethers";
 import "hardhat-docgen";
 import "hardhat-change-network";
 import "hardhat-abi-exporter";
-// import "hardhat-gas-reporter";
+import "hardhat-gas-reporter";
 import "solidity-coverage";
 
 import "@typechain/hardhat";
@@ -138,6 +138,12 @@ const config: HardhatUserConfig = {
     path: "docs",
     clear: true,
     runOnCompile: false
+  },
+  gasReporter: {
+    enabled: true,
+    currency: "USD",
+    gasPrice: 50,
+    onlyCalledMethods: true
   },
   etherscan: {
     apiKey: ETHERSCAN_API_KEY_ETHEREUM

@@ -4,6 +4,7 @@ import type { Network } from "lib/ktypes";
 
 import networks from "config/networks.json";
 import config from "config/config.json";
+import IERC165 from "abis/erc/IERC165.json";
 import INFTsFactory from "abis/deployed/INFTsFactory.json";
 import ICloneFactory from "abis/deployed/ICloneFactory.json";
 import INFTsFactory2 from "abis/new/INFTsFactoryV2.json";
@@ -46,22 +47,34 @@ const main = async () => {
   console.log("nftsFactory  ", nftsFactory.address);
   console.log("nftsFactoryV2", nftsFactoryV2.address);
 
-  const impl = await addresses(nftsFactory);
-  console.log(impl.length, "implementations NFTsFactory", impl);
+  const impls = await addresses(nftsFactory);
+  console.log(impls.length, "implementations NFTsFactory", impls);
 
-  const implV2 = await addresses(nftsFactoryV2);
-  console.log(implV2.length, "implementations NFTsFactoryV2", implV2);
+  const implsV2 = await addresses(nftsFactoryV2);
+  console.log(implsV2.length, "implementations V2", implsV2);
 
-  const toMigrate = impl.filter((addr) => implV2.indexOf(addr) == -1);
+  const toMigrate: string[] = [];
+  for await (const impl of impls) {
+    const contract = new ethers.Contract(impl, IERC165, deployer);
+    let isERC721 = false;
+    try {
+      isERC721 = await contract.supportsInterface("0x80ac58cd");
+    } catch (e) {
+      console.error(e);
+    }
+    console.log(impl, isERC721, implsV2.indexOf(impl) == -1);
+    if (isERC721 && implsV2.indexOf(impl) == -1) toMigrate.push(impl);
+  }
   const n = toMigrate.length;
 
   if (n > 0) {
     console.log(n, "implementations to migrate to V2", toMigrate);
+    console.log((await nftsFactoryV2.connect(deployer).estimateGas.implementationsAdd(toMigrate)).toString());
 
     const go: string = prompt("Proceed with Migration y/N ? ");
     if (go[0].toLowerCase() == "y") {
       console.log("START Migration...");
-      await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate)).wait();
+      await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate, { gasLimit: 3_000_000 })).wait();
       console.log("END   Migration !");
 
       const implV2new = await addresses(nftsFactoryV2);

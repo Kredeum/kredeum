@@ -14,6 +14,10 @@ import "../erc/interfaces/IERC173.sol";
 
 /// @title NFTsFactory smartcontract
 /// @dev is CloneFactory
+/// @notice Templates are OPEN_NFTS contracts
+/// @notice Implementations are ERC721 contracts (including OPEN_NFTS clones)
+/// @notice Factory can clone OPEN_NFTs templates to implementations
+/// @notice Factory can also add ERC721 contracts to implementations
 contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
     using ERC165Checker for address;
 
@@ -27,15 +31,15 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
 
     bytes4 internal constant _IERC721_SIG = bytes4(0x80ac58cd);
     bytes4 internal constant _IERC721_METADATA_SIG = bytes4(0x780e9d63);
-    bytes4 internal constant _IERC721_ENUMERABLE_SIG = bytes4(0x780e9d63);
-    bytes4 internal constant _IERC173_SIG = type(IERC173).interfaceId;
+    bytes4 internal constant _IERC721_ENUMERABLE_SIG = (0x780e9d63);
+    bytes4 internal constant _IERC173_SIG = bytes4(0x7f5828d0);
     bytes4 internal constant _IOPEN_NFTS_SIG = type(IOpenNFTs).interfaceId;
 
     constructor(address initialOwner) {
         _transferOwnership(initialOwner);
     }
 
-    /// @notice balancesOf address
+    /// @notice balancesOf address for each implementations
     /// @param addr  address of account
     /// @return nftData Array of nftData balances
     function balancesOf(address addr) external view override(INFTsFactoryV2) returns (NftData[] memory nftData) {
@@ -103,7 +107,7 @@ contract NFTsFactoryV2 is CloneFactoryV2, INFTsFactoryV2 {
             }
 
             if (supportInterface[_IERC173]) {
-                nftData.owner = OwnableUpgradeable(nft).owner();
+                nftData.owner = IERC173(nft).owner();
             }
         }
     }

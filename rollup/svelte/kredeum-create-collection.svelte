@@ -95,7 +95,7 @@
 
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="My collection" bind:value={collectionName} />
+              <input type="text" placeholder="My NFTs collection" bind:value={collectionName} />
             </div>
           </div>
 
@@ -105,7 +105,7 @@
 
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="MyNFTs" bind:value={collectionSymbol} />
+              <input type="text" placeholder="MYNFT" bind:value={collectionSymbol} />
             </div>
           </div>
 

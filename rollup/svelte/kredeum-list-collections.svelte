@@ -69,7 +69,6 @@
     // console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
 
     allCollections = collectionListFromCache(_owner);
-    console.log("const_collectionListFromCache= ~ allCollections", allCollections);
 
     const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "generic", _provider);
 
@@ -77,8 +76,6 @@
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
       (await factoryGetDefaultImplementation(_chainId, _version, _provider));
-
-    console.log("const_collectionListFromCache= ~ defaultCollection", defaultCollection);
 
     collections = new Map(
       [...allCollections]

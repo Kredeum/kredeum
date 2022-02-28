@@ -1,8 +1,8 @@
 import type { DeployFunction } from "hardhat-deploy/types";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import * as fs from "fs/promises";
 import config from "config/config.json";
-
 const deployNFTsFactoryV2: DeployFunction = async function ({ deployments, ethers, getChainId }) {
   const deployer = await ethers.getNamedSigner("deployer");
   const deployOptions = {
@@ -28,11 +28,10 @@ const deployNFTsFactoryV2: DeployFunction = async function ({ deployments, ether
         .catch((err) => console.log(err));
     }
 
-    const nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
+    const nftsFactoryV2: NFTsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
     const openNFTsV3 = await ethers.getContract("OpenNFTsV3");
     await nftsFactoryV2.connect(deployer).templateSet("OpenNFTsV3", openNFTsV3.address);
-    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "GENC", "OpenNFTsV3", [true, false]);
-    await nftsFactoryV2.connect(deployer).clone("Open NFTs", "ONFT", "OpenNFTsV3", [false, true]);
+    await nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV3.address]);
   }
 };
 deployNFTsFactoryV2.tags = ["NFTsFactoryV2"];

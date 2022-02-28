@@ -12,7 +12,9 @@ const deployOpenNFTsV3: DeployFunction = async function ({ deployments, ethers }
 
   if (deployResult.newlyDeployed) {
     const openNFTsV3 = new ethers.Contract(deployResult.address, deployResult.abi) as OpenNFTsV3;
-    await openNFTsV3.connect(deployer).initialize("Open NFTs", "NFT", deployer.address, [false, false]);
+    await openNFTsV3
+      .connect(deployer)
+      .initialize("Open NFTs", "NFT", deployer.address, [false, true], { gasLimit: 200000 });
   }
 };
 deployOpenNFTsV3.tags = ["OpenNFTsV3"];

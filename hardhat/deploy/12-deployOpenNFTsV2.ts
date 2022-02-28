@@ -17,4 +17,6 @@ const deployOpenNFTsV2: DeployFunction = async function ({ deployments, ethers }
 };
 deployOpenNFTsV2.tags = ["OpenNFTsV2"];
 
+deployOpenNFTsV2.skip = async ({ network }) => network.name !== "hardhat";
+
 export default deployOpenNFTsV2;
