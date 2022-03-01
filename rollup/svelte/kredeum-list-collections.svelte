@@ -70,7 +70,7 @@
 
     allCollections = collectionListFromCache(_owner);
 
-    const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "generic", _provider);
+    const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "OpenNFTsV3", _provider);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =

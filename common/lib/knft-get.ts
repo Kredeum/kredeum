@@ -178,7 +178,7 @@ const nftGetFromContractEnumerable = async (
         nft = await nftGetFromContract(chainId, collection, tokID.toString(), provider, owner);
       }
     } catch (e) {
-      console.error("ERROR nftGetFromContractEnumerable", e);
+      console.error("ERROR nftGetFromContractEnumerable", chainId, collection, index, owner, e);
     }
   }
   // console.log("nftGetFromContractEnumerable #", index, nft);

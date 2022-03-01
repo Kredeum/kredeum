@@ -64,12 +64,6 @@ const getOpenSeaAssets = (chainId: number): string => {
   return network?.openSea?.assets || "";
 };
 
-// GET NftsFactory
-const getNftsFactory = (chainId: number): string => {
-  const network = getNetwork(chainId);
-  return network?.nftsFactory || "";
-};
-
 // GET Create
 const getCreate = (chainId: number): boolean => {
   const network = getNetwork(chainId);
@@ -219,7 +213,7 @@ const explorerNFTsFactoryUrl = (chainId: number, version: number): string =>
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, version: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, version, "generic", provider));
+  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, version, "OpenNFTsV3", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {
@@ -366,7 +360,6 @@ export {
   getOpenSeaKredeum,
   getOpenSeaAssets,
   getCreate,
-  getNftsFactory,
   getCovalent,
   getExplorer,
   ipfsToUrlHttp,

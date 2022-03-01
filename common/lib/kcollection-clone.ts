@@ -20,12 +20,12 @@ const collectionCloneResponse = async (
   symbol: string,
   template: string,
   cloner: Signer
-): Promise<TransactionResponse> => {
+): Promise<TransactionResponse | undefined> => {
   // console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
 
   const network = getNetwork(chainId);
 
-  let txResp: TransactionResponse;
+  let txResp: TransactionResponse | undefined;
 
   if (version == 2) {
     const nftsFactoryV2 = factoryGetContract(chainId, version, cloner) as NFTsFactoryV2;
@@ -35,14 +35,14 @@ const collectionCloneResponse = async (
     // console.log("nftsFactoryV2", _name, _symbol, template, options);
 
     txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, "OpenNFTsV3", options);
-  } else {
+  } else if (version == 1) {
     const nftsFactory = factoryGetContract(chainId, version, cloner) as NFTsFactory;
 
     const { _name, _symbol } = await _cloneParams(nftsFactory, name, symbol);
     txResp = await nftsFactory.connect(cloner).clone(_name, _symbol);
   }
 
-  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp.hash}`);
+  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
 
   return txResp;
 };
@@ -74,8 +74,9 @@ const collectionClone = async (
   template: string,
   cloner: Signer
 ): Promise<string> => {
-  const txResp = await collectionCloneResponse(chainId, version, name, symbol, template, cloner);
   let address = "";
+
+  const txResp = await collectionCloneResponse(chainId, version, name, symbol, template, cloner);
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
     address = collectionCloneAddress(txReceipt);

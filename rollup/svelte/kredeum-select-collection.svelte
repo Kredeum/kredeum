@@ -5,9 +5,10 @@
   import KredeumListCollections from "./kredeum-list-collections.svelte";
   import KredeumMetamask from "./kredeum-metamask.svelte";
 
-  import { getCreate, getNftsFactory, nftsUrl, explorerCollectionUrl } from "lib/kconfig";
+  import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
+  import { factoryGetAddress } from "lib/kfactory-get";
 
-  import { chainId, owner } from "./network";
+  import { chainId, owner, version } from "./network";
 
   export let txt = false;
   export let collection: Collection = undefined;
@@ -21,19 +22,19 @@
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
   const _supports = (_collection: Collection): string =>
-    collection?.supports?.ERC721 ? "ERC721" : collection?.supports?.ERC1155 ? "ERC1155" : "";
+    collection?.supports?.IERC721 ? "ERC721" : collection?.supports?.IERC1155 ? "ERC1155" : "";
 </script>
 
 <KredeumMetamask autoconnect="off" {txt} />
 {#if txt}
-  {#if $owner && getNftsFactory($chainId)}
+  {#if $owner && factoryGetAddress($chainId, $version)}
     <p>
       <KredeumListCollections bind:collection {txt} />
     </p>
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if $owner && getNftsFactory($chainId)}
+    {#if $owner && factoryGetAddress($chainId, $version)}
       <span class="label"
         >Collection
         {#if collection}

@@ -141,7 +141,7 @@
       "symbol": "AETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://arbiscan.io/", "https://explorer.arbitrum.io"],
+    "blockExplorerUrls": ["https://arbiscan.io", "https://explorer.arbitrum.io"],
     "covalent": {
       "active": true
     }
@@ -155,7 +155,7 @@
       "symbol": "ARETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://testnet.arbiscan.io/", "https://rinkeby-explorer.arbitrum.io"],
+    "blockExplorerUrls": ["https://testnet.arbiscan.io", "https://rinkeby-explorer.arbitrum.io"],
     "covalent": {
       "active": true
     },
@@ -233,6 +233,22 @@
     "mainnet": true
   },
   {
+    "chainId": 4002,
+    "chainName": "fantomtestnet",
+    "rpcUrls": ["https://rpc.testnet.fantom.network"],
+    "nativeCurrency": {
+      "name": "FTM",
+      "symbol": "FTM",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://testnet.ftmscan.com"],
+    "covalent": {
+      "active": false
+    },
+    "create": true,
+    "testnet": true
+  },
+  {
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
@@ -258,7 +274,7 @@
       "symbol": "xDAI",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet/"],
+    "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet"],
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "create": true,
     "mainnet": true
@@ -272,15 +288,12 @@
       "symbol": "AVAX",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.ftmscan.com/",
-      "https://testnet.snowtrace.io",
-      "https://cchain.explorer.avax-test.network"
-    ],
+    "blockExplorerUrls": ["https://testnet.snowtrace.io", "https://cchain.explorer.avax-test.network"],
     "covalent": {
       "active": true
     },
     "nftsFactory": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "nftsFactoryV2": "0x98C1c1AA566C329f339488Af2F8F95D33cf1A507",
     "create": true,
     "testnet": true
   },

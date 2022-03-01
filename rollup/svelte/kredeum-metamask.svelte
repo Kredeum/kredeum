@@ -46,8 +46,7 @@
   const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "");
 
   const getChainname = (_network: Network): string => _network?.chainName || "unknown";
-  const getChainName = (_network: Network): string =>
-    strUpFirst(getChainname(_network)) + (_network?.nftsFactory ? "" : " (soon available)");
+  const getChainName = (_network: Network): string => strUpFirst(getChainname(_network));
 
   const addEthereumChain = async (_chainId) => {
     if (_chainId) {
@@ -216,14 +215,14 @@
   {#if $owner}
     Network
     <select on:change={(e) => switchEthereumChain(e.target.value)}>
-      {#each networks.filter((nw) => nw.mainnet && nw.nftsFactory) as _network}
+      {#each networks.filter((nw) => nw.mainnet) as _network}
         <option value={_network.chainId} selected={_network.chainId == $chainId}>
           {getChainName(_network)}
           &nbsp;
         </option>
       {/each}
       {#if $network?.testnet}
-        {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+        {#each networks.filter((nw) => nw.testnet) as _network}
           <option value={_network.chainId} selected={_network.chainId == $chainId}>
             {getChainName(_network)}
             &nbsp;

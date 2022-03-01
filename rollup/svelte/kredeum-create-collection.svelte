@@ -25,12 +25,13 @@
   const dispatch = createEventDispatcher();
 
   const createCollection = async () => {
-    // console.log("<kredeum-nfts-create /> createCollection");
-    if ($signer) {
-      cloning = true;
-      cloningTxHash = null;
-      collectionCreated = null;
+    // console.log(createCollection createCollection");
+    cloning = true;
+    cloningTxHash = null;
+    collectionCreated = null;
 
+    if (!$signer) console.error("ERROR createCollection not signer");
+    else {
       const txResp = await collectionCloneResponse(
         $chainId,
         $version,
@@ -39,26 +40,32 @@
         template,
         $signer
       );
-      cloningTxHash = txResp.hash;
 
-      const txReceipt = await collectionCloneReceipt(txResp);
-      if (txReceipt.status) {
-        collectionCreated = {
-          openNFTsVersion: 2,
-          chainId: $chainId,
-          name: collectionName,
-          address: collectionCloneAddress(txReceipt),
-          user: await $signer.getAddress()
-        };
-        collection = collectionCreated;
+      if (!txResp) console.error("ERROR createCollection no txResp");
+      else {
+        cloningTxHash = txResp.hash;
+        const txReceipt = await collectionCloneReceipt(txResp);
 
-        dispatch("collection", { collection: collectionCreated.address });
+        if (!txReceipt.status) console.error("ERROR createCollection bad status");
+        else {
+          collectionCreated = {
+            openNFTsVersion: 2,
+            chainId: $chainId,
+            name: collectionName,
+            address: collectionCloneAddress(txReceipt),
+            user: await $signer.getAddress()
+          };
+
+          if (!collectionCreated) console.error("ERROR createCollection no collection created");
+          else {
+            collection = collectionCreated;
+
+            dispatch("collection", { collection: collectionCreated.address });
+          }
+        }
       }
-
-      cloning = false;
-    } else {
-      console.error("<kredeum-nfts-create /> not signer");
     }
+    cloning = false;
   };
 </script>
 
