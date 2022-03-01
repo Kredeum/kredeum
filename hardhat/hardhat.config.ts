@@ -84,7 +84,11 @@ const config: HardhatUserConfig = {
     optimism: netConf(10, `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
     optimismkovan: netConf(69, `https://optimism-kovan.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
     arbitrum: netConf(42161, `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_ARBITRUM),
-    arbitrumrinkeby: netConf(421611, `https://arbitrum-rinkeby.infura.io/v3/${INFURA_API_KEY}`),
+    arbitrumrinkeby: netConf(
+      421611,
+      `https://arbitrum-rinkeby.infura.io/v3/${INFURA_API_KEY}`,
+      ETHERSCAN_API_KEY_ARBITRUM
+    ),
     xdai: netConf(100, `https://rpc.xdaichain.com/`, "", { gasPrice: 80_000_000_000 }),
     mumbai: netConf(80001, `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON, {
       live: true

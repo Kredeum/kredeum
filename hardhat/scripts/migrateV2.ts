@@ -81,7 +81,7 @@ const main = async () => {
     const go: string = prompt("Proceed with Migration y/N ? ");
     if (go[0].toLowerCase() == "y") {
       console.log("START Migration...");
-      await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate, { gasLimit: 300_000 })).wait();
+      await (await nftsFactoryV2.connect(deployer).implementationsAdd(toMigrate, { gasLimit: 700_000 })).wait();
       console.log("END   Migration !");
 
       const implV2new = await addresses(nftsFactoryV2);

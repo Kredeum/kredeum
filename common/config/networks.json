@@ -26,6 +26,22 @@
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039"
   },
   {
+    "chainId": 42161,
+    "chainName": "arbitrum",
+    "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "AETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://arbiscan.io", "https://explorer.arbitrum.io"],
+    "covalent": {
+      "active": true
+    },
+    "create": true,
+    "mainnet": true
+  },
+  {
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": ["https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", "https://polygon-rpc.com/"],
@@ -131,20 +147,6 @@
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "create": true,
     "testnet": true
-  },
-  {
-    "chainId": 42161,
-    "chainName": "arbitrum",
-    "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "AETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://arbiscan.io", "https://explorer.arbitrum.io"],
-    "covalent": {
-      "active": true
-    }
   },
   {
     "chainId": 421611,

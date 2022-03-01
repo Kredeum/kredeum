@@ -290,7 +290,7 @@
               </span>
             {/each}
             {#if $network?.testnet}
-              {#each networks.filter((nw) => nw.testnet && nw.nftsFactory) as _network}
+              {#each networks.filter((nw) => nw.testnet) as _network}
                 <span
                   class="custom-option {_network.chainId == $chainId && 'selected'}"
                   data-value={getChainname(_network)}

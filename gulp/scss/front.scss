@@ -120,7 +120,7 @@
           }
         }
 
-        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "xdai";
+        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "xdai", "arbitrum";
 
         @each $name in $names {
           [data-value="#{$name}"],
