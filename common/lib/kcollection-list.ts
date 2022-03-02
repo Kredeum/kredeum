@@ -4,7 +4,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
-import { factoryGetContract, factoryGetVersion } from "./kfactory-get";
+import { factoryGetContract } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
@@ -141,8 +141,7 @@ const collectionListFromFactory = async (
 
   const collections: Map<string, Collection> = new Map();
 
-  const version = await factoryGetVersion(chainId, provider);
-  const nftsFactory = factoryGetContract(chainId, version, provider);
+  const nftsFactory = factoryGetContract(chainId, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
@@ -180,11 +179,7 @@ const collectionListFromFactory = async (
   return collections;
 };
 
-const collectionList = async (
-  chainId: number,
-  owner: string,
-  _provider: Provider
-): Promise<Map<string, Collection>> => {
+const collectionList = async (chainId: number, owner: string, provider: Provider): Promise<Map<string, Collection>> => {
   // console.log("collectionList", chainId, owner);
 
   let collections: Map<string, Collection> = new Map();
@@ -200,7 +195,7 @@ const collectionList = async (
     } else if (getCovalent(chainId)) {
       collectionsOwner = await collectionListFromCovalent(chainId, owner);
     }
-    collectionsKredeum = await collectionListFromFactory(chainId, owner, _provider);
+    collectionsKredeum = await collectionListFromFactory(chainId, owner, provider);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = new Map([...collectionsOwner, ...collectionsKredeum]);

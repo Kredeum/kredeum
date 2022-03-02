@@ -8,7 +8,7 @@
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
-  import { chainId, provider, owner, version } from "./network";
+  import { chainId, provider, owner } from "./network";
 
   // down to component
   export let filter = false;
@@ -43,39 +43,32 @@
     }
   };
 
-  // ON CHAINID or OWNER change THEN list collections
-  $: _collectionList($chainId, $version, $owner, $provider);
+  // IF CHAINID or OWNER change THEN list collections
+  $: _collectionList($chainId, $owner);
 
-  const _collectionList = async (
-    _chainId: number,
-    _version: number,
-    _owner: string,
-    _provider: Provider
-  ): Promise<void> => {
-    if (_chainId && _version && _owner && _provider) {
-      // console.log("KredeumListCollections _collectionList", _chainId, _version, _owner);
+  const _collectionList = async (_chainId: number, _owner: string): Promise<void> => {
+    if (_chainId && _owner) {
+      // console.log("KredeumListCollections _collectionList", _chainId, _owner);
 
-      _collectionListFromCache(_chainId, _version, _owner, _provider);
+      _collectionListFromCache(_chainId, _owner);
 
       refreshingCollections = true;
-      allCollections = await collectionList(_chainId, _owner, _provider);
+      allCollections = await collectionList(_chainId, _owner, $provider);
       refreshingCollections = false;
 
-      _collectionListFromCache(_chainId, _version, _owner, _provider);
+      _collectionListFromCache(_chainId, _owner);
     }
   };
 
-  const _collectionListFromCache = async (_chainId: number, _version: number, _owner: string, _provider: Provider) => {
-    // console.log("KredeumListCollections _collectionListFromCache", _chainId, _version, _owner);
+  const _collectionListFromCache = async (_chainId: number, _owner: string) => {
+    // console.log("KredeumListCollections _collectionListFromCache", _chainId, _owner);
 
     allCollections = collectionListFromCache(_owner);
-
-    const openNFTsAddress = await factoryGetTemplateAddress(_chainId, _version, "OpenNFTsV3", _provider);
 
     // SET DEFAULT COLLECTION
     const defaultCollection =
       localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetDefaultImplementation(_chainId, _version, _provider));
+      (await factoryGetDefaultImplementation(_chainId, $provider));
 
     collections = new Map(
       [...allCollections]
@@ -83,7 +76,7 @@
           ([, coll]) =>
             // FILTER NETWORK
             coll.chainId === _chainId &&
-            // // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT   // || coll.address === openNFTsAddress
+            // // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
             (coll.balanceOf > 0 || coll.owner === _owner || coll.address == defaultCollection) &&
             // FILTER OpenNFTs collection
             (!filter || coll.openNFTsVersion)

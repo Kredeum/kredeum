@@ -27,7 +27,8 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
+// Cache contentType(url)
+const contentTypes: Map<string, string> = new Map();
 
 const nftGetContentType = async (nft: Nft): Promise<string> => {
   // console.log("nftGetContentType", nft);
@@ -36,18 +37,24 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
   const url = nftGetImageLink(nft);
 
   if (url) {
-    contentType = "image";
-    try {
-      const options = { method: "HEAD" };
-      const response = await fetch(url, options);
-      contentType = response.headers.get("content-type") || "text";
-    } catch (e) {
-      console.error("ERROR nftGetContentType", e);
+    contentType = contentTypes.get(url) || "";
+    if (!contentType) {
+      contentType = "image";
+      try {
+        const options = { method: "HEAD" };
+        const response = await fetch(url, options);
+        contentType = response.headers.get("content-type") || "text";
+        contentTypes.set(url, contentType);
+      } catch (e) {
+        console.error("ERROR nftGetContentType", e);
+      }
+      console.log("nftGetContentType", url, contentType);
     }
   }
-  console.log("nftGetContentType", url, contentType);
   return contentType;
 };
+
+const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
 
 const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft | undefined> => {
   // console.log("nftGetMetadata", chainId, token, collection);
@@ -103,7 +110,7 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
-    nftMetadata.contentType = await nftGetContentType(nftMetadata);
+    nftMetadata.contentType = nftGetContentType(nftMetadata);
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
@@ -165,6 +172,8 @@ const nftGetFromContractEnumerable = async (
   let nft: Nft | undefined;
   let tokID: BigNumber;
 
+  // console.log("nftGetFromContractEnumerable", chainId, index, collection.address, owner);
+
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
       const contract = await collectionGetContract(chainId, collection, provider);
@@ -178,7 +187,7 @@ const nftGetFromContractEnumerable = async (
         nft = await nftGetFromContract(chainId, collection, tokID.toString(), provider, owner);
       }
     } catch (e) {
-      console.error("ERROR nftGetFromContractEnumerable", chainId, collection, index, owner, e);
+      console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
     }
   }
   // console.log("nftGetFromContractEnumerable #", index, nft);

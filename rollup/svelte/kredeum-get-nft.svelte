@@ -54,9 +54,9 @@
     return video;
   };
 
-  const divMedia = (nft: Nft, index: number, small = false) => {
-    const mediaContentType = nft.contentType.split("/");
-    const mediaType = mediaContentType[0];
+  const divMedia = async (nft: Nft, index: number, small = false) => {
+    const mediaContentType = (await nft.contentType)?.split("/");
+    const mediaType = mediaContentType[0] || "image";
 
     const mediaSrc = nftGetImageLink(nft);
     let div: string;
@@ -92,7 +92,12 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {@html divMedia(nft, index, true)}
+      {#await divMedia(nft, index, true)}
+        <div class="media media-small media-text" />
+      {:then mediaDiv}
+        {@html mediaDiv}
+      {/await}
+
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
       <a
@@ -135,7 +140,11 @@
   </div>
 
   <div id="more-detail-{index}" class="detail">
-    {@html divMedia(nft, index)}
+    {#await divMedia(nft, index)}
+      <div class="media media-full media-text" />
+    {:then mediaDiv}
+      {@html mediaDiv}
+    {/await}
     <div id="description-{index}" class="description">
       <strong>Description</strong>
 

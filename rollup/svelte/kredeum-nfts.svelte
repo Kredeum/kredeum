@@ -11,15 +11,15 @@
   import { explorerCollectionUrl, nftsUrl, getCreate, config } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
-  import { chainId, owner, version } from "./network";
+  import { chainId, owner } from "./network";
 
   export let platform = "dapp";
 
   let collection: Collection;
   let refreshing: boolean;
-  let refreshNFTs;
+  let nftsList;
   let label: string = "";
-  let semver: string = "";
+  let version: string = "";
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);
@@ -29,22 +29,22 @@
 
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
-  const cacheVersion = (_semver: string) => {
-    const semverOld = localStorage.getItem("version") || "";
-    if (!semverSatisfies(_semver, `~${semverOld}`)) {
-      console.info(`New version, previously ${semverOld} => cache cleared!`);
+  const cacheVersion = (_version: string) => {
+    const versionOld = localStorage.getItem("version") || "";
+    if (!semverSatisfies(_version, `~${versionOld}`)) {
+      console.info(`New version, previously ${versionOld} => cache cleared!`);
       localStorage.clear();
     }
-    localStorage.setItem("version", _semver);
+    localStorage.setItem("version", _version);
   };
 
   onMount(async () => {
-    semver = config.version.latest;
-    console.log(`INIT Kredeum NFTs Factory v${semver}`);
+    version = config.version.latest;
+    console.log(`INIT Kredeum NFTs Factory v${version}`);
 
     label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
 
-    cacheVersion(semver);
+    cacheVersion(version);
   });
 </script>
 
@@ -96,10 +96,10 @@
             <KredeumSelectCollection bind:collection />
 
             <div class="col col-sm-3">
-              {#if $owner && collection && factoryGetAddress($chainId, $version)}
+              {#if $owner && collection && factoryGetAddress($chainId)}
                 <button
                   class="clear"
-                  on:click={() => refreshNFTs()}
+                  on:click={() => nftsList()}
                   title="      {refreshing ? 'Refreshing NFTs...' : 'Refresh NFTs from this Collection'}"
                 >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />
@@ -108,7 +108,7 @@
             </div>
           </div>
         </header>
-        <KredeumListNfts {collection} refreshing bind:refreshNFTs {platform} />
+        <KredeumListNfts {collection} refreshing bind:nftsList {platform} />
       </section>
     </div>
   </main>

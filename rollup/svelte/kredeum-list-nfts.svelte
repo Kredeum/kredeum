@@ -19,32 +19,42 @@
 
   let NFTs: Map<string, Nft>;
   let allNFTs: Map<string, Nft>;
-  let Collections: Array<Collection>;
-  let nftImport: number;
   let tokenID = "";
 
   // Track NFTs div offsetHeight with "more" details
   let mores: Array<number> = [];
 
-  // ON NETWORK, OWNER OR COLLECTION CHANGE
-  $: if ($network && $owner && collection) refreshNFTs(true);
+  export const nftsList = async () => {
+    _nftsList(collection, true);
+  };
 
-  export const refreshNFTs = async (cache = false) => {
-    // console.log("refreshNFTS", force, collection);
+  // IF CHAINID, OWNER or COLLECTION change THEN list NFTs
+  $: _nftsList(collection);
 
-    if (cache) {
-      // LOAD NFTs from cache
-      const nbNFTs = _refreshNFTsFromCache($chainId, collection, $owner);
+  // console.log("refreshNFTS", force, collection);
 
-      // REFRESH LIB WHEN NFT count found in cache not good
-      if (nbNFTs !== collection.balanceOf) refreshNFTs(false);
-    } else {
-      // LOAD NFTs from lib
-      _refreshNFTsFromLib($chainId, collection, $provider, $owner);
+  const _nftsList = (_collection: Collection, cache = false) => {
+    if (_collection && $chainId && $owner) {
+      // console.log("_nftsList", _chainId, _owner, cache, _collection);
+
+      let fromLib = !cache;
+
+      if (cache) {
+        // LOAD NFTs from cache
+        const nbNFTs = _nftsListFromCache($chainId, collection, $owner);
+
+        // REFRESH LIB WHEN NFT count found in cache not good
+        fromLib = nbNFTs !== collection.balanceOf;
+      }
+
+      if (fromLib) {
+        // LOAD NFTs from lib
+        _nftsListFromLib($chainId, collection, $owner);
+      }
     }
   };
 
-  const _refreshNFTsFromCache = (_chainId: number, _collection: Collection, _owner: string): number => {
+  const _nftsListFromCache = (_chainId: number, _collection: Collection, _owner: string): number => {
     allNFTs = nftListFromCache();
     // console.log("allNFTs", allNFTs);
 
@@ -54,31 +64,30 @@
       )
     );
 
-    // console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
+    // console.log("_nftsListFromCache =>", NFTs?.size, NFTs);
     return NFTs?.size;
   };
 
-  const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _provider: Provider, _owner: string) => {
+  const _nftsListFromLib = async (_chainId: number, _collection: Collection, _owner: string) => {
     clearCache($chainId, collection.address);
     mores = [];
     NFTs = new Map();
 
-    // console.log("_refreshNFTsFromLib", _chainId, _owner, _collection);
+    // console.log("_nftsListFromLib", _chainId, _owner, _collection);
 
     if (_collection.supports) {
-      const nbNFTs = _collection.balanceOf || _collection.totalSupply;
-      // console.log("_refreshNFTsFromLib nbNFTs", nbNFTs);
-
       refreshing = true;
 
       if (_collection.supports.IERC721Enumerable) {
+        const nbNFTs = _collection.balanceOf;
+
         for (numNFT = 0; numNFT < nbNFTs && unchanged(_chainId, _collection); numNFT++) {
-          const nftIndex = await nftGetFromContractEnumerable(_chainId, _collection, numNFT, _provider, _owner);
+          const nftIndex = await nftGetFromContractEnumerable(_chainId, _collection, numNFT, $provider, _owner);
           const nft = await nftGetMetadata(_chainId, nftIndex, _collection);
           if (nft?.nid) NFTs.set(nft.nid, nft);
         }
       } else {
-        const nftsTokenIds = await nftListTokenIds(_chainId, _collection, _provider, _owner);
+        const nftsTokenIds = await nftListTokenIds(_chainId, _collection, $provider, _owner);
         nftsTokenIds.forEach(async (nftTokenId) => {
           const nft = await nftGetMetadata(_chainId, nftTokenId, _collection);
           if (nft?.nid) NFTs.set(nft.nid, nft);
@@ -87,9 +96,9 @@
       }
 
       refreshing = false;
-      // console.log("_refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
+      // console.log("_nftsListFromLib OUT =>", NFTs?.size, NFTs);
     } else {
-      console.error("_refreshNFTsFromLib Collection not ready", _collection);
+      console.error("_nftsListFromLib Collection not ready", _collection);
     }
   };
 
@@ -104,7 +113,7 @@
   });
 </script>
 
-{#key NFTs && collection}
+{#key NFTs && collection && refreshing}
   {#if NFTs && collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}

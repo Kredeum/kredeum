@@ -3,7 +3,7 @@
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
-  import { chainId, network, provider, signer, owner, version } from "./network";
+  import { chainId, network, provider, signer, owner } from "./network";
   import {
     getShortAddress,
     numberToHexString,
@@ -13,7 +13,7 @@
     getEnsName,
     networks
   } from "lib/kconfig";
-  import { factoryGetAddress, factoryGetVersion } from "lib/kfactory-get";
+  import { factoryGetAddress } from "lib/kfactory-get";
   import { explorerNFTsFactoryUrl } from "lib/kconfig";
   import detectEthereumProvider from "@metamask/detect-provider";
   import { onMount } from "svelte";
@@ -101,22 +101,21 @@
     if (_chainId && _chainId != $chainId) {
       const _network = getNetwork(_chainId);
       if (_network) {
-        chainId.set(Number(_chainId));
         network.set(_network);
         provider.set(ethersProvider);
-        version.set(await factoryGetVersion($chainId, $provider));
-        console.log("chainId", $chainId, numberToHexString(_chainId));
+        chainId.set(Number(_chainId));
       } else {
         // _chainId not accepted : switch to first accepted chainId
         switchEthereumChain(networks[0].chainId);
       }
     }
+    console.log(`handleChainId ${$chainId}`);
   };
 
   const switchEthereumChain = async (_chainId, e?: Event) => {
     e?.preventDefault();
     if (_chainId && _chainId != $chainId) {
-      console.log("switchEthereumChain", _chainId);
+      console.log("switchEthereumChain", _chainId, $chainId);
       try {
         await ethereumProvider.request({
           method: "wallet_switchEthereumChain",
@@ -136,8 +135,6 @@
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== $owner) {
-      // owner.set(getChecksumAddress(_accounts[0]));
-      // provider.set(ethersProvider);
       signer.set(ethersProvider.getSigner(0));
       owner.set(getChecksumAddress(await $signer.getAddress()));
     }
@@ -164,15 +161,14 @@
   onMount(async () => {
     // console.log("init");
 
-    const provider = await detectEthereumProvider();
-    if (provider) {
+    ethereumProvider = (await detectEthereumProvider()) as EthereumProvider;
+    if (ethereumProvider) {
       noMetamask = false;
 
-      if (provider !== window.ethereum) {
+      if (ethereumProvider !== window.ethereum) {
         alert("Do you have multiple wallets installed?");
       }
 
-      ethereumProvider = window.ethereum as EthereumProvider;
       ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
 
       ethereumProvider
@@ -267,10 +263,10 @@
         >Network
         <a
           class="info-button"
-          href={explorerNFTsFactoryUrl($chainId, $version)}
+          href={explorerNFTsFactoryUrl($chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-          {factoryGetAddress($chainId, $version)}"><i class="fas fa-info-circle" /></a
+          {factoryGetAddress($chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
 

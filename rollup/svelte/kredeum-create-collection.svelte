@@ -7,7 +7,7 @@
 
   import { createEventDispatcher } from "svelte";
 
-  import { chainId, signer, version } from "./network";
+  import { chainId, signer } from "./network";
 
   import KredeumListTemplates from "./kredeum-list-templates.svelte";
 
@@ -32,14 +32,7 @@
 
     if (!$signer) console.error("ERROR createCollection not signer");
     else {
-      const txResp = await collectionCloneResponse(
-        $chainId,
-        $version,
-        collectionName,
-        collectionSymbol,
-        template,
-        $signer
-      );
+      const txResp = await collectionCloneResponse($chainId, collectionName, collectionSymbol, template, $signer);
 
       if (!txResp) console.error("ERROR createCollection no txResp");
       else {

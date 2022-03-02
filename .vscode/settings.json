@@ -29,6 +29,10 @@
     {
       "filePath": "common/lib",
       "group": "Default"
+    },
+    {
+      "filePath": "hardhat/contracts",
+      "group": "Default"
     }
   ],
   "slither.solcPath": "",

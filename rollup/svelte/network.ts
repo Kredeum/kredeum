@@ -10,6 +10,5 @@ const provider: Writable<JsonRpcProvider> = writable();
 
 const signer: Writable<JsonRpcSigner> = writable();
 const owner: Writable<string> = writable();
-const version: Writable<number> = writable();
 
-export { chainId, network, provider, signer, owner, version };
+export { chainId, network, provider, signer, owner };

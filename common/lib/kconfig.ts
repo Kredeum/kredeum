@@ -205,15 +205,15 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   explorerUrl(chainId, `/tx/${tx}`);
 
 // NFTS_FACTORY URL
-const explorerNFTsFactoryUrl = (chainId: number, version: number): string =>
+const explorerNFTsFactoryUrl = (chainId: number): string =>
   // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
   // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
-  explorerContractUrl(chainId, factoryGetAddress(chainId, version));
+  explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // OPEN_NFTS URL
-const explorerOpenNFTsUrl = async (chainId: number, version: number, provider: Provider): Promise<string> =>
+const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, version, "OpenNFTsV3", provider));
+  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, "OpenNFTsV3", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {

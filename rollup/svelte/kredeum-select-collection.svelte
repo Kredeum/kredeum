@@ -8,7 +8,7 @@
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
-  import { chainId, owner, version } from "./network";
+  import { chainId, owner } from "./network";
 
   export let txt = false;
   export let collection: Collection = undefined;
@@ -27,14 +27,14 @@
 
 <KredeumMetamask autoconnect="off" {txt} />
 {#if txt}
-  {#if $owner && factoryGetAddress($chainId, $version)}
+  {#if $owner && factoryGetAddress($chainId)}
     <p>
       <KredeumListCollections bind:collection {txt} />
     </p>
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if $owner && factoryGetAddress($chainId, $version)}
+    {#if $owner && factoryGetAddress($chainId)}
       <span class="label"
         >Collection
         {#if collection}

@@ -13,84 +13,54 @@ import INFTsFactory from "abis/deployed/INFTsFactory.json";
 import ICloneFactoryV2 from "abis/new/ICloneFactoryV2.json";
 import INFTsFactoryV2 from "abis/new/INFTsFactoryV2.json";
 
-// nftsFactory cache over networks
+// Cache nftsFactory(chainId)
 const nftsFactories: Map<number, Contract> = new Map();
 
-const factoryGetVersion = async (chainId: number, provider: Provider | undefined): Promise<number> => {
-  const factoryAddressV2 = factoryGetAddress(chainId, 2);
-  // console.log("factoryGetVersion ~ factoryAddressV2", factoryAddressV2);
-
-  const code = (await provider?.getCode(factoryAddressV2)) || "0x";
-  const version = code != "0x" ? 2 : getNetwork(chainId)?.nftsFactory ? 1 : 0;
-
-  // console.info("factoryGetVersion", chainId, version);
-  return version;
-};
-
-const factoryGetAddress = (chainId: number, version: number): string => {
-  let addr: string | undefined;
-
-  if (chainId && version) {
-    if (version == 2) {
-      addr = getNetwork(chainId)?.nftsFactoryV2 || config.nftsFactoryV2;
-    } else if (version == 1) {
-      addr = getNetwork(chainId)?.nftsFactory;
-    }
-    // console.log("factoryGetAddress", chainId, version, addr);
-  }
-  return addr || "";
-};
-
-const factoryGetAbi = (chainId: number, version: number): string[] => {
-  let factoryAbi: string[] = [];
-
+const _factoryGetAbi = (chainId: number): string[] => {
+  const version = factoryGetVersion(chainId);
+  let abi: string[] = [];
   if (version == 2) {
-    factoryAbi = ICloneFactoryV2.concat(INFTsFactoryV2);
+    abi = ICloneFactoryV2.concat(INFTsFactoryV2);
   } else if (version == 1) {
-    factoryAbi = ICloneFactory.concat(INFTsFactory);
+    abi = ICloneFactory.concat(INFTsFactory);
   }
-
-  // console.log("factoryGetAbi", chainId, version, factoryAbi);
-  return factoryAbi;
+  return abi;
 };
+
+const factoryGetVersion = (chainId: number): number =>
+  getNetwork(chainId)?.nftsFactoryV2 ? 2 : getNetwork(chainId)?.nftsFactory ? 1 : 0;
+
+const factoryGetAddress = (chainId: number): string =>
+  getNetwork(chainId)?.nftsFactoryV2 || getNetwork(chainId)?.nftsFactory || "";
 
 // GET OpenNFTs default template via onchain call
-const factoryGetTemplateAddress = async (
-  chainId: number,
-  version: number,
-  template: string,
-  provider: Provider
-): Promise<Address> => {
-  // console.log("factoryGetTemplateAddress", chainId, version, template);
+const factoryGetTemplateAddress = async (chainId: number, template: string, provider: Provider): Promise<Address> => {
+  // console.log("factoryGetTemplateAddress", chainId, template);
 
   let templateAddress = "";
+  const version = factoryGetVersion(chainId);
+
   if (version == 2) {
-    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactoryV2;
+    const nftsFactory = factoryGetContract(chainId, provider) as NFTsFactoryV2;
     templateAddress = await nftsFactory.templates(template);
   } else if (version == 1) {
-    const nftsFactory = factoryGetContract(chainId, version, provider) as NFTsFactory;
+    const nftsFactory = factoryGetContract(chainId, provider) as NFTsFactory;
     templateAddress = await nftsFactory.template();
   }
 
-  // console.log("factoryGetTemplateAddress", chainId, version, template, templateAddress);
+  // console.log("factoryGetTemplateAddress", chainId, template, templateAddress);
   return templateAddress;
 };
 
 // GET NFTsFactory Contract
-const factoryGetContract = (
-  chainId: number,
-  version: number,
-  signerOrProvider: Signer | Provider
-): NFTsFactory | NFTsFactoryV2 => {
-  // console.log("factoryGetContract", chainId, version);
+const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider): NFTsFactory | NFTsFactoryV2 => {
+  // console.log("factoryGetContract", chainId);
 
   let nftsFactory = nftsFactories.get(chainId) as NFTsFactory | NFTsFactoryV2;
   if (!nftsFactory) {
-    nftsFactory = new Contract(
-      factoryGetAddress(chainId, version),
-      factoryGetAbi(chainId, version),
-      signerOrProvider
-    ) as NFTsFactory | NFTsFactoryV2;
+    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(chainId), signerOrProvider) as
+      | NFTsFactory
+      | NFTsFactoryV2;
     nftsFactories.set(chainId, nftsFactory);
   }
 
@@ -99,21 +69,17 @@ const factoryGetContract = (
 };
 
 // GET OpenNFTs default template via onchain call
-const factoryGetDefaultImplementation = async (
-  chainId: number,
-  version: number,
-  provider: Provider
-): Promise<Address> => {
-  const nftsFactory = factoryGetContract(chainId, version, provider);
+const factoryGetDefaultImplementation = async (chainId: number, provider: Provider): Promise<Address> => {
+  const nftsFactory = factoryGetContract(chainId, provider);
   const defaultImplementation = (await nftsFactory.implementations(0)) as Address;
 
   return defaultImplementation;
 };
 
 export {
+  factoryGetVersion,
   factoryGetContract,
   factoryGetAddress,
   factoryGetTemplateAddress,
-  factoryGetVersion,
   factoryGetDefaultImplementation
 };

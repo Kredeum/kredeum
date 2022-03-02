@@ -4,7 +4,6 @@ import type { Network } from "lib/ktypes";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
-import config from "config/config.json";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { network } from "hardhat";
 
@@ -32,26 +31,16 @@ const deployNFTsFactoryV2: DeployFunction = async function (hre) {
   }
 
   if (deployResult.newlyDeployed) {
-    if (deterministic) {
-      if (deployResult.address != config.nftsFactoryV2) {
-        console.info("NFTsFactoryV2 bytecode modified => new deterministic address!");
+    const index = networks.findIndex((network) => network.chainName === hre.network.name);
+    const network: Network = networks[index];
 
-        config.nftsFactoryV2 = deployResult.address;
-        await fs
-          .writeFile(`${__dirname}/../../common/config/config.json`, JSON.stringify(config, null, 2))
-          .catch((err) => console.log(err));
-      }
-    } else {
-      const index = networks.findIndex((network) => network.chainName === hre.network.name);
-      const network: Network = networks[index];
-      if (deployResult.address != network.nftsFactoryV2) {
-        console.info("NFTsFactoryV2 deployed => new address");
+    if (deployResult.address != network.nftsFactoryV2) {
+      console.info("NFTsFactoryV2 deployed => new address");
 
-        networks[index].nftsFactoryV2 = deployResult.address;
-        await fs
-          .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))
-          .catch((err) => console.log(err));
-      }
+      networks[index].nftsFactoryV2 = deployResult.address;
+      await fs
+        .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+        .catch((err) => console.log(err));
     }
     const nftsFactoryV2: NFTsFactoryV2 = await hre.ethers.getContract("NFTsFactoryV2");
     const openNFTsV3 = await hre.ethers.getContract("OpenNFTsV3");
