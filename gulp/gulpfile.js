@@ -80,7 +80,7 @@ function htmls() {
 // Transpile, concatenate and minify scripts
 function scripts() {
   return gulp
-    .src(["./src/js/**/*"])
+    .src(["./js/**/*"])
     .pipe(plumber())
     .pipe(!production ? uglify().on("error", swallow) : noop())
     .pipe(gulp.dest("../web/dapp/assets/js/"));
@@ -88,8 +88,8 @@ function scripts() {
 
 // Watch files
 function watchFiles() {
-  gulp.watch("./src/scss/**/*", css);
-  gulp.watch("./src/js/**/*", gulp.series(scripts));
+  gulp.watch("./scss/**/*", css);
+  gulp.watch("./js/**/*", gulp.series(scripts));
 }
 
 const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);
