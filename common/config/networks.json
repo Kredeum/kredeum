@@ -68,6 +68,75 @@
     "mainnet": true
   },
   {
+    "chainId": 43114,
+    "chainName": "avalanche",
+    "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
+    "nativeCurrency": {
+      "name": "AVAX",
+      "symbol": "AVAX",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
+    "covalent": {
+      "active": true
+    },
+    "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
+    "create": true,
+    "mainnet": true
+  },
+  {
+    "chainId": 100,
+    "chainName": "xdai",
+    "rpcUrls": ["https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
+    "nativeCurrency": {
+      "name": "xDAI",
+      "symbol": "xDAI",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet"],
+    "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
+    "create": true,
+    "mainnet": true
+  },
+  {
+    "chainId": 250,
+    "chainName": "fantom",
+    "rpcUrls": ["https://rpc.ftm.tools/", "https://rpcapi.fantom.network"],
+    "nativeCurrency": {
+      "name": "FTM",
+      "symbol": "FTM",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://ftmscan.com"],
+    "covalent": {
+      "active": true
+    },
+    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "create": true,
+    "mainnet": true
+  },
+  {
+    "chainId": 56,
+    "chainName": "bsc",
+    "rpcUrls": [
+      "https://bsc-dataseed.binance.org",
+      "https://bsc-dataseed1.defibit.io",
+      "https://bsc-dataseed1.ninicoin.io"
+    ],
+    "nativeCurrency": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://bscscan.com"],
+    "covalent": {
+      "active": true
+    },
+    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "create": true,
+    "mainnet": true
+  },
+  {
     "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": ["https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
@@ -165,27 +234,7 @@
     "create": true,
     "testnet": true
   },
-  {
-    "chainId": 56,
-    "chainName": "bsc",
-    "rpcUrls": [
-      "https://bsc-dataseed.binance.org",
-      "https://bsc-dataseed1.defibit.io",
-      "https://bsc-dataseed1.ninicoin.io"
-    ],
-    "nativeCurrency": {
-      "name": "BNB",
-      "symbol": "BNB",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://bscscan.com"],
-    "covalent": {
-      "active": true
-    },
-    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
-    "create": true,
-    "mainnet": true
-  },
+
   {
     "chainId": 10,
     "chainName": "optimism",
@@ -217,23 +266,7 @@
     "create": true,
     "testnet": true
   },
-  {
-    "chainId": 250,
-    "chainName": "fantom",
-    "rpcUrls": ["https://rpc.ftm.tools/", "https://rpcapi.fantom.network"],
-    "nativeCurrency": {
-      "name": "FTM",
-      "symbol": "FTM",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://ftmscan.com"],
-    "covalent": {
-      "active": true
-    },
-    "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
-    "create": true,
-    "mainnet": true
-  },
+
   {
     "chainId": 4002,
     "chainName": "fantomtestnet",
@@ -250,37 +283,7 @@
     "create": true,
     "testnet": true
   },
-  {
-    "chainId": 43114,
-    "chainName": "avalanche",
-    "rpcUrls": ["https://api.avax.network/ext/bc/C/rpc"],
-    "nativeCurrency": {
-      "name": "AVAX",
-      "symbol": "AVAX",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
-    "covalent": {
-      "active": true
-    },
-    "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 100,
-    "chainName": "xdai",
-    "rpcUrls": ["https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
-    "nativeCurrency": {
-      "name": "xDAI",
-      "symbol": "xDAI",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://blockscout.com/xdai/mainnet"],
-    "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
-    "create": true,
-    "mainnet": true
-  },
+
   {
     "chainId": 43113,
     "chainName": "fuji",
