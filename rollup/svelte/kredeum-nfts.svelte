@@ -99,7 +99,7 @@
               {#if $owner && collection && factoryGetAddress($chainId, $version)}
                 <button
                   class="clear"
-                  on:click={() => refreshNFTs(true)}
+                  on:click={() => refreshNFTs()}
                   title="      {refreshing ? 'Refreshing NFTs...' : 'Refresh NFTs from this Collection'}"
                 >
                   <i class="fas fa-redo-alt {refreshing ? 'refresh' : ''}" />

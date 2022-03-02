@@ -26,65 +26,48 @@
   // Track NFTs div offsetHeight with "more" details
   let mores: Array<number> = [];
 
-  // ON OWNER OR COLLECTION CHANGE
-  $: {
-    if ($owner && collection) {
-      // chainId.set(collection?.chainId);
-      refreshNFTs();
-    }
-  }
+  // ON NETWORK, OWNER OR COLLECTION CHANGE
+  $: if ($network && $owner && collection) refreshNFTs(true);
 
-  export const refreshNFTs = async (force = false) => {
+  export const refreshNFTs = async (cache = false) => {
     // console.log("refreshNFTS", force, collection);
 
-    if ($network && collection && $owner) {
-      let refreshLib: boolean;
+    if (cache) {
+      // LOAD NFTs from cache
+      const nbNFTs = _refreshNFTsFromCache($chainId, collection, $owner);
 
-      if (force) {
-        refreshLib = true;
-      } else {
-        // LOAD NFTs from cache
-        const nbNFTs = refreshNFTsFromCache($chainId, collection, $owner);
-
-        // REFRESH LIB WHEN NFT count found in cache not good
-        refreshLib = nbNFTs !== collection.balanceOf;
-      }
-
+      // REFRESH LIB WHEN NFT count found in cache not good
+      if (nbNFTs !== collection.balanceOf) refreshNFTs(false);
+    } else {
       // LOAD NFTs from lib
-      if (refreshLib) {
-        clearCache($chainId, collection.address);
-        mores = [];
-        NFTs = new Map();
-        refreshNFTsFromLib($chainId, collection, $provider, $owner);
-      }
+      _refreshNFTsFromLib($chainId, collection, $provider, $owner);
     }
   };
 
-  const refreshNFTsFromCache = (_chainId: number, _collection: Collection, _owner: string): number => {
+  const _refreshNFTsFromCache = (_chainId: number, _collection: Collection, _owner: string): number => {
     allNFTs = nftListFromCache();
     // console.log("allNFTs", allNFTs);
 
     NFTs = new Map(
       [...allNFTs].filter(
-        ([, nft]) => nft.chainId === $chainId && nft.collection === collection.address && nft.owner === $owner
+        ([, nft]) => nft.chainId === _chainId && nft.collection === _collection.address && nft.owner === _owner
       )
     );
 
-    // console.log("refreshNFTsFromCache =>", NFTs?.size, NFTs);
+    // console.log("_refreshNFTsFromCache =>", NFTs?.size, NFTs);
     return NFTs?.size;
   };
 
-  const unchanged = async (_chainId: number, _collection: Collection): Promise<boolean> => {
-    // chainId and collection have not changed while loading NFTs
-    return $chainId === _chainId && collection?.address === _collection.address;
-  };
+  const _refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _provider: Provider, _owner: string) => {
+    clearCache($chainId, collection.address);
+    mores = [];
+    NFTs = new Map();
 
-  const refreshNFTsFromLib = async (_chainId: number, _collection: Collection, _provider: Provider, _owner: string) => {
-    // console.log("refreshNFTsFromLib", _chainId, _owner, _collection);
+    // console.log("_refreshNFTsFromLib", _chainId, _owner, _collection);
 
     if (_collection.supports) {
       const nbNFTs = _collection.balanceOf || _collection.totalSupply;
-      // console.log("refreshNFTsFromLib nbNFTs", nbNFTs);
+      // console.log("_refreshNFTsFromLib nbNFTs", nbNFTs);
 
       refreshing = true;
 
@@ -104,18 +87,24 @@
       }
 
       refreshing = false;
-      // console.log("refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
+      // console.log("_refreshNFTsFromLib OUT =>", NFTs?.size, NFTs);
     } else {
-      console.error("refreshNFTsFromLib Collection not ready", _collection);
+      console.error("_refreshNFTsFromLib Collection not ready", _collection);
     }
   };
+
+  const unchanged = async (_chainId: number, _collection: Collection): Promise<boolean> => {
+    // chainId and collection have not changed while loading NFTs
+    return $chainId === _chainId && collection?.address === _collection.address;
+  };
+
   onMount(async () => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("tokenID")) tokenID = urlParams.get("tokenID");
   });
 </script>
 
-{#key $owner && numNFT && NFTs}
+{#key NFTs && collection}
   {#if NFTs && collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
