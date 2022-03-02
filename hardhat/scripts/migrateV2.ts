@@ -4,7 +4,7 @@ import type { ERC165 } from "types/ERC165";
 import type { Network } from "lib/ktypes";
 
 import networks from "config/networks.json";
-import config from "config/config.json";
+
 import IERC165 from "abis/erc/IERC165.json";
 import INFTsFactory from "abis/deployed/INFTsFactory.json";
 import ICloneFactory from "abis/deployed/ICloneFactory.json";
@@ -38,7 +38,7 @@ const main = async () => {
   ) as NFTsFactory;
 
   const nftsFactoryV2: NFTsFactoryV2 = new ethers.Contract(
-    config.nftsFactoryV2 || "",
+    network.nftsFactoryV2 || "",
     INFTsFactory2.concat(ICloneFactory2),
     provider
   ) as NFTsFactoryV2;

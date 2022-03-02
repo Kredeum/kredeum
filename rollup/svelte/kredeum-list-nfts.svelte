@@ -113,7 +113,7 @@
   });
 </script>
 
-{#key NFTs && collection && refreshing}
+{#key NFTs && collection && numNFT}
   {#if NFTs && collection?.balanceOf > 0}
     <h2>
       Collection {collectionName(collection)}
