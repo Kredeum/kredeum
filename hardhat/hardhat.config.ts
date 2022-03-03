@@ -55,7 +55,10 @@ const netConf = (
   options: { live?: boolean; gasPrice?: number } = {}
 ): HttpNetworkUserConfig => {
   const networkConfig: HttpNetworkUserConfig = { chainId, url, accounts };
+
   if (apiKey) networkConfig.verify = { etherscan: { apiKey } };
+  networkConfig.deploy = ["deploy/prod"];
+
   return Object.assign(networkConfig, options);
 };
 
@@ -68,7 +71,7 @@ const config: HardhatUserConfig = {
     random: { default: 2 }
   },
   networks: {
-    hardhat: { accounts: accountsHardhat },
+    hardhat: { accounts: accountsHardhat, deploy: ["deploy/tests", "deploy/prod"] },
     local: netConf(31337, "http://127.0.0.1:8545"),
     mainnet: netConf(1, `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
     ropsten: netConf(3, `https://ropsten.infura.io/v3/${INFURA_API_KEY}`),

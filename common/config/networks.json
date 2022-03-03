@@ -178,6 +178,7 @@
     },
     "eip1559": true,
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true
   },

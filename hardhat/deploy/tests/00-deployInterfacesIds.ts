@@ -11,6 +11,4 @@ const deployInterfacesIds: DeployFunction = async function ({ deployments, ether
 };
 deployInterfacesIds.tags = ["InterfacesIds"];
 
-deployInterfacesIds.skip = async ({ network }) => network.name !== "hardhat";
-
 export default deployInterfacesIds;
