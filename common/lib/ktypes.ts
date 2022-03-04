@@ -95,7 +95,7 @@ type Nft = {
   creator?: string;
   minter?: string;
   nid?: string;
-  contentType?: Promise<string>;
+  contentType?: string;
 };
 
 export type {

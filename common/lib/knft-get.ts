@@ -110,7 +110,7 @@ const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collecti
       ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
       nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
     };
-    nftMetadata.contentType = nftGetContentType(nftMetadata);
+    nftMetadata.contentType = await nftGetContentType(nftMetadata);
 
     // STORE in cache if exists
     if (typeof localStorage !== "undefined") {
