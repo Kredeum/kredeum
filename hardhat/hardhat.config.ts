@@ -130,7 +130,7 @@ const config: HardhatUserConfig = {
     pretty: true
   },
   paths: {
-    sources: "contracts",
+    sources: "contracts/new",
     deploy: "deploy",
     deployments: "../common/deployments",
     tests: "tests",

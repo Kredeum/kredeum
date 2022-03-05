@@ -15,5 +15,5 @@
     }
   },
   "include": ["./scripts", "./tests", "./deploy", "../common/lib", "../misc/old/deploy/13-deployOpenNFTsV3.ts"],
-  "files": ["./hardhat.config.ts"]
+  "files": ["./hardhat.config.ts", ".eslintrc.ts"]
 }
