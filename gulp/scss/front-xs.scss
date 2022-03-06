@@ -128,52 +128,8 @@
         position: relative;
         padding-top: 10px;
 
-        .col:not(:last-child) {
+        .col {
             margin-bottom: 15px;
-        }
-    }
-
-    .table {
-        .media + strong {
-            font-size: 14px;
-        }
-
-        .table-row {
-            margin-bottom: 10px;
-            position: relative;
-            background: $white;
-            @include border-radius();
-            padding: 10px;
-            overflow: hidden;
-
-            .more {
-                width: 40px;
-                padding: 0;
-                position: absolute;
-                right: 20px;
-                top: 20px;
-            }
-        }
-
-        .table-col {
-            padding: 10px;
-
-            &:nth-child(2) {
-                text-align: center;
-
-                .btn {
-                    width: 100%;
-                }
-            }
-        }
-
-        .detail {
-            padding: 20px;
-            top: 120px;
-
-            .media {
-                margin-bottom: 20px;
-            }
         }
     }
 }

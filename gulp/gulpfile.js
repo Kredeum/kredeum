@@ -90,6 +90,7 @@ function scripts() {
 function watchFiles() {
   gulp.watch("./scss/**/*", css);
   gulp.watch("./js/**/*", gulp.series(scripts));
+  gulp.watch("./html/**/*", gulp.series(htmls));
 }
 
 const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);
