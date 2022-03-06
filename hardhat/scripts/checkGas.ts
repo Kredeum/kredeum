@@ -10,7 +10,7 @@ const prompt = Prompt();
 
 ///////////////////////////////////////////
 const ethPrice = 3000; //  $
-const gasPriceGwei = 38; //  Gwei
+const gasPriceGwei = 20; //  Gwei
 ///////////////////////////////////////////
 
 let gasPrice: BigNumber;

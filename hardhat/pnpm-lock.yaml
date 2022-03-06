@@ -21,6 +21,7 @@ specifiers:
   '@types/mocha': ^9.1.0
   '@types/node': ^17.0.21
   '@types/prompt-sync': ^4.1.1
+  '@types/readline-sync': ^1.4.4
   '@typescript-eslint/eslint-plugin': ^5.13.0
   '@typescript-eslint/parser': ^5.13.0
   chai: ^4.3.6
@@ -44,6 +45,7 @@ specifiers:
   prettier: ^2.5.1
   prettier-plugin-solidity: ^1.0.0-beta.19
   prompt-sync: ^4.2.0
+  readline-sync: ^1.4.10
   solc: ^0.8.12
   solhint: ^3.3.7
   solhint-plugin-prettier: ^0.0.5
@@ -77,6 +79,7 @@ devDependencies:
   '@types/mocha': 9.1.0
   '@types/node': 17.0.21
   '@types/prompt-sync': 4.1.1
+  '@types/readline-sync': 1.4.4
   '@typescript-eslint/eslint-plugin': 5.13.0_33fffc354ccfa91fbe7d1677b9395a0a
   '@typescript-eslint/parser': 5.13.0_eslint@8.10.0+typescript@4.6.2
   chai: 4.3.6
@@ -100,6 +103,7 @@ devDependencies:
   prettier: 2.5.1
   prettier-plugin-solidity: 1.0.0-beta.19_prettier@2.5.1
   prompt-sync: 4.2.0
+  readline-sync: 1.4.10
   solc: 0.8.12
   solhint: 3.3.7
   solhint-plugin-prettier: 0.0.5_1c1557892bfe35086b1a76384ba83b44
@@ -1202,6 +1206,10 @@ packages:
 
   /@types/qs/6.9.7:
     resolution: {integrity: sha512-FGa1F62FT09qcrueBA6qYTrJPVDzah9a+493+o2PCXsesWHIn27G98TsSMs3WPNbZIEj4+VJf6saSFpvD+3Zsw==}
+    dev: true
+
+  /@types/readline-sync/1.4.4:
+    resolution: {integrity: sha512-cFjVIoiamX7U6zkO2VPvXyTxbFDdiRo902IarJuPVxBhpDnXhwSaVE86ip+SCuyWBbEioKCkT4C88RNTxBM1Dw==}
     dev: true
 
   /@types/resolve/0.0.8:
@@ -8700,6 +8708,11 @@ packages:
     engines: {node: '>=8.10.0'}
     dependencies:
       picomatch: 2.3.1
+    dev: true
+
+  /readline-sync/1.4.10:
+    resolution: {integrity: sha512-gNva8/6UAe8QYepIQH/jQ2qn91Qj0B9sYjMBBs3QOB8F2CXcKgLxQaJRP76sWVRQt+QU+8fAkCbCvjjMFu7Ycw==}
+    engines: {node: '>= 0.8.0'}
     dev: true
 
   /rechoir/0.6.2:

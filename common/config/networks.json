@@ -21,9 +21,10 @@
       "active": true
     },
     "eip1559": true,
-    "create": false,
+    "create": true,
     "mainnet": true,
-    "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039"
+    "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
+    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800"
   },
   {
     "chainId": 42161,
