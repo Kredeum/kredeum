@@ -1,30 +1,20 @@
 (function() {
-    var accItem = document.getElementsByClassName("table-drop");
-    var accHD = document.getElementsByClassName("more");
-
-    for (i = 0; i < accHD.length; i++) {
-        accHD[i].addEventListener("click", toggleItem, false);
-    }
-
-    function toggleItem() {
-        var itemClass = this.parentNode.className;
-        var detail = this.parentNode.getElementsByClassName('detail')[0].offsetHeight;
-        if (window.innerWidth > 991) {
-            var heightEl = detail + 70;
-        } else {
-            var heightEl = detail + 120;
-        }
-        var tableDrop = this.parentNode.getAttribute('id');
-
-        this.parentNode.className = "table-row table-drop closed";
-
-        if (itemClass == "table-row table-drop closed") {
-            this.parentNode.className = "table-row table-drop";
-            document.getElementById(tableDrop).style.height = heightEl + "px";
-        } else {
-            document.getElementById(tableDrop).style.height = "auto";
-        }
-    }
+    
+	function copyText(element) {
+		var $copyText = document.getElementById(element).innerText;
+		var button = document.getElementById(element + '-button');
+		
+		navigator.clipboard.writeText($copyText).then(function() {
+			var originalText = button.innerText;
+			button.innerText = 'Copied!';
+			setTimeout(function(){
+				button.innerText = originalText;
+			}, 750);
+		}, function() {
+			button.style.cssText = "background-color: var(--red);";
+			button.innerText = 'Error';
+		});
+	}
 
     for (const dropdown of document.querySelectorAll(".select-wrapper")) {
         dropdown.addEventListener('click', function() {

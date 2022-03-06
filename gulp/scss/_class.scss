@@ -139,6 +139,12 @@ select {
 	}
 }
 
+.return {
+	.link {
+		text-decoration: none;
+	}
+}
+
 .link {
 	color: $couleur1;
 	transition: all 300ms ease-in-out;
@@ -160,6 +166,15 @@ select {
 		color: $white;
 		&:hover {
 			background: lighten($couleur1, 10);
+		}
+	}
+	&-outline {
+		border: 1px solid $green;
+		color: $green;
+		
+		&:hover {
+			background: $green;
+			color: $white;
 		}
 	}
 	&-second {
@@ -200,7 +215,7 @@ select {
 	}
 	&>i {
 		display: inline-block;
-		vertical-align: middle;
+		vertical-align: baseline;
 		font-size: 14px;
 		&+span {
 			margin-left: 8px;
