@@ -61,12 +61,13 @@
     const mediaType = mediaContentType[0] || "image";
 
     const mediaSrc = nftGetImageLink(nft);
-    let div: string;
+    let div: string = "";
     if (small) {
-      div = `<div id="media-small-${index}" class="media media-small media-${mediaType}">`;
+      div += `<div id="media-small-${index}" class="media media-${mediaType}">`;
     } else {
-      div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
+      div += `<div id="media-full-${index}" class="media media-${mediaType}">`;
     }
+    div += `<a href=".">`;
     if (mediaType == "video") {
       div += divMediaVideo(mediaSrc, small);
     } else if (mediaType == "image") {
@@ -74,7 +75,7 @@
     } else {
       div += '<div class="media-text"></div>';
     }
-    div += "</div>";
+    div += "</a></div>";
 
     // console.log("divMedia div", div);
     return div;
@@ -86,132 +87,15 @@
   });
 </script>
 
-<div
-  id="table-drop-{index}"
-  class="table-row table-drop"
-  class:closed={!more}
-  style="height: {more ? `${more}px` : 'auto'};"
->
-  <div id="media-{index}" class="table-col">
-    <div class="table-col-content">
-      {#await divMedia(nft, index, true)}
-        <div class="media media-small media-text" />
-      {:then mediaDiv}
-        {@html mediaDiv}
-      {/await}
-
-      <strong>{nftName(nft)}</strong>
-      <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
-      <a
-        class="info-button"
-        href={nftGetImageLink(nft)}
-        title="&#009;{nftDescription(nft)} 
-                NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
-        target="_blank"><i class="fas fa-info-circle" /></a
-      >
-    </div>
-  </div>
-
-  <div id="marketplace-{index}" class="table-col">
-    <div class="table-col-content">
-      {#if $network?.openSea}
-        {#if addressSame(nft.owner, $owner)}
-          <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
-        {:else}
-          <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
-        {/if}
-      {:else}
-        <a
-          class="info-button"
-          href={nftGetImageLink(nft)}
-          title="&#009;{nftDescription(nft)} 
-                  NFT address (click to view explorer)&#013.{nftUrl(nft)}"
-          target="_blank"><i class="fas fa-info-circle" /></a
-        >
-      {/if}
-      <span id="token-id-{index}" title="  #{nft.tokenID}">
-        &nbsp;&nbsp;<strong>#{textShort(nft.tokenID)}</strong>
-      </span>
-    </div>
-  </div>
-
-  <div id="more-{index}" class="table-col more" on:click={() => moreToggle()}>
-    <div class="table-col-content txtright">
-      <div class="more-button"><i class="fas fa-chevron-down" /></div>
-    </div>
-  </div>
-
-  <div id="more-detail-{index}" class="detail">
-    {#await divMedia(nft, index)}
-      <div class="media media-full media-text" />
-    {:then mediaDiv}
-      {@html mediaDiv}
-    {/await}
-    <div id="description-{index}" class="description">
-      <strong>Description</strong>
-
-      <p>
-        {nftDescription(nft)}
-      </p>
-      <ul class="steps">
-        <li class="complete">
-          <div class="flex"><span class="label">Owner</span></div>
-          <div class="flex">
-            {@html explorerAddressLink($chainId, nft.owner, 15)}
-          </div>
-        </li>
-        <li class="complete">
-          <div class="flex"><span class="label">Permanent Link</span></div>
-          <div class="flex">
-            <a class="link" href={kredeumNftUrl($chainId, nft)} target="_blank">
-              {@html nftUrl(nft, 10)}
-            </a>
-          </div>
-        </li>
-        <li class="complete">
-          <div class="flex"><span class="label">Collection @</span></div>
-          <div class="flex">
-            <a class="link" href={explorerCollectionUrl($chainId, nft?.collection)} target="_blank"
-              >{getShortAddress(nft.collection, 15)}</a
-            >
-          </div>
-        </li>
-
-        <li class="complete">
-          <div class="flex"><span class="label">Metadata IPFS</span></div>
-          <div class="flex">
-            <a class="link" href={nft.tokenURI} target="_blank">{textShort(nft.ipfsJson)}</a>
-          </div>
-        </li>
-
-        <li class="complete">
-          <div class="flex"><span class="label">Image IPFS</span></div>
-          <div class="flex">
-            <a class="link" href={nft.image} target="_blank">{textShort(nft.ipfs)}</a>
-          </div>
-        </li>
-        <li class="complete">
-          <div class="flex">
-            <a href="#transfert-nft-{nft.tokenID}" class="btn btn-small btn-default" title="Transfer NFT">
-              <i class="fas fa-gift" /> Transfer
-            </a>
-          </div>
-        </li>
-        {#if platform === "wordpress"}
-          <li class="complete">
-            <div class="flex"><span class="label">Copy shortcode sell button</span></div>
-            <div class="flex">
-              <button on:click={() => shortcode(nft)} class="btn krd_shortcode_data">Shortcode</button>
-            </div>
-          </li>
-        {/if}
-      </ul>
-    </div>
-  </div>
-
-  <!-- Modal transfer nft -->
-  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
-    <TransferNft bind:nft />
+<div class="grid-card-krd">
+  {@html divMedia(nft, index, true)}
+  <div class="caption">
+    <h3>{nftName(nft)}</h3>
+    {#if addressSame(nft.owner, $owner)}
+      <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
+    {:else}
+      <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+    {/if}
   </div>
 </div>
 
