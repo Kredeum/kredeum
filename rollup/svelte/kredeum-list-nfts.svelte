@@ -127,17 +127,11 @@
       target="_blank"><i class="fas fa-info-circle" /></a
     >
 
-    <div class="table">
-      <div class="table-row table-head hidden-xs">
-        <div class="table-col"><span class="label">Media</span></div>
-        {#if $network?.openSea}
-          <div class="table-col"><span class="label">Marketplace</span></div>
-        {:else}
-          <div class="table-col"><span class="label">Infos</span></div>
-        {/if}
-      </div>
+    <div class="row grid-krd">
       {#each [...NFTs.values()] as nft, index}
-        <KredeumGetNft {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
+        <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <KredeumGetNft {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
+        </div>
       {/each}
     </div>
   {:else}
