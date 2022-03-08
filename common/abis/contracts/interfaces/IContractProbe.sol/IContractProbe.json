@@ -1,3 +1,0 @@
-[
-  "function probe(address) view returns (bool, address)"
-]

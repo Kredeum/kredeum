@@ -5,6 +5,7 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "semi": true,
+  "proseWrap": "always",
   "plugins": ["./node_modules/prettier-plugin-solidity"],
   "overrides": [
     {

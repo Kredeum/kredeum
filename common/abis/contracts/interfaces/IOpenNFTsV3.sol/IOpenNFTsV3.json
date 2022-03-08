@@ -1,5 +1,0 @@
-[
-  "function burnNFT(uint256)",
-  "function initialize(string,string,address,bool)",
-  "function mintNFT(address,string) returns (uint256)"
-]

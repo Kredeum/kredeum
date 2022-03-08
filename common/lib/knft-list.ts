@@ -15,7 +15,7 @@ const nftListFromCovalent = async (
   owner?: string,
   limit: number = LIMIT
 ): Promise<Map<string, Nft>> => {
-  console.log("nftListFromCovalent", chainId, collection, owner, limit);
+  // console.log("nftListFromCovalent", chainId, collection, owner, limit);
 
   const nfts: Map<string, Nft> = new Map();
   const network = getNetwork(chainId);
@@ -46,7 +46,7 @@ const nftListFromCovalent = async (
 
         for (let index = 0; index < Math.min(tokens.length, limit); index++) {
           const _token = tokens[index];
-          console.log("nftListFromCovalent TOKEN", _token);
+          // console.log("nftListFromCovalent TOKEN", _token);
 
           if (index < limit) {
             const nft = {
@@ -59,7 +59,7 @@ const nftListFromCovalent = async (
               minter: getChecksumAddress(_token.original_owner),
               nid: nftUrl3(chainId, collection.address, _token.token_id)
             };
-            console.log("nftListFromCovalent nid", nft.nid, nft);
+            // console.log("nftListFromCovalent nid", nft.nid, nft);
             nfts.set(nft.nid, nft);
           }
         }
@@ -153,7 +153,7 @@ const nftListFromContract = async (
 
   const nfts: Map<string, Nft> = new Map();
 
-  if (chainId && collection?.supports?.ERC721Enumerable) {
+  if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
       const contract = await collectionGetContract(chainId, collection, provider);
 
@@ -231,6 +231,8 @@ const nftListWithMetadata = async (
   owner?: string,
   limit: number = LIMIT
 ): Promise<Map<string, Nft>> => {
+  // console.log("nftListWithMetadata", chainId, collection);
+
   const nftsWithMetadata: Map<string, Nft> = new Map();
 
   const nftsFromIds = [...nfts.values()];

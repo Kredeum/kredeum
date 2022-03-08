@@ -1,5 +1,5 @@
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "../types/NFTsFactory";
+import type { NFTsFactory } from "types/NFTsFactory";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
@@ -19,7 +19,11 @@ const collectionListFromCovalent = async (chainId: number, owner: string): Promi
       // eslint-disable-next-line quotes
       '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
 
-    path = `/${Number(chainId)}/address/${owner}/balances_v2/` + "?nft=true" + "&no-nft-fetch=false" + `&match=${encodeURIComponent(match)}`;
+    path =
+      `/${Number(chainId)}/address/${owner}/balances_v2/` +
+      "?nft=true" +
+      "&no-nft-fetch=false" +
+      `&match=${encodeURIComponent(match)}`;
 
     type CollectionCov = {
       contract_name: string;
@@ -54,7 +58,7 @@ const collectionListFromCovalent = async (chainId: number, owner: string): Promi
           name,
           symbol,
           user,
-          balanceOf,
+          balanceOf
         };
         collections.set(nftsUrl(chainId, address), collection);
       }
@@ -117,7 +121,7 @@ const collectionListFromTheGraph = async (chainId: number, owner: string): Promi
           symbol,
           totalSupply,
           user,
-          balanceOf,
+          balanceOf
         };
         collections.set(nftsUrl(chainId, address), collection);
       }
@@ -127,12 +131,17 @@ const collectionListFromTheGraph = async (chainId: number, owner: string): Promi
   return collections;
 };
 
-const collectionListFromFactory = async (chainId: number, _owner: string, provider: Provider): Promise<Map<string, Collection>> => {
+const collectionListFromFactory = async (
+  chainId: number,
+  _owner: string,
+  provider: Provider
+): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromFactory", chainId, _owner);
   const network = getNetwork(chainId);
 
   const collections: Map<string, Collection> = new Map();
-  const nftsFactory: NFTsFactory | undefined = factoryGetContract(chainId, provider);
+
+  const nftsFactory = factoryGetContract(chainId, provider);
 
   if (nftsFactory) {
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
@@ -161,7 +170,7 @@ const collectionListFromFactory = async (chainId: number, _owner: string, provid
         symbol,
         totalSupply,
         user,
-        balanceOf,
+        balanceOf
       });
     }
   }
@@ -170,7 +179,7 @@ const collectionListFromFactory = async (chainId: number, _owner: string, provid
   return collections;
 };
 
-const collectionList = async (chainId: number, owner: string, _provider: Provider): Promise<Map<string, Collection>> => {
+const collectionList = async (chainId: number, owner: string, provider: Provider): Promise<Map<string, Collection>> => {
   // console.log("collectionList", chainId, owner);
 
   let collections: Map<string, Collection> = new Map();
@@ -186,7 +195,7 @@ const collectionList = async (chainId: number, owner: string, _provider: Provide
     } else if (getCovalent(chainId)) {
       collectionsOwner = await collectionListFromCovalent(chainId, owner);
     }
-    collectionsKredeum = await collectionListFromFactory(chainId, owner, _provider);
+    collectionsKredeum = await collectionListFromFactory(chainId, owner, provider);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = new Map([...collectionsOwner, ...collectionsKredeum]);
@@ -217,5 +226,11 @@ const collectionListFromCache = (owner: string): Map<string, Collection> => {
   return collections;
 };
 
-export { collectionList, collectionListFromCache, collectionListFromCovalent, collectionListFromTheGraph, collectionListFromFactory };
+export {
+  collectionList,
+  collectionListFromCache,
+  collectionListFromCovalent,
+  collectionListFromTheGraph,
+  collectionListFromFactory
+};
 export type { NFTsFactory };

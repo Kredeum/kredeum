@@ -1,26 +1,19 @@
-import type { NFTsFactory } from "types/NFTsFactory";
-import type { IERC165 } from "types/IERC165";
-import type { IERC721Enumerable } from "types/IERC721Enumerable";
-import type { IERC721Metadata } from "types/IERC721Metadata";
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { NFTsFactory } from "types/NFTsFactory";
+
+import INFTsFactory from "abis/deployed/INFTsFactory.json";
+import ICloneFactory from "abis/deployed/ICloneFactory.json";
+import IERC165 from "abis/erc/IERC165.json";
+import IERC721 from "abis/erc/IERC721.json";
+import IERC721Metadata from "abis/erc/IERC721Metadata.json";
+import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
 
 import { collectionGetContract, collectionGetSupportedInterfaces } from "../../common/lib/kcollection-get";
 
 import networks from "config/networks.json";
 import hre from "hardhat";
 
-const ABI_FACTORY = [
-  "function implementations(uint256 index) external view returns (address implementation)",
-  "function implementationsCount() external view returns (uint256 count)"
-];
-const ABI_NFT = [
-  "function balanceOf(address) view returns (uint256)",
-  "function ownerOf(uint256) view returns (address)",
-  "function totalSupply() view returns (uint256)",
-  "function supportsInterface(bytes4) view returns (bool)",
-  "function name() view returns (string)",
-  "function symbol() view returns (string)"
-];
+const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable);
 
 let totalChains = 0;
 let totalCollections = 0;
@@ -51,7 +44,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
         for (const [iface, supported] of Object.entries(supports)) {
           if (supported) output += ` ${iface}`;
         }
-        if (supports.OpenNFTs) {
+        if (supports.IOpenNFTsV2) {
           totalCollections++;
           totalNFTs += nb;
         }
@@ -71,7 +64,7 @@ const main = async (): Promise<void> => {
 
       const nftsFactory: NFTsFactory = new hre.ethers.Contract(
         network.nftsFactory,
-        ABI_FACTORY,
+        INFTsFactory.concat(ICloneFactory),
         provider
       ) as NFTsFactory;
       const nb = Number(await nftsFactory.implementationsCount());

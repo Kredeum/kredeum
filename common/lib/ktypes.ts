@@ -1,24 +1,7 @@
-type OpenNFTsKeys =
-  | "OpenNFTs"
-  | "OpenNFTsV3"
-  | "OpenNFTsV2"
-  | "OpenNFTsV1"
-  | "OpenNFTsV0"
-  | "CloneFactory"
-  | "NFTsFactory";
-type ErcKeys =
-  | "ERC165"
-  | "ERC721"
-  | "ERC721TokenReceiver"
-  | "ERC721Metadata"
-  | "ERC721Enumerable"
-  | "ERC1155"
-  | "ERC1155TokenReceiver"
-  | "ERC1155Metadata_URI";
+type OpenNFTsKeys = "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTs";
+type ErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
-type ABIS = {
-  [Key in ErcKeys | OpenNFTsKeys]: AbiType;
-};
+type ABIS = ErcKeys | OpenNFTsKeys;
 
 type Address = string;
 
@@ -41,6 +24,7 @@ type Network = {
   admin?: string;
   openSea?: { assets?: string; openNFTs?: string };
   nftsFactory?: string;
+  nftsFactoryV2?: string;
   eip1559?: boolean;
 };
 
@@ -61,19 +45,17 @@ type Collection = {
   supports?: CollectionSupports;
 };
 type CollectionSupports = {
-  ERC165?: boolean;
-  ERC721?: boolean;
-  ERC1155?: boolean;
-  ERC721TokenReceiver?: boolean;
-  ERC721Metadata?: boolean;
-  ERC721Enumerable?: boolean;
-  ERC1155TokenReceiver?: boolean;
-  ERC1155Metadata_URI?: boolean;
-  OpenNFTs?: boolean;
-  OpenNFTsV0?: boolean;
-  OpenNFTsV1?: boolean;
-  OpenNFTsV2?: boolean;
-  OpenNFTsV3?: boolean;
+  IERC165?: boolean;
+  IERC721?: boolean;
+  IERC1155?: boolean;
+  IERC721Metadata?: boolean;
+  IERC721Enumerable?: boolean;
+  IERC1155MetadataURI?: boolean;
+  IERC173?: boolean;
+  IOpenNFTs?: boolean;
+  IOpenNFTsV1?: boolean;
+  IOpenNFTsV2?: boolean;
+  IOpenNFTsV3?: boolean;
 };
 
 type NftMetadata = {

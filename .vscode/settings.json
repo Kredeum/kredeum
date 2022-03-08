@@ -3,6 +3,38 @@
   "phpsab.standard": "WordPress",
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
+  "solidity.linter": "solhint",
+  "solidity.solhintRules": {
+    "avoid-sha3": "warn"
+  },
   "solidity.defaultCompiler": "remote",
-  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a"
+  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
+  "favorites.resources": [
+    {
+      "filePath": "hardhat/hardhat.config.ts",
+      "group": "Default"
+    },
+    {
+      "filePath": "rollup/svelte",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat/contracts/new",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat/tests",
+      "group": "Default"
+    },
+    {
+      "filePath": "common/lib",
+      "group": "Default"
+    },
+    {
+      "filePath": "hardhat/contracts",
+      "group": "Default"
+    }
+  ],
+  "slither.solcPath": "",
+  "slither.hiddenDetectors": []
 }

@@ -24,7 +24,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.0.1
         with:
-          version: 6.30.0
+          version: 6.32.2
           run_install: true
 
       - name: Build Dapp
@@ -32,18 +32,19 @@ jobs:
         env:
           ENVIR: PROD
           NODE_DEBUG: false
+          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
           COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 
-      - name: Delete .gitignore to include dapp/build in commit
-        run: rm dapp/.gitignore
+      - name: Delete .gitignore to include web/dapp in commit
+        run: rm web/.gitignore
 
       - name: Commit Dapp build
         run: |
           git config --local user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add dapp/build
+          git add web/dapp
           git commit -am "${{ github.ref_name }} dapp build !"
 
       - name: Push Dapp build
@@ -52,4 +53,4 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           branch: build/${{ github.ref_name }}
           force: true
-          directory: "dapp/build"
+          directory: "web/dapp"

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "rm -rf vendor node_modules plugins/kredeum-nfts/lib plugins/kredeum-nfts/vendor plugins/kredeum-nfts/readme.txt plugins/kredeum-nfts/kredeum-nfts.php",
-    "instal": "composer install --prefer-dist --no-progress",
+    "postinstall": "composer install --prefer-dist --no-progress",
     "build-txt": "npx hbs-cli -D ../common/config/config.json readme.txt_handlebars -o plugins/kredeum-nfts -e txt",
     "build-php": "npx hbs-cli -D ../common/config/config.json kredeum-nfts.php_handelbars -o plugins/kredeum-nfts -e php",
     "build-vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
@@ -19,7 +19,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^9.4.1",
+    "cypress": "^9.5.1",
     "cypress-file-upload": "^5.0.8"
   }
 }

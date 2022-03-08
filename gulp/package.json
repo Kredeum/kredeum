@@ -13,6 +13,11 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
+    "-": "^0.0.1",
+    "autoprefixer": "^10.4.2",
+    "cssnano": "^5.1.0",
+    "del": "^6.0.0",
+    "dotenv": "^16.0.0",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
@@ -24,13 +29,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.6",
-    "-": "^0.0.1",
-    "D": "^1.0.0",
-    "autoprefixer": "^10.4.2",
-    "cssnano": "^5.0.17",
-    "del": "^6.0.0",
-    "dotenv": "^16.0.0",
-    "sass": "^1.49.7"
+    "postcss": "^8.4.8",
+    "sass": "^1.49.9"
   }
 }

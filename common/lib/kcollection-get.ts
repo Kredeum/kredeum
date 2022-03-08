@@ -1,11 +1,36 @@
-import type { IERC165 } from "../types/IERC165";
-import type { OpenNFTs } from "../types/OpenNFTs";
+import type { ERC165 } from "../types/ERC165";
+import type { OpenNFTsV3 } from "../types/OpenNFTsV3";
 
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Collection, CollectionSupports, AbiType, ErcKeys, OpenNFTsKeys } from "./ktypes";
+import type { Collection, CollectionSupports, ABIS } from "./ktypes";
+import { interfaceId } from "./kconfig";
 
 import { Signer, Contract } from "ethers";
-import { abis } from "./kconfig";
+
+import IERC165 from "abis/erc/IERC165.json";
+import IERC721 from "abis/erc/IERC721.json";
+import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
+import IERC721Metadata from "abis/erc/IERC721Metadata.json";
+import IERC1155 from "abis/erc/IERC1155.json";
+import IERC1155MetadataURI from "abis/erc/IERC1155MetadataURI.json";
+
+import IOpenNFTs from "abis/new/IOpenNFTs.json";
+import IOpenNFTsV1 from "abis/deployed/IOpenNFTsV1.json";
+import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
+import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
+
+const abis = {
+  IERC165,
+  IERC721,
+  IERC721Enumerable,
+  IERC721Metadata,
+  IERC1155,
+  IERC1155MetadataURI,
+  IOpenNFTs,
+  IOpenNFTsV1,
+  IOpenNFTsV2,
+  IOpenNFTsV3
+};
 
 const collectionGetSupportedInterfaces = async (
   chainId: number,
@@ -24,10 +49,10 @@ const collectionGetSupportedInterfaces = async (
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collectionOrAddress && signerOrProvider) {
-    let contract: IERC165;
+    let contract: ERC165;
 
     // Suppose supports ERC165, should revert otherwise
-    supports.ERC165 = true;
+    supports.IERC165 = true;
 
     if (typeof collectionOrAddress === "string") {
       collectionAddress = collectionOrAddress;
@@ -36,26 +61,27 @@ const collectionGetSupportedInterfaces = async (
     }
 
     try {
-      contract = new Contract(collectionAddress, abis.ERC165.abi, signerOrProvider) as IERC165;
+      contract = new Contract(collectionAddress, IERC165, signerOrProvider) as ERC165;
 
-      const waitERC721 = contract.supportsInterface(abis.ERC721.interfaceId || "");
-      const waitERC1155 = contract.supportsInterface(abis.ERC1155.interfaceId || "");
-      [supports.ERC721, supports.ERC1155] = await Promise.all([waitERC721, waitERC1155]);
+      const waitERC721 = contract.supportsInterface(interfaceId(IERC721));
+      const waitERC1155 = contract.supportsInterface(interfaceId(IERC1155));
+      [supports.IERC721, supports.IERC1155] = await Promise.all([waitERC721, waitERC1155]);
 
-      if (supports.ERC721) {
-        const waitMetadata = contract.supportsInterface(abis.ERC721Metadata.interfaceId || "");
-        const waitEnumerable = contract.supportsInterface(abis.ERC721Enumerable.interfaceId || "");
-        const waitOpenNFTsV2 = contract.supportsInterface(abis.OpenNFTsV2.interfaceId || "");
-        const waitOpenNFTsV3 = contract.supportsInterface(abis.OpenNFTsV3.interfaceId || "");
+      if (supports.IERC721) {
+        const waitMetadata = contract.supportsInterface(interfaceId(IERC721Metadata));
+        const waitEnumerable = contract.supportsInterface(interfaceId(IERC721Enumerable));
+        const waitOpenNFTsV2 = contract.supportsInterface(interfaceId(IOpenNFTsV2));
+        const waitOpenNFTsV3 = contract.supportsInterface(interfaceId(IOpenNFTsV3));
 
-        [supports.ERC721Metadata, supports.ERC721Enumerable, supports.OpenNFTsV2, supports.OpenNFTsV3] =
+        [supports.IERC721Metadata, supports.IERC721Enumerable, supports.IOpenNFTsV2, supports.IOpenNFTsV3] =
           await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
-      } else if (supports.ERC1155) {
-        supports.ERC1155Metadata_URI = await contract.supportsInterface(abis.ERC1155Metadata_URI.interfaceId || "");
+      } else if (supports.IERC1155) {
+        supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(IERC1155MetadataURI));
       }
-      supports.OpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
-
-      supports.OpenNFTs = supports.OpenNFTsV1 || supports.OpenNFTsV2 || supports.OpenNFTsV3;
+      if (supports.IOpenNFTsV3) {
+        supports.IOpenNFTs = true;
+      }
+      supports.IOpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
     } catch (e) {
       console.error(`ERROR collectionGetSupportedInterfaces : ${chainId} ${collectionAddress}\n`, e);
     }
@@ -68,24 +94,23 @@ const collectionGet = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider?: Signer | Provider
-): Promise<Collection | undefined> => {
+): Promise<Collection> => {
   // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: Collection | undefined = undefined;
-  if (chainId && collectionOrAddress) {
-    // TODO : Get supported interfaces via onchain proxy smartcontract
-    if (typeof collectionOrAddress === "string") {
-      collection = { chainId, address: collectionOrAddress };
-    } else {
-      collection = collectionOrAddress;
-    }
 
-    if (!collection.supports && signerOrProvider) {
-      try {
-        collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
-      } catch (e) {
-        console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
-      }
+  // TODO : Get supported interfaces via onchain proxy smartcontract
+  if (typeof collectionOrAddress === "string") {
+    collection = { chainId, address: collectionOrAddress };
+  } else {
+    collection = collectionOrAddress;
+  }
+
+  if (!collection.supports && signerOrProvider) {
+    try {
+      collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+    } catch (e) {
+      console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
     }
   }
   // console.log(`collectionGet ${chainId}`, collection);
@@ -95,37 +120,33 @@ const collectionGet = async (
 const collectionGetContract = async (
   chainId: number,
   collectionOrAddress: Collection | string,
-  signerOrProvider?: Signer | Provider
-): Promise<OpenNFTs | undefined> => {
+  signerOrProvider: Signer | Provider
+): Promise<Contract> => {
   // console.log(`collectionGetContract ${chainId}`, collectionOrAddress);
 
-  let collection: Collection;
-  let contract: OpenNFTs | undefined;
   let abi: Array<string> = [];
+  let collection: Collection;
 
-  if (chainId && collectionOrAddress && signerOrProvider) {
-    if (typeof collectionOrAddress === "string") {
-      collection = { chainId, address: collectionOrAddress };
-    } else {
-      collection = collectionOrAddress;
-    }
+  if (typeof collectionOrAddress === "string") {
+    collection = { chainId, address: collectionOrAddress };
+  } else {
+    collection = collectionOrAddress;
+  }
 
-    const collectionSupports = collection.supports
-      ? collection.supports
-      : await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+  const collectionSupports = collection.supports
+    ? collection.supports
+    : await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+  // console.log("collectionSupports", collectionSupports);
 
-    for (const [key, supports] of Object.entries(collectionSupports)) {
-      if (supports) {
-        abi = abi.concat(abis[key as ErcKeys | OpenNFTsKeys].abi);
-      }
-
-      try {
-        contract = new Contract(collection.address, abi, signerOrProvider) as OpenNFTs;
-      } catch (e) {
-        console.error(`ERROR collectionGetContract : ${chainId} ${collection.address}\n`, e);
-      }
+  for (const [key, supports] of Object.entries(collectionSupports)) {
+    if (supports) {
+      // console.log(  key, abis[key as ABIS]);
+      abi = abi.concat(abis[key as ABIS]);
     }
   }
+  // console.log("abi", abi);
+  const contract = new Contract(collection.address, abi, signerOrProvider);
+
   // console.log("collectionGetContract", contract);
   return contract;
 };

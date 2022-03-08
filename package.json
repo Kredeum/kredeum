@@ -4,13 +4,41 @@
   "description": "Kredeum NFTS Factory",
   "main": "index.js",
   "scripts": {
-    "dapp": "http-server dapp/build",
-    "build-gulp": "cd gulp && npm run clean && pnpm install && npm run build",
-    "build-svelte": "cd svelte && npm run clean && pnpm install && npm run build && npm run check",
-    "build-dapp": "rm -rf dapp/build && npm run build-gulp && npm run build-svelte",
-    "build-wordpress": "cd wordpress && npm run clean && pnpm install && npm run instal && npm run build && npm run check",
-    "build": "npm run build-wordpress && npm run build-dapp",
-    "check": "(cd hardhat && pnpm install && npm run check) && (cd svelte && pnpm install && npm run check) && (cd wordpress && pnpm install && npm run instal && npm run check)"
+    "dapp": "http-server web/dapp",
+    "build-dapp": "rm -rf web/dapp && npm run build:hardhat && npm run build:gulp && npm run build:rollup",
+    "clean": "npm-run-all clean:*",
+    "update": "npm-run-all update:*",
+    "build": "npm-run-all build:*",
+    "check": "npm-run-all check:*",
+    "postinstall": "npm-run-all install:*",
+    "install:common": "cd common && pnpm install",
+    "install:hardhat": "cd hardhat && pnpm install",
+    "install:gulp": "cd gulp && pnpm install",
+    "install:rollup": "cd rollup && pnpm install",
+    "install:wordpress": "cd wordpress && pnpm install",
+    "install:thegraph": "cd thegraph && pnpm install",
+    "clean:common": "cd common && npm run clean",
+    "clean:hardhat": "cd hardhat && npm run clean",
+    "clean:gulp": "cd gulp && npm run clean",
+    "clean:rollup": "cd rollup && npm run clean",
+    "clean:web": "rm -rf web/dapp web/docs",
+    "clean:wordpress": "cd wordpress && npm run clean",
+    "clean:thegraph": "cd thegraph && npm run clean",
+    "update:common": "cd common && pnpm update",
+    "update:hardhat": "cd hardhat && pnpm update",
+    "update:gulp": "cd gulp && pnpm update",
+    "update:rollup": "cd rollup && pnpm update",
+    "update:wordpress": "cd wordpress && pnpm update",
+    "update:thegraph": "cd thegraph && pnpm update",
+    "build:hardhat": "cd hardhat && npm run build",
+    "build:gulp": "cd gulp && npm run build",
+    "build:rollup": "cd rollup && npm run build",
+    "build:wordpress": "cd wordpress && npm run build",
+    "build:thegraph": "cd thegraph && npm run build",
+    "check:common": "cd common && npm run check",
+    "check:hardhat": "cd hardhat && npm run check",
+    "check:rollup": "cd rollup && npm run check",
+    "check:wordpress": "cd wordpress && npm run check"
   },
   "repository": {
     "type": "git",
@@ -24,6 +52,7 @@
   },
   "homepage": "https://www.kredeum.com",
   "devDependencies": {
-    "http-server": "^14.1.0"
+    "http-server": "^14.1.0",
+    "npm-run-all": "^4.1.5"
   }
 }

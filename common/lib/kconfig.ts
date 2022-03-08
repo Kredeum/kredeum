@@ -1,15 +1,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { ABIS, Address, Network, Collection, Nft } from "./ktypes";
+import type { Address, Network, Collection, Nft } from "./ktypes";
 
-import { factoryGetAddress, factoryGetOpenNFTsDefault } from "./kfactory-get";
+import { Fragment, Interface } from "@ethersproject/abi";
+import { providers, utils, BigNumber } from "ethers";
+import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
-import abisJson from "./abis.json";
-
-import { providers, utils } from "ethers";
-
-const abis = abisJson as ABIS;
-const version = config.version;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
@@ -66,12 +62,6 @@ const getOpenSeaKredeum = (chainId: number): string => {
 const getOpenSeaAssets = (chainId: number): string => {
   const network = getNetwork(chainId);
   return network?.openSea?.assets || "";
-};
-
-// GET NftsFactory
-const getNftsFactory = (chainId: number): string => {
-  const network = getNetwork(chainId);
-  return network?.nftsFactory || "";
 };
 
 // GET Create
@@ -138,18 +128,29 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 // => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGetLink = (uri: string): string => {
-  let ipfsGetLink = "";
+  let ipfsLink = "";
+  let cid = "";
 
-  if (uri.startsWith("ipfs://")) {
-    ipfsGetLink = uri;
-  } else {
-    const cid = uri.match(/^.*\/ipfs\/([^\/]*)$/i);
-    if (cid) {
-      ipfsGetLink = ipfsCidToLink(cid[1]);
+  if (uri.startsWith("Qm") || uri.startsWith("ba")) {
+    cid = uri;
+  } else if (uri.startsWith("ipfs://")) {
+    if (uri.startsWith("ipfs://ipfs/")) {
+      cid = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
+    } else {
+      ipfsLink = uri;
     }
+  } else {
+    // find cid in uri
+    const res = uri.match(/^.*\/ipfs\/(.*)$/i);
+    cid = (res && res[1]) || "";
+    // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
   }
-  console.log("ipfsGetLink", uri, "=>", ipfsGetLink);
-  return ipfsGetLink;
+  if (cid) {
+    // reconstruct ipfs uri
+    ipfsLink = ipfsCidToLink(cid);
+  }
+  // console.log("ipfsGetLink", uri, "=>", ipfsLink, cid);
+  return ipfsLink;
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -212,7 +213,7 @@ const explorerNFTsFactoryUrl = (chainId: number): string =>
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetOpenNFTsDefault(chainId, provider));
+  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, "OpenNFTsV3", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {
@@ -319,8 +320,21 @@ const nftDescription = (nft: Nft): string => (nft?.name != nft?.description && n
 const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const interfaceId = (abi: Array<string>): string => {
+  const iface = new Interface(abi);
+
+  let id = BigNumber.from(0);
+  iface.fragments.forEach((f: Fragment): void => {
+    if (f.type === "function") {
+      id = id.xor(BigNumber.from(iface.getSighash(f)));
+    }
+  });
+  return utils.hexlify(id);
+};
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export {
-  abis,
   addressSame,
   collectionName,
   collectionSymbol,
@@ -346,7 +360,6 @@ export {
   getOpenSeaKredeum,
   getOpenSeaAssets,
   getCreate,
-  getNftsFactory,
   getCovalent,
   getExplorer,
   ipfsToUrlHttp,
@@ -355,6 +368,7 @@ export {
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  interfaceId,
   nftUrl3,
   nftUrl,
   nftsUrl,
@@ -371,5 +385,5 @@ export {
   textShort,
   urlOwner,
   urlToLink,
-  version
+  config
 };
