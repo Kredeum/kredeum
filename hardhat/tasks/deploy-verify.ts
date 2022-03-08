@@ -16,7 +16,7 @@ task("deploy-verify", "Deploy and verify contracts")
     await hre.run("deploy", tags);
 
     if (!now) {
-      console.log(`Waiting 30 seconds for etherscan to be ready...`);
+      console.log("Waiting 30 seconds for etherscan to be ready...");
       await pause(30);
     }
 

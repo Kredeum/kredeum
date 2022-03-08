@@ -14,7 +14,7 @@ const gasPriceGwei = 20; //  Gwei
 ///////////////////////////////////////////
 
 let gasPrice: BigNumber;
-let gasPriceTotal: number = 0;
+let gasPriceTotal = 0;
 const gasPriceDefault = etrs.utils.parseUnits(String(gasPriceGwei), "gwei");
 
 const _checkGasPriceDollar = (gasAmount: number, gasPrice: BigNumber = gasPriceDefault) =>
@@ -38,12 +38,12 @@ const _checkGasConsoleLog = (contractName: string, label: string, gasAmount: num
 const _checkGasLog = (contractName: string, label?: string, gasAmount?: number, real = false) => {
   if (gasAmount) {
     if (real) {
-      _checkGasConsoleLog(contractName, label + " real ", gasAmount);
+      _checkGasConsoleLog(contractName, `${label || ""} real `, gasAmount);
       gasPriceTotal += gasAmount;
     } else {
-      _checkGasConsoleLog(contractName, label + " estim", gasAmount);
+      _checkGasConsoleLog(contractName, `${label || ""} estim`, gasAmount);
 
-      if (prompt(`${contractName} ${label} Return to continue... `) == null) exit(1);
+      if (prompt(`${contractName} ${label || ""} Return to continue... `) == null) exit(1);
     }
   } else {
     _checkGasConsoleLog(contractName, label || "Total cumul real", gasPriceTotal);
@@ -61,7 +61,7 @@ const checkGasDeploy = async (
   if (fetchIf.differences) {
     const deployArgs = deployOptions.args as string[];
     // Calculate estimed gas before deployment
-    const tx = await (await hre.ethers.getContractFactory(contractName)).getDeployTransaction(...deployArgs);
+    const tx = (await hre.ethers.getContractFactory(contractName)).getDeployTransaction(...deployArgs);
 
     const estimatedGas = Number(await hre.ethers.provider.estimateGas(tx));
     _checkGasLog(contractName, "deployment", estimatedGas);

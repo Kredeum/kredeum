@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
-  plugins: ["@typescript-eslint"],
+  plugins: ["svelte3", "@typescript-eslint"],
   extends: [
     "prettier",
     "eslint:recommended",
@@ -12,14 +12,35 @@ module.exports = {
     ecmaVersion: 2021,
     sourceType: "module",
     tsconfigRootDir: __dirname,
-    project: ["./tsconfig.json"]
+    project: ["./tsconfig.json"],
+    extraFileExtensions: [".svelte"]
   },
   env: {
     es6: true,
     browser: true,
     node: true
   },
-  ignorePatterns: ["node_modules"],
+  overrides: [
+    {
+      files: ["*.svelte"],
+      processor: "svelte3/svelte3",
+      rules: {
+        "no-console": 0
+      },
+      settings: {
+        "svelte3/compiler-options": {
+          customElement: true
+        }
+      }
+    }
+  ],
+  settings: {
+    "svelte3/typescript": require("typescript"),
+    // ignore style tags in Svelte because of Tailwind CSS
+    // See https://github.com/sveltejs/eslint-plugin-svelte3/issues/70
+    "svelte3/ignore-styles": () => true
+  },
+  ignorePatterns: ["node_modules", "**/vendor/*.js"],
   rules: {
     "@typescript-eslint/no-unsafe-assignment": "warn",
     "@typescript-eslint/no-unsafe-call": "warn",
@@ -45,5 +66,3 @@ module.exports = {
     ethereum: "readonly"
   }
 };
-
-export {};

@@ -18,8 +18,8 @@
   let collection: Collection;
   let refreshing: boolean;
   let nftsList;
-  let label: string = "";
-  let version: string = "";
+  let label = "";
+  let version = "";
 
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
     const ret = explorerCollectionUrl($chainId, _collectionAddress);

@@ -46,16 +46,17 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = `<video preload="metadata" style="border-radius: initial;">`;
+      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
     } else {
-      video = `<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">`;
+      video =
+        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
   };
 
   const divMedia = async (nft: Nft, index: number, small = false) => {
-    const mediaContentType = (await nft.contentType)?.split("/");
+    const mediaContentType = nft.contentType?.split("/");
     const mediaType = mediaContentType[0] || "image";
 
     const mediaSrc = nftGetImageLink(nft);
@@ -70,7 +71,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += `<div class="media-text"></div>`;
+      div += "<div class=\"media-text\"></div>";
     }
     div += "</div>";
 

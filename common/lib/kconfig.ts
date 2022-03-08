@@ -128,8 +128,8 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 // => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGetLink = (uri: string): string => {
-  let ipfsLink: string = "";
-  let cid: string = "";
+  let ipfsLink = "";
+  let cid = "";
 
   if (uri.startsWith("Qm") || uri.startsWith("ba")) {
     cid = uri;

@@ -34,8 +34,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice Main and only function to calculate Interface Ids
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
-    function ids() external pure 
-    override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
+    function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         interfacesIds = new bytes4[](18);
         interfacesIds[0] = type(IERC165).interfaceId;
 

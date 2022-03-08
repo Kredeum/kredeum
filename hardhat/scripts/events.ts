@@ -42,7 +42,7 @@ const main = async () => {
   console.log(`main ~ implementationsCount ${implementationsCount}`);
 
   let startBlock = creationBlock;
-  let currentBlock = await provider.getBlockNumber();
+  const currentBlock = await provider.getBlockNumber();
   console.log("main ~ currentBlock", currentBlock);
   await getLogs1050000(startBlock);
   startBlock += nAwait * nBlocks;

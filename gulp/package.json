@@ -14,7 +14,6 @@
   "license": "ISC",
   "devDependencies": {
     "-": "^0.0.1",
-    "D": "^1.0.0",
     "autoprefixer": "^10.4.2",
     "cssnano": "^5.1.0",
     "del": "^6.0.0",

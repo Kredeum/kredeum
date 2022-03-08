@@ -13,6 +13,5 @@
       "abis/*": ["abis/*"]
     }
   },
-  "include": ["lib/*.ts", "types/*.ts", "abis/*.ts"],
-  "files": [".eslintrc.ts"]
+  "include": ["lib/*.ts", "types/*.ts", "abis/*.ts"]
 }

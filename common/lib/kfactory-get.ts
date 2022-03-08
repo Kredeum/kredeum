@@ -71,7 +71,7 @@ const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider
 // GET OpenNFTs default template via onchain call
 const factoryGetDefaultImplementation = async (chainId: number, provider: Provider): Promise<Address> => {
   const nftsFactory = factoryGetContract(chainId, provider);
-  const defaultImplementation = (await nftsFactory.implementations(0)) as Address;
+  const defaultImplementation = await nftsFactory.implementations(0);
 
   return defaultImplementation;
 };

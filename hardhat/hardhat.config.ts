@@ -78,12 +78,12 @@ const config: HardhatUserConfig = {
     rinkeby: netConf(4, `https://eth-rinkeby.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
     goerli: netConf(5, `https://goerli.infura.io/v3/${INFURA_API_KEY}`),
     kovan: netConf(42, `https://kovan.infura.io/v3/${INFURA_API_KEY}`),
-    bsc: netConf(56, `https://bsc-dataseed1.binance.org`, ETHERSCAN_API_KEY_BINANCE),
+    bsc: netConf(56, "https://bsc-dataseed1.binance.org", ETHERSCAN_API_KEY_BINANCE),
     matic: netConf(137, `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON),
-    fantom: netConf(250, `https://rpcapi.fantom.network`, ETHERSCAN_API_KEY_FANTOM),
-    fantomtestnet: netConf(4002, `https://rpc.testnet.fantom.network`, ETHERSCAN_API_KEY_FANTOM),
-    avalanche: netConf(43114, `https://api.avax.network/ext/bc/C/rpc`, ETHERSCAN_API_KEY_AVALANCHE),
-    fuji: netConf(43113, `https://api.avax-test.network/ext/bc/C/rpc`, ETHERSCAN_API_KEY_AVALANCHE),
+    fantom: netConf(250, "https://rpcapi.fantom.network", ETHERSCAN_API_KEY_FANTOM),
+    fantomtestnet: netConf(4002, "https://rpc.testnet.fantom.network", ETHERSCAN_API_KEY_FANTOM),
+    avalanche: netConf(43114, "https://api.avax.network/ext/bc/C/rpc", ETHERSCAN_API_KEY_AVALANCHE),
+    fuji: netConf(43113, "https://api.avax-test.network/ext/bc/C/rpc", ETHERSCAN_API_KEY_AVALANCHE),
     optimism: netConf(10, `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
     optimismkovan: netConf(69, `https://optimism-kovan.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_OPTIMISM),
     arbitrum: netConf(42161, `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_ARBITRUM),
@@ -92,7 +92,7 @@ const config: HardhatUserConfig = {
       `https://arbitrum-rinkeby.infura.io/v3/${INFURA_API_KEY}`,
       ETHERSCAN_API_KEY_ARBITRUM
     ),
-    xdai: netConf(100, `https://rpc.xdaichain.com/`, "", { gasPrice: 80_000_000_000 }),
+    xdai: netConf(100, "https://rpc.xdaichain.com/", "", { gasPrice: 80_000_000_000 }),
     mumbai: netConf(80001, `https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON, {
       live: true
     })
