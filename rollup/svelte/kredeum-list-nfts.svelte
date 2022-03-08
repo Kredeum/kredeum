@@ -5,7 +5,7 @@
 
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
   import { chainId, network, provider, owner } from "./network";
-  import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
+  import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
 
@@ -15,6 +15,7 @@
   // up to parent
   export let refreshing: boolean;
 
+  let collectionAddress: string;
   let numNFT: number;
 
   let NFTs: Map<string, Nft>;
@@ -25,16 +26,15 @@
   let mores: Array<number> = [];
 
   export const nftsList = async () => {
-    _nftsList(collection, true);
+    _nftsList();
   };
 
-  // IF CHAINID, OWNER or COLLECTION change THEN list NFTs
-  $: _nftsList(collection);
+  $: if (collection) collectionAddress = collection.address;
 
-  // console.log("refreshNFTS", force, collection);
+  $: if (collectionAddress && $chainId && $owner) _nftsList(true);
 
-  const _nftsList = (_collection: Collection, cache = false) => {
-    if (_collection && $chainId && $owner) {
+  const _nftsList = (cache = false) => {
+    if (collection && $chainId && $owner) {
       // console.log("_nftsList", _chainId, _owner, cache, _collection);
 
       let fromLib = !cache;
@@ -137,11 +137,7 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, index}
-        {#if tokenID == ""}
-          <KredeumGetNft {nft} {index} {platform} more={mores[index]} />
-        {:else if tokenID == nft.tokenID}
-          <KredeumGetNft {nft} {index} {platform} more={-1} />
-        {/if}
+        <KredeumGetNft {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
       {/each}
     </div>
   {:else}

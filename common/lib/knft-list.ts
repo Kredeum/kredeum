@@ -231,6 +231,8 @@ const nftListWithMetadata = async (
   owner?: string,
   limit: number = LIMIT
 ): Promise<Map<string, Nft>> => {
+  // console.log("nftListWithMetadata", chainId, collection);
+
   const nftsWithMetadata: Map<string, Nft> = new Map();
 
   const nftsFromIds = [...nfts.values()];

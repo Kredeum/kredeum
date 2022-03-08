@@ -84,9 +84,9 @@
       "active": true
     },
     "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
+    "nftsFactoryV2": "0x016fa6b76Fb24e651806455e58710d48880226f9",
     "create": true,
-    "mainnet": true,
-    "nftsFactoryV2": "0x016fa6b76Fb24e651806455e58710d48880226f9"
+    "mainnet": true
   },
   {
     "chainId": 100,
