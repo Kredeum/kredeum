@@ -3,9 +3,9 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./interfaces/IProof.sol";
+import "./interfaces/IOpenProof.sol";
 
-contract Proof is ERC721, IProof {
+contract OpenProof is ERC721, IOpenProof {
     using Counters for Counters.Counter;
 
     string private _tokenURI;
@@ -13,7 +13,7 @@ contract Proof is ERC721, IProof {
 
     constructor() ERC721("Proof Of Something", "PROOF") {}
 
-    function setTokenURI(string memory tokenURI_) public override(IProof) {
+    function setTokenURI(string memory tokenURI_) public override(IOpenProof) {
         _tokenURI = tokenURI_;
     }
 

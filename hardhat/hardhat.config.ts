@@ -120,15 +120,17 @@ const config: HardhatUserConfig = {
     target: "ethers-v5",
     outDir: "../common/types"
   },
-  abiExporter: {
-    path: "../common/abis/new",
-    runOnCompile: true,
-    clear: false,
-    flat: true,
-    only: ["new"],
-    spacing: 2,
-    pretty: true
-  },
+  abiExporter: [
+    {
+      path: "../common/abis",
+      runOnCompile: true,
+      clear: false,
+      flat: true,
+      only: ["new"],
+      spacing: 2,
+      pretty: true
+    }
+  ],
   paths: {
     sources: "contracts",
     deploy: "deploy",

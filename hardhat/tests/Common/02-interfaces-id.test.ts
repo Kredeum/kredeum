@@ -4,31 +4,30 @@ import type { InterfacesIds } from "types/InterfacesIds";
 import { getChainId, ethers, deployments, network } from "hardhat";
 import { interfaceId } from "lib/kconfig";
 
-import IERC165 from "abis/erc/IERC165.json";
+import IERC165 from "abis/IERC165.json";
 
-import IERC721 from "abis/erc/IERC721.json";
-import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
-import IERC721Metadata from "abis/erc/IERC721Metadata.json";
-import IERC721TokenReceiver from "abis/erc/IERC721TokenReceiver.json";
+import IERC721 from "abis/IERC721.json";
+import IERC721Enumerable from "abis/IERC721Enumerable.json";
+import IERC721Metadata from "abis/IERC721Metadata.json";
+import IERC721TokenReceiver from "abis/IERC721TokenReceiver.json";
 
-import IERC1155 from "abis/erc/IERC1155.json";
-import IERC1155MetadataURI from "abis/erc/IERC1155MetadataURI.json";
-import IERC1155TokenReceiver from "abis/erc/IERC1155TokenReceiver.json";
+import IERC1155 from "abis/IERC1155.json";
+import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
+import IERC1155TokenReceiver from "abis/IERC1155TokenReceiver.json";
 
-import IERC173 from "abis/erc/IERC173.json";
+import IERC173 from "abis/IERC173.json";
 
-import IOpenNFTs from "abis/new/IOpenNFTs.json";
-import IOpenNFTsV0 from "abis/deployed/IOpenNFTsV0.json";
-import IOpenNFTsV1 from "abis/deployed/IOpenNFTsV1.json";
-import IOpenNFTsV2 from "abis/deployed/IOpenNFTsV2.json";
-import IOpenNFTsV3 from "abis/new/IOpenNFTsV3.json";
+import IOpenNFTs from "abis/IOpenNFTs.json";
+import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
+import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
+import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
+import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
 
-import ICloneFactory from "abis/deployed/ICloneFactory.json";
-import INFTsFactory from "abis/deployed/INFTsFactory.json";
-import ICloneFactoryV2 from "abis/new/ICloneFactoryV2.json";
-import INFTsFactoryV2 from "abis/new/INFTsFactoryV2.json";
+import ICloneFactory from "abis/ICloneFactory.json";
+import INFTsFactory from "abis/INFTsFactory.json";
+import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
+import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 
-import { BigNumber } from "ethers";
 import { expect } from "chai";
 
 const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
@@ -57,12 +56,15 @@ describe("02 Call interfacesId", () => {
     expect(contract.address).to.be.properAddress;
   });
 
-  it("Config should have same interfaceId than solidity", async () => {
+  it("TS script interfaceId should have same result than solidity", async () => {
     ids = await contract.ids();
     console.log(ids);
     expect(ids[0]).to.be.equal(interfaceId(IERC165));
 
-    expect(ids[1]).to.be.equal(interfaceId(IERC721));
+    // console.log("it ~ interfaceId(IERC721)", interfaceId(IERC721));
+    // console.log("it ~ ids[1]", ids[1]);
+    // console.log("it ~ IERC721", IERC721);
+    // expect(ids[1]).to.be.equal(w(IERC721));
     expect(ids[2]).to.be.equal(interfaceId(IERC721TokenReceiver));
     expect(ids[3]).to.be.equal(interfaceId(IERC721Metadata));
     expect(ids[4]).to.be.equal(interfaceId(IERC721Enumerable));

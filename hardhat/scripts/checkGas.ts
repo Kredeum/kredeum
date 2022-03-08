@@ -1,11 +1,10 @@
-import type { HardhatEthersHelpers } from "hardhat-deploy-ethers/types";
-import type { DeployResult, DeployOptions, Create2DeployOptions } from "hardhat-deploy/types";
+
+import type { DeployResult, Create2DeployOptions } from "hardhat-deploy/types";
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
 import type { Signer } from "ethers";
 import { BigNumber, ethers as etrs } from "ethers";
 import { exit } from "process";
 import Prompt from "prompt-sync";
-import readlineSync from "readline-sync";
 const prompt = Prompt();
 
 ///////////////////////////////////////////

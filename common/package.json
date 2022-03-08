@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "clean": "rm -rf node_modules abis/new types",
+    "clean": "rm -rf node_modules abis types",
     "build": "echo build",
     "tests": "echo tests",
     "check": "npm run prettier && npm run eslint",
@@ -20,10 +20,16 @@
   "dependencies": {
     "@ethersproject/abi": "^5.5.0",
     "@ethersproject/abstract-provider": "^5.5.1",
+    "@ethersproject/abstract-signer": "^5.5.0",
+    "@ethersproject/address": "^5.5.0",
+    "@ethersproject/bytes": "^5.5.0",
+    "@ethersproject/contracts": "^5.5.0",
+    "@ethersproject/hardware-wallets": "^5.5.0",
     "@ethersproject/providers": "^5.5.3",
     "@types/node": "^17.0.21",
     "@typescript-eslint/eslint-plugin": "^5.14.0",
     "@typescript-eslint/parser": "^5.14.0",
+    "@typechain/ethers-v5": "^9.0.0",
     "eslint": "^8.10.0",
     "eslint-config-prettier": "^8.5.0",
     "ethers": "^5.5.4",

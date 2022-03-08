@@ -2,8 +2,8 @@ import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { Network } from "lib/ktypes";
 
 import config from "config/config.json";
-import INFTsFactory2 from "abis/new/INFTsFactoryV2.json";
-import ICloneFactory2 from "abis/new/ICloneFactoryV2.json";
+import INFTsFactory2 from "abis/INFTsFactoryV2.json";
+import ICloneFactory2 from "abis/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";

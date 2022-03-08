@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "../deployed/interfaces/IOpenNFTsV2.sol";
+import "./interfaces/IOpenNFTsV2.sol";
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Metadata.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/IERC721Enumerable.sol";
@@ -10,7 +10,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./CloneFactoryV2.sol";
 import "./interfaces/INFTsFactoryV2.sol";
 import "./interfaces/IOpenNFTs.sol";
-import "../erc/interfaces/IERC173.sol";
+import "./interfaces/IERC173.sol";
 
 /// @title NFTsFactory smartcontract
 /// @dev is CloneFactory

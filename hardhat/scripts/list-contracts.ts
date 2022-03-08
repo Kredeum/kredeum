@@ -1,12 +1,12 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { NFTsFactory } from "types/NFTsFactory";
 
-import INFTsFactory from "abis/deployed/INFTsFactory.json";
-import ICloneFactory from "abis/deployed/ICloneFactory.json";
-import IERC165 from "abis/erc/IERC165.json";
-import IERC721 from "abis/erc/IERC721.json";
-import IERC721Metadata from "abis/erc/IERC721Metadata.json";
-import IERC721Enumerable from "abis/erc/IERC721Enumerable.json";
+import INFTsFactory from "abis/INFTsFactory.json";
+import ICloneFactory from "abis/ICloneFactory.json";
+import IERC165 from "abis/IERC165.json";
+import IERC721 from "abis/IERC721.json";
+import IERC721Metadata from "abis/IERC721Metadata.json";
+import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
 import { collectionGetContract, collectionGetSupportedInterfaces } from "../../common/lib/kcollection-get";
 

@@ -5,9 +5,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/Counters.sol";
-import "./interfaces/INftPass.sol";
+import "./interfaces/IOpenPass.sol";
 
-contract NftPass is ERC721, INftPass, ERC721Burnable, Ownable {
+contract OpenPass is ERC721, IOpenPass, ERC721Burnable, Ownable {
     using Counters for Counters.Counter;
 
     string private _tokenURI;
@@ -15,13 +15,13 @@ contract NftPass is ERC721, INftPass, ERC721Burnable, Ownable {
 
     constructor() ERC721("NFT Pass", "PASS") {}
 
-    function safeMint(address to) public override(INftPass) onlyOwner {
+    function safeMint(address to) public override(IOpenPass) onlyOwner {
         uint256 tokenId = _tokenIdCounter.current();
         _tokenIdCounter.increment();
         _safeMint(to, tokenId);
     }
 
-    function setTokenURI(string memory tokenURI_) public override(INftPass) onlyOwner {
+    function setTokenURI(string memory tokenURI_) public override(IOpenPass) onlyOwner {
         _tokenURI = tokenURI_;
     }
 

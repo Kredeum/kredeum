@@ -1,9 +1,8 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { Signer, Contract, BigNumber } from "ethers";
-import { FeeData, TransactionReceipt } from "@ethersproject/abstract-provider";
+import { Signer, Contract } from "ethers";
 
-describe("Proof", function () {
+describe("OpenPass", function () {
   let signer: Signer;
   let signerAddress: string;
   let template: Contract;
@@ -14,18 +13,16 @@ describe("Proof", function () {
     console.log("signer", signerAddress, "\n");
 
     // Deploy contract if not already
-    if (!(await ethers.getContractOrNull("Proof"))) {
-      console.log("Deploy Proof...");
-      await deployments.fixture(["Proof"]);
+    if (!(await ethers.getContractOrNull("OpenPass"))) {
+      console.log("Deploy OpenPass...");
+      await deployments.fixture(["OpenPass"]);
     }
 
-    template = await ethers.getContract("Proof", signer);
+    template = await ethers.getContract("OpenPass", signer);
     console.log("contract", template.address, "\n");
   });
 
-  afterEach(async () => {});
-
-  it("Should be ok", async function () {
+  it("Should be ok", function () {
     expect(signerAddress).to.be.properAddress;
     expect(template.address).to.be.properAddress;
   });

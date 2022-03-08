@@ -1,10 +1,10 @@
 import type { NFTsFactory } from "types/NFTsFactory";
 import type { Network } from "lib/ktypes";
 
-import INFTsFactory from "abis/deployed/INFTsFactory.json";
-import ICloneFactory from "abis/deployed/ICloneFactory.json";
+import INFTsFactory from "abis/INFTsFactory.json";
+import ICloneFactory from "abis/ICloneFactory.json";
 
-import IERC173 from "abis/erc/IERC173.json";
+import IERC173 from "abis/IERC173.json";
 import hre from "hardhat";
 
 import networks from "config/networks.json";

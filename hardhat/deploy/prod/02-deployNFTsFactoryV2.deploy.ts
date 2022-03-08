@@ -1,10 +1,12 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 import type { Network } from "lib/ktypes";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
 
-import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
+// import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
 
 const contractName = "NFTsFactoryV2";
 
@@ -21,10 +23,10 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   if (!["avalanche", "fuji"].includes(hre.network.name)) {
     deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV2");
   }
-  // const diff = await hre.deployments.fetchIfDifferent(contractName, deployOptions);
-  // console.log("diff", contractName, diff);
 
-  const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
+  const deployResult = await hre.deployments.deploy(contractName, deployOptions);
+  // const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
+
   if (deployResult.newlyDeployed) {
     const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
     const networkConf: Network = networks[index];
@@ -35,9 +37,14 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
         .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
-    const openNFTsV3 = await hre.ethers.getContract("OpenNFTsV3");
-    await checkGasMethod(hre, contractName, "templateSet", deployer, "OpenNFTsV3", openNFTsV3.address);
-    await checkGasMethod(hre, contractName, "implementationsAdd", deployer, [openNFTsV3.address]);
+    const openNFTsV3: OpenNFTsV3 = await hre.ethers.getContract("OpenNFTsV3");
+    const nftsFactoryV2: NFTsFactoryV2 = await hre.ethers.getContract(contractName, deployer);
+
+    await nftsFactoryV2.templateSet("OpenNFTsV3", openNFTsV3.address);
+    // await checkGasMethod(hre, contractName, "templateSet", deployer, "OpenNFTsV3", openNFTsV3.address);
+
+    await nftsFactoryV2.implementationsAdd([openNFTsV3.address]);
+    // await checkGasMethod(hre, contractName, "implementationsAdd", deployer, [openNFTsV3.address]);
   }
 };
 deployFunction.dependencies = ["OpenNFTsV3"];
