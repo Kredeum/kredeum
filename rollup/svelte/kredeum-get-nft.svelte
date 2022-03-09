@@ -19,6 +19,7 @@
   import { onMount } from "svelte";
 
   import TransferNft from "./kredeum-transfer-nft.svelte";
+  import ClaimNft from "./kredeum-claim-nft.svelte";
 
   export let nft: Nft;
   export let index: number;
@@ -46,10 +47,10 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
+      video = '<video preload="metadata" style="border-radius: initial;">';
     } else {
       video =
-        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
+        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
@@ -71,7 +72,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += "<div class=\"media-text\"></div>";
+      div += '<div class="media-text"></div>';
     }
     div += "</div>";
 
@@ -195,6 +196,11 @@
               <i class="fas fa-gift" /> Transfer
             </a>
           </div>
+          <div class="flex">
+            <a href="#claim-nft-{nft.tokenID}" class="btn btn-small btn-default" title="Claim NFT on Kovan">
+              <i class="fas fa-exclamation" /> Claim on Kovan
+            </a>
+          </div>
         </li>
         {#if platform === "wordpress"}
           <li class="complete">
@@ -211,5 +217,10 @@
   <!-- Modal transfer nft -->
   <div id="transfert-nft-{nft.tokenID}" class="modal-window">
     <TransferNft bind:nft />
+  </div>
+
+  <!-- Modal claim nft -->
+  <div id="claim-nft-{nft.tokenID}" class="modal-window">
+    <ClaimNft bind:nft />
   </div>
 </div>
