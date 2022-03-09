@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Web3Provider, Provider, JsonRpcSigner } from "@ethersproject/providers";
+  import type { Web3Provider } from "@ethersproject/providers";
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
@@ -23,8 +23,6 @@
   export let txt: boolean = undefined;
   export let autoconnect: string = undefined;
 
-  const testnets = true;
-
   let ethereumProvider: EthereumProvider;
   let ethersProvider: Web3Provider;
 
@@ -37,7 +35,8 @@
 
   let open = false;
 
-  $: if ($owner) setEnsName();
+  $: if ($owner) setEnsName().catch(console.error);
+
   const setEnsName = async () => {
     nameOrAddress = $owner;
     nameOrAddress = await getEnsName($owner);
@@ -48,7 +47,22 @@
   const getChainname = (_network: Network): string => _network?.chainName || "unknown";
   const getChainName = (_network: Network): string => strUpFirst(getChainname(_network));
 
-  const addEthereumChain = async (_chainId) => {
+  const switchEthereumChain = async (chainId: number, provider: EthereumProvider): Promise<void> => {
+    console.log("switchEthereumChain", chainId);
+
+    try {
+      await provider.request({
+        method: "wallet_switchEthereumChain",
+        params: [{ chainId: numberToHexString(chainId) }]
+      });
+    } catch (switchError) {
+      if (switchError.code === 4902) {
+        addEthereumChain(chainId);
+      }
+    }
+  };
+
+  const addEthereumChain = (_chainId: number): void => {
     if (_chainId) {
       console.log("addEthereumChain", _chainId);
 
@@ -95,7 +109,7 @@
     }
   };
 
-  const handleChainId = async (_chainId) => {
+  const handleChainId = (_chainId: number): void => {
     // console.log(`KredeumMetamask handleChainId ${_chainId}`);
 
     if (_chainId && _chainId != $chainId) {
@@ -106,41 +120,31 @@
         chainId.set(Number(_chainId));
       } else {
         // _chainId not accepted : switch to first accepted chainId
-        switchEthereumChain(networks[0].chainId);
+        _switchEthereumChain(networks[0].chainId).catch(console.error);
       }
     }
     console.log(`handleChainId ${$chainId}`);
   };
 
-  const switchEthereumChain = async (_chainId, e?: Event) => {
-    e?.preventDefault();
+  const _switchEthereumChain = async (_chainId: number, event?: Event) => {
+    event && event.preventDefault();
     if (_chainId && _chainId != $chainId) {
-      console.log("switchEthereumChain from", $chainId, "to", _chainId);
-      try {
-        await ethereumProvider.request({
-          method: "wallet_switchEthereumChain",
-          params: [{ chainId: numberToHexString(_chainId) }]
-        });
-      } catch (switchError) {
-        if (switchError.code === 4902) {
-          addEthereumChain(_chainId);
-        }
-      }
+      await switchEthereumChain(_chainId, ethereumProvider);
     }
   };
 
-  const handleAccounts = async (_accounts) => {
+  const handleAccounts = (_accounts: string[]): void => {
     // console.log("handleAccounts", _accounts);
 
     if (_accounts?.length === 0) {
       if (autoconnect !== "off") connectMetamask();
     } else if (_accounts[0] !== $owner) {
       signer.set(ethersProvider.getSigner(0));
-      owner.set(getChecksumAddress(await $signer.getAddress()));
+      owner.set(getChecksumAddress(_accounts[0]));
     }
   };
 
-  const connectMetamask = async (e?: Event) => {
+  const connectMetamask = (e?: Event) => {
     e.preventDefault();
     // console.log("connectMetamask");
 
@@ -180,7 +184,7 @@
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has("chainId")) {
-        handleChainId(urlParams.get("chainId"));
+        handleChainId(Number(urlParams.get("chainId")));
       } else {
         ethereumProvider
           .request({
@@ -210,7 +214,7 @@
 {#if txt}
   {#if $owner}
     Network
-    <select on:change={(e) => switchEthereumChain(e.target.value)}>
+    <select on:change={(e) => _switchEthereumChain(Number(e.target.value))}>
       {#each networks.filter((nw) => nw.mainnet) as _network}
         <option value={_network.chainId} selected={_network.chainId == $chainId}>
           {getChainName(_network)}
@@ -230,7 +234,7 @@
   {:else if noMetamask}
     {installMetamaskMessage}
   {:else}
-    <a href="." on:click={connectMetamask}>{connectMetamaskMessage}</a>
+    <a href="." on:click={() => connectMetamask()}>{connectMetamaskMessage}</a>
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
@@ -280,7 +284,7 @@
               <span
                 class="custom-option {_network.chainId == $chainId && 'selected'}"
                 data-value={getChainname(_network)}
-                on:click={(e) => switchEthereumChain(_network.chainId, e)}
+                on:click={(e) => _switchEthereumChain(_network.chainId, e)}
               >
                 {getChainName(_network)}
               </span>
@@ -290,7 +294,7 @@
                 <span
                   class="custom-option {_network.chainId == $chainId && 'selected'}"
                   data-value={getChainname(_network)}
-                  on:click={(e) => switchEthereumChain(_network.chainId, e)}
+                  on:click={(e) => _switchEthereumChain(_network.chainId, e)}
                 >
                   {getChainName(_network)}
                 </span>

@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/kconfig";
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";

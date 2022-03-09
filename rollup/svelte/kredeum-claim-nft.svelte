@@ -1,55 +1,57 @@
 <script lang="ts">
   import type { Nft } from "lib/ktypes";
-  import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
+  import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
   import { chainId, signer } from "./network";
 
   export let nft: Nft = undefined;
 
-  let transferTxHash: string = null;
-  let transfering = false;
-  let transfered = false;
+  let claimTxHash: string = null;
+  let claiming = false;
+  let claimed = false;
 
   let destinationAddress = "";
 
-  const transfer = async () => {
+  const claim = async () => {
     if ($signer) {
-      transferTxHash = null;
-      transfering = true;
-      transfered = false;
+      claimTxHash = null;
+      claiming = true;
+      claimed = false;
 
-      const txResp = await transferNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, $signer);
-      transferTxHash = txResp.hash;
+      // switch to kovan
 
-      const txReceipt = await transferNftReceipt(txResp);
+      const txResp = await claimNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, $signer);
+      claimTxHash = txResp.hash;
 
-      transfered = Boolean(txReceipt.status);
-      transfering = false;
+      const txReceipt = await claimNftReceipt(txResp);
+
+      claimed = Boolean(txReceipt.status);
+      claiming = false;
     }
   };
 </script>
 
-<div id="kredeum-transfer-nft">
+<div id="kredeum-claim-nft">
   <div class="modal-content">
     <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>
-        {#if transfered}
+        {#if claimed}
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT <a class="link" href="{explorerNftUrl($chainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
-              transfered!
+              claimed!
             </div>
           </div>
-        {:else if transfering}
+        {:else if claiming}
           <div class="titre">
             <i class="fas fa-sync fa-left c-green" />Transfering NFT...
           </div>
           <div class="section">
-            {#if transferTxHash}
+            {#if claimTxHash}
               Wait till completed, it may take one minute or more.
             {:else}
               Sign the transaction
@@ -57,24 +59,16 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-gift" /> Transfer this NFT #{nft.tokenID} to what address ?
-          </div>
-
-          <div class="section">
-            <div class="form-field">
-              <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
-            </div>
+            <i class="fas fa-exclamation" /> Claim this NFT #{nft.tokenID} to Kovan ?
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => transfer()}>Transfer</button>
+            <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>
           </div>
         {/if}
-        {#if transferTxHash}
+        {#if claimTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, transferTxHash)} target="_blank"
-              >{textShort(transferTxHash)}</a
-            >
+            <a class="link" href={explorerTxUrl($chainId, claimTxHash)} target="_blank">{textShort(claimTxHash)}</a>
           </div>
         {/if}
       </div>

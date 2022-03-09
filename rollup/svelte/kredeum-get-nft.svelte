@@ -14,7 +14,7 @@
     explorerNftUrl,
     explorerAddressLink
   } from "lib/kconfig";
-  import { chainId, network, owner, signer } from "./network";
+  import { chainId, network, owner } from "./network";
   import { nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
 
@@ -47,16 +47,16 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = '<video preload="metadata" style="border-radius: initial;">';
+      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
     } else {
       video =
-        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
+        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
   };
 
-  const divMedia = async (nft: Nft, index: number, small = false) => {
+  const divMedia = (nft: Nft, index: number, small = false) => {
     const mediaContentType = nft.contentType?.split("/");
     const mediaType = mediaContentType[0] || "image";
 
@@ -72,7 +72,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += '<div class="media-text"></div>';
+      div += "<div class=\"media-text\"></div>";
     }
     div += "</div>";
 
@@ -80,7 +80,7 @@
     return div;
   };
 
-  onMount(async () => {
+  onMount(() => {
     console.log("NFT", nft);
     if (more == -1) moreToggle();
   });
@@ -94,11 +94,7 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {#await divMedia(nft, index, true)}
-        <div class="media media-small media-text" />
-      {:then mediaDiv}
-        {@html mediaDiv}
-      {/await}
+      {@html divMedia(nft, index, true)}
 
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>

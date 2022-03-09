@@ -26,11 +26,6 @@ module.exports = {
       processor: "svelte3/svelte3",
       rules: {
         "no-console": 0
-      },
-      settings: {
-        "svelte3/compiler-options": {
-          customElement: true
-        }
       }
     }
   ],
@@ -45,13 +40,15 @@ module.exports = {
     "@typescript-eslint/no-unsafe-assignment": "warn",
     "@typescript-eslint/no-unsafe-call": "warn",
     "@typescript-eslint/no-unsafe-argument": "warn",
-    "@typescript-eslint/no-misused-promises": "warn",
     "@typescript-eslint/no-unsafe-member-access": "warn",
-    "@typescript-eslint/no-floating-promises": "warn",
     "@typescript-eslint/restrict-template-expressions": "warn",
     "@typescript-eslint/no-unsafe-return": "warn",
     "@typescript-eslint/ban-types": "warn",
-    "@typescript-eslint/require-await": "warn",
+    "@typescript-eslint/no-misused-promises": "error",
+    "@typescript-eslint/no-floating-promises": "error",
+    "@typescript-eslint/require-await": "error",
+    "@typescript-eslint/no-misused-vars": "error",
+    "@typescript-eslint/prefer-for-of": "error",
     indent: ["error", 2],
     semi: ["error", "always"],
     quotes: ["error", "double"],

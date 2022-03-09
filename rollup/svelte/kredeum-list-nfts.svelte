@@ -1,12 +1,11 @@
 <script lang="ts">
-  import type { Collection, Network, Nft } from "lib/ktypes";
-  import type { Provider } from "@ethersproject/abstract-provider";
+  import type { Collection, Nft } from "lib/ktypes";
   import KredeumGetNft from "./kredeum-get-nft.svelte";
 
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
   import { chainId, network, provider, owner } from "./network";
-  import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
-  import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
+  import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
+  import { nftGetFromContractEnumerable, nftGetMetadata } from "lib/knft-get";
   import { onMount } from "svelte";
 
   // down to component
@@ -26,7 +25,7 @@
   let mores: Array<number> = [];
 
   export const nftsList = async () => {
-    _nftsList();
+    await _nftsList();
   };
 
   $: if (collection && $chainId && $owner) collectionAddress = collection.address;
@@ -49,7 +48,7 @@
 
       if (fromLib) {
         // LOAD NFTs from lib
-        _nftsListFromLib($chainId, collection, $owner);
+        await _nftsListFromLib($chainId, collection, $owner);
       }
     }
   };
@@ -102,12 +101,12 @@
     }
   };
 
-  const unchanged = async (_chainId: number, _collection: Collection): Promise<boolean> => {
+  const unchanged = (_chainId: number, _collection: Collection): boolean => {
     // chainId and collection have not changed while loading NFTs
     return $chainId === _chainId && collection?.address === _collection.address;
   };
 
-  onMount(async () => {
+  onMount(() => {
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("tokenID")) tokenID = urlParams.get("tokenID");
   });

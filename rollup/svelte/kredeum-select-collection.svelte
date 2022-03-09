@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
   import KredeumMetamask from "./kredeum-metamask.svelte";
@@ -22,7 +21,7 @@
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
   const _supports = (_collection: Collection): string =>
-    collection?.supports?.IERC721 ? "ERC721" : collection?.supports?.IERC1155 ? "ERC1155" : "";
+    _collection?.supports?.IERC721 ? "ERC721" : _collection?.supports?.IERC1155 ? "ERC1155" : "";
 </script>
 
 <KredeumMetamask autoconnect="off" {txt} />
