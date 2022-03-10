@@ -11,7 +11,7 @@
   import { chainId, provider, owner } from "./network";
 
   // down to component
-  export let filter = false;
+  export let minting = false;
   export let txt = false;
   // up to parent
   export let collection: Collection = undefined;
@@ -38,6 +38,7 @@
         const coll = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
         if (coll) {
           collection = await collectionGet($chainId, coll, $provider);
+          console.log("collection", collection);
         }
       }
     }
@@ -50,13 +51,13 @@
     if (_chainId && _owner) {
       // console.log("KredeumListCollections _collectionList", _chainId, _owner);
 
-      _collectionListFromCache(_chainId, _owner);
+      await _collectionListFromCache(_chainId, _owner);
 
       refreshingCollections = true;
       allCollections = await collectionList(_chainId, _owner, $provider);
       refreshingCollections = false;
 
-      _collectionListFromCache(_chainId, _owner);
+      await _collectionListFromCache(_chainId, _owner);
     }
   };
 
@@ -66,21 +67,27 @@
     allCollections = collectionListFromCache(_owner);
 
     // SET DEFAULT COLLECTION
+    const defaultMintableCollection = await factoryGetDefaultImplementation(_chainId, $provider);
     const defaultCollection =
-      localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) ||
-      (await factoryGetDefaultImplementation(_chainId, $provider));
+      localStorage.getItem(`defaultCollection/${_chainId}/${_owner}`) || defaultMintableCollection;
 
     collections = new Map(
       [...allCollections]
-        .filter(
-          ([, coll]) =>
-            // FILTER NETWORK
-            coll.chainId === _chainId &&
-            // // FILTER COLLECTION NOT EMPTY OR MINE OR DEFAULT
-            (coll.balanceOf > 0 || coll.owner === _owner || coll.address == defaultCollection) &&
-            // FILTER OpenNFTs collection
-            (!filter || coll.openNFTsVersion)
-        )
+        .filter(([, coll]) => {
+          // SAME NETWORK
+          const okNetwork = coll.chainId === _chainId;
+
+          // Collection IS a mintable collection that I own OR default mintable collection
+          const okMintable =
+            (Boolean(coll.mintable) && coll.owner === _owner) || coll.address == defaultMintableCollection;
+
+          // When not wanting to Mint ALL collections I own OR where I have NFTs OR default collection
+          const okAll = !minting && (coll.owner === _owner || coll.balanceOf > 0 || coll.address == defaultCollection);
+
+          return okNetwork && (okMintable || okAll);
+        })
+
+        // )
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
@@ -90,12 +97,15 @@
 
   const collectionBalanceOf = (collContract: Collection) =>
     collContract?.balanceOf || (collContract?.balanceOf == 0 ? "0" : "?");
-  const collectionNameAndBalanceOf = (collContract: Collection) =>
-    collContract ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})` : "Choose collection";
+
+  const collectionNameAndBalanceOf = (collContract: Collection, choose = false) =>
+    collContract && (!choose || collContract.mintable)
+      ? `${collectionName(collContract)} (${collectionBalanceOf(collContract)})`
+      : "Choose collection";
 
   onMount(async () => {
     window.addEventListener("click", (e: Event): void => {
-      if (!filter && !document.querySelector(".select-collection")?.contains(e.target as HTMLElement)) {
+      if (!minting && !document.querySelector(".select-collection")?.contains(e.target as HTMLElement)) {
         open = false;
       }
     });
@@ -131,7 +141,7 @@
       {#key refreshingCollections}
         {#if collections && collections.size > 0}
           <div class="select-trigger">
-            <span>{collectionNameAndBalanceOf(collection)}</span>
+            <span>{collectionNameAndBalanceOf(collection, minting)}</span>
           </div>
           <div class="custom-options">
             {#each [...collections] as [url, coll]}

@@ -15,6 +15,7 @@ import IERC1155 from "abis/IERC1155.json";
 import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
 
 import IOpenNFTs from "abis/IOpenNFTs.json";
+import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
 import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
@@ -27,6 +28,7 @@ const abis = {
   IERC1155,
   IERC1155MetadataURI,
   IOpenNFTs,
+  IOpenNFTsV0,
   IOpenNFTsV1,
   IOpenNFTsV2,
   IOpenNFTsV3
@@ -36,16 +38,21 @@ const collectionGetSupportedInterfaces = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider: Signer | Provider
-): Promise<CollectionSupports> => {
+): Promise<{ supports: CollectionSupports; version: number; mintable: boolean }> => {
   // console.log(`collectionGetSupportedInterfaces ${chainId}`, collectionOrAddress);
 
+  const openNFTsV0Addresses = [
+    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
+    "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93"
+  ];
   const openNFTsV1Addresses = [
     "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
-    "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
-    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF"
+    "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253"
   ];
   const supports: CollectionSupports = {};
   let collectionAddress: string;
+  let version = -1;
+  let mintable = false;
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collectionOrAddress && signerOrProvider) {
@@ -78,16 +85,29 @@ const collectionGetSupportedInterfaces = async (
       } else if (supports.IERC1155) {
         supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(IERC1155MetadataURI));
       }
+
       if (supports.IOpenNFTsV3) {
         supports.IOpenNFTs = true;
+        version = 3;
+        mintable = true;
+      } else if (supports.IOpenNFTsV2) {
+        version = 2;
+        mintable = true;
+      } else if (Boolean(openNFTsV1Addresses.includes(contract.address))) {
+        supports.IOpenNFTsV1 = true;
+        version = 1;
+        mintable = true;
+      } else if (Boolean(openNFTsV0Addresses.includes(contract.address))) {
+        supports.IOpenNFTsV0 = true;
+        version = 0;
+        mintable = true;
       }
-      supports.IOpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
     } catch (e) {
       console.error(`ERROR collectionGetSupportedInterfaces : ${chainId} ${collectionAddress}\n`, e);
     }
   }
   // console.log("collectionGetSupportedInterfaces", supports);
-  return supports;
+  return { supports, version, mintable };
 };
 
 const collectionGet = async (
@@ -108,7 +128,8 @@ const collectionGet = async (
 
   if (!collection.supports && signerOrProvider) {
     try {
-      collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      const supported = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      Object.assign(collection, supported);
     } catch (e) {
       console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
     }

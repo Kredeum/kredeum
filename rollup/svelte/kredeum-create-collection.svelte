@@ -42,7 +42,6 @@
         if (!txReceipt.status) console.error("ERROR createCollection bad status");
         else {
           collectionCreated = {
-            openNFTsVersion: 2,
             chainId: $chainId,
             name: collectionName,
             address: collectionCloneAddress(txReceipt),

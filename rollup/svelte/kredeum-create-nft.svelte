@@ -237,7 +237,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollections bind:collection filter />
+          <KredeumListCollections bind:collection minting />
         </div>
 
         <div class="txtright">
