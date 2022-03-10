@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "clean": "rm -rf node_modules abis types",
+    "clean": "rm -rf node_modules types",
     "build": "echo build",
     "tests": "echo tests",
     "check": "npm run prettier && npm run eslint",

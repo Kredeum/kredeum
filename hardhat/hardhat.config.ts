@@ -64,12 +64,14 @@ const netConf = (
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
+
   namedAccounts: {
     admin: { default: 0 },
     deployer: { default: 0 },
     tester1: { default: 1 },
     random: { default: 2 }
   },
+
   networks: {
     hardhat: { accounts: accountsHardhat, deploy: ["deploy/tests", "deploy/prod"] },
     local: netConf(31337, "http://127.0.0.1:8545"),
@@ -97,6 +99,7 @@ const config: HardhatUserConfig = {
       live: true
     })
   },
+
   solidity: {
     compilers: [
       {
@@ -116,21 +119,7 @@ const config: HardhatUserConfig = {
       }
     ]
   },
-  typechain: {
-    target: "ethers-v5",
-    outDir: "../common/types"
-  },
-  abiExporter: [
-    {
-      path: "../common/abis",
-      runOnCompile: true,
-      clear: false,
-      flat: true,
-      only: ["new"],
-      spacing: 2,
-      pretty: true
-    }
-  ],
+
   paths: {
     sources: "contracts",
     deploy: "deploy",
@@ -140,21 +129,42 @@ const config: HardhatUserConfig = {
     cache: "cache",
     artifacts: "artifacts"
   },
+
+  abiExporter: [
+    {
+      runOnCompile: true,
+      clear: false,
+      flat: true,
+      only: ["new"],
+      spacing: 2,
+      pretty: true,
+      path: "../common/abis"
+    }
+  ],
+
+  typechain: {
+    target: "ethers-v5",
+    outDir: "../common/types"
+  },
+
   mocha: {
     timeout: 200_000,
     bail: true
   },
+
   docgen: {
     path: "docs",
     clear: true,
     runOnCompile: false
   },
+
   gasReporter: {
     enabled: true,
     currency: "USD",
     gasPrice: 50,
     onlyCalledMethods: true
   },
+
   etherscan: {
     apiKey: ETHERSCAN_API_KEY_ETHEREUM
   }

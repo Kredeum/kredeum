@@ -1,5 +1,4 @@
 import type { ERC165 } from "../types/ERC165";
-import type { OpenNFTsV3 } from "../types/OpenNFTsV3";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, CollectionSupports, ABIS } from "./ktypes";
@@ -13,8 +12,10 @@ import IERC721Enumerable from "abis/IERC721Enumerable.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC1155 from "abis/IERC1155.json";
 import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
+import IERC173 from "abis/IERC173.json";
 
 import IOpenNFTs from "abis/IOpenNFTs.json";
+import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
 import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
@@ -25,8 +26,10 @@ const abis = {
   IERC721Enumerable,
   IERC721Metadata,
   IERC1155,
+  IERC173,
   IERC1155MetadataURI,
   IOpenNFTs,
+  IOpenNFTsV0,
   IOpenNFTsV1,
   IOpenNFTsV2,
   IOpenNFTsV3
@@ -36,16 +39,23 @@ const collectionGetSupportedInterfaces = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider: Signer | Provider
-): Promise<CollectionSupports> => {
+): Promise<{ supports: CollectionSupports; version: number; mintable: boolean; owner: string }> => {
   // console.log(`collectionGetSupportedInterfaces ${chainId}`, collectionOrAddress);
 
+  const openNFTsV0Addresses = [
+    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
+    "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93"
+  ];
   const openNFTsV1Addresses = [
     "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
     "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
-    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF"
+    "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0"
   ];
   const supports: CollectionSupports = {};
   let collectionAddress: string;
+  let version = -1;
+  let mintable = false;
+  let owner = "";
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collectionOrAddress && signerOrProvider) {
@@ -61,11 +71,16 @@ const collectionGetSupportedInterfaces = async (
     }
 
     try {
-      contract = new Contract(collectionAddress, IERC165, signerOrProvider) as ERC165;
+      contract = new Contract(collectionAddress, IERC165.concat(IERC173), signerOrProvider) as ERC165;
 
       const waitERC721 = contract.supportsInterface(interfaceId(IERC721));
       const waitERC1155 = contract.supportsInterface(interfaceId(IERC1155));
-      [supports.IERC721, supports.IERC1155] = await Promise.all([waitERC721, waitERC1155]);
+      const waitERC173 = contract.supportsInterface(interfaceId(IERC173));
+      [supports.IERC721, supports.IERC1155, supports.IERC173] = await Promise.all([
+        waitERC721,
+        waitERC1155,
+        waitERC173
+      ]);
 
       if (supports.IERC721) {
         const waitMetadata = contract.supportsInterface(interfaceId(IERC721Metadata));
@@ -78,16 +93,35 @@ const collectionGetSupportedInterfaces = async (
       } else if (supports.IERC1155) {
         supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(IERC1155MetadataURI));
       }
+
       if (supports.IOpenNFTsV3) {
         supports.IOpenNFTs = true;
+        version = 3;
+        mintable = true;
+      } else if (supports.IOpenNFTsV2) {
+        version = 2;
+        mintable = true;
+      } else if (openNFTsV1Addresses.includes(contract.address)) {
+        supports.IOpenNFTsV1 = true;
+        version = 1;
+        mintable = true;
+      } else if (openNFTsV0Addresses.includes(contract.address)) {
+        supports.IOpenNFTsV0 = true;
+        version = 0;
+        mintable = true;
       }
-      supports.IOpenNFTsV1 = Boolean(openNFTsV1Addresses.includes(contract.address));
+
+      // Get owner (ERC173) or OpenNFTsV2
+      if (supports.IERC173 || supports.IOpenNFTsV2) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
+        owner = await contract.owner();
+      }
     } catch (e) {
       console.error(`ERROR collectionGetSupportedInterfaces : ${chainId} ${collectionAddress}\n`, e);
     }
   }
   // console.log("collectionGetSupportedInterfaces", supports);
-  return supports;
+  return { supports, version, mintable, owner };
 };
 
 const collectionGet = async (
@@ -108,7 +142,8 @@ const collectionGet = async (
 
   if (!collection.supports && signerOrProvider) {
     try {
-      collection.supports = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      const supported = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      Object.assign(collection, supported);
     } catch (e) {
       console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
     }

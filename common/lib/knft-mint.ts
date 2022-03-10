@@ -81,21 +81,22 @@ const nftMint3TxResponse = async (
   ipfsJson: string,
   minter: Signer
 ): Promise<TransactionResponse | null> => {
-  let txResp: TransactionResponse | null = null;
-
   // console.log("nftMint3TxResponse", chainId, collection.address, ipfsJson, await minter.getAddress());
 
-  const network = getNetwork(chainId);
-  const urlJson = ipfsGatewayUrl(ipfsJson);
   const openNFTs = await collectionGetContract(chainId, collection, minter);
-  // console.log("openNFTs", openNFTs);
+  console.log("openNFTs", openNFTs);
 
-  if (openNFTs?.mintOpenNFT) {
-    txResp = await openNFTs.connect(minter).mintOpenNFT(await minter.getAddress(), urlJson);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
-  } else {
-    console.error("No OpenNFTs openNFTs found @", explorerCollectionUrl(chainId, collection.address));
-  }
+  // OpenNFTsV0 = addUser
+  // OpenNFTsV1 = mintNFT
+  // OpenNFTsV2 = mintNFT
+  // OpenNFTsV3 = mintOpenNFT
+  const mintFunction = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
+  const urlJson = ipfsGatewayUrl(ipfsJson);
+
+  const txResp = await mintFunction(await minter.getAddress(), urlJson);
+
+  const network = getNetwork(chainId);
+  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
 
   return txResp;
 };

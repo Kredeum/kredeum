@@ -115,7 +115,7 @@
   const switchEthereumChain = async (_chainId, e?: Event) => {
     e?.preventDefault();
     if (_chainId && _chainId != $chainId) {
-      console.log("switchEthereumChain", _chainId, $chainId);
+      console.log("switchEthereumChain from", $chainId, "to", _chainId);
       try {
         await ethereumProvider.request({
           method: "wallet_switchEthereumChain",

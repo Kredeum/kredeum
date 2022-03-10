@@ -1,4 +1,4 @@
-type OpenNFTsKeys = "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTs";
+type OpenNFTsKeys = "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0" | "IOpenNFTs";
 type ErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
 type ABIS = ErcKeys | OpenNFTsKeys;
@@ -29,7 +29,6 @@ type Network = {
 };
 
 type Collection = {
-  openNFTsVersion?: number;
   chainId: number;
   address: string;
   owner?: string;
@@ -42,6 +41,8 @@ type Collection = {
   description?: string;
   user?: string;
   balanceOf?: number;
+  version?: number;
+  mintable?: boolean;
   supports?: CollectionSupports;
 };
 type CollectionSupports = {
@@ -53,6 +54,7 @@ type CollectionSupports = {
   IERC1155MetadataURI?: boolean;
   IERC173?: boolean;
   IOpenNFTs?: boolean;
+  IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;
   IOpenNFTsV2?: boolean;
   IOpenNFTsV3?: boolean;
