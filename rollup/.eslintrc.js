@@ -1,4 +1,4 @@
-export default config = {
+module.exports = {
   root: true,
   parser: "@typescript-eslint/parser",
   plugins: ["svelte3", "@typescript-eslint"],
