@@ -111,8 +111,8 @@ const collectionGetSupportedInterfaces = async (
         mintable = true;
       }
 
-      // Get owner
-      if (supports.IERC173 || version >= 0) {
+      // Get owner (ERC173) or OpenNFTsV2
+      if (supports.IERC173 || supports.IOpenNFTsV2) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         owner = await contract.owner();
       }

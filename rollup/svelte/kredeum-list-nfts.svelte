@@ -29,12 +29,12 @@
     _nftsList();
   };
 
-  $: if (collection) collectionAddress = collection.address;
+  $: if (collection && $chainId && $owner) collectionAddress = collection.address;
 
-  $: if (collectionAddress && $chainId && $owner) _nftsList(true);
+  $: if (collectionAddress) _nftsList(true);
 
   const _nftsList = (cache = false) => {
-    if (collection && $chainId && $owner) {
+    if (collection && collection.chainId == $chainId && $owner) {
       // console.log("_nftsList", _chainId, _owner, cache, _collection);
 
       let fromLib = !cache;
