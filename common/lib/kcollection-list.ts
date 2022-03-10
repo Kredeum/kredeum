@@ -6,6 +6,7 @@ import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
+import { collectionGetSupportedInterfaces } from "lib/kcollection-get";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
@@ -202,6 +203,11 @@ const collectionList = async (chainId: number, owner: string, provider: Provider
 
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {
+        // Get supported interfaces on specific collections
+        if (collection.owner == owner || (collection.balanceOf || 0) > 0) {
+          const supported = await collectionGetSupportedInterfaces(chainId, collection.address, provider);
+          Object.assign(collection, supported);
+        }
         localStorage.setItem(urlOwner(nid, owner), JSON.stringify(collection, null, 2));
       }
     }

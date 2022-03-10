@@ -38,7 +38,7 @@
         const coll = allCollections.get(urlOwner(nftsUrl($chainId, collectionAddress), $owner));
         if (coll) {
           collection = await collectionGet($chainId, coll, $provider);
-          console.log("collection", collection);
+          console.log("Collection", collection);
         }
       }
     }
@@ -91,7 +91,6 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-
     _setCollection(defaultCollection);
   };
 
