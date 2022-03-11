@@ -56,7 +56,7 @@
     return video;
   };
 
-  const divMedia = async (nft: Nft, index: number, small = false) => {
+  const divMedia = (nft: Nft, index: number, small = false) => {
     const mediaContentType = nft.contentType?.split("/");
     const mediaType = mediaContentType[0] || "image";
 
@@ -89,6 +89,7 @@
 
 <div class="grid-card-krd">
   {@html divMedia(nft, index, true)}
+
   <div class="caption">
     <h3>{nftName(nft)}</h3>
     {#if addressSame(nft.owner, $owner)}
