@@ -8,7 +8,7 @@
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
-  import { chainId, owner } from "./network";
+  import { chainId, owner } from "main/network";
 
   export let txt = false;
   export let collection: Collection = undefined;

@@ -8,13 +8,16 @@
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",
     "paths": {
+      "app/*": ["app/*"],
+      "components/*": ["components/*"],
+      "helpers/*": ["helpers/*"],
       "lib/*": ["../common/lib/*"],
       "abis/*": ["../common/abis/*"],
       "types/*": ["../common/types/*"]
     }
     // "strict": true
   },
-  "include": ["svelte/*.svelte", "svelte/*.ts", "../common/lib/*.ts"],
-  "files": ["rollup.config.ts"],
+  "include": ["main/*.ts", "components/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
+  "files": ["rollup.config.ts", "components/global.d.ts"],
   "exclude": ["node_modules"]
 }

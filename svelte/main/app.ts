@@ -1,7 +1,7 @@
-import KredeumNfts from "./kredeum-nfts.svelte";
-import KredeumNftsMint from "./kredeum-mint.svelte";
-import KredeumMetamask from "./kredeum-metamask.svelte";
-import KredeumSelectCollection from "./kredeum-select-collection.svelte";
+import KredeumNfts from "../components/kredeum-nfts.svelte";
+import KredeumNftsMint from "../components/kredeum-mint.svelte";
+import KredeumMetamask from "../components/kredeum-metamask.svelte";
+import KredeumSelectCollection from "../components/kredeum-select-collection.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };

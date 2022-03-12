@@ -7,7 +7,7 @@
 
   import { createEventDispatcher } from "svelte";
 
-  import { chainId, signer } from "./network";
+  import { chainId, signer } from "main/network";
 
   import KredeumListTemplates from "./kredeum-list-templates.svelte";
 

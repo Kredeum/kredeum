@@ -20,7 +20,7 @@
   // down to component with default
   export let collection: Collection = undefined;
 
-  import { chainId, network, provider, signer } from "./network";
+  import { chainId, network, provider, signer } from "main/network";
 
   let mintedNft: Nft;
   let minting: number;

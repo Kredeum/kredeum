@@ -3,7 +3,7 @@
   import type { EthereumProvider } from "hardhat/types";
   import type { Network } from "lib/ktypes";
 
-  import { chainId, network, provider, signer, owner } from "./network";
+  import { chainId, network, provider, signer, owner } from "main/network";
   import {
     getShortAddress,
     numberToHexString,
