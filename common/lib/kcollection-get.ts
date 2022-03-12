@@ -1,5 +1,3 @@
-import type { ERC165 } from "../types/ERC165";
-
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, CollectionSupports, ABIS } from "./ktypes";
 import { interfaceId } from "./kconfig";
@@ -59,7 +57,11 @@ const collectionGetSupportedInterfaces = async (
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
   if (chainId && collectionOrAddress && signerOrProvider) {
-    let contract: ERC165;
+    interface TestContract extends Contract {
+      supportsInterface: (ifaces: string) => Promise<boolean>;
+      owner: () => Promise<string>;
+    }
+    let contract: TestContract;
 
     // Suppose supports ERC165, should revert otherwise
     supports.IERC165 = true;
@@ -71,7 +73,7 @@ const collectionGetSupportedInterfaces = async (
     }
 
     try {
-      contract = new Contract(collectionAddress, IERC165.concat(IERC173), signerOrProvider) as ERC165;
+      contract = new Contract(collectionAddress, IERC165.concat(IERC173), signerOrProvider) as TestContract;
 
       const waitERC721 = contract.supportsInterface(interfaceId(IERC721));
       const waitERC1155 = contract.supportsInterface(interfaceId(IERC1155));
@@ -113,7 +115,6 @@ const collectionGetSupportedInterfaces = async (
 
       // Get owner (ERC173) or OpenNFTsV2
       if (supports.IERC173 || supports.IOpenNFTsV2) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-call, @typescript-eslint/no-unsafe-assignment
         owner = await contract.owner();
       }
     } catch (e) {
