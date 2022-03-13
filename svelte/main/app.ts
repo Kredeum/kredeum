@@ -1,6 +1,6 @@
 import KredeumNfts from "../components/kredeum-nfts.svelte";
 import KredeumNftsMint from "../components/kredeum-mint.svelte";
-import KredeumMetamask from "../components/kredeum-metamask.svelte";
+import KredeumMetamask from "../components/metamaskView.svelte";
 import KredeumSelectCollection from "../components/kredeum-select-collection.svelte";
 
 type Props = Record<string, string>;

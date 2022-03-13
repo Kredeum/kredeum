@@ -2,7 +2,7 @@
   import type { Nft, Network, Collection } from "lib/ktypes";
   import type { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
 
-  import KredeumMetamask from "./kredeum-metamask.svelte";
+  import KredeumMetamask from "./metamaskView.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get";
@@ -116,7 +116,7 @@
     {/if}
   {:else}
     <small>
-      <br /><KredeumMetamask autoconnect="off" />
+      <br /><KredeumMetamask />
     </small>
   {/if}
 

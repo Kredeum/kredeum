@@ -3,7 +3,7 @@
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumMetamask from "./kredeum-metamask.svelte";
+  import KredeumMetamask from "./metamaskView.svelte";
 
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
