@@ -70,10 +70,7 @@ const handleChainId = (_chainId: number): void => {
     const _network = getNetwork(_chainId);
 
     if (_network) {
-      const ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-
       network.set(_network);
-      provider.set(ethersProvider);
       chainId.set(Number(_chainId));
     } else {
       // chainId not accepted : switch to first accepted chainId
@@ -137,6 +134,9 @@ const metamaskInit = async (): Promise<boolean> => {
       metamaskInstalled = true;
 
       if (ethereumProvider !== window.ethereum) alert(metamaskMultipleWallets);
+
+      const ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      provider.set(ethersProvider);
 
       const urlParams = new URLSearchParams(window.location.search);
       if (urlParams.has("chainId")) {
