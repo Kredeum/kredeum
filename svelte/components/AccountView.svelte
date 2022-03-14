@@ -8,6 +8,8 @@
 
   import { chainId, network, owner } from "main/network";
 
+  import AccountViewSlot from "./AccountViewSlot.svelte";
+
   export let txt: boolean = undefined;
 
   let nameOrAddress = "";
@@ -42,35 +44,37 @@
 </script>
 
 {#if txt}
-  {#if $owner}
-    {nameOrAddress}@{getChainname($network)}
-  {:else if metamaskNotInstalled}
-    {metamaskInstallMessage}
-  {:else}
-    <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
-  {/if}
+  <AccountViewSlot owner={$owner} notInstalled={metamaskNotInstalled}>
+    <span slot="owner">{nameOrAddress}@{getChainname($network)}</span>
+    <span slot="noinstall">{metamaskInstallMessage}</span>
+    <span slot="link"><a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a></span>
+  </AccountViewSlot>
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if $owner}
-      <span class="label"
-        >Address
-        <a
-          class="info-button"
-          href={explorerAccountUrl($chainId, $owner)}
-          target="_blank"
-          title="&#009;Owner address (click to view account in explorer )&#013;{$owner}"
-          ><i class="fas fa-info-circle" /></a
-        >
+    <AccountViewSlot owner={$owner} notInstalled={metamaskNotInstalled}>
+      <span slot="owner">
+        <span class="label"
+          >Address
+          <a
+            class="info-button"
+            href={explorerAccountUrl($chainId, $owner)}
+            target="_blank"
+            title="&#009;Owner address (click to view account in explorer )&#013;{$owner}"
+            ><i class="fas fa-info-circle" /></a
+          >
+        </span>
+        <div class="form-field">
+          <input type="text" value={getShortAddress(nameOrAddress, 10)} />
+        </div>
       </span>
-      <div class="form-field">
-        <input type="text" value={getShortAddress(nameOrAddress, 10)} />
-      </div>
-    {:else if metamaskNotInstalled}
-      <div class="btn btn-light btn-metamask">
-        {metamaskInstallMessage}
-      </div>
-    {:else}
-      <a href="." on:click={_metamaskConnect} class="btn btn-light btn-metamask">{metamaskConnectMessage}</a>
-    {/if}
+      <span slot="noinstall">
+        <div class="btn btn-light btn-metamask">
+          {metamaskInstallMessage}
+        </div></span
+      >
+      <span slot="link">
+        <a href="." on:click={_metamaskConnect} class="btn btn-light btn-metamask">{metamaskConnectMessage}</a>
+      </span>
+    </AccountViewSlot>
   </div>
 {/if}
