@@ -98,3 +98,7 @@
     {/if}
   </div>
 </div>
+
+{#if platform === "wordpress"}
+  <div>WordPress</div>
+{/if}

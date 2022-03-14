@@ -100,7 +100,7 @@ const metamaskSwitchChain = (_chainId: number): void => {
     ethereumProvider
       .request({
         method: "wallet_switchEthereumChain",
-        params: [{ _chainId: numberToHexString(_chainId) }]
+        params: [{ chainId: numberToHexString(_chainId) }]
       })
       .catch((err: { code: number }) => {
         if (err.code === 4902) {
