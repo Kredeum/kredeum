@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { Nft, Network, Collection } from "lib/ktypes";
-  import type { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
+  import type { Nft, Collection } from "lib/ktypes";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import KredeumMetamask from "./metamaskView.svelte";
 
@@ -30,7 +30,7 @@
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange($chainId, $signer);
+  $: handleChange($chainId, $signer).catch(console.error);
 
   const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
     if (_chainId && _signer) {
@@ -46,13 +46,13 @@
     }
   };
 
-  const sell = async (e: Event): Promise<void> => {
+  const sell = (e: Event): void => {
     e.preventDefault();
 
     location.href = nftOpenSeaUrl($chainId, mintedNft);
   };
 
-  const view = async (e: Event): Promise<void> => {
+  const view = (e: Event): void => {
     e.preventDefault();
 
     location.href = nftGetImageLink(mintedNft);

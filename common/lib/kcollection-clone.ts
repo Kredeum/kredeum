@@ -1,5 +1,4 @@
 import type { Provider, TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
-import type { NFTsFactory } from "types/NFTsFactory";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { ethers, Signer } from "ethers";

@@ -8,7 +8,7 @@
   import { onMount } from "svelte";
   import semverSatisfies from "semver/functions/satisfies";
 
-  import { explorerCollectionUrl, nftsUrl, getCreate, config } from "lib/kconfig";
+  import { getCreate, config } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
   import { chainId, owner } from "main/network";
@@ -21,14 +21,6 @@
   let label = "";
   let version = "";
 
-  const _explorerCollectionUrl = (_collectionAddress: string): string => {
-    const ret = explorerCollectionUrl($chainId, _collectionAddress);
-    // console.log("_explorerCollectionUrl", ret);
-    return ret;
-  };
-
-  const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
-
   const cacheVersion = (_version: string) => {
     const versionOld = localStorage.getItem("version") || "";
     if (!semverSatisfies(_version, `~${versionOld}`)) {
@@ -38,7 +30,7 @@
     localStorage.setItem("version", _version);
   };
 
-  onMount(async () => {
+  onMount(() => {
     version = config.version.latest;
     console.log(`INIT Kredeum NFTs Factory v${version}`);
 

@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { Provider } from "@ethersproject/providers";
 
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
-  import { factoryGetTemplateAddress, factoryGetDefaultImplementation } from "lib/kfactory-get";
+  import { factoryGetDefaultImplementation } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
@@ -45,7 +44,7 @@
   };
 
   // IF CHAINID or OWNER change THEN list collections
-  $: _collectionList($chainId, $owner);
+  $: _collectionList($chainId, $owner).catch(console.error);
 
   const _collectionList = async (_chainId: number, _owner: string): Promise<void> => {
     if (_chainId && _owner) {
@@ -91,7 +90,8 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    _setCollection(defaultCollection);
+
+    await _setCollection(defaultCollection);
   };
 
   const collectionBalanceOf = (collContract: Collection) =>
@@ -111,7 +111,7 @@
 
     const urlParams = new URLSearchParams(window.location.search);
     if (urlParams.has("collectionAddress")) {
-      _setCollection(urlParams.get("collectionAddress"));
+      await _setCollection(urlParams.get("collectionAddress"));
     }
   });
 </script>

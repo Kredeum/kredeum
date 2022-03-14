@@ -1,15 +1,10 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address, AbiType } from "./ktypes";
-import type { NFTsFactory } from "types/NFTsFactory";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { Signer, Contract } from "ethers";
 import { getNetwork, config } from "./kconfig";
 
-// ! MUST manage simultaneously NFTsFactory V1 and V2
-// ! until all networks are on NFTsFactory V2
-import ICloneFactory from "abis/ICloneFactory.json";
-import INFTsFactory from "abis/INFTsFactory.json";
 import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 
