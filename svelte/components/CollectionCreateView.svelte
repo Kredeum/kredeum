@@ -8,7 +8,7 @@
 
   import { chainId, signer } from "main/network";
 
-  import KredeumListTemplates from "./kredeum-list-templates.svelte";
+  import KredeumListTemplates from "./TemplatesView.svelte";
 
   // up to parent
   export let collection: Collection = undefined;

@@ -18,8 +18,8 @@
   import { nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
 
-  import TransferNft from "./kredeum-transfer-nft.svelte";
-  import ClaimNft from "./kredeum-claim-nft.svelte";
+  import NftTransferView from "./NftTransferView.svelte";
+  import NftClaimView from "./NftClaimView.svelte";
 
   export let nft: Nft;
   export let index: number;
@@ -212,12 +212,12 @@
 
   <!-- Modal transfer nft -->
   <div id="transfert-nft-{nft.tokenID}" class="modal-window">
-    <TransferNft bind:nft />
+    <NftTransferView bind:nft />
   </div>
 
   <!-- Modal claim nft -->
   <div id="claim-nft-{nft.tokenID}" class="modal-window">
-    <ClaimNft bind:nft />
+    <NftClaimView bind:nft />
   </div>
 </div>
 

@@ -1,13 +1,15 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
 
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumMetamask from "./metamaskView.svelte";
+  import KredeumListCollections from "./CollectionListView.svelte";
 
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
   import { chainId, owner } from "main/network";
+
+  import AccountView from "./AccountView.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   export let txt = false;
   export let collection: Collection = undefined;
@@ -24,7 +26,8 @@
     _collection?.supports?.IERC721 ? "ERC721" : _collection?.supports?.IERC1155 ? "ERC1155" : "";
 </script>
 
-<KredeumMetamask autoconnect="off" {txt} />
+<AccountView {txt} /><NetworkSelect label={true} {txt} />
+
 {#if txt}
   {#if $owner && factoryGetAddress($chainId)}
     <p>

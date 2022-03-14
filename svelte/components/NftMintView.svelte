@@ -4,7 +4,7 @@
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
+  import KredeumListCollections from "./CollectionListView.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";

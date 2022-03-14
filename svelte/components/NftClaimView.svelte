@@ -3,7 +3,9 @@
   import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { chainId, signer } from "./network";
+  import { chainId, signer } from "main/network";
+
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   export let nft: Nft = undefined;
 
@@ -61,6 +63,8 @@
           <div class="titre">
             <i class="fas fa-exclamation" /> Claim this NFT #{nft.tokenID} to Kovan ?
           </div>
+
+          <NetworkSelect />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>

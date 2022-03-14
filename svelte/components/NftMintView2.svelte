@@ -2,7 +2,8 @@
   import type { Nft, Collection } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import KredeumMetamask from "./metamaskView.svelte";
+  import AccountView from "./AccountView.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get";
@@ -116,7 +117,7 @@
     {/if}
   {:else}
     <small>
-      <br /><KredeumMetamask />
+      <br /><AccountView label={true} /><NetworkSelect label={true} />
     </small>
   {/if}
 

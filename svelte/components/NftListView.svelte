@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Collection, Nft } from "lib/ktypes";
-  import KredeumGetNft from "./kredeum-get-nft.svelte";
+  import NftView from "./NftView.svelte";
 
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
-  import { chainId, network, provider, owner } from "./network";
+  import { chainId, network, provider, owner } from "main/network";
   import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata } from "lib/knft-get";
   import { onMount } from "svelte";
@@ -32,7 +32,7 @@
 
   $: if (collectionAddress) _nftsList(true);
 
-  const _nftsList = (cache = false) => {
+  const _nftsList = async (cache = false) => {
     if (collection && collection.chainId == $chainId && $owner) {
       // console.log("_nftsList", _chainId, _owner, cache, _collection);
 
@@ -136,7 +136,7 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, index}
-        <KredeumGetNft {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
+        <NftView {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
       {/each}
     </div>
   {:else}

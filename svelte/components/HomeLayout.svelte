@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
 
-  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
-  import KredeumListNfts from "./kredeum-list-nfts.svelte";
-  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import KredeumSelectCollection from "./CollectionSelect.svelte";
+  import KredeumListNfts from "./NftListView.svelte";
+  import KredeumCreateCollection from "./CollectionCreateView.svelte";
+  import KredeumCreateNft from "./NftMintView.svelte";
   import { onMount } from "svelte";
   import semverSatisfies from "semver/functions/satisfies";
 
