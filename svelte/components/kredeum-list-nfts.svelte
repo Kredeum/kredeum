@@ -4,7 +4,7 @@
   import KredeumGetNft from "./kredeum-get-nft.svelte";
 
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
-  import { chainId, network, provider, owner } from "./network";
+  import { chainId, network, provider, owner } from "main/network";
   import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";

@@ -9,7 +9,7 @@
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
-  import { chainId, signer, owner } from "./network";
+  import { chainId, signer, owner } from "main/network";
 
   // down to component
   export let collection: Collection = undefined;

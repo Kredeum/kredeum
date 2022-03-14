@@ -8,7 +8,7 @@
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
   import { onMount } from "svelte";
 
-  import { chainId, provider, owner } from "./network";
+  import { chainId, provider, owner } from "main/network";
 
   // down to component
   export let minting = false;

@@ -39,7 +39,7 @@ const envKeys = () => {
 
 const toRollupConfig = function (component: string): RollupOptions {
   return {
-    input: ["./svelte/main.ts"],
+    input: ["main/app.ts"],
     output: [
       {
         sourcemap: !production,
