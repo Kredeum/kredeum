@@ -3,6 +3,7 @@
 
   import KredeumSelectCollection from "./kredeum-select-collection.svelte";
   import KredeumListNfts from "./kredeum-list-nfts.svelte";
+  import KredeumNftDetail from "./views/nft-detailView.svelte";
   import KredeumCreateCollection from "./kredeum-create-collection.svelte";
   import KredeumCreateNft from "./kredeum-create-nft.svelte";
   import { onMount } from "svelte";
@@ -16,6 +17,7 @@
   export let platform = "dapp";
 
   let collection: Collection;
+  let tokenID: number;
   let refreshing: boolean;
   let nftsList;
   let label = "";
@@ -45,6 +47,12 @@
     label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
 
     cacheVersion(version);
+
+    // Get Token ID if exist in url
+    const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.has("tokenID")) {
+        tokenID = Number(urlParams.get("tokenID"));
+      } 
   });
 </script>
 
@@ -108,7 +116,12 @@
             </div>
           </div>
         </header>
-        <KredeumListNfts {collection} refreshing bind:nftsList {platform} />
+
+        {#if !tokenID}
+          A<KredeumListNfts {collection} refreshing bind:nftsList {platform} />
+        {:else}
+          B<KredeumNftDetail {collection} {tokenID} />
+        {/if}
       </section>
     </div>
   </main>
