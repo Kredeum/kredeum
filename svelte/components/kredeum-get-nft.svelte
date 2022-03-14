@@ -213,3 +213,7 @@
     <TransferNft bind:nft />
   </div>
 </div>
+
+{#if platform === "wordpress"}
+  <div>WordPress</div>
+{/if}
