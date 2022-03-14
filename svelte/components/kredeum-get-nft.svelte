@@ -9,6 +9,7 @@
     nftDescriptionShort,
     nftName,
     nftOpenSeaUrl,
+    normalizedSoloNftUrl,
     addressSame,
     textShort,
     explorerNftUrl,
@@ -65,7 +66,7 @@
     } else {
       div += `<div id="media-full-${index}" class="media media-${mediaType}">`;
     }
-    div += `<a href=".">`;
+    div += `<a href=".${normalizedSoloNftUrl($chainId, nft)}">`;
     if (mediaType == "video") {
       div += divMediaVideo(mediaSrc, small);
     } else if (mediaType == "image") {
