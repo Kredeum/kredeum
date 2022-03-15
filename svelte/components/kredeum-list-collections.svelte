@@ -1,13 +1,14 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
   import type { Provider } from "@ethersproject/providers";
+  import { onMount } from "svelte";
 
+  import type { Collection } from "lib/ktypes";
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
   import { factoryGetTemplateAddress, factoryGetDefaultImplementation } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
-  import { onMount } from "svelte";
 
+  import { urlCollection } from "helpers/urlHash";
   import { chainId, provider, owner } from "main/network";
 
   // down to component
@@ -109,9 +110,9 @@
       }
     });
 
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("collectionAddress")) {
-      _setCollection(urlParams.get("collectionAddress"));
+    // IF collection requested in url is different THEN set collection
+    if (urlCollection && urlCollection != collectionAddress) {
+      _setCollection(urlCollection);
     }
   });
 </script>

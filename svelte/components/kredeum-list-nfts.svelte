@@ -1,13 +1,15 @@
 <script lang="ts">
-  import type { Collection, Network, Nft } from "lib/ktypes";
   import type { Provider } from "@ethersproject/abstract-provider";
-  import KredeumGetNft from "./kredeum-get-nft.svelte";
+  import { onMount } from "svelte";
 
+  import type { Collection, Network, Nft } from "lib/ktypes";
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
-  import { chainId, network, provider, owner } from "main/network";
   import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
-  import { onMount } from "svelte";
+
+  import { urlTokenID } from "helpers/urlHash";
+  import KredeumGetNft from "./kredeum-get-nft.svelte";
+  import { chainId, network, provider, owner } from "main/network";
 
   // down to component
   export let collection: Collection = undefined;
@@ -108,8 +110,8 @@
   };
 
   onMount(async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    if (urlParams.has("tokenID")) tokenID = urlParams.get("tokenID");
+    // IF tokenID requested in url is present THEN set tokenID
+    if (urlTokenID >= 0) tokenID = urlTokenID;
   });
 </script>
 
