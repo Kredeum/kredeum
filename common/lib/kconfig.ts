@@ -13,6 +13,10 @@ const getChecksumAddress = (address: Address | string | undefined): Address => {
   return address ? utils.getAddress(address) : "";
 };
 
+const getChainId = (chainName: string): number | undefined => {
+  return networks.find((nw) => nw.chainName === chainName)?.chainId;
+};
+
 const getNetwork = (chainId: number | string): Network | undefined => {
   return networksMap.get(Number(chainId));
 };
@@ -258,6 +262,10 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
   return url;
 };
 
+// KREDEUM NFT URL
+const kredeumNftUrl = (chainId: number, nft: Nft): string =>
+  `./#/${getChainName(nft.chainId)}/${nft?.collection}/${nft?.tokenID}`;
+
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: Nft): string => {
   let url = "";
@@ -346,11 +354,13 @@ export {
   explorerTxLink,
   explorerCollectionUrl,
   explorerCollectionLink,
+  kredeumNftUrl,
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
   explorerNFTsFactoryUrl,
   explorerOpenNFTsUrl,
+  getChainId,
   getChainName,
   getShortAddress,
   getChecksumAddress,

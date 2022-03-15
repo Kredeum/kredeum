@@ -22,7 +22,7 @@
 
   let NFTs: Map<string, Nft>;
   let allNFTs: Map<string, Nft>;
-  let tokenID = "";
+  let tokenID: number;
 
   // Track NFTs div offsetHeight with "more" details
   let mores: Array<number> = [];
@@ -111,7 +111,8 @@
 
   onMount(async () => {
     // IF tokenID requested in url is present THEN set tokenID
-    if (urlTokenID >= 0) tokenID = urlTokenID;
+    const _urlTokenID = urlTokenID();
+    if (_urlTokenID >= 0) tokenID = _urlTokenID;
   });
 </script>
 
@@ -139,7 +140,7 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, index}
-        <KredeumGetNft {nft} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} />
+        <KredeumGetNft {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} />
       {/each}
     </div>
   {:else}

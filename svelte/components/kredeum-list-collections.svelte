@@ -111,8 +111,9 @@
     });
 
     // IF collection requested in url is different THEN set collection
-    if (urlCollection && urlCollection != collectionAddress) {
-      _setCollection(urlCollection);
+    const _urlCollection = urlCollection();
+    if (_urlCollection && _urlCollection != collectionAddress) {
+      _setCollection(_urlCollection);
     }
   });
 </script>

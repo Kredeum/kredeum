@@ -12,7 +12,8 @@
     addressSame,
     textShort,
     explorerNftUrl,
-    explorerAddressLink
+    explorerAddressLink,
+    kredeumNftUrl
   } from "lib/kconfig";
   import { chainId, network, owner, signer } from "main/network";
   import { nftGetImageLink } from "lib/knft-get";
@@ -160,9 +161,9 @@
           </div>
         </li>
         <li class="complete">
-          <div class="flex"><span class="label">Token REF</span></div>
+          <div class="flex"><span class="label">Permanent Link</span></div>
           <div class="flex">
-            <a class="link" href={explorerNftUrl($chainId, nft)} target="_blank">
+            <a class="link" href={kredeumNftUrl($chainId, nft)} target="_blank">
               {@html nftUrl(nft, 10)}
             </a>
           </div>
