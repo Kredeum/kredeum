@@ -3,8 +3,8 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get as storeGet } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, getNetwork, networks } from "lib/kconfig";
-
+import { numberToHexString, getChecksumAddress, getNetwork, getChainId, networks } from "lib/kconfig";
+import { urlChainName } from "helpers/urlHash";
 import { chainId, network, provider, signer, owner } from "main/network";
 
 let ethereumProvider: EthereumProvider;
@@ -138,17 +138,21 @@ const metamaskInit = async (): Promise<boolean> => {
       const ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
       provider.set(ethersProvider);
 
-      const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("chainId")) {
-        metamaskSwitchChain(Number(urlParams.get("chainId")));
-      } else {
-        try {
-          const _chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as string;
-          handleChainId(Number(_chainId));
-        } catch (err) {
-          console.error("Metamask ERROR eth_chainId", err);
-        }
+      let _chainId: number;
+      try {
+        // GET chainId from node connected to
+        _chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as number;
+      } catch (err) {
+        console.error("Metamask ERROR eth_chainId", err);
       }
+
+      // IF chainId requested in url is different THEN switch chain on metamask
+      const _urlChainId = getChainId(urlChainName());
+      if (_urlChainId > 0 && _urlChainId != _chainId) {
+        _chainId = _urlChainId;
+        metamaskSwitchChain(_urlChainId);
+      }
+      handleChainId(Number(_chainId));
 
       try {
         const _accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
