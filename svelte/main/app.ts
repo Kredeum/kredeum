@@ -1,4 +1,4 @@
-import KredeumNfts from "../components/HomeLayout.svelte";
+import KredeumNfts from "../components/HomeView.svelte";
 import KredeumNftsMint from "../components/NftMintView2.svelte";
 import NetworkSelect from "../components/NetworkSelect.svelte";
 import KredeumSelectCollection from "../components/CollectionSelect.svelte";

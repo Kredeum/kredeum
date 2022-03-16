@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { Nft, Collection } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import AccountView from "./AccountView.svelte";
   import NetworkSelect from "./NetworkSelect.svelte";
 
+  import type { Nft, Collection } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get";
   import { factoryGetTemplateAddress } from "lib/kfactory-get";

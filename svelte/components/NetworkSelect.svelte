@@ -58,12 +58,12 @@
   };
 
   onMount(async () => {
-    // window.addEventListener("click", (evt: Event): void => {
-    //   const select = document.querySelector(".select-network");
-    //   if (select && !select.contains(evt.target as HTMLElement)) {
-    //     open = false;
-    //   }
-    // });
+    window.addEventListener("click", (evt: Event): void => {
+      const select = document.querySelector(".select-network");
+      if (select && !select.contains(evt.target as HTMLElement)) {
+        open = false;
+      }
+    });
 
     const metamaskNotInstalled = !(await metamaskInit());
   });
@@ -112,7 +112,7 @@
       <div class="select-wrapper select-network" on:click={() => (open = !open)}>
         <div class="select" class:open>
           <div class="select-trigger">
-            <span class={getChainname($network)}>A{getChainName($network)}</span>
+            <span class={getChainname($network)}>{getChainName($network)}</span>
           </div>
           <div class="custom-options">
             {#each networks.filter((nw) => nw.mainnet) as _network}
