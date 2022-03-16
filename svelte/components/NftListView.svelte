@@ -1,15 +1,15 @@
 <script lang="ts">
-  import type { Provider } from "@ethersproject/abstract-provider";
   import { onMount } from "svelte";
 
-  import type { Collection, Network, Nft } from "lib/ktypes";
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl, nftUrl3 } from "lib/kconfig";
-  import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
-  import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
+  import type { Collection, Nft } from "lib/ktypes";
+  import NftView from "./NftView.svelte";
+
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
+  import { chainId, network, provider, owner } from "main/network";
+  import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
+  import { nftGetFromContractEnumerable, nftGetMetadata } from "lib/knft-get";
 
   import { urlTokenID } from "main/urlHash";
-  import KredeumGetNft from "./kredeum-get-nft.svelte";
-  import { chainId, network, provider, owner } from "main/network";
 
   // down to component
   export let collection: Collection = undefined;
@@ -28,14 +28,14 @@
   let mores: Array<number> = [];
 
   export const nftsList = async () => {
-    _nftsList();
+    await _nftsList();
   };
 
   $: if (collection && $chainId && $owner) collectionAddress = collection.address;
 
   $: if (collectionAddress) _nftsList(true);
 
-  const _nftsList = (cache = false) => {
+  const _nftsList = async (cache = false) => {
     if (collection && collection.chainId == $chainId && $owner) {
       // console.log("_nftsList", _chainId, _owner, cache, _collection);
 
@@ -51,7 +51,7 @@
 
       if (fromLib) {
         // LOAD NFTs from lib
-        _nftsListFromLib($chainId, collection, $owner);
+        await _nftsListFromLib($chainId, collection, $owner);
       }
     }
   };
@@ -104,7 +104,7 @@
     }
   };
 
-  const unchanged = async (_chainId: number, _collection: Collection): Promise<boolean> => {
+  const unchanged = (_chainId: number, _collection: Collection): boolean => {
     // chainId and collection have not changed while loading NFTs
     return $chainId === _chainId && collection?.address === _collection.address;
   };
@@ -140,7 +140,7 @@
         {/if}
       </div>
       {#each [...NFTs.values()] as nft, index}
-        <KredeumGetNft {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} />
+        <NftView {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} />
       {/each}
     </div>
   {:else}

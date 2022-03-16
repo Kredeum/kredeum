@@ -1,8 +1,9 @@
 <script lang="ts">
-  import type { Nft, Network, Collection } from "lib/ktypes";
-  import type { JsonRpcProvider, JsonRpcSigner } from "@ethersproject/providers";
+  import type { Nft, Collection } from "lib/ktypes";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import KredeumMetamask from "./metamaskView.svelte";
+  import AccountView from "./AccountView.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get";
@@ -30,7 +31,7 @@
   let signerAddress: string;
 
   // ON network or account change
-  $: handleChange($chainId, $signer);
+  $: handleChange($chainId, $signer).catch(console.error);
 
   const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
     if (_chainId && _signer) {
@@ -46,13 +47,13 @@
     }
   };
 
-  const sell = async (e: Event): Promise<void> => {
+  const sell = (e: Event): void => {
     e.preventDefault();
 
     location.href = nftOpenSeaUrl($chainId, mintedNft);
   };
 
-  const view = async (e: Event): Promise<void> => {
+  const view = (e: Event): void => {
     e.preventDefault();
 
     location.href = nftGetImageLink(mintedNft);
@@ -116,7 +117,7 @@
     {/if}
   {:else}
     <small>
-      <br /><KredeumMetamask />
+      <br /><AccountView label={true} /><NetworkSelect label={true} />
     </small>
   {/if}
 

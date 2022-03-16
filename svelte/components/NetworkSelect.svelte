@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import type { Network } from "lib/ktypes";
-  import { getShortAddress, explorerAccountUrl, getEnsName, networks } from "lib/kconfig";
+  import { getEnsName, networks } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
   import { explorerNFTsFactoryUrl } from "lib/kconfig";
 
@@ -16,12 +16,13 @@
 
   import { chainId, network, provider, signer, owner } from "main/network";
 
-  export let txt: boolean = undefined;
+  export let txt: boolean = false;
+  export let label: boolean = false;
 
-  let nameOrAddress = "";
   let metamaskNotInstalled = false;
   let open = false;
   const testnets = true;
+  let nameOrAddress = "";
 
   $: if ($owner) setEnsName();
   const setEnsName = async () => {
@@ -38,12 +39,13 @@
     value: number;
   }
   const _metamaskSwitchChainEvt = (evt?: Event) => {
-    console.log("evt", evt);
+    console.log("_metamaskSwitchChainEvt evt", evt);
 
     const _chainId = Number((evt.target as SwitchEventTarget).value);
     _metamaskSwitchChain(_chainId, evt);
   };
   const _metamaskSwitchChain = (_chainId: number, evt: Event) => {
+    console.log("_metamaskSwitchChain evt", evt);
     evt.preventDefault();
 
     metamaskSwitchChain(_chainId);
@@ -56,12 +58,12 @@
   };
 
   onMount(async () => {
-    window.addEventListener("click", (evt: Event): void => {
-      const select = document.querySelector(".select-network");
-      if (select && !select.contains(evt.target as HTMLElement)) {
-        open = false;
-      }
-    });
+    // window.addEventListener("click", (evt: Event): void => {
+    //   const select = document.querySelector(".select-network");
+    //   if (select && !select.contains(evt.target as HTMLElement)) {
+    //     open = false;
+    //   }
+    // });
 
     const metamaskNotInstalled = !(await metamaskInit());
   });
@@ -86,7 +88,6 @@
         {/each}
       {/if}
     </select>
-    {nameOrAddress}@{getChainname($network)}
   {:else if metamaskNotInstalled}
     {metamaskInstallMessage}
   {:else}
@@ -95,45 +96,23 @@
 {:else}
   <div class="col col-xs-12 col-sm-3">
     {#if $owner}
-      <span class="label"
-        >Address
-        <a
-          class="info-button"
-          href={explorerAccountUrl($chainId, $owner)}
-          target="_blank"
-          title="&#009;Owner address (click to view account in explorer )&#013;{$owner}"
-          ><i class="fas fa-info-circle" /></a
-        >
-      </span>
-      <div class="form-field">
-        <input type="text" value={getShortAddress(nameOrAddress, 10)} />
-      </div>
-    {:else if metamaskNotInstalled}
-      <div class="btn btn-light btn-metamask">
-        {metamaskInstallMessage}
-      </div>
-    {:else}
-      <a href="." on:click={_metamaskConnect} class="btn btn-light btn-metamask">{metamaskConnectMessage}</a>
-    {/if}
-  </div>
-
-  <div class="col col-xs-12 col-sm-3">
-    {#if $owner}
-      <span class="label"
-        >Network
-        <a
-          class="info-button"
-          href={explorerNFTsFactoryUrl($chainId)}
-          target="_blank"
-          title="&#009; NFTs Factory address (click to view in explorer )
+      {#if label}
+        <span class="label"
+          >Network
+          <a
+            class="info-button"
+            href={explorerNFTsFactoryUrl($chainId)}
+            target="_blank"
+            title="&#009; NFTs Factory address (click to view in explorer )
           {factoryGetAddress($chainId)}"><i class="fas fa-info-circle" /></a
-        >
-      </span>
+          >
+        </span>
+      {/if}
 
       <div class="select-wrapper select-network" on:click={() => (open = !open)}>
         <div class="select" class:open>
           <div class="select-trigger">
-            <span class={getChainname($network)}>{getChainName($network)}</span>
+            <span class={getChainname($network)}>A{getChainName($network)}</span>
           </div>
           <div class="custom-options">
             {#each networks.filter((nw) => nw.mainnet) as _network}

@@ -1,5 +1,4 @@
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "types/NFTsFactory";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
@@ -238,4 +237,3 @@ export {
   collectionListFromTheGraph,
   collectionListFromFactory
 };
-export type { NFTsFactory };

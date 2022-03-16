@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { get as storeGet } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, getChainId, networks } from "lib/kconfig";
-import { urlChainName } from "helpers/urlHash";
+import { urlChainName } from "main/urlHash";
 import { chainId, network, provider, signer, owner } from "main/network";
 
 let ethereumProvider: EthereumProvider;

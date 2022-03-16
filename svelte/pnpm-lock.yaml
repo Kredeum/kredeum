@@ -11,6 +11,7 @@ specifiers:
   '@rollup/plugin-typescript': ^8.3.1
   '@rollup/pluginutils': ^4.2.0
   '@tsconfig/svelte': ^2.0.1
+  '@types/findup-sync': ^4.0.2
   '@typescript-eslint/eslint-plugin': ^5.14.0
   '@typescript-eslint/parser': ^5.14.0
   dotenv: ^16.0.0
@@ -53,6 +54,7 @@ devDependencies:
   '@rollup/plugin-typescript': 8.3.1_41ab6d1a9136403886ea2fa83d07712f
   '@rollup/pluginutils': 4.2.0
   '@tsconfig/svelte': 2.0.1
+  '@types/findup-sync': 4.0.2
   '@typescript-eslint/eslint-plugin': 5.14.0_f4054b8c3cd621db16ae1b9d571bccc0
   '@typescript-eslint/parser': 5.14.0_eslint@8.10.0+typescript@4.6.2
   dotenv: 16.0.0
@@ -750,12 +752,22 @@ packages:
       '@types/node': 17.0.21
     dev: true
 
+  /@types/braces/3.0.1:
+    resolution: {integrity: sha512-+euflG6ygo4bn0JHtn4pYqcXwRtLvElQ7/nnjDu7iYG56H0+OhCd7d6Ug0IE3WcFpZozBKW2+80FUbv5QGk5AQ==}
+    dev: true
+
   /@types/estree/0.0.39:
     resolution: {integrity: sha512-EYNwp3bU+98cpU4lAWYYL7Zz+2gryWH1qbdDTidVd6hkiR6weksdbMadyXKXNPEkQFhXM+hVO9ZygomHXp+AIw==}
     dev: true
 
   /@types/estree/0.0.51:
     resolution: {integrity: sha512-CuPgU6f3eT/XgKKPqKd/gLZV1Xmvf1a2R5POBOGQa6uv82xpls89HU5zKeVoyR8XzHd1RGNOlQlvUe3CFkjWNQ==}
+    dev: true
+
+  /@types/findup-sync/4.0.2:
+    resolution: {integrity: sha512-MY2Acwvq6O+/rOMRtbV31phQOj1A+sbVWRbp47PvcZ5+VoofiSZHhj8ByATusuzJE+q/u+PA1SlkfPu3thhsjw==}
+    dependencies:
+      '@types/micromatch': 4.0.2
     dev: true
 
   /@types/json-schema/7.0.9:
@@ -776,6 +788,12 @@ packages:
 
   /@types/lru-cache/5.1.1:
     resolution: {integrity: sha512-ssE3Vlrys7sdIzs5LOxCzTVMsU7i9oa/IaW92wF32JFb3CVczqOkru2xspuKczHEbG3nvmPY7IFqVmGGHdNbYw==}
+    dev: true
+
+  /@types/micromatch/4.0.2:
+    resolution: {integrity: sha512-oqXqVb0ci19GtH0vOA/U2TmHTcRY9kuZl4mqUxe0QmJAlIW13kzhuK5pi1i9+ngav8FjpSb9FVS/GE00GLX1VA==}
+    dependencies:
+      '@types/braces': 3.0.1
     dev: true
 
   /@types/node/17.0.21:

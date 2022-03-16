@@ -1,14 +1,15 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumMetamask from "./metamaskView.svelte";
+  import CollectionListView from "./CollectionListView.svelte";
 
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
   import { chainId, owner } from "main/network";
+
+  import AccountView from "./AccountView.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   export let txt = false;
   export let collection: Collection = undefined;
@@ -22,14 +23,15 @@
   const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
 
   const _supports = (_collection: Collection): string =>
-    collection?.supports?.IERC721 ? "ERC721" : collection?.supports?.IERC1155 ? "ERC1155" : "";
+    _collection?.supports?.IERC721 ? "ERC721" : _collection?.supports?.IERC1155 ? "ERC1155" : "";
 </script>
 
-<KredeumMetamask autoconnect="off" {txt} />
+<AccountView {txt} /><NetworkSelect label={true} {txt} />
+
 {#if txt}
   {#if $owner && factoryGetAddress($chainId)}
     <p>
-      <KredeumListCollections bind:collection {txt} />
+      <CollectionListView bind:collection {txt} />
     </p>
   {/if}
 {:else}
@@ -47,7 +49,7 @@
           >
         {/if}
       </span>
-      <KredeumListCollections bind:collection {txt} />
+      <CollectionListView bind:collection {txt} />
     {/if}
   </div>
 {/if}

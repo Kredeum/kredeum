@@ -1,14 +1,14 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
 
-  import KredeumSelectCollection from "./kredeum-select-collection.svelte";
-  import KredeumListNfts from "./kredeum-list-nfts.svelte";
-  import KredeumCreateCollection from "./kredeum-create-collection.svelte";
-  import KredeumCreateNft from "./kredeum-create-nft.svelte";
+  import KredeumSelectCollection from "./CollectionSelect.svelte";
+  import KredeumListNfts from "./NftListView.svelte";
+  import KredeumCreateCollection from "./CollectionCreateView.svelte";
+  import KredeumCreateNft from "./NftMintView.svelte";
   import { onMount } from "svelte";
   import semverSatisfies from "semver/functions/satisfies";
 
-  import { explorerCollectionUrl, nftsUrl, getCreate, config } from "lib/kconfig";
+  import { getCreate, config } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
   import { chainId, owner } from "main/network";
@@ -21,14 +21,6 @@
   let label = "";
   let version = "";
 
-  const _explorerCollectionUrl = (_collectionAddress: string): string => {
-    const ret = explorerCollectionUrl($chainId, _collectionAddress);
-    // console.log("_explorerCollectionUrl", ret);
-    return ret;
-  };
-
-  const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
-
   const cacheVersion = (_version: string) => {
     const versionOld = localStorage.getItem("version") || "";
     if (!semverSatisfies(_version, `~${versionOld}`)) {
@@ -38,7 +30,7 @@
     localStorage.setItem("version", _version);
   };
 
-  onMount(async () => {
+  onMount(() => {
     version = config.version.latest;
     console.log(`INIT Kredeum NFTs Factory v${version}`);
 

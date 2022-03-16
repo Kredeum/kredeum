@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/kconfig";
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
@@ -9,7 +8,7 @@
 
   import { chainId, signer } from "main/network";
 
-  import KredeumListTemplates from "./kredeum-list-templates.svelte";
+  import KredeumListTemplates from "./TemplatesView.svelte";
 
   // up to parent
   export let collection: Collection = undefined;
