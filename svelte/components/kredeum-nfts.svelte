@@ -50,9 +50,9 @@
 
     // Get Token ID if exist in url
     const urlParams = new URLSearchParams(window.location.search);
-      if (urlParams.has("tokenID")) {
-        tokenID = Number(urlParams.get("tokenID"));
-      } 
+    if (urlParams.has("tokenID")) {
+      tokenID = Number(urlParams.get("tokenID"));
+    }
   });
 </script>
 

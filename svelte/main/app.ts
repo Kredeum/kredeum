@@ -1,4 +1,4 @@
-import KredeumNfts from "../components/kredeum-nfts.svelte";
+import KredeumNfts from "../components/HomeView.svelte";
 import KredeumNftsMint from "../components/kredeum-mint.svelte";
 import KredeumMetamask from "../components/metamaskView.svelte";
 import KredeumSelectCollection from "../components/kredeum-select-collection.svelte";
