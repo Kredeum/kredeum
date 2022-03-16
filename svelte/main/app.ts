@@ -1,10 +1,13 @@
-import KredeumNfts from "../components/HomeView.svelte";
+import KredeumNfts from "../components/Test.svelte";
+// import KredeumNfts from "../components/HomeView.svelte";
 import KredeumNftsMint from "../components/NftMintView2.svelte";
 import NetworkSelect from "../components/NetworkSelect.svelte";
 import KredeumSelectCollection from "../components/CollectionSelect.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
+
+window.onhashchange = () => console.log("Hash changed!", window.location.hash);
 
 // convert HTML attributes to SVELTE props
 // be carefull : attributes are lowercase, props can be mixed case

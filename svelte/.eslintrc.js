@@ -47,7 +47,7 @@ module.exports = {
     "@typescript-eslint/no-misused-promises": "error",
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/require-await": "error",
-    "@typescript-eslint/no-misused-vars": "error",
+    "@typescript-eslint/no-unused-vars": "error",
     "@typescript-eslint/prefer-for-of": "error",
     indent: ["error", 2],
     semi: ["error", "always"],

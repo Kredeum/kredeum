@@ -4,7 +4,7 @@ import { ethers } from "ethers";
 import { get as storeGet } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, getChainId, networks } from "lib/kconfig";
-import { urlChainName } from "main/urlHash";
+import { refFromUrl } from "main/refs";
 import { chainId, network, provider, signer, owner } from "main/network";
 
 let ethereumProvider: EthereumProvider;
@@ -147,7 +147,7 @@ const metamaskInit = async (): Promise<boolean> => {
       }
 
       // IF chainId requested in url is different THEN switch chain on metamask
-      const _urlChainId = getChainId(urlChainName());
+      const _urlChainId = refFromUrl().chainId;
       if (_urlChainId > 0 && _urlChainId != _chainId) {
         _chainId = _urlChainId;
         metamaskSwitchChain(_urlChainId);

@@ -8,7 +8,7 @@
   import { factoryGetTemplateAddress, factoryGetDefaultImplementation } from "lib/kfactory-get";
   import { collectionName, nftsUrl, urlOwner } from "lib/kconfig";
 
-  import { urlCollection } from "main/urlHash";
+  import { refFromUrl } from "main/refs";
   import { chainId, provider, owner } from "main/network";
 
   // down to component
@@ -111,7 +111,7 @@
     });
 
     // IF collection requested in url is different THEN set collection
-    const _urlCollection = urlCollection();
+    const _urlCollection = urlRef().collection;
     if (_urlCollection && _urlCollection != collectionAddress) {
       _setCollection(_urlCollection);
     }

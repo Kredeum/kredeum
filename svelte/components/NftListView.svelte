@@ -9,7 +9,7 @@
   import { clearCache, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata } from "lib/knft-get";
 
-  import { urlTokenID } from "main/urlHash";
+  import { refFromUrl } from "main/refs";
 
   // down to component
   export let collection: Collection = undefined;
@@ -111,7 +111,7 @@
 
   onMount(async () => {
     // IF tokenID requested in url is present THEN set tokenID
-    const _urlTokenID = urlTokenID();
+    const _urlTokenID = urlRef().tokenID;
     if (_urlTokenID >= 0) tokenID = _urlTokenID;
   });
 </script>

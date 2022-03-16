@@ -7,7 +7,7 @@
   import { clearCache, nftList, nftListFromCache, nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable, nftGetMetadata, nftGetImageLink } from "lib/knft-get";
 
-  import { urlTokenID } from "main/urlHash";
+  import { refFromUrl } from "main/refs";
   import KredeumGetNft from "./kredeum-get-nft.svelte";
   import { chainId, network, provider, owner } from "main/network";
 
@@ -111,7 +111,7 @@
 
   onMount(async () => {
     // IF tokenID requested in url is present THEN set tokenID
-    const _urlTokenID = urlTokenID();
+    const _urlTokenID = urlRef().tokenID;
     if (_urlTokenID >= 0) tokenID = _urlTokenID;
   });
 </script>
