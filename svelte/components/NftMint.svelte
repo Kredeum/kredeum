@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
+
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
+  import KredeumListCollections from "./CollectionSelect.svelte";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
@@ -44,7 +44,7 @@
       reader.readAsDataURL(files[0]);
       nftTitle = nftTitle || files[0].name;
       reader.onload = (e) => {
-        image = `${e.target.result}`;
+        image = e.target.result.toString();
       };
     }
   };

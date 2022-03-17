@@ -15,7 +15,7 @@ specifiers:
   '@openzeppelin/contracts': ^4.5.0
   '@openzeppelin/contracts-upgradeable': ^4.5.2
   '@typechain/ethers-v5': ^9.0.0
-  '@typechain/hardhat': ^4.0.0
+  '@typechain/hardhat': ^5.0.0
   '@types/chai': ^4.3.0
   '@types/findup-sync': ^4.0.2
   '@types/mocha': ^9.1.0
@@ -42,6 +42,7 @@ specifiers:
   hardhat-docgen: ^1.3.0
   hardhat-gas-reporter: ^1.0.8
   lodash: ^4.17.21
+  multiformats: ^9.6.4
   prettier: ^2.5.1
   prettier-plugin-solidity: ^1.0.0-beta.19
   prompt-sync: ^4.2.0
@@ -73,7 +74,7 @@ devDependencies:
   '@openzeppelin/contracts': 4.5.0
   '@openzeppelin/contracts-upgradeable': 4.5.2
   '@typechain/ethers-v5': 9.0.0_cd6184751cff3b149dd0b0e2b6d2eae3
-  '@typechain/hardhat': 4.0.0_c550010dd67cb0d84d8a48bedf1637bd
+  '@typechain/hardhat': 5.0.0_c550010dd67cb0d84d8a48bedf1637bd
   '@types/chai': 4.3.0
   '@types/findup-sync': 4.0.2
   '@types/mocha': 9.1.0
@@ -100,6 +101,7 @@ devDependencies:
   hardhat-docgen: 1.3.0_hardhat@2.9.1
   hardhat-gas-reporter: 1.0.8_hardhat@2.9.1
   lodash: 4.17.21
+  multiformats: 9.6.4
   prettier: 2.5.1
   prettier-plugin-solidity: 1.0.0-beta.19_prettier@2.5.1
   prompt-sync: 4.2.0
@@ -1039,8 +1041,8 @@ packages:
       typescript: 4.6.2
     dev: true
 
-  /@typechain/hardhat/4.0.0_c550010dd67cb0d84d8a48bedf1637bd:
-    resolution: {integrity: sha512-SeEKtiHu4Io3LHhE8VV3orJbsj7dwJZX8pzSTv7WQR38P18vOLm2M52GrykVinMpkLK0uVc88ICT58emvfn74w==}
+  /@typechain/hardhat/5.0.0_c550010dd67cb0d84d8a48bedf1637bd:
+    resolution: {integrity: sha512-Pqk+KdREbU6Uk3en1Z5caQpWt2bKU+KTOi+6dZwcIXJpF1wKoAwF1cbaYSQEzrG4BSUTM1rHQhW5JHSfeqpsAg==}
     peerDependencies:
       hardhat: ^2.0.10
       lodash: ^4.17.15
@@ -7500,6 +7502,10 @@ packages:
     dependencies:
       buffer: 5.7.1
       varint: 5.0.2
+    dev: true
+
+  /multiformats/9.6.4:
+    resolution: {integrity: sha512-fCCB6XMrr6CqJiHNjfFNGT0v//dxOBMrOMqUIzpPc/mmITweLEyhvMpY9bF+jZ9z3vaMAau5E8B68DW77QMXkg==}
     dev: true
 
   /multihashes/0.4.21:

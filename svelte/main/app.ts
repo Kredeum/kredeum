@@ -1,7 +1,8 @@
-import KredeumNfts from "../components/kredeum-nfts.svelte";
-import KredeumNftsMint from "../components/kredeum-mint.svelte";
-import KredeumMetamask from "../components/metamaskView.svelte";
-import KredeumSelectCollection from "../components/kredeum-select-collection.svelte";
+import KredeumNfts from "../components/Tests.svelte";
+// import KredeumNfts from "../components/Home.svelte";
+import KredeumNftsMint from "../components/NftMint2.svelte";
+import NetworkSelect from "../components/NetworkSelectLabel.svelte";
+import KredeumSelectCollection from "../components/CollectionSelectLabel.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
@@ -48,12 +49,12 @@ const kredeumNftsMints: Array<KredeumNftsMint> = [];
   });
 }
 
-let kredeumMetamask: KredeumMetamask;
+let network: NetworkSelect;
 {
   // Kredeum Metamask component
   const target: HTMLElement = document.querySelector("#kredeum-metamask");
   if (target) {
-    kredeumMetamask = new KredeumMetamask({ target, props: _props(target) });
+    network = new NetworkSelect({ target, props: _props(target) });
   }
 }
 
@@ -69,4 +70,4 @@ let kredeumSelectCollection: KredeumSelectCollection;
   }
 }
 
-export { kredeumNfts, kredeumNftsMints, kredeumMetamask, kredeumSelectCollection };
+export { kredeumNfts, kredeumNftsMints, network, kredeumSelectCollection };

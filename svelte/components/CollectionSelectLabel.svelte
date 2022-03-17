@@ -1,40 +1,40 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import KredeumListCollections from "./kredeum-list-collections.svelte";
-  import KredeumMetamask from "./metamaskView.svelte";
+  import CollectionSelect from "./CollectionSelect.svelte";
 
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
-  import { chainId, owner } from "main/network";
+  import { metamaskChainId, metamaskAccount } from "main/metamask";
+  import { currentCollection } from "main/current";
 
   export let txt = false;
   export let collection: Collection = undefined;
 
+  $: if (collection) currentCollection.set(collection.address);
+
   const _explorerCollectionUrl = (_collectionAddress: string): string => {
-    const ret = explorerCollectionUrl($chainId, _collectionAddress);
+    const ret = explorerCollectionUrl($metamaskChainId, _collectionAddress);
     // console.log("_explorerCollectionUrl", ret);
     return ret;
   };
 
-  const _nftsUrl = (_collectionAddress: string): string => nftsUrl($chainId, _collectionAddress);
+  const _nftsUrl = (_collectionAddress: string): string => nftsUrl($metamaskChainId, _collectionAddress);
 
   const _supports = (_collection: Collection): string =>
-    collection?.supports?.IERC721 ? "ERC721" : collection?.supports?.IERC1155 ? "ERC1155" : "";
+    _collection?.supports?.IERC721 ? "ERC721" : _collection?.supports?.IERC1155 ? "ERC1155" : "";
 </script>
 
-<KredeumMetamask autoconnect="off" {txt} />
 {#if txt}
-  {#if $owner && factoryGetAddress($chainId)}
+  {#if factoryGetAddress($metamaskChainId)}
     <p>
-      <KredeumListCollections bind:collection {txt} />
+      <CollectionSelect bind:collection {txt} />
     </p>
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if $owner && factoryGetAddress($chainId)}
+    {#if factoryGetAddress($metamaskChainId)}
       <span class="label"
         >Collection
         {#if collection}
@@ -47,7 +47,7 @@
           >
         {/if}
       </span>
-      <KredeumListCollections bind:collection {txt} />
+      <CollectionSelect chainId={$metamaskChainId} account={$metamaskAccount} bind:collection {txt} />
     {/if}
   </div>
 {/if}

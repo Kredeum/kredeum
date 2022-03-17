@@ -17,7 +17,7 @@
     }
     // "strict": true
   },
-  "include": ["main/*.ts", "components/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
-  "files": ["rollup.config.ts", "components/global.d.ts"],
+  "include": ["main/*.ts", "components/*.svelte", "layouts/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
+  "files": ["rollup.config.ts", "components/global.d.ts", "layouts/global.d.ts"],
   "exclude": ["node_modules"]
 }

@@ -19,7 +19,8 @@
   import { nftGetImageLink } from "lib/knft-get";
   import { onMount } from "svelte";
 
-  import TransferNft from "./kredeum-transfer-nft.svelte";
+  import NftTransferView from "./NftTransfer.svelte";
+  import NftClaimView from "./NftClaim.svelte";
 
   export let nft: Nft;
   export let index: number;
@@ -56,7 +57,7 @@
     return video;
   };
 
-  const divMedia = async (nft: Nft, index: number, small = false) => {
+  const divMedia = (nft: Nft, index: number, small = false) => {
     const mediaContentType = nft.contentType?.split("/");
     const mediaType = mediaContentType[0] || "image";
 
@@ -80,7 +81,7 @@
     return div;
   };
 
-  onMount(async () => {
+  onMount(() => {
     console.log("NFT", nft);
     if (more == -1) moreToggle();
   });
@@ -94,11 +95,7 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {#await divMedia(nft, index, true)}
-        <div class="media media-small media-text" />
-      {:then mediaDiv}
-        {@html mediaDiv}
-      {/await}
+      {@html divMedia(nft, index, true)}
 
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
@@ -196,6 +193,11 @@
               <i class="fas fa-gift" /> Transfer
             </a>
           </div>
+          <div class="flex">
+            <a href="#claim-nft-{nft.tokenID}" class="btn btn-small btn-default" title="Claim NFT on Kovan">
+              <i class="fas fa-exclamation" /> Claim on Kovan
+            </a>
+          </div>
         </li>
         {#if platform === "wordpress"}
           <li class="complete">
@@ -211,7 +213,12 @@
 
   <!-- Modal transfer nft -->
   <div id="transfert-nft-{nft.tokenID}" class="modal-window">
-    <TransferNft bind:nft />
+    <NftTransferView bind:nft />
+  </div>
+
+  <!-- Modal claim nft -->
+  <div id="claim-nft-{nft.tokenID}" class="modal-window">
+    <NftClaimView bind:nft />
   </div>
 </div>
 

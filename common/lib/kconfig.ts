@@ -44,7 +44,7 @@ const getCovalent = (chainId: number): boolean => {
   return Boolean(network?.covalent?.active);
 };
 
-// GET chain name
+// GET chain Name
 const getChainName = (chainId: number): string => {
   const network = getNetwork(chainId);
   return network?.chainName || "";

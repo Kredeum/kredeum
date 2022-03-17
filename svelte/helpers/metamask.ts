@@ -1,11 +1,13 @@
 import type { EthereumProvider } from "hardhat/types";
-import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
-import { get as storeGet } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, getNetwork, getChainId, networks } from "lib/kconfig";
-import { urlChainName } from "helpers/urlHash";
-import { chainId, network, provider, signer, owner } from "main/network";
+import detectEthereumProvider from "@metamask/detect-provider";
+import { get } from "svelte/store";
+
+import { numberToHexString, getChecksumAddress, getNetwork, networks } from "lib/kconfig";
+
+import { hashObject } from "helpers/hash";
+import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
 let ethereumProvider: EthereumProvider;
 let metamaskInstalled = false;
@@ -16,9 +18,9 @@ const metamaskMultipleWallets = "Do you have multiple wallets installed?";
 
 let targetChain = false;
 
-const addEthereumChain = (chainId: number): void => {
-  if (chainId) {
-    console.log("addEthereumChain", chainId);
+const addEthereumChain = (_chainId: number): void => {
+  if (_chainId) {
+    console.log("addEthereumChain", _chainId);
 
     if (targetChain) {
       console.warn("Already connecting network...");
@@ -26,8 +28,8 @@ const addEthereumChain = (chainId: number): void => {
     targetChain = true;
 
     // no need to add default ethereum chain
-    if (chainId !== 1) {
-      const _network = getNetwork(chainId);
+    if (_chainId !== 1) {
+      const _network = getNetwork(_chainId);
       if (_network) {
         // EIP-3085 fields only or fails
         type EthereumChainParameter = {
@@ -66,12 +68,11 @@ const addEthereumChain = (chainId: number): void => {
 const handleChainId = (_chainId: number): void => {
   console.log(`handleChainId ${_chainId}`);
 
-  if (_chainId && _chainId != storeGet(chainId)) {
+  if (_chainId && _chainId != get(metamaskChainId)) {
     const _network = getNetwork(_chainId);
 
     if (_network) {
-      network.set(_network);
-      chainId.set(Number(_chainId));
+      metamaskChainId.set(Number(_network.chainId));
     } else {
       // chainId not accepted : switch to first accepted chainId
       metamaskSwitchChain(networks[0].chainId);
@@ -84,16 +85,15 @@ const handleAccounts = (accounts: Array<string>): void => {
 
   if (accounts?.length === 0) {
     metamaskConnect();
-  } else if (accounts[0] !== String(storeGet(owner))) {
-    signer.set(storeGet(provider).getSigner(0));
-    owner.set(getChecksumAddress(accounts[0]));
+  } else if (accounts[0] !== String(get(metamaskAccount))) {
+    metamaskAccount.set(getChecksumAddress(accounts[0]));
   }
 };
 
 const metamaskSwitchChain = (_chainId: number): void => {
   console.log(`metamaskSwitchChain ${_chainId}`);
 
-  if (_chainId > 0 && _chainId != Number(storeGet(chainId))) {
+  if (_chainId > 0 && _chainId != Number(get(metamaskChainId))) {
     ethereumProvider
       .request({
         method: "wallet_switchEthereumChain",
@@ -136,7 +136,7 @@ const metamaskInit = async (): Promise<boolean> => {
       if (ethereumProvider !== window.ethereum) alert(metamaskMultipleWallets);
 
       const ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
-      provider.set(ethersProvider);
+      metamaskProvider.set(ethersProvider);
 
       let _chainId: number;
       try {
@@ -147,7 +147,7 @@ const metamaskInit = async (): Promise<boolean> => {
       }
 
       // IF chainId requested in url is different THEN switch chain on metamask
-      const _urlChainId = getChainId(urlChainName());
+      const _urlChainId = hashObject().chainId;
       if (_urlChainId > 0 && _urlChainId != _chainId) {
         _chainId = _urlChainId;
         metamaskSwitchChain(_urlChainId);
