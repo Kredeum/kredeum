@@ -28,7 +28,7 @@
       <div class="media media-photo">
         <a href="#zoom">
           <i class="fas fa-search" />
-          <img src={nft.image} />
+          <img src={nft.image} alt={nft.name} />
         </a>
       </div>
     </div>
@@ -36,7 +36,7 @@
 
   <div class="col col-xs-12 col-sm-8 col-md-9">
     <div class="card-krd">
-      <h3>MaticPunk #8373 <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle" /></a></h3>
+      <h3>{nft.name} <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle" /></a></h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel
         lectus. Integer arcu est, laoreet ut dui ac, cursus suscipit metus.
@@ -44,25 +44,39 @@
 
       <ul class="steps">
         <li>
+          <div class="flex"><span class="label">Owner</span></div>
+          <div class="flex"><strong>{nft.owner}</strong></div>
+        </li>
+        <li>
+          <div class="flex"><span class="label">Token ref</span></div>
+          <div class="flex">
+            <a class="link" href={nft.nid} target="_blank"><strong>{nft.nid}</strong></a>
+          </div>
+        </li>
+        <li>
           <div class="flex"><span class="label">Token ID</span></div>
-          <div class="flex"><strong>#8373</strong></div>
+          <div class="flex"><strong>#{nft.tokenID}</strong></div>
+        </li>
+        <li>
+          <div class="flex"><span class="label">collection @</span></div>
+          <div class="flex"><strong>{nft.collection}</strong></div>
         </li>
         <li>
           <div class="flex"><span class="label">Metadata ipfs cid</span></div>
           <div class="flex">
-            <a class="link" href="" target="_blank">bakrefile…tghekjele</a>
+            <a class="link" href={nft.metadata.ipfs} target="_blank">{nft.metadata.ipfs}</a>
           </div>
         </li>
         <li>
           <div class="flex"><span class="label">Image</span></div>
           <div class="flex">
-            <a class="link" href="" target="_blank">bakrefile…tghekjele</a>
+            <a class="link" href={nft.metadata.image} target="_blank">{nft.metadata.image}</a>
           </div>
         </li>
         <li>
           <div class="flex"><span class="label">Transaction</span></div>
           <div class="flex">
-            <a class="link" href="" target="_blank">0x2435…4536</a>
+            <a class="link" href={nft.minter} target="_blank">{nft.minter}</a>
           </div>
         </li>
       </ul>
@@ -89,7 +103,7 @@
       <a href="#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="media media-photo">
-          <a href="#zoom"><img src="https://picsum.photos/600" /></a>
+          <a href="#zoom"><img src={nft.image} alt={nft.name} /></a>
         </div>
       </div>
     </div>
