@@ -1,6 +1,8 @@
 <script lang="ts">
-  import { Collection, Nft } from "lib/ktypes";
+  import { Collection } from "lib/ktypes";
   import { nftListFromCache } from "lib/knft-list";
+
+  import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
 
   let nfts;
   let nft;
@@ -36,47 +38,59 @@
 
   <div class="col col-xs-12 col-sm-8 col-md-9">
     <div class="card-krd">
-      <h3>{nft.name} <a class="info-button" href="" target="_blank"><i class="fas fa-info-circle" /></a></h3>
+      <h3>{nft.name}</h3>
       <p>
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel
-        lectus. Integer arcu est, laoreet ut dui ac, cursus suscipit metus.
+        {nft.description}
       </p>
 
       <ul class="steps">
         <li>
-          <div class="flex"><span class="label">Owner</span></div>
-          <div class="flex"><strong>{nft.owner}</strong></div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Token ref</span></div>
-          <div class="flex">
-            <a class="link" href={nft.nid} target="_blank"><strong>{nft.nid}</strong></a>
-          </div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Token ID</span></div>
+          <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
           <div class="flex"><strong>#{nft.tokenID}</strong></div>
         </li>
         <li>
-          <div class="flex"><span class="label">collection @</span></div>
-          <div class="flex"><strong>{nft.collection}</strong></div>
+          <div class="flex"><span class="label">Owner</span></div>
+          <div class="flex">{@html explorerAddressLink(nft.chainId, nft.owner, 15)}</div>
         </li>
         <li>
-          <div class="flex"><span class="label">Metadata ipfs cid</span></div>
+          <div class="flex"><span class="label">Permanent link</span></div>
           <div class="flex">
-            <a class="link" href={nft.metadata.ipfs} target="_blank">{nft.metadata.ipfs}</a>
+            <a
+              class="link overflow-ellipsis"
+              href={kredeumNftUrl(nft.chainId, nft)}
+              title={nftUrl(nft, 10)}
+              target="_blank"
+            >
+              {@html nftUrl(nft, 10)}
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="flex"><span class="label">collection @</span></div>
+          <div class="flex">
+            <a
+              class="link overflow-ellipsis"
+              href={explorerCollectionUrl(nft.chainId, nft?.collection)}
+              title={nft.collection}
+              target="_blank"
+            >
+              {nft.collection}
+            </a>
+          </div>
+        </li>
+        <li>
+          <div class="flex"><span class="label">Metadata ipfs</span></div>
+          <div class="flex">
+            <a class="link overflow-ellipsis" href={nft.tokenURI} title={nft.ipfsJson} target="_blank">{nft.ipfsJson}</a
+            >
           </div>
         </li>
         <li>
           <div class="flex"><span class="label">Image</span></div>
           <div class="flex">
-            <a class="link" href={nft.metadata.image} target="_blank">{nft.metadata.image}</a>
-          </div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Transaction</span></div>
-          <div class="flex">
-            <a class="link" href={nft.minter} target="_blank">{nft.minter}</a>
+            <a class="link overflow-ellipsis" href={nft.image} title={nft.ipfs} target="_blank">
+              {nft.ipfs}
+            </a>
           </div>
         </li>
       </ul>
