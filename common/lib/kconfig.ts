@@ -81,6 +81,21 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
 };
 const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
 
+// Build normalized url for one nft with get parameters
+const normalizedSoloNftUrl = (chainId: number, nft: Nft): string => {
+  const network = getNetwork(chainId);
+  const ret =
+    "/?chainId=" +
+    (network
+      ? network.chainName +
+        "&collection=" +
+        (nft ? `${nft?.collection}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
+      : "");
+  // console.log("nftUrl3", chainId, collection, _tokenId, plus, ret);
+
+  return ret;
+};
+
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
 
@@ -381,6 +396,7 @@ export {
   nftsBalanceAndName,
   nftOpenSeaUrl,
   networks,
+  normalizedSoloNftUrl,
   numberToHexString,
   sleep,
   textShort,

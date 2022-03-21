@@ -7,6 +7,7 @@ import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
 import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3 } from "./kconfig";
+import { cacheNftsList } from "./kcache";
 
 const LIMIT = 10;
 
@@ -248,6 +249,9 @@ const _nftListWithMetadata = async (
   return nftsWithMetadata;
 };
 
+const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, Nft> =>
+  cacheNftsList(chainId, collection, account);
+
 const nftList = async (
   chainId: number,
   collection: Collection,
@@ -265,4 +269,4 @@ const nftList = async (
   return nftsWithMetadata;
 };
 
-export { nftList, nftListTokenIds, nftListFromContract, nftListFromCovalent, nftListFromTheGraph };
+export { nftList, nftListTokenIds, nftListFromContract, nftListFromCovalent, nftListFromTheGraph, nftListFromCache };

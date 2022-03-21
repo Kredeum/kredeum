@@ -6,12 +6,12 @@
   import NftGet from "./NftGet.svelte";
 
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
-  import { nftListTokenIds } from "lib/knft-list";
+  import { nftListTokenIds, nftListFromCache } from "lib/knft-list";
   import { nftGetFromContractEnumerable } from "lib/knft-get";
   import { nftGetMetadata } from "lib/knft-get-metadata";
   import { getNetwork } from "lib/kconfig";
-  import { cacheClear, cacheNftsList, cacheCollectionGet } from "lib/kcache";
-  import { collectionGet } from "lib/kcollection-get";
+  import { collectionGetFromCache } from "lib/kcollection-get";
+  import { cacheClear } from "lib/kcache";
 
   import { metamaskProvider } from "main/metamask";
 
@@ -22,8 +22,8 @@
   export let chainId: number;
   export let collection: string;
   export let account: string = undefined;
-  export let platform: string = undefined; // platform : wordPress or dapp
   export let refreshing: boolean = true;
+  export let platform: string = ""; // platform : wordPress or dapp
   export const nftsList = async () => await _nftsList(chainId, collection, account);
 
   let refresh = true;
@@ -31,8 +31,6 @@
   let collectionObject: Collection;
   let numNFT: number;
   let nbNFTs: number;
-
-  let tokenID: string;
 
   let NFTs: Map<string, NftType>;
   let allNFTs: Map<string, NftType>;
@@ -45,7 +43,7 @@
     console.log("_nftsList", _chainId, _collection, _account);
 
     if (_chainId && _collection && _account) {
-      collectionObject = collectionObject || cacheCollectionGet(_chainId, _collection);
+      collectionObject = collectionObject || collectionGetFromCache(_chainId, _collection);
       console.log("_nftsList= ~ collectionObject", collectionObject);
 
       let fromLib = !cache;
@@ -69,7 +67,7 @@
   };
 
   const _nftsListFromCache = (_chainId: number, _collection: string, _account: string): number => {
-    allNFTs = cacheNftsList(_chainId, _collection, _account);
+    allNFTs = nftListFromCache(_chainId, _collection, _account);
     console.log("_nftsListFromCache allNFTs", allNFTs);
 
     NFTs = new Map(
@@ -87,7 +85,7 @@
     if (_chainId && _collection && _account) {
       console.log("_nftsListFromLib", _chainId, _collection, account);
 
-      collectionObject = cacheCollectionGet(_chainId, _collection);
+      collectionObject = collectionGetFromCache(_chainId, _collection);
       console.log("_nftsListFromLib ~ collectionObject", collectionObject);
 
       cacheClear(_chainId, _collection);
@@ -171,3 +169,7 @@
     <p>No NFTs ✌️</p>
   </div>
 {/if}
+
+<div>
+  <small>{platform}</small>
+</div>

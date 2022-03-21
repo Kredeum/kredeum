@@ -4,6 +4,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
+import { cacheCollectionsList } from "./kcache";
+
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
 import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
 
@@ -215,4 +217,13 @@ const collectionList = async (chainId: number, owner: string, provider: Provider
   return collections;
 };
 
-export { collectionList, collectionListFromCovalent, collectionListFromTheGraph, collectionListFromFactory };
+const collectionListFromCache = (chainId?: number, account?: string): Map<string, Collection> =>
+  cacheCollectionsList(chainId, account);
+
+export {
+  collectionList,
+  collectionListFromCovalent,
+  collectionListFromTheGraph,
+  collectionListFromFactory,
+  collectionListFromCache
+};

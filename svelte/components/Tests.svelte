@@ -7,6 +7,7 @@
   import NetworkSelect from "./NetworkSelect.svelte";
   import CollectionSelect from "./CollectionSelect.svelte";
   import NftsList from "./NftsList.svelte";
+  import NftGet from "./NftGet.svelte";
   import RefreshButton from "./RefreshButton.svelte";
   import { metamaskInit } from "helpers/metamask";
   import { metamaskChainId, metamaskAccount } from "main/metamask";
@@ -14,7 +15,8 @@
   let account: string;
   let chainId: number;
   let collection: string;
-  // let tokenID: number;
+  let tokenID: string;
+
   let refreshing: boolean;
   let nftsList: () => Promise<void>;
   let platform: string = "dapp";
@@ -41,11 +43,11 @@
 
   <div>
     <!-- <RefreshButton {refreshing} {nftsList} /> -->
-    {#if chainId && account && collection}
-      <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} />
+    {#if tokenID}
+      <NftGet {chainId} {collection} {tokenID} />
+    {:else}
+      <NftsList {chainId} {collection} {account} bind:refreshing {platform} bind:nftsList />
     {/if}
-
-    <!-- <Nft {chainId} {collection} {account} {tokenID}} /> -->
   </div>
 </main>
 

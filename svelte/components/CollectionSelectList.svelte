@@ -2,8 +2,7 @@
   import { onMount } from "svelte";
 
   import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionList } from "lib/kcollection-list";
-  import { cacheCollectionsList } from "lib/kcache";
+  import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { collectionGet } from "lib/kcollection-get";
   import { factoryGetDefaultImplementation } from "lib/kfactory-get";
   import { nftsUrl, urlOwner } from "lib/kconfig";
@@ -58,19 +57,19 @@
     if (_chainId && _account) {
       console.log("_collectionList", _chainId, _account);
 
-      await _cacheCollectionsList(_chainId, _account);
+      await _collectionListFromCache(_chainId, _account);
 
       refreshingCollections = true;
       allCollections = await collectionList(_chainId, _account, $metamaskProvider);
       refreshingCollections = false;
 
-      await _cacheCollectionsList(_chainId, _account);
+      await _collectionListFromCache(_chainId, _account);
     }
   };
 
-  const _cacheCollectionsList = async (_chainId: number, _account: string) => {
-    allCollections = cacheCollectionsList(_chainId, _account);
-    console.log("const_cacheCollectionsList= ~ allCollections", allCollections);
+  const _collectionListFromCache = async (_chainId: number, _account: string) => {
+    allCollections = collectionListFromCache(_chainId, _account);
+    console.log("_collectionListFromCache= ~ allCollections", allCollections);
 
     // SET DEFAULT COLLECTION
     const defaultMintableCollection = await factoryGetDefaultImplementation(_chainId, $metamaskProvider);
@@ -99,7 +98,7 @@
         // SORT PER SUPPLY DESC
         .sort(([, a], [, b]) => b.balanceOf - a.balanceOf)
     );
-    // console.log("_cacheCollectionsList ~ collections", collections);
+    // console.log("_collectionListFromCache ~ collections", collections);
 
     await _setCollection(defaultCollection);
   };

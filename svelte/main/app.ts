@@ -1,5 +1,6 @@
-// import KredeumNfts from "../components/Tests.svelte";
-import KredeumNfts from "../components/Home.svelte";
+import KredeumNfts from "../components/Tests.svelte";
+// import KredeumNfts from "../components/Home.svelte";
+// import KredeumNfts from "../components/HomeView.svelte";
 // import KredeumNftsMint from "../components/NftMint2.svelte";
 import NetworkSelect from "../components/NetworkSelect.svelte";
 import KredeumSelectCollection from "../components/CollectionSelect.svelte";
