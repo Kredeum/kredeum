@@ -125,9 +125,8 @@ const metamaskConnect = (): void => {
 };
 
 const metamaskInit = async (): Promise<boolean> => {
-  console.log("metamaskInit", metamaskInstalled);
-
-  if (!metamaskInstalled) {
+  if (!get(metamaskChainId)) {
+    console.log("metamaskInit");
     ethereumProvider = (await detectEthereumProvider()) as EthereumProvider;
 
     if (ethereumProvider) {

@@ -5,34 +5,52 @@
   import BreadCrumb from "./BreadCrumb.svelte";
   import AccountConnect from "./AccountConnect.svelte";
   import NetworkSelect from "./NetworkSelect.svelte";
-  import NetworkSelectLabel from "./NetworkSelectLabel.svelte";
   import CollectionSelect from "./CollectionSelect.svelte";
-  import CollectionSelectLabel from "./CollectionSelectLabel.svelte";
-  import NftList from "./NftList.svelte";
-
+  import NftsList from "./NftsList.svelte";
+  import RefreshButton from "./RefreshButton.svelte";
   import { metamaskInit } from "helpers/metamask";
-  import { metamaskChainId } from "main/metamask";
+  import { metamaskChainId, metamaskAccount } from "main/metamask";
 
-  onMount(async () => {
-    await metamaskInit();
-  });
+  let account: string;
+  let chainId: number;
+  let collection: string;
+  // let tokenID: number;
+  let refreshing: boolean;
+  let nftsList: () => Promise<void>;
+  let platform: string = "dapp";
 </script>
 
 <main>
-  <Home />
+  <div>
+    {chainId}/{collection || ""}@{account}
 
-  <BreadCrumb display={true} />
+    <BreadCrumb display={true} />
+  </div>
 
-  <!-- <AccountConnect /> -->
+  <div>
+    <!-- <Home /> -->
 
-  <!-- <AccountConnect txt={true} />
-  <NetworkSelect txt={true} /> -->
+    <AccountConnect bind:account />
 
-  <!-- <NetworkSelectLabel /> -->
+    <NetworkSelect bind:chainId />
 
-  <!-- <NetworkSelect chainId={$metamaskChainId} /> -->
+    {#if chainId && account}
+      <CollectionSelect {chainId} {account} bind:collection />
+    {/if}
+  </div>
 
-  <!-- <CollectionSelectLabel />
+  <div>
+    <!-- <RefreshButton {refreshing} {nftsList} /> -->
+    {#if chainId && account && collection}
+      <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} />
+    {/if}
 
-  <NftList /> -->
+    <!-- <Nft {chainId} {collection} {account} {tokenID}} /> -->
+  </div>
 </main>
+
+<style>
+  div {
+    padding: 30px;
+  }
+</style>

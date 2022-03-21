@@ -345,7 +345,8 @@
   pointer-events: none;
   transition: all 300ms ease-in-out;
 
-  &:target {
+  &:target,
+  &.target {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;

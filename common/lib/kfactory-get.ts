@@ -1,9 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address, AbiType } from "./ktypes";
+import type { Address } from "./ktypes";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { Signer, Contract } from "ethers";
-import { getNetwork, config } from "./kconfig";
+import { getNetwork } from "./kconfig";
 
 import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
@@ -11,7 +11,7 @@ import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 // Cache nftsFactory(chainId)
 const nftsFactories: Map<number, Contract> = new Map();
 
-const _factoryGetAbi = (chainId: number): string[] => ICloneFactoryV2.concat(INFTsFactoryV2);
+const _factoryGetAbi = (): string[] => ICloneFactoryV2.concat(INFTsFactoryV2);
 
 const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
 
@@ -19,7 +19,7 @@ const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nfts
 const factoryGetTemplateAddress = async (chainId: number, template: string, provider: Provider): Promise<Address> => {
   // console.log("factoryGetTemplateAddress", chainId, template);
 
-  const nftsFactory = factoryGetContract(chainId, provider) as NFTsFactoryV2;
+  const nftsFactory = factoryGetContract(chainId, provider);
   const templateAddress = await nftsFactory.templates(template);
 
   // console.log("factoryGetTemplateAddress", chainId, template, templateAddress);
@@ -32,7 +32,7 @@ const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider
 
   let nftsFactory = nftsFactories.get(chainId) as NFTsFactoryV2;
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(chainId), signerOrProvider) as NFTsFactoryV2;
+    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(), signerOrProvider) as NFTsFactoryV2;
     nftsFactories.set(chainId, nftsFactory);
   }
 

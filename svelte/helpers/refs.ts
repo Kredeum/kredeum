@@ -1,16 +1,17 @@
-import { getChainId, getChainName } from "lib/kconfig";
+import { getChainName } from "lib/kconfig";
 
 type RefNFT = {
-  account?: string;
   chainId: number;
   collection?: string;
   tokenID?: string;
+  account?: string;
+  action?: string;
 };
 
 // CAIP-22 : erc721 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md
 // CAIP-29 : erc1155 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-29.md
 const refs = (refNFT: RefNFT) => {
-  const { account, chainId, collection, tokenID } = refNFT || {};
+  const { account, chainId, collection, tokenID, action } = refNFT || {};
 
   const chainName = getChainName(chainId);
 
@@ -21,7 +22,9 @@ const refs = (refNFT: RefNFT) => {
           ? `${chainName}/${collection}/${tokenID}`
           : `${chainName}/${collection}`
         : chainName
-      : "") + (account ? `@${account}` : "");
+      : "") +
+    (action ? `/${action}` : "") +
+    (account ? `@${account}` : "");
 
   const caip =
     (chainId
@@ -30,7 +33,9 @@ const refs = (refNFT: RefNFT) => {
           ? `eip155:${chainId}/erc721:${collection}/${tokenID}`
           : `eip155:${chainId}/erc721:${collection}`
         : `eip155:${chainId}`
-      : "") + (account ? `@${account}` : "");
+      : "") +
+    (action ? `/${action}` : "") +
+    (account ? `@${account}` : "");
 
   const hash =
     "/" +
@@ -41,6 +46,7 @@ const refs = (refNFT: RefNFT) => {
           : `${chainName}/${collection}`
         : `${chainName}`
       : "") +
+    (action ? `/${action}` : "") +
     (account ? `@${account}` : "");
 
   const breadcrumb =
@@ -52,9 +58,10 @@ const refs = (refNFT: RefNFT) => {
           : `${chainName} > coll:${collection}`
         : `${chainName}`
       : "Home") +
+    (action ? `/${action}` : "") +
     (account ? ` > user:${account}` : "");
 
-  console.log("refs", chainName, ref, caip, hash, breadcrumb);
+  // console.log("refs", chainName, ref, caip, hash, breadcrumb);
   return { chainName, ref, caip, hash, breadcrumb };
 };
 

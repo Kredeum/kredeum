@@ -2,11 +2,11 @@
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import AccountConnect from "./AccountConnect.svelte";
-  import NetworkSelect from "./NetworkSelectLabel.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   import type { Nft, Collection } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { nftGetImageLink } from "lib/knft-get";
+  import { nftGetImageLink } from "lib/knft-get-metadata";
   import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/kconfig";
   import { collectionGet } from "lib/kcollection-get";
@@ -20,8 +20,6 @@
   export let display = false;
   // down to component with default
   export let collection: Collection = undefined;
-
-  import { chainId, network, provider, signer } from "main/network";
 
   let mintedNft: Nft;
   let minting: number;
@@ -103,7 +101,7 @@
   {#if $signer}
     {#if minting}
       {#if mintedNft}
-        {#if $network?.openSea}
+        {#if getNetwork($chainId)?.openSea}
           <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
         {:else}
           <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>

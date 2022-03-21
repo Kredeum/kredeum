@@ -4,24 +4,24 @@
   import { getCreate, config } from "lib/kconfig";
 
   import AccountConnect from "./AccountConnect.svelte";
-  import NetworkSelect from "./NetworkSelectLabel.svelte";
-  import CollectionSelect from "./CollectionSelectLabel.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
+  import CollectionSelect from "./CollectionSelect.svelte";
   import CollectionCreate from "./CollectionCreate.svelte";
-  import CreateModal from "./CreateModal.svelte";
+
   import MintButton from "./MintButton.svelte";
   import Navigation from "./Navigation.svelte";
-  import NftList from "./NftList.svelte";
+  import NftsList from "./NftsList.svelte";
   import NftMint from "./NftMint.svelte";
   import RefreshButton from "./RefreshButton.svelte";
   import Title from "./Title.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
   import HomeLayout from "../layouts/HomeLayout.svelte";
 
-  import { metamaskChainId, metamaskAccount } from "main/metamask";
-
   export let platform = "dapp";
 
-  let collection: Collection;
+  let chainId: number;
+  let collection: string;
+  let account: string;
   let refreshing: boolean;
   let nftsList: () => Promise<void>;
 </script>
@@ -34,7 +34,7 @@
   <span slot="header">
     <Title />
 
-    {#if $metamaskAccount && getCreate($metamaskChainId)}
+    {#if account && getCreate(chainId)}
       <MintButton />
     {/if}
 
@@ -42,15 +42,17 @@
 
     <div class="row alignbottom">
       <!-- View account -->
-      <AccountConnect />
+      <AccountConnect bind:account />
 
       <!-- Select network -->
-      <NetworkSelect label={true} />
+      <NetworkSelect bind:chainId />
 
       <!-- Select collection -->
-      <CollectionSelect bind:collection />
+      {#if chainId && account}
+        <CollectionSelect {chainId} {account} bind:collection />
+      {/if}
 
-      {#if $metamaskAccount && collection && factoryGetAddress($metamaskChainId)}
+      {#if account && collection && factoryGetAddress(chainId)}
         <!-- Refresh button -->
         <RefreshButton bind:refreshing bind:nftsList />
       {/if}
@@ -59,23 +61,10 @@
 
   <span slot="content">
     <!-- NFTs list -->
-    <NftList {collection} bind:refreshing bind:nftsList {platform} />
+    {#if chainId && account && collection}
+      <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} />
+    {/if}
   </span>
 
-  <span slot="modals">
-    <!-- Modal create -->
-    <div id="create" class="modal-window">
-      <CreateModal />
-    </div>
-
-    <!-- SubModal create NFT -->
-    <div id="create-nft" class="modal-window">
-      <NftMint bind:collection />
-    </div>
-
-    <!-- SubModal create collection -->
-    <div id="add-collection" class="modal-window">
-      <CollectionCreate bind:collection />
-    </div>
-  </span>
+  <span slot="modals" />
 </HomeLayout>

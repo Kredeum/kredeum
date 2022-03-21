@@ -12,6 +12,7 @@
       "components/*": ["components/*"],
       "helpers/*": ["helpers/*"],
       "lib/*": ["../common/lib/*"],
+      "config/*": ["../common/config/*"],
       "abis/*": ["../common/abis/*"],
       "types/*": ["../common/types/*"]
     }

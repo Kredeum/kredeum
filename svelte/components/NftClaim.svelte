@@ -3,9 +3,7 @@
   import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { chainId, signer } from "main/network";
-
-  import NetworkSelect from "./NetworkSelectLabel.svelte";
+  import NetworkSelect from "./NetworkSelect.svelte";
 
   export let nft: Nft = undefined;
 

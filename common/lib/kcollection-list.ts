@@ -5,7 +5,7 @@ import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
-import { collectionGetSupportedInterfaces } from "lib/kcollection-get";
+import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
@@ -215,25 +215,4 @@ const collectionList = async (chainId: number, owner: string, provider: Provider
   return collections;
 };
 
-const collectionListFromCache = (owner: string): Map<string, Collection> => {
-  // console.log("collectionListFromCache", owner);
-  const collections: Map<string, Collection> = new Map();
-
-  for (let index = 0; index < localStorage.length; index++) {
-    const key = localStorage.key(index);
-
-    if (key?.startsWith("nfts://") && key?.endsWith(`/${owner}`)) {
-      collections.set(key, JSON.parse(localStorage.getItem(key) || "") as Collection);
-    }
-  }
-  // console.log("collectionListFromCache", collections);
-  return collections;
-};
-
-export {
-  collectionList,
-  collectionListFromCache,
-  collectionListFromCovalent,
-  collectionListFromTheGraph,
-  collectionListFromFactory
-};
+export { collectionList, collectionListFromCovalent, collectionListFromTheGraph, collectionListFromFactory };

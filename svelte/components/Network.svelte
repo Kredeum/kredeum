@@ -1,6 +1,10 @@
 <script lang="ts">
   import { getChainName } from "lib/kconfig";
 
+  /////////////////////////////////////////////////
+  // <Network {chainId} {txt} />
+  // Display Network
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let txt: boolean = false;
 

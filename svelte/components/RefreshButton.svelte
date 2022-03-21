@@ -1,4 +1,8 @@
 <script lang="ts">
+  /////////////////////////////////////////////////
+  // <RefreshButton {refreshing} {nftsList} />
+  // Display Network
+  /////////////////////////////////////////////////
   export let refreshing: boolean;
   export let nftsList: () => Promise<void>;
 </script>

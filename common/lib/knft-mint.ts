@@ -5,7 +5,7 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abs
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
 import { ipfsGatewayUrl, textShort, explorerCollectionUrl, getNetwork } from "./kconfig";
-import { nftGetMetadata } from "./knft-get";
+import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionGetContract } from "./kcollection-get";
 
 let nftStorage: NftStorage;
@@ -31,8 +31,8 @@ const _mintedNft = async (
   tokenID: string,
   urlJson: string,
   minterAddress: string
-): Promise<Nft> => {
-  const nft = await nftGetMetadata(chainId, {
+): Promise<Nft> =>
+  await nftGetMetadata({
     chainId,
     collection: collection.address,
     tokenID,
@@ -40,9 +40,7 @@ const _mintedNft = async (
     creator: minterAddress,
     minter: minterAddress,
     owner: minterAddress
-  } as Nft);
-  return nft;
-};
+  });
 
 const nftMintTexts = [
   "Mint",

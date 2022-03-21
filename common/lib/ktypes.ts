@@ -75,8 +75,8 @@ type Nft = {
   chainId: number;
   collection: string;
   tokenID: string;
-  tokenURI: string;
-  owner: string;
+  tokenURI?: string;
+  owner?: string;
   chainName?: string;
   name?: string;
   contractName?: string;

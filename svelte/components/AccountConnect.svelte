@@ -2,20 +2,22 @@
   import { onMount } from "svelte";
 
   import { metamaskInit, metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "helpers/metamask";
+  import { metamaskAccount } from "main/metamask";
 
   import Account from "./Account.svelte";
 
-  import { refs } from "helpers/refs";
-  import { metamaskChainId, metamaskAccount } from "main/metamask";
-
+  /////////////////////////////////////////////////
+  // <AccountConnect bind:{account} {txt} />
+  // Connect Account via Metamask (or compatible)
+  /////////////////////////////////////////////////
+  export let account: string = undefined;
   export let txt: boolean = undefined;
-
   let metamaskNotInstalled = false;
-  const testnets = true;
+
+  $: account = $metamaskAccount;
 
   const _metamaskConnect = (evt?: Event) => {
     evt.preventDefault();
-
     metamaskConnect();
   };
 
@@ -25,8 +27,8 @@
 </script>
 
 {#if txt}
-  {#if $metamaskAccount}
-    <Account chainId={$metamaskChainId} account={$metamaskAccount} {txt} />
+  {#if account}
+    <Account {account} {txt} />
   {:else if metamaskNotInstalled}
     {metamaskInstallMessage}
   {:else}
@@ -34,8 +36,8 @@
   {/if}
 {:else}
   <div class="col col-xs-12 col-sm-3">
-    {#if $metamaskAccount}
-      <Account chainId={$metamaskChainId} account={$metamaskAccount} {txt} />
+    {#if account}
+      <Account {account} {txt} />
     {:else if metamaskNotInstalled}
       <div class="btn btn-light btn-metamask">
         {metamaskInstallMessage}

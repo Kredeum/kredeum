@@ -1,8 +1,8 @@
-import KredeumNfts from "../components/Tests.svelte";
-// import KredeumNfts from "../components/Home.svelte";
-import KredeumNftsMint from "../components/NftMint2.svelte";
-import NetworkSelect from "../components/NetworkSelectLabel.svelte";
-import KredeumSelectCollection from "../components/CollectionSelectLabel.svelte";
+// import KredeumNfts from "../components/Tests.svelte";
+import KredeumNfts from "../components/Home.svelte";
+// import KredeumNftsMint from "../components/NftMint2.svelte";
+import NetworkSelect from "../components/NetworkSelect.svelte";
+import KredeumSelectCollection from "../components/CollectionSelect.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
@@ -37,17 +37,17 @@ let kredeumNfts: KredeumNfts;
   }
 }
 
-const kredeumNftsMints: Array<KredeumNftsMint> = [];
-{
-  // Kredeum Mint button components
-  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
-  targets?.forEach((target, i) => {
-    kredeumNftsMints[i] = new KredeumNftsMint({
-      target,
-      props: _props(target)
-    });
-  });
-}
+// const kredeumNftsMints: Array<KredeumNftsMint> = [];
+// {
+//   // Kredeum Mint button components
+//   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
+//   targets?.forEach((target, i) => {
+//     kredeumNftsMints[i] = new KredeumNftsMint({
+//       target,
+//       props: _props(target)
+//     });
+//   });
+// }
 
 let network: NetworkSelect;
 {
@@ -70,4 +70,9 @@ let kredeumSelectCollection: KredeumSelectCollection;
   }
 }
 
-export { kredeumNfts, kredeumNftsMints, network, kredeumSelectCollection };
+export {
+  kredeumNfts,
+  // kredeumNftsMints,
+  // network,
+  kredeumSelectCollection
+};

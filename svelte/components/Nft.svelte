@@ -11,21 +11,27 @@
     nftOpenSeaUrl,
     addressSame,
     textShort,
-    explorerNftUrl,
     explorerAddressLink,
-    kredeumNftUrl
+    kredeumNftUrl,
+    getNetwork
   } from "lib/kconfig";
-  import { chainId, network, owner, signer } from "main/network";
-  import { nftGetImageLink } from "lib/knft-get";
+
+  import { nftGetFromCache } from "lib/knft-get";
+  import { nftGetImageLink } from "lib/knft-get-metadata";
   import { onMount } from "svelte";
 
   import NftTransferView from "./NftTransfer.svelte";
   import NftClaimView from "./NftClaim.svelte";
 
+  /////////////////////////////////////////////////
+  //  <Nft {nft} {account} {index} {platform} {more} /> -->
+  // Display NFT
+  /////////////////////////////////////////////////
   export let nft: Nft;
-  export let index: number;
-  export let more: number;
-  export let platform: string;
+  export let account: string = "";
+  export let index: number = 0;
+  export let more: number = 0;
+  export let platform: string = "dapp";
 
   const moreToggle = (): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
@@ -111,11 +117,13 @@
 
   <div id="marketplace-{index}" class="table-col">
     <div class="table-col-content">
-      {#if $network?.openSea}
-        {#if addressSame(nft.owner, $owner)}
-          <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
+      {#if getNetwork(nft.chainId)?.openSea}
+        {#if addressSame(nft.owner, account)}
+          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+            Sell
+          </a>
         {:else}
-          <a href={nftOpenSeaUrl($chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
         {/if}
       {:else}
         <a
@@ -154,13 +162,13 @@
         <li class="complete">
           <div class="flex"><span class="label">Owner</span></div>
           <div class="flex">
-            {@html explorerAddressLink($chainId, nft.owner, 15)}
+            {@html explorerAddressLink(nft.chainId, nft.owner, 15)}
           </div>
         </li>
         <li class="complete">
           <div class="flex"><span class="label">Permanent Link</span></div>
           <div class="flex">
-            <a class="link" href={kredeumNftUrl($chainId, nft)} target="_blank">
+            <a class="link" href={kredeumNftUrl(nft.chainId, nft)} target="_blank">
               {@html nftUrl(nft, 10)}
             </a>
           </div>
@@ -168,7 +176,7 @@
         <li class="complete">
           <div class="flex"><span class="label">Collection @</span></div>
           <div class="flex">
-            <a class="link" href={explorerCollectionUrl($chainId, nft?.collection)} target="_blank"
+            <a class="link" href={explorerCollectionUrl(nft.chainId, nft?.collection)} target="_blank"
               >{getShortAddress(nft.collection, 15)}</a
             >
           </div>
@@ -211,17 +219,11 @@
     </div>
   </div>
 
-  <!-- Modal transfer nft -->
-  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
+  <!-- <div id="transfert-nft-{nft.tokenID}" class="modal-window">
     <NftTransferView bind:nft />
   </div>
 
-  <!-- Modal claim nft -->
   <div id="claim-nft-{nft.tokenID}" class="modal-window">
     <NftClaimView bind:nft />
-  </div>
+  </div> -->
 </div>
-
-{#if platform === "wordpress"}
-  <div>WordPress</div>
-{/if}

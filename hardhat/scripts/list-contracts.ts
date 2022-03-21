@@ -8,7 +8,8 @@ import IERC721 from "abis/IERC721.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
-import { collectionGetContract, collectionGetSupportedInterfaces } from "../../common/lib/kcollection-get";
+import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
+import { collectionGetContract } from "lib/kcollection-get";
 
 import networks from "config/networks.json";
 import hre from "hardhat";

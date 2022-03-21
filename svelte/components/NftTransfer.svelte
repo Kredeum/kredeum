@@ -3,8 +3,6 @@
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { chainId, signer } from "main/network";
-
   export let nft: Nft = undefined;
 
   let transferTxHash: string = null;

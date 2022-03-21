@@ -1,10 +1,14 @@
-import type { Collection, Nft, NftMetadata } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
-
-import { fetchJson } from "./kfetch";
-import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
-import { collectionGetContract } from "./kcollection-get";
 import { BigNumber } from "ethers";
+
+import type { ERC721 } from "types/ERC721";
+import type { ERC721Enumerable } from "types/ERC721Enumerable";
+
+import type { Collection, Nft } from "./ktypes";
+import { nftUrl3 } from "./kconfig";
+import { collectionGetContract } from "./kcollection-get";
+import { cacheNftGet } from "./kcache";
+import { nftGetMetadata } from "./knft-get-metadata";
 
 ////////////////////////////////////////////////////////
 // TOKEN
@@ -27,99 +31,8 @@ import { BigNumber } from "ethers";
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
 
-// Cache contentType(url)
-const contentTypes: Map<string, string> = new Map();
-
-const nftGetContentType = async (nft: Nft): Promise<string> => {
-  // console.log("nftGetContentType", nft);
-
-  let contentType = "text";
-  const url = nftGetImageLink(nft);
-
-  if (url) {
-    contentType = contentTypes.get(url) || "";
-    if (!contentType) {
-      contentType = "image";
-      try {
-        const options = { method: "HEAD" };
-        const response = await fetch(url, options);
-        contentType = response.headers.get("content-type") || "text";
-        contentTypes.set(url, contentType);
-      } catch (e) {
-        console.error("ERROR nftGetContentType", e);
-      }
-      console.log("nftGetContentType", url, contentType);
-    }
-  }
-  return contentType;
-};
-
-const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
-
-const nftGetMetadata = async (chainId: number, token: Nft, collection?: Collection): Promise<Nft | undefined> => {
-  // console.log("nftGetMetadata", chainId, token, collection);
-  // TODO : Extend NFT type with Metadata type...
-  let nftMetadata: Nft | undefined;
-
-  if (chainId && token) {
-    const network = getNetwork(chainId);
-    const collectionAddress: string = getChecksumAddress(token.collection || collection?.address || "");
-
-    let tokenJson: NftMetadata = {};
-
-    // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
-    if (token.tokenURI) {
-      try {
-        const tokenURIAnswer = await fetchJson(token.tokenURI);
-        if (tokenURIAnswer.error) {
-          console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
-        } else {
-          // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
-          tokenJson = tokenURIAnswer as NftMetadata;
-        }
-      } catch (e) {
-        console.error("ERROR nftGetMetadata tokenURIAnswer", e);
-      }
-    }
-
-    const chainName: string = token.chainName || network?.chainName || "";
-    const metadata = { ...token.metadata, ...tokenJson };
-    const image: string = token.image || metadata.image || metadata.image_url || "";
-    const tokenID: string = token.tokenID || "";
-
-    nftMetadata = {
-      tokenID: token.tokenID || "",
-      tokenURI: token.tokenURI || "",
-      tokenJson,
-
-      collection: collectionAddress,
-      chainId,
-      chainName,
-
-      metadata,
-      image,
-
-      name: token.name || metadata.name || "",
-      description: token.description || metadata.description || "",
-
-      creator: getChecksumAddress(token.creator || metadata.creator),
-      minter: getChecksumAddress(token.minter || metadata.minter),
-      owner: getChecksumAddress(token.owner || metadata.owner),
-
-      ipfs: token.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
-      ipfsJson: token.ipfsJson || ipfsGetLink(token.tokenURI) || "",
-      nid: token.nid || nftUrl3(chainId, collectionAddress, tokenID)
-    };
-    nftMetadata.contentType = token.contentType || (await nftGetContentType(nftMetadata));
-
-    // STORE in cache if exists
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem(nftMetadata.nid || "", JSON.stringify(nftMetadata, null, 2));
-    }
-  }
-  // console.log("nftGetMetadata nftMetadata", nftMetadata);
-  return nftMetadata;
-};
+const nftGetFromCache = (chainId: number, collection: string, tokenID: string): Nft =>
+  cacheNftGet(chainId, collection, tokenID);
 
 const nftGetFromContract = async (
   chainId: number,
@@ -135,7 +48,7 @@ const nftGetFromContract = async (
 
   if (chainId && collection) {
     try {
-      const contract = await collectionGetContract(chainId, collection, provider);
+      const contract = (await collectionGetContract(chainId, collection, provider)) as ERC721;
       contractName = collection.name || "No name";
 
       if (contract && collection?.supports?.IERC721Metadata) {
@@ -176,7 +89,7 @@ const nftGetFromContractEnumerable = async (
 
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
-      const contract = await collectionGetContract(chainId, collection, provider);
+      const contract = (await collectionGetContract(chainId, collection, provider)) as ERC721Enumerable;
       if (contract) {
         if (owner) {
           tokID = await contract.tokenOfOwnerByIndex(owner, index);
@@ -194,11 +107,7 @@ const nftGetFromContractEnumerable = async (
   return nft;
 };
 
-export {
-  nftGetFromContract,
-  nftGetFromContractEnumerable,
-  nftGetMetadata,
-  nftGetContentType,
-  nftGetImageLink,
-  collectionGetContract
-};
+const nftGet = async (chainId: number, collection: string, tokenID: string): Promise<Nft | undefined> =>
+  nftGetMetadata({ chainId, collection, tokenID });
+
+export { nftGet, nftGetFromCache, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };
