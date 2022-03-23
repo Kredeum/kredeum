@@ -2,7 +2,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Collection, ABIS } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
-import { collectionGetSupportedInterfaces } from "./kcollection-get-supports";
+import { collectionGetMetadata } from "./kcollection-get-metadata";
 import { cacheCollectionGet } from "./kcache";
 
 import IERC165 from "abis/IERC165.json";
@@ -37,7 +37,8 @@ const abis = {
 const collectionGet = async (
   chainId: number,
   collectionOrAddress: Collection | string,
-  signerOrProvider?: Signer | Provider
+  signerOrProvider?: Signer | Provider,
+  account?: string
 ): Promise<Collection> => {
   // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
@@ -50,9 +51,9 @@ const collectionGet = async (
     collection = collectionOrAddress;
   }
 
-  if (!collection.supports && signerOrProvider) {
+  if (!collection?.supports && signerOrProvider) {
     try {
-      const supported = await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+      const supported = await collectionGetMetadata(chainId, collection.address, signerOrProvider, account || "");
       Object.assign(collection, supported);
     } catch (e) {
       console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
@@ -67,7 +68,7 @@ const collectionGetContract = async (
   collectionOrAddress: Collection | string,
   signerOrProvider: Signer | Provider
 ): Promise<Contract> => {
-  // console.log(`collectionGetContract ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGetContract ${chainId}`, collectionOrAddress,account);
 
   let abi: Array<string> = [];
   let collection: Collection;
@@ -80,7 +81,7 @@ const collectionGetContract = async (
 
   const collectionSupports = collection.supports
     ? collection.supports
-    : (await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider)).supports;
+    : (await collectionGetMetadata(chainId, collection.address, signerOrProvider)).supports;
   // console.log("collectionSupports", collectionSupports);
 
   for (const [key, supports] of Object.entries(collectionSupports)) {

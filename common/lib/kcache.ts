@@ -63,7 +63,10 @@ const cacheNftsList = (chainId?: number, collection?: string, account?: string):
 
 const cacheNftGet = (chainId: number, collection: string, tokenID: string): Nft => {
   let nft: Nft = { chainId, collection, tokenID };
+  if (!(chainId && collection && tokenID)) return nft;
+
   const chainName = getChainName(chainId);
+  if (!chainName) return nft;
 
   for (let index = 0; index < localStorage.length; index++) {
     const key = localStorage.key(index);

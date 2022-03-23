@@ -9,7 +9,7 @@ import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
 import { collectionGetContract } from "lib/kcollection-get";
-import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
+import { collectionGetMetadata } from "lib/kcollection-get-metadata";
 
 import networks from "config/networks.json";
 import hre from "hardhat";
@@ -32,7 +32,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
       output += " is NFTsFactoryV2";
     } else {
       const collection = await collectionGetContract(chainId, collectionAddress, provider);
-      const supports = await collectionGetSupportedInterfaces(chainId, collectionAddress, provider);
+      const supports = await collectionGetMetadata(chainId, collectionAddress, provider);
 
       if (collection) {
         const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;

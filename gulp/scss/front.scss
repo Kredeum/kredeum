@@ -278,88 +278,88 @@
       }
     }
 
+    .grid-krd {
+      .col {
+        margin-bottom: 30px;
+      }
+    }
 
-	.grid-krd {
-		.col {
-			margin-bottom: 30px;
-		}
-	}
-	
-	.grid-card-krd {
-		background: $white;
-		box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-		padding: 10px;
-		@include border-radius();
-		
-		.media {
-			padding-top: 100%;
-			position: relative;
-			
-			img {
-				transition: all 300ms ease;
-				position: absolute;
-				top: 0;
-				left: 0;
-			}
-		}
-		
-		.caption {
-			padding: 10px;
-			
-			h3 {
-				font-size: 16px;
-				margin: 5px 0 15px 0;
-			}
-		}
-	}
-	
-	.grid-detail-krd {
-		.media {
-			position: relative;
-			
-			a {
-				&::after {
-					content: '';
-					position: absolute;
-					top: 0;
-					left: 0;
-					right: 0;
-					bottom: 0;
-					background: rgba($couleur1, 0.7);
-					opacity: 0;
-					transition: all 300ms ease-in-out;
-				}
-				
-				.fas {
-					position: absolute;
-					top: 50%;
-					left: 50%;
-					z-index: 1;
-					color: $white;
-					font-size: 20px;
-					transform: translate(-50%,-50%);
-					opacity: 0;
-					transition: all 300ms ease-in-out;
-				}
-				
-				&:hover {
-					&::after,
-					.fas {
-						opacity: 1;
-					}
-				}
-			}
-		}
-		
-		.col:first-child {
-			margin-bottom: 30px;
-		}
-		
-		.grid-buttons {
-			.btn:not(:last-child) {
-				margin-right: 10px;
-			}
-		}
+    .grid-card-krd {
+      background: $white;
+      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+      padding: 10px;
+      @include border-radius();
+
+      .media {
+        padding-top: 100%;
+        position: relative;
+
+        img {
+          transition: all 300ms ease;
+          position: absolute;
+          top: 0;
+          left: 0;
+        }
+      }
+
+      .caption {
+        padding: 10px;
+
+        h3 {
+          font-size: 16px;
+          margin: 5px 0 15px 0;
+        }
+      }
+    }
+
+    .grid-detail-krd {
+      .media {
+        position: relative;
+
+        a {
+          &::after {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba($couleur1, 0.7);
+            opacity: 0;
+            transition: all 300ms ease-in-out;
+          }
+
+          .fas {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            z-index: 1;
+            color: $white;
+            font-size: 20px;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: all 300ms ease-in-out;
+          }
+
+          &:hover {
+            &::after,
+            .fas {
+              opacity: 1;
+            }
+          }
+        }
+      }
+
+      .col:first-child {
+        margin-bottom: 30px;
+      }
+
+      .grid-buttons {
+        .btn:not(:last-child) {
+          margin-right: 10px;
+        }
+      }
+    }
   }
 }
 

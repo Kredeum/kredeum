@@ -1,8 +1,7 @@
 import type { Signer } from "ethers";
-import type { Nft } from "./ktypes";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
 
-import { collectionGet, collectionGetContract } from "./kcollection-get";
+import { collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
 const claimNftResponse = async (

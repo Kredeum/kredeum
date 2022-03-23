@@ -1,35 +1,35 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
+  import type { Collection as CollectionType } from "lib/ktypes";
   import { factoryGetAddress } from "lib/kfactory-get";
-  import { getCreate, config } from "lib/kconfig";
-  import { collectionGet } from "lib/kcollection-get";
+  import { getCreate } from "lib/kconfig";
 
-  import AccountConnect from "./AccountConnect.svelte";
-  import NetworkSelect from "./NetworkSelect.svelte";
-  import CollectionSelect from "./CollectionSelect.svelte";
-  import CollectionCreate from "./CollectionCreate.svelte";
+  import AccountConnect from "./Account/AccountConnect.svelte";
+  import NetworkSelect from "./Network/NetworkSelect.svelte";
+  import CollectionSelect from "./CollectionList/CollectionListGet.svelte";
+  // import CollectionCreate from "./componentsOther/CollectionCreateAction.svelte";
 
-  import MintButton from "./MintButton.svelte";
-  import Navigation from "./Navigation.svelte";
+  import MintButton from "./Collection/Mint.svelte";
+  import Navigation from "./Global/Navigation.svelte";
 
-  import NftGet from "./NftGet.svelte";
-  import NftsList from "./NftsList.svelte";
+  import NftGet from "./Nft/NftGet.svelte";
+  import NftsList from "./NftsList/NftsList.svelte";
+  import NftsListGet from "./NftsList/NftsListGet.svelte";
 
-  import NftMint from "./NftMint.svelte";
-  import RefreshButton from "./RefreshButton.svelte";
-  import Title from "./Title.svelte";
-  import BreadCrumb from "./BreadCrumb.svelte";
-  import HomeLayout from "../layouts/HomeLayout.svelte";
+  // import NftMint from "./old/NftMintAction.svelte";
+  import RefreshButton from "./NftsList/NftsListRefresh.svelte";
+  import Title from "./Global/Title.svelte";
+  import BreadCrumb from "./Global/BreadCrumb.svelte";
+  import HomeLayout from "./Global/HomeLayout.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  import NftsListOld from "./NftsListOld.svelte";
-  import NftDetail from "./NftDetail.svelte";
+  import { collectionGet } from "lib/kcollection-get";
+  // import NftDetail from "./NftDetail.svelte";
   import { metamaskProvider } from "main/metamask";
 
-  let collectionObject: Collection;
-  $: _collectionGet(collection);
+  let collectionObject: CollectionType;
+  $: _collectionGet(collection).catch(console.error);
   const _collectionGet = async (collection: string): Promise<void> => {
-    collectionObject = await collectionGet(chainId, collection, $metamaskProvider);
+    collectionObject = await collectionGet(chainId, collection, $metamaskProvider, account);
   };
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -71,20 +71,20 @@
 
       {#if account && collection && factoryGetAddress(chainId)}
         <!-- Refresh button -->
-        <RefreshButton bind:refreshing bind:nftsList />
+        <RefreshButton bind:refreshing />
       {/if}
     </div>
   </span>
 
   <span slot="content">
     <!-- NFTs list -->
+    <!-- <NftDetail collection={collectionObject} {tokenID} /> -->
     {#if chainId && account && collection}
       {#if tokenID}
         <NftGet {chainId} {collection} {tokenID} />
-        <!-- <NftDetail collection={collectionObject} {tokenID} /> -->
       {:else}
-        <NftsList {chainId} {collection} {account} bind:tokenID bind:refreshing bind:nftsList {platform} />
-        <!-- <NftsListOld {collection} refreshing bind:nftsList {platform} /> -->
+        <!-- <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} /> -->
+        <NftsListGet {chainId} {collection} {account} bind:refreshing {platform} />
       {/if}
     {/if}
   </span>

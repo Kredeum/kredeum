@@ -8,7 +8,7 @@ import IERC721 from "abis/IERC721.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
-import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
+import { collectionGetMetadata } from "lib/kcollection-get-metadata";
 import { collectionGetContract } from "lib/kcollection-get";
 
 import networks from "config/networks.json";
@@ -32,7 +32,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
       output += " is NFTsFactory";
     } else {
       const collection = await collectionGetContract(chainId, collectionAddress, provider);
-      const supports = await collectionGetSupportedInterfaces(chainId, collectionAddress, provider);
+      const supports = await collectionGetMetadata(chainId, collectionAddress, provider);
 
       if (collection) {
         const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;

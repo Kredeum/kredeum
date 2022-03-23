@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Spitfire Contrast (rainglow)",
+  "workbench.colorTheme": "Github Light (rainglow)",
   "phpsab.standard": "WordPress",
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
@@ -36,6 +36,10 @@
     },
     {
       "filePath": "common/config",
+      "group": "Default"
+    },
+    {
+      "filePath": "svelte/components",
       "group": "Default"
     }
   ],

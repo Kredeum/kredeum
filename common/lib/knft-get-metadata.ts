@@ -33,65 +33,65 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
 
 const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
   // console.log("nftGetMetadata", chainId, nft, collection);
-  // TODO : Extend NFT type with Metadata type...
-  let nftMetadata = nft;
 
   const { chainId, collection, tokenID } = nft;
+  if (!(chainId && collection && tokenID)) return nft;
 
-  if (chainId && collection && tokenID) {
-    const network = getNetwork(chainId);
+  const network = getNetwork(chainId);
+  if (!network) return nft;
 
-    let tokenJson: NftMetadata = {};
+  // TODO : Extend NFT type with Metadata type...
+  let tokenJson: NftMetadata = {};
 
-    // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
-    if (nft.tokenURI) {
-      try {
-        const tokenURIAnswer = await fetchJson(nft.tokenURI);
-        if (tokenURIAnswer.error) {
-          console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
-        } else {
-          // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
-          tokenJson = tokenURIAnswer as NftMetadata;
-        }
-      } catch (e) {
-        console.error("ERROR nftGetMetadata tokenURIAnswer", e);
+  // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
+  if (nft.tokenURI) {
+    try {
+      const tokenURIAnswer = await fetchJson(nft.tokenURI);
+      if (tokenURIAnswer.error) {
+        console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
+      } else {
+        // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
+        tokenJson = tokenURIAnswer as NftMetadata;
       }
-    }
-
-    const chainName: string = nft.chainName || network?.chainName || "";
-    const metadata = { ...nft.metadata, ...tokenJson };
-    const image: string = nft.image || metadata.image || metadata.image_url || "";
-
-    nftMetadata = {
-      chainId,
-      collection,
-      tokenID,
-
-      tokenURI: nft.tokenURI || "",
-      tokenJson,
-
-      chainName,
-      metadata,
-      image,
-
-      name: nft.name || metadata.name || "",
-      description: nft.description || metadata.description || "",
-
-      creator: getChecksumAddress(nft.creator || metadata.creator),
-      minter: getChecksumAddress(nft.minter || metadata.minter),
-      owner: getChecksumAddress(nft.owner || metadata.owner),
-
-      ipfs: nft.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
-      ipfsJson: nft.ipfsJson || ipfsGetLink(nft.tokenURI || "") || "{}",
-      nid: nft.nid || nftUrl3(chainId, collection, tokenID)
-    };
-    nftMetadata.contentType = nft.contentType || (await nftGetContentType(nftMetadata));
-
-    // STORE in cache if exists
-    if (typeof localStorage !== "undefined") {
-      localStorage.setItem(nftMetadata.nid || "", JSON.stringify(nftMetadata, null, 2));
+    } catch (e) {
+      console.error("ERROR nftGetMetadata tokenURIAnswer", e);
     }
   }
+
+  const chainName: string = nft.chainName || network?.chainName || "";
+  const metadata = { ...nft.metadata, ...tokenJson };
+  const image: string = nft.image || metadata.image || metadata.image_url || "";
+
+  const nftMetadata: Nft = {
+    chainId,
+    collection,
+    tokenID,
+
+    tokenURI: nft.tokenURI || "",
+    tokenJson,
+
+    chainName,
+    metadata,
+    image,
+
+    name: nft.name || metadata.name || "",
+    description: nft.description || metadata.description || "",
+
+    creator: getChecksumAddress(nft.creator || metadata.creator),
+    minter: getChecksumAddress(nft.minter || metadata.minter),
+    owner: getChecksumAddress(nft.owner || metadata.owner),
+
+    ipfs: nft.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
+    ipfsJson: nft.ipfsJson || ipfsGetLink(nft.tokenURI || "") || "{}",
+    nid: nft.nid || nftUrl3(chainId, collection, tokenID)
+  };
+  nftMetadata.contentType = nft.contentType || (await nftGetContentType(nftMetadata));
+
+  // STORE in cache if exists
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem(nftMetadata.nid || "", JSON.stringify(nftMetadata, null, 2));
+  }
+
   // console.log("nftGetMetadata nftMetadata", nftMetadata);
   return nftMetadata;
 };

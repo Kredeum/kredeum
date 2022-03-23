@@ -1,9 +1,8 @@
-import KredeumNfts from "../components/Tests.svelte";
-// import KredeumNfts from "../components/Home.svelte";
-// import KredeumNfts from "../components/HomeView.svelte";
-// import KredeumNftsMint from "../components/NftMint2.svelte";
-import NetworkSelect from "../components/NetworkSelect.svelte";
-import KredeumSelectCollection from "../components/CollectionSelect.svelte";
+// import KredeumNfts from "../components/Global/Tests.svelte";
+import KredeumNfts from "../components/Home.svelte";
+// import KredeumNftsMint from "../components/NftMint.svelte";
+import NetworkSelect from "../components/Network/NetworkSelect.svelte";
+import KredeumSelectCollection from "../components/CollectionList/CollectionList.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };

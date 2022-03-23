@@ -1,12 +1,11 @@
 import type { EthereumProvider } from "hardhat/types";
-import { ethers } from "ethers";
-
 import detectEthereumProvider from "@metamask/detect-provider";
+import { ethers } from "ethers";
 import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "lib/kconfig";
 
-import { hashObject } from "helpers/hash";
+import { refNft } from "helpers/urlHash";
 import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
 let ethereumProvider: EthereumProvider;
@@ -146,7 +145,7 @@ const metamaskInit = async (): Promise<boolean> => {
       }
 
       // IF chainId requested in url is different THEN switch chain on metamask
-      const _urlChainId = hashObject().chainId;
+      const _urlChainId = refNft().chainId;
       if (_urlChainId > 0 && _urlChainId != _chainId) {
         _chainId = _urlChainId;
         metamaskSwitchChain(_urlChainId);

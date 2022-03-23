@@ -1,33 +1,39 @@
-const urlRef = () => {
-  let urlChainName: string;
-  let urlCollection: string;
-  let urlTokenID: number;
+import { getChainId } from "lib/kconfig";
 
-  const urlHash = window.location.hash;
-  console.log("urlRef ~ urlHash", urlHash);
+import type { RefNFT } from "helpers/refNft";
 
-  // URL = https://beta.kredeum.com/#/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769
-  // HASH = #/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769
-  // HASH = #/chainName/collectionAddress/tokenID
+const refNft = (hash = window.location.hash): RefNFT => {
+  let chainId: number;
+  let collection: string;
+  let tokenID: string;
+  let account: string;
+  let chainName: string;
 
-  if (urlHash) {
-    const res = urlHash.match(/^#\/([a-z]+)(\/(0x[0-9abcdefABCDEF]{40})(\/([0-9]+))?)?$/);
-    console.log("urlRef ~ res", res);
+  if (hash) {
+    const res = hash.match(
+      // URL = https://beta.kredeum.com/#/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769@0x166d23e3db37640db80d3a576f4042bafb11886f
+      // HASH = #/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769@0x166d23e3db37640db80d3a576f4042bafb11886f
+      /^#\/(([a-z]+)|([0-9]+))?(\/(0x[0-9abcdefABCDEF]{40})(\/([0-9]+))?)?(\/([a-z]+))?(@(0x[0-9abcdefABCDEF]{40}))?$/
+      // HASH = #/account@chainName/collectionAddress/tokenID
+    );
+    console.log("hashrefNft", hash, res);
 
     if (res) {
-      urlChainName = res[1];
-      urlCollection = res[3];
-      urlTokenID = Number(res[5]);
+      if (res[2]) {
+        chainName = res[2];
+        chainId = getChainId(chainName);
+      } else {
+        chainId = Number(res[3]);
+      }
+      collection = res[5];
+      tokenID = res[7];
+      account = res[9];
 
-      console.log("urlRef", urlChainName, urlCollection, urlTokenID);
+      console.log("hashrefNft", hash, account, chainId, collection, tokenID, chainName);
     }
   }
 
-  return { urlChainName, urlCollection, urlTokenID };
+  return { chainId, collection, tokenID, account, chainName };
 };
-const urlChainName = () => urlRef().urlChainName;
-const urlCollection = () => urlRef().urlCollection;
-const urlTokenID = () => urlRef().urlTokenID;
 
-export default urlRef;
-export { urlChainName, urlCollection, urlTokenID };
+export { refNft };

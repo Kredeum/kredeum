@@ -7,7 +7,7 @@ import { factoryGetContract } from "./kfactory-get";
 import { cacheCollectionsList } from "./kcache";
 
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
-import { collectionGetSupportedInterfaces } from "lib/kcollection-get-supports";
+import { collectionGetMetadata } from "lib/kcollection-get-metadata";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
@@ -180,23 +180,27 @@ const collectionListFromFactory = async (
   return collections;
 };
 
-const collectionList = async (chainId: number, owner: string, provider: Provider): Promise<Map<string, Collection>> => {
-  // console.log("collectionList", chainId, owner);
+const collectionList = async (
+  chainId: number,
+  account: string,
+  provider: Provider
+): Promise<Map<string, Collection>> => {
+  // console.log("collectionList", chainId, account);
 
   let collections: Map<string, Collection> = new Map();
 
   const network = getNetwork(chainId);
-  if (network && owner) {
+  if (network && account) {
     let collectionsOwner: Map<string, Collection> = new Map();
     let collectionsKredeum: Map<string, Collection> = new Map();
 
     // GET user collections
     if (getSubgraphUrl(chainId)) {
-      collectionsOwner = await collectionListFromTheGraph(chainId, owner);
+      collectionsOwner = await collectionListFromTheGraph(chainId, account);
     } else if (getCovalent(chainId)) {
-      collectionsOwner = await collectionListFromCovalent(chainId, owner);
+      collectionsOwner = await collectionListFromCovalent(chainId, account);
     }
-    collectionsKredeum = await collectionListFromFactory(chainId, owner, provider);
+    collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = new Map([...collectionsOwner, ...collectionsKredeum]);
@@ -205,11 +209,11 @@ const collectionList = async (chainId: number, owner: string, provider: Provider
     if (typeof localStorage !== "undefined") {
       for (const [nid, collection] of collections) {
         // Get supported interfaces on specific collections
-        if (collection.owner == owner || (collection.balanceOf || 0) > 0) {
-          const supported = await collectionGetSupportedInterfaces(chainId, collection.address, provider);
+        if (collection.owner == account || (collection.balanceOf || 0) > 0) {
+          const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
           Object.assign(collection, supported);
         }
-        localStorage.setItem(urlOwner(nid, owner), JSON.stringify(collection, null, 2));
+        localStorage.setItem(urlOwner(nid, account), JSON.stringify(collection, null, 2));
       }
     }
   }

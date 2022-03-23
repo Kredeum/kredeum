@@ -38,11 +38,11 @@ const nftGetFromContract = async (
   chainId: number,
   collection: Collection,
   tokenID: string,
-  provider: Provider,
-  owner = ""
+  provider: Provider
 ): Promise<Nft | undefined> => {
   let tokenURI = "";
   let contractName = "";
+  let owner = "";
 
   let nft: Nft | undefined;
 
@@ -53,7 +53,7 @@ const nftGetFromContract = async (
 
       if (contract && collection?.supports?.IERC721Metadata) {
         contractName = contractName || (await contract.name());
-        owner = owner || (await contract.ownerOf(tokenID));
+        owner = await contract.ownerOf(tokenID);
         tokenURI = await contract.tokenURI(tokenID);
       }
 
@@ -97,7 +97,7 @@ const nftGetFromContractEnumerable = async (
           tokID = await contract.tokenByIndex(index);
           owner = await contract.ownerOf(tokID);
         }
-        nft = await nftGetFromContract(chainId, collection, tokID.toString(), provider, owner);
+        nft = await nftGetFromContract(chainId, collection, tokID.toString(), provider);
       }
     } catch (e) {
       console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
