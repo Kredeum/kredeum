@@ -171,7 +171,7 @@ const collectionGetContract = async (
 
   const collectionSupports = collection.supports
     ? collection.supports
-    : await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider);
+    : (await collectionGetSupportedInterfaces(chainId, collection.address, signerOrProvider)).supports;
   // console.log("collectionSupports", collectionSupports);
 
   for (const [key, supports] of Object.entries(collectionSupports)) {
