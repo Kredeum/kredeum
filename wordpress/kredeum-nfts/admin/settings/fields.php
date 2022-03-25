@@ -46,24 +46,24 @@ function fields() {
 		// ),
 		// 'helper' => __('Choose your prefered IPFS gateway', 'kredeum-nfts'),
 		// ), .
-	  // array(
-		// 'uid'         => 'ipfs_nft_storage_key',
-		// 'label'       => 'IPFS_NFT_STORAGE_KEY',
-		// 'section'     => 'first_section',
-		// 'type'        => 'textarea',
-		// 'placeholder' => 'NFT Storage key',
-		// 'default'     => '',
-		// 'helper'      => __( 'Enter your own NFT Storage Key (leave blank to use Kredeum generic key)', 'kredeum-nfts' ),
-	  // ),.
-	array(
-		'uid'     => 'kredeum_beta',
-		'label'   => 'KREDEUM_BETA',
-		'default' => '0',
-		'section' => 'first_section',
-		'type'    => 'select',
-		'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-		'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
-	),
+	  array(
+		  'uid'         => 'ipfs_nft_storage_key',
+		  'label'       => 'IPFS_NFT_STORAGE_KEY',
+		  'section'     => 'first_section',
+		  'type'        => 'textarea',
+		  'placeholder' => 'NFT Storage key',
+		  'default'     => '',
+		  'helper'      => __( 'Enter your own NFT Storage Key (leave blank to use Kredeum generic key)', 'kredeum-nfts' ),
+	  ),
+		array(
+			'uid'     => 'kredeum_beta',
+			'label'   => 'KREDEUM_BETA',
+			'default' => '0',
+			'section' => 'first_section',
+			'type'    => 'select',
+			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
+			'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
+		),
 		array(
 			'uid'     => 'select_collection',
 			'label'   => 'Connect Metamask and select Network and Collection to Mint',

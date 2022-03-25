@@ -71,7 +71,7 @@ if ( is_admin() ) {
 
 define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
 // define('IPFS_GATEWAY', get_option('IPFS_GATEWAY', [''])[0]); ?
-define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) );
+define( 'IPFS_NFT_STORAGE_KEY', get_option( 'IPFS_NFT_STORAGE_KEY', '' ) ? get_option( 'IPFS_NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
 define( 'SELECT_COLLECTION', get_option( 'SELECT_COLLECTION', '' ) );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
