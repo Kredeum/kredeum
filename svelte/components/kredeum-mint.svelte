@@ -64,27 +64,31 @@
     ipfsImage = null;
     mintedNft = null;
 
-    minting = 1;
+    if (src) {
+      minting = 1;
 
-    ipfsImage = await nftMint1IpfsImage(src);
-    // console.log("ipfsImage", ipfsImage);
+      ipfsImage = await nftMint1IpfsImage(src);
+      // console.log("ipfsImage", ipfsImage);
 
-    minting = 2;
+      minting = 2;
 
-    const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src);
-    // console.log("json", ipfsJson);
+      const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src);
+      // console.log("json", ipfsJson);
 
-    minting = 3;
+      minting = 3;
 
-    const mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
-    // console.log("txResp", txResp);
+      const mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
+      // console.log("txResp", txResp);
 
-    minting = 4;
+      minting = 4;
 
-    mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, signerAddress);
-    // console.log("mintedNft", mintedNft);
+      mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, signerAddress);
+      // console.log("mintedNft", mintedNft);
 
-    minting = 5;
+      minting = 5;
+    } else {
+      console.error("KredeumNftsMint ERROR : no src, impossible to mint!");
+    }
 
     return mintedNft;
   };
