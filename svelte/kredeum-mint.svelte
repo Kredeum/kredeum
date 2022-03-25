@@ -71,25 +71,29 @@
 
     minting = 1;
 
-    cidImage = await mint1cidImage(src);
-    // console.log("cidImage", cidImage);
+    if (src) {
+      cidImage = await mint1cidImage(src);
+      // console.log("cidImage", cidImage);
 
-    minting = 2;
+      minting = 2;
 
-    const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
-    // console.log("json", cidJson);
+      const cidJson = await mint2cidJson(alt, cidImage, signerAddress, src);
+      // console.log("json", cidJson);
 
-    minting = 3;
+      minting = 3;
 
-    const mintingTxResp = await mint3TxResponse(chainId, collection, cidJson, signer);
-    // console.log("txResp", txResp);
+      const mintingTxResp = await mint3TxResponse(chainId, collection, cidJson, signer);
+      // console.log("txResp", txResp);
 
-    minting = 4;
+      minting = 4;
 
-    mintedNft = await mint4Nft(chainId, collection, mintingTxResp, cidJson, signerAddress);
-    // console.log("mintedNft", mintedNft);
+      mintedNft = await mint4Nft(chainId, collection, mintingTxResp, cidJson, signerAddress);
+      // console.log("mintedNft", mintedNft);
 
-    minting = 5;
+      minting = 5;
+    } else {
+      console.error("KredeumNftsMint ERROR : no src, impossible to mint!");
+    }
 
     return mintedNft;
   };
