@@ -1,8 +1,14 @@
 <script lang="ts">
   import { currentAction } from "main/current";
-  import NftMint from "./old/NftMintAction.svelte";
-  import CollectionCreate from "../componentsOther/CollectionCreateAction.svelte";
+  import NftMint from "../Nft/NftMint.svelte";
+  import CollectionCreate from "../Collection/CollectionCreate.svelte";
+
+  export let chainId: number;
+
+  const create = () => ($currentAction = "create");
 </script>
+
+<span on:click={create} class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</span>
 
 <!-- Modal create -->
 <div class="modal-window  {$currentAction == 'create' && 'target'}">
@@ -24,11 +30,11 @@
 </div>
 
 <!-- SubModal create NFT -->
-<div class="modal-window {$currentAction == 'create-nft' && 'target'}">
-  <NftMint bind:collection />
+<div id="create-nft" class="modal-window">
+  <NftMint {chainId} />
 </div>
 
 <!-- SubModal create collection -->
-<div class="modal-window {$currentAction == 'add-collection' && 'target'}">
-  <CollectionCreate bind:collection />
+<div id="add-collection" class="modal-window">
+  <CollectionCreate {chainId} />
 </div>

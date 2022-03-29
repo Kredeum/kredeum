@@ -1,20 +1,9 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
-  import { hashArray } from "helpers/hash";
-  import type { Collection, Nft as NftType } from "lib/ktypes";
+  import type { Collection as CollectionType, Nft as NftType } from "lib/ktypes";
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
+  import { getNetwork } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
-
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
-  import { nftListTokenIds, nftListFromCache } from "lib/knft-list";
-  import { nftGetFromContractEnumerable } from "lib/knft-get";
-  import { nftGetMetadata } from "lib/knft-get-metadata";
-  import { getNetwork } from "lib/kconfig";
-  import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
-  import { cacheClear } from "lib/kcache";
-
-  import { metamaskProvider } from "main/metamask";
 
   /////////////////////////////////////////////////
   // <NftList {chainId} {collectionObject}  {account} {refreshing} {platform} {nftsList}/>
@@ -22,37 +11,25 @@
   /////////////////////////////////////////////////
   export let nfts: Map<string, NftType>;
   export let chainId: number;
-  export let collection: string;
+  export let collectionObject: CollectionType;
   export let account: string = undefined;
-  export let platform = ""; // platform : wordPress or dapp
+  export let refreshing: boolean; // platform : wordPress or dapp
 
-  let refresh = true;
-
-  let collectionObject: Collection;
-  let numNFT: number;
   let nbNFTs: number;
-
-  let allNFTs: Map<string, NftType>;
-  let mores: Array<number> = [];
-
   $: nbNFTs = nfts?.size || 0;
-
-  onMount(() => {
-    console.log("NftsList onMount");
-  });
 </script>
 
-{nfts?.size} nfts
 {#if nfts?.size > 0}
   <h2>
     Collection {collectionName(collectionObject)}
   </h2>
   {nbNFTs}/{nftsBalanceAndName(collectionObject)}
+  {#if refreshing}...{/if}
   <a
     class="info-button"
-    href={explorerCollectionUrl(chainId, collection)}
+    href={explorerCollectionUrl(chainId, collectionObject.address)}
     title="&#009;Collection address (click to view in explorer)&#013;
-      {nftsUrl(chainId, collection)}"
+      {nftsUrl(chainId, collectionObject.address)}"
     target="_blank"><i class="fas fa-info-circle" /></a
   >
 
@@ -73,6 +50,12 @@
   </div>
 {:else}
   <div class="card-krd">
-    <p>No NFTs ✌️</p>
+    <p>
+      {#if refreshing}
+        Refreshing NFTs...
+      {:else}
+        No NFTs ✌️
+      {/if}
+    </p>
   </div>
 {/if}

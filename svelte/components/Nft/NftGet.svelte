@@ -2,7 +2,7 @@
   import { utils } from "ethers";
 
   import type { Nft as NftType } from "lib/ktypes";
-  import { nftGet, nftGetFromCache } from "lib/knft-get";
+  import { nftGet, nftGetFromStore } from "lib/knft-get";
 
   import { hashArray } from "helpers/hash";
   import Nft from "./Nft.svelte";
@@ -32,7 +32,7 @@
     const hash = hashArray([_chainId, _collection, _tokenID]);
 
     // ASAP read NFT from cache
-    _nftSet(nftGetFromCache(_chainId, _collection, _tokenID), hash);
+    _nftSet(nftGetFromStore(_chainId, _collection, _tokenID), hash);
 
     // THEN read NFT from metadata
     _nftSet(await nftGet(_chainId, _collection, _tokenID), hash);

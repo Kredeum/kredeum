@@ -13,10 +13,11 @@
 
   $: if (chainId) collectionObject = null;
 
-  $: if (collectionObject) {
+  const _setCollection = (_collectionObject: CollectionType) => {
+    collectionObject = _collectionObject;
     collection = collectionObject.address;
     currentCollection.set(collection);
-  }
+  };
 
   let collectionObject: CollectionType;
 </script>
@@ -31,7 +32,7 @@
 {/if}
 
 {#each [...collections] as [url, coll]}
-  <p on:click={() => (collectionObject = coll)}>
+  <p on:click={() => _setCollection(coll)}>
     {coll.name}
     ({coll.balanceOf})
   </p>

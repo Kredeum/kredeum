@@ -7,7 +7,7 @@ import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
 import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3 } from "./kconfig";
-import { cacheNftsList } from "./kcache";
+import { storeNftsList } from "./kstore";
 
 const LIMIT = 10;
 
@@ -250,7 +250,7 @@ const _nftListWithMetadata = async (
 };
 
 const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, Nft> =>
-  cacheNftsList(chainId, collection, account);
+  storeNftsList(chainId, collection, account);
 
 const nftList = async (
   chainId: number,

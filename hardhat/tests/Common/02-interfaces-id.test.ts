@@ -64,7 +64,7 @@ describe("02 Call interfacesId", () => {
     // console.log("it ~ interfaceId(IERC721)", interfaceId(IERC721));
     // console.log("it ~ ids[1]", ids[1]);
     // console.log("it ~ IERC721", IERC721);
-    // expect(ids[1]).to.be.equal(w(IERC721));
+    expect(ids[1]).to.be.equal(interfaceId(IERC721));
     expect(ids[2]).to.be.equal(interfaceId(IERC721TokenReceiver));
     expect(ids[3]).to.be.equal(interfaceId(IERC721Metadata));
     expect(ids[4]).to.be.equal(interfaceId(IERC721Enumerable));

@@ -4,16 +4,15 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
-import { cacheCollectionsList } from "./kcache";
 
-import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
-import { collectionGetMetadata } from "lib/kcollection-get-metadata";
+import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
+import { storeCollectionSet, storeCollectionList as collectionListFromCache } from "lib/kstore";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();
-  let path: string;
+  let path = "";
   const network = getNetwork(chainId);
 
   if (network && owner) {
@@ -207,22 +206,20 @@ const collectionList = async (
     // console.log("collectionList", collections);
 
     if (typeof localStorage !== "undefined") {
-      for (const [nid, collection] of collections) {
+      for (const [, collection] of collections) {
+        // DO NOT GET METADATA ON LIST : TOO SLOW => only safter one collection selected => collectionGet
         // Get supported interfaces on specific collections
-        if (collection.owner == account || (collection.balanceOf || 0) > 0) {
-          const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
-          Object.assign(collection, supported);
-        }
-        localStorage.setItem(urlOwner(nid, account), JSON.stringify(collection, null, 2));
+        // if (collection.owner == account || (collection.balanceOf || 0) > 0) {
+        //   const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
+        //   Object.assign(collection, supported);
+        // }
+        storeCollectionSet(account, collection);
       }
     }
   }
   // console.log("collectionList", collections);
   return collections;
 };
-
-const collectionListFromCache = (chainId?: number, account?: string): Map<string, Collection> =>
-  cacheCollectionsList(chainId, account);
 
 export {
   collectionList,

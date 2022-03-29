@@ -5,10 +5,12 @@
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
+  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
-  import KredeumListTemplates from "../components/TemplatesView.svelte";
+  import CollectionTemplates from "./CollectionTemplates.svelte";
 
   // up to parent
+  export let chainId: number;
   export let collection: Collection = undefined;
   let template: string = undefined;
 
@@ -27,9 +29,10 @@
     cloningTxHash = null;
     collectionCreated = null;
 
-    if (!$signer) console.error("ERROR createCollection not signer");
+    const signer = $metamaskProvider.getSigner($metamaskAccount);
+    if (!signer) console.error("ERROR createCollection not signer");
     else {
-      const txResp = await collectionCloneResponse($chainId, collectionName, collectionSymbol, template, $signer);
+      const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, signer);
 
       if (!txResp) console.error("ERROR createCollection no txResp");
       else {
@@ -39,10 +42,10 @@
         if (!txReceipt.status) console.error("ERROR createCollection bad status");
         else {
           collectionCreated = {
-            chainId: $chainId,
+            chainId: chainId,
             name: collectionName,
             address: collectionCloneAddress(txReceipt),
-            user: await $signer.getAddress()
+            user: await signer.getAddress()
           };
 
           if (!collectionCreated) console.error("ERROR createCollection no collection created");
@@ -68,7 +71,7 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a class="link" href={explorerAddressUrl($chainId, collectionCreated.address)} target="_blank"
+              Collection '<a class="link" href={explorerAddressUrl(chainId, collectionCreated.address)} target="_blank"
                 >{collectionCreated?.name}</a
               >' created!
             </div>
@@ -106,7 +109,7 @@
           </div>
 
           <div class="section">
-            <KredeumListTemplates bind:template />
+            <CollectionTemplates bind:template />
           </div>
 
           <div class="txtright">
@@ -115,7 +118,7 @@
         {/if}
         {#if cloningTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
+            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
           </div>
         {/if}
       </div>

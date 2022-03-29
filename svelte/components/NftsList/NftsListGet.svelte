@@ -1,18 +1,13 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
-  import { hashArray } from "helpers/hash";
   import type { Collection, Nft as NftType } from "lib/ktypes";
-
   import { nftListTokenIds, nftListFromCache } from "lib/knft-list";
   import { nftGetFromContractEnumerable } from "lib/knft-get";
   import { nftGetMetadata } from "lib/knft-get-metadata";
-
+  import { storeClear } from "lib/kstore";
   import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
-  import { cacheClear } from "lib/kcache";
 
+  import { hashArray } from "helpers/hash";
   import NftsList from "./NftsList.svelte";
-  import NftsListSimple from "./NftsListSimple.svelte";
 
   import { metamaskProvider } from "main/metamask";
 
@@ -23,86 +18,92 @@
   export let chainId: number;
   export let collection: string;
   export let account: string = undefined;
-  export let refreshing = true;
-  export let platform = ""; // platform : wordPress or dapp
-
-  let refresh = true;
+  export let refreshing = false;
+  export let refresh: number = 0;
 
   let collectionObject: Collection;
   let numNFT: number;
-
   let allNFTs: Map<string, NftType>;
-  let mores: Array<number> = [];
 
-  $: if (refreshing) _nftsList(chainId, collection, account);
+  // Force NFts list refresh
+  $: _nftsListForce(refresh);
 
-  // current hash of significant props
-  $: hashCurrent = hashArray([chainId, collection, account]);
+  const _nftsListForce = async (_refresh: number): Promise<void> => _nftsList(chainId, collection, account, _refresh);
 
-  let nfts: Map<string, NftType>;
-  const _nftsSet = (_NFTs: Map<string, NftType>, _hash: string): void => {
-    //  set when significant props have not changed
-    if (_hash === hashCurrent) nfts = _NFTs;
-  };
+  // Update NFTs list on chainId, collection or account change
+  $: _nftsList(chainId, collection, account).catch(console.error);
 
-  $: _nftsList(chainId, collection, account, true).catch(console.error);
-
-  const _nftsList = async (_chainId: number, _collection: string, _account: string, cache = false) => {
+  const _nftsList = async (_chainId: number, _collection: string, _account: string, _refresh = 0): Promise<void> => {
     if (!(_chainId && _collection && _account)) return;
+    if (refreshing) return;
 
-    console.log("_nftsList", _chainId, _collection, _account, cache);
+    refreshing = true;
 
-    collectionObject = collectionObject || collectionGetFromCache(_chainId, _collection);
-    console.log("_nftsList= ~ collectionObject", collectionObject);
+    const hash = hashArray([_chainId, _collection, _account]);
+    console.log("hash _nftsList", hash, _chainId, _collection, _account);
 
-    let fromLib = !cache;
+    collectionObject = collectionGetFromCache(_chainId, _collection);
 
-    if (cache) {
+    let _badCacheCount = false;
+
+    if (_refresh === 0) {
       // LOAD nfts from cache
-      const nn = _nftsListFromCache(_chainId, _collection, _account);
-      console.log("const_nftsList= ~ nfts", nn);
+      const _nfts = _nftsListFromCache(_chainId, _collection, _account);
+      _nftsSet(_nfts, hash);
 
-      // REFRESH LIB WHEN NFT count found in cache not good
-      fromLib = nn !== collectionObject.balanceOf;
+      _badCacheCount = _nfts.size !== collectionObject.balanceOf;
+    } else {
+      _nftsSet(new Map(), hash);
     }
 
-    if (fromLib) {
+    // REFRESH WHEN asked OR when NFTs count in cache not good
+    if (_refresh > 0 || _badCacheCount) {
       // LOAD nfts from lib
-      await _nftsListFromLib(_chainId, _collection, _account);
+      await _nftsListFromLib(_chainId, _collection, _account, hash);
     }
-    refresh = !refresh;
 
-    console.log("_nftsList allNFTs", _chainId, _collection, _account, allNFTs, nfts);
+    refreshing = false;
   };
 
-  const _nftsListFromCache = (_chainId: number, _collection: string, _account: string): number => {
-    const hash = hashArray([_chainId, _collection, _account]);
+  const _nftsListFromCache = (_chainId: number, _collection: string, _account: string): Map<string, NftType> => {
+    const _allNFTs = nftListFromCache(_chainId, _collection, _account);
+    console.log("_nftsListFromCache _allNFTs", _allNFTs);
 
-    allNFTs = nftListFromCache(_chainId, _collection, _account);
-    console.log("_nftsListFromCache allNFTs", allNFTs);
+    const _nfts = _nftListFilter(_chainId, _collection, _account, _allNFTs);
+    console.log("_nftsListFromCache _nfts", _nfts);
 
-    nfts = new Map(
-      [...allNFTs].filter(
+    return _nfts;
+  };
+
+  const _nftListFilter = (
+    _chainId: number,
+    _collection: string,
+    _account: string,
+    _allNFTs: Map<string, NftType>
+  ): Map<string, NftType> => {
+    const _nfts = new Map(
+      [..._allNFTs].filter(
         ([, nft]) => nft.chainId === _chainId && nft.collection === _collection && nft.owner === _account
       )
     );
-    refresh = !refresh;
-
-    console.log("_nftsListFromCache", nfts?.size, nfts);
-    return nfts?.size;
+    return _nfts;
   };
 
-  const _nftsListFromLib = async (_chainId: number, _collection: string, _account: string) => {
+  const _nftsListFromLib = async (
+    _chainId: number,
+    _collection: string,
+    _account: string,
+    _hash: string
+  ): Promise<void> => {
     if (_chainId && _collection && _account) {
-      console.log("_nftsListFromLib", _chainId, _collection, account);
+      console.log("_nftsListFromLib", _chainId, _collection, _account);
 
       collectionObject = await collectionGet(_chainId, _collection, $metamaskProvider, account);
       console.log("_nftsListFromLib ~ collectionObject", collectionObject);
 
-      cacheClear(_chainId, _collection);
+      storeClear(_chainId, _collection);
 
-      mores = [];
-      nfts = new Map();
+      const _nfts = new Map();
 
       console.log("_nftsListFromLib", _chainId, _collection, _account, collectionObject);
 
@@ -121,35 +122,40 @@
               $metamaskProvider,
               _account
             );
-            const nft = await nftGetMetadata(nftIndex);
-            if (nft?.nid) nfts.set(nft.nid, nft);
-            nfts = nfts; // needed in Svelte for Map reactivity !
+            _nftSet(await nftGetMetadata(nftIndex), _hash);
           }
         } else {
           const nftsTokenIds = await nftListTokenIds(_chainId, collectionObject, $metamaskProvider, _account);
           console.log("_nftsListFromLib= nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
           for await (const _nft of nftsTokenIds.values()) {
-            const nft = await nftGetMetadata(_nft);
-            if (nft?.nid) nfts.set(nft.nid, nft);
-            nfts = nfts; // needed in Svelte for Map reactivity !
+            _nftSet(await nftGetMetadata(_nft), _hash);
           }
         }
-
-        refreshing = false;
-        // console.log("_nftsListFromLib OUT =>", nfts?.size, nfts);
-      } else {
-        console.error("_nftsListFromLib Collection not ready", _collection);
       }
-      refresh = !refresh;
-      console.log("_nftsListFromLib ~ nfts", nfts);
     }
   };
 
-  onMount(() => {
-    console.log("NftsListData onMount");
-  });
+  let nfts: Map<string, NftType> = new Map();
+  const _nftsSet = (_nfts: Map<string, NftType>, _hash: string): void => {
+    const hash = hashArray([chainId, collection, account]);
+    //  set when significant props have not changed
+    if (hash === _hash) {
+      nfts = _nfts;
+      console.log("set nfts", nfts);
+    } else {
+      console.log("hash changed ", _hash, "=>", hash, chainId, collection, account);
+    }
+  };
+  const _nftSet = (_nft: NftType, _hash: string): void => {
+    //  set when significant props have not changed
+    if (_hash === hashArray([chainId, collection, account])) {
+      if (_nft?.nid) nfts.set(_nft.nid, _nft);
+      console.log("set nft", _nft);
+      nfts = nfts; // needed in Svelte for Map reactivity !
+    }
+  };
 </script>
 
-<NftsList {nfts} {chainId} {collectionObject} {account} {platform} />
+<NftsList {nfts} {chainId} {collectionObject} {account} {refreshing} />
 <!-- <NftsListSimple {nfts} /> -->

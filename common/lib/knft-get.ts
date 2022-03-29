@@ -7,7 +7,7 @@ import type { ERC721Enumerable } from "types/ERC721Enumerable";
 import type { Collection, Nft } from "./ktypes";
 import { nftUrl3 } from "./kconfig";
 import { collectionGetContract } from "./kcollection-get";
-import { cacheNftGet } from "./kcache";
+import { storeNftGet as nftGetFromStore } from "./kstore";
 import { nftGetMetadata } from "./knft-get-metadata";
 
 ////////////////////////////////////////////////////////
@@ -30,9 +30,6 @@ import { nftGetMetadata } from "./knft-get-metadata";
 // CID = IPDS ID = "bax..."
 // PID = WP IP = "123"
 ////////////////////////////////////////////////////////
-
-const nftGetFromCache = (chainId: number, collection: string, tokenID: string): Nft =>
-  cacheNftGet(chainId, collection, tokenID);
 
 const nftGetFromContract = async (
   chainId: number,
@@ -110,4 +107,4 @@ const nftGetFromContractEnumerable = async (
 const nftGet = async (chainId: number, collection: string, tokenID: string): Promise<Nft | undefined> =>
   nftGetMetadata({ chainId, collection, tokenID });
 
-export { nftGet, nftGetFromCache, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };
+export { nftGet, nftGetFromStore, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };

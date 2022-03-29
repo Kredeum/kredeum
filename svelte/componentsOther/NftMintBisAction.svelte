@@ -10,15 +10,13 @@
   import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl } from "lib/kconfig";
   import { collectionGet } from "lib/kcollection-get";
+  import { storeCollectionGetDefaultAddress } from "lib/kstore";
 
-  // export let key: string = undefined;
-  // export let metadata: string = undefined;
   export let alt: string = undefined;
   export let src: string = undefined;
   export let pid: string = undefined;
   export let width = 100;
   export let display = false;
-  // down to component with default
   export let collection: Collection = undefined;
 
   let mintedNft: Nft;
@@ -38,7 +36,7 @@
 
       const collectionAddress =
         // default user collection
-        localStorage.getItem(`defaultCollection/${$chainId}/${signerAddress}`) ||
+        storeCollectionGetDefaultAddress(chainId, signerAddress) ||
         // default OpenNFTs collection
         (await factoryGetTemplateAddress(_chainId, "OpenNFTsV3", $provider));
       collection = await collectionGet(_chainId, collectionAddress, $provider);

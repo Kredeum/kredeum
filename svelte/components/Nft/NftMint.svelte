@@ -1,16 +1,28 @@
 <script lang="ts">
   import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
+  import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
-  import KredeumListCollections from "../components/CollectionList.svelte";
+  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
-  // down to component
-  export let collection: Collection = undefined;
+  export let chainId: number;
+
+  let mintable = false;
+  let collection: string = undefined;
+  let signer: JsonRpcSigner;
+  let account: string;
+  $: {
+    signer = $metamaskProvider.getSigner($metamaskAccount);
+    _setAccount(signer);
+  }
+  const _setAccount = async (signer: JsonRpcSigner): Promise<string> => (account = await signer.getAddress());
 
   let nftTitle: string;
 
@@ -32,6 +44,8 @@
     mintedNft = null;
     mintingError = null;
   };
+
+  $: collectionObject = collectionGetFromCache(chainId, collection);
 
   // DISPLAY image AFTER upload
   const fileload = () => {
@@ -59,19 +73,19 @@
       if (ipfsImage) {
         minting = 2;
 
-        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, $owner, image);
+        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, account, image);
         // console.log("json", ipfsJson);
 
         if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse($chainId, collection, ipfsJson, $signer);
+          mintingTxResp = await nftMint3TxResponse(chainId, collectionObject, ipfsJson, signer);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await nftMint4($chainId, collection, mintingTxResp, ipfsJson, $owner);
+            mintedNft = await nftMint4(chainId, collectionObject, mintingTxResp, ipfsJson, account);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {
@@ -123,7 +137,7 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl($chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
+                <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}
@@ -171,7 +185,7 @@
             <div class="flex"><span class="label">Transaction</span></div>
             <div class="flex">
               {#if mintingTxResp}
-                <a class="link" href={explorerTxUrl($chainId, mintingTxResp.hash)} target="_blank"
+                <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
                   >{textShort(mintingTxResp.hash, 15)}</a
                 >
               {/if}
@@ -235,11 +249,12 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <KredeumListCollections bind:collection minting />
+          <CollectionListGet {chainId} bind:collection {account} minting label={false} />
         </div>
-
         <div class="txtright">
-          <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+          {#if collectionObject?.mintable}
+            <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+          {/if}
         </div>
         {#if mintingError}
           <div class="section">

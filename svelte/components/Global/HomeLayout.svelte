@@ -14,6 +14,4 @@
       </section>
     </div>
   </main>
-
-  <slot name="modals" />
 </div>

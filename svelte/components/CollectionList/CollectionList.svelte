@@ -5,8 +5,15 @@
   import CollectionGet from "../Collection/CollectionGet.svelte";
 
   import type { Collection as CollectionType } from "lib/ktypes";
-  import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
+  import { nftsUrl, explorerCollectionUrl, urlOwner } from "lib/kconfig";
   import { currentCollection } from "main/current";
+  import { collectionGetMetadata } from "lib/kcollection-get-metadata";
+  import {
+    storeCollectionSet,
+    storeCollectionSetDefaultAddress,
+    storeCollectionGetDefaultMintableAddress,
+    storeCollectionGetDefaultAddress
+  } from "lib/kstore";
 
   import { refNft } from "helpers/urlHash";
   import { collectionGet } from "lib/kcollection-get";
@@ -20,31 +27,39 @@
   export let collection: string;
   export let account: string;
   export let minting = false;
+  export let label = true;
   export let txt = false;
   export let collections: Map<string, CollectionType>;
+  export let refreshing: boolean;
 
   let defaultCollection: string;
   let defaultMintableCollection: string;
-  let refreshingCollections: boolean;
   let open = false;
-
-  $: if (collection) {
-    console.log("CollectionList collection", collection);
-
-    localStorage.setItem(`defaultCollection/${chainId}/${account}`, collection);
-  }
 
   $: if (chainId) {
     console.log("CollectionList chainId", chainId);
 
-    defaultMintableCollection = localStorage.getItem(`defaultMintableCollection/${chainId}`) || "";
-    defaultCollection = localStorage.getItem(`defaultCollection/${chainId}/${account}`) || defaultMintableCollection;
+    defaultMintableCollection = storeCollectionGetDefaultMintableAddress(chainId);
+    defaultCollection = storeCollectionGetDefaultAddress(chainId, account) || defaultMintableCollection;
 
-    _setCollection(collection || refNft().collection || (minting ? defaultMintableCollection : defaultCollection));
+    _setCollection(minting ? defaultMintableCollection : defaultCollection);
   }
 
-  const _setCollection = (_collection: string): string => (collection = _collection);
-  const _setCollectionFromEvent = (evt: Event): string => _setCollection((evt.target as HTMLInputElement).value);
+  const _setCollection = (_collection: string) => {
+    console.log("_setCollection", chainId, _collection, account, collection);
+
+    collection = _collection;
+    currentCollection.set(collection);
+
+    // const metadata = await collectionGetMetadata(chainId, collection, $metamaskProvider);
+    const collectionObject = { chainId, address: collection };
+    // Object.assign(collectionObject, metadata);
+
+    storeCollectionSet(account, collectionObject);
+    storeCollectionSetDefaultAddress(chainId, account, collection);
+  };
+
+  const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
 
   const _explorerCollectionUrl = (_collection: string): string => {
     const ret = explorerCollectionUrl(chainId, _collection);
@@ -54,84 +69,90 @@
 
   const _nftsUrl = (_collection: string): string => nftsUrl(chainId, _collection);
 
-  $: if (collection) {
-    console.log("CollectionSelect collection", collection);
-    currentCollection.set(collection);
-  }
+  const _toggleOpen = () => (open = !open);
 
   onMount(() => {
     console.log("CollectionList  onMount");
-
-    window.addEventListener("click", (e: Event): void => {
-      if (!minting && !document.querySelector(".select-collection")?.contains(e.target as HTMLElement)) {
-        open = false;
-      }
-    });
+    if (!minting) {
+      window.addEventListener("click", (e: Event): void => {
+        if (!(e.target as HTMLElement).closest(".select-collection")) open = false;
+      });
+    }
   });
 </script>
 
 {#if txt}
   <p>
-    {#if collections}
-      {#if collections.size > 0}
-        Collection
-        <select on:change={(e) => _setCollectionFromEvent(e)}>
-          {#each [...collections] as [url, coll]}
-            <option selected={coll.address == collection} value={coll.address}>
-              <CollectionGet {chainId} collection={coll.address} />
-            </option>
-          {/each}
-        </select>
-        {nftsUrl(chainId, collection)}
-      {:else}
-        NO Collection found !
-      {/if}
-    {:else if refreshingCollections}
-      Refreshing Collection list...
+    {#if collections && collections.size > 0}
+      Collection
+      {#if refreshing}...{/if}
+
+      <select on:change={(e) => _setCollectionFromEvent(e)}>
+        {#each [...collections] as [url, coll]}
+          <option selected={coll.address == collection} value={coll.address}>
+            <CollectionGet {chainId} collection={coll.address} />
+          </option>
+        {/each}
+      </select>
+      {nftsUrl(chainId, collection)}
+    {:else}
+      <p>
+        {#if refreshing}
+          Refreshing collections...
+        {:else}
+          NO Collection found !
+        {/if}
+      </p>
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-3">
-    <span class="label"
-      >Collection
-      {#if collection}
-        <a
-          class="info-button"
-          href={_explorerCollectionUrl(collection)}
-          title="&#009;  Collection address (click to view in explorer)&#013;
+  <div class="col col-xs-12 col-sm-{minting ? '10' : '4'}">
+    {#if label}
+      <span class="label"
+        >Collection
+        {#if refreshing}...{/if}
+        {#if collection}
+          <a
+            class="info-button"
+            href={_explorerCollectionUrl(collection)}
+            title="&#009;  Collection address (click to view in explorer)&#013;
       {_nftsUrl(collection)}"
-          target="_blank"><i class="fas fa-info-circle" /></a
-        >
-      {/if}
-    </span>
-    <div class="select-wrapper select-collection" on:click={() => (open = !open)}>
+            target="_blank"><i class="fas fa-info-circle" /></a
+          >
+        {/if}
+      </span>
+    {/if}
+
+    <div class="select-wrapper select-collection" on:click={_toggleOpen}>
       <div class="select" class:open>
-        {#key refreshingCollections}
-          {#if collections && collections.size > 0}
-            <div class="select-trigger">
-              <span>
-                <CollectionGet {chainId} {collection} {account} />
+        {#if collections && collections.size > 0}
+          <div class="select-trigger">
+            <span>
+              <CollectionGet {chainId} {collection} {account} />
+            </span>
+          </div>
+          <div class="custom-options">
+            {#each [...collections] as [url, coll]}
+              <span
+                class="custom-option {coll.address == collection ? 'selected' : ''}"
+                data-value={coll.address}
+                on:click={() => _setCollection(coll.address)}
+              >
+                <Collection collectionObject={coll} />
               </span>
-            </div>
-            <div class="custom-options">
-              {#each [...collections] as [url, coll]}
-                {#if !minting || coll.mintable}
-                  <span
-                    class="custom-option {coll.address == collection ? 'selected' : ''}"
-                    data-value={coll.address}
-                    on:click={() => _setCollection(coll.address)}
-                  >
-                    <Collection collectionObject={coll} />
-                  </span>
-                {/if}
-              {/each}
-            </div>
-          {:else if refreshingCollections}
-            <div class="select-trigger">Refreshing Collection list...</div>
-          {:else}
-            <div class="select-trigger"><em>NO Collection found !</em></div>
-          {/if}
-        {/key}
+            {/each}
+          </div>
+        {:else}
+          <div class="select-trigger">
+            <em>
+              {#if refreshing}
+                Refreshing collections...
+              {:else}
+                NO Collection found !
+              {/if}
+            </em>
+          </div>
+        {/if}
       </div>
     </div>
   </div>

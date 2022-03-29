@@ -6,6 +6,7 @@
 
   import { metamaskSwitchChain } from "helpers/metamask";
   import { metamaskChainId, metamaskProvider } from "main/metamask";
+  import { storeCollectionSetDefaultMintableAddress } from "lib/kstore";
 
   import Network from "./Network.svelte";
 
@@ -25,7 +26,7 @@
     chainId = _metamaskChainId;
 
     const defaultMintableCollection = await factoryGetDefaultImplementation(chainId, $metamaskProvider);
-    localStorage.setItem(`defaultMintableCollection/${chainId}`, defaultMintableCollection);
+    storeCollectionSetDefaultMintableAddress(chainId, defaultMintableCollection);
   };
 
   interface SwitchEventTarget extends EventTarget {

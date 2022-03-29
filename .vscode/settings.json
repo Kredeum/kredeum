@@ -1,5 +1,5 @@
 {
-  "workbench.colorTheme": "Github Light (rainglow)",
+  "workbench.colorTheme": "GitHub Dark Dimmed",
   "phpsab.standard": "WordPress",
   "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
   "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",

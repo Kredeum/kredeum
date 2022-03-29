@@ -5,20 +5,17 @@
 
   import AccountConnect from "./Account/AccountConnect.svelte";
   import NetworkSelect from "./Network/NetworkSelect.svelte";
-  import CollectionSelect from "./CollectionList/CollectionListGet.svelte";
-  // import CollectionCreate from "./componentsOther/CollectionCreateAction.svelte";
+  import CollectionListGet from "./CollectionList/CollectionListGet.svelte";
 
-  import MintButton from "./Collection/Mint.svelte";
+  import Create from "./Global/Create.svelte";
   import Navigation from "./Global/Navigation.svelte";
 
   import NftGet from "./Nft/NftGet.svelte";
-  import NftsList from "./NftsList/NftsList.svelte";
   import NftsListGet from "./NftsList/NftsListGet.svelte";
+  import NftsListRefresh from "./NftsList/NftsListRefresh.svelte";
 
-  // import NftMint from "./old/NftMintAction.svelte";
-  import RefreshButton from "./NftsList/NftsListRefresh.svelte";
   import Title from "./Global/Title.svelte";
-  import BreadCrumb from "./Global/BreadCrumb.svelte";
+  // import BreadCrumb from "./Global/BreadCrumb.svelte";
   import HomeLayout from "./Global/HomeLayout.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -33,14 +30,12 @@
   };
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  export let platform = "dapp";
-
   let chainId: number;
   let collection: string;
   let tokenID: string;
   let account: string;
   let refreshing: boolean;
-  let nftsList: () => Promise<void>;
+  let refresh: number;
 </script>
 
 <HomeLayout>
@@ -52,10 +47,10 @@
     <Title />
 
     {#if account && getCreate(chainId)}
-      <MintButton />
+      <Create {chainId} />
     {/if}
 
-    <BreadCrumb display={true} />
+    <!-- <BreadCrumb display={true} /> -->
 
     <div class="row alignbottom">
       <!-- View account -->
@@ -66,12 +61,12 @@
 
       <!-- Select collection -->
       {#if chainId && account}
-        <CollectionSelect {chainId} {account} bind:collection />
-      {/if}
+        <CollectionListGet {chainId} {account} bind:collection />
 
-      {#if account && collection && factoryGetAddress(chainId)}
-        <!-- Refresh button -->
-        <RefreshButton bind:refreshing />
+        {#if account && collection && factoryGetAddress(chainId)}
+          <!-- Refresh button -->
+          <NftsListRefresh {refreshing} bind:refresh />
+        {/if}
       {/if}
     </div>
   </span>
@@ -84,10 +79,15 @@
         <NftGet {chainId} {collection} {tokenID} />
       {:else}
         <!-- <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} /> -->
-        <NftsListGet {chainId} {collection} {account} bind:refreshing {platform} />
+        <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
       {/if}
     {/if}
   </span>
-
-  <span slot="modals" />
 </HomeLayout>
+
+<style>
+  div {
+    /* DO NOT REMOVE ! */
+    visibility: visible;
+  }
+</style>

@@ -5,9 +5,7 @@
   export let nfts: Map<string, NftType>;
 </script>
 
-NftsList ?
 {#if nfts}
-  NftsList ok
   {#each [...nfts.values()] as nft, index}
     <NftSimple {nft} />
   {/each}

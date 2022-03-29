@@ -3,6 +3,8 @@
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
+  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+
   export let nft: Nft = undefined;
 
   let transferTxHash: string = null;
@@ -12,12 +14,13 @@
   let destinationAddress = "";
 
   const transfer = async () => {
-    if ($signer) {
+    const signer = $metamaskProvider.getSigner($metamaskAccount);
+    if (signer) {
       transferTxHash = null;
       transfering = true;
       transfered = false;
 
-      const txResp = await transferNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, $signer);
+      const txResp = await transferNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, signer);
       transferTxHash = txResp.hash;
 
       const txReceipt = await transferNftReceipt(txResp);
@@ -38,7 +41,7 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              NFT <a class="link" href="{explorerNftUrl($chainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
+              NFT <a class="link" href="{explorerNftUrl($metamaskChainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
               transfered!
             </div>
           </div>
@@ -70,7 +73,7 @@
         {/if}
         {#if transferTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, transferTxHash)} target="_blank"
+            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank"
               >{textShort(transferTxHash)}</a
             >
           </div>

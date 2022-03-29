@@ -1,6 +1,7 @@
 import type { Nft, NftMetadata } from "./ktypes";
 import { fetchJson } from "./kfetch";
 import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
+import { storeNftSet } from "lib/kstore";
 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
@@ -33,6 +34,8 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
 
 const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
   // console.log("nftGetMetadata", chainId, nft, collection);
+
+  if (!nft) return nft;
 
   const { chainId, collection, tokenID } = nft;
   if (!(chainId && collection && tokenID)) return nft;
@@ -87,10 +90,8 @@ const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
   };
   nftMetadata.contentType = nft.contentType || (await nftGetContentType(nftMetadata));
 
-  // STORE in cache if exists
-  if (typeof localStorage !== "undefined") {
-    localStorage.setItem(nftMetadata.nid || "", JSON.stringify(nftMetadata, null, 2));
-  }
+  // STORE nft
+  storeNftSet(nftMetadata);
 
   // console.log("nftGetMetadata nftMetadata", nftMetadata);
   return nftMetadata;

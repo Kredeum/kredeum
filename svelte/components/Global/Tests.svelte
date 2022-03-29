@@ -1,18 +1,21 @@
 <script lang="ts">
   // import { onMount } from "svelte";
+  import { getCreate } from "lib/kconfig";
 
   // import Home from "./HomeView.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "./Metamask.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionListData from "../CollectionList/CollectionListGet.svelte";
+  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
   // import NftsList from "./NftsList.svelte";
-  import NftsListData from "../NftsList/NftsListGet.svelte";
+  import NftsListGet from "../NftsList/NftsListGet.svelte";
   // import NftGet from "./NftData.svelte";
   import RefreshButton from "../NftsList/NftsListRefresh.svelte";
   // import { metamaskInit } from "helpers/metamask";
   // import { metamaskChainId, metamaskAccount } from "main/metamask";
+  import Create from "./Create.svelte";
+  import NftMint from "../Nft/NftMint.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   import type { Collection as CollectionType } from "lib/ktypes";
@@ -35,6 +38,7 @@
   let refreshing: boolean;
   let nftsList: () => Promise<void>;
   let platform = "dapp";
+  let refresh: number;
 </script>
 
 <main>
@@ -42,29 +46,34 @@
     {chainId}/{collection || ""}/{tokenID || ""}@{account}
 
     <BreadCrumb display={true} />
+
+    {#if account && getCreate(chainId)}
+      <!-- <Create {chainId} /> -->
+      <NftMint {chainId} />
+    {/if}
   </div>
 
   <div>
     <!-- <Home /> -->
 
-    <!-- <Metamask bind:account bind:chainId /> -->
+    <Metamask bind:account bind:chainId />
 
-    <AccountConnect bind:account />
+    <!-- <AccountConnect bind:account /> -->
 
-    <NetworkSelect bind:chainId />
+    <!-- <NetworkSelect bind:chainId /> -->
 
-    {#if chainId && account}
-      <CollectionListData {chainId} {account} bind:collection />
-    {/if}
+    <!-- {#if chainId && account}
+      <CollectionListGet {chainId} {account} bind:collection />
+    {/if} -->
   </div>
 
-  <div>
-    <RefreshButton {refreshing} {nftsList} />
+  <!-- <div>
+    <RefreshButton {refreshing} bind:refresh />
 
     {#if chainId && collection}
-      <NftsListData {chainId} {collection} {account} bind:refreshing {platform} bind:nftsList />
+      <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
     {/if}
-  </div>
+  </div> -->
 </main>
 
 <style>

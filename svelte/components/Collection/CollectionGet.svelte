@@ -1,5 +1,6 @@
 <script lang="ts">
   import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
+  import { storeCollectionGet } from "lib/kstore";
 
   import type { Collection as CollectionType } from "lib/ktypes";
 
@@ -32,7 +33,7 @@
     const hash = hashArray([_chainId, _collection]);
 
     // ASAP read NFT from cache
-    _collectionSet(collectionGetFromCache(_chainId, _collection), hash);
+    _collectionSet(storeCollectionGet(_chainId, _collection), hash);
 
     // THEN read NFT from metadata
     _collectionSet(await collectionGet(_chainId, _collection, $metamaskProvider, _account), hash);

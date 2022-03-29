@@ -2,11 +2,13 @@
   import type { Collection as CollectionType } from "lib/ktypes";
   import { collectionList, collectionListFromCache } from "lib/kcollection-list";
   import { metamaskProvider } from "main/metamask";
+  import type { JsonRpcProvider } from "@ethersproject/providers";
 
   import CollectionList from "./CollectionList.svelte";
   import CollectionListSimple from "./CollectionListSimple.svelte";
 
   import { hashArray } from "helpers/hash";
+  import { storeCollectionGetDefaultMintableAddress, storeCollectionGetDefaultAddress } from "lib/kstore";
 
   /////////////////////////////////////////////////
   // <CollectionListData {chainId} {account} {collection} {minting} {txt} />
@@ -17,8 +19,9 @@
   export let account: string;
   export let minting = false;
   export let txt = false;
+  export let label = true;
 
-  let refreshing: boolean = false;
+  let refreshing: boolean;
 
   // current hash of significant props
   $: hashCurrent = hashArray([chainId, account]);
@@ -40,29 +43,43 @@
 
     refreshing = true;
 
-    const hash = hashArray([chainId, account]);
-    // console.log("_collectionList", _chainId, _account, hash);
+    const hash = hashArray([_chainId, _account]);
+    console.log("_collectionList", _chainId, _account, hash);
 
-    _collectionsSet(_collectionListFromCache(_chainId, _account), hash);
+    const _collectionListCache = _collectionListFromCache(_chainId, _account);
+    console.log("_collectionList _collectionListCache", _collectionListCache);
+    _collectionsSet(_collectionListCache, hash);
 
-    _collectionsSet(await collectionList(_chainId, _account, $metamaskProvider), hash);
+    const _collectionListLib = await _collectionListFromLib(_chainId, _account, $metamaskProvider);
+    console.log("_collectionList _collectionListLib", _collectionListLib);
+    _collectionsSet(_collectionListLib, hash);
 
     refreshing = false;
   };
 
   const _collectionListFromCache = (_chainId: number, _account: string): Map<string, CollectionType> => {
-    const _allCollections = collectionListFromCache(_chainId, _account);
-    console.log("_collectionListFromCache= ~ _allCollections", _allCollections);
+    const _allCollectionsFromCache = collectionListFromCache(_chainId, _account);
+    console.log("_collectionListFromCache _allCollectionsFromCache", _allCollectionsFromCache);
 
-    const _collections = _collectionListFilter(_chainId, _account, _allCollections);
-    console.log("_collectionListFromCache= ~ _allCollections", _collections);
+    const _collectionsFromCache = _collectionListFilter(_chainId, _account, _allCollectionsFromCache);
+    console.log("_collectionListFromCache _collectionsFromCache", _collectionsFromCache);
 
-    return _collections;
+    return _collectionsFromCache;
   };
 
-  const _defaultMintableCollection = () => localStorage.getItem(`defaultMintableCollection/${chainId}`) || "";
-  const _defaultCollection = () =>
-    localStorage.getItem(`defaultCollection/${chainId}/${account}`) || _defaultMintableCollection();
+  const _collectionListFromLib = async (
+    _chainId: number,
+    _account: string,
+    _provider: JsonRpcProvider
+  ): Promise<Map<string, CollectionType>> => {
+    const _allCollectionsFromLib = await collectionList(_chainId, _account, _provider);
+    console.log("_collectionListFromLib _allCollectionsFromLib", _allCollectionsFromLib);
+
+    const _collectionsFromLib = _collectionListFilter(_chainId, _account, _allCollectionsFromLib);
+    console.log("_collectionListFromLib _collectionsFromL ib", _collectionsFromLib);
+
+    return _collectionsFromLib;
+  };
 
   const _collectionListFilter = (
     _chainId: number,
@@ -77,12 +94,16 @@
 
           // Collection IS a mintable collection that I own OR default mintable collection
           const okMintable =
-            (Boolean(coll.mintable) && coll.owner === _account) || coll.address == _defaultMintableCollection();
+            // (Boolean(coll.mintable) && coll.owner === _account) ||
+            coll.address == storeCollectionGetDefaultMintableAddress(_chainId);
 
           // When not wanting to Mint ALL collections I own OR where I have NFTs OR default collection
           const okAll =
-            !minting && (coll.owner === _account || coll.balanceOf > 0 || coll.address == _defaultCollection());
-
+            // !minting &&
+            coll.owner === _account ||
+            coll.balanceOf > 0 ||
+            coll.supports?.IERC1155 ||
+            coll.address == storeCollectionGetDefaultAddress(_chainId, _account);
           return okNetwork && (okMintable || okAll);
         })
 
@@ -95,5 +116,6 @@
   };
 </script>
 
-<!-- <CollectionListSimple {collections} {chainId} bind:collection /> -->
-<CollectionList {chainId} bind:collection {account} {minting} {txt} {collections} />
+<!-- <CollectionListSimple {chainId} bind:collection {collections}  /> -->
+
+<CollectionList {chainId} bind:collection {account} {minting} {txt} {collections} {refreshing} {label} />

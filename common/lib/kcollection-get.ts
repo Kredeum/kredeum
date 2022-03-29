@@ -3,7 +3,7 @@ import type { Collection, ABIS } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
 import { collectionGetMetadata } from "./kcollection-get-metadata";
-import { cacheCollectionGet } from "./kcache";
+import { storeCollectionGet as collectionGetFromCache } from "./kstore";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
@@ -96,8 +96,5 @@ const collectionGetContract = async (
   // console.log("collectionGetContract", contract);
   return contract;
 };
-
-const collectionGetFromCache = (chainId: number, collection: string): Collection =>
-  cacheCollectionGet(chainId, collection);
 
 export { collectionGet, collectionGetContract, collectionGetFromCache };
