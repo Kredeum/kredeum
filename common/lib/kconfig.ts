@@ -59,13 +59,9 @@ const nftsUrl = (chainId: number, _collectionAddress: Address): string => {
   return (
     "nfts://" +
     (network ? network.chainName : "...") +
-    (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "...")
+    (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "/...")
   );
 };
-
-// url @ owner : url://xyz@ownerAddress
-const urlOwner = (_url: string, _ownerAddress: Address): string =>
-  _url + (_ownerAddress ? "/" + getChecksumAddress(_ownerAddress) : "");
 
 // nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
@@ -400,7 +396,6 @@ export {
   numberToHexString,
   sleep,
   textShort,
-  urlOwner,
   urlToLink,
   config
 };

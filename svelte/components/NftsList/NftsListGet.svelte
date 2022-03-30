@@ -3,7 +3,7 @@
   import { nftListTokenIds, nftListFromCache } from "lib/knft-list";
   import { nftGetFromContractEnumerable } from "lib/knft-get";
   import { nftGetMetadata } from "lib/knft-get-metadata";
-  import { storeClear } from "lib/kstore";
+  import { storeClearNftList } from "lib/kstore";
   import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
 
   import { hashArray } from "helpers/hash";
@@ -101,7 +101,7 @@
       collectionObject = await collectionGet(_chainId, _collection, $metamaskProvider, account);
       console.log("_nftsListFromLib ~ collectionObject", collectionObject);
 
-      storeClear(_chainId, _collection);
+      storeClearNftList(_chainId, _collection);
 
       const _nfts = new Map();
 

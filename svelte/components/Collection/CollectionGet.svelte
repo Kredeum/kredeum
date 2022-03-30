@@ -14,7 +14,6 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let collection: string;
-  export let minting = false;
   export let account = "";
 
   // current hash of significant props
@@ -33,10 +32,12 @@
     const hash = hashArray([_chainId, _collection]);
 
     // ASAP read NFT from cache
-    _collectionSet(storeCollectionGet(_chainId, _collection), hash);
+    const storeCollection = storeCollectionGet(_chainId, _collection);
+    _collectionSet(storeCollection, hash);
 
     // THEN read NFT from metadata
-    _collectionSet(await collectionGet(_chainId, _collection, $metamaskProvider, _account), hash);
+    const getCollection = await collectionGet(_chainId, storeCollection, $metamaskProvider, _account);
+    _collectionSet(getCollection, hash);
   };
 </script>
 

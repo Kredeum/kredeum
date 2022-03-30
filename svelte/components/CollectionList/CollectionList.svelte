@@ -5,7 +5,7 @@
   import CollectionGet from "../Collection/CollectionGet.svelte";
 
   import type { Collection as CollectionType } from "lib/ktypes";
-  import { nftsUrl, explorerCollectionUrl, urlOwner } from "lib/kconfig";
+  import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { currentCollection } from "main/current";
   import { collectionGetMetadata } from "lib/kcollection-get-metadata";
   import {
@@ -46,6 +46,8 @@
   }
 
   const _setCollection = (_collection: string) => {
+    if (!(chainId && _collection)) return;
+
     console.log("_setCollection", chainId, _collection, account, collection);
 
     collection = _collection;
@@ -55,8 +57,8 @@
     const collectionObject = { chainId, address: collection };
     // Object.assign(collectionObject, metadata);
 
-    storeCollectionSet(account, collectionObject);
-    storeCollectionSetDefaultAddress(chainId, account, collection);
+    storeCollectionSet(collectionObject, account);
+    storeCollectionSetDefaultAddress(chainId, collection, account);
   };
 
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
@@ -106,7 +108,7 @@
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{minting ? '10' : '4'}">
+  <div class="col col-xs-12 col-sm-{minting ? '8' : '3'}">
     {#if label}
       <span class="label"
         >Collection

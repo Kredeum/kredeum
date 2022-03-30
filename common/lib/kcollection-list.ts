@@ -207,13 +207,13 @@ const collectionList = async (
 
     if (typeof localStorage !== "undefined") {
       for (const [, collection] of collections) {
-        // DO NOT GET METADATA ON LIST : TOO SLOW => only safter one collection selected => collectionGet
+        // DO NOT GET METADATA ON LIST : TOO SLOW => only one collection selected => collectionGet
         // Get supported interfaces on specific collections
         // if (collection.owner == account || (collection.balanceOf || 0) > 0) {
         //   const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
         //   Object.assign(collection, supported);
         // }
-        storeCollectionSet(account, collection);
+        storeCollectionSet(collection, account);
       }
     }
   }
