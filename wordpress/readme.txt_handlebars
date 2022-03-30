@@ -63,15 +63,21 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.10.3 (latest) =
+= 0.10.4 (latest) =
+* Fix Minting bug without good NFT_STORAGE API KEY
+
+= 0.10.3 =
 * Fix and Rrset the option to define your own NFT Storage key (or leave default to use a common key) 
 
 = 0.10.2 =
 * Better support for ERC1155 NFTs
 * Bug fixes and performance improvements
 
-= 0.9.17 (stable) =
-* Fix a Minting bug with old OpenNFTs SmartContracts, mainly on Ethereum Mainnet
+= 0.9.19 (stable) =
+* Fix Minting bug without good NFT_STORAGE API KEY
+
+= 0.9.17 =
+* Fix Minting bug with old OpenNFTs SmartContracts, mainly on Ethereum Mainnet
 
 = 0.9.16 =
 * New deployment on xDai, in order to get POAP or GitCoin Kudos collections
