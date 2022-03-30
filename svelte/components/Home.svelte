@@ -4,7 +4,7 @@
   import { getCreate } from "lib/kconfig";
 
   import AccountConnect from "./Account/AccountConnect.svelte";
-  import NetworkSelect from "./Network/NetworkSelect.svelte";
+  import NetworkList from "./Network/NetworkList.svelte";
   import CollectionListGet from "./CollectionList/CollectionListGet.svelte";
 
   import Create from "./Global/Create.svelte";
@@ -57,7 +57,7 @@
       <AccountConnect bind:account />
 
       <!-- Select network -->
-      <NetworkSelect bind:chainId />
+      <NetworkList bind:chainId />
 
       <!-- Select collection -->
       {#if chainId && account}

@@ -2,9 +2,11 @@
   import type { Nft } from "lib/ktypes";
   import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
+  import { metamaskSigner } from "main/metamask";
 
-  import NetworkSelect from "../components/NetworkSelect.svelte";
+  import NetworkSelect from "../Network/NetworkSelect.svelte";
 
+  export let chainId: number;
   export let nft: Nft = undefined;
 
   let claimTxHash: string = null;
@@ -14,14 +16,20 @@
   let destinationAddress = "";
 
   const claim = async () => {
-    if ($signer) {
+    if ($metamaskSigner) {
       claimTxHash = null;
       claiming = true;
       claimed = false;
 
       // switch to kovan
 
-      const txResp = await claimNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, $signer);
+      const txResp = await claimNftResponse(
+        nft.chainId,
+        nft.collection,
+        nft.tokenID,
+        destinationAddress,
+        $metamaskSigner
+      );
       claimTxHash = txResp.hash;
 
       const txReceipt = await claimNftReceipt(txResp);
@@ -42,7 +50,7 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              NFT <a class="link" href="{explorerNftUrl($chainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
+              NFT <a class="link" href="{explorerNftUrl(chainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
               claimed!
             </div>
           </div>
@@ -70,7 +78,7 @@
         {/if}
         {#if claimTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($chainId, claimTxHash)} target="_blank">{textShort(claimTxHash)}</a>
+            <a class="link" href={explorerTxUrl(chainId, claimTxHash)} target="_blank">{textShort(claimTxHash)}</a>
           </div>
         {/if}
       </div>

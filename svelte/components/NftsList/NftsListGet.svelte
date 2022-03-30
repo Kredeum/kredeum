@@ -19,16 +19,16 @@
   export let collection: string;
   export let account: string = undefined;
   export let refreshing = false;
-  export let refresh: number = 0;
+  export let refresh = 0;
 
   let collectionObject: Collection;
   let numNFT: number;
-  let allNFTs: Map<string, NftType>;
 
   // Force NFts list refresh
-  $: _nftsListForce(refresh);
+  $: _nftsListForce(refresh).catch(console.error);
 
-  const _nftsListForce = async (_refresh: number): Promise<void> => _nftsList(chainId, collection, account, _refresh);
+  const _nftsListForce = async (_refresh: number): Promise<void> =>
+    await _nftsList(chainId, collection, account, _refresh);
 
   // Update NFTs list on chainId, collection or account change
   $: _nftsList(chainId, collection, account).catch(console.error);
@@ -102,8 +102,6 @@
       console.log("_nftsListFromLib ~ collectionObject", collectionObject);
 
       storeClearNftList(_chainId, _collection);
-
-      const _nfts = new Map();
 
       console.log("_nftsListFromLib", _chainId, _collection, _account, collectionObject);
 

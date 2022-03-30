@@ -26,11 +26,11 @@ const storeNftSet = (nft: Nft) => {
 };
 
 const storeCollectionSet = (collectionObject: Collection, account?: string): void => {
-  console.log("storeCollectionSet", collectionObject);
-  _storeObjectUpdate(
-    nftsUrl(collectionObject.chainId, collectionObject.address) + _atAccount(account),
-    collectionObject
-  );
+  const { chainId, address } = collectionObject;
+  if (chainId && address) {
+    console.log("storeCollectionSet", collectionObject);
+    _storeObjectUpdate(nftsUrl(chainId, address) + _atAccount(account), collectionObject);
+  }
 };
 
 const storeCollectionSetDefaultAddress = (chainId: number, collection: string, account?: string): void =>

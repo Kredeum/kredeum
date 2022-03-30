@@ -4,6 +4,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
+import { collectionGetMetadata } from "./kcollection-get-metadata";
 
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
 import { storeCollectionSet, storeCollectionList as collectionListFromCache } from "lib/kstore";
@@ -182,7 +183,8 @@ const collectionListFromFactory = async (
 const collectionList = async (
   chainId: number,
   account: string,
-  provider: Provider
+  provider: Provider,
+  metadata?: boolean
 ): Promise<Map<string, Collection>> => {
   // console.log("collectionList", chainId, account);
 
@@ -207,12 +209,13 @@ const collectionList = async (
 
     if (typeof localStorage !== "undefined") {
       for (const [, collection] of collections) {
-        // DO NOT GET METADATA ON LIST : TOO SLOW => only one collection selected => collectionGet
         // Get supported interfaces on specific collections
-        // if (collection.owner == account || (collection.balanceOf || 0) > 0) {
-        //   const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
-        //   Object.assign(collection, supported);
-        // }
+        if (metadata) {
+          if (collection.owner == account || (collection.balanceOf || 0) > 0) {
+            const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
+            Object.assign(collection, supported);
+          }
+        }
         storeCollectionSet(collection, account);
       }
     }

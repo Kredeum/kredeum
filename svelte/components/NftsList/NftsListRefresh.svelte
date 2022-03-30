@@ -3,8 +3,8 @@
   // <RefreshButton {refreshing} {nftsList} />
   // Display Network
   /////////////////////////////////////////////////
-  export let refreshing: boolean = true;
-  export let refresh: number = 0;
+  export let refreshing = true;
+  export let refresh = 0;
 </script>
 
 <div class="col col-sm-3">

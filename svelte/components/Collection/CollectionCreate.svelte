@@ -5,7 +5,7 @@
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
-  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+  import { metamaskSigner } from "main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
 
@@ -29,10 +29,15 @@
     cloningTxHash = null;
     collectionCreated = null;
 
-    const signer = $metamaskProvider.getSigner($metamaskAccount);
-    if (!signer) console.error("ERROR createCollection not signer");
+    if (!$metamaskSigner) console.error("ERROR createCollection not signer");
     else {
-      const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, signer);
+      const txResp = await collectionCloneResponse(
+        chainId,
+        collectionName,
+        collectionSymbol,
+        template,
+        $metamaskSigner
+      );
 
       if (!txResp) console.error("ERROR createCollection no txResp");
       else {
@@ -45,7 +50,7 @@
             chainId: chainId,
             name: collectionName,
             address: collectionCloneAddress(txReceipt),
-            user: await signer.getAddress()
+            user: await $metamaskSigner.getAddress()
           };
 
           if (!collectionCreated) console.error("ERROR createCollection no collection created");

@@ -5,19 +5,17 @@
   import type { JsonRpcProvider } from "@ethersproject/providers";
 
   import CollectionList from "./CollectionList.svelte";
-  import CollectionListSimple from "./CollectionListSimple.svelte";
 
   import { hashArray } from "helpers/hash";
   import { storeCollectionGetDefaultMintableAddress, storeCollectionGetDefaultAddress } from "lib/kstore";
 
-  /////////////////////////////////////////////////
-  // <CollectionListData {chainId} {account} {collection} {minting} {txt} />
+  // <CollectionListGet {chainId} {collection} {account} {mintable} {txt} {label} />
   //  Collection List
   /////////////////////////////////////////////////
-  export let chainId: number;
+  export let chainId: number = undefined;
   export let collection: string = undefined;
-  export let account: string;
-  export let minting = false;
+  export let account: string = undefined;
+  export let mintable = false;
   export let txt = false;
   export let label = true;
 
@@ -39,7 +37,9 @@
   $: _collectionList(chainId, account).catch(console.error);
 
   const _collectionList = async (_chainId: number, _account: string): Promise<void> => {
+    console.log("_collectionList 1", _chainId, _account);
     if (!(_chainId && _account)) return;
+    console.log("_collectionList 2", _chainId, _account);
 
     refreshing = true;
 
@@ -72,7 +72,7 @@
     _account: string,
     _provider: JsonRpcProvider
   ): Promise<Map<string, CollectionType>> => {
-    const _allCollectionsFromLib = await collectionList(_chainId, _account, _provider);
+    const _allCollectionsFromLib = await collectionList(_chainId, _account, _provider, mintable);
     console.log("_collectionListFromLib _allCollectionsFromLib", _allCollectionsFromLib);
 
     const _collectionsFromLib = _collectionListFilter(_chainId, _account, _allCollectionsFromLib);
@@ -94,16 +94,20 @@
 
           // Collection IS a mintable collection that I own OR default mintable collection
           const okMintable =
-            // (Boolean(coll.mintable) && coll.owner === _account) ||
+            (Boolean(coll.mintable) && coll.owner === _account) ||
             coll.address == storeCollectionGetDefaultMintableAddress(_chainId);
 
           // When not wanting to Mint ALL collections I own OR where I have NFTs OR default collection
           const okAll =
-            // !minting &&
-            coll.owner === _account ||
-            coll.balanceOf > 0 ||
-            coll.supports?.IERC1155 ||
-            coll.address == storeCollectionGetDefaultAddress(_chainId, _account);
+            !mintable &&
+            (coll.owner === _account ||
+              coll.balanceOf > 0 ||
+              coll.supports?.IERC1155 ||
+              coll.address == storeCollectionGetDefaultAddress(_chainId, _account));
+
+          const ok = okNetwork && (okMintable || okAll);
+          console.log(".filter", ok, okNetwork, okMintable, okAll, mintable, coll);
+
           return okNetwork && (okMintable || okAll);
         })
 
@@ -118,4 +122,4 @@
 
 <!-- <CollectionListSimple {chainId} bind:collection {collections}  /> -->
 
-<CollectionList {chainId} bind:collection {account} {minting} {txt} {collections} {refreshing} {label} />
+<CollectionList {chainId} bind:collection {account} {mintable} {txt} {collections} {refreshing} {label} />

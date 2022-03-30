@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Collection as CollectionType } from "lib/ktypes";
-  import CollectionSimple from "../Collection/CollectionSimple.svelte";
+  import CollectionSimple from "./CollectionSimple.svelte";
   import { currentCollection } from "main/current";
 
   /////////////////////////////////////////////////

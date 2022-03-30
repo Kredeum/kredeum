@@ -3,7 +3,7 @@
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+  import { metamaskChainId, metamaskSigner } from "main/metamask";
 
   export let nft: Nft = undefined;
 
@@ -14,13 +14,18 @@
   let destinationAddress = "";
 
   const transfer = async () => {
-    const signer = $metamaskProvider.getSigner($metamaskAccount);
-    if (signer) {
+    if ($metamaskSigner) {
       transferTxHash = null;
       transfering = true;
       transfered = false;
 
-      const txResp = await transferNftResponse(nft.chainId, nft.collection, nft.tokenID, destinationAddress, signer);
+      const txResp = await transferNftResponse(
+        nft.chainId,
+        nft.collection,
+        nft.tokenID,
+        destinationAddress,
+        $metamaskSigner
+      );
       transferTxHash = txResp.hash;
 
       const txReceipt = await transferNftReceipt(txResp);

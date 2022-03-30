@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
+  import { collectionGet } from "lib/kcollection-get";
   import { storeCollectionGet } from "lib/kstore";
 
   import type { Collection as CollectionType } from "lib/ktypes";

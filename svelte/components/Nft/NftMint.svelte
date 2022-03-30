@@ -1,27 +1,23 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
   import type { Nft } from "lib/ktypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
-  import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
+  import { collectionGetFromCache } from "lib/kcollection-get";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
-  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+  import { metamaskSigner } from "main/metamask";
 
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
   export let chainId: number;
 
-  let mintable = false;
   let collection: string = undefined;
-  let signer: JsonRpcSigner;
+
   let account: string;
-  $: {
-    signer = $metamaskProvider.getSigner($metamaskAccount);
-    _setAccount(signer);
-  }
+
+  $: _setAccount($metamaskSigner).catch(console.error);
   const _setAccount = async (signer: JsonRpcSigner): Promise<string> => (account = await signer.getAddress());
 
   let nftTitle: string;
@@ -79,7 +75,7 @@
         if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse(chainId, collectionObject, ipfsJson, signer);
+          mintingTxResp = await nftMint3TxResponse(chainId, collectionObject, ipfsJson, $metamaskSigner);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
@@ -249,7 +245,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <CollectionListGet {chainId} bind:collection {account} minting label={false} />
+          <CollectionListGet {chainId} bind:collection {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
           {#if collectionObject?.mintable}

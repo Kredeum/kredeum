@@ -17,6 +17,7 @@
 </script>
 
 {#if txt}
+  Address
   {accountEns}
 {:else}
   <span class="label"

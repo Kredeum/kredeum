@@ -2,25 +2,26 @@
   // import { onMount } from "svelte";
   import { getCreate } from "lib/kconfig";
 
+  import BreadCrumb from "../Global/BreadCrumb.svelte";
+  import Metamask from "../Global/Metamask.svelte";
+
   // import Home from "./HomeView.svelte";
-  import BreadCrumb from "./BreadCrumb.svelte";
-  import Metamask from "./Metamask.svelte";
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  // import AccountConnect from "../Account/AccountConnect.svelte";
+  // import NetworkSelect from "../Network/NetworkSelect.svelte";
+  // import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
   // import NftsList from "./NftsList.svelte";
-  import NftsListGet from "../NftsList/NftsListGet.svelte";
+  // import NftsListGet from "../NftsList/NftsListGet.svelte";
   // import NftGet from "./NftData.svelte";
-  import RefreshButton from "../NftsList/NftsListRefresh.svelte";
+  // import RefreshButton from "../NftsList/NftsListRefresh.svelte";
   // import { metamaskInit } from "helpers/metamask";
   // import { metamaskChainId, metamaskAccount } from "main/metamask";
-  import Create from "./Create.svelte";
+  // import Create from "./Create.svelte";
+  // import NftDetail from "./NftDetail.svelte";
   import NftMint from "../Nft/NftMint.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   import type { Collection as CollectionType } from "lib/ktypes";
   import { collectionGet } from "lib/kcollection-get";
-  // import NftDetail from "./NftDetail.svelte";
   import { metamaskProvider } from "main/metamask";
 
   let collectionObject: CollectionType;
@@ -35,10 +36,10 @@
   let collection: string;
   let tokenID: string;
 
-  let refreshing: boolean;
-  let nftsList: () => Promise<void>;
-  let platform = "dapp";
-  let refresh: number;
+  // let refreshing: boolean;
+  // let nftsList: () => Promise<void>;
+  // let platform = "dapp";
+  // let refresh: number;
 </script>
 
 <main>

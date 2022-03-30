@@ -4,9 +4,11 @@ import { ethers } from "ethers";
 import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "lib/kconfig";
+import { storeCollectionSetDefaultMintableAddress } from "lib/kstore";
+import { factoryGetDefaultImplementation } from "lib/kfactory-get";
 
 import { refNft } from "helpers/urlHash";
-import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+import { metamaskChainId, metamaskAccount, metamaskProvider, metamaskSigner } from "main/metamask";
 
 let ethereumProvider: EthereumProvider;
 let metamaskInstalled = false;
@@ -71,7 +73,13 @@ const handleChainId = (_chainId: number): void => {
     const _network = getNetwork(_chainId);
 
     if (_network) {
+      // SAVE chainId in Svelte store $metamaskChainId
       metamaskChainId.set(Number(_network.chainId));
+
+      // SAVE default mint collection in cache
+      factoryGetDefaultImplementation(_chainId, get(metamaskProvider))
+        .then((addr) => storeCollectionSetDefaultMintableAddress(_chainId, addr))
+        .catch(console.error);
     } else {
       // chainId not accepted : switch to first accepted chainId
       metamaskSwitchChain(networks[0].chainId);
@@ -85,6 +93,7 @@ const handleAccounts = (accounts: Array<string>): void => {
   if (accounts?.length === 0) {
     metamaskConnect();
   } else if (accounts[0] !== String(get(metamaskAccount))) {
+    metamaskSigner.set(get(metamaskProvider).getSigner(0));
     metamaskAccount.set(getChecksumAddress(accounts[0]));
   }
 };

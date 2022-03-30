@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Nft as NftType } from "lib/ktypes";
-  import NftSimple from "../Nft/NftSimple.svelte";
+  import NftSimple from "./NftSimple.svelte";
 
   export let nfts: Map<string, NftType>;
 </script>

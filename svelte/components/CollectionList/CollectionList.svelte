@@ -7,7 +7,6 @@
   import type { Collection as CollectionType } from "lib/ktypes";
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { currentCollection } from "main/current";
-  import { collectionGetMetadata } from "lib/kcollection-get-metadata";
   import {
     storeCollectionSet,
     storeCollectionSetDefaultAddress,
@@ -16,18 +15,19 @@
     storeCollectionGet
   } from "lib/kstore";
 
-  import { refNft } from "helpers/urlHash";
   import { collectionGet } from "lib/kcollection-get";
-  import { metamaskProvider } from "main/metamask";
+  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
   /////////////////////////////////////////////////
-  // <CollectionList {collections} {collection} {minting} {txt} />
+
+  /////////////////////////////////////////////////
+  // <CollectionList {collections} {collection} {mintable} {txt} />
   //  Collection List
   /////////////////////////////////////////////////
-  export let chainId: number;
-  export let collection: string;
-  export let account: string;
-  export let minting = false;
+  export let chainId: number = undefined;
+  export let account: string = undefined;
+  export let collection: string = undefined;
+  export let mintable = false;
   export let label = true;
   export let txt = false;
   export let collections: Map<string, CollectionType>;
@@ -37,13 +37,16 @@
   let defaultMintableCollection: string;
   let open = false;
 
+  $: if (!chainId && $metamaskChainId) chainId = $metamaskChainId;
+  $: if (!account && $metamaskAccount) account = $metamaskAccount;
+
   $: if (chainId) {
     console.log("CollectionList chainId", chainId);
 
     defaultMintableCollection = storeCollectionGetDefaultMintableAddress(chainId);
     defaultCollection = storeCollectionGetDefaultAddress(chainId, account) || defaultMintableCollection;
 
-    _setCollection(minting ? defaultMintableCollection : defaultCollection);
+    _setCollection(mintable ? defaultMintableCollection : defaultCollection);
   }
 
   $: _collectionGet(collection).catch(console.error);
@@ -77,7 +80,7 @@
 
   onMount(() => {
     console.log("CollectionList  onMount");
-    if (!minting) {
+    if (!mintable) {
       window.addEventListener("click", (e: Event): void => {
         if (!(e.target as HTMLElement).closest(".select-collection")) open = false;
       });
@@ -87,18 +90,20 @@
 
 {#if txt}
   <p>
-    {#if collections && collections.size > 0}
+    {#if collections?.size > 0}
       Collection
       {#if refreshing}...{/if}
 
       <select on:change={(e) => _setCollectionFromEvent(e)}>
         {#each [...collections] as [url, coll]}
           <option selected={coll.address == collection} value={coll.address}>
-            <CollectionGet {chainId} collection={coll.address} />
+            <CollectionGet {chainId} collection={coll.address} {account} />
           </option>
         {/each}
       </select>
-      {nftsUrl(chainId, collection)}
+      <p>
+        {nftsUrl(chainId, collection)}
+      </p>
     {:else}
       <p>
         {#if refreshing}
@@ -110,7 +115,7 @@
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{minting ? '8' : '3'}">
+  <div class="col col-xs-12 col-sm-{mintable ? '8' : '3'}">
     {#if label}
       <span class="label"
         >Collection

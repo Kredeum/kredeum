@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { utils } from "ethers";
-
   import type { Nft as NftType } from "lib/ktypes";
   import { nftGet, nftGetFromStore } from "lib/knft-get";
 

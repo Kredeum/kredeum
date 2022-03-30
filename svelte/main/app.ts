@@ -1,8 +1,9 @@
-// import KredeumNfts from "../components/Global/Tests.svelte";
-import KredeumNfts from "../components/Home.svelte";
-// import KredeumNftsMint from "../components/NftMint.svelte";
-import NetworkSelect from "../components/Network/NetworkSelect.svelte";
-import KredeumSelectCollection from "../components/CollectionList/CollectionList.svelte";
+// import Home from "../components/Collection/CollectionChoice.svelte";
+// import Home from "../components/Global/Tests.svelte";
+import Home from "../components/Home.svelte";
+import NftMintButton from "../components/Nft/NftMintButton.svelte";
+import NetworkList from "../components/Network/NetworkList.svelte";
+import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
@@ -28,51 +29,46 @@ const _props = (target: HTMLElement): Props => {
   return props;
 };
 
-let kredeumNfts: KredeumNfts;
+let kredeumHome: Home;
 {
   // Kredeum Dapp component
   const target: HTMLElement = document.querySelector("#kredeum-app");
   if (target) {
-    kredeumNfts = new KredeumNfts({ target, props: _props(target) });
+    kredeumHome = new Home({ target, props: _props(target) });
   }
 }
 
-// const kredeumNftsMints: Array<KredeumNftsMint> = [];
-// {
-//   // Kredeum Mint button components
-//   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
-//   targets?.forEach((target, i) => {
-//     kredeumNftsMints[i] = new KredeumNftsMint({
-//       target,
-//       props: _props(target)
-//     });
-//   });
-// }
-
-let network: NetworkSelect;
+const kredeumMintButton: Array<NftMintButton> = [];
 {
-  // Kredeum Metamask component
-  const target: HTMLElement = document.querySelector("#kredeum-metamask");
-  if (target) {
-    network = new NetworkSelect({ target, props: _props(target) });
-  }
+  // Kredeum Mint button components
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
+  targets?.forEach((target, i) => {
+    kredeumMintButton[i] = new NftMintButton({
+      target,
+      props: _props(target)
+    });
+  });
 }
 
-let kredeumSelectCollection: KredeumSelectCollection;
+let kredeumCollectionList: CollectionChoice;
 {
   // Kredeum List Collections component
   const target: HTMLElement = document.querySelector("#kredeum-select-collection");
   if (target) {
-    kredeumSelectCollection = new KredeumSelectCollection({
+    kredeumCollectionList = new CollectionChoice({
       target,
       props: _props(target)
     });
   }
 }
 
-export {
-  kredeumNfts,
-  // kredeumNftsMints,
-  // network,
-  kredeumSelectCollection
-};
+let network: NetworkList;
+{
+  // Kredeum Metamask component
+  const target: HTMLElement = document.querySelector("#kredeum-metamask");
+  if (target) {
+    network = new NetworkList({ target, props: _props(target) });
+  }
+}
+
+export { kredeumHome, kredeumMintButton, kredeumCollectionList, network };
