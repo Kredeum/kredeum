@@ -12,7 +12,8 @@
     storeCollectionSet,
     storeCollectionSetDefaultAddress,
     storeCollectionGetDefaultMintableAddress,
-    storeCollectionGetDefaultAddress
+    storeCollectionGetDefaultAddress,
+    storeCollectionGet
   } from "lib/kstore";
 
   import { refNft } from "helpers/urlHash";
@@ -45,6 +46,13 @@
     _setCollection(minting ? defaultMintableCollection : defaultCollection);
   }
 
+  $: _collectionGet(collection).catch(console.error);
+  const _collectionGet = async (collection: string): Promise<void> => {
+    const storeCollection = storeCollectionGet(chainId, collection);
+    const collectionObject = await collectionGet(chainId, storeCollection, $metamaskProvider, account);
+    storeCollectionSet(collectionObject, account);
+  };
+
   const _setCollection = (_collection: string) => {
     if (!(chainId && _collection)) return;
 
@@ -52,12 +60,6 @@
 
     collection = _collection;
     currentCollection.set(collection);
-
-    // const metadata = await collectionGetMetadata(chainId, collection, $metamaskProvider);
-    const collectionObject = { chainId, address: collection };
-    // Object.assign(collectionObject, metadata);
-
-    storeCollectionSet(collectionObject, account);
     storeCollectionSetDefaultAddress(chainId, collection, account);
   };
 
