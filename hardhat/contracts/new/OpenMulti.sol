@@ -6,9 +6,9 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 
 contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
-    bytes32 private constant BASE32_SYMBOLS = "abcdefghijklmnopqrstuvwxyz234567";
+    bytes32 private constant _BASE32_SYMBOLS = "abcdefghijklmnopqrstuvwxyz234567";
 
-    string private constant BASE_URI = "https://ipfs.io/ipfs/";
+    string private constant _BASE_URI = "https://ipfs.io/ipfs/";
 
     constructor() ERC721("OpenMulti", "MULTI") {}
 
@@ -27,15 +27,15 @@ contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
         bytes memory buffer = new bytes(52);
 
         uint8 high3 = uint8(tokenId >> 253);
-        buffer[0] = BASE32_SYMBOLS[high3 & 0x1f];
+        buffer[0] = _BASE32_SYMBOLS[high3 & 0x1f];
 
         tokenId <<= 2;
         for (uint256 i = 51; i > 0; i--) {
-            buffer[i] = BASE32_SYMBOLS[tokenId & 0x1f];
+            buffer[i] = _BASE32_SYMBOLS[tokenId & 0x1f];
             tokenId >>= 5;
         }
 
-        return string(abi.encodePacked(BASE_URI, "bafkrei", buffer));
+        return string(abi.encodePacked(_BASE_URI, "bafkrei", buffer));
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {

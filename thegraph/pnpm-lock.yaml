@@ -38,12 +38,12 @@ packages:
       assemblyscript: github.com/AssemblyScript/assemblyscript/3ed76a97f05335504166fce1653da75f4face28f
       chalk: 3.0.0
       chokidar: 3.5.3
-      debug: 4.3.3
+      debug: 4.3.4
       docker-compose: 0.23.17
       dockerode: 2.5.8
       fs-extra: 9.1.0
       glob: 7.2.0
-      gluegun: 4.7.1_debug@4.3.3
+      gluegun: 4.7.1_debug@4.3.4
       graphql: 15.8.0
       immutable: 3.8.2
       ipfs-http-client: 34.0.0
@@ -88,8 +88,8 @@ packages:
       '@types/range-parser': 1.2.4
     dev: true
 
-  /@types/lodash/4.14.179:
-    resolution: {integrity: sha512-uwc1x90yCKqGcIOAT6DwOSuxnrAbpkdPsUOZtwrXb4D/6wZs+6qG7QnIawDuZWg0sWpxl+ltIKCaLoMlna678w==}
+  /@types/lodash/4.14.181:
+    resolution: {integrity: sha512-n3tyKthHJbkiWhDZs3DkhkCzt2MexYHXlX0td5iMplyfwketaOeKboEVBqzceH7juqvEg3q5oUoBFxSLu7zFag==}
     dev: true
 
   /@types/node/12.20.47:
@@ -157,8 +157,8 @@ packages:
     dev: true
     optional: true
 
-  /ansi-regex/3.0.0:
-    resolution: {integrity: sha1-7QMXwyIGT3lGbAKWa922Bas32Zg=}
+  /ansi-regex/3.0.1:
+    resolution: {integrity: sha512-+O9Jct8wf++lXxxFc4hc8LsjaSq0HFzzL7cVsw8pRDIPdjKD2mT4ytDZlLuSBZ4cLKZFXIrMGO7DbQCtMJJMKw==}
     engines: {node: '>=4'}
     dev: true
 
@@ -189,10 +189,10 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /apisauce/2.1.5_debug@4.3.3:
+  /apisauce/2.1.5_debug@4.3.4:
     resolution: {integrity: sha512-bkMlz0ZUnyS8vDigej9UBYo5dne9/bQrkgIiIkGaiDHF6e5OxhYRLJDYu65V/Ox86tmWVwepIntAoTmk4Db0Hg==}
     dependencies:
-      axios: 0.21.4_debug@4.3.3
+      axios: 0.21.4_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: true
@@ -267,10 +267,10 @@ packages:
     resolution: {integrity: sha512-xh1Rl34h6Fi1DC2WWKfxUTVqRsNnr6LsKz2+hfwDxQJWmrx8+c7ylaqBMcHfl1U1r2dsifOvKX3LQuLNZ+XSvA==}
     dev: true
 
-  /axios/0.21.4_debug@4.3.3:
+  /axios/0.21.4_debug@4.3.4:
     resolution: {integrity: sha512-ut5vewkiu8jjGBdqpM44XxjuCjq9LAKeHVmoVfHVzy8eHgxxq8SbAVQNovDA8mVi05kP0Ea/n/UzcSHcTJQfNg==}
     dependencies:
-      follow-redirects: 1.14.9_debug@4.3.3
+      follow-redirects: 1.14.9_debug@4.3.4
     transitivePeerDependencies:
       - debug
     dev: true
@@ -342,8 +342,8 @@ packages:
       readable-stream: 3.6.0
     dev: true
 
-  /blakejs/1.1.1:
-    resolution: {integrity: sha512-bLG6PHOCZJKNshTjGRBvET0vTciwQE6zFKOKKXPDJfwFBd4Ac0yBfPZqcGvGJap50l7ktvlpFqc2jGVaUgbJgg==}
+  /blakejs/1.2.1:
+    resolution: {integrity: sha512-QXUSXI3QVc/gJME0dBpXrag1kbzOqCjCX8/b54ntNyW6sjtoqxqRk3LTmXzaJoh71zMsDCjM+47jS7XiwN/+fQ==}
     dev: true
 
   /bn.js/4.12.0:
@@ -682,8 +682,8 @@ packages:
       ms: 2.1.3
     dev: true
 
-  /debug/4.3.3:
-    resolution: {integrity: sha512-/zxw5+vh1Tfv+4Qn7a5nsbcJKPaSvCDhojn6FEl9vupwK2VCSDtEiEtqr8DFtzYFOdz63LBkxec7DYuc2jon6Q==}
+  /debug/4.3.4:
+    resolution: {integrity: sha512-PRWFHuSU3eDtQJPvnNY7Jcket1j0t5OuOsFzPPzsekD52Zl8qUfFIPEiswXqIvHWGVHOgX+7G/vCNNhehwxfkQ==}
     engines: {node: '>=6.0'}
     peerDependencies:
       supports-color: '*'
@@ -931,7 +931,7 @@ packages:
     resolution: {integrity: sha1-Hxik2TgVLUlZZfnJWNkjqy3WabQ=}
     dev: true
 
-  /follow-redirects/1.14.9_debug@4.3.3:
+  /follow-redirects/1.14.9_debug@4.3.4:
     resolution: {integrity: sha512-MQDfihBQYMcyy5dhRDJUHcw7lb2Pv/TuE6xP1vyraLukNDHKbDxDNaOE3NbCAdKQApno+GPRyo1YAp89yCjK4w==}
     engines: {node: '>=4.0'}
     peerDependencies:
@@ -940,7 +940,7 @@ packages:
       debug:
         optional: true
     dependencies:
-      debug: 4.3.3
+      debug: 4.3.4
     dev: true
 
   /forever-agent/0.6.1:
@@ -953,7 +953,7 @@ packages:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
-      mime-types: 2.1.34
+      mime-types: 2.1.35
     dev: true
 
   /fs-constants/1.0.0:
@@ -1052,11 +1052,11 @@ packages:
       path-is-absolute: 1.0.1
     dev: true
 
-  /gluegun/4.7.1_debug@4.3.3:
+  /gluegun/4.7.1_debug@4.3.4:
     resolution: {integrity: sha512-5iLbLCU+jCf34zHrl+AKC39mDIpVKn/Z5B2uIS8TjHVaPBaDPnRD/VspiHy9dyF5mjr7Ogg1/gOt8yeWo7MEug==}
     hasBin: true
     dependencies:
-      apisauce: 2.1.5_debug@4.3.3
+      apisauce: 2.1.5_debug@4.3.4
       app-module-path: 2.2.0
       cli-table3: 0.5.1
       colors: 1.4.0
@@ -1249,7 +1249,7 @@ packages:
       buffer: 5.7.1
       cids: 0.7.5
       concat-stream: github.com/hugomrdias/concat-stream/057bc7b5d6d8df26c8cf00a3f151b6721a0a8034
-      debug: 4.3.3
+      debug: 4.3.4
       detect-node: 2.1.0
       end-of-stream: 1.4.4
       err-code: 2.0.3
@@ -1503,7 +1503,7 @@ packages:
     dependencies:
       '@types/connect': 3.4.35
       '@types/express-serve-static-core': 4.17.28
-      '@types/lodash': 4.14.179
+      '@types/lodash': 4.14.181
       '@types/node': 12.20.47
       '@types/ws': 7.4.7
       commander: 2.20.3
@@ -1785,16 +1785,16 @@ packages:
     resolution: {integrity: sha512-abv/qOcuPfk3URPfDzmZU1LKmuw8kT+0nIHvKrKgFrwifol/doWcdA4ZqsWQ8ENrFKkd67Mfpo/LovbIUsbt3w==}
     dev: true
 
-  /mime-db/1.51.0:
-    resolution: {integrity: sha512-5y8A56jg7XVQx2mbv1lu49NR4dokRnhZYTtL+KGfaa27uq4pSTXkwQkFJl4pkRMyNFz/EtYDSkiiEHx3F7UN6g==}
+  /mime-db/1.52.0:
+    resolution: {integrity: sha512-sPU4uV7dYlvtWJxwwxHD0PuihVNiE7TyAbQ5SWxDCB9mUYvOgroQOwYQQOKPJ8CIbE+1ETVlOoK1UC2nU3gYvg==}
     engines: {node: '>= 0.6'}
     dev: true
 
-  /mime-types/2.1.34:
-    resolution: {integrity: sha512-6cP692WwGIs9XXdOO4++N+7qjqv0rqxxVvJ3VHPh/Sc9mVZcQP+ZGhkKiTvWMQRr2tbHkJP/Yn7Y0npb3ZBs4A==}
+  /mime-types/2.1.35:
+    resolution: {integrity: sha512-ZDY+bPm5zTTF+YpCrAU9nK0UgICYPT0QtT1NZWFv4s++TNkcgVaT0g6+4R2uI4MjQjzysHB1zxuWL50hzaeXiw==}
     engines: {node: '>= 0.6'}
     dependencies:
-      mime-db: 1.51.0
+      mime-db: 1.52.0
     dev: true
 
   /mimic-fn/2.1.0:
@@ -1822,8 +1822,8 @@ packages:
       brace-expansion: 1.1.11
     dev: true
 
-  /minimist/1.2.5:
-    resolution: {integrity: sha512-FM9nNUYrRBAELZQT3xeZQ7fmMOBg6nWNmJKTcgsJeaLstP/UODVpGsr5OhXhhXg6f+qtJ8uiZ+PUxkDWcgIXLw==}
+  /minimist/1.2.6:
+    resolution: {integrity: sha512-Jsjnk4bw3YJqYzbdyBiNsPWHPfO++UGG749Cxs6peCu5Xg4nrena6OVxOYxrQTqww0Jmwt+Ref8rggumkTLz9Q==}
     dev: true
 
   /mkdirp-classic/0.5.3:
@@ -1831,11 +1831,11 @@ packages:
     dev: true
     optional: true
 
-  /mkdirp/0.5.5:
-    resolution: {integrity: sha512-NKmAlESf6jMGym1++R0Ra7wvhV+wFW63FaSOFPwRahvea0gMUcGUhVeAg/0BC0wiv9ih5NYPB1Wn1UEI1/L+xQ==}
+  /mkdirp/0.5.6:
+    resolution: {integrity: sha512-FP+p8RB8OWpF3YZBCrP5gtADmtXApB5AMLn+vdyA+PyxCjrCs00mjyUozssO33cwDeT3wNGdLxJ5M//YqtHAJw==}
     hasBin: true
     dependencies:
-      minimist: 1.2.5
+      minimist: 1.2.6
     dev: true
 
   /ms/2.1.2:
@@ -1930,7 +1930,7 @@ packages:
     engines: {node: '>=6.0.0', npm: '>=3.0.0'}
     deprecated: This module has been superseded by the multiformats module
     dependencies:
-      blakejs: 1.1.1
+      blakejs: 1.2.1
       js-sha3: 0.8.0
       multihashes: 0.4.21
       murmurhash3js: 3.0.1
@@ -1942,7 +1942,7 @@ packages:
     engines: {node: '>=6.0.0', npm: '>=3.0.0'}
     deprecated: This module has been superseded by the multiformats module
     dependencies:
-      blakejs: 1.1.1
+      blakejs: 1.2.1
       js-sha3: 0.8.0
       multihashes: 0.4.21
       murmurhash3js: 3.0.1
@@ -1954,7 +1954,7 @@ packages:
     engines: {node: '>=6.0.0', npm: '>=3.0.0'}
     deprecated: This module has been superseded by the multiformats module
     dependencies:
-      blakejs: 1.1.1
+      blakejs: 1.2.1
       buffer: 5.7.1
       err-code: 1.1.2
       js-sha3: 0.8.0
@@ -1967,7 +1967,7 @@ packages:
     engines: {node: '>=10.0.0', npm: '>=6.0.0'}
     deprecated: This module has been superseded by the multiformats module
     dependencies:
-      blakejs: 1.1.1
+      blakejs: 1.2.1
       buffer: 5.7.1
       err-code: 2.0.3
       js-sha3: 0.8.0
@@ -2213,7 +2213,7 @@ packages:
       detect-libc: 2.0.1
       expand-template: 2.0.3
       github-from-package: 0.0.0
-      minimist: 1.2.5
+      minimist: 1.2.6
       mkdirp-classic: 0.5.3
       napi-build-utils: 1.0.2
       node-abi: 3.8.0
@@ -2322,7 +2322,7 @@ packages:
     dependencies:
       deep-extend: 0.6.0
       ini: 1.3.8
-      minimist: 1.2.5
+      minimist: 1.2.6
       strip-json-comments: 2.0.1
     dev: true
     optional: true
@@ -2381,7 +2381,7 @@ packages:
       is-typedarray: 1.0.0
       isstream: 0.1.2
       json-stringify-safe: 5.0.1
-      mime-types: 2.1.34
+      mime-types: 2.1.35
       oauth-sign: 0.9.0
       performance-now: 2.1.0
       qs: 6.5.3
@@ -2623,7 +2623,7 @@ packages:
     resolution: {integrity: sha1-qEeQIusaw2iocTibY1JixQXuNo8=}
     engines: {node: '>=4'}
     dependencies:
-      ansi-regex: 3.0.0
+      ansi-regex: 3.0.1
     dev: true
 
   /strip-ansi/6.0.1:
@@ -2662,7 +2662,7 @@ packages:
     resolution: {integrity: sha512-NvCeXpYx7OsmOh8zIOP/ebG55zZmxLE0etfWRbWok+q2Qo8x/vOR/IJT1taADXPe+jsiu9axDb3X4B+iIgNlKw==}
     dependencies:
       chownr: 1.1.4
-      mkdirp: 0.5.5
+      mkdirp: 0.5.6
       pump: 1.0.3
       tar-stream: 1.6.2
     dev: true
@@ -2925,7 +2925,7 @@ packages:
     hasBin: true
     dependencies:
       json-stringify-safe: 5.0.1
-      minimist: 1.2.5
+      minimist: 1.2.6
       split2: 3.2.2
       through2: 3.0.2
     dev: true

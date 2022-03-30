@@ -23,7 +23,7 @@ const collectionCloneResponse = async (
 
   const network = getNetwork(chainId);
 
-  const nftsFactoryV2 = factoryGetContract(chainId, cloner) as NFTsFactoryV2;
+  const nftsFactoryV2 = factoryGetContract(chainId, cloner);
 
   const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
   const options: boolean[] = template == "ownable" ? [false, true] : [true, false];
