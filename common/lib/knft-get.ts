@@ -6,7 +6,7 @@ import type { ERC721Enumerable } from "types/ERC721Enumerable";
 
 import type { Collection, Nft } from "./ktypes";
 import { nftUrl3 } from "./kconfig";
-import { collectionGetContract } from "./kcollection-get";
+import { collectionContractGet } from "./kcollection-get";
 import { storeNftGet as nftGetFromStore } from "./kstore";
 import { nftGetMetadata } from "./knft-get-metadata";
 
@@ -45,7 +45,7 @@ const nftGetFromContract = async (
 
   if (chainId && collection) {
     try {
-      const contract = (await collectionGetContract(chainId, collection, provider)) as ERC721;
+      const contract = (await collectionContractGet(chainId, collection, provider)) as ERC721;
       contractName = collection.name || "No name";
 
       if (contract && collection?.supports?.IERC721Metadata) {
@@ -86,7 +86,7 @@ const nftGetFromContractEnumerable = async (
 
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
-      const contract = (await collectionGetContract(chainId, collection, provider)) as ERC721Enumerable;
+      const contract = (await collectionContractGet(chainId, collection, provider)) as ERC721Enumerable;
       if (contract) {
         if (owner) {
           tokID = await contract.tokenOfOwnerByIndex(owner, index);
@@ -107,4 +107,4 @@ const nftGetFromContractEnumerable = async (
 const nftGet = async (chainId: number, collection: string, tokenID: string): Promise<Nft | undefined> =>
   nftGetMetadata({ chainId, collection, tokenID });
 
-export { nftGet, nftGetFromStore, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };
+export { nftGet, nftGetFromStore, nftGetFromContract, nftGetFromContractEnumerable, collectionContractGet };

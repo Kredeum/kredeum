@@ -4,6 +4,8 @@ import { Contract } from "ethers";
 
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+
 import INFTsFactory from "abis/INFTsFactory.json";
 import ICloneFactory from "abis/ICloneFactory.json";
 import IERC165 from "abis/IERC165.json";
@@ -14,7 +16,8 @@ import IERC721Enumerable from "abis/IERC721Enumerable.json";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
 
-const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable);
+const ABI_OPEN = "function open() view returns (bool)";
+const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable).concat(ABI_OPEN);
 
 let totalChains = 0;
 let totalCollections = 0;
@@ -26,6 +29,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
     let output = collectionAddress;
+    console.log("logCollection ~ collectionAddress", collectionAddress);
 
     // bug sur XDAI
     if (collectionAddress === nftsFactory.address) {
@@ -33,15 +37,13 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
     } else {
       const collectionObject = await collectionGet(chainId, collectionAddress, provider);
       const collection = new Contract(collectionAddress, INFT, provider) as ERC721Enumerable;
-      const { supports } = collectionObject;
+      const { supports, mintable, totalSupply, name, symbol } = collectionObject;
+      // console.log("logCollection ~ collectionObject", collectionObject);
 
       if (collection) {
-        const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;
-
-        const name = collection.name ? await collection.name() : "No name";
-        const symbol = collection.symbol ? await collection.symbol() : `NFT${_s(nb)}`;
-
-        output += `${String(nb).padStart(8)} ${symbol.padEnd(5)} ${name.padEnd(32)}`;
+        output += `${String(totalSupply || 0).padStart(8)} ${(symbol || "").padEnd(5)} ${(name || "").padEnd(32)} ${
+          mintable ? "mintable" : ""
+        }`;
 
         if (supports) {
           for (const [iface, supported] of Object.entries(supports)) {
@@ -49,7 +51,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
           }
           if (supports.IOpenNFTsV2) {
             totalCollections++;
-            totalNFTs += nb;
+            totalNFTs += totalSupply || 0;
           }
         }
       }

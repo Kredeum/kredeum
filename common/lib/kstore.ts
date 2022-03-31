@@ -1,5 +1,5 @@
 import type { Collection, Nft } from "lib/ktypes";
-import { nftsUrl, nftUrl3, getChainName, getChecksumAddress } from "lib/kconfig";
+import { getNetwork, getChainName, getChecksumAddress } from "lib/kconfig";
 
 // url @ owner : url://xyz@ownerAddress
 const _atAccount = (_account?: string): string => (_account ? "@" + getChecksumAddress(_account) : "");
@@ -21,23 +21,27 @@ const storeSet = (key: string, value: string): void => {
 };
 
 const storeNftSet = (nft: Nft) => {
-  const nid = nftUrl3(nft.chainId, nft.collection, nft.tokenID) || "";
-  _storeObjectSet(nid, nft);
+  const { chainId, collection, tokenID } = nft;
+  const network = getNetwork(chainId);
+  if (network && chainId && collection) {
+    const nid = `nft://${chainId}/${collection}/${tokenID}`;
+    _storeObjectSet(nid, nft);
+  }
 };
 
 const storeCollectionSet = (collectionObject: Collection, account?: string): void => {
   const { chainId, address } = collectionObject;
-  if (chainId && address) {
-    console.log("storeCollectionSet", collectionObject);
-    _storeObjectUpdate(nftsUrl(chainId, address) + _atAccount(account), collectionObject);
+  const network = getNetwork(chainId);
+  if (network && chainId && address) {
+    const ref = `nfts://${network.chainName}/${address}${_atAccount(account)}`;
+    console.log("storeCollectionSet  IN", ref, collectionObject);
+    _storeObjectUpdate(ref, collectionObject);
+    console.log("storeCollectionSet OUT", ref, storeCollectionGet(chainId, address, account));
   }
 };
 
-const storeCollectionSetDefaultAddress = (chainId: number, collection: string, account?: string): void =>
+const storeCollectionDefaultSet = (chainId: number, collection: string, account?: string): void =>
   storeSet(`defaultCollection/${chainId}${_atAccount(account)}`, collection);
-
-const storeCollectionSetDefaultMintableAddress = (chainId: number, collection: string): void =>
-  storeSet(`defaultMintableCollection/${chainId}`, collection);
 
 const storeGet = (key: string): string => {
   return typeof localStorage !== "undefined" ? localStorage.getItem(key) || "" : "";
@@ -141,14 +145,11 @@ const storeCollectionList = (chainId?: number, account?: string): Map<string, Co
   return Collections;
 };
 
-const storeCollectionGetDefaultAddress = (chainId: number, account?: string): string =>
-  storeGet(`defaultCollection/${chainId}/${_atAccount(account)}`) || "";
+const storeCollectionDefaultGet = (chainId: number, account?: string): string =>
+  storeGet(`defaultCollection/${chainId}${_atAccount(account)}`) || "";
 
-const storeCollectionGetDefaultMintableAddress = (chainId: number): string =>
-  storeGet(`defaultMintableCollection/${chainId}`) || "";
-
-const storeClearNftList = (chainId: number, collection: string): void => {
-  // console.log("storeClearNftList", chainId, collection);
+const storeNftListClear = (chainId: number, collection: string): void => {
+  // console.log("storeNftListClear", chainId, collection);
 
   if (typeof localStorage !== "undefined") {
     const chainName = getChainName(chainId);
@@ -188,10 +189,8 @@ export {
   storeCollectionGet,
   storeCollectionList,
   storeCollectionListAll,
-  storeCollectionSetDefaultAddress,
-  storeCollectionGetDefaultAddress,
-  storeCollectionSetDefaultMintableAddress,
-  storeCollectionGetDefaultMintableAddress,
-  storeClearNftList,
+  storeCollectionDefaultSet,
+  storeCollectionDefaultGet,
+  storeNftListClear,
   storeClearAll
 };

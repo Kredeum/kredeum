@@ -7,7 +7,11 @@ import { factoryGetContract } from "./kfactory-get";
 import { collectionGetMetadata } from "./kcollection-get-metadata";
 
 import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
-import { storeCollectionSet, storeCollectionList as collectionListFromCache } from "lib/kstore";
+import {
+  storeCollectionSet,
+  storeCollectionList as collectionListFromCache,
+  storeCollectionListAll as collectionListAllFromCache
+} from "lib/kstore";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
@@ -229,5 +233,6 @@ export {
   collectionListFromCovalent,
   collectionListFromTheGraph,
   collectionListFromFactory,
-  collectionListFromCache
+  collectionListFromCache,
+  collectionListAllFromCache
 };

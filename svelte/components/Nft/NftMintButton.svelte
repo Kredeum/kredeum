@@ -9,7 +9,7 @@
   import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { collectionGet } from "lib/kcollection-get";
-  import { storeCollectionGetDefaultAddress } from "lib/kstore";
+  import { storeCollectionDefaultGet } from "lib/kstore";
 
   import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
 
@@ -34,7 +34,7 @@
 
       const collectionAddress =
         // default user collection
-        storeCollectionGetDefaultAddress($metamaskChainId, await $metamaskSigner.getAddress()) ||
+        storeCollectionDefaultGet($metamaskChainId, await $metamaskSigner.getAddress()) ||
         // default OpenNFTs collection
         (await factoryGetTemplateAddress(_chainId, "OpenNFTsV3", $metamaskProvider));
       collection = await collectionGet(_chainId, collectionAddress, $metamaskProvider);

@@ -1,7 +1,8 @@
 <script lang="ts">
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkList from "../Network/NetworkList.svelte";
+  // import AccountConnect from "../Account/AccountConnect.svelte";
+  // import NetworkList from "../Network/NetworkList.svelte";
   import NftMintButton from "../Nft/NftMintButton.svelte";
+  import Metamask from "../Tests/Metamask.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
   import type { Collection as CollectionType } from "lib/ktypes";
@@ -21,9 +22,10 @@
 </script>
 
 <main>
+  <Metamask />
   <!-- <Metamask bind:account bind:chainId /> -->
-  <AccountConnect bind:account />
-  <NetworkList bind:chainId />
+  <!-- <AccountConnect bind:account /> -->
+  <!-- <NetworkList bind:chainId /> -->
 
   <NftMintButton />
 </main>

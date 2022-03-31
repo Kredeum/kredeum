@@ -3,7 +3,13 @@ import type { Collection, ABIS } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
 import { collectionGetMetadata } from "./kcollection-get-metadata";
-import { storeCollectionGet as collectionGetFromCache } from "./kstore";
+import {
+  storeCollectionSet as collectionSetIntoCache,
+  storeCollectionGet as collectionGetFromCache,
+  storeCollectionDefaultGet as collectionDefaultGet,
+  storeCollectionDefaultSet as collectionDefaultSetIntoCache
+} from "./kstore";
+import { getNetwork } from "./kconfig";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
@@ -63,12 +69,12 @@ const collectionGet = async (
   return collection;
 };
 
-const collectionGetContract = async (
+const collectionContractGet = async (
   chainId: number,
   collectionOrAddress: Collection | string,
   signerOrProvider: Signer | Provider
 ): Promise<Contract> => {
-  // console.log(`collectionGetContract ${chainId}`, collectionOrAddress,account);
+  // console.log(`collectionContractGet ${chainId}`, collectionOrAddress,account);
 
   let abi: Array<string> = [];
   let collection: Collection;
@@ -93,8 +99,19 @@ const collectionGetContract = async (
   // console.log("abi", abi);
   const contract = new Contract(collection.address, abi, signerOrProvider);
 
-  // console.log("collectionGetContract", contract);
+  // console.log("collectionContractGet", contract);
   return contract;
 };
 
-export { collectionGet, collectionGetContract, collectionGetFromCache };
+// GET OpenNFTs default template via onchain call
+const collectionDefaultOpenNFTsGet = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+
+export {
+  collectionGet,
+  collectionGetFromCache,
+  collectionContractGet,
+  collectionDefaultGet,
+  collectionDefaultOpenNFTsGet,
+  collectionSetIntoCache,
+  collectionDefaultSetIntoCache
+};

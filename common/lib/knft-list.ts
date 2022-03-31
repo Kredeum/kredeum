@@ -2,7 +2,7 @@ import type { Collection, Nft } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchCov, fetchGQL } from "./kfetch";
-import { collectionGetContract } from "./kcollection-get";
+import { collectionContractGet } from "./kcollection-get";
 import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
@@ -157,7 +157,7 @@ const nftListFromContract = async (
 
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
-      const contract = await collectionGetContract(chainId, collection, provider);
+      const contract = await collectionContractGet(chainId, collection, provider);
 
       if (contract) {
         let nbTokens = limit;

@@ -27,6 +27,7 @@
     "eip1559": true,
     "create": true,
     "mainnet": true,
+    "defaultOpenNFTs": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800"
   },
@@ -50,6 +51,7 @@
     },
     "create": true,
     "mainnet": true,
+    "defaultOpenNFTs": "",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800"
   },
   {
@@ -80,6 +82,7 @@
       "assets": "https://opensea.io/assets/matic",
       "openNFTs": "https://opensea.io/collection/kredeum-nfts"
     },
+    "defaultOpenNFTs": "0xda67B337B777AE6Cf99DcAbD5c38916DDc2CF5d5",
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -103,6 +106,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
     "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
     "nftsFactoryV2": "0x016fa6b76Fb24e651806455e58710d48880226f9",
     "create": true,
@@ -124,6 +128,7 @@
     "blockExplorerUrls": [
       "https://blockscout.com/xdai/mainnet"
     ],
+    "defaultOpenNFTs": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -147,6 +152,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -171,6 +177,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -195,6 +202,7 @@
       "active": true
     },
     "eip1559": true,
+    "defaultOpenNFTs": "0xec7EBB4E7cdcE23e992BFDc4fc81D89Cc9Ac9A74",
     "nftsFactory": "0xec7EBB4E7cdcE23e992BFDc4fc81D89Cc9Ac9A74",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -219,6 +227,7 @@
       "active": false
     },
     "eip1559": true,
+    "defaultOpenNFTs": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -242,8 +251,9 @@
       "active": false
     },
     "eip1559": true,
+    "defaultOpenNFTs": "0xA6F70de9aBe6cAE865fa723f7741699B63f47517",
     "nftsFactory": "0xA6F70de9aBe6cAE865fa723f7741699B63f47517",
-    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
+    "nftsFactoryV2": "0xd543ff8449f5879fbFA3D8742b3909f0fE1EeC8b",
     "create": true,
     "testnet": true
   },
@@ -271,6 +281,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -294,6 +305,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
     "nftsFactory": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -334,6 +346,7 @@
     "covalent": {
       "active": false
     },
+    "defaultOpenNFTs": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "create": true,
     "testnet": true
@@ -377,6 +390,7 @@
     "covalent": {
       "active": true
     },
+    "defaultOpenNFTs": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
     "nftsFactory": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
     "nftsFactoryV2": "0x98C1c1AA566C329f339488Af2F8F95D33cf1A507",
     "create": true,
@@ -396,8 +410,9 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
+    "defaultOpenNFTs": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
-    "nftsFactoryV2": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
+    "nftsFactoryV2": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
     "testnet": true
   }
 ]

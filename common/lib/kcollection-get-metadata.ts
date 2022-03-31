@@ -17,8 +17,8 @@ import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
 
 interface MetadataType {
   supports: CollectionSupports;
-  version: number;
-  mintable: boolean;
+  version?: number;
+  mintable?: boolean;
   owner?: string;
   name?: string;
   symbol?: string;
@@ -161,7 +161,9 @@ const collectionGetMetadata = async (
   // delete too much supports=false
   for (const key in supports) if (!supports[key as ABIS]) delete supports[key as ABIS];
 
-  const ret: MetadataType = { supports, version, mintable };
+  const ret: MetadataType = { supports };
+  if (version) ret.version = version;
+  if (mintable) ret.mintable = mintable;
   if (owner) ret.owner = owner;
   if (name) ret.name = name;
   if (symbol) ret.symbol = symbol;

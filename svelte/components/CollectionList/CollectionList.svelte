@@ -8,14 +8,13 @@
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { currentCollection } from "main/current";
   import {
-    storeCollectionSet,
-    storeCollectionSetDefaultAddress,
-    storeCollectionGetDefaultMintableAddress,
-    storeCollectionGetDefaultAddress,
-    storeCollectionGet
-  } from "lib/kstore";
-
-  import { collectionGet } from "lib/kcollection-get";
+    collectionGet,
+    collectionGetFromCache,
+    collectionDefaultGet,
+    collectionDefaultOpenNFTsGet,
+    collectionSetIntoCache,
+    collectionDefaultSetIntoCache
+  } from "lib/kcollection-get";
   import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
 
   /////////////////////////////////////////////////
@@ -33,27 +32,27 @@
   export let collections: Map<string, CollectionType>;
   export let refreshing: boolean;
 
-  let defaultCollection: string;
-  let defaultMintableCollection: string;
+  let collectionDefault: string;
+  let collectionDefaultOpenNFTs: string;
   let open = false;
 
   $: if (!chainId && $metamaskChainId) chainId = $metamaskChainId;
   $: if (!account && $metamaskAccount) account = $metamaskAccount;
 
-  $: if (chainId) {
-    console.log("CollectionList chainId", chainId);
+  $: if (chainId && account) {
+    console.log("CollectionList chainId", chainId, account);
 
-    defaultMintableCollection = storeCollectionGetDefaultMintableAddress(chainId);
-    defaultCollection = storeCollectionGetDefaultAddress(chainId, account) || defaultMintableCollection;
+    collectionDefaultOpenNFTs = collectionDefaultOpenNFTsGet(chainId);
+    collectionDefault = collectionDefaultGet(chainId, account) || collectionDefaultOpenNFTs;
 
-    _setCollection(mintable ? defaultMintableCollection : defaultCollection);
+    _setCollection(mintable ? collectionDefaultOpenNFTs : collectionDefault);
   }
 
   $: _collectionGet(collection).catch(console.error);
   const _collectionGet = async (collection: string): Promise<void> => {
-    const storeCollection = storeCollectionGet(chainId, collection);
+    const storeCollection = collectionGetFromCache(chainId, collection);
     const collectionObject = await collectionGet(chainId, storeCollection, $metamaskProvider, account);
-    storeCollectionSet(collectionObject, account);
+    collectionSetIntoCache(collectionObject, account);
   };
 
   const _setCollection = (_collection: string) => {
@@ -63,7 +62,7 @@
 
     collection = _collection;
     currentCollection.set(collection);
-    storeCollectionSetDefaultAddress(chainId, collection, account);
+    collectionDefaultSetIntoCache(chainId, collection, account);
   };
 
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);

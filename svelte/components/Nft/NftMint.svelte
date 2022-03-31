@@ -1,15 +1,16 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
-  import { collectionGetFromCache } from "lib/kcollection-get";
-
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
+  import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
-  import { metamaskSigner } from "main/metamask";
-
+  import type { Nft } from "lib/ktypes";
+  import type { Collection as CollectionType } from "lib/ktypes";
+  import { collectionGetFromCache } from "lib/kcollection-get";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
+
+  import { metamaskSigner } from "main/metamask";
+
+  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
 
   export let chainId: number;
 
@@ -41,7 +42,11 @@
     mintingError = null;
   };
 
-  $: collectionObject = collectionGetFromCache(chainId, collection);
+  let collectionObject: CollectionType;
+  $: {
+    collectionObject = collectionGetFromCache(chainId, collection);
+    console.log("collectionObject", collectionObject);
+  }
 
   // DISPLAY image AFTER upload
   const fileload = () => {

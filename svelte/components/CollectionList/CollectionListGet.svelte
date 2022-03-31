@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionList, collectionListFromCache } from "lib/kcollection-list";
+  import { collectionList, collectionListAllFromCache } from "lib/kcollection-list";
   import { metamaskProvider } from "main/metamask";
   import type { JsonRpcProvider } from "@ethersproject/providers";
 
   import CollectionList from "./CollectionList.svelte";
 
   import { hashArray } from "helpers/hash";
-  import { storeCollectionGetDefaultMintableAddress, storeCollectionGetDefaultAddress } from "lib/kstore";
+  import { collectionDefaultGet, collectionDefaultOpenNFTsGet } from "lib/kcollection-get";
 
   // <CollectionListGet {chainId} {collection} {account} {mintable} {txt} {label} />
   //  Collection List
@@ -58,7 +58,7 @@
   };
 
   const _collectionListFromCache = (_chainId: number, _account: string): Map<string, CollectionType> => {
-    const _allCollectionsFromCache = collectionListFromCache(_chainId, _account);
+    const _allCollectionsFromCache = collectionListAllFromCache();
     console.log("_collectionListFromCache _allCollectionsFromCache", _allCollectionsFromCache);
 
     const _collectionsFromCache = _collectionListFilter(_chainId, _account, _allCollectionsFromCache);
@@ -95,7 +95,7 @@
           // Collection IS a mintable collection that I own OR default mintable collection
           const okMintable =
             (Boolean(coll.mintable) && coll.owner === _account) ||
-            coll.address == storeCollectionGetDefaultMintableAddress(_chainId);
+            coll.address == collectionDefaultOpenNFTsGet(_chainId);
 
           // When not wanting to Mint ALL collections I own OR where I have NFTs OR default collection
           const okAll =
@@ -103,12 +103,12 @@
             (coll.owner === _account ||
               coll.balanceOf > 0 ||
               coll.supports?.IERC1155 ||
-              coll.address == storeCollectionGetDefaultAddress(_chainId, _account));
+              coll.address == collectionDefaultGet(_chainId, _account));
 
           const ok = okNetwork && (okMintable || okAll);
-          console.log(".filter", ok, okNetwork, okMintable, okAll, mintable, coll);
+          // console.log(".filter", ok, okNetwork, okMintable, okAll, mintable, coll);
 
-          return okNetwork && (okMintable || okAll);
+          return ok;
         })
 
         // )

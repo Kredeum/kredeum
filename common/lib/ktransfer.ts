@@ -1,7 +1,7 @@
 import type { Signer } from "ethers";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
 
-import { collectionGetContract } from "./kcollection-get";
+import { collectionContractGet } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
 const transferNftResponse = async (
@@ -20,7 +20,7 @@ const transferNftResponse = async (
     const ownerAddress = await owner.getAddress();
     // console.log("transferNftResponse owner", ownerAddress);
 
-    const openNFTs = await collectionGetContract(chainId, collectionAddress, owner);
+    const openNFTs = await collectionContractGet(chainId, collectionAddress, owner);
 
     // console.log("transferFrom", ownerAddress, destinationAddress, tokenID);
     txResp = await openNFTs.connect(owner).transferFrom(ownerAddress, destinationAddress, tokenID);

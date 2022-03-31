@@ -2,13 +2,13 @@
   // import { onMount } from "svelte";
   import { getCreate } from "lib/kconfig";
 
-  import BreadCrumb from "../Global/BreadCrumb.svelte";
-  import Metamask from "../Global/Metamask.svelte";
+  import BreadCrumb from "../Tests/BreadCrumb.svelte";
+  import Metamask from "../Tests/Metamask.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  // import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../NftsList/NftsListGet.svelte";
   // import NftGet from "./NftData.svelte";
@@ -17,19 +17,7 @@
   // import { metamaskChainId, metamaskAccount } from "main/metamask";
   // import Create from "./Create.svelte";
   // import NftDetail from "./NftDetail.svelte";
-  import NftMint from "../Nft/NftMint.svelte";
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionGet } from "lib/kcollection-get";
-  import { metamaskProvider } from "main/metamask";
-
-  let collectionObject: CollectionType;
-  $: _collectionGet(collection).catch(console.error);
-  const _collectionGet = async (collection: string): Promise<void> => {
-    collectionObject = await collectionGet(chainId, collection, $metamaskProvider, account);
-  };
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // import NftMint from "../Nft/NftMint.svelte";
 
   let account: string;
   let chainId: number;
@@ -50,7 +38,7 @@
 
     {#if account && getCreate(chainId)}
       <!-- <Create {chainId} /> -->
-      <NftMint {chainId} />
+      <!-- <NftMint {chainId} /> -->
     {/if}
   </div>
 
@@ -63,9 +51,9 @@
 
     <!-- <NetworkSelect bind:chainId /> -->
 
-    <!-- {#if chainId && account}
-      <CollectionListGet {chainId} {account} bind:collection />
-    {/if} -->
+    {#if chainId && account}
+      <CollectionListGet {chainId} {account} bind:collection mintable={true} />
+    {/if}
   </div>
 
   <!-- <div>
