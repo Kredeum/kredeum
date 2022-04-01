@@ -29,7 +29,7 @@
     //  set when significant props have not changed
     if (_hash === hashCurrent) {
       collections = _collections;
-      console.log("set collections", collections);
+      // console.log("set collections", collections);
     }
   };
 
@@ -37,21 +37,19 @@
   $: _collectionList(chainId, account).catch(console.error);
 
   const _collectionList = async (_chainId: number, _account: string): Promise<void> => {
-    console.log("_collectionList 1", _chainId, _account);
     if (!(_chainId && _account)) return;
-    console.log("_collectionList 2", _chainId, _account);
 
     refreshing = true;
 
     const hash = hashArray([_chainId, _account]);
-    console.log("_collectionList", _chainId, _account, hash);
+    // console.log("_collectionList", _chainId, _account, hash);
 
     const _collectionListCache = _collectionListFromCache(_chainId, _account);
-    console.log("_collectionList _collectionListCache", _collectionListCache);
+    // console.log("_collectionList _collectionListCache", _collectionListCache);
     _collectionsSet(_collectionListCache, hash);
 
     const _collectionListLib = await _collectionListFromLib(_chainId, _account, $metamaskProvider);
-    console.log("_collectionList _collectionListLib", _collectionListLib);
+    // console.log("_collectionList _collectionListLib", _collectionListLib);
     _collectionsSet(_collectionListLib, hash);
 
     refreshing = false;
@@ -59,10 +57,10 @@
 
   const _collectionListFromCache = (_chainId: number, _account: string): Map<string, CollectionType> => {
     const _allCollectionsFromCache = collectionListAllFromCache();
-    console.log("_collectionListFromCache _allCollectionsFromCache", _allCollectionsFromCache);
+    // console.log("_collectionListFromCache _allCollectionsFromCache", _allCollectionsFromCache);
 
     const _collectionsFromCache = _collectionListFilter(_chainId, _account, _allCollectionsFromCache);
-    console.log("_collectionListFromCache _collectionsFromCache", _collectionsFromCache);
+    // console.log("_collectionListFromCache _collectionsFromCache", _collectionsFromCache);
 
     return _collectionsFromCache;
   };
@@ -73,10 +71,10 @@
     _provider: JsonRpcProvider
   ): Promise<Map<string, CollectionType>> => {
     const _allCollectionsFromLib = await collectionList(_chainId, _account, _provider, mintable);
-    console.log("_collectionListFromLib _allCollectionsFromLib", _allCollectionsFromLib);
+    // console.log("_collectionListFromLib _allCollectionsFromLib", _allCollectionsFromLib);
 
     const _collectionsFromLib = _collectionListFilter(_chainId, _account, _allCollectionsFromLib);
-    console.log("_collectionListFromLib _collectionsFromL ib", _collectionsFromLib);
+    // console.log("_collectionListFromLib _collectionsFromL ib", _collectionsFromLib);
 
     return _collectionsFromLib;
   };

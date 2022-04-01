@@ -40,7 +40,7 @@
   $: if (!account && $metamaskAccount) account = $metamaskAccount;
 
   $: if (chainId && account) {
-    console.log("CollectionList chainId", chainId, account);
+    // console.log("CollectionList chainId", chainId, account);
 
     collectionDefaultOpenNFTs = collectionDefaultOpenNFTsGet(chainId);
     collectionDefault = collectionDefaultGet(chainId, account) || collectionDefaultOpenNFTs;
@@ -58,7 +58,7 @@
   const _setCollection = (_collection: string) => {
     if (!(chainId && _collection)) return;
 
-    console.log("_setCollection", chainId, _collection, account, collection);
+    // console.log("_setCollection", chainId, _collection, account, collection);
 
     collection = _collection;
     currentCollection.set(collection);
@@ -78,7 +78,7 @@
   const _toggleOpen = () => (open = !open);
 
   onMount(() => {
-    console.log("CollectionList  onMount");
+    if (collections) console.log("Collections", collections);
     if (!mintable) {
       window.addEventListener("click", (e: Event): void => {
         if (!(e.target as HTMLElement).closest(".select-collection")) open = false;

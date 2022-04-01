@@ -16,7 +16,7 @@ const refNft = (hash = window.location.hash): RefNFT => {
       /^#\/(([a-z]+)|([0-9]+))?(\/(0x[0-9abcdefABCDEF]{40})(\/([0-9]+))?)?(\/([a-z]+))?(@(0x[0-9abcdefABCDEF]{40}))?$/
       // HASH = #/account@chainName/collectionAddress/tokenID
     );
-    console.log("hashrefNft", hash, res);
+    // console.log("hashrefNft", hash, res);
 
     if (res) {
       if (res[2]) {
@@ -29,7 +29,7 @@ const refNft = (hash = window.location.hash): RefNFT => {
       tokenID = res[7];
       account = res[9];
 
-      console.log("hashrefNft", hash, account, chainId, collection, tokenID, chainName);
+      // console.log("hashrefNft", hash, account, chainId, collection, tokenID, chainName);
     }
   }
 

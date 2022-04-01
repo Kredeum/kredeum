@@ -45,7 +45,7 @@
   let collectionObject: CollectionType;
   $: {
     collectionObject = collectionGetFromCache(chainId, collection);
-    console.log("collectionObject", collectionObject);
+    // console.log("collectionObject", collectionObject);
   }
 
   // DISPLAY image AFTER upload

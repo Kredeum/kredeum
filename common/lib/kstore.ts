@@ -34,9 +34,7 @@ const storeCollectionSet = (collectionObject: Collection, account?: string): voi
   const network = getNetwork(chainId);
   if (network && chainId && address) {
     const ref = `nfts://${network.chainName}/${address}${_atAccount(account)}`;
-    console.log("storeCollectionSet  IN", ref, collectionObject);
     _storeObjectUpdate(ref, collectionObject);
-    console.log("storeCollectionSet OUT", ref, storeCollectionGet(chainId, address, account));
   }
 };
 
@@ -141,7 +139,7 @@ const storeCollectionList = (chainId?: number, account?: string): Map<string, Co
   );
 
   // console.log("_nftsListFromCache =>", Collections?.size, Collections);
-  console.log("storeClear ~ Collections", Collections);
+  console.log("storeClear Collections", Collections);
   return Collections;
 };
 

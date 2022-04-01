@@ -25,13 +25,13 @@
     value: number;
   }
   const _metamaskSwitchChainEvt = (evt?: Event) => {
-    console.log("_metamaskSwitchChainEvt evt", evt);
+    // console.log("_metamaskSwitchChainEvt evt", evt);
 
     const _chainId = Number((evt.target as SwitchEventTarget).value);
     _metamaskSwitchChain(_chainId, evt);
   };
   const _metamaskSwitchChain = (_chainId: number, evt: Event) => {
-    console.log("_metamaskSwitchChain evt", evt);
+    // console.log("_metamaskSwitchChain evt", evt);
     evt.preventDefault();
 
     metamaskSwitchChain(_chainId);
