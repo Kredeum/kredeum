@@ -165,9 +165,9 @@
       "active": true
     },
     "eip1559": true,
-    "defaultOpenNFTs": "",
+    "defaultOpenNFTs": "0xF85795E50e247a52A6d14389bEcaD4998a691477",
     "nftsFactory": "0xec7EBB4E7cdcE23e992BFDc4fc81D89Cc9Ac9A74",
-    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
+    "nftsFactoryV2": "0x6FC132204A4f1a93785a11123b1062F05697a751",
     "create": true,
     "testnet": true
   },
@@ -206,7 +206,7 @@
       "active": false
     },
     "eip1559": true,
-    "defaultOpenNFTs": "",
+    "defaultOpenNFTs": "0x40919dc04668b6108546F3b2dda66Ea926c6c972",
     "nftsFactory": "0xA6F70de9aBe6cAE865fa723f7741699B63f47517",
     "nftsFactoryV2": "0xd543ff8449f5879fbFA3D8742b3909f0fE1EeC8b",
     "create": true,
