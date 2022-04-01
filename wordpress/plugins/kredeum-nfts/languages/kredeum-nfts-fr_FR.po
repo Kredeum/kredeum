@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Kredeum NFTs\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2020-12-13 20:19+0000\n"
-"PO-Revision-Date: 2022-02-12 15:54+0000\n"
+"PO-Revision-Date: 2022-04-01 14:12+0000\n"
 "Last-Translator: \n"
 "Language-Team: Français\n"
 "Language: fr_FR\n"
@@ -12,7 +12,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.5.8; wp-5.9"
+"X-Loco-Version: 2.6.1; wp-5.9.2"
 
 #. %s = $modified_count = number of medias modified.
 #: admin/media-list/actions.php:76
@@ -93,7 +93,7 @@ msgstr "https://www.kredeum.com"
 
 #: admin/media-list/column.php:17
 msgid "IPFS Archive"
-msgstr "Archie IPFS"
+msgstr "Archive IPFS"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"
