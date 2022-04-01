@@ -6,3 +6,5 @@ console.log("encoded", encoded);
 
 const decoded = Buffer.from(encoded, "hex").toString();
 console.log("decoded", decoded);
+
+console.log("test");

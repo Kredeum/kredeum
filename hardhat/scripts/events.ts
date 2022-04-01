@@ -1,8 +1,8 @@
-import type { NFTsFactory } from "types/NFTsFactory";
+import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { Network } from "lib/ktypes";
 
-import INFTsFactory from "abis/INFTsFactory.json";
-import ICloneFactory from "abis/ICloneFactory.json";
+import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
+import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
 
 import IERC173 from "abis/IERC173.json";
 import hre from "hardhat";
@@ -56,8 +56,8 @@ const main = async () => {
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const chainName = "matic";
-const creationTx = "0x548097dcc47cb6ac94d6943ef230af5ea7a3f2287b3bf669fdccc79230fd29e4"; // NFTsFactory V1 creation
-const creationBlock = 22_174_115; // NFTsFactory V1 creation
+const creationTx = "0x548097dcc47cb6ac94d6943ef230af5ea7a3f2287b3bf669fdccc79230fd29e4"; // NFTsFactoryV2 V1 creation
+const creationBlock = 22_174_115; // NFTsFactoryV2 V1 creation
 const deployer = "0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c";
 const smartcontract = "0x3157Ac677F6F273b75E99A2216CD078E22E9be02";
 const nBlocks = 3500;
@@ -67,11 +67,11 @@ hre.changeNetwork(chainName);
 const provider = hre.ethers.provider;
 
 const network = networks.find((nw) => nw.chainName === chainName) as Network;
-const nftsFactory: NFTsFactory = new hre.ethers.Contract(
+const nftsFactory: NFTsFactoryV2 = new hre.ethers.Contract(
   network.nftsFactory || "",
-  INFTsFactory.concat(ICloneFactory).concat(IERC173),
+  INFTsFactoryV2.concat(ICloneFactoryV2).concat(IERC173),
   provider
-) as NFTsFactory;
+) as NFTsFactoryV2;
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 main().catch(console.error);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

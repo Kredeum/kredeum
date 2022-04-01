@@ -21,7 +21,7 @@ const deployfunction: DeployFunction = async function (hre) {
     // await checkGasMethod(hre, contractName, "initialize", deployer,
 
     const openNFTsV3: OpenNFTsV3 = await hre.ethers.getContract(contractName, deployer);
-    await openNFTsV3.initialize("Open NFTs", "NFT", deployer.address, [false, true]);
+    await openNFTsV3.initialize("Open NFTs", "NFT", deployer.address, [true, false]);
   }
 };
 

@@ -1,5 +1,4 @@
 import type { Provider, TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
-import type { NFTsFactory } from "types/NFTsFactory";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { ethers, Signer } from "ethers";
@@ -24,7 +23,7 @@ const collectionCloneResponse = async (
 
   const network = getNetwork(chainId);
 
-  const nftsFactoryV2 = factoryGetContract(chainId, cloner) as NFTsFactoryV2;
+  const nftsFactoryV2 = factoryGetContract(chainId, cloner);
 
   const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
   const options: boolean[] = template == "ownable" ? [false, true] : [true, false];

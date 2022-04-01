@@ -4,9 +4,9 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abs
 
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
-import { ipfsGatewayUrl, textShort, explorerCollectionUrl, getNetwork } from "./kconfig";
-import { nftGetMetadata } from "./knft-get";
-import { collectionGetContract } from "./kcollection-get";
+import { ipfsGatewayUrl, textShort, getNetwork } from "./kconfig";
+import { nftGetMetadata } from "./knft-get-metadata";
+import { collectionContractGet } from "./kcollection-get";
 
 let nftStorage: NftStorage;
 
@@ -31,8 +31,8 @@ const _mintedNft = async (
   tokenID: string,
   urlJson: string,
   minterAddress: string
-): Promise<Nft> => {
-  const nft = await nftGetMetadata(chainId, {
+): Promise<Nft> =>
+  await nftGetMetadata({
     chainId,
     collection: collection.address,
     tokenID,
@@ -40,9 +40,7 @@ const _mintedNft = async (
     creator: minterAddress,
     minter: minterAddress,
     owner: minterAddress
-  } as Nft);
-  return nft;
-};
+  });
 
 const nftMintTexts = [
   "Mint",
@@ -83,13 +81,13 @@ const nftMint3TxResponse = async (
 ): Promise<TransactionResponse | null> => {
   // console.log("nftMint3TxResponse", chainId, collection.address, ipfsJson, await minter.getAddress());
 
-  const openNFTs = await collectionGetContract(chainId, collection, minter);
+  const openNFTs = await collectionContractGet(chainId, collection, minter);
   console.log("openNFTs", openNFTs);
 
   // OpenNFTsV0 = addUser
   // OpenNFTsV1 = mintNFT
   // OpenNFTsV2 = mintNFT
-  // OpenNFTsV3 = mintOpenNFT
+  // OpenNFTsV3+ = mintOpenNFT
   const mintFunction = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
   const urlJson = ipfsGatewayUrl(ipfsJson);
 

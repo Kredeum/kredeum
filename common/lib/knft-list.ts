@@ -2,10 +2,12 @@ import type { Collection, Nft } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchCov, fetchGQL } from "./kfetch";
-import { collectionGetContract } from "./kcollection-get";
-import { nftGetFromContractEnumerable, nftGetMetadata } from "./knft-get";
+import { collectionContractGet } from "./kcollection-get";
+import { nftGetFromContractEnumerable } from "./knft-get";
+import { nftGetMetadata } from "./knft-get-metadata";
 
 import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3 } from "./kconfig";
+import { storeNftsList } from "./kstore";
 
 const LIMIT = 10;
 
@@ -41,7 +43,7 @@ const nftListFromCovalent = async (
 
     try {
       const nftsJson = ((await fetchCov(path)) as AnswerNftsCov)?.items;
-      if (nftsJson) {
+      if (nftsJson?.[0]) {
         const tokens = nftsJson[0].nft_data;
 
         for (let index = 0; index < Math.min(tokens.length, limit); index++) {
@@ -155,7 +157,7 @@ const nftListFromContract = async (
 
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
-      const contract = await collectionGetContract(chainId, collection, provider);
+      const contract = await collectionContractGet(chainId, collection, provider);
 
       if (contract) {
         let nbTokens = limit;
@@ -224,70 +226,31 @@ const nftListTokenIds = async (
   return nftsTokenIds;
 };
 
-const nftListWithMetadata = async (
-  chainId: number,
-  collection: Collection,
+const _nftListWithMetadata = async (
   nfts: Map<string, Nft>,
   owner?: string,
   limit: number = LIMIT
 ): Promise<Map<string, Nft>> => {
-  // console.log("nftListWithMetadata", chainId, collection);
+  // console.log("_nftListWithMetadata", chainId, collection);
 
   const nftsWithMetadata: Map<string, Nft> = new Map();
 
   const nftsFromIds = [...nfts.values()];
 
   for (let index = 0; index < Math.min(nftsFromIds.length, limit); index++) {
-    const nft = await nftGetMetadata(chainId, nftsFromIds[index], collection);
-    // console.log("nftListWithMetadata nid", nft.nid, nft);
+    const nft = await nftGetMetadata(nftsFromIds[index]);
+    // console.log("_nftListWithMetadata nid", nft.nid, nft);
     if (nft) {
       nftsWithMetadata.set(nft.nid || "", nft);
     }
   }
 
-  // console.log(`nftListWithMetadata from ${collection}`, nftsWithMetadata);
+  // console.log(`_nftListWithMetadata from ${collection}`, nftsWithMetadata);
   return nftsWithMetadata;
 };
 
-const clearCache = (chainId: number, collectionAddress = ""): void => {
-  const chainName = getNetwork(chainId)?.chainName;
-  if (chainName && collectionAddress) {
-    const indexMax = localStorage.length;
-    const keys: Array<string> = [];
-
-    for (let index = 0; index < indexMax; index++) {
-      const key = localStorage.key(index);
-      const sig = `${chainName}/${collectionAddress}`;
-
-      // Clear NFTs from the specified collection
-      // and list of collections ?
-      // if (key?.includes(sig) || key?.includes("nfts://")) {
-      if (key?.includes(sig)) {
-        keys.push(key);
-      }
-    }
-    keys.forEach((_key) => localStorage.removeItem(_key));
-  } else {
-    localStorage.clear();
-  }
-};
-
-const nftListFromCache = (): Map<string, Nft> => {
-  const nfts: Map<string, Nft> = new Map();
-
-  for (let index = 0; index < localStorage.length; index++) {
-    const key = localStorage.key(index);
-
-    if (key?.startsWith("nft://")) {
-      const json = localStorage.getItem(key);
-
-      if (json) {
-        nfts.set(key, JSON.parse(json) as Nft);
-      }
-    }
-  }
-  return nfts;
-};
+const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, Nft> =>
+  storeNftsList(chainId, collection, account);
 
 const nftList = async (
   chainId: number,
@@ -299,20 +262,11 @@ const nftList = async (
   // console.log("nftList", chainId, collection, owner, limit);
 
   const nftsTokenIds: Map<string, Nft> = await nftListTokenIds(chainId, collection, provider, owner, limit);
-  const nftsWithMetadata: Map<string, Nft> = await nftListWithMetadata(chainId, collection, nftsTokenIds, owner, limit);
+  const nftsWithMetadata: Map<string, Nft> = await _nftListWithMetadata(nftsTokenIds, owner, limit);
 
   // console.log("nftList", nftsWithMetadata);
 
   return nftsWithMetadata;
 };
 
-export {
-  nftList,
-  nftListTokenIds,
-  nftListWithMetadata,
-  nftListFromCache,
-  nftListFromContract,
-  nftListFromCovalent,
-  nftListFromTheGraph,
-  clearCache
-};
+export { nftList, nftListTokenIds, nftListFromContract, nftListFromCovalent, nftListFromTheGraph, nftListFromCache };

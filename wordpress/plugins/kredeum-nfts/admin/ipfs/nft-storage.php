@@ -7,8 +7,6 @@
 
 namespace KredeumNFTs\Ipfs;
 
-define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDcyMDA4ODA4NjAxQjNmNmU0OEZCQTZlNjIzM2E4RDkwQ2VmRjhiMDkiLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYzMTc5NDgzODYwMywibmFtZSI6IkRFViJ9.1vUbgACZJYsiAK280fg3IeKjToYrEKFpI0-IkMTZWsM' ) );
-
 /**
  * IPFS add and pin file inside directory with NFT Storage
  *

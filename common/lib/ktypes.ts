@@ -23,6 +23,7 @@ type Network = {
   create?: boolean;
   admin?: string;
   openSea?: { assets?: string; openNFTs?: string };
+  defaultOpenNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
   eip1559?: boolean;
@@ -75,8 +76,8 @@ type Nft = {
   chainId: number;
   collection: string;
   tokenID: string;
-  tokenURI: string;
-  owner: string;
+  tokenURI?: string;
+  owner?: string;
   chainName?: string;
   name?: string;
   contractName?: string;

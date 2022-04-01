@@ -1,18 +1,23 @@
 import type { Collection } from "./ktypes";
-import type { NFTsFactory } from "types/NFTsFactory";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
 import { factoryGetContract } from "./kfactory-get";
-import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl, urlOwner } from "./kconfig";
-import { collectionGetSupportedInterfaces } from "lib/kcollection-get";
+import { collectionGetMetadata } from "./kcollection-get-metadata";
+
+import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, nftsUrl } from "./kconfig";
+import {
+  storeCollectionSet,
+  storeCollectionList as collectionListFromCache,
+  storeCollectionListAll as collectionListAllFromCache
+} from "lib/kstore";
 
 const collectionListFromCovalent = async (chainId: number, owner: string): Promise<Map<string, Collection>> => {
   // console.log("collectionListFromCovalent", chainId, owner);
 
   const collections: Map<string, Collection> = new Map();
-  let path: string;
+  let path = "";
   const network = getNetwork(chainId);
 
   if (network && owner) {
@@ -179,36 +184,43 @@ const collectionListFromFactory = async (
   return collections;
 };
 
-const collectionList = async (chainId: number, owner: string, provider: Provider): Promise<Map<string, Collection>> => {
-  // console.log("collectionList", chainId, owner);
+const collectionList = async (
+  chainId: number,
+  account: string,
+  provider: Provider,
+  metadata?: boolean
+): Promise<Map<string, Collection>> => {
+  // console.log("collectionList", chainId, account);
 
   let collections: Map<string, Collection> = new Map();
 
   const network = getNetwork(chainId);
-  if (network && owner) {
+  if (network && account) {
     let collectionsOwner: Map<string, Collection> = new Map();
     let collectionsKredeum: Map<string, Collection> = new Map();
 
     // GET user collections
     if (getSubgraphUrl(chainId)) {
-      collectionsOwner = await collectionListFromTheGraph(chainId, owner);
+      collectionsOwner = await collectionListFromTheGraph(chainId, account);
     } else if (getCovalent(chainId)) {
-      collectionsOwner = await collectionListFromCovalent(chainId, owner);
+      collectionsOwner = await collectionListFromCovalent(chainId, account);
     }
-    collectionsKredeum = await collectionListFromFactory(chainId, owner, provider);
+    collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = new Map([...collectionsOwner, ...collectionsKredeum]);
     // console.log("collectionList", collections);
 
     if (typeof localStorage !== "undefined") {
-      for (const [nid, collection] of collections) {
+      for (const [, collection] of collections) {
         // Get supported interfaces on specific collections
-        if (collection.owner == owner || (collection.balanceOf || 0) > 0) {
-          const supported = await collectionGetSupportedInterfaces(chainId, collection.address, provider);
-          Object.assign(collection, supported);
+        if (metadata) {
+          if (collection.owner == account || (collection.balanceOf || 0) > 0) {
+            const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
+            Object.assign(collection, supported);
+          }
         }
-        localStorage.setItem(urlOwner(nid, owner), JSON.stringify(collection, null, 2));
+        storeCollectionSet(collection, account);
       }
     }
   }
@@ -216,26 +228,11 @@ const collectionList = async (chainId: number, owner: string, provider: Provider
   return collections;
 };
 
-const collectionListFromCache = (owner: string): Map<string, Collection> => {
-  // console.log("collectionListFromCache", owner);
-  const collections: Map<string, Collection> = new Map();
-
-  for (let index = 0; index < localStorage.length; index++) {
-    const key = localStorage.key(index);
-
-    if (key?.startsWith("nfts://") && key?.endsWith(`/${owner}`)) {
-      collections.set(key, JSON.parse(localStorage.getItem(key) || "") as Collection);
-    }
-  }
-  // console.log("collectionListFromCache", collections);
-  return collections;
-};
-
 export {
   collectionList,
-  collectionListFromCache,
   collectionListFromCovalent,
   collectionListFromTheGraph,
-  collectionListFromFactory
+  collectionListFromFactory,
+  collectionListFromCache,
+  collectionListAllFromCache
 };
-export type { NFTsFactory };

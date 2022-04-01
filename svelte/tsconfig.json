@@ -1,0 +1,24 @@
+{
+  "extends": "@tsconfig/svelte/tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "./",
+    "rootDir": "..",
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "remove",
+    "paths": {
+      "app/*": ["app/*"],
+      "components/*": ["components/*"],
+      "helpers/*": ["helpers/*"],
+      "lib/*": ["../common/lib/*"],
+      "config/*": ["../common/config/*"],
+      "abis/*": ["../common/abis/*"],
+      "types/*": ["../common/types/*"]
+    }
+    // "strict": true
+  },
+  "include": ["main/*.ts", "components/**/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
+  "files": ["rollup.config.ts", "components/global.d.ts"],
+  "exclude": ["node_modules"]
+}

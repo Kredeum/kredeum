@@ -1,7 +1,6 @@
 //
 // utilitaires
 //
-
 @keyframes rotate {
   100% {
     transform: rotate(360deg);
@@ -89,7 +88,6 @@
   display: inline-block;
   margin-bottom: 10px;
   letter-spacing: 1px;
-
   &-big {
     font-size: 12px;
   }
@@ -100,13 +98,11 @@
   vertical-align: baseline;
   color: rgba($couleur1, 0.4);
   transition: all 300ms ease-in-out;
-
   i {
     display: inline-block;
     vertical-align: baseline;
     font-size: 14px;
   }
-
   &:hover {
     color: $couleur1;
   }
@@ -124,7 +120,6 @@ select {
   border-radius: 360px;
   cursor: pointer;
   height: 50px;
-
   &.custom {
     color: $grey-blue;
     border: 1px solid rgba($grey-blue, 0.3);
@@ -134,20 +129,23 @@ select {
     padding: 20px 50px 20px 15px;
     height: auto;
   }
-
   &:focus {
     outline: none;
   }
-
   &::-ms-expand {
     display: none;
+  }
+}
+
+.return {
+  .link {
+    text-decoration: none;
   }
 }
 
 .link {
   color: $couleur1;
   transition: all 300ms ease-in-out;
-
   &:hover {
     color: $green;
   }
@@ -161,35 +159,37 @@ select {
   border-radius: 360px;
   border: none;
   cursor: pointer;
-
   &-default {
     background: $couleur1;
     color: $white;
-
     &:hover {
       background: lighten($couleur1, 10);
     }
   }
+  &-outline {
+    border: 1px solid $green;
+    color: $green;
 
+    &:hover {
+      background: $green;
+      color: $white;
+    }
+  }
   &-second {
     background: rgba($couleur1, 0.2);
     color: $couleur1;
-
     &:hover {
       background: rgba($couleur1, 0.3);
     }
   }
-
   &-light {
     background: $white;
     color: $couleur1;
-
     &:hover {
       background-color: $couleur1;
       color: $white;
     }
   }
-
   &-small {
     font-size: 12px;
     text-transform: uppercase;
@@ -197,35 +197,28 @@ select {
     padding: 8px 15px;
     font-weight: bold;
   }
-
   &-mint {
     color: $green;
     background: rgba($green, 0.1);
-
     &:hover {
       background: rgba($green, 0.2);
     }
   }
-
   &-sell {
     color: $white;
     background: $green;
-
     &:hover {
       background: darken($green, 10);
     }
   }
-
   & > i {
     display: inline-block;
-    vertical-align: middle;
+    vertical-align: baseline;
     font-size: 14px;
-
     & + span {
       margin-left: 8px;
     }
   }
-
   &-metamask {
     background: $white url("../images/icon-metamask.svg") no-repeat 25px center;
     padding-left: 60px;
@@ -265,10 +258,8 @@ select {
   border: none;
   cursor: pointer;
   margin-right: 10px;
-
   background: $couleur1;
   color: $white;
-
   &:hover {
     background: lighten($couleur1, 10);
   }
@@ -296,14 +287,12 @@ select {
     cursor: pointer;
     background: rgba($grey-blue, 0.1);
     color: $grey-blue;
-
     i {
       display: inline-block;
       vertical-align: middle;
       margin-right: 5px;
     }
   }
-
   .box-field:checked + label {
     background: $couleur1;
     color: $white;
@@ -337,13 +326,11 @@ select {
   position: relative;
   user-select: none;
   width: 100%;
-
   .select {
     position: relative;
     display: flex;
     flex-direction: column;
   }
-
   .select-trigger {
     position: relative;
     display: flex;
@@ -357,7 +344,6 @@ select {
     background: $white url("../images/chevron.svg") no-repeat right 20px center;
     border-radius: 360px;
     font-size: 15px;
-
     span {
       font-size: 15px;
       text-overflow: ellipsis;
@@ -365,7 +351,6 @@ select {
       overflow: hidden;
     }
   }
-
   .custom-options {
     position: absolute;
     display: block;
@@ -383,7 +368,6 @@ select {
     display: none;
     max-height: 300px;
     overflow-y: auto;
-
     .custom-option {
       position: relative;
       display: block;
@@ -392,21 +376,17 @@ select {
       color: $couleur1;
       cursor: pointer;
       transition: all 0.5s;
-
       &:not(:last-child) {
         margin-bottom: 20px;
       }
-
       &:hover {
         opacity: 0.7;
       }
-
       &.selected {
         font-weight: bold;
       }
     }
   }
-
   .select.open {
     .custom-options {
       pointer-events: all;
@@ -420,4 +400,26 @@ select {
   .select-trigger {
     border: 1px solid rgba($grey-blue, 0.3);
   }
+}
+
+$spaceamounts: (10, 20, 30, 40, 50);
+$sides: (top, bottom, left, right);
+
+@each $space in $spaceamounts {
+  @each $side in $sides {
+    .m-#{str-slice($side, 0, 1)}-#{$space} {
+      margin-#{$side}: #{$space}px !important;
+    }
+
+    .p-#{str-slice($side, 0, 1)}-#{$space} {
+      padding-#{$side}: #{$space}px !important;
+    }
+  }
+}
+
+.overflow-ellipsis {
+  display: block;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
