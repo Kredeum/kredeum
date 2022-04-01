@@ -35,13 +35,14 @@ const collectionGetMetadata = async (
   // console.log(`collectionGetMetadata ${chainId}`, account, collectionOrAddress);
 
   const openNFTsV0Addresses = [
-    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
-    "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93"
+    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic
+    "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93" // matic
   ];
   const openNFTsV1Addresses = [
-    "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
-    "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
-    "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0"
+    "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471", // mainnet
+    "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253", // matic
+    "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0", // matic
+    "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9" // Bsc
   ];
   const supports: CollectionSupports = {};
   let collectionAddress: string;

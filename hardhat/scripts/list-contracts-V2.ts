@@ -4,7 +4,6 @@ import { Contract } from "ethers";
 
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 import INFTsFactory from "abis/INFTsFactory.json";
 import ICloneFactory from "abis/ICloneFactory.json";
@@ -29,7 +28,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
     let output = collectionAddress;
-    console.log("logCollection ~ collectionAddress", collectionAddress);
+    // console.log("logCollection ~ collectionAddress", collectionAddress);
 
     // bug sur XDAI
     if (collectionAddress === nftsFactory.address) {
@@ -61,7 +60,17 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
 };
 
 const main = async (): Promise<void> => {
-  for await (const network of networks) {
+  const logNetworks = [
+    // "mainnet",
+    // "arbitrum"
+    // "matic",
+    // "xdai"
+    "bsc"
+    // "fantom",
+    // "avalanche"
+  ];
+
+  for await (const network of networks.filter((nw) => logNetworks.includes(nw.chainName))) {
     if (network.mainnet && network.nftsFactoryV2) {
       totalChains++;
 

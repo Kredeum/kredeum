@@ -43,7 +43,7 @@ const nftListFromCovalent = async (
 
     try {
       const nftsJson = ((await fetchCov(path)) as AnswerNftsCov)?.items;
-      if (nftsJson) {
+      if (nftsJson?.[0]) {
         const tokens = nftsJson[0].nft_data;
 
         for (let index = 0; index < Math.min(tokens.length, limit); index++) {

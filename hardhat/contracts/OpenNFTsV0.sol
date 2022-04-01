@@ -12,7 +12,7 @@ contract OpenNFTsV0 is ERC721, ERC721Enumerable, ERC721URIStorage {
 
     constructor() ERC721("Open NFTs", "NFT") {}
 
-    function mintNFT(address minter, string memory jsonURI) public returns (uint256) {
+    function adddUser(address minter, string memory jsonURI) public returns (uint256) {
         _tokenIds.increment();
 
         uint256 newItemId = _tokenIds.current();
