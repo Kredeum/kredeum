@@ -8,7 +8,7 @@
 
   let collection: string;
   $: {
-    console.log("ZZZZZZZ  $collectionDefault", $collectionDefault);
+    console.log("$collectionDefault", $collectionDefault);
   }
   $: {
     const key = `${$metamaskChainId}@${$metamaskAccount}`;

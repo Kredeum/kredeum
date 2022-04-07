@@ -1,14 +1,21 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
+  import { collectionGet } from "stores/collectionGet";
 
   /////////////////////////////////////////////////
-  // <Collection {collectionObject} {account}? />
+  // <Collection {chainId} {collection} {account}? />
   // Display Collection
   /////////////////////////////////////////////////
-  export let collectionObject: Collection;
-  // export let account: string = undefined;
+  export let chainId: number;
+  export let collection: string;
+  export let account = "";
+
+  $: collectionObject = collectionGet(chainId, collection, account);
 </script>
 
-{collectionObject?.name || "No name"}
-({collectionObject?.balanceOf || 0}
-{collectionObject?.symbol || "NFT"})
+{#if $collectionObject}
+  {$collectionObject.name || "No name"}
+  ({$collectionObject.balanceOf || 0}
+  {$collectionObject.symbol || "NFT"})
+{:else}
+  Loading collection details...
+{/if}

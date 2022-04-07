@@ -10,7 +10,7 @@
 
   import { metamaskSigner } from "main/metamask";
 
-  import CollectionList from "../CollectionList/CollectionList.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
 
   export let chainId: number;
 

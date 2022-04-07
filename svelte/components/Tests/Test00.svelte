@@ -8,7 +8,7 @@
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionList from "../CollectionList/CollectionList.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../NftsList/NftsListGet.svelte";
   // import NftGet from "./NftData.svelte";

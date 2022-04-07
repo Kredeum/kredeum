@@ -1,12 +1,13 @@
 <script lang="ts">
+  import type { Readable } from "svelte/store";
   import { onMount } from "svelte";
 
   import Collection from "../Collection/Collection.svelte";
-  import CollectionGet from "../Collection/CollectionGet.svelte";
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
   import { collectionDefault, collectionDefaultSet } from "main/collectionDefault";
   import { collectionList } from "stores/collectionList";
-  import { collectionGet, collectionDefaultGet, collectionDefaultOpenNFTsGet } from "lib/kcollection-get";
+  import { collectionListFilter } from "stores/collectionListFilter";
+  import type { Collection as CollectionType } from "lib/ktypes";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} {account} bind:{collection} {mintable} {label} {txt} {refreshing} />
@@ -21,13 +22,15 @@
   export let refreshing: boolean = undefined;
 
   let open = false;
+  let collections: Readable<Map<string, CollectionType>>;
 
-  $: if (chainId && account) {
-    console.log("collectionListRefresh", chainId, account);
-    collectionList.setAll(chainId, account);
+  // async update of filtered collection list
+  $: collectionList.updateFilter(chainId, account);
 
-    _setCollection(mintable ? collectionDefaultGet(chainId) : collectionDefaultGet(chainId, account));
-  }
+  // get derived stored for chainId and account
+  $: collections = collectionListFilter(chainId, account, mintable);
+
+  // $: console.log($collections);
 
   const _setCollection = (_collection: string) => {
     if (!(chainId && _collection)) return;
@@ -56,14 +59,14 @@
 
 {#if txt}
   <p>
-    {#if $collectionList?.size > 0}
+    {#if $collections?.size > 0}
       Collection
       {#if refreshing}...{/if}
 
       <select on:change={(e) => _setCollectionFromEvent(e)}>
-        {#each [...$collectionList] as [url, coll]}
+        {#each [...$collections] as [url, coll]}
           <option selected={coll.address == collection} value={coll.address}>
-            <CollectionGet {chainId} collection={coll.address} {account} />
+            <Collection chainId={coll.chainId} collection={coll.address} {account} />
           </option>
         {/each}
       </select>
@@ -100,20 +103,20 @@
 
     <div class="select-wrapper select-collection" on:click={_toggleOpen}>
       <div class="select" class:open>
-        {#if $collectionList?.size > 0}
+        {#if $collections?.size > 0}
           <div class="select-trigger">
             <span>
-              <CollectionGet {chainId} {collection} {account} />
+              <Collection {chainId} {collection} {account} />
             </span>
           </div>
           <div class="custom-options">
-            {#each [...$collectionList] as [url, coll]}
+            {#each [...$collections] as [url, coll]}
               <span
                 class="custom-option {coll.address == collection ? 'selected' : ''}"
                 data-value={coll.address}
                 on:click={() => _setCollection(coll.address)}
               >
-                <Collection collectionObject={coll} />
+                <Collection chainId={coll.chainId} collection={coll.address} {account} />
               </span>
             {/each}
           </div>

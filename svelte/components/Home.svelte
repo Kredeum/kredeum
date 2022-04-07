@@ -5,7 +5,7 @@
 
   import AccountConnect from "./Account/AccountConnect.svelte";
   import NetworkList from "./Network/NetworkList.svelte";
-  import CollectionList from "./CollectionList/CollectionList.svelte";
+  import CollectionList from "./Collection/CollectionList.svelte";
 
   import Create from "./Global/Create.svelte";
   import Navigation from "./Global/Navigation.svelte";
