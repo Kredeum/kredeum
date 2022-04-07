@@ -1,15 +1,27 @@
 <script lang="ts">
   import { urlHash, breadcrumb } from "helpers/refNft";
   import { metamaskChainId, metamaskAccount } from "main/metamask";
-  import { currentCollection, currentTokenID, currentAction } from "main/current";
+  import { currentTokenID, currentAction } from "main/current";
+  import { collectionDefault, collectionDefaultGet } from "main/collectionDefault";
 
   export let display = false;
+
+  let collection: string;
+  $: {
+    console.log("ZZZZZZZ  $collectionDefault", $collectionDefault);
+  }
+  $: {
+    const key = `${$metamaskChainId}@${$metamaskAccount}`;
+    collection = $collectionDefault?.get(key);
+    console.log("BreadCrumb collection", collection, key, $collectionDefault);
+    refNFT = refNFT;
+  }
 
   $: refNFT = {
     chainId: $metamaskChainId,
     account: $metamaskAccount,
     tokenID: $currentTokenID,
-    collection: $currentCollection,
+    collection: collection,
     action: $currentAction
   };
 
@@ -18,5 +30,6 @@
 </script>
 
 {#if display}
-  <p><small>{breadcrumb(refNFT)}</small></p>
+  <p>{breadcrumb(refNFT)}</p>
+  <p>{$collectionDefault.size}</p>
 {/if}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
 
   /////////////////////////////////////////////////
   // <CollectionChoice bind:{collection} {txt} />
@@ -23,6 +23,6 @@
 
 {#if chainId && account}
   <p>
-    <CollectionListGet {chainId} {account} bind:collection {txt} mintable={true} />
+    <CollectionList {chainId} {account} bind:collection {txt} mintable={true} />
   </p>
 {/if}

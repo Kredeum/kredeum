@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Collection as CollectionType } from "lib/ktypes";
   import CollectionSimple from "./CollectionSimple.svelte";
-  import { currentCollection } from "main/current";
+  import { collectionCurrent } from "main/collectionDefault";
 
   /////////////////////////////////////////////////
   // <CollectionListSimple {collections}   />
@@ -16,7 +16,7 @@
   const _setCollection = (_collectionObject: CollectionType) => {
     collectionObject = _collectionObject;
     collection = collectionObject.address;
-    currentCollection.set(collection);
+    collectionDefault.set(collection);
   };
 
   let collectionObject: CollectionType;

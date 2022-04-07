@@ -10,6 +10,7 @@
     "paths": {
       "app/*": ["app/*"],
       "components/*": ["components/*"],
+      "stores/*": ["stores/*"],
       "helpers/*": ["helpers/*"],
       "lib/*": ["../common/lib/*"],
       "config/*": ["../common/config/*"],
@@ -18,7 +19,15 @@
     }
     // "strict": true
   },
-  "include": ["main/*.ts", "components/**/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
+  "include": [
+    "main/**/*.ts",
+    "components/**/*.svelte",
+    "components/**/*.ts",
+    "stores/**/*.ts",
+    "helpers/**/*.ts",
+    "../common/lib/**/*.ts",
+    "stores/collectionList.ts"
+  ],
   "files": ["rollup.config.ts", "components/global.d.ts"],
   "exclude": ["node_modules"]
 }

@@ -1,20 +1,10 @@
 <script lang="ts">
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkList from "../Network/NetworkList.svelte";
-  import NftMintButton from "../Nft/NftMintButton.svelte";
-  import Metamask from "../Tests/Metamask.svelte";
-
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionGet } from "lib/kcollection-get";
-  import { metamaskProvider } from "main/metamask";
-
-  let collectionObject: CollectionType;
-  $: _collectionGet(collection).catch(console.error);
-  const _collectionGet = async (collection: string): Promise<void> => {
-    collectionObject = await collectionGet(chainId, collection, $metamaskProvider, account);
-  };
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////
+  // import NftMintButton from "../Nft/NftMintButton.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
+  import Metamask from "./Metamask.svelte";
 
   let account: string;
   let chainId: number;
@@ -22,10 +12,13 @@
 </script>
 
 <main>
-  <Metamask />
-  <!-- <Metamask bind:account bind:chainId /> -->
+  <BreadCrumb display={true} />
+
+  <!-- <Metamask /> -->
+  <Metamask bind:account bind:chainId />
   <!-- <AccountConnect bind:account /> -->
   <!-- <NetworkList bind:chainId /> -->
 
-  <NftMintButton />
+  <!-- <NftMintButton /> -->
+  <CollectionList {chainId} {account} />
 </main>

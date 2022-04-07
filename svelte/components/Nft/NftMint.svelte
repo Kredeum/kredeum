@@ -10,7 +10,7 @@
 
   import { metamaskSigner } from "main/metamask";
 
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../CollectionList/CollectionList.svelte";
 
   export let chainId: number;
 
@@ -250,7 +250,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing collection ?</span>
-          <CollectionListGet {chainId} bind:collection {account} mintable={true} label={false} />
+          <CollectionList {chainId} bind:collection {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
           {#if collectionObject?.mintable}

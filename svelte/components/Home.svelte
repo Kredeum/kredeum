@@ -5,7 +5,7 @@
 
   import AccountConnect from "./Account/AccountConnect.svelte";
   import NetworkList from "./Network/NetworkList.svelte";
-  import CollectionListGet from "./CollectionList/CollectionListGet.svelte";
+  import CollectionList from "./CollectionList/CollectionList.svelte";
 
   import Create from "./Global/Create.svelte";
   import Navigation from "./Global/Navigation.svelte";
@@ -61,7 +61,7 @@
 
       <!-- Select collection -->
       {#if chainId && account}
-        <CollectionListGet {chainId} {account} bind:collection />
+        <CollectionList {chainId} {account} bind:collection />
 
         {#if account && collection && factoryGetAddress(chainId)}
           <!-- Refresh button -->

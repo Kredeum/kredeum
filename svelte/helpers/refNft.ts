@@ -42,8 +42,8 @@ const breadcrumb = (refNFT: RefNFT) => {
           : `${chainName} > coll:${collection}`
         : `${chainName}`
       : "Home") +
-    (action ? `> action:${action}` : "") +
-    (account ? ` > user:${account}` : "")
+    (action ? `/ action:${action}` : "") +
+    (account ? ` @ user:${account}` : "")
   );
 };
 

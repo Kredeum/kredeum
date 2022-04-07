@@ -3,24 +3,13 @@
 
   import Collection from "../Collection/Collection.svelte";
   import CollectionGet from "../Collection/CollectionGet.svelte";
-
-  import type { Collection as CollectionType } from "lib/ktypes";
   import { nftsUrl, explorerCollectionUrl } from "lib/kconfig";
-  import { currentCollection } from "main/current";
-  import {
-    collectionGet,
-    collectionGetFromCache,
-    collectionDefaultGet,
-    collectionDefaultOpenNFTsGet,
-    collectionSetIntoCache,
-    collectionDefaultSetIntoCache
-  } from "lib/kcollection-get";
-  import { metamaskChainId, metamaskAccount, metamaskProvider } from "main/metamask";
+  import { collectionDefault, collectionDefaultSet } from "main/collectionDefault";
+  import { collectionList } from "stores/collectionList";
+  import { collectionGet, collectionDefaultGet, collectionDefaultOpenNFTsGet } from "lib/kcollection-get";
 
   /////////////////////////////////////////////////
-
-  /////////////////////////////////////////////////
-  // <CollectionList {collections} {collection} {mintable} {txt} />
+  // <CollectionList chainId} {account} bind:{collection} {mintable} {label} {txt} {refreshing} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
@@ -29,56 +18,34 @@
   export let mintable = false;
   export let label = true;
   export let txt = false;
-  export let collections: Map<string, CollectionType>;
-  export let refreshing: boolean;
+  export let refreshing: boolean = undefined;
 
-  let collectionDefault: string;
-  let collectionDefaultOpenNFTs: string;
   let open = false;
 
-  $: if (!chainId && $metamaskChainId) chainId = $metamaskChainId;
-  $: if (!account && $metamaskAccount) account = $metamaskAccount;
-
   $: if (chainId && account) {
-    // console.log("CollectionList chainId", chainId, account);
+    console.log("collectionListRefresh", chainId, account);
+    collectionList.setAll(chainId, account);
 
-    collectionDefaultOpenNFTs = collectionDefaultOpenNFTsGet(chainId);
-    collectionDefault = collectionDefaultGet(chainId, account) || collectionDefaultOpenNFTs;
-
-    _setCollection(mintable ? collectionDefaultOpenNFTs : collectionDefault);
+    _setCollection(mintable ? collectionDefaultGet(chainId) : collectionDefaultGet(chainId, account));
   }
-
-  $: _collectionGet(collection).catch(console.error);
-  const _collectionGet = async (collection: string): Promise<void> => {
-    const storeCollection = collectionGetFromCache(chainId, collection);
-    const collectionObject = await collectionGet(chainId, storeCollection, $metamaskProvider, account);
-    collectionSetIntoCache(collectionObject, account);
-  };
 
   const _setCollection = (_collection: string) => {
     if (!(chainId && _collection)) return;
 
-    // console.log("_setCollection", chainId, _collection, account, collection);
-
+    console.log("_setCollection", chainId, _collection);
     collection = _collection;
-    currentCollection.set(collection);
-    collectionDefaultSetIntoCache(chainId, collection, account);
+    collectionDefaultSet(chainId, account, collection);
   };
 
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
 
-  const _explorerCollectionUrl = (_collection: string): string => {
-    const ret = explorerCollectionUrl(chainId, _collection);
-    // console.log("_explorerCollectionUrl", ret);
-    return ret;
-  };
+  const _explorerCollectionUrl = (_collection: string): string => explorerCollectionUrl(chainId, _collection);
 
   const _nftsUrl = (_collection: string): string => nftsUrl(chainId, _collection);
 
   const _toggleOpen = () => (open = !open);
 
   onMount(() => {
-    if (collections) console.log("Collections", collections);
     if (!mintable) {
       window.addEventListener("click", (e: Event): void => {
         if (!(e.target as HTMLElement).closest(".select-collection")) open = false;
@@ -89,12 +56,12 @@
 
 {#if txt}
   <p>
-    {#if collections?.size > 0}
+    {#if $collectionList?.size > 0}
       Collection
       {#if refreshing}...{/if}
 
       <select on:change={(e) => _setCollectionFromEvent(e)}>
-        {#each [...collections] as [url, coll]}
+        {#each [...$collectionList] as [url, coll]}
           <option selected={coll.address == collection} value={coll.address}>
             <CollectionGet {chainId} collection={coll.address} {account} />
           </option>
@@ -133,14 +100,14 @@
 
     <div class="select-wrapper select-collection" on:click={_toggleOpen}>
       <div class="select" class:open>
-        {#if collections && collections.size > 0}
+        {#if $collectionList?.size > 0}
           <div class="select-trigger">
             <span>
               <CollectionGet {chainId} {collection} {account} />
             </span>
           </div>
           <div class="custom-options">
-            {#each [...collections] as [url, coll]}
+            {#each [...$collectionList] as [url, coll]}
               <span
                 class="custom-option {coll.address == collection ? 'selected' : ''}"
                 data-value={coll.address}

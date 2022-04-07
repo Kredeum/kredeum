@@ -8,7 +8,7 @@
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../CollectionList/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../NftsList/NftsListGet.svelte";
   // import NftGet from "./NftData.svelte";
@@ -52,7 +52,7 @@
     <!-- <NetworkSelect bind:chainId /> -->
 
     {#if chainId && account}
-      <CollectionListGet {chainId} {account} bind:collection mintable={true} />
+      <CollectionList {chainId} {account} bind:collection mintable={true} />
     {/if}
   </div>
 

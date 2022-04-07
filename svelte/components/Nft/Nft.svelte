@@ -63,7 +63,7 @@
 
   const divMedia = (nft: Nft, index: number, small = false) => {
     const mediaContentType = nft.contentType?.split("/");
-    const mediaType = mediaContentType[0] || "image";
+    const mediaType = mediaContentType?.[0] || "image";
 
     const mediaSrc = nftGetImageLink(nft);
     let div: string;
