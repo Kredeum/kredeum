@@ -12,6 +12,7 @@
   export let chainId: number;
   export let collection: string;
   export let tokenID: string;
+  export let platform: string = undefined;
 
   // current hash of significant props
   $: hashCurrent = hashArray([chainId, collection, tokenID]);
@@ -37,4 +38,4 @@
   };
 </script>
 
-<Nft {nft} />
+<Nft {nft} {platform} />

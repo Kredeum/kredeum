@@ -20,6 +20,7 @@
   export let account: string = undefined;
   export let refreshing = false;
   export let refresh = 0;
+  export let platform: string = undefined;
 
   let collectionObject: Collection;
   let numNFT: number;
@@ -155,5 +156,5 @@
   };
 </script>
 
-<NftsList {nfts} {chainId} {collectionObject} {account} {refreshing} />
+<NftsList {nfts} {chainId} {collectionObject} {account} {refreshing} {platform} />
 <!-- <NftsListSimple {nfts} /> -->

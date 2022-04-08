@@ -29,7 +29,7 @@
   export let account = "";
   export let index = 0;
   export let more = 0;
-  export let platform = "dapp";
+  export let platform: string = "dapp";
 
   const moreToggle = (): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;

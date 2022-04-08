@@ -36,6 +36,8 @@
   let account: string;
   let refreshing: boolean;
   let refresh: number;
+
+  export let platform: string = undefined;
 </script>
 
 <HomeLayout>
@@ -76,10 +78,10 @@
     <!-- <NftDetail collection={collectionObject} {tokenID} /> -->
     {#if chainId && account && collection}
       {#if tokenID}
-        <NftGet {chainId} {collection} {tokenID} />
+        <NftGet {chainId} {collection} {tokenID} {platform} />
       {:else}
         <!-- <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} /> -->
-        <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
+        <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} {platform} />
       {/if}
     {/if}
   </span>

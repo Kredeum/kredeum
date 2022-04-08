@@ -14,6 +14,7 @@
   export let collectionObject: CollectionType;
   export let account: string = undefined;
   export let refreshing: boolean; // platform : wordPress or dapp
+  export let platform: string = undefined;
 
   let nbNFTs: number;
   $: nbNFTs = nfts?.size || 0;
@@ -44,7 +45,7 @@
     </div>
     {#each [...nfts.values()] as nft, index}
       <!-- <NftGet chainId={nft.chainId} collection={nft.collection} tokenID={nft.tokenID} /> -->
-      <Nft {nft} {account} />
+      <Nft {nft} {account} {platform} />
       <!-- <Nft {nft} {account} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} /> -->
     {/each}
   </div>

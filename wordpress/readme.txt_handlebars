@@ -63,7 +63,10 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.11.0 (latest) =
+= 0.11.1 (latest) =
+* Bug fix : shortcode removed by previous v0.11.0 version
+
+= 0.11.0 =
 * Bug fixes and performance improvements
 * Full UI components refactoring
 
