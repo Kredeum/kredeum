@@ -41,8 +41,8 @@
     }" ipfs="${nft.ipfs}" cid="${nft.metadata.cid}"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
-    console.log(nft);
-    console.log("Copied");
+    //console.log(nft);
+    //console.log("Copied");
   };
 
   const divMediaImage = (src: string, height?: number) => {
