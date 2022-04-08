@@ -38,9 +38,10 @@
   const shortcode = async (nft: Nft) => {
     const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
       nft.tokenID
-    }" ipfs="${nft.ipfs}"]${nftName(nft)}[/kredeum_sell]`;
+    }" ipfs="${nft.ipfs}" cid="${nft.metadata.cid}"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+    console.log(nft);
     console.log("Copied");
   };
 
