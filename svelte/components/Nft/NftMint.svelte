@@ -59,6 +59,7 @@
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       nftTitle = nftTitle || files[0].name;
+      console.log("fileType", files[0].type);
       reader.onload = (e) => {
         image = e.target.result.toString();
       };
@@ -208,9 +209,16 @@
         <div class="section">
           <span class="label label-big">NFT file</span>
           <div class="box-file">
-            {#if image}
+            {#if image && files[0] && files[0].type.includes("image")}
               <div class="media media-photo mt-20">
                 <img src={image} alt="nft" />
+              </div>
+            {:else if image && files[0] && files[0].type === "video/mp4"}
+              <div class="media media-photo mt-20">
+                <!-- svelte-ignore a11y-media-has-caption -->
+                <video preload="metadata" style="border-radius: initial;">
+                  <source src={image} type="video/mp4" />
+                </video>
               </div>
             {:else}
               <input type="file" id="file" name="file" bind:files on:change={fileload} />
