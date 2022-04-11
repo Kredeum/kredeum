@@ -31,6 +31,7 @@
   };
 
   let nftTitle: string = "";
+  let nftDescription: string;
 
   let files: FileList;
   let image: string;
@@ -60,6 +61,7 @@
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       nftTitle = nftTitle || files[0].name;
+      nftDescription = nftDescription || files[0].name;
       console.log("fileType", files[0].type);
       reader.onload = (e) => {
         image = e.target.result.toString();
@@ -245,6 +247,13 @@
           <span class="label label-big">NFT title</span>
           <div class="form-field">
             <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
+          </div>
+        </div>
+
+        <div class="section">
+          <span class="label label-big">NFT description</span>
+          <div class="form-field">
+            <input type="text" placeholder="My NFT description" bind:value={nftDescription} id="description-nft" />
           </div>
         </div>
 
