@@ -4,7 +4,7 @@ import {
   collectionDefaultGetStore,
   collectionDefaultGetOpenNFTs,
   collectionDefaultGetOne
-} from "stores/collectionDefaultGet";
+} from "stores/collection/collectionDefaultGet";
 
 // UTILITY : Get Key
 const collectionDefaultGetKey = (chainId: number, account: string): string =>

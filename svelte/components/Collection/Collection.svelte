@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { collectionStore } from "stores/collection";
+  import { collectionStore } from "stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />

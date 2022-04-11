@@ -1,6 +1,6 @@
 import { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
-import { collectionDefaultStore } from "stores/collectionDefault";
+import { collectionDefaultStore } from "stores/collection/collectionDefault";
 
 import { getNetwork } from "lib/kconfig";
 

@@ -6,7 +6,7 @@ import { Collection as CollectionType } from "lib/ktypes";
 import { collectionMerge } from "lib/kcollection-get";
 
 import { metamaskProvider } from "main/metamask";
-import { collectionListStore } from "stores/collectionList";
+import { collectionListStore } from "stores/collection/collectionList";
 import { jsonMapStringify } from "helpers/jsonMap";
 
 // STATE CHANGER : SET one Collection

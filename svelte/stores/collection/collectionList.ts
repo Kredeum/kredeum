@@ -5,8 +5,8 @@ import { collectionList as collectionListLib } from "lib/kcollection-list";
 
 import { metamaskProvider } from "main/metamask";
 
-import { collectionStore } from "stores/collection";
-import { collectionListGetStore } from "stores/collectionListGet";
+import { collectionStore } from "stores/collection/collection";
+import { collectionListGetStore } from "stores/collection/collectionListGet";
 import { jsonMapParse } from "helpers/jsonMap";
 
 // UTILITIES

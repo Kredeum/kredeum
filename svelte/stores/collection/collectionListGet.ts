@@ -1,8 +1,8 @@
 import { Readable } from "svelte/store";
 import { derived } from "svelte/store";
-import { collectionListStore } from "stores/collectionList";
+import { collectionListStore } from "stores/collection/collectionList";
 import { Collection as CollectionType } from "lib/ktypes";
-import { collectionDefaultStore } from "stores/collectionDefault";
+import { collectionDefaultStore } from "stores/collection/collectionDefault";
 
 // STATE VIEW : GET Collection fitered list
 const collectionListGetStore = (

@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Collection as CollectionType } from "lib/ktypes";
   import CollectionSimple from "./CollectionSimple.svelte";
-  import { collectionCurrent } from "stores/collectionDefaulttionDefault//////////////////////////////////////////////
+  import { collectionCurrent } from "stores/collection/collectionDefault";
+  /////////////////////////////////////////////////
   // <CollectionListSimple {collections}   />
   // Display Collections
   /////////////////////////////////////////////////

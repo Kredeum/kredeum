@@ -4,8 +4,8 @@
   import { collectionUrl, explorerCollectionUrl } from "lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
-  import { collectionDefaultStore } from "stores/collectionDefault";
-  import { collectionListStore } from "stores/collectionList";
+  import { collectionDefaultStore } from "stores/collection/collectionDefault";
+  import { collectionListStore } from "stores/collection/collectionList";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{collection} {account} {mintable} {label} {txt} {refreshing} />
