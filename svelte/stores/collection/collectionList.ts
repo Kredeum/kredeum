@@ -9,9 +9,6 @@ import { collectionStore } from "stores/collection/collection";
 import { collectionListGetStore } from "stores/collection/collectionListGet";
 import { jsonMapParse } from "helpers/jsonMap";
 
-// UTILITIES
-const collectionListGetKey = (chainId: number, address: string): string => `collection://${String(chainId)}/${address}`;
-
 // LOADER : load Collections from localStorage
 const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
   const collections: Map<string, CollectionType> = new Map();
@@ -44,7 +41,6 @@ export const collectionListStore = {
   set,
   update,
   getSubList: collectionListGetStore,
-  getKey: collectionListGetKey,
   refresh: collectionListRefresh
 };
 

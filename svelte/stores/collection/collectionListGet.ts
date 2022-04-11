@@ -9,8 +9,11 @@ const collectionListGetStore = (
   chainId: number,
   account: string,
   mintable = false
-): Readable<Map<string, CollectionType>> =>
-  derived(
+): Readable<Map<string, CollectionType>> => {
+  const collectionDefaultOpenNFTs = collectionDefaultStore.getOpenNFTs(chainId);
+  const collectionDefault = collectionDefaultStore.getOne(chainId, account);
+
+  return derived(
     collectionListStore,
     ($collectionListStore) =>
       new Map(
@@ -28,7 +31,7 @@ const collectionListGetStore = (
             const okOwner = coll.owner === account;
 
             // DEFAULT MINTABLE
-            const okDefaultMintable = coll.address == collectionDefaultStore.getOpenNFTs(chainId);
+            const okDefaultMintable = coll.address == collectionDefaultOpenNFTs;
 
             // MINTABLE
             const okMintable =
@@ -37,7 +40,7 @@ const collectionListGetStore = (
               okDefaultMintable;
 
             // DEFAULT
-            const okDefault = coll.address == collectionDefaultStore.getOne(chainId, account) || okDefaultMintable;
+            const okDefault = coll.address == collectionDefault || okDefaultMintable;
 
             // NOT MINTABLE
             const okNotMintable = okOwner || okBalance || okDefault;
@@ -61,5 +64,6 @@ const collectionListGetStore = (
           .sort(([, a], [, b]) => (b.balancesOf?.get(account) || 0) - (a.balancesOf?.get(account) || 0))
       )
   );
+};
 
 export { collectionListGetStore };

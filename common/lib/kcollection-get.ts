@@ -40,7 +40,7 @@ const collectionGet = async (
   provider: Provider,
   account?: string
 ): Promise<CollectionType> => {
-  console.log(`collectionGet ${chainId}`, collectionOrAddress);
+  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
   let collection: CollectionType | undefined = undefined;
 

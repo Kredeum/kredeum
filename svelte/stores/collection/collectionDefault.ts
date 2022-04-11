@@ -1,14 +1,20 @@
-import { writable } from "svelte/store";
+import type { Readable } from "svelte/store";
+import { derived, get, writable } from "svelte/store";
 
-import {
-  collectionDefaultGetStore,
-  collectionDefaultGetOpenNFTs,
-  collectionDefaultGetOne
-} from "stores/collection/collectionDefaultGet";
+import { getNetwork } from "lib/kconfig";
 
 // UTILITY : Get Key
 const collectionDefaultGetKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
+
+// UTILITY : Get OpenNFTs default template
+const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+
+const collectionDefaultGetOne = (chainId: number, account?: string): string => {
+  const ret = get(collectionDefaultStore).get(collectionDefaultGetKey(chainId, account));
+  console.log("collectionDefaultGetOne ~ ret", ret);
+  return ret;
+};
 
 // LOADER : load Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, string> => {
@@ -29,13 +35,12 @@ const { subscribe, set, update } = writable(collectionDefaultLoadLocalStorage())
 
 // STATE CHANGER : Set default Collection
 const collectionDefaultUpdateOne = (chainId: number, address: string, account?: string): void => {
-  console.log("collectionDefaultSet ", chainId, address, account);
+  // console.log("collectionDefaultUpdateOne", chainId, address, account);
 
   if (!(chainId && address)) return;
 
   update(($collectionDefault: Map<string, string>): Map<string, string> => {
     const key = collectionDefaultGetKey(chainId, account);
-    console.log("collectionDefaultUpdateOne ~ key", key);
 
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(key, address);
@@ -44,13 +49,19 @@ const collectionDefaultUpdateOne = (chainId: number, address: string, account?: 
   });
 };
 
+// STATE VIEW : get default Collection
+const collectionDefaultGetStore = (chainId: number, account?: string): Readable<string> =>
+  derived(collectionDefaultStore, ($collectionDefaultStore) =>
+    $collectionDefaultStore.get(collectionDefaultGetKey(chainId, account))
+  );
+
 export const collectionDefaultStore = {
   subscribe,
   set,
   update,
   get: collectionDefaultGetStore,
   updateOne: collectionDefaultUpdateOne,
-  getKey: collectionDefaultGetKey,
   getOne: collectionDefaultGetOne,
+  getKey: collectionDefaultGetKey,
   getOpenNFTs: collectionDefaultGetOpenNFTs
 };

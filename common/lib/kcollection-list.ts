@@ -15,13 +15,14 @@ const collectionListMerge = (
 ): Map<string, CollectionType> => {
   const collList = colList2;
   if (colList1) {
-    for (const [key, coll] of colList1.entries()) {
-      console.log(key, coll);
-      if (colList2.has(key)) {
-        const mergedColl = collectionMerge(coll, colList2.get(key));
+    for (const [key, coll1] of colList1.entries()) {
+      // console.log(key, coll1);
+      const coll2 = colList2.get(key);
+      if (coll2) {
+        const mergedColl = collectionMerge(coll1, coll2);
         colList2.set(key, mergedColl);
       } else {
-        colList2.set(key, coll);
+        colList2.set(key, coll1);
       }
     }
   }

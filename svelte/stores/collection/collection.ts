@@ -9,13 +9,20 @@ import { metamaskProvider } from "main/metamask";
 import { collectionListStore } from "stores/collection/collectionList";
 import { jsonMapStringify } from "helpers/jsonMap";
 
+// UTILITY
+const collectionGetKey = (chainId: number, address: string): string => `collection://${String(chainId)}/${address}`;
+
+// UTILITY
+const collectionGetOne = (chainId: number, address: string): CollectionType =>
+  get(collectionListStore).get(collectionGetKey(chainId, address));
+
 // STATE CHANGER : SET one Collection
 const collectionUpdateOne = (collectionObject: CollectionType): void => {
   const { chainId, address } = collectionObject;
   if (!(chainId && address)) return;
 
   collectionListStore.update(($collectionList: Map<string, CollectionType>): Map<string, CollectionType> => {
-    const key = collectionListStore.getKey(chainId, address);
+    const key = collectionGetKey(chainId, address);
 
     const newColl = collectionMerge($collectionList.get(key), collectionObject);
 
@@ -29,7 +36,7 @@ const collectionUpdateOne = (collectionObject: CollectionType): void => {
 // STATE VIEW : GET one Collection
 const collectionGetStore = (chainId: number, address: string): Readable<CollectionType> =>
   derived(collectionListStore, ($collectionListStore) => {
-    return $collectionListStore.get(collectionListStore.getKey(chainId, address));
+    return $collectionListStore.get(collectionGetKey(chainId, address));
   });
 
 // ACTIONS : SET one Collection, for an optionnal account
@@ -41,5 +48,6 @@ const collectionRefresh = async (chainId: number, address: string, account?: str
 export const collectionStore = {
   updateOne: collectionUpdateOne,
   get: collectionGetStore,
+  getOne: collectionGetOne,
   refresh: collectionRefresh
 };

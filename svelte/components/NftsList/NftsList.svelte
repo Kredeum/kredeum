@@ -9,12 +9,12 @@
   // <NftList {chainId} {collectionObject}  {account} {refreshing} {platform} {nftsList}/>
   // List Nfts from collection owned by account
   /////////////////////////////////////////////////
-  export let nfts: Map<string, NftType>;
   export let chainId: number;
   export let collectionObject: CollectionType;
   export let account: string = undefined;
   export let refreshing: boolean; // platform : wordPress or dapp
 
+  let nfts: Map<string, NftType>;
   let nbNFTs: number;
   $: nbNFTs = nfts?.size || 0;
 </script>

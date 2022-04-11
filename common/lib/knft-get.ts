@@ -36,13 +36,15 @@ const nftGetFromContract = async (
   tokenID: string,
   provider: Provider
 ): Promise<Nft | undefined> => {
+  let nft: Nft | undefined;
+
+  const providerChainId = (await provider.getNetwork())?.chainId;
+
   let tokenURI = "";
   let contractName = "";
   let owner = "";
 
-  let nft: Nft | undefined;
-
-  if (chainId && collection) {
+  if (chainId && collection && chainId === providerChainId) {
     try {
       const contract = (await collectionContractGet(chainId, collection, provider)) as ERC721;
       contractName = collection.name || "No name";
@@ -67,7 +69,8 @@ const nftGetFromContract = async (
       console.error("ERROR nftGetFromContract", e);
     }
   }
-  // console.log("nftGetFromContract", nft);
+
+  console.log("nftGetFromContract", providerChainId, chainId, collection.address, tokenID, collection, nft);
   return nft;
 };
 
@@ -81,9 +84,8 @@ const nftGetFromContractEnumerable = async (
   let nft: Nft | undefined;
   let tokID: BigNumber;
 
-  // console.log("nftGetFromContractEnumerable", chainId, index, collection.address, owner);
-
-  if (chainId && collection?.supports?.IERC721Enumerable) {
+  const providerChainId = (await provider.getNetwork())?.chainId;
+  if (chainId && chainId === providerChainId && collection && collection?.supports?.IERC721Enumerable) {
     try {
       const contract = (await collectionContractGet(chainId, collection, provider)) as ERC721Enumerable;
       if (contract) {
@@ -99,7 +101,16 @@ const nftGetFromContractEnumerable = async (
       console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
     }
   }
-  // console.log("nftGetFromContractEnumerable #", index, nft);
+  console.log(
+    "nftGetFromContractEnumerable",
+    providerChainId,
+    chainId,
+    index,
+    collection.address,
+    owner,
+    collection,
+    nft
+  );
   return nft;
 };
 

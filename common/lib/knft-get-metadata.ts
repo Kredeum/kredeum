@@ -5,7 +5,10 @@ import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
-const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
+const nftGetImageLink = (nft: Nft): string =>
+  nft?.ipfs
+    ? ipfsGatewayUrl(nft.ipfs)
+    : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
 
 const nftGetContentType = async (nft: Nft): Promise<string> => {
   // console.log("nftGetContentType", nft);

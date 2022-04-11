@@ -6,7 +6,6 @@
   import { metamaskChainId, metamaskAccount } from "main/metamask";
   import { currentTokenID, currentAction } from "main/current";
   import { collectionDefaultStore } from "stores/collection/collectionDefault";
-  import { collectionDefaultGetStore } from "stores/collection/collectionDefaultGet";
 
   export let display = false;
 

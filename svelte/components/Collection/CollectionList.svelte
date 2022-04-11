@@ -28,14 +28,17 @@
   $: collections = collectionListStore.getSubList(chainId, account, mintable);
 
   // STATE VIEW : Default Collection
-  $: collection = collectionDefaultStore.getOne(chainId, account) || collectionDefaultStore.getOpenNFTs(chainId);
+  $: collectionDefault = collectionDefaultStore;
+  $: collection = $collectionDefault.get(collectionDefault.getKey(chainId, account));
 
-  const _setCollection = (_collection: string) => {
+  const _setCollection = (_collection: string): string => {
     if (!(chainId && _collection)) return;
 
-    console.log("_setCollection", chainId, _collection);
+    // console.log("_setCollection", chainId, _collection);
     collection = _collection;
     collectionDefaultStore.updateOne(chainId, _collection, account);
+
+    return collection;
   };
 
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
