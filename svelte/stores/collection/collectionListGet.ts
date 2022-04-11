@@ -1,4 +1,4 @@
-import { Readable } from "svelte/store";
+import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 import { collectionListStore } from "stores/collection/collectionList";
 import { Collection as CollectionType } from "lib/ktypes";

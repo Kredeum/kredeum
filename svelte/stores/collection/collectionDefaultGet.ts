@@ -12,12 +12,8 @@ const collectionDefaultGetOne = (chainId: number, account?: string): string =>
 
 // STATE VIEW : get default Collection
 const collectionDefaultGetStore = (chainId: number, account?: string): Readable<string> =>
-  derived(
-    collectionDefaultStore,
-    ($collectionDefaultStore) =>
-      $collectionDefaultStore.get(`${chainId}@${account}`) ||
-      $collectionDefaultStore.get(`${chainId}`) ||
-      collectionDefaultGetOpenNFTs(chainId)
+  derived(collectionDefaultStore, ($collectionDefaultStore) =>
+    $collectionDefaultStore.get(collectionDefaultStore.getKey(chainId, account))
   );
 
 export { collectionDefaultGetStore, collectionDefaultGetOpenNFTs, collectionDefaultGetOne };
