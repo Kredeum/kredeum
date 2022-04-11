@@ -227,26 +227,22 @@
         <div class="section">
           <span class="label label-big">Media type</span>
           <div class="box-fields">
-            <input class="box-field" id="create-type-video" name="media-type" type="checkbox" value="Video" disabled />
+            <input class="box-field" id="create-type-video" name="media-type" type="radio" value="Video" disabled />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
-            <input
-              class="box-field"
-              id="create-type-picture"
-              name="media-type"
-              type="checkbox"
-              value="Picture"
-              checked
-            />
+            <input class="box-field" id="create-type-picture" name="media-type" type="radio" value="Picture" checked />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Text" disabled />
+            <input class="box-field" id="create-type-gif" name="media-type" type="radio" value="Gif" />
+            <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
+
+            <input class="box-field" id="create-type-texte" name="media-type" type="radio" value="Text" disabled />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
-            <input class="box-field" id="create-type-music" name="media-type" type="checkbox" value="Music" disabled />
+            <input class="box-field" id="create-type-music" name="media-type" type="radio" value="Music" disabled />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-            <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
+            <input class="box-field" id="create-type-web" name="media-type" type="radio" value="Web" disabled />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>
