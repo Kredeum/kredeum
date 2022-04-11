@@ -34,6 +34,7 @@
 
   let files: FileList;
   let image: string;
+  let selectedMediaType: string = "Picture";
 
   let ipfsImage: string;
   let ipfsJson: string;
@@ -64,6 +65,12 @@
         image = e.target.result.toString();
       };
     }
+  };
+
+  const fileReset = () => {
+    mintReset();
+    files = undefined;
+    image = undefined;
   };
 
   const mint = async (): Promise<NftType> => {
@@ -209,16 +216,25 @@
         <div class="section">
           <span class="label label-big">NFT file</span>
           <div class="box-file">
-            {#if image && files[0] && files[0].type.includes("image")}
+            {#if image && files[0] && selectedMediaType === "Picture"}
               <div class="media media-photo mt-20">
-                <img src={image} alt="nft" />
+                {#if files[0].type.includes("image")}
+                  <img src={image} alt="nft" />
+                {:else}
+                  <p>Please select a image type file</p>
+                  <button on:click={fileReset}>Reset</button>
+                {/if}
               </div>
-            {:else if image && files[0] && files[0].type === "video/mp4"}
+            {:else if image && files[0] && selectedMediaType === "Video"}
               <div class="media media-photo mt-20">
-                <!-- svelte-ignore a11y-media-has-caption -->
-                <video preload="metadata" style="border-radius: initial;">
-                  <source src={image} type="video/mp4" />
-                </video>
+                {#if files[0].type.includes("video")}
+                  <!-- svelte-ignore a11y-media-has-caption -->
+                  <video preload="metadata" style="border-radius: initial;">
+                    <source src={image} type="video/mp4" />
+                  </video>
+                {:else}
+                  <p>Please select a video file</p>
+                {/if}
               </div>
             {:else}
               <input type="file" id="file" name="file" bind:files on:change={fileload} />
@@ -235,22 +251,68 @@
         <div class="section">
           <span class="label label-big">Media type</span>
           <div class="box-fields">
-            <input class="box-field" id="create-type-video" name="media-type" type="radio" value="Video" disabled />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-video"
+              name="media-type"
+              type="radio"
+              value="Video"
+              disabled
+            />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
-            <input class="box-field" id="create-type-picture" name="media-type" type="radio" value="Picture" checked />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-picture"
+              name="media-type"
+              type="radio"
+              value="Picture"
+            />
             <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-            <input class="box-field" id="create-type-gif" name="media-type" type="radio" value="Gif" />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-gif"
+              name="media-type"
+              type="radio"
+              value="Gif"
+            />
             <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
 
-            <input class="box-field" id="create-type-texte" name="media-type" type="radio" value="Text" disabled />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-texte"
+              name="media-type"
+              type="radio"
+              value="Text"
+              disabled
+            />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
-            <input class="box-field" id="create-type-music" name="media-type" type="radio" value="Music" disabled />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-music"
+              name="media-type"
+              type="radio"
+              value="Music"
+              disabled
+            />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-            <input class="box-field" id="create-type-web" name="media-type" type="radio" value="Web" disabled />
+            <input
+              bind:group={selectedMediaType}
+              class="box-field"
+              id="create-type-web"
+              name="media-type"
+              type="radio"
+              value="Web"
+              disabled
+            />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
         </div>
