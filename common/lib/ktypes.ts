@@ -40,10 +40,9 @@ type Collection = {
   totalSupply?: number;
   startBlock?: number;
   description?: string;
-  user?: string;
-  balanceOf?: number;
+  balancesOf?: Map<string, number>;
   version?: number;
-  mintable?: boolean;
+  open?: boolean;
   supports?: CollectionSupports;
 };
 type CollectionSupports = {

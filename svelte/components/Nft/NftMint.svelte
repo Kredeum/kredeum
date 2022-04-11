@@ -4,7 +4,6 @@
 
   import type { Nft } from "lib/ktypes";
   import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionGetFromCache } from "lib/kcollection-get";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
@@ -44,7 +43,7 @@
 
   let collectionObject: CollectionType;
   $: {
-    collectionObject = collectionGetFromCache(chainId, collection);
+    // collectionObject = collectionGetFromCache(chainId, collection);
     // console.log("collectionObject", collectionObject);
   }
 

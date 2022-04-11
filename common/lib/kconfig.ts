@@ -54,10 +54,10 @@ const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openS
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
 // nfts url : nfts://chainName/collectionAddress
-const nftsUrl = (chainId: number, _collectionAddress: Address): string => {
+const collectionUrl = (chainId: number, _collectionAddress: Address): string => {
   const network = getNetwork(chainId);
   return (
-    "nfts://" +
+    "collection://" +
     (network ? network.chainName : "...") +
     (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "/...")
   );
@@ -310,8 +310,10 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
 
-const nftsBalanceAndName = (collection: Collection): string =>
-  `${collection?.balanceOf || ""} ${collectionSymbol(collection)}${(collection?.balanceOf || 0) > 1 ? "s" : ""}`;
+const nftsBalanceAndName = (collection: Collection, account: string): string => {
+  const bal = collection?.balancesOf?.get(account) || 0;
+  return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
+};
 
 // NFT helpers
 const nftExplorerLink = (nft: Nft, n?: number): string => urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
@@ -383,7 +385,7 @@ export {
   interfaceId,
   nftUrl3,
   nftUrl,
-  nftsUrl,
+  collectionUrl,
   nftDescription,
   nftDescriptionShort,
   nftExplorerLink,

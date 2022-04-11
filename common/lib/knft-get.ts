@@ -7,7 +7,6 @@ import type { ERC721Enumerable } from "types/ERC721Enumerable";
 import type { Collection, Nft } from "./ktypes";
 import { nftUrl3 } from "./kconfig";
 import { collectionContractGet } from "./kcollection-get";
-import { storeNftGet as nftGetFromStore } from "./kstore";
 import { nftGetMetadata } from "./knft-get-metadata";
 
 ////////////////////////////////////////////////////////
@@ -107,4 +106,4 @@ const nftGetFromContractEnumerable = async (
 const nftGet = async (chainId: number, collection: string, tokenID: string): Promise<Nft | undefined> =>
   nftGetMetadata({ chainId, collection, tokenID });
 
-export { nftGet, nftGetFromStore, nftGetFromContract, nftGetFromContractEnumerable, collectionContractGet };
+export { nftGet, nftGetFromContract, nftGetFromContractEnumerable, collectionContractGet };

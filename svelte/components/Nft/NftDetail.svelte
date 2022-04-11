@@ -1,6 +1,5 @@
 <script lang="ts">
   import { Collection } from "lib/ktypes";
-  import { nftListFromCache } from "lib/knft-list";
 
   import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
 
@@ -10,8 +9,8 @@
   export let collection: Collection = undefined;
   export let tokenID: string = undefined;
 
-  nfts = nftListFromCache();
-  console.log("nfts", nfts);
+  // nfts = nftListFromCache();
+  // console.log("nfts", nfts);
   //nft = nfts.filter((nft) => nft.values.tokenID === tokenID);
   nft = new Map(
     [...nfts].filter(

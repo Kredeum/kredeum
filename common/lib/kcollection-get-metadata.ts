@@ -18,12 +18,12 @@ import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
 interface MetadataType {
   supports: CollectionSupports;
   version?: number;
-  mintable?: boolean;
+  open?: boolean;
   owner?: string;
   name?: string;
   symbol?: string;
   totalSupply?: number;
-  balanceOf?: number;
+  balancesOf?: Map<string, number>;
 }
 
 const collectionGetMetadata = async (
@@ -47,12 +47,12 @@ const collectionGetMetadata = async (
   const supports: CollectionSupports = {};
   let collectionAddress: string;
   let version = -1;
-  let mintable = false;
+  let open = false;
   let owner = "";
   let name = "";
   let symbol = "";
   let totalSupply = 0;
-  let balanceOf = 0;
+  let balanceOf = -1;
 
   let _chainId = 0;
 
@@ -75,6 +75,7 @@ const collectionGetMetadata = async (
         symbol: () => Promise<string>;
         totalSupply: () => Promise<number>;
         balanceOf: (account: string) => Promise<number>;
+        open: () => Promise<boolean>;
       }
       let contract: TestContract;
 
@@ -90,7 +91,7 @@ const collectionGetMetadata = async (
       try {
         contract = new Contract(
           collectionAddress,
-          IERC165.concat(IERC173).concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable),
+          IERC165.concat(IERC173).concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable).concat(IOpenNFTsV3),
           signerOrProvider
         ) as TestContract;
 
@@ -118,18 +119,15 @@ const collectionGetMetadata = async (
         if (supports.IOpenNFTsV3) {
           supports.IOpenNFTs = true;
           version = 3;
-          mintable = true;
+          open = await contract.open();
         } else if (supports.IOpenNFTsV2) {
           version = 2;
-          mintable = true;
         } else if (openNFTsV1Addresses.includes(contract.address)) {
           supports.IOpenNFTsV1 = true;
           version = 1;
-          mintable = true;
         } else if (openNFTsV0Addresses.includes(contract.address)) {
           supports.IOpenNFTsV0 = true;
           version = 0;
-          mintable = true;
         }
 
         // Get balanceOf account (IERC721)
@@ -164,12 +162,12 @@ const collectionGetMetadata = async (
 
   const ret: MetadataType = { supports };
   if (version) ret.version = version;
-  if (mintable) ret.mintable = mintable;
+  if (open) ret.open = open;
   if (owner) ret.owner = owner;
   if (name) ret.name = name;
   if (symbol) ret.symbol = symbol;
   if (totalSupply) ret.totalSupply = totalSupply;
-  if (balanceOf) ret.balanceOf = balanceOf;
+  if (balanceOf >= 0 && account) ret.balancesOf = new Map([[account, balanceOf]]);
 
   // console.log("collectionGetMetadata", ret);
   return ret;

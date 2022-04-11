@@ -1,21 +1,25 @@
 <script lang="ts">
-  import { collectionGet } from "stores/collectionGet";
+  import { collectionStore } from "stores/collection";
 
   /////////////////////////////////////////////////
-  // <Collection {chainId} {collection} {account}? />
+  // <Collection {chainId} {address} {account}? />
   // Display Collection
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let collection: string;
+  export let address: string;
   export let account = "";
 
-  $: collectionObject = collectionGet(chainId, collection, account);
+  // ACTION : refresh Collection
+  $: collectionStore.refresh(chainId, address, account).catch(console.error);
+
+  // STATE VIEW : get Collection
+  $: collection = collectionStore.get(chainId, address);
 </script>
 
-{#if $collectionObject}
-  {$collectionObject.name || "No name"}
-  ({$collectionObject.balanceOf || 0}
-  {$collectionObject.symbol || "NFT"})
+{#if $collection}
+  {$collection.name || "No name"}
+  ({$collection.balancesOf?.get(account) || 0}
+  {$collection.symbol || "NFT"})
 {:else}
-  Loading collection details...
+  Choose one collection
 {/if}

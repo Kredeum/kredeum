@@ -53,7 +53,7 @@
     "check": "npm run prettier && npm run eslint",
     "clean": "rm -rf node_modules",
     "dev": "GIT_SHORT=$(git rev-parse --short HEAD) GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) rollup -c -w --configPlugin typescript",
-    "eslint": "eslint components/**/*.svelte helpers/**/*.ts --fix --quiet",
+    "eslint": "eslint components/**/*.svelte helpers/**/*.ts stores/**/*.ts main/**/*.ts --fix --quiet",
     "prettier": "prettier components/**/*.svelte helpers/**/*.ts --write --loglevel error",
     "tests": "cypress run"
   },

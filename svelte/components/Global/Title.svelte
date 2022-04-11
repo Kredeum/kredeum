@@ -1,19 +1,19 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import semverSatisfies from "semver/functions/satisfies";
+  // import semverSatisfies from "semver/functions/satisfies";
   import { config } from "lib/kconfig";
-  import { storeSet, storeGet, storeClearAll } from "lib/kstore";
 
   let label = "";
   let version = "";
 
   const cacheVersion = (_version: string) => {
-    const versionOld = storeGet("version") || "";
-    if (!semverSatisfies(_version, `~${versionOld}`)) {
-      console.info(`New version, previously ${versionOld} => cache cleared!`);
-      storeClearAll();
-    }
-    storeSet("version", _version);
+    console.log("cacheVersion ~ _version", _version);
+    // const versionOld = storeGet("version") || "";
+    // if (!semverSatisfies(_version, `~${versionOld}`)) {
+    //   console.info(`New version, previously ${versionOld} => cache cleared!`);
+    //   storeClearAll();
+    // }
+    // storeSet("version", _version);
   };
 
   onMount(() => {

@@ -2,16 +2,16 @@
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkList from "../Network/NetworkList.svelte";
   // import NftMintButton from "../Nft/NftMintButton.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
-  import BreadCrumb from "./BreadCrumb.svelte";
-  import Metamask from "./Metamask.svelte";
+  import CollectionList from "../components/Collection/CollectionList.svelte";
+  import BreadCrumb from "../tests/BreadCrumb.svelte";
+  import Metamask from "../tests/Metamask.svelte";
 
   let account: string;
   let chainId: number;
   let collection: string;
 </script>
 
-<main>
+<div>
   <BreadCrumb display={true} />
 
   <!-- <Metamask /> -->
@@ -20,5 +20,11 @@
   <!-- <NetworkList bind:chainId /> -->
 
   <!-- <NftMintButton /> -->
-  <CollectionList {chainId} {account} />
-</main>
+  <CollectionList {chainId} {account} mintable={false} />
+</div>
+
+<style>
+  div {
+    padding: 30px;
+  }
+</style>

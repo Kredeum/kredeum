@@ -1,14 +1,8 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Collection, ABIS } from "./ktypes";
+import type { Collection as CollectionType, ABIS } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
 import { collectionGetMetadata } from "./kcollection-get-metadata";
-import {
-  storeCollectionSet as collectionSetIntoCache,
-  storeCollectionGet as collectionGetFromCache,
-  storeCollectionDefaultGet as collectionDefaultGet,
-  storeCollectionDefaultSet as collectionDefaultSetIntoCache
-} from "./kstore";
 import { getNetwork } from "./kconfig";
 
 import IERC165 from "abis/IERC165.json";
@@ -42,24 +36,26 @@ const abis = {
 
 const collectionGet = async (
   chainId: number,
-  collectionOrAddress: Collection | string,
-  signerOrProvider?: Signer | Provider,
+  collectionOrAddress: CollectionType | string,
+  provider: Provider,
   account?: string
-): Promise<Collection> => {
-  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
+): Promise<CollectionType> => {
+  console.log(`collectionGet ${chainId}`, collectionOrAddress);
 
-  let collection: Collection | undefined = undefined;
+  let collection: CollectionType | undefined = undefined;
 
   // TODO : Get supported interfaces via onchain proxy smartcontract
-  if (typeof collectionOrAddress === "string") {
+  if (!collectionOrAddress) {
+    collection = { chainId, address: "" };
+  } else if (typeof collectionOrAddress === "string") {
     collection = { chainId, address: collectionOrAddress };
   } else {
     collection = collectionOrAddress;
   }
 
-  if (!collection?.supports && signerOrProvider) {
+  if (!collection?.supports && provider) {
     try {
-      const supported = await collectionGetMetadata(chainId, collection.address, signerOrProvider, account || "");
+      const supported = await collectionGetMetadata(chainId, collection.address, provider, account || "");
       Object.assign(collection, supported);
     } catch (e) {
       console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
@@ -71,13 +67,13 @@ const collectionGet = async (
 
 const collectionContractGet = async (
   chainId: number,
-  collectionOrAddress: Collection | string,
+  collectionOrAddress: CollectionType | string,
   signerOrProvider: Signer | Provider
 ): Promise<Contract> => {
   // console.log(`collectionContractGet ${chainId}`, collectionOrAddress,account);
 
   let abi: Array<string> = [];
-  let collection: Collection;
+  let collection: CollectionType;
 
   if (typeof collectionOrAddress === "string") {
     collection = { chainId, address: collectionOrAddress };
@@ -103,15 +99,15 @@ const collectionContractGet = async (
   return contract;
 };
 
-// GET OpenNFTs default template via onchain call
-const collectionDefaultOpenNFTsGet = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+// Merge 2 collections into 1 (twice the same collection but with different metadata)
+const collectionMerge = (col1: CollectionType, col2: CollectionType): CollectionType => {
+  const collMerged: CollectionType = Object.assign({ chainId: 1, address: "" }, col1 || {}, col2 || {});
 
-export {
-  collectionGet,
-  collectionGetFromCache,
-  collectionContractGet,
-  collectionDefaultGet,
-  collectionDefaultOpenNFTsGet,
-  collectionSetIntoCache,
-  collectionDefaultSetIntoCache
+  // collection.balancesOf is a Map => needs specific merge
+  if (col1?.balancesOf && col2?.balancesOf) {
+    collMerged.balancesOf = new Map([...col1.balancesOf, ...col2.balancesOf]);
+  }
+  return collMerged;
 };
+
+export { collectionGet, collectionMerge, collectionContractGet };

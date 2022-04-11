@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Collection as CollectionType, Nft as NftType } from "lib/ktypes";
-  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, nftsUrl } from "lib/kconfig";
+  import { collectionName, explorerCollectionUrl, nftsBalanceAndName, collectionUrl } from "lib/kconfig";
   import { getNetwork } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
@@ -23,13 +23,13 @@
   <h2>
     Collection {collectionName(collectionObject)}
   </h2>
-  {nbNFTs}/{nftsBalanceAndName(collectionObject)}
+  {nbNFTs}/{nftsBalanceAndName(collectionObject, account)}
   {#if refreshing}...{/if}
   <a
     class="info-button"
     href={explorerCollectionUrl(chainId, collectionObject.address)}
     title="&#009;Collection address (click to view in explorer)&#013;
-      {nftsUrl(chainId, collectionObject.address)}"
+      {collectionUrl(chainId, collectionObject.address)}"
     target="_blank"><i class="fas fa-info-circle" /></a
   >
 

@@ -1,10 +1,9 @@
 <script lang="ts">
   import type { Collection, Nft as NftType } from "lib/ktypes";
-  import { nftListTokenIds, nftListFromCache } from "lib/knft-list";
+  import { nftListTokenIds } from "lib/knft-list";
   import { nftGetFromContractEnumerable } from "lib/knft-get";
   import { nftGetMetadata } from "lib/knft-get-metadata";
-  import { storeNftListClear } from "lib/kstore";
-  import { collectionGet, collectionGetFromCache } from "lib/kcollection-get";
+  import { collectionGet } from "lib/kcollection-get";
 
   import { hashArray } from "helpers/hash";
   import NftsList from "./NftsList.svelte";
@@ -42,7 +41,7 @@
     const hash = hashArray([_chainId, _collection, _account]);
     // console.log("hash _nftsList", hash, _chainId, _collection, _account);
 
-    collectionObject = collectionGetFromCache(_chainId, _collection);
+    // collectionObject = collectionGetFromCache(_chainId, _collection);
 
     let _badCacheCount = false;
 
@@ -51,7 +50,7 @@
       const _nfts = _nftsListFromCache(_chainId, _collection, _account);
       _nftsSet(_nfts, hash);
 
-      _badCacheCount = _nfts.size !== collectionObject.balanceOf;
+      _badCacheCount = _nfts.size !== collectionObject?.balancesOf?.get(_account);
     } else {
       _nftsSet(new Map(), hash);
     }
@@ -66,7 +65,8 @@
   };
 
   const _nftsListFromCache = (_chainId: number, _collection: string, _account: string): Map<string, NftType> => {
-    const _allNFTs = nftListFromCache(_chainId, _collection, _account);
+    const _allNFTs = new Map();
+    // const _allNFTs = nftListFromCache(_chainId, _collection, _account);
     // console.log("_nftsListFromCache _allNFTs", _allNFTs);
 
     const _nfts = _nftListFilter(_chainId, _collection, _account, _allNFTs);
@@ -101,7 +101,7 @@
       collectionObject = await collectionGet(_chainId, _collection, $metamaskProvider, account);
       // console.log("_nftsListFromLib ~ collectionObject", collectionObject);
 
-      storeNftListClear(_chainId, _collection);
+      // storeNftListClear(_chainId, _collection);
 
       // console.log("_nftsListFromLib", _chainId, _collection, _account, collectionObject);
 
@@ -109,7 +109,7 @@
         refreshing = true;
 
         if (collectionObject.supports.IERC721Enumerable) {
-          const nNFTs = collectionObject.balanceOf;
+          const nNFTs = collectionObject.balancesOf?.get(account);
           // console.log("_nftsListFromLib= Enumerable ~ nNFTs", nNFTs);
 
           for (numNFT = 0; numNFT < nNFTs; numNFT++) {

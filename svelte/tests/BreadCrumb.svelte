@@ -2,7 +2,7 @@
   import { urlHash, breadcrumb } from "helpers/refNft";
   import { metamaskChainId, metamaskAccount } from "main/metamask";
   import { currentTokenID, currentAction } from "main/current";
-  import { collectionDefault, collectionDefaultGet } from "main/collectionDefault";
+  import { collectionDefault, collectionDefaultGet } from "stores/collectionDefault";
 
   export let display = false;
 

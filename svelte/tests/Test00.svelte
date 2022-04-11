@@ -2,8 +2,8 @@
   // import { onMount } from "svelte";
   import { getCreate } from "lib/kconfig";
 
-  import BreadCrumb from "../Tests/BreadCrumb.svelte";
-  import Metamask from "../Tests/Metamask.svelte";
+  import BreadCrumb from "../tests/BreadCrumb.svelte";
+  import Metamask from "../tests/Metamask.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";

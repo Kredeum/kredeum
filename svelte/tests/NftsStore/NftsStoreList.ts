@@ -1,5 +1,5 @@
 import type { Readable } from "svelte/store";
-import { derived, get } from "svelte/store";
+import { derived } from "svelte/store";
 
 import { nftsStore } from "./NftsStore";
 
