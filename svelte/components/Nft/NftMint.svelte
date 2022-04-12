@@ -85,8 +85,21 @@
           }
           break;
         case "text":
+          if (uploadedMediatypes[1] === "html") {
+            selectedMediaType = "Web";
+          } else {
+            selectedMediaType = "Text";
+          }
+          break;
+        case "application":
+          if (uploadedMediatypes[1] === "pdf") {
+            selectedMediaType = "Text";
+          } else {
+            selectedMediaType = "Text";
+          }
           break;
         case "audio":
+          selectedMediaType = "Music";
           break;
         default:
       }
@@ -281,7 +294,7 @@
           <div class="box-file">
             {#if image && files[0] && selectedMediaType === "Picture"}
               <div class="media media-photo mt-20">
-                {#if uploadedMediatypes[0] === "image"}
+                {#if uploadedMediatypes[0] === "image" && uploadedMediatypes[1] !== "gif"}
                   <img src={image} alt="nft" />
                 {:else}
                   <p>Are you sure you want to Mint an image ? :)</p>
@@ -294,16 +307,86 @@
                   <!-- <button on:click={fileReset}>Re-Upload</button> -->
                 {/if}
               </div>
+            {:else if image && files[0] && selectedMediaType === "Gif"}
+              <div class="media media-photo mt-20">
+                {#if uploadedMediatypes[0] === "image" && uploadedMediatypes[1] === "gif"}
+                  <img src={image} alt="nft" />
+                {:else}
+                  <p>Are you sure you want to Mint an Gif ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Gif");
+                      fileReset();
+                    }}>Yes</button
+                  >
+                  <!-- <button on:click={fileReset}>Re-Upload</button> -->
+                {/if}
+              </div>
             {:else if image && files[0] && selectedMediaType === "Video"}
               <div class="media media-photo mt-20">
-                {#if files[0].type.includes("video")}
+                {#if uploadedMediatypes[0] === "video"}
                   <!-- svelte-ignore a11y-media-has-caption -->
                   <video preload="metadata" style="border-radius: initial;">
                     <source src={image} type="video/mp4" />
                   </video>
                 {:else}
-                  <p>Please select a video file</p>
-                  <button on:click={fileReset}>Re-Upload</button>
+                  <p>Are you sure you want to Mint an Gif ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Gif");
+                      fileReset();
+                    }}>Yes</button
+                  >
+                {/if}
+              </div>
+            {:else if image && files[0] && selectedMediaType === "Text"}
+              <div class="media media-photo mt-20">
+                {#if uploadedMediatypes[0] === "application" && uploadedMediatypes[1] === "pdf"}
+                  Pdf file :
+                  <pre>{image}</pre>
+                {:else if uploadedMediatypes[0] === "text" && uploadedMediatypes[1] !== "html"}
+                  <pre>{image}</pre>
+                {:else}
+                  <p>Are you sure you want to Mint text ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Text");
+                      fileReset();
+                    }}>Yes</button
+                  >
+                  <!-- <button on:click={fileReset}>Re-Upload</button> -->
+                {/if}
+              </div>
+            {:else if image && files[0] && selectedMediaType === "Web"}
+              <div class="media media-photo mt-20">
+                {#if uploadedMediatypes[0] === "text" && uploadedMediatypes[1] === "html"}
+                  <pre>{image}</pre>
+                {:else}
+                  <p>Are you sure you want to Mint a web page ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Web");
+                      fileReset();
+                    }}>Yes</button
+                  >
+                  <!-- <button on:click={fileReset}>Re-Upload</button> -->
+                {/if}
+              </div>
+            {:else if image && files[0] && selectedMediaType === "Music"}
+              <div class="media media-photo mt-20">
+                {#if uploadedMediatypes[0] === "audio"}
+                  <audio controls src={image}>
+                    Your browser does not support the
+                    <code>audio</code> element.
+                  </audio>
+                {:else}
+                  <p>Are you sure you want to Mint an audio file ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Music");
+                      fileReset();
+                    }}>Yes</button
+                  >
                 {/if}
               </div>
             {:else}
@@ -368,7 +451,6 @@
               name="media-type"
               type="radio"
               value="Text"
-              disabled
             />
             <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
@@ -379,7 +461,6 @@
               name="media-type"
               type="radio"
               value="Music"
-              disabled
             />
             <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
@@ -390,7 +471,6 @@
               name="media-type"
               type="radio"
               value="Web"
-              disabled
             />
             <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
           </div>
