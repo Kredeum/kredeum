@@ -10,9 +10,12 @@
   import Create from "./Global/Create.svelte";
   import Navigation from "./Global/Navigation.svelte";
 
-  import NftGet from "./Nft/NftGet.svelte";
+  import Nft from "./Nft/Nft.svelte";
   import NftsListGet from "./NftsList/NftsListGet.svelte";
   import NftsListRefresh from "./NftsList/NftsListRefresh.svelte";
+
+  import NftsList from "./Nft/NftsList.svelte";
+  import NftsListRefresh from "./Nft/NftsListRefresh.svelte";
 
   import Title from "./Global/Title.svelte";
   // import BreadCrumb from "./Global/BreadCrumb.svelte";
@@ -76,10 +79,10 @@
     <!-- <NftDetail collection={collectionObject} {tokenID} /> -->
     {#if chainId && account && collection}
       {#if tokenID}
-        <NftGet {chainId} {collection} {tokenID} />
+        <Nft {chainId} {collection} {tokenID} />
       {:else}
         <!-- <NftsList {chainId} {collection} {account} bind:refreshing bind:nftsList {platform} /> -->
-        <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
+        <NftsList {chainId} address={collection} {account} bind:refreshing />
       {/if}
     {/if}
   </span>

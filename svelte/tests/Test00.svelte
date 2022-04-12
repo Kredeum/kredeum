@@ -10,9 +10,8 @@
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
   import CollectionList from "../Collection/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
-  // import NftsListGet from "../NftsList/NftsListGet.svelte";
-  // import NftGet from "./NftData.svelte";
-  // import RefreshButton from "../NftsList/NftsListRefresh.svelte";
+  // import NftsListGet from "../Nft/NftsListGet.svelte";
+  // import RefreshButton from "../Nft/NftsListRefresh.svelte";
   // import { metamaskInit } from "helpers/metamask";
   // import { metamaskChainId, metamaskAccount } from "main/metamask";
   // import Create from "./Create.svelte";

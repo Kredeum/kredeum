@@ -4,32 +4,37 @@
   import { getNetwork } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
+  // import NftSimple from "../tests/NftSimple.svelte";
+  import { nftListStore } from "stores/nft/nftList";
 
   /////////////////////////////////////////////////
-  // <NftList {chainId} {collectionObject}  {account} {refreshing} {platform} {nftsList}/>
+  // <NftList {chainId} {collection}  {account} {refreshing} />
   // List Nfts from collection owned by account
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let collectionObject: CollectionType;
+  export let address: string;
   export let account: string = undefined;
-  export let refreshing: boolean; // platform : wordPress or dapp
+  export let refreshing: boolean = undefined;
 
-  let nfts: Map<string, NftType>;
+  // ACTION : async NFT list update
+  $: nftListStore.refresh(chainId, address, account).catch(console.error);
+
+  // STATE VIEW : NFT list
+  $: nfts = nftListStore.getSubList(chainId, address);
+
   let nbNFTs: number;
-  $: nbNFTs = nfts?.size || 0;
+  $: nbNFTs = $nfts?.size || 0;
 </script>
 
-{#if nfts?.size > 0}
-  <h2>
-    Collection {collectionName(collectionObject)}
-  </h2>
-  {nbNFTs}/{nftsBalanceAndName(collectionObject, account)}
+{#if $nfts?.size > 0}
+  <h2>Collection name</h2>
+  {nbNFTs}/N
   {#if refreshing}...{/if}
   <a
     class="info-button"
-    href={explorerCollectionUrl(chainId, collectionObject.address)}
+    href={explorerCollectionUrl(chainId, address)}
     title="&#009;Collection address (click to view in explorer)&#013;
-      {collectionUrl(chainId, collectionObject.address)}"
+      {collectionUrl(chainId, address)}"
     target="_blank"><i class="fas fa-info-circle" /></a
   >
 
@@ -42,8 +47,7 @@
         <div class="table-col"><span class="label">Infos</span></div>
       {/if}
     </div>
-    {#each [...nfts.values()] as nft, index}
-      <!-- <NftGet chainId={nft.chainId} collection={nft.collection} tokenID={nft.tokenID} /> -->
+    {#each [...$nfts.values()] as nft, index}
       <Nft {nft} {account} />
       <!-- <Nft {nft} {account} {index} {platform} more={tokenID == nft.tokenID ? -1 : mores[index]} /> -->
     {/each}
