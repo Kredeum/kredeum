@@ -35,7 +35,8 @@
 
   let files: FileList;
   let image: string;
-  let selectedMediaType: string = "Picture";
+  let uploadedMediatypes: Array<string>;
+  let selectedMediaType: string;
 
   let ipfsImage: string;
   let ipfsJson: string;
@@ -61,12 +62,41 @@
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       nftTitle = nftTitle || files[0].name;
-      nftDescription = nftDescription || files[0].name;
+      nftDescription = nftDescription || nftTitle;
       console.log("fileType", files[0].type);
+      uploadedMediatypes = files[0].type.split("/");
       reader.onload = (e) => {
         image = e.target.result.toString();
       };
     }
+  };
+
+  const handleMediaType = (uploadedMediatypes) => {
+    if (uploadedMediatypes) {
+      switch (uploadedMediatypes[0]) {
+        case "video":
+          selectedMediaType = "Video";
+          break;
+        case "image":
+          if (uploadedMediatypes[1] === "gif") {
+            selectedMediaType = "Gif";
+          } else {
+            selectedMediaType = "Picture";
+          }
+          break;
+        case "text":
+          break;
+        case "audio":
+          break;
+        default:
+      }
+    }
+  };
+
+  $: handleMediaType(uploadedMediatypes);
+
+  const selectMediaType = (choosenMediatype) => {
+    selectedMediaType = choosenMediatype;
   };
 
   const fileReset = () => {
@@ -87,7 +117,7 @@
       if (ipfsImage) {
         minting = 2;
 
-        ipfsJson = await nftMint2IpfsJson(nftTitle, ipfsImage, account, image);
+        ipfsJson = await nftMint2IpfsJson(nftTitle, nftDescription, ipfsImage, account, image);
         // console.log("json", ipfsJson);
 
         if (ipfsJson) {
@@ -215,7 +245,8 @@
           </li>
         </ul>
       {:else}
-        <div class="section">
+        <!-- AVANT -->
+        <!-- <div class="section">
           <span class="label label-big">NFT file</span>
           <div class="box-file">
             {#if image && files[0] && selectedMediaType === "Picture"}
@@ -229,9 +260,9 @@
               </div>
             {:else if image && files[0] && selectedMediaType === "Video"}
               <div class="media media-photo mt-20">
-                {#if files[0].type.includes("video")}
-                  <!-- svelte-ignore a11y-media-has-caption -->
-                  <video preload="metadata" style="border-radius: initial;">
+                {#if files[0].type.includes("video")} -->
+        <!-- svelte-ignore a11y-media-has-caption -->
+        <!-- <video preload="metadata" style="border-radius: initial;">
                     <source src={image} type="video/mp4" />
                   </video>
                 {:else}
@@ -242,7 +273,47 @@
               <input type="file" id="file" name="file" bind:files on:change={fileload} />
             {/if}
           </div>
+        </div> -->
+
+        <!-- APRES -->
+        <div class="section">
+          <span class="label label-big">NFT file</span>
+          <div class="box-file">
+            {#if image && files[0] && selectedMediaType === "Picture"}
+              <div class="media media-photo mt-20">
+                {#if uploadedMediatypes[0] === "image"}
+                  <img src={image} alt="nft" />
+                {:else}
+                  <p>Are you sure you want to Mint an image ? :)</p>
+                  <button
+                    on:click={() => {
+                      selectMediaType("Picture");
+                      fileReset();
+                    }}>Yes</button
+                  >
+                  <!-- <button on:click={fileReset}>Re-Upload</button> -->
+                {/if}
+              </div>
+            {:else if image && files[0] && selectedMediaType === "Video"}
+              <div class="media media-photo mt-20">
+                {#if files[0].type.includes("video")}
+                  <!-- svelte-ignore a11y-media-has-caption -->
+                  <video preload="metadata" style="border-radius: initial;">
+                    <source src={image} type="video/mp4" />
+                  </video>
+                {:else}
+                  <p>Please select a video file</p>
+                  <button on:click={fileReset}>Re-Upload</button>
+                {/if}
+              </div>
+            {:else}
+              <input type="file" id="file" name="file" bind:files on:change={fileload} />
+            {/if}
+          </div>
         </div>
+
+        <!------------------------------------------------------------------------------>
+
         <div class="section">
           <span class="label label-big">NFT title</span>
           <div class="form-field">
@@ -267,7 +338,6 @@
               name="media-type"
               type="radio"
               value="Video"
-              disabled
             />
             <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
