@@ -116,6 +116,8 @@
     mintReset();
     files = undefined;
     image = undefined;
+    nftTitle = "";
+    nftDescription = "";
   };
 
   const mint = async (): Promise<NftType> => {
@@ -341,8 +343,8 @@
               </div>
             {:else if image && files[0] && selectedMediaType === "Text"}
               <div class="media media-photo mt-20">
-                {#if uploadedMediatypes[0] === "application" && uploadedMediatypes[1] === "pdf"}
-                  Pdf file :
+                {#if uploadedMediatypes[0] === "application"}
+                  Pdf file or document :
                   <pre>{image}</pre>
                 {:else if uploadedMediatypes[0] === "text" && uploadedMediatypes[1] !== "html"}
                   <pre>{image}</pre>
