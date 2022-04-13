@@ -6,7 +6,7 @@ import { nftListTokenIds } from "lib/knft-list";
 
 import { metamaskProvider } from "main/metamask";
 import { collectionStore } from "stores/collection/collection";
-import { nftListStore } from "./nftList";
+import { nftStore } from "./nft";
 
 // ACTIONS : SET all NFTs from one collection for an account
 const nftListRefresh = async (chainId: number, address: string, account: string): Promise<void> => {
@@ -31,7 +31,7 @@ const nftListRefresh = async (chainId: number, address: string, account: string)
           account
         );
         if (nftIndex) {
-          nftListStore.updateOne(await nftGetMetadata(nftIndex));
+          nftStore.updateOne(await nftGetMetadata(nftIndex));
         }
       }
     } else {
@@ -39,7 +39,7 @@ const nftListRefresh = async (chainId: number, address: string, account: string)
       // console.log("nftListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
       for await (const _nft of nftsTokenIds.values()) {
-        nftListStore.updateOne(await nftGetMetadata(_nft));
+        nftStore.updateOne(await nftGetMetadata(_nft));
       }
     }
   } else {

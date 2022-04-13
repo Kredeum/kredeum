@@ -1,16 +1,16 @@
-import type { Nft, NftMetadata } from "./ktypes";
+import type { NftType, NftMetadata } from "./ktypes";
 import { fetchJson } from "./kfetch";
 import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
-const nftGetImageLink = (nft: Nft): string =>
+const nftGetImageLink = (nft: NftType): string =>
   nft?.ipfs
     ? ipfsGatewayUrl(nft.ipfs)
     : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
 
-const nftGetContentType = async (nft: Nft): Promise<string> => {
+const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);
 
   let contentType = "text";
@@ -34,13 +34,13 @@ const nftGetContentType = async (nft: Nft): Promise<string> => {
   return contentType;
 };
 
-const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
-  // console.log("nftGetMetadata", chainId, nft, collection);
+const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
+  // console.log("nftGetMetadata", chainId, nft, address);
 
   if (!nft) return nft;
 
-  const { chainId, collection, tokenID } = nft;
-  if (!(chainId && collection && tokenID)) return nft;
+  const { chainId, address, tokenID } = nft;
+  if (!(chainId && address && tokenID)) return nft;
 
   const network = getNetwork(chainId);
   if (!network) return nft;
@@ -67,9 +67,9 @@ const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
   const metadata = { ...nft.metadata, ...tokenJson };
   const image: string = nft.image || metadata.image || metadata.image_url || "";
 
-  const nftMetadata: Nft = {
+  const nftMetadata: NftType = {
     chainId,
-    collection,
+    address,
     tokenID,
 
     tokenURI: nft.tokenURI || "",
@@ -88,7 +88,7 @@ const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
 
     ipfs: nft.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
     ipfsJson: nft.ipfsJson || ipfsGetLink(nft.tokenURI || "") || "{}",
-    nid: nft.nid || nftUrl3(chainId, collection, tokenID)
+    nid: nft.nid || nftUrl3(chainId, address, tokenID)
   };
   nftMetadata.contentType = nft.contentType || (await nftGetContentType(nftMetadata));
 

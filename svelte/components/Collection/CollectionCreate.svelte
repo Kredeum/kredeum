@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
+  import type { CollectionType } from "lib/ktypes";
 
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/kconfig";
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
@@ -11,12 +11,12 @@
 
   // up to parent
   export let chainId: number;
-  export let collection: Collection = undefined;
+  export let collection: CollectionType = undefined;
   let template: string = undefined;
 
   let cloning = false;
   let cloningTxHash: string = null;
-  let collectionCreated: Collection = null;
+  let collectionCreated: CollectionType = null;
 
   let collectionName = "";
   let collectionSymbol = "";
@@ -76,14 +76,16 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a class="link" href={explorerAddressUrl(chainId, collectionCreated.address)} target="_blank"
-                >{collectionCreated?.name}</a
+              CollectionType '<a
+                class="link"
+                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                target="_blank">{collectionCreated?.name}</a
               >' created!
             </div>
           </div>
         {:else if cloning}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Creating new Collection...
+            <i class="fas fa-sync fa-left c-green" />Creating new CollectionType...
           </div>
           <div class="section">
             {#if cloningTxHash}
@@ -94,7 +96,7 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Name your Collection
+            <i class="fas fa-plus fa-left c-green" />Name your CollectionType
           </div>
 
           <div class="section">
@@ -104,7 +106,7 @@
           </div>
 
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
+            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your CollectionType
           </div>
 
           <div class="section">

@@ -29,7 +29,7 @@ type Network = {
   eip1559?: boolean;
 };
 
-type Collection = {
+type CollectionType = {
   chainId: number;
   address: string;
   owner?: string;
@@ -71,9 +71,9 @@ type NftMetadata = {
   ipfs?: string;
 };
 
-type Nft = {
+type NftType = {
   chainId: number;
-  collection: string;
+  address: string;
   tokenID: string;
   tokenURI?: string;
   owner?: string;
@@ -102,12 +102,12 @@ type Nft = {
 
 export type {
   Address,
-  Collection,
+  CollectionType,
   CollectionSupports,
   Network,
   ABIS,
   AbiType,
-  Nft,
+  NftType,
   NftMetadata,
   OpenNFTsKeys,
   ErcKeys

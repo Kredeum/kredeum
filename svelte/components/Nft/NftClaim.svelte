@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
   import { metamaskSigner } from "main/metamask";
@@ -7,7 +7,7 @@
   import NetworkSelect from "../Network/NetworkSelect.svelte";
 
   export let chainId: number;
-  export let nft: Nft = undefined;
+  export let nft: NftType = undefined;
 
   let claimTxHash: string = null;
   let claiming = false;
@@ -23,13 +23,7 @@
 
       // switch to kovan
 
-      const txResp = await claimNftResponse(
-        nft.chainId,
-        nft.collection,
-        nft.tokenID,
-        destinationAddress,
-        $metamaskSigner
-      );
+      const txResp = await claimNftResponse(nft.chainId, nft.address, nft.tokenID, destinationAddress, $metamaskSigner);
       claimTxHash = txResp.hash;
 
       const txReceipt = await claimNftReceipt(txResp);

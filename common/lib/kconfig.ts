@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address, Network, Collection, Nft } from "./ktypes";
+import type { Address, Network, CollectionType, NftType } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
@@ -75,17 +75,17 @@ const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): s
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
-const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
+const nftUrl = (nft: NftType, n?: number): string => nftUrl3(nft.chainId, nft.address, nft.tokenID, n);
 
 // Build normalized url for one nft with get parameters
-const normalizedSoloNftUrl = (chainId: number, nft: Nft): string => {
+const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
   const network = getNetwork(chainId);
   const ret =
     "/?chainId=" +
     (network
       ? network.chainName +
         "&collection=" +
-        (nft ? `${nft?.collection}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
+        (nft ? `${nft?.address}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
       : "");
   // console.log("nftUrl3", chainId, collection, _tokenId, plus, ret);
 
@@ -263,19 +263,19 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
 };
 
 // KREDEUM NFT URL
-const kredeumNftUrl = (chainId: number, nft: Nft): string =>
-  `./#/${getChainName(nft.chainId)}/${nft?.collection}/${nft?.tokenID}`;
+const kredeumNftUrl = (chainId: number, nft: NftType): string =>
+  `./#/${getChainName(nft.chainId)}/${nft?.address}/${nft?.tokenID}`;
 
 // NFT URL
-const explorerNftUrl = (chainId: number, nft: Nft): string => {
+const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
   if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://blockscout.com/xdai/mainnet/token/0x22C1f6050E56d2876009903609a2cC3fEf83B415/instance/3249859/metadata
-    url = explorerUrl(chainId, `/tokens/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
-    url = explorerUrl(chainId, `/token/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
+    url = explorerUrl(chainId, `/tokens/${nft?.address}/instance/${nft?.tokenID}/metadata`);
+    url = explorerUrl(chainId, `/token/${nft?.address}/instance/${nft?.tokenID}/metadata`);
   } else {
     // https://etherscan.io/token/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471?a=1
-    url = explorerUrl(chainId, `/token/${nft?.collection}?a=${nft?.tokenID}#inventory`);
+    url = explorerUrl(chainId, `/token/${nft?.address}?a=${nft?.tokenID}#inventory`);
   }
   return url;
 };
@@ -292,15 +292,15 @@ const explorerAddressLink = (chainId: number, address: string, n?: number): stri
 const explorerTxLink = (chainId: number, tx: string): string =>
   urlToLink(explorerTxUrl(chainId, tx), getShortAddress(tx));
 
-const explorerNftLink = (chainId: number, nft: Nft, label?: string): string =>
+const explorerNftLink = (chainId: number, nft: NftType, label?: string): string =>
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const collectionName = (collection: Collection): string => collection?.name || "No name";
+const collectionName = (collection: CollectionType): string => collection?.name || "No name";
 
-const collectionSymbol = (collection: Collection): string => collection?.symbol || "NFT";
+const collectionSymbol = (collection: CollectionType): string => collection?.symbol || "NFT";
 
 const explorerCollectionLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), getShortAddress(collAddress));
@@ -308,26 +308,27 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // NFTS helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
+const nftsSupply = (nfts: Map<string, NftType>): number => nfts.size || 0;
 
-const nftsBalanceAndName = (collection: Collection, account: string): string => {
+const nftsBalanceAndName = (collection: CollectionType, account: string): string => {
   const bal = collection?.balancesOf?.get(account) || 0;
   return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
 };
 
 // NFT helpers
-const nftExplorerLink = (nft: Nft, n?: number): string => urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
+const nftExplorerLink = (nft: NftType, n?: number): string =>
+  urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
+const nftOpenSeaUrl = (chainId: number, nft: NftType): string => {
   const openSeaAssets = getOpenSeaAssets(chainId);
-  return `${openSeaAssets}/${nft?.collection}/${nft?.tokenID}`;
+  return `${openSeaAssets}/${nft?.address}/${nft?.tokenID}`;
 };
 
-const nftName = (nft: Nft): string => nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
+const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
 
-const nftDescription = (nft: Nft): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
+const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 
-const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
+const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescription(nft), n, 0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

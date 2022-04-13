@@ -10,7 +10,7 @@
 
   let account: string;
   let chainId: number;
-  let collection: string;
+  let address: string;
 </script>
 
 <div>
@@ -22,10 +22,10 @@
   <NetworkList bind:chainId />
 
   <!-- <NftMintButton /> -->
-  <CollectionList {chainId} bind:collection {account} mintable={false} />
+  <CollectionList {chainId} bind:address {account} mintable={false} />
 
-  <!-- <NftsListSimple {chainId} address={collection} {account} />   -->
-  <NftsList {chainId} address={collection} {account} />
+  <!-- <NftsListSimple {chainId} {address} {account} />   -->
+  <NftsList {chainId} {address} {account} />
 </div>
 
 <style>

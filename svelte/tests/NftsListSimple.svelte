@@ -15,6 +15,6 @@
 
 {#if $nfts}
   {#each [...$nfts.values()] as nft, index}
-    <NftSimple {nft} />
+    <NftSimple chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
   {/each}
 {/if}

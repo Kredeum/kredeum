@@ -1,15 +1,26 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { nftGetImageLink } from "lib/knft-get-metadata";
+  import { nftStore } from "../stores/nft/nft";
 
-  export let nft: Nft;
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  export let account: string = undefined;
+
+  let nft: NftType;
+  // // ACTION : refresh Nft
+  // $: nftStore.refresh(chainId, address, account).catch(console.error);
+
+  // // STATE VIEW : get Nft
+  // $: nft = nftStore.get(chainId, address);
 </script>
 
 <p>
   <strong>{nft.name}</strong> : {nft.description}
 </p>
 <p>
-  nft://{nft.chainId}/{nft.collection}/{nft.tokenID}@{nft.owner}
+  nft://{nft.chainId}/{nft.address}/{nft.tokenID}@{nft.owner}
 </p>
 <p>
   <a href={nft.tokenURI}>{nft.tokenURI}</a><br />

@@ -2,7 +2,7 @@ import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import { collectionGet as collectionLib } from "lib/kcollection-get";
-import { Collection as CollectionType } from "lib/ktypes";
+import { CollectionType } from "lib/ktypes";
 import { collectionMerge } from "lib/kcollection-get";
 
 import { metamaskProvider } from "main/metamask";

@@ -1,6 +1,6 @@
 import { get, writable } from "svelte/store";
 
-import type { Collection as CollectionType } from "lib/ktypes";
+import type { CollectionType } from "lib/ktypes";
 import { collectionList as collectionListLib } from "lib/kcollection-list";
 
 import { metamaskProvider } from "main/metamask";

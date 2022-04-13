@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Collection as CollectionType, ABIS } from "./ktypes";
+import type { CollectionType, ABIS } from "./ktypes";
 
 import { Signer, Contract } from "ethers";
 import { collectionGetMetadata } from "./kcollection-get-metadata";

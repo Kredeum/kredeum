@@ -4,10 +4,10 @@
   import CollectionList from "../Collection/CollectionList.svelte";
 
   /////////////////////////////////////////////////
-  // <CollectionChoice bind:{collection} {txt} />
+  // <CollectionChoice bind:{address} {txt} />
   // Choose Collection, after Account Connect and Network choose
   /////////////////////////////////////////////////
-  export let collection: string = undefined;
+  export let address: string = undefined;
   export let txt = true;
 
   let account: string;
@@ -23,6 +23,6 @@
 
 {#if chainId && account}
   <p>
-    <CollectionList {chainId} {account} bind:collection {txt} mintable={true} />
+    <CollectionList {chainId} {account} bind:address {txt} mintable={true} />
   </p>
 {/if}

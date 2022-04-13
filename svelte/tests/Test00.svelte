@@ -20,7 +20,7 @@
 
   let account: string;
   let chainId: number;
-  let collection: string;
+  let address: string;
   let tokenID: string;
 
   // let refreshing: boolean;
@@ -31,7 +31,7 @@
 
 <main>
   <div>
-    {chainId}/{collection || ""}/{tokenID || ""}@{account}
+    {chainId}/{address || ""}/{tokenID || ""}@{account}
 
     <BreadCrumb display={true} />
 
@@ -51,15 +51,15 @@
     <!-- <NetworkSelect bind:chainId /> -->
 
     {#if chainId && account}
-      <CollectionList {chainId} {account} bind:collection mintable={true} />
+      <CollectionList {chainId} {account} bind:address mintable={true} />
     {/if}
   </div>
 
   <!-- <div>
     <RefreshButton {refreshing} bind:refresh />
 
-    {#if chainId && collection}
-      <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
+    {#if chainId && address}
+      <NftsListGet {chainId} {address} {account} bind:refreshing {refresh} />
     {/if}
   </div> -->
 </main>

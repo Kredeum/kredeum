@@ -1,7 +1,7 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
-import { Nft as NftType } from "lib/ktypes";
+import { NftType } from "lib/ktypes";
 import { nftListStore } from "./nftList";
 
 // STATE VIEW : GET Collection fitered list
@@ -11,7 +11,7 @@ const nftListGetStore = (chainId: number, address: string, account?: string): Re
     ($nftListStore) =>
       new Map(
         [...$nftListStore].filter(
-          ([, nft]) => nft.chainId === chainId && nft.collection === address && (!account || nft.owner === account)
+          ([, nft]) => nft.chainId === chainId && nft.address === address && (!account || nft.owner === account)
         )
       )
   );

@@ -1,4 +1,4 @@
-import { Nft as NftType } from "lib/ktypes";
+import { NftType } from "lib/ktypes";
 import { nftListStore } from "./nftList";
 
 // UTILITIES
@@ -9,7 +9,7 @@ const nftUpdateOne = (nft: NftType) => {
   if (!nft) return "";
   // console.log("nftUpdateOne", nft);
 
-  const { chainId, collection: address, tokenID } = nft;
+  const { chainId, address, tokenID } = nft;
   if (!(chainId && address && tokenID)) return;
   console.log("nftUpdateOne", chainId, address, tokenID);
 
@@ -24,4 +24,12 @@ const nftUpdateOne = (nft: NftType) => {
   });
 };
 
-export { nftGetKey, nftUpdateOne };
+export {};
+
+export const nftStore = {
+  updateOne: nftUpdateOne,
+  // get: nftGetStore,
+  // getOne: nftGetOne,
+  // refresh: nftRefresh,
+  nftGetKey
+};

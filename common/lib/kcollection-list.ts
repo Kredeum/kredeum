@@ -1,4 +1,4 @@
-import type { Collection as CollectionType } from "./ktypes";
+import type { CollectionType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";

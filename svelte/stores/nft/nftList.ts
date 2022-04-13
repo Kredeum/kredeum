@@ -1,8 +1,7 @@
 import { writable } from "svelte/store";
 
-import { Nft as NftType } from "lib/ktypes";
+import { NftType } from "lib/ktypes";
 
-import { nftGetKey, nftUpdateOne } from "./nft";
 import { nftListRefresh } from "./nftListRefresh";
 import { nftListGetStore } from "./nftListGet";
 
@@ -27,8 +26,6 @@ const nftListStore = {
   subscribe,
   set,
   update,
-  updateOne: nftUpdateOne,
-  getKey: nftGetKey,
   getSubList: nftListGetStore,
   refresh: nftListRefresh
 };

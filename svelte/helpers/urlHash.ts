@@ -4,7 +4,7 @@ import type { RefNFT } from "helpers/refNft";
 
 const refNft = (hash = window.location.hash): RefNFT => {
   let chainId: number;
-  let collection: string;
+  let address: string;
   let tokenID: string;
   let account: string;
   let chainName: string;
@@ -25,15 +25,15 @@ const refNft = (hash = window.location.hash): RefNFT => {
       } else {
         chainId = Number(res[3]);
       }
-      collection = res[5];
+      address = res[5];
       tokenID = res[7];
       account = res[9];
 
-      // console.log("hashrefNft", hash, account, chainId, collection, tokenID, chainName);
+      // console.log("hashrefNft", hash, account, chainId, address, tokenID, chainName);
     }
   }
 
-  return { chainId, collection, tokenID, account, chainName };
+  return { chainId, address, tokenID, account, chainName };
 };
 
 export { refNft };

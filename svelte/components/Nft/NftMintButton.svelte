@@ -3,7 +3,7 @@
 
   import AccountConnect from "../Account/AccountConnect.svelte";
 
-  import type { Nft, Collection } from "lib/ktypes";
+  import type { NftType, CollectionType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get-metadata";
   import { factoryGetTemplateAddress } from "lib/kfactory-get";
@@ -17,9 +17,9 @@
   export let pid: string = undefined;
   export let width = 100;
   export let display = false;
-  export let collection: Collection = undefined;
+  export let collection: CollectionType = undefined;
 
-  let mintedNft: Nft;
+  let mintedNft: NftType;
   let minting: number;
 
   let ipfsImage: string;
@@ -52,7 +52,7 @@
     location.href = nftGetImageLink(mintedNft);
   };
 
-  const mint = async (e: Event): Promise<Nft> => {
+  const mint = async (e: Event): Promise<NftType> => {
     e.preventDefault();
     // console.log("collection", collection);
     ipfsImage = null;

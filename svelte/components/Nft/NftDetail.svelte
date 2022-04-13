@@ -1,12 +1,12 @@
 <script lang="ts">
-  import { Collection } from "lib/ktypes";
+  import { CollectionType } from "lib/ktypes";
 
   import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
 
   let nfts;
   let nft;
 
-  export let collection: Collection = undefined;
+  export let collection: CollectionType = undefined;
   export let tokenID: string = undefined;
 
   // nfts = nftListFromCache();
@@ -16,7 +16,7 @@
     [...nfts].filter(
       ([, nftFromCollec]) =>
         nftFromCollec.chainId === collection.chainId &&
-        nftFromCollec.collection === collection.address &&
+        nftFromCollec.address === collection.address &&
         nftFromCollec.tokenID === tokenID
     )
   )
@@ -76,11 +76,11 @@
           <div class="flex">
             <a
               class="link overflow-ellipsis"
-              href={explorerCollectionUrl(nft.chainId, nft?.collection)}
-              title={nft.collection}
+              href={explorerCollectionUrl(nft.chainId, nft?.address)}
+              title={nft.address}
               target="_blank"
             >
-              {nft.collection}
+              {nft.address}
             </a>
           </div>
         </li>

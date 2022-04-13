@@ -1,5 +1,5 @@
 import { Provider } from "@ethersproject/abstract-provider";
-import type { Collection, CollectionSupports, ABIS } from "./ktypes";
+import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
 import { interfaceId } from "./kconfig";
 
 import { Signer, Contract } from "ethers";
@@ -28,7 +28,7 @@ interface MetadataType {
 
 const collectionGetMetadata = async (
   chainId: number,
-  collectionOrAddress: Collection | string,
+  collectionOrAddress: CollectionType | string,
   signerOrProvider: Signer | Provider,
   account?: string
 ): Promise<MetadataType> => {

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Collection as CollectionType } from "lib/ktypes";
+  import type { CollectionType } from "lib/ktypes";
   import CollectionSimple from "./CollectionSimple.svelte";
   import { collectionCurrent } from "stores/collection/collectionDefault";
   /////////////////////////////////////////////////

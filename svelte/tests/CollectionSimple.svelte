@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Collection } from "lib/ktypes";
+  import type { CollectionType } from "lib/ktypes";
   export let collectionObject: Collection;
 </script>
 

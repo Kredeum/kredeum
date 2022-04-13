@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Collection as CollectionType, Nft as NftType } from "lib/ktypes";
+  import type { CollectionType, NftType } from "lib/ktypes";
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, collectionUrl } from "lib/kconfig";
   import { getNetwork } from "lib/kconfig";
 
@@ -8,7 +8,7 @@
   import { nftListStore } from "stores/nft/nftList";
 
   /////////////////////////////////////////////////
-  // <NftList {chainId} {collection}  {account} {refreshing} />
+  // <NftList {chainId} {address}  {account} {refreshing} />
   // List Nfts from collection owned by account
   /////////////////////////////////////////////////
   export let chainId: number;

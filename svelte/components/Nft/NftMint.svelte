@@ -3,7 +3,7 @@
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import type { Nft } from "lib/ktypes";
-  import type { Collection as CollectionType } from "lib/ktypes";
+  import type { CollectionType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
@@ -13,7 +13,7 @@
 
   export let chainId: number;
 
-  let collection: string = undefined;
+  let address: string = undefined;
 
   let account: string;
 
@@ -43,7 +43,7 @@
 
   let collectionObject: CollectionType;
   $: {
-    // collectionObject = collectionGetFromCache(chainId, collection);
+    // collectionObject = collectionGetFromCache(chainId, address);
     // console.log("collectionObject", collectionObject);
   }
 
@@ -248,8 +248,8 @@
         </div>
 
         <div class="section">
-          <span class="label label-big">Add to an existing collection ?</span>
-          <CollectionList {chainId} bind:collection {account} mintable={true} label={false} />
+          <span class="label label-big">Add to an existing address ?</span>
+          <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
           {#if collectionObject?.mintable}

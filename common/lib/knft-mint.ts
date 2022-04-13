@@ -1,5 +1,5 @@
 import type { Signer } from "ethers";
-import type { Nft, Collection } from "./ktypes";
+import type { NftType, CollectionType } from "./ktypes";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
 
 import { ethers } from "ethers";
@@ -27,14 +27,14 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
 const _mintedNft = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   tokenID: string,
   urlJson: string,
   minterAddress: string
-): Promise<Nft> =>
+): Promise<NftType> =>
   await nftGetMetadata({
     chainId,
-    collection: collection.address,
+    address: collection.address,
     tokenID,
     tokenURI: urlJson,
     creator: minterAddress,
@@ -68,14 +68,14 @@ const nftMint2IpfsJson = async (name = "No name", ipfs = "", address = "", image
     origin: textShort(image, 140),
     minter: address,
     metadata: {}
-  } as Nft);
+  } as NftType);
   return ipfsJson;
 };
 
 // GET minting tx response
 const nftMint3TxResponse = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   ipfsJson: string,
   minter: Signer
 ): Promise<TransactionResponse | null> => {
@@ -102,12 +102,12 @@ const nftMint3TxResponse = async (
 // GET minting tx receipt
 const nftMint4 = async (
   _chainId: number,
-  _collection: Collection,
+  _collection: CollectionType,
   _txResponse: TransactionResponse,
   _metadataCid: string,
   _minter: string
-): Promise<Nft | undefined> => {
-  let _nft: Nft | undefined = undefined;
+): Promise<NftType | undefined> => {
+  let _nft: NftType | undefined = undefined;
 
   if (_txResponse) {
     const _txReceipt = await _txResponse.wait();

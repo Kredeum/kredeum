@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
 
   import {
     getShortAddress,
@@ -25,20 +25,24 @@
   //  <Nft {nft} {account}? {index}? {platform}? {more}? /> -->
   // Display NFT
   /////////////////////////////////////////////////
-  export let nft: Nft;
-  export let account = "";
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  export let account: string = undefined;
   export let index = 0;
   export let more = 0;
   export let platform = "dapp";
+
+  let nft: NftType = { chainId, address, tokenID };
 
   const moreToggle = (): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
-  const shortcode = async (nft: Nft) => {
-    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.collection}" tokenid="${
-      nft.tokenID
-    }" ipfs="${nft.ipfs}"]${nftName(nft)}[/kredeum_sell]`;
+  const shortcode = async (nft: NftType) => {
+    const data = `[kredeum_sell chain="${nft.chainName}" collection="${nft.address}" tokenid="${nft.tokenID}" ipfs="${
+      nft.ipfs
+    }"]${nftName(nft)}[/kredeum_sell]`;
 
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
     console.log("Copied");
@@ -52,16 +56,16 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
+      video = '<video preload="metadata" style="border-radius: initial;">';
     } else {
       video =
-        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
+        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
   };
 
-  const divMedia = (nft: Nft, index: number, small = false) => {
+  const divMedia = (nft: NftType, index: number, small = false) => {
     const mediaContentType = nft.contentType?.split("/");
     const mediaType = mediaContentType?.[0] || "image";
 
@@ -77,7 +81,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += "<div class=\"media-text\"></div>";
+      div += '<div class="media-text"></div>';
     }
     div += "</div>";
 
@@ -174,8 +178,8 @@
         <li class="complete">
           <div class="flex"><span class="label">Collection @</span></div>
           <div class="flex">
-            <a class="link" href={explorerCollectionUrl(nft.chainId, nft?.collection)} target="_blank"
-              >{getShortAddress(nft.collection, 15)}</a
+            <a class="link" href={explorerCollectionUrl(nft.chainId, nft?.address)} target="_blank"
+              >{getShortAddress(nft.address, 15)}</a
             >
           </div>
         </li>

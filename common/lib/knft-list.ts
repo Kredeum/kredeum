@@ -1,4 +1,4 @@
-import type { Collection, Nft } from "./ktypes";
+import type { CollectionType, NftType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchCov, fetchGQL } from "./kfetch";
@@ -12,13 +12,13 @@ const LIMIT = 10;
 
 const nftListFromCovalent = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("nftListFromCovalent", chainId, collection, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network && collection && account) {
@@ -52,7 +52,7 @@ const nftListFromCovalent = async (
           if (index < limit) {
             const nft = {
               chainId,
-              collection: getChecksumAddress(collection.address),
+              address: getChecksumAddress(collection.address),
               tokenID: _token.token_id,
               tokenURI: _token.token_url,
               external_data: _token.external_data,
@@ -77,13 +77,13 @@ const nftListFromCovalent = async (
 
 const nftListFromTheGraph = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("nftListFromTheGraph", chainId, collection.address, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network && collection) {
@@ -123,7 +123,7 @@ const nftListFromTheGraph = async (
       if (index < limit) {
         const nft = {
           chainId,
-          collection: getChecksumAddress(collection.address),
+          address: getChecksumAddress(collection.address),
           tokenID: _token.tokenID,
           tokenURI: _token.tokenURI,
           account: getChecksumAddress(_token.account?.id),
@@ -145,14 +145,14 @@ const nftListFromTheGraph = async (
 
 const nftListFromContract = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   provider: Provider,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("nftListFromContract", chainId, collection.address, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
 
   if (chainId && collection?.supports?.IERC721Enumerable) {
     try {
@@ -169,7 +169,7 @@ const nftListFromContract = async (
         }
 
         for (let index = 0; index < Math.min(nbTokens, limit); index++) {
-          const nft: Nft | undefined = await nftGetFromContractEnumerable(
+          const nft: NftType | undefined = await nftGetFromContractEnumerable(
             chainId,
             collection,
             index,
@@ -191,14 +191,14 @@ const nftListFromContract = async (
 
 const nftListTokenIds = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   provider: Provider,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("nftListTokenIds", chainId, collection.address, account, limit);
 
-  let nftsTokenIds: Map<string, Nft> = new Map();
+  let nftsTokenIds: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network) {
@@ -232,13 +232,13 @@ const nftListTokenIds = async (
 };
 
 const _nftListWithMetadata = async (
-  nfts: Map<string, Nft>,
+  nfts: Map<string, NftType>,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("_nftListWithMetadata", chainId, collection);
 
-  const nftsWithMetadata: Map<string, Nft> = new Map();
+  const nftsWithMetadata: Map<string, NftType> = new Map();
 
   const nftsFromIds = [...nfts.values()];
 
@@ -254,20 +254,20 @@ const _nftListWithMetadata = async (
   return nftsWithMetadata;
 };
 
-// const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, Nft> =>
+// const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
 //   storeNftsList(chainId, collection, account);
 
 const nftList = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   provider: Provider,
   account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("nftList", chainId, collection, account, limit);
 
-  const nftsTokenIds: Map<string, Nft> = await nftListTokenIds(chainId, collection, provider, account, limit);
-  const nftsWithMetadata: Map<string, Nft> = await _nftListWithMetadata(nftsTokenIds, account, limit);
+  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(chainId, collection, provider, account, limit);
+  const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, account, limit);
 
   // console.log("nftList", nftsWithMetadata);
 

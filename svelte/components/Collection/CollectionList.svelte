@@ -8,12 +8,12 @@
   import { collectionListStore } from "stores/collection/collectionList";
 
   /////////////////////////////////////////////////
-  // <CollectionList chainId} bind:{collection} {account} {mintable} {label} {txt} {refreshing} />
+  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
   export let account: string = undefined;
-  export let collection: string = undefined;
+  export let address: string = undefined;
   export let mintable = false;
   export let label = true;
   export let txt = false;
@@ -29,16 +29,16 @@
 
   // STATE VIEW : Default Collection
   $: collectionDefault = collectionDefaultStore;
-  $: collection = $collectionDefault.get(collectionDefault.getKey(chainId, account));
+  $: address = $collectionDefault.get(collectionDefault.getKey(chainId, account));
 
   const _setCollection = (_collection: string): string => {
     if (!(chainId && _collection)) return;
 
     // console.log("_setCollection", chainId, _collection);
-    collection = _collection;
+    address = _collection;
     collectionDefaultStore.updateOne(chainId, _collection, account);
 
-    return collection;
+    return address;
   };
 
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
@@ -66,13 +66,13 @@
 
       <select on:change={(e) => _setCollectionFromEvent(e)}>
         {#each [...$collections] as [url, coll]}
-          <option selected={coll.address == collection} value={coll.address}>
+          <option selected={coll.address == address} value={coll.address}>
             <Collection chainId={coll.chainId} address={coll.address} {account} />
           </option>
         {/each}
       </select>
       <p>
-        {collectionUrl(chainId, collection)}
+        {collectionUrl(chainId, address)}
       </p>
     {:else}
       <p>
@@ -90,12 +90,12 @@
       <span class="label"
         >Collection
         {#if refreshing}...{/if}
-        {#if collection}
+        {#if address}
           <a
             class="info-button"
-            href={_explorerCollectionUrl(collection)}
+            href={_explorerCollectionUrl(address)}
             title="&#009;  Collection address (click to view in explorer)&#013;
-      {_collectionUrl(collection)}"
+      {_collectionUrl(address)}"
             target="_blank"><i class="fas fa-info-circle" /></a
           >
         {/if}
@@ -107,13 +107,13 @@
         {#if $collections?.size > 0}
           <div class="select-trigger">
             <span>
-              <Collection {chainId} address={collection} {account} />
+              <Collection {chainId} {address} {account} />
             </span>
           </div>
           <div class="custom-options">
             {#each [...$collections] as [url, coll]}
               <span
-                class="custom-option {coll.address == collection ? 'selected' : ''}"
+                class="custom-option {coll.address == address ? 'selected' : ''}"
                 data-value={coll.address}
                 on:click={() => _setCollection(coll.address)}
               >

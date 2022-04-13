@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
-  export let nft: Nft = undefined;
+  export let nft: NftType = undefined;
 
   let transferTxHash: string = null;
   let transfering = false;
@@ -21,7 +21,7 @@
 
       const txResp = await transferNftResponse(
         nft.chainId,
-        nft.collection,
+        nft.address,
         nft.tokenID,
         destinationAddress,
         $metamaskSigner

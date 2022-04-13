@@ -1,4 +1,4 @@
-import type { Network, Collection } from "lib/ktypes";
+import type { Network, CollectionType } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
@@ -47,7 +47,7 @@ describe("32 List OpenNFTsV3 lib", function () {
 
   describe("List NFTs", function () {
     this.timeout(50000);
-    let collection: Collection;
+    let collection: CollectionType;
 
     before(async () => {
       collection = await collectionGet(chainId, openNFTsV3.address, ethers.provider);

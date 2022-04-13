@@ -4,7 +4,7 @@ import { BigNumber } from "ethers";
 import type { ERC721 } from "types/ERC721";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
 
-import type { Collection, Nft } from "./ktypes";
+import type { CollectionType, NftType } from "./ktypes";
 import { nftUrl3 } from "./kconfig";
 import { collectionContractGet } from "./kcollection-get";
 import { nftGetMetadata } from "./knft-get-metadata";
@@ -32,11 +32,11 @@ import { nftGetMetadata } from "./knft-get-metadata";
 
 const nftGetFromContract = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   tokenID: string,
   provider: Provider
-): Promise<Nft | undefined> => {
-  let nft: Nft | undefined;
+): Promise<NftType | undefined> => {
+  let nft: NftType | undefined;
 
   const providerChainId = (await provider.getNetwork())?.chainId;
 
@@ -58,7 +58,7 @@ const nftGetFromContract = async (
       const nid = nftUrl3(chainId, collection.address, tokenID);
       nft = {
         chainId,
-        collection: collection.address,
+        address: collection.address,
         contractName,
         tokenID,
         tokenURI,
@@ -76,12 +76,12 @@ const nftGetFromContract = async (
 
 const nftGetFromContractEnumerable = async (
   chainId: number,
-  collection: Collection,
+  collection: CollectionType,
   index: number,
   provider: Provider,
   owner?: string
-): Promise<Nft | undefined> => {
-  let nft: Nft | undefined;
+): Promise<NftType | undefined> => {
+  let nft: NftType | undefined;
   let tokID: BigNumber;
 
   const providerChainId = (await provider.getNetwork())?.chainId;
@@ -114,7 +114,7 @@ const nftGetFromContractEnumerable = async (
   return nft;
 };
 
-const nftGet = async (chainId: number, collection: string, tokenID: string): Promise<Nft | undefined> =>
-  nftGetMetadata({ chainId, collection, tokenID });
+const nftGet = async (chainId: number, address: string, tokenID: string): Promise<NftType | undefined> =>
+  nftGetMetadata({ chainId, address, tokenID });
 
 export { nftGet, nftGetFromContract, nftGetFromContractEnumerable, collectionContractGet };
