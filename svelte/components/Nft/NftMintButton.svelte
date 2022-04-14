@@ -73,12 +73,12 @@
 
       minting = 3;
 
-      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, collection, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, collection.address, ipfsJson, $metamaskSigner);
       // console.log("txResp", txResp);
 
       minting = 4;
 
-      mintedNft = await nftMint4($metamaskChainId, collection, mintingTxResp, ipfsJson, signerAddress);
+      mintedNft = await nftMint4($metamaskChainId, collection.address, mintingTxResp, ipfsJson, signerAddress);
       // console.log("mintedNft", mintedNft);
 
       minting = 5;

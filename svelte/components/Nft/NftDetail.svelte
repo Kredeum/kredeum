@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { CollectionType } from "lib/ktypes";
+  import type { CollectionType } from "lib/ktypes";
 
   import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
 

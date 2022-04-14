@@ -27,12 +27,12 @@ const factoryGetTemplateAddress = async (chainId: number, template: string, prov
 };
 
 // GET NFTsFactory Contract
-const factoryGetContract = (chainId: number, signerOrProvider: Signer | Provider): NFTsFactoryV2 => {
+const factoryGetContract = (chainId: number, provider: Provider): NFTsFactoryV2 => {
   // console.log("factoryGetContract", chainId);
 
   let nftsFactory = nftsFactories.get(chainId) as NFTsFactoryV2;
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(), signerOrProvider) as NFTsFactoryV2;
+    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(), provider) as NFTsFactoryV2;
     nftsFactories.set(chainId, nftsFactory);
   }
 

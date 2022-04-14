@@ -1,4 +1,4 @@
-import type { Signer } from "ethers";
+import type { JsonRpcSigner } from "@ethersproject/providers";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
 
 import { collectionContractGet } from "./kcollection-get";
@@ -9,7 +9,7 @@ const claimNftResponse = async (
   collectionAddress: string,
   tokenID: string,
   destinationAddress: string,
-  owner: Signer
+  owner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   // console.log("claimNftResponse", chainId, collectionAddress, tokenID, destinationAddress);
 
@@ -20,11 +20,11 @@ const claimNftResponse = async (
     const ownerAddress = await owner.getAddress();
     // console.log("claimNftResponse owner", ownerAddress);
 
-    const openNFTs = await collectionContractGet(chainId, collectionAddress, owner);
+    const openNFTs = await collectionContractGet(chainId, collectionAddress, owner.provider);
 
     // console.log("claimFrom", ownerAddress, destinationAddress, tokenID);
     txResp = await openNFTs.connect(owner).claimFrom(ownerAddress, destinationAddress, tokenID);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
+    console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
   }
 
   return txResp;
@@ -39,12 +39,12 @@ const claimNft = async (
   collectionAddress: string,
   tokenID: string,
   destinationAddress: string,
-  owner: Signer
-): Promise<TransactionReceipt | null> => {
+  owner: JsonRpcSigner
+): Promise<TransactionReceipt | undefined> => {
   // console.log("claimNft", chainId, collectionAddress, tokenID, destinationAddress);
 
   const txResp = await claimNftResponse(chainId, collectionAddress, tokenID, destinationAddress, owner);
-  const txReceipt = await claimNftReceipt(txResp);
+  const txReceipt = txResp && (await claimNftReceipt(txResp));
 
   return txReceipt;
 };

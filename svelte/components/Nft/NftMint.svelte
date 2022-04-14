@@ -2,8 +2,7 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
-  import type { Nft } from "lib/ktypes";
-  import type { CollectionType } from "lib/ktypes";
+  import type { NftType, CollectionType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
@@ -29,7 +28,7 @@
   let ipfsJson: string;
   let minting: number;
   let mintingTxResp: TransactionResponse;
-  let mintedNft: Nft;
+  let mintedNft: NftType;
   let mintingError: string;
 
   const mintReset = (): void => {
@@ -61,7 +60,7 @@
     }
   };
 
-  const mint = async (): Promise<Nft> => {
+  const mint = async (): Promise<NftType> => {
     mintReset();
 
     if (image) {
@@ -79,13 +78,13 @@
         if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse(chainId, collectionObject, ipfsJson, $metamaskSigner);
+          mintingTxResp = await nftMint3TxResponse(chainId, address, ipfsJson, $metamaskSigner);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await nftMint4(chainId, collectionObject, mintingTxResp, ipfsJson, account);
+            mintedNft = await nftMint4(chainId, address, mintingTxResp, ipfsJson, account);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {

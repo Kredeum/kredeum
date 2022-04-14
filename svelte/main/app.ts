@@ -1,5 +1,4 @@
 // import Home from "../components/Collection/CollectionChoice.svelte";
-// import Home from "../components/Tests/Test00.svelte";
 // import Home from "../tests/Test01.svelte";
 import Home from "../components/Home.svelte";
 // import Home from "../components/Tests/NftsStore/App.svelte";

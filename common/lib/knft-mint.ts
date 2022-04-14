@@ -1,9 +1,8 @@
-import type { Signer } from "ethers";
-import type { NftType, CollectionType } from "./ktypes";
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
-
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
+
+import type { NftType, CollectionType } from "./ktypes";
 import { ipfsGatewayUrl, textShort, getNetwork } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";
@@ -27,14 +26,14 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
 const _mintedNft = async (
   chainId: number,
-  collection: CollectionType,
+  address: string,
   tokenID: string,
   urlJson: string,
   minterAddress: string
 ): Promise<NftType> =>
   await nftGetMetadata({
     chainId,
-    address: collection.address,
+    address,
     tokenID,
     tokenURI: urlJson,
     creator: minterAddress,
@@ -75,57 +74,60 @@ const nftMint2IpfsJson = async (name = "No name", ipfs = "", address = "", image
 // GET minting tx response
 const nftMint3TxResponse = async (
   chainId: number,
-  collection: CollectionType,
+  address: string,
   ipfsJson: string,
-  minter: Signer
+  minter: JsonRpcSigner
 ): Promise<TransactionResponse | null> => {
-  // console.log("nftMint3TxResponse", chainId, collection.address, ipfsJson, await minter.getAddress());
+  // console.log("nftMint3TxResponse", chainId, address, ipfsJson, await minter.getAddress());
 
-  const openNFTs = await collectionContractGet(chainId, collection, minter);
+  const openNFTs = await collectionContractGet(chainId, address, minter.provider);
   console.log("openNFTs", openNFTs);
+
+  type MintOpenNFTFunctionType = {
+    (address: string, json: string): Promise<TransactionResponse>;
+  };
 
   // OpenNFTsV0 = addUser
   // OpenNFTsV1 = mintNFT
   // OpenNFTsV2 = mintNFT
   // OpenNFTsV3+ = mintOpenNFT
-  const mintFunction = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+  const mintFunction: MintOpenNFTFunctionType = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
   const urlJson = ipfsGatewayUrl(ipfsJson);
 
   const txResp = await mintFunction(await minter.getAddress(), urlJson);
-
-  const network = getNetwork(chainId);
-  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
+  console.log(`${getNetwork(chainId)?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };
 
 // GET minting tx receipt
 const nftMint4 = async (
-  _chainId: number,
-  _collection: CollectionType,
-  _txResponse: TransactionResponse,
-  _metadataCid: string,
-  _minter: string
+  chainId: number,
+  address: string,
+  txResponse: TransactionResponse,
+  metadataCid: string,
+  minter: string
 ): Promise<NftType | undefined> => {
-  let _nft: NftType | undefined = undefined;
+  let nft: NftType | undefined = undefined;
 
-  if (_txResponse) {
-    const _txReceipt = await _txResponse.wait();
+  if (txResponse) {
+    const txReceipt = await txResponse.wait();
     // console.log("txReceipt", txReceipt);
 
-    if (_txReceipt) {
-      const _tokenID = _mintTokenID(_txReceipt);
+    if (txReceipt) {
+      const tokenID = _mintTokenID(txReceipt);
       // console.log("tokenID", tokenID);
 
-      if (_tokenID) {
-        _nft = await _mintedNft(_chainId, _collection, _tokenID, ipfsGatewayUrl(_metadataCid), _minter);
-        _nft.ipfsJson = _metadataCid;
-        // console.log("nftMint4", _nft);
+      if (tokenID) {
+        nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(metadataCid), minter);
+        nft.ipfsJson = metadataCid;
+        // console.log("nftMint4", nft);
       }
     }
   }
 
-  return _nft;
+  return nft;
 };
 
 export { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 };

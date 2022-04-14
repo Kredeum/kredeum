@@ -1,4 +1,4 @@
-import type { Provider, TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
 import { ethers, Signer } from "ethers";
@@ -17,13 +17,13 @@ const collectionCloneResponse = async (
   name: string,
   symbol: string,
   template: string,
-  cloner: Signer
+  cloner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   // console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
 
   const network = getNetwork(chainId);
 
-  const nftsFactoryV2 = factoryGetContract(chainId, cloner);
+  const nftsFactoryV2 = factoryGetContract(chainId, cloner.provider);
 
   const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
   const options: boolean[] = template == "ownable" ? [false, true] : [true, false];
@@ -59,7 +59,7 @@ const collectionClone = async (
   name: string,
   symbol: string,
   template: string,
-  cloner: Signer
+  cloner: JsonRpcSigner
 ): Promise<string> => {
   let address = "";
 

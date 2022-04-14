@@ -1,38 +1,74 @@
 <script lang="ts">
+  import type { Readable } from "svelte/store";
+
   import type { CollectionType } from "lib/ktypes";
+
   import CollectionSimple from "./CollectionSimple.svelte";
-  import { collectionCurrent } from "stores/collection/collectionDefault";
+  import { collectionDefaultStore } from "stores/collection/collectionDefault";
+  import { collectionListStore } from "stores/collection/collectionList";
+
   /////////////////////////////////////////////////
-  // <CollectionListSimple {collections}   />
-  // Display Collections
+  // <CollectionListSimple chainId} bind:{address} {account} {mintable} {refreshing} />
+  //  Collection List
   /////////////////////////////////////////////////
-  export let collections: Map<string, CollectionType>;
-  export let collection: string;
   export let chainId: number;
+  export let address: string = undefined;
+  export let account: string = undefined;
+  export let mintable: boolean = false;
+  export let refreshing: boolean = undefined;
 
-  $: if (chainId) collectionObject = null;
+  let collections: Readable<Map<string, CollectionType>>;
+  let i = 1;
+  let j = 1;
 
-  const _setCollection = (_collectionObject: CollectionType) => {
-    collectionObject = _collectionObject;
-    collection = collectionObject.address;
-    collectionDefault.set(collection);
+  // ACTION : refresh Collections async
+  $: if (chainId && account) _refresh(chainId, account, mintable);
+  const _refresh = async (_chainId: number, _account: string, _mintable: boolean): Promise<void> => {
+    refreshing = true;
+    await collectionListStore.refresh(_chainId, _account, _mintable);
+    refreshing = false;
+    console.log(
+      `REFRESH COLLECTION LIST ${i++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}`
+    );
   };
 
-  let collectionObject: CollectionType;
+  // STATE VIEW : get Collections sync
+  $: if (chainId && account) _get(chainId, account, mintable);
+  const _get = (_chainId: number, _account: string, _mintable: boolean): void => {
+    collections = collectionListStore.getSubList(_chainId, _account, _mintable);
+    console.log(
+      `GET COLLECTION LIST ${j++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}\n`,
+      $collections
+    );
+  };
+
+  // ACTION : refresh default Collections sync
+  $: collectionDefaultStore.refresh(chainId, account);
+
+  // STATE VIEW : Collections
+  $: collectionDefault = collectionDefaultStore.getDefault(chainId, mintable, account);
+  $: address = $collectionDefault;
+
+  const _setCollection = (_collection: string): string => {
+    if (!(chainId && _collection)) return;
+
+    console.log("_setCollection", chainId, _collection);
+    address = _collection;
+    collectionDefaultStore.setOne(chainId, _collection, mintable, account);
+
+    return address;
+  };
 </script>
 
-{#if collectionObject}
-  <p>
-    <strong>
-      {collectionObject?.name} ({collectionObject?.balanceOf})
-    </strong>
-  </p>
-  <CollectionSimple {collectionObject} />
+{#if address}
+  <CollectionSimple {chainId} {address} {account} />
 {/if}
 
-{#each [...collections] as [url, coll]}
-  <p on:click={() => _setCollection(coll)}>
-    {coll.name}
-    ({coll.balanceOf})
-  </p>
-{/each}
+{#if collections}
+  {#each [...$collections] as [url, coll]}
+    <p on:click={() => _setCollection(coll.address)}>
+      {coll?.name}
+      {coll?.address}
+    </p>
+  {/each}
+{/if}

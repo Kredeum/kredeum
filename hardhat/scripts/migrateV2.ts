@@ -1,7 +1,7 @@
 import type { NFTsFactory } from "types/NFTsFactory";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { ERC165 } from "types/ERC165";
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 
 import networks from "config/networks.json";
 
@@ -30,7 +30,7 @@ const main = async () => {
   const chainId = Number(await getChainId());
   const { deployer } = await getNamedSigners();
 
-  const network = networks.find((nw) => nw.chainId === chainId) as Network;
+  const network = networks.find((nw) => nw.chainId === chainId) as NetworkType;
   const nftsFactory: NFTsFactory = new ethers.Contract(
     network.nftsFactory || "",
     INFTsFactory.concat(ICloneFactory),

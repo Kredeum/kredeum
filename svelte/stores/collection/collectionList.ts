@@ -9,7 +9,7 @@ import { collectionStore } from "stores/collection/collection";
 import { collectionListGetStore } from "stores/collection/collectionListGet";
 import { jsonMapParse } from "helpers/jsonMap";
 
-// LOADER : load Collections from localStorage
+// LOADER : LOAD Collections from localStorage
 const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
   const collections: Map<string, CollectionType> = new Map();
 
@@ -20,20 +20,25 @@ const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
       collections.set(key, jsonMapParse(localStorage.getItem(key) || "") as CollectionType);
     }
   }
+  console.log("collectionListLoadLocalStorage", collections);
   return collections;
 };
 
 // STATE : Collection List : Map with key is chainId/collectionAddress and value is collectionObject
 const { subscribe, set, update } = writable(collectionListLoadLocalStorage());
 
-// ACTIONS : SET all Collections from one nework, from an optional account
-const collectionListRefresh = async (chainId: number, account?: string): Promise<void> => {
+// ACTIONS : Refresh all Collections from one nework, from an optional account
+const collectionListRefresh = async (chainId: number, account?: string, mintable = false): Promise<void> => {
   if (!chainId) return;
 
-  const collectionListFromLib = await collectionListLib(chainId, account, get(metamaskProvider));
+  const collectionListFromLib = await collectionListLib(chainId, account, get(metamaskProvider), mintable);
   for (const collectionObject of collectionListFromLib.values()) {
-    collectionStore.updateOne(collectionObject);
+    collectionStore.setOne(collectionObject);
   }
+  console.log(
+    `collectionListRefresh collection://${chainId}${account ? "@" + account : ""} ${String(mintable)}\n`,
+    collectionListFromLib
+  );
 };
 
 export const collectionListStore = {
@@ -43,16 +48,3 @@ export const collectionListStore = {
   getSubList: collectionListGetStore,
   refresh: collectionListRefresh
 };
-
-// if (typeof localStorage !== "undefined") {
-//   for (const [, collection] of collections) {
-//     // Get supported interfaces on specific collections
-//     if (metadata) {
-//       if (collection.owner == account || (collection?.balancesOf?.get(account) || 0) > 0) {
-//         const supported = await collectionGetMetadata(chainId, collection.address, provider, account);
-//         Object.assign(collection, supported);
-//       }
-//     }
-//     // storeCollectionSet(collection, account);
-//   }
-// }

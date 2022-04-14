@@ -28,7 +28,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
       } catch (e) {
         console.error("ERROR nftGetContentType", e);
       }
-      console.log("nftGetContentType", url, contentType);
+      console.log(`nftGetContentType nft://${nft.chainId}/${nft.address}/${nft.tokenID}\n`, url, contentType);
     }
   }
   return contentType;
@@ -37,13 +37,9 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
 const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   // console.log("nftGetMetadata", chainId, nft, address);
 
-  if (!nft) return nft;
-
-  const { chainId, address, tokenID } = nft;
-  if (!(chainId && address && tokenID)) return nft;
-
+  const { chainId, address, tokenID } = nft || {};
   const network = getNetwork(chainId);
-  if (!network) return nft;
+  if (!(chainId && address && tokenID && network)) return nft;
 
   // TODO : Extend NFT type with Metadata type...
   let tokenJson: NftMetadata = {};
@@ -95,7 +91,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   // STORE nft
   // storeNftSet(nftMetadata);
 
-  // console.log("nftGetMetadata nftMetadata", nftMetadata);
+  console.log(`nftGetMetadata nft://${nft.chainId}/${nft.address}/${nft.tokenID}`, nftMetadata);
   return nftMetadata;
 };
 

@@ -65,7 +65,7 @@
       {#if tokenID}
         <Nft {chainId} {address} {tokenID} />
       {:else}
-        <NftsList {chainId} {address} {account} bind:refreshing />
+        <NftsList {chainId} {address} {account} {refresh} bind:refreshing />
       {/if}
     {/if}
   </span>

@@ -5,7 +5,7 @@ type ABIS = ErcKeys | OpenNFTsKeys;
 
 type Address = string;
 
-type Network = {
+type NetworkType = {
   chainId: number;
   chainName: string;
   rpcUrls: Array<string>;
@@ -101,13 +101,13 @@ type NftType = {
 };
 
 export type {
-  Address,
-  CollectionType,
-  CollectionSupports,
-  Network,
-  ABIS,
-  AbiType,
   NftType,
+  AbiType,
+  NetworkType,
+  CollectionType,
+  Address,
+  CollectionSupports,
+  ABIS,
   NftMetadata,
   OpenNFTsKeys,
   ErcKeys

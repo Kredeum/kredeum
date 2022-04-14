@@ -1,9 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { CollectionType, ABIS } from "./ktypes";
 
-import { Signer, Contract } from "ethers";
+import { Contract } from "ethers";
 import { collectionGetMetadata } from "./kcollection-get-metadata";
-import { getNetwork } from "./kconfig";
+import { isProviderOnChainId } from "./kconfig";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
@@ -36,30 +36,20 @@ const abis = {
 
 const collectionGet = async (
   chainId: number,
-  collectionOrAddress: CollectionType | string,
+  address: string,
   provider: Provider,
-  account?: string
+  account?: string,
+  collection: CollectionType = { chainId, address }
 ): Promise<CollectionType> => {
-  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
+  console.log(`collectionGet collection://${chainId}/${address}\n`);
 
-  let collection: CollectionType | undefined = undefined;
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
 
-  // TODO : Get supported interfaces via onchain proxy smartcontract
-  if (!collectionOrAddress) {
-    collection = { chainId, address: "" };
-  } else if (typeof collectionOrAddress === "string") {
-    collection = { chainId, address: collectionOrAddress };
-  } else {
-    collection = collectionOrAddress;
-  }
-
-  if (!collection?.supports && provider) {
-    try {
-      const supported = await collectionGetMetadata(chainId, collection.address, provider, account || "");
-      Object.assign(collection, supported);
-    } catch (e) {
-      console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
-    }
+  try {
+    const collectionMetadata = await collectionGetMetadata(chainId, address, provider, account);
+    Object.assign(collection, collectionMetadata);
+  } catch (e) {
+    console.error(`ERROR collectionGet : ${chainId} ${address}\n`, e);
   }
   // console.log(`collectionGet ${chainId}`, collection);
   return collection;
@@ -67,23 +57,18 @@ const collectionGet = async (
 
 const collectionContractGet = async (
   chainId: number,
-  collectionOrAddress: CollectionType | string,
-  signerOrProvider: Signer | Provider
+  address: string,
+  provider: Provider,
+  account?: string,
+  collection: CollectionType = { chainId, address }
 ): Promise<Contract> => {
-  // console.log(`collectionContractGet ${chainId}`, collectionOrAddress,account);
+  console.log(`collectionContractGet collection://${chainId}/${address}\n`);
 
   let abi: Array<string> = [];
-  let collection: CollectionType;
-
-  if (typeof collectionOrAddress === "string") {
-    collection = { chainId, address: collectionOrAddress };
-  } else {
-    collection = collectionOrAddress;
-  }
 
   const collectionSupports = collection.supports
     ? collection.supports
-    : (await collectionGetMetadata(chainId, collection.address, signerOrProvider)).supports;
+    : (await collectionGetMetadata(chainId, address, provider, account)).supports;
   // console.log("collectionSupports", collectionSupports);
 
   for (const [key, supports] of Object.entries(collectionSupports)) {
@@ -93,7 +78,7 @@ const collectionContractGet = async (
     }
   }
   // console.log("abi", abi);
-  const contract = new Contract(collection.address, abi, signerOrProvider);
+  const contract = new Contract(address, abi, provider);
 
   // console.log("collectionContractGet", contract);
   return contract;

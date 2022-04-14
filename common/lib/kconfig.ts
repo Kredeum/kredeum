@@ -1,11 +1,14 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address, Network, CollectionType, NftType } from "./ktypes";
+import type { Address, NetworkType, CollectionType, NftType } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
 import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
+
+const isProviderOnChainId = async (provider: Provider, chainId: number) =>
+  chainId === (await provider?.getNetwork())?.chainId;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
@@ -15,7 +18,7 @@ const getChecksumAddress = (address: Address | string | undefined): Address =>
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
 
-const getNetwork = (chainId: number | string): Network | undefined => networksMap.get(Number(chainId));
+const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
 
@@ -366,6 +369,7 @@ export {
   explorerOpenNFTsUrl,
   isTestnet,
   getChainId,
+  isProviderOnChainId,
   getChainName,
   getShortAddress,
   getChecksumAddress,

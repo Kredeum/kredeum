@@ -1,5 +1,5 @@
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 
 import config from "config/config.json";
 import INFTsFactory2 from "abis/INFTsFactoryV2.json";

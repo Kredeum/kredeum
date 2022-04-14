@@ -6,7 +6,8 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
-import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3 } from "./kconfig";
+import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3, isProviderOnChainId } from "./kconfig";
+import { ERC721Enumerable } from "types/ERC721Enumerable";
 
 const LIMIT = 10;
 
@@ -145,54 +146,60 @@ const nftListFromTheGraph = async (
 
 const nftListFromContract = async (
   chainId: number,
-  collection: CollectionType,
+  address: string,
   provider: Provider,
+  collection: CollectionType,
   account?: string,
   limit: number = LIMIT
 ): Promise<Map<string, NftType>> => {
-  // console.log("nftListFromContract", chainId, collection.address, account, limit);
+  // console.log("nftListFromContract", chainId, address, account, limit);
 
   const nfts: Map<string, NftType> = new Map();
+  if (
+    !(chainId && address && (await isProviderOnChainId(provider, chainId)) && collection?.supports?.IERC721Enumerable)
+  )
+    return nfts;
 
-  if (chainId && collection?.supports?.IERC721Enumerable) {
-    try {
-      const contract = await collectionContractGet(chainId, collection, provider);
+  try {
+    const contract = (await collectionContractGet(chainId, address, provider)) as ERC721Enumerable;
 
-      if (contract) {
-        let nbTokens = limit;
-        if (account) {
-          nbTokens = Number(await contract.balanceOf(account));
-        } else {
-          if (contract.totalSupply) {
-            nbTokens = Number(await contract.totalSupply());
-          }
-        }
-
-        for (let index = 0; index < Math.min(nbTokens, limit); index++) {
-          const nft: NftType | undefined = await nftGetFromContractEnumerable(
-            chainId,
-            collection,
-            index,
-            provider,
-            account
-          );
-          if (nft) {
-            nfts.set(nft.nid || "", nft);
-          }
+    if (contract) {
+      let nbTokens = limit;
+      if (account) {
+        nbTokens = Number(await contract.balanceOf(account));
+      } else {
+        if (contract.totalSupply) {
+          nbTokens = Number(await contract.totalSupply());
         }
       }
-    } catch (e) {
-      console.error("nftListFromContract ERROR", e);
+
+      for (let index = 0; index < Math.min(nbTokens, limit); index++) {
+        const nft: NftType | undefined = await nftGetFromContractEnumerable(
+          chainId,
+          address,
+          index,
+          provider,
+          collection,
+          account
+        );
+        if (nft) {
+          nfts.set(nft.nid || "", nft);
+        }
+      }
     }
+  } catch (e) {
+    console.error("nftListFromContract ERROR", e);
   }
+
   // console.log("nftListFromContract", nfts);
   return nfts;
 };
 
 const nftListTokenIds = async (
   chainId: number,
-  collection: CollectionType,
+  address: string,
   provider: Provider,
+  collection: CollectionType,
   account?: string,
   limit: number = LIMIT
 ): Promise<Map<string, NftType>> => {
@@ -202,7 +209,7 @@ const nftListTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    nftsTokenIds = await nftListFromContract(chainId, collection, provider, account, limit);
+    nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
     // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     if (nftsTokenIds.size === 0) {
       if (getSubgraphUrl(chainId)) {
@@ -259,14 +266,22 @@ const _nftListWithMetadata = async (
 
 const nftList = async (
   chainId: number,
-  collection: CollectionType,
+  address: string,
   provider: Provider,
+  collection: CollectionType,
   account?: string,
   limit: number = LIMIT
 ): Promise<Map<string, NftType>> => {
   // console.log("nftList", chainId, collection, account, limit);
 
-  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(chainId, collection, provider, account, limit);
+  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(
+    chainId,
+    address,
+    provider,
+    collection,
+    account,
+    limit
+  );
   const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, account, limit);
 
   // console.log("nftList", nftsWithMetadata);

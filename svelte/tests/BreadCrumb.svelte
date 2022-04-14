@@ -12,14 +12,14 @@
   let refNFT: RefNFT;
 
   // STATE VIEW : default Collection for chainId and account
-  $: collection = collectionDefaultStore.get($metamaskChainId, $metamaskAccount);
+  $: address = collectionDefaultStore.getDefault($metamaskChainId, false, $metamaskAccount);
 
   // Refresh NFT ref
   $: refNFT = {
     chainId: $metamaskChainId,
-    account: $metamaskAccount,
+    address: $address,
     tokenID: $currentTokenID,
-    collection: $collection,
+    account: $metamaskAccount,
     action: $currentAction
   };
 
@@ -28,5 +28,6 @@
 </script>
 
 {#if display}
+  {JSON.stringify(refNFT)}
   <p>{breadcrumb(refNFT)}</p>
 {/if}
