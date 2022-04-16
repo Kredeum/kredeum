@@ -144,6 +144,7 @@ const config: HardhatUserConfig = {
 
   typechain: {
     target: "ethers-v5",
+    // externalArtifacts: ["../common/abis/*.json"],
     outDir: "../common/types"
   },
 

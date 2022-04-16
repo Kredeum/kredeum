@@ -35,7 +35,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
 };
 
 const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
-  // console.log("nftGetMetadata", chainId, nft, address);
+  // console.log("nftGetMetadata", nft);
 
   const { chainId, address, tokenID } = nft || {};
   const network = getNetwork(chainId);
@@ -53,6 +53,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
       } else {
         // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
         tokenJson = tokenURIAnswer as NftMetadata;
+        // console.log("nftGetMetadata", tokenJson);
       }
     } catch (e) {
       console.error("ERROR nftGetMetadata tokenURIAnswer", e);
