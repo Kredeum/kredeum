@@ -7,6 +7,7 @@
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "stores/collection/collection";
+  import { currentCollection } from "main/current";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
@@ -24,12 +25,12 @@
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
-  let i = 1;
+  let i: number = 0;
 
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: mintable, chainId && account && handleChange();
   const handleChange = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, mintable, account)}`);
+    console.log(`COLLECTION LIST CHANGE #${++i} ${collectionListKey(chainId, mintable, account)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionStore.getSubListStore(chainId, account, mintable);
@@ -46,13 +47,15 @@
     collectionStore.refreshDefault(chainId, account);
   };
 
-  // STATE VIEW : ALIAS selected Collection address from collectionDefault store
-  $: address = $collectionDefault;
+  // Current Collection is already defined, or is defined in url, or is default collection
+  $: $currentCollection = $currentCollection || $collectionDefault;
+  $: address = $currentCollection;
 
   // STATE CHANGER : SET default Collection
-  const _setCollection = (collection: string): void =>
-    collectionStore.setDefaultOne(chainId, collection, mintable, account);
-
+  const _setCollection = (collection: string): void => {
+    $currentCollection = collection;
+    return collectionStore.setDefaultOne(chainId, collection, mintable, account);
+  };
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);

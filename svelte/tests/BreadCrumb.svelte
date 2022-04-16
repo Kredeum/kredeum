@@ -1,33 +1,37 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  import type { RefNFT } from "helpers/refNFT";
 
-  import type { RefNFT } from "helpers/refNft";
-  import { urlHash, breadcrumb } from "helpers/refNft";
+  import { refNFT2UrlHash, refNFT2Breadcrumb } from "helpers/refNFT";
+  import { urlHash2RefNFT } from "helpers/urlHash";
+
   import { metamaskChainId, metamaskAccount } from "main/metamask";
-  import { currentTokenID, currentAction } from "main/current";
-  import { collectionStore } from "stores/collection/collection";
+  import { currentCollection, currentTokenID, currentAction } from "main/current";
 
   export let display = false;
 
   let refNFT: RefNFT;
 
-  // STATE VIEW : default Collection for chainId and account
-  $: address = collectionStore.getDefaultSubStore($metamaskChainId, false, $metamaskAccount);
+  // INITIAL urlHash values
+  const { address, tokenID, action } = urlHash2RefNFT(window.location.hash);
+  console.log("INITIAL urlHash values", address, tokenID, action);
+  $currentCollection = address;
+  $currentTokenID = tokenID;
+  $currentAction = action;
 
   // Refresh NFT ref
   $: refNFT = {
     chainId: $metamaskChainId,
-    address: $address,
+    address: $currentCollection,
     tokenID: $currentTokenID,
     account: $metamaskAccount,
     action: $currentAction
   };
 
   // Refresh browser url hash
-  $: window.location.hash = urlHash(refNFT);
+  $: window.location.hash = refNFT2UrlHash(refNFT);
 </script>
 
 {#if display}
-  {JSON.stringify(refNFT)}
-  <p>{breadcrumb(refNFT)}</p>
+  <!-- {JSON.stringify(refNFT)} -->
+  <p>{refNFT2Breadcrumb(refNFT)}</p>
 {/if}

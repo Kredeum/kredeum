@@ -1,13 +1,14 @@
-import { getChainId } from "lib/kconfig";
+import { getChainName, getChainId } from "lib/kconfig";
 
-import type { RefNFT } from "helpers/refNft";
+import type { RefNFT } from "helpers/refNFT";
 
-const refNft = (hash = window.location.hash): RefNFT => {
-  let chainId: number;
-  let address: string;
-  let tokenID: string;
-  let account: string;
-  let chainName: string;
+const urlHash2RefNFT = (hash = window.location.hash): RefNFT => {
+  let chainName: string = "";
+  let chainId: number = 0;
+  let address: string = "";
+  let tokenID: string = "-1";
+  let action: string = "";
+  let account: string = "";
 
   if (hash) {
     const res = hash.match(
@@ -16,24 +17,23 @@ const refNft = (hash = window.location.hash): RefNFT => {
       /^#\/(([a-z]+)|([0-9]+))?(\/(0x[0-9abcdefABCDEF]{40})(\/([0-9]+))?)?(\/([a-z]+))?(@(0x[0-9abcdefABCDEF]{40}))?$/
       // HASH = #/account@chainName/collectionAddress/tokenID
     );
-    // console.log("hashrefNft", hash, res);
+    // console.log("hashrefNFT", hash, res);
 
     if (res) {
-      if (res[2]) {
-        chainName = res[2];
-        chainId = getChainId(chainName);
-      } else {
-        chainId = Number(res[3]);
-      }
+      const name = res[2];
+      const id = Number(res[3]);
+      chainName = name || getChainName(id);
+      chainId = id || getChainId(name);
       address = res[5];
       tokenID = res[7];
-      account = res[9];
-
-      // console.log("hashrefNft", hash, account, chainId, address, tokenID, chainName);
+      action = res[9];
+      account = res[11];
     }
+    console.log("urlHash2RefNFT", chainName, chainId, address, tokenID, action, account);
   }
 
-  return { chainId, address, tokenID, account, chainName };
+  return { chainName, chainId, address, tokenID, action, account };
 };
 
-export { refNft };
+export type { RefNFT };
+export { urlHash2RefNFT };

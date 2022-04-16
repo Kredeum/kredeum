@@ -5,7 +5,7 @@ import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "lib/kconfig";
 
-import { refNft } from "helpers/urlHash";
+import { urlHash2RefNFT } from "helpers/urlHash";
 import { metamaskChainId, metamaskAccount, metamaskProvider, metamaskSigner } from "main/metamask";
 
 let ethereumProvider: EthereumProvider;
@@ -147,7 +147,7 @@ const metamaskInit = async (): Promise<boolean> => {
       }
 
       // IF chainId requested in url is different THEN switch chain on metamask
-      const _urlChainId = refNft().chainId;
+      const { chainId: _urlChainId } = urlHash2RefNFT();
       if (_urlChainId > 0 && _urlChainId != _chainId) {
         _chainId = _urlChainId;
         metamaskSwitchChain(_urlChainId);

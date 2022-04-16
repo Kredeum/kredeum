@@ -14,7 +14,7 @@
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
-  // import BreadCrumb from "../Global/BreadCrumb.svelte";
+  import BreadCrumb from "../../tests/BreadCrumb.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
 
   // import { metamaskProvider } from "main/metamask";
@@ -39,7 +39,7 @@
       <Create {chainId} />
     {/if}
 
-    <!-- <BreadCrumb display={true} /> -->
+    <BreadCrumb display={true} />
 
     <div class="row alignbottom">
       <!-- View account -->

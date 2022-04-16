@@ -35,7 +35,7 @@ const collectionDefaultSetOne = (
   mintable: boolean = false,
   account?: string
 ): void => {
-  // console.log("collectionDefaultSetOne", chainId, address, account);
+  console.log("collectionDefaultSetOne", chainId, address, account);
 
   if (!(chainId && address)) return;
 

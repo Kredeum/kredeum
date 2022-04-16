@@ -12,7 +12,7 @@ type RefNFT = {
 // CAIP-22 : erc721 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md
 // CAIP-29 : erc1155 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-29.md
 // eip155:1/erc721:Ox123/0x456
-const caip = (refNFT: RefNFT) => {
+const refNFT2Caip = (refNFT: RefNFT) => {
   const { account, chainId, address, tokenID, action } = refNFT || {};
 
   return (
@@ -29,7 +29,7 @@ const caip = (refNFT: RefNFT) => {
 };
 
 // > mainnet > coll:Ox123 > nft:0x456 > id:8910 > action:mint @ user:0x1213
-const breadcrumb = (refNFT: RefNFT) => {
+const refNFT2Breadcrumb = (refNFT: RefNFT) => {
   const { account, chainId, address, tokenID, action } = refNFT || {};
   const chainName = getChainName(chainId);
 
@@ -48,7 +48,7 @@ const breadcrumb = (refNFT: RefNFT) => {
 };
 
 // /mainnet/Ox123/0x456/8910/mint@0x1213
-const urlHash = (refNFT: RefNFT) => {
+const refNFT2UrlHash = (refNFT: RefNFT) => {
   const { account, chainId, address, tokenID, action } = refNFT || {};
   const chainName = getChainName(chainId);
 
@@ -67,4 +67,4 @@ const urlHash = (refNFT: RefNFT) => {
 };
 
 export type { RefNFT };
-export { caip, breadcrumb, urlHash };
+export { refNFT2Caip, refNFT2Breadcrumb, refNFT2UrlHash };
