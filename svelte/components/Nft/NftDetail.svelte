@@ -1,29 +1,32 @@
 <script lang="ts">
-  import type { CollectionType } from "lib/ktypes";
+  import type { Readable } from "svelte/store";
 
-  import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
+  import type { NftType } from "lib/ktypes";
+  import { nftKey, nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
 
-  let nfts;
-  let nft;
+  import { nftStore } from "../../stores/nft/nft";
 
-  export let collection: CollectionType = undefined;
-  export let tokenID: string = undefined;
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  export let account: string = undefined;
 
-  // nfts = nftListFromCache();
-  // console.log("nfts", nfts);
-  //nft = nfts.filter((nft) => nft.values.tokenID === tokenID);
-  nft = new Map(
-    [...nfts].filter(
-      ([, nftFromCollec]) =>
-        nftFromCollec.chainId === collection.chainId &&
-        nftFromCollec.address === collection.address &&
-        nftFromCollec.tokenID === tokenID
-    )
-  )
-    .values()
-    .next().value;
+  let nft: Readable<NftType>;
+  let i = 1;
 
-  console.info(`yo ${nft.image}`);
+  // HANDLE CHANGE : on truthy chainId and address, and whatever account
+  $: account, chainId && address && tokenID && handleChange();
+  const handleChange = async (): Promise<void> => {
+    console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
+
+    // STATE VIEW : sync get Nft
+    nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    // ACTION : async refresh Nft
+    await nftStore.refreshOne(chainId, address, tokenID);
+  };
+
+  console.info(`yo ${$nft.image}`);
 </script>
 
 <h2 class="m-b-20 return">
@@ -36,7 +39,7 @@
       <div class="media media-photo">
         <a href="#zoom">
           <i class="fas fa-search" />
-          <img src={nft.image} alt={nft.name} />
+          <img src={$nft.image} alt={$nft.name} />
         </a>
       </div>
     </div>
@@ -44,30 +47,30 @@
 
   <div class="col col-xs-12 col-sm-8 col-md-9">
     <div class="card-krd">
-      <h3>{nft.name}</h3>
+      <h3>{$nft.name}</h3>
       <p>
-        {nft.description}
+        {$nft.description}
       </p>
 
       <ul class="steps">
         <li>
           <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-          <div class="flex"><strong>#{nft.tokenID}</strong></div>
+          <div class="flex"><strong>#{$nft.tokenID}</strong></div>
         </li>
         <li>
           <div class="flex"><span class="label">Owner</span></div>
-          <div class="flex">{@html explorerAddressLink(nft.chainId, nft.owner, 15)}</div>
+          <div class="flex">{@html explorerAddressLink($nft.chainId, $nft.owner, 15)}</div>
         </li>
         <li>
           <div class="flex"><span class="label">Permanent link</span></div>
           <div class="flex">
             <a
               class="link overflow-ellipsis"
-              href={kredeumNftUrl(nft.chainId, nft)}
-              title={nftUrl(nft, 10)}
+              href={kredeumNftUrl($nft.chainId, $nft)}
+              title={nftUrl($nft, 10)}
               target="_blank"
             >
-              {@html nftUrl(nft, 10)}
+              {@html nftUrl($nft, 10)}
             </a>
           </div>
         </li>
@@ -76,26 +79,27 @@
           <div class="flex">
             <a
               class="link overflow-ellipsis"
-              href={explorerCollectionUrl(nft.chainId, nft?.address)}
-              title={nft.address}
+              href={explorerCollectionUrl($nft.chainId, $nft?.address)}
+              title={$nft.address}
               target="_blank"
             >
-              {nft.address}
+              {$nft.address}
             </a>
           </div>
         </li>
         <li>
           <div class="flex"><span class="label">Metadata ipfs</span></div>
           <div class="flex">
-            <a class="link overflow-ellipsis" href={nft.tokenURI} title={nft.ipfsJson} target="_blank">{nft.ipfsJson}</a
+            <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
+              >{$nft.ipfsJson}</a
             >
           </div>
         </li>
         <li>
           <div class="flex"><span class="label">Image</span></div>
           <div class="flex">
-            <a class="link overflow-ellipsis" href={nft.image} title={nft.ipfs} target="_blank">
-              {nft.ipfs}
+            <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
+              {$nft.ipfs}
             </a>
           </div>
         </li>
@@ -123,7 +127,7 @@
       <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="media media-photo">
-          <a href="#zoom"><img src={nft.image} alt={nft.name} /></a>
+          <a href="#zoom"><img src={$nft.image} alt={$nft.name} /></a>
         </div>
       </div>
     </div>

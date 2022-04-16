@@ -5,7 +5,7 @@
 
   import CollectionSimple from "./CollectionSimple.svelte";
   import { collectionDefaultStore } from "stores/collection/collectionDefault";
-  import { collectionListStore } from "stores/collection/collectionList";
+  import { collectionStore } from "stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <CollectionListSimple chainId} bind:{address} {account} {mintable} {refreshing} />
@@ -25,7 +25,7 @@
   $: if (chainId && account) _refresh(chainId, account, mintable);
   const _refresh = async (_chainId: number, _account: string, _mintable: boolean): Promise<void> => {
     refreshing = true;
-    await collectionListStore.refresh(_chainId, _account, _mintable);
+    await collectionStore.refreshList(_chainId, _account, _mintable);
     refreshing = false;
     console.log(
       `REFRESH COLLECTION LIST ${i++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}`
@@ -35,7 +35,7 @@
   // STATE VIEW : get Collections sync
   $: if (chainId && account) _get(chainId, account, mintable);
   const _get = (_chainId: number, _account: string, _mintable: boolean): void => {
-    collections = collectionListStore.getSubList(_chainId, _account, _mintable);
+    collections = collectionStore.getSubListStore(_chainId, _account, _mintable);
     console.log(
       `GET COLLECTION LIST ${j++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}\n`,
       $collections
@@ -43,10 +43,10 @@
   };
 
   // ACTION : refresh default Collections sync
-  $: collectionDefaultStore.refresh(chainId, account);
+  $: collectionStore.refreshDefault(chainId, account);
 
   // STATE VIEW : Collections
-  $: collectionDefault = collectionDefaultStore.getDefault(chainId, mintable, account);
+  $: collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
   $: address = $collectionDefault;
 
   const _setCollection = (_collection: string): string => {
@@ -54,7 +54,7 @@
 
     console.log("_setCollection", chainId, _collection);
     address = _collection;
-    collectionDefaultStore.setOne(chainId, _collection, mintable, account);
+    collectionStore.setDefaultOne(chainId, _collection, mintable, account);
 
     return address;
   };

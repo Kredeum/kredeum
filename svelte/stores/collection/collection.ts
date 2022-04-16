@@ -6,8 +6,17 @@ import { collectionGet as collectionLib } from "lib/kcollection-get";
 import { collectionMerge } from "lib/kcollection-get";
 
 import { metamaskProvider } from "main/metamask";
-import { collectionListStore } from "stores/collection/collectionList";
 import { jsonMapStringify } from "helpers/jsonMap";
+import { collectionListStore } from "stores/collection/collectionList";
+import { collectionSubListStore, collectionSubListRefresh } from "stores/collection/collectionSubList";
+import {
+  collectionDefaultStore,
+  collectionDefaultSubStore,
+  collectionDefaultSetOne,
+  collectionDefaultRefresh,
+  collectionDefaultGetKey,
+  collectionDefaultGetOpenNFTs
+} from "stores/collection/collectionDefault";
 
 // UTILITY
 const collectionGetKey = (chainId: number, address: string): string => `collection://${String(chainId)}/${address}`;
@@ -37,6 +46,7 @@ const collectionRefresh = async (chainId: number, address: string, account?: str
   collectionSetOne(collection);
 };
 
+// TODO : add account param, to get balanceOf account, each time
 // STATE VIEW : GET one Collection
 const collectionGetStore = (chainId: number, address: string): Readable<CollectionType> => {
   const key = collectionGetKey(chainId, address);
@@ -46,8 +56,20 @@ const collectionGetStore = (chainId: number, address: string): Readable<Collecti
 };
 
 export const collectionStore = {
-  getStore: collectionGetStore,
+  getKey: collectionGetKey,
+  getOneStore: collectionGetStore,
+  refreshOne: collectionRefresh,
   setOne: collectionSetOne,
-  refresh: collectionRefresh,
-  getKey: collectionGetKey
+
+  getListStore: collectionListStore,
+
+  getSubListStore: collectionSubListStore,
+  refreshSubList: collectionSubListRefresh,
+
+  getDefaultStore: collectionDefaultStore,
+  getDefaultSubStore: collectionDefaultSubStore,
+  getDefaultKey: collectionDefaultGetKey,
+  getDefaultOpenNFTs: collectionDefaultGetOpenNFTs,
+  refreshDefault: collectionDefaultRefresh,
+  setDefaultOne: collectionDefaultSetOne
 };

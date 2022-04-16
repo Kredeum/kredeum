@@ -2,22 +2,24 @@ import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import type { CollectionType } from "lib/ktypes";
-import { collectionListStore } from "stores/collection/collectionList";
-import { collectionDefaultStore } from "stores/collection/collectionDefault";
+import { collectionList as collectionListLib } from "lib/kcollection-list";
+
+import { metamaskProvider } from "main/metamask";
+import { collectionStore } from "stores/collection/collection";
 
 // STATE VIEW : GET Collection fitered list
-const collectionListGetStore = (
+const collectionSubListStore = (
   chainId: number,
   account?: string,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
-  const [collectionDefault, collectionMintableDefault] = get(collectionDefaultStore).get(
-    collectionDefaultStore.getKey(chainId, account)
+  const [collectionDefault, collectionMintableDefault] = get(collectionStore.getDefaultStore).get(
+    collectionStore.getDefaultKey(chainId, account)
   ) || ["", ""];
   console.log(
     `collectionListGetStore collection://${chainId || ""}${account ? "@" + account : ""} ${String(mintable)}`
   );
-  return derived(collectionListStore, ($collectionListStore) => {
+  return derived(collectionStore.getListStore, ($collectionListStore) => {
     const collections = new Map(
       [...$collectionListStore]
         .filter(([, coll]) => {
@@ -69,4 +71,18 @@ const collectionListGetStore = (
   });
 };
 
-export { collectionListGetStore };
+// ACTIONS : Refresh all Collections from one nework, from an optional account
+const collectionSubListRefresh = async (chainId: number, account?: string, mintable = false): Promise<void> => {
+  if (!chainId) return;
+
+  const collectionListFromLib = await collectionListLib(chainId, account, get(metamaskProvider), mintable);
+  for (const collectionObject of collectionListFromLib.values()) {
+    collectionStore.setOne(collectionObject);
+  }
+  console.log(
+    `collectionSubListRefresh collection://${chainId}${account ? "@" + account : ""} ${String(mintable)}\n`,
+    collectionListFromLib
+  );
+};
+
+export { collectionSubListStore, collectionSubListRefresh };

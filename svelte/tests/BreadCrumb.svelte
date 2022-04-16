@@ -5,14 +5,14 @@
   import { urlHash, breadcrumb } from "helpers/refNft";
   import { metamaskChainId, metamaskAccount } from "main/metamask";
   import { currentTokenID, currentAction } from "main/current";
-  import { collectionDefaultStore } from "stores/collection/collectionDefault";
+  import { collectionStore } from "stores/collection/collection";
 
   export let display = false;
 
   let refNFT: RefNFT;
 
   // STATE VIEW : default Collection for chainId and account
-  $: address = collectionDefaultStore.getDefault($metamaskChainId, false, $metamaskAccount);
+  $: address = collectionStore.getDefaultSubStore($metamaskChainId, false, $metamaskAccount);
 
   // Refresh NFT ref
   $: refNFT = {

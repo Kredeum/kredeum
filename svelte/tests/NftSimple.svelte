@@ -27,7 +27,7 @@
   // STATE VIEW : get Nft on chainId, address or tokenID change
   $: if (chainId && address && tokenID) _get(chainId, address, tokenID);
   const _get = (_chainId: number, _address: string, _tokenID: string): void => {
-    nft = nftStore.get(_chainId, _address, _tokenID);
+    nft = nftStore.getOne(_chainId, _address, _tokenID);
     console.log(`CURRENT NFT ${j++} bft://${_chainId}/${_address}\n`, $nft || { chainId: _chainId, address: _address });
   };
 </script>

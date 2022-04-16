@@ -80,7 +80,7 @@ const collectionDefaultRefresh = (chainId: number, account?: string): void => {
 };
 
 // STATE VIEW : GET default Collection
-const collectionDefaultGetStore = (chainId: number, mintable: boolean = false, account?: string): Readable<string> => {
+const collectionDefaultSubStore = (chainId: number, mintable: boolean = false, account?: string): Readable<string> => {
   const key = collectionDefaultGetKey(chainId, account);
   console.log(`collectionDefaultGetStore ${key} ${String(mintable)}`);
 
@@ -90,13 +90,17 @@ const collectionDefaultGetStore = (chainId: number, mintable: boolean = false, a
   });
 };
 
-export const collectionDefaultStore = {
+const collectionDefaultStore = {
   subscribe,
   set,
-  update,
-  getDefault: collectionDefaultGetStore,
-  setOne: collectionDefaultSetOne,
-  refresh: collectionDefaultRefresh,
-  getKey: collectionDefaultGetKey,
-  getOpenNFTs: collectionDefaultGetOpenNFTs
+  update
+};
+
+export {
+  collectionDefaultStore,
+  collectionDefaultSubStore,
+  collectionDefaultSetOne,
+  collectionDefaultRefresh,
+  collectionDefaultGetKey,
+  collectionDefaultGetOpenNFTs
 };

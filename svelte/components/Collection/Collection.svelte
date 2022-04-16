@@ -18,14 +18,14 @@
 
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
-  const handleChange = async (): Promise<void> => {
+  const handleChange = (): Promise<void> => {
     console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
 
-    // STATE VIEW : get Collection on chainId or address change
-    collection = collectionStore.getStore(chainId, address);
+    // STATE VIEW : sync get Collection
+    collection = collectionStore.getOneStore(chainId, address);
 
-    // ACTION : refresh Collection on chainId, address or account change
-    collectionStore.refresh(chainId, address, account).catch(console.error);
+    // ACTION : async refresh Collection
+    collectionStore.refreshOne(chainId, address, account).catch(console.error);
   };
 </script>
 

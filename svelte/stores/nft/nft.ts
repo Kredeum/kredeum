@@ -5,8 +5,10 @@ import type { NftType } from "lib/ktypes";
 import { nftGet as nftLib } from "lib/knft-get";
 
 import { metamaskProvider } from "main/metamask";
+
 import { nftListStore } from "./nftList";
-import { collectionListStore } from "../collection/collectionList";
+import { nftSubListStore, nftSubListRefresh } from "./nftSubList";
+
 import { collectionStore } from "../collection/collection";
 
 // UTILITY
@@ -45,7 +47,7 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
   const key = nftGetKey(chainId, address, tokenID);
   console.log("nftRefresh ~ key", key);
 
-  const _coll = get(collectionListStore).get(collectionStore.getKey(chainId, address));
+  const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
   console.log("nftRefresh ~ _coll", _coll);
 
   const _nft = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
@@ -60,8 +62,13 @@ const nftGetStore = (chainId: number, address: string, tokenID: string): Readabl
 export {};
 
 export const nftStore = {
-  get: nftGetStore,
+  getKey: nftGetKey,
+  getOneStore: nftGetStore,
+  refreshOne: nftRefresh,
   setOne: nftSetOne,
-  refresh: nftRefresh,
-  getKey: nftGetKey
+
+  getListStore: nftListStore,
+
+  getSubListStore: nftSubListStore,
+  refreshSubList: nftSubListRefresh
 };

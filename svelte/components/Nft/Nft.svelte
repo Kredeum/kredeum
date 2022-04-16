@@ -22,7 +22,7 @@
   import { onMount } from "svelte";
 
   import { nftStore } from "../../stores/nft/nft";
-  import TransferNft from "./NftTransfer.svelte";
+  // import TransferNft from "./NftTransfer.svelte";
 
   /////////////////////////////////////////////////
   //  <Nft {nft} {account}? {index}? {platform}? {more}? /> -->
@@ -40,15 +40,15 @@
   let i = 1;
 
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && handleChange();
+  $: account, chainId && address && tokenID && handleChange();
   const handleChange = async (): Promise<void> => {
     console.log(`NFT CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
-    // STATE VIEW : get Nft on chainId, address or tokenID change
-    nft = nftStore.get(chainId, address, tokenID);
+    // STATE VIEW : sync get Nft
+    nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    // ACTION : refresh Nft on chainId, address or tokenID change
-    await nftStore.refresh(chainId, address, tokenID);
+    // ACTION : async refresh Nft
+    await nftStore.refreshOne(chainId, address, tokenID);
   };
 
   const moreToggle = (): void => {
@@ -72,10 +72,10 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = '<video preload="metadata" style="border-radius: initial;">';
+      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
     } else {
       video =
-        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
+        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
@@ -97,7 +97,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += '<div class="media-text"></div>';
+      div += "<div class=\"media-text\"></div>";
     }
     div += "</div>";
 

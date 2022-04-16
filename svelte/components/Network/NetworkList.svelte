@@ -51,7 +51,7 @@
   {#if label}Network{/if}
 
   <!-- TODO change to bind => https://svelte.dev/tutorial/select-bindings (only possible in txt) -->
-  <select on:change={(evt) => _metamaskSwitchChainEvt(evt)}>
+  <select on:change={_metamaskSwitchChainEvt}>
     {#each networks.filter((nw) => nw.mainnet) as _network}
       <option value={_network.chainId} selected={_network.chainId == chainId}>
         <Network chainId={_network.chainId} {txt} />

@@ -2,22 +2,22 @@
   import { factoryGetAddress } from "lib/kfactory-get";
   import { getCreate } from "lib/kconfig";
 
-  import AccountConnect from "./Account/AccountConnect.svelte";
-  import NetworkList from "./Network/NetworkList.svelte";
-  import CollectionList from "./Collection/CollectionList.svelte";
+  import AccountConnect from "../Account/AccountConnect.svelte";
+  import NetworkList from "../Network/NetworkList.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
 
-  import Create from "./Global/Create.svelte";
-  import Navigation from "./Global/Navigation.svelte";
+  import Create from "../Global/Create.svelte";
+  import Navigation from "../Global/Navigation.svelte";
 
-  import Nft from "./Nft/Nft.svelte";
-  import NftsList from "./Nft/NftsList.svelte";
-  import NftsListRefresh from "./Nft/NftsListRefresh.svelte";
+  import Nft from "../Nft/Nft.svelte";
+  import NftsList from "../Nft/NftsList.svelte";
+  import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
-  import Title from "./Global/Title.svelte";
-  // import BreadCrumb from "./Global/BreadCrumb.svelte";
-  import HomeLayout from "./Global/HomeLayout.svelte";
+  import Title from "../Global/Title.svelte";
+  // import BreadCrumb from "../Global/BreadCrumb.svelte";
+  import HomeLayout from "../Global/HomeLayout.svelte";
 
-  import { metamaskProvider } from "main/metamask";
+  // import { metamaskProvider } from "main/metamask";
 
   let chainId: number;
   let address: string;

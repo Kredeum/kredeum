@@ -6,8 +6,7 @@
   import { collectionUrl, explorerCollectionUrl, collectionListKey } from "lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
-  import { collectionDefaultStore } from "stores/collection/collectionDefault";
-  import { collectionListStore } from "stores/collection/collectionList";
+  import { collectionStore } from "stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
@@ -33,18 +32,18 @@
     console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, mintable, account)}`);
 
     // STATE VIEW : sync get Collections
-    collections = collectionListStore.getSubList(chainId, account, mintable);
+    collections = collectionStore.getSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
-    collectionDefault = collectionDefaultStore.getDefault(chainId, mintable, account);
+    collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
     refreshing = true;
-    await collectionListStore.refresh(chainId, account, mintable);
+    await collectionStore.refreshSubList(chainId, account, mintable);
     refreshing = false;
 
     // ACTION : sync refresh default Collections
-    collectionDefaultStore.refresh(chainId, account);
+    collectionStore.refreshDefault(chainId, account);
   };
 
   // STATE VIEW : ALIAS selected Collection address from collectionDefault store
@@ -52,7 +51,7 @@
 
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string): void =>
-    collectionDefaultStore.setOne(chainId, collection, mintable, account);
+    collectionStore.setDefaultOne(chainId, collection, mintable, account);
 
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
@@ -77,7 +76,7 @@
       Collection
       {#if refreshing}...{/if}
 
-      <select on:change={(e) => _setCollectionFromEvent(e)}>
+      <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [url, coll]}
           <option selected={coll.address == address} value={coll.address}>
             <Collection chainId={coll.chainId} address={coll.address} {account} />
