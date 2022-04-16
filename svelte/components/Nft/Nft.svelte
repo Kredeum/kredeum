@@ -1,6 +1,7 @@
 <script lang="ts">
-  import type { NftType } from "lib/ktypes";
+  import type { Readable } from "svelte/store";
 
+  import type { NftType } from "lib/ktypes";
   import {
     getShortAddress,
     nftUrl,
@@ -13,7 +14,8 @@
     textShort,
     explorerAddressLink,
     kredeumNftUrl,
-    getNetwork
+    getNetwork,
+    nftKey
   } from "lib/kconfig";
 
   import { nftGetImageLink } from "lib/knft-get-metadata";
@@ -34,32 +36,19 @@
   export let more = 0;
   export let platform = "dapp";
 
-  $: console.log("NFT", $nft);
-
-  // // ACTION : refresh Nft
-  // $: nftStore.refresh(chainId, address, tokenID).catch(console.error);
-
-  // // STATE VIEW : get Nft
-  // $: nft = nftStore.get(chainId, address, tokenID);
-
-  let i = 1;
-  let j = 1;
   let nft: Readable<NftType>;
+  let i = 1;
 
-  $: console.log("NFT", $nft);
+  // HANDLE CHANGE : on truthy chainId and address, and whatever account
+  $: account, chainId && address && handleChange();
+  const handleChange = async (): Promise<void> => {
+    console.log(`NFT CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
-  // ACTION : refresh Nft on chainId, address or tokenID change
-  $: if (chainId && address && tokenID) _refresh(chainId, address, tokenID);
-  const _refresh = async (_chainId: number, _address: string, _tokenID: string): Promise<void> => {
-    await nftStore.refresh(_chainId, _address, _tokenID);
-    console.log(`REFRESH NFT ${i++} nft://${_chainId}/${_address}/${_tokenID}`);
-  };
+    // STATE VIEW : get Nft on chainId, address or tokenID change
+    nft = nftStore.get(chainId, address, tokenID);
 
-  // STATE VIEW : get Nft on chainId, address or tokenID change
-  $: if (chainId && address && tokenID) _get(chainId, address, tokenID);
-  const _get = (_chainId: number, _address: string, _tokenID: string): void => {
-    nft = nftStore.get(_chainId, _address, _tokenID);
-    console.log(`CURRENT NFT ${j++} bft://${_chainId}/${_address}\n`, $nft || { chainId: _chainId, address: _address });
+    // ACTION : refresh Nft on chainId, address or tokenID change
+    await nftStore.refresh(chainId, address, tokenID);
   };
 
   const moreToggle = (): void => {

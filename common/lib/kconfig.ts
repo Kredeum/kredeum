@@ -348,6 +348,20 @@ const interfaceId = (abi: Array<string>): string => {
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const nftKey = (chainId: number, address: string, tokenID: string, account?: string): string =>
+  `nft://${String(chainId)}/${address}/${tokenID}${account ? "@" + account : ""}`;
+
+const nftListKey = (chainId: number, address: string, account?: string): string =>
+  `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
+
+const collectionKey = (chainId: number, address: string, account?: string): string =>
+  `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
+
+const collectionListKey = (chainId: number, mintable = false, account?: string): string =>
+  `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export {
   addressSame,
   collectionName,
@@ -388,6 +402,10 @@ export {
   ipfsGatewayUrl,
   ipfsGatewayLink,
   interfaceId,
+  collectionKey,
+  collectionListKey,
+  nftKey,
+  nftListKey,
   nftUrl3,
   nftUrl,
   collectionUrl,

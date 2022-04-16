@@ -3,7 +3,7 @@
 
   import type { CollectionType, NftType } from "lib/ktypes";
   import { collectionName, explorerCollectionUrl, nftsBalanceAndName, collectionUrl } from "lib/kconfig";
-  import { getNetwork } from "lib/kconfig";
+  import { getNetwork, nftListKey } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
   // import NftSimple from "../tests/NftSimple.svelte";
@@ -19,32 +19,21 @@
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
 
-  // // ACTION : async NFT list refresh
-  // $: nftListStore.refresh(chainId, address, account)
-  //     .then(() => (refreshing = false))
-  //     .catch(console.error);
-
-  // // STATE VIEW : NFT list
-  // $: nfts = nftListStore.getSubList(chainId, address);
-
   let i = 1;
-  let j = 1;
   let nfts: Readable<Map<string, NftType>>;
 
-  // ACTION : refresh  NFT list async
-  $: if (chainId && address && account) _refresh(chainId, address, account);
-  const _refresh = async (_chainId: number, _address: string, _account: string): Promise<void> => {
-    let refreshing = true;
-    console.log(`REFRESH NFT LIST ${i++} collection://${_chainId}/${_address}${_account ? "@" + _account : ""}`);
-    await nftListStore.refresh(_chainId, _address, _account);
-    refreshing = false;
-  };
+  // HANDLE CHANGE : on truthy chainId,address and account, and whatever refresh
+  $: refresh, chainId && address && account && handleChange();
+  const handleChange = async (): Promise<void> => {
+    console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 
-  // STATE VIEW : NFT list
-  $: if (chainId && address) _get(chainId, address);
-  const _get = (_chainId: number, _address: string) => {
+    // STATE VIEW : sync get NFT list
     nfts = nftListStore.getSubList(chainId, address);
-    console.log(`CURRENT NFT LIST ${j++} collection://${_chainId}/${_address}\n`, $nfts);
+
+    // ACTION : async refresh NFT list
+    let refreshing = true;
+    await nftListStore.refresh(chainId, address, account);
+    refreshing = false;
   };
 </script>
 

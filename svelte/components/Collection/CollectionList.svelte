@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   import type { CollectionType } from "lib/ktypes";
-  import { collectionUrl, explorerCollectionUrl } from "lib/kconfig";
+  import { collectionUrl, explorerCollectionUrl, collectionListKey } from "lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionDefaultStore } from "stores/collection/collectionDefault";
@@ -23,63 +23,41 @@
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
-
-  // // ACTION : refresh Collections async
-  // $: collectionListStore
-  //   .refresh(chainId, account, mintable)
-  //   .then(() => (refreshing = false))
-  //   .catch(console.error);
-
-  // // STATE VIEW : get Collections sync
-  // $: collections = collectionListStore.getSubList(chainId, account, mintable);
+  let collectionDefault: Readable<string>;
 
   let i = 1;
-  let j = 1;
 
-  // ACTION : refresh Collections async
-  $: if (chainId && account) _refresh(chainId, account, mintable);
-  const _refresh = async (_chainId: number, _account: string, _mintable: boolean): Promise<void> => {
+  // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
+  $: mintable, chainId && account && handleChange();
+  const handleChange = async (): Promise<void> => {
+    console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, mintable, account)}`);
+
+    // STATE VIEW : sync get Collections
+    collections = collectionListStore.getSubList(chainId, account, mintable);
+
+    // STATE VIEW : sync get default Collection
+    collectionDefault = collectionDefaultStore.getDefault(chainId, mintable, account);
+
+    // ACTION : async refresh Collections
     refreshing = true;
-    await collectionListStore.refresh(_chainId, _account, _mintable);
+    await collectionListStore.refresh(chainId, account, mintable);
     refreshing = false;
-    console.log(
-      `REFRESH COLLECTION LIST ${i++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}`
-    );
+
+    // ACTION : sync refresh default Collections
+    collectionDefaultStore.refresh(chainId, account);
   };
 
-  // STATE VIEW : get Collections sync
-  $: if (chainId && account) _get(chainId, account, mintable);
-  const _get = (_chainId: number, _account: string, _mintable: boolean): void => {
-    collections = collectionListStore.getSubList(_chainId, _account, _mintable);
-    console.log(
-      `GET COLLECTION LIST ${j++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}\n`,
-      $collections
-    );
-  };
-
-  // ACTION : refresh default Collections sync
-  $: collectionDefaultStore.refresh(chainId, account);
-
-  // STATE VIEW : Collections
-  $: collectionDefault = collectionDefaultStore.getDefault(chainId, mintable, account);
+  // STATE VIEW : ALIAS selected Collection address from collectionDefault store
   $: address = $collectionDefault;
 
-  const _setCollection = (_collection: string): string => {
-    if (!(chainId && _collection)) return;
+  // STATE CHANGER : SET default Collection
+  const _setCollection = (collection: string): void =>
+    collectionDefaultStore.setOne(chainId, collection, mintable, account);
 
-    // console.log("_setCollection", chainId, _collection);
-    address = _collection;
-    collectionDefaultStore.setOne(chainId, _collection, mintable, account);
-
-    return address;
-  };
-
+  // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
-
-  const _explorerCollectionUrl = (_collection: string): string => explorerCollectionUrl(chainId, _collection);
-
-  const _collectionUrl = (_collection: string): string => collectionUrl(chainId, _collection);
-
+  const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
+  const _collectionUrl = (collection: string): string => collectionUrl(chainId, collection);
   const _toggleOpen = () => (open = !open);
 
   onMount(() => {

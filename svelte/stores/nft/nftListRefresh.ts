@@ -15,10 +15,13 @@ const nftListRefresh = async (chainId: number, address: string, account: string)
   if (!(chainId && address)) return;
   console.log("nftListRefresh", chainId, address, account);
 
-  let collection = get(collectionListStore).get(collectionStore.getKey(chainId, address));
+  const key = collectionStore.getKey(chainId, address);
+  const $collectionList = get(collectionListStore);
+  let collection = $collectionList.get(key);
+
   if (!collection?.supports) {
     await collectionStore.refresh(chainId, address);
-    collection = get(collectionListStore).get(collectionStore.getKey(chainId, address));
+    collection = $collectionList.get(key);
   }
 
   if (collection?.supports?.IERC721Enumerable) {
