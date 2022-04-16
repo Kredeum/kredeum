@@ -376,8 +376,9 @@ select {
       color: $couleur1;
       cursor: pointer;
       transition: all 0.5s;
+      padding: 8px 0 8px;
       &:not(:last-child) {
-        margin-bottom: 20px;
+        margin-bottom: 4px;
       }
       &:hover {
         opacity: 0.7;
