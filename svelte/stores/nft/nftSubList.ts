@@ -60,7 +60,8 @@ const nftSubListStore = (chainId: number, address: string, account?: string): Re
 
     return new Map(
       [...$nftListStore].filter(
-        ([, nft]) => nft.chainId === chainId && nft.address === address && (!account || nft.owner === account)
+        ([, nft]) =>
+          nft.chainId === chainId && nft.address === address && (nft.owner === account || !(account && nft.owner))
       )
     );
   });

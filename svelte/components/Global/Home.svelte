@@ -14,7 +14,7 @@
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
-  import BreadCrumb from "../../tests/BreadCrumb.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
 
   // import { metamaskProvider } from "main/metamask";

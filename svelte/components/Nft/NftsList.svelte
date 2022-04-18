@@ -29,12 +29,11 @@
   const handleChange = async (): Promise<void> => {
     console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 
-    // STATE VIEW : sync get NFT list
-    nfts = nftStore.getSubListStore(chainId, address, account);
-
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
-    console.log("handleChange", $collection);
+
+    // STATE VIEW : sync get NFT list
+    nfts = nftStore.getSubListStore(chainId, address, account);
 
     // ACTION : async refresh NFT list
     refreshing = true;

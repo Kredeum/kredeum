@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { RefNFT } from "helpers/refNFT";
+  import type { RefNFT } from "helpers/refNft";
 
-  import { refNFT2UrlHash, refNFT2Breadcrumb } from "helpers/refNFT";
+  import { refNFT2UrlHash, refNFT2Breadcrumb } from "helpers/refNft";
   import { urlHash2RefNFT } from "helpers/urlHash";
 
   import { metamaskChainId, metamaskAccount } from "main/metamask";
@@ -31,7 +31,6 @@
   $: window.location.hash = refNFT2UrlHash(refNFT);
 </script>
 
-{#if display}
-  <!-- {JSON.stringify(refNFT)} -->
+<!-- {#if display}
   <p>{refNFT2Breadcrumb(refNFT)}</p>
-{/if}
+{/if} -->

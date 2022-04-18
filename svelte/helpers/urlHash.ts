@@ -1,6 +1,6 @@
 import { getChainName, getChainId } from "lib/kconfig";
 
-import type { RefNFT } from "helpers/refNFT";
+import type { RefNFT } from "helpers/refNft";
 
 const urlHash2RefNFT = (hash = window.location.hash): RefNFT => {
   let chainName: string = "";

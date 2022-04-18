@@ -34,7 +34,7 @@ const collectionGetMetadata = async (
 ): Promise<MetadataType> => {
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return { supports: {} };
 
-  console.log(`collectionGetMetadata collection://${chainId}/${address}\n`);
+  // console.log(`collectionGetMetadata collection://${chainId}/${address}\n`);
 
   const openNFTsV0Addresses = [
     "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic

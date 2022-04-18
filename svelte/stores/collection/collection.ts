@@ -33,7 +33,7 @@ const collectionSetOne = (collection: CollectionType): void => {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(key, jsonMapStringify(newColl));
     }
-    console.log(`collectionSetOne ${key}`, collection);
+    // console.log(`collectionSetOne ${key}`, collection);
     return $collectionList.set(key, newColl);
   });
 };
@@ -42,7 +42,7 @@ const collectionSetOne = (collection: CollectionType): void => {
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   if (!(chainId && address)) return;
   const collection = await collectionLib(chainId, address, get(metamaskProvider), account);
-  console.log(`collectionRefresh collection://${chainId}/${address}${account ? "@" + account : ""}`, collection);
+  // console.log(`collectionRefresh collection://${chainId}/${address}${account ? "@" + account : ""}`, collection);
   collectionSetOne(collection);
 };
 
@@ -50,7 +50,7 @@ const collectionRefresh = async (chainId: number, address: string, account?: str
 // STATE VIEW : GET one Collection
 const collectionGetStore = (chainId: number, address: string): Readable<CollectionType> => {
   const key = collectionGetKey(chainId, address);
-  console.log(`collectionGetStore ${key}`);
+  // console.log(`collectionGetStore ${key}`);
 
   return derived(collectionListStore, ($collectionListStore) => $collectionListStore.get(key));
 };
