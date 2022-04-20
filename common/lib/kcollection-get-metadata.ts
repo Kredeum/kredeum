@@ -1,6 +1,6 @@
 import { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionSupports, ABIS } from "./ktypes";
-import { interfaceId, isProviderOnChainId } from "./kconfig";
+import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
+import { interfaceId, isProviderOnChainId, collectionKey } from "./kconfig";
 
 import { Contract } from "ethers";
 
@@ -15,26 +15,14 @@ import IERC173 from "abis/IERC173.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
 
-interface MetadataType {
-  supports: CollectionSupports;
-  version?: number;
-  open?: boolean;
-  owner?: string;
-  name?: string;
-  symbol?: string;
-  totalSupply?: number;
-  balancesOf?: Map<string, number>;
-}
-
-const collectionGetMetadata = async (
+const collectionGetSupports = async (
   chainId: number,
   address: string,
   provider: Provider,
-  account?: string
-): Promise<MetadataType> => {
-  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return { supports: {} };
-
-  // console.log(`collectionGetMetadata collection://${chainId}/${address}\n`);
+  collection: CollectionType = { chainId, address }
+): Promise<CollectionType> => {
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
+  // console.log(`collectionGetSupports ${collectionKey(chainId, address)}\n`);
 
   const openNFTsV0Addresses = [
     "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic
@@ -46,36 +34,26 @@ const collectionGetMetadata = async (
     "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0", // matic
     "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9" // Bsc
   ];
-  const supports: CollectionSupports = {};
-  const version = -1;
-  let open = false;
-  let owner = "";
-  let name = "";
-  let symbol = "";
-  let totalSupply = 0;
-  let balanceOf = -1;
 
-  interface TestContract extends Contract {
+  interface SupportsContract extends Contract {
     supportsInterface: (ifaces: string) => Promise<boolean>;
-    owner: () => Promise<string>;
-    name: () => Promise<string>;
-    symbol: () => Promise<string>;
-    totalSupply: () => Promise<number>;
-    balanceOf: (account: string) => Promise<number>;
-    open: () => Promise<boolean>;
   }
 
-  // Suppose supports ERC165, should revert otherwise
-  supports.IERC165 = true;
+  // Default to empty object
+  collection.supports ??= {};
+
+  // Get supports ref
+  const supports: CollectionSupports = collection.supports;
 
   try {
-    const contract: TestContract = new Contract(
-      address,
-      IERC165.concat(IERC173).concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable).concat(IOpenNFTsV3),
-      provider
-    ) as TestContract;
+    // Suppose supports ERC165, should revert otherwise
+    supports.IERC165 = true;
+
+    const contract: SupportsContract = new Contract(address, IERC165, provider) as SupportsContract;
 
     try {
+      let version = -1;
+
       const waitERC721 = contract.supportsInterface(interfaceId(IERC721));
       const waitERC1155 = contract.supportsInterface(interfaceId(IERC1155));
       const waitERC173 = contract.supportsInterface(interfaceId(IERC173));
@@ -99,14 +77,75 @@ const collectionGetMetadata = async (
 
       if (supports.IOpenNFTsV3) {
         supports.IOpenNFTs = true;
-        open = await contract.open();
+        version = 3;
       } else if (supports.IOpenNFTsV2) {
         supports.IOpenNFTsV2 = true;
+        version = 2;
       } else if (openNFTsV1Addresses.includes(contract.address)) {
         supports.IOpenNFTsV1 = true;
+        version = 1;
       } else if (openNFTsV0Addresses.includes(contract.address)) {
         supports.IOpenNFTsV0 = true;
+        version = 0;
       }
+      if (version >= 0) collection.version = version;
+
+      // delete too much supports=false
+      for (const key in supports) if (!supports[key as ABIS]) delete supports[key as ABIS];
+
+      // Uneccessary ?
+      // Object.assign(collection.supports, supports);
+    } catch (err) {
+      console.info(
+        `ERROR collectionGetSupports @ ${collectionKey(chainId, address)}\n`,
+        await isProviderOnChainId(provider, chainId),
+        JSON.stringify(err)
+      );
+    }
+  } catch (err) {
+    console.log(`No contract found @ ${collectionKey(chainId, address)}\n`);
+  }
+
+  // console.log(`collectionGetSupports ${collectionKey(chainId, address)}\n`, collection);
+  return collection;
+};
+
+const collectionGetOtherData = async (
+  chainId: number,
+  address: string,
+  provider: Provider,
+  account?: string,
+  collection: CollectionType = { chainId, address }
+): Promise<CollectionType> => {
+  if (!(chainId && address && collection.supports && (await isProviderOnChainId(provider, chainId)))) return collection;
+  // console.log(`collectionGetOtherData ${collectionKey(chainId, address, account)}\n`);
+
+  interface QueryContract extends Contract {
+    owner: () => Promise<string>;
+    name: () => Promise<string>;
+    symbol: () => Promise<string>;
+    totalSupply: () => Promise<number>;
+    balanceOf: (account: string) => Promise<number>;
+    open: () => Promise<boolean>;
+  }
+
+  try {
+    const contract: QueryContract = new Contract(
+      address,
+      IERC173.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable).concat(IOpenNFTsV3),
+      provider
+    ) as QueryContract;
+
+    // Get supports ref
+    const supports: CollectionSupports = collection.supports;
+
+    try {
+      let symbol = "";
+      let name = "";
+      let owner = "";
+      let totalSupply = 0;
+      let balanceOf = -1;
+      let open = false;
 
       // Get balanceOf account (IERC721)
       if (supports.IERC721 && account) {
@@ -123,46 +162,55 @@ const collectionGetMetadata = async (
         owner = await contract.owner();
       }
 
-      // Get name and symbol (IERC721Metadata), try it if IERC1155... may revert as not normalized
+      // Get name and symbol (IERC721Metadata)
       if (supports.IERC721Metadata) {
         name = await contract.name();
         symbol = await contract.symbol();
       }
+
+      // OpenNFTsV3 "open" config
+      if (supports.IOpenNFTsV3) {
+        open = await contract.open();
+      }
+
+      if (open) collection.open = open;
+      if (owner) collection.owner = owner;
+      if (totalSupply) collection.totalSupply = totalSupply;
+      if (balanceOf >= 0 && account) {
+        collection.balancesOf ??= new Map();
+        collection.balancesOf.set(account, balanceOf);
+      }
+      if (name) collection.name = name;
+      if (symbol) collection.symbol = symbol;
     } catch (err) {
       console.info(
-        `ERROR collectionGetMetadata @ collection://${chainId}/${address}\n`,
+        `ERROR collectionGetSupports @ ${collectionKey(chainId, address, account)}\n`,
         await isProviderOnChainId(provider, chainId),
         JSON.stringify(err)
       );
     }
 
     try {
+      let symbol = "";
+      let name = "";
+
       // Get name and symbol ... try it if IERC1155... may revert as not normalized
       if (supports.IERC1155) {
         name = await contract.name();
         symbol = await contract.symbol();
       }
+
+      if (name) collection.name = name;
+      if (symbol) collection.symbol = symbol;
     } catch (err) {
       console.log("ERC1155 collection with no name and symbol");
     }
   } catch (err) {
-    console.log(`No contract found @ collection://${chainId}/${address}\n`);
+    console.log(`No contract found @ ${collectionKey(chainId, address, account)}\n`);
   }
 
-  // delete too much supports=false
-  for (const key in supports) if (!supports[key as ABIS]) delete supports[key as ABIS];
-
-  const collectionMetadata: MetadataType = { supports };
-  if (version) collectionMetadata.version = version;
-  if (open) collectionMetadata.open = open;
-  if (owner) collectionMetadata.owner = owner;
-  if (name) collectionMetadata.name = name;
-  if (symbol) collectionMetadata.symbol = symbol;
-  if (totalSupply) collectionMetadata.totalSupply = totalSupply;
-  if (balanceOf >= 0 && account) collectionMetadata.balancesOf = new Map([[account, balanceOf]]);
-
-  // console.log("collectionGetMetadata", collectionMetadata);
-  return collectionMetadata;
+  // console.log(`collectionGetOtherData ${collectionKey(chainId, address, account)}\n`, collection);
+  return collection;
 };
 
-export { collectionGetMetadata };
+export { collectionGetOtherData, collectionGetSupports };

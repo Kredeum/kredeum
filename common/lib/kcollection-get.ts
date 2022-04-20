@@ -2,8 +2,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { CollectionType, ABIS } from "./ktypes";
 
 import { Contract } from "ethers";
-import { collectionGetMetadata } from "./kcollection-get-metadata";
-import { isProviderOnChainId } from "./kconfig";
+import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
+import { isProviderOnChainId, collectionKey } from "./kconfig";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
@@ -34,44 +34,20 @@ const abis = {
   IOpenNFTsV3
 };
 
-const collectionGet = async (
-  chainId: number,
-  address: string,
-  provider: Provider,
-  account?: string,
-  collection: CollectionType = { chainId, address }
-): Promise<CollectionType> => {
-  console.log(`collectionGet collection://${chainId}/${address}\n`);
-
-  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
-
-  try {
-    const collectionMetadata = await collectionGetMetadata(chainId, address, provider, account);
-    Object.assign(collection, collectionMetadata);
-  } catch (e) {
-    console.error(`ERROR collectionGet : ${chainId} ${address}\n`, e);
-  }
-  // console.log(`collectionGet ${chainId}`, collection);
-  return collection;
-};
-
 const collectionContractGet = async (
   chainId: number,
   address: string,
   provider: Provider,
-  account?: string,
   collection: CollectionType = { chainId, address }
 ): Promise<Contract> => {
-  console.log(`collectionContractGet collection://${chainId}/${address}\n`);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
   let abi: Array<string> = [];
 
-  const collectionSupports = collection.supports
-    ? collection.supports
-    : (await collectionGetMetadata(chainId, address, provider, account)).supports;
+  if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
   // console.log("collectionSupports", collectionSupports);
 
-  for (const [key, supports] of Object.entries(collectionSupports)) {
+  for (const [key, supports] of Object.entries(collection.supports || {})) {
     if (supports) {
       // console.log(  key, abis[key as ABIS]);
       abi = abi.concat(abis[key as ABIS]);
@@ -80,7 +56,7 @@ const collectionContractGet = async (
   // console.log("abi", abi);
   const contract = new Contract(address, abi, provider);
 
-  // console.log("collectionContractGet", contract);
+  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`, contract);
   return contract;
 };
 
@@ -93,6 +69,27 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
     collMerged.balancesOf = new Map([...col1.balancesOf, ...col2.balancesOf]);
   }
   return collMerged;
+};
+
+const collectionGet = async (
+  chainId: number,
+  address: string,
+  provider: Provider,
+  account?: string,
+  collection: CollectionType = { chainId, address }
+): Promise<CollectionType> => {
+  // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
+
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
+
+  try {
+    await collectionGetSupports(chainId, address, provider, collection);
+    await collectionGetOtherData(chainId, address, provider, account, collection);
+  } catch (e) {
+    console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
+  }
+  // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`, collection);
+  return collection;
 };
 
 export { collectionGet, collectionMerge, collectionContractGet };
