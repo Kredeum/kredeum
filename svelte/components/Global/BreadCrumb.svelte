@@ -31,6 +31,6 @@
   $: window.location.hash = refNFT2UrlHash(refNFT);
 </script>
 
-<!-- {#if display}
+{#if display}
   <p>{refNFT2Breadcrumb(refNFT)}</p>
-{/if} -->
+{/if}

@@ -18,7 +18,7 @@
 
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
-  const handleChange = (): Promise<void> => {
+  const handleChange = (): void => {
     console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
