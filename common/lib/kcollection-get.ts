@@ -56,7 +56,7 @@ const collectionContractGet = async (
   // console.log("abi", abi);
   const contract = new Contract(address, abi, provider);
 
-  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`, contract);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
   return contract;
 };
 

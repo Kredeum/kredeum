@@ -44,26 +44,36 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
-    nft.ipfsJson ||= ipfsGetLink(nft.tokenURI);
+    if (!nft.ipfsJson) {
+      const ipfsJson = ipfsGetLink(nft.tokenURI);
+      if (ipfsJson) nft.ipfsJson = ipfsJson;
+    }
 
     try {
-      const tokenURIAnswer = await fetchJson(nft.tokenURI);
+      // nft.ipfsJson = ipfs://...cid... : metadata URI found on IPFS
+      // nft.tokenURI : default metadata URI
+      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.tokenURI);
       if (tokenURIAnswer.error) {
         console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
       } else {
         const nftMetadata = tokenURIAnswer as NftMetadata;
-        console.log("nftGetMetadata", nft.tokenURI, nftMetadata);
+        // console.log("nftGetMetadata", nft.tokenURI, nft.ipfsJson, nftMetadata);
 
-        if (!nft.name && nftMetadata.name) nft.name = nftMetadata.name;
-        if (!nft.description && nftMetadata.description) nft.description = nftMetadata.description;
-        if (!nft.creator && nftMetadata.creator) nft.creator = getChecksumAddress(nftMetadata.creator);
-        if (!nft.minter && nftMetadata.minter) nft.minter = getChecksumAddress(nftMetadata.minter);
-        if (!nft.owner && nftMetadata.owner) nft.owner = getChecksumAddress(nftMetadata.owner);
+        if (nftMetadata) {
+          nft.metadata = nftMetadata;
 
-        if (!nft.image && (nftMetadata.image || nftMetadata.image_url))
-          nft.image = nftMetadata.image || nftMetadata.image_url;
+          if (!nft.name && nftMetadata.name) nft.name = nftMetadata.name;
+          if (!nft.description && nftMetadata.description) nft.description = nftMetadata.description;
+          if (!nft.creator && nftMetadata.creator) nft.creator = getChecksumAddress(nftMetadata.creator);
+          if (!nft.minter && nftMetadata.minter) nft.minter = getChecksumAddress(nftMetadata.minter);
+          if (!nft.owner && nftMetadata.owner) nft.owner = getChecksumAddress(nftMetadata.owner);
 
-        if (!nft.ipfs && (nftMetadata.ipfs || nft.image)) nft.ipfs = nftMetadata.ipfs || nft.image;
+          if (!nft.image && (nftMetadata.image || nftMetadata.image_url))
+            nft.image = nftMetadata.image || nftMetadata.image_url;
+
+          if (!nft.ipfs && (nftMetadata.ipfs || ipfsGetLink(nft.image)))
+            nft.ipfs = nftMetadata.ipfs || ipfsGetLink(nft.image);
+        }
       }
     } catch (e) {
       console.error("ERROR nftGetMetadata tokenURIAnswer", e);

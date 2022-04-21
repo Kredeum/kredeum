@@ -2,8 +2,8 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { ethers } from "ethers";
 import NftStorage from "./knft-storage";
 
-import type { NftType, CollectionType } from "./ktypes";
-import { ipfsGatewayUrl, textShort, getNetwork } from "./kconfig";
+import type { NftType } from "./ktypes";
+import { ipfsGatewayUrl, textShort, getNetwork, DEFAULT_NAME } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";
 
@@ -56,7 +56,13 @@ const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
 };
 
 // GET ipfs metadata url
-const nftMint2IpfsJson = async (name = "No name", ipfs = "", address = "", image = "", key = ""): Promise<string> => {
+const nftMint2IpfsJson = async (
+  name = DEFAULT_NAME,
+  ipfs = "",
+  address = "",
+  image = "",
+  key = ""
+): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
 
   const ipfsJson = await nftStorage.pinJson({

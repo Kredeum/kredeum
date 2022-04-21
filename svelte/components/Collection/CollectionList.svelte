@@ -28,28 +28,33 @@
   let i: number = 0;
 
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: mintable, chainId && account && handleChange();
-  const handleChange = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${++i} ${collectionListKey(chainId, mintable, account)}`);
+  $: mintable, chainId && account && handleChangeCollection();
+  const handleChangeCollection = async (): Promise<void> => {
+    console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionStore.getSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
+    // console.log(`handleChange ${mintable} ~ collectionDefault1`, $collectionDefault);
 
     // ACTION : async refresh Collections
     refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
     refreshing = false;
+    // console.log(`handleChange ${mintable} ~ collectionDefault2`, $collectionDefault);
 
     // ACTION : sync refresh default Collections
     collectionStore.refreshDefault(chainId, account);
   };
 
   // Current Collection is already defined, or is defined in url, or is default collection
-  $: $currentCollection = $currentCollection || $collectionDefault;
-  $: address = $currentCollection;
+  $: ($currentCollection || $collectionDefault) && handleChangeAddress();
+  const handleChangeAddress = async (): Promise<void> => {
+    $currentCollection = $currentCollection || $collectionDefault;
+    address = $currentCollection;
+  };
 
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string): void => {

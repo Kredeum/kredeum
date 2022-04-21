@@ -2,6 +2,7 @@ import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import type { CollectionType } from "lib/ktypes";
+import { collectionListKey } from "lib/kconfig";
 import { collectionList as collectionListLib } from "lib/kcollection-list";
 
 import { metamaskProvider } from "main/metamask";
@@ -79,10 +80,7 @@ const collectionSubListRefresh = async (chainId: number, account?: string, minta
   for (const collectionObject of collectionListFromLib.values()) {
     collectionStore.setOne(collectionObject);
   }
-  console.log(
-    `collectionSubListRefresh collection://${chainId}${account ? "@" + account : ""} ${String(mintable)}\n`,
-    collectionListFromLib
-  );
+  console.log(`collectionSubListRefresh ${collectionListKey(chainId, account, mintable)}\n`, collectionListFromLib);
 };
 
 export { collectionSubListStore, collectionSubListRefresh };

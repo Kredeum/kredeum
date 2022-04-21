@@ -39,7 +39,7 @@
       <Create {chainId} />
     {/if}
 
-    <BreadCrumb display={true} />
+    <!-- <BreadCrumb display={true} /> -->
 
     <div class="row alignbottom">
       <!-- View account -->

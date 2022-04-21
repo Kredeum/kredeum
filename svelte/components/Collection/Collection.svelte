@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { CollectionType } from "lib/ktypes";
-  import { collectionKey } from "lib/kconfig";
+  import { collectionKey, DEFAULT_NAME, DEFAULT_SYMBOL } from "lib/kconfig";
 
   import { collectionStore } from "stores/collection/collection";
 
@@ -30,9 +30,9 @@
 </script>
 
 {#if $collection}
-  {$collection.name || "No name"}
+  {$collection.name || DEFAULT_NAME}
   ({$collection.balancesOf?.get(account) || 0}
-  {$collection.symbol || "NFT"})
+  {$collection.symbol || DEFAULT_SYMBOL})
 {:else}
   Choose one collection
 {/if}

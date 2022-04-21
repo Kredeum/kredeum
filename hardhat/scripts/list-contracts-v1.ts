@@ -11,8 +11,10 @@ import IERC721 from "abis/IERC721.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
+import { DEFAULT_NAME } from "lib/kconfig";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
+
 
 const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable);
 
@@ -38,7 +40,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
       if (collection) {
         const nb = collection.totalSupply ? Number(await collection.totalSupply()) : 0;
 
-        const name = collection.name ? await collection.name() : "No name";
+        const name = collection.name ? await collection.name() : DEFAULT_NAME;
         const symbol = collection.symbol ? await collection.symbol() : `NFT${_s(nb)}`;
 
         output += `${String(nb).padStart(8)} ${symbol.padEnd(5)} ${name.padEnd(32)}`;

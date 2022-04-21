@@ -6,7 +6,7 @@ import type { ERC1155 } from "types/ERC1155";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
 
 import type { CollectionType, NftType } from "./ktypes";
-import { nftKey, isProviderOnChainId } from "./kconfig";
+import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "./kconfig";
 import { collectionContractGet } from "./kcollection-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
@@ -38,19 +38,19 @@ const nftGetFromContract = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<NftType> => {
-  let nft: NftType = { chainId, address, tokenID };
+  const nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID && (await isProviderOnChainId(provider, chainId)))) return nft;
 
   console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
 
-  let tokenURI = "";
   let contractName = "";
+  let tokenURI = "";
   let owner = "";
 
   try {
     if (collection?.supports?.IERC721Metadata) {
       const contract = (await collectionContractGet(chainId, address, provider)) as ERC721;
-      contractName = collection.name || (await contract.name()) || "No name";
+      contractName = collection.name || (await contract.name()) || DEFAULT_NAME;
       owner = await contract.ownerOf(tokenID);
       tokenURI = await contract.tokenURI(tokenID);
     }
@@ -59,8 +59,10 @@ const nftGetFromContract = async (
       tokenURI = await contract.uri(tokenID);
     }
 
-    const nid = nftKey(chainId, address, tokenID);
-    nft = { chainId, address, contractName, tokenID, tokenURI, owner, nid };
+    nft.nid = nftKey(chainId, address, tokenID);
+    if (contractName) nft.contractName = contractName;
+    if (owner) nft.owner = owner;
+    if (tokenURI) nft.tokenURI = tokenURI;
   } catch (e) {
     console.error(`ERROR nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, e);
   }

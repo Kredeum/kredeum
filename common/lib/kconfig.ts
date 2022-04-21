@@ -7,13 +7,25 @@ import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 
+const DEFAULT_NAME = "No name";
+const DEFAULT_SYMBOL = "NFT";
+
 const isProviderOnChainId = async (provider: Provider, chainId: number) =>
   chainId === (await provider?.getNetwork())?.chainId;
 
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-const getChecksumAddress = (address: Address | string | undefined): Address =>
-  address ? utils.getAddress(address) : "";
+const getChecksumAddress = (address: Address | string | undefined): Address => {
+  if (!address) return "";
+
+  let addr = address;
+  try {
+    addr = utils.getAddress(String(address));
+  } catch (e) {
+    console.log("getChecksumAddress ERROR on @ '" + addr + "'");
+  }
+  return addr;
+};
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
@@ -67,13 +79,15 @@ const collectionUrl = (chainId: number, _collectionAddress: Address): string => 
 };
 
 // nft url : nft://chainName/collectionAddress/tokenID
-const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
+const nftUrl3 = (chainId: number, address: Address, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
+
+  if (!(chainId && address && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network
       ? network.chainName +
-        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
+        (address ? "/" + (getShortAddress(address, n) + (tokenID ? "/" + textShort(tokenID, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -105,8 +119,12 @@ const textShort = (s: string, n = 16, p = n): string => {
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
 
-const getShortAddress = (address = "?", n = 8): string =>
-  address.endsWith(".eth") ? textShort(address, 2 * n, 0) : textShort(getChecksumAddress(address), n, n);
+const getShortAddress = (address: string, n = 8): string =>
+  address
+    ? address.endsWith(".eth")
+      ? textShort(address, 2 * n, 0)
+      : textShort(getChecksumAddress(address), n, n)
+    : "?";
 
 // GENERIC helpers
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
@@ -303,9 +321,9 @@ const explorerNftLink = (chainId: number, nft: NftType, label?: string): string 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const collectionName = (collection: CollectionType): string => collection?.name || "No name";
+const collectionName = (collection: CollectionType): string => collection?.name || DEFAULT_NAME;
 
-const collectionSymbol = (collection: CollectionType): string => collection?.symbol || "NFT";
+const collectionSymbol = (collection: CollectionType): string => collection?.symbol || DEFAULT_SYMBOL;
 
 const explorerCollectionLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), getShortAddress(collAddress));
@@ -329,7 +347,7 @@ const nftOpenSeaUrl = (chainId: number, nft: NftType): string => {
   return `${openSeaAssets}/${nft?.address}/${nft?.tokenID}`;
 };
 
-const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
+const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || DEFAULT_NAME} #${nft?.tokenID}`;
 
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 
@@ -359,7 +377,7 @@ const nftListKey = (chainId: number, address: string, account?: string): string 
 const collectionKey = (chainId: number, address: string, account?: string): string =>
   `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
-const collectionListKey = (chainId: number, mintable = false, account?: string): string =>
+const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
   `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -424,5 +442,7 @@ export {
   sleep,
   textShort,
   urlToLink,
-  config
+  config,
+  DEFAULT_NAME,
+  DEFAULT_SYMBOL
 };

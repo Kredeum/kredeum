@@ -3,6 +3,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
 import { fetchCov, fetchGQL } from "./kfetch";
+import { collectionListKey, DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
+
 import { factoryGetContract } from "./kfactory-get";
 import { collectionMerge } from "./kcollection-get";
 
@@ -30,7 +32,7 @@ const collectionListMerge = (
 };
 
 const collectionListFromCovalent = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log("collectionListFromCovalent", chainId, account);
+  // console.log(`collectionListFromCovalent ${collectionListKey(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   let path = "";
@@ -68,8 +70,8 @@ const collectionListFromCovalent = async (chainId: number, account: string): Pro
 
         const chainName: string = network?.chainName;
         const address: string = getChecksumAddress(collectionCov.contract_address);
-        const name = collectionCov.contract_name || "";
-        const symbol = collectionCov.contract_ticker_symbol || "";
+        const name = collectionCov.contract_name || DEFAULT_NAME;
+        const symbol = collectionCov.contract_ticker_symbol || DEFAULT_SYMBOL;
         const balanceOf = Number(collectionCov.balance);
 
         const collection: CollectionType = {
@@ -84,12 +86,17 @@ const collectionListFromCovalent = async (chainId: number, account: string): Pro
       }
     }
   }
-  // console.log("collectionListFromCovalent", path, collections.size, collections);
+  // console.log(
+  //   `collectionListFromCovalent ${collectionListKey(chainId, account)}\n`,
+  //   collections.size,
+  //   path,
+  //   collections
+  // );
   return collections;
 };
 
 const collectionListFromTheGraph = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log("collectionListFromTheGraph", chainId, account);
+  // console.log(`collectionListFromTheGraph ${collectionListKey(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const network = getNetwork(chainId);
@@ -145,7 +152,7 @@ const collectionListFromTheGraph = async (chainId: number, account: string): Pro
       }
     }
   }
-  // console.log("listcollectionsFromTheGraph", collections);
+  // console.log(`collectionListFromTheGraph ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -154,7 +161,7 @@ const collectionListFromFactory = async (
   account: string,
   provider: Provider
 ): Promise<Map<string, CollectionType>> => {
-  // console.log("collectionListFromFactory", chainId, account);
+  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
   const network = getNetwork(chainId);
 
   const collections: Map<string, CollectionType> = new Map();
@@ -172,8 +179,8 @@ const collectionListFromFactory = async (
 
       const address: string = getChecksumAddress(balance[0]);
       const owner: string = getChecksumAddress(balance[2]);
-      const name: string = balance[3];
-      const symbol: string = balance[4];
+      const name: string = balance[3] || DEFAULT_NAME;
+      const symbol: string = balance[4] || DEFAULT_SYMBOL;
       const totalSupply = Number(balance[5]);
       const balanceOf = Number(balance[1]);
 
@@ -190,8 +197,7 @@ const collectionListFromFactory = async (
       collections.set(collectionUrl(chainId, address), collection);
     }
   }
-
-  // console.log("collectionListFromFactory", collections);
+  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -201,7 +207,7 @@ const collectionList = async (
   provider: Provider,
   metadata?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log("collectionList", chainId, account);
+  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -222,7 +228,7 @@ const collectionList = async (
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);
     // console.log("collectionList", collections);
   }
-  // console.log("collectionList", collections);
+  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
