@@ -6,7 +6,7 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
-import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3, isProviderOnChainId } from "./kconfig";
+import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftKey, isProviderOnChainId } from "./kconfig";
 import { ERC721Enumerable } from "types/ERC721Enumerable";
 
 const LIMIT = 10;
@@ -59,9 +59,9 @@ const nftListFromCovalent = async (
               external_data: _token.external_data,
               account: getChecksumAddress(_token.account || account),
               minter: getChecksumAddress(_token.original_owner),
-              nid: nftUrl3(chainId, collection.address, _token.token_id)
+              nid: nftKey(chainId, collection.address, _token.token_id)
             };
-            // console.log("nftListFromCovalent nid", nft.nid, nft);
+            // console.log("nftListFromCovalent nftKey(", nft.nid, nft);
             nfts.set(nft.nid, nft);
           }
         }
@@ -128,13 +128,13 @@ const nftListFromTheGraph = async (
           tokenID: _token.tokenID,
           tokenURI: _token.tokenURI,
           account: getChecksumAddress(_token.account?.id),
-          nid: nftUrl3(chainId, collection.address, _token.tokenID)
+          nid: nftKey(chainId, collection.address, _token.tokenID)
           // metadata: _token.metadata && JSON.parse(_token.metadata),
           // name: _token.name,
           // description: _token.description,
           // image: _token.image
         };
-        // console.log("nftListFromTheGraph nid", nft.nid, nft);
+        // console.log("nftListFromTheGraph nftKey", nft.nid, nft);
         nfts.set(nft.nid, nft);
       }
     }

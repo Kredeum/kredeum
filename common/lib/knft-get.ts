@@ -6,7 +6,7 @@ import type { ERC1155 } from "types/ERC1155";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
 
 import type { CollectionType, NftType } from "./ktypes";
-import { nftUrl3, isProviderOnChainId } from "./kconfig";
+import { nftKey, isProviderOnChainId } from "./kconfig";
 import { collectionContractGet } from "./kcollection-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
@@ -41,7 +41,7 @@ const nftGetFromContract = async (
   let nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID && (await isProviderOnChainId(provider, chainId)))) return nft;
 
-  console.log(`nftGetFromContract nft://${chainId}/${address}/${tokenID}`);
+  console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
 
   let tokenURI = "";
   let contractName = "";
@@ -59,13 +59,13 @@ const nftGetFromContract = async (
       tokenURI = await contract.uri(tokenID);
     }
 
-    const nid = nftUrl3(chainId, address, tokenID);
+    const nid = nftKey(chainId, address, tokenID);
     nft = { chainId, address, contractName, tokenID, tokenURI, owner, nid };
   } catch (e) {
-    console.error(`ERROR nftGetFromContract nft://${chainId}/${address}/${tokenID}`, e);
+    console.error(`ERROR nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, e);
   }
 
-  console.log(`nftGetFromContract nft://${chainId}/${address}/${tokenID}`, collection, nft);
+  console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, collection, nft);
   return nft;
 };
 
@@ -107,7 +107,7 @@ const nftGetFromContractEnumerable = async (
   } catch (e) {
     console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
   }
-  console.log(`nftGetFromContractEnumerable nft://${chainId}/${address}/${tokenID.toString()}@{owner} #${index}`, nft);
+  console.log(`nftGetFromContractEnumerable ${nftKey(chainId, address, String(tokenID), owner)} #${index}`, nft);
   return nft;
 };
 
@@ -121,7 +121,7 @@ const nftGet = async (
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID)) return nft;
-  console.log(`nftGet nft://${chainId}/${address}/${tokenID}`);
+  console.log(`nftGet ${nftKey(chainId, address, tokenID)}\n`);
 
   nft = await nftGetFromContract(chainId, address, tokenID, provider, collection);
   console.log("nft", nft);
