@@ -41,7 +41,7 @@ const nftGetFromContract = async (
   const nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID && (await isProviderOnChainId(provider, chainId)))) return nft;
 
-  console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
+  // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
 
   let contractName = "";
   let tokenURI = "";
@@ -67,7 +67,7 @@ const nftGetFromContract = async (
     console.error(`ERROR nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, e);
   }
 
-  console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, collection, nft);
+  // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, collection, nft);
   return nft;
 };
 
@@ -80,7 +80,7 @@ const nftGetFromContractEnumerable = async (
   owner?: string
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID: "" };
-  console.log(`nftGetFromContract nft://${chainId}/${address}@${owner || ""} #${index}`);
+  // console.log(`nftGetFromContract nft://${chainId}/${address}@${owner || ""} #${index}`);
 
   let tokenID: BigNumber = BigNumber.from(-1);
 
@@ -109,7 +109,7 @@ const nftGetFromContractEnumerable = async (
   } catch (e) {
     console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
   }
-  console.log(`nftGetFromContractEnumerable ${nftKey(chainId, address, String(tokenID), owner)} #${index}`, nft);
+  // console.log(`nftGetFromContractEnumerable ${nftKey(chainId, address, String(tokenID), owner)} #${index}`, nft);
   return nft;
 };
 
@@ -123,14 +123,14 @@ const nftGet = async (
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID)) return nft;
-  console.log(`nftGet ${nftKey(chainId, address, tokenID)}\n`);
+  // console.log(`nftGet ${nftKey(chainId, address, tokenID)}\n`);
 
   nft = await nftGetFromContract(chainId, address, tokenID, provider, collection);
-  console.log("nft", nft);
+  // console.log("nft", nft);
 
   const nftRet = withMetadata ? await nftGetMetadata(nft) : nft;
 
-  console.log("nftGet", nftRet);
+  // console.log("nftGet", nftRet);
   return nftRet;
 };
 

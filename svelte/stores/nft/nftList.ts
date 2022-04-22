@@ -13,7 +13,7 @@ const nftListLoadLocalStorage = (): Map<string, NftType> => {
       nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
     }
   }
-  console.log("nftListLoadLocalStorage", nfts);
+  // console.log("nftListLoadLocalStorage", nfts);
   return nfts;
 };
 

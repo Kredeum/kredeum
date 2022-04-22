@@ -15,7 +15,7 @@ const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
       collections.set(key, jsonMapParse(localStorage.getItem(key) || "") as CollectionType);
     }
   }
-  console.log("collectionListLoadLocalStorage", collections);
+  // console.log("collectionListLoadLocalStorage", collections);
   return collections;
 };
 

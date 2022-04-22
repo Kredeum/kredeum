@@ -25,7 +25,7 @@ const nftSetOne = (nft: NftType): void => {
 
   const { chainId, address, tokenID } = nft;
   if (!(chainId && address && tokenID)) return;
-  console.log("nftSetOne", chainId, address, tokenID);
+  // console.log("nftSetOne", chainId, address, tokenID);
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
@@ -41,17 +41,17 @@ const nftSetOne = (nft: NftType): void => {
 
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
-  console.log("nftRefresh", chainId, address, tokenID);
+  // console.log("nftRefresh", chainId, address, tokenID);
 
   if (!(chainId && address && tokenID)) return;
-  const key = nftGetKey(chainId, address, tokenID);
-  console.log("nftRefresh ~ key", key);
+  // const key = nftGetKey(chainId, address, tokenID);
+  // console.log("nftRefresh ~ key", key);
 
   const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
-  console.log("nftRefresh ~ _coll", _coll);
+  // console.log("nftRefresh ~ _coll", _coll);
 
   const _nft = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
-  console.log("nftRefresh _nft", _nft);
+  // console.log("nftRefresh _nft", _nft);
   nftSetOne(_nft);
 };
 

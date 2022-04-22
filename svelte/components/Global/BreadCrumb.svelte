@@ -13,7 +13,7 @@
 
   // INITIAL urlHash values
   const { address, tokenID, action } = urlHash2RefNFT(window.location.hash);
-  console.log("INITIAL urlHash values", address, tokenID, action);
+  // console.log("INITIAL urlHash values", address, tokenID, action);
   $currentCollection = address;
   $currentTokenID = tokenID;
   $currentAction = action;

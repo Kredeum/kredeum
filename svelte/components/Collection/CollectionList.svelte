@@ -30,7 +30,7 @@
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionStore.getSubListStore(chainId, account, mintable);
@@ -43,7 +43,7 @@
     refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
     refreshing = false;
-    // console.log(`handleChange ${mintable} ~ collectionDefault2`, $collectionDefault);
+    console.log("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
     collectionStore.refreshDefault(chainId, account);

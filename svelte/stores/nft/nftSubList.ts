@@ -15,7 +15,7 @@ import { nftStore } from "./nft";
 // ACTIONS : REFRESH all NFTs from one collection for an account
 const nftSubListRefresh = async (chainId: number, address: string, account: string): Promise<void> => {
   if (!(chainId && address)) return;
-  console.log("nftSubListRefresh", chainId, address, account);
+  // console.log("nftSubListRefresh", chainId, address, account);
 
   const key = collectionStore.getKey(chainId, address);
   const $collectionList = get(collectionListStore);
@@ -28,7 +28,7 @@ const nftSubListRefresh = async (chainId: number, address: string, account: stri
 
   if (collection?.supports?.IERC721Enumerable) {
     const nNFTs = collection.balancesOf?.get(account);
-    console.log("nftSubListRefresh Enumerable ~ nNFTs", nNFTs);
+    // console.log("nftSubListRefresh Enumerable ~ nNFTs", nNFTs);
 
     for (let numNFT = 0; numNFT < nNFTs; numNFT++) {
       const nftIndex = await nftGetFromContractEnumerable(
@@ -45,7 +45,7 @@ const nftSubListRefresh = async (chainId: number, address: string, account: stri
     }
   } else {
     const nftsTokenIds = await nftListTokenIds(chainId, collection.address, get(metamaskProvider), collection, account);
-    console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
+    // console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
     for await (const _nft of nftsTokenIds.values()) {
       nftStore.setOne(await nftGetMetadata(_nft));

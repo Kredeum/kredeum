@@ -17,9 +17,9 @@ const collectionSubListStore = (
   const [collectionDefault, collectionMintableDefault] = get(collectionStore.getDefaultStore).get(
     collectionStore.getDefaultKey(chainId, account)
   ) || ["", ""];
-  console.log(
-    `collectionListGetStore collection://${chainId || ""}${account ? "@" + account : ""} ${String(mintable)}`
-  );
+  // console.log(
+  // `collectionListGetStore collection://${chainId || ""}${account ? "@" + account : ""} ${String(mintable)}`
+  // );
   return derived(collectionStore.getListStore, ($collectionListStore) => {
     const collections = new Map(
       [...$collectionListStore]
@@ -56,10 +56,10 @@ const collectionSubListStore = (
           const ok = okParams && okNetwork && (mintable ? okMintable : okNotMintable);
 
           // if (mintable) {
-          //   console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
+          //  console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
           // } else {
-          //   console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
-          //   console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
+          //  console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
+          //  console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
           // }
 
           return ok;
@@ -80,7 +80,7 @@ const collectionSubListRefresh = async (chainId: number, account?: string, minta
   for (const collectionObject of collectionListFromLib.values()) {
     collectionStore.setOne(collectionObject);
   }
-  console.log(`collectionSubListRefresh ${collectionListKey(chainId, account, mintable)}\n`, collectionListFromLib);
+  // console.log(`collectionSubListRefresh ${collectionListKey(chainId, account, mintable)}\n`, collectionListFromLib);
 };
 
 export { collectionSubListStore, collectionSubListRefresh };

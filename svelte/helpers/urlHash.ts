@@ -29,7 +29,7 @@ const urlHash2RefNFT = (hash = window.location.hash): RefNFT => {
       action = res[9];
       account = res[11];
     }
-    console.log("urlHash2RefNFT", chainName, chainId, address, tokenID, action, account);
+    // console.log("urlHash2RefNFT", chainName, chainId, address, tokenID, action, account);
   }
 
   return { chainName, chainId, address, tokenID, action, account };

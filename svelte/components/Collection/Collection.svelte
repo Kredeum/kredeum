@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
+
   import type { CollectionType } from "lib/ktypes";
   import { collectionKey, DEFAULT_NAME, DEFAULT_SYMBOL } from "lib/kconfig";
 
@@ -19,7 +20,7 @@
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
+    // console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);

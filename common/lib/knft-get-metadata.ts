@@ -30,7 +30,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   } catch (e) {
     console.error("ERROR nftGetContentType", e, url, nft);
   }
-  console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
+  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };
@@ -84,7 +84,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   nft.nid ||= nftKey(chainId, address, tokenID);
   nft.contentType ||= await nftGetContentType(nft);
 
-  console.log(`nftGetMetadata ${nftKey(chainId, address, tokenID)}\n`, nft);
+  // console.log(`nftGetMetadata ${nftKey(chainId, address, tokenID)}\n`, nft);
   return nft;
 };
 

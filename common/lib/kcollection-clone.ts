@@ -50,7 +50,7 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
     ({ implementation } = log.args);
   }
 
-  //  console.log("collectionCloneAddress", implementation);
+  // console.log("collectionCloneAddress", implementation);
   return implementation;
 };
 

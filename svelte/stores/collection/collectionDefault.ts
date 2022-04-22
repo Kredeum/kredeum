@@ -21,7 +21,7 @@ const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {
       collections.set(key, JSON.parse(localStorage.getItem(key)) as [string, string]);
     }
   }
-  console.log("collectionDefaultLoadLocalStorage", collections);
+  // console.log("collectionDefaultLoadLocalStorage", collections);
   return collections;
 };
 
@@ -35,7 +35,7 @@ const collectionDefaultSetOne = (
   mintable: boolean = false,
   account?: string
 ): void => {
-  console.log("collectionDefaultSetOne", chainId, address, account);
+  // console.log("collectionDefaultSetOne", chainId, address, account);
 
   if (!(chainId && address)) return;
 
@@ -57,7 +57,7 @@ const collectionDefaultSetOne = (
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(key, JSON.stringify(adresses));
     }
-    console.log(`collectionDefaultSetOne ${key}\n[${addressDefault}, ${addressMintable}] ${String(mintable)}`);
+    // console.log(`collectionDefaultSetOne ${key}\n[${addressDefault}, ${addressMintable}] ${String(mintable)}`);
     return $collectionDefault.set(key, adresses);
   });
 };
@@ -76,13 +76,13 @@ const collectionDefaultRefresh = (chainId: number, account?: string): void => {
     addressDefault = addressMintable;
     collectionDefaultSetOne(chainId, addressDefault, false, account);
   }
-  console.log(`collectionDefaultRefresh ${key}\n[${addressDefault}, ${addressMintable}]`);
+  // console.log(`collectionDefaultRefresh ${key}\n[${addressDefault}, ${addressMintable}]`);
 };
 
 // STATE VIEW : GET default Collection
 const collectionDefaultSubStore = (chainId: number, mintable: boolean = false, account?: string): Readable<string> => {
   const key = collectionDefaultGetKey(chainId, account);
-  console.log(`collectionDefaultGetStore ${key} ${String(mintable)}`);
+  // console.log(`collectionDefaultGetStore ${key} ${String(mintable)}`);
 
   return derived(collectionDefaultStore, ($collectionDefaultStore): string => {
     const collDefs = $collectionDefaultStore.get(key) || ["", ""];

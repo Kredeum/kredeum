@@ -27,7 +27,7 @@
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
   $: refresh, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
-    console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
+    // console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
