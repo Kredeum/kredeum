@@ -1,4 +1,4 @@
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 import type { Signer } from "ethers";
 

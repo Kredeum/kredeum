@@ -1,11 +1,17 @@
 <script lang="ts">
-  import type { Nft } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
-  export let nft: Nft = undefined;
+  /////////////////////////////////////////////////
+  //  <NftTransfer {chainId} {address} {tokenID} />
+  // Display NFT
+  /////////////////////////////////////////////////
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
 
   let transferTxHash: string = null;
   let transfering = false;
@@ -19,13 +25,7 @@
       transfering = true;
       transfered = false;
 
-      const txResp = await transferNftResponse(
-        nft.chainId,
-        nft.collection,
-        nft.tokenID,
-        destinationAddress,
-        $metamaskSigner
-      );
+      const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, $metamaskSigner);
       transferTxHash = txResp.hash;
 
       const txReceipt = await transferNftReceipt(txResp);
@@ -46,7 +46,10 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              NFT <a class="link" href="{explorerNftUrl($metamaskChainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
+              NFT
+              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
+                >#{tokenID}</a
+              >
               transfered!
             </div>
           </div>
@@ -63,7 +66,7 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-gift" /> Transfer this NFT #{nft.tokenID} to what address ?
+            <i class="fas fa-gift" /> Transfer this NFT #{tokenID} to what address ?
           </div>
 
           <div class="section">

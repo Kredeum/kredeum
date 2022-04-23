@@ -1,15 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Collection, ABIS } from "./ktypes";
+import type { CollectionType, ABIS } from "./ktypes";
 
-import { Signer, Contract } from "ethers";
-import { collectionGetMetadata } from "./kcollection-get-metadata";
-import {
-  storeCollectionSet as collectionSetIntoCache,
-  storeCollectionGet as collectionGetFromCache,
-  storeCollectionDefaultGet as collectionDefaultGet,
-  storeCollectionDefaultSet as collectionDefaultSetIntoCache
-} from "./kstore";
-import { getNetwork } from "./kconfig";
+import { Contract } from "ethers";
+import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
+import { isProviderOnChainId, collectionKey } from "./kconfig";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
@@ -40,78 +34,62 @@ const abis = {
   IOpenNFTsV3
 };
 
-const collectionGet = async (
-  chainId: number,
-  collectionOrAddress: Collection | string,
-  signerOrProvider?: Signer | Provider,
-  account?: string
-): Promise<Collection> => {
-  // console.log(`collectionGet ${chainId}`, collectionOrAddress);
-
-  let collection: Collection | undefined = undefined;
-
-  // TODO : Get supported interfaces via onchain proxy smartcontract
-  if (typeof collectionOrAddress === "string") {
-    collection = { chainId, address: collectionOrAddress };
-  } else {
-    collection = collectionOrAddress;
-  }
-
-  if (!collection?.supports && signerOrProvider) {
-    try {
-      const supported = await collectionGetMetadata(chainId, collection.address, signerOrProvider, account || "");
-      Object.assign(collection, supported);
-    } catch (e) {
-      console.error(`ERROR collectionGet : ${chainId} ${collection.address}\n`, e);
-    }
-  }
-  // console.log(`collectionGet ${chainId}`, collection);
-  return collection;
-};
-
 const collectionContractGet = async (
   chainId: number,
-  collectionOrAddress: Collection | string,
-  signerOrProvider: Signer | Provider
+  address: string,
+  provider: Provider,
+  collection: CollectionType = { chainId, address }
 ): Promise<Contract> => {
-  // console.log(`collectionContractGet ${chainId}`, collectionOrAddress,account);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
   let abi: Array<string> = [];
-  let collection: Collection;
 
-  if (typeof collectionOrAddress === "string") {
-    collection = { chainId, address: collectionOrAddress };
-  } else {
-    collection = collectionOrAddress;
-  }
-
-  const collectionSupports = collection.supports
-    ? collection.supports
-    : (await collectionGetMetadata(chainId, collection.address, signerOrProvider)).supports;
+  if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
   // console.log("collectionSupports", collectionSupports);
 
-  for (const [key, supports] of Object.entries(collectionSupports)) {
+  for (const [key, supports] of Object.entries(collection.supports || {})) {
     if (supports) {
       // console.log(  key, abis[key as ABIS]);
       abi = abi.concat(abis[key as ABIS]);
     }
   }
   // console.log("abi", abi);
-  const contract = new Contract(collection.address, abi, signerOrProvider);
+  const contract = new Contract(address, abi, provider);
 
-  // console.log("collectionContractGet", contract);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
   return contract;
 };
 
-// GET OpenNFTs default template via onchain call
-const collectionDefaultOpenNFTsGet = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+// Merge 2 collections into 1 (twice the same collection but with different metadata)
+const collectionMerge = (col1: CollectionType, col2: CollectionType): CollectionType => {
+  const collMerged: CollectionType = Object.assign({ chainId: 1, address: "" }, col1 || {}, col2 || {});
 
-export {
-  collectionGet,
-  collectionGetFromCache,
-  collectionContractGet,
-  collectionDefaultGet,
-  collectionDefaultOpenNFTsGet,
-  collectionSetIntoCache,
-  collectionDefaultSetIntoCache
+  // collection.balancesOf is a Map => needs specific merge
+  if (col1?.balancesOf && col2?.balancesOf) {
+    collMerged.balancesOf = new Map([...col1.balancesOf, ...col2.balancesOf]);
+  }
+  return collMerged;
 };
+
+const collectionGet = async (
+  chainId: number,
+  address: string,
+  provider: Provider,
+  account?: string,
+  collection: CollectionType = { chainId, address }
+): Promise<CollectionType> => {
+  // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
+
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
+
+  try {
+    await collectionGetSupports(chainId, address, provider, collection);
+    await collectionGetOtherData(chainId, address, provider, account, collection);
+  } catch (e) {
+    console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
+  }
+  // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`, collection);
+  return collection;
+};
+
+export { collectionGet, collectionMerge, collectionContractGet };

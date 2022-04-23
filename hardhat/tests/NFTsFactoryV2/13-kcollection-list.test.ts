@@ -1,7 +1,7 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 
 import {
   collectionList,
@@ -23,7 +23,7 @@ describe("13 List contracts lib", function () {
     maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     type: 2
   };
-  let configNetwork: Network | undefined;
+  let configNetwork: NetworkType | undefined;
   let nftsFactory: NFTsFactoryV2;
   let openNFTsV3: OpenNFTsV3;
 

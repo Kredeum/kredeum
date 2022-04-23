@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address, Network, Collection, Nft } from "./ktypes";
+import type { Address, NetworkType, CollectionType, NftType } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
@@ -7,15 +7,30 @@ import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 
+const DEFAULT_NAME = "No name";
+const DEFAULT_SYMBOL = "NFT";
+
+const isProviderOnChainId = async (provider: Provider, chainId: number) =>
+  chainId === (await provider?.getNetwork())?.chainId;
+
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-const getChecksumAddress = (address: Address | string | undefined): Address =>
-  address ? utils.getAddress(address) : "";
+const getChecksumAddress = (address: Address | string | undefined): Address => {
+  if (!address) return "";
+
+  let addr = address;
+  try {
+    addr = utils.getAddress(String(address));
+  } catch (e) {
+    console.log("getChecksumAddress ERROR on @ '" + addr + "'");
+  }
+  return addr;
+};
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
 
-const getNetwork = (chainId: number | string): Network | undefined => networksMap.get(Number(chainId));
+const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
 
@@ -54,40 +69,42 @@ const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openS
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
 // nfts url : nfts://chainName/collectionAddress
-const nftsUrl = (chainId: number, _collectionAddress: Address): string => {
+const collectionUrl = (chainId: number, _collectionAddress: Address): string => {
   const network = getNetwork(chainId);
   return (
-    "nfts://" +
+    "collection://" +
     (network ? network.chainName : "...") +
     (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "/...")
   );
 };
 
 // nft url : nft://chainName/collectionAddress/tokenID
-const nftUrl3 = (chainId: number, _contract: Address, _tokenId = "", n = 999): string => {
+const nftUrl3 = (chainId: number, address: Address, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
+
+  if (!(chainId && address && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network
       ? network.chainName +
-        (_contract ? "/" + (getShortAddress(_contract, n) + (_tokenId ? "/" + textShort(_tokenId, 8) : "")) : "")
+        (address ? "/" + (getShortAddress(address, n) + (tokenID ? "/" + textShort(tokenID, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
 };
-const nftUrl = (nft: Nft, n?: number): string => nftUrl3(nft.chainId, nft.collection, nft.tokenID, n);
+const nftUrl = (nft: NftType, n?: number): string => nftUrl3(nft.chainId, nft.address, nft.tokenID, n);
 
 // Build normalized url for one nft with get parameters
-const normalizedSoloNftUrl = (chainId: number, nft: Nft): string => {
+const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
   const network = getNetwork(chainId);
   const ret =
     "/?chainId=" +
     (network
       ? network.chainName +
         "&collection=" +
-        (nft ? `${nft?.collection}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
+        (nft ? `${nft?.address}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
       : "");
-  // console.log("nftUrl3", chainId, collection, _tokenId, plus, ret);
+  // console.log("normalizedSoloNftUrl", chainId, collection, _tokenId, plus, ret);
 
   return ret;
 };
@@ -102,8 +119,12 @@ const textShort = (s: string, n = 16, p = n): string => {
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
 
-const getShortAddress = (address = "?", n = 8): string =>
-  address.endsWith(".eth") ? textShort(address, 2 * n, 0) : textShort(getChecksumAddress(address), n, n);
+const getShortAddress = (address: string, n = 8): string =>
+  address
+    ? address.endsWith(".eth")
+      ? textShort(address, 2 * n, 0)
+      : textShort(getChecksumAddress(address), n, n)
+    : "?";
 
 // GENERIC helpers
 const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout(resolve, ms));
@@ -119,9 +140,11 @@ const urlToLink = (url: string, label?: string): string => `<a href="${url}" tar
 // IPFS helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGetLink = (uri: string): string => {
+const ipfsGetLink = (uri: string | undefined): string => {
+  if (!uri) return "";
+
   let ipfsLink = "";
   let cid = "";
 
@@ -148,34 +171,34 @@ const ipfsGetLink = (uri: string): string => {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// http uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => gateway url : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsToUrlHttp = (url: string): string => (url.startsWith("ipfs://") ? ipfsGatewayUrl(url) : url);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsCidToLink = (cid: string): string => (cid ? `ipfs://${cid}` : "");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayUrl = (ipfs: string): string => `${ipfsGateway}${ipfsLinkToCid(ipfs)}`;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank">bafk...cek624</a>
+// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
+// => gateway link <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank">bafk...cek624</a>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs), textShort(ipfs));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -263,19 +286,19 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
 };
 
 // KREDEUM NFT URL
-const kredeumNftUrl = (chainId: number, nft: Nft): string =>
-  `./#/${getChainName(nft.chainId)}/${nft?.collection}/${nft?.tokenID}`;
+const kredeumNftUrl = (chainId: number, nft: NftType): string =>
+  `./#/${getChainName(nft.chainId)}/${nft?.address}/${nft?.tokenID}`;
 
 // NFT URL
-const explorerNftUrl = (chainId: number, nft: Nft): string => {
+const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
   if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
     // https://blockscout.com/xdai/mainnet/token/0x22C1f6050E56d2876009903609a2cC3fEf83B415/instance/3249859/metadata
-    url = explorerUrl(chainId, `/tokens/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
-    url = explorerUrl(chainId, `/token/${nft?.collection}/instance/${nft?.tokenID}/metadata`);
+    url = explorerUrl(chainId, `/tokens/${nft?.address}/instance/${nft?.tokenID}/metadata`);
+    url = explorerUrl(chainId, `/token/${nft?.address}/instance/${nft?.tokenID}/metadata`);
   } else {
     // https://etherscan.io/token/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471?a=1
-    url = explorerUrl(chainId, `/token/${nft?.collection}?a=${nft?.tokenID}#inventory`);
+    url = explorerUrl(chainId, `/token/${nft?.address}?a=${nft?.tokenID}#inventory`);
   }
   return url;
 };
@@ -292,15 +315,15 @@ const explorerAddressLink = (chainId: number, address: string, n?: number): stri
 const explorerTxLink = (chainId: number, tx: string): string =>
   urlToLink(explorerTxUrl(chainId, tx), getShortAddress(tx));
 
-const explorerNftLink = (chainId: number, nft: Nft, label?: string): string =>
+const explorerNftLink = (chainId: number, nft: NftType, label?: string): string =>
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const collectionName = (collection: Collection): string => collection?.name || "No name";
+const collectionName = (collection: CollectionType): string => collection?.name || DEFAULT_NAME;
 
-const collectionSymbol = (collection: Collection): string => collection?.symbol || "NFT";
+const collectionSymbol = (collection: CollectionType): string => collection?.symbol || DEFAULT_SYMBOL;
 
 const explorerCollectionLink = (chainId: number, collAddress: string): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), getShortAddress(collAddress));
@@ -308,24 +331,27 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // NFTS helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const nftsSupply = (nfts: Map<string, Nft>): number => nfts.size || 0;
+const nftsSupply = (nfts: Map<string, NftType>): number => nfts.size || 0;
 
-const nftsBalanceAndName = (collection: Collection): string =>
-  `${collection?.balanceOf || ""} ${collectionSymbol(collection)}${(collection?.balanceOf || 0) > 1 ? "s" : ""}`;
-
-// NFT helpers
-const nftExplorerLink = (nft: Nft, n?: number): string => urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
-
-const nftOpenSeaUrl = (chainId: number, nft: Nft): string => {
-  const openSeaAssets = getOpenSeaAssets(chainId);
-  return `${openSeaAssets}/${nft?.collection}/${nft?.tokenID}`;
+const nftsBalanceAndName = (collection: CollectionType, account: string): string => {
+  const bal = collection?.balancesOf?.get(account) || 0;
+  return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
 };
 
-const nftName = (nft: Nft): string => nft?.name || `${nft?.contractName || "No name"} #${nft?.tokenID}`;
+// NFT helpers
+const nftExplorerLink = (nft: NftType, n?: number): string =>
+  urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftDescription = (nft: Nft): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
+const nftOpenSeaUrl = (chainId: number, nft: NftType): string => {
+  const openSeaAssets = getOpenSeaAssets(chainId);
+  return `${openSeaAssets}/${nft?.address}/${nft?.tokenID}`;
+};
 
-const nftDescriptionShort = (nft: Nft, n = 16): string => textShort(nftDescription(nft), n, 0);
+const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || DEFAULT_NAME} #${nft?.tokenID}`;
+
+const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
+
+const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescription(nft), n, 0);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -340,6 +366,20 @@ const interfaceId = (abi: Array<string>): string => {
   });
   return utils.hexlify(id);
 };
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const nftKey = (chainId: number, address: string, tokenID: string, account?: string): string =>
+  `nft://${String(chainId)}/${address}/${tokenID}${account ? "@" + account : ""}`;
+
+const nftListKey = (chainId: number, address: string, account?: string): string =>
+  `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
+
+const collectionKey = (chainId: number, address: string, account?: string): string =>
+  `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
+
+const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
+  `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
@@ -363,6 +403,7 @@ export {
   explorerOpenNFTsUrl,
   isTestnet,
   getChainId,
+  isProviderOnChainId,
   getChainName,
   getShortAddress,
   getChecksumAddress,
@@ -381,9 +422,13 @@ export {
   ipfsGatewayUrl,
   ipfsGatewayLink,
   interfaceId,
+  collectionKey,
+  collectionListKey,
+  nftKey,
+  nftListKey,
   nftUrl3,
   nftUrl,
-  nftsUrl,
+  collectionUrl,
   nftDescription,
   nftDescriptionShort,
   nftExplorerLink,
@@ -397,5 +442,7 @@ export {
   sleep,
   textShort,
   urlToLink,
-  config
+  config,
+  DEFAULT_NAME,
+  DEFAULT_SYMBOL
 };

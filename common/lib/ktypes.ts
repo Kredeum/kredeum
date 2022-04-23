@@ -5,7 +5,7 @@ type ABIS = ErcKeys | OpenNFTsKeys;
 
 type Address = string;
 
-type Network = {
+type NetworkType = {
   chainId: number;
   chainName: string;
   rpcUrls: Array<string>;
@@ -29,7 +29,7 @@ type Network = {
   eip1559?: boolean;
 };
 
-type Collection = {
+type CollectionType = {
   chainId: number;
   address: string;
   owner?: string;
@@ -40,10 +40,10 @@ type Collection = {
   totalSupply?: number;
   startBlock?: number;
   description?: string;
-  user?: string;
-  balanceOf?: number;
+  balancesOf?: Map<string, number>;
   version?: number;
   mintable?: boolean;
+  open?: boolean;
   supports?: CollectionSupports;
 };
 type CollectionSupports = {
@@ -72,9 +72,9 @@ type NftMetadata = {
   ipfs?: string;
 };
 
-type Nft = {
+type NftType = {
   chainId: number;
-  collection: string;
+  address: string;
   tokenID: string;
   tokenURI?: string;
   owner?: string;
@@ -102,13 +102,13 @@ type Nft = {
 };
 
 export type {
-  Address,
-  Collection,
-  CollectionSupports,
-  Network,
-  ABIS,
+  NftType,
   AbiType,
-  Nft,
+  NetworkType,
+  CollectionType,
+  Address,
+  CollectionSupports,
+  ABIS,
   NftMetadata,
   OpenNFTsKeys,
   ErcKeys

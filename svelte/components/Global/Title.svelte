@@ -2,18 +2,22 @@
   import { onMount } from "svelte";
   import semverSatisfies from "semver/functions/satisfies";
   import { config } from "lib/kconfig";
-  import { storeSet, storeGet, storeClearAll } from "lib/kstore";
 
   let label = "";
   let version = "";
+  const VERSION = "version";
 
-  const cacheVersion = (_version: string) => {
-    const versionOld = storeGet("version") || "";
-    if (!semverSatisfies(_version, `~${versionOld}`)) {
-      console.info(`New version, previously ${versionOld} => cache cleared!`);
-      storeClearAll();
+  const cacheVersion = (version: string) => {
+    if (typeof localStorage !== "undefined") {
+      const versionOld = localStorage.getItem(VERSION);
+
+      if (!semverSatisfies(version, `~${versionOld}`)) {
+        console.info(`New version${versionOld ? ", previously " + versionOld : ""} => cache cleared`);
+        localStorage.clear();
+        localStorage.setItem(VERSION, version);
+      }
     }
-    storeSet("version", _version);
+    console.log("Current Version", version);
   };
 
   onMount(() => {

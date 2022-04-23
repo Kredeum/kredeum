@@ -1,27 +1,43 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { Readable } from "svelte/store";
 
-  import type { Nft } from "lib/ktypes";
-  import type { Collection as CollectionType } from "lib/ktypes";
-  import { collectionGetFromCache } from "lib/kcollection-get";
+  import type { NftType, CollectionType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
   import { metamaskSigner } from "main/metamask";
 
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
+  import { collectionStore } from "stores/collection/collection";
 
+  /////////////////////////////////////////////////
+  //  <NftMint {chainId} />
+  // Display NFT
+  /////////////////////////////////////////////////
   export let chainId: number;
-
-  let collection: string = undefined;
+  /////////////////////////////////////////////////
 
   let account: string;
+  $: $metamaskSigner && handleSigner().catch(console.error);
+  const handleSigner = async (): Promise<void> => {
+    account = await $metamaskSigner.getAddress();
+  };
 
-  $: _setAccount($metamaskSigner).catch(console.error);
-  const _setAccount = async (signer: JsonRpcSigner): Promise<string> => (account = await signer.getAddress());
+  let address: string;
+  let collection: Readable<CollectionType>;
 
-  let nftTitle: string;
+  $: $metamaskSigner && chainId && handleChange();
+  const handleChange = async () => {
+    // Get signer account
+    account = await $metamaskSigner.getAddress();
+
+    // STATE VIEW : sync get Collection
+    collection = collectionStore.getOneStore(chainId, address);
+  };
+
+  let nftTitle: string = "";
 
   let files: FileList;
   let image: string;
@@ -30,7 +46,7 @@
   let ipfsJson: string;
   let minting: number;
   let mintingTxResp: TransactionResponse;
-  let mintedNft: Nft;
+  let mintedNft: NftType;
   let mintingError: string;
 
   const mintReset = (): void => {
@@ -41,12 +57,6 @@
     mintedNft = null;
     mintingError = null;
   };
-
-  let collectionObject: CollectionType;
-  $: {
-    collectionObject = collectionGetFromCache(chainId, collection);
-    // console.log("collectionObject", collectionObject);
-  }
 
   // DISPLAY image AFTER upload
   const fileload = () => {
@@ -62,7 +72,7 @@
     }
   };
 
-  const mint = async (): Promise<Nft> => {
+  const mint = async (): Promise<NftType> => {
     mintReset();
 
     if (image) {
@@ -80,13 +90,13 @@
         if (ipfsJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse(chainId, collectionObject, ipfsJson, $metamaskSigner);
+          mintingTxResp = await nftMint3TxResponse(chainId, address, ipfsJson, $metamaskSigner);
           // console.log("txResp", txResp);
 
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await nftMint4(chainId, collectionObject, mintingTxResp, ipfsJson, account);
+            mintedNft = await nftMint4(chainId, address, mintingTxResp, ipfsJson, account);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {
@@ -249,11 +259,11 @@
         </div>
 
         <div class="section">
-          <span class="label label-big">Add to an existing collection ?</span>
-          <CollectionListGet {chainId} bind:collection {account} mintable={true} label={false} />
+          <span class="label label-big">Add to an existing address ?</span>
+          <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
-          {#if collectionObject?.mintable}
+          {#if $collection?.open}
             <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
           {/if}
         </div>

@@ -1,26 +1,25 @@
-import type { Signer } from "ethers";
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { collectionContractGet } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
 const transferNftResponse = async (
   chainId: number,
-  collectionAddress: string,
+  address: string,
   tokenID: string,
   destinationAddress: string,
-  owner: Signer
+  owner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  // console.log("transferNftResponse", chainId, collectionAddress, tokenID, destinationAddress);
+  // console.log("transferNftResponse", chainId, address, tokenID, destinationAddress);
 
-  let txResp: TransactionResponse | null = null;
+  let txResp: TransactionResponse | undefined;
 
-  if (chainId && collectionAddress && tokenID && destinationAddress && owner) {
+  if (chainId && address && tokenID && destinationAddress && owner) {
     const network = getNetwork(chainId);
     const ownerAddress = await owner.getAddress();
     // console.log("transferNftResponse owner", ownerAddress);
 
-    const openNFTs = await collectionContractGet(chainId, collectionAddress, owner);
+    const openNFTs = await collectionContractGet(chainId, address, owner.provider);
 
     // console.log("transferFrom", ownerAddress, destinationAddress, tokenID);
     txResp = await openNFTs.connect(owner).transferFrom(ownerAddress, destinationAddress, tokenID);
@@ -36,15 +35,15 @@ const transferNftReceipt = async (txResp: TransactionResponse): Promise<Transact
 
 const transferNft = async (
   chainId: number,
-  collectionAddress: string,
+  address: string,
   tokenID: string,
   destinationAddress: string,
-  owner: Signer
-): Promise<TransactionReceipt | null> => {
-  // console.log("transferNft", chainId, collectionAddress, tokenID, destinationAddress);
+  owner: JsonRpcSigner
+): Promise<TransactionReceipt | undefined> => {
+  // console.log("transferNft", chainId, address, tokenID, destinationAddress);
 
-  const txResp = await transferNftResponse(chainId, collectionAddress, tokenID, destinationAddress, owner);
-  const txReceipt = await transferNftReceipt(txResp);
+  const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, owner);
+  const txReceipt = txResp && (await transferNftReceipt(txResp));
 
   return txReceipt;
 };

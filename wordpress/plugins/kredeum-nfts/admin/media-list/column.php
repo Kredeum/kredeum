@@ -45,7 +45,6 @@ add_action(
 					'<div class="kredeum-nfts-mint"'
 					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
-					. ' cid="' . esc_attr( $post->_kre_cid ) . '"'
 					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 				);

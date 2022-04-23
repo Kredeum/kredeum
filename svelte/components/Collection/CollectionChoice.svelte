@@ -1,13 +1,13 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
 
   /////////////////////////////////////////////////
-  // <CollectionChoice bind:{collection} {txt} />
+  // <CollectionChoice bind:{address} {txt} />
   // Choose Collection, after Account Connect and Network choose
   /////////////////////////////////////////////////
-  export let collection: string = undefined;
+  export let address: string = undefined;
   export let txt = true;
 
   let account: string;
@@ -23,6 +23,6 @@
 
 {#if chainId && account}
   <p>
-    <CollectionListGet {chainId} {account} bind:collection {txt} mintable={true} />
+    <CollectionList {chainId} {account} bind:address {txt} mintable={true} />
   </p>
 {/if}

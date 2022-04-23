@@ -1,100 +1,91 @@
-import type { Nft, NftMetadata } from "./ktypes";
+import type { NftType, NftMetadata } from "./ktypes";
 import { fetchJson } from "./kfetch";
-import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftUrl3 } from "./kconfig";
-import { storeNftSet } from "lib/kstore";
+import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftKey } from "./kconfig";
 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
-const nftGetImageLink = (nft: Nft): string => (nft?.ipfs ? ipfsGatewayUrl(nft.ipfs) : nft?.image || "");
+const nftGetImageLink = (nft: NftType): string =>
+  nft?.ipfs
+    ? ipfsGatewayUrl(nft.ipfs)
+    : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
 
-const nftGetContentType = async (nft: Nft): Promise<string> => {
+const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);
 
-  let contentType = "text";
+  const { chainId, address, tokenID } = nft || {};
   const url = nftGetImageLink(nft);
 
-  if (url) {
-    contentType = contentTypes.get(url) || "";
-    if (!contentType) {
-      contentType = "image";
-      try {
-        const options = { method: "HEAD" };
-        const response = await fetch(url, options);
-        contentType = response.headers.get("content-type") || "text";
-        contentTypes.set(url, contentType);
-      } catch (e) {
-        console.error("ERROR nftGetContentType", e);
-      }
-      console.log("nftGetContentType", url, contentType);
-    }
+  let contentType = "text";
+  if (!(chainId && address && tokenID && url)) return contentType;
+
+  contentType = contentTypes.get(url) || "";
+  if (contentType) return contentType;
+
+  contentType = "image";
+  try {
+    const response = await fetch(url, { method: "HEAD" });
+    contentType = response.headers.get("content-type") || contentType;
+    contentTypes.set(url, contentType);
+  } catch (e) {
+    console.error("ERROR nftGetContentType", e, url, nft);
   }
+  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
+
   return contentType;
 };
 
-const nftGetMetadata = async (nft: Nft): Promise<Nft> => {
-  // console.log("nftGetMetadata", chainId, nft, collection);
+const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
+  // console.log("nftGetMetadata", nft);
 
-  if (!nft) return nft;
-
-  const { chainId, collection, tokenID } = nft;
-  if (!(chainId && collection && tokenID)) return nft;
-
+  const { chainId, address, tokenID } = nft || {};
   const network = getNetwork(chainId);
-  if (!network) return nft;
-
-  // TODO : Extend NFT type with Metadata type...
-  let tokenJson: NftMetadata = {};
+  if (!(chainId && address && tokenID && network)) return nft;
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
+    if (!nft.ipfsJson) {
+      const ipfsJson = ipfsGetLink(nft.tokenURI);
+      if (ipfsJson) nft.ipfsJson = ipfsJson;
+    }
+
     try {
-      const tokenURIAnswer = await fetchJson(nft.tokenURI);
+      // nft.ipfsJson = ipfs://...cid... : metadata URI found on IPFS
+      // nft.tokenURI : default metadata URI
+      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.tokenURI);
       if (tokenURIAnswer.error) {
         console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
       } else {
-        // console.log("nftGetMetadata tokenJson", tokenURIAnswer);
-        tokenJson = tokenURIAnswer as NftMetadata;
+        const nftMetadata = tokenURIAnswer as NftMetadata;
+        // console.log("nftGetMetadata", nft.tokenURI, nft.ipfsJson, nftMetadata);
+
+        if (nftMetadata) {
+          nft.metadata = nftMetadata;
+
+          if (!nft.name && nftMetadata.name) nft.name = nftMetadata.name;
+          if (!nft.description && nftMetadata.description) nft.description = nftMetadata.description;
+          if (!nft.creator && nftMetadata.creator) nft.creator = getChecksumAddress(nftMetadata.creator);
+          if (!nft.minter && nftMetadata.minter) nft.minter = getChecksumAddress(nftMetadata.minter);
+          if (!nft.owner && nftMetadata.owner) nft.owner = getChecksumAddress(nftMetadata.owner);
+
+          if (!nft.image && (nftMetadata.image || nftMetadata.image_url))
+            nft.image = nftMetadata.image || nftMetadata.image_url;
+
+          if (!nft.ipfs && (nftMetadata.ipfs || ipfsGetLink(nft.image)))
+            nft.ipfs = nftMetadata.ipfs || ipfsGetLink(nft.image);
+        }
       }
     } catch (e) {
       console.error("ERROR nftGetMetadata tokenURIAnswer", e);
     }
   }
 
-  const chainName: string = nft.chainName || network?.chainName || "";
-  const metadata = { ...nft.metadata, ...tokenJson };
-  const image: string = nft.image || metadata.image || metadata.image_url || "";
+  nft.chainName ||= network.chainName;
+  nft.nid ||= nftKey(chainId, address, tokenID);
+  nft.contentType ||= await nftGetContentType(nft);
 
-  const nftMetadata: Nft = {
-    chainId,
-    collection,
-    tokenID,
-
-    tokenURI: nft.tokenURI || "",
-    tokenJson,
-
-    chainName,
-    metadata,
-    image,
-
-    name: nft.name || metadata.name || "",
-    description: nft.description || metadata.description || "",
-
-    creator: getChecksumAddress(nft.creator || metadata.creator),
-    minter: getChecksumAddress(nft.minter || metadata.minter),
-    owner: getChecksumAddress(nft.owner || metadata.owner),
-
-    ipfs: nft.ipfs || metadata.ipfs || ipfsGetLink(image) || "",
-    ipfsJson: nft.ipfsJson || ipfsGetLink(nft.tokenURI || "") || "{}",
-    nid: nft.nid || nftUrl3(chainId, collection, tokenID)
-  };
-  nftMetadata.contentType = nft.contentType || (await nftGetContentType(nftMetadata));
-
-  // STORE nft
-  storeNftSet(nftMetadata);
-
-  // console.log("nftGetMetadata nftMetadata", nftMetadata);
-  return nftMetadata;
+  // console.log(`nftGetMetadata ${nftKey(chainId, address, tokenID)}\n`, nft);
+  return nft;
 };
 
 export { nftGetMetadata, nftGetImageLink, nftGetContentType };

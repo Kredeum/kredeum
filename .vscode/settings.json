@@ -45,6 +45,10 @@
     {
       "filePath": "hardhat/scripts",
       "group": "Default"
+    },
+    {
+      "filePath": "svelte/stores",
+      "group": "Default"
     }
   ],
   "slither.solcPath": "",

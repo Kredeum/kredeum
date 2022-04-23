@@ -1,5 +1,5 @@
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
@@ -66,7 +66,7 @@ const nAwait = 300;
 hre.changeNetwork(chainName);
 const provider = hre.ethers.provider;
 
-const network = networks.find((nw) => nw.chainName === chainName) as Network;
+const network = networks.find((nw) => nw.chainName === chainName) as NetworkType;
 const nftsFactory: NFTsFactoryV2 = new hre.ethers.Contract(
   network.nftsFactory || "",
   INFTsFactoryV2.concat(ICloneFactoryV2).concat(IERC173),

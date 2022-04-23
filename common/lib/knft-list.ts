@@ -1,4 +1,4 @@
-import type { Collection, Nft } from "./ktypes";
+import type { CollectionType, NftType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { fetchCov, fetchGQL } from "./kfetch";
@@ -6,26 +6,26 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftGetFromContractEnumerable } from "./knft-get";
 import { nftGetMetadata } from "./knft-get-metadata";
 
-import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftUrl3 } from "./kconfig";
-import { storeNftsList } from "./kstore";
+import { getNetwork, getChecksumAddress, getSubgraphUrl, getCovalent, nftKey, isProviderOnChainId } from "./kconfig";
+import { ERC721Enumerable } from "types/ERC721Enumerable";
 
 const LIMIT = 10;
 
 const nftListFromCovalent = async (
   chainId: number,
-  collection: Collection,
-  owner?: string,
+  collection: CollectionType,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
-  // console.log("nftListFromCovalent", chainId, collection, owner, limit);
+): Promise<Map<string, NftType>> => {
+  // console.log("nftListFromCovalent", chainId, collection, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
-  if (network && collection && owner) {
+  if (network && collection && account) {
     const match = `{contract_address:"${getChecksumAddress(collection.address)}"}`;
     const path =
-      `/${Number(chainId)}/address/${owner}/balances_v2/` +
+      `/${Number(chainId)}/address/${account}/balances_v2/` +
       "?nft=true&no-nft-fetch=false" +
       // `&limit=${limit}` + // not working with match...
       `&match=${encodeURIComponent(match)}`;
@@ -33,7 +33,7 @@ const nftListFromCovalent = async (
     type NftsCov = {
       token_id: string;
       token_url: string;
-      owner: string;
+      account: string;
       external_data: string;
       original_owner: string;
     };
@@ -53,15 +53,15 @@ const nftListFromCovalent = async (
           if (index < limit) {
             const nft = {
               chainId,
-              collection: getChecksumAddress(collection.address),
+              address: getChecksumAddress(collection.address),
               tokenID: _token.token_id,
               tokenURI: _token.token_url,
               external_data: _token.external_data,
-              owner: getChecksumAddress(_token.owner || owner),
+              account: getChecksumAddress(_token.account || account),
               minter: getChecksumAddress(_token.original_owner),
-              nid: nftUrl3(chainId, collection.address, _token.token_id)
+              nid: nftKey(chainId, collection.address, _token.token_id)
             };
-            // console.log("nftListFromCovalent nid", nft.nid, nft);
+            // console.log("nftListFromCovalent nftKey(", nft.nid, nft);
             nfts.set(nft.nid, nft);
           }
         }
@@ -78,24 +78,24 @@ const nftListFromCovalent = async (
 
 const nftListFromTheGraph = async (
   chainId: number,
-  collection: Collection,
-  owner?: string,
+  collection: CollectionType,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
-  // console.log("nftListFromTheGraph", chainId, collection.address, owner, limit);
+): Promise<Map<string, NftType>> => {
+  // console.log("nftListFromTheGraph", chainId, collection.address, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network && collection) {
     const collectionAddress = collection.address.toLowerCase();
-    const whereOwner = owner ? `where: { owner: "${owner.toLowerCase()}" }` : "";
+    const whereOwner = account ? `where: { account: "${account.toLowerCase()}" }` : "";
 
     const query = `{
       tokenContract( id: "${collectionAddress}" ) {
         tokens( first:${limit} ${whereOwner} ) {
           id
-          owner{
+          account{
             id
           }
           tokenID
@@ -106,7 +106,7 @@ const nftListFromTheGraph = async (
     type NftsGQL = {
       tokenID: string;
       tokenURI: string;
-      owner: { id: string };
+      account: { id: string };
     };
     type AnswerNftsGQL = {
       tokenContract: { nfts: Array<NftsGQL> };
@@ -124,17 +124,17 @@ const nftListFromTheGraph = async (
       if (index < limit) {
         const nft = {
           chainId,
-          collection: getChecksumAddress(collection.address),
+          address: getChecksumAddress(collection.address),
           tokenID: _token.tokenID,
           tokenURI: _token.tokenURI,
-          owner: getChecksumAddress(_token.owner?.id),
-          nid: nftUrl3(chainId, collection.address, _token.tokenID)
+          account: getChecksumAddress(_token.account?.id),
+          nid: nftKey(chainId, collection.address, _token.tokenID)
           // metadata: _token.metadata && JSON.parse(_token.metadata),
           // name: _token.name,
           // description: _token.description,
           // image: _token.image
         };
-        // console.log("nftListFromTheGraph nid", nft.nid, nft);
+        // console.log("nftListFromTheGraph nftKey", nft.nid, nft);
         nfts.set(nft.nid, nft);
       }
     }
@@ -146,65 +146,77 @@ const nftListFromTheGraph = async (
 
 const nftListFromContract = async (
   chainId: number,
-  collection: Collection,
+  address: string,
   provider: Provider,
-  owner?: string,
+  collection: CollectionType,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
-  // console.log("nftListFromContract", chainId, collection.address, owner, limit);
+): Promise<Map<string, NftType>> => {
+  // console.log("nftListFromContract", chainId, address, account, limit);
 
-  const nfts: Map<string, Nft> = new Map();
+  const nfts: Map<string, NftType> = new Map();
+  if (
+    !(chainId && address && (await isProviderOnChainId(provider, chainId)) && collection?.supports?.IERC721Enumerable)
+  )
+    return nfts;
 
-  if (chainId && collection?.supports?.IERC721Enumerable) {
-    try {
-      const contract = await collectionContractGet(chainId, collection, provider);
+  try {
+    const contract = (await collectionContractGet(chainId, address, provider)) as ERC721Enumerable;
 
-      if (contract) {
-        let nbTokens = limit;
-        if (owner) {
-          nbTokens = Number(await contract.balanceOf(owner));
-        } else {
-          if (contract.totalSupply) {
-            nbTokens = Number(await contract.totalSupply());
-          }
-        }
-
-        for (let index = 0; index < Math.min(nbTokens, limit); index++) {
-          const nft: Nft | undefined = await nftGetFromContractEnumerable(chainId, collection, index, provider, owner);
-          if (nft) {
-            nfts.set(nft.nid || "", nft);
-          }
+    if (contract) {
+      let nbTokens = limit;
+      if (account) {
+        nbTokens = Number(await contract.balanceOf(account));
+      } else {
+        if (contract.totalSupply) {
+          nbTokens = Number(await contract.totalSupply());
         }
       }
-    } catch (e) {
-      console.error("nftListFromContract ERROR", e);
+
+      for (let index = 0; index < Math.min(nbTokens, limit); index++) {
+        const nft: NftType | undefined = await nftGetFromContractEnumerable(
+          chainId,
+          address,
+          index,
+          provider,
+          collection,
+          account
+        );
+        if (nft) {
+          nfts.set(nft.nid || "", nft);
+        }
+      }
     }
+  } catch (e) {
+    console.error("nftListFromContract ERROR", e);
   }
+
   // console.log("nftListFromContract", nfts);
   return nfts;
 };
 
 const nftListTokenIds = async (
   chainId: number,
-  collection: Collection,
+  address: string,
   provider: Provider,
-  owner?: string,
+  collection: CollectionType,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
-  // console.log("nftListTokenIds", chainId, collection.address, owner, limit);
+): Promise<Map<string, NftType>> => {
+  // console.log("nftListTokenIds", chainId, collection.address, account, limit);
 
-  let nftsTokenIds: Map<string, Nft> = new Map();
+  let nftsTokenIds: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network) {
-    nftsTokenIds = await nftListFromContract(chainId, collection, provider, owner, limit);
+    nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
     // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     if (nftsTokenIds.size === 0) {
       if (getSubgraphUrl(chainId)) {
-        nftsTokenIds = await nftListFromTheGraph(chainId, collection, owner, limit);
+        nftsTokenIds = await nftListFromTheGraph(chainId, collection, account, limit);
         // console.log("nftListTokenIds nftListFromTheGraph", nftsTokenIds);
       } else if (getCovalent(chainId)) {
-        nftsTokenIds = await nftListFromCovalent(chainId, collection, owner, limit);
+        nftsTokenIds = await nftListFromCovalent(chainId, collection, account, limit);
         // console.log("nftListTokenIds nftListFromCovalent", nftsTokenIds);
       } else {
         console.error("No NFTs found:-(");
@@ -212,10 +224,10 @@ const nftListTokenIds = async (
     }
   }
 
-  // VERIFY owner, not needed ?
+  // VERIFY account, not needed ?
   // if (nftsTokenIds.length) {
   //   for (let index = 0; index < Math.min(nftsTokenIds.length, limit); index++) {
-  //     if (!owner || getChecksumAddress(token.owner) === getChecksumAddress(owner)) {
+  //     if (!account || getChecksumAddress(token.account) === getChecksumAddress(account)) {
   //       nftsTokenIds[index] = token;
   //     }
   //   }
@@ -227,13 +239,13 @@ const nftListTokenIds = async (
 };
 
 const _nftListWithMetadata = async (
-  nfts: Map<string, Nft>,
-  owner?: string,
+  nfts: Map<string, NftType>,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
+): Promise<Map<string, NftType>> => {
   // console.log("_nftListWithMetadata", chainId, collection);
 
-  const nftsWithMetadata: Map<string, Nft> = new Map();
+  const nftsWithMetadata: Map<string, NftType> = new Map();
 
   const nftsFromIds = [...nfts.values()];
 
@@ -249,24 +261,32 @@ const _nftListWithMetadata = async (
   return nftsWithMetadata;
 };
 
-const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, Nft> =>
-  storeNftsList(chainId, collection, account);
+// const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
+//   storeNftsList(chainId, collection, account);
 
 const nftList = async (
   chainId: number,
-  collection: Collection,
+  address: string,
   provider: Provider,
-  owner?: string,
+  collection: CollectionType,
+  account?: string,
   limit: number = LIMIT
-): Promise<Map<string, Nft>> => {
-  // console.log("nftList", chainId, collection, owner, limit);
+): Promise<Map<string, NftType>> => {
+  // console.log("nftList", chainId, collection, account, limit);
 
-  const nftsTokenIds: Map<string, Nft> = await nftListTokenIds(chainId, collection, provider, owner, limit);
-  const nftsWithMetadata: Map<string, Nft> = await _nftListWithMetadata(nftsTokenIds, owner, limit);
+  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(
+    chainId,
+    address,
+    provider,
+    collection,
+    account,
+    limit
+  );
+  const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, account, limit);
 
   // console.log("nftList", nftsWithMetadata);
 
   return nftsWithMetadata;
 };
 
-export { nftList, nftListTokenIds, nftListFromContract, nftListFromCovalent, nftListFromTheGraph, nftListFromCache };
+export { nftList, nftListTokenIds, nftListFromContract, nftListFromCovalent, nftListFromTheGraph };

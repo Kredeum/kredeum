@@ -2,17 +2,16 @@
   // import { onMount } from "svelte";
   import { getCreate } from "lib/kconfig";
 
-  import BreadCrumb from "../Tests/BreadCrumb.svelte";
-  import Metamask from "../Tests/Metamask.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
+  import Metamask from "../tests/Metamask.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionListGet from "../CollectionList/CollectionListGet.svelte";
+  import CollectionList from "../components/Collection/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
-  // import NftsListGet from "../NftsList/NftsListGet.svelte";
-  // import NftGet from "./NftData.svelte";
-  // import RefreshButton from "../NftsList/NftsListRefresh.svelte";
+  // import NftsListGet from "../Nft/NftsListGet.svelte";
+  // import RefreshButton from "../Nft/NftsListRefresh.svelte";
   // import { metamaskInit } from "helpers/metamask";
   // import { metamaskChainId, metamaskAccount } from "main/metamask";
   // import Create from "./Create.svelte";
@@ -21,7 +20,7 @@
 
   let account: string;
   let chainId: number;
-  let collection: string;
+  let address: string;
   let tokenID: string;
 
   // let refreshing: boolean;
@@ -32,7 +31,7 @@
 
 <main>
   <div>
-    {chainId}/{collection || ""}/{tokenID || ""}@{account}
+    {chainId}/{address || ""}/{tokenID || ""}@{account}
 
     <BreadCrumb display={true} />
 
@@ -52,15 +51,15 @@
     <!-- <NetworkSelect bind:chainId /> -->
 
     {#if chainId && account}
-      <CollectionListGet {chainId} {account} bind:collection mintable={true} />
+      <CollectionList {chainId} {account} bind:address mintable={true} />
     {/if}
   </div>
 
   <!-- <div>
     <RefreshButton {refreshing} bind:refresh />
 
-    {#if chainId && collection}
-      <NftsListGet {chainId} {collection} {account} bind:refreshing {refresh} />
+    {#if chainId && address}
+      <NftsListGet {chainId} {address} {account} bind:refreshing {refresh} />
     {/if}
   </div> -->
 </main>

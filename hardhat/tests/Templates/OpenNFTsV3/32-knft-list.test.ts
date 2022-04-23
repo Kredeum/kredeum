@@ -1,4 +1,4 @@
-import type { Network, Collection } from "lib/ktypes";
+import type { NetworkType, CollectionType } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
@@ -17,7 +17,7 @@ const txOptions = {
   type: 2
 };
 let chainId: number;
-let networkConfig: Network | undefined;
+let networkConfig: NetworkType | undefined;
 let openNFTsV3: OpenNFTsV3;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
@@ -47,7 +47,7 @@ describe("32 List OpenNFTsV3 lib", function () {
 
   describe("List NFTs", function () {
     this.timeout(50000);
-    let collection: Collection;
+    let collection: CollectionType;
 
     before(async () => {
       collection = await collectionGet(chainId, openNFTsV3.address, ethers.provider);
@@ -55,11 +55,15 @@ describe("32 List OpenNFTsV3 lib", function () {
     });
 
     it("With SmartContract", async function () {
-      expect((await nftListFromContract(chainId, collection, ethers.provider, artistAddress, 9)).size).to.be.gte(1);
+      expect(
+        (await nftListFromContract(chainId, collection.address, ethers.provider, collection, artistAddress, 9)).size
+      ).to.be.gte(1);
     });
 
     it("With default method", async function () {
-      expect((await nftList(chainId, collection, ethers.provider, artistAddress, 9)).size).to.be.gte(1);
+      expect(
+        (await nftList(chainId, collection.address, ethers.provider, collection, artistAddress, 9)).size
+      ).to.be.gte(1);
     });
 
     it("With TheGraph", async function () {

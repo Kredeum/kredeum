@@ -1,16 +1,18 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
   "compilerOptions": {
-    "baseUrl": "./",
     "rootDir": "..",
     "resolveJsonModule": true,
     "downlevelIteration": true,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",
+    "baseUrl": ".",
     "paths": {
       "app/*": ["app/*"],
       "components/*": ["components/*"],
+      "stores/*": ["stores/*"],
       "helpers/*": ["helpers/*"],
+      "tests/*": ["tests/*"],
       "lib/*": ["../common/lib/*"],
       "config/*": ["../common/config/*"],
       "abis/*": ["../common/abis/*"],
@@ -18,7 +20,16 @@
     }
     // "strict": true
   },
-  "include": ["main/*.ts", "components/**/*.svelte", "helpers/*.ts", "../common/lib/*.ts"],
+  "include": [
+    "main/**/*.ts",
+    "components/**/*.svelte",
+    "components/**/*.ts",
+    "stores/**/*.ts",
+    "helpers/**/*.ts",
+    "tests/**/*.svelte",
+    "tests/**/*.ts",
+    "../common/lib/**/*.ts"
+  ],
   "files": ["rollup.config.ts", "components/global.d.ts"],
   "exclude": ["node_modules"]
 }

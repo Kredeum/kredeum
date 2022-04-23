@@ -1,5 +1,5 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
-import type { Network } from "lib/ktypes";
+import type { NetworkType } from "lib/ktypes";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
@@ -29,7 +29,7 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
 
   if (deployResult.newlyDeployed) {
     const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
-    const networkConf: Network = networks[index];
+    const networkConf: NetworkType = networks[index];
     if (deployResult.address != networkConf.nftsFactoryV2) {
       console.info(contractName, "deployed => new address");
       networks[index].nftsFactoryV2 = deployResult.address;
