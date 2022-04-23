@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { Readable } from "svelte/store";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
 
@@ -9,43 +10,47 @@
   import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { collectionGet } from "lib/kcollection-get";
+  import { collectionStore } from "stores/collection/collection";
 
   import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
 
+  /////////////////////////////////////////////////
+  // <NftMintButton {src} {metadata} {alt} {pid} {width} {display} />
+  // Nft Mint Button
+  /////////////////////////////////////////////////
+  export let src: string;
   export let alt: string = undefined;
-  export let src: string = undefined;
   export let pid: string = undefined;
+  export let metadata: string = undefined;
   export let width = 100;
   export let display = false;
-  export let collection: CollectionType = undefined;
+  /////////////////////////////////////////////////
 
   let mintedNft: NftType;
   let minting: number;
 
   let ipfsImage: string;
 
+  let account: string;
+  let address: Readable<string>;
+
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
-    // console.log("kredeum-mint handleChange", $metamaskChainId, signerAddress);
+    account = await $metamaskSigner.getAddress();
+    console.log("handleChange", $metamaskChainId, account);
 
-    const collectionAddress =
-      // default user collection
-      // storeCollectionDefaultGet($metamaskChainId, await $metamaskSigner.getAddress()) ||
-      // default OpenNFTs collection
-      await factoryGetTemplateAddress($metamaskChainId, "OpenNFTsV3", $metamaskProvider);
-    collection = await collectionGet($metamaskChainId, collectionAddress, $metamaskProvider);
+    address = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
+    console.log("handleChange ~ address", $address);
   };
 
   const sell = (e: Event): void => {
     e.preventDefault();
-
     location.href = nftOpenSeaUrl($metamaskChainId, mintedNft);
   };
 
   const view = (e: Event): void => {
     e.preventDefault();
-
     location.href = nftGetImageLink(mintedNft);
   };
 
@@ -57,7 +62,7 @@
 
     const signerAddress = await $metamaskSigner.getAddress();
 
-    if (src) {
+    if (src && $address) {
       minting = 1;
 
       ipfsImage = await nftMint1IpfsImage(src);
@@ -65,22 +70,22 @@
 
       minting = 2;
 
-      const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src);
+      const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src, metadata);
       // console.log("json", ipfsJson);
 
       minting = 3;
 
-      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, collection.address, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, $address, ipfsJson, $metamaskSigner);
       // console.log("txResp", txResp);
 
       minting = 4;
 
-      mintedNft = await nftMint4($metamaskChainId, collection.address, mintingTxResp, ipfsJson, signerAddress);
+      mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, ipfsJson, signerAddress);
       // console.log("mintedNft", mintedNft);
 
       minting = 5;
     } else {
-      console.error("KredeumNftsMint ERROR : no src, impossible to mint!");
+      console.error("KredeumNftsMint ERROR : no src or collection address, impossible to mint!", src, $address);
     }
 
     return mintedNft;

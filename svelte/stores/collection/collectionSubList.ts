@@ -41,11 +41,7 @@ const collectionSubListStore = (
             const okMintableDefault = coll.address == collectionMintableDefault;
 
             // MINTABLE
-            const okMintable =
-              okMintableDefault ||
-              coll.mintable ||
-              // ok if OpenNFTs version 3, with open minting or owner
-              (coll.version === 3 && (coll?.open || okOwner));
+            const okMintable = okMintableDefault || (coll.version >= 0 && okOwner);
 
             // DEFAULT
             const okDefault = coll.address == collectionDefault || okMintableDefault;
@@ -59,10 +55,10 @@ const collectionSubListStore = (
             const ok = okParams && okNetwork && (mintable ? okMintable : okNotMintable);
 
             // if (mintable) {
-            //  console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
+            //   console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
             // } else {
-            //  console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
-            //  console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
+            //   console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
+            //   console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
             // }
 
             return ok;

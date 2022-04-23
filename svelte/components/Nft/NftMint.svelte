@@ -17,6 +17,7 @@
   // Display NFT
   /////////////////////////////////////////////////
   export let chainId: number;
+  /////////////////////////////////////////////////
 
   let account: string;
   $: $metamaskSigner && handleSigner().catch(console.error);
@@ -31,9 +32,6 @@
   const handleChange = async () => {
     // Get signer account
     account = await $metamaskSigner.getAddress();
-
-    // STATE VIEW : sync get default Collection address
-    // address = collectionStore.getDefaultSubStore(chainId, true, account);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
