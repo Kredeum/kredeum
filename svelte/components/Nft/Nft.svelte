@@ -34,7 +34,7 @@
   export let account: string = undefined;
   export let index = 0;
   export let more = 0;
-  export let platform = "dapp";
+  export let platform: string = "dapp";
 
   let nft: Readable<NftType>;
   let i = 1;
