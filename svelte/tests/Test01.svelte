@@ -8,7 +8,7 @@
   import NftsListSimple from "./NftsListSimple.svelte";
   import CollectionList from "../components/Collection/CollectionList.svelte";
   import CollectionListSimple from "../tests/CollectionListSimple.svelte";
-  import BreadCrumb from "../components/Global/BreadCrumb.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "../tests/Metamask.svelte";
 
   let account: string;

@@ -25,19 +25,16 @@
   let ipfsImage: string;
 
   // ON network or account change
-  $: handleChange($metamaskChainId, $metamaskSigner).catch(console.error);
+  $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
+  const handleChange = async () => {
+    // console.log("kredeum-mint handleChange", $metamaskChainId, signerAddress);
 
-  const handleChange = async (_chainId: number, _signer: JsonRpcSigner) => {
-    if (_chainId && _signer) {
-      // console.log("kredeum-mint handleChange", _chainId, signerAddress);
-
-      const collectionAddress =
-        // default user collection
-        // storeCollectionDefaultGet($metamaskChainId, await $metamaskSigner.getAddress()) ||
-        // default OpenNFTs collection
-        await factoryGetTemplateAddress(_chainId, "OpenNFTsV3", $metamaskProvider);
-      collection = await collectionGet(_chainId, collectionAddress, $metamaskProvider);
-    }
+    const collectionAddress =
+      // default user collection
+      // storeCollectionDefaultGet($metamaskChainId, await $metamaskSigner.getAddress()) ||
+      // default OpenNFTs collection
+      await factoryGetTemplateAddress($metamaskChainId, "OpenNFTsV3", $metamaskProvider);
+    collection = await collectionGet($metamaskChainId, collectionAddress, $metamaskProvider);
   };
 
   const sell = (e: Event): void => {

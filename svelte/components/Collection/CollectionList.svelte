@@ -37,7 +37,6 @@
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
-    // console.log(`handleChange ${mintable} ~ collectionDefault1`, $collectionDefault);
 
     // ACTION : async refresh Collections
     refreshing = true;
@@ -49,9 +48,12 @@
     collectionStore.refreshDefault(chainId, account);
   };
 
+  // $: $collectionDefault && logDefault();
+  // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
+
   // Current Collection is already defined, or is defined in url, or is default collection
   $: ($currentCollection || $collectionDefault) && handleChangeAddress();
-  const handleChangeAddress = async (): Promise<void> => {
+  const handleChangeAddress = (): void => {
     $currentCollection = $currentCollection || $collectionDefault;
     address = $currentCollection;
   };

@@ -13,6 +13,7 @@
     "@rollup/pluginutils": "^4.2.1",
     "@tsconfig/svelte": "^2.0.1",
     "@types/findup-sync": "^4.0.2",
+    "@types/semver": "^7.3.9",
     "@typescript-eslint/eslint-plugin": "^5.20.0",
     "@typescript-eslint/parser": "^5.20.0",
     "dotenv": "^16.0.0",

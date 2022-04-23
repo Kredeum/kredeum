@@ -2,13 +2,13 @@
   // import { onMount } from "svelte";
   import { getCreate } from "lib/kconfig";
 
-  import BreadCrumb from "../components/Global/BreadCrumb.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "../tests/Metamask.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionList from "../components/collection/CollectionList.svelte";
+  import CollectionList from "../components/Collection/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../Nft/NftsListGet.svelte";
   // import RefreshButton from "../Nft/NftsListRefresh.svelte";

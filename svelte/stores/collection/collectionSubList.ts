@@ -2,7 +2,7 @@ import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import type { CollectionType } from "lib/ktypes";
-import { collectionListKey } from "lib/kconfig";
+// import { collectionListKey } from "lib/kconfig";
 import { collectionList as collectionListLib } from "lib/kcollection-list";
 
 import { metamaskProvider } from "main/metamask";
@@ -14,62 +14,66 @@ const collectionSubListStore = (
   account?: string,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
-  const [collectionDefault, collectionMintableDefault] = get(collectionStore.getDefaultStore).get(
-    collectionStore.getDefaultKey(chainId, account)
-  ) || ["", ""];
-  // console.log(
-  // `collectionListGetStore collection://${chainId || ""}${account ? "@" + account : ""} ${String(mintable)}`
-  // );
-  return derived(collectionStore.getListStore, ($collectionListStore) => {
-    const collections = new Map(
-      [...$collectionListStore]
-        .filter(([, coll]) => {
-          const okParams = chainId > 0 && Boolean(account);
+  // console.log(`collectionSubListStore ${collectionListKey(chainId, account, mintable)}\n`);
 
-          // NETWORK
-          const okNetwork = coll.chainId === chainId;
+  return derived(
+    [collectionStore.getListStore, collectionStore.getDefaultStore],
+    ([$collectionListStore, $collectionDefaultStore]) => {
+      const [collectionDefault, collectionMintableDefault] = $collectionDefaultStore.get(
+        collectionStore.getDefaultKey(chainId, account)
+      ) || ["", ""];
 
-          // BALANCE
-          const okBalance = (coll.balancesOf?.get(account) || 0) > 0;
+      const collections = new Map(
+        [...$collectionListStore]
+          .filter(([, coll]) => {
+            const okParams = chainId > 0 && Boolean(account);
 
-          // OWNER
-          const okOwner = coll.owner === account;
+            // NETWORK
+            const okNetwork = coll.chainId === chainId;
 
-          // DEFAULT MINTABLE
-          const okMintableDefault = coll.address == collectionMintableDefault;
+            // BALANCE
+            const okBalance = (coll.balancesOf?.get(account) || 0) > 0;
 
-          // MINTABLE
-          const okMintable =
-            (0 <= coll.version && coll.version <= 2) || // ok if OpenNFTs version 0, 1 or 2
-            (coll.version === 3 && (coll?.open || okOwner)) || // ok if OpenNFTs version 3, with open minting or owner
-            okMintableDefault;
+            // OWNER
+            const okOwner = coll.owner === account;
 
-          // DEFAULT
-          const okDefault = coll.address == collectionDefault || okMintableDefault;
+            // DEFAULT MINTABLE
+            const okMintableDefault = coll.address == collectionMintableDefault;
 
-          // NOT MINTABLE
-          const okNotMintable = okOwner || okBalance || okDefault;
+            // MINTABLE
+            const okMintable =
+              okMintableDefault ||
+              coll.mintable ||
+              // ok if OpenNFTs version 3, with open minting or owner
+              (coll.version === 3 && (coll?.open || okOwner));
 
-          // IERC1155
-          // const okIrc1155 = coll.supports?.IERC1155;
+            // DEFAULT
+            const okDefault = coll.address == collectionDefault || okMintableDefault;
 
-          const ok = okParams && okNetwork && (mintable ? okMintable : okNotMintable);
+            // NOT MINTABLE
+            const okNotMintable = okOwner || okBalance || okDefault;
 
-          // if (mintable) {
-          //  console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
-          // } else {
-          //  console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
-          //  console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
-          // }
+            // IERC1155
+            // const okIrc1155 = coll.supports?.IERC1155;
 
-          return ok;
-        })
+            const ok = okParams && okNetwork && (mintable ? okMintable : okNotMintable);
 
-        // SORT PER SUPPLY DESC
-        .sort(([, a], [, b]) => (b.balancesOf?.get(account) || 0) - (a.balancesOf?.get(account) || 0))
-    );
-    return collections;
-  });
+            // if (mintable) {
+            //  console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
+            // } else {
+            //  console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
+            //  console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
+            // }
+
+            return ok;
+          })
+
+          // SORT PER SUPPLY DESC
+          .sort(([, a], [, b]) => (b.balancesOf?.get(account) || 0) - (a.balancesOf?.get(account) || 0))
+      );
+      return collections;
+    }
+  );
 };
 
 // ACTIONS : Refresh all Collections from one nework, from an optional account

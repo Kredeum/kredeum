@@ -146,6 +146,7 @@ const collectionGetOtherData = async (
       let totalSupply = 0;
       let balanceOf = -1;
       let open = false;
+      let mintable = false;
 
       // Get balanceOf account (IERC721)
       if (supports.IERC721 && account) {
@@ -173,7 +174,12 @@ const collectionGetOtherData = async (
         open = await contract.open();
       }
 
+      if (supports.IOpenNFTsV0 || supports.IOpenNFTsV1 || supports.IOpenNFTsV2) {
+        mintable = true;
+      }
+
       if (open) collection.open = open;
+      if (mintable) collection.mintable = mintable;
       if (owner) collection.owner = owner;
       if (totalSupply) collection.totalSupply = totalSupply;
       if (balanceOf >= 0 && account) {

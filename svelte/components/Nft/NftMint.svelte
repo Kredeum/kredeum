@@ -1,6 +1,7 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { JsonRpcSigner } from "@ethersproject/providers";
+  import type { Readable } from "svelte/store";
 
   import type { NftType, CollectionType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
@@ -9,17 +10,36 @@
   import { metamaskSigner } from "main/metamask";
 
   import CollectionList from "../Collection/CollectionList.svelte";
+  import { collectionStore } from "stores/collection/collection";
 
+  /////////////////////////////////////////////////
+  //  <NftMint {chainId} />
+  // Display NFT
+  /////////////////////////////////////////////////
   export let chainId: number;
 
-  let address: string = undefined;
-
   let account: string;
+  $: $metamaskSigner && handleSigner().catch(console.error);
+  const handleSigner = async (): Promise<void> => {
+    account = await $metamaskSigner.getAddress();
+  };
 
-  $: _setAccount($metamaskSigner).catch(console.error);
-  const _setAccount = async (signer: JsonRpcSigner): Promise<string> => (account = await signer.getAddress());
+  let address: string;
+  let collection: Readable<CollectionType>;
 
-  let nftTitle: string;
+  $: $metamaskSigner && chainId && handleChange();
+  const handleChange = async () => {
+    // Get signer account
+    account = await $metamaskSigner.getAddress();
+
+    // STATE VIEW : sync get default Collection address
+    // address = collectionStore.getDefaultSubStore(chainId, true, account);
+
+    // STATE VIEW : sync get Collection
+    collection = collectionStore.getOneStore(chainId, address);
+  };
+
+  let nftTitle: string = "";
 
   let files: FileList;
   let image: string;
@@ -39,12 +59,6 @@
     mintedNft = null;
     mintingError = null;
   };
-
-  let collectionObject: CollectionType;
-  $: {
-    // collectionObject = collectionGetFromCache(chainId, address);
-    // console.log("collectionObject", collectionObject);
-  }
 
   // DISPLAY image AFTER upload
   const fileload = () => {
@@ -251,7 +265,7 @@
           <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
-          {#if collectionObject?.mintable}
+          {#if $collection?.open}
             <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
           {/if}
         </div>

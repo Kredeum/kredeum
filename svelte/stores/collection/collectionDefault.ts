@@ -3,6 +3,8 @@ import { derived, get, writable } from "svelte/store";
 
 import { getNetwork } from "lib/kconfig";
 
+import { collectionStore } from "./collection";
+
 // UTILITY : GET Key
 const collectionDefaultGetKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
@@ -38,6 +40,9 @@ const collectionDefaultSetOne = (
   // console.log("collectionDefaultSetOne", chainId, address, account);
 
   if (!(chainId && address)) return;
+
+  // Refresh default Collection (async)
+  collectionStore.refreshOne(chainId, address, account).catch(console.error);
 
   update(($collectionDefault: Map<string, [string, string]>): Map<string, [string, string]> => {
     const key = collectionDefaultGetKey(chainId, account);

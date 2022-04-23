@@ -42,7 +42,7 @@ const collectionSetOne = (collection: CollectionType): void => {
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   if (!(chainId && address)) return;
   const collection = await collectionLib(chainId, address, get(metamaskProvider), account);
-  // console.log(`collectionRefresh collection://${chainId}/${address}${account ? "@" + account : ""}`, collection);
+  // console.log(`collectionRefresh ${collectionGetKey(chainId, address)}\n`, collection);
   collectionSetOne(collection);
 };
 

@@ -42,6 +42,7 @@ type CollectionType = {
   description?: string;
   balancesOf?: Map<string, number>;
   version?: number;
+  mintable?: boolean;
   open?: boolean;
   supports?: CollectionSupports;
 };

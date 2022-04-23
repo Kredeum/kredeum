@@ -12,6 +12,7 @@ specifiers:
   '@rollup/pluginutils': ^4.2.1
   '@tsconfig/svelte': ^2.0.1
   '@types/findup-sync': ^4.0.2
+  '@types/semver': ^7.3.9
   '@typescript-eslint/eslint-plugin': ^5.20.0
   '@typescript-eslint/parser': ^5.20.0
   dotenv: ^16.0.0
@@ -55,6 +56,7 @@ devDependencies:
   '@rollup/pluginutils': 4.2.1
   '@tsconfig/svelte': 2.0.1
   '@types/findup-sync': 4.0.2
+  '@types/semver': 7.3.9
   '@typescript-eslint/eslint-plugin': 5.20.0_b9ac9b5656ce5dffade639fcf5e491bf
   '@typescript-eslint/parser': 5.20.0_eslint@8.13.0+typescript@4.6.3
   dotenv: 16.0.0
@@ -828,6 +830,10 @@ packages:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
       '@types/node': 17.0.25
+    dev: true
+
+  /@types/semver/7.3.9:
+    resolution: {integrity: sha512-L/TMpyURfBkf+o/526Zb6kd/tchUP3iBDEPjqjb+U2MAJhVRxxrmr2fwpe08E7QsV7YLcpq0tUaQ9O9x97ZIxQ==}
     dev: true
 
   /@typescript-eslint/eslint-plugin/5.20.0_b9ac9b5656ce5dffade639fcf5e491bf:
