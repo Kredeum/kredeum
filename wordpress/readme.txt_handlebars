@@ -63,7 +63,10 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.12.0 (latest) =
+= 0.12.1 (latest) =
+* Fix Mint button in WordPress media library, when media not already archived on IPFS  
+
+= 0.12.0 =
 * New version with better performance, better ERC1155 compatibility  
 
 = 0.11.1 =

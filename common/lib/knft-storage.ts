@@ -23,7 +23,7 @@ class NftStorage extends Ipfs {
     let cid = "";
 
     const url = `${this.endpoint}/upload`;
-    console.log(`NftStorage.pin ${url} ${this.key.substring(0, 16)}...`);
+    console.log(`NftStorage.pin <= ${url}`);
     const resp: Response = await fetch(url, {
       method: "POST",
       body: buffer,
@@ -38,7 +38,7 @@ class NftStorage extends Ipfs {
     } else {
       console.error("NftStorage.pin", data.error);
     }
-    console.log(`NftStorage.pin ...${cid}`);
+    console.log(`NftStorage.pin => ipfs://${cid}`);
 
     return cid;
   }
