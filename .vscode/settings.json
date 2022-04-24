@@ -1,14 +1,4 @@
 {
-  "workbench.colorTheme": "GitHub Dark Dimmed",
-  "phpsab.standard": "WordPress",
-  "phpsab.executablePathCBF": "wordpress/vendor/bin/phpcbf",
-  "phpsab.executablePathCS": "wordpress/vendor/bin/phpcs",
-  "solidity.linter": "solhint",
-  "solidity.solhintRules": {
-    "avoid-sha3": "warn"
-  },
-  "solidity.defaultCompiler": "remote",
-  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
   "favorites.resources": [
     {
       "filePath": "hardhat/hardhat.config.ts",
@@ -51,6 +41,18 @@
       "group": "Default"
     }
   ],
+  "phpsab.autoRulesetSearch": false,
+  "phpsab.composerJsonPath": "wordpress/composer.json",
+  "phpsab.debug": true,
+  "phpsab.snifferShowSources": true,
+  "phpsab.standard": "WordPress",
+  "slither.hiddenDetectors": [],
   "slither.solcPath": "",
-  "slither.hiddenDetectors": []
+  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
+  "solidity.defaultCompiler": "remote",
+  "solidity.linter": "solhint",
+  "solidity.solhintRules": {
+    "avoid-sha3": "warn"
+  },
+  "workbench.colorTheme": "GitHub Dark Dimmed"
 }

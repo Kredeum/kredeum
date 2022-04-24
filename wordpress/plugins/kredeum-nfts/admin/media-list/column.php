@@ -43,10 +43,12 @@ add_action(
 
 				printf(
 					'<div class="kredeum-nfts-mint"'
-					. ' src="' . esc_url( url( $post->_kre_cid ) ) . '"'
-					. ' pid="' . esc_attr( $post->ID ) . '"'
-					. ' metadata="' . esc_attr( json_encode( $metadata ) ) . '"'
-					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
+					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
+					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
+					. ' src="' . esc_attr(wp_get_attachment_url($post->ID)) . '"'
+					. ' pid="' . esc_attr($post->ID) . '"'
+					. ' metadata="' . esc_attr(json_encode($metadata)) . '"'
+					. ' alt="' . esc_attr($post->post_title) . '"/>'
 				);
 			}
 		}
