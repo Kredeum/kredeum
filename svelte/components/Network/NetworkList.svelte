@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { clickOutside } from "helpers/clickOutside";
 
   import { getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
@@ -36,15 +36,6 @@
 
     metamaskSwitchChain(_chainId);
   };
-
-  onMount(() => {
-    window.addEventListener("click", (evt: Event): void => {
-      const select = document.querySelector(".select-network");
-      if (select && !select.contains(evt.target as HTMLElement)) {
-        open = false;
-      }
-    });
-  });
 </script>
 
 {#if txt}
@@ -82,7 +73,7 @@
       </span>
     {/if}
 
-    <div class="select-wrapper select-network" on:click={() => (open = !open)}>
+    <div class="select-wrapper select-network" use:clickOutside={() => (open = false)} on:click={() => (open = !open)}>
       <div class="select" class:open>
         <div class="select-trigger">
           <Network {chainId} {txt} />

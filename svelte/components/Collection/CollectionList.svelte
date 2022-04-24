@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { onMount } from "svelte";
 
   import type { CollectionType } from "lib/ktypes";
   import { collectionUrl, explorerCollectionUrl, collectionListKey } from "lib/kconfig";
@@ -8,6 +7,7 @@
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "stores/collection/collection";
   import { currentCollection } from "main/current";
+  import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
@@ -67,15 +67,6 @@
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
   const _collectionUrl = (collection: string): string => collectionUrl(chainId, collection);
-  const _toggleOpen = () => (open = !open);
-
-  onMount(() => {
-    if (!mintable) {
-      window.addEventListener("click", (e: Event): void => {
-        if (!(e.target as HTMLElement).closest(".select-storeCollection")) open = false;
-      });
-    }
-  });
 </script>
 
 <!-- {@debug address} -->
@@ -123,8 +114,11 @@
         {/if}
       </span>
     {/if}
-
-    <div class="select-wrapper select-storeCollection" on:click={_toggleOpen}>
+    <div
+      class="select-wrapper select-storeCollection"
+      use:clickOutside={() => (open = false)}
+      on:click={() => (open = !open)}
+    >
       <div class="select" class:open>
         {#if $collections?.size > 0}
           <div class="select-trigger">
