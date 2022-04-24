@@ -3,11 +3,12 @@
   import semverSatisfies from "semver/functions/satisfies";
   import { config } from "lib/kconfig";
 
-  let label = "";
-  let version = "";
   const VERSION = "version";
+  const version = config.version.latest;
+  let branch = "";
+  let detail = "";
 
-  const cacheVersion = (version: string) => {
+  const cacheVersion = () => {
     if (typeof localStorage !== "undefined") {
       const versionOld = localStorage.getItem(VERSION);
 
@@ -21,15 +22,14 @@
   };
 
   onMount(() => {
-    version = config.version.latest;
-    console.log(`INIT Kredeum NFTs Factory v${version}`);
+    branch = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
+    detail = `v${version} (${process.env.GIT_BRANCH} #${process.env.GIT_SHORT})`;
 
-    label = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
-
-    cacheVersion(version);
+    console.log(`INIT Kredeum NFTs Factory ${detail}`);
+    cacheVersion();
   });
 </script>
 
-<h1 title="Kredeum NFTs v{config.version.latest} ({process.env.GIT_SHORT})">
-  My NFTs Factory {label}
+<h1 title="Kredeum NFTs Factory {detail}">
+  My NFTs Factory {branch}
 </h1>
