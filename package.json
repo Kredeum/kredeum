@@ -4,7 +4,7 @@
   "description": "Kredeum NFTS Factory",
   "main": "index.js",
   "scripts": {
-    "all": "pnpm run clean && pnpm run install && pnpm run build",
+    "all": "pnpm run clean && pnpm install && pnpm run build && pnpm run check",
     "build-dapp": "npm run build:hardhat && npm run build:gulp && npm run build:svelte",
     "dapp": "http-server web/dapp",
     "clean": "npm-run-all clean:*",

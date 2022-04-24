@@ -15,7 +15,6 @@ import { DEFAULT_NAME } from "lib/kconfig";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
 
-
 const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable);
 
 let totalChains = 0;
