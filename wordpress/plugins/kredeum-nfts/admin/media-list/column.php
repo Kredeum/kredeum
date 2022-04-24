@@ -39,16 +39,15 @@ add_action(
 			} else {
 
 				$metadata = get_metadata( 'post', $post->ID );
-				// $metadata['post'] = get_post( $post->ID );
 
 				printf(
 					'<div class="kredeum-nfts-mint"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
-					. ' src="' . esc_attr(wp_get_attachment_url($post->ID)) . '"'
-					. ' pid="' . esc_attr($post->ID) . '"'
-					. ' metadata="' . esc_attr(json_encode($metadata)) . '"'
-					. ' alt="' . esc_attr($post->post_title) . '"/>'
+					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
+					. ' pid="' . esc_attr( $post->ID ) . '"'
+					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
+					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
 				);
 			}
 		}
