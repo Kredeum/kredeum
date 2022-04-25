@@ -83,7 +83,7 @@ type NftType = {
   contractName?: string;
   description?: string;
   tokenJson?: NftMetadata;
-  metadata?: NftMetadata;
+  metadata?: NftMetadata | unknown;
   image?: string;
   image_url?: string;
   image_data?: string;

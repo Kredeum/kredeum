@@ -21,7 +21,7 @@
   export let src: string;
   export let alt: string = undefined;
   export let pid: string = undefined;
-  export let metadata: string = undefined;
+  export let metadata: string = "{}";
   export let width = 100;
   export let display = false;
   /////////////////////////////////////////////////

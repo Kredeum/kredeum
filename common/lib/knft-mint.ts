@@ -64,19 +64,21 @@ const nftMint2IpfsJson = async (
   ipfs = "",
   address = "",
   image = "",
-  metadata = {}
+  metadata = "{}"
 ): Promise<string> => {
   // console.log("nftMint2IpfsJson", name, ipfs, address, image, metadata);
 
-  const ipfsCid = await nftStorage.pinJson({
+  const json = {
     name,
     description: name || "",
     image: ipfsGatewayUrl(ipfs),
     ipfs,
     origin: textShort(image, 140),
-    minter: address,
-    metadata
-  } as NftType);
+    minter: address
+  } as NftType;
+  if (metadata) json.metadata = JSON.parse(metadata);
+
+  const ipfsCid = await nftStorage.pinJson(json);
   const ipfsJson = `ipfs://${ipfsCid}`;
 
   // console.log("nftMint ipfs metadata", ipfsJson);
