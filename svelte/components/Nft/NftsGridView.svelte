@@ -17,7 +17,8 @@
     kredeumNftUrl,
     getNetwork,
     nftKey,
-    collectionUrl
+    collectionUrl,
+    normalizedSoloNftUrl
   } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
@@ -75,17 +76,18 @@
     return video;
   };
 
-  const divMedia = (_nft: NftType, index: number, small = false) => {
-    const mediaContentType = _nft.contentType?.split("/");
-    const mediaType = mediaContentType?.[0] || "image";
+  const divMedia = (nft: NftType, index: number, small = false) => {
+    const mediaContentType = nft.contentType?.split("/");
+    const mediaType = mediaContentType[0] || "image";
 
-    const mediaSrc = nftGetImageLink(_nft);
-    let div: string;
+    const mediaSrc = nftGetImageLink(nft);
+    let div: string = "";
     if (small) {
-      div = `<div id="media-small-${index}" class="media media-small media-${mediaType}">`;
+      div += `<div id="media-small-${index}" class="media media-grid media-${mediaType}">`;
     } else {
-      div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
+      div += `<div id="media-full-${index}" class="media media-grid media-${mediaType}">`;
     }
+    div += `<a href=".${normalizedSoloNftUrl(chainId, nft)}">`;
     if (mediaType == "video") {
       div += divMediaVideo(mediaSrc, small);
     } else if (mediaType == "image") {
@@ -93,7 +95,7 @@
     } else {
       div += '<div class="media-text"></div>';
     }
-    div += "</div>";
+    div += "</a></div>";
 
     // console.log("divMedia div", div);
     return div;
