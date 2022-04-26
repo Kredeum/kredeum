@@ -40,6 +40,10 @@
 
   export let mainContentDisplayComponent: string;
 
+  import { createEventDispatcher } from "svelte";
+  const dispatch = createEventDispatcher();
+  const nftSelect = (nftSelect) => dispatch("nftSelect");
+
   let i = 1;
   let nfts: Readable<Map<string, NftType>>;
   let collection: Readable<CollectionType>;
@@ -62,10 +66,10 @@
   };
 
   ///////////////////////////////////////////////////////////////////////////////
-  const displayNftSolo = (clickedNftTokenID) => {
-    mainContentDisplayComponent = "nft";
-    tokenID = clickedNftTokenID;
-  };
+  //   const displayNftSolo = (clickedNftTokenID) => {
+  //     mainContentDisplayComponent = "nft";
+  //     tokenID = clickedNftTokenID;
+  //   };
   ///////////////////////////////////////////////////////////////////////////////
   const divMediaImage = (src: string, height?: number) => {
     const heightString = height ? `height="${height}"` : "";
@@ -132,7 +136,7 @@
         <!--  -->
         <!-- <KredeumGetNft {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} /> -->
         <!--  -->
-        <div class="grid-card-krd" on:click={() => displayNftSolo(nft.tokenID)}>
+        <div class="grid-card-krd" on:click={() => nftSelect(nft.tokenID)}>
           {@html divMedia(nft, index, true)}
 
           <div class="caption">
