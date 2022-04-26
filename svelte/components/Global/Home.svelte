@@ -11,6 +11,7 @@
 
   import Nft from "../Nft/Nft.svelte";
   import NftsList from "../Nft/NftsList.svelte";
+  import NftGridView from "../Nft/NftsGridView.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
@@ -25,6 +26,12 @@
   let account: string;
   let refreshing: boolean;
   let refresh: number;
+
+  // DISPLAY TYPE --> //////////////////////////////////////////////
+  import NftsDisplayType from "./NftsDisplayType.svelte";
+
+  let mainContentDisplayComponent: string;
+  // --> DISPLAY TYPE //////////////////////////////////////////////
 </script>
 
 <HomeLayout>
@@ -57,6 +64,7 @@
           <NftsListRefresh {refreshing} bind:refresh />
         {/if}
       {/if}
+      <NftsDisplayType bind:mainContentDisplayComponent />
     </div>
   </span>
 
@@ -64,6 +72,8 @@
     {#if chainId && account && address}
       {#if tokenID}
         <Nft {chainId} {address} {tokenID} />
+      {:else if "grid" === mainContentDisplayComponent}
+        <NftGridView {chainId} {address} {account} {refresh} bind:refreshing />
       {:else}
         <NftsList {chainId} {address} {account} {refresh} bind:refreshing />
       {/if}
