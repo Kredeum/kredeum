@@ -103,7 +103,7 @@
 <!-- {#if nfts && collection?.balanceOf > 0} -->
 {#if $nfts}
   <h2>
-    Collection {$collection?.name} || "NO NAME"}
+    Collection {$collection?.name || "NO NAME"}
   </h2>
   {$nfts?.size || 0}/{$collection?.balancesOf?.get(account) || $nfts?.size || 0}
   {$collection?.symbol || "NFT"}
