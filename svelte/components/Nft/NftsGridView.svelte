@@ -31,11 +31,14 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
+  export let tokenID: string = "";
   export let account: string = undefined;
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
 
   export let platform = "dapp";
+
+  export let mainContentDisplayComponent: string;
 
   let i = 1;
   let nfts: Readable<Map<string, NftType>>;
@@ -58,6 +61,11 @@
     refreshing = false;
   };
 
+  ///////////////////////////////////////////////////////////////////////////////
+  const displayNftSolo = (clickedNftTokenID) => {
+    mainContentDisplayComponent = "nft";
+    tokenID = clickedNftTokenID;
+  };
   ///////////////////////////////////////////////////////////////////////////////
   const divMediaImage = (src: string, height?: number) => {
     const heightString = height ? `height="${height}"` : "";
@@ -87,7 +95,7 @@
     } else {
       div += `<div id="media-full-${index}" class="media media-grid media-${mediaType}">`;
     }
-    div += `<a href=".${normalizedSoloNftUrl(chainId, nft)}">`;
+    div += `<a href=".${/*normalizedSoloNftUrl(chainId, nft)*/ ""}">`;
     if (mediaType == "video") {
       div += divMediaVideo(mediaSrc, small);
     } else if (mediaType == "image") {
@@ -124,7 +132,7 @@
         <!--  -->
         <!-- <KredeumGetNft {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} /> -->
         <!--  -->
-        <div class="grid-card-krd">
+        <div class="grid-card-krd" on:click={() => displayNftSolo(nft.tokenID)}>
           {@html divMedia(nft, index, true)}
 
           <div class="caption">
