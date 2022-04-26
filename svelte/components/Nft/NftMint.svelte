@@ -263,9 +263,7 @@
           <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
-          {#if $collection?.mintable}
-            <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
-          {/if}
+          <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
         </div>
         {#if mintingError}
           <div class="section">

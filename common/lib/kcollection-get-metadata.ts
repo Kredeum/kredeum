@@ -169,13 +169,14 @@ const collectionGetOtherData = async (
         symbol = await contract.symbol();
       }
 
+      if (supports.IOpenNFTsV0 || supports.IOpenNFTsV1 || supports.IOpenNFTsV2) {
+        mintable = true;
+      }
+
       // OpenNFTsV3 "open" config
       if (supports.IOpenNFTsV3) {
         open = await contract.open();
-      }
-
-      if (supports.IOpenNFTsV0 || supports.IOpenNFTsV1 || supports.IOpenNFTsV2) {
-        mintable = true;
+        if (open) mintable = true;
       }
 
       if (open) collection.open = open;
