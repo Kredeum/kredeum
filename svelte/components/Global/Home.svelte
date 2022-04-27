@@ -32,11 +32,10 @@
 
   let mainContentDisplayComponent: string;
 
-  const displayNftSolo = (clickedNftTokenID) => {
-    mainContentDisplayComponent = "nft";
-    tokenID = clickedNftTokenID;
-    console.log("🚀 ~ file: Home.svelte ~ line 36 ~ displayNftSolo ~ clickedNftTokenID", clickedNftTokenID);
-  };
+  $: console.log("chainId", chainId);
+  $: console.log("address", address);
+  $: console.log("tokenID", tokenID);
+  $: console.log("account", account);
   // --> DISPLAY TYPE //////////////////////////////////////////////
 </script>
 
@@ -88,7 +87,6 @@
           {refresh}
           bind:mainContentDisplayComponent
           bind:refreshing
-          on:nftSelect={displayNftSolo}
         />
       {:else if "list" === mainContentDisplayComponent}
         <NftsList {chainId} {address} {account} {refresh} bind:refreshing />
