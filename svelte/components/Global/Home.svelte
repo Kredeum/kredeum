@@ -9,7 +9,7 @@
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
 
-  import Nft from "../Nft/Nft.svelte";
+  import NftDetail from "../Nft/NftDetail.svelte";
   import NftsList from "../Nft/NftsList.svelte";
   import NftGridView from "../Nft/NftsGridView.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
@@ -77,7 +77,7 @@
     {#if chainId && account && address}
       <!-- {#if tokenID} -->
       {#if "nft" === mainContentDisplayComponent && chainId && address && tokenID}
-        <Nft {chainId} {address} {tokenID} />
+        <NftDetail {chainId} {address} bind:tokenID {account} bind:mainContentDisplayComponent />
       {:else if "grid" === mainContentDisplayComponent}
         <NftGridView
           {chainId}

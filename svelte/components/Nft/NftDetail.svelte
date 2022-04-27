@@ -11,6 +11,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
+  export let mainContentDisplayComponent: string;
 
   let nft: Readable<NftType>;
 
@@ -27,11 +28,16 @@
     await nftStore.refreshOne(chainId, address, tokenID);
   };
 
-  console.info(`yo ${$nft.image}`);
+  const backToCollection = () => {
+    tokenID = "";
+    mainContentDisplayComponent = "grid";
+  };
 </script>
 
 <h2 class="m-b-20 return">
-  <i class="fa fa-arrow-left fa-left" /><a href="." class="link">Return to collection</a>
+  <i class="fa fa-arrow-left fa-left" /><a href="." on:click|preventDefault={backToCollection} class="link"
+    >Return to collection</a
+  >
 </h2>
 
 <div class="row grid-detail-krd">
