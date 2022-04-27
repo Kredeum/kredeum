@@ -1,16 +1,13 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
-  import type { JsonRpcSigner } from "@ethersproject/providers";
-  import type { Readable } from "svelte/store";
 
-  import type { NftType, CollectionType } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
   import { metamaskSigner } from "main/metamask";
 
   import CollectionList from "../Collection/CollectionList.svelte";
-  import { collectionStore } from "stores/collection/collection";
 
   /////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -26,15 +23,11 @@
   };
 
   let address: string;
-  let collection: Readable<CollectionType>;
 
   $: $metamaskSigner && chainId && handleChange();
   const handleChange = async () => {
     // Get signer account
     account = await $metamaskSigner.getAddress();
-
-    // STATE VIEW : sync get Collection
-    collection = collectionStore.getOneStore(chainId, address);
   };
 
   let nftTitle: string = "";

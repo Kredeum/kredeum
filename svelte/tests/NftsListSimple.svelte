@@ -12,11 +12,12 @@
   let i = 1;
   let j = 1;
   let nfts: Readable<Map<string, NftType>>;
+  let refreshing: boolean;
 
   // ACTION : refresh  NFT list async
   $: if (chainId && address && account) _refresh(chainId, address, account);
   const _refresh = async (_chainId: number, _address: string, _account: string): Promise<void> => {
-    let refreshing = true;
+    refreshing = true;
     console.log(`REFRESH NFT LIST ${i++} collection://${_chainId}/${_address}${_account ? "@" + _account : ""}`);
     await nftStore.refreshSubList(_chainId, _address, _account);
     refreshing = false;
@@ -30,10 +31,12 @@
   };
 </script>
 
+{#if refreshing}Refreshing...{/if}
+
 {#if nfts}
   <p>{$nfts.size} NFTs</p>
   {#if $nfts.size > 0}
-    {#each [...$nfts.values()] as nft, index}
+    {#each [...$nfts.values()] as nft}
       <NftSimple chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
     {/each}
   {:else}

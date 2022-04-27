@@ -2,7 +2,8 @@
   import type { Readable } from "svelte/store";
 
   import type { CollectionType } from "lib/ktypes";
-  import { collectionKey, DEFAULT_NAME, DEFAULT_SYMBOL } from "lib/kconfig";
+  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "lib/kconfig";
+  // import { collectionKey } from "lib/kconfig";
 
   import { collectionStore } from "stores/collection/collection";
 
@@ -15,8 +16,8 @@
   export let account: string = undefined;
 
   let collection: Readable<CollectionType>;
-  let i = 1;
 
+  // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {

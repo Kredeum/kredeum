@@ -1,18 +1,15 @@
 <script lang="ts">
-  import type { JsonRpcSigner } from "@ethersproject/providers";
   import type { Readable } from "svelte/store";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
 
-  import type { NftType, CollectionType } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { factoryGetTemplateAddress } from "lib/kfactory-get";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
-  import { collectionGet } from "lib/kcollection-get";
   import { collectionStore } from "stores/collection/collection";
 
-  import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
+  import { metamaskChainId, metamaskSigner } from "main/metamask";
 
   /////////////////////////////////////////////////
   // <NftMintButton {src} {metadata} {alt} {pid} {width} {display} />

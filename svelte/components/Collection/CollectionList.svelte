@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
 
   import type { CollectionType } from "lib/ktypes";
-  import { collectionUrl, explorerCollectionUrl, collectionListKey } from "lib/kconfig";
+  import { collectionUrl, explorerCollectionUrl } from "lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "stores/collection/collection";
@@ -25,8 +25,7 @@
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
-  let i: number = 0;
-
+  // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
@@ -69,8 +68,6 @@
   const _collectionUrl = (collection: string): string => collectionUrl(chainId, collection);
 </script>
 
-<!-- {@debug address} -->
-
 {#if txt}
   <p>
     {#if $collections?.size > 0}
@@ -78,8 +75,8 @@
       {#if refreshing}...{/if}
 
       <select on:change={_setCollectionFromEvent}>
-        {#each [...$collections] as [url, coll]}
-          <option selected={coll.address == address} value={coll.address}>
+        {#each [...$collections] as [key, coll]}
+          <option id={key} selected={coll.address == address} value={coll.address}>
             <Collection chainId={coll.chainId} address={coll.address} {account} />
           </option>
         {/each}
@@ -127,8 +124,9 @@
             </span>
           </div>
           <div class="custom-options">
-            {#each [...$collections] as [url, coll]}
+            {#each [...$collections] as [key, coll]}
               <span
+                id={key}
                 class="custom-option {coll.address == address ? 'selected' : ''}"
                 data-value={coll.address}
                 on:click={() => _setCollection(coll.address)}

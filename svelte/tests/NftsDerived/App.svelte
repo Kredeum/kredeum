@@ -1,5 +1,4 @@
 <script>
-  import { get } from "svelte/store";
   import { map, mapFilter } from "./MapStore";
   import List from "./List.svelte";
 
