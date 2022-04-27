@@ -41,7 +41,7 @@ const collectionSubListStore = (
             const okMintableDefault = coll.address == collectionMintableDefault;
 
             // MINTABLE
-            const okMintable = okMintableDefault || coll.mintable;
+            const okMintable = okMintableDefault || coll.open || (okOwner && coll.version == 3);
 
             // DEFAULT
             const okDefault = coll.address == collectionDefault || okMintableDefault;
