@@ -76,7 +76,7 @@
   <span slot="content">
     {#if chainId && account && address}
       <!-- {#if tokenID} -->
-      {#if "nft" === mainContentDisplayComponent && chainId && address && tokenID}
+      {#if "nftDetail" === mainContentDisplayComponent && chainId && address && tokenID}
         <NftDetail {chainId} {address} bind:tokenID {account} bind:mainContentDisplayComponent />
       {:else if "grid" === mainContentDisplayComponent}
         <NftGridView
