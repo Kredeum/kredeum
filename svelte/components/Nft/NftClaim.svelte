@@ -4,16 +4,19 @@
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
   import { metamaskSigner } from "main/metamask";
 
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import NetworkList from "../Network/NetworkList.svelte";
 
+  /////////////////////////////////////////////////
+  //  <Nft {chainId} {address} {tokenID} />
+  // Display NFT
+  /////////////////////////////////////////////////
   export let chainId: number;
-  export let nft: NftType = undefined;
+  export let address: string;
+  export let tokenID: string;
 
   let claimTxHash: string = null;
   let claiming = false;
   let claimed = false;
-
-  let destinationAddress = "";
 
   const claim = async () => {
     if ($metamaskSigner) {
@@ -23,7 +26,7 @@
 
       // switch to kovan
 
-      const txResp = await claimNftResponse(nft.chainId, nft.address, nft.tokenID, destinationAddress, $metamaskSigner);
+      const txResp = await claimNftResponse(chainId, address, tokenID, $metamaskSigner);
       claimTxHash = txResp.hash;
 
       const txReceipt = await claimNftReceipt(txResp);
@@ -44,13 +47,16 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              NFT <a class="link" href="{explorerNftUrl(chainId, nft)}}" target="_blank">#{nft?.tokenID}</a>
+              NFT
+              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
+                >#{tokenID}</a
+              >
               claimed!
             </div>
           </div>
         {:else if claiming}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Transfering NFT...
+            <i class="fas fa-sync fa-left c-green" />Claiming NFT...
           </div>
           <div class="section">
             {#if claimTxHash}
@@ -61,10 +67,10 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-exclamation" /> Claim this NFT #{nft.tokenID} to Kovan ?
+            <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} to Kovan ?
           </div>
 
-          <NetworkSelect />
+          <NetworkList />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>

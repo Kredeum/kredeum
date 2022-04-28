@@ -1,29 +1,26 @@
 import type { JsonRpcSigner } from "@ethersproject/providers";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/abstract-provider";
+import type { OpenMulti } from "types/OpenMulti";
 
-import { collectionContractGet } from "./kcollection-get";
-import { getNetwork } from "./kconfig";
+import { getNetwork, nftKey } from "./kconfig";
+import IOpenMulti from "abis/IOpenMulti.json";
+import { Contract, BigNumber } from "ethers";
 
 const claimNftResponse = async (
   chainId: number,
   address: string,
   tokenID: string,
-  destinationAddress: string,
   owner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  // console.log("claimNftResponse", chainId, address, tokenID, destinationAddress);
+  console.log(`claimNftResponse ${nftKey(chainId, address, tokenID)}`);
 
   let txResp: TransactionResponse | undefined;
+  const network = getNetwork(chainId);
 
-  if (chainId && address && tokenID && destinationAddress && owner) {
-    const network = getNetwork(chainId);
-    const ownerAddress = await owner.getAddress();
-    // console.log("claimNftResponse owner", ownerAddress);
+  if (network?.OpenMulti && chainId && address && tokenID && owner) {
+    const openMulti = new Contract(network.OpenMulti, IOpenMulti, owner) as OpenMulti;
 
-    const openNFTs = await collectionContractGet(chainId, address, owner.provider);
-
-    // console.log("claimFrom", ownerAddress, destinationAddress, tokenID);
-    txResp = await openNFTs.connect(owner).claimFrom(ownerAddress, destinationAddress, tokenID);
+    txResp = await openMulti.claim(BigNumber.from("809809807897987666622279686238623876128736213"));
     console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
   }
 
@@ -38,12 +35,11 @@ const claimNft = async (
   chainId: number,
   address: string,
   tokenID: string,
-  destinationAddress: string,
   owner: JsonRpcSigner
 ): Promise<TransactionReceipt | undefined> => {
   // console.log("claimNft", chainId, address, tokenID, destinationAddress);
 
-  const txResp = await claimNftResponse(chainId, address, tokenID, destinationAddress, owner);
+  const txResp = await claimNftResponse(chainId, address, tokenID, owner);
   const txReceipt = txResp && (await claimNftReceipt(txResp));
 
   return txReceipt;

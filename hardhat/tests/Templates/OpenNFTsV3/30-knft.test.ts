@@ -17,12 +17,11 @@ const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
 describe("30 OpenNFTsV3 Mint", function () {
   let ethscan: string | undefined;
-  let network: Network | undefined;
+  let network: NetworkType | undefined;
   let chainId: number;
   let deployer: Signer;
   let tester: Signer;
   let openNFTsV3: OpenNFTsV3;
-  let cloneOpenNFTsV3: OpenNFTsV3;
 
   before(async () => {
     chainId = Number(await hre.getChainId());
@@ -89,8 +88,9 @@ describe("30 OpenNFTsV3 Mint", function () {
       await expect(openNFTsV3.connect(deployer).mintOpenNFT(artistAddress, json)).to.be.not.reverted;
     });
 
-    it("Should not be allowed to Mint", async function () {
-      await expect(openNFTsV3.connect(tester).mintOpenNFT(artistAddress, json)).to.be.revertedWith("Not minter");
-    });
+    // default colleciton mintable for all...
+    // it.skip("Should not be allowed to Mint", async function () {
+    //   await expect(openNFTsV3.connect(tester).mintOpenNFT(artistAddress, json)).to.be.revertedWith("Not minter");
+    // });
   });
 });

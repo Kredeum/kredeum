@@ -18,6 +18,7 @@
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftClaim from "./NftClaim.svelte";
 
   export let chainId: number;
   export let address: string;
@@ -133,6 +134,10 @@
             ><i class="fa fa-gift" /><span>Make a gift</span></a
           >
 
+          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on Kovan">
+            <i class="fas fa-exclamation" /> Claim on Kovan
+          </a>
+
           {#if getNetwork($nft.chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
@@ -205,7 +210,11 @@
   </div>
 </div>
 
-<!-- Modal gift -->
-<div id="transfert-$nft-{$nft.tokenID}" class="modal-window">
+<!-- Modal transfer or claim nft -->
+<div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
+</div>
+
+<div id="claim-nft-{tokenID}" class="modal-window">
+  <NftClaim {chainId} {address} {tokenID} />
 </div>

@@ -16,6 +16,10 @@ contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
         _safeMint(msg.sender, tokenId);
     }
 
+    function exists(uint256 tokenId) public view override(IOpenMulti) returns (bool) {
+        return _exists(tokenId);
+    }
+
     function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
         require(_exists(tokenId), "ERC721: token doesn't exists");
 
