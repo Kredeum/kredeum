@@ -50,7 +50,7 @@
             chainId: chainId,
             name: collectionName,
             address: collectionCloneAddress(txReceipt),
-            user: await $metamaskSigner.getAddress()
+            owner: await $metamaskSigner.getAddress()
           };
 
           if (!collectionCreated) console.error("ERROR createCollection no collection created");

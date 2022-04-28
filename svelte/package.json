@@ -51,7 +51,7 @@
   "name": "svelte",
   "scripts": {
     "build": "ENVIR=PROD GIT_SHORT=$(git rev-parse --short HEAD) GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) rollup -c --configPlugin typescript",
-    "check": "npm run prettier && npm run eslint",
+    "check": "npm run prettier && npm run eslint && svelte-check",
     "clean": "rm -rf node_modules",
     "dev": "GIT_SHORT=$(git rev-parse --short HEAD) GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) rollup -c -w --configPlugin typescript",
     "eslint": "eslint components/**/*.svelte helpers/**/*.ts stores/**/*.ts main/**/*.ts --fix --quiet",

@@ -2,13 +2,12 @@
   import type { Readable } from "svelte/store";
 
   import type { CollectionType } from "lib/ktypes";
-
-  import CollectionSimple from "./CollectionSimple.svelte";
-  import { collectionDefaultStore } from "stores/collection/collectionDefault";
   import { collectionStore } from "stores/collection/collection";
+  import { currentCollection } from "main/current";
+  import CollectionSimple from "./CollectionSimple.svelte";
 
   /////////////////////////////////////////////////
-  // <CollectionListSimple chainId} bind:{address} {account} {mintable} {refreshing} />
+  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -18,45 +17,41 @@
   export let refreshing: boolean = undefined;
 
   let collections: Readable<Map<string, CollectionType>>;
-  let i = 1;
-  let j = 1;
+  let collectionDefault: Readable<string>;
 
-  // ACTION : refresh Collections async
-  $: if (chainId && account) _refresh(chainId, account, mintable);
-  const _refresh = async (_chainId: number, _account: string, _mintable: boolean): Promise<void> => {
+  // let i: number = 0;
+  // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
+  $: mintable, chainId && account && handleChangeCollection();
+  const handleChangeCollection = async (): Promise<void> => {
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
+
+    // STATE VIEW : sync get Collections
+    collections = collectionStore.getSubListStore(chainId, account, mintable);
+
+    // STATE VIEW : sync get default Collection
+    collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
+
+    // ACTION : async refresh Collections
     refreshing = true;
-    await collectionStore.refreshList(_chainId, _account, _mintable);
+    await collectionStore.refreshSubList(chainId, account, mintable);
     refreshing = false;
-    console.log(
-      `REFRESH COLLECTION LIST ${i++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}`
-    );
+    console.log("COLLECTIONS", $collections);
+
+    // ACTION : sync refresh default Collections
+    collectionStore.refreshDefault(chainId, account);
   };
 
-  // STATE VIEW : get Collections sync
-  $: if (chainId && account) _get(chainId, account, mintable);
-  const _get = (_chainId: number, _account: string, _mintable: boolean): void => {
-    collections = collectionStore.getSubListStore(_chainId, _account, _mintable);
-    console.log(
-      `GET COLLECTION LIST ${j++} collection://${_chainId}${_account ? "@" + _account : ""} ${String(_mintable)}\n`,
-      $collections
-    );
+  // Current Collection is already defined, or is defined in url, or is default collection
+  $: ($currentCollection || $collectionDefault) && handleChangeAddress();
+  const handleChangeAddress = (): void => {
+    $currentCollection = $currentCollection || $collectionDefault;
+    address = $currentCollection;
   };
 
-  // ACTION : refresh default Collections sync
-  $: collectionStore.refreshDefault(chainId, account);
-
-  // STATE VIEW : Collections
-  $: collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
-  $: address = $collectionDefault;
-
-  const _setCollection = (_collection: string): string => {
-    if (!(chainId && _collection)) return;
-
-    console.log("_setCollection", chainId, _collection);
-    address = _collection;
-    collectionStore.setDefaultOne(chainId, _collection, mintable, account);
-
-    return address;
+  // STATE CHANGER : SET default Collection
+  const _setCollection = (collection: string): void => {
+    $currentCollection = collection;
+    return collectionStore.setDefaultOne(chainId, collection, mintable, account);
   };
 </script>
 
@@ -65,8 +60,8 @@
 {/if}
 
 {#if collections}
-  {#each [...$collections] as [url, coll]}
-    <p on:click={() => _setCollection(coll.address)}>
+  {#each [...$collections] as [key, coll]}
+    <p id={key} on:click={() => _setCollection(coll.address)}>
       {coll?.name}
       {coll?.address}
     </p>

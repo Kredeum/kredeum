@@ -2,9 +2,10 @@
   import type { Readable } from "svelte/store";
 
   import type { NftType } from "lib/ktypes";
-  import { nftKey, nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
+  import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
+  // import { nftKey} from "lib/kconfig";
 
-  import { nftStore } from "../../stores/nft/nft";
+  import { nftStore } from "stores/nft/nft";
 
   export let chainId: number;
   export let address: string;
@@ -12,8 +13,8 @@
   export let account: string = undefined;
 
   let nft: Readable<NftType>;
-  let i = 1;
 
+  // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && handleChange();
   const handleChange = async (): Promise<void> => {

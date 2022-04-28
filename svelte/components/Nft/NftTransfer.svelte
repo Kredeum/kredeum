@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { NftType } from "lib/ktypes";
   import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 

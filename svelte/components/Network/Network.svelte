@@ -8,7 +8,7 @@
   export let chainId: number;
   export let txt = false;
 
-  const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substr(1) : "");
+  const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "");
 </script>
 
 {#if txt}

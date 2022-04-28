@@ -1,12 +1,12 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  // import type { Readable } from "svelte/store";
 
-  import AccountConnect from "../components/Account/AccountConnect.svelte";
+  // import AccountConnect from "../components/Account/AccountConnect.svelte";
   import NetworkList from "../components/Network/NetworkList.svelte";
   // import NftMintButton from "../Nft/NftMintButton.svelte";
   // import NftsList from "../components/Nft/NftsList.svelte";
   import NftsListSimple from "./NftsListSimple.svelte";
-  import CollectionList from "../components/Collection/CollectionList.svelte";
+  // import CollectionList from "../components/Collection/CollectionList.svelte";
   import CollectionListSimple from "../tests/CollectionListSimple.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "../tests/Metamask.svelte";

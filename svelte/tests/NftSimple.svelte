@@ -1,35 +1,39 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
+
   import type { NftType } from "lib/ktypes";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { nftStore } from "../stores/nft/nft";
-  import { collectionStore } from "../stores/collection/collection";
-  import { nftsStoreList } from "./NftsStore/NftsStoreList";
+  import { onMount } from "svelte";
 
+  import { nftStore } from "stores/nft/nft";
+
+  /////////////////////////////////////////////////
+  //  <Nft {chainId} {address} {tokenID} {account}? {index}? {more}? {platform}? />
+  // Display NFT
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
 
-  let i = 1;
-  let j = 1;
   let nft: Readable<NftType>;
 
-  $: console.log("NFT", $nft);
+  // let i = 1;
+  // HANDLE CHANGE : on truthy chainId and address, and whatever account
+  $: account, chainId && address && tokenID && handleChange();
+  const handleChange = (): void => {
+    // console.log(`NFT CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
-  // ACTION : refresh Nft on chainId, address or tokenID change
-  $: if (chainId && address && tokenID) _refresh(chainId, address, tokenID);
-  const _refresh = async (_chainId: number, _address: string, _tokenID: string): Promise<void> => {
-    await nftStore.refresh(_chainId, _address, _tokenID);
-    console.log(`REFRESH NFT ${i++} nft://${_chainId}/${_address}/${_tokenID}`);
+    // STATE VIEW : sync get Nft
+    nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    // ACTION : async refresh Nft
+    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  // STATE VIEW : get Nft on chainId, address or tokenID change
-  $: if (chainId && address && tokenID) _get(chainId, address, tokenID);
-  const _get = (_chainId: number, _address: string, _tokenID: string): void => {
-    nft = nftStore.getOne(_chainId, _address, _tokenID);
-    console.log(`CURRENT NFT ${j++} bft://${_chainId}/${_address}\n`, $nft || { chainId: _chainId, address: _address });
-  };
+  onMount(() => {
+    console.log("NFT", $nft);
+  });
 </script>
 
 {#if nft}

@@ -41,18 +41,18 @@ const collectionSubListStore = (
             const okMintableDefault = coll.address == collectionMintableDefault;
 
             // MINTABLE
-            const okMintable = okMintableDefault || (coll.version >= 0 && okOwner);
+            const okMintable = okMintableDefault || coll.open || (okOwner && coll.version == 3);
 
             // DEFAULT
             const okDefault = coll.address == collectionDefault || okMintableDefault;
 
-            // NOT MINTABLE
-            const okNotMintable = okOwner || okBalance || okDefault;
+            // GENERIC FILTER
+            const okFilter = okOwner || okBalance || okDefault;
 
             // IERC1155
             // const okIrc1155 = coll.supports?.IERC1155;
 
-            const ok = okParams && okNetwork && (mintable ? okMintable : okNotMintable);
+            const ok = okParams && okNetwork && okFilter && (!mintable || okMintable);
 
             // if (mintable) {
             //   console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);

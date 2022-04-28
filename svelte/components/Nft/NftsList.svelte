@@ -3,7 +3,8 @@
 
   import type { CollectionType, NftType } from "lib/ktypes";
   import { explorerCollectionUrl, collectionUrl } from "lib/kconfig";
-  import { getNetwork, nftListKey } from "lib/kconfig";
+  import { getNetwork } from "lib/kconfig";
+  // import {  nftListKey } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
   // import NftSimple from "../tests/NftSimple.svelte";
@@ -20,10 +21,10 @@
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
 
-  let i = 1;
   let nfts: Readable<Map<string, NftType>>;
   let collection: Readable<CollectionType>;
 
+  // let i = 1;
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
   $: refresh, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
@@ -64,7 +65,7 @@
         <div class="table-col"><span class="label">Infos</span></div>
       {/if}
     </div>
-    {#each [...$nfts.values()] as nft, index}
+    {#each [...$nfts.values()] as nft}
       <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} />
     {/each}
   </div>
