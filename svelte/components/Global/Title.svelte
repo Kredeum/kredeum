@@ -31,5 +31,5 @@
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">
-  My NFTs Factory {branch}
+  My Wonderfull NFTs Factory {branch}
 </h1>
