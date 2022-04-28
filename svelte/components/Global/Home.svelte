@@ -11,7 +11,7 @@
 
   import NftDetail from "../Nft/NftDetail.svelte";
   import NftsList from "../Nft/NftsList.svelte";
-  import NftGridView from "../Nft/NftsGridView.svelte";
+  import NftGridView from "../Nft/OldNftsGridView.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
@@ -75,7 +75,6 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      <!-- {#if tokenID} -->
       {#if "nftDetail" === mainContentDisplayComponent && chainId && address && tokenID}
         <NftDetail {chainId} {address} bind:tokenID {account} bind:mainContentDisplayComponent />
       {:else if "grid" === mainContentDisplayComponent}
