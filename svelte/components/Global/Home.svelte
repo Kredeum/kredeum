@@ -10,8 +10,6 @@
   import Navigation from "../Global/Navigation.svelte";
 
   import NftDetail from "../Nft/NftDetail.svelte";
-  import NftsList from "../Nft/NftsList.svelte";
-  import NftGridView from "../Nft/OldNftsGridView.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
@@ -20,17 +18,21 @@
 
   // import { metamaskProvider } from "main/metamask";
 
+  import DisplayCollectionWrapper from "../Nft/DisplayCollectionWrapper.svelte";
+
+  export let platform: string = "dapp";
+
   let chainId: number;
   let address: string;
-  let tokenID: string;
+  let tokenID: string = "";
   let account: string;
   let refreshing: boolean;
   let refresh: number;
 
   // DISPLAY TYPE --> //////////////////////////////////////////////
-  import NftsDisplayType from "./NftsDisplayType.svelte";
+  // import NftsDisplayType from "./NftsDisplayType.svelte";
 
-  let mainContentDisplayComponent: string;
+  let mainContentDisplayComponent: string = "grid";
 
   $: console.log("chainId", chainId);
   $: console.log("address", address);
@@ -69,16 +71,15 @@
           <NftsListRefresh {refreshing} bind:refresh />
         {/if}
       {/if}
-      <NftsDisplayType bind:mainContentDisplayComponent />
     </div>
   </span>
 
   <span slot="content">
     {#if chainId && account && address}
-      {#if "nftDetail" === mainContentDisplayComponent && chainId && address && tokenID}
-        <NftDetail {chainId} {address} bind:tokenID {account} bind:mainContentDisplayComponent />
-      {:else if "grid" === mainContentDisplayComponent}
-        <NftGridView
+      {#if tokenID}
+        <NftDetail {chainId} {address} bind:tokenID {account} />
+      {:else}
+        <DisplayCollectionWrapper
           {chainId}
           {address}
           bind:tokenID
@@ -86,9 +87,8 @@
           {refresh}
           bind:mainContentDisplayComponent
           bind:refreshing
+          {platform}
         />
-      {:else if "list" === mainContentDisplayComponent}
-        <NftsList {chainId} {address} {account} {refresh} bind:refreshing />
       {/if}
     {/if}
   </span>

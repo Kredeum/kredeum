@@ -11,7 +11,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  export let mainContentDisplayComponent: string;
+  // export let mainContentDisplayComponent: string;
 
   let nft: Readable<NftType>;
 
@@ -30,7 +30,7 @@
 
   const backToCollection = () => {
     tokenID = "";
-    mainContentDisplayComponent = "grid";
+    // mainContentDisplayComponent = "grid";
   };
 </script>
 
