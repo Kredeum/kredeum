@@ -16,6 +16,8 @@
 
   import { nftStore } from "stores/nft/nft";
 
+  import NftTransfer from "./NftTransfer.svelte";
+
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
@@ -126,7 +128,7 @@
             ><i class="fa fa-code" /><span>Get shortcode</span></a
           >
         {/if}
-        <a href="#gift" class="btn btn-small btn-outline" title="Make a gift"
+        <a href="#transfert-$nft-{$nft.tokenID}" class="btn btn-small btn-outline" title="Make a gift"
           ><i class="fa fa-gift" /><span>Make a gift</span></a
         >
 
@@ -199,7 +201,10 @@
 </div>
 
 <!-- Modal gift -->
-<div id="gift" class="modal-window">
+<div id="transfert-$nft-{$nft.tokenID}" class="modal-window">
+  <NftTransfer {chainId} {address} {tokenID} />
+</div>
+<!-- <div id="gift" class="modal-window">
   <div>
     <div class="modal-content">
       <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
@@ -223,4 +228,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
