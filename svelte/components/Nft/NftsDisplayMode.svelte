@@ -2,7 +2,7 @@
   export let mainContentDisplayComponent: string = "grid";
 </script>
 
-<div class="col col-xs-12 col-sm-3">
+<div id="displayListMode" class="col col-xs-12 col-sm-5">
   <div class="box-fields">
     <input
       bind:group={mainContentDisplayComponent}
@@ -25,3 +25,15 @@
     <label class="field" for="display-list-type"><i class="fas fa-list" /></label>
   </div>
 </div>
+
+<style>
+  #displayListMode {
+    float: right;
+    text-align: right;
+    padding: 0;
+  }
+
+  #displayListMode .box-fields .field i {
+    margin: 0;
+  }
+</style>

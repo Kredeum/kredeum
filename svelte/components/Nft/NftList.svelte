@@ -7,7 +7,7 @@
   import { nftStore } from "stores/nft/nft";
   import { collectionStore } from "stores/collection/collection";
 
-  import NftsDisplayType from "../Global/NftsDisplayType.svelte";
+  import NftsDisplayMode from "./NftsDisplayMode.svelte";
 
   import NftsListLines from "./NftsListLines.svelte";
   import NftsListGrid from "./NftsListGrid.svelte";
@@ -65,7 +65,7 @@
       >
     </div>
     <div class="col col-xs-12">
-      <NftsDisplayType bind:mainContentDisplayComponent />
+      <NftsDisplayMode bind:mainContentDisplayComponent />
     </div>
   </div>
 
