@@ -3,10 +3,7 @@
 
   import type { CollectionType, NftType } from "lib/ktypes";
   import { explorerCollectionUrl, collectionUrl } from "lib/kconfig";
-  import { getNetwork, nftListKey } from "lib/kconfig";
 
-  import Nft from "../Nft/Nft.svelte";
-  // import NftSimple from "../tests/NftSimple.svelte";
   import { nftStore } from "stores/nft/nft";
   import { collectionStore } from "stores/collection/collection";
 
@@ -28,9 +25,9 @@
 
   export let mainContentDisplayComponent: string;
 
-  export let platform;
+  export let platform: string = "dapp";
 
-  let i = 1;
+  // let i = 1;
   let nfts: Readable<Map<string, NftType>>;
   let collection: Readable<CollectionType>;
 

@@ -1,5 +1,6 @@
 <script lang="ts">
-  // import type { NftType } from "lib/ktypes";
+  import type { Readable } from "svelte/store";
+  import type { NftType } from "lib/ktypes";
 
   import { getNetwork } from "lib/kconfig";
 
@@ -12,7 +13,7 @@
 
   export let chainId: number;
   export let account: string;
-  export let nfts;
+  export let nfts: Readable<Map<string, NftType>>;
   export let platform = "dapp";
 </script>
 
@@ -25,7 +26,7 @@
       <div class="table-col"><span class="label">Infos</span></div>
     {/if}
   </div>
-  {#each [...$nfts.values()] as nft, index}
+  {#each [...$nfts.values()] as nft}
     <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
   {/each}
 </div>
