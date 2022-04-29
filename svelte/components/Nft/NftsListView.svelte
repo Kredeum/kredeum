@@ -1,12 +1,19 @@
 <script lang="ts">
-  import { getNetwork, nftListKey } from "lib/kconfig";
+  // import type { NftType } from "lib/ktypes";
+
+  import { getNetwork } from "lib/kconfig";
 
   import Nft from "../Nft/Nft.svelte";
 
-  export let chainId;
-  export let account;
+  /////////////////////////////////////////////////
+  //  <NftListView {chainId} {account} {nfts} {platform}? />
+  // Display NFTs List
+  /////////////////////////////////////////////////
+
+  export let chainId: number;
+  export let account: string;
   export let nfts;
-  export let platform;
+  export let platform = "dapp";
 </script>
 
 <div class="table">

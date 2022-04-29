@@ -75,7 +75,7 @@
   {#if "list" === mainContentDisplayComponent}
     <NftsListView {chainId} {account} {nfts} {platform} />
   {:else if "grid" === mainContentDisplayComponent}
-    <NftsGridView {chainId} bind:tokenID {account} {refreshing} {refresh} {nfts} {platform} />
+    <NftsGridView {chainId} bind:tokenID {account} {nfts} {platform} />
   {/if}
 {:else}
   <div class="card-krd">

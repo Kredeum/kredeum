@@ -30,14 +30,7 @@
   let refresh: number;
 
   // DISPLAY TYPE --> //////////////////////////////////////////////
-  // import NftsDisplayType from "./NftsDisplayType.svelte";
-
   let mainContentDisplayComponent: string = "grid";
-
-  $: console.log("chainId", chainId);
-  $: console.log("address", address);
-  $: console.log("tokenID", tokenID);
-  $: console.log("account", account);
   // --> DISPLAY TYPE //////////////////////////////////////////////
 </script>
 

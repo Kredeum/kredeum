@@ -1,14 +1,7 @@
 <script lang="ts">
-  import type { CollectionType, NftType } from "lib/ktypes";
+  import type { NftType } from "lib/ktypes";
 
-  import {
-    explorerCollectionUrl,
-    nftName,
-    nftOpenSeaUrl,
-    addressSame,
-    collectionUrl,
-    normalizedSoloNftUrl
-  } from "lib/kconfig";
+  import { explorerCollectionUrl, nftName, nftOpenSeaUrl, addressSame, normalizedSoloNftUrl } from "lib/kconfig";
 
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
@@ -16,18 +9,18 @@
   //   export let address: string;
   export let tokenID: string = "";
   export let account: string = undefined;
-  export let refreshing: boolean = undefined;
-  export let refresh: number = 1;
 
   //   export let mainContentDisplayComponent: string;
 
   export let nfts;
 
-  export let platform = "dapp";
+  export let platform: string = "dapp";
   ///////////////////////////////////////////////////////////////////////////////
-  const displayNftSolo = (clickedNftTokenID) => {
-    // mainContentDisplayComponent = "nftDetail";
-    tokenID = clickedNftTokenID;
+  const displayNftSolo = (evt, clickedNftTokenID) => {
+    if (!evt.target.classList.contains("btn")) {
+      evt.preventDefault();
+      tokenID = clickedNftTokenID;
+    }
   };
   ///////////////////////////////////////////////////////////////////////////////
   const divMediaImage = (src: string, height?: number) => {
@@ -76,10 +69,7 @@
 <div class="row grid-krd">
   {#each [...$nfts.values()] as nft, index}
     <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
-      <!--  -->
-      <!-- <KredeumGetNft {nft} {index} {platform} more={tokenID == Number(nft.tokenID) ? -1 : mores[index]} /> -->
-      <!--  -->
-      <div class="grid-card-krd" on:click|preventDefault={() => displayNftSolo(nft.tokenID)}>
+      <div class="grid-card-krd" on:click={(evt) => displayNftSolo(evt, nft.tokenID)}>
         {@html divMedia(nft, index, true)}
 
         <div class="caption">
