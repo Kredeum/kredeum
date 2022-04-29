@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
-  import { nftName, nftOpenSeaUrl, addressSame } from "lib/kconfig";
+  import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
 
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
@@ -74,10 +74,12 @@
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>
-      {#if addressSame(nft.owner, account)}
-        <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
-      {:else}
-        <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+      {#if getNetwork(nft.chainId)?.openSea}
+        {#if addressSame(nft.owner, account)}
+          <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
+        {:else}
+          <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+        {/if}
       {/if}
     </div>
   </div>
@@ -86,3 +88,12 @@
     <div>WordPress</div>
   {/if}
 </div>
+
+<style>
+  .grid-card-krd h3 {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    max-height: 20.8px;
+  }
+</style>
