@@ -9,7 +9,7 @@
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
 
-  import NftDetail from "../Nft/NftDetail.svelte";
+  import Nft from "../Nft/Nft.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
@@ -18,7 +18,7 @@
 
   // import { metamaskProvider } from "main/metamask";
 
-  import DisplayCollectionWrapper from "../Nft/DisplayCollectionWrapper.svelte";
+  import NftList from "../Nft/NftList.svelte";
 
   export let platform: string = "dapp";
 
@@ -70,9 +70,9 @@
   <span slot="content">
     {#if chainId && account && address}
       {#if tokenID}
-        <NftDetail {chainId} {address} bind:tokenID {account} />
+        <Nft {chainId} {address} bind:tokenID {account} />
       {:else}
-        <DisplayCollectionWrapper
+        <NftList
           {chainId}
           {address}
           bind:tokenID

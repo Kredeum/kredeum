@@ -4,13 +4,12 @@
 
   import { getNetwork } from "lib/kconfig";
 
-  import Nft from "../Nft/Nft.svelte";
+  import NftLine from "./NftLine.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftListView {chainId} {account} {nfts} {platform}? />
+  //  <NftListLines {chainId} {account} {nfts} {platform}? />
   // Display NFTs List
   /////////////////////////////////////////////////
-
   export let chainId: number;
   export let account: string;
   export let nfts: Readable<Map<string, NftType>>;
@@ -27,6 +26,6 @@
     {/if}
   </div>
   {#each [...$nfts.values()] as nft}
-    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
+    <NftLine chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
   {/each}
 </div>

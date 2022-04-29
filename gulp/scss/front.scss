@@ -67,28 +67,15 @@
   overflow: hidden;
   display: inline-block;
   vertical-align: middle;
-  max-width: 100%;
-  height: 130px;
-  width: 130px;
-
-  img {
-    object-fit: cover;
-    width: 100%;
-    height: 100%;
-  }
-}
-
-.media-grid {
-  @include border-radius;
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: middle;
   width: 100%;
+  
+
   img {
     object-fit: cover;
     width: 100%;
     height: 100%;
     display: block;
+
   }
 }
 

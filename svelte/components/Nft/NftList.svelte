@@ -3,13 +3,14 @@
 
   import type { CollectionType, NftType } from "lib/ktypes";
   import { explorerCollectionUrl, collectionUrl } from "lib/kconfig";
-  import { getNetwork } from "lib/kconfig";
-  // import {  nftListKey } from "lib/kconfig";
 
-  import Nft from "../Nft/Nft.svelte";
-  // import NftSimple from "../tests/NftSimple.svelte";
   import { nftStore } from "stores/nft/nft";
   import { collectionStore } from "stores/collection/collection";
+
+  import NftsDisplayType from "../Global/NftsDisplayType.svelte";
+
+  import NftsListLines from "./NftsListLines.svelte";
+  import NftsListGrid from "./NftsListGrid.svelte";
 
   /////////////////////////////////////////////////
   // <NftList {chainId} {address}  {account} {refreshing} />
@@ -17,14 +18,19 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
+  export let tokenID: string;
   export let account: string = undefined;
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
 
+  export let mainContentDisplayComponent: string;
+
+  export let platform: string = "dapp";
+
+  // let i = 1;
   let nfts: Readable<Map<string, NftType>>;
   let collection: Readable<CollectionType>;
 
-  // let i = 1;
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
   $: refresh, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
@@ -43,32 +49,31 @@
   };
 </script>
 
-{#if $collection}
-  <h2>Collection '{$collection?.name}'</h2>
-  {$nfts?.size || 0}/{$collection?.balancesOf?.get(account) || $nfts?.size || 0}
-  {$collection?.symbol || "NFT"}
-  {#if refreshing}...{/if}
-  <a
-    class="info-button"
-    href={explorerCollectionUrl(chainId, address)}
-    title="&#009;Collection address (click to view in explorer)&#013;
+{#if $collection && nfts}
+  <div class="row alignbottom">
+    <div class="col col-xs-12">
+      <h2>Collection '{$collection?.name}'</h2>
+      {$nfts?.size || 0}/{$collection?.balancesOf?.get(account) || $nfts?.size || 0}
+      {$collection?.symbol || "NFT"}
+      {#if refreshing}...{/if}
+      <a
+        class="info-button"
+        href={explorerCollectionUrl(chainId, address)}
+        title="&#009;Collection address (click to view in explorer)&#013;
       {collectionUrl(chainId, address)}"
-    target="_blank"><i class="fas fa-info-circle" /></a
-  >
-
-  <div class="table">
-    <div class="table-row table-head hidden-xs">
-      <div class="table-col"><span class="label">Media</span></div>
-      {#if getNetwork(chainId)?.openSea}
-        <div class="table-col"><span class="label">Marketplace</span></div>
-      {:else}
-        <div class="table-col"><span class="label">Infos</span></div>
-      {/if}
+        target="_blank"><i class="fas fa-info-circle" /></a
+      >
     </div>
-    {#each [...$nfts.values()] as nft}
-      <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} />
-    {/each}
+    <div class="col col-xs-12">
+      <NftsDisplayType bind:mainContentDisplayComponent />
+    </div>
   </div>
+
+  {#if "list" === mainContentDisplayComponent}
+    <NftsListLines {chainId} {account} {nfts} {platform} />
+  {:else if "grid" === mainContentDisplayComponent}
+    <NftsListGrid {chainId} bind:tokenID {account} {nfts} {platform} />
+  {/if}
 {:else}
   <div class="card-krd">
     <p>
