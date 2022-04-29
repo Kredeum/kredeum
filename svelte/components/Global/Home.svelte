@@ -70,7 +70,7 @@
   <span slot="content">
     {#if chainId && account && address}
       {#if tokenID}
-        <Nft {chainId} {address} bind:tokenID {account} />
+        <Nft {chainId} {address} bind:tokenID {account} {platform} />
       {:else}
         <NftList
           {chainId}

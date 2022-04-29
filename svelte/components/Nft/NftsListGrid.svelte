@@ -2,8 +2,6 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
 
-  import { nftName, nftOpenSeaUrl, addressSame } from "lib/kconfig";
-
   import NftGrid from "./NftGrid.svelte";
   /////////////////////////////////////////////////
   //  <NftListGrid {chainId} {tokenID} {account} {nfts} {platform}? />

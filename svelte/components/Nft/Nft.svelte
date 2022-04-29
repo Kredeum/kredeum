@@ -2,8 +2,17 @@
   import type { Readable } from "svelte/store";
 
   import type { NftType } from "lib/ktypes";
-  import { nftUrl, explorerCollectionUrl, explorerAddressLink, kredeumNftUrl } from "lib/kconfig";
-  // import { nftKey} from "lib/kconfig";
+  import {
+    nftUrl,
+    explorerCollectionUrl,
+    explorerAddressLink,
+    kredeumNftUrl,
+    getNetwork,
+    nftOpenSeaUrl,
+    addressSame
+  } from "lib/kconfig";
+
+  import { shortcode } from "helpers/shortcodes";
 
   import { nftStore } from "stores/nft/nft";
 
@@ -11,8 +20,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  // export let mainContentDisplayComponent: string;
-
+  export let platform: string = "dapp";
   let nft: Readable<NftType>;
 
   // let i = 1;
@@ -113,14 +121,24 @@
       </ul>
 
       <div class="p-t-40 p-b-40 grid-buttons">
-        <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
-          ><i class="fa fa-code" /><span>Get shortcode</span></a
-        >
+        {#if "wordpress" === platform}
+          <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
+            ><i class="fa fa-code" /><span>Get shortcode</span></a
+          >
+        {/if}
         <a href="#gift" class="btn btn-small btn-outline" title="Make a gift"
           ><i class="fa fa-gift" /><span>Make a gift</span></a
         >
 
-        <a href="." class="btn btn-small btn-sell" title="Sell">Sell</a>
+        {#if getNetwork($nft.chainId)?.openSea}
+          {#if addressSame($nft.owner, account)}
+            <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+              Sell
+            </a>
+          {:else}
+            <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+          {/if}
+        {/if}
       </div>
     </div>
   </div>
@@ -151,17 +169,18 @@
           <i class="fas fa-code fa-left c-green" />
           Shortcodes
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel
-          lectus.
-        </p>
+        <p>Click on the Copy Button to copy the shortcode in your clipboard and then paste it in a WordPress page.</p>
 
         <ul class="steps">
           <li>
             <div class="flex"><span class="label">Sell direclty on Opensea</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
+            <div class="flex">
+              <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
+                >Copy</a
+              >
+            </div>
           </li>
-          <li>
+          <!-- <li>
             <div class="flex"><span class="label">Sell direclty on Gamestop</span></div>
             <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
           </li>
@@ -172,7 +191,7 @@
           <li>
             <div class="flex"><span class="label">Sell directly without market-places</span></div>
             <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
+          </li> -->
         </ul>
       </div>
     </div>
@@ -183,16 +202,13 @@
 <div id="gift" class="modal-window">
   <div>
     <div class="modal-content">
-      <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="titre">
           <i class="fas fa-gift fa-left c-green" />
           Make a gift
         </div>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris ac felis a sapien lobortis finibus nec vel
-          lectus.
-        </p>
+        <p>Enter the recipient account address.</p>
 
         <form method="POST" action="" enctype="multipart/form-data">
           <div class="section">

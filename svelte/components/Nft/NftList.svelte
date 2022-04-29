@@ -74,6 +74,10 @@
   {:else if "grid" === mainContentDisplayComponent}
     <NftsListGrid {chainId} bind:tokenID {account} {nfts} {platform} />
   {/if}
+
+  {#if platform === "wordpress"}
+    <div>WordPress</div>
+  {/if}
 {:else}
   <div class="card-krd">
     <p>

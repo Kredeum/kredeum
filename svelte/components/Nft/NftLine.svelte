@@ -21,6 +21,7 @@
   import { onMount } from "svelte";
 
   import { nftStore } from "stores/nft/nft";
+  import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
 
   /////////////////////////////////////////////////
@@ -54,14 +55,14 @@
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
-  const shortcode = async (_nft: NftType) => {
-    const data = `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${
-      _nft.tokenID
-    }" ipfs="${_nft.ipfs}"]${nftName(_nft)}[/kredeum_sell]`;
+  // const shortcode = async (_nft: NftType) => {
+  //   const data = `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${
+  //     _nft.tokenID
+  //   }" ipfs="${_nft.ipfs}"]${nftName(_nft)}[/kredeum_sell]`;
 
-    await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
-    console.log("Copied");
-  };
+  //   await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+  //   console.log("Copied");
+  // };
 
   const divMediaImage = (src: string, height?: number) => {
     const heightString = height ? `height="${height}"` : "";
@@ -71,10 +72,10 @@
   const divMediaVideo = (src: string, small = true) => {
     let video: string;
     if (small) {
-      video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
+      video = '<video preload="metadata" style="border-radius: initial;">';
     } else {
       video =
-        "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
+        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
     }
     video += `<source src="${src}" type="video/mp4"></video>`;
     return video;
@@ -96,7 +97,7 @@
     } else if (mediaType == "image") {
       div += divMediaImage(mediaSrc);
     } else {
-      div += "<div class=\"media-text\"></div>";
+      div += '<div class="media-text"></div>';
     }
     div += "</div>";
 

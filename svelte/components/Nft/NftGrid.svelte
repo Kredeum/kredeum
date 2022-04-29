@@ -14,7 +14,7 @@
   export let account: string = undefined;
 
   export let nft: NftType;
-  export let index;
+  export let index: number;
 
   export let platform: string = "dapp";
   ///////////////////////////////////////////////////////////////////////////////
@@ -83,10 +83,6 @@
       {/if}
     </div>
   </div>
-
-  {#if platform === "wordpress"}
-    <div>WordPress</div>
-  {/if}
 </div>
 
 <style>
