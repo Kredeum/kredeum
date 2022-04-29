@@ -46,7 +46,7 @@ add_shortcode(
 		$o .= 'Buy NFT: ' . $content;
 		$o .= '</button></a>';
 		if ( isset( $args['image'] ) && ( $args['image'] > 0 ) ) {
-			$o .= '<br><br><div><img src="https://ipfs.io/ipfs/' . $args['cid'] . '" width="' . $args['image'] . '%"></img></div>';
+			$o .= '<br><br><div><img src="' . $args['cid'] . '" width="' . $args['image'] . '%"></img></div>';
 		}
 		$o .= '</div>';
 		return $o;
