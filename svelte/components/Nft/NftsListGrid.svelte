@@ -17,6 +17,6 @@
 
 <div class="row grid-krd">
   {#each [...$nfts.values()] as nft, index}
-    <NftGrid {nft} {tokenID} {account} {index} {platform} />
+    <NftGrid {nft} {account} {index} {platform} />
   {/each}
 </div>
