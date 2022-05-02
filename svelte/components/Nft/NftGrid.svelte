@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
-  import { currentTokenID } from "main/current";
+  import { displayedTokenID } from "main/diplayedNft";
 
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
@@ -21,7 +21,7 @@
   const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
     if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
       evt.preventDefault();
-      currentTokenID.set(clickedNftTokenID);
+      displayedTokenID.set(clickedNftTokenID);
     }
   };
 

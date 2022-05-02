@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { currentTokenID } from "main/current";
+  import { displayedTokenID } from "main/diplayedNft";
 
   import type { NftType } from "lib/ktypes";
   import {
@@ -40,7 +40,7 @@
   };
 
   const backToCollection = () => {
-    currentTokenID.set("");
+    displayedTokenID.set("");
     // tokenID = "";
   };
 </script>

@@ -9,17 +9,15 @@
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
 
-  import Nft from "../Nft/Nft.svelte";
-  import NftList from "../Nft/NftList.svelte";
   import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
   // import BreadCrumb from "../../tests/BreadCrumb.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
 
-  // import { metamaskProvider } from "main/metamask";
+  import Content from "./Content.svelte";
 
-  import { currentTokenID } from "main/current";
+  // import { metamaskProvider } from "main/metamask";
 
   export let platform: string = "dapp";
 
@@ -29,8 +27,6 @@
   let account: string;
   let refreshing: boolean;
   let refresh: number;
-
-  $: tokenID = $currentTokenID;
 </script>
 
 <HomeLayout>
@@ -68,11 +64,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      {#if tokenID}
-        <Nft {chainId} {address} {tokenID} {account} {platform} />
-      {:else}
-        <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-      {/if}
+      <Content {chainId} {address} {account} {platform} {refreshing} {refresh} />
     {/if}
   </span>
 </HomeLayout>
