@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
+  import { currentTokenID } from "main/current";
 
   import type { NftType } from "lib/ktypes";
   import {
@@ -39,111 +40,114 @@
   };
 
   const backToCollection = () => {
-    tokenID = "";
+    currentTokenID.set("");
+    // tokenID = "";
   };
 </script>
 
-<h2 class="m-b-20 return">
-  <i class="fa fa-arrow-left fa-left" /><a href="." on:click|preventDefault={backToCollection} class="link"
-    >Return to collection</a
-  >
-</h2>
+{#if $nft}
+  <h2 class="m-b-20 return">
+    <i class="fa fa-arrow-left fa-left" /><a href="." on:click|preventDefault={backToCollection} class="link"
+      >Return to collection</a
+    >
+  </h2>
 
-<div class="row grid-detail-krd">
-  <div class="col col-xs-12 col-sm-4 col-md-3">
-    <div class="card-krd">
-      <div class="media media-grid media-photo">
-        <a href="#zoom">
-          <i class="fas fa-search" />
-          <img src={$nft.image} alt={$nft.name} />
-        </a>
+  <div class="row grid-detail-krd">
+    <div class="col col-xs-12 col-sm-4 col-md-3">
+      <div class="card-krd">
+        <div class="media media-grid media-photo">
+          <a href="#zoom">
+            <i class="fas fa-search" />
+            <img src={$nft.image} alt={$nft.name} />
+          </a>
+        </div>
       </div>
     </div>
-  </div>
 
-  <div class="col col-xs-12 col-sm-8 col-md-9">
-    <div class="card-krd">
-      <h3>{$nft.name}</h3>
-      <p>
-        {$nft.description}
-      </p>
+    <div class="col col-xs-12 col-sm-8 col-md-9">
+      <div class="card-krd">
+        <h3>{$nft.name}</h3>
+        <p>
+          {$nft.description}
+        </p>
 
-      <ul class="steps">
-        <li>
-          <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-          <div class="flex"><strong>#{$nft.tokenID}</strong></div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Owner</span></div>
-          <div class="flex">{@html explorerAddressLink($nft.chainId, $nft.owner, 15)}</div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Permanent link</span></div>
-          <div class="flex">
-            <a
-              class="link overflow-ellipsis"
-              href={kredeumNftUrl($nft.chainId, $nft)}
-              title={nftUrl($nft, 10)}
-              target="_blank"
+        <ul class="steps">
+          <li>
+            <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
+            <div class="flex"><strong>#{$nft.tokenID}</strong></div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Owner</span></div>
+            <div class="flex">{@html explorerAddressLink($nft.chainId, $nft.owner, 15)}</div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Permanent link</span></div>
+            <div class="flex">
+              <a
+                class="link overflow-ellipsis"
+                href={kredeumNftUrl($nft.chainId, $nft)}
+                title={nftUrl($nft, 10)}
+                target="_blank"
+              >
+                {@html nftUrl($nft, 10)}
+              </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">collection @</span></div>
+            <div class="flex">
+              <a
+                class="link overflow-ellipsis"
+                href={explorerCollectionUrl($nft.chainId, $nft?.address)}
+                title={$nft.address}
+                target="_blank"
+              >
+                {$nft.address}
+              </a>
+            </div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Metadata ipfs</span></div>
+            <div class="flex">
+              <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
+                >{$nft.ipfsJson}</a
+              >
+            </div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Image</span></div>
+            <div class="flex">
+              <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
+                {$nft.ipfs}
+              </a>
+            </div>
+          </li>
+        </ul>
+
+        <div class="p-t-40 p-b-40 grid-buttons">
+          {#if "wordpress" === platform}
+            <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
+              ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
-              {@html nftUrl($nft, 10)}
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">collection @</span></div>
-          <div class="flex">
-            <a
-              class="link overflow-ellipsis"
-              href={explorerCollectionUrl($nft.chainId, $nft?.address)}
-              title={$nft.address}
-              target="_blank"
-            >
-              {$nft.address}
-            </a>
-          </div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Metadata ipfs</span></div>
-          <div class="flex">
-            <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
-              >{$nft.ipfsJson}</a
-            >
-          </div>
-        </li>
-        <li>
-          <div class="flex"><span class="label">Image</span></div>
-          <div class="flex">
-            <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
-              {$nft.ipfs}
-            </a>
-          </div>
-        </li>
-      </ul>
-
-      <div class="p-t-40 p-b-40 grid-buttons">
-        {#if "wordpress" === platform}
-          <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
-            ><i class="fa fa-code" /><span>Get shortcode</span></a
-          >
-        {/if}
-        <a href="#transfert-$nft-{$nft.tokenID}" class="btn btn-small btn-outline" title="Make a gift"
-          ><i class="fa fa-gift" /><span>Make a gift</span></a
-        >
-
-        {#if getNetwork($nft.chainId)?.openSea}
-          {#if addressSame($nft.owner, account)}
-            <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
-              Sell
-            </a>
-          {:else}
-            <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
           {/if}
-        {/if}
+          <a href="#transfert-$nft-{$nft.tokenID}" class="btn btn-small btn-outline" title="Make a gift"
+            ><i class="fa fa-gift" /><span>Make a gift</span></a
+          >
+
+          {#if getNetwork($nft.chainId)?.openSea}
+            {#if addressSame($nft.owner, account)}
+              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+                Sell
+              </a>
+            {:else}
+              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+            {/if}
+          {/if}
+        </div>
       </div>
     </div>
   </div>
-</div>
+{/if}
 
 <!-- Modales of detail view -->
 <!-- Modal Zoom -->

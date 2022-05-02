@@ -72,7 +72,7 @@
   {#if "list" === displayMode}
     <NftsListLines {chainId} {account} {nfts} {platform} />
   {:else if "grid" === displayMode}
-    <NftsListGrid bind:tokenID {account} {nfts} {platform} />
+    <NftsListGrid {tokenID} {account} {nfts} {platform} />
   {/if}
 
   {#if platform === "wordpress"}

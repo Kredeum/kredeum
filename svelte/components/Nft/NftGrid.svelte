@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
+  import { currentTokenID } from "main/current";
+
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
 
@@ -9,7 +11,6 @@
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
-  export let tokenID: string = "";
   export let account: string = undefined;
 
   export let index: number;
@@ -20,7 +21,8 @@
   const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
     if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
       evt.preventDefault();
-      tokenID = clickedNftTokenID;
+      currentTokenID.set(clickedNftTokenID);
+      // tokenID = clickedNftTokenID;
     }
   };
 
