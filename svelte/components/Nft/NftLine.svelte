@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-
   import type { NftType } from "lib/ktypes";
   import {
     getShortAddress,
@@ -22,7 +20,6 @@
 
   import { onMount } from "svelte";
 
-  import { nftStore } from "stores/nft/nft";
   import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
 

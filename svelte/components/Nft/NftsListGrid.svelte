@@ -11,11 +11,11 @@
 
   export let nfts: Readable<Map<string, NftType>>;
 
-  export let platform: string = "dapp";
+  // export let platform: string = "dapp";
 </script>
 
 <div class="row grid-krd">
   {#each [...$nfts.values()] as nft, index}
-    <NftGrid {nft} {account} {index} {platform} />
+    <NftGrid {nft} {account} {index} />
   {/each}
 </div>

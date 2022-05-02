@@ -15,7 +15,7 @@
 
   export let index: number;
 
-  export let platform: string = "dapp";
+  // export let platform: string = "dapp";
 
   ///////////////////////////////////////////////////////////////////////////////
   const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
