@@ -4,10 +4,9 @@
 
   import NftGrid from "./NftGrid.svelte";
   /////////////////////////////////////////////////
-  //  <NftListGrid {tokenID} {account} {nfts} {platform}? />
+  //  <NftListGrid {account} {nfts} {platform}? />
   // Display NFTs List in Grid mode
   /////////////////////////////////////////////////
-  export let tokenID: string;
   export let account: string = undefined;
 
   export let nfts: Readable<Map<string, NftType>>;

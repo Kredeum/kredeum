@@ -29,14 +29,14 @@
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && handleChange();
-  const handleChange = async (): Promise<void> => {
+  const handleChange = (): void => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
     // ACTION : async refresh Nft
-    await nftStore.refreshOne(chainId, address, tokenID);
+    nftStore.refreshOne(chainId, address, tokenID);
   };
 
   const backToCollection = () => {

@@ -18,7 +18,6 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
-  export let tokenID: string;
   export let account: string = undefined;
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
@@ -72,7 +71,7 @@
   {#if "list" === displayMode}
     <NftsListLines {chainId} {account} {nfts} {platform} />
   {:else if "grid" === displayMode}
-    <NftsListGrid {tokenID} {account} {nfts} {platform} />
+    <NftsListGrid {account} {nfts} {platform} />
   {/if}
 
   {#if platform === "wordpress"}

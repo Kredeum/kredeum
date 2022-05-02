@@ -71,7 +71,7 @@
       {#if tokenID}
         <Nft {chainId} {address} {tokenID} {account} {platform} />
       {:else}
-        <NftList {chainId} {address} {tokenID} {account} {refresh} bind:refreshing {platform} />
+        <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
       {/if}
     {/if}
   </span>
