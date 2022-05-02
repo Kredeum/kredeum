@@ -36,7 +36,7 @@
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
     // ACTION : async refresh Nft
-    nftStore.refreshOne(chainId, address, tokenID);
+    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
   const backToCollection = () => {
