@@ -64,7 +64,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      <Content {chainId} {address} {account} {platform} {refreshing} {refresh} />
+      <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
   </span>
 </HomeLayout>

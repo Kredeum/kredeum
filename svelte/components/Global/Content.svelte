@@ -15,19 +15,16 @@
 
   $: toDisplayTokenID = $displayedTokenID;
 
-  $: chainId && address && account, handleChange();
+  $: chainId, account, address && handleChange();
 
-  //   $: chainId || address || account || displayedTokenID || handleChange();
   const handleChange = () => {
     displayedTokenID.set("");
     console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", toDisplayTokenID);
   };
 </script>
 
-{#if chainId && account && address}
-  {#if toDisplayTokenID}
-    <Nft {chainId} {address} tokenID={toDisplayTokenID} {account} {platform} />
-  {:else}
-    <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-  {/if}
+{#if toDisplayTokenID}
+  <Nft {chainId} {address} tokenID={toDisplayTokenID} {account} {platform} />
+{:else}
+  <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
 {/if}
