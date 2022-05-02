@@ -26,6 +26,6 @@
     {/if}
   </div>
   {#each [...$nfts.values()] as nft}
-    <NftLine chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
+    <NftLine {nft} {account} {platform} />
   {/each}
 </div>

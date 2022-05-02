@@ -7,7 +7,6 @@
   //  <NftListGrid {chainId} {tokenID} {account} {nfts} {platform}? />
   // Display NFTs List in Grid mode
   /////////////////////////////////////////////////
-  export let chainId: number;
   export let tokenID: string;
   export let account: string = undefined;
 
@@ -18,6 +17,6 @@
 
 <div class="row grid-krd">
   {#each [...$nfts.values()] as nft, index}
-    <NftGrid {chainId} bind:tokenID {account} {nft} {index} {platform} />
+    <NftGrid {nft} bind:tokenID {account} {index} {platform} />
   {/each}
 </div>

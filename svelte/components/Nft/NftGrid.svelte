@@ -5,14 +5,13 @@
   import { divMedia } from "helpers/mediasDisplay";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {chainId} {tokenID} {account} {nft} {platform}? />
+  //  <NftGrid {nft} {tokenID} {account} {platform}? />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
-  export let chainId: number;
+  export let nft: NftType;
   export let tokenID: string = "";
   export let account: string = undefined;
 
-  export let nft: NftType;
   export let index: number;
 
   export let platform: string = "dapp";
@@ -37,9 +36,11 @@
       <h3>{nftName(nft)}</h3>
       {#if getNetwork(nft.chainId)?.openSea}
         {#if addressSame(nft.owner, account)}
-          <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank"> Sell </a>
+          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+            Sell
+          </a>
         {:else}
-          <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
         {/if}
       {/if}
     </div>

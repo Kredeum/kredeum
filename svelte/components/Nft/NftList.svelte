@@ -72,7 +72,7 @@
   {#if "list" === mainContentDisplayComponent}
     <NftsListLines {chainId} {account} {nfts} {platform} />
   {:else if "grid" === mainContentDisplayComponent}
-    <NftsListGrid {chainId} bind:tokenID {account} {nfts} {platform} />
+    <NftsListGrid bind:tokenID {account} {nfts} {platform} />
   {/if}
 
   {#if platform === "wordpress"}
