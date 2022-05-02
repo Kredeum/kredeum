@@ -25,7 +25,7 @@
 
   export let platform: string = "dapp";
 
-  let mainContentDisplayComponent: string = "grid";
+  let displayMode: string = "grid";
 
   // let i = 1;
   let nfts: Readable<Map<string, NftType>>;
@@ -65,13 +65,13 @@
       >
     </div>
     <div class="col col-xs-12">
-      <NftsDisplayMode bind:mainContentDisplayComponent />
+      <NftsDisplayMode bind:displayMode />
     </div>
   </div>
 
-  {#if "list" === mainContentDisplayComponent}
+  {#if "list" === displayMode}
     <NftsListLines {chainId} {account} {nfts} {platform} />
-  {:else if "grid" === mainContentDisplayComponent}
+  {:else if "grid" === displayMode}
     <NftsListGrid bind:tokenID {account} {nfts} {platform} />
   {/if}
 
