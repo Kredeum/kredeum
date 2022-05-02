@@ -6,7 +6,7 @@
   import { getNetwork } from "lib/kconfig";
   // import {  nftListKey } from "lib/kconfig";
 
-  import Nft from "../../../svelte/components/Nft/Nft.svelte";
+  import Nft from "../Nft/Nft.svelte";
   // import NftSimple from "../tests/NftSimple.svelte";
   import { nftStore } from "stores/nft/nft";
   import { collectionStore } from "stores/collection/collection";

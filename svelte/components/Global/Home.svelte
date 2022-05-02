@@ -24,14 +24,10 @@
 
   let chainId: number;
   let address: string;
-  let tokenID: string = "";
+  let tokenID: string;
   let account: string;
   let refreshing: boolean;
   let refresh: number;
-
-  // DISPLAY TYPE --> //////////////////////////////////////////////
-  let mainContentDisplayComponent: string = "grid";
-  // --> DISPLAY TYPE //////////////////////////////////////////////
 </script>
 
 <HomeLayout>
@@ -72,16 +68,7 @@
       {#if tokenID}
         <Nft {chainId} {address} bind:tokenID {account} {platform} />
       {:else}
-        <NftList
-          {chainId}
-          {address}
-          bind:tokenID
-          {account}
-          {refresh}
-          bind:mainContentDisplayComponent
-          bind:refreshing
-          {platform}
-        />
+        <NftList {chainId} {address} bind:tokenID {account} {refresh} bind:refreshing {platform} />
       {/if}
     {/if}
   </span>

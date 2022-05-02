@@ -23,9 +23,9 @@
   export let refreshing: boolean = undefined;
   export let refresh: number = 1;
 
-  export let mainContentDisplayComponent: string;
-
   export let platform: string = "dapp";
+
+  let mainContentDisplayComponent: string = "grid";
 
   // let i = 1;
   let nfts: Readable<Map<string, NftType>>;

@@ -40,7 +40,6 @@
 
   const backToCollection = () => {
     tokenID = "";
-    // mainContentDisplayComponent = "grid";
   };
 </script>
 

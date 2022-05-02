@@ -18,6 +18,8 @@
   } from "lib/kconfig";
   // import { nftKey } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
+  import { divMedia } from "helpers/mediasDisplay";
+
   import { onMount } from "svelte";
 
   import { nftStore } from "stores/nft/nft";
@@ -55,56 +57,6 @@
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
-  // const shortcode = async (_nft: NftType) => {
-  //   const data = `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${
-  //     _nft.tokenID
-  //   }" ipfs="${_nft.ipfs}"]${nftName(_nft)}[/kredeum_sell]`;
-
-  //   await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
-  //   console.log("Copied");
-  // };
-
-  const divMediaImage = (src: string, height?: number) => {
-    const heightString = height ? `height="${height}"` : "";
-    return `<img alt="link" src=${src} ${heightString}/>`;
-  };
-
-  const divMediaVideo = (src: string, small = true) => {
-    let video: string;
-    if (small) {
-      video = '<video preload="metadata" style="border-radius: initial;">';
-    } else {
-      video =
-        '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
-    }
-    video += `<source src="${src}" type="video/mp4"></video>`;
-    return video;
-  };
-
-  const divMedia = (_nft: NftType, index: number, small = false) => {
-    const mediaContentType = _nft.contentType?.split("/");
-    const mediaType = mediaContentType?.[0] || "image";
-
-    const mediaSrc = nftGetImageLink(_nft);
-    let div: string;
-    if (small) {
-      div = `<div id="media-small-${index}" class="media media-small media-${mediaType}">`;
-    } else {
-      div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
-    }
-    if (mediaType == "video") {
-      div += divMediaVideo(mediaSrc, small);
-    } else if (mediaType == "image") {
-      div += divMediaImage(mediaSrc);
-    } else {
-      div += '<div class="media-text"></div>';
-    }
-    div += "</div>";
-
-    // console.log("divMedia div", div);
-    return div;
-  };
-
   onMount(() => {
     console.log("NFT", $nft);
     if (more == -1) moreToggle();
@@ -119,7 +71,7 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {@html divMedia($nft, index, true)}
+      {@html divMedia($nft, index, true, "list")}
 
       <strong>{nftName($nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>
@@ -167,7 +119,7 @@
   </div>
 
   <div id="more-detail-{index}" class="detail">
-    {#await divMedia($nft, index)}
+    {#await divMedia($nft, index, false, "list")}
       <div class="media media-full media-text" />
     {:then mediaDiv}
       {@html mediaDiv}
