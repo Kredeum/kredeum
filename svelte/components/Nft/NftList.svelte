@@ -7,7 +7,7 @@
   import { nftStore } from "stores/nft/nft";
   import { collectionStore } from "stores/collection/collection";
 
-  import NftsDisplayMode from "./NftsDisplayMode.svelte";
+  import NftsListDisplayMode from "./NftsListDisplayMode.svelte";
 
   import NftsListLines from "./NftsListLines.svelte";
   import NftsListGrid from "./NftsListGrid.svelte";
@@ -64,7 +64,7 @@
       >
     </div>
     <div class="col col-xs-12">
-      <NftsDisplayMode bind:displayMode />
+      <NftsListDisplayMode bind:displayMode />
     </div>
   </div>
 
