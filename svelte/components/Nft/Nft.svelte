@@ -154,7 +154,7 @@
 <div id="zoom" class="modal-window">
   <div>
     <div class="modal-content">
-      <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+      <a href="#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="media media-photo">
           <a href="#zoom"><img src={$nft.image} alt={$nft.name} /></a>

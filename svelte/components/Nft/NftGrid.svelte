@@ -7,7 +7,7 @@
   import { divMedia } from "helpers/mediasDisplay";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {nft} {tokenID} {account} {platform}? />
+  //  <NftGrid {nft} {account} {index} {platform}? />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
@@ -22,7 +22,6 @@
     if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
       evt.preventDefault();
       currentTokenID.set(clickedNftTokenID);
-      // tokenID = clickedNftTokenID;
     }
   };
 
