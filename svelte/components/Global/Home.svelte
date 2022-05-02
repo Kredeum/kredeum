@@ -23,7 +23,7 @@
 
   let chainId: number;
   let address: string;
-  let tokenID: string;
+  // let tokenID: string;
   let account: string;
   let refreshing: boolean;
   let refresh: number;
