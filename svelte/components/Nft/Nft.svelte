@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { displayedTokenID } from "main/diplayedNft";
 
   import type { NftType } from "lib/ktypes";
   import {
