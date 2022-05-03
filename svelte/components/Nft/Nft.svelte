@@ -39,17 +39,15 @@
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  const backToCollection = () => {
-    // displayedTokenID.set("");
-    tokenID = "";
-  };
+  // const backToCollection = () => {
+  //   // displayedTokenID.set("");
+  //   tokenID = "";
+  // };
 </script>
 
 {#if $nft}
   <h2 class="m-b-20 return">
-    <i class="fa fa-arrow-left fa-left" /><a href="." on:click|preventDefault={backToCollection} class="link"
-      >Return to collection</a
-    >
+    <i class="fa fa-arrow-left fa-left" /><a href="." data-back="backtocoll" class="link">Return to collection</a>
   </h2>
 
   <div class="row grid-detail-krd">

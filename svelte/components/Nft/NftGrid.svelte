@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
-  import { displayedTokenID } from "main/diplayedNft";
+  // import { displayedTokenID } from "main/diplayedNft";
 
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
@@ -18,12 +18,12 @@
   // export let platform: string = "dapp";
 
   ///////////////////////////////////////////////////////////////////////////////
-  const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
-    if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
-      evt.preventDefault();
-      displayedTokenID.set(clickedNftTokenID);
-    }
-  };
+  // const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
+  //   if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
+  //     evt.preventDefault();
+  //     displayedTokenID.set(clickedNftTokenID);
+  //   }
+  // };
 
   console.log("nft", nft);
   ///////////////////////////////////////////////////////////////////////////////

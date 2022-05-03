@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { displayedTokenID } from "main/diplayedNft";
+  // import { displayedTokenID } from "main/diplayedNft";
 
   import Nft from "../Nft/Nft.svelte";
   import NftList from "../Nft/NftList.svelte";
@@ -11,33 +11,32 @@
   export let refreshing: boolean;
   export let refresh: number;
 
-  let toDisplayTokenID: string = "";
+  let tokenID: string = "";
 
-  // $: toDisplayTokenID = $displayedTokenID;
+  // $: tokenID = $displayedTokenID;
 
-  $: chainId && address && handleChange();
+  $: account && chainId && address && handleChange();
   const handleChange = () => {
-    toDisplayTokenID = "";
+    tokenID = "";
   };
 
   const handleClick = (evt) => {
     if (evt.target.closest("div [data-tokenid]")) {
       evt.preventDefault();
-      toDisplayTokenID = evt.target.closest("div [data-tokenid]")?.dataset.tokenid;
+      tokenID = evt.target.closest("div [data-tokenid]").dataset.tokenid;
+    } else if (evt.target.getAttribute("data-back") === "backtocoll") {
+      evt.preventDefault();
+      tokenID = "";
     }
-    console.log(
-      "🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID",
-      evt.target.closest("div [data-tokenid]")?.dataset.tokenid
-    );
   };
 </script>
 
-{#if toDisplayTokenID}
-  <Nft {chainId} {address} bind:tokenID={toDisplayTokenID} {account} {platform} />
-{:else}
-  {#key address}
-    <div on:click={(evt) => handleClick(evt)}>
+<div on:click={(evt) => handleClick(evt)}>
+  {#if tokenID}
+    <Nft {chainId} {address} {tokenID} {account} {platform} />
+  {:else}
+    {#key address}
       <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-    </div>
-  {/key}
-{/if}
+    {/key}
+  {/if}
+</div>
