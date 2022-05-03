@@ -6,7 +6,6 @@
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "stores/collection/collection";
-  import { currentCollection } from "main/current";
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
@@ -51,17 +50,14 @@
   // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
 
   // Current Collection is already defined, or is defined in url, or is default collection
-  $: ($currentCollection || $collectionDefault) && handleChangeAddress();
-  const handleChangeAddress = (): void => {
-    $currentCollection = $currentCollection || $collectionDefault;
-    address = $currentCollection;
-  };
+  $: $collectionDefault && handleChangeAddress();
+  const handleChangeAddress = (): string => (address = $collectionDefault);
 
   // STATE CHANGER : SET default Collection
-  const _setCollection = (collection: string): void => {
-    $currentCollection = collection;
-    return collectionStore.setDefaultOne(chainId, collection, mintable, account);
-  };
+  const _setCollection = (collection: string): void =>
+    // address = collection;
+    collectionStore.setDefaultOne(chainId, collection, mintable, account);
+
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
