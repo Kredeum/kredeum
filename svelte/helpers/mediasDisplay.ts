@@ -9,10 +9,10 @@ const divMediaImage = (src: string, height?: number) => {
 const divMediaVideo = (src: string, small = true) => {
   let video: string;
   if (small) {
-    video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
+    video = '<video preload="metadata" style="border-radius: initial;">';
   } else {
     video =
-      "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
+      '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
   }
   video += `<source src="${src}" type="video/mp4"></video>`;
   return video;
@@ -43,7 +43,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
   } else if (mediaType == "image") {
     div += divMediaImage(mediaSrc);
   } else {
-    div += "<div class=\"media-text\"></div>";
+    div += '<div class="media-text"></div>';
   }
   div += "</a></div>";
 
@@ -52,27 +52,3 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
 };
 
 export { divMedia };
-
-// const divMedia = (_nft: NftType, index: number, small = false) => {
-//   const mediaContentType = _nft.contentType?.split("/");
-//   const mediaType = mediaContentType?.[0] || "image";
-
-//   const mediaSrc = nftGetImageLink(_nft);
-//   let div: string;
-//   if (small) {
-//     div = `<div id="media-small-${index}" class="media media-small media-${mediaType}">`;
-//   } else {
-//     div = `<div id="media-full-${index}" class="media media-${mediaType}">`;
-//   }
-//   if (mediaType == "video") {
-//     div += divMediaVideo(mediaSrc, small);
-//   } else if (mediaType == "image") {
-//     div += divMediaImage(mediaSrc);
-//   } else {
-//     div += '<div class="media-text"></div>';
-//   }
-//   div += "</div>";
-
-//   // console.log("divMedia div", div);
-//   return div;
-// };
