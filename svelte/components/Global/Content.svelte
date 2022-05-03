@@ -13,18 +13,28 @@
 
   let toDisplayTokenID: string = "";
 
-  $: toDisplayTokenID = $displayedTokenID;
+  // $: toDisplayTokenID = $displayedTokenID;
 
-  $: chainId, account, address && handleChange();
+  // $: refreshing, chainId, account, address && handleClick();
 
-  const handleChange = () => {
-    displayedTokenID.set("");
-    console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", toDisplayTokenID);
+  const handleClick = (evt) => {
+    evt.preventDefault();
+    // displayedTokenID.set(evt.target.tokenID);
+    // toDisplayTokenID = evt.target.tokenID;
+    console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", evt);
+    // console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", evt.target.id);
+    console.log("🚀 ~ file: Content.svelte ~ line 9 ~ address", address);
   };
 </script>
 
-{#if toDisplayTokenID}
-  <Nft {chainId} {address} tokenID={toDisplayTokenID} {account} {platform} />
-{:else}
-  <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-{/if}
+{#key toDisplayTokenID}
+  {#if toDisplayTokenID}
+    <Nft {chainId} {address} tokenID={toDisplayTokenID} {account} {platform} />
+  {:else}
+    {#key chainId}
+      <div on:click={handleClick}>
+        <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
+      </div>
+    {/key}
+  {/if}
+{/key}
