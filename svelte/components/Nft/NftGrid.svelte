@@ -30,7 +30,7 @@
 </script>
 
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
-  <div class="grid-card-krd" id={nft?.tokenID}>
+  <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
     <!-- <div class="grid-card-krd" on:click={(evt) => displayNftSolo(evt, nft.tokenID)}> -->
     {@html divMedia(nft, index, true)}
 

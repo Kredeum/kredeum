@@ -15,26 +15,27 @@
 
   // $: toDisplayTokenID = $displayedTokenID;
 
-  // $: refreshing, chainId, account, address && handleClick();
+  $: refresh, chainId && address && handleChange();
+  const handleChange = () => {
+    toDisplayTokenID = "";
+  };
 
   const handleClick = (evt) => {
-    evt.preventDefault();
-    // displayedTokenID.set(evt.target.tokenID);
-    // toDisplayTokenID = evt.target.tokenID;
-    console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", evt);
-    // console.log("🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID", evt.target.id);
-    console.log("🚀 ~ file: Content.svelte ~ line 9 ~ address", address);
+    if (evt.target.closest("div [data-tokenid]")) {
+      evt.preventDefault();
+      toDisplayTokenID = evt.target.closest("div [data-tokenid]")?.dataset.tokenid;
+    }
+    console.log(
+      "🚀 ~ file: Content.svelte ~ line 17 ~ toDisplayTokenID",
+      evt.target.closest("div [data-tokenid]")?.dataset.tokenid
+    );
   };
 </script>
 
-{#key toDisplayTokenID}
-  {#if toDisplayTokenID}
-    <Nft {chainId} {address} tokenID={toDisplayTokenID} {account} {platform} />
-  {:else}
-    {#key chainId}
-      <div on:click={handleClick}>
-        <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-      </div>
-    {/key}
-  {/if}
-{/key}
+{#if toDisplayTokenID}
+  <Nft {chainId} {address} bind:tokenID={toDisplayTokenID} {account} {platform} />
+{:else}
+  <div on:click={(evt) => handleClick(evt)}>
+    <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
+  </div>
+{/if}

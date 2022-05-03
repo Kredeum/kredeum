@@ -40,8 +40,8 @@
   };
 
   const backToCollection = () => {
-    displayedTokenID.set("");
-    // tokenID = "";
+    // displayedTokenID.set("");
+    tokenID = "";
   };
 </script>
 
