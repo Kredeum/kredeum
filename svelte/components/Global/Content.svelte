@@ -15,7 +15,7 @@
 
   // $: toDisplayTokenID = $displayedTokenID;
 
-  $: refresh, chainId && address && handleChange();
+  $: chainId && address && handleChange();
   const handleChange = () => {
     toDisplayTokenID = "";
   };
@@ -35,7 +35,9 @@
 {#if toDisplayTokenID}
   <Nft {chainId} {address} bind:tokenID={toDisplayTokenID} {account} {platform} />
 {:else}
-  <div on:click={(evt) => handleClick(evt)}>
-    <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-  </div>
+  {#key address}
+    <div on:click={(evt) => handleClick(evt)}>
+      <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
+    </div>
+  {/key}
 {/if}
