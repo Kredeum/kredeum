@@ -74,9 +74,9 @@
     <NftsListGrid {account} {nfts} />
   {/if}
 
-  {#if platform === "wordpress"}
+  <!-- {#if platform === "wordpress"}
     <div>WordPress</div>
-  {/if}
+  {/if} -->
 {:else}
   <div class="card-krd">
     <p>

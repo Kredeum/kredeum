@@ -1,8 +1,6 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
-  // import { displayedTokenID } from "main/diplayedNft";
-
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
 
@@ -17,21 +15,12 @@
 
   // export let platform: string = "dapp";
 
-  ///////////////////////////////////////////////////////////////////////////////
-  // const displayNftSolo = (evt: Event, clickedNftTokenID: string) => {
-  //   if (!(evt.target as HTMLInputElement).classList.contains("btn")) {
-  //     evt.preventDefault();
-  //     displayedTokenID.set(clickedNftTokenID);
-  //   }
-  // };
-
   console.log("nft", nft);
   ///////////////////////////////////////////////////////////////////////////////
 </script>
 
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
-    <!-- <div class="grid-card-krd" on:click={(evt) => displayNftSolo(evt, nft.tokenID)}> -->
     {@html divMedia(nft, index, true)}
 
     <div class="caption">
