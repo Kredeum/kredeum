@@ -12,6 +12,7 @@
     nftOpenSeaUrl,
     addressSame
   } from "lib/kconfig";
+  import { divMedia } from "helpers/mediasDisplay";
 
   import { shortcode } from "helpers/shortcodes";
 
@@ -56,7 +57,8 @@
         <div class="media media-grid media-photo">
           <a href="#zoom">
             <i class="fas fa-search" />
-            <img src={$nft.image} alt={$nft.name} />
+            <!-- <img src={$nft.image} alt={$nft.name} /> -->
+            {@html divMedia($nft, Number($nft?.tokenID), false)}
           </a>
         </div>
       </div>
@@ -155,7 +157,10 @@
       <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="media media-photo">
-          <a href="#zoom"><img src={$nft.image} alt={$nft.name} /></a>
+          <a href="#zoom">
+            <!-- <img src={$nft.image} alt={$nft.name} /> -->
+            {@html divMedia($nft, Number($nft?.tokenID), false)}
+          </a>
         </div>
       </div>
     </div>

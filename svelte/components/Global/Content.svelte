@@ -8,7 +8,7 @@
   export let address: string;
   export let account: string;
   export let platform: string;
-  export let refreshing: boolean;
+  export let refreshing: boolean = false;
   export let refresh: number;
 
   let tokenID: string = "";
