@@ -20,13 +20,14 @@
     tokenID = "";
   };
 
-  const handleClick = (evt) => {
-    console.log(evt);
-    if (!evt.target.classList.contains("btn")) {
-      if (evt.target.closest("div [data-tokenid]")) {
+  const handleClick = (evt: Event) => {
+    const evtTarget = evt.target as HTMLInputElement;
+    // console.log(evt);
+    if (!evtTarget.classList.contains("btn")) {
+      if (evtTarget.closest("div [data-tokenid]")) {
         evt.preventDefault();
-        tokenID = evt.target.closest("div [data-tokenid]").dataset.tokenid;
-      } else if (evt.target.getAttribute("data-back") === "backtocoll") {
+        tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("tokenid");
+      } else if (evtTarget.getAttribute("data-back") === "backtocoll") {
         evt.preventDefault();
         tokenID = "";
       }

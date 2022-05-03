@@ -5,7 +5,7 @@
   import { urlHash2RefNFT } from "helpers/urlHash";
 
   import { metamaskChainId, metamaskAccount } from "main/metamask";
-  import { currentCollection, currentTokenID, currentAction } from "main/current";
+  import { /*currentCollection, currentTokenID,*/ currentAction } from "main/current";
 
   export let display = false;
 
@@ -14,15 +14,15 @@
   // INITIAL urlHash values
   const { address, tokenID, action } = urlHash2RefNFT(window.location.hash);
   // console.log("INITIAL urlHash values", address, tokenID, action);
-  $currentCollection = address;
-  $currentTokenID = tokenID;
+  // $currentCollection = address;
+  // $currentTokenID = tokenID;
   $currentAction = action;
 
   // Refresh NFT ref
   $: refNFT = {
     chainId: $metamaskChainId,
-    address: $currentCollection,
-    tokenID: $currentTokenID,
+    // address: $currentCollection,
+    // tokenID: $currentTokenID,
     account: $metamaskAccount,
     action: $currentAction
   };
