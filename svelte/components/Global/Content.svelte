@@ -21,12 +21,15 @@
   };
 
   const handleClick = (evt) => {
-    if (evt.target.closest("div [data-tokenid]")) {
-      evt.preventDefault();
-      tokenID = evt.target.closest("div [data-tokenid]").dataset.tokenid;
-    } else if (evt.target.getAttribute("data-back") === "backtocoll") {
-      evt.preventDefault();
-      tokenID = "";
+    console.log(evt);
+    if (!evt.target.classList.contains("btn")) {
+      if (evt.target.closest("div [data-tokenid]")) {
+        evt.preventDefault();
+        tokenID = evt.target.closest("div [data-tokenid]").dataset.tokenid;
+      } else if (evt.target.getAttribute("data-back") === "backtocoll") {
+        evt.preventDefault();
+        tokenID = "";
+      }
     }
   };
 </script>
