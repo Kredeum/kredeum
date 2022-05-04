@@ -1,6 +1,4 @@
 <script lang="ts">
-  //import { onMount } from "svelte";
-
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import type { NftType } from "lib/ktypes";
@@ -37,6 +35,10 @@
 
   let files: FileList;
   let image: string;
+  let audioImageFiles: FileList;
+  let audioCover: string;
+  let audioCoverMediatypes: Array<string>;
+
   let uploadedMediatypes: Array<string>;
   let selectedMediaType: string;
 
@@ -77,6 +79,20 @@
       uploadedMediatypes = files[0].type.split("/");
       reader.onload = (e) => {
         image = e.target.result.toString();
+      };
+    }
+  };
+
+  // DISPLAY image of audio nft AFTER upload
+  const audioImgfileload = () => {
+    mintReset();
+
+    if (audioImageFiles) {
+      let reader = new FileReader();
+      reader.readAsDataURL(audioImageFiles[0]);
+      audioCoverMediatypes = audioImageFiles[0].type.split("/");
+      reader.onload = (e) => {
+        audioCover = e.target.result.toString();
       };
     }
   };
@@ -388,6 +404,17 @@
                     Your browser does not support the
                     <code>audio</code> element.
                   </audio>
+                  {#if audioCover && audioImageFiles[0] && audioCoverMediatypes[0] === "image"}
+                    <img src={audioCover} alt="audio file cover" />
+                  {:else}
+                    <input
+                      type="file"
+                      id="audioImageFile"
+                      name="audioImageFile"
+                      bind:files={audioImageFiles}
+                      on:change={audioImgfileload}
+                    />
+                  {/if}
                 {:else}
                   <p>Are you sure you want to Mint an audio file ? :)</p>
                   <button
