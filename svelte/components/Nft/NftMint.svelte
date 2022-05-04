@@ -407,6 +407,7 @@
                   {#if audioCover && audioImageFiles[0] && audioCoverMediatypes[0] === "image"}
                     <img src={audioCover} alt="audio file cover" />
                   {:else}
+                    <p>Add a cover image for your audio file</p>
                     <input
                       type="file"
                       id="audioImageFile"
