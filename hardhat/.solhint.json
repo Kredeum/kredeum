@@ -17,12 +17,7 @@
     "event-name-camelcase": "error",
     "func-name-mixedcase": "error",
     "func-param-name-mixedcase": "error",
-    "func-visibility": [
-      "error",
-      {
-        "ignoreConstructors": true
-      }
-    ],
+    "func-visibility": ["error", { "ignoreConstructors": true }],
     "function-max-lines": ["error", 60],
     "imports-on-top": "error",
     "mark-callable-contracts": "off",
@@ -38,19 +33,9 @@
     "not-rely-on-time": "warn",
     "ordering": "error",
     "payable-fallback": "error",
-    "private-vars-leading-underscore": [
-      "error",
-      {
-        "strict": true
-      }
-    ],
+    "private-vars-leading-underscore": ["error", { "strict": true }],
     "quotes": ["error", "double"],
-    "reason-string": [
-      "error",
-      {
-        "maxLength": 32
-      }
-    ],
+    "reason-string": ["error", { "maxLength": 32 }],
     "reentrancy": "error",
     "state-visibility": "error",
     "use-forbidden-name": "error",

@@ -14,6 +14,6 @@
       "abis/*": ["../common/abis/*"]
     }
   },
-  "include": ["./scripts", "./tests", "./deploy", "../common/lib", "../misc/old/deploy/13-deployOpenNFTsV3.ts"],
+  "include": ["./scripts", "./tests", "./deploy", "../common/lib"],
   "files": ["./hardhat.config.ts"]
 }
