@@ -204,7 +204,7 @@ select {
       background: rgba($green, 0.2);
     }
   }
-  &-sell {
+  &-sell, &-buy {
     color: $white;
     background: $green;
     &:hover {

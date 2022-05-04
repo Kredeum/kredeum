@@ -3,7 +3,7 @@
 
   import type { CollectionType } from "lib/ktypes";
 
-  import { collectionStore } from "stores/collection/collection";
+  // import { collectionStore } from "stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />
@@ -20,12 +20,10 @@
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
     // console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
-
     // STATE VIEW : sync get Collection
-    collection = collectionStore.getOneStore(chainId, address);
-
+    // collection = collectionStore.getOneStore(chainId, address);
     // ACTION : async refresh Collection
-    collectionStore.refreshOne(chainId, address, account).catch(console.error);
+    // collectionStore.refreshOne(chainId, address, account).catch(console.error);
   };
 </script>
 
