@@ -209,28 +209,3 @@
 <div id="transfert-$nft-{$nft.tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
-<!-- <div id="gift" class="modal-window">
-  <div>
-    <div class="modal-content">
-      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
-      <div class="modal-body">
-        <div class="titre">
-          <i class="fas fa-gift fa-left c-green" />
-          Make a gift
-        </div>
-        <p>Enter the recipient account address.</p>
-
-        <form method="POST" action="" enctype="multipart/form-data">
-          <div class="section">
-            <div class="form-field">
-              <input type="text" id="gift" name="gift" placeholder="Enter the recipient's address" />
-            </div>
-          </div>
-          <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit">Send</button>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-</div> -->
