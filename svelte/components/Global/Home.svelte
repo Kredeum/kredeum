@@ -23,7 +23,6 @@
 
   let chainId: number;
   let address: string;
-  // let tokenID: string;
   let account: string;
   let refreshing: boolean;
   let refresh: number;
@@ -64,9 +63,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      {#key chainId && account}
-        <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
-      {/key}
+      <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
   </span>
 </HomeLayout>

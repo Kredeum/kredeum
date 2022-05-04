@@ -13,12 +13,8 @@
 
   let tokenID: string = "";
 
-  // $: tokenID = $displayedTokenID;
-
   $: account && chainId && address && handleChange();
-  const handleChange = () => {
-    tokenID = "";
-  };
+  const handleChange = () => (tokenID = "");
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
