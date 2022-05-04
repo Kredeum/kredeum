@@ -1,6 +1,4 @@
 <script lang="ts">
-  // import { displayedTokenID } from "main/diplayedNft";
-
   import Nft from "../Nft/Nft.svelte";
   import NftList from "../NftsList/NftsList.svelte";
 

@@ -39,7 +39,6 @@
   let image: string;
   let uploadedMediatypes: Array<string>;
   let selectedMediaType: string;
-  let PdfViewer;
 
   let ipfsImage: string;
   let ipfsJson: string;
@@ -57,18 +56,13 @@
     mintingError = null;
   };
 
-  let collectionObject: CollectionType;
-  $: {
-    // collectionObject = collectionGetFromCache(chainId, address);
-    // console.log("collectionObject", collectionObject);
-  }
+  // let collectionObject: CollectionType;
+  // $: {
+  //   // collectionObject = collectionGetFromCache(chainId, address);
+  //   // console.log("collectionObject", collectionObject);
+  // }
 
   $: handleMediaType(uploadedMediatypes);
-
-  // onMount(async () => {
-  //   const module = await import("svelte-pdf");
-  //   PdfViewer = module.default;
-  // });
 
   // DISPLAY image AFTER upload
   const fileload = () => {
@@ -358,8 +352,6 @@
             {:else if image && files[0] && selectedMediaType === "Text"}
               <div class="media media-photo mt-20">
                 {#if uploadedMediatypes[0] === "application"}
-                  <!-- <svelte:component this={PdfViewer} url={image}/>
-                <PdfViewer url={image} /> -->
                   <pre>{image}</pre>
                 {:else if uploadedMediatypes[0] === "text" && uploadedMediatypes[1] !== "html"}
                   <pre>{image}</pre>
