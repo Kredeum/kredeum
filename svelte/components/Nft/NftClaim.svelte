@@ -1,10 +1,12 @@
 <script lang="ts">
+  import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
-  import { claimNftResponse, claimNftReceipt } from "lib/kclaim";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
-  import { metamaskSigner } from "main/metamask";
+  import { metamaskSigner, metamaskAccount } from "main/metamask";
+  import { nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
 
   import NetworkList from "../Network/NetworkList.svelte";
+  import { nftStore } from "stores/nft/nft";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} />
@@ -18,28 +20,49 @@
   let claiming = false;
   let claimed = false;
 
+  let nft: Readable<NftType>;
+  $: chainId && address && tokenID && handleChange();
+  const handleChange = (): void => {
+    // STATE VIEW : sync get Nft
+    nft = nftStore.getOneStore(chainId, address, tokenID);
+  };
+
+  // $: console.log("NftClaim", $nft);
+
   const claim = async () => {
-    if ($metamaskSigner) {
+    if ($metamaskSigner && $nft) {
       claimTxHash = null;
       claiming = true;
       claimed = false;
+      let claimingError: string;
 
-      // switch to kovan
+      if ($nft.tokenURI) {
+        // switch to kovan
+        const txResp = await nftMint3TxResponse(chainId, address, $nft.tokenURI, $metamaskSigner);
+        // console.log("txResp", txResp);
 
-      const txResp = await claimNftResponse(chainId, address, tokenID, $metamaskSigner);
-      claimTxHash = txResp.hash;
-
-      const txReceipt = await claimNftReceipt(txResp);
-
-      claimed = Boolean(txReceipt.status);
+        if (txResp) {
+          const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskAccount);
+          if (mintedNft) {
+            claimed = true;
+          } else {
+            claimingError = "Problem with sent transaction";
+          }
+        } else {
+          claimingError = "Problem while sending transaction";
+        }
+      } else {
+        claimingError = `Problem whith tokenURI ${String($nft)}`;
+      }
       claiming = false;
+      claimingError && console.error(claimingError);
     }
   };
 </script>
 
 <div id="kredeum-claim-nft">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>
@@ -67,7 +90,7 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} to Kovan ?
+            <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} on another network ?
           </div>
 
           <NetworkList />

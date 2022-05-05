@@ -6,13 +6,13 @@ import { getNetwork, nftKey } from "./kconfig";
 import IOpenMulti from "abis/IOpenMulti.json";
 import { Contract, BigNumber } from "ethers";
 
-const claimNftResponse = async (
+const nftClaimResponse = async (
   chainId: number,
   address: string,
   tokenID: string,
   owner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  console.log(`claimNftResponse ${nftKey(chainId, address, tokenID)}`);
+  console.log(`nftClaimResponse ${nftKey(chainId, address, tokenID)}`);
 
   let txResp: TransactionResponse | undefined;
   const network = getNetwork(chainId);
@@ -27,22 +27,22 @@ const claimNftResponse = async (
   return txResp;
 };
 
-const claimNftReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
+const nftClaimReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
   return await txResp.wait();
 };
 
-const claimNft = async (
+const nftClaim = async (
   chainId: number,
   address: string,
   tokenID: string,
   owner: JsonRpcSigner
 ): Promise<TransactionReceipt | undefined> => {
-  // console.log("claimNft", chainId, address, tokenID, destinationAddress);
+  // console.log("nftClaim", chainId, address, tokenID, destinationAddress);
 
-  const txResp = await claimNftResponse(chainId, address, tokenID, owner);
-  const txReceipt = txResp && (await claimNftReceipt(txResp));
+  const txResp = await nftClaimResponse(chainId, address, tokenID, owner);
+  const txReceipt = txResp && (await nftClaimReceipt(txResp));
 
   return txReceipt;
 };
 
-export { claimNft, claimNftResponse, claimNftReceipt };
+export { nftClaim, nftClaimResponse, nftClaimReceipt };
