@@ -14,6 +14,7 @@
   import { divMedia } from "helpers/mediasDisplay";
 
   import { shortcode } from "helpers/shortcodes";
+  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   import { nftStore } from "stores/nft/nft";
 
@@ -40,15 +41,14 @@
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  // const backToCollection = () => {
-  //   // displayedTokenID.set("");
-  //   tokenID = "";
-  // };
+  // const exitModal = () => (location.href = "#");
+
+  $: console.log("Nft", $nft);
 </script>
 
 {#if $nft}
   <h2 class="m-b-20 return">
-    <i class="fa fa-arrow-left fa-left" /><a href="." data-back="backtocoll" class="link">Return to collection</a>
+    <i class="fa fa-arrow-left fa-left" /><span data-back="backtocoll" class="link">Return to collection</span>
   </h2>
 
   <div class="row grid-detail-krd">
@@ -57,8 +57,7 @@
         <div class="media media-grid media-photo">
           <a href="#zoom">
             <i class="fas fa-search" />
-            <!-- <img src={$nft.image} alt={$nft.name} /> -->
-            {@html divMedia($nft, Number($nft?.tokenID), false)}
+            {@html divMedia($nft, Number(tokenID), false)}
           </a>
         </div>
       </div>
@@ -74,18 +73,18 @@
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex"><strong>#{$nft.tokenID}</strong></div>
+            <div class="flex"><strong>#{tokenID}</strong></div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
-            <div class="flex">{@html explorerAddressLink($nft.chainId, $nft.owner, 15)}</div>
+            <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
           </li>
           <li>
             <div class="flex"><span class="label">Permanent link</span></div>
             <div class="flex">
               <a
                 class="link overflow-ellipsis"
-                href={kredeumNftUrl($nft.chainId, $nft)}
+                href={kredeumNftUrl(chainId, $nft)}
                 title={nftUrl($nft, 10)}
                 target="_blank"
               >
@@ -98,11 +97,11 @@
             <div class="flex">
               <a
                 class="link overflow-ellipsis"
-                href={explorerCollectionUrl($nft.chainId, $nft?.address)}
-                title={$nft.address}
+                href={explorerCollectionUrl(chainId, address)}
+                title={address}
                 target="_blank"
               >
-                {$nft.address}
+                {address}
               </a>
             </div>
           </li>
@@ -130,15 +129,15 @@
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if}
-          <a href="#transfert-$nft-{$nft.tokenID}" class="btn btn-small btn-outline" title="Make a gift"
-            ><i class="fa fa-gift" /><span>Make a gift</span></a
+          <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
+            ><i class="fa fa-gift" /> Transfer</a
           >
 
-          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on Kovan">
-            <i class="fas fa-exclamation" /> Claim on Kovan
-          </a>
+          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
+            <i class="fas fa-exclamation" /> Claim</a
+          >
 
-          {#if getNetwork($nft.chainId)?.openSea}
+          {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell
@@ -153,19 +152,14 @@
   </div>
 {/if}
 
-<!-- Modales of detail view -->
+<!-- Modals detail view -->
 <!-- Modal Zoom -->
 <div id="zoom" class="modal-window">
-  <div>
+  <div use:clickOutside={clickToClose}>
     <div class="modal-content">
-      <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
-        <div class="media media-photo">
-          <a href="#zoom">
-            <!-- <img src={$nft.image} alt={$nft.name} /> -->
-            {@html divMedia($nft, Number($nft?.tokenID), false)}
-          </a>
-        </div>
+        {@html divMedia($nft, Number(tokenID), false)}
       </div>
     </div>
   </div>
@@ -175,7 +169,7 @@
 <div id="schortcodes" class="modal-window">
   <div>
     <div class="modal-content">
-      <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
       <div class="modal-body">
         <div class="titre">
           <i class="fas fa-code fa-left c-green" />
@@ -192,29 +186,18 @@
               >
             </div>
           </li>
-          <!-- <li>
-            <div class="flex"><span class="label">Sell direclty on Gamestop</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Mint on your front page</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Sell directly without market-places</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li> -->
         </ul>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal transfer or claim nft -->
+<!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
 
+<!-- Modal claim nft -->
 <div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
 </div>

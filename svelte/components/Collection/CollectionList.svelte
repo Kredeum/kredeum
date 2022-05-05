@@ -6,7 +6,7 @@
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "stores/collection/collection";
-  import { clickOutside } from "helpers/clickOutside";
+  import { clickOutside } from "helpers/clickTools";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />

@@ -1,18 +1,18 @@
 import type { NftType } from "lib/ktypes";
 import { nftGetImageLink } from "lib/knft-get-metadata";
 
-const divMediaImage = (src: string, height?: number) => {
+const divMediaImage = (src: string, alt = "image", height?: number) => {
   const heightString = height ? `height="${height}"` : "";
-  return `<img alt="link" src=${src} ${heightString}/>`;
+  return `<img alt=${alt} src=${src} ${heightString}/>`;
 };
 
 const divMediaVideo = (src: string, small = true) => {
   let video: string;
   if (small) {
-    video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
+    video = '<video preload="metadata" style="border-radius: initial;">';
   } else {
     video =
-      "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
+      '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
   }
   video += `<source src="${src}" type="video/mp4"></video>`;
   return video;
@@ -37,15 +37,16 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
       div += `<div id="media-full-${index}" class="media media-grid media-${mediaType}">`;
     }
   }
-  div += `<a href=".${/*normalizedSoloNftUrl(chainId, nft)*/ ""}">`;
+  // div += `<a href=".${/*normalizedSoloNftUrl(chainId, nft)*/ ""}">`;
   if (mediaType == "video") {
     div += divMediaVideo(mediaSrc, small);
   } else if (mediaType == "image") {
-    div += divMediaImage(mediaSrc);
+    div += divMediaImage(mediaSrc, nft?.name);
   } else {
-    div += "<div class=\"media-text\"></div>";
+    div += "<div class='media-text'></div>";
   }
-  div += "</a></div>";
+  // div += "</a>";
+  div += "</div>";
 
   // console.log("divMedia div", div);
   return div;
