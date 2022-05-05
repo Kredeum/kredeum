@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { currentAction } from "main/current";
+  // import { currentAction } from "main/current";
   import NftMint from "../Nft/NftMint.svelte";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
@@ -9,15 +9,15 @@
   /////////////////////////////////////////////////
   export let chainId: number;
 
-  const create = () => ($currentAction = "create");
+  // const create = () => ($currentAction = "create");
 </script>
 
-<span on:click={create} class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</span>
+<a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</a>
 
 <!-- Modal create -->
-<div class="modal-window  {$currentAction == 'create' && 'target'}">
+<div class="modal-window" id="create-modal">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div class="titre">

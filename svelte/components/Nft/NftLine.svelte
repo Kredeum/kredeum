@@ -22,6 +22,7 @@
 
   import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
+  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
@@ -38,10 +39,9 @@
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
-  onMount(() => {
-    console.log("NFT", nft);
-    if (more == -1) moreToggle();
-  });
+  $: console.log("NftLine", nft);
+
+  onMount(() => more == -1 && moreToggle());
 </script>
 
 <div
@@ -176,7 +176,7 @@
   </div>
 
   <!--  <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
-    <NftClaimView bind:$nft />
+      <NftClaimView bind:$nft />
   </div>
    -->
 </div>

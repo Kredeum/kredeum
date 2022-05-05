@@ -119,7 +119,7 @@
 
 <div id="kredeum-create-nft">
   <div class="modal-content">
-    <a href="." title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div class="titre">
