@@ -58,8 +58,10 @@ const netConf = (
 
   if (apiKey) networkConfig.verify = { etherscan: { apiKey } };
   networkConfig.deploy = ["deploy/prod"];
+  Object.assign(networkConfig, options);
 
-  return Object.assign(networkConfig, options);
+  // console.log("networkConfig", networkConfig);
+  return networkConfig;
 };
 
 const config: HardhatUserConfig = {

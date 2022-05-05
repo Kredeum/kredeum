@@ -46,6 +46,24 @@
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800"
   },
   {
+    "chainId": 10,
+    "chainName": "optimism",
+    "rpcUrls": ["https://mainnet.optimism.io"],
+    "nativeCurrency": {
+      "name": "ETH",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://optimistic.etherscan.io"],
+    "covalent": {
+      "active": false
+    },
+    "defaultOpenNFTs": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
+    "nftsFactoryV2": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "create": true,
+    "mainnet": true
+  },
+  {
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": ["https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", "https://polygon-rpc.com/"],
@@ -258,24 +276,11 @@
     "create": true,
     "testnet": true
   },
-  {
-    "chainId": 10,
-    "chainName": "optimism",
-    "rpcUrls": ["https://kovan.optimism.io/rpc"],
-    "nativeCurrency": {
-      "name": "ETH",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://kovan-optimistic.etherscan.io"],
-    "covalent": {
-      "active": false
-    }
-  },
+
   {
     "chainId": 69,
     "chainName": "optimismkovan",
-    "rpcUrls": ["https://kovan.optimism.io/rpc"],
+    "rpcUrls": ["https://kovan.optimism.io"],
     "nativeCurrency": {
       "name": "ETH",
       "symbol": "ETH",
@@ -285,8 +290,9 @@
     "covalent": {
       "active": false
     },
-    "defaultOpenNFTs": "",
+    "defaultOpenNFTs": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "nftsFactoryV2": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
     "create": true,
     "testnet": true
   },

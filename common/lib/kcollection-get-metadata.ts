@@ -35,9 +35,6 @@ const collectionGetSupports = async (
   const supports: CollectionSupports = collection.supports;
 
   try {
-    // Suppose supports ERC165, should revert otherwise
-    supports.IERC165 = true;
-
     const contract: SupportsContract = new Contract(address, IERC165, provider) as SupportsContract;
 
     try {
@@ -58,6 +55,9 @@ const collectionGetSupports = async (
 
         [supports.IERC721Metadata, supports.IERC721Enumerable, supports.IOpenNFTsV2, supports.IOpenNFTsV3] =
           await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
+
+        // Supports ERC165,  should have already reverted otherwise
+        supports.IERC165 = true;
 
         if (supports.IOpenNFTsV3) supports.IOpenNFTs = true;
       } else if (supports.IERC1155) {
