@@ -9,10 +9,10 @@ const divMediaImage = (src: string, alt = "image", height?: number) => {
 const divMediaVideo = (src: string, small = true) => {
   let video: string;
   if (small) {
-    video = '<video preload="metadata" style="border-radius: initial;">';
+    video = "<video preload=\"metadata\" style=\"border-radius: initial;\">";
   } else {
     video =
-      '<video autoplay="true"  controls="" controlslist="nodownload" loop="" playsinline="" preload="metadata" style="border-radius: initial;">';
+      "<video autoplay=\"true\"  controls=\"\" controlslist=\"nodownload\" loop=\"\" playsinline=\"\" preload=\"metadata\" style=\"border-radius: initial;\">";
   }
   video += `<source src="${src}" type="video/mp4"></video>`;
   return video;

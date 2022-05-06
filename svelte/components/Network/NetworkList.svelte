@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "helpers/clickOutside";
+  import { clickOutside } from "helpers/clickTools";
 
   import { getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
