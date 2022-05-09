@@ -101,7 +101,9 @@
   </div>
 
   <div id="more-detail-{index}" class="detail">
-    <MediasDisplayer {nft} {index} displayMode={"preview"} />
+    {#if more > 0}
+      <MediasDisplayer {nft} {index} displayMode={"preview"} />
+    {/if}
 
     <!-- {#await divMedia(nft, index, false, "list")}
       <div class="media media-full media-text" />

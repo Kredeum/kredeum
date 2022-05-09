@@ -51,16 +51,14 @@
     <i class="fa fa-arrow-left fa-left" /><span data-back="backtocoll" class="link">Return to collection</span>
   </h2>
 
-  <div class="row grid-detail-krd">
+  <div class="row">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
-        <div class="media media-grid media-photo">
-          <MediasDisplayer nft={$nft} index={Number(tokenID)} displayMode={"preview"} />
-          <!-- <a href="#zoom">
+        <MediasDisplayer nft={$nft} index={Number(tokenID)} displayMode={"preview"} />
+        <!-- <a href="#zoom">
             <i class="fas fa-search" />
             {@html divMedia($nft, Number(tokenID), false)}
           </a> -->
-        </div>
       </div>
     </div>
 
