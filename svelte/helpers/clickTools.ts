@@ -5,11 +5,11 @@ import type { ActionReturn } from "svelte/action";
 const clickOutside = (node: HTMLElement, onEventFunction: () => void): ActionReturn => {
   const handleClick = (event: Event) => !event.composedPath().includes(node) && onEventFunction();
 
-  document.addEventListener("click", handleClick);
+  document.addEventListener("click", handleClick, true);
 
   return {
     destroy() {
-      document.removeEventListener("click", handleClick);
+      document.removeEventListener("click", handleClick, true);
     }
   };
 };

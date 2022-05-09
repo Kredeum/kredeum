@@ -151,7 +151,7 @@
 
 <!-- Modals detail view -->
 <!-- Modal Zoom -->
-<div id="zoom" class="modal-window">
+<!-- <div id="zoom" class="modal-window">
   <div use:clickOutside={clickToClose}>
     <div class="modal-content">
       <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
@@ -160,7 +160,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->
 
 <!-- Modal Shortcodes -->
 <div id="schortcodes" class="modal-window">
