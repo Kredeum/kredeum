@@ -54,7 +54,7 @@
   <div class="row">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
-        <MediasDisplayer nft={$nft} index={Number(tokenID)} displayMode={"preview"} />
+        <MediasDisplayer nft={$nft} index={Number(tokenID)} />
         <!-- <a href="#zoom">
             <i class="fas fa-search" />
             {@html divMedia($nft, Number(tokenID), false)}

@@ -15,6 +15,8 @@
 
   export let index: number;
 
+  let displayMode: string = "grid";
+
   // export let platform: string = "dapp";
 
   $: console.log("NftGrid", nft);
@@ -24,7 +26,7 @@
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
     <!-- <div class="a-simul-cursor"> -->
-    <MediasDisplayer {nft} {index} displayMode={"grid"} />
+    <MediasDisplayer {nft} {index} {displayMode} />
     <!-- {@html divMedia(nft, index, true)} -->
     <!-- </div> -->
 

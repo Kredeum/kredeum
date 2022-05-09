@@ -36,6 +36,8 @@
   export let more = 0;
   export let platform: string = "dapp";
 
+  let displayMode: string = "list";
+
   // let i = 1;
   const moreToggle = (): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
@@ -55,7 +57,7 @@
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
       <!-- {@html divMedia(nft, index, true, "list")} -->
-      <MediasDisplayer {nft} {index} displayMode={"list"} />
+      <MediasDisplayer {nft} {index} {displayMode} />
 
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
@@ -102,7 +104,7 @@
 
   <div id="more-detail-{index}" class="detail">
     {#if more > 0}
-      <MediasDisplayer {nft} {index} displayMode={"preview"} />
+      <MediasDisplayer {nft} {index} />
     {/if}
 
     <!-- {#await divMedia(nft, index, false, "list")}
