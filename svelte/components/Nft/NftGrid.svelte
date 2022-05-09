@@ -4,6 +4,8 @@
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
 
+  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
+
   /////////////////////////////////////////////////
   //  <NftGrid {nft} {account} {index} {platform}? />
   // Display NFT card for Grid mode
@@ -22,7 +24,8 @@
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
     <!-- <div class="a-simul-cursor"> -->
-    {@html divMedia(nft, index, true)}
+    <MediasDisplayer {nft} {index} displayMode={"grid"} />
+    <!-- {@html divMedia(nft, index, true)} -->
     <!-- </div> -->
 
     <div class="caption">
