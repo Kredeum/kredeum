@@ -13,10 +13,15 @@
   let open = false;
 </script>
 
-<a href="#zoom" on:click={() => (open = true)}>
-  <i class="fas fa-search" />
-  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
-</a>
+<!-- <div class="grid-detail-krd"> -->
+<div class="media-zoom">
+  <div class="media">
+    <a href="#zoom" on:click={() => (open = true)}>
+      <i class="fas fa-search" />
+      <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
+    </a>
+  </div>
+</div>
 
 <!-- Modal Zoom -->
 {#if open}
@@ -42,5 +47,46 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .media-zoom {
+    display: inline-block;
+  }
+
+  .media-zoom .media {
+    position: relative;
+  }
+
+  .media-zoom .media a {
+    background: rgba(#1e1e43, 0.7) !important;
+  }
+
+  .media-zoom .media a::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(#1e1e43, 0.7);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+  }
+
+  .media-zoom .media a .fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    color: white;
+    font-size: 20px;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+  }
+
+  .media-zoom .media a:hover::after,
+  .media-zoom .media a:hover .fas {
+    opacity: 1;
   }
 </style>
