@@ -18,6 +18,8 @@
   import { nftGetImageLink } from "lib/knft-get-metadata";
   import { divMedia } from "helpers/mediasDisplay";
 
+  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
+
   import { onMount } from "svelte";
 
   import { shortcode } from "helpers/shortcodes";
@@ -52,7 +54,8 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {@html divMedia(nft, index, true, "list")}
+      <!-- {@html divMedia(nft, index, true, "list")} -->
+      <MediasDisplayer {nft} {index} displayMode={"list"} />
 
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
@@ -98,11 +101,13 @@
   </div>
 
   <div id="more-detail-{index}" class="detail">
-    {#await divMedia(nft, index, false, "list")}
+    <MediasDisplayer {nft} {index} displayMode={"preview"} />
+
+    <!-- {#await divMedia(nft, index, false, "list")}
       <div class="media media-full media-text" />
     {:then mediaDiv}
       {@html mediaDiv}
-    {/await}
+    {/await} -->
     <div id="description-{index}" class="description">
       <strong>Description</strong>
 
