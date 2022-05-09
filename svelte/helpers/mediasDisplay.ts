@@ -37,7 +37,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
       div += `<div id="media-full-${index}" class="media media-grid media-${mediaType}">`;
     }
   }
-  // div += `<a href=".${/*normalizedSoloNftUrl(chainId, nft)*/ ""}">`;
+  div += "<div class='a-simul-cursor'>";
   if (mediaType == "video") {
     div += divMediaVideo(mediaSrc, small);
   } else if (mediaType == "image") {
@@ -45,7 +45,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
   } else {
     div += "<div class='media-text'></div>";
   }
-  // div += "</a>";
+  div += "</div>";
   div += "</div>";
 
   // console.log("divMedia div", div);
