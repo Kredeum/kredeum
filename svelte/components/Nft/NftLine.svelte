@@ -19,6 +19,8 @@
   import MediaDisplay from "../Media/MediaDisplay.svelte";
   import MediaPreview from "../Media/MediaPreview.svelte";
 
+  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
+
   import { onMount } from "svelte";
 
   import { shortcode } from "helpers/shortcodes";
