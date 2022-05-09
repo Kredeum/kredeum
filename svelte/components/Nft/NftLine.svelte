@@ -17,14 +17,9 @@
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
-  import MediaPreview from "../Media/MediaPreview.svelte";
-
-  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 
   import { onMount } from "svelte";
 
-  import { shortcode } from "helpers/shortcodes";
-  import NftTransfer from "./NftTransfer.svelte";
   import Nft from "./Nft.svelte";
 
   /////////////////////////////////////////////////

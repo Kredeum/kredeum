@@ -8,7 +8,7 @@
 
   export let nft: NftType;
   export let index: number;
-  export let displayMode: string;
+  export let displayMode: string = "preview";
 
   let mediaType: string = "image";
   let mediaSubtype: string = "jpeg";
