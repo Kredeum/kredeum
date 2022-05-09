@@ -28,7 +28,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
     if ("list" === display) {
       div = `<div id="media-small-${index}" class="media media-small media-${mediaType}">`;
     } else {
-      div += `<div id="media-small-${index}" class="media media-grid media-${mediaType}">`;
+      div += `<div id="media-small-${index}" class="media media-grid media-${mediaType} a-simul-cursor">`;
     }
   } else {
     if ("list" === display) {
@@ -37,7 +37,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
       div += `<div id="media-full-${index}" class="media media-grid media-${mediaType}">`;
     }
   }
-  div += "<div class='a-simul-cursor'>";
+  // div += "<div class='a-simul-cursor'>";
   if (mediaType == "video") {
     div += divMediaVideo(mediaSrc, small);
   } else if (mediaType == "image") {
@@ -45,7 +45,7 @@ const divMedia = (nft: NftType, index: number, small = false, display: string = 
   } else {
     div += "<div class='media-text'></div>";
   }
-  div += "</div>";
+  // div += "</div>";
   div += "</div>";
 
   // console.log("divMedia div", div);

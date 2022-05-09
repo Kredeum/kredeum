@@ -12,6 +12,7 @@
     addressSame
   } from "lib/kconfig";
   import { divMedia } from "helpers/mediasDisplay";
+  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 
   import { shortcode } from "helpers/shortcodes";
   import { clickOutside, clickToClose } from "helpers/clickTools";
@@ -54,10 +55,11 @@
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
         <div class="media media-grid media-photo">
-          <a href="#zoom">
+          <MediasDisplayer nft={$nft} index={Number(tokenID)} displayMode={"preview"} />
+          <!-- <a href="#zoom">
             <i class="fas fa-search" />
             {@html divMedia($nft, Number(tokenID), false)}
-          </a>
+          </a> -->
         </div>
       </div>
     </div>
@@ -188,6 +190,6 @@
 </div>
 
 <!-- Modal gift -->
-<div id="transfert-$nft-{$nft.tokenID}" class="modal-window">
+<div id="transfert-nft-{$nft.tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
