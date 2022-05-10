@@ -33,7 +33,7 @@
       }}
     >
       <div class="modal-content">
-        <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+        <a href="./#" on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></a>
         <div class="modal-body">
           <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
         </div>
@@ -49,16 +49,12 @@
     pointer-events: auto;
   }
 
-  .media-zoom {
-    display: inline-block;
-  }
+  /* .media-zoom {
+    width: 100%;
+  } */
 
   .media-zoom .media {
     position: relative;
-  }
-
-  .media-zoom .media a {
-    background: rgba(#1e1e43, 0.7) !important;
   }
 
   .media-zoom .media a::after {

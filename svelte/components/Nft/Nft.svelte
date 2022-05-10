@@ -14,7 +14,6 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "helpers/shortcodes";
-  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   import { nftStore } from "stores/nft/nft";
 

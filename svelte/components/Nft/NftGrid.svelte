@@ -5,8 +5,6 @@
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
 
-  import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
-
   /////////////////////////////////////////////////
   //  <NftGrid {nft} {account} {index} />
   // Display NFT card for Grid mode
