@@ -42,19 +42,22 @@
   </div>
 {/if}
 
-<style>
+<style lang="scss">
   #zoom {
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
   }
 
-  /* .media-zoom {
+  .media-video {
     width: 100%;
-  } */
+    height: 100%;
+  }
 
-  .media-zoom .media {
-    position: relative;
+  .media-zoom {
+    .media {
+      position: relative;
+    }
   }
 
   .media-zoom .media a::after {

@@ -494,3 +494,17 @@
 @media screen and (min-width: $min-breakpoint-desktop) {
   @import "front-lg";
 }
+
+
+.modal-window {
+  .modal-content {
+    .modal-body {
+      .media-video,
+      .media-image {
+        width: 100%;
+        height: 100%;
+        margin-right: 0;
+      }
+    }
+  }
+} 
