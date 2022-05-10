@@ -56,7 +56,6 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      <!-- {@html divMedia(nft, index, true, "list")} -->
       <MediasDisplayer {nft} {index} {displayMode} />
 
       <strong>{nftName(nft)}</strong>
@@ -107,11 +106,6 @@
       <MediasDisplayer {nft} {index} />
     {/if}
 
-    <!-- {#await divMedia(nft, index, false, "list")}
-      <div class="media media-full media-text" />
-    {:then mediaDiv}
-      {@html mediaDiv}
-    {/await} -->
     <div id="description-{index}" class="description">
       <strong>Description</strong>
 
@@ -180,7 +174,7 @@
   </div>
 
   <!-- Modal transfer $nft -->
-  <div id="transfert-$nft-{nft.tokenID}" class="modal-window">
+  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
     <NftTransfer chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
   </div>
 
@@ -189,3 +183,9 @@
   </div>
    -->
 </div>
+
+<style>
+  .detail {
+    display: flex;
+  }
+</style>

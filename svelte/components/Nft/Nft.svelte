@@ -55,10 +55,6 @@
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
         <MediasDisplayer nft={$nft} index={Number(tokenID)} />
-        <!-- <a href="#zoom">
-            <i class="fas fa-search" />
-            {@html divMedia($nft, Number(tokenID), false)}
-          </a> -->
       </div>
     </div>
 
@@ -146,19 +142,6 @@
     </div>
   </div>
 {/if}
-
-<!-- Modals detail view -->
-<!-- Modal Zoom -->
-<!-- <div id="zoom" class="modal-window">
-  <div use:clickOutside={clickToClose}>
-    <div class="modal-content">
-      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
-      <div class="modal-body">
-        {@html divMedia($nft, Number(tokenID), false)}
-      </div>
-    </div>
-  </div>
-</div> -->
 
 <!-- Modal Shortcodes -->
 <div id="schortcodes" class="modal-window">

@@ -25,10 +25,7 @@
 
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
-    <!-- <div class="a-simul-cursor"> -->
     <MediasDisplayer {nft} {index} {displayMode} />
-    <!-- {@html divMedia(nft, index, true)} -->
-    <!-- </div> -->
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>
