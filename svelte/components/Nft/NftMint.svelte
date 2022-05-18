@@ -35,6 +35,8 @@
 
   let files: FileList;
   let image: string;
+
+  let ipfsAudio: string;
   let audioImageFiles: FileList;
   let audioCover: string;
   let audioCoverMediatypes: Array<string>;
@@ -150,14 +152,26 @@
     if (image) {
       minting = 1;
 
-      ipfsImage = await nftMint1IpfsImage(image);
-      // console.log("ipfsImage", ipfsImage);
+      if (uploadedMediatypes[0] && "audio" === uploadedMediatypes[0]) {
+        ipfsAudio = ipfsGatewayUrl(await nftMint1IpfsImage(image));
+        ipfsImage = await nftMint1IpfsImage(audioCover);
+        console.log("🚀 ~ file: NftMint.svelte ~ line 157 ~ mint ~ ipfsAudio", `{"animation_url": "${ipfsAudio}"}`);
+      } else {
+        ipfsImage = await nftMint1IpfsImage(image);
+        // console.log("ipfsImage", ipfsImage);
+      }
 
       if (ipfsImage) {
         minting = 2;
 
-        ipfsJson = await nftMint2IpfsJson(nftTitle, nftDescription, ipfsImage, account, image);
-        // console.log("json", ipfsJson);
+        if (uploadedMediatypes[0] && "audio" === uploadedMediatypes[0]) {
+          if (ipfsAudio && audioCover) {
+            ipfsJson = await nftMint2IpfsJson(nftTitle, nftDescription, ipfsImage, account, audioCover, ipfsAudio);
+          }
+        } else {
+          ipfsJson = await nftMint2IpfsJson(nftTitle, nftDescription, ipfsImage, account, image);
+          // console.log("json", ipfsJson);
+        }
 
         if (ipfsJson) {
           minting = 3;

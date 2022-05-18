@@ -65,6 +65,7 @@ const nftMint2IpfsJson = async (
   ipfs = "",
   address = "",
   image = "",
+  animation_url = "",
   metadata = "{}"
 ): Promise<string> => {
   // console.log("nftMint2IpfsJson", name, ipfs, address, image, metadata);
@@ -75,7 +76,8 @@ const nftMint2IpfsJson = async (
     image: ipfsGatewayUrl(ipfs),
     ipfs,
     origin: textShort(image, 140),
-    minter: address
+    minter: address,
+    animation_url
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
 
