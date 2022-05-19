@@ -1,4 +1,8 @@
 <script lang="ts">
+  /////////////////////////////////////////////////
+  //  <DisplayVideo {mediaSrc} {small}? />
+  // Display a Video according to its entering parameters
+  /////////////////////////////////////////////////
   export let mediaSrc: string;
   export let small: boolean = false;
 </script>

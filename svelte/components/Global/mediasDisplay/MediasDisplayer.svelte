@@ -6,9 +6,12 @@
   import MediaPreview from "./mediasComponents/MediaPreview.svelte";
   import DisplayTypedMedia from "./mediasComponents/DisplayTypedMedia.svelte";
 
+  /////////////////////////////////////////////////
+  //  <MediasDisplayer {nft} {index} {displayMode}? />
+  // Determin type of media and Display correct component according to the entering parameters of {displayMode}
+  /////////////////////////////////////////////////
   export let nft: NftType;
   export let index: number;
-  // export let displayMode: string = "preview";
   export let displayMode: { target: string; small: boolean } = { target: "preview", small: true };
 
   let mediaType: string = "image";
@@ -24,7 +27,7 @@
 </script>
 
 {#if "preview" === displayMode.target}
-  <MediaPreview {mediaSrc} {index} {mediaType} {alt} {displayMode} />
+  <MediaPreview {mediaSrc} {index} {mediaType} {displayMode} {alt} />
 {:else}
-  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
+  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />
 {/if}

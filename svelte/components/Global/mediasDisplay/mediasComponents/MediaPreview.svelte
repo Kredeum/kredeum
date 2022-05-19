@@ -4,11 +4,16 @@
 
   import DisplayTypedMedia from "./DisplayTypedMedia.svelte";
 
+  /////////////////////////////////////////////////
+  //  <MediaPreview {mediaSrc} {index} {mediaType} {displayMode} {alt}? />
+  // Display a clickable preview of media opening a zoom modal with full media
+  // Modal closing by clickoutside
+  /////////////////////////////////////////////////
   export let mediaSrc: string;
   export let index: number;
   export let mediaType: string;
-  export let alt: string;
   export let displayMode: { target: string; small: boolean };
+  export let alt: string = mediaType;
 
   let open = false;
 </script>
@@ -18,7 +23,7 @@
   <div class="media">
     <a href="#zoom" on:click={() => (open = true)}>
       <i class="fas fa-search" />
-      <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
+      <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />
     </a>
   </div>
 </div>
@@ -39,8 +44,8 @@
             {mediaSrc}
             {index}
             {mediaType}
-            {alt}
             displayMode={{ target: displayMode.target, small: false }}
+            {alt}
           />
         </div>
       </div>
