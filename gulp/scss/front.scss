@@ -68,7 +68,6 @@
   display: inline-block;
   vertical-align: middle;
   width: 100%;
-
   img, video {
     object-fit: cover;
     width: 100%;
@@ -279,13 +278,12 @@
         padding-top: 100%;
         position: relative;
 
-        img,
-        video {
+        img, video {
           transition: all 300ms ease;
           position: absolute;
           top: 0;
           left: 0;
-          width: 100%;
+          width:100%;
         }
       }
 
