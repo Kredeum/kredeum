@@ -8,7 +8,8 @@
 
   export let nft: NftType;
   export let index: number;
-  export let displayMode: string = "preview";
+  // export let displayMode: string = "preview";
+  export let displayMode: { target: string; small: boolean } = { target: "preview", small: true };
 
   let mediaType: string = "image";
   // let mediaSubtype: string = "jpeg";
@@ -22,7 +23,7 @@
   $: mediaSrc = nftGetImageLink(nft);
 </script>
 
-{#if "preview" === displayMode}
+{#if "preview" === displayMode.target}
   <MediaPreview {mediaSrc} {index} {mediaType} {alt} {displayMode} />
 {:else}
   <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />

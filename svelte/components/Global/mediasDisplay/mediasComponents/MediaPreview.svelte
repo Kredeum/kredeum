@@ -8,7 +8,7 @@
   export let index: number;
   export let mediaType: string;
   export let alt: string;
-  export let displayMode: string;
+  export let displayMode: { target: string; small: boolean };
 
   let open = false;
 </script>
@@ -35,7 +35,13 @@
       <div class="modal-content">
         <a href="./#" on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></a>
         <div class="modal-body">
-          <DisplayTypedMedia {mediaSrc} {index} {mediaType} {alt} {displayMode} />
+          <DisplayTypedMedia
+            {mediaSrc}
+            {index}
+            {mediaType}
+            {alt}
+            displayMode={{ target: displayMode.target, small: false }}
+          />
         </div>
       </div>
     </div>

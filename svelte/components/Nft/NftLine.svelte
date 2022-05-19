@@ -33,7 +33,7 @@
   export let more = 0;
   export let platform: string = "dapp";
 
-  let displayMode: string = "list";
+  let displayMode: { target: string; small: boolean } = { target: "list", small: true };
 
   // let i = 1;
   const moreToggle = (): void => {

@@ -14,7 +14,7 @@
 
   export let index: number;
 
-  let displayMode: string = "grid";
+  let displayMode: { target: string; small: boolean } = { target: "grid", small: true };
 
   // export let platform: string = "dapp";
 
