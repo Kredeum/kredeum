@@ -2,7 +2,6 @@
   import type { NftType } from "lib/ktypes";
 
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
-  import { divMedia } from "helpers/mediasDisplay";
 
   import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 

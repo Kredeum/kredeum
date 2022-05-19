@@ -49,10 +49,10 @@
     pointer-events: auto;
   }
 
-  .media-video {
-    width: 100%;
-    height: 100%;
-  }
+  // .media-video {
+  //   width: 100%;
+  //   height: 100%;
+  // }
 
   .media-zoom {
     .media {

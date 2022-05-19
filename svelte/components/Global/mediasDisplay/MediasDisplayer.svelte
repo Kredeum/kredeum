@@ -11,14 +11,14 @@
   export let displayMode: string = "preview";
 
   let mediaType: string = "image";
-  let mediaSubtype: string = "jpeg";
+  // let mediaSubtype: string = "jpeg";
 
   let mediaSrc: string = "";
   let alt: string = nft?.name || mediaType;
 
   $: mediaContentType = nft.contentType?.split("/");
   $: mediaType = mediaContentType[0];
-  $: mediaSubtype = mediaContentType[1];
+  // $: mediaSubtype = mediaContentType[1];
   $: mediaSrc = nftGetImageLink(nft);
 </script>
 
