@@ -14,9 +14,7 @@
     kredeumNftUrl,
     getNetwork
   } from "lib/kconfig";
-  // import { nftKey } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { divMedia } from "helpers/mediasDisplay";
 
   import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 
@@ -24,7 +22,6 @@
 
   import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
-  // import { clickOutside, clickToClose } from "helpers/clickTools";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
@@ -179,7 +176,7 @@
   </div>
 
   <!--  <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
-      <NftClaimView bind:$nft />
+    <NftClaimView bind:$nft />
   </div>
    -->
 </div>

@@ -11,11 +11,9 @@
     nftOpenSeaUrl,
     addressSame
   } from "lib/kconfig";
-  import { divMedia } from "helpers/mediasDisplay";
   import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 
   import { shortcode } from "helpers/shortcodes";
-  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   import { nftStore } from "stores/nft/nft";
 
@@ -40,8 +38,6 @@
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
-
-  // const exitModal = () => (location.href = "#");
 
   $: console.log("Nft", $nft);
 </script>
