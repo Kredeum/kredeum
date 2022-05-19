@@ -1,6 +1,6 @@
 <script lang="ts">
   /////////////////////////////////////////////////
-  //  <DisplayVideo {mediaSrc} {alt}? {height}? />
+  //  <DisplayImage {mediaSrc} {alt}? {height}? />
   // Display a Image according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;

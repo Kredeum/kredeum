@@ -17,13 +17,16 @@
   let mediaType: string = "image";
   // let mediaSubtype: string = "jpeg";
 
-  let mediaSrc: string = "";
+  let mediaSrc: string | {} = "";
   let alt: string = nft?.name || mediaType;
 
   $: mediaContentType = nft.contentType?.split("/");
   $: mediaType = mediaContentType[0];
   // $: mediaSubtype = mediaContentType[1];
-  $: mediaSrc = nftGetImageLink(nft);
+  // $: mediaSrc = nftGetImageLink(nft);
+  $: nft?.metadata.animation_url
+    ? (mediaSrc = { mediaSrc: nftGetImageLink(nft), animation_url: nft.metadata.animation_url })
+    : (mediaSrc = nftGetImageLink(nft));
 </script>
 
 {#if "preview" === displayMode.target}

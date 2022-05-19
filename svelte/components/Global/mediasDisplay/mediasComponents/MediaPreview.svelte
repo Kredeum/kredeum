@@ -9,7 +9,7 @@
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
   /////////////////////////////////////////////////
-  export let mediaSrc: string;
+  export let mediaSrc: string | {};
   export let index: number;
   export let mediaType: string;
   export let displayMode: { target: string; small: boolean };
