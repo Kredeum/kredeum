@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside, clickToClose } from "helpers/clickTools";
+  import { clickOutside } from "helpers/clickTools";
   import { fade } from "svelte/transition";
 
   import DisplayTypedMedia from "./DisplayTypedMedia.svelte";
