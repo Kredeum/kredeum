@@ -7,18 +7,17 @@
   import DisplayTypedMedia from "./mediasComponents/DisplayTypedMedia.svelte";
 
   /////////////////////////////////////////////////
-  //  <MediasDisplayer {nft} {index} {displayMode}? />
+  //  <MediasDisplayer {nft} {index} {displayMode}? {alt}? />
   // Determin type of media and Display correct component according to the entering parameters of {displayMode}
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let index: number;
   export let displayMode: string = "list";
+  export let alt: string = nft?.name;
 
   let mediaType: string = "image";
   // let mediaSubtype: string = "jpeg";
-
   let mediaSrc: string = "";
-  let alt: string = nft?.name || mediaType;
 
   $: nft && handleChange();
   const handleChange = async (): Promise<void> => {
@@ -30,7 +29,7 @@
 </script>
 
 {#if "preview" === displayMode}
-  <MediaPreview {mediaSrc} {index} {mediaType} {displayMode} {alt} />
+  <MediaPreview {mediaSrc} {index} {mediaType} {alt} />
 {:else}
   <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />
 {/if}

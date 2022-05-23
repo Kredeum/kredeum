@@ -8,4 +8,4 @@
   export let height: number = undefined;
 </script>
 
-<img src={mediaSrc} {alt} height={height ? height : undefined} />
+<img src={mediaSrc} {alt} {height} />

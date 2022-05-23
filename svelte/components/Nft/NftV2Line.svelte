@@ -25,7 +25,7 @@
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
-  // Display NFT
+  // Display NFT line
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let account: string = undefined;

@@ -4,6 +4,10 @@
   import Nft from "../Nft/Nft.svelte";
   import NftList from "../Nft/NftList.svelte";
 
+  /////////////////////////////////////////////////
+  // <Content {chainId} {address} {account} {platform} {refreshing} {refresh} />
+  // Placeholder for content of Dapp
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let account: string;

@@ -6,7 +6,7 @@
   import MediasDisplayer from "../Global/mediasDisplay/MediasDisplayer.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {nft} {account} {index} {platform}? />
+  //  <NftV2Grid {nft} {account} {index} />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
@@ -14,8 +14,6 @@
   export let index: number;
 
   let displayMode: string = "grid";
-
-  // export let platform: string = "dapp";
 
   $: console.log("NftGrid", nft);
   ///////////////////////////////////////////////////////////////////////////////

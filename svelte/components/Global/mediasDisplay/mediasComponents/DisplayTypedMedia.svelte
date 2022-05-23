@@ -3,7 +3,7 @@
   import DisplayVideo from "./DisplayVideo.svelte";
 
   /////////////////////////////////////////////////
-  //  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt}? />
+  //  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode}? {small}? {alt}? />
   // Display a media according to its type and entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;

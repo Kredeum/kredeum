@@ -7,7 +7,7 @@
 
   import NftGrid from "./NftV2Grid.svelte";
   /////////////////////////////////////////////////
-  //  <NftListGrid {account} {nfts} {platform}? />
+  //  <NftsV2ListGrid {account} {nfts} />
   // Display NFTs List in Grid mode
   /////////////////////////////////////////////////
   export let account: string = undefined;

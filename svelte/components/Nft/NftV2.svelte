@@ -19,6 +19,10 @@
 
   import NftTransfer from "./NftTransfer.svelte";
 
+  /////////////////////////////////////////////////
+  //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
+  // Display NFT solo
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
