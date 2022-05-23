@@ -12,7 +12,7 @@
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let index: number;
-  export let displayMode: { target: string; small: boolean } = { target: "preview", small: true };
+  export let displayMode: string = "list";
 
   let mediaType: string = "image";
   // let mediaSubtype: string = "jpeg";
@@ -29,7 +29,7 @@
   };
 </script>
 
-{#if "preview" === displayMode.target}
+{#if "preview" === displayMode}
   <MediaPreview {mediaSrc} {index} {mediaType} {displayMode} {alt} />
 {:else}
   <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />

@@ -12,7 +12,7 @@
   export let mediaSrc: string;
   export let index: number;
   export let mediaType: string;
-  export let displayMode: { target: string; small: boolean };
+  export let displayMode: string;
   export let alt: string = mediaType;
 
   let open = false;
@@ -41,13 +41,7 @@
           ><i class="fa fa-times" /></span
         >
         <div class="modal-body">
-          <DisplayTypedMedia
-            {mediaSrc}
-            {index}
-            {mediaType}
-            displayMode={{ target: displayMode.target, small: false }}
-            {alt}
-          />
+          <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} small={false} {alt} />
         </div>
       </div>
     </div>

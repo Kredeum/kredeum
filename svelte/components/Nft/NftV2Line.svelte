@@ -33,7 +33,7 @@
   export let more = 0;
   export let platform: string = "dapp";
 
-  let displayMode: { target: string; small: boolean } = { target: "list", small: true };
+  let displayMode: string = "list";
 
   // let i = 1;
   const moreToggle = (): void => {
@@ -100,7 +100,7 @@
 
   <div id="more-detail-{index}" class="detail">
     {#if more > 0}
-      <MediasDisplayer {nft} {index} />
+      <MediasDisplayer {nft} {index} displayMode={"preview"} />
     {/if}
 
     <div id="description-{index}" class="description">

@@ -50,7 +50,7 @@
   <div class="row">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
-        <MediasDisplayer nft={$nft} index={Number(tokenID)} />
+        <MediasDisplayer nft={$nft} index={Number(tokenID)} displayMode={"preview"} />
       </div>
     </div>
 

@@ -13,7 +13,7 @@
   export let account: string = undefined;
   export let index: number;
 
-  let displayMode: { target: string; small: boolean } = { target: "grid", small: true };
+  let displayMode: string = "grid";
 
   // export let platform: string = "dapp";
 

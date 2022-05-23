@@ -7,13 +7,12 @@
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
-  export let mode: string = "list";
-  export let small: boolean = false;
+  export let displayMode: string = "list";
   export let index: number = undefined;
   export let paused: boolean = true;
+  export let small: boolean = false;
 
   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
-  // let playerPaused: boolean = true;
 
   $: $toPlayIndex && index && handleChange();
 
@@ -32,7 +31,7 @@
 </script>
 
 {#if small}
-  {#if "grid" === mode}
+  {#if "grid" === displayMode}
     <video
       autoplay={false}
       src={mediaSrc}
@@ -48,7 +47,7 @@
       <i class="fa fa-play-circle video-play-icon {paused ? 'visible' : ''}" />
       <i class="fa fa-pause-circle video-play-icon {paused ? '' : 'visible'}" />
     </button>
-  {:else if "list" === mode}
+  {:else if "list" === displayMode}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={false} playsinline style="border-radius: initial;">
       <source src={mediaSrc} type="video/mp4" /></video
