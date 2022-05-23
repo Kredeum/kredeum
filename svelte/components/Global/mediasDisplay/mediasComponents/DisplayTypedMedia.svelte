@@ -22,12 +22,6 @@
   {#if "image" === mediaType}
     <DisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
-    {#if "grid" === displayMode.target}
-      <DisplayVideo {mediaSrc} small={displayMode.small} options={{ mode: "grid", paused }} />
-    {:else if "preview" === displayMode.target}
-      <DisplayVideo {mediaSrc} small={displayMode.small} />
-    {:else}
-      <DisplayVideo {mediaSrc} small={displayMode.small} />
-    {/if}
+    <DisplayVideo {mediaSrc} small={displayMode.small} options={{ mode: displayMode.target, paused }} />
   {/if}
 </div>

@@ -17,7 +17,6 @@
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
-    console.log("youpi!!!!!!", evtTarget.closest("div [data-index]"));
     if (evtTarget.classList.contains("video-play-icon")) {
       if (evtTarget.closest("div [data-index]")) {
         evt.preventDefault();

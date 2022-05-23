@@ -35,6 +35,11 @@
       <i class="fa fa-play-circle video-play-icon {paused ? 'visible' : ''}" />
       <i class="fa fa-pause-circle video-play-icon {paused ? '' : 'visible'}" />
     </button>
+  {:else if "list" === options.mode}
+    <!-- svelte-ignore a11y-media-has-caption -->
+    <video autoplay={false} playsinline style="border-radius: initial;">
+      <source src={mediaSrc} type="video/mp4" /></video
+    >
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={true} preload="metadata" loop playsinline muted style="border-radius: initial;">
