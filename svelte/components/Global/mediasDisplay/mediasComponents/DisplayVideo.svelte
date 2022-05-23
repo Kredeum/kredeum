@@ -44,8 +44,7 @@
       <track kind="captions" />
     </video>
     <button on:click={playVideo} class="video-play-button">
-      <i class="fa fa-play-circle video-play-icon {paused ? 'visible' : ''}" />
-      <i class="fa fa-pause-circle video-play-icon {paused ? '' : 'visible'}" />
+      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
     </button>
   {:else if "list" === displayMode}
     <!-- svelte-ignore a11y-media-has-caption -->
@@ -78,7 +77,7 @@
     & + .video-play-button {
       position: absolute;
       bottom: 2%;
-      right: 1%;
+      right: 2%;
       background-color: transparent;
       color: white;
       border: none;
@@ -87,14 +86,9 @@
       i {
         position: absolute;
         bottom: 0;
-        right: 1%;
+        right: 0;
         background-color: lightgray;
         border-radius: 50%;
-        visibility: hidden;
-
-        &.visible {
-          visibility: visible;
-        }
       }
     }
   }
