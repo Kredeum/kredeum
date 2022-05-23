@@ -21,10 +21,18 @@
   let mediaSrc: string = "";
   let alt: string = nft?.name || mediaType;
 
-  $: mediaContentType = nft.contentType?.split("/");
-  $: mediaType = mediaContentType[0];
+  $: nft && handleChange();
+  const handleChange = async (): Promise<void> => {
+    const mediaContentType = nft.contentType?.split("/");
+    mediaType = mediaContentType[0];
+    // mediaSubtype = mediaContentType[1];
+    mediaSrc = nftGetImageLink(nft);
+  };
+
+  // $: mediaContentType = nft.contentType?.split("/");
+  // $: mediaType = mediaContentType[0];
   // $: mediaSubtype = mediaContentType[1];
-  $: mediaSrc = nftGetImageLink(nft);
+  // $: mediaSrc = nftGetImageLink(nft);
 </script>
 
 {#if "preview" === displayMode.target}
