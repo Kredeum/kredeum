@@ -13,6 +13,7 @@
   export let nft: NftType;
   export let index: number;
   export let displayMode: { target: string; small: boolean } = { target: "preview", small: true };
+  export let paused: boolean = true;
 
   let mediaType: string = "image";
   // let mediaSubtype: string = "jpeg";
@@ -29,5 +30,5 @@
 {#if "preview" === displayMode.target}
   <MediaPreview {mediaSrc} {index} {mediaType} {displayMode} {alt} />
 {:else}
-  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />
+  <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} {paused} />
 {/if}

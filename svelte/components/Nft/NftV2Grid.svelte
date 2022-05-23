@@ -13,6 +13,7 @@
   export let account: string = undefined;
 
   export let index: number;
+  export let paused: boolean = true;
 
   let displayMode: { target: string; small: boolean } = { target: "grid", small: true };
 
@@ -23,8 +24,8 @@
 </script>
 
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
-  <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
-    <MediasDisplayer {nft} {index} {displayMode} />
+  <div class="grid-card-krd" data-tokenid={nft?.tokenID} data-index={index}>
+    <MediasDisplayer {nft} {index} {displayMode} {paused} />
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>

@@ -18,7 +18,7 @@
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
-    if (!evtTarget.classList.contains("btn")) {
+    if (!evtTarget.classList.contains("btn") && !evtTarget.classList.contains("video-play-icon")) {
       if (evtTarget.closest("div [data-tokenid]")) {
         evt.preventDefault();
         tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("data-tokenid");

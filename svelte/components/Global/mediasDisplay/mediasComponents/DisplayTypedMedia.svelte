@@ -11,6 +11,7 @@
   export let mediaType: string;
   export let displayMode: { target: string; small: boolean };
   export let alt: string = mediaType;
+  export let paused: boolean = true;
 
   let small: string = displayMode.small ? "small" : "full";
   let media: string = "list" === displayMode.target ? "media-small" : "media-grid";
@@ -21,6 +22,12 @@
   {#if "image" === mediaType}
     <DisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
-    <DisplayVideo {mediaSrc} small={displayMode.small} />
+    {#if "grid" === displayMode.target}
+      <DisplayVideo {mediaSrc} small={displayMode.small} options={{ mode: "grid", paused }} />
+    {:else if "preview" === displayMode.target}
+      <DisplayVideo {mediaSrc} small={displayMode.small} />
+    {:else}
+      <DisplayVideo {mediaSrc} small={displayMode.small} />
+    {/if}
   {/if}
 </div>
