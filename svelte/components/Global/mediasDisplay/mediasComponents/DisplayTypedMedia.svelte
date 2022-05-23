@@ -9,19 +9,18 @@
   export let mediaSrc: string;
   export let index: number;
   export let mediaType: string;
-  export let displayMode: { target: string; small: boolean };
+  export let displayMode: { target: string; small: boolean } = { target: "list", small: false };
   export let alt: string = mediaType;
-  export let paused: boolean = true;
 
-  let small: string = displayMode.small ? "small" : "full";
-  let media: string = "list" === displayMode.target ? "media-small" : "media-grid";
+  let cssSmall: string = displayMode.small ? "small" : "full";
+  let cssMedia: string = "list" === displayMode.target ? "media-small" : "media-grid";
   let gridScale: string = "grid" === displayMode.target ? " a-simul-cursor" : "";
 </script>
 
-<div id="media-{small}-{index}" class="media {media} media-{mediaType}{gridScale}">
+<div id="media-{cssSmall}-{index}" class="media {cssMedia} media-{mediaType}{gridScale}">
   {#if "image" === mediaType}
     <DisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
-    <DisplayVideo {mediaSrc} small={displayMode.small} options={{ mode: displayMode.target, paused }} />
+    <DisplayVideo {mediaSrc} mode={displayMode.target} small={displayMode.small} {index} />
   {/if}
 </div>

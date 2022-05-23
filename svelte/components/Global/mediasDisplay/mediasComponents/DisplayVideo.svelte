@@ -1,25 +1,38 @@
 <script lang="ts">
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   /////////////////////////////////////////////////
-  //  <DisplayVideo {mediaSrc} {small}? />
+  //  <DisplayVideo {mediaSrc} {small}? {mode}? {index}? {paused}? />
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
+  export let mode: string = "list";
   export let small: boolean = false;
-  export let options: { mode: string; paused: boolean } = { mode: "", paused: true };
+  export let index: number = undefined;
+  export let paused: boolean = true;
 
-  let paused: boolean = true;
+  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
+  // let playerPaused: boolean = true;
 
-  $: paused = options.paused;
+  $: $toPlayIndex && index && handleChange();
+
+  const handleChange = async (): Promise<void> => {
+    paused = $toPlayIndex !== index;
+  };
 
   const playVideo = () => {
     paused = !paused;
+    if ($toPlayIndex !== index) {
+      $toPlayIndex = index;
+    } else {
+      $toPlayIndex = undefined;
+    }
   };
-
-  console.log("🚀 ~ file: DisplayVideo.svelte ~ line 11 ~ paused", paused);
 </script>
 
 {#if small}
-  {#if "grid" === options.mode}
+  {#if "grid" === mode}
     <video
       autoplay={false}
       src={mediaSrc}
@@ -35,7 +48,7 @@
       <i class="fa fa-play-circle video-play-icon {paused ? 'visible' : ''}" />
       <i class="fa fa-pause-circle video-play-icon {paused ? '' : 'visible'}" />
     </button>
-  {:else if "list" === options.mode}
+  {:else if "list" === mode}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={false} playsinline style="border-radius: initial;">
       <source src={mediaSrc} type="video/mp4" /></video
