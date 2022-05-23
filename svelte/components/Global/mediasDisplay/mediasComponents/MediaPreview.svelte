@@ -21,10 +21,10 @@
 <!-- <div class="grid-detail-krd"> -->
 <div class="media-zoom">
   <div class="media">
-    <a href="#zoom" on:click={() => (open = true)}>
+    <span class="krd-pointer" on:click={() => (open = true)}>
       <i class="fas fa-search" />
       <DisplayTypedMedia {mediaSrc} {index} {mediaType} {displayMode} {alt} />
-    </a>
+    </span>
   </div>
 </div>
 
@@ -34,11 +34,12 @@
     <div
       use:clickOutside={() => {
         open = false;
-        clickToClose();
       }}
     >
       <div class="modal-content">
-        <a href="./#" on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></a>
+        <span on:click={() => (open = false)} title="Close" class="modal-close krd-pointer"
+          ><i class="fa fa-times" /></span
+        >
         <div class="modal-body">
           <DisplayTypedMedia
             {mediaSrc}
@@ -60,6 +61,10 @@
     pointer-events: auto;
   }
 
+  .krd-pointer {
+    cursor: pointer;
+  }
+
   // .media-video {
   //   width: 100%;
   //   height: 100%;
@@ -71,7 +76,7 @@
     }
   }
 
-  .media-zoom .media a::after {
+  .media-zoom .media span::after {
     content: "";
     position: absolute;
     top: 0;
@@ -83,7 +88,7 @@
     transition: all 300ms ease-in-out;
   }
 
-  .media-zoom .media a .fas {
+  .media-zoom .media span .fas {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -95,8 +100,8 @@
     transition: all 300ms ease-in-out;
   }
 
-  .media-zoom .media a:hover::after,
-  .media-zoom .media a:hover .fas {
+  .media-zoom .media span:hover::after,
+  .media-zoom .media span:hover .fas {
     opacity: 1;
   }
 </style>
