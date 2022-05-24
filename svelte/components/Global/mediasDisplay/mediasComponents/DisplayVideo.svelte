@@ -8,14 +8,13 @@
   /////////////////////////////////////////////////
   export let mediaSrc: string;
   export let displayMode: string = "list";
-  export let index: number = undefined;
+  export let index: number = -1;
   export let paused: boolean = true;
   export let small: boolean = false;
 
   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
 
-  $: $toPlayIndex && index && handleChange();
-
+  $: $toPlayIndex >= 0 && handleChange();
   const handleChange = async (): Promise<void> => {
     paused = $toPlayIndex !== index;
   };
@@ -23,9 +22,9 @@
   const playVideo = () => {
     paused = !paused;
     if ($toPlayIndex !== index) {
-      $toPlayIndex = index;
+      $toPlayIndex = Number(index);
     } else {
-      $toPlayIndex = undefined;
+      $toPlayIndex = -1;
     }
   };
 </script>

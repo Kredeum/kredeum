@@ -14,8 +14,10 @@
 
   export let nfts: Readable<Map<string, NftType>>;
 
-  let toPlayIndex = writable(undefined);
+  let toPlayIndex = writable();
   setContext("toPlayIndex", toPlayIndex);
+
+  $: console.log("🚀 ~ file: NftsV2ListGrid.svelte ~ line 19 ~ toPlayIndex", toPlayIndex);
 </script>
 
 <div class="row grid-krd">
