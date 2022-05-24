@@ -56,14 +56,7 @@ const toRollupConfig = function (component: string): RollupOptions {
     ],
     plugins: [
       svelte({
-        preprocess: [
-          sveltePreprocess({
-            sourceMap: !production,
-            postcss: {
-              plugins: [require("autoprefixer")()]
-            }
-          })
-        ],
+        preprocess: [sveltePreprocess({})],
         compilerOptions: {
           customElement: false,
           dev: !production

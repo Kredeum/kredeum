@@ -71,24 +71,22 @@
   >
 {/if}
 
-<style lang="scss">
-  video {
-    & + .video-play-button {
-      position: absolute;
-      bottom: 2%;
-      right: 2%;
-      background-color: transparent;
-      color: white;
-      border: none;
-      font-size: 4rem;
+<style>
+  .video-play-button {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 4rem;
+  }
 
-      i {
-        position: absolute;
-        bottom: 0;
-        right: 0;
-        background-color: lightgray;
-        border-radius: 50%;
-      }
-    }
+  .video-play-button i {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: lightgray;
+    border-radius: 50%;
   }
 </style>

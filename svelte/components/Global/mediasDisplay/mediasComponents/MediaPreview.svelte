@@ -48,7 +48,7 @@
   </div>
 {/if}
 
-<style lang="scss">
+<style>
   #zoom {
     visibility: visible;
     opacity: 1;
@@ -59,15 +59,8 @@
     cursor: pointer;
   }
 
-  // .media-video {
-  //   width: 100%;
-  //   height: 100%;
-  // }
-
-  .media-zoom {
-    .media {
-      position: relative;
-    }
+  .media-zoom .media {
+    position: relative;
   }
 
   .media-zoom .media span::after {
@@ -77,9 +70,11 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background: rgba(#1e1e43, 0.7);
+    background-color: rgba(30, 30, 67, 0.7);
     opacity: 0;
     transition: all 300ms ease-in-out;
+    width: 100%;
+    height: 100%;
   }
 
   .media-zoom .media span .fas {
