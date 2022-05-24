@@ -14,9 +14,10 @@
     kredeumNftUrl,
     getNetwork
   } from "lib/kconfig";
-  // import { nftKey } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { divMedia } from "helpers/mediasDisplay";
+
+  import MediaDisplay from "../Media/MediaDisplay.svelte";
+  import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { onMount } from "svelte";
 
@@ -25,7 +26,7 @@
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
-  // Display NFT
+  // Display NFT line
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let account: string = undefined;
@@ -33,15 +34,16 @@
   export let more = 0;
   export let platform: string = "dapp";
 
+  let displayMode: string = "list";
+
   // let i = 1;
   const moreToggle = (): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${index}`)?.offsetHeight || 0) + 70;
   };
 
-  onMount(() => {
-    console.log("NFT", nft);
-    if (more == -1) moreToggle();
-  });
+  $: console.log("NftLine", nft);
+
+  onMount(() => more == -1 && moreToggle());
 </script>
 
 <div
@@ -52,7 +54,7 @@
 >
   <div id="media-{index}" class="table-col">
     <div class="table-col-content">
-      {@html divMedia(nft, index, true, "list")}
+      <MediaDisplay {nft} {index} {displayMode} />
 
       <strong>{nftName(nft)}</strong>
       <span id="description-short-{index}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
@@ -98,11 +100,10 @@
   </div>
 
   <div id="more-detail-{index}" class="detail">
-    {#await divMedia(nft, index, false, "list")}
-      <div class="media media-full media-text" />
-    {:then mediaDiv}
-      {@html mediaDiv}
-    {/await}
+    {#if more > 0}
+      <MediaPreview {nft} {index} />
+    {/if}
+
     <div id="description-{index}" class="description">
       <strong>Description</strong>
 
@@ -171,7 +172,7 @@
   </div>
 
   <!-- Modal transfer $nft -->
-  <div id="transfert-$nft-{nft.tokenID}" class="modal-window">
+  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
     <NftTransfer chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
   </div>
 
@@ -180,3 +181,9 @@
   </div>
    -->
 </div>
+
+<style>
+  .detail {
+    display: flex;
+  }
+</style>

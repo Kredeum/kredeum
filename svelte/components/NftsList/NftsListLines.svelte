@@ -4,7 +4,7 @@
 
   import { getNetwork } from "lib/kconfig";
 
-  import NftLine from "./NftLine.svelte";
+  import NftLine from "../Nft/NftLine.svelte";
 
   /////////////////////////////////////////////////
   //  <NftListLines {chainId} {account} {nfts} {platform}? />

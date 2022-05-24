@@ -144,6 +144,7 @@ select {
 }
 
 .link {
+  cursor: pointer;
   color: $couleur1;
   transition: all 300ms ease-in-out;
   &:hover {
@@ -204,7 +205,8 @@ select {
       background: rgba($green, 0.2);
     }
   }
-  &-sell, &-buy {
+  &-sell,
+  &-buy {
     color: $white;
     background: $green;
     &:hover {
@@ -423,4 +425,8 @@ $sides: (top, bottom, left, right);
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;
+}
+
+.a-simul-cursor {
+  cursor: pointer;
 }

@@ -2,14 +2,18 @@
   // import { displayedTokenID } from "main/diplayedNft";
 
   import Nft from "../Nft/Nft.svelte";
-  import NftList from "../Nft/NftList.svelte";
+  import NftList from "../NftsList/NftList.svelte";
 
+  /////////////////////////////////////////////////
+  // <ContentV2 {chainId} {address} {account} {platform}? {refreshing}? {refresh}? />
+  // Placeholder for content of Dapp
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let account: string;
-  export let platform: string;
+  export let platform: string = "dapp";
   export let refreshing: boolean = false;
-  export let refresh: number;
+  export let refresh: number = undefined;
 
   let tokenID: string = "";
 
@@ -18,7 +22,7 @@
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
-    if (!evtTarget.classList.contains("btn")) {
+    if (!evtTarget.classList.contains("btn") && !evtTarget.classList.contains("video-play-icon")) {
       if (evtTarget.closest("div [data-tokenid]")) {
         evt.preventDefault();
         tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("data-tokenid");

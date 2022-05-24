@@ -2,26 +2,26 @@
   import type { NftType } from "lib/ktypes";
 
   import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
-  import { divMedia } from "helpers/mediasDisplay";
+
+  import MediaDisplay from "../Media/MediaDisplay.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {nft} {account} {index} {platform}? />
+  //  <NftGrid {nft} {account} {index} />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let account: string = undefined;
-
   export let index: number;
 
-  // export let platform: string = "dapp";
+  let displayMode: string = "grid";
 
-  console.log("nft", nft);
+  $: console.log("NftGrid", nft);
   ///////////////////////////////////////////////////////////////////////////////
 </script>
 
 <div class="col col-xs-12 col-sm-6 col-md-4 col-lg-3">
   <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
-    {@html divMedia(nft, index, true)}
+    <MediaDisplay {nft} {index} {displayMode} />
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>
