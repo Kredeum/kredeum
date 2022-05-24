@@ -122,12 +122,16 @@
           }
         }
 
-        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai", "arbitrum";
+        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism",
+          "xdai", "arbitrum";
 
         @each $name in $names {
           [data-value="#{$name}"],
           .#{$name} {
-            background: url("../images/icon-#{$name}.png") no-repeat left center;
+            background: url("../images/icon-#{$name}.png")
+              no-repeat
+              left
+              center;
           }
         }
 
@@ -180,10 +184,10 @@
           height: 40px;
         }
 
-        i {
-          color: $white;
-          display: inline-block;
-        }
+        // i {
+        //   color: $white;
+        //   display: inline-block;
+        // }
 
         &-text,
         &-video {
@@ -493,4 +497,17 @@
 
 @media screen and (min-width: $min-breakpoint-desktop) {
   @import "front-lg";
+}
+
+.modal-window {
+  .modal-content {
+    .modal-body {
+      .media-video,
+      .media-image {
+        width: 100%;
+        height: 100%;
+        margin-right: 0;
+      }
+    }
+  }
 }

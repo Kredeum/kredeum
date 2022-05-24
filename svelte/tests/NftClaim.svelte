@@ -4,7 +4,7 @@
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
   import { metamaskSigner } from "main/metamask";
 
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import Network from "../components/Network/Network.svelte";
 
   export let chainId: number;
   export let nft: NftType = undefined;
@@ -64,7 +64,7 @@
             <i class="fas fa-exclamation" /> Claim this NFT #{nft.tokenID} to Kovan ?
           </div>
 
-          <NetworkSelect />
+          <Network {chainId} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>

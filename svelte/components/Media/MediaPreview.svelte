@@ -1,0 +1,100 @@
+<script lang="ts">
+  import { NftType } from "lib/ktypes";
+  import { clickOutside } from "helpers/clickOutside";
+  import { fade } from "svelte/transition";
+
+  import MediaDisplay from "./MediaDisplay.svelte";
+
+  /////////////////////////////////////////////////
+  //  <MediaPreview {nft} {index} {displayMode}? {alt}? />
+  // Display a clickable preview of media opening a zoom modal with full media
+  // Modal closing by clickoutside
+  /////////////////////////////////////////////////
+  export let nft: NftType;
+  export let index: number;
+  export let alt: string = nft.name || "media";
+
+  let open = false;
+</script>
+
+<!-- <div class="grid-detail-krd"> -->
+<div class="media-zoom">
+  <div class="media">
+    <span
+      class="krd-pointer {nft.contentType?.startsWith('video') ? 'no-zoom-hover' : 'zoom-hover'}"
+      on:click={() => (open = true)}
+    >
+      <i class="fas fa-search" />
+      <MediaDisplay {nft} {index} displayMode={"preview"} {alt} />
+    </span>
+  </div>
+</div>
+
+<!-- Modal Zoom -->
+{#if open}
+  <div id="zoom" class="modal-window" transition:fade>
+    <div
+      use:clickOutside={() => {
+        open = false;
+      }}
+    >
+      <div class="modal-content">
+        <span on:click={() => (open = false)} title="Close" class="modal-close krd-pointer">
+          <i class="fa fa-times" /></span
+        >
+        <div class="modal-body">
+          <MediaDisplay {nft} {index} displayMode={"preview"} small={false} {alt} />
+        </div>
+      </div>
+    </div>
+  </div>
+{/if}
+
+<style>
+  #zoom {
+    visibility: visible;
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .krd-pointer {
+    cursor: pointer;
+  }
+
+  .krd-pointer.no-zoom-hover i.fas {
+    display: none;
+  }
+
+  .media-zoom .media {
+    position: relative;
+  }
+
+  .media-zoom .media .zoom-hover::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(30, 30, 67, 0.7);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+  }
+
+  .media-zoom .media .zoom-hover .fas {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    color: white;
+    font-size: 20px;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    transition: all 300ms ease-in-out;
+  }
+
+  .media-zoom .media .zoom-hover:hover::after,
+  .media-zoom .media .zoom-hover:hover .fas {
+    opacity: 1;
+  }
+</style>

@@ -9,7 +9,7 @@
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
 
-  import NftsListRefresh from "../Nft/NftsListRefresh.svelte";
+  import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
 
   import Title from "../Global/Title.svelte";
   // import BreadCrumb from "../../tests/BreadCrumb.svelte";
