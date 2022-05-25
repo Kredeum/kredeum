@@ -71,12 +71,8 @@
   {#if "list" === displayMode}
     <NftsListLines {chainId} {account} {nfts} {platform} />
   {:else if "grid" === displayMode}
-    <NftsListGrid {account} {nfts} />
+    <NftsListGrid {account} {nfts} {platform} />
   {/if}
-
-  <!-- {#if platform === "wordpress"}
-    <div>WordPress</div>
-  {/if} -->
 {:else}
   <div class="card-krd">
     <p>

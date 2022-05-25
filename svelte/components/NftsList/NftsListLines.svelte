@@ -13,7 +13,7 @@
   export let chainId: number;
   export let account: string;
   export let nfts: Readable<Map<string, NftType>>;
-  export let platform = "dapp";
+  export let platform = undefined;
 </script>
 
 <div class="table">
