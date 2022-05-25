@@ -277,7 +277,6 @@
     "create": true,
     "testnet": true
   },
-
   {
     "chainId": 69,
     "chainName": "optimismkovan",
