@@ -1,11 +1,14 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
+  import { explorerNftUrl, explorerTxUrl, textShort, ipfsToUrlHttp, ipfsGatewayUrl } from "lib/kconfig";
   import { metamaskSigner } from "main/metamask";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
 
   import NetworkList from "../Network/NetworkList.svelte";
   import { nftStore } from "stores/nft/nft";
+  import NftStorage from "lib/knft-storage";
+  import { metamaskAccount } from "main/metamask";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -18,6 +21,8 @@
   let claimTxHash: string = null;
   let claiming = false;
   let claimed = false;
+
+  let nftStorage: NftStorage;
 
   let nft: Readable<NftType>;
   $: chainId && address && tokenID && handleChange();
@@ -35,8 +40,31 @@
       claimed = false;
       let claimingError: string;
 
-      if ($nft.tokenURI) {
+      if (!$nft.tokenURI) claimingError = `No metadata found on this NFT`;
+      else {
+        console.log("claim ~ $nft.tokenURI", $nft.tokenURI);
+
+        nftStorage ||= new NftStorage();
+        const cid = await nftStorage.pinUrl(ipfsToUrlHttp($nft.tokenURI));
+
+        if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
+        else {
+          const txResp = await nftMint3TxResponse(chainId, address, ipfsGatewayUrl(cid), $metamaskSigner);
+          // console.log("txResp", txResp);
+
+          if (txResp) {
+            const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskAccount);
+            if (mintedNft) {
+              claimed = true;
+            } else {
+              claimingError = "Problem with sent transaction";
+            }
+          } else {
+            claimingError = "Problem while sending transaction";
+          }
+        }
       }
+
       claiming = false;
       claimingError && console.error(claimingError);
     }

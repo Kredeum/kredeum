@@ -10,7 +10,7 @@ const cidToHexa = (cid: string): string => {
     console.error("Bad CID");
   }
 
-  // console.log(`${cid}\n${cidHexa}\n`);
+  console.log(`cidToHexa\n${cid}\n${cidHexa}\n`);
   return cidHexa;
 };
 
@@ -21,6 +21,8 @@ const cidToV1Raw = (cid: string): string => {
   } catch (e) {
     console.error("Bad CID");
   }
+
+  console.log(`cidToV1Raw\n${cid}\n${cidV1Raw}\n`);
   return cidV1Raw;
 };
 
@@ -29,7 +31,7 @@ const cidFromString = async (value: string): Promise<string> => {
   const hash = await sha256.digest(buffer);
   const cid = CID.create(1, raw.code, hash).toString();
 
-  console.log("cid ", cid);
+  console.log(`cidFromString\n${value}\n${cid}\n`);
   return cid;
 };
 

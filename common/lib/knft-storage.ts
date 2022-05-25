@@ -14,7 +14,7 @@ type NftStorageResponse = {
 class NftStorage extends Ipfs {
   key: string;
 
-  constructor(key: string) {
+  constructor(key?: string) {
     super(nftStorageEndpoint);
     this.key = key || keyDefault;
   }

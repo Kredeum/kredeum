@@ -96,6 +96,7 @@ const nftMint3TxResponse = async (
   // console.log("nftMint3TxResponse", chainId, address, tokenURI, await minter.getAddress());
 
   const openNFTs = (await collectionContractGet(chainId, address, minter.provider)).connect(minter);
+  console.log("openNFTs", openNFTs);
 
   type MintOpenNFTFunctionType = {
     (address: string, json: string): Promise<TransactionResponse>;
