@@ -23,7 +23,6 @@
 
   import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
-  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />

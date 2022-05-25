@@ -14,6 +14,4 @@ const clickOutside = (node: HTMLElement, onEventFunction: () => void): ActionRet
   };
 };
 
-const clickToClose = () => (location.href = "#");
-
-export { clickOutside, clickToClose };
+export { clickOutside };
