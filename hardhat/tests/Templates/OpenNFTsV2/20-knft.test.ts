@@ -17,12 +17,11 @@ const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
 describe("20 OpenNFTsV2 Mint", function () {
   let ethscan: string | undefined;
-  let network: Network | undefined;
+  let network: NetworkType | undefined;
   let chainId: number;
   let deployer: Signer;
   let tester: Signer;
   let openNFTsV2: OpenNFTsV2;
-  let cloneOpenNFTsV2: OpenNFTsV2;
 
   before(async () => {
     chainId = Number(await hre.getChainId());

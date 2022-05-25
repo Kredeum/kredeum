@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "helpers/clickOutside";
-
+  import { clickOutside } from "helpers/clickTools";
   import { getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
   import { factoryGetAddress } from "lib/kfactory-get";
 
@@ -19,30 +18,31 @@
 
   let open = false;
 
-  $: chainId = $metamaskChainId;
+  // Get Metamask chainId by default at startup
+  $: chainId ||= $metamaskChainId;
 
   interface SwitchEventTarget extends EventTarget {
     value: number;
   }
-  const _metamaskSwitchChainEvt = (evt?: Event) => {
-    // console.log("_metamaskSwitchChainEvt evt", evt);
+  const _switchChainEvt = (evt?: Event) => {
+    // console.log("_switchChainEvt evt", evt);
 
     const _chainId = Number((evt.target as SwitchEventTarget).value);
-    _metamaskSwitchChain(_chainId, evt);
+    _switchChain(_chainId, evt).catch(console.error);
   };
-  const _metamaskSwitchChain = (_chainId: number, evt: Event) => {
-    // console.log("_metamaskSwitchChain evt", evt);
+  const _switchChain = async (_chainId: number, evt: Event): Promise<void> => {
+    // console.log("_switchChain evt", evt);
     evt.preventDefault();
 
-    metamaskSwitchChain(_chainId);
+    await metamaskSwitchChain(_chainId);
+    chainId = _chainId;
   };
 </script>
 
 {#if txt}
   {#if label}Network{/if}
 
-  <!-- TODO change to bind => https://svelte.dev/tutorial/select-bindings (only possible in txt) -->
-  <select on:change={_metamaskSwitchChainEvt}>
+  <select on:change={_switchChainEvt}>
     {#each networks.filter((nw) => nw.mainnet) as _network}
       <option value={_network.chainId} selected={_network.chainId == chainId}>
         <Network chainId={_network.chainId} {txt} />
@@ -85,7 +85,7 @@
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
-              on:click={(evt) => _metamaskSwitchChain(nwk.chainId, evt)}
+              on:click={(evt) => _switchChain(nwk.chainId, evt)}
             >
               <Network chainId={nwk.chainId} txt={true} />
             </span>
@@ -95,7 +95,7 @@
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}
-                on:click={(evt) => _metamaskSwitchChain(nwk.chainId, evt)}
+                on:click={(evt) => _switchChain(nwk.chainId, evt)}
               >
                 <Network chainId={nwk.chainId} txt={true} />
               </span>

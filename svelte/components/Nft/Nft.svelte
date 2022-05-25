@@ -14,10 +14,10 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "helpers/shortcodes";
-
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftClaim from "./NftClaim.svelte";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -128,6 +128,10 @@
             ><i class="fa fa-gift" /> Transfer</a
           >
 
+          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
+            <i class="fas fa-exclamation" /> Claim</a
+          >
+
           {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
@@ -164,25 +168,18 @@
               >
             </div>
           </li>
-          <!-- <li>
-            <div class="flex"><span class="label">Sell direclty on Gamestop</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Mint on your front page</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Sell directly without market-places</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li> -->
         </ul>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal gift -->
-<div id="transfert-nft-{$nft.tokenID}" class="modal-window">
+<!-- Modal transfer nft -->
+<div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
+</div>
+
+<!-- Modal claim nft -->
+<div id="claim-nft-{tokenID}" class="modal-window">
+  <NftClaim {chainId} {address} {tokenID} />
 </div>

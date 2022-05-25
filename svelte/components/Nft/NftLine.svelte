@@ -23,6 +23,7 @@
 
   import { shortcode } from "helpers/shortcodes";
   import NftTransfer from "./NftTransfer.svelte";
+  import { clickOutside, clickToClose } from "helpers/clickTools";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
@@ -177,7 +178,7 @@
   </div>
 
   <!--  <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
-    <NftClaimView bind:$nft />
+      <NftClaimView bind:$nft />
   </div>
    -->
 </div>
