@@ -23,13 +23,12 @@ contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
     function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
         require(_exists(tokenId), "ERC721: token doesn't exists");
 
-        // IPFS CID V1 base32 raw => 5 bits => uint32
+        // IPFS CID V1 base32 raw "bafrei..." => 5 bits => uint32
         // uint256 tokenId  = 256 bits = 1 bit + 51 uint32 = 1 + 51 * 5 = 256
         // 00 added right =>
         // uint8 + uint256 + 00 = 258 bits = uint8 + 50 uint32 + (3 bits + 00) = uint8 + 51 uint32 = 3 + 51 * 5 = 258
 
-        bytes memory buffer = new bytes(52);
-
+        bytes memory buffer = new bytes(52)
         uint8 high3 = uint8(tokenId >> 253);
         buffer[0] = _BASE32_SYMBOLS[high3 & 0x1f];
 

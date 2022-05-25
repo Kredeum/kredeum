@@ -22,7 +22,6 @@
   import { onMount } from "svelte";
 
   import { shortcode } from "helpers/shortcodes";
-  import NftTransfer from "./NftTransfer.svelte";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {index}? {more}? {platform}? />
@@ -147,18 +146,7 @@
             <a class="link" href={nft.image} target="_blank">{textShort(nft.ipfs)}</a>
           </div>
         </li>
-        <li class="complete">
-          <div class="flex">
-            <a href="#transfert-$nft-{nft.tokenID}" class="btn btn-small btn-default" title="Transfer NFT">
-              <i class="fas fa-gift" /> Transfer
-            </a>
-          </div>
-          <!-- <div class="flex">
-            <a href="#claim-$nft-{$nft.tokenID}" class="btn btn-small btn-default" title="Claim NFT on Kovan">
-              <i class="fas fa-exclamation" /> Claim on Kovan
-            </a>
-          </div> -->
-        </li>
+
         {#if platform === "wordpress"}
           <li class="complete">
             <div class="flex"><span class="label">Copy shortcode sell button</span></div>
@@ -170,16 +158,6 @@
       </ul>
     </div>
   </div>
-
-  <!-- Modal transfer $nft -->
-  <div id="transfert-nft-{nft.tokenID}" class="modal-window">
-    <NftTransfer chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
-  </div>
-
-  <!--  <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
-      <NftClaimView bind:$nft />
-  </div>
-   -->
 </div>
 
 <style>
