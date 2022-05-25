@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NftType } from "lib/ktypes";
+  import { NftMetadata, NftType } from "lib/ktypes";
   import { clickOutside } from "helpers/clickOutside";
   import { fade } from "svelte/transition";
 
@@ -15,13 +15,19 @@
   export let alt: string = nft.name || "media";
 
   let open = false;
+  console.log("🚀 ~ file: MediaPreview.svelte ~ line 18 ~ open", open);
+  let metadatas: NftMetadata = nft?.metadata;
+
+  $: console.log("🚀 ~ file: MediaPreview.svelte ~ line 18 ~ open", open);
 </script>
 
 <!-- <div class="grid-detail-krd"> -->
 <div class="media-zoom">
   <div class="media">
     <span
-      class="krd-pointer {nft.contentType?.startsWith('video') ? 'no-zoom-hover' : 'zoom-hover'}"
+      class="krd-pointer {nft.contentType?.startsWith('video') || metadatas.animation_url
+        ? 'no-zoom-hover'
+        : 'zoom-hover'}"
       on:click={() => (open = true)}
     >
       <i class="fas fa-search" />
@@ -59,6 +65,12 @@
 
   .krd-pointer {
     cursor: pointer;
+  }
+
+  .no-zoom-hover {
+    display: block;
+    width: 100%;
+    height: 100%;
   }
 
   .krd-pointer.no-zoom-hover i.fas {

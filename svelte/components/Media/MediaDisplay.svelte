@@ -1,9 +1,10 @@
 <script lang="ts">
-  import { NftType } from "lib/ktypes";
+  import { NftMetadata, NftType } from "lib/ktypes";
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";
   import MediaDisplayVideo from "./MediaDisplayVideo.svelte";
+  import MediaDisplayAudio from "./MediaDisplayAudio.svelte";
 
   /////////////////////////////////////////////////
   //  <MediaDisplay {nft} {index} {displayMode}? {small}? {alt}? />
@@ -26,6 +27,8 @@
   // let mediaSubtype: string = "jpeg";
   let mediaSrc: string = "";
 
+  let animation_url: string = "";
+
   $: nft && handleChange();
   const handleChange = (): void => {
     const mediaContentType = nft.contentType?.split("/");
@@ -33,11 +36,18 @@
     // mediaSubtype = mediaContentType[1];
     mediaSrc = nftGetImageLink(nft);
     alt = mediaType;
+
+    let metadatas: NftMetadata = nft?.metadata;
+    if (metadatas?.animation_url) {
+      animation_url = metadatas.animation_url;
+    }
   };
 </script>
 
 <div id="media-{cssSmall}-{index}" class="media {cssMedia} media-{mediaType}{gridScale}">
-  {#if "image" === mediaType}
+  {#if animation_url}
+    <MediaDisplayAudio {mediaSrc} {animation_url} {displayMode} {alt} {index} {small} />
+  {:else if "image" === mediaType}
     <MediaDisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
     <MediaDisplayVideo {mediaSrc} {displayMode} {index} {small} />
