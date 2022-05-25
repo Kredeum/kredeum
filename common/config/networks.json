@@ -169,6 +169,28 @@
     "mainnet": true
   },
   {
+    "chainId": 97,
+    "chainName": "bsctestnet",
+    "rpcUrls": [
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://data-seed-prebsc-2-s1.binance.org:8545",
+      "https://data-seed-prebsc-1-s2.binance.org:8545"
+    ],
+    "nativeCurrency": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://testnet.bscscan.com/"],
+    "covalent": {
+      "active": true
+    },
+    "defaultOpenNFTs": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
+    "nftsFactoryV2": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
+    "create": true,
+    "testnet": true
+  },
+  {
     "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": ["https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],
@@ -276,7 +298,6 @@
     "create": true,
     "testnet": true
   },
-
   {
     "chainId": 69,
     "chainName": "optimismkovan",

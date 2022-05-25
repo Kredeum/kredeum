@@ -83,6 +83,7 @@ const config: HardhatUserConfig = {
     goerli: netConf(5, `https://goerli.infura.io/v3/${INFURA_API_KEY}`),
     kovan: netConf(42, `https://kovan.infura.io/v3/${INFURA_API_KEY}`),
     bsc: netConf(56, "https://bsc-dataseed1.binance.org", ETHERSCAN_API_KEY_BINANCE),
+    bsctestnet: netConf(97, "https://data-seed-prebsc-1-s1.binance.org:8545", ETHERSCAN_API_KEY_BINANCE),
     matic: netConf(137, `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`, ETHERSCAN_API_KEY_POLYGON),
     fantom: netConf(250, "https://rpcapi.fantom.network", ETHERSCAN_API_KEY_FANTOM),
     fantomtestnet: netConf(4002, "https://rpc.testnet.fantom.network", ETHERSCAN_API_KEY_FANTOM),
