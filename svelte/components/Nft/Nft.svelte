@@ -48,7 +48,7 @@
 </script>
 
 {#if $nft}
-  <div class="row">
+  <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
         <MediaPreview nft={$nft} index={Number(tokenID)} />
@@ -175,3 +175,8 @@
 <!-- <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
   <NftClaimView bind:$nft />
 </div> -->
+<style>
+  .krd-nft-solo {
+    width: 100%;
+  }
+</style>
