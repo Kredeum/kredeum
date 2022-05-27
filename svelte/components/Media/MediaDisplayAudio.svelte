@@ -42,7 +42,17 @@
   <MediaDisplayImage {mediaSrc} {alt} />
 </div>
 {#if small}
-  {#if "list" !== displayMode}
+  {#if "list" === displayMode}
+    <audio preload="none" bind:paused src={animation_url}>
+      <!-- <audio controls preload="none" src={animation_url}> -->
+      <track kind="captions" />
+      Your browser does not support the
+      <code>audio</code> element.
+    </audio>
+    <button on:click={playAudio} class="krd-play-audio-button">
+      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+    </button>
+  {:else}
     <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
     <audio controls preload="none" bind:paused src={animation_url}>
       <!-- <audio controls preload="none" src={animation_url}> -->

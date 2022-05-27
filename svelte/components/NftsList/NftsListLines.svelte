@@ -25,7 +25,7 @@
       <div class="table-col"><span class="label">Infos</span></div>
     {/if}
   </div>
-  {#each [...$nfts.values()] as nft}
-    <NftLine {nft} {account} {platform} />
+  {#each [...$nfts.values()] as nft, index}
+    <NftLine {nft} {account} {index} {platform} />
   {/each}
 </div>
