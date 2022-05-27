@@ -40,35 +40,73 @@
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
   <MediaDisplayImage {mediaSrc} {alt} />
-  {#if small}
-    {#if "list" !== displayMode}
-      <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
-      <audio controls preload="none" bind:paused src={animation_url}>
-        <!-- <audio controls preload="none" src={animation_url}> -->
-        <track kind="captions" />
-        Your browser does not support the
-        <code>audio</code> element.
-      </audio>
-      <button on:click={playAudio} class="krd-play-audio-button">
-        <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
-      </button>
-    {/if}
-  {:else}
-    <audio controls autoplay src={animation_url}>
+</div>
+{#if small}
+  {#if "list" !== displayMode}
+    <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
+    <audio controls preload="none" bind:paused src={animation_url}>
+      <!-- <audio controls preload="none" src={animation_url}> -->
+      <track kind="captions" />
       Your browser does not support the
       <code>audio</code> element.
     </audio>
+    <button on:click={playAudio} class="krd-play-audio-button">
+      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+    </button>
   {/if}
-</div>
+{:else}
+  <audio controls autoplay src={animation_url}>
+    Your browser does not support the
+    <code>audio</code> element.
+  </audio>
+{/if}
 
 <style>
+  /* audio::-webkit-media-controls-panel,
+  audio::-webkit-media-controls-mute-button,
+  audio::-webkit-media-controls-play-button,
+  audio::-webkit-media-controls-timeline-container,
+  audio::-webkit-media-controls-current-time-display,
+  audio::-webkit-media-controls-time-remaining-display,
+  audio::-webkit-media-controls-timeline,
+  audio::-webkit-media-controls-volume-slider-container,
+  audio::-webkit-media-controls-volume-slider,
+  audio::-webkit-media-controls-seek-back-button,
+  audio::-webkit-media-controls-seek-forward-button,
+  audio::-webkit-media-controls-fullscreen-button,
+  audio::-webkit-media-controls-rewind-button,
+  audio::-webkit-media-controls-return-to-realtime-button,
+  audio::-webkit-media-controls-toggle-closed-captions-button {
+     color: white !important;
+    filter: invert(100%);
+    background-color: white;
+  }  */
+
+  audio::-webkit-media-controls-enclosure {
+    border-radius: 6px;
+    background-color: rgba(0, 0, 0, 0.5);
+  }
+
+  audio::-webkit-media-controls-panel {
+    /* color: white !important; */
+    filter: invert(100%);
+  }
+
+  /* audio::-webkit-media-controls-mute-button {
+    color: white !important;
+  } */
+
+  /* audio::-webkit-media-controls-timeline {
+    color: white;
+  } */
+
   .audio-cover-image {
     position: initial;
     width: 100%;
     height: 100%;
   }
 
-  .audio-cover-image:not(.audioDeployed) audio {
+  .audio-cover-image:not(.audioDeployed) + audio {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -76,18 +114,18 @@
     width: 100%;
   }
 
-  .audioDeployed audio {
+  .audioDeployed + audio {
     transform: translate(50%, 15%);
   }
 
   .krd-play-audio-button {
     position: absolute;
-    bottom: 2.6%;
+    bottom: 12px;
     left: 2%;
     background-color: transparent;
     color: white;
     border: none;
-    font-size: 3.5rem;
+    font-size: 2.8rem;
   }
 
   .krd-play-audio-button i {
