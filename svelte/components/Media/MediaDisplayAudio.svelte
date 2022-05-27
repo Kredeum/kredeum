@@ -4,7 +4,7 @@
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";
   /////////////////////////////////////////////////
-  //  <DisplayAudio {mediaSrc} {animation_url} {displayMode} {alt} {index} {small} />
+  //  <DisplayAudio {mediaSrc} {animation_url} {displayMode}? {alt}? {index}? {small}? {paused}? />
   // Display a player audio with its cover image according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
@@ -14,8 +14,6 @@
   export let index: number = -1;
   export let small: boolean = true;
   export let paused: boolean = true;
-  //   export let deployed: boolean;
-  //   export let height: number = undefined;
 
   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
 
@@ -24,12 +22,18 @@
     paused = $toPlayIndex !== index;
   };
 
+  $: $toPlayIndex === -1 && handleStopChange();
+  const handleStopChange = (): void => {
+    paused = true;
+  };
+
   const playAudio = () => {
-    paused = !paused;
-    if ($toPlayIndex !== index) {
-      $toPlayIndex = Number(index);
-    } else {
-      $toPlayIndex = -1;
+    if ("preview" !== displayMode) {
+      if ($toPlayIndex !== index) {
+        $toPlayIndex = Number(index);
+      } else {
+        $toPlayIndex = -1;
+      }
     }
   };
 </script>

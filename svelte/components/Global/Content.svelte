@@ -1,5 +1,6 @@
 <script lang="ts">
-  // import { displayedTokenID } from "main/diplayedNft";
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
 
   import Nft from "../Nft/Nft.svelte";
   import NftList from "../NftsList/NftsList.svelte";
@@ -29,6 +30,9 @@
       }
     }
   };
+
+  let toPlayIndex = writable(-1);
+  setContext("toPlayIndex", toPlayIndex);
 </script>
 
 <div on:click={(evt) => handleClick(evt)}>

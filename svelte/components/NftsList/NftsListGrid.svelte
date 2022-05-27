@@ -2,9 +2,6 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
 
-  import { setContext } from "svelte";
-  import { writable } from "svelte/store";
-
   import NftGrid from "../Nft/NftGrid.svelte";
   /////////////////////////////////////////////////
   //  <NftsListGrid {account} {nfts} />
@@ -14,9 +11,6 @@
 
   export let nfts: Readable<Map<string, NftType>>;
   export let platform: string = undefined;
-
-  let toPlayIndex = writable();
-  setContext("toPlayIndex", toPlayIndex);
 </script>
 
 <div class="row grid-krd">
