@@ -1,19 +1,21 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "./interfaces/IOpenMulti.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "./interfaces/IOpenMulti.sol";
+import "../interfaces/IERC173.sol";
 
-contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
+contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable, Ownable {
     bytes32 private constant _BASE32_SYMBOLS = "abcdefghijklmnopqrstuvwxyz234567";
 
     string private constant _BASE_URI = "https://ipfs.io/ipfs/";
 
     constructor() ERC721("OpenMulti", "MULTI") {}
 
-    function claim(uint256 tokenId) public override(IOpenMulti) {
-        _safeMint(msg.sender, tokenId);
+    function claim(address minter, uint256 tokenId) public override(IOpenMulti) {
+        _safeMint(minter, tokenId);
     }
 
     function exists(uint256 tokenId) public view override(IOpenMulti) returns (bool) {
@@ -42,7 +44,10 @@ contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable {
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721, ERC721Enumerable) returns (bool) {
-        return super.supportsInterface(interfaceId);
+        return
+            interfaceId == type(IOpenMulti).interfaceId ||
+            interfaceId == type(IERC173).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     function _beforeTokenTransfer(

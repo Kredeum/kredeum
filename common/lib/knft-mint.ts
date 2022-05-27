@@ -92,8 +92,8 @@ const nftMint3TxResponse = async (
   tokenURI: string,
   minter: JsonRpcSigner
 ): Promise<TransactionResponse | null> => {
+  console.log("nftMint3TxResponse", chainId, address, tokenURI, await minter.getAddress());
   if (!(chainId && address && tokenURI && minter)) return null;
-  // console.log("nftMint3TxResponse", chainId, address, tokenURI, await minter.getAddress());
 
   const openNFTs = (await collectionContractGet(chainId, address, minter.provider)).connect(minter);
   console.log("openNFTs", openNFTs);
@@ -107,7 +107,8 @@ const nftMint3TxResponse = async (
   // OpenNFTsV2 = mintNFT
   // OpenNFTsV3+ = mintOpenNFT
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const mintFunction: MintOpenNFTFunctionType = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
+  const mintFunction: MintOpenNFTFunctionType =
+    openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser || openNFTs.claim;
 
   const txResp = await mintFunction(await minter.getAddress(), tokenURI);
   console.log(`${getNetwork(chainId)?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);

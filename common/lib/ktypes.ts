@@ -23,7 +23,7 @@ type NetworkType = {
   create?: boolean;
   admin?: string;
   openSea?: { assets?: string; openNFTs?: string };
-  OpenMulti?: string;
+  openMulti?: string;
   defaultOpenNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
@@ -55,6 +55,7 @@ type CollectionSupports = {
   IERC721Enumerable?: boolean;
   IERC1155MetadataURI?: boolean;
   IERC173?: boolean;
+  IOpenMulti?: boolean;
   IOpenNFTs?: boolean;
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;

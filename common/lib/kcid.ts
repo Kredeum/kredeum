@@ -1,38 +1,13 @@
 import { CID } from "multiformats/cid";
 import * as raw from "multiformats/codecs/raw";
 import { sha256 } from "multiformats/hashes/sha2";
+import { BigNumber } from "ethers";
 
-const cidToHexa = (cid: string): string => {
-  let cidHexa = "";
-  try {
-    cidHexa = "0x" + Buffer.from(CID.parse(cid).multihash.digest).toString("hex");
-  } catch (e) {
-    console.error("Bad CID");
-  }
+const cidToInt = (cid: string): string => BigNumber.from(CID.parse(cid).multihash.digest).toString();
 
-  console.log(`cidToHexa\n${cid}\n${cidHexa}\n`);
-  return cidHexa;
-};
+const cidToV1Raw = (cid: string): string => CID.create(1, 85, CID.parse(cid).toV1().multihash).toString();
 
-const cidToV1Raw = (cid: string): string => {
-  let cidV1Raw = "";
-  try {
-    cidV1Raw = CID.create(1, 85, CID.parse(cid).toV1().multihash).toString();
-  } catch (e) {
-    console.error("Bad CID");
-  }
+const cidFromString = async (value: string): Promise<string> =>
+  CID.create(1, raw.code, await sha256.digest(new TextEncoder().encode(value))).toString();
 
-  console.log(`cidToV1Raw\n${cid}\n${cidV1Raw}\n`);
-  return cidV1Raw;
-};
-
-const cidFromString = async (value: string): Promise<string> => {
-  const buffer = new TextEncoder().encode(value);
-  const hash = await sha256.digest(buffer);
-  const cid = CID.create(1, raw.code, hash).toString();
-
-  console.log(`cidFromString\n${value}\n${cid}\n`);
-  return cid;
-};
-
-export { cidFromString, cidToHexa, cidToV1Raw };
+export { cidFromString, cidToInt, cidToV1Raw };

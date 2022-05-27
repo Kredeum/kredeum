@@ -54,6 +54,6 @@
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "workbench.colorTheme": "GitHub Dark Dimmed",
+  "workbench.colorTheme": "monokai-charcoal (yellow)",
   "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules"
 }

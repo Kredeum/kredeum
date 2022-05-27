@@ -1,14 +1,15 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
-  import { explorerNftUrl, explorerTxUrl, textShort, ipfsToUrlHttp, ipfsGatewayUrl } from "lib/kconfig";
-  import { metamaskSigner } from "main/metamask";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import NftStorage from "lib/knft-storage";
+  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, ipfsToUrlHttp } from "lib/kconfig";
+  import { nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { cidToInt } from "lib/kcid";
+
+  import type { Readable } from "svelte/store";
+  import { nftStore } from "stores/nft/nft";
+  import { metamaskSigner, metamaskAccount } from "main/metamask";
 
   import NetworkList from "../Network/NetworkList.svelte";
-  import { nftStore } from "stores/nft/nft";
-  import NftStorage from "lib/knft-storage";
-  import { metamaskAccount } from "main/metamask";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -39,32 +40,32 @@
       claiming = true;
       claimed = false;
       let claimingError: string;
+      const targetChainId = chainId;
+      const targetAddress = getOpenMulti(chainId);
 
-      if (!$nft.tokenURI) claimingError = `No metadata found on this NFT`;
-      else {
-        console.log("claim ~ $nft.tokenURI", $nft.tokenURI);
-
-        nftStorage ||= new NftStorage();
-        const cid = await nftStorage.pinUrl(ipfsToUrlHttp($nft.tokenURI));
-
-        if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
+      try {
+        if (!$nft.tokenURI) claimingError = "No metadata found on this NFT";
         else {
-          const txResp = await nftMint3TxResponse(chainId, address, ipfsGatewayUrl(cid), $metamaskSigner);
-          // console.log("txResp", txResp);
+          console.log("claim ~ $nft.tokenURI", $nft.tokenURI);
 
-          if (txResp) {
-            const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskAccount);
-            if (mintedNft) {
-              claimed = true;
-            } else {
-              claimingError = "Problem with sent transaction";
-            }
-          } else {
-            claimingError = "Problem while sending transaction";
+          nftStorage ||= new NftStorage();
+          const cid = await nftStorage.pinUrl(ipfsToUrlHttp($nft.tokenURI));
+
+          if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
+          else {
+            console.log("cidToInt(cid)", cidToInt(cid));
+            const txResp = await nftMint3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
+            console.log("txResp", txResp);
+
+            const mintedNft = await nftMint4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
+            console.log("mintedNft", mintedNft);
+
+            claimed = true;
           }
         }
+      } catch (error) {
+        claimingError = "Problem with transaction\n" + String(error.message || "");
       }
-
       claiming = false;
       claimingError && console.error(claimingError);
     }

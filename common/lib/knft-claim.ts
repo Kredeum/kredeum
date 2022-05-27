@@ -17,10 +17,10 @@ const nftClaimResponse = async (
   let txResp: TransactionResponse | undefined;
   const network = getNetwork(chainId);
 
-  if (network?.OpenMulti && chainId && address && tokenID && owner) {
-    const openMulti = new Contract(network.OpenMulti, IOpenMulti, owner) as OpenMulti;
+  if (network?.openMulti && chainId && address && tokenID && owner) {
+    const openMulti = new Contract(network.openMulti, IOpenMulti, owner) as OpenMulti;
 
-    txResp = await openMulti.claim(BigNumber.from("809809807897987666622279686238623876128736213"));
+    txResp = await openMulti.claim(await owner.getAddress(), BigNumber.from(tokenID));
     console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
   }
 

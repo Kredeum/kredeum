@@ -1,4 +1,8 @@
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
+import type { NetworkType } from "lib/ktypes";
+
+import * as fs from "fs/promises";
+import networks from "config/networks.json";
 
 const contractName = "OpenMulti";
 
@@ -14,6 +18,12 @@ const deployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   if (deployResult.newlyDeployed) {
     console.log("Template newly deployed");
+
+    const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
+    networks[index].openMulti = deployResult.address;
+    await fs
+      .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+      .catch((err) => console.log(err));
   }
 };
 deployFunction.tags = [contractName];
