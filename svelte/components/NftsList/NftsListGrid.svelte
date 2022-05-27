@@ -10,7 +10,6 @@
   export let account: string = undefined;
 
   export let nfts: Readable<Map<string, NftType>>;
-  export let platform: string = undefined;
 </script>
 
 <div class="row grid-krd">

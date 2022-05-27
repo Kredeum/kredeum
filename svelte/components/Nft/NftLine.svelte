@@ -1,28 +1,12 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
-  import {
-    getShortAddress,
-    nftUrl,
-    explorerCollectionUrl,
-    nftDescription,
-    nftDescriptionShort,
-    nftName,
-    nftOpenSeaUrl,
-    addressSame,
-    textShort,
-    explorerAddressLink,
-    kredeumNftUrl,
-    getNetwork
-  } from "lib/kconfig";
+  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
-  import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { onMount } from "svelte";
 
-  import { shortcode } from "helpers/shortcodes";
-  import NftTransfer from "./NftTransfer.svelte";
   import Nft from "./Nft.svelte";
 
   /////////////////////////////////////////////////
