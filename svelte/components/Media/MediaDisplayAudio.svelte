@@ -19,38 +19,19 @@
 
   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
 
-  $: console.log("🚀~ index", index, " | toPlayIndex", $toPlayIndex, " | paused", paused);
-
-  //   let player: HTMLAudioElement;
-  //   $: player?.played &&
-  //     console.log("🚀 ~ file: MediaDisplayAudio.svelte ~ line 26 ~ handleChange ~ paused", player?.played);
-
-  //   $: player?.played && paused && handleChange();
-  //   const handleChange = (): void => {
-  //     if ($toPlayIndex !== index) {
-  //       paused = true;
-  //     } else {
-  //       paused = false;
-  //     }
-  //   };
-  $: $toPlayIndex >= 0 && paused && handleChange();
+  $: $toPlayIndex >= 0 && handleChange();
   const handleChange = (): void => {
     paused = $toPlayIndex !== index;
+  };
+
+  const playAudio = () => {
+    paused = !paused;
     if ($toPlayIndex !== index) {
       $toPlayIndex = Number(index);
     } else {
       $toPlayIndex = -1;
     }
   };
-
-  // const playAudio = () => {
-  //   paused = !paused;
-  //   if ($toPlayIndex !== index) {
-  //     $toPlayIndex = Number(index);
-  //   } else {
-  //     $toPlayIndex = -1;
-  //   }
-  // };
 </script>
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
@@ -64,6 +45,9 @@
         Your browser does not support the
         <code>audio</code> element.
       </audio>
+      <button on:click={playAudio} class="krd-play-audio-button">
+        <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+      </button>
     {/if}
   {:else}
     <audio controls autoplay src={animation_url}>
@@ -85,9 +69,28 @@
     bottom: 0;
     left: 50%;
     transform: translate(-50%, 0%);
+    width: 100%;
   }
 
   .audioDeployed audio {
     transform: translate(50%, 15%);
+  }
+
+  .krd-play-audio-button {
+    position: absolute;
+    bottom: 2.6%;
+    left: 2%;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 3.5rem;
+  }
+
+  .krd-play-audio-button i {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: lightgray;
+    border-radius: 50%;
   }
 </style>
