@@ -13,6 +13,7 @@
   export let account: string = undefined;
 
   export let nfts: Readable<Map<string, NftType>>;
+  export let platform: string = undefined;
 
   let toPlayIndex = writable();
   setContext("toPlayIndex", toPlayIndex);

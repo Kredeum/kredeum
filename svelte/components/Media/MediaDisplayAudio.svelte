@@ -17,7 +17,9 @@
   //   export let deployed: boolean;
   //   export let height: number = undefined;
 
-  //   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
+  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
+
+  $: console.log("🚀~ index", index, " | toPlayIndex", $toPlayIndex, " | paused", paused);
 
   //   let player: HTMLAudioElement;
   //   $: player?.played &&
@@ -31,15 +33,24 @@
   //       paused = false;
   //     }
   //   };
+  $: $toPlayIndex >= 0 && paused && handleChange();
+  const handleChange = (): void => {
+    paused = $toPlayIndex !== index;
+    if ($toPlayIndex !== index) {
+      $toPlayIndex = Number(index);
+    } else {
+      $toPlayIndex = -1;
+    }
+  };
 
-  //   const playAudio = () => {
-  //     paused = !paused;
-  //     if ($toPlayIndex !== index) {
-  //       $toPlayIndex = Number(index);
-  //     } else {
-  //       $toPlayIndex = -1;
-  //     }
-  //   };
+  // const playAudio = () => {
+  //   paused = !paused;
+  //   if ($toPlayIndex !== index) {
+  //     $toPlayIndex = Number(index);
+  //   } else {
+  //     $toPlayIndex = -1;
+  //   }
+  // };
 </script>
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
@@ -47,10 +58,11 @@
   {#if small}
     {#if "list" !== displayMode}
       <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
-      <audio controls preload="none" src={animation_url}>
+      <audio controls preload="none" bind:paused src={animation_url}>
+        <!-- <audio controls preload="none" src={animation_url}> -->
+        <track kind="captions" />
         Your browser does not support the
         <code>audio</code> element.
-        <track kind="captions" />
       </audio>
     {/if}
   {:else}
