@@ -89,7 +89,8 @@
               <Network chainId={nwk.chainId} txt={true} />
             </span>
           {/each}
-          {#if getNetwork(chainId)?.testnet}
+          <!-- {#if getNetwork(chainId)?.testnet} -->
+          {#if true}
             {#each networks.filter((nw) => nw.testnet) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"

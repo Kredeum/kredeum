@@ -19,6 +19,7 @@
   export let address: string;
   export let tokenID: string;
 
+  let targetChainId = chainId;
   let claimTxHash: string = null;
   let claiming = false;
   let claimed = false;
@@ -40,13 +41,14 @@
       claiming = true;
       claimed = false;
       let claimingError: string;
-      const targetChainId = chainId;
-      const targetAddress = getOpenMulti(chainId);
+
+      const targetAddress = getOpenMulti(targetChainId);
+      console.log("claim", targetChainId, targetAddress);
 
       try {
         if (!$nft.tokenURI) claimingError = "No metadata found on this NFT";
         else {
-          console.log("claim ~ $nft.tokenURI", $nft.tokenURI);
+          console.log("claim", $nft.tokenURI);
 
           nftStorage ||= new NftStorage();
           const cid = await nftStorage.pinUrl(ipfsToUrlHttp($nft.tokenURI));
@@ -105,10 +107,15 @@
             <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} on another network ?
           </div>
 
-          <NetworkList />
+          <NetworkList bind:chainId={targetChainId} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>
+          </div>
+
+          <div>
+            {chainId} :
+            {targetChainId}
           </div>
         {/if}
         {#if claimTxHash}
