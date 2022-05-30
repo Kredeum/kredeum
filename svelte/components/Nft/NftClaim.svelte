@@ -103,19 +103,14 @@
             {/if}
           </div>
         {:else}
-          <div class="titre">
-            <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} on another network ?
+          <div class="titre overflow-ellipsis">
+            <i class="fas fa-exclamation" /> Claim this NFT on another network ? #{tokenID}
           </div>
 
-          <NetworkList bind:chainId={targetChainId} />
+          <NetworkList bind:chainId={targetChainId} all={false} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>
-          </div>
-
-          <div>
-            {chainId} :
-            {targetChainId}
           </div>
         {/if}
         {#if claimTxHash}

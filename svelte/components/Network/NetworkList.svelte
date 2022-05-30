@@ -13,6 +13,7 @@
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
   export let txt: boolean = undefined;
+  export let all: boolean = true;
   export let label = true;
 
   let open = false;
@@ -48,14 +49,6 @@
         &nbsp;
       </option>
     {/each}
-    {#if getNetwork(chainId)?.testnet}
-      {#each networks.filter((nw) => nw.testnet) as _network}
-        <option value={_network.chainId} selected={_network.chainId == chainId}>
-          <Network chainId={_network.chainId} {txt} />
-          &nbsp;
-        </option>
-      {/each}
-    {/if}
   </select>
 {:else}
   <div class="col col-xs-12 col-sm-3">
@@ -80,7 +73,7 @@
         <div class="custom-options" />
 
         <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet) as nwk}
+          {#each networks.filter((nw) => nw.mainnet && (all || nw.openMulti)) as nwk}
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
@@ -91,7 +84,7 @@
           {/each}
           <!-- {#if getNetwork(chainId)?.testnet} -->
           {#if true}
-            {#each networks.filter((nw) => nw.testnet) as nwk}
+            {#each networks.filter((nw) => nw.testnet && (all || nw.openMulti)) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}

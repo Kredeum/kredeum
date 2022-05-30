@@ -68,7 +68,7 @@
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex"><strong>#{tokenID}</strong></div>
+            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}"><strong>#{tokenID}</strong></div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
