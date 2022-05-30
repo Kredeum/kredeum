@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NftMetadata, NftType } from "lib/ktypes";
+  import { NftType } from "lib/ktypes";
   import { nftGetImageLink } from "lib/knft-get-metadata";
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";

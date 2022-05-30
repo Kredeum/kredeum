@@ -21,8 +21,6 @@
   let metadatas: NftMetadata = nft?.metadata;
 
   let toPlayIndex: Writable<number> = getContext("toPlayIndex");
-
-  $: console.log("🚀 ~ file: MediaPreview.svelte ~ line 18 ~ open", open);
 </script>
 
 <!-- <div class="grid-detail-krd"> -->
