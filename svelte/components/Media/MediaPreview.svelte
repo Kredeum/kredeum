@@ -86,6 +86,10 @@
     display: none;
   }
 
+  .media {
+    width: 100%;
+  }
+
   .media-zoom .media {
     position: relative;
   }

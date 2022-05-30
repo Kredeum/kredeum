@@ -40,36 +40,35 @@
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
   <MediaDisplayImage {mediaSrc} {alt} />
-</div>
-{#if small}
-  {#if "list" === displayMode}
-    <audio preload="none" bind:paused src={animation_url}>
-      <!-- <audio controls preload="none" src={animation_url}> -->
-      <track kind="captions" />
-      Your browser does not support the
-      <code>audio</code> element.
-    </audio>
-    <button on:click={playAudio} class="krd-play-audio-button">
-      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
-    </button>
+  {#if small}
+    {#if "list" === displayMode}
+      <audio preload="none" bind:paused src={animation_url}>
+        <track kind="captions" />
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
+      <button on:click={playAudio} class="krd-play-audio-button krd-play-audio-list-button">
+        <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+      </button>
+    {:else}
+      <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
+      <audio controls preload="none" bind:paused src={animation_url}>
+        <!-- <audio controls preload="none" src={animation_url}> -->
+        <track kind="captions" />
+        Your browser does not support the
+        <code>audio</code> element.
+      </audio>
+      <button on:click={playAudio} class="krd-play-audio-button">
+        <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+      </button>
+    {/if}
   {:else}
-    <!-- <audio controls preload="none" bind:this={player} src={animation_url}> -->
-    <audio controls preload="none" bind:paused src={animation_url}>
-      <!-- <audio controls preload="none" src={animation_url}> -->
-      <track kind="captions" />
+    <audio controls autoplay src={animation_url}>
       Your browser does not support the
       <code>audio</code> element.
     </audio>
-    <button on:click={playAudio} class="krd-play-audio-button">
-      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
-    </button>
   {/if}
-{:else}
-  <audio controls autoplay src={animation_url}>
-    Your browser does not support the
-    <code>audio</code> element.
-  </audio>
-{/if}
+</div>
 
 <style>
   /* audio::-webkit-media-controls-panel,
@@ -111,12 +110,14 @@
   } */
 
   .audio-cover-image {
-    position: initial;
+    /* position: inherit; */
+    /* top: 0;
+    left: 0; */
     width: 100%;
     height: 100%;
   }
 
-  .audio-cover-image:not(.audioDeployed) + audio {
+  .audio-cover-image:not(.audioDeployed) audio {
     position: absolute;
     bottom: 0;
     left: 50%;
@@ -124,7 +125,7 @@
     width: 100%;
   }
 
-  .audioDeployed + audio {
+  .audioDeployed audio {
     transform: translate(50%, 15%);
   }
 
@@ -144,5 +145,10 @@
     left: 0;
     background-color: lightgray;
     border-radius: 50%;
+  }
+
+  .krd-play-audio-list-button {
+    bottom: 12px;
+    left: 2%;
   }
 </style>

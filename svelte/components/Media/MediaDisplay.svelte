@@ -37,9 +37,9 @@
     mediaSrc = nftGetImageLink(nft);
     alt = mediaType;
 
-    let metadatas: NftMetadata = nft?.metadata;
-    if (metadatas?.animation_url) {
-      animation_url = metadatas.animation_url;
+    // let metadatas: NftMetadata = nft?.metadata;
+    if (nft?.animation_url) {
+      animation_url = nft.animation_url;
     }
   };
 </script>
@@ -53,3 +53,9 @@
     <MediaDisplayVideo {mediaSrc} {displayMode} {index} {small} />
   {/if}
 </div>
+
+<style>
+  .media {
+    width: 100%;
+  }
+</style>
