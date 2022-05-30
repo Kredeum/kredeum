@@ -14,8 +14,8 @@ contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable, Ownable {
 
     constructor() ERC721("OpenMulti", "MULTI") {}
 
-    function claim(address minter, uint256 tokenId) public override(IOpenMulti) {
-        _safeMint(minter, tokenId);
+    function claim(uint256 tokenId) public override(IOpenMulti) {
+        _safeMint(msg.sender, tokenId);
     }
 
     function exists(uint256 tokenId) public view override(IOpenMulti) returns (bool) {

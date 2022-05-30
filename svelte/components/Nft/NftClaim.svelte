@@ -2,7 +2,7 @@
   import type { NftType } from "lib/ktypes";
   import NftStorage from "lib/knft-storage";
   import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, ipfsToUrlHttp } from "lib/kconfig";
-  import { nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { nftClaim3TxResponse, nftClaim4 } from "lib/knft-mint";
   import { cidToInt } from "lib/kcid";
 
   import type { Readable } from "svelte/store";
@@ -56,10 +56,10 @@
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {
             console.log("cidToInt(cid)", cidToInt(cid));
-            const txResp = await nftMint3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
+            const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
             console.log("txResp", txResp);
 
-            const mintedNft = await nftMint4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
+            const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
             console.log("mintedNft", mintedNft);
 
             claimed = true;

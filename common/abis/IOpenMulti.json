@@ -1,4 +1,4 @@
 [
-  "function claim(address,uint256)",
+  "function claim(uint256)",
   "function exists(uint256) returns (bool)"
 ]

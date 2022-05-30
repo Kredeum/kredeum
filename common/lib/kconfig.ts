@@ -41,6 +41,18 @@ const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.def
 //  GET OpenMulti address
 const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
 
+// GET explorer
+const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
+
+// GET OpenSeaKredeum
+const getOpenSeaKredeum = (chainId: number): string => getNetwork(chainId)?.openSea?.openNFTs || "";
+
+// GET OpenSea
+const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openSea?.assets || "";
+
+// GET Create
+const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
+
 const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
 
 const getEnsName = async (address: string): Promise<string> => {
@@ -64,18 +76,6 @@ const getCovalent = (chainId: number): boolean => Boolean(getNetwork(chainId)?.c
 // GET chain Name
 const getChainName = (chainId: number): string =>
   chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
-
-// GET explorer
-const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
-
-// GET OpenSeaKredeum
-const getOpenSeaKredeum = (chainId: number): string => getNetwork(chainId)?.openSea?.openNFTs || "";
-
-// GET OpenSea
-const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openSea?.assets || "";
-
-// GET Create
-const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
 // nfts url : nfts://chainName/collectionAddress
 const collectionUrl = (chainId: number, _collectionAddress: Address): string => {

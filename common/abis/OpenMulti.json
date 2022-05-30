@@ -6,7 +6,7 @@
   "event Transfer(address indexed,address indexed,uint256 indexed)",
   "function approve(address,uint256)",
   "function balanceOf(address) view returns (uint256)",
-  "function claim(address,uint256)",
+  "function claim(uint256)",
   "function exists(uint256) view returns (bool)",
   "function getApproved(uint256) view returns (address)",
   "function isApprovedForAll(address,address) view returns (bool)",
