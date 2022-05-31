@@ -3,7 +3,7 @@ import type { Address, NetworkType, CollectionType, NftType } from "./ktypes";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
-import { factoryGetAddress, factoryGetTemplateAddress } from "./kfactory-get";
+import { factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
 import config from "../config/config.json";
 
@@ -32,6 +32,27 @@ const getChainId = (chainName: string): number | undefined =>
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
+//  GET nftsFactory address
+const getNftsFactory = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
+
+//  GET default OpenNFTs address
+const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+
+//  GET OpenMulti address
+const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
+
+// GET explorer
+const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
+
+// GET OpenSeaKredeum
+const getOpenSeaKredeum = (chainId: number): string => getNetwork(chainId)?.openSea?.openNFTs || "";
+
+// GET OpenSea
+const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openSea?.assets || "";
+
+// GET Create
+const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
+
 const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
 
 const getEnsName = async (address: string): Promise<string> => {
@@ -59,18 +80,6 @@ const getAlchemyUrl = (chainId: number): string =>
 // GET chain Name
 const getChainName = (chainId: number): string =>
   chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
-
-// GET explorer
-const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
-
-// GET OpenSeaKredeum
-const getOpenSeaKredeum = (chainId: number): string => getNetwork(chainId)?.openSea?.openNFTs || "";
-
-// GET OpenSea
-const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openSea?.assets || "";
-
-// GET Create
-const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
 // nfts url : nfts://chainName/collectionAddress
 const collectionUrl = (chainId: number, _collectionAddress: Address): string => {
@@ -235,7 +244,7 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
 const explorerNFTsFactoryUrl = (chainId: number): string =>
   // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
   // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
-  explorerContractUrl(chainId, factoryGetAddress(chainId));
+  explorerContractUrl(chainId, getNftsFactory(chainId));
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -280,11 +289,11 @@ const explorerContractUrl = (chainId: number, address: string): string => {
 const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
   let url = "";
   if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
-    // https://blockscout.com/xdai/mainnet/token/0x74e596525C63393f42C76987b6A66F4e52733efa/inventory
-    url = explorerUrl(chainId, `/token/${collAddress}/inventory`);
+    // https://blockscout.com/xdai/mainnet/token/0x74e596525C63393f42C76987b6A66F4e52733efa
+    url = explorerUrl(chainId, `/token/${collAddress}`);
   } else {
-    // https://etherscan.io/token/0x82a398243ebc2cb26a4a21b9427ec6db8c224471#inventory
-    url = explorerUrl(chainId, `/token/${collAddress}#inventory`);
+    // https://etherscan.io/token/0x82a398243ebc2cb26a4a21b9427ec6db8c224471
+    url = explorerUrl(chainId, `/token/${collAddress}`);
   }
   return url;
 };
@@ -302,7 +311,7 @@ const explorerNftUrl = (chainId: number, nft: NftType): string => {
     url = explorerUrl(chainId, `/token/${nft?.address}/instance/${nft?.tokenID}/metadata`);
   } else {
     // https://etherscan.io/token/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471?a=1
-    url = explorerUrl(chainId, `/token/${nft?.address}?a=${nft?.tokenID}#inventory`);
+    url = explorerUrl(chainId, `/token/${nft?.address}?a=${nft?.tokenID}`);
   }
   return url;
 };
@@ -412,6 +421,9 @@ export {
   getShortAddress,
   getChecksumAddress,
   getNetwork,
+  getNftsFactory,
+  getDefaultOpenNFTs,
+  getOpenMulti,
   getEnsName,
   getSubgraph,
   getSubgraphUrl,

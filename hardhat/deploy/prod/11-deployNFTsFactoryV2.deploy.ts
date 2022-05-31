@@ -2,6 +2,7 @@ import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types"
 import type { NetworkType } from "lib/ktypes";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { OpenMulti } from "types/OpenMulti";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
@@ -20,9 +21,9 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   };
 
   // Deterministic expect for these networks
-  if (!["avalanche", "fuji"].includes(hre.network.name)) {
-    deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV2");
-  }
+  // if (!["avalanche", "fuji"].includes(hre.network.name)) {
+  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV2");
+  // }
 
   const deployResult = await hre.deployments.deploy(contractName, deployOptions);
   // const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
@@ -45,9 +46,12 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
 
     await nftsFactoryV2.implementationsAdd([openNFTsV3.address]);
     // await checkGasMethod(hre, contractName, "implementationsAdd", deployer, [openNFTsV3.address]);
+
+    const openMulti: OpenMulti = await hre.ethers.getContract("OpenMulti");
+    await nftsFactoryV2.implementationsAdd([openMulti.address]);
   }
 };
-deployFunction.dependencies = ["OpenNFTsV3"];
+deployFunction.dependencies = ["OpenNFTsV3", "OpenMulti"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 export default deployFunction;

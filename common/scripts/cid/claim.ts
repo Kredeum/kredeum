@@ -1,5 +1,5 @@
 import { ethers, deployments, network } from "hardhat";
-import { SignerWithAddress } from "hardhat";
+import { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 
 import { OpenMulti } from "types/OpenMulti";
 import { BigNumber } from "ethers";
@@ -13,7 +13,7 @@ const main = async (): Promise<string> => {
   if (network.name === "hardhat") {
     await deployments.fixture("OpenMulti");
   }
-  const openMulti = (await ethers.getContract("OpenMulti", admin)) as OpenMulti;
+  const openMulti: OpenMulti = await ethers.getContract("OpenMulti", admin);
   console.log(`OpenMulti contract ${openMulti.address}@${network.name}`);
 
   // console.log(openMulti?.interface.format(ethers.utils.FormatTypes.full));

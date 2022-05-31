@@ -1,8 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "helpers/clickOutside";
-
-  import { getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
-  import { factoryGetAddress } from "lib/kfactory-get";
+  import { getNftsFactory, getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
 
   import { metamaskSwitchChain } from "helpers/metamask";
   import { metamaskChainId } from "main/metamask";
@@ -15,48 +13,42 @@
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
   export let txt: boolean = undefined;
+  export let all: boolean = true;
   export let label = true;
 
   let open = false;
 
-  $: chainId = $metamaskChainId;
+  // Get Metamask chainId by default at startup
+  $: chainId ||= $metamaskChainId;
 
   interface SwitchEventTarget extends EventTarget {
     value: number;
   }
-  const _metamaskSwitchChainEvt = (evt?: Event) => {
-    // console.log("_metamaskSwitchChainEvt evt", evt);
+  const _switchChainEvt = (evt?: Event) => {
+    // console.log("_switchChainEvt evt", evt);
 
     const _chainId = Number((evt.target as SwitchEventTarget).value);
-    _metamaskSwitchChain(_chainId, evt);
+    _switchChain(_chainId, evt).catch(console.error);
   };
-  const _metamaskSwitchChain = (_chainId: number, evt: Event) => {
-    // console.log("_metamaskSwitchChain evt", evt);
+  const _switchChain = async (_chainId: number, evt: Event): Promise<void> => {
+    // console.log("_switchChain evt", evt);
     evt.preventDefault();
 
-    metamaskSwitchChain(_chainId);
+    await metamaskSwitchChain(_chainId);
+    chainId = _chainId;
   };
 </script>
 
 {#if txt}
   {#if label}Network{/if}
 
-  <!-- TODO change to bind => https://svelte.dev/tutorial/select-bindings (only possible in txt) -->
-  <select on:change={_metamaskSwitchChainEvt}>
+  <select on:change={_switchChainEvt}>
     {#each networks.filter((nw) => nw.mainnet) as _network}
       <option value={_network.chainId} selected={_network.chainId == chainId}>
         <Network chainId={_network.chainId} {txt} />
         &nbsp;
       </option>
     {/each}
-    {#if getNetwork(chainId)?.testnet}
-      {#each networks.filter((nw) => nw.testnet) as _network}
-        <option value={_network.chainId} selected={_network.chainId == chainId}>
-          <Network chainId={_network.chainId} {txt} />
-          &nbsp;
-        </option>
-      {/each}
-    {/if}
   </select>
 {:else}
   <div class="col col-xs-12 col-sm-3">
@@ -68,7 +60,7 @@
           href={explorerNFTsFactoryUrl(chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-        {factoryGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
+        {getNftsFactory(chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
     {/if}
@@ -81,21 +73,22 @@
         <div class="custom-options" />
 
         <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet) as nwk}
+          {#each networks.filter((nw) => nw.mainnet && (all || nw.openMulti)) as nwk}
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
-              on:click={(evt) => _metamaskSwitchChain(nwk.chainId, evt)}
+              on:click={(evt) => _switchChain(nwk.chainId, evt)}
             >
               <Network chainId={nwk.chainId} txt={true} />
             </span>
           {/each}
-          {#if getNetwork(chainId)?.testnet}
-            {#each networks.filter((nw) => nw.testnet) as nwk}
+          <!-- {#if getNetwork(chainId)?.testnet} -->
+          {#if true}
+            {#each networks.filter((nw) => nw.testnet && (all || nw.openMulti)) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}
-                on:click={(evt) => _metamaskSwitchChain(nwk.chainId, evt)}
+                on:click={(evt) => _switchChain(nwk.chainId, evt)}
               >
                 <Network chainId={nwk.chainId} txt={true} />
               </span>

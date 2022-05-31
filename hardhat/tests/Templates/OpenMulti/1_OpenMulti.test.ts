@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import { Signer, Contract } from "ethers";
+import { Signer } from "ethers";
 import { ethers, deployments } from "hardhat";
 import { CID } from "multiformats/cid";
 import { OpenMulti } from "types/OpenMulti";
@@ -23,13 +23,13 @@ const cids = [
   "bafkreidxflrui7pwvbtzwbgxvgvhvytknkybmc6gppwrvej63cqxegwt6m",
   "bafkreihgf42cncbynpfecfoxilymqzcjrn2rfj4vjqcvnp6ncatzgwxdvi"
 ];
-const cidOK: string = "bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
-const hashOK: string = "0x88ad89aa9ef7fe9100a501b802aeb493e00fd5bb6a39153f39386fc541115ed7";
+const cidOK = "bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
+const hashOK = "0x88ad89aa9ef7fe9100a501b802aeb493e00fd5bb6a39153f39386fc541115ed7";
 
-const cidKO: string = "bafybeibvs5x2qjy7ipndndx3pbpopywivqe742ytmq5pla7e3qjrdmzkga";
-const hashKO: string = "0x35976fa8271f43da368efb785ee7e2c8ac09fe6b13643af583e4dc1311b32a30";
+const cidKO = "bafybeibvs5x2qjy7ipndndx3pbpopywivqe742ytmq5pla7e3qjrdmzkga";
+const hashKO = "0x35976fa8271f43da368efb785ee7e2c8ac09fe6b13643af583e4dc1311b32a30";
 
-describe(contractName, async () => {
+describe(contractName, () => {
   let signer: Signer;
   let signerAddress: string;
   let openMulti: OpenMulti;
@@ -49,13 +49,13 @@ describe(contractName, async () => {
     console.log("contract", openMulti.address, "\n");
   });
 
-  describe("OK", async () => {
-    it("Should be ok", async () => {
+  describe("OK", () => {
+    it("Should be ok", () => {
       expect(signerAddress).to.be.properAddress;
       expect(openMulti.address).to.be.properAddress;
     });
 
-    it("Should transform CID to HEXA", async () => {
+    it("Should transform CID to HEXA", () => {
       const _cidOK = CID.parse(cidOK);
       const _hashOK = "0x" + Buffer.from(_cidOK.multihash.digest).toString("hex");
       expect(_hashOK).to.be.equal(hashOK);
@@ -66,7 +66,7 @@ describe(contractName, async () => {
     });
   });
 
-  describe("CLAIM", async () => {
+  describe("CLAIM", () => {
     it("Should claim TokenId 1", async () => {
       await expect(openMulti.claim(1)).to.not.be.reverted;
     });
@@ -84,7 +84,7 @@ describe(contractName, async () => {
     });
   });
 
-  describe("TOKENURI", async () => {
+  describe("TOKENURI", () => {
     it("Should get TokenURI from TokenId CID", async () => {
       const _tokenURI = await openMulti.tokenURI(hashOK);
       console.log(`<== https://ipfs.io/ipfs/${cidOK}`);
@@ -102,7 +102,7 @@ describe(contractName, async () => {
     });
   });
 
-  describe("ALL", async () => {
+  describe("ALL", () => {
     it("Should get back CIDs", async () => {
       for await (const cid of cids) {
         const _cid = CID.parse(toV1Raw(cid));

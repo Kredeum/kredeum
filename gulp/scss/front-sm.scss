@@ -1,45 +1,46 @@
-@import '_variables';
+@import "_variables";
 
 .steps {
-    li {
-        display: flex;
-        align-items: center;
+  li {
+    display: flex;
+    align-items: center;
 
-        .flex {
-            flex: 0 0 auto;
-            width: 50%;
+    .flex {
+      flex: 0 0 auto;
+      width: 50%;
 
-            & + .flex {
-                text-align: right;
-            }
-        }
+      & + .flex {
+        text-align: right;
+      }
     }
+  }
 }
 
 // Modal
 .modal-window {
-    & > div {
-        max-height: calc(100% - 50px);
-        width: 85%;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        min-width: 700px;
-    }
+  & > div {
+    max-height: calc(100% - 50px);
+    width: 85%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    min-height: 600px;
+    min-width: 700px;
+  }
 
-    .modal-content {
-        max-height: calc(100vh - 50px);
-        padding: 60px;
-    }
+  .modal-content {
+    max-height: calc(100vh - 50px);
+    min-height: 500px;
+    padding: 60px;
+  }
 
-    .modal-body {
-        overflow-y: auto;
-        -webkit-overflow-scrolling: touch;
-        padding: 0 20px;
-    }
+  .modal-body {
+    -webkit-overflow-scrolling: touch;
+    padding: 0 20px;
+  }
 
-    .or {
-        display: inline-block;
-        vertical-align: middle;
-        margin: 0 10px;
-    }
+  .or {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 10px;
+  }
 }

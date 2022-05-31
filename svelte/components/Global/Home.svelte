@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { factoryGetAddress } from "lib/kfactory-get";
-  import { getCreate } from "lib/kconfig";
+  import { getNftsFactory, getCreate } from "lib/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
@@ -53,7 +52,7 @@
       {#if chainId && account}
         <CollectionList {chainId} {account} bind:address />
 
-        {#if account && address && factoryGetAddress(chainId)}
+        {#if account && address && getNftsFactory(chainId)}
           <!-- Refresh button -->
           <NftsListRefresh {refreshing} bind:refresh />
         {/if}
