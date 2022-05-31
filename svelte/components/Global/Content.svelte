@@ -1,8 +1,9 @@
 <script lang="ts">
-  // import { displayedTokenID } from "main/diplayedNft";
+  import { setContext } from "svelte";
+  import { writable } from "svelte/store";
 
   import Nft from "../Nft/Nft.svelte";
-  import NftList from "../NftsList/NftList.svelte";
+  import NftList from "../NftsList/NftsList.svelte";
 
   /////////////////////////////////////////////////
   // <ContentV2 {chainId} {address} {account} {platform}? {refreshing}? {refresh}? />
@@ -11,7 +12,7 @@
   export let chainId: number;
   export let address: string;
   export let account: string;
-  export let platform: string = "dapp";
+  export let platform: string = undefined;
   export let refreshing: boolean = false;
   export let refresh: number = undefined;
 
@@ -26,20 +27,23 @@
       if (evtTarget.closest("div [data-tokenid]")) {
         evt.preventDefault();
         tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("data-tokenid");
-      } else if (evtTarget.getAttribute("data-back") === "backtocoll") {
-        evt.preventDefault();
-        tokenID = "";
       }
     }
   };
+
+  let toPlayIndex = writable(-1);
+  setContext("toPlayIndex", toPlayIndex);
 </script>
 
 <div on:click={(evt) => handleClick(evt)}>
-  {#if tokenID}
+  {#if Number(tokenID) > 0}
+    <h2 class="m-b-20 return">
+      <i class="fa fa-arrow-left fa-left" />
+      <span on:click={handleChange} class="link">Return to collection</span>
+    </h2>
+
     <Nft {chainId} {address} {tokenID} {account} {platform} />
   {:else}
-    {#key address}
-      <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
-    {/key}
+    <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
   {/if}
 </div>

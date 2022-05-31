@@ -1,5 +1,8 @@
 <script lang="ts">
-  import { NftType } from "lib/ktypes";
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+  import type { NftMetadata, NftType } from "lib/ktypes";
+
   import { clickOutside } from "helpers/clickOutside";
   import { fade } from "svelte/transition";
 
@@ -15,14 +18,25 @@
   export let alt: string = nft.name || "media";
 
   let open = false;
+  let metadatas: NftMetadata;
+  $: metadatas = nft?.metadata;
+
+  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
 </script>
 
 <!-- <div class="grid-detail-krd"> -->
 <div class="media-zoom">
   <div class="media">
     <span
-      class="krd-pointer {nft.contentType?.startsWith('video') ? 'no-zoom-hover' : 'zoom-hover'}"
-      on:click={() => (open = true)}
+      class="krd-pointer {nft.contentType?.startsWith('video') || metadatas?.animation_url
+        ? 'no-zoom-hover'
+        : 'zoom-hover'}"
+      on:click={() =>
+        !metadatas?.animation_url
+          ? (open = true)
+          : $toPlayIndex !== index
+          ? ($toPlayIndex = Number(index))
+          : ($toPlayIndex = -1)}
     >
       <i class="fas fa-search" />
       <MediaDisplay {nft} {index} displayMode={"preview"} {alt} />
@@ -61,8 +75,18 @@
     cursor: pointer;
   }
 
+  .no-zoom-hover {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .krd-pointer.no-zoom-hover i.fas {
     display: none;
+  }
+
+  .media {
+    width: 100%;
   }
 
   .media-zoom .media {

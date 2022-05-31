@@ -27,7 +27,8 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  export let platform: string = "dapp";
+  export let platform: string = undefined;
+
   let nft: Readable<NftType>;
 
   // let i = 1;
@@ -47,11 +48,7 @@
 </script>
 
 {#if $nft}
-  <h2 class="m-b-20 return">
-    <i class="fa fa-arrow-left fa-left" /><span data-back="backtocoll" class="link">Return to collection</span>
-  </h2>
-
-  <div class="row">
+  <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
         <MediaPreview nft={$nft} index={Number(tokenID)} />
@@ -101,7 +98,7 @@
             </div>
           </li>
           <li>
-            <div class="flex"><span class="label">Metadata ipfs</span></div>
+            <div class="flex"><span class="label">Metadata</span></div>
             <div class="flex">
               <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
                 >{$nft.ipfsJson}</a
@@ -164,25 +161,22 @@
               >
             </div>
           </li>
-          <!-- <li>
-            <div class="flex"><span class="label">Sell direclty on Gamestop</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Mint on your front page</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Sell directly without market-places</span></div>
-            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
-          </li> -->
         </ul>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Modal gift -->
-<div id="transfert-nft-{$nft.tokenID}" class="modal-window">
+<!-- Modal transfer nft -->
+<div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
+
+<!-- <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
+  <NftClaimView bind:$nft />
+</div> -->
+<style>
+  .krd-nft-solo {
+    width: 100%;
+  }
+</style>

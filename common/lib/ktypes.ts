@@ -70,6 +70,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   ipfs?: string;
+  animation_url?: string;
 };
 
 type NftType = {

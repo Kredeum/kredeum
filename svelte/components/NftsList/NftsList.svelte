@@ -73,10 +73,6 @@
   {:else if "grid" === displayMode}
     <NftsListGrid {account} {nfts} />
   {/if}
-
-  <!-- {#if platform === "wordpress"}
-    <div>WordPress</div>
-  {/if} -->
 {:else}
   <div class="card-krd">
     <p>

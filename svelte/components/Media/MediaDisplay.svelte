@@ -4,6 +4,7 @@
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";
   import MediaDisplayVideo from "./MediaDisplayVideo.svelte";
+  import MediaDisplayAudio from "./MediaDisplayAudio.svelte";
 
   /////////////////////////////////////////////////
   //  <MediaDisplay {nft} {index} {displayMode}? {small}? {alt}? />
@@ -37,9 +38,17 @@
 </script>
 
 <div id="media-{cssSmall}-{index}" class="media {cssMedia} media-{mediaType}{gridScale}">
-  {#if "image" === mediaType}
+  {#if nft?.animation_url}
+    <MediaDisplayAudio {mediaSrc} animation_url={nft?.animation_url} {displayMode} {alt} {index} {small} />
+  {:else if "image" === mediaType}
     <MediaDisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
     <MediaDisplayVideo {mediaSrc} {displayMode} {index} {small} />
   {/if}
 </div>
+
+<style>
+  .media {
+    width: 100%;
+  }
+</style>
