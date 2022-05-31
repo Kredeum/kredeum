@@ -27,8 +27,6 @@
   // let mediaSubtype: string = "jpeg";
   let mediaSrc: string = "";
 
-  let animation_url: string = "";
-
   $: nft && handleChange();
   const handleChange = (): void => {
     const mediaContentType = nft.contentType?.split("/");
@@ -36,17 +34,12 @@
     // mediaSubtype = mediaContentType[1];
     mediaSrc = nftGetImageLink(nft);
     alt = mediaType;
-
-    // let metadatas: NftMetadata = nft?.metadata;
-    if (nft?.animation_url) {
-      animation_url = nft.animation_url;
-    }
   };
 </script>
 
 <div id="media-{cssSmall}-{index}" class="media {cssMedia} media-{mediaType}{gridScale}">
-  {#if animation_url}
-    <MediaDisplayAudio {mediaSrc} {animation_url} {displayMode} {alt} {index} {small} />
+  {#if nft?.animation_url}
+    <MediaDisplayAudio {mediaSrc} animation_url={nft?.animation_url} {displayMode} {alt} {index} {small} />
   {:else if "image" === mediaType}
     <MediaDisplayImage {mediaSrc} {alt} />
   {:else if "video" === mediaType}
