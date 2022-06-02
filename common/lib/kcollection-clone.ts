@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
-import { ethers, Signer } from "ethers";
+import { ethers } from "ethers";
 import { getNetwork } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 
