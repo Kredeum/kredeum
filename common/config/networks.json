@@ -17,6 +17,10 @@
       "url": "https://api.thegraph.com/subgraphs/name/amxx/eip721-subgraph/graphql",
       "active": false
     },
+    "alchemy": {
+      "url": "https://eth-mainnet.alchemyapi.io/v2",
+      "active": false
+    },
     "covalent": {
       "active": true
     },
@@ -76,6 +80,10 @@
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
+      "active": true
+    },
+    "alchemy": {
+      "url": "https://polygon-mainnet.g.alchemy.com/v2",
       "active": true
     },
     "covalent": {

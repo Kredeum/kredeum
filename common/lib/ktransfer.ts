@@ -9,22 +9,34 @@ const transferNftResponse = async (
   tokenID: string,
   destinationAddress: string,
   owner: JsonRpcSigner
-): Promise<TransactionResponse | undefined> => {
+): Promise<TransactionResponse | null> => {
   // console.log("transferNftResponse", chainId, address, tokenID, destinationAddress);
 
-  let txResp: TransactionResponse | undefined;
+  let txResp: TransactionResponse | null = null;
+  const network = getNetwork(chainId);
 
-  if (chainId && address && tokenID && destinationAddress && owner) {
-    const network = getNetwork(chainId);
-    const ownerAddress = await owner.getAddress();
-    // console.log("transferNftResponse owner", ownerAddress);
+  if (!(chainId && address && tokenID && network && destinationAddress && owner)) return txResp;
 
-    const openNFTs = await collectionContractGet(chainId, address, owner.provider);
+  const ownerAddress = await owner.getAddress();
+  // console.log("transferNftResponse owner", ownerAddress);
 
-    // console.log("transferFrom", ownerAddress, destinationAddress, tokenID);
-    txResp = await openNFTs.connect(owner).transferFrom(ownerAddress, destinationAddress, tokenID);
-    console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
+  const collectionContract = (await collectionContractGet(chainId, address, owner.provider)).connect(owner);
+  // console.log("collectionContract", collectionContract);
+  const transferERC721 = "safeTransferFrom(address,address,uint256)";
+  const transferERC1155 = "safeTransferFrom(address,address,uint256,uint256,bytes)";
+
+  if (collectionContract[transferERC721]) {
+    const transferFunction = collectionContract[transferERC721] as {
+      (from: string, to: string, tokenID: string): Promise<TransactionResponse>;
+    };
+    txResp = await transferFunction(ownerAddress, destinationAddress, tokenID);
+  } else if (collectionContract[transferERC1155]) {
+    const transferFunction = collectionContract[transferERC1155] as {
+      (from: string, to: string, tokenID: string, amount: number, bytes: string): Promise<TransactionResponse>;
+    };
+    txResp = await transferFunction(ownerAddress, destinationAddress, tokenID, 1, "0x00");
   }
+  console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };
@@ -39,7 +51,7 @@ const transferNft = async (
   tokenID: string,
   destinationAddress: string,
   owner: JsonRpcSigner
-): Promise<TransactionReceipt | undefined> => {
+): Promise<TransactionReceipt | null> => {
   // console.log("transferNft", chainId, address, tokenID, destinationAddress);
 
   const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, owner);

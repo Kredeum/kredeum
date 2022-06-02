@@ -174,14 +174,13 @@ const collectionGetOtherData = async (
       );
     }
 
-    try {
-      // Get name and symbol ... try it if IERC1155... may revert as not normalized
-      if (supports.IERC1155) {
+    // Get name if IERC1155 ... may revert as not normalized
+    if (supports.IERC1155) {
+      try {
         collection.name = await contract.name();
-        collection.symbol = await contract.symbol();
+      } catch (err) {
+        console.log("ERC1155 collection with no name", collection);
       }
-    } catch (err) {
-      console.log("ERC1155 collection with no name and symbol");
     }
   } catch (err) {
     console.log(`No contract found @ ${collectionKey(chainId, address, account)}\n`);

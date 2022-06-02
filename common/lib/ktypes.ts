@@ -12,11 +12,8 @@ type NetworkType = {
   iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
-  subgraph?: {
-    url?: string;
-    startBlock?: number;
-    active?: boolean;
-  };
+  subgraph?: { url?: string; startBlock?: number; active?: boolean };
+  alchemy?: { url?: string; active: boolean };
   covalent?: { active: boolean };
   mainnet?: boolean;
   testnet?: boolean;
