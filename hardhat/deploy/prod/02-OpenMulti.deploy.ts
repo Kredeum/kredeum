@@ -1,5 +1,4 @@
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
-import type { NetworkType } from "lib/ktypes";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
@@ -12,7 +11,7 @@ const deployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
   const deployResult = await deployments.deploy(contractName, {
     from: deployer.address,
-    args: [],
+    args: ["OpenMulti", "MULTI"],
     log: true
   });
 

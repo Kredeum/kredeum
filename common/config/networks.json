@@ -226,7 +226,9 @@
       "symbol": "BNB",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://testnet.bscscan.com/"],
+    "blockExplorerUrls": [
+      "https://testnet.bscscan.com/"
+    ],
     "covalent": {
       "active": true
     },

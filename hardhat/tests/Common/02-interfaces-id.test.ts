@@ -29,7 +29,6 @@ import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 
 import { expect } from "chai";
-import { keyIn } from "readline-sync";
 
 const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
   await deployments.fixture("InterfacesIds");
@@ -61,24 +60,24 @@ describe("02 Call interfacesId", () => {
     ids = await contract.ids();
     console.log(ids);
     const interfaces = {
-      IERC165: IERC165,
-      IERC721: IERC721,
-      IERC721TokenReceiver: IERC721TokenReceiver,
-      IERC721Metadata: IERC721Metadata,
-      IERC721Enumerable: IERC721Enumerable,
-      IERC1155: IERC1155,
-      IERC1155TokenReceiver: IERC1155TokenReceiver,
-      IERC1155MetadataURI: IERC1155MetadataURI,
-      IERC173: IERC173,
-      IOpenNFTs: IOpenNFTs,
-      IOpenNFTsV0: IOpenNFTsV0,
-      IOpenNFTsV1: IOpenNFTsV1,
-      IOpenNFTsV2: IOpenNFTsV2,
-      IOpenNFTsV3: IOpenNFTsV3,
-      ICloneFactory: ICloneFactory,
-      INFTsFactory: INFTsFactory,
-      ICloneFactoryV2: ICloneFactoryV2,
-      INFTsFactoryV2: INFTsFactoryV2
+      IERC165,
+      IERC721,
+      IERC721TokenReceiver,
+      IERC721Metadata,
+      IERC721Enumerable,
+      IERC1155,
+      IERC1155TokenReceiver,
+      IERC1155MetadataURI,
+      IERC173,
+      IOpenNFTs,
+      IOpenNFTsV0,
+      IOpenNFTsV1,
+      IOpenNFTsV2,
+      IOpenNFTsV3,
+      ICloneFactory,
+      INFTsFactory,
+      ICloneFactoryV2,
+      INFTsFactoryV2
     };
 
     let i = 0;

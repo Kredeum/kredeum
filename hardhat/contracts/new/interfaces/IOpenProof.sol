@@ -2,5 +2,5 @@
 pragma solidity ^0.8.9;
 
 interface IOpenProof {
-    function setTokenURI(string memory tokenURI) external;
+    function mintOpenProof(address minter, string memory jsonURI) external returns (uint256);
 }

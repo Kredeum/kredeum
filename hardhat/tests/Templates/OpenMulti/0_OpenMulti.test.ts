@@ -5,11 +5,11 @@ import { OpenMulti } from "types/OpenMulti";
 import { CID } from "multiformats/cid";
 const contractName = "OpenMulti";
 
-// const cid = "bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
-const cid = "bafkreibhp3dzgc4efjxnmoj7uiyx5sxin4vjvzt7gsyc5ercdyrvtxzx54";
-console.log("cid", cid);
-
 describe(contractName, () => {
+  // const cid = "bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
+  const cid = "bafkreibhp3dzgc4efjxnmoj7uiyx5sxin4vjvzt7gsyc5ercdyrvtxzx54";
+  // console.log("cid", cid);
+
   let signer: Signer;
   let signerAddress: string;
   let openMulti: OpenMulti;
