@@ -34,6 +34,8 @@ jobs:
           NODE_DEBUG: false
           DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
+          ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
+          ALCHEMY_API_KEY_POLYGON: ${{ secrets.ALCHEMY_API_KEY_POLYGON }}
           COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 

@@ -2,13 +2,13 @@ import type { CollectionType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
-import { fetchCov, fetchGQL } from "./kfetch";
-import { collectionListKey, DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
+import { fetchCov, fetchGQL, fetchAlch } from "./kfetch";
+import { DEFAULT_NAME, DEFAULT_SYMBOL, getChainName } from "./kconfig";
 
 import { factoryGetContract } from "./kfactory-get";
 import { collectionMerge } from "./kcollection-get";
 
-import { getChecksumAddress, getNetwork, getSubgraphUrl, getCovalent, collectionUrl } from "./kconfig";
+import { getChecksumAddress, getNetwork, getSubgraph, getCovalent, getAlchemy, collectionUrl } from "./kconfig";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -35,63 +35,111 @@ const collectionListFromCovalent = async (chainId: number, account: string): Pro
   // console.log(`collectionListFromCovalent ${collectionListKey(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  let path = "";
-  const network = getNetwork(chainId);
+  const chainName = getChainName(chainId);
 
-  if (network && account) {
-    const match =
-      // eslint-disable-next-line quotes
-      '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
+  if (!(chainId && chainName && account)) return collections;
 
-    path =
-      `/${Number(chainId)}/address/${account}/balances_v2/` +
-      "?nft=true" +
-      "&no-nft-fetch=false" +
-      `&match=${encodeURIComponent(match)}`;
+  const match =
+    // eslint-disable-next-line quotes
+    '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
 
-    type CollectionCov = {
-      contract_name: string;
-      contract_ticker_symbol: string;
-      contract_address: string;
-      balance: BigNumber;
-    };
-    type AnswerCollectionsCov = {
-      items?: Array<CollectionCov>;
-    };
-    const answerCollectionsCov = (await fetchCov(path)) as AnswerCollectionsCov;
+  const path =
+    `/${Number(chainId)}/address/${account}/balances_v2/` +
+    "?nft=true" +
+    "&no-nft-fetch=false" +
+    `&match=${encodeURIComponent(match)}`;
 
-    const collectionsCov = answerCollectionsCov?.items;
-    if (collectionsCov?.length) {
-      // console.log(collectionsCov[0]);
-      // console.log("collectionListFromCovalent nbContracts", collectionsCov.length);
+  type CollectionCov = {
+    contract_name: string;
+    contract_ticker_symbol: string;
+    contract_address: string;
+    balance: BigNumber;
+  };
+  type AnswerCollectionsCov = {
+    items?: Array<CollectionCov>;
+  };
+  const answerCollectionsCov = (await fetchCov(path)) as AnswerCollectionsCov;
 
-      for (let index = 0; index < collectionsCov.length; index++) {
-        const collectionCov: CollectionCov = collectionsCov[index];
+  const collectionsCov = answerCollectionsCov?.items;
+  if (collectionsCov?.length) {
+    // console.log(collectionsCov[0]);
+    // console.log("collectionListFromCovalent nbContracts", collectionsCov.length);
 
-        const chainName: string = network?.chainName;
-        const address: string = getChecksumAddress(collectionCov.contract_address);
-        const name = collectionCov.contract_name || DEFAULT_NAME;
-        const symbol = collectionCov.contract_ticker_symbol || DEFAULT_SYMBOL;
-        const balanceOf = Number(collectionCov.balance);
+    for (let index = 0; index < collectionsCov.length; index++) {
+      const collectionCov: CollectionCov = collectionsCov[index];
 
-        const collection: CollectionType = {
-          chainId,
-          chainName,
-          address,
-          name,
-          symbol
-        };
-        collection.balancesOf = new Map([[account, balanceOf]]);
-        collections.set(collectionUrl(chainId, address), collection);
-      }
+      const address: string = getChecksumAddress(collectionCov.contract_address);
+      const name = collectionCov.contract_name || DEFAULT_NAME;
+      const symbol = collectionCov.contract_ticker_symbol || DEFAULT_SYMBOL;
+      const balanceOf = Number(collectionCov.balance);
+
+      const collection: CollectionType = {
+        chainId,
+        chainName,
+        address,
+        name,
+        symbol
+      };
+      collection.balancesOf = new Map([[account, balanceOf]]);
+      collections.set(collectionUrl(chainId, address), collection);
     }
   }
+
   // console.log(
   //   `collectionListFromCovalent ${collectionListKey(chainId, account)}\n`,
   //   collections.size,
   //   path,
   //   collections
   // );
+  return collections;
+};
+
+const collectionListFromAlchemy = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+  // console.log(`collectionListFromCovalent ${collectionListKey(chainId, account)}\n`);
+
+  const collections: Map<string, CollectionType> = new Map();
+  const chainName = getChainName(chainId);
+
+  if (!(chainId && chainName && account)) return collections;
+
+  type CollectionAlch = {
+    contract: { address: string };
+    id: { tokenId: string };
+    balance: string;
+  };
+  type AnswerCollectionsAlch = {
+    ownedNfts?: Array<CollectionAlch>;
+    totalCount: number;
+  };
+  const answerCollectionsAlch = (await fetchAlch(
+    chainId,
+    `/getNFTs?owner=${account}&withMetadata=false`
+  )) as AnswerCollectionsAlch;
+  console.log("answerCollectionsAlch", answerCollectionsAlch);
+
+  const totalCount = answerCollectionsAlch.totalCount;
+  const ownedNfts = answerCollectionsAlch.ownedNfts;
+  if (!(ownedNfts && totalCount >= 0)) return collections;
+
+  for (let index = 0; index < totalCount; index++) {
+    const ownedNft = ownedNfts[index];
+    // console.log("collectionListFromAlchemy", ownedNft);
+
+    const address = getChecksumAddress(ownedNft.contract?.address);
+    const collUrl = collectionUrl(chainId, address);
+
+    const previousCollection = collections.get(collUrl);
+    const count = Number(previousCollection?.balancesOf?.get(account) || 0);
+    const collection = {
+      chainId,
+      owner: account,
+      address,
+      balancesOf: new Map([[account, count + 1]])
+    };
+
+    collections.set(collUrl, collection);
+  }
+  console.log("collectionListFromAlchemy ~ collections", collections);
   return collections;
 };
 
@@ -125,7 +173,7 @@ const collectionListFromTheGraph = async (chainId: number, account: string): Pro
         numTokens: number;
       }>;
     };
-    const answerGQL = (await fetchGQL(getSubgraphUrl(chainId), query)) as AnswerCollectionsGQL;
+    const answerGQL = (await fetchGQL(chainId, query)) as AnswerCollectionsGQL;
     const currentContracts = answerGQL?.ownerPerTokenContracts || [];
     // console.log(currentContracts[0]);
 
@@ -205,7 +253,7 @@ const collectionList = async (
   chainId: number,
   account: string,
   provider: Provider,
-  metadata?: boolean
+  mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
 
@@ -217,7 +265,9 @@ const collectionList = async (
     let collectionsKredeum: Map<string, CollectionType> = new Map();
 
     // GET user collections
-    if (getSubgraphUrl(chainId)) {
+    if (getAlchemy(chainId)) {
+      collectionsOwner = await collectionListFromAlchemy(chainId, account);
+    } else if (getSubgraph(chainId)) {
       collectionsOwner = await collectionListFromTheGraph(chainId, account);
     } else if (getCovalent(chainId)) {
       collectionsOwner = await collectionListFromCovalent(chainId, account);
@@ -226,8 +276,15 @@ const collectionList = async (
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);
-    // console.log("collectionList", collections);
   }
+
+  if (mintable) {
+    // filter mintable collection
+    collections = new Map(
+      [...collections].filter(([, coll]) => coll.open || (coll.owner === account && coll.version == 3))
+    );
+  }
+
   // console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
@@ -236,6 +293,7 @@ export {
   collectionList,
   collectionListMerge,
   collectionListFromCovalent,
+  collectionListFromAlchemy,
   collectionListFromTheGraph,
   collectionListFromFactory
 };
