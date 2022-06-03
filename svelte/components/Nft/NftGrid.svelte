@@ -6,12 +6,11 @@
   import MediaDisplay from "../Media/MediaDisplay.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {nft} {account} {index} />
+  //  <NftGrid {nft} {account}  />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
   export let account: string = undefined;
-  export let index: number;
 
   let displayMode: string = "grid";
 
@@ -20,8 +19,8 @@
 </script>
 
 <div class="col col-xs-12 col-sm-4 col-md-3 col-lg-2">
-  <div class="grid-card-krd" data-tokenid={nft?.tokenID}>
-    <MediaDisplay {nft} {index} {displayMode} />
+  <div class="grid-card-krd" data-tokenid={nft?.tokenID || ""}>
+    <MediaDisplay {nft} {displayMode} />
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>

@@ -9,19 +9,18 @@
   import MediaDisplay from "./MediaDisplay.svelte";
 
   /////////////////////////////////////////////////
-  //  <MediaPreview {nft} {index} {displayMode}? {alt}? />
+  //  <MediaPreview {nft} {displayMode}? {alt}? />
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
   /////////////////////////////////////////////////
   export let nft: NftType;
-  export let index: number;
   export let alt: string = nft.name || "media";
 
   let open = false;
   let metadatas: NftMetadata;
   $: metadatas = nft?.metadata;
 
-  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
+  let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
 </script>
 
 <!-- <div class="grid-detail-krd"> -->
@@ -34,12 +33,12 @@
       on:click={() =>
         !metadatas?.animation_url
           ? (open = true)
-          : $toPlayIndex !== index
-          ? ($toPlayIndex = Number(index))
-          : ($toPlayIndex = -1)}
+          : $toPlayTokenID !== nft.tokenID
+          ? ($toPlayTokenID = nft.tokenID)
+          : ($toPlayTokenID = "")}
     >
       <i class="fas fa-search" />
-      <MediaDisplay {nft} {index} displayMode={"preview"} {alt} />
+      <MediaDisplay {nft} displayMode={"preview"} {alt} />
     </span>
   </div>
 </div>
@@ -57,7 +56,7 @@
           <i class="fa fa-times" /></span
         >
         <div class="modal-body">
-          <MediaDisplay {nft} {index} displayMode={"preview"} small={false} {alt} />
+          <MediaDisplay {nft} displayMode={"preview"} small={false} {alt} />
         </div>
       </div>
     </div>

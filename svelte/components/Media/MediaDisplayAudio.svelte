@@ -8,32 +8,18 @@
   // Display a player audio with its cover image according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
+  export let tokenID: string = undefined;
   export let animation_url: string;
   export let displayMode: string = "list";
   export let alt: string = "Cover image";
-  export let index: number = -1;
   export let small: boolean = true;
   export let paused: boolean = true;
 
-  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
-
-  $: $toPlayIndex >= 0 && handleChange();
-  const handleChange = (): void => {
-    paused = $toPlayIndex !== index;
-  };
-
-  $: $toPlayIndex === -1 && handleStopChange();
-  const handleStopChange = (): void => {
-    paused = true;
-  };
-
+  let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
+  $: paused = $toPlayTokenID !== tokenID;
   const playAudio = () => {
     if ("preview" !== displayMode) {
-      if ($toPlayIndex !== index) {
-        $toPlayIndex = Number(index);
-      } else {
-        $toPlayIndex = -1;
-      }
+      $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
     }
   };
 </script>

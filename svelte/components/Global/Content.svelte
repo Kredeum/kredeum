@@ -31,12 +31,12 @@
     }
   };
 
-  let toPlayIndex = writable(-1);
-  setContext("toPlayIndex", toPlayIndex);
+  let toPlayTokenID = writable("");
+  setContext("toPlayTokenID", toPlayTokenID);
 </script>
 
 <div on:click={(evt) => handleClick(evt)}>
-  {#if Number(tokenID) > 0}
+  {#if tokenID !== ""}
     <h2 class="m-b-20 return">
       <i class="fa fa-arrow-left fa-left" />
       <span on:click={handleChange} class="link">Return to collection</span>
