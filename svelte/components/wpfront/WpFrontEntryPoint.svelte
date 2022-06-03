@@ -42,8 +42,8 @@
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  import { nfts, isLoading, error, isAddingNft, errorAddingNft } from "./store/nftStore";
-  import { fetchNfts } from "./store/nftService";
+  // import { nfts, isLoading, error, isAddingNft, errorAddingNft } from "./store/nftStore";
+  // import { fetchNfts } from "./store/nftService";
   import { Writable } from "svelte/store";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -161,7 +161,7 @@
     <!-- NFTs list -->
     <!-- <NftDetail collection={collectionObject} {tokenID} /> -->
 
-    <Demo name={"swarm"} />
+    <!-- <Demo name={"swarm"} /> -->
 
     {#if chainId && account && collection}
       {#if nft}
