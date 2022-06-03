@@ -1,4 +1,5 @@
 import type { HardhatRuntimeEnvironment } from "hardhat/types";
+import type { Bafkrey } from "types/Bafkrey";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
@@ -9,9 +10,13 @@ const deployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { ethers, deployments } = hre;
   const deployer = await ethers.getNamedSigner("deployer");
 
+  const bafkrei: Bafkrey = await hre.ethers.getContract("Bafkrey");
+  console.log("deployFunction ~ bafkrei.address", bafkrei.address);
+
   const deployResult = await deployments.deploy(contractName, {
     from: deployer.address,
     args: ["OpenMulti", "MULTI"],
+    libraries: { Bafkrei: bafkrei.address },
     log: true
   });
 
@@ -25,6 +30,7 @@ const deployFunction = async function (hre: HardhatRuntimeEnvironment) {
       .catch((err) => console.log(err));
   }
 };
+deployFunction.dependencies = ["Bafkrey"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 
