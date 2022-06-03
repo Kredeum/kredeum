@@ -43,8 +43,8 @@
   let files: FileList;
   let image: string;
 
-  let ipfsImage: string;
-  let ipfsJson: string;
+  // let ipfsImage: string;
+  // let ipfsJson: string;
   let minting: number;
   let mintingTxResp: TransactionResponse;
   let mintedNft: NftType;
@@ -62,8 +62,10 @@
   };
 
   const mintReset = (): void => {
-    ipfsImage = null;
-    ipfsJson = null;
+    swarmUploadedRef = null;
+    swarmJson = null;
+    // ipfsImage = null;
+    // ipfsJson = null;
     minting = 0;
     mintingTxResp = null;
     mintedNft = null;

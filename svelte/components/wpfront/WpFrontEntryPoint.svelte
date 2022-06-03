@@ -4,7 +4,7 @@
   import { factoryGetAddress } from "lib/kfactory-get";
   import { getCreate } from "lib/kconfig";
 
-  import Demo from "../swarm/Demo.svelte";
+  // import Demo from "../swarm/Demo.svelte";
 
   import { onMount } from "svelte";
   // import {
@@ -16,13 +16,13 @@
   // } from "helpers/metamaskWpHelper";
   // import { metamaskAccount } from "main/metamaskWp";
 
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkList from "../Network/NetworkList.svelte";
+  // import AccountConnect from "../Account/AccountConnect.svelte";
+  // import NetworkList from "../Network/NetworkList.svelte";
 
-  import Create from "../Global/Create.svelte";
+  // import Create from "../Global/Create.svelte";
   // import Navigation from "./Global/Navigation.svelte";
 
-  import Nft from "../Nft/Nft.svelte";
+  // import Nft from "../Nft/Nft.svelte";
 
   // import NftsListGet from "./NftsList/NftsListGet.svelte";
   // import NftsListRefresh from "./NftsList/NftsListRefresh.svelte";
@@ -32,19 +32,19 @@
   import ShortcodeLayout from "./views/ShortcodeLayout.svelte";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
-  import { nftGet, nftGetFromContract } from "lib/knft-get";
-  import { nftGetMetadata } from "lib/knft-get-metadata";
-  import { collectionGet } from "lib/kcollection-get";
+  // import { nftGet, nftGetFromContract } from "lib/knft-get";
+  // import { nftGetMetadata } from "lib/knft-get-metadata";
+  // import { collectionGet } from "lib/kcollection-get";
   // // import NftDetail from "./NftDetail.svelte";
-  import { metamaskProvider } from "main/metamask";
+  // import { metamaskProvider } from "main/metamask";
 
-  import { metamaskSigner } from "main/metamask";
+  // import { metamaskSigner } from "main/metamask";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   // import { nfts, isLoading, error, isAddingNft, errorAddingNft } from "./store/nftStore";
   // import { fetchNfts } from "./store/nftService";
-  import { Writable } from "svelte/store";
+  // import { Writable } from "svelte/store";
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,17 +54,17 @@
 
   export let props: Record<string, string>;
 
-  let platform: string = "wordpress";
+  // let platform: string = "wordpress";
 
   let chainId: number = Number(props.chainId);
   let collection: string = props.collection;
-  let tokenID: string = props.tokenID;
+  // let tokenID: string = props.tokenID;
   let account: string = props.account;
-  let refreshing: boolean;
-  let refresh: number;
+  // let refreshing: boolean;
+  // let refresh: number;
 
   // let nft: Nft;
-  let nft;
+  let nft: NftType;
 
   // $: nft = $nfts;
   ////////////////////////////////////////////////////////////////////////////////////////////////
