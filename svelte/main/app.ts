@@ -6,6 +6,7 @@ import Home from "../components/Global/Home.svelte";
 import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
+import WpFrontEntryPoint from "../components/wpfront/WpFrontEntryPoint.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
@@ -64,6 +65,39 @@ let kredeumCollectionList: CollectionChoice;
   }
 }
 
+let wpFrontEntryPoint: WpFrontEntryPoint;
+
+// Convert "chainid" in "chainId" & "tokenid" in "tokenID"
+const _propsUpCase = (lowCaseProps: object) => {
+  const upCaseProps: Props = lowCaseProps as Props;
+  for (const [key, value] of Object.entries(lowCaseProps)) {
+    if ("chainid" === key) {
+      upCaseProps["chainId"] = value as string;
+      delete upCaseProps[key];
+    } else if ("tokenid" === key) {
+      upCaseProps["tokenID"] = value as string;
+      delete upCaseProps[key];
+    }
+  }
+
+  return upCaseProps;
+};
+
+{
+  // Kredeum Dapp component
+  const target: HTMLElement = document.querySelector("#kredeum-wpfront");
+
+  // const wpProps: Props;
+  const dataSets: string = target.dataset.props;
+
+  if (target) {
+    const wpProps = JSON.parse(dataSets) as Props;
+    console.log(_propsUpCase(wpProps));
+
+    wpFrontEntryPoint = new WpFrontEntryPoint({ target, props: { props: _propsUpCase(wpProps) } });
+  }
+}
+
 let network: NetworkList;
 {
   // Kredeum Metamask component
@@ -73,4 +107,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, kredeumCollectionList, wpFrontEntryPoint, network };

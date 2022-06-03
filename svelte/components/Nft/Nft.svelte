@@ -14,6 +14,7 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "helpers/shortcodes";
+  import { clickOutside } from "helpers/clickOutside";
 
   import { nftStore } from "stores/nft/nft";
 
@@ -161,6 +162,18 @@
               >
             </div>
           </li>
+          <!-- <li>
+            <div class="flex"><span class="label">Sell direclty on Gamestop</span></div>
+            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Mint on your front page</span></div>
+            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">Sell directly without market-places</span></div>
+            <div class="flex"><a class="btn btn-small btn-outline" href="." title="Copy">Copy</a></div>
+          </li> -->
         </ul>
       </div>
     </div>

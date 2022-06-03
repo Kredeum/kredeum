@@ -52,3 +52,33 @@ add_shortcode(
 		return $o;
 	}
 );
+
+
+
+add_shortcode(
+	'kredeum_transfert',
+	function ( $atts = array(), $content = null, $tag = '' ) {
+		// Normalize attribute keys, lowercase.
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+		// Override default attributes with user attributes.
+		$args = shortcode_atts(
+			array(
+				'chainid'    => '',
+				'collection' => '',
+				'tokenid'    => '',
+				'account'    => '',
+				'cid'        => '',
+				'image'      => '',
+			),
+			$atts
+		);
+
+		// $props = str_replace( "\"", "-", json_encode($args));
+		$props = esc_attr( json_encode( $args ) );
+
+		$o  = '<div id="kredeum-wpfront" data-props="' . $props . '">';
+		$o .= '</div>';
+		return $o;
+	}
+);

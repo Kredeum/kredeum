@@ -59,7 +59,6 @@ const nftSwarmMintTexts = [
   "Wait till transaction completed, it may take one minute or more..."
 ];
 
-///////////////////////////////////////////////////////////////////////////////////
 // GET ipfs image link
 const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
@@ -79,21 +78,38 @@ const nftMint2IpfsJson = async (
 ): Promise<string> => {
   // console.log("nftMint2IpfsJson", name, ipfs, address, image, metadata);
 
-  const json = {
-    name,
-    description: name || "",
-    image: ipfsGatewayUrl(ipfs),
-    ipfs,
-    origin: textShort(image, 140),
-    minter: address
-  } as NftType;
-  if (metadata) json.metadata = JSON.parse(metadata);
+  if (ipfs.startsWith("ipfs://")) {
+    const json = {
+      name,
+      description: name || "",
+      image: ipfsGatewayUrl(ipfs),
+      ipfs,
+      origin: textShort(image, 140),
+      minter: address
+    } as NftType;
+    if (metadata) json.metadata = JSON.parse(metadata);
 
-  const ipfsCid = await nftStorage.pinJson(json);
-  const ipfsJson = `ipfs://${ipfsCid}`;
+    const ipfsCid = await nftStorage.pinJson(json);
+    const ipfsJson = `ipfs://${ipfsCid}`;
+
+    return ipfsJson;
+  } else {
+    const json = {
+      name,
+      description: name || "",
+      image: swarmGatewayUrl(ipfs),
+      ipfs,
+      origin: textShort(image, 140),
+      minter: address
+    } as NftType;
+    if (metadata) json.metadata = JSON.parse(metadata);
+
+    const ipfsJson: string = await swarmUploadFile(JSON.stringify(json, null, 2), "swarmJson", "text");
+
+    return ipfsJson;
+  }
 
   // console.log("nftMint ipfs metadata", ipfsJson);
-  return ipfsJson;
 };
 
 // GET minting tx response
@@ -118,7 +134,12 @@ const nftMint3TxResponse = async (
   // OpenNFTsV3+ = mintOpenNFT
   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
   const mintFunction: MintOpenNFTFunctionType = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
-  const urlJson = ipfsGatewayUrl(ipfsJson);
+  let urlJson;
+  if (ipfsJson.startsWith("ipfs://")) {
+    urlJson = ipfsGatewayUrl(ipfsJson);
+  } else {
+    urlJson = swarmGatewayUrl(ipfsJson);
+  }
 
   const txResp = await mintFunction(await minter.getAddress(), urlJson);
   console.log(`${getNetwork(chainId)?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
@@ -144,8 +165,14 @@ const nftMint4 = async (
       const tokenID = _mintTokenID(txReceipt);
       // console.log("tokenID", tokenID);
 
+      let urlJson = "";
+      if (metadataCid.startsWith("ipfs://")) {
+        urlJson = ipfsGatewayUrl(metadataCid);
+      } else {
+        urlJson = swarmGatewayUrl(metadataCid);
+      }
       if (tokenID) {
-        nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(metadataCid), minter);
+        nft = await _mintedNft(chainId, address, tokenID, urlJson, minter);
         nft.ipfsJson = metadataCid;
         // console.log("nftMint4", nft);
       }
@@ -155,117 +182,4 @@ const nftMint4 = async (
   return nft;
 };
 
-///////////////////////////////////////////////////////////////////////////////////
-// GET Swarm image link
-const nftMint1SwarmImage = async (
-  file: File,
-  nftTitle: string,
-  contentType: string,
-  fileSize?: number,
-  batchId = ""
-): Promise<string> => {
-  const swarmUploadedRef = await swarmUploadFile(file, nftTitle, contentType, fileSize, batchId);
-  console.log("🚀 ~ swarm image uploaded Ref :", swarmUploadedRef);
-
-  // console.log("nftMint swarm image", ipfsImage);
-  return swarmUploadedRef;
-};
-
-// GET Swarm metadata url
-const nftMint2SwarmJson = async (
-  name = DEFAULT_NAME,
-  ipfs = "",
-  address = "",
-  image = "",
-  metadata = "{}"
-): Promise<string> => {
-  // console.log("nftMint2IpfsJson", name, swarmImageRef, address, image, metadata);
-
-  const json = {
-    name,
-    description: name || "",
-    image: swarmGatewayUrl(ipfs),
-    ipfs,
-    origin: textShort(image, 140),
-    minter: address
-  } as NftType;
-  if (metadata) json.metadata = JSON.parse(metadata);
-
-  const swarmJson: string = await swarmUploadFile(JSON.stringify(json, null, 2), "swarmJson", "text");
-
-  // console.log("nftMint swarm metadata", ipfsJson);
-  return swarmJson;
-};
-
-// GET minting tx response
-const nftMint3SwarmTxResponse = async (
-  chainId: number,
-  address: string,
-  swarmJson: string,
-  minter: JsonRpcSigner
-): Promise<TransactionResponse | null> => {
-  if (!(chainId && address && swarmJson && minter)) return null;
-  // console.log("nftMint3TxResponse", chainId, address, ipfsJson, await minter.getAddress());
-
-  const openNFTs = (await collectionContractGet(chainId, address, minter.provider)).connect(minter);
-
-  type MintOpenNFTFunctionType = {
-    (address: string, json: string): Promise<TransactionResponse>;
-  };
-
-  // OpenNFTsV0 = addUser
-  // OpenNFTsV1 = mintNFT
-  // OpenNFTsV2 = mintNFT
-  // OpenNFTsV3+ = mintOpenNFT
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-  const mintFunction: MintOpenNFTFunctionType = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
-  const urlJson = swarmGatewayUrl(swarmJson);
-
-  const txResp = await mintFunction(await minter.getAddress(), urlJson);
-  console.log(`${getNetwork(chainId)?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
-
-  return txResp;
-};
-
-// GET minting tx receipt
-const nftMint4Swarm = async (
-  chainId: number,
-  address: string,
-  txResponse: TransactionResponse,
-  metadataCid: string,
-  minter: string
-): Promise<NftType | undefined> => {
-  let nft: NftType | undefined = undefined;
-
-  if (txResponse) {
-    const txReceipt = await txResponse.wait();
-    // console.log("txReceipt", txReceipt);
-
-    if (txReceipt) {
-      const tokenID = _mintTokenID(txReceipt);
-      // console.log("tokenID", tokenID);
-
-      if (tokenID) {
-        nft = await _mintedNft(chainId, address, tokenID, swarmGatewayUrl(metadataCid), minter);
-        nft.ipfsJson = metadataCid;
-        // console.log("nftMint4", nft);
-      }
-    }
-  }
-
-  return nft;
-};
-///////////////////////////////////////////////////////////////////////////////////
-
-export {
-  nftMintTexts,
-  nftSwarmMintTexts,
-  nftMint1IpfsImage,
-  nftMint2IpfsJson,
-  nftMint3TxResponse,
-  nftMint4,
-  nftMint1SwarmImage,
-  nftMint2SwarmJson,
-  nftMint3SwarmTxResponse,
-  nftMint4Swarm
-};
+export { nftMintTexts, nftSwarmMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 };
