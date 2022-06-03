@@ -13,7 +13,7 @@
 </script>
 
 <div class="row grid-krd">
-  {#each [...$nfts.values()] as nft, index}
-    <NftGrid {nft} {account} {index} />
+  {#each [...$nfts.values()] as nft}
+    <NftGrid {nft} {account} />
   {/each}
 </div>

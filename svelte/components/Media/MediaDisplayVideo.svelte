@@ -3,29 +3,20 @@
   import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
-  //  <DisplayVideo {mediaSrc} {displayMode}? {index}? {paused}? {small}? />
+  //  <DisplayVideo {mediaSrc} {tokenID} {displayMode}? {paused}? {small}? />
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
+  export let tokenID: string = undefined;
   export let displayMode: string = "list";
-  export let index: number = -1;
   export let paused: boolean = true;
   export let small: boolean = false;
 
-  let toPlayIndex: Writable<number> = getContext("toPlayIndex");
-
-  $: $toPlayIndex >= 0 && handleChange();
-  const handleChange = (): void => {
-    paused = $toPlayIndex !== index;
-  };
-
+  let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
+  $: paused = $toPlayTokenID !== tokenID;
   const playVideo = () => {
     paused = !paused;
-    if ($toPlayIndex !== index) {
-      $toPlayIndex = Number(index);
-    } else {
-      $toPlayIndex = -1;
-    }
+    $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
   };
 </script>
 
