@@ -182,6 +182,13 @@ const collectionGetOtherData = async (
         console.log("ERC1155 collection with no name", collection);
       }
     }
+    if (!collection.name) {
+      // ENS smartcontract
+      if (chainId === 1 && collection.address === "0x57f1887a8BF19b14fC0dF6Fd9B2acc9Af147eA85") {
+        collection.name = "ENS domains";
+        collection.symbol = "ENS";
+      }
+    }
   } catch (err) {
     console.log(`No contract found @ ${collectionKey(chainId, address, account)}\n`);
   }

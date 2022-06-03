@@ -19,7 +19,7 @@
     },
     "alchemy": {
       "url": "https://eth-mainnet.alchemyapi.io/v2",
-      "active": false
+      "active": true
     },
     "covalent": {
       "active": true
