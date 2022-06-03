@@ -8,6 +8,8 @@ import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 import WpFrontEntryPoint from "../components/wpfront/WpFrontEntryPoint.svelte";
 
+import NftMintSwarm from "../components/swarm/NftMintSwarm.svelte";
+
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
 
@@ -41,12 +43,14 @@ let kredeumHome: Home;
   }
 }
 
-const kredeumMintButton: Array<NftMintButton> = [];
+// const kredeumMintButton: Array<NftMintButton> = [];
+const kredeumMintButton: Array<NftMintSwarm> = [];
 {
   // Kredeum Mint button components
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
   targets?.forEach((target, i) => {
-    kredeumMintButton[i] = new NftMintButton({
+    // kredeumMintButton[i] = new NftMintButton({
+    kredeumMintButton[i] = new NftMintSwarm({
       target,
       props: _props(target)
     });

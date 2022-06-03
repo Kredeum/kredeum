@@ -13,30 +13,61 @@
   } from "lib/knft-mint";
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
-  import { metamaskSigner } from "main/metamask";
+  // import { metamaskSigner } from "main/metamask";
 
   import CollectionList from "../Collection/CollectionList.svelte";
+
+  /////////////////////////////////////////////////
+  import type { Readable } from "svelte/store";
+  import { collectionStore } from "stores/collection/collection";
+  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import AccountConnect from "../Account/AccountConnect.svelte";
+  import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
+  import { nftGetImageLink } from "lib/knft-get-metadata";
+
+  /////////////////////////////////////////////////
 
   /////////////////////////////////////////////////
   //  <NftMintSwarm {chainId} />
   // Mint NFT with Swarm storage
   /////////////////////////////////////////////////
-  export let chainId: number;
+  export let chainId: number = undefined;
   /////////////////////////////////////////////////
+  export let src: string = "";
+  export let alt: string = undefined;
+  export let pid: string = undefined;
+  export let metadata: string = "{}";
+  export let width = 100;
+  export let display = false;
+  /////////////////////////////////////////////////
+  // let account: string;
+  // $: $metamaskSigner && handleSigner().catch(console.error);
+  // const handleSigner = async (): Promise<void> => {
+  //   account = await $metamaskSigner.getAddress();
+  // };
 
+  // let address: string;
+
+  // $: $metamaskSigner && chainId && handleChange();
+  // const handleChange = async () => {
+  //   // Get signer account
+  //   account = await $metamaskSigner.getAddress();
+  // };
+  /////////////////////////////////////////////////
   let account: string;
-  $: $metamaskSigner && handleSigner().catch(console.error);
-  const handleSigner = async (): Promise<void> => {
-    account = await $metamaskSigner.getAddress();
-  };
-
   let address: string;
+  let readableAddress: Readable<string>;
 
-  $: $metamaskSigner && chainId && handleChange();
+  // ON network or account change
+  $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
-    // Get signer account
     account = await $metamaskSigner.getAddress();
+    console.log("handleChange", $metamaskChainId, account);
+
+    readableAddress = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
+    console.log("handleChange ~ address", $readableAddress);
   };
+  /////////////////////////////////////////////////
 
   let nftTitle: string = "";
 
@@ -60,6 +91,18 @@
     open = true;
     console.log(open);
   };
+
+  /////////////////////////////////////////////////
+  const sell = (e: Event): void => {
+    e.preventDefault();
+    location.href = nftOpenSeaUrl($metamaskChainId, mintedNft);
+  };
+
+  const view = (e: Event): void => {
+    e.preventDefault();
+    location.href = nftGetImageLink(mintedNft);
+  };
+  /////////////////////////////////////////////////
 
   const mintReset = (): void => {
     swarmUploadedRef = null;
@@ -89,6 +132,11 @@
   const mint = async (): Promise<NftType> => {
     mintReset();
 
+    const signerAddress = await $metamaskSigner.getAddress();
+    let readableChainId;
+    if (!chainId) {
+      readableChainId = $metamaskChainId;
+    }
     if (image) {
       minting = 1;
 
@@ -98,7 +146,7 @@
       if (swarmUploadedRef) {
         minting = 2;
 
-        swarmJson = await nftMint2SwarmJson(nftTitle, swarmUploadedRef, account, image);
+        swarmJson = await nftMint2SwarmJson(nftTitle, swarmUploadedRef, account, image, metadata);
         // console.log("json", swarmJson);
 
         if (swarmJson) {
@@ -138,201 +186,242 @@
   };
 </script>
 
-<span on:click={() => openSwarmMintModal()} class="btn btn-default" title="Mint NFT">Mint Swarm NFT</span>
+{#if chainId}
+  <span on:click={() => openSwarmMintModal()} class="btn btn-default" title="Mint NFT">Mint Swarm NFT</span>
 
-{#if open}
-  <div id="create-swarm-nft" class="modal-window" transition:fade>
-    <div
-      use:clickOutside={() => {
-        open = false;
-      }}
-    >
-      <div id="kredeum-create-nft">
-        <div class="modal-content">
-          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+  {#if open}
+    <div id="create-swarm-nft" class="modal-window" transition:fade>
+      <div
+        use:clickOutside={() => {
+          open = false;
+        }}
+      >
+        <div id="kredeum-create-nft">
+          <div class="modal-content">
+            <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
-          <div class="modal-body">
-            <div class="titre">
-              <i class="fas fa-plus fa-left c-green" />Mint Swarm NFT
-            </div>
-
-            {#if minting}
-              <div class="media media-photo">
-                <img src={image} alt="nft" />
+            <div class="modal-body">
+              <div class="titre">
+                <i class="fas fa-plus fa-left c-green" />Mint Swarm NFT
               </div>
 
-              <ul class="steps process">
-                {#if mintedNft}
-                  <li class="complete">
-                    <div class="flex">
-                      <span class="titre"
-                        >NFT Minted, congrats!
-                        <i class="fas fa-check fa-left c-green" />
-                      </span>
-                    </div>
-                    <div class="flex">
-                      <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
-                        >{nftUrl(mintedNft, 6)}</a
-                      >
-                    </div>
-                  </li>
-                {:else}
-                  <li>
-                    <div class="flex">
-                      <span class="titre">
-                        {#if mintingError}
-                          Minting Error
-                          <i class="fa fa-times fa-left" />
-                        {:else}
-                          Minting NFT
-                          <i class="fas fa-spinner fa-left c-green refresh" />
-                        {/if}
-                      </span>
-                    </div>
-                    <div class="flex">
-                      <span class="t-light">
-                        {#if mintingError}
-                          {mintingError}
-                        {:else if 1 <= minting && minting <= 5}
-                          {nftSwarmMintTexts[minting]}
-                        {/if}
-                      </span>
-                    </div>
-                  </li>
-                {/if}
+              {#if minting}
+                <div class="media media-photo">
+                  <img src={image} alt="nft" />
+                </div>
 
-                <li class={minting >= 2 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Swarm Image link</span></div>
-                  <div class="flex">
-                    {#if swarmUploadedRef}
-                      <a class="link" href={swarmGatewayUrl(swarmUploadedRef)} target="_blank"
-                        >{textShort(swarmUploadedRef, 15)}</a
-                      >
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 3 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Swarm Metadata link</span></div>
-                  <div class="flex">
-                    {#if swarmJson}
-                      <a class="link" href={swarmGatewayUrl(swarmJson)} target="_blank">{textShort(swarmJson, 15)}</a>
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 4 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Transaction</span></div>
-                  <div class="flex">
-                    {#if mintingTxResp}
-                      <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
-                        >{textShort(mintingTxResp.hash, 15)}</a
-                      >
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 5 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Token ID</span></div>
-                  <div class="flex">
-                    {#if mintedNft}
-                      <strong>{mintedNft?.tokenID}</strong>
-                    {/if}
-                  </div>
-                </li>
-              </ul>
-            {:else}
-              <div class="section">
-                <span class="label label-big">NFT file</span>
-                <div class="box-file">
-                  {#if image}
-                    <div class="media media-photo mt-20">
-                      <img src={image} alt="nft" />
-                    </div>
+                <ul class="steps process">
+                  {#if mintedNft}
+                    <li class="complete">
+                      <div class="flex">
+                        <span class="titre"
+                          >NFT Minted, congrats!
+                          <i class="fas fa-check fa-left c-green" />
+                        </span>
+                      </div>
+                      <div class="flex">
+                        <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+                          >{nftUrl(mintedNft, 6)}</a
+                        >
+                      </div>
+                    </li>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    <li>
+                      <div class="flex">
+                        <span class="titre">
+                          {#if mintingError}
+                            Minting Error
+                            <i class="fa fa-times fa-left" />
+                          {:else}
+                            Minting NFT
+                            <i class="fas fa-spinner fa-left c-green refresh" />
+                          {/if}
+                        </span>
+                      </div>
+                      <div class="flex">
+                        <span class="t-light">
+                          {#if mintingError}
+                            {mintingError}
+                          {:else if 1 <= minting && minting <= 5}
+                            {nftSwarmMintTexts[minting]}
+                          {/if}
+                        </span>
+                      </div>
+                    </li>
                   {/if}
-                </div>
-              </div>
-              <div class="section">
-                <span class="label label-big">NFT title</span>
-                <div class="form-field">
-                  <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
-                </div>
-              </div>
 
-              <div class="section">
-                <span class="label label-big">Media type</span>
-                <div class="box-fields">
-                  <input
-                    class="box-field"
-                    id="create-type-video"
-                    name="media-type"
-                    type="checkbox"
-                    value="Video"
-                    disabled
-                  />
-                  <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
-
-                  <input
-                    class="box-field"
-                    id="create-type-picture"
-                    name="media-type"
-                    type="checkbox"
-                    value="Picture"
-                    checked
-                  />
-                  <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
-
-                  <input
-                    class="box-field"
-                    id="create-type-texte"
-                    name="media-type"
-                    type="checkbox"
-                    value="Text"
-                    disabled
-                  />
-                  <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
-
-                  <input
-                    class="box-field"
-                    id="create-type-music"
-                    name="media-type"
-                    type="checkbox"
-                    value="Music"
-                    disabled
-                  />
-                  <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
-
-                  <input
-                    class="box-field"
-                    id="create-type-web"
-                    name="media-type"
-                    type="checkbox"
-                    value="Web"
-                    disabled
-                  />
-                  <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
-                </div>
-              </div>
-
-              <div class="section">
-                <span class="label label-big">Add to an existing address ?</span>
-                <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
-              </div>
-              <div class="txtright">
-                <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
-              </div>
-              {#if mintingError}
+                  <li class={minting >= 2 ? "complete" : ""}>
+                    <div class="flex"><span class="label">Swarm Image link</span></div>
+                    <div class="flex">
+                      {#if swarmUploadedRef}
+                        <a class="link" href={swarmGatewayUrl(swarmUploadedRef)} target="_blank"
+                          >{textShort(swarmUploadedRef, 15)}</a
+                        >
+                      {/if}
+                    </div>
+                  </li>
+                  <li class={minting >= 3 ? "complete" : ""}>
+                    <div class="flex"><span class="label">Swarm Metadata link</span></div>
+                    <div class="flex">
+                      {#if swarmJson}
+                        <a class="link" href={swarmGatewayUrl(swarmJson)} target="_blank">{textShort(swarmJson, 15)}</a>
+                      {/if}
+                    </div>
+                  </li>
+                  <li class={minting >= 4 ? "complete" : ""}>
+                    <div class="flex"><span class="label">Transaction</span></div>
+                    <div class="flex">
+                      {#if mintingTxResp}
+                        <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
+                          >{textShort(mintingTxResp.hash, 15)}</a
+                        >
+                      {/if}
+                    </div>
+                  </li>
+                  <li class={minting >= 5 ? "complete" : ""}>
+                    <div class="flex"><span class="label">Token ID</span></div>
+                    <div class="flex">
+                      {#if mintedNft}
+                        <strong>{mintedNft?.tokenID}</strong>
+                      {/if}
+                    </div>
+                  </li>
+                </ul>
+              {:else}
                 <div class="section">
-                  <p class="txtright errormsg">
-                    {mintingError}
-                  </p>
+                  <span class="label label-big">NFT file</span>
+                  <div class="box-file">
+                    {#if image}
+                      <div class="media media-photo mt-20">
+                        <img src={image} alt="nft" />
+                      </div>
+                    {:else}
+                      <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    {/if}
+                  </div>
                 </div>
+                <div class="section">
+                  <span class="label label-big">NFT title</span>
+                  <div class="form-field">
+                    <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
+                  </div>
+                </div>
+
+                <div class="section">
+                  <span class="label label-big">Media type</span>
+                  <div class="box-fields">
+                    <input
+                      class="box-field"
+                      id="create-type-video"
+                      name="media-type"
+                      type="checkbox"
+                      value="Video"
+                      disabled
+                    />
+                    <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
+
+                    <input
+                      class="box-field"
+                      id="create-type-picture"
+                      name="media-type"
+                      type="checkbox"
+                      value="Picture"
+                      checked
+                    />
+                    <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
+
+                    <input
+                      class="box-field"
+                      id="create-type-texte"
+                      name="media-type"
+                      type="checkbox"
+                      value="Text"
+                      disabled
+                    />
+                    <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
+
+                    <input
+                      class="box-field"
+                      id="create-type-music"
+                      name="media-type"
+                      type="checkbox"
+                      value="Music"
+                      disabled
+                    />
+                    <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
+
+                    <input
+                      class="box-field"
+                      id="create-type-web"
+                      name="media-type"
+                      type="checkbox"
+                      value="Web"
+                      disabled
+                    />
+                    <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
+                  </div>
+                </div>
+
+                <div class="section">
+                  <span class="label label-big">Add to an existing address ?</span>
+                  <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
+                </div>
+                <div class="txtright">
+                  <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+                </div>
+                {#if mintingError}
+                  <div class="section">
+                    <p class="txtright errormsg">
+                      {mintingError}
+                    </p>
+                  </div>
+                {/if}
               {/if}
-            {/if}
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  {/if}
+{:else}
+  <main id="kredeum-mint">
+    {#if display && src}
+      <img {src} {alt} {width} /><br />
+    {/if}
+
+    {#if $metamaskSigner}
+      {#if minting}
+        {#if mintedNft}
+          {#if getNetwork($metamaskChainId)?.openSea}
+            <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
+          {:else}
+            <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
+          {/if}
+        {:else if 1 <= minting && minting <= 5}
+          <div>
+            <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
+          </div>
+          <div>
+            <em>{nftSwarmMintTexts[minting]}</em>
+          </div>
+        {/if}
+      {:else}
+        <button id="mint-button-{pid || '0'}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
+      {/if}
+    {:else}
+      <small>
+        <br /><AccountConnect />
+      </small>
+    {/if}
+
+    {#if display}
+      <small>
+        <br />{urlToLink(src, `${src}@${alt}`)}
+
+        <br /><a href={swarmGatewayUrl(swarmUploadedRef)} alt="">{swarmUploadedRef}</a>
+      </small>
+    {/if}
+  </main>
 {/if}
 
 <style>
