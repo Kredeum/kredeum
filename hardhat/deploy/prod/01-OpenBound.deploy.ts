@@ -1,6 +1,6 @@
 import type { DeployFunction } from "hardhat-deploy/types";
 
-const contractName = "Bafkrey";
+const contractName = "OpenBound";
 
 const deployFunction: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");

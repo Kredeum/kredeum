@@ -56,5 +56,5 @@
   },
   "workbench.colorTheme": "monokai-charcoal (yellow)",
   "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
-  "window.zoomLevel": 1.5
+  "window.zoomLevel": 0
 }
