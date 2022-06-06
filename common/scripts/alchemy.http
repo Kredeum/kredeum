@@ -3,8 +3,11 @@
 @urlPol = https://polygon-mainnet.g.alchemy.com/v2/{{$dotenv ALCHEMY_API_KEY_POLYGON}}
 @address = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38
 
-### getNFTs on mainnet from address
+### getNFTs on mainnet from address without metadata
 GET {{urlEth}}/getNFTs?owner={{address}}&withMetadata=false
+
+### getNFTs on mainnet from address with metadata
+GET {{urlEth}}/getNFTs?owner={{address}}
 
 ### getContractMetadata collection metadata 
 GET {{urlEth}}/getContractMetadata?contractAddress=0xf6d53c7e96696391bb8e73be75629b37439938af

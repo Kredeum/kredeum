@@ -34,14 +34,14 @@
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && handleChange();
-  const handleChange = (): void => {
+  const handleChange = async (): Promise<void> => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
     // ACTION : async refresh Nft
-    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
   $: console.log("Nft", $nft);
@@ -51,7 +51,7 @@
   <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
-        <MediaPreview nft={$nft} index={Number(tokenID)} />
+        <MediaPreview nft={$nft} />
       </div>
     </div>
 
@@ -100,16 +100,20 @@
           <li>
             <div class="flex"><span class="label">Metadata</span></div>
             <div class="flex">
-              <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
-                >{$nft.ipfsJson}</a
-              >
+              {#if $nft.tokenURI}
+                <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
+                  >{$nft.tokenURI}</a
+                >
+              {:else}
+                NO metadata
+              {/if}
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">Image</span></div>
             <div class="flex">
               <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
-                {$nft.ipfs}
+                {$nft.image || ""}
               </a>
             </div>
           </li>

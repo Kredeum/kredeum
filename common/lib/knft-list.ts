@@ -103,7 +103,7 @@ const nftListFromAlchemy = async (
   type NftsAlch = {
     contract: { address: string };
     id: { tokenId: string };
-    tokenUri: { raw: string };
+    tokenUri: { gateway: string };
     balance: string;
   };
   type AnswerNftsAlch = {
@@ -130,7 +130,7 @@ const nftListFromAlchemy = async (
         chainId,
         address: getChecksumAddress(collection.address),
         tokenID,
-        tokenURI: ownedNft.tokenUri?.raw,
+        tokenURI: ownedNft.tokenUri?.gateway,
         nid: nftKey(chainId, collection.address, tokenID),
         owner: getChecksumAddress(account)
       };

@@ -35,7 +35,7 @@ const nftSetOne = (nft: NftType): void => {
     if (typeof localStorage !== "undefined") {
       localStorage.setItem(key, JSON.stringify(mergedNft));
     }
-    return $nftListStore.set(key, nft);
+    return $nftListStore.set(key, mergedNft);
   });
 };
 
