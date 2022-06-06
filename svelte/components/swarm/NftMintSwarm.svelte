@@ -31,7 +31,7 @@
   //  <NftMintSwarm {chainId} />
   // Mint NFT with Swarm storage
   /////////////////////////////////////////////////
-  export let chainId: number = undefined;
+  // export let chainId: number = undefined;
   /////////////////////////////////////////////////
   export let src: string = "";
   export let alt: string = undefined;
@@ -54,6 +54,7 @@
   //   account = await $metamaskSigner.getAddress();
   // };
   /////////////////////////////////////////////////
+  let chainId: number;
   let account: string;
   let address: string;
   let readableAddress: Readable<string>;
@@ -61,11 +62,33 @@
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
+    chainId = $metamaskChainId;
+
     account = await $metamaskSigner.getAddress();
     console.log("handleChange", $metamaskChainId, account);
 
-    readableAddress = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
-    console.log("handleChange ~ address", $readableAddress);
+    if (src) {
+      readableAddress = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
+      address = $readableAddress;
+      console.log("handleChange ~ address", $readableAddress);
+    }
+  };
+  /////////////////////////////////////////////////
+  let file;
+
+  $: src !== "" && handleWpFile().catch(console.error);
+  const handleWpFile = async (): Promise<void> => {
+    const blob = await fetch(src).then((r) => r.blob());
+    file = new File([blob], alt, { type: blob.type });
+
+    if (file) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      nftTitle = file.name;
+      reader.onload = (e) => {
+        image = e.target.result.toString();
+      };
+    }
   };
   /////////////////////////////////////////////////
 
@@ -89,7 +112,6 @@
 
   const openSwarmMintModal = () => {
     open = true;
-    console.log(open);
   };
 
   /////////////////////////////////////////////////
@@ -118,6 +140,7 @@
   // DISPLAY image AFTER upload
   const fileload = () => {
     mintReset();
+    file = null;
 
     if (files) {
       let reader = new FileReader();
@@ -126,21 +149,18 @@
       reader.onload = (e) => {
         image = e.target.result.toString();
       };
+
+      file = files[0];
     }
   };
 
   const mint = async (): Promise<NftType> => {
     mintReset();
 
-    const signerAddress = await $metamaskSigner.getAddress();
-    let readableChainId;
-    if (!chainId) {
-      readableChainId = $metamaskChainId;
-    }
     if (image) {
       minting = 1;
 
-      swarmUploadedRef = await nftMint1SwarmImage(files[0], nftTitle, files[0].type, files[0].size);
+      swarmUploadedRef = await nftMint1SwarmImage(file, nftTitle, file.type, file.size);
       // console.log("swarmUploadedRef", swarmUploadedRef);
 
       if (swarmUploadedRef) {
@@ -186,7 +206,7 @@
   };
 </script>
 
-{#if chainId}
+{#if !src}
   <span on:click={() => openSwarmMintModal()} class="btn btn-default" title="Mint NFT">Mint Swarm NFT</span>
 
   {#if open}
@@ -429,5 +449,26 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
+  }
+  /*************************/
+  button.btn {
+    color: white;
+    background-color: #2a81de;
+    border: 0px;
+    margin: 10px;
+  }
+  button.btn-mint {
+    background-color: #2a81de;
+  }
+  button.btn-minting {
+    /* color: black; */
+    background-color: grey;
+  }
+  button.btn-mint:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+  button.btn-sell {
+    background-color: #36d06f;
   }
 </style>

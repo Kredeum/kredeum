@@ -68,7 +68,7 @@
       <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
     <!-- <Demo name={"swarm"} {chainId} /> -->
-    <NftMintSwarm {chainId} />
+    <NftMintSwarm />
   </span>
 </HomeLayout>
 
