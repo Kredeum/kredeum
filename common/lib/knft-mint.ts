@@ -193,7 +193,8 @@ const nftMint2SwarmJson = async (
 
   const swarmJson: string = await swarmUploadFile(JSON.stringify(json, null, 2), "swarmJson", "text");
 
-  // console.log("nftMint swarm metadata", ipfsJson);
+  console.log("nftMint swarm metadata", swarmJson);
+
   return swarmJson;
 };
 
