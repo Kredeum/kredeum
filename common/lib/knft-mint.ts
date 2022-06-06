@@ -174,7 +174,7 @@ const nftMint1SwarmImage = async (
 // GET Swarm metadata url
 const nftMint2SwarmJson = async (
   name = DEFAULT_NAME,
-  ipfs = "",
+  swarmImage = "",
   address = "",
   image = "",
   metadata = "{}"
@@ -184,8 +184,8 @@ const nftMint2SwarmJson = async (
   const json = {
     name,
     description: name || "",
-    image: swarmGatewayUrl(ipfs),
-    ipfs,
+    image: swarmGatewayUrl(swarmImage),
+    swarmImage,
     origin: textShort(image, 140),
     minter: address
   } as NftType;
@@ -248,7 +248,7 @@ const nftMint4Swarm = async (
 
       if (tokenID) {
         nft = await _mintedNft(chainId, address, tokenID, swarmGatewayUrl(metadataCid), minter);
-        nft.ipfsJson = metadataCid;
+        nft.swarmJson = metadataCid;
         // console.log("nftMint4", nft);
       }
     }

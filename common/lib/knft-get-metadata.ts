@@ -24,7 +24,9 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   if (!(chainId && address && tokenID && url)) return contentType;
 
   if (url.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
-    if (nft.ipfs) {
+    if (nft.swarmImage) {
+      contentType = await swarmGetContentType(nft.swarmImage);
+    } else if (nft.ipfs) {
       contentType = await swarmGetContentType(nft.ipfs);
     }
   } else {
@@ -54,20 +56,22 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
-    if (!nft.ipfsJson) {
+    if (!nft.ipfsJson && !nft.swarmJson) {
+      let swarmJson;
       let ipfsJson;
       if (nft.tokenURI.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
-        ipfsJson = nft.tokenURI;
+        swarmJson = nft.tokenURI;
       } else {
         ipfsJson = ipfsGetLink(nft.tokenURI);
       }
+      if (swarmJson) nft.swarmJson = swarmJson;
       if (ipfsJson) nft.ipfsJson = ipfsJson;
     }
 
     try {
       // nft.ipfsJson = ipfs://...cid... : metadata URI found on IPFS
       // nft.tokenURI : default metadata URI
-      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.tokenURI);
+      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.swarmJson || nft.tokenURI);
       if (tokenURIAnswer.error) {
         console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
       } else {
@@ -88,6 +92,11 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
           if (!nft.ipfs && (nftMetadata.ipfs || ipfsGetLink(nft.image)))
             nft.ipfs = nftMetadata.ipfs || ipfsGetLink(nft.image);
+
+          if (!nft.swarmImage && nftMetadata.swarmImage) {
+            nft.swarmImage = nftMetadata.swarmImage || nft.image;
+            nft.ipfs = nftMetadata.swarmImage || nft.image;
+          }
 
           if (process.env.GIT_BRANCH !== "beta") {
             if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;

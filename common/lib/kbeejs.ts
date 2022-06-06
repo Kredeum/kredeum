@@ -39,6 +39,9 @@ const swarmDownloadFile = async (fileReference: string): Promise<FileData<Data>>
   await bee.downloadFile(fileReference);
 
 const swarmGetContentType = async (fileReference: string): Promise<string> => {
+  if (fileReference.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
+    fileReference = fileReference.replace("https://api.gateway.ethswarm.org/bzz/", "");
+  }
   const swarmData: FileData<Data> = await bee.downloadFile(fileReference);
   const contentType: string = swarmData.contentType || "image";
 
