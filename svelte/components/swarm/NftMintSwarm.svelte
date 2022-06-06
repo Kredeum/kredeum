@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
-  import { clickOutside } from "helpers/clickOutside";
-
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { NftType } from "lib/ktypes";
+  import type { Readable } from "svelte/store";
+
+  import { collectionStore } from "stores/collection/collection";
+  import { metamaskChainId, metamaskSigner } from "main/metamask";
+
   import {
     nftSwarmMintTexts,
     nftMint1SwarmImage,
@@ -12,26 +14,17 @@
     nftMint4Swarm
   } from "lib/knft-mint";
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
-
-  // import { metamaskSigner } from "main/metamask";
-
-  import CollectionList from "../Collection/CollectionList.svelte";
-
-  /////////////////////////////////////////////////
-  import type { Readable } from "svelte/store";
-  import { collectionStore } from "stores/collection/collection";
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
-  import AccountConnect from "../Account/AccountConnect.svelte";
   import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-
   /////////////////////////////////////////////////
-
+  import CollectionList from "../Collection/CollectionList.svelte";
+  import AccountConnect from "../Account/AccountConnect.svelte";
   /////////////////////////////////////////////////
-  //  <NftMintSwarm {chainId} />
-  // Mint NFT with Swarm storage
+  import { fade } from "svelte/transition";
+  import { clickOutside } from "helpers/clickOutside";
   /////////////////////////////////////////////////
-  // export let chainId: number = undefined;
+  //  <NftMintSwarm />
+  // Mint NFT button with Swarm storage (Wordpress: button, Dapp: button + mint modal)
   /////////////////////////////////////////////////
   export let src: string = "";
   export let alt: string = undefined;
@@ -40,25 +33,41 @@
   export let width = 100;
   export let display = false;
   /////////////////////////////////////////////////
-  // let account: string;
-  // $: $metamaskSigner && handleSigner().catch(console.error);
-  // const handleSigner = async (): Promise<void> => {
-  //   account = await $metamaskSigner.getAddress();
-  // };
-
-  // let address: string;
-
-  // $: $metamaskSigner && chainId && handleChange();
-  // const handleChange = async () => {
-  //   // Get signer account
-  //   account = await $metamaskSigner.getAddress();
-  // };
-  /////////////////////////////////////////////////
   let chainId: number;
   let account: string;
   let address: string;
   let readableAddress: Readable<string>;
 
+  let files: FileList;
+  let file: File;
+  let image: string;
+  let nftTitle: string = "";
+  /////////////////////////////////////////////////
+  let swarmUploadedRef: string;
+  let swarmJson: string;
+  // let ipfsImage: string;
+  // let ipfsJson: string;
+  let minting: number;
+  let mintingTxResp: TransactionResponse;
+  let mintedNft: NftType;
+  let mintingError: string;
+  /////////////////////////////////////////////////
+  let open = false;
+
+  const openSwarmMintModal = () => {
+    open = true;
+  };
+
+  const sell = (e: Event): void => {
+    e.preventDefault();
+    location.href = nftOpenSeaUrl($metamaskChainId, mintedNft);
+  };
+
+  const view = (e: Event): void => {
+    e.preventDefault();
+    location.href = nftGetImageLink(mintedNft);
+  };
+  /////////////////////////////////////////////////
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
@@ -73,9 +82,9 @@
       console.log("handleChange ~ address", $readableAddress);
     }
   };
-  /////////////////////////////////////////////////
-  let file;
 
+  /////////////////////////////////////////////////
+  // ON Wordpress get file & nftTitle & image
   $: src !== "" && handleWpFile().catch(console.error);
   const handleWpFile = async (): Promise<void> => {
     const blob = await fetch(src).then((r) => r.blob());
@@ -90,54 +99,9 @@
       };
     }
   };
-  /////////////////////////////////////////////////
-
-  let nftTitle: string = "";
-
-  let files: FileList;
-  let image: string;
-
-  // let ipfsImage: string;
-  // let ipfsJson: string;
-  let minting: number;
-  let mintingTxResp: TransactionResponse;
-  let mintedNft: NftType;
-  let mintingError: string;
 
   /////////////////////////////////////////////////
-  let swarmUploadedRef: string;
-  let swarmJson: string;
-  /////////////////////////////////////////////////
-  let open = false;
-
-  const openSwarmMintModal = () => {
-    open = true;
-  };
-
-  /////////////////////////////////////////////////
-  const sell = (e: Event): void => {
-    e.preventDefault();
-    location.href = nftOpenSeaUrl($metamaskChainId, mintedNft);
-  };
-
-  const view = (e: Event): void => {
-    e.preventDefault();
-    location.href = nftGetImageLink(mintedNft);
-  };
-  /////////////////////////////////////////////////
-
-  const mintReset = (): void => {
-    swarmUploadedRef = null;
-    swarmJson = null;
-    // ipfsImage = null;
-    // ipfsJson = null;
-    minting = 0;
-    mintingTxResp = null;
-    mintedNft = null;
-    mintingError = null;
-  };
-
-  // DISPLAY image AFTER upload
+  // ON Dapp (modal) AFTER upload get file & nftTitle & image to DISPLAY {image}
   const fileload = () => {
     mintReset();
     file = null;
@@ -154,6 +118,19 @@
     }
   };
 
+  /////////////////////////////////////////////////
+  const mintReset = (): void => {
+    swarmUploadedRef = null;
+    swarmJson = null;
+    // ipfsImage = null;
+    // ipfsJson = null;
+    minting = 0;
+    mintingTxResp = null;
+    mintedNft = null;
+    mintingError = null;
+  };
+
+  /////////////////////////////////////////////////
   const mint = async (): Promise<NftType> => {
     mintReset();
 
