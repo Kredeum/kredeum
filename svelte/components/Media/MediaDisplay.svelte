@@ -32,7 +32,7 @@
     const mediaContentType = nft.contentType?.split("/");
     mediaType = mediaContentType[0];
     // mediaSubtype = mediaContentType[1];
-    mediaSrc = nftGetImageLink(nft);
+    mediaSrc = nft.image;
     alt = mediaType;
   };
 </script>
