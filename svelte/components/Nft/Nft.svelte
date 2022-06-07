@@ -101,7 +101,7 @@
             <div class="flex"><span class="label">Metadata</span></div>
             <div class="flex">
               <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
-                >{$nft.ipfsJson}</a
+                >{$nft.ipfsJson || $nft.tokenURI.replace("https://api.gateway.ethswarm.org/bzz/", "")}</a
               >
             </div>
           </li>
@@ -109,7 +109,7 @@
             <div class="flex"><span class="label">Image</span></div>
             <div class="flex">
               <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
-                {$nft.ipfs}
+                {$nft.ipfs || $nft.swarmImage}
               </a>
             </div>
           </li>
