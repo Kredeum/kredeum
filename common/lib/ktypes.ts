@@ -94,7 +94,6 @@ type NftType = {
   ipfs?: string;
   ipfsJson?: string;
   swarmImage?: string;
-  swarmJson?: string;
   origin?: string;
   creator?: string;
   minter?: string;

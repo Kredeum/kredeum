@@ -32,6 +32,8 @@
   export let metadata: string = "{}";
   export let width = 100;
   export let display = false;
+  export let nodeUrl: string = undefined;
+  export let batchId: string = undefined;
   /////////////////////////////////////////////////
   let chainId: number;
   let account: string;
@@ -137,13 +139,13 @@
     if (image) {
       minting = 1;
 
-      swarmUploadedRef = await nftMint1SwarmImage(file, nftTitle, file.type, file.size);
+      swarmUploadedRef = await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size);
       // console.log("swarmUploadedRef", swarmUploadedRef);
 
       if (swarmUploadedRef) {
         minting = 2;
 
-        swarmJson = await nftMint2SwarmJson(nftTitle, swarmUploadedRef, account, image, metadata);
+        swarmJson = await nftMint2SwarmJson(nftTitle, swarmUploadedRef, account, image, metadata, nodeUrl, batchId);
         // console.log("json", swarmJson);
 
         if (swarmJson) {

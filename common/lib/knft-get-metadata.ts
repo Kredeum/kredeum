@@ -41,8 +41,8 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
     } catch (e) {
       console.error("ERROR nftGetContentType", e, url, nft);
     }
-    // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
   }
+  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };
@@ -56,22 +56,15 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
-    if (!nft.ipfsJson && !nft.swarmJson) {
-      let swarmJson;
-      let ipfsJson;
-      if (nft.tokenURI.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
-        swarmJson = nft.tokenURI;
-      } else {
-        ipfsJson = ipfsGetLink(nft.tokenURI);
-      }
-      if (swarmJson) nft.swarmJson = swarmJson;
+    if (!nft.ipfsJson) {
+      const ipfsJson = ipfsGetLink(nft.tokenURI);
       if (ipfsJson) nft.ipfsJson = ipfsJson;
     }
 
     try {
       // nft.ipfsJson = ipfs://...cid... : metadata URI found on IPFS
       // nft.tokenURI : default metadata URI
-      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.swarmJson || nft.tokenURI);
+      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.tokenURI);
       if (tokenURIAnswer.error) {
         console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
       } else {
@@ -95,7 +88,6 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
           if (!nft.swarmImage && nftMetadata.swarmImage) {
             nft.swarmImage = nftMetadata.swarmImage || nft.image;
-            nft.ipfs = nftMetadata.swarmImage || nft.image;
           }
 
           if (process.env.GIT_BRANCH !== "beta") {

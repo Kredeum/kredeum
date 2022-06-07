@@ -6,7 +6,6 @@ import Home from "../components/Global/Home.svelte";
 import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
-import WpFrontEntryPoint from "../components/wpfront/WpFrontEntryPoint.svelte";
 
 import NftMintSwarm from "../components/swarm/NftMintSwarm.svelte";
 
@@ -43,14 +42,25 @@ let kredeumHome: Home;
   }
 }
 
-// const kredeumMintButton: Array<NftMintButton> = [];
-const kredeumMintButton: Array<NftMintSwarm> = [];
+const kredeumMintButton: Array<NftMintButton> = [];
 {
   // Kredeum Mint button components
+  // const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
+  // targets?.forEach((target, i) => {
+  //   kredeumMintButton[i] = new NftMintButton({
+  //     target,
+  //     props: _props(target)
+  //   });
+  // });
+}
+
+// Kredeum Swarm Mint button components
+const kredeumMintSwarmButton: Array<NftMintSwarm> = [];
+{
+  // Kredeum Swarm Mint button components
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
   targets?.forEach((target, i) => {
-    // kredeumMintButton[i] = new NftMintButton({
-    kredeumMintButton[i] = new NftMintSwarm({
+    kredeumMintSwarmButton[i] = new NftMintSwarm({
       target,
       props: _props(target)
     });
@@ -69,39 +79,6 @@ let kredeumCollectionList: CollectionChoice;
   }
 }
 
-let wpFrontEntryPoint: WpFrontEntryPoint;
-
-// Convert "chainid" in "chainId" & "tokenid" in "tokenID"
-const _propsUpCase = (lowCaseProps: object) => {
-  const upCaseProps: Props = lowCaseProps as Props;
-  for (const [key, value] of Object.entries(lowCaseProps)) {
-    if ("chainid" === key) {
-      upCaseProps["chainId"] = value as string;
-      delete upCaseProps[key];
-    } else if ("tokenid" === key) {
-      upCaseProps["tokenID"] = value as string;
-      delete upCaseProps[key];
-    }
-  }
-
-  return upCaseProps;
-};
-
-{
-  // Kredeum Dapp component
-  const target: HTMLElement = document.querySelector("#kredeum-wpfront");
-
-  // const wpProps: Props;
-  const dataSets: string = target.dataset.props;
-
-  if (target) {
-    const wpProps = JSON.parse(dataSets) as Props;
-    console.log(_propsUpCase(wpProps));
-
-    wpFrontEntryPoint = new WpFrontEntryPoint({ target, props: { props: _propsUpCase(wpProps) } });
-  }
-}
-
 let network: NetworkList;
 {
   // Kredeum Metamask component
@@ -111,4 +88,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumCollectionList, wpFrontEntryPoint, network };
+export { kredeumHome, kredeumMintButton, kredeumMintSwarmButton, kredeumCollectionList, network };

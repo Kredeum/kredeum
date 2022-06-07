@@ -1,29 +1,31 @@
 import { Bee, Data, FileData } from "@ethersphere/bee-js";
 
 // const nodeUrl: string = "http://localhost:1633";
-const bee: Bee = new Bee("https://api.gateway.ethswarm.org");
+// const bee: Bee = new Bee("https://api.gateway.ethswarm.org");
 // const krdbatchId = "5feccb39054640d8721c2c8393f0f3317ea0753f499e89166741195d006d7be6";
 const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
 
-const swarmUploadData = async (data: string, batchId?: string) => {
-  const result = await bee.uploadData(batchId ? batchId : krdbatchId, data);
+// const swarmUploadData = async (data: string, batchId?: string) => {
+//   const result = await bee.uploadData(batchId ? batchId : krdbatchId, data);
 
-  return result.reference;
-};
+//   return result.reference;
+// };
 
 const swarmUploadFile = async (
   file: File | string,
   fileName: string,
   contentType: string,
-  fileSize?: number,
-  batchId?: string
+  nodeUrl?: string,
+  batchId?: string,
+  fileSize?: number
 ): Promise<string> => {
   // const tag = await bee.createTag();
   // const updatedTag = await bee.retrieveTag(tag);
   // console.log("🚀 ~ file: beejs.ts ~ 1 ~ uploadFile ~ updatedTag", updatedTag);
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
 
   const result = await bee.uploadFile(batchId ? batchId : krdbatchId, file, fileName, {
-    // pin: true,
+    pin: nodeUrl ? true : false,
     size: fileSize || undefined,
     contentType: contentType
     // tag: tag.uid
@@ -36,10 +38,15 @@ const swarmUploadFile = async (
   return result.reference;
 };
 
-const swarmDownloadFile = async (fileReference: string): Promise<FileData<Data>> =>
-  await bee.downloadFile(fileReference);
+const swarmDownloadFile = async (fileReference: string, nodeUrl?: string): Promise<FileData<Data>> => {
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
 
-const swarmGetContentType = async (fileReference: string): Promise<string> => {
+  return await bee.downloadFile(fileReference);
+};
+
+const swarmGetContentType = async (fileReference: string, nodeUrl?: string): Promise<string> => {
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
+
   if (fileReference.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
     fileReference = fileReference.replace("https://api.gateway.ethswarm.org/bzz/", "");
   }
@@ -49,4 +56,4 @@ const swarmGetContentType = async (fileReference: string): Promise<string> => {
   return contentType;
 };
 
-export { swarmUploadData, swarmUploadFile, swarmDownloadFile, swarmGetContentType };
+export { swarmUploadFile, swarmDownloadFile, swarmGetContentType };
