@@ -10,7 +10,6 @@ const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 describe("10 Clone Factory contract", function () {
   let nftsFactoryV2: NFTsFactoryV2;
-  let openNFTsV1: OpenNFTsV2;
   let openNFTsV2: OpenNFTsV2;
   let openNFTsV3: OpenNFTsV3;
   let tester1: Signer;
@@ -27,10 +26,9 @@ describe("10 Clone Factory contract", function () {
     if ((await ethers.provider.getNetwork()).chainId == 31337) {
       await deployments.fixture(["NFTsFactoryV2", "OpenNFTsV1", "OpenNFTsV2", "OpenNFTsV3"]);
     }
-    nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
-    openNFTsV1 = await ethers.getContract("OpenNFTsV1");
-    openNFTsV2 = await ethers.getContract("OpenNFTsV2");
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3");
+    nftsFactoryV2 = (await ethers.getContract("NFTsFactoryV2")) as unknown as NFTsFactoryV2;
+    openNFTsV2 = (await ethers.getContract("OpenNFTsV2")) as unknown as OpenNFTsV2;
+    openNFTsV3 = (await ethers.getContract("OpenNFTsV3")) as unknown as OpenNFTsV3;
   });
 
   describe("Should Setup", function () {

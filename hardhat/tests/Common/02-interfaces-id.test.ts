@@ -34,7 +34,7 @@ const setup = deployments.createFixture(async (): Promise<{ contract: Interfaces
   await deployments.fixture("InterfacesIds");
 
   const signer = await ethers.getNamedSigner("deployer");
-  const contract: InterfacesIds = await ethers.getContract("InterfacesIds", signer);
+  const contract = (await ethers.getContract("InterfacesIds", signer)) as unknown as InterfacesIds;
 
   return { contract, signer };
 });

@@ -35,7 +35,7 @@ describe("OpenProof", function () {
       await deployments.fixture(["OpenProof"]);
     }
 
-    openProof = await ethers.getContract("OpenProof", signer);
+    openProof = (await ethers.getContract("OpenProof", signer)) as unknown as OpenProof;
     console.log("openProof", openProof.address, "\n");
   });
 

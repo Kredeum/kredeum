@@ -7,7 +7,7 @@ const deployFunction: DeployFunction = async function ({ deployments, ethers }) 
 
   await deployments.deploy(contractName, {
     from: deployer.address,
-    args: [],
+    args: ["OpenBound", "BOUND"],
     log: true
   });
 };

@@ -5,6 +5,7 @@ import { expect } from "chai";
 import { collectionClone } from "lib/kcollection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
 import type { NFTsFactoryV2 } from "types/NftsFactoryV2";
+import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 describe("12 Clone collection", function () {
   let jsonRpcSigner: JsonRpcSigner;
@@ -19,8 +20,8 @@ describe("12 Clone collection", function () {
     if ((await ethers.provider.getNetwork()).chainId == 31337) {
       await deployments.fixture(["NFTsFactoryV2", "OpenNFTsV3"]);
     }
-    const nftsFactoryV2: NFTsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
-    const openNFTsV3 = await ethers.getContract("OpenNFTsV3");
+    const nftsFactoryV2 = (await ethers.getContract("NFTsFactoryV2")) as unknown as NFTsFactoryV2;
+    const openNFTsV3 = (await ethers.getContract("OpenNFTsV3")) as unknown as OpenNFTsV3;
     await nftsFactoryV2.connect(deployer).templateSet("ownable", openNFTsV3.address);
     await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address);
   });

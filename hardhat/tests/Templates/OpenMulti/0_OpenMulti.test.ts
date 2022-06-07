@@ -25,7 +25,7 @@ describe(contractName, () => {
       await deployments.fixture([contractName]);
     }
 
-    openMulti = await ethers.getContract(contractName, signer);
+    openMulti = (await ethers.getContract(contractName, signer)) as unknown as OpenMulti;
     console.log("contract", openMulti.address);
   });
 
