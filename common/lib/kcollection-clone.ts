@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
-import { ethers, Signer } from "ethers";
+import { ethers } from "ethers";
 import { getNetwork } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 
@@ -30,7 +30,7 @@ const collectionCloneResponse = async (
   // console.log("nftsFactoryV2", _name, _symbol, template, options);
 
   const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, "OpenNFTsV3", options);
-  console.log(`${network?.blockExplorerUrls[0]}/tx/${txResp?.hash}`);
+  console.log(`${network?.blockExplorerUrls?.[0] || ""}/tx/${txResp?.hash}`);
 
   return txResp;
 };

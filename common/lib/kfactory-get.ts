@@ -1,9 +1,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Address } from "./ktypes";
+
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
-import { Signer, Contract } from "ethers";
-import { getNetwork } from "./kconfig";
+import type { Address } from "lib/ktypes";
+import { getNftsFactory as factoryGetAddress } from "lib/kconfig";
+
+import { Contract } from "ethers";
 
 import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
@@ -12,8 +14,6 @@ import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
 const nftsFactories: Map<number, Contract> = new Map();
 
 const _factoryGetAbi = (): string[] => ICloneFactoryV2.concat(INFTsFactoryV2);
-
-const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
 
 // GET OpenNFTs default template via onchain call
 const factoryGetTemplateAddress = async (chainId: number, template: string, provider: Provider): Promise<Address> => {

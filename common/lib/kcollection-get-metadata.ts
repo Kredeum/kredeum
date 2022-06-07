@@ -12,6 +12,7 @@ import IERC1155 from "abis/IERC1155.json";
 import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
 import IERC173 from "abis/IERC173.json";
 
+import IOpenMulti from "abis/IOpenMulti.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
 
@@ -63,9 +64,15 @@ const collectionGetSupports = async (
         const waitEnumerable = contract.supportsInterface(interfaceId(IERC721Enumerable));
         const waitOpenNFTsV2 = contract.supportsInterface(interfaceId(IOpenNFTsV2));
         const waitOpenNFTsV3 = contract.supportsInterface(interfaceId(IOpenNFTsV3));
+        const waitOpenMulti = contract.supportsInterface(interfaceId(IOpenMulti));
 
-        [supports.IERC721Metadata, supports.IERC721Enumerable, supports.IOpenNFTsV2, supports.IOpenNFTsV3] =
-          await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3]);
+        [
+          supports.IERC721Metadata,
+          supports.IERC721Enumerable,
+          supports.IOpenNFTsV2,
+          supports.IOpenNFTsV3,
+          supports.IOpenMulti
+        ] = await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3, waitOpenMulti]);
 
         // Supports ERC165,  should have already reverted otherwise
         supports.IERC165 = true;

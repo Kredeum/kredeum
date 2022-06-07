@@ -64,7 +64,10 @@ const addEthereumChain = (_chainId: number): void => {
   }
 };
 
-const handleChainId = (_chainId: number): void => {
+const handleChainIdSync = (_chainId: number): void => {
+  handleChainId(_chainId).catch(console.error);
+};
+const handleChainId = async (_chainId: number): Promise<void> => {
   console.log(`handleChainId ${_chainId}`);
 
   if (_chainId && _chainId != get(metamaskChainId)) {
@@ -75,13 +78,13 @@ const handleChainId = (_chainId: number): void => {
       metamaskChainId.set(Number(_network.chainId));
     } else {
       // chainId not accepted : switch to first accepted chainId
-      metamaskSwitchChain(networks[0].chainId);
+      await metamaskSwitchChain(networks[0].chainId);
     }
   }
 };
 
-const handleAccounts = (accounts: Array<string>): void => {
-  console.log("handleAccounts", accounts);
+const handleAccountsSync = (accounts: Array<string>): void => {
+  console.log("handleAccountsSync", accounts);
 
   if (accounts?.length === 0) {
     metamaskConnect();
@@ -91,20 +94,18 @@ const handleAccounts = (accounts: Array<string>): void => {
   }
 };
 
-const metamaskSwitchChain = (_chainId: number): void => {
+const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
   console.log(`metamaskSwitchChain ${_chainId}`);
 
   if (_chainId > 0 && _chainId != Number(get(metamaskChainId))) {
-    ethereumProvider
-      .request({
+    try {
+      await ethereumProvider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: numberToHexString(_chainId) }]
-      })
-      .catch((err: { code: number }) => {
-        if (err.code === 4902) {
-          addEthereumChain(_chainId);
-        }
       });
+    } catch (err) {
+      if ((err as { code: number }).code === 4902) addEthereumChain(_chainId);
+    }
   }
 };
 
@@ -115,7 +116,7 @@ const metamaskConnect = (): void => {
     .request({
       method: "eth_requestAccounts"
     })
-    .then(handleAccounts)
+    .then(handleAccountsSync)
     .catch((err: { code: number }) => {
       if (err.code === 4001) {
         alert(metamaskConnectMessage);
@@ -150,20 +151,20 @@ const metamaskInit = async (): Promise<boolean> => {
       const { chainId: _urlChainId } = urlHash2RefNFT();
       if (_urlChainId > 0 && _urlChainId != _chainId) {
         _chainId = _urlChainId;
-        metamaskSwitchChain(_urlChainId);
+        await metamaskSwitchChain(_urlChainId);
       }
-      handleChainId(Number(_chainId));
+      await handleChainId(Number(_chainId));
 
       try {
         const _accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
-        handleAccounts(_accounts);
+        handleAccountsSync(_accounts);
       } catch (err) {
         console.error("Metamask ERROR eth_accounts", err);
       }
 
-      ethereumProvider.on("chainChanged", handleChainId);
+      ethereumProvider.on("chainChanged", handleChainIdSync);
 
-      ethereumProvider.on("accountsChanged", handleAccounts);
+      ethereumProvider.on("accountsChanged", handleAccountsSync);
     } else {
       console.log(metamaskInstallMessage);
     }

@@ -5,10 +5,11 @@ const toV1dag = (cid: string): string => {
   let cidV1dag = "";
   try {
     cidV1dag = CID.create(1, dagPBcode, CID.parse(cid).toV1().multihash).toString();
+  } catch (e) {
+    console.error("Bad CID");
   }
-  catch (e) { console.error("Bad CID"); }
   return cidV1dag;
-}
+};
 
 const CIDV0 = "QmbWqxBEKC3P8tqsKc98vxmWNzrzDRLMiMPL8wBuTGsMnR";
 const CIDV1DAG = "bafybeibvs5x2qjy7ipndndx3pbpopywivqe742ytmq5pla7e3qjrdmzkga";
