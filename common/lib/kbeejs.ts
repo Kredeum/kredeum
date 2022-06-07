@@ -1,8 +1,9 @@
 import { Bee, Data, FileData } from "@ethersphere/bee-js";
 
 // const nodeUrl: string = "http://localhost:1633";
-const bee: Bee = new Bee("http://localhost:1633");
-const krdbatchId = "5feccb39054640d8721c2c8393f0f3317ea0753f499e89166741195d006d7be6";
+const bee: Bee = new Bee("https://api.gateway.ethswarm.org");
+// const krdbatchId = "5feccb39054640d8721c2c8393f0f3317ea0753f499e89166741195d006d7be6";
+const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
 
 const swarmUploadData = async (data: string, batchId?: string) => {
   const result = await bee.uploadData(batchId ? batchId : krdbatchId, data);
@@ -22,7 +23,7 @@ const swarmUploadFile = async (
   // console.log("🚀 ~ file: beejs.ts ~ 1 ~ uploadFile ~ updatedTag", updatedTag);
 
   const result = await bee.uploadFile(batchId ? batchId : krdbatchId, file, fileName, {
-    pin: true,
+    // pin: true,
     size: fileSize || undefined,
     contentType: contentType
     // tag: tag.uid
