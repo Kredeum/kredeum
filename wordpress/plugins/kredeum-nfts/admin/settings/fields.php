@@ -63,7 +63,7 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Your Swarm Bee node URL',
 			'default'     => '',
-			'helper'      => __( 'Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm limited(free) Gateway', 'kredeum-nfts' ),
+			'helper'      => __( 'Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm free(limited) Gateway', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'swarm_batch_id',
@@ -72,7 +72,7 @@ function fields() {
 			'type'        => 'text',
 			'placeholder' => 'Your Swarm Bee Batch of stamps ID',
 			'default'     => '',
-			'helper'      => __( 'Enter your own Swarm Bee Batch of stamps ID, or leave blank to use Swarm limited(free) Gateway', 'kredeum-nfts' ),
+			'helper'      => __( 'Enter your own Swarm Bee Batch of stamps ID, or leave blank to use Swarm free(limited) Gateway', 'kredeum-nfts' ),
 		),
 
 	);
