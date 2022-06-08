@@ -10,7 +10,6 @@ const zeroAddress = "0x0000000000000000000000000000000000000000";
 
 describe("10 Clone Factory contract", function () {
   let nftsFactoryV2: NFTsFactoryV2;
-  let openNFTsV1: OpenNFTsV2;
   let openNFTsV2: OpenNFTsV2;
   let openNFTsV3: OpenNFTsV3;
   let tester1: Signer;
@@ -27,10 +26,9 @@ describe("10 Clone Factory contract", function () {
     if ((await ethers.provider.getNetwork()).chainId == 31337) {
       await deployments.fixture(["NFTsFactoryV2", "OpenNFTsV1", "OpenNFTsV2", "OpenNFTsV3"]);
     }
-    nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2");
-    openNFTsV1 = await ethers.getContract("OpenNFTsV1");
-    openNFTsV2 = await ethers.getContract("OpenNFTsV2");
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3");
+    nftsFactoryV2 = (await ethers.getContract("NFTsFactoryV2")) as unknown as NFTsFactoryV2;
+    openNFTsV2 = (await ethers.getContract("OpenNFTsV2")) as unknown as OpenNFTsV2;
+    openNFTsV3 = (await ethers.getContract("OpenNFTsV3")) as unknown as OpenNFTsV3;
   });
 
   describe("Should Setup", function () {
@@ -52,8 +50,8 @@ describe("10 Clone Factory contract", function () {
       expect(await nftsFactoryV2.owner()).to.be.equal(zeroAddress);
     });
 
-    it("Should have 1 implementation after deploy", async function () {
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(1);
+    it("Should have 2 implementation after deploy", async function () {
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
   });
 
@@ -61,17 +59,17 @@ describe("10 Clone Factory contract", function () {
     it("Should Add Implementation", async function () {
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV3.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV3.address, deployerAddress, 1);
+        .withArgs(openNFTsV3.address, deployerAddress, 2);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
     });
 
     it("Should Add Old Implementation", async function () {
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV2.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV2.address, deployerAddress, 1);
+        .withArgs(openNFTsV2.address, deployerAddress, 2);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
     });
 
     it("Should not Add Implementation if Not Owner", async function () {
@@ -79,7 +77,7 @@ describe("10 Clone Factory contract", function () {
         "Ownable: caller is not the owner"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(1);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
 
     it("Should not Add Implementation if Not ERC721", async function () {
@@ -87,7 +85,7 @@ describe("10 Clone Factory contract", function () {
         "Not ERC721"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(1);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
   });
 
@@ -124,7 +122,7 @@ describe("10 Clone Factory contract", function () {
         "ImplementationNew"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
     });
 
     it("Should Not Clone inexistant Template Name", async function () {

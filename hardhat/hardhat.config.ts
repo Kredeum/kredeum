@@ -138,7 +138,7 @@ const config: HardhatUserConfig = {
       runOnCompile: true,
       clear: false,
       flat: true,
-      only: ["new"],
+      only: ["dev"],
       spacing: 2,
       pretty: true,
       path: "../common/abis"

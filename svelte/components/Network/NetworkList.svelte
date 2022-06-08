@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "helpers/clickOutside";
-  import { getNftsFactory, getChainName, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
+  import { getNftsFactory, getChainName, getNetwork, networks, explorerNFTsFactoryUrl } from "lib/kconfig";
 
   import { metamaskSwitchChain } from "helpers/metamask";
   import { metamaskChainId } from "main/metamask";
@@ -73,7 +73,7 @@
         <div class="custom-options" />
 
         <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet && all) as nwk}
+          {#each networks.filter((nw) => nw.mainnet && (all || nw.openMulti)) as nwk}
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
@@ -84,7 +84,7 @@
           {/each}
           <!-- {#if getNetwork(chainId)?.testnet} -->
           {#if true}
-            {#each networks.filter((nw) => nw.testnet && all) as nwk}
+            {#each networks.filter((nw) => nw.testnet && (all || nw.openMulti)) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}
