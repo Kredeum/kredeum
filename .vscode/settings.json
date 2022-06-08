@@ -39,6 +39,10 @@
     {
       "filePath": "svelte/stores",
       "group": "Default"
+    },
+    {
+      "filePath": "hardhat/tests/Templates/OpenBound/01_OpenBound.test.ts",
+      "group": "Default"
     }
   ],
   "phpsab.autoRulesetSearch": false,
@@ -56,5 +60,9 @@
   },
   "workbench.colorTheme": "Patriot Light (rainglow)",
   "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
-  "window.zoomLevel": 0
+  "window.zoomLevel": 0,
+  "workbench.activityBar.visible": true,
+  "workbench.statusBar.visible": true,
+  "workbench.layoutControl.enabled": true,
+  "editor.minimap.enabled": false
 }

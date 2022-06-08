@@ -4,18 +4,18 @@ import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import hre from "hardhat";
 
 import type { NetworkType } from "lib/ktypes";
-import type { OpenBound } from "types/OpenBound";
+import type { OpenBound4973 } from "types/OpenBound4973";
 import { networks } from "lib/kconfig";
 
 const ipfs0 = "ipfs://bafkreiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
 let chainId: number;
 let network: NetworkType | undefined;
-let openBound: OpenBound;
+let openBound: OpenBound4973;
 let deployer: SignerWithAddress;
 let tester: SignerWithAddress;
 
-describe.only("00 Setup TS", () => {
+describe("00 Setup TS", () => {
   before(async () => {
     chainId = Number(await hre.getChainId());
     console.log("network", chainId, hre.network.name, hre.network.live);
@@ -25,10 +25,10 @@ describe.only("00 Setup TS", () => {
     deployer = await hre.ethers.getNamedSigner("deployer");
     tester = await hre.ethers.getNamedSigner("tester1");
     if (chainId === 31337) {
-      await hre.deployments.fixture(["OpenBound"]);
+      await hre.deployments.fixture(["OpenBound4973"]);
     }
 
-    openBound = (await hre.ethers.getContract("OpenBound", deployer)) as unknown as OpenBound;
+    openBound = (await hre.ethers.getContract("OpenBound4973", deployer)) as unknown as OpenBound4973;
     await openBound["mint(uint256)"](0);
   });
 
@@ -40,8 +40,8 @@ describe.only("00 Setup TS", () => {
   });
 
   it("Should be IERC721Metadata", async () => {
-    expect(await openBound.name()).to.be.equal("OpenBound");
-    expect(await openBound.symbol()).to.be.equal("BOUND");
+    expect(await openBound.name()).to.be.equal("OpenBound4973");
+    expect(await openBound.symbol()).to.be.equal("B4973");
     expect(await openBound.tokenURI(0)).to.be.equal(ipfs0);
   });
 
@@ -60,16 +60,22 @@ describe.only("00 Setup TS", () => {
     await expect(openBound.transferOwnership(deployer.address)).to.be.not.reverted;
   });
 
+  it("Should be IERC4973", async () => {
+    expect(await openBound.ownerOf(0)).to.be.equal(deployer.address);
+    await expect(openBound["mint(uint256)"](1)).to.emit(openBound, "Attest").withArgs(deployer.address, 1);
+    await expect(openBound["mint(address,uint256)"](tester.address, 2))
+      .to.emit(openBound, "Attest")
+      .withArgs(tester.address, 2);
+  });
+
   it("Should be IOpenBound", async () => {
     await expect(openBound["mint(uint256)"](3)).to.be.not.reverted;
     await expect(openBound["mint(address,uint256)"](tester.address, 4)).to.be.not.reverted;
   });
 
   it("Should revert", async () => {
-    await expect(openBound["mint(uint256)"](0)).to.be.revertedWith("ERC721: token already minted");
-    await expect(openBound["mint(address,uint256)"](tester.address, 0)).to.be.revertedWith(
-      "ERC721: token already minted"
-    );
+    await expect(openBound["mint(uint256)"](0)).to.be.revertedWith("NFT already exists");
+    await expect(openBound["mint(address,uint256)"](tester.address, 0)).to.be.revertedWith("NFT already exists");
 
     await expect(openBound.tokenURI(42)).to.be.revertedWith("NFT doesn't exists");
     await expect(openBound.tokenByIndex(42)).to.be.revertedWith("Invalid index");
