@@ -14,10 +14,10 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "helpers/shortcodes";
-
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftClaim from "./NftClaim.svelte";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -129,6 +129,10 @@
             ><i class="fa fa-gift" /> Transfer</a
           >
 
+          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
+            <i class="fas fa-exclamation" /> Claim</a
+          >
+
           {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
@@ -176,9 +180,11 @@
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
 
-<!-- <div id="claim-$nft-{$nft.tokenID}" class="modal-window">
-  <NftClaimView bind:$nft />
-</div> -->
+<!-- Modal claim nft -->
+<div id="claim-nft-{tokenID}" class="modal-window">
+  <NftClaim {chainId} {address} {tokenID} />
+</div>
+
 <style>
   .krd-nft-solo {
     width: 100%;

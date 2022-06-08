@@ -3,7 +3,7 @@
   import { writable } from "svelte/store";
 
   import Nft from "../Nft/Nft.svelte";
-  import NftList from "../NftsList/NftsList.svelte";
+  import NftsList from "../NftsList/NftsList.svelte";
 
   /////////////////////////////////////////////////
   // <ContentV2 {chainId} {address} {account} {platform}? {refreshing}? {refresh}? />
@@ -44,6 +44,6 @@
 
     <Nft {chainId} {address} {tokenID} {account} {platform} />
   {:else}
-    <NftList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
+    <NftsList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
   {/if}
 </div>

@@ -13,6 +13,7 @@ import IERC1155 from "abis/IERC1155.json";
 import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
 import IERC173 from "abis/IERC173.json";
 
+import IOpenMulti from "abis/IOpenMulti.json";
 import IOpenNFTs from "abis/IOpenNFTs.json";
 import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
 import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
@@ -27,6 +28,7 @@ const abis = {
   IERC1155,
   IERC173,
   IERC1155MetadataURI,
+  IOpenMulti,
   IOpenNFTs,
   IOpenNFTsV0,
   IOpenNFTsV1,
@@ -45,7 +47,7 @@ const collectionContractGet = async (
   let abi: Array<string> = [];
 
   if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
-  // console.log("collectionSupports", collectionSupports);
+  // console.log("collection.supports", collection.supports);
 
   for (const [key, supports] of Object.entries(collection.supports || {})) {
     if (supports) {

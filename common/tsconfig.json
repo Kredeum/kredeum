@@ -13,5 +13,5 @@
       "abis/*": ["abis/*"]
     }
   },
-  "include": ["lib/*.ts", "types/*.ts", "abis/*.ts"]
+  "include": ["abis/*.ts", "lib/*.ts", "types/**/*.ts", "scripts/**/*.ts"]
 }

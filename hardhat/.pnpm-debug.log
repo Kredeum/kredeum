@@ -1,1 +1,23 @@
-{}
+{
+  "0 debug pnpm:scope": {
+    "selected": 1
+  },
+  "1 info pnpm": {
+    "err": {
+      "name": "Error",
+      "message": "not found: all",
+      "code": "ENOENT",
+      "stack": "Error: not found: all\n    at getNotFoundError (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:41702:51)\n    at Function.whichSync [as sync] (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:41779:13)\n    at getCommandAbsolutePathSync (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:43344:44)\n    at default_1 (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:43353:32)\n    at /Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:178391:39"
+    }
+  },
+  "2 error pnpm": {
+    "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+    "prefix": "/Users/alain/DEV/kredeum/hardhat",
+    "err": {
+      "name": "pnpm",
+      "message": "not found: all",
+      "code": "ERR_PNPM_RECURSIVE_EXEC_FIRST_FAIL",
+      "stack": "Error: not found: all\n    at getNotFoundError (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:41702:51)\n    at Function.whichSync [as sync] (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:41779:13)\n    at getCommandAbsolutePathSync (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:43344:44)\n    at default_1 (/Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:43353:32)\n    at /Users/alain/Library/pnpm/global/5/.pnpm/pnpm@7.1.7/node_modules/pnpm/dist/pnpm.cjs:178391:39"
+    }
+  }
+}
