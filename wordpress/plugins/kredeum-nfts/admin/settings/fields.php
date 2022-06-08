@@ -14,13 +14,13 @@ function fields() {
 	return array(
 
 		array(
-			'uid'     => 'ipfs_auto',
-			'label'   => 'IPFS_AUTO',
+			'uid'     => 'auto_archive',
+			'label'   => 'AUTO_ARCHIVE',
 			'default' => '1',
 			'section' => 'first_section',
 			'type'    => 'select',
 			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-			'helper'  => __( 'Choose "yes" to automaticaly push your new medias to IPFS on upload', 'kredeum-nfts' ),
+			'helper'  => __( 'Choose "yes" to automaticaly push your new medias to Decentralized storage on upload (default IPFS)', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'     => 'kredeum_beta',
@@ -54,7 +54,7 @@ function fields() {
 			'section' => 'first_section',
 			'type'    => 'select',
 			'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-			'helper'  => __( 'If you want to archive files on Swarm bee instead of IPFS chose "YES"', 'kredeum-nfts' ),
+			'helper'  => __( '"IPFS" is default storage. If you want to archive files on "Swarm bee" instead of "IPFS" chose "YES"', 'kredeum-nfts' ),
 		),
 		array(
 			'uid'         => 'swarm_node_url',

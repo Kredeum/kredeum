@@ -14,7 +14,7 @@ add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
 		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
-		$columns['kre-cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
+		$columns['kre-cid'] = __( 'Decentralized Archive', 'kredeum-nfts' );
 		return $columns;
 	}
 );
@@ -40,10 +40,13 @@ add_action(
 
 				$metadata = get_metadata( 'post', $post->ID );
 
-				$mediaMintClass = 'kredeum-nfts-mint';
+				$media_mint_class = 'kredeum-nfts-mint';
+				if ( SWARM_ARCHIVE ) {
+					$media_mint_class = 'kredeum-nfts-mint-swarm';
+				}
 
 				printf(
-					'<div class="kredeum-nfts-mint"'
+					'<div class="' . esc_attr( $media_mint_class ) . '"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'

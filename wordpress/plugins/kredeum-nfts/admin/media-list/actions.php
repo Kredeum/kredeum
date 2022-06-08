@@ -13,13 +13,8 @@ namespace KredeumNFTs\Ipfs;
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$kre_archive = 'Archive to IPFS';
-		if ( SWARM_ARCHIVE ) {
-			// $kre_archive = 'Archive to Swarm Bee';.
-			$bulk_actions['archive'] = __( 'Archive to Swarm Bee', 'kredeum-nfts' );
-		} else {
-			$bulk_actions['archive'] = __( 'Archive to IPFS', 'kredeum-nfts' );
-		}
+		$bulk_actions['archive'] = __( 'Decentralized Archive', 'kredeum-nfts' );
+
 		return $bulk_actions;
 	}
 );
