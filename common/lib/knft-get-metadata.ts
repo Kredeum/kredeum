@@ -22,12 +22,6 @@ const nftGetImageLink = (nft: NftType): string =>
     ? swarmGatewayUrl(nft.swarm)
     : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
 
-// nft?.ipfs
-//   ? nft.ipfs.startsWith("ipfs://")
-//     ? ipfsGatewayUrl(nft.ipfs)
-//     : swarmGatewayUrl(nft.ipfs)
-//   : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
-
 const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);
 

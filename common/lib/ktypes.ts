@@ -68,8 +68,6 @@ type NftMetadata = {
   owner?: string;
   image?: string;
   image_url?: string;
-  // ipfs?: string;
-  // swarmImage?: string;
   animation_url?: string;
 } & (IpfsType | SwarmType);
 
@@ -113,10 +111,7 @@ type NftType = {
   youtube_url?: string;
   background_color?: string;
   attributes?: unknown;
-  // ipfs?: string;
-  // ipfsJson?: string;
   swarmJson?: string;
-  // swarmImage?: string;
   origin?: string;
   creator?: string;
   minter?: string;
