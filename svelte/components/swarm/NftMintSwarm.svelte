@@ -56,6 +56,17 @@
   /////////////////////////////////////////////////
   let open = false;
 
+  $: mintedNft && open === false && handleResetAfterMint();
+  const handleResetAfterMint = () => {
+    if (!src) {
+      files = null;
+      file = null;
+      image = null;
+      nftTitle = null;
+      mintReset();
+    }
+  };
+
   const openSwarmMintModal = () => {
     open = true;
   };
@@ -424,6 +435,10 @@
     visibility: visible;
     opacity: 1;
     pointer-events: auto;
+  }
+
+  .modal-body {
+    overflow-y: auto;
   }
   /*************************/
   button.btn {
