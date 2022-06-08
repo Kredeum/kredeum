@@ -115,7 +115,7 @@ const collectionListFromAlchemy = async (chainId: number, account: string): Prom
     chainId,
     `/getNFTs?owner=${account}&withMetadata=false`
   )) as AnswerCollectionsAlch;
-  console.log("answerCollectionsAlch", answerCollectionsAlch);
+  // console.log("answerCollectionsAlch", answerCollectionsAlch);
 
   const totalCount = answerCollectionsAlch.totalCount;
   const ownedNfts = answerCollectionsAlch.ownedNfts;
@@ -139,7 +139,7 @@ const collectionListFromAlchemy = async (chainId: number, account: string): Prom
 
     collections.set(collUrl, collection);
   }
-  console.log("collectionListFromAlchemy ~ collections", collections);
+  // console.log("collectionListFromAlchemy ~ collections", collections);
   return collections;
 };
 

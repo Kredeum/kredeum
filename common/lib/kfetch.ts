@@ -62,14 +62,14 @@ const fetchAlch = async (chainId: number, path: string): Promise<unknown> => {
   if (!(chainId && alchemyUrl && alchemyKey && path)) return;
 
   const url = `${alchemyUrl}/${alchemyKey}${path}`;
-  console.log("fetchAlch ~ url", url);
+  // console.log("fetchAlch ~ url", url);
   const config = {
     method: "GET",
     headers: { Accept: "application/json" }
   };
 
   const answerAlch: FetchResponse = await fetchJson(url, config);
-  console.log("fetchAlch ~ answerAlch", answerAlch);
+  // console.log("fetchAlch ~ answerAlch", answerAlch);
 
   if (answerAlch.error) console.error("fetchCov ERROR", answerAlch.error);
   return answerAlch;

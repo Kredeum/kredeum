@@ -42,12 +42,12 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<Contract> => {
-  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
   let abi: Array<string> = [];
 
   if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
-  console.log("collection.supports", collection.supports);
+  // console.log("collection.supports", collection.supports);
 
   for (const [key, supports] of Object.entries(collection.supports || {})) {
     if (supports) {
