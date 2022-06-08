@@ -398,9 +398,9 @@
     },
     "blockExplorerUrls": ["http://localhost/explorer"],
     "defaultOpenNFTs": "",
-    "openMulti": "0x3fB23c510e46B5d226Fc8635A4a6FB6Fde09719F",
+    "openMulti": "0x8a324A30C8ca1E9CFcea267C2116968cAacEd1D6",
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
-    "nftsFactoryV2": "0xd719d8bA14F7EA708b42fFA0903d430F1B1c88a9",
+    "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "testnet": true
   }
 ]
