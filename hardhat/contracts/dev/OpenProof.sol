@@ -7,14 +7,21 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721Enumer
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "../interfaces/IERC173.sol";
-import "./interfaces/IERC4973.sol";
+import "../interfaces/IERC4973.sol";
+import "./interfaces/IOpenProof.sol";
 
 /// @title OpenProof smartcontract
-contract OpenProof is ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIStorageUpgradeable, OwnableUpgradeable {
+contract OpenProof is
+    IOpenProof,
+    ERC721Upgradeable,
+    ERC721EnumerableUpgradeable,
+    ERC721URIStorageUpgradeable,
+    OwnableUpgradeable
+{
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIds;
 
-    event Attest(address indexed _to, uint256 indexed _tokenId);
+    event Attest(address indexed to, uint256 indexed tokenId);
 
     /// @notice onlyMinter, only collection owner can mint
     modifier onlyMinter() {
@@ -40,7 +47,12 @@ contract OpenProof is ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIS
     /// @notice mint
     /// @param to address that will own the NFT minted
     /// @param jsonURI json URI of NFT metadata
-    function mintOpenProof(address to, string memory jsonURI) external onlyMinter returns (uint256 tokenId) {
+    function mintOpenProof(address to, string memory jsonURI)
+        external
+        override(IOpenProof)
+        onlyMinter
+        returns (uint256 tokenId)
+    {
         _tokenIds.increment();
 
         tokenId = _tokenIds.current();
@@ -74,14 +86,6 @@ contract OpenProof is ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIS
             super.supportsInterface(interfaceId);
     }
 
-    function _beforeTokenTransfer(
-        address from,
-        address, // to,
-        uint256 // tokenId
-    ) internal pure override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-        require(from == address(0), "Non transferable NFT");
-    }
-
     function _afterTokenTransfer(
         address, // from,
         address to,
@@ -92,5 +96,13 @@ contract OpenProof is ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC721URIS
 
     function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
         super._burn(tokenId);
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address, // to,
+        uint256 // tokenId
+    ) internal pure override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+        require(from == address(0), "Non transferable NFT");
     }
 }

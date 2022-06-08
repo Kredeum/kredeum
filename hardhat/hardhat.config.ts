@@ -75,7 +75,7 @@ const config: HardhatUserConfig = {
   },
 
   networks: {
-    hardhat: { accounts: accountsHardhat, deploy: ["deploy/tests", "deploy/prod"] },
+    hardhat: { accounts: accountsHardhat, deploy: ["deploy/dev", "deploy/prod"] },
     local: netConf(31337, "http://127.0.0.1:8545"),
     mainnet: netConf(1, `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
     ropsten: netConf(3, `https://ropsten.infura.io/v3/${INFURA_API_KEY}`),
