@@ -1,4 +1,4 @@
-import { ipfsToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
+import { decStorageToUrlHttp, ipfsToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
 
 type FetchResponse = {
   data?: unknown;
@@ -9,13 +9,8 @@ const fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchRe
   let json: FetchResponse;
   if (url) {
     try {
-      let res;
       // console.log(url, config);
-      if (url.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
-        res = await fetch(url, config);
-      } else {
-        res = await fetch(ipfsToUrlHttp(url), config);
-      }
+      const res = await fetch(decStorageToUrlHttp(url), config);
       // console.log(res);
       json = (await res.json()) as FetchResponse;
     } catch (e) {

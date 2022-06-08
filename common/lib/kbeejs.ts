@@ -1,4 +1,5 @@
 import { Bee, Data, FileData } from "@ethersphere/bee-js";
+import { swarmLinkToCid } from "./kconfig";
 
 // const nodeUrl: string = "http://localhost:1633";
 // const bee: Bee = new Bee("https://api.gateway.ethswarm.org");
@@ -49,6 +50,8 @@ const swarmGetContentType = async (fileReference: string, nodeUrl?: string): Pro
 
   if (fileReference.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
     fileReference = fileReference.replace("https://api.gateway.ethswarm.org/bzz/", "");
+  } else if (fileReference.startsWith("swarm://")) {
+    fileReference = swarmLinkToCid(fileReference);
   }
   const swarmData: FileData<Data> = await bee.downloadFile(fileReference);
   const contentType: string = swarmData.contentType || "image";

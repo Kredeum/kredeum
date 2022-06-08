@@ -45,7 +45,7 @@
   let image: string;
   let nftTitle: string = "";
   /////////////////////////////////////////////////
-  let swarmUploadedRef: string;
+  let swarm: string;
   let swarmJson: string;
   // let ipfsImage: string;
   // let ipfsJson: string;
@@ -122,10 +122,8 @@
 
   /////////////////////////////////////////////////
   const mintReset = (): void => {
-    swarmUploadedRef = null;
+    swarm = null;
     swarmJson = null;
-    // ipfsImage = null;
-    // ipfsJson = null;
     minting = 0;
     mintingTxResp = null;
     mintedNft = null;
@@ -139,13 +137,13 @@
     if (image) {
       minting = 1;
 
-      swarmUploadedRef = await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size);
-      // console.log("swarmUploadedRef", swarmUploadedRef);
+      swarm = await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size);
+      // console.log("swarmImage", swarm);
 
-      if (swarmUploadedRef) {
+      if (swarm) {
         minting = 2;
 
-        swarmJson = await nftMint2SwarmJson(nftTitle, swarmUploadedRef, account, image, metadata, nodeUrl, batchId);
+        swarmJson = await nftMint2SwarmJson(nftTitle, swarm, account, image, metadata, nodeUrl, batchId);
         // console.log("json", swarmJson);
 
         if (swarmJson) {
@@ -252,10 +250,8 @@
                   <li class={minting >= 2 ? "complete" : ""}>
                     <div class="flex"><span class="label">Swarm Image link</span></div>
                     <div class="flex">
-                      {#if swarmUploadedRef}
-                        <a class="link" href={swarmGatewayUrl(swarmUploadedRef)} target="_blank"
-                          >{textShort(swarmUploadedRef, 15)}</a
-                        >
+                      {#if swarm}
+                        <a class="link" href={swarmGatewayUrl(swarm)} target="_blank">{textShort(swarm, 15)}</a>
                       {/if}
                     </div>
                   </li>
@@ -417,7 +413,7 @@
       <small>
         <br />{urlToLink(src, `${src}@${alt}`)}
 
-        <br /><a href={swarmGatewayUrl(swarmUploadedRef)} alt="">{swarmUploadedRef}</a>
+        <br /><a href={swarmGatewayUrl(swarm)} alt="">{swarm}</a>
       </small>
     {/if}
   </main>

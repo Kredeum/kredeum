@@ -217,36 +217,42 @@ const nftMint1SwarmImage = async (
   batchId?: string,
   fileSize?: number
 ): Promise<string> => {
-  const swarmUploadedRef = await swarmUploadFile(file, nftTitle, contentType, nodeUrl, batchId, fileSize);
-  console.log("🚀 ~ swarm image uploaded Ref :", swarmUploadedRef);
+  const swarmImage = `swarm://${await swarmUploadFile(file, nftTitle, contentType, nodeUrl, batchId, fileSize)}`;
+  console.log("🚀 ~ swarm image uploaded Ref :", swarmImage);
 
   // console.log("nftMint swarm image", ipfsImage);
-  return swarmUploadedRef;
+  return swarmImage;
 };
 
 // GET Swarm metadata url
 const nftMint2SwarmJson = async (
   name = DEFAULT_NAME,
-  swarmImage = "",
+  swarm = "",
   address = "",
   image = "",
   metadata = "{}",
   nodeUrl?: string,
   batchId?: string
 ): Promise<string> => {
-  // console.log("nftMint2IpfsJson", name, swarmImageRef, address, image, metadata);
+  // console.log("nftMint2IpfsJson", name, swarm, address, image, metadata);
 
   const json = {
     name,
     description: name || "",
-    image: swarmGatewayUrl(swarmImage),
-    swarmImage,
+    image: swarmGatewayUrl(swarm),
+    swarm,
     origin: textShort(image, 140),
     minter: address
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
 
-  const swarmJson: string = await swarmUploadFile(JSON.stringify(json, null, 2), "swarmJson", "text", nodeUrl, batchId);
+  const swarmJson = `swarm://${await swarmUploadFile(
+    JSON.stringify(json, null, 2),
+    "swarmJson",
+    "text",
+    nodeUrl,
+    batchId
+  )}`;
 
   console.log("nftMint swarm metadata", swarmJson);
 
@@ -303,7 +309,7 @@ const nftMint4Swarm = async (
 
       if (tokenID) {
         nft = await _mintedNft(chainId, address, tokenID, swarmGatewayUrl(metadataCid), minter);
-        nft.ipfsJson = metadataCid;
+        nft.swarmJson = metadataCid;
         // console.log("nftMint4", nft);
       }
     }
