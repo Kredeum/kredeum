@@ -14,7 +14,12 @@ namespace KredeumNFTs\Ipfs;
  * @return string cid with path
  */
 function url( $cid ) {
-	return $cid ? IPFS_GATEWAY . $cid : '';
+	if ( strpos( $cid, 'swarm-' ) === 0 ) {
+		$cid = str_replace( 'swarm-', '', $cid );
+		return $cid ? SWARM_GATEWAY . $cid : '';
+	} else {
+		return $cid ? IPFS_GATEWAY . $cid : '';
+	}
 }
 
 /**

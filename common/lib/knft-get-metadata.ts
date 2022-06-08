@@ -1,13 +1,17 @@
 import type { NftType, NftMetadata } from "./ktypes";
 import { fetchJson } from "./kfetch";
-import { ipfsGetLink, ipfsGatewayUrl, getNetwork, getChecksumAddress, nftKey } from "./kconfig";
+import { ipfsGetLink, ipfsGatewayUrl, swarmGatewayUrl, getNetwork, getChecksumAddress, nftKey } from "./kconfig";
+
+import { swarmGetContentType } from "./kbeejs";
 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
 const nftGetImageLink = (nft: NftType): string =>
   nft?.ipfs
-    ? ipfsGatewayUrl(nft.ipfs)
+    ? nft.ipfs.startsWith("ipfs://")
+      ? ipfsGatewayUrl(nft.ipfs)
+      : swarmGatewayUrl(nft.ipfs)
     : (nft?.image?.startsWith("ipfs://") ? ipfsGatewayUrl(nft.image) : nft?.image) || "";
 
 const nftGetContentType = async (nft: NftType): Promise<string> => {
@@ -19,18 +23,26 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   let contentType = "text";
   if (!(chainId && address && tokenID && url)) return contentType;
 
-  contentType = contentTypes.get(url) || "";
-  if (contentType) return contentType;
+  if (url.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
+    if (nft.swarmImage) {
+      contentType = await swarmGetContentType(nft.swarmImage);
+    } else if (nft.ipfs) {
+      contentType = await swarmGetContentType(nft.ipfs);
+    }
+  } else {
+    contentType = contentTypes.get(url) || "";
+    if (contentType) return contentType;
 
-  contentType = "image";
-  try {
-    const response = await fetch(url, { method: "HEAD" });
-    contentType = response.headers.get("content-type") || contentType;
-    contentTypes.set(url, contentType);
-  } catch (e) {
-    console.error("ERROR nftGetContentType", e, url, nft);
+    contentType = "image";
+    try {
+      const response = await fetch(url, { method: "HEAD" });
+      contentType = response.headers.get("content-type") || contentType;
+      contentTypes.set(url, contentType);
+    } catch (e) {
+      console.error("ERROR nftGetContentType", e, url, nft);
+    }
+    // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
   }
-  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };
@@ -73,6 +85,10 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
           if (!nft.ipfs && (nftMetadata.ipfs || ipfsGetLink(nft.image)))
             nft.ipfs = nftMetadata.ipfs || ipfsGetLink(nft.image);
+
+          if (!nft.swarmImage && nftMetadata.swarmImage) {
+            nft.swarmImage = nftMetadata.swarmImage || nft.image;
+          }
 
           if (process.env.GIT_BRANCH !== "beta") {
             if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;

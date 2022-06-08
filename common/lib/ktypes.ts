@@ -69,6 +69,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   ipfs?: string;
+  swarmImage?: string;
   animation_url?: string;
 };
 
@@ -94,6 +95,7 @@ type NftType = {
   attributes?: unknown;
   ipfs?: string;
   ipfsJson?: string;
+  swarmImage?: string;
   origin?: string;
   creator?: string;
   minter?: string;

@@ -17,6 +17,7 @@
   import Content from "./Content.svelte";
 
   // import { metamaskProvider } from "main/metamask";
+  import NftMintSwarm from "../swarm/NftMintSwarm.svelte";
 
   export let platform: string = "dapp";
 
@@ -64,6 +65,7 @@
     {#if chainId && account && address}
       <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
+    <NftMintSwarm />
   </span>
 </HomeLayout>
 
