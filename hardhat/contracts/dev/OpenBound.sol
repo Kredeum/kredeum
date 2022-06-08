@@ -30,6 +30,7 @@ contract OpenBound is IOpenBound, IERC4973, IERC173, IERC721Enumerable, IERC721M
     constructor(string memory name_, string memory symbol_) {
         name = name_;
         symbol = symbol_;
+        owner = msg.sender;
     }
 
     function transferOwnership(address newOwner) external override(IERC173) {
@@ -42,29 +43,40 @@ contract OpenBound is IOpenBound, IERC4973, IERC173, IERC721Enumerable, IERC721M
         nftOwner = _owners[tokenID];
     }
 
-    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256) {
-        return _tokens[index];
+    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256 tokenID) {
+        require(index < _tokens.length, "Invalid index");
+        tokenID = _tokens[index];
+        // require(_exists(tokenID), "NFT doesn't exists");
     }
 
     function tokenOfOwnerByIndex(address addr, uint256 index)
         external
         view
         override(IERC721Enumerable)
-        returns (uint256)
+        returns (uint256 tokenID)
     {
-        return _tokensOfOwner[addr][index];
-    }
-
-    function mint(address addr, uint256 tokenID) public override(IOpenBound) onlyOwner {
-        _mint(addr, tokenID);
+        require(index < _tokens.length, "Invalid index");
+        tokenID = _tokensOfOwner[addr][index];
+        // require(_exists(tokenID), "NFT doesn't exists");
     }
 
     function mint(uint256 tokenID) public override(IOpenBound) {
         _mint(msg.sender, tokenID);
     }
 
+    function mint(address addr, uint256 tokenID) public override(IOpenBound) onlyOwner {
+        _mint(addr, tokenID);
+    }
+
+    // function burn(uint256 tokenID) public override(IERC4973) {
+    //     require(_exists(tokenID), "NFT does not exists");
+    //     totalSupply -= 1;
+    //     _owners[tokenID] = address(0);
+    //     emit Revoke(address(0), tokenID);
+    // }
+
     function tokenURI(uint256 tokenId) public view override(IERC721Metadata) returns (string memory) {
-        require(_exists(tokenId), "ERC721: token doesn't exists");
+        require(_exists(tokenId), "NFT doesn't exists");
 
         return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(tokenId)));
     }
@@ -75,6 +87,7 @@ contract OpenBound is IOpenBound, IERC4973, IERC173, IERC721Enumerable, IERC721M
         _owners[tokenID] = addr;
         _tokens.push(tokenID);
         _tokensOfOwner[addr].push(tokenID);
+        emit Attest(addr, tokenID);
     }
 
     function _exists(uint256 tokenID) internal view returns (bool) {

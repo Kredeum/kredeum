@@ -11,6 +11,7 @@ interface IERC4973 {
     /// Note: For a reliable `_from` parameter, retrieve the transaction's
     /// authenticated `from` field.
     event Attest(address indexed _to, uint256 indexed _tokenId);
+
     /// @dev This emits when an existing ABT is revoked from an account and
     /// destroyed by any mechanism.
     /// Note: For a reliable `_from` parameter, retrieve the transaction's
@@ -23,4 +24,12 @@ interface IERC4973 {
     /// @param _tokenId The identifier for an ABT
     /// @return The address of the owner bound to the ABT
     function ownerOf(uint256 _tokenId) external view returns (address);
+
+    /// @notice Destroys `tokenId`. At any time, an ABT receiver must be able to
+    ///  disassociate themselves from an ABT publicly through calling this
+    ///  function.
+    /// @dev Must emit a `event Revoke` with the `address _to` field pointing to
+    ///  the zero address.
+    /// @param _tokenId The identifier for an ABT
+    // function burn(uint256 _tokenId) external;
 }
