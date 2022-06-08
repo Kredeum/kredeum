@@ -42,7 +42,7 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<Contract> => {
-  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
   let abi: Array<string> = [];
 

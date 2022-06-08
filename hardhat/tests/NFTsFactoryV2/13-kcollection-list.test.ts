@@ -50,11 +50,11 @@ describe("13 List contracts lib", function () {
       await deployments.fixture(["OpenNFTsV3", "NFTsFactoryV2"]);
     }
 
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
+    openNFTsV3 = (await ethers.getContract("OpenNFTsV3", signer)) as unknown as OpenNFTsV3;
     expect(openNFTsV3.address).to.be.properAddress;
     await ((await openNFTsV3.mintOpenNFT(artist, "", txOptions)) as TransactionResponse).wait();
 
-    nftsFactory = await ethers.getContract("NFTsFactoryV2", signer);
+    nftsFactory = (await ethers.getContract("NFTsFactoryV2", signer)) as unknown as NFTsFactoryV2;
     expect(nftsFactory.address).to.be.properAddress;
 
     await nftsFactory.connect(deployer).templateSet("generic", openNFTsV3.address);
