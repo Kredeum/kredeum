@@ -13,7 +13,7 @@ namespace KredeumNFTs\Ipfs;
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$bulk_actions['archive'] = __( 'Decentralized Archive', 'kredeum-nfts' );
+		$bulk_actions['archive'] = __( 'Archive to decentralized storage', 'kredeum-nfts' );
 
 		return $bulk_actions;
 	}
@@ -63,7 +63,7 @@ add_action(
 			printf(
 				'<div id="message" class="notice notice-success is-dismissible"><p>'
 				// translators: %s = $archived_count = number of medias archived.
-				. esc_html( _n( '%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s media archived to decentralized storage', '%s medias archived to decentralized storage', $archived_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $archived_count ),
 			);
@@ -74,7 +74,7 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice notice-warning is-dismissible"><p>'
 				// translators: %s = $modified_count = number of medias modified.
-				. esc_html( _n( '%s IPFS media link modified', '%s IPFS medias links modified', $modified_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s Decentralized media link modified', '%s Decentralized medias links modified', $modified_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $modified_count )
 			);
@@ -85,7 +85,7 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice is-dismissible"><p>'
 				// translators: %s = $unchanged_count = number of medias unchanged.
-				. esc_html( _n( '%s IPFS media link unchanged', '%s IPFS medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s Decentralized media link unchanged', '%s Decentralized medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $unchanged_count )
 			);
