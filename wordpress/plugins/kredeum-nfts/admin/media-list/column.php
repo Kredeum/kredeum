@@ -40,6 +40,8 @@ add_action(
 
 				$metadata = get_metadata( 'post', $post->ID );
 
+				$mediaMintClass = 'kredeum-nfts-mint';
+
 				printf(
 					'<div class="kredeum-nfts-mint"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
