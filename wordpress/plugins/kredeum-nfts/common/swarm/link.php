@@ -1,6 +1,6 @@
 <?php
 /**
- * Public IPFS LINK function
+ * Public SWARM LINK function
  *
  * @package kredeum/nfts
  */
