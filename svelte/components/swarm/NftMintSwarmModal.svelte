@@ -18,7 +18,7 @@
   export let mintingError: string;
 </script>
 
-<div id="kredeum-create-nft">
+<!-- <div id="kredeum-create-nft">
   <div class="modal-content">
     <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
@@ -169,4 +169,4 @@
       {/if}
     </div>
   </div>
-</div>
+</div> -->
