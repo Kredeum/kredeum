@@ -31,6 +31,9 @@ add_action(
 			if ( $post->_kre_cid ) {
 				echo wp_kses( link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			}
+			if ( $post->_kre_swarmref ) {
+				echo wp_kses( \KredeumNFTs\Swarm\link( $post->_kre_swarmref, substr( $post->_kre_swarmref, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
+			}
 		}
 
 		if ( 'kre-nft' === $name ) {

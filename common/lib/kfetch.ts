@@ -1,4 +1,4 @@
-import { decStorageToUrlHttp, ipfsToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
+import { decStorageToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
 
 type FetchResponse = {
   data?: unknown;

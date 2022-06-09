@@ -40,11 +40,20 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/nft-storage.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/query.php';
 
+
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/post.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/upload.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/actions.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/column.php';
+
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/swarm/swarm-bee.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/swarm/query.php';
+
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/post-swarm.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/upload-swarm.php';
+
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/actions-swarm.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
@@ -79,6 +88,9 @@ define( 'SWARM_BATCH_ID', get_option( 'SWARM_BATCH_ID', '' ) ? get_option( 'SWAR
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
+
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/swarm/cid.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/swarm/link.php';
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
 

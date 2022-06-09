@@ -1,14 +1,14 @@
 <?php
 /**
- * IPFS INSERT and UPSERT
+ * SWARM INSERT and UPSERT
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Swarm;
 
 /**
- * IPFS upsert file
+ * SWARM upsert file
  *
  * @param string $post_id Id post.
  *
@@ -23,16 +23,16 @@ function upsert( $post_id ) {
 }
 
 /**
- * IPFS insert file
+ * SWARM insert file
  *
  * @param string $post_id Id post.
  *
  * @return string CID hash
  */
 function insert( $post_id ) {
-	if ( defined( 'NFT_STORAGE_KEY' ) ) {
-		$cid = nft_storage_add_and_pin( $post_id );
+	if ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) ) {
+		$cid = swarm_add_and_pin( $post_id );
 	}
-	update_post_meta( $post_id, '_kre_cid', $cid );
+	update_post_meta( $post_id, '_kre_swarmref', $cid );
 	return $cid;
 }
