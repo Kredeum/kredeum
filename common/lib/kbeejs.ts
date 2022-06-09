@@ -23,7 +23,7 @@ const swarmUploadFile = async (
   // const tag = await bee.createTag();
   // const updatedTag = await bee.retrieveTag(tag);
   // console.log("🚀 ~ file: beejs.ts ~ 1 ~ uploadFile ~ updatedTag", updatedTag);
-  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl : "https://api.gateway.ethswarm.org");
 
   const result = await bee.uploadFile(batchId ? batchId : krdbatchId, file, fileName, {
     pin: nodeUrl ? true : false,
@@ -40,13 +40,13 @@ const swarmUploadFile = async (
 };
 
 const swarmDownloadFile = async (fileReference: string, nodeUrl?: string): Promise<FileData<Data>> => {
-  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl : "https://api.gateway.ethswarm.org");
 
   return await bee.downloadFile(fileReference);
 };
 
 const swarmGetContentType = async (fileReference: string, nodeUrl?: string): Promise<string> => {
-  const bee: Bee = new Bee(nodeUrl ? nodeUrl + ":1633" : "https://api.gateway.ethswarm.org");
+  const bee: Bee = new Bee(nodeUrl ? nodeUrl : "https://api.gateway.ethswarm.org");
 
   if (fileReference.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
     fileReference = fileReference.replace("https://api.gateway.ethswarm.org/bzz/", "");
