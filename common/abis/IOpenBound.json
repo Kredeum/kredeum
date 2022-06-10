@@ -1,4 +1,4 @@
 [
-  "function mint(address,uint256)",
+  "function claim(uint256)",
   "function mint(uint256)"
 ]

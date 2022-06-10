@@ -3,76 +3,90 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "./interfaces/IOpenBound.sol";
-import "../interfaces/IERC173.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "./library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {
-contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable {
-    address public owner;
-
+contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
     uint256 public totalSupply;
+    uint256 public constant maxSupply = 42;
+
+    uint256 internal _block;
 
     mapping(address => uint256[]) internal _tokensOfOwner;
     uint256[] internal _tokens;
 
     string private constant _BASE_URI = "ipfs://";
 
-    modifier onlyOwner() {
-        require((owner == msg.sender), "Not owner");
-        _;
-    }
-
-    constructor(string memory name, string memory symbol) ERC721(name, symbol) {
-        owner = msg.sender;
-    }
-
-    function transferOwnership(address newOwner) external override(IERC173) {
-        address oldOwner = owner;
-        owner = newOwner;
-        emit OwnershipTransferred(oldOwner, newOwner);
+    constructor(
+        string memory name,
+        string memory symbol,
+        uint256 block_
+    ) ERC721(name, symbol) {
+        _block = block_;
     }
 
     function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256 tokenID) {
         require(index < _tokens.length, "Invalid index");
         tokenID = _tokens[index];
-        // require(_exists(tokenID), "NFT doesn't exists");
     }
 
-    function tokenOfOwnerByIndex(address addr, uint256 index)
+    function tokenOfOwnerByIndex(address owner, uint256 index)
         external
         view
         override(IERC721Enumerable)
         returns (uint256 tokenID)
     {
         require(index < _tokens.length, "Invalid index");
-        tokenID = _tokensOfOwner[addr][index];
-        // require(_exists(tokenID), "NFT doesn't exists");
+        tokenID = _tokensOfOwner[owner][index];
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return
             interfaceId == type(IOpenBound).interfaceId ||
-            interfaceId == type(IERC173).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 
-    function mint(uint256 tokenID) public override(IOpenBound) {
+    function mint(uint256 cid) public override(IOpenBound) {
+        uint256 tokenID = _ownerXorId(msg.sender, cid);
         mint(msg.sender, tokenID);
     }
 
-    function mint(address addr, uint256 tokenID) public override(IOpenBound) onlyOwner {
-        totalSupply += 1;
-        _tokens.push(tokenID);
-        _tokensOfOwner[addr].push(tokenID);
-        _mint(addr, tokenID);
+    function claim(uint256 tokenID) public override(IOpenBound) {
+        mint(msg.sender, tokenID);
     }
 
-    function tokenURI(uint256 tokenId) public view override(ERC721) returns (string memory) {
-        require(_exists(tokenId), "NFT doesn't exists");
+    function tokenURI(uint256 tokenID) public view override(ERC721) returns (string memory) {
+        require(_exists(tokenID), "NFT doesn't exists");
 
-        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(tokenId)));
+        uint256 cid = _ownerXorId(ownerOf(tokenID), tokenID);
+        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(cid)));
+    }
+
+    function mint(address owner, uint256 tokenID) internal {
+        // In ERC721 already
+        // require(!_exists(tokenID), "NFT already exists");
+        // require(owner != address(0), "Invalid address");
+        require(block.number >= _block, "Not allowed yet");
+        require(totalSupply < maxSupply, "Max supply reached");
+
+        totalSupply += 1;
+        _tokens.push(tokenID);
+        _tokensOfOwner[owner].push(tokenID);
+        _mint(owner, tokenID);
+    }
+
+    function _ownerXorId(address owner, uint256 id) internal pure returns (uint256) {
+        return uint160(owner) ^ id;
+    }
+
+    function _beforeTokenTransfer(
+        address from,
+        address, // to,
+        uint256 // tokenId
+    ) internal pure override(ERC721) {
+        require(from == address(0), "Non transferable NFT");
     }
 }

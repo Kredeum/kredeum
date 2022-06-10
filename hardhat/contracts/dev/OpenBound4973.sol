@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-import "./interfaces/IOpenBound.sol";
+import "./interfaces/IOpenBound4973.sol";
 import "../interfaces/IERC4973.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC721Enumerable.sol";
@@ -9,7 +9,7 @@ import "../interfaces/IERC721Metadata.sol";
 import "./library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
-contract OpenBound4973 is IOpenBound, IERC4973, IERC173, IERC721Enumerable, IERC721Metadata {
+contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, IERC721Metadata {
     address public owner;
 
     string public name;
@@ -60,11 +60,11 @@ contract OpenBound4973 is IOpenBound, IERC4973, IERC173, IERC721Enumerable, IERC
         // require(_exists(tokenID), "NFT doesn't exists");
     }
 
-    function mint(uint256 tokenID) public override(IOpenBound) {
+    function mint(uint256 tokenID) public override(IOpenBound4973) {
         _mint(msg.sender, tokenID);
     }
 
-    function mint(address addr, uint256 tokenID) public override(IOpenBound) onlyOwner {
+    function mint(address addr, uint256 tokenID) public override(IOpenBound4973) onlyOwner {
         _mint(addr, tokenID);
     }
 
