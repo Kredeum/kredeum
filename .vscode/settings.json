@@ -58,7 +58,7 @@
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "workbench.colorTheme": "Patriot Light (rainglow)",
+  "workbench.colorTheme": "Absent Light (rainglow)",
   "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
