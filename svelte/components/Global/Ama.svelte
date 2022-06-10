@@ -2,8 +2,12 @@
   import { getNftsFactory, getCreate } from "lib/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
+  import Network from "../Network/Network.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
   import CollectionList from "../Collection/CollectionList.svelte";
+
+  import { metamaskSwitchChain } from "helpers/metamask";
+  import { metamaskChainId } from "main/metamask";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -23,13 +27,20 @@
 
   export let platform: string = "dapp";
 
-  let chainId: number = 42;
   let address: string;
   let account: string;
   let refreshing: boolean;
   let refresh: number;
 
   let tokenID: string;
+
+  $: $metamaskChainId && handleNetwork();
+  const handleNetwork = async () => {
+    if ($metamaskChainId !== 137) {
+      alert("Switch to Polygon / Matic");
+      await metamaskSwitchChain(137);
+    }
+  };
 </script>
 
 <HomeLayout>
@@ -40,42 +51,18 @@
   <span slot="header">
     <Title />
 
-    <!-- <BreadCrumb display={true} /> -->
-
     <div class="row alignbottom">
-      <!-- View account -->
       <AccountConnect bind:account />
 
-      <!-- Select network -->
-      <!-- <NetworkList bind:chainId /> -->
+      {#if account}
+        <div class="col col-xs-12 col-sm-3">
+          <span class="label">Network</span>
+          <div class="select"><Network chainId={$metamaskChainId} /></div>
+        </div>
 
-      <!-- Select collection -->
-      <!-- {#if chainId && account}
-          <CollectionList {chainId} {account} bind:address />
-  
-          {#if account && address && getNftsFactory(chainId)} -->
-      <!-- Refresh button -->
-      <!-- <NftsListRefresh {refreshing} bind:refresh />
-          {/if}
-        {/if} -->
+        <NftMintAma chainId={$metamaskChainId} />
+      {/if}
     </div>
-  </span>
-
-  <span slot="content">
-    {#if account && getCreate(chainId)}
-      <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
-
-      <!-- SubModal create NFT -->
-      <div id="create-nft" class="modal-window">
-        <NftMintAma {chainId} />
-      </div>
-    {/if}
-
-    <Nft {chainId} {address} {tokenID} {account} {platform} />
-
-    {#if chainId && account && address}
-      <!-- <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} /> -->
-    {/if}
   </span>
 </HomeLayout>
 
