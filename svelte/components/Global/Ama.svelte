@@ -16,7 +16,8 @@
 
   import Content from "./Content.svelte";
 
-  import NftMint from "../Nft/NftMint.svelte";
+  import NftMintAma from "../Nft/NftMintAma.svelte";
+  import Nft from "../Nft/Nft.svelte";
 
   // import { metamaskProvider } from "main/metamask";
 
@@ -27,6 +28,8 @@
   let account: string;
   let refreshing: boolean;
   let refresh: number;
+
+  let tokenID: string;
 </script>
 
 <HomeLayout>
@@ -64,9 +67,12 @@
 
       <!-- SubModal create NFT -->
       <div id="create-nft" class="modal-window">
-        <NftMint {chainId} />
+        <NftMintAma {chainId} />
       </div>
     {/if}
+
+    <Nft {chainId} {address} {tokenID} {account} {platform} />
+
     {#if chainId && account && address}
       <!-- <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} /> -->
     {/if}
