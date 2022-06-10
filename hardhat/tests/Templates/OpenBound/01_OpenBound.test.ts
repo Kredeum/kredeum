@@ -2,7 +2,7 @@ import { expect } from "chai";
 
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
-import { BigNumber } from "ethers";
+import { BigNumber, Wallet } from "ethers";
 
 import type { OpenBound } from "types/OpenBound";
 import IERC165 from "abis/IERC165.json";
@@ -16,12 +16,12 @@ import { cidToInt } from "lib/kcid";
 import { fetchJson } from "lib/kfetch";
 
 const maxSupply = 42;
-const blockDelta = "0x64";
+const blockDelta = "0x400";
 
 let chainId: number;
 let openBound: OpenBound;
 let deployer: SignerWithAddress;
-let tester: SignerWithAddress;
+let tester1: SignerWithAddress;
 
 const cid0 = "bafkreiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 const cidK = "bafkreigtkp7klpfeklq3cegtls3nferkoztqghmgpbhwntgcdr2z6v6thi";
@@ -42,7 +42,7 @@ describe.only("OpenBound", () => {
     console.log("network", chainId, network.name, network.live);
 
     deployer = await ethers.getNamedSigner("deployer");
-    tester = await ethers.getNamedSigner("tester1");
+    tester1 = await ethers.getNamedSigner("tester1");
 
     tokenId0 = ownerXorTokenID(deployer.address, uint0);
     tokenIdK = ownerXorTokenID(deployer.address, uintK);
@@ -55,7 +55,7 @@ describe.only("OpenBound", () => {
       await ethers.provider.send("hardhat_reset", []);
 
       if (chainId === 31337) await deployments.fixture(["OpenBound"]);
-      await ethers.provider.send("hardhat_mine", ["0x100"]);
+      await ethers.provider.send("hardhat_mine", [blockDelta]);
 
       openBound = (await ethers.getContract("OpenBound", deployer)) as unknown as OpenBound;
       if (chainId === 31337) {
@@ -66,7 +66,7 @@ describe.only("OpenBound", () => {
 
     it("Should be deployed", () => {
       expect(deployer.address).to.be.properAddress;
-      expect(tester.address).to.be.properAddress;
+      expect(tester1.address).to.be.properAddress;
       expect(openBound.address).to.be.properAddress;
     });
 
@@ -86,11 +86,11 @@ describe.only("OpenBound", () => {
 
     it("Should be not transferable", async () => {
       const tokenID = await openBound.tokenByIndex(0);
-      await expect(openBound.transferFrom(deployer.address, tester.address, tokenID)).to.be.revertedWith(
+      await expect(openBound.transferFrom(deployer.address, tester1.address, tokenID)).to.be.revertedWith(
         "Non transferable NFT"
       );
       await expect(
-        openBound["safeTransferFrom(address,address,uint256)"](deployer.address, tester.address, tokenID)
+        openBound["safeTransferFrom(address,address,uint256)"](deployer.address, tester1.address, tokenID)
       ).to.be.revertedWith("Non transferable NFT");
     });
 
@@ -107,12 +107,12 @@ describe.only("OpenBound", () => {
     });
 
     it("Should be IOpenBound", async () => {
-      await expect(openBound.mint(3)).to.be.not.reverted;
+      await expect(openBound.connect(tester1).mint(3)).to.be.not.reverted;
+
       expect(await openBound.totalSupply()).to.be.equal(2);
     });
 
     it("Should revert", async () => {
-      await expect(openBound.mint(uint0)).to.be.revertedWith("ERC721: token already minted");
       await expect(openBound.tokenURI(42)).to.be.revertedWith("NFT doesn't exists");
       await expect(openBound.tokenByIndex(42)).to.be.revertedWith("Invalid index");
       await expect(openBound.tokenOfOwnerByIndex(deployer.address, 42)).to.be.revertedWith("Invalid index");
@@ -136,11 +136,15 @@ describe.only("OpenBound", () => {
 
     it("Should Mint up to maxSupply", async () => {
       await ethers.provider.send("hardhat_mine", [blockDelta]);
+
       for (let i = 0; i < maxSupply; i++) {
-        await expect(openBound.mint(i)).to.be.not.reverted;
+        const signer = Wallet.createRandom().connect(ethers.provider);
+        await ethers.provider.send("hardhat_setBalance", [signer.address, "0x1000000000000000"]);
+        await expect(openBound.connect(signer).mint(i)).to.be.not.reverted;
       }
-      await expect(openBound.mint(99)).to.be.revertedWith("Max supply reached");
+
       expect(await openBound.totalSupply()).to.be.equal(maxSupply);
+      await expect(openBound.mint(99)).to.be.revertedWith("Max supply reached");
     });
 
     it("Should get tokenID", async () => {
@@ -166,7 +170,7 @@ describe.only("OpenBound", () => {
       await expect(openBound.claim(tokenId0)).to.be.not.reverted;
       expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
 
-      await expect(openBound.claim(tokenIdK)).to.be.not.reverted;
+      await expect(openBound.connect(tester1).claim(tokenIdK)).to.be.not.reverted;
       expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
     });
 
@@ -174,7 +178,7 @@ describe.only("OpenBound", () => {
       await ethers.provider.send("hardhat_mine", [blockDelta]);
 
       await openBound.mint(uintK);
-      await expect(openBound.claim(tokenIdK)).to.be.revertedWith("ERC721: token already minted");
+      await expect(openBound.claim(tokenIdK)).to.be.revertedWith("Already mint once");
     });
   });
 });

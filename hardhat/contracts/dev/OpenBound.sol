@@ -14,7 +14,7 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
 
     uint256 internal _block;
 
-    mapping(address => uint256[]) internal _tokensOfOwner;
+    mapping(address => uint256) internal _tokenOfOwner;
     uint256[] internal _tokens;
 
     string private constant _BASE_URI = "ipfs://";
@@ -36,10 +36,11 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         external
         view
         override(IERC721Enumerable)
-        returns (uint256 tokenID)
+        returns (uint256)
     {
-        require(index < _tokens.length, "Invalid index");
-        tokenID = _tokensOfOwner[owner][index];
+        require(index == 0 && balanceOf(owner) == 1, "Invalid index");
+
+        return _tokenOfOwner[owner];
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
@@ -71,10 +72,11 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         // require(owner != address(0), "Invalid address");
         require(block.number >= _block, "Not allowed yet");
         require(totalSupply < maxSupply, "Max supply reached");
+        require(balanceOf(owner) == 0, "Already minted or claimed");
 
         totalSupply += 1;
         _tokens.push(tokenID);
-        _tokensOfOwner[owner].push(tokenID);
+        _tokenOfOwner[owner] = tokenID;
         _mint(owner, tokenID);
     }
 
