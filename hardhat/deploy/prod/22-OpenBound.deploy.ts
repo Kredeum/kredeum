@@ -11,7 +11,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   const { provider, getNamedSigner, getContract } = ethers;
   const deployer = await getNamedSigner("deployer");
 
-  const blockStart = (await provider.getBlockNumber()) + 1;
+  const blockStart = (await provider.getBlockNumber()) + 100;
   deployments.log("blockStart", blockStart);
 
   const deployResult: DeployResult = await deployments.deploy(contractName, {

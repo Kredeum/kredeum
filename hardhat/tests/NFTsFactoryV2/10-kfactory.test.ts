@@ -49,27 +49,23 @@ describe("10 Clone Factory contract", function () {
       await nftsFactoryV2.renounceOwnership();
       expect(await nftsFactoryV2.owner()).to.be.equal(zeroAddress);
     });
-
-    it("Should have 2 implementation after deploy", async function () {
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
-    });
   });
 
   describe("Should Add Implementations", function () {
     it("Should Add Implementation", async function () {
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV3.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV3.address, deployerAddress, 2);
+        .withArgs(openNFTsV3.address, deployerAddress, 1);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
 
     it("Should Add Old Implementation", async function () {
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV2.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV2.address, deployerAddress, 2);
+        .withArgs(openNFTsV2.address, deployerAddress, 1);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
 
     it("Should not Add Implementation if Not Owner", async function () {
@@ -77,7 +73,7 @@ describe("10 Clone Factory contract", function () {
         "Ownable: caller is not the owner"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(1);
     });
 
     it("Should not Add Implementation if Not ERC721", async function () {
@@ -85,7 +81,7 @@ describe("10 Clone Factory contract", function () {
         "Not ERC721"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(1);
     });
   });
 
@@ -122,7 +118,7 @@ describe("10 Clone Factory contract", function () {
         "ImplementationNew"
       );
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(3);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
     });
 
     it("Should Not Clone inexistant Template Name", async function () {
