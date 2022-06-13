@@ -15,6 +15,7 @@ import { interfaceId } from "lib/kconfig";
 import { cidToInt } from "lib/kcid";
 import { fetchJson } from "lib/kfetch";
 
+const { provider, getNamedSigner, getContract } = ethers;
 const maxSupply = 42;
 const blockDelta = "0x400";
 
@@ -41,8 +42,8 @@ describe.only("OpenBound", () => {
     chainId = Number(await getChainId());
     console.log("network", chainId, network.name, network.live);
 
-    deployer = await ethers.getNamedSigner("deployer");
-    tester1 = await ethers.getNamedSigner("tester1");
+    deployer = await getNamedSigner("deployer");
+    tester1 = await getNamedSigner("tester1");
 
     tokenId0 = ownerXorTokenID(deployer.address, uint0);
     tokenIdK = ownerXorTokenID(deployer.address, uintK);
@@ -52,14 +53,14 @@ describe.only("OpenBound", () => {
     let firstTokenID: BigNumber;
 
     beforeEach(async () => {
-      await ethers.provider.send("hardhat_reset", []);
+      await provider.send("hardhat_reset", []);
 
       if (chainId === 31337) await deployments.fixture(["OpenBound"]);
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
+      await provider.send("hardhat_mine", [blockDelta]);
 
-      openBound = (await ethers.getContract("OpenBound", deployer)) as unknown as OpenBound;
+      openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
       if (chainId === 31337) {
-        await openBound.mint(uint0);
+        await openBound.mint(ownerXorTokenID(deployer.address, uint0));
         firstTokenID = await openBound.tokenByIndex(0);
       }
     });
@@ -121,25 +122,25 @@ describe.only("OpenBound", () => {
 
   describe("AMA use case", () => {
     beforeEach(async () => {
-      await ethers.provider.send("hardhat_reset", []);
+      await provider.send("hardhat_reset", []);
 
       if (chainId === 31337) await deployments.fixture(["OpenBound"]);
 
-      openBound = (await ethers.getContract("OpenBound", deployer)) as unknown as OpenBound;
+      openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
     });
 
     it("Should Mint token after block", async () => {
       await expect(openBound.mint(0)).to.be.revertedWith("Not allowed yet");
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
+      await provider.send("hardhat_mine", [blockDelta]);
       await expect(openBound.mint(0)).to.be.not.reverted;
     });
 
     it("Should Mint up to maxSupply", async () => {
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
+      await provider.send("hardhat_mine", [blockDelta]);
 
       for (let i = 0; i < maxSupply; i++) {
-        const signer = Wallet.createRandom().connect(ethers.provider);
-        await ethers.provider.send("hardhat_setBalance", [signer.address, "0x1000000000000000"]);
+        const signer = Wallet.createRandom().connect(provider);
+        await provider.send("hardhat_setBalance", [signer.address, "0x1000000000000000"]);
         await expect(openBound.connect(signer).mint(i)).to.be.not.reverted;
       }
 
@@ -148,8 +149,8 @@ describe.only("OpenBound", () => {
     });
 
     it("Should get tokenID", async () => {
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
-      await openBound.mint(uintK);
+      await provider.send("hardhat_mine", [blockDelta]);
+      await openBound.mint(ownerXorTokenID(deployer.address, uintK));
 
       const tokenId = await openBound.tokenByIndex(0);
       const tokenIdOwner = await openBound.tokenOfOwnerByIndex(deployer.address, 0);
@@ -164,21 +165,21 @@ describe.only("OpenBound", () => {
       console.log("minter", json?.minter || json?.error || "");
     });
 
-    it("Should claim OK", async () => {
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
+    it("Should mint OK", async () => {
+      await provider.send("hardhat_mine", [blockDelta]);
 
-      await expect(openBound.claim(tokenId0)).to.be.not.reverted;
+      await expect(openBound.mint(tokenId0)).to.be.not.reverted;
       expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
 
-      await expect(openBound.connect(tester1).claim(tokenIdK)).to.be.not.reverted;
+      await expect(openBound.connect(tester1).mint(tokenIdK)).to.be.not.reverted;
       expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
     });
 
-    it("Should claim KO", async () => {
-      await ethers.provider.send("hardhat_mine", [blockDelta]);
+    it("Should mint KO", async () => {
+      await provider.send("hardhat_mine", [blockDelta]);
 
       await openBound.mint(uintK);
-      await expect(openBound.claim(tokenIdK)).to.be.revertedWith("Already mint once");
+      await expect(openBound.mint(tokenIdK)).to.be.revertedWith("Already minted or claimed");
     });
   });
 });

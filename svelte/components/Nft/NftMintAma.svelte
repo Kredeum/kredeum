@@ -1,89 +1,88 @@
 <script lang="ts">
-  import type { TransactionResponse } from "@ethersproject/abstract-provider";
+  import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+  import { onMount } from "svelte";
 
   import type { NftType } from "lib/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
+  import { nftGetMetadata } from "lib/knft-get-metadata";
 
-  import { metamaskSigner } from "main/metamask";
-  import cids from "config/ama.json";
-
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import { metamaskSwitchChain } from "helpers/metamask";
+  import { metamaskChainId, metamaskAccount, metamaskSigner } from "main/metamask";
+  import ama from "config/ama.json";
+  import { getChainName, getNetwork, getExplorer } from "lib/kconfig";
+  import { ethers, BigNumber } from "ethers";
+  import { cidToInt } from "lib/kcid";
+  import type { OpenBound as OpenBoundType } from "types/OpenBound";
+  import openBoundAbi from "abis/OpenBound.json";
+  import Nft from "./Nft.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {chainId} />
   // Mint NFT
   /////////////////////////////////////////////////
   export let chainId: number;
+  export let type: string;
+  export let tokenID: string;
   /////////////////////////////////////////////////
 
-  let account: string;
-  $: $metamaskSigner && handleSigner().catch(console.error);
-  const handleSigner = async (): Promise<void> => {
-    account = await $metamaskSigner.getAddress();
-  };
+  let openBound: OpenBoundType;
+  let openBoundAddress: string;
 
-  let address: string;
+  $: chainName = getChainName(chainId);
+  $: label = `${type === "mint" ? "Mint" : "Claim"} on ${chainName}`;
 
-  $: $metamaskSigner && chainId && handleChange();
-  const handleChange = async () => {
-    // Get signer account
-    account = await $metamaskSigner.getAddress();
-  };
+  // $: $metamaskChainId && handleNetwork();
+  const handleNetwork = async () => {
+    let tokenIdFound = "";
 
-  let nftTitle: string = "";
+    if (chainId === $metamaskChainId) {
+      console.log(`handleNetwork ${chainId} ${type}`);
+      openBoundAddress = getNetwork(chainId).openBoundAma;
+      console.log("handleNetwork ~ openBoundAddress", openBoundAddress);
 
-  let files: FileList;
-  let image: string;
+      openBound = new ethers.Contract(openBoundAddress, openBoundAbi, $metamaskSigner) as unknown as OpenBoundType;
 
-  let ipfsImage: string;
-  let ipfsJson: string;
-  let minting: number;
-  let mintingTxResp: TransactionResponse;
-  let mintedNft: NftType;
-  let mintingError: string;
-
-  const mint = async (): Promise<NftType> => {
-    const n = Math.floor(6 * Math.random());
-    const ipfsJson = cids[n].json;
-
-    minting = 3;
-
-    mintingTxResp = await nftMint3TxResponse(chainId, address, ipfsJson, $metamaskSigner);
-    // console.log("txResp", txResp);
-
-    if (mintingTxResp) {
-      minting = 4;
-
-      mintedNft = await nftMint4(chainId, address, mintingTxResp, ipfsJson, account);
-      // console.log("mintedNft", mintedNft);
-
-      if (mintedNft) {
-        minting = 5;
-      } else {
-        mintingError = "Problem with sent transaction.";
+      if (Number(await openBound.balanceOf($metamaskAccount)) > 0) {
+        tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
+        alert(`NFT already exists on ${chainName} \n`);
+        tokenID ||= tokenIdFound;
       }
     } else {
-      mintingError = "Problem while sending transaction.";
+      alert(`Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`);
+      await metamaskSwitchChain(chainId);
+    }
+    return tokenIdFound;
+  };
+
+  const ownerXorTokenID = (owner: string, tokenID: string): string => {
+    return String(BigNumber.from(owner).xor(BigNumber.from(tokenID)));
+  };
+
+  const mintOrClaim = async (): Promise<NftType> => {
+    if (await handleNetwork()) return;
+
+    let tokenIdMintOrclaim = tokenID;
+
+    if (type === "mint") {
+      const n = Math.floor(6 * Math.random());
+      const cidJson = ama.cidJson[n];
+      tokenIdMintOrclaim = ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
     }
 
-    if (mintingError) {
-      console.error("ERROR", mintingError);
-    }
+    const mintingTxResp = await openBound.mint(tokenIdMintOrclaim);
+    console.log("mintingTxResp", mintingTxResp);
+    const linkTx = `${getExplorer(chainId)}/tx/${mintingTxResp?.hash || ""}`;
+    console.log(linkTx);
 
-    return mintedNft;
+    const mintingTxReceipt = await mintingTxResp.wait();
+    console.log("mintingTxReceipt", mintingTxReceipt);
+    alert(`Transaction done`);
+
+    tokenID = tokenIdMintOrclaim;
   };
 </script>
 
-<div class="btn btn-default" title="Mint NFT" onclick={() => ontimeupdate()}>Mint NFT</div>
-
-{#if minting}
-  minting
-  {#if mintedNft}
-    minted
-  {:else if mintingError}
-    Minting Error
-  {:else}
-    Minting NFT
-  {/if}
-{/if}
+<div class="col col-xs-12 col-sm-3">
+  <div class="btn btn-default" title="Mint NFT" on:click={mintOrClaim}>
+    {label}
+  </div>
+</div>
