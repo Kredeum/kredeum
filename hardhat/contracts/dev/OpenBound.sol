@@ -50,12 +50,7 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
             super.supportsInterface(interfaceId);
     }
 
-    function mint(uint256 cid) public override(IOpenBound) {
-        uint256 tokenID = _ownerXorId(msg.sender, cid);
-        mint(msg.sender, tokenID);
-    }
-
-    function claim(uint256 tokenID) public override(IOpenBound) {
+    function mint(uint256 tokenID) public override(IOpenBound) {
         mint(msg.sender, tokenID);
     }
 
