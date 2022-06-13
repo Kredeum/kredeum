@@ -5,6 +5,7 @@
   "event Transfer(address indexed,address indexed,uint256 indexed)",
   "function approve(address,uint256)",
   "function balanceOf(address) view returns (uint256)",
+  "function burn(uint256)",
   "function getApproved(uint256) view returns (address)",
   "function isApprovedForAll(address,address) view returns (bool)",
   "function maxSupply() view returns (uint256)",
