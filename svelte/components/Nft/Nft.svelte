@@ -131,9 +131,9 @@
             ><i class="fa fa-gift" /> Transfer</a
           >
 
-          <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
+          <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
-          >
+          > -->
 
           {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
