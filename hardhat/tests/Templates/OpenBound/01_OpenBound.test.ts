@@ -128,88 +128,99 @@ describe("OpenBound", () => {
 
       openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
     });
+    describe("Should burn", () => {
+      it("Should burn one in one", async () => {
+        await provider.send("hardhat_mine", [blockDelta]);
 
-    it("Should burn one in one", async () => {
-      await provider.send("hardhat_mine", [blockDelta]);
+        expect(await openBound.totalSupply()).to.be.equal(0);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
+        await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
+        await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
 
-      expect(await openBound.totalSupply()).to.be.equal(0);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
-      await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
-      await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
+        await openBound.mint(tokenId0);
 
-      await openBound.mint(tokenId0);
+        expect(await openBound.totalSupply()).to.be.equal(1);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
+        expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
+        expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
 
-      expect(await openBound.totalSupply()).to.be.equal(1);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
-      expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
-      expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
+        await openBound.burn(tokenId0);
 
-      await openBound.burn(tokenId0);
+        expect(await openBound.totalSupply()).to.be.equal(0);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
+        await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
+        await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
+      });
 
-      expect(await openBound.totalSupply()).to.be.equal(0);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
-      await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
-      await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
-    });
+      it("Should burn first in two", async () => {
+        await provider.send("hardhat_mine", [blockDelta]);
 
-    it("Should burn first in two", async () => {
-      await provider.send("hardhat_mine", [blockDelta]);
+        expect(await openBound.totalSupply()).to.be.equal(0);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
+        await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
+        await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
 
-      expect(await openBound.totalSupply()).to.be.equal(0);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
-      await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
-      await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
+        await openBound.mint(tokenId0);
+        await openBound.connect(tester1).mint(tokenIdK);
 
-      await openBound.mint(tokenId0);
-      await openBound.connect(tester1).mint(tokenIdK);
+        expect(await openBound.totalSupply()).to.be.equal(2);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
+        expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
+        expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
+        expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
+        expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
+        expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
 
-      expect(await openBound.totalSupply()).to.be.equal(2);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
-      expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
-      expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
-      expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
-      expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
-      expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
+        await openBound.burn(tokenId0);
 
-      await openBound.burn(tokenId0);
+        expect(await openBound.totalSupply()).to.be.equal(1);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
+        expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
+        expect(await openBound.tokenByIndex(0)).to.be.equal(tokenIdK);
+        await expect(openBound.tokenByIndex(1)).to.be.revertedWith("Invalid index");
+        await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
+        expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
+      });
 
-      expect(await openBound.totalSupply()).to.be.equal(1);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
-      expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
-      expect(await openBound.tokenByIndex(0)).to.be.equal(tokenIdK);
-      await expect(openBound.tokenByIndex(1)).to.be.revertedWith("Invalid index");
-      await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
-      expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
-    });
+      it("Should burn second in two", async () => {
+        await provider.send("hardhat_mine", [blockDelta]);
 
-    it("Should burn second in two", async () => {
-      await provider.send("hardhat_mine", [blockDelta]);
+        expect(await openBound.totalSupply()).to.be.equal(0);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
+        await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
+        await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
 
-      expect(await openBound.totalSupply()).to.be.equal(0);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(0);
-      await expect(openBound.tokenByIndex(0)).to.be.revertedWith("Invalid index");
-      await expect(openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.revertedWith("Invalid index");
+        await openBound.mint(tokenId0);
+        await openBound.connect(tester1).mint(tokenIdK);
 
-      await openBound.mint(tokenId0);
-      await openBound.connect(tester1).mint(tokenIdK);
+        expect(await openBound.totalSupply()).to.be.equal(2);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
+        expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
+        expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
+        expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
+        expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
+        expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
 
-      expect(await openBound.totalSupply()).to.be.equal(2);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
-      expect(await openBound.balanceOf(tester1.address)).to.be.equal(1);
-      expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
-      expect(await openBound.tokenByIndex(1)).to.be.equal(tokenIdK);
-      expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
-      expect(await openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.equal(tokenIdK);
+        await openBound.connect(tester1).burn(tokenIdK);
 
-      await openBound.connect(tester1).burn(tokenIdK);
+        expect(await openBound.totalSupply()).to.be.equal(1);
+        expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
+        expect(await openBound.balanceOf(tester1.address)).to.be.equal(0);
+        expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
+        await expect(openBound.tokenByIndex(1)).to.be.revertedWith("Invalid index");
+        expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
+        await expect(openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.revertedWith("Invalid index");
+      });
 
-      expect(await openBound.totalSupply()).to.be.equal(1);
-      expect(await openBound.balanceOf(deployer.address)).to.be.equal(1);
-      expect(await openBound.balanceOf(tester1.address)).to.be.equal(0);
-      expect(await openBound.tokenByIndex(0)).to.be.equal(tokenId0);
-      await expect(openBound.tokenByIndex(1)).to.be.revertedWith("Invalid index");
-      expect(await openBound.tokenOfOwnerByIndex(deployer.address, 0)).to.be.equal(tokenId0);
-      await expect(openBound.tokenOfOwnerByIndex(tester1.address, 0)).to.be.revertedWith("Invalid index");
+      it("Should burn second in two bis", async () => {
+        await provider.send("hardhat_mine", [blockDelta]);
+
+        await openBound.connect(deployer).mint(tokenId0);
+        await openBound.connect(tester1).mint(tokenIdK);
+
+        await openBound.connect(deployer).burn(tokenId0);
+        await expect(openBound.connect(tester1).burn(tokenIdK)).to.be.not.reverted;
+      });
     });
 
     it("Should Mint token after block", async () => {
