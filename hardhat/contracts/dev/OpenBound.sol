@@ -9,7 +9,7 @@ import "./library/Bafkrey.sol";
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {
 contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
-    uint256 public constant maxSupply = 42;
+    uint256 public constant MAX_SUPPLY = 42;
 
     uint256 internal _block;
 
@@ -27,9 +27,41 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         _block = block_;
     }
 
-    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256 tokenID) {
+    function mint(uint256 tokenID) external override(IOpenBound) {
+        require(block.number >= _block, "Not allowed yet");
+        require(totalSupply() < MAX_SUPPLY, "Max supply reached");
+        require(balanceOf(msg.sender) == 0, "Already minted or claimed");
+
+        _tokens.push(tokenID);
+        _tokenOfOwner[msg.sender] = tokenID;
+        _tokenIndexOfOwner[msg.sender] = _tokens.length - 1;
+
+        _mint(msg.sender, tokenID);
+    }
+
+    function burn(uint256 tokenID) external override(IOpenBound) {
+        address owner = ownerOf(tokenID);
+        require(owner == msg.sender, "Not owner");
+
+        uint256 index = _tokenIndexOfOwner[owner];
+        uint256 lastIndex = _tokens.length - 1;
+
+        _burn(tokenID);
+
+        if (index != lastIndex) {
+            _tokens[index] = _tokens[lastIndex];
+            _tokenIndexOfOwner[ownerOf(_tokens[lastIndex])] = index;
+        }
+        _tokens.pop();
+
+        delete _tokenIndexOfOwner[owner];
+        delete _tokenOfOwner[owner];
+    }
+
+    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256) {
         require(index < _tokens.length, "Invalid index");
-        tokenID = _tokens[index];
+
+        return _tokens[index];
     }
 
     function tokenOfOwnerByIndex(address owner, uint256 index)
@@ -48,28 +80,6 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
             interfaceId == type(IOpenBound).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
-    }
-
-    function mint(uint256 tokenID) public override(IOpenBound) {
-        require(block.number >= _block, "Not allowed yet");
-        require(totalSupply() < maxSupply, "Max supply reached");
-        require(balanceOf(msg.sender) == 0, "Already minted or claimed");
-
-        _tokens.push(tokenID);
-        _tokenOfOwner[msg.sender] = tokenID;
-        _tokenIndexOfOwner[msg.sender] = _tokens.length - 1;
-        _mint(msg.sender, tokenID);
-    }
-
-    function burn(uint256 tokenID) public override(IOpenBound) {
-        address owner = ownerOf(tokenID);
-        require(owner == msg.sender, "Not owner");
-
-        _burn(tokenID);
-        _tokens[_tokenIndexOfOwner[owner]] = _tokens[_tokens.length - 1];
-        _tokens.pop();
-        _tokenOfOwner[owner] = 0;
-        _tokenIndexOfOwner[owner] = 0;
     }
 
     function totalSupply() public view override(IERC721Enumerable) returns (uint256) {

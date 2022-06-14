@@ -311,7 +311,7 @@
     "nftsFactoryV2": "0x3BDF67A8900AE9545Ea89121e9215B96C2e84722",
     "create": true,
     "testnet": true,
-    "openBoundAma": "0xdE8a6337Dfeccfa92972c0D7F3D98B0D8579c9B4"
+    "openBoundAma": "0x8517c4D7B892Cb7116761294092E22f8812B2739"
   },
   {
     "chainId": 80001,
@@ -343,7 +343,7 @@
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "openBoundAma": "0xf5F94068af545AdA3384b5fe08ECDF793c93F7D2"
+    "openBoundAma": "0x4e9492216a284bad3BFaE5dC95332B2050C162d3"
   },
   {
     "chainId": 421611,
