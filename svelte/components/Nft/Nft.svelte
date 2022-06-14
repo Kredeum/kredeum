@@ -19,6 +19,8 @@
   import NftTransfer from "./NftTransfer.svelte";
   import NftClaim from "./NftClaim.svelte";
 
+  import { metamaskChainId } from "main/metamask";
+
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
   // Display NFT solo
@@ -33,7 +35,7 @@
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID && handleChange();
+  $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
