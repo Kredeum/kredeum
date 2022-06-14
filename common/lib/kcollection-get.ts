@@ -94,4 +94,4 @@ const collectionGet = async (
   return collection;
 };
 
-export { collectionGet, collectionMerge, collectionContractGet };
+export { collectionGet, collectionMerge, collectionContractGet, collectionGetSupports };

@@ -7,7 +7,8 @@ import type { ERC721Enumerable } from "types/ERC721Enumerable";
 
 import type { CollectionType, NftType } from "./ktypes";
 import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "./kconfig";
-import { collectionContractGet } from "./kcollection-get";
+import { collectionContractGet, collectionGetSupports } from "./kcollection-get";
+
 import { nftGetMetadata } from "./knft-get-metadata";
 
 ////////////////////////////////////////////////////////
@@ -39,15 +40,18 @@ const nftGetFromContract = async (
   collection: CollectionType = { chainId, address }
 ): Promise<NftType> => {
   const nft: NftType = { chainId, address, tokenID };
-  if (!(chainId && address && tokenID && (await isProviderOnChainId(provider, chainId)))) return nft;
+  if (!(chainId && address && tokenID && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
 
   // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
+  // console.log("nftGetFromContract collection", collection);
 
   let contractName = "";
   let tokenURI = "";
   let owner = "";
 
   try {
+    if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
+
     if (collection?.supports?.IERC721Metadata) {
       const contract = (await collectionContractGet(chainId, address, provider)) as ERC721;
       contractName = collection.name || (await contract.name()) || DEFAULT_NAME;
@@ -89,6 +93,7 @@ const nftGetFromContractEnumerable = async (
       chainId &&
       address &&
       index >= 0 &&
+      provider &&
       (await isProviderOnChainId(provider, chainId)) &&
       collection?.supports?.IERC721Enumerable
     )
@@ -122,8 +127,8 @@ const nftGet = async (
   withMetadata = false
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID };
-  if (!(chainId && address && tokenID)) return nft;
-  // console.log(`nftGet ${nftKey(chainId, address, tokenID)}\n`);
+  if (!(chainId && address && tokenID && provider)) return nft;
+  // console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
   nft = await nftGetFromContract(chainId, address, tokenID, provider, collection);
   // console.log("nft", nft);
