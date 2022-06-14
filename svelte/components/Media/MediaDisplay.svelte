@@ -26,7 +26,7 @@
   $: nft && handleChange();
   const handleChange = (): void => {
     const mediaContentType = nft.contentType?.split("/");
-    mediaType = mediaContentType[0];
+    mediaType = mediaContentType?.[0];
     if (mediaType === "text") mediaType = "image";
     // mediaSubtype = mediaContentType[1];
     mediaSrc = nftGetImageLink(nft);
