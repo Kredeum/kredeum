@@ -20,8 +20,8 @@
 
   import Content from "./Content.svelte";
 
-  import NftMintAma from "../Nft/NftMintAma.svelte";
-  import Nft from "../Nft/Nft.svelte";
+  import NftMintAma from "../Nft/NftMintAma0.svelte";
+  import Nft from "../Nft/Nft0.svelte";
 
   // import { metamaskProvider } from "main/metamask";
 

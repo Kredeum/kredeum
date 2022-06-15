@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import Nft from "../components/Nft/Nft.svelte";
+  import Nft from "../components/Nft/Nft0.svelte";
   import NftSimple from "./NftSimple.svelte";
   import { metamaskInit } from "helpers/metamask";
 
