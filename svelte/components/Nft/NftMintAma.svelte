@@ -30,27 +30,34 @@
   $: chainName = getChainName(chainId);
   $: label = `${type === "mint" ? "Mint" : "Claim"} on ${chainName}`;
 
-  // $: $metamaskChainId && handleNetwork();
-  const handleNetwork = async () => {
-    let tokenIdFound = "";
+  // $: $metamaskChainId && isReady();
+  const isReady = async (): Promise<boolean> => {
+    console.log(`isReady ${chainId} ${type}`);
 
     if (chainId === $metamaskChainId) {
-      console.log(`handleNetwork ${chainId} ${type}`);
       openBoundAddress = getNetwork(chainId).openBoundAma;
-      console.log("handleNetwork ~ openBoundAddress", openBoundAddress);
+      // console.log("isReady ~ openBoundAddress", openBoundAddress);
 
       openBound = new ethers.Contract(openBoundAddress, openBoundAbi, $metamaskSigner) as unknown as OpenBoundType;
+      if (!openBound) return false;
 
       if (Number(await openBound.balanceOf($metamaskAccount)) > 0) {
-        tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
+        const tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
+        // console.log("isReady ~ tokenIdFound", tokenIdFound);
         alert(`NFT already exists on ${chainName} \n`);
         tokenID ||= tokenIdFound;
+        return false;
       }
     } else {
-      alert(`Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`);
+      const messageSwitchTo = `Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`;
+      // console.log("isReady ~ messageSwitchTo", messageSwitchTo);
+      alert(messageSwitchTo);
       await metamaskSwitchChain(chainId);
+      return false;
     }
-    return tokenIdFound;
+
+    // console.log("isReady OK");
+    return true;
   };
 
   const ownerXorTokenID = (owner: string, tokenID: string): string => {
@@ -58,7 +65,7 @@
   };
 
   const mintOrClaim = async (): Promise<NftType> => {
-    if (await handleNetwork()) return;
+    if (!(await isReady())) return;
 
     let tokenIdMintOrclaim = tokenID;
 

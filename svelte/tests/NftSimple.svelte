@@ -22,15 +22,12 @@
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID && $metamaskProvider && $metamaskChainId && handleChange();
+  $: account, chainId && address && tokenID  && $metamaskChainId && handleChange();
   const handleChange = (): void => {
     // console.log(`NFT CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
-
-    console.log("handleChange ~ $metamaskProvider", $metamaskProvider);
-    console.log("handleChange ~ $metamaskChainId", $metamaskChainId);
 
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
