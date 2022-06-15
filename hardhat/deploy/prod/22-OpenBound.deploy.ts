@@ -11,7 +11,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   const { provider, getNamedSigner, getContract } = ethers;
   const deployer = await getNamedSigner("deployer");
 
-  const blockStart = (await provider.getBlockNumber()) + 100;
+  const blockStart = (await provider.getBlockNumber()) + 0;
   deployments.log("blockStart", blockStart);
 
   const deployResult: DeployResult = await deployments.deploy(contractName, {
@@ -36,7 +36,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   }
 };
 
-deployFunction.dependencies = ["Bafkrey", "NFTsFactoryV2"];
+// deployFunction.dependencies = ["NFTsFactoryV2"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 

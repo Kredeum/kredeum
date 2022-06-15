@@ -6,7 +6,8 @@
   import NftMintAma from "../Nft/NftMintAma.svelte";
 
   const prod = process.env.ENVIR === "PROD";
-  const mintChainId = prod ? 137 : 80001;
+  const mintChainId = prod ? 137 : 137;
+  // const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
   const claimChainId = prod ? 10 : 42;
 

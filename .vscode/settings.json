@@ -1,5 +1,5 @@
 {
-  "editor.minimap.enabled": false,
+  "editor.fontSize": 14,
   "favorites.resources": [
     {
       "filePath": "hardhat/hardhat.config.ts",
@@ -60,10 +60,9 @@
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "window.zoomLevel": -1,
+  "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
   "workbench.colorTheme": "Winter is Coming (Dark Black)",
   "workbench.layoutControl.enabled": true,
-  "workbench.statusBar.visible": true,
-  "editor.fontSize": 16
+  "workbench.statusBar.visible": true
 }
