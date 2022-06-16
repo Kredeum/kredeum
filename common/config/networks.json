@@ -241,6 +241,25 @@
     "testnet": true
   },
   {
+    "chainId": 3,
+    "chainName": "ropsten",
+    "rpcUrls": ["https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161", "https://ropsten.infura.io/v3/"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://ropsten.etherscan.io"],
+    "covalent": {
+      "active": false
+    },
+    "eip1559": true,
+    "defaultOpenNFTs": "0x7B5E42Ab37Bf962413a2B062fE7373141e643f46",
+    "nftsFactoryV2": "0x3fB23c510e46B5d226Fc8635A4a6FB6Fde09719F",
+    "create": true,
+    "testnet": true
+  },
+  {
     "chainId": 42,
     "chainName": "kovan",
     "rpcUrls": ["https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"],

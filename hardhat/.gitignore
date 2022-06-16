@@ -5,6 +5,7 @@ node_modules
 artifacts
 cache
 docs
+out
 
 # ENV
 **/*.env
