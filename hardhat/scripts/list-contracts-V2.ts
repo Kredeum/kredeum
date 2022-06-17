@@ -4,7 +4,6 @@ import { Contract } from "ethers";
 
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 import type { ERC721Enumerable } from "types/ERC721Enumerable";
-
 import INFTsFactory from "abis/INFTsFactory.json";
 import ICloneFactory from "abis/ICloneFactory.json";
 import IERC165 from "abis/IERC165.json";
@@ -12,6 +11,7 @@ import IERC721 from "abis/IERC721.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 
+import type { CollectionType } from "lib/ktypes";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
 
@@ -34,23 +34,28 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
     if (collectionAddress === nftsFactory.address) {
       output += " is NFTsFactoryV2";
     } else {
-      const collectionObject = await collectionGet(chainId, collectionAddress, provider);
+      const collectionObject: CollectionType = await collectionGet(chainId, collectionAddress, provider);
       const collection = new Contract(collectionAddress, INFT, provider) as ERC721Enumerable;
-      const { supports, mintable, totalSupply, name, symbol } = collectionObject;
+      const { supports, totalSupply, name, symbol } = collectionObject;
       // console.log("logCollection ~ collectionObject", collectionObject);
 
       if (collection) {
-        output += `${String(totalSupply || 0).padStart(8)} ${(symbol || "").padEnd(5)} ${(name || "").padEnd(32)} ${
-          mintable ? "mintable" : ""
-        }`;
+        output += `${String(totalSupply || 0).padStart(8)} ${(symbol || "").padEnd(5)} ${(name || "").padEnd(32)}`;
 
         if (supports) {
-          for (const [iface, supported] of Object.entries(supports)) {
-            if (supported) output += ` ${iface}`;
-          }
-          if (supports.IOpenNFTsV2) {
+          if (
+            supports.IOpenMulti ||
+            supports.IOpenNFTsV3 ||
+            supports.IOpenNFTsV2 ||
+            supports.IOpenNFTsV1 ||
+            supports.IOpenNFTsV0
+          ) {
+            output += " KREDEUM";
             totalCollections++;
             totalNFTs += totalSupply || 0;
+          }
+          for (const [iface, supported] of Object.entries(supports)) {
+            if (supported) output += ` ${iface}`;
           }
         }
       }
@@ -60,20 +65,13 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
 };
 
 const main = async (): Promise<void> => {
-  const logNetworks = [
-    // "mainnet",
-    // "arbitrum"
-    // "matic",
-    // "xdai"
-    "bsc"
-    // "fantom",
-    // "avalanche"
-  ];
+  const logNetworks = ["mainnet", "arbitrum", "optimism", "matic", "avalanche", "xdai", "fantom", "bsc"];
 
   for await (const network of networks.filter((nw) => logNetworks.includes(nw.chainName))) {
     if (network.mainnet && network.nftsFactoryV2) {
       totalChains++;
 
+      // console.log(network);
       hre.changeNetwork(network.chainName);
       const provider = hre.ethers.provider;
 

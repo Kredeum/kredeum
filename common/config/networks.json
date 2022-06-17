@@ -121,7 +121,12 @@
   {
     "chainId": 100,
     "chainName": "xdai",
-    "rpcUrls": ["https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
+    "rpcUrls": [
+      "https://rpc.ankr.com/gnosis",
+      "https://rpc.xdaichain.com",
+      "https://xdai.poanetwork.dev/",
+      "https://dai.poa.network/"
+    ],
     "nativeCurrency": {
       "name": "xDAI",
       "symbol": "xDAI",
