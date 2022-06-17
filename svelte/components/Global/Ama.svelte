@@ -1,96 +1,23 @@
 <script lang="ts">
   import { getNftsFactory, explorerNFTsFactoryUrl, getChainName, getNetwork } from "lib/kconfig";
+  import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "main/metamask";
 
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Navigation from "../Global/Navigation.svelte";
   import Title from "../Global/Title.svelte";
-  import AccountConnect from "../Account/AccountConnectAma.svelte";
+  import AccountConnect from "../Account/AccountConnect.svelte";
   import NftMintAma from "../Nft/NftMintAma.svelte";
-  import NftAma from "../Nft/NftAma.svelte";
 
-  import type { NftType } from "lib/ktypes";
-  import type { Readable } from "svelte/store";
-  import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "main/metamask";
-  import { nftStore } from "stores/nft/nft";
-
-  import type { OpenBound as OpenBoundType } from "types/OpenBound";
-  import openBoundAbi from "abis/OpenBound.json";
-  import { ethers } from "ethers";
-
-  import { metamaskSwitchChain } from "helpers/metamask";
+  import AmaDisplay from "./AmaDisplay.svelte";
 
   const prod = process.env.ENVIR === "PROD";
   const mintChainId = prod ? 137 : 137;
+  // const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
   const claimChainId = prod ? 10 : 42;
 
   let account: string;
   let tokenID: string = "";
-
-  let address = ""; /*"0x7ddAd63aFfb4003bbE797747090315d725467473"*/
-  let tokenIdClaimed: string;
-
-  // let nftMinted: Readable<NftType>;
-  // let nftClaimed: Readable<NftType>;
-
-  $: account && $metamaskProvider && $metamaskChainId && handleMintOrClaim();
-  const handleMintOrClaim = async () => {
-    ////////////////////////////////////////////////////////////////////
-    // TODO detect if user have a POAP on mintChain
-    // if yes, get MintedTokenID && tokenID = MintedTokenID
-    //
-    ////////////////////////////////////////////////////////////////////
-    if (!tokenID) {
-      const openBoundAddress = getNetwork(mintChainId).openBoundAma;
-
-      address = openBoundAddress;
-
-      const openBound = new ethers.Contract(
-        openBoundAddress,
-        openBoundAbi,
-        $metamaskSigner
-      ) as unknown as OpenBoundType;
-
-      if (Number(await openBound.balanceOf($metamaskAccount)) > 0) {
-        tokenID = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
-      }
-    }
-    // nftMinted = nftStore.getOneStore($metamaskChainId, address, "");
-    // await nftStore.refreshOne($metamaskChainId, address, "9").catch(console.error);
-    // tokenID = $nftMinted?.tokenID || "";
-    // console.log("🚀 ~ file: Ama.svelte ~ line 40 ~ handleMintOrClaim ~ tokenID", $nftMinted);
-
-    ////////////////////////////////////////////////////////////////////
-    // TODO detect if user have a POAP on claimChain
-    // if yes, get ClaimedTokenID && tokenIDClaimed = ClaimedTokenID
-    //
-    ////////////////////////////////////////////////////////////////////
-    if (tokenID) {
-      // metamaskSwitchChain(claimChainId);
-
-      const openBoundAddressClaim = getNetwork(claimChainId).openBoundAma;
-
-      const openBoundClaim = new ethers.Contract(
-        openBoundAddressClaim,
-        openBoundAbi,
-        $metamaskSigner
-      ) as unknown as OpenBoundType;
-
-      if (Number(await openBoundClaim.balanceOf(account)) > 0) {
-        tokenIdClaimed = String(await openBoundClaim.tokenOfOwnerByIndex(account, 0));
-      }
-    }
-
-    // if (tokenIdClaimed) {
-    //   metamaskSwitchChain(mintChainId);
-    // }
-
-    // nftClaimed = nftStore.getOneStore($metamaskChainId, address, "");
-    // await nftStore.refreshOne($metamaskChainId, address, "1").catch(console.error);
-    // tokenIdClaimed = $nftClaimed?.tokenID || "";
-  };
-
-  $: console.log("🚀 ~ file: Ama.svelte ~ line 86 tokenIdClaimed", tokenIdClaimed);
 </script>
 
 <HomeLayout>
@@ -104,56 +31,58 @@
       <h2>AMA 06/15/22</h2>
     </div>
   </span>
-  <span slot="content">
-    <div class="ama">
-      <div class="card-krd ama-krd">
-        <div class="ama-header">
-          <h3>Mint your AMA 06/15/22's POAP</h3>
-        </div>
-        <div class="ama-connect row">
-          <div class="col col-xs-12 col-sm-6 col-md-4 ama-display-account">
-            <AccountConnect bind:account />
-          </div>
 
-          {#if account}
-            <div class="col col-xs-12 col-sm-6 col-md-3 ama-display-network">
-              <span class="label"
-                >Network
-                <a
-                  class="info-button"
-                  href={explorerNFTsFactoryUrl($metamaskChainId)}
-                  target="_blank"
-                  title="&#009; NFTs Factory address (click to view in explorer )
+  <span slot="content">
+    {#if !tokenID}
+      <div class="ama">
+        <div class="card-krd ama-krd">
+          <div class="ama-header">
+            <h3>Mint your AMA 06/15/22's POAP</h3>
+          </div>
+          <div class="ama-connect row">
+            <div class="col col-xs-12 col-sm-6 col-md-4 ama-display-account">
+              <AccountConnect bind:account />
+            </div>
+
+            {#if account}
+              <div class="col col-xs-12 col-sm-6 col-md-3 ama-display-network">
+                <span class="label"
+                  >Network
+                  <a
+                    class="info-button"
+                    href={explorerNFTsFactoryUrl($metamaskChainId)}
+                    target="_blank"
+                    title="&#009; NFTs Factory address (click to view in explorer )
         {getNftsFactory($metamaskChainId)}"><i class="fas fa-info-circle" /></a
-                >
-              </span>
-              <div class="ama-network-display">
-                <span class={$metamaskChainId === mintChainId ? "ama-matic" : "ama-optimism"} />
-                {$metamaskChainId === mintChainId ? "Polygon / Matic" : "Optimism"}
+                  >
+                </span>
+                <div class="ama-network-display">
+                  <span class={$metamaskChainId === mintChainId ? "ama-matic" : "ama-optimism"} />
+                  {$metamaskChainId === mintChainId ? "Polygon / Matic" : "Optimism"}
+                </div>
               </div>
+            {/if}
+          </div>
+          {#if account}
+            <div class="mint-button-ama">
+              {#if !tokenID}
+                <NftMintAma chainId={mintChainId} bind:tokenID type="mint" />
+              {:else if !tokenIdClaimed}
+                <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
+              {:else}
+                <span class="label label-big">
+                  <i class="fas fa-exclamation" />
+                  Your POAP has been Claimed right on {getChainName(claimChainId)}
+                  <i class="fas fa-exclamation" /></span
+                >
+              {/if}
             </div>
           {/if}
         </div>
-        {#if tokenID && address}
-          <NftAma chainId={$metamaskChainId} {address} {tokenID} {account} {claimChainId} {tokenIdClaimed} />
-        {/if}
-        {#if account}
-          <div class="mint-button-ama">
-            {#if !tokenID}
-              <NftMintAma chainId={mintChainId} bind:tokenID type="mint" />
-            {:else if !tokenIdClaimed}
-              <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
-            {:else}
-              <span class="label label-big">
-                <i class="fas fa-exclamation" />
-                Your POAP has been Claimed right on {getChainName(claimChainId)}
-                <i class="fas fa-exclamation" /></span
-              >
-            {/if}
-          </div>
-        {/if}
       </div>
-    </div>
+    {:else}
+      <AmaDisplay {tokenID} />
+    {/if}
   </span>
 </HomeLayout>
 

@@ -19,7 +19,7 @@
 
   /////////////////////////////////////////////////
   //  <NftMint {chainId} />
-  // Mint NFT
+  // Mint NFT or Claim
   /////////////////////////////////////////////////
   export let chainId: number;
   export let type: string;
@@ -40,51 +40,43 @@
     open = true;
   };
 
-  // $: $metamaskChainId && isReady();
-  const isReady = async (): Promise<boolean> => {
-    console.log(`isReady ${chainId} ${type}`);
+  // $: $metamaskChainId && handleNetwork();
+  const handleNetwork = async () => {
+    let tokenIdFound = "";
 
     if (chainId === $metamaskChainId) {
+      console.log(`handleNetwork ${chainId} ${type}`);
       openBoundAddress = getNetwork(chainId).openBoundAma;
-      // console.log("isReady ~ openBoundAddress", openBoundAddress);
+      console.log("handleNetwork ~ openBoundAddress", openBoundAddress);
 
       openBound = new ethers.Contract(openBoundAddress, openBoundAbi, $metamaskSigner) as unknown as OpenBoundType;
-      if (!openBound) return false;
 
       if (Number(await openBound.balanceOf($metamaskAccount)) > 0) {
-        const tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
-        // console.log("isReady ~ tokenIdFound", tokenIdFound);
+        tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
         alert(`NFT already exists on ${chainName} \n`);
         tokenID ||= tokenIdFound;
-        return false;
       }
     } else {
-      const messageSwitchTo = `Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`;
-      // console.log("isReady ~ messageSwitchTo", messageSwitchTo);
-      alert(messageSwitchTo);
+      alert(`Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`);
       await metamaskSwitchChain(chainId);
-      return false;
     }
-
-    // console.log("isReady OK");
-    return true;
+    return tokenIdFound;
   };
 
   const ownerXorTokenID = (owner: string, tokenID: string): string => {
     return String(BigNumber.from(owner).xor(BigNumber.from(tokenID)));
   };
 
-  const randomTokenID = (): string => {
-    const uintJson = cidToInt($metamaskAccount);
-    const n = Number(BigNumber.from(uintJson).mod(6));
-    const cidJson = ama.cidJson[n];
-    return ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
-  };
-
   const mintOrClaim = async (): Promise<NftType> => {
-    if (!(await isReady())) return;
+    if (await handleNetwork()) return;
 
-    let tokenIdMintOrclaim = tokenID || randomTokenID();
+    let tokenIdMintOrclaim = tokenID;
+
+    if (type === "mint") {
+      const n = Math.floor(6 * Math.random());
+      const cidJson = ama.cidJson[n];
+      tokenIdMintOrclaim = ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
+    }
 
     processing = true;
     const mintingTxResp = await openBound.mint(tokenIdMintOrclaim);

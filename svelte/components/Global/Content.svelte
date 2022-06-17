@@ -2,7 +2,7 @@
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
 
-  import Nft from "../Nft/Nft0.svelte";
+  import Nft from "../Nft/Nft.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
 
   /////////////////////////////////////////////////
