@@ -46,14 +46,6 @@
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-
-    if (tokenIdClaimed) {
-      // nft = nftStore.getOneStore(chainId, address, tokenID);
-      // await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-
-      nftClaimed = nftStore.getOneStore(claimChainId, address, tokenIdClaimed);
-      await nftStore.refreshOne(claimChainId, address, tokenIdClaimed).catch(console.error);
-    }
   };
 
   $: console.log("Nft", $nft, " | tokenIdClaimed : ", tokenIdClaimed);
@@ -151,7 +143,6 @@
         </div>
       {:else if chainTab === 2}
         <div class="card-krd" transition:slide>
-          {$nftClaimed?.name}
           <a href={nftOpenSeaUrl($nft?.chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
             View on OpenSea
           </a>

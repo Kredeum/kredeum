@@ -75,8 +75,7 @@
   };
 
   const randomTokenID = (): string => {
-    const uintJson = cidToInt($metamaskAccount);
-    const n = Number(BigNumber.from(uintJson).mod(6));
+    const n = Number(BigNumber.from($metamaskAccount).mod(6));
     const cidJson = ama.cidJson[n];
     return ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
   };
@@ -85,6 +84,7 @@
     if (!(await isReady())) return;
 
     let tokenIdMintOrclaim = tokenID || randomTokenID();
+    console.log("🚀 ~ file: NftMintAma.svelte ~ line 87 ~ mintOrClaim ~ tokenIdMintOrclaim", tokenIdMintOrclaim);
 
     processing = true;
     const mintingTxResp = await openBound.mint(tokenIdMintOrclaim);

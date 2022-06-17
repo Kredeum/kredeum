@@ -11,8 +11,8 @@
   import AmaDisplay from "./AmaDisplay.svelte";
 
   const prod = process.env.ENVIR === "PROD";
-  const mintChainId = prod ? 137 : 137;
-  // const mintChainId = prod ? 137 : 80001;
+  // const mintChainId = prod ? 137 : 137;
+  const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
   const claimChainId = prod ? 10 : 42;
 
@@ -26,10 +26,14 @@
   </span>
 
   <span slot="header">
-    <div class="ama-title">
-      <h1 title="Kredeum NFTs Factory">My NFTs Factory</h1>
-      <h2>AMA 06/15/22</h2>
-    </div>
+    {#if !tokenID}
+      <div class="ama-title">
+        <h1 title="Kredeum NFTs Factory">My NFTs Factory</h1>
+        <h2>AMA 06/15/22</h2>
+      </div>
+    {:else}
+      <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
+    {/if}
   </span>
 
   <span slot="content">
