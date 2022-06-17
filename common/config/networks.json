@@ -312,7 +312,7 @@
     "nftsFactoryV2": "0x3BDF67A8900AE9545Ea89121e9215B96C2e84722",
     "create": true,
     "testnet": true,
-    "openBoundAma": "0x8517c4D7B892Cb7116761294092E22f8812B2739"
+    "openBoundAma": "0xC01e8215bf7C1317143BB1E9Fec0541607598d54"
   },
   {
     "chainId": 80001,
