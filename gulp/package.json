@@ -14,10 +14,10 @@
   "license": "ISC",
   "devDependencies": {
     "-": "^0.0.1",
-    "autoprefixer": "^10.4.4",
-    "cssnano": "^5.1.5",
-    "del": "^6.0.0",
-    "dotenv": "^16.0.0",
+    "autoprefixer": "^10.4.7",
+    "cssnano": "^5.1.11",
+    "del": "^6.1.1",
+    "dotenv": "^16.0.1",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
@@ -29,7 +29,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.12",
-    "sass": "^1.49.9"
+    "postcss": "^8.4.14",
+    "sass": "^1.52.3"
   }
 }
