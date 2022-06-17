@@ -2,9 +2,9 @@ name: Build Dapp
 on:
   push:
     branches:
-      - alpha
       - beta
-      - main
+      - integ
+      - alpha
 
 jobs:
   check:
