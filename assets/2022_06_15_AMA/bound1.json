@@ -1,0 +1,9 @@
+{
+  "name": "bound1.png",
+  "description": "bound1.png",
+  "image": "https://ipfs.io/ipfs/bafkreiammxzpkjf5ybrp2r5dqdkfesmpdwccm47hgie3as2xfn5ybpm4oq",
+  "ipfs": "ipfs://bafkreiammxzpkjf5ybrp2r5dqdkfesmpdwccm47hgie3as2xfn5ybpm4oq",
+  "origin": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAcIAAAHCCAYAAAB8GMlFAAAMa2lDQ1BJQ0MgUHJvZmlsZQAASImVVwdYU8kWnluSkJDQAghICb0JIjWAlBBa6B3BRkgCCS...CAHNCYgg1By5NCgEhIAQEAJ6IiCCUE+zIX0RAkJACAgBzQmIINQcuTQoBISAEBACeiIgglBPsyF9EQJCQAgIAc0JiCDUHLk0KASEgBAQAnoi8P8gCLR8yeCQ2gAAAABJRU5ErkJggg==",
+  "minter": "0x981ab0D817710d8FFFC5693383C00D985A3BDa38",
+  "metadata": {}
+}
