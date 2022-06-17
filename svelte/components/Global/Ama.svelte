@@ -1,4 +1,6 @@
 <script lang="ts">
+  import type { NftType } from "lib/ktypes";
+
   import { getNftsFactory, explorerNFTsFactoryUrl, getChainName, getNetwork } from "lib/kconfig";
   import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "main/metamask";
 
@@ -18,6 +20,29 @@
 
   let account: string;
   let tokenID: string = "";
+
+  let nftMinted: NftType;
+  let nfts: Map<string, NftType> = new Map();
+
+  let refresh: boolean = false;
+
+  $: refresh, account && nftAmaGetLocalStorage();
+  const nftAmaGetLocalStorage = (): void => {
+    for (let index = 0; index < localStorage.length; index++) {
+      const key = localStorage.key(index);
+
+      if (key?.startsWith("nft://")) {
+        nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
+
+        if (key?.startsWith(`nft://${mintChainId}`)) {
+          nftMinted = JSON.parse(localStorage.getItem(key)) as NftType;
+          tokenID = nftMinted.tokenID;
+        }
+      }
+    }
+  };
+
+  $: console.log("🚀 ~ file: Ama.svelte ~ line 23 ~ tokenID", tokenID);
 </script>
 
 <HomeLayout>
@@ -85,7 +110,7 @@
         </div>
       </div>
     {:else}
-      <AmaDisplay {tokenID} />
+      <AmaDisplay {tokenID} {nftMinted} {nfts} bind:refresh />
     {/if}
   </span>
 </HomeLayout>

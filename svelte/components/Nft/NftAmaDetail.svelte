@@ -27,6 +27,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
+  export let refresh: boolean = false;
 
   let nft: Readable<NftType>;
 
@@ -41,6 +42,7 @@
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    refresh = true;
   };
 
   $: console.log("Nft", $nft);

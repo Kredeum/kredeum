@@ -31,13 +31,16 @@
   //   export let chainId: number;
   //   export let address: string;
   export let tokenID: string;
+  export let nftMinted: NftType;
+  export let nfts: Map<string, NftType>;
+  export let refresh: boolean;
   //   export let account: string = undefined;
   let chainId: number = $metamaskChainId;
   let address: string = getNetwork($metamaskChainId).openBoundAma;
   let account: string = $metamaskAccount;
 
   let nft: Readable<NftType>;
-  let nfts: Map<string, NftType> = new Map();
+  // let nfts: Map<string, NftType> = new Map();
 
   const prod = process.env.ENVIR === "PROD";
   const mintChainId = prod ? 137 : 80001;
@@ -53,16 +56,16 @@
   //   await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   // };
 
-  $: tokenID && localStorage.length && nftAmaGetLocalStorage();
-  const nftAmaGetLocalStorage = (): void => {
-    for (let index = 0; index < localStorage.length; index++) {
-      const key = localStorage.key(index);
+  // $: tokenID && nftAmaGetLocalStorage();
+  // const nftAmaGetLocalStorage = (): void => {
+  //   for (let index = 0; index < localStorage.length; index++) {
+  //     const key = localStorage.key(index);
 
-      if (key?.startsWith("nft://")) {
-        nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
-      }
-    }
-  };
+  //     if (key?.startsWith("nft://")) {
+  //       nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
+  //     }
+  //   }
+  // };
 
   $: console.log("nfts", nfts);
 </script>
@@ -71,8 +74,8 @@
   <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
-        {#if nfts[0]?.tokenID}
-          <MediaPreview nft={nfts[0]} />
+        {#if nftMinted}
+          <MediaPreview nft={nftMinted} />
         {/if}
       </div>
     </div>
@@ -93,9 +96,10 @@
         </div>
       </div>
       {#if chainTab === 1}
-        <NftAmaDetail {chainId} {address} {tokenID} {account} />
+        <NftAmaDetail {chainId} {address} {tokenID} {account} bind:refresh />
       {:else if chainTab === 2}
-        <NftAmaDetail {chainId} {address} {tokenID} {account} />
+        test
+        <!-- <NftAmaDetail {chainId} {address} {tokenID} {account} bind:refresh /> -->
       {/if}
     </div>
   </div>
