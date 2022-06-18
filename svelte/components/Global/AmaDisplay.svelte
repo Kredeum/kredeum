@@ -43,7 +43,8 @@
   // let nfts: Map<string, NftType> = new Map();
 
   const prod = process.env.ENVIR === "PROD";
-  const mintChainId = prod ? 137 : 80001;
+  // const mintChainId = prod ? 137 : 80001;
+  const mintChainId = prod ? 137 : 137;
   const claimChainId = prod ? 10 : 42;
 
   let chainTab: number = 1;
