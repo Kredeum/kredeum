@@ -45,6 +45,23 @@
     refresh = true;
   };
 
+  const copyToClipboard = async (data, e): Promise<void> => {
+    await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
+    const evtTarget = e.target; // as HTMLInputElement;
+    console.log(
+      "🚀 ~ file: NftAmaDetail.svelte ~ line 51 ~ copyToClipboard ~ evtTarget",
+      evtTarget.closest(".copy-container").querySelector(".copied-msg").classList
+    );
+    // evtTarget.closest(".copy-container").querySelector(".copied-msg").classList.add("copied-confirm");
+    // evtTarget.closest(".copy-container").querySelector(".copied-msg").style.animationName = "copied-anim";
+    evtTarget.closest(".copy-container").querySelector(".copied-msg").innerHTML = "Copied !";
+    setTimeout(() => {
+      evtTarget.closest(".copy-container").querySelector(".copied-msg").innerHTML = "";
+    }, 1000);
+
+    console.log("Copied");
+  };
+
   $: console.log("Nft", $nft);
 </script>
 
@@ -58,7 +75,15 @@
     <ul class="steps">
       <li>
         <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-        <div class="flex overflow-ellipsis" title="Token ID #{tokenID}"><strong>#{tokenID}</strong></div>
+        <div
+          class="flex copy-container"
+          title="copy Token ID #{tokenID} to clipboard"
+          on:click|preventDefault={(e) => copyToClipboard(tokenID, e)}
+        >
+          <strong class="overflow-ellipsis">#{tokenID}</strong>
+          <i class="fa fa-clone" aria-hidden="true" />
+          <div class="copied-msg" />
+        </div>
       </li>
       <li>
         <div class="flex"><span class="label">Owner</span></div>
@@ -116,3 +141,46 @@
     </a>
   </div>
 {/if}
+
+<style>
+  .copy-container {
+    display: flex;
+    position: relative;
+    cursor: pointer;
+  }
+
+  i {
+    width: 20px;
+    height: 20px;
+    color: gray;
+  }
+
+  @keyframes copied-anim {
+    from {
+      opacity: 1;
+      top: -30px;
+      right: 10px;
+    }
+    to {
+      opacity: 0;
+      top: -45px;
+      right: 0px;
+    }
+  }
+
+  .copied-msg {
+    position: absolute;
+    top: -30px;
+    right: 10px;
+    opacity: 0;
+    animation-name: copied-anim;
+    animation-duration: 1s;
+    padding: 5px 10px;
+    border: 1px solid gray;
+    border-radius: 6px;
+  }
+
+  .copied-msg:empty {
+    display: none;
+  }
+</style>

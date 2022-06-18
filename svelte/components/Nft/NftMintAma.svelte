@@ -8,7 +8,7 @@
   import { metamaskSwitchChain } from "helpers/metamask";
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "main/metamask";
   import ama from "config/ama.json";
-  import { getChainName, getNetwork, getExplorer } from "lib/kconfig";
+  import { getChainName, getNetwork, getExplorer, ipfsGetLink, ipfsToUrlHttp } from "lib/kconfig";
   import { ethers, BigNumber } from "ethers";
   import { cidToInt } from "lib/kcid";
   import type { OpenBound as OpenBoundType } from "types/OpenBound";
@@ -29,6 +29,7 @@
   let openBound: OpenBoundType;
   let openBoundAddress: string;
 
+  let mintingImage = "";
   let processing: boolean = false;
 
   $: chainName = getChainName(chainId);
@@ -38,6 +39,13 @@
 
   const openAmaModal = () => {
     open = true;
+  };
+
+  $: $metamaskAccount && handlePoap();
+  const handlePoap = (): void => {
+    const n = Number(BigNumber.from($metamaskAccount).mod(4));
+    const cidImage = ama.cidImage[n];
+    mintingImage = ipfsToUrlHttp(ipfsGetLink(cidImage));
   };
 
   // $: $metamaskChainId && isReady();
@@ -133,6 +141,7 @@
                   will be attached to your account forever. (V1 of Soul Bound Token)</span
                 >
               </div>
+              <div><img src={mintingImage} alt="kredeum AMA poap" /></div>
               <div class="btn btn-default" title="Mint NFT" on:click={mintOrClaim}>
                 {label}
               </div>
