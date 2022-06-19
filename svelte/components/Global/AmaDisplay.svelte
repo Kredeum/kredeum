@@ -22,7 +22,9 @@
   import NftAma from "../Nft/NftAma.svelte";
   import { chainId } from "main/network";
 
+  import NetworkListAma from "../Network/NetworkListAma.svelte";
   import NftAmaDetail from "../Nft/NftAmaDetail.svelte";
+  import NftMintAma from "../Nft/NftMintAma.svelte";
 
   /////////////////////////////////////////////////
   //  <NftAma {chainId} {address} {tokenID} {account}? {tokenIdClaimed}? />
@@ -95,6 +97,10 @@
             </div>
           {/if}
         </div>
+        <div class="ama-network">
+          <NetworkListAma {chainId} />
+          <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
+        </div>
       </div>
       {#if chainTab === 1}
         <NftAmaDetail {chainId} {address} {tokenID} {account} bind:refresh />
@@ -116,18 +122,25 @@
   }
 
   .ama-chains-tabs {
-    width: fit-content;
+    /* width: fit-content; */
     height: auto;
     border-radius: 6px;
     background-color: white;
     margin-bottom: -10px;
     padding: 15px;
+    display: flex;
+    justify-content: space-between;
   }
 
   .ama-tabs-container {
     display: flex;
     /* border-bottom: 1px solid #1e1e43; */
     border-bottom: 1px solid #3acf6e;
+  }
+
+  .ama-network {
+    display: flex;
+    /* width: 300px; */
   }
 
   .ama-tabs-container input {

@@ -113,9 +113,10 @@
 <div class="ama-mint-btn">
   <div class="btn btn-default" title="Mint NFT" on:click={() => openAmaModal()}>
     {#if type === "claim"}
-      <i class="fas fa-exclamation" />
+      <i class="fas fa-exclamation" /> Claim
+    {:else}
+      {label}
     {/if}
-    {label}
   </div>
 </div>
 

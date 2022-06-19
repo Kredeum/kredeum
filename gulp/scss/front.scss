@@ -511,3 +511,33 @@
     }
   }
 }
+
+// Network display in ama
+.select-network {
+  .custom-options {
+    .custom-option {
+      padding: 13px 0 13px 35px;
+    }
+  }
+
+  .select-trigger {
+    span {
+      padding-left: 35px;
+    }
+  }
+
+  $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai",
+    "arbitrum";
+
+  @each $name in $names {
+    [data-value="#{$name}"],
+    .#{$name} {
+      background: url("../images/icon-#{$name}.png") no-repeat left center;
+    }
+  }
+
+  .custom-option,
+  .select-trigger span {
+    background-size: 25px;
+  }
+}
