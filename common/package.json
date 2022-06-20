@@ -39,6 +39,7 @@
     "typescript": "^4.7.3"
   },
   "devDependencies": {
-    "@ipld/dag-pb": "^2.1.17"
+    "@ipld/dag-pb": "^2.1.17",
+    "moralis": "^1.8.0"
   }
 }

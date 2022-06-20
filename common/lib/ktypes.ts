@@ -14,7 +14,7 @@ type NetworkType = {
   blockExplorerUrls: Array<string>;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
-  moralis?: { active: boolean };
+  moralis?: { active: boolean; url?: string };
   covalent?: { active: boolean };
   mainnet?: boolean;
   testnet?: boolean;
