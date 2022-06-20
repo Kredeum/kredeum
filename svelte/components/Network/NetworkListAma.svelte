@@ -11,55 +11,27 @@
   // <NetworkList bind:{chainId} {txt} {label} />
   // Select Network via a list box
   /////////////////////////////////////////////////
-  export let claimChainId: number;
+  export let toClaimChainId: number;
   export let txt: boolean = false;
   export let all: boolean = true;
   export let label = true;
 
   let open = false;
 
-  // Get Metamask chainId by default at startup
-  // $: chainId ||= $metamaskChainId;
-
-  interface SwitchEventTarget extends EventTarget {
-    value: number;
-  }
-  const _switchChainEvt = (evt?: Event) => {
-    // console.log("_switchChainEvt evt", evt);
-
-    claimChainId = Number((evt.target as SwitchEventTarget).value);
-    //   _switchChain(_chainId, evt).catch(console.error);
-  };
   const _switchChain = async (_chainId: number, evt: Event): Promise<void> => {
-    // console.log("_switchChain evt", evt);
     evt.preventDefault();
 
-    //   await metamaskSwitchChain(_chainId);
-    claimChainId = _chainId;
+    toClaimChainId = _chainId;
   };
 </script>
-
-<!-- <div class="col col-xs-12 col-sm-3"> -->
-<!-- {#if label}
-  <span class="label"
-    >Network
-    <a
-      class="info-button"
-      href={explorerNFTsFactoryUrl(chainId)}
-      target="_blank"
-      title="&#009; NFTs Factory address (click to view in explorer )
-        {getNftsFactory(chainId)}"><i class="fas fa-info-circle" /></a
-    >
-  </span>
-{/if} -->
 
 <div class="select-wrapper select-network" use:clickOutside={() => (open = false)} on:click={() => (open = !open)}>
   <div class="select" class:open>
     <div class="select-trigger">
-      {#if !claimChainId}
+      {#if !toClaimChainId}
         Choose blochain
       {:else}
-        <Network chainId={claimChainId} {txt} />
+        <Network chainId={toClaimChainId} {txt} />
       {/if}
     </div>
     <div class="custom-options" />
@@ -67,7 +39,7 @@
     <div class="custom-options">
       {#each networks.filter((nw) => nw.mainnet && (all || nw.openMulti)) as nwk}
         <span
-          class="custom-option {nwk.chainId == claimChainId && 'selected'}"
+          class="custom-option {nwk.chainId == toClaimChainId && 'selected'}"
           data-value={getChainName(nwk.chainId)}
           on:click={(evt) => _switchChain(nwk.chainId, evt)}
         >
@@ -78,7 +50,7 @@
       {#if true}
         {#each networks.filter((nw) => nw.testnet && (all || nw.openMulti)) as nwk}
           <span
-            class="custom-option {nwk.chainId == claimChainId && 'selected'}"
+            class="custom-option {nwk.chainId == toClaimChainId && 'selected'}"
             data-value={getChainName(nwk.chainId)}
             on:click={(evt) => _switchChain(nwk.chainId, evt)}
           >

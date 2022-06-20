@@ -12,11 +12,14 @@
 
   import AmaDisplay from "./AmaDisplay.svelte";
 
+  import { metamaskInit, metamaskConnect } from "helpers/metamask";
+  import { onMount } from "svelte";
+
   const prod = process.env.ENVIR === "PROD";
   const mintChainId = prod ? 137 : 137;
   // const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
-  const claimChainId = prod ? 10 : 42;
+  // const claimChainId = prod ? 10 : 42;
 
   let account: string;
   let tokenID: string = "";
@@ -29,7 +32,9 @@
   let isClaimed: boolean = false;
 
   $: refresh, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
-  const nftAmaGetLocalStorage = (): void => {
+  const nftAmaGetLocalStorage = async (): Promise<void> => {
+    // await metamaskInit();
+    // metamaskConnect();
     for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
 
@@ -104,17 +109,7 @@
           </div>
           {#if account}
             <div class="mint-button-ama">
-              <!-- {#if !tokenID} -->
               <NftMintAma chainId={mintChainId} bind:tokenID type="mint" />
-              <!-- {:else if !tokenIdClaimed}
-                <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
-              {:else}
-                <span class="label label-big">
-                  <i class="fas fa-exclamation" />
-                  Your POAP has been Claimed right on {getChainName(claimChainId)}
-                  <i class="fas fa-exclamation" /></span
-                > -->
-              <!-- {/if} -->
             </div>
           {/if}
         </div>

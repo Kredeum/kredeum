@@ -52,7 +52,7 @@
   const mintChainId = prod ? 137 : 137;
   // const claimChainId = prod ? 10 : 42;
 
-  let claimChainId: number = undefined;
+  let toClaimChainId: number = undefined;
 
   let chainTab: number = 1;
   let switchingTab: boolean = false;
@@ -69,24 +69,11 @@
     chainTab === 1 ? await metamaskSwitchChain(mintChainId) : await metamaskSwitchChain(42);
     switchingTab = false;
   };
-  // $: account, chainId && address && tokenID && $metamaskProvider && $metamaskChainId && handleChange();
-  // const handleChange = async (): Promise<void> => {
 
-  //   nft = nftStore.getOneStore(chainId, address, tokenID);
-
-  //   await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-  // };
-
-  // $: tokenID && nftAmaGetLocalStorage();
-  // const nftAmaGetLocalStorage = (): void => {
-  //   for (let index = 0; index < localStorage.length; index++) {
-  //     const key = localStorage.key(index);
-
-  //     if (key?.startsWith("nft://")) {
-  //       nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
-  //     }
-  //   }
-  // };
+  $: $metamaskChainId && handleSwitchChain();
+  const handleSwitchChain = (): void => {
+    $metamaskChainId === mintChainId ? (chainTab = 1) : (chainTab = 2);
+  };
 
   $: console.log("nfts", nfts);
 </script>
@@ -116,28 +103,10 @@
           {/if}
         </div>
         <div class="ama-network">
-          <NetworkListAma bind:claimChainId />
-          <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:isClaimed />
+          <NetworkListAma bind:toClaimChainId />
+          <NftMintAma chainId={toClaimChainId} {tokenID} type="claim" bind:isClaimed />
         </div>
       </div>
-      <!-- {#if chainTab === 1}
-        <NftAmaDetail
-          chainId={nftMinted?.chainId || mintChainId}
-          address={getNetwork(mintChainId).openBoundAma}
-          {tokenID}
-          {account}
-          bind:refresh
-          test={1}
-        />
-      {:else if chainTab === 2}
-        <NftAmaDetail
-          chainId={claimChainId || nftClaimed?.chainId}
-          address={getNetwork($metamaskChainId).openBoundAma}
-          {tokenID}
-          {account}
-          test={2}
-        />
-      {/if} -->
       {#if !switchingTab}
         <NftAmaDetail
           chainId={$metamaskChainId}

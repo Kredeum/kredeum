@@ -55,7 +55,7 @@
 
     if (chainId === $metamaskChainId) {
       openBoundAddress = getNetwork(chainId).openBoundAma;
-      // console.log("isReady ~ openBoundAddress", openBoundAddress);
+      console.log("isReady ~ openBoundAddress", openBoundAddress);
 
       openBound = new ethers.Contract(openBoundAddress, openBoundAbi, $metamaskSigner) as unknown as OpenBoundType;
       if (!openBound) return false;
