@@ -64,7 +64,11 @@
 
 <!-- </div> -->
 <style>
+  .select-network {
+    margin-right: 15px;
+  }
+
   .select-trigger {
-    border: 1px solid lightgray;
+    border: 2px solid rgba(30, 30, 67, 0.1);
   }
 </style>

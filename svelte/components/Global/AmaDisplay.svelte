@@ -8,6 +8,7 @@
     explorerAddressLink,
     kredeumNftUrl,
     getNetwork,
+    getChainName,
     nftOpenSeaUrl,
     addressSame
   } from "lib/kconfig";
@@ -36,7 +37,6 @@
   export let tokenID: string;
   export let nftMinted: NftType;
   export let nftClaimed: NftType;
-  export let nfts: Map<string, NftType>;
   export let refresh: boolean;
   export let isClaimed: boolean;
   //   export let account: string = undefined;
@@ -75,7 +75,7 @@
     $metamaskChainId === mintChainId ? (chainTab = 1) : (chainTab = 2);
   };
 
-  $: console.log("nfts", nfts);
+  $: console.log("🚀 ~ file: AmaDisplay.svelte ~ line 40 ~ nftClaimed", nftClaimed);
 </script>
 
 {#if tokenID}
@@ -84,27 +84,36 @@
       <div class="card-krd">
         {#if nftMinted}
           <MediaPreview nft={nftMinted} />
+          <div class="ama-claimed-icons">
+            <p>Claimed on</p>
+            <span class="claimed-icon" data-value={getChainName(nftMinted.chainId)} />
+            {#if nftClaimed}
+              <span class="claimed-icon" data-value={getChainName(10)} />
+            {/if}
+          </div>
         {/if}
       </div>
     </div>
 
     <div class="col col-xs-12 col-sm-8 col-md-9">
       <div class="ama-chains-tabs">
-        <div class="ama-tabs-container">
-          <input type="radio" bind:group={chainTab} id="matic" name="chainTab" value={1} />
-          <input type="radio" bind:group={chainTab} id="optimism" name="chainTab" value={2} />
-          <div class="ama-tab matic-tab {chainTab === 1 ? 'ama-active-tab' : ''}">
-            <label for="matic"><span class="ama-chain-logo ama-logo-matic" /> Matic</label>
-          </div>
-          {#if isClaimed}
-            <div class="ama-tab optimism-tab {chainTab === 2 ? 'ama-active-tab' : ''}">
-              <label for="optimism"><span class="ama-chain-logo ama-logo-optimism" /> Optimism</label>
+        <div class="ama-tabs-border">
+          <div class="ama-tabs-container">
+            <input type="radio" bind:group={chainTab} id="matic" name="chainTab" value={1} />
+            <input type="radio" bind:group={chainTab} id="optimism" name="chainTab" value={2} />
+            <div class="ama-tab matic-tab {chainTab === 1 ? 'ama-active-tab' : ''}">
+              <label for="matic"><span class="ama-chain-logo ama-logo-matic" /> Matic</label>
             </div>
-          {/if}
-        </div>
-        <div class="ama-network">
-          <NetworkListAma bind:toClaimChainId />
-          <NftMintAma chainId={toClaimChainId} {tokenID} type="claim" bind:isClaimed />
+            {#if isClaimed}
+              <div class="ama-tab optimism-tab {chainTab === 2 ? 'ama-active-tab' : ''}">
+                <label for="optimism"><span class="ama-chain-logo ama-logo-optimism" /> Optimism</label>
+              </div>
+            {/if}
+          </div>
+          <div class="ama-network">
+            <NetworkListAma bind:toClaimChainId />
+            <NftMintAma chainId={toClaimChainId} {tokenID} type="claim" bind:isClaimed />
+          </div>
         </div>
       </div>
       {#if !switchingTab}
@@ -133,6 +142,21 @@
     margin-top: 3rem;
   }
 
+  .ama-claimed-icons {
+    display: flex;
+    align-items: center;
+    border-top: 1px solid rgba(30, 30, 67, 0.1);
+    color: rgba(30, 30, 67, 0.4);
+  }
+
+  .claimed-icon {
+    display: block;
+    width: 20px;
+    height: 20px;
+    margin-left: 15px;
+    margin-bottom: 3px;
+  }
+
   .ama-chains-tabs {
     /* width: fit-content; */
     height: auto;
@@ -140,19 +164,26 @@
     background-color: white;
     margin-bottom: -10px;
     padding: 15px;
+    /* display: flex; */
+  }
+
+  .ama-tabs-border {
     display: flex;
     justify-content: space-between;
+    /* align-items: center; */
+    border-bottom: 2px solid rgba(30, 30, 67, 0.1);
   }
 
   .ama-tabs-container {
     display: flex;
     /* border-bottom: 1px solid #1e1e43; */
-    border-bottom: 1px solid #3acf6e;
   }
 
   .ama-network {
     display: flex;
+    align-items: center;
     width: 25%;
+    padding-bottom: 20px;
   }
 
   .ama-tabs-container input {
@@ -179,19 +210,21 @@
     height: 100%;
     display: block;
     position: absolute;
-    bottom: 0;
+    bottom: -2px;
     border-bottom: 2px solid #1e1e43;
     transition: width 0.3s ease-in-out;
   }
 
   .ama-tab {
+    display: flex;
     align-items: center;
-    padding: 15px;
+    padding: 15px 15px 0 15px;
     position: relative;
   }
 
   .ama-tab label {
     display: flex;
+    align-items: flex-end;
   }
 
   .ama-logo-matic {

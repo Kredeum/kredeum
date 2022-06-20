@@ -116,9 +116,9 @@
 </script>
 
 <div class="ama-mint-btn">
-  <div class="btn btn-default" title="Mint NFT" on:click={() => openAmaModal()}>
+  <div class="btn btn-default {type === 'claim' ? 'btn-claim' : ''}" title="Mint NFT" on:click={() => openAmaModal()}>
     {#if type === "claim"}
-      <i class="fas fa-exclamation"><span> Claim</span></i>
+      <i class="fas fa-exclamation" /><strong>Claim</strong>
     {:else}
       {label}
     {/if}
@@ -148,7 +148,7 @@
                 >
               </div>
               <div><img src={mintingImage} alt="kredeum AMA poap" /></div>
-              <div class="btn btn-default" title="Mint NFT" on:click={mintOrClaim}>
+              <div class="btn btn-default btn-mint-modal-ama" title="Mint NFT" on:click={mintOrClaim}>
                 {label}
               </div>
               {#if processing}
@@ -194,9 +194,22 @@
     padding-top: 10%;
   }
 
+  .btn-mint-modal-ama {
+    background-color: #3acf6e;
+  }
+
   .ama-warning {
     margin-bottom: 30px;
     width: 100%;
     padding: 0 30px;
+  }
+
+  .btn-claim {
+    padding: 12px 25px;
+  }
+
+  .btn-claim i {
+    display: inline;
+    margin-right: 5px;
   }
 </style>

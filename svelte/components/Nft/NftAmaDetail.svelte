@@ -27,7 +27,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  export let refresh: boolean = false;
+  export let refresh: boolean;
 
   let nft: Readable<NftType>;
 
@@ -36,7 +36,7 @@
   $: account, chainId && address && tokenID && $metamaskProvider && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
-    refresh = false;
+    // refresh = false;
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
@@ -134,9 +134,11 @@
         </div>
       </li>
     </ul>
-    <a href={nftOpenSeaUrl($nft.chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
-      View on OpenSea
-    </a>
+    <div class="btn-opensea">
+      <a href={nftOpenSeaUrl($nft.chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+        View on OpenSea
+      </a>
+    </div>
   </div>
 {/if}
 
@@ -195,5 +197,14 @@
 
   .copied-msg:empty {
     display: none;
+  }
+
+  .btn-opensea {
+    width: 100%;
+    text-align: right;
+  }
+
+  .btn-opensea a {
+    margin-top: 30px;
   }
 </style>

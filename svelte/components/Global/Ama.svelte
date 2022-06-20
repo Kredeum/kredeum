@@ -26,12 +26,18 @@
 
   let nftMinted: NftType;
   let nftClaimed: NftType;
-  let nfts: Map<string, NftType> = new Map();
+  // let nfts: Map<string, NftType> = new Map();
 
   let refresh: boolean = false;
   let isClaimed: boolean = false;
 
-  $: refresh, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
+  // onMount(async () => {
+  //   await metamaskInit();
+  //   metamaskConnect();
+  //   account = $metamaskAccount;
+  // });
+
+  $: refresh, isClaimed, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
   const nftAmaGetLocalStorage = async (): Promise<void> => {
     // await metamaskInit();
     // metamaskConnect();
@@ -39,7 +45,7 @@
       const key = localStorage.key(index);
 
       if (key?.startsWith("nft://")) {
-        nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
+        // nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
 
         if (key?.startsWith(`nft://${mintChainId}`)) {
           nftMinted = JSON.parse(localStorage.getItem(key)) as NftType;
@@ -64,12 +70,12 @@
     {#if !tokenID}
       <div class="ama-title">
         <h1 title="Kredeum NFTs Factory">My NFTs Factory</h1>
-        <h2>AMA 06/15/22</h2>
+        <h2>Mint it right !</h2>
       </div>
     {:else}
       <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
       <div class="row">
-        <div class="col col-xs-12 col-sm-6 col-md-3">
+        <div class="col col-xs-12 col-sm-6 col-md-2">
           <AccountConnect bind:account />
         </div>
       </div>
@@ -81,7 +87,7 @@
       <div class="ama">
         <div class="card-krd ama-krd">
           <div class="ama-header">
-            <h3>Mint your AMA 06/15/22's POAP</h3>
+            <h3>Mint your <span class="ama-green">AMA 06/22/22</span>'s POAP</h3>
           </div>
           <div class="ama-connect row">
             <div class="col col-xs-12 col-sm-6 col-md-4 ama-display-account">
@@ -101,8 +107,10 @@
                   >
                 </span>
                 <div class="ama-network-display">
-                  <span class={$metamaskChainId === mintChainId ? "ama-matic" : "ama-optimism"} />
-                  {$metamaskChainId === mintChainId ? "Polygon / Matic" : "Optimism"}
+                  <!-- <span class={$metamaskChainId === mintChainId ? "ama-matic" : "ama-optimism"} />
+                  {$metamaskChainId === mintChainId ? "Polygon / Matic" : "Optimism"} -->
+                  <span class="ama-matic" />
+                  Polygon / Matic
                 </div>
               </div>
             {/if}
@@ -115,12 +123,16 @@
         </div>
       </div>
     {:else}
-      <AmaDisplay {tokenID} {nftMinted} {nftClaimed} {nfts} bind:refresh bind:isClaimed />
+      <AmaDisplay {tokenID} {nftMinted} {nftClaimed} bind:refresh bind:isClaimed />
     {/if}
   </span>
 </HomeLayout>
 
 <style>
+  .ama-green {
+    color: #3acf6e;
+  }
+
   .ama-title {
     text-align: center;
     margin-bottom: 80px;
@@ -239,7 +251,7 @@
     margin-right: 10px;
   }
 
-  .ama-optimism {
+  /* .ama-optimism {
     display: block;
     width: 3rem;
     height: 3rem;
@@ -247,7 +259,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 10px;
-  }
+  } */
 
   :global(.form-field > input[type="text"]) {
     /* width: 100%; */
