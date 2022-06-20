@@ -7,7 +7,7 @@
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Navigation from "../Global/Navigation.svelte";
   import Title from "../Global/Title.svelte";
-  import AccountConnect from "../Account/AccountConnect.svelte";
+  import AccountConnect from "../Account/AccountConnectAma.svelte";
   import NftMintAma from "../Nft/NftMintAma.svelte";
 
   import AmaDisplay from "./AmaDisplay.svelte";
@@ -22,11 +22,13 @@
   let tokenID: string = "";
 
   let nftMinted: NftType;
+  let nftClaimed: NftType;
   let nfts: Map<string, NftType> = new Map();
 
   let refresh: boolean = false;
+  let isClaimed: boolean = false;
 
-  $: refresh, account && nftAmaGetLocalStorage();
+  $: refresh, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
   const nftAmaGetLocalStorage = (): void => {
     for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
@@ -37,6 +39,9 @@
         if (key?.startsWith(`nft://${mintChainId}`)) {
           nftMinted = JSON.parse(localStorage.getItem(key)) as NftType;
           tokenID = nftMinted.tokenID;
+        } else if (key?.startsWith(`nft://`)) {
+          nftClaimed = JSON.parse(localStorage.getItem(key)) as NftType;
+          isClaimed = true;
         }
       }
     }
@@ -58,6 +63,11 @@
       </div>
     {:else}
       <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
+      <div class="row">
+        <div class="col col-xs-12 col-sm-6 col-md-3">
+          <AccountConnect bind:account />
+        </div>
+      </div>
     {/if}
   </span>
 
@@ -94,23 +104,23 @@
           </div>
           {#if account}
             <div class="mint-button-ama">
-              {#if !tokenID}
-                <NftMintAma chainId={mintChainId} bind:tokenID type="mint" />
-              {:else if !tokenIdClaimed}
+              <!-- {#if !tokenID} -->
+              <NftMintAma chainId={mintChainId} bind:tokenID type="mint" />
+              <!-- {:else if !tokenIdClaimed}
                 <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
               {:else}
                 <span class="label label-big">
                   <i class="fas fa-exclamation" />
                   Your POAP has been Claimed right on {getChainName(claimChainId)}
                   <i class="fas fa-exclamation" /></span
-                >
-              {/if}
+                > -->
+              <!-- {/if} -->
             </div>
           {/if}
         </div>
       </div>
     {:else}
-      <AmaDisplay {tokenID} {nftMinted} {nfts} bind:refresh />
+      <AmaDisplay {tokenID} {nftMinted} {nftClaimed} {nfts} bind:refresh bind:isClaimed />
     {/if}
   </span>
 </HomeLayout>

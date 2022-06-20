@@ -16,6 +16,7 @@
   import { nftStore } from "stores/nft/nft";
 
   import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "main/metamask";
+  import { metamaskSwitchChain } from "helpers/metamask";
 
   import { slide } from "svelte/transition";
 
@@ -34,11 +35,13 @@
   //   export let address: string;
   export let tokenID: string;
   export let nftMinted: NftType;
+  export let nftClaimed: NftType;
   export let nfts: Map<string, NftType>;
   export let refresh: boolean;
+  export let isClaimed: boolean;
   //   export let account: string = undefined;
   let chainId: number = $metamaskChainId;
-  let address: string = getNetwork($metamaskChainId).openBoundAma;
+  let address: string;
   let account: string = $metamaskAccount;
 
   let nft: Readable<NftType>;
@@ -47,10 +50,25 @@
   const prod = process.env.ENVIR === "PROD";
   // const mintChainId = prod ? 137 : 80001;
   const mintChainId = prod ? 137 : 137;
-  const claimChainId = prod ? 10 : 42;
+  // const claimChainId = prod ? 10 : 42;
+
+  let claimChainId: number = undefined;
 
   let chainTab: number = 1;
+  let switchingTab: boolean = false;
+  $: console.log("🚀 ~ file: AmaDisplay.svelte ~ line 56 ~ chainTab", chainTab);
 
+  $: isClaimed && handleClaim();
+  const handleClaim = (): void => {
+    chainTab = 2;
+  };
+
+  $: chainTab && handleSwitchTab();
+  const handleSwitchTab = async (): Promise<void> => {
+    switchingTab = true;
+    chainTab === 1 ? await metamaskSwitchChain(mintChainId) : await metamaskSwitchChain(42);
+    switchingTab = false;
+  };
   // $: account, chainId && address && tokenID && $metamaskProvider && $metamaskChainId && handleChange();
   // const handleChange = async (): Promise<void> => {
 
@@ -91,22 +109,47 @@
           <div class="ama-tab matic-tab {chainTab === 1 ? 'ama-active-tab' : ''}">
             <label for="matic"><span class="ama-chain-logo ama-logo-matic" /> Matic</label>
           </div>
-          {#if tokenID}
+          {#if isClaimed}
             <div class="ama-tab optimism-tab {chainTab === 2 ? 'ama-active-tab' : ''}">
               <label for="optimism"><span class="ama-chain-logo ama-logo-optimism" /> Optimism</label>
             </div>
           {/if}
         </div>
         <div class="ama-network">
-          <NetworkListAma {chainId} />
-          <NftMintAma chainId={claimChainId} {tokenID} type="claim" />
+          <NetworkListAma bind:claimChainId />
+          <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:isClaimed />
         </div>
       </div>
-      {#if chainTab === 1}
-        <NftAmaDetail {chainId} {address} {tokenID} {account} bind:refresh />
+      <!-- {#if chainTab === 1}
+        <NftAmaDetail
+          chainId={nftMinted?.chainId || mintChainId}
+          address={getNetwork(mintChainId).openBoundAma}
+          {tokenID}
+          {account}
+          bind:refresh
+          test={1}
+        />
       {:else if chainTab === 2}
-        test
-        <!-- <NftAmaDetail {chainId} {address} {tokenID} {account} bind:refresh /> -->
+        <NftAmaDetail
+          chainId={claimChainId || nftClaimed?.chainId}
+          address={getNetwork($metamaskChainId).openBoundAma}
+          {tokenID}
+          {account}
+          test={2}
+        />
+      {/if} -->
+      {#if !switchingTab}
+        <NftAmaDetail
+          chainId={$metamaskChainId}
+          address={getNetwork($metamaskChainId).openBoundAma}
+          {tokenID}
+          {account}
+          bind:refresh
+        />
+      {:else}
+        <div class="card-krd" transition:slide>
+          <h3>Switching network</h3>
+        </div>
       {/if}
     </div>
   </div>
@@ -140,7 +183,7 @@
 
   .ama-network {
     display: flex;
-    /* width: 300px; */
+    width: 25%;
   }
 
   .ama-tabs-container input {

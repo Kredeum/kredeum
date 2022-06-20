@@ -24,6 +24,7 @@
   export let chainId: number;
   export let type: string;
   export let tokenID: string;
+  export let isClaimed: boolean = false;
   /////////////////////////////////////////////////
 
   let openBound: OpenBoundType;
@@ -64,6 +65,8 @@
         // console.log("isReady ~ tokenIdFound", tokenIdFound);
         alert(`NFT already exists on ${chainName} \n`);
         tokenID ||= tokenIdFound;
+        open = false;
+        if ("claim" === type) isClaimed = true;
         return false;
       }
     } else {
@@ -106,6 +109,8 @@
     alert(`Transaction done`);
 
     tokenID = tokenIdMintOrclaim;
+
+    if ("claim" === type) isClaimed = true;
     open = false;
   };
 </script>
@@ -113,7 +118,7 @@
 <div class="ama-mint-btn">
   <div class="btn btn-default" title="Mint NFT" on:click={() => openAmaModal()}>
     {#if type === "claim"}
-      <i class="fas fa-exclamation" /> Claim
+      <i class="fas fa-exclamation"><span> Claim</span></i>
     {:else}
       {label}
     {/if}
