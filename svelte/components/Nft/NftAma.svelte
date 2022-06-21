@@ -212,14 +212,6 @@
     display: flex;
   }
 
-  .ama-logo-matic {
-    background: url("../../../gulp/images/icon-matic.png");
-  }
-
-  .ama-logo-optimism {
-    background: url("../../../gulp/images/icon-optimism.png");
-  }
-
   .ama-chain-logo {
     display: block;
     width: 3rem;

@@ -122,16 +122,12 @@
           }
         }
 
-        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism",
-          "xdai", "arbitrum";
+        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai", "arbitrum";
 
         @each $name in $names {
           [data-value="#{$name}"],
           .#{$name} {
-            background: url("../images/icon-#{$name}.png")
-              no-repeat
-              left
-              center;
+            background: url("../images/icon-#{$name}.png") no-repeat left center;
           }
         }
 
@@ -526,8 +522,7 @@
     }
   }
 
-  $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai",
-    "arbitrum";
+  $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai", "arbitrum";
 
   @each $name in $names {
     [data-value="#{$name}"],
@@ -544,8 +539,7 @@
 
 // chain icon under Ama Poap image
 .ama-claimed-icons {
-  $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai",
-    "arbitrum";
+  $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai", "arbitrum";
 
   @each $name in $names {
     [data-value="#{$name}"],
@@ -554,4 +548,39 @@
       background-size: contain;
     }
   }
+}
+
+.ama-matic {
+  display: block;
+  width: 3rem;
+  height: 3rem;
+  background: url("../images/icon-matic.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  margin-right: 10px;
+}
+
+.ama-header {
+  width: 100%;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: url("../images/ama-header.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  color: white;
+  padding: 1.5rem 1.5rem;
+}
+
+.ama-logo-matic {
+  background: url("../images/icon-matic.png");
+}
+
+.ama-logo-optimism {
+  background: url("../images/icon-optimism.png");
 }

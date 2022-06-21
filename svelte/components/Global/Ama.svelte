@@ -206,23 +206,6 @@
     }
   }
 
-  .ama-header {
-    width: 100%;
-    height: 200px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    position: absolute;
-    top: 0;
-    left: 0;
-    background: url("../../../gulp/images/ama-header.png");
-    background-size: cover;
-    background-repeat: no-repeat;
-    color: white;
-    padding: 1.5rem 1.5rem;
-  }
-
   .ama-header h3 {
     margin: 0;
     font-size: 30px;
@@ -246,16 +229,6 @@
     background-color: #f0f4fb;
     border-radius: 360px;
     padding: 5px 15px;
-  }
-
-  .ama-matic {
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    background: url("../../../gulp/images/icon-matic.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 10px;
   }
 
   :global(.form-field > input[type="text"]) {
