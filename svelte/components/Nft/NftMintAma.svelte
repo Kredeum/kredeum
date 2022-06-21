@@ -51,7 +51,7 @@
 
   $: $metamaskAccount && handlePoap();
   const handlePoap = (): void => {
-    const n = Number(BigNumber.from($metamaskAccount).mod(4));
+    const n = Number(BigNumber.from($metamaskAccount).mod(7));
     const cidImage = ama.cidImage[n];
     mintingImage = ipfsToUrlHttp(ipfsGetLink(cidImage));
   };
@@ -94,7 +94,7 @@
   };
 
   const randomTokenID = (): string => {
-    const n = Number(BigNumber.from($metamaskAccount).mod(4));
+    const n = Number(BigNumber.from($metamaskAccount).mod(7));
     const cidJson = ama.cidJson[n];
     return ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
   };

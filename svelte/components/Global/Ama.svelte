@@ -47,7 +47,7 @@
   };
 
   const randomTokenID = (): string => {
-    const n = Number(BigNumber.from($metamaskAccount).mod(4));
+    const n = Number(BigNumber.from($metamaskAccount).mod(7));
     const cidJson = ama.cidJson[n];
     return ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
   };
