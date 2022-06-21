@@ -46,7 +46,7 @@
 
   const prod = process.env.ENVIR === "PROD";
   // const mintChainId = prod ? 137 : 80001;
-  const mintChainId = prod ? 137 : 137;
+  const mintChainId = 137;
   const claimChainId = prod ? 10 : 42;
 
   // onMount(async () => {
