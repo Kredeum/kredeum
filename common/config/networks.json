@@ -78,7 +78,8 @@
     "defaultOpenNFTs": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
     "nftsFactoryV2": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "create": true,
-    "mainnet": true
+    "mainnet": true,
+    "openBoundAma": "0xF6169393986b38e57D61187051c3F5B554796f83"
   },
   {
     "chainId": 137,
@@ -117,7 +118,7 @@
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "openBoundAma": "0x2D44a9d14C3c86daa22Bad0f344db6eef55000ab"
+    "openBoundAma": "0xE82984f872B68B6B369D5700654F229ba6f57c42"
   },
   {
     "chainId": 43114,
