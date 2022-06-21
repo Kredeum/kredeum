@@ -126,7 +126,7 @@
               </div>
             {/if}
           </div>
-          <div class="ama-network">
+          <div class="ama-network {isClaimed ? 'hide-ama-button' : ''}">
             <!-- <NetworkListAma bind:toClaimChainId /> -->
             <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:isClaimed />
           </div>
@@ -263,5 +263,10 @@
     color: #1e1e43;
     border-radius: 360px;
     height: 50px;
+  }
+
+  .hide-ama-button {
+    opacity: 0;
+    visibility: hidden;
   }
 </style>
