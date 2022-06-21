@@ -258,16 +258,6 @@
     margin-right: 10px;
   }
 
-  /* .ama-optimism {
-    display: block;
-    width: 3rem;
-    height: 3rem;
-    background: url("../../../gulp/images/icon-optimism.png");
-    background-size: contain;
-    background-repeat: no-repeat;
-    margin-right: 10px;
-  } */
-
   :global(.form-field > input[type="text"]) {
     /* width: 100%; */
     border: 0;

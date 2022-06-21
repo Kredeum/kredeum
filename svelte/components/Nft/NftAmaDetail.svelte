@@ -91,7 +91,9 @@
       </li>
       <li>
         <div class="flex"><span class="label">Owner</span></div>
-        <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
+        <div class="flex">
+          <span class="link overflow-ellipsis">{@html explorerAddressLink(chainId, $nft.owner, 15)}</span>
+        </div>
       </li>
       <li>
         <div class="flex"><span class="label">Permanent link</span></div>
@@ -212,5 +214,9 @@
 
   .btn-opensea a {
     margin-top: 30px;
+  }
+
+  :global(.flex .link > a) {
+    color: #1e1e43;
   }
 </style>

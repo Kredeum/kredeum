@@ -91,7 +91,7 @@
 {#if tokenID}
   <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
   <div class="row">
-    <div class="col col-xs-12 col-sm-6 col-md-2">
+    <div class="col col-xs-12 col-sm-6 col-md-3 account-static-display">
       <Account {account} />
     </div>
   </div>
@@ -198,8 +198,8 @@
   .ama-network {
     display: flex;
     align-items: center;
-    width: 25%;
     padding-bottom: 20px;
+    padding-top: 15px;
   }
 
   .ama-tabs-container input {
@@ -258,5 +258,17 @@
     background-size: contain;
     background-repeat: no-repeat;
     margin-right: 10px;
+  }
+
+  :global(.account-static-display .form-field > input[type="text"]) {
+    /* width: 100%; */
+    border: 0;
+    outline: 0;
+    font-size: 15px;
+    padding-left: 25px;
+    background-color: #fff;
+    color: #1e1e43;
+    border-radius: 360px;
+    height: 50px;
   }
 </style>

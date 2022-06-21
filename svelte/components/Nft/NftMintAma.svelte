@@ -32,6 +32,7 @@
 
   let mintingImage = "";
   let processing: boolean = false;
+  let processEnded: boolean = false;
 
   $: chainName = getChainName(chainId);
   $: label = `${type === "mint" ? "Mint" : "Claim"} on ${chainName}`;
@@ -118,11 +119,13 @@
     while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
     processing = false;
+    processEnded = true;
     await sleep(3000);
     // alert(`Transaction done`);
     tokenID = tokenIdMintOrclaim;
     if ("claim" === type) isClaimed = true;
     open = false;
+    processEnded = false;
   };
 </script>
 
@@ -158,13 +161,17 @@
                   will be attached to your account forever. (V1 of Soul Bound Token)</span
                 >
               </div>
-              <div><img src={mintingImage} alt="kredeum AMA poap" /></div>
-              <div class="btn btn-default btn-mint-modal-ama" title="Mint NFT" on:click={mintOrClaim}>
-                {label}
-              </div>
+              <div class="poap-mint-preview"><img src={mintingImage} alt="kredeum AMA poap" /></div>
+              {#if processEnded}
+                Your POAP was {type}ed right on {chainName}
+              {:else}
+                <div class="btn btn-default btn-mint-modal-ama" title="Mint NFT" on:click={mintOrClaim}>
+                  {label}
+                </div>
+              {/if}
               {#if processing}
                 <div class="ama-minting">
-                  {type}ing Your POAP on {chainName}<i class="fas fa-spinner fa-left c-green refresh" />
+                  {type}ing your POAP on {chainName}<i class="fas fa-spinner fa-left c-green refresh" />
                 </div>
               {/if}
             </div>
@@ -202,7 +209,10 @@
     width: 100%;
     height: 100%;
     text-align: center;
-    padding-top: 10%;
+  }
+
+  .poap-mint-preview img {
+    width: 50%;
   }
 
   .btn-mint-modal-ama {
@@ -210,7 +220,6 @@
   }
 
   .ama-warning {
-    margin-bottom: 30px;
     width: 100%;
     padding: 0 30px;
   }
