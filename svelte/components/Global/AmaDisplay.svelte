@@ -43,30 +43,19 @@
   export let nftClaimed: NftType;
   export let refresh: boolean;
   export let isClaimed: boolean;
-  //   export let account: string = undefined;
-  let chainId: number = $metamaskChainId;
-  let address: string;
-  let account: string = $metamaskAccount;
-
-  let nft: Readable<NftType>;
-  // let nfts: Map<string, NftType> = new Map();
 
   const prod = process.env.ENVIR === "PROD";
   // const mintChainId = prod ? 137 : 80001;
   const mintChainId = prod ? 137 : 137;
   const claimChainId = prod ? 10 : 42;
 
-  // let toClaimChainId: number = undefined;
-
-  onMount(async () => {
-    await metamaskInit();
-    metamaskConnect();
-    account = $metamaskAccount;
-  });
+  // onMount(async () => {
+  //   await metamaskInit();
+  //   metamaskConnect();
+  // });
 
   let chainTab: number = 1;
   let switchingTab: boolean = false;
-  $: console.log("🚀 ~ file: AmaDisplay.svelte ~ line 56 ~ chainTab", chainTab);
 
   $: isClaimed && handleClaim();
   const handleClaim = (): void => {
@@ -76,7 +65,7 @@
   $: chainTab && handleSwitchTab();
   const handleSwitchTab = async (): Promise<void> => {
     switchingTab = true;
-    chainTab === 1 ? await metamaskSwitchChain(mintChainId) : await metamaskSwitchChain(42);
+    chainTab === 1 ? await metamaskSwitchChain(mintChainId) : await metamaskSwitchChain(claimChainId);
     switchingTab = false;
   };
 
@@ -92,7 +81,7 @@
   <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
   <div class="row">
     <div class="col col-xs-12 col-sm-6 col-md-3 account-static-display">
-      <Account {account} />
+      <Account account={$metamaskAccount} />
     </div>
   </div>
   <div class="row krd-nft-solo">
@@ -137,7 +126,7 @@
           chainId={$metamaskChainId}
           address={getNetwork($metamaskChainId).openBoundAma}
           {tokenID}
-          {account}
+          account={$metamaskAccount}
           bind:refresh
         />
       {:else}

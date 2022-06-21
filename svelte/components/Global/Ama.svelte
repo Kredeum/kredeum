@@ -21,8 +21,8 @@
   import { cidToInt } from "lib/kcid";
 
   const prod = process.env.ENVIR === "PROD";
-  const mintChainId = prod ? 137 : 137;
-  // const mintChainId = prod ? 137 : 80001;
+  // const mintChainId = prod ? 137 : 137;
+  const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
   const claimChainId = prod ? 10 : 42;
 
@@ -106,15 +106,13 @@
                   >Network
                   <a
                     class="info-button"
-                    href={explorerNFTsFactoryUrl($metamaskChainId)}
+                    href={explorerNFTsFactoryUrl(mintChainId)}
                     target="_blank"
                     title="&#009; NFTs Factory address (click to view in explorer )
-        {getNftsFactory($metamaskChainId)}"><i class="fas fa-info-circle" /></a
+        {getNftsFactory(mintChainId)}"><i class="fas fa-info-circle" /></a
                   >
                 </span>
                 <div class="ama-network-display">
-                  <!-- <span class={$metamaskChainId === mintChainId ? "ama-matic" : "ama-optimism"} />
-                  {$metamaskChainId === mintChainId ? "Polygon / Matic" : "Optimism"} -->
                   <span class="ama-matic" />
                   Polygon / Matic
                 </div>
