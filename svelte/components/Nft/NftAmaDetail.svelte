@@ -9,7 +9,8 @@
     kredeumNftUrl,
     getNetwork,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    nftKey
   } from "lib/kconfig";
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -31,20 +32,25 @@
 
   let nft: Readable<NftType>;
 
-  // let i = 1;
+  let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskProvider && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
-    // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
+    console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
     // refresh = false;
 
+    console.log("Nft 1", $nft);
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
+    console.log("Nft 2", $nft);
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    console.log("Nft 3", $nft);
     refresh = true;
   };
+
+  $: console.log("🚀 ~ TokenID AmaDetail", tokenID);
 
   const copyToClipboard = async (data, e): Promise<void> => {
     await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
@@ -63,7 +69,7 @@
   $: console.log("Nft", $nft);
 </script>
 
-{#if $nft}
+{#if $nft?.chainId}
   <div class="card-krd" transition:slide>
     <h3>{$nft.name}</h3>
     <p>

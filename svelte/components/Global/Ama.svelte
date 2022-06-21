@@ -8,6 +8,7 @@
   import Navigation from "../Global/Navigation.svelte";
   import Title from "../Global/Title.svelte";
   import AccountConnect from "../Account/AccountConnectAma.svelte";
+  // import Account from "../Account/Account.svelte";
   import NftMintAma from "../Nft/NftMintAma.svelte";
 
   import AmaDisplay from "./AmaDisplay.svelte";
@@ -15,11 +16,15 @@
   import { metamaskInit, metamaskConnect } from "helpers/metamask";
   import { onMount } from "svelte";
 
+  import ama from "config/ama.json";
+  import { BigNumber } from "ethers";
+  import { cidToInt } from "lib/kcid";
+
   const prod = process.env.ENVIR === "PROD";
   const mintChainId = prod ? 137 : 137;
   // const mintChainId = prod ? 137 : 80001;
   // const mintChainId = prod ? 137 : 31337;
-  // const claimChainId = prod ? 10 : 42;
+  const claimChainId = prod ? 10 : 42;
 
   let account: string;
   let tokenID: string = "";
@@ -31,29 +36,39 @@
   let refresh: boolean = false;
   let isClaimed: boolean = false;
 
-  // onMount(async () => {
-  //   await metamaskInit();
-  //   metamaskConnect();
-  //   account = $metamaskAccount;
-  // });
+  onMount(async () => {
+    await metamaskInit();
+    metamaskConnect();
+    account = $metamaskAccount;
+  });
+
+  const ownerXorTokenID = (owner: string, tokenID: string): string => {
+    return String(BigNumber.from(owner).xor(BigNumber.from(tokenID)));
+  };
+
+  const randomTokenID = (): string => {
+    const n = Number(BigNumber.from($metamaskAccount).mod(4));
+    const cidJson = ama.cidJson[n];
+    return ownerXorTokenID($metamaskAccount, cidToInt(cidJson));
+  };
 
   $: refresh, isClaimed, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
   const nftAmaGetLocalStorage = async (): Promise<void> => {
+    const _tokenID = randomTokenID();
+    const nftMintKey = `nft://${mintChainId}/${getNetwork(mintChainId).openBoundAma}/${_tokenID}`;
+    const nftClaimKey = `nft://${claimChainId}/${getNetwork(claimChainId).openBoundAma}/${_tokenID}`;
     // await metamaskInit();
     // metamaskConnect();
     for (let index = 0; index < localStorage.length; index++) {
       const key = localStorage.key(index);
 
-      if (key?.startsWith("nft://")) {
-        // nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
-
-        if (key?.startsWith(`nft://${mintChainId}`)) {
-          nftMinted = JSON.parse(localStorage.getItem(key)) as NftType;
-          tokenID = nftMinted.tokenID;
-        } else if (key?.startsWith(`nft://`)) {
-          nftClaimed = JSON.parse(localStorage.getItem(key)) as NftType;
-          isClaimed = true;
-        }
+      if (key === nftMintKey) {
+        nftMinted = JSON.parse(localStorage.getItem(key)) as NftType;
+        tokenID = _tokenID;
+      }
+      if (key === nftClaimKey) {
+        nftClaimed = JSON.parse(localStorage.getItem(key)) as NftType;
+        isClaimed = true;
       }
     }
   };
@@ -66,24 +81,15 @@
     <Navigation />
   </span>
 
-  <span slot="header">
+  <!-- <span slot="header">
+  </span> -->
+
+  <span slot="content">
     {#if !tokenID}
       <div class="ama-title">
         <h1 title="Kredeum NFTs Factory">My NFTs Factory</h1>
         <h2>Mint it right !</h2>
       </div>
-    {:else}
-      <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
-      <div class="row">
-        <div class="col col-xs-12 col-sm-6 col-md-2">
-          <AccountConnect bind:account />
-        </div>
-      </div>
-    {/if}
-  </span>
-
-  <span slot="content">
-    {#if !tokenID}
       <div class="ama">
         <div class="card-krd ama-krd">
           <div class="ama-header">
@@ -169,6 +175,7 @@
     padding-top: 200px;
     overflow: hidden;
     border-radius: 23px;
+    box-shadow: 0 0 20px rgb(0 0 0 / 10%);
   }
 
   @media screen and (max-width: 767px) {

@@ -42,8 +42,12 @@ const nftGetFromContract = async (
   const nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
 
-  // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
-  // console.log("nftGetFromContract collection", collection);
+  console.log("🚀 ~ file: knft-get.ts ~ line 46 ~ tokenID", tokenID);
+  console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
+  console.log("nftGetFromContract collection", collection);
+  console.log("🚀 ~ file: knft-get.ts ~ line 54 ~ chainId", chainId);
+  console.log("🚀 ~ file: knft-get.ts ~ line 55 ~ address", address);
+  console.log("🚀 ~ file: knft-get.ts ~ line 56 ~ provider", provider);
 
   let contractName = "";
   let tokenURI = "";
@@ -55,8 +59,9 @@ const nftGetFromContract = async (
     if (collection?.supports?.IERC721Metadata) {
       const contract = (await collectionContractGet(chainId, address, provider)) as ERC721;
       contractName = collection.name || (await contract.name()) || DEFAULT_NAME;
-      owner = await contract.ownerOf(tokenID);
+      console.log("🚀 ~ file: knft-get.ts ~ line 63 ~ tokenID", tokenID);
       tokenURI = await contract.tokenURI(tokenID);
+      owner = await contract.ownerOf(tokenID);
     }
     if (collection?.supports?.IERC1155MetadataURI) {
       const contract = (await collectionContractGet(chainId, address, provider)) as ERC1155;
@@ -127,15 +132,16 @@ const nftGet = async (
   withMetadata = false
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID };
+  console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
   if (!(chainId && address && tokenID && provider)) return nft;
-  // console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
+  console.log("🚀 ~ file: knft-get.ts ~ line 134 ~ collection", collection);
   nft = await nftGetFromContract(chainId, address, tokenID, provider, collection);
-  // console.log("nft", nft);
+  console.log("nft", nft);
 
   const nftRet = withMetadata ? await nftGetMetadata(nft) : nft;
 
-  // console.log("nftGet", nftRet);
+  console.log("nftGet", nftRet);
   return nftRet;
 };
 

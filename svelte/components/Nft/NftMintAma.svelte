@@ -38,7 +38,13 @@
 
   let open: boolean = false;
 
-  const openAmaModal = () => {
+  const openAmaModal = async () => {
+    if (chainId !== $metamaskChainId) {
+      const messageSwitchTo = `Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`;
+      // console.log("isReady ~ messageSwitchTo", messageSwitchTo);
+      alert(messageSwitchTo);
+      await metamaskSwitchChain(chainId);
+    }
     open = true;
   };
 
@@ -55,14 +61,15 @@
 
     if (chainId === $metamaskChainId) {
       openBoundAddress = getNetwork(chainId).openBoundAma;
-      console.log("isReady ~ openBoundAddress", openBoundAddress);
 
       openBound = new ethers.Contract(openBoundAddress, openBoundAbi, $metamaskSigner) as unknown as OpenBoundType;
       if (!openBound) return false;
 
-      if (Number(await openBound.balanceOf($metamaskAccount)) > 0) {
+      const bal = await openBound.balanceOf($metamaskAccount);
+
+      if (Number(bal) > 0) {
         const tokenIdFound = String(await openBound.tokenOfOwnerByIndex($metamaskAccount, 0));
-        // console.log("isReady ~ tokenIdFound", tokenIdFound);
+        console.log("isReady ~ tokenIdFound", tokenIdFound);
         alert(`NFT already exists on ${chainName} \n`);
         tokenID ||= tokenIdFound;
         open = false;

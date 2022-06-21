@@ -27,6 +27,10 @@
   import NetworkListAma from "../Network/NetworkListAma.svelte";
   import NftAmaDetail from "../Nft/NftAmaDetail.svelte";
   import NftMintAma from "../Nft/NftMintAma.svelte";
+  import Account from "../Account/Account.svelte";
+
+  import { metamaskInit, metamaskConnect } from "helpers/metamask";
+  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   //  <NftAma {chainId} {address} {tokenID} {account}? {tokenIdClaimed}? />
@@ -54,6 +58,12 @@
 
   let toClaimChainId: number = undefined;
 
+  onMount(async () => {
+    await metamaskInit();
+    metamaskConnect();
+    account = $metamaskAccount;
+  });
+
   let chainTab: number = 1;
   let switchingTab: boolean = false;
   $: console.log("🚀 ~ file: AmaDisplay.svelte ~ line 56 ~ chainTab", chainTab);
@@ -75,10 +85,16 @@
     $metamaskChainId === mintChainId ? (chainTab = 1) : (chainTab = 2);
   };
 
-  $: console.log("🚀 ~ file: AmaDisplay.svelte ~ line 40 ~ nftClaimed", nftClaimed);
+  $: console.log("🚀 ~ TokenID amaDisplay", tokenID);
 </script>
 
 {#if tokenID}
+  <h1 title="Kredeum NFTs Factory">Kredeum - AMA 22/06/22</h1>
+  <div class="row">
+    <div class="col col-xs-12 col-sm-6 col-md-2">
+      <Account {account} />
+    </div>
+  </div>
   <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
       <div class="card-krd">
