@@ -32,7 +32,8 @@
 
   let mintingImage = "";
   let processing: boolean = false;
-  let processEnded: boolean = false;
+  let hideMintButton: boolean = false;
+  let mintValidate: boolean = false;
 
   $: chainName = getChainName(chainId);
   $: label = `${type === "mint" ? "Mint" : "Claim"} on ${chainName}`;
@@ -106,6 +107,7 @@
     console.log("🚀 ~ file: NftMintAma.svelte ~ line 87 ~ mintOrClaim ~ tokenIdMintOrclaim", tokenIdMintOrclaim);
 
     processing = true;
+    hideMintButton = true;
     const mintingTxResp = await openBound.mint(tokenIdMintOrclaim);
     console.log("mintingTxResp", mintingTxResp);
     const linkTx = `${getExplorer(chainId)}/tx/${mintingTxResp?.hash || ""}`;
@@ -119,13 +121,13 @@
     while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
     processing = false;
-    processEnded = true;
+    mintValidate = true;
     await sleep(3000);
     // alert(`Transaction done`);
     tokenID = tokenIdMintOrclaim;
     if ("claim" === type) isClaimed = true;
     open = false;
-    processEnded = false;
+    hideMintButton = false;
   };
 </script>
 
@@ -162,9 +164,10 @@
                 >
               </div>
               <div class="poap-mint-preview"><img src={mintingImage} alt="kredeum AMA poap" /></div>
-              {#if processEnded}
+              {#if mintValidate}
                 Your POAP was {type}ed right on {chainName}
-              {:else}
+              {/if}
+              {#if !hideMintButton}
                 <div class="btn btn-default btn-mint-modal-ama" title="Mint NFT" on:click={mintOrClaim}>
                   {label}
                 </div>
@@ -212,7 +215,8 @@
   }
 
   .poap-mint-preview img {
-    width: 50%;
+    width: 40%;
+    margin-bottom: 15px;
   }
 
   .btn-mint-modal-ama {

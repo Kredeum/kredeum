@@ -4,7 +4,7 @@
   import { getNftsFactory, explorerNFTsFactoryUrl, getChainName, getNetwork } from "lib/kconfig";
   import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "main/metamask";
 
-  import HomeLayout from "../Global/HomeLayout.svelte";
+  import AmaLayout from "../Global/AmaLayout.svelte";
   import Navigation from "../Global/Navigation.svelte";
   import Title from "../Global/Title.svelte";
   import AccountConnect from "../Account/AccountConnectAma.svelte";
@@ -76,7 +76,7 @@
   $: console.log("🚀 ~ file: Ama.svelte ~ line 23 ~ tokenID", tokenID);
 </script>
 
-<HomeLayout>
+<AmaLayout>
   <span slot="nav">
     <Navigation />
   </span>
@@ -132,7 +132,7 @@
       <AmaDisplay {tokenID} {nftMinted} {nftClaimed} bind:refresh bind:isClaimed />
     {/if}
   </span>
-</HomeLayout>
+</AmaLayout>
 
 <style>
   .ama-green {

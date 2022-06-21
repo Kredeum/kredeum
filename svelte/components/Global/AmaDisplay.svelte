@@ -163,6 +163,7 @@
     align-items: center;
     border-top: 1px solid rgba(30, 30, 67, 0.1);
     color: rgba(30, 30, 67, 0.4);
+    margin-top: 20px;
   }
 
   .claimed-icon {
