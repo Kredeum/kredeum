@@ -6,9 +6,9 @@
   import { nftGetMetadata } from "lib/knft-get-metadata";
 
   import { metamaskSwitchChain } from "helpers/metamask";
-  import { metamaskChainId, metamaskAccount, metamaskSigner } from "main/metamask";
+  import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "main/metamask";
   import ama from "config/ama.json";
-  import { getChainName, getNetwork, getExplorer, ipfsGetLink, ipfsToUrlHttp } from "lib/kconfig";
+  import { getChainName, getNetwork, getExplorer, ipfsGetLink, ipfsToUrlHttp, sleep } from "lib/kconfig";
   import { ethers, BigNumber } from "ethers";
   import { cidToInt } from "lib/kcid";
   import type { OpenBound as OpenBoundType } from "types/OpenBound";
@@ -111,12 +111,16 @@
     console.log(linkTx);
 
     const mintingTxReceipt = await mintingTxResp.wait();
-    processing = false;
     console.log("mintingTxReceipt", mintingTxReceipt);
-    alert(`Transaction done`);
+    const blockTx = mintingTxReceipt.blockNumber;
 
+    do await sleep(1000);
+    while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+    processing = false;
+    await sleep(3000);
+    // alert(`Transaction done`);
     tokenID = tokenIdMintOrclaim;
-
     if ("claim" === type) isClaimed = true;
     open = false;
   };
@@ -124,11 +128,11 @@
 
 <div class="ama-mint-btn">
   <div class="btn btn-default {type === 'claim' ? 'btn-claim' : ''}" title="Mint NFT" on:click={() => openAmaModal()}>
-    {#if type === "claim"}
+    <!-- {#if type === "claim"}
       <i class="fas fa-exclamation" /><strong>Claim</strong>
-    {:else}
-      {label}
-    {/if}
+    {:else} -->
+    <strong>{label}</strong>
+    <!-- {/if} -->
   </div>
 </div>
 
@@ -213,10 +217,5 @@
 
   .btn-claim {
     padding: 12px 25px;
-  }
-
-  .btn-claim i {
-    display: inline;
-    margin-right: 5px;
   }
 </style>

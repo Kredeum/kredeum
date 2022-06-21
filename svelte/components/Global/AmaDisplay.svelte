@@ -54,9 +54,9 @@
   const prod = process.env.ENVIR === "PROD";
   // const mintChainId = prod ? 137 : 80001;
   const mintChainId = prod ? 137 : 137;
-  // const claimChainId = prod ? 10 : 42;
+  const claimChainId = prod ? 10 : 42;
 
-  let toClaimChainId: number = undefined;
+  // let toClaimChainId: number = undefined;
 
   onMount(async () => {
     await metamaskInit();
@@ -127,8 +127,8 @@
             {/if}
           </div>
           <div class="ama-network">
-            <NetworkListAma bind:toClaimChainId />
-            <NftMintAma chainId={toClaimChainId} {tokenID} type="claim" bind:isClaimed />
+            <!-- <NetworkListAma bind:toClaimChainId /> -->
+            <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:isClaimed />
           </div>
         </div>
       </div>
