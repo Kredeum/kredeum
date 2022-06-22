@@ -345,7 +345,7 @@
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "openBoundAma": "0x6da21671E5a2545b36Db7E3bC08669Ff3e132BC5"
+    "openBoundAma": "0x0a2178c855749637D2acb1bCE7f4a5184cc2409D"
   },
   {
     "chainId": 421611,

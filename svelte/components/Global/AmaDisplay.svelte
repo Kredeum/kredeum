@@ -44,8 +44,8 @@
   export let refresh: boolean;
   export let isClaimed: boolean;
 
-  const mintChainId = 137;
-  const claimChainId = 10;
+  const mintChainId = 80001;
+  const claimChainId = 42;
 
   // onMount(async () => {
   //   await metamaskInit();
@@ -58,6 +58,7 @@
   $: isClaimed && handleClaim();
   const handleClaim = (): void => {
     chainTab = 2;
+    switchingTab = false;
   };
 
   $: chainTab && handleSwitchTab();
@@ -115,7 +116,7 @@
           </div>
           <div class="ama-network {isClaimed ? 'hide-ama-button' : ''}">
             <!-- <NetworkListAma bind:toClaimChainId /> -->
-            <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:isClaimed />
+            <NftMintAma chainId={claimChainId} {tokenID} type="claim" bind:switchingTab bind:isClaimed />
           </div>
         </div>
       </div>
@@ -229,6 +230,7 @@
   .ama-tab label {
     display: flex;
     align-items: flex-end;
+    cursor: pointer;
   }
 
   .ama-chain-logo {

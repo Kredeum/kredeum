@@ -24,6 +24,7 @@
   export let chainId: number;
   export let type: string;
   export let tokenID: string;
+  export let switchingTab: boolean = undefined;
   export let isClaimed: boolean = false;
   /////////////////////////////////////////////////
 
@@ -49,6 +50,11 @@
       await metamaskSwitchChain(chainId);
     }
     open = true;
+  };
+
+  $: open && handleModal();
+  const handleModal = () => {
+    open ? (switchingTab = true) : (switchingTab = false);
   };
 
   $: $metamaskAccount && handlePoap();

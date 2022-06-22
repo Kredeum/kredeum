@@ -20,8 +20,8 @@
   import { BigNumber } from "ethers";
   import { cidToInt } from "lib/kcid";
 
-  const mintChainId = 137;
-  const claimChainId = 10;
+  const mintChainId = 80001;
+  const claimChainId = 42;
 
   let account: string;
   let tokenID: string = "";
@@ -103,10 +103,10 @@
                   >Network
                   <a
                     class="info-button"
-                    href={explorerNFTsFactoryUrl(mintChainId)}
+                    href={explorerNFTsFactoryUrl(137)}
                     target="_blank"
                     title="&#009; NFTs Factory address (click to view in explorer )
-        {getNftsFactory(mintChainId)}"><i class="fas fa-info-circle" /></a
+        {getNftsFactory(137)}"><i class="fas fa-info-circle" /></a
                   >
                 </span>
                 <div class="ama-network-display">
