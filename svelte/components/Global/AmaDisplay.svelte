@@ -90,8 +90,8 @@
           <MediaPreview nft={nftMinted} />
           <div class="ama-claimed-icons">
             <p>Claimed on</p>
-            <span class="claimed-icon" data-value={getChainName(nftMinted.chainId)} />
-            {#if nftClaimed}
+            <span class="claimed-icon" data-value={getChainName(137)} />
+            {#if isClaimed}
               <span class="claimed-icon" data-value={getChainName(10)} />
             {/if}
           </div>
