@@ -44,10 +44,8 @@
   export let refresh: boolean;
   export let isClaimed: boolean;
 
-  const prod = process.env.ENVIR === "PROD";
-  // const mintChainId = prod ? 137 : 80001;
   const mintChainId = 137;
-  const claimChainId = prod ? 10 : 42;
+  const claimChainId = 42;
 
   // onMount(async () => {
   //   await metamaskInit();

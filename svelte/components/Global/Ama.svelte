@@ -20,11 +20,8 @@
   import { BigNumber } from "ethers";
   import { cidToInt } from "lib/kcid";
 
-  const prod = process.env.ENVIR === "PROD";
   const mintChainId = 137;
-  // const mintChainId = prod ? 137 : 80001;
-  // const mintChainId = prod ? 137 : 31337;
-  const claimChainId = prod ? 10 : 42;
+  const claimChainId = 42;
 
   let account: string;
   let tokenID: string = "";
