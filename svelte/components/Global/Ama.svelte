@@ -21,7 +21,7 @@
   import { cidToInt } from "lib/kcid";
 
   const mintChainId = 137;
-  const claimChainId = 42;
+  const claimChainId = 10;
 
   let account: string;
   let tokenID: string = "";
@@ -50,7 +50,7 @@
   };
 
   $: refresh, isClaimed, account && $metamaskProvider && $metamaskChainId && nftAmaGetLocalStorage();
-  const nftAmaGetLocalStorage = async (): Promise<void> => {
+  const nftAmaGetLocalStorage = (): void => {
     const _tokenID = randomTokenID();
     const nftMintKey = `nft://${mintChainId}/${getNetwork(mintChainId).openBoundAma}/${_tokenID}`;
     const nftClaimKey = `nft://${claimChainId}/${getNetwork(claimChainId).openBoundAma}/${_tokenID}`;
@@ -90,7 +90,7 @@
       <div class="ama">
         <div class="card-krd ama-krd">
           <div class="ama-header">
-            <h3>Mint your <span class="ama-green">AMA 06/22/22</span>'s POAP</h3>
+            <h3>Mint your <span class="ama-green">AMA 06/22/22</span>'s OpenBound NFT</h3>
           </div>
           <div class="ama-connect row">
             <div class="col col-xs-12 col-sm-6 col-md-4 ama-display-account">

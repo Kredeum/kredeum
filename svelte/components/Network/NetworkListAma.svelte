@@ -18,7 +18,7 @@
 
   let open = false;
 
-  const _switchChain = async (_chainId: number, evt: Event): Promise<void> => {
+  const _switchChain = (_chainId: number, evt: Event): void => {
     evt.preventDefault();
 
     toClaimChainId = _chainId;

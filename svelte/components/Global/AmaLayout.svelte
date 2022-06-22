@@ -6,7 +6,6 @@
   <main class="main-krd">
     <div id="kredeum-list">
       <section class="content">
-
         <slot name="content" />
       </section>
     </div>

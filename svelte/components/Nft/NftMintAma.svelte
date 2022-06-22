@@ -35,6 +35,8 @@
   let hideMintButton: boolean = false;
   let mintValidate: boolean = false;
 
+  let chainName: string;
+  let label: string;
   $: chainName = getChainName(chainId);
   $: label = `${type === "mint" ? "Mint" : "Claim"} on ${chainName}`;
 
@@ -42,8 +44,7 @@
 
   const openAmaModal = async () => {
     if (chainId !== $metamaskChainId) {
-      const messageSwitchTo = `Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`;
-      // console.log("isReady ~ messageSwitchTo", messageSwitchTo);
+      const messageSwitchTo = `Switch to ${getChainName(chainId)}`;
       alert(messageSwitchTo);
       await metamaskSwitchChain(chainId);
     }
@@ -79,7 +80,7 @@
         return false;
       }
     } else {
-      const messageSwitchTo = `Switch to ${getChainName(chainId)}\n${$metamaskChainId || ""} => ${chainId}`;
+      const messageSwitchTo = `Switch to ${getChainName(chainId)}`;
       // console.log("isReady ~ messageSwitchTo", messageSwitchTo);
       alert(messageSwitchTo);
       await metamaskSwitchChain(chainId);
@@ -154,18 +155,22 @@
 
           <div class="modal-body">
             <div class="titre">
-              <i class="fas fa-plus fa-left c-green" />{type} your POAP on {chainName}
+              <i class="fas fa-plus fa-left c-green" />{type} your OpenBound NFT on {chainName}
             </div>
             <div class="ama-modal-content">
               <div class="ama-warning">
-                <span class="label label-big"
-                  >You are about to Mint a NONE TRANSFERABLE && only ONE time mintable POAP. Once it will be minted, it
-                  will be attached to your account forever. (V1 of Soul Bound Token)</span
-                >
+                <span class="label label-big">
+                  You are about to Mint a NONE TRANSFERABLE OpenBound NFT! Once minted, this NFT will be Bound to your
+                  address forever, unless you decide to burn it, and can't be transfered to any other address. Moreover
+                  this NFT is multichain, that means you will be able to claim this same OpenBound NFT on multiple
+                  blockchain, currently Matic and Optimism: you have to claim it with same address otherwise it will
+                  fail. (V1 of OpenBound NFT by Kredeum). "Mint" is used for first creation of the NFT and "Claim" for
+                  the other ones, but this is the same action and is purely conventional.
+                </span>
               </div>
               <div class="poap-mint-preview"><img src={mintingImage} alt="kredeum AMA poap" /></div>
               {#if mintValidate}
-                Your POAP was {type}ed right on {chainName}
+                Your OpenBound NFT was {type}ed right on {chainName}
               {/if}
               {#if !hideMintButton}
                 <div class="btn btn-default btn-mint-modal-ama" title="Mint NFT" on:click={mintOrClaim}>
@@ -174,7 +179,7 @@
               {/if}
               {#if processing}
                 <div class="ama-minting">
-                  {type}ing your POAP on {chainName}<i class="fas fa-spinner fa-left c-green refresh" />
+                  {type}ing your OpenBound NFT on {chainName}<i class="fas fa-spinner fa-left c-green refresh" />
                 </div>
               {/if}
             </div>

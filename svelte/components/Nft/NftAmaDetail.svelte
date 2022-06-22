@@ -22,7 +22,7 @@
 
   /////////////////////////////////////////////////
   //  <NftAma {chainId} {address} {tokenID} {account}? {tokenIdClaimed}? />
-  // Display Minted POAP
+  // Display Minted OpenBound NFT
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;

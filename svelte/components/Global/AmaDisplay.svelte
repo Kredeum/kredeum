@@ -34,7 +34,7 @@
 
   /////////////////////////////////////////////////
   //  <NftAma {chainId} {address} {tokenID} {account}? {tokenIdClaimed}? />
-  // Display Minted POAP
+  // Display Minted OpenBound NFT
   /////////////////////////////////////////////////
   //   export let chainId: number;
   //   export let address: string;
@@ -45,7 +45,7 @@
   export let isClaimed: boolean;
 
   const mintChainId = 137;
-  const claimChainId = 42;
+  const claimChainId = 10;
 
   // onMount(async () => {
   //   await metamaskInit();
