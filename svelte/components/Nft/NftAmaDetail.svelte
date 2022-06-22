@@ -31,6 +31,7 @@
   export let refresh: boolean;
 
   let nft: Readable<NftType>;
+  const openSeaUrl = (tokID: string) => `https://opensea.io/assets/matic/${getNetwork(137).openBoundAma}/${tokID}`;
 
   let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
@@ -95,19 +96,7 @@
           <span class="link overflow-ellipsis">{@html explorerAddressLink(chainId, $nft.owner, 15)}</span>
         </div>
       </li>
-      <li>
-        <div class="flex"><span class="label">Permanent link</span></div>
-        <div class="flex">
-          <a
-            class="link overflow-ellipsis"
-            href={kredeumNftUrl(chainId, $nft)}
-            title={nftUrl($nft, 10)}
-            target="_blank"
-          >
-            {@html nftUrl($nft, 10)}
-          </a>
-        </div>
-      </li>
+
       <li>
         <div class="flex"><span class="label">collection @</span></div>
         <div class="flex">
@@ -143,8 +132,11 @@
       </li>
     </ul>
     <div class="btn-opensea">
-      <a href={nftOpenSeaUrl($nft.chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+      <a href={openSeaUrl($nft.tokenID)} class="btn btn-small btn-sell" title="OpenSea" target="_blank">
         View on OpenSea
+      </a>
+      <a href="https://beta.kredeum.com" class="btn btn-small btn-buy" title="Kredeum NFTs Factory" target="_blank">
+        View on Kredeum NFTs Factory
       </a>
     </div>
   </div>

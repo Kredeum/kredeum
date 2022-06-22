@@ -73,19 +73,7 @@
             <div class="flex"><span class="label">Owner</span></div>
             <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
           </li>
-          <li>
-            <div class="flex"><span class="label">Permanent link</span></div>
-            <div class="flex">
-              <a
-                class="link overflow-ellipsis"
-                href={kredeumNftUrl(chainId, $nft)}
-                title={nftUrl($nft, 10)}
-                target="_blank"
-              >
-                {@html nftUrl($nft, 10)}
-              </a>
-            </div>
-          </li>
+
           <li>
             <div class="flex"><span class="label">collection @</span></div>
             <div class="flex">
