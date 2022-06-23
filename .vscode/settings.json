@@ -1,4 +1,5 @@
 {
+  "editor.fontSize": 14,
   "favorites.resources": [
     {
       "filePath": "hardhat/hardhat.config.ts",
@@ -39,6 +40,10 @@
     {
       "filePath": "svelte/stores",
       "group": "Default"
+    },
+    {
+      "filePath": "hardhat/tests/Templates/OpenBound/01_OpenBound.test.ts",
+      "group": "Default"
     }
   ],
   "phpsab.autoRulesetSearch": false,
@@ -51,9 +56,13 @@
   "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
   "solidity.defaultCompiler": "remote",
   "solidity.linter": "solhint",
+  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "workbench.colorTheme": "GitHub Dark Dimmed",
-  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules"
+  "window.zoomLevel": 0,
+  "workbench.activityBar.visible": true,
+  "workbench.colorTheme": "Winter is Coming (Dark Black)",
+  "workbench.layoutControl.enabled": true,
+  "workbench.statusBar.visible": true
 }

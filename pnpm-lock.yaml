@@ -648,7 +648,11 @@ packages:
     resolution: {integrity: sha512-q5XPytqFEIKHkGdiMIrY10mvLRvnQh42/+GoBlFW3b2LXLE2xxJpZFdm94we0BaoV3RwJyGqg5wS7epxTv0Zvw==}
     dependencies:
       call-bind: 1.0.2
+<<<<<<< HEAD
       get-intrinsic: 1.1.2
+=======
+      get-intrinsic: 1.1.1
+>>>>>>> 11431bc (add OpenBound V1)
       object-inspect: 1.12.2
     dev: true
 

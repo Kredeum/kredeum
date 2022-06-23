@@ -29,7 +29,7 @@ const collectionCloneResponse = async (
   const options: boolean[] = template == "ownable" ? [false, true] : [true, false];
   // console.log("nftsFactoryV2", _name, _symbol, template, options);
 
-  const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, "OpenNFTsV3", options);
+  const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template, options);
   console.log(`${network?.blockExplorerUrls?.[0] || ""}/tx/${txResp?.hash}`);
 
   return txResp;
@@ -44,7 +44,7 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = ["event ImplementationNew(address indexed implementation, address indexed creator, uint256 count)"];
+    const abi = ["event ImplementationNew(address indexed implementation, address indexed creator, uint256 index)"];
     const iface = new ethers.utils.Interface(abi);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ implementation } = log.args);
@@ -63,7 +63,16 @@ const collectionClone = async (
 ): Promise<string> => {
   let address = "";
 
+  console.log(
+    "collectionCloneResponse chainId, name, symbol, template, cloner",
+    chainId,
+    name,
+    symbol,
+    template,
+    cloner
+  );
   const txResp = await collectionCloneResponse(chainId, name, symbol, template, cloner);
+
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
     address = collectionCloneAddress(txReceipt);
