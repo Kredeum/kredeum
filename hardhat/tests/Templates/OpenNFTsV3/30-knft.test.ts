@@ -35,7 +35,7 @@ describe("30 OpenNFTsV3 Mint", function () {
       await deployments.fixture(["OpenNFTsV3", "NFTsFactory"]);
     }
 
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3", deployer);
+    openNFTsV3 = (await ethers.getContract("OpenNFTsV3", deployer)) as unknown as OpenNFTsV3;
     // console.log(openNFTsV3.address);
     // console.log(await openNFTsV3.name());
   });

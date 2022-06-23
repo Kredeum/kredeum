@@ -1,7 +1,5 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 import type { NetworkType } from "lib/ktypes";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
@@ -20,9 +18,9 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   };
 
   // Deterministic expect for these networks
-  if (!["avalanche", "fuji"].includes(hre.network.name)) {
-    deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV2");
-  }
+  // if (!["avalanche", "fuji"].includes(hre.network.name)) {
+  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV2");
+  // }
 
   const deployResult = await hre.deployments.deploy(contractName, deployOptions);
   // const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
@@ -37,17 +35,9 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
         .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
-    const openNFTsV3: OpenNFTsV3 = await hre.ethers.getContract("OpenNFTsV3");
-    const nftsFactoryV2: NFTsFactoryV2 = await hre.ethers.getContract(contractName, deployer);
-
-    await nftsFactoryV2.templateSet("OpenNFTsV3", openNFTsV3.address);
-    // await checkGasMethod(hre, contractName, "templateSet", deployer, "OpenNFTsV3", openNFTsV3.address);
-
-    await nftsFactoryV2.implementationsAdd([openNFTsV3.address]);
-    // await checkGasMethod(hre, contractName, "implementationsAdd", deployer, [openNFTsV3.address]);
   }
 };
-deployFunction.dependencies = ["OpenNFTsV3"];
+
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 export default deployFunction;

@@ -25,10 +25,10 @@ describe("11 NFTs Factory contract", function () {
     if ((await ethers.provider.getNetwork()).chainId === 31337) {
       await deployments.fixture(["OpenNFTsV3", "NFTsFactoryV2"]);
     }
-    openNFTsV3 = await ethers.getContract("OpenNFTsV3", signer);
+    openNFTsV3 = (await ethers.getContract("OpenNFTsV3", signer)) as unknown as OpenNFTsV3;
     expect(openNFTsV3.address).to.be.properAddress;
 
-    nftsFactoryV2 = await ethers.getContract("NFTsFactoryV2", signer);
+    nftsFactoryV2 = (await ethers.getContract("NFTsFactoryV2", signer)) as unknown as NFTsFactoryV2;
     expect(nftsFactoryV2.address).to.be.properAddress;
 
     await nftsFactoryV2.connect(deployer).templateSet("generic", openNFTsV3.address);

@@ -75,12 +75,12 @@ const config: HardhatUserConfig = {
   },
 
   networks: {
-    hardhat: { accounts: accountsHardhat, deploy: ["deploy/tests", "deploy/prod"] },
+    hardhat: { accounts: accountsHardhat, deploy: ["deploy/dev", "deploy/prod"] },
     local: netConf(31337, "http://127.0.0.1:8545"),
     mainnet: netConf(1, `https://eth-mainnet.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
-    ropsten: netConf(3, `https://ropsten.infura.io/v3/${INFURA_API_KEY}`),
-    rinkeby: netConf(4, `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`),
-    kovan: netConf(42, `https://kovan.infura.io/v3/${INFURA_API_KEY}`),
+    // ropsten: netConf(3, `https://ropsten.infura.io/v3/${INFURA_API_KEY}`),
+    // rinkeby: netConf(4, `https://rinkeby.infura.io/v3/${INFURA_API_KEY}`),
+    // kovan: netConf(42, `https://kovan.infura.io/v3/${INFURA_API_KEY}`),
     goerli: netConf(5, `https://eth-goerli.alchemyapi.io/v2/${ALCHEMY_API_KEY}`),
     bsc: netConf(56, "https://bsc-dataseed1.binance.org", ETHERSCAN_API_KEY_BINANCE),
     bsctestnet: netConf(97, "https://data-seed-prebsc-1-s1.binance.org:8545", ETHERSCAN_API_KEY_BINANCE),
@@ -138,7 +138,7 @@ const config: HardhatUserConfig = {
       runOnCompile: true,
       clear: false,
       flat: true,
-      only: ["new"],
+      only: ["dev"],
       spacing: 2,
       pretty: true,
       path: "../common/abis"
