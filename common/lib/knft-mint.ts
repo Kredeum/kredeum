@@ -73,7 +73,7 @@ const nftMint2IpfsJson = async (
 
   const json = {
     name,
-    description: nftDescription || name || "No Description",
+    description: nftDescription || name || "",
     image: ipfsGatewayUrl(ipfs),
     ipfs,
     origin: textShort(image, 140),
