@@ -9,7 +9,8 @@
     kredeumNftUrl,
     getNetwork,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    textShort
   } from "lib/kconfig";
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -59,11 +60,22 @@
 
     <div class="col col-xs-12 col-sm-8 col-md-9">
       <div class="card-krd">
-        <h3>{$nft.name}</h3>
+        <div class="kre-nft-detail-header">
+          <h3>{$nft.name}</h3>
+          <span><strong>#{textShort(tokenID, 12, 0)}</strong></span>
+        </div>
         <p>
           {$nft.description}
         </p>
+        <div class="box-fields">
+          <span class="field kre-nft-details" data-after-content="Token ID: #{tokenID}">Token ID</span>
+          <a class="field kre-nft-details" href="" data-after-content="Owner: {$nft.owner}">Owner</a>
+          <a class="field kre-nft-details" href="" data-after-content="Collection: {address}">collection</a>
+          <a class="field kre-nft-details" href="" data-after-content="Metadata: {$nft.tokenURI}">Metadata</a>
+          <a class="field kre-nft-details" href="" data-after-content="Image: {$nft.image}">Image</a>
+        </div>
 
+        <!-- --------------------- -->
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
@@ -120,6 +132,7 @@
             </div>
           </li>
         </ul>
+        <!-- --------------------- -->
 
         <div class="p-t-40 p-b-40 grid-buttons">
           {#if "wordpress" === platform}
@@ -132,8 +145,8 @@
           >
 
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
-            <i class="fas fa-exclamation" /> Claim</a
-          > -->
+              <i class="fas fa-exclamation" /> Claim</a
+              > -->
 
           {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
@@ -190,5 +203,29 @@
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+
+  .kre-nft-detail-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+  }
+
+  .kre-nft-details {
+    position: relative;
+  }
+
+  .kre-nft-details:hover::after {
+    content: attr(data-after-content);
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    border: 1px solid rgba(30, 30, 67, 0.1);
+    border-radius: 6px;
+    padding: 10px 5px;
+    transform: translateY(calc(100% + 5px));
+    width: max-content;
+    /* display: flex;
+    align-items: flex-end; */
   }
 </style>
