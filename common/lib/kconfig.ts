@@ -189,7 +189,7 @@ const ipfsGetLink = (uri: string | undefined): string => {
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => gateway url : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsToUrlHttp = (url: string): string => (url.startsWith("ipfs://") ? ipfsGatewayUrl(url) : url);
+const ipfsLinkToUrlHttp = (link: string): string => (link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
@@ -232,9 +232,9 @@ const swarmGetLink = (uri: string | undefined): string => {
 
   if (uri.startsWith("swarm://")) {
     swarmLink = uri;
-  } else if (uri.startsWith("https://api.gateway.ethswarm.org/bzz/")) {
+  } else if (uri.startsWith(swarmGateway)) {
     // find cid in uri
-    cid = uri.replace("https://api.gateway.ethswarm.org/bzz/", "");
+    cid = uri.replace(swarmGateway, "");
 
     // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
   }
@@ -247,11 +247,11 @@ const swarmGetLink = (uri: string | undefined): string => {
 };
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// http uri : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
+// http link : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // => gateway url : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmToUrlHttp = (url: string): string => (url.startsWith("swarm://") ? swarmGatewayUrl(url) : url);
+const swarmLinkToUrlHttp = (link: string): string => (link.startsWith("swarm://") ? swarmGatewayUrl(link) : link);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
@@ -273,18 +273,23 @@ const swarmGatewayUrl = (swarm: string): string => `${swarmGateway}${swarmLinkTo
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// cid from ipfs or swarm
+// Storage cid from ipfs or swarm
 // => gataway url of ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const cidGatewayUrl = (cid: string): string => (cid.startsWith("ipfs://") ? ipfsGatewayUrl(cid) : swarmGatewayUrl(cid));
+const storageGatewayUrl = (link: string): string =>
+  link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link.startsWith("swarm://") ? swarmGatewayUrl(link) : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipfs or swarm ( uri | http uri )
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const decStorageToUrlHttp = (url: string): string =>
-  url.startsWith("ipfs://") || url.startsWith("https://ipfs.io") ? ipfsToUrlHttp(url) : swarmToUrlHttp(url);
+const storageLinkToUrlHttp = (link: string): string =>
+  link.startsWith("ipfs://") || link.startsWith("https://ipfs.io")
+    ? ipfsLinkToUrlHttp(link)
+    : link.startsWith("swarm://")
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -505,19 +510,19 @@ export {
   getAlchemyUrl,
   getCovalent,
   getExplorer,
-  ipfsToUrlHttp,
+  ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
   swarmGetLink,
-  swarmToUrlHttp,
+  swarmLinkToUrlHttp,
   swarmCidToLink,
   swarmLinkToCid,
   swarmGatewayUrl,
-  cidGatewayUrl,
-  decStorageToUrlHttp,
+  storageGatewayUrl,
+  storageLinkToUrlHttp,
   interfaceId,
   collectionKey,
   collectionListKey,
