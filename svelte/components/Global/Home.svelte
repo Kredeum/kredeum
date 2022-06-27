@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getNftsFactory, getCreate } from "lib/kconfig";
+  import { getNftsFactory, getCreate, config } from "lib/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
@@ -17,7 +17,9 @@
   import Content from "./Content.svelte";
 
   // import { metamaskProvider } from "main/metamask";
+  import NftMintSwarm from "../swarm/NftMintSwarm.svelte";
 
+  export const STORAGE: string = config.storage;
   export let platform: string = "dapp";
 
   let chainId: number;
@@ -64,6 +66,7 @@
     {#if chainId && account && address}
       <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
+    <NftMintSwarm />
   </span>
 </HomeLayout>
 
