@@ -82,7 +82,7 @@ class Settings {
 			case 'first_section':
 				echo wp_kses(
 					'<p>' .
-					__( 'Setup here your IPFS options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
+					__( 'Setup here your decentralized storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
 					'</p><p>' .
 					__( 'For any help read the', 'kredeum-nfts' ) .
 					' <a href="https://docs.kredeum.tech/user-guide" target="_blank">' .

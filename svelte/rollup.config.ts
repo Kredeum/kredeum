@@ -37,6 +37,17 @@ const envKeys = () => {
   );
 };
 
+const addSyntheticNamedExportsToSkippedNodeImports = (): Plugin => ({
+  load: (importee) => {
+    if (importee === "\u0000node-resolve:empty.js") {
+      return { code: "export default {};", syntheticNamedExports: true };
+    } else {
+      return null;
+    }
+  },
+  name: "addSyntheticNamedExportsToSkippedNodeImports"
+});
+
 const toRollupConfig = function (component: string): RollupOptions {
   return {
     input: ["main/app.ts"],
@@ -70,12 +81,13 @@ const toRollupConfig = function (component: string): RollupOptions {
         preventAssignment: true,
         values: envKeys()
       }),
-      typescript({ sourceMap: !production, inlineSources: !production }),
+      addSyntheticNamedExportsToSkippedNodeImports(),
       nodeResolve({
         browser: true,
         dedupe: ["svelte"],
         preferBuiltins: false
       }),
+      typescript({ sourceMap: !production, inlineSources: !production }),
       builtins(),
       json(),
       commonjs(),

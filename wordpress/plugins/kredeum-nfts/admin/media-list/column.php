@@ -14,7 +14,7 @@ add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
 		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
-		$columns['kre-cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
+		$columns['kre-cid'] = __( 'Decentralized Archive', 'kredeum-nfts' );
 		return $columns;
 	}
 );
@@ -29,7 +29,16 @@ add_action(
 
 		if ( 'kre-cid' === $name ) {
 			if ( $post->_kre_cid ) {
-				echo wp_kses( link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
+				echo wp_kses(
+					link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ),
+					array(
+						'a'  => array( 'href' => array() ),
+						'br' => '',
+					)
+				);
+			}
+			if ( $post->_kre_swarmref ) {
+				echo wp_kses( \KredeumNFTs\Swarm\link( $post->_kre_swarmref, substr( $post->_kre_swarmref, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 
@@ -40,8 +49,13 @@ add_action(
 
 				$metadata = get_metadata( 'post', $post->ID );
 
+				$media_mint_class = 'kredeum-nfts-mint';
+				if ( SWARM_ARCHIVE ) {
+					$media_mint_class = 'kredeum-nfts-mint-swarm';
+				}
+
 				printf(
-					'<div class="kredeum-nfts-mint"'
+					'<div class="' . esc_attr( $media_mint_class ) . '"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
