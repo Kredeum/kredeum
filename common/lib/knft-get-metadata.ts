@@ -11,8 +11,6 @@ import {
   storageGatewayUrl
 } from "./kconfig";
 
-import { swarmGetContentType } from "./kbeejs";
-
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
@@ -40,12 +38,14 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   contentType = "image";
   try {
     const response = await fetch(url, { method: "HEAD" });
-    contentType = response.headers.get("content-type") || contentType;
-    contentTypes.set(url, contentType);
+    if (200 === response.status) {
+      contentType = response.headers.get("content-type") || contentType;
+      contentTypes.set(url, contentType);
+    }
   } catch (e) {
     console.error("ERROR nftGetContentType", e, url, nft);
   }
-  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
+  console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };

@@ -60,6 +60,19 @@ type CollectionSupports = {
   IOpenNFTsV3?: boolean;
 };
 
+type Without<T> = { [P in keyof T]?: undefined };
+type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
+
+type ipfsType = {
+  ipfs?: string;
+  ipfsJson?: string;
+};
+
+type swarmType = {
+  swarm?: string;
+  swarmJson?: string;
+};
+
 type NftMetadata = {
   name?: string;
   description?: string;
@@ -71,25 +84,25 @@ type NftMetadata = {
   animation_url?: string;
 } & (IpfsType | SwarmType);
 
-type IpfsType = {
-  ipfs?: string;
-  swarm?: never;
-};
+// type IpfsType = {
+//   ipfs?: string;
+//   swarm?: never;
+// };
 
-type SwarmType = {
-  ipfs?: never;
-  swarm?: string;
-};
+// type SwarmType = {
+//   ipfs?: never;
+//   swarm?: string;
+// };
 
-type IpfsJsonType = {
-  ipfsJson?: string;
-  swarmJson?: never;
-};
+// type IpfsJsonType = {
+//   ipfsJson?: string;
+//   swarmJson?: never;
+// };
 
-type SwarmJsonType = {
-  ipfsJson?: never;
-  swarmJson?: string;
-};
+// type SwarmJsonType = {
+//   ipfsJson?: never;
+//   swarmJson?: string;
+// };
 
 type NftType = {
   chainId: number;

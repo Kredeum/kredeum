@@ -9,10 +9,10 @@
   import {
     nftSwarmMintTexts,
     nftMint1SwarmImage,
-    nftMint2SwarmJson,
-    nftMint3SwarmTxResponse,
-    nftMint4Swarm
-  } from "lib/knft-mint";
+    nftMint2SwarmJson
+    // nftMint3SwarmTxResponse,
+    // nftMint4Swarm
+  } from "lib/knft-mint-swarm";
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
   import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";

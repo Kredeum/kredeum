@@ -37,6 +37,11 @@ const envKeys = () => {
   );
 };
 
+/////////////////////////////////////////////////////////////////////////
+// Fix "Missing Export 'Buffer' is not exported by node-resolve:empty.js"
+// found at : https://github.com/rollup/plugins/issues/440
+// needs to be in the rollup plugin chain before nodeResolve
+/////////////////////////////////////////////////////////////////////////
 const addSyntheticNamedExportsToSkippedNodeImports = (): Plugin => ({
   load: (importee) => {
     if (importee === "\u0000node-resolve:empty.js") {
