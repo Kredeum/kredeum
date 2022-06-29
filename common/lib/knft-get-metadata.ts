@@ -18,10 +18,10 @@ const nftGetImageLink = (nft: NftType): string =>
   nft?.ipfs
     ? ipfsGatewayUrl(nft.ipfs)
     : nft?.swarm
-    ? swarmGatewayUrl(nft.swarm)
-    : nft?.image
-    ? storageGatewayUrl(nft.image)
-    : "";
+      ? swarmGatewayUrl(nft.swarm)
+      : nft?.image
+        ? storageGatewayUrl(nft.image)
+        : "";
 
 const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);
