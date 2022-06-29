@@ -1,4 +1,4 @@
 [
   "function burn(uint256)",
-  "function mint(uint256) returns (uint256)"
+  "function mint(uint256)"
 ]

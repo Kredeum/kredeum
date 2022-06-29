@@ -9,11 +9,12 @@ import "./library/Bafkrey.sol";
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {
 contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
-    uint256 public maxSupply;
+    uint256 public constant MAX_SUPPLY = 42;
+
+    uint256 internal _block;
 
     mapping(address => uint256) internal _tokenOfOwner;
     mapping(address => uint256) internal _tokenIndexOfOwner;
-    mapping(uint256 => uint256) internal _cidOfToken;
     uint256[] internal _tokens;
 
     string private constant _BASE_URI = "ipfs://";
@@ -21,33 +22,21 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
     constructor(
         string memory name,
         string memory symbol,
-        uint256 maxSupply_
+        uint256 block_
     ) ERC721(name, symbol) {
-        maxSupply = maxSupply_;
+        _block = block_;
     }
 
-    function getTokenID(uint256 CID, address addr) public pure returns (uint256) {
-        return _tokenID(CID, addr);
-    }
-
-    function _tokenID(uint256 CID, address addr) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(CID, addr)));
-    }
-
-    function mint(uint256 CID) public returns (uint256) {
-        require((maxSupply == 0) || totalSupply() < maxSupply, "Max supply reached");
+    function mint(uint256 tokenID) public override(IOpenBound) {
+        require(block.number >= _block, "Not allowed yet");
+        require(totalSupply() < MAX_SUPPLY, "Max supply reached");
         require(balanceOf(msg.sender) == 0, "Already minted or claimed");
-
-        uint256 tokenID = _tokenID(CID, msg.sender);
 
         _tokens.push(tokenID);
         _tokenOfOwner[msg.sender] = tokenID;
         _tokenIndexOfOwner[msg.sender] = _tokens.length - 1;
-        _cidOfToken[tokenID] = CID;
 
         _mint(msg.sender, tokenID);
-
-        return tokenID;
     }
 
     function burn(uint256 tokenID) external override(IOpenBound) {
@@ -65,7 +54,6 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         }
         _tokens.pop();
 
-        delete _cidOfToken[tokenID];
         delete _tokenIndexOfOwner[owner];
         delete _tokenOfOwner[owner];
     }
@@ -101,7 +89,12 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
     function tokenURI(uint256 tokenID) public view override(ERC721) returns (string memory) {
         require(_exists(tokenID), "NFT doesn't exists");
 
-        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(_cidOfToken[tokenID])));
+        uint256 cid = _ownerXorId(ownerOf(tokenID), tokenID);
+        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(cid)));
+    }
+
+    function _ownerXorId(address owner, uint256 id) internal pure returns (uint256) {
+        return uint160(owner) ^ id;
     }
 
     function _beforeTokenTransfer(
