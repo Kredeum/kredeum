@@ -63,6 +63,7 @@ const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
 // GET ipfs metadata url
 const nftMint2IpfsJson = async (
   name = DEFAULT_NAME,
+  nftDescription = "",
   ipfs = "",
   address = "",
   image = "",
@@ -72,7 +73,7 @@ const nftMint2IpfsJson = async (
 
   const json = {
     name,
-    description: name || "",
+    description: nftDescription || name || "",
     image: ipfsGatewayUrl(ipfs),
     ipfs,
     origin: textShort(image, 140),
