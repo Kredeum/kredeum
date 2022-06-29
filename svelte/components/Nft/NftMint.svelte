@@ -2,7 +2,7 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import type { NftType } from "lib/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
   import { metamaskSigner } from "main/metamask";
@@ -164,7 +164,7 @@
                   {#if mintingError}
                     {mintingError}
                   {:else if 1 <= minting && minting <= 5}
-                    {nftMintTexts[minting]}
+                    {nftIpfsMintTexts[minting]}
                   {/if}
                 </span>
               </div>

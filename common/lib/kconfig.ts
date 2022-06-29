@@ -124,7 +124,8 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 
 // CONSTANT
 const ipfsGateway = "https://ipfs.io/ipfs/";
-const swarmGateway = "https://api.gateway.ethswarm.org/bzz/";
+const SWARM_GATEWAY = "https://api.gateway.ethswarm.org";
+const SWARM_GATEWAY_BZZ = SWARM_GATEWAY + "/bzz/";
 
 const textShort = (s: string, n = 16, p = n): string => {
   const ipfsStr: string = s?.toString() || "";
@@ -232,9 +233,9 @@ const swarmGetLink = (uri: string | undefined): string => {
 
   if (uri.startsWith("swarm://")) {
     swarmLink = uri;
-  } else if (uri.startsWith(swarmGateway)) {
+  } else if (uri.startsWith(SWARM_GATEWAY_BZZ)) {
     // find cid in uri
-    cid = uri.replace(swarmGateway, "");
+    cid = uri.replace(SWARM_GATEWAY_BZZ, "");
 
     // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
   }
@@ -269,7 +270,7 @@ const swarmLinkToCid = (swarm: string): string => swarm.replace(/^swarm:\/\//, "
 // Swarm reference : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // => gateway url https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmGatewayUrl = (swarm: string): string => `${swarmGateway}${swarmLinkToCid(swarm)}`;
+const swarmGatewayUrl = (swarm: string): string => `${SWARM_GATEWAY_BZZ}${swarmLinkToCid(swarm)}`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -546,5 +547,7 @@ export {
   urlToLink,
   config,
   DEFAULT_NAME,
-  DEFAULT_SYMBOL
+  DEFAULT_SYMBOL,
+  SWARM_GATEWAY,
+  SWARM_GATEWAY_BZZ
 };

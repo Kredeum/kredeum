@@ -1,13 +1,16 @@
 <script lang="ts">
   // import { currentAction } from "main/current";
-  import NftMint from "../Nft/NftMint.svelte";
+  // import NftMint from "../Nft/NftMint.svelte";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
+  import NftMintTest from "../swarm/NftMintTest.svelte";
+
   /////////////////////////////////////////////////
-  //  <Create {chainId} />
+  //  <Create {chainId} {storage} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
   export let chainId: number;
+  export let storage: string;
 
   // const create = () => ($currentAction = "create");
 </script>
@@ -25,7 +28,8 @@
       </div>
 
       <div class="txtcenter">
-        <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
+        <!-- <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
+        <NftMintTest {storage} />
         <span class="or">Or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
       </div>
@@ -34,9 +38,9 @@
 </div>
 
 <!-- SubModal create NFT -->
-<div id="create-nft" class="modal-window">
+<!-- <div id="create-nft" class="modal-window">
   <NftMint {chainId} />
-</div>
+</div> -->
 
 <!-- SubModal create collection -->
 <div id="add-collection" class="modal-window">

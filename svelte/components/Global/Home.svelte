@@ -17,10 +17,10 @@
   import Content from "./Content.svelte";
 
   // import { metamaskProvider } from "main/metamask";
+  import NftMintTest from "../swarm/NftMintTest.svelte";
 
-  // import NftMintSwarm from "../swarm/NftMintSwarm.svelte";
-
-  export const STORAGE: string = config.storage;
+  // export let storage: string = "swarm";
+  export let storage: string = config.storage;
   export let platform: string = "dapp";
 
   let chainId: number;
@@ -39,7 +39,7 @@
     <Title />
 
     {#if account && getCreate(chainId)}
-      <Create {chainId} />
+      <Create {chainId} {storage} />
     {/if}
 
     <!-- <BreadCrumb display={true} /> -->
@@ -67,7 +67,7 @@
     {#if chainId && account && address}
       <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
-    <!-- <NftMintSwarm /> -->
+    <NftMintTest {storage} />
   </span>
 </HomeLayout>
 

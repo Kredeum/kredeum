@@ -1,9 +1,6 @@
 import type { NftType } from "./ktypes";
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionContractGet } from "./kcollection-get";
-
-import { swarmGatewayUrl, textShort, getNetwork, DEFAULT_NAME } from "./kconfig";
+import { swarmGatewayUrl, textShort, DEFAULT_NAME } from "./kconfig";
 import { swarmUploadFile } from "./kbeejs";
 
 const nftSwarmMintTexts = [
@@ -67,64 +64,4 @@ const nftMint2SwarmJson = async (
   return swarmJson;
 };
 
-// // GET minting tx response
-// const nftMint3SwarmTxResponse = async (
-//   chainId: number,
-//   address: string,
-//   swarmJson: string,
-//   minter: JsonRpcSigner
-// ): Promise<TransactionResponse | null> => {
-//   if (!(chainId && address && swarmJson && minter)) return null;
-//   // console.log("nftMint3TxResponse", chainId, address, ipfsJson, await minter.getAddress());
-
-//   const openNFTs = (await collectionContractGet(chainId, address, minter.provider)).connect(minter);
-
-//   type MintOpenNFTFunctionType = {
-//     (address: string, json: string): Promise<TransactionResponse>;
-//   };
-
-//   // OpenNFTsV0 = addUser
-//   // OpenNFTsV1 = mintNFT
-//   // OpenNFTsV2 = mintNFT
-//   // OpenNFTsV3+ = mintOpenNFT
-//   // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-//   const mintFunction: MintOpenNFTFunctionType = openNFTs.mintOpenNFT || openNFTs.mintNFT || openNFTs.addUser;
-//   const urlJson = swarmGatewayUrl(swarmJson);
-
-//   const txResp = await mintFunction(await minter.getAddress(), urlJson);
-//   console.log(`${getNetwork(chainId)?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
-
-//   return txResp;
-// };
-
-// // GET minting tx receipt
-// const nftMint4Swarm = async (
-//   chainId: number,
-//   address: string,
-//   txResponse: TransactionResponse,
-//   metadataCid: string,
-//   minter: string
-// ): Promise<NftType | undefined> => {
-//   let nft: NftType | undefined = undefined;
-
-//   if (txResponse) {
-//     const txReceipt = await txResponse.wait();
-//     // console.log("txReceipt", txReceipt);
-
-//     if (txReceipt) {
-//       const tokenID = _mintTokenID(txReceipt);
-//       // console.log("tokenID", tokenID);
-
-//       if (tokenID) {
-//         nft = await _mintedNft(chainId, address, tokenID, swarmGatewayUrl(metadataCid), minter);
-//         nft.swarmJson = metadataCid;
-//         // console.log("nftMint4", nft);
-//       }
-//     }
-//   }
-
-//   return nft;
-// };
-///////////////////////////////////////////////////////////////////////////////////
-
-export { nftSwarmMintTexts, nftMint1SwarmImage, nftMint2SwarmJson /*, nftMint3SwarmTxResponse, nftMint4Swarm*/ };
+export { nftSwarmMintTexts, nftMint1SwarmImage, nftMint2SwarmJson };

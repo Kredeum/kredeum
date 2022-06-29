@@ -4,7 +4,7 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   import type { NftType } from "lib/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get-metadata";
   import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { collectionStore } from "stores/collection/collection";
@@ -107,7 +107,7 @@
           <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
         </div>
         <div>
-          <em>{nftMintTexts[minting]}</em>
+          <em>{nftIpfsMintTexts[minting]}</em>
         </div>
       {/if}
     {:else}
