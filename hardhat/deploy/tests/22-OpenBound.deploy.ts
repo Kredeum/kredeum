@@ -12,7 +12,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   const deployer = await getNamedSigner("deployer");
 
   const maxSupply = 12;
-  deployments.log("maxSupply", maxSupply);
+  // deployments.log("maxSupply", maxSupply);
 
   const deployResult: DeployResult = await deployments.deploy(contractName, {
     from: deployer.address,
