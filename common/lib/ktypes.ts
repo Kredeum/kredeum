@@ -66,6 +66,16 @@ type CollectionSupports = {
 type Without<T> = { [P in keyof T]?: undefined };
 type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
 
+////////
+type ipfsImgType = {
+  ipfs?: string;
+};
+
+type swarmImgType = {
+  swarm?: string;
+};
+
+////////
 type ipfsType = {
   ipfs?: string;
   ipfsJson?: string;
@@ -76,13 +86,10 @@ type swarmType = {
   swarmJson?: string;
 };
 
-type ipfsImgType = {
-  ipfs?: string;
-};
+////////
+type storageType = XOR<ipfsType, swarmType>;
 
-type swarmImgType = {
-  swarm?: string;
-};
+type storageImgType = XOR<ipfsImgType, swarmImgType>;
 ///////////////////////////////////////////////////
 
 type NftMetadata = {
@@ -94,7 +101,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   animation_url?: string;
-} & XOR<ipfsImgType, swarmImgType>;
+} & storageImgType;
 
 type NftType = {
   chainId: number;
@@ -121,7 +128,7 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
-} & XOR<ipfsType, swarmType>;
+} & storageType;
 
 export type {
   NftType,
