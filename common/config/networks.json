@@ -89,6 +89,9 @@
     "covalent": {
       "active": true
     },
+    "moralis": {
+      "active": true
+    },
     "openSea": {
       "assets": "https://opensea.io/assets/matic",
       "openNFTs": "https://opensea.io/collection/kredeum-nfts"

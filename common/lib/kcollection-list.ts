@@ -7,7 +7,7 @@ import { DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 import { collectionMerge } from "./kcollection-get";
 
-import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
+import { getChecksumAddress, getNetwork, collectionUrl, collectionListKey } from "./kconfig";
 
 import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
 import { covalentGet, covalentCollectionList } from "lib/api-covalent";
@@ -96,14 +96,14 @@ const collectionList = async (
     let collectionsKredeum: Map<string, CollectionType> = new Map();
 
     // GET user collections
-    if (alchemyGet(chainId)) {
+    if (moralisGet(chainId)) {
+      collectionsOwner = await moralisCollectionList(chainId, account);
+    } else if (alchemyGet(chainId)) {
       collectionsOwner = await alchemyCollectionList(chainId, account);
     } else if (thegraphGet(chainId)) {
       collectionsOwner = await thegraphCollectionList(chainId, account);
     } else if (covalentGet(chainId)) {
       collectionsOwner = await covalentCollectionList(chainId, account);
-    } else if (moralisGet(chainId)) {
-      collectionsOwner = await moralisCollectionList(chainId, account);
     }
     collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
 
@@ -118,7 +118,7 @@ const collectionList = async (
     );
   }
 
-  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
+  console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 

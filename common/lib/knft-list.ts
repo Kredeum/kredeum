@@ -82,19 +82,21 @@ const nftListTokenIds = async (
     nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
     console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     if (nftsTokenIds.size === 0) {
-      if (alchemyGet(chainId)) {
-        nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);
-      } else if (thegraphGet(chainId)) {
-        nftsTokenIds = await thegraphNftList(chainId, collection, account, limit);
-        // console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
-      } else if (covalentGet(chainId)) {
-        nftsTokenIds = await covalentNftList(chainId, collection, account, limit);
-        // console.log("nftListTokenIds covalentNftList", nftsTokenIds);
-      } else if (moralisGet(chainId)) {
-        nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
-      } else {
-        console.error("No NFTs found:-(");
-      }
+      // if (alchemyGet(chainId)) {
+      //   nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);
+      // } else if (thegraphGet(chainId)) {
+      //   nftsTokenIds = await thegraphNftList(chainId, collection, account, limit);
+      //   // console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
+      // } else if (covalentGet(chainId)) {
+      //   nftsTokenIds = await covalentNftList(chainId, collection, account, limit);
+      //   // console.log("nftListTokenIds covalentNftList", nftsTokenIds);
+      // } else if (moralisGet(chainId)) {
+      //   nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
+      // } else {
+      //   console.error("No NFTs found:-(");
+      // }
+
+      nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
     }
   }
 
