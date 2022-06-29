@@ -2,7 +2,11 @@ import type { NetworkType, CollectionType } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTsV3 } from "types/OpenNFTsV3";
 
-import { nftList, nftListFromTheGraph, nftListFromContract, nftListFromCovalent } from "lib/knft-list";
+import { nftList, nftListFromContract } from "lib/knft-list";
+
+import { covalentNftList } from "lib/api-covalent";
+import { thegraphNftList } from "lib/api-thegraph";
+
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
 import { collectionGet } from "lib/kcollection-get";
@@ -68,13 +72,13 @@ describe("32 List OpenNFTsV3 lib", function () {
 
     it("With TheGraph", async function () {
       if (networkConfig?.subgraph) {
-        expect((await nftListFromTheGraph(chainId, collection)).size).to.be.gte(1);
+        expect((await thegraphNftList(chainId, collection)).size).to.be.gte(1);
       }
     });
 
     it("With Covalent", async function () {
       if (networkConfig?.covalent) {
-        expect((await nftListFromCovalent(chainId, collection)).size).to.be.gte(1);
+        expect((await covalentNftList(chainId, collection)).size).to.be.gte(1);
       }
     });
   });

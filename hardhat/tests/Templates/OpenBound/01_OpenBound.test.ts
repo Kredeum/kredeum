@@ -32,7 +32,7 @@ let tokenID0tester1: string;
 let tokenIDKdeployer: string;
 let tokenIDKtester1: string;
 
-describe("OpenBound", () => {
+describe.only("OpenBound", () => {
   before(async () => {
     chainId = Number(await getChainId());
     console.log("network", chainId, network.name, network.live);
@@ -306,6 +306,57 @@ describe("OpenBound", () => {
       const getTokenIDKtester1 = await openBound.getTokenID(cidUintK, tester1.address);
 
       expect(getTokenIDKdeployer).to.be.not.equal(getTokenIDKtester1);
+    });
+  });
+
+  describe("MyTokenID", () => {
+    it("Should get my tokenID0 deployer", async () => {
+      const getTokenID0 = await openBound.getTokenID(cidUint0, deployer.address);
+      const getMyTokenID0 = await openBound.getMyTokenID(cidUint0);
+      expect(getTokenID0).to.be.equal(getMyTokenID0);
+    });
+  });
+
+  describe("CID", () => {
+    it("Should get CID", async () => {
+      const CID = 42;
+      await openBound.mint(CID);
+      const tokenID = await openBound.tokenOfOwnerByIndex(deployer.address, 0);
+
+      const getCID = await openBound.getCID(tokenID);
+      expect(getCID).to.be.equal(CID);
+    });
+  });
+
+  describe("Pause", () => {
+    it("Should pause mint", async () => {
+      await openBound.togglePause();
+      await expect(openBound.mint(0)).to.be.revertedWith("Paused !");
+      await openBound.togglePause();
+      await expect(openBound.mint(0)).to.be.not.reverted;
+    });
+
+    it("Should pause claim", async () => {
+      const tokenID = await openBound.getMyTokenID(0);
+      await openBound.togglePause();
+      await expect(openBound.claim(tokenID, 0)).to.be.revertedWith("Paused !");
+      await openBound.togglePause();
+      await expect(openBound.claim(tokenID, 0)).to.be.not.reverted;
+    });
+
+    it("Should toggle pause", async () => {
+      let paused = await openBound.paused();
+      expect(paused).to.be.false;
+      await openBound.togglePause();
+      paused = await openBound.paused();
+      expect(paused).to.be.true;
+      await openBound.togglePause();
+      paused = await openBound.paused();
+      expect(paused).to.be.false;
+    });
+
+    it("Should not pause when not owner", async () => {
+      await expect(openBound.connect(tester1).togglePause()).to.be.revertedWith("Ownable: caller is not the owner");
     });
   });
 });

@@ -2,14 +2,17 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IOpenBound.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "./library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {
-contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
+contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, Ownable {
     uint256 public maxSupply;
+
+    bool public paused;
 
     mapping(address => uint256) internal _tokenOfOwner;
     mapping(address => uint256) internal _tokenIndexOfOwner;
@@ -17,6 +20,11 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
     uint256[] internal _tokens;
 
     string private constant _BASE_URI = "ipfs://";
+
+    modifier whenNotPaused() {
+        require(!paused, "Paused !");
+        _;
+    }
 
     constructor(
         string memory name,
@@ -26,28 +34,8 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         maxSupply = maxSupply_;
     }
 
-    function getTokenID(uint256 CID, address addr) public pure returns (uint256) {
-        return _tokenID(CID, addr);
-    }
-
-    function _tokenID(uint256 CID, address addr) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(CID, addr)));
-    }
-
-    function mint(uint256 CID) public returns (uint256) {
-        require((maxSupply == 0) || totalSupply() < maxSupply, "Max supply reached");
-        require(balanceOf(msg.sender) == 0, "Already minted or claimed");
-
-        uint256 tokenID = _tokenID(CID, msg.sender);
-
-        _tokens.push(tokenID);
-        _tokenOfOwner[msg.sender] = tokenID;
-        _tokenIndexOfOwner[msg.sender] = _tokens.length - 1;
-        _cidOfToken[tokenID] = CID;
-
-        _mint(msg.sender, tokenID);
-
-        return tokenID;
+    function togglePause() external override(IOpenBound) onlyOwner {
+        paused = !paused;
     }
 
     function burn(uint256 tokenID) external override(IOpenBound) {
@@ -87,11 +75,40 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
         return _tokenOfOwner[owner];
     }
 
+    function mint(uint256 cid) public override(IOpenBound) whenNotPaused returns (uint256) {
+        require((maxSupply == 0) || totalSupply() < maxSupply, "Max supply reached");
+        require(balanceOf(msg.sender) == 0, "Already minted or claimed");
+
+        uint256 tokenID = getMyTokenID(cid);
+
+        _tokens.push(tokenID);
+        _tokenOfOwner[msg.sender] = tokenID;
+        _tokenIndexOfOwner[msg.sender] = _tokens.length - 1;
+        _cidOfToken[tokenID] = cid;
+
+        _mint(msg.sender, tokenID);
+
+        return tokenID;
+    }
+
+    function claim(uint256 tokenID, uint256 cid) public override(IOpenBound) whenNotPaused {
+        require(tokenID == getMyTokenID(cid), "Not owner");
+        mint(cid);
+    }
+
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return
             interfaceId == type(IOpenBound).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
+    }
+
+    function getMyTokenID(uint256 cid) public view override(IOpenBound) returns (uint256) {
+        return getTokenID(cid, msg.sender);
+    }
+
+    function getCID(uint256 tokenID) public view override(IOpenBound) returns (uint256) {
+        return _cidOfToken[tokenID];
     }
 
     function totalSupply() public view override(IERC721Enumerable) returns (uint256) {
@@ -101,7 +118,15 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable {
     function tokenURI(uint256 tokenID) public view override(ERC721) returns (string memory) {
         require(_exists(tokenID), "NFT doesn't exists");
 
-        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(_cidOfToken[tokenID])));
+        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(getCID(tokenID))));
+    }
+
+    function getTokenID(uint256 cid, address addr) public pure override(IOpenBound) returns (uint256) {
+        return _tokenID(cid, addr);
+    }
+
+    function _tokenID(uint256 cid, address addr) internal pure returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(cid, addr)));
     }
 
     function _beforeTokenTransfer(

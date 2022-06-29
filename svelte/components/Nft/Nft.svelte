@@ -9,7 +9,8 @@
     kredeumNftUrl,
     getNetwork,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    explorerNftUrl
   } from "lib/kconfig";
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -66,8 +67,18 @@
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}"><strong>#{tokenID}</strong></div>
+            <div class="flex flex1"><span class="label"><strong>Token ID</strong></span></div>
+            <div class="flex flex2 overflow-ellipsis" title="Token ID #{tokenID}">
+              <strong>
+                <a
+                  class="link  overflow-ellipsis"
+                  href={explorerNftUrl(chainId, { chainId, address, tokenID })}
+                  target="_blank"
+                >
+                  #{tokenID}
+                </a>
+              </strong>
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
@@ -131,10 +142,6 @@
             ><i class="fa fa-gift" /> Transfer</a
           >
 
-          <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
-            <i class="fas fa-exclamation" /> Claim</a
-          > -->
-
           {#if getNetwork(chainId)?.openSea}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
@@ -144,6 +151,10 @@
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
             {/if}
           {/if}
+        </div>
+
+        <div class="p-t-40 p-b-40 grid-buttons">
+          <NftClaim chainId={10} {address} {tokenID} />
         </div>
       </div>
     </div>
@@ -182,13 +193,14 @@
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
 
-<!-- Modal claim nft -->
-<div id="claim-nft-{tokenID}" class="modal-window">
-  <NftClaim {chainId} {address} {tokenID} />
-</div>
-
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+  .flex1 {
+    flex: 1 !important ;
+  }
+  .flex2 {
+    flex: 6 !important ;
   }
 </style>
