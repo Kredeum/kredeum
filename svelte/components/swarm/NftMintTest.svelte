@@ -172,20 +172,21 @@
   };
 </script>
 
-<a href="./#" on:click={() => openMintModal()} class="btn btn-default" title="Mint NFT">Mint NFT</a>
+<span on:click={() => openMintModal()} class="btn btn-default" title="Mint NFT">Mint NFT</span>
+<!-- <a href="./#" on:click={() => openMintModal()} class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
 
 {#if open}
-  <div id="kre-create-mint-nft" class="modal-window" transition:fade>
+  <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
     <div
       use:clickOutside={() => {
         open = false;
       }}
     >
       <div id="kredeum-create-nft">
-        <div class="modal-content">
+        <div class="mint-modal-content">
           <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
-          <div class="modal-body">
+          <div class="mint-modal-body">
             <div class="titre">
               <i class="fas fa-plus fa-left c-green" />Mint NFT
             </div>
@@ -388,16 +389,10 @@
     opacity: 1;
     pointer-events: auto;
     z-index: 1000;
+    text-align: left;
   }
 
-  .modal-body {
+  .mint-modal-body {
     overflow-y: auto;
   }
-  /*************************/
-  /* button.btn {
-    color: white;
-    background-color: #2a81de;
-    border: 0px;
-    margin: 10px;
-  } */
 </style>

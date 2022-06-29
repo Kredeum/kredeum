@@ -205,3 +205,18 @@
     margin: 10px auto;
   }
 }
+
+// Mint Modal
+.mint-modal-window {
+  overflow-y: auto;
+
+  & > div {
+    width: 90vw;
+    top: 20px;
+    transform: translate(-50%, 0);
+  }
+
+  .mint-modal-body {
+    padding: 40px 20px;
+  }
+}

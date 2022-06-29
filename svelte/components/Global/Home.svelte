@@ -17,7 +17,6 @@
   import Content from "./Content.svelte";
 
   // import { metamaskProvider } from "main/metamask";
-  import NftMintTest from "../swarm/NftMintTest.svelte";
 
   // export let storage: string = "swarm";
   export let storage: string = config.storage;
@@ -67,7 +66,6 @@
     {#if chainId && account && address}
       <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
     {/if}
-    <NftMintTest {storage} />
   </span>
 </HomeLayout>
 
