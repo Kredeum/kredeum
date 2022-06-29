@@ -2,10 +2,10 @@ import { expect } from "chai";
 
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
-import { BigNumber, Wallet } from "ethers";
 
 import type { OpenNFTsV4 } from "types/OpenNFTsV4";
 import IERC165 from "abis/IERC165.json";
+import IERC2981 from "abis/IERC2981.json";
 import IERC721 from "abis/IERC721.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
 import IERC721Metadata from "abis/IERC721Metadata.json";
@@ -48,6 +48,7 @@ describe.only("OpenNFTsV4", () => {
 
     it("Should support interfaces ", async function () {
       expect(await openNFTsV4.supportsInterface(interfaceId(IERC165))).to.be.true;
+      expect(await openNFTsV4.supportsInterface(interfaceId(IERC2981))).to.be.true;
       expect(await openNFTsV4.supportsInterface(interfaceId(IERC721))).to.be.true;
       expect(await openNFTsV4.supportsInterface(interfaceId(IERC721Enumerable))).to.be.true;
       expect(await openNFTsV4.supportsInterface(interfaceId(IERC721Metadata))).to.be.true;
