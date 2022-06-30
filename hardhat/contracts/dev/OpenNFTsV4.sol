@@ -8,14 +8,12 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 
-import "../interfaces/IOpenNFTs.sol";
 import "./interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is
-    IOpenNFTs,
     IOpenNFTsV4,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
@@ -26,23 +24,21 @@ contract OpenNFTsV4 is
     using CountersUpgradeable for CountersUpgradeable.Counter;
     CountersUpgradeable.Counter private _tokenIds;
 
+    mapping(uint256 => uint256) public tokenPrice;
+    uint256 public floorPrice;
+
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
 
-    /// @notice Burn NFT allowed or not
-    bool public burnable;
-
-    /// @notice onlyMinter, either everybody in open collection,
+    /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
-    modifier onlyMinter() {
+    modifier onlyOpenOrOwner() {
         require(open || (owner() == _msgSender()), "Not minter");
         _;
     }
 
-    /// @notice onlyBurner, only owner can burn if burnable
-    modifier onlyBurner() {
-        require(burnable, "Not burnable");
-        require(owner() == _msgSender(), "Not owner");
+    modifier onlyTokenOwner(uint256 tokenID) {
+        require(ownerOf(tokenID) == _msgSender(), "Not token owner");
         _;
     }
 
@@ -62,43 +58,110 @@ contract OpenNFTsV4 is
         __ERC721_init(name, symbol);
         transferOwnership(owner);
         open = options[0];
-        burnable = options[1];
     }
 
-    /// @notice mint
-    /// @param minter address of minter
-    /// @param jsonURI json URI of NFT metadata
-    function mintOpenNFT(address minter, string memory jsonURI)
-        external
-        override(IOpenNFTs)
-        onlyMinter
-        returns (uint256)
-    {
-        _tokenIds.increment();
+    function mint(string memory jsonURI) external override(IOpenNFTsV4) onlyOpenOrOwner returns (uint256) {
+        return _mint(msg.sender, jsonURI);
+    }
 
-        uint256 newItemId = _tokenIds.current();
-        _safeMint(minter, newItemId);
-        _setTokenURI(newItemId, jsonURI);
+    function mint(address to, string memory jsonURI) external override(IOpenNFTsV4) onlyOwner returns (uint256) {
+        return _mint(to, jsonURI);
+    }
 
-        return newItemId;
+    function buy(uint256 tokenID) external payable override(IOpenNFTsV4) {
+        /// Get token price
+        uint256 price = tokenPrice[tokenID];
+
+        /// Require price defined
+        require(price > 0, "Not to sell");
+
+        /// Require enough value sent
+        require(msg.value >= price, "Not enough funds");
+
+        /// Get previous token owner
+        address owner = ownerOf(tokenID);
+        assert(owner != address(0));
+
+        /// Reset token price (to be eventualy defined by new owner)
+        delete tokenPrice[tokenID];
+
+        /// Transfer token
+        this.safeTransferFrom(owner, msg.sender, tokenID);
+
+        /// Transfer royalties to receiver
+        (address receiver, uint256 royaltyAmount) = royaltyInfo(tokenID, price);
+        assert(royaltyAmount <= price);
+        payable(receiver).transfer(royaltyAmount);
+
+        /// Transfer back unspent funds to sender
+        uint256 unspent = msg.value - price;
+        if (unspent > 0) {
+            payable(msg.sender).transfer(unspent);
+        }
     }
 
     /// @notice burn NFT
-    /// @param tokenId tokenID of NFT to burn
-    function burnOpenNFT(uint256 tokenId) external override(IOpenNFTs) onlyBurner {
-        _burn(tokenId);
+    /// @param tokenID tokenID of NFT to burn
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) {
+        _burn(tokenID);
+    }
+
+    /// @notice SET default royalty configuration
+    /// @param receiver : address of the royalty receiver
+    /// @param feeNumerator : fee Numerator, over 10000
+    function setDefaultRoyalty(address receiver, uint96 feeNumerator) external override(IOpenNFTsV4) onlyOwner {
+        _setDefaultRoyalty(receiver, feeNumerator);
+        emit SetRoyalty(receiver, feeNumerator);
+    }
+
+    /// @notice SET token royalty configuration
+    /// @param tokenID : token ID
+    /// @param receiver : address of the royalty receiver
+    /// @param feeNumerator : fee Numerator, over 10000
+    function setTokenRoyalty(
+        uint256 tokenID,
+        address receiver,
+        uint96 feeNumerator
+    ) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+        _setTokenRoyalty(tokenID, receiver, feeNumerator);
+        emit SetRoyalty(tokenID, receiver, feeNumerator);
+    }
+
+    function setTokenPrice(uint256 tokenID, uint256 price) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+        tokenPrice[tokenID] = price;
+    }
+
+    /// @notice RESET token royalty configuration
+    /// @param tokenID : token ID
+    function resetRoyalty(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+        _resetTokenRoyalty(tokenID);
+        emit SetRoyalty(tokenID, address(0), 0);
+    }
+
+    /// @notice DELETE default royalty configuration
+    function resetDefaultRoyalty() external override(IOpenNFTsV4) onlyOpenOrOwner {
+        _deleteDefaultRoyalty();
+        emit SetRoyalty(address(0), 0);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenID
+    ) public override(ERC721Upgradeable) {
+        super.safeTransferFrom(from, to, tokenID, "");
     }
 
     /// @notice Get tokenURI
-    /// @param tokenId tokenId of NFT
+    /// @param tokenID tokenID of NFT
     /// @param tokenURI_ token URI of NFT
-    function tokenURI(uint256 tokenId)
+    function tokenURI(uint256 tokenID)
         public
         view
         override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
         returns (string memory tokenURI_)
     {
-        tokenURI_ = super.tokenURI(tokenId);
+        tokenURI_ = super.tokenURI(tokenID);
     }
 
     /// @notice test if this interface is supported
@@ -110,56 +173,43 @@ contract OpenNFTsV4 is
         returns (bool)
     {
         return
-            interfaceId == type(IOpenNFTs).interfaceId ||
             interfaceId == type(IOpenNFTsV4).interfaceId ||
             interfaceId == type(IERC173).interfaceId ||
             // interfaceId == type(IERC2981).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 
+    /// @notice _mint
+    /// @param minter address of minter
+    /// @param jsonURI json URI of NFT metadata
+    function _mint(address minter, string memory jsonURI) internal returns (uint256) {
+        _tokenIds.increment();
+
+        uint256 tokenID = _tokenIds.current();
+        _safeMint(minter, tokenID);
+        _setTokenURI(tokenID, jsonURI);
+
+        return tokenID;
+    }
+
     function _beforeTokenTransfer(
         address from,
         address to,
-        uint256 tokenId
-    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-        super._beforeTokenTransfer(from, to, tokenId);
-    }
-
-    function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
-        super._burn(tokenId);
-    }
-
-    /// @notice SET default royalty configuration
-    /// @param receiver : address of the royalty receiver
-    /// @param feeNumerator : fee Numerator, over 10000
-    function setDefaultRoyalty(address receiver, uint96 feeNumerator) external override(IOpenNFTsV4) onlyMinter {
-        _setDefaultRoyalty(receiver, feeNumerator);
-        emit SetRoyalty(receiver, feeNumerator);
-    }
-
-    /// @notice SET token royalty configuration
-    /// @param tokenID : token ID
-    /// @param receiver : address of the royalty receiver
-    /// @param feeNumerator : fee Numerator, over 10000
-    function setTokenRoyalty(
-        address receiver,
-        uint96 feeNumerator,
         uint256 tokenID
-    ) external override(IOpenNFTsV4) onlyMinter {
-        _setTokenRoyalty(tokenID, receiver, feeNumerator);
-        emit SetRoyalty(receiver, feeNumerator, tokenID);
+    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+        ERC721EnumerableUpgradeable._beforeTokenTransfer(from, to, tokenID);
     }
 
-    /// @notice RESET token royalty configuration
-    /// @param tokenID : token ID
-    function resetRoyalty(uint256 tokenID) external override(IOpenNFTsV4) onlyMinter {
-        _resetTokenRoyalty(tokenID);
-        emit SetRoyalty(address(0), 0, tokenID);
+    function _burn(uint256 tokenID) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+        ERC721URIStorageUpgradeable._burn(tokenID);
     }
 
-    /// @notice DELETE default royalty configuration
-    function resetDefaultRoyalty() external override(IOpenNFTsV4) onlyMinter {
-        _deleteDefaultRoyalty();
-        emit SetRoyalty(address(0), 0);
+    function _isApprovedOrOwner(address spender, uint256 tokenID)
+        internal
+        view
+        override(ERC721Upgradeable)
+        returns (bool)
+    {
+        return (spender == address(this)) || super._isApprovedOrOwner(spender, tokenID);
     }
 }
