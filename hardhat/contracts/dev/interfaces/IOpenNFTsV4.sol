@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 interface IOpenNFTsV4 {
     event SetRoyalty(address receiver, uint96 feeNumerator);

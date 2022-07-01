@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -102,7 +102,7 @@ contract OpenNFTsV4 is
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID)  {
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
         _burn(tokenID);
     }
 
