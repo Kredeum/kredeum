@@ -23,9 +23,11 @@ interface IOpenNFTsV4 {
 
     function mint(string memory jsonURI) external returns (uint256 tokenID);
 
-    function mint(address minter, string memory jsonURI) external returns (uint256 tokenID);
+    function mintFor(address minter, string memory jsonURI) external returns (uint256 tokenID);
 
     function burn(uint256 tokenID) external;
 
     function buy(uint256 tokenID) external payable;
+
+    function withdraw(address to) external;
 }

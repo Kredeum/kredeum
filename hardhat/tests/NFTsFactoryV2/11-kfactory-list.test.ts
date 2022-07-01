@@ -41,7 +41,7 @@ describe("11 NFTs Factory contract", function () {
   });
 
   it("Should get nftsFactoryV2 balancesOf", async function () {
-    console.log(await nftsFactoryV2.populateTransaction.balancesOf(owner));
+    // console.log(await nftsFactoryV2.populateTransaction.balancesOf(owner));
     // console.log(`nftsFactoryV2.balancesOf ${owner} ${await nftsFactoryV2.balancesOf(owner)}`);
     void expect(await nftsFactoryV2.balancesOf(owner)).to.be.string;
   });

@@ -20,10 +20,10 @@ let openNFTsV4: OpenNFTsV4;
 let deployer: SignerWithAddress;
 let tester1: SignerWithAddress;
 
-describe.only("OpenNFTsV4", () => {
+describe("OpenNFTsV4", () => {
   before(async () => {
     chainId = Number(await getChainId());
-    console.log("network", chainId, network.name, network.live);
+    // console.log("network", chainId, network.name, network.live);
 
     deployer = await getNamedSigner("deployer");
     tester1 = await getNamedSigner("tester1");

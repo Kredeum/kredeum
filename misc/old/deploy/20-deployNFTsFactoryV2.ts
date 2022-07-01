@@ -35,8 +35,6 @@ const deployNFTsFactoryV2: DeployFunction = async function (hre) {
     const network: Network = networks[index];
 
     if (deployResult.address != network.nftsFactoryV2) {
-      console.info("NFTsFactoryV2 deployed => new address");
-
       networks[index].nftsFactoryV2 = deployResult.address;
       await fs
         .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))

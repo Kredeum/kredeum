@@ -72,14 +72,14 @@ const nftListTokenIds = async (
   account?: string,
   limit: number = FETCH_LIMIT
 ): Promise<Map<string, NftType>> => {
-  console.log("nftListTokenIds", chainId, collection.address, account, limit);
+  // console.log("nftListTokenIds", chainId, collection.address, account, limit);
 
   let nftsTokenIds: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network) {
     nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
-    console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
+    // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     if (nftsTokenIds.size === 0) {
       if (alchemyGet(chainId)) {
         nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);

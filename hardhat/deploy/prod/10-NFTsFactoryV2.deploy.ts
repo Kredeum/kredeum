@@ -29,7 +29,7 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
     const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
     const networkConf: NetworkType = networks[index];
     if (deployResult.address != networkConf.nftsFactoryV2) {
-      console.info(contractName, "deployed => new address");
+      // console.info(contractName, "deployed => new address");
       networks[index].nftsFactoryV2 = deployResult.address;
       await fs
         .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))

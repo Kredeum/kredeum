@@ -1,6 +1,6 @@
 import type { NetworkType, CollectionType } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { OpenNFTsV4 } from "types/OpenNFTsV4";
 
 import { nftList, nftListFromContract } from "lib/knft-list";
 
@@ -22,30 +22,30 @@ const txOptions = {
 };
 let chainId: number;
 let networkConfig: NetworkType | undefined;
-let openNFTsV3: OpenNFTsV3;
+let openNFTsV4: OpenNFTsV4;
 
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 const jsonURI = "https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624";
 
-describe("32 List OpenNFTsV3 lib", function () {
+describe("42 List OpenNFTsV4 lib", function () {
   beforeEach(async () => {
     chainId = Number(await getChainId());
     networkConfig = getNetwork(chainId);
     // console.log("beforeEach ~ networkConfig", networkConfig);
 
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTsV3"]);
+      await deployments.fixture(["OpenNFTsV4"]);
     }
-    openNFTsV3 = (await ethers.getContract("OpenNFTsV3")) as unknown as OpenNFTsV3;
-    await ((await openNFTsV3.mintOpenNFT(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
+    openNFTsV4 = (await ethers.getContract("OpenNFTsV4")) as unknown as OpenNFTsV4;
+    await ((await openNFTsV4.mintFor(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
 
-    // console.log("totalSupply", (await openNFTsV3.totalSupply()).toNumber());
-    // console.log(chainId, openNFTsV3.address);
+    // console.log("totalSupply", (await openNFTsV4.totalSupply()).toNumber());
+    // console.log(chainId, openNFTsV4.address);
   });
 
   describe("Setup", function () {
-    it("Should get OpenNFTsV3 contract address", function () {
-      expect(openNFTsV3.address).to.be.properAddress;
+    it("Should get OpenNFTsV4 contract address", function () {
+      expect(openNFTsV4.address).to.be.properAddress;
     });
   });
 
@@ -54,7 +54,7 @@ describe("32 List OpenNFTsV3 lib", function () {
     let collection: CollectionType;
 
     before(async () => {
-      collection = await collectionGet(chainId, openNFTsV3.address, ethers.provider);
+      collection = await collectionGet(chainId, openNFTsV4.address, ethers.provider);
       // console.log("collection", collection);
     });
 

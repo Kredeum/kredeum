@@ -22,6 +22,7 @@ import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
 import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
 import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
+import IOpenNFTsV4 from "abis/IOpenNFTsV4.json";
 
 import ICloneFactory from "abis/ICloneFactory.json";
 import INFTsFactory from "abis/INFTsFactory.json";
@@ -47,7 +48,7 @@ describe("02 Call interfacesId", () => {
 
   before(async () => {
     chainId = Number(await getChainId());
-    console.log("network", chainId, network.name, network.live);
+    // console.log("network", chainId, network.name, network.live);
 
     ({ contract } = await setup());
   });
@@ -58,7 +59,7 @@ describe("02 Call interfacesId", () => {
 
   it("TS script interfaceId should have same result than solidity", async () => {
     ids = await contract.ids();
-    console.log(ids);
+    // console.log(ids);
     const interfaces = {
       IERC165,
       IERC721,

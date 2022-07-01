@@ -37,10 +37,10 @@ describe("13 List contracts lib", function () {
     signer = (await ethers.getNamedSigner("deployer")) as Signer;
     owner = await signer.getAddress();
 
-    network = hre.network.name;
+    // network = hre.network.name;
+    // live = hre.network.live;
     chainId = Number(await hre.getChainId());
-    live = hre.network.live;
-    console.log("network", network, chainId, live);
+    // console.log("network", network, chainId, live);
   });
 
   beforeEach(async () => {

@@ -53,19 +53,12 @@ describe("10 Clone Factory contract", function () {
 
   describe("Should Add Implementations", function () {
     it("Should Add Implementation", async function () {
-      await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV3.address]))
-        .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV3.address, deployerAddress, 1);
-
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
-    });
-
-    it("Should Add Old Implementation", async function () {
+      const impCount = await nftsFactoryV2.implementationsCount();
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV2.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
         .withArgs(openNFTsV2.address, deployerAddress, 1);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(impCount.add(1));
     });
 
     it("Should not Add Implementation if Not Owner", async function () {

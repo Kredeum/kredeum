@@ -1,11 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 
 import "./interfaces/IOpenNFTsV4.sol";
@@ -18,11 +16,15 @@ contract OpenNFTsV4 is
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
     ERC721URIStorageUpgradeable,
-    ERC2981Upgradeable,
-    OwnableUpgradeable
+    ERC2981Upgradeable
 {
-    using CountersUpgradeable for CountersUpgradeable.Counter;
-    CountersUpgradeable.Counter private _tokenIds;
+    /// event priceHistory
+
+    /// Collection owner
+    address public owner;
+
+    /// @notice tokenID of next minted NFT
+    uint256 public tokenIdNext = 1;
 
     mapping(uint256 => uint256) public tokenPrice;
     uint256 public floorPrice;
@@ -30,41 +32,50 @@ contract OpenNFTsV4 is
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
 
+    /// @notice onlyOwner, only collection owner
+    modifier onlyOwner() {
+        require(owner == msg.sender, "Not owner");
+        _;
+    }
+
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
     modifier onlyOpenOrOwner() {
-        require(open || (owner() == _msgSender()), "Not minter");
+        require(open || (owner == msg.sender), "Not minter");
         _;
     }
 
     modifier onlyTokenOwner(uint256 tokenID) {
-        require(ownerOf(tokenID) == _msgSender(), "Not token owner");
+        require(ownerOf(tokenID) == msg.sender, "Not token owner");
         _;
     }
 
     /// @notice initialize
     /// @param name name of the NFT Collection
     /// @param symbol symbol of the NFT Collection
-    /// @param owner owner of the NFT Collection
+    /// @param firstOwner owner of the NFT Collection
     /// @param options select minting open to everyone or only owner
     // solhint-disable-next-line comprehensive-interface
     function initialize(
         string memory name,
         string memory symbol,
-        address owner,
+        address firstOwner,
         bool[] memory options
     ) external initializer {
-        __Ownable_init();
         __ERC721_init(name, symbol);
-        transferOwnership(owner);
+        owner = firstOwner;
         open = options[0];
+    }
+
+    function transferOwnership(address newOwner) public onlyOwner {
+        owner = newOwner;
     }
 
     function mint(string memory jsonURI) external override(IOpenNFTsV4) onlyOpenOrOwner returns (uint256) {
         return _mint(msg.sender, jsonURI);
     }
 
-    function mint(address to, string memory jsonURI) external override(IOpenNFTsV4) onlyOwner returns (uint256) {
+    function mintFor(address to, string memory jsonURI) external override(IOpenNFTsV4) onlyOwner returns (uint256) {
         return _mint(to, jsonURI);
     }
 
@@ -79,31 +90,41 @@ contract OpenNFTsV4 is
         require(msg.value >= price, "Not enough funds");
 
         /// Get previous token owner
-        address owner = ownerOf(tokenID);
-        assert(owner != address(0));
+        address from = ownerOf(tokenID);
+        assert(from != address(0));
+        require(from != msg.sender, "Already token owner!");
 
         /// Reset token price (to be eventualy defined by new owner)
         delete tokenPrice[tokenID];
 
         /// Transfer token
-        this.safeTransferFrom(owner, msg.sender, tokenID);
+        this.safeTransferFrom(from, msg.sender, tokenID);
+
+        (address receiver, uint256 royalties) = royaltyInfo(tokenID, price);
+
+        assert(price >= royalties);
+        uint256 paid = price - royalties;
+        uint256 unspent = msg.value - price;
+        assert(paid + royalties + unspent == msg.value);
+
+        /// Transfer amount to previous owner
+        payable(from).transfer(paid);
 
         /// Transfer royalties to receiver
-        (address receiver, uint256 royaltyAmount) = royaltyInfo(tokenID, price);
-        assert(royaltyAmount <= price);
-        payable(receiver).transfer(royaltyAmount);
+        if (royalties > 0) payable(receiver).transfer(royalties);
 
         /// Transfer back unspent funds to sender
-        uint256 unspent = msg.value - price;
-        if (unspent > 0) {
-            payable(msg.sender).transfer(unspent);
-        }
+        if (unspent > 0) payable(msg.sender).transfer(unspent);
     }
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
     function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
         _burn(tokenID);
+    }
+
+    function withdraw(address to) external override(IOpenNFTsV4) onlyOwner {
+        payable(to).transfer(address(this).balance);
     }
 
     /// @notice SET default royalty configuration
@@ -183,9 +204,9 @@ contract OpenNFTsV4 is
     /// @param minter address of minter
     /// @param jsonURI json URI of NFT metadata
     function _mint(address minter, string memory jsonURI) internal returns (uint256) {
-        _tokenIds.increment();
+        uint256 tokenID = tokenIdNext;
+        tokenIdNext += 1;
 
-        uint256 tokenID = _tokenIds.current();
         _safeMint(minter, tokenID);
         _setTokenURI(tokenID, jsonURI);
 
@@ -201,6 +222,7 @@ contract OpenNFTsV4 is
     }
 
     function _burn(uint256 tokenID) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+        delete tokenPrice[tokenID];
         ERC721URIStorageUpgradeable._burn(tokenID);
     }
 

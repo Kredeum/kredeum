@@ -63,14 +63,7 @@ const collectionClone = async (
 ): Promise<string> => {
   let address = "";
 
-  console.log(
-    "collectionCloneResponse chainId, name, symbol, template, cloner",
-    chainId,
-    name,
-    symbol,
-    template,
-    cloner
-  );
+  // console.log("collectionCloneResponse", chainId, name, symbol, template, cloner);
   const txResp = await collectionCloneResponse(chainId, name, symbol, template, cloner);
 
   if (txResp) {

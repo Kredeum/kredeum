@@ -24,7 +24,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const index = networks.findIndex((nw) => nw.chainName === network.name);
     const networkConf: NetworkType = networks[index];
     if (deployResult.address != networkConf.openBound) {
-      console.info(contractName, "deployed => new address");
+      // console.info(contractName, "deployed => new address");
       networks[index].openBound = deployResult.address;
       await fs
         .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
