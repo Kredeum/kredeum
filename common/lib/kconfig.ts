@@ -123,7 +123,7 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 };
 
 // CONSTANT
-const ipfsGateway = config.ipfsGateway;
+const IPFS_GATEWAY = config.ipfsGateway;
 const SWARM_GATEWAY = config.swarmGateway;
 
 const textShort = (s: string, n = 16, p = n): string => {
@@ -208,7 +208,7 @@ const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 // => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${ipfsGateway}${ipfsLinkToCid(ipfs)}` : "");
+const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GATEWAY}${ipfsLinkToCid(ipfs)}` : "");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
@@ -277,7 +277,7 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
 // Swarm API Gateway : https://api.gateway.ethswarm.org/bzz/
 // => Swarm serveur node Url https://api.gateway.ethswarm.org
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/^\/bzz\//, "");
+const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz\/$/, "");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -293,11 +293,11 @@ const storageGatewayUrl = (link: string): string =>
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const storageLinkToUrlHttp = (link: string): string =>
-  link.startsWith("ipfs://") || link.startsWith("https://ipfs.io")
+  link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
-    : link.startsWith("swarm://")
-    ? swarmLinkToUrlHttp(link)
-    : link;
+    : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
+      ? swarmLinkToUrlHttp(link)
+      : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
