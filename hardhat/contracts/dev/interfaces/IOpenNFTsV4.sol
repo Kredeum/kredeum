@@ -3,7 +3,7 @@ pragma solidity ^0.8.9;
 
 interface IOpenNFTsV4 {
     event SetRoyalty(address receiver, uint96 feeNumerator);
-    event SetRoyalty(uint256 tokenID, address receiver, uint96 feeNumerator);
+    event SetTokenRoyalty(uint256 tokenID, address receiver, uint96 feeNumerator);
 
     function setDefaultRoyalty(address receiver, uint96 feeNumerator) external;
 

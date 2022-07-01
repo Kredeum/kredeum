@@ -24,7 +24,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     // await checkGasMethod(hre, contractName, "initialize", deployer,
 
     const openNFTsV4 = (await getContract(contractName, deployer)) as unknown as OpenNFTsV4;
-    await openNFTsV4.initialize("Open NFTs", "NFT", deployer.address, [true, false]);
+    await openNFTsV4.initialize("Open NFTs", "NFT", deployer.address, [true]);
 
     const nftsFactoryV2 = (await getContract("NFTsFactoryV2", deployer)) as unknown as NFTsFactoryV2;
     await nftsFactoryV2.implementationsAdd([deployResult.address]);

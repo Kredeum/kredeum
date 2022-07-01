@@ -1,6 +1,6 @@
 [
   "event SetRoyalty(address,uint96)",
-  "event SetRoyalty(uint256,address,uint96)",
+  "event SetTokenRoyalty(uint256,address,uint96)",
   "function burn(uint256)",
   "function buy(uint256) payable",
   "function mint(address,string) returns (uint256)",

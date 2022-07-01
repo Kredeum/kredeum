@@ -39,7 +39,7 @@ contract OpenNFTsV4Test is Test {
         tokenID0 = op.mint(_TOKEN_URI);
     }
 
-    function testBuy() public {
+    function testBuyOk() public {
         op.setTokenRoyalty(tokenID0, random, 100);
         op.setTokenPrice(tokenID0, 1 ether);
 

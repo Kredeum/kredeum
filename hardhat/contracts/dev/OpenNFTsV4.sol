@@ -102,7 +102,7 @@ contract OpenNFTsV4 is
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4) {
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID)  {
         _burn(tokenID);
     }
 
@@ -124,7 +124,7 @@ contract OpenNFTsV4 is
         uint96 feeNumerator
     ) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
         _setTokenRoyalty(tokenID, receiver, feeNumerator);
-        emit SetRoyalty(tokenID, receiver, feeNumerator);
+        emit SetTokenRoyalty(tokenID, receiver, feeNumerator);
     }
 
     function setTokenPrice(uint256 tokenID, uint256 price) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
@@ -135,7 +135,7 @@ contract OpenNFTsV4 is
     /// @param tokenID : token ID
     function resetRoyalty(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
         _resetTokenRoyalty(tokenID);
-        emit SetRoyalty(tokenID, address(0), 0);
+        emit SetTokenRoyalty(tokenID, address(0), 0);
     }
 
     /// @notice DELETE default royalty configuration

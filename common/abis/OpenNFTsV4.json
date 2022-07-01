@@ -4,7 +4,7 @@
   "event Initialized(uint8)",
   "event OwnershipTransferred(address indexed,address indexed)",
   "event SetRoyalty(address,uint96)",
-  "event SetRoyalty(uint256,address,uint96)",
+  "event SetTokenRoyalty(uint256,address,uint96)",
   "event Transfer(address indexed,address indexed,uint256 indexed)",
   "function approve(address,uint256)",
   "function balanceOf(address) view returns (uint256)",
