@@ -7,21 +7,14 @@ import {
   swarmGatewayUrl,
   getNetwork,
   getChecksumAddress,
-  nftKey,
-  storageGatewayUrl
+  nftKey
 } from "./kconfig";
 
 // Cache contentType(url)
 const contentTypes: Map<string, string> = new Map();
 
 const nftGetImageLink = (nft: NftType): string =>
-  nft?.ipfs
-    ? ipfsGatewayUrl(nft.ipfs)
-    : nft?.swarm
-      ? swarmGatewayUrl(nft.swarm)
-      : nft?.image
-        ? storageGatewayUrl(nft.image)
-        : "";
+  ipfsGatewayUrl(nft?.ipfs) || swarmGatewayUrl(nft?.swarm) || nft.image || "";
 
 const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);

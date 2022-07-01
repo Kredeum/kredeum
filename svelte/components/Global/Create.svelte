@@ -3,7 +3,7 @@
   // import NftMint from "../Nft/NftMint.svelte";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
-  import NftMintTest from "../swarm/NftMintTest.svelte";
+  import NftMint from "../Nft/NftMint.svelte";
 
   /////////////////////////////////////////////////
   //  <Create {chainId} {storage} />
@@ -29,7 +29,7 @@
 
       <div class="txtcenter">
         <!-- <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
-        <NftMintTest {storage} />
+        <NftMint {storage} />
         <span class="or">Or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
       </div>

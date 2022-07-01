@@ -6,13 +6,8 @@
   import { collectionStore } from "stores/collection/collection";
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
-  import {
-    nftSwarmMintTexts,
-    nftMint1SwarmImage,
-    nftMint2SwarmJson
-    // nftMint3SwarmTxResponse,
-    // nftMint4Swarm
-  } from "lib/knft-mint-swarm";
+  import { nftMintTexts, nftMint1SwarmImage, nftMint2SwarmJson } from "lib/knft-mint";
+
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
   import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
@@ -225,7 +220,7 @@
             <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
           </div>
           <div>
-            <em>{nftSwarmMintTexts[minting]}</em>
+            <em>{nftMintTexts[minting]}</em>
           </div>
         {/if}
       {:else}
@@ -301,7 +296,7 @@
                         {#if mintingError}
                           {mintingError}
                         {:else if 1 <= minting && minting <= 5}
-                          {nftSwarmMintTexts[minting]}
+                          {nftMintTexts[minting]}
                         {/if}
                       </span>
                     </div>

@@ -3,14 +3,6 @@ import type { NftType } from "./ktypes";
 import { swarmGatewayUrl, textShort, DEFAULT_NAME } from "./kconfig";
 import { swarmUploadFile } from "./kbeejs";
 
-const nftSwarmMintTexts = [
-  "Mint",
-  "Wait till Image stored on Swarm",
-  "Wait till Metadata stored on Swarm",
-  "Please, sign the transaction",
-  "Wait till transaction completed, it may take one minute or more..."
-];
-
 ///////////////////////////////////////////////////////////////////////////////////
 // GET Swarm image link
 const nftMint1SwarmImage = async (
@@ -64,4 +56,4 @@ const nftMint2SwarmJson = async (
   return swarmJson;
 };
 
-export { nftSwarmMintTexts, nftMint1SwarmImage, nftMint2SwarmJson };
+export { nftMint1SwarmImage, nftMint2SwarmJson };

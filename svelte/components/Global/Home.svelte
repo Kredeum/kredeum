@@ -18,8 +18,8 @@
 
   // import { metamaskProvider } from "main/metamask";
 
-  // export let storage: string = "swarm";
-  export let storage: string = config.storage;
+  export let storage: string = "swarm";
+  // export let storage: string = config.storage;
   export let platform: string = "dapp";
 
   let chainId: number;

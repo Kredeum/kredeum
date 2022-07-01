@@ -8,8 +8,8 @@ import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";
 
-import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
-import { nftSwarmMintTexts, nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
+import { nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
+import { nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -43,7 +43,7 @@ const _mintedNft = async (
     owner: minterAddress
   });
 
-const nftGenericMintTexts = [
+const nftMintTexts = [
   "Mint",
   "Wait till Image stored on decentralized storage",
   "Wait till Metadata stored on decentralized storage",
@@ -121,7 +121,6 @@ const nftMint4 = async (
   if (!(Number(tokenID) >= 0)) return null;
 
   const nft = await _mintedNft(chainId, address, tokenID, storageLinkToUrlHttp(metadataCid), minter);
-  nft.ipfsJson = metadataCid;
   // console.log("nftMint4", nft);
 
   return nft;
@@ -145,20 +144,17 @@ const nftClaim4 = async (
   // console.log("txReceipt", txReceipt);
 
   const nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(tokenID), owner);
-  nft.ipfsJson = tokenID;
   console.log("nftClaim4", nft);
 
   return nft;
 };
 
 export {
-  nftIpfsMintTexts,
+  nftMintTexts,
   nftMint1IpfsImage,
   nftMint2IpfsJson,
-  nftSwarmMintTexts,
   nftMint1SwarmImage,
   nftMint2SwarmJson,
-  nftGenericMintTexts,
   nftMint3TxResponse,
   nftClaim3TxResponse,
   nftMint4,

@@ -67,15 +67,6 @@ type Without<T> = { [P in keyof T]?: undefined };
 type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
 
 ////////
-type ipfsImgType = {
-  ipfs?: string;
-};
-
-type swarmImgType = {
-  swarm?: string;
-};
-
-////////
 type ipfsType = {
   ipfs?: string;
   ipfsJson?: string;
@@ -89,7 +80,6 @@ type swarmType = {
 ////////
 type storageType = XOR<ipfsType, swarmType>;
 
-type storageImgType = XOR<ipfsImgType, swarmImgType>;
 ///////////////////////////////////////////////////
 
 type NftMetadata = {
@@ -101,7 +91,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   animation_url?: string;
-} & storageImgType;
+} & storageType;
 
 type NftType = {
   chainId: number;

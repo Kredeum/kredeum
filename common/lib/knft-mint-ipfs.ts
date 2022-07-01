@@ -3,14 +3,6 @@ import type { NftType } from "./ktypes";
 import NftStorage from "./knft-storage";
 import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "./kconfig";
 
-const nftIpfsMintTexts = [
-  "Mint",
-  "Wait till Image stored on IPFS",
-  "Wait till Metadata stored on IPFS",
-  "Please, sign the transaction",
-  "Wait till transaction completed, it may take one minute or more..."
-];
-
 let nftStorage: NftStorage;
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -51,4 +43,4 @@ const nftMint2IpfsJson = async (
   return ipfsJson;
 };
 
-export { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson };
+export { nftMint1IpfsImage, nftMint2IpfsJson };
