@@ -480,7 +480,7 @@
     "defaultOpenNFTs": "",
     "openMulti": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF",
     "openBound": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
-    "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
+    "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "nftsFactoryV2": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
     "testnet": true
   }

@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
 
-const contractName = "OpenNFTsV1";
+const contractName = "OpenNFTsV0";
 
 const deployFunction: DeployFunction = async function ({ deployments, ethers }) {
   const { getNamedSigner, getContract } = ethers;
