@@ -1,27 +1,40 @@
+//
+//       ___           ___           ___          _____          ___           ___           ___
+//      /__/|         /  /\         /  /\        /  /::\        /  /\         /__/\         /__/\
+//     |  |:|        /  /::\       /  /:/_      /  /:/\:\      /  /:/_        \  \:\       |  |::\
+//     |  |:|       /  /:/\:\     /  /:/ /\    /  /:/  \:\    /  /:/ /\        \  \:\      |  |:|:\
+//   __|  |:|      /  /:/~/:/    /  /:/ /:/_  /__/:/ \__\:|  /  /:/ /:/_   ___  \  \:\   __|__|:|\:\
+//  /__/\_|:|____ /__/:/ /:/___ /__/:/ /:/ /\ \  \:\ /  /:/ /__/:/ /:/ /\ /__/\  \__\:\ /__/::::| \:\
+//  \  \:\/:::::/ \  \:\/:::::/ \  \:\/:/ /:/  \  \:\  /:/  \  \:\/:/ /:/ \  \:\ /  /:/ \  \:\~~\__\/
+//   \  \::/~~~~   \  \::/~~~~   \  \::/ /:/    \  \:\/:/    \  \::/ /:/   \  \:\  /:/   \  \:\
+//    \  \:\        \  \:\        \  \:\/:/      \  \::/      \  \:\/:/     \  \:\/:/     \  \:\
+//     \  \:\        \  \:\        \  \::/        \__\/        \  \::/       \  \::/       \  \:\
+//      \__\/         \__\/         \__\/                       \__\/         \__\/         \__\/
+//
+//
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URIStorageUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 
+import "./OpenOwnable.sol";
+import "./OpenERC721Metadata.sol";
 import "./interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IERC173.sol";
+
 import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is
+    OpenOwnable,
+    OpenERC721Metadata,
     IOpenNFTsV4,
     ERC721Upgradeable,
     ERC721EnumerableUpgradeable,
-    ERC721URIStorageUpgradeable,
     ERC2981Upgradeable
 {
     /// event priceHistory
-
-    /// Collection owner
-    address public owner;
 
     /// @notice tokenID of next minted NFT
     uint256 public tokenIdNext = 1;
@@ -32,16 +45,10 @@ contract OpenNFTsV4 is
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
 
-    /// @notice onlyOwner, only collection owner
-    modifier onlyOwner() {
-        require(owner == msg.sender, "Not owner");
-        _;
-    }
-
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
     modifier onlyOpenOrOwner() {
-        require(open || (owner == msg.sender), "Not minter");
+        require(open || (owner() == msg.sender), "Not minter");
         _;
     }
 
@@ -51,24 +58,21 @@ contract OpenNFTsV4 is
     }
 
     /// @notice initialize
-    /// @param name name of the NFT Collection
-    /// @param symbol symbol of the NFT Collection
-    /// @param firstOwner owner of the NFT Collection
+    /// @param name_ name of the NFT Collection
+    /// @param symbol_ symbol of the NFT Collection
+    /// @param owner_ owner of the NFT Collection
     /// @param options select minting open to everyone or only owner
     // solhint-disable-next-line comprehensive-interface
     function initialize(
-        string memory name,
-        string memory symbol,
-        address firstOwner,
+        string memory name_,
+        string memory symbol_,
+        address owner_,
         bool[] memory options
     ) external initializer {
-        __ERC721_init(name, symbol);
-        owner = firstOwner;
+        _setName(name_);
+        _setSymbol(symbol_);
+        _setOwner(owner_);
         open = options[0];
-    }
-
-    function transferOwnership(address newOwner) public onlyOwner {
-        owner = newOwner;
     }
 
     function mint(string memory jsonURI) external override(IOpenNFTsV4) onlyOpenOrOwner returns (uint256) {
@@ -173,18 +177,6 @@ contract OpenNFTsV4 is
         super.safeTransferFrom(from, to, tokenID, "");
     }
 
-    /// @notice Get tokenURI
-    /// @param tokenID tokenID of NFT
-    /// @param tokenURI_ token URI of NFT
-    function tokenURI(uint256 tokenID)
-        public
-        view
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
-        returns (string memory tokenURI_)
-    {
-        tokenURI_ = super.tokenURI(tokenID);
-    }
-
     /// @notice test if this interface is supported
     /// @param interfaceId interfaceId to test
     function supportsInterface(bytes4 interfaceId)
@@ -221,9 +213,27 @@ contract OpenNFTsV4 is
         ERC721EnumerableUpgradeable._beforeTokenTransfer(from, to, tokenID);
     }
 
-    function _burn(uint256 tokenID) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+    function _burn(uint256 tokenID) internal override(OpenERC721Metadata, ERC721Upgradeable) {
         delete tokenPrice[tokenID];
-        ERC721URIStorageUpgradeable._burn(tokenID);
+        ERC721Upgradeable._burn(tokenID);
+        OpenERC721Metadata._burn(tokenID);
+    }
+
+    function name() public view override(ERC721Upgradeable, OpenERC721Metadata) returns (string memory) {
+        return OpenERC721Metadata.name();
+    }
+
+    function symbol() public view override(ERC721Upgradeable, OpenERC721Metadata) returns (string memory) {
+        return OpenERC721Metadata.symbol();
+    }
+
+    function tokenURI(uint256 tokenID)
+        public
+        view
+        override(ERC721Upgradeable, OpenERC721Metadata)
+        returns (string memory)
+    {
+        return OpenERC721Metadata.tokenURI(tokenID);
     }
 
     function _isApprovedOrOwner(address spender, uint256 tokenID)

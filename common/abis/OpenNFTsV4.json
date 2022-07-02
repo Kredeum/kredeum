@@ -2,6 +2,7 @@
   "event Approval(address indexed,address indexed,uint256 indexed)",
   "event ApprovalForAll(address indexed,address indexed,bool)",
   "event Initialized(uint8)",
+  "event OwnershipTransferred(address indexed,address indexed)",
   "event SetRoyalty(address,uint96)",
   "event SetTokenRoyalty(uint256,address,uint96)",
   "event Transfer(address indexed,address indexed,uint256 indexed)",
