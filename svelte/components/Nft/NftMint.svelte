@@ -3,9 +3,9 @@
 
   import type { NftType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
-  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
+  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, sleep } from "lib/kconfig";
 
-  import { metamaskSigner } from "main/metamask";
+  import { metamaskSigner, metamaskProvider } from "main/metamask";
 
   import CollectionList from "../Collection/CollectionList.svelte";
 
@@ -97,6 +97,17 @@
 
             if (mintedNft) {
               minting = 5;
+
+              refresh += 1;
+
+              const mintingTxReceipt = await mintingTxResp.wait();
+              console.log("mintingTxReceipt", mintingTxReceipt);
+              const blockTx = mintingTxReceipt.blockNumber;
+
+              do await sleep(1000);
+              while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+              refresh += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }
@@ -115,8 +126,6 @@
     if (mintingError) {
       console.error("ERROR", mintingError);
     }
-
-    refresh += 1;
 
     return mintedNft;
   };
