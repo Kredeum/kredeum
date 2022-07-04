@@ -64,7 +64,7 @@ add_action(
 				// translators: %s = $archived_count = number of medias archived.
 				. esc_html( _n( '%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kredeum-nfts' ) )
 				. '</p></div>',
-				esc_html( $archived_count ),
+				esc_html( $archived_count )
 			);
 		}
 		if ( ! empty( $_REQUEST['bulk_modified'] ) ) {

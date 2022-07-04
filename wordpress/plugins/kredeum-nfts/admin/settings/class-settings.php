@@ -100,8 +100,8 @@ class Settings {
 						'p' => array(),
 						'a' => array(
 							'href'   => array(),
-							'target' => array(),
-						),
+							'target' => array()
+						)
 					)
 				);
 				break;
@@ -174,8 +174,8 @@ class Settings {
 							array(
 								'option' => array(
 									'value'    => array(),
-									'selected' => array(),
-								),
+									'selected' => array()
+								)
 							)
 						)
 					);

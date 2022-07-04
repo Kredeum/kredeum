@@ -31,7 +31,7 @@ add_shortcode(
 				'collection' => '',
 				'tokenid'    => '',
 				'cid'        => '',
-				'image'      => '',
+				'image'      => ''
 			),
 			$atts
 		);

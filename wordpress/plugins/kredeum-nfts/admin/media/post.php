@@ -42,7 +42,7 @@ add_filter(
 				'value' => '',
 				'input' => 'html',
 				'html'  => '<label for="attachments-' . $post->ID . '-ipfs"> ' .
-				'<input type="checkbox" id="attachments-' . $post->ID . '-ipfs" name="attachments[' . $post->ID . '][ipfs]" value="1" /></label>  ',
+				'<input type="checkbox" id="attachments-' . $post->ID . '-ipfs" name="attachments[' . $post->ID . '][ipfs]" value="1" /></label>  '
 			);
 		}
 		return $form_fields;
