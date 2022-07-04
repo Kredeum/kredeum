@@ -12,6 +12,8 @@
   // up to parent
   export let chainId: number;
   export let collection: CollectionType = undefined;
+  export let refresh: number;
+
   let template: string = undefined;
 
   let cloning = false;
@@ -63,6 +65,7 @@
       }
     }
     cloning = false;
+    refresh += 1;
   };
 </script>
 

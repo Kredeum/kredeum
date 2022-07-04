@@ -4,10 +4,11 @@
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   /////////////////////////////////////////////////
-  //  <Create {chainId} />
+  //  <Create {chainId} {refresh} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
   export let chainId: number;
+  export let refresh: number;
 
   // const create = () => ($currentAction = "create");
 </script>
@@ -35,10 +36,10 @@
 
 <!-- SubModal create NFT -->
 <div id="create-nft" class="modal-window">
-  <NftMint {chainId} />
+  <NftMint {chainId} bind:refresh />
 </div>
 
 <!-- SubModal create collection -->
 <div id="add-collection" class="modal-window">
-  <CollectionCreate {chainId} />
+  <CollectionCreate {chainId} bind:refresh />
 </div>

@@ -36,7 +36,7 @@
     <Title />
 
     {#if account && getCreate(chainId)}
-      <Create {chainId} />
+      <Create {chainId} bind:refresh />
     {/if}
 
     <!-- <BreadCrumb display={true} /> -->
@@ -50,7 +50,7 @@
 
       <!-- Select collection -->
       {#if chainId && account}
-        <CollectionList {chainId} {account} bind:address />
+        <CollectionList {chainId} {account} bind:address bind:refreshing {refresh} />
 
         {#if account && address && getNftsFactory(chainId)}
           <!-- Refresh button -->

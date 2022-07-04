@@ -10,10 +10,11 @@
   import CollectionList from "../Collection/CollectionList.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftMint {chainId} />
+  //  <NftMint {chainId} {refresh}? />
   // Display NFT
   /////////////////////////////////////////////////
   export let chainId: number;
+  export let refresh: number = 1;
   /////////////////////////////////////////////////
 
   let account: string;
@@ -114,6 +115,8 @@
     if (mintingError) {
       console.error("ERROR", mintingError);
     }
+
+    refresh += 1;
 
     return mintedNft;
   };
