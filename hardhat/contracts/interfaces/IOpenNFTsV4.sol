@@ -15,10 +15,6 @@ interface IOpenNFTsV4 {
 
     function setTokenPrice(uint256 tokenId, uint256 price) external;
 
-    function resetRoyalty(uint256 tokenId) external;
-
-    function resetDefaultRoyalty() external;
-
     function open() external view returns (bool);
 
     function mint(string memory jsonURI) external returns (uint256 tokenID);

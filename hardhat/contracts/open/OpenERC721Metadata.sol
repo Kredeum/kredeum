@@ -1,24 +1,30 @@
 // SPDX-License-Identifier: MIT
+// Derived from OpenZeppelin Contracts (token/ERC721/ERC721.sol)
 pragma solidity 0.8.9;
 
 import "../interfaces/IERC721Metadata.sol";
+import "../interfaces/IERC165.sol";
 
-contract OpenERC721Metadata is IERC721Metadata {
+contract OpenERC721Metadata is IERC165, IERC721Metadata {
     string internal _name;
 
     string internal _symbol;
 
     mapping(uint256 => string) internal _tokenURIs;
 
-    function name() public view virtual returns (string memory) {
+    function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {
+        return interfaceId == 0x5b5e139f; // = type(IERC721Metadata).interfaceId
+    }
+
+    function name() public view virtual override(IERC721Metadata) returns (string memory) {
         return _name;
     }
 
-    function symbol() public view virtual returns (string memory) {
+    function symbol() public view virtual override(IERC721Metadata) returns (string memory) {
         return _symbol;
     }
 
-    function tokenURI(uint256 tokenID) public view virtual returns (string memory) {
+    function tokenURI(uint256 tokenID) public view virtual override(IERC721Metadata) returns (string memory) {
         return _tokenURIs[tokenID];
     }
 

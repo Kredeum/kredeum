@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 import "./interfaces/IOpenBound.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "./library/Bafkrey.sol";
-import "./OpenPausable.sol";
+import "../open/OpenPausable.sol";
 
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {

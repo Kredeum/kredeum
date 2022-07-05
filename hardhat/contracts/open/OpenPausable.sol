@@ -1,4 +1,5 @@
 // SPDX-License-Identifier: MIT
+// Derived from OpenZeppelin Contracts (security/Pausable.sol)
 pragma solidity 0.8.9;
 
 contract OpenPausable {

@@ -17,22 +17,24 @@ pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/common/ERC2981Upgradeable.sol";
 
 import "./OpenOwnable.sol";
+import "./OpenERC165.sol";
+import "./OpenERC2981.sol";
 import "./OpenERC721Metadata.sol";
-import "./interfaces/IOpenNFTsV4.sol";
+import "../interfaces/IOpenNFTsV4.sol";
 
 import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is
+    OpenERC165,
+    OpenERC2981,
     OpenOwnable,
     OpenERC721Metadata,
     IOpenNFTsV4,
     ERC721Upgradeable,
-    ERC721EnumerableUpgradeable,
-    ERC2981Upgradeable
+    ERC721EnumerableUpgradeable
 {
     /// event priceHistory
 
@@ -132,8 +134,8 @@ contract OpenNFTsV4 is
     }
 
     /// @notice SET default royalty configuration
-    /// @param receiver : address of the royalty receiver
-    /// @param feeNumerator : fee Numerator, over 10000
+    /// @param receiver : address of the royalty receiver, or address(0) to reset
+    /// @param feeNumerator : fee Numerator, less than 10000
     function setDefaultRoyalty(address receiver, uint96 feeNumerator) external override(IOpenNFTsV4) onlyOwner {
         _setDefaultRoyalty(receiver, feeNumerator);
         emit SetRoyalty(receiver, feeNumerator);
@@ -141,8 +143,8 @@ contract OpenNFTsV4 is
 
     /// @notice SET token royalty configuration
     /// @param tokenID : token ID
-    /// @param receiver : address of the royalty receiver
-    /// @param feeNumerator : fee Numerator, over 10000
+    /// @param receiver : address of the royalty receiver, or address(0) to reset
+    /// @param feeNumerator : fee Numerator, less than 10000
     function setTokenRoyalty(
         uint256 tokenID,
         address receiver,
@@ -154,19 +156,6 @@ contract OpenNFTsV4 is
 
     function setTokenPrice(uint256 tokenID, uint256 price) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
         tokenPrice[tokenID] = price;
-    }
-
-    /// @notice RESET token royalty configuration
-    /// @param tokenID : token ID
-    function resetRoyalty(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
-        _resetTokenRoyalty(tokenID);
-        emit SetTokenRoyalty(tokenID, address(0), 0);
-    }
-
-    /// @notice DELETE default royalty configuration
-    function resetDefaultRoyalty() external override(IOpenNFTsV4) onlyOpenOrOwner {
-        _deleteDefaultRoyalty();
-        emit SetRoyalty(address(0), 0);
     }
 
     function safeTransferFrom(
@@ -182,14 +171,24 @@ contract OpenNFTsV4 is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721Upgradeable, ERC721EnumerableUpgradeable, ERC2981Upgradeable)
+        override(
+            OpenERC165,
+            OpenERC2981,
+            OpenOwnable,
+            OpenERC721Metadata,
+            ERC721Upgradeable,
+            ERC721EnumerableUpgradeable
+        )
         returns (bool)
     {
         return
-            interfaceId == type(IOpenNFTsV4).interfaceId ||
-            interfaceId == type(IERC173).interfaceId ||
-            // interfaceId == type(IERC2981).interfaceId ||
-            super.supportsInterface(interfaceId);
+            OpenERC165.supportsInterface(interfaceId) ||
+            OpenERC2981.supportsInterface(interfaceId) ||
+            OpenOwnable.supportsInterface(interfaceId) ||
+            OpenERC721Metadata.supportsInterface(interfaceId) ||
+            ERC721Upgradeable.supportsInterface(interfaceId) ||
+            ERC721EnumerableUpgradeable.supportsInterface(interfaceId) ||
+            interfaceId == type(IOpenNFTsV4).interfaceId;
     }
 
     /// @notice _mint
