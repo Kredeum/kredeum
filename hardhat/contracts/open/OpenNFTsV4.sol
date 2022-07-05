@@ -18,6 +18,7 @@ pragma solidity 0.8.9;
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
 
+import "./OpenPrice.sol";
 import "./OpenOwnable.sol";
 import "./OpenERC165.sol";
 import "./OpenERC2981.sol";
@@ -30,6 +31,7 @@ import "../interfaces/IERC2981.sol";
 contract OpenNFTsV4 is
     OpenERC165,
     OpenERC2981,
+    OpenPrice,
     OpenOwnable,
     OpenERC721Metadata,
     IOpenNFTsV4,
@@ -40,9 +42,6 @@ contract OpenNFTsV4 is
 
     /// @notice tokenID of next minted NFT
     uint256 public tokenIdNext = 1;
-
-    mapping(uint256 => uint256) public tokenPrice;
-    uint256 public floorPrice;
 
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
@@ -155,7 +154,7 @@ contract OpenNFTsV4 is
     }
 
     function setTokenPrice(uint256 tokenID, uint256 price) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
-        tokenPrice[tokenID] = price;
+        _setTokenPrice(tokenID, price);
     }
 
     function safeTransferFrom(
