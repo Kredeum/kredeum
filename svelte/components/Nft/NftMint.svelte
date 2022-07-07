@@ -14,6 +14,7 @@
     nftMint4
   } from "lib/knft-mint";
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
+  import { handleMediaType } from "helpers/mediaTypes";
   /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
   /////////////////////////////////////////////////
@@ -38,6 +39,11 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+
+  let uploadedMediatypes: Array<string>;
+  let inputMediatype: string = "image";
+  let uploadErrMsg: string;
+
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -76,18 +82,29 @@
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
   const fileload = () => {
     mintReset();
+    uploadErrMsg = "";
     file = null;
 
     if (files) {
-      let reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      nftTitle = nftTitle || files[0].name;
-      nftDescription = nftDescription || files[0].name;
-      reader.onload = (e) => {
-        image = e.target.result.toString();
-      };
+      uploadedMediatypes = files[0].type.split("/");
 
-      file = files[0];
+      if (handleMediaType(uploadedMediatypes)) {
+        inputMediatype = handleMediaType(uploadedMediatypes);
+
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        nftTitle = nftTitle || files[0].name;
+        nftDescription = nftDescription || files[0].name;
+
+        reader.onload = (e) => {
+          image = e.target.result.toString();
+        };
+
+        file = files[0];
+      } else {
+        uploadErrMsg = `${files[0].type} is not supported for now, Please Upload a supported file type`;
+        files = null;
+      }
     }
   };
 
@@ -105,8 +122,6 @@
   const mint = async (): Promise<NftType> => {
     mintReset();
 
-    console.log("mint texts : ", nftMintTexts);
-
     if (image) {
       minting = 1;
 
@@ -114,8 +129,8 @@
         "ipfs" === storage
           ? await nftMint1IpfsImage(image)
           : "swarm" === storage
-            ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-            : "";
+          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+          : "";
 
       if (storageImg) {
         minting = 2;
@@ -124,10 +139,10 @@
           "ipfs" === storage
             ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
             : "swarm" === storage
-              ? swarmGatewayUrl(
+            ? swarmGatewayUrl(
                 await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
               )
-              : "";
+            : "";
 
         if (storageJson) {
           minting = 3;
@@ -279,6 +294,9 @@
                     </div>
                   {:else}
                     <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    {#if uploadErrMsg}
+                      {uploadErrMsg}
+                    {/if}
                   {/if}
                 </div>
               </div>
@@ -304,51 +322,64 @@
                 <span class="label label-big">Media type</span>
                 <div class="box-fields">
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-video"
                     name="media-type"
-                    type="checkbox"
-                    value="Video"
-                    disabled
+                    type="radio"
+                    value="video"
                   />
                   <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-picture"
                     name="media-type"
-                    type="checkbox"
-                    value="Picture"
-                    checked
+                    type="radio"
+                    value="image"
                   />
                   <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
                   <input
+                    bind:group={inputMediatype}
+                    class="box-field"
+                    id="create-type-gif"
+                    name="media-type"
+                    type="radio"
+                    value="gif"
+                  />
+                  <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
+
+                  <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-texte"
                     name="media-type"
-                    type="checkbox"
-                    value="Text"
+                    type="radio"
+                    value="text"
                     disabled
                   />
                   <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-music"
                     name="media-type"
-                    type="checkbox"
-                    value="Music"
+                    type="radio"
+                    value="audio"
                     disabled
                   />
                   <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-web"
                     name="media-type"
-                    type="checkbox"
-                    value="Web"
+                    type="radio"
+                    value="web"
                     disabled
                   />
                   <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
