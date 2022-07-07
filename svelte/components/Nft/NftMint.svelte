@@ -44,6 +44,9 @@
   let inputMediatype: string = "image";
   let uploadErrMsg: string;
 
+  let imgFiles;
+  let animation_url: string;
+
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -68,6 +71,7 @@
     open = true;
   };
 
+  $: console.log("yo ! :", files);
   /////////////////////////////////////////////////
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
@@ -80,16 +84,37 @@
 
   /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
+  $: files && fileload();
   const fileload = () => {
     mintReset();
     uploadErrMsg = "";
     file = null;
 
+    console.log(files);
+
     if (files) {
       uploadedMediatypes = files[0].type.split("/");
+      console.log("🚀 ~ file: NftMint.svelte ~ line 96 ~ fileload ~ uploadedMediatypes", uploadedMediatypes);
 
       if (handleMediaType(uploadedMediatypes)) {
-        inputMediatype = handleMediaType(uploadedMediatypes);
+        if (!animation_url) {
+          inputMediatype = handleMediaType(uploadedMediatypes);
+        }
+
+        if ("audio" === handleMediaType(uploadedMediatypes)) {
+          let reader = new FileReader();
+          reader.readAsDataURL(files[0]);
+          nftTitle = nftTitle || files[0].name;
+          nftDescription = nftDescription || files[0].name;
+
+          reader.onload = (e) => {
+            animation_url = e.target.result.toString();
+          };
+
+          imgFiles.value = "";
+
+          return;
+        }
 
         let reader = new FileReader();
         reader.readAsDataURL(files[0]);
@@ -293,10 +318,17 @@
                       <img src={image} alt="nft" />
                     </div>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    <input type="file" id="file" name="file" bind:files bind:this={imgFiles} />
                     {#if uploadErrMsg}
                       {uploadErrMsg}
                     {/if}
+                  {/if}
+                  {#if animation_url}
+                    <audio controls src={animation_url}>
+                      Your browser does not support the
+                      <code>audio</code> element.
+                    </audio>
+                    <!-- <input type="file" id="animation_url_file" bind:this={animation_url_files} multiple /> -->
                   {/if}
                 </div>
               </div>
