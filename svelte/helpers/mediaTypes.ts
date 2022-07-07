@@ -11,7 +11,7 @@ const handleMediaType = (uploadedMediatypes: Array<string>): string => {
         } else {
           selectedMediaType = "image";
         }
-      //   break;
+        break;
       // case "text":
       //   if (uploadedMediatypes[1] === "html") {
       //     selectedMediaType = "web";
