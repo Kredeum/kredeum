@@ -21,6 +21,8 @@
 
   import { metamaskChainId } from "main/metamask";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
   // Display NFT solo
@@ -67,15 +69,21 @@
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}"><strong>#{tokenID}</strong></div>
+            <div class="flex kre-nft-data-col" title="Token ID #{tokenID}">
+              <strong class="overflow-ellipsis">#{tokenID}</strong>
+              <CopyLinkItem copyData={tokenID} displayData={`Token ID #${tokenID}`} />
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
-            <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
+            <div class="flex kre-nft-data-col">
+              {@html explorerAddressLink(chainId, $nft.owner, 15)}
+              <CopyLinkItem copyData={$nft.owner} />
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">Permanent link</span></div>
-            <div class="flex">
+            <div class="flex kre-nft-data-col">
               <a
                 class="link overflow-ellipsis"
                 href={kredeumNftUrl(chainId, $nft)}
@@ -84,11 +92,12 @@
               >
                 {@html nftUrl($nft, 10)}
               </a>
+              <CopyLinkItem copyData={kredeumNftUrl(chainId, $nft).replace(".", "https://beta.kredeum.com")} />
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">collection @</span></div>
-            <div class="flex">
+            <div class="flex kre-nft-data-col">
               <a
                 class="link overflow-ellipsis"
                 href={explorerCollectionUrl(chainId, address)}
@@ -97,15 +106,17 @@
               >
                 {address}
               </a>
+              <CopyLinkItem copyData={address} />
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">Metadata</span></div>
-            <div class="flex">
+            <div class="flex kre-nft-data-col">
               {#if $nft.tokenURI}
                 <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
                   >{$nft.tokenURI}</a
                 >
+                <CopyLinkItem copyData={$nft.tokenURI} />
               {:else}
                 NO metadata
               {/if}
@@ -113,10 +124,11 @@
           </li>
           <li>
             <div class="flex"><span class="label">Image</span></div>
-            <div class="flex">
+            <div class="flex kre-nft-data-col">
               <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
                 {$nft.image || ""}
               </a>
+              <CopyLinkItem copyData={$nft.image} />
             </div>
           </li>
         </ul>
@@ -190,5 +202,11 @@
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+
+  .kre-nft-data-col {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
   }
 </style>

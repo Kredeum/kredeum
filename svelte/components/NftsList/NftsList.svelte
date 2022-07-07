@@ -12,6 +12,8 @@
   import NftsListLines from "./NftsListLines.svelte";
   import NftsListGrid from "./NftsListGrid.svelte";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   // <NftList {chainId} {address}  {account} {refreshing} />
   // List Nfts from collection owned by account
@@ -62,6 +64,7 @@
       {collectionUrl(chainId, address)}"
         target="_blank"><i class="fas fa-info-circle" /></a
       >
+      <CopyLinkItem copyData={address} position={"50%, -100%"} />
     </div>
     <div class="col col-xs-12">
       <NftsListDisplayMode bind:displayMode />

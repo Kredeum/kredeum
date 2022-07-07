@@ -7,6 +7,8 @@
 
   import Network from "./Network.svelte";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   // <NetworkList bind:{chainId} {txt} {label} />
   // Select Network via a list box
@@ -62,6 +64,7 @@
           title="&#009; NFTs Factory address (click to view in explorer )
         {getNftsFactory(chainId)}"><i class="fas fa-info-circle" /></a
         >
+        <CopyLinkItem copyData={getNftsFactory(chainId)} />
       </span>
     {/if}
 

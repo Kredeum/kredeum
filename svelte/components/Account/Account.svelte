@@ -1,6 +1,8 @@
 <script lang="ts">
   import { getShortAddress, blockscanUrl, getEnsName } from "lib/kconfig";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   // <AccountConnect {account} {txt} />
   // Display Account
@@ -29,6 +31,7 @@
       title="&#009;Owner address (click to view account in explorer )&#013;{accountEns}"
       ><i class="fas fa-info-circle" /></a
     >
+    <CopyLinkItem copyData={accountEns} position={"50%, -100%"} />
   </span>
   <div class="form-field">
     <input type="text" value={getShortAddress(accountEns, 10)} />

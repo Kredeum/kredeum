@@ -8,6 +8,8 @@
   import { collectionStore } from "stores/collection/collection";
   import { clickOutside } from "helpers/clickOutside";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
   //  Collection List
@@ -104,6 +106,7 @@
       {_collectionUrl(address)}"
             target="_blank"><i class="fas fa-info-circle" /></a
           >
+          <CopyLinkItem copyData={address} />
         {/if}
       </span>
     {/if}

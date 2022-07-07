@@ -9,6 +9,8 @@
 
   import Nft from "./Nft.svelte";
 
+  import CopyLinkItem from "../Global/CopyLinkItem.svelte";
+
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {more}? {platform}? />
   // Display NFT line
@@ -39,9 +41,10 @@
   <div id="media-{nft?.tokenID || ''}" class="table-col">
     <div class="table-col-content">
       <MediaDisplay {nft} {displayMode} />
-
-      <strong>{nftName(nft)}</strong>
-      <span id="description-short-{nft?.tokenID || ''}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
+      <div class="kre-line-text">
+        <strong>{nftName(nft)}</strong>
+        <span id="description-short-{nft?.tokenID || ''}" class:hidden={more}>{nftDescriptionShort(nft, 64)} </span>
+      </div>
       <a
         class="info-button"
         href={nftGetImageLink(nft)}
@@ -49,6 +52,7 @@
                 NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
         target="_blank"><i class="fas fa-info-circle" /></a
       >
+      <CopyLinkItem copyData={nftUrl(nft).replace(".", "https://beta.kredeum.com")} position={"100%, -100%"} />
     </div>
   </div>
 
@@ -74,5 +78,16 @@
 <style>
   .detail {
     display: flex;
+  }
+
+  .table-col-content {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .kre-line-text {
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 </style>
