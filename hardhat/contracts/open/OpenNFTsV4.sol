@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: MIT
 //
 //       ___           ___           ___          _____          ___           ___           ___
 //      /__/|         /  /\         /  /\        /  /::\        /  /\         /__/\         /__/\
@@ -12,16 +13,15 @@
 //      \__\/         \__\/         \__\/                       \__\/         \__\/         \__\/
 //
 //
-// SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
 
-import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
-import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721EnumerableUpgradeable.sol";
+pragma solidity 0.8.9;
 
 import "./OpenPrice.sol";
 import "./OpenOwnable.sol";
-import "./OpenERC165.sol";
+import "./OpenPausable.sol";
 import "./OpenERC2981.sol";
+import "./OpenERC721.sol";
+import "./OpenERC721Enumerable.sol";
 import "./OpenERC721Metadata.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 
@@ -29,14 +29,14 @@ import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is
-    OpenERC165,
-    OpenERC2981,
-    OpenPrice,
-    OpenOwnable,
-    OpenERC721Metadata,
     IOpenNFTsV4,
-    ERC721Upgradeable,
-    ERC721EnumerableUpgradeable
+    OpenERC721,
+    OpenERC721Metadata,
+    OpenERC721Enumerable,
+    OpenOwnable,
+    OpenPrice,
+    OpenPausable,
+    OpenERC2981
 {
     /// event priceHistory
 
@@ -58,6 +58,8 @@ contract OpenNFTsV4 is
         _;
     }
 
+    constructor() OpenERC721("OpenNFTs", "NFT") {}
+
     /// @notice initialize
     /// @param name_ name of the NFT Collection
     /// @param symbol_ symbol of the NFT Collection
@@ -69,7 +71,7 @@ contract OpenNFTsV4 is
         string memory symbol_,
         address owner_,
         bool[] memory options
-    ) external initializer {
+    ) external {
         _setName(name_);
         _setSymbol(symbol_);
         _setOwner(owner_);
@@ -82,6 +84,49 @@ contract OpenNFTsV4 is
 
     function mintFor(address to, string memory jsonURI) external override(IOpenNFTsV4) onlyOwner returns (uint256) {
         return _mint(to, jsonURI);
+    }
+
+    /// @notice burn NFT
+    /// @param tokenID tokenID of NFT to burn
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+        _burn(tokenID);
+    }
+
+    function withdraw(address to) external override(IOpenNFTsV4) onlyOwner {
+        payable(to).transfer(address(this).balance);
+    }
+
+    function setTokenPrice(uint256 tokenID, uint256 price) public override(OpenPrice, IOpenNFTsV4) onlyOwner {
+        tokenPrice[tokenID] = price;
+    }
+
+    /// @notice SET default royalty configuration
+    /// @param receiver : address of the royalty receiver, or address(0) to reset
+    /// @param feeNumerator : fee Numerator, less than 10000
+    function setDefaultRoyalty(address receiver, uint96 feeNumerator) external override(IOpenNFTsV4) onlyOwner {
+        _setDefaultRoyalty(receiver, feeNumerator);
+        emit SetRoyalty(receiver, feeNumerator);
+    }
+
+    /// @notice SET token royalty configuration
+    /// @param tokenID : token ID
+    /// @param receiver : address of the royalty receiver, or address(0) to reset
+    /// @param feeNumerator : fee Numerator, less than 10000
+    function setTokenRoyalty(
+        uint256 tokenID,
+        address receiver,
+        uint96 feeNumerator
+    ) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+        _setTokenRoyalty(tokenID, receiver, feeNumerator);
+        emit SetTokenRoyalty(tokenID, receiver, feeNumerator);
+    }
+
+    function safeTransferFrom(
+        address from,
+        address to,
+        uint256 tokenID
+    ) public override(OpenERC721) {
+        super.safeTransferFrom(from, to, tokenID, "");
     }
 
     function buy(uint256 tokenID) external payable override(IOpenNFTsV4) {
@@ -122,72 +167,25 @@ contract OpenNFTsV4 is
         if (unspent > 0) payable(msg.sender).transfer(unspent);
     }
 
-    /// @notice burn NFT
-    /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
-        _burn(tokenID);
-    }
-
-    function withdraw(address to) external override(IOpenNFTsV4) onlyOwner {
-        payable(to).transfer(address(this).balance);
-    }
-
-    /// @notice SET default royalty configuration
-    /// @param receiver : address of the royalty receiver, or address(0) to reset
-    /// @param feeNumerator : fee Numerator, less than 10000
-    function setDefaultRoyalty(address receiver, uint96 feeNumerator) external override(IOpenNFTsV4) onlyOwner {
-        _setDefaultRoyalty(receiver, feeNumerator);
-        emit SetRoyalty(receiver, feeNumerator);
-    }
-
-    /// @notice SET token royalty configuration
-    /// @param tokenID : token ID
-    /// @param receiver : address of the royalty receiver, or address(0) to reset
-    /// @param feeNumerator : fee Numerator, less than 10000
-    function setTokenRoyalty(
-        uint256 tokenID,
-        address receiver,
-        uint96 feeNumerator
-    ) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
-        _setTokenRoyalty(tokenID, receiver, feeNumerator);
-        emit SetTokenRoyalty(tokenID, receiver, feeNumerator);
-    }
-
-    function setTokenPrice(uint256 tokenID, uint256 price) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
-        _setTokenPrice(tokenID, price);
-    }
-
-    function safeTransferFrom(
-        address from,
-        address to,
-        uint256 tokenID
-    ) public override(ERC721Upgradeable) {
-        super.safeTransferFrom(from, to, tokenID, "");
-    }
-
     /// @notice test if this interface is supported
     /// @param interfaceId interfaceId to test
     function supportsInterface(bytes4 interfaceId)
         public
         view
         override(
-            OpenERC165,
             OpenERC2981,
             OpenOwnable,
+            OpenPrice,
+            OpenPausable,
+            OpenERC721,
             OpenERC721Metadata,
-            ERC721Upgradeable,
-            ERC721EnumerableUpgradeable
+            OpenERC721Enumerable
         )
         returns (bool)
     {
         return
-            OpenERC165.supportsInterface(interfaceId) ||
-            OpenERC2981.supportsInterface(interfaceId) ||
-            OpenOwnable.supportsInterface(interfaceId) ||
-            OpenERC721Metadata.supportsInterface(interfaceId) ||
-            ERC721Upgradeable.supportsInterface(interfaceId) ||
-            ERC721EnumerableUpgradeable.supportsInterface(interfaceId) ||
-            interfaceId == type(IOpenNFTsV4).interfaceId;
+            interfaceId == type(IOpenNFTsV4).interfaceId || // 0x... ?
+            super.supportsInterface(interfaceId);
     }
 
     /// @notice _mint
@@ -207,39 +205,37 @@ contract OpenNFTsV4 is
         address from,
         address to,
         uint256 tokenID
-    ) internal override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
-        ERC721EnumerableUpgradeable._beforeTokenTransfer(from, to, tokenID);
+    ) internal override(OpenERC721, OpenERC721Enumerable) {
+        OpenERC721Enumerable._beforeTokenTransfer(from, to, tokenID);
     }
 
-    function _burn(uint256 tokenID) internal override(OpenERC721Metadata, ERC721Upgradeable) {
+    function togglePause() public virtual override(OpenPausable) onlyOwner {
+        super.togglePause();
+    }
+
+    function _burn(uint256 tokenID)
+        internal
+        override(OpenERC721, OpenERC2981, OpenPrice, OpenERC721Metadata, OpenERC721Enumerable)
+    {
         delete tokenPrice[tokenID];
-        ERC721Upgradeable._burn(tokenID);
+        OpenPrice._burn(tokenID);
+        OpenERC721._burn(tokenID);
         OpenERC721Metadata._burn(tokenID);
     }
 
-    function name() public view override(ERC721Upgradeable, OpenERC721Metadata) returns (string memory) {
+    function name() public view override(OpenERC721Metadata) returns (string memory) {
         return OpenERC721Metadata.name();
     }
 
-    function symbol() public view override(ERC721Upgradeable, OpenERC721Metadata) returns (string memory) {
+    function symbol() public view override(OpenERC721Metadata) returns (string memory) {
         return OpenERC721Metadata.symbol();
     }
 
-    function tokenURI(uint256 tokenID)
-        public
-        view
-        override(ERC721Upgradeable, OpenERC721Metadata)
-        returns (string memory)
-    {
+    function tokenURI(uint256 tokenID) public view override(OpenERC721Metadata) returns (string memory) {
         return OpenERC721Metadata.tokenURI(tokenID);
     }
 
-    function _isApprovedOrOwner(address spender, uint256 tokenID)
-        internal
-        view
-        override(ERC721Upgradeable)
-        returns (bool)
-    {
+    function _isApprovedOrOwner(address spender, uint256 tokenID) internal view override(OpenERC721) returns (bool) {
         return (spender == address(this)) || super._isApprovedOrOwner(spender, tokenID);
     }
 }

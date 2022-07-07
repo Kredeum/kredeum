@@ -1,12 +1,14 @@
 // SPDX-License-Identifier: MIT
+//
 // Derived from OpenZeppelin Contracts (token/common/ERC2981.sol)
+// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/token/common/ERC2981.sol
+
 pragma solidity 0.8.9;
 
+import "./OpenERC721.sol";
 import "../interfaces/IERC2981.sol";
-import "../interfaces/IERC165.sol";
 
-// WIP WIP WIP
-contract OpenERC2981 is IERC165, IERC2981 {
+abstract contract OpenERC2981 is IERC2981, OpenERC721 {
     struct RoyaltyInfo {
         address receiver;
         uint96 royaltyFraction;
@@ -35,10 +37,6 @@ contract OpenERC2981 is IERC165, IERC2981 {
         return (royalty.receiver, royaltyAmount);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165) returns (bool) {
-        return interfaceId == 0x2a55205a; // = type(IERC2981).interfaceId
-    }
-
     function _setDefaultRoyalty(address receiver, uint96 feeNumerator) internal virtual {
         require(feeNumerator <= _feeDenominator, "ERC2981: royalty fee will exceed salePrice");
         if (receiver == address(0)) {
@@ -60,5 +58,16 @@ contract OpenERC2981 is IERC165, IERC2981 {
         } else {
             _tokenRoyaltyInfo[tokenId] = RoyaltyInfo(receiver, feeNumerator);
         }
+    }
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC721) returns (bool) {
+        return
+            interfaceId == 0x2a55205a || // = type(IERC2981).interfaceId
+            super.supportsInterface(interfaceId);
+    }
+
+    function _burn(uint256 tokenID) internal virtual override(OpenERC721) {
+        delete _tokenRoyaltyInfo[tokenID];
+        super._burn(tokenID);
     }
 }

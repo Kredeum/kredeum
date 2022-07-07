@@ -1,11 +1,14 @@
 // SPDX-License-Identifier: MIT
+//
 // Derived from OpenZeppelin Contracts (access/Ownable.sol)
+// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/access/Ownable.sol
+
 pragma solidity 0.8.9;
 
+import "./OpenERC165.sol";
 import "../interfaces/IERC173.sol";
-import "../interfaces/IERC165.sol";
 
-contract OpenOwnable is IERC165, IERC173 {
+abstract contract OpenOwnable is IERC173, OpenERC165 {
     address private _owner;
 
     modifier onlyOwner() {
@@ -13,8 +16,10 @@ contract OpenOwnable is IERC165, IERC173 {
         _;
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override(IERC165) returns (bool) {
-        return interfaceId == 0x7f5828d0; // = type(IERC173).interfaceId;
+    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC165) returns (bool) {
+        return
+            interfaceId == 0x7f5828d0 || // = type(IERC173).interfaceId;
+            super.supportsInterface(interfaceId);
     }
 
     function transferOwnership(address newOwner) public override(IERC173) onlyOwner {
