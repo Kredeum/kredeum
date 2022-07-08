@@ -96,7 +96,11 @@ contract OpenNFTsV4 is
         payable(to).transfer(address(this).balance);
     }
 
-    function setTokenPrice(uint256 tokenID, uint256 price) public override(OpenPrice, IOpenNFTsV4) onlyOwner {
+    function setTokenPrice(uint256 tokenID, uint256 price)
+        public
+        override(OpenPrice, IOpenNFTsV4)
+        onlyTokenOwner(tokenID)
+    {
         tokenPrice[tokenID] = price;
     }
 

@@ -19,7 +19,7 @@ contract OpenNFTsV4Test is Test {
     address buyer = address(0x3);
     address random = address(0x4);
 
-    string private constant _TOKEN_URI = "ipfs://bafkreidfhassyaujwpbarjwtrc6vgn2iwfjmukw3v7hvgggvwlvdngzllm";
+    string internal constant _TOKEN_URI = "ipfs://bafkreidfhassyaujwpbarjwtrc6vgn2iwfjmukw3v7hvgggvwlvdngzllm";
 
     uint96 maxFee = 10000;
     uint256 maxPrice = uint256(((2**256) - 1)) / maxFee;
@@ -36,9 +36,5 @@ contract OpenNFTsV4Test is Test {
 
         startHoax(minter);
         tokenID0 = op.mint(_TOKEN_URI);
-    }
-
-    function tokenURI() public returns (string memory) {
-        return _TOKEN_URI;
     }
 }

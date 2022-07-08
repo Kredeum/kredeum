@@ -21,7 +21,7 @@ contract OpenNFTsV4TestSetup is OpenNFTsV4Test {
         assertEq(op.tokenByIndex(0), 1);
         assertEq(op.tokenOfOwnerByIndex(minter, 0), 1);
         assertEq(op.ownerOf(1), minter);
-        assertEq(op.tokenURI(1), tokenURI());
+        assertEq(op.tokenURI(1), _TOKEN_URI);
     }
 
     function testSetupPrice() public {
