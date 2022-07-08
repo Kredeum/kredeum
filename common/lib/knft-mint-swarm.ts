@@ -28,8 +28,8 @@ const nftMint2SwarmJson = async (
   storageAnimationUrl = "",
   address = "",
   image = "",
-  nodeUrl: "",
-  batchId: "",
+  nodeUrl = "",
+  batchId = "",
   metadata = "{}"
 ): Promise<string> => {
   // console.log("nftMint2IpfsJson", name, swarm, address, image, metadata);

@@ -108,7 +108,6 @@
 
     if (files) {
       uploadedMediatypes = files[0].type.split("/");
-      console.log("🚀 ~ file: NftMint.svelte ~ line 96 ~ fileload ~ uploadedMediatypes", uploadedMediatypes);
 
       if (handleMediaType(uploadedMediatypes)) {
         if (!animation_url_base64) {
