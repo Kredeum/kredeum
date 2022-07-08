@@ -60,6 +60,28 @@ type CollectionSupports = {
   IOpenNFTsV3?: boolean;
 };
 
+///////////////////////////////////////////////////
+// Exclusives storage parameters for Ipfs | Swarm
+///////////////////////////////////////////////////
+type Without<T> = { [P in keyof T]?: undefined };
+type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
+
+////////
+type ipfsType = {
+  ipfs?: string;
+  ipfsJson?: string;
+};
+
+type swarmType = {
+  swarm?: string;
+  swarmJson?: string;
+};
+
+////////
+type storageType = XOR<ipfsType, swarmType>;
+
+///////////////////////////////////////////////////
+
 type NftMetadata = {
   name?: string;
   description?: string;
@@ -68,9 +90,8 @@ type NftMetadata = {
   owner?: string;
   image?: string;
   image_url?: string;
-  ipfs?: string;
   animation_url?: string;
-};
+} & storageType;
 
 type NftType = {
   chainId: number;
@@ -92,14 +113,12 @@ type NftType = {
   youtube_url?: string;
   background_color?: string;
   attributes?: unknown;
-  ipfs?: string;
-  ipfsJson?: string;
   origin?: string;
   creator?: string;
   minter?: string;
   nid?: string;
   contentType?: string;
-};
+} & storageType;
 
 export type {
   NftType,

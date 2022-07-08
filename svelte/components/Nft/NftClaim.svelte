@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
   import NftStorage from "lib/knft-storage";
-  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, ipfsToUrlHttp } from "lib/kconfig";
+  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, storageLinkToUrlHttp } from "lib/kconfig";
   import { nftClaim3TxResponse, nftClaim4 } from "lib/knft-mint";
   import { cidToInt } from "lib/kcid";
 
@@ -51,7 +51,7 @@
           console.log("claim", $nft.tokenURI);
 
           nftStorage ||= new NftStorage();
-          const cid = await nftStorage.pinUrl(ipfsToUrlHttp($nft.tokenURI));
+          const cid = await nftStorage.pinUrl(storageLinkToUrlHttp($nft.tokenURI));
 
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {

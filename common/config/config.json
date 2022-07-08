@@ -2,5 +2,8 @@
   "version": {
     "latest": "0.13.1",
     "stable": "0.13.0"
-  }
+  },
+  "storage": "ipfs",
+  "ipfsGateway": "https://ipfs.io/ipfs/",
+  "swarmGateway": "https://api.gateway.ethswarm.org/bzz/"
 }

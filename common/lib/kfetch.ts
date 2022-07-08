@@ -1,4 +1,4 @@
-import { ipfsToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
+import { storageLinkToUrlHttp, getSubgraphUrl, getAlchemyUrl } from "lib/kconfig";
 
 type FetchResponse = {
   data?: unknown;
@@ -10,7 +10,7 @@ const fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchRe
   if (url) {
     try {
       // console.log(url, config);
-      const res = await fetch(ipfsToUrlHttp(url), config);
+      const res = await fetch(storageLinkToUrlHttp(url), config);
       // console.log(res);
       json = (await res.json()) as FetchResponse;
     } catch (e) {
