@@ -32,7 +32,7 @@ describe("22 List OpenNFTsV2 lib", function () {
     if (chainId === 31337) {
       await deployments.fixture(["OpenNFTsV2"]);
     }
-    openNFTsV2 = await ethers.getContract("OpenNFTsV2");
+    openNFTsV2 = (await ethers.getContract("OpenNFTsV2")) as unknown as OpenNFTsV2;
     await ((await openNFTsV2.mintNFT(artistAddress, jsonURI, txOptions)) as TransactionResponse).wait();
 
     console.log("totalSupply", (await openNFTsV2.totalSupply()).toNumber());

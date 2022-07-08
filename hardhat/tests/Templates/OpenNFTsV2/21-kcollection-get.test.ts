@@ -26,7 +26,7 @@ describe("21 OpenNFTsV2 contract", function () {
     if (chainId === 31337) {
       await deployments.fixture(["OpenNFTsV2"]);
     }
-    openNFTsV2 = await ethers.getContract("OpenNFTsV2", signer);
+    openNFTsV2 = (await ethers.getContract("OpenNFTsV2", signer)) as unknown as OpenNFTsV2;
     expect(openNFTsV2.address).to.be.properAddress;
 
     await (await openNFTsV2.mintNFT(artist, "", txOptions)).wait();

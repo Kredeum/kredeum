@@ -68,15 +68,6 @@ const getEnsName = async (address: string): Promise<string> => {
   return name || address || "";
 };
 
-const getCovalent = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
-const getAlchemy = (chainId: number): boolean => Boolean(getNetwork(chainId)?.alchemy?.active);
-const getSubgraph = (chainId: number): boolean => Boolean(getNetwork(chainId)?.subgraph?.active);
-
-const getSubgraphUrl = (chainId: number): string =>
-  (getNetwork(chainId)?.subgraph?.active && getNetwork(chainId)?.subgraph?.url) || "";
-const getAlchemyUrl = (chainId: number): string =>
-  (getNetwork(chainId)?.alchemy?.active && getNetwork(chainId)?.alchemy?.url) || "";
-
 // GET chain Name
 const getChainName = (chainId: number): string =>
   chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
@@ -509,14 +500,9 @@ export {
   getDefaultOpenNFTs,
   getOpenMulti,
   getEnsName,
-  getSubgraph,
-  getSubgraphUrl,
   getOpenSeaKredeum,
   getOpenSeaAssets,
   getCreate,
-  getAlchemy,
-  getAlchemyUrl,
-  getCovalent,
   getExplorer,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,

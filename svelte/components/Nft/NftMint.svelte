@@ -14,12 +14,14 @@
     nftMint4
   } from "lib/knft-mint";
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
-  /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
-  /////////////////////////////////////////////////
+  
   import { fade } from "svelte/transition";
   import { clickOutside } from "helpers/clickOutside";
-
+  
+  /////////////////////////////////////////////////
+  //  <NftMint {chainId} />
+  // Mint NFT
   /////////////////////////////////////////////////
   //  <NftMint /> {storage}
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)

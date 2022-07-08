@@ -21,6 +21,7 @@ type NetworkType = {
   admin?: string;
   openSea?: { assets?: string; openNFTs?: string };
   openMulti?: string;
+  openBound?: string;
   defaultOpenNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
