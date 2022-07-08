@@ -58,7 +58,7 @@ contract OpenNFTsV4 is
         _;
     }
 
-    constructor() OpenERC721("OpenNFTs", "NFT") {}
+    constructor() OpenERC721Metadata("OpenNFTs", "NFT") {}
 
     /// @notice initialize
     /// @param name_ name of the NFT Collection
@@ -187,9 +187,7 @@ contract OpenNFTsV4 is
         )
         returns (bool)
     {
-        return
-            interfaceId == type(IOpenNFTsV4).interfaceId || // 0x... ?
-            super.supportsInterface(interfaceId);
+        return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /// @notice _mint
@@ -221,10 +219,10 @@ contract OpenNFTsV4 is
         internal
         override(OpenERC721, OpenERC2981, OpenPrice, OpenERC721Metadata, OpenERC721Enumerable)
     {
-        delete tokenPrice[tokenID];
-        OpenPrice._burn(tokenID);
-        OpenERC721._burn(tokenID);
-        OpenERC721Metadata._burn(tokenID);
+        super._burn(tokenID);
+        // OpenPrice._burn(tokenID);
+        // OpenERC721._burn(tokenID);
+        // OpenERC721Metadata._burn(tokenID);
     }
 
     function name() public view override(OpenERC721Metadata) returns (string memory) {

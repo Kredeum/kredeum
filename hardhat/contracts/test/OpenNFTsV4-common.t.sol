@@ -6,6 +6,7 @@ import "./OpenNFTsV4.t.sol";
 contract OpenNFTsV4TestCommon is OpenNFTsV4Test {
     function testERC165() public {
         assertTrue(op.supportsInterface(type(IERC165).interfaceId));
+        assertFalse(op.supportsInterface(0xffffffff));
     }
 
     function testERC173() public {
@@ -34,6 +35,5 @@ contract OpenNFTsV4TestCommon is OpenNFTsV4Test {
 
     function testFalse() public {
         assertFalse(op.supportsInterface(type(IERC1155).interfaceId));
-        assertFalse(op.supportsInterface(0xffffffff));
     }
 }
