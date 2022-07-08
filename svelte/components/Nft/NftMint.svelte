@@ -41,10 +41,11 @@
   let nftDescription: string = "";
 
   let uploadedMediatypes: Array<string>;
-  let inputMediatype: string = "image";
+  let inputMediatype: string;
   let uploadErrMsg: string;
 
   let imgFiles;
+  let animation_url_file: File;
   let animation_url: string;
 
   /////////////////////////////////////////////////
@@ -101,25 +102,22 @@
           inputMediatype = handleMediaType(uploadedMediatypes);
         }
 
-        if ("audio" === handleMediaType(uploadedMediatypes)) {
-          let reader = new FileReader();
-          reader.readAsDataURL(files[0]);
-          nftTitle = nftTitle || files[0].name;
-          nftDescription = nftDescription || files[0].name;
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        nftTitle = nftTitle || files[0].name;
+        nftDescription = nftDescription || files[0].name;
 
+        if ("audio" === handleMediaType(uploadedMediatypes)) {
           reader.onload = (e) => {
             animation_url = e.target.result.toString();
           };
+
+          animation_url_file = files[0];
 
           imgFiles.value = "";
 
           return;
         }
-
-        let reader = new FileReader();
-        reader.readAsDataURL(files[0]);
-        nftTitle = nftTitle || files[0].name;
-        nftDescription = nftDescription || files[0].name;
 
         reader.onload = (e) => {
           image = e.target.result.toString();
@@ -128,8 +126,20 @@
         file = files[0];
       } else {
         uploadErrMsg = `${files[0].type} is not supported for now, Please Upload a supported file type`;
+        imgFiles.value = "";
         files = null;
       }
+    }
+  };
+
+  /////////////////////////////////////////////////
+  const resetImgInput = () => {
+    image = null;
+    files = null;
+    file = null;
+    if (!animation_url) {
+      nftTitle = null;
+      nftDescription = null;
     }
   };
 
@@ -218,7 +228,9 @@
     >
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
-          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <span on:click|preventDefault={() => (open = false)} title="Close" class="modal-close"
+            ><i class="fa fa-times" /></span
+          >
 
           <div class="mint-modal-body">
             <div class="titre">
@@ -314,11 +326,26 @@
                 <span class="label label-big">NFT file</span>
                 <div class="box-file">
                   {#if image}
-                    <div class="media media-photo mt-20">
+                    <div class="media media-photo mt-20 kre-image-preview">
+                      <span on:click|preventDefault={resetImgInput} title="Close" class="reset-img modal-close"
+                        ><i class="fa fa-times" /></span
+                      >
                       <img src={image} alt="nft" />
                     </div>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files bind:this={imgFiles} />
+                    {#if animation_url && !image}
+                      <span class="label">Please select a cover image</span>
+                    {/if}
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      bind:files
+                      bind:this={imgFiles}
+                      accept={animation_url
+                        ? "image/png, image/jpeg, image/webp, image/svg+xml, image/gif, image/bmp, image/x-icon"
+                        : "*"}
+                    />
                     {#if uploadErrMsg}
                       {uploadErrMsg}
                     {/if}
@@ -360,6 +387,7 @@
                     name="media-type"
                     type="radio"
                     value="video"
+                    disabled
                   />
                   <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
@@ -370,6 +398,7 @@
                     name="media-type"
                     type="radio"
                     value="image"
+                    disabled
                   />
                   <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
@@ -380,6 +409,7 @@
                     name="media-type"
                     type="radio"
                     value="gif"
+                    disabled
                   />
                   <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
 
@@ -451,5 +481,27 @@
 
   .mint-modal-body {
     overflow-y: auto;
+  }
+
+  .kre-image-preview {
+    position: relative;
+  }
+
+  .reset-img {
+    background-color: #f9f9fb;
+    color: rgba(30, 30, 67, 0.4);
+    border: 0.7px solid rgba(30, 30, 67, 0.4);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    position: absolute;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
   }
 </style>
