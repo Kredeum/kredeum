@@ -1,6 +1,4 @@
-import { storageLinkToUrlHttp } from "lib/kconfig";
-
-import { ipfsLinkToUrlHttp } from "lib/kconfig";
+import { storageLinkToUrlHttp, ipfsLinkToUrlHttp } from "lib/kconfig";
 
 const FETCH_LIMIT = 10;
 

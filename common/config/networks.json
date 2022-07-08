@@ -89,6 +89,9 @@
     "covalent": {
       "active": true
     },
+    "moralis": {
+      "active": true
+    },
     "openSea": {
       "assets": "https://opensea.io/assets/matic",
       "openNFTs": "https://opensea.io/collection/kredeum-nfts"
@@ -276,9 +279,8 @@
       "decimals": 18
     },
     "blockExplorerUrls": ["https://kovan.etherscan.io"],
-    "covalent": {
-      "active": false
-    },
+    "moralis": { "active": true, "url": "" },
+    "covalent": { "active": false },
     "eip1559": true,
     "openMulti": "0xbd576e2F8590e7Ad02b3E92edEb591fD5331fbfC",
     "defaultOpenNFTs": "0x40919dc04668b6108546F3b2dda66Ea926c6c972",
