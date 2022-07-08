@@ -25,11 +25,12 @@ const nftMint2SwarmJson = async (
   name = DEFAULT_NAME,
   nftDescription = "",
   swarm = "",
+  storageAnimationUrl = "",
   address = "",
   image = "",
-  metadata = "{}",
-  nodeUrl?: string,
-  batchId?: string
+  nodeUrl: "",
+  batchId: "",
+  metadata = "{}"
 ): Promise<string> => {
   // console.log("nftMint2IpfsJson", name, swarm, address, image, metadata);
 
@@ -41,6 +42,7 @@ const nftMint2SwarmJson = async (
     origin: textShort(image, 140),
     minter: address
   } as NftType;
+  if (storageAnimationUrl) json.animation_url = storageAnimationUrl;
   if (metadata) json.metadata = JSON.parse(metadata);
 
   const swarmJson = `swarm://${await swarmUploadFile(

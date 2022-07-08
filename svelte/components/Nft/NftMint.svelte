@@ -10,10 +10,20 @@
     nftMint2IpfsJson,
     nftMint1SwarmImage,
     nftMint2SwarmJson,
+    nftMint1Media,
+    nftMint2Json,
     nftMint3TxResponse,
     nftMint4
   } from "lib/knft-mint";
-  import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
+  import {
+    textShort,
+    swarmGatewayUrl,
+    explorerTxUrl,
+    explorerNftUrl,
+    nftUrl,
+    storageLinkToUrlHttp,
+    storageGatewayUrl
+  } from "lib/kconfig";
   import { handleMediaType } from "helpers/mediaTypes";
   /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
@@ -45,12 +55,15 @@
   let uploadErrMsg: string;
 
   let imgFiles;
+
   let animation_url_file: File;
-  let animation_url: string;
+  let animation_url_base64: string;
 
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
+
+  let storageAnimationUrl: string;
 
   let minting: number;
   let mintingTxResp: TransactionResponse;
@@ -98,7 +111,7 @@
       console.log("🚀 ~ file: NftMint.svelte ~ line 96 ~ fileload ~ uploadedMediatypes", uploadedMediatypes);
 
       if (handleMediaType(uploadedMediatypes)) {
-        if (!animation_url) {
+        if (!animation_url_base64) {
           inputMediatype = handleMediaType(uploadedMediatypes);
         }
 
@@ -109,7 +122,7 @@
 
         if ("audio" === handleMediaType(uploadedMediatypes)) {
           reader.onload = (e) => {
-            animation_url = e.target.result.toString();
+            animation_url_base64 = e.target.result.toString();
           };
 
           animation_url_file = files[0];
@@ -137,7 +150,7 @@
     image = null;
     files = null;
     file = null;
-    if (!animation_url) {
+    if (!animation_url_base64) {
       nftTitle = null;
       nftDescription = null;
     }
@@ -157,27 +170,52 @@
   const mint = async (): Promise<NftType> => {
     mintReset();
 
-    if (image) {
+    if (image && file) {
       minting = 1;
 
-      storageImg =
-        "ipfs" === storage
-          ? await nftMint1IpfsImage(image)
-          : "swarm" === storage
-          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-          : "";
+      storageImg = await nftMint1Media(storage, image, file, nftTitle, file.type, nodeUrl, batchId, file.size);
+
+      if (animation_url_base64 && animation_url_file) {
+        storageAnimationUrl = storageGatewayUrl(
+          await nftMint1Media(
+            storage,
+            animation_url_base64,
+            animation_url_file,
+            nftTitle,
+            animation_url_file.type,
+            nodeUrl,
+            batchId,
+            animation_url_file.size
+          )
+        );
+      }
+      // "ipfs" === storage
+      //   ? await nftMint1IpfsImage(image)
+      //   : "swarm" === storage
+      //   ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+      //   : "";
 
       if (storageImg) {
         minting = 2;
 
-        storageJson =
-          "ipfs" === storage
-            ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
-            : "swarm" === storage
-            ? swarmGatewayUrl(
-                await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
-              )
-            : "";
+        storageJson = await nftMint2Json(
+          storage,
+          nftTitle,
+          nftDescription,
+          storageImg,
+          storageAnimationUrl,
+          account,
+          image,
+          nodeUrl,
+          batchId
+        );
+        // "ipfs" === storage
+        //   ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
+        //   : "swarm" === storage
+        //   ? swarmGatewayUrl(
+        //       await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
+        //     )
+        //   : "";
 
         if (storageJson) {
           minting = 3;
@@ -333,7 +371,7 @@
                       <img src={image} alt="nft" />
                     </div>
                   {:else}
-                    {#if animation_url && !image}
+                    {#if animation_url_base64 && !image}
                       <span class="label">Please select a cover image</span>
                     {/if}
                     <input
@@ -342,7 +380,7 @@
                       name="file"
                       bind:files
                       bind:this={imgFiles}
-                      accept={animation_url
+                      accept={animation_url_base64
                         ? "image/png, image/jpeg, image/webp, image/svg+xml, image/gif, image/bmp, image/x-icon"
                         : "*"}
                     />
@@ -350,8 +388,8 @@
                       {uploadErrMsg}
                     {/if}
                   {/if}
-                  {#if animation_url}
-                    <audio controls src={animation_url}>
+                  {#if animation_url_base64}
+                    <audio controls src={animation_url_base64}>
                       Your browser does not support the
                       <code>audio</code> element.
                     </audio>

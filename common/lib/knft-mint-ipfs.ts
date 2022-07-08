@@ -20,6 +20,7 @@ const nftMint2IpfsJson = async (
   name = DEFAULT_NAME,
   nftDescription = "",
   ipfs = "",
+  storageAnimationUrl = "",
   address = "",
   image = "",
   metadata = "{}"
@@ -34,6 +35,7 @@ const nftMint2IpfsJson = async (
     origin: textShort(image, 140),
     minter: address
   } as NftType;
+  if (storageAnimationUrl) json.animation_url = storageAnimationUrl;
   if (metadata) json.metadata = JSON.parse(metadata);
 
   const ipfsCid = await nftStorage.pinJson(json);
