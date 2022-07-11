@@ -5,9 +5,6 @@ const handleMediaType = (uploadedMediatypes: Array<string>): string => {
   let selectedMediaType = "";
   if (uploadedMediatypes) {
     switch (uploadedMediatypes[0]) {
-    // case "video":
-    //   selectedMediaType = "video";
-    //   break;
     case "image":
       if (supportedImageFormats.includes(uploadedMediatypes[1])) {
         if (uploadedMediatypes[1] === "gif") {
@@ -17,6 +14,9 @@ const handleMediaType = (uploadedMediatypes: Array<string>): string => {
         }
       }
       break;
+      // case "video":
+      //   selectedMediaType = "video";
+      //   break;
       // case "text":
       //   if (uploadedMediatypes[1] === "html") {
       //     selectedMediaType = "web";

@@ -12,7 +12,6 @@
     strFirstToUpper,
     nftUrl,
     storageLinkToUrlHttp,
-    storageUrlHttpToCid,
     storageGatewayUrl
   } from "lib/kconfig";
   import { handleMediaType } from "helpers/mediaTypes";
@@ -197,11 +196,6 @@
           )
         );
       }
-      // "ipfs" === storage
-      //   ? await nftMint1IpfsImage(image)
-      //   : "swarm" === storage
-      //   ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-      //   : "";
 
       if (storageImg) {
         minting = 2;
@@ -217,13 +211,6 @@
           nodeUrl,
           batchId
         );
-        // "ipfs" === storage
-        //   ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
-        //   : "swarm" === storage
-        //   ? swarmGatewayUrl(
-        //       await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
-        //     )
-        //   : "";
 
         if (storageJson) {
           minting = 3;
@@ -332,14 +319,14 @@
                   <div class="flex"><span class="label">Media(s) link(s)</span></div>
                   <div class="flex">
                     {#if storageImg}
-                      Image : <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
+                      <span>Image : </span><a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
                         >{textShort(storageImg, 15)}</a
                       >
                     {/if}
                     {#if storageAnimationUrl}
-                      {strFirstToUpper(animation_url_mediatypes[0])} :
+                      <span>{strFirstToUpper(animation_url_mediatypes[0])} : </span>
                       <a class="link" href={storageLinkToUrlHttp(storageAnimationUrl)} target="_blank"
-                        >{textShort(storageUrlHttpToCid(storageAnimationUrl), 15)}</a
+                        >{textShort(storageAnimationUrl, 15)}</a
                       >
                     {/if}
                   </div>
