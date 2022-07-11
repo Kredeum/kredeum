@@ -119,6 +119,16 @@
               </a>
             </div>
           </li>
+          {#if $nft.animation_url}
+            <li>
+              <div class="flex"><span class="label">animation_url</span></div>
+              <div class="flex">
+                <a class="link overflow-ellipsis" href={$nft.animation_url} title={$nft.animation_url} target="_blank">
+                  {$nft.animation_url || ""}
+                </a>
+              </div>
+            </li>
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">

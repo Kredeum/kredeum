@@ -4,7 +4,7 @@ import { ethers, BigNumber, Contract } from "ethers";
 import type { NftType } from "./ktypes";
 import type { OpenMulti } from "types/OpenMulti";
 import IOpenMulti from "abis/IOpenMulti.json";
-import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
+import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp, swarmGatewayUrl } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";
 
@@ -45,11 +45,59 @@ const _mintedNft = async (
 
 const nftMintTexts = [
   "Mint",
-  "Wait till Image stored on decentralized storage",
+  "Wait till Media(s) stored on decentralized storage",
   "Wait till Metadata stored on decentralized storage",
   "Please, sign the transaction",
   "Wait till transaction completed, it may take one minute or more..."
 ];
+
+// GET decentralized storage image link
+const nftMint1Media = async (
+  storage: string,
+  image: string,
+  file: File,
+  nftTitle: string,
+  type: string,
+  nodeUrl?: string,
+  batchId?: string,
+  fileSize?: number
+): Promise<string> =>
+  "ipfs" === storage
+    ? await nftMint1IpfsImage(image)
+    : "swarm" === storage
+    ? await nftMint1SwarmImage(file, nftTitle, type, nodeUrl, batchId, fileSize)
+    : "";
+
+// GET decentralized storage metadata url
+const nftMint2Json = async (
+  storage: string,
+  nftTitle = "",
+  nftDescription = "",
+  storageImg = "",
+  storageAnimationUrl = "",
+  account = "",
+  image = "",
+  nodeUrl = "",
+  batchId = "",
+  metadata = "{}"
+): Promise<string> =>
+  "ipfs" === storage
+    ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, storageAnimationUrl, account, image, metadata)
+    : "swarm" === storage
+    ? swarmGatewayUrl(
+        await nftMint2SwarmJson(
+          nftTitle,
+          nftDescription,
+          storageImg,
+          storageAnimationUrl,
+          account,
+          image,
+          nodeUrl,
+          batchId,
+          metadata
+        )
+      )
+    : "";
 
 // GET minting tx response
 const nftMint3TxResponse = async (
@@ -155,6 +203,8 @@ export {
   nftMint2IpfsJson,
   nftMint1SwarmImage,
   nftMint2SwarmJson,
+  nftMint1Media,
+  nftMint2Json,
   nftMint3TxResponse,
   nftClaim3TxResponse,
   nftMint4,

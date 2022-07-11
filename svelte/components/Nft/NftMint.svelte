@@ -4,16 +4,19 @@
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
+  import { nftMintTexts, nftMint1Media, nftMint2Json, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import {
-    nftMintTexts,
-    nftMint1IpfsImage,
-    nftMint2IpfsJson,
-    nftMint1SwarmImage,
-    nftMint2SwarmJson,
-    nftMint3TxResponse,
-    nftMint4
-  } from "lib/knft-mint";
-  import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
+    textShort,
+    explorerTxUrl,
+    explorerNftUrl,
+    strFirstToUpper,
+    nftUrl,
+    storageLinkToUrlHttp,
+    storageUrlHttpToCid,
+    storageGatewayUrl
+  } from "lib/kconfig";
+  import { handleMediaType } from "helpers/mediaTypes";
+  /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
   
   import { fade } from "svelte/transition";
@@ -40,9 +43,22 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+
+  let uploadedMediatypes: Array<string>;
+  let inputMediatype: string;
+  let uploadErrMsg: string;
+
+  let mediaFiles: HTMLInputElement;
+
+  let animation_url_mediatypes: Array<string>;
+  let animation_url_file: File;
+  let animation_url_base64: string;
+
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
+
+  let storageAnimationUrl: string;
 
   let minting: number;
   let mintingTxResp: TransactionResponse;
@@ -57,6 +73,14 @@
     file = null;
     image = null;
     nftTitle = null;
+    nftDescription = null;
+    inputMediatype = null;
+    uploadedMediatypes = null;
+    animation_url_mediatypes = null;
+    animation_url_file = null;
+    animation_url_base64 = null;
+    storageAnimationUrl = null;
+
     mintReset();
   };
 
@@ -76,21 +100,68 @@
 
   /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
+  $: files && fileload();
   const fileload = () => {
     mintReset();
+    uploadErrMsg = "";
     file = null;
 
-    if (files) {
-      let reader = new FileReader();
-      reader.readAsDataURL(files[0]);
-      nftTitle = nftTitle || files[0].name;
-      nftDescription = nftDescription || files[0].name;
-      reader.onload = (e) => {
-        image = e.target.result.toString();
-      };
+    console.log(files);
 
-      file = files[0];
+    if (files) {
+      uploadedMediatypes = files[0].type.split("/");
+
+      if (handleMediaType(uploadedMediatypes)) {
+        if (!animation_url_base64) {
+          inputMediatype = handleMediaType(uploadedMediatypes);
+        }
+
+        let reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        nftTitle = nftTitle || files[0].name.replace(/.[^.]+$/, "");
+        nftDescription = nftDescription || files[0].name.replace(/.[^.]+$/, "");
+
+        if ("audio" === handleMediaType(uploadedMediatypes)) {
+          reader.onload = (e) => {
+            animation_url_base64 = e.target.result.toString();
+          };
+
+          animation_url_mediatypes = uploadedMediatypes;
+          animation_url_file = files[0];
+
+          mediaFiles.value = "";
+
+          return;
+        }
+
+        reader.onload = (e) => {
+          image = e.target.result.toString();
+        };
+
+        file = files[0];
+      } else {
+        uploadErrMsg = `${files[0].type} is not supported for now, Please Upload a supported file type`;
+        mediaFiles.value = "";
+        files = null;
+      }
     }
+  };
+
+  /////////////////////////////////////////////////
+  const resetInput = () => {
+    if (!animation_url_base64 || !image) {
+      animation_url_mediatypes = null;
+      animation_url_file = null;
+      animation_url_base64 = null;
+      storageAnimationUrl = null;
+      nftTitle = null;
+      nftDescription = null;
+      inputMediatype = null;
+    }
+    image = null;
+    files = null;
+    file = null;
+    if (mediaFiles) mediaFiles.value = "";
   };
 
   /////////////////////////////////////////////////
@@ -107,29 +178,52 @@
   const mint = async (): Promise<NftType> => {
     mintReset();
 
-    console.log("mint texts : ", nftMintTexts);
-
-    if (image) {
+    if (image && file) {
       minting = 1;
 
-      storageImg =
-        "ipfs" === storage
-          ? await nftMint1IpfsImage(image)
-          : "swarm" === storage
-            ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-            : "";
+      storageImg = await nftMint1Media(storage, image, file, nftTitle, file.type, nodeUrl, batchId, file.size);
+
+      if (animation_url_base64 && animation_url_file) {
+        storageAnimationUrl = storageGatewayUrl(
+          await nftMint1Media(
+            storage,
+            animation_url_base64,
+            animation_url_file,
+            nftTitle,
+            animation_url_file.type,
+            nodeUrl,
+            batchId,
+            animation_url_file.size
+          )
+        );
+      }
+      // "ipfs" === storage
+      //   ? await nftMint1IpfsImage(image)
+      //   : "swarm" === storage
+      //   ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+      //   : "";
 
       if (storageImg) {
         minting = 2;
 
-        storageJson =
-          "ipfs" === storage
-            ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
-            : "swarm" === storage
-              ? swarmGatewayUrl(
-                await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
-              )
-              : "";
+        storageJson = await nftMint2Json(
+          storage,
+          nftTitle,
+          nftDescription,
+          storageImg,
+          storageAnimationUrl,
+          account,
+          image,
+          nodeUrl,
+          batchId
+        );
+        // "ipfs" === storage
+        //   ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
+        //   : "swarm" === storage
+        //   ? swarmGatewayUrl(
+        //       await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
+        //     )
+        //   : "";
 
         if (storageJson) {
           minting = 3;
@@ -153,10 +247,10 @@
             mintingError = "Problem while sending transaction.";
           }
         } else {
-          mintingError = `Problem while archiving metadata on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
+          mintingError = `Problem while archiving metadata on ${strFirstToUpper(storage)}.`;
         }
       } else {
-        mintingError = `Problem while archiving image on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
+        mintingError = `Problem while archiving image on ${strFirstToUpper(storage)}.`;
       }
     } else {
       mintingError = "Missing NFT file. Sorry can't mint.";
@@ -180,7 +274,9 @@
     >
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
-          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <span on:click|preventDefault={() => (open = false)} title="Close" class="modal-close"
+            ><i class="fa fa-times" /></span
+          >
 
           <div class="mint-modal-body">
             <div class="titre">
@@ -233,11 +329,17 @@
                 {/if}
 
                 <li class={minting >= 2 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Image link</span></div>
+                  <div class="flex"><span class="label">Media(s) link(s)</span></div>
                   <div class="flex">
                     {#if storageImg}
-                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
+                      Image : <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
                         >{textShort(storageImg, 15)}</a
+                      >
+                    {/if}
+                    {#if storageAnimationUrl}
+                      {strFirstToUpper(animation_url_mediatypes[0])} :
+                      <a class="link" href={storageLinkToUrlHttp(storageAnimationUrl)} target="_blank"
+                        >{textShort(storageUrlHttpToCid(storageAnimationUrl), 15)}</a
                       >
                     {/if}
                   </div>
@@ -274,13 +376,39 @@
             {:else}
               <div class="section">
                 <span class="label label-big">NFT file</span>
-                <div class="box-file">
+                <div class="box-file kre-image-preview">
+                  {#if animation_url_base64 || image}
+                    <span on:click|preventDefault={resetInput} title="Close" class="reset-img modal-close"
+                      ><i class="fa fa-times" /></span
+                    >
+                  {/if}
                   {#if image}
                     <div class="media media-photo mt-20">
                       <img src={image} alt="nft" />
                     </div>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    {#if animation_url_base64 && !image}
+                      <span class="label">Please select a cover image</span>
+                    {/if}
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      bind:files
+                      bind:this={mediaFiles}
+                      accept={animation_url_base64
+                        ? "image/png, image/jpeg, image/webp, image/svg+xml, image/gif, image/bmp, image/x-icon"
+                        : "*"}
+                    />
+                    {#if uploadErrMsg}
+                      {uploadErrMsg}
+                    {/if}
+                  {/if}
+                  {#if animation_url_base64}
+                    <audio controls src={animation_url_base64}>
+                      Your browser does not support the
+                      <code>audio</code> element.
+                    </audio>
                   {/if}
                 </div>
               </div>
@@ -306,51 +434,67 @@
                 <span class="label label-big">Media type</span>
                 <div class="box-fields">
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-video"
                     name="media-type"
-                    type="checkbox"
-                    value="Video"
+                    type="radio"
+                    value="video"
                     disabled
                   />
                   <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-picture"
                     name="media-type"
-                    type="checkbox"
-                    value="Picture"
-                    checked
+                    type="radio"
+                    value="image"
+                    disabled
                   />
                   <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
                   <input
+                    bind:group={inputMediatype}
+                    class="box-field"
+                    id="create-type-gif"
+                    name="media-type"
+                    type="radio"
+                    value="gif"
+                    disabled
+                  />
+                  <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
+
+                  <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-texte"
                     name="media-type"
-                    type="checkbox"
-                    value="Text"
+                    type="radio"
+                    value="text"
                     disabled
                   />
                   <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-music"
                     name="media-type"
-                    type="checkbox"
-                    value="Music"
+                    type="radio"
+                    value="audio"
                     disabled
                   />
                   <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
                   <input
+                    bind:group={inputMediatype}
                     class="box-field"
                     id="create-type-web"
                     name="media-type"
-                    type="checkbox"
-                    value="Web"
+                    type="radio"
+                    value="web"
                     disabled
                   />
                   <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
@@ -390,5 +534,27 @@
 
   .mint-modal-body {
     overflow-y: auto;
+  }
+
+  .kre-image-preview {
+    position: relative;
+  }
+
+  .reset-img {
+    background-color: #f9f9fb;
+    color: rgba(30, 30, 67, 0.4);
+    border: 0.7px solid rgba(30, 30, 67, 0.4);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 5px;
+    right: 5px;
+    font-size: 20px;
+    position: absolute;
+    text-decoration: none;
+    transition: all 0.3s ease-in-out;
   }
 </style>
