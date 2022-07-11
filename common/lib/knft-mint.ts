@@ -65,8 +65,8 @@ const nftMint1Media = async (
   "ipfs" === storage
     ? await nftMint1IpfsImage(image)
     : "swarm" === storage
-    ? await nftMint1SwarmImage(file, nftTitle, type, nodeUrl, batchId, fileSize)
-    : "";
+      ? await nftMint1SwarmImage(file, nftTitle, type, nodeUrl, batchId, fileSize)
+      : "";
 
 // GET decentralized storage metadata url
 const nftMint2Json = async (
@@ -84,7 +84,7 @@ const nftMint2Json = async (
   "ipfs" === storage
     ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, storageAnimationUrl, account, image, metadata)
     : "swarm" === storage
-    ? swarmGatewayUrl(
+      ? swarmGatewayUrl(
         await nftMint2SwarmJson(
           nftTitle,
           nftDescription,
@@ -97,7 +97,7 @@ const nftMint2Json = async (
           metadata
         )
       )
-    : "";
+      : "";
 
 // GET minting tx response
 const nftMint3TxResponse = async (
