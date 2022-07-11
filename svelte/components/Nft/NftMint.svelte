@@ -4,24 +4,15 @@
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
-  import {
-    nftMintTexts,
-    nftMint1IpfsImage,
-    nftMint2IpfsJson,
-    nftMint1SwarmImage,
-    nftMint2SwarmJson,
-    nftMint1Media,
-    nftMint2Json,
-    nftMint3TxResponse,
-    nftMint4
-  } from "lib/knft-mint";
+  import { nftMintTexts, nftMint1Media, nftMint2Json, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import {
     textShort,
-    swarmGatewayUrl,
     explorerTxUrl,
     explorerNftUrl,
+    strFirstToUpper,
     nftUrl,
     storageLinkToUrlHttp,
+    storageUrlHttpToCid,
     storageGatewayUrl
   } from "lib/kconfig";
   import { handleMediaType } from "helpers/mediaTypes";
@@ -54,8 +45,9 @@
   let inputMediatype: string;
   let uploadErrMsg: string;
 
-  let imgFiles;
+  let mediaFiles: HTMLInputElement;
 
+  let animation_url_mediatypes: Array<string>;
   let animation_url_file: File;
   let animation_url_base64: string;
 
@@ -78,6 +70,14 @@
     file = null;
     image = null;
     nftTitle = null;
+    nftDescription = null;
+    inputMediatype = null;
+    uploadedMediatypes = null;
+    animation_url_mediatypes = null;
+    animation_url_file = null;
+    animation_url_base64 = null;
+    storageAnimationUrl = null;
+
     mintReset();
   };
 
@@ -85,7 +85,6 @@
     open = true;
   };
 
-  $: console.log("yo ! :", files);
   /////////////////////////////////////////////////
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
@@ -116,17 +115,18 @@
 
         let reader = new FileReader();
         reader.readAsDataURL(files[0]);
-        nftTitle = nftTitle || files[0].name;
-        nftDescription = nftDescription || files[0].name;
+        nftTitle = nftTitle || files[0].name.replace(/.[^.]+$/, "");
+        nftDescription = nftDescription || files[0].name.replace(/.[^.]+$/, "");
 
         if ("audio" === handleMediaType(uploadedMediatypes)) {
           reader.onload = (e) => {
             animation_url_base64 = e.target.result.toString();
           };
 
+          animation_url_mediatypes = uploadedMediatypes;
           animation_url_file = files[0];
 
-          imgFiles.value = "";
+          mediaFiles.value = "";
 
           return;
         }
@@ -138,21 +138,27 @@
         file = files[0];
       } else {
         uploadErrMsg = `${files[0].type} is not supported for now, Please Upload a supported file type`;
-        imgFiles.value = "";
+        mediaFiles.value = "";
         files = null;
       }
     }
   };
 
   /////////////////////////////////////////////////
-  const resetImgInput = () => {
+  const resetInput = () => {
+    if (!animation_url_base64 || !image) {
+      animation_url_mediatypes = null;
+      animation_url_file = null;
+      animation_url_base64 = null;
+      storageAnimationUrl = null;
+      nftTitle = null;
+      nftDescription = null;
+      inputMediatype = null;
+    }
     image = null;
     files = null;
     file = null;
-    if (!animation_url_base64) {
-      nftTitle = null;
-      nftDescription = null;
-    }
+    if (mediaFiles) mediaFiles.value = "";
   };
 
   /////////////////////////////////////////////////
@@ -238,10 +244,10 @@
             mintingError = "Problem while sending transaction.";
           }
         } else {
-          mintingError = `Problem while archiving metadata on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
+          mintingError = `Problem while archiving metadata on ${strFirstToUpper(storage)}.`;
         }
       } else {
-        mintingError = `Problem while archiving image on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
+        mintingError = `Problem while archiving image on ${strFirstToUpper(storage)}.`;
       }
     } else {
       mintingError = "Missing NFT file. Sorry can't mint.";
@@ -320,11 +326,17 @@
                 {/if}
 
                 <li class={minting >= 2 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Image link</span></div>
+                  <div class="flex"><span class="label">Media(s) link(s)</span></div>
                   <div class="flex">
                     {#if storageImg}
-                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
+                      Image : <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
                         >{textShort(storageImg, 15)}</a
+                      >
+                    {/if}
+                    {#if storageAnimationUrl}
+                      {strFirstToUpper(animation_url_mediatypes[0])} :
+                      <a class="link" href={storageLinkToUrlHttp(storageAnimationUrl)} target="_blank"
+                        >{textShort(storageUrlHttpToCid(storageAnimationUrl), 15)}</a
                       >
                     {/if}
                   </div>
@@ -361,12 +373,14 @@
             {:else}
               <div class="section">
                 <span class="label label-big">NFT file</span>
-                <div class="box-file">
+                <div class="box-file kre-image-preview">
+                  {#if animation_url_base64 || image}
+                    <span on:click|preventDefault={resetInput} title="Close" class="reset-img modal-close"
+                      ><i class="fa fa-times" /></span
+                    >
+                  {/if}
                   {#if image}
-                    <div class="media media-photo mt-20 kre-image-preview">
-                      <span on:click|preventDefault={resetImgInput} title="Close" class="reset-img modal-close"
-                        ><i class="fa fa-times" /></span
-                      >
+                    <div class="media media-photo mt-20">
                       <img src={image} alt="nft" />
                     </div>
                   {:else}
@@ -378,7 +392,7 @@
                       id="file"
                       name="file"
                       bind:files
-                      bind:this={imgFiles}
+                      bind:this={mediaFiles}
                       accept={animation_url_base64
                         ? "image/png, image/jpeg, image/webp, image/svg+xml, image/gif, image/bmp, image/x-icon"
                         : "*"}

@@ -1,15 +1,20 @@
+const supportedImageFormats = ["jpeg", "png", "webp", "svg+xml", "bmp", "x-icon", "vnd.microsoft.icon", "gif"];
+const supportedAudiosFormats = ["mpeg", "wav", "x-wav", "aac", "ogg"];
+
 const handleMediaType = (uploadedMediatypes: Array<string>): string => {
   let selectedMediaType = "";
   if (uploadedMediatypes) {
     switch (uploadedMediatypes[0]) {
-    case "video":
-      selectedMediaType = "video";
-      break;
+    // case "video":
+    //   selectedMediaType = "video";
+    //   break;
     case "image":
-      if (uploadedMediatypes[1] === "gif") {
-        selectedMediaType = "gif";
-      } else {
-        selectedMediaType = "image";
+      if (supportedImageFormats.includes(uploadedMediatypes[1])) {
+        if (uploadedMediatypes[1] === "gif") {
+          selectedMediaType = "gif";
+        } else {
+          selectedMediaType = "image";
+        }
       }
       break;
       // case "text":
@@ -27,7 +32,7 @@ const handleMediaType = (uploadedMediatypes: Array<string>): string => {
       //   }
       //   break;
     case "audio":
-      selectedMediaType = "audio";
+      if (supportedAudiosFormats.includes(uploadedMediatypes[1])) selectedMediaType = "audio";
       break;
     default:
       selectedMediaType = "";
