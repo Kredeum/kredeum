@@ -2,9 +2,10 @@ name: Build Dapp
 on:
   push:
     branches:
-      - alpha
-      - beta
-      - main
+      # - alpha
+      # - beta
+      # - main
+      - deployWithGitHubAction
 
 jobs:
   check:
