@@ -22,8 +22,8 @@
   };
 
   onMount(() => {
-    branch = process.env.GIT_BRANCH === "main" ? "" : `(${process.env.GIT_BRANCH})`;
-    detail = `v${version} (${process.env.GIT_BRANCH} #${process.env.GIT_SHORT})`;
+    branch = process.env.GIT_BRANCH || "HEAD";
+    detail = `v${version} (${branch} #${process.env.GIT_SHORT})`;
 
     console.log(`INIT Kredeum NFTs Factory ${detail}`);
     cacheVersion();
@@ -31,5 +31,5 @@
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">
-  My NFTs Factory {branch}
+  My NFTs Factory ({branch})
 </h1>
