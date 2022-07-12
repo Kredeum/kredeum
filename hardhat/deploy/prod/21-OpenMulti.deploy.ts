@@ -2,7 +2,7 @@ import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
 import * as fs from "fs/promises";
 import networks from "config/networks.json";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { NFTsFactoryV2 } from "soltypes/contracts/NFTsFactoryV2";
 
 const contractName = "OpenMulti";
 

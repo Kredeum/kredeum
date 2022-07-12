@@ -1,15 +1,14 @@
-import type { NFTsFactory } from "types/NFTsFactory";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { ERC165 } from "types/ERC165";
+import type { NFTsFactory, NFTsFactoryV2 } from "soltypes/contracts";
+import type { IERC165 } from "soltypes/contracts/interfaces";
 import type { NetworkType } from "lib/ktypes";
 
 import networks from "config/networks.json";
 
-import IERC165 from "abis/IERC165.json";
-import INFTsFactory from "abis/INFTsFactory.json";
-import ICloneFactory from "abis/ICloneFactory.json";
-import INFTsFactory2 from "abis/INFTsFactoryV2.json";
-import ICloneFactory2 from "abis/ICloneFactoryV2.json";
+import abiERC165 from "abis/IERC165.json";
+import abiNFTsFactory from "abis/INFTsFactory.json";
+import abiCloneFactory from "abis/ICloneFactory.json";
+import abiNFTsFactory2 from "abis/INFTsFactoryV2.json";
+import abiCloneFactory2 from "abis/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";
@@ -33,13 +32,13 @@ const main = async () => {
   const network = networks.find((nw) => nw.chainId === chainId) as NetworkType;
   const nftsFactory: NFTsFactory = new ethers.Contract(
     network.nftsFactory || "",
-    INFTsFactory.concat(ICloneFactory),
+    abiNFTsFactory.concat(abiCloneFactory),
     provider
   ) as NFTsFactory;
 
   const nftsFactoryV2: NFTsFactoryV2 = new ethers.Contract(
     network.nftsFactoryV2 || "",
-    INFTsFactory2.concat(ICloneFactory2),
+    abiNFTsFactory2.concat(abiCloneFactory2),
     provider
   ) as NFTsFactoryV2;
 
@@ -60,9 +59,9 @@ const main = async () => {
 
     // Not in V2
     if (implsV2.indexOf(impl) == -1) {
-      const contract = new ethers.Contract(impl, IERC165, deployer) as ERC165;
+      const contract = new ethers.Contract(impl, abiERC165, deployer);
       try {
-        isERC721andNotV2 = await contract.supportsInterface("0x80ac58cd");
+        isERC721andNotV2 = await (contract as IERC165).supportsInterface("0x80ac58cd");
       } catch (e) {
         console.error(impl, e);
       }

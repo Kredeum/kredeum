@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
-import "./interfaces/IOpenBound4973.sol";
+import "../interfaces/IOpenBound4973.sol";
 import "../interfaces/IERC4973.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC721Enumerable.sol";

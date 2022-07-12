@@ -1,4 +1,4 @@
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { NetworkType } from "lib/ktypes";
 
 import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts/utils/introspection/IERC165.sol";
 
@@ -18,13 +18,14 @@ import "../interfaces/IOpenNFTsV0.sol";
 import "../interfaces/IOpenNFTsV1.sol";
 import "../interfaces/IOpenNFTsV2.sol";
 import "../interfaces/IOpenNFTsV3.sol";
+import "../interfaces/IOpenNFTsV4.sol";
 
 import "../interfaces/ICloneFactory.sol";
 import "../interfaces/INFTsFactory.sol";
 import "../interfaces/ICloneFactoryV2.sol";
 import "../interfaces/INFTsFactoryV2.sol";
 
-import "./interfaces/IInterfacesIds.sol";
+import "../interfaces/IInterfacesIds.sol";
 
 /// @title InterfaceIds calculation
 /// @author zapaz.eth
@@ -35,7 +36,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
-        interfacesIds = new bytes4[](18);
+        interfacesIds = new bytes4[](19);
         interfacesIds[0] = type(IERC165).interfaceId;
 
         interfacesIds[1] = type(IERC721).interfaceId;
@@ -55,10 +56,11 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[11] = type(IOpenNFTsV1).interfaceId;
         interfacesIds[12] = type(IOpenNFTsV2).interfaceId;
         interfacesIds[13] = type(IOpenNFTsV3).interfaceId;
+        interfacesIds[14] = type(IOpenNFTsV4).interfaceId;
 
-        interfacesIds[14] = type(ICloneFactory).interfaceId;
-        interfacesIds[15] = type(INFTsFactory).interfaceId;
-        interfacesIds[16] = type(ICloneFactoryV2).interfaceId;
-        interfacesIds[17] = type(INFTsFactoryV2).interfaceId;
+        interfacesIds[15] = type(ICloneFactory).interfaceId;
+        interfacesIds[16] = type(INFTsFactory).interfaceId;
+        interfacesIds[17] = type(ICloneFactoryV2).interfaceId;
+        interfacesIds[18] = type(INFTsFactoryV2).interfaceId;
     }
 }

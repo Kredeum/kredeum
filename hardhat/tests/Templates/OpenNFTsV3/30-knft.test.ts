@@ -1,5 +1,5 @@
 import type { NetworkType } from "lib/ktypes";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { OpenNFTsV3 } from "soltypes/contracts";
 import type { Signer } from "ethers";
 
 import { expect } from "chai";
@@ -25,7 +25,7 @@ describe("30 OpenNFTsV3 Mint", function () {
 
   before(async () => {
     chainId = Number(await hre.getChainId());
-    console.log("network", chainId, hre.network.name, hre.network.live);
+    // console.log("network", chainId, hre.network.name, hre.network.live);
 
     network = networks.find((nw) => nw.chainId === chainId);
 
@@ -87,10 +87,5 @@ describe("30 OpenNFTsV3 Mint", function () {
     it("Should be allowed to Mint", async function () {
       await expect(openNFTsV3.connect(deployer).mintOpenNFT(artistAddress, json)).to.be.not.reverted;
     });
-
-    // default colleciton mintable for all...
-    // it.skip("Should not be allowed to Mint", async function () {
-    //   await expect(openNFTsV3.connect(tester).mintOpenNFT(artistAddress, json)).to.be.revertedWith("Not minter");
-    // });
   });
 });

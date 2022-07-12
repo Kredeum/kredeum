@@ -2,21 +2,21 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import hre from "hardhat";
 import { Contract } from "ethers";
 
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { ERC721Enumerable } from "types/ERC721Enumerable";
-import INFTsFactory from "abis/INFTsFactory.json";
-import ICloneFactory from "abis/ICloneFactory.json";
-import IERC165 from "abis/IERC165.json";
-import IERC721 from "abis/IERC721.json";
-import IERC721Metadata from "abis/IERC721Metadata.json";
-import IERC721Enumerable from "abis/IERC721Enumerable.json";
+import type { NFTsFactoryV2 } from "soltypes/contracts";
+import type { IERC721Enumerable } from "soltypes/contracts/interfaces";
+import abiNFTsFactory from "abis/INFTsFactory.json";
+import abiCloneFactory from "abis/ICloneFactory.json";
+import abiERC165 from "abis/IERC165.json";
+import abiERC721 from "abis/IERC721.json";
+import abiERC721Metadata from "abis/IERC721Metadata.json";
+import abiERC721Enumerable from "abis/IERC721Enumerable.json";
 
 import type { CollectionType } from "lib/ktypes";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
 
 const ABI_OPEN = "function open() view returns (bool)";
-const INFT = IERC165.concat(IERC721).concat(IERC721Metadata).concat(IERC721Enumerable).concat(ABI_OPEN);
+const INFT = abiERC165.concat(abiERC721).concat(abiERC721Metadata).concat(abiERC721Enumerable).concat(ABI_OPEN);
 
 let totalChains = 0;
 let totalCollections = 0;
@@ -35,7 +35,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
       output += " is NFTsFactoryV2";
     } else {
       const collectionObject: CollectionType = await collectionGet(chainId, collectionAddress, provider);
-      const collection = new Contract(collectionAddress, INFT, provider) as ERC721Enumerable;
+      const collection = new Contract(collectionAddress, INFT, provider) as IERC721Enumerable;
       const { supports, totalSupply, name, symbol } = collectionObject;
       // console.log("logCollection ~ collectionObject", collectionObject);
 
@@ -77,7 +77,7 @@ const main = async (): Promise<void> => {
 
       const nftsFactory: NFTsFactoryV2 = new hre.ethers.Contract(
         network.nftsFactoryV2,
-        INFTsFactory.concat(ICloneFactory),
+        abiNFTsFactory.concat(abiCloneFactory),
         provider
       ) as NFTsFactoryV2;
       const nb = Number(await nftsFactory.implementationsCount());

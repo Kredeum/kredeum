@@ -3,7 +3,7 @@ import { ethers, deployments } from "hardhat";
 import { Signer } from "ethers";
 import { interfaceId } from "lib/kconfig";
 
-import type { OpenProof } from "types/OpenProof";
+import type { OpenProof } from "soltypes/contracts/dev";
 
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";

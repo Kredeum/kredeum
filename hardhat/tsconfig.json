@@ -9,7 +9,7 @@
     "paths": {
       "lib/*": ["../common/lib/*"],
       "config/*": ["../common/config/*"],
-      "types/*": ["../common/types/*"],
+      "soltypes/*": ["../common/types/*"],
       "scripts/*": ["scripts/*"],
       "abis/*": ["../common/abis/*"]
     }

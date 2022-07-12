@@ -1,7 +1,5 @@
 import type { Signer } from "ethers";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { OpenNFTsV2 } from "types/OpenNFTsV2";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { NFTsFactoryV2, OpenNFTsV2, OpenNFTsV3 } from "soltypes/contracts";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
@@ -53,19 +51,12 @@ describe("10 Clone Factory contract", function () {
 
   describe("Should Add Implementations", function () {
     it("Should Add Implementation", async function () {
-      await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV3.address]))
-        .to.emit(nftsFactoryV2, "ImplementationNew")
-        .withArgs(openNFTsV3.address, deployerAddress, 1);
-
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
-    });
-
-    it("Should Add Old Implementation", async function () {
+      const impCount = await nftsFactoryV2.implementationsCount();
       await expect(nftsFactoryV2.connect(deployer).implementationsAdd([openNFTsV2.address]))
         .to.emit(nftsFactoryV2, "ImplementationNew")
         .withArgs(openNFTsV2.address, deployerAddress, 1);
 
-      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(2);
+      expect(await nftsFactoryV2.implementationsCount()).to.be.equal(impCount.add(1));
     });
 
     it("Should not Add Implementation if Not Owner", async function () {

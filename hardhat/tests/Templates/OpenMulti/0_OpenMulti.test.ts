@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { Signer } from "ethers";
 import { ethers, deployments } from "hardhat";
-import { OpenMulti } from "types/OpenMulti";
+import { OpenMulti } from "soltypes/contracts/dev";
 import { CID } from "multiformats/cid";
 const contractName = "OpenMulti";
 

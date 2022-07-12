@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import type { OpenProof } from "types/OpenProof";
+import type { OpenProof } from "soltypes/contracts/dev/OpenProof";
 
 const contractName = "OpenProof";
 
@@ -15,8 +15,8 @@ const deployFunction: DeployFunction = async function (hre: HardhatRuntimeEnviro
   });
 
   if (deployResult.newlyDeployed) {
-    const openProof = (await hre.ethers.getContract(contractName, deployer)) as unknown as OpenProof;
-    await openProof.initialize("Open Proof", "PROOF", deployer);
+    const openProof = await hre.ethers.getContract(contractName, deployer);
+    await (openProof as OpenProof).initialize("Open Proof", "PROOF", deployer);
   }
 };
 

@@ -1,6 +1,6 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import * as fs from "fs/promises";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { NFTsFactoryV2 } from "soltypes/contracts/NFTsFactoryV2";
 
 import type { NetworkType } from "lib/ktypes";
 import networks from "config/networks.json";

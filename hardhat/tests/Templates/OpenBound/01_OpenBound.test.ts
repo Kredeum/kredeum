@@ -4,7 +4,7 @@ import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
 import { BigNumber, Wallet } from "ethers";
 
-import type { OpenBound } from "types/OpenBound";
+import type { OpenBound } from "soltypes/contracts/dev";
 import IERC165 from "abis/IERC165.json";
 import IERC721 from "abis/IERC721.json";
 import IERC721Enumerable from "abis/IERC721Enumerable.json";
