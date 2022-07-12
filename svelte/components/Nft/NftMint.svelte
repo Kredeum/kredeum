@@ -2,7 +2,7 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { NftType } from "lib/ktypes";
 
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
 
   import {
     nftMintTexts,
@@ -13,7 +13,16 @@
     nftMint3TxResponse,
     nftMint4
   } from "lib/knft-mint";
-  import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
+  import {
+    textShort,
+    swarmGatewayUrl,
+    explorerTxUrl,
+    explorerNftUrl,
+    nftUrl,
+    storageLinkToUrlHttp,
+    sleep
+  } from "lib/kconfig";
+  /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
@@ -23,10 +32,11 @@
   //  <NftMint {chainId} />
   // Mint NFT
   /////////////////////////////////////////////////
-  //  <NftMint /> {storage}
+  //  <NftMint /> {storage} {refresh}?
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
   /////////////////////////////////////////////////
   export let storage: string;
+  export let refresh: number = 1;
 
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
@@ -146,6 +156,17 @@
 
             if (mintedNft) {
               minting = 5;
+
+              refresh += 1;
+
+              const mintingTxReceipt = await mintingTxResp.wait();
+              console.log("mintingTxReceipt", mintingTxReceipt);
+              const blockTx = mintingTxReceipt.blockNumber;
+
+              do await sleep(1000);
+              while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+              refresh += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }

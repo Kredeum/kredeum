@@ -9,7 +9,7 @@
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
+  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} {refresh}? />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -19,6 +19,7 @@
   export let label: boolean = true;
   export let txt: boolean = false;
   export let refreshing: boolean = undefined;
+  export let refresh: number = 1;
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
@@ -26,7 +27,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: mintable, chainId && account && handleChangeCollection();
+  $: refresh, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
