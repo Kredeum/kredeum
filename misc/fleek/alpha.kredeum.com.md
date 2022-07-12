@@ -4,7 +4,7 @@
 
 Repository: https://api.github.com/repos/Kredeum/kredeum
 Base directory:
-Build command: `npm install -g pnpm && pnpm install-dapp && pnpm build-dapp`
+Build command: `pnpm install-dapp && pnpm build-dapp`
 Publish directory: `/web/dapp`
 
 ## Deploy Contexts
@@ -14,4 +14,4 @@ Deploy previews: Automatically build deploy previews for all pull requests
 
 ## Docker
 
-Docker Image Name: `node:16`
+Docker Image Name: `gplane/pnpm:node16`
