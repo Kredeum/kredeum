@@ -1,23 +1,22 @@
 import type { RollupOptions, Plugin } from "rollup";
 
 import svelte from "rollup-plugin-svelte";
-import nodeResolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
 import { terser } from "rollup-plugin-terser";
-import json from "@rollup/plugin-json";
-import replace from "@rollup/plugin-replace";
-// import _css from "rollup-plugin-css-only";
 import _postcss from "rollup-plugin-postcss";
 import _builtins from "rollup-plugin-node-builtins";
 
+import json from "@rollup/plugin-json";
+import commonjs from "@rollup/plugin-commonjs";
+import replace from "@rollup/plugin-replace";
+import nodeResolve from "@rollup/plugin-node-resolve";
 import typescript from "@rollup/plugin-typescript";
+
 import sveltePreprocess from "svelte-preprocess";
 
 import dotenv from "dotenv";
 import findupSync from "findup-sync";
 
 const builtins = _builtins as { (): Plugin };
-// const css = _css as { (Options): Plugin };
 const postcss = _postcss as { (Options): Plugin };
 
 dotenv.config({ path: findupSync(".env") || "" });

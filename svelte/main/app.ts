@@ -1,8 +1,5 @@
-// import Home from "../components/Collection/CollectionChoice.svelte";
-// import Home from "../tests/Test01.svelte";
-import Home from "../components/Global/Home.svelte";
-// import Home from "../components/Tests/NftsStore/App.svelte";
-// import Home from "../components/Tests/NftsDerived/App.svelte";
+// import Home from "../components/Global/Home.svelte";
+import Home from "../tests/Web3Modal.svelte";
 import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
