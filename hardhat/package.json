@@ -72,6 +72,9 @@
   "main": "index.js",
   "name": "hardhat",
   "scripts": {
+    "install:forge": "curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup",
+    "update:forge": "~/.foundry/bin/forge update",
+    "postinstall": "npm run install:forge && npm run update:forge",
     "clean": "rm -rf artifacts cache node_modules docs",
     "build": "hardhat typechain && hardhat compile && hardhat docgen",
     "prettier": "prettier contracts/new/*.sol **/*.ts --write --loglevel error",
