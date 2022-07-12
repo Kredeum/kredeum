@@ -14,4 +14,4 @@ Deploy previews: Automatically build deploy previews for all pull requests
 
 ## Docker
 
-Docker Image Name: `gplane/pnpm:node16`
+Docker Image Name: `node:16`

@@ -31,5 +31,5 @@
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">
-  My PR TEST {branch}
+  TEST NODE 16 {branch}
 </h1>
