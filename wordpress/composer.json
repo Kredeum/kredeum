@@ -2,7 +2,7 @@
   "name": "kredeum/nfts",
   "description": "NFTs decentralized platform",
   "require-dev": {
-    "squizlabs/php_codesniffer": "^3.6.2",
+    "squizlabs/php_codesniffer": "^3.7.1",
     "wp-coding-standards/wpcs": "^2.3",
     "dealerdirect/phpcodesniffer-composer-installer": "^0.7.2"
   },
