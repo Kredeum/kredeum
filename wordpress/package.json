@@ -10,8 +10,8 @@
     "build-php": "npx hbs-cli -D ../common/config/config.json kredeum-nfts.php_handelbars -o plugins/kredeum-nfts -e php",
     "build-vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
     "build": "npm run build-txt && npm run build-php && npm run build-vendor",
-    "fix": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
-    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
+    "fix": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress --config-set php_version 50639",
+    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress --config-set php_version 50639",
     "check": "npm run fix && npm run format",
     "tests": "cypress run"
   },

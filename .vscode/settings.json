@@ -60,7 +60,7 @@
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "window.zoomLevel": 0,
+  "window.zoomLevel": 2,
   "workbench.activityBar.visible": true,
   "workbench.colorTheme": "Winter is Coming (Dark Black)",
   "workbench.layoutControl.enabled": true,
