@@ -40,7 +40,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         override(IERC721Enumerable)
         returns (uint256)
     {
-        require(index < OpenERC721.balanceOf(owner), "Owner index out of bounds");
+        require(index < OpenERC721.balanceOf(owner), "Invalid index!");
         return _ownedTokens[owner][index];
     }
 
@@ -49,7 +49,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
     }
 
     function tokenByIndex(uint256 index) public view override(IERC721Enumerable) returns (uint256) {
-        require(index < OpenERC721Enumerable.totalSupply(), "Global index out of bounds");
+        require(index < OpenERC721Enumerable.totalSupply(), "Invalid index!");
         return _allTokens[index];
     }
 
@@ -103,7 +103,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         }
 
         // This also deletes the contents at the last position of the array
-        delete _ownedTokensIndex[tokenId];
+                     delete _ownedTokensIndex[tokenId];
         delete _ownedTokens[from][lastTokenIndex];
     }
 
