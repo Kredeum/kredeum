@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC165Test is OpenNFTsTest {
+contract OpenERC165Test is OpenNFTsOldTest {
     function testERC165() public {
         assertTrue(op.supportsInterface(type(IERC165).interfaceId));
         assertFalse(op.supportsInterface(0xffffffff));
@@ -46,7 +46,7 @@ contract OpenERC165Test is OpenNFTsTest {
         assertTrue(opn.supportsInterface(opId));
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC165).interfaceId));
     }
 }

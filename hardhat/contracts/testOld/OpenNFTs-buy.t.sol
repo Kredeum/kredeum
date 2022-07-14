@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenNFTsBuyTest is OpenNFTsTest {
+contract OpenNFTsBuyTest is OpenNFTsOldTest {
     function testBuyOk() public {
         op.setTokenRoyalty(tokenID0, tester, 100);
         op.setTokenPrice(tokenID0, 1 ether);

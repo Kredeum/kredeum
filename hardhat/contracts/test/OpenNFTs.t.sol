@@ -1,44 +1,42 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "../../lib/forge-std/src/Test.sol";
-import "../interfaces/IERC165.sol";
-import "../interfaces/IERC2981.sol";
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC721Metadata.sol";
-import "../interfaces/IERC1155.sol";
+import "./ERC721.t.sol";
+import "./ERC721Enumerable.t.sol";
+import "./ERC721Metadata.t.sol";
+import "./ERC165.t.sol";
 
-import "../open/OpenNFTsV4.sol";
-
-contract OpenNFTsTest is Test {
-    OpenNFTsV4 internal op;
-    OpenNFTsV4 internal opn;
-    bytes4 internal opId;
-
-    address owner = address(0x1);
-    address minter = address(0x2);
-    address buyer = address(0x3);
-    address tester = address(0x4);
-
+abstract contract OpenNFTsTest is ERC721Test, ERC721MetadataTest, ERC721EnumerableTest, ERC165Test {
     string internal constant _TOKEN_URI = "ipfs://bafkreidfhassyaujwpbarjwtrc6vgn2iwfjmukw3v7hvgggvwlvdngzllm";
+    bool private _transferable = true;
 
-    uint96 maxFee = 10000;
-    uint256 maxPrice = uint256(((2**256) - 1)) / maxFee;
-    uint256 tokenID0;
-    uint256 notTokenID = 42;
+    function constructorTest(address owner_)
+        public
+        virtual
+        override(ERC721MetadataTest, ERC721EnumerableTest, ERC165Test, ERC721Test)
+        returns (address);
 
-    bool[] options = new bool[](1);
+    function mintTest(address collection, address minter_)
+        public
+        virtual
+        override(ERC721MetadataTest, ERC721EnumerableTest, ERC721Test)
+        returns (uint256);
 
-    function setUp() public {
-        op = new OpenNFTsV4();
-        opn = new OpenNFTsV4();
-        opId = type(IOpenNFTsV4).interfaceId;
-        options[0] = true;
+    function burnTest(address collection, uint256 tokenID) public virtual override(ERC721Test);
 
-        op.initialize("OpenNFTsTest", "OPTEST", owner, options);
+    function setUpOpenNFTs(
+        string memory name_,
+        string memory symbol_,
+        bool nonTransferable_
+    ) public {
+        _transferable = nonTransferable_;
+        setUpOpenNFTs(name_, symbol_);
+    }
 
-        startHoax(minter);
-        tokenID0 = op.mint(_TOKEN_URI);
+    function setUpOpenNFTs(string memory name_, string memory symbol_) public {
+        setUpERC165();
+        setUpERC721(_transferable);
+        setUpERC721Metadata(name_, symbol_);
+        setUpERC721Enumerable();
     }
 }

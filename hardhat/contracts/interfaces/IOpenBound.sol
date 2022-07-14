@@ -8,8 +8,6 @@ interface IOpenBound {
 
     function burn(uint256 tokenID) external;
 
-    function togglePause() external;
-
     function getTokenID(uint256 CID, address addr) external pure returns (uint256);
 
     function getMyTokenID(uint256 CID) external view returns (uint256);

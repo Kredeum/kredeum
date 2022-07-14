@@ -103,7 +103,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         }
 
         // This also deletes the contents at the last position of the array
-                     delete _ownedTokensIndex[tokenId];
+        delete _ownedTokensIndex[tokenId];
         delete _ownedTokens[from][lastTokenIndex];
     }
 

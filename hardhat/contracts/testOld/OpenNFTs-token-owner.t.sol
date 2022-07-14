@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenNFTsTokenOwnerTest is OpenNFTsTest {
+contract OpenNFTsTokenOwnerTest is OpenNFTsOldTest {
     function testTokenOwner() public {
         changePrank(minter);
         op.setTokenRoyalty(tokenID0, tester, 100);

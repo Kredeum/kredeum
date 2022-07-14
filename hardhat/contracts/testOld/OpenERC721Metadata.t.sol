@@ -3,23 +3,23 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC721MetadataTest is OpenNFTsTest {
+contract OpenERC721MetadataTest is OpenNFTsOldTest {
     function testInitialize() public {
-        opn.initialize("OpenNFTsTest", "OPTEST", owner, options);
-        assertEq(opn.name(), "OpenNFTsTest");
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
+        assertEq(opn.name(), "OpenNFTsOldTest");
         assertEq(opn.symbol(), "OPTEST");
     }
 
     function testInitializeTwice() public {
-        opn.initialize("OpenNFTsTest", "OPTEST", owner, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
         vm.expectRevert("Only once!");
-        opn.initialize("OpenNFTsTest", "OPTEST", tester, options);
-        assertEq(opn.name(), "OpenNFTsTest");
+        opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
+        assertEq(opn.name(), "OpenNFTsOldTest");
         assertEq(opn.symbol(), "OPTEST");
     }
 
     function testName() public {
-        assertEq(op.name(), "OpenNFTsTest");
+        assertEq(op.name(), "OpenNFTsOldTest");
     }
 
     function testSymbol() public {
@@ -39,7 +39,7 @@ contract OpenERC721MetadataTest is OpenNFTsTest {
         assertEq(opn.tokenURI(tokenID), "URL_TEST");
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC721Metadata).interfaceId));
     }
 }

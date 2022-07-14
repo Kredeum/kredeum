@@ -3,18 +3,18 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC173Text is OpenNFTsTest {
+contract OpenERC173Text is OpenNFTsOldTest {
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     function testInitialize() public {
-        opn.initialize("OpenNFTsTest", "OPTEST", owner, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
         assertEq(opn.owner(), owner);
     }
 
     function testInitializeTwice() public {
-        opn.initialize("OpenNFTsTest", "OPTEST", owner, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
         vm.expectRevert("Only once!");
-        opn.initialize("OpenNFTsTest", "OPTEST", tester, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
         assertEq(opn.owner(), owner);
     }
 
@@ -52,7 +52,7 @@ contract OpenERC173Text is OpenNFTsTest {
         op.transferOwnership(minter);
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC173).interfaceId));
     }
 }

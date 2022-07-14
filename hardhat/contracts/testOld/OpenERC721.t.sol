@@ -3,9 +3,9 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC721Test is OpenNFTsTest {
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
+contract OpenERC721Test is OpenNFTsOldTest {
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);
+    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenID);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
     function testBalanceOf() public {
@@ -15,6 +15,8 @@ contract OpenERC721Test is OpenNFTsTest {
 
     function testOwnerOf() public {
         assertEq(op.ownerOf(1), minter);
+        op.mint(_TOKEN_URI);
+        assertEq(op.ownerOf(2), minter);
     }
 
     function testSafeTransferFrom() public {
@@ -42,6 +44,9 @@ contract OpenERC721Test is OpenNFTsTest {
     function testSafeTransferFromFuzzy(address from, address to) public {
         vm.assume(from != address(0));
         vm.assume(to != address(0));
+        vm.assume(to != from);
+        vm.assume(from.code.length == 0);
+        vm.assume(to.code.length == 0);
 
         changePrank(from);
         op.mint(_TOKEN_URI);
@@ -69,6 +74,9 @@ contract OpenERC721Test is OpenNFTsTest {
     function testTransferFromFuzzy(address from, address to) public {
         vm.assume(from != address(0));
         vm.assume(to != address(0));
+        vm.assume(to != from);
+        vm.assume(from.code.length == 0);
+        vm.assume(to.code.length == 0);
 
         changePrank(from);
         op.mint(_TOKEN_URI);
@@ -97,7 +105,7 @@ contract OpenERC721Test is OpenNFTsTest {
         op.burn(tokenID0);
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC721).interfaceId));
     }
 }

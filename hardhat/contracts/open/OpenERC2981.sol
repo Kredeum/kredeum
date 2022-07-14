@@ -29,7 +29,7 @@ abstract contract OpenERC2981 is IERC2981, OpenERC173 {
 
     uint96 internal constant _MAX_FEE = 10000;
 
-    function royaltyInfo(uint256 tokenId, uint256 salePrice)
+    function royaltyInfo(uint256 tokenID, uint256 salePrice)
         public
         view
         override(IERC2981)
@@ -38,7 +38,7 @@ abstract contract OpenERC2981 is IERC2981, OpenERC173 {
         /// otherwise may overflow
         require(salePrice < 2**128, "Too expensive");
 
-        RoyaltyInfo memory royalty = _tokenRoyaltyInfo[tokenId];
+        RoyaltyInfo memory royalty = _tokenRoyaltyInfo[tokenID];
 
         if (royalty.receiver == address(0)) {
             royalty = _royaltyInfo;

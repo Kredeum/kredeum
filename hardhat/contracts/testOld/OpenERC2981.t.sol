@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC2981Test is OpenNFTsTest {
+contract OpenERC2981Test is OpenNFTsOldTest {
     function testRoyaltyInfo(uint256 price) public {
         vm.assume(price < 2**128);
         op.royaltyInfo(tokenID0, price);
@@ -27,7 +27,7 @@ contract OpenERC2981Test is OpenNFTsTest {
         assertEq(royalties, (price * fee) / maxFee);
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC2981).interfaceId));
     }
 }

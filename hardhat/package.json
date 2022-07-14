@@ -77,7 +77,7 @@
     "clean": "rm -rf artifacts cache node_modules docs",
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup && npm run update:forge",
-    "prettier": "prettier contracts/dev/*.sol **/*.ts --write --loglevel error",
+    "prettier": "prettier contracts/**/*.sol **/*.ts --write --loglevel error",
     "solhint": "solhint contracts/open/*.sol --fix",
     "tests": "hardhat test",
     "update:forge": "~/.foundry/bin/forge update"

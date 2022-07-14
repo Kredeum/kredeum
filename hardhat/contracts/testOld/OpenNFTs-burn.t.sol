@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenNFTsBurnTest is OpenNFTsTest {
+contract OpenNFTsBurnTest is OpenNFTsOldTest {
     function testBurn() public {
         assertEq(op.totalSupply(), 1);
         assertEq(op.tokenByIndex(0), 1);

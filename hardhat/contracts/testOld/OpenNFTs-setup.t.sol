@@ -3,9 +3,9 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenNFTsSetupTest is OpenNFTsTest {
+contract OpenNFTsSetupTest is OpenNFTsOldTest {
     function testContract() public {
-        assertEq(op.name(), "OpenNFTsTest");
+        assertEq(op.name(), "OpenNFTsOldTest");
         assertEq(op.symbol(), "OPTEST");
         assertEq(op.owner(), owner);
         assertEq(op.open(), true);

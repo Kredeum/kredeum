@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenERC721EnumerableTest is OpenNFTsTest {
+contract OpenERC721EnumerableTest is OpenNFTsOldTest {
     function testTotalSupply() public {
         assertEq(op.totalSupply(), 1);
         op.mint(_TOKEN_URI);
@@ -28,7 +28,7 @@ contract OpenERC721EnumerableTest is OpenNFTsTest {
         assertEq(op.tokenOfOwnerByIndex(tester, 0), 3);
     }
 
-    function testSupporstInterface() public {
+    function testSupportsInterface() public {
         assertTrue(op.supportsInterface(type(IERC721Enumerable).interfaceId));
     }
 }
