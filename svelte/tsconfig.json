@@ -15,8 +15,8 @@
       "tests/*": ["tests/*"],
       "lib/*": ["../common/lib/*"],
       "config/*": ["../common/config/*"],
-      "abis/*": ["../common/abis/*"],
-      "types/*": ["../common/types/*"]
+      "soltypes/*": ["../common/types/*"],
+      "abis/*": ["../common/abis/*"]
     }
     // "strict": true
   },

@@ -4,7 +4,7 @@ import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import hre from "hardhat";
 
 import type { NetworkType } from "lib/ktypes";
-import type { OpenBound4973 } from "types/OpenBound4973";
+import type { OpenBound4973 } from "soltypes/contracts/dev";
 import { networks } from "lib/kconfig";
 
 const ipfs0 = "ipfs://bafkreiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";

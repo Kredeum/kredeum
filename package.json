@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "all": "pnpm run clean && pnpm install && pnpm install-all && pnpm run build && pnpm run check",
-    "install-dapp": "npm run install:common && npm run install:hardhat && npm run install:gulp && npm run install:svelte",
+    "install-dapp": "npm run install:common && npm run install:hardhat && npm run install:foundry && npm run install:gulp && npm run install:svelte",
     "build-dapp": "npm run build:hardhat && npm run build:gulp && npm run build:svelte",
     "install-all": "npm-run-all install:*",
     "dapp": "http-server web/dapp",
@@ -15,6 +15,7 @@
     "check": "npm-run-all check:*",
     "install:common": "cd common && pnpm install",
     "install:hardhat": "cd hardhat && pnpm install",
+    "install:foundry": "cd hardhat && pnpm install:foundry",
     "install:gulp": "cd gulp && pnpm install",
     "install:svelte": "cd svelte && pnpm install",
     "install:wordpress": "cd wordpress && pnpm install",

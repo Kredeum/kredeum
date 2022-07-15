@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity 0.8.9;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -8,7 +8,7 @@ import "@openzeppelin/contracts-upgradeable/token/ERC721/extensions/ERC721URISto
 import "@openzeppelin/contracts-upgradeable/utils/CountersUpgradeable.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC4973.sol";
-import "./interfaces/IOpenProof.sol";
+import "../interfaces/IOpenProof.sol";
 
 /// @title OpenProof smartcontract
 contract OpenProof is

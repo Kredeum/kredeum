@@ -1,5 +1,4 @@
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { NFTsFactoryV2, OpenNFTsV3 } from "soltypes/contracts";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
@@ -41,7 +40,7 @@ describe("11 NFTs Factory contract", function () {
   });
 
   it("Should get nftsFactoryV2 balancesOf", async function () {
-    console.log(await nftsFactoryV2.populateTransaction.balancesOf(owner));
+    // console.log(await nftsFactoryV2.populateTransaction.balancesOf(owner));
     // console.log(`nftsFactoryV2.balancesOf ${owner} ${await nftsFactoryV2.balancesOf(owner)}`);
     void expect(await nftsFactoryV2.balancesOf(owner)).to.be.string;
   });

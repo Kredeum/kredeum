@@ -2,8 +2,8 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { ethers, BigNumber, Contract } from "ethers";
 
 import type { NftType } from "./ktypes";
-import type { OpenMulti } from "types/OpenMulti";
-import IOpenMulti from "abis/IOpenMulti.json";
+import type { IOpenMulti } from "soltypes/contracts/interfaces";
+import abiOpenMulti from "abis/IOpenMulti.json";
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";
@@ -93,10 +93,10 @@ const nftClaim3TxResponse = async (
   const openMultiAddress = getOpenMulti(chainId);
   if (!(chainId && address && tokenID && owner && openMultiAddress)) return null;
 
-  const openMulti = new Contract(openMultiAddress, IOpenMulti, owner) as OpenMulti;
+  const openMulti = new Contract(openMultiAddress, abiOpenMulti, owner);
   // console.log("openMulti", openMulti);
 
-  const txResp = await openMulti.claim(BigNumber.from(tokenID));
+  const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
   return txResp;

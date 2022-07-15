@@ -1,5 +1,5 @@
 import type { DeployFunction, DeployResult, Create2DeployOptions } from "hardhat-deploy/types";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { Network } from "lib/ktypes";
 
 import * as fs from "fs/promises";
@@ -35,8 +35,6 @@ const deployNFTsFactoryV2: DeployFunction = async function (hre) {
     const network: Network = networks[index];
 
     if (deployResult.address != network.nftsFactoryV2) {
-      console.info("NFTsFactoryV2 deployed => new address");
-
       networks[index].nftsFactoryV2 = deployResult.address;
       await fs
         .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))

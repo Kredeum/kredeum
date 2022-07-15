@@ -1,15 +1,12 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 
-import type { ERC721 } from "types/ERC721";
-import type { ERC1155 } from "types/ERC1155";
-import type { ERC721Enumerable } from "types/ERC721Enumerable";
-
 import type { CollectionType, NftType } from "./ktypes";
 import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "./kconfig";
 import { collectionContractGet, collectionGetSupports } from "./kcollection-get";
 
 import { nftGetMetadata } from "./knft-get-metadata";
+import { IERC721Metadata, IERC721, IERC1155MetadataURI, IERC721Enumerable } from "soltypes/contracts/interfaces";
 
 ////////////////////////////////////////////////////////
 // TOKEN
@@ -52,15 +49,17 @@ const nftGetFromContract = async (
   try {
     if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
 
+    const contract = await collectionContractGet(chainId, address, provider);
+
+    if (collection?.supports?.IERC721) {
+      owner = await (contract as IERC721).ownerOf(tokenID);
+    }
     if (collection?.supports?.IERC721Metadata) {
-      const contract = (await collectionContractGet(chainId, address, provider)) as ERC721;
-      contractName = collection.name || (await contract.name()) || DEFAULT_NAME;
-      owner = await contract.ownerOf(tokenID);
-      tokenURI = await contract.tokenURI(tokenID);
+      contractName = collection.name || (await (contract as IERC721Metadata).name()) || DEFAULT_NAME;
+      tokenURI = await (contract as IERC721Metadata).tokenURI(tokenID);
     }
     if (collection?.supports?.IERC1155MetadataURI) {
-      const contract = (await collectionContractGet(chainId, address, provider)) as ERC1155;
-      tokenURI = await contract.uri(tokenID);
+      tokenURI = await (contract as IERC1155MetadataURI).uri(tokenID);
     }
 
     nft.nid = nftKey(chainId, address, tokenID);
@@ -101,13 +100,13 @@ const nftGetFromContractEnumerable = async (
     return nft;
 
   try {
-    const contract = (await collectionContractGet(chainId, address, provider)) as ERC721Enumerable;
+    const contract = await collectionContractGet(chainId, address, provider);
     if (contract) {
       if (owner) {
-        tokenID = await contract.tokenOfOwnerByIndex(owner, BigNumber.from(index));
+        tokenID = await (contract as IERC721Enumerable).tokenOfOwnerByIndex(owner, BigNumber.from(index));
       } else {
-        tokenID = await contract.tokenByIndex(index);
-        owner = await contract.ownerOf(tokenID);
+        tokenID = await (contract as IERC721Enumerable).tokenByIndex(index);
+        owner = await (contract as IERC721).ownerOf(tokenID);
       }
       nft = await nftGetFromContract(chainId, address, tokenID.toString(), provider, collection);
     }

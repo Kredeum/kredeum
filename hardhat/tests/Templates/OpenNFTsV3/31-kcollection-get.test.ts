@@ -1,4 +1,4 @@
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
+import type { OpenNFTsV3 } from "soltypes/contracts";
 
 import IOpenNFTs from "abis/IOpenNFTs.json";
 import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";

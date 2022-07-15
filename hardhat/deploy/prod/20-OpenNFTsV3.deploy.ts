@@ -1,12 +1,11 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { IOpenNFTs, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
 
 // import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
 
 const contractName = "OpenNFTsV3";
 
-const deployFunction: DeployFunction = async function ({ deployments, network, ethers }) {
+const deployFunction: DeployFunction = async function ({ deployments, ethers }) {
   const { getNamedSigner, getContract } = ethers;
   const deployer = await getNamedSigner("deployer");
 
@@ -23,11 +22,11 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     // const contract = await getContract(contractName);
     // await checkGasMethod(hre, contractName, "initialize", deployer,
 
-    const openNFTsV3 = (await getContract(contractName, deployer)) as unknown as OpenNFTsV3;
-    await openNFTsV3.initialize("Open NFTs", "NFT", deployer.address, [true, false]);
+    const openNFTsV3 = await getContract(contractName, deployer);
+    await (openNFTsV3 as IOpenNFTs).initialize("Open NFTs", "NFT", deployer.address, [true, false]);
 
-    const nftsFactoryV2 = (await getContract("NFTsFactoryV2", deployer)) as unknown as NFTsFactoryV2;
-    await nftsFactoryV2.implementationsAdd([deployResult.address]);
+    const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
+    await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address]);
   }
 };
 

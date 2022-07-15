@@ -15,7 +15,7 @@
   "devDependencies": {
     "-": "^0.0.1",
     "autoprefixer": "^10.4.7",
-    "cssnano": "^5.1.11",
+    "cssnano": "^5.1.12",
     "del": "^6.1.1",
     "dotenv": "^16.0.1",
     "gulp": "^4.0.2",
@@ -30,6 +30,6 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "postcss": "^8.4.14",
-    "sass": "^1.52.3"
+    "sass": "^1.53.0"
   }
 }

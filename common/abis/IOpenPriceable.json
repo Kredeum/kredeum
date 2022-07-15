@@ -1,0 +1,10 @@
+[
+  "event SetDefaultRoyalty(address,uint96)",
+  "event SetTokenRoyalty(uint256,address,uint96)",
+  "function setDefaultPrice(uint256)",
+  "function setDefaultRoyalty(address,uint96)",
+  "function setTokenPrice(uint256)",
+  "function setTokenPrice(uint256,uint256)",
+  "function setTokenRoyalty(uint256,address,uint96)",
+  "function tokenPrice(uint256) returns (uint256)"
+]

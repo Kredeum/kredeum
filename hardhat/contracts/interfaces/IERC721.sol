@@ -6,10 +6,6 @@ interface IERC721 {
     event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);
     event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
-    function balanceOf(address owner) external view returns (uint256 balance);
-
-    function ownerOf(uint256 tokenId) external view returns (address owner);
-
     function safeTransferFrom(
         address from,
         address to,
@@ -31,7 +27,11 @@ interface IERC721 {
 
     function approve(address to, uint256 tokenId) external;
 
-    function setApprovalForAll(address operator, bool _approved) external;
+    function setApprovalForAll(address operator, bool approved) external;
+
+    function balanceOf(address owner) external view returns (uint256 balance);
+
+    function ownerOf(uint256 tokenId) external view returns (address owner);
 
     function getApproved(uint256 tokenId) external view returns (address operator);
 

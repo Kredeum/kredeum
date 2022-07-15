@@ -10,7 +10,7 @@ import { covalentGet, covalentNftList } from "lib/api-covalent";
 import { thegraphGet, thegraphNftList } from "lib/api-thegraph";
 
 import { getNetwork, isProviderOnChainId } from "./kconfig";
-import { ERC721Enumerable } from "types/ERC721Enumerable";
+import { IERC721, IERC721Enumerable } from "soltypes/contracts/interfaces";
 import { FETCH_LIMIT } from "lib/kfetch";
 
 const nftListFromContract = async (
@@ -30,15 +30,15 @@ const nftListFromContract = async (
     return nfts;
 
   try {
-    const contract = (await collectionContractGet(chainId, address, provider)) as ERC721Enumerable;
+    const contract = await collectionContractGet(chainId, address, provider);
 
     if (contract) {
       let nbTokens = limit;
       if (account) {
-        nbTokens = Number(await contract.balanceOf(account));
+        nbTokens = Number(await (contract as IERC721).balanceOf(account));
       } else {
         if (contract.totalSupply) {
-          nbTokens = Number(await contract.totalSupply());
+          nbTokens = Number(await (contract as IERC721Enumerable).totalSupply());
         }
       }
 
@@ -72,14 +72,14 @@ const nftListTokenIds = async (
   account?: string,
   limit: number = FETCH_LIMIT
 ): Promise<Map<string, NftType>> => {
-  console.log("nftListTokenIds", chainId, collection.address, account, limit);
+  // console.log("nftListTokenIds", chainId, collection.address, account, limit);
 
   let nftsTokenIds: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
 
   if (network) {
     nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
-    console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
+    // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     if (nftsTokenIds.size === 0) {
       if (alchemyGet(chainId)) {
         nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);

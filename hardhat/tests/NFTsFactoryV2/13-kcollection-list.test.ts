@@ -1,14 +1,14 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV3 } from "types/OpenNFTsV3";
-import type { NFTsFactoryV2 } from "types/NFTsFactoryV2";
+import type { OpenNFTsV3, NFTsFactoryV2 } from "soltypes/contracts";
 import type { NetworkType } from "lib/ktypes";
 
-import {
-  collectionList,
-  collectionListFromCovalent,
-  collectionListFromTheGraph,
-  collectionListFromFactory
-} from "lib/kcollection-list";
+import { collectionList, collectionListFromFactory } from "lib/kcollection-list";
+
+import { covalentCollectionList } from "lib/api-covalent";
+import { thegraphCollectionList } from "lib/api-thegraph";
+
+thegraphCollectionList;
+
 import { expect } from "chai";
 import { getNetwork } from "lib/kconfig";
 import hre from "hardhat";
@@ -36,10 +36,10 @@ describe("13 List contracts lib", function () {
     signer = (await ethers.getNamedSigner("deployer")) as Signer;
     owner = await signer.getAddress();
 
-    network = hre.network.name;
+    // network = hre.network.name;
+    // live = hre.network.live;
     chainId = Number(await hre.getChainId());
-    live = hre.network.live;
-    console.log("network", network, chainId, live);
+    // console.log("network", network, chainId, live);
   });
 
   beforeEach(async () => {
@@ -77,13 +77,13 @@ describe("13 List contracts lib", function () {
 
   it("List with The Graph", async function () {
     if (configNetwork?.subgraph) {
-      expect((await collectionListFromTheGraph(chainId, owner)).size).to.be.gte(1);
+      expect((await thegraphCollectionList(chainId, owner)).size).to.be.gte(1);
     }
   });
 
   it("With Covalent", async function () {
     if (configNetwork?.covalent) {
-      expect((await collectionListFromCovalent(chainId, artist)).size).to.be.gte(1);
+      expect((await covalentCollectionList(chainId, artist)).size).to.be.gte(1);
     }
   });
 });

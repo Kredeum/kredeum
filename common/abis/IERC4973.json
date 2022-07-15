@@ -1,5 +1,4 @@
 [
   "event Attest(address indexed,uint256 indexed)",
-  "event Revoke(address indexed,uint256 indexed)",
   "function ownerOf(uint256) view returns (address)"
 ]

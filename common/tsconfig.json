@@ -9,7 +9,7 @@
     "paths": {
       "lib/*": ["lib/*"],
       "config/*": ["config/*"],
-      "types/*": ["types/*"],
+      "soltypes/*": ["types/*"],
       "abis/*": ["abis/*"]
     }
   },
