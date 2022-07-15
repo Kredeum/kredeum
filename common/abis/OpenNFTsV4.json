@@ -12,7 +12,6 @@
   "function buy(uint256) payable",
   "function defaultPrice() view returns (uint256)",
   "function getApproved(uint256) view returns (address)",
-  "function initialize(string,string)",
   "function initialize(string,string,address,bool[])",
   "function isApprovedForAll(address,address) view returns (bool)",
   "function mint(address,string) returns (uint256)",

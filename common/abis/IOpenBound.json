@@ -4,6 +4,5 @@
   "function getCID(uint256) view returns (uint256)",
   "function getMyTokenID(uint256) view returns (uint256)",
   "function getTokenID(uint256,address) pure returns (uint256)",
-  "function mint(uint256) returns (uint256)",
-  "function togglePause()"
+  "function mint(uint256) returns (uint256)"
 ]

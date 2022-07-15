@@ -1,4 +1,4 @@
-import { storageLinkToUrlHttp, ipfsLinkToUrlHttp } from "lib/kconfig";
+import { storageLinkToUrlHttp } from "lib/kconfig";
 
 const FETCH_LIMIT = 10;
 
@@ -12,7 +12,7 @@ const _fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchR
   if (url) {
     try {
       // console.log(url, config);
-      const res = await fetch(storageLinkToUrlHttp(url), config);
+      const res = await fetch(url, config);
       // console.log(res);
       json = (await res.json()) as FetchResponse;
     } catch (e) {
@@ -30,12 +30,12 @@ const _fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchR
 
 // TODO rename to fetchIpfsJson , and call it when ipfs...
 const fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchResponse> =>
-  await _fetchJson(ipfsLinkToUrlHttp(url), config);
+  await _fetchJson(storageLinkToUrlHttp(url), config);
 
 const fetchGQL = async (url: string, query: string): Promise<unknown> => {
   const config = { method: "POST", body: JSON.stringify({ query: query }) };
 
-  const answerGQL = await fetchJson(url, config);
+  const answerGQL = await _fetchJson(url, config);
 
   if (answerGQL.error) console.error("fetchGQL ERROR", answerGQL.error);
   return answerGQL?.data;

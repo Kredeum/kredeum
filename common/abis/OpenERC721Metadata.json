@@ -5,7 +5,6 @@
   "function approve(address,uint256)",
   "function balanceOf(address) view returns (uint256)",
   "function getApproved(uint256) view returns (address)",
-  "function initialize(string,string)",
   "function isApprovedForAll(address,address) view returns (bool)",
   "function name() view returns (string)",
   "function ownerOf(uint256) view returns (address)",
