@@ -18,17 +18,6 @@ interface IERC1155 {
 
     event URI(string value, uint256 indexed id);
 
-    function balanceOf(address account, uint256 id) external view returns (uint256);
-
-    function balanceOfBatch(address[] calldata accounts, uint256[] calldata ids)
-        external
-        view
-        returns (uint256[] memory);
-
-    function setApprovalForAll(address operator, bool approved) external;
-
-    function isApprovedForAll(address account, address operator) external view returns (bool);
-
     function safeTransferFrom(
         address from,
         address to,
@@ -44,4 +33,15 @@ interface IERC1155 {
         uint256[] calldata amounts,
         bytes calldata data
     ) external;
+
+    function setApprovalForAll(address operator, bool approved) external;
+
+    function balanceOf(address account, uint256 id) external view returns (uint256);
+
+    function balanceOfBatch(address[] calldata accounts, uint256[] calldata ids)
+        external
+        view
+        returns (uint256[] memory);
+
+    function isApprovedForAll(address account, address operator) external view returns (bool);
 }

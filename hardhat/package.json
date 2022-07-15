@@ -78,7 +78,7 @@
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup && npm run update:forge",
     "prettier": "prettier contracts/**/*.sol **/*.ts --write --loglevel error",
-    "solhint": "solhint contracts/open/*.sol --fix",
+    "solhint": "solhint --fix contracts/**/*.sol",
     "tests": "hardhat test",
     "update:forge": "~/.foundry/bin/forge update"
   },

@@ -11,14 +11,14 @@ import "../interfaces/IOpenPriceable.sol";
 
 abstract contract PriceableTest is Test {
     address private _contract;
-    address private owner = address(0x1);
-    address private minter = address(0x2);
-    address private tester = address(0x4);
+    address private _owner = address(0x1);
+    address private _minter = address(0x2);
+    address private _tester = address(0x4);
     uint256 private _tokenID0;
-    uint256 notTokenID = 42;
+    uint256 private _notTokenID = 42;
 
-    uint96 maxFee = 10000;
-    uint256 maxPrice = uint256(((2**256) - 1)) / maxFee;
+    uint96 private _maxFee = 10000;
+    // uint256 private maxPrice = uint256(((2**256) - 1)) / _maxFee;
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -31,23 +31,23 @@ abstract contract PriceableTest is Test {
     ) public virtual returns (uint256 tokenID_);
 
     function setUpPriceable() public {
-        _contract = constructorTest(owner);
+        _contract = constructorTest(_owner);
 
-        _tokenID0 = setRoyaltyTest(_contract, minter, 420);
+        _tokenID0 = setRoyaltyTest(_contract, _minter, 420);
     }
 
     function testSetDefaultRoyalty(uint96 fee, uint256 price) public {
         vm.assume(price < 2**128);
         vm.assume(fee < 10000);
 
-        uint256 tokenID = mintTest(_contract, owner);
+        uint256 tokenID = mintTest(_contract, _owner);
 
-        changePrank(owner);
-        IOpenPriceable(_contract).setDefaultRoyalty(minter, fee);
+        changePrank(_owner);
+        IOpenPriceable(_contract).setDefaultRoyalty(_minter, fee);
 
         (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(tokenID, price);
-        assertEq(receiver, minter);
-        assertEq(royalties, (price * fee) / maxFee);
+        assertEq(receiver, _minter);
+        assertEq(royalties, (price * fee) / _maxFee);
     }
 
     function testSetTokenRoyalty(uint96 fee, uint256 price) public {
@@ -55,24 +55,24 @@ abstract contract PriceableTest is Test {
         vm.assume(price < 2**128);
         vm.assume(fee < 10000);
 
-        assertEq(IERC721(_contract).ownerOf(_tokenID0), minter);
-        changePrank(minter);
-        IOpenPriceable(_contract).setTokenRoyalty(_tokenID0, tester, fee);
+        assertEq(IERC721(_contract).ownerOf(_tokenID0), _minter);
+        changePrank(_minter);
+        IOpenPriceable(_contract).setTokenRoyalty(_tokenID0, _tester, fee);
 
         (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(_tokenID0, price);
-        assertEq(receiver, tester);
-        assertEq(royalties, (price * fee) / maxFee);
+        assertEq(receiver, _tester);
+        assertEq(royalties, (price * fee) / _maxFee);
     }
 
     function testSetTokenRoyaltyNoToken() public {
         vm.expectRevert(bytes("Invalid token ID"));
-        IOpenPriceable(_contract).setTokenRoyalty(notTokenID, tester, 100);
+        IOpenPriceable(_contract).setTokenRoyalty( _notTokenID, _tester, 100);
     }
 
     function testSetTokenPrice(uint256 price) public {
         vm.assume(price < 2**128);
 
-        changePrank(minter);
+        changePrank(_minter);
         IOpenPriceable(_contract).setTokenPrice(_tokenID0, price);
         assertEq(IOpenPriceable(_contract).tokenPrice(_tokenID0), price);
     }
@@ -80,14 +80,14 @@ abstract contract PriceableTest is Test {
     function testSetTokenPriceFromDefault(uint256 price) public {
         vm.assume(price < 2**128);
 
-        changePrank(minter);
+        changePrank(_minter);
         IOpenPriceable(_contract).setTokenPrice(_tokenID0);
         assertEq(IOpenPriceable(_contract).tokenPrice(_tokenID0), 0);
 
-        changePrank(owner);
+        changePrank(_owner);
         IOpenPriceable(_contract).setDefaultPrice(price);
 
-        changePrank(minter);
+        changePrank(_minter);
         IOpenPriceable(_contract).setTokenPrice(_tokenID0);
         assertEq(IOpenPriceable(_contract).tokenPrice(_tokenID0), price);
     }
@@ -95,7 +95,7 @@ abstract contract PriceableTest is Test {
     function testSetDefaultPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
 
-        changePrank(owner);
+        changePrank(_owner);
         vm.expectRevert("Too expensive");
         IOpenPriceable(_contract).setDefaultPrice(price);
     }
@@ -103,30 +103,30 @@ abstract contract PriceableTest is Test {
     function testSetTokenPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
 
-        changePrank(minter);
+        changePrank(_minter);
         vm.expectRevert("Too expensive");
         IOpenPriceable(_contract).setTokenPrice(_tokenID0, price);
     }
 
     function testSetTokenPriceNoToken() public {
-        changePrank(minter);
+        changePrank(_minter);
         vm.expectRevert(bytes("Invalid token ID"));
-        IOpenPriceable(_contract).setTokenPrice(notTokenID, 1 ether);
+        IOpenPriceable(_contract).setTokenPrice( _notTokenID, 1 ether);
     }
 
     function testRoyaltyInfoCalculation(uint256 price, uint96 fee) public {
         vm.assume(price < 2**128);
-        vm.assume(fee < maxFee);
+        vm.assume(fee < _maxFee);
 
-        uint256 tokenID = mintTest(_contract, owner);
+        uint256 tokenID = mintTest(_contract, _owner);
 
-        changePrank(owner);
-        IOpenPriceable(_contract).setDefaultRoyalty(minter, fee);
+        changePrank(_owner);
+        IOpenPriceable(_contract).setDefaultRoyalty(_minter, fee);
 
         (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(tokenID, price);
-        assertEq(receiver, minter);
+        assertEq(receiver, _minter);
 
-        assertEq(royalties, (price * fee) / maxFee);
+        assertEq(royalties, (price * fee) / _maxFee);
     }
 
     function testSupportsInterface() public {

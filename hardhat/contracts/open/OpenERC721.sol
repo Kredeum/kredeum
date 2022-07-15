@@ -235,6 +235,7 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
                     revert("Transfer not ERC721TokenReceiver");
                 } else {
                     /// @solidity memory-safe-assembly
+                    // solhint-disable-next-line no-inline-assembly
                     assembly {
                         revert(add(32, reason), mload(reason))
                     }

@@ -7,12 +7,12 @@ import "../interfaces/IERC165.sol";
 
 abstract contract ERC165Test is Test {
     address private _contract;
-    address private owner = address(0x1);
+    address private _owner = address(0x1);
 
     function constructorTest(address owner_) public virtual returns (address);
 
     function setUpERC165() public {
-        _contract = constructorTest(owner);
+        _contract = constructorTest(_owner);
     }
 
     function testERC165SupportsInterface() public {

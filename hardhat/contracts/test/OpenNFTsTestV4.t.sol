@@ -4,13 +4,14 @@ pragma solidity 0.8.9;
 import "../../lib/forge-std/src/Test.sol";
 
 import "../open/OpenNFTsV4.sol";
-import "./OpenNFTs.t.sol";
-import "./ERC173.t.sol";
-import "./ERC2981.t.sol";
-import "./OpenPausable.t.sol";
-import "./OpenPriceable.t.sol";
+import "./OpenNFTsTest.t.sol";
+import "./ERC173Test.t.sol";
+import "./ERC2981Test.t.sol";
+import "./OpenPausableTest.t.sol";
+import "./OpenPriceableTest.t.sol";
+import "../interfaces/ITest.sol";
 
-contract OpenNFTsV4Test is OpenNFTsTest, ERC173Test, ERC2981Test, OpenPausableTest, PriceableTest {
+contract OpenNFTsV4Test is ITest, OpenNFTsTest, ERC173Test, ERC2981Test, OpenPausableTest, PriceableTest {
     function constructorTest(address owner)
         public
         override(OpenNFTsTest, ERC173Test, ERC2981Test, OpenPausableTest, PriceableTest)
@@ -40,13 +41,13 @@ contract OpenNFTsV4Test is OpenNFTsTest, ERC173Test, ERC2981Test, OpenPausableTe
         OpenNFTsV4(collection).burn(tokenID);
     }
 
-    function setPriceTest(
-        address collection,
-        uint256 tokenID,
-        uint256 price
-    ) public {
-        OpenNFTsV4(collection).setTokenPrice(tokenID, price);
-    }
+    // function setPriceTest(
+    //     address collection,
+    //     uint256 tokenID,
+    //     uint256 price
+    // ) public {
+    //     OpenNFTsV4(collection).setTokenPrice(tokenID, price);
+    // }
 
     function setRoyaltyTest(
         address collection,
@@ -57,7 +58,7 @@ contract OpenNFTsV4Test is OpenNFTsTest, ERC173Test, ERC2981Test, OpenPausableTe
         OpenNFTsV4(collection).setTokenRoyalty(tokenID, receiver, fee);
     }
 
-    function setUp() public {
+    function setUp() public override {
         setUpERC173();
         setUpERC2981();
         setUpPausable();

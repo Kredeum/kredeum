@@ -9,9 +9,8 @@ import "../interfaces/IOpenPausable.sol";
 
 abstract contract OpenPausableTest is Test {
     address private _contract;
-    address private owner = address(0x1);
-    address private minter = address(0x2);
-    address private tester = address(0x4);
+    address private _owner = address(0x1);
+    address private _tester = address(0x4);
 
     event SetPaused(bool indexed paused, address indexed account);
 
@@ -20,7 +19,7 @@ abstract contract OpenPausableTest is Test {
     function mintTest(address collection_, address minter_) public virtual returns (uint256);
 
     function setUpPausable() public {
-        _contract = constructorTest(owner);
+        _contract = constructorTest(_owner);
     }
 
     function testPausable() public {
@@ -28,7 +27,7 @@ abstract contract OpenPausableTest is Test {
     }
 
     function testPausableTogglePause() public {
-        changePrank(owner);
+        changePrank(_owner);
 
         IOpenPausable(_contract).togglePause();
         assertEq(IOpenPausable(_contract).paused(), true);
@@ -38,27 +37,27 @@ abstract contract OpenPausableTest is Test {
     }
 
     function testFailPausableTogglePauseNotOwner() public {
-        changePrank(tester);
+        changePrank(_tester);
         IOpenPausable(_contract).togglePause();
     }
 
     function testFailPausableOnlyWhenNotPaused() public {
-        changePrank(owner);
+        changePrank(_owner);
         IOpenPausable(_contract).togglePause();
         assertEq(IOpenPausable(_contract).paused(), true);
 
-        mintTest(_contract, owner);
+        mintTest(_contract, _owner);
     }
 
     function testPausableEmitSetPause() public {
-        changePrank(owner);
+        changePrank(_owner);
 
         vm.expectEmit(true, true, false, false);
-        emit SetPaused(true, owner);
+        emit SetPaused(true, _owner);
         IOpenPausable(_contract).togglePause();
 
         vm.expectEmit(true, true, false, false);
-        emit SetPaused(false, owner);
+        emit SetPaused(false, _owner);
         IOpenPausable(_contract).togglePause();
     }
 

@@ -2,11 +2,11 @@
 pragma solidity ^0.8.9;
 
 interface IERC4973 {
-    event Attest(address indexed _to, uint256 indexed _tokenId);
+    event Attest(address indexed to, uint256 indexed tokenID);
 
-    // event Revoke(address indexed _to, uint256 indexed _tokenId);
+    // event Revoke(address indexed to, uint256 indexed tokenID);
 
-    function ownerOf(uint256 _tokenId) external view returns (address);
+    function ownerOf(uint256 tokenID) external view returns (address);
 
-    // function burn(uint256 _tokenId) external;
+    // function burn(uint256 tokenID) external;
 }

@@ -1,10 +1,10 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "./ERC721.t.sol";
-import "./ERC721Enumerable.t.sol";
-import "./ERC721Metadata.t.sol";
-import "./ERC165.t.sol";
+import "./ERC721Test.t.sol";
+import "./ERC721EnumerableTest.t.sol";
+import "./ERC721MetadataTest.t.sol";
+import "./ERC165Test.t.sol";
 
 abstract contract OpenNFTsTest is ERC721Test, ERC721MetadataTest, ERC721EnumerableTest, ERC165Test {
     string internal constant _TOKEN_URI = "ipfs://bafkreidfhassyaujwpbarjwtrc6vgn2iwfjmukw3v7hvgggvwlvdngzllm";

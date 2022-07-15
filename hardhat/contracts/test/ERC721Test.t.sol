@@ -5,20 +5,17 @@ import "../../lib/forge-std/src/Test.sol";
 
 import "../interfaces/IERC165.sol";
 import "../interfaces/IERC721.sol";
+import "../interfaces/IERC721Events.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 
-abstract contract ERC721Test is Test {
+abstract contract ERC721Test is Test, IERC721Events {
     address private _collection;
     bool private _transferable;
     string private _tokenURI;
-    address private owner = address(0x1001);
-    address private minter = address(0x1002);
-    address private tester = address(0x1004);
+    address private _owner = address(0x1001);
+    address private _minter = address(0x1002);
+    address private _tester = address(0x1004);
     uint256 private _tokenID0;
-
-    event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);
-    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenID);
-    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -28,83 +25,83 @@ abstract contract ERC721Test is Test {
 
     function setUpERC721(bool nonTransferable_) public {
         _transferable = nonTransferable_;
-        _collection = constructorTest(owner);
+        _collection = constructorTest(_owner);
 
-        _tokenID0 = mintTest(_collection, minter);
-        assertEq(IERC721(_collection).ownerOf(_tokenID0), minter);
+        _tokenID0 = mintTest(_collection, _minter);
+        assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
     }
 
     function testERC721BalanceOf() public {
-        assertEq(IERC721(_collection).balanceOf(minter), 1);
-        assertEq(IERC721(_collection).balanceOf(tester), 0);
+        assertEq(IERC721(_collection).balanceOf(_minter), 1);
+        assertEq(IERC721(_collection).balanceOf(_tester), 0);
     }
 
     function testERC721BalanceOfBis() public {
-        mintTest(_collection, tester);
-        assertEq(IERC721(_collection).balanceOf(tester), 1);
+        mintTest(_collection, _tester);
+        assertEq(IERC721(_collection).balanceOf(_tester), 1);
     }
 
     function testERC721OwnerOf() public {
-        assertEq(IERC721(_collection).ownerOf(_tokenID0), minter);
+        assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
     }
 
     function testERC721OwnerOfBis() public {
-        uint256 tokenID = mintTest(_collection, tester);
-        assertEq(IERC721(_collection).ownerOf(tokenID), tester);
+        uint256 tokenID = mintTest(_collection, _tester);
+        assertEq(IERC721(_collection).ownerOf(tokenID), _tester);
     }
 
     function testERC721SafeTransferFrom() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (!_transferable) {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).safeTransferFrom(minter, tester, _tokenID0);
+        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
 
         if (_transferable) {
-            assertEq(IERC721(_collection).ownerOf(_tokenID0), tester);
+            assertEq(IERC721(_collection).ownerOf(_tokenID0), _tester);
         }
     }
 
     function testERC721SafeTransferFromWithData() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (!_transferable) {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).safeTransferFrom(minter, tester, _tokenID0, "data");
+        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
 
         if (_transferable) {
-            assertEq(IERC721(_collection).ownerOf(_tokenID0), tester);
+            assertEq(IERC721(_collection).ownerOf(_tokenID0), _tester);
         }
     }
 
     function testERC721SafeTransferFromEmit() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
-            emit Transfer(minter, tester, 1);
+            emit Transfer(_minter, _tester, 1);
         } else {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).safeTransferFrom(minter, tester, _tokenID0);
+        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
     }
 
     function testERC721SafeTransferFromWithDataEmit() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
-            emit Transfer(minter, tester, 1);
+            emit Transfer(_minter, _tester, 1);
         } else {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).safeTransferFrom(minter, tester, _tokenID0, "data");
+        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
     }
 
     function testERC721SafeTransferFromFuzzy(address from, address to) public {
@@ -131,18 +128,18 @@ abstract contract ERC721Test is Test {
     }
 
     function testFailERC721SafeTransferFromNotERC721TokenReceiver() public {
-        changePrank(minter);
-        IERC721(_collection).safeTransferFrom(minter, address(_collection), _tokenID0);
+        changePrank(_minter);
+        IERC721(_collection).safeTransferFrom(_minter, address(_collection), _tokenID0);
     }
 
     function testERC721TransferFromNotERC721TokenReceiver() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (!_transferable) {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).transferFrom(minter, address(_collection), _tokenID0);
+        IERC721(_collection).transferFrom(_minter, address(_collection), _tokenID0);
 
         if (_transferable) {
             assertEq(IERC721(_collection).ownerOf(_tokenID0), address(_collection));
@@ -150,16 +147,16 @@ abstract contract ERC721Test is Test {
     }
 
     function testERC721TransferFrom() public {
-        changePrank(minter);
+        changePrank(_minter);
 
         if (!_transferable) {
             vm.expectRevert("Non transferable NFT");
         }
 
-        IERC721(_collection).transferFrom(minter, tester, _tokenID0);
+        IERC721(_collection).transferFrom(_minter, _tester, _tokenID0);
 
         if (_transferable) {
-            assertEq(IERC721(_collection).ownerOf(1), tester);
+            assertEq(IERC721(_collection).ownerOf(1), _tester);
         }
     }
 
@@ -197,8 +194,8 @@ abstract contract ERC721Test is Test {
     function testERC721OnlyTokenOwner() public {}
 
     function testFailERC721NotOnlyTokenOwner() public {
-        changePrank(tester);
-        IERC721(_collection).safeTransferFrom(minter, tester, _tokenID0);
+        changePrank(_tester);
+        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
     }
 
     function testERC721SupportsInterface() public {

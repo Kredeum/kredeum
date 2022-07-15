@@ -4,9 +4,10 @@ pragma solidity 0.8.9;
 import "../../lib/forge-std/src/Test.sol";
 
 import "../OpenNFTsV3.sol";
-import "./OpenNFTs.t.sol";
+import "./OpenNFTsTest.t.sol";
+import "../interfaces/ITest.sol";
 
-contract OpenNFTsV3Test is OpenNFTsTest {
+contract OpenNFTsV3Test is ITest, OpenNFTsTest {
     function constructorTest(address owner) public override returns (address) {
         changePrank(owner);
         bool[] memory options = new bool[](2);
@@ -29,7 +30,7 @@ contract OpenNFTsV3Test is OpenNFTsTest {
         OpenNFTsV3(collection).burnOpenNFT(tokenID);
     }
 
-    function setUp() public {
+    function setUp() public override {
         setUpOpenNFTs("OpenNFTsTest", "OPTEST");
     }
 }

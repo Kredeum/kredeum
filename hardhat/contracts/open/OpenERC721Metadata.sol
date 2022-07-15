@@ -22,13 +22,6 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
     string private _symbol;
     mapping(uint256 => string) private _tokenURIs;
 
-    function initialize(string memory name_, string memory symbol_) public {
-        require(_once == false, "Only once!");
-        _name = name_;
-        _symbol = symbol_;
-        _once = true;
-    }
-
     function name() public view virtual override(IERC721Metadata) returns (string memory) {
         return _name;
     }
@@ -55,6 +48,13 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
 
     function _setSymbol(string memory newSymbol) internal {
         _symbol = newSymbol;
+    }
+
+    function _initialize(string memory name_, string memory symbol_) internal {
+        require(_once == false, "Only once!");
+        _name = name_;
+        _symbol = symbol_;
+        _once = true;
     }
 
     function _burn(uint256 tokenID) internal virtual override(OpenERC721) {

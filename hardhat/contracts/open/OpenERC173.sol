@@ -37,7 +37,7 @@ abstract contract OpenERC173 is IERC173, OpenERC721 {
         return _owner;
     }
 
-    function initialize(address owner_) internal {
+    function _initialize(address owner_) internal {
         require(_once == false, "Only once!");
         _setOwner(owner_);
         _once = true;

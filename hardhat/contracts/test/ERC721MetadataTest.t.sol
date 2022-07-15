@@ -12,7 +12,7 @@ abstract contract ERC721MetadataTest is Test {
     string private _symbol;
     string private _tokenURI0;
     uint256 private _tokenID0;
-    address private minter = address(0x23);
+    address private _minter = address(0x23);
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -21,8 +21,8 @@ abstract contract ERC721MetadataTest is Test {
     function setUpERC721Metadata(string memory name_, string memory symbol_) public {
         _name = name_;
         _symbol = symbol_;
-        _collection = constructorTest(minter);
-        _tokenID0 = mintTest(_collection, minter);
+        _collection = constructorTest(_minter);
+        _tokenID0 = mintTest(_collection, _minter);
         _tokenURI0 = IERC721Metadata(_collection).tokenURI(_tokenID0);
     }
 

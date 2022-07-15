@@ -9,9 +9,8 @@ import "../interfaces/IOpenPriceable.sol";
 
 abstract contract ERC2981Test is Test {
     address private _contract;
-    address private owner = address(0x1);
-    address private minter = address(0x12);
-    address private tester = address(0x4);
+    address private _owner = address(0x1);
+    address private _minter = address(0x12);
     uint256 private _tokenID0;
 
     function constructorTest(address owner_) public virtual returns (address contract_);
@@ -25,9 +24,9 @@ abstract contract ERC2981Test is Test {
     ) public virtual returns (uint256 tokenID_);
 
     function setUpERC2981() public {
-        _contract = constructorTest(owner);
+        _contract = constructorTest(_owner);
 
-        _tokenID0 = setRoyaltyTest(_contract, minter, 420);
+        _tokenID0 = setRoyaltyTest(_contract, _minter, 420);
     }
 
     function testERC2981RoyaltyInfo(uint256 price) public {

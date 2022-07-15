@@ -96,8 +96,8 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         address owner_,
         bool[] memory options
     ) external {
-        OpenERC721Metadata.initialize(name_, symbol_);
-        OpenERC173.initialize(owner_);
+        OpenERC721Metadata._initialize(name_, symbol_);
+        OpenERC173._initialize(owner_);
         open = options[0];
     }
 
