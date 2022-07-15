@@ -2,6 +2,9 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { NftType } from "lib/ktypes";
 
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
 
   import {
@@ -36,10 +39,12 @@
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
   /////////////////////////////////////////////////
   export let storage: string;
-  export let refresh: number = 1;
+  // export let refresh: number = 1;
 
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
+
+  let refresh: Writable<number> = getContext("refresh");
   /////////////////////////////////////////////////
   let chainId: number;
   let account: string;
@@ -157,7 +162,7 @@
             if (mintedNft) {
               minting = 5;
 
-              refresh += 1;
+              $refresh += 1;
 
               const mintingTxReceipt = await mintingTxResp.wait();
               console.log("mintingTxReceipt", mintingTxReceipt);
@@ -166,7 +171,7 @@
               do await sleep(1000);
               while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
-              refresh += 1;
+              $refresh += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }

@@ -1,7 +1,10 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-
   import type { CollectionType } from "lib/ktypes";
+
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   import { collectionUrl, explorerCollectionUrl } from "lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
@@ -19,7 +22,9 @@
   export let label: boolean = true;
   export let txt: boolean = false;
   export let refreshing: boolean = undefined;
-  export let refresh: number = 1;
+  // export let refresh: number = 1;
+
+  let refresh: Writable<number> = getContext("refresh");
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
@@ -27,7 +32,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: refresh, mintable, chainId && account && handleChangeCollection();
+  $: $refresh, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 

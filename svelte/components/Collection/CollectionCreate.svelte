@@ -1,6 +1,9 @@
 <script lang="ts">
   import type { CollectionType } from "lib/ktypes";
 
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/kconfig";
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
 
@@ -12,7 +15,7 @@
   // up to parent
   export let chainId: number;
   export let collection: CollectionType = undefined;
-  export let refresh: number;
+  // export let refresh: number;
 
   let template: string = undefined;
 
@@ -22,6 +25,8 @@
 
   let collectionName = "";
   let collectionSymbol = "";
+
+  let refresh: Writable<number> = getContext("refresh");
 
   const dispatch = createEventDispatcher();
 
@@ -65,7 +70,7 @@
       }
     }
     cloning = false;
-    refresh += 1;
+    $refresh += 1;
   };
 </script>
 

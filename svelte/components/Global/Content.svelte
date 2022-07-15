@@ -14,7 +14,7 @@
   export let account: string;
   export let platform: string = undefined;
   export let refreshing: boolean = false;
-  export let refresh: number = undefined;
+  // export let refresh: number = undefined;
 
   let tokenID: string = "";
 
@@ -44,6 +44,6 @@
 
     <Nft {chainId} {address} {tokenID} {account} {platform} />
   {:else}
-    <NftsList {chainId} {address} {account} {refresh} bind:refreshing {platform} />
+    <NftsList {chainId} {address} {account} bind:refreshing {platform} />
   {/if}
 </div>
