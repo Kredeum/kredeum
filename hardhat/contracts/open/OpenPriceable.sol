@@ -55,11 +55,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         onlyOwner
         lessThanMaxFee(fee)
     {
-        if (receiver == address(0)) {
-            delete _royaltyInfo;
-        } else {
-            _royaltyInfo = RoyaltyInfo(receiver, fee);
-        }
+        _royaltyInfo = RoyaltyInfo(receiver, fee);
         emit SetDefaultRoyalty(receiver, fee);
     }
 
@@ -72,12 +68,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         address receiver,
         uint96 fee
     ) external override(IOpenPriceable) onlyTokenOwner(tokenID) lessThanMaxFee(fee) {
-        if (receiver == address(0)) {
-            delete _tokenRoyaltyInfo[tokenID];
-        } else {
-            _tokenRoyaltyInfo[tokenID] = RoyaltyInfo(receiver, fee);
-        }
-        emit SetTokenRoyalty(tokenID, receiver, fee);
+        _setTokenRoyalty(tokenID, receiver, fee);
     }
 
     function setDefaultPrice(uint256 price) external override(IOpenPriceable) onlyOwner notTooExpensive(price) {
@@ -94,7 +85,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         onlyTokenOwner(tokenID)
         notTooExpensive(price)
     {
-        tokenPrice[tokenID] = price;
+        _setTokenPrice(tokenID, price);
     }
 
     function supportsInterface(bytes4 interfaceId)
@@ -107,9 +98,31 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         return interfaceId == type(IOpenPriceable).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    function _burn(uint256 tokenID) internal virtual override(OpenERC721) {
+    function _setTokenRoyalty(
+        uint256 tokenID,
+        address receiver,
+        uint96 fee
+    ) internal {
+        _tokenRoyaltyInfo[tokenID] = RoyaltyInfo(receiver, fee);
+        emit SetTokenRoyalty(tokenID, receiver, fee);
+    }
+
+    function _setTokenPrice(uint256 tokenID, uint256 price) internal {
+        tokenPrice[tokenID] = price;
+    }
+
+    function _mintPriceable(
+        uint256 tokenID,
+        address receiver,
+        uint96 fee,
+        uint256 price
+    ) internal {
+        _setTokenRoyalty(tokenID, receiver, fee);
+        _setTokenPrice(tokenID, price);
+    }
+
+    function _burnPriceable(uint256 tokenID) internal {
         delete _tokenRoyaltyInfo[tokenID];
         delete tokenPrice[tokenID];
-        super._burn(tokenID);
     }
 }

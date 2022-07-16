@@ -181,22 +181,18 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         uint256 tokenID = tokenIdNext;
         tokenIdNext += 1;
 
-        OpenERC721._safeMint(minter, tokenID);
-        OpenERC721Metadata._setTokenURI(tokenID, jsonURI);
+        _mintMetadata(tokenID, jsonURI);
+        _mintEnumerable(minter, tokenID);
+        _mintNft(minter, tokenID);
 
         return tokenID;
     }
 
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenID
-    ) internal override(OpenERC721, OpenERC721Enumerable) {
-        OpenERC721Enumerable._beforeTokenTransfer(from, to, tokenID);
-    }
-
-    function _burn(uint256 tokenID) internal override(OpenPriceable, OpenERC721Metadata, OpenERC721Enumerable) {
-        super._burn(tokenID);
+    function _burn(uint256 tokenID) internal {
+        _burnNft(tokenID);
+        _burnEnumerable(tokenID);
+        _burnPriceable(tokenID);
+        _burnMetadata(tokenID);
     }
 
     function _isApprovedOrOwner(address spender, uint256 tokenID) internal view override(OpenERC721) returns (bool) {

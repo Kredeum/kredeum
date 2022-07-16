@@ -14,6 +14,7 @@ abstract contract ERC721Test is Test, IERC721Events {
     string private _tokenURI;
     address private _owner = address(0x1001);
     address private _minter = address(0x1002);
+    address private _buyer = address(0x1004);
     address private _tester = address(0x1004);
     uint256 private _tokenID0;
 
@@ -53,28 +54,24 @@ abstract contract ERC721Test is Test, IERC721Events {
     function testERC721SafeTransferFrom() public {
         changePrank(_minter);
 
-        if (!_transferable) {
-            vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
-
         if (_transferable) {
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
             assertEq(IERC721(_collection).ownerOf(_tokenID0), _tester);
+        } else {
+            vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
         }
     }
 
     function testERC721SafeTransferFromWithData() public {
         changePrank(_minter);
 
-        if (!_transferable) {
-            vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
-
         if (_transferable) {
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
             assertEq(IERC721(_collection).ownerOf(_tokenID0), _tester);
+        } else {
+            vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
         }
     }
 
@@ -84,11 +81,11 @@ abstract contract ERC721Test is Test, IERC721Events {
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
             emit Transfer(_minter, _tester, 1);
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
         } else {
             vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
         }
-
-        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
     }
 
     function testERC721SafeTransferFromWithDataEmit() public {
@@ -97,11 +94,11 @@ abstract contract ERC721Test is Test, IERC721Events {
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
             emit Transfer(_minter, _tester, 1);
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
         } else {
             vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
         }
-
-        IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0, "data");
     }
 
     function testERC721SafeTransferFromFuzzy(address from, address to) public {
@@ -116,14 +113,11 @@ abstract contract ERC721Test is Test, IERC721Events {
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
             emit Transfer(from, to, 2);
+            IERC721(_collection).safeTransferFrom(from, to, tokenID);
+            assertEq(IERC721(_collection).ownerOf(tokenID), to);
         } else {
             vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).safeTransferFrom(from, to, tokenID);
-
-        if (_transferable) {
-            assertEq(IERC721(_collection).ownerOf(tokenID), to);
+            IERC721(_collection).safeTransferFrom(from, to, tokenID);
         }
     }
 
@@ -135,28 +129,24 @@ abstract contract ERC721Test is Test, IERC721Events {
     function testERC721TransferFromNotERC721TokenReceiver() public {
         changePrank(_minter);
 
-        if (!_transferable) {
-            vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).transferFrom(_minter, address(_collection), _tokenID0);
-
         if (_transferable) {
+            IERC721(_collection).transferFrom(_minter, address(_collection), _tokenID0);
             assertEq(IERC721(_collection).ownerOf(_tokenID0), address(_collection));
+        } else {
+            vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).transferFrom(_minter, address(_collection), _tokenID0);
         }
     }
 
     function testERC721TransferFrom() public {
         changePrank(_minter);
 
-        if (!_transferable) {
-            vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).transferFrom(_minter, _tester, _tokenID0);
-
         if (_transferable) {
+            IERC721(_collection).transferFrom(_minter, _tester, _tokenID0);
             assertEq(IERC721(_collection).ownerOf(1), _tester);
+        } else {
+            vm.expectRevert("Non transferable NFT");
+            IERC721(_collection).transferFrom(_minter, _tester, _tokenID0);
         }
     }
 
@@ -172,30 +162,93 @@ abstract contract ERC721Test is Test, IERC721Events {
         if (_transferable) {
             vm.expectEmit(true, true, true, false);
             emit Transfer(from, to, 2);
+            IERC721(_collection).transferFrom(from, to, tokenID);
+            assertEq(IERC721(_collection).ownerOf(tokenID), to);
         } else {
             vm.expectRevert("Non transferable NFT");
-        }
-
-        IERC721(_collection).transferFrom(from, to, tokenID);
-
-        if (_transferable) {
-            assertEq(IERC721(_collection).ownerOf(tokenID), to);
+            IERC721(_collection).transferFrom(from, to, tokenID);
         }
     }
-
-    function testERC721Approve() public {}
-
-    function testERC721SetApprovalForAll() public {}
-
-    function testERC721GetApproved() public {}
-
-    function testERC721IsApprovedForAll() public {}
-
-    function testERC721OnlyTokenOwner() public {}
 
     function testFailERC721NotOnlyTokenOwner() public {
         changePrank(_tester);
         IERC721(_collection).safeTransferFrom(_minter, _tester, _tokenID0);
+    }
+
+    function testERC721Approve() public {
+        if (_transferable) {
+            changePrank(_minter);
+            vm.expectEmit(true, true, true, false);
+            emit Approval(_minter, _tester, _tokenID0);
+            IERC721(_collection).approve(_tester, _tokenID0);
+
+            changePrank(_tester);
+            IERC721(_collection).safeTransferFrom(_minter, _buyer, _tokenID0);
+            assertEq(IERC721(_collection).ownerOf(_tokenID0), _buyer);
+        }
+    }
+
+    function testFailERC721Approve() public {
+        changePrank(_minter);
+        IERC721(_collection).approve(_tester, _tokenID0);
+        IERC721(_collection).approve(address(0), _tokenID0);
+
+        changePrank(_tester);
+        IERC721(_collection).safeTransferFrom(_minter, _buyer, _tokenID0);
+    }
+
+    function testERC721GetApproved() public {
+        if (_transferable) {
+            changePrank(_minter);
+            IERC721(_collection).approve(_tester, _tokenID0);
+
+            assertEq(IERC721(_collection).getApproved(_tokenID0), _tester);
+        }
+    }
+
+    function testFailERC721GetApproved() public {
+        changePrank(_minter);
+        IERC721(_collection).approve(_tester, _tokenID0);
+        IERC721(_collection).approve(_buyer, _tokenID0);
+
+        assertEq(IERC721(_collection).getApproved(_tokenID0), _tester);
+    }
+
+    function testERC721SetApprovalForAll() public {
+        if (_transferable) {
+            changePrank(_minter);
+            vm.expectEmit(true, true, true, false);
+            emit ApprovalForAll(_minter, _tester, true);
+            IERC721(_collection).setApprovalForAll(_tester, true);
+
+            changePrank(_tester);
+            IERC721(_collection).safeTransferFrom(_minter, _buyer, _tokenID0);
+            assertEq(IERC721(_collection).ownerOf(_tokenID0), _buyer);
+        }
+    }
+
+    function testFailERC721SetApprovalForAll() public {
+        changePrank(_tester);
+        IERC721(_collection).setApprovalForAll(_tester, true);
+        IERC721(_collection).setApprovalForAll(_tester, false);
+        IERC721(_collection).safeTransferFrom(_minter, _buyer, _tokenID0);
+    }
+
+    function testERC721IsApprovedForAll() public {
+        if (_transferable) {
+            changePrank(_minter);
+            IERC721(_collection).setApprovalForAll(_tester, true);
+            assertTrue(IERC721(_collection).isApprovedForAll(_minter, _tester));
+        }
+    }
+
+    function testERC721IsNotApprovedForAll() public {
+        if (_transferable) {
+            changePrank(_minter);
+            IERC721(_collection).setApprovalForAll(_tester, true);
+            IERC721(_collection).setApprovalForAll(_tester, false);
+        }
+        assertFalse(IERC721(_collection).isApprovedForAll(_minter, _tester));
     }
 
     function testERC721SupportsInterface() public {

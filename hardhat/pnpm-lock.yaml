@@ -48,7 +48,7 @@ specifiers:
   multiformats: ^9.7.0
   node-fetch: ^2.6.7
   prettier: ^2.7.1
-  prettier-plugin-solidity: ^1.0.0-dev.22
+  prettier-plugin-solidity: 1.0.0-dev.23
   prompt-sync: ^4.2.0
   readline-sync: ^1.4.10
   solc: ^0.8.15
@@ -111,12 +111,12 @@ devDependencies:
   multiformats: 9.7.0
   node-fetch: 2.6.7
   prettier: 2.7.1
-  prettier-plugin-solidity: 1.0.0-dev.22_prettier@2.7.1
+  prettier-plugin-solidity: 1.0.0-dev.23_prettier@2.7.1
   prompt-sync: 4.2.0
   readline-sync: 1.4.10
   solc: 0.8.15
   solhint: 3.3.7
-  solhint-plugin-prettier: 0.0.5_r7jkvaoul5idvzyirtba3mejq4
+  solhint-plugin-prettier: 0.0.5_yhaj7swsoth43i54pjwisbu4t4
   solidity-coverage: 0.7.21
   ts-node: 10.8.2_fxk5i3xm3ivo7fjwhcizcinpla
   tsconfig-paths: 4.0.0
@@ -9077,8 +9077,8 @@ packages:
       fast-diff: 1.2.0
     dev: true
 
-  /prettier-plugin-solidity/1.0.0-dev.22_prettier@2.7.1:
-    resolution: {integrity: sha512-0v+O2/sqq6WMlZ2TsnRBXaNmKF4zANn0uLLWuvNra4BjmKUtp33EZ4AVKB26fzWy14BkVGeJfPAtKry0x3SFfQ==}
+  /prettier-plugin-solidity/1.0.0-dev.23_prettier@2.7.1:
+    resolution: {integrity: sha512-440/jZzvtDJcqtoRCQiigo1DYTPAZ85pjNg7gvdd+Lds6QYgID8RyOdygmudzHdFmV2UfENt//A8tzx7iS58GA==}
     engines: {node: '>=12'}
     peerDependencies:
       prettier: ^2.3.0
@@ -10128,7 +10128,7 @@ packages:
       - debug
     dev: true
 
-  /solhint-plugin-prettier/0.0.5_r7jkvaoul5idvzyirtba3mejq4:
+  /solhint-plugin-prettier/0.0.5_yhaj7swsoth43i54pjwisbu4t4:
     resolution: {integrity: sha512-7jmWcnVshIrO2FFinIvDQmhQpfpS2rRRn3RejiYgnjIE68xO2bvrYvjqVNfrio4xH9ghOqn83tKuTzLjEbmGIA==}
     peerDependencies:
       prettier: ^1.15.0 || ^2.0.0
@@ -10136,7 +10136,7 @@ packages:
     dependencies:
       prettier: 2.7.1
       prettier-linter-helpers: 1.0.0
-      prettier-plugin-solidity: 1.0.0-dev.22_prettier@2.7.1
+      prettier-plugin-solidity: 1.0.0-dev.23_prettier@2.7.1
     dev: true
 
   /solhint/3.3.7:
@@ -12268,7 +12268,7 @@ packages:
   /wide-align/1.1.5:
     resolution: {integrity: sha512-eDMORYaPNZ4sQIuuYPDHdQvf4gyCF9rEEV/yPxGfwPkRodwEgiMUUXTx/dex+Me0wxx53S+NgUHaP7y3MGlDmg==}
     dependencies:
-      string-width: 1.0.2
+      string-width: 4.2.3
     dev: true
     optional: true
 

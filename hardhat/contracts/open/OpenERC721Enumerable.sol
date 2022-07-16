@@ -53,46 +53,26 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         return _allTokens[index];
     }
 
-    function _beforeTokenTransfer(
-        address from,
-        address to,
-        uint256 tokenId
-    ) internal virtual override(OpenERC721) {
-        super._beforeTokenTransfer(from, to, tokenId);
-
-        if (from == address(0)) {
-            _addTokenToAllTokensEnumeration(tokenId);
-        } else if (from != to) {
-            _removeTokenFromOwnerEnumeration(from, tokenId);
-        }
-        if (to == address(0)) {
-            _removeTokenFromAllTokensEnumeration(tokenId);
-        } else if (to != from) {
-            _addTokenToOwnerEnumeration(to, tokenId);
-        }
-    }
-
-    function _burn(uint256 tokenID) internal virtual override(OpenERC721) {
-        super._burn(tokenID);
-    }
-
-    function _addTokenToOwnerEnumeration(address to, uint256 tokenId) private {
+    function _mintEnumerable(address to, uint256 tokenID) internal {
         uint256 length = OpenERC721.balanceOf(to);
-        _ownedTokens[to][length] = tokenId;
-        _ownedTokensIndex[tokenId] = length;
+        _ownedTokens[to][length] = tokenID;
+        _ownedTokensIndex[tokenID] = length;
+
+        _allTokensIndex[tokenID] = _allTokens.length;
+        _allTokens.push(tokenID);
     }
 
-    function _addTokenToAllTokensEnumeration(uint256 tokenId) private {
-        _allTokensIndex[tokenId] = _allTokens.length;
-        _allTokens.push(tokenId);
+    function _burnEnumerable(uint256 tokenID) internal {
+        _removeTokenFromOwnerEnumeration(ownerOf(tokenID), tokenID);
+        _removeTokenFromAllTokensEnumeration(tokenID);
     }
 
-    function _removeTokenFromOwnerEnumeration(address from, uint256 tokenId) private {
+    function _removeTokenFromOwnerEnumeration(address from, uint256 tokenID) private {
         // To prevent a gap in from's tokens array, we store the last token in the index of the token to delete, and
         // then delete the last slot (swap and pop).
 
         uint256 lastTokenIndex = OpenERC721.balanceOf(from) - 1;
-        uint256 tokenIndex = _ownedTokensIndex[tokenId];
+        uint256 tokenIndex = _ownedTokensIndex[tokenID];
 
         // When the token to delete is the last token, the swap operation is unnecessary
         if (tokenIndex != lastTokenIndex) {
@@ -103,16 +83,16 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         }
 
         // This also deletes the contents at the last position of the array
-        delete _ownedTokensIndex[tokenId];
+        delete _ownedTokensIndex[tokenID];
         delete _ownedTokens[from][lastTokenIndex];
     }
 
-    function _removeTokenFromAllTokensEnumeration(uint256 tokenId) private {
+    function _removeTokenFromAllTokensEnumeration(uint256 tokenID) private {
         // To prevent a gap in the tokens array, we store the last token in the index of the token to delete, and
         // then delete the last slot (swap and pop).
 
         uint256 lastTokenIndex = _allTokens.length - 1;
-        uint256 tokenIndex = _allTokensIndex[tokenId];
+        uint256 tokenIndex = _allTokensIndex[tokenID];
 
         // When the token to delete is the last token, the swap operation is unnecessary. However, since this occurs so
         // rarely (when the last minted token is burnt) that we still do the swap here to avoid the gas cost of adding
@@ -123,7 +103,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
         _allTokensIndex[lastTokenId] = tokenIndex; // Update the moved token's index
 
         // This also deletes the contents at the last position of the array
-        delete _allTokensIndex[tokenId];
+        delete _allTokensIndex[tokenID];
         _allTokens.pop();
     }
 }

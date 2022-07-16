@@ -18,6 +18,7 @@ abstract contract PriceableTest is Test {
     uint256 private _notTokenID = 42;
 
     uint96 private _maxFee = 10000;
+
     // uint256 private maxPrice = uint256(((2**256) - 1)) / _maxFee;
 
     function constructorTest(address owner_) public virtual returns (address);
@@ -66,7 +67,7 @@ abstract contract PriceableTest is Test {
 
     function testSetTokenRoyaltyNoToken() public {
         vm.expectRevert(bytes("Invalid token ID"));
-        IOpenPriceable(_contract).setTokenRoyalty( _notTokenID, _tester, 100);
+        IOpenPriceable(_contract).setTokenRoyalty(_notTokenID, _tester, 100);
     }
 
     function testSetTokenPrice(uint256 price) public {
@@ -111,7 +112,7 @@ abstract contract PriceableTest is Test {
     function testSetTokenPriceNoToken() public {
         changePrank(_minter);
         vm.expectRevert(bytes("Invalid token ID"));
-        IOpenPriceable(_contract).setTokenPrice( _notTokenID, 1 ether);
+        IOpenPriceable(_contract).setTokenPrice(_notTokenID, 1 ether);
     }
 
     function testRoyaltyInfoCalculation(uint256 price, uint96 fee) public {

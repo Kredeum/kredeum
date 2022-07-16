@@ -38,10 +38,6 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
         return interfaceId == 0x5b5e139f || super.supportsInterface(interfaceId);
     }
 
-    function _setTokenURI(uint256 tokenID, string memory newTokenURI) internal {
-        _tokenURIs[tokenID] = newTokenURI;
-    }
-
     function _setName(string memory newName) internal {
         _name = newName;
     }
@@ -57,8 +53,11 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
         _once = true;
     }
 
-    function _burn(uint256 tokenID) internal virtual override(OpenERC721) {
+    function _mintMetadata(uint256 tokenID, string memory newTokenURI) internal {
+        _tokenURIs[tokenID] = newTokenURI;
+    }
+
+    function _burnMetadata(uint256 tokenID) internal {
         delete _tokenURIs[tokenID];
-        super._burn(tokenID);
     }
 }

@@ -49,7 +49,7 @@
     "multiformats": "^9.7.0",
     "node-fetch": "^2.6.7",
     "prettier": "^2.7.1",
-    "prettier-plugin-solidity": "^1.0.0-dev.22",
+    "prettier-plugin-solidity": "1.0.0-dev.23",
     "prompt-sync": "^4.2.0",
     "readline-sync": "^1.4.10",
     "solc": "^0.8.15",
