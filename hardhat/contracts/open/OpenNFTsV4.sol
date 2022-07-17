@@ -189,8 +189,6 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     }
 
     function _burn(uint256 tokenID) internal {
-        tokenIdNext -= 1;
-
         _burnMetadata(tokenID);
         _burnPriceable(tokenID);
         _burnEnumerable(tokenID);

@@ -13,6 +13,7 @@ abstract contract OpenNFTsBurnTest is Test {
     address private _minter = address(0x12);
     address private _tester = address(0x4);
     uint256 private _tokenID0;
+    uint256 randNonce;
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -80,5 +81,43 @@ abstract contract OpenNFTsBurnTest is Test {
         assertEq(IERC721Enumerable(_collection).totalSupply(), 1);
         burnTest(_collection, _tokenID0);
         assertEq(IERC721Enumerable(_collection).totalSupply(), 0);
+    }
+
+    function testBurnShuffleUp() public {
+        burnTest(_collection, _tokenID0);
+
+        uint160 first = 2**100;
+        uint160 limit = 20;
+        uint256 totalSupply;
+
+        for (uint160 index = 1; index <= limit; index++) {
+            address address1 = address(first + (random(first) % index));
+            address address2 = address(first + (random(first) % index));
+            uint256 rand3 = (random(first) % index);
+
+            mintTest(_collection, address1);
+            mintTest(_collection, address2);
+
+            uint256 randomTokenID1 = IERC721Enumerable(_collection).tokenByIndex(rand3);
+            address owner1 = IERC721(_collection).ownerOf(randomTokenID1);
+            changePrank(owner1);
+            IERC721(_collection).transferFrom(owner1, address2, randomTokenID1);
+
+            uint256 randomTokenID2 = IERC721Enumerable(_collection).tokenByIndex(uint256(rand3));
+            burnTest(_collection, randomTokenID2);
+
+            assertEq(IERC721Enumerable(_collection).totalSupply(), index);
+        }
+        assertEq(IERC721Enumerable(_collection).totalSupply(), limit);
+
+        for (uint160 index = 1; index <= limit; index++) {
+            totalSupply += IERC721(_collection).balanceOf(address(first + index - 1));
+        }
+        assertEq(totalSupply, limit);
+    }
+
+    function random(uint160 rnd) public returns (uint160) {
+        randNonce++;
+        return uint160(uint256(keccak256(abi.encodePacked(msg.sender, randNonce, rnd))));
     }
 }
