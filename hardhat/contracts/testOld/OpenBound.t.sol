@@ -36,18 +36,15 @@ contract OpenBoundForgeTest is Test {
         ob.tokenOfOwnerByIndex(msg.sender, tokenID);
     }
 
-    function testRevertTokenURI(uint256 tokenID) public {
-        vm.expectRevert(bytes("NFT doesn't exists"));
+    function testFailTokenURI(uint256 tokenID) public {
         ob.tokenURI(tokenID);
     }
 
-    function testRevertTokenByIndex(uint256 tokenID) public {
-        vm.expectRevert(bytes("Invalid index"));
+    function testFailTokenByIndex(uint256 tokenID) public {
         ob.tokenByIndex(tokenID);
     }
 
-    function testRevertTokenOfOwnerByIndex(uint256 tokenID) public {
-        vm.expectRevert(bytes("Invalid index"));
+    function testFailTokenOfOwnerByIndex(uint256 tokenID) public {
         ob.tokenOfOwnerByIndex(msg.sender, tokenID);
     }
 }

@@ -10,12 +10,9 @@ contract OpenERC721MetadataTest is OpenNFTsOldTest {
         assertEq(opn.symbol(), "OPTEST");
     }
 
-    function testInitializeTwice() public {
+    function testFailInitializeTwice() public {
         opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
-        vm.expectRevert("Only once!");
         opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
-        assertEq(opn.name(), "OpenNFTsOldTest");
-        assertEq(opn.symbol(), "OPTEST");
     }
 
     function testName() public {

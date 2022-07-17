@@ -6,9 +6,10 @@ import "../../lib/forge-std/src/Test.sol";
 import "../OpenNFTsV2.sol";
 import "./OpenNFTsTest.t.sol";
 import "../interfaces/ITest.sol";
+import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
 
-contract OpenNFTsV2Test is ITest, OpenNFTsTest {
-    function constructorTest(address owner) public override returns (address) {
+contract OpenNFTsV2Test is ITest, OpenNFTsTest, ERC721TransferableTest {
+    function constructorTest(address owner) public override(OpenNFTsTest, ERC721TransferableTest) returns (address) {
         changePrank(owner);
         OpenNFTsV2 op = new OpenNFTsV2();
         op.initialize("OpenNFTsTest", "OPTEST");
@@ -16,7 +17,11 @@ contract OpenNFTsV2Test is ITest, OpenNFTsTest {
         return address(op);
     }
 
-    function mintTest(address collection, address minter) public override returns (uint256) {
+    function mintTest(address collection, address minter)
+        public
+        override(OpenNFTsTest, ERC721TransferableTest)
+        returns (uint256)
+    {
         changePrank(minter);
         return OpenNFTsV2(collection).mintNFT(minter, _TOKEN_URI);
     }
@@ -25,5 +30,6 @@ contract OpenNFTsV2Test is ITest, OpenNFTsTest {
 
     function setUp() public override {
         setUpOpenNFTs("OpenNFTsTest", "OPTEST");
+        setUpERC721Transferable();
     }
 }

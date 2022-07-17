@@ -65,8 +65,7 @@ abstract contract PriceableTest is Test {
         assertEq(royalties, (price * fee) / _maxFee);
     }
 
-    function testSetTokenRoyaltyNoToken() public {
-        vm.expectRevert(bytes("Invalid token ID"));
+    function testFailSetTokenRoyaltyNoToken() public {
         IOpenPriceable(_contract).setTokenRoyalty(_notTokenID, _tester, 100);
     }
 
@@ -93,25 +92,22 @@ abstract contract PriceableTest is Test {
         assertEq(IOpenPriceable(_contract).tokenPrice(_tokenID0), price);
     }
 
-    function testSetDefaultPriceTooExpensive(uint256 price) public {
+    function testFailSetDefaultPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
 
         changePrank(_owner);
-        vm.expectRevert("Too expensive");
         IOpenPriceable(_contract).setDefaultPrice(price);
     }
 
-    function testSetTokenPriceTooExpensive(uint256 price) public {
+    function testFailSetTokenPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
 
         changePrank(_minter);
-        vm.expectRevert("Too expensive");
         IOpenPriceable(_contract).setTokenPrice(_tokenID0, price);
     }
 
-    function testSetTokenPriceNoToken() public {
+    function testFailSetTokenPriceNoToken() public {
         changePrank(_minter);
-        vm.expectRevert(bytes("Invalid token ID"));
         IOpenPriceable(_contract).setTokenPrice(_notTokenID, 1 ether);
     }
 

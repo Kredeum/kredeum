@@ -34,9 +34,8 @@ abstract contract ERC2981Test is Test {
         IERC2981(_contract).royaltyInfo(_tokenID0, price);
     }
 
-    function testERC2981RoyaltyInfoTooExpensive(uint256 price) public {
+    function testFailERC2981RoyaltyInfoTooExpensive(uint256 price) public {
         vm.assume(price >= 2**128);
-        vm.expectRevert("Too expensive");
         IERC2981(_contract).royaltyInfo(_tokenID0, price);
     }
 

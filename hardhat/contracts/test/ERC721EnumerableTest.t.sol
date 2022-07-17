@@ -18,8 +18,6 @@ abstract contract ERC721EnumerableTest is Test {
 
     function mintTest(address collection_, address minter_) public virtual returns (uint256);
 
-    function burnTest(address collection_, uint256 tokenID_) public virtual;
-
     function setUpERC721Enumerable() public {
         _collection = constructorTest(_owner);
         _tokenID0 = mintTest(_collection, _minter);
@@ -33,12 +31,6 @@ abstract contract ERC721EnumerableTest is Test {
         assertEq(IERC721Enumerable(_collection).totalSupply(), 1);
         mintTest(_collection, _tester);
         assertEq(IERC721Enumerable(_collection).totalSupply(), 2);
-    }
-
-    function testERC721EnumerableTotalSupplyDecrement() public {
-        assertEq(IERC721Enumerable(_collection).totalSupply(), 1);
-        burnTest(_collection, _tokenID0);
-        assertEq(IERC721Enumerable(_collection).totalSupply(), 0);
     }
 
     function testERC721EnumerableTokenByIndex() public {

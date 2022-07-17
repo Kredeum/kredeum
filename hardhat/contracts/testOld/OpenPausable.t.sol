@@ -9,15 +9,11 @@ contract OpenPausableTest is OpenNFTsOldTest {
     function testOnlyWhenNotPaused() public {
         changePrank(minter);
         op.mint(_TOKEN_URI);
+    }
 
-        vm.expectRevert(bytes("Not owner"));
-        op.togglePause();
-
-        changePrank(owner);
-        op.togglePause();
-
+    function testFailOnlyWhenNotPaused() public {
         changePrank(minter);
-        vm.expectRevert(bytes("Paused!"));
+        op.togglePause();
         op.mint(_TOKEN_URI);
     }
 

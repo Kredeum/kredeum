@@ -10,13 +10,13 @@ contract OpenNFTsTokenOwnerTest is OpenNFTsOldTest {
         op.setTokenPrice(tokenID0, 1 ether);
     }
 
-    function testTokenOwnerNotOwner() public {
+    function testFailSetTokenRoyaltyNotOwner() public {
         changePrank(buyer);
-
-        vm.expectRevert(bytes("Not token owner"));
         op.setTokenRoyalty(tokenID0, tester, 100);
+    }
 
-        vm.expectRevert(bytes("Not token owner"));
+    function testFailSetTokenPriceNotOwner() public {
+        changePrank(buyer);
         op.setTokenPrice(tokenID0, 1 ether);
     }
 }

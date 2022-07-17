@@ -67,7 +67,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         uint256 tokenID,
         address receiver,
         uint96 fee
-    ) external override(IOpenPriceable) onlyTokenOwner(tokenID) lessThanMaxFee(fee) {
+    ) external override(IOpenPriceable) onlyTokenOwnerOrApproved(tokenID) lessThanMaxFee(fee) {
         _setTokenRoyalty(tokenID, receiver, fee);
     }
 
@@ -82,7 +82,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
     function setTokenPrice(uint256 tokenID, uint256 price)
         public
         override(IOpenPriceable)
-        onlyTokenOwner(tokenID)
+        onlyTokenOwnerOrApproved(tokenID)
         notTooExpensive(price)
     {
         _setTokenPrice(tokenID, price);

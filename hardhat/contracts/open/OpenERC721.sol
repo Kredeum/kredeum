@@ -28,29 +28,21 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
     // Mapping from owner to operator approvals
     mapping(address => mapping(address => bool)) private _operatorApprovals;
 
-    modifier onlyTokenOwner(uint256 tokenID) {
-        require(ownerOf(tokenID) == msg.sender, "Not token owner");
-        _;
-    }
-
-    modifier onlyTokenAuthorized(uint256 tokenID) {
-        require(
-            ownerOf(tokenID) == msg.sender ||
-                _tokenApprovals[tokenID] == msg.sender ||
-                _operatorApprovals[ownerOf(tokenID)][msg.sender],
-            "Not token authorized"
-        );
+    modifier onlyTokenOwnerOrApproved(uint256 tokenID) {
+        require(_isOwnerOrApproved(msg.sender, tokenID), "Not token owner nor approved");
         _;
     }
 
     function approve(address to, uint256 tokenID) public override(IERC721) {
-        require(ownerOf(tokenID) == msg.sender || _operatorApprovals[ownerOf(tokenID)][msg.sender], "Not authorized");
+        require(_isOwnerOrOperator(msg.sender, tokenID), "Not token owner nor operator");
 
-        _approve(to, tokenID);
+        _tokenApprovals[tokenID] = to;
+        emit Approval(ownerOf(tokenID), to, tokenID);
     }
 
     function setApprovalForAll(address operator, bool approved) public override(IERC721) {
-        _setApprovalForAll(msg.sender, operator, approved);
+        _operatorApprovals[msg.sender][operator] = approved;
+        emit ApprovalForAll(msg.sender, operator, approved);
     }
 
     function transferFrom(
@@ -58,10 +50,7 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         address to,
         uint256 tokenID
     ) public override(IERC721) {
-        //solhint-disable-next-line max-line-length
-        require(_isApprovedOrOwner(msg.sender, tokenID), "Not token owner nor approved");
-
-        _transfer(from, to, tokenID);
+        _transferFrom(from, to, tokenID);
     }
 
     function safeTransferFrom(
@@ -78,8 +67,8 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         uint256 tokenID,
         bytes memory data
     ) public override(IERC721) {
-        require(_isApprovedOrOwner(msg.sender, tokenID), "Not token owner nor approved");
-        _safeTransfer(from, to, tokenID, data);
+        _transferFrom(from, to, tokenID);
+        require(_isERC721Receiver(from, to, tokenID, data), "Not ERC721Received");
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC165) returns (bool) {
@@ -89,34 +78,22 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
     }
 
     function balanceOf(address owner) public view override(IERC721) returns (uint256) {
-        require(owner != address(0), "Address zero not a valid owner");
+        require(owner != address(0), "Zero address not valid owner");
         return _balances[owner];
     }
 
-    function ownerOf(uint256 tokenID) public view override(IERC721) returns (address) {
-        address owner = _owners[tokenID];
-        require(owner != address(0), "Invalid token ID");
-        return owner;
+    function ownerOf(uint256 tokenID) public view override(IERC721) returns (address owner) {
+        require((owner = _owners[tokenID]) != address(0), "Invalid token ID");
     }
 
     function getApproved(uint256 tokenID) public view override(IERC721) returns (address) {
-        _requireMinted(tokenID);
+        require(_exists(tokenID), "Invalid token ID");
 
         return _tokenApprovals[tokenID];
     }
 
     function isApprovedForAll(address owner, address operator) public view override(IERC721) returns (bool) {
         return _operatorApprovals[owner][operator];
-    }
-
-    function _safeTransfer(
-        address from,
-        address to,
-        uint256 tokenID,
-        bytes memory data
-    ) internal {
-        _transfer(from, to, tokenID);
-        require(_checkOnERC721Received(from, to, tokenID, data), "Transfer not ERC721TokenReceiver");
     }
 
     function _mintNft(address to, uint256 tokenID) internal {
@@ -127,103 +104,62 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         _owners[tokenID] = to;
 
         emit Transfer(address(0), to, tokenID);
-        require(_checkOnERC721Received(address(0), to, tokenID, ""), "Transfer not ERC721TokenReceiver");
+        require(_isERC721Receiver(address(0), to, tokenID, ""), "Not ERC721Received");
     }
 
     function _burnNft(uint256 tokenID) internal {
         address owner = ownerOf(tokenID);
-
-        // _beforeTokenTransfer(owner, address(0), tokenID);
-
-        // Clear approvals
-        _approve(address(0), tokenID);
+        assert(_balances[owner] > 0);
 
         _balances[owner] -= 1;
+        delete _tokenApprovals[tokenID];
         delete _owners[tokenID];
 
         emit Transfer(owner, address(0), tokenID);
     }
 
-    function _transfer(
+    function _transferFrom(
         address from,
         address to,
         uint256 tokenID
-    ) internal {
-        require(ownerOf(tokenID) == from, "Transfer from incorrect owner");
-        require(to != address(0), "Transfer to zero address");
+    ) internal onlyTokenOwnerOrApproved(tokenID) {
+        require(from == ownerOf(tokenID), "From not owner");
+        require(from != address(0), "Invalid transfer from zero address");
+        require(to != address(0), "Invalid transfer to zero address");
 
-        // _beforeTokenTransfer(from, to, tokenID);
-
-        // Clear approvals from the previous owner
         delete _tokenApprovals[tokenID];
 
-        _balances[from] -= 1;
-        _balances[to] += 1;
-        _owners[tokenID] = to;
+        if (from != to) {
+            _balances[from] -= 1;
+            _balances[to] += 1;
+            _owners[tokenID] = to;
+        }
 
         emit Transfer(from, to, tokenID);
-    }
-
-    function _approve(address to, uint256 tokenID) internal {
-        _tokenApprovals[tokenID] = to;
-        emit Approval(ownerOf(tokenID), to, tokenID);
-    }
-
-    function _setApprovalForAll(
-        address owner,
-        address operator,
-        bool approved
-    ) internal {
-        require(owner != operator, "Approve to caller");
-        _operatorApprovals[owner][operator] = approved;
-        emit ApprovalForAll(owner, operator, approved);
-    }
-
-    // function _beforeTokenTransfer(
-    //     address from,
-    //     address to,
-    //     uint256 tokenID
-    // ) internal virtual {}
-
-    function _requireMinted(uint256 tokenID) internal view {
-        require(_exists(tokenID), "Invalid token ID");
     }
 
     function _exists(uint256 tokenID) internal view returns (bool) {
         return _owners[tokenID] != address(0);
     }
 
-    function _isApprovedOrOwner(address spender, uint256 tokenID) internal view virtual returns (bool) {
+    function _isOwnerOrOperator(address spender, uint256 tokenID) internal view virtual returns (bool) {
         address owner = ownerOf(tokenID);
-        return (spender == owner || isApprovedForAll(owner, spender) || getApproved(tokenID) == spender);
+        return (owner == spender || isApprovedForAll(owner, spender));
     }
 
-    function _isContract(address account) internal view returns (bool) {
-        return account.code.length > 0;
+    function _isOwnerOrApproved(address spender, uint256 tokenID) internal view virtual returns (bool) {
+        return (_isOwnerOrOperator(spender, tokenID) || getApproved(tokenID) == spender);
     }
 
-    function _checkOnERC721Received(
+    function _isERC721Receiver(
         address from,
         address to,
         uint256 tokenID,
         bytes memory data
     ) private returns (bool) {
-        if (_isContract(to)) {
-            try IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenID, data) returns (bytes4 retval) {
-                return retval == IERC721TokenReceiver.onERC721Received.selector;
-            } catch (bytes memory reason) {
-                if (reason.length == 0) {
-                    revert("Transfer not ERC721TokenReceiver");
-                } else {
-                    /// @solidity memory-safe-assembly
-                    // solhint-disable-next-line no-inline-assembly
-                    assembly {
-                        revert(add(32, reason), mload(reason))
-                    }
-                }
-            }
-        } else {
-            return true;
-        }
+        return
+            to.code.length == 0 ||
+            IERC721TokenReceiver(to).onERC721Received(msg.sender, from, tokenID, data) ==
+            IERC721TokenReceiver.onERC721Received.selector;
     }
 }

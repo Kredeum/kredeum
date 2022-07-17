@@ -117,7 +117,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwner(tokenID) {
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
     }
 
@@ -189,13 +189,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     }
 
     function _burn(uint256 tokenID) internal {
-        _burnNft(tokenID);
-        _burnEnumerable(tokenID);
-        _burnPriceable(tokenID);
+        tokenIdNext -= 1;
+
         _burnMetadata(tokenID);
+        _burnPriceable(tokenID);
+        _burnEnumerable(tokenID);
+        _burnNft(tokenID);
     }
 
-    function _isApprovedOrOwner(address spender, uint256 tokenID) internal view override(OpenERC721) returns (bool) {
-        return (spender == address(this)) || super._isApprovedOrOwner(spender, tokenID);
+    function _isOwnerOrApproved(address spender, uint256 tokenID) internal view override(OpenERC721) returns (bool) {
+        return (spender == address(this)) || super._isOwnerOrApproved(spender, tokenID);
     }
 }

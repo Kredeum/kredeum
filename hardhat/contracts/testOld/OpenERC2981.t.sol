@@ -9,9 +9,8 @@ contract OpenERC2981Test is OpenNFTsOldTest {
         op.royaltyInfo(tokenID0, price);
     }
 
-    function testRoyaltyInfoTooExpensive(uint256 price) public {
+    function testFailRoyaltyInfoTooExpensive(uint256 price) public {
         vm.assume(price >= 2**128);
-        vm.expectRevert("Too expensive");
         op.royaltyInfo(tokenID0, price);
     }
 

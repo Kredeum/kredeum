@@ -28,8 +28,7 @@ contract OpenPriceableTest is OpenNFTsOldTest {
         assertEq(royalties, (price * fee) / maxFee);
     }
 
-    function testSetTokenRoyaltyNoToken() public {
-        vm.expectRevert(bytes("Invalid token ID"));
+    function testFailSetTokenRoyaltyNoToken() public {
         op.setTokenRoyalty(notTokenID, tester, 100);
     }
 
@@ -55,22 +54,18 @@ contract OpenPriceableTest is OpenNFTsOldTest {
         assertEq(op.tokenPrice(tokenID0), price);
     }
 
-    function testSetDefaultPriceTooExpensive(uint256 price) public {
+    function testFailSetDefaultPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
-
         changePrank(owner);
-        vm.expectRevert("Too expensive");
         op.setDefaultPrice(price);
     }
 
-    function testSetTokenPriceTooExpensive(uint256 price) public {
+    function testFailSetTokenPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
-        vm.expectRevert("Too expensive");
         op.setTokenPrice(tokenID0, price);
     }
 
-    function testSetTokenPriceNoToken() public {
-        vm.expectRevert(bytes("Invalid token ID"));
+    function testFailSetTokenPriceNoToken() public {
         op.setTokenPrice(notTokenID, 1 ether);
     }
 

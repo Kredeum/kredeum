@@ -6,15 +6,16 @@ import "../../lib/forge-std/src/Test.sol";
 import "../dev/OpenBound.sol";
 import {OpenNFTsTest} from "./OpenNFTsTest.t.sol";
 import {ERC173Test} from "./ERC173Test.t.sol";
+import {ERC721NonTransferableTest} from "./ERC721NonTransferableTest.t.sol";
 import {OpenPausableTest} from "./OpenPausableTest.t.sol";
 import "../interfaces/ITest.sol";
 
-contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, OpenPausableTest {
+contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPausableTest {
     uint256 private _cid = 777;
 
     function constructorTest(address owner)
         public
-        override(OpenNFTsTest, ERC173Test, OpenPausableTest)
+        override(OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPausableTest)
         returns (address)
     {
         changePrank(owner);
@@ -28,14 +29,14 @@ contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, OpenPausableTest {
 
     function mintTest(address collection, address minter)
         public
-        override(OpenNFTsTest, OpenPausableTest)
+        override(OpenNFTsTest, OpenPausableTest, ERC721NonTransferableTest)
         returns (uint256)
     {
         changePrank(minter);
         return OpenBound(collection).mint(_cid++);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override {
+    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, ERC721NonTransferableTest) {
         changePrank(OpenBound(collection).ownerOf(tokenID));
         OpenBound(collection).burn(tokenID);
     }
@@ -43,6 +44,7 @@ contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, OpenPausableTest {
     function setUp() public override {
         setUpERC173();
         setUpPausable();
-        setUpOpenNFTs("OpenBound", "BOUND", false);
+        setUpOpenNFTs("OpenBound", "BOUND");
+        setUpERC721NonTransferable();
     }
 }

@@ -5,10 +5,16 @@ import "../../lib/forge-std/src/Test.sol";
 
 import "../OpenNFTsV3.sol";
 import "./OpenNFTsTest.t.sol";
+import "./OpenNFTsBurnTest.t.sol";
 import "../interfaces/ITest.sol";
+import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
 
-contract OpenNFTsV3Test is ITest, OpenNFTsTest {
-    function constructorTest(address owner) public override returns (address) {
+contract OpenNFTsV3Test is ITest, OpenNFTsTest, OpenNFTsBurnTest, ERC721TransferableTest {
+    function constructorTest(address owner)
+        public
+        override(OpenNFTsTest, OpenNFTsBurnTest, ERC721TransferableTest)
+        returns (address)
+    {
         changePrank(owner);
         bool[] memory options = new bool[](2);
         options[0] = true;
@@ -20,17 +26,23 @@ contract OpenNFTsV3Test is ITest, OpenNFTsTest {
         return address(op);
     }
 
-    function mintTest(address collection, address minter) public override returns (uint256) {
+    function mintTest(address collection, address minter)
+        public
+        override(OpenNFTsTest, OpenNFTsBurnTest, ERC721TransferableTest)
+        returns (uint256)
+    {
         changePrank(minter);
         return OpenNFTsV3(collection).mintOpenNFT(minter, _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override {
-        changePrank(OpenNFTsV3(collection).ownerOf(tokenID));
+    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
+        changePrank(OpenNFTsV3(collection).owner());
         OpenNFTsV3(collection).burnOpenNFT(tokenID);
     }
 
     function setUp() public override {
         setUpOpenNFTs("OpenNFTsTest", "OPTEST");
+        setUpERC721Transferable();
+        setUpOpenNFTsBurn();
     }
 }

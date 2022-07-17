@@ -16,12 +16,9 @@ contract OpenNFTsInitializeTest is OpenNFTsOldTest {
         assertEq(opn.open(), false);
     }
 
-    function testInitializeTwice() public {
-        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
-
+    function testFailInitializeTwice() public {
         options[0] = false;
-        vm.expectRevert("Only once!");
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
         opn.initialize("OpenNFTsOldTestTwice", "OPTEST2", tester, options);
-        assertEq(opn.open(), true);
     }
 }

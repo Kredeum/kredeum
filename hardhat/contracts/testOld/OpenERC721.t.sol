@@ -56,8 +56,7 @@ contract OpenERC721Test is OpenNFTsOldTest {
         assertEq(op.ownerOf(2), to);
     }
 
-    function testSafeTransferFromNotERC721TokenReceiver() public {
-        vm.expectRevert("Transfer not ERC721TokenReceiver");
+    function testFailSafeTransferFromNotERC721TokenReceiver() public {
         op.safeTransferFrom(minter, address(op), 1);
     }
 
@@ -86,22 +85,13 @@ contract OpenERC721Test is OpenNFTsOldTest {
         assertEq(op.ownerOf(2), to);
     }
 
-    function testApprove() public {}
-
-    function testSetApprovalForAll() public {}
-
-    function testGetApproved() public {}
-
-    function testIsApprovedForAll() public {}
-
     function testOnlyTokenOwner() public {
         changePrank(minter);
         op.burn(tokenID0);
     }
 
-    function testNotOnlyTokenOwner() public {
+    function testFailOnlyTokenOwner() public {
         changePrank(tester);
-        vm.expectRevert("Not token owner");
         op.burn(tokenID0);
     }
 

@@ -11,11 +11,9 @@ contract OpenERC173Text is OpenNFTsOldTest {
         assertEq(opn.owner(), owner);
     }
 
-    function testInitializeTwice() public {
+    function testFailInitializeTwice() public {
         opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
-        vm.expectRevert("Only once!");
         opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
-        assertEq(opn.owner(), owner);
     }
 
     function testOwner() public {
@@ -27,9 +25,8 @@ contract OpenERC173Text is OpenNFTsOldTest {
         op.togglePause();
     }
 
-    function testNotOnlyOwner() public {
+    function testFailOnlyOwner() public {
         changePrank(tester);
-        vm.expectRevert("Not owner");
         op.togglePause();
     }
 
@@ -46,9 +43,8 @@ contract OpenERC173Text is OpenNFTsOldTest {
         op.transferOwnership(tester);
     }
 
-    function testNotTransferOwnership() public {
+    function testFailTransferOwnership() public {
         changePrank(tester);
-        vm.expectRevert("Not owner");
         op.transferOwnership(minter);
     }
 

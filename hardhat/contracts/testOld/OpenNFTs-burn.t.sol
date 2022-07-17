@@ -5,38 +5,42 @@ import "./OpenNFTs.t.sol";
 
 contract OpenNFTsBurnTest is OpenNFTsOldTest {
     function testBurn() public {
-        assertEq(op.totalSupply(), 1);
-        assertEq(op.tokenByIndex(0), 1);
-        assertEq(op.tokenOfOwnerByIndex(minter, 0), 1);
+        uint256 totalSupply = op.totalSupply();
+        op.burn(tokenID0);
+        assertEq(op.totalSupply(), totalSupply - 1);
+    }
 
-        op.burn(1);
-
-        assertEq(op.totalSupply(), 0);
-        vm.expectRevert("Invalid index!");
+    function testFailBurnTokenByIndex() public {
+        op.burn(tokenID0);
         op.tokenByIndex(0);
-        vm.expectRevert("Invalid index!");
+    }
+
+    function testFailBurnTokenOfOwnerByIndex() public {
+        op.burn(tokenID0);
         op.tokenOfOwnerByIndex(minter, 0);
     }
 
     function testBurnSecondOne() public {
         changePrank(tester);
-        op.mint(_TOKEN_URI);
-
-        assertEq(op.totalSupply(), 2);
-        assertEq(op.tokenByIndex(0), 1);
-        assertEq(op.tokenByIndex(1), 2);
-        assertEq(op.tokenOfOwnerByIndex(minter, 0), 1);
-        assertEq(op.tokenOfOwnerByIndex(tester, 0), 2);
-
-        op.burn(2);
+        uint256 tokenID = op.mint(_TOKEN_URI);
+        op.burn(tokenID);
 
         assertEq(op.totalSupply(), 1);
-        assertEq(op.tokenByIndex(0), 1);
-        assertEq(op.tokenOfOwnerByIndex(minter, 0), 1);
+        assertEq(op.tokenByIndex(0), tokenID0);
+        assertEq(op.tokenOfOwnerByIndex(minter, 0), tokenID0);
+    }
 
-        vm.expectRevert("Invalid index!");
+    function testFailBurnSecondOneTokenByIndex() public {
+        changePrank(tester);
+        uint256 tokenID = op.mint(_TOKEN_URI);
+        op.burn(tokenID);
         op.tokenByIndex(1);
-        vm.expectRevert("Invalid index!");
+    }
+
+    function testFailBurnSecondOneTokenOfOwnerByIndex() public {
+        changePrank(tester);
+        uint256 tokenID = op.mint(_TOKEN_URI);
+        op.burn(tokenID);
         op.tokenOfOwnerByIndex(tester, 0);
     }
 }

@@ -22,20 +22,11 @@ abstract contract OpenNFTsTest is ERC721Test, ERC721MetadataTest, ERC721Enumerab
         override(ERC721MetadataTest, ERC721EnumerableTest, ERC721Test)
         returns (uint256);
 
-    function burnTest(address collection, uint256 tokenID) public virtual override(ERC721Test, ERC721EnumerableTest);
-
-    function setUpOpenNFTs(
-        string memory name_,
-        string memory symbol_,
-        bool nonTransferable_
-    ) public {
-        _transferable = nonTransferable_;
-        setUpOpenNFTs(name_, symbol_);
-    }
+    function burnTest(address collection, uint256 tokenID) public virtual override(ERC721Test);
 
     function setUpOpenNFTs(string memory name_, string memory symbol_) public {
         setUpERC165();
-        setUpERC721(_transferable);
+        setUpERC721();
         setUpERC721Metadata(name_, symbol_);
         setUpERC721Enumerable();
     }
