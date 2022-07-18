@@ -3,11 +3,10 @@
   import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
-  // <RefreshButton {refreshing} {nftsList} />
+  // <RefreshButton {refreshing} />
   // Display Network
   /////////////////////////////////////////////////
   export let refreshing = false;
-  // export let refresh = 1;
 
   let refresh: Writable<number> = getContext("refresh");
 </script>

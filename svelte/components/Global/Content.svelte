@@ -6,7 +6,7 @@
   import NftsList from "../NftsList/NftsList.svelte";
 
   /////////////////////////////////////////////////
-  // <ContentV2 {chainId} {address} {account} {platform}? {refreshing}? {refresh}? />
+  // <ContentV2 {chainId} {address} {account} {platform}? {refreshing}? />
   // Placeholder for content of Dapp
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -14,7 +14,6 @@
   export let account: string;
   export let platform: string = undefined;
   export let refreshing: boolean = false;
-  // export let refresh: number = undefined;
 
   let tokenID: string = "";
 

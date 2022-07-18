@@ -32,14 +32,10 @@
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  //  <NftMint {chainId} />
-  // Mint NFT
-  /////////////////////////////////////////////////
-  //  <NftMint /> {storage} {refresh}?
+  //  <NftMint {storage} {nodeUrl}? {batchId}? />
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
   /////////////////////////////////////////////////
   export let storage: string;
-  // export let refresh: number = 1;
 
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
@@ -131,8 +127,8 @@
         "ipfs" === storage
           ? await nftMint1IpfsImage(image)
           : "swarm" === storage
-          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-          : "";
+            ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+            : "";
 
       if (storageImg) {
         minting = 2;
@@ -141,10 +137,10 @@
           "ipfs" === storage
             ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
             : "swarm" === storage
-            ? swarmGatewayUrl(
+              ? swarmGatewayUrl(
                 await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
               )
-            : "";
+              : "";
 
         if (storageJson) {
           minting = 3;

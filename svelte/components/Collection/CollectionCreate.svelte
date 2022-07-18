@@ -15,7 +15,6 @@
   // up to parent
   export let chainId: number;
   export let collection: CollectionType = undefined;
-  // export let refresh: number;
 
   let template: string = undefined;
 
@@ -72,11 +71,20 @@
     cloning = false;
     $refresh += 1;
   };
+
+  const resetCollMint = () => {
+    if (collectionCreated) {
+      cloningTxHash = null;
+      collectionCreated = null;
+      collectionName = "";
+      collectionSymbol = "";
+    }
+  };
 </script>
 
 <div id="kredeum-create-collection">
   <div class="modal-content">
-    <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>

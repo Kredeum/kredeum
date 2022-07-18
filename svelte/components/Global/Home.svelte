@@ -29,7 +29,6 @@
   let address: string;
   let account: string;
   let refreshing: boolean;
-  // let refresh: number;
 
   let refresh: Writable<number> = writable(1);
   setContext("refresh", refresh);

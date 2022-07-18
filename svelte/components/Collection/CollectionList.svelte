@@ -12,7 +12,7 @@
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} {refresh}? />
+  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -22,7 +22,6 @@
   export let label: boolean = true;
   export let txt: boolean = false;
   export let refreshing: boolean = undefined;
-  // export let refresh: number = 1;
 
   let refresh: Writable<number> = getContext("refresh");
 
