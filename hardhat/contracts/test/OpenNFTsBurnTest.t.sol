@@ -83,17 +83,17 @@ abstract contract OpenNFTsBurnTest is Test {
         assertEq(IERC721Enumerable(_collection).totalSupply(), 0);
     }
 
-    function testBurnShuffleUp() public {
+    function testBurnERC721EnumerableShuffleUp(uint160 rnd) public {
         burnTest(_collection, _tokenID0);
 
         uint160 first = 2**100;
-        uint160 limit = 20;
+        uint160 total = 20;
         uint256 totalSupply;
 
-        for (uint160 index = 1; index <= limit; index++) {
-            address address1 = address(first + (random(first) % index));
-            address address2 = address(first + (random(first) % index));
-            uint256 rand3 = (random(first) % index);
+        for (uint160 index = 1; index <= total; index++) {
+            address address1 = address(first + (random(rnd) % index));
+            address address2 = address(first + (random(rnd) % index));
+            uint256 rand3 = (random(rnd) % index);
 
             mintTest(_collection, address1);
             mintTest(_collection, address2);
@@ -108,12 +108,12 @@ abstract contract OpenNFTsBurnTest is Test {
 
             assertEq(IERC721Enumerable(_collection).totalSupply(), index);
         }
-        assertEq(IERC721Enumerable(_collection).totalSupply(), limit);
+        assertEq(IERC721Enumerable(_collection).totalSupply(), total);
 
-        for (uint160 index = 1; index <= limit; index++) {
+        for (uint160 index = 1; index <= total; index++) {
             totalSupply += IERC721(_collection).balanceOf(address(first + index - 1));
         }
-        assertEq(totalSupply, limit);
+        assertEq(totalSupply, total);
     }
 
     function random(uint160 rnd) public returns (uint160) {

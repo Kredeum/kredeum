@@ -124,8 +124,10 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         uint256 tokenID
     ) internal onlyTokenOwnerOrApproved(tokenID) {
         require(from == ownerOf(tokenID), "From not owner");
-        require(from != address(0), "Invalid transfer from zero address");
-        require(to != address(0), "Invalid transfer to zero address");
+        require(from != address(0), "Transfer from zero address");
+        require(to != address(0), "Transfer to zero address");
+
+        _transferFromBefore(from, to, tokenID);
 
         delete _tokenApprovals[tokenID];
 
@@ -138,6 +140,12 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         emit Transfer(from, to, tokenID);
     }
 
+    function _transferFromBefore(
+        address from,
+        address to,
+        uint256 tokenID
+    ) internal virtual;
+
     function _exists(uint256 tokenID) internal view returns (bool) {
         return _owners[tokenID] != address(0);
     }
@@ -147,7 +155,7 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         return (owner == spender || isApprovedForAll(owner, spender));
     }
 
-    function _isOwnerOrApproved(address spender, uint256 tokenID) internal view virtual returns (bool) {
+    function _isOwnerOrApproved(address spender, uint256 tokenID) internal view returns (bool) {
         return (_isOwnerOrOperator(spender, tokenID) || getApproved(tokenID) == spender);
     }
 
