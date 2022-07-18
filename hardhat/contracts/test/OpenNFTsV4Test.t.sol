@@ -4,8 +4,11 @@ pragma solidity 0.8.9;
 import "../../lib/forge-std/src/Test.sol";
 
 import "../open/OpenNFTsV4.sol";
-import "./OpenNFTsTest.t.sol";
+import "./OpenERC721Test.t.sol";
 import "./OpenNFTsBurnTest.t.sol";
+import "./OpenNFTsBuyTest.t.sol";
+import "./OpenNFTsInitializeTest.t.sol";
+import "./OpenNFTsSetupTest.t.sol";
 import "./ERC173Test.t.sol";
 import "./ERC2981Test.t.sol";
 import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
@@ -15,8 +18,11 @@ import "../interfaces/ITest.sol";
 
 contract OpenNFTsV4Test is
     ITest,
-    OpenNFTsTest,
+    OpenERC721Test,
     OpenNFTsBurnTest,
+    OpenNFTsBuyTest,
+    OpenNFTsInitializeTest,
+    OpenNFTsSetupTest,
     ERC173Test,
     ERC2981Test,
     ERC721TransferableTest,
@@ -26,8 +32,10 @@ contract OpenNFTsV4Test is
     function constructorTest(address owner)
         public
         override(
-            OpenNFTsTest,
+            OpenERC721Test,
             OpenNFTsBurnTest,
+            OpenNFTsBuyTest,
+            OpenNFTsSetupTest,
             ERC173Test,
             ERC721TransferableTest,
             ERC2981Test,
@@ -41,21 +49,30 @@ contract OpenNFTsV4Test is
         options[0] = true;
 
         OpenNFTsV4 collection = new OpenNFTsV4();
-        collection.initialize("OpenNFTsTest", "OPTEST", owner, options);
+        collection.initialize("OpenERC721Test", "OPTEST", owner, options);
 
         return address(collection);
     }
 
     function mintTest(address collection, address minter)
         public
-        override(OpenNFTsTest, OpenNFTsBurnTest, ERC2981Test, OpenPausableTest, PriceableTest, ERC721TransferableTest)
-        returns (uint256)
+        override(
+            OpenERC721Test,
+            OpenNFTsBurnTest,
+            OpenNFTsBuyTest,
+            OpenNFTsSetupTest,
+            ERC2981Test,
+            OpenPausableTest,
+            PriceableTest,
+            ERC721TransferableTest
+        )
+        returns (uint256, string memory)
     {
         changePrank(minter);
-        return OpenNFTsV4(collection).mint(_TOKEN_URI);
+        return (OpenNFTsV4(collection).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
+    function burnTest(address collection, uint256 tokenID) public override(OpenERC721Test, OpenNFTsBurnTest) {
         changePrank(OpenNFTsV4(collection).ownerOf(tokenID));
         OpenNFTsV4(collection).burn(tokenID);
     }
@@ -73,7 +90,7 @@ contract OpenNFTsV4Test is
         address receiver,
         uint96 fee
     ) public override(ERC2981Test, PriceableTest) returns (uint256 tokenID) {
-        tokenID = mintTest(collection, receiver);
+        (tokenID, ) = mintTest(collection, receiver);
         OpenNFTsV4(collection).setTokenRoyalty(tokenID, receiver, fee);
     }
 
@@ -82,8 +99,11 @@ contract OpenNFTsV4Test is
         setUpERC2981();
         setUpPausable();
         setUpPriceable();
-        setUpOpenNFTs("OpenNFTsTest", "OPTEST");
+        setUpOpenNFTs("OpenERC721Test", "OPTEST");
         setUpERC721Transferable();
         setUpOpenNFTsBurn();
+        setUpOpenNFTsBuy();
+        setUpOpenNFTsInitialize();
+        setUpOpenNFTsSetup();
     }
 }

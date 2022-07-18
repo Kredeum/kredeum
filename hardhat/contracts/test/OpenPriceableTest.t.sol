@@ -23,7 +23,7 @@ abstract contract PriceableTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256);
+    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
 
     function setRoyaltyTest(
         address collection_,
@@ -41,7 +41,7 @@ abstract contract PriceableTest is Test {
         vm.assume(price < 2**128);
         vm.assume(fee < 10000);
 
-        uint256 tokenID = mintTest(_contract, _owner);
+        (uint256 tokenID, ) = mintTest(_contract, _owner);
 
         changePrank(_owner);
         IOpenPriceable(_contract).setDefaultRoyalty(_minter, fee);
@@ -115,7 +115,7 @@ abstract contract PriceableTest is Test {
         vm.assume(price < 2**128);
         vm.assume(fee < _maxFee);
 
-        uint256 tokenID = mintTest(_contract, _owner);
+        (uint256 tokenID, ) = mintTest(_contract, _owner);
 
         changePrank(_owner);
         IOpenPriceable(_contract).setDefaultRoyalty(_minter, fee);
@@ -124,6 +124,22 @@ abstract contract PriceableTest is Test {
         assertEq(receiver, _minter);
 
         assertEq(royalties, (price * fee) / _maxFee);
+    }
+
+    function testTokenOwner() public {
+        changePrank(_minter);
+        IOpenPriceable(_contract).setTokenRoyalty(_tokenID0, _tester, 100);
+        IOpenPriceable(_contract).setTokenPrice(_tokenID0, 1 ether);
+    }
+
+    function testFailSetTokenRoyaltyNotOwner() public {
+        changePrank(_tester);
+        IOpenPriceable(_contract).setTokenRoyalty(_tokenID0, _tester, 100);
+    }
+
+    function testFailSetTokenPriceNotOwner() public {
+        changePrank(_tester);
+        IOpenPriceable(_contract).setTokenPrice(_tokenID0, 1 ether);
     }
 
     function testSupportsInterface() public {

@@ -20,7 +20,7 @@ abstract contract ERC721NonTransferableTest is Test, IERC721Events {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256);
+    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
 
     function burnTest(address collection_, uint256 tokenID_) public virtual;
 
@@ -28,7 +28,7 @@ abstract contract ERC721NonTransferableTest is Test, IERC721Events {
         _transferable = false;
         _collection = constructorTest(_owner);
 
-        _tokenID0 = mintTest(_collection, _minter);
+        (_tokenID0, ) = mintTest(_collection, _minter);
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
     }
 
@@ -49,7 +49,7 @@ abstract contract ERC721NonTransferableTest is Test, IERC721Events {
         vm.assume(from.code.length == 0);
         vm.assume(to.code.length == 0);
 
-        uint256 tokenID = mintTest(_collection, from);
+        (uint256 tokenID, ) = mintTest(_collection, from);
         IERC721(_collection).safeTransferFrom(from, to, tokenID);
     }
 
@@ -75,7 +75,7 @@ abstract contract ERC721NonTransferableTest is Test, IERC721Events {
         vm.assume(from.code.length == 0);
         vm.assume(to.code.length == 0);
 
-        uint256 tokenID = mintTest(_collection, from);
+        (uint256 tokenID, ) = mintTest(_collection, from);
         IERC721(_collection).transferFrom(from, to, tokenID);
     }
 

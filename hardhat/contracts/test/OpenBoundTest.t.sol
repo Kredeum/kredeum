@@ -4,18 +4,18 @@ pragma solidity 0.8.9;
 import "../../lib/forge-std/src/Test.sol";
 
 import "../dev/OpenBound.sol";
-import {OpenNFTsTest} from "./OpenNFTsTest.t.sol";
+import {OpenERC721Test} from "./OpenERC721Test.t.sol";
 import {ERC173Test} from "./ERC173Test.t.sol";
 import {ERC721NonTransferableTest} from "./ERC721NonTransferableTest.t.sol";
 import {OpenPausableTest} from "./OpenPausableTest.t.sol";
 import "../interfaces/ITest.sol";
 
-contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPausableTest {
+contract OpenBoundTest is ITest, OpenERC721Test, ERC173Test, ERC721NonTransferableTest, OpenPausableTest {
     uint256 private _cid = 777;
 
     function constructorTest(address owner)
         public
-        override(OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPausableTest)
+        override(OpenERC721Test, ERC173Test, ERC721NonTransferableTest, OpenPausableTest)
         returns (address)
     {
         changePrank(owner);
@@ -29,14 +29,16 @@ contract OpenBoundTest is ITest, OpenNFTsTest, ERC173Test, ERC721NonTransferable
 
     function mintTest(address collection, address minter)
         public
-        override(OpenNFTsTest, OpenPausableTest, ERC721NonTransferableTest)
-        returns (uint256)
+        override(OpenERC721Test, OpenPausableTest, ERC721NonTransferableTest)
+        returns (uint256, string memory)
     {
         changePrank(minter);
-        return OpenBound(collection).mint(_cid++);
+        uint256 tokenID = OpenBound(collection).mint(_cid++);
+        string memory tokenURI = OpenBound(collection).tokenURI(tokenID);
+        return (tokenID, tokenURI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, ERC721NonTransferableTest) {
+    function burnTest(address collection, uint256 tokenID) public override(OpenERC721Test, ERC721NonTransferableTest) {
         changePrank(OpenBound(collection).ownerOf(tokenID));
         OpenBound(collection).burn(tokenID);
     }

@@ -16,7 +16,7 @@ abstract contract OpenPausableTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256);
+    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
 
     function setUpPausable() public {
         _contract = constructorTest(_owner);

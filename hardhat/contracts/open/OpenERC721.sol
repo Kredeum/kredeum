@@ -33,11 +33,11 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         _;
     }
 
-    function approve(address to, uint256 tokenID) public override(IERC721) {
+    function approve(address spender, uint256 tokenID) public override(IERC721) {
         require(_isOwnerOrOperator(msg.sender, tokenID), "Not token owner nor operator");
 
-        _tokenApprovals[tokenID] = to;
-        emit Approval(ownerOf(tokenID), to, tokenID);
+        _tokenApprovals[tokenID] = spender;
+        emit Approval(ownerOf(tokenID), spender, tokenID);
     }
 
     function setApprovalForAll(address operator, bool approved) public override(IERC721) {

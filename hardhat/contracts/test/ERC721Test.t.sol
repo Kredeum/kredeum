@@ -19,14 +19,14 @@ abstract contract ERC721Test is Test, IERC721Events {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256);
+    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
 
     function burnTest(address collection_, uint256 tokenID_) public virtual;
 
     function setUpERC721() public {
         _collection = constructorTest(_owner);
 
-        _tokenID0 = mintTest(_collection, _minter);
+        (_tokenID0, ) = mintTest(_collection, _minter);
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
     }
 
@@ -45,7 +45,7 @@ abstract contract ERC721Test is Test, IERC721Events {
     }
 
     function testERC721OwnerOfBis() public {
-        uint256 tokenID = mintTest(_collection, _tester);
+        (uint256 tokenID, ) = mintTest(_collection, _tester);
         assertEq(IERC721(_collection).ownerOf(tokenID), _tester);
     }
 

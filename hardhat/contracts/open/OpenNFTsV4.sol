@@ -196,6 +196,6 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     }
 
     function _isOwnerOrApproved(address spender, uint256 tokenID) internal view override(OpenERC721) returns (bool) {
-        return (spender == address(this)) || super._isOwnerOrApproved(spender, tokenID);
+        return super._isOwnerOrApproved(spender, tokenID);
     }
 }

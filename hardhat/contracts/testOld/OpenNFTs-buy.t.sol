@@ -5,6 +5,9 @@ import "./OpenNFTs.t.sol";
 
 contract OpenNFTsBuyTest is OpenNFTsOldTest {
     function testBuyOk() public {
+        changePrank(minter);
+        IERC721(op).setApprovalForAll(address(op), true);
+
         op.setTokenRoyalty(tokenID0, tester, 100);
         op.setTokenPrice(tokenID0, 1 ether);
 
