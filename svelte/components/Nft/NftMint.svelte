@@ -68,11 +68,16 @@
     file = null;
     image = null;
     nftTitle = null;
+    nftDescription = null;
     mintReset();
   };
 
   const openMintModal = () => {
     open = true;
+  };
+
+  const closeMintModal = () => {
+    open = false;
   };
 
   /////////////////////////////////////////////////
@@ -127,8 +132,8 @@
         "ipfs" === storage
           ? await nftMint1IpfsImage(image)
           : "swarm" === storage
-            ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-            : "";
+          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+          : "";
 
       if (storageImg) {
         minting = 2;
@@ -137,10 +142,10 @@
           "ipfs" === storage
             ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
             : "swarm" === storage
-              ? swarmGatewayUrl(
+            ? swarmGatewayUrl(
                 await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
               )
-              : "";
+            : "";
 
         if (storageJson) {
           minting = 3;
@@ -197,12 +202,12 @@
   <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
     <div
       use:clickOutside={() => {
-        open = false;
+        closeMintModal();
       }}
     >
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
-          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <a href="./#" on:click={closeMintModal} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
           <div class="mint-modal-body">
             <div class="titre">
