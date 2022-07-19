@@ -138,8 +138,8 @@
         "ipfs" === storage
           ? await nftMint1IpfsImage(image)
           : "swarm" === storage
-          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-          : "";
+            ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
+            : "";
 
       if (storageImg) {
         minting = 2;
@@ -148,10 +148,10 @@
           "ipfs" === storage
             ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
             : "swarm" === storage
-            ? swarmGatewayUrl(
+              ? swarmGatewayUrl(
                 await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
               )
-            : "";
+              : "";
 
         if (storageJson) {
           minting = 3;

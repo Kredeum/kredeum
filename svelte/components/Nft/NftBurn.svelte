@@ -23,11 +23,9 @@
 
   let toDisplayTokenID: Writable<string> = getContext("toDisplayTokenID");
 
-  let refresh: Writable<number> = getContext("refresh");
-
-  // Context for refreshCollection
+  // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
-  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
 
   const burn = async () => {
@@ -49,7 +47,7 @@
         burning = false;
 
         nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
-        $refreshCollection += 1;
+        $refreshCollectionList += 1;
       }
     }
   };
