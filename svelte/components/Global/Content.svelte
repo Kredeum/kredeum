@@ -1,6 +1,6 @@
 <script lang="ts">
   import { setContext } from "svelte";
-  import { writable } from "svelte/store";
+  import { Writable, writable } from "svelte/store";
 
   import Nft from "../Nft/Nft.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
@@ -14,17 +14,18 @@
   export let account: string;
   export let platform: string = undefined;
 
-  let tokenID: string = "";
+  let tokenID: Writable<string> = writable("");
+  setContext("toDisplayTokenID", tokenID);
 
   $: account && chainId && address && handleChange();
-  const handleChange = () => (tokenID = "");
+  const handleChange = () => ($tokenID = "");
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
     if (!evtTarget.classList.contains("btn") && !evtTarget.classList.contains("video-play-icon")) {
       if (evtTarget.closest("div [data-tokenid]")) {
         evt.preventDefault();
-        tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("data-tokenid");
+        $tokenID = evtTarget.closest("div [data-tokenid]").getAttribute("data-tokenid");
       }
     }
   };
@@ -34,13 +35,13 @@
 </script>
 
 <div on:click={(evt) => handleClick(evt)}>
-  {#if tokenID !== ""}
+  {#if $tokenID !== ""}
     <h2 class="m-b-20 return">
       <i class="fa fa-arrow-left fa-left" />
       <span on:click={handleChange} class="link">Return to collection</span>
     </h2>
 
-    <Nft {chainId} {address} {tokenID} {account} {platform} />
+    <Nft {chainId} {address} tokenID={$tokenID} {account} {platform} />
   {:else}
     <NftsList {chainId} {address} {account} {platform} />
   {/if}

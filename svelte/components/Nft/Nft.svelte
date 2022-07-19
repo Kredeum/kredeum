@@ -1,6 +1,8 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
+  import { collectionContractGet } from "lib/kcollection-get";
+
   import type { NftType } from "lib/ktypes";
   import {
     nftUrl,
@@ -17,9 +19,10 @@
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftBurn from "./NftBurn.svelte";
   import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId } from "main/metamask";
+  import { metamaskChainId, metamaskProvider, metamaskAccount } from "main/metamask";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -32,6 +35,8 @@
   export let platform: string = undefined;
 
   let nft: Readable<NftType>;
+
+  let burnable: boolean = false;
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
@@ -47,6 +52,14 @@
   };
 
   $: console.log("Nft", $nft);
+
+  $: chainId && address && account && $metamaskProvider && getCollection();
+  const getCollection = async () => {
+    const collectionContract = (await collectionContractGet(chainId, address, $metamaskProvider)).connect(account);
+    if (collectionContract["burnOpenNFT(uint256)"]) {
+      burnable = true;
+    }
+  };
 </script>
 
 {#if $nft}
@@ -131,6 +144,12 @@
             ><i class="fa fa-gift" /> Transfer</a
           >
 
+          {#if burnable}
+            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline" title="Burn Nft"
+              ><i class="fa fa-fire" /> Burn</a
+            >
+          {/if}
+
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
           > -->
@@ -180,6 +199,10 @@
 <!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
+</div>
+
+<div id="burn-nft-{tokenID}" class="modal-window">
+  <NftBurn {chainId} {address} {tokenID} />
 </div>
 
 <!-- Modal claim nft -->
