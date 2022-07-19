@@ -25,7 +25,10 @@
   let collectionName = "";
   let collectionSymbol = "";
 
-  let refresh: Writable<number> = getContext("refresh");
+  // Context for refreshCollection
+  ///////////////////////////////////////////////////////////
+  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  ///////////////////////////////////////////////////////////
 
   const dispatch = createEventDispatcher();
 
@@ -69,7 +72,7 @@
       }
     }
     cloning = false;
-    $refresh += 1;
+    $refreshCollection += 1;
   };
 
   const resetCollMint = () => {

@@ -28,10 +28,18 @@
   let chainId: number;
   let address: string;
   let account: string;
-  let refreshing: boolean;
 
-  let refresh: Writable<number> = writable(1);
-  setContext("refresh", refresh);
+  // Context for refreshCollection & refreshNfts & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshCollection: Writable<number> = writable(1);
+  setContext("refreshCollection", refreshCollection);
+
+  let refreshNfts: Writable<number> = writable(1);
+  setContext("refreshNfts", refreshNfts);
+
+  let refreshing: Writable<boolean> = writable(false);
+  setContext("refreshing", refreshing);
+  ///////////////////////////////////////////////////////////
 </script>
 
 <HomeLayout>
@@ -57,11 +65,11 @@
 
       <!-- Select collection -->
       {#if chainId && account}
-        <CollectionList {chainId} {account} bind:address bind:refreshing />
+        <CollectionList {chainId} {account} bind:address />
 
         {#if account && address && getNftsFactory(chainId)}
           <!-- Refresh button -->
-          <NftsListRefresh {refreshing} />
+          <NftsListRefresh />
         {/if}
       {/if}
     </div>
@@ -69,7 +77,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      <Content {chainId} {address} {account} {platform} bind:refreshing />
+      <Content {chainId} {address} {account} {platform} />
     {/if}
   </span>
 </HomeLayout>

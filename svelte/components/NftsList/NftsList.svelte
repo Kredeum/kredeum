@@ -22,11 +22,14 @@
   export let chainId: number;
   export let address: string;
   export let account: string = undefined;
-  export let refreshing: boolean = undefined;
 
   export let platform: string = "dapp";
 
-  let refresh: Writable<number> = getContext("refresh");
+  // Context for refreshNfts & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshNfts: Writable<number> = getContext("refreshNfts");
+  let refreshing: Writable<boolean> = getContext("refreshing");
+  ///////////////////////////////////////////////////////////
 
   let displayMode: string = "grid";
 
@@ -35,7 +38,7 @@
   let collection: Readable<CollectionType>;
 
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
-  $: $refresh, chainId && address && account && handleChange();
+  $: $refreshNfts, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 
@@ -46,9 +49,9 @@
     nfts = nftStore.getSubListStore(chainId, address, account);
 
     // ACTION : async refresh NFT list
-    refreshing = true;
+    $refreshing = true;
     await nftStore.refreshSubList(chainId, address, account);
-    refreshing = false;
+    $refreshing = false;
   };
 </script>
 
@@ -58,7 +61,7 @@
       <h2>Collection '{$collection?.name}'</h2>
       {$nfts?.size || 0}/{$collection?.balancesOf?.get(account) || $nfts?.size || 0}
       {$collection?.symbol || "NFT"}
-      {#if refreshing}...{/if}
+      {#if $refreshing}...{/if}
       <a
         class="info-button"
         href={explorerCollectionUrl(chainId, address)}
@@ -80,7 +83,7 @@
 {:else}
   <div class="card-krd">
     <p>
-      {#if refreshing}
+      {#if $refreshing}
         <h2>Collection '{$collection?.name}'</h2>
         Refreshing NFTs...
       {:else}

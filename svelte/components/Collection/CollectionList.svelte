@@ -12,7 +12,7 @@
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
+  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -21,9 +21,12 @@
   export let mintable: boolean = false;
   export let label: boolean = true;
   export let txt: boolean = false;
-  export let refreshing: boolean = undefined;
 
-  let refresh: Writable<number> = getContext("refresh");
+  // Context for refreshCollection & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  let refreshing: Writable<boolean> = getContext("refreshing");
+  ///////////////////////////////////////////////////////////
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
@@ -31,7 +34,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refresh, mintable, chainId && account && handleChangeCollection();
+  $: $refreshCollection, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
@@ -42,9 +45,9 @@
     collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
-    refreshing = true;
+    $refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
-    refreshing = false;
+    $refreshing = false;
     console.log("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
@@ -73,7 +76,7 @@
   <p>
     {#if $collections?.size > 0}
       Collection
-      {#if refreshing}...{/if}
+      {#if $refreshing}...{/if}
 
       <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [key, coll]}
@@ -87,7 +90,7 @@
       </p>
     {:else}
       <p>
-        {#if refreshing}
+        {#if $refreshing}
           Refreshing collections...
         {:else}
           NO Collection found !
@@ -100,7 +103,7 @@
     {#if label}
       <span class="label"
         >Collection
-        {#if refreshing}...{/if}
+        {#if $refreshing}...{/if}
         {#if address}
           <a
             class="info-button"
@@ -139,7 +142,7 @@
         {:else}
           <div class="select-trigger">
             <em>
-              {#if refreshing}
+              {#if $refreshing}
                 Refreshing collections...
               {:else}
                 NO Collection found !

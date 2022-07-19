@@ -40,7 +40,13 @@
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
 
-  let refresh: Writable<number> = getContext("refresh");
+  // Context for refreshCollection & refreshNfts & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  let refreshNfts: Writable<number> = getContext("refreshNfts");
+  let refreshing: Writable<boolean> = getContext("refreshing");
+  ///////////////////////////////////////////////////////////
+
   /////////////////////////////////////////////////
   let chainId: number;
   let account: string;
@@ -163,16 +169,18 @@
             if (mintedNft) {
               minting = 5;
 
-              $refresh += 1;
+              $refreshCollection += 1;
 
               const mintingTxReceipt = await mintingTxResp.wait();
               console.log("mintingTxReceipt", mintingTxReceipt);
               const blockTx = mintingTxReceipt.blockNumber;
 
-              do await sleep(1000);
-              while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+              do {
+                $refreshing = true;
+                await sleep(1000);
+              } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
-              $refresh += 1;
+              $refreshNfts += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }
