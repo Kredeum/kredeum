@@ -1,7 +1,10 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-
   import type { CollectionType, NftType } from "lib/ktypes";
+
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   import { explorerCollectionUrl, collectionUrl } from "lib/kconfig";
 
   import { nftStore } from "stores/nft/nft";
@@ -13,16 +16,20 @@
   import NftsListGrid from "./NftsListGrid.svelte";
 
   /////////////////////////////////////////////////
-  // <NftList {chainId} {address}  {account} {refreshing} />
+  // <NftList {chainId} {address} {account} {refreshing} {platform}? />
   // List Nfts from collection owned by account
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let account: string = undefined;
-  export let refreshing: boolean = undefined;
-  export let refresh: number = 1;
 
   export let platform: string = "dapp";
+
+  // Context for refreshNftsList & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  let refreshing: Writable<boolean> = getContext("refreshing");
+  ///////////////////////////////////////////////////////////
 
   let displayMode: string = "grid";
 
@@ -31,7 +38,7 @@
   let collection: Readable<CollectionType>;
 
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
-  $: refresh, chainId && address && account && handleChange();
+  $: $refreshNftsList, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 
@@ -42,9 +49,9 @@
     nfts = nftStore.getSubListStore(chainId, address, account);
 
     // ACTION : async refresh NFT list
-    refreshing = true;
+    $refreshing = true;
     await nftStore.refreshSubList(chainId, address, account);
-    refreshing = false;
+    $refreshing = false;
   };
 </script>
 
@@ -54,7 +61,7 @@
       <h2>Collection '{$collection?.name}'</h2>
       {$nfts?.size || 0}/{$collection?.balancesOf?.get(account) || $nfts?.size || 0}
       {$collection?.symbol || "NFT"}
-      {#if refreshing}...{/if}
+      {#if $refreshing}...{/if}
       <a
         class="info-button"
         href={explorerCollectionUrl(chainId, address)}
@@ -76,7 +83,7 @@
 {:else}
   <div class="card-krd">
     <p>
-      {#if refreshing}
+      {#if $refreshing}
         <h2>Collection '{$collection?.name}'</h2>
         Refreshing NFTs...
       {:else}

@@ -2,7 +2,10 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { NftType } from "lib/ktypes";
 
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
+  import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
 
   import {
     nftMintTexts,
@@ -13,23 +16,37 @@
     nftMint3TxResponse,
     nftMint4
   } from "lib/knft-mint";
-  import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl, storageLinkToUrlHttp } from "lib/kconfig";
+  import {
+    textShort,
+    swarmGatewayUrl,
+    explorerTxUrl,
+    explorerNftUrl,
+    nftUrl,
+    storageLinkToUrlHttp,
+    sleep
+  } from "lib/kconfig";
+  /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
   import { clickOutside } from "helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  //  <NftMint {chainId} />
-  // Mint NFT
-  /////////////////////////////////////////////////
-  //  <NftMint /> {storage}
+  //  <NftMint {storage} {nodeUrl}? {batchId}? />
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
   /////////////////////////////////////////////////
   export let storage: string;
 
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
+
+  // Context for refreshCollectionList & refreshNftsList & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  let refreshing: Writable<boolean> = getContext("refreshing");
+  ///////////////////////////////////////////////////////////
+
   /////////////////////////////////////////////////
   let chainId: number;
   let account: string;
@@ -57,11 +74,16 @@
     file = null;
     image = null;
     nftTitle = null;
+    nftDescription = null;
     mintReset();
   };
 
   const openMintModal = () => {
     open = true;
+  };
+
+  const closeMintModal = () => {
+    open = false;
   };
 
   /////////////////////////////////////////////////
@@ -146,6 +168,19 @@
 
             if (mintedNft) {
               minting = 5;
+
+              $refreshCollectionList += 1;
+
+              const mintingTxReceipt = await mintingTxResp.wait();
+              console.log("mintingTxReceipt", mintingTxReceipt);
+              const blockTx = mintingTxReceipt.blockNumber;
+
+              do {
+                $refreshing = true;
+                await sleep(1000);
+              } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+              $refreshNftsList += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }
@@ -175,12 +210,12 @@
   <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
     <div
       use:clickOutside={() => {
-        open = false;
+        closeMintModal();
       }}
     >
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
-          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <a href="./#" on:click={closeMintModal} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
           <div class="mint-modal-body">
             <div class="titre">

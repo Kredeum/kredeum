@@ -1,4 +1,7 @@
 <script lang="ts">
+  import { setContext } from "svelte";
+  import { Writable, writable } from "svelte/store";
+
   import { getNftsFactory, getCreate, config } from "lib/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
@@ -25,8 +28,18 @@
   let chainId: number;
   let address: string;
   let account: string;
-  let refreshing: boolean;
-  let refresh: number;
+
+  // Context for refreshCollectionList & refreshNftsList & refreshing
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = writable(1);
+  setContext("refreshCollectionList", refreshCollectionList);
+
+  let refreshNftsList: Writable<number> = writable(1);
+  setContext("refreshNftsList", refreshNftsList);
+
+  let refreshing: Writable<boolean> = writable(false);
+  setContext("refreshing", refreshing);
+  ///////////////////////////////////////////////////////////
 </script>
 
 <HomeLayout>
@@ -56,7 +69,7 @@
 
         {#if account && address && getNftsFactory(chainId)}
           <!-- Refresh button -->
-          <NftsListRefresh {refreshing} bind:refresh />
+          <NftsListRefresh />
         {/if}
       {/if}
     </div>
@@ -64,7 +77,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      <Content {chainId} {address} {account} {platform} bind:refreshing {refresh} />
+      <Content {chainId} {address} {account} {platform} />
     {/if}
   </span>
 </HomeLayout>

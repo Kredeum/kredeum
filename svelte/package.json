@@ -54,7 +54,7 @@
     "build": "ENVIR=PROD GIT_SHORT=$(git rev-parse --short HEAD) rollup -c --configPlugin typescript",
     "check": "npm run prettier && npm run eslint && svelte-check",
     "clean": "rm -rf node_modules",
-    "dev": "GIT_SHORT=$(git rev-parse --short HEAD) rollup -c -w --configPlugin typescript",
+    "dev": "GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) GIT_SHORT=$(git rev-parse --short HEAD) rollup -c -w --configPlugin typescript",
     "eslint": "eslint components/**/*.svelte helpers/**/*.ts stores/**/*.ts main/**/*.ts ../common/lib/**/*.ts --fix --quiet",
     "prettier": "prettier components/**/*.svelte helpers/**/*.ts stores/**/*.ts main/**/*.ts --write --loglevel error",
     "tests": "cypress run"

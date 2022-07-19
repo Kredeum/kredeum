@@ -1,6 +1,9 @@
 <script lang="ts">
   import type { CollectionType } from "lib/ktypes";
 
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   import { explorerTxUrl, explorerAddressUrl, textShort } from "lib/kconfig";
   import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "lib/kcollection-clone";
 
@@ -12,6 +15,7 @@
   // up to parent
   export let chainId: number;
   export let collection: CollectionType = undefined;
+
   let template: string = undefined;
 
   let cloning = false;
@@ -20,6 +24,11 @@
 
   let collectionName = "";
   let collectionSymbol = "";
+
+  // Context for refreshCollectionList
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  ///////////////////////////////////////////////////////////
 
   const dispatch = createEventDispatcher();
 
@@ -63,12 +72,22 @@
       }
     }
     cloning = false;
+    $refreshCollectionList += 1;
+  };
+
+  const resetCollMint = () => {
+    if (collectionCreated) {
+      cloningTxHash = null;
+      collectionCreated = null;
+      collectionName = "";
+      collectionSymbol = "";
+    }
   };
 </script>
 
 <div id="kredeum-create-collection">
   <div class="modal-content">
-    <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div>
