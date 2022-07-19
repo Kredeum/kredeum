@@ -40,10 +40,10 @@
   export let nodeUrl: string = undefined;
   export let batchId: string = undefined;
 
-  // Context for refreshCollectionList & refreshCollectionNftsList & refreshing
+  // Context for refreshCollectionList & refreshNftsList & refreshing
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshCollectionNftsList: Writable<number> = getContext("refreshCollectionNftsList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
@@ -180,7 +180,7 @@
                 await sleep(1000);
               } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
-              $refreshCollectionNftsList += 1;
+              $refreshNftsList += 1;
             } else {
               mintingError = "Problem with sent transaction.";
             }

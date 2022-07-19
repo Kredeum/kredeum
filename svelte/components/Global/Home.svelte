@@ -29,13 +29,13 @@
   let address: string;
   let account: string;
 
-  // Context for refreshCollectionList & refreshCollectionNftsList & refreshing
+  // Context for refreshCollectionList & refreshNftsList & refreshing
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = writable(1);
   setContext("refreshCollectionList", refreshCollectionList);
 
-  let refreshCollectionNftsList: Writable<number> = writable(1);
-  setContext("refreshCollectionNftsList", refreshCollectionNftsList);
+  let refreshNftsList: Writable<number> = writable(1);
+  setContext("refreshNftsList", refreshNftsList);
 
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
