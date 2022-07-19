@@ -7,9 +7,10 @@ const burnNftResponse = async (
   chainId: number,
   address: string,
   tokenID: string,
-  owner: JsonRpcSigner
+  owner: JsonRpcSigner,
+  account: string
 ): Promise<TransactionResponse | null> => {
-  // console.log("burnNftResponse", chainId, address, tokenID, destinationAddress);
+  // console.log("burnNftResponse", chainId, address, tokenID);
 
   let txResp: TransactionResponse | null = null;
   const network = getNetwork(chainId);
@@ -19,8 +20,10 @@ const burnNftResponse = async (
   const collectionContract = (await collectionContractGet(chainId, address, owner.provider)).connect(owner);
 
   const burnOpenNFT = "burnOpenNFT(uint256)";
+  const openContract: boolean = (await collectionContract.open()) as boolean;
+  const contractOwner: string = (await collectionContract.owner()) as string;
 
-  if (collectionContract[burnOpenNFT]) {
+  if (collectionContract[burnOpenNFT] && !openContract && account === contractOwner) {
     const burnFunction = collectionContract[burnOpenNFT] as {
       (tokenID: string): Promise<TransactionResponse>;
     };
@@ -39,11 +42,12 @@ const burnNft = async (
   chainId: number,
   address: string,
   tokenID: string,
-  owner: JsonRpcSigner
+  owner: JsonRpcSigner,
+  account: string
 ): Promise<TransactionReceipt | null> => {
   // console.log("burnNft", chainId, address, tokenID, destinationAddress);
 
-  const txResp = await burnNftResponse(chainId, address, tokenID, owner);
+  const txResp = await burnNftResponse(chainId, address, tokenID, owner, account);
   const txReceipt = txResp && (await burnNftReceipt(txResp));
 
   return txReceipt;

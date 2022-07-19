@@ -56,9 +56,11 @@
   $: chainId && address && account && $metamaskProvider && getCollection();
   const getCollection = async () => {
     const collectionContract = (await collectionContractGet(chainId, address, $metamaskProvider)).connect(account);
+    const burnOpenNFT = "burnOpenNFT(uint256)";
     const openContract = await collectionContract.open();
     const contractOwner = await collectionContract.owner();
-    if (collectionContract["burnOpenNFT(uint256)"] && !openContract && account === contractOwner) {
+
+    if (collectionContract[burnOpenNFT] && !openContract && account === contractOwner) {
       burnable = true;
     }
   };

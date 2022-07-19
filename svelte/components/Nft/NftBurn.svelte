@@ -36,16 +36,21 @@
       burning = true;
       burned = false;
 
-      const txResp = await burnNftResponse(chainId, address, tokenID, $metamaskSigner);
-      burnTxHash = txResp.hash;
+      const txResp = await burnNftResponse(chainId, address, tokenID, $metamaskSigner, $metamaskAccount).catch(
+        console.error
+      );
 
-      const txReceipt = await burnNftReceipt(txResp);
+      if (txResp) {
+        burnTxHash = txResp.hash;
 
-      burned = Boolean(txReceipt.status);
-      burning = false;
+        const txReceipt = await burnNftReceipt(txResp);
 
-      nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
-      $refreshCollection += 1;
+        burned = Boolean(txReceipt.status);
+        burning = false;
+
+        nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
+        $refreshCollection += 1;
+      }
     }
   };
 
