@@ -5,7 +5,7 @@
   import { burnNftResponse, burnNftReceipt } from "lib/kburn";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskAccount } from "main/metamask";
 
   import { nftStore } from "stores/nft/nft";
 
@@ -25,6 +25,11 @@
 
   let refresh: Writable<number> = getContext("refresh");
 
+  // Context for refreshCollection
+  ///////////////////////////////////////////////////////////
+  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  ///////////////////////////////////////////////////////////
+
   const burn = async () => {
     if ($metamaskSigner) {
       burnTxHash = null;
@@ -39,14 +44,13 @@
       burned = Boolean(txReceipt.status);
       burning = false;
 
-      nftStore.nftRemoveOne(chainId, address, tokenID);
-      $refresh += 1;
+      nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
+      $refreshCollection += 1;
     }
   };
 
   const returnNftsList = () => {
     if (burned) {
-      //   $refresh += 1;
       $toDisplayTokenID = "";
     }
   };
@@ -89,7 +93,6 @@
             <div class="form-field">
               <p>Be carefull, you're about to burn this NFT #{tokenID}</p>
               <p>this operation is irreversible !!!</p>
-              <!-- <input type="text" placeholder="destinator address" bind:value={destinationAddress} /> -->
             </div>
           </div>
 
