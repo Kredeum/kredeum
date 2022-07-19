@@ -25,9 +25,9 @@
 
   export let platform: string = "dapp";
 
-  // Context for refreshNfts & refreshing
+  // Context for refreshCollectionNftsList & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshNfts: Writable<number> = getContext("refreshNfts");
+  let refreshCollectionNftsList: Writable<number> = getContext("refreshCollectionNftsList");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
@@ -38,7 +38,7 @@
   let collection: Readable<CollectionType>;
 
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
-  $: $refreshNfts, chainId && address && account && handleChange();
+  $: $refreshCollectionNftsList, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
 

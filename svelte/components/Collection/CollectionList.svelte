@@ -22,9 +22,9 @@
   export let label: boolean = true;
   export let txt: boolean = false;
 
-  // Context for refreshCollection & refreshing
+  // Context for refreshCollectionList & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshCollection: Writable<number> = getContext("refreshCollection");
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
@@ -34,7 +34,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshCollection, mintable, chainId && account && handleChangeCollection();
+  $: $refreshCollectionList, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
