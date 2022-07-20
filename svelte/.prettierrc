@@ -6,14 +6,16 @@
   "trailingComma": "none",
   "semi": true,
   "proseWrap": "always",
-  "plugins": ["./node_modules/prettier-plugin-svelte"],
+  "plugins": [
+    "./node_modules/prettier-plugin-svelte"
+  ],
+  "bracketSameLine": false,
   "overrides": [
     {
       "files": "*.svelte",
       "options": {
         "svelteSortOrder": "options-scripts-markup-styles",
         "svelteStrictMode": false,
-        "svelteBracketNewLine": true,
         "svelteIndentScriptAndStyle": true,
         "trailingComma": "none"
       }
