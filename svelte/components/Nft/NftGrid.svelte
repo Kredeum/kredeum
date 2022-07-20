@@ -14,7 +14,7 @@
 
   let displayMode: string = "grid";
 
-  $: console.log("NftGrid", nft);
+  // $: console.log("NftGrid", nft);
   ///////////////////////////////////////////////////////////////////////////////
 </script>
 

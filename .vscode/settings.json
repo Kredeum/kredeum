@@ -46,6 +46,7 @@
       "group": "Default"
     }
   ],
+  "liveServer.settings.root": "/web/dapp/",
   "phpsab.autoRulesetSearch": false,
   "phpsab.composerJsonPath": "wordpress/composer.json",
   "phpsab.debug": true,
