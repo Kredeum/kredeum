@@ -50,7 +50,7 @@ module.exports = {
     "@typescript-eslint/no-floating-promises": "error",
     "@typescript-eslint/require-await": "error",
     "@typescript-eslint/prefer-for-of": "error",
-    indent: ["error", 2],
+    indent: ["warn", 2],
     semi: ["error", "always"],
     quotes: ["error", "double"],
     "no-global-assign": [
