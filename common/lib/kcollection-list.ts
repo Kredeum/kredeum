@@ -97,15 +97,20 @@ const collectionList = async (
     // GET user collections
     if (alchemyGet(chainId)) {
       collectionsOwner = await alchemyCollectionList(chainId, account);
+      console.log("collectionList alchemyCollectionList", collectionsOwner);
     } else if (thegraphGet(chainId)) {
       collectionsOwner = await thegraphCollectionList(chainId, account);
+      console.log("collectionList thegraphCollectionList", collectionsOwner);
     } else if (covalentGet(chainId)) {
       collectionsOwner = await covalentCollectionList(chainId, account);
+      console.log("collectionList covalentCollectionList", collectionsOwner);
     }
     collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
+    console.log("collectionList collectionListFromFactory", collectionsKredeum);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);
+    console.log("collectionList merge", collections);
   }
 
   if (mintable) {
