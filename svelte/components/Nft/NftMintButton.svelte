@@ -62,6 +62,7 @@
   const handleWpFile = async (): Promise<void> => {
     const blob = await fetch(src).then((r) => r.blob());
     file = new File([blob], alt, { type: blob.type });
+    console.log("🚀 ~ file: NftMintButton.svelte ~ line 65 ~ handleWpFile ~ file", file);
 
     if (file) {
       let reader = new FileReader();

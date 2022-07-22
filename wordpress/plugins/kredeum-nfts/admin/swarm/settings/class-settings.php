@@ -41,11 +41,11 @@ class Settings {
 	 */
 	public function menu_create() {
 		// Add the submenu item and page.
-		$page_title  = __( 'NFTs settings', 'kredeum-nfts' );
-		$menu_title  = __( 'NFTs settings', 'kredeum-nfts' );
-		$capability  = 'edit_posts';
-		$menu_slug   = $this->slug;
-		$callback    = array( $this, 'page_content' );
+		$page_title = __( 'NFTs settings', 'kredeum-nfts' );
+		$menu_title = __( 'NFTs settings', 'kredeum-nfts' );
+		$capability = 'edit_posts';
+		$menu_slug  = $this->slug;
+		$callback   = array( $this, 'page_content' );
 
 		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, 'dashicons-format-gallery', 11 );
 	}
@@ -155,7 +155,7 @@ class Settings {
 
 			case 'kcollections':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<div id="kredeum-select-collection" txt="true" filter="true" />' );
+				printf( '<div id="kredeum-select-collection" txt="true" />' );
 				break;
 
 			case 'text':

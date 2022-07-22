@@ -26,6 +26,8 @@
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshing: Writable<boolean> = getContext("refreshing");
+
+  let refreshingWp: boolean = false;
   ///////////////////////////////////////////////////////////
 
   let open: boolean = false;
@@ -41,13 +43,14 @@
     // STATE VIEW : sync get Collections
     collections = collectionStore.getSubListStore(chainId, account, mintable);
 
+    console.log("COLLECTIONS 1", $collections);
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
-    $refreshing = true;
+    !txt ? ($refreshing = true) : (refreshingWp = true);
     await collectionStore.refreshSubList(chainId, account, mintable);
-    $refreshing = false;
+    !txt ? ($refreshing = false) : (refreshingWp = false);
     console.log("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
@@ -76,7 +79,7 @@
   <p>
     {#if $collections?.size > 0}
       Collection
-      {#if $refreshing}...{/if}
+      {#if refreshingWp}...{/if}
 
       <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [key, coll]}
@@ -90,7 +93,7 @@
       </p>
     {:else}
       <p>
-        {#if $refreshing}
+        {#if refreshingWp}
           Refreshing collections...
         {:else}
           NO Collection found !

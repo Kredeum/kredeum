@@ -29,7 +29,7 @@ add_action(
 
 		if ( 'kre-cid' === $name ) {
 			if ( $post->_kre_swarmref ) {
-				echo wp_kses( \KredeumNFTs\Swarm\link( $post->_kre_swarmref, substr( $post->_kre_swarmref, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
+				echo wp_kses( link( $post->_kre_swarmref, substr( $post->_kre_swarmref, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 
