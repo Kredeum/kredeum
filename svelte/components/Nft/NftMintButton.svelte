@@ -99,8 +99,8 @@
         "ipfs" === storage
           ? await nftMint1IpfsImage(src)
           : "swarm" === storage
-            ? await nftMint1SwarmImage(file, nftTitle, file.type, swarmnode, batchid, file.size)
-            : "";
+          ? await nftMint1SwarmImage(file, nftTitle, file.type, swarmnode, batchid, file.size)
+          : "";
       // storageImage = await nftMint1IpfsImage(src);
       // console.log("storageImage", storageImage);
 
@@ -110,10 +110,10 @@
         "ipfs" === storage
           ? await nftMint2IpfsJson(alt, alt, storageImage, signerAddress, src, metadata)
           : "swarm" === storage
-            ? swarmGatewayUrl(
+          ? swarmGatewayUrl(
               await nftMint2SwarmJson(nftTitle, alt, storageImage, account, image, metadata, swarmnode, batchid)
             )
-            : "";
+          : "";
       // console.log("json", storageJson);
 
       minting = 3;
