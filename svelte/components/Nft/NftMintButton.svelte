@@ -4,9 +4,17 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   import type { NftType } from "lib/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import {
+    nftMintTexts,
+    nftMint1IpfsImage,
+    nftMint2IpfsJson,
+    nftMint1SwarmImage,
+    nftMint2SwarmJson,
+    nftMint3TxResponse,
+    nftMint4
+  } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
+  import { storageGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork, swarmGatewayUrl } from "lib/kconfig";
   import { collectionStore } from "stores/collection/collection";
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
@@ -19,6 +27,9 @@
   export let alt: string = undefined;
   export let pid: string = undefined;
   export let metadata: string = "{}";
+  export let storage: string = "ipfs";
+  export let swarmnode: string = undefined;
+  export let batchid: string = undefined;
   export let width = 100;
   export let display = false;
   /////////////////////////////////////////////////
@@ -26,10 +37,14 @@
   let mintedNft: NftType;
   let minting: number;
 
-  let ipfsImage: string;
+  let storageImage: string;
 
   let account: string;
   let address: Readable<string>;
+
+  let file: File;
+  let image: string;
+  let nftTitle: string;
 
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
@@ -40,6 +55,24 @@
     address = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
     console.log("handleChange ~ address", $address);
   };
+
+  /////////////////////////////////////////////////
+  // On Swarm storage get file & nftTitle & image
+  $: src !== "" && storage === "swarm" && handleWpFile().catch(console.error);
+  const handleWpFile = async (): Promise<void> => {
+    const blob = await fetch(src).then((r) => r.blob());
+    file = new File([blob], alt, { type: blob.type });
+
+    if (file) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      nftTitle = file.name;
+      reader.onload = (e) => {
+        image = e.target.result.toString();
+      };
+    }
+  };
+  /////////////////////////////////////////////////
 
   const sell = (e: Event): void => {
     e.preventDefault();
@@ -54,7 +87,7 @@
   const mint = async (e: Event): Promise<NftType> => {
     e.preventDefault();
     // console.log("collection", collection);
-    ipfsImage = null;
+    storageImage = null;
     mintedNft = null;
 
     const signerAddress = await $metamaskSigner.getAddress();
@@ -62,22 +95,35 @@
     if (src && $address) {
       minting = 1;
 
-      ipfsImage = await nftMint1IpfsImage(src);
-      // console.log("ipfsImage", ipfsImage);
+      storageImage =
+        "ipfs" === storage
+          ? await nftMint1IpfsImage(src)
+          : "swarm" === storage
+            ? await nftMint1SwarmImage(file, nftTitle, file.type, swarmnode, batchid, file.size)
+            : "";
+      // storageImage = await nftMint1IpfsImage(src);
+      // console.log("storageImage", storageImage);
 
       minting = 2;
 
-      const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src, metadata);
-      // console.log("json", ipfsJson);
+      const storageJson =
+        "ipfs" === storage
+          ? await nftMint2IpfsJson(alt, alt, storageImage, signerAddress, src, metadata)
+          : "swarm" === storage
+            ? swarmGatewayUrl(
+              await nftMint2SwarmJson(nftTitle, alt, storageImage, account, image, metadata, swarmnode, batchid)
+            )
+            : "";
+      // console.log("json", storageJson);
 
       minting = 3;
 
-      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, $address, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, $address, storageJson, $metamaskSigner);
       // console.log("txResp", txResp);
 
       minting = 4;
 
-      mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, ipfsJson, signerAddress);
+      mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, storageJson, signerAddress);
       // console.log("mintedNft", mintedNft);
 
       minting = 5;
@@ -123,7 +169,7 @@
     <small>
       <br />{urlToLink(src, `${src}@${alt}`)}
 
-      <br />{ipfsGatewayLink(ipfsImage)}
+      <br />{storageGatewayLink(storageImage)}
     </small>
   {/if}
 </main>

@@ -27,7 +27,7 @@
   } from "lib/kconfig";
   /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
-
+  /////////////////////////////////////////////////
   import { fade } from "svelte/transition";
   import { clickOutside } from "helpers/clickOutside";
 

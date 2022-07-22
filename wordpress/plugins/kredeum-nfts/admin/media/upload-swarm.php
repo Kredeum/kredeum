@@ -1,17 +1,17 @@
 <?php
 /**
- * IPFS auto upload
+ * SWARM auto upload
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Swarm;
 
 /**
- * IPFS new action
- * archive IPFS on media upload
+ * SWARM new action
+ * archive SWARM on media upload
  */
-if ( AUTO_ARCHIVE && ! SWARM_ARCHIVE ) {
+if ( AUTO_ARCHIVE && SWARM_ARCHIVE ) {
 	add_action(
 		'add_attachment',
 		function ( $post_id ) {

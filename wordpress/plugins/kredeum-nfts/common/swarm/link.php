@@ -1,24 +1,24 @@
 <?php
 /**
- * Public IPFS LINK function
+ * Public SWARM LINK function
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Swarm;
 
 /**
- * Return IPFS url
+ * Return SWARM url
  *
  * @param string $cid file CID.
  * @return string cid with path
  */
 function url( $cid ) {
-	return $cid ? IPFS_GATEWAY . $cid : '';
+	return $cid ? SWARM_GATEWAY . $cid : '';
 }
 
 /**
- * Return IPFS link
+ * Return SWARM link
  *
  * @param string $cid : file CID.
  * @param string $text : text for the link.
@@ -31,5 +31,5 @@ function link( $cid, $text = '' ) {
 	$url = esc_url( url( $cid ) );
 	$txt = esc_html( $text );
 
-	return $cid ? "<a href='$url'>$txt</a><br>" : '';
+	return $cid ? "<a href='$url'>$txt</a>" : '';
 }
