@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../dev/OpenBound.sol";
+import "../open/OpenBound.sol";
 import {OpenERC721Test} from "./OpenERC721Test.t.sol";
 import {ERC173Test} from "./ERC173Test.t.sol";
 import {ERC721NonTransferableTest} from "./ERC721NonTransferableTest.t.sol";
@@ -22,7 +22,8 @@ contract OpenBoundTest is ITest, OpenERC721Test, ERC173Test, ERC721NonTransferab
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        OpenBound collection = new OpenBound("OpenBound", "BOUND", 1000);
+        OpenBound collection = new OpenBound();
+        collection.initialize("OpenBound", "BOUND", owner, 0);
 
         return address(collection);
     }

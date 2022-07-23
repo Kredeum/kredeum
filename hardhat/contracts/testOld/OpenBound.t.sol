@@ -2,16 +2,18 @@
 pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
-import "../dev/OpenBound.sol";
+import "../open/OpenBound.sol";
 import "../interfaces/IERC1155.sol";
 
 contract OpenBoundForgeTest is Test {
     OpenBound public ob;
+    address owner = address(0x1);
 
     constructor() {}
 
     function setUp() public {
-        ob = new OpenBound("OpenBoundTest", "OBTEST", 0);
+        ob = new OpenBound();
+        ob.initialize("OpenBoundTest", "OBTEST", owner, 0);
     }
 
     function testInterfaceIds() public {
@@ -26,7 +28,10 @@ contract OpenBoundForgeTest is Test {
 
     function testMint(uint256 tokenID) public {
         assertEq(ob.totalSupply(), 0);
+
+        changePrank(owner);
         ob.mint(tokenID);
+
         assertEq(ob.totalSupply(), 1);
     }
 

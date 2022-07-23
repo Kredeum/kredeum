@@ -38,14 +38,6 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
         return interfaceId == 0x5b5e139f || super.supportsInterface(interfaceId);
     }
 
-    function _setName(string memory newName) internal {
-        _name = newName;
-    }
-
-    function _setSymbol(string memory newSymbol) internal {
-        _symbol = newSymbol;
-    }
-
     function _initialize(string memory name_, string memory symbol_) internal {
         require(_once == false, "Only once!");
         _name = name_;

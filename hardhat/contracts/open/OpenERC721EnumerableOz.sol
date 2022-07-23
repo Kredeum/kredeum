@@ -9,7 +9,7 @@
 //                     |
 //                OpenERC721
 //                     |
-//            OpenERC721Enumerable
+//            OpenERC721EnumerableOz
 //
 
 pragma solidity 0.8.9;
@@ -17,7 +17,7 @@ pragma solidity 0.8.9;
 import "./OpenERC721.sol";
 import "../interfaces/IERC721Enumerable.sol";
 
-abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
+abstract contract OpenERC721EnumerableOz is IERC721Enumerable, OpenERC721 {
     // Mapping from owner to list of owned token IDs
     mapping(address => mapping(uint256 => uint256)) private _ownedTokens;
 
@@ -49,7 +49,7 @@ abstract contract OpenERC721Enumerable is IERC721Enumerable, OpenERC721 {
     }
 
     function tokenByIndex(uint256 index) public view override(IERC721Enumerable) returns (uint256) {
-        require(index < OpenERC721Enumerable.totalSupply(), "Invalid index!");
+        require(index < OpenERC721EnumerableOz.totalSupply(), "Invalid index!");
         return _allTokens[index];
     }
 

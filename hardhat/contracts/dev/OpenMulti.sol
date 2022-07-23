@@ -6,7 +6,7 @@ import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
 import "../interfaces/IOpenMulti.sol";
 import "../interfaces/IERC173.sol";
-import "./library/Bafkrey.sol";
+import "../library/Bafkrey.sol";
 
 contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable, Ownable {
     bytes32 private constant _BASE32_SYMBOLS = "abcdefghijklmnopqrstuvwxyz234567";

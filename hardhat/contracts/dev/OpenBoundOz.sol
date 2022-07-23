@@ -3,15 +3,15 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
-import "../interfaces/IOpenBound.sol";
+import "../interfaces/IOpenBoundOz.sol";
 import "../interfaces/IOpenPausable.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC173.sol";
-import "./library/Bafkrey.sol";
+import "../library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
-// contract OpenBound is ERC721, IOpenBound, IERC173, IERC721Enumerable, IERC721Metadata {
-contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, IOpenPausable, Ownable {
+// contract OpenBound is ERC721, IOpenBoundOz, IERC173, IERC721Enumerable, IERC721Metadata {
+contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPausable, Ownable {
     uint256 public maxSupply;
 
     bool public paused;
@@ -41,7 +41,7 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, IOpenPausable, Owna
         emit SetPaused(paused, msg.sender);
     }
 
-    function burn(uint256 tokenID) external override(IOpenBound) {
+    function burn(uint256 tokenID) external override(IOpenBoundOz) {
         address owner = ownerOf(tokenID);
         require(owner == msg.sender, "Not owner");
 
@@ -78,7 +78,7 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, IOpenPausable, Owna
         return _tokenOfOwner[owner];
     }
 
-    function mint(uint256 cid) public override(IOpenBound) whenNotPaused returns (uint256) {
+    function mint(uint256 cid) public override(IOpenBoundOz) whenNotPaused returns (uint256) {
         require((maxSupply == 0) || totalSupply() < maxSupply, "Max supply reached");
         require(balanceOf(msg.sender) == 0, "Already minted or claimed");
 
@@ -94,25 +94,25 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, IOpenPausable, Owna
         return tokenID;
     }
 
-    function claim(uint256 tokenID, uint256 cid) public override(IOpenBound) whenNotPaused {
+    function claim(uint256 tokenID, uint256 cid) public override(IOpenBoundOz) whenNotPaused {
         require(tokenID == getMyTokenID(cid), "Not owner");
         mint(cid);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return
-            interfaceId == type(IOpenBound).interfaceId ||
+            interfaceId == type(IOpenBoundOz).interfaceId ||
             interfaceId == type(IOpenPausable).interfaceId ||
             interfaceId == type(IERC173).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 
-    function getMyTokenID(uint256 cid) public view override(IOpenBound) returns (uint256) {
+    function getMyTokenID(uint256 cid) public view override(IOpenBoundOz) returns (uint256) {
         return getTokenID(cid, msg.sender);
     }
 
-    function getCID(uint256 tokenID) public view override(IOpenBound) returns (uint256) {
+    function getCID(uint256 tokenID) public view override(IOpenBoundOz) returns (uint256) {
         return _cidOfToken[tokenID];
     }
 
@@ -126,7 +126,7 @@ contract OpenBound is ERC721, IOpenBound, IERC721Enumerable, IOpenPausable, Owna
         return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(getCID(tokenID))));
     }
 
-    function getTokenID(uint256 cid, address addr) public pure override(IOpenBound) returns (uint256) {
+    function getTokenID(uint256 cid, address addr) public pure override(IOpenBoundOz) returns (uint256) {
         return _tokenID(cid, addr);
     }
 

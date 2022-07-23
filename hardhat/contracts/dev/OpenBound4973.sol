@@ -6,7 +6,7 @@ import "../interfaces/IERC4973.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC721Metadata.sol";
-import "./library/Bafkrey.sol";
+import "../library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, IERC721Metadata {
