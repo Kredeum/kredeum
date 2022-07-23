@@ -1,6 +1,0 @@
-[
-  "event OwnershipTransferred(address indexed,address indexed)",
-  "function owner() view returns (address)",
-  "function supportsInterface(bytes4) view returns (bool)",
-  "function transferOwnership(address)"
-]

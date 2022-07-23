@@ -1,9 +1,0 @@
-[
-  "function burn(uint256)",
-  "function buy(uint256) payable",
-  "function initialize(string,string,address,bool[])",
-  "function mint(address,string) returns (uint256)",
-  "function mint(string) returns (uint256)",
-  "function open() view returns (bool)",
-  "function withdraw(address)"
-]
