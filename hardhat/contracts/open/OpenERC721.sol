@@ -33,14 +33,14 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         _;
     }
 
-    function approve(address spender, uint256 tokenID) public override(IERC721) {
+    function approve(address spender, uint256 tokenID) external override(IERC721) {
         require(_isOwnerOrOperator(msg.sender, tokenID), "Not token owner nor operator");
 
         _tokenApprovals[tokenID] = spender;
         emit Approval(ownerOf(tokenID), spender, tokenID);
     }
 
-    function setApprovalForAll(address operator, bool approved) public override(IERC721) {
+    function setApprovalForAll(address operator, bool approved) external override(IERC721) {
         _operatorApprovals[msg.sender][operator] = approved;
         emit ApprovalForAll(msg.sender, operator, approved);
     }
@@ -49,7 +49,7 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         address from,
         address to,
         uint256 tokenID
-    ) public override(IERC721) {
+    ) external override(IERC721) {
         _transferFrom(from, to, tokenID);
     }
 
@@ -57,7 +57,7 @@ abstract contract OpenERC721 is IERC721, OpenERC165 {
         address from,
         address to,
         uint256 tokenID
-    ) public override(IERC721) {
+    ) external override(IERC721) {
         safeTransferFrom(from, to, tokenID, "");
     }
 

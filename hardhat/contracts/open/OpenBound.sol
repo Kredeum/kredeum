@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: MIT
 //
-//     /__/|         /  /\         /  /\        /  /::\        /  /\         /__/\         /__/\
+//       ___           ___           ___          _____          ___           ___           ___
+//      /__/|         /  /\         /  /\        /  /::\        /  /\         /__/\         /__/\
 //     |  |:|        /  /::\       /  /:/_      /  /:/\:\      /  /:/_        \  \:\       |  |::\
 //     |  |:|       /  /:/\:\     /  /:/ /\    /  /:/  \:\    /  /:/ /\        \  \:\      |  |:|:\
 //   __|  |:|      /  /:/~/:/    /  /:/ /:/_  /__/:/ \__\:|  /  /:/ /:/_   ___  \  \:\   __|__|:|\:\
@@ -10,28 +11,17 @@
 //    \  \:\        \  \:\        \  \:\/:/      \  \::/      \  \:\/:/     \  \:\/:/     \  \:\
 //     \  \:\        \  \:\        \  \::/        \__\/        \  \::/       \  \::/       \  \:\
 //      \__\/         \__\/         \__\/                       \__\/         \__\/         \__\/
-//       ___           ___                     ___
-//      /__/\         /  /\        ___        /  /\
-//      \  \:\       /  /:/_      /  /\      /  /:/_
-//       \  \:\     /  /:/ /\    /  /:/     /  /:/ /\
-//   _____\__\:\   /  /:/ /:/   /  /:/     /  /:/ /::\
-//  /__/::::::::\ /__/:/ /:/   /  /::\    /__/:/ /:/\:\
-//  \  \:\~~\~~\/ \  \:\/:/   /__/:/\:\   \  \:\/:/~/:/
-//   \  \:\  ~~~   \  \::/    \__\/  \:\   \  \::/ /:/
-//    \  \:\        \  \:\         \  \:\   \__\/ /:/
-//     \  \:\        \  \:\         \__\/     /__/:/
-//      \__\/         \__\/                   \__\/
-//       ___         ___           ___                       ___           ___
-//      /  /\       /  /\         /  /\          ___        /  /\         /  /\          ___
-//     /  /:/_     /  /::\       /  /:/         /  /\      /  /::\       /  /::\        /__/|
-//    /  /:/ /\   /  /:/\:\     /  /:/         /  /:/     /  /:/\:\     /  /:/\:\      |  |:|
-//   /  /:/ /:/  /  /:/~/::\   /  /:/  ___    /  /:/     /  /:/  \:\   /  /:/~/:/      |  |:|
-//  /__/:/ /:/  /__/:/ /:/\:\ /__/:/  /  /\  /  /::\    /__/:/ \__\:\ /__/:/ /:/___  __|__|:|
-//  \  \:\/:/   \  \:\/:/__\/ \  \:\ /  /:/ /__/:/\:\   \  \:\ /  /:/ \  \:\/:::::/ /__/::::\
-//   \  \::/     \  \::/       \  \:\  /:/  \__\/  \:\   \  \:\  /:/   \  \::/~~~~     ~\~~\:\
-//    \  \:\      \  \:\        \  \:\/:/        \  \:\   \  \:\/:/     \  \:\           \  \:\
-//     \  \:\      \  \:\        \  \::/          \__\/    \  \::/       \  \:\           \__\/
-//      \__\/       \__\/         \__\/                     \__\/         \__\/
+//       ___           ___         ___           ___                    ___           ___                     ___
+//      /  /\         /  /\       /  /\         /__/\                  /__/\         /  /\        ___        /  /\
+//     /  /::\       /  /::\     /  /:/_        \  \:\                 \  \:\       /  /:/_      /  /\      /  /:/_
+//    /  /:/\:\     /  /:/\:\   /  /:/ /\        \  \:\                 \  \:\     /  /:/ /\    /  /:/     /  /:/ /\
+//   /  /:/  \:\   /  /:/~/:/  /  /:/ /:/_   _____\__\:\            _____\__\:\   /  /:/ /:/   /  /:/     /  /:/ /::\
+//  /__/:/ \__\:\ /__/:/ /:/  /__/:/ /:/ /\ /__/::::::::\          /__/::::::::\ /__/:/ /:/   /  /::\    /__/:/ /:/\:\
+//  \  \:\ /  /:/ \  \:\/:/   \  \:\/:/ /:/ \  \:\~~\~~\/          \  \:\~~\~~\/ \  \:\/:/   /__/:/\:\   \  \:\/:/~/:/
+//   \  \:\  /:/   \  \::/     \  \::/ /:/   \  \:\  ~~~            \  \:\  ~~~   \  \::/    \__\/  \:\   \  \::/ /:/
+//    \  \:\/:/     \  \:\      \  \:\/:/     \  \:\                 \  \:\        \  \:\         \  \:\   \__\/ /:/
+//     \  \::/       \  \:\      \  \::/       \  \:\                 \  \:\        \  \:\         \__\/     /__/:/
+//      \__\/         \__\/       \__\/         \__\/                  \__\/         \__\/                   \__\/
 //
 //
 //                         OpenERC165 (supports)
@@ -60,7 +50,7 @@ import "../library/Bafkrey.sol";
 contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausable {
     uint256 public maxSupply;
 
-    bool private _once;
+    bool private _openBondInitialized;
     string public name;
     string public symbol;
 
@@ -78,8 +68,8 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         address owner_,
         uint256 maxSupply_
     ) external override(IOpenBound) {
-        require(_once == false, "Only once!");
-        _once = true;
+        require(_openBondInitialized == false, "Only once!");
+        _openBondInitialized = true;
 
         name = name_;
         symbol = symbol_;
@@ -108,8 +98,8 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         myTokenID = _tokenID(msg.sender, cid);
     }
 
-    function getCID(uint256 tokenID) external view override(IOpenBound) returns (uint256 CID) {
-        CID = _cidOfToken[tokenID];
+    function getCID(uint256 tokenID) external view override(IOpenBound) returns (uint256 cid) {
+        cid = _cidOfToken[tokenID];
     }
 
     /// IERC721Enumerable
@@ -117,15 +107,15 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         return _tokens.length;
     }
 
-    function tokenOfOwnerByIndex(address owner, uint256 index)
+    function tokenOfOwnerByIndex(address tokenOwner, uint256 index)
         external
         view
         override(IERC721Enumerable)
         returns (uint256)
     {
-        require(index == 0 && balanceOf(owner) == 1, "Invalid index");
+        require(index == 0 && balanceOf(tokenOwner) == 1, "Invalid index");
 
-        return _tokenOfOwner[owner];
+        return _tokenOfOwner[tokenOwner];
     }
 
     function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256) {
@@ -151,10 +141,6 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
     }
 
     /// internal
-    function _tokenID(address addr, uint256 cid) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(cid, addr)));
-    }
-
     function _mintEnumerable(
         address to,
         uint256 tokenID,
@@ -172,8 +158,8 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
 
         uint256 tokenID = _tokenID(to, cid);
 
-        _mintNft(to, tokenID);
         _mintEnumerable(to, tokenID, cid);
+        _mintNft(to, tokenID);
 
         return tokenID;
     }
@@ -197,6 +183,10 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
     function _burn(uint256 tokenID) internal {
         _burnEnumerable(tokenID);
         _burnNft(tokenID);
+    }
+
+    function _tokenID(address addr, uint256 cid) internal pure returns (uint256) {
+        return uint256(keccak256(abi.encodePacked(cid, addr)));
     }
 
     function _transferFromBefore(

@@ -17,20 +17,20 @@ import "./OpenERC721.sol";
 import "../interfaces/IERC721Metadata.sol";
 
 abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
-    bool private _once;
+    bool private _openERC721MetadataInitialized;
     string private _name;
     string private _symbol;
     mapping(uint256 => string) private _tokenURIs;
 
-    function name() public view virtual override(IERC721Metadata) returns (string memory) {
+    function name() external view virtual override(IERC721Metadata) returns (string memory) {
         return _name;
     }
 
-    function symbol() public view virtual override(IERC721Metadata) returns (string memory) {
+    function symbol() external view virtual override(IERC721Metadata) returns (string memory) {
         return _symbol;
     }
 
-    function tokenURI(uint256 tokenID) public view virtual override(IERC721Metadata) returns (string memory) {
+    function tokenURI(uint256 tokenID) external view virtual override(IERC721Metadata) returns (string memory) {
         return _tokenURIs[tokenID];
     }
 
@@ -39,10 +39,11 @@ abstract contract OpenERC721Metadata is IERC721Metadata, OpenERC721 {
     }
 
     function _initialize(string memory name_, string memory symbol_) internal {
-        require(_once == false, "Only once!");
+        require(_openERC721MetadataInitialized == false, "Only once!");
+        _openERC721MetadataInitialized = true;
+
         _name = name_;
         _symbol = symbol_;
-        _once = true;
     }
 
     function _mintMetadata(uint256 tokenID, string memory newTokenURI) internal {

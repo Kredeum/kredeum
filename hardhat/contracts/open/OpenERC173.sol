@@ -17,7 +17,7 @@ import "./OpenERC721.sol";
 import "../interfaces/IERC173.sol";
 
 abstract contract OpenERC173 is IERC173, OpenERC721 {
-    bool private _once;
+    bool private _openERC173Initialized;
     address private _owner;
 
     modifier onlyOwner() {
@@ -25,7 +25,7 @@ abstract contract OpenERC173 is IERC173, OpenERC721 {
         _;
     }
 
-    function transferOwnership(address newOwner) public override(IERC173) onlyOwner {
+    function transferOwnership(address newOwner) external override(IERC173) onlyOwner {
         _setOwner(newOwner);
     }
 
@@ -38,9 +38,10 @@ abstract contract OpenERC173 is IERC173, OpenERC721 {
     }
 
     function _initialize(address owner_) internal {
-        require(_once == false, "Only once!");
+        require(_openERC173Initialized == false, "Init already call");
+        _openERC173Initialized = true;
+
         _setOwner(owner_);
-        _once = true;
     }
 
     function _setOwner(address newOwner) private {

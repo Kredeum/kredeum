@@ -13,8 +13,8 @@ specifiers:
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers@^0.3.0-beta.13
   '@nomiclabs/hardhat-etherscan': ^3.1.0
   '@nomiclabs/hardhat-waffle': ^2.0.3
-  '@openzeppelin/contracts': ^4.7.0
-  '@openzeppelin/contracts-upgradeable': ^4.7.0
+  '@openzeppelin/contracts': ^4.7.1
+  '@openzeppelin/contracts-upgradeable': ^4.7.1
   '@typechain/ethers-v5': ^10.1.0
   '@typechain/hardhat': ^6.1.2
   '@types/chai': ^4.3.1
@@ -31,7 +31,7 @@ specifiers:
   dotenv: ^16.0.1
   eslint: ^8.20.0
   eslint-config-prettier: ^8.5.0
-  eslint-import-resolver-typescript: ^3.2.7
+  eslint-import-resolver-typescript: ^3.3.0
   eslint-plugin-import: ^2.26.0
   ethereum-waffle: ^3.4.4
   ethers: ^5.6.9
@@ -76,8 +76,8 @@ devDependencies:
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.13_72jgnctblym52z6vqt46lbuldu
   '@nomiclabs/hardhat-etherscan': 3.1.0_hardhat@2.10.1
   '@nomiclabs/hardhat-waffle': 2.0.3_yhkocj36qh55ome6zclhjhikje
-  '@openzeppelin/contracts': 4.7.0
-  '@openzeppelin/contracts-upgradeable': 4.7.0
+  '@openzeppelin/contracts': 4.7.1
+  '@openzeppelin/contracts-upgradeable': 4.7.1
   '@typechain/ethers-v5': 10.1.0_3a2z4xo3ofaclmnvqkkolsxa2u
   '@typechain/hardhat': 6.1.2_hiuzc7rf2hnnjtqpezkxy3qeb4
   '@types/chai': 4.3.1
@@ -94,8 +94,8 @@ devDependencies:
   dotenv: 16.0.1
   eslint: 8.20.0
   eslint-config-prettier: 8.5.0_eslint@8.20.0
-  eslint-import-resolver-typescript: 3.2.7_afl3vkhn63baibzal45igheroq
-  eslint-plugin-import: 2.26.0_adpenwqrbqkrj3nzlozs2cy7dq
+  eslint-import-resolver-typescript: 3.3.0_afl3vkhn63baibzal45igheroq
+  eslint-plugin-import: 2.26.0_ng73mesgr3qjuo2tra2ynrmv5i
   ethereum-waffle: 3.4.4_typescript@4.7.4
   ethers: 5.6.9
   findup-sync: 5.0.0
@@ -195,7 +195,7 @@ packages:
       ajv: 6.12.6
       debug: 4.3.4
       espree: 9.3.2
-      globals: 13.16.0
+      globals: 13.17.0
       ignore: 5.2.0
       import-fresh: 3.3.0
       js-yaml: 4.1.0
@@ -917,12 +917,12 @@ packages:
       hardhat: 2.10.1_6oasmw356qmm23djlsjgkwvrtm
     dev: true
 
-  /@openzeppelin/contracts-upgradeable/4.7.0:
-    resolution: {integrity: sha512-wO3PyoAaAV/rA77cK8H4c3SbO98QylTjfiFxyvURUZKTFLV180rnAvna1x7/Nxvt0Gqv+jt1sXKC7ygxsq8iCw==}
+  /@openzeppelin/contracts-upgradeable/4.7.1:
+    resolution: {integrity: sha512-5EFiZld3DYFd8aTL8eeMnhnaWh1/oXLXFNuFMrgF3b1DNPshF3LCyO7VR6lc+gac2URJ0BlVcZoCfkk/3MoEfg==}
     dev: true
 
-  /@openzeppelin/contracts/4.7.0:
-    resolution: {integrity: sha512-52Qb+A1DdOss8QvJrijYYPSf32GUg2pGaG/yCxtaA3cu4jduouTdg4XZSMLW9op54m1jH7J8hoajhHKOPsoJFw==}
+  /@openzeppelin/contracts/4.7.1:
+    resolution: {integrity: sha512-UXmAjKARsXORHlHZu5GCD7ZbRKm6nU8UHnbuT/QJJa2JEOEcbvV/X8w/sUk62Sl9VZuuljM1akrZLyAtzUgsxw==}
     dev: true
 
   /@pkgr/utils/2.3.0:
@@ -1370,11 +1370,11 @@ packages:
     resolution: {integrity: sha512-d4ImIQbT/rKMG8+AXpmcan5T2/PNeSjrYhvkwet6z0p8kzYtfgA32xzOBlbU0yqJfq+/0Ml805iFoODO0LP5/g==}
     dependencies:
       '@types/chai': 4.3.1
-      '@types/sinon': 10.0.12
+      '@types/sinon': 10.0.13
     dev: true
 
-  /@types/sinon/10.0.12:
-    resolution: {integrity: sha512-uWf4QJ4oky/GckJ1MYQxU52cgVDcXwBhDkpvLbi4EKoLPqLE4MOH6T/ttM33l3hi0oZ882G6oIzWv/oupRYSxQ==}
+  /@types/sinon/10.0.13:
+    resolution: {integrity: sha512-UVjDqJblVNQYvVNUsj0PuYYw0ELRmgt1Nt5Vk0pT5f16ROGfcKJY8o1HVuMOJOpD727RrGB9EGvoaTQE5tgxZQ==}
     dependencies:
       '@types/sinonjs__fake-timers': 8.1.2
     dev: true
@@ -1524,8 +1524,8 @@ packages:
     resolution: {integrity: sha512-sL/cEvJWAnClXw0wHk85/2L0G6Sj8UB0Ctc1TEMbKSsmpRosqhwj9gWgFRZSrBr2f9tiXISwNhCPmlfqUqyb9Q==}
     dev: true
 
-  /@vue/compiler-sfc/2.7.7:
-    resolution: {integrity: sha512-Ah8dIuo6ZVPHTq9+s4rBU/YpJu3vGSNyeOTCrPrVPQnkUfnT5Ig+IKBhePuQWFXguYb2TuEWrEfiiX9DZ3aJlA==}
+  /@vue/compiler-sfc/2.7.8:
+    resolution: {integrity: sha512-2DK4YWKfgLnW9VDR9gnju1gcYRk3flKj8UNsms7fsRmFcg35slVTZEkqwBtX+wJBXaamFfn6NxSsZh3h12Ix/Q==}
     dependencies:
       '@babel/parser': 7.18.9
       postcss: 8.4.14
@@ -1786,12 +1786,12 @@ packages:
       negotiator: 0.6.3
     dev: true
 
-  /acorn-import-assertions/1.8.0_acorn@8.7.1:
+  /acorn-import-assertions/1.8.0_acorn@8.8.0:
     resolution: {integrity: sha512-m7VZ3jwz4eK6A4Vtt8Ew1/mNbP24u0FhdyfA7fSvnJR6LMdfOYnmuIrrJAgrYfYJ10F/otaHTtrtrtmHdMNzEw==}
     peerDependencies:
       acorn: ^8
     dependencies:
-      acorn: 8.7.1
+      acorn: 8.8.0
     dev: true
 
   /acorn-jsx/5.3.2_acorn@6.4.2:
@@ -1802,12 +1802,12 @@ packages:
       acorn: 6.4.2
     dev: true
 
-  /acorn-jsx/5.3.2_acorn@8.7.1:
+  /acorn-jsx/5.3.2_acorn@8.8.0:
     resolution: {integrity: sha512-rq9s+JNhf0IChjtDXxllJ7g41oZk5SlXtp0LHwyA5cejwn7vKmKp4pPri6YEePv2PU65sAsegbXtIinmDFDXgQ==}
     peerDependencies:
       acorn: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
-      acorn: 8.7.1
+      acorn: 8.8.0
     dev: true
 
   /acorn-walk/8.2.0:
@@ -1821,8 +1821,8 @@ packages:
     hasBin: true
     dev: true
 
-  /acorn/8.7.1:
-    resolution: {integrity: sha512-Xx54uLJQZ19lKygFXOWsscKUbsBZW0CPykPhVQdhIeIwrbPmJzqeASDInc8nKBnp/JT6igTs82qPXz069H8I/A==}
+  /acorn/8.8.0:
+    resolution: {integrity: sha512-QOxyigPVrpZ2GXT+PFyZTl6TtOFc5egxHIP9IlQ+RbupQuX4RkT/Bee4/kQuC02Xkzg84JcT7oLYtDIQxp+v7w==}
     engines: {node: '>=0.4.0'}
     hasBin: true
     dev: true
@@ -2947,8 +2947,8 @@ packages:
     resolution: {integrity: sha512-WHVocJYavUwVgVViC0ORikPHQquXwVh939TaelZ4WDqpWgTX/FsGhl/+P4qBUAGcRvtOgDgC+xftNWWp2RUTAQ==}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001367
-      electron-to-chromium: 1.4.192
+      caniuse-lite: 1.0.30001369
+      electron-to-chromium: 1.4.199
     dev: true
 
   /browserslist/4.21.2:
@@ -2956,8 +2956,8 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001367
-      electron-to-chromium: 1.4.192
+      caniuse-lite: 1.0.30001369
+      electron-to-chromium: 1.4.199
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.2
     dev: true
@@ -3115,8 +3115,8 @@ packages:
     engines: {node: '>=10'}
     dev: true
 
-  /caniuse-lite/1.0.30001367:
-    resolution: {integrity: sha512-XDgbeOHfifWV3GEES2B8rtsrADx4Jf+juKX2SICJcaUhjYBO3bR96kvEIHa15VU6ohtOhBZuPGGYGbXMRn0NCw==}
+  /caniuse-lite/1.0.30001369:
+    resolution: {integrity: sha512-OY1SBHaodJc4wflDIKnlkdqWzJZd1Ls/2zbVJHBSv3AT7vgOJ58yAhd2CN4d57l2kPJrgMb7P9+N1Mhy4tNSQA==}
     dev: true
 
   /caseless/0.12.0:
@@ -3879,7 +3879,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: 2.1.3
+      ms: 2.1.1
     dev: true
 
   /debug/3.2.6_supports-color@6.0.0:
@@ -3891,7 +3891,7 @@ packages:
       supports-color:
         optional: true
     dependencies:
-      ms: 2.1.3
+      ms: 2.1.1
       supports-color: 6.0.0
     dev: true
 
@@ -4236,8 +4236,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.192:
-    resolution: {integrity: sha512-8nCXyIQY9An88NXAp+PuPy5h3/w5ZY7Iu2lag65Q0XREprcat5F8gKhoHsBUnQcFuCRnmevpR8yEBYRU3d2HDw==}
+  /electron-to-chromium/1.4.199:
+    resolution: {integrity: sha512-WIGME0Cs7oob3mxsJwHbeWkH0tYkIE/sjkJ8ML2BYmuRcjhRl/q5kVDXG7W9LOOKwzPU5M0LBlXRq9rlSgnNlg==}
     dev: true
 
   /elliptic/6.5.4:
@@ -4475,8 +4475,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-import-resolver-typescript/3.2.7_afl3vkhn63baibzal45igheroq:
-    resolution: {integrity: sha512-WvcsRy3aPmwVsuS/XVliAJWpIdTlaFXXZPZk3TCbvvF8RtaAkjAhcLL5bl5VEoTmE+XnTHjIbWMzNZcOQpK/DA==}
+  /eslint-import-resolver-typescript/3.3.0_afl3vkhn63baibzal45igheroq:
+    resolution: {integrity: sha512-vlooCGKfDX59rH5TbtluOekinPlIS5Ab+dyQUoCCJoE1IV11R/kn6J+RoMBuBkJhzJEIKJ4myQJhw6lGIXfkRA==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     peerDependencies:
       eslint: '*'
@@ -4485,7 +4485,7 @@ packages:
       debug: 4.3.4
       enhanced-resolve: 5.10.0
       eslint: 8.20.0
-      eslint-plugin-import: 2.26.0_adpenwqrbqkrj3nzlozs2cy7dq
+      eslint-plugin-import: 2.26.0_ng73mesgr3qjuo2tra2ynrmv5i
       get-tsconfig: 4.2.0
       globby: 13.1.2
       is-core-module: 2.9.0
@@ -4495,7 +4495,7 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-module-utils/2.7.3_gatdomlj3u3lcpi3yp2sv7y5wa:
+  /eslint-module-utils/2.7.3_cil25ulcmkukxkx7gouducvgwq:
     resolution: {integrity: sha512-088JEC7O3lDZM9xGe0RerkOMd0EjFl+Yvd1jPWIkMT5u3H9+HC34mWWPnqPrN13gieT9pBOO+Qt07Nb/6TresQ==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -4516,13 +4516,13 @@ packages:
       '@typescript-eslint/parser': 5.30.7_he2ccbldppg44uulnyq4rwocfa
       debug: 3.2.7
       eslint-import-resolver-node: 0.3.6
-      eslint-import-resolver-typescript: 3.2.7_afl3vkhn63baibzal45igheroq
+      eslint-import-resolver-typescript: 3.3.0_afl3vkhn63baibzal45igheroq
       find-up: 2.1.0
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /eslint-plugin-import/2.26.0_adpenwqrbqkrj3nzlozs2cy7dq:
+  /eslint-plugin-import/2.26.0_ng73mesgr3qjuo2tra2ynrmv5i:
     resolution: {integrity: sha512-hYfi3FXaM8WPLf4S1cikh/r4IxnO6zrhZbEGz2b660EJRbuxgpDS5gkCuYgGWg2xxh2rBuIr4Pvhve/7c31koA==}
     engines: {node: '>=4'}
     peerDependencies:
@@ -4539,7 +4539,7 @@ packages:
       doctrine: 2.1.0
       eslint: 8.20.0
       eslint-import-resolver-node: 0.3.6
-      eslint-module-utils: 2.7.3_gatdomlj3u3lcpi3yp2sv7y5wa
+      eslint-module-utils: 2.7.3_cil25ulcmkukxkx7gouducvgwq
       has: 1.0.3
       is-core-module: 2.9.0
       is-glob: 4.0.3
@@ -4677,7 +4677,7 @@ packages:
       file-entry-cache: 6.0.1
       functional-red-black-tree: 1.0.1
       glob-parent: 6.0.2
-      globals: 13.16.0
+      globals: 13.17.0
       ignore: 5.2.0
       import-fresh: 3.3.0
       imurmurhash: 0.1.4
@@ -4711,8 +4711,8 @@ packages:
     resolution: {integrity: sha512-D211tC7ZwouTIuY5x9XnS0E9sWNChB7IYKX/Xp5eQj3nFXhqmiUDB9q27y76oFl8jTg3pXcQx/bpxMfs3CIZbA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dependencies:
-      acorn: 8.7.1
-      acorn-jsx: 5.3.2_acorn@8.7.1
+      acorn: 8.8.0
+      acorn-jsx: 5.3.2_acorn@8.8.0
       eslint-visitor-keys: 3.3.0
     dev: true
 
@@ -6046,8 +6046,8 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /globals/13.16.0:
-    resolution: {integrity: sha512-A1lrQfpNF+McdPOnnFqY3kSN0AFTy485bTi1bkLk4mVPODIUEcSfhHgRqA+QdXPksrSTTztYXx37NFV+GpGk3Q==}
+  /globals/13.17.0:
+    resolution: {integrity: sha512-1C+6nQRb1GwGMKm2dH/E7enFAMxGTmGI7/dEdhy/DNelv85w9B72t3uc5frtMNXIbzrarJJ/lTCjcaZwbLJmyw==}
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.20.2
@@ -6240,10 +6240,10 @@ packages:
       css-loader: 6.7.1_webpack@5.73.0
       hardhat: 2.10.1_6oasmw356qmm23djlsjgkwvrtm
       html-webpack-plugin: 5.5.0_webpack@5.73.0
-      vue: 2.7.7
-      vue-loader: 15.10.0_nb4fqab46qbcharznlpqpcal6m
+      vue: 2.7.8
+      vue-loader: 15.10.0_ucuaews3wnolyrmirs2etuc7vu
       vue-router: 3.5.4
-      vue-template-compiler: 2.7.7
+      vue-template-compiler: 2.7.8
       webpack: 5.73.0
     transitivePeerDependencies:
       - '@swc/core'
@@ -10688,7 +10688,7 @@ packages:
     hasBin: true
     dependencies:
       '@jridgewell/source-map': 0.3.2
-      acorn: 8.7.1
+      acorn: 8.8.0
       commander: 2.20.3
       source-map-support: 0.5.21
     dev: true
@@ -10902,7 +10902,7 @@ packages:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.3
       '@types/node': 18.0.6
-      acorn: 8.7.1
+      acorn: 8.8.0
       acorn-walk: 8.2.0
       arg: 4.1.3
       create-require: 1.1.1
@@ -11346,86 +11346,6 @@ packages:
     resolution: {integrity: sha512-BXq3jwIagosjgNVae6tkHzzIk6a8MHFtzAdwhnV5VlvPTFxDCvIttgSiHWjdGoTJvXtmRu5HacExfdarRcFhog==}
     dev: true
 
-  /vue-loader/15.10.0_nb4fqab46qbcharznlpqpcal6m:
-    resolution: {integrity: sha512-VU6tuO8eKajrFeBzMssFUP9SvakEeeSi1BxdTH5o3+1yUyrldp8IERkSdXlMI2t4kxF2sqYUDsQY+WJBxzBmZg==}
-    peerDependencies:
-      '@vue/compiler-sfc': ^3.0.8
-      cache-loader: '*'
-      css-loader: '*'
-      vue-template-compiler: '*'
-      webpack: ^3.0.0 || ^4.1.0 || ^5.0.0-0
-    peerDependenciesMeta:
-      '@vue/compiler-sfc':
-        optional: true
-      cache-loader:
-        optional: true
-      vue-template-compiler:
-        optional: true
-    dependencies:
-      '@vue/component-compiler-utils': 3.3.0_lodash@4.17.21
-      css-loader: 6.7.1_webpack@5.73.0
-      hash-sum: 1.0.2
-      loader-utils: 1.4.0
-      vue-hot-reload-api: 2.3.4
-      vue-style-loader: 4.1.3
-      vue-template-compiler: 2.7.7
-      webpack: 5.73.0
-    transitivePeerDependencies:
-      - arc-templates
-      - atpl
-      - babel-core
-      - bracket-template
-      - coffee-script
-      - dot
-      - dust
-      - dustjs-helpers
-      - dustjs-linkedin
-      - eco
-      - ect
-      - ejs
-      - haml-coffee
-      - hamlet
-      - hamljs
-      - handlebars
-      - hogan.js
-      - htmling
-      - jade
-      - jazz
-      - jqtpl
-      - just
-      - liquid-node
-      - liquor
-      - lodash
-      - marko
-      - mote
-      - mustache
-      - nunjucks
-      - plates
-      - pug
-      - qejs
-      - ractive
-      - razor-tmpl
-      - react
-      - react-dom
-      - slm
-      - squirrelly
-      - swig
-      - swig-templates
-      - teacup
-      - templayed
-      - then-jade
-      - then-pug
-      - tinyliquid
-      - toffee
-      - twig
-      - twing
-      - underscore
-      - vash
-      - velocityjs
-      - walrus
-      - whiskers
-    dev: true
-
   /vue-loader/15.10.0_qijhtjjcdgfivxyksbqh6djgzq:
     resolution: {integrity: sha512-VU6tuO8eKajrFeBzMssFUP9SvakEeeSi1BxdTH5o3+1yUyrldp8IERkSdXlMI2t4kxF2sqYUDsQY+WJBxzBmZg==}
     peerDependencies:
@@ -11505,6 +11425,86 @@ packages:
       - whiskers
     dev: true
 
+  /vue-loader/15.10.0_ucuaews3wnolyrmirs2etuc7vu:
+    resolution: {integrity: sha512-VU6tuO8eKajrFeBzMssFUP9SvakEeeSi1BxdTH5o3+1yUyrldp8IERkSdXlMI2t4kxF2sqYUDsQY+WJBxzBmZg==}
+    peerDependencies:
+      '@vue/compiler-sfc': ^3.0.8
+      cache-loader: '*'
+      css-loader: '*'
+      vue-template-compiler: '*'
+      webpack: ^3.0.0 || ^4.1.0 || ^5.0.0-0
+    peerDependenciesMeta:
+      '@vue/compiler-sfc':
+        optional: true
+      cache-loader:
+        optional: true
+      vue-template-compiler:
+        optional: true
+    dependencies:
+      '@vue/component-compiler-utils': 3.3.0_lodash@4.17.21
+      css-loader: 6.7.1_webpack@5.73.0
+      hash-sum: 1.0.2
+      loader-utils: 1.4.0
+      vue-hot-reload-api: 2.3.4
+      vue-style-loader: 4.1.3
+      vue-template-compiler: 2.7.8
+      webpack: 5.73.0
+    transitivePeerDependencies:
+      - arc-templates
+      - atpl
+      - babel-core
+      - bracket-template
+      - coffee-script
+      - dot
+      - dust
+      - dustjs-helpers
+      - dustjs-linkedin
+      - eco
+      - ect
+      - ejs
+      - haml-coffee
+      - hamlet
+      - hamljs
+      - handlebars
+      - hogan.js
+      - htmling
+      - jade
+      - jazz
+      - jqtpl
+      - just
+      - liquid-node
+      - liquor
+      - lodash
+      - marko
+      - mote
+      - mustache
+      - nunjucks
+      - plates
+      - pug
+      - qejs
+      - ractive
+      - razor-tmpl
+      - react
+      - react-dom
+      - slm
+      - squirrelly
+      - swig
+      - swig-templates
+      - teacup
+      - templayed
+      - then-jade
+      - then-pug
+      - tinyliquid
+      - toffee
+      - twig
+      - twing
+      - underscore
+      - vash
+      - velocityjs
+      - walrus
+      - whiskers
+    dev: true
+
   /vue-router/3.5.4:
     resolution: {integrity: sha512-x+/DLAJZv2mcQ7glH2oV9ze8uPwcI+H+GgTgTmb5I55bCgY3+vXWIsqbYUzbBSZnwFHEJku4eoaH/x98veyymQ==}
     dev: true
@@ -11516,8 +11516,8 @@ packages:
       loader-utils: 1.4.0
     dev: true
 
-  /vue-template-compiler/2.7.7:
-    resolution: {integrity: sha512-vxOsjWhvDPyMW7QwXPecNmTNwKyXiF+j4KjBFjDxYPuY0xvqCT5o9WrapVItR/Nrh0XThfBaL19kXFSNYtbKmw==}
+  /vue-template-compiler/2.7.8:
+    resolution: {integrity: sha512-eQqdcUpJKJpBRPDdxCNsqUoT0edNvdt1jFjtVnVS/LPPmr0BU2jWzXlrf6BVMeODtdLewB3j8j3WjNiB+V+giw==}
     dependencies:
       de-indent: 1.0.2
       he: 1.2.0
@@ -11527,10 +11527,10 @@ packages:
     resolution: {integrity: sha512-4gDntzrifFnCEvyoO8PqyJDmguXgVPxKiIxrBKjIowvL9l+N66196+72XVYR8BBf1Uv1Fgt3bGevJ+sEmxfZzw==}
     dev: true
 
-  /vue/2.7.7:
-    resolution: {integrity: sha512-osfkncsGCWqtch+YWYxbqTNQ9hl/UQ6TFRkdmK/VqAjuMpxzr5QotFsYpmJ1AB1ez2LJeIKXDmtMkXUotMOTsA==}
+  /vue/2.7.8:
+    resolution: {integrity: sha512-ncwlZx5qOcn754bCu5/tS/IWPhXHopfit79cx+uIlLMyt3vCMGcXai5yCG5y+I6cDmEj4ukRYyZail9FTQh7lQ==}
     dependencies:
-      '@vue/compiler-sfc': 2.7.7
+      '@vue/compiler-sfc': 2.7.8
       csstype: 3.1.0
     dev: true
 
@@ -12144,8 +12144,8 @@ packages:
       '@webassemblyjs/ast': 1.11.1
       '@webassemblyjs/wasm-edit': 1.11.1
       '@webassemblyjs/wasm-parser': 1.11.1
-      acorn: 8.7.1
-      acorn-import-assertions: 1.8.0_acorn@8.7.1
+      acorn: 8.8.0
+      acorn-import-assertions: 1.8.0_acorn@8.8.0
       browserslist: 4.21.2
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
