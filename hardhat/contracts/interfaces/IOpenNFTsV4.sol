@@ -19,5 +19,7 @@ interface IOpenNFTsV4 {
 
     function withdraw(address to) external;
 
+    function withdrawErc20(address token) external;
+
     function open() external view returns (bool);
 }

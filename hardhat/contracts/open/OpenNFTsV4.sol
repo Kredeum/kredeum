@@ -53,8 +53,9 @@ import "./OpenPriceable.sol";
 import "./OpenERC721Enumerable.sol";
 import "./OpenERC721Metadata.sol";
 import "./OpenERC173.sol";
-import "../interfaces/IOpenNFTsV4.sol";
 
+import "../interfaces/IOpenNFTsV4.sol";
+import "../interfaces/IERC20.sol";
 import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
@@ -114,6 +115,10 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     function withdraw(address to) external override(IOpenNFTsV4) onlyOwner {
         require(to != address(0), "Don't throw your money !");
         payable(to).transfer(address(this).balance);
+    }
+
+    function withdrawErc20(address token) external override(IOpenNFTsV4) onlyOwner {
+        require(IERC20(token).transfer(msg.sender, IERC20(token).balanceOf(address(this))), "Withdraw failed");
     }
 
     function buy(uint256 tokenID) external payable override(IOpenNFTsV4) {
