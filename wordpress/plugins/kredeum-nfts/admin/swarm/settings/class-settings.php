@@ -21,7 +21,7 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = 'ipfs_settings';
+	private $slug = 'swarm_settings';
 
 	/**
 	 * Constructor

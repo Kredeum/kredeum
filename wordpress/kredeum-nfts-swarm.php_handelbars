@@ -48,14 +48,10 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function ( $hook ) {
-			if ( 'nfts_page_ipfs_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
+			if ( 'toplevel_page_swarm_settings' === $hook || 'upload.php' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
 				wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_css' );
-			}
-			if ( 'toplevel_page_nfts' === $hook ) {
-				wp_register_style( 'kredeum_nfts_front_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
-				wp_enqueue_style( 'kredeum_nfts_front_css' );
 			}
 		},
 		110
@@ -71,8 +67,6 @@ require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'common/swarm/cid.php';
 require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'common/swarm/link.php';
 
 require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
-
-// require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 
 add_action(
 	'plugins_loaded',
