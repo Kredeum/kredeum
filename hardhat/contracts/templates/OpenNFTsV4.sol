@@ -26,42 +26,43 @@
 //
 //                         OpenERC165 (supports)
 //                             |
-//                         OpenERC721 (NFT)
-//                             |
-//                     ——————————————————————————————————————————————
-//                     |                       |                    |
-//                OpenERC173          OpenERC721Metadata  OpenERC721Enumerable
-//                 (Ownable)                   |                    |
-//                     |                       |                    |
-//              ————————————————               |                    |
-//              |              |               |                    |
-//         OpenERC2981     OpenPausable        |                    |
-//        (RoyaltyInfo)        |               |                    |
-//              |              |               |                    |
-//              ————————————————               |                    |
-//                     |                       |                    |
-//               OpenPriceable                 |                    |
-//                     |                       |                    |
-//                     ——————————————————————————————————————————————
-//                                |
-//                            OpenNFTsV4
+//                             ————————————————————————————————————————————————————
+//                             |                                                  |
+//                         OpenERC721 (NFT)                                 OpenCloneable
+//                             |                                                  |
+//                     ——————————————————————————————————————————————             |
+//                     |                       |                    |             |
+//                OpenERC173          OpenERC721Metadata  OpenERC721Enumerable    |
+//                 (Ownable)                   |                    |             |
+//                     |                       |                    |             |
+//              ————————————————               |                    |             |
+//              |              |               |                    |             |
+//         OpenERC2981   OpenPauseable         |                    |             |
+//        (RoyaltyInfo)        |               |                    |             |
+//              |              |               |                    |             |
+//              ————————————————               |                    |             |
+//                     |                       |                    |             |
+//               OpenMarketable                |                    |             |
+//                     |                       |                    |             |
+//                     ———————————————————————————————————————————————————————————|
+//                              |                                                  |
+//                         OpenNFTsV4 --- IOpenNFTsV4
 //
 
 pragma solidity 0.8.9;
 
-import "./OpenPriceable.sol";
-import "./OpenERC721Enumerable.sol";
-import "./OpenERC721Metadata.sol";
-import "./OpenERC173.sol";
+import "../open/OpenCloneable.sol";
+import "../open/OpenMarketable.sol";
+import "../open/OpenERC721Enumerable.sol";
+import "../open/OpenERC721Metadata.sol";
 
+import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IERC20.sol";
 import "../interfaces/IERC2981.sol";
 
 /// @title OpenNFTs smartcontract
-contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, OpenPriceable {
-    /// event priceHistory
-
+contract OpenNFTsV4 is IOpenNFTsV4, OpenCloneable, OpenERC721Enumerable, OpenERC721Metadata, OpenMarketable {
     /// @notice tokenID of next minted NFT
     uint256 public tokenIdNext = 1;
 
@@ -86,7 +87,9 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         string memory symbol_,
         address owner_,
         bool[] memory options
-    ) external {
+    ) public {
+        OpenCloneable._initialize("OpenNFTs", 4);
+
         OpenERC721Metadata._initialize(name_, symbol_);
         OpenERC173._initialize(owner_);
         open = options[0];
@@ -164,10 +167,13 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(OpenPriceable, OpenERC721Metadata, OpenERC721Enumerable)
+        override(OpenMarketable, OpenERC721Metadata, OpenERC721Enumerable, OpenCloneable)
         returns (bool)
     {
-        return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
+        return
+            interfaceId == type(IOpenNFTs).interfaceId ||
+            interfaceId == type(IOpenNFTsV4).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /// @notice _mint

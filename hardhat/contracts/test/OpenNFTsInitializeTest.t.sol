@@ -9,8 +9,8 @@ import "../interfaces/IERC721Metadata.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC2981.sol";
 import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IOpenPriceable.sol";
-import "../open/OpenNFTsV4.sol";
+import "../interfaces/IOpenMarketable.sol";
+import "../templates/OpenNFTsV4.sol";
 
 abstract contract OpenNFTsInitializeTest is Test {
     address private _collection;

@@ -2,7 +2,7 @@
 pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
-import "../open/OpenBound.sol";
+import "../templates/OpenBound.sol";
 import "../interfaces/IERC1155.sol";
 
 contract OpenBoundForgeTest is Test {
@@ -41,15 +41,15 @@ contract OpenBoundForgeTest is Test {
         ob.tokenOfOwnerByIndex(msg.sender, tokenID);
     }
 
-    function testFailTokenURI(uint256 tokenID) public {
+    function testFailTokenURI(uint256 tokenID) public view {
         ob.tokenURI(tokenID);
     }
 
-    function testFailTokenByIndex(uint256 tokenID) public {
+    function testFailTokenByIndex(uint256 tokenID) public view {
         ob.tokenByIndex(tokenID);
     }
 
-    function testFailTokenOfOwnerByIndex(uint256 tokenID) public {
+    function testFailTokenOfOwnerByIndex(uint256 tokenID) public view {
         ob.tokenOfOwnerByIndex(msg.sender, tokenID);
     }
 }

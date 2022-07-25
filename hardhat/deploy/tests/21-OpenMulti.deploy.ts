@@ -21,7 +21,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   });
 
   if (deployResult.newlyDeployed) {
-    console.log("Template newly deployed");
+    // console.log("Template newly deployed");
 
     const index = networks.findIndex((nw) => nw.chainName === network.name);
     networks[index].openMulti = deployResult.address;

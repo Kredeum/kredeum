@@ -5,9 +5,9 @@ import "../../lib/forge-std/src/Test.sol";
 
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC165.sol";
-import "../interfaces/IOpenPausable.sol";
+import "../interfaces/IOpenPauseable.sol";
 
-abstract contract OpenPausableTest is Test {
+abstract contract OpenPauseableTest is Test {
     address private _contract;
     address private _owner = address(0x1);
     address private _tester = address(0x4);
@@ -23,28 +23,28 @@ abstract contract OpenPausableTest is Test {
     }
 
     function testPausable() public {
-        assertEq(IOpenPausable(_contract).paused(), false);
+        assertEq(IOpenPauseable(_contract).paused(), false);
     }
 
     function testPausableTogglePause() public {
         changePrank(_owner);
 
-        IOpenPausable(_contract).togglePause();
-        assertEq(IOpenPausable(_contract).paused(), true);
+        IOpenPauseable(_contract).togglePause();
+        assertEq(IOpenPauseable(_contract).paused(), true);
 
-        IOpenPausable(_contract).togglePause();
-        assertEq(IOpenPausable(_contract).paused(), false);
+        IOpenPauseable(_contract).togglePause();
+        assertEq(IOpenPauseable(_contract).paused(), false);
     }
 
     function testFailPausableTogglePauseNotOwner() public {
         changePrank(_tester);
-        IOpenPausable(_contract).togglePause();
+        IOpenPauseable(_contract).togglePause();
     }
 
     function testFailPausableOnlyWhenNotPaused() public {
         changePrank(_owner);
-        IOpenPausable(_contract).togglePause();
-        assertEq(IOpenPausable(_contract).paused(), true);
+        IOpenPauseable(_contract).togglePause();
+        assertEq(IOpenPauseable(_contract).paused(), true);
 
         mintTest(_contract, _owner);
     }
@@ -54,14 +54,14 @@ abstract contract OpenPausableTest is Test {
 
         vm.expectEmit(true, true, false, false);
         emit SetPaused(true, _owner);
-        IOpenPausable(_contract).togglePause();
+        IOpenPauseable(_contract).togglePause();
 
         vm.expectEmit(true, true, false, false);
         emit SetPaused(false, _owner);
-        IOpenPausable(_contract).togglePause();
+        IOpenPauseable(_contract).togglePause();
     }
 
     function testPausableSupportsInterface() public {
-        assertTrue(IERC165(_contract).supportsInterface(type(IOpenPausable).interfaceId));
+        assertTrue(IERC165(_contract).supportsInterface(type(IOpenPauseable).interfaceId));
     }
 }

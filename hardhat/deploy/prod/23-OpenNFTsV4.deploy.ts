@@ -1,7 +1,9 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { IOpenNFTs, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
-
+import type { IOpenNFTsV4, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
 // import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
+import type { NetworkType } from "lib/ktypes";
+import networks from "config/networks.json";
+import * as fs from "fs/promises";
 
 const contractName = "OpenNFTsV4";
 
@@ -21,12 +23,18 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   if (deployResult.newlyDeployed) {
     // const contract = await getContract(contractName);
     // await checkGasMethod(hre, contractName, "initialize", deployer,
+    const index = networks.findIndex((nw) => nw.chainName === network.name);
+    const networkConf: NetworkType = networks[index];
+    if (deployResult.address != networkConf.openNFTs) {
+      console.info(contractName, "deployed => new address");
+      networks[index].openNFTs = deployResult.address;
+      await fs
+        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 0))
+        .catch((err) => console.log(err));
+    }
 
     const openNFTsV4 = await getContract(contractName, deployer);
-
-    // deployments.log("openNFTsV4", openNFTsV4);
-
-    await openNFTsV4["initialize(string,string,address,bool[])"]("Open NFTs", "NFT", deployer.address, [true]);
+    await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs", "NFT", deployer.address, [true]);
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
     await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address]);

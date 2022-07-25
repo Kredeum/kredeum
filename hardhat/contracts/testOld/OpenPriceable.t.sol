@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenPriceableTest is OpenNFTsOldTest {
+contract OpenMarketableTest is OpenNFTsOldTest {
     function testSetDefaultRoyalty(uint96 fee, uint256 price) public {
         vm.assume(price < 2**128);
         vm.assume(fee < 10000);
@@ -76,7 +76,7 @@ contract OpenPriceableTest is OpenNFTsOldTest {
         vm.assume(fee < maxFee);
 
         changePrank(owner);
-        IOpenPriceable(_contract).setDefaultRoyalty(minter, fee);
+        IOpenMarketable(_contract).setDefaultRoyalty(minter, fee);
 
         (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(tokenID0, price);
         assertEq(receiver, minter);
@@ -84,6 +84,6 @@ contract OpenPriceableTest is OpenNFTsOldTest {
     }
 
     function testSupportsInterface() public {
-        assertTrue(op.supportsInterface(type(IOpenPriceable).interfaceId));
+        assertTrue(op.supportsInterface(type(IOpenMarketable).interfaceId));
     }
 }

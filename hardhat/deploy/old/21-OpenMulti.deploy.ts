@@ -11,7 +11,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   const deployer = await getNamedSigner("deployer");
 
   const bafkrei = await getContract("Bafkrey");
-  console.log("deployFunction ~ bafkrei.address", bafkrei.address);
+  // console.log("deployFunction ~ bafkrei.address", bafkrei.address);
 
   const deployResult: DeployResult = await deployments.deploy(contractName, {
     from: deployer.address,
@@ -21,7 +21,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   });
 
   if (deployResult.newlyDeployed) {
-    console.log("Template newly deployed");
+    // console.log("Template newly deployed");
 
     const index = networks.findIndex((nw) => nw.chainName === network.name);
     networks[index].openMulti = deployResult.address;

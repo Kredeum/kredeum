@@ -30,11 +30,11 @@ contract OpenERC165Test is OpenNFTsOldTest {
     }
 
     function testPausable() public {
-        assertTrue(op.supportsInterface(type(IOpenPausable).interfaceId));
+        assertTrue(op.supportsInterface(type(IOpenPauseable).interfaceId));
     }
 
     function testPriceable() public {
-        assertTrue(op.supportsInterface(type(IOpenPriceable).interfaceId));
+        assertTrue(op.supportsInterface(type(IOpenMarketable).interfaceId));
     }
 
     function testNot() public {

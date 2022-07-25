@@ -10,7 +10,7 @@ const collectionDefaultGetKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
 
 // LOADER : LOAD Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {

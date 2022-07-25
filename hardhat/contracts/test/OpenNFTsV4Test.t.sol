@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../open/OpenNFTsV4.sol";
+import "../templates/OpenNFTsV4.sol";
 import "./OpenERC721Test.t.sol";
 import "./OpenNFTsBurnTest.t.sol";
 import "./OpenNFTsBuyTest.t.sol";
@@ -12,8 +12,8 @@ import "./OpenNFTsSetupTest.t.sol";
 import "./ERC173Test.t.sol";
 import "./ERC2981Test.t.sol";
 import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
-import "./OpenPausableTest.t.sol";
-import "./OpenPriceableTest.t.sol";
+import "./OpenPauseableTest.t.sol";
+import "./OpenMarketableTest.t.sol";
 import "../interfaces/ITest.sol";
 
 contract OpenNFTsV4Test is
@@ -26,7 +26,7 @@ contract OpenNFTsV4Test is
     ERC173Test,
     ERC2981Test,
     ERC721TransferableTest,
-    OpenPausableTest,
+    OpenPauseableTest,
     PriceableTest
 {
     function constructorTest(address owner)
@@ -39,7 +39,7 @@ contract OpenNFTsV4Test is
             ERC173Test,
             ERC721TransferableTest,
             ERC2981Test,
-            OpenPausableTest,
+            OpenPauseableTest,
             PriceableTest
         )
         returns (address)
@@ -62,7 +62,7 @@ contract OpenNFTsV4Test is
             OpenNFTsBuyTest,
             OpenNFTsSetupTest,
             ERC2981Test,
-            OpenPausableTest,
+            OpenPauseableTest,
             PriceableTest,
             ERC721TransferableTest
         )

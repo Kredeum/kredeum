@@ -9,7 +9,7 @@ import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC721Metadata.sol";
 import "../interfaces/IERC1155.sol";
 
-import "../open/OpenNFTsV4.sol";
+import "../templates/OpenNFTsV4.sol";
 
 contract OpenNFTsOldTest is Test {
     OpenNFTsV4 internal op;

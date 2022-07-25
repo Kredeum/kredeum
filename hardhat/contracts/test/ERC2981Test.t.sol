@@ -5,7 +5,7 @@ import "../../lib/forge-std/src/Test.sol";
 
 import "../interfaces/IERC2981.sol";
 import "../interfaces/IERC165.sol";
-import "../interfaces/IOpenPriceable.sol";
+import "../interfaces/IOpenMarketable.sol";
 
 abstract contract ERC2981Test is Test {
     address private _contract;

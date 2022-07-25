@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "./OpenNFTs.t.sol";
 
-contract OpenPausableTest is OpenNFTsOldTest {
+contract OpenPauseableTest is OpenNFTsOldTest {
     event SetPaused(bool indexed paused, address indexed account);
 
     function testOnlyWhenNotPaused() public {
@@ -41,6 +41,6 @@ contract OpenPausableTest is OpenNFTsOldTest {
     }
 
     function testSupportsInterface() public {
-        assertTrue(op.supportsInterface(type(IOpenPausable).interfaceId));
+        assertTrue(op.supportsInterface(type(IOpenPauseable).interfaceId));
     }
 }

@@ -22,7 +22,7 @@ type NetworkType = {
   openSea?: { assets?: string; openNFTs?: string };
   openMulti?: string;
   openBound?: string;
-  defaultOpenNFTs?: string;
+  openNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
   eip1559?: boolean;

@@ -9,8 +9,8 @@ import "../interfaces/IERC721Metadata.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC2981.sol";
 import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IOpenPriceable.sol";
-import "../open/OpenNFTsV4.sol";
+import "../interfaces/IOpenMarketable.sol";
+import "../templates/OpenNFTsV4.sol";
 
 abstract contract OpenNFTsSetupTest is Test {
     address private _collection;
@@ -52,7 +52,7 @@ abstract contract OpenNFTsSetupTest is Test {
     }
 
     function testPrice() public {
-        assertEq(IOpenPriceable(_collection).tokenPrice(1), 0);
+        assertEq(IOpenMarketable(_collection).tokenPrice(1), 0);
     }
 
     function testRoyalties() public {

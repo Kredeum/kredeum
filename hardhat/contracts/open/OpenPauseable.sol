@@ -19,15 +19,15 @@
 //                     |
 //                OpenERC173
 //                     |
-//               OpenPausable
+//               OpenPauseable
 //
 
 pragma solidity 0.8.9;
 
 import "./OpenERC173.sol";
-import "../interfaces/IOpenPausable.sol";
+import "../interfaces/IOpenPauseable.sol";
 
-abstract contract OpenPausable is IOpenPausable, OpenERC173 {
+abstract contract OpenPauseable is IOpenPauseable, OpenERC173 {
     bool private _paused;
 
     modifier onlyWhenNotPaused() {
@@ -35,16 +35,16 @@ abstract contract OpenPausable is IOpenPausable, OpenERC173 {
         _;
     }
 
-    function togglePause() external override(IOpenPausable) onlyOwner {
+    function togglePause() external override(IOpenPauseable) onlyOwner {
         _setPaused(!_paused);
     }
 
-    function paused() external view override(IOpenPausable) returns (bool) {
+    function paused() external view override(IOpenPauseable) returns (bool) {
         return _paused;
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC173) returns (bool) {
-        return interfaceId == type(IOpenPausable).interfaceId || super.supportsInterface(interfaceId);
+        return interfaceId == type(IOpenPauseable).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function _setPaused(bool paused_) private {

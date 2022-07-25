@@ -26,19 +26,27 @@
 //
 //                         OpenERC165 (supports)
 //                             |
-//                         OpenERC721 (NFT)
-//                             |
-//                        OpenERC173
-//                         (Ownable)
-//                             |
-//                        OpenPausable
+//                             ————————————————————————
+//                             |                      |
+//                         OpenERC721 (NFT)     OpenCloneable
+//                             |                      |
+//                             |                      |
+//                        OpenERC173                  |
+//                         (Ownable)                  |
+//                             |                      |
+//                       OpenPauseable                |
+//                             |                      |
+//                             ————————————————————————
 //                             |
 //                         OpenBound --- IOpenBound --- IERC721Enumerable --- IERC721Metadata
 //
 
 pragma solidity ^0.8.9;
 
-import "./OpenPausable.sol";
+import "../open/OpenPauseable.sol";
+import "../open/OpenCloneable.sol";
+
+import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenBound.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/IERC721.sol";
@@ -47,10 +55,9 @@ import "../interfaces/IERC721Metadata.sol";
 import "../library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
-contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausable {
+contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenCloneable, OpenPauseable {
     uint256 public maxSupply;
 
-    bool private _openBondInitialized;
     string public name;
     string public symbol;
 
@@ -67,15 +74,13 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         string memory symbol_,
         address owner_,
         uint256 maxSupply_
-    ) external override(IOpenBound) {
-        require(_openBondInitialized == false, "Only once!");
-        _openBondInitialized = true;
+    ) public override(IOpenBound) {
+        OpenCloneable._initialize("OpenBound", 1);
+        OpenERC173._initialize(owner_);
 
         name = name_;
         symbol = symbol_;
         maxSupply = maxSupply_;
-
-        OpenERC173._initialize(owner_);
     }
 
     function mint(uint256 cid) external override(IOpenBound) onlyWhenNotPaused returns (uint256 tokenID) {
@@ -103,25 +108,25 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
     }
 
     /// IERC721Enumerable
-    function totalSupply() external view override(IERC721Enumerable) returns (uint256) {
-        return _tokens.length;
+    function totalSupply() external view override(IERC721Enumerable) returns (uint256 tokensLength) {
+        tokensLength = _tokens.length;
     }
 
     function tokenOfOwnerByIndex(address tokenOwner, uint256 index)
         external
         view
         override(IERC721Enumerable)
-        returns (uint256)
+        returns (uint256 tokenID)
     {
         require(index == 0 && balanceOf(tokenOwner) == 1, "Invalid index");
 
-        return _tokenOfOwner[tokenOwner];
+        tokenID = _tokenOfOwner[tokenOwner];
     }
 
-    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256) {
+    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256 tokenID) {
         require(index < _tokens.length, "Invalid index");
 
-        return _tokens[index];
+        tokenID = _tokens[index];
     }
 
     /// IERC721Metadata
@@ -132,8 +137,9 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
     }
 
     /// IERC165
-    function supportsInterface(bytes4 interfaceId) public view override(OpenPausable) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(OpenPauseable, OpenCloneable) returns (bool) {
         return
+            interfaceId == type(IOpenNFTs).interfaceId ||
             interfaceId == type(IOpenBound).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
@@ -152,16 +158,14 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         _cidOfToken[tokenID] = cid;
     }
 
-    function _mint(address to, uint256 cid) internal returns (uint256) {
+    function _mint(address to, uint256 cid) internal returns (uint256 tokenID) {
         require((maxSupply == 0) || _tokens.length < maxSupply, "Max supply reached");
         require(balanceOf(to) == 0, "Already minted or claimed");
 
-        uint256 tokenID = _tokenID(to, cid);
+        tokenID = _tokenID(to, cid);
 
         _mintEnumerable(to, tokenID, cid);
         _mintNft(to, tokenID);
-
-        return tokenID;
     }
 
     function _burnEnumerable(uint256 tokenID) internal {
@@ -185,8 +189,8 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenPausab
         _burnNft(tokenID);
     }
 
-    function _tokenID(address addr, uint256 cid) internal pure returns (uint256) {
-        return uint256(keccak256(abi.encodePacked(cid, addr)));
+    function _tokenID(address addr, uint256 cid) internal pure returns (uint256 tokenID) {
+        tokenID = uint256(keccak256(abi.encodePacked(cid, addr)));
     }
 
     function _transferFromBefore(

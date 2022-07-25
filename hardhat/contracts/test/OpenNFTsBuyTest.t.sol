@@ -7,7 +7,7 @@ import "../interfaces/IERC721.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC2981.sol";
 import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IOpenPriceable.sol";
+import "../interfaces/IOpenMarketable.sol";
 
 abstract contract OpenNFTsBuyTest is Test {
     address private _collection;
@@ -31,8 +31,8 @@ abstract contract OpenNFTsBuyTest is Test {
         changePrank(_minter);
         IERC721(_collection).setApprovalForAll(_collection, true);
 
-        IOpenPriceable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
-        IOpenPriceable(_collection).setTokenPrice(_tokenID0, 1 ether);
+        IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
+        IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
 
         changePrank(_buyer);
         deal(_buyer, 10 ether);
@@ -49,8 +49,8 @@ abstract contract OpenNFTsBuyTest is Test {
     }
 
     function testFailBuyTwice() public {
-        IOpenPriceable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
-        IOpenPriceable(_collection).setTokenPrice(_tokenID0, 1 ether);
+        IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
+        IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
 
         changePrank(_buyer);
         deal(_buyer, 10 ether);
@@ -60,8 +60,8 @@ abstract contract OpenNFTsBuyTest is Test {
     }
 
     function testFailBuyNotEnoughFunds() public {
-        IOpenPriceable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
-        IOpenPriceable(_collection).setTokenPrice(_tokenID0, 1 ether);
+        IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
+        IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
 
         changePrank(_buyer);
         deal(_buyer, 10 ether);
@@ -70,7 +70,7 @@ abstract contract OpenNFTsBuyTest is Test {
     }
 
     function testFailBuyNotToSell() public {
-        IOpenPriceable(_collection).setTokenPrice(_tokenID0, 0);
+        IOpenMarketable(_collection).setTokenPrice(_tokenID0, 0);
 
         changePrank(_buyer);
         deal(_buyer, 10 ether);

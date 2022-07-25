@@ -22,16 +22,16 @@
 //                     |
 //                OpenERC2981 (RoyaltyInfo)
 //                     |
-//               OpenPriceable
+//               OpenMarketable
 //
 
 pragma solidity 0.8.9;
 
 import "./OpenERC2981.sol";
-import "./OpenPausable.sol";
-import "../interfaces/IOpenPriceable.sol";
+import "./OpenPauseable.sol";
+import "../interfaces/IOpenMarketable.sol";
 
-abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
+abstract contract OpenMarketable is IOpenMarketable, OpenERC2981, OpenPauseable {
     mapping(uint256 => uint256) public tokenPrice;
     uint256 public defaultPrice;
 
@@ -51,7 +51,7 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
     /// @param fee : fee Numerator, less than 10000
     function setDefaultRoyalty(address receiver, uint96 fee)
         external
-        override(IOpenPriceable)
+        override(IOpenMarketable)
         onlyOwner
         lessThanMaxFee(fee)
     {
@@ -67,21 +67,21 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         uint256 tokenID,
         address receiver,
         uint96 fee
-    ) external override(IOpenPriceable) onlyTokenOwnerOrApproved(tokenID) lessThanMaxFee(fee) {
+    ) external override(IOpenMarketable) onlyTokenOwnerOrApproved(tokenID) lessThanMaxFee(fee) {
         _setTokenRoyalty(tokenID, receiver, fee);
     }
 
-    function setDefaultPrice(uint256 price) external override(IOpenPriceable) onlyOwner notTooExpensive(price) {
+    function setDefaultPrice(uint256 price) external override(IOpenMarketable) onlyOwner notTooExpensive(price) {
         defaultPrice = price;
     }
 
-    function setTokenPrice(uint256 tokenID) external override(IOpenPriceable) {
+    function setTokenPrice(uint256 tokenID) external override(IOpenMarketable) {
         setTokenPrice(tokenID, defaultPrice);
     }
 
     function setTokenPrice(uint256 tokenID, uint256 price)
         public
-        override(IOpenPriceable)
+        override(IOpenMarketable)
         onlyTokenOwnerOrApproved(tokenID)
         notTooExpensive(price)
     {
@@ -92,10 +92,10 @@ abstract contract OpenPriceable is IOpenPriceable, OpenERC2981, OpenPausable {
         public
         view
         virtual
-        override(OpenERC2981, OpenPausable)
+        override(OpenERC2981, OpenPauseable)
         returns (bool)
     {
-        return interfaceId == type(IOpenPriceable).interfaceId || super.supportsInterface(interfaceId);
+        return interfaceId == type(IOpenMarketable).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function _setTokenRoyalty(

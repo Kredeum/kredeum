@@ -36,7 +36,7 @@ const getNetwork = (chainId: number | string): NetworkType | undefined => networ
 const getNftsFactory = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
 
 //  GET default OpenNFTs address
-const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.defaultOpenNFTs || "";
+const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
 
 //  GET OpenMulti address
 const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
@@ -287,8 +287,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

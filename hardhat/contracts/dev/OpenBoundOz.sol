@@ -4,14 +4,14 @@ pragma solidity ^0.8.9;
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "../interfaces/IOpenBoundOz.sol";
-import "../interfaces/IOpenPausable.sol";
+import "../interfaces/IOpenPauseable.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC173.sol";
 import "../library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBoundOz, IERC173, IERC721Enumerable, IERC721Metadata {
-contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPausable, Ownable {
+contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable, Ownable {
     uint256 public maxSupply;
 
     bool public paused;
@@ -36,7 +36,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPausable, 
         maxSupply = maxSupply_;
     }
 
-    function togglePause() external override(IOpenPausable) onlyOwner {
+    function togglePause() external override(IOpenPauseable) onlyOwner {
         paused = !paused;
         emit SetPaused(paused, msg.sender);
     }
@@ -102,7 +102,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPausable, 
     function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
         return
             interfaceId == type(IOpenBoundOz).interfaceId ||
-            interfaceId == type(IOpenPausable).interfaceId ||
+            interfaceId == type(IOpenPauseable).interfaceId ||
             interfaceId == type(IERC173).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
