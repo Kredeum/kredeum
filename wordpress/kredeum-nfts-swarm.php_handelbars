@@ -25,9 +25,7 @@ define( 'SWARMPRESS_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 if ( is_admin() ) {
 	define( 'AUTO_ARCHIVE', get_option( 'AUTO_ARCHIVE', array( '' ) )[0] );
 
-
 	require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
-
 
 	require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'admin/swarm/swarm-bee.php';
 	require_once SWARMPRESS_NFTS_PLUGIN_PATH . 'admin/swarm/query.php';
