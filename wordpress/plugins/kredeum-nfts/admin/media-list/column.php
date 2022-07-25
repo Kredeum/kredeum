@@ -31,14 +31,8 @@ add_action(
 			if ( $post->_kre_cid ) {
 				echo wp_kses(
 					link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ),
-					array(
-						'a'  => array( 'href' => array() ),
-						'br' => '',
-					)
+					array( 'a' => array( 'href' => array() ) )
 				);
-			}
-			if ( $post->_kre_swarmref ) {
-				echo wp_kses( \KredeumNFTs\Swarm\link( $post->_kre_swarmref, substr( $post->_kre_swarmref, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 
@@ -57,8 +51,7 @@ add_action(
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
-					. esc_attr( SWARM_ARCHIVE && ( SWARM_NODE_URL !== SWARM_SERVER ) ? ' swarmnode=' . esc_attr( SWARM_NODE_URL ) . ' batchid=' . esc_attr( SWARM_BATCH_ID ) : '' )
-					. ' storage="' . esc_attr( SWARM_ARCHIVE ? 'swarm' : 'ipfs' )
+					. ' storage="' . esc_attr( 'ipfs' )
 					. '"/>'
 				);
 			}
