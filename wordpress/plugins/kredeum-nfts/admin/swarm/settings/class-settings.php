@@ -29,7 +29,7 @@ class Settings {
 	public function __construct() {
 		// Hook into the admin menu.
 		add_action( 'admin_menu', array( $this, 'menu_create' ) );
-		add_action( 'admin_menu', array( $this, 'page_create' ) );
+		// add_action( 'admin_menu', array( $this, 'page_create' ) );
 
 		// Add Settings and Fields.
 		add_action( 'admin_init', array( $this, 'sections_create' ) );
@@ -41,8 +41,8 @@ class Settings {
 	 */
 	public function menu_create() {
 		// Add the submenu item and page.
-		$page_title = __( 'NFTs settings', 'kredeum-nfts' );
-		$menu_title = __( 'NFTs settings', 'kredeum-nfts' );
+		$page_title = __( 'SWARM', 'kredeum-nfts' );
+		$menu_title = __( 'SWARM', 'kredeum-nfts' );
 		$capability = 'edit_posts';
 		$menu_slug  = $this->slug;
 		$callback   = array( $this, 'page_content' );
@@ -71,7 +71,7 @@ class Settings {
 	 */
 	public function page_content() {
 		echo '<div class="wrap">';
-		echo '<h2>' . esc_html( __( 'NFTs Kredeum', 'kredeum-nfts' ) ) . '</h2>';
+		echo '<h2>' . esc_html( __( 'Swarm settings', 'kredeum-nfts' ) ) . '</h2>';
 
 		echo '<form action="options.php" method="POST">';
 		settings_fields( $this->slug );
