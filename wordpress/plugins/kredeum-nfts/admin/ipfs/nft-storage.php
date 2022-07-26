@@ -5,7 +5,7 @@
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage\Ipfs;
 
 /**
  * IPFS add and pin file inside directory with NFT Storage

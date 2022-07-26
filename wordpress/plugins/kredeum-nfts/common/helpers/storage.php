@@ -12,5 +12,5 @@ function getStorageRef() {
 }
 
 function uploadOnStorage($post_id) {
-    return STORAGE === 'ipfs' ? \Ipfs\insert($post_id) : \Swarm\insert($post_id);
+    return STORAGE === 'ipfs' ? Ipfs\insert($post_id) : \Swarm\insert($post_id);
 }
