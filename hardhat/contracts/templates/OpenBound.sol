@@ -43,13 +43,11 @@
 
 pragma solidity ^0.8.9;
 
-import "../open/OpenPauseable.sol";
-import "../open/OpenCloneable.sol";
+import "OpenNFTs/contracts/components/OpenPauseable.sol";
+import "OpenNFTs/contracts/components/OpenCloneable.sol";
 
 import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenBound.sol";
-import "../interfaces/IERC173.sol";
-import "../interfaces/IERC721.sol";
 import "../interfaces/IERC721Enumerable.sol";
 import "../interfaces/IERC721Metadata.sol";
 import "../library/Bafkrey.sol";
@@ -103,6 +101,10 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenClonea
         myTokenID = _tokenID(msg.sender, cid);
     }
 
+    function getTokenID(address addr, uint256 cid) external view override(IOpenBound) returns (uint256 tokenID) {
+        tokenID = _tokenID(addr, cid);
+    }
+
     function getCID(uint256 tokenID) external view override(IOpenBound) returns (uint256 cid) {
         cid = _cidOfToken[tokenID];
     }
@@ -139,7 +141,7 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenClonea
     /// IERC165
     function supportsInterface(bytes4 interfaceId) public view override(OpenPauseable, OpenCloneable) returns (bool) {
         return
-            interfaceId == type(IOpenNFTs).interfaceId ||
+            // interfaceId == type(IOpenNFTs).interfaceId ||
             interfaceId == type(IOpenBound).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||

@@ -1,6 +1,6 @@
 import type { NetworkType, CollectionType } from "lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV4 } from "soltypes/contracts/open";
+import type { OpenNFTsV4 } from "soltypes/contracts/templates";
 
 import { nftList, nftListFromContract } from "lib/knft-list";
 

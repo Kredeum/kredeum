@@ -3,15 +3,16 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import {OpenNFTsV0} from "../OpenNFTsV0.sol";
+import "../OpenNFTsV2.sol";
 import "./OpenERC721Test.t.sol";
-import "../interfaces/ITest.sol";
+import "OpenNFTs/contracts/interfaces/ITest.sol";
 import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
 
-contract OpenNFTsV0Test is ITest, OpenERC721Test, ERC721TransferableTest {
+contract OpenNFTsV2Test is ITest, OpenERC721Test, ERC721TransferableTest {
     function constructorTest(address owner) public override(OpenERC721Test, ERC721TransferableTest) returns (address) {
         changePrank(owner);
-        OpenNFTsV0 op = new OpenNFTsV0();
+        OpenNFTsV2 op = new OpenNFTsV2();
+        op.initialize("OpenERC721Test", "OPTEST");
 
         return address(op);
     }
@@ -22,13 +23,13 @@ contract OpenNFTsV0Test is ITest, OpenERC721Test, ERC721TransferableTest {
         returns (uint256, string memory)
     {
         changePrank(minter);
-        return (OpenNFTsV0(collection).adddUser(minter, _TOKEN_URI), _TOKEN_URI);
+        return (OpenNFTsV2(collection).mintNFT(minter, _TOKEN_URI), _TOKEN_URI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override {}
 
     function setUp() public override {
-        setUpOpenNFTs("Open NFTs", "NFT");
+        setUpOpenNFTs("OpenERC721Test", "OPTEST");
         setUpERC721Transferable();
     }
 }

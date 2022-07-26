@@ -3,8 +3,8 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
 abstract contract ERC721EnumerableTest is Test {
     address private _collection;
@@ -16,7 +16,10 @@ abstract contract ERC721EnumerableTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
+    function mintTest(address collection_, address minter_)
+        public
+        virtual
+        returns (uint256, string memory);
 
     function setUpERC721Enumerable() public {
         _collection = constructorTest(_owner);
@@ -47,7 +50,10 @@ abstract contract ERC721EnumerableTest is Test {
     }
 
     function testERC721EnumerableTokenOfOwnerByIndex() public {
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0), _tokenID0);
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0),
+            _tokenID0
+        );
     }
 
     function testFailERC721EnumerableTokenOfOwnerByIndex() public view {
@@ -56,16 +62,26 @@ abstract contract ERC721EnumerableTest is Test {
 
     function testERC721EnumerableTokenOfOwnerByIndexOther() public {
         console.log("_tokenID0", _tokenID0);
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0), _tokenID0);
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0),
+            _tokenID0
+        );
 
         changePrank(_tester);
         (uint256 tokenID, ) = mintTest(_collection, _tester);
         console.log("tokenID", tokenID);
 
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_tester, 0), tokenID);
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_tester, 0),
+            tokenID
+        );
     }
 
     function testERC721EnumerableSupportsInterface() public {
-        assertTrue(IERC165(_collection).supportsInterface(type(IERC721Enumerable).interfaceId));
+        assertTrue(
+            IERC165(_collection).supportsInterface(
+                type(IERC721Enumerable).interfaceId
+            )
+        );
     }
 }

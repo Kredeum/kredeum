@@ -3,8 +3,8 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC721Metadata.sol";
-import "../interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
 abstract contract ERC721MetadataTest is Test {
     address private _collection;
@@ -16,9 +16,14 @@ abstract contract ERC721MetadataTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
+    function mintTest(address collection_, address minter_)
+        public
+        virtual
+        returns (uint256, string memory);
 
-    function setUpERC721Metadata(string memory name_, string memory symbol_) public {
+    function setUpERC721Metadata(string memory name_, string memory symbol_)
+        public
+    {
         _name = name_;
         _symbol = symbol_;
         _collection = constructorTest(_minter);
@@ -38,6 +43,10 @@ abstract contract ERC721MetadataTest is Test {
     }
 
     function testERC721MetadataSupportsInterface() public {
-        assertTrue(IERC165(_collection).supportsInterface(type(IERC721Metadata).interfaceId));
+        assertTrue(
+            IERC165(_collection).supportsInterface(
+                type(IERC721Metadata).interfaceId
+            )
+        );
     }
 }

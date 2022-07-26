@@ -3,9 +3,9 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IOpenNFTsV4.sol";
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTsV4.sol";
 
 abstract contract OpenNFTsBurnTest is Test {
     address private _collection;
@@ -17,7 +17,10 @@ abstract contract OpenNFTsBurnTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
+    function mintTest(address collection_, address minter_)
+        public
+        virtual
+        returns (uint256, string memory);
 
     function burnTest(address collection_, uint256 tokenID_) public virtual;
 
@@ -53,14 +56,23 @@ abstract contract OpenNFTsBurnTest is Test {
         assertEq(IERC721Enumerable(_collection).totalSupply(), 2);
         assertEq(IERC721Enumerable(_collection).tokenByIndex(0), _tokenID0);
         assertEq(IERC721Enumerable(_collection).tokenByIndex(1), tokenID);
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0), _tokenID0);
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_tester, 0), tokenID);
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0),
+            _tokenID0
+        );
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_tester, 0),
+            tokenID
+        );
 
         burnTest(_collection, tokenID);
 
         assertEq(IERC721Enumerable(_collection).totalSupply(), 1);
         assertEq(IERC721Enumerable(_collection).tokenByIndex(0), _tokenID0);
-        assertEq(IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0), _tokenID0);
+        assertEq(
+            IERC721Enumerable(_collection).tokenOfOwnerByIndex(_minter, 0),
+            _tokenID0
+        );
     }
 
     function testFailBurnSecondOneTokenByIndex() public {
@@ -98,12 +110,14 @@ abstract contract OpenNFTsBurnTest is Test {
             mintTest(_collection, address1);
             mintTest(_collection, address2);
 
-            uint256 randomTokenID1 = IERC721Enumerable(_collection).tokenByIndex(rand3);
+            uint256 randomTokenID1 = IERC721Enumerable(_collection)
+                .tokenByIndex(rand3);
             address owner1 = IERC721(_collection).ownerOf(randomTokenID1);
             changePrank(owner1);
             IERC721(_collection).transferFrom(owner1, address2, randomTokenID1);
 
-            uint256 randomTokenID2 = IERC721Enumerable(_collection).tokenByIndex(uint256(rand3));
+            uint256 randomTokenID2 = IERC721Enumerable(_collection)
+                .tokenByIndex(uint256(rand3));
             burnTest(_collection, randomTokenID2);
 
             assertEq(IERC721Enumerable(_collection).totalSupply(), index);
@@ -111,13 +125,18 @@ abstract contract OpenNFTsBurnTest is Test {
         assertEq(IERC721Enumerable(_collection).totalSupply(), total);
 
         for (uint160 index = 1; index <= total; index++) {
-            totalSupply += IERC721(_collection).balanceOf(address(first + index - 1));
+            totalSupply += IERC721(_collection).balanceOf(
+                address(first + index - 1)
+            );
         }
         assertEq(totalSupply, total);
     }
 
     function random(uint160 rnd) public returns (uint160) {
         randNonce++;
-        return uint160(uint256(keccak256(abi.encodePacked(msg.sender, randNonce, rnd))));
+        return
+            uint160(
+                uint256(keccak256(abi.encodePacked(msg.sender, randNonce, rnd)))
+            );
     }
 }

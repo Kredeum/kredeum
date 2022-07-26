@@ -3,7 +3,8 @@ import { ethers, BigNumber, Contract } from "ethers";
 
 import type { NftType } from "./ktypes";
 import type { IOpenMulti } from "soltypes/contracts/interfaces";
-import abiOpenMulti from "abis/IOpenMulti.json";
+import abiOpenMulti from "abis/IOpenMulti.sol/IOpenMulti.json";
+
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
 import { collectionContractGet } from "./kcollection-get";

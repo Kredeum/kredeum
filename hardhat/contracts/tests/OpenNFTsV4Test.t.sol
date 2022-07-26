@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../templates/OpenNFTsV4.sol";
+import "OpenNFTs/contracts/templates/OpenNFTsV4.sol";
 import "./OpenERC721Test.t.sol";
 import "./OpenNFTsBurnTest.t.sol";
 import "./OpenNFTsBuyTest.t.sol";
@@ -14,7 +14,7 @@ import "./ERC2981Test.t.sol";
 import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
 import "./OpenPauseableTest.t.sol";
 import "./OpenMarketableTest.t.sol";
-import "../interfaces/ITest.sol";
+import "OpenNFTs/contracts/interfaces/ITest.sol";
 
 contract OpenNFTsV4Test is
     ITest,

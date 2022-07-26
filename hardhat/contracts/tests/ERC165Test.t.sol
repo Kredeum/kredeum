@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
 abstract contract ERC165Test is Test {
     address private _contract;
@@ -16,7 +16,9 @@ abstract contract ERC165Test is Test {
     }
 
     function testERC165SupportsInterface() public {
-        assertTrue(IERC165(_contract).supportsInterface(type(IERC165).interfaceId));
+        assertTrue(
+            IERC165(_contract).supportsInterface(type(IERC165).interfaceId)
+        );
         assertFalse(IERC165(_contract).supportsInterface(0xffffffff));
     }
 }

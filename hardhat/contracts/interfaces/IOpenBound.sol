@@ -17,5 +17,7 @@ interface IOpenBound {
 
     function getMyTokenID(uint256 cid) external view returns (uint256);
 
+    function getTokenID(address addr, uint256 cid) external view returns (uint256 tokenID);
+
     function getCID(uint256 tokenID) external view returns (uint256);
 }

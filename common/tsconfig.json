@@ -7,11 +7,25 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     "paths": {
-      "lib/*": ["lib/*"],
-      "config/*": ["config/*"],
-      "soltypes/*": ["types/*"],
-      "abis/*": ["abis/*"]
+      "lib/*": [
+        "lib/*"
+      ],
+      "config/*": [
+        "config/*"
+      ],
+      "soltypes/*": [
+        "types/*"
+      ],
+      "abis/*": [
+        "abis/contracts/interfaces/*",
+        "abis/OpenNFTs/contracts/interfaces"
+      ]
     }
   },
-  "include": ["abis/*.ts", "lib/*.ts", "types/**/*.ts", "scripts/**/*.ts"]
+  "include": [
+    "abis/*.ts",
+    "lib/*.ts",
+    "types/**/*.ts",
+    "scripts/**/*.ts"
+  ]
 }

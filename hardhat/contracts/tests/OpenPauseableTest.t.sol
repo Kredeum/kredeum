@@ -3,9 +3,9 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC173.sol";
-import "../interfaces/IERC165.sol";
-import "../interfaces/IOpenPauseable.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
 
 abstract contract OpenPauseableTest is Test {
     address private _contract;
@@ -16,7 +16,10 @@ abstract contract OpenPauseableTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
+    function mintTest(address collection_, address minter_)
+        public
+        virtual
+        returns (uint256, string memory);
 
     function setUpPausable() public {
         _contract = constructorTest(_owner);
@@ -62,6 +65,10 @@ abstract contract OpenPauseableTest is Test {
     }
 
     function testPausableSupportsInterface() public {
-        assertTrue(IERC165(_contract).supportsInterface(type(IOpenPauseable).interfaceId));
+        assertTrue(
+            IERC165(_contract).supportsInterface(
+                type(IOpenPauseable).interfaceId
+            )
+        );
     }
 }

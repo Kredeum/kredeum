@@ -3,12 +3,12 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC165.sol";
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Events.sol";
-import "../interfaces/IOpenNFTsV4.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Events.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTsV4.sol";
 
-import "../open/OpenERC721TokenReceiver.sol";
+import "OpenNFTs/contracts/components/OpenERC721TokenReceiver.sol";
 
 abstract contract ERC721TransferableTest is Test, IERC721Events {
     address private _collection;

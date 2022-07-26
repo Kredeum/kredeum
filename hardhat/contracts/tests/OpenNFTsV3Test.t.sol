@@ -6,7 +6,7 @@ import "../../lib/forge-std/src/Test.sol";
 import "../OpenNFTsV3.sol";
 import "./OpenERC721Test.t.sol";
 import "./OpenNFTsBurnTest.t.sol";
-import "../interfaces/ITest.sol";
+import "OpenNFTs/contracts/interfaces/ITest.sol";
 import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
 
 contract OpenNFTsV3Test is ITest, OpenERC721Test, OpenNFTsBurnTest, ERC721TransferableTest {

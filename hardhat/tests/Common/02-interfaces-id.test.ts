@@ -1,35 +1,34 @@
+import { expect } from "chai";
+
 import type { Signer } from "@ethersproject/abstract-signer";
 import type { InterfacesIds } from "soltypes/contracts/dev";
 
 import { ethers, deployments } from "hardhat";
 import { interfaceId } from "lib/kconfig";
 
-import abiERC165 from "abis/IERC165.json";
+import abiERC165 from "abis/IERC165.sol/IERC165.json";
+import abiERC173 from "abis/IERC173.sol/IERC173.json";
 
-import abiERC721 from "abis/IERC721.json";
-import abiERC721Enumerable from "abis/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/IERC721Metadata.json";
-import abiERC721TokenReceiver from "abis/IERC721TokenReceiver.json";
+import abiERC721 from "abis/IERC721.sol/IERC721.json";
+import abiERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
+import abiERC721TokenReceiver from "abis/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
 
-import abiERC1155 from "abis/IERC1155.json";
-import abiERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
-import abiERC1155TokenReceiver from "abis/IERC1155TokenReceiver.json";
+import abiERC1155 from "abis/IERC1155.sol/IERC1155.json";
+import abiERC1155MetadataURI from "abis/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";
+import abiERC1155TokenReceiver from "abis/IERC1155TokenReceiver.sol/IERC1155TokenReceiver.json";
 
-import abiERC173 from "abis/IERC173.json";
+import abiOpenNFTs from "abis/IOpenNFTs.sol/IOpenNFTs.json";
+import abiOpenNFTsV0 from "abis/IOpenNFTsV0.sol/IOpenNFTsV0.json";
+import abiOpenNFTsV1 from "abis/IOpenNFTsV1.sol/IOpenNFTsV1.json";
+import abiOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
+import abiOpenNFTsV4 from "abis/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 
-import abiOpenNFTs from "abis/IOpenNFTs.json";
-import abiOpenNFTsV0 from "abis/IOpenNFTsV0.json";
-import abiOpenNFTsV1 from "abis/IOpenNFTsV1.json";
-import abiOpenNFTsV2 from "abis/IOpenNFTsV2.json";
-import abiOpenNFTsV3 from "abis/IOpenNFTsV3.json";
-import abiOpenNFTsV4 from "abis/IOpenNFTsV4.json";
-
-import abiCloneFactory from "abis/ICloneFactory.json";
-import abiNFTsFactory from "abis/INFTsFactory.json";
-import abiCloneFactoryV2 from "abis/ICloneFactoryV2.json";
-import abiNFTsFactoryV2 from "abis/INFTsFactoryV2.json";
-
-import { expect } from "chai";
+import abiCloneFactory from "abis/ICloneFactory.sol/ICloneFactory.json";
+import abiNFTsFactory from "abis/INFTsFactory.sol/INFTsFactory.json";
+import abiCloneFactoryV2 from "abis/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiNFTsFactoryV2 from "abis/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 
 const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
   await deployments.fixture("InterfacesIds");

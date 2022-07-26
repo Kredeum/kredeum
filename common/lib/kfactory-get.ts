@@ -7,8 +7,8 @@ import { getNftsFactory as factoryGetAddress } from "lib/kconfig";
 
 import { Contract } from "ethers";
 
-import abiCloneFactoryV2 from "abis/ICloneFactoryV2.json";
-import abiNFTsFactoryV2 from "abis/INFTsFactoryV2.json";
+import abiCloneFactoryV2 from "abis/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiNFTsFactoryV2 from "abis/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 
 // Cache nftsFactory(chainId)
 const nftsFactories: Map<number, Contract> = new Map();

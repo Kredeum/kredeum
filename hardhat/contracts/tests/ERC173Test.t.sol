@@ -3,8 +3,8 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC173.sol";
-import "../interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
 abstract contract ERC173Test is Test {
     address private _contract;
@@ -14,7 +14,10 @@ abstract contract ERC173Test is Test {
     address private _tester = address(0x4);
     uint256 private _tokenID0;
 
-    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
+    event OwnershipTransferred(
+        address indexed previousOwner,
+        address indexed newOwner
+    );
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -55,6 +58,10 @@ abstract contract ERC173Test is Test {
     }
 
     function testERC173SupportsInterface() public {
-        assertTrue(IERC165(address(_contract)).supportsInterface(type(IERC173).interfaceId));
+        assertTrue(
+            IERC165(address(_contract)).supportsInterface(
+                type(IERC173).interfaceId
+            )
+        );
     }
 }

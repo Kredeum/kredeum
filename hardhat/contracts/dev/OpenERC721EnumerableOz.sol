@@ -14,7 +14,7 @@
 
 pragma solidity 0.8.9;
 
-import "../open/OpenERC721.sol";
+import "OpenNFTs/contracts/components/OpenERC721.sol";
 import "../interfaces/IERC721Enumerable.sol";
 
 abstract contract OpenERC721EnumerableOz is IERC721Enumerable, OpenERC721 {

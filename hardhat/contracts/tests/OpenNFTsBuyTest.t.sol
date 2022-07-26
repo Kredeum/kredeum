@@ -3,11 +3,11 @@ pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
 
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC2981.sol";
-import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IOpenMarketable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC2981.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTsV4.sol";
+import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
 
 abstract contract OpenNFTsBuyTest is Test {
     address private _collection;
@@ -19,7 +19,10 @@ abstract contract OpenNFTsBuyTest is Test {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
+    function mintTest(address collection_, address minter_)
+        public
+        virtual
+        returns (uint256, string memory);
 
     function setUpOpenNFTsBuy() public {
         _collection = constructorTest(_owner);

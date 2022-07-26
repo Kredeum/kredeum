@@ -4,17 +4,17 @@ import { interfaceId, isProviderOnChainId, collectionKey } from "./kconfig";
 
 import { Contract } from "ethers";
 
-import IERC165 from "abis/IERC165.json";
-import IERC721 from "abis/IERC721.json";
-import IERC721Enumerable from "abis/IERC721Enumerable.json";
-import IERC721Metadata from "abis/IERC721Metadata.json";
-import IERC1155 from "abis/IERC1155.json";
-import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
-import IERC173 from "abis/IERC173.json";
+import IERC165 from "abis/IERC165.sol/IERC165.json";
+import IERC721 from "abis/IERC721.sol/IERC721.json";
+import IERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
+import IERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
+import IERC1155 from "abis/IERC1155.sol/IERC1155.json";
+import IERC1155MetadataURI from "abis/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";
+import IERC173 from "abis/IERC173.sol/IERC173.json";
 
-import IOpenMulti from "abis/IOpenMulti.json";
-import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
-import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
+import IOpenMulti from "abis/IOpenMulti.sol/IOpenMulti.json";
+import IOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import IOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 
 const collectionGetSupports = async (
   chainId: number,

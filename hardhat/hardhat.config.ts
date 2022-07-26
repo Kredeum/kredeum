@@ -137,8 +137,7 @@ const config: HardhatUserConfig = {
     {
       runOnCompile: true,
       clear: false,
-      flat: true,
-      except: ["@openzeppelin", "test", "lib"],
+      flat: false,
       spacing: 2,
       pretty: true,
       path: "../common/abis"
@@ -147,7 +146,7 @@ const config: HardhatUserConfig = {
 
   typechain: {
     target: "ethers-v5",
-    // externalArtifacts: ["../common/abis/*.json"],
+    // externalArtifacts: ["../common/abis/**/*.json"],
     outDir: "../common/types"
   },
 

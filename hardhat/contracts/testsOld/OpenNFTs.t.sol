@@ -2,14 +2,14 @@
 pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
-import "../interfaces/IERC165.sol";
-import "../interfaces/IERC2981.sol";
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC721Metadata.sol";
-import "../interfaces/IERC1155.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC2981.sol";
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import "OpenNFTs/contracts/interfaces/IERC1155.sol";
 
-import "../templates/OpenNFTsV4.sol";
+import "OpenNFTs/contracts/templates/OpenNFTsV4.sol";
 
 contract OpenNFTsOldTest is Test {
     OpenNFTsV4 internal op;

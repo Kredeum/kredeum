@@ -22,8 +22,7 @@ describe("12 Clone collection", function () {
     }
     nftsFactoryV2 = (await getContract("NFTsFactoryV2", deployer)) as unknown as NFTsFactoryV2;
     const openNFTsV3 = (await getContract("OpenNFTsV3")) as unknown as OpenNFTsV3;
-    await nftsFactoryV2.templateSet("ownable", openNFTsV3.address);
-    await nftsFactoryV2.templateSet("generic", openNFTsV3.address);
+    await nftsFactoryV2.templateSet("OpenNFTsV3", openNFTsV3.address);
   });
 
   // beforeEach(() => {});
@@ -33,7 +32,7 @@ describe("12 Clone collection", function () {
   });
 
   it("Should clone by contract", async function () {
-    await expect(nftsFactoryV2.clone("NFT collection", "COLL", "generic", [true, false])).to.be.not.reverted;
+    await expect(nftsFactoryV2.clone("NFT collection", "COLL", "OpenNFTsV3", [true, false])).to.be.not.reverted;
   });
 
   it("Should clone by lib Ownable collection", async function () {
