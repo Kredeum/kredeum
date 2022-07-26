@@ -5,7 +5,7 @@
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
  * Get file metadata

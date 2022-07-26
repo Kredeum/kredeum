@@ -1,14 +1,14 @@
 <?php
 /**
- * IPFS INSERT and UPSERT
+ * Storage INSERT and UPSERT
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Storage\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * IPFS upsert file
+ * Storage upsert file
  *
  * @param string $post_id Id post.
  *
@@ -23,16 +23,15 @@ function upsert( $post_id ) {
 }
 
 /**
- * IPFS insert file
+ * Storage insert file
  *
  * @param string $post_id Id post.
  *
  * @return string CID hash
  */
 function insert( $post_id ) {
-	if ( defined( 'NFT_STORAGE_KEY' ) ) {
-		$cid = nft_storage_add_and_pin( $post_id );
-	}
+    $cid = uploadOnStorage($post_id);
+
 	update_post_meta( $post_id, getStorageRef(), $cid );
 	return $cid;
 }

@@ -18,6 +18,7 @@
 namespace KredeumNFTs;
 
 define( 'KREDEUM_NFTS_VERSION', '{{version.latest}}' );
+define( 'STORAGE', '{{storage}}' );
 
 defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
@@ -75,6 +76,8 @@ define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NF
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
+
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/helpers/storage.php';
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
 
