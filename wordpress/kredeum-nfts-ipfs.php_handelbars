@@ -31,9 +31,11 @@ if ( is_admin() ) {
 	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
 	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/nfts/index.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/{{storage}}/index.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
+
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/query.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/import.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/multipart.php';
@@ -70,16 +72,16 @@ if ( is_admin() ) {
 	);
 }
 
-define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
+define( 'STORAGE_GATEWAY', '{{ipfsGateway}}' );
 define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/cid.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/helpers/storage.php';
-
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
+
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/helpers/storage.php';
 
 // require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 

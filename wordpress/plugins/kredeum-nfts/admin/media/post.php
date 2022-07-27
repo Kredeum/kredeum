@@ -1,24 +1,24 @@
 <?php
 /**
- * IPFS meta_boxes
+ * Storage meta_boxes
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * IPFS meta_boxes action
+ * Storage meta_boxes action
  * affiche box avec CID
  */
 add_action(
 	'add_meta_boxes_attachment',
 	function () {
 		add_meta_box(
-			'ipfs_link_box',
-			'IPFS',
+			STORAGE . '_link_box',
+			strtoupper( STORAGE ),
 			function ( $post ) {
-				$cid = $post->_kre_cid;
+				$cid = $post->{getStorageRef()};
 				if ( $cid ) {
 					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
 					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
@@ -29,7 +29,7 @@ add_action(
 );
 
 /**
- * IPFS fileds filter
+ * Storage fileds filter
  */
 add_filter(
 	'attachment_fields_to_edit',
@@ -37,12 +37,12 @@ add_filter(
 		$file = get_attached_file_meta( $post->ID );
 
 		if ( ! $file->cid ) {
-			$form_fields['_kre_cid'] = array(
-				'label' => __( 'Archive to IPFS' ),
+			$form_fields[ getStorageRef() ] = array(
+				'label' => __( 'Archive to ' . STORAGE ),
 				'value' => '',
 				'input' => 'html',
-				'html'  => '<label for="attachments-' . $post->ID . '-ipfs"> ' .
-				'<input type="checkbox" id="attachments-' . $post->ID . '-ipfs" name="attachments[' . $post->ID . '][ipfs]" value="1" /></label>  ',
+				'html'  => '<label for="attachments-' . $post->ID . '-' . STORAGE . '"> ' .
+				'<input type="checkbox" id="attachments-' . $post->ID . '-' . STORAGE . '" name="attachments[' . $post->ID . '][' . STORAGE . ']" value="1" /></label>  ',
 			);
 		}
 		return $form_fields;
@@ -52,13 +52,13 @@ add_filter(
 );
 
 /**
- * IPFS edit attachement action
+ * Storage edit attachement action
  */
 add_action(
 	'edit_attachment',
 	function ( $attachment_id ) {
-		if ( isset( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] )
-		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] ) ) ) {
+		if ( isset( $_REQUEST['attachments'][ $attachment_id ][ STORAGE ] )
+		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ][ STORAGE ] ) ) ) {
 			insert( $attachment_id );
 		}
 	}

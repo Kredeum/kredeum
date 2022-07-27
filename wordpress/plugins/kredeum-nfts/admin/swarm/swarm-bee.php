@@ -5,7 +5,7 @@
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Swarm;
+namespace KredeumNFTs\Storage\Swarm;
 
 	/**
 	 * SWARM add and pin file with Swarm Gateway

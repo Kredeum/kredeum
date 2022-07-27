@@ -1,6 +1,6 @@
 <?php
 /**
- * Public IPFS CID function
+ * Public Storage CID function
  *
  * @package kredeum/nfts
  */
@@ -17,7 +17,7 @@ namespace KredeumNFTs\Storage;
 function get_attached_file_meta( $post_id ) {
 	$ret = new \stdClass();
 
-	$ret->cid      = get_post_meta( $post_id, '_kre_cid', true );
+	$ret->cid      = get_post_meta( $post_id, getStorageRef(), true );
 	$ret->filename = basename( get_post_meta( $post_id, '_wp_attached_file', true ) );
 
 	return $ret;

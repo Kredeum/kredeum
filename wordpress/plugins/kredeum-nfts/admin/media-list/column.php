@@ -1,14 +1,14 @@
 <?php
 /**
- * IPFS columns
+ * Storage columns
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- *  IPFS 2 columns filter
+ *  Storage 2 columns filter
  */
 add_filter(
 	'manage_media_columns',
@@ -20,7 +20,7 @@ add_filter(
 );
 
 /**
- *  IPFS 2 columns action
+ *  Storage 2 columns action
  */
 add_action(
 	'manage_media_custom_column',
@@ -28,9 +28,9 @@ add_action(
 		global $post;
 
 		if ( 'kre-cid' === $name ) {
-			if ( $post->_kre_cid ) {
+			if ( $post->{getStorageRef()} ) {
 				echo wp_kses(
-					link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ),
+					link( $post->{getStorageRef()}, substr( $post->{getStorageRef()}, 0, 12 ) . '...' ),
 					array( 'a' => array( 'href' => array() ) )
 				);
 			}
@@ -51,7 +51,8 @@ add_action(
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
-					. ' storage="' . esc_attr( 'ipfs' )
+					. esc_attr( getOptionalStorageAttrs() )
+					. ' storage="' . esc_attr( STORAGE )
 					. '"/>'
 				);
 			}

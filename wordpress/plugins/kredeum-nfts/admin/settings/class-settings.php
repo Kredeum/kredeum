@@ -9,6 +9,8 @@
 
 namespace KredeumNFTs\Settings;
 
+use function KredeumNFTs\Storage\getSettingsInfo;
+
 /**
  * Class Kredeum_NFTs_Settings
  *
@@ -21,18 +23,35 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = 'ipfs_settings';
+	private $slug = STORAGE . '_settings';
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		// Hook into the admin menu.
-		add_action( 'admin_menu', array( $this, 'page_create' ) );
+		if ( STORAGE === 'ipfs' ) {
+			add_action( 'admin_menu', array( $this, 'page_create' ) );
+		} else {
+			add_action( 'admin_menu', array( $this, 'menu_create' ) );
+		}
 
 		// Add Settings and Fields.
 		add_action( 'admin_init', array( $this, 'sections_create' ) );
 		add_action( 'admin_init', array( $this, 'fields_create' ) );
+	}
+
+	/**
+	 * Menu create
+	 */
+	public function menu_create() {
+	$page_title = __( 'SWARM', 'kredeum-nfts' );
+	$menu_title = __( 'SWARM', 'kredeum-nfts' );
+	$capability = 'edit_posts';
+	$menu_slug  = $this->slug;
+	$callback   = array( $this, 'page_content' );
+
+	add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, 'dashicons-format-gallery', 11 );
 	}
 
 	/**
@@ -81,21 +100,8 @@ class Settings {
 		switch ( $arguments['id'] ) {
 			case 'first_section':
 				echo wp_kses(
-					'<p>' .
-					__( 'Setup here your decentralized storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
-					'</p><p>' .
-					__( 'For any help read the', 'kredeum-nfts' ) .
-					' <a href="https://docs.kredeum.tech/user-guide" target="_blank">' .
-					__( 'User Guide', 'kredeum-nfts' ) .
-					'</a> ' .
-					__( 'and related ', 'kredeum-nfts' ) .
-					' <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank">' .
-					__( 'Settings instructions', 'kredeum-nfts' ) .
-					'</a> ' .
-					__( 'or join us on', 'kredeum-nfts' ) .
-					' <a href="https://discord.gg/Vz5AyU2Nfx" target="_blank">' .
-					__( 'Discord', 'kredeum-nfts' ) .
-					'</a></p>',
+					// Get text of settings page
+					getSettingsInfo(),
 					array(
 						'p' => array(),
 						'a' => array(

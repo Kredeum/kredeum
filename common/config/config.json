@@ -3,7 +3,8 @@
     "latest": "0.13.1",
     "stable": "0.13.0"
   },
-  "storage": "ipfs",
+  "storage": "swarm",
   "ipfsGateway": "https://ipfs.io/ipfs/",
-  "swarmGateway": "https://api.gateway.ethswarm.org/bzz/"
+  "swarmGateway": "https://api.gateway.ethswarm.org/bzz/",
+  "swarmServer": "https://api.gateway.ethswarm.org"
 }

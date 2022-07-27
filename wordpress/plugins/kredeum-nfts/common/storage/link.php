@@ -1,24 +1,24 @@
 <?php
 /**
- * Public SWARM LINK function
+ * Public Storage LINK function
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Swarm;
+namespace KredeumNFTs\Storage;
 
 /**
- * Return SWARM url
+ * Return Storage url
  *
  * @param string $cid file CID.
  * @return string cid with path
  */
 function url( $cid ) {
-	return $cid ? SWARM_GATEWAY . $cid : '';
+	return $cid ? STORAGE_GATEWAY . $cid : '';
 }
 
 /**
- * Return SWARM link
+ * Return Storage link
  *
  * @param string $cid : file CID.
  * @param string $text : text for the link.
