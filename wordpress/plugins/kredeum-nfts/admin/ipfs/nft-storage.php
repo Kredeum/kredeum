@@ -7,6 +7,8 @@
 
 namespace KredeumNFTs\Storage\Ipfs;
 
+use function \KredeumNFTs\Storage\get_attached_file_meta;
+
 /**
  * IPFS add and pin file inside directory with NFT Storage
  *

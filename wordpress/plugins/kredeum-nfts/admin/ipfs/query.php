@@ -7,6 +7,8 @@
 
 namespace KredeumNFTs\Storage\Ipfs;
 
+use function \KredeumNFTs\Storage\getStorageRef;
+
 /**
  * IPFS upsert file
  *
