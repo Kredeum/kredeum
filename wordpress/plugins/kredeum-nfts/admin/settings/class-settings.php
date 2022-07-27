@@ -9,7 +9,7 @@
 
 namespace KredeumNFTs\Settings;
 
-use function KredeumNFTs\Storage\getSettingsInfo;
+use function KredeumNFTs\Storage\get_settings_info;
 
 /**
  * Class Kredeum_NFTs_Settings
@@ -45,13 +45,13 @@ class Settings {
 	 * Menu create
 	 */
 	public function menu_create() {
-	$page_title = __( 'SWARM', 'kredeum-nfts' );
-	$menu_title = __( 'SWARM', 'kredeum-nfts' );
-	$capability = 'edit_posts';
-	$menu_slug  = $this->slug;
-	$callback   = array( $this, 'page_content' );
+		$page_title = __( 'SWARM', 'kredeum-nfts' );
+		$menu_title = __( 'SWARM', 'kredeum-nfts' );
+		$capability = 'edit_posts';
+		$menu_slug  = $this->slug;
+		$callback   = array( $this, 'page_content' );
 
-	add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, 'dashicons-format-gallery', 11 );
+		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, 'dashicons-format-gallery', 11 );
 	}
 
 	/**
@@ -100,8 +100,8 @@ class Settings {
 		switch ( $arguments['id'] ) {
 			case 'first_section':
 				echo wp_kses(
-					// Get text of settings page
-					getSettingsInfo(),
+					// Get text of settings page.
+					get_settings_info(),
 					array(
 						'p' => array(),
 						'a' => array(

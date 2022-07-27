@@ -7,6 +7,8 @@
 
 namespace KredeumNFTs\Storage\Swarm;
 
+use function \KredeumNFTs\Storage\get_attached_file_meta;
+
 	/**
 	 * SWARM add and pin file with Swarm Gateway
 	 *

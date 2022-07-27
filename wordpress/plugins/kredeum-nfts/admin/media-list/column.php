@@ -28,9 +28,9 @@ add_action(
 		global $post;
 
 		if ( 'kre-cid' === $name ) {
-			if ( $post->{getStorageRef()} ) {
+			if ( $post->{get_storage_ref()} ) {
 				echo wp_kses(
-					link( $post->{getStorageRef()}, substr( $post->{getStorageRef()}, 0, 12 ) . '...' ),
+					link( $post->{get_storage_ref()}, substr( $post->{get_storage_ref()}, 0, 12 ) . '...' ),
 					array( 'a' => array( 'href' => array() ) )
 				);
 			}
@@ -51,7 +51,7 @@ add_action(
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
-					. esc_attr( getOptionalStorageAttrs() )
+					. esc_attr( get_optional_storage_attrs() )
 					. ' storage="' . esc_attr( STORAGE )
 					. '"/>'
 				);

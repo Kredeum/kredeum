@@ -23,13 +23,13 @@ add_action(
 	}
 );
 
-function page_content() {
-	echo '<div class="wrap">';
-	echo '<h2>' . esc_html( __( 'Swarm settings', 'kredeum-nfts' ) ) . '</h2>';
+// function page_content() {.
+// echo '<div class="wrap">';.
+// echo '<h2>' . esc_html( __( 'Swarm settings', 'kredeum-nfts' ) ) . '</h2>';.
 
-	echo '<form action="options.php" method="POST">';
-	settings_fields( 'swarm_settings' );
-	do_settings_sections( 'swarm_settings' );
-	submit_button();
-	echo '</form></div>';
-}
+// echo '<form action="options.php" method="POST">';.
+// settings_fields( 'swarm_settings' );.
+// do_settings_sections( 'swarm_settings' );.
+// submit_button();.
+// echo '</form></div>';.
+// }.

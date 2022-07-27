@@ -54,7 +54,7 @@
 
     // ACTION : async refresh Collections
     !txt ? ($refreshing = true) : (refreshingWp = true);
-    // await collectionStore.refreshSubList(chainId, account, mintable);
+    await collectionStore.refreshSubList(chainId, account, mintable);
     !txt ? ($refreshing = false) : (refreshingWp = false);
     console.log("COLLECTIONS", $collections);
 

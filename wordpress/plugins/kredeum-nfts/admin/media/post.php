@@ -18,7 +18,7 @@ add_action(
 			STORAGE . '_link_box',
 			strtoupper( STORAGE ),
 			function ( $post ) {
-				$cid = $post->{getStorageRef()};
+				$cid = $post->{get_storage_ref()};
 				if ( $cid ) {
 					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
 					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
@@ -37,8 +37,8 @@ add_filter(
 		$file = get_attached_file_meta( $post->ID );
 
 		if ( ! $file->cid ) {
-			$form_fields[ getStorageRef() ] = array(
-				'label' => __( 'Archive to ' . STORAGE ),
+			$form_fields[ get_storage_ref() ] = array(
+				'label' => __( 'Archive to ' ) . STORAGE,
 				'value' => '',
 				'input' => 'html',
 				'html'  => '<label for="attachments-' . $post->ID . '-' . STORAGE . '"> ' .

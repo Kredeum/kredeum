@@ -7,7 +7,7 @@
 
 namespace KredeumNFTs\Settings;
 
-use function KredeumNFTs\Storage\getStorageSpecialFields;
+use function KredeumNFTs\Storage\get_storage_special_fields;
 
 /**
  * Kredeum NFTs fields definition
@@ -33,6 +33,6 @@ function fields() {
 				'default' => '',
 			),
 		),
-		getStorageSpecialFields()
+		get_storage_special_fields()
 	);
 }

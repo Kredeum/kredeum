@@ -30,8 +30,8 @@ function upsert( $post_id ) {
  * @return string CID hash
  */
 function insert( $post_id ) {
-	$cid = uploadOnStorage( $post_id );
+	$cid = upload_on_storage( $post_id );
 
-	update_post_meta( $post_id, getStorageRef(), $cid );
+	update_post_meta( $post_id, get_storage_ref(), $cid );
 	return $cid;
 }

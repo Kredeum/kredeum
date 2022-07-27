@@ -7,19 +7,35 @@
 
 namespace KredeumNFTs\Storage;
 
-function getStorageRef() {
+/**
+ * Get storage ref
+ */
+function get_storage_ref() {
 	return STORAGE === 'ipfs' ? '_kre_cid' : '_kre_swarmref';
 }
 
-function getOptionalStorageAttrs() {
-	return ( ( STORAGE === 'swarm' ) ? ( defined( SWARM_NODE_URL ) && defined( SWARM_SERVER ) ) ? ( SWARM_NODE_URL !== SWARM_SERVER ) ? ' swarmnode=' . esc_attr( SWARM_NODE_URL ) . ' batchid=' . esc_attr( SWARM_BATCH_ID ) : '' : '' : '' );
+/**
+ * Get Swarm custom node url & batchId
+ */
+function get_optional_storage_attrs() {
+	return ( ( STORAGE === 'swarm' ) ? ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) && defined( 'SWARM_SERVER' ) ) ? ( SWARM_NODE_URL !== SWARM_SERVER ) ? ' swarmnode=' . esc_attr( SWARM_NODE_URL ) . ' batchid=' . esc_attr( SWARM_BATCH_ID ) : '' : '' : '' );
 }
 
-function uploadOnStorage( $post_id ) {
+/**
+ * Upload file on Ipfs or Swarm storage
+ *
+ * @param string $post_id ID of the post uploaded.
+ *
+ * @return string $post_id
+ */
+function upload_on_storage( $post_id ) {
 	return STORAGE === 'ipfs' ? Ipfs\insert( $post_id ) : Swarm\insert( $post_id );
 }
 
-function getStorageSpecialFields() {
+/**
+ * Get options regarding to the storage
+ */
+function get_storage_special_fields() {
 	return (
 		STORAGE === 'ipfs' ?
 			array(
@@ -67,7 +83,10 @@ function getStorageSpecialFields() {
 			);
 }
 
-function getSettingsInfo() {
+/**
+ * Get Settings page intro text
+ */
+function get_settings_info() {
 	return STORAGE === 'ipfs' ?
 		'<p>' .
 		__( 'Setup here your decentralized storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
