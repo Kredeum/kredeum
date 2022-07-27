@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { expect } from "chai";
 
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
-import { BigNumber, Wallet } from "ethers";
+import { BigNumber, Wallet, Contract } from "ethers";
 
 import type { OpenBound } from "soltypes/contracts/templates";
 import abiERC165 from "abis/IERC165.sol/IERC165.json";
@@ -45,9 +46,12 @@ describe("OpenBound", () => {
   beforeEach(async () => {
     await provider.send("hardhat_reset", []);
 
-    if (chainId === 31337) await deployments.fixture(["OpenBound"]);
+    // if (chainId === 31337) await deployments.fixture(["OpenBound"]);
+    // openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
 
-    openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
+    const factory = await ethers.getContractFactory("OpenBound");
+    openBound = (await (await factory.deploy()).deployed()) as unknown as OpenBound;
+    await openBound.initialize("OpenBound", "BOUND", deployer.address, 10);
 
     tokenID0deployer = String(await openBound.getTokenID(deployer.address, cidUint0));
     tokenIDKdeployer = String(await openBound.getTokenID(deployer.address, cidUintK));
@@ -284,8 +288,8 @@ describe("OpenBound", () => {
       expect(tokenURIK).to.be.equal(ipfsK);
     });
 
-    it("Should get tokenIDK tester1", async () => {
-      const getTokenIDK = await openBound.getTokenID(cidUintK, tester1.address);
+    it("Should get tokenIDK tester1Z", async () => {
+      const getTokenIDK = await openBound.getTokenID(tester1.address, cidUintK);
       await openBound.connect(tester1).mint(cidUintK);
       const tokenIDK = await openBound.tokenOfOwnerByIndex(tester1.address, 0);
       const tokenURIK = await openBound.tokenURI(tokenIDK);
@@ -303,7 +307,7 @@ describe("OpenBound", () => {
     });
 
     it("Should get different tokenIDK", async () => {
-      const getTokenIDKdeployer = await openBound.getTokenID(deployer.address, cidUint0);
+      const getTokenIDKdeployer = await openBound.getTokenID(deployer.address, cidUintK);
       const getTokenIDKtester1 = await openBound.getTokenID(tester1.address, cidUintK);
 
       expect(getTokenIDKdeployer).to.be.not.equal(getTokenIDKtester1);

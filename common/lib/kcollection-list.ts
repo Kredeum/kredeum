@@ -7,11 +7,12 @@ import { DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 import { collectionMerge } from "./kcollection-get";
 
-import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
+import { getChecksumAddress, getNetwork, collectionUrl, collectionListKey } from "./kconfig";
 
 import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
 import { covalentGet, covalentCollectionList } from "lib/api-covalent";
 import { thegraphGet, thegraphCollectionList } from "lib/api-thegraph";
+import { moralisGet, moralisCollectionList } from "lib/api-moralis";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -101,6 +102,8 @@ const collectionList = async (
     } else if (thegraphGet(chainId)) {
       collectionsOwner = await thegraphCollectionList(chainId, account);
       console.log("collectionList thegraphCollectionList", collectionsOwner);
+    } else if (moralisGet(chainId)) {
+      collectionsOwner = await moralisCollectionList(chainId, account);
     } else if (covalentGet(chainId)) {
       collectionsOwner = await covalentCollectionList(chainId, account);
       console.log("collectionList covalentCollectionList", collectionsOwner);
@@ -120,14 +123,16 @@ const collectionList = async (
     );
   }
 
-  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
+  console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
 export {
   collectionList,
   collectionListMerge,
-  covalentCollectionList,
-  thegraphCollectionList,
+  moralisCollectionList as collectionListMoralis,
+  alchemyCollectionList as collectionListAlchemy,
+  thegraphCollectionList as collectionListFromTheGraph,
+  covalentCollectionList as collectionListFromCovalent,
   collectionListFromFactory
 };

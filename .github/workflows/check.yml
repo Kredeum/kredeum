@@ -23,7 +23,7 @@ jobs:
           run_install: true
 
       - name: Check sources
-        run: pnpm run check
+        run: pnpm run check-all
         env:
           ENVIR: PROD
           NODE_DEBUG: false

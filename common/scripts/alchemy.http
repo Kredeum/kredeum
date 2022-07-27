@@ -9,8 +9,18 @@ GET {{urlEth}}/getNFTs?owner={{address}}&withMetadata=false
 ### getNFTs on mainnet from address with metadata
 GET {{urlEth}}/getNFTs?owner={{address}}
 
-### getContractMetadata collection metadata 
-GET {{urlEth}}/getContractMetadata?contractAddress=0xf6d53c7e96696391bb8e73be75629b37439938af
+### getContractMetadata on mainnet collection metadata erc1155
+GET {{urlEth}}/getContractMetadata?contractAddress=0xd07dc4262BCDbf85190C01c996b4C06a461d2430
+
+### getContractMetadata on mainnet collection metadata erc721
+GET {{urlEth}}/getContractMetadata?contractAddress=0xa406489360A47Af2C74fc1004316A64e469646A5
+
+### getContractMetadata on polygon collection metadata 
+GET {{urlPol}}/getContractMetadata?contractAddress=0x875123bc716829Bb83a3eA2Db3AbD8BB8DCc3519
+
+
+### getContractMetadata on polygon collection metadata 
+GET {{urlPol}}/getContractMetadata?contractAddress=0x76c52b2c4b2D2666663cE3318a5f35f912bd25C3
 
 
 ### getNFTs on polygon from address without metadata

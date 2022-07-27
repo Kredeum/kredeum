@@ -31,7 +31,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
         .catch((err) => console.log(err));
     }
 
-    const openBound = await getContract("contracts/templates/OpenBound.sol:OpenBound", deployer);
+    const openBound = await getContract(contractName, deployer);
     await (openBound as IOpenBound).initialize(contractName, "BOUND", deployer.address, maxSupply);
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);

@@ -8,6 +8,7 @@ import { nftGetMetadata } from "./knft-get-metadata";
 import { alchemyGet, alchemyNftList } from "lib/api-alchemy";
 import { covalentGet, covalentNftList } from "lib/api-covalent";
 import { thegraphGet, thegraphNftList } from "lib/api-thegraph";
+import { moralisGet, moralisNftList } from "lib/api-moralis";
 
 import { getNetwork, isProviderOnChainId } from "./kconfig";
 import { IERC721, IERC721Enumerable } from "soltypes/contracts/interfaces";
@@ -84,6 +85,8 @@ const nftListTokenIds = async (
     } else if (thegraphGet(chainId)) {
       nftsTokenIds = await thegraphNftList(chainId, collection, account, limit);
       console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
+    } else if (moralisGet(chainId)) {
+      nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
     } else if (covalentGet(chainId)) {
       nftsTokenIds = await covalentNftList(chainId, collection, account, limit);
       console.log("nftListTokenIds covalentNftList", nftsTokenIds);
@@ -161,4 +164,12 @@ const nftList = async (
   return nftsWithMetadata;
 };
 
-export { nftList, nftListTokenIds, nftListFromContract, covalentNftList, thegraphNftList };
+export {
+  nftList,
+  nftListTokenIds,
+  nftListFromContract,
+  moralisNftList as nftListMoralis,
+  alchemyNftList as nftListAlcheme,
+  thegraphNftList as nftListThegraph,
+  covalentNftList as nftListCovalent
+};

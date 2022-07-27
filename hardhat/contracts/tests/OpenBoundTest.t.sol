@@ -1,14 +1,12 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "../../lib/forge-std/src/Test.sol";
-
-import "OpenNFTs/contracts/templates/OpenBound.sol";
+import "../templates/OpenBound.sol";
 import "OpenNFTs/contracts/interfaces/ITest.sol";
-import {OpenERC721Test} from "./OpenERC721Test.t.sol";
-import {ERC173Test} from "./ERC173Test.t.sol";
-import {ERC721NonTransferableTest} from "./ERC721NonTransferableTest.t.sol";
-import {OpenPauseableTest} from "./OpenPauseableTest.t.sol";
+import {OpenERC721Test} from "OpenNFTs/contracts/tests/OpenERC721Test.t.sol";
+import {ERC173Test} from "OpenNFTs/contracts/tests/ERC173Test.t.sol";
+import {ERC721NonTransferableTest} from "OpenNFTs/contracts/tests/ERC721NonTransferableTest.t.sol";
+import {OpenPauseableTest} from "OpenNFTs/contracts/tests/OpenPauseableTest.t.sol";
 
 contract OpenBoundTest is ITest, OpenERC721Test, ERC173Test, ERC721NonTransferableTest, OpenPauseableTest {
     uint256 private _cid = 777;

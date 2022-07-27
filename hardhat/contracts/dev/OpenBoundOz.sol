@@ -3,11 +3,11 @@ pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 import "../interfaces/IOpenBoundOz.sol";
-import "../interfaces/IOpenPauseable.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC173.sol";
-import "../library/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 // contract OpenBound is ERC721, IOpenBoundOz, IERC173, IERC721Enumerable, IERC721Metadata {

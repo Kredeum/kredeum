@@ -64,9 +64,6 @@ specifiers:
   vue-style-loader: ^4.1.3
   webpack: ^5.74.0
 
-dependencies:
-  OpenNFTs: github.com/Kredeum/OpenNFTs/742459012f0c297ce0cf354b406730d3b5e005a1
-
 devDependencies:
   '@ethersproject/abi': 5.6.4
   '@ethersproject/abstract-provider': 5.6.1
@@ -93,6 +90,7 @@ devDependencies:
   '@types/readline-sync': 1.4.4
   '@typescript-eslint/eslint-plugin': 5.31.0_d5zwcxr4bwkhmuo464cb3a2puu
   '@typescript-eslint/parser': 5.31.0_he2ccbldppg44uulnyq4rwocfa
+  OpenNFTs: github.com/Kredeum/OpenNFTs/3442ed7a0cc5bba35e078382211aacabfb1fd0e4
   chai: 4.3.6
   css-loader: 6.7.1_webpack@5.74.0
   dotenv: 16.0.1
@@ -1336,8 +1334,8 @@ packages:
       '@types/node': 18.6.1
     dev: true
 
-  /@types/prettier/2.6.3:
-    resolution: {integrity: sha512-ymZk3LEC/fsut+/Q5qejp6R9O1rMxz3XaRHDV6kX8MrGAhOSPqVARbDi+EZvInBpw+BnCX3TD240byVkOfQsHg==}
+  /@types/prettier/2.6.4:
+    resolution: {integrity: sha512-fOwvpvQYStpb/zHMx0Cauwywu9yLDmzWiiQBC7gJyq5tYLUXFZvDG7VK1B7WBxxjBJNKFOZ0zLoOQn8vmATbhw==}
     dev: true
 
   /@types/prompt-sync/4.1.1:
@@ -2952,18 +2950,18 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001370
-      electron-to-chromium: 1.4.201
+      electron-to-chromium: 1.4.202
     dev: true
 
-  /browserslist/4.21.2:
-    resolution: {integrity: sha512-MonuOgAtUB46uP5CezYbRaYKBNt2LxP0yX+Pmj4LkcDFGkn9Cbpi83d9sCjwQDErXsIJSzY5oKGDbgOlF/LPAA==}
+  /browserslist/4.21.3:
+    resolution: {integrity: sha512-898rgRXLAyRkM1GryrrBHGkqA5hlpkV5MhtZwg9QXeiyLUYs2k00Un05aX5l2/yJIOObYKOpS2JNo8nJDE7fWQ==}
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001370
-      electron-to-chromium: 1.4.201
+      electron-to-chromium: 1.4.202
       node-releases: 2.0.6
-      update-browserslist-db: 1.0.5_browserslist@4.21.2
+      update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: true
 
   /bs58/4.0.1:
@@ -4240,8 +4238,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.201:
-    resolution: {integrity: sha512-87D0gEHbhLZgZxZl2e9/rC/I2BicPC/y9wR/cuaJSqvkgN41s5EImi89S7YExHc7F0OBXiKsABZt9mmb9bqFcQ==}
+  /electron-to-chromium/1.4.202:
+    resolution: {integrity: sha512-JYsK2ex9lmQD27kj19fhXYxzFJ/phLAkLKHv49A5UY6kMRV2xED3qMMLg/voW/+0AR6wMiI+VxlmK9NDtdxlPA==}
     dev: true
 
   /elliptic/6.5.4:
@@ -10876,7 +10874,7 @@ packages:
     hasBin: true
     dependencies:
       '@types/mkdirp': 0.5.2
-      '@types/prettier': 2.6.3
+      '@types/prettier': 2.6.4
       '@types/resolve': 0.0.8
       chalk: 2.4.2
       glob: 7.2.3
@@ -11046,7 +11044,7 @@ packages:
     peerDependencies:
       typescript: '>=4.3.0'
     dependencies:
-      '@types/prettier': 2.6.3
+      '@types/prettier': 2.6.4
       debug: 4.3.4
       fs-extra: 7.0.1
       glob: 7.1.7
@@ -11178,13 +11176,13 @@ packages:
       isobject: 3.0.1
     dev: true
 
-  /update-browserslist-db/1.0.5_browserslist@4.21.2:
+  /update-browserslist-db/1.0.5_browserslist@4.21.3:
     resolution: {integrity: sha512-dteFFpCyvuDdr9S/ff1ISkKt/9YZxKjI9WlRR99c180GaztJtRa/fn18FdxGVKVsnPY7/a/FDN68mcvUmP4U7Q==}
     hasBin: true
     peerDependencies:
       browserslist: '>= 4.21.0'
     dependencies:
-      browserslist: 4.21.2
+      browserslist: 4.21.3
       escalade: 3.1.1
       picocolors: 1.0.0
     dev: true
@@ -12150,7 +12148,7 @@ packages:
       '@webassemblyjs/wasm-parser': 1.11.1
       acorn: 8.8.0
       acorn-import-assertions: 1.8.0_acorn@8.8.0
-      browserslist: 4.21.2
+      browserslist: 4.21.3
       chrome-trace-event: 1.0.3
       enhanced-resolve: 5.10.0
       es-module-lexer: 0.9.3
@@ -12579,11 +12577,11 @@ packages:
       ethers: 5.6.9
     dev: true
 
-  github.com/Kredeum/OpenNFTs/742459012f0c297ce0cf354b406730d3b5e005a1:
-    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/742459012f0c297ce0cf354b406730d3b5e005a1}
+  github.com/Kredeum/OpenNFTs/3442ed7a0cc5bba35e078382211aacabfb1fd0e4:
+    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/3442ed7a0cc5bba35e078382211aacabfb1fd0e4}
     name: OpenNFTs
-    version: 0.0.2
-    dev: false
+    version: 0.0.5
+    dev: true
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:
     resolution: {tarball: https://codeload.github.com/ethereumjs/ethereumjs-abi/tar.gz/ee3994657fa7a427238e6ba92a84d0b529bbcde0}

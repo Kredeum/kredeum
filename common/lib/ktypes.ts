@@ -14,6 +14,7 @@ type NetworkType = {
   blockExplorerUrls: Array<string>;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
+  moralis?: { active: boolean; url?: string };
   covalent?: { active: boolean };
   mainnet?: boolean;
   testnet?: boolean;
@@ -103,6 +104,7 @@ type NftType = {
   chainName?: string;
   name?: string;
   contractName?: string;
+  contractSymbol?: string;
   description?: string;
   tokenJson?: NftMetadata;
   metadata?: NftMetadata | unknown;

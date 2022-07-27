@@ -477,11 +477,11 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "openNFTs": "",
-    "openMulti": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
+    "openNFTs": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
+    "openMulti": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
     "openBound": "0x17b5cC29c8fEE4A7f4a9a4D3aA89CEeceb1e2127",
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
-    "nftsFactoryV2": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
+    "nftsFactoryV2": "0xbfB60950de35B0EC02F67E3729925AD872707dAd",
     "testnet": true
   }
 ]

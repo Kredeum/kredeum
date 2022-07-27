@@ -34,7 +34,7 @@ jobs:
           run_install: true
 
       - name: Build
-        run: pnpm run build
+        run: pnpm run build-all
         env:
           ENVIR: PROD
           NODE_DEBUG: false

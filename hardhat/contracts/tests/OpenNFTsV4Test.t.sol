@@ -1,19 +1,17 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "../../lib/forge-std/src/Test.sol";
-
-import "OpenNFTs/contracts/templates/OpenNFTsV4.sol";
-import "./OpenERC721Test.t.sol";
-import "./OpenNFTsBurnTest.t.sol";
-import "./OpenNFTsBuyTest.t.sol";
-import "./OpenNFTsInitializeTest.t.sol";
-import "./OpenNFTsSetupTest.t.sol";
-import "./ERC173Test.t.sol";
-import "./ERC2981Test.t.sol";
-import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
-import "./OpenPauseableTest.t.sol";
-import "./OpenMarketableTest.t.sol";
+import "../templates/OpenNFTsV4.sol";
+import "OpenNFTs/contracts/tests/OpenERC721Test.t.sol";
+import "OpenNFTs/contracts/tests/OpenNFTsBurnTest.t.sol";
+import "OpenNFTs/contracts/tests/OpenNFTsBuyTest.t.sol";
+// import "OpenNFTs/contracts/tests/OpenNFTsInitializeTest.t.sol";
+import "OpenNFTs/contracts/tests/OpenNFTsSetupTest.t.sol";
+import "OpenNFTs/contracts/tests/ERC173Test.t.sol";
+import "OpenNFTs/contracts/tests/ERC2981Test.t.sol";
+import {ERC721TransferableTest} from "OpenNFTs/contracts/tests/ERC721TransferableTest.t.sol";
+import "OpenNFTs/contracts/tests/OpenPauseableTest.t.sol";
+import "OpenNFTs/contracts/tests/OpenMarketableTest.t.sol";
 import "OpenNFTs/contracts/interfaces/ITest.sol";
 
 contract OpenNFTsV4Test is
@@ -21,7 +19,7 @@ contract OpenNFTsV4Test is
     OpenERC721Test,
     OpenNFTsBurnTest,
     OpenNFTsBuyTest,
-    OpenNFTsInitializeTest,
+    // OpenNFTsInitializeTest,
     OpenNFTsSetupTest,
     ERC173Test,
     ERC2981Test,
@@ -103,7 +101,7 @@ contract OpenNFTsV4Test is
         setUpERC721Transferable();
         setUpOpenNFTsBurn();
         setUpOpenNFTsBuy();
-        setUpOpenNFTsInitialize();
+        // setUpOpenNFTsInitialize();
         setUpOpenNFTsSetup();
     }
 }

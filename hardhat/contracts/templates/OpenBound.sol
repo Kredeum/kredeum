@@ -48,9 +48,9 @@ import "OpenNFTs/contracts/components/OpenCloneable.sol";
 
 import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenBound.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC721Metadata.sol";
-import "../library/Bafkrey.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenCloneable, OpenPauseable {
@@ -101,7 +101,7 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenClonea
         myTokenID = _tokenID(msg.sender, cid);
     }
 
-    function getTokenID(address addr, uint256 cid) external view override(IOpenBound) returns (uint256 tokenID) {
+    function getTokenID(address addr, uint256 cid) external pure override(IOpenBound) returns (uint256 tokenID) {
         tokenID = _tokenID(addr, cid);
     }
 

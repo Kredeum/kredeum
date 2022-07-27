@@ -1,13 +1,11 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "../../lib/forge-std/src/Test.sol";
-
 import "../OpenNFTsV3.sol";
-import "./OpenERC721Test.t.sol";
-import "./OpenNFTsBurnTest.t.sol";
+import "OpenNFTs/contracts/tests/OpenERC721Test.t.sol";
+import "OpenNFTs/contracts/tests/OpenNFTsBurnTest.t.sol";
 import "OpenNFTs/contracts/interfaces/ITest.sol";
-import {ERC721TransferableTest} from "./ERC721TransferableTest.t.sol";
+import {ERC721TransferableTest} from "OpenNFTs/contracts/tests/ERC721TransferableTest.t.sol";
 
 contract OpenNFTsV3Test is ITest, OpenERC721Test, OpenNFTsBurnTest, ERC721TransferableTest {
     function constructorTest(address owner)

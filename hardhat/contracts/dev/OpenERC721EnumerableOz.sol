@@ -15,7 +15,7 @@
 pragma solidity 0.8.9;
 
 import "OpenNFTs/contracts/components/OpenERC721.sol";
-import "../interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
 
 abstract contract OpenERC721EnumerableOz is IERC721Enumerable, OpenERC721 {
     // Mapping from owner to list of owned token IDs

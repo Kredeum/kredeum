@@ -2,7 +2,7 @@
 pragma solidity 0.8.9;
 
 import "../../lib/forge-std/src/Test.sol";
-import "OpenNFTs/contracts/templates/OpenBound.sol";
+import "../templates/OpenBound.sol";
 import "OpenNFTs/contracts/interfaces/IERC1155.sol";
 
 contract OpenBoundForgeTest is Test {
