@@ -32,10 +32,11 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     }
 
     const openBound = await getContract(contractName, deployer);
-    await (openBound as IOpenBound).initialize(contractName, "BOUND", deployer.address, maxSupply);
+    await (await (openBound as IOpenBound).initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
-    await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address]);
+    await (await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address])).wait();
+    await (await (nftsFactoryV2 as ICloneFactoryV2).templateSet("OpenBound", deployResult.address)).wait();
   }
 };
 

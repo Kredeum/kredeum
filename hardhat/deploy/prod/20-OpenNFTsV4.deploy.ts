@@ -34,10 +34,11 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     }
 
     const openNFTsV4 = await getContract(contractName, deployer);
-    await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs", "NFT", deployer.address, [true]);
+    await (await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs", "NFT", deployer.address, [true])).wait();
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
-    await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address]);
+    await (await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address])).wait();
+    await (await (nftsFactoryV2 as ICloneFactoryV2).templateSet("OpenNFTsV4", deployResult.address)).wait();
   }
 };
 
