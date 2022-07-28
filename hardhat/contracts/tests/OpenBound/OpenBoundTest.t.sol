@@ -1,23 +1,29 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import "../templates/OpenBound.sol";
+import "forge-std/Test.sol";
+
+import "../../templates/OpenBound.sol";
+import "./OpenBoundSupportsTest.t.sol";
 
 import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
 
-// import "OpenNFTs/contracts/interfaces/ITest.sol";
-import "OpenNFTs/contracts/tests/units/ERC721Test.t.sol";
 import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
 import "OpenNFTs/contracts/tests/units/ERC721NonTransferableTest.t.sol";
 import "OpenNFTs/contracts/tests/units/OpenPauseableTest.t.sol";
 
-//  ITest,
-contract OpenBoundTest is OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPauseableTest {
+contract OpenBoundTest is
+    OpenNFTsTest,
+    ERC173Test,
+    ERC721NonTransferableTest,
+    OpenPauseableTest,
+    OpenBoundSupportsTest
+{
     uint256 private _cid = 777;
 
     function constructorTest(address owner)
         public
-        override(OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPauseableTest)
+        override(OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPauseableTest, OpenBoundSupportsTest)
         returns (address)
     {
         changePrank(owner);
@@ -51,5 +57,6 @@ contract OpenBoundTest is OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, O
         setUpPausable();
         setUpOpenNFTs("OpenBound", "BOUND");
         setUpERC721NonTransferable();
+        setUpOpenBoundSupports();
     }
 }

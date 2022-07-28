@@ -51,14 +51,14 @@
 
 pragma solidity 0.8.9;
 
-import "OpenNFTs/contracts/components/OpenCloneable.sol";
-import "OpenNFTs/contracts/components/OpenMarketable.sol";
-import "OpenNFTs/contracts/components/OpenERC721Enumerable.sol";
-import "OpenNFTs/contracts/components/OpenERC721Metadata.sol";
+import "OpenNFTs/contracts/OpenCloneable.sol";
+import "OpenNFTs/contracts/OpenMarketable.sol";
+import "OpenNFTs/contracts/OpenERC721Enumerable.sol";
+import "OpenNFTs/contracts/OpenERC721Metadata.sol";
 
 import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IERC20.sol";
+import "OpenNFTs/contracts/interfaces/IERC20.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is IOpenNFTsV4, OpenCloneable, OpenERC721Enumerable, OpenERC721Metadata, OpenMarketable {
@@ -170,8 +170,9 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenCloneable, OpenERC721Enumerable, OpenERC
         returns (bool)
     {
         return
-            // interfaceId == type(IOpenNFTs).interfaceId ||
-            interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
+            interfaceId == type(IOpenNFTs).interfaceId ||
+            interfaceId == type(IOpenNFTsV4).interfaceId ||
+            super.supportsInterface(interfaceId);
     }
 
     /// @notice _mint
@@ -186,7 +187,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenCloneable, OpenERC721Enumerable, OpenERC
     }
 
     function _burn(uint256 tokenID) internal {
-        _burnPriceable(tokenID);
+        _burnMarketable(tokenID);
         _burnMetadata(tokenID);
         _burnEnumerable(tokenID);
         _burnNft(tokenID);

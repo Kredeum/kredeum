@@ -1,13 +1,15 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.9;
 
-import {OpenNFTsV1} from "../OpenNFTsV1.sol";
-import "OpenNFTs/contracts/tests/OpenERC721Test.t.sol";
-import "OpenNFTs/contracts/interfaces/ITest.sol";
-import {ERC721TransferableTest} from "OpenNFTs/contracts/tests/ERC721TransferableTest.t.sol";
+import "OpenNFTs/contracts/tests/sets/ERC721FullTest.t.sol";
 
-contract OpenNFTsV1Test is ITest, OpenERC721Test, ERC721TransferableTest {
-    function constructorTest(address owner) public override(OpenERC721Test, ERC721TransferableTest) returns (address) {
+import {OpenNFTsV1} from "../OpenNFTsV1.sol";
+import "OpenNFTs/contracts/tests/units/ERC721Test.t.sol";
+import "OpenNFTs/contracts/interfaces/ITest.sol";
+import {ERC721TransferableTest} from "OpenNFTs/contracts/tests/units/ERC721TransferableTest.t.sol";
+
+contract OpenNFTsV1Test is ITest, ERC721FullTest, ERC721TransferableTest {
+    function constructorTest(address owner) public override(ERC721FullTest, ERC721TransferableTest) returns (address) {
         changePrank(owner);
         OpenNFTsV1 op = new OpenNFTsV1();
 
@@ -16,7 +18,7 @@ contract OpenNFTsV1Test is ITest, OpenERC721Test, ERC721TransferableTest {
 
     function mintTest(address collection, address minter)
         public
-        override(OpenERC721Test, ERC721TransferableTest)
+        override(ERC721FullTest, ERC721TransferableTest)
         returns (uint256, string memory)
     {
         changePrank(minter);
@@ -26,7 +28,7 @@ contract OpenNFTsV1Test is ITest, OpenERC721Test, ERC721TransferableTest {
     function burnTest(address collection, uint256 tokenID) public override {}
 
     function setUp() public override {
-        setUpOpenNFTs("Open NFTs", "NFT");
+        setUpERC721Full("Open NFTs", "NFT");
         setUpERC721Transferable();
     }
 }

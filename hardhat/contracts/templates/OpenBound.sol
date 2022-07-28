@@ -43,8 +43,8 @@
 
 pragma solidity ^0.8.9;
 
-import "OpenNFTs/contracts/components/OpenPauseable.sol";
-import "OpenNFTs/contracts/components/OpenCloneable.sol";
+import "OpenNFTs/contracts/OpenPauseable.sol";
+import "OpenNFTs/contracts/OpenCloneable.sol";
 
 import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenBound.sol";
@@ -141,7 +141,7 @@ contract OpenBound is IOpenBound, IERC721Enumerable, IERC721Metadata, OpenClonea
     /// IERC165
     function supportsInterface(bytes4 interfaceId) public view override(OpenPauseable, OpenCloneable) returns (bool) {
         return
-            // interfaceId == type(IOpenNFTs).interfaceId ||
+            interfaceId == type(IOpenNFTs).interfaceId ||
             interfaceId == type(IOpenBound).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||

@@ -1,0 +1,10 @@
+@openzeppelin=node_modules/@openzeppelin/
+@openzeppelin/=node_modules/@openzeppelin/
+OpenNFTs=node_modules/OpenNFTs/
+OpenNFTs/=node_modules/OpenNFTs/
+ds-test/=lib/forge-std/lib/ds-test/src/
+forge-std/=lib/forge-std/src/
+hardhat=node_modules/hardhat/
+hardhat-deploy=node_modules/hardhat-deploy/
+hardhat-deploy/=node_modules/hardhat-deploy/
+hardhat/=node_modules/hardhat/
