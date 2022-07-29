@@ -47,18 +47,16 @@ const nftGetFromContract = async (
   let owner = "";
 
   try {
-    if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
+    const { contract, supports } = await collectionContractGet(chainId, address, provider);
 
-    const contract = await collectionContractGet(chainId, address, provider);
-
-    if (collection?.supports?.IERC721) {
+    if (supports.IERC721) {
       owner = await (contract as IERC721).ownerOf(tokenID);
     }
-    if (collection?.supports?.IERC721Metadata) {
+    if (supports.IERC721Metadata) {
       contractName = collection.name || (await (contract as IERC721Metadata).name()) || DEFAULT_NAME;
       tokenURI = await (contract as IERC721Metadata).tokenURI(tokenID);
     }
-    if (collection?.supports?.IERC1155MetadataURI) {
+    if (supports.IERC1155MetadataURI) {
       tokenURI = await (contract as IERC1155MetadataURI).uri(tokenID);
     }
 
@@ -87,21 +85,11 @@ const nftGetFromContractEnumerable = async (
 
   let tokenID: BigNumber = BigNumber.from(-1);
 
-  if (
-    !(
-      chainId &&
-      address &&
-      index >= 0 &&
-      provider &&
-      (await isProviderOnChainId(provider, chainId)) &&
-      collection?.supports?.IERC721Enumerable
-    )
-  )
-    return nft;
+  if (!(chainId && address && index >= 0 && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
 
   try {
-    const contract = await collectionContractGet(chainId, address, provider);
-    if (contract) {
+    const { contract, supports } = await collectionContractGet(chainId, address, provider);
+    if (contract && supports.IERC721Enumerable) {
       if (owner) {
         tokenID = await (contract as IERC721Enumerable).tokenOfOwnerByIndex(owner, BigNumber.from(index));
       } else {

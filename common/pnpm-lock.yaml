@@ -21,6 +21,7 @@ specifiers:
   moralis: ^1.10.1
   multiformats: ^9.7.1
   prettier: ^2.7.1
+  semaphore-async-await: ^1.5.1
   typechain: ^8.1.0
   typescript: ^4.7.4
 
@@ -49,6 +50,7 @@ dependencies:
 devDependencies:
   '@ipld/dag-pb': 2.1.17
   moralis: 1.10.1
+  semaphore-async-await: 1.5.1
 
 packages:
 
@@ -2388,6 +2390,11 @@ packages:
 
   /scrypt-js/3.0.1:
     resolution: {integrity: sha512-cdwTTnqPu0Hyvf5in5asVdZocVDTNRmR7XEcJuIzMjJeSHybHl7vpB66AzwTaIg6CLSbtjcxc8fqcySfnTkccA==}
+
+  /semaphore-async-await/1.5.1:
+    resolution: {integrity: sha512-b/ptP11hETwYWpeilHXXQiV5UJNJl7ZWWooKRE5eBIYWoom6dZ0SluCIdCtKycsMtZgKWE01/qAw6jblw1YVhg==}
+    engines: {node: '>=4.1'}
+    dev: true
 
   /semver/5.7.1:
     resolution: {integrity: sha512-sauaDf/PZdVgrLTNYHRtpXa1iRiKcaebiKQ1BJdpQlWH2lCvexQdX55snPFyK7QzpudqbCI0qXFfOasHdyNDGQ==}

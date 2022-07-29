@@ -3,6 +3,9 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { collectionContractGet } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
+import type { IERC721 } from "soltypes/contracts/interfaces/IERC721";
+import type { IERC1155 } from "soltypes/contracts/interfaces/IERC1155";
+
 const transferNftResponse = async (
   chainId: number,
   address: string,
@@ -20,21 +23,17 @@ const transferNftResponse = async (
   const ownerAddress = await owner.getAddress();
   // console.log("transferNftResponse owner", ownerAddress);
 
-  const collectionContract = (await collectionContractGet(chainId, address, owner.provider)).connect(owner);
-  // console.log("collectionContract", collectionContract);
-  const transferERC721 = "safeTransferFrom(address,address,uint256)";
-  const transferERC1155 = "safeTransferFrom(address,address,uint256,uint256,bytes)";
+  const { contract, supports } = await collectionContractGet(chainId, address, owner.provider);
+  // console.log("contract", contract);
 
-  if (collectionContract[transferERC721]) {
-    const transferFunction = collectionContract[transferERC721] as {
-      (from: string, to: string, tokenID: string): Promise<TransactionResponse>;
-    };
-    txResp = await transferFunction(ownerAddress, destinationAddress, tokenID);
-  } else if (collectionContract[transferERC1155]) {
-    const transferFunction = collectionContract[transferERC1155] as {
-      (from: string, to: string, tokenID: string, amount: number, bytes: string): Promise<TransactionResponse>;
-    };
-    txResp = await transferFunction(ownerAddress, destinationAddress, tokenID, 1, "0x00");
+  if (supports.IERC721) {
+    txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](
+      ownerAddress,
+      destinationAddress,
+      tokenID
+    );
+  } else if (supports.IERC1155) {
+    txResp = await (contract as IERC1155).safeTransferFrom(ownerAddress, destinationAddress, tokenID, 1, "0x00");
   }
   console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
 

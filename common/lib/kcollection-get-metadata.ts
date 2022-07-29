@@ -1,55 +1,71 @@
 import { Provider } from "@ethersproject/abstract-provider";
 import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
 import { interfaceId, isProviderOnChainId, collectionKey } from "./kconfig";
+import { collectionGetSupportsCheckable } from "./kcollection-get-metadata-checkable";
 
 import { Contract } from "ethers";
 
 import abiERC165 from "abis/IERC165.sol/IERC165.json";
+import abiERC173 from "abis/IERC173.sol/IERC173.json";
 import abiERC721 from "abis/IERC721.sol/IERC721.json";
 import abiERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
 import abiERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
 import abiERC1155 from "abis/IERC1155.sol/IERC1155.json";
 import abiERC1155MetadataURI from "abis/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";
-import abiERC173 from "abis/IERC173.sol/IERC173.json";
+import abiOpenCheckable from "abis/IOpenCheckable.sol/IOpenCheckable.json";
 
 import abiOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
 import abiOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 import abiOpenNFTsV4 from "abis/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+
+import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
+
+import Semaphore from "semaphore-async-await";
+
+const openNFTsV0Addresses = [
+  "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic
+  "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93" // matic
+];
+const openNFTsV1Addresses = [
+  "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471", // mainnet
+  "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253", // matic
+  "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0", // matic
+  "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9" // Bsc
+];
+
+// Cache supports   (chainId, address)
+const supportsCache: Map<string, CollectionSupports> = new Map();
+const locks: Map<string, Semaphore> = new Map();
 
 const collectionGetSupports = async (
   chainId: number,
   address: string,
   provider: Provider,
   collection: CollectionType = { chainId, address }
-): Promise<CollectionType> => {
-  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
-  // console.log(`collectionGetSupports ${collectionKey(chainId, address)}\n`);
+): Promise<CollectionSupports> => {
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return {};
 
-  const openNFTsV0Addresses = [
-    "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic
-    "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93" // matic
-  ];
-  const openNFTsV1Addresses = [
-    "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471", // mainnet
-    "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253", // matic
-    "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0", // matic
-    "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9" // Bsc
-  ];
+  console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`);
 
-  interface SupportsContract extends Contract {
-    supportsInterface: (ifaces: string) => Promise<boolean>;
-  }
+  const lockPrevious = locks.get(collectionKey(chainId, address));
+  if (lockPrevious) await lockPrevious.acquire();
 
-  // Default to empty object
-  collection.supports ??= {};
+  let supports = supportsCache.get(collectionKey(chainId, address));
+  if (supports?.IERC165) return supports;
 
-  // Get supports ref
-  const supports: CollectionSupports = collection.supports;
+  const lock = new Semaphore(1);
+  locks.set(collectionKey(chainId, address), lock);
+  await lock.acquire();
 
+  supports = { IERC165: true };
   try {
-    const contract: SupportsContract = new Contract(address, abiERC165, provider) as SupportsContract;
+    const contract = new Contract(address, abiERC165, provider) as IERC165;
+    const openCheckable = await contract.supportsInterface(interfaceId(abiOpenCheckable));
 
-    try {
+    if (openCheckable) {
+      supports = await collectionGetSupportsCheckable(address, provider);
+      supports.IOpenNFTs = true;
+    } else {
       const waitERC721 = contract.supportsInterface(interfaceId(abiERC721));
       const waitERC1155 = contract.supportsInterface(interfaceId(abiERC1155));
       const waitERC173 = contract.supportsInterface(interfaceId(abiERC173));
@@ -75,7 +91,6 @@ const collectionGetSupports = async (
         ] = await Promise.all([waitMetadata, waitEnumerable, waitOpenNFTsV2, waitOpenNFTsV3, waitOpenNFTsV4]);
 
         // Supports ERC165,  should have already reverted otherwise
-        supports.IERC165 = true;
 
         if (supports.IOpenNFTsV3) supports.IOpenNFTs = true;
         else if (!supports.IOpenNFTsV2) {
@@ -89,21 +104,24 @@ const collectionGetSupports = async (
         supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(abiERC1155MetadataURI));
       }
 
-      // delete all supports=false
-      for (const key in supports) if (!supports[key as ABIS]) delete supports[key as ABIS];
-    } catch (err) {
-      console.info(
-        `ERROR collectionGetSupports @ ${collectionKey(chainId, address)}\n`,
-        await isProviderOnChainId(provider, chainId),
-        JSON.stringify(err)
-      );
+      for (const key in supports) {
+        if (!supports[key as ABIS]) delete supports[key as ABIS];
+      }
     }
   } catch (err) {
-    console.log(`No contract found @ ${collectionKey(chainId, address)}\n`);
+    console.info(
+      `ERROR collectionGetSupports @ ${collectionKey(chainId, address)}\n`,
+      await isProviderOnChainId(provider, chainId),
+      collection,
+      err
+    );
   }
+  console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
 
-  // console.log(`collectionGetSupports ${collectionKey(chainId, address)}\n`, collection);
-  return collection;
+  supportsCache.set(collectionKey(chainId, address), supports);
+  lock.release();
+
+  return supports;
 };
 
 const collectionGetOtherData = async (

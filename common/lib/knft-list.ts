@@ -25,15 +25,12 @@ const nftListFromContract = async (
   // console.log("nftListFromContract", chainId, address, account, limit);
 
   const nfts: Map<string, NftType> = new Map();
-  if (
-    !(chainId && address && (await isProviderOnChainId(provider, chainId)) && collection?.supports?.IERC721Enumerable)
-  )
-    return nfts;
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return nfts;
 
   try {
-    const contract = await collectionContractGet(chainId, address, provider);
+    const { contract, supports } = await collectionContractGet(chainId, address, provider);
 
-    if (contract) {
+    if (contract && supports.IERC721Enumerable) {
       let nbTokens = limit;
       if (account) {
         nbTokens = Number(await (contract as IERC721).balanceOf(account));
@@ -136,7 +133,7 @@ const _nftListWithMetadata = async (
   return nftsWithMetadata;
 };
 
-// const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
+// const nftListCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
 //   storeNftsList(chainId, collection, account);
 
 const nftList = async (
