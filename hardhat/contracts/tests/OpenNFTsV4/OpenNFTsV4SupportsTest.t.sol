@@ -4,8 +4,9 @@ pragma solidity 0.8.9;
 import "forge-std/Test.sol";
 
 import "OpenNFTs/contracts/interfaces/IAll.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenNFTsV4.sol";
-import "../../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../../interfaces/IOpenNFTs.sol";
 
 abstract contract OpenNFTsV4SupportsTest is Test {
     address private _collection;
@@ -22,7 +23,7 @@ abstract contract OpenNFTsV4SupportsTest is Test {
     }
 
     function testOpenNFTsCheckSupportedInterfaces() public {
-        bytes4[14] memory ids = [
+        bytes4[15] memory ids = [
             type(IERC165).interfaceId,
             type(IERC173).interfaceId,
             type(IERC2981).interfaceId,
@@ -32,13 +33,15 @@ abstract contract OpenNFTsV4SupportsTest is Test {
             type(IOpenCheckable).interfaceId,
             type(IOpenCloneable).interfaceId,
             type(IOpenMarketable).interfaceId,
-            type(IOpenNFTsV4).interfaceId,
+            type(IOpenNFTsOld).interfaceId,
             type(IOpenNFTs).interfaceId,
+            type(IOpenNFTsV4).interfaceId,
             type(IOpenPauseable).interfaceId,
             type(IERC721TokenReceiver).interfaceId,
             0xffffffff
         ];
-        bool[14] memory expected = [
+        bool[15] memory expected = [
+            true,
             true,
             true,
             true,
@@ -55,7 +58,7 @@ abstract contract OpenNFTsV4SupportsTest is Test {
             false
         ];
 
-        bytes4[] memory interfaceIds = new bytes4[](14);
+        bytes4[] memory interfaceIds = new bytes4[](15);
         for (uint256 i = 0; i < ids.length; i++) {
             interfaceIds[i] = ids[i];
         }

@@ -7,7 +7,7 @@ import "OpenNFTs/contracts/interfaces/IERC721.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
 import "OpenNFTs/contracts/interfaces/IERC2981.sol";
 import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
-import "../../interfaces/IOpenNFTsV4.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 
 abstract contract OpenNFTsV4BuyTest is Test {
     address private _collection;
@@ -39,7 +39,7 @@ abstract contract OpenNFTsV4BuyTest is Test {
         uint256 balMinter = _minter.balance;
 
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
-        IOpenNFTsV4(_collection).buy{value: 1.5 ether}(_tokenID0);
+        IOpenNFTs(_collection).buy{value: 1.5 ether}(_tokenID0);
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _buyer);
 
         assertEq(_buyer.balance, 9 ether);
@@ -55,8 +55,8 @@ abstract contract OpenNFTsV4BuyTest is Test {
         changePrank(_buyer);
         deal(_buyer, 10 ether);
 
-        IOpenNFTsV4(_collection).buy{value: 1 ether}(_tokenID0);
-        IOpenNFTsV4(_collection).buy{value: 1 ether}(_tokenID0);
+        IOpenNFTs(_collection).buy{value: 1 ether}(_tokenID0);
+        IOpenNFTs(_collection).buy{value: 1 ether}(_tokenID0);
     }
 
     function testFailBuyNotEnoughFunds() public {
@@ -66,7 +66,7 @@ abstract contract OpenNFTsV4BuyTest is Test {
         changePrank(_buyer);
         deal(_buyer, 10 ether);
 
-        IOpenNFTsV4(_collection).buy{value: 0.5 ether}(_tokenID0);
+        IOpenNFTs(_collection).buy{value: 0.5 ether}(_tokenID0);
     }
 
     function testFailBuyNotToSell() public {
@@ -76,6 +76,6 @@ abstract contract OpenNFTsV4BuyTest is Test {
         deal(_buyer, 10 ether);
 
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _minter);
-        IOpenNFTsV4(_collection).buy{value: 1 ether}(_tokenID0);
+        IOpenNFTs(_collection).buy{value: 1 ether}(_tokenID0);
     }
 }
