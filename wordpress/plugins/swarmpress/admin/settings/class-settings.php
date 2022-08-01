@@ -4,12 +4,12 @@
  * https://www.smashingmagazine.com/2016/04/three-approaches-to-adding-configurable-fields-to-your-plugin/
  * https://github.com/rayman813/smashing-custom-fields/blob/master/smashing-fields-approach-1/smashing-fields.php
  *
- * @package kredeum/nfts
+ * @package swarmpress
  */
 
-namespace KredeumNFTs\Settings;
+namespace SwarmPress\Settings;
 
-use function KredeumNFTs\Storage\get_settings_info;
+use function SwarmPress\Storage\get_settings_info;
 
 /**
  * Class Kredeum_NFTs_Settings
@@ -75,7 +75,7 @@ class Settings {
 	 */
 	public function page_content() {
 		echo '<div class="wrap">';
-		echo '<h2>' . esc_html( __( 'NFTs Kredeum', 'kredeum-nfts' ) ) . '</h2>';
+		echo '<h2>' . esc_html( __( 'SwarmPress', 'kredeum-nfts' ) ) . '</h2>';
 
 		echo '<form action="options.php" method="POST">';
 		settings_fields( $this->slug );

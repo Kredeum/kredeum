@@ -43,9 +43,21 @@ let kredeumHome: Home;
 const kredeumMintButton: Array<NftMintButton> = [];
 {
   // Kredeum Mint button components
-  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-storage-mint");
   targets?.forEach((target, i) => {
     kredeumMintButton[i] = new NftMintButton({
+      target,
+      props: _props(target)
+    });
+  });
+}
+
+const swarmpressMintButton: Array<NftMintButton> = [];
+{
+  // Kredeum Mint button components
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".swarm-mint");
+  targets?.forEach((target, i) => {
+    swarmpressMintButton[i] = new NftMintButton({
       target,
       props: _props(target)
     });
@@ -73,4 +85,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, swarmpressMintButton, kredeumCollectionList, network };

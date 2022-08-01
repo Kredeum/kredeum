@@ -1,14 +1,14 @@
 <?php
 /**
- * Decentralized storage archive
+ * Swarm archive
  *
- * @package kredeum/nfts
+ * @package swarmpress
  */
 
-namespace KredeumNFTs\Storage;
+namespace SwarmPress\Storage;
 
 /**
- * Decentralized storage bulk archive action
+ * IPFS bulk archive action
  */
 add_filter(
 	'bulk_actions-upload',
@@ -20,7 +20,7 @@ add_filter(
 );
 
 /**
- * Decentralized storage bulk archive bulk action
+ * Swarm bulk archive bulk action
  */
 add_filter(
 	'handle_bulk_actions-upload',
@@ -53,7 +53,7 @@ add_filter(
 );
 
 /**
- * Decentralized storage bulk archive notice
+ * Swarm bulk archive notice
  */
 add_action(
 	'admin_notices',

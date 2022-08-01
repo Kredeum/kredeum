@@ -136,7 +136,7 @@
   };
 </script>
 
-<main id="kredeum-mint">
+<main class="nft-mint">
   {#if display && src}
     <img {src} {alt} {width} /><br />
   {/if}

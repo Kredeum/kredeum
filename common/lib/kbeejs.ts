@@ -1,8 +1,9 @@
 import { Bee, Data, FileData } from "@ethersphere/bee-js";
-import { swarmLinkToCid, swarmServer, SWARM_GATEWAY } from "./kconfig";
+import { swarmLinkToCid, SWARM_GATEWAY } from "./kconfig";
+import config from "../config/config.json";
 
 const getBee = (nodeUrl: string): Bee => {
-  return new Bee(nodeUrl ? nodeUrl : swarmServer(SWARM_GATEWAY));
+  return new Bee(nodeUrl ? nodeUrl : config.swarmServer);
 };
 const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
 

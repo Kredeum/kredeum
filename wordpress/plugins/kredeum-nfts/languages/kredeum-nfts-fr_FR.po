@@ -51,8 +51,8 @@ msgid "Archive link"
 msgstr "Lien d'Archive"
 
 #: admin/media-list/actions.php:16
-msgid "Archive to IPFS"
-msgstr "Archiver sur IPFS"
+msgid "Archive to "
+msgstr "Archiver sur "
 
 #: admin/settings/fields.php:23
 #| msgid "Check to automaticaly push your new medias to IPFS on upload"

@@ -1,7 +1,7 @@
 #, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Kredeum NFTs\n"
+"Project-Id-Version: SwarmPress\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2022-02-12 15:53+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
@@ -14,7 +14,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
 "X-Loco-Version: 2.5.7; wp-5.8.3\n"
-"X-Domain: kredeum-nfts"
+"X-Domain: swarmpress"
 
 #. %s = $modified_count = number of medias modified.
 #: admin/media-list/actions.php:76

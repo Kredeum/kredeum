@@ -2,10 +2,10 @@
 /**
  * Storages helpers
  *
- * @package kredeum/nfts
+ * @package swarmpress
  */
 
-namespace KredeumNFTs\Storage;
+namespace SwarmPress\Storage;
 
 /**
  * Get storage ref
@@ -29,7 +29,7 @@ function get_optional_storage_attrs() {
  * @return string $post_id
  */
 // function upload_on_storage( $post_id ) {
-// return STORAGE === 'ipfs' ? Ipfs\insert( $post_id ) : Swarm\insert( $post_id );
+// 	return STORAGE === 'ipfs' ? Ipfs\insert( $post_id ) : Swarm\insert( $post_id );
 // }
 
 /**

@@ -1,155 +1,164 @@
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Kredeum NFTs\n"
+"Project-Id-Version: SwarmPress\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-12 15:53+0000\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: \n"
-"Language: \n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"POT-Creation-Date: 2020-12-13 20:19+0000\n"
+"PO-Revision-Date: 2022-04-01 14:12+0000\n"
+"Last-Translator: \n"
+"Language-Team: Français\n"
+"Language: fr_FR\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: Loco https://localise.biz/\n"
-"X-Loco-Version: 2.5.7; wp-5.8.3\n"
-"X-Domain: kredeum-nfts"
+"X-Loco-Version: 2.6.1; wp-5.9.2"
 
 #. %s = $modified_count = number of medias modified.
 #: admin/media-list/actions.php:76
 #, php-format
 msgid "%s IPFS media link modified"
 msgid_plural "%s IPFS medias links modified"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s lien IPFS modifié"
+msgstr[1] "%s liens IPFS modifiés"
 
 #. %s = $unchanged_count = number of medias unchanged.
 #: admin/media-list/actions.php:87
 #, php-format
 msgid "%s IPFS media link unchanged"
 msgid_plural "%s IPFS medias links unchanged"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s lien IPFS inchangé"
+msgstr[1] "%s liens IPFS inchangés"
 
 #. %s = $archived_count = number of medias archived.
 #: admin/media-list/actions.php:65
 #, php-format
 msgid "%s media archived to IPFS"
 msgid_plural "%s medias archived to IPFS"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%s média archivé sur IPFS"
+msgstr[1] "%s médias archivés sur IPFS"
 
 #: admin/settings/class-settings.php:91
 msgid "and related "
-msgstr ""
+msgstr "et"
 
 #: common/ipfs/links.php:29
 msgid "Archive"
-msgstr ""
+msgstr "Archive"
 
 #: admin/media/post.php:23
 msgid "Archive link"
-msgstr ""
+msgstr "Lien d'Archive"
 
 #: admin/media-list/actions.php:16
 msgid "Archive to "
-msgstr ""
+msgstr "Archiver sur "
 
 #: admin/settings/fields.php:23
+#| msgid "Check to automaticaly push your new medias to IPFS on upload"
 msgid "Choose \"yes\" to automaticaly push your new medias to IPFS on upload"
 msgstr ""
+"Choisissez \"Oui\" pour pousser automatiquement vos média vers IPFS après "
+"chargement"
 
 #: admin/settings/class-settings.php:97
 msgid "Discord"
-msgstr ""
+msgstr "Discord"
 
 #: admin/settings/fields.php:48
 msgid "Enter your own NFT Storage Key, or leave blank to use common key"
 msgstr ""
+"Entrez votre propre clef NFT Storage, ou laisser vide pour utiliser la clef "
+"commune"
 
 #: admin/settings/class-settings.php:87
 msgid "For any help read the"
-msgstr ""
+msgstr "Pour vous aider consultez le"
 
 #: admin/settings/fields.php:32
 msgid "For degens ! Choose \"yes\" to use beta features..."
 msgstr ""
+"Pour les degens ! Choisissez \"Oui\" pour utiliser les fonctionnalités en "
+"beta..."
 
 #. URI of the plugin
 msgid "https://docs.kredeum.tech"
-msgstr ""
+msgstr "https://docs.kredeum.tech"
 
+# 
+# 
 #. Author URI of the plugin
 msgid "https://www.kredeum.com"
-msgstr ""
+msgstr "https://www.kredeum.com"
 
 #: admin/media-list/column.php:17
 msgid "IPFS Archive"
-msgstr ""
+msgstr "Archive IPFS"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"
-msgstr ""
+msgstr "Kredeum <alain@kredeum.com>"
 
 #: admin/media-list/column.php:16
+#| msgid "Kredeum IPFS"
 msgid "KREDEUM NFTs"
-msgstr ""
+msgstr "Kredeum NFTs"
 
 #. Name of the plugin
 msgid "Kredeum NFTs"
-msgstr ""
+msgstr "Kredeum NFTs"
 
 #: admin/nfts/index.php:34
 msgid "My NFTs"
-msgstr ""
+msgstr "Mes NFTs"
 
 #: admin/nfts/index.php:15
 msgid "NFTs"
-msgstr ""
+msgstr "NFTs"
 
 #: admin/nfts/index.php:14 admin/nfts/index.php:33
 #: admin/settings/class-settings.php:59
 msgid "NFTs Kredeum"
-msgstr ""
+msgstr "NFTs Kredeum"
 
 #: admin/settings/class-settings.php:44 admin/settings/class-settings.php:45
+#| msgid "IPFS settings"
 msgid "NFTs settings"
-msgstr ""
+msgstr "Paramétrages"
 
 #: admin/settings/fields.php:22 admin/settings/fields.php:31
 msgid "No"
-msgstr ""
+msgstr "Non"
 
 #: kredeum-nfts.php:22 uninstall.php:8
 msgid "Not allowed"
-msgstr ""
+msgstr "Accès interdit"
 
 #: admin/settings/class-settings.php:95
 msgid "or join us on"
-msgstr ""
+msgstr "ou rejoignez-nous sur"
 
 #. Description of the plugin
 msgid "Plugin to archive your medias to IPFS and mint them as NFTs"
-msgstr ""
+msgstr "Plugin pour archier vos medias sur IPFS et les minter en NFTs "
 
 #: admin/settings/class-settings.php:72
 msgid "Settings"
-msgstr ""
+msgstr "Paramétrages"
 
 #: admin/settings/class-settings.php:93
 msgid "Settings instructions"
-msgstr ""
+msgstr "Instructions de paramétrage"
 
 #: admin/settings/class-settings.php:85
 msgid ""
 "Setup here your IPFS options and connect your Metamask account with WordPress"
-msgstr ""
+msgstr "Paramétrez vos options IPFS et connectez votre Metamask avec WordPress"
 
 #: admin/settings/class-settings.php:89
 msgid "User Guide"
-msgstr ""
+msgstr "Guide d'Utilisation"
 
 #: admin/settings/fields.php:22 admin/settings/fields.php:31
 msgid "Yes"
-msgstr ""
+msgstr "Oui"

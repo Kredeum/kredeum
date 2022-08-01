@@ -19,8 +19,9 @@ namespace KredeumNFTs;
 
 define( 'KREDEUM_NFTS_VERSION', '{{version.latest}}' );
 define( 'STORAGE', '{{storage}}' );
+define( 'PLUGIN_NAME', '{{pluginName}}' );
 
-defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
+defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', '{{pluginName}}' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
@@ -31,7 +32,7 @@ if ( is_admin() ) {
 	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
 	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/{{storage}}/index.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/index.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
 
@@ -88,6 +89,6 @@ require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/helpers/storage.php';
 add_action(
 	'plugins_loaded',
 	function () {
-		load_plugin_textdomain( 'kredeum-nfts', false, 'kredeum-nfts/languages' );
+		load_plugin_textdomain( '{{pluginName}}', false, '{{pluginName}}/languages' );
 	}
 );

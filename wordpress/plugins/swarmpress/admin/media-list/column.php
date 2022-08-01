@@ -2,10 +2,10 @@
 /**
  * Storage columns
  *
- * @package kredeum/nfts
+ * @package swarmpress
  */
 
-namespace KredeumNFTs\Storage;
+namespace SwarmPress\Storage;
 
 /**
  *  Storage 2 columns filter
@@ -44,7 +44,7 @@ add_action(
 				$metadata = get_metadata( 'post', $post->ID );
 
 				printf(
-					'<div class="kre-storage-mint"'
+					'<div class="' . esc_attr( STORAGE ) . '-mint"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'

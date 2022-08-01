@@ -4,7 +4,12 @@
     "stable": "0.13.0"
   },
   "storage": "ipfs",
+  "pluginName": "kredeum-nfts",
   "ipfsGateway": "https://ipfs.io/ipfs/",
-  "swarmGateway": "https://api.gateway.ethswarm.org/bzz/",
-  "swarmServer": "https://api.gateway.ethswarm.org"
+  "swarmServer": "https://api.gateway.ethswarm.org",
+  "swarmApiGateway": "/bzz/",
+  "swarmVersion": {
+    "latest": "0.0.1",
+    "stable": "0.0.1"
+  }
 }
