@@ -4,6 +4,7 @@ pragma solidity 0.8.9;
 import "forge-std/Test.sol";
 
 import "../../templates/OpenBound.sol";
+
 import "./OpenBoundSupportsTest.t.sol";
 
 import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
@@ -42,14 +43,14 @@ contract OpenBoundTest is
         returns (uint256, string memory)
     {
         changePrank(minter);
-        uint256 tokenID = OpenBound(collection).mint(_cid++);
-        string memory tokenURI = OpenBound(collection).tokenURI(tokenID);
+        uint256 tokenID = OpenBound(payable(collection)).mint(_cid++);
+        string memory tokenURI = OpenBound(payable(collection)).tokenURI(tokenID);
         return (tokenID, tokenURI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, ERC721NonTransferableTest) {
-        changePrank(OpenBound(collection).ownerOf(tokenID));
-        OpenBound(collection).burn(tokenID);
+        changePrank(OpenBound(payable(collection)).ownerOf(tokenID));
+        OpenBound(payable(collection)).burn(tokenID);
     }
 
     function setUp() public {

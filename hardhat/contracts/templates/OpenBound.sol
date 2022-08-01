@@ -1,16 +1,8 @@
 // SPDX-License-Identifier: MIT
 //
-//       ___           ___           ___          _____          ___           ___           ___
-//      /__/|         /  /\         /  /\        /  /::\        /  /\         /__/\         /__/\
-//     |  |:|        /  /::\       /  /:/_      /  /:/\:\      /  /:/_        \  \:\       |  |::\
-//     |  |:|       /  /:/\:\     /  /:/ /\    /  /:/  \:\    /  /:/ /\        \  \:\      |  |:|:\
-//   __|  |:|      /  /:/~/:/    /  /:/ /:/_  /__/:/ \__\:|  /  /:/ /:/_   ___  \  \:\   __|__|:|\:\
-//  /__/\_|:|____ /__/:/ /:/___ /__/:/ /:/ /\ \  \:\ /  /:/ /__/:/ /:/ /\ /__/\  \__\:\ /__/::::| \:\
-//  \  \:\/:::::/ \  \:\/:::::/ \  \:\/:/ /:/  \  \:\  /:/  \  \:\/:/ /:/ \  \:\ /  /:/ \  \:\~~\__\/
-//   \  \::/~~~~   \  \::/~~~~   \  \::/ /:/    \  \:\/:/    \  \::/ /:/   \  \:\  /:/   \  \:\
-//    \  \:\        \  \:\        \  \:\/:/      \  \::/      \  \:\/:/     \  \:\/:/     \  \:\
-//     \  \:\        \  \:\        \  \::/        \__\/        \  \::/       \  \::/       \  \:\
-//      \__\/         \__\/         \__\/                       \__\/         \__\/         \__\/
+// Derived from Kredeum NFTs
+// https://github.com/Kredeum/kredeum
+//
 //       ___           ___         ___           ___                    ___           ___                     ___
 //      /  /\         /  /\       /  /\         /__/\                  /__/\         /  /\        ___        /  /\
 //     /  /::\       /  /::\     /  /:/_        \  \:\                 \  \:\       /  /:/_      /  /\      /  /:/_
@@ -24,39 +16,37 @@
 //      \__\/         \__\/       \__\/         \__\/                  \__\/         \__\/                   \__\/
 //
 //
-//                         OpenERC165 (supports)
-//                             |
-//                             ————————————————————————
-//                             |                      |
-//                         OpenERC721 (NFT)     OpenCloneable
-//                             |                      |
-//                             |                      |
-//                        OpenERC173                  |
-//                         (Ownable)                  |
-//                             |                      |
-//                       OpenPauseable                |
-//                             |                      |
-//                             ————————————————————————
-//                             |
-//                         OpenBound --- IOpenBound --- IERC721Enumerable --- IERC721Metadata
+//  OpenERC165 (supports)
+//      |
+//      ———————————————————————————————————————————————
+//      |                 |             |             |
+//  OpenERC721 (NFT)  OpenERC173  OpenCheckable  OpenCloneable
+//      |             (ownable)         |             |
+//      |                 |             |             |
+//      |                 |             |             |
+//      |            OpenPauseable      |             |
+//      |                 |             |             |
+//      ———————————————————————————————————————————————
+//      |
+//  OpenBound --- IOpenBound --- IERC721Enumerable --- IERC721Metadata
 //
-
 pragma solidity ^0.8.9;
 
-import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
-import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
-
-import "OpenNFTs/contracts/OpenCloneable.sol";
 import "OpenNFTs/contracts/OpenCheckable.sol";
 import "OpenNFTs/contracts/OpenPauseable.sol";
+import "OpenNFTs/contracts/OpenCloneable.sol";
 import "OpenNFTs/contracts/OpenERC721.sol";
 
-import {IOpenNFTs} from "../interfaces/IOpenNFTs.sol";
-import "../interfaces/IOpenBound.sol";
-
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
 import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 
+import "../interfaces/IOpenBound.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.sol";
+
 /// @title OpenBound smartcontract
+/// limited to one nft per address
 contract OpenBound is
     IOpenBound,
     IERC721Enumerable,
@@ -84,7 +74,7 @@ contract OpenBound is
         string memory symbol_,
         address owner_,
         uint256 maxSupply_
-    ) public override(IOpenBound) {
+    ) external override(IOpenBound) {
         OpenCloneable._initialize("OpenBound", 1);
         OpenERC173._initialize(owner_);
 
@@ -111,10 +101,6 @@ contract OpenBound is
 
     function getMyTokenID(uint256 cid) external view override(IOpenBound) returns (uint256 myTokenID) {
         myTokenID = _tokenID(msg.sender, cid);
-    }
-
-    function getTokenID(address addr, uint256 cid) external pure override(IOpenBound) returns (uint256 tokenID) {
-        tokenID = _tokenID(addr, cid);
     }
 
     function getCID(uint256 tokenID) external view override(IOpenBound) returns (uint256 cid) {
@@ -147,34 +133,26 @@ contract OpenBound is
     function tokenURI(uint256 tokenID) external view override(IERC721Metadata) returns (string memory) {
         require(_exists(tokenID), "NFT doesn't exists");
 
-        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(_cidOfToken[tokenID])));
+        return _tokenURI(_cidOfToken[tokenID]);
+    }
+
+    function getTokenID(address addr, uint256 cid) external pure override(IOpenBound) returns (uint256 tokenID) {
+        tokenID = _tokenID(addr, cid);
     }
 
     /// IERC165
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(OpenPauseable, OpenCloneable, OpenCheckable, OpenERC721)
+        override(OpenPauseable, OpenCloneable, OpenERC721, OpenCheckable)
         returns (bool)
     {
         return
-            interfaceId == type(IOpenNFTs).interfaceId ||
             interfaceId == type(IOpenBound).interfaceId ||
+            interfaceId == type(IOpenNFTsOld).interfaceId ||
             interfaceId == type(IERC721Metadata).interfaceId ||
             interfaceId == type(IERC721Enumerable).interfaceId ||
             super.supportsInterface(interfaceId);
-    }
-
-    /// internal
-    function _mintEnumerable(
-        address to,
-        uint256 tokenID,
-        uint256 cid
-    ) internal {
-        _tokens.push(tokenID);
-        _tokenOfOwner[to] = tokenID;
-        _tokenIndexOfOwner[to] = _tokens.length - 1;
-        _cidOfToken[tokenID] = cid;
     }
 
     function _mint(address to, uint256 cid) internal returns (uint256 tokenID) {
@@ -183,11 +161,23 @@ contract OpenBound is
 
         tokenID = _tokenID(to, cid);
 
-        _mintEnumerable(to, tokenID, cid);
-        _mintNft(to, tokenID);
+        _tokens.push(tokenID);
+        _tokenOfOwner[to] = tokenID;
+        _tokenIndexOfOwner[to] = _tokens.length - 1;
+        _cidOfToken[tokenID] = cid;
+
+        _mint(to, _tokenURI(cid), tokenID);
     }
 
-    function _burnEnumerable(uint256 tokenID) internal {
+    function _mint(
+        address to,
+        string memory newTokenURI,
+        uint256 tokenID
+    ) internal override(OpenERC721) {
+        super._mint(to, newTokenURI, tokenID);
+    }
+
+    function _burn(uint256 tokenID) internal override(OpenERC721) {
         address from = ownerOf(tokenID);
         uint256 index = _tokenIndexOfOwner[from];
         uint256 lastIndex = _tokens.length - 1;
@@ -201,15 +191,16 @@ contract OpenBound is
         delete _cidOfToken[tokenID];
         delete _tokenIndexOfOwner[from];
         delete _tokenOfOwner[from];
-    }
 
-    function _burn(uint256 tokenID) internal {
-        _burnEnumerable(tokenID);
-        _burnNft(tokenID);
+        super._burn(tokenID);
     }
 
     function _tokenID(address addr, uint256 cid) internal pure returns (uint256 tokenID) {
         tokenID = uint256(keccak256(abi.encodePacked(cid, addr)));
+    }
+
+    function _tokenURI(uint256 cid) internal pure returns (string memory) {
+        return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(cid)));
     }
 
     function _transferFromBefore(

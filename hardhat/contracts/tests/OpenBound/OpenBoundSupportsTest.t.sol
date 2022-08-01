@@ -4,8 +4,9 @@ pragma solidity 0.8.9;
 import "forge-std/Test.sol";
 
 import "OpenNFTs/contracts/interfaces/IAll.sol";
+import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenBound.sol";
-import "../../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../../interfaces/IOpenNFTs.sol";
 
 abstract contract OpenBoundSupportsTest is Test {
     address private _collection;
@@ -40,7 +41,7 @@ abstract contract OpenBoundSupportsTest is Test {
         //       |
         //  IOpenBound --- IERC721Enumerable --- IERC721Metadata
         //
-        bytes4[14] memory ids = [
+        bytes4[15] memory ids = [
             type(IERC165).interfaceId,
             type(IOpenCheckable).interfaceId,
             type(IERC721).interfaceId,
@@ -48,15 +49,16 @@ abstract contract OpenBoundSupportsTest is Test {
             type(IOpenPauseable).interfaceId,
             type(IOpenCloneable).interfaceId,
             type(IOpenBound).interfaceId,
-            type(IOpenNFTs).interfaceId,
             type(IERC721Enumerable).interfaceId,
             type(IERC721Metadata).interfaceId,
+            type(IOpenNFTsOld).interfaceId,
+            type(IOpenNFTs).interfaceId,
             type(IERC2981).interfaceId,
             type(IERC721TokenReceiver).interfaceId,
             type(IOpenMarketable).interfaceId,
             0xffffffff
         ];
-        bool[14] memory expected = [
+        bool[15] memory expected = [
             true,
             true,
             true,
@@ -67,13 +69,14 @@ abstract contract OpenBoundSupportsTest is Test {
             true,
             true,
             true,
+            false,
             false,
             false,
             false,
             false
         ];
 
-        bytes4[] memory interfaceIds = new bytes4[](14);
+        bytes4[] memory interfaceIds = new bytes4[](15);
         for (uint256 i = 0; i < ids.length; i++) {
             interfaceIds[i] = ids[i];
         }

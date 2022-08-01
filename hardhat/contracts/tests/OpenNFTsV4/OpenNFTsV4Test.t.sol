@@ -77,12 +77,12 @@ contract OpenNFTsV4Test is
         returns (uint256, string memory)
     {
         changePrank(minter);
-        return (OpenNFTsV4(collection).mint(_TOKEN_URI), _TOKEN_URI);
+        return (OpenNFTsV4(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
-        changePrank(OpenNFTsV4(collection).ownerOf(tokenID));
-        OpenNFTsV4(collection).burn(tokenID);
+        changePrank(OpenNFTsV4(payable(collection)).ownerOf(tokenID));
+        OpenNFTsV4(payable(collection)).burn(tokenID);
     }
 
     function setPriceTest(
@@ -90,7 +90,7 @@ contract OpenNFTsV4Test is
         uint256 tokenID,
         uint256 price
     ) public {
-        OpenNFTsV4(collection).setTokenPrice(tokenID, price);
+        OpenNFTsV4(payable(collection)).setTokenPrice(tokenID, price);
     }
 
     function setRoyaltyTest(
@@ -99,7 +99,7 @@ contract OpenNFTsV4Test is
         uint96 fee
     ) public override(ERC2981Test, OpenMarketableTest) returns (uint256 tokenID) {
         (tokenID, ) = mintTest(collection, receiver);
-        OpenNFTsV4(collection).setTokenRoyalty(tokenID, receiver, fee);
+        OpenNFTsV4(payable(collection)).setTokenRoyalty(tokenID, receiver, fee);
     }
 
     function setUp() public {
