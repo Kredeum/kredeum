@@ -10,7 +10,7 @@ import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
 import "../../interfaces/IOpenNFTsV4.sol";
 
 abstract contract OpenNFTsV4BuyTest is Test {
-    address private _collection;
+    address payable private _collection;
     address private _owner = address(0x1);
     address private _minter = address(0x12);
     address private _buyer = address(0x13);
@@ -22,7 +22,7 @@ abstract contract OpenNFTsV4BuyTest is Test {
     function mintTest(address collection_, address minter_) public virtual returns (uint256, string memory);
 
     function setUpOpenNFTsBuy() public {
-        _collection = constructorTest(_owner);
+        _collection = payable(constructorTest(_owner));
 
         (_tokenID0, ) = mintTest(_collection, _minter);
     }

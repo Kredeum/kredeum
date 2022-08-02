@@ -76,7 +76,7 @@ contract OpenMarketableTest is OpenNFTsOldTest {
         vm.assume(fee < maxFee);
 
         changePrank(owner);
-        IOpenMarketable(_contract).setDefaultRoyalty(minter, fee);
+        IOpenMarketable(payable(_contract)).setDefaultRoyalty(minter, fee);
 
         (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(tokenID0, price);
         assertEq(receiver, minter);
