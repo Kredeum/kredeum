@@ -2,7 +2,7 @@
 /**
  *
  * Plugin Name: Kredeum NFTs
- * Description: Plugin to archive your medias to IPFS and mint them as NFTs
+ * Description: Plugin to archive your medias to decentralized storage and mint them as NFTs
  * Plugin URI: https://docs.kredeum.tech
  * Version: {{ipfs.version.latest}}
  * Author: Kredeum <alain@kredeum.com>

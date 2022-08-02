@@ -21,4 +21,4 @@ $wpdb->query( $wpdb->prepare( 'DELETE FROM %1s WHERE meta_key LIKE %s', _get_met
 delete_option( 'SWARM_AUTO_ARCHIVE' );
 delete_option( 'SWARM_NODE_URL' );
 delete_option( 'SWARM_BATCH_ID' );
-delete_option( 'select_collection' );
+delete_option( 'swarm_select_collection' );

@@ -23,20 +23,20 @@ msgstr[0] "%s lien IPFS modifié"
 msgstr[1] "%s liens IPFS modifiés"
 
 #. %s = $unchanged_count = number of medias unchanged.
-#: admin/media-list/actions.php:87
+#: admin/media-list/actions.php:91
 #, php-format
-msgid "%s IPFS media link unchanged"
-msgid_plural "%s IPFS medias links unchanged"
-msgstr[0] "%s lien IPFS inchangé"
-msgstr[1] "%s liens IPFS inchangés"
+msgid " media link unchanged"
+msgid_plural " medias links unchanged"
+msgstr[0] " lien inchangé"
+msgstr[1] " liens inchangés"
 
 #. %s = $archived_count = number of medias archived.
-#: admin/media-list/actions.php:65
+#: admin/media-list/actions.php:66
 #, php-format
-msgid "%s media archived to IPFS"
-msgid_plural "%s medias archived to IPFS"
-msgstr[0] "%s média archivé sur IPFS"
-msgstr[1] "%s médias archivés sur IPFS"
+msgid "%s media archived to "
+msgid_plural "%s medias archived to "
+msgstr[0] "%s média archivé sur "
+msgstr[1] "%s médias archivés sur "
 
 #: admin/settings/class-settings.php:91
 msgid "and related "
@@ -54,11 +54,11 @@ msgstr "Lien d'Archive"
 msgid "Archive to "
 msgstr "Archiver sur "
 
-#: admin/settings/fields.php:23
+#: admin/settings/fields.php:26
 #| msgid "Check to automaticaly push your new medias to IPFS on upload"
-msgid "Choose \"yes\" to automaticaly push your new medias to IPFS on upload"
+msgid "Choose \"yes\" to automaticaly push your new medias to Swarm decentralized storage on upload"
 msgstr ""
-"Choisissez \"Oui\" pour pousser automatiquement vos média vers IPFS après "
+"Choisissez \"Oui\" pour pousser automatiquement vos média vers un stockage décentralisé Swarm après "
 "chargement"
 
 #: admin/settings/class-settings.php:97
@@ -92,8 +92,8 @@ msgid "https://www.kredeum.com"
 msgstr "https://www.kredeum.com"
 
 #: admin/media-list/column.php:17
-msgid "IPFS Archive"
-msgstr "Archive IPFS"
+msgid "Decentralized Archive"
+msgstr "Archive Décentralisée"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"
@@ -105,8 +105,8 @@ msgid "KREDEUM NFTs"
 msgstr "Kredeum NFTs"
 
 #. Name of the plugin
-msgid "Kredeum NFTs"
-msgstr "Kredeum NFTs"
+msgid "SwarmPress"
+msgstr "SwarmPress"
 
 #: admin/nfts/index.php:34
 msgid "My NFTs"
@@ -139,8 +139,8 @@ msgid "or join us on"
 msgstr "ou rejoignez-nous sur"
 
 #. Description of the plugin
-msgid "Plugin to archive your medias to IPFS and mint them as NFTs"
-msgstr "Plugin pour archier vos medias sur IPFS et les minter en NFTs "
+msgid "Plugin to archive your medias to decentralized storage and mint them as NFTs"
+msgstr "Plugin pour archier vos medias sur un stockage décentralisé et les minter en NFTs "
 
 #: admin/settings/class-settings.php:72
 msgid "Settings"
@@ -150,10 +150,10 @@ msgstr "Paramétrages"
 msgid "Settings instructions"
 msgstr "Instructions de paramétrage"
 
-#: admin/settings/class-settings.php:85
+#: common/helpers/storage.php:85
 msgid ""
-"Setup here your IPFS options and connect your Metamask account with WordPress"
-msgstr "Paramétrez vos options IPFS et connectez votre Metamask avec WordPress"
+"Setup here your decentralized storage options and connect your Metamask account with WordPress"
+msgstr "Paramétrez vos options de stockage décentralisé et connectez votre Metamask avec WordPress"
 
 #: admin/settings/class-settings.php:89
 msgid "User Guide"
@@ -162,3 +162,15 @@ msgstr "Guide d'Utilisation"
 #: admin/settings/fields.php:22 admin/settings/fields.php:31
 msgid "Yes"
 msgstr "Oui"
+
+#: common/helpers/storage.php:30
+msgid "Yes"
+msgstr "Oui"
+
+#: common/helpers/storage.php:30
+msgid "Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm free(limited) Gateway"
+msgstr "Entrez votre propre url de noeud Swarm (ex: http://localhost:1633), ou laissez vide pour utiliser le Gateway gratuit Swarm(limité)"
+
+#: common/helpers/storage.php:39
+msgid "Enter your own Swarm Bee Batch of stamps ID, or leave blank to use Swarm free(limited) Gateway"
+msgstr "Entrez votre propre Batch of stamps Swarm, ou laissez vide pour utiliser le Gateway gratuit Swarm(limité)"

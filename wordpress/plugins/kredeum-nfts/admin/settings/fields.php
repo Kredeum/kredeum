@@ -23,7 +23,7 @@ function fields() {
 				'section' => 'first_section',
 				'type'    => 'select',
 				'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-				'helper'  => __( 'Choose "yes" to automaticaly push your new medias to IPFS decentralized storage on upload', 'kredeum-nfts' ),
+				'helper'  => __( 'Choose "yes" to automaticaly push your new medias to decentralized storage on upload', 'kredeum-nfts' ),
 			),
 			array(
 				'uid'     => 'select_collection',

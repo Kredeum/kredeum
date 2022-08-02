@@ -18,28 +18,53 @@ function get_optional_storage_attrs() {
  * Get optional settings parameters
  */
 function get_storage_special_fields() {
-	return (
-		array(
+	if ( KRE_STORAGE === 'ipfs' ) {
+		return (
 			array(
-				'uid'     => 'kredeum_beta',
-				'label'   => 'KREDEUM_BETA',
-				'default' => '0',
-				'section' => 'first_section',
-				'type'    => 'select',
-				'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-				'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
-			),
+				array(
+					'uid'     => 'kredeum_beta',
+					'label'   => 'KREDEUM_BETA',
+					'default' => '0',
+					'section' => 'first_section',
+					'type'    => 'select',
+					'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
+					'helper'  => __( 'For degens ! Choose "yes" to use beta features...', 'kredeum-nfts' ),
+				),
+				array(
+					'uid'         => 'nft_storage_key',
+					'label'       => 'NFT_STORAGE_KEY',
+					'section'     => 'first_section',
+					'type'        => 'textarea',
+					'placeholder' => 'NFT Storage key',
+					'default'     => '',
+					'helper'      => __( 'Enter your own NFT Storage Key, or leave blank to use common key', 'kredeum-nfts' ),
+				),
+			)
+		);
+	} elseif( KRE_STORAGE === 'swarm' ) {
+		return (
 			array(
-				'uid'         => 'nft_storage_key',
-				'label'       => 'NFT_STORAGE_KEY',
-				'section'     => 'first_section',
-				'type'        => 'textarea',
-				'placeholder' => 'NFT Storage key',
-				'default'     => '',
-				'helper'      => __( 'Enter your own NFT Storage Key, or leave blank to use common key', 'kredeum-nfts' ),
-			),
-		)
-	);
+				array(
+					'uid'         => 'swarm_node_url',
+					'label'       => 'SWARM_NODE_URL',
+					'section'     => 'first_section',
+					'type'        => 'text',
+					'placeholder' => 'Your Swarm Bee node URL',
+					'default'     => '',
+					'helper'      => __( 'Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm free(limited) Gateway', 'swarmpress' ),
+				),
+				array(
+					'uid'         => 'swarm_batch_id',
+					'label'       => 'SWARM_BATCH_ID',
+					'section'     => 'first_section',
+					'type'        => 'text',
+					'placeholder' => 'Your Swarm Bee Batch of stamps ID',
+					'default'     => '',
+					'helper'      => __( 'Enter your own Swarm Bee Batch of stamps ID, or leave blank to use Swarm free(limited) Gateway', 'swarmpress' ),
+				),
+			)
+		);
+	}
 }
 
 /**

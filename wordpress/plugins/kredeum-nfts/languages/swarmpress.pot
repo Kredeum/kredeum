@@ -17,26 +17,26 @@ msgstr ""
 "X-Domain: swarmpress"
 
 #. %s = $modified_count = number of medias modified.
-#: admin/media-list/actions.php:76
+#: admin/media-list/actions.php:77
 #, php-format
-msgid "%s IPFS media link modified"
-msgid_plural "%s IPFS medias links modified"
+msgid " media link modified"
+msgid_plural " medias links modified"
 msgstr[0] ""
 msgstr[1] ""
 
 #. %s = $unchanged_count = number of medias unchanged.
-#: admin/media-list/actions.php:87
+#: admin/media-list/actions.php:88
 #, php-format
-msgid "%s IPFS media link unchanged"
-msgid_plural "%s IPFS medias links unchanged"
+msgid " media link unchanged"
+msgid_plural " medias links unchanged"
 msgstr[0] ""
 msgstr[1] ""
 
 #. %s = $archived_count = number of medias archived.
-#: admin/media-list/actions.php:65
+#: admin/media-list/actions.php:66
 #, php-format
-msgid "%s media archived to IPFS"
-msgid_plural "%s medias archived to IPFS"
+msgid "%s media archived to "
+msgid_plural "%s medias archived to "
 msgstr[0] ""
 msgstr[1] ""
 
@@ -56,8 +56,8 @@ msgstr ""
 msgid "Archive to "
 msgstr ""
 
-#: admin/settings/fields.php:23
-msgid "Choose \"yes\" to automaticaly push your new medias to IPFS on upload"
+#: admin/settings/fields.php:26
+msgid "Choose \"yes\" to automaticaly push your new medias to Swarm decentralized storage on upload"
 msgstr ""
 
 #: admin/settings/class-settings.php:97
@@ -72,10 +72,6 @@ msgstr ""
 msgid "For any help read the"
 msgstr ""
 
-#: admin/settings/fields.php:32
-msgid "For degens ! Choose \"yes\" to use beta features..."
-msgstr ""
-
 #. URI of the plugin
 msgid "https://docs.kredeum.tech"
 msgstr ""
@@ -85,7 +81,7 @@ msgid "https://www.kredeum.com"
 msgstr ""
 
 #: admin/media-list/column.php:17
-msgid "IPFS Archive"
+msgid "Decentralized Archive"
 msgstr ""
 
 #. Author of the plugin
@@ -93,7 +89,7 @@ msgid "Kredeum <alain@kredeum.com>"
 msgstr ""
 
 #: admin/media-list/column.php:16
-msgid "KREDEUM NFTs"
+msgid "NFTs"
 msgstr ""
 
 #. Name of the plugin
@@ -130,7 +126,7 @@ msgid "or join us on"
 msgstr ""
 
 #. Description of the plugin
-msgid "Plugin to archive your medias to IPFS and mint them as NFTs"
+msgid "Plugin to archive your medias to decentralized storage and mint them as NFTs"
 msgstr ""
 
 #: admin/settings/class-settings.php:72
@@ -141,15 +137,23 @@ msgstr ""
 msgid "Settings instructions"
 msgstr ""
 
-#: admin/settings/class-settings.php:85
+#: common/helpers/storage.php:85
 msgid ""
-"Setup here your IPFS options and connect your Metamask account with WordPress"
+"Setup here your decentralized storage options and connect your Metamask account with WordPress"
 msgstr ""
 
 #: admin/settings/class-settings.php:89
 msgid "User Guide"
 msgstr ""
 
-#: admin/settings/fields.php:22 admin/settings/fields.php:31
+#: admin/settings/fields.php:25 admin/settings/fields.php:31
 msgid "Yes"
+msgstr ""
+
+#: common/helpers/storage.php:30
+msgid "Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm free(limited) Gateway"
+msgstr ""
+
+#: common/helpers/storage.php:39
+msgid "Enter your own Swarm Bee Batch of stamps ID, or leave blank to use Swarm free(limited) Gateway"
 msgstr ""

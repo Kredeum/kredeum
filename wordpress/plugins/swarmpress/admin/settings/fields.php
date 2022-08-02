@@ -26,7 +26,7 @@ function fields() {
 				'helper'  => __( 'Choose "yes" to automaticaly push your new medias to Swarm decentralized storage on upload', 'swarmpress' ),
 			),
 			array(
-				'uid'     => 'select_collection',
+				'uid'     => 'swarm_select_collection',
 				'label'   => 'Connect Metamask and select Network and Collection to Mint',
 				'section' => 'first_section',
 				'type'    => 'kcollections',
