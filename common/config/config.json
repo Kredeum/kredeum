@@ -13,8 +13,8 @@
   },
   "swarm": {
     "version": {
-      "latest": "0.0.1",
-      "stable": "0.0.1"
+      "latest": "0.1.0",
+      "stable": "0.1.0"
     },
     "server": "https://api.gateway.ethswarm.org"
   }

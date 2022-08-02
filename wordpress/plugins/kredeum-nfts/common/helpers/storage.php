@@ -41,7 +41,7 @@ function get_storage_special_fields() {
 				),
 			)
 		);
-	} elseif( KRE_STORAGE === 'swarm' ) {
+	} elseif ( KRE_STORAGE === 'swarm' ) {
 		return (
 			array(
 				array(

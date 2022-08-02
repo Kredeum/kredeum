@@ -52,7 +52,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	if( !class_exists( 'RestClientException' ) ) {
+	if ( ! class_exists( 'RestClientException' ) ) {
 		require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
 	}
 
