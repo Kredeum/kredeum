@@ -1,6 +1,6 @@
 <?php
 /**
- * SWARM BEE NFT STORAGE
+ * SWARM BEE NFT Storage
  *
  * @package swarmpress
  */
@@ -24,7 +24,7 @@ function swarm_add_and_pin( $attachment_id ) {
 			$swarm_pin = true;
 		}
 
-		$api = new \RestClient( array( 'base_url' => SWARM_NODE_URL ) );
+		$swarm_api = new \RestClient( array( 'base_url' => SWARM_NODE_URL ) );
 
 		$file         = file_get_contents( get_attached_file( $attachment_id ) );
 		$filename     = get_attached_file_meta( $attachment_id )->filename;
@@ -36,7 +36,7 @@ function swarm_add_and_pin( $attachment_id ) {
 			'Content-Type'           => $content_type,
 		);
 
-		$result = $api->post( '/bzz', $file, $headers );
+		$result = $swarm_api->post( '/bzz', $file, $headers );
 	}
 
 	// var_dump($result->decode_response()->reference);

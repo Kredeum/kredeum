@@ -121,7 +121,7 @@ msgstr ""
 msgid "No"
 msgstr ""
 
-#: kredeum-nfts.php:22 uninstall.php:8
+#: swarmpress.php:22 uninstall.php:8
 msgid "Not allowed"
 msgstr ""
 

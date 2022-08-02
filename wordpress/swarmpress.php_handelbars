@@ -4,28 +4,28 @@
  * Plugin Name: SwarmPress
  * Description: Plugin to archive your medias to SWARM and mint them as NFTs
  * Plugin URI: https://docs.kredeum.tech
- * Version: {{swarmVersion.latest}}
+ * Version: {{swarm.version.latest}}
  * Author: Kredeum <alain@kredeum.com>
  * Author URI: https://www.kredeum.com
- * Text domain: {{pluginName}}
+ * Text domain: swarmpress
  * Domain Path: /languages
  *
  * Copyright 2020-2022 Kredeum
  *
- * @package {{pluginName}}
+ * @package swarmpress
  */
 
 namespace SwarmPress;
 
-define( 'SWARMPRESS_VERSION', '{{swarmVersion.latest}}' );
-define( 'STORAGE', '{{storage}}' );
-define( 'PLUGIN_NAME', '{{pluginName}}' );
+define( 'SWARMPRESS_VERSION', '{{swarm.version.latest}}' );
+define( 'SWARM_STORAGE', 'swarm' );
+define( 'SWARM_STORAGE_REF', '_kre_swarmref' );
 
-defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', '{{pluginName}}' ) ) );
+defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'swarmpress' ) ) );
 define( 'SWARMPRESS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
-	define( 'AUTO_ARCHIVE', get_option( 'AUTO_ARCHIVE', array( '' ) )[0] );
+	define( 'SWARM_AUTO_ARCHIVE', get_option( 'SWARM_AUTO_ARCHIVE', array( '' ) )[0] );
 
 	require_once SWARMPRESS_PLUGIN_PATH . 'admin/storage/query.php';
 
@@ -41,9 +41,11 @@ if ( is_admin() ) {
 	require_once SWARMPRESS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once SWARMPRESS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	require_once SWARMPRESS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
+	if( !class_exists( 'RestClientException' ) ) {
+		require_once SWARMPRESS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
+	}
 
-	$api = new \RestClient( array( 'base_url' => '' ) );
+	$swarm_api = new \RestClient( array( 'base_url' => '' ) );
 
 	add_action(
 		'admin_enqueue_scripts',
@@ -58,8 +60,8 @@ if ( is_admin() ) {
 	);
 }
 
-define( 'SWARM_SERVER', '{{swarmServer}}' );
-define( 'STORAGE_GATEWAY', '{{swarmServer}}{{swarmApiGateway}}' );
+define( 'SWARM_SERVER', '{{swarm.server}}' );
+define( 'SWARM_GATEWAY', '{{swarm.server}}/bzz/' );
 define( 'SWARM_NODE_URL', get_option( 'SWARM_NODE_URL', '' ) ? get_option( 'SWARM_NODE_URL', '' ) : SWARM_SERVER );
 define( 'SWARM_BATCH_ID', get_option( 'SWARM_BATCH_ID', '' ) ? get_option( 'SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
 
@@ -71,6 +73,6 @@ require_once SWARMPRESS_PLUGIN_PATH . 'common/helpers/storage.php';
 add_action(
 	'plugins_loaded',
 	function () {
-		load_plugin_textdomain( '{{pluginName}}', false, '{{pluginName}}/languages' );
+		load_plugin_textdomain( 'swarmpress', false, 'swarmpress/languages' );
 	}
 );

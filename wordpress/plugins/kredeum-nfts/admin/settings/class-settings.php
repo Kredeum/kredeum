@@ -23,35 +23,18 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = STORAGE . '_settings';
+	private $slug = KRE_STORAGE . '_settings';
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		// Hook into the admin menu.
-		if ( STORAGE === 'ipfs' ) {
 			add_action( 'admin_menu', array( $this, 'page_create' ) );
-		} else {
-			add_action( 'admin_menu', array( $this, 'menu_create' ) );
-		}
 
 		// Add Settings and Fields.
 		add_action( 'admin_init', array( $this, 'sections_create' ) );
 		add_action( 'admin_init', array( $this, 'fields_create' ) );
-	}
-
-	/**
-	 * Menu create
-	 */
-	public function menu_create() {
-		$page_title = __( 'SWARMPRESS', 'kredeum-nfts' );
-		$menu_title = __( 'SWARMPRESS', 'kredeum-nfts' );
-		$capability = 'edit_posts';
-		$menu_slug  = $this->slug;
-		$callback   = array( $this, 'page_content' );
-
-		add_menu_page( $page_title, $menu_title, $capability, $menu_slug, $callback, 'dashicons-format-gallery', 11 );
 	}
 
 	/**

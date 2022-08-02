@@ -13,7 +13,7 @@ namespace KredeumNFTs\Storage;
 add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
-		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
+		$columns['kre-nft'] = __( 'NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
 		$columns['kre-cid'] = __( 'Decentralized Archive', 'kredeum-nfts' );
 		return $columns;
 	}
@@ -28,10 +28,13 @@ add_action(
 		global $post;
 
 		if ( 'kre-cid' === $name ) {
-			if ( $post->{get_storage_ref()} ) {
+			if ( $post->{KRE_STORAGE_REF} ) {
 				echo wp_kses(
-					link( $post->{get_storage_ref()}, substr( $post->{get_storage_ref()}, 0, 12 ) . '...' ),
-					array( 'a' => array( 'href' => array() ) )
+					link( $post->{KRE_STORAGE_REF}, substr( $post->{KRE_STORAGE_REF}, 0, 12 ) . '...' ),
+					array(
+						'a'  => array( 'href' => array() ),
+						'br' => '',
+					)
 				);
 			}
 		}
@@ -52,7 +55,7 @@ add_action(
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
 					. esc_attr( get_optional_storage_attrs() )
-					. ' storage="' . esc_attr( STORAGE )
+					. ' storage="' . esc_attr( KRE_STORAGE )
 					. '"/>'
 				);
 			}

@@ -3,7 +3,7 @@ import { swarmLinkToCid, SWARM_GATEWAY } from "./kconfig";
 import config from "../config/config.json";
 
 const getBee = (nodeUrl: string): Bee => {
-  return new Bee(nodeUrl ? nodeUrl : config.swarmServer);
+  return new Bee(nodeUrl ? nodeUrl : config.swarm.server);
 };
 const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
 

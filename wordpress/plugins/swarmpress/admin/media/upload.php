@@ -11,7 +11,7 @@ namespace SwarmPress\Storage;
  * IPFS new action
  * archive IPFS on media upload
  */
-if ( AUTO_ARCHIVE ) {
+if ( SWARM_AUTO_ARCHIVE ) {
 	add_action(
 		'add_attachment',
 		function ( $post_id ) {

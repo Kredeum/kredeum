@@ -158,7 +158,9 @@
         </div>
       {/if}
     {:else}
-      <button id="mint-button-{pid || '0'}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
+      <button id="mint-button-{pid || '0'}" on:click={mint} class="btn btn-small btn-mint">
+        MINT {storage === "swarm" ? "SWARM" : ""} NFT
+      </button>
     {/if}
   {:else}
     <small>

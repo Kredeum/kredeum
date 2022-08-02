@@ -23,18 +23,14 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = STORAGE . '_settings';
+	private $slug = SWARM_STORAGE . '_settings';
 
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		// Hook into the admin menu.
-		if ( STORAGE === 'ipfs' ) {
-			add_action( 'admin_menu', array( $this, 'page_create' ) );
-		} else {
 			add_action( 'admin_menu', array( $this, 'menu_create' ) );
-		}
 
 		// Add Settings and Fields.
 		add_action( 'admin_init', array( $this, 'sections_create' ) );
@@ -45,8 +41,8 @@ class Settings {
 	 * Menu create
 	 */
 	public function menu_create() {
-		$page_title = __( 'SWARMPRESS', 'kredeum-nfts' );
-		$menu_title = __( 'SWARMPRESS', 'kredeum-nfts' );
+		$page_title = __( 'SwarmPress', 'swarmpress' );
+		$menu_title = __( 'SwarmPress', 'swarmpress' );
 		$capability = 'edit_posts';
 		$menu_slug  = $this->slug;
 		$callback   = array( $this, 'page_content' );
@@ -55,27 +51,11 @@ class Settings {
 	}
 
 	/**
-	 * Page create
-	 */
-	public function page_create() {
-		// Add the submenu item and page.
-		$parent_slug = 'nfts';
-		$page_title  = __( 'NFTs settings', 'kredeum-nfts' );
-		$menu_title  = __( 'NFTs settings', 'kredeum-nfts' );
-		$capability  = 'upload_files';
-		$menu_slug   = $this->slug;
-		$callback    = array( $this, 'page_content' );
-		$position    = 100;
-
-		add_submenu_page( $parent_slug, $page_title, $menu_title, $capability, $menu_slug, $callback, $position );
-	}
-
-	/**
 	 * Page content
 	 */
 	public function page_content() {
 		echo '<div class="wrap">';
-		echo '<h2>' . esc_html( __( 'SwarmPress', 'kredeum-nfts' ) ) . '</h2>';
+		echo '<h2>' . esc_html( __( 'SwarmPress', 'swarmpress' ) ) . '</h2>';
 
 		echo '<form action="options.php" method="POST">';
 		settings_fields( $this->slug );
@@ -88,7 +68,7 @@ class Settings {
 	 * Sections create
 	 */
 	public function sections_create() {
-		add_settings_section( 'first_section', __( 'Settings', 'kredeum-nfts' ), array( $this, 'section_callback' ), $this->slug );
+		add_settings_section( 'first_section', __( 'Settings', 'swarmpress' ), array( $this, 'section_callback' ), $this->slug );
 	}
 
 	/**

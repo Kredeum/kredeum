@@ -13,8 +13,8 @@ namespace SwarmPress\Storage;
 add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
-		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
-		$columns['kre-cid'] = __( 'Decentralized Archive', 'kredeum-nfts' );
+		$columns['kre-nft'] = __( 'NFTs', 'swarmpress' ) . wp_nonce_field( 'ajax-token', 'knonce' );
+		$columns['kre-cid'] = __( 'Decentralized Archive', 'swarmpress' );
 		return $columns;
 	}
 );
@@ -28,10 +28,13 @@ add_action(
 		global $post;
 
 		if ( 'kre-cid' === $name ) {
-			if ( $post->{get_storage_ref()} ) {
+			if ( $post->{SWARM_STORAGE_REF} ) {
 				echo wp_kses(
-					link( $post->{get_storage_ref()}, substr( $post->{get_storage_ref()}, 0, 12 ) . '...' ),
-					array( 'a' => array( 'href' => array() ) )
+					link( $post->{SWARM_STORAGE_REF}, substr( $post->{SWARM_STORAGE_REF}, 0, 12 ) . '...' ),
+					array(
+						'a'  => array( 'href' => array() ),
+						'br' => '',
+					)
 				);
 			}
 		}
@@ -44,7 +47,7 @@ add_action(
 				$metadata = get_metadata( 'post', $post->ID );
 
 				printf(
-					'<div class="' . esc_attr( STORAGE ) . '-mint"'
+					'<div class="' . esc_attr( SWARM_STORAGE ) . '-mint"'
 					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
@@ -52,7 +55,7 @@ add_action(
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
 					. esc_attr( get_optional_storage_attrs() )
-					. ' storage="' . esc_attr( STORAGE )
+					. ' storage="' . esc_attr( SWARM_STORAGE )
 					. '"/>'
 				);
 			}

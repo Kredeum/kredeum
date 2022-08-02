@@ -31,9 +31,9 @@ function upsert( $post_id ) {
  */
 function insert( $post_id ) {
 	// $cid = upload_on_storage( $post_id );
-	$upload_on_storage = __NAMESPACE__ . '\\' . ucfirst( STORAGE ) . '\insert';
+	$upload_on_storage = __NAMESPACE__ . '\\' . ucfirst( KRE_STORAGE ) . '\insert';
 	$cid               = $upload_on_storage( $post_id );
 
-	update_post_meta( $post_id, get_storage_ref(), $cid );
+	update_post_meta( $post_id, KRE_STORAGE_REF, $cid );
 	return $cid;
 }

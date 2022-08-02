@@ -8,12 +8,12 @@
 namespace SwarmPress\Storage;
 
 /**
- * IPFS bulk archive action
+ * Swarm bulk archive action
  */
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$bulk_actions['archive'] = __( 'Archive to ', esc_html( PLUGIN_NAME ) ) . strtoupper( STORAGE );
+		$bulk_actions['swarm_archive'] = __( 'Archive to ', 'swarmpress' ) . strtoupper( SWARM_STORAGE );
 
 		return $bulk_actions;
 	}
@@ -28,7 +28,7 @@ add_filter(
 		$na = 0; // number of archived files.
 		$nm = 0; // number of modified files.
 		$nu = 0; // number of unchanged files.
-		if ( 'archive' === $action ) {
+		if ( 'swarm_archive' === $action ) {
 			foreach ( $post_ids as $post_id ) {
 				$file = get_attached_file_meta( $post_id );
 				$cid  = insert( $post_id );
@@ -63,7 +63,7 @@ add_action(
 			printf(
 				'<div id="message" class="notice notice-success is-dismissible"><p>'
 				// translators: %s = $archived_count = number of medias archived.
-				. esc_html( _n( '%s media archived to ', '%s medias archived to ', $archived_count, 'kredeum-nfts' ) . strtoupper( STORAGE ) )
+				. esc_html( _n( '%s media archived to ', '%s medias archived to ', $archived_count, 'swarmpress' ) . strtoupper( SWARM_STORAGE ) )
 				. '</p></div>',
 				esc_html( $archived_count ),
 			);
@@ -71,12 +71,10 @@ add_action(
 		if ( ! empty( $_REQUEST['bulk_modified'] ) ) {
 			$modified_count = intval( $_REQUEST['bulk_modified'] );
 			printf(
-			// translators: must explain %1 %2.
 				'<div id="message" class="notice notice-warning is-dismissible"><p>'
+				. esc_html( $modified_count ) . ' ' . esc_html( strtoupper( SWARM_STORAGE ) )
 				// translators: %s = $modified_count = number of medias modified.
-				// . esc_html( _n( '%s ' . strtoupper( STORAGE ) . ' media link modified', '%s ' . strtoupper( STORAGE ) . ' medias links modified', $modified_count, 'kredeum-nfts' ) ).
-				. esc_html( $modified_count ) . ' ' . esc_html( strtoupper( STORAGE ) )
-				. esc_html( _n( ' media link modified', ' medias links modified', $modified_count, 'kredeum-nfts' ) )
+				. esc_html( _n( ' media link modified', ' medias links modified', $modified_count, 'swarmpress' ) )
 				. '</p></div>',
 				esc_html( $modified_count )
 			);
@@ -84,11 +82,10 @@ add_action(
 		if ( ! empty( $_REQUEST['bulk_unchanged'] ) ) {
 			$unchanged_count = intval( $_REQUEST['bulk_unchanged'] );
 			printf(
-			// translators: must explain %1 %2.
 				'<div id="message" class="notice is-dismissible"><p>'
 				// translators: %s = $unchanged_count = number of medias unchanged.
-				. esc_html( $unchanged_count ) . ' ' . esc_html( strtoupper( STORAGE ) )
-				. esc_html( _n( ' media link unchanged', ' medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
+				. esc_html( $unchanged_count ) . ' ' . esc_html( strtoupper( SWARM_STORAGE ) )
+				. esc_html( _n( ' media link unchanged', ' medias links unchanged', $unchanged_count, 'swarmpress' ) )
 				. '</p></div>',
 				esc_html( $unchanged_count )
 			);

@@ -14,7 +14,7 @@ namespace SwarmPress\Storage;
  * @return string cid with path
  */
 function url( $cid ) {
-	return $cid ? STORAGE_GATEWAY . $cid : '';
+	return $cid ? SWARM_GATEWAY . $cid : '';
 }
 
 /**
@@ -31,5 +31,5 @@ function link( $cid, $text = '' ) {
 	$url = esc_url( url( $cid ) );
 	$txt = esc_html( $text );
 
-	return $cid ? "<a href='$url'>$txt</a>" : '';
+	return $cid ? "<a href='$url'>$txt</a><br>" : '';
 }

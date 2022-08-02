@@ -13,7 +13,7 @@ namespace KredeumNFTs\Storage;
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$bulk_actions['archive'] = __( 'Archive to ', esc_html( PLUGIN_NAME ) ) . strtoupper( STORAGE );
+		$bulk_actions['archive'] = __( 'Archive to ', 'kredeum-nfts' ) . strtoupper( KRE_STORAGE );
 
 		return $bulk_actions;
 	}
@@ -63,7 +63,7 @@ add_action(
 			printf(
 				'<div id="message" class="notice notice-success is-dismissible"><p>'
 				// translators: %s = $archived_count = number of medias archived.
-				. esc_html( _n( '%s media archived to ', '%s medias archived to ', $archived_count, 'kredeum-nfts' ) . strtoupper( STORAGE ) )
+				. esc_html( _n( '%s media archived to ', '%s medias archived to ', $archived_count, 'kredeum-nfts' ) . strtoupper( KRE_STORAGE ) )
 				. '</p></div>',
 				esc_html( $archived_count ),
 			);
@@ -74,8 +74,8 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice notice-warning is-dismissible"><p>'
 				// translators: %s = $modified_count = number of medias modified.
-				// . esc_html( _n( '%s ' . strtoupper( STORAGE ) . ' media link modified', '%s ' . strtoupper( STORAGE ) . ' medias links modified', $modified_count, 'kredeum-nfts' ) ).
-				. esc_html( $modified_count ) . ' ' . esc_html( strtoupper( STORAGE ) )
+				// . esc_html( _n( '%s ' . strtoupper( KRE_STORAGE ) . ' media link modified', '%s ' . strtoupper( KRE_STORAGE ) . ' medias links modified', $modified_count, 'kredeum-nfts' ) ).
+				. esc_html( $modified_count ) . ' ' . esc_html( strtoupper( KRE_STORAGE ) )
 				. esc_html( _n( ' media link modified', ' medias links modified', $modified_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $modified_count )
@@ -87,7 +87,7 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice is-dismissible"><p>'
 				// translators: %s = $unchanged_count = number of medias unchanged.
-				. esc_html( $unchanged_count ) . ' ' . esc_html( strtoupper( STORAGE ) )
+				. esc_html( $unchanged_count ) . ' ' . esc_html( strtoupper( KRE_STORAGE ) )
 				. esc_html( _n( ' media link unchanged', ' medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $unchanged_count )

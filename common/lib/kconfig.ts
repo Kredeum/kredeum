@@ -114,8 +114,8 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 };
 
 // CONSTANT
-const IPFS_GATEWAY = config.ipfsGateway;
-const SWARM_GATEWAY = config.swarmServer + config.swarmApiGateway;
+const IPFS_GATEWAY = config.ipfs.gateway;
+const SWARM_GATEWAY = config.swarm.server + "/bzz/";
 
 const textShort = (s: string, n = 16, p = n): string => {
   const ipfsStr: string = s?.toString() || "";

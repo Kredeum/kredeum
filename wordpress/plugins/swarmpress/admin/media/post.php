@@ -15,12 +15,12 @@ add_action(
 	'add_meta_boxes_attachment',
 	function () {
 		add_meta_box(
-			STORAGE . '_link_box',
-			strtoupper( STORAGE ),
+			SWARM_STORAGE . '_link_box',
+			strtoupper( SWARM_STORAGE ),
 			function ( $post ) {
-				$cid = $post->{get_storage_ref()};
+				$cid = $post->{SWARM_STORAGE_REF};
 				if ( $cid ) {
-					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
+					echo esc_html( __( 'Archive link', 'swarmpress' ) ) . ' : ' .
 					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
 				}
 			}
@@ -37,12 +37,12 @@ add_filter(
 		$file = get_attached_file_meta( $post->ID );
 
 		if ( ! $file->cid ) {
-			$form_fields[ get_storage_ref() ] = array(
-				'label' => __( 'Archive to ' ) . STORAGE,
+			$form_fields[ SWARM_STORAGE_REF ] = array(
+				'label' => __( 'Archive to ', 'swarmpress' ) . SWARM_STORAGE,
 				'value' => '',
 				'input' => 'html',
-				'html'  => '<label for="attachments-' . $post->ID . '-' . STORAGE . '"> ' .
-				'<input type="checkbox" id="attachments-' . $post->ID . '-' . STORAGE . '" name="attachments[' . $post->ID . '][' . STORAGE . ']" value="1" /></label>  ',
+				'html'  => '<label for="attachments-' . $post->ID . '-' . SWARM_STORAGE . '"> ' .
+				'<input type="checkbox" id="attachments-' . $post->ID . '-' . SWARM_STORAGE . '" name="attachments[' . $post->ID . '][' . SWARM_STORAGE . ']" value="1" /></label>  ',
 			);
 		}
 		return $form_fields;
@@ -52,13 +52,13 @@ add_filter(
 );
 
 /**
- * Storage edit attachement action
+ * Storage edit attachement action.
  */
 add_action(
 	'edit_attachment',
 	function ( $attachment_id ) {
-		if ( isset( $_REQUEST['attachments'][ $attachment_id ][ STORAGE ] )
-		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ][ STORAGE ] ) ) ) {
+		if ( isset( $_REQUEST['attachments'][ $attachment_id ][ SWARM_STORAGE ] )
+		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ][ SWARM_STORAGE ] ) ) ) {
 			insert( $attachment_id );
 		}
 	}

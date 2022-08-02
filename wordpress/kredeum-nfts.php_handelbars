@@ -4,7 +4,7 @@
  * Plugin Name: Kredeum NFTs
  * Description: Plugin to archive your medias to IPFS and mint them as NFTs
  * Plugin URI: https://docs.kredeum.tech
- * Version: {{version.latest}}
+ * Version: {{ipfs.version.latest}}
  * Author: Kredeum <alain@kredeum.com>
  * Author URI: https://www.kredeum.com
  * Text domain: kredeum-nfts
@@ -17,11 +17,11 @@
 
 namespace KredeumNFTs;
 
-define( 'KREDEUM_NFTS_VERSION', '{{version.latest}}' );
-define( 'STORAGE', '{{storage}}' );
-define( 'PLUGIN_NAME', '{{pluginName}}' );
+define( 'KREDEUM_NFTS_VERSION', '{{ipfs.version.latest}}' );
+define( 'KRE_STORAGE', '{{storage}}' );
+define( 'KRE_STORAGE_REF', '_kre_cid' );
 
-defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', '{{pluginName}}' ) ) );
+defined( 'ABSPATH' ) || die( esc_html( __( 'Not allowed', 'kredeum-nfts' ) ) );
 define( 'KREDEUM_NFTS_PLUGIN_PATH', plugin_dir_path( __FILE__ ) );
 
 if ( is_admin() ) {
@@ -52,7 +52,9 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
+	if( !class_exists( 'RestClientException' ) ) {
+		require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
+	}
 
 	$api = new \RestClient( array( 'base_url' => '' ) );
 
@@ -73,7 +75,7 @@ if ( is_admin() ) {
 	);
 }
 
-define( 'STORAGE_GATEWAY', '{{ipfsGateway}}' );
+define( 'STORAGE_GATEWAY', '{{ipfs.gateway}}' );
 define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/cid.php';
@@ -89,6 +91,6 @@ require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/helpers/storage.php';
 add_action(
 	'plugins_loaded',
 	function () {
-		load_plugin_textdomain( '{{pluginName}}', false, '{{pluginName}}/languages' );
+		load_plugin_textdomain( 'kredeum-nfts', false, 'kredeum-nfts/languages' );
 	}
 );

@@ -17,13 +17,13 @@ function fields() {
 		array(
 
 			array(
-				'uid'     => 'auto_archive',
-				'label'   => 'AUTO_ARCHIVE',
+				'uid'     => 'swarm_auto_archive',
+				'label'   => 'SWARM_AUTO_ARCHIVE',
 				'default' => '1',
 				'section' => 'first_section',
 				'type'    => 'select',
-				'options' => array( __( 'No', 'kredeum-nfts' ), __( 'Yes', 'kredeum-nfts' ) ),
-				'helper'  => __( 'Choose "yes" to automaticaly push your new medias to IPFS decentralized storage on upload', 'kredeum-nfts' ),
+				'options' => array( __( 'No', 'swarmpress' ), __( 'Yes', 'swarmpress' ) ),
+				'helper'  => __( 'Choose "yes" to automaticaly push your new medias to Swarm decentralized storage on upload', 'swarmpress' ),
 			),
 			array(
 				'uid'     => 'select_collection',
