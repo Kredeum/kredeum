@@ -45,13 +45,19 @@ const collectionGetSupports = async (
 ): Promise<CollectionSupports> => {
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return {};
 
-  console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`);
+  let supports: CollectionSupports | undefined;
+
+  // console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`);
 
   const lockPrevious = locks.get(collectionKey(chainId, address));
-  if (lockPrevious) await lockPrevious.acquire();
+  if (lockPrevious) {
+    await lockPrevious.acquire();
+    supports = supportsCache.get(collectionKey(chainId, address));
+    lockPrevious.release();
 
-  let supports = supportsCache.get(collectionKey(chainId, address));
-  if (supports?.IERC165) return supports;
+    if (!supports?.IERC165) console.error("collectionGetSupports ERROR IERC165");
+    return supports || {};
+  }
 
   const lock = new Semaphore(1);
   locks.set(collectionKey(chainId, address), lock);
@@ -116,7 +122,7 @@ const collectionGetSupports = async (
       err
     );
   }
-  console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
+  // console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
 
   supportsCache.set(collectionKey(chainId, address), supports);
   lock.release();

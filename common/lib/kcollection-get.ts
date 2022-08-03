@@ -44,13 +44,13 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<{ contract: Contract; supports: CollectionSupports }> => {
-  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
   const supports = await collectionGetSupports(chainId, address, provider, collection);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
   if (!contract) {
-    console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+    // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
 
     let abi: Array<string> = [];
     for (const [key, support] of Object.entries(supports || {})) {

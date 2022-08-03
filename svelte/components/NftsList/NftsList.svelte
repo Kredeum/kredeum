@@ -47,11 +47,13 @@
 
     // STATE VIEW : sync get NFT list
     nfts = nftStore.getSubListStore(chainId, address, account);
+    console.log("NFTS cached", $nfts);
 
     // ACTION : async refresh NFT list
     $refreshing = true;
     await nftStore.refreshSubList(chainId, address, account);
     $refreshing = false;
+    console.log("NFTS refreshed", $nfts);
   };
 </script>
 

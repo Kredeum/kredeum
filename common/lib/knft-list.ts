@@ -78,21 +78,21 @@ const nftListTokenIds = async (
   if (network) {
     if (alchemyGet(chainId)) {
       nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds alchemyNftList", nftsTokenIds);
+      // console.log("nftListTokenIds alchemyNftList", nftsTokenIds);
     } else if (thegraphGet(chainId)) {
       nftsTokenIds = await thegraphNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
+      // console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
     } else if (moralisGet(chainId)) {
       nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
     } else if (covalentGet(chainId)) {
       nftsTokenIds = await covalentNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds covalentNftList", nftsTokenIds);
+      // console.log("nftListTokenIds covalentNftList", nftsTokenIds);
     } else {
       console.error("No NFTs found:-(");
     }
     if (nftsTokenIds.size === 0) {
       nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
-      console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
+      // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     }
   }
 
