@@ -1,10 +1,10 @@
 import type { OpenNFTsV3 } from "soltypes/contracts";
 
-import abiERC173 from "abis/IERC173.sol/IERC173.json";
+import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
 
-import abiOpenNFTs from "abis/IOpenNFTs.sol/IOpenNFTs.json";
-import abiOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
-import abiOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
+import abiOpenNFTs from "abis/contracts/interfaces/IOpenNFTs.sol/IOpenNFTs.json";
+import abiOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiOpenNFTsV3 from "abis/contracts/interfaces/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";

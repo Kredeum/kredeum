@@ -5,18 +5,7 @@ import { collectionGetSupportsCheckable } from "./kcollection-get-metadata-check
 
 import { Contract } from "ethers";
 
-import abiERC165 from "abis/IERC165.sol/IERC165.json";
-import abiERC173 from "abis/IERC173.sol/IERC173.json";
-import abiERC721 from "abis/IERC721.sol/IERC721.json";
-import abiERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
-import abiERC1155 from "abis/IERC1155.sol/IERC1155.json";
-import abiERC1155MetadataURI from "abis/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";
-import abiOpenCheckable from "abis/IOpenCheckable.sol/IOpenCheckable.json";
-
-import abiOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
-import abiOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
-import abiOpenNFTsV4 from "abis/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+import { abis } from "lib/kabis";
 
 import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
 
@@ -65,16 +54,16 @@ const collectionGetSupports = async (
 
   supports = { IERC165: true };
   try {
-    const contract = new Contract(address, abiERC165, provider) as IERC165;
-    const openCheckable = await contract.supportsInterface(interfaceId(abiOpenCheckable));
+    const contract = new Contract(address, abis["IERC165"], provider) as IERC165;
+    const openCheckable = await contract.supportsInterface(interfaceId(abis["IOpenCheckable"]));
 
     if (openCheckable) {
       supports = await collectionGetSupportsCheckable(address, provider);
       supports.IOpenNFTs = true;
     } else {
-      const waitERC721 = contract.supportsInterface(interfaceId(abiERC721));
-      const waitERC1155 = contract.supportsInterface(interfaceId(abiERC1155));
-      const waitERC173 = contract.supportsInterface(interfaceId(abiERC173));
+      const waitERC721 = contract.supportsInterface(interfaceId(abis["IERC721"]));
+      const waitERC1155 = contract.supportsInterface(interfaceId(abis["IERC1155"]));
+      const waitERC173 = contract.supportsInterface(interfaceId(abis["IERC173"]));
       [supports.IERC721, supports.IERC1155, supports.IERC173] = await Promise.all([
         waitERC721,
         waitERC1155,
@@ -82,11 +71,11 @@ const collectionGetSupports = async (
       ]);
 
       if (supports.IERC721) {
-        const waitMetadata = contract.supportsInterface(interfaceId(abiERC721Metadata));
-        const waitEnumerable = contract.supportsInterface(interfaceId(abiERC721Enumerable));
-        const waitOpenNFTsV2 = contract.supportsInterface(interfaceId(abiOpenNFTsV2));
-        const waitOpenNFTsV3 = contract.supportsInterface(interfaceId(abiOpenNFTsV3));
-        const waitOpenNFTsV4 = contract.supportsInterface(interfaceId(abiOpenNFTsV4));
+        const waitMetadata = contract.supportsInterface(interfaceId(abis["IERC721Metadata"]));
+        const waitEnumerable = contract.supportsInterface(interfaceId(abis["IERC721Enumerable"]));
+        const waitOpenNFTsV2 = contract.supportsInterface(interfaceId(abis["IOpenNFTsV2"]));
+        const waitOpenNFTsV3 = contract.supportsInterface(interfaceId(abis["IOpenNFTsV3"]));
+        const waitOpenNFTsV4 = contract.supportsInterface(interfaceId(abis["IOpenNFTsV4"]));
 
         [
           supports.IERC721Metadata,
@@ -107,7 +96,7 @@ const collectionGetSupports = async (
           }
         }
       } else if (supports.IERC1155) {
-        supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(abiERC1155MetadataURI));
+        supports.IERC1155MetadataURI = await contract.supportsInterface(interfaceId(abis["IERC1155MetadataURI"]));
       }
 
       for (const key in supports) {
@@ -153,7 +142,11 @@ const collectionGetOtherData = async (
   try {
     const contract: QueryContract = new Contract(
       address,
-      abiERC173.concat(abiERC721).concat(abiERC721Metadata).concat(abiERC721Enumerable).concat(abiOpenNFTsV3),
+      abis["IERC173"]
+        .concat(abis["IERC721"])
+        .concat(abis["IERC721Metadata"])
+        .concat(abis["IERC721Enumerable"])
+        .concat(abis["IOpenNFTsV3"]),
       provider
     ) as QueryContract;
 

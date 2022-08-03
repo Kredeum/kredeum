@@ -33,8 +33,7 @@
         "../common/types/*"
       ],
       "abis/*": [
-        "../common/abis/contracts/interfaces/*",
-        "../common/abis/OpenNFTs/contracts/interfaces/*"
+        "../common/abis/*"
       ]
     }
     // "strict": true

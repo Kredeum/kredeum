@@ -5,36 +5,8 @@ import { Contract } from "ethers";
 import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
 import { isProviderOnChainId, collectionKey } from "./kconfig";
 
-import abiERC165 from "abis/IERC165.sol/IERC165.json";
-import abiERC721 from "abis/IERC721.sol/IERC721.json";
-import abiERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
-import abiERC1155 from "abis/IERC1155.sol/IERC1155.json";
-import abiERC1155MetadataURI from "abis/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";
-import abiERC173 from "abis/IERC173.sol/IERC173.json";
+import { abis } from "lib/kabis";
 
-import abiOpenNFTs from "abis/IOpenNFTs.sol/IOpenNFTs.json";
-import abiOpenNFTsV0 from "abis/IOpenNFTsV0.sol/IOpenNFTsV0.json";
-import abiOpenNFTsV1 from "abis/IOpenNFTsV1.sol/IOpenNFTsV1.json";
-import abiOpenNFTsV2 from "abis/IOpenNFTsV2.sol/IOpenNFTsV2.json";
-import abiOpenNFTsV3 from "abis/IOpenNFTsV3.sol/IOpenNFTsV3.json";
-import abiOpenNFTsV4 from "abis/IOpenNFTsV4.sol/IOpenNFTsV4.json";
-
-const abis = {
-  IERC165: abiERC165,
-  IERC721: abiERC721,
-  IERC721Enumerable: abiERC721Enumerable,
-  IERC721Metadata: abiERC721Metadata,
-  IERC1155: abiERC1155,
-  IERC173: abiERC173,
-  IERC1155MetadataURI: abiERC1155MetadataURI,
-  IOpenNFTs: abiOpenNFTs,
-  IOpenNFTsV0: abiOpenNFTsV0,
-  IOpenNFTsV1: abiOpenNFTsV1,
-  IOpenNFTsV2: abiOpenNFTsV2,
-  IOpenNFTsV3: abiOpenNFTsV3,
-  IOpenNFTsV4: abiOpenNFTsV4
-};
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();
 
@@ -44,25 +16,30 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<{ contract: Contract; supports: CollectionSupports }> => {
-  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+  console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
 
   const supports = await collectionGetSupports(chainId, address, provider, collection);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
   if (!contract) {
-    // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
-
     let abi: Array<string> = [];
     for (const [key, support] of Object.entries(supports || {})) {
       if (support) {
-        abi = abi.concat(abis[key as ABIS]);
+        const abiKey = abis[key as ABIS];
+        console.log("collectionContractGet", key, abiKey);
+
+        if (abiKey) {
+          abi = abi.concat(abis[key as ABIS]);
+        } else {
+          console.error("collectionContractGet ERROR", key);
+        }
       }
     }
     contract = new Contract(address, abi, provider);
     contractsCache.set(collectionKey(chainId, address), contract);
   }
 
-  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+  console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
   return { contract, supports };
 };
 

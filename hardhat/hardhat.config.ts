@@ -136,10 +136,11 @@ const config: HardhatUserConfig = {
   abiExporter: [
     {
       runOnCompile: true,
-      clear: false,
+      clear: true,
+      only: ["contracts"],
       flat: false,
       spacing: 2,
-      pretty: true,
+      format: "minimal",
       path: "../common/abis"
     }
   ],

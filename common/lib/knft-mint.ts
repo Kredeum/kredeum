@@ -3,7 +3,7 @@ import { ethers, BigNumber, Contract } from "ethers";
 
 import type { NftType } from "./ktypes";
 import type { IOpenMulti } from "soltypes/contracts/interfaces";
-import abiOpenMulti from "abis/IOpenMulti.sol/IOpenMulti.json";
+import abiOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
@@ -12,7 +12,7 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
 import { nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
 
-import abiERC721 from "abis/IERC721.sol/IERC721.json";
+import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
 
 import type { IOpenNFTs } from "soltypes/contracts/interfaces/IOpenNFTs";
 import type { IOpenNFTsV0 } from "soltypes/contracts/interfaces/IOpenNFTsV0";
@@ -68,15 +68,20 @@ const nftMint3TxResponse = async (
   tokenURI: string,
   minter: JsonRpcSigner
 ): Promise<TransactionResponse | null> => {
-  console.log("nftMint3TxResponse", chainId, address, tokenURI, await minter.getAddress());
-  if (!(chainId && address && tokenURI && minter)) return null;
-
-  const { contract, supports } = await collectionContractGet(chainId, address, minter.provider);
   const minterAddress = await minter.getAddress();
 
+  console.log("nftMint3TxResponse1", chainId, address, tokenURI, minterAddress);
+  if (!(chainId && address && tokenURI && minterAddress)) return null;
+  console.log("nftMint3TxResponse2");
+
+  const { contract, supports } = await collectionContractGet(chainId, address, minter.provider);
+  console.log("nftMint3TxResponse3");
+
   let txResp: TransactionResponse | null = null;
+  console.log("supports", supports);
+
   if (supports.IOpenNFTsV4) {
-    txResp = await (contract as IOpenNFTsV4)["mint(address,string)"](minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV4).mint(tokenURI);
   } else if (supports.IOpenNFTsV3) {
     txResp = await (contract as IOpenNFTs).mintOpenNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV2) {

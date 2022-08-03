@@ -5,15 +5,15 @@ import { interfaceId } from "lib/kconfig";
 
 import type { OpenProof } from "soltypes/contracts/dev";
 
-import abiERC165 from "abis/IERC165.sol/IERC165.json";
-import abiERC173 from "abis/IERC173.sol/IERC173.json";
-import abiERC721 from "abis/IERC721.sol/IERC721.json";
-import abiERC721Enumerable from "abis/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/IERC721Metadata.sol/IERC721Metadata.json";
-import abiERC721TokenReceiver from "abis/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
+import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiERC721TokenReceiver from "abis/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
 
-import abiERC1155 from "abis/IERC1155.sol/IERC1155.json";
-import abiERC4973 from "abis/IERC4973.sol/IERC4973.json";
+import abiERC1155 from "abis/contracts/interfaces/IERC1155.sol/IERC1155.json";
+import abiERC4973 from "abis/contracts/interfaces/IERC4973.sol/IERC4973.json";
 
 describe("OpenProof", function () {
   let signer: Signer;

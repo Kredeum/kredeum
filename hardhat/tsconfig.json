@@ -20,14 +20,14 @@
         "scripts/*"
       ],
       "abis/*": [
-        "../common/abis/contracts/interfaces/*",
-        "../common/abis/OpenNFTs/contracts/interfaces/*"
+        "../common/abis/*",
       ]
     }
   },
   "include": [
     "./scripts",
     "./tests",
+    "./tests-ok",
     "./deploy",
     "../common/lib",
     "../common/types"

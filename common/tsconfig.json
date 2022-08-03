@@ -17,8 +17,7 @@
         "types/*"
       ],
       "abis/*": [
-        "abis/contracts/interfaces/*",
-        "abis/OpenNFTs/contracts/interfaces"
+        "abis/*"
       ]
     }
   },

@@ -4,12 +4,12 @@ import { Contract } from "ethers";
 
 import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { IERC721Enumerable } from "soltypes/contracts/interfaces";
-import abiNFTsFactory from "abis/INFTsFactory.json";
-import abiCloneFactory from "abis/ICloneFactory.json";
-import abiERC165 from "abis/IERC165.json";
-import abiERC721 from "abis/IERC721.json";
-import abiERC721Metadata from "abis/IERC721Metadata.json";
-import abiERC721Enumerable from "abis/IERC721Enumerable.json";
+import abiNFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiCloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 
 import type { CollectionType } from "lib/ktypes";
 import { collectionGet } from "lib/kcollection-get";
