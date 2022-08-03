@@ -20,7 +20,8 @@
         "scripts/*"
       ],
       "abis/*": [
-        "../common/abis/contracts/interfaces/*"
+        "../common/abis/contracts/interfaces/*",
+        "../common/abis/OpenNFTs/contracts/interfaces/*"
       ]
     }
   },

@@ -87,7 +87,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         address owner_,
         bool[] memory options
     ) external override(IOpenNFTsV4) {
-        OpenNFTs.initialize(name_, symbol_, owner_);
+        OpenNFTs._initialize(name_, symbol_, owner_);
         open = options[0];
     }
 

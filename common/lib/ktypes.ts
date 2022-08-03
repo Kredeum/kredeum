@@ -1,7 +1,7 @@
-type OpenNFTsKeys = "OpenNFTsV4" | "OpenNFTsV3" | "OpenNFTsV2" | "OpenNFTsV1" | "OpenNFTsV0" | "OpenNFTs";
-type ErcKeys = "ERC165" | "ERC721" | "ERC721Metadata" | "ERC721Enumerable" | "ERC1155" | "ERC1155MetadataURI";
+type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0" | "IOpenNFTs";
+type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
-type ABIS = ErcKeys | OpenNFTsKeys;
+type ABIS = IErcKeys | IOpenNFTsKeys;
 
 type Address = string;
 
@@ -139,6 +139,6 @@ export type {
   CollectionSupports,
   ABIS,
   NftMetadata,
-  OpenNFTsKeys,
-  ErcKeys
+  IOpenNFTsKeys,
+  IErcKeys
 };

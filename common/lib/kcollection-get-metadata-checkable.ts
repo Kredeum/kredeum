@@ -20,7 +20,7 @@ import abiOpenPauseable from "abis/IOpenPauseable.sol/IOpenPauseable.json";
 import abiOpenNFTsV4 from "abis/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 import abiOpenBound from "abis/IOpenBound.sol/IOpenBound.json";
 
-import type { IOpenCheckable } from "soltypes/contracts/interfaces/IOpenCheckable";
+import type { IOpenCheckable } from "soltypes/OpenNFTs/contracts/interfaces/IOpenCheckable";
 import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
 
 const collectionGetSupportsCheckable = async (address: string, provider: Provider): Promise<CollectionSupports> => {
