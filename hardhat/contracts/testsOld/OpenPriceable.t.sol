@@ -70,15 +70,15 @@ contract OpenMarketableTest is OpenNFTsOldTest {
     }
 
     function testRoyaltyInfoCalculation(uint256 price, uint96 fee) public {
-        address _contract = address(op);
+        address _collection = address(op);
 
         vm.assume(price < 2**128);
         vm.assume(fee < maxFee);
 
         changePrank(owner);
-        IOpenMarketable(payable(_contract)).setDefaultRoyalty(minter, fee);
+        IOpenMarketable(payable(_collection)).setDefaultRoyalty(minter, fee);
 
-        (address receiver, uint256 royalties) = IERC2981(_contract).royaltyInfo(tokenID0, price);
+        (address receiver, uint256 royalties) = IERC2981(_collection).royaltyInfo(tokenID0, price);
         assertEq(receiver, minter);
         assertEq(royalties, (price * fee) / maxFee);
     }

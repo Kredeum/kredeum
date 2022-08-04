@@ -63,7 +63,7 @@ abstract contract OpenNFTsV4SupportsTest is Test {
             interfaceIds[i] = ids[i];
         }
 
-        bool[] memory checks = IOpenCheckable(_collection).checkSupportedInterfaces(interfaceIds);
+        bool[] memory checks = IOpenCheckable(_collection).checkSupportedInterfaces(_collection, interfaceIds);
 
         for (uint256 i = 0; i < ids.length; i++) {
             assertEq(checks[i], expected[i]);
