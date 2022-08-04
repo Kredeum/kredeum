@@ -25,12 +25,12 @@
     }
   },
   "include": [
-    "./scripts",
-    "./tests",
-    "./tests-ok",
-    "./deploy",
-    "../common/lib",
-    "../common/types"
+    "./scripts/**/*.ts",
+    "./tests/**/*.ts",
+    "./tests-ok/**/*.ts",
+    "./deploy/**/*.ts",
+    "../common/lib/**/*.ts",
+    "../common/types/**/*.ts"
   ],
   "files": [
     "./hardhat.config.ts"

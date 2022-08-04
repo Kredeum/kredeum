@@ -8,7 +8,7 @@ import "@openzeppelin/contracts/utils/introspection/ERC165Checker.sol";
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../CloneFactoryV2.sol";
 import "../interfaces/IERC173.sol";
-import "./interfaces/INFTsFactoryV3.sol";
+import "../interfaces/INFTsFactoryV3.sol";
 import "../interfaces/IOpenNFTs.sol";
 import "../interfaces/IOpenNFTsV3.sol";
 

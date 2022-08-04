@@ -22,8 +22,8 @@
     }
   },
   "include": [
-    "abis/*.ts",
-    "lib/*.ts",
+    "abis/**/*.ts",
+    "lib/**/*.ts",
     "types/**/*.ts",
     "scripts/**/*.ts"
   ]
