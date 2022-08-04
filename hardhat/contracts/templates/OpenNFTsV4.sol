@@ -21,7 +21,7 @@
 //       |
 //       ———————————————————————————————————————————————————————————————————————————————————————
 //       |                                                         |             |             |
-//   OpenERC721                                               OpenERC173  OpenCheckable  OpenCloneable
+//   OpenERC721                                               OpenERC173  OpenChecker  OpenCloneable
 //     (NFT)                                                   (ownable)         |             |
 //       |                                                         |             |             |
 //       —————————————————————————————————————————————      ————————             |             |
@@ -41,7 +41,7 @@
 //
 pragma solidity ^0.8.9;
 
-import "OpenNFTs/contracts/OpenNFTs.sol";
+import "OpenNFTs/contracts/OpenNFTs/OpenNFTs.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.sol";
 

@@ -24,7 +24,7 @@ import abiNFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFact
 import abiCloneFactoryV2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 import abiNFTsFactoryV2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 
-import abiOpenCheckable from "abis/OpenNFTs/contracts/interfaces/IOpenCheckable.sol/IOpenCheckable.json";
+import abiOpenChecker from "abis/OpenNFTs/contracts/interfaces/IOpenChecker.sol/IOpenChecker.json";
 import abiOpenCloneable from "abis/OpenNFTs/contracts/interfaces/IOpenCloneable.sol/IOpenCloneable.json";
 import abiOpenMarketable from "abis/OpenNFTs/contracts/interfaces/IOpenMarketable.sol/IOpenMarketable.json";
 import abiOpenPauseable from "abis/OpenNFTs/contracts/interfaces/IOpenPauseable.sol/IOpenPauseable.json";
@@ -57,7 +57,7 @@ const abis = {
   ICloneFactoryV2: abiCloneFactoryV2,
   INFTsFactoryV2: abiNFTsFactoryV2,
 
-  IOpenCheckable: abiOpenCheckable,
+  IOpenChecker: abiOpenChecker,
   IOpenCloneable: abiOpenCloneable,
   IOpenMarketable: abiOpenMarketable,
   IOpenPauseable: abiOpenPauseable

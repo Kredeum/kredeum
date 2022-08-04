@@ -6,17 +6,17 @@ import { Contract } from "ethers";
 
 import { abis } from "lib/kabis";
 
-import type { IOpenCheckable } from "soltypes/OpenNFTs/contracts/interfaces/IOpenCheckable";
+import type { IOpenChecker } from "soltypes/OpenNFTs/contracts/interfaces/IOpenChecker";
 import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
 
-const collectionGetSupportsCheckable = async (address: string, provider: Provider): Promise<CollectionSupports> => {
-  // console.log("collectionGetSupportsCheckable", address);
+const collectionGetSupportsChecker = async (address: string, provider: Provider): Promise<CollectionSupports> => {
+  // console.log("collectionGetSupportsChecker", address);
   let supports: CollectionSupports = {};
 
-  const checker = new Contract(address, abis["IERC165"].concat(abis["IOpenCheckable"]), provider);
-  const openCheckable = await (checker as IERC165).supportsInterface(interfaceId(abis["IOpenCheckable"]));
+  const checker = new Contract(address, abis["IERC165"].concat(abis["IOpenChecker"]), provider);
+  const openChecker = await (checker as IERC165).supportsInterface(interfaceId(abis["IOpenChecker"]));
 
-  if (openCheckable) {
+  if (openChecker) {
     const ids = [
       interfaceId(abis["IERC165"]),
       interfaceId(abis["IERC173"]),
@@ -28,14 +28,14 @@ const collectionGetSupportsCheckable = async (address: string, provider: Provide
 
       interfaceId(abis["IOpenNFTsV4"]),
       interfaceId(abis["IOpenBound"]),
-      interfaceId(abis["IOpenCheckable"]),
+      interfaceId(abis["IOpenChecker"]),
       interfaceId(abis["IOpenCloneable"]),
       interfaceId(abis["IOpenMarketable"]),
       interfaceId(abis["IOpenPauseable"]),
       "0xffffffff"
     ];
 
-    const checks = await (checker as IOpenCheckable).checkSupportedInterfaces(ids);
+    const checks = await (checker as IOpenChecker).checkSupportedInterfaces(ids);
 
     let i = 0;
     supports = {
@@ -49,16 +49,16 @@ const collectionGetSupportsCheckable = async (address: string, provider: Provide
 
       IOpenNFTsV4: checks[i++],
       IOpenBound: checks[i++],
-      IOpenCheckable: checks[i++],
+      IOpenChecker: checks[i++],
       IOpenCloneable: checks[i++],
       IOpenMarketable: checks[i++],
       IOpenPauseable: checks[i++]
     };
-    // assert IERC165 and IOpenCheckable to be always true and check 0xffffffff to be false
-    if (!supports.IERC165 || !supports.IOpenCheckable || checks[i]) throw "ERROR checkSupportedInterfaces";
-    // console.log("collectionGetSupportsCheckable", address, supports);
+    // assert IERC165 and IOpenChecker to be always true and check 0xffffffff to be false
+    if (!supports.IERC165 || !supports.IOpenChecker || checks[i]) throw "ERROR checkSupportedInterfaces";
+    // console.log("collectionGetSupportsChecker", address, supports);
   }
   return supports;
 };
 
-export { collectionGetSupportsCheckable };
+export { collectionGetSupportsChecker };

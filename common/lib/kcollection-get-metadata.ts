@@ -1,7 +1,7 @@
 import { Provider } from "@ethersproject/abstract-provider";
 import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
 import { interfaceId, isProviderOnChainId, collectionKey } from "./kconfig";
-import { collectionGetSupportsCheckable } from "./kcollection-get-metadata-checkable";
+import { collectionGetSupportsChecker } from "./kcollection-get-metadata-checkable";
 
 import { Contract } from "ethers";
 
@@ -55,10 +55,10 @@ const collectionGetSupports = async (
   supports = { IERC165: true };
   try {
     const contract = new Contract(address, abis["IERC165"], provider) as IERC165;
-    const openCheckable = await contract.supportsInterface(interfaceId(abis["IOpenCheckable"]));
+    const openChecker = await contract.supportsInterface(interfaceId(abis["IOpenChecker"]));
 
-    if (openCheckable) {
-      supports = await collectionGetSupportsCheckable(address, provider);
+    if (openChecker) {
+      supports = await collectionGetSupportsChecker(address, provider);
       supports.IOpenNFTs = true;
     } else {
       const waitERC721 = contract.supportsInterface(interfaceId(abis["IERC721"]));

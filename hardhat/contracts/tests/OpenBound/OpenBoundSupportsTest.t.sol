@@ -26,7 +26,7 @@ abstract contract OpenBoundSupportsTest is Test {
         //
         //    IERC165
         //       |
-        //  IOpenCheckable
+        //  IOpenChecker
         //       |
         //       ————————————————————————
         //       |                      |
@@ -43,7 +43,7 @@ abstract contract OpenBoundSupportsTest is Test {
         //
         bytes4[15] memory ids = [
             type(IERC165).interfaceId,
-            type(IOpenCheckable).interfaceId,
+            type(IOpenChecker).interfaceId,
             type(IERC721).interfaceId,
             type(IERC173).interfaceId,
             type(IOpenPauseable).interfaceId,
@@ -81,7 +81,7 @@ abstract contract OpenBoundSupportsTest is Test {
             interfaceIds[i] = ids[i];
         }
 
-        bool[] memory checks = IOpenCheckable(_collection).checkSupportedInterfaces(_collection, interfaceIds);
+        bool[] memory checks = IOpenChecker(_collection).checkSupportedInterfaces(_collection, interfaceIds);
 
         for (uint256 i = 0; i < ids.length; i++) {
             assertEq(checks[i], expected[i]);

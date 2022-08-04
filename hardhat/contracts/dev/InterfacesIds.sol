@@ -28,7 +28,7 @@ import "../interfaces/INFTsFactory.sol";
 import "../interfaces/ICloneFactoryV2.sol";
 import "../interfaces/INFTsFactoryV2.sol";
 
-import "OpenNFTs/contracts/interfaces/IOpenCheckable.sol";
+import "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
 import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
@@ -73,7 +73,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = type(ICloneFactoryV2).interfaceId;
         interfacesIds[i++] = type(INFTsFactoryV2).interfaceId;
 
-        interfacesIds[i++] = type(IOpenCheckable).interfaceId;
+        interfacesIds[i++] = type(IOpenChecker).interfaceId;
         interfacesIds[i++] = type(IOpenCloneable).interfaceId;
         interfacesIds[i++] = type(IOpenMarketable).interfaceId;
         interfacesIds[i++] = type(IOpenPauseable).interfaceId;

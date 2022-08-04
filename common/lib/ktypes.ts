@@ -74,7 +74,7 @@ type CollectionSupports = {
   ICloneFactoryV2?: boolean;
   INFTsFactoryV2?: boolean;
 
-  IOpenCheckable?: boolean;
+  IOpenChecker?: boolean;
   IOpenCloneable?: boolean;
   IOpenMarketable?: boolean;
   IOpenPauseable?: boolean;
