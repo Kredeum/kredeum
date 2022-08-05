@@ -35,7 +35,7 @@ const collectionGetSupportsChecker = async (address: string, provider: Provider)
       "0xffffffff"
     ];
 
-    const checks = await (checker as IOpenChecker).checkSupportedInterfaces(ids);
+    const checks = await (checker as IOpenChecker).checkSupportedInterfaces(checker, ids);
 
     let i = 0;
     supports = {
