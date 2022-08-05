@@ -282,14 +282,14 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0xC8fA9DA303f0708BBb41E38aB838Ff1c89E77440",
+    "openNFTs": "0xEadAE683aa5Eb2e3dAE79d35aA959bfc17100aB7",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0x4266eb1E511B61F087147A0b901199B996933a57",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
-    "openBound": "0xEa7C8dF8C27706c3B653e6f36a515adD22454F97",
-    "openResolver": "0x7d5242C7E850D2f4946A71526d5494B40BfB95e1"
+    "openBound": "0xCA230531EC03D2879Cbd285F855D9D9A53Ed0B67",
+    "openResolver": "0x3F3A14EF04419C37f49f36B3ff39C7757B2f9FbA"
   },
   {
     "chainId": 3,
