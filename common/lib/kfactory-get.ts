@@ -7,11 +7,11 @@ import { getNftsFactory as factoryGetAddress } from "lib/kconfig";
 
 import { Contract } from "ethers";
 
-import abiCloneFactoryV2 from "abis/ICloneFactoryV2.json";
-import abiNFTsFactoryV2 from "abis/INFTsFactoryV2.json";
+import abiCloneFactoryV2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiNFTsFactoryV2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 
 // Cache nftsFactory(chainId)
-const nftsFactories: Map<number, Contract> = new Map();
+const nftsFactoriesCache: Map<number, Contract> = new Map();
 
 const _factoryGetAbi = (): string[] => abiCloneFactoryV2.concat(abiNFTsFactoryV2);
 
@@ -19,10 +19,10 @@ const _factoryGetAbi = (): string[] => abiCloneFactoryV2.concat(abiNFTsFactoryV2
 const factoryGetContract = (chainId: number, provider: Provider): NFTsFactoryV2 => {
   // console.log("factoryGetContract", chainId);
 
-  let nftsFactory = nftsFactories.get(chainId);
+  let nftsFactory = nftsFactoriesCache.get(chainId);
   if (!nftsFactory) {
     nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(), provider);
-    nftsFactories.set(chainId, nftsFactory);
+    nftsFactoriesCache.set(chainId, nftsFactory);
   }
 
   // console.log("nftsFactory", nftsFactory);

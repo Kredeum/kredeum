@@ -1,2 +1,5 @@
 contracts/*.sol
-contracts/testOld
+contracts/test*
+out
+node_modules
+artifacts

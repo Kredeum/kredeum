@@ -11,7 +11,7 @@ import {
 } from "./kconfig";
 
 // Cache contentType(url)
-const contentTypes: Map<string, string> = new Map();
+const contentTypesCache: Map<string, string> = new Map();
 
 const nftGetImageLink = (nft: NftType): string =>
   ipfsGatewayUrl(nft?.ipfs) || swarmGatewayUrl(nft?.swarm) || nft.image || "";
@@ -25,7 +25,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   let contentType = "text";
   if (!(chainId && address && tokenID && url)) return contentType;
 
-  contentType = contentTypes.get(url) || "";
+  contentType = contentTypesCache.get(url) || "";
   if (contentType) return contentType;
 
   contentType = "image";
@@ -33,12 +33,12 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
     const response = await fetch(url, { method: "HEAD" });
     if (200 === response.status) {
       contentType = response.headers.get("content-type") || contentType;
-      contentTypes.set(url, contentType);
+      contentTypesCache.set(url, contentType);
     }
   } catch (e) {
     console.error("ERROR nftGetContentType", e, url, nft);
   }
-  console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
+  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };

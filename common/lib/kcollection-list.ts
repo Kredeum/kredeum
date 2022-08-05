@@ -7,11 +7,12 @@ import { DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
 import { factoryGetContract } from "./kfactory-get";
 import { collectionMerge } from "./kcollection-get";
 
-import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
+import { getChecksumAddress, getNetwork, collectionUrl, collectionListKey } from "./kconfig";
 
 import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
 import { covalentGet, covalentCollectionList } from "lib/api-covalent";
 import { thegraphGet, thegraphCollectionList } from "lib/api-thegraph";
+import { moralisGet, moralisCollectionList } from "lib/api-moralis";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -97,20 +98,22 @@ const collectionList = async (
     // GET user collections
     if (alchemyGet(chainId)) {
       collectionsOwner = await alchemyCollectionList(chainId, account);
-      console.log("collectionList alchemyCollectionList", collectionsOwner);
+      // console.log("collectionList alchemyCollectionList", collectionsOwner);
     } else if (thegraphGet(chainId)) {
       collectionsOwner = await thegraphCollectionList(chainId, account);
-      console.log("collectionList thegraphCollectionList", collectionsOwner);
+      // console.log("collectionList thegraphCollectionList", collectionsOwner);
+    } else if (moralisGet(chainId)) {
+      collectionsOwner = await moralisCollectionList(chainId, account);
     } else if (covalentGet(chainId)) {
       collectionsOwner = await covalentCollectionList(chainId, account);
-      console.log("collectionList covalentCollectionList", collectionsOwner);
+      // console.log("collectionList covalentCollectionList", collectionsOwner);
     }
     collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
-    console.log("collectionList collectionListFromFactory", collectionsKredeum);
+    // console.log("collectionList collectionListFromFactory", collectionsKredeum);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);
-    console.log("collectionList merge", collections);
+    // console.log("collectionList merge", collections);
   }
 
   if (mintable) {
@@ -127,7 +130,9 @@ const collectionList = async (
 export {
   collectionList,
   collectionListMerge,
-  covalentCollectionList,
-  thegraphCollectionList,
+  moralisCollectionList as collectionListMoralis,
+  alchemyCollectionList as collectionListAlchemy,
+  thegraphCollectionList as collectionListFromTheGraph,
+  covalentCollectionList as collectionListFromCovalent,
   collectionListFromFactory
 };

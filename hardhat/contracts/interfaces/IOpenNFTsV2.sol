@@ -6,7 +6,7 @@ interface IOpenNFTsV2 {
 
     function initialize(string memory name, string memory symbol) external;
 
-    function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID);
+    function mintNFT(address minter, string memory jsonURI) external returns (uint256 tokenID_);
 
-    function owner() external view returns (address owner);
+    function owner() external view returns (address owner_);
 }

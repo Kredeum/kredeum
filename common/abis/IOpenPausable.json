@@ -1,5 +1,0 @@
-[
-  "event SetPaused(bool indexed,address indexed)",
-  "function paused() returns (bool)",
-  "function togglePause()"
-]

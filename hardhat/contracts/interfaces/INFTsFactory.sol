@@ -13,9 +13,9 @@ interface INFTsFactory {
 
     function withdrawEther() external;
 
-    function clone(string memory name, string memory symbol) external returns (address clone);
+    function clone(string memory name, string memory symbol) external returns (address clone_);
 
-    function balancesOf(address owner) external view returns (NftData[] memory nftData);
+    function balancesOf(address owner) external view returns (NftData[] memory nftDatas_);
 
-    function balanceOf(address nft, address owner) external view returns (NftData memory nftData);
+    function balanceOf(address nft, address owner) external view returns (NftData memory nftData_);
 }

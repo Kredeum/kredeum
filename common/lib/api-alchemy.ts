@@ -60,7 +60,7 @@ const alchemyNftList = async (
   account?: string,
   limit: number = FETCH_LIMIT
 ): Promise<Map<string, NftType>> => {
-  console.log("alchemyNftList", chainId, collection, account);
+  // console.log("alchemyNftList", chainId, collection, account);
 
   const nfts: Map<string, NftType> = new Map();
   const network = getNetwork(chainId);
@@ -81,7 +81,7 @@ const alchemyNftList = async (
     chainId,
     `/getNFTs?owner=${account}&withMetadata=true&contractAddresses[]=${collection.address}`
   )) as AnswerNftsAlch;
-  console.log("alchemyAnswerNfts", alchemyAnswerNfts);
+  // console.log("alchemyAnswerNfts", alchemyAnswerNfts);
 
   const totalCount = alchemyAnswerNfts.totalCount;
   const ownedNfts = alchemyAnswerNfts.ownedNfts;
@@ -105,7 +105,7 @@ const alchemyNftList = async (
     }
   }
 
-  console.log("alchemyNftList", nfts);
+  // console.log("alchemyNftList", nfts);
   return nfts;
 };
 

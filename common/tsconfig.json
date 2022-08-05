@@ -7,11 +7,24 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     "paths": {
-      "lib/*": ["lib/*"],
-      "config/*": ["config/*"],
-      "soltypes/*": ["types/*"],
-      "abis/*": ["abis/*"]
+      "lib/*": [
+        "lib/*"
+      ],
+      "config/*": [
+        "config/*"
+      ],
+      "soltypes/*": [
+        "types/*"
+      ],
+      "abis/*": [
+        "abis/*"
+      ]
     }
   },
-  "include": ["abis/*.ts", "lib/*.ts", "types/**/*.ts", "scripts/**/*.ts"]
+  "include": [
+    "abis/**/*.ts",
+    "lib/**/*.ts",
+    "types/**/*.ts",
+    "scripts/**/*.ts"
+  ]
 }

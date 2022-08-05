@@ -5,14 +5,14 @@ import { interfaceId } from "lib/kconfig";
 
 import type { OpenProof } from "soltypes/contracts";
 
-import IERC165 from "abis/IERC165.json";
-import IERC721 from "abis/IERC721.json";
-import IERC4973 from "abis/IERC4973.json";
-import IERC1155 from "abis/IERC1155.json";
-import IERC721Enumerable from "abis/IERC721Enumerable.json";
-import IERC721Metadata from "abis/IERC721Metadata.json";
-import IERC721TokenReceiver from "abis/IERC721TokenReceiver.json";
-import IERC173 from "abis/IERC173.json";
+import IERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import IERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import IERC4973 from "abis/contracts/interfaces/IERC4973.sol/IERC4973.json";
+import IERC1155 from "abis/contracts/interfaces/IERC1155.sol/IERC1155.json";
+import IERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import IERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import IERC721TokenReceiver from "abis/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
+import IERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
 
 describe("OpenProof", function () {
   let signer: Signer;

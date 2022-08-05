@@ -1,9 +1,10 @@
 import type { OpenNFTsV3 } from "soltypes/contracts";
 
-import IOpenNFTs from "abis/IOpenNFTs.json";
-import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
-import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
-import IERC173 from "abis/IERC173.json";
+import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
+
+import abiOpenNFTs from "abis/contracts/interfaces/IOpenNFTs.sol/IOpenNFTs.json";
+import abiOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiOpenNFTsV3 from "abis/contracts/interfaces/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
@@ -57,9 +58,9 @@ describe("31 OpenNFTsV3 contract", function () {
   });
 
   it("Should check openNFTsV3 interface", async function () {
-    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTsV3))).to.be.true;
-    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTs))).to.be.true;
-    expect(await openNFTsV3.supportsInterface(interfaceId(IOpenNFTsV2))).to.be.false;
-    expect(await openNFTsV3.supportsInterface(interfaceId(IERC173))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTsV3))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTs))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTsV2))).to.be.false;
+    expect(await openNFTsV3.supportsInterface(interfaceId(abiERC173))).to.be.true;
   });
 });

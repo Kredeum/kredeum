@@ -8,6 +8,7 @@ import { nftGetMetadata } from "./knft-get-metadata";
 import { alchemyGet, alchemyNftList } from "lib/api-alchemy";
 import { covalentGet, covalentNftList } from "lib/api-covalent";
 import { thegraphGet, thegraphNftList } from "lib/api-thegraph";
+import { moralisGet, moralisNftList } from "lib/api-moralis";
 
 import { getNetwork, isProviderOnChainId } from "./kconfig";
 import { IERC721, IERC721Enumerable } from "soltypes/contracts/interfaces";
@@ -24,15 +25,12 @@ const nftListFromContract = async (
   // console.log("nftListFromContract", chainId, address, account, limit);
 
   const nfts: Map<string, NftType> = new Map();
-  if (
-    !(chainId && address && (await isProviderOnChainId(provider, chainId)) && collection?.supports?.IERC721Enumerable)
-  )
-    return nfts;
+  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return nfts;
 
   try {
-    const contract = await collectionContractGet(chainId, address, provider);
+    const { contract, supports } = await collectionContractGet(chainId, address, provider);
 
-    if (contract) {
+    if (contract && supports.IERC721Enumerable) {
       let nbTokens = limit;
       if (account) {
         nbTokens = Number(await (contract as IERC721).balanceOf(account));
@@ -80,19 +78,21 @@ const nftListTokenIds = async (
   if (network) {
     if (alchemyGet(chainId)) {
       nftsTokenIds = await alchemyNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds alchemyNftList", nftsTokenIds);
+      // console.log("nftListTokenIds alchemyNftList", nftsTokenIds);
     } else if (thegraphGet(chainId)) {
       nftsTokenIds = await thegraphNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
+      // console.log("nftListTokenIds thegraphNftList", nftsTokenIds);
+    } else if (moralisGet(chainId)) {
+      nftsTokenIds = await moralisNftList(chainId, collection, account, limit);
     } else if (covalentGet(chainId)) {
       nftsTokenIds = await covalentNftList(chainId, collection, account, limit);
-      console.log("nftListTokenIds covalentNftList", nftsTokenIds);
+      // console.log("nftListTokenIds covalentNftList", nftsTokenIds);
     } else {
       console.error("No NFTs found:-(");
     }
     if (nftsTokenIds.size === 0) {
       nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
-      console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
+      // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     }
   }
 
@@ -133,7 +133,7 @@ const _nftListWithMetadata = async (
   return nftsWithMetadata;
 };
 
-// const nftListFromCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
+// const nftListCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
 //   storeNftsList(chainId, collection, account);
 
 const nftList = async (
@@ -161,4 +161,12 @@ const nftList = async (
   return nftsWithMetadata;
 };
 
-export { nftList, nftListTokenIds, nftListFromContract, covalentNftList, thegraphNftList };
+export {
+  nftList,
+  nftListTokenIds,
+  nftListFromContract,
+  moralisNftList as nftListMoralis,
+  alchemyNftList as nftListAlcheme,
+  thegraphNftList as nftListThegraph,
+  covalentNftList as nftListCovalent
+};

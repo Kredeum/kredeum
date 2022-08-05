@@ -1,65 +1,46 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, ABIS } from "./ktypes";
+import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
 
 import { Contract } from "ethers";
 import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
 import { isProviderOnChainId, collectionKey } from "./kconfig";
 
-import IERC165 from "abis/IERC165.json";
-import IERC721 from "abis/IERC721.json";
-import IERC721Enumerable from "abis/IERC721Enumerable.json";
-import IERC721Metadata from "abis/IERC721Metadata.json";
-import IERC1155 from "abis/IERC1155.json";
-import IERC1155MetadataURI from "abis/IERC1155MetadataURI.json";
-import IERC173 from "abis/IERC173.json";
+import { abis } from "lib/kabis";
 
-import IOpenMulti from "abis/IOpenMulti.json";
-import IOpenNFTs from "abis/IOpenNFTs.json";
-import IOpenNFTsV0 from "abis/IOpenNFTsV0.json";
-import IOpenNFTsV1 from "abis/IOpenNFTsV1.json";
-import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
-import IOpenNFTsV3 from "abis/IOpenNFTsV3.json";
-
-const abis = {
-  IERC165,
-  IERC721,
-  IERC721Enumerable,
-  IERC721Metadata,
-  IERC1155,
-  IERC173,
-  IERC1155MetadataURI,
-  IOpenMulti,
-  IOpenNFTs,
-  IOpenNFTsV0,
-  IOpenNFTsV1,
-  IOpenNFTsV2,
-  IOpenNFTsV3
-};
+// Cache contracts(chainId,address)
+const contractsCache: Map<string, Contract> = new Map();
 
 const collectionContractGet = async (
   chainId: number,
   address: string,
   provider: Provider,
   collection: CollectionType = { chainId, address }
-): Promise<Contract> => {
-  console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
+): Promise<{ contract: Contract; supports: CollectionSupports }> => {
+  console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
 
-  let abi: Array<string> = [];
+  const supports = await collectionGetSupports(chainId, address, provider, collection);
 
-  if (!("supports" in collection)) await collectionGetSupports(chainId, address, provider, collection);
-  // console.log("collection.supports", collection.supports);
+  let contract = contractsCache.get(collectionKey(chainId, address));
+  if (!contract) {
+    let abi: Array<string> = [];
+    for (const [key, support] of Object.entries(supports || {})) {
+      if (support) {
+        const abiKey = abis[key as ABIS];
+        console.log("collectionContractGet", key, abiKey);
 
-  for (const [key, supports] of Object.entries(collection.supports || {})) {
-    if (supports) {
-      // console.log(  key, abis[key as ABIS]);
-      abi = abi.concat(abis[key as ABIS]);
+        if (abiKey) {
+          abi = abi.concat(abis[key as ABIS]);
+        } else {
+          console.error("collectionContractGet ERROR", key);
+        }
+      }
     }
+    contract = new Contract(address, abi, provider);
+    contractsCache.set(collectionKey(chainId, address), contract);
   }
-  // console.log("abi", abi);
-  const contract = new Contract(address, abi, provider);
 
-  // console.log(`collectionContractGet ${collectionKey(chainId, address)}\n`);
-  return contract;
+  console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
+  return { contract, supports };
 };
 
 // Merge 2 collections into 1 (twice the same collection but with different metadata)
@@ -85,7 +66,7 @@ const collectionGet = async (
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
 
   try {
-    await collectionGetSupports(chainId, address, provider, collection);
+    collection.supports = await collectionGetSupports(chainId, address, provider, collection);
     await collectionGetOtherData(chainId, address, provider, account, collection);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);

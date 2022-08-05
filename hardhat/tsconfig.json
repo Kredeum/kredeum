@@ -7,13 +7,32 @@
     "baseUrl": "./",
     "resolveJsonModule": true,
     "paths": {
-      "lib/*": ["../common/lib/*"],
-      "config/*": ["../common/config/*"],
-      "soltypes/*": ["../common/types/*"],
-      "scripts/*": ["scripts/*"],
-      "abis/*": ["../common/abis/*"]
+      "lib/*": [
+        "../common/lib/*"
+      ],
+      "config/*": [
+        "../common/config/*"
+      ],
+      "soltypes/*": [
+        "../common/types/*"
+      ],
+      "scripts/*": [
+        "scripts/*"
+      ],
+      "abis/*": [
+        "../common/abis/*",
+      ]
     }
   },
-  "include": ["./scripts", "./tests", "./deploy", "../common/lib", "../common/types"],
-  "files": ["./hardhat.config.ts"]
+  "include": [
+    "./scripts/**/*.ts",
+    "./tests/**/*.ts",
+    "./tests-ok/**/*.ts",
+    "./deploy/**/*.ts",
+    "../common/lib/**/*.ts",
+    "../common/types/**/*.ts"
+  ],
+  "files": [
+    "./hardhat.config.ts"
+  ]
 }

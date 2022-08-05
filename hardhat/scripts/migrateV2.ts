@@ -4,11 +4,11 @@ import type { NetworkType } from "lib/ktypes";
 
 import networks from "config/networks.json";
 
-import abiERC165 from "abis/IERC165.json";
-import abiNFTsFactory from "abis/INFTsFactory.json";
-import abiCloneFactory from "abis/ICloneFactory.json";
-import abiNFTsFactory2 from "abis/INFTsFactoryV2.json";
-import abiCloneFactory2 from "abis/ICloneFactoryV2.json";
+import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiNFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiCloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiNFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiCloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";

@@ -6,17 +6,11 @@
   "trailingComma": "none",
   "semi": true,
   "proseWrap": "always",
-  "plugins": ["./node_modules/prettier-plugin-solidity"],
   "overrides": [
     {
       "files": "*.sol",
       "options": {
-        "printWidth": 120,
-        "tabWidth": 4,
-        "useTabs": false,
-        "singleQuote": false,
-        "bracketSpacing": false,
-        "explicitTypes": "always"
+        "tabWidth": 4
       }
     }
   ]

@@ -4,9 +4,9 @@ pragma solidity 0.8.9;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/token/ERC721/extensions/ERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 import "../interfaces/IOpenMulti.sol";
-import "../interfaces/IERC173.sol";
-import "./library/Bafkrey.sol";
 
 contract OpenMulti is IOpenMulti, ERC721, ERC721Enumerable, Ownable {
     bytes32 private constant _BASE32_SYMBOLS = "abcdefghijklmnopqrstuvwxyz234567";

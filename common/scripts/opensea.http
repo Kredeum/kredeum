@@ -1,0 +1,9 @@
+@url  = https://api.opensea.io
+
+@address = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38
+
+### getNFTs on mainnet from address without metadata
+GET {{url}}/api/v1/assets?owner={{address}}
+
+###
+GET https://api.opensea.io/api/v1/assets?owner=0x981ab0D817710d8FFFC5693383C00D985A3BDa38

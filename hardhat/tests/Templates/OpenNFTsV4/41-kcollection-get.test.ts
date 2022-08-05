@@ -1,8 +1,8 @@
-import type { OpenNFTsV4 } from "soltypes/contracts/open";
+import type { OpenNFTsV4 } from "soltypes/contracts/templates";
 
-import IOpenNFTsV2 from "abis/IOpenNFTsV2.json";
-import IOpenNFTsV4 from "abis/IOpenNFTsV4.json";
-import IERC173 from "abis/IERC173.json";
+import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiOpenNFTsV4 from "abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
@@ -42,9 +42,9 @@ describe("41 OpenNFTsV4 contract", function () {
     expect(await openNFTsV4.symbol()).to.be.equal(symbol);
     expect(await openNFTsV4.name()).to.be.equal(name);
 
-    void expect(
-      openNFTsV4["initialize(string,string,address,bool[])"](name, symbol, artist, [true, false])
-    ).to.be.revertedWith("Initializable: contract is already initialized");
+    void expect(openNFTsV4.initialize(name, symbol, artist, [true, false])).to.be.revertedWith(
+      "Initializable: contract is already initialized"
+    );
   });
 
   it("Should get openNFTsV4 balanceOf", async function () {
@@ -56,8 +56,8 @@ describe("41 OpenNFTsV4 contract", function () {
   });
 
   it("Should check openNFTsV4 interface", async function () {
-    expect(await openNFTsV4.supportsInterface(interfaceId(IOpenNFTsV4))).to.be.true;
-    expect(await openNFTsV4.supportsInterface(interfaceId(IOpenNFTsV2))).to.be.false;
-    expect(await openNFTsV4.supportsInterface(interfaceId(IERC173))).to.be.true;
+    expect(await openNFTsV4.supportsInterface(interfaceId(abiOpenNFTsV4))).to.be.true;
+    expect(await openNFTsV4.supportsInterface(interfaceId(abiOpenNFTsV2))).to.be.false;
+    expect(await openNFTsV4.supportsInterface(interfaceId(abiERC173))).to.be.true;
   });
 });

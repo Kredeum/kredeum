@@ -3,10 +3,10 @@ pragma solidity 0.8.9;
 
 import "../interfaces/IOpenBound4973.sol";
 import "../interfaces/IERC4973.sol";
-import "../interfaces/IERC173.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC721Metadata.sol";
-import "./library/Bafkrey.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 
 /// @title OpenBound smartcontract
 contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, IERC721Metadata {

@@ -129,8 +129,6 @@
   const mint = async (): Promise<NftType> => {
     mintReset();
 
-    console.log("mint texts : ", nftMintTexts);
-
     if (image) {
       minting = 1;
 

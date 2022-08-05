@@ -8,15 +8,33 @@
     "importsNotUsedAsValues": "remove",
     "baseUrl": ".",
     "paths": {
-      "app/*": ["app/*"],
-      "components/*": ["components/*"],
-      "stores/*": ["stores/*"],
-      "helpers/*": ["helpers/*"],
-      "tests/*": ["tests/*"],
-      "lib/*": ["../common/lib/*"],
-      "config/*": ["../common/config/*"],
-      "soltypes/*": ["../common/types/*"],
-      "abis/*": ["../common/abis/*"]
+      "app/*": [
+        "app/*"
+      ],
+      "components/*": [
+        "components/*"
+      ],
+      "stores/*": [
+        "stores/*"
+      ],
+      "helpers/*": [
+        "helpers/*"
+      ],
+      "tests/*": [
+        "tests/*"
+      ],
+      "lib/*": [
+        "../common/lib/*"
+      ],
+      "config/*": [
+        "../common/config/*"
+      ],
+      "soltypes/*": [
+        "../common/types/*"
+      ],
+      "abis/*": [
+        "../common/abis/*"
+      ]
     }
     // "strict": true
   },
@@ -30,6 +48,11 @@
     "tests/**/*.ts",
     "../common/lib/**/*.ts"
   ],
-  "files": ["rollup.config.ts", "components/global.d.ts"],
-  "exclude": ["node_modules"]
+  "files": [
+    "rollup.config.ts",
+    "components/global.d.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }

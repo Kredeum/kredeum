@@ -136,18 +136,18 @@ const config: HardhatUserConfig = {
   abiExporter: [
     {
       runOnCompile: true,
-      clear: false,
-      flat: true,
-      except: ["@openzeppelin", "test", "lib"],
+      clear: true,
+      only: ["contracts"],
+      flat: false,
       spacing: 2,
-      pretty: true,
+      format: "minimal",
       path: "../common/abis"
     }
   ],
 
   typechain: {
     target: "ethers-v5",
-    // externalArtifacts: ["../common/abis/*.json"],
+    // externalArtifacts: ["../common/abis/**/*.json"],
     outDir: "../common/types"
   },
 

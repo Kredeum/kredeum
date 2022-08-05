@@ -2,4 +2,7 @@
 node_modules
 
 # SOLIDITY
-solidity/build
+contracts/*.sol
+contracts/testOld
+artifacts
+out

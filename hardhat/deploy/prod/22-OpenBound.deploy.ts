@@ -1,6 +1,6 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import * as fs from "fs/promises";
-import type { NFTsFactoryV2 } from "soltypes/contracts/NFTsFactoryV2";
+import type { ICloneFactoryV2, IOpenBound } from "soltypes/contracts/interfaces";
 
 import type { NetworkType } from "lib/ktypes";
 import networks from "config/networks.json";
@@ -11,12 +11,12 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   const { getNamedSigner, getContract } = ethers;
   const deployer = await getNamedSigner("deployer");
 
-  const maxSupply = 12;
-  deployments.log("maxSupply", maxSupply);
+  const maxSupply = 0;
+  // deployments.log("maxSupply", maxSupply);
 
   const deployResult: DeployResult = await deployments.deploy(contractName, {
     from: deployer.address,
-    args: [contractName, "BOUND", maxSupply],
+    args: [],
     log: true
   });
 
@@ -27,12 +27,16 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
       console.info(contractName, "deployed => new address");
       networks[index].openBound = deployResult.address;
       await fs
-        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 0))
         .catch((err) => console.log(err));
     }
 
-    const nftsFactoryV2 = (await getContract("NFTsFactoryV2", deployer)) as unknown as NFTsFactoryV2;
-    await nftsFactoryV2.implementationsAdd([deployResult.address]);
+    const openBound = await getContract(contractName, deployer);
+    await (await (openBound as IOpenBound).initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
+
+    const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
+    await (await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address])).wait();
+    await (await (nftsFactoryV2 as ICloneFactoryV2).templateSet("OpenBound", deployResult.address)).wait();
   }
 };
 

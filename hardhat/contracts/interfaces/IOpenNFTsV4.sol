@@ -9,15 +9,9 @@ interface IOpenNFTsV4 {
         bool[] memory options
     ) external;
 
-    function mint(string memory jsonURI) external returns (uint256 tokenID);
-
-    function mint(address minter, string memory jsonURI) external returns (uint256 tokenID);
-
-    function burn(uint256 tokenID) external;
+    function mint(string memory tokenURI) external returns (uint256 tokenID);
 
     function buy(uint256 tokenID) external payable;
-
-    function withdraw(address to) external;
 
     function open() external view returns (bool);
 }

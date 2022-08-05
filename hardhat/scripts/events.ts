@@ -1,10 +1,10 @@
 import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { NetworkType } from "lib/ktypes";
 
-import INFTsFactoryV2 from "abis/INFTsFactoryV2.json";
-import ICloneFactoryV2 from "abis/ICloneFactoryV2.json";
+import INFTsFactoryV2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import ICloneFactoryV2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
-import IERC173 from "abis/IERC173.json";
+import IERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
 import hre from "hardhat";
 
 import networks from "config/networks.json";

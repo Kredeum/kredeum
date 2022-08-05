@@ -1,15 +1,17 @@
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { expect } from "chai";
 
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
-import { BigNumber, Wallet } from "ethers";
+import { BigNumber, Wallet, Contract } from "ethers";
 
-import type { OpenBound } from "soltypes/contracts/dev";
-import IERC165 from "abis/IERC165.json";
-import IERC721 from "abis/IERC721.json";
-import IERC721Enumerable from "abis/IERC721Enumerable.json";
-import IERC721Metadata from "abis/IERC721Metadata.json";
-import IOpenBound from "abis/IOpenBound.json";
+import type { OpenBound } from "soltypes/contracts/templates";
+import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+
+import abiOpenBound from "abis/contracts/interfaces/IOpenBound.sol/IOpenBound.json";
+import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 
 import { interfaceId } from "lib/kconfig";
 import { cidToInt } from "lib/kcid";
@@ -44,14 +46,17 @@ describe("OpenBound", () => {
   beforeEach(async () => {
     await provider.send("hardhat_reset", []);
 
-    if (chainId === 31337) await deployments.fixture(["OpenBound"]);
+    // if (chainId === 31337) await deployments.fixture(["OpenBound"]);
+    // openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
 
-    openBound = (await getContract("OpenBound", deployer)) as unknown as OpenBound;
+    const factory = await ethers.getContractFactory("OpenBound");
+    openBound = (await (await factory.deploy()).deployed()) as unknown as OpenBound;
+    await openBound.initialize("OpenBound", "BOUND", deployer.address, 10);
 
-    tokenID0deployer = String(await openBound.getTokenID(cidUint0, deployer.address));
-    tokenIDKdeployer = String(await openBound.getTokenID(cidUintK, deployer.address));
-    tokenID0tester1 = String(await openBound.connect(tester1).getTokenID(cidUint0, tester1.address));
-    tokenIDKtester1 = String(await openBound.connect(tester1).getTokenID(cidUintK, tester1.address));
+    tokenID0deployer = String(await openBound.getTokenID(deployer.address, cidUint0));
+    tokenIDKdeployer = String(await openBound.getTokenID(deployer.address, cidUintK));
+    tokenID0tester1 = String(await openBound.connect(tester1).getTokenID(tester1.address, cidUint0));
+    tokenIDKtester1 = String(await openBound.connect(tester1).getTokenID(tester1.address, cidUintK));
   });
 
   describe("Setup", () => {
@@ -71,11 +76,11 @@ describe("OpenBound", () => {
     });
 
     it("Should support interfaces ", async function () {
-      expect(await openBound.supportsInterface(interfaceId(IERC165))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(IERC721))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(IERC721Enumerable))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(IERC721Metadata))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(IOpenBound))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiERC165))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiERC721))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiERC721Enumerable))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiERC721Metadata))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiOpenBound))).to.be.true;
     });
 
     it("Should be IERC721", async () => {
@@ -251,7 +256,7 @@ describe("OpenBound", () => {
 
   describe("TokenID", () => {
     it("Should get tokenID0 deployer", async () => {
-      const getTokenID0 = await openBound.getTokenID(cidUint0, deployer.address);
+      const getTokenID0 = await openBound.getTokenID(deployer.address, cidUint0);
       await openBound.mint(cidUint0);
       const tokenID0 = await openBound.tokenOfOwnerByIndex(deployer.address, 0);
       const tokenURI0 = await openBound.tokenURI(tokenID0);
@@ -262,7 +267,7 @@ describe("OpenBound", () => {
     });
 
     it("Should get tokenID0 tester1", async () => {
-      const getTokenID0 = await openBound.getTokenID(cidUint0, tester1.address);
+      const getTokenID0 = await openBound.getTokenID(tester1.address, cidUint0);
       await openBound.connect(tester1).mint(cidUint0);
       const tokenID0 = await openBound.tokenOfOwnerByIndex(tester1.address, 0);
       const tokenURI0 = await openBound.tokenURI(tokenID0);
@@ -273,7 +278,7 @@ describe("OpenBound", () => {
     });
 
     it("Should get tokenIDK deployer", async () => {
-      const getTokenIDK = await openBound.getTokenID(cidUintK, deployer.address);
+      const getTokenIDK = await openBound.getTokenID(deployer.address, cidUintK);
       await openBound.mint(cidUintK);
       const tokenIDK = await openBound.tokenOfOwnerByIndex(deployer.address, 0);
       const tokenURIK = await openBound.tokenURI(tokenIDK);
@@ -283,8 +288,8 @@ describe("OpenBound", () => {
       expect(tokenURIK).to.be.equal(ipfsK);
     });
 
-    it("Should get tokenIDK tester1", async () => {
-      const getTokenIDK = await openBound.getTokenID(cidUintK, tester1.address);
+    it("Should get tokenIDK tester1Z", async () => {
+      const getTokenIDK = await openBound.getTokenID(tester1.address, cidUintK);
       await openBound.connect(tester1).mint(cidUintK);
       const tokenIDK = await openBound.tokenOfOwnerByIndex(tester1.address, 0);
       const tokenURIK = await openBound.tokenURI(tokenIDK);
@@ -295,15 +300,15 @@ describe("OpenBound", () => {
     });
 
     it("Should get different tokenID0", async () => {
-      const getTokenID0deployer = await openBound.getTokenID(cidUint0, deployer.address);
-      const getTokenID0tester1 = await openBound.getTokenID(cidUint0, tester1.address);
+      const getTokenID0deployer = await openBound.getTokenID(deployer.address, cidUint0);
+      const getTokenID0tester1 = await openBound.getTokenID(tester1.address, cidUint0);
 
       expect(getTokenID0deployer).to.be.not.equal(getTokenID0tester1);
     });
 
     it("Should get different tokenIDK", async () => {
-      const getTokenIDKdeployer = await openBound.getTokenID(cidUint0, deployer.address);
-      const getTokenIDKtester1 = await openBound.getTokenID(cidUintK, tester1.address);
+      const getTokenIDKdeployer = await openBound.getTokenID(deployer.address, cidUintK);
+      const getTokenIDKtester1 = await openBound.getTokenID(tester1.address, cidUintK);
 
       expect(getTokenIDKdeployer).to.be.not.equal(getTokenIDKtester1);
     });

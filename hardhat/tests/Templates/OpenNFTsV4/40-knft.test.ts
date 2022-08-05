@@ -1,5 +1,5 @@
 import type { NetworkType } from "lib/ktypes";
-import type { OpenNFTsV4 } from "soltypes/contracts/open";
+import type { OpenNFTsV4 } from "soltypes/contracts/templates";
 import type { Signer } from "ethers";
 
 import { expect } from "chai";

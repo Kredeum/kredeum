@@ -1,4 +1,0 @@
-[
-  "function burnable() view returns (bool)",
-  "function open() view returns (bool)"
-]

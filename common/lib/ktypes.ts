@@ -1,7 +1,7 @@
-type OpenNFTsKeys = "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0" | "IOpenNFTs";
-type ErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
+type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0" | "IOpenNFTs";
+type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
-type ABIS = ErcKeys | OpenNFTsKeys;
+type ABIS = IErcKeys | IOpenNFTsKeys;
 
 type Address = string;
 
@@ -14,6 +14,7 @@ type NetworkType = {
   blockExplorerUrls: Array<string>;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
+  moralis?: { active: boolean; url?: string };
   covalent?: { active: boolean };
   mainnet?: boolean;
   testnet?: boolean;
@@ -22,7 +23,8 @@ type NetworkType = {
   openSea?: { assets?: string; openNFTs?: string };
   openMulti?: string;
   openBound?: string;
-  defaultOpenNFTs?: string;
+  openResolver?: string;
+  openNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
   eip1559?: boolean;
@@ -47,18 +49,36 @@ type CollectionType = {
 };
 type CollectionSupports = {
   IERC165?: boolean;
+  IERC173?: boolean;
+
   IERC721?: boolean;
-  IERC1155?: boolean;
   IERC721Metadata?: boolean;
   IERC721Enumerable?: boolean;
+  IERC721TokenReceiver?: boolean;
+
+  IERC1155?: boolean;
   IERC1155MetadataURI?: boolean;
-  IERC173?: boolean;
-  IOpenMulti?: boolean;
+  IERC1155TokenReceiver?: boolean;
+
+  IERC2981?: boolean;
+
   IOpenNFTs?: boolean;
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;
   IOpenNFTsV2?: boolean;
   IOpenNFTsV3?: boolean;
+  IOpenNFTsV4?: boolean;
+  IOpenBound?: boolean;
+
+  ICloneFactory?: boolean;
+  INFTsFactory?: boolean;
+  ICloneFactoryV2?: boolean;
+  INFTsFactoryV2?: boolean;
+
+  IOpenChecker?: boolean;
+  IOpenCloneable?: boolean;
+  IOpenMarketable?: boolean;
+  IOpenPauseable?: boolean;
 };
 
 ///////////////////////////////////////////////////
@@ -103,6 +123,7 @@ type NftType = {
   chainName?: string;
   name?: string;
   contractName?: string;
+  contractSymbol?: string;
   description?: string;
   tokenJson?: NftMetadata;
   metadata?: NftMetadata | unknown;
@@ -130,6 +151,6 @@ export type {
   CollectionSupports,
   ABIS,
   NftMetadata,
-  OpenNFTsKeys,
-  ErcKeys
+  IOpenNFTsKeys,
+  IErcKeys
 };
