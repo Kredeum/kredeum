@@ -21,7 +21,7 @@
     "@types/chai": "^4.3.1",
     "@types/findup-sync": "^4.0.2",
     "@types/mocha": "^9.1.1",
-    "@types/node": "^18.6.3",
+    "@types/node": "^18.6.4",
     "@types/node-fetch": "^2.6.2",
     "@types/prompt-sync": "^4.1.1",
     "@types/readline-sync": "^1.4.4",
@@ -81,7 +81,7 @@
     "prettier": "prettier contracts/**/*.sol **/*.ts --write --plugin prettier-plugin-solidity --loglevel error",
     "solhint": "solhint --fix contracts/**/*.sol",
     "tests": "hardhat test",
-    "update:forge": "~/.foundry/bin/forge update"
+    "update:forge": "git submodule update --recursive"
   },
   "version": "1.0.0"
 }

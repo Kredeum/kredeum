@@ -91,14 +91,19 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         open = options[0];
     }
 
-    function mint(string memory tokenURI)
-        external
-        override(IOpenNFTsV4)
-        onlyOpenOrOwner
-        onlyWhenNotPaused
-        returns (uint256)
-    {
-        return mint(msg.sender, tokenURI);
+    function mint(string memory tokenURI) external override(IOpenNFTsV4) returns (uint256 tokenID) {
+        tokenID = mint(tokenURI, 0, address(0), 0);
+    }
+
+    function mint(
+        string memory tokenURI,
+        uint256 price,
+        address receiver,
+        uint96 fee
+    ) public payable override(IOpenNFTsV4) onlyOpenOrOwner onlyWhenNotPaused returns (uint256 tokenID) {
+        tokenID = mint(msg.sender, tokenURI);
+        if (price > 0) setTokenPrice(tokenID, price);
+        if (receiver != address(0) && fee > 0) setTokenRoyalty(tokenID, receiver, fee);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {
