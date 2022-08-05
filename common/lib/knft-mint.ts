@@ -80,16 +80,17 @@ const nftMint3TxResponse = async (
   let txResp: TransactionResponse | null = null;
   console.log("supports", supports);
 
+  const connectedContract = contract.connect(minter);
   if (supports.IOpenNFTsV4) {
-    txResp = await (contract as IOpenNFTsV4).mint(tokenURI);
+    txResp = await (connectedContract as IOpenNFTsV4).mint(tokenURI);
   } else if (supports.IOpenNFTsV3) {
-    txResp = await (contract as IOpenNFTs).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (connectedContract as IOpenNFTs).mintOpenNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV2) {
-    txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
+    txResp = await (connectedContract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV1) {
-    txResp = await (contract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
+    txResp = await (connectedContract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV0) {
-    txResp = await (contract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
+    txResp = await (connectedContract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
   }
   // else if (supports.IOpenBound) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
