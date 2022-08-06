@@ -1,0 +1,292 @@
+{
+  "address": "0xe90392FD2F8cA3609E29A07b597BCF2F9E998582",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "addrs",
+          "type": "address[]"
+        }
+      ],
+      "name": "addAddresses",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "addresses",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        },
+        {
+          "internalType": "bytes4[]",
+          "name": "interfaceIds",
+          "type": "bytes4[]"
+        }
+      ],
+      "name": "checkSupportedInterfaces",
+      "outputs": [
+        {
+          "internalType": "bool[]",
+          "name": "interfaceIdsChecker",
+          "type": "bool[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "countAddresses",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address[]",
+          "name": "collections",
+          "type": "address[]"
+        },
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "getCollectionsInfos",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "collection",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalSupply",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "balanceOf",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IERC721Infos.CollectionInfos[]",
+          "name": "collectionsInfo",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "account",
+          "type": "address"
+        }
+      ],
+      "name": "openResolver",
+      "outputs": [
+        {
+          "components": [
+            {
+              "internalType": "address",
+              "name": "collection",
+              "type": "address"
+            },
+            {
+              "internalType": "address",
+              "name": "owner",
+              "type": "address"
+            },
+            {
+              "internalType": "string",
+              "name": "name",
+              "type": "string"
+            },
+            {
+              "internalType": "string",
+              "name": "symbol",
+              "type": "string"
+            },
+            {
+              "internalType": "uint256",
+              "name": "totalSupply",
+              "type": "uint256"
+            },
+            {
+              "internalType": "uint256",
+              "name": "balanceOf",
+              "type": "uint256"
+            }
+          ],
+          "internalType": "struct IERC721Infos.CollectionInfos[]",
+          "name": "",
+          "type": "tuple[]"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x0aeb3c5cc392d8848b58c28b65d3f64c2b147642491f3bb52ee27ecc734e5299",
+  "receipt": {
+    "to": null,
+    "from": "0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c",
+    "contractAddress": "0xe90392FD2F8cA3609E29A07b597BCF2F9E998582",
+    "transactionIndex": 5,
+    "gasUsed": "970772",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000008000000000000000000000000000000000000004000000000000000000800000000000000000000100000000004000000000000000000000000000000000000000000000000080000000000000000000000000000000000000000000000000000000000080000000000000000000200000000000000000000000000000000000000000000000000000000000004000000000040000000001000000000000000000000000000000100040000000000000000000000000000000000000000000000000000000000000000000100000",
+    "blockHash": "0x24ff1725f20acd4384ceebad8d27e6f3c591fcf1eb9ec19e13de1c0bc2f9dab8",
+    "transactionHash": "0x0aeb3c5cc392d8848b58c28b65d3f64c2b147642491f3bb52ee27ecc734e5299",
+    "logs": [
+      {
+        "transactionIndex": 5,
+        "blockNumber": 27486256,
+        "transactionHash": "0x0aeb3c5cc392d8848b58c28b65d3f64c2b147642491f3bb52ee27ecc734e5299",
+        "address": "0x0000000000000000000000000000000000001010",
+        "topics": [
+          "0x4dfe1bbbcf077ddc3e01291eea2d5c70c2b422b415d95645b9adcfd678cb1d63",
+          "0x0000000000000000000000000000000000000000000000000000000000001010",
+          "0x0000000000000000000000006eebae27d69fa80f0e4c0e973a2fed218a56880c",
+          "0x000000000000000000000000be188d6641e8b680743a4815dfa0f6208038960f"
+        ],
+        "data": "0x000000000000000000000000000000000000000000000000006bf0d04bc606800000000000000000000000000000000000000000000000000f1daf24a19dcdf20000000000000000000000000000000000000000000021d26588a8ce5a63a50c0000000000000000000000000000000000000000000000000eb1be5455d7c7720000000000000000000000000000000000000000000021d265f4999ea629ab8c",
+        "logIndex": 9,
+        "blockHash": "0x24ff1725f20acd4384ceebad8d27e6f3c591fcf1eb9ec19e13de1c0bc2f9dab8"
+      }
+    ],
+    "blockNumber": 27486256,
+    "cumulativeGasUsed": "1453274",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [],
+  "numDeployments": 1,
+  "solcInputHash": "f997d8441d9ebfecfbd0af11467bd0ee",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"addrs\",\"type\":\"address[]\"}],\"name\":\"addAddresses\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"addresses\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"},{\"internalType\":\"bytes4[]\",\"name\":\"interfaceIds\",\"type\":\"bytes4[]\"}],\"name\":\"checkSupportedInterfaces\",\"outputs\":[{\"internalType\":\"bool[]\",\"name\":\"interfaceIdsChecker\",\"type\":\"bool[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"countAddresses\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address[]\",\"name\":\"collections\",\"type\":\"address[]\"},{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"getCollectionsInfos\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"collection\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"totalSupply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balanceOf\",\"type\":\"uint256\"}],\"internalType\":\"struct IERC721Infos.CollectionInfos[]\",\"name\":\"collectionsInfo\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"account\",\"type\":\"address\"}],\"name\":\"openResolver\",\"outputs\":[{\"components\":[{\"internalType\":\"address\",\"name\":\"collection\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"owner\",\"type\":\"address\"},{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"uint256\",\"name\":\"totalSupply\",\"type\":\"uint256\"},{\"internalType\":\"uint256\",\"name\":\"balanceOf\",\"type\":\"uint256\"}],\"internalType\":\"struct IERC721Infos.CollectionInfos[]\",\"name\":\"\",\"type\":\"tuple[]\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/templates/NFTsResolver.sol\":\"NFTsResolver\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// EIP-165: Standard Interface Detection\\n// https://eips.ethereum.org/EIPS/eip-165\\n//\\n// Derived from OpenZeppelin Contracts (utils/introspection/ERC165.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/utils/introspection/ERC165.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//  OpenERC165 \\u2014\\u2014 IERC165\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IERC165.sol\\\";\\n\\nabstract contract OpenERC165 is IERC165 {\\n    function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {\\n        return interfaceId == 0x01ffc9a7; //  type(IERC165).interfaceId\\n    }\\n}\\n\",\"keccak256\":\"0xf1b8812210275ed77b96c117225cdff6dd3ca5684ed3fe671afda8faf71bac80\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenResolver/OpenChecker.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// Derived from OpenZeppelin Contracts (utils/introspection/ERC165Ckecker.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/introspection/ERC165Checker.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//   OpenERC165\\n//        |\\n//  OpenChecker \\u2014\\u2014 IOpenChecker\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenChecker.sol\\\";\\n\\nabstract contract OpenChecker is IOpenChecker, OpenERC165 {\\n    function checkSupportedInterfaces(address account, bytes4[] memory interfaceIds)\\n        public\\n        view\\n        returns (bool[] memory interfaceIdsChecker)\\n    {\\n        interfaceIdsChecker = new bool[](interfaceIds.length);\\n        for (uint256 i = 0; i < interfaceIds.length; i++) {\\n            interfaceIdsChecker[i] = IERC165(account).supportsInterface(interfaceIds[i]);\\n        }\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC165) returns (bool) {\\n        return interfaceId == type(IOpenChecker).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n}\\n\",\"keccak256\":\"0xa0b683c138c50c8d2ea7604dcb068b02598ad922af31b56e9c6f12782ed019e7\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenResolver/OpenGetter.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//   OpenChecker\\n//        |\\n//  OpenGetter \\u2014\\u2014 IOpenGetter\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenResolver/OpenChecker.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenGetter.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IERC721.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IERC721Metadata.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IERC721Enumerable.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IERC173.sol\\\";\\n\\nabstract contract OpenGetter is IOpenGetter, OpenChecker {\\n    bytes4[] private _ids = [\\n        bytes4(0x01ffc9a7), // ERC165\\n        bytes4(0xffffffff), // Invalid\\n        bytes4(0x7f5828d0), // ERC173\\n        bytes4(0xd9b67a26), // ERC1155\\n        bytes4(0x80ac58cd), // ERC721\\n        bytes4(0x5b5e139f), // ERC721Metadata\\n        bytes4(0x780e9d63) // ERC721Enumerable\\n    ];\\n\\n    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenChecker) returns (bool) {\\n        return interfaceId == type(IOpenGetter).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n\\n    function getCollectionsInfos(address[] memory collections, address account)\\n        public\\n        view\\n        override(IOpenGetter)\\n        returns (CollectionInfos[] memory collectionsInfo)\\n    {\\n        collectionsInfo = new CollectionInfos[](collections.length);\\n        for (uint256 i = 0; i < collections.length; i++) {\\n            collectionsInfo[i] = _getCollectionInfos(collections[i], account);\\n        }\\n    }\\n\\n    function _getCollectionInfos(address collection, address account)\\n        private\\n        view\\n        returns (CollectionInfos memory collectionInfo)\\n    {\\n        require(collection.code.length != 0, \\\"Not smartcontract\\\");\\n\\n        bool[] memory supported = new bool[](4);\\n        supported = checkSupportedInterfaces(collection, _ids);\\n\\n        // ERC165 must be supported\\n        require(supported[0] && !supported[1], \\\"Not ERC165\\\");\\n\\n        // ERC721 or ERC1155 must be supported\\n        require(supported[3] || supported[4], \\\"Not NFT smartcontract\\\");\\n\\n        if (account == address(0)) account = msg.sender;\\n        collectionInfo.collection = collection;\\n\\n        // IF ERC721 supported\\n        if (supported[4]) {\\n            collectionInfo.balanceOf = IERC721(collection).balanceOf(account);\\n\\n            // IF ERC721Metadata supported\\n            if (supported[5]) {\\n                collectionInfo.name = IERC721Metadata(collection).name();\\n                collectionInfo.symbol = IERC721Metadata(collection).symbol();\\n            }\\n\\n            // IF ERC721Enumerable supported\\n            if (supported[6]) {\\n                collectionInfo.totalSupply = IERC721Enumerable(collection).totalSupply();\\n            }\\n        }\\n\\n        // IF ERC173 supported\\n        if (supported[2]) {\\n            collectionInfo.owner = IERC173(collection).owner();\\n        }\\n    }\\n}\\n\",\"keccak256\":\"0x6082a4e80d88f1421514d87bcb6ceadae6bbfdecd97a2ec057e16283ce363eb5\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenResolver/OpenRegistry.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// Derived from Kredeum NFTs\\n// https://github.com/Kredeum/kredeum\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//   OpenERC165\\n//        |\\n//  OpenRegistry \\u2014\\u2014 IOpenRegistry\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenRegistry.sol\\\";\\n\\nabstract contract OpenRegistry is IOpenRegistry, OpenERC165 {\\n    address[] public addresses;\\n\\n    function addAddresses(address[] memory addrs) external override(IOpenRegistry) {\\n        for (uint256 i = 0; i < addrs.length; i++) {\\n            addresses.push(addrs[i]);\\n        }\\n    }\\n\\n    function countAddresses() external view override(IOpenRegistry) returns (uint256) {\\n        return addresses.length;\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC165) returns (bool) {\\n        return interfaceId == type(IOpenRegistry).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n}\\n\",\"keccak256\":\"0x8382cee60d8de96a6f568e82b989bdcc49f4876d71b90dd9c8be890ee57e4884\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenResolver/OpenResolver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// Derived from OpenZeppelin Contracts (utils/introspection/ERC165Ckecker.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/introspection/ERC165Checker.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//   OpenERC165\\n//        |\\n//        \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\n//        |              |\\n//   OpenChecker     OpenRegistry\\n//        |              |\\n//    OpenGetter         |\\n//        |              |\\n//        \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\n//        |\\n//  OpenResolver \\u2014\\u2014 IOpenResolver\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenResolver/OpenRegistry.sol\\\";\\nimport \\\"OpenNFTs/contracts/OpenResolver/OpenGetter.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenResolver.sol\\\";\\n\\nabstract contract OpenResolver is IOpenResolver, OpenRegistry, OpenGetter {\\n    function openResolver(address account) external view returns (CollectionInfos[] memory) {\\n        return getCollectionsInfos(addresses, account);\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId)\\n        public\\n        view\\n        virtual\\n        override(OpenRegistry, OpenGetter)\\n        returns (bool)\\n    {\\n        return interfaceId == type(IOpenResolver).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n}\\n\",\"keccak256\":\"0x621e4c3c7c90f211a8b355108d777858197cf70167509590649a2005c28486ae\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC165 {\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\n}\\n\",\"keccak256\":\"0x9c1f5d5ecf50da8f1522564691408712d64d2a7a05f46b4827cb2782619b652b\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC173.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC173 {\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    function transferOwnership(address newOwner) external;\\n\\n    function owner() external view returns (address currentOwner);\\n}\\n\",\"keccak256\":\"0x9716e67fa2bfaabb007ec482cc041d62181c84434d510822dbfa0f4894aaa958\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC721.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC721 {\\n    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);\\n    event Approval(address indexed owner, address indexed approved, uint256 indexed tokenId);\\n    event ApprovalForAll(address indexed owner, address indexed operator, bool approved);\\n\\n    function safeTransferFrom(\\n        address from,\\n        address to,\\n        uint256 tokenId,\\n        bytes calldata data\\n    ) external payable;\\n\\n    function safeTransferFrom(\\n        address from,\\n        address to,\\n        uint256 tokenId\\n    ) external payable;\\n\\n    function transferFrom(\\n        address from,\\n        address to,\\n        uint256 tokenId\\n    ) external payable;\\n\\n    function approve(address to, uint256 tokenId) external payable;\\n\\n    function setApprovalForAll(address operator, bool approved) external;\\n\\n    function balanceOf(address owner) external view returns (uint256 balance);\\n\\n    function ownerOf(uint256 tokenId) external view returns (address owner);\\n\\n    function getApproved(uint256 tokenId) external view returns (address operator);\\n\\n    function isApprovedForAll(address owner, address operator) external view returns (bool);\\n}\\n\",\"keccak256\":\"0x20b9c6d46e0d1c375cf965480c3ffc6805eb5fa8811a1e755ecddaf150774e40\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC721Enumerable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC721Enumerable {\\n    function totalSupply() external view returns (uint256);\\n\\n    function tokenOfOwnerByIndex(address owner, uint256 index) external view returns (uint256);\\n\\n    function tokenByIndex(uint256 index) external view returns (uint256);\\n}\\n\",\"keccak256\":\"0xe6b3c72bf7439f870efe17f63debea48e71ec7af66594c35fc721ec847b550ce\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC721Infos.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC721Infos {\\n    struct CollectionInfos {\\n        address collection;\\n        address owner;\\n        string name;\\n        string symbol;\\n        uint256 totalSupply;\\n        uint256 balanceOf;\\n    }\\n}\\n\",\"keccak256\":\"0x1f8bff9868d8e30c7098da248d4313890b5a64bae95837d92a22534392f6827a\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC721Metadata.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IERC721Metadata {\\n    function name() external view returns (string memory);\\n\\n    function symbol() external view returns (string memory);\\n\\n    function tokenURI(uint256 tokenId) external view returns (string memory);\\n}\\n\",\"keccak256\":\"0xb4acce4d48ce2560e8575404ce7a5e5f4465f9ed544964a95bc0771e687eafbc\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenChecker.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IOpenChecker {\\n    function checkSupportedInterfaces(address account, bytes4[] memory interfaceIds)\\n        external\\n        view\\n        returns (bool[] memory);\\n}\\n\",\"keccak256\":\"0x0ba63f5b22b78e8695bc384ca71cf416e9c1078c3f3a8e329841a1ba7b91e349\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenGetter.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IERC721Infos.sol\\\";\\n\\ninterface IOpenGetter is IERC721Infos {\\n    function getCollectionsInfos(address[] memory collections, address account)\\n        external\\n        view\\n        returns (CollectionInfos[] memory collectionsInfo);\\n}\\n\",\"keccak256\":\"0x5c4b38a2a4f9a4342d99fda88219072e03bc5a2b0824ca352b51bc782c15498e\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenRegistry.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IOpenRegistry {\\n    function addresses(uint256 index) external returns (address);\\n\\n    function addAddresses(address[] memory addrs) external;\\n\\n    function countAddresses() external view returns (uint256);\\n}\\n\",\"keccak256\":\"0x0f37d06c415246fc1485a30e487f8c9b1e6bad8b43d6c68514bc5b976355e8e4\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenResolver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IERC721Infos.sol\\\";\\n\\ninterface IOpenResolver is IERC721Infos {\\n    function openResolver(address account) external view returns (CollectionInfos[] memory collectionInfos);\\n}\\n\",\"keccak256\":\"0x56e6cbc4c4d396d0b4f81ace6f673405b6b6800dfbcf9eb0ae86fb58f6b2ba08\",\"license\":\"MIT\"},\"contracts/templates/NFTsResolver.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n//    OpenERC165\\n//        |\\n\\n//        |\\n//   OpenResolver\\n//        |\\n//  OpenResolver \\u2014\\u2014 IOpenResolver\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenResolver/OpenResolver.sol\\\";\\n\\ncontract NFTsResolver is OpenResolver {\\n    function supportsInterface(bytes4 interfaceId) public view override(OpenResolver) returns (bool) {\\n        return super.supportsInterface(interfaceId);\\n    }\\n}\\n\",\"keccak256\":\"0xc3ede4c401a316a55dab69113191369201485629277edaf3c6851a79c8ace072\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x6101606040526301ffc9a760e01b60809081526001600160e01b031960a0526307f5828d60e41b60c052636cdb3d1360e11b60e0526380ac58cd60e01b61010052635b5e139f60e01b6101205263780e9d6360e01b61014052610066906001906007610079565b5034801561007357600080fd5b5061013a565b828054828255906000526020600020906007016008900481019282156101155791602002820160005b838211156100e357835183826101000a81548163ffffffff021916908360e01c021790555092602001926004016020816003010492830192600103026100a2565b80156101135782816101000a81549063ffffffff02191690556004016020816003010492830192600103026100e3565b505b50610121929150610125565b5090565b5b808211156101215760008155600101610126565b610fa8806101496000396000f3fe608060405234801561001057600080fd5b506004361061007d5760003560e01c806340b8d0291161005b57806340b8d029146100df5780635fc83aae146100f2578063ec530de614610112578063edf26d9b1461012357600080fd5b806301ffc9a71461008257806307fda8e7146100aa5780633628731c146100ca575b600080fd5b610095610090366004610a5c565b61014e565b60405190151581526020015b60405180910390f35b6100bd6100b8366004610a96565b61015f565b6040516100a19190610b0f565b6100dd6100d8366004610cac565b6101c5565b005b6100bd6100ed366004610ce9565b610236565b610105610100366004610d3b565b6102f4565b6040516100a19190610de8565b6000546040519081526020016100a1565b610136610131366004610e2e565b610421565b6040516001600160a01b0390911681526020016100a1565b60006101598261044b565b92915050565b606061015960008054806020026020016040519081016040528092919081815260200182805480156101ba57602002820191906000526020600020905b81546001600160a01b0316815260019091019060200180831161019c575b505050505083610236565b60005b81518110156102325760008282815181106101e5576101e5610e47565b60209081029190910181015182546001810184556000938452919092200180546001600160a01b0319166001600160a01b039092169190911790558061022a81610e5d565b9150506101c8565b5050565b6060825167ffffffffffffffff81111561025257610252610bcd565b60405190808252806020026020018201604052801561028b57816020015b6102786109f7565b8152602001906001900390816102705790505b50905060005b83518110156102ed576102bd8482815181106102af576102af610e47565b602002602001015184610470565b8282815181106102cf576102cf610e47565b602002602001018190525080806102e590610e5d565b915050610291565b5092915050565b6060815167ffffffffffffffff81111561031057610310610bcd565b604051908082528060200260200182016040528015610339578160200160208202803683370190505b50905060005b82518110156102ed57836001600160a01b03166301ffc9a784838151811061036957610369610e47565b60200260200101516040518263ffffffff1660e01b815260040161039d91906001600160e01b031991909116815260200190565b60206040518083038186803b1580156103b557600080fd5b505afa1580156103c9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103ed9190610e86565b8282815181106103ff576103ff610e47565b911515602092830291909101909101528061041981610e5d565b91505061033f565b6000818154811061043157600080fd5b6000918252602090912001546001600160a01b0316905081565b60006001600160e01b031982166307fda8e760e01b1480610159575061015982610982565b6104786109f7565b6001600160a01b0383163b6104c85760405162461bcd60e51b8152602060048201526011602482015270139bdd081cdb585c9d18dbdb9d1c9858dd607a1b60448201526064015b60405180910390fd5b60408051600480825260a082019092526000916020820160808036833701905050905061057284600180548060200260200160405190810160405280929190818152602001828054801561056857602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161052a5790505b50505050506102f4565b90508060008151811061058757610587610e47565b602002602001015180156105b35750806001815181106105a9576105a9610e47565b6020026020010151155b6105ec5760405162461bcd60e51b815260206004820152600a6024820152694e6f742045524331363560b01b60448201526064016104bf565b806003815181106105ff576105ff610e47565b60200260200101518061062957508060048151811061062057610620610e47565b60200260200101515b61066d5760405162461bcd60e51b8152602060048201526015602482015274139bdd08139195081cdb585c9d18dbdb9d1c9858dd605a1b60448201526064016104bf565b6001600160a01b03831661067f573392505b6001600160a01b03841682528051819060049081106106a0576106a0610e47565b6020026020010151156108dc576040516370a0823160e01b81526001600160a01b0384811660048301528516906370a082319060240160206040518083038186803b1580156106ee57600080fd5b505afa158015610702573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906107269190610ea8565b60a083015280518190600590811061074057610740610e47565b60200260200101511561084557836001600160a01b03166306fdde036040518163ffffffff1660e01b815260040160006040518083038186803b15801561078657600080fd5b505afa15801561079a573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526107c29190810190610ec1565b8260400181905250836001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b15801561080357600080fd5b505afa158015610817573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405261083f9190810190610ec1565b60608301525b8060068151811061085857610858610e47565b6020026020010151156108dc57836001600160a01b03166318160ddd6040518163ffffffff1660e01b815260040160206040518083038186803b15801561089e57600080fd5b505afa1580156108b2573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108d69190610ea8565b60808301525b806002815181106108ef576108ef610e47565b6020026020010151156102ed57836001600160a01b0316638da5cb5b6040518163ffffffff1660e01b815260040160206040518083038186803b15801561093557600080fd5b505afa158015610949573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061096d9190610f55565b6001600160a01b031660208301525092915050565b60006001600160e01b031982166340b8d02960e01b148061015957506101598260006001600160e01b03198216632fe41d5760e11b148061015957506101598260006001600160e01b03198216633789136160e01b148061015957506001600160e01b031982166301ffc9a760e01b14610159565b6040518060c0016040528060006001600160a01b0316815260200160006001600160a01b03168152602001606081526020016060815260200160008152602001600081525090565b80356001600160e01b031981168114610a5757600080fd5b919050565b600060208284031215610a6e57600080fd5b610a7782610a3f565b9392505050565b6001600160a01b0381168114610a9357600080fd5b50565b600060208284031215610aa857600080fd5b8135610a7781610a7e565b60005b83811015610ace578181015183820152602001610ab6565b83811115610add576000848401525b50505050565b60008151808452610afb816020860160208601610ab3565b601f01601f19169290920160200192915050565b60006020808301818452808551808352604092508286019150828160051b87010184880160005b83811015610bbf57888303603f19018552815180516001600160a01b0390811685528882015116888501528681015160c088860181905290610b7a82870182610ae3565b91505060608083015186830382880152610b948382610ae3565b6080858101519089015260a09485015194909701939093525050509386019390860190600101610b36565b509098975050505050505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715610c0c57610c0c610bcd565b604052919050565b600067ffffffffffffffff821115610c2e57610c2e610bcd565b5060051b60200190565b600082601f830112610c4957600080fd5b81356020610c5e610c5983610c14565b610be3565b82815260059290921b84018101918181019086841115610c7d57600080fd5b8286015b84811015610ca1578035610c9481610a7e565b8352918301918301610c81565b509695505050505050565b600060208284031215610cbe57600080fd5b813567ffffffffffffffff811115610cd557600080fd5b610ce184828501610c38565b949350505050565b60008060408385031215610cfc57600080fd5b823567ffffffffffffffff811115610d1357600080fd5b610d1f85828601610c38565b9250506020830135610d3081610a7e565b809150509250929050565b60008060408385031215610d4e57600080fd5b8235610d5981610a7e565b915060208381013567ffffffffffffffff811115610d7657600080fd5b8401601f81018613610d8757600080fd5b8035610d95610c5982610c14565b81815260059190911b82018301908381019088831115610db457600080fd5b928401925b82841015610dd957610dca84610a3f565b82529284019290840190610db9565b80955050505050509250929050565b6020808252825182820181905260009190848201906040850190845b81811015610e22578351151583529284019291840191600101610e04565b50909695505050505050565b600060208284031215610e4057600080fd5b5035919050565b634e487b7160e01b600052603260045260246000fd5b6000600019821415610e7f57634e487b7160e01b600052601160045260246000fd5b5060010190565b600060208284031215610e9857600080fd5b81518015158114610a7757600080fd5b600060208284031215610eba57600080fd5b5051919050565b600060208284031215610ed357600080fd5b815167ffffffffffffffff80821115610eeb57600080fd5b818401915084601f830112610eff57600080fd5b815181811115610f1157610f11610bcd565b610f24601f8201601f1916602001610be3565b9150808252856020828501011115610f3b57600080fd5b610f4c816020840160208601610ab3565b50949350505050565b600060208284031215610f6757600080fd5b8151610a7781610a7e56fea26469706673582212209418946754a49ac8c1978fef4f9c99c0cf546eb089bd028269f1d212d72f161164736f6c63430008090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b506004361061007d5760003560e01c806340b8d0291161005b57806340b8d029146100df5780635fc83aae146100f2578063ec530de614610112578063edf26d9b1461012357600080fd5b806301ffc9a71461008257806307fda8e7146100aa5780633628731c146100ca575b600080fd5b610095610090366004610a5c565b61014e565b60405190151581526020015b60405180910390f35b6100bd6100b8366004610a96565b61015f565b6040516100a19190610b0f565b6100dd6100d8366004610cac565b6101c5565b005b6100bd6100ed366004610ce9565b610236565b610105610100366004610d3b565b6102f4565b6040516100a19190610de8565b6000546040519081526020016100a1565b610136610131366004610e2e565b610421565b6040516001600160a01b0390911681526020016100a1565b60006101598261044b565b92915050565b606061015960008054806020026020016040519081016040528092919081815260200182805480156101ba57602002820191906000526020600020905b81546001600160a01b0316815260019091019060200180831161019c575b505050505083610236565b60005b81518110156102325760008282815181106101e5576101e5610e47565b60209081029190910181015182546001810184556000938452919092200180546001600160a01b0319166001600160a01b039092169190911790558061022a81610e5d565b9150506101c8565b5050565b6060825167ffffffffffffffff81111561025257610252610bcd565b60405190808252806020026020018201604052801561028b57816020015b6102786109f7565b8152602001906001900390816102705790505b50905060005b83518110156102ed576102bd8482815181106102af576102af610e47565b602002602001015184610470565b8282815181106102cf576102cf610e47565b602002602001018190525080806102e590610e5d565b915050610291565b5092915050565b6060815167ffffffffffffffff81111561031057610310610bcd565b604051908082528060200260200182016040528015610339578160200160208202803683370190505b50905060005b82518110156102ed57836001600160a01b03166301ffc9a784838151811061036957610369610e47565b60200260200101516040518263ffffffff1660e01b815260040161039d91906001600160e01b031991909116815260200190565b60206040518083038186803b1580156103b557600080fd5b505afa1580156103c9573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906103ed9190610e86565b8282815181106103ff576103ff610e47565b911515602092830291909101909101528061041981610e5d565b91505061033f565b6000818154811061043157600080fd5b6000918252602090912001546001600160a01b0316905081565b60006001600160e01b031982166307fda8e760e01b1480610159575061015982610982565b6104786109f7565b6001600160a01b0383163b6104c85760405162461bcd60e51b8152602060048201526011602482015270139bdd081cdb585c9d18dbdb9d1c9858dd607a1b60448201526064015b60405180910390fd5b60408051600480825260a082019092526000916020820160808036833701905050905061057284600180548060200260200160405190810160405280929190818152602001828054801561056857602002820191906000526020600020906000905b82829054906101000a900460e01b6001600160e01b0319168152602001906004019060208260030104928301926001038202915080841161052a5790505b50505050506102f4565b90508060008151811061058757610587610e47565b602002602001015180156105b35750806001815181106105a9576105a9610e47565b6020026020010151155b6105ec5760405162461bcd60e51b815260206004820152600a6024820152694e6f742045524331363560b01b60448201526064016104bf565b806003815181106105ff576105ff610e47565b60200260200101518061062957508060048151811061062057610620610e47565b60200260200101515b61066d5760405162461bcd60e51b8152602060048201526015602482015274139bdd08139195081cdb585c9d18dbdb9d1c9858dd605a1b60448201526064016104bf565b6001600160a01b03831661067f573392505b6001600160a01b03841682528051819060049081106106a0576106a0610e47565b6020026020010151156108dc576040516370a0823160e01b81526001600160a01b0384811660048301528516906370a082319060240160206040518083038186803b1580156106ee57600080fd5b505afa158015610702573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906107269190610ea8565b60a083015280518190600590811061074057610740610e47565b60200260200101511561084557836001600160a01b03166306fdde036040518163ffffffff1660e01b815260040160006040518083038186803b15801561078657600080fd5b505afa15801561079a573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f191682016040526107c29190810190610ec1565b8260400181905250836001600160a01b03166395d89b416040518163ffffffff1660e01b815260040160006040518083038186803b15801561080357600080fd5b505afa158015610817573d6000803e3d6000fd5b505050506040513d6000823e601f3d908101601f1916820160405261083f9190810190610ec1565b60608301525b8060068151811061085857610858610e47565b6020026020010151156108dc57836001600160a01b03166318160ddd6040518163ffffffff1660e01b815260040160206040518083038186803b15801561089e57600080fd5b505afa1580156108b2573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906108d69190610ea8565b60808301525b806002815181106108ef576108ef610e47565b6020026020010151156102ed57836001600160a01b0316638da5cb5b6040518163ffffffff1660e01b815260040160206040518083038186803b15801561093557600080fd5b505afa158015610949573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061096d9190610f55565b6001600160a01b031660208301525092915050565b60006001600160e01b031982166340b8d02960e01b148061015957506101598260006001600160e01b03198216632fe41d5760e11b148061015957506101598260006001600160e01b03198216633789136160e01b148061015957506001600160e01b031982166301ffc9a760e01b14610159565b6040518060c0016040528060006001600160a01b0316815260200160006001600160a01b03168152602001606081526020016060815260200160008152602001600081525090565b80356001600160e01b031981168114610a5757600080fd5b919050565b600060208284031215610a6e57600080fd5b610a7782610a3f565b9392505050565b6001600160a01b0381168114610a9357600080fd5b50565b600060208284031215610aa857600080fd5b8135610a7781610a7e565b60005b83811015610ace578181015183820152602001610ab6565b83811115610add576000848401525b50505050565b60008151808452610afb816020860160208601610ab3565b601f01601f19169290920160200192915050565b60006020808301818452808551808352604092508286019150828160051b87010184880160005b83811015610bbf57888303603f19018552815180516001600160a01b0390811685528882015116888501528681015160c088860181905290610b7a82870182610ae3565b91505060608083015186830382880152610b948382610ae3565b6080858101519089015260a09485015194909701939093525050509386019390860190600101610b36565b509098975050505050505050565b634e487b7160e01b600052604160045260246000fd5b604051601f8201601f1916810167ffffffffffffffff81118282101715610c0c57610c0c610bcd565b604052919050565b600067ffffffffffffffff821115610c2e57610c2e610bcd565b5060051b60200190565b600082601f830112610c4957600080fd5b81356020610c5e610c5983610c14565b610be3565b82815260059290921b84018101918181019086841115610c7d57600080fd5b8286015b84811015610ca1578035610c9481610a7e565b8352918301918301610c81565b509695505050505050565b600060208284031215610cbe57600080fd5b813567ffffffffffffffff811115610cd557600080fd5b610ce184828501610c38565b949350505050565b60008060408385031215610cfc57600080fd5b823567ffffffffffffffff811115610d1357600080fd5b610d1f85828601610c38565b9250506020830135610d3081610a7e565b809150509250929050565b60008060408385031215610d4e57600080fd5b8235610d5981610a7e565b915060208381013567ffffffffffffffff811115610d7657600080fd5b8401601f81018613610d8757600080fd5b8035610d95610c5982610c14565b81815260059190911b82018301908381019088831115610db457600080fd5b928401925b82841015610dd957610dca84610a3f565b82529284019290840190610db9565b80955050505050509250929050565b6020808252825182820181905260009190848201906040850190845b81811015610e22578351151583529284019291840191600101610e04565b50909695505050505050565b600060208284031215610e4057600080fd5b5035919050565b634e487b7160e01b600052603260045260246000fd5b6000600019821415610e7f57634e487b7160e01b600052601160045260246000fd5b5060010190565b600060208284031215610e9857600080fd5b81518015158114610a7757600080fd5b600060208284031215610eba57600080fd5b5051919050565b600060208284031215610ed357600080fd5b815167ffffffffffffffff80821115610eeb57600080fd5b818401915084601f830112610eff57600080fd5b815181811115610f1157610f11610bcd565b610f24601f8201601f1916602001610be3565b9150808252856020828501011115610f3b57600080fd5b610f4c816020840160208601610ab3565b50949350505050565b600060208284031215610f6757600080fd5b8151610a7781610a7e56fea26469706673582212209418946754a49ac8c1978fef4f9c99c0cf546eb089bd028269f1d212d72f161164736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {},
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {},
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 9034,
+        "contract": "contracts/templates/NFTsResolver.sol:NFTsResolver",
+        "label": "addresses",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_array(t_address)dyn_storage"
+      },
+      {
+        "astId": 8801,
+        "contract": "contracts/templates/NFTsResolver.sol:NFTsResolver",
+        "label": "_ids",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_array(t_bytes4)dyn_storage"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_array(t_bytes4)dyn_storage": {
+        "base": "t_bytes4",
+        "encoding": "dynamic_array",
+        "label": "bytes4[]",
+        "numberOfBytes": "32"
+      },
+      "t_bytes4": {
+        "encoding": "inplace",
+        "label": "bytes4",
+        "numberOfBytes": "4"
+      }
+    }
+  }
+}

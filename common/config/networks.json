@@ -365,12 +365,14 @@
     "covalent": {
       "active": true
     },
-    "openNFTs": "",
+    "openNFTs": "0x95f492B56eCA00a1083DD8C9CD2A72BA0932380D",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
-    "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf"
+    "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
+    "openResolver": "0xe90392FD2F8cA3609E29A07b597BCF2F9E998582",
+    "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a"
   },
   {
     "chainId": 421611,
