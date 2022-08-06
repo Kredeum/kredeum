@@ -9,8 +9,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "../CloneFactoryV2.sol";
 import "../interfaces/IERC173.sol";
 import "../interfaces/INFTsFactoryV3.sol";
-import "../interfaces/IOpenNFTs.sol";
-import "../interfaces/IOpenNFTsV3.sol";
+import "../interfaces/IOpenNFTsV4.sol";
 
 /// @title NFTsFactory smartcontract
 /// @dev is CloneFactory
@@ -31,7 +30,7 @@ contract NFTsFactoryV3 is CloneFactoryV2, INFTsFactoryV3 {
     bytes4 internal constant _IERC721_METADATA_SIG = bytes4(0x780e9d63);
     bytes4 internal constant _IERC721_ENUMERABLE_SIG = (0x780e9d63);
     bytes4 internal constant _IERC173_SIG = bytes4(0x7f5828d0);
-    bytes4 internal constant _IOPEN_NFTS_SIG = type(IOpenNFTs).interfaceId;
+    bytes4 internal constant _IOPEN_NFTS_SIG = type(IOpenNFTsV4).interfaceId;
 
     constructor(address initialOwner) {
         _transferOwnership(initialOwner);
@@ -48,7 +47,7 @@ contract NFTsFactoryV3 is CloneFactoryV2, INFTsFactoryV3 {
         bool[] memory options
     ) external override(INFTsFactoryV3) returns (address clone_) {
         clone_ = _clone(templateName);
-        IOpenNFTs(clone_).initialize(name, symbol, _msgSender(), options);
+        IOpenNFTsV4(clone_).initialize(name, symbol, _msgSender(), options);
     }
 
     /// @notice balancesOf address for each implementations

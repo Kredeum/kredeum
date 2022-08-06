@@ -2,7 +2,8 @@ import type { OpenNFTsV3 } from "soltypes/contracts";
 
 import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
 
-import abiOpenNFTs from "abis/contracts/interfaces/IOpenNFTs.sol/IOpenNFTs.json";
+
+import abiOpenNFTsOld from "abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
 import abiOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
 import abiOpenNFTsV3 from "abis/contracts/interfaces/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 
@@ -59,7 +60,7 @@ describe("31 OpenNFTsV3 contract", function () {
 
   it("Should check openNFTsV3 interface", async function () {
     expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTsV3))).to.be.true;
-    expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTs))).to.be.true;
+    expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTsOld))).to.be.true;
     expect(await openNFTsV3.supportsInterface(interfaceId(abiOpenNFTsV2))).to.be.false;
     expect(await openNFTsV3.supportsInterface(interfaceId(abiERC173))).to.be.true;
   });

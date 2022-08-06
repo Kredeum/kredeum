@@ -11,7 +11,9 @@ import abiERC1155MetadataURI from "abis/contracts/interfaces/IERC1155MetadataURI
 import abiERC1155TokenReceiver from "abis/contracts/interfaces/IERC1155TokenReceiver.sol/IERC1155TokenReceiver.json";
 import abiERC2981 from "abis/contracts/interfaces/IERC2981.sol/IERC2981.json";
 
-import abiOpenNFTs from "abis/contracts/interfaces/IOpenNFTs.sol/IOpenNFTs.json";
+import abiOpenNFTsOld from "abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
+import abiOpenNFTsV3Old from "abis/contracts/interfaces/IOpenNFTsV3.old.sol/IOpenNFTsV3.json";
+
 import abiOpenNFTsV0 from "abis/contracts/interfaces/IOpenNFTsV0.sol/IOpenNFTsV0.json";
 import abiOpenNFTsV1 from "abis/contracts/interfaces/IOpenNFTsV1.sol/IOpenNFTsV1.json";
 import abiOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
@@ -44,7 +46,9 @@ const abis = {
 
   IERC2981: abiERC2981,
 
-  IOpenNFTs: abiOpenNFTs,
+  IOpenNFTsOld: abiOpenNFTsOld,
+  IOpenNFTsV3Old: abiOpenNFTsV3Old,
+  
   IOpenNFTsV0: abiOpenNFTsV0,
   IOpenNFTsV1: abiOpenNFTsV1,
   IOpenNFTsV2: abiOpenNFTsV2,

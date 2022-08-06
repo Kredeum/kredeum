@@ -59,7 +59,6 @@ const collectionGetSupports = async (
 
     if (openChecker) {
       supports = await collectionGetSupportsChecker(address, provider);
-      supports.IOpenNFTs = true;
     } else {
       const waitERC721 = contract.supportsInterface(interfaceId(abis["IERC721"]));
       const waitERC1155 = contract.supportsInterface(interfaceId(abis["IERC1155"]));
@@ -87,8 +86,7 @@ const collectionGetSupports = async (
 
         // Supports ERC165,  should have already reverted otherwise
 
-        if (supports.IOpenNFTsV3) supports.IOpenNFTs = true;
-        else if (!supports.IOpenNFTsV2) {
+        if (!supports.IOpenNFTsV2) {
           if (openNFTsV1Addresses.includes(contract.address)) {
             supports.IOpenNFTsV1 = true;
           } else if (openNFTsV0Addresses.includes(contract.address)) {

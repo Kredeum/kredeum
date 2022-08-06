@@ -26,12 +26,10 @@ const collectionContractGet = async (
     for (const [key, support] of Object.entries(supports || {})) {
       if (support) {
         const abiKey = abis[key as ABIS];
-        
+
         if (abiKey) {
-          if (!(supports.IOpenNFTsV4 && key == "IOpenNFTs")) {
-            console.log("collectionContractGet", key, abiKey);
-            abi = abi.concat(abis[key as ABIS]);
-          }
+          console.log("collectionContractGet", key, abiKey);
+          abi = abi.concat(abis[key as ABIS]);
         } else {
           console.error("collectionContractGet ERROR", key);
         }

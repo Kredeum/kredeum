@@ -43,7 +43,7 @@ pragma solidity ^0.8.9;
 
 import "OpenNFTs/contracts/OpenNFTs/OpenNFTs.sol";
 import "../interfaces/IOpenNFTsV4.sol";
-import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
