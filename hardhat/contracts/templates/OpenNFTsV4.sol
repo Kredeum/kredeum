@@ -52,7 +52,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
 
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
-    modifier onlyOpenOrOwner() {
+    modifier onlyMinter() override(OpenNFTs) {
         require(open || (owner() == msg.sender), "Not minter");
         _;
     }
@@ -92,16 +92,17 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
     }
 
     function mint(string memory tokenURI) external override(IOpenNFTsV4) returns (uint256 tokenID) {
-        tokenID = mint(tokenURI, 0, address(0), 0);
+        tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
     }
 
     function mint(
+        address minter,
         string memory tokenURI,
         uint256 price,
         address receiver,
         uint96 fee
-    ) public payable override(IOpenNFTsV4) onlyOpenOrOwner onlyWhenNotPaused returns (uint256 tokenID) {
-        tokenID = mint(msg.sender, tokenURI);
+    ) public payable override(IOpenNFTsV4) onlyMinter onlyWhenNotPaused returns (uint256 tokenID) {
+        tokenID = mint(minter, tokenURI);
         if (price > 0) setTokenPrice(tokenID, price);
         if (receiver != address(0) && fee > 0) setTokenRoyalty(tokenID, receiver, fee);
     }

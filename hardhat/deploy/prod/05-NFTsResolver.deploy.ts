@@ -20,9 +20,9 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   if (deployResult.newlyDeployed) {
     const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
     const networkConf: NetworkType = networks[index];
-    if (deployResult.address != networkConf.openResolver) {
+    if (deployResult.address != networkConf.nftsResolver) {
       console.info(contractName, "deployed => new address");
-      networks[index].openResolver = deployResult.address;
+      networks[index].nftsResolver = deployResult.address;
       await fs
         .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));

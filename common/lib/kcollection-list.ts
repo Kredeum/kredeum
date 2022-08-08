@@ -2,12 +2,13 @@ import type { CollectionType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
-import { DEFAULT_NAME, DEFAULT_SYMBOL } from "./kconfig";
+import { DEFAULT_NAME, DEFAULT_SYMBOL, collectionListKey } from "./kconfig";
 
 import { factoryGetContract } from "./kfactory-get";
+import { resolverGetAddress, resolverGetContract } from "./kresolver-get";
 import { collectionMerge } from "./kcollection-get";
 
-import { getChecksumAddress, getNetwork, collectionUrl, collectionListKey } from "./kconfig";
+import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
 
 import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
 import { covalentGet, covalentCollectionList } from "lib/api-covalent";
@@ -35,26 +36,75 @@ const collectionListMerge = (
   return collList;
 };
 
+const collectionListFromResolver = async (
+  chainId: number,
+  account: string,
+  provider: Provider
+): Promise<Map<string, CollectionType>> => {
+  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, chainId, account);
+  const network = getNetwork(chainId);
+
+  const collections: Map<string, CollectionType> = new Map();
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+  if (nftsResolver) {
+    type CollectionInfos = [string, string, string, string, BigNumber, BigNumber];
+    const collectionsInfos: Array<CollectionInfos> = await nftsResolver.openResolver(account);
+    const chainName = network?.chainName;
+
+    for (let index = 0; index < collectionsInfos.length; index++) {
+      const collectionInfos = collectionsInfos[index];
+
+      const address: string = getChecksumAddress(collectionInfos[0]);
+      const owner: string = getChecksumAddress(collectionInfos[1]);
+      const name: string = collectionInfos[2] || DEFAULT_NAME;
+      const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
+      const totalSupply = Number(collectionInfos[4]);
+      const balanceOf = Number(collectionInfos[5]);
+
+      const collection: CollectionType = {
+        chainId,
+        chainName,
+        address,
+        owner,
+        name,
+        symbol,
+        totalSupply
+      };
+      collection.balancesOf = new Map([[account, balanceOf]]);
+      collections.set(collectionUrl(chainId, address), collection);
+    }
+  }
+  console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
+  return collections;
+};
+
 const collectionListFromFactory = async (
   chainId: number,
   account: string,
   provider: Provider
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
+  console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
+  console.log("collectionListFromFactory1");
+
   const network = getNetwork(chainId);
 
   const collections: Map<string, CollectionType> = new Map();
 
+  console.log("collectionListFromFactory2");
   const nftsFactory = factoryGetContract(chainId, provider);
-
   if (nftsFactory) {
+    console.log("collectionListFromFactory3");
+
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
     const balances: Array<BalanceOf> = await nftsFactory.balancesOf(account);
     // console.log("collectionListFromFactory balances", balances);
+    console.log("collectionListFromFactory4");
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network?.chainName;
       const balance: BalanceOf = balances[index];
+      console.log("collectionListFromFactory5");
 
       const address: string = getChecksumAddress(balance[0]);
       const owner: string = getChecksumAddress(balance[2]);
@@ -76,7 +126,7 @@ const collectionListFromFactory = async (
       collections.set(collectionUrl(chainId, address), collection);
     }
   }
-  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
+  console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -86,7 +136,7 @@ const collectionList = async (
   provider: Provider,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
+  console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -108,8 +158,15 @@ const collectionList = async (
       collectionsOwner = await covalentCollectionList(chainId, account);
       // console.log("collectionList covalentCollectionList", collectionsOwner);
     }
-    collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
-    // console.log("collectionList collectionListFromFactory", collectionsKredeum);
+
+    console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
+    if (resolverGetAddress(chainId)) {
+      collectionsKredeum = await collectionListFromResolver(chainId, account, provider);
+    } else {
+      collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
+    }
+
+    console.log("collectionList collectionListKredeum", collectionsKredeum);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);

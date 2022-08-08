@@ -5,15 +5,15 @@ import { interfaceId } from "lib/kconfig";
 
 import type { OpenProof } from "soltypes/contracts/dev";
 
-import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
-import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
-import abiERC721TokenReceiver from "abis/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
+import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiIERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIERC721TokenReceiver from "abis/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
 
-import abiERC1155 from "abis/contracts/interfaces/IERC1155.sol/IERC1155.json";
-import abiERC4973 from "abis/contracts/interfaces/IERC4973.sol/IERC4973.json";
+import abiIERC1155 from "abis/contracts/interfaces/IERC1155.sol/IERC1155.json";
+import abiIERC4973 from "abis/contracts/interfaces/IERC4973.sol/IERC4973.json";
 
 describe("OpenProof", function () {
   let signer: Signer;
@@ -46,15 +46,15 @@ describe("OpenProof", function () {
   });
 
   it("Should have correct interfaceIds", async () => {
-    expect(await openProof.supportsInterface(interfaceId(abiERC165))).to.be.true;
-    expect(await openProof.supportsInterface(interfaceId(abiERC721))).to.be.true;
-    expect(await openProof.supportsInterface(interfaceId(abiERC721Enumerable))).to.be.true;
-    expect(await openProof.supportsInterface(interfaceId(abiERC721Metadata))).to.be.true;
-    expect(await openProof.supportsInterface(interfaceId(abiERC173))).to.be.true;
-    expect(await openProof.supportsInterface(interfaceId(abiERC4973))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC165))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC721))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC721Enumerable))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC721Metadata))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC173))).to.be.true;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC4973))).to.be.true;
 
-    expect(await openProof.supportsInterface(interfaceId(abiERC721TokenReceiver))).to.be.false;
-    expect(await openProof.supportsInterface(interfaceId(abiERC1155))).to.be.false;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC721TokenReceiver))).to.be.false;
+    expect(await openProof.supportsInterface(interfaceId(abiIERC1155))).to.be.false;
   });
 
   it("Should be own by deployer", async () => {

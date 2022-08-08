@@ -11,11 +11,11 @@ config();
 
 const json = "https://ipfs.io/ipfs/bafkreibjtts66xh4ipz2sixjokrdsejfwe4dkpkmwnyvdrmuvehsh236ta";
 
-const contractName = "Open NFTs";
+const contractName = "Open NFTs V4";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe("40 OpenNFTsV4 Mint", function () {
+describe.only("40 OpenNFTsV4 Mint", function () {
   let ethscan: string | undefined;
   let network: NetworkType | undefined;
   let chainId: number;

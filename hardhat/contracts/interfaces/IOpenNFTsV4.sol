@@ -12,6 +12,7 @@ interface IOpenNFTsV4 {
     function mint(string memory tokenURI) external returns (uint256 tokenID);
 
     function mint(
+        address minter,
         string memory tokenURI,
         uint256 price,
         address receiver,

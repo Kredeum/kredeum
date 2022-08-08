@@ -3,7 +3,7 @@ import { ethers, BigNumber, Contract } from "ethers";
 
 import type { NftType } from "./ktypes";
 import type { IOpenMulti } from "soltypes/contracts/interfaces";
-import abiOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
+import abiIOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
@@ -12,7 +12,7 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
 import { nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
 
-import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
 
 import type { IOpenNFTsV0 } from "soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "soltypes/contracts/interfaces/IOpenNFTsV1";
@@ -26,7 +26,7 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
     // const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"];
-    const iface = new ethers.utils.Interface(abiERC721);
+    const iface = new ethers.utils.Interface(abiIERC721);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ tokenID } = log.args);
   }
@@ -118,7 +118,7 @@ const nftClaim3TxResponse = async (
   const openMultiAddress = getOpenMulti(chainId);
   if (!(chainId && address && tokenID && owner && openMultiAddress)) return null;
 
-  const openMulti = new Contract(openMultiAddress, abiOpenMulti, owner);
+  const openMulti = new Contract(openMultiAddress, abiIOpenMulti, owner);
   // console.log("openMulti", openMulti);
 
   const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));

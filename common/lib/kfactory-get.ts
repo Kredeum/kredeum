@@ -3,17 +3,23 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { NFTsFactoryV2 } from "soltypes/contracts";
 
 import type { Address } from "lib/ktypes";
-import { getNftsFactory as factoryGetAddress } from "lib/kconfig";
+import { getNetwork, explorerContractUrl } from "lib/kconfig";
 
 import { Contract } from "ethers";
 
-import abiCloneFactoryV2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
-import abiNFTsFactoryV2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiNFTsFactoryV2 from "abis/contracts/NFTsFactoryV2.sol/NFTsFactoryV2.json";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<number, Contract> = new Map();
 
-const _factoryGetAbi = (): string[] => abiCloneFactoryV2.concat(abiNFTsFactoryV2);
+//  GET nftsFactory address
+const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
+
+// GET nftsFactory explorer URL
+const factoryGetExplorerUrl = (chainId: number): string =>
+  // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
+  // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
+  explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // GET NFTsFactory Contract
 const factoryGetContract = (chainId: number, provider: Provider): NFTsFactoryV2 => {
@@ -21,7 +27,7 @@ const factoryGetContract = (chainId: number, provider: Provider): NFTsFactoryV2 
 
   let nftsFactory = nftsFactoriesCache.get(chainId);
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), _factoryGetAbi(), provider);
+    nftsFactory = new Contract(factoryGetAddress(chainId), abiNFTsFactoryV2, provider);
     nftsFactoriesCache.set(chainId, nftsFactory);
   }
 
@@ -40,4 +46,4 @@ const factoryGetTemplateAddress = async (chainId: number, template: string, prov
   return templateAddress;
 };
 
-export { factoryGetContract, factoryGetAddress, factoryGetTemplateAddress };
+export { factoryGetAddress, factoryGetContract, factoryGetExplorerUrl, factoryGetTemplateAddress };
