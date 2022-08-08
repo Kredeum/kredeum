@@ -140,11 +140,7 @@ const collectionGetOtherData = async (
   try {
     const contract: QueryContract = new Contract(
       address,
-      abis["IERC173"]
-        .concat(abis["IERC721"])
-        .concat(abis["IERC721Metadata"])
-        .concat(abis["IERC721Enumerable"])
-        .concat(abis["IOpenNFTsV3"]),
+      abis["IERC721Metadata"].concat(abis["IOpenNFTsV3"]).concat(abis["IOpenNFTsV4"]),
       provider
     ) as QueryContract;
 
@@ -152,29 +148,11 @@ const collectionGetOtherData = async (
     const supports: CollectionSupports = collection.supports;
 
     try {
-      // Get balanceOf account (IERC721)
-      if (supports.IERC721 && account) {
-        collection.balancesOf ??= new Map();
-        collection.balancesOf.set(account, Number(await contract.balanceOf(account)));
-      }
-
-      // Get totalSupply and symbol (IERC721Enumerable)
-      if (supports.IERC721Enumerable) {
-        collection.totalSupply = Number(await contract.totalSupply());
-      }
-
-      // Get owner (ERC173) or OpenNFTsV2
-      if (supports.IERC173 || supports.IOpenNFTsV2) {
-        collection.owner = await contract.owner();
-      }
-
-      // Get name and symbol (IERC721Metadata)
-      if (supports.IERC721Metadata) {
-        collection.name = await contract.name();
-        collection.symbol = await contract.symbol();
-      }
-
-      if (supports.IOpenNFTsV3) {
+      if (supports.IOpenNFTsV4) {
+        collection.burnable = true;
+        collection.open = await contract.open();
+        collection.version = 4;
+      } else if (supports.IOpenNFTsV3) {
         collection.burnable = await contract.burnable();
         collection.open = await contract.open();
         collection.version = 3;

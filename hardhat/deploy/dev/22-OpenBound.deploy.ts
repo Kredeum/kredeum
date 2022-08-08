@@ -1,5 +1,5 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import * as fs from "fs/promises";
+import { writeFile } from "fs/promises";
 import type { ICloneFactoryV2, IOpenBound } from "soltypes/contracts/interfaces";
 
 import type { NetworkType } from "lib/ktypes";
@@ -26,8 +26,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     if (deployResult.address != networkConf.openBound) {
       console.info(contractName, "deployed => new address");
       networks[index].openBound = deployResult.address;
-      await fs
-        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+      await  writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
 

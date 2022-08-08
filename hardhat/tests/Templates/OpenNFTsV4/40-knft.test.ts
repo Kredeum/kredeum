@@ -1,6 +1,9 @@
 import type { NetworkType } from "lib/ktypes";
+import { collectionClone } from "lib/kcollection-clone";
 import type { OpenNFTsV4 } from "soltypes/contracts/templates";
+import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { Signer } from "ethers";
+import abiOpenNFTsV4 from "abis/contracts/templates/OpenNFTsV4.sol/OpenNFTsV4.json";
 
 import { expect } from "chai";
 import { networks } from "lib/kconfig";
@@ -15,13 +18,14 @@ const contractName = "Open NFTs V4";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe.only("40 OpenNFTsV4 Mint", function () {
+describe("40 OpenNFTsV4 Mint", function () {
   let ethscan: string | undefined;
   let network: NetworkType | undefined;
   let chainId: number;
   let deployer: Signer;
   let tester: Signer;
   let openNFTsV4: OpenNFTsV4;
+  let openNFTsV4Address: string;
 
   before(async () => {
     chainId = Number(await hre.getChainId());
@@ -32,7 +36,7 @@ describe.only("40 OpenNFTsV4 Mint", function () {
     deployer = await ethers.getNamedSigner("deployer");
     tester = await ethers.getNamedSigner("tester1");
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTsV4", "NFTsFactory"]);
+      await deployments.fixture(["OpenNFTsV4"]);
     }
 
     openNFTsV4 = (await ethers.getContract("OpenNFTsV4", deployer)) as unknown as OpenNFTsV4;
@@ -81,16 +85,14 @@ describe.only("40 OpenNFTsV4 Mint", function () {
     });
   });
 
-  describe("Ownable", function () {
+  describe("Generic", function () {
     it("Should be allowed to Mint", async function () {
       await expect(openNFTsV4.connect(deployer)["mint(address,string)"](artistAddress, json)).to.be.not.reverted;
     });
 
     // default collection mintable for all...
-    it("Should not be allowed to Mint", async function () {
-      await expect(openNFTsV4.connect(tester)["mint(address,string)"](artistAddress, json)).to.be.revertedWith(
-        "Not owner"
-      );
+    it("Should be also allowed to Mint", async function () {
+      await expect(openNFTsV4.connect(tester)["mint(address,string)"](artistAddress, json)).to.be.not.reverted;
     });
   });
 });

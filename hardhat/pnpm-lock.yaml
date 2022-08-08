@@ -90,7 +90,7 @@ devDependencies:
   '@types/readline-sync': 1.4.4
   '@typescript-eslint/eslint-plugin': 5.32.0_iosr3hrei2tubxveewluhu5lhy
   '@typescript-eslint/parser': 5.32.0_qugx7qdu5zevzvxaiqyxfiwquq
-  OpenNFTs: github.com/Kredeum/OpenNFTs/48d91055b42166091b2637cc12c2a4de9e77d4d6
+  OpenNFTs: github.com/Kredeum/OpenNFTs/aab6b62a40183c8bf80c92413a9abc01961881ca
   chai: 4.3.6
   css-loader: 6.7.1_webpack@5.74.0
   dotenv: 16.0.1
@@ -12609,10 +12609,10 @@ packages:
       ethers: 5.6.9
     dev: true
 
-  github.com/Kredeum/OpenNFTs/48d91055b42166091b2637cc12c2a4de9e77d4d6:
-    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/48d91055b42166091b2637cc12c2a4de9e77d4d6}
+  github.com/Kredeum/OpenNFTs/aab6b62a40183c8bf80c92413a9abc01961881ca:
+    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/aab6b62a40183c8bf80c92413a9abc01961881ca}
     name: OpenNFTs
-    version: 0.2.5
+    version: 0.2.7
     dev: true
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:

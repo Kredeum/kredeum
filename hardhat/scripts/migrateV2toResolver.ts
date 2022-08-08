@@ -84,8 +84,6 @@ const main = async () => {
     if (isERC721andNotRes) {
       console.log(String(++i), impl);
       toMigrate.push(impl);
-    } else {
-      console.error("ERROR", impl);
     }
   }
   const n = toMigrate.length;

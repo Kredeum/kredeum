@@ -87,17 +87,17 @@ describe(contractName, () => {
   describe("TOKENURI", () => {
     it("Should get TokenURI from TokenId CID", async () => {
       const _tokenURI = await openMulti.tokenURI(hashOK);
-      console.log(`<== https://ipfs.io/ipfs/${cidOK}`);
-      console.log("==>", _tokenURI);
+      // console.log(`<== https://ipfs.io/ipfs/${cidOK}`);
+      // console.log("==>", _tokenURI);
       expect(_tokenURI).to.be.equal(`https://ipfs.io/ipfs/${cidOK}`);
     });
 
     it("Should get bad TokenURI from other TokenId CID (TO BE FIXED !)", async () => {
       const _tokenURI = await openMulti.tokenURI(hashKO);
-      console.log(`<==  ${cidKO}`);
-      console.log(`<==  ${toV1Raw(cidKO)}`);
-      console.log(`<== https://ipfs.io/ipfs/${toV1Raw(cidKO)}`);
-      console.log("==>", _tokenURI);
+      // console.log(`<==  ${cidKO}`);
+      // console.log(`<==  ${toV1Raw(cidKO)}`);
+      // console.log(`<== https://ipfs.io/ipfs/${toV1Raw(cidKO)}`);
+      // console.log("==>", _tokenURI);
       expect(_tokenURI).to.be.equal(`https://ipfs.io/ipfs/${toV1Raw(cidKO)}`);
     });
   });
@@ -109,8 +109,8 @@ describe(contractName, () => {
         const _hash = "0x" + Buffer.from(_cid.multihash.digest).toString("hex");
         await (await openMulti.claim(_hash)).wait();
         const _tokenURI = await openMulti.tokenURI(_hash);
-        console.log(`<== https://ipfs.io/ipfs/${cid}`);
-        console.log("==>", _tokenURI);
+        // console.log(`<== https://ipfs.io/ipfs/${cid}`);
+        // console.log("==>", _tokenURI);
         expect(_tokenURI).to.be.equal(`https://ipfs.io/ipfs/${toV1Raw(cid)}`);
       }
     });

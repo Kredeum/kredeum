@@ -16,7 +16,7 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<{ contract: Contract; supports: CollectionSupports }> => {
-  console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
 
   const supports = await collectionGetSupports(chainId, address, provider, collection);
 
@@ -39,7 +39,7 @@ const collectionContractGet = async (
     contractsCache.set(collectionKey(chainId, address), contract);
   }
 
-  console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
   return { contract, supports };
 };
 

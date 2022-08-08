@@ -17,20 +17,22 @@ const collectionCloneResponse = async (
   chainId: number,
   name: string,
   symbol: string,
-  template: string,
+  templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  // console.log("collectionCloneResponse", chainId, name, symbol, template, await cloner.getAddress());
+  // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
 
   const network = getNetwork(chainId);
-
   const nftsFactoryV2 = factoryGetContract(chainId, cloner.provider);
-
   const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
-  const options: boolean[] = template == "ownable" ? [false, true] : [true, false];
 
-  console.log("nftsFactoryV2 clone", _name, _symbol, "(OpenNFTsV3)", options);
-  const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, "OpenNFTsV3", options);
+  const [template, config] = templateConfig.split("/");
+
+  const options: boolean[] = [config == "generic"];
+  if (template == "OpenNFTsV3") options[1] = true;
+
+  console.log("nftsFactoryV2 clone", _name, _symbol, template, options);
+  const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template, options);
 
   console.log(`${network?.blockExplorerUrls?.[0] || ""}/tx/${txResp?.hash}`);
 
@@ -60,13 +62,13 @@ const collectionClone = async (
   chainId: number,
   name: string,
   symbol: string,
-  template: string,
+  templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<string> => {
   let address = "";
 
-  // console.log("collectionCloneResponse", chainId, name, symbol, template, cloner);
-  const txResp = await collectionCloneResponse(chainId, name, symbol, template, cloner);
+  // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, cloner);
+  const txResp = await collectionCloneResponse(chainId, name, symbol, templateConfig, cloner);
 
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
