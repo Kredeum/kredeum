@@ -138,11 +138,12 @@ const collectionGetOtherData = async (
   }
 
   try {
-    const contract: QueryContract = new Contract(
-      address,
-      abis["IERC721Metadata"].concat(abis["IOpenNFTsV3"]).concat(abis["IOpenNFTsV4"]),
-      provider
-    ) as QueryContract;
+    const abiQuery = [
+      "function open() view returns (bool)",
+      "function burnable() view returns (bool)",
+      "function name() view returns (string)"
+    ];
+    const contract: QueryContract = new Contract(address, abiQuery, provider) as QueryContract;
 
     // Get supports ref
     const supports: CollectionSupports = collection.supports;

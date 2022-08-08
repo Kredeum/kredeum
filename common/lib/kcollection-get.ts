@@ -21,8 +21,9 @@ const collectionContractGet = async (
   const supports = await collectionGetSupports(chainId, address, provider, collection);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
+  let abi: Array<string> = [];
+
   if (!contract) {
-    let abi: Array<string> = [];
     for (const [key, support] of Object.entries(supports || {})) {
       if (support) {
         const abiKey = abis[key as ABIS];

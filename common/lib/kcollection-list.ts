@@ -84,27 +84,22 @@ const collectionListFromFactory = async (
   account: string,
   provider: Provider
 ): Promise<Map<string, CollectionType>> => {
-  console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
-  console.log("collectionListFromFactory1");
+  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
 
   const network = getNetwork(chainId);
 
   const collections: Map<string, CollectionType> = new Map();
 
-  console.log("collectionListFromFactory2");
   const nftsFactory = factoryGetContract(chainId, provider);
   if (nftsFactory) {
-    console.log("collectionListFromFactory3");
 
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
     const balances: Array<BalanceOf> = await nftsFactory.balancesOf(account);
     // console.log("collectionListFromFactory balances", balances);
-    console.log("collectionListFromFactory4");
 
     for (let index = 0; index < balances.length; index++) {
       const chainName = network?.chainName;
       const balance: BalanceOf = balances[index];
-      console.log("collectionListFromFactory5");
 
       const address: string = getChecksumAddress(balance[0]);
       const owner: string = getChecksumAddress(balance[2]);
@@ -126,7 +121,7 @@ const collectionListFromFactory = async (
       collections.set(collectionUrl(chainId, address), collection);
     }
   }
-  console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
