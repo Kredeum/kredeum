@@ -1,4 +1,4 @@
-import * as fs from "fs";
+import { writeFileSync } from "fs";
 import { task } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
 
@@ -13,5 +13,5 @@ task("get-code", "gets the code of an address")
     const bytes = Buffer.from(code.replace("0x", ""), "hex");
     console.log("address", address);
     console.log("contract size", bytes.byteLength, bytes.slice(0, 256));
-    fs.writeFileSync(path, bytes);
+    writeFileSync(path, bytes);
   });

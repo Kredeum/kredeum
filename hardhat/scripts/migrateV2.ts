@@ -4,11 +4,11 @@ import type { NetworkType } from "lib/ktypes";
 
 import networks from "config/networks.json";
 
-import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiNFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
-import abiCloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
-import abiNFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiCloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiINFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiICloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiINFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiICloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";
@@ -32,13 +32,13 @@ const main = async () => {
   const network = networks.find((nw) => nw.chainId === chainId) as NetworkType;
   const nftsFactory: NFTsFactory = new ethers.Contract(
     network.nftsFactory || "",
-    abiNFTsFactory.concat(abiCloneFactory),
+    abiINFTsFactory.concat(abiICloneFactory),
     provider
   ) as NFTsFactory;
 
   const nftsFactoryV2: NFTsFactoryV2 = new ethers.Contract(
     network.nftsFactoryV2 || "",
-    abiNFTsFactory2.concat(abiCloneFactory2),
+    abiINFTsFactory2.concat(abiICloneFactory2),
     provider
   ) as NFTsFactoryV2;
 
@@ -59,7 +59,7 @@ const main = async () => {
 
     // Not in V2
     if (implsV2.indexOf(impl) == -1) {
-      const contract = new ethers.Contract(impl, abiERC165, deployer);
+      const contract = new ethers.Contract(impl, abiIERC165, deployer);
       try {
         isERC721andNotV2 = await (contract as IERC165).supportsInterface("0x80ac58cd");
       } catch (e) {

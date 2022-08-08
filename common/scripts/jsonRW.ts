@@ -1,4 +1,4 @@
-import * as fs from "fs/promises";
+import { writeFile } from "fs/promises";
 import networks from "../config/networks.json";
 
 // console.log(networks);
@@ -10,4 +10,4 @@ networks[num].nftsFactory = "OK";
 
 console.log(networks);
 
-fs.writeFile("./config/networks2.json", JSON.stringify(networks, null, 2)).catch((err) => console.log(err));
+writeFile("./config/networks2.json", JSON.stringify(networks, null, 2)).catch((err) => console.log(err));

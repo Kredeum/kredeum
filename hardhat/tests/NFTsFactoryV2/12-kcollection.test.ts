@@ -36,10 +36,10 @@ describe("12 Clone collection", function () {
   });
 
   it("Should clone by lib Ownable collection", async function () {
-    expect(await collectionClone(chainId, "Test Collection", "OWN", "ownable", jsonRpcSigner)).to.be.properAddress;
+    expect(await collectionClone(chainId, "Test Collection", "OWN", "OpenNFTsV3/ownable", jsonRpcSigner)).to.be.properAddress;
   });
 
   it("Should clone by lib Generic collection", async function () {
-    expect(await collectionClone(chainId, "Generic Collection", "GEN", "generic", jsonRpcSigner)).to.be.properAddress;
+    expect(await collectionClone(chainId, "Generic Collection", "GEN", "OpenNFTsV3/generic", jsonRpcSigner)).to.be.properAddress;
   });
 });

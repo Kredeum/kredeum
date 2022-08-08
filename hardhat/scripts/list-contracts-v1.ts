@@ -4,18 +4,18 @@ import { Contract } from "ethers";
 
 import type { NFTsFactory } from "soltypes/contracts";
 import type { IERC721Enumerable, IERC721Metadata } from "soltypes/contracts/interfaces/";
-import abiNFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
-import abiCloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
-import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
-import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiINFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiICloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 
 import { DEFAULT_NAME } from "lib/kconfig";
 import { collectionGet } from "lib/kcollection-get";
 import networks from "config/networks.json";
 
-const abiNFT = abiERC165.concat(abiERC721).concat(abiERC721Metadata).concat(abiERC721Enumerable);
+const abiNFT = abiIERC165.concat(abiIERC721).concat(abiIERC721Metadata).concat(abiIERC721Enumerable);
 
 let totalChains = 0;
 let totalCollections = 0;
@@ -69,7 +69,7 @@ const main = async (): Promise<void> => {
 
       const nftsFactory: NFTsFactory = new hre.ethers.Contract(
         network.nftsFactory,
-        abiNFTsFactory.concat(abiCloneFactory),
+        abiINFTsFactory.concat(abiICloneFactory),
         provider
       ) as NFTsFactory;
       const nb = Number(await nftsFactory.implementationsCount());

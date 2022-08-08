@@ -1,5 +1,5 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { IOpenNFTs, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
+import type { IOpenNFTsV3, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
 
 // import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
 
@@ -23,7 +23,7 @@ const deployFunction: DeployFunction = async function ({ deployments, ethers }) 
     // await checkGasMethod(hre, contractName, "initialize", deployer,
 
     const openNFTsV3 = await getContract(contractName, deployer);
-    await (openNFTsV3 as IOpenNFTs).initialize("Open NFTs", "NFT", deployer.address, [true, false]);
+    await (openNFTsV3 as IOpenNFTsV3).initialize("Open NFTs", "NFT", deployer.address, [true, false]);
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
     await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address]);

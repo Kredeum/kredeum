@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 import "OpenNFTs/contracts/interfaces/IAll.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenBound.sol";
-import {IOpenNFTs as IOpenNFTsOld} from "../../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../../interfaces/IOpenNFTs.old.sol";
 
 abstract contract OpenBoundSupportsTest is Test {
     address private _collection;

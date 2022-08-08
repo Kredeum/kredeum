@@ -15,7 +15,9 @@ import "../interfaces/IERC1155MetadataURI.sol";
 
 import "../interfaces/IERC2981.sol";
 
-import "../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
+import {IOpenNFTsV3 as IOpenNFTsV3Old} from "../interfaces/IOpenNFTsV3.old.sol";
+
 import "../interfaces/IOpenNFTsV0.sol";
 import "../interfaces/IOpenNFTsV1.sol";
 import "../interfaces/IOpenNFTsV2.sol";
@@ -45,7 +47,9 @@ contract InterfacesIds is IInterfacesIds {
     /// @return interfacesIds : Array of all interfaceIds
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         uint256 i;
-        interfacesIds = new bytes4[](26);
+        uint256 imax = 27;
+        
+        interfacesIds = new bytes4[](imax);
         interfacesIds[i++] = type(IERC165).interfaceId;
         interfacesIds[i++] = type(IERC173).interfaceId;
 
@@ -60,7 +64,9 @@ contract InterfacesIds is IInterfacesIds {
 
         interfacesIds[i++] = type(IERC2981).interfaceId;
 
-        interfacesIds[i++] = type(IOpenNFTs).interfaceId;
+        interfacesIds[i++] = type(IOpenNFTsOld).interfaceId;
+        interfacesIds[i++] = type(IOpenNFTsV3Old).interfaceId;
+
         interfacesIds[i++] = type(IOpenNFTsV0).interfaceId;
         interfacesIds[i++] = type(IOpenNFTsV1).interfaceId;
         interfacesIds[i++] = type(IOpenNFTsV2).interfaceId;
@@ -79,5 +85,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = type(IOpenPauseable).interfaceId;
 
         interfacesIds[i++] = type(IInterfacesIds).interfaceId;
+
+        assert(i == imax);
     }
 }

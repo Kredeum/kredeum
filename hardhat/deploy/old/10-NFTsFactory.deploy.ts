@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import type { NetworkType } from "lib/ktypes";
 
-import * as fs from "fs/promises";
+import { writeFile } from "fs/promises";
 import networks from "config/networks.json";
 
 const contractName = "NFTsFactory";
@@ -24,8 +24,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     if (deployResult.address != networkConf.nftsFactory) {
       // console.info(contractName, "deployed => new address");
       networks[index].nftsFactory = deployResult.address;
-      await fs
-        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+      await  writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
   }

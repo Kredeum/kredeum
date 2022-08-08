@@ -3,7 +3,7 @@ import { ethers, BigNumber, Contract } from "ethers";
 
 import type { NftType } from "./ktypes";
 import type { IOpenMulti } from "soltypes/contracts/interfaces";
-import abiOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
+import abiIOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
 import { nftGetMetadata } from "./knft-get-metadata";
@@ -12,22 +12,19 @@ import { collectionContractGet } from "./kcollection-get";
 import { nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
 import { nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
 
-import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-
-import type { IOpenNFTs } from "soltypes/contracts/interfaces/IOpenNFTs";
 import type { IOpenNFTsV0 } from "soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "soltypes/contracts/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3 } from "soltypes/contracts/interfaces/IOpenNFTsV3";
-import type { IOpenNFTsV4 } from "soltypes/contracts/interfaces/IOpenNFTsV4";
+import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    // const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"];
-    const iface = new ethers.utils.Interface(abiERC721);
+    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"];
+    const iface = new ethers.utils.Interface(abi);
     const log = iface.parseLog(txReceipt.logs[0]);
     ({ tokenID } = log.args);
   }
@@ -67,31 +64,58 @@ const nftMint3TxResponse = async (
   address: string,
   tokenURI: string,
   minter: JsonRpcSigner
-): Promise<TransactionResponse | null> => {
+): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
+  console.log("nftMint3TxResponse", chainId, address, tokenURI, minterAddress);
 
-  console.log("nftMint3TxResponse1", chainId, address, tokenURI, minterAddress);
-  if (!(chainId && address && tokenURI && minterAddress)) return null;
-  console.log("nftMint3TxResponse2");
+  if (!(chainId && address && tokenURI && minterAddress)) return;
 
   const { contract, supports } = await collectionContractGet(chainId, address, minter.provider);
-  console.log("nftMint3TxResponse3");
+  console.log("nftMint3TxResponse supports", supports);
 
-  let txResp: TransactionResponse | null = null;
-  console.log("supports", supports);
-
+  let txResp: TransactionResponse | undefined;
   const connectedContract = contract.connect(minter);
+  console.log("connectedContract", connectedContract);
+
   if (supports.IOpenNFTsV4) {
-    txResp = await (connectedContract as IOpenNFTsV4).mint(tokenURI);
+    const openNFTsV4 = connectedContract as OpenNFTsV4;
+    const defaultPrice = String(await openNFTsV4.callStatic.defaultPrice());
+
+    if (defaultPrice == "0") {
+      txResp = await openNFTsV4["mint(string)"](tokenURI);
+    } else {
+      console.log("defaultPrice", defaultPrice);
+      const txOptions = {
+        value: defaultPrice,
+        type: 2
+      };
+      const minterAddress = await minter.getAddress();
+      txResp = await openNFTsV4["mint(address,string,uint256,address,uint96)"](
+        minterAddress,
+        tokenURI,
+        defaultPrice,
+        ethers.constants.AddressZero,
+        0,
+        txOptions
+      );
+      console.log("OpenNFTsV4 AFTER");
+    }
   } else if (supports.IOpenNFTsV3) {
-    txResp = await (connectedContract as IOpenNFTs).mintOpenNFT(minterAddress, tokenURI);
+    console.log("IOpenNFTsV3");
+    txResp = await (connectedContract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV2) {
+    console.log("IOpenNFTsV2");
     txResp = await (connectedContract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV1) {
+    console.log("IOpenNFTsV1");
     txResp = await (connectedContract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV0) {
+    console.log("IOpenNFTsV0");
     txResp = await (connectedContract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
+  } else {
+    console.error("Not IOpenNFTsVx");
   }
+
   // else if (supports.IOpenBound) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
@@ -113,7 +137,7 @@ const nftClaim3TxResponse = async (
   const openMultiAddress = getOpenMulti(chainId);
   if (!(chainId && address && tokenID && owner && openMultiAddress)) return null;
 
-  const openMulti = new Contract(openMultiAddress, abiOpenMulti, owner);
+  const openMulti = new Contract(openMultiAddress, abiIOpenMulti, owner);
   // console.log("openMulti", openMulti);
 
   const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));

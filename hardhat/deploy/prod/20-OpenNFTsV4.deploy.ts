@@ -1,9 +1,11 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import type { IOpenNFTsV4, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
+import type { IOpenRegistry } from "soltypes/OpenNFTs/contracts/interfaces";
+
 // import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
 import type { NetworkType } from "lib/ktypes";
 import networks from "config/networks.json";
-import * as fs from "fs/promises";
+import { writeFile } from "fs/promises";
 
 const contractName = "OpenNFTsV4";
 
@@ -28,21 +30,23 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     if (deployResult.address != networkConf.openNFTs) {
       console.info(contractName, "deployed => new address");
       networks[index].openNFTs = deployResult.address;
-      await fs
-        .writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+      await  writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
 
     const openNFTsV4 = await getContract(contractName, deployer);
-    await (await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs", "NFT", deployer.address, [true])).wait();
+    await (await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs V4", "NFT", deployer.address, [true])).wait();
 
     const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
     await (await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address])).wait();
     await (await (nftsFactoryV2 as ICloneFactoryV2).templateSet("OpenNFTsV4", deployResult.address)).wait();
+
+    const nftsResolver = await getContract("NFTsResolver", deployer);
+    await (await (nftsResolver as IOpenRegistry).addAddress(deployResult.address)).wait();
   }
 };
 
-deployFunction.dependencies = ["NFTsFactoryV2"];
+deployFunction.dependencies = ["NFTsFactoryV2","NFTsResolver"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 export default deployFunction;

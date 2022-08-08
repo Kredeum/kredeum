@@ -16,22 +16,21 @@ const collectionContractGet = async (
   provider: Provider,
   collection: CollectionType = { chainId, address }
 ): Promise<{ contract: Contract; supports: CollectionSupports }> => {
-  console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
 
   const supports = await collectionGetSupports(chainId, address, provider, collection);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
+  let abi: Array<string> = [];
+
   if (!contract) {
-    let abi: Array<string> = [];
     for (const [key, support] of Object.entries(supports || {})) {
       if (support) {
         const abiKey = abis[key as ABIS];
-        
+
         if (abiKey) {
-          if (!(supports.IOpenNFTsV4 && key == "IOpenNFTs")) {
-            console.log("collectionContractGet", key, abiKey);
-            abi = abi.concat(abis[key as ABIS]);
-          }
+          console.log("collectionContractGet", key, abiKey);
+          abi = abi.concat(abis[key as ABIS]);
         } else {
           console.error("collectionContractGet ERROR", key);
         }
@@ -41,7 +40,7 @@ const collectionContractGet = async (
     contractsCache.set(collectionKey(chainId, address), contract);
   }
 
-  console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
   return { contract, supports };
 };
 

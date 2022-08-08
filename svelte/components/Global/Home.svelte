@@ -2,7 +2,7 @@
   import { setContext } from "svelte";
   import { Writable, writable } from "svelte/store";
 
-  import { getNftsFactory, getCreate, config } from "lib/kconfig";
+  import {  getCreate, config } from "lib/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkList from "../Network/NetworkList.svelte";
@@ -67,7 +67,7 @@
       {#if chainId && account}
         <CollectionList {chainId} {account} bind:address />
 
-        {#if account && address && getNftsFactory(chainId)}
+        {#if account && address }
           <!-- Refresh button -->
           <NftsListRefresh />
         {/if}

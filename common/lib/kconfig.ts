@@ -32,8 +32,8 @@ const getChainId = (chainName: string): number | undefined =>
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
-//  GET nftsFactory address
-const getNftsFactory = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
+//  GET nftsResolver address
+const getNftsResolver = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
 
 //  GET default OpenNFTs address
 const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
@@ -287,8 +287,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -315,11 +315,6 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   explorerUrl(chainId, `/tx/${tx}`);
 
-// NFTS_FACTORY URL
-const explorerNFTsFactoryUrl = (chainId: number): string =>
-  // https://blockscout.com/xdai/mainnet/address/0x86246ba8F7b25B1650BaF926E42B66Ec18D96000/read-contract
-  // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039#readContract
-  explorerContractUrl(chainId, getNftsFactory(chainId));
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -487,7 +482,6 @@ export {
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
-  explorerNFTsFactoryUrl,
   explorerOpenNFTsUrl,
   isTestnet,
   getChainId,
@@ -496,7 +490,7 @@ export {
   getShortAddress,
   getChecksumAddress,
   getNetwork,
-  getNftsFactory,
+  getNftsResolver,
   getDefaultOpenNFTs,
   getOpenMulti,
   getEnsName,

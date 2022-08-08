@@ -116,7 +116,8 @@
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
-    "mainnet": true
+    "mainnet": true,
+    "nftsResolver": "0xF4669798867d6b3784F58E8800824a51B236cB9a"
   },
   {
     "chainId": 43114,
@@ -282,14 +283,14 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0xEadAE683aa5Eb2e3dAE79d35aA959bfc17100aB7",
+    "openNFTs": "0xB2D95882f40692a3cF86cDAe9C3d78FBc69178aC",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
-    "nftsFactoryV2": "0x4266eb1E511B61F087147A0b901199B996933a57",
+    "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
-    "openBound": "0xCA230531EC03D2879Cbd285F855D9D9A53Ed0B67",
-    "openResolver": "0x3F3A14EF04419C37f49f36B3ff39C7757B2f9FbA"
+    "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
+    "nftsResolver": "0x3F3A14EF04419C37f49f36B3ff39C7757B2f9FbA"
   },
   {
     "chainId": 3,
@@ -365,12 +366,14 @@
     "covalent": {
       "active": true
     },
-    "openNFTs": "",
+    "openNFTs": "0x95f492B56eCA00a1083DD8C9CD2A72BA0932380D",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
-    "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf"
+    "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
+    "nftsResolver": "0xe90392FD2F8cA3609E29A07b597BCF2F9E998582",
+    "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a"
   },
   {
     "chainId": 421611,
@@ -478,12 +481,12 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "openNFTs": "0x57BDf6E59C2652D349f7022beB8D1B7458CA09EB",
-    "openMulti": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
-    "openBound": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
+    "openNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "openMulti": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "openBound": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF",
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
-    "nftsFactoryV2": "0x8D135C725C8A5541A8D47C0f187f2BE53b3DFf41",
+    "nftsFactoryV2": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "testnet": true,
-    "openResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF"
+    "nftsResolver": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B"
   }
 ]

@@ -3,7 +3,7 @@
 
   const templates = new Map([
     [
-      "ownable",
+      "OpenNFTsV3/ownable",
       {
         name: "Ownable",
         description: "Ownable NFTs Collection: own your Collection, only you can Mint NFTs",
@@ -11,20 +11,20 @@
       }
     ],
     [
-      "generic",
+      "OpenNFTsV3/generic",
       {
         name: "Generic",
         description: "Generic NFTs Collection: anyone can Mint NFTs",
         icon: "building"
       }
-      // ],
-      // [
-      //   "fixedprice",
-      //   {
-      //     name: "FixedPrice",
-      //     description: "FixedPrice NFTs Collection, sell your NFT at a fixed price you decide",
-      //     icon: "dollar-sign"
-      //   }
+    ],
+    [
+      "OpenNFTsV4/ownable",
+      {
+        name: "AutoMarket",
+        description: "AutoMarket NFTs Collection, sell your NFTs with royalties",
+        icon: "dollar-sign"
+      }
     ]
   ]);
 

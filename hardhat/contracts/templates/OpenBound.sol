@@ -43,7 +43,7 @@ import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
 import "OpenNFTs/contracts/libraries/Bafkrey.sol";
 
 import "../interfaces/IOpenBound.sol";
-import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
 
 /// @title OpenBound smartcontract
 /// limited to one nft per address

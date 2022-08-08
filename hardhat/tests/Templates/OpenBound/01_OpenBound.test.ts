@@ -6,12 +6,12 @@ import { getChainId, network, ethers, deployments } from "hardhat";
 import { BigNumber, Wallet, Contract } from "ethers";
 
 import type { OpenBound } from "soltypes/contracts/templates";
-import abiERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
 
-import abiOpenBound from "abis/contracts/interfaces/IOpenBound.sol/IOpenBound.json";
-import abiERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIOpenBound from "abis/contracts/interfaces/IOpenBound.sol/IOpenBound.json";
+import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiIERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 
 import { interfaceId } from "lib/kconfig";
 import { cidToInt } from "lib/kcid";
@@ -76,11 +76,11 @@ describe("OpenBound", () => {
     });
 
     it("Should support interfaces ", async function () {
-      expect(await openBound.supportsInterface(interfaceId(abiERC165))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(abiERC721))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(abiERC721Enumerable))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(abiERC721Metadata))).to.be.true;
-      expect(await openBound.supportsInterface(interfaceId(abiOpenBound))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiIERC165))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiIERC721))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiIERC721Enumerable))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiIERC721Metadata))).to.be.true;
+      expect(await openBound.supportsInterface(interfaceId(abiIOpenBound))).to.be.true;
     });
 
     it("Should be IERC721", async () => {
