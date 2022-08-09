@@ -6,7 +6,7 @@ const urlHash2RefNFT = (hash = window.location.hash): RefNFT => {
   let chainName: string = "";
   let chainId: number = 0;
   let address: string = "";
-  let tokenID: string = "-1";
+  let tokenID: string = "";
   let action: string = "";
   let account: string = "";
 

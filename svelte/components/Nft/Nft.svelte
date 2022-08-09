@@ -17,7 +17,7 @@
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
-  import NftClaim from "./NftClaim.svelte";
+  // import NftClaim from "./NftClaim.svelte";
 
   import { metamaskChainId } from "main/metamask";
 
@@ -67,24 +67,13 @@
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}"><strong>#{tokenID}</strong></div>
+            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
+              <strong> <a href={kredeumNftUrl(chainId, $nft)}>#{tokenID}</a></strong>
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
             <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">Permanent link</span></div>
-            <div class="flex">
-              <a
-                class="link overflow-ellipsis"
-                href={kredeumNftUrl(chainId, $nft)}
-                title={nftUrl($nft, 10)}
-                target="_blank"
-              >
-                {@html nftUrl($nft, 10)}
-              </a>
-            </div>
           </li>
           <li>
             <div class="flex"><span class="label">collection @</span></div>
@@ -183,9 +172,9 @@
 </div>
 
 <!-- Modal claim nft -->
-<div id="claim-nft-{tokenID}" class="modal-window">
+<!-- <div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
-</div>
+</div> -->
 
 <style>
   .krd-nft-solo {

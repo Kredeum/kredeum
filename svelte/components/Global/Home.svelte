@@ -2,35 +2,39 @@
   import { setContext } from "svelte";
   import { Writable, writable } from "svelte/store";
 
-  import {  getCreate, config } from "lib/kconfig";
-
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkList from "../Network/NetworkList.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import { getCreate, config } from "lib/kconfig";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
+  import HomeLayout from "../Global/HomeLayout.svelte";
+  import Title from "../Global/Title.svelte";
+  import BreadCrumb from "../../tests/BreadCrumb.svelte";
+  import Content from "../Global/Content.svelte";
 
+  import NetworkList from "../Network/NetworkList.svelte";
+  import AccountConnect from "../Account/AccountConnect.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
   import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
 
-  import Title from "../Global/Title.svelte";
-  // import BreadCrumb from "../../tests/BreadCrumb.svelte";
-  import HomeLayout from "../Global/HomeLayout.svelte";
+  import { urlHash2RefNFT } from "helpers/urlHash";
 
-  import Content from "./Content.svelte";
-
-  // import { metamaskProvider } from "main/metamask";
-
-  // export let storage: string = "swarm";
+  ////////////////////////////////////////////////////////////////////
+  // <Home {storage} {platform}/>
+  // storage : file storage used : ipfs, swarm or arweave
+  // platform : app container : dapp or wordpress
+  ////////////////////////////////////////////////////////////////////
   export let storage: string = config.storage;
   export let platform: string = "dapp";
+  ////////////////////////////////////////////////////////////////////
 
   let chainId: number;
   let address: string;
+  let tokenID: string = urlHash2RefNFT(window.location.hash).tokenID;
   let account: string;
 
+  ////////////////////////////////////////////////////////////////////
   // Context for refreshCollectionList & refreshNftsList & refreshing
-  ///////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = writable(1);
   setContext("refreshCollectionList", refreshCollectionList);
 
@@ -39,7 +43,7 @@
 
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
-  ///////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
 </script>
 
 <HomeLayout>
@@ -56,19 +60,17 @@
 
     <!-- <BreadCrumb display={true} /> -->
 
+    <!-- <div>
+      tokenID {tokenID}
+    </div> -->
     <div class="row alignbottom">
-      <!-- View account -->
       <AccountConnect bind:account />
-
-      <!-- Select network -->
       <NetworkList bind:chainId />
 
-      <!-- Select collection -->
       {#if chainId && account}
         <CollectionList {chainId} {account} bind:address />
 
-        {#if account && address }
-          <!-- Refresh button -->
+        {#if account && address}
           <NftsListRefresh />
         {/if}
       {/if}
@@ -77,7 +79,7 @@
 
   <span slot="content">
     {#if chainId && account && address}
-      <Content {chainId} {address} {account} {platform} />
+      <Content {chainId} {address} bind:tokenID {account} {platform} />
     {/if}
   </span>
 </HomeLayout>
