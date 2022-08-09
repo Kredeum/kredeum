@@ -13,10 +13,7 @@
     "blockExplorerUrls": [
       "https://etherscan.io"
     ],
-    "openSea": {
-      "assets": "https://opensea.io/assets",
-      "openNFTs": "https://opensea.io/collection/kredeum-nfts"
-    },
+    "openSea":  "https://opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/wighawag/eip721-subgraph",
       "active": true
@@ -108,10 +105,7 @@
     "covalent": {
       "active": true
     },
-    "openSea": {
-      "assets": "https://opensea.io/assets/matic",
-      "openNFTs": "https://opensea.io/collection/kredeum-nfts"
-    },
+    "openSea":  "https://opensea.io/assets/matic",
     "openNFTs": "0xda67B337B777AE6Cf99DcAbD5c38916DDc2CF5d5",
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",

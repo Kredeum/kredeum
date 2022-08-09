@@ -20,7 +20,7 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
-  openSea?: { assets?: string; openNFTs?: string };
+  openSea?:  string ;
   openMulti?: string;
   openBound?: string;
   openNFTs?: string;

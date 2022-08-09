@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { NftType } from "lib/ktypes";
 
-  import { nftName, nftOpenSeaUrl, addressSame, getNetwork } from "lib/kconfig";
+  import { nftName, nftOpenSeaUrl, addressSame, getOpenSea } from "lib/kconfig";
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
 
@@ -24,7 +24,7 @@
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>
-      {#if getNetwork(nft.chainId)?.openSea}
+      {#if getOpenSea(nft.chainId)}
         {#if addressSame(nft.owner, account)}
           <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
             Sell

@@ -7,7 +7,7 @@
     explorerCollectionUrl,
     explorerAddressLink,
     kredeumNftUrl,
-    getNetwork,
+    getOpenSea,
     nftOpenSeaUrl,
     addressSame
   } from "lib/kconfig";
@@ -135,7 +135,7 @@
             <i class="fas fa-exclamation" /> Claim</a
           > -->
 
-          {#if getNetwork(chainId)?.openSea}
+          {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell

@@ -6,7 +6,7 @@
   import type { NftType } from "lib/ktypes";
   import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
   import { nftGetImageLink } from "lib/knft-get-metadata";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "lib/kconfig";
   import { collectionStore } from "stores/collection/collection";
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
@@ -97,7 +97,7 @@
   {#if $metamaskSigner}
     {#if minting}
       {#if mintedNft}
-        {#if getNetwork($metamaskChainId)?.openSea}
+        {#if getOpenSea($metamaskChainId)}
           <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
         {:else}
           <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
