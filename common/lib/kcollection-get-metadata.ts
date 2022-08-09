@@ -10,6 +10,7 @@ import { abis } from "lib/kabis";
 import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
 
 import Semaphore from "semaphore-async-await";
+import { resolverGetAddress, resolverGetContract } from "./kresolver-get";
 
 const openNFTsV0Addresses = [
   "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic
@@ -34,7 +35,7 @@ const collectionGetSupports = async (
 ): Promise<CollectionSupports> => {
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return {};
 
-  let supports: CollectionSupports | undefined;
+  let supports: CollectionSupports | undefined = {};
 
   // console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`);
 
@@ -52,14 +53,13 @@ const collectionGetSupports = async (
   locks.set(collectionKey(chainId, address), lock);
   await lock.acquire();
 
-  supports = { IERC165: true };
   try {
-    const contract = new Contract(address, abis["IERC165"], provider) as IERC165;
-    const openChecker = await contract.supportsInterface(interfaceId(abis["IOpenChecker"]));
-
-    if (openChecker) {
-      supports = await collectionGetSupportsChecker(address, provider);
+    if (resolverGetAddress(chainId)) {
+      supports = await collectionGetSupportsChecker(chainId, address, provider);
     } else {
+      const contract = new Contract(address, abis["IERC165"], provider) as IERC165;
+      supports = { IERC165: true };
+
       const waitERC721 = contract.supportsInterface(interfaceId(abis["IERC721"]));
       const waitERC1155 = contract.supportsInterface(interfaceId(abis["IERC1155"]));
       const waitERC173 = contract.supportsInterface(interfaceId(abis["IERC173"]));
@@ -103,12 +103,18 @@ const collectionGetSupports = async (
     }
   } catch (err) {
     console.info(
-      `ERROR collectionGetSupports @ ${collectionKey(chainId, address)}\n`,
-      await isProviderOnChainId(provider, chainId),
-      collection,
-      err
+      err,
+      `ERROR collectionGetSupports @ ${collectionKey(chainId, address)} ${String(
+        await isProviderOnChainId(provider, chainId)
+      )}\n`,
+      collection
     );
   }
+  
+  for (const key in supports) {
+    if (!supports[key as ABIS]) delete supports[key as ABIS];
+  }
+
   // console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
 
   supportsCache.set(collectionKey(chainId, address), supports);

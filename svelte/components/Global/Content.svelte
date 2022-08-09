@@ -5,19 +5,26 @@
   import Nft from "../Nft/Nft.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
 
-  /////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////////
   // <ContentV2 {chainId} {address} {account} {platform}? />
-  // Placeholder for content of Dapp
-  /////////////////////////////////////////////////
+  // Content placeholder for Dapp
+  ////////////////////////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let account: string;
   export let platform: string = undefined;
+  export let tokenID: string = "";
 
-  let tokenID: string = "";
-
-  $: account && chainId && address && handleChange();
-  const handleChange = () => (tokenID = "");
+  let first = true;
+  $: chainId && address && handleChange();
+  const handleChange = () => {
+    if (first) {
+      first = false;
+    } else {
+      tokenID = "";
+      window.location.hash = "";
+    }
+  };
 
   const handleClick = (evt: Event) => {
     const evtTarget = evt.target as HTMLInputElement;
@@ -33,6 +40,7 @@
   setContext("toPlayTokenID", toPlayTokenID);
 </script>
 
+<!-- {tokenID} -->
 <div on:click={(evt) => handleClick(evt)}>
   {#if tokenID !== ""}
     <h2 class="m-b-20 return">

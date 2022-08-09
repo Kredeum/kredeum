@@ -44,11 +44,8 @@ const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
 
-// GET OpenSeaKredeum
-const getOpenSeaKredeum = (chainId: number): string => getNetwork(chainId)?.openSea?.openNFTs || "";
-
 // GET OpenSea
-const getOpenSeaAssets = (chainId: number): string => getNetwork(chainId)?.openSea?.assets || "";
+const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
@@ -315,7 +312,6 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   explorerUrl(chainId, `/tx/${tx}`);
 
-
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
@@ -425,10 +421,8 @@ const nftsBalanceAndName = (collection: CollectionType, account: string): string
 const nftExplorerLink = (nft: NftType, n?: number): string =>
   urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftOpenSeaUrl = (chainId: number, nft: NftType): string => {
-  const openSeaAssets = getOpenSeaAssets(chainId);
-  return `${openSeaAssets}/${nft?.address}/${nft?.tokenID}`;
-};
+const nftOpenSeaUrl = (chainId: number, nft: NftType): string =>
+  `${getOpenSea(chainId)}/${nft?.address}/${nft?.tokenID}`;
 
 const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || DEFAULT_NAME} #${nft?.tokenID}`;
 
@@ -494,8 +488,7 @@ export {
   getDefaultOpenNFTs,
   getOpenMulti,
   getEnsName,
-  getOpenSeaKredeum,
-  getOpenSeaAssets,
+  getOpenSea,
   getCreate,
   getExplorer,
   ipfsLinkToUrlHttp,

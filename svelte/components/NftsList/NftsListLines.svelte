@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "lib/ktypes";
 
-  import { getNetwork } from "lib/kconfig";
+  import { getOpenSea } from "lib/kconfig";
 
   import NftLine from "../Nft/NftLine.svelte";
 
@@ -19,7 +19,7 @@
 <div class="table">
   <div class="table-row table-head hidden-xs">
     <div class="table-col"><span class="label">Media</span></div>
-    {#if getNetwork(chainId)?.openSea}
+    {#if getOpenSea(chainId)}
       <div class="table-col"><span class="label">Marketplace</span></div>
     {:else}
       <div class="table-col"><span class="label">Infos</span></div>
