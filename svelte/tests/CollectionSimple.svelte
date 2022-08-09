@@ -27,14 +27,14 @@
   };
 </script>
 
-<p>
+<div>
   <strong>
     {#if $collection}
-      {$collection.name || "No name"}
+      {$collection.name || "No name"} - 
       {$collection.address}
     {:else}
       Choose one collection
     {/if}
   </strong>
-</p>
+</div>
 <hr />

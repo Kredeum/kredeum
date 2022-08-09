@@ -85,6 +85,7 @@ const main = async () => {
       console.log(String(++i), impl);
       toMigrate.push(impl);
     }
+    if (i >= 70) break;
   }
   const n = toMigrate.length;
 
@@ -95,7 +96,7 @@ const main = async () => {
     const go: string = prompt("Proceed with Migration y/N ? ");
     if (go[0].toLowerCase() == "y") {
       console.log("START Migration...");
-      await (await nftsResolver.connect(deployer).addAddresses(toMigrate, { gasLimit: 4_700_000 })).wait();
+      await (await nftsResolver.connect(deployer).addAddresses(toMigrate, { gasLimit: 2_000_000 })).wait();
       console.log("END   Migration !");
 
       const implResNew = await addressesRes(nftsResolver);

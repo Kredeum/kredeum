@@ -62,7 +62,7 @@
 {#if collections}
   {#each [...$collections] as [key, coll]}
     <p id={key} on:click={() => /*_setCollection(coll.address)*/ ""}>
-      {coll?.name}
+      {coll?.name || "No name"} -
       {coll?.address}
     </p>
   {/each}

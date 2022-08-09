@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { setContext } from "svelte";
+  import { onMount, setContext } from "svelte";
   import { Writable, writable } from "svelte/store";
 
   import { getCreate, config } from "lib/kconfig";
@@ -8,15 +8,18 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  import BreadCrumb from "../../tests/BreadCrumb.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
+
   import Content from "../Global/Content.svelte";
 
   import NetworkList from "../Network/NetworkList.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
   import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
+  import CollectionList from "../Collection/CollectionList.svelte";
+  import CollectionListSimple from "../../tests/CollectionListSimple.svelte";
 
   import { urlHash2RefNFT } from "helpers/urlHash";
+  import type { RefNFT } from "helpers/refNft";
 
   ////////////////////////////////////////////////////////////////////
   // <Home {storage} {platform}/>
@@ -29,8 +32,9 @@
 
   let chainId: number;
   let address: string;
-  let tokenID: string = urlHash2RefNFT(window.location.hash).tokenID;
+  let tokenID: string;
   let account: string;
+  let refNFT: RefNFT;
 
   ////////////////////////////////////////////////////////////////////
   // Context for refreshCollectionList & refreshNftsList & refreshing
@@ -44,6 +48,11 @@
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
   ////////////////////////////////////////////////////////////////////
+
+  onMount(() => {
+    refNFT = urlHash2RefNFT(window.location.hash);
+    ({ chainId, address, tokenID } = refNFT);
+  });
 </script>
 
 <HomeLayout>
@@ -58,17 +67,15 @@
       <Create {chainId} {storage} />
     {/if}
 
-    <!-- <BreadCrumb display={true} /> -->
+    <BreadCrumb {refNFT} />
 
-    <!-- <div>
-      tokenID {tokenID}
-    </div> -->
     <div class="row alignbottom">
       <AccountConnect bind:account />
       <NetworkList bind:chainId />
 
-      {#if chainId && account}
+      {#if chainId}
         <CollectionList {chainId} {account} bind:address />
+        <!-- <CollectionListSimple {chainId} {account} bind:address /> -->
 
         {#if account && address}
           <NftsListRefresh />
