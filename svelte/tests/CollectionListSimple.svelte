@@ -3,7 +3,6 @@
 
   import type { CollectionType } from "lib/ktypes";
   import { collectionStore } from "stores/collection/collection";
-  // import { currentCollection } from "main/current";
   import CollectionSimple from "./CollectionSimple.svelte";
 
   /////////////////////////////////////////////////
@@ -17,7 +16,7 @@
   export let refreshing: boolean = undefined;
 
   let collections: Readable<Map<string, CollectionType>>;
-  // let collectionDefault: Readable<string>;
+  let collectionDefault: Readable<string>;
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
@@ -29,7 +28,7 @@
     collections = collectionStore.getSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
-    // collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
+    collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
     refreshing = true;
@@ -41,18 +40,11 @@
     collectionStore.refreshDefault(chainId, account);
   };
 
-  // Current Collection is already defined, or is defined in url, or is default collection
-  // $: ($currentCollection || $collectionDefault) && handleChangeAddress();
-  // const handleChangeAddress = (): void => {
-  //   $currentCollection = $currentCollection || $collectionDefault;
-  //   address = $currentCollection;
-  // };
-
-  // // STATE CHANGER : SET default Collection
-  // const _setCollection = (collection: string): void => {
-  //   $currentCollection = collection;
-  //   return collectionStore.setDefaultOne(chainId, collection, mintable, account);
-  // };
+  // STATE CHANGER : SET default Collection
+  const _setCollection = (collection: string): void => {
+    address = collection;
+    collectionStore.setDefaultOne(chainId, collection, mintable, account);
+  };
 </script>
 
 {#if address}
@@ -61,7 +53,7 @@
 
 {#if collections}
   {#each [...$collections] as [key, coll]}
-    <p id={key} on:click={() => /*_setCollection(coll.address)*/ ""}>
+    <p id={key} on:click={() => _setCollection(coll.address)}>
       {coll?.name || "No name"} -
       {coll?.address}
     </p>

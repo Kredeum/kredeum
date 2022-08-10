@@ -67,10 +67,11 @@
       <Create {chainId} {storage} />
     {/if}
 
-    <BreadCrumb {refNFT} />
+    <!-- <BreadCrumb {refNFT} /> -->
 
     <div class="row alignbottom">
       <AccountConnect bind:account />
+
       <NetworkList bind:chainId />
 
       {#if chainId}

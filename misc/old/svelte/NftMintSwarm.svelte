@@ -82,12 +82,12 @@
     chainId = $metamaskChainId;
 
     account = await $metamaskSigner.getAddress();
-    console.log("handleChange", $metamaskChainId, account);
+    // console.log("handleChange", $metamaskChainId, account);
 
     if (src) {
       readableAddress = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
       address = $readableAddress;
-      console.log("handleChange ~ address", $readableAddress);
+      // console.log("handleChange ~ address", $readableAddress);
     }
   };
 

@@ -29,7 +29,7 @@ const collectionContractGet = async (
         const abiKey = abis[key as ABIS];
 
         if (abiKey) {
-          console.log("collectionContractGet", key, abiKey);
+          // console.log("collectionContractGet", key, abiKey);
           abi = abi.concat(abis[key as ABIS]);
         } else {
           console.error("collectionContractGet ERROR", key);

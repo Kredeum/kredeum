@@ -34,7 +34,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshCollectionList, mintable, chainId , account && handleChangeCollection();
+  $: $refreshCollectionList, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
 
@@ -59,13 +59,16 @@
   // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
 
   // Current Collection is already defined, or is defined in url, or is default collection
-  $: $collectionDefault && handleChangeAddress();
-  const handleChangeAddress = (): string => (address = $collectionDefault);
+  $: $collectionDefault && account && handleChangeAddress();
+  const handleChangeAddress = (): void => {
+    address ||= $collectionDefault;
+  };
 
   // STATE CHANGER : SET default Collection
-  const _setCollection = (collection: string): void =>
-    // address = collection;
-    collectionStore.setDefaultOne(chainId, collection, mintable, account);
+  const _setCollection = (collection: string, mintable_ = mintable): void => {
+    address = collection;
+    collectionStore.setDefaultOne(chainId, collection, mintable_, account);
+  };
 
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);

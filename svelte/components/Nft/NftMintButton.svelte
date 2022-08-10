@@ -35,10 +35,10 @@
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
     account = await $metamaskSigner.getAddress();
-    console.log("handleChange", $metamaskChainId, account);
+    // console.log("handleChange", $metamaskChainId, account);
 
     address = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
-    console.log("handleChange ~ address", $address);
+    // console.log("handleChange ~ address", $address);
   };
 
   const sell = (e: Event): void => {
