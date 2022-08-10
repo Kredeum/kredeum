@@ -93,7 +93,7 @@
     chainId = $metamaskChainId;
 
     account = await $metamaskSigner.getAddress();
-    console.log("handleChange", $metamaskChainId, account);
+    // console.log("handleChange", $metamaskChainId, account);
   };
 
   /////////////////////////////////////////////////

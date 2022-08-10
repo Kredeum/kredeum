@@ -75,7 +75,7 @@ const collectionListFromResolver = async (
       collections.set(collectionUrl(chainId, address), collection);
     }
   }
-  console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -131,7 +131,7 @@ const collectionList = async (
   provider: Provider,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
+  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -154,14 +154,14 @@ const collectionList = async (
       // console.log("collectionList covalentCollectionList", collectionsOwner);
     }
 
-    console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
+    // console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
     if (resolverGetAddress(chainId)) {
       collectionsKredeum = await collectionListFromResolver(chainId, account, provider);
     } else {
       collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
     }
 
-    console.log("collectionList collectionListKredeum", collectionsKredeum);
+    // console.log("collectionList collectionListKredeum", collectionsKredeum);
 
     // MERGE collectionsOwner and collectionsKredeum
     collections = collectionListMerge(collectionsOwner, collectionsKredeum);

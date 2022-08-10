@@ -18,7 +18,7 @@
         localStorage.setItem(VERSION, version);
       }
     }
-    console.log("Current Version", version);
+    // console.log("Current Version", version);
   };
 
   onMount(() => {

@@ -13,7 +13,7 @@ const collectionGetSupportsChecker = async (
   address: string,
   provider: Provider
 ): Promise<CollectionSupports> => {
-  console.log("collectionGetSupportsChecker", address);
+  // console.log("collectionGetSupportsChecker", address);
   let supports: CollectionSupports = {};
 
   const nftsResolver = resolverGetContract(chainId, provider);
@@ -52,7 +52,7 @@ const collectionGetSupportsChecker = async (
 
       "0xffffffff"
     ];
-    console.log("collectionGetSupportsChecker ~ ids", ids);
+    // console.log("collectionGetSupportsChecker ~ ids", ids);
 
     const checks = await (nftsResolver as IOpenChecker).checkSupportedInterfaces(address, ids);
 
@@ -89,7 +89,7 @@ const collectionGetSupportsChecker = async (
       IOpenMarketable: checks[i++],
       IOpenPauseable: checks[i++]
     };
-    console.log("collectionGetSupportsChecker", address, supports);
+    // console.log("collectionGetSupportsChecker", address, supports);
     // assert IERC165 to be always true and check 0xffffffff to be false
     if (!supports.IERC165 || checks[i]) throw "ERROR checkSupportedInterfaces";
   }
