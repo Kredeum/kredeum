@@ -26,6 +26,7 @@ const collectionSubListStore = (
       const collections = new Map(
         [...$collectionListStore]
           .filter(([, coll]) => {
+            // const okParams = chainId > 0;
             const okParams = chainId > 0 && Boolean(account);
 
             // NETWORK
