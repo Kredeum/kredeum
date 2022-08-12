@@ -22,6 +22,7 @@
     }
   },
   "include": [
+    "config/**/*.ts",
     "abis/**/*.ts",
     "lib/**/*.ts",
     "types/**/*.ts",

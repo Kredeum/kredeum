@@ -41,6 +41,8 @@
   },
   "devDependencies": {
     "@ipld/dag-pb": "^2.1.17",
+    "@types/fs-extra": "^9.0.13",
+    "fs-extra": "^10.1.0",
     "moralis": "^1.10.1",
     "semaphore-async-await": "^1.5.1"
   }
