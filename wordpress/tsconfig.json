@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "baseUrl": "./",
+    "resolveJsonModule": true,
+    "paths": {
+      "lib/*": [
+        "../common/lib/*"
+      ]
+    }
+  },
+  "files": [
+    "build-plugins.zts"
+  ]
+}
