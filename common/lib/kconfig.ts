@@ -5,7 +5,7 @@ import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
 import { factoryGetTemplateAddress } from "./kfactory-get";
 import networks from "../config/networks.json";
-import config from "../config/config.json";
+import config from "../config/config";
 
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
@@ -284,8 +284,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+      ? swarmLinkToUrlHttp(link)
+      : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
