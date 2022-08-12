@@ -37,7 +37,7 @@ const deployNFTsFactoryV2: DeployFunction = async function (hre) {
     if (deployResult.address != network.nftsFactoryV2) {
       networks[index].nftsFactoryV2 = deployResult.address;
       await fs
-        .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+        .writeFile(`${__dirname}/../../common/config/networks.json_handlebars`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
     const nftsFactoryV2: NFTsFactoryV2 = await hre.ethers.getContract("NFTsFactoryV2");

@@ -1,4 +1,4 @@
-import khandlebars from "../common/lib/khandlebars";
+import khandlebars from "../common/scripts/khandlebars";
 
 const main = async (): Promise<void> => {
   await khandlebars("../wordpress/readme.txt_handlebars", "../wordpress/plugins/kredeum-nfts/readme.txt");

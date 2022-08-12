@@ -1,7 +1,8 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
 import { writeFile } from "fs/promises";
-import networks from "config/networks.json";
+import networks from "config/networks.handlebars.json";
+
 import type { NFTsFactoryV2 } from "soltypes/contracts";
 
 const contractName = "OpenMulti";
@@ -25,8 +26,10 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
     const index = networks.findIndex((nw) => nw.chainName === network.name);
     networks[index].openMulti = deployResult.address;
-    await writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
-      .catch((err) => console.log(err));
+    await writeFile(
+      `${__dirname}/../../../common/config/networks.handlebars.json`,
+      JSON.stringify(networks, null, 2)
+    ).catch((err) => console.log(err));
   }
 
   const nftsFactoryV2 = (await getContract("NFTsFactoryV2", deployer)) as unknown as NFTsFactoryV2;

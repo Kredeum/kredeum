@@ -3,7 +3,7 @@ import { writeFile } from "fs/promises";
 import type { ICloneFactoryV2, IOpenBound } from "soltypes/contracts/interfaces";
 
 import type { NetworkType } from "lib/ktypes";
-import networks from "config/networks.json";
+import networks from "config/networks.handlebars.json";
 
 const contractName = "OpenBound";
 
@@ -22,12 +22,14 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
   if (deployResult.newlyDeployed) {
     const index = networks.findIndex((nw) => nw.chainName === network.name);
-    const networkConf: NetworkType = networks[index];
+    const networkConf = networks[index];
     if (deployResult.address != networkConf.openBound) {
       console.info(contractName, "deployed => new address");
       networks[index].openBound = deployResult.address;
-      await  writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2))
-        .catch((err) => console.log(err));
+      await writeFile(
+        `${__dirname}/../../../common/config/networks.handlebars.json`,
+        JSON.stringify(networks, null, 2)
+      ).catch((err) => console.log(err));
     }
 
     const openBound = await getContract(contractName, deployer);

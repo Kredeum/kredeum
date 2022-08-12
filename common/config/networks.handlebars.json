@@ -3,7 +3,8 @@
     "chainId": 1,
     "chainName": "mainnet",
     "rpcUrls": [
-      "https://mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://eth-mainnet.alchemyapi.io/v2/{{env.ALCHEMY_API_KEY}}",
+      "https://mainnet.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -36,7 +37,7 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
-      "https://arbitrum-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://arbitrum-mainnet.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -47,6 +48,7 @@
       "https://arbiscan.io",
       "https://explorer.arbitrum.io"
     ],
+    "verifyApiKey": "{{env.ARBITRUM_API_KEY}}",
     "covalent": {
       "active": false
     },
@@ -59,6 +61,7 @@
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
+      "https://optimism-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
@@ -69,6 +72,7 @@
     "blockExplorerUrls": [
       "https://optimistic.etherscan.io"
     ],
+    "verifyApiKey": "{{env.OPTIMISM_API_KEY}}",
     "covalent": {
       "active": false
     },
@@ -81,7 +85,7 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
-      "https://polygon-mainnet.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      "https://polygon-mainnet.infura.io/{{env.INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
     "nativeCurrency": {
@@ -93,6 +97,7 @@
       "https://polygonscan.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
+    "verifyApiKey": "{{env.POLYGON_API_KEY}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
@@ -128,6 +133,7 @@
       "https://snowtrace.io",
       "https://cchain.explorer.avax.network"
     ],
+    "verifyApiKey": "{{env.AVALANCHE_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -154,6 +160,9 @@
     "blockExplorerUrls": [
       "https://blockscout.com/xdai/mainnet"
     ],
+    "hardhatOptions": {
+      "gasPrice": 80000000000
+    },
     "openNFTs": "0xF6169393986b38e57D61187051c3F5B554796f83",
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
@@ -175,6 +184,7 @@
     "blockExplorerUrls": [
       "https://ftmscan.com"
     ],
+    "verifyApiKey": "{{env.FANTOM_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -188,6 +198,7 @@
     "chainId": 56,
     "chainName": "bsc",
     "rpcUrls": [
+      "https://bsc-dataseed1.binance.org",
       "https://bsc-dataseed.binance.org",
       "https://bsc-dataseed1.defibit.io",
       "https://bsc-dataseed1.ninicoin.io"
@@ -200,6 +211,7 @@
     "blockExplorerUrls": [
       "https://bscscan.com"
     ],
+    "verifyApiKey": "{{env.BINANCE_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -225,6 +237,7 @@
     "blockExplorerUrls": [
       "https://testnet.bscscan.com/"
     ],
+    "verifyApiKey": "{{env.BINANCE_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -237,7 +250,7 @@
     "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": [
-      "https://rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://rinkeby.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -262,7 +275,8 @@
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
-      "https://goerli.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://eth-goerli.alchemyapi.io/v2/{{env.ALCHEMY_API_KEY}}",
+      "https://goerli.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -277,20 +291,20 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0x543dbd425309c3aFcAcE98Ac99bfb1f705624E91",
+    "openNFTs": "0x56090e1c11069B9bAc82b00ff731F3B0DC128Ea1",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0xe93f53292249630aB09e0408dB6D8b144E5414D1"
+    "nftsResolver": "0x67f34c28c32422a80BE0208bD81DD9ee7457A400"
   },
   {
     "chainId": 3,
     "chainName": "ropsten",
     "rpcUrls": [
-      "https://ropsten.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161",
+      "https://ropsten.infura.io/{{env.INFURA_API_KEY}}",
       "https://ropsten.infura.io/v3/"
     ],
     "nativeCurrency": {
@@ -314,7 +328,7 @@
     "chainId": 42,
     "chainName": "kovan",
     "rpcUrls": [
-      "https://kovan.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://kovan.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -341,9 +355,9 @@
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
+      "https://polygon-mumbai.infura.io/{{env.INFURA_API_KEY}}",
       "https://matic-mumbai.chainstacklabs.com",
-      "https://rpc-mumbai.maticvigil.com/v1",
-      "https://polygon-mumbai.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://rpc-mumbai.maticvigil.com/v1"
     ],
     "nativeCurrency": {
       "name": "Matic",
@@ -354,12 +368,16 @@
       "https://mumbai.polygonscan.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
+    "verifyApiKey": "{{env.POLYGON_API_KEY}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
     },
     "covalent": {
       "active": true
+    },
+    "hardhatOptions": {
+      "live": true
     },
     "openNFTs": "0x034595F8fec2bF8eE641EFf1667144923356d4eF",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
@@ -374,7 +392,7 @@
     "chainId": 421611,
     "chainName": "arbitrumrinkeby",
     "rpcUrls": [
-      "https://arbitrum-rinkeby.infura.io/v3/9aa3d95b3bc440fa88ea12eaa4456161"
+      "https://arbitrum-rinkeby.infura.io/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -385,6 +403,7 @@
       "https://testnet.arbiscan.io",
       "https://rinkeby-explorer.arbitrum.io"
     ],
+    "verifyApiKey": "{{env.ARBITRUM_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -398,6 +417,7 @@
     "chainId": 69,
     "chainName": "optimismkovan",
     "rpcUrls": [
+      "https://optimism-kovan.infura.io/v3/",
       "https://kovan.optimism.io"
     ],
     "nativeCurrency": {
@@ -408,6 +428,7 @@
     "blockExplorerUrls": [
       "https://kovan-optimistic.etherscan.io"
     ],
+    "verifyApiKey": "{{env.OPTIMISM_API_KEY}}",
     "covalent": {
       "active": false
     },
@@ -431,6 +452,7 @@
     "blockExplorerUrls": [
       "https://testnet.ftmscan.com"
     ],
+    "verifyApiKey": "{{env.FANTOM_API_KEY}}",
     "covalent": {
       "active": false
     },
@@ -453,6 +475,7 @@
       "https://testnet.snowtrace.io",
       "https://cchain.explorer.avax-test.network"
     ],
+    "verifyApiKey": "{{env.AVALANCHE_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -483,5 +506,12 @@
     "nftsFactoryV2": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "testnet": true,
     "nftsResolver": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce"
+  },
+  {
+    "chainId": 31337,
+    "chainName": "local",
+    "rpcUrls": [
+      "http://127.0.0.1:8545"
+    ]
   }
 ]

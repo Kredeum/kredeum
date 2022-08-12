@@ -12,6 +12,8 @@ type NetworkType = {
   iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
+  verifyApiKey?: string;
+  hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
   moralis?: { active: boolean; url?: string };
@@ -20,7 +22,7 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
-  openSea?:  string ;
+  openSea?: string;
   openMulti?: string;
   openBound?: string;
   openNFTs?: string;

@@ -5,7 +5,7 @@ import { getNonce } from "../lib/nonces";
 
 // import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
 import type { NetworkType } from "lib/ktypes";
-import networks from "config/networks.json";
+import networks from "config/networks.handlebars.json";
 import { writeFile } from "fs/promises";
 
 const contractName = "OpenNFTsV4";
@@ -29,13 +29,14 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     // const contract = await getContract(contractName);
     // await checkGasMethod(hre, contractName, "initialize", deployer,
     const index = networks.findIndex((nw) => nw.chainName === network.name);
-    const networkConf: NetworkType = networks[index];
+    const networkConf = networks[index];
     if (deployResult.address != networkConf.openNFTs) {
       console.info(contractName, "deployed => new address");
       networks[index].openNFTs = deployResult.address;
-      await writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2)).catch(
-        (err) => console.log(err)
-      );
+      await writeFile(
+        `${__dirname}/../../../common/config/networks.handlebars.json`,
+        JSON.stringify(networks, null, 2)
+      ).catch((err) => console.log(err));
     }
 
     const openNFTsV4 = await getContract(contractName, deployer);
