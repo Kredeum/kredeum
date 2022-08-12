@@ -5,7 +5,7 @@ import type { INFTsResolver } from "soltypes/contracts/interfaces";
 import { getNonce } from "../lib/nonces";
 
 import { writeFile } from "fs/promises";
-import networks from "config/networks.json";
+import networks from "config/networks";
 
 const contractName = "NFTsResolver";
 
@@ -29,8 +29,8 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
     if (deployResult.address != networkConf.nftsResolver) {
       console.info(contractName, "deployed => new address");
       networks[index].nftsResolver = deployResult.address;
-      await writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2)).catch(
-        (err) => console.log(err)
+      await writeFile(`${__dirname}/../../../common/config/networks`, JSON.stringify(networks, null, 2)).catch((err) =>
+        console.log(err)
       );
     }
     const nftsResolver = await hre.ethers.getContract(contractName, deployer);

@@ -54,7 +54,7 @@ const collectionGetSupportsChecker = async (
     ];
     // console.log("collectionGetSupportsChecker ~ ids", ids);
 
-    const checks = await (nftsResolver as IOpenChecker).checkSupportedInterfaces(address, ids);
+    const checks = await (nftsResolver as IOpenChecker)["checkSupportedInterfaces(address,bytes4[])"](address, ids);
 
     let i = 0;
     supports = {

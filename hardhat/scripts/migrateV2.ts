@@ -2,7 +2,7 @@ import type { NFTsFactory, NFTsFactoryV2 } from "soltypes/contracts";
 import type { IERC165 } from "soltypes/contracts/interfaces";
 import type { NetworkType } from "lib/ktypes";
 
-import networks from "config/networks.json";
+import networks from "config/networks";
 
 import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
 import abiINFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";

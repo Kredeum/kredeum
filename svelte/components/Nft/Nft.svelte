@@ -172,10 +172,10 @@
 </div>
 
 <!-- Modal claim nft -->
+
 <!-- <div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
-
 <style>
   .krd-nft-solo {
     width: 100%;

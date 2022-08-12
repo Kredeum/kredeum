@@ -46,7 +46,7 @@
     "wp-tests": "",
     "wp--tests": "cd wordpress && cypress run",
     "sub-clean": "rm -rf thegraph/build thegraph/generated thegraph/subgraph.yaml",
-    "sub-yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks.json | npx hbs-cli -i thegraph/subgraph.yaml_handlebar -e yaml -o thegraph",
+    "sub-yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks | npx hbs-cli -i thegraph/subgraph.yaml_handlebar -e yaml -o thegraph",
     "sub-codegen": "cd thegraph && graph codegen",
     "sub-graph-build": "cd thegraph && graph build",
     "sub-build": "echo sub-build empty",

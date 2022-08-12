@@ -4,7 +4,7 @@ import type { Address, NetworkType, CollectionType, NftType } from "./ktypes";
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
 import { factoryGetTemplateAddress } from "./kfactory-get";
-import networks from "../config/networks.json";
+import networks from "../config/networks";
 import config from "../config/config";
 
 const DEFAULT_NAME = "No name";

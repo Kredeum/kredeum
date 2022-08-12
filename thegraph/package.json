@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm -rf build generated subgraph.yaml node_modules",
     "build-yaml": "ts-node build-yaml.ts",
-    "yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks.json | npx hbs-cli -i subgraph.yaml_handlebar -e yaml -o thegraph",
+    "yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks | npx hbs-cli -i subgraph.yaml_handlebar -e yaml -o thegraph",
     "codegen": "cd thegraph && graph codegen",
     "graph-build": "cd thegraph && graph build",
     "build": "echo build empty",

@@ -7,7 +7,7 @@ import ICloneFactoryV2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/IClon
 import IERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
 import hre from "hardhat";
 
-import networks from "config/networks.json";
+import networks from "config/networks";
 
 const getLogs3500 = async (startBlock: number): Promise<void> => {
   const endBlock = startBlock + nBlocks - 1;

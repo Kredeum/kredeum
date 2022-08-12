@@ -13,7 +13,7 @@ import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.so
 
 import type { CollectionType } from "lib/ktypes";
 import { collectionGet } from "lib/kcollection-get";
-import networks from "config/networks.json";
+import networks from "config/networks";
 
 const ABI_OPEN = "function open() view returns (bool)";
 const INFT = abiIERC165.concat(abiIERC721).concat(abiIERC721Metadata).concat(abiIERC721Enumerable).concat(ABI_OPEN);

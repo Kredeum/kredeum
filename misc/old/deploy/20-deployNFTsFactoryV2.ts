@@ -3,7 +3,7 @@ import type { NFTsFactoryV2 } from "soltypes/contracts";
 import type { Network } from "lib/ktypes";
 
 import * as fs from "fs/promises";
-import networks from "config/networks.json";
+import networks from "config/networks";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { network } from "hardhat";
 
@@ -37,7 +37,7 @@ const deployNFTsFactoryV2: DeployFunction = async function (hre) {
     if (deployResult.address != network.nftsFactoryV2) {
       networks[index].nftsFactoryV2 = deployResult.address;
       await fs
-        .writeFile(`${__dirname}/../../common/config/networks.json`, JSON.stringify(networks, null, 2))
+        .writeFile(`${__dirname}/../../common/config/networks`, JSON.stringify(networks, null, 2))
         .catch((err) => console.log(err));
     }
     const nftsFactoryV2: NFTsFactoryV2 = await hre.ethers.getContract("NFTsFactoryV2");

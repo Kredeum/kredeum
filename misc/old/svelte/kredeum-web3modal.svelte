@@ -2,7 +2,7 @@
   // import Web3 from "web3";
   import Web3Modal from "web3modal";
 
-  import networks from "../../config/networks.json";
+  import networks from "../../config/networks";
   import { createEventDispatcher } from "svelte";
   import { onMount } from "svelte";
   import { ethers } from "ethers";
@@ -39,16 +39,7 @@
       if (_network) {
         for (const field in _network) {
           // IEP-3085 fields only or fails
-          if (
-            ![
-              "chainId",
-              "blockExplorerUrls",
-              "chainName",
-              "iconUrls",
-              "nativeCurrency",
-              "rpcUrls"
-            ].includes(field)
-          ) {
+          if (!["chainId", "blockExplorerUrls", "chainName", "iconUrls", "nativeCurrency", "rpcUrls"].includes(field)) {
             delete _network[field];
           }
         }

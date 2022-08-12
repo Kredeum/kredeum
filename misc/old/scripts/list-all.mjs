@@ -4,7 +4,7 @@ import fs from "fs";
 const MATICVIGIL_API_KEY = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
 
 const contracts = JSON.parse(fs.readFileSync("../config/contracts.json"));
-const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
+const networks = JSON.parse(fs.readFileSync("../config/networks"));
 const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
 contracts.forEach(async (contract) => {

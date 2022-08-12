@@ -13,7 +13,7 @@ import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.so
 
 import { DEFAULT_NAME } from "lib/kconfig";
 import { collectionGet } from "lib/kcollection-get";
-import networks from "config/networks.json";
+import networks from "config/networks";
 
 const abiNFT = abiIERC165.concat(abiIERC721).concat(abiIERC721Metadata).concat(abiIERC721Enumerable);
 

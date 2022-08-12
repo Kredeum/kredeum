@@ -11,7 +11,7 @@ const theGraph = new Ipfs(theGraphEndpoint);
 
 const MATICVIGIL_API_KEY = "9be3c456ae90b3eea0c4743c483c0dfc9696f2ae";
 
-const networks = JSON.parse(fs.readFileSync("../config/networks.json"));
+const networks = JSON.parse(fs.readFileSync("../config/networks"));
 const abis = JSON.parse(fs.readFileSync("../config/abis.json"));
 
 const address = "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253";

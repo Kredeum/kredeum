@@ -1,5 +1,5 @@
 import { writeFile } from "fs/promises";
-import networks from "../config/networks.json";
+import networks from "../config/networks";
 
 // console.log(networks);
 
