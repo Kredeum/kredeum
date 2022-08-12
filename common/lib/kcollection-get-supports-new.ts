@@ -8,30 +8,45 @@ import { abis } from "lib/kabis";
 
 import type { IOpenChecker } from "soltypes/OpenNFTs/contracts/interfaces/IOpenChecker";
 
-const collectionGetSupportsChecker = async (
+const collectionGetSupportsNew = async (
   chainId: number,
   address: string,
   provider: Provider
 ): Promise<CollectionSupports> => {
-  // console.log("collectionGetSupportsChecker", address);
+  // console.log("collectionGetSupports", address);
   let supports: CollectionSupports = {};
 
   const nftsResolver = resolverGetContract(chainId, provider);
   if (nftsResolver) {
+    /// 0xffffffff :  O Invalid
+    /// 0x01ffc9a7 :  1 ERC165
+    ///
+    /// 0x80ac58cd :  2 ERC721
+    /// 0x5b5e139f :  3 ERC721Metadata
+    /// 0x780e9d63 :  4 ERC721Enumerable
+    /// 0x150b7a02 :  5 ERC721TokenReceiver
+    ///
+    /// 0xd9b67a26 :  6 ERC1155
+    /// 0x0e89341c :  7 ERC1155MetadataURI
+    /// 0x4e2312e0 :  8 ERC1155TokenReceiver
+    ///
+    /// 0x7f5828d0 :  9 ERC173
+    /// 0x2a55205a : 10 ERC2981
     const ids = [
-      interfaceId(abis["IERC165"]),
-      interfaceId(abis["IERC173"]),
+      "0xffffffff",
+      "0x01ffc9a7",
 
-      interfaceId(abis["IERC721"]),
-      interfaceId(abis["IERC721Enumerable"]),
-      interfaceId(abis["IERC721Metadata"]),
-      interfaceId(abis["IERC721TokenReceiver"]),
+      "0x80ac58cd",
+      "0x5b5e139f",
+      "0x780e9d63",
+      "0x150b7a02",
 
-      interfaceId(abis["IERC1155"]),
-      interfaceId(abis["IERC1155MetadataURI"]),
-      interfaceId(abis["IERC1155TokenReceiver"]),
+      "0xd9b67a26",
+      "0x0e89341c",
+      "0x4e2312e0",
 
-      interfaceId(abis["IERC2981"]),
+      "0x7f5828d0",
+      "0x2a55205a",
 
       interfaceId(abis["IOpenNFTsV0"]),
       interfaceId(abis["IOpenNFTsV1"]),
@@ -48,28 +63,26 @@ const collectionGetSupportsChecker = async (
       interfaceId(abis["IOpenChecker"]),
       interfaceId(abis["IOpenCloneable"]),
       interfaceId(abis["IOpenMarketable"]),
-      interfaceId(abis["IOpenPauseable"]),
-
-      "0xffffffff"
+      interfaceId(abis["IOpenPauseable"])
     ];
-    // console.log("collectionGetSupportsChecker ~ ids", ids);
+    // console.log("collectionGetSupports ~ ids", ids);
 
-    const checks = await (nftsResolver as IOpenChecker).checkSupportedInterfaces(address, ids);
+    const checks = await (nftsResolver as IOpenChecker)["checkSupportedInterfaces(address,bytes4[])"](address, ids);
 
-    let i = 0;
+    let i = 1;
     supports = {
       IERC165: checks[i++],
-      IERC173: checks[i++],
-
+      
       IERC721: checks[i++],
       IERC721Enumerable: checks[i++],
       IERC721Metadata: checks[i++],
       IERC721TokenReceiver: checks[i++],
-
+      
       IERC1155: checks[i++],
       IERC1155MetadataURI: checks[i++],
       IERC1155TokenReceiver: checks[i++],
-
+      
+      IERC173: checks[i++],
       IERC2981: checks[i++],
 
       IOpenNFTsV0: checks[i++],
@@ -89,11 +102,11 @@ const collectionGetSupportsChecker = async (
       IOpenMarketable: checks[i++],
       IOpenPauseable: checks[i++]
     };
-    // console.log("collectionGetSupportsChecker", address, supports);
+    // console.log("collectionGetSupports", address, supports);
     // assert IERC165 to be always true and check 0xffffffff to be false
-    if (!supports.IERC165 || checks[i]) throw "ERROR checkSupportedInterfaces";
+    if (!supports.IERC165 || checks[0]) throw "ERROR checkSupportedInterfaces";
   }
   return supports;
 };
 
-export { collectionGetSupportsChecker };
+export { collectionGetSupportsNew };

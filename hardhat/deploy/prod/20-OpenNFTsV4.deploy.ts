@@ -57,7 +57,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     nonce = await getNonce(deployer, contractName, "addAddress");
     await (await (nftsResolver as IOpenRegistry).addAddress(deployResult.address)).wait();
 
-    nonce = await getNonce(deployer, contractName, "end", true);
+    nonce = await getNonce(deployer, contractName, "end");
   }
 };
 

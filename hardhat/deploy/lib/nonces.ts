@@ -7,9 +7,7 @@ const getNonce = async (deployer: SignerWithAddress, name = "", label = "", noPr
   if (deployer) {
     nonce = await deployer.getTransactionCount();
 
-    if (noPrevious) {
-      console.log("Nonce", name, label, nonce);
-    } else {
+    if (!noPrevious) {
       console.log("Nonces", name, label, noncePrevious, nonce);
       if (nonce != noncePrevious + 1) console.warn("Strange nonces...", noncePrevious, nonce);
     }

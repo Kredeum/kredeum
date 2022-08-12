@@ -33,6 +33,7 @@
     "update:svelte": "cd svelte && pnpm update",
     "update:wordpress": "cd wordpress && pnpm update",
     "update:thegraph": "cd thegraph && pnpm update",
+    "build:common": "cd common && npm run build",
     "build:hardhat": "cd hardhat && npm run build",
     "build:gulp": "cd gulp && npm run build",
     "build:svelte": "cd svelte && npm run build",

@@ -68,7 +68,9 @@ const collectionGet = async (
 
   try {
     collection.supports = await collectionGetSupports(chainId, address, provider, collection);
+    console.log("collectionAPRES", collection);
     await collectionGetOtherData(chainId, address, provider, account, collection);
+    console.log("collectionAVANT", collection);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
   }

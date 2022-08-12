@@ -139,9 +139,13 @@ const config: HardhatUserConfig = {
     onlyCalledMethods: true
   },
 
-  etherscan: {
-    apiKey: ETHERSCAN_API_KEY_ETHEREUM
+  verify: {
+    etherscan: {
+      apiKey: ETHERSCAN_API_KEY_ETHEREUM
+    }
   }
 };
+
+// console.log(JSON.stringify(config, null, 2));
 
 export default config;

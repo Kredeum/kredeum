@@ -44,10 +44,16 @@
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
+    console.log("COLLECTION cached", $collection);
 
     // STATE VIEW : sync get NFT list
     nfts = nftStore.getSubListStore(chainId, address, account);
     console.log("NFTS cached", $nfts);
+
+
+    // ACTION : async refresh COLLECTION
+    collectionStore.refreshOne(chainId, address, account).catch(console.error);
+    console.log("COLLECTION refreshed", $collection);
 
     // ACTION : async refresh NFT list
     $refreshing = true;

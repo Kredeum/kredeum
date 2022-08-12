@@ -39,7 +39,7 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
     nonce = await getNonce(deployer, contractName, "initialize");
     await (await (nftsResolver as INFTsResolver).initialize(deployer.address)).wait();
 
-    nonce = await getNonce(deployer, contractName, "end", true);
+    nonce = await getNonce(deployer, contractName, "end");
   }
 };
 
