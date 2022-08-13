@@ -12,7 +12,7 @@ type NetworkType = {
   iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
-  verifyApiKey?: string;
+  etherscanApiKey?: string;
   hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };

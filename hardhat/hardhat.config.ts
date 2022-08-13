@@ -32,7 +32,6 @@ if (!process.env.ENVIR) {
     throw new Error("HARDHAT : ENV variable ENVIR not set!");
   }
 }
-
 const { DEPLOYER_PRIVATE_KEY, ETHERSCAN_API_KEY_ETHEREUM } = process.env;
 
 const accountsRandom = [DEPLOYER_PRIVATE_KEY || ""];
@@ -43,23 +42,27 @@ const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((a
 }));
 const accounts = accountsRandom;
 
-const networksFromConfig = (): NetworksUserConfig => {
-  const networksConfig: NetworksUserConfig = { hardhat: {} };
+const isNetworkParam = (item: string) => item === "--network";
+const networkParamIndex = process.argv.findIndex(isNetworkParam);
+let networkName: string = process.argv[networkParamIndex + 1];
+const network = networks.find((item) => item.chainName === networkName);
 
-  // let network: NetworkType;
-  for (const network of networks) {
-    const networkConfig: HttpNetworkUserConfig = { chainId: network.chainId, url: network.rpcUrls[0], accounts };
-    if (network.verifyApiKey) networkConfig.verify = { etherscan: { apiKey: network.verifyApiKey } };
-    if (network.hardhatOptions) Object.assign(networkConfig, network.hardhatOptions);
-    networkConfig.deploy = ["deploy/prod"];
+let networksConfig: NetworksUserConfig = {};
+let apiKeyConfig = ETHERSCAN_API_KEY_ETHEREUM || "";
 
-    networksConfig[network.chainName] = networkConfig;
-  }
-  networksConfig.hardhat = { accounts: accountsHardhat, deploy: ["deploy/dev", "deploy/prod"] };
+if (network) {
+  const networkConfig: HttpNetworkUserConfig = { chainId: network.chainId, url: network.rpcUrls[0], accounts };
+  if (network.etherscanApiKey) apiKeyConfig = network.etherscanApiKey;
+  if (network.hardhatOptions) Object.assign(networkConfig, network.hardhatOptions);
+  networkConfig.deploy = ["deploy/prod"];
+  networksConfig[networkName] = networkConfig;
+} else {
+  networkName = "hardhat";
+  networksConfig = { hardhat: { accounts: accountsHardhat, deploy: ["deploy/dev", "deploy/prod"] } };
+}
 
-  // console.log(JSON.stringify(networksConfig, null, 2));
-  return networksConfig;
-};
+console.log(JSON.stringify(networksConfig, null, 2));
+console.log("apiKeyConfig", apiKeyConfig);
 
 const config: HardhatUserConfig = {
   defaultNetwork: "hardhat",
@@ -71,7 +74,7 @@ const config: HardhatUserConfig = {
     random: { default: 2 }
   },
 
-  networks: networksFromConfig(),
+  networks: networksConfig,
 
   solidity: {
     compilers: [
@@ -141,7 +144,7 @@ const config: HardhatUserConfig = {
 
   verify: {
     etherscan: {
-      apiKey: ETHERSCAN_API_KEY_ETHEREUM
+      apiKey: apiKeyConfig
     }
   }
 };

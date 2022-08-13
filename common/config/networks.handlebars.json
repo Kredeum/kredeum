@@ -4,7 +4,7 @@
     "chainName": "mainnet",
     "rpcUrls": [
       "https://eth-mainnet.alchemyapi.io/v2/{{env.ALCHEMY_API_KEY}}",
-      "https://mainnet.infura.io/{{env.INFURA_API_KEY}}"
+      "https://mainnet.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -37,7 +37,7 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
-      "https://arbitrum-mainnet.infura.io/{{env.INFURA_API_KEY}}"
+      "https://arbitrum-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -48,7 +48,7 @@
       "https://arbiscan.io",
       "https://explorer.arbitrum.io"
     ],
-    "verifyApiKey": "{{env.ARBITRUM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_ARBITRUM}}",
     "covalent": {
       "active": false
     },
@@ -61,7 +61,7 @@
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
-      "https://optimism-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://optimism-mainnet.infura.io/v3/v3/{{env.INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
@@ -72,7 +72,7 @@
     "blockExplorerUrls": [
       "https://optimistic.etherscan.io"
     ],
-    "verifyApiKey": "{{env.OPTIMISM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_OPTIMISM}}",
     "covalent": {
       "active": false
     },
@@ -85,7 +85,7 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
-      "https://polygon-mainnet.infura.io/{{env.INFURA_API_KEY}}",
+      "https://polygon-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
     "nativeCurrency": {
@@ -97,7 +97,7 @@
       "https://polygonscan.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
-    "verifyApiKey": "{{env.POLYGON_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_POLYGON}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
@@ -133,7 +133,7 @@
       "https://snowtrace.io",
       "https://cchain.explorer.avax.network"
     ],
-    "verifyApiKey": "{{env.AVALANCHE_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_AVALANCHE}}",
     "covalent": {
       "active": true
     },
@@ -184,7 +184,7 @@
     "blockExplorerUrls": [
       "https://ftmscan.com"
     ],
-    "verifyApiKey": "{{env.FANTOM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_FANTOM}}",
     "covalent": {
       "active": true
     },
@@ -211,7 +211,7 @@
     "blockExplorerUrls": [
       "https://bscscan.com"
     ],
-    "verifyApiKey": "{{env.BINANCE_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_BINANCE}}",
     "covalent": {
       "active": true
     },
@@ -237,7 +237,7 @@
     "blockExplorerUrls": [
       "https://testnet.bscscan.com/"
     ],
-    "verifyApiKey": "{{env.BINANCE_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_BINANCE}}",
     "covalent": {
       "active": true
     },
@@ -250,7 +250,7 @@
     "chainId": 4,
     "chainName": "rinkeby",
     "rpcUrls": [
-      "https://rinkeby.infura.io/{{env.INFURA_API_KEY}}"
+      "https://rinkeby.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -276,7 +276,7 @@
     "chainName": "goerli",
     "rpcUrls": [
       "https://eth-goerli.alchemyapi.io/v2/{{env.ALCHEMY_API_KEY}}",
-      "https://goerli.infura.io/{{env.INFURA_API_KEY}}"
+      "https://goerli.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -304,8 +304,8 @@
     "chainId": 3,
     "chainName": "ropsten",
     "rpcUrls": [
-      "https://ropsten.infura.io/{{env.INFURA_API_KEY}}",
-      "https://ropsten.infura.io/v3/"
+      "https://ropsten.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://ropsten.infura.io/v3/v3/"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -328,7 +328,7 @@
     "chainId": 42,
     "chainName": "kovan",
     "rpcUrls": [
-      "https://kovan.infura.io/{{env.INFURA_API_KEY}}"
+      "https://kovan.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -355,7 +355,7 @@
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
-      "https://polygon-mumbai.infura.io/{{env.INFURA_API_KEY}}",
+      "https://polygon-mumbai.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://matic-mumbai.chainstacklabs.com",
       "https://rpc-mumbai.maticvigil.com/v1"
     ],
@@ -368,7 +368,6 @@
       "https://mumbai.polygonscan.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
-    "verifyApiKey": "{{env.POLYGON_API_KEY}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
@@ -376,6 +375,7 @@
     "covalent": {
       "active": true
     },
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_POLYGON}}",
     "hardhatOptions": {
       "live": true
     },
@@ -392,7 +392,7 @@
     "chainId": 421611,
     "chainName": "arbitrumrinkeby",
     "rpcUrls": [
-      "https://arbitrum-rinkeby.infura.io/{{env.INFURA_API_KEY}}"
+      "https://arbitrum-rinkeby.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -403,7 +403,7 @@
       "https://testnet.arbiscan.io",
       "https://rinkeby-explorer.arbitrum.io"
     ],
-    "verifyApiKey": "{{env.ARBITRUM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_ARBITRUM}}",
     "covalent": {
       "active": true
     },
@@ -417,7 +417,7 @@
     "chainId": 69,
     "chainName": "optimismkovan",
     "rpcUrls": [
-      "https://optimism-kovan.infura.io/v3/",
+      "https://optimism-kovan.infura.io/v3/v3/",
       "https://kovan.optimism.io"
     ],
     "nativeCurrency": {
@@ -428,7 +428,7 @@
     "blockExplorerUrls": [
       "https://kovan-optimistic.etherscan.io"
     ],
-    "verifyApiKey": "{{env.OPTIMISM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_OPTIMISM}}",
     "covalent": {
       "active": false
     },
@@ -452,7 +452,7 @@
     "blockExplorerUrls": [
       "https://testnet.ftmscan.com"
     ],
-    "verifyApiKey": "{{env.FANTOM_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_FANTOM}}",
     "covalent": {
       "active": false
     },
@@ -475,7 +475,7 @@
       "https://testnet.snowtrace.io",
       "https://cchain.explorer.avax-test.network"
     ],
-    "verifyApiKey": "{{env.AVALANCHE_API_KEY}}",
+    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_AVALANCHE}}",
     "covalent": {
       "active": true
     },
