@@ -26,12 +26,7 @@ const addressesV2 = async (nftsFactoryV2: NFTsFactoryV2): Promise<string[]> => {
   return addresses;
 };
 
-const addressesRes = async (nftsResolver: NFTsResolver): Promise<string[]> => {
-  const addresses: string[] = [];
-  const collectionsInfos = await nftsResolver.openResolver(random);
-  collectionsInfos.forEach((collectionInfos) => addresses.push(collectionInfos[0]));
-  return addresses;
-};
+const addressesRes = async (nftsResolver: NFTsResolver): Promise<string[]> => await nftsResolver.getAddresses();
 
 const main = async () => {
   const { provider, getNamedSigners } = ethers;
@@ -85,7 +80,7 @@ const main = async () => {
       console.log(String(++i), impl);
       toMigrate.push(impl);
     }
-    if (i >= 70) break;
+    if (i >= 80) break;
   }
   const n = toMigrate.length;
 
@@ -96,7 +91,13 @@ const main = async () => {
     const go: string = prompt("Proceed with Migration y/N ? ");
     if (go[0].toLowerCase() == "y") {
       console.log("START Migration...");
-      await (await nftsResolver.connect(deployer).addAddresses(toMigrate, { gasLimit: 2_000_000 })).wait();
+      await (
+        await nftsResolver.connect(deployer).addAddresses(toMigrate, {
+          // maxFeePerGas: 120_000_000_000,
+          // maxPriorityFeePerGas: 120_000_000_000,
+          gasLimit: 5_000_000
+        })
+      ).wait();
       console.log("END   Migration !");
 
       const implResNew = await addressesRes(nftsResolver);

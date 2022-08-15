@@ -25,16 +25,31 @@ abstract contract OpenNFTsV4SupportsTest is Test {
     }
 
     function testOpenNFTsCheckSupportedInterfaces() public {
-        // bytes4[15] memory ids = [
-        //     type(IOpenChecker).interfaceId,
-        //     type(IOpenCloneable).interfaceId,
-        //     type(IOpenMarketable).interfaceId,
-        //     type(IOpenNFTsOld).interfaceId,
-        //     type(IOpenNFTs).interfaceId,
-        //     type(IOpenNFTsV4).interfaceId,
-        //     type(IOpenPauseable).interfaceId
-        // ];
+        bytes4[7] memory ids = [
+            type(IOpenChecker).interfaceId,
+            type(IOpenCloneable).interfaceId,
+            type(IOpenMarketable).interfaceId,
+            type(IOpenPauseable).interfaceId,
+            type(IOpenNFTsOld).interfaceId,
+            type(IOpenNFTs).interfaceId,
+            type(IOpenNFTsV4).interfaceId
+        ];
+        bool[7] memory expected = [false, true, true, true, true, true, true];
 
+        bytes4[] memory interfaceIds = new bytes4[](expected.length);
+        for (uint256 i = 0; i < ids.length; i++) {
+            interfaceIds[i] = ids[i];
+        }
+
+        NFTsResolver resolver = new NFTsResolver();
+        bool[] memory checks = IOpenChecker(resolver).checkSupportedInterfaces(_collection, interfaceIds);
+
+        for (uint256 i = 0; i < checks.length; i++) {
+            assertEq(checks[i], expected[i]);
+        }
+    }
+
+    function testOpenNFTsCheckErcInterfaces() public {
         /// 0xffffffff :  O Invalid
         /// 0x01ffc9a7 :  1 ERC165
         ///
@@ -51,13 +66,8 @@ abstract contract OpenNFTsV4SupportsTest is Test {
         /// 0x2a55205a : 10 ERC2981
         bool[11] memory expected = [false, true, true, true, true, false, false, false, false, true, true];
 
-        // bytes4[] memory interfaceIds = new bytes4[](expected.length);
-        // for (uint256 i = 0; i < ids.length; i++) {
-        //     interfaceIds[i] = ids[i];
-        // }
-
         NFTsResolver resolver = new NFTsResolver();
-        bool[] memory checks = IOpenChecker(resolver).checkSupportedInterfaces(_collection);
+        bool[] memory checks = IOpenChecker(resolver).checkErcInterfaces(_collection);
 
         for (uint256 i = 0; i < checks.length; i++) {
             assertEq(checks[i], expected[i]);

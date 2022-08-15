@@ -85,6 +85,7 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
+      "https://polygon-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_POLYGON}}",
       "https://polygon-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
@@ -111,12 +112,12 @@
       "active": true
     },
     "openSea": "https://opensea.io/assets/matic",
-    "openNFTs": "0xda67B337B777AE6Cf99DcAbD5c38916DDc2CF5d5",
+    "openNFTs": "0x50c1ba9D865267C912D3a1BbFA31900299433a64",
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsResolver": "0xC23D940Ecb611DEca68CE09736A4028371A320c6"
+    "nftsResolver": "0xBe884A85632634700117aCb35aEd25AD305A4c18"
   },
   {
     "chainId": 43114,
@@ -298,7 +299,7 @@
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0x8E9d7a9214010C06eB314E35bEE3FF77A2473B5C"
+    "nftsResolver": "0xedCffedf8E750D77046a3F28dF2387CfCD9c7D31"
   },
   {
     "chainId": 3,

@@ -23,7 +23,8 @@ const envKeys = [
   "ETHERSCAN_API_KEY_AVALANCHE",
   "ETHERSCAN_API_KEY_BINANCE",
   "ETHERSCAN_API_KEY_ARBITRUM",
-  "ETHERSCAN_API_KEY_OPTIMISM"
+  "ETHERSCAN_API_KEY_OPTIMISM",
+  "ALCHEMY_API_KEY_POLYGON"
 ];
 
 const processEnv = Object.assign({}, ...envKeys.map((key: string) => ({ [key]: process.env[key] })));

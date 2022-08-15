@@ -2,7 +2,7 @@ import type { CollectionType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
 import { BigNumber } from "ethers";
-import { DEFAULT_NAME, DEFAULT_SYMBOL, collectionListKey } from "./kconfig";
+import { DEFAULT_NAME, DEFAULT_SYMBOL, getChainName } from "./kconfig";
 
 import { factoryGetContract } from "./kfactory-get";
 import { resolverGetAddress, resolverGetContract } from "./kresolver-get";
@@ -36,43 +36,46 @@ const collectionListMerge = (
   return collList;
 };
 
-const collectionListFromResolver = async (
+type CollectionInfos = [string, string, string, string, BigNumber, BigNumber];
+
+const collectionListFromResolverOne = (
   chainId: number,
   account: string,
-  provider: Provider
+  collectionInfos: CollectionInfos
+): CollectionType => {
+  console.log("collectionListFromResolverOne  IN", chainId, account, collectionInfos);
+
+  const chainName = getChainName(chainId);
+  const address: string = getChecksumAddress(collectionInfos[0]);
+  const owner: string = getChecksumAddress(collectionInfos[1]);
+  const name: string = collectionInfos[2] || DEFAULT_NAME;
+  const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
+  const totalSupply = Number(collectionInfos[4]);
+  const balancesOf = new Map([[account, Number(collectionInfos[5])]]);
+
+  const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf };
+
+  console.log("collectionListFromResolverOne OUT", collectionList);
+  return collection;
+};
+
+const collectionListFromResolver = async (
+  chainId: number,
+  provider: Provider,
+  account = ""
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, chainId, account);
-  const network = getNetwork(chainId);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = resolverGetContract(chainId, provider);
   if (nftsResolver) {
-    type CollectionInfos = [string, string, string, string, BigNumber, BigNumber];
     const collectionsInfos: Array<CollectionInfos> = await nftsResolver.openResolver(account);
-    const chainName = network?.chainName;
+    console.log("collectionListFromResolver collectionsInfos", collectionsInfos);
 
     for (let index = 0; index < collectionsInfos.length; index++) {
-      const collectionInfos = collectionsInfos[index];
-
-      const address: string = getChecksumAddress(collectionInfos[0]);
-      const owner: string = getChecksumAddress(collectionInfos[1]);
-      const name: string = collectionInfos[2] || DEFAULT_NAME;
-      const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
-      const totalSupply = Number(collectionInfos[4]);
-      const balanceOf = Number(collectionInfos[5]);
-
-      const collection: CollectionType = {
-        chainId,
-        chainName,
-        address,
-        owner,
-        name,
-        symbol,
-        totalSupply
-      };
-      collection.balancesOf = new Map([[account, balanceOf]]);
-      collections.set(collectionUrl(chainId, address), collection);
+      const collection = collectionListFromResolverOne(chainId, account, collectionsInfos[index]);
+      collections.set(collectionUrl(chainId, collection.address), collection);
     }
   }
   // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
@@ -81,8 +84,8 @@ const collectionListFromResolver = async (
 
 const collectionListFromFactory = async (
   chainId: number,
-  account: string,
-  provider: Provider
+  provider: Provider,
+  account?: string
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
 
@@ -92,7 +95,6 @@ const collectionListFromFactory = async (
 
   const nftsFactory = factoryGetContract(chainId, provider);
   if (nftsFactory) {
-
     type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
     const balances: Array<BalanceOf> = await nftsFactory.balancesOf(account);
     // console.log("collectionListFromFactory balances", balances);
@@ -127,8 +129,8 @@ const collectionListFromFactory = async (
 
 const collectionList = async (
   chainId: number,
-  account: string,
   provider: Provider,
+  account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
@@ -156,9 +158,9 @@ const collectionList = async (
 
     // console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
     if (resolverGetAddress(chainId)) {
-      collectionsKredeum = await collectionListFromResolver(chainId, account, provider);
+      collectionsKredeum = await collectionListFromResolver(chainId, provider, account);
     } else {
-      collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
+      collectionsKredeum = await collectionListFromFactory(chainId, provider, account);
     }
 
     // console.log("collectionList collectionListKredeum", collectionsKredeum);
