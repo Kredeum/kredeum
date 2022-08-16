@@ -20,7 +20,7 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
-  openSea?:  string ;
+  openSea?: string;
   openMulti?: string;
   openBound?: string;
   openNFTs?: string;
@@ -139,6 +139,7 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
+  price?: string;
 } & storageType;
 
 export type {
