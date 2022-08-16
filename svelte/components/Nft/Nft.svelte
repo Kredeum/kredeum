@@ -11,6 +11,11 @@
     nftOpenSeaUrl,
     addressSame
   } from "lib/kconfig";
+
+  import { IOpenNFTsV4 } from "soltypes/contracts/interfaces";
+
+  import { getNftPrice } from "lib/kautomarket-get-metadata";
+
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "helpers/shortcodes";
@@ -19,7 +24,8 @@
   import NftTransfer from "./NftTransfer.svelte";
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId } from "main/metamask";
+  import { metamaskChainId, metamaskProvider, metamaskSigner } from "main/metamask";
+  import { collectionContractGet } from "lib/kcollection-get";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -44,6 +50,13 @@
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+
+    const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    if (supports.IOpenMarketable) {
+      const tokenPrice = await contract.tokenPrice(Number(tokenID));
+      // const tokenPrice = Number(await contract.balanceOf(account));
+      console.log("🚀 ~ file: Nft.svelte ~ line 54 ~ handleChange ~ tokenPrice", tokenPrice);
+    }
   };
 
   $: console.log("Nft", $nft);
@@ -172,10 +185,10 @@
 </div>
 
 <!-- Modal claim nft -->
+
 <!-- <div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
-
 <style>
   .krd-nft-solo {
     width: 100%;
