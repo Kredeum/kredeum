@@ -57,6 +57,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+  let nftPrice: number = 0;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -154,7 +155,7 @@
         if (storageJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
+          mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner, String(nftPrice));
 
           // console.log("txResp", txResp);
 
@@ -332,6 +333,12 @@
                     bind:value={nftDescription}
                     id="description-nft"
                   />
+                </div>
+              </div>
+              <div class="section">
+                <span class="label label-big">NFT Price</span>
+                <div class="form-field">
+                  <input type="number" placeholder="0" bind:value={nftPrice} id="price-nft" />
                 </div>
               </div>
 

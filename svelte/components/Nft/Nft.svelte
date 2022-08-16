@@ -12,7 +12,7 @@
     addressSame
   } from "lib/kconfig";
 
-  import { IOpenNFTsV4 } from "soltypes/contracts/interfaces";
+  import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
 
   import { getNftPrice } from "lib/kautomarket-get-metadata";
 
@@ -39,6 +39,8 @@
 
   let nft: Readable<NftType>;
 
+  let nftPrice: number;
+
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
@@ -52,10 +54,13 @@
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
 
     const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+
     if (supports.IOpenMarketable) {
-      const tokenPrice = await contract.tokenPrice(Number(tokenID));
-      // const tokenPrice = Number(await contract.balanceOf(account));
-      console.log("🚀 ~ file: Nft.svelte ~ line 54 ~ handleChange ~ tokenPrice", tokenPrice);
+      const openNFTsV4 = contract as OpenNFTsV4;
+      const defaultPrice = String(await openNFTsV4.callStatic.defaultPrice());
+      console.log("🚀 ~ file: Nft.svelte ~ line 59 ~ handleChange ~ defaultPrice", defaultPrice);
+      nftPrice = Number(await openNFTsV4.callStatic.tokenPrice(Number(tokenID)));
+      console.log("🚀 ~ file: Nft.svelte ~ line 54 ~ handleChange ~ tokenPrice", nftPrice);
     }
   };
 
@@ -121,6 +126,16 @@
               </a>
             </div>
           </li>
+          {#if nftPrice || nftPrice === 0}
+            <li>
+              <div class="flex"><span class="label">Nft Price</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={String(nftPrice)} target="_blank">
+                  {nftPrice || "0"}
+                </span>
+              </div>
+            </li>
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
