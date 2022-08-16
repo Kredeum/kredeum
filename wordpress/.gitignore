@@ -5,3 +5,5 @@ vendor
 plugins/*
 !plugins/kredeum-nfts
 !plugins/swarmpress
+!plugins/swarmpress.zip
+!plugins/swarmpress/vendor
