@@ -31,6 +31,9 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "helpers/clickOutside";
 
+  import { BigNumber } from "ethers/lib/ethers";
+  import { ethers } from "ethers";
+
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
@@ -57,7 +60,8 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
-  let nftPrice: number = 0;
+  let inputPrice: string;
+  let nftPrice: string = "0";
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -68,6 +72,24 @@
   let mintingError: string;
   /////////////////////////////////////////////////
   let open = false;
+
+  $: inputPrice && handlePrice();
+  const handlePrice = () => {
+    inputPrice = inputPrice.replace(/[^0-9.,]/g, "");
+    let formatedInputPrice = inputPrice.replace(/[,]/g, ".");
+    const decimals = formatedInputPrice.split(".")[1];
+    if (decimals?.length > 18) {
+      inputPrice = inputPrice.slice(0, -1);
+      formatedInputPrice = formatedInputPrice.slice(0, -1);
+    }
+
+    // const priceToConvert = inputPrice.replace(/[,]/g, ".").replace(/[^0-9.]/g, "");
+    if (inputPrice) nftPrice = ethers.utils.parseEther(formatedInputPrice).toString();
+
+    console.log("nftPrice : ", nftPrice, " Wei");
+  };
+
+  const filterInput = (e: Event) => (e.target as HTMLInputElement).value.replace(/[^0-9.,]/g, "");
 
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {
@@ -155,7 +177,7 @@
         if (storageJson) {
           minting = 3;
 
-          mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner, String(nftPrice));
+          mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner, nftPrice);
 
           // console.log("txResp", txResp);
 
@@ -336,9 +358,9 @@
                 </div>
               </div>
               <div class="section">
-                <span class="label label-big">NFT Price</span>
+                <span class="label label-big">NFT Price (Eth)</span>
                 <div class="form-field">
-                  <input type="number" placeholder="0" bind:value={nftPrice} id="price-nft" />
+                  <input type="text" placeholder="0" bind:value={inputPrice} id="price-nft" />
                 </div>
               </div>
 

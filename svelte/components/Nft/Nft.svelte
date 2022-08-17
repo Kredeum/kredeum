@@ -18,6 +18,7 @@
   import { nftStore } from "stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftBuy from "./NftBuy.svelte";
   // import NftClaim from "./NftClaim.svelte";
 
   import { metamaskChainId } from "main/metamask";
@@ -114,7 +115,7 @@
               <div class="flex"><span class="label">Nft Price</span></div>
               <div class="flex">
                 <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
-                  {$nft.price || "0"}
+                  {$nft.price || "0"} Eth
                 </span>
               </div>
             </li>
@@ -130,6 +131,12 @@
           <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
             ><i class="fa fa-gift" /> Transfer</a
           >
+
+          {#if $nft.owner !== account}
+            <a href="#buy-nft-{tokenID}" class="btn btn-small btn-outline" title="Buy this nft"
+              ><i class="fa fa-shopping-cart" /> Buy</a
+            >
+          {/if}
 
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
@@ -180,6 +187,11 @@
 <!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">
   <NftTransfer {chainId} {address} {tokenID} />
+</div>
+
+<!-- Modal buy nft -->
+<div id="buy-nft-{tokenID}" class="modal-window">
+  <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
 </div>
 
 <!-- Modal claim nft -->
