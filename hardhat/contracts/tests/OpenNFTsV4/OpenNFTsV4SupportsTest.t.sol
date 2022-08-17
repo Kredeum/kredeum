@@ -6,7 +6,7 @@ import "forge-std/Test.sol";
 import "OpenNFTs/contracts/interfaces/IAll.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenNFTsV4.sol";
-import "../../templates/NFTsResolver.sol";
+import "../../next/NFTsResolver.sol";
 
 import {IOpenNFTs as IOpenNFTsOld} from "../../interfaces/IOpenNFTs.old.sol";
 

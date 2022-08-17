@@ -67,21 +67,21 @@ const collectionGetSupportsNew = async (
     ];
     // console.log("collectionGetSupports ~ ids", ids);
 
-    const checks = await (nftsResolver as IOpenChecker)["checkSupportedInterfaces(address,bytes4[])"](address, ids);
+    const checks = await (nftsResolver as IOpenChecker).checkSupportedInterfaces(address, ids);
 
     let i = 1;
     supports = {
       IERC165: checks[i++],
-      
+
       IERC721: checks[i++],
       IERC721Enumerable: checks[i++],
       IERC721Metadata: checks[i++],
       IERC721TokenReceiver: checks[i++],
-      
+
       IERC1155: checks[i++],
       IERC1155MetadataURI: checks[i++],
       IERC1155TokenReceiver: checks[i++],
-      
+
       IERC173: checks[i++],
       IERC2981: checks[i++],
 

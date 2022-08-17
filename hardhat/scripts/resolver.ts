@@ -1,9 +1,9 @@
-import type { NFTsResolver } from "soltypes/contracts/templates";
+import type { NFTsResolver } from "soltypes/contracts/next";
 import type { NetworkType } from "lib/ktypes";
 
 import networks from "config/networks.json";
 
-import abiINFTsResolver from "abis/contracts/templates/NFTsResolver.sol/NFTsResolver.json";
+import abiINFTsResolver from "abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 import { ethers, getChainId } from "hardhat";
 
@@ -31,7 +31,6 @@ const main = async () => {
     // const res = await nftsResolver.openResolver("0x0000002000000000001000000030000000000000");
     console.log("main ~ res", res);
   }
-
 };
 
 main().catch(console.error);

@@ -3,7 +3,7 @@ import { expect } from "chai";
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
 
-import type { OpenNFTsV4 } from "soltypes/contracts/templates";
+import type { OpenNFTsV4 } from "soltypes/contracts/next";
 
 import abiIOpenNFTsV4 from "abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 

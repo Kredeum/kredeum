@@ -16,7 +16,7 @@ import type { IOpenNFTsV0 } from "soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "soltypes/contracts/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3 } from "soltypes/contracts/interfaces/IOpenNFTsV3";
-import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
+import type { OpenNFTsV4 } from "soltypes/contracts/next/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

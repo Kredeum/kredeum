@@ -1,4 +1,4 @@
-import type { Readable } from "svelte/store";
+  import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import type { CollectionType } from "lib/ktypes";
@@ -77,7 +77,7 @@ const collectionSubListStore = (
 const collectionSubListRefresh = async (chainId: number, account?: string, mintable = false): Promise<void> => {
   if (!chainId) return;
 
-  const collectionListFromLib = await collectionListLib(chainId, account, get(metamaskProvider), mintable);
+  const collectionListFromLib = await collectionListLib(chainId, get(metamaskProvider), account, mintable);
   for (const collectionObject of collectionListFromLib.values()) {
     collectionStore.setOne(collectionObject);
   }

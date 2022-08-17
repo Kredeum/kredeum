@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../templates/OpenBound.sol";
+import "../../next/OpenBound.sol";
 
 import "./OpenBoundSupportsTest.t.sol";
 

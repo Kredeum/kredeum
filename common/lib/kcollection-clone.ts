@@ -29,7 +29,7 @@ const collectionCloneResponse = async (
   const [template, config] = templateConfig.split("/");
 
   const options: boolean[] = [config == "generic"];
-  if (template == "OpenNFTsV3") options[1] = true;
+  if (template == "OpenNFTsV4") options[1] = true;
 
   console.log("nftsFactoryV2 clone", _name, _symbol, template, options);
   const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template, options);
@@ -67,11 +67,13 @@ const collectionClone = async (
 ): Promise<string> => {
   let address = "";
 
-  // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, cloner);
+  console.log("collectionCloneResponse", chainId, name, symbol, templateConfig);
   const txResp = await collectionCloneResponse(chainId, name, symbol, templateConfig, cloner);
+  console.log("txResp", txResp);
 
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
+    console.log("txReceipt", txReceipt);
     address = collectionCloneAddress(txReceipt);
   }
   return address;

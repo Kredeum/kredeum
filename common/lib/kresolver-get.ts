@@ -3,8 +3,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { Contract } from "ethers";
 import { getNetwork, explorerContractUrl } from "lib/kconfig";
 
-import type { NFTsResolver } from "soltypes/contracts/templates";
-import abiNFTsResolver from "abis/contracts/templates/NFTsResolver.sol/NFTsResolver.json";
+import type { NFTsResolver } from "soltypes/contracts/next";
+import abiNFTsResolver from "abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 // Cache nftsResolver(chainId)
 const nftsResolversCache: Map<number, Contract> = new Map();

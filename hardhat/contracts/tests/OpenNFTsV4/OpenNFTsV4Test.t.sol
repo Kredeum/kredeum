@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../templates/OpenNFTsV4.sol";
+import "../../next/OpenNFTsV4.sol";
 
 import "./OpenNFTsV4InitializeTest.t.sol";
 import "./OpenNFTsV4SupportsTest.t.sol";

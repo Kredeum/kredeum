@@ -315,7 +315,7 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
   // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, "OpenNFTsV3", provider));
+  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, "OpenNFTsV4", provider));
 
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {

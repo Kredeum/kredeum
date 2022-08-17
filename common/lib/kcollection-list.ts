@@ -1,7 +1,7 @@
 import type { CollectionType } from "./ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import { BigNumber } from "ethers";
+import { BigNumber, constants } from "ethers";
 import { DEFAULT_NAME, DEFAULT_SYMBOL, getChainName } from "./kconfig";
 
 import { factoryGetContract } from "./kfactory-get";
@@ -14,6 +14,8 @@ import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
 import { covalentGet, covalentCollectionList } from "lib/api-covalent";
 import { thegraphGet, thegraphCollectionList } from "lib/api-thegraph";
 import { moralisGet, moralisCollectionList } from "lib/api-moralis";
+
+import { IERC721Infos } from "soltypes/contracts/next/NFTsResolver";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -70,13 +72,17 @@ const collectionListFromResolver = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
   if (nftsResolver) {
-    const collectionsInfos: Array<CollectionInfos> = await nftsResolver.openResolver(account);
-    console.log("collectionListFromResolver collectionsInfos", collectionsInfos);
+    const collectionsInfosStructOutput: Array<IERC721Infos.CollectionInfosStructOutput> = await nftsResolver[
+      "getCollectionsInfos(address)"
+    ](account);
+    console.log("collectionsInfosStructOutput", collectionsInfosStructOutput);
+    // const collectionsInfos: Array<CollectionInfos> = await nftsResolver["getCollectionsInfos(address)"](account);
+    // console.log("collectionListFromResolver collectionsInfos", collectionsInfos);
 
-    for (let index = 0; index < collectionsInfos.length; index++) {
-      const collection = collectionListFromResolverOne(chainId, account, collectionsInfos[index]);
-      collections.set(collectionUrl(chainId, collection.address), collection);
-    }
+    // TODO for (let index = 0; index < collectionsInfos.length; index++) {
+    //   const collection = collectionListFromResolverOne(chainId, account, collectionsInfos[index]);
+    //   collections.set(collectionUrl(chainId, collection.address), collection);
+    // }
   }
   // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
@@ -85,7 +91,7 @@ const collectionListFromResolver = async (
 const collectionListFromFactory = async (
   chainId: number,
   provider: Provider,
-  account?: string
+  account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
 

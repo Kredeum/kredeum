@@ -83,6 +83,12 @@ const config: HardhatUserConfig = {
 
   networks: networksFromConfig(),
 
+  verify: {
+    etherscan: {
+      apiKey: apiKeyConfig()
+    }
+  },
+
   solidity: {
     compilers: [
       {
@@ -127,7 +133,6 @@ const config: HardhatUserConfig = {
 
   typechain: {
     target: "ethers-v5",
-    // externalArtifacts: ["../common/abis/**/*.json"],
     outDir: "../common/types"
   },
 
@@ -147,12 +152,6 @@ const config: HardhatUserConfig = {
     currency: "USD",
     gasPrice: 50,
     onlyCalledMethods: true
-  },
-
-  verify: {
-    etherscan: {
-      apiKey: apiKeyConfig()
-    }
   }
 };
 

@@ -65,13 +65,13 @@ describe("13 List contracts lib", function () {
       // console.log((await nftsFactory.implementationsCount()).toString());
       // console.log(await nftsFactory.balancesOf(owner));
       // console.log(await collectionListFromFactory(chainId, owner, ethers.provider));
-      expect((await collectionListFromFactory(chainId, owner, ethers.provider)).size).to.be.gte(1);
+      expect((await collectionListFromFactory(chainId, ethers.provider, owner)).size).to.be.gte(1);
     }
   });
 
   it("List with default method", async function () {
     if (chainId !== 31337) {
-      expect((await collectionList(chainId, artist, ethers.provider)).size).to.be.gte(1);
+      expect((await collectionList(chainId, ethers.provider, artist)).size).to.be.gte(1);
     }
   });
 
