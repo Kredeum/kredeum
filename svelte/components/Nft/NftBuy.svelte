@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
+  import { buyNftResponse, buyNftReceipt } from "lib/kbuy";
   import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
@@ -17,18 +17,16 @@
   let buying = false;
   let buyed = false;
 
-  let destinationAddress = "";
-
   const buy = async () => {
     if ($metamaskSigner) {
       buyTxHash = null;
       buying = true;
       buyed = false;
 
-      const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, $metamaskSigner);
+      const txResp = await buyNftResponse(chainId, address, tokenID, $metamaskSigner, nftPrice);
       buyTxHash = txResp.hash;
 
-      const txReceipt = await transferNftReceipt(txResp);
+      const txReceipt = await buyNftReceipt(txResp);
 
       buyed = Boolean(txReceipt.status);
       buying = false;
