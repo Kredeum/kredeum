@@ -24,7 +24,7 @@ import "./tasks/index";
 
 import dotenv from "dotenv";
 import findupSync from "findup-sync";
-import networks from "config/networks.json";
+import networks from "@config/networks.json";
 
 if (!process.env.ENVIR) {
   dotenv.config({ path: findupSync(".env") || "" });

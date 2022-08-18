@@ -4,27 +4,29 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
     "resolveJsonModule": true,
+    "baseUrl": "./",
     "paths": {
-      "lib/*": [
-        "lib/*"
+      "@utils/*": [
+        "utils/*"
       ],
-      "config/*": [
+      "@abis/*": [
+        "abis/*"
+      ],
+      "@config/*": [
         "config/*"
       ],
-      "soltypes/*": [
+      "@soltypes/*": [
         "types/*"
-      ],
-      "abis/*": [
-        "abis/*"
       ]
     }
   },
   "include": [
-    "abis/**/*.ts",
-    "lib/**/*.ts",
-    "types/**/*.ts",
-    "scripts/**/*.ts"
-  ]
+    "**/*.ts"
+  ],
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  }
 }

@@ -10,12 +10,12 @@ import { collectionMerge } from "./kcollection-get";
 
 import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
 
-import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
-import { covalentGet, covalentCollectionList } from "lib/api-covalent";
-import { thegraphGet, thegraphCollectionList } from "lib/api-thegraph";
-import { moralisGet, moralisCollectionList } from "lib/api-moralis";
+import { alchemyGet, alchemyCollectionList } from "@lib/api-alchemy";
+import { covalentGet, covalentCollectionList } from "@lib/api-covalent";
+import { thegraphGet, thegraphCollectionList } from "@lib/api-thegraph";
+import { moralisGet, moralisCollectionList } from "@lib/api-moralis";
 
-import { IERC721Infos } from "soltypes/contracts/next/NFTsResolver";
+import { IERC721Infos } from "@soltypes/contracts/next/NFTsResolver";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (

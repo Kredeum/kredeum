@@ -1,12 +1,12 @@
-import type { OpenNFTsV4 } from "soltypes/contracts/next";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next";
 
-import abiIERC173 from "abis/contracts/interfaces/IERC173.sol/IERC173.json";
-import abiIOpenNFTsV2 from "abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
-import abiIOpenNFTsV4 from "abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+import abiIERC173 from "@abis/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiIOpenNFTsV2 from "@abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiIOpenNFTsV4 from "@abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { interfaceId } from "lib/kconfig";
+import { interfaceId } from "@lib/kconfig";
 
 describe("41 OpenNFTsV4 contract", function () {
   let openNFTsV4: OpenNFTsV4;

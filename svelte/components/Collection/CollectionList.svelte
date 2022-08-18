@@ -1,15 +1,15 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { CollectionType } from "lib/ktypes";
+  import type { CollectionType } from "@lib/ktypes";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { collectionUrl, explorerCollectionUrl } from "lib/kconfig";
+  import { collectionUrl, explorerCollectionUrl } from "@lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
-  import { collectionStore } from "stores/collection/collection";
-  import { clickOutside } from "helpers/clickOutside";
+  import { collectionStore } from "@stores/collection/collection";
+  import { clickOutside } from "@helpers/clickOutside";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} />

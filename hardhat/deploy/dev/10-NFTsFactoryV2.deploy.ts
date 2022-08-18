@@ -1,10 +1,10 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
-import type { NetworkType } from "lib/ktypes";
+import type { NetworkType } from "@lib/ktypes";
 
 import { writeFile } from "fs/promises";
-import networks from "config/networks.handlebars.json";
+import networks from "@config/networks.handlebars.json";
 
-// import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
+// import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
 const contractName = "NFTsFactoryV2";
 

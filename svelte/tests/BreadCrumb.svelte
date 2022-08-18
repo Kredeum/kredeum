@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { RefNFT } from "helpers/refNft";
+  import type { RefNFT } from "@helpers/refNft";
 
-  import { refNFT2UrlHash, refNFT2Breadcrumb } from "helpers/refNft";
-  import { urlHash2RefNFT } from "helpers/urlHash";
+  import { refNFT2UrlHash, refNFT2Breadcrumb } from "@helpers/refNft";
+  import { urlHash2RefNFT } from "@helpers/urlHash";
 
-  import { metamaskChainId, metamaskAccount } from "main/metamask";
-  import { /*currentCollection, currentTokenID,*/ currentAction } from "main/current";
+  import { metamaskChainId, metamaskAccount } from "@main/metamask";
+  import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";
 
   export let display = false;
 

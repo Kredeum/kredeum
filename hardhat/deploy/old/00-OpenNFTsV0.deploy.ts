@@ -1,5 +1,5 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { ICloneFactoryV2 } from "soltypes/contracts/interfaces";
+import type { ICloneFactoryV2 } from "@soltypes/contracts/interfaces";
 
 const contractName = "OpenNFTsV0";
 

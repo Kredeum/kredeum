@@ -29,7 +29,7 @@ const envKeys = [
 
 const processEnv = Object.assign({}, ...envKeys.map((key: string) => ({ [key]: process.env[key] })));
 
-const khandlebars = async (pathIN: string, pathOUT: string): Promise<void> => {
+const runHandlebars = async (pathIN: string, pathOUT: string): Promise<void> => {
   const template = Handlebars.compile(String(await readFile(pathIN)));
 
   config.env = processEnv;
@@ -41,4 +41,4 @@ const khandlebars = async (pathIN: string, pathOUT: string): Promise<void> => {
   await writeFile(pathOUT, result);
 };
 
-export default khandlebars;
+export default runHandlebars;

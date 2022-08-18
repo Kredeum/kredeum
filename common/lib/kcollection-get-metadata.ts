@@ -63,7 +63,6 @@ const collectionGetOtherData = async (
   account?: string,
   collection: CollectionType = { chainId, address }
 ): Promise<CollectionType> => {
-
   console.log(`collectionGetOtherData  IN ${collectionKey(chainId, address, account)}\n`);
 
   if (!(chainId && address && collection.supports && (await isProviderOnChainId(provider, chainId)))) return collection;

@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { IOpenNFTsV3, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
+import type { IOpenNFTsV3, ICloneFactoryV2 } from "@soltypes/contracts/interfaces";
 
-// import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
+// import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
 const contractName = "OpenNFTsV3";
 

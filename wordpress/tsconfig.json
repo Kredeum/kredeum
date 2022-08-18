@@ -4,15 +4,20 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
     "resolveJsonModule": true,
+    "baseUrl": "..",
     "paths": {
-      "lib/*": [
-        "../common/lib/*"
+      "@utils/*": [
+        "common/utils/*"
       ]
     }
   },
+  "ts-node": {
+    "require": [
+      "tsconfig-paths/register"
+    ]
+  },
   "files": [
-    "build-plugins.zts"
+    "build-plugins.ts"
   ]
 }

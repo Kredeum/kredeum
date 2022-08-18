@@ -6,7 +6,7 @@ import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "./kconfig";
 import { collectionContractGet, collectionGetSupports } from "./kcollection-get";
 
 import { nftGetMetadata } from "./knft-get-metadata";
-import { IERC721Metadata, IERC721, IERC1155MetadataURI, IERC721Enumerable } from "soltypes/contracts/interfaces";
+import { IERC721Metadata, IERC721, IERC1155MetadataURI, IERC721Enumerable } from "@soltypes/contracts/interfaces";
 
 ////////////////////////////////////////////////////////
 // TOKEN

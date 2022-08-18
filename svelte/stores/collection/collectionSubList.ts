@@ -1,12 +1,12 @@
-  import type { Readable } from "svelte/store";
+import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { CollectionType } from "lib/ktypes";
-// import { collectionListKey } from "lib/kconfig";
-import { collectionList as collectionListLib } from "lib/kcollection-list";
+import type { CollectionType } from "@lib/ktypes";
+// import { collectionListKey } from "@lib/kconfig";
+import { collectionList as collectionListLib } from "@lib/kcollection-list";
 
-import { metamaskProvider } from "main/metamask";
-import { collectionStore } from "stores/collection/collection";
+import { metamaskProvider } from "@main/metamask";
+import { collectionStore } from "@stores/collection/collection";
 
 // STATE VIEW : GET Collection fitered list
 const collectionSubListStore = (

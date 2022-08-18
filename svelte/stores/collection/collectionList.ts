@@ -1,8 +1,8 @@
 import { writable } from "svelte/store";
 
-import type { CollectionType } from "lib/ktypes";
+import type { CollectionType } from "@lib/ktypes";
 
-import { jsonMapParse } from "helpers/jsonMap";
+import { jsonMapParse } from "@helpers/jsonMap";
 
 // LOADER : LOAD Collections from localStorage
 const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {

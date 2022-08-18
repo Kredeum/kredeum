@@ -6,12 +6,12 @@ interface INFTsFactoryV3 {
 
     function setTemplate(string calldata templateName, address template) external;
 
-    function templates(string calldata templateName) external view returns (address template);
-
     function clone(
         string memory name,
         string memory symbol,
         string memory templateName,
         bool[] memory options
     ) external returns (address);
+
+    function templates(string calldata templateName) external view returns (address template);
 }

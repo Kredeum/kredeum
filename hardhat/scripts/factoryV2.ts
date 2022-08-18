@@ -1,6 +1,6 @@
 import hre from "hardhat";
 
-import type { NFTsFactoryV2 } from "soltypes/contracts";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
 
 const main = async (): Promise<void> => {
   const signer = await hre.ethers.getNamedSigner("deployer");

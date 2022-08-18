@@ -48,7 +48,7 @@ contract InterfacesIds is IInterfacesIds {
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         uint256 i;
         uint256 imax = 27;
-        
+
         interfacesIds = new bytes4[](imax);
         interfacesIds[i++] = type(IERC165).interfaceId;
         interfacesIds[i++] = type(IERC173).interfaceId;

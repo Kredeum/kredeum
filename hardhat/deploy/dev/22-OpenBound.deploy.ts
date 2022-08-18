@@ -1,9 +1,9 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import { writeFile } from "fs/promises";
-import type { INFTsFactoryV3, IOpenBound } from "soltypes/contracts/interfaces";
+import type { INFTsFactoryV3, IOpenBound } from "@soltypes/contracts/interfaces";
 
-import type { NetworkType } from "lib/ktypes";
-import networks from "config/networks.handlebars.json";
+import type { NetworkType } from "@lib/ktypes";
+import networks from "@config/networks.handlebars.json";
 
 const contractName = "OpenBound";
 

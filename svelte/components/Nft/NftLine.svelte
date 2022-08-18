@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { NftType } from "lib/ktypes";
-  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "lib/kconfig";
-  import { nftGetImageLink } from "lib/knft-get-metadata";
+  import type { NftType } from "@lib/ktypes";
+  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@lib/kconfig";
+  import { nftGetImageLink } from "@lib/knft-get-metadata";
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
 

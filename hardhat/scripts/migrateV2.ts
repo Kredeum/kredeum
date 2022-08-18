@@ -1,14 +1,14 @@
-import type { NFTsFactory, NFTsFactoryV2 } from "soltypes/contracts";
-import type { IERC165 } from "soltypes/contracts/interfaces";
-import type { NetworkType } from "lib/ktypes";
+import type { NFTsFactory, NFTsFactoryV2 } from "@soltypes/contracts";
+import type { IERC165 } from "@soltypes/contracts/interfaces";
+import type { NetworkType } from "@lib/ktypes";
 
-import networks from "config/networks.json";
+import networks from "@config/networks.json";
 
-import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiINFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
-import abiICloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
-import abiINFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiICloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiINFTsFactory from "@abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiICloneFactory from "@abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";

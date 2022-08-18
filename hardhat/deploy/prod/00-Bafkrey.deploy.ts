@@ -1,5 +1,5 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import { getNonce } from "../lib/nonces";
+import { getNonce } from "@utils/getNonce";
 
 const contractName = "Bafkrey";
 

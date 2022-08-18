@@ -1,6 +1,6 @@
 import type { Signer } from "ethers";
-import type { OpenNFTsV2 } from "soltypes/contracts";
-import type { NFTsFactoryV3, OpenNFTsV4 } from "soltypes/contracts/next";
+import type { OpenNFTsV2 } from "@soltypes/contracts";
+import type { NFTsFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
@@ -56,23 +56,18 @@ describe.skip("10 Clone Factory contract", function () {
     //   await expect(nftsFactoryV3.connect(deployer).implementationsAdd([openNFTsV2.address]))
     //     .to.emit(nftsFactoryV3, "ImplementationNew")
     //     .withArgs(openNFTsV2.address, deployerAddress, 1);
-
     //   expect(await nftsFactoryV3.implementationsCount()).to.be.equal(impCount.add(1));
     // });
-
     // it("Should not Add Implementation if Not Owner", async function () {
     //   await expect(nftsFactoryV3.connect(tester1).implementationsAdd([openNFTsV4.address])).to.be.revertedWith(
     //     "Ownable: caller is not the owner"
     //   );
-
     //   expect(await nftsFactoryV3.implementationsCount()).to.be.equal(1);
     // });
-
     // it("Should not Add Implementation if Not ERC721", async function () {
     //   await expect(nftsFactoryV3.connect(deployer).implementationsAdd([nftsFactoryV3.address])).to.be.revertedWith(
     //     "Not ERC721"
     //   );
-
     //   expect(await nftsFactoryV3.implementationsCount()).to.be.equal(1);
     // });
   });

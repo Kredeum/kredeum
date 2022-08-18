@@ -4,9 +4,9 @@ import { Provider } from "@ethersproject/abstract-provider";
 import { interfaceId } from "./kconfig";
 import { resolverGetContract } from "./kresolver-get";
 
-import { abis } from "lib/kabis";
+import { abis } from "@lib/kabis";
 
-import type { IOpenChecker } from "soltypes/OpenNFTs/contracts/interfaces/IOpenChecker";
+import type { IOpenChecker } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenChecker";
 
 const collectionGetSupportsNew = async (
   chainId: number,

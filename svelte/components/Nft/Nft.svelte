@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { NftType } from "lib/ktypes";
+  import type { NftType } from "@lib/ktypes";
   import {
     nftUrl,
     explorerCollectionUrl,
@@ -10,16 +10,16 @@
     getOpenSea,
     nftOpenSeaUrl,
     addressSame
-  } from "lib/kconfig";
+  } from "@lib/kconfig";
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode } from "helpers/shortcodes";
-  import { nftStore } from "stores/nft/nft";
+  import { shortcode } from "@helpers/shortcodes";
+  import { nftStore } from "@stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId } from "main/metamask";
+  import { metamaskChainId } from "@main/metamask";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -172,10 +172,10 @@
 </div>
 
 <!-- Modal claim nft -->
+
 <!-- <div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
-
 <style>
   .krd-nft-solo {
     width: 100%;

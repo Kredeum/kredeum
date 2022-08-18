@@ -1,6 +1,5 @@
 import { CID } from "multiformats/cid";
-import { BigNumber } from "ethers";
-import { cidToHexa } from "../../lib/kcid";
+import { BigNumber, utils } from "ethers";
 
 const _cidToHexa = (cid: string): string => {
   console.log(`_cidToHexa ${cid}`);
@@ -28,16 +27,16 @@ const _cidToInt = (cid: string): string => {
 
 const checkCid = (cid: string): void => {
   const _cidHexa = _cidToHexa(cid);
-  const cidHexa = cidToHexa(cid);
+  const cidHexa = BigNumber.from(_cidToInt(cid)).toHexString();
   cidHexa === _cidHexa || console.error(`${cidHexa} != ${_cidHexa}`);
 
-  _cidToInt(cid);
-  console.log("");
+  // _cidToInt(cid);
+  // console.log("");
 };
 
 checkCid("bafkreihb4iyn6rra6apcncvktompbev3dp7hz73uct2lupi2iyceuheh7m");
 
-// checkCid("QmbWqxBEKC3P8tqsKc98vxmWNzrzDRLMiMPL8wBuTGsMnR");
-// checkCid("bafybeibvs5x2qjy7ipndndx3pbpopywivqe742ytmq5pla7e3qjrdmzkga");
-// checkCid("bafkreigmbjzo5ifrjofiunai7aqxtmf6y7fpyacus43wajqq6kyh4keoym");
-// checkCid("bafkreifjwh6jqviy56vn5ws3wsnwy5wjat5be4ixxxuu3a42wimulngn54");
+checkCid("QmbWqxBEKC3P8tqsKc98vxmWNzrzDRLMiMPL8wBuTGsMnR");
+checkCid("bafybeibvs5x2qjy7ipndndx3pbpopywivqe742ytmq5pla7e3qjrdmzkga");
+checkCid("bafkreigmbjzo5ifrjofiunai7aqxtmf6y7fpyacus43wajqq6kyh4keoym");
+checkCid("bafkreifjwh6jqviy56vn5ws3wsnwy5wjat5be4ixxxuu3a42wimulngn54");

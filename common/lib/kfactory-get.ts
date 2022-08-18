@@ -1,13 +1,13 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import type { NFTsFactoryV2 } from "soltypes/contracts";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
 
-import type { Address } from "lib/ktypes";
-import { getNetwork, explorerContractUrl } from "lib/kconfig";
+import type { Address } from "@lib/ktypes";
+import { getNetwork, explorerContractUrl } from "@lib/kconfig";
 
 import { Contract } from "ethers";
 
-import abiNFTsFactoryV2 from "abis/contracts/NFTsFactoryV2.sol/NFTsFactoryV2.json";
+import abiNFTsFactoryV2 from "@abis/contracts/NFTsFactoryV2.sol/NFTsFactoryV2.json";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<number, Contract> = new Map();

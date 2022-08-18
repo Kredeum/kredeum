@@ -1,14 +1,14 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { CollectionType } from "lib/ktypes";
-import { collectionGet as collectionLib } from "lib/kcollection-get";
-import { collectionMerge } from "lib/kcollection-get";
+import type { CollectionType } from "@lib/ktypes";
+import { collectionGet as collectionLib } from "@lib/kcollection-get";
+import { collectionMerge } from "@lib/kcollection-get";
 
-import { metamaskProvider } from "main/metamask";
-import { jsonMapStringify } from "helpers/jsonMap";
-import { collectionListStore } from "stores/collection/collectionList";
-import { collectionSubListStore, collectionSubListRefresh } from "stores/collection/collectionSubList";
+import { metamaskProvider } from "@main/metamask";
+import { jsonMapStringify } from "@helpers/jsonMap";
+import { collectionListStore } from "@stores/collection/collectionList";
+import { collectionSubListStore, collectionSubListRefresh } from "@stores/collection/collectionSubList";
 import {
   collectionDefaultStore,
   collectionDefaultSubStore,
@@ -16,7 +16,7 @@ import {
   collectionDefaultRefresh,
   collectionDefaultGetKey,
   collectionDefaultGetOpenNFTs
-} from "stores/collection/collectionDefault";
+} from "@stores/collection/collectionDefault";
 
 // UTILITY
 const collectionGetKey = (chainId: number, address: string): string => `collection://${String(chainId)}/${address}`;

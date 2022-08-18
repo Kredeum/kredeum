@@ -1,7 +1,7 @@
 import { ethers, deployments, network } from "hardhat";
 import { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 
-import { OpenMulti } from "soltypes/contracts/dev/OpenMulti";
+import { OpenMulti } from "@soltypes/contracts/dev/OpenMulti";
 import { BigNumber } from "ethers";
 
 const ten = BigNumber.from(10);

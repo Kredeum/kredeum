@@ -1,11 +1,10 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import type { NetworkType } from "lib/ktypes";
+import { setNetwork } from "@utils/setNetwork";
 
-import type { INFTsResolver } from "soltypes/contracts/interfaces";
-import { getNonce } from "../lib/nonces";
+import type { INFTsResolver } from "@soltypes/contracts/interfaces";
+import { getNonce } from "@utils/getNonce";
 
-import { writeFile } from "fs/promises";
-import networks from "config/networks.handlebars.json";
+import networks from "@config/networks.handlebars.json";
 
 const contractName = "NFTsResolver";
 
@@ -28,11 +27,8 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
     const networkConf = networks[index];
     if (deployResult.address != networkConf.nftsResolver) {
       console.info(contractName, "deployed => new address");
-      networks[index].nftsResolver = deployResult.address;
-      await writeFile(
-        `${__dirname}/../../../common/config/networks.handlebars.json`,
-        JSON.stringify(networks, null, 2)
-      ).catch((err) => console.log(err));
+
+      await setNetwork(hre.network.name, "nftsResolver", deployResult.address);
     }
     const nftsResolver = await hre.ethers.getContract(contractName, deployer);
 

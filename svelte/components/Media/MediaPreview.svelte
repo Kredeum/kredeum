@@ -1,9 +1,9 @@
 <script lang="ts">
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
-  import type { NftMetadata, NftType } from "lib/ktypes";
+  import type { NftMetadata, NftType } from "@lib/ktypes";
 
-  import { clickOutside } from "helpers/clickOutside";
+  import { clickOutside } from "@helpers/clickOutside";
   import { fade } from "svelte/transition";
 
   import MediaDisplay from "./MediaDisplay.svelte";

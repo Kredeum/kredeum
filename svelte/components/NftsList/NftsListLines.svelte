@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { NftType } from "lib/ktypes";
+  import type { NftType } from "@lib/ktypes";
 
-  import { getOpenSea } from "lib/kconfig";
+  import { getOpenSea } from "@lib/kconfig";
 
   import NftLine from "../Nft/NftLine.svelte";
 

@@ -1,17 +1,17 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV4, NFTsFactoryV3 } from "soltypes/contracts/next";
+import type { OpenNFTsV4, NFTsFactoryV3 } from "@soltypes/contracts/next";
 
-import type { NetworkType } from "lib/ktypes";
+import type { NetworkType } from "@lib/ktypes";
 
-import { collectionList, collectionListFromFactory } from "lib/kcollection-list";
+import { collectionList, collectionListFromFactory } from "@lib/kcollection-list";
 
-import { covalentCollectionList } from "lib/api-covalent";
-import { thegraphCollectionList } from "lib/api-thegraph";
+import { covalentCollectionList } from "@lib/api-covalent";
+import { thegraphCollectionList } from "@lib/api-thegraph";
 
 thegraphCollectionList;
 
 import { expect } from "chai";
-import { getNetwork } from "lib/kconfig";
+import { getNetwork } from "@lib/kconfig";
 import hre from "hardhat";
 import { Signer } from "ethers";
 const { ethers, deployments } = hre;

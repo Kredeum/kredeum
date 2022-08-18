@@ -1,5 +1,5 @@
 import type { Signer } from "ethers";
-import type { NFTsFactoryV2, OpenNFTsV2, OpenNFTsV3 } from "soltypes/contracts";
+import type { NFTsFactoryV2, OpenNFTsV2, OpenNFTsV3 } from "@soltypes/contracts";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";

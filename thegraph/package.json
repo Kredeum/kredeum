@@ -12,7 +12,7 @@
     "yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks.json | npx hbs-cli -i subgraph.yaml_handlebar -e yaml -o thegraph",
     "codegen": "cd thegraph && graph codegen",
     "graph-build": "cd thegraph && graph build",
-    "build": "echo build empty",
+    "build": "ts-node build-yaml",
     "build2": "npm run yaml && npm run codegen && npm run graph-build",
     "check": "prettier --no-error-on-unmatched-pattern **/*ts  **/*.yaml **/*.graphql --write",
     "tests": "mocha --experimental-json-modules tests/*.mjs",
@@ -26,6 +26,7 @@
   "license": "ISC",
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.1",
-    "@graphprotocol/graph-ts": "^0.20.1"
+    "@graphprotocol/graph-ts": "^0.20.1",
+    "tsconfig-paths": "^4.1.0"
   }
 }

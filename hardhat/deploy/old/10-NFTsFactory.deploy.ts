@@ -1,8 +1,8 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { NetworkType } from "lib/ktypes";
+import type { NetworkType } from "@lib/ktypes";
 
 import { writeFile } from "fs/promises";
-import networks from "config/networks.handlebars.json";
+import networks from "@config/networks.handlebars.json";
 
 const contractName = "NFTsFactory";
 

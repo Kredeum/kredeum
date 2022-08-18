@@ -33,7 +33,7 @@
     "dotenv": "^16.0.1",
     "eslint": "^8.22.0",
     "eslint-config-prettier": "^8.5.0",
-    "eslint-import-resolver-typescript": "^3.4.1",
+    "eslint-import-resolver-typescript": "^3.4.2",
     "eslint-plugin-import": "^2.26.0",
     "ethereum-waffle": "^3.4.4",
     "ethers": "^5.6.9",
@@ -75,7 +75,7 @@
   "scripts": {
     "build": "hardhat typechain && hardhat compile && hardhat docgen",
     "check": "npm run prettier && npm run solhint && npm run eslint",
-    "clean": "hardhat clean && forge clean && rm -rf artifacts cache node_modules docs lib",
+    "clean": "forge clean && rm -rf artifacts cache node_modules docs lib out",
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && ~/.foundry/bin/foundryup && npm run update:forge",
     "prettier": "prettier contracts/**/*.sol **/*.ts --write --plugin prettier-plugin-solidity --loglevel error",

@@ -1,9 +1,9 @@
-import type { NFTsResolver } from "soltypes/contracts/next";
-import type { NetworkType } from "lib/ktypes";
+import type { NFTsResolver } from "@soltypes/contracts/next";
+import type { NetworkType } from "@lib/ktypes";
 
-import networks from "config/networks.json";
+import networks from "@config/networks.json";
 
-import abiINFTsResolver from "abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
+import abiINFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 import { ethers, getChainId } from "hardhat";
 

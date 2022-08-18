@@ -1,4 +1,4 @@
-import type { NFTsFactoryV3, OpenNFTsV4 } from "soltypes/contracts/next";
+import type { NFTsFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";

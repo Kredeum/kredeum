@@ -27,6 +27,21 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
         nftsResolver = resolver;
     }
 
+    /// @notice clone template
+    /// @param name name of Clone collection
+    /// @param symbol symbol of Clone collection
+    /// @return clone_ Address of Clone collection
+    function clone(
+        string memory name,
+        string memory symbol,
+        string memory templateName,
+        bool[] memory options
+    ) external override(INFTsFactoryV3) returns (address clone_) {
+        clone_ = Clones.clone(_template(templateName));
+        IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, options);
+        IOpenRegistry(nftsResolver).addAddress(clone_);
+    }
+
     /// @notice Set Template by Name
     /// @param templateName Name of the template
     /// @param template Address of the template
@@ -48,20 +63,5 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
         require(templates[templateName] != address(0), "Bad Template");
 
         template = templates[templateName];
-    }
-
-    /// @notice clone template
-    /// @param name name of Clone collection
-    /// @param symbol symbol of Clone collection
-    /// @return clone_ Address of Clone collection
-    function clone(
-        string memory name,
-        string memory symbol,
-        string memory templateName,
-        bool[] memory options
-    ) external override(INFTsFactoryV3) returns (address clone_) {
-        clone_ = Clones.clone(_template(templateName));
-        IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, options);
-        IOpenRegistry(nftsResolver).addAddress(clone_);
     }
 }

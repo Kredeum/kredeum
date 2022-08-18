@@ -1,14 +1,14 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { CollectionType, NftType } from "lib/ktypes";
+  import type { CollectionType, NftType } from "@lib/ktypes";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, collectionUrl } from "lib/kconfig";
+  import { explorerCollectionUrl, collectionUrl } from "@lib/kconfig";
 
-  import { nftStore } from "stores/nft/nft";
-  import { collectionStore } from "stores/collection/collection";
+  import { nftStore } from "@stores/nft/nft";
+  import { collectionStore } from "@stores/collection/collection";
 
   import NftsListDisplayMode from "./NftsListDisplayMode.svelte";
 
@@ -49,7 +49,6 @@
     // STATE VIEW : sync get NFT list
     nfts = nftStore.getSubListStore(chainId, address, account);
     console.log("NFTS cached", $nfts);
-
 
     // ACTION : async refresh COLLECTION
     collectionStore.refreshOne(chainId, address, account).catch(console.error);

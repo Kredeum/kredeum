@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { NftType } from "lib/ktypes";
-  import { nftGetImageLink } from "lib/knft-get-metadata";
+  import type { NftType } from "@lib/ktypes";
+  import { nftGetImageLink } from "@lib/knft-get-metadata";
   import { onMount } from "svelte";
 
-  import { nftStore } from "stores/nft/nft";
+  import { nftStore } from "@stores/nft/nft";
 
-  import { metamaskChainId, metamaskProvider } from "main/metamask";
+  import { metamaskChainId, metamaskProvider } from "@main/metamask";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {index}? {more}? {platform}? />
@@ -22,7 +22,7 @@
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID  && $metamaskChainId && handleChange();
+  $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
   const handleChange = (): void => {
     // console.log(`NFT CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 

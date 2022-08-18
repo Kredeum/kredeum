@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { metamaskInit } from "helpers/metamask";
+  import { metamaskInit } from "@helpers/metamask";
 
-  import { metamaskAccount, metamaskChainId } from "main/metamask";
+  import { metamaskAccount, metamaskChainId } from "@main/metamask";
   export let chainId: number = undefined;
   export let account: string = undefined;
 

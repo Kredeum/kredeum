@@ -1,5 +1,5 @@
 <script lang="ts">
-  // import { currentAction } from "main/current";
+  // import { currentAction } from "@main/current";
   // import NftMint from "../Nft/NftMint.svelte";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 

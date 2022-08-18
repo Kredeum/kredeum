@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import semverSatisfies from "semver/functions/satisfies";
-  import { config } from "lib/kconfig";
+  import { config } from "@lib/kconfig";
 
   const VERSION = "version";
   const version = config.version.latest;

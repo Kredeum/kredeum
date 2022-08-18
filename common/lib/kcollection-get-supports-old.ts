@@ -4,9 +4,9 @@ import { interfaceId } from "./kconfig";
 
 import { Contract } from "ethers";
 
-import { abis } from "lib/kabis";
+import { abis } from "@lib/kabis";
 
-import type { IERC165 } from "soltypes/contracts/interfaces/IERC165";
+import type { IERC165 } from "@soltypes/contracts/interfaces/IERC165";
 
 const openNFTsV0Addresses = [
   "0xF6d53C7e96696391Bb8e73bE75629B37439938AF", // matic

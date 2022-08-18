@@ -40,10 +40,6 @@
     {
       "filePath": "svelte/stores",
       "group": "Default"
-    },
-    {
-      "filePath": "hardhat/tests/Templates/OpenBound/01_OpenBound.test.ts",
-      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/dapp/",
@@ -63,7 +59,7 @@
   },
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
-  "workbench.colorTheme": "Earthsong Light (rainglow)",
+  "workbench.colorTheme": "Visual Studio Dark",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true
 }

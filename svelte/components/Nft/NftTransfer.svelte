@@ -1,8 +1,8 @@
 <script lang="ts">
-  import { transferNftResponse, transferNftReceipt } from "lib/ktransfer";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
+  import { transferNftResponse, transferNftReceipt } from "@lib/ktransfer";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import { metamaskChainId, metamaskSigner } from "@main/metamask";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />

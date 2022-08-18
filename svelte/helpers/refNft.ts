@@ -1,4 +1,4 @@
-import { getChainName } from "lib/kconfig";
+import { getChainName } from "@lib/kconfig";
 
 type RefNFT = {
   chainId: number;

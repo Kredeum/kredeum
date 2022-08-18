@@ -1,6 +1,6 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { ICloneFactoryV2 } from "soltypes/contracts/interfaces";
-import type { NFTsFactoryV2 } from "soltypes/contracts";
+import type { ICloneFactoryV2 } from "@soltypes/contracts/interfaces";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
 
 import { ethers } from "ethers";
 import { getNetwork } from "./kconfig";

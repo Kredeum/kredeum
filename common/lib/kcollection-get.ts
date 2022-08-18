@@ -5,7 +5,7 @@ import { Contract } from "ethers";
 import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
 import { isProviderOnChainId, collectionKey } from "./kconfig";
 
-import { abis } from "lib/kabis";
+import { abis } from "@lib/kabis";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();

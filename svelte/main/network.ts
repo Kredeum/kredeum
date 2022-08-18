@@ -1,6 +1,6 @@
 import type { Writable } from "svelte/store";
 import type { JsonRpcSigner, JsonRpcProvider } from "@ethersproject/providers";
-import type { NetworkType } from "lib/ktypes";
+import type { NetworkType } from "@lib/ktypes";
 
 import { writable } from "svelte/store";
 
