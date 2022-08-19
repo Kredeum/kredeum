@@ -41,4 +41,4 @@ const runHandlebars = async (pathIN: string, pathOUT: string): Promise<void> => 
   await writeFile(pathOUT, result);
 };
 
-export default runHandlebars;
+export { runHandlebars };

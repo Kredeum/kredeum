@@ -38,8 +38,16 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
         bool[] memory options
     ) external override(INFTsFactoryV3) returns (address clone_) {
         clone_ = Clones.clone(_template(templateName));
-        IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, options);
+
+        IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, 0, address(0), 0, options);
+        
         IOpenRegistry(nftsResolver).addAddress(clone_);
+    }
+
+    function setResolver(address resolver_) public override(INFTsFactoryV3) onlyOwner {
+        nftsResolver = resolver_;
+
+        emit SetResolver(nftsResolver);
     }
 
     /// @notice Set Template by Name

@@ -1,7 +1,7 @@
 import { Provider } from "@ethersproject/abstract-provider";
 import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
 import { isProviderOnChainId, collectionKey } from "./kconfig";
-import { collectionGetSupportsNew } from "./kcollection-get-supports-new";
+import { resolverGetCollectionSupports } from "./kcollection-get-supports-new";
 import { collectionGetSupportsOld } from "./kcollection-get-supports-old";
 import { collectionGetOtherDataOld } from "./kcollection-get-other-data-old";
 
@@ -26,7 +26,7 @@ const collectionGetSupports = async (
 
   if (!supports) {
     if (resolverGetAddress(chainId)) {
-      supports = await collectionGetSupportsNew(chainId, address, provider);
+      supports = await resolverGetCollectionSupports(chainId, address, provider);
     } else {
       supports = await collectionGetSupportsOld(chainId, address, provider);
     }

@@ -36,9 +36,10 @@ contract OpenNFTsOldTest is Test {
         opId = type(IOpenNFTsV4).interfaceId;
         options[0] = true;
 
-        op.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
+        changePrank(owner);
+        op.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
 
-        startHoax(minter);
+        changePrank(minter);
         tokenID0 = op.mint(_TOKEN_URI);
     }
 }

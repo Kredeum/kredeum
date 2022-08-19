@@ -7,14 +7,17 @@ import { writeFile } from "fs/promises";
 const setNetwork = async (chainName: string, key: NetworkWriteableFieldsType, value: string): Promise<void> => {
   const index = networks.findIndex((nw) => nw.chainName === chainName);
   const network: NetworkType = networks[index];
-  network[key] = value;
+  
+  if (network[key] != value) {
+    network[key] = value;
 
-  await writeFile(
-    `${__dirname}/../../../common/config/networks.handlebars.json`,
-    JSON.stringify(networks, null, 2)
-  ).catch((err) => console.log(err));
+    await writeFile(`${__dirname}/../config/networks.handlebars.json`, JSON.stringify(networks, null, 2)).catch((err) =>
+      console.log(err)
+    );
+    await buildNetworks();
 
-  await buildNetworks();
+    console.info(`deployed new ${key} address => ${value}`);
+  }
 };
 
 export { setNetwork };

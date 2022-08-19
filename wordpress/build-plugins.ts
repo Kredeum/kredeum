@@ -1,4 +1,4 @@
-import runHandlebars from "@utils/runHandlebars";
+import { runHandlebars } from "@utils/runHandlebars";
 
 const main = async (): Promise<void> => {
   await runHandlebars("../wordpress/readme.txt_handlebars", "../wordpress/plugins/kredeum-nfts/readme.txt");

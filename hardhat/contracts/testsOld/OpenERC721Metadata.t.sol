@@ -5,14 +5,17 @@ import "./OpenNFTs.t.sol";
 
 contract OpenERC721MetadataTest is OpenNFTsOldTest {
     function testInitialize() public {
-        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
+        changePrank(owner);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
+
         assertEq(opn.name(), "OpenNFTsOldTest");
         assertEq(opn.symbol(), "OPTEST");
     }
 
     function testFailInitializeTwice() public {
-        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
-        opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
+        changePrank(owner);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
     }
 
     function testName() public {
@@ -28,7 +31,9 @@ contract OpenERC721MetadataTest is OpenNFTsOldTest {
     }
 
     function testFull() public {
-        opn.initialize("NAME_TEST", "SYMBOL_TEST", minter, options);
+        changePrank(minter);
+        opn.initialize("NAME_TEST", "SYMBOL_TEST", minter, 0, address(0), 0, options);
+
         assertEq(opn.name(), "NAME_TEST");
         assertEq(opn.symbol(), "SYMBOL_TEST");
 

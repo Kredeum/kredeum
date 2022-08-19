@@ -57,7 +57,7 @@ contract OpenNFTsV4Test is
         options[0] = true;
 
         OpenNFTsV4 collection = new OpenNFTsV4();
-        if (init) collection.initialize("OpenERC721Test", "OPTEST", owner, options);
+        if (init) collection.initialize("OpenERC721Test", "OPTEST", owner, 0, address(0), 0, options);
 
         return address(collection);
     }

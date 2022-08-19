@@ -58,6 +58,7 @@ type CollectionType = {
   open?: boolean;
   supports?: CollectionSupports;
 };
+
 type CollectionSupports = {
   IERC165?: boolean;
   IERC173?: boolean;

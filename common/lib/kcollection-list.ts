@@ -38,26 +38,25 @@ const collectionListMerge = (
   return collList;
 };
 
-type CollectionInfos = [string, string, string, string, BigNumber, BigNumber];
-
-const collectionListFromResolverOne = (
+const _collectionListFromResolverOne = (
   chainId: number,
   account: string,
-  collectionInfos: CollectionInfos
+  collectionInfos: IERC721Infos.CollectionInfosStructOutput
 ): CollectionType => {
-  console.log("collectionListFromResolverOne  IN", chainId, account, collectionInfos);
+  console.log("_collectionListFromResolverOne  IN", chainId, account, collectionInfos);
 
   const chainName = getChainName(chainId);
-  const address: string = getChecksumAddress(collectionInfos[0]);
-  const owner: string = getChecksumAddress(collectionInfos[1]);
-  const name: string = collectionInfos[2] || DEFAULT_NAME;
-  const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
-  const totalSupply = Number(collectionInfos[4]);
-  const balancesOf = new Map([[account, Number(collectionInfos[5])]]);
+  const address: string = getChecksumAddress(collectionInfos.collection);
+  const owner: string = getChecksumAddress(collectionInfos.owner);
+  const name: string = collectionInfos.name || DEFAULT_NAME;
+  const symbol: string = collectionInfos.symbol || DEFAULT_SYMBOL;
+  const totalSupply = Number(collectionInfos.totalSupply);
+  const balancesOf = new Map([[account, Number(collectionInfos.balanceOf)]]);
+  const supports = collectionInfos.supported;
 
-  const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf };
+  const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf, supports };
 
-  console.log("collectionListFromResolverOne OUT", collectionList);
+  console.log("_collectionListFromResolverOne OUT", collectionList);
   return collection;
 };
 
@@ -76,13 +75,11 @@ const collectionListFromResolver = async (
       "getCollectionsInfos(address)"
     ](account);
     console.log("collectionsInfosStructOutput", collectionsInfosStructOutput);
-    // const collectionsInfos: Array<CollectionInfos> = await nftsResolver["getCollectionsInfos(address)"](account);
-    // console.log("collectionListFromResolver collectionsInfos", collectionsInfos);
 
-    // TODO for (let index = 0; index < collectionsInfos.length; index++) {
-    //   const collection = collectionListFromResolverOne(chainId, account, collectionsInfos[index]);
-    //   collections.set(collectionUrl(chainId, collection.address), collection);
-    // }
+    for (let index = 0; index < collectionsInfosStructOutput.length; index++) {
+      const collection = _collectionListFromResolverOne(chainId, account, collectionsInfosStructOutput[index]);
+      collections.set(collectionUrl(chainId, collection.address), collection);
+    }
   }
   // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
   return collections;

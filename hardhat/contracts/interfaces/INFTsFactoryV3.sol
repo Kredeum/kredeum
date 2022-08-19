@@ -2,7 +2,11 @@
 pragma solidity ^0.8.9;
 
 interface INFTsFactoryV3 {
+    event SetResolver(address indexed resolver);
+
     event SetTemplate(string indexed templateName, address indexed template);
+
+    function setResolver(address resolver) external;
 
     function setTemplate(string calldata templateName, address template) external;
 
