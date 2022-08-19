@@ -29,10 +29,10 @@
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
-  import { clickOutside } from "helpers/clickOutside";
+  import { clickOutside } from "@helpers/clickOutside";
 
-  import { BigNumber } from "ethers/lib/ethers";
   import { ethers } from "ethers";
+  import { getDefaultCollPrice } from "@lib/kautomarket-get-metadata";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
@@ -61,7 +61,7 @@
   let nftTitle: string = "";
   let nftDescription: string = "";
   let inputPrice: string;
-  let nftPrice: string = "0";
+  let nftPrice: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -109,6 +109,13 @@
     open = false;
   };
 
+  $: chainId && address && $metamaskSigner && handleDefaultPrice();
+  const handleDefaultPrice = async () => {
+    if (chainId && address && $metamaskSigner) {
+      inputPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
+    }
+  };
+
   /////////////////////////////////////////////////
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
@@ -116,6 +123,7 @@
     chainId = $metamaskChainId;
 
     account = await $metamaskSigner.getAddress();
+
     // console.log("handleChange", $metamaskChainId, account);
   };
 
