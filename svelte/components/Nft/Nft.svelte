@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import { ethers } from "ethers";
+  import { BigNumber, ethers } from "ethers";
 
   import type { NftType } from "lib/ktypes";
   import {
@@ -11,7 +11,8 @@
     kredeumNftUrl,
     getOpenSea,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    sleep
   } from "lib/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -26,7 +27,9 @@
 
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId, metamaskSigner } from "main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
+  import { collectionContractGet } from "lib/kcollection-get";
+  import { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -40,8 +43,9 @@
 
   let nft: Readable<NftType>;
 
-  let setPrice: string;
+  let setPriceInput: string;
   let newNftPrice: string;
+  let settingTokenPrice: boolean = false;
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
@@ -58,28 +62,49 @@
 
   $: console.log("Nft", $nft);
 
-  $: setPrice && handlePrice();
+  $: setPriceInput && handlePrice();
   const handlePrice = () => {
-    setPrice = setPrice.replace(/[^0-9.,]/g, "");
-    let formatedInputPrice = setPrice.replace(/[,]/g, ".");
+    setPriceInput = setPriceInput.replace(/[^0-9.,]/g, "");
+    let formatedInputPrice = setPriceInput.replace(/[,]/g, ".");
     const decimals = formatedInputPrice.split(".")[1];
     if (decimals?.length > 18) {
-      setPrice = setPrice.slice(0, -1);
+      setPriceInput = setPriceInput.slice(0, -1);
       formatedInputPrice = formatedInputPrice.slice(0, -1);
     }
 
     // const priceToConvert = inputPrice.replace(/[,]/g, ".").replace(/[^0-9.]/g, "");
-    if (setPrice) newNftPrice = formatedInputPrice;
+    if (setPriceInput) newNftPrice = formatedInputPrice;
 
     console.log("nftPrice : ", newNftPrice, " Wei");
   };
 
   const displayPriceInput = () => {
-    setPrice = $nft?.price;
+    setPriceInput = $nft?.price;
   };
 
-  const setNewTokenPrice = () => {
-    setTokenPrice(chainId, address, $metamaskSigner, tokenID, newNftPrice);
+  const setNewTokenPrice = async () => {
+    settingTokenPrice = true;
+    const tansReceipt = await setTokenPrice(chainId, address, $metamaskSigner, tokenID, newNftPrice);
+
+    const blockTx = tansReceipt.blockNumber;
+
+    // do {
+    //   await sleep(1000);
+    // } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+    // await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    // nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    // if (supports.IOpenMarketable) {
+    //   const openNFTsV4 = contract as OpenNFTsV4;
+    //   $nft.price = ethers.utils.formatEther(
+    //     (await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString()
+    //   );
+    // }
+
+    settingTokenPrice = false;
+    setPriceInput = null;
   };
 </script>
 
@@ -147,11 +172,15 @@
               <div class="flex"><span class="label">Nft Price</span></div>
               <div class="flex">
                 <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
-                  {#if setPrice}
-                    <input type="text" bind:value={setPrice} id="set-price-nft" />
-                    <span on:click={setNewTokenPrice} class="btn btn-small btn-outline" title="Confirm token price"
-                      ><i class="fa fa-check" /> Confirm</span
-                    >
+                  {#if setPriceInput}
+                    <input type="text" bind:value={setPriceInput} disabled={settingTokenPrice} id="set-price-nft" />
+                    <span on:click={setNewTokenPrice} class="btn btn-small btn-outline" title="Confirm token price">
+                      {#if settingTokenPrice}
+                        <i class="fas fa-spinner fa-left c-green refresh" /> wait
+                      {:else}
+                        <i class="fa fa-check" /> Confirm
+                      {/if}
+                    </span>
                   {:else}
                     {$nft.price || "0"} Eth
                     <span on:click={displayPriceInput} class="btn btn-small btn-outline" title="Set price"

@@ -1,6 +1,6 @@
 import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
 
-import { JsonRpcSigner, TransactionResponse } from "@ethersproject/providers";
+import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { BigNumber, ethers } from "ethers";
 import { collectionContractGet } from "lib/kcollection-get";
 import { getExplorer } from "./kconfig";
@@ -28,7 +28,7 @@ const setTokenPrice = async (
   signer: JsonRpcSigner,
   tokenID: string,
   tokenPrice: string
-): Promise<TransactionResponse | undefined> => {
+): Promise<TransactionReceipt | undefined> => {
   const { contract, supports } = await collectionContractGet(chainId, address, signer.provider);
 
   if (!supports.IOpenMarketable) return;
@@ -41,7 +41,9 @@ const setTokenPrice = async (
 
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
-  return txResp;
+  const txReceipt = await txResp.wait();
+
+  return txReceipt;
 };
 
 export { getNftPrice, getDefaultCollPrice, setTokenPrice };
