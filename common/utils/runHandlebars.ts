@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import config from "../config/config.json";
+import config from "@config/config.json";
 import Handlebars from "handlebars";
 import { readFile, writeFile } from "fs-extra";
 
