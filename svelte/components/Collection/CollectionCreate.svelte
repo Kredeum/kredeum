@@ -1,14 +1,16 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/ktypes";
 
+  import { ethers } from "ethers";
+
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerTxUrl, explorerAddressUrl, textShort } from "@lib/kconfig";
-  import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "@lib/kcollection-clone";
+  import { explorerTxUrl, explorerAddressUrl, textShort } from "@@lib/kconfig";
+  import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "@@lib/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
-  import { metamaskSigner } from "@main/metamask";
+  import { metamaskSigner } from "@@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
 
@@ -25,10 +27,29 @@
   let collectionName = "";
   let collectionSymbol = "";
 
+  let inputCollectionDefaultPrice: string;
+  let collectionDefaultPrice: string;
+
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
+
+  $: inputCollectionDefaultPrice && handlePrice();
+  const handlePrice = () => {
+    inputCollectionDefaultPrice = inputCollectionDefaultPrice.replace(/[^0-9.,]/g, "");
+    let formatedInputPrice = inputCollectionDefaultPrice.replace(/[,]/g, ".");
+    const decimals = formatedInputPrice.split(".")[1];
+    if (decimals?.length > 18) {
+      inputCollectionDefaultPrice = inputCollectionDefaultPrice.slice(0, -1);
+      formatedInputPrice = formatedInputPrice.slice(0, -1);
+    }
+
+    // const priceToConvert = inputPrice.replace(/[,]/g, ".").replace(/[^0-9.]/g, "");
+    if (inputCollectionDefaultPrice) collectionDefaultPrice = ethers.utils.parseEther(formatedInputPrice).toString();
+
+    console.log("collectionDefaultPrice : ", collectionDefaultPrice, " Wei");
+  };
 
   const dispatch = createEventDispatcher();
 
@@ -137,6 +158,14 @@
           <div class="section">
             <CollectionTemplates bind:template />
           </div>
+          {#if template === "OpenNFTsV4/ownable"}
+            <div class="section">
+              <span class="label label-big">Default collection price (Eth)</span>
+              <div class="form-field">
+                <input type="text" placeholder="0" bind:value={inputCollectionDefaultPrice} id="price-nft" />
+              </div>
+            </div>
+          {/if}
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>

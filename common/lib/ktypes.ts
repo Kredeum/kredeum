@@ -150,6 +150,7 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
+  price?: string;
 } & storageType;
 
 export type {
