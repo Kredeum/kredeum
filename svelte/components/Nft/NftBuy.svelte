@@ -2,7 +2,7 @@
   import { buyNftResponse, buyNftReceipt } from "@lib/kbuy";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "@ain/metamask";
+  import { metamaskChainId, metamaskSigner } from "@main/metamask";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />

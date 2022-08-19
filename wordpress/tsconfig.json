@@ -7,6 +7,9 @@
     "resolveJsonModule": true,
     "baseUrl": "..",
     "paths": {
+      "@config/*": [
+        "common/config/*"
+      ],
       "@utils/*": [
         "common/utils/*"
       ]

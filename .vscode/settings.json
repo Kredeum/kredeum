@@ -40,6 +40,10 @@
     {
       "filePath": "svelte/stores",
       "group": "Default"
+    },
+    {
+      "filePath": "common/utils",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/dapp/",

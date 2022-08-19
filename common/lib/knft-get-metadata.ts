@@ -1,6 +1,6 @@
 import type { NftType, NftMetadata } from "./ktypes";
 
-import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
 import { fetchJson } from "./kfetch";
 import {

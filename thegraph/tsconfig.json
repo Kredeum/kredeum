@@ -9,6 +9,9 @@
     "paths": {
       "@utils/*": [
         "common/utils/*"
+      ],
+      "@config/*": [
+        "common/config/*"
       ]
     }
   },
