@@ -32,7 +32,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
   const ownedNfts = AlchemyCollectionsAnswer.ownedNfts;
   if (!(ownedNfts && totalCount >= 0)) return collections;
 
-  for (let index = 0; index < totalCount; index++) {
+  for (let index = 0; index < Math.min(100, totalCount); index++) {
     const ownedNft = ownedNfts[index];
     // console.log("alchemyCollectionList", ownedNft);
 
