@@ -6,6 +6,9 @@ interface IOpenNFTsV4 {
         string memory name,
         string memory symbol,
         address owner,
+        uint256 defaultPrice,
+        address receiver,
+        uint96 fee,
         bool[] memory options
     ) external;
 

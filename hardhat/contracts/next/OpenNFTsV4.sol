@@ -85,10 +85,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         string memory name_,
         string memory symbol_,
         address owner_,
+        uint256 defaultPrice_,
+        address receiver_,
+        uint96 fee_,
         bool[] memory options
     ) external override(IOpenNFTsV4) {
         OpenNFTs._initialize(name_, symbol_, owner_);
         open = options[0];
+        setDefaultPrice(defaultPrice_);
+        setDefaultRoyalty(receiver_, fee_);
     }
 
     function mint(string memory tokenURI) external override(IOpenNFTsV4) returns (uint256 tokenID) {

@@ -47,6 +47,7 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
     /// @param template Address of the template
     function setTemplate(string calldata templateName, address template) public override(INFTsFactoryV3) onlyOwner {
         require(
+            // TODO also ERC721 or ERC115
             IERC165(template).supportsInterface(type(IOpenCloneable).interfaceId),
             "Not valid OpenCloneable template"
         );
