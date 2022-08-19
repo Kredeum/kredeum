@@ -29,10 +29,10 @@
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
-  import { clickOutside } from "@helpers/clickOutside";
+  import { clickOutside } from "helpers/clickOutside";
 
   import { ethers } from "ethers";
-  import { getDefaultCollPrice } from "@lib/kautomarket-get-metadata";
+  import { getDefaultCollPrice } from "lib/kautomarket-get-metadata";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
