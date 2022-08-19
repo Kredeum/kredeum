@@ -32,7 +32,7 @@
   import { clickOutside } from "helpers/clickOutside";
 
   import { ethers } from "ethers";
-  import { getDefaultCollPrice } from "lib/kautomarket-get-metadata";
+  import { getDefaultCollPrice } from "lib/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
