@@ -1,9 +1,10 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
+import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
+import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL, getChainName } from "@lib/kconfig";
 
 import { Contract } from "ethers";
-import { collectionGetOtherData, collectionGetSupports } from "./kcollection-get-metadata";
-import { isProviderOnChainId, collectionKey } from "./kconfig";
+import { collectionGetOtherData, collectionGetSupports } from "@lib/kcollection-get-metadata";
+import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 
 import { abis } from "@lib/kabis";
 

@@ -1,7 +1,7 @@
-import type { NftType } from "./ktypes";
+import type { NftType } from "@lib/ktypes";
 
-import NftStorage from "./knft-storage";
-import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "./kconfig";
+import NftStorage from "@lib/knft-storage";
+import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "@lib/kconfig";
 
 let nftStorage: NftStorage;
 

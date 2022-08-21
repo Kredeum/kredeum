@@ -22,10 +22,10 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   if (deployResult.newlyDeployed) {
     await setNetwork(hre.network.name, "nftsResolver", deployResult.address);
 
-    const nftsResolver = await hre.ethers.getContract(contractName, deployer);
+    const nftsResolver = (await hre.ethers.getContract(contractName, deployer)) as unknown as INFTsResolver;
 
     nonce = await getNonce(deployer, contractName, "initialize");
-    await (await (nftsResolver as INFTsResolver).initialize(deployer.address)).wait();
+    await (await nftsResolver.initialize(deployer.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }

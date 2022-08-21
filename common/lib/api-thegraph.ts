@@ -1,6 +1,6 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "./ktypes";
+import type { CollectionType, NftType } from "@lib/ktypes";
 import { getChecksumAddress, getNetwork, collectionUrl, nftKey } from "@lib/kconfig";
 import { fetchGQL, FETCH_LIMIT } from "@lib/kfetch";
 

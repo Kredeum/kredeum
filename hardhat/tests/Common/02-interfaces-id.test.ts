@@ -1,7 +1,7 @@
 import { expect } from "chai";
 
 import type { Signer } from "@ethersproject/abstract-signer";
-import type { InterfacesIds } from "@soltypes/contracts/dev";
+import type { InterfacesIds } from "@soltypes/contracts/dev/InterfacesIds";
 
 import { ethers, deployments } from "hardhat";
 import { interfaceId } from "@lib/kconfig";

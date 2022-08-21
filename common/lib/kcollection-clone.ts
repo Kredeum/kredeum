@@ -3,8 +3,8 @@ import type { ICloneFactoryV2 } from "@soltypes/contracts/interfaces";
 import type { NFTsFactoryV2 } from "@soltypes/contracts";
 
 import { ethers } from "ethers";
-import { getNetwork } from "./kconfig";
-import { factoryGetContract } from "./kfactory-get";
+import { getNetwork } from "@lib/kconfig";
+import { factoryGetContract } from "@lib/kfactory-get";
 
 const _cloneParams = async (nftsFactory: NFTsFactoryV2, name: string, symbol: string) => {
   const n = (await (nftsFactory as unknown as ICloneFactoryV2).implementationsCount()).toString();

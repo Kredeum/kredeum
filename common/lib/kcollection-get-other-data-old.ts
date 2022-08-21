@@ -1,6 +1,6 @@
 import { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
-import { isProviderOnChainId, collectionKey } from "./kconfig";
+import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
+import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 
 import { Contract } from "ethers";
 
@@ -78,7 +78,7 @@ const collectionGetOtherDataOld = async (
       }
     } catch (err) {
       console.info(
-        `ERROR collectionGetSupports @ ${collectionKey(chainId, address, account)}\n`,
+        `ERROR collectionGetOtherDataOld @ ${collectionKey(chainId, address, account)}\n`,
         await isProviderOnChainId(provider, chainId),
         JSON.stringify(err)
       );

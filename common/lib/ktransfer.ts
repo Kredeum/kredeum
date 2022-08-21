@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionContractGet } from "./kcollection-get";
-import { getNetwork } from "./kconfig";
+import { collectionContractGet } from "@lib/kcollection-get";
+import { getNetwork } from "@lib/kconfig";
 
 import type { IERC721 } from "@soltypes/contracts/interfaces/IERC721";
 import type { IERC1155 } from "@soltypes/contracts/interfaces/IERC1155";

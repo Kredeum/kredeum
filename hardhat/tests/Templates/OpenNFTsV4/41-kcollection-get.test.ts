@@ -36,7 +36,7 @@ describe("41 OpenNFTsV4 contract", function () {
   });
 
   it("Should not initialize OpenNFTsV4 name and NFT symbol after deploy", async function () {
-    void expect(openNFTsV4.initialize("Open NFTs", "NFT", artist, 0, 0, 0, [true, false])).to.be.revertedWith(
+    void expect(openNFTsV4.initialize("Open NFTs", "NFT", artist, 0, artist, 0, [true, false])).to.be.revertedWith(
       "Initializable: contract is already initialized"
     );
   });

@@ -32,12 +32,12 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
       ).catch((err) => console.log(err));
     }
 
-    const openBound = await getContract(contractName, deployer);
-    await (await (openBound as IOpenBound).initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
+    const openBound = (await getContract(contractName, deployer)) as unknown as IOpenBound;
+    await (await openBound.initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
 
-    const nftsFactoryV3 = await getContract("NFTsFactoryV3", deployer);
+    const nftsFactoryV3 = (await getContract("NFTsFactoryV3", deployer)) as unknown as INFTsFactoryV3;
     // TODO  await (await (nftsFactoryV3 as INFTsFactoryV3).implementationsAdd([deployResult.address])).wait();
-    await (await (nftsFactoryV3 as INFTsFactoryV3).setTemplate("OpenBound", deployResult.address)).wait();
+    await (await nftsFactoryV3.setTemplate("OpenBound", deployResult.address)).wait();
   }
 };
 

@@ -11,7 +11,7 @@ const deployOpenNFTsV2: DeployFunction = async function ({ deployments, ethers }
   });
 
   if (deployResult.newlyDeployed) {
-    const openNFTsV2 = new ethers.Contract(deployResult.address, deployResult.abi) as OpenNFTsV2;
+    const openNFTsV2 = new ethers.Contract(deployResult.address, deployResult.abi) as unknown as OpenNFTsV2;
     await openNFTsV2.connect(deployer).initialize("Open NFTs", "NFT");
   }
 };

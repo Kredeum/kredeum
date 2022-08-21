@@ -1,11 +1,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "./ktypes";
-import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "./kconfig";
-import { collectionContractGet, collectionGetSupports } from "./kcollection-get";
+import type { CollectionType, NftType } from "@lib/ktypes";
+import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "@lib/kconfig";
+import { collectionContractGet } from "@lib/kcollection-get";
 
-import { nftGetMetadata } from "./knft-get-metadata";
+import { nftGetMetadata } from "@lib/knft-get-metadata";
 import { IERC721Metadata, IERC721, IERC1155MetadataURI, IERC721Enumerable } from "@soltypes/contracts/interfaces";
 
 ////////////////////////////////////////////////////////

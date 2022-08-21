@@ -1,11 +1,11 @@
 import { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
-import { isProviderOnChainId, collectionKey } from "./kconfig";
-import { resolverGetCollectionSupports } from "./kcollection-get-supports-new";
-import { collectionGetSupportsOld } from "./kcollection-get-supports-old";
-import { collectionGetOtherDataOld } from "./kcollection-get-other-data-old";
+import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
+import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
+import { resolverGetCollectionSupports } from "@lib/kresolver-get-supports";
+import { collectionGetSupportsOld } from "@lib/kcollection-get-supports-old";
+import { collectionGetOtherDataOld } from "@lib/kcollection-get-other-data-old";
 
-import { resolverGetAddress } from "./kresolver-get";
+import { resolverGetAddress } from "@lib/kresolver-get";
 
 // Cache supports   (chainId, address)
 const supportsCache: Map<string, CollectionSupports> = new Map();
@@ -20,7 +20,7 @@ const collectionGetSupports = async (
 
   let supports: CollectionSupports | undefined = {};
 
-  console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`);
+  console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`, collection);
 
   supports = supportsCache.get(collectionKey(chainId, address));
 

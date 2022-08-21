@@ -40,11 +40,11 @@ const main = async () => {
     network.nftsFactoryV2 || "",
     abiINFTsFactory2.concat(abiICloneFactory2),
     provider
-  ) as NFTsFactoryV2;
+  ) as unknown as NFTsFactoryV2;
 
   let nftsResolver: NFTsResolver | undefined;
   if (network.nftsResolver) {
-    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiINFTsResolver, provider) as NFTsResolver;
+    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiINFTsResolver, provider)  as unknown as NFTsResolver;
   }
 
   console.log("chainId      ", chainId);
@@ -69,9 +69,9 @@ const main = async () => {
     // Not in V2
     if (implsRes.indexOf(impl) == -1) {
       // isERC721andNotRes = true;
-      const contract = new ethers.Contract(impl, abiIERC165, deployer);
+      const contract = new ethers.Contract(impl, abiIERC165, deployer)  as unknown as IERC165;
       try {
-        isERC721andNotRes = await (contract as IERC165).supportsInterface("0x80ac58cd");
+        isERC721andNotRes = await contract.supportsInterface("0x80ac58cd");
       } catch (e) {
         console.error(impl, e);
       }

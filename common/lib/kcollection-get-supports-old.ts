@@ -1,6 +1,6 @@
 import { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, CollectionSupports, ABIS } from "./ktypes";
-import { interfaceId } from "./kconfig";
+import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
+import { interfaceId } from "@lib/kconfig";
 
 import { Contract } from "ethers";
 
@@ -66,7 +66,7 @@ const collectionGetSupportsOld = async (
     if (!supports[key as ABIS]) delete supports[key as ABIS];
   }
 
-  // console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
+  // console.log(`collectionGetSupportsOld OUT ${collectionKey(chainId, address)}\n`, supports);
 
   return supports;
 };
