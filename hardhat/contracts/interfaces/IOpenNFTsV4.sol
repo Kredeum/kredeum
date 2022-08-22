@@ -24,5 +24,7 @@ interface IOpenNFTsV4 {
 
     function buy(uint256 tokenID) external payable;
 
+    function parent() external view returns (address);
+
     function open() external view returns (bool);
 }

@@ -100,6 +100,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
     }
 
+    function parent() external view override(IOpenNFTsV4) returns (address parent_) {
+        // eip1167 deployed code = 45 bytes = 10 bytes + 20 bytes address + 15 bytes
+        // extract bytes 10 to 30: shift 2 bytes (16 bits) then truncate to address 20 bytes (uint160)
+        return
+            (address(this).code.length == 45)
+                ? address(uint160(uint256(bytes32(address(this).code)) >> 16))
+                : address(0);
+    }
+
     function mint(
         address minter,
         string memory tokenURI,

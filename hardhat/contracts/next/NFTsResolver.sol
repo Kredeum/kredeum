@@ -13,25 +13,25 @@ import "../interfaces/INFTsResolver.sol";
 import "../interfaces/IAll.sol";
 
 contract NFTsResolver is INFTsResolver, OpenResolver {
-    bytes4[] private interfaceIds = new bytes4[](11);
+    bytes4[] private _interfaceIds = new bytes4[](11);
 
     function initialize(address owner_) external override(INFTsResolver) {
         OpenERC173._initialize(owner_);
 
         uint256 i;
 
-        interfaceIds[i++] = type(IOpenNFTs).interfaceId;
-        interfaceIds[i++] = type(IOpenChecker).interfaceId;
-        interfaceIds[i++] = type(IOpenCloneable).interfaceId;
-        interfaceIds[i++] = type(IOpenMarketable).interfaceId;
-        interfaceIds[i++] = type(IOpenPauseable).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTs).interfaceId;
+        _interfaceIds[i++] = type(IOpenChecker).interfaceId;
+        _interfaceIds[i++] = type(IOpenCloneable).interfaceId;
+        _interfaceIds[i++] = type(IOpenMarketable).interfaceId;
+        _interfaceIds[i++] = type(IOpenPauseable).interfaceId;
 
-        interfaceIds[i++] = type(IOpenNFTsV0).interfaceId;
-        interfaceIds[i++] = type(IOpenNFTsV1).interfaceId;
-        interfaceIds[i++] = type(IOpenNFTsV2).interfaceId;
-        interfaceIds[i++] = type(IOpenNFTsV3).interfaceId;
-        interfaceIds[i++] = type(IOpenNFTsV4).interfaceId;
-        interfaceIds[i++] = type(IOpenBound).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTsV0).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTsV1).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTsV2).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTsV3).interfaceId;
+        _interfaceIds[i++] = type(IOpenNFTsV4).interfaceId;
+        _interfaceIds[i++] = type(IOpenBound).interfaceId;
     }
 
     function getNFTsResolverCollectionInfos(address collection, address account)
@@ -40,7 +40,7 @@ contract NFTsResolver is INFTsResolver, OpenResolver {
         override(INFTsResolver)
         returns (CollectionInfos memory collectionInfos)
     {
-        collectionInfos = _getCollectionInfos(collection, account, interfaceIds);
+        collectionInfos = _getCollectionInfos(collection, account, _interfaceIds);
     }
 
     function getNFTsResolverCollectionsInfos(address account)
@@ -49,7 +49,7 @@ contract NFTsResolver is INFTsResolver, OpenResolver {
         override(INFTsResolver)
         returns (CollectionInfos[] memory collectionsInfos)
     {
-        collectionsInfos = _getCollectionsInfos(account, interfaceIds);
+        collectionsInfos = _getCollectionsInfos(account, _interfaceIds);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(OpenResolver) returns (bool) {

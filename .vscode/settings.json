@@ -2,19 +2,11 @@
   "editor.fontSize": 14,
   "favorites.resources": [
     {
-      "filePath": "hardhat/hardhat.config.ts",
-      "group": "Default"
-    },
-    {
       "filePath": "rollup/svelte",
       "group": "Default"
     },
     {
       "filePath": "hardhat/contracts/new",
-      "group": "Default"
-    },
-    {
-      "filePath": "hardhat/tests",
       "group": "Default"
     },
     {
@@ -34,11 +26,11 @@
       "group": "Default"
     },
     {
-      "filePath": "hardhat/scripts",
+      "filePath": "hardhat/hardhat.config.ts",
       "group": "Default"
     },
     {
-      "filePath": "svelte/stores",
+      "filePath": ".vscode/settings.json",
       "group": "Default"
     }
   ],
@@ -61,5 +53,6 @@
   "workbench.activityBar.visible": true,
   "workbench.colorTheme": "Visual Studio Dark",
   "workbench.layoutControl.enabled": true,
-  "workbench.statusBar.visible": true
+  "workbench.statusBar.visible": true,
+  "favorites.sortOrder": "DESC"
 }

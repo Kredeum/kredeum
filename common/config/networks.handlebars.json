@@ -518,14 +518,14 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "openMulti": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
+    "openMulti": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
     "openBound": "0x016fa6b76Fb24e651806455e58710d48880226f9",
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
-    "nftsFactoryV2": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "testnet": true,
-    "nftsResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF",
+    "nftsResolver": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "nftsFactoryV3": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
-    "openNFTs": "0x7B5E42Ab37Bf962413a2B062fE7373141e643f46"
+    "openNFTs": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf"
   },
   {
     "chainId": 31337,

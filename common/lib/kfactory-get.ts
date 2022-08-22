@@ -13,7 +13,7 @@ import abiNFTsFactoryV2 from "@abis/contracts/NFTsFactoryV2.sol/NFTsFactoryV2.js
 const nftsFactoriesCache: Map<number, Contract> = new Map();
 
 //  GET nftsFactory address
-const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV2 || "";
+const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV3 || "";
 
 // GET nftsFactory explorer URL
 const factoryGetExplorerUrl = (chainId: number): string =>

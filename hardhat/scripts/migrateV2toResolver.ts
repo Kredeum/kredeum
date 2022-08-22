@@ -44,7 +44,11 @@ const main = async () => {
 
   let nftsResolver: NFTsResolver | undefined;
   if (network.nftsResolver) {
-    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiINFTsResolver, provider)  as unknown as NFTsResolver;
+    nftsResolver = new ethers.Contract(
+      network.nftsResolver || "",
+      abiINFTsResolver,
+      provider
+    ) as unknown as NFTsResolver;
   }
 
   console.log("chainId      ", chainId);
@@ -69,7 +73,7 @@ const main = async () => {
     // Not in V2
     if (implsRes.indexOf(impl) == -1) {
       // isERC721andNotRes = true;
-      const contract = new ethers.Contract(impl, abiIERC165, deployer)  as unknown as IERC165;
+      const contract = new ethers.Contract(impl, abiIERC165, deployer) as unknown as IERC165;
       try {
         isERC721andNotRes = await contract.supportsInterface("0x80ac58cd");
       } catch (e) {
