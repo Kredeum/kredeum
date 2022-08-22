@@ -1,12 +1,19 @@
 import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
 
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber, ethers } from "ethers";
 import { collectionContractGet } from "lib/kcollection-get";
 import { getExplorer } from "./kconfig";
 
-const getNftPrice = (chainId: number, address: string, tokenID: string): number => {
-  const price = Number(tokenID);
+const getNftPrice = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
+  let price = "";
+
+  const { contract, supports } = await collectionContractGet(chainId, address, provider);
+  if (supports.IOpenMarketable) {
+    const openNFTsV4 = contract as OpenNFTsV4;
+    price = ethers.utils.formatEther((await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString());
+  }
 
   return price;
 };

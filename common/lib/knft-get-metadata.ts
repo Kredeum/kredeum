@@ -1,7 +1,5 @@
 import type { NftType, NftMetadata } from "./ktypes";
 
-import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
-
 import { fetchJson } from "./kfetch";
 import {
   ipfsGetLink,
@@ -13,8 +11,8 @@ import {
   nftKey
 } from "./kconfig";
 import { Provider } from "@ethersproject/abstract-provider";
-import { collectionContractGet } from "./kcollection-get";
-import { BigNumber, ethers } from "ethers";
+
+import { getNftPrice } from "./kautomarket";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -99,13 +97,7 @@ const nftGetMetadata = async (nft: NftType, provider?: Provider): Promise<NftTyp
         }
 
         if (provider) {
-          const { contract, supports } = await collectionContractGet(chainId, address, provider);
-          if (supports.IOpenMarketable) {
-            const openNFTsV4 = contract as OpenNFTsV4;
-            nft.price = ethers.utils.formatEther(
-              (await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString()
-            );
-          }
+          nft.price = await getNftPrice(chainId, address, tokenID, provider);
         }
       }
     } catch (e) {

@@ -63,8 +63,7 @@ const nftMint3TxResponse = async (
   chainId: number,
   address: string,
   tokenURI: string,
-  minter: JsonRpcSigner,
-  tokenPrice?: string
+  minter: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
   console.log("nftMint3TxResponse", chainId, address, tokenURI, minterAddress);
@@ -82,19 +81,19 @@ const nftMint3TxResponse = async (
     const openNFTsV4 = connectedContract as OpenNFTsV4;
     const defaultPrice = String(await openNFTsV4.callStatic.defaultPrice());
 
-    if ((defaultPrice == "0" && !tokenPrice) || tokenPrice == "0") {
+    if (defaultPrice == "0") {
       txResp = await openNFTsV4["mint(string)"](tokenURI);
     } else {
       console.log("defaultPrice", defaultPrice);
       const txOptions = {
-        value: tokenPrice ? tokenPrice : defaultPrice,
+        value: defaultPrice,
         type: 2
       };
       const minterAddress = await minter.getAddress();
       txResp = await openNFTsV4["mint(address,string,uint256,address,uint96)"](
         minterAddress,
         tokenURI,
-        tokenPrice ? tokenPrice : defaultPrice,
+        defaultPrice,
         ethers.constants.AddressZero,
         0,
         txOptions

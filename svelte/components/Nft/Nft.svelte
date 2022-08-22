@@ -61,6 +61,7 @@
   };
 
   $: console.log("Nft", $nft);
+  $: console.log("Nft price ", $nft.price);
 
   $: setPriceInput && handlePrice();
   const handlePrice = () => {
@@ -199,10 +200,11 @@
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if}
-          <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
-            ><i class="fa fa-gift" /> Transfer</a
-          >
-
+          {#if ($nft.price === "0.0" || !$nft.price) && $nft.owner === account}
+            <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
+              ><i class="fa fa-gift" /> Transfer</a
+            >
+          {/if}
           {#if $nft.owner !== account}
             <a href="#buy-nft-{tokenID}" class="btn btn-small btn-outline" title="Buy this nft"
               ><i class="fa fa-shopping-cart" /> Buy</a
