@@ -3,9 +3,6 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { collectionContractGet } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
-// import type { IERC721 } from "soltypes/contracts/interfaces/IERC721";
-// import type { IERC1155 } from "soltypes/contracts/interfaces/IERC1155";
-import { IOpenNFTsV4 } from "soltypes/contracts/interfaces/IOpenNFTsV4";
 import { BigNumber, ethers } from "ethers";
 
 const buyNftResponse = async (
@@ -22,14 +19,16 @@ const buyNftResponse = async (
 
   if (!(chainId && address && tokenID && network && buyer)) return txResp;
 
-  // const buyerAddress = await buyer.getAddress();
-  // console.log("transferNftResponse buyer", buyerAddress);
-
   const { contract, supports } = await collectionContractGet(chainId, address, buyer.provider);
-  // console.log("contract", contract);
   const connectedContract = contract.connect(buyer);
+
   if (supports.IOpenNFTsV4) {
-    txResp = await (connectedContract as IOpenNFTsV4)["buy(uint256)"](BigNumber.from(tokenID), {
+    const buyOpenNftV4 = "buy(uint256)";
+    const buyFunction = connectedContract[buyOpenNftV4] as {
+      (tokenID: BigNumber, paymentSent: { value: string }): Promise<TransactionResponse>;
+    };
+
+    txResp = await buyFunction(BigNumber.from(tokenID), {
       value: ethers.utils.parseEther(nftPrice).toString()
     });
   }

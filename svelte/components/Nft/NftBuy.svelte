@@ -4,6 +4,9 @@
 
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
+
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
   // Display NFT
@@ -16,6 +19,11 @@
   let buyTxHash: string = null;
   let buying = false;
   let buyed = false;
+
+  // Context for refreshCollectionList
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  ///////////////////////////////////////////////////////////
 
   const buy = async () => {
     if ($metamaskSigner) {
@@ -30,6 +38,8 @@
 
       buyed = Boolean(txReceipt.status);
       buying = false;
+
+      $refreshCollectionList += 1;
     }
   };
 </script>

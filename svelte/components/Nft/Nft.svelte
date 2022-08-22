@@ -1,9 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import { BigNumber, ethers } from "ethers";
-
-  import type { NftType } from "lib/ktypes";
+  import type { NftType, CollectionType } from "lib/ktypes";
   import {
     nftUrl,
     explorerCollectionUrl,
@@ -22,14 +20,15 @@
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
+  import NftBurn from "./NftBurn.svelte";
 
   import { setTokenPrice } from "lib/kautomarket";
 
   // import NftClaim from "./NftClaim.svelte";
 
   import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
-  import { collectionContractGet } from "lib/kcollection-get";
-  import { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
+  import { collectionStore } from "stores/collection/collection";
+  import { collectionContractGet, collectionGet } from "lib/kcollection-get";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -42,6 +41,8 @@
   export let platform: string = undefined;
 
   let nft: Readable<NftType>;
+
+  let burnable: boolean = false;
 
   let setPriceInput: string;
   let newNftPrice: string;
@@ -63,6 +64,18 @@
   $: console.log("Nft", $nft);
   $: console.log("Nft price ", $nft.price);
 
+  $: chainId && address && account && checkBurnable();
+  const checkBurnable = async () => {
+    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    // console.log("🚀 ~ file: Nft.svelte ~ line 71 ~ checkBurnable ~ supports", contract);
+    const collection = await collectionGet(chainId, address, $metamaskProvider);
+
+    console.log("🚀 ~ file: Nft.svelte ~ line 73 ~ checkBurnable ~ collection", collection);
+
+    burnable = collection?.burnable;
+  };
+
+  /////////////////////////////////////////////////
   $: setPriceInput && handlePrice();
   const handlePrice = () => {
     setPriceInput = setPriceInput.replace(/[^0-9.,]/g, "");
@@ -107,6 +120,7 @@
     settingTokenPrice = false;
     setPriceInput = null;
   };
+  /////////////////////////////////////////////////
 </script>
 
 {#if $nft}
@@ -210,6 +224,11 @@
               ><i class="fa fa-shopping-cart" /> Buy</a
             >
           {/if}
+          {#if burnable && $nft.owner === account}
+            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline" title="Burn Nft"
+              ><i class="fa fa-fire" /> Burn</a
+            >
+          {/if}
 
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
@@ -265,6 +284,11 @@
 <!-- Modal buy nft -->
 <div id="buy-nft-{tokenID}" class="modal-window">
   <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+</div>
+
+<!-- Modal burn nft -->
+<div id="burn-nft-{tokenID}" class="modal-window">
+  <NftBurn {chainId} {address} {tokenID} />
 </div>
 
 <!-- Modal claim nft -->
