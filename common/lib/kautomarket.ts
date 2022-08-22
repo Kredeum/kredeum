@@ -18,14 +18,34 @@ const getNftPrice = async (chainId: number, address: string, tokenID: string, pr
   return price;
 };
 
+const getNftRoyaltyInfo = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  provider: Provider
+): Promise<{ receiver: string; royaltyAmount: string } | undefined> => {
+  const { contract, supports } = await collectionContractGet(chainId, address, provider);
+
+  console.log("🚀 ~ file: kautomarket.ts ~ line 28 ~ contract", contract);
+
+  if (!supports.IOpenMarketable) return undefined;
+
+  const [receiver, royaltyAmount] = await (contract as OpenNFTsV4).callStatic.royaltyInfo(
+    BigNumber.from(tokenID),
+    BigNumber.from("10000")
+  );
+
+  console.log("🚀 ~ file: kautomarket.ts ~ line 34 ~ { receiver, royaltyAmount }", receiver);
+  const royaltyAmountEth = ethers.utils.formatEther(royaltyAmount).toString();
+
+  return { receiver, royaltyAmount: royaltyAmountEth };
+};
+
 const getDefaultCollPrice = async (chainId: number, address: string, signer: JsonRpcSigner): Promise<string> => {
   const { contract, supports } = await collectionContractGet(chainId, address, signer.provider);
 
-  if (!supports.IOpenMarketable) return "Token not marketable";
-  console.log(
-    "🚀 ~ file: kautomarket-get-metadata.ts ~ line 15 ~ getDefaultCollPrice ~ ethers.utils.formatEther(contract.defaultPrice())",
-    ethers.utils.formatEther(await (contract as OpenNFTsV4).callStatic.defaultPrice())
-  );
+  if (!supports.IOpenMarketable) return "";
+
   return ethers.utils.formatEther(await (contract as OpenNFTsV4).callStatic.defaultPrice());
 };
 
@@ -53,4 +73,4 @@ const setTokenPrice = async (
   return txReceipt;
 };
 
-export { getNftPrice, getDefaultCollPrice, setTokenPrice };
+export { getNftPrice, getNftRoyaltyInfo, getDefaultCollPrice, setTokenPrice };

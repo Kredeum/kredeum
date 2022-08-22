@@ -12,7 +12,7 @@ import {
 } from "./kconfig";
 import { Provider } from "@ethersproject/abstract-provider";
 
-import { getNftPrice } from "./kautomarket";
+import { getNftPrice, getNftRoyaltyInfo } from "./kautomarket";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -98,6 +98,9 @@ const nftGetMetadata = async (nft: NftType, provider?: Provider): Promise<NftTyp
 
         if (provider) {
           nft.price = await getNftPrice(chainId, address, tokenID, provider);
+          const royaltyinfo = await getNftRoyaltyInfo(chainId, address, tokenID, provider);
+          nft.royalties = royaltyinfo?.royaltyAmount;
+          nft.royaltiesReceiver = royaltyinfo?.receiver;
         }
       }
     } catch (e) {

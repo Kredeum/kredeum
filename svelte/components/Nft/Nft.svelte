@@ -206,6 +206,28 @@
               </div>
             </li>
           {/if}
+          {#if $nft.royalties}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties Amount</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
+                  {$nft.royalties || "No royalties amount setted"} Eth
+                </span>
+              </div>
+            </li>
+          {/if}
+          {#if $nft.royaltiesReceiver}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties receiver</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
+                  {$nft.royaltiesReceiver === "0x0000000000000000000000000000000000000000"
+                    ? "No receiver setted for Royalties"
+                    : $nft.royaltiesReceiver}
+                </span>
+              </div>
+            </li>
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">

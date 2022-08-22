@@ -90,8 +90,8 @@
     open = false;
   };
 
-  $: chainId && address && $metamaskSigner && handleDefaultPrice();
-  const handleDefaultPrice = async () => {
+  $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
+  const handleDefaultAutomarketValues = async () => {
     if (chainId && address && $metamaskSigner) {
       nftDefaultPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
     }

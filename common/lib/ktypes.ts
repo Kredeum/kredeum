@@ -140,6 +140,8 @@ type NftType = {
   nid?: string;
   contentType?: string;
   price?: string;
+  royalties?: string;
+  royaltiesReceiver?: string;
 } & storageType;
 
 export type {
