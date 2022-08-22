@@ -225,7 +225,7 @@
             >
           {/if}
           {#if burnable && $nft.owner === account}
-            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline" title="Burn Nft"
+            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
               ><i class="fa fa-fire" /> Burn</a
             >
           {/if}
@@ -299,5 +299,16 @@
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+
+  .btn-burn {
+    color: red;
+    border-color: red;
+    float: right;
+  }
+
+  .btn-burn:hover {
+    color: white;
+    background: red;
   }
 </style>

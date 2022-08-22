@@ -103,14 +103,16 @@
           </div>
 
           <div class="section">
-            <div class="form-field">
-              <p>Be carefull, you're about to burn this NFT #{tokenID}</p>
+            <div class="form-field kre-burn-warning">
+              <p>
+                <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to burn this NFT #{tokenID}
+              </p>
               <p>this operation is irreversible !!!</p>
             </div>
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => burn()}>Burn</button>
+            <button class="btn btn-default btn-sell" type="submit" on:click={() => burn()}>Yes, I want to burn</button>
           </div>
         {/if}
         {#if burnTxHash}
@@ -128,5 +130,11 @@
 <style>
   .c-red {
     color: red;
+  }
+
+  .kre-burn-warning {
+    background-color: rgba(255, 0, 0, 0.07);
+    border-radius: 6px;
+    padding: 15px 30px;
   }
 </style>
