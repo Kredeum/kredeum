@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { transferNftResponse, transferNftReceipt } from "@lib/ktransfer";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
+  import { buyNftResponse, buyNftReceipt } from "lib/kbuy";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
-  import { nftStore } from "@stores/nft/nft";
+  import { metamaskChainId, metamaskSigner } from "main/metamask";
+
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
@@ -14,33 +14,31 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  export let nftPrice: string;
 
-  let transferTxHash: string = null;
-  let transfering = false;
-  let transfered = false;
-
-  let destinationAddress = "";
+  let buyTxHash: string = null;
+  let buying = false;
+  let buyed = false;
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
 
-  const transfer = async () => {
+  const buy = async () => {
     if ($metamaskSigner) {
-      transferTxHash = null;
-      transfering = true;
-      transfered = false;
+      buyTxHash = null;
+      buying = true;
+      buyed = false;
 
-      const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, $metamaskSigner);
-      transferTxHash = txResp.hash;
+      const txResp = await buyNftResponse(chainId, address, tokenID, $metamaskSigner, nftPrice);
+      buyTxHash = txResp.hash;
 
-      const txReceipt = await transferNftReceipt(txResp);
+      const txReceipt = await buyNftReceipt(txResp);
 
-      transfered = Boolean(txReceipt.status);
-      transfering = false;
+      buyed = Boolean(txReceipt.status);
+      buying = false;
 
-      nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
       $refreshCollectionList += 1;
     }
   };
@@ -52,7 +50,7 @@
 
     <div class="modal-body">
       <div>
-        {#if transfered}
+        {#if buyed}
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
@@ -60,15 +58,15 @@
               <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
                 >#{tokenID}</a
               >
-              transfered!
+              buyed!
             </div>
           </div>
-        {:else if transfering}
+        {:else if buying}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Transfering NFT...
+            <i class="fas fa-sync fa-left c-green" />buying NFT...
           </div>
           <div class="section">
-            {#if transferTxHash}
+            {#if buyTxHash}
               Wait till completed, it may take one minute or more.
             {:else}
               Sign the transaction
@@ -76,24 +74,16 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-gift" /> Transfer this NFT #{tokenID} to what address ?
-          </div>
-
-          <div class="section">
-            <div class="form-field">
-              <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
-            </div>
+            <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} at {nftPrice} Eth ?
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => transfer()}>Transfer</button>
+            <button class="btn btn-default btn-sell" type="submit" on:click={() => buy()}>Buy</button>
           </div>
         {/if}
-        {#if transferTxHash}
+        {#if buyTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank"
-              >{textShort(transferTxHash)}</a
-            >
+            <a class="link" href={explorerTxUrl($metamaskChainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a>
           </div>
         {/if}
       </div>

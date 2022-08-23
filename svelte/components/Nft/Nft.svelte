@@ -9,17 +9,26 @@
     kredeumNftUrl,
     getOpenSea,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    sleep
   } from "@lib/kconfig";
+
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "@helpers/shortcodes";
   import { nftStore } from "@stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftBuy from "./NftBuy.svelte";
+  import NftBurn from "./NftBurn.svelte";
+
+  import { setTokenPrice } from "lib/kautomarket";
+
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskProvider } from "@main/metamask";
+  import { collectionStore } from "@stores/collection/collection";
+  import { collectionContractGet, collectionGet } from "@lib/kcollection-get";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -32,6 +41,12 @@
   export let platform: string = undefined;
 
   let nft: Readable<NftType>;
+
+  let burnable: boolean = false;
+
+  let setPriceInput: string;
+  let newNftPrice: string;
+  let settingTokenPrice: boolean = false;
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
@@ -47,6 +62,65 @@
   };
 
   $: console.log("Nft", $nft);
+  $: console.log("Nft price ", $nft.price);
+
+  $: chainId && address && account && checkBurnable();
+  const checkBurnable = async () => {
+    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    // console.log("🚀 ~ file: Nft.svelte ~ line 71 ~ checkBurnable ~ supports", contract);
+    const collection = await collectionGet(chainId, address, $metamaskProvider);
+
+    console.log("🚀 ~ file: Nft.svelte ~ line 73 ~ checkBurnable ~ collection", collection);
+
+    burnable = collection?.burnable;
+  };
+
+  /////////////////////////////////////////////////
+  $: setPriceInput && handlePrice();
+  const handlePrice = () => {
+    setPriceInput = setPriceInput.replace(/[^0-9.,]/g, "");
+    let formatedInputPrice = setPriceInput.replace(/[,]/g, ".");
+    const decimals = formatedInputPrice.split(".")[1];
+    if (decimals?.length > 18) {
+      setPriceInput = setPriceInput.slice(0, -1);
+      formatedInputPrice = formatedInputPrice.slice(0, -1);
+    }
+
+    // const priceToConvert = inputPrice.replace(/[,]/g, ".").replace(/[^0-9.]/g, "");
+    if (setPriceInput) newNftPrice = formatedInputPrice;
+
+    console.log("nftPrice : ", newNftPrice, " Wei");
+  };
+
+  const displayPriceInput = () => {
+    setPriceInput = $nft?.price;
+  };
+
+  const setNewTokenPrice = async () => {
+    settingTokenPrice = true;
+    const tansReceipt = await setTokenPrice(chainId, address, $metamaskSigner, tokenID, newNftPrice);
+
+    const blockTx = tansReceipt.blockNumber;
+
+    // do {
+    //   await sleep(1000);
+    // } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+
+    // await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    // nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    // if (supports.IOpenMarketable) {
+    //   const openNFTsV4 = contract as OpenNFTsV4;
+    //   $nft.price = ethers.utils.formatEther(
+    //     (await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString()
+    //   );
+    // }
+
+    settingTokenPrice = false;
+    setPriceInput = null;
+  };
+  /////////////////////////////////////////////////
 </script>
 
 {#if $nft}
@@ -108,6 +182,52 @@
               </a>
             </div>
           </li>
+          {#if $nft.price || $nft.price === "0"}
+            <li>
+              <div class="flex"><span class="label">Nft Price</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
+                  {#if setPriceInput}
+                    <input type="text" bind:value={setPriceInput} disabled={settingTokenPrice} id="set-price-nft" />
+                    <span on:click={setNewTokenPrice} class="btn btn-small btn-outline" title="Confirm token price">
+                      {#if settingTokenPrice}
+                        <i class="fas fa-spinner fa-left c-green refresh" /> wait
+                      {:else}
+                        <i class="fa fa-check" /> Confirm
+                      {/if}
+                    </span>
+                  {:else}
+                    {$nft.price || "0"} Eth
+                    <span on:click={displayPriceInput} class="btn btn-small btn-outline" title="Set price"
+                      ><i class="fa fa-usd" /> Set price</span
+                    >
+                  {/if}
+                </span>
+              </div>
+            </li>
+          {/if}
+          {#if $nft.royalties}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties Amount</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
+                  {$nft.royalties || "No royalties amount setted"} Eth
+                </span>
+              </div>
+            </li>
+          {/if}
+          {#if $nft.royaltiesReceiver}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties receiver</span></div>
+              <div class="flex">
+                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
+                  {$nft.royaltiesReceiver === "0x0000000000000000000000000000000000000000"
+                    ? "No receiver setted for Royalties"
+                    : $nft.royaltiesReceiver}
+                </span>
+              </div>
+            </li>
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
@@ -116,9 +236,21 @@
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if}
-          <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
-            ><i class="fa fa-gift" /> Transfer</a
-          >
+          {#if ($nft.price === "0.0" || !$nft.price) && $nft.owner === account}
+            <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
+              ><i class="fa fa-gift" /> Transfer</a
+            >
+          {/if}
+          {#if $nft.owner !== account}
+            <a href="#buy-nft-{tokenID}" class="btn btn-small btn-outline" title="Buy this nft"
+              ><i class="fa fa-shopping-cart" /> Buy</a
+            >
+          {/if}
+          {#if burnable && $nft.owner === account}
+            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
+              ><i class="fa fa-fire" /> Burn</a
+            >
+          {/if}
 
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
@@ -171,6 +303,16 @@
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
 
+<!-- Modal buy nft -->
+<div id="buy-nft-{tokenID}" class="modal-window">
+  <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+</div>
+
+<!-- Modal burn nft -->
+<div id="burn-nft-{tokenID}" class="modal-window">
+  <NftBurn {chainId} {address} {tokenID} />
+</div>
+
 <!-- Modal claim nft -->
 
 <!-- <div id="claim-nft-{tokenID}" class="modal-window">
@@ -179,5 +321,16 @@
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+
+  .btn-burn {
+    color: red;
+    border-color: red;
+    float: right;
+  }
+
+  .btn-burn:hover {
+    color: white;
+    background: red;
   }
 </style>

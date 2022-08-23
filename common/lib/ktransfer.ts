@@ -25,15 +25,22 @@ const transferNftResponse = async (
 
   const { contract, supports } = await collectionGetContract(chainId, address, owner.provider);
   // console.log("contract", contract);
+  const connectedContract = contract.connect(owner);
 
   if (supports.IERC721) {
-    txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](
+    txResp = await (connectedContract as IERC721)["safeTransferFrom(address,address,uint256)"](
       ownerAddress,
       destinationAddress,
       tokenID
     );
   } else if (supports.IERC1155) {
-    txResp = await (contract as IERC1155).safeTransferFrom(ownerAddress, destinationAddress, tokenID, 1, "0x00");
+    txResp = await (connectedContract as IERC1155).safeTransferFrom(
+      ownerAddress,
+      destinationAddress,
+      tokenID,
+      1,
+      "0x00"
+    );
   }
   console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
 

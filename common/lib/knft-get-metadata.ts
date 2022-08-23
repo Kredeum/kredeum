@@ -43,7 +43,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   return contentType;
 };
 
-const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
+const nftGetMetadata = async (nft: NftType, provider?: Provider): Promise<NftType> => {
   // console.log("nftGetMetadata", nft);
 
   const { chainId, address, tokenID } = nft || {};
@@ -90,6 +90,13 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
             nft.swarm = nftMetadata.swarm || swarmGetLink(nft.image);
 
           if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;
+        }
+
+        if (provider) {
+          nft.price = await getNftPrice(chainId, address, tokenID, provider);
+          const royaltyinfo = await getNftRoyaltyInfo(chainId, address, tokenID, provider);
+          nft.royalties = royaltyinfo?.royaltyAmount;
+          nft.royaltiesReceiver = royaltyinfo?.receiver;
         }
       }
     } catch (e) {

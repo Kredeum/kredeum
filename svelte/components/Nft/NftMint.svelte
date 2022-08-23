@@ -31,6 +31,9 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
+  import { ethers } from "ethers";
+  import { getDefaultCollPrice } from "lib/kautomarket";
+
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
@@ -57,6 +60,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+  let nftDefaultPrice: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -86,6 +90,13 @@
     open = false;
   };
 
+  $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
+  const handleDefaultAutomarketValues = async () => {
+    if (chainId && address && $metamaskSigner) {
+      nftDefaultPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
+    }
+  };
+
   /////////////////////////////////////////////////
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
@@ -93,6 +104,7 @@
     chainId = $metamaskChainId;
 
     account = await $metamaskSigner.getAddress();
+
     // console.log("handleChange", $metamaskChainId, account);
   };
 
@@ -334,6 +346,11 @@
                   />
                 </div>
               </div>
+              {#if nftDefaultPrice}
+                <div class="section">
+                  <span class="label label-big">NFT default price : {nftDefaultPrice} (Eth)</span>
+                </div>
+              {/if}
 
               <div class="section">
                 <span class="label label-big">Media type</span>
