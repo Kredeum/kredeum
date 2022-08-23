@@ -4,8 +4,6 @@ pragma solidity ^0.8.9;
 import "OpenNFTs/contracts/interfaces/IERC721Infos.sol";
 
 interface INFTsResolver is IERC721Infos {
-    function initialize(address owner) external;
-
     function getNFTsResolverCollectionsInfos(address account)
         external
         view

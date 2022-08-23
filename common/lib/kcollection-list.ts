@@ -73,22 +73,22 @@ const collectionListFromFactory = async (
 
   const collections: Map<string, CollectionType> = new Map();
 
-  const nftsFactory = factoryGetContract(chainId, provider);
-  if (nftsFactory) {
-    type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
-    const balances: Array<BalanceOf> = await nftsFactory.balancesOf(account);
+  const nftsResolver = resolverGetContract(chainId, provider);
+  if (nftsResolver) {
+
+    const collectionsInfos  = await nftsResolver.getNFTsResolverCollectionsInfos(account);
     // console.log("collectionListFromFactory balances", balances);
 
-    for (let index = 0; index < balances.length; index++) {
-      const chainName = network?.chainName;
-      const balance: BalanceOf = balances[index];
+    const chainName = network?.chainName;
+    for (let index = 0; index < collectionsInfos.length; index++) {
+      const collectionInfos = collectionsInfos[index];
 
-      const address: string = getChecksumAddress(balance[0]);
-      const owner: string = getChecksumAddress(balance[2]);
-      const name: string = balance[3] || DEFAULT_NAME;
-      const symbol: string = balance[4] || DEFAULT_SYMBOL;
-      const totalSupply = Number(balance[5]);
-      const balanceOf = Number(balance[1]);
+      const address: string = getChecksumAddress(collectionInfos[0]);
+      const owner: string = getChecksumAddress(collectionInfos[1]);
+      const name: string = collectionInfos[2] || DEFAULT_NAME;
+      const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
+      const totalSupply = Number(collectionInfos[4]);
+      const balanceOf = Number(collectionInfos[5]);
 
       const collection: CollectionType = {
         chainId,

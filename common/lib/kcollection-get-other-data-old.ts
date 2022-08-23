@@ -26,9 +26,13 @@ const collectionGetOtherDataOld = async (
 
   try {
     const abiQuery = [
-      "function open() view returns (bool)",
+      "function name() view returns (string)",
+      "function symbol() view returns (string)",
+      "function balanceOf(address) view returns (uint256)",
+      "function totalSupply() view returns (uint256)",
+      "function owner() view returns (address)",
       "function burnable() view returns (bool)",
-      "function name() view returns (string)"
+      "function open() view returns (bool)"
     ];
     const contract: QueryContract = new Contract(address, abiQuery, provider) as QueryContract;
 
@@ -77,11 +81,7 @@ const collectionGetOtherDataOld = async (
         collection.open = true;
       }
     } catch (err) {
-      console.info(
-        `ERROR collectionGetOtherDataOld @ ${collectionKey(chainId, address, account)}\n`,
-        await isProviderOnChainId(provider, chainId),
-        JSON.stringify(err)
-      );
+      console.info("ERROR collectionGetOtherDataOld", err);
     }
 
     // Get name if IERC1155 ... may revert as not normalized

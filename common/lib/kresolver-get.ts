@@ -19,6 +19,7 @@ import type { NFTsResolver } from "@soltypes/contracts/next";
 import abiNFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 import { IERC721Infos } from "@soltypes/contracts/next/NFTsResolver";
+import { count } from "console";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<number, Contract> = new Map();
@@ -48,9 +49,7 @@ const resolverGetCollectionFromCollectionInfos = (
   collectionInfos: IERC721Infos.CollectionInfosStructOutput,
   account = constants.AddressZero
 ): CollectionType => {
-  console.log("resolverGetCollectionFromCollectionInfos  IN", chainId, collectionInfos, account);
-  console.log("resolverGetCollectionFromCollectionInfos  IN collection", collectionInfos[0]);
-  console.log("resolverGetCollectionFromCollectionInfos  IN supported ", collectionInfos[6]);
+  // console.log("resolverGetCollectionFromCollectionInfos  IN", chainId, collectionInfos, account);
 
   const chainName = getChainName(chainId);
   const address: string = getChecksumAddress(collectionInfos[0]);
@@ -63,7 +62,7 @@ const resolverGetCollectionFromCollectionInfos = (
 
   const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf, supports };
 
-  console.log("resolverGetCollectionFromCollectionInfos OUT", collection);
+  // console.log("resolverGetCollectionFromCollectionInfos OUT", collection);
   return collection;
 };
 
@@ -91,7 +90,16 @@ const resolverGetCollectionsInfos = async (
   return collections;
 };
 
+const resolverGetCount = async (chainId: number, provider: Provider): Promise<number> => {
+  const nftsResolver = resolverGetContract(chainId, provider);
+
+  const count = await nftsResolver.countAddresses();
+
+  return Number(count);
+};
+
 export {
+  resolverGetCount,
   resolverGetCollectionsInfos,
   resolverGetAddress,
   resolverGetContract,

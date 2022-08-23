@@ -1,17 +1,9 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { ICloneFactoryV2 } from "@soltypes/contracts/interfaces";
-import type { NFTsFactoryV2 } from "@soltypes/contracts";
 
 import { ethers } from "ethers";
-import { getNetwork } from "@lib/kconfig";
+import { getExplorer } from "@lib/kconfig";
 import { factoryGetContract } from "@lib/kfactory-get";
-
-const _cloneParams = async (nftsFactory: NFTsFactoryV2, name: string, symbol: string) => {
-  const n = (await (nftsFactory as unknown as ICloneFactoryV2).implementationsCount()).toString();
-  const _name = name || `Open NFTs #${n}`;
-  const _symbol = symbol || `NFTs${n}`;
-  return { _name, _symbol };
-};
+import { resolverGetCount } from "@lib/kresolver-get";
 
 const collectionCloneResponse = async (
   chainId: number,
@@ -20,21 +12,21 @@ const collectionCloneResponse = async (
   templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
+  console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
 
-  const network = getNetwork(chainId);
-  const nftsFactoryV2 = factoryGetContract(chainId, cloner.provider);
-  const { _name, _symbol } = await _cloneParams(nftsFactoryV2, name, symbol);
+  const nftsFactoryV3 = factoryGetContract(chainId, cloner);
+
+  const n = (await resolverGetCount(chainId, cloner.provider)) + 1;
+  const _name = name || `Open NFTs #${n}`;
+  const _symbol = symbol || `NFTs${n}`;
 
   const [template, config] = templateConfig.split("/");
-
   const options: boolean[] = [config == "generic"];
-  if (template == "OpenNFTsV4") options[1] = true;
 
-  console.log("nftsFactoryV2 clone", _name, _symbol, template, options);
-  const txResp = await nftsFactoryV2.connect(cloner).clone(_name, _symbol, template, options);
+  console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, options);
+  const txResp = await nftsFactoryV3.clone(_name, _symbol, template, options);
 
-  console.log(`${network?.blockExplorerUrls?.[0] || ""}/tx/${txResp?.hash}`);
+  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash}`);
 
   return txResp;
 };
@@ -65,9 +57,10 @@ const collectionClone = async (
   templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<string> => {
+  console.log("collectionClone", chainId, name, symbol, templateConfig);
+
   let address = "";
 
-  console.log("collectionCloneResponse", chainId, name, symbol, templateConfig);
   const txResp = await collectionCloneResponse(chainId, name, symbol, templateConfig, cloner);
   console.log("txResp", txResp);
 

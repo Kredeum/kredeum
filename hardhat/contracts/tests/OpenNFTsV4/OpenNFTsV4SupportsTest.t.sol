@@ -22,7 +22,7 @@ abstract contract OpenNFTsV4SupportsTest is Test {
     function setUpOpenNFTsV4Supports() public {
         _collection = constructorTest(_owner);
 
-        _resolver = new NFTsResolver();
+        _resolver = new NFTsResolver(_owner, address(this));
     }
 
     function testOpenNFTsV4CheckErcInterfaces() public {

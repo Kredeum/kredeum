@@ -15,8 +15,9 @@ import "../interfaces/IAll.sol";
 contract NFTsResolver is INFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](11);
 
-    function initialize(address owner_) external override(INFTsResolver) {
+    constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
+        _setRegisterer(registerer_);
 
         uint256 i;
 

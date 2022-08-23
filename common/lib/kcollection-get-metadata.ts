@@ -20,7 +20,7 @@ const collectionGetSupports = async (
 
   let supports: CollectionSupports | undefined = {};
 
-  console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`, collection);
+  // console.log(`collectionGetSupports IN ${collectionKey(chainId, address)}`, collection);
 
   supports = supportsCache.get(collectionKey(chainId, address));
 
@@ -37,7 +37,7 @@ const collectionGetSupports = async (
     supportsCache.set(collectionKey(chainId, address), supports);
   }
 
-  console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
+  // console.log(`collectionGetSupports OUT ${collectionKey(chainId, address)}\n`, supports);
   return supports;
 };
 
@@ -48,7 +48,7 @@ const collectionGetOtherData = async (
   account?: string,
   collection: CollectionType = { chainId, address }
 ): Promise<CollectionType> => {
-  console.log(`collectionGetOtherData  IN ${collectionKey(chainId, address, account)}\n`);
+  // console.log(`collectionGetOtherData  IN ${collectionKey(chainId, address, account)}\n`);
 
   if (!(chainId && address && collection.supports && (await isProviderOnChainId(provider, chainId)))) return collection;
 
@@ -58,7 +58,7 @@ const collectionGetOtherData = async (
   {
     await collectionGetOtherDataOld(chainId, address, provider, collection, account);
   }
-  console.log("collectionGetOtherData OUT", collection);
+  // console.log("collectionGetOtherData OUT", collection);
 
   return collection;
 };

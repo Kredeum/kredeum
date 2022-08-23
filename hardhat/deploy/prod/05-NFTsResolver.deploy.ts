@@ -9,11 +9,12 @@ const contractName = "NFTsResolver";
 
 const deployFunction: DeployFunction = async function (hre): Promise<void> {
   const deployer = await hre.ethers.getNamedSigner("deployer");
+  const nftsFactoryV3 = (await hre.ethers.getContract("NFTsFactoryV3", deployer)) as unknown as NFTsFactoryV3;
 
   let nonce = await getNonce(deployer, contractName, "deploy", true);
   const deployOptions = {
     from: deployer.address,
-    args: [],
+    args: [deployer.address, nftsFactoryV3.address],
     log: true,
     nonce
   };
@@ -23,17 +24,8 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   if (deployResult.newlyDeployed) {
     await setNetwork(hre.network.name, "nftsResolver", deployResult.address);
 
-    const nftsResolver = (await hre.ethers.getContract(contractName, deployer)) as unknown as NFTsResolver;
-    const nftsFactoryV3 = (await hre.ethers.getContract("NFTsFactoryV3", deployer)) as unknown as NFTsFactoryV3;
-
-    nonce = await getNonce(deployer, contractName, "initialize");
-    await (await nftsResolver.initialize(deployer.address)).wait();
-
-    nonce = await getNonce(deployer, contractName, "setRegisterer");
-    await (await nftsResolver.setRegisterer(nftsFactoryV3.address)).wait();
-
     nonce = await getNonce(deployer, "NFTsFactoryV3", "setResolver");
-    await (await nftsFactoryV3.setResolver(nftsResolver.address)).wait();
+    await (await nftsFactoryV3.setResolver(deployResult.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }
