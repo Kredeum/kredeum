@@ -47,6 +47,10 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
         emit Clone(templateName, clone_, name, symbol, options);
     }
 
+    function countTemplates() external view override(INFTsFactoryV3) returns (uint256 count) {
+        count = templates.length;
+    }
+
     function setResolver(address resolver_) public override(INFTsFactoryV3) onlyOwner {
         nftsResolver = resolver_;
 

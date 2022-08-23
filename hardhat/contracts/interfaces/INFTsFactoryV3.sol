@@ -22,4 +22,6 @@ interface INFTsFactoryV3 {
     function template(string memory templateName) external view returns (address);
 
     function templates(uint256 num) external view returns (address);
+
+    function countTemplates() external view returns (uint256);
 }

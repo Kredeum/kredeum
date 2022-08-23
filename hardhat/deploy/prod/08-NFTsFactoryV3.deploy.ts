@@ -1,5 +1,6 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 
+import type { NFTsResolver } from "@soltypes/contracts/next/NFTsResolver";
 import { setNetwork } from "@utils/setNetwork";
 import { getNonce } from "@utils/getNonce";
 
@@ -30,6 +31,11 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
 
   if (deployResult.newlyDeployed) {
     await setNetwork(hre.network.name, "nftsFactoryV3", deployResult.address);
+
+    const nftsResolver = (await hre.ethers.getContract(contractName, deployer)) as unknown as NFTsResolver;
+
+    nonce = await getNonce(deployer, contractName, "setRegisterer");
+    await (await nftsResolver.setRegisterer(deployer.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }
