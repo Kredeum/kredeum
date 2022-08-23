@@ -30,12 +30,10 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const nftsResolver = (await getContract("NFTsResolver", deployer)) as unknown as IOpenRegistry;
 
     nonce = await getNonce(deployer, contractName, "initialize");
-    await (
-      await (openNFTsV4 ).initialize("Open NFTs V4", "NFT", deployer.address, 0, deployer.address, 0, [true])
-    ).wait();
+    await (await openNFTsV4.initialize("Open NFTs V4", "NFT", deployer.address, 0, deployer.address, 0, [true])).wait();
 
     nonce = await getNonce(deployer, contractName, "addAddress");
-    await (await (nftsResolver ).addAddress(deployResult.address)).wait();
+    await (await nftsResolver.addAddress(deployResult.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }

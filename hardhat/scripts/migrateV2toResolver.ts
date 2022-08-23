@@ -84,7 +84,7 @@ const main = async () => {
       console.log(String(++i), impl);
       toMigrate.push(impl);
     }
-    if (i >= 80) break;
+    if (i >= 20) break;
   }
   const n = toMigrate.length;
 
@@ -99,7 +99,7 @@ const main = async () => {
         await nftsResolver.connect(deployer).addAddresses(toMigrate, {
           // maxFeePerGas: 120_000_000_000,
           // maxPriorityFeePerGas: 120_000_000_000,
-          gasLimit: 5_000_000
+          gasLimit: 1_000_000
         })
       ).wait();
       console.log("END   Migration !");

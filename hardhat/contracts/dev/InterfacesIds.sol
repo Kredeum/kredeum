@@ -86,7 +86,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = bytes4(0xcfc6c434); // ICloneFactoryV2
         interfacesIds[i++] = bytes4(0x74618347); // INFTsFactory
         interfacesIds[i++] = bytes4(0x78f5e5c2); // INFTsFactoryV2
-        interfacesIds[i++] = bytes4(0x9e4ace22); // INFTsFactoryV3
+        interfacesIds[i++] = type(INFTsFactoryV3).interfaceId; // INFTsFactoryV3
 
         interfacesIds[i++] = bytes4(0x03dc8d64); // IOpenNFTsOld
         interfacesIds[i++] = bytes4(0x5c838d8b); // IOpenNFTsV3Old

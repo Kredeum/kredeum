@@ -23,9 +23,8 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
 
     address public nftsResolver;
 
-    constructor(address initialOwner, address resolver) {
+    constructor(address initialOwner) {
         _transferOwnership(initialOwner);
-        nftsResolver = resolver;
     }
 
     /// @notice clone template
@@ -65,10 +64,15 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
         require(IOpenCloneable(template_).initialized(), "Not initialized");
         require(template_.code.length != 45, "Clone not valid template");
 
-        templates.push(template_);
-        uint256 num = templates.length;
+        uint256 num = _numTemplates[templateName_];
+        if (num >= 1) {
+            templates[num - 1] = template_;
+        } else {
+            templates.push(template_);
+            num = templates.length;
 
-        _numTemplates[templateName_] = num;
+            _numTemplates[templateName_] = num;
+        }
 
         IOpenRegistry(nftsResolver).addAddress(template_);
 
