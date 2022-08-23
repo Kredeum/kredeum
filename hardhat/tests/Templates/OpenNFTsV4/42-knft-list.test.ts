@@ -1,16 +1,16 @@
-import type { NetworkType, CollectionType } from "lib/ktypes";
+import type { NetworkType, CollectionType } from "@lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV4 } from "soltypes/contracts/templates";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next";
 
-import { nftList, nftListFromContract } from "lib/knft-list";
+import { nftList, nftListFromContract } from "@lib/knft-list";
 
-import { covalentNftList } from "lib/api-covalent";
-import { thegraphNftList } from "lib/api-thegraph";
+import { covalentNftList } from "@lib/api-covalent";
+import { thegraphNftList } from "@lib/api-thegraph";
 
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
-import { collectionGet } from "lib/kcollection-get";
-import { getNetwork } from "lib/kconfig";
+import { collectionGet } from "@lib/kcollection-get";
+import { getNetwork } from "@lib/kconfig";
 
 import fetch from "node-fetch";
 global.fetch = fetch as any;

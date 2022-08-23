@@ -1,12 +1,12 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { NftType } from "lib/ktypes";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
-  import { metamaskSigner, metamaskAccount } from "main/metamask";
-  import { nftMint3TxResponse, nftMint4 } from "lib/knft-mint";
+  import type { NftType } from "@lib/ktypes";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
+  import { metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { nftMint3TxResponse, nftMint4 } from "@lib/knft-mint";
 
   import NetworkList from "../components/Network/NetworkList.svelte";
-  import { nftStore } from "stores/nft/nft";
+  import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} />

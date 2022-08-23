@@ -4,35 +4,33 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "baseUrl": "./",
     "resolveJsonModule": true,
+    "baseUrl": "..",
     "paths": {
-      "lib/*": [
-        "../common/lib/*"
+      "@lib/*": [
+        "common/lib/*"
       ],
-      "config/*": [
-        "../common/config/*"
+      "@utils/*": [
+        "common/utils/*"
       ],
-      "soltypes/*": [
-        "../common/types/*"
+      "@config/*": [
+        "common/config/*"
       ],
-      "scripts/*": [
-        "scripts/*"
+      "@soltypes/*": [
+        "common/types/*"
       ],
-      "abis/*": [
-        "../common/abis/*",
+      "@scripts/*": [
+        "hardhat/scripts/*"
+      ],
+      "@abis/*": [
+        "common/abis/*",
       ]
     }
   },
   "include": [
-    "./scripts/**/*.ts",
-    "./tests/**/*.ts",
-    "./tests-ok/**/*.ts",
-    "./deploy/**/*.ts",
-    "../common/lib/**/*.ts",
-    "../common/types/**/*.ts"
+    "**/*.ts"
   ],
-  "files": [
-    "./hardhat.config.ts"
-  ]
+  "exclude": [
+    "node_modules"
+  ],
 }

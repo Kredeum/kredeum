@@ -1,9 +1,9 @@
-import type { NFTsFactoryV2 } from "soltypes/contracts";
-import type { NetworkType } from "lib/ktypes";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
+import type { NetworkType } from "@lib/ktypes";
 
-import config from "config/config.json";
-import INFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import ICloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import config from "@config/config.json";
+import INFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import ICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";

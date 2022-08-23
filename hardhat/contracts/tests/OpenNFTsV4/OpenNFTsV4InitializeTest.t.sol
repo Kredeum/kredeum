@@ -24,33 +24,33 @@ abstract contract OpenNFTsV4InitializeTest is Test {
     }
 
     function testInitializeName() public {
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
         // assertEq(IERC721Metadata(_collection).name(), "OpenERC721Test");
     }
 
     function testInitializeSymbol() public {
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
         assertEq(IERC721Metadata(_collection).symbol(), "TEST");
     }
 
     function testInitializeOwner() public {
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
         assertEq(IERC173(_collection).owner(), _owner);
     }
 
     function testInitializeOpen() public {
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
         assertEq(IOpenNFTsV4(_collection).open(), true);
     }
 
     function testInitializeNotOpen() public {
         _options[0] = false;
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
         assertEq(IOpenNFTsV4(_collection).open(), false);
     }
 
     function testFailInitializeTwice() public {
-        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, _options);
-        IOpenNFTsV4(_collection).initialize("OpenNFTsOldTestTwice", "OPTEST2", _tester, _options);
+        IOpenNFTsV4(_collection).initialize("OpenERC721Test", "TEST", _owner, 0, address(0), 0, _options);
+        IOpenNFTsV4(_collection).initialize("OpenNFTsOldTestTwice", "OPTEST2", _tester, 0, address(0), 0, _options);
     }
 }

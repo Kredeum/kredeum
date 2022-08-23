@@ -3,7 +3,7 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../templates/OpenNFTsV4.sol";
+import "../../next/OpenNFTsV4.sol";
 
 import "./OpenNFTsV4InitializeTest.t.sol";
 import "./OpenNFTsV4SupportsTest.t.sol";
@@ -57,7 +57,7 @@ contract OpenNFTsV4Test is
         options[0] = true;
 
         OpenNFTsV4 collection = new OpenNFTsV4();
-        if (init) collection.initialize("OpenERC721Test", "OPTEST", owner, options);
+        if (init) collection.initialize("OpenERC721Test", "OPTEST", owner, 0, address(0), 0, options);
 
         return address(collection);
     }

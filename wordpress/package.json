@@ -6,7 +6,7 @@
   "scripts": {
     "clean": "rm -rf vendor node_modules plugins/kredeum-nfts/lib plugins/kredeum-nfts/vendor plugins/kredeum-nfts/readme.txt plugins/kredeum-nfts/kredeum-nfts.php",
     "postinstall": "composer install --prefer-dist --no-progress",
-    "build-plugins": "ts-node build-plugins.ts",
+    "build-plugins": "ts-node build-plugins",
     "build-vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
     "build": "npm run build-plugins && npm run build-vendor",
     "fix": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
@@ -19,6 +19,7 @@
   "license": "ISC",
   "devDependencies": {
     "cypress": "^9.7.0",
-    "cypress-file-upload": "^5.0.8"
+    "cypress-file-upload": "^5.0.8",
+    "tsconfig-paths": "^4.1.0"
   }
 }

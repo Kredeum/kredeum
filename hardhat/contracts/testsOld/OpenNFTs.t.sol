@@ -9,7 +9,7 @@ import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
 import "OpenNFTs/contracts/interfaces/IERC1155.sol";
 
-import "../templates/OpenNFTsV4.sol";
+import "../next/OpenNFTsV4.sol";
 
 contract OpenNFTsOldTest is Test {
     OpenNFTsV4 internal op;
@@ -36,9 +36,10 @@ contract OpenNFTsOldTest is Test {
         opId = type(IOpenNFTsV4).interfaceId;
         options[0] = true;
 
-        op.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
+        changePrank(owner);
+        op.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
 
-        startHoax(minter);
+        changePrank(minter);
         tokenID0 = op.mint(_TOKEN_URI);
     }
 }

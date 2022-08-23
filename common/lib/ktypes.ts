@@ -1,9 +1,17 @@
+type Address = string;
+
 type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0";
 type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
 type ABIS = IErcKeys | IOpenNFTsKeys;
 
-type Address = string;
+type NetworkWriteableFieldsType =
+  | "openNFTs"
+  | "nftsFactory"
+  | "nftsFactoryV2"
+  | "nftsFactoryV3"
+  | "nftsResolver"
+  | "openBound";
 
 type NetworkType = {
   chainId: number;
@@ -12,6 +20,8 @@ type NetworkType = {
   iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
+  etherscanApiKey?: string;
+  hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
   moralis?: { active: boolean; url?: string };
@@ -20,12 +30,13 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
-  openSea?:  string ;
+  openSea?: string;
   openMulti?: string;
   openBound?: string;
   openNFTs?: string;
   nftsFactory?: string;
   nftsFactoryV2?: string;
+  nftsFactoryV3?: string;
   nftsResolver?: string;
   eip1559?: boolean;
 };
@@ -47,20 +58,33 @@ type CollectionType = {
   open?: boolean;
   supports?: CollectionSupports;
 };
+
 type CollectionSupports = {
   IERC165?: boolean;
-  IERC173?: boolean;
-
+  
   IERC721?: boolean;
   IERC721Metadata?: boolean;
   IERC721Enumerable?: boolean;
   IERC721TokenReceiver?: boolean;
-
+  
   IERC1155?: boolean;
   IERC1155MetadataURI?: boolean;
   IERC1155TokenReceiver?: boolean;
-
+  
+  IERC173?: boolean;
   IERC2981?: boolean;
+
+  IOpenNFTs?: boolean;
+  IOpenChecker?: boolean;
+  IOpenCloneable?: boolean;
+  IOpenMarketable?: boolean;
+  IOpenPauseable?: boolean;
+
+  ICloneFactory?: boolean;
+  ICloneFactoryV2?: boolean;
+  INFTsFactory?: boolean;
+  INFTsFactoryV2?: boolean;
+  INFTsFactoryV3?: boolean;
 
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;
@@ -69,15 +93,6 @@ type CollectionSupports = {
   IOpenNFTsV4?: boolean;
   IOpenBound?: boolean;
 
-  ICloneFactory?: boolean;
-  INFTsFactory?: boolean;
-  ICloneFactoryV2?: boolean;
-  INFTsFactoryV2?: boolean;
-
-  IOpenChecker?: boolean;
-  IOpenCloneable?: boolean;
-  IOpenMarketable?: boolean;
-  IOpenPauseable?: boolean;
 };
 
 ///////////////////////////////////////////////////
@@ -145,6 +160,7 @@ export type {
   NftType,
   AbiType,
   NetworkType,
+  NetworkWriteableFieldsType,
   CollectionType,
   Address,
   CollectionSupports,

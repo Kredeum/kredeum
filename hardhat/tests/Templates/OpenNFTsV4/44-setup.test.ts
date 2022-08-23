@@ -3,17 +3,17 @@ import { expect } from "chai";
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import { getChainId, network, ethers, deployments } from "hardhat";
 
-import type { OpenNFTsV4 } from "soltypes/contracts/templates";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next";
 
-import abiIOpenNFTsV4 from "abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+import abiIOpenNFTsV4 from "@abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
 
-import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiIERC2981 from "abis/contracts/interfaces/IERC2981.sol/IERC2981.json";
-import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiIERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC2981 from "@abis/contracts/interfaces/IERC2981.sol/IERC2981.json";
+import abiIERC721 from "@abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Enumerable from "@abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiIERC721Metadata from "@abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 
-import { interfaceId } from "lib/kconfig";
+import { interfaceId } from "@lib/kconfig";
 
 const { provider, getNamedSigner, getContract } = ethers;
 

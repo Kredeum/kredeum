@@ -7,13 +7,14 @@ contract OpenERC173Text is OpenNFTsOldTest {
     event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);
 
     function testInitialize() public {
-        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
+        changePrank(owner);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
         assertEq(opn.owner(), owner);
     }
 
     function testFailInitializeTwice() public {
-        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, options);
-        opn.initialize("OpenNFTsOldTest", "OPTEST", tester, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", owner, 0, address(0), 0, options);
+        opn.initialize("OpenNFTsOldTest", "OPTEST", tester, 0, address(0), 0, options);
     }
 
     function testOwner() public {

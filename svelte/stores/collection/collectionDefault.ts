@@ -1,7 +1,7 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { getNetwork } from "lib/kconfig";
+import { getNetwork } from "@lib/kconfig";
 
 import { collectionStore } from "./collection";
 

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getChainName } from "lib/kconfig";
+  import { getChainName } from "@lib/kconfig";
 
   /////////////////////////////////////////////////
   // <Network {chainId} {txt} />

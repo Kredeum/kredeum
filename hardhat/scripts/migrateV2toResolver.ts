@@ -1,17 +1,17 @@
-import type { NFTsFactoryV2 } from "soltypes/contracts";
-import type { NFTsResolver } from "soltypes/contracts/templates";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
+import type { NFTsResolver } from "@soltypes/contracts/next";
 
-import type { IERC165 } from "soltypes/contracts/interfaces";
-import type { NetworkType } from "lib/ktypes";
+import type { IERC165 } from "@soltypes/contracts/interfaces";
+import type { NetworkType } from "@lib/ktypes";
 
-import networks from "config/networks.json";
+import networks from "@config/networks.json";
 
-import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
 
-import abiINFTsFactory2 from "abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiICloneFactory2 from "abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
-import abiINFTsResolver from "abis/contracts/templates/NFTsResolver.sol/NFTsResolver.json";
+import abiINFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";
@@ -26,12 +26,7 @@ const addressesV2 = async (nftsFactoryV2: NFTsFactoryV2): Promise<string[]> => {
   return addresses;
 };
 
-const addressesRes = async (nftsResolver: NFTsResolver): Promise<string[]> => {
-  const addresses: string[] = [];
-  const collectionsInfos = await nftsResolver.openResolver(random);
-  collectionsInfos.forEach((collectionInfos) => addresses.push(collectionInfos[0]));
-  return addresses;
-};
+const addressesRes = async (nftsResolver: NFTsResolver): Promise<string[]> => await nftsResolver.getAddresses();
 
 const main = async () => {
   const { provider, getNamedSigners } = ethers;
@@ -45,11 +40,15 @@ const main = async () => {
     network.nftsFactoryV2 || "",
     abiINFTsFactory2.concat(abiICloneFactory2),
     provider
-  ) as NFTsFactoryV2;
+  ) as unknown as NFTsFactoryV2;
 
   let nftsResolver: NFTsResolver | undefined;
   if (network.nftsResolver) {
-    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiINFTsResolver, provider) as NFTsResolver;
+    nftsResolver = new ethers.Contract(
+      network.nftsResolver || "",
+      abiINFTsResolver,
+      provider
+    ) as unknown as NFTsResolver;
   }
 
   console.log("chainId      ", chainId);
@@ -74,9 +73,9 @@ const main = async () => {
     // Not in V2
     if (implsRes.indexOf(impl) == -1) {
       // isERC721andNotRes = true;
-      const contract = new ethers.Contract(impl, abiIERC165, deployer);
+      const contract = new ethers.Contract(impl, abiIERC165, deployer) as unknown as IERC165;
       try {
-        isERC721andNotRes = await (contract as IERC165).supportsInterface("0x80ac58cd");
+        isERC721andNotRes = await contract.supportsInterface("0x80ac58cd");
       } catch (e) {
         console.error(impl, e);
       }
@@ -85,7 +84,7 @@ const main = async () => {
       console.log(String(++i), impl);
       toMigrate.push(impl);
     }
-    if (i >= 70) break;
+    if (i >= 20) break;
   }
   const n = toMigrate.length;
 
@@ -96,7 +95,13 @@ const main = async () => {
     const go: string = prompt("Proceed with Migration y/N ? ");
     if (go[0].toLowerCase() == "y") {
       console.log("START Migration...");
-      await (await nftsResolver.connect(deployer).addAddresses(toMigrate, { gasLimit: 2_000_000 })).wait();
+      await (
+        await nftsResolver.connect(deployer).addAddresses(toMigrate, {
+          // maxFeePerGas: 120_000_000_000,
+          // maxPriorityFeePerGas: 120_000_000_000,
+          gasLimit: 1_000_000
+        })
+      ).wait();
       console.log("END   Migration !");
 
       const implResNew = await addressesRes(nftsResolver);

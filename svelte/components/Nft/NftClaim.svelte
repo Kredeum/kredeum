@@ -1,13 +1,13 @@
 <script lang="ts">
-  import type { NftType } from "lib/ktypes";
-  import NftStorage from "lib/knft-storage";
-  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, storageLinkToUrlHttp } from "lib/kconfig";
-  import { nftClaim3TxResponse, nftClaim4 } from "lib/knft-mint";
-  import { cidToInt } from "lib/kcid";
+  import type { NftType } from "@lib/ktypes";
+  import NftStorage from "@lib/knft-storage";
+  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, storageLinkToUrlHttp } from "@lib/kconfig";
+  import { nftClaim3TxResponse, nftClaim4 } from "@lib/knft-mint";
+  import { cidToInt } from "@lib/kcid";
 
   import type { Readable } from "svelte/store";
-  import { nftStore } from "stores/nft/nft";
-  import { metamaskSigner, metamaskAccount } from "main/metamask";
+  import { nftStore } from "@stores/nft/nft";
+  import { metamaskSigner, metamaskAccount } from "@main/metamask";
 
   import NetworkList from "../Network/NetworkList.svelte";
 

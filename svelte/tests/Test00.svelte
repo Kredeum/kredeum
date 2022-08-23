@@ -1,6 +1,6 @@
 <script lang="ts">
   // import { onMount } from "svelte";
-  import { getCreate } from "lib/kconfig";
+  import { getCreate } from "@lib/kconfig";
 
   import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "../tests/Metamask.svelte";
@@ -12,8 +12,8 @@
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../Nft/NftsListGet.svelte";
   // import RefreshButton from "../Nft/NftsListRefresh.svelte";
-  // import { metamaskInit } from "helpers/metamask";
-  // import { metamaskChainId, metamaskAccount } from "main/metamask";
+  // import { metamaskInit } from "@helpers/metamask";
+  // import { metamaskChainId, metamaskAccount } from "@main/metamask";
   // import Create from "./Create.svelte";
   // import NftDetail from "./NftDetail.svelte";
   // import NftMint from "../Nft/NftMint.svelte";

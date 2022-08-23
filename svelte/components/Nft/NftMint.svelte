@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
-  import type { NftType } from "lib/ktypes";
+  import type { NftType } from "@lib/ktypes";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { metamaskChainId, metamaskSigner, metamaskProvider } from "main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskProvider } from "@main/metamask";
 
   import {
     nftMintTexts,
@@ -15,7 +15,7 @@
     nftMint2SwarmJson,
     nftMint3TxResponse,
     nftMint4
-  } from "lib/knft-mint";
+  } from "@lib/knft-mint";
   import {
     textShort,
     swarmGatewayUrl,
@@ -24,12 +24,12 @@
     nftUrl,
     storageLinkToUrlHttp,
     sleep
-  } from "lib/kconfig";
+  } from "@lib/kconfig";
   /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
-  import { clickOutside } from "helpers/clickOutside";
+  import { clickOutside } from "@helpers/clickOutside";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />

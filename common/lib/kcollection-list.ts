@@ -1,19 +1,21 @@
-import type { CollectionType } from "./ktypes";
+import type { CollectionType } from "@lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import { BigNumber } from "ethers";
-import { DEFAULT_NAME, DEFAULT_SYMBOL, collectionListKey } from "./kconfig";
+import { BigNumber, constants } from "ethers";
+import { DEFAULT_NAME, DEFAULT_SYMBOL, getChainName } from "@lib/kconfig";
 
-import { factoryGetContract } from "./kfactory-get";
-import { resolverGetAddress, resolverGetContract } from "./kresolver-get";
-import { collectionMerge } from "./kcollection-get";
+import { factoryGetContract } from "@lib/kfactory-get";
+import { resolverGetAddress, resolverGetContract, resolverGetCollectionFromCollectionInfos } from "@lib/kresolver-get";
+import { collectionMerge } from "@lib/kcollection-get";
 
-import { getChecksumAddress, getNetwork, collectionUrl } from "./kconfig";
+import { getChecksumAddress, getNetwork, collectionUrl } from "@lib/kconfig";
 
-import { alchemyGet, alchemyCollectionList } from "lib/api-alchemy";
-import { covalentGet, covalentCollectionList } from "lib/api-covalent";
-import { thegraphGet, thegraphCollectionList } from "lib/api-thegraph";
-import { moralisGet, moralisCollectionList } from "lib/api-moralis";
+import { alchemyGet, alchemyCollectionList } from "@lib/api-alchemy";
+import { covalentGet, covalentCollectionList } from "@lib/api-covalent";
+import { thegraphGet, thegraphCollectionList } from "@lib/api-thegraph";
+import { moralisGet, moralisCollectionList } from "@lib/api-moralis";
+
+import { IERC721Infos } from "@soltypes/contracts/next/NFTsResolver";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -38,20 +40,46 @@ const collectionListMerge = (
 
 const collectionListFromResolver = async (
   chainId: number,
-  account: string,
-  provider: Provider
+  provider: Provider,
+  account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, chainId, account);
+
+  const collections: Map<string, CollectionType> = new Map();
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+  const collectionsInfosStructOutput: Array<IERC721Infos.CollectionInfosStructOutput> =
+    await nftsResolver.getNFTsResolverCollectionsInfos(account);
+
+  console.log("collectionsInfosStructOutput", collectionsInfosStructOutput);
+
+  for (let index = 0; index < collectionsInfosStructOutput.length; index++) {
+    const collection = resolverGetCollectionFromCollectionInfos(chainId, collectionsInfosStructOutput[index], account);
+    collections.set(collectionUrl(chainId, collection.address), collection);
+  }
+
+  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
+  return collections;
+};
+
+const collectionListFromFactory = async (
+  chainId: number,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<Map<string, CollectionType>> => {
+  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
+
   const network = getNetwork(chainId);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = resolverGetContract(chainId, provider);
   if (nftsResolver) {
-    type CollectionInfos = [string, string, string, string, BigNumber, BigNumber];
-    const collectionsInfos: Array<CollectionInfos> = await nftsResolver.openResolver(account);
-    const chainName = network?.chainName;
 
+    const collectionsInfos  = await nftsResolver.getNFTsResolverCollectionsInfos(account);
+    // console.log("collectionListFromFactory balances", balances);
+
+    const chainName = network?.chainName;
     for (let index = 0; index < collectionsInfos.length; index++) {
       const collectionInfos = collectionsInfos[index];
 
@@ -75,60 +103,14 @@ const collectionListFromResolver = async (
       collections.set(collectionUrl(chainId, address), collection);
     }
   }
-  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
-  return collections;
-};
-
-const collectionListFromFactory = async (
-  chainId: number,
-  account: string,
-  provider: Provider
-): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, chainId, account);
-
-  const network = getNetwork(chainId);
-
-  const collections: Map<string, CollectionType> = new Map();
-
-  const nftsFactory = factoryGetContract(chainId, provider);
-  if (nftsFactory) {
-
-    type BalanceOf = [string, BigNumber, string, string, string, BigNumber];
-    const balances: Array<BalanceOf> = await nftsFactory.balancesOf(account);
-    // console.log("collectionListFromFactory balances", balances);
-
-    for (let index = 0; index < balances.length; index++) {
-      const chainName = network?.chainName;
-      const balance: BalanceOf = balances[index];
-
-      const address: string = getChecksumAddress(balance[0]);
-      const owner: string = getChecksumAddress(balance[2]);
-      const name: string = balance[3] || DEFAULT_NAME;
-      const symbol: string = balance[4] || DEFAULT_SYMBOL;
-      const totalSupply = Number(balance[5]);
-      const balanceOf = Number(balance[1]);
-
-      const collection: CollectionType = {
-        chainId,
-        chainName,
-        address,
-        owner,
-        name,
-        symbol,
-        totalSupply
-      };
-      collection.balancesOf = new Map([[account, balanceOf]]);
-      collections.set(collectionUrl(chainId, address), collection);
-    }
-  }
   // console.log(`collectionListFromFactory ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
 const collectionList = async (
   chainId: number,
-  account: string,
   provider: Provider,
+  account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
@@ -137,35 +119,37 @@ const collectionList = async (
 
   const network = getNetwork(chainId);
   if (network && account) {
-    let collectionsOwner: Map<string, CollectionType> = new Map();
-    let collectionsKredeum: Map<string, CollectionType> = new Map();
+    // let collectionsOwner: Map<string, CollectionType> = new Map();
+    // let collectionsKredeum: Map<string, CollectionType> = new Map();
 
-    // GET user collections
-    if (alchemyGet(chainId)) {
-      collectionsOwner = await alchemyCollectionList(chainId, account);
-      // console.log("collectionList alchemyCollectionList", collectionsOwner);
-    } else if (thegraphGet(chainId)) {
-      collectionsOwner = await thegraphCollectionList(chainId, account);
-      // console.log("collectionList thegraphCollectionList", collectionsOwner);
-    } else if (moralisGet(chainId)) {
-      collectionsOwner = await moralisCollectionList(chainId, account);
-    } else if (covalentGet(chainId)) {
-      collectionsOwner = await covalentCollectionList(chainId, account);
-      // console.log("collectionList covalentCollectionList", collectionsOwner);
-    }
+    // // GET user collections
+    // if (alchemyGet(chainId)) {
+    //   collectionsOwner = await alchemyCollectionList(chainId, account);
+    //   // console.log("collectionList alchemyCollectionList", collectionsOwner);
+    // } else if (thegraphGet(chainId)) {
+    //   collectionsOwner = await thegraphCollectionList(chainId, account);
+    //   // console.log("collectionList thegraphCollectionList", collectionsOwner);
+    // } else if (moralisGet(chainId)) {
+    //   collectionsOwner = await moralisCollectionList(chainId, account);
+    // } else if (covalentGet(chainId)) {
+    //   collectionsOwner = await covalentCollectionList(chainId, account);
+    //   // console.log("collectionList covalentCollectionList", collectionsOwner);
+    // }
 
-    // console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
-    if (resolverGetAddress(chainId)) {
-      collectionsKredeum = await collectionListFromResolver(chainId, account, provider);
-    } else {
-      collectionsKredeum = await collectionListFromFactory(chainId, account, provider);
-    }
+    // // console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
+    // if (resolverGetAddress(chainId)) {
+    //   collectionsKredeum = await collectionListFromResolver(chainId, provider, account);
+    // } else {
+    //   collectionsKredeum = await collectionListFromFactory(chainId, provider, account);
+    // }
 
-    // console.log("collectionList collectionListKredeum", collectionsKredeum);
+    // // console.log("collectionList collectionListKredeum", collectionsKredeum);
 
-    // MERGE collectionsOwner and collectionsKredeum
-    collections = collectionListMerge(collectionsOwner, collectionsKredeum);
-    // console.log("collectionList merge", collections);
+    // // MERGE collectionsOwner and collectionsKredeum
+    // collections = collectionListMerge(collectionsOwner, collectionsKredeum);
+    // // console.log("collectionList merge", collections);
+
+    collections = await collectionListFromResolver(chainId, provider, account);
   }
 
   if (mintable) {

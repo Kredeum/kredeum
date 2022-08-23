@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "lib/ktypes";
-  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "lib/kconfig";
-  // import { collectionKey } from "lib/kconfig";
+  import type { CollectionType } from "@lib/ktypes";
+  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
+  // import { collectionKey } from "@lib/kconfig";
 
-  import { collectionStore } from "stores/collection/collection";
+  import { collectionStore } from "@stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />

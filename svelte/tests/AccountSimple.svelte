@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getEnsName } from "lib/kconfig";
+  import { getEnsName } from "@lib/kconfig";
   export let account: string;
 </script>
 

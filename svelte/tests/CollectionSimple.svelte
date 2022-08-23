@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "lib/ktypes";
+  import type { CollectionType } from "@lib/ktypes";
 
-  // import { collectionStore } from "stores/collection/collection";
+  // import { collectionStore } from "@stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />
@@ -30,7 +30,7 @@
 <div>
   <strong>
     {#if $collection}
-      {$collection.name || "No name"} - 
+      {$collection.name || "No name"} -
       {$collection.address}
     {:else}
       Choose one collection

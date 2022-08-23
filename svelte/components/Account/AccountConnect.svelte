@@ -1,8 +1,8 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { metamaskInit, metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "helpers/metamask";
-  import { metamaskAccount } from "main/metamask";
+  import { metamaskInit, metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "@helpers/metamask";
+  import { metamaskAccount } from "@main/metamask";
 
   import Account from "./Account.svelte";
 

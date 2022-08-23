@@ -1,21 +1,20 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import type { NetworkType } from "lib/ktypes";
 
-import type { INFTsResolver } from "soltypes/contracts/interfaces";
-import { getNonce } from "../lib/nonces";
-
-import { writeFile } from "fs/promises";
-import networks from "config/networks.json";
+import type { NFTsResolver } from "@soltypes/contracts/next/NFTsResolver";
+import type { NFTsFactoryV3 } from "@soltypes/contracts/next/NFTsFactoryV3";
+import { setNetwork } from "@utils/setNetwork";
+import { getNonce } from "@utils/getNonce";
 
 const contractName = "NFTsResolver";
 
 const deployFunction: DeployFunction = async function (hre): Promise<void> {
   const deployer = await hre.ethers.getNamedSigner("deployer");
+  const nftsFactoryV3 = (await hre.ethers.getContract("NFTsFactoryV3", deployer)) as unknown as NFTsFactoryV3;
 
   let nonce = await getNonce(deployer, contractName, "deploy", true);
   const deployOptions = {
     from: deployer.address,
-    args: [],
+    args: [deployer.address, nftsFactoryV3.address],
     log: true,
     nonce
   };
@@ -23,25 +22,17 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   const deployResult = await hre.deployments.deploy(contractName, deployOptions);
 
   if (deployResult.newlyDeployed) {
-    const index = networks.findIndex((nw) => nw.chainName === hre.network.name);
+    await setNetwork(hre.network.name, "nftsResolver", deployResult.address);
 
-    const networkConf: NetworkType = networks[index];
-    if (deployResult.address != networkConf.nftsResolver) {
-      console.info(contractName, "deployed => new address");
-      networks[index].nftsResolver = deployResult.address;
-      await writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2)).catch(
-        (err) => console.log(err)
-      );
-    }
-    const nftsResolver = await hre.ethers.getContract(contractName, deployer);
+    nonce = await getNonce(deployer, "NFTsFactoryV3", "setResolver");
+    await (await nftsFactoryV3.setResolver(deployResult.address)).wait();
 
-    nonce = await getNonce(deployer, contractName, "initialize");
-    await (await (nftsResolver as INFTsResolver).initialize(deployer.address)).wait();
-
-    nonce = await getNonce(deployer, contractName, "end", true);
+    nonce = await getNonce(deployer, contractName, "end");
   }
 };
 
+deployFunction.dependencies = ["NFTsFactoryV3"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
+
 export default deployFunction;

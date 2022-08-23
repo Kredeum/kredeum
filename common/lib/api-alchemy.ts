@@ -1,9 +1,9 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "./ktypes";
-import type { FetchResponse } from "lib/kfetch";
-import { fetchJson, FETCH_LIMIT } from "lib/kfetch";
-import { getChecksumAddress, getNetwork, getChainName, collectionUrl, nftKey } from "lib/kconfig";
+import type { CollectionType, NftType } from "@lib/ktypes";
+import type { FetchResponse } from "@lib/kfetch";
+import { fetchJson, FETCH_LIMIT } from "@lib/kfetch";
+import { getChecksumAddress, getNetwork, getChainName, collectionUrl, nftKey } from "@lib/kconfig";
 
 const alchemyCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollectionList ${collectionListKey(chainId, account)}\n`);
@@ -32,7 +32,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
   const ownedNfts = AlchemyCollectionsAnswer.ownedNfts;
   if (!(ownedNfts && totalCount >= 0)) return collections;
 
-  for (let index = 0; index < totalCount; index++) {
+  for (let index = 0; index < Math.min(100, totalCount); index++) {
     const ownedNft = ownedNfts[index];
     // console.log("alchemyCollectionList", ownedNft);
 

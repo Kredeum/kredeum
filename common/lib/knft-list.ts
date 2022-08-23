@@ -1,18 +1,18 @@
-import type { CollectionType, NftType } from "./ktypes";
+import type { CollectionType, NftType } from "@lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import { collectionContractGet } from "./kcollection-get";
-import { nftGetFromContractEnumerable } from "./knft-get";
-import { nftGetMetadata } from "./knft-get-metadata";
+import { collectionContractGet } from "@lib/kcollection-get";
+import { nftGetFromContractEnumerable } from "@lib/knft-get";
+import { nftGetMetadata } from "@lib/knft-get-metadata";
 
-import { alchemyGet, alchemyNftList } from "lib/api-alchemy";
-import { covalentGet, covalentNftList } from "lib/api-covalent";
-import { thegraphGet, thegraphNftList } from "lib/api-thegraph";
-import { moralisGet, moralisNftList } from "lib/api-moralis";
+import { alchemyGet, alchemyNftList } from "@lib/api-alchemy";
+import { covalentGet, covalentNftList } from "@lib/api-covalent";
+import { thegraphGet, thegraphNftList } from "@lib/api-thegraph";
+import { moralisGet, moralisNftList } from "@lib/api-moralis";
 
-import { getNetwork, isProviderOnChainId } from "./kconfig";
-import { IERC721, IERC721Enumerable } from "soltypes/contracts/interfaces";
-import { FETCH_LIMIT } from "lib/kfetch";
+import { getNetwork, isProviderOnChainId } from "@lib/kconfig";
+import { IERC721, IERC721Enumerable } from "@soltypes/contracts/interfaces";
+import { FETCH_LIMIT } from "@lib/kfetch";
 
 const nftListFromContract = async (
   chainId: number,

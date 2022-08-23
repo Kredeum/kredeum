@@ -1,8 +1,8 @@
-import khandlebars from "../common/lib/khandlebars";
+import { runHandlebars } from "@utils/runHandlebars";
 
 const main = async (): Promise<void> => {
-  await khandlebars("../wordpress/readme.txt_handlebars", "../wordpress/plugins/kredeum-nfts/readme.txt");
-  await khandlebars("../wordpress/kredeum-nfts.php_handelbars", "../wordpress/plugins/kredeum-nfts/kredeum-nfts.php");
+  await runHandlebars("../wordpress/readme.txt_handlebars", "../wordpress/plugins/kredeum-nfts/readme.txt");
+  await runHandlebars("../wordpress/kredeum-nfts.php_handelbars", "../wordpress/plugins/kredeum-nfts/kredeum-nfts.php");
 };
 
 main().catch(console.error);

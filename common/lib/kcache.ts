@@ -1,4 +1,4 @@
-import type { NftType, CollectionType } from "./ktypes";
-import { getChainName } from "./kconfig";
+import type { NftType, CollectionType } from "@lib/ktypes";
+import { getChainName } from "@lib/kconfig";
 
 export {};

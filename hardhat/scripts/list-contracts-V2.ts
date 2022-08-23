@@ -2,18 +2,18 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import hre from "hardhat";
 import { Contract } from "ethers";
 
-import type { NFTsFactoryV2 } from "soltypes/contracts";
-import type { IERC721Enumerable } from "soltypes/contracts/interfaces";
-import abiINFTsFactory from "abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
-import abiICloneFactory from "abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
-import abiIERC165 from "abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiIERC721 from "abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiIERC721Metadata from "abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
-import abiIERC721Enumerable from "abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
+import type { IERC721Enumerable } from "@soltypes/contracts/interfaces";
+import abiINFTsFactory from "@abis/contracts/interfaces/INFTsFactory.sol/INFTsFactory.json";
+import abiICloneFactory from "@abis/contracts/interfaces/ICloneFactory.sol/ICloneFactory.json";
+import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC721 from "@abis/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Metadata from "@abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIERC721Enumerable from "@abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 
-import type { CollectionType } from "lib/ktypes";
-import { collectionGet } from "lib/kcollection-get";
-import networks from "config/networks.json";
+import type { CollectionType } from "@lib/ktypes";
+import { collectionGet } from "@lib/kcollection-get";
+import networks from "@config/networks.json";
 
 const ABI_OPEN = "function open() view returns (bool)";
 const INFT = abiIERC165.concat(abiIERC721).concat(abiIERC721Metadata).concat(abiIERC721Enumerable).concat(ABI_OPEN);

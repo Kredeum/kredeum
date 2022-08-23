@@ -6,51 +6,38 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",
-    "baseUrl": ".",
+    "baseUrl": "..",
     "paths": {
-      "app/*": [
-        "app/*"
+      "@stores/*": [
+        "svelte/stores/*"
       ],
-      "components/*": [
-        "components/*"
+      "@helpers/*": [
+        "svelte/helpers/*"
       ],
-      "stores/*": [
-        "stores/*"
+      "@main/*": [
+        "svelte/main/*"
       ],
-      "helpers/*": [
-        "helpers/*"
+      "@lib/*": [
+        "common/lib/*"
       ],
-      "tests/*": [
-        "tests/*"
+      "@config/*": [
+        "common/config/*"
       ],
-      "lib/*": [
-        "../common/lib/*"
+      "@soltypes/*": [
+        "common/types/*"
       ],
-      "config/*": [
-        "../common/config/*"
+      "@abis/*": [
+        "common/abis/*"
       ],
-      "soltypes/*": [
-        "../common/types/*"
-      ],
-      "abis/*": [
-        "../common/abis/*"
+      "@utils/*": [
+        "common/utils/*"
       ]
     }
     // "strict": true
   },
   "include": [
-    "main/**/*.ts",
-    "components/**/*.svelte",
-    "components/**/*.ts",
-    "stores/**/*.ts",
-    "helpers/**/*.ts",
-    "tests/**/*.svelte",
-    "tests/**/*.ts",
-    "../common/lib/**/*.ts"
-  ],
-  "files": [
-    "rollup.config.ts",
-    "components/global.d.ts"
+    "**/*.ts",
+    "../common/lib/*.ts"
   ],
   "exclude": [
     "node_modules"

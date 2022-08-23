@@ -1,22 +1,22 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { ethers, BigNumber, Contract } from "ethers";
 
-import type { NftType } from "./ktypes";
-import type { IOpenMulti } from "soltypes/contracts/interfaces";
-import abiIOpenMulti from "abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
+import type { NftType } from "@lib/ktypes";
+import type { IOpenMulti } from "@soltypes/contracts/interfaces";
+import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
-import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "./kconfig";
-import { nftGetMetadata } from "./knft-get-metadata";
-import { collectionContractGet } from "./kcollection-get";
+import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "@lib/kconfig";
+import { nftGetMetadata } from "@lib/knft-get-metadata";
+import { collectionContractGet } from "@lib/kcollection-get";
 
-import { nftMint1IpfsImage, nftMint2IpfsJson } from "./knft-mint-ipfs";
-import { nftMint1SwarmImage, nftMint2SwarmJson } from "./knft-mint-swarm";
+import { nftMint1IpfsImage, nftMint2IpfsJson } from "@lib/knft-mint-ipfs";
+import { nftMint1SwarmImage, nftMint2SwarmJson } from "@lib/knft-mint-swarm";
 
-import type { IOpenNFTsV0 } from "soltypes/contracts/interfaces/IOpenNFTsV0";
-import type { IOpenNFTsV1 } from "soltypes/contracts/interfaces/IOpenNFTsV1";
-import type { IOpenNFTsV2 } from "soltypes/contracts/interfaces/IOpenNFTsV2";
-import type { IOpenNFTsV3 } from "soltypes/contracts/interfaces/IOpenNFTsV3";
-import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
+import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
+import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
+import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
+import type { IOpenNFTsV3 } from "@soltypes/contracts/interfaces/IOpenNFTsV3";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

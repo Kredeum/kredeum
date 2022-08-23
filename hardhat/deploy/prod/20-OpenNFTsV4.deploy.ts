@@ -1,12 +1,11 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
-import type { IOpenNFTsV4, ICloneFactoryV2 } from "soltypes/contracts/interfaces";
-import type { IOpenRegistry } from "soltypes/OpenNFTs/contracts/interfaces";
-import { getNonce } from "../lib/nonces";
 
-// import { checkGasDeploy, checkGasMethod } from "scripts/checkGas";
-import type { NetworkType } from "lib/ktypes";
-import networks from "config/networks.json";
-import { writeFile } from "fs/promises";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
+import type { NFTsFactoryV3 } from "@soltypes/contracts/next/NFTsFactoryV3";
+import { getNonce } from "@utils/getNonce";
+import { setNetwork } from "@utils/setNetwork";
+
+// import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
 const contractName = "OpenNFTsV4";
 
@@ -22,45 +21,26 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     nonce
   };
 
-  // const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
   const deployResult: DeployResult = await deployments.deploy(contractName, deployOptions);
 
   if (deployResult.newlyDeployed) {
-    // const contract = await getContract(contractName);
-    // await checkGasMethod(hre, contractName, "initialize", deployer,
-    const index = networks.findIndex((nw) => nw.chainName === network.name);
-    const networkConf: NetworkType = networks[index];
-    if (deployResult.address != networkConf.openNFTs) {
-      console.info(contractName, "deployed => new address");
-      networks[index].openNFTs = deployResult.address;
-      await writeFile(`${__dirname}/../../../common/config/networks.json`, JSON.stringify(networks, null, 2)).catch(
-        (err) => console.log(err)
-      );
-    }
+    await setNetwork(network.name, "openNFTs", deployResult.address);
 
-    const openNFTsV4 = await getContract(contractName, deployer);
+    const openNFTsV4 = (await getContract(contractName, deployer)) as unknown as OpenNFTsV4;
+    const nftsFactoryV3 = (await getContract("NFTsFactoryV3", deployer)) as unknown as NFTsFactoryV3;
 
     nonce = await getNonce(deployer, contractName, "initialize");
-    await (await (openNFTsV4 as IOpenNFTsV4).initialize("Open NFTs V4", "NFT", deployer.address, [true])).wait();
+    await (await openNFTsV4.initialize("Open NFTs V4", "NFT", deployer.address, 0, deployer.address, 0, [true])).wait();
 
-    const nftsFactoryV2 = await getContract("NFTsFactoryV2", deployer);
+    nonce = await getNonce(deployer, "NFTsFactoryV3", "setTemplate");
+    await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
 
-    nonce = await getNonce(deployer, contractName, "implementationsAdd");
-    await (await (nftsFactoryV2 as ICloneFactoryV2).implementationsAdd([deployResult.address])).wait();
-
-    nonce = await getNonce(deployer, contractName, "templateSet");
-    await (await (nftsFactoryV2 as ICloneFactoryV2).templateSet("OpenNFTsV4", deployResult.address)).wait();
-
-    const nftsResolver = await getContract("NFTsResolver", deployer);
-
-    nonce = await getNonce(deployer, contractName, "addAddress");
-    await (await (nftsResolver as IOpenRegistry).addAddress(deployResult.address)).wait();
-
-    nonce = await getNonce(deployer, contractName, "end", true);
+    nonce = await getNonce(deployer, contractName, "end");
   }
 };
 
-deployFunction.dependencies = ["NFTsFactoryV2", "NFTsResolver"];
+deployFunction.dependencies = ["NFTsResolver"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
+
 export default deployFunction;

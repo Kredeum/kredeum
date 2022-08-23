@@ -2,7 +2,7 @@
   import { onMount, setContext } from "svelte";
   import { Writable, writable } from "svelte/store";
 
-  import { getCreate, config } from "lib/kconfig";
+  import { getCreate, config } from "@lib/kconfig";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -18,8 +18,8 @@
   import CollectionList from "../Collection/CollectionList.svelte";
   import CollectionListSimple from "../../tests/CollectionListSimple.svelte";
 
-  import { urlHash2RefNFT } from "helpers/urlHash";
-  import type { RefNFT } from "helpers/refNft";
+  import { urlHash2RefNFT } from "@helpers/urlHash";
+  import type { RefNFT } from "@helpers/refNft";
 
   ////////////////////////////////////////////////////////////////////
   // <Home {storage} {platform}/>

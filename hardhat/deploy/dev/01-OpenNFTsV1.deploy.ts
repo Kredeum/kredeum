@@ -1,5 +1,5 @@
 import type { DeployFunction } from "hardhat-deploy/types";
-import type { OpenNFTsV1 } from "soltypes/contracts/OpenNFTsV1";
+import type { OpenNFTsV1 } from "@soltypes/contracts/OpenNFTsV1";
 
 const deployOpenNFTsV1: DeployFunction = async function ({ deployments, ethers }) {
   const deployer = await ethers.getNamedSigner("deployer");

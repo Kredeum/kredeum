@@ -1,10 +1,10 @@
 <script lang="ts">
-  import { clickOutside } from "helpers/clickOutside";
-  import { getChainName, networks } from "lib/kconfig";
-  import { factoryGetExplorerUrl, factoryGetAddress } from "lib/kfactory-get";
+  import { clickOutside } from "@helpers/clickOutside";
+  import { getChainName, networks } from "@lib/kconfig";
+  import { factoryGetExplorerUrl, factoryGetAddress } from "@lib/kfactory-get";
 
-  import { metamaskSwitchChain } from "helpers/metamask";
-  import { metamaskChainId } from "main/metamask";
+  import { metamaskSwitchChain } from "@helpers/metamask";
+  import { metamaskChainId } from "@main/metamask";
 
   import Network from "./Network.svelte";
 

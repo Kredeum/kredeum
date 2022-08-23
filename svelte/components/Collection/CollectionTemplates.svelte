@@ -1,9 +1,9 @@
 <script lang="ts">
-  export let template = "ownable";
+  export let template = "OpenNFTsV4/ownable";
 
   const templates = new Map([
     [
-      "OpenNFTsV3/ownable",
+      "OpenNFTsV4/ownable",
       {
         name: "Ownable",
         description: "Ownable NFTs Collection: own your Collection, only you can Mint NFTs",
@@ -11,7 +11,7 @@
       }
     ],
     [
-      "OpenNFTsV3/generic",
+      "OpenNFTsV4/generic",
       {
         name: "Generic",
         description: "Generic NFTs Collection: anyone can Mint NFTs",
@@ -19,7 +19,7 @@
       }
     ],
     [
-      "OpenNFTsV4/ownable",
+      "OpenNFTsV4/automarket",
       {
         name: "AutoMarket",
         description: "AutoMarket NFTs Collection, sell your NFTs with royalties",
@@ -29,6 +29,7 @@
   ]);
 
   const _templateSet = (tmpl: string): void => {
+    console.log("_templateSet", tmpl, template);
     template = tmpl;
   };
 </script>

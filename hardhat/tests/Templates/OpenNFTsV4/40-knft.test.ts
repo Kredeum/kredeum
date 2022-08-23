@@ -1,12 +1,12 @@
-import type { NetworkType } from "lib/ktypes";
-import { collectionClone } from "lib/kcollection-clone";
-import type { OpenNFTsV4 } from "soltypes/contracts/templates";
-import type { NFTsFactoryV2 } from "soltypes/contracts";
+import type { NetworkType } from "@lib/ktypes";
+import { collectionClone } from "@lib/kcollection-clone";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next";
+import type { NFTsFactoryV2 } from "@soltypes/contracts";
 import type { Signer } from "ethers";
-import abiOpenNFTsV4 from "abis/contracts/templates/OpenNFTsV4.sol/OpenNFTsV4.json";
+import abiOpenNFTsV4 from "@abis/contracts/next/OpenNFTsV4.sol/OpenNFTsV4.json";
 
 import { expect } from "chai";
-import { networks } from "lib/kconfig";
+import { networks } from "@lib/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;
@@ -18,7 +18,7 @@ const contractName = "Open NFTs V4";
 const contractSymbol = "NFT";
 const artistAddress = "0xF49c1956Ec672CDa9d52355B7EF6dEF25F214755";
 
-describe("40 OpenNFTsV4 Mint", function () {
+describe.skip("40 OpenNFTsV4 Mint", function () {
   let ethscan: string | undefined;
   let network: NetworkType | undefined;
   let chainId: number;

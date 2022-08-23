@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getShortAddress, blockscanUrl, getEnsName } from "lib/kconfig";
+  import { getShortAddress, blockscanUrl, getEnsName } from "@lib/kconfig";
 
   /////////////////////////////////////////////////
   // <AccountConnect {account} {txt} />

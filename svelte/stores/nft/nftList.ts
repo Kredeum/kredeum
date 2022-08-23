@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-import type { NftType } from "lib/ktypes";
+import type { NftType } from "@lib/ktypes";
 
 // LOADER : LOAD Nfts from localStorage
 const nftListLoadLocalStorage = (): Map<string, NftType> => {

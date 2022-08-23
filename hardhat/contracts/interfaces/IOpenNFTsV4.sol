@@ -6,6 +6,9 @@ interface IOpenNFTsV4 {
         string memory name,
         string memory symbol,
         address owner,
+        uint256 defaultPrice,
+        address receiver,
+        uint96 fee,
         bool[] memory options
     ) external;
 
@@ -20,6 +23,8 @@ interface IOpenNFTsV4 {
     ) external payable returns (uint256 tokenID);
 
     function buy(uint256 tokenID) external payable;
+
+    function parent() external view returns (address);
 
     function open() external view returns (bool);
 }

@@ -1,14 +1,14 @@
 import type { Readable } from "svelte/store";
 import { get, derived } from "svelte/store";
 
-import type { NftType } from "lib/ktypes";
-import { nftGetFromContractEnumerable } from "lib/knft-get";
-import { nftGetMetadata } from "lib/knft-get-metadata";
-import { nftListTokenIds } from "lib/knft-list";
+import type { NftType } from "@lib/ktypes";
+import { nftGetFromContractEnumerable } from "@lib/knft-get";
+import { nftGetMetadata } from "@lib/knft-get-metadata";
+import { nftListTokenIds } from "@lib/knft-list";
 
-import { metamaskProvider } from "main/metamask";
-import { collectionStore } from "stores/collection/collection";
-import { collectionListStore } from "stores/collection/collectionList";
+import { metamaskProvider } from "@main/metamask";
+import { collectionStore } from "@stores/collection/collection";
+import { collectionListStore } from "@stores/collection/collectionList";
 
 import { nftStore } from "./nft";
 
