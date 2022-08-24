@@ -2,7 +2,7 @@
 pragma solidity 0.8.9;
 
 import "../interfaces/IOpenBound4973.sol";
-import "../interfaces/IERC4973.sol";
+import "OpenNFTs/contracts/interfaces/IERC4973.sol";
 import "OpenNFTs/contracts/interfaces/IERC173.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";

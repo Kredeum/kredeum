@@ -3,8 +3,8 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { collectionGetContract } from "@lib/kcollection-get";
 import { getNetwork } from "@lib/kconfig";
 
-import type { IERC721 } from "@soltypes/contracts/interfaces/IERC721";
-import type { IERC1155 } from "@soltypes/contracts/interfaces/IERC1155";
+import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
+import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
 
 const transferNftResponse = async (
   chainId: number,

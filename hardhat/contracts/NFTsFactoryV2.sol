@@ -10,7 +10,7 @@ import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "./CloneFactoryV2.sol";
 import "./interfaces/INFTsFactoryV2.sol";
 import "./interfaces/IOpenNFTs.old.sol";
-import "./interfaces/IERC173.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
 
 /// @title NFTsFactory smartcontract
 /// @dev is CloneFactory

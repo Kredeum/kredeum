@@ -1,6 +1,6 @@
 import type { OpenNFTsV3 } from "@soltypes/contracts";
 
-import abiIERC173 from "@abis/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiIERC173 from "@abis/OpenNFTs/contracts/interfaces/IERC173.sol/IERC173.json";
 
 import abiIOpenNFTsOld from "@abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
 import abiIOpenNFTsV3Old from "@abis/contracts/interfaces/IOpenNFTsV3.old.sol/IOpenNFTsV3.json";

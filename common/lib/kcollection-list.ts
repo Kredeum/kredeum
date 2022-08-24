@@ -72,7 +72,7 @@ const collectionList = async (
   if (mintable) {
     // filter mintable collection
     collections = new Map(
-      [...collections].filter(([, coll]) => coll.open || (coll.owner === account && coll.version == 3))
+      [...collections].filter(([, coll]) => coll.open || (coll.owner === account && (coll.version || 0) >= 3))
     );
   }
 
@@ -80,7 +80,4 @@ const collectionList = async (
   return collections;
 };
 
-export {
-  collectionList,
-  collectionListMerge
-};
+export { collectionList, collectionListMerge };

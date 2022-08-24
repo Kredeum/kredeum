@@ -1,19 +1,19 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.9;
 
-import "../interfaces/IERC165.sol";
+import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
-import "../interfaces/IERC721.sol";
-import "../interfaces/IERC721Metadata.sol";
-import "../interfaces/IERC721Enumerable.sol";
-import "../interfaces/IERC721TokenReceiver.sol";
+import "OpenNFTs/contracts/interfaces/IERC721.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
 
-import "../interfaces/IERC1155.sol";
-import "../interfaces/IERC1155MetadataURI.sol";
-import "../interfaces/IERC1155TokenReceiver.sol";
+import "OpenNFTs/contracts/interfaces/IERC1155.sol";
+import "OpenNFTs/contracts/interfaces/IERC1155MetadataURI.sol";
+import "OpenNFTs/contracts/interfaces/IERC1155TokenReceiver.sol";
 
-import "../interfaces/IERC173.sol";
-import "../interfaces/IERC2981.sol";
+import "OpenNFTs/contracts/interfaces/IERC173.sol";
+import "OpenNFTs/contracts/interfaces/IERC2981.sol";
 
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "OpenNFTs/contracts/interfaces/IOpenChecker.sol";

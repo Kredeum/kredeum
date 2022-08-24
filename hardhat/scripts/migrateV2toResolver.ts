@@ -1,12 +1,12 @@
 import type { NFTsFactoryV2 } from "@soltypes/contracts";
 import type { NFTsResolver } from "@soltypes/contracts/next";
 
-import type { IERC165 } from "@soltypes/contracts/interfaces";
+import type { IERC165 } from "@soltypes/OpenNFTs/contracts/interfaces";
 import type { NetworkType } from "@lib/ktypes";
 
 import networks from "@config/networks.json";
 
-import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC165 from "@abis/OpenNFTs/contracts/interfaces/IERC165.sol/IERC165.json";
 
 import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 import abiICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";

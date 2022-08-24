@@ -11,7 +11,7 @@ import { thegraphGet, thegraphNftList } from "@lib/api-thegraph";
 import { moralisGet, moralisNftList } from "@lib/api-moralis";
 
 import { getNetwork, isProviderOnChainId } from "@lib/kconfig";
-import { IERC721, IERC721Enumerable } from "@soltypes/contracts/interfaces";
+import { IERC721, IERC721Enumerable } from "@soltypes/OpenNFTs/contracts/interfaces";
 import { FETCH_LIMIT } from "@lib/kfetch";
 
 const nftListFromContract = async (
