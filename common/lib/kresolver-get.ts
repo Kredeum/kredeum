@@ -4,6 +4,7 @@ import { Contract, constants } from "ethers";
 import type { CollectionType } from "@lib/ktypes";
 import { resolverChecksToSupports } from "@lib/kresolver-checks-to-supports";
 import {
+  collectionListKey,
   collectionUrl,
   getNetwork,
   getChainName,
@@ -13,25 +14,25 @@ import {
   DEFAULT_SYMBOL
 } from "@lib/kconfig";
 
-import type { NFTsResolver } from "@soltypes/contracts/next";
-import { IERC721Infos } from "@soltypes/contracts/next/NFTsResolver";
-import abiNFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
+import type { OpenNFTsResolver } from "@soltypes/contracts/next/OpenNFTsResolver";
+import { IOpenNFTsInfos, IERC721Infos } from "@soltypes/contracts/next/OpenNFTsResolver";
+import abiOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<number, Contract> = new Map();
 
-// GET NFTsResolver Contract
-const resolverGetContract = (chainId: number, provider: Provider): NFTsResolver => {
+// GET OpenNFTsResolver Contract
+const resolverGetContract = (chainId: number, provider: Provider): OpenNFTsResolver => {
   // console.log("resolverGetContract", chainId);
 
   let nftsResolver = _nftsResolversCache.get(chainId);
   if (!nftsResolver) {
-    nftsResolver = new Contract(resolverGetAddress(chainId), abiNFTsResolver, provider);
+    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, provider);
     _nftsResolversCache.set(chainId, nftsResolver);
   }
 
   // console.log("nftsResolver", nftsResolver);
-  return nftsResolver as NFTsResolver;
+  return nftsResolver as OpenNFTsResolver;
 };
 
 //  GET nftsResolver address
@@ -45,7 +46,7 @@ const resolverGetCollectionFromCollectionInfos = (
   collectionInfos: IERC721Infos.CollectionInfosStructOutput,
   account = constants.AddressZero
 ): CollectionType => {
-  // console.log("resolverGetCollectionFromCollectionInfos  IN", chainId, collectionInfos, account);
+  console.log("resolverGetCollectionFromCollectionInfos  IN", chainId, collectionInfos, account);
 
   const chainName = getChainName(chainId);
   const address: string = getChecksumAddress(collectionInfos[0]);
@@ -58,7 +59,24 @@ const resolverGetCollectionFromCollectionInfos = (
 
   const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf, supports };
 
-  // console.log("resolverGetCollectionFromCollectionInfos OUT", collection);
+  console.log("resolverGetCollectionFromCollectionInfos OUT", collection);
+  return collection;
+};
+
+const resolverGetCollectionFromOpenNFTsCollectionInfos = (
+  chainId: number,
+  openNFTs: IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput,
+  account = constants.AddressZero
+): CollectionType => {
+  console.log("resolverGetCollectionFromOpenNFTsCollectionInfos openNFTs IN", openNFTs);
+
+  const collection = resolverGetCollectionFromCollectionInfos(chainId, openNFTs[0], account);
+
+  collection.version = Number(openNFTs[1] || -1);
+  collection.template = openNFTs[2] || "";
+  collection.open = openNFTs[3] || false;
+
+  console.log("resolverGetCollectionFromOpenNFTsCollectionInfos collection OUT", collection);
   return collection;
 };
 
@@ -72,9 +90,9 @@ const resolverGetCollectionInfos = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
 
-  const collectionInfosStructOutput = await nftsResolver.getNFTsResolverCollectionInfos(address, account);
+  const collectionInfosStructOutput = await nftsResolver.getOpenNFTsResolverCollectionInfos(address, account);
 
-  return resolverGetCollectionFromCollectionInfos(chainId, collectionInfosStructOutput, account);
+  return resolverGetCollectionFromOpenNFTsCollectionInfos(chainId, collectionInfosStructOutput, account);
 };
 
 const resolverGetCollectionsInfos = async (
@@ -87,13 +105,13 @@ const resolverGetCollectionsInfos = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
 
-  const collectionsInfosStructOutput = await nftsResolver.getNFTsResolverCollectionsInfos(account);
-  console.log("resolverGetCollectionsInfos collectionsInfosStructOutput", collectionsInfosStructOutput);
+  const openNFTsStructOutput = await nftsResolver.getOpenNFTsResolverCollectionsInfos(account);
+  console.log("resolverGetCollectionsInfos openNFTsStructOutput", openNFTsStructOutput);
 
-  for (let index = 0; index < collectionsInfosStructOutput.length; index++) {
-    collections[index] = resolverGetCollectionFromCollectionInfos(
+  for (let index = 0; index < openNFTsStructOutput.length; index++) {
+    collections[index] = resolverGetCollectionFromOpenNFTsCollectionInfos(
       chainId,
-      collectionsInfosStructOutput[index],
+      openNFTsStructOutput[index],
       account
     );
   }
@@ -112,22 +130,22 @@ const resolverGetCollectionList = async (
   provider: Provider,
   account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, chainId, account);
+  console.log(`resolverGetCollectionList ${collectionListKey(chainId, account)}\n`, chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = resolverGetContract(chainId, provider);
-  const collectionsInfosStructOutput: Array<IERC721Infos.CollectionInfosStructOutput> =
-    await nftsResolver.getNFTsResolverCollectionsInfos(account);
+  const openNFTsStructOutput: Array<IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput> =
+    await nftsResolver.getOpenNFTsResolverCollectionsInfos(account);
 
-  console.log("collectionsInfosStructOutput", collectionsInfosStructOutput);
+  console.log("resolverGetCollectionList openNFTsStructOutput", openNFTsStructOutput);
 
-  for (let index = 0; index < collectionsInfosStructOutput.length; index++) {
-    const collection = resolverGetCollectionFromCollectionInfos(chainId, collectionsInfosStructOutput[index], account);
+  for (let index = 0; index < openNFTsStructOutput.length; index++) {
+    const collection = resolverGetCollectionFromOpenNFTsCollectionInfos(chainId, openNFTsStructOutput[index], account);
     collections.set(collectionUrl(chainId, collection.address), collection);
   }
 
-  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
+  console.log(`resolverGetCollectionList ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -139,5 +157,6 @@ export {
   resolverGetAddress,
   resolverGetContract,
   resolverGetExplorerUrl,
-  resolverGetCollectionFromCollectionInfos
+  resolverGetCollectionFromCollectionInfos,
+  resolverGetCollectionFromOpenNFTsCollectionInfos
 };

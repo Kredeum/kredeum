@@ -1,5 +1,5 @@
 import type { NFTsFactoryV2 } from "@soltypes/contracts";
-import type { NFTsResolver } from "@soltypes/contracts/next";
+import type { OpenNFTsResolver } from "@soltypes/contracts/next";
 
 import type { IERC165 } from "@soltypes/OpenNFTs/contracts/interfaces";
 import type { NetworkType } from "@lib/ktypes";
@@ -11,7 +11,7 @@ import abiIERC165 from "@abis/OpenNFTs/contracts/interfaces/IERC165.sol/IERC165.
 import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
 import abiICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
-import abiINFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
+import abiIOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 
 import { ethers, getChainId } from "hardhat";
 import Prompt from "prompt-sync";
@@ -26,7 +26,7 @@ const addressesV2 = async (nftsFactoryV2: NFTsFactoryV2): Promise<string[]> => {
   return addresses;
 };
 
-const addressesRes = async (nftsResolver: NFTsResolver): Promise<string[]> => await nftsResolver.getAddresses();
+const addressesRes = async (nftsResolver: OpenNFTsResolver): Promise<string[]> => await nftsResolver.getAddresses();
 
 const main = async () => {
   const { provider, getNamedSigners } = ethers;
@@ -42,13 +42,13 @@ const main = async () => {
     provider
   ) as unknown as NFTsFactoryV2;
 
-  let nftsResolver: NFTsResolver | undefined;
+  let nftsResolver: OpenNFTsResolver | undefined;
   if (network.nftsResolver) {
     nftsResolver = new ethers.Contract(
       network.nftsResolver || "",
-      abiINFTsResolver,
+      abiIOpenNFTsResolver,
       provider
-    ) as unknown as NFTsResolver;
+    ) as unknown as OpenNFTsResolver;
   }
 
   console.log("chainId      ", chainId);
@@ -63,7 +63,7 @@ const main = async () => {
   if (nftsResolver) {
     implsRes = await addressesRes(nftsResolver);
   }
-  console.log(implsRes.length, "implementations NFTsResolver", implsRes);
+  console.log(implsRes.length, "implementations OpenNFTsResolver", implsRes);
 
   const toMigrate: string[] = [];
   let i = 0;
@@ -89,7 +89,7 @@ const main = async () => {
   const n = toMigrate.length;
 
   if (nftsResolver && n > 0) {
-    console.log(n, "implementations to migrate from V2 to NFTsResolver", toMigrate);
+    console.log(n, "implementations to migrate from V2 to OpenNFTsResolver", toMigrate);
     console.log((await nftsResolver.connect(deployer).estimateGas.addAddresses(toMigrate)).toString());
 
     const go: string = prompt("Proceed with Migration y/N ? ");
@@ -105,10 +105,10 @@ const main = async () => {
       console.log("END   Migration !");
 
       const implResNew = await addressesRes(nftsResolver);
-      console.log(implResNew.length, "implementations NFTsResolver", implResNew);
+      console.log(implResNew.length, "implementations OpenNFTsResolver", implResNew);
     }
   } else {
-    console.log("Nothing to migrate from V2 to NFTsResolver");
+    console.log("Nothing to migrate from V2 to OpenNFTsResolver");
   }
 };
 

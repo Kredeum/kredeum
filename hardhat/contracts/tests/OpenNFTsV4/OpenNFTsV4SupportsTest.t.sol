@@ -6,10 +6,10 @@ import "forge-std/Test.sol";
 import "OpenNFTs/contracts/interfaces/IAll.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenNFTsV4.sol";
-import "../../next/NFTsResolver.sol";
+import "../../next/OpenNFTsResolver.sol";
 
 abstract contract OpenNFTsV4SupportsTest is Test {
-    NFTsResolver private _resolver;
+    OpenNFTsResolver private _resolver;
     address private _collection;
     address private _owner = address(0x1);
     address private _minter = address(0x12);
@@ -22,7 +22,7 @@ abstract contract OpenNFTsV4SupportsTest is Test {
     function setUpOpenNFTsV4Supports() public {
         _collection = constructorTest(_owner);
 
-        _resolver = new NFTsResolver(_owner, address(this));
+        _resolver = new OpenNFTsResolver(_owner, address(this));
     }
 
     function testOpenNFTsV4CheckErcInterfaces() public {

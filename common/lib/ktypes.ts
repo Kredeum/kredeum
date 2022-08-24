@@ -47,16 +47,15 @@ type CollectionType = {
   owner?: string;
   name?: string;
   symbol?: string;
-  chainName?: string;
-  interfaces?: Array<string>;
   totalSupply?: number;
+  balancesOf?: Map<string, number>;
+  supports?: CollectionSupports;
+  chainName?: string;
   startBlock?: number;
   description?: string;
-  balancesOf?: Map<string, number>;
   version?: number;
-  burnable?: boolean;
+  template?: string;
   open?: boolean;
-  supports?: CollectionSupports;
 };
 
 type CollectionSupports = {
@@ -84,7 +83,7 @@ type CollectionSupports = {
   ICloneFactoryV2?: boolean;
   INFTsFactory?: boolean;
   INFTsFactoryV2?: boolean;
-  INFTsFactoryV3?: boolean;
+  IOpenNFTsFactoryV3?: boolean;
 
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;

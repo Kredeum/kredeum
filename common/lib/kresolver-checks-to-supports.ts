@@ -1,4 +1,4 @@
-import type { CollectionSupports } from "@lib/ktypes";
+import type { CollectionSupports, ABIS } from "@lib/ktypes";
 
 const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports => {
   /// 0xffffffff :  O Invalid
@@ -64,6 +64,9 @@ const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports =>
 
   // assert IERC165 to be always true and check 0xffffffff to be false
   if (!(supports.IERC165 && !checks[0] && i == 22)) throw "ERROR resolverChecksToSupports";
+  for (const key in supports) {
+    if (!supports[key as ABIS]) delete supports[key as ABIS];
+  }
 
   return supports;
 };

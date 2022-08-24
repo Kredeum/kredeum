@@ -95,8 +95,10 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a class="link" href={explorerAddressUrl(chainId, collectionCreated.address)} target="_blank"
-                >{collectionCreated?.name}</a
+              Collection '<a
+                class="link"
+                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                target="_blank">{collectionCreated?.name}</a
               >' created!
             </div>
           </div>

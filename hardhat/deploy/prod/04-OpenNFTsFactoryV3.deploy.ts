@@ -1,12 +1,12 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 
-import type { NFTsResolver } from "@soltypes/contracts/next/NFTsResolver";
+import type { OpenNFTsResolver } from "@soltypes/contracts/next/OpenNFTsResolver";
 import { setNetwork } from "@utils/setNetwork";
 import { getNonce } from "@utils/getNonce";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
-const contractName = "NFTsFactoryV3";
+const contractName = "OpenNFTsFactoryV3";
 
 const deployFunction: DeployFunction = async function (hre): Promise<void> {
   const deployer = await hre.ethers.getNamedSigner("deployer");
@@ -22,7 +22,7 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
 
   // Deterministic expect for these networks
   // if (!["avalanche", "fuji"].includes(hre.network.name)) {
-  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 NFTsFactoryV3");
+  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 OpenNFTsFactoryV3");
   // }
 
   const deployResult = await hre.deployments.deploy(contractName, deployOptions);

@@ -32,9 +32,9 @@ import "../interfaces/ICloneFactory.sol";
 import "../interfaces/ICloneFactoryV2.sol";
 import "../interfaces/INFTsFactory.sol";
 import "../interfaces/INFTsFactoryV2.sol";
-import "../interfaces/INFTsFactoryV3.sol";
+import "../interfaces/IOpenNFTsFactoryV3.sol";
 
-import "../interfaces/INFTsResolver.sol";
+import "../interfaces/IOpenNFTsResolver.sol";
 
 import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
 import {IOpenNFTsV3 as IOpenNFTsV3Old} from "../interfaces/IOpenNFTsV3.old.sol";
@@ -86,7 +86,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = bytes4(0xcfc6c434); // ICloneFactoryV2
         interfacesIds[i++] = bytes4(0x74618347); // INFTsFactory
         interfacesIds[i++] = bytes4(0x78f5e5c2); // INFTsFactoryV2
-        interfacesIds[i++] = type(INFTsFactoryV3).interfaceId; // INFTsFactoryV3
+        interfacesIds[i++] = type(IOpenNFTsFactoryV3).interfaceId; // IOpenNFTsFactoryV3
 
         interfacesIds[i++] = bytes4(0x03dc8d64); // IOpenNFTsOld
         interfacesIds[i++] = bytes4(0x5c838d8b); // IOpenNFTsV3Old

@@ -1,6 +1,6 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import { writeFile } from "fs/promises";
-import type { INFTsFactoryV3, IOpenBound } from "@soltypes/contracts/interfaces";
+import type { IOpenNFTsFactoryV3, IOpenBound } from "@soltypes/contracts/interfaces";
 
 import type { NetworkType } from "@lib/ktypes";
 import networks from "@config/networks.handlebars.json";
@@ -35,13 +35,13 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const openBound = (await getContract(contractName, deployer)) as unknown as IOpenBound;
     await (await openBound.initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
 
-    const nftsFactoryV3 = (await getContract("NFTsFactoryV3", deployer)) as unknown as INFTsFactoryV3;
-    // TODO  await (await (nftsFactoryV3 as INFTsFactoryV3).implementationsAdd([deployResult.address])).wait();
+    const nftsFactoryV3 = (await getContract("OpenNFTsFactoryV3", deployer)) as unknown as IOpenNFTsFactoryV3;
+    // TODO  await (await (nftsFactoryV3 as IOpenNFTsFactoryV3).implementationsAdd([deployResult.address])).wait();
     await (await nftsFactoryV3.setTemplate("OpenBound", deployResult.address)).wait();
   }
 };
 
-deployFunction.dependencies = ["NFTsFactoryV3"];
+deployFunction.dependencies = ["OpenNFTsFactoryV3"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 

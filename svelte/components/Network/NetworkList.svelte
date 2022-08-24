@@ -1,7 +1,7 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
   import { getChainName, getNftsResolver, getNetwork, networks } from "@lib/kconfig";
-  import { factoryGetExplorerUrl, factoryGetAddress } from "@lib/kfactory-get";
+  import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/kresolver-get";
 
   import { metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId } from "@main/metamask";
@@ -57,10 +57,10 @@
         >Network
         <a
           class="info-button"
-          href={factoryGetExplorerUrl(chainId)}
+          href={resolverGetExplorerUrl(chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-        {factoryGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
+        {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
     {/if}
