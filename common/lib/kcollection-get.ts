@@ -1,24 +1,33 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
-
 import { Contract } from "ethers";
-import { collectionGetOtherData, collectionGetSupports } from "@lib/kcollection-get-metadata";
-import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 
+import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
+import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 import { abis } from "@lib/kabis";
+import { resolverGetCollectionInfos } from "@lib/kresolver-get";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();
 
-const collectionContractGet = async (
+const collectionGetSupports = async (
   chainId: number,
   address: string,
-  provider: Provider,
-  collection: CollectionType = { chainId, address }
-): Promise<{ contract: Contract; supports: CollectionSupports }> => {
-  // console.log(`collectionContractGet  IN ${collectionKey(chainId, address)}\n`);
+  provider: Provider
+): Promise<CollectionSupports> => {
+  const collection = await collectionGet(chainId, address, provider);
+  const supports = collection.supports || {};
 
-  const supports = await collectionGetSupports(chainId, address, provider, collection);
+  return supports;
+};
+
+const collectionGetContract = async (
+  chainId: number,
+  address: string,
+  provider: Provider
+): Promise<{ contract: Contract; supports: CollectionSupports }> => {
+  // console.log(`collectionGetContract  IN ${collectionKey(chainId, address)}\n`);
+
+  const supports = await collectionGetSupports(chainId, address, provider);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
   let abi: Array<string> = [];
@@ -29,10 +38,10 @@ const collectionContractGet = async (
         const abiKey = abis[key as ABIS];
 
         if (abiKey) {
-          // console.log("collectionContractGet", key, abiKey);
+          // console.log("collectionGetContract", key, abiKey);
           abi = abi.concat(abis[key as ABIS]);
         } else {
-          console.error("collectionContractGet ERROR", key);
+          console.error("collectionGetContract ERROR", key);
         }
       }
     }
@@ -40,7 +49,7 @@ const collectionContractGet = async (
     contractsCache.set(collectionKey(chainId, address), contract);
   }
 
-  // console.log(`collectionContractGet OUT ${collectionKey(chainId, address)}\n`);
+  // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`);
   return { contract, supports };
 };
 
@@ -59,16 +68,14 @@ const collectionGet = async (
   chainId: number,
   address: string,
   provider: Provider,
-  account?: string,
-  collection: CollectionType = { chainId, address }
+  account?: string
 ): Promise<CollectionType> => {
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
-
+  let collection: CollectionType = { chainId, address };
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
 
   try {
-    collection.supports = await collectionGetSupports(chainId, address, provider, collection);
-    await collectionGetOtherData(chainId, address, provider, account, collection);
+    collection = await resolverGetCollectionInfos(chainId, address, provider, account);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
   }
@@ -76,4 +83,4 @@ const collectionGet = async (
   return collection;
 };
 
-export { collectionGet, collectionMerge, collectionContractGet, collectionGetSupports };
+export { collectionGet, collectionMerge, collectionGetContract };

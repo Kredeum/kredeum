@@ -107,7 +107,7 @@
             <i class="fas fa-exclamation" /> Claim this NFT on another network ? #{tokenID}
           </div>
 
-          <NetworkList bind:chainId={targetChainId} all={false} />
+          <NetworkList bind:chainId={targetChainId} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>

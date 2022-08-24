@@ -7,7 +7,7 @@ import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.
 
 import { ipfsGatewayUrl, getExplorer, getOpenMulti, nftKey, storageLinkToUrlHttp } from "@lib/kconfig";
 import { nftGetMetadata } from "@lib/knft-get-metadata";
-import { collectionContractGet } from "@lib/kcollection-get";
+import { collectionGetContract } from "@lib/kcollection-get";
 
 import { nftMint1IpfsImage, nftMint2IpfsJson } from "@lib/knft-mint-ipfs";
 import { nftMint1SwarmImage, nftMint2SwarmJson } from "@lib/knft-mint-swarm";
@@ -70,7 +70,7 @@ const nftMint3TxResponse = async (
 
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
-  const { contract, supports } = await collectionContractGet(chainId, address, minter.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, minter.provider);
   console.log("nftMint3TxResponse supports", supports);
 
   let txResp: TransactionResponse | undefined;

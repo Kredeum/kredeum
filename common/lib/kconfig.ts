@@ -4,8 +4,8 @@ import type { Address, NetworkType, CollectionType, NftType } from "@lib/ktypes"
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
 import { factoryGetTemplateAddress } from "@lib/kfactory-get";
-import networks from "../config/networks.json";
-import config from "../config/config.json";
+import networks from "@config/networks.json";
+import config from "@config/config.json";
 
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
@@ -13,6 +13,7 @@ const DEFAULT_SYMBOL = "NFT";
 const isProviderOnChainId = async (provider: Provider, chainId: number) =>
   chainId === (await provider?.getNetwork())?.chainId;
 
+// const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
 const getChecksumAddress = (address: Address | string | undefined): Address => {
@@ -284,8 +285,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

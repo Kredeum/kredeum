@@ -1,25 +1,21 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import { Contract, constants } from "ethers";
 
-import type { CollectionSupports, CollectionType } from "@lib/ktypes";
-import { abis } from "@lib/kabis";
+import type { CollectionType } from "@lib/ktypes";
+import { resolverChecksToSupports } from "@lib/kresolver-checks-to-supports";
 import {
+  collectionUrl,
   getNetwork,
   getChainName,
   getChecksumAddress,
   explorerContractUrl,
-  interfaceId,
   DEFAULT_NAME,
   DEFAULT_SYMBOL
 } from "@lib/kconfig";
 
-import { resolverGetSupports } from "@lib/kresolver-get-supports";
-
 import type { NFTsResolver } from "@soltypes/contracts/next";
-import abiNFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
-
 import { IERC721Infos } from "@soltypes/contracts/next/NFTsResolver";
-import { count } from "console";
+import abiNFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<number, Contract> = new Map();
@@ -58,7 +54,7 @@ const resolverGetCollectionFromCollectionInfos = (
   const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
   const totalSupply = Number(collectionInfos[4]);
   const balancesOf = new Map([[account, Number(collectionInfos[5])]]);
-  const supports = resolverGetSupports(collectionInfos[6]);
+  const supports = resolverChecksToSupports(collectionInfos[6]);
 
   const collection = { chainId, chainName, address, owner, name, symbol, totalSupply, balancesOf, supports };
 
@@ -66,12 +62,27 @@ const resolverGetCollectionFromCollectionInfos = (
   return collection;
 };
 
+const resolverGetCollectionInfos = async (
+  chainId: number,
+  address: string,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<CollectionType> => {
+  console.log("resolverGetCollectionInfos", address);
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+
+  const collectionInfosStructOutput = await nftsResolver.getNFTsResolverCollectionInfos(address, account);
+
+  return resolverGetCollectionFromCollectionInfos(chainId, collectionInfosStructOutput, account);
+};
+
 const resolverGetCollectionsInfos = async (
   chainId: number,
   provider: Provider,
   account = constants.AddressZero
 ): Promise<Array<CollectionType>> => {
-  // console.log("resolverGetCollectionInfos", address);
+  // console.log("resolverGetCollectionsInfos", account);
   const collections: Array<CollectionType> = [];
 
   const nftsResolver = resolverGetContract(chainId, provider);
@@ -93,13 +104,37 @@ const resolverGetCollectionsInfos = async (
 const resolverGetCount = async (chainId: number, provider: Provider): Promise<number> => {
   const nftsResolver = resolverGetContract(chainId, provider);
 
-  const count = await nftsResolver.countAddresses();
+  return Number(await nftsResolver.countAddresses());
+};
 
-  return Number(count);
+const resolverGetCollectionList = async (
+  chainId: number,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<Map<string, CollectionType>> => {
+  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, chainId, account);
+
+  const collections: Map<string, CollectionType> = new Map();
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+  const collectionsInfosStructOutput: Array<IERC721Infos.CollectionInfosStructOutput> =
+    await nftsResolver.getNFTsResolverCollectionsInfos(account);
+
+  console.log("collectionsInfosStructOutput", collectionsInfosStructOutput);
+
+  for (let index = 0; index < collectionsInfosStructOutput.length; index++) {
+    const collection = resolverGetCollectionFromCollectionInfos(chainId, collectionsInfosStructOutput[index], account);
+    collections.set(collectionUrl(chainId, collection.address), collection);
+  }
+
+  // console.log(`collectionListFromResolver ${collectionListKey(chainId, account)}\n`, collections);
+  return collections;
 };
 
 export {
   resolverGetCount,
+  resolverGetCollectionList,
+  resolverGetCollectionInfos,
   resolverGetCollectionsInfos,
   resolverGetAddress,
   resolverGetContract,

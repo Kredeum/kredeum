@@ -3,7 +3,7 @@ import type { OpenNFTsV4, NFTsFactoryV3 } from "@soltypes/contracts/next";
 
 import type { NetworkType } from "@lib/ktypes";
 
-import { collectionList, collectionListFromFactory } from "@lib/kcollection-list";
+import { collectionList, collectionListFromResolver } from "@lib/kcollection-list";
 
 import { covalentCollectionList } from "@lib/api-covalent";
 import { thegraphCollectionList } from "@lib/api-thegraph";
@@ -66,7 +66,7 @@ describe.skip("13 List contracts lib", function () {
       // console.log((await nftsFactory.implementationsCount()).toString());
       // console.log(await nftsFactory.balancesOf(owner));
       // console.log(await collectionListFromFactory(chainId, owner, ethers.provider));
-      expect((await collectionListFromFactory(chainId, ethers.provider, owner)).size).to.be.gte(1);
+      expect((await collectionListFromResolver(chainId, ethers.provider, owner)).size).to.be.gte(1);
     }
   });
 
