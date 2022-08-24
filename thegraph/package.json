@@ -8,11 +8,11 @@
   },
   "scripts": {
     "clean": "rm -rf build generated subgraph.yaml node_modules",
-    "build-yaml": "ts-node build-yaml",
+    "build-yaml": "npx ts-node build-yaml",
     "yaml": "jq '.[]|select(.chainName==\"${NETWORK:-mumbai}\")' config/networks.json | npx hbs-cli -i subgraph.yaml_handlebar -e yaml -o thegraph",
     "codegen": "cd thegraph && graph codegen",
     "graph-build": "cd thegraph && graph build",
-    "build": "ts-node build-yaml",
+    "build": "npx ts-node build-yaml",
     "build2": "npm run yaml && npm run codegen && npm run graph-build",
     "check": "prettier --no-error-on-unmatched-pattern **/*ts  **/*.yaml **/*.graphql --write",
     "tests": "mocha --experimental-json-modules tests/*.mjs",

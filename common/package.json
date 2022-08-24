@@ -9,7 +9,7 @@
   "scripts": {
     "clean": "rm -rf node_modules types abis config/networks.json",
     "build": "npm run build-networks",
-    "build-networks": "ts-node scripts/build-networks",
+    "build-networks": "npx ts-node scripts/build-networks",
     "tests": "echo tests",
     "check": "npm run prettier && npm run eslint",
     "eslint": "eslint lib/*.ts --fix --quiet",
