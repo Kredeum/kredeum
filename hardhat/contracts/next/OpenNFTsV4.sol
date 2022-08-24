@@ -93,8 +93,8 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         OpenNFTs._initialize(name_, symbol_, owner_);
         open = options[0];
 
-        _setDefaultPrice(defaultPrice_);
-        _setDefaultRoyalty(receiver_, fee_);
+        OpenMarketable._setDefaultPrice(defaultPrice_);
+        OpenMarketable._setDefaultRoyalty(receiver_, fee_);
     }
 
     function mint(string memory tokenURI) external override(IOpenNFTsV4) returns (uint256 tokenID) {
@@ -117,10 +117,10 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         address receiver_,
         uint96 fee_
     ) public payable override(IOpenNFTsV4) onlyMinter onlyWhenNotPaused returns (uint256 tokenID) {
-        tokenID = mint(minter_, tokenURI_);
+        tokenID = OpenNFTs.mint(minter_, tokenURI_);
 
-        _setTokenPrice(tokenID, tokenPrice_);
-        _setTokenRoyalty(tokenID, receiver_, fee_);
+        OpenMarketable._setTokenPrice(tokenID, tokenPrice_);
+        OpenMarketable._setTokenRoyalty(tokenID, receiver_, fee_);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {

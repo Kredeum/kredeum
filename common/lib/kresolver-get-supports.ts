@@ -34,7 +34,6 @@ const resolverGetSupports = (checks: Array<boolean>): CollectionSupports => {
   /// : 20 IOpenNFTsV4
   /// : 21 IOpenBound
 
-
   if (!(checks && checks.length == 22)) throw `ERROR resolverGetSupports bad checks length ${checks?.length}`;
 
   let i = 1;
@@ -64,7 +63,7 @@ const resolverGetSupports = (checks: Array<boolean>): CollectionSupports => {
     IOpenNFTsV2: checks[i++],
     IOpenNFTsV3: checks[i++],
     IOpenNFTsV4: checks[i++],
-    IOpenBound: checks[i++],
+    IOpenBound: checks[i++]
   };
   // console.log("resolverGetSupports", address, supports);
   // assert IERC165 to be always true and check 0xffffffff to be false

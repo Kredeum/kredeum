@@ -284,8 +284,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+      ? swarmLinkToUrlHttp(link)
+      : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

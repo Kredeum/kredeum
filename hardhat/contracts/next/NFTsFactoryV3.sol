@@ -24,7 +24,7 @@ contract NFTsFactoryV3 is INFTsFactoryV3, OpenERC173 {
     address public nftsResolver;
 
     constructor(address initialOwner) {
-        _transferOwnership(initialOwner);
+        OpenERC173._transferOwnership(initialOwner);
     }
 
     /// @notice clone template

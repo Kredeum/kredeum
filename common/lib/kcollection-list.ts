@@ -75,8 +75,7 @@ const collectionListFromFactory = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
   if (nftsResolver) {
-
-    const collectionsInfos  = await nftsResolver.getNFTsResolverCollectionsInfos(account);
+    const collectionsInfos = await nftsResolver.getNFTsResolverCollectionsInfos(account);
     // console.log("collectionListFromFactory balances", balances);
 
     const chainName = network?.chainName;

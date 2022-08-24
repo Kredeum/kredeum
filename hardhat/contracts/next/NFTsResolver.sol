@@ -17,7 +17,7 @@ contract NFTsResolver is INFTsResolver, OpenResolver {
 
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
-        _setRegisterer(registerer_);
+        OpenRegistry._setRegisterer(registerer_);
 
         uint256 i;
 
@@ -41,7 +41,7 @@ contract NFTsResolver is INFTsResolver, OpenResolver {
         override(INFTsResolver)
         returns (CollectionInfos memory collectionInfos)
     {
-        collectionInfos = _getCollectionInfos(collection, account, _interfaceIds);
+        collectionInfos = OpenGetter._getCollectionInfos(collection, account, _interfaceIds);
     }
 
     function getNFTsResolverCollectionsInfos(address account)
@@ -50,7 +50,7 @@ contract NFTsResolver is INFTsResolver, OpenResolver {
         override(INFTsResolver)
         returns (CollectionInfos[] memory collectionsInfos)
     {
-        collectionsInfos = _getCollectionsInfos(account, _interfaceIds);
+        collectionsInfos = OpenResolver._getCollectionsInfos(account, _interfaceIds);
     }
 
     function supportsInterface(bytes4 interfaceId) public view override(OpenResolver) returns (bool) {

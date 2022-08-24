@@ -61,16 +61,16 @@ type CollectionType = {
 
 type CollectionSupports = {
   IERC165?: boolean;
-  
+
   IERC721?: boolean;
   IERC721Metadata?: boolean;
   IERC721Enumerable?: boolean;
   IERC721TokenReceiver?: boolean;
-  
+
   IERC1155?: boolean;
   IERC1155MetadataURI?: boolean;
   IERC1155TokenReceiver?: boolean;
-  
+
   IERC173?: boolean;
   IERC2981?: boolean;
 
@@ -92,7 +92,6 @@ type CollectionSupports = {
   IOpenNFTsV3?: boolean;
   IOpenNFTsV4?: boolean;
   IOpenBound?: boolean;
-
 };
 
 ///////////////////////////////////////////////////
