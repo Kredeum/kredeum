@@ -22,13 +22,13 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
 
-  import { setTokenPrice } from "lib/kautomarket";
+  import { setTokenPrice } from "@lib/kautomarket";
 
   // import NftClaim from "./NftClaim.svelte";
 
   import { metamaskChainId, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
-  import { collectionContractGet, collectionGet } from "@lib/kcollection-get";
+  import { collectionGetContract, collectionGet } from "@lib/kcollection-get";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -66,13 +66,13 @@
 
   $: chainId && address && account && checkBurnable();
   const checkBurnable = async () => {
-    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    const { contract, supports } = await collectionGetContract(chainId, address, $metamaskProvider);
     // console.log("🚀 ~ file: Nft.svelte ~ line 71 ~ checkBurnable ~ supports", contract);
-    const collection = await collectionGet(chainId, address, $metamaskProvider);
+    // const collection = await collectionGet(chainId, address, $metamaskProvider);
 
-    console.log("🚀 ~ file: Nft.svelte ~ line 73 ~ checkBurnable ~ collection", collection);
+    console.log("🚀 ~ file: Nft.svelte ~ line 73 ~ checkBurnable ~ collection", supports);
 
-    burnable = collection?.burnable;
+    burnable = supports?.IOpenNFTsV4;
   };
 
   /////////////////////////////////////////////////
@@ -109,7 +109,7 @@
     // await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
     // nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    // const { contract, supports } = await collectionContractGet(chainId, address, $metamaskProvider);
+    // const { contract, supports } = await collectionGetContract(chainId, address, $metamaskProvider);
     // if (supports.IOpenMarketable) {
     //   const openNFTsV4 = contract as OpenNFTsV4;
     //   $nft.price = ethers.utils.formatEther(
@@ -242,9 +242,7 @@
             >
           {/if}
           {#if $nft.owner !== account}
-            <a href="#buy-nft-{tokenID}" class="btn btn-small btn-outline" title="Buy this nft"
-              ><i class="fa fa-shopping-cart" /> Buy</a
-            >
+            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
           {/if}
           {#if burnable && $nft.owner === account}
             <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
@@ -304,9 +302,9 @@
 </div>
 
 <!-- Modal buy nft -->
-<div id="buy-nft-{tokenID}" class="modal-window">
+<!-- <div id="buy-nft-{tokenID}" class="modal-window">
   <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
-</div>
+</div> -->
 
 <!-- Modal burn nft -->
 <div id="burn-nft-{tokenID}" class="modal-window">

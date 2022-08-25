@@ -9,6 +9,9 @@ import {
   getChecksumAddress,
   nftKey
 } from "@lib/kconfig";
+import { Provider } from "@ethersproject/abstract-provider";
+
+import { getNftPrice, getNftRoyaltyInfo } from "@lib/kautomarket";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();

@@ -1,15 +1,15 @@
-import type { OpenNFTsV4 } from "soltypes/contracts/templates/OpenNFTsV4";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber, ethers } from "ethers";
-import { collectionContractGet } from "lib/kcollection-get";
+import { collectionGetContract } from "@lib/kcollection-get";
 import { getExplorer } from "./kconfig";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
   let price = "";
 
-  const { contract, supports } = await collectionContractGet(chainId, address, provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, provider);
   if (supports.IOpenMarketable) {
     const openNFTsV4 = contract as OpenNFTsV4;
     price = ethers.utils.formatEther((await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString());
@@ -24,7 +24,7 @@ const getNftRoyaltyInfo = async (
   tokenID: string,
   provider: Provider
 ): Promise<{ receiver: string; royaltyAmount: string } | undefined> => {
-  const { contract, supports } = await collectionContractGet(chainId, address, provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, provider);
 
   console.log("🚀 ~ file: kautomarket.ts ~ line 28 ~ contract", contract);
 
@@ -42,7 +42,7 @@ const getNftRoyaltyInfo = async (
 };
 
 const getDefaultCollPrice = async (chainId: number, address: string, signer: JsonRpcSigner): Promise<string> => {
-  const { contract, supports } = await collectionContractGet(chainId, address, signer.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
 
   if (!supports.IOpenMarketable) return "";
 
@@ -56,7 +56,7 @@ const setTokenPrice = async (
   tokenID: string,
   tokenPrice: string
 ): Promise<TransactionReceipt | undefined> => {
-  const { contract, supports } = await collectionContractGet(chainId, address, signer.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
 
   if (!supports.IOpenMarketable) return;
   const connectedContract = contract.connect(signer) as OpenNFTsV4;

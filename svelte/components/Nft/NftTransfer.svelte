@@ -2,7 +2,7 @@
   import { transferNftResponse, transferNftReceipt } from "@lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";

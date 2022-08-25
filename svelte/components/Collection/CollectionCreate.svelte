@@ -116,10 +116,8 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a
-                class="link"
-                href={explorerAddressUrl(chainId, collectionCreated.address)}
-                target="_blank">{collectionCreated?.name}</a
+              Collection '<a class="link" href={explorerAddressUrl(chainId, collectionCreated.address)} target="_blank"
+                >{collectionCreated?.name}</a
               >' created!
             </div>
           </div>
@@ -158,7 +156,7 @@
           <div class="section">
             <CollectionTemplates bind:template />
           </div>
-          {#if template === "OpenNFTsV4/ownable"}
+          {#if template === "OpenNFTsV4/automarket"}
             <div class="section">
               <span class="label label-big">Default collection price (Eth)</span>
               <div class="form-field">

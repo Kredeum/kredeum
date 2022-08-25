@@ -1,6 +1,6 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionContractGet } from "./kcollection-get";
+import { collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
 import { BigNumber, ethers } from "ethers";
@@ -19,7 +19,7 @@ const buyNftResponse = async (
 
   if (!(chainId && address && tokenID && network && buyer)) return txResp;
 
-  const { contract, supports } = await collectionContractGet(chainId, address, buyer.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, buyer.provider);
   const connectedContract = contract.connect(buyer);
 
   if (supports.IOpenNFTsV4) {
@@ -28,9 +28,14 @@ const buyNftResponse = async (
       (tokenID: BigNumber, paymentSent: { value: string }): Promise<TransactionResponse>;
     };
 
-    txResp = await buyFunction(BigNumber.from(tokenID), {
-      value: ethers.utils.parseEther(nftPrice).toString()
-    });
+    try {
+      txResp = await buyFunction(BigNumber.from(tokenID), {
+        value: ethers.utils.parseEther(nftPrice).toString()
+      });
+    } catch (e) {
+      console.error("ERROR During buying", e);
+      console.log(txResp);
+    }
   }
   console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
 

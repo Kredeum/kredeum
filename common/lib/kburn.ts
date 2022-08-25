@@ -2,7 +2,7 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 
 import { Contract } from "ethers";
 
-import { collectionContractGet } from "./kcollection-get";
+import { collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
 
 const burnNftResponse = async (
@@ -19,7 +19,7 @@ const burnNftResponse = async (
 
   if (!(chainId && address && tokenID && network && owner)) return txResp;
 
-  const { contract, supports } = await collectionContractGet(chainId, address, owner.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, owner.provider);
 
   interface QueryContract extends Contract {
     owner: () => Promise<string>;

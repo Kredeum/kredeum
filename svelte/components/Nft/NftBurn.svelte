@@ -2,12 +2,12 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { burnNftResponse, burnNftReceipt } from "lib/kburn";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "lib/kconfig";
+  import { burnNftResponse, burnNftReceipt } from "@lib/kburn";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner, metamaskAccount } from "main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
 
-  import { nftStore } from "stores/nft/nft";
+  import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
   //  <NftBurn {chainId} {address} {tokenID} />
@@ -57,7 +57,7 @@
 
   const returnNftsList = () => {
     if (burned) {
-      $toDisplayTokenID = "";
+      // $toDisplayTokenID = "";
     }
   };
 </script>
@@ -128,10 +128,6 @@
 </div>
 
 <style>
-  .c-red {
-    color: red;
-  }
-
   .kre-burn-warning {
     background-color: rgba(255, 0, 0, 0.07);
     border-radius: 6px;

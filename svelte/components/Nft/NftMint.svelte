@@ -32,7 +32,7 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import { ethers } from "ethers";
-  import { getDefaultCollPrice } from "lib/kautomarket";
+  import { getDefaultCollPrice } from "@lib/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
@@ -60,7 +60,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
-  let nftDefaultPrice: string;
+  let nftMintingPrice: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -93,7 +93,7 @@
   $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
     if (chainId && address && $metamaskSigner) {
-      nftDefaultPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
+      nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
     }
   };
 
@@ -346,9 +346,9 @@
                   />
                 </div>
               </div>
-              {#if nftDefaultPrice}
+              {#if nftMintingPrice}
                 <div class="section">
-                  <span class="label label-big">NFT default price : {nftDefaultPrice} (Eth)</span>
+                  <span class="label label-big">NFT minting price : {nftMintingPrice} (Eth)</span>
                 </div>
               {/if}
 
