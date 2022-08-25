@@ -5,10 +5,10 @@ import { collectionGetContract } from "@lib/kcollection-get";
 import { nftGetFromContractEnumerable } from "@lib/knft-get";
 import { nftGetMetadata } from "@lib/knft-get-metadata";
 
-import { alchemyGet, alchemyNftList } from "@lib/api-alchemy";
-import { covalentGet, covalentNftList } from "@lib/api-covalent";
-import { thegraphGet, thegraphNftList } from "@lib/api-thegraph";
-import { moralisGet, moralisNftList } from "@lib/api-moralis";
+import { alchemyGet, alchemyNftList } from "@lib/apis/api-alchemy";
+import { covalentGet, covalentNftList } from "@lib/apis/api-covalent";
+import { thegraphGet, thegraphNftList } from "@lib/apis/api-thegraph";
+import { moralisGet, moralisNftList } from "@lib/apis/api-moralis";
 
 import { getNetwork, isProviderOnChainId } from "@lib/kconfig";
 import { IERC721, IERC721Enumerable } from "@soltypes/OpenNFTs/contracts/interfaces";
@@ -91,6 +91,7 @@ const nftListTokenIds = async (
       console.error("No NFTs found:-(");
     }
     if (nftsTokenIds.size === 0) {
+      nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
       nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
       // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     }

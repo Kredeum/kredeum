@@ -4,7 +4,7 @@ import { Contract } from "ethers";
 import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
 import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 import { abis } from "@lib/kabis";
-import { resolverGetCollectionInfos } from "@lib/kresolver-get";
+import { resolverGetCollectionInfos } from "@lib/resolver/resolver-get-collection";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();

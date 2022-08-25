@@ -4,11 +4,11 @@ import type { CollectionType } from "@lib/ktypes";
 import { getNetwork } from "@lib/kconfig";
 import { collectionMerge } from "@lib/kcollection-get";
 
-import { alchemyGet, alchemyCollectionList } from "@lib/api-alchemy";
-import { covalentGet, covalentCollectionList } from "@lib/api-covalent";
-import { thegraphGet, thegraphCollectionList } from "@lib/api-thegraph";
-import { moralisGet, moralisCollectionList } from "@lib/api-moralis";
-import { resolverGetCollectionList } from "@lib/kresolver-get";
+import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
+import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";
+import { thegraphGet, thegraphCollectionList } from "@lib/apis/api-thegraph";
+import { moralisGet, moralisCollectionList } from "@lib/apis/api-moralis";
+import { resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (

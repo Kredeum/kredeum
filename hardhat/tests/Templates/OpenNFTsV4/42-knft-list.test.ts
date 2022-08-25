@@ -4,8 +4,8 @@ import type { OpenNFTsV4 } from "@soltypes/contracts/next";
 
 import { nftList, nftListFromContract } from "@lib/knft-list";
 
-import { covalentNftList } from "@lib/api-covalent";
-import { thegraphNftList } from "@lib/api-thegraph";
+import { covalentNftList } from "@lib/apis/api-covalent";
+import { thegraphNftList } from "@lib/apis/api-thegraph";
 
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";

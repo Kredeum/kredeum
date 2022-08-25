@@ -4,8 +4,8 @@ import type { NetworkType } from "@lib/ktypes";
 
 import { collectionList, collectionListFromFactory } from "@lib/kcollection-list";
 
-import { covalentCollectionList } from "@lib/api-covalent";
-import { thegraphCollectionList } from "@lib/api-thegraph";
+import { covalentCollectionList } from "@lib/apis/api-covalent";
+import { thegraphCollectionList } from "@lib/apis/api-thegraph";
 
 thegraphCollectionList;
 

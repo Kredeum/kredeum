@@ -3,7 +3,7 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { ethers } from "ethers";
 import { getExplorer } from "@lib/kconfig";
 import { factoryGetContract } from "@lib/kfactory-get";
-import { resolverGetCount } from "@lib/kresolver-get";
+import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 const collectionCloneResponse = async (
   chainId: number,
