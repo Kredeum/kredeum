@@ -6,8 +6,8 @@ import { Contract } from "ethers";
 import type { Address } from "@lib/ktypes";
 import { getNetwork, explorerContractUrl } from "@lib/kconfig";
 
-import type { NFTsFactoryV3 } from "@soltypes/contracts/next/NFTsFactoryV3";
-import abiNFTsFactoryV3 from "@abis/contracts/next/NFTsFactoryV3.sol/NFTsFactoryV3.json";
+import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
+import abiOpenNFTsFactoryV3 from "@abis/contracts/next/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<number, Contract> = new Map();
@@ -19,15 +19,15 @@ const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nfts
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // GET NFTsFactory Contract
-const factoryGetContract = (chainId: number, provider: Provider | Signer): NFTsFactoryV3 => {
+const factoryGetContract = (chainId: number, provider: Provider | Signer): OpenNFTsFactoryV3 => {
   let nftsFactory = nftsFactoriesCache.get(chainId);
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), abiNFTsFactoryV3, provider);
+    nftsFactory = new Contract(factoryGetAddress(chainId), abiOpenNFTsFactoryV3, provider);
     nftsFactoriesCache.set(chainId, nftsFactory);
   }
 
   // console.log("factoryGetContract", chainId, nftsFactory);
-  return nftsFactory as NFTsFactoryV3;
+  return nftsFactory as OpenNFTsFactoryV3;
 };
 
 // GET OpenNFTs default template via onchain call

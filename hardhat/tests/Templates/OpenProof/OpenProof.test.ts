@@ -5,15 +5,15 @@ import { interfaceId } from "@lib/kconfig";
 
 import type { OpenProof } from "@soltypes/contracts/dev";
 
-import abiIERC165 from "@abis/contracts/interfaces/IERC165.sol/IERC165.json";
-import abiIERC173 from "@abis/contracts/interfaces/IERC173.sol/IERC173.json";
-import abiIERC721 from "@abis/contracts/interfaces/IERC721.sol/IERC721.json";
-import abiIERC721Enumerable from "@abis/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
-import abiIERC721Metadata from "@abis/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
-import abiIERC721TokenReceiver from "@abis/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
+import abiIERC165 from "@abis/OpenNFTs/contracts/interfaces/IERC165.sol/IERC165.json";
+import abiIERC173 from "@abis/OpenNFTs/contracts/interfaces/IERC173.sol/IERC173.json";
+import abiIERC721 from "@abis/OpenNFTs/contracts/interfaces/IERC721.sol/IERC721.json";
+import abiIERC721Enumerable from "@abis/OpenNFTs/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
+import abiIERC721Metadata from "@abis/OpenNFTs/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
+import abiIERC721TokenReceiver from "@abis/OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
 
-import abiIERC1155 from "@abis/contracts/interfaces/IERC1155.sol/IERC1155.json";
-import abiIERC4973 from "@abis/contracts/interfaces/IERC4973.sol/IERC4973.json";
+import abiIERC1155 from "@abis/OpenNFTs/contracts/interfaces/IERC1155.sol/IERC1155.json";
+import abiIERC4973 from "@abis/OpenNFTs/contracts/interfaces/IERC4973.sol/IERC4973.json";
 
 describe("OpenProof", function () {
   let signer: Signer;

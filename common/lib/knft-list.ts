@@ -1,7 +1,7 @@
 import type { CollectionType, NftType } from "@lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 
-import { collectionContractGet } from "@lib/kcollection-get";
+import { collectionGetContract } from "@lib/kcollection-get";
 import { nftGetFromContractEnumerable } from "@lib/knft-get";
 import { nftGetMetadata } from "@lib/knft-get-metadata";
 
@@ -11,7 +11,7 @@ import { thegraphGet, thegraphNftList } from "@lib/api-thegraph";
 import { moralisGet, moralisNftList } from "@lib/api-moralis";
 
 import { getNetwork, isProviderOnChainId } from "@lib/kconfig";
-import { IERC721, IERC721Enumerable } from "@soltypes/contracts/interfaces";
+import { IERC721, IERC721Enumerable } from "@soltypes/OpenNFTs/contracts/interfaces";
 import { FETCH_LIMIT } from "@lib/kfetch";
 
 const nftListFromContract = async (
@@ -28,7 +28,7 @@ const nftListFromContract = async (
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return nfts;
 
   try {
-    const { contract, supports } = await collectionContractGet(chainId, address, provider);
+    const { contract, supports } = await collectionGetContract(chainId, address, provider);
 
     if (contract && supports.IERC721Enumerable) {
       let nbTokens = limit;

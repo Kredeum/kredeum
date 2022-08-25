@@ -8,6 +8,7 @@ import "../../next/OpenNFTsV4.sol";
 import "./OpenNFTsV4InitializeTest.t.sol";
 import "./OpenNFTsV4SupportsTest.t.sol";
 import "./OpenNFTsV4BuyTest.t.sol";
+import "./OpenNFTsV4MintTest.t.sol";
 
 import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
 
@@ -26,6 +27,7 @@ contract OpenNFTsV4Test is
     OpenNFTsV4InitializeTest,
     OpenNFTsV4SupportsTest,
     OpenNFTsV4BuyTest,
+    OpenNFTsV4MintTest,
     OpenNFTsTest,
     OpenNFTsBurnTest,
     OpenNFTsSetupTest,
@@ -41,6 +43,7 @@ contract OpenNFTsV4Test is
             OpenNFTsTest,
             OpenNFTsV4SupportsTest,
             OpenNFTsV4BuyTest,
+            OpenNFTsV4MintTest,
             OpenNFTsBurnTest,
             OpenNFTsSetupTest,
             OpenPauseableTest,
@@ -111,6 +114,7 @@ contract OpenNFTsV4Test is
         setUpERC721Transferable();
         setUpOpenNFTsBurn();
         setUpOpenNFTsBuy();
+        setUpOpenNFTsMint();
         setUpOpenNFTsSetup();
         setUpOpenNFTsV4Initialize();
         setUpOpenNFTsV4Supports();

@@ -95,7 +95,7 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              CollectionType '<a
+              Collection '<a
                 class="link"
                 href={explorerAddressUrl(chainId, collectionCreated.address)}
                 target="_blank">{collectionCreated?.name}</a
@@ -104,7 +104,7 @@
           </div>
         {:else if cloning}
           <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Creating new CollectionType...
+            <i class="fas fa-sync fa-left c-green" />Creating new Collection...
           </div>
           <div class="section">
             {#if cloningTxHash}
@@ -115,7 +115,7 @@
           </div>
         {:else}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Name your CollectionType
+            <i class="fas fa-plus fa-left c-green" />Name your Collection
           </div>
 
           <div class="section">
@@ -125,7 +125,7 @@
           </div>
 
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your CollectionType
+            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
           </div>
 
           <div class="section">

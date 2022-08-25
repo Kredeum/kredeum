@@ -28,7 +28,7 @@ import "./ICloneFactory.sol";
 import "./ICloneFactoryV2.sol";
 import "./INFTsFactory.sol";
 import "./INFTsFactoryV2.sol";
-import "./INFTsFactoryV3.sol";
+import "./IOpenNFTsFactoryV3.sol";
 
 import "./IOpenNFTsV0.sol";
 import "./IOpenNFTsV1.sol";

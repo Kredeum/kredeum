@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
 import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
-import type { NFTsFactoryV3 } from "@soltypes/contracts/next/NFTsFactoryV3";
+import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
 
@@ -27,19 +27,19 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     await setNetwork(network.name, "openNFTs", deployResult.address);
 
     const openNFTsV4 = (await getContract(contractName, deployer)) as unknown as OpenNFTsV4;
-    const nftsFactoryV3 = (await getContract("NFTsFactoryV3", deployer)) as unknown as NFTsFactoryV3;
+    const nftsFactoryV3 = (await getContract("OpenNFTsFactoryV3", deployer)) as unknown as OpenNFTsFactoryV3;
 
     nonce = await getNonce(deployer, contractName, "initialize");
     await (await openNFTsV4.initialize("Open NFTs V4", "NFT", deployer.address, 0, deployer.address, 0, [true])).wait();
 
-    nonce = await getNonce(deployer, "NFTsFactoryV3", "setTemplate");
+    nonce = await getNonce(deployer, "OpenNFTsFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }
 };
 
-deployFunction.dependencies = ["NFTsResolver"];
+deployFunction.dependencies = ["OpenNFTsResolver"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 

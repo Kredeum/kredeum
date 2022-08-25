@@ -1,7 +1,7 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, networks } from "@lib/kconfig";
-  import { factoryGetExplorerUrl, factoryGetAddress } from "@lib/kfactory-get";
+  import { getChainName, getNftsResolver, getNetwork, networks } from "@lib/kconfig";
+  import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/kresolver-get";
 
   import { metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId } from "@main/metamask";
@@ -14,7 +14,6 @@
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
   export let txt: boolean = undefined;
-  export let all: boolean = true;
   export let label = true;
 
   let open = false;
@@ -58,10 +57,10 @@
         >Network
         <a
           class="info-button"
-          href={factoryGetExplorerUrl(chainId)}
+          href={resolverGetExplorerUrl(chainId)}
           target="_blank"
           title="&#009; NFTs Factory address (click to view in explorer )
-        {factoryGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
+        {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >
       </span>
     {/if}
@@ -74,7 +73,7 @@
         <div class="custom-options" />
 
         <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet && all) as nwk}
+          {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as nwk}
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
@@ -85,7 +84,7 @@
           {/each}
           <!-- {#if getNetwork(chainId)?.testnet} -->
           {#if true}
-            {#each networks.filter((nw) => nw.testnet && all) as nwk}
+            {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}

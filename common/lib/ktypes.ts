@@ -47,30 +47,29 @@ type CollectionType = {
   owner?: string;
   name?: string;
   symbol?: string;
-  chainName?: string;
-  interfaces?: Array<string>;
   totalSupply?: number;
+  balancesOf?: Map<string, number>;
+  supports?: CollectionSupports;
+  chainName?: string;
   startBlock?: number;
   description?: string;
-  balancesOf?: Map<string, number>;
   version?: number;
-  burnable?: boolean;
+  template?: string;
   open?: boolean;
-  supports?: CollectionSupports;
 };
 
 type CollectionSupports = {
   IERC165?: boolean;
-  
+
   IERC721?: boolean;
   IERC721Metadata?: boolean;
   IERC721Enumerable?: boolean;
   IERC721TokenReceiver?: boolean;
-  
+
   IERC1155?: boolean;
   IERC1155MetadataURI?: boolean;
   IERC1155TokenReceiver?: boolean;
-  
+
   IERC173?: boolean;
   IERC2981?: boolean;
 
@@ -84,7 +83,7 @@ type CollectionSupports = {
   ICloneFactoryV2?: boolean;
   INFTsFactory?: boolean;
   INFTsFactoryV2?: boolean;
-  INFTsFactoryV3?: boolean;
+  IOpenNFTsFactoryV3?: boolean;
 
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;
@@ -92,7 +91,6 @@ type CollectionSupports = {
   IOpenNFTsV3?: boolean;
   IOpenNFTsV4?: boolean;
   IOpenBound?: boolean;
-
 };
 
 ///////////////////////////////////////////////////

@@ -1,9 +1,9 @@
-import type { NFTsResolver } from "@soltypes/contracts/next";
+import type { OpenNFTsResolver } from "@soltypes/contracts/next";
 import type { NetworkType } from "@lib/ktypes";
 
 import networks from "@config/networks.json";
 
-import abiINFTsResolver from "@abis/contracts/next/NFTsResolver.sol/NFTsResolver.json";
+import abiIOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 
 import { ethers, getChainId } from "hardhat";
 
@@ -18,14 +18,14 @@ const main = async () => {
   console.log("chainId      ", chainId);
   console.log("deployer     ", deployer.address);
 
-  let nftsResolver: NFTsResolver | undefined;
+  let nftsResolver: OpenNFTsResolver | undefined;
   if (network.nftsResolver) {
-    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiINFTsResolver, provider) as NFTsResolver;
+    nftsResolver = new ethers.Contract(network.nftsResolver || "", abiIOpenNFTsResolver, provider) as OpenNFTsResolver;
 
     console.log("nftsResolver  ", nftsResolver?.address || "");
 
     const implsRes = await nftsResolver.getAddresses();
-    console.log(implsRes.length, "implementations NFTsResolver", implsRes);
+    console.log(implsRes.length, "implementations OpenNFTsResolver", implsRes);
 
     const res = await nftsResolver.openResolver("0x981ab0D817710d8FFFC5693383C00D985A3BDa38");
     // const res = await nftsResolver.openResolver("0x0000002000000000001000000030000000000000");

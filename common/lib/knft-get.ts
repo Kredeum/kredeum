@@ -3,10 +3,15 @@ import { BigNumber } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
 import { nftKey, isProviderOnChainId, DEFAULT_NAME } from "@lib/kconfig";
-import { collectionContractGet } from "@lib/kcollection-get";
+import { collectionGetContract } from "@lib/kcollection-get";
 
 import { nftGetMetadata } from "@lib/knft-get-metadata";
-import { IERC721Metadata, IERC721, IERC1155MetadataURI, IERC721Enumerable } from "@soltypes/contracts/interfaces";
+import {
+  IERC721Metadata,
+  IERC721,
+  IERC1155MetadataURI,
+  IERC721Enumerable
+} from "@soltypes/OpenNFTs/contracts/interfaces";
 
 ////////////////////////////////////////////////////////
 // TOKEN
@@ -47,7 +52,7 @@ const nftGetFromContract = async (
   let owner = "";
 
   try {
-    const { contract, supports } = await collectionContractGet(chainId, address, provider);
+    const { contract, supports } = await collectionGetContract(chainId, address, provider);
 
     if (supports.IERC721) {
       owner = await (contract as IERC721).ownerOf(tokenID);
@@ -88,7 +93,7 @@ const nftGetFromContractEnumerable = async (
   if (!(chainId && address && index >= 0 && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
 
   try {
-    const { contract, supports } = await collectionContractGet(chainId, address, provider);
+    const { contract, supports } = await collectionGetContract(chainId, address, provider);
     if (contract && supports.IERC721Enumerable) {
       if (owner) {
         tokenID = await (contract as IERC721Enumerable).tokenOfOwnerByIndex(owner, BigNumber.from(index));
@@ -126,4 +131,4 @@ const nftGet = async (
   return nftRet;
 };
 
-export { nftGet, nftGetFromContract, nftGetFromContractEnumerable, collectionContractGet };
+export { nftGet, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };

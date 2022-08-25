@@ -1,10 +1,10 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionContractGet } from "@lib/kcollection-get";
+import { collectionGetContract } from "@lib/kcollection-get";
 import { getNetwork } from "@lib/kconfig";
 
-import type { IERC721 } from "@soltypes/contracts/interfaces/IERC721";
-import type { IERC1155 } from "@soltypes/contracts/interfaces/IERC1155";
+import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
+import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
 
 const transferNftResponse = async (
   chainId: number,
@@ -23,7 +23,7 @@ const transferNftResponse = async (
   const ownerAddress = await owner.getAddress();
   // console.log("transferNftResponse owner", ownerAddress);
 
-  const { contract, supports } = await collectionContractGet(chainId, address, owner.provider);
+  const { contract, supports } = await collectionGetContract(chainId, address, owner.provider);
   // console.log("contract", contract);
 
   if (supports.IERC721) {
