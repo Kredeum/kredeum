@@ -4,7 +4,7 @@ import { Contract } from "ethers";
 import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
 import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 import { abis } from "@lib/kabis";
-import { resolverGetCollectionInfos } from "@lib/resolver/resolver-get-collection";
+import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();
@@ -75,7 +75,7 @@ const collectionGet = async (
   if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
 
   try {
-    collection = await resolverGetCollectionInfos(chainId, address, provider, account);
+    collection = await resolverGetCollection(chainId, address, provider, account);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
   }

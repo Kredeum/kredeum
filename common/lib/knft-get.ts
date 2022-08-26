@@ -47,7 +47,7 @@ const nftGetFromContract = async (
   // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
   // console.log("nftGetFromContract collection", collection);
 
-  let contractName = "";
+  let collectionName = "";
   let tokenURI = "";
   let owner = "";
 
@@ -58,7 +58,7 @@ const nftGetFromContract = async (
       owner = await (contract as IERC721).ownerOf(tokenID);
     }
     if (supports.IERC721Metadata) {
-      contractName = collection.name || (await (contract as IERC721Metadata).name()) || DEFAULT_NAME;
+      collectionName = collection.name || (await (contract as IERC721Metadata).name()) || DEFAULT_NAME;
       tokenURI = await (contract as IERC721Metadata).tokenURI(tokenID);
     }
     if (supports.IERC1155MetadataURI) {
@@ -66,7 +66,7 @@ const nftGetFromContract = async (
     }
 
     nft.nid = nftKey(chainId, address, tokenID);
-    if (contractName) nft.contractName = contractName;
+    if (collectionName) nft.collectionName = collectionName;
     if (owner) nft.owner = owner;
     if (tokenURI) nft.tokenURI = tokenURI;
   } catch (e) {
@@ -74,39 +74,6 @@ const nftGetFromContract = async (
   }
 
   // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`, collection, nft);
-  return nft;
-};
-
-const nftGetFromContractEnumerable = async (
-  chainId: number,
-  address: string,
-  index: number,
-  provider: Provider,
-  collection: CollectionType,
-  owner?: string
-): Promise<NftType> => {
-  let nft: NftType = { chainId, address, tokenID: "" };
-  // console.log(`nftGetFromContract nft://${chainId}/${address}@${owner || ""} #${index}`);
-
-  let tokenID: BigNumber = BigNumber.from(-1);
-
-  if (!(chainId && address && index >= 0 && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
-
-  try {
-    const { contract, supports } = await collectionGetContract(chainId, address, provider);
-    if (contract && supports.IERC721Enumerable) {
-      if (owner) {
-        tokenID = await (contract as IERC721Enumerable).tokenOfOwnerByIndex(owner, BigNumber.from(index));
-      } else {
-        tokenID = await (contract as IERC721Enumerable).tokenByIndex(index);
-        owner = await (contract as IERC721).ownerOf(tokenID);
-      }
-      nft = await nftGetFromContract(chainId, address, tokenID.toString(), provider, collection);
-    }
-  } catch (e) {
-    console.error("ERROR nftGetFromContractEnumerable", chainId, index, owner, collection, e);
-  }
-  // console.log(`nftGetFromContractEnumerable ${nftKey(chainId, address, String(tokenID), owner)} #${index}`, nft);
   return nft;
 };
 
@@ -131,4 +98,4 @@ const nftGet = async (
   return nftRet;
 };
 
-export { nftGet, nftGetFromContract, nftGetFromContractEnumerable, collectionGetContract };
+export { nftGet, nftGetFromContract, collectionGetContract };
