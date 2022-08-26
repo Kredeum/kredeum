@@ -9,7 +9,7 @@ specifiers:
   '@ethersproject/contracts': ^5.7.0
   '@ethersproject/hardware-wallets': ^5.7.0
   '@ethersproject/providers': ^5.7.0
-  '@ipld/dag-pb': ^2.1.17
+  '@ipld/dag-pb': ^2.1.18
   '@nomiclabs/hardhat-ethers': npm:hardhat-deploy-ethers@^0.3.0-beta.13
   '@nomiclabs/hardhat-etherscan': ^3.1.0
   '@nomiclabs/hardhat-waffle': ^2.0.3
@@ -59,7 +59,7 @@ specifiers:
   ts-node: ^10.9.1
   tsconfig-paths: ^4.1.0
   typechain: ^8.1.0
-  typescript: ^4.7.4
+  typescript: ^4.8.2
   vue-loader: ^15.10.0
   vue-style-loader: ^4.1.3
   webpack: ^5.74.0
@@ -73,13 +73,13 @@ devDependencies:
   '@ethersproject/contracts': 5.7.0
   '@ethersproject/hardware-wallets': 5.7.0
   '@ethersproject/providers': 5.7.0
-  '@ipld/dag-pb': 2.1.17
+  '@ipld/dag-pb': 2.1.18
   '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.13_lc7o4ykyrnccnzpoyzs6m3zzsq
   '@nomiclabs/hardhat-etherscan': 3.1.0_hardhat@2.10.2
   '@nomiclabs/hardhat-waffle': 2.0.3_fnyd7ijmdlypc54ct26rmae3eq
   '@openzeppelin/contracts': 4.7.3
   '@openzeppelin/contracts-upgradeable': 4.7.3
-  '@typechain/ethers-v5': 10.1.0_cx2shr4cdlergalx4zvj3gxgsm
+  '@typechain/ethers-v5': 10.1.0_oics2lra7dfizs2e266hlek3em
   '@typechain/hardhat': 6.1.2_issnms7c6tikosgz2xwaf2d3b4
   '@types/chai': 4.3.3
   '@types/findup-sync': 4.0.2
@@ -88,9 +88,9 @@ devDependencies:
   '@types/node-fetch': 2.6.2
   '@types/prompt-sync': 4.1.1
   '@types/readline-sync': 1.4.4
-  '@typescript-eslint/eslint-plugin': 5.35.1_ktjxjibzrfqejavile4bhmzhjq
-  '@typescript-eslint/parser': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
-  OpenNFTs: github.com/Kredeum/OpenNFTs/bf2d942b6a2fe6454b3e71847c1f56246c9ce459
+  '@typescript-eslint/eslint-plugin': 5.35.1_4kgehhvxgrxdvptdn2db7re534
+  '@typescript-eslint/parser': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
+  OpenNFTs: github.com/Kredeum/OpenNFTs/6811d381ac61d29cd00e7209210f533c1307f156
   chai: 4.3.6
   css-loader: 6.7.1_webpack@5.74.0
   dotenv: 16.0.1
@@ -98,11 +98,11 @@ devDependencies:
   eslint-config-prettier: 8.5.0_eslint@8.22.0
   eslint-import-resolver-typescript: 3.5.0_2iahngt3u2tkbdlu6s4gkur3pu
   eslint-plugin-import: 2.26.0_w7ehzcacvb3lhivydjh7ca7hf4
-  ethereum-waffle: 3.4.4_typescript@4.7.4
+  ethereum-waffle: 3.4.4_typescript@4.8.2
   ethers: 5.7.0
   findup-sync: 5.0.0
   form-data: 4.0.0
-  hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+  hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
   hardhat-abi-exporter: 2.10.0_hardhat@2.10.2
   hardhat-change-network: 0.0.7_hardhat@2.10.2
   hardhat-deploy: 0.11.12
@@ -120,10 +120,10 @@ devDependencies:
   solhint: 3.3.7
   solhint-plugin-prettier: 0.0.5_yhaj7swsoth43i54pjwisbu4t4
   solidity-coverage: 0.7.21
-  ts-node: 10.9.1_57uwcby55h6tzvkj3v5sfcgxoe
+  ts-node: 10.9.1_hwinnrf7y5nyyzygpj45jmvjia
   tsconfig-paths: 4.1.0
-  typechain: 8.1.0_typescript@4.7.4
-  typescript: 4.7.4
+  typechain: 8.1.0_typescript@4.8.2
+  typescript: 4.8.2
   vue-loader: 15.10.0_tmekgxb4kz2cwcpbztklgmtyca
   vue-style-loader: 4.1.3
   webpack: 5.74.0
@@ -226,7 +226,7 @@ packages:
       - utf-8-validate
     dev: true
 
-  /@ethereum-waffle/compiler/3.4.4_typescript@4.7.4:
+  /@ethereum-waffle/compiler/3.4.4_typescript@4.8.2:
     resolution: {integrity: sha512-RUK3axJ8IkD5xpWjWoJgyHclOeEzDLQFga6gKpeGxiS/zBu+HB0W2FvsrrLalTFIaPw/CGYACRBSIxqiCqwqTQ==}
     engines: {node: '>=10.0'}
     dependencies:
@@ -240,7 +240,7 @@ packages:
       node-fetch: 2.6.7
       solc: 0.6.12
       ts-generator: 0.1.1
-      typechain: 3.0.0_typescript@4.7.4
+      typechain: 3.0.0_typescript@4.8.2
     transitivePeerDependencies:
       - bufferutil
       - encoding
@@ -718,8 +718,8 @@ packages:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
 
-  /@ipld/dag-pb/2.1.17:
-    resolution: {integrity: sha512-AmzOdmdv5hT8iGsrbpzm5R0Fvk7DEbtwcglG2gJLvW9q3zwb+E681hY4EwEELypM1Rfnp/JDA9dGqYcpEi/iAg==}
+  /@ipld/dag-pb/2.1.18:
+    resolution: {integrity: sha512-ZBnf2fuX9y3KccADURG5vb9FaOeMjFkCrNysB0PtftME/4iCTjxfaLoNq/IAh5fTqUOMXvryN6Jyka4ZGuMLIg==}
     dependencies:
       multiformats: 9.7.1
     dev: true
@@ -905,7 +905,7 @@ packages:
       chalk: 2.4.2
       debug: 4.3.4
       fs-extra: 7.0.1
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
       lodash: 4.17.21
       semver: 6.3.0
       table: 6.8.0
@@ -925,9 +925,9 @@ packages:
       '@nomiclabs/hardhat-ethers': /hardhat-deploy-ethers/0.3.0-beta.13_lc7o4ykyrnccnzpoyzs6m3zzsq
       '@types/sinon-chai': 3.2.8
       '@types/web3': 1.0.19
-      ethereum-waffle: 3.4.4_typescript@4.7.4
+      ethereum-waffle: 3.4.4_typescript@4.8.2
       ethers: 5.7.0
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
     dev: true
 
   /@openzeppelin/contracts-upgradeable/4.7.3:
@@ -938,8 +938,8 @@ packages:
     resolution: {integrity: sha512-dGRS0agJzu8ybo44pCIf3xBaPQN/65AIXNgK8+4gzKd5kbvlqyxryUYVLJv7fK98Seyd2hDZzVEHSWAh0Bt1Yw==}
     dev: true
 
-  /@pkgr/utils/2.3.0:
-    resolution: {integrity: sha512-7dIJ9CRVzBnqyEl7diUHPUFJf/oty2SeoVzcMocc5PeOUDK9KGzvgIBjGRRzzlRDaOjh3ADwH0WeibQvi3ls2Q==}
+  /@pkgr/utils/2.3.1:
+    resolution: {integrity: sha512-wfzX8kc1PMyUILA+1Z/EqoE4UCXGy0iRGMhPwdfae1+f0OXlLqCk+By+aMzgJBzR9AzS4CDizioG6Ss1gvAFJw==}
     engines: {node: ^12.20.0 || ^14.18.0 || >=16.0.0}
     dependencies:
       cross-spawn: 7.0.3
@@ -1143,7 +1143,7 @@ packages:
     resolution: {integrity: sha512-yOlFc+7UtL/89t2ZhjPvvB/DeAr3r+Dq58IgzsFkOAvVC6NMJXmCGjbptdXdR9qsX7pKcTL+s87FtYREi2dEEQ==}
     dev: true
 
-  /@typechain/ethers-v5/10.1.0_cx2shr4cdlergalx4zvj3gxgsm:
+  /@typechain/ethers-v5/10.1.0_oics2lra7dfizs2e266hlek3em:
     resolution: {integrity: sha512-3LIb+eUpV3mNCrjUKT5oqp8PBsZYSnVrkfk6pY/ZM0boRs2mKxjFZ7bktx42vfDye8PPz3NxtW4DL5NsNsFqlg==}
     peerDependencies:
       '@ethersproject/abi': ^5.0.0
@@ -1158,9 +1158,9 @@ packages:
       '@ethersproject/providers': 5.7.0
       ethers: 5.7.0
       lodash: 4.17.21
-      ts-essentials: 7.0.3_typescript@4.7.4
-      typechain: 8.1.0_typescript@4.7.4
-      typescript: 4.7.4
+      ts-essentials: 7.0.3_typescript@4.8.2
+      typechain: 8.1.0_typescript@4.8.2
+      typescript: 4.8.2
     dev: true
 
   /@typechain/ethers-v5/2.0.0_nencdbwvihrvhes5lxff7r5ypq:
@@ -1170,7 +1170,7 @@ packages:
       typechain: ^3.0.0
     dependencies:
       ethers: 5.7.0
-      typechain: 3.0.0_typescript@4.7.4
+      typechain: 3.0.0_typescript@4.8.2
     dev: true
 
   /@typechain/hardhat/6.1.2_issnms7c6tikosgz2xwaf2d3b4:
@@ -1185,12 +1185,12 @@ packages:
     dependencies:
       '@ethersproject/abi': 5.7.0
       '@ethersproject/providers': 5.7.0
-      '@typechain/ethers-v5': 10.1.0_cx2shr4cdlergalx4zvj3gxgsm
+      '@typechain/ethers-v5': 10.1.0_oics2lra7dfizs2e266hlek3em
       ethers: 5.7.0
       fs-extra: 9.1.0
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
       lodash: 4.17.21
-      typechain: 8.1.0_typescript@4.7.4
+      typechain: 8.1.0_typescript@4.8.2
     dev: true
 
   /@types/abstract-leveldown/7.2.0:
@@ -1405,7 +1405,7 @@ packages:
       '@types/underscore': 1.11.4
     dev: true
 
-  /@typescript-eslint/eslint-plugin/5.35.1_ktjxjibzrfqejavile4bhmzhjq:
+  /@typescript-eslint/eslint-plugin/5.35.1_4kgehhvxgrxdvptdn2db7re534:
     resolution: {integrity: sha512-RBZZXZlI4XCY4Wzgy64vB+0slT9+yAPQRjj/HSaRwUot33xbDjF1oN9BLwOLTewoOI0jothIltZRe9uJCHf8gg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1416,23 +1416,23 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
+      '@typescript-eslint/parser': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
       '@typescript-eslint/scope-manager': 5.35.1
-      '@typescript-eslint/type-utils': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
-      '@typescript-eslint/utils': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
+      '@typescript-eslint/type-utils': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
+      '@typescript-eslint/utils': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
       debug: 4.3.4
       eslint: 8.22.0
       functional-red-black-tree: 1.0.1
       ignore: 5.2.0
       regexpp: 3.2.0
       semver: 7.3.7
-      tsutils: 3.21.0_typescript@4.7.4
-      typescript: 4.7.4
+      tsutils: 3.21.0_typescript@4.8.2
+      typescript: 4.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/parser/5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq:
+  /@typescript-eslint/parser/5.35.1_shit3uhl6a7megkzgoz6xssnfa:
     resolution: {integrity: sha512-XL2TBTSrh3yWAsMYpKseBYTVpvudNf69rPOWXWVBI08My2JVT5jR66eTt4IgQFHA/giiKJW5dUD4x/ZviCKyGg==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1444,10 +1444,10 @@ packages:
     dependencies:
       '@typescript-eslint/scope-manager': 5.35.1
       '@typescript-eslint/types': 5.35.1
-      '@typescript-eslint/typescript-estree': 5.35.1_typescript@4.7.4
+      '@typescript-eslint/typescript-estree': 5.35.1_typescript@4.8.2
       debug: 4.3.4
       eslint: 8.22.0
-      typescript: 4.7.4
+      typescript: 4.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1460,7 +1460,7 @@ packages:
       '@typescript-eslint/visitor-keys': 5.35.1
     dev: true
 
-  /@typescript-eslint/type-utils/5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq:
+  /@typescript-eslint/type-utils/5.35.1_shit3uhl6a7megkzgoz6xssnfa:
     resolution: {integrity: sha512-8xT8ljvo43Mp7BiTn1vxLXkjpw8wS4oAc00hMSB4L1/jIiYbjjnc3Qp2GAUOG/v8zsNCd1qwcqfCQ0BuishHkw==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1470,11 +1470,11 @@ packages:
       typescript:
         optional: true
     dependencies:
-      '@typescript-eslint/utils': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
+      '@typescript-eslint/utils': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
       debug: 4.3.4
       eslint: 8.22.0
-      tsutils: 3.21.0_typescript@4.7.4
-      typescript: 4.7.4
+      tsutils: 3.21.0_typescript@4.8.2
+      typescript: 4.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1484,7 +1484,7 @@ packages:
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
 
-  /@typescript-eslint/typescript-estree/5.35.1_typescript@4.7.4:
+  /@typescript-eslint/typescript-estree/5.35.1_typescript@4.8.2:
     resolution: {integrity: sha512-JUqE1+VRTGyoXlDWWjm6MdfpBYVq+hixytrv1oyjYIBEOZhBCwtpp5ZSvBt4wIA1MKWlnaC2UXl2XmYGC3BoQA==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1499,13 +1499,13 @@ packages:
       globby: 11.1.0
       is-glob: 4.0.3
       semver: 7.3.7
-      tsutils: 3.21.0_typescript@4.7.4
-      typescript: 4.7.4
+      tsutils: 3.21.0_typescript@4.8.2
+      typescript: 4.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
 
-  /@typescript-eslint/utils/5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq:
+  /@typescript-eslint/utils/5.35.1_shit3uhl6a7megkzgoz6xssnfa:
     resolution: {integrity: sha512-v6F8JNXgeBWI4pzZn36hT2HXXzoBBBJuOYvoQiaQaEEjdi5STzux3Yj8v7ODIpx36i/5s8TdzuQ54TPc5AITQQ==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     peerDependencies:
@@ -1514,7 +1514,7 @@ packages:
       '@types/json-schema': 7.0.11
       '@typescript-eslint/scope-manager': 5.35.1
       '@typescript-eslint/types': 5.35.1
-      '@typescript-eslint/typescript-estree': 5.35.1_typescript@4.7.4
+      '@typescript-eslint/typescript-estree': 5.35.1_typescript@4.8.2
       eslint: 8.22.0
       eslint-scope: 5.1.1
       eslint-utils: 3.0.0_eslint@8.22.0
@@ -2959,7 +2959,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001383
-      electron-to-chromium: 1.4.230
+      electron-to-chromium: 1.4.231
     dev: true
 
   /browserslist/4.21.3:
@@ -2968,7 +2968,7 @@ packages:
     hasBin: true
     dependencies:
       caniuse-lite: 1.0.30001383
-      electron-to-chromium: 1.4.230
+      electron-to-chromium: 1.4.231
       node-releases: 2.0.6
       update-browserslist-db: 1.0.5_browserslist@4.21.3
     dev: true
@@ -4247,8 +4247,8 @@ packages:
     resolution: {integrity: sha1-WQxhFWsK4vTwJVcyoViyZrxWsh0=}
     dev: true
 
-  /electron-to-chromium/1.4.230:
-    resolution: {integrity: sha512-3pwjAK0qHSDN9+YAF4fJknsSruP7mpjdWzUSruIJD/JCH77pEh0SorEyb3xVaKkfwk2tzjOt2D8scJ0KAdfXLA==}
+  /electron-to-chromium/1.4.231:
+    resolution: {integrity: sha512-E8WsUC60chToZUfxvVUXBb1U/mR/Df3GFX+mO3edtQnRTUt6L2XgpqBVWcGD/xrzQdINL1g/CEBPPn0YJ86Y6Q==}
     dev: true
 
   /elliptic/6.5.4:
@@ -4527,7 +4527,7 @@ packages:
       eslint-import-resolver-webpack:
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
+      '@typescript-eslint/parser': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
       debug: 3.2.7
       eslint: 8.22.0
       eslint-import-resolver-node: 0.3.6
@@ -4546,7 +4546,7 @@ packages:
       '@typescript-eslint/parser':
         optional: true
     dependencies:
-      '@typescript-eslint/parser': 5.35.1_4rv7y5c6xz3vfxwhbrcxxi73bq
+      '@typescript-eslint/parser': 5.35.1_shit3uhl6a7megkzgoz6xssnfa
       array-includes: 3.1.5
       array.prototype.flat: 1.3.0
       debug: 2.6.9
@@ -4981,13 +4981,13 @@ packages:
       '@scure/bip39': 1.1.0
     dev: true
 
-  /ethereum-waffle/3.4.4_typescript@4.7.4:
+  /ethereum-waffle/3.4.4_typescript@4.8.2:
     resolution: {integrity: sha512-PA9+jCjw4WC3Oc5ocSMBj5sXvueWQeAbvCA+hUlb6oFgwwKyq5ka3bWQ7QZcjzIX+TdFkxP4IbFmoY2D8Dkj9Q==}
     engines: {node: '>=10.0'}
     hasBin: true
     dependencies:
       '@ethereum-waffle/chai': 3.4.4
-      '@ethereum-waffle/compiler': 3.4.4_typescript@4.7.4
+      '@ethereum-waffle/compiler': 3.4.4_typescript@4.8.2
       '@ethereum-waffle/mock-contract': 3.4.4
       '@ethereum-waffle/provider': 3.4.4
       ethers: 5.7.0
@@ -6210,7 +6210,7 @@ packages:
     dependencies:
       '@ethersproject/abi': 5.7.0
       delete-empty: 3.0.0
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
     dev: true
 
   /hardhat-change-network/0.0.7_hardhat@2.10.2:
@@ -6218,7 +6218,7 @@ packages:
     peerDependencies:
       hardhat: ^2.0.0
     dependencies:
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
     dev: true
 
   /hardhat-deploy-ethers/0.3.0-beta.13_lc7o4ykyrnccnzpoyzs6m3zzsq:
@@ -6228,7 +6228,7 @@ packages:
       hardhat: ^2.0.0
     dependencies:
       ethers: 5.7.0
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
     dev: true
 
   /hardhat-deploy/0.11.12:
@@ -6260,7 +6260,7 @@ packages:
       hardhat: ^2.0.0
     dependencies:
       css-loader: 6.7.1_webpack@5.74.0
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
       html-webpack-plugin: 5.5.0_webpack@5.74.0
       vue: 2.7.10
       vue-loader: 15.10.0_qf5rw5wrxvbkf64bhcoybdhy2i
@@ -6336,13 +6336,13 @@ packages:
     dependencies:
       array-uniq: 1.0.3
       eth-gas-reporter: 0.2.25
-      hardhat: 2.10.2_6oasmw356qmm23djlsjgkwvrtm
+      hardhat: 2.10.2_s5ojjbx2isjkawqptqpitvy25q
       sha1: 1.1.1
     transitivePeerDependencies:
       - '@codechecks/client'
     dev: true
 
-  /hardhat/2.10.2_6oasmw356qmm23djlsjgkwvrtm:
+  /hardhat/2.10.2_s5ojjbx2isjkawqptqpitvy25q:
     resolution: {integrity: sha512-L/KvDDT/MA6332uAtYTqdcHoSABljw4pPjHQe5SHdIJ+xKfaSc6vDKw03CmrQ5Xup0gHs8XnVSBpZo1AbbIW7g==}
     engines: {node: ^14.0.0 || ^16.0.0 || ^18.0.0}
     hasBin: true
@@ -6399,9 +6399,9 @@ packages:
       source-map-support: 0.5.21
       stacktrace-parser: 0.1.10
       true-case-path: 2.2.1
-      ts-node: 10.9.1_57uwcby55h6tzvkj3v5sfcgxoe
+      ts-node: 10.9.1_hwinnrf7y5nyyzygpj45jmvjia
       tsort: 0.0.1
-      typescript: 4.7.4
+      typescript: 4.8.2
       undici: 5.10.0
       uuid: 8.3.2
       ws: 7.5.9
@@ -10584,7 +10584,7 @@ packages:
     resolution: {integrity: sha512-1goXnDYNJlKwCM37f5MTzRwo+8SqutgVtg2d37D6YnHHT4E3IhQMRfKiGdfTZU7LBlI6T8inCQUxnMBFHrbqWw==}
     engines: {node: ^14.18.0 || >=16.0.0}
     dependencies:
-      '@pkgr/utils': 2.3.0
+      '@pkgr/utils': 2.3.1
       tslib: 2.4.0
     dev: true
 
@@ -10873,20 +10873,20 @@ packages:
     resolution: {integrity: sha512-q3N1xS4vZpRouhYHDPwO0bDW3EZ6SK9CrrDHxi/D6BPReSjpVgWIOpLS2o0gSBZm+7q/wyKp6RVM1AeeW7uyfQ==}
     dev: true
 
-  /ts-essentials/6.0.7_typescript@4.7.4:
+  /ts-essentials/6.0.7_typescript@4.8.2:
     resolution: {integrity: sha512-2E4HIIj4tQJlIHuATRHayv0EfMGK3ris/GRk1E3CFnsZzeNV+hUmelbaTZHLtXaZppM5oLhHRtO04gINC4Jusw==}
     peerDependencies:
       typescript: '>=3.7.0'
     dependencies:
-      typescript: 4.7.4
+      typescript: 4.8.2
     dev: true
 
-  /ts-essentials/7.0.3_typescript@4.7.4:
+  /ts-essentials/7.0.3_typescript@4.8.2:
     resolution: {integrity: sha512-8+gr5+lqO3G84KdiTSMRLtuyJ+nTBVRKuCrK4lidMPdVeEp0uqC875uE5NMcaA7YYMN7XsNiFQuMvasF8HT/xQ==}
     peerDependencies:
       typescript: '>=3.7.0'
     dependencies:
-      typescript: 4.7.4
+      typescript: 4.8.2
     dev: true
 
   /ts-generator/0.1.1:
@@ -10904,7 +10904,7 @@ packages:
       ts-essentials: 1.0.4
     dev: true
 
-  /ts-node/10.9.1_57uwcby55h6tzvkj3v5sfcgxoe:
+  /ts-node/10.9.1_hwinnrf7y5nyyzygpj45jmvjia:
     resolution: {integrity: sha512-NtVysVPkxxrwFGUUxGYhfux8k78pQB3JqYBXlLRZgdGUqTO5wU/UyHop5p70iEbGhB7q5KmiZiU0Y3KlJrScEw==}
     hasBin: true
     peerDependencies:
@@ -10930,7 +10930,7 @@ packages:
       create-require: 1.1.1
       diff: 4.0.2
       make-error: 1.3.6
-      typescript: 4.7.4
+      typescript: 4.8.2
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
     dev: true
@@ -10965,14 +10965,14 @@ packages:
     resolution: {integrity: sha1-4igPXoF/i/QnVlf9D5rr1E9aJ4Y=}
     dev: true
 
-  /tsutils/3.21.0_typescript@4.7.4:
+  /tsutils/3.21.0_typescript@4.8.2:
     resolution: {integrity: sha512-mHKK3iUXL+3UF6xL5k0PEhKRUBKPBCv/+RkEOpjRWxxx27KKRBmmA60A9pgOUvMi8GKhRMPEmjBRPzs2W7O1OA==}
     engines: {node: '>= 6'}
     peerDependencies:
       typescript: '>=2.8.0 || >= 3.2.0-dev || >= 3.3.0-dev || >= 3.4.0-dev || >= 3.5.0-dev || >= 3.6.0-dev || >= 3.6.0-beta || >= 3.7.0-dev || >= 3.7.0-beta'
     dependencies:
       tslib: 1.14.1
-      typescript: 4.7.4
+      typescript: 4.8.2
     dev: true
 
   /tunnel-agent/0.6.0:
@@ -11043,7 +11043,7 @@ packages:
     resolution: {integrity: sha512-dzlvlNlt6AXU7EBSfpAscydQ7gXB+pPGsPnfJnZpiNJBDj7IaJzQlBZYGdEi4R9HmPdBv2XmWJ6YUtoTa7lmCw==}
     dev: true
 
-  /typechain/3.0.0_typescript@4.7.4:
+  /typechain/3.0.0_typescript@4.8.2:
     resolution: {integrity: sha512-ft4KVmiN3zH4JUFu2WJBrwfHeDf772Tt2d8bssDTo/YcckKW2D+OwFrHXRC6hJvO3mHjFQTihoMV6fJOi0Hngg==}
     hasBin: true
     dependencies:
@@ -11052,14 +11052,14 @@ packages:
       fs-extra: 7.0.1
       js-sha3: 0.8.0
       lodash: 4.17.21
-      ts-essentials: 6.0.7_typescript@4.7.4
+      ts-essentials: 6.0.7_typescript@4.8.2
       ts-generator: 0.1.1
     transitivePeerDependencies:
       - supports-color
       - typescript
     dev: true
 
-  /typechain/8.1.0_typescript@4.7.4:
+  /typechain/8.1.0_typescript@4.8.2:
     resolution: {integrity: sha512-5jToLgKTjHdI1VKqs/K8BLYy42Sr3o8bV5ojh4MnR9ExHO83cyyUdw+7+vMJCpKXUiVUvARM4qmHTFuyaCMAZQ==}
     hasBin: true
     peerDependencies:
@@ -11074,8 +11074,8 @@ packages:
       mkdirp: 1.0.4
       prettier: 2.7.1
       ts-command-line-args: 2.3.1
-      ts-essentials: 7.0.3_typescript@4.7.4
-      typescript: 4.7.4
+      ts-essentials: 7.0.3_typescript@4.8.2
+      typescript: 4.8.2
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -11090,8 +11090,8 @@ packages:
     resolution: {integrity: sha512-/aCDEGatGvZ2BIk+HmLf4ifCJFwvKFNb9/JeZPMulfgFracn9QFcAf5GO8B/mweUjSoblS5In0cWhqpfs/5PQA==}
     dev: true
 
-  /typescript/4.7.4:
-    resolution: {integrity: sha512-C0WQT0gezHuw6AdY1M2jxUO83Rjf0HP7Sk1DtXj6j1EwkQNZrHAg2XPWlq62oqEhYvONq5pkC2Y9oPljWToLmQ==}
+  /typescript/4.8.2:
+    resolution: {integrity: sha512-C0I1UsrrDHo2fYI5oaCGbSejwX4ch+9Y5jTQELvovfmFkK3HHSZJB8MSJcWLmCUBzQBchCrZ9rMRV6GuNrvGtw==}
     engines: {node: '>=4.2.0'}
     hasBin: true
     dev: true
@@ -12615,10 +12615,10 @@ packages:
       ethers: 5.7.0
     dev: true
 
-  github.com/Kredeum/OpenNFTs/bf2d942b6a2fe6454b3e71847c1f56246c9ce459:
-    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/bf2d942b6a2fe6454b3e71847c1f56246c9ce459}
+  github.com/Kredeum/OpenNFTs/6811d381ac61d29cd00e7209210f533c1307f156:
+    resolution: {tarball: https://codeload.github.com/Kredeum/OpenNFTs/tar.gz/6811d381ac61d29cd00e7209210f533c1307f156}
     name: OpenNFTs
-    version: 0.4.9
+    version: 0.5.3
     dev: true
 
   github.com/ethereumjs/ethereumjs-abi/ee3994657fa7a427238e6ba92a84d0b529bbcde0:

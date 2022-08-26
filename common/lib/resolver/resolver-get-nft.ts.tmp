@@ -1,0 +1,86 @@
+import type { Provider } from "@ethersproject/abstract-provider";
+import { constants } from "ethers";
+
+import type { NftType } from "@lib/ktypes";
+import { nftListKey, nftUrl } from "@lib/kconfig";
+import { resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nfts-infos";
+import { resolverGetContract } from "@lib/resolver/resolver-get";
+
+import { IOpenNFTsInfos } from "@soltypes/contracts/next/OpenNFTsResolver";
+
+// COLLECTION
+// name
+// symbol
+// balanceOf(owner) 
+// totalSupply
+// NFTSLIST
+// tokenID
+// tokenURI
+// tokenOwner
+// tokenApproved
+
+
+const resolverGetNftInfos = async (
+  chainId: number,
+  address: string,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<NftType> => {
+  console.log("resolverGetNftInfos", address);
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+
+  const nftInfosStructOutput = await nftsResolver.getOpenNFTsResolverNftInfos(address, account);
+
+  return resolverConvOpenNFTsNftInfos(chainId, nftInfosStructOutput, account);
+};
+
+const resolverGetNftsInfos = async (
+  chainId: number,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<Array<NftType>> => {
+  // console.log("resolverGetNftsInfos", account);
+  const nfts: Array<NftType> = [];
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+
+  const openNFTsStructOutput = await nftsResolver.getOpenNFTsResolverNftsInfos(account);
+  console.log("resolverGetNftsInfos openNFTsStructOutput", openNFTsStructOutput);
+
+  for (let index = 0; index < openNFTsStructOutput.length; index++) {
+    nfts[index] = resolverConvOpenNFTsNftInfos(chainId, openNFTsStructOutput[index], account);
+  }
+
+  return nfts;
+};
+
+const resolverGetNftList = async (
+  chainId: number,
+  provider: Provider,
+  account = constants.AddressZero
+): Promise<Map<string, NftType>> => {
+  console.log(`resolverGetNftList ${nftListKey(chainId, account)}\n`, chainId, account);
+
+  const nfts: Map<string, NftType> = new Map();
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+  const openNFTsStructOutput: Array<IOpenNFTsInfos.OpenNFTsNftInfosStructOutput> =
+    await nftsResolver.getOpenNFTsResolverNftsInfos(account);
+
+  console.log("resolverGetNftList openNFTsStructOutput", openNFTsStructOutput);
+
+  for (let index = 0; index < openNFTsStructOutput.length; index++) {
+    const nft = resolverConvOpenNFTsNftInfos(chainId, openNFTsStructOutput[index], account);
+    nfts.set(nftUrl(chainId, nft.address), nft);
+  }
+
+  console.log(`resolverGetNftList ${nftListKey(chainId, account)}\n`, nfts);
+  return nfts;
+};
+
+export {
+  resolverGetNftList,
+  resolverGetNftInfos,
+  resolverGetNftsInfos
+};

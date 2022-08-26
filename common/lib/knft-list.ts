@@ -92,7 +92,7 @@ const nftListTokenIds = async (
     }
     if (nftsTokenIds.size === 0) {
       nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
-      nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
+      // nftsTokenIds = await nftListFromContract(chainId, address, provider, collection, account, limit);
       // console.log("nftListTokenIds nftListFromContract", nftsTokenIds);
     }
   }

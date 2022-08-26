@@ -309,8 +309,8 @@
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0x7d95F0a5EDD65EE4Ac9c2B4310402630B24Eec3c",
-    "nftsFactoryV3": "0x28864b3aE279Ac7864d0795b3Abe49e1a831a4A0"
+    "nftsResolver": "0xd5dd015CA1d363fD705A75355C3bfbDAD1bFC94d",
+    "nftsFactoryV3": "0xADd751b683d76460873F3FcFE634bC7033EaE8A2"
   },
   {
     "chainId": 3,
