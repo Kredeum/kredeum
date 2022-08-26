@@ -49,6 +49,23 @@ const getDefaultCollPrice = async (chainId: number, address: string, signer: Jso
   return ethers.utils.formatEther(await (contract as OpenNFTsV4).callStatic.defaultPrice());
 };
 
+const checkApprouved = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  provider: Provider
+): Promise<string> => {
+  let approved = "";
+  const { contract, supports } = await collectionGetContract(chainId, address, provider);
+
+  if (supports.IOpenMarketable) {
+    approved = await (contract as OpenNFTsV4).callStatic.getApproved(tokenID);
+    if (approved === "0x0000000000000000000000000000000000000000") approved = "";
+  }
+
+  return approved;
+};
+
 const setTokenPrice = async (
   chainId: number,
   address: string,
@@ -73,4 +90,4 @@ const setTokenPrice = async (
   return txReceipt;
 };
 
-export { getNftPrice, getNftRoyaltyInfo, getDefaultCollPrice, setTokenPrice };
+export { getNftPrice, getNftRoyaltyInfo, getDefaultCollPrice, checkApprouved, setTokenPrice };

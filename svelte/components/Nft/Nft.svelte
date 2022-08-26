@@ -22,6 +22,7 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
 
+  import NftSetPrice from "./NftSetPrice.svelte";
   import { setTokenPrice } from "@lib/kautomarket";
 
   // import NftClaim from "./NftClaim.svelte";
@@ -184,7 +185,7 @@
           </li>
           {#if $nft.price || $nft.price === "0"}
             <li>
-              <div class="flex"><span class="label">Nft Price</span></div>
+              <!-- <div class="flex"><span class="label">Nft Price</span></div>
               <div class="flex">
                 <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
                   {#if setPriceInput}
@@ -203,10 +204,11 @@
                     >
                   {/if}
                 </span>
-              </div>
+              </div> -->
+              <NftSetPrice {chainId} {address} {tokenID} nftPrice={$nft.price} />
             </li>
           {/if}
-          {#if $nft.royalties}
+          <!-- {#if $nft.royalties}
             <li>
               <div class="flex"><span class="label">Nft Royalties Amount</span></div>
               <div class="flex">
@@ -227,7 +229,7 @@
                 </span>
               </div>
             </li>
-          {/if}
+          {/if} -->
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
