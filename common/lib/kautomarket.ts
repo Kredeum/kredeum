@@ -2,7 +2,7 @@ import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { Provider } from "@ethersproject/abstract-provider";
-import { BigNumber, ethers } from "ethers";
+import { BigNumber, constants, ethers } from "ethers";
 import { collectionGetContract } from "@lib/kcollection-get";
 import { getExplorer } from "./kconfig";
 
@@ -60,10 +60,36 @@ const checkApprouved = async (
 
   if (supports.IOpenMarketable) {
     approved = await (contract as OpenNFTsV4).callStatic.getApproved(tokenID);
-    if (approved === "0x0000000000000000000000000000000000000000") approved = "";
+    if (approved === constants.AddressZero) approved = "";
   }
 
   return approved;
+};
+
+const setApproveToken = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  signer: JsonRpcSigner
+): Promise<TransactionResponse | undefined> => {
+  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
+  if (!supports.IOpenMarketable) return;
+  const connectedContract = contract.connect(signer) as OpenNFTsV4;
+  const txResp: TransactionResponse | undefined = await connectedContract["approve(address,uint256)"](
+    address,
+    BigNumber.from(tokenID)
+  );
+
+  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+
+  // let txReceipt;
+  // if (txResp) txReceipt = await txResp.wait();
+
+  return txResp || undefined;
+};
+
+const approveNftReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
+  return await txResp.wait();
 };
 
 const setTokenPrice = async (
@@ -72,7 +98,7 @@ const setTokenPrice = async (
   signer: JsonRpcSigner,
   tokenID: string,
   tokenPrice: string
-): Promise<TransactionReceipt | undefined> => {
+): Promise<TransactionResponse | undefined> => {
   const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
 
   if (!supports.IOpenMarketable) return;
@@ -85,9 +111,17 @@ const setTokenPrice = async (
 
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
-  const txReceipt = await txResp.wait();
+  // const txReceipt = await txResp.wait();
 
-  return txReceipt;
+  return txResp;
 };
 
-export { getNftPrice, getNftRoyaltyInfo, getDefaultCollPrice, checkApprouved, setTokenPrice };
+export {
+  getNftPrice,
+  getNftRoyaltyInfo,
+  getDefaultCollPrice,
+  checkApprouved,
+  approveNftReceipt,
+  setApproveToken,
+  setTokenPrice
+};

@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
 
   import type { NftType } from "@lib/ktypes";
   import {
@@ -49,9 +51,11 @@
   let newNftPrice: string;
   let settingTokenPrice: boolean = false;
 
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
+  $: account, $refreshCollectionList && chainId && address && tokenID && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
 
