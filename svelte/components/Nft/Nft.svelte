@@ -40,8 +40,6 @@
 
   let nft: Readable<NftType>;
 
-  let burnable: boolean = false;
-
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
@@ -56,13 +54,6 @@
   };
 
   $: console.log("Nft", $nft);
-
-  $: chainId && address && account && checkBurnable();
-  const checkBurnable = async () => {
-    const { contract, supports } = await collectionGetContract(chainId, address, $metamaskProvider);
-
-    burnable = supports?.IOpenNFTsV4;
-  };
   /////////////////////////////////////////////////
 </script>
 
@@ -184,7 +175,7 @@
           {#if $nft.owner !== account}
             <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
           {/if}
-          {#if burnable && $nft.owner === account}
+          {#if $nft.burnable && $nft.owner === account}
             <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
               ><i class="fa fa-fire" /> Burn</a
             >

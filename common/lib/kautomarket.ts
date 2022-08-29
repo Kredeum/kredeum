@@ -1,4 +1,5 @@
 import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
+import type { OpenMarketable } from "@soltypes/OpenNFTs/contracts/OpenNFTs/OpenMarketable";
 
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { Provider } from "@ethersproject/abstract-provider";
@@ -6,13 +7,19 @@ import { BigNumber, constants, ethers } from "ethers";
 import { collectionGetContract } from "@lib/kcollection-get";
 import { getExplorer, explorerUrl } from "./kconfig";
 
-const getNftPrice = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
-  let price = "";
+const getNftPrice = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  provider: Provider
+): Promise<BigNumber> => {
+  let price = BigNumber.from(0);
 
   const { contract, supports } = await collectionGetContract(chainId, address, provider);
   if (supports.IOpenMarketable) {
     const openNFTsV4 = contract as OpenNFTsV4;
-    price = ethers.utils.formatEther((await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString());
+    price = await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID));
+    // price = ethers.utils.formatEther((await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString());
   }
 
   return price;
@@ -22,23 +29,22 @@ const getNftRoyaltyInfo = async (
   chainId: number,
   address: string,
   tokenID: string,
+  nftPrice: string,
   provider: Provider
-): Promise<{ receiver: string; royaltyAmount: string } | undefined> => {
+): Promise<{ receiver: string; royaltyAmount: BigNumber } | undefined> => {
   const { contract, supports } = await collectionGetContract(chainId, address, provider);
 
   console.log("🚀 ~ file: kautomarket.ts ~ line 28 ~ contract", contract);
 
-  if (!supports.IOpenMarketable) return undefined;
+  if (!supports.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
 
   const [receiver, royaltyAmount] = await (contract as OpenNFTsV4).callStatic.royaltyInfo(
     BigNumber.from(tokenID),
-    BigNumber.from("10000")
+    ethers.utils.parseEther(nftPrice)
   );
+  console.log("🚀 ~ file: kautomarket.ts ~ line 45 ~ royaltyAmount", royaltyAmount);
 
-  console.log("🚀 ~ file: kautomarket.ts ~ line 34 ~ { receiver, royaltyAmount }", receiver);
-  const royaltyAmountEth = ethers.utils.formatEther(royaltyAmount).toString();
-
-  return { receiver, royaltyAmount: royaltyAmountEth };
+  return { receiver, royaltyAmount };
 };
 
 const getDefaultCollPrice = async (chainId: number, address: string, signer: JsonRpcSigner): Promise<string> => {
@@ -49,12 +55,7 @@ const getDefaultCollPrice = async (chainId: number, address: string, signer: Jso
   return ethers.utils.formatEther(await (contract as OpenNFTsV4).callStatic.defaultPrice());
 };
 
-const checkApprouved = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  provider: Provider
-): Promise<string> => {
+const getApproved = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
   let approved = "";
   const { contract, supports } = await collectionGetContract(chainId, address, provider);
 
@@ -74,16 +75,14 @@ const setApproveToken = async (
 ): Promise<TransactionResponse | undefined> => {
   const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
   if (!supports.IOpenMarketable) return;
-  const connectedContract = contract.connect(signer) as OpenNFTsV4;
+  const connectedContract = contract.connect(signer) as OpenMarketable;
   const txResp: TransactionResponse | undefined = await connectedContract["approve(address,uint256)"](
     address,
-    BigNumber.from(tokenID)
+    tokenID
+    // BigNumber.from(tokenID)
   );
 
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
-
-  // let txReceipt;
-  // if (txResp) txReceipt = await txResp.wait();
 
   return txResp || undefined;
 };
@@ -111,8 +110,6 @@ const setTokenPrice = async (
 
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
-  // const txReceipt = await txResp.wait();
-
   return txResp;
 };
 
@@ -128,7 +125,7 @@ export {
   getNftPrice,
   getNftRoyaltyInfo,
   getDefaultCollPrice,
-  checkApprouved,
+  getApproved,
   approveNftReceipt,
   setApproveToken,
   setTokenPrice,

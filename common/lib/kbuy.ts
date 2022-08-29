@@ -25,12 +25,12 @@ const buyNftResponse = async (
   if (supports.IOpenNFTsV4) {
     const buyOpenNftV4 = "buy(uint256)";
     const buyFunction = connectedContract[buyOpenNftV4] as {
-      (tokenID: BigNumber, paymentSent: { value: string }): Promise<TransactionResponse>;
+      (tokenID: BigNumber, paymentSent: { value: BigNumber }): Promise<TransactionResponse>;
     };
 
     try {
       txResp = await buyFunction(BigNumber.from(tokenID), {
-        value: ethers.utils.parseEther(nftPrice).toString()
+        value: ethers.utils.parseEther(nftPrice)
       });
     } catch (e) {
       console.error("ERROR During buying", e);

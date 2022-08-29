@@ -3,7 +3,7 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { Contract } from "ethers";
 
 import { collectionGetContract } from "./kcollection-get";
-import { getNetwork } from "./kconfig";
+import { getExplorer } from "./kconfig";
 
 const burnNftResponse = async (
   chainId: number,
@@ -15,9 +15,9 @@ const burnNftResponse = async (
   // console.log("burnNftResponse", chainId, address, tokenID);
 
   let txResp: TransactionResponse | null = null;
-  const network = getNetwork(chainId);
+  const network = getExplorer(chainId);
 
-  if (!(chainId && address && tokenID && network && owner)) return txResp;
+  if (!(chainId && address && tokenID && owner)) return txResp;
 
   const { contract, supports } = await collectionGetContract(chainId, address, owner.provider);
 
@@ -39,7 +39,7 @@ const burnNftResponse = async (
     };
     txResp = await burnFunction(tokenID);
   }
-  console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
+  console.log(`${network || ""}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };

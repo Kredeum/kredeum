@@ -10,7 +10,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { checkApprouved, setApproveToken, approveNftReceipt, setTokenPrice } from "@lib/kautomarket";
+  import { getApproved, setApproveToken, approveNftReceipt, setTokenPrice } from "@lib/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
@@ -61,7 +61,7 @@
 
   $: open && chainId && address && tokenID && handleCheckApproved();
   const handleCheckApproved = async () => {
-    approved = await checkApprouved(chainId, address, tokenID, $metamaskProvider);
+    approved = await getApproved(chainId, address, tokenID, $metamaskProvider);
   };
   /////////////////////////////////////////////////
 
@@ -85,8 +85,6 @@
     }
 
     if (setPriceInput) newNftPrice = formatedInputPrice;
-
-    console.log("nftPrice : ", newNftPrice, " Wei");
   };
 
   const setApproved = async () => {

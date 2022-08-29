@@ -155,6 +155,7 @@ type NftType = {
   price?: string;
   royalties?: string;
   royaltiesReceiver?: string;
+  burnable?: boolean;
 } & storageType;
 
 export type {

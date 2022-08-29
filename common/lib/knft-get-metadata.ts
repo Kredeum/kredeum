@@ -10,8 +10,10 @@ import {
   nftKey
 } from "@lib/kconfig";
 import { Provider } from "@ethersproject/abstract-provider";
+import { collectionGetContract } from "@lib/kcollection-get";
 
 import { getNftPrice, getNftRoyaltyInfo } from "@lib/kautomarket";
+import { ethers } from "ethers";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -96,10 +98,13 @@ const nftGetMetadata = async (nft: NftType, provider?: Provider): Promise<NftTyp
         }
 
         if (provider) {
-          nft.price = await getNftPrice(chainId, address, tokenID, provider);
-          const royaltyinfo = await getNftRoyaltyInfo(chainId, address, tokenID, provider);
-          nft.royalties = royaltyinfo?.royaltyAmount;
-          nft.royaltiesReceiver = royaltyinfo?.receiver;
+          nft.price = ethers.utils.formatEther(await getNftPrice(chainId, address, tokenID, provider));
+          const royaltyinfo = await getNftRoyaltyInfo(chainId, address, tokenID, nft.price, provider);
+          if (royaltyinfo?.royaltyAmount) nft.royalties = ethers.utils.formatEther(royaltyinfo.royaltyAmount);
+          if (royaltyinfo?.receiver) nft.royaltiesReceiver = royaltyinfo?.receiver;
+
+          const { contract, supports } = await collectionGetContract(chainId, address, provider);
+          nft.burnable = supports?.IOpenNFTsV4;
         }
       }
     } catch (e) {
