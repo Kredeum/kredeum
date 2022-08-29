@@ -31,7 +31,6 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { ethers } from "ethers";
   import { getDefaultCollPrice } from "@lib/kautomarket";
 
   /////////////////////////////////////////////////
@@ -104,7 +103,6 @@
     chainId = $metamaskChainId;
 
     account = await $metamaskSigner.getAddress();
-
     // console.log("handleChange", $metamaskChainId, account);
   };
 

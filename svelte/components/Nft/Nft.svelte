@@ -1,7 +1,5 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
 
   import type { NftType } from "@lib/ktypes";
   import {
@@ -21,8 +19,8 @@
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
-
   import NftSell from "./NftSell.svelte";
+
   import { getEthersConverterLink } from "@lib/kautomarket";
 
   // import NftClaim from "./NftClaim.svelte";

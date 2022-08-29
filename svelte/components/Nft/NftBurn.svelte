@@ -22,8 +22,6 @@
   let burned = false;
   let burnImplossible = false;
 
-  let toDisplayTokenID: Writable<string> = getContext("toDisplayTokenID");
-
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
@@ -57,7 +55,6 @@
 
   const returnNftsList = () => {
     if (burned) {
-      // $toDisplayTokenID = "";
     }
   };
 </script>
