@@ -109,7 +109,7 @@
                 </div>
               {:else}
                 <div class="titre">
-                  <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} at {nftPrice} Eth ?
+                  <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {nftPrice} Eth ?
                 </div>
 
                 <div class="txtright">

@@ -4,7 +4,7 @@ import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersp
 import { Provider } from "@ethersproject/abstract-provider";
 import { BigNumber, constants, ethers } from "ethers";
 import { collectionGetContract } from "@lib/kcollection-get";
-import { getExplorer } from "./kconfig";
+import { getExplorer, explorerUrl } from "./kconfig";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
   let price = "";
@@ -116,6 +116,14 @@ const setTokenPrice = async (
   return txResp;
 };
 
+const getEthersConverterLink = (chainId: number, price: string) => {
+  let url = "";
+  // https://etherscan.io/unitconverter?wei=0.0326
+  url = explorerUrl(chainId, `/unitconverter?wei=${ethers.utils.parseEther(price).toString()}`);
+
+  return url;
+};
+
 export {
   getNftPrice,
   getNftRoyaltyInfo,
@@ -123,5 +131,6 @@ export {
   checkApprouved,
   approveNftReceipt,
   setApproveToken,
-  setTokenPrice
+  setTokenPrice,
+  getEthersConverterLink
 };
