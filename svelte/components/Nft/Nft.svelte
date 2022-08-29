@@ -55,6 +55,8 @@
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
+  $: console.log("Nft", $nft);
+
   $: chainId && address && account && checkBurnable();
   const checkBurnable = async () => {
     const { contract, supports } = await collectionGetContract(chainId, address, $metamaskProvider);
