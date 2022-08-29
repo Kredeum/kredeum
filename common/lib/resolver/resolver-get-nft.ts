@@ -40,7 +40,7 @@ const resolverGetNft = async (
   return nft;
 };
 
-// GET NFTs Infos from Resolver
+// GET NFTs Infos from Resolver for account
 const resolverGetNfts = async (
   chainId: number,
   collection: CollectionType,
@@ -54,8 +54,13 @@ const resolverGetNfts = async (
   const nftsResolver = resolverGetContract(chainId, provider);
   console.log("resolverGetNfts nftsResolver", nftsResolver);
 
-  const res = await nftsResolver.getNftsInfos(collection.address, account, limit, 0);
-  console.log("resolverGetNfts nftsResolver.getNftsInfos", res);
+  const res = await nftsResolver["getNftsInfos(address,address,uint256,uint256)"](
+    collection.address,
+    account,
+    limit,
+    0
+  );
+  console.log("resolverGetNfts nftsResolver.getNftsInfos for Account", res);
 
   const [nftsInfos, count, total] = res;
   console.log("resolverGetNfts nftsInfosStructOutput", nftsInfos);
@@ -69,4 +74,29 @@ const resolverGetNfts = async (
   return { nfts, count, total };
 };
 
-export { resolverGetNft, resolverGetNfts };
+// GET NFTs Infos from Resolver for tokenIDs
+const resolverGetNftsForTokenIds = async (
+  chainId: number,
+  collection: CollectionType,
+  tokenIDs: BigNumber[],
+  provider: Provider
+): Promise<Map<string, NftType>> => {
+  console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
+
+  const nfts: Map<string, NftType> = new Map();
+
+  const nftsResolver = resolverGetContract(chainId, provider);
+
+  const nftsInfos = await nftsResolver["getNftsInfos(address,uint256[])"](collection.address, tokenIDs);
+  console.log("resolverGetNfts nftsResolver.getNftsInfos for tokenIDs", nftsInfos);
+
+  for (let index = 0; index < tokenIDs.length; index++) {
+    const nft = resolverConvNftInfos(chainId, collection, nftsInfos[index]);
+    nfts.set(nftUrl(nft), nft);
+  }
+
+  // console.log("resolverGetNftsFromTokenIds nft", nft);
+  return nfts;
+};
+
+export { resolverGetNft, resolverGetNfts, resolverGetNftsForTokenIds };
