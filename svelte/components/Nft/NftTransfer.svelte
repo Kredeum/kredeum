@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { transferNftResponse, transferNftReceipt } from "@lib/ktransfer";
+  import { transferNft } from "@lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
@@ -24,12 +24,15 @@
       transfering = true;
       transfered = false;
 
-      const txResp = await transferNftResponse(chainId, address, tokenID, destinationAddress, $metamaskSigner);
-      transferTxHash = txResp.hash;
+      const txRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
 
-      const txReceipt = await transferNftReceipt(txResp);
+      const txResp = (await txRespYield.next()).value;
+      if (txResp) {
+        transferTxHash = txResp.hash;
+        const txReceipt = (await txRespYield.next()).value;
 
-      transfered = Boolean(txReceipt.status);
+        transfered = Boolean(txReceipt.status);
+      }
       transfering = false;
     }
   };

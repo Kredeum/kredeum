@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type {Signer } from "@ethersproject/abstract-signer";
 import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/ktypes";
@@ -9,12 +10,12 @@ import { resolverGetContract } from "@lib/resolver/resolver-get";
 const resolverGetCollection = async (
   chainId: number,
   address: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account = constants.AddressZero
 ): Promise<CollectionType> => {
   console.log("resolverGetCollection", address);
 
-  const nftsResolver = resolverGetContract(chainId, provider);
+  const nftsResolver = resolverGetContract(chainId, signerOrProvider);
 
   const collectionInfosStructOutput = await nftsResolver.getOpenNFTsResolverCollectionInfos(address, account);
 
@@ -23,16 +24,16 @@ const resolverGetCollection = async (
 
 const resolverGetCollectionList = async (
   chainId: number,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
   console.log(`resolverGetCollectionList ${collectionListKey(chainId, account)}\n`, chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
-  const nftsResolver = resolverGetContract(chainId, provider);
+  const nftsResolver = resolverGetContract(chainId, signerOrProvider);
 
-  const openNFTsStructOutput = await nftsResolver.getOpenNFTsResolverCollectionsInfos(account);
+  const openNFTsStructOutput = await nftsResolver.getOpenNFTsCollectionsInfos(account);
   console.log("resolverGetCollectionList openNFTsStructOutput", openNFTsStructOutput);
 
   for (let index = 0; index < openNFTsStructOutput.length; index++) {

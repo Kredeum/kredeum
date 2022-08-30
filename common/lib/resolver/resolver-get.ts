@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
 import { getNetwork, explorerContractUrl } from "@lib/kconfig";
@@ -22,18 +23,17 @@ const resolverGetCount = async (chainId: number, provider: Provider): Promise<nu
 };
 
 // GET openNFTsResolver Contract
-const resolverGetContract = (chainId: number, provider: Provider): OpenNFTsResolver => {
+const resolverGetContract = (chainId: number, signerOrProvider: Signer | Provider): OpenNFTsResolver => {
   // console.log("resolverGetContract", chainId);
 
   let nftsResolver = _nftsResolversCache.get(chainId);
   if (!nftsResolver) {
-    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, provider);
+    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, signerOrProvider);
     _nftsResolversCache.set(chainId, nftsResolver);
   }
 
   // console.log("resolverGetContract", nftsResolver);
   return nftsResolver as OpenNFTsResolver;
 };
-
 
 export { resolverGetAddress, resolverGetExplorerUrl, resolverGetCount, resolverGetContract };

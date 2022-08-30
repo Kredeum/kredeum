@@ -42,7 +42,7 @@ const nftGetFromContract = async (
   collection: CollectionType = { chainId, address }
 ): Promise<NftType> => {
   const nft: NftType = { chainId, address, tokenID };
-  if (!(chainId && address && tokenID && provider && (await isProviderOnChainId(provider, chainId)))) return nft;
+  if (!(chainId && address && tokenID && provider && (await isProviderOnChainId(chainId, provider)))) return nft;
 
   // console.log(`nftGetFromContract ${nftKey(chainId, address, tokenID)}\n`);
   // console.log("nftGetFromContract collection", collection);

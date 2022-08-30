@@ -10,7 +10,7 @@ import config from "@config/config.json";
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
-const isProviderOnChainId = async (provider: Provider, chainId: number) =>
+const isProviderOnChainId = async (chainId: number, provider: Provider ) =>
   chainId === (await provider?.getNetwork())?.chainId;
 
 // const networks = networksJson as Array<NetworkType>;
