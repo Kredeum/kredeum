@@ -12,10 +12,10 @@ import abiOpenNFTsFactoryV3 from "@abis/contracts/next/OpenNFTsFactoryV3.sol/Ope
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<number, Contract> = new Map();
 
-//  GET nftsFactory address
+//  GET NFTsFactory address
 const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV3 || "";
 
-// GET nftsFactory explorer URL
+// GET NFTsFactory explorer URL
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // GET NFTsFactory Contract

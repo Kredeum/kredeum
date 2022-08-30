@@ -2,10 +2,10 @@ import type { NetworkType, CollectionType } from "@lib/ktypes";
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import type { OpenNFTsV4 } from "@soltypes/contracts/next";
 
-import { nftList, nftListFromContract } from "@lib/knft-list";
+import { nftList } from "@lib/knft-list";
 
-import { covalentNftList } from "@lib/api-covalent";
-import { thegraphNftList } from "@lib/api-thegraph";
+import { covalentNftList } from "@lib/apis/api-covalent";
+import { thegraphNftList } from "@lib/apis/api-thegraph";
 
 import { expect } from "chai";
 import { ethers, deployments, getChainId } from "hardhat";
@@ -58,11 +58,6 @@ describe("42 List OpenNFTsV4 lib", function () {
       // console.log("collection", collection);
     });
 
-    it("With SmartContract", async function () {
-      expect(
-        (await nftListFromContract(chainId, collection.address, ethers.provider, collection, artistAddress, 9)).size
-      ).to.be.gte(1);
-    });
 
     it("With default method", async function () {
       expect(

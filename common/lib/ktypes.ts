@@ -132,10 +132,11 @@ type NftType = {
   tokenID: string;
   tokenURI?: string;
   owner?: string;
+  approved?: string;
   chainName?: string;
   name?: string;
-  contractName?: string;
-  contractSymbol?: string;
+  collectionName?: string;
+  collectionSymbol?: string;
   description?: string;
   tokenJson?: NftMetadata;
   metadata?: NftMetadata | unknown;

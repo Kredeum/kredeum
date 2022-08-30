@@ -1,7 +1,7 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
   import { getChainName, getNftsResolver, getNetwork, networks } from "@lib/kconfig";
-  import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/kresolver-get";
+  import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import { metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId } from "@main/metamask";

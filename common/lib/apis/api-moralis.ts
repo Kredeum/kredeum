@@ -51,8 +51,8 @@ const moralisListAll = async (
       tokenID: nftMoralis.token_id,
       tokenURI: nftMoralis.token_uri,
       metadata: nftMoralis.metadata,
-      contractName: nftMoralis.name,
-      contractSymbol: nftMoralis.symbol,
+      collectionName: nftMoralis.name,
+      collectionSymbol: nftMoralis.symbol,
       owner
     };
     const collection: CollectionType = {
