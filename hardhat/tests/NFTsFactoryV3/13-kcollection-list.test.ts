@@ -4,9 +4,9 @@ import type { OpenNFTsV4, OpenNFTsFactoryV3 } from "@soltypes/contracts/next";
 import type { NetworkType } from "@lib/ktypes";
 
 import { collectionList } from "@lib/kcollection-list";
-import { resolverGetCollectionList } from "@lib/kresolver-get";
-import { covalentCollectionList } from "@lib/api-covalent";
-import { thegraphCollectionList } from "@lib/api-thegraph";
+import { resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
+import { covalentCollectionList } from "@lib/apis/api-covalent";
+import { thegraphCollectionList } from "@lib/apis/api-thegraph";
 
 thegraphCollectionList;
 

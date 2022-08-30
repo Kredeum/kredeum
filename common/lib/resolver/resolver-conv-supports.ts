@@ -1,6 +1,6 @@
 import type { CollectionSupports, ABIS } from "@lib/ktypes";
 
-const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports => {
+const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
   /// 0xffffffff :  O Invalid
   /// 0x01ffc9a7 :  1 ERC165
   ///
@@ -29,7 +29,7 @@ const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports =>
   /// : 20 IOpenNFTsV4
   /// : 21 IOpenBound
 
-  if (!(checks && checks.length == 22)) throw `ERROR resolverChecksToSupports bad checks length ${checks?.length}`;
+  if (!(checks && checks.length == 22)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
   let i = 1;
   const supports: CollectionSupports = {
@@ -60,10 +60,10 @@ const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports =>
     IOpenNFTsV4: checks[i++],
     IOpenBound: checks[i++]
   };
-  // console.log("resolverChecksToSupports", address, supports);
+  // console.log("resolverConvSupports", address, supports);
 
   // assert IERC165 to be always true and check 0xffffffff to be false
-  if (!(supports.IERC165 && !checks[0] && i == 22)) throw "ERROR resolverChecksToSupports";
+  if (!(supports.IERC165 && !checks[0] && i == 22)) throw "ERROR resolverConvSupports";
   for (const key in supports) {
     if (!supports[key as ABIS]) delete supports[key as ABIS];
   }
@@ -71,4 +71,4 @@ const resolverChecksToSupports = (checks: Array<boolean>): CollectionSupports =>
   return supports;
 };
 
-export { resolverChecksToSupports };
+export { resolverConvSupports };

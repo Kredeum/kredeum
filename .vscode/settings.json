@@ -32,6 +32,14 @@
     {
       "filePath": ".vscode/settings.json",
       "group": "Default"
+    },
+    {
+      "filePath": "common/types",
+      "group": "Default"
+    },
+    {
+      "filePath": "common/abis",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/dapp/",

@@ -10,8 +10,8 @@ import config from "@config/config.json";
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
-const isProviderOnChainId = async (provider: Provider, chainId: number) =>
-  chainId === (await provider?.getNetwork())?.chainId;
+const isProviderOnChainId = async (chainId: number, provider: Provider) =>
+  provider && "getNetwork" in provider && chainId === (await provider.getNetwork()).chainId;
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -285,8 +285,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -425,7 +425,7 @@ const nftExplorerLink = (nft: NftType, n?: number): string =>
 const nftOpenSeaUrl = (chainId: number, nft: NftType): string =>
   `${getOpenSea(chainId)}/${nft?.address}/${nft?.tokenID}`;
 
-const nftName = (nft: NftType): string => nft?.name || `${nft?.contractName || DEFAULT_NAME} #${nft?.tokenID}`;
+const nftName = (nft: NftType): string => nft?.name || `${nft?.collectionName || DEFAULT_NAME} #${nft?.tokenID}`;
 
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 

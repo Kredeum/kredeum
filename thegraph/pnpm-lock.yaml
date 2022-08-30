@@ -165,8 +165,8 @@ packages:
       picomatch: 2.3.1
     dev: true
 
-  /apisauce/2.1.5_debug@4.3.4:
-    resolution: {integrity: sha512-bkMlz0ZUnyS8vDigej9UBYo5dne9/bQrkgIiIkGaiDHF6e5OxhYRLJDYu65V/Ox86tmWVwepIntAoTmk4Db0Hg==}
+  /apisauce/2.1.6_debug@4.3.4:
+    resolution: {integrity: sha512-MdxR391op/FucS2YQRfB/NMRyCnHEPDd4h17LRIuVYi0BpGmMhpxc0shbOpfs5ahABuBEffNCGal5EcsydbBWg==}
     dependencies:
       axios: 0.21.4_debug@4.3.4
     transitivePeerDependencies:
@@ -998,7 +998,7 @@ packages:
     resolution: {integrity: sha512-5iLbLCU+jCf34zHrl+AKC39mDIpVKn/Z5B2uIS8TjHVaPBaDPnRD/VspiHy9dyF5mjr7Ogg1/gOt8yeWo7MEug==}
     hasBin: true
     dependencies:
-      apisauce: 2.1.5_debug@4.3.4
+      apisauce: 2.1.6_debug@4.3.4
       app-module-path: 2.2.0
       cli-table3: 0.5.1
       colors: 1.4.0

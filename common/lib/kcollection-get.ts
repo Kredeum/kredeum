@@ -1,10 +1,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
 import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
 import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
 import { abis } from "@lib/kabis";
-import { resolverGetCollectionInfos } from "@lib/kresolver-get";
+import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();
@@ -12,9 +13,9 @@ const contractsCache: Map<string, Contract> = new Map();
 const collectionGetSupports = async (
   chainId: number,
   address: string,
-  provider: Provider
+  signerOrProvider: Signer | Provider
 ): Promise<CollectionSupports> => {
-  const collection = await collectionGet(chainId, address, provider);
+  const collection = await collectionGet(chainId, address, signerOrProvider);
   const supports = collection.supports || {};
 
   return supports;
@@ -23,11 +24,11 @@ const collectionGetSupports = async (
 const collectionGetContract = async (
   chainId: number,
   address: string,
-  provider: Provider
+  signerOrProvider: Signer | Provider
 ): Promise<{ contract: Contract; supports: CollectionSupports }> => {
   // console.log(`collectionGetContract  IN ${collectionKey(chainId, address)}\n`);
 
-  const supports = await collectionGetSupports(chainId, address, provider);
+  const supports = await collectionGetSupports(chainId, address, signerOrProvider);
 
   let contract = contractsCache.get(collectionKey(chainId, address));
   let abi: Array<string> = [];
@@ -45,7 +46,7 @@ const collectionGetContract = async (
         }
       }
     }
-    contract = new Contract(address, abi, provider);
+    contract = new Contract(address, abi, signerOrProvider);
     contractsCache.set(collectionKey(chainId, address), contract);
   }
 
@@ -67,15 +68,17 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
 const collectionGet = async (
   chainId: number,
   address: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account?: string
 ): Promise<CollectionType> => {
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
   let collection: CollectionType = { chainId, address };
-  if (!(chainId && address && (await isProviderOnChainId(provider, chainId)))) return collection;
+
+  const provider = ("provider" in signerOrProvider ? signerOrProvider.provider : signerOrProvider) as Provider;
+  if (!(chainId && address && provider && (await isProviderOnChainId(chainId,provider )))) return collection;
 
   try {
-    collection = await resolverGetCollectionInfos(chainId, address, provider, account);
+    collection = await resolverGetCollection(chainId, address, signerOrProvider, account);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
   }
