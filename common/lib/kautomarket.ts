@@ -76,11 +76,7 @@ const setApproveToken = async (
   const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
   if (!supports.IOpenMarketable) return;
   const connectedContract = contract.connect(signer) as OpenMarketable;
-  const txResp: TransactionResponse | undefined = await connectedContract["approve(address,uint256)"](
-    address,
-    tokenID
-    // BigNumber.from(tokenID)
-  );
+  const txResp: TransactionResponse | undefined = await connectedContract.approve(address, tokenID);
 
   console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
