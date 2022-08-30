@@ -27,6 +27,7 @@
 
   import { metamaskChainId, metamaskProvider } from "@main/metamask";
   import { collectionGetContract } from "@lib/kcollection-get";
+  import { constants } from "ethers";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -131,13 +132,24 @@
               </div>
             </li>
           {/if}
-          <!-- {#if $nft.royalties}
+          {#if $nft.royalties}
             <li>
               <div class="flex"><span class="label">Nft Royalties Amount</span></div>
               <div class="flex">
-                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
-                  {$nft.royalties || "No royalties amount setted"} Eth
-                </span>
+                {#if $nft.royalties === "0.0"}
+                  <span class="overflow-ellipsis" title={$nft.royalties}
+                    >{$nft.price === "0.0" ? "Set price to calculate royalties" : "No royalties amount setted"}</span
+                  >
+                {:else}
+                  <a
+                    href={getEthersConverterLink(chainId, $nft.price)}
+                    class="link overflow-ellipsis"
+                    title={$nft.royalties}
+                    target="_blank"
+                  >
+                    {$nft.royalties} Eth
+                  </a>
+                {/if}
               </div>
             </li>
           {/if}
@@ -145,14 +157,14 @@
             <li>
               <div class="flex"><span class="label">Nft Royalties receiver</span></div>
               <div class="flex">
-                <span class="link overflow-ellipsis" title={$nft.price} target="_blank">
-                  {$nft.royaltiesReceiver === "0x0000000000000000000000000000000000000000"
+                <span class="overflow-ellipsis" title={$nft.price} target="_blank">
+                  {$nft.royaltiesReceiver === constants.AddressZero
                     ? "No receiver setted for Royalties"
                     : $nft.royaltiesReceiver}
                 </span>
               </div>
             </li>
-          {/if} -->
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
