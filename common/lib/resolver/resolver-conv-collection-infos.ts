@@ -1,12 +1,7 @@
 import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/ktypes";
-import {
-  getChainName,
-  getChecksumAddress,
-  DEFAULT_NAME,
-  DEFAULT_SYMBOL
-} from "@lib/kconfig";
+import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
 import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
 
 import { IOpenNFTsInfos, IERC721Infos } from "@soltypes/contracts/next/OpenNFTsResolver";
@@ -35,16 +30,16 @@ const resolverConvCollectionInfos = (
 
 const resolverConvOpenNFTsCollectionInfos = (
   chainId: number,
-  openNFTs: IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput,
+  collectionInfos: [IERC721Infos.CollectionInfosStructOutput, IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput],
   account = constants.AddressZero
 ): CollectionType => {
-  console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", openNFTs);
+  console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
-  const collection = resolverConvCollectionInfos(chainId, openNFTs[0], account);
+  const collection = resolverConvCollectionInfos(chainId, collectionInfos[0], account);
 
-  collection.version = Number(openNFTs[1] || -1);
-  collection.template = openNFTs[2] || "";
-  collection.open = openNFTs[3] || false;
+  collection.version = Number(collectionInfos[1][0] || -1);
+  collection.template = collectionInfos[1][1] || "";
+  collection.open = collectionInfos[1][2] || false;
 
   console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
   return collection;

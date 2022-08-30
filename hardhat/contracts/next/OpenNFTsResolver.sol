@@ -44,15 +44,65 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         _interfaceIds[10] = type(IOpenBound).interfaceId; //     11+10 = 21
     }
 
+    function getOpenNFTsNftsInfos(
+        address collection,
+        address account,
+        uint256 limit,
+        uint256 offset
+    )
+        external
+        view
+        override(IOpenNFTsResolver)
+        returns (
+            NftInfos[] memory nftInfos,
+            OpenNFTsNftInfos[] memory openNTFsNftInfos,
+            CollectionInfos memory collectionInfos,
+            uint256 count,
+            uint256 total
+        )
+    {
+        collectionInfos = OpenGetter._getCollectionInfos(collection, account, _interfaceIds);
+
+        (nftInfos, count, total) = OpenGetter.getNftsInfos(collection, account, limit, offset);
+
+        openNTFsNftInfos = new OpenNFTsNftInfos[](nftInfos.length);
+        for (uint256 i = 0; i < nftInfos.length; i++) {
+            openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, nftInfos[i].tokenID, collectionInfos.supported);
+        }
+    }
+
+    function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs)
+        external
+        view
+        override(IOpenNFTsResolver)
+        returns (
+            NftInfos[] memory nftInfos,
+            OpenNFTsNftInfos[] memory openNTFsNftInfos,
+            CollectionInfos memory collectionInfos
+        )
+    {
+        collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
+
+        nftInfos = OpenGetter.getNftsInfos(collection, tokenIDs);
+        openNTFsNftInfos = new OpenNFTsNftInfos[](tokenIDs.length);
+        for (uint256 i = 0; i < tokenIDs.length; i++) {
+            openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, tokenIDs[i], collectionInfos.supported);
+        }
+    }
+
     function getOpenNFTsNftInfos(address collection, uint256 tokenID)
         external
         view
         override(IOpenNFTsResolver)
-        returns (NftInfos memory nftInfos, OpenNFTsNftInfos memory openNTFsNftInfos)
+        returns (
+            NftInfos memory nftInfos,
+            OpenNFTsNftInfos memory openNTFsNftInfos,
+            CollectionInfos memory collectionInfos
+        )
     {
-        CollectionInfos memory collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
+        collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
 
-        nftInfos = OpenGetter.getNftInfos(collection, tokenID, collectionInfos.supported[3]);
+        nftInfos = OpenGetter.getNftInfos(collection, tokenID);
         openNTFsNftInfos = _getOpenNFTsNftInfos(collection, tokenID, collectionInfos.supported);
     }
 
@@ -60,20 +110,25 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         external
         view
         override(IOpenNFTsResolver)
-        returns (CollectionInfos[] memory collectionsInfos, OpenNFTsCollectionInfos[] memory openNFTsCollectionsInfos)
+        returns (
+            CollectionInfos[] memory collectionsInfos,
+            OpenNFTsCollectionInfos[] memory openNFTsCollectionsInfos,
+            uint256 count,
+            uint256 total
+        )
     {
         CollectionInfos[] memory collectionsInfosAll = getCollectionsInfos(getAddresses(), account, _interfaceIds);
+        total = collectionsInfosAll.length;
 
-        uint256 len;
         for (uint256 i = 0; i < collectionsInfosAll.length; i++) {
-            if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) len++;
+            if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) count++;
         }
 
-        collectionsInfos = new CollectionInfos[](len);
-        openNFTsCollectionsInfos = new OpenNFTsCollectionInfos[](len);
+        collectionsInfos = new CollectionInfos[](count);
+        openNFTsCollectionsInfos = new OpenNFTsCollectionInfos[](count);
 
         uint256 j;
-        for (uint256 i = 0; i < collectionsInfosAll.length; i++) {
+        for (uint256 i = 0; i < total; i++) {
             if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) {
                 collectionsInfos[j] = collectionsInfosAll[i];
                 openNFTsCollectionsInfos[j] = _getOpenNFTsCollectionInfos(
@@ -106,7 +161,9 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     ) internal view returns (OpenNFTsNftInfos memory nftInfos) {
         if (supported[10]) {
             // ERC2981
-            (nftInfos.receiver, nftInfos.fraction) = IOpenMarketable(payable(collection)).getTokenRoyaltyInfo(tokenID);
+            uint256 fee;
+            (nftInfos.receiver, fee) = IERC2981(collection).royaltyInfo(tokenID, 10000);
+            nftInfos.fraction = uint96(fee);
         }
         if (supported[14]) {
             // OpenMarketable
@@ -140,12 +197,9 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
             collInfos.version = 0;
         }
 
-        if (supported[10]) {
-            // ERC2981
-            (collInfos.receiver, collInfos.fraction) = IOpenMarketable(payable(collection)).getDefaultRoyaltyInfo();
-        }
         if (supported[14]) {
             // OpenMarketable
+            (collInfos.receiver, collInfos.fraction) = IOpenMarketable(payable(collection)).getDefaultRoyaltyInfo();
             collInfos.price = IOpenMarketable(payable(collection)).defaultPrice();
         }
     }

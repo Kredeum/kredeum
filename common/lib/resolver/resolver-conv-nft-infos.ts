@@ -1,9 +1,9 @@
 import { constants } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
+import type { NftType, CollectionType } from "@lib/ktypes";
 import { getChainName, getChecksumAddress } from "@lib/kconfig";
 
-import { IERC721Infos } from "@soltypes/contracts/next/OpenNFTsResolver";
+import { IERC721Infos, IOpenNFTsInfos } from "@soltypes/contracts/interfaces/IOpenNFTsResolver";
 
 const resolverConvNftInfos = (
   chainId: number,
@@ -38,4 +38,18 @@ const resolverConvNftInfos = (
   return nft;
 };
 
-export { resolverConvNftInfos };
+const resolverConvOpenNFTsNftInfos = (
+  chainId: number,
+  collection: CollectionType,
+  collInfos: [IERC721Infos.NftInfosStructOutput, IOpenNFTsInfos.OpenNFTsNftInfosStructOutput],
+  account = constants.AddressZero
+): NftType => {
+  console.log("resolverConvOpenNFTsNftInfos openNFTs IN", chainId, collection, collInfos, account);
+
+  const nft = resolverConvNftInfos(chainId, collection, collInfos[0], account);
+
+  console.log("resolverConvOpenNFTsNftInfos nft OUT", nft);
+  return nft;
+};
+
+export { resolverConvNftInfos, resolverConvOpenNFTsNftInfos };

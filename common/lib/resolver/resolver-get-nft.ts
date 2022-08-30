@@ -3,7 +3,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
 import { nftUrl } from "@lib/kconfig";
-import { resolverConvNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
+import { resolverConvNftInfos, resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
 import { FETCH_LIMIT } from "@lib/kfetch";
 
@@ -29,15 +29,9 @@ const resolverGetNft = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
 
-  const nftInfosStructOutput = await nftsResolver.getNftInfos(
-    collection.address,
-    account,
-    collection.supports?.IERC721Metadata || false
-  );
+  const [nftInfos,openNFTsinfos] = await nftsResolver.getOpenNFTsNftInfos(collection.address, account);
 
-  const nft = resolverConvNftInfos(chainId, collection, nftInfosStructOutput, account);
-  // console.log("nft", nft);
-  return nft;
+  return resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos,openNFTsinfos], account);
 };
 
 // GET NFTs Infos from Resolver for account
@@ -54,7 +48,7 @@ const resolverGetNfts = async (
   const nftsResolver = resolverGetContract(chainId, provider);
   console.log("resolverGetNfts nftsResolver", nftsResolver);
 
-  const res = await nftsResolver["getNftsInfos(address,address,uint256,uint256)"](
+  const res = await nftsResolver["getOpenNFTsNftsInfos(address,address,uint256,uint256)"](
     collection.address,
     account,
     limit,
@@ -62,11 +56,11 @@ const resolverGetNfts = async (
   );
   console.log("resolverGetNfts nftsResolver.getNftsInfos for Account", res);
 
-  const [nftsInfos, count, total] = res;
+  const [nftsInfos, openNFTsNftsInfos,, count, total] = res;
   console.log("resolverGetNfts nftsInfosStructOutput", nftsInfos);
 
   for (let index = 0; index < nftsInfos.length; index++) {
-    const nft = resolverConvNftInfos(chainId, collection, nftsInfos[index], account);
+    const nft = resolverConvOpenNFTsNftInfos(chainId, collection, [nftsInfos[index], openNFTsNftsInfos[index]], account);
     nfts.set(nftUrl(nft), nft);
   }
 
@@ -87,11 +81,11 @@ const resolverGetNftsForTokenIds = async (
 
   const nftsResolver = resolverGetContract(chainId, provider);
 
-  const nftsInfos = await nftsResolver["getNftsInfos(address,uint256[])"](collection.address, tokenIDs);
+  const nftsInfos = await nftsResolver["getOpenNFTsNftsInfos(address,uint256[])"](collection.address, tokenIDs);
   console.log("resolverGetNfts nftsResolver.getNftsInfos for tokenIDs", nftsInfos);
 
   for (let index = 0; index < tokenIDs.length; index++) {
-    const nft = resolverConvNftInfos(chainId, collection, nftsInfos[index]);
+    const nft = resolverConvOpenNFTsNftInfos(chainId, collection, [nftsInfos[0][index], nftsInfos[1][index]]);
     nfts.set(nftUrl(nft), nft);
   }
 

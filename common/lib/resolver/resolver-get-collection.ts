@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type {Signer } from "@ethersproject/abstract-signer";
+import type { Signer } from "@ethersproject/abstract-signer";
 import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/ktypes";
@@ -17,9 +17,9 @@ const resolverGetCollection = async (
 
   const nftsResolver = resolverGetContract(chainId, signerOrProvider);
 
-  const collectionInfosStructOutput = await nftsResolver.getOpenNFTsResolverCollectionInfos(address, account);
+  const collectionInfos = await nftsResolver.getOpenNFTsCollectionInfos(address, account);
 
-  return resolverConvOpenNFTsCollectionInfos(chainId, collectionInfosStructOutput, account);
+  return resolverConvOpenNFTsCollectionInfos(chainId, collectionInfos, account);
 };
 
 const resolverGetCollectionList = async (
@@ -33,11 +33,19 @@ const resolverGetCollectionList = async (
 
   const nftsResolver = resolverGetContract(chainId, signerOrProvider);
 
-  const openNFTsStructOutput = await nftsResolver.getOpenNFTsCollectionsInfos(account);
-  console.log("resolverGetCollectionList openNFTsStructOutput", openNFTsStructOutput);
+  const collectionInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
+  console.log("resolverGetCollectionList openNFTsStructOutput", collectionInfos);
 
-  for (let index = 0; index < openNFTsStructOutput.length; index++) {
-    const collection = resolverConvOpenNFTsCollectionInfos(chainId, openNFTsStructOutput[index], account);
+  if (collectionInfos[0].length !== collectionInfos[1].length) {
+    console.error("ERROR resolverGetCollectionList", collectionInfos);
+  }
+
+  for (let index = 0; index < collectionInfos[0].length; index++) {
+    const collection = resolverConvOpenNFTsCollectionInfos(
+      chainId,
+      [collectionInfos[0][index], collectionInfos[1][index]],
+      account
+    );
     collections.set(collectionUrl(chainId, collection.address), collection);
   }
 
