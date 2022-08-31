@@ -21,9 +21,10 @@
 
   let destinationAddress = "";
 
-  // Context for refreshCollectionList
+  // Context for refreshCollectionList & refreshNftsList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   ///////////////////////////////////////////////////////////
 
   const transfer = async () => {
@@ -43,8 +44,15 @@
       }
       transfering = false;
 
-      nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
+      // nftStore.nftRemoveOne(chainId, address, tokenID);
+
+      const keyToRemove = nftStore.getKey(chainId, address, tokenID);
+
+      if (typeof localStorage !== "undefined") {
+        localStorage.removeItem(keyToRemove);
+      }
       $refreshCollectionList += 1;
+      $refreshNftsList += 1;
     }
   };
 </script>

@@ -45,7 +45,7 @@
         burned = Boolean(txReceipt.status);
         burning = false;
 
-        nftStore.nftRemoveOne(chainId, address, tokenID, $metamaskAccount);
+        nftStore.nftRemoveOne(chainId, address, tokenID);
         $refreshCollectionList += 1;
       } else {
         burnImplossible = true;
