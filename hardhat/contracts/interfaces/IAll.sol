@@ -7,7 +7,7 @@ import "OpenNFTs/contracts/interfaces/IERC721.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
 import "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
-import "OpenNFTs/contracts/interfaces/IERC721Infos.sol";
+import "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Events.sol";
 
 import "OpenNFTs/contracts/interfaces/IERC1155.sol";

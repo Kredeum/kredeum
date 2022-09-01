@@ -12,7 +12,7 @@ async function* transferNft(
   tokenID: string,
   from: JsonRpcSigner,
   to: string
-): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never> > {
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
   if (!(chainId && address && tokenID && to && from)) return {};
@@ -25,18 +25,14 @@ async function* transferNft(
 
   let txResp: TransactionResponse | undefined;
   if (supports.IERC721) {
-    txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](
-      fromAddress,
-      to,
-      tokenID
-    );
+    txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](fromAddress, to, tokenID);
   } else if (supports.IERC1155) {
     txResp = await (contract as IERC1155).safeTransferFrom(fromAddress, to, tokenID, 1, "0x00");
   }
   if (!txResp) return {};
 
-  console.log(`${getExplorer(chainId)}/tx/${txResp.hash || ""}`);
-  yield txResp ;
+  console.info(`${getExplorer(chainId)}/tx/${txResp.hash || ""}`);
+  yield txResp;
   yield await txResp.wait();
 }
 

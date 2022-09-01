@@ -19,7 +19,7 @@ let targetChain = false;
 
 const addEthereumChain = (_chainId: number): void => {
   if (_chainId) {
-    console.log("addEthereumChain", _chainId);
+    console.info("addEthereumChain", _chainId);
 
     if (targetChain) {
       console.warn("Already connecting network...");
@@ -68,7 +68,7 @@ const handleChainIdSync = (_chainId: number): void => {
   handleChainId(_chainId).catch(console.error);
 };
 const handleChainId = async (_chainId: number): Promise<void> => {
-  console.log(`handleChainId ${_chainId}`);
+  console.info(`handleChainId ${_chainId}`);
 
   if (_chainId && _chainId != get(metamaskChainId)) {
     const _network = getNetwork(_chainId);
@@ -84,7 +84,7 @@ const handleChainId = async (_chainId: number): Promise<void> => {
 };
 
 const handleAccountsSync = (accounts: Array<string>): void => {
-  console.log("handleAccountsSync", accounts);
+  console.info("handleAccountsSync", accounts);
 
   if (accounts?.length === 0) {
     metamaskConnect();
@@ -95,7 +95,7 @@ const handleAccountsSync = (accounts: Array<string>): void => {
 };
 
 const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
-  console.log(`metamaskSwitchChain ${_chainId}`);
+  console.info(`metamaskSwitchChain ${_chainId}`);
 
   if (_chainId > 0 && _chainId != Number(get(metamaskChainId))) {
     try {
@@ -110,7 +110,7 @@ const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
 };
 
 const metamaskConnect = (): void => {
-  console.log("metamaskConnect");
+  console.info("metamaskConnect");
 
   ethereumProvider
     .request({
@@ -128,7 +128,7 @@ const metamaskConnect = (): void => {
 
 const metamaskInit = async (): Promise<boolean> => {
   if (!get(metamaskChainId)) {
-    console.log("metamaskInit");
+    console.info("metamaskInit");
     ethereumProvider = (await detectEthereumProvider()) as EthereumProvider;
 
     if (ethereumProvider) {
@@ -166,7 +166,7 @@ const metamaskInit = async (): Promise<boolean> => {
 
       ethereumProvider.on("accountsChanged", handleAccountsSync);
     } else {
-      console.log(metamaskInstallMessage);
+      console.info(metamaskInstallMessage);
     }
   }
 

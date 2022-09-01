@@ -20,7 +20,11 @@ interface IOpenNFTsResolver is IOpenNFTsInfos {
             uint256 total
         );
 
-    function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs)
+    function getOpenNFTsNftsInfos(
+        address collection,
+        uint256[] memory tokenIDs,
+        address account
+    )
         external
         view
         returns (
@@ -29,7 +33,11 @@ interface IOpenNFTsResolver is IOpenNFTsInfos {
             CollectionInfos memory collectionInfos
         );
 
-    function getOpenNFTsNftInfos(address collection, uint256 tokenID)
+    function getOpenNFTsNftInfos(
+        address collection,
+        uint256 tokenID,
+        address account
+    )
         external
         view
         returns (

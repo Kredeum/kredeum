@@ -9,8 +9,8 @@ async function _post(url, stream) {
   formData.append("file", stream);
   const res = await fetch(url, { method: "POST", body: formData });
   const json = await res.json();
-  console.log(json);
+  console.info(json);
 }
 
-console.log("IPFS ADD FILE");
+console.info("IPFS ADD FILE");
 _post(ADD, fs.createReadStream("fic.txt"));

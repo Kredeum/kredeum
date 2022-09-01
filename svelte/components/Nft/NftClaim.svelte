@@ -33,7 +33,7 @@
     nft = nftStore.getOneStore(chainId, address, tokenID);
   };
 
-  $: console.log("NftClaim", $nft);
+  $: console.info("NftClaim", $nft);
 
   const claim = async () => {
     if ($metamaskSigner && $nft) {
@@ -43,24 +43,24 @@
       let claimingError: string;
 
       const targetAddress = getOpenMulti(targetChainId);
-      console.log("claim", targetChainId, targetAddress);
+      // console.log("claim", targetChainId, targetAddress);
 
       try {
         if (!$nft.tokenURI) claimingError = "No metadata found on this NFT";
         else {
-          console.log("claim", $nft.tokenURI);
+          // console.log("claim", $nft.tokenURI);
 
           nftStorage ||= new NftStorage();
           const cid = await nftStorage.pinUrl(storageLinkToUrlHttp($nft.tokenURI));
 
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {
-            console.log("cidToInt(cid)", cidToInt(cid));
+            // console.log("cidToInt(cid)", cidToInt(cid));
             const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
-            console.log("txResp", txResp);
+            // console.log("txResp", txResp);
 
             const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
-            console.log("mintedNft", mintedNft);
+            // console.log("mintedNft", mintedNft);
 
             claimed = true;
           }

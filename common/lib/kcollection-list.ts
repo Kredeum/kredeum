@@ -8,7 +8,7 @@ import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
 import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";
 import { thegraphGet, thegraphCollectionList } from "@lib/apis/api-thegraph";
 import { moralisGet, moralisCollectionList } from "@lib/apis/api-moralis";
-import { resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
+import { resolverFilterCollections, resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -43,29 +43,36 @@ const collectionList = async (
 
   const network = getNetwork(chainId);
   if (network && account) {
-    let collectionsOwner: Map<string, CollectionType> = new Map();
-    let collectionsKredeum: Map<string, CollectionType> = new Map();
+    let collectionsApi: Map<string, CollectionType> = new Map();
+    let collectionsResolver: Map<string, CollectionType> = new Map();
 
     // GET user collections
     if (alchemyGet(chainId)) {
-      collectionsOwner = await alchemyCollectionList(chainId, account);
-      // console.log("collectionList alchemyCollectionList", collectionsOwner);
+      collectionsApi = await alchemyCollectionList(chainId, account);
+      // console.log("collectionList alchemyCollectionList", collectionsApi);
     } else if (thegraphGet(chainId)) {
-      collectionsOwner = await thegraphCollectionList(chainId, account);
-      // console.log("collectionList thegraphCollectionList", collectionsOwner);
+      collectionsApi = await thegraphCollectionList(chainId, account);
+      // console.log("collectionList thegraphCollectionList", collectionsApi);
     } else if (moralisGet(chainId)) {
-      collectionsOwner = await moralisCollectionList(chainId, account);
+      collectionsApi = await moralisCollectionList(chainId, account);
+      // console.log("collectionList moralisCollectionList", collectionsApi);
     } else if (covalentGet(chainId)) {
-      collectionsOwner = await covalentCollectionList(chainId, account);
-      // console.log("collectionList covalentCollectionList", collectionsOwner);
+      collectionsApi = await covalentCollectionList(chainId, account);
+      // console.log("collectionList covalentCollectionList", collectionsApi);
     }
-    // console.log("collectionList collectionListKredeum", resolverGetAddress(chainId));
 
-    collectionsKredeum = await resolverGetCollectionList(chainId, provider, account);
-    // console.log("collectionList collectionListKredeum", collectionsKredeum);
+    const lengthBefore = collectionsApi.size;
+    // console.log("collectionsApi  BEFORE", collectionsApi);
+    collectionsApi = await resolverFilterCollections(chainId, collectionsApi, provider);
+    // console.log("collectionsApi   AFTER", collectionsApi);
+    const removed = lengthBefore - collectionsApi.size;
+    if (removed > 0 ) console.info("collectionList collectionsApi removed", removed);
 
-    // MERGE collectionsOwner and collectionsKredeum
-    collections = collectionListMerge(collectionsOwner, collectionsKredeum);
+    collectionsResolver = await resolverGetCollectionList(chainId, provider, account);
+    // console.log("collectionList collectionsResolver", collectionsResolver);
+
+    // MERGE collectionsApi and collectionsResolver
+    collections = collectionListMerge(collectionsApi, collectionsResolver);
     // console.log("collectionList merge", collections);
   }
 
@@ -80,4 +87,8 @@ const collectionList = async (
   return collections;
 };
 
-export { collectionList, collectionListMerge };
+const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
+  `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
+
+
+export { collectionList, collectionListMerge,collectionListKey };

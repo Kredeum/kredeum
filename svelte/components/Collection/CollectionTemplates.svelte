@@ -29,7 +29,7 @@
   ]);
 
   const _templateSet = (tmpl: string): void => {
-    console.log("_templateSet", tmpl, template);
+    console.info("_templateSet", tmpl, template);
     template = tmpl;
   };
 </script>

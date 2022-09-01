@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, collectionUrl } from "@lib/kconfig";
+  import { explorerCollectionUrl, collectionKey } from "@lib/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
   import { collectionStore } from "@stores/collection/collection";
@@ -44,21 +44,21 @@
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
-    console.log("COLLECTION cached", $collection);
+    console.info("COLLECTION cached", $collection);
 
     // STATE VIEW : sync get NFT list
     nfts = nftStore.getSubListStore(chainId, address, account);
-    console.log("NFTS cached", $nfts);
+    console.info("NFTS cached", $nfts);
 
     // ACTION : async refresh COLLECTION
     collectionStore.refreshOne(chainId, address, account).catch(console.error);
-    console.log("COLLECTION refreshed", $collection);
+    console.info("COLLECTION refreshed", $collection);
 
     // ACTION : async refresh NFT list
     $refreshing = true;
     await nftStore.refreshSubList(chainId, address, account);
     $refreshing = false;
-    console.log("NFTS refreshed", $nfts);
+    console.info("NFTS refreshed", $nfts);
   };
 </script>
 
@@ -73,7 +73,7 @@
         class="info-button"
         href={explorerCollectionUrl(chainId, address)}
         title="&#009;Collection address (click to view in explorer)&#013;
-      {collectionUrl(chainId, address)}"
+      {collectionKey(chainId, address)}"
         target="_blank"><i class="fas fa-info-circle" /></a
       >
     </div>

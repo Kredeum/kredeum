@@ -5,7 +5,7 @@ import abiIERC721Enumerable from "@abis/OpenNFTs/contracts/interfaces/IERC721Enu
 import abiIERC721Metadata from "@abis/OpenNFTs/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 import abiIERC721TokenReceiver from "@abis/OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol/IERC721TokenReceiver.json";
 // import abiIERC721Events from "@abis/OpenNFTs/contracts/interfaces/IERC721Events.sol/IERC721Events.json";
-// import abiIERC721Infos from "@abis/OpenNFTs/contracts/interfaces/IERC721Infos.sol/IERC721Infos.json";
+// import abiIERCNftInfos from "@abis/OpenNFTs/contracts/interfaces/IERCNftInfos.sol/IERCNftInfos.json";
 
 import abiIERC1155 from "@abis/OpenNFTs/contracts/interfaces/IERC1155.sol/IERC1155.json";
 import abiIERC1155MetadataURI from "@abis/OpenNFTs/contracts/interfaces/IERC1155MetadataURI.sol/IERC1155MetadataURI.json";

@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { collectionUrl, explorerCollectionUrl } from "@lib/kconfig";
+  import { collectionKey, explorerCollectionUrl } from "@lib/kconfig";
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "@stores/collection/collection";
@@ -43,13 +43,13 @@
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
-    console.log("COLLECTIONS cached", $collections);
+    console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
     $refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
     $refreshing = false;
-    console.log("COLLECTIONS refreshed", $collections);
+    console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections
     collectionStore.refreshDefault(chainId, account);
@@ -73,7 +73,7 @@
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
-  const _collectionUrl = (collection: string): string => collectionUrl(chainId, collection);
+  const _collectionUrl = (collection: string): string => collectionKey(chainId, collection);
 </script>
 
 {#if txt}
@@ -90,7 +90,7 @@
         {/each}
       </select>
       <p>
-        {collectionUrl(chainId, address)}
+        {collectionKey(chainId, address)}
       </p>
     {:else}
       <p>

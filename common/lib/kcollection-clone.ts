@@ -12,7 +12,7 @@ const collectionCloneResponse = async (
   templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
+  // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
 
   const nftsFactoryV3 = factoryGetContract(chainId, cloner);
 
@@ -23,10 +23,10 @@ const collectionCloneResponse = async (
   const [template, config] = templateConfig.split("/");
   const options: boolean[] = [config == "generic"];
 
-  console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, options);
+  // console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, options);
   const txResp = await nftsFactoryV3.clone(_name, _symbol, template, options);
 
-  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash}`);
+  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash}`);
 
   return txResp;
 };
@@ -57,16 +57,16 @@ const collectionClone = async (
   templateConfig: string,
   cloner: JsonRpcSigner
 ): Promise<string> => {
-  console.log("collectionClone", chainId, name, symbol, templateConfig);
+  // console.log("collectionClone", chainId, name, symbol, templateConfig);
 
   let address = "";
 
   const txResp = await collectionCloneResponse(chainId, name, symbol, templateConfig, cloner);
-  console.log("txResp", txResp);
+  console.info("txResp", txResp);
 
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);
-    console.log("txReceipt", txReceipt);
+    console.info("txReceipt", txReceipt);
     address = collectionCloneAddress(txReceipt);
   }
   return address;

@@ -2,8 +2,12 @@ import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
 import type { CollectionType } from "@lib/ktypes";
-import { collectionGet as collectionLib } from "@lib/kcollection-get";
-import { collectionMerge } from "@lib/kcollection-get";
+import {
+  collectionKey,
+  collectionDefaultKey,
+  collectionMerge,
+  collectionGet as collectionLib
+} from "@lib/kcollection-get";
 
 import { metamaskProvider } from "@main/metamask";
 import { jsonMapStringify } from "@helpers/jsonMap";
@@ -14,12 +18,8 @@ import {
   collectionDefaultSubStore,
   collectionDefaultSetOne,
   collectionDefaultRefresh,
-  collectionDefaultGetKey,
   collectionDefaultGetOpenNFTs
 } from "@stores/collection/collectionDefault";
-
-// UTILITY
-const collectionGetKey = (chainId: number, address: string): string => `collection://${String(chainId)}/${address}`;
 
 // STATE CHANGER : SET one Collection
 const collectionSetOne = (collection: CollectionType): void => {
@@ -27,7 +27,7 @@ const collectionSetOne = (collection: CollectionType): void => {
   if (!(chainId && address)) return;
 
   collectionListStore.update(($collectionList: Map<string, CollectionType>): Map<string, CollectionType> => {
-    const key = collectionGetKey(chainId, address);
+    const key = collectionKey(chainId, address);
     const newColl = collectionMerge($collectionList.get(key), collection);
 
     if (typeof localStorage !== "undefined") {
@@ -42,21 +42,21 @@ const collectionSetOne = (collection: CollectionType): void => {
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   if (!(chainId && address)) return;
   const collection = await collectionLib(chainId, address, get(metamaskProvider), account);
-  // console.log(`collectionRefresh ${collectionGetKey(chainId, address)}\n`, collection);
+
   collectionSetOne(collection);
 };
 
 // TODO : add account param, to get balanceOf account, each time
 // STATE VIEW : GET one Collection
 const collectionGetStore = (chainId: number, address: string): Readable<CollectionType> => {
-  const key = collectionGetKey(chainId, address);
+  const key = collectionKey(chainId, address);
   // console.log(`collectionGetStore ${key}`);
 
   return derived(collectionListStore, ($collectionListStore) => $collectionListStore.get(key));
 };
 
 export const collectionStore = {
-  getKey: collectionGetKey,
+  getKey: collectionKey,
   getOneStore: collectionGetStore,
   refreshOne: collectionRefresh,
   setOne: collectionSetOne,
@@ -68,7 +68,7 @@ export const collectionStore = {
 
   getDefaultStore: collectionDefaultStore,
   getDefaultSubStore: collectionDefaultSubStore,
-  getDefaultKey: collectionDefaultGetKey,
+  getDefaultKey: collectionDefaultKey,
   getDefaultOpenNFTs: collectionDefaultGetOpenNFTs,
   refreshDefault: collectionDefaultRefresh,
   setDefaultOne: collectionDefaultSetOne

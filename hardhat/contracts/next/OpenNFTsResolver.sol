@@ -71,7 +71,11 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         }
     }
 
-    function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs)
+    function getOpenNFTsNftsInfos(
+        address collection,
+        uint256[] memory tokenIDs,
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -83,14 +87,18 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     {
         collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
 
-        nftInfos = OpenGetter.getNftsInfos(collection, tokenIDs);
+        nftInfos = OpenGetter.getNftsInfos(collection, tokenIDs, account);
         openNTFsNftInfos = new OpenNFTsNftInfos[](tokenIDs.length);
         for (uint256 i = 0; i < tokenIDs.length; i++) {
             openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, tokenIDs[i], collectionInfos.supported);
         }
     }
 
-    function getOpenNFTsNftInfos(address collection, uint256 tokenID)
+    function getOpenNFTsNftInfos(
+        address collection,
+        uint256 tokenID,
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -100,9 +108,9 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
             CollectionInfos memory collectionInfos
         )
     {
-        collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
+        collectionInfos = OpenGetter._getCollectionInfos(collection, account, _interfaceIds);
 
-        nftInfos = OpenGetter.getNftInfos(collection, tokenID);
+        nftInfos = OpenGetter.getNftInfos(collection, tokenID, account);
         openNTFsNftInfos = _getOpenNFTsNftInfos(collection, tokenID, collectionInfos.supported);
     }
 
@@ -121,7 +129,9 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         total = collectionsInfosAll.length;
 
         for (uint256 i = 0; i < collectionsInfosAll.length; i++) {
-            if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) count++;
+            if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) {
+                count++;
+            }
         }
 
         collectionsInfos = new CollectionInfos[](count);

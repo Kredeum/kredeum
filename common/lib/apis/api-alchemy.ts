@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 import type { CollectionType, NftType } from "@lib/ktypes";
 import type { FetchResponse } from "@lib/kfetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/kfetch";
-import { getChecksumAddress, getNetwork, getChainName, collectionUrl, nftKey } from "@lib/kconfig";
+import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/kconfig";
 
 const alchemyCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollectionList ${collectionListKey(chainId, account)}\n`);
@@ -24,7 +24,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
   };
   const AlchemyCollectionsAnswer = (await alchemyFetch(
     chainId,
-    `/getNFTs?owner=${account}&withMetadata=false`
+    `/getNFTs?owner=${account}&withMetadata=true`
   )) as AlchemyCollectionsAnswer;
   // console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
 
@@ -37,9 +37,9 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
     // console.log("alchemyCollectionList", ownedNft);
 
     const address = getChecksumAddress(ownedNft.contract?.address);
-    const collUrl = collectionUrl(chainId, address);
+    const collKey = collectionKey(chainId, address);
 
-    const previousCollection = collections.get(collUrl);
+    const previousCollection = collections.get(collKey);
     const count = Number(previousCollection?.balancesOf?.get(account) || 0);
     const collection = {
       chainId,
@@ -48,9 +48,9 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
       balancesOf: new Map([[account, count + 1]])
     };
 
-    collections.set(collUrl, collection);
+    collections.set(collKey, collection);
   }
-  // console.log("alchemyCollectionList ~ collections", collections);
+  // console.log("alchemyCollectionList OUT", collections);
   return collections;
 };
 

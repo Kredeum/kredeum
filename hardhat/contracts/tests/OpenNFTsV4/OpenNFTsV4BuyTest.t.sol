@@ -24,7 +24,7 @@ abstract contract OpenNFTsV4BuyTest is Test {
     function setUpOpenNFTsBuy() public {
         _collection = payable(constructorTest(_owner));
 
-        (_tokenID0, ) = mintTest(_collection, _minter);
+        (_tokenID0,) = mintTest(_collection, _minter);
     }
 
     function testBuyOk() public {
