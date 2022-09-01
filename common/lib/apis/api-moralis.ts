@@ -29,14 +29,14 @@ const moralisListAll = async (
   }
 
   await moralis.start({ serverUrl, appId });
-  console.log("moralisListAll ~ moralis.start");
+  // console.log("moralisListAll ~ moralis.start");
 
   // Get NFTs for user
   const options = { chain: utils.hexValue(chainId), address: account } as operations["getNFTs"]["parameters"]["query"] &
     operations["getNFTs"]["parameters"]["path"];
 
   const nftsMoralist = await moralis.Web3API.account.getNFTs(options);
-  console.log("moralisListAll ~ nftsMoralist", nftsMoralist);
+  // console.log("moralisListAll ~ nftsMoralist", nftsMoralist);
 
   for (const nftMoralis of nftsMoralist.result || []) {
     // console.log("moralisCollectionList ~ nftMoralis", nftMoralis);
@@ -80,14 +80,14 @@ const moralisNftList = async (
 ): Promise<Map<string, NftType>> => {
   const nfts = (await moralisListAll(chainId, account || "", limit)).nfts;
 
-  console.log(`moralisNftList OUT ${nftListKey(chainId, collection.address)}\n`, nfts);
+  // console.log(`moralisNftList OUT ${nftListKey(chainId, collection.address)}\n`, nfts);
   return nfts;
 };
 
 const moralisCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   const collections = (await moralisListAll(chainId, account || "")).collections;
 
-  console.log(`moralisCollectionList OUT ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`moralisCollectionList OUT ${collectionListKey(chainId, account)}\n`, collections);
   return collections;
 };
 

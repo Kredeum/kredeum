@@ -66,16 +66,16 @@ const nftMint3TxResponse = async (
   minter: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
-  console.log("nftMint3TxResponse", chainId, address, tokenURI, minterAddress);
+  // console.log("nftMint3TxResponse", chainId, address, tokenURI, minterAddress);
 
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
   const { contract, supports } = await collectionGetContract(chainId, address, minter.provider);
-  console.log("nftMint3TxResponse supports", supports);
+  // console.log("nftMint3TxResponse supports", supports);
 
   let txResp: TransactionResponse | undefined;
   const connectedContract = contract.connect(minter);
-  console.log("connectedContract", connectedContract);
+  // console.log("connectedContract", connectedContract);
 
   if (supports.IOpenNFTsV4) {
     const openNFTsV4 = connectedContract as OpenNFTsV4;
@@ -84,7 +84,7 @@ const nftMint3TxResponse = async (
     if (defaultPrice == "0") {
       txResp = await openNFTsV4["mint(string)"](tokenURI);
     } else {
-      console.log("defaultPrice", defaultPrice);
+      // console.log("defaultPrice", defaultPrice);
       const txOptions = {
         value: defaultPrice,
         type: 2
@@ -98,19 +98,19 @@ const nftMint3TxResponse = async (
         0,
         txOptions
       );
-      console.log("OpenNFTsV4 AFTER");
+      // console.log("OpenNFTsV4 AFTER");
     }
   } else if (supports.IOpenNFTsV3) {
-    console.log("IOpenNFTsV3");
+    // console.log("IOpenNFTsV3");
     txResp = await (connectedContract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV2) {
-    console.log("IOpenNFTsV2");
+    // console.log("IOpenNFTsV2");
     txResp = await (connectedContract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV1) {
-    console.log("IOpenNFTsV1");
+    // console.log("IOpenNFTsV1");
     txResp = await (connectedContract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
   } else if (supports.IOpenNFTsV0) {
-    console.log("IOpenNFTsV0");
+    // console.log("IOpenNFTsV0");
     txResp = await (connectedContract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
@@ -120,7 +120,7 @@ const nftMint3TxResponse = async (
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
   // }
-  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };
@@ -133,7 +133,7 @@ const nftClaim3TxResponse = async (
   tokenID: string,
   owner: JsonRpcSigner
 ): Promise<TransactionResponse | null> => {
-  console.log(`nftClaimResponse ${nftKey(chainId, address, tokenID)}`);
+  // console.log(`nftClaimResponse ${nftKey(chainId, address, tokenID)}`);
   const openMultiAddress = getOpenMulti(chainId);
   if (!(chainId && address && tokenID && owner && openMultiAddress)) return null;
 
@@ -141,7 +141,7 @@ const nftClaim3TxResponse = async (
   // console.log("openMulti", openMulti);
 
   const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));
-  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };
@@ -188,7 +188,7 @@ const nftClaim4 = async (
   // console.log("txReceipt", txReceipt);
 
   const nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(tokenID), owner);
-  console.log("nftClaim4", nft);
+  // console.log("nftClaim4", nft);
 
   return nft;
 };

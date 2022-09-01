@@ -1,6 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address, NetworkType, CollectionType, NftType } from "@lib/ktypes";
 
+import { collectionKey } from "@lib/kcollection-get";
+import { collectionListKey } from "@lib/kcollection-list";
+
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
 import { factoryGetTemplateAddress } from "@lib/kfactory-get";
@@ -23,7 +26,7 @@ const getChecksumAddress = (address: Address | string | undefined): Address => {
   try {
     addr = utils.getAddress(String(address));
   } catch (e) {
-    console.log("getChecksumAddress ERROR on @ '" + addr + "'");
+    console.error("getChecksumAddress ERROR on @ '" + addr + "'");
   }
   return addr;
 };
@@ -69,16 +72,6 @@ const getEnsName = async (address: string): Promise<string> => {
 // GET chain Name
 const getChainName = (chainId: number): string =>
   chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
-
-// nfts url : nfts://chainName/collectionAddress
-const collectionUrl = (chainId: number, _collectionAddress: Address): string => {
-  const network = getNetwork(chainId);
-  return (
-    "collection://" +
-    (network ? network.chainName : "...") +
-    (_collectionAddress ? "/" + getChecksumAddress(_collectionAddress) : "/...")
-  );
-};
 
 // nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, address: Address, tokenID = "", n = 999): string => {
@@ -452,12 +445,6 @@ const nftKey = (chainId: number, address: string, tokenID: string, account?: str
 const nftListKey = (chainId: number, address: string, account?: string): string =>
   `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
-const collectionKey = (chainId: number, address: string, account?: string): string =>
-  `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
-
-const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
-  `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
@@ -513,7 +500,6 @@ export {
   nftListKey,
   nftUrl3,
   nftUrl,
-  collectionUrl,
   nftDescription,
   nftDescriptionShort,
   nftExplorerLink,

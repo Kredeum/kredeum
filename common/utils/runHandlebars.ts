@@ -36,7 +36,7 @@ const runHandlebars = async (pathIN: string, pathOUT: string): Promise<void> => 
   // console.log(config);
 
   const result = template(config);
-  console.log("build", pathOUT, "from", pathIN);
+  // console.log("build", pathOUT, "from", pathIN);
 
   await writeFile(pathOUT, result);
 };

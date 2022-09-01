@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
-import { getChecksumAddress, getNetwork, collectionUrl, nftKey } from "@lib/kconfig";
+import { getChecksumAddress, getNetwork, collectionKey, nftKey } from "@lib/kconfig";
 import { fetchGQL, FETCH_LIMIT } from "@lib/kfetch";
 
 const thegraphNftList = async (
@@ -127,7 +127,7 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
           totalSupply
         };
         collection.balancesOf = new Map([[account, balanceOf]]);
-        collections.set(collectionUrl(chainId, address), collection);
+        collections.set(collectionKey(chainId, address), collection);
       }
     }
   }

@@ -25,7 +25,7 @@ if (!process.env.ENVIR) {
   throw new Error("ENV Variable ENVIR not set!");
 }
 const production = process.env.ENVIR == "PROD";
-console.log("production", production);
+console.info("production", production);
 
 const envKeys = () => {
   return Object.keys(process.env).reduce(

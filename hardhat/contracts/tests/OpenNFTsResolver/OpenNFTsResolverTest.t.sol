@@ -24,7 +24,7 @@ contract OpenNFTsResolverTest is
 {
     function constructorTest(address owner)
         public
-        override(
+        override (
             OpenResolverTest,
             OpenGetterTest,
             OpenCheckerTest,

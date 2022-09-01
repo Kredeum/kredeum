@@ -25,7 +25,7 @@
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${nft?.tokenID || ""}`)?.offsetHeight || 0) + 70;
   };
 
-  $: console.log("NftLine", nft);
+  $: console.info("NftLine", nft);
 
   onMount(() => more == -1 && moreToggle());
 </script>

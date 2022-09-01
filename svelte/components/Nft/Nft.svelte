@@ -46,7 +46,7 @@
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  $: console.log("Nft", $nft);
+  $: console.info("Nft", $nft);
 </script>
 
 {#if $nft}

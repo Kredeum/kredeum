@@ -6,8 +6,8 @@ const shortcode = async (_nft: NftType) => {
     _nft.image
   }" image=50]${nftName(_nft)}[/kredeum_sell]`;
 
-  await navigator.clipboard.writeText(data).catch(() => console.log("Not copied"));
-  console.log("Copied");
+  await navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
+  console.info("Copied");
 };
 
 export { shortcode };

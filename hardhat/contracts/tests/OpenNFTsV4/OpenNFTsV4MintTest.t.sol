@@ -10,7 +10,7 @@ import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "../../interfaces/IOpenNFTsV4.sol";
 
- abstract contract OpenNFTsV4MintTest is Test {
+abstract contract OpenNFTsV4MintTest is Test {
     string private constant _TOKEN_URI = "ipfs://bafkreidfhassyaujwpbarjwtrc6vgn2iwfjmukw3v7hvgggvwlvdngzllm";
 
     address payable private _collection;

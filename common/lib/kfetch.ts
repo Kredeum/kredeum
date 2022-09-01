@@ -11,10 +11,10 @@ const _fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchR
   let json: FetchResponse;
   if (url) {
     try {
-      console.log(url, config);
+      // console.log(url, config);
       const res = await fetch(url, config);
-      console.log(res);
-      
+      // console.log(res);
+
       json = (await res.json()) as FetchResponse;
     } catch (e) {
       json = { error: e };

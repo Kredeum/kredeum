@@ -16,7 +16,7 @@ const setNetwork = async (chainName: string, key: NetworkWriteableFieldsType, va
     );
     await buildNetworks();
 
-    console.info(`deployed new ${key} address => ${value}`);
+    // console.info(`deployed new ${key} address => ${value}`);
   }
 };
 

@@ -25,7 +25,7 @@
     branch = process.env.GIT_BRANCH || "HEAD";
     detail = `v${version} (${branch} #${process.env.GIT_SHORT})`;
 
-    console.log(`INIT Kredeum NFTs Factory ${detail}`);
+    console.info(`INIT Kredeum NFTs Factory ${detail}`);
     cacheVersion();
   });
 </script>

@@ -170,7 +170,7 @@
               $refreshCollectionList += 1;
 
               const mintingTxReceipt = await mintingTxResp.wait();
-              console.log("mintingTxReceipt", mintingTxReceipt);
+              console.info("mintingTxReceipt", mintingTxReceipt);
               const blockTx = mintingTxReceipt.blockNumber;
 
               do {

@@ -22,7 +22,7 @@ class Ipfs {
       const resp: Response = await fetch(`${this.endpoint}/api/v0/add`, options);
       cid = ((await resp.json()) as IpfsResponse).Hash;
     } catch (e) {
-      console.log("ERROR Ipfs.add", e);
+      console.error("ERROR Ipfs.add", e);
     }
     return cid;
   }

@@ -1,9 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Signer } from "@ethersproject/abstract-signer";
+import  { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
 import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
-import { isProviderOnChainId, collectionKey } from "@lib/kconfig";
+import { isProviderOnChainId } from "@lib/kconfig";
 import { abis } from "@lib/kabis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 
@@ -74,8 +74,8 @@ const collectionGet = async (
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
   let collection: CollectionType = { chainId, address };
 
-  const provider = ("provider" in signerOrProvider ? signerOrProvider.provider : signerOrProvider) as Provider;
-  if (!(chainId && address && provider && (await isProviderOnChainId(chainId,provider )))) return collection;
+  const provider = Signer.isSigner(signerOrProvider)  ? signerOrProvider.provider : signerOrProvider;
+  if (!(chainId && address && provider && (await isProviderOnChainId(chainId, provider)))) return collection;
 
   try {
     collection = await resolverGetCollection(chainId, address, signerOrProvider, account);
@@ -86,4 +86,12 @@ const collectionGet = async (
   return collection;
 };
 
-export { collectionGet, collectionMerge, collectionGetContract };
+const collectionKey = (chainId: number, address: string, account?: string): string =>
+  `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
+
+// UTILITY : GET Key
+const collectionDefaultKey = (chainId: number, account: string): string =>
+  `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
+
+
+export { collectionGet, collectionMerge, collectionGetContract, collectionKey , collectionDefaultKey};

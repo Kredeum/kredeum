@@ -30,7 +30,7 @@
     "OpenNFTs": "github:Kredeum/OpenNFTs",
     "chai": "^4.3.6",
     "css-loader": "^6.7.1",
-    "dotenv": "^16.0.1",
+    "dotenv": "^16.0.2",
     "eslint": "^8.23.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-import-resolver-typescript": "^3.5.0",

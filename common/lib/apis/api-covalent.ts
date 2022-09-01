@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
-import { getChecksumAddress, getNetwork, getChainName, collectionUrl, nftKey } from "@lib/kconfig";
+import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/kconfig";
 import { fetchJson, FETCH_LIMIT } from "@lib/kfetch";
 import type { FetchResponse } from "@lib/kfetch";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
@@ -73,7 +73,7 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
         symbol
       };
       collection.balancesOf = new Map([[account, balanceOf]]);
-      collections.set(collectionUrl(chainId, address), collection);
+      collections.set(collectionKey(chainId, address), collection);
     }
   }
 

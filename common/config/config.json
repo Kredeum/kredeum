@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "0.14.0",
+    "latest": "0.15.1",
     "stable": "0.13.2"
   },
   "storage": "ipfs",
