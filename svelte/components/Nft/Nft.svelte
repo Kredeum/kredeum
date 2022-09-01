@@ -3,7 +3,6 @@
 
   import type { NftType } from "@lib/ktypes";
   import {
-    nftUrl,
     explorerCollectionUrl,
     explorerAddressLink,
     kredeumNftUrl,
@@ -11,15 +10,25 @@
     nftOpenSeaUrl,
     addressSame
   } from "@lib/kconfig";
+
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "@helpers/shortcodes";
   import { nftStore } from "@stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
+  import NftBuy from "./NftBuy.svelte";
+  import NftBurn from "./NftBurn.svelte";
+  import NftSell from "./NftSell.svelte";
+
+  import { getEthersConverterLink } from "@lib/kautomarket";
+
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId } from "@main/metamask";
+  import { metamaskChainId, metamaskProvider } from "@main/metamask";
+  import { collectionGetContract } from "@lib/kcollection-get";
+  import { constants, ethers, utils } from "ethers";
+  import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -108,6 +117,54 @@
               </a>
             </div>
           </li>
+          {#if $nft.price || $nft.price === "0"}
+            <li>
+              <div class="flex"><span class="label">Nft Price</span></div>
+              <div class="flex">
+                <a
+                  class="link overflow-ellipsis"
+                  href={getEthersConverterLink(chainId, $nft.price)}
+                  title={ethers.utils.formatEther($nft.price)}
+                  target="_blank"
+                >
+                  {ethers.utils.formatEther($nft.price)} Eth
+                </a>
+              </div>
+            </li>
+          {/if}
+          {#if $nft.royaltyAmount}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties Amount</span></div>
+              <div class="flex">
+                {#if $nft.royaltyAmount === "0"}
+                  <span class="overflow-ellipsis" title={$nft.royaltyAmount}
+                    >{$nft.price === "0.0" ? "Set price to calculate royalties" : "No royalties amount setted"}</span
+                  >
+                {:else}
+                  <a
+                    href={getEthersConverterLink(chainId, $nft.price)}
+                    class="link overflow-ellipsis"
+                    title={$nft.royaltyAmount}
+                    target="_blank"
+                  >
+                    {$nft.royaltyAmount} Eth
+                  </a>
+                {/if}
+              </div>
+            </li>
+          {/if}
+          {#if $nft.royaltyReceiver}
+            <li>
+              <div class="flex"><span class="label">Nft Royalties receiver</span></div>
+              <div class="flex">
+                <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
+                  {$nft.royaltyReceiver === constants.AddressZero
+                    ? "No receiver setted for Royalties"
+                    : $nft.royaltyReceiver}
+                </span>
+              </div>
+            </li>
+          {/if}
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
@@ -116,9 +173,25 @@
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if}
-          <a href="#transfert-nft-{tokenID}" class="btn btn-small btn-outline" title="Make a gift"
-            ><i class="fa fa-gift" /> Transfer</a
-          >
+          {#if $nft.owner === account}
+            <a
+              href="#transfert-nft-{tokenID}"
+              class="btn btn-small btn-outline {$nft.price && $nft.price !== '0' ? 'kre-disabled' : ''}"
+              title="Make a gift"
+              aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift" /> Transfer</a
+            >
+          {/if}
+          {#if $nft.owner === account}
+            <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
+          {/if}
+          {#if $nft.owner !== account}
+            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+          {/if}
+          {#if $nft.burnable && $nft.owner === account}
+            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
+              ><i class="fa fa-fire" /> Burn</a
+            >
+          {/if}
 
           <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
             <i class="fas fa-exclamation" /> Claim</a
@@ -171,6 +244,11 @@
   <NftTransfer {chainId} {address} {tokenID} />
 </div>
 
+<!-- Modal burn nft -->
+<div id="burn-nft-{tokenID}" class="modal-window">
+  <NftBurn {chainId} {address} {tokenID} />
+</div>
+
 <!-- Modal claim nft -->
 
 <!-- <div id="claim-nft-{tokenID}" class="modal-window">
@@ -179,5 +257,22 @@
 <style>
   .krd-nft-solo {
     width: 100%;
+  }
+
+  .btn-burn {
+    color: red;
+    border-color: red;
+    float: right;
+  }
+
+  .btn-burn:hover {
+    color: white;
+    background: red;
+  }
+
+  a.kre-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
   }
 </style>

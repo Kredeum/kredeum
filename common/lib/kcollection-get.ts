@@ -1,5 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
-import  { Signer } from "@ethersproject/abstract-signer";
+import { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
 import type { CollectionType, CollectionSupports, ABIS } from "@lib/ktypes";
@@ -47,7 +47,12 @@ const collectionGetContract = async (
       }
     }
     contract = new Contract(address, abi, signerOrProvider);
-    contractsCache.set(collectionKey(chainId, address), contract);
+  }
+
+  contractsCache.set(collectionKey(chainId, address), contract);
+
+  if (Signer.isSigner(signerOrProvider)) {
+    contract = contract.connect(signerOrProvider);
   }
 
   // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`);
@@ -74,7 +79,7 @@ const collectionGet = async (
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
   let collection: CollectionType = { chainId, address };
 
-  const provider = Signer.isSigner(signerOrProvider)  ? signerOrProvider.provider : signerOrProvider;
+  const provider = Signer.isSigner(signerOrProvider) ? signerOrProvider.provider : signerOrProvider;
   if (!(chainId && address && provider && (await isProviderOnChainId(chainId, provider)))) return collection;
 
   try {
@@ -93,5 +98,4 @@ const collectionKey = (chainId: number, address: string, account?: string): stri
 const collectionDefaultKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
-
-export { collectionGet, collectionMerge, collectionGetContract, collectionKey , collectionDefaultKey};
+export { collectionGet, collectionMerge, collectionGetContract, collectionKey, collectionDefaultKey };

@@ -9,6 +9,11 @@ import {
   getChecksumAddress,
   nftKey
 } from "@lib/kconfig";
+import { Provider } from "@ethersproject/abstract-provider";
+import { collectionGetContract } from "@lib/kcollection-get";
+
+import { getNftPrice, getNftRoyaltyInfo } from "@lib/kautomarket";
+import { ethers } from "ethers";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -43,7 +48,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   return contentType;
 };
 
-const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
+const nftGetMetadata = async (nft: NftType, provider?: Provider): Promise<NftType> => {
   // console.log("nftGetMetadata", nft);
 
   const { chainId, address, tokenID } = nft || {};
@@ -90,6 +95,16 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
             nft.swarm = nftMetadata.swarm || swarmGetLink(nft.image);
 
           if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;
+        }
+
+        if (provider) {
+          nft.price = ethers.utils.formatEther(await getNftPrice(chainId, address, tokenID, provider));
+          const royaltyinfo = await getNftRoyaltyInfo(chainId, address, tokenID, nft.price, provider);
+          if (royaltyinfo?.royaltyAmount) nft.royaltyAmount = ethers.utils.formatEther(royaltyinfo.royaltyAmount);
+          if (royaltyinfo?.receiver) nft.royaltyReceiver = royaltyinfo?.receiver;
+
+          const { contract, supports } = await collectionGetContract(chainId, address, provider);
+          nft.burnable = supports?.IOpenNFTsV4;
         }
       }
     } catch (e) {
