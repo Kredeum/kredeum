@@ -36,6 +36,7 @@
   ///////////////////////////////////////////////////////////
 
   $: inputCollectionDefaultPrice && handlePrice();
+  /// manage ethers input with 18 decimals
   const handlePrice = () => {
     inputCollectionDefaultPrice = inputCollectionDefaultPrice.replace(/[^0-9.,]/g, "");
     let formatedInputPrice = inputCollectionDefaultPrice.replace(/[,]/g, ".");

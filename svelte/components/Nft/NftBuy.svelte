@@ -1,6 +1,6 @@
 <script lang="ts">
   import { buyNftResponse, buyNftReceipt } from "@lib/kbuy";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
+  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
 
@@ -49,6 +49,7 @@
       const txResp = await buyNftResponse(chainId, address, tokenID, $metamaskSigner, nftPrice);
       if (txResp) {
         buyTxHash = txResp.hash;
+        explorerTxUrlLog(chainId, buyTxHash);
 
         const txReceipt = await buyNftReceipt(txResp);
 

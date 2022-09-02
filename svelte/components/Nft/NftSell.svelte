@@ -1,7 +1,7 @@
 <script lang="ts">
   import { nftStore } from "@stores/nft/nft";
   import { nftSubListRefresh } from "@stores/nft/nftSubList";
-  import { explorerTxUrl, sleep, textShort } from "@lib/kconfig";
+  import { explorerTxUrl, explorerTxUrlLog, sleep, textShort } from "@lib/kconfig";
 
   import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "@main/metamask";
 
@@ -114,6 +114,8 @@
       setPriceTxHash = txResp.hash;
 
       const txReceipt = await txResp.wait();
+      explorerTxUrlLog(chainId, txResp.hash);
+
       const blockTx = txReceipt.blockNumber;
       do {
         await sleep(1000);

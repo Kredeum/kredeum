@@ -32,7 +32,7 @@ const resolverGetNft = async (
 
   const [nftInfos, openNFTsinfos] = await nftsResolver.getOpenNFTsNftInfos(collection.address, tokenID, account);
 
-  return resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos, openNFTsinfos], account);
+  return resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos, openNFTsinfos]);
 };
 
 // GET NFTs Infos from Resolver for account
@@ -64,8 +64,7 @@ const resolverGetNfts = async (
     const nft = resolverConvOpenNFTsNftInfos(
       chainId,
       collection,
-      [nftsInfos[index], openNFTsNftsInfos[index]],
-      account
+      [nftsInfos[index], openNFTsNftsInfos[index]]
     );
     nfts.set(nftUrl(nft), nft);
   }

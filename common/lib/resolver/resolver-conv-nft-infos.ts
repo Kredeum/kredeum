@@ -9,8 +9,7 @@ const resolverConvNftInfos = (
   chainId: number,
   collection: CollectionType,
   nftInfos: IERCNftInfos.NftInfosStructOutput,
-  OpenNFTsInfos: IOpenNFTsInfos.OpenNFTsNftInfosStructOutput,
-  account = constants.AddressZero
+  openNFTsInfos: IOpenNFTsInfos.OpenNFTsNftInfosStructOutput
 ): NftType => {
   // console.log("resolverConvNftInfos  IN", chainId, nftInfos, account);
 
@@ -23,9 +22,9 @@ const resolverConvNftInfos = (
   const collectionName = collection.name || "";
   const collectionSymbol = collection.symbol || "";
 
-  const price = OpenNFTsInfos[0].toString() || "0";
-  const royaltyReceiver = OpenNFTsInfos[1] || constants.AddressZero;
-  const royaltyAmount = OpenNFTsInfos[2].toString() || "0";
+  const price = openNFTsInfos[0].toString() || "0";
+  const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
+  const royaltyAmount = openNFTsInfos[2].toString() || "0";
 
   const burnable = collection.supports?.IOpenNFTsV4;
 
@@ -52,12 +51,11 @@ const resolverConvNftInfos = (
 const resolverConvOpenNFTsNftInfos = (
   chainId: number,
   collection: CollectionType,
-  collInfos: [IERCNftInfos.NftInfosStructOutput, IOpenNFTsInfos.OpenNFTsNftInfosStructOutput],
-  account = constants.AddressZero
+  collInfos: [IERCNftInfos.NftInfosStructOutput, IOpenNFTsInfos.OpenNFTsNftInfosStructOutput]
 ): NftType => {
   // console.log("resolverConvOpenNFTsNftInfos openNFTs IN", chainId, collection, collInfos, account);
 
-  const nft = resolverConvNftInfos(chainId, collection, collInfos[0], collInfos[1], account);
+  const nft = resolverConvNftInfos(chainId, collection, collInfos[0], collInfos[1]);
 
   // console.log("resolverConvOpenNFTsNftInfos nft OUT", nft);
   return nft;

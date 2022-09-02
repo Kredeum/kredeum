@@ -1,5 +1,6 @@
-import type { Provider } from "@ethersproject/abstract-provider";
 import type { Address, NetworkType, CollectionType, NftType } from "@lib/ktypes";
+import type { Provider } from "@ethersproject/abstract-provider";
+import { Signer } from "@ethersproject/abstract-signer";
 
 import { collectionKey } from "@lib/kcollection-get";
 import { collectionListKey } from "@lib/kcollection-list";
@@ -13,8 +14,14 @@ import config from "@config/config.json";
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
-const isProviderOnChainId = async (chainId: number, provider: Provider) =>
-  provider && "getNetwork" in provider && chainId === (await provider.getNetwork()).chainId;
+const isProviderOnChainId = async (chainId: number, signerOrProvider: Signer | Provider): Promise<boolean> => {
+  const provider = Signer.isSigner(signerOrProvider) ? signerOrProvider.provider : signerOrProvider;
+  let ok = false;
+
+  if (provider) ok = chainId === (await provider.getNetwork()).chainId;
+
+  return ok;
+};
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -278,8 +285,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -305,6 +312,11 @@ const explorerAddressUrl = (chainId: number, address: string): string =>
 const explorerTxUrl = (chainId: number, tx: string): string =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   explorerUrl(chainId, `/tx/${tx}`);
+
+// LOG TX URL
+const explorerTxUrlLog = (chainId: number, tx = ""): void =>
+  // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
+  console.log(explorerTxUrl(chainId, tx));
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -457,6 +469,7 @@ export {
   explorerAddressLink,
   explorerContractUrl,
   explorerTxUrl,
+  explorerTxUrlLog,
   explorerTxLink,
   explorerCollectionUrl,
   explorerCollectionLink,

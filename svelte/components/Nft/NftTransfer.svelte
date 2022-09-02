@@ -44,15 +44,7 @@
       }
       transfering = false;
 
-      // nftStore.nftRemoveOne(chainId, address, tokenID);
-
-      const keyToRemove = nftStore.getKey(chainId, address, tokenID);
-
-      if (typeof localStorage !== "undefined") {
-        localStorage.removeItem(keyToRemove);
-      }
-      $refreshCollectionList += 1;
-      $refreshNftsList += 1;
+      nftStore.nftRemoveOne(chainId, address, tokenID);
     }
   };
 </script>

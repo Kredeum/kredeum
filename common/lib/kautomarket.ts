@@ -1,24 +1,25 @@
 import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
-import type { OpenMarketable } from "@soltypes/OpenNFTs/contracts/OpenNFTs/OpenMarketable";
 
+import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { Provider } from "@ethersproject/abstract-provider";
-import { BigNumber, constants, ethers } from "ethers";
+import { BigNumber, constants } from "ethers";
 import { collectionGetContract } from "@lib/kcollection-get";
-import { getExplorer, explorerUrl } from "./kconfig";
+import { explorerUrl, explorerTxUrlLog } from "./kconfig";
+import { IERC721 } from "@soltypes/index";
 
 const getNftPrice = async (
   chainId: number,
   address: string,
   tokenID: string,
-  provider: Provider
+  signerOrProvider: Signer | Provider
 ): Promise<BigNumber> => {
   let price = BigNumber.from(0);
 
-  const { contract, supports } = await collectionGetContract(chainId, address, provider);
-  if (supports.IOpenMarketable) {
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  if (collection.supports?.IOpenMarketable) {
     const openNFTsV4 = contract as OpenNFTsV4;
-    price = await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID));
+    price = await openNFTsV4.tokenPrice(BigNumber.from(tokenID));
     // price = ethers.utils.formatEther((await openNFTsV4.callStatic.tokenPrice(BigNumber.from(tokenID))).toString());
   }
 
@@ -30,13 +31,13 @@ const getNftRoyaltyInfo = async (
   address: string,
   tokenID: string,
   nftPrice: string,
-  provider: Provider
+  signerOrProvider: Signer | Provider
 ): Promise<{ receiver: string; royaltyAmount: BigNumber } | undefined> => {
-  const { contract, supports } = await collectionGetContract(chainId, address, provider);
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
   console.log("🚀 ~ file: kautomarket.ts ~ line 28 ~ contract", contract);
 
-  if (!supports.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
 
   const [receiver, royaltyAmount] = await (contract as OpenNFTsV4).callStatic.royaltyInfo(
     BigNumber.from(tokenID),
@@ -48,19 +49,24 @@ const getNftRoyaltyInfo = async (
 };
 
 const getDefaultCollPrice = async (chainId: number, address: string, signer: JsonRpcSigner): Promise<string> => {
-  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
+  const { contract, collection } = await collectionGetContract(chainId, address, signer.provider);
 
-  if (!supports.IOpenMarketable) return "";
+  if (!collection.supports?.IOpenMarketable) return "";
 
   return (await (contract as OpenNFTsV4).callStatic.defaultPrice()).toString();
 };
 
-const getApproved = async (chainId: number, address: string, tokenID: string, provider: Provider): Promise<string> => {
+const getApproved = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  signerOrProvider: Signer | Provider
+): Promise<string> => {
   let approved = "";
-  const { contract, supports } = await collectionGetContract(chainId, address, provider);
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  if (supports.IOpenMarketable) {
-    approved = await (contract as OpenNFTsV4).callStatic.getApproved(tokenID);
+  if (collection.supports?.IOpenMarketable) {
+    approved = await (contract as OpenNFTsV4).getApproved(tokenID);
     if (approved === constants.AddressZero) approved = "";
   }
 
@@ -73,12 +79,11 @@ const setApproveToken = async (
   tokenID: string,
   signer: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
-  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
-  if (!supports.IOpenMarketable) return;
-  const connectedContract = contract.connect(signer) as OpenMarketable;
-  const txResp: TransactionResponse | undefined = await connectedContract.approve(address, tokenID);
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+  if (!collection.supports?.IOpenMarketable) return;
+  const txResp: TransactionResponse | undefined = await (contract as IERC721).approve(address, tokenID);
 
-  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  explorerTxUrlLog(chainId, txResp?.hash);
 
   return txResp || undefined;
 };
@@ -94,17 +99,16 @@ const setTokenPrice = async (
   tokenID: string,
   tokenPrice: string
 ): Promise<TransactionResponse | undefined> => {
-  const { contract, supports } = await collectionGetContract(chainId, address, signer.provider);
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
 
-  if (!supports.IOpenMarketable) return;
-  const connectedContract = contract.connect(signer) as OpenNFTsV4;
+  if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp: TransactionResponse | undefined = await connectedContract["setTokenPrice(uint256,uint256)"](
+  const txResp: TransactionResponse | undefined = await (contract as OpenNFTsV4)["setTokenPrice(uint256,uint256)"](
     BigNumber.from(tokenID),
     tokenPrice
   );
 
-  console.log(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  explorerTxUrlLog(chainId, txResp?.hash);
 
   return txResp;
 };

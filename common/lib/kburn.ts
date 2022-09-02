@@ -1,9 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { Contract } from "ethers";
-
 import { collectionGetContract } from "./kcollection-get";
-import { getExplorer } from "./kconfig";
+import { explorerTxUrlLog, getExplorer } from "./kconfig";
 
 const burnNftResponse = async (
   chainId: number,
@@ -19,21 +17,14 @@ const burnNftResponse = async (
 
   if (!(chainId && address && tokenID && owner)) return txResp;
 
-  const { contract, supports } = await collectionGetContract(chainId, address, owner.provider);
-
-  interface QueryContract extends Contract {
-    owner: () => Promise<string>;
-    open: () => Promise<boolean>;
-  }
+  const { contract, collection } = await collectionGetContract(chainId, address, owner);
 
   const connectedContract = contract.connect(owner);
   console.log("🚀 ~ file: kburn.ts ~ line 30 ~ connectedContract", connectedContract);
 
   const burnOpenNFT = "burn(uint256)";
-  const openContract: boolean = await (connectedContract as QueryContract).open();
-  const contractOwner: string = await (connectedContract as QueryContract).owner();
 
-  if (connectedContract[burnOpenNFT] && !openContract && account === contractOwner) {
+  if (connectedContract[burnOpenNFT] && !collection.open && account === collection.owner) {
     const burnFunction = connectedContract[burnOpenNFT] as {
       (tokenID: string): Promise<TransactionResponse>;
     };
@@ -58,6 +49,8 @@ const burnNft = async (
   // console.log("burnNft", chainId, address, tokenID, destinationAddress);
 
   const txResp = await burnNftResponse(chainId, address, tokenID, owner, account);
+  explorerTxUrlLog(chainId, txResp?.hash);
+
   const txReceipt = txResp && (await burnNftReceipt(txResp));
 
   return txReceipt;

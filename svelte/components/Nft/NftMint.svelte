@@ -91,9 +91,7 @@
 
   $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    if (chainId && address && $metamaskSigner) {
-      nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
-    }
+    nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
   };
 
   /////////////////////////////////////////////////

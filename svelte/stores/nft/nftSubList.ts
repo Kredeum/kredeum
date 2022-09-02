@@ -36,7 +36,7 @@ const nftSubListRefresh = async (chainId: number, address: string, account: stri
     // console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
     for await (const _nft of nftsTokenIds.values()) {
-      nftStore.setOne(await nftGetMetadata(_nft, get(metamaskProvider)));
+      nftStore.setOne(await nftGetMetadata(_nft));
     }
   }
 };

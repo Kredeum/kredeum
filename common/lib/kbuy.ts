@@ -2,8 +2,9 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 
 import { collectionGetContract } from "./kcollection-get";
 import { getNetwork } from "./kconfig";
+import { explorerTxUrlLog } from "./kconfig";
 
-import { BigNumber, ethers } from "ethers";
+import { BigNumber } from "ethers";
 
 const buyNftResponse = async (
   chainId: number,
@@ -19,12 +20,10 @@ const buyNftResponse = async (
 
   if (!(chainId && address && tokenID && network && buyer)) return txResp;
 
-  const { contract, supports } = await collectionGetContract(chainId, address, buyer.provider);
-  const connectedContract = contract.connect(buyer);
+  const { contract, collection } = await collectionGetContract(chainId, address, buyer);
 
-  if (supports.IOpenNFTsV4) {
-    const buyOpenNftV4 = "buy(uint256)";
-    const buyFunction = connectedContract[buyOpenNftV4] as {
+  if (collection.supports?.IOpenNFTsV4) {
+    const buyFunction = contract["buy(uint256)"] as {
       (tokenID: BigNumber, paymentSent: { value: BigNumber }): Promise<TransactionResponse>;
     };
 
@@ -37,7 +36,7 @@ const buyNftResponse = async (
       console.log(txResp);
     }
   }
-  console.log(`${network?.blockExplorerUrls[0] || ""}/tx/${txResp?.hash || ""}`);
+  explorerTxUrlLog(chainId, txResp?.hash);
 
   return txResp;
 };
@@ -56,6 +55,8 @@ const buyNft = async (
   // console.log("transferNft", chainId, address, tokenID, destinationAddress);
 
   const txResp = await buyNftResponse(chainId, address, tokenID, owner, nftPrice);
+  explorerTxUrlLog(chainId, txResp?.hash);
+
   const txReceipt = txResp && (await buyNftReceipt(txResp));
 
   return txReceipt;

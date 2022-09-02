@@ -20,13 +20,13 @@ async function* transferNft(
   const fromAddress = await from.getAddress();
   // console.log("transferNft from", fromAddress);
 
-  const { contract, supports } = await collectionGetContract(chainId, address, from);
+  const { contract, collection } = await collectionGetContract(chainId, address, from);
   // console.log("contract", contract);
 
   let txResp: TransactionResponse | undefined;
-  if (supports.IERC721) {
+  if (collection.supports?.IERC721) {
     txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](fromAddress, to, tokenID);
-  } else if (supports.IERC1155) {
+  } else if (collection.supports?.IERC1155) {
     txResp = await (contract as IERC1155).safeTransferFrom(fromAddress, to, tokenID, 1, "0x00");
   }
   if (!txResp) return {};
