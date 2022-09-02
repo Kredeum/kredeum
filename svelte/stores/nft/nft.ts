@@ -16,8 +16,8 @@ const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}`;
 
 // UTILITY : Merge 2 Nfts into 1 (twice the same Nft but with different metadata)
-const nftMerge = (nft1: NftType, nft2: NftType): NftType =>
-  Object.assign({ chainId: 1, address: "", tokenID: "" }, nft1 || {}, nft2 || {});
+// const nftMerge = (nft1: NftType, nft2: NftType): NftType =>
+//   Object.assign({ chainId: 1, address: "", tokenID: "" }, nft1 || {}, nft2 || {});
 
 const nftSetOne = (nft: NftType): void => {
   if (!nft) return;
@@ -29,13 +29,13 @@ const nftSetOne = (nft: NftType): void => {
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
-    const oldNft = $nftListStore.get(key);
-    const mergedNft = nftMerge(oldNft, nft);
+    // const oldNft = $nftListStore.get(key);
+    // const mergedNft = nftMerge(oldNft, nft);
 
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem(key, JSON.stringify(mergedNft));
+      localStorage.setItem(key, JSON.stringify(nft));
     }
-    return $nftListStore.set(key, mergedNft);
+    return $nftListStore.set(key, nft);
   });
 };
 
@@ -50,10 +50,10 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
   const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
   // console.log("nftRefresh ~ _coll", _coll);
 
-  const _nftOld = get(nftListStore).get(nftGetKey(chainId, address, tokenID));
+  // const _nftOld = get(nftListStore).get(nftGetKey(chainId, address, tokenID));
   const _nftLib = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
 
-  Object.assign(_nftLib, _nftOld);
+  // Object.assign(_nftLib, _nftOld);
 
   // console.log("nftRefresh _nft", _nft);
   nftSetOne(_nftLib);
@@ -72,7 +72,7 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
       localStorage.removeItem(keyToRemove);
     }
 
-    return ($nftListStore = new Map([...$nftListStore].filter(([key, nft]) => key != keyToRemove)));
+    return ($nftListStore = new Map([...$nftListStore].filter(([key]) => key != keyToRemove)));
   });
 };
 
