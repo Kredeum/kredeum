@@ -1,8 +1,8 @@
-import type { CollectionType, NftType } from "@lib/ktypes";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 
-import { nftGetMetadata } from "@lib/knft-get-metadata";
+import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
 
 import { alchemyGet, alchemyNftList } from "@lib/apis/api-alchemy";
@@ -10,8 +10,8 @@ import { covalentGet, covalentNftList } from "@lib/apis/api-covalent";
 import { thegraphGet, thegraphNftList } from "@lib/apis/api-thegraph";
 import { moralisGet, moralisNftList } from "@lib/apis/api-moralis";
 
-import { getNetwork } from "@lib/kconfig";
-import { FETCH_LIMIT } from "@lib/kfetch";
+import { getNetwork } from "@lib/common/kconfig";
+import { FETCH_LIMIT } from "@lib/common/kfetch";
 
 // Merge 2 nfts list into 1
 const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType>): Map<string, NftType> => {

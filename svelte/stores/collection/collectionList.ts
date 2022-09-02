@@ -1,6 +1,6 @@
 import { writable } from "svelte/store";
 
-import type { CollectionType } from "@lib/ktypes";
+import type { CollectionType } from "@lib/common/ktypes";
 
 import { jsonMapParse } from "@helpers/jsonMap";
 

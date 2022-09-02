@@ -2,8 +2,8 @@ import type { NFTsFactoryV2 } from "@soltypes/contracts";
 import type { OpenNFTsResolver } from "@soltypes/contracts/next";
 
 import networks from "@config/networks.json";
-import type { NetworkType } from "@lib/ktypes";
-import { getExplorer } from "@lib/kconfig";
+import type { NetworkType } from "@lib/common/ktypes";
+import { getExplorer } from "@lib/common/kconfig";
 import { resolverFilterCollectionsAddress } from "@lib/resolver/resolver-get-collection";
 
 import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";

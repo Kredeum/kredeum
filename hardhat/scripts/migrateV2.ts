@@ -1,6 +1,6 @@
 import type { NFTsFactory, NFTsFactoryV2 } from "@soltypes/contracts";
 import type { IERC165 } from "@soltypes/OpenNFTs/contracts/interfaces";
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 
 import networks from "@config/networks.json";
 

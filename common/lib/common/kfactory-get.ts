@@ -3,8 +3,8 @@ import { Signer } from "@ethersproject/abstract-signer";
 
 import { Contract } from "ethers";
 
-import type { Address } from "@lib/ktypes";
-import { getNetwork, explorerContractUrl } from "@lib/kconfig";
+import type { Address } from "@lib/common/ktypes";
+import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
 
 import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
 import abiOpenNFTsFactoryV3 from "@abis/contracts/next/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";

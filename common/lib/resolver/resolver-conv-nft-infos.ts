@@ -1,7 +1,7 @@
 import { BigNumber, constants } from "ethers";
 
-import type { NftType, CollectionType } from "@lib/ktypes";
-import { getChainName, getChecksumAddress } from "@lib/kconfig";
+import type { NftType, CollectionType } from "@lib/common/ktypes";
+import { getChainName, getChecksumAddress } from "@lib/common/kconfig";
 
 import { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/contracts/interfaces/IOpenNFTsResolver";
 

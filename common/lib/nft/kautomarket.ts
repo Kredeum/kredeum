@@ -4,8 +4,8 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { BigNumber, constants } from "ethers";
-import { collectionGetContract } from "@lib/kcollection-get";
-import { explorerUrl, explorerTxUrlLog } from "./kconfig";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
+import { explorerUrl, explorerTxUrlLog } from "../common/kconfig";
 import { IERC721 } from "@soltypes/index";
 
 const getNftPrice = async (

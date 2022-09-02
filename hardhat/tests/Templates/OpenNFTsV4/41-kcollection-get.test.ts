@@ -6,7 +6,7 @@ import abiIOpenNFTsV4 from "@abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTs
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { interfaceId } from "@lib/kconfig";
+import { interfaceId } from "@lib/common/kconfig";
 
 describe("41 OpenNFTsV4 contract", function () {
   let openNFTsV4: OpenNFTsV4;

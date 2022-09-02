@@ -1,8 +1,8 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { ethers } from "ethers";
-import { getExplorer } from "@lib/kconfig";
-import { factoryGetContract } from "@lib/kfactory-get";
+import { getExplorer } from "@lib/common/kconfig";
+import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 const collectionCloneResponse = async (

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, getNftsResolver, getNetwork, networks } from "@lib/kconfig";
+  import { getChainName, getNftsResolver, getNetwork, networks } from "@lib/common/kconfig";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import { metamaskSwitchChain } from "@helpers/metamask";

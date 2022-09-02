@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "@lib/ktypes";
+  import type { CollectionType } from "@lib/common/ktypes";
   import { collectionStore } from "@stores/collection/collection";
   import CollectionSimple from "./CollectionSimple.svelte";
 

@@ -1,5 +1,5 @@
 import type { OpenNFTsResolver } from "@soltypes/contracts/next";
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 
 import networks from "@config/networks.json";
 

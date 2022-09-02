@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { buyNftResponse, buyNftReceipt } from "@lib/kbuy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/kconfig";
+  import { buyNftResponse, buyNftReceipt } from "@lib/nft/kbuy";
+  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
 

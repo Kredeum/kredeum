@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract } from "./kcollection-get";
-import { explorerTxUrlLog, getExplorer } from "./kconfig";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
+import { explorerTxUrlLog, getExplorer } from "../common/kconfig";
 
 const burnNftResponse = async (
   chainId: number,

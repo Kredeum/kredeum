@@ -1,9 +1,9 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { CollectionType } from "@lib/ktypes";
-// import { collectionListKey } from "@lib/kconfig";
-import { collectionList as collectionListLib } from "@lib/kcollection-list";
+import type { CollectionType } from "@lib/common/ktypes";
+// import { collectionListKey } from "@lib/common/kconfig";
+import { collectionList as collectionListLib } from "@lib/collection/kcollection-list";
 
 import { metamaskProvider } from "@main/metamask";
 import { collectionStore } from "@stores/collection/collection";

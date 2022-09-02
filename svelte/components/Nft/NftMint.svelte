@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
-  import type { NftType } from "@lib/ktypes";
+  import type { NftType } from "@lib/common/ktypes";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
@@ -15,7 +15,7 @@
     nftMint2SwarmJson,
     nftMint3TxResponse,
     nftMint4
-  } from "@lib/knft-mint";
+  } from "@lib/nft/knft-mint";
   import {
     textShort,
     swarmGatewayUrl,
@@ -24,14 +24,14 @@
     nftUrl,
     storageLinkToUrlHttp,
     sleep
-  } from "@lib/kconfig";
+  } from "@lib/common/kconfig";
   /////////////////////////////////////////////////
   import CollectionList from "../Collection/CollectionList.svelte";
 
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getDefaultCollPrice } from "@lib/kautomarket";
+  import { getDefaultCollPrice } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />

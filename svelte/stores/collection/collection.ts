@@ -1,13 +1,13 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { CollectionType } from "@lib/ktypes";
+import type { CollectionType } from "@lib/common/ktypes";
 import {
   collectionKey,
   collectionDefaultKey,
   collectionMerge,
   collectionGet as collectionLib
-} from "@lib/kcollection-get";
+} from "@lib/collection/kcollection-get";
 
 import { metamaskProvider } from "@main/metamask";
 import { jsonMapStringify } from "@helpers/jsonMap";

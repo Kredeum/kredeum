@@ -1,5 +1,5 @@
 import { expect } from "chai";
-import NftStorage from "@lib/knft-storage";
+import NftStorage from "@lib/nft/knft-storage";
 
 import dotenv from "dotenv";
 dotenv.config();

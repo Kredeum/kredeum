@@ -2,8 +2,8 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { burnNftResponse, burnNftReceipt } from "@lib/kburn";
-  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/kconfig";
+  import { burnNftResponse, burnNftReceipt } from "@lib/nft/kburn";
+  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
 

@@ -2,7 +2,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
-import { getNetwork, explorerContractUrl } from "@lib/kconfig";
+import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
 
 import type { OpenNFTsResolver } from "@soltypes/contracts/next/OpenNFTsResolver";
 import abiOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";

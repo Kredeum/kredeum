@@ -1,10 +1,10 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
-import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/kconfig";
-import { fetchJson, FETCH_LIMIT } from "@lib/kfetch";
-import type { FetchResponse } from "@lib/kfetch";
-import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
+import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/common/kconfig";
+import { fetchJson, FETCH_LIMIT } from "@lib/common/kfetch";
+import type { FetchResponse } from "@lib/common/kfetch";
+import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/kconfig";
 
 const covalentFetch = async (path: string): Promise<unknown> => {
   const loginPass = `${process.env.COVALENT_API_KEY || ""}`;

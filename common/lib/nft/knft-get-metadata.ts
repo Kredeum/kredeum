@@ -1,5 +1,5 @@
-import type { NftType, NftMetadata } from "@lib/ktypes";
-import { fetchJson } from "@lib/kfetch";
+import type { NftType, NftMetadata } from "@lib/common/ktypes";
+import { fetchJson } from "@lib/common/kfetch";
 import {
   ipfsGetLink,
   ipfsGatewayUrl,
@@ -8,11 +8,11 @@ import {
   getNetwork,
   getChecksumAddress,
   nftKey
-} from "@lib/kconfig";
+} from "@lib/common/kconfig";
 import { Provider } from "@ethersproject/abstract-provider";
-import { collectionGetContract } from "@lib/kcollection-get";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
 
-import { getNftPrice, getNftRoyaltyInfo } from "@lib/kautomarket";
+import { getNftPrice, getNftRoyaltyInfo } from "@lib/nft/kautomarket";
 import { ethers } from "ethers";
 
 // Cache contentType(url)
@@ -96,7 +96,6 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
           if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;
         }
-
       }
     } catch (e) {
       console.error("ERROR nftGetMetadata tokenURIAnswer", e);

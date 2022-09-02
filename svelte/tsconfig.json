@@ -33,11 +33,10 @@
         "common/utils/*"
       ]
     }
-    // "strict": true
   },
   "include": [
     "**/*.ts",
-    "../common/lib/*.ts"
+    "../common/lib/**/*.ts"
   ],
   "exclude": [
     "node_modules"

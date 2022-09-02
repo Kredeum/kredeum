@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { transferNft } from "@lib/ktransfer";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
+  import { transferNft } from "@lib/nft/ktransfer";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";

@@ -1,5 +1,5 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 
 import { writeFile } from "fs/promises";
 import networks from "@config/networks.handlebars.json";

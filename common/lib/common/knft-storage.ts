@@ -1,4 +1,4 @@
-import Ipfs from "@lib/kipfs";
+import Ipfs from "@lib/common/kipfs";
 
 const nftStorageEndpoint = "https://api.nft.storage";
 const keyDefault: string = process.env.NFT_STORAGE_KEY || "";

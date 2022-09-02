@@ -1,16 +1,16 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { ethers, BigNumber, Contract } from "ethers";
 
-import type { NftType } from "@lib/ktypes";
+import type { NftType } from "@lib/common/ktypes";
 import type { IOpenMulti } from "@soltypes/contracts/interfaces";
 import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
-import { ipfsGatewayUrl, getExplorer, getOpenMulti, storageLinkToUrlHttp } from "@lib/kconfig";
-import { nftGetMetadata } from "@lib/knft-get-metadata";
-import { collectionGetContract } from "@lib/kcollection-get";
+import { ipfsGatewayUrl, getExplorer, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/kconfig";
+import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
 
-import { nftMint1IpfsImage, nftMint2IpfsJson } from "@lib/knft-mint-ipfs";
-import { nftMint1SwarmImage, nftMint2SwarmJson } from "@lib/knft-mint-swarm";
+import { nftMint1IpfsImage, nftMint2IpfsJson } from "@lib/nft/knft-mint-ipfs";
+import { nftMint1SwarmImage, nftMint2SwarmJson } from "@lib/nft/knft-mint-swarm";
 
 import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";

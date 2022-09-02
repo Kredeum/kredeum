@@ -2,7 +2,7 @@ import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import { writeFile } from "fs/promises";
 import type { IOpenNFTsFactoryV3, IOpenBound } from "@soltypes/contracts/interfaces";
 
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 import networks from "@config/networks.handlebars.json";
 
 const contractName = "OpenBound";

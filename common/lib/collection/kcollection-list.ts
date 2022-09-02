@@ -1,9 +1,9 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 
-import type { CollectionType } from "@lib/ktypes";
-import { getNetwork } from "@lib/kconfig";
-import { collectionMerge } from "@lib/kcollection-get";
+import type { CollectionType } from "@lib/common/ktypes";
+import { getNetwork } from "@lib/common/kconfig";
+import { collectionMerge } from "@lib/collection/kcollection-get";
 
 import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
 import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";

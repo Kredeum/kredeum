@@ -2,11 +2,11 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { BigNumber, constants } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
-import { nftUrl } from "@lib/kconfig";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
+import { nftUrl } from "@lib/common/kconfig";
 import { resolverConvNftInfos, resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
-import { FETCH_LIMIT } from "@lib/kfetch";
+import { FETCH_LIMIT } from "@lib/common/kfetch";
 
 // COLLECTION
 // name

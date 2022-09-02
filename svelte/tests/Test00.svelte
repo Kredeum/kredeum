@@ -1,6 +1,6 @@
 <script lang="ts">
   // import { onMount } from "svelte";
-  import { getCreate } from "@lib/kconfig";
+  import { getCreate } from "@lib/common/kconfig";
 
   import BreadCrumb from "./BreadCrumb.svelte";
   import Metamask from "../tests/Metamask.svelte";

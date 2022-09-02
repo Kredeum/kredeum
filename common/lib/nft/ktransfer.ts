@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract } from "@lib/kcollection-get";
-import { getExplorer } from "@lib/kconfig";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
+import { getExplorer } from "@lib/common/kconfig";
 
 import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
 import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";

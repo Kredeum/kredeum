@@ -1,4 +1,4 @@
-import { storageLinkToUrlHttp } from "@lib/kconfig";
+import { storageLinkToUrlHttp } from "@lib/common/kconfig";
 
 const FETCH_LIMIT = 10;
 

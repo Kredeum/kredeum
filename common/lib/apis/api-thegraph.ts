@@ -1,8 +1,8 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
-import { getChecksumAddress, getNetwork, collectionKey, nftKey } from "@lib/kconfig";
-import { fetchGQL, FETCH_LIMIT } from "@lib/kfetch";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
+import { getChecksumAddress, getNetwork, collectionKey, nftKey } from "@lib/common/kconfig";
+import { fetchGQL, FETCH_LIMIT } from "@lib/common/kfetch";
 
 const thegraphNftList = async (
   chainId: number,

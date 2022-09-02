@@ -1,8 +1,8 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { NftType } from "@lib/ktypes";
-import { nftGet as nftLib } from "@lib/knft-get";
+import type { NftType } from "@lib/common/ktypes";
+import { nftGet as nftLib } from "@lib/nft/knft-get";
 
 import { metamaskProvider } from "@main/metamask";
 

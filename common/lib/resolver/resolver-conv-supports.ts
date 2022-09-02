@@ -1,4 +1,4 @@
-import type { CollectionSupports, ABIS } from "@lib/ktypes";
+import type { CollectionSupports, ABIS } from "@lib/common/ktypes";
 
 const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
   /// 0xffffffff :  O Invalid

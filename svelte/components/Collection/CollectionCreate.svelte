@@ -1,13 +1,17 @@
 <script lang="ts">
-  import type { CollectionType } from "@lib/ktypes";
+  import type { CollectionType } from "@lib/common/ktypes";
 
   import { ethers } from "ethers";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerTxUrl, explorerAddressUrl, textShort } from "@lib/kconfig";
-  import { collectionCloneResponse, collectionCloneReceipt, collectionCloneAddress } from "@lib/kcollection-clone";
+  import { explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
+  import {
+    collectionCloneResponse,
+    collectionCloneReceipt,
+    collectionCloneAddress
+  } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
   import { metamaskSigner } from "@main/metamask";

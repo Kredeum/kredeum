@@ -2,9 +2,9 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
-import type { CollectionType, ABIS } from "@lib/ktypes";
-import { isProviderOnChainId } from "@lib/kconfig";
-import { abis } from "@lib/kabis";
+import type { CollectionType, ABIS } from "@lib/common/ktypes";
+import { isProviderOnChainId } from "@lib/common/kconfig";
+import { abis } from "@lib/common/kabis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 
 // Cache contracts(chainId,address)

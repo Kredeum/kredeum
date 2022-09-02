@@ -1,13 +1,13 @@
-import type { Address, NetworkType, CollectionType, NftType } from "@lib/ktypes";
+import type { Address, NetworkType, CollectionType, NftType } from "@lib/common/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 
-import { collectionKey } from "@lib/kcollection-get";
-import { collectionListKey } from "@lib/kcollection-list";
+import { collectionKey } from "@lib/collection/kcollection-get";
+import { collectionListKey } from "@lib/collection/kcollection-list";
 
 import { Fragment, Interface } from "@ethersproject/abi";
 import { providers, utils, BigNumber } from "ethers";
-import { factoryGetTemplateAddress } from "@lib/kfactory-get";
+import { factoryGetTemplateAddress } from "@lib/common/kfactory-get";
 import networks from "@config/networks.json";
 import config from "@config/config.json";
 

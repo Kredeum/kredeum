@@ -1,7 +1,7 @@
 import type { JsonRpcSigner } from "@ethersproject/providers";
 
 import { expect } from "chai";
-import { collectionClone } from "@lib/kcollection-clone";
+import { collectionClone } from "@lib/collection/kcollection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
 import type { NFTsFactoryV2, OpenNFTsV3 } from "@soltypes/contracts";
 const { provider, getContract, getNamedSigners } = ethers;

@@ -2,7 +2,7 @@ import { CID } from "multiformats/cid";
 import * as json from "multiformats/codecs/json";
 import * as raw from "multiformats/codecs/raw";
 import { sha256 } from "multiformats/hashes/sha2";
-import { cidFromString } from "../../lib/kcid";
+import { cidFromString } from "../../lib/common/kcid";
 
 const fromBuffer = async function (buffer: Uint8Array): Promise<string> {
   let cid = "";

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/ktypes";
+  import type { NftType } from "@lib/common/ktypes";
 
   import NftSimple from "./NftSimple.svelte";
   import { nftStore } from "@stores/nft/nft";

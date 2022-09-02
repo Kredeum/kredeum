@@ -3,9 +3,9 @@
 import type Moralis from "moralis";
 import type { operations } from "moralis/types/generated/web3Api";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
-import { getNetwork, nftKey, collectionKey, nftListKey, collectionListKey, getChecksumAddress } from "@lib/kconfig";
-import { FETCH_LIMIT } from "@lib/kfetch";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
+import { getNetwork, nftKey, collectionKey, nftListKey, collectionListKey, getChecksumAddress } from "@lib/common/kconfig";
+import { FETCH_LIMIT } from "@lib/common/kfetch";
 
 import { utils } from "ethers";
 

@@ -1,9 +1,9 @@
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 import type { OpenNFTsV2 } from "@soltypes/contracts";
 import type { Signer } from "ethers";
 
 import { expect } from "chai";
-import { networks } from "@lib/kconfig";
+import { networks } from "@lib/common/kconfig";
 import { config } from "dotenv";
 import hre from "hardhat";
 const { ethers, deployments } = hre;

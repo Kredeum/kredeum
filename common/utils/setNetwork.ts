@@ -1,4 +1,4 @@
-import type { NetworkType, NetworkWriteableFieldsType } from "@lib/ktypes";
+import type { NetworkType, NetworkWriteableFieldsType } from "@lib/common/ktypes";
 import networks from "@config/networks.handlebars.json";
 import { buildNetworks } from "@utils/buildNetworks";
 

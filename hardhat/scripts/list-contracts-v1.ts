@@ -13,8 +13,8 @@ import abiIERC721 from "@abis/OpenNFTs/contracts/interfaces/IERC721.sol/IERC721.
 import abiIERC721Metadata from "@abis/OpenNFTs/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 import abiIERC721Enumerable from "@abis/OpenNFTs/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 
-import { DEFAULT_NAME } from "@lib/kconfig";
-import { collectionGet } from "@lib/kcollection-get";
+import { DEFAULT_NAME } from "@lib/common/kconfig";
+import { collectionGet } from "@lib/collection/kcollection-get";
 import networks from "@config/networks.json";
 
 const abiNFT = abiIERC165.concat(abiIERC721).concat(abiIERC721Metadata).concat(abiIERC721Enumerable);

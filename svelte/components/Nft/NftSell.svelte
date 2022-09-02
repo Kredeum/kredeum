@@ -1,7 +1,7 @@
 <script lang="ts">
   import { nftStore } from "@stores/nft/nft";
   import { nftSubListRefresh } from "@stores/nft/nftSubList";
-  import { explorerTxUrl, explorerTxUrlLog, sleep, textShort } from "@lib/kconfig";
+  import { explorerTxUrl, explorerTxUrlLog, sleep, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "@main/metamask";
 
@@ -10,7 +10,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getApproved, setApproveToken, approveNftReceipt, setTokenPrice } from "@lib/kautomarket";
+  import { getApproved, setApproveToken, approveNftReceipt, setTokenPrice } from "@lib/nft/kautomarket";
   import { ethers, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 

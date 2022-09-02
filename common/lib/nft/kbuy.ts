@@ -1,8 +1,8 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract } from "./kcollection-get";
-import { getNetwork } from "./kconfig";
-import { explorerTxUrlLog } from "./kconfig";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
+import { getNetwork } from "../common/kconfig";
+import { explorerTxUrlLog } from "../common/kconfig";
 
 import { BigNumber } from "ethers";
 

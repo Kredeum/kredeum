@@ -7,7 +7,7 @@ import abiIERC173 from "@abis/OpenNFTs/contracts/interfaces/IERC173.sol/IERC173.
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { interfaceId } from "@lib/kconfig";
+import { interfaceId } from "@lib/common/kconfig";
 
 describe("21 OpenNFTsV2 contract", function () {
   let openNFTsV2: OpenNFTsV2;

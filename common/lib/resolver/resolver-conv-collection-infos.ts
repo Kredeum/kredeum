@@ -1,7 +1,7 @@
 import { constants } from "ethers";
 
-import type { CollectionType } from "@lib/ktypes";
-import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
+import type { CollectionType } from "@lib/common/ktypes";
+import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/kconfig";
 import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
 
 import { IOpenNFTsInfos, IERCNftInfos } from "@soltypes/contracts/next/OpenNFTsResolver";

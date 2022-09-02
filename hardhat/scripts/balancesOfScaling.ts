@@ -1,5 +1,5 @@
 import type { NFTsFactoryV2 } from "@soltypes/contracts";
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 
 import config from "@config/config.json";
 import INFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";

@@ -1,11 +1,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 
-import type { CollectionType, NftType } from "@lib/ktypes";
-import { collectionGetContract } from "@lib/kcollection-get";
+import type { CollectionType, NftType } from "@lib/common/ktypes";
+import { collectionGetContract } from "@lib/collection/kcollection-get";
 
-import { nftKey } from "@lib/kconfig";
-import { nftGetMetadata } from "@lib/knft-get-metadata";
+import { nftKey } from "@lib/common/kconfig";
+import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
 import { resolverGetNft } from "@lib/resolver/resolver-get-nft";
 
 ////////////////////////////////////////////////////////

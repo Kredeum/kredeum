@@ -1,5 +1,5 @@
-import type { NftType } from "@lib/ktypes";
-import { nftName } from "@lib/kconfig";
+import type { NftType } from "@lib/common/ktypes";
+import { nftName } from "@lib/common/kconfig";
 
 const shortcode = async (_nft: NftType) => {
   const data = `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${_nft.tokenID}" cid="${

@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { NftType } from "@lib/ktypes";
-  import { nftGetImageLink } from "@lib/knft-get-metadata";
+  import type { NftType } from "@lib/common/ktypes";
+  import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import { onMount } from "svelte";
 
   import { nftStore } from "@stores/nft/nft";

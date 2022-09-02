@@ -11,8 +11,8 @@ import abiIERC721 from "@abis/OpenNFTs/contracts/interfaces/IERC721.sol/IERC721.
 import abiIERC721Metadata from "@abis/OpenNFTs/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 import abiIERC721Enumerable from "@abis/OpenNFTs/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 
-import type { CollectionType } from "@lib/ktypes";
-import { collectionGet } from "@lib/kcollection-get";
+import type { CollectionType } from "@lib/common/ktypes";
+import { collectionGet } from "@lib/collection/kcollection-get";
 import networks from "@config/networks.json";
 
 const ABI_OPEN = "function open() view returns (bool)";

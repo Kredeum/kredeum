@@ -1,7 +1,7 @@
-import type { NftType } from "@lib/ktypes";
+import type { NftType } from "@lib/common/ktypes";
 
-import { swarmGatewayUrl, textShort, DEFAULT_NAME } from "@lib/kconfig";
-import { swarmUploadFile } from "@lib/kbeejs";
+import { swarmGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/kconfig";
+import { swarmUploadFile } from "@lib/common/kbeejs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET Swarm image link

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { NftType } from "@lib/ktypes";
+  import type { NftType } from "@lib/common/ktypes";
   import {
     explorerCollectionUrl,
     explorerAddressLink,
@@ -9,7 +9,7 @@
     getOpenSea,
     nftOpenSeaUrl,
     addressSame
-  } from "@lib/kconfig";
+  } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -21,12 +21,12 @@
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
 
-  import { getEthersConverterLink } from "@lib/kautomarket";
+  import { getEthersConverterLink } from "@lib/nft/kautomarket";
 
   // import NftClaim from "./NftClaim.svelte";
 
   import { metamaskChainId, metamaskProvider } from "@main/metamask";
-  import { collectionGetContract } from "@lib/kcollection-get";
+  import { collectionGetContract } from "@lib/collection/kcollection-get";
   import { constants, ethers, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 

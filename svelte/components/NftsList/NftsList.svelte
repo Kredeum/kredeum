@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { CollectionType, NftType } from "@lib/ktypes";
+  import type { CollectionType, NftType } from "@lib/common/ktypes";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, collectionKey } from "@lib/kconfig";
+  import { explorerCollectionUrl, collectionKey } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
   import { collectionStore } from "@stores/collection/collection";

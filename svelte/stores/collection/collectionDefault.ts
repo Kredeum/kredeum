@@ -1,8 +1,8 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { getNetwork } from "@lib/kconfig";
-import { collectionDefaultKey } from "@lib/kcollection-get";
+import { getNetwork } from "@lib/common/kconfig";
+import { collectionDefaultKey } from "@lib/collection/kcollection-get";
 import { collectionStore } from "./collection";
 
 // UTILITY : GET OpenNFTs default template

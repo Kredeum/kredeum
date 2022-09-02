@@ -1,5 +1,5 @@
 import { Bee, Data, FileData } from "@ethersphere/bee-js";
-import { swarmLinkToCid, swarmServer, SWARM_GATEWAY } from "@lib/kconfig";
+import { swarmLinkToCid, swarmServer, SWARM_GATEWAY } from "@lib/common/kconfig";
 
 const getBee = (nodeUrl: string): Bee => {
   return new Bee(nodeUrl ? nodeUrl : swarmServer(SWARM_GATEWAY));

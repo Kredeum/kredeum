@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "@lib/ktypes";
-  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/kconfig";
-  // import { collectionKey } from "@lib/kconfig";
+  import type { CollectionType } from "@lib/common/ktypes";
+  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/kconfig";
+  // import { collectionKey } from "@lib/common/kconfig";
 
   import { collectionStore } from "@stores/collection/collection";
 

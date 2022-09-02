@@ -3,10 +3,10 @@
 
   import AccountConnect from "../Account/AccountConnect.svelte";
 
-  import type { NftType } from "@lib/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/knft-mint";
-  import { nftGetImageLink } from "@lib/knft-get-metadata";
-  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/kconfig";
+  import type { NftType } from "@lib/common/ktypes";
+  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
+  import { ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
   import { collectionStore } from "@stores/collection/collection";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";

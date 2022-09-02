@@ -3,9 +3,9 @@ import { expect } from "chai";
 import type { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 import hre from "hardhat";
 
-import type { NetworkType } from "@lib/ktypes";
+import type { NetworkType } from "@lib/common/ktypes";
 import type { OpenBound4973 } from "@soltypes/contracts/dev";
-import { networks } from "@lib/kconfig";
+import { networks } from "@lib/common/kconfig";
 
 const ipfs0 = "ipfs://bafkreiaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
 
