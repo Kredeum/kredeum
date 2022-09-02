@@ -2,7 +2,10 @@
   import { transferNft } from "@lib/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/kconfig";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { nftStore } from "@stores/nft/nft";
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
@@ -17,6 +20,12 @@
   let transfered = false;
 
   let destinationAddress = "";
+
+  // Context for refreshCollectionList & refreshNftsList
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  ///////////////////////////////////////////////////////////
 
   const transfer = async () => {
     if ($metamaskSigner) {
@@ -34,6 +43,8 @@
         transfered = Boolean(txReceipt.status);
       }
       transfering = false;
+
+      nftStore.nftRemoveOne(chainId, address, tokenID);
     }
   };
 </script>

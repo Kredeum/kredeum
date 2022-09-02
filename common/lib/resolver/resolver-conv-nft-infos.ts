@@ -1,4 +1,4 @@
-import { constants } from "ethers";
+import { BigNumber, constants } from "ethers";
 
 import type { NftType, CollectionType } from "@lib/ktypes";
 import { getChainName, getChecksumAddress } from "@lib/kconfig";
@@ -9,7 +9,7 @@ const resolverConvNftInfos = (
   chainId: number,
   collection: CollectionType,
   nftInfos: IERCNftInfos.NftInfosStructOutput,
-  account = constants.AddressZero
+  openNFTsInfos: IOpenNFTsInfos.OpenNFTsNftInfosStructOutput
 ): NftType => {
   // console.log("resolverConvNftInfos  IN", chainId, nftInfos, account);
 
@@ -22,6 +22,12 @@ const resolverConvNftInfos = (
   const collectionName = collection.name || "";
   const collectionSymbol = collection.symbol || "";
 
+  const price = openNFTsInfos[0].toString() || "0";
+  const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
+  const royaltyAmount = openNFTsInfos[2].toString() || "0";
+
+  const burnable = collection.supports?.IOpenNFTsV4;
+
   const nft: NftType = {
     chainId,
     address,
@@ -31,7 +37,11 @@ const resolverConvNftInfos = (
     approved,
     chainName,
     collectionName,
-    collectionSymbol
+    collectionSymbol,
+    price,
+    royaltyReceiver,
+    royaltyAmount,
+    burnable
   };
 
   // console.log("resolverConvNftInfos OUT", nft);
@@ -41,12 +51,11 @@ const resolverConvNftInfos = (
 const resolverConvOpenNFTsNftInfos = (
   chainId: number,
   collection: CollectionType,
-  collInfos: [IERCNftInfos.NftInfosStructOutput, IOpenNFTsInfos.OpenNFTsNftInfosStructOutput],
-  account = constants.AddressZero
+  collInfos: [IERCNftInfos.NftInfosStructOutput, IOpenNFTsInfos.OpenNFTsNftInfosStructOutput]
 ): NftType => {
   // console.log("resolverConvOpenNFTsNftInfos openNFTs IN", chainId, collection, collInfos, account);
 
-  const nft = resolverConvNftInfos(chainId, collection, collInfos[0], account);
+  const nft = resolverConvNftInfos(chainId, collection, collInfos[0], collInfos[1]);
 
   // console.log("resolverConvOpenNFTsNftInfos nft OUT", nft);
   return nft;

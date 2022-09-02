@@ -19,7 +19,7 @@ const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nfts
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // GET NFTsFactory Contract
-const factoryGetContract = (chainId: number, provider: Provider | Signer): OpenNFTsFactoryV3 => {
+const factoryGetContract = (chainId: number, provider: Signer | Provider): OpenNFTsFactoryV3 => {
   let nftsFactory = nftsFactoriesCache.get(chainId);
   if (!nftsFactory) {
     nftsFactory = new Contract(factoryGetAddress(chainId), abiOpenNFTsFactoryV3, provider);

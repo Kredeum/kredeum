@@ -9,6 +9,11 @@ import {
   getChecksumAddress,
   nftKey
 } from "@lib/kconfig";
+import { Provider } from "@ethersproject/abstract-provider";
+import { collectionGetContract } from "@lib/kcollection-get";
+
+import { getNftPrice, getNftRoyaltyInfo } from "@lib/kautomarket";
+import { ethers } from "ethers";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -91,6 +96,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
           if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;
         }
+
       }
     } catch (e) {
       console.error("ERROR nftGetMetadata tokenURIAnswer", e);

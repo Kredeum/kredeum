@@ -31,6 +31,8 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
+  import { getDefaultCollPrice } from "@lib/kautomarket";
+
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
   // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
@@ -57,6 +59,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+  let nftMintingPrice: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -84,6 +87,11 @@
 
   const closeMintModal = () => {
     open = false;
+  };
+
+  $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
+  const handleDefaultAutomarketValues = async () => {
+    nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
   };
 
   /////////////////////////////////////////////////
@@ -334,6 +342,11 @@
                   />
                 </div>
               </div>
+              {#if nftMintingPrice}
+                <div class="section">
+                  <span class="label label-big">NFT minting price : {nftMintingPrice} (Eth)</span>
+                </div>
+              {/if}
 
               <div class="section">
                 <span class="label label-big">Media type</span>

@@ -63,6 +63,19 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
 const nftGetStore = (chainId: number, address: string, tokenID: string): Readable<NftType> =>
   derived(nftListStore, ($nftListStore) => $nftListStore.get(nftGetKey(chainId, address, tokenID)));
 
+// Remove one nft from store & localstorage
+const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
+  nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
+    const keyToRemove = nftGetKey(chainId, address, tokenID);
+
+    if (typeof localStorage !== "undefined") {
+      localStorage.removeItem(keyToRemove);
+    }
+
+    return ($nftListStore = new Map([...$nftListStore].filter(([key, nft]) => key != keyToRemove)));
+  });
+};
+
 export {};
 
 export const nftStore = {
@@ -70,6 +83,7 @@ export const nftStore = {
   getOneStore: nftGetStore,
   refreshOne: nftRefresh,
   setOne: nftSetOne,
+  nftRemoveOne,
 
   getListStore: nftListStore,
 

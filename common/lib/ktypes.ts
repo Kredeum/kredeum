@@ -153,6 +153,10 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
+  price?: string;
+  royaltyAmount?: string;
+  royaltyReceiver?: string;
+  burnable?: boolean;
 } & storageType;
 
 export type {
