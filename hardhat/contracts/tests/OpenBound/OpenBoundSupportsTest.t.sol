@@ -4,11 +4,11 @@ pragma solidity 0.8.9;
 import "forge-std/Test.sol";
 
 import "OpenNFTs/contracts/interfaces/IAll.sol";
-import "OpenNFTs/contracts/interfaces/IOpenBoundEx.sol";
-import "OpenNFTs/contracts/templates/OpenResolverEx.sol";
+import "../../interfaces/IOpenBound.sol";
+import "../../next/OpenNFTsResolver.sol";
 
 abstract contract OpenBoundSupportsTest is Test {
-    OpenResolverEx private _resolver;
+    OpenNFTsResolver private _resolver;
     address private _collection;
     address private _owner = address(0x1);
     address private _minter = address(0x12);
@@ -21,7 +21,7 @@ abstract contract OpenBoundSupportsTest is Test {
     function setUpOpenBoundSupports() public {
         _collection = constructorTest(_owner);
 
-        _resolver = new OpenResolverEx();
+        _resolver = new OpenNFTsResolver(_owner, _owner);
     }
 
     function testOpenBoundCheckErcInterfaces() public {
@@ -39,7 +39,7 @@ abstract contract OpenBoundSupportsTest is Test {
             type(IOpenChecker).interfaceId,
             type(IOpenPauseable).interfaceId,
             type(IOpenCloneable).interfaceId,
-            type(IOpenBoundEx).interfaceId,
+            type(IOpenBound).interfaceId,
             type(IOpenMarketable).interfaceId
         ];
         bool[5] memory expected = [true, true, true, true, false];

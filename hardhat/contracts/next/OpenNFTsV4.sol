@@ -57,9 +57,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenNFTs {
         _;
     }
 
-    function buy(uint256 tokenID) external payable override(IOpenNFTsV4) {
-        require(_exists(tokenID), "NFT doesn't exists");
-
+    function buy(uint256 tokenID) external payable override(IOpenNFTsV4) existsToken(tokenID) {
         /// Get token price
         uint256 price = tokenPrice[tokenID];
 
