@@ -257,10 +257,10 @@
     "nftsFactoryV3": ""
   },
   {
-    "chainId": 4,
-    "chainName": "rinkeby",
+    "chainId": 11155111,
+    "chainName": "sepolia",
     "rpcUrls": [
-      "https://rinkeby.infura.io/v3/{{env.INFURA_API_KEY}}"
+      "https://rpc.sepolia.org"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -268,19 +268,15 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "https://rinkeby.etherscan.io"
+      "https://sepolia.etherscan.io"
     ],
-    "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-rinkeby",
-      "active": true
-    },
+    "etherscan": {"apiUrl": "https://api-sepolia.etherscan.io/"},
     "eip1559": true,
-    "openNFTs": "0xF85795E50e247a52A6d14389bEcaD4998a691477",
-    "nftsFactory": "0xec7EBB4E7cdcE23e992BFDc4fc81D89Cc9Ac9A74",
-    "nftsFactoryV2": "0x6FC132204A4f1a93785a11123b1062F05697a751",
+    "openNFTs": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "create": true,
     "testnet": true,
-    "nftsFactoryV3": ""
+    "nftsResolver": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
+    "nftsFactoryV3": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B"
   },
   {
     "chainId": 5,
@@ -313,60 +309,6 @@
     "nftsFactoryV3": "0xd3d11Ddb2C5F7f9189057bB926e46CF79483935b"
   },
   {
-    "chainId": 3,
-    "chainName": "ropsten",
-    "rpcUrls": [
-      "https://ropsten.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://ropsten.infura.io/v3/v3/"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://ropsten.etherscan.io"
-    ],
-    "covalent": {
-      "active": false
-    },
-    "eip1559": true,
-    "openNFTs": "0x36239316DC6db822C7671691CFE56B384AD2fE70",
-    "nftsFactoryV2": "0x3fB23c510e46B5d226Fc8635A4a6FB6Fde09719F",
-    "create": true,
-    "testnet": true,
-    "nftsFactoryV3": "0x1f63086f424412321559C2CA2449374e90F1f8Ed",
-    "nftsResolver": "0x98C1c1AA566C329f339488Af2F8F95D33cf1A507"
-  },
-  {
-    "chainId": 42,
-    "chainName": "kovan",
-    "rpcUrls": [
-      "https://kovan.infura.io/v3/{{env.INFURA_API_KEY}}"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://kovan.etherscan.io"
-    ],
-    "covalent": {
-      "active": false
-    },
-    "eip1559": true,
-    "openMulti": "0xbd576e2F8590e7Ad02b3E92edEb591fD5331fbfC",
-    "openNFTs": "0x59Ca965eB4EafCE4e05eD2b5Bccbd373c3d1e2F8",
-    "nftsFactory": "0xA6F70de9aBe6cAE865fa723f7741699B63f47517",
-    "nftsFactoryV2": "0x3BDF67A8900AE9545Ea89121e9215B96C2e84722",
-    "create": true,
-    "testnet": true,
-    "openBound": "0x0827563013d242A657478450D4231756fB75C5bE",
-    "nftsResolver": "0x9DD821B2A89491Ef8F2bBA82E4912048F1dF1319",
-    "nftsFactoryV3": "0x41889a04aA7c157d426A40350245A96754a52D2A"
-  },
-  {
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
@@ -394,15 +336,15 @@
     "hardhatOptions": {
       "live": true
     },
-    "openNFTs": "0x7C985aB57BcA03B5867e4CC7Ba7AA0A786FCEf69",
+    "openNFTs": "0x68b04477CbB8337Bf91C7404204a1520d7504FAA",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "nftsResolver": "0x96f1A38049985A02d373235d2236E1084Cb920A8",
+    "nftsResolver": "0x1E098fA290d8a011c31e07571fab7ae40d0436DB",
     "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a",
-    "nftsFactoryV3": "0xDf64E441D34643482D636Faa2C20241C6C4c2097"
+    "nftsFactoryV3": "0xF4669798867d6b3784F58E8800824a51B236cB9a"
   },
   {
     "chainId": 421611,
@@ -519,13 +461,13 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "openMulti": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "openMulti": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "openBound": "0x57BDf6E59C2652D349f7022beB8D1B7458CA09EB",
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
-    "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
+    "nftsFactoryV2": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "testnet": true,
     "nftsResolver": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D",
-    "nftsFactoryV3": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
+    "nftsFactoryV3": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF",
     "openNFTs": "0xc12d57A1B9f15E7893D0818f02A28dD20Ee5cBc0"
   },
   {
