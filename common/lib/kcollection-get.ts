@@ -18,8 +18,9 @@ const collectionGetContract = async (
   // console.log(`collectionGetContract  IN ${collectionKey(chainId, address)}\n`);
 
   const collection = await collectionGet(chainId, address, signerOrProvider);
+  const signerAddress = Signer.isSigner(signerOrProvider) ? await signerOrProvider.getAddress() : "";
 
-  let contract = contractsCache.get(collectionKey(chainId, address));
+  let contract = contractsCache.get(collectionKey(chainId, address, signerAddress));
   let abi: Array<string> = [];
 
   if (!contract) {
@@ -36,9 +37,8 @@ const collectionGetContract = async (
       }
     }
     contract = new Contract(address, abi, signerOrProvider);
+    contractsCache.set(collectionKey(chainId, address, signerAddress), contract);
   }
-
-  contractsCache.set(collectionKey(chainId, address), contract);
 
   // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`);
   return { contract, collection };
@@ -64,8 +64,8 @@ const collectionGet = async (
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
   let collection: CollectionType = { chainId, address };
 
-
-  if (!(chainId && address && signerOrProvider && (await isProviderOnChainId(chainId, signerOrProvider)))) return collection;
+  if (!(chainId && address && signerOrProvider && (await isProviderOnChainId(chainId, signerOrProvider))))
+    return collection;
 
   try {
     collection = await resolverGetCollection(chainId, address, signerOrProvider, account);

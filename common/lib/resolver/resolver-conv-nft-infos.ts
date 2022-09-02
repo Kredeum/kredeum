@@ -19,13 +19,14 @@ const resolverConvNftInfos = (
   const owner = getChecksumAddress(nftInfos[2]) || "";
   const approved = getChecksumAddress(nftInfos[3]) || "";
   const chainName = getChainName(chainId) || "";
-  const collectionName = collection.name || "";
-  const collectionSymbol = collection.symbol || "";
-
+  
   const price = openNFTsInfos[0].toString() || "0";
   const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
   const royaltyAmount = openNFTsInfos[2].toString() || "0";
-
+ 
+  
+  const collectionName = collection.name || "";
+  const collectionSymbol = collection.symbol || "";
   const burnable = collection.supports?.IOpenNFTsV4;
 
   const nft: NftType = {
@@ -36,11 +37,11 @@ const resolverConvNftInfos = (
     owner,
     approved,
     chainName,
-    collectionName,
-    collectionSymbol,
     price,
     royaltyReceiver,
     royaltyAmount,
+    collectionName,
+    collectionSymbol,
     burnable
   };
 

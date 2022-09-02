@@ -37,7 +37,8 @@ const getNftRoyaltyInfo = async (
 
   console.log("🚀 ~ file: kautomarket.ts ~ line 28 ~ contract", contract);
 
-  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable)
+    return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
 
   const [receiver, royaltyAmount] = await (contract as OpenNFTsV4).callStatic.royaltyInfo(
     BigNumber.from(tokenID),
@@ -95,9 +96,9 @@ const approveNftReceipt = async (txResp: TransactionResponse): Promise<Transacti
 const setTokenPrice = async (
   chainId: number,
   address: string,
-  signer: JsonRpcSigner,
   tokenID: string,
-  tokenPrice: string
+  tokenPrice: string,
+  signer: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signer);
 

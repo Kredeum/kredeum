@@ -1,4 +1,6 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
+
 import hre from "hardhat";
 import { Contract } from "ethers";
 
@@ -23,7 +25,12 @@ let totalNFTs = 0;
 
 const _s = (n: number): string => (n > 1 ? "s" : " ");
 
-const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: number, provider: Provider) => {
+const logCollection = async (
+  chainId: number,
+  nftsFactory: NFTsFactory,
+  max: number,
+  signerOrProvider: Signer | Provider
+) => {
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
     let output = collectionAddress;
@@ -32,8 +39,8 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactory, max: num
     if (collectionAddress === nftsFactory.address) {
       output += " is NFTsFactory";
     } else {
-      const collectionObject = await collectionGet(chainId, collectionAddress, provider);
-      const collection = new Contract(collectionAddress, abiNFT, provider);
+      const collectionObject = await collectionGet(chainId, collectionAddress, signerOrProvider);
+      const collection = new Contract(collectionAddress, abiNFT, signerOrProvider);
       const { supports } = collectionObject;
 
       if (collection) {

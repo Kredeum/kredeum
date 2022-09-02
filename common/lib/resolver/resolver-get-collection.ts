@@ -15,7 +15,7 @@ const resolverGetCollection = async (
 ): Promise<CollectionType> => {
   // console.log("resolverGetCollection", address);
 
-  const nftsResolver = resolverGetContract(chainId, signerOrProvider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionInfos(address, account);
 
@@ -54,7 +54,7 @@ const resolverAreCollections = async (
 ): Promise<Array<boolean>> => {
   // console.log("resolverAreCollections", chainId, collections);
 
-  const nftsResolver = resolverGetContract(chainId, signerOrProvider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
 
   const checks = await nftsResolver.isCollections(collections);
   // console.log("resolverAreCollections", collections, checks);
@@ -71,7 +71,7 @@ const resolverGetCollectionList = async (
 
   const collections: Map<string, CollectionType> = new Map();
 
-  const nftsResolver = resolverGetContract(chainId, signerOrProvider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
   // console.log("resolverGetCollectionList openNFTsStructOutput", collectionInfos);

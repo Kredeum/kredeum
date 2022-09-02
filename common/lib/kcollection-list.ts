@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 
 import type { CollectionType } from "@lib/ktypes";
 import { getNetwork } from "@lib/kconfig";
@@ -33,7 +34,7 @@ const collectionListMerge = (
 
 const collectionList = async (
   chainId: number,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
@@ -63,12 +64,12 @@ const collectionList = async (
 
     const lengthBefore = collectionsApi.size;
     // console.log("collectionsApi  BEFORE", collectionsApi);
-    collectionsApi = await resolverFilterCollections(chainId, collectionsApi, provider);
+    collectionsApi = await resolverFilterCollections(chainId, collectionsApi, signerOrProvider);
     // console.log("collectionsApi   AFTER", collectionsApi);
     const removed = lengthBefore - collectionsApi.size;
-    if (removed > 0 ) console.info("collectionList collectionsApi removed", removed);
+    if (removed > 0) console.info("collectionList collectionsApi removed", removed);
 
-    collectionsResolver = await resolverGetCollectionList(chainId, provider, account);
+    collectionsResolver = await resolverGetCollectionList(chainId, signerOrProvider, account);
     // console.log("collectionList collectionsResolver", collectionsResolver);
 
     // MERGE collectionsApi and collectionsResolver
@@ -90,5 +91,4 @@ const collectionList = async (
 const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
   `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
 
-
-export { collectionList, collectionListMerge,collectionListKey };
+export { collectionList, collectionListMerge, collectionListKey };

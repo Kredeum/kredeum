@@ -108,7 +108,7 @@
 
   const setNewTokenPrice = async () => {
     settingTokenPrice = true;
-    const txResp = await setTokenPrice(chainId, address, $metamaskSigner, tokenID, newNftPrice);
+    const txResp = await setTokenPrice(chainId, address, tokenID, newNftPrice, $metamaskSigner);
 
     if (txResp) {
       setPriceTxHash = txResp.hash;

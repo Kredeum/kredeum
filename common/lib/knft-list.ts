@@ -1,5 +1,6 @@
 import type { CollectionType, NftType } from "@lib/ktypes";
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 
 import { nftGetMetadata } from "@lib/knft-get-metadata";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
@@ -29,7 +30,7 @@ const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType
 const nftListTokenIds = async (
   chainId: number,
   address: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   collection: CollectionType,
   account?: string,
   limit: number = FETCH_LIMIT
@@ -57,7 +58,7 @@ const nftListTokenIds = async (
       console.error("No NFTs found:-(");
     }
 
-    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, provider, account, limit));
+    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, signerOrProvider, account, limit));
   }
   // console.log("nftListTokenIds", nfts);
 
@@ -96,7 +97,7 @@ const _nftListWithMetadata = async (
 const nftList = async (
   chainId: number,
   address: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   collection: CollectionType,
   account?: string,
   limit: number = FETCH_LIMIT
@@ -106,7 +107,7 @@ const nftList = async (
   const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(
     chainId,
     address,
-    provider,
+    signerOrProvider,
     collection,
     account,
     limit

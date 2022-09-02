@@ -14,7 +14,7 @@ const collectionCloneResponse = async (
 ): Promise<TransactionResponse | undefined> => {
   // console.log("collectionCloneResponse", chainId, name, symbol, templateConfig, await cloner.getAddress());
 
-  const nftsFactoryV3 = factoryGetContract(chainId, cloner);
+  const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 
   const n = (await resolverGetCount(chainId, cloner.provider)) + 1;
   const _name = name || `Open NFTs #${n}`;

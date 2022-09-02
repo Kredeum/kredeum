@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
 import { collectionGetContract } from "@lib/kcollection-get";
@@ -32,15 +33,15 @@ const nftGet = async (
   chainId: number,
   address: string,
   tokenID: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   collection: CollectionType = { chainId, address },
   withMetadata = false
 ): Promise<NftType> => {
   let nft: NftType = { chainId, address, tokenID };
-  if (!(chainId && address && tokenID && provider)) return nft;
+  if (!(chainId && address && tokenID && signerOrProvider)) return nft;
   // console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
-  nft = await resolverGetNft(chainId, collection, tokenID, provider);
+  nft = await resolverGetNft(chainId, collection, tokenID, signerOrProvider);
   console.log("nft", nft);
 
   nft.nid = nftKey(chainId, address, tokenID);

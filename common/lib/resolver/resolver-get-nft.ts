@@ -1,4 +1,5 @@
 import type { Provider } from "@ethersproject/abstract-provider";
+import type { Signer } from "@ethersproject/abstract-signer";
 import { BigNumber, constants } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/ktypes";
@@ -23,12 +24,12 @@ const resolverGetNft = async (
   chainId: number,
   collection: CollectionType,
   tokenID: string,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account = constants.AddressZero
 ): Promise<NftType> => {
   // console.log("resolverGetNft", collection.address);
 
-  const nftsResolver = resolverGetContract(chainId, provider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
 
   const [nftInfos, openNFTsinfos] = await nftsResolver.getOpenNFTsNftInfos(collection.address, tokenID, account);
 
@@ -39,14 +40,14 @@ const resolverGetNft = async (
 const resolverGetNfts = async (
   chainId: number,
   collection: CollectionType,
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account = constants.AddressZero,
   limit = FETCH_LIMIT
 ): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
   // console.log("resolverGetNfts", chainId, collection, account, limit);
   const nfts: Map<string, NftType> = new Map();
 
-  const nftsResolver = resolverGetContract(chainId, provider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
   // console.log("resolverGetNfts nftsResolver", nftsResolver);
 
   const res = await nftsResolver["getOpenNFTsNftsInfos(address,address,uint256,uint256)"](
@@ -61,11 +62,7 @@ const resolverGetNfts = async (
   // console.log("resolverGetNfts nftsInfosStructOutput", nftsInfos);
 
   for (let index = 0; index < nftsInfos.length; index++) {
-    const nft = resolverConvOpenNFTsNftInfos(
-      chainId,
-      collection,
-      [nftsInfos[index], openNFTsNftsInfos[index]]
-    );
+    const nft = resolverConvOpenNFTsNftInfos(chainId, collection, [nftsInfos[index], openNFTsNftsInfos[index]]);
     nfts.set(nftUrl(nft), nft);
   }
 
@@ -78,16 +75,20 @@ const resolverGetNftsForTokenIds = async (
   chainId: number,
   collection: CollectionType,
   tokenIDs: BigNumber[],
-  provider: Provider,
+  signerOrProvider: Signer | Provider,
   account = constants.AddressZero
 ): Promise<Map<string, NftType>> => {
   // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
 
   const nfts: Map<string, NftType> = new Map();
 
-  const nftsResolver = resolverGetContract(chainId, provider);
+  const nftsResolver = await resolverGetContract(chainId, signerOrProvider);
 
-  const nftsInfos = await nftsResolver["getOpenNFTsNftsInfos(address,uint256[],address)"](collection.address, tokenIDs, account);
+  const nftsInfos = await nftsResolver["getOpenNFTsNftsInfos(address,uint256[],address)"](
+    collection.address,
+    tokenIDs,
+    account
+  );
   // console.log("resolverGetNfts nftsResolver.getNftsInfos for tokenIDs", nftsInfos);
 
   for (let index = 0; index < tokenIDs.length; index++) {
