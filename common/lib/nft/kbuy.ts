@@ -2,7 +2,7 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { getNetwork } from "../common/kconfig";
-import { explorerTxUrlLog } from "../common/kconfig";
+import { explorerTxLog } from "../common/kconfig";
 
 import { BigNumber } from "ethers";
 
@@ -12,10 +12,10 @@ const buyNftResponse = async (
   tokenID: string,
   buyer: JsonRpcSigner,
   nftPrice: string
-): Promise<TransactionResponse | null> => {
+): Promise<TransactionResponse | undefined> => {
   // console.log("transferNftResponse", chainId, address, tokenID, destinationAddress);
 
-  let txResp: TransactionResponse | null = null;
+  let txResp: TransactionResponse | undefined = null;
   const network = getNetwork(chainId);
 
   if (!(chainId && address && tokenID && network && buyer)) return txResp;
@@ -31,12 +31,11 @@ const buyNftResponse = async (
       txResp = await buyFunction(BigNumber.from(tokenID), {
         value: BigNumber.from(nftPrice)
       });
+      explorerTxLog(chainId, txResp);
     } catch (e) {
       console.error("ERROR During buying", e);
-      console.log(txResp);
     }
   }
-  explorerTxUrlLog(chainId, txResp?.hash);
 
   return txResp;
 };
@@ -51,11 +50,11 @@ const buyNft = async (
   tokenID: string,
   owner: JsonRpcSigner,
   nftPrice: string
-): Promise<TransactionReceipt | null> => {
+): Promise<TransactionReceipt | undefined> => {
   // console.log("transferNft", chainId, address, tokenID, destinationAddress);
 
   const txResp = await buyNftResponse(chainId, address, tokenID, owner, nftPrice);
-  explorerTxUrlLog(chainId, txResp?.hash);
+  explorerTxLog(chainId, txResp);
 
   const txReceipt = txResp && (await buyNftReceipt(txResp));
 

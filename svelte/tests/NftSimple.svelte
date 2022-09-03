@@ -7,7 +7,7 @@
 
   import { nftStore } from "@stores/nft/nft";
 
-  import { metamaskChainId, metamaskProvider } from "@main/metamask";
+  import { metamaskChainId } from "@main/metamask";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {index}? {more}? {platform}? />

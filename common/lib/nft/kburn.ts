@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerTxUrlLog, getExplorer } from "../common/kconfig";
+import { explorerTxLog, getExplorer } from "../common/kconfig";
 
 const burnNftResponse = async (
   chainId: number,
@@ -9,11 +9,10 @@ const burnNftResponse = async (
   tokenID: string,
   owner: JsonRpcSigner,
   account: string
-): Promise<TransactionResponse | null> => {
+): Promise<TransactionResponse | undefined> => {
   // console.log("burnNftResponse", chainId, address, tokenID);
 
-  let txResp: TransactionResponse | null = null;
-  const network = getExplorer(chainId);
+  let txResp: TransactionResponse | undefined;
 
   if (!(chainId && address && tokenID && owner)) return txResp;
 
@@ -29,8 +28,8 @@ const burnNftResponse = async (
       (tokenID: string): Promise<TransactionResponse>;
     };
     txResp = await burnFunction(tokenID);
+    explorerTxLog(chainId, txResp);
   }
-  console.log(`${network || ""}/tx/${txResp?.hash || ""}`);
 
   return txResp;
 };
@@ -45,11 +44,11 @@ const burnNft = async (
   tokenID: string,
   owner: JsonRpcSigner,
   account: string
-): Promise<TransactionReceipt | null> => {
+): Promise<TransactionReceipt | undefined> => {
   // console.log("burnNft", chainId, address, tokenID, destinationAddress);
 
   const txResp = await burnNftResponse(chainId, address, tokenID, owner, account);
-  explorerTxUrlLog(chainId, txResp?.hash);
+  explorerTxLog(chainId, txResp);
 
   const txReceipt = txResp && (await burnNftReceipt(txResp));
 

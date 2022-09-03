@@ -3,7 +3,7 @@
   import { Writable } from "svelte/store";
 
   import { burnNftResponse, burnNftReceipt } from "@lib/nft/kburn";
-  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
 
@@ -39,7 +39,7 @@
 
       if (txResp) {
         burnTxHash = txResp.hash;
-        explorerTxUrlLog(chainId, burnTxHash);
+        explorerTxLog(chainId, txResp);
 
         const txReceipt = await burnNftReceipt(txResp);
 

@@ -3,7 +3,7 @@ import type { Signer } from "@ethersproject/abstract-signer";
 import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/common/ktypes";
-import {  collectionKey } from "@lib/common/kconfig";
+import { collectionKey } from "@lib/common/kconfig";
 import { resolverConvOpenNFTsCollectionInfos } from "@lib/resolver/resolver-conv-collection-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
 

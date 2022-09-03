@@ -20,6 +20,7 @@
     textShort,
     swarmGatewayUrl,
     explorerTxUrl,
+    explorerTxLog,
     explorerNftUrl,
     nftUrl,
     storageLinkToUrlHttp,
@@ -164,7 +165,7 @@
 
           mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
 
-          // console.log("txResp", txResp);
+          explorerTxLog(chainId, mintingTxResp);
 
           if (mintingTxResp) {
             minting = 4;

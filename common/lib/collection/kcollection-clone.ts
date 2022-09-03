@@ -1,7 +1,7 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { ethers } from "ethers";
-import { getExplorer } from "@lib/common/kconfig";
+import { explorerTxLog } from "@lib/common/kconfig";
 import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
@@ -16,17 +16,17 @@ const collectionCloneResponse = async (
 
   const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 
-  const n = (await resolverGetCount(chainId, cloner.provider)) + 1;
+  let n = 0;
+  if (!(name && symbol)) n = (await resolverGetCount(chainId, cloner.provider)) + 1;
   const _name = name || `Open NFTs #${n}`;
-  const _symbol = symbol || `NFTs${n}`;
+  const _symbol = symbol || `NFT#${n}`;
 
   const [template, config] = templateConfig.split("/");
   const options: boolean[] = [config == "generic"];
 
   // console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, options);
   const txResp = await nftsFactoryV3.clone(_name, _symbol, template, options);
-
-  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash}`);
+  explorerTxLog(chainId, txResp);
 
   return txResp;
 };
@@ -62,7 +62,7 @@ const collectionClone = async (
   let address = "";
 
   const txResp = await collectionCloneResponse(chainId, name, symbol, templateConfig, cloner);
-  console.info("txResp", txResp);
+  explorerTxLog(chainId, txResp);
 
   if (txResp) {
     const txReceipt = await collectionCloneReceipt(txResp);

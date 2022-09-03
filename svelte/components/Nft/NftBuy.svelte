@@ -1,6 +1,6 @@
 <script lang="ts">
   import { buyNftResponse, buyNftReceipt } from "@lib/nft/kbuy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxUrlLog, textShort } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
 
@@ -8,8 +8,8 @@
   import { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import { ethers, utils } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
+  import { ethers } from "ethers";
+  // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
@@ -49,7 +49,7 @@
       const txResp = await buyNftResponse(chainId, address, tokenID, $metamaskSigner, nftPrice);
       if (txResp) {
         buyTxHash = txResp.hash;
-        explorerTxUrlLog(chainId, buyTxHash);
+        explorerTxLog(chainId, txResp);
 
         const txReceipt = await buyNftReceipt(txResp);
 

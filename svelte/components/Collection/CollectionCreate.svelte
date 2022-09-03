@@ -6,7 +6,7 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
   import {
     collectionCloneResponse,
     collectionCloneReceipt,
@@ -76,6 +76,8 @@
 
       if (!txResp) console.error("ERROR createCollection no txResp");
       else {
+        explorerTxLog(chainId, txResp);
+
         cloningTxHash = txResp.hash;
         const txReceipt = await collectionCloneReceipt(txResp);
 

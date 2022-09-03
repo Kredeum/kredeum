@@ -5,7 +5,7 @@ import type { NftType } from "@lib/common/ktypes";
 import type { IOpenMulti } from "@soltypes/contracts/interfaces";
 import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
-import { ipfsGatewayUrl, getExplorer, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/kconfig";
+import { ipfsGatewayUrl, explorerTxLog, getExplorer, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/kconfig";
 import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 
@@ -120,7 +120,7 @@ const nftMint3TxResponse = async (
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
   // }
-  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  explorerTxLog(chainId, txResp);
 
   return txResp;
 };
@@ -141,7 +141,7 @@ const nftClaim3TxResponse = async (
   // console.log("openMulti", openMulti);
 
   const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));
-  console.info(`${getExplorer(chainId)}/tx/${txResp?.hash || ""}`);
+  explorerTxLog(chainId, txResp);
 
   return txResp;
 };

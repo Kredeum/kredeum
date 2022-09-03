@@ -5,7 +5,7 @@ import type { Signer } from "@ethersproject/abstract-signer";
 import { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { BigNumber, constants } from "ethers";
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerUrl, explorerTxUrlLog } from "../common/kconfig";
+import { explorerUrl, explorerTxLog } from "../common/kconfig";
 import { IERC721 } from "@soltypes/index";
 
 const getNftPrice = async (
@@ -84,7 +84,7 @@ const setApproveToken = async (
   if (!collection.supports?.IOpenMarketable) return;
   const txResp: TransactionResponse | undefined = await (contract as IERC721).approve(address, tokenID);
 
-  explorerTxUrlLog(chainId, txResp?.hash);
+  explorerTxLog(chainId, txResp);
 
   return txResp || undefined;
 };
@@ -109,7 +109,7 @@ const setTokenPrice = async (
     tokenPrice
   );
 
-  explorerTxUrlLog(chainId, txResp?.hash);
+  explorerTxLog(chainId, txResp);
 
   return txResp;
 };

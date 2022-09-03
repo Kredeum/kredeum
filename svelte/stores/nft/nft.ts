@@ -16,8 +16,8 @@ const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}`;
 
 // UTILITY : Merge 2 Nfts into 1 (twice the same Nft but with different metadata)
-// const nftMerge = (nft1: NftType, nft2: NftType): NftType =>
-//   Object.assign({ chainId: 1, address: "", tokenID: "" }, nft1 || {}, nft2 || {});
+const nftMerge = (nft1: NftType, nft2: NftType): NftType =>
+  Object.assign({ chainId: 1, address: "", tokenID: "" }, nft1 || {}, nft2 || {});
 
 const nftSetOne = (nft: NftType): void => {
   if (!nft) return;
@@ -29,13 +29,13 @@ const nftSetOne = (nft: NftType): void => {
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
-    // const oldNft = $nftListStore.get(key);
-    // const mergedNft = nftMerge(oldNft, nft);
+    const oldNft = $nftListStore.get(key);
+    const mergedNft = nftMerge(oldNft, nft);
 
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem(key, JSON.stringify(nft));
+      localStorage.setItem(key, JSON.stringify(mergedNft));
     }
-    return $nftListStore.set(key, nft);
+    return $nftListStore.set(key, mergedNft);
   });
 };
 

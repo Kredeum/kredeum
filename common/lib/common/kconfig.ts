@@ -1,5 +1,5 @@
 import type { Address, NetworkType, CollectionType, NftType } from "@lib/common/ktypes";
-import type { Provider } from "@ethersproject/abstract-provider";
+import type { Provider, TransactionResponse } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 
 import { collectionKey } from "@lib/collection/kcollection-get";
@@ -285,8 +285,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+      ? swarmLinkToUrlHttp(link)
+      : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -314,9 +314,13 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   explorerUrl(chainId, `/tx/${tx}`);
 
 // LOG TX URL
-const explorerTxUrlLog = (chainId: number, tx = ""): void =>
+const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>
+  explorerTxHashLog(chainId, tx?.hash);
+
+// LOG TX.HASH URL
+const explorerTxHashLog = (chainId: number, txHash = ""): void =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
-  console.log(explorerTxUrl(chainId, tx));
+  console.log(explorerTxUrl(chainId, txHash));
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -469,7 +473,7 @@ export {
   explorerAddressLink,
   explorerContractUrl,
   explorerTxUrl,
-  explorerTxUrlLog,
+  explorerTxLog,
   explorerTxLink,
   explorerCollectionUrl,
   explorerCollectionLink,

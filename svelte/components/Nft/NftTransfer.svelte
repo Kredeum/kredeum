@@ -2,10 +2,10 @@
   import { transferNft } from "@lib/nft/ktransfer";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
-  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
-  import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
+  // import { getContext } from "svelte";
+  // import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
@@ -23,8 +23,8 @@
 
   // Context for refreshCollectionList & refreshNftsList
   ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  // let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  // let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   ///////////////////////////////////////////////////////////
 
   const transfer = async () => {

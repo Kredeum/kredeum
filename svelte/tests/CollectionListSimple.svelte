@@ -16,7 +16,7 @@
   export let refreshing: boolean = undefined;
 
   let collections: Readable<Map<string, CollectionType>>;
-  let collectionDefault: Readable<string>;
+  // let collectionDefault: Readable<string>;
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
@@ -28,7 +28,7 @@
     collections = collectionStore.getSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
-    collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
+    // collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
     refreshing = true;

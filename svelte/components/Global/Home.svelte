@@ -8,7 +8,7 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  import BreadCrumb from "./BreadCrumb.svelte";
+  // import BreadCrumb from "./BreadCrumb.svelte";
 
   import Content from "../Global/Content.svelte";
 
@@ -16,7 +16,7 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
   import CollectionList from "../Collection/CollectionList.svelte";
-  import CollectionListSimple from "../../tests/CollectionListSimple.svelte";
+  // import CollectionListSimple from "../../tests/CollectionListSimple.svelte";
 
   import { urlHash2RefNFT } from "@helpers/urlHash";
   import type { RefNFT } from "@helpers/refNft";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
 
@@ -38,7 +38,7 @@
 
       if ($nft.tokenURI) {
         const txResp = await nftMint3TxResponse(chainId, address, $nft.tokenURI, $metamaskSigner);
-        // console.log("txResp", txResp);
+        explorerTxLog(chainId, txResp);
 
         if (txResp) {
           const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskAccount);

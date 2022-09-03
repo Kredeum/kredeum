@@ -35,7 +35,7 @@ task("nfts-drop", "drop all NFTs owned on a contract")
         txSend.gasPrice.toString(),
         txSend.gasLimit.toString()
       );
-      const txRes = await txSend.wait();
-      console.log(txRes.status);
+      const txReceipt = await txSend.wait();
+      console.log(txReceipt.status);
     }
   });

@@ -1,7 +1,14 @@
 <script lang="ts">
   import type { NftType } from "@lib/common/ktypes";
-  import NftStorage from "@lib/nft/knft-storage";
-  import { getOpenMulti, explorerNftUrl, explorerTxUrl, textShort, storageLinkToUrlHttp } from "@lib/common/kconfig";
+  import NftStorage from "@lib/common/knft-storage";
+  import {
+    getOpenMulti,
+    explorerTxLog,
+    explorerNftUrl,
+    explorerTxUrl,
+    textShort,
+    storageLinkToUrlHttp
+  } from "@lib/common/kconfig";
   import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/knft-mint";
   import { cidToInt } from "@lib/common/kcid";
 
@@ -57,10 +64,10 @@
           else {
             // console.log("cidToInt(cid)", cidToInt(cid));
             const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
-            // console.log("txResp", txResp);
+            explorerTxLog(chainId, txResp);
 
             const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
-            // console.log("mintedNft", mintedNft);
+            console.log("mintedNft", mintedNft);
 
             claimed = true;
           }

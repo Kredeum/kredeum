@@ -25,10 +25,10 @@
 
   // import NftClaim from "./NftClaim.svelte";
 
-  import { metamaskChainId, metamaskProvider } from "@main/metamask";
-  import { collectionGetContract } from "@lib/collection/kcollection-get";
-  import { constants, ethers, utils } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
+  import { metamaskChainId } from "@main/metamask";
+  import { constants, ethers } from "ethers";
+  // import { collectionGetContract } from "@lib/collection/kcollection-get";
+  // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />

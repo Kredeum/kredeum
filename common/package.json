@@ -12,8 +12,8 @@
     "build-networks": "npx ts-node scripts/build-networks",
     "tests": "echo tests",
     "check": "npm run prettier && npm run eslint",
-    "eslint": "eslint lib/*.ts --fix --quiet",
-    "prettier": "prettier lib/*.ts --write --loglevel error"
+    "eslint": "eslint lib/**/*.ts --fix --quiet",
+    "prettier": "prettier lib/**/*.ts --write --loglevel error"
   },
   "keywords": [],
   "author": "",
