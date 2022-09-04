@@ -40,6 +40,10 @@
     {
       "filePath": "common/abis",
       "group": "Default"
+    },
+    {
+      "filePath": "hardhat/node_modules/OpenNFTs",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/dapp/",
