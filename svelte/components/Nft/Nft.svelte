@@ -25,6 +25,7 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
+  import NftSetRoyalties from "./NftSetRoyalties.svelte";
 
   // import NftClaim from "./NftClaim.svelte";
 
@@ -163,6 +164,15 @@
                       ? "No receiver setted for Royalties"
                       : $nft.royaltyReceiver}
                   </span>
+                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable}
+                    <NftSetRoyalties
+                      {chainId}
+                      {address}
+                      {tokenID}
+                      nftRoyaltiesAmount={$nft.royaltyAmount}
+                      receiver={$nft.royaltyReceiver}
+                    />
+                  {/if}
                 </div>
               </li>
             {/if}

@@ -71,6 +71,29 @@ const getDefaultCollRoyaltyInfos = async (
   return { receiver: royaltyInfostest[0], fraction: royaltyInfostest[1] };
 };
 
+const setTokenRoyaltyInfos = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  fee: number,
+  receiver: string,
+  signer: JsonRpcSigner
+): Promise<TransactionResponse | undefined> => {
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+
+  if (!collection.supports?.IOpenMarketable) return;
+
+  const txResp: TransactionResponse | undefined = await (contract as OpenNFTsV4).setTokenRoyalty(
+    BigNumber.from(tokenID),
+    receiver,
+    fee
+  );
+
+  explorerTxLog(chainId, txResp);
+
+  return txResp;
+};
+
 const getApproved = async (
   chainId: number,
   address: string,
@@ -141,6 +164,7 @@ export {
   getNftRoyaltyInfo,
   getDefaultCollPrice,
   getDefaultCollRoyaltyInfos,
+  setTokenRoyaltyInfos,
   getApproved,
   approveNftReceipt,
   setApproveToken,
