@@ -9,6 +9,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
   import { ethers } from "ethers";
+  import { nftStore } from "@stores/nft/nft";
   // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
@@ -61,8 +62,9 @@
       }
       buying = false;
 
-      $refreshCollectionList += 1;
-      $refreshNftsList += 1;
+      await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+      // $refreshCollectionList += 1;
+      // $refreshNftsList += 1;
     }
   };
 </script>

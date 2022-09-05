@@ -143,14 +143,13 @@
                       >{$nft.price === "0.0" ? "Set price to calculate royalties" : "No royalties amount setted"}</span
                     >
                   {:else}
-                    <a
-                      href={getEthersConverterLink(chainId, $nft.price)}
+                    <span
                       class="link overflow-ellipsis"
-                      title={$nft.royaltyAmount}
+                      title={`${parseInt($nft.royaltyAmount) / 100} %`}
                       target="_blank"
                     >
-                      {$nft.royaltyAmount} Eth
-                    </a>
+                      {parseInt($nft.royaltyAmount) / 100} %
+                    </span>
                   {/if}
                 </div>
               </li>
