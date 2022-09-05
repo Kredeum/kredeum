@@ -26,7 +26,6 @@
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   ///////////////////////////////////////////////////////////
 
   const burn = async (dEaDBurn = false) => {
@@ -41,7 +40,6 @@
         : await burnNft(chainId, address, tokenID, $metamaskSigner);
 
       const txResp = (await txRespYield.next()).value;
-      console.log("🚀 ~ file: NftBurn.svelte ~ line 42 ~ burn ~ txResp", txResp);
 
       if (txResp.hash) {
         burnTxHash = txResp.hash;
@@ -50,9 +48,8 @@
         burned = Boolean(txReceipt.status);
         burning = false;
 
-        // nftStore.nftRemoveOne(chainId, address, tokenID);
+        nftStore.nftRemoveOne(chainId, address, tokenID);
         $refreshCollectionList += 1;
-        $refreshNftsList += 1;
       } else {
         dEaDBurn ? (burnImplossibleAddressDead = true) : (burnImplossible = true);
       }
