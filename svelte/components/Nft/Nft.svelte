@@ -186,7 +186,7 @@
           {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable}
             <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
           {/if}
-          {#if $nft.owner !== account}
+          {#if $nft.owner !== account && $nft.collection?.supports?.IOpenMarketable}
             <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
           {/if}
           {#if $nft.owner === account}
@@ -202,10 +202,12 @@
           {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
-                Sell
+                Sell on OpenSea
               </a>
             {:else}
-              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank">
+                Buy on OpenSea
+              </a>
             {/if}
           {/if}
         </div>
