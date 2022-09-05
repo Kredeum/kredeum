@@ -2,7 +2,7 @@
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { burnNftResponse, burnNftReceipt } from "@lib/nft/kburn";
+  import { burnNft, burnNftAddressDead } from "@lib/nft/kburn";
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
@@ -21,35 +21,40 @@
   let burning = false;
   let burned = false;
   let burnImplossible = false;
+  let burnImplossibleAddressDead = false;
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   ///////////////////////////////////////////////////////////
 
-  const burn = async () => {
+  const burn = async (dEaDBurn = false) => {
     if ($metamaskSigner) {
       burnTxHash = null;
+      burnImplossible = false;
       burning = true;
       burned = false;
 
-      const txResp = await burnNftResponse(chainId, address, tokenID, $metamaskSigner, $metamaskAccount).catch(
-        console.error
-      );
+      const txRespYield = dEaDBurn
+        ? await burnNftAddressDead(chainId, address, tokenID, $metamaskSigner)
+        : await burnNft(chainId, address, tokenID, $metamaskSigner);
 
-      if (txResp) {
+      const txResp = (await txRespYield.next()).value;
+      console.log("🚀 ~ file: NftBurn.svelte ~ line 42 ~ burn ~ txResp", txResp);
+
+      if (txResp.hash) {
         burnTxHash = txResp.hash;
-        explorerTxLog(chainId, txResp);
-
-        const txReceipt = await burnNftReceipt(txResp);
+        const txReceipt = (await txRespYield.next()).value;
 
         burned = Boolean(txReceipt.status);
         burning = false;
 
-        nftStore.nftRemoveOne(chainId, address, tokenID);
+        // nftStore.nftRemoveOne(chainId, address, tokenID);
         $refreshCollectionList += 1;
+        $refreshNftsList += 1;
       } else {
-        burnImplossible = true;
+        dEaDBurn ? (burnImplossibleAddressDead = true) : (burnImplossible = true);
       }
     }
   };
@@ -65,6 +70,9 @@
     <a href="./#" title="Close" on:click={returnNftsList} class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
+      <div class="titre">
+        <i class="fas fa-fire" /> Burn this NFT #{tokenID} Forever ?
+      </div>
       <div>
         {#if burned}
           <div>
@@ -78,10 +86,25 @@
             </div>
           </div>
         {:else if burnImplossible}
-          <div>
-            <div class="titre">
-              <i class="fas fa-exclamation-triangle fa-left c-red" />
-              NFT can't be burned!
+          <div class="section">
+            <div class="form-field kre-burn-warning">
+              <p>
+                <i class="fas fa-exclamation-triangle fa-left c-red" /> NFT can't be burned with normalized burn function!
+              </p>
+              <p>Do you want to burn it afterall buy transfer it at "address dEaD"</p>
+            </div>
+          </div>
+          <div class="txtright">
+            <button class="btn btn-default btn-sell" type="submit" on:click={() => burn(true)}
+              >Yes, burn to address dEaD</button
+            >
+          </div>
+        {:else if burnImplossibleAddressDead}
+          <div class="section">
+            <div class="form-field kre-burn-warning">
+              <p>
+                <i class="fas fa-exclamation-triangle fa-left c-red" /> NFT can't be burned !
+              </p>
             </div>
           </div>
         {:else if burning}
@@ -96,10 +119,6 @@
             {/if}
           </div>
         {:else}
-          <div class="titre">
-            <i class="fas fa-fire" /> Burn this NFT #{tokenID} Forever ?
-          </div>
-
           <div class="section">
             <div class="form-field kre-burn-warning">
               <p>

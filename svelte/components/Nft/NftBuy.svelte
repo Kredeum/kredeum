@@ -28,6 +28,8 @@
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+
   ///////////////////////////////////////////////////////////
 
   let open = false;
@@ -60,6 +62,7 @@
       buying = false;
 
       $refreshCollectionList += 1;
+      $refreshNftsList += 1;
     }
   };
 </script>
