@@ -115,13 +115,13 @@
       "active": true
     },
     "openSea": "https://opensea.io/assets/matic",
-    "openNFTs": "0x65f8B281EC0FA6D4f4F0ce7090C96ba4FBE0EBf8",
+    "openNFTs": "0x2434F604C891e4e68d23D11417772c56AA5D18A4",
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsResolver": "0x65939962b71c0787B6E65516d7A460B6689822F6",
-    "nftsFactoryV3": "0x446dEdbbef1255cacCCe880f43AC90bE5D4CD847"
+    "nftsResolver": "0xFf9f85fEcfeB5d6Fe3C183b5A322a7033f8E0FA4",
+    "nftsFactoryV3": "0x9a7159aa450eAcaDf5F654aFc929d0A0aC976205"
   },
   {
     "chainId": 43114,
@@ -270,13 +270,15 @@
     "blockExplorerUrls": [
       "https://sepolia.etherscan.io"
     ],
-    "etherscan": {"apiUrl": "https://api-sepolia.etherscan.io/"},
+    "etherscan": {
+      "apiUrl": "https://api-sepolia.etherscan.io/"
+    },
     "eip1559": true,
-    "openNFTs": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "openNFTs": "0x17b5cC29c8fEE4A7f4a9a4D3aA89CEeceb1e2127",
     "create": true,
     "testnet": true,
-    "nftsResolver": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
-    "nftsFactoryV3": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B"
+    "nftsResolver": "0x8D135C725C8A5541A8D47C0f187f2BE53b3DFf41",
+    "nftsFactoryV3": "0xF6169393986b38e57D61187051c3F5B554796f83"
   },
   {
     "chainId": 5,
@@ -298,15 +300,15 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0xC0988190e3C1E15c590Fcc90853DB0c47d48D1CA",
+    "openNFTs": "0xFDb432E0a71d9BAc6AD91EE72D40bE09bDCF0fF8",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0x19d86761822f79FF4428991B3c8C3c02759926E0",
-    "nftsFactoryV3": "0xd3d11Ddb2C5F7f9189057bB926e46CF79483935b"
+    "nftsResolver": "0xD78257e1C12Be6b9FF66799E752e17A209e5d46c",
+    "nftsFactoryV3": "0xE8e867F81019d7CFe6bCb50f2E4A857002401C4a"
   },
   {
     "chainId": 80001,

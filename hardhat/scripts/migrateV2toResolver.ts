@@ -63,7 +63,7 @@ const main = async () => {
 
   ////////////////////////////
   const limit = 80;
-  const gasLimit = 5_000_000;
+  const gasLimit = 8_000_000;
   ////////////////////////////
 
   const implsToMigrate = (await resolverFilterCollectionsAddress(chainId, implsNotMigrated, provider)).slice(0, limit);
@@ -74,7 +74,7 @@ const main = async () => {
   if (n > 0) {
     console.log((await nftsResolver.connect(deployer).estimateGas.addAddresses(implsToMigrate)).toString());
 
-    const go: string = prompt(`Proceed with the Migration of ${n} implementations => y/N ? `);
+    const go: string = prompt(`Proceed with the migration of ${n} implementations => y/N ? `);
     if (go[0].toLowerCase() == "y") {
       console.log("STARTING Migration...");
       const tx = await nftsResolver.connect(deployer).addAddresses(implsToMigrate, {
