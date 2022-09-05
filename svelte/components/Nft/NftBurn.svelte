@@ -3,9 +3,9 @@
   import { Writable } from "svelte/store";
 
   import { burnNft, burnNftAddressDead } from "@lib/nft/kburn";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
-  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner } from "@main/metamask";
 
   import { nftStore } from "@stores/nft/nft";
 
@@ -36,8 +36,8 @@
       burned = false;
 
       const txRespYield = dEaDBurn
-        ? await burnNftAddressDead(chainId, address, tokenID, $metamaskSigner)
-        : await burnNft(chainId, address, tokenID, $metamaskSigner);
+        ? burnNftAddressDead(chainId, address, tokenID, $metamaskSigner)
+        : burnNft(chainId, address, tokenID, $metamaskSigner);
 
       const txResp = (await txRespYield.next()).value;
 
