@@ -1,7 +1,13 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-
   import type { NftType } from "@lib/common/ktypes";
+
+  import { constants, ethers } from "ethers";
+  import { metamaskChainId } from "@main/metamask";
+  import { nftStore } from "@stores/nft/nft";
+
+  import { getEthersConverterLink } from "@lib/nft/kautomarket";
+
   import {
     explorerCollectionUrl,
     explorerAddressLink,
@@ -14,21 +20,13 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "@helpers/shortcodes";
-  import { nftStore } from "@stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
 
-  import { getEthersConverterLink } from "@lib/nft/kautomarket";
-
   // import NftClaim from "./NftClaim.svelte";
-
-  import { metamaskChainId } from "@main/metamask";
-  import { constants, ethers } from "ethers";
-  // import { collectionGetContract } from "@lib/collection/kcollection-get";
-  // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -50,6 +48,9 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
+    if (!$nft?.collection?.supports) {
+      await nftStore.refreshSubList(chainId, address, account);
+    }
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
