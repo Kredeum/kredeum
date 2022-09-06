@@ -10,9 +10,8 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getApproved, setApproveToken, approveNftReceipt, setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
+  import { setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
   import { ethers } from "ethers";
-  // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftTransfer {chainId} {address} {tokenID} />
@@ -29,11 +28,6 @@
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
 
-  let approveTxHash: string = null;
-  let settingApprove = false;
-  let approved = "";
-  let failApprove = false;
-
   let setRoyaltyReceiverInput: string;
   let settingTokenRoyaltyReceiver: boolean = false;
 
@@ -41,22 +35,14 @@
 
   let setRoyaltiesAmountTxHash: string = null;
   let settingTokenRoyaltiesAmount: boolean = false;
-  let setted = false;
   let failSetRoyaltiesAmount = false;
+  let setted = false;
 
   let inputError: string;
   let setRoyaltiesAmountInput: string;
   let newNftRoyaltiesAmount: string;
 
   let open = false;
-
-  $: approved && open === false && handleResetAfterApprove();
-  const handleResetAfterApprove = () => {
-    approveTxHash = null;
-    settingApprove = false;
-    approved = "";
-    failApprove = false;
-  };
 
   $: setted && open === false && handleResetAfterSetRoyaltiesAmount();
   const handleResetAfterSetRoyaltiesAmount = () => {
@@ -68,17 +54,13 @@
     newNftRoyaltiesAmount = null;
   };
 
-  $: open && chainId && address && tokenID && handleCheckApproved();
-  const handleCheckApproved = async () => {
-    approved = await getApproved(chainId, address, tokenID, $metamaskProvider);
-  };
   /////////////////////////////////////////////////
 
-  const openSetPriceModal = () => {
+  const openSetRoyaltiesModal = () => {
     open = true;
   };
 
-  const closePriceModal = () => {
+  const closeSetRoyaltiesModal = () => {
     open = false;
   };
 
@@ -94,23 +76,6 @@
     // }
 
     if (setRoyaltiesAmountInput) newNftRoyaltiesAmount = (Number(formatedInputRoyaltiesAmount) * 100).toString();
-  };
-
-  const setApproved = async () => {
-    settingApprove = true;
-    const txResp = await setApproveToken(chainId, address, tokenID, $metamaskSigner);
-
-    if (txResp) {
-      approveTxHash = txResp.hash;
-
-      const txReceipt = await approveNftReceipt(txResp);
-
-      approved = Boolean(txReceipt.status) ? "approved" : "";
-    } else {
-      failApprove = true;
-    }
-
-    settingApprove = false;
   };
 
   const setNewTokenRoyaltyInfos = async () => {
@@ -154,7 +119,7 @@
   /////////////////////////////////////////////////
 </script>
 
-<span on:click={openSetPriceModal} class="btn btn-small btn-outline" title="Sell this NFT">
+<span on:click={openSetRoyaltiesModal} class="btn btn-small btn-outline" title="Sell this NFT">
   <!-- <i class="fa fa-comment-dollar" />  -->
   Set royalties infos
 </span>
@@ -163,62 +128,15 @@
   <div id="kre-price-nft" class="modal-window" transition:fade>
     <div
       use:clickOutside={() => {
-        closePriceModal();
+        closeSetRoyaltiesModal();
       }}
     >
       <div id="kredeum-buy-nft">
         <div class="modal-content">
-          <span on:click={closePriceModal} title="Close" class="modal-close"><i class="fa fa-times" /></span>
+          <span on:click={closeSetRoyaltiesModal} title="Close" class="modal-close"><i class="fa fa-times" /></span>
 
           <div class="modal-body">
             <div>
-              <div class="kre-modal-block">
-                <!-- {#if !approved}
-                  <div class="titre">
-                    <i class="fas fa-angle-right" /> You have to approuve this NFT #{tokenID} to be sold
-                  </div>
-                  {#if failApprove}
-                    <div class="section">
-                      <div class="kre-warning-msg">
-                        <i class="fas fa-exclamation-triangle fa-left c-red" />
-                        Approve process failed !
-                      </div>
-                    </div>
-                  {:else if settingApprove}
-                    <div class="section">
-                      {#if approveTxHash}
-                        Wait till completed, it may take one minute or more.
-                      {:else}
-                        Sign the transaction
-                      {/if}
-                    </div>
-                    <div class="txtright">
-                      <span class="btn btn-small btn-outline" title="wait until the end of transaction">
-                        <i class="fas fa-spinner fa-left c-green refresh" /> wait</span
-                      >
-                    </div>
-                  {:else}
-                    <div class="section">xoblo xoxo lbobloxo blobxoxo</div>
-                    <div class="txtright">
-                      <button class="btn btn-default btn-sell" type="submit" on:click={() => setApproved()}
-                        >Approve</button
-                      >
-                    </div>
-                  {/if}
-                {:else}
-                  <div class="titre">
-                    <i class="fas fa-check fa-left c-green" />
-                    NFT #{tokenID} is approved for selling
-                  </div>
-                {/if}
-                {#if approveTxHash}
-                  <div class="flex">
-                    <a class="link" href={explorerTxUrl($metamaskChainId, approveTxHash)} target="_blank"
-                      >{textShort(approveTxHash)}</a
-                    >
-                  </div>
-                {/if} -->
-              </div>
               <div class="kre-modal-block">
                 {#if !setted}
                   <div class="titre">

@@ -5,6 +5,8 @@ import { explorerTxLog } from "@lib/common/kconfig";
 import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
+import abiOpenNFTsFactoryV3 from "@abis/contracts/next/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
+
 const collectionCloneResponse = async (
   chainId: number,
   name: string,
@@ -36,18 +38,26 @@ const collectionCloneReceipt = async (txResp: TransactionResponse): Promise<Tran
 };
 
 const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
-  let implementation = "";
+  // let templateName = "";
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = ["event ImplementationNew(address indexed implementation, address indexed creator, uint256 index)"];
-    const iface = new ethers.utils.Interface(abi);
+    // const abi = [
+    //   "event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol, bool[] options)"
+    // ];
+    const iface = new ethers.utils.Interface(abiOpenNFTsFactoryV3);
+    console.log(
+      "🚀 ~ file: kcollection-clone.ts ~ line 48 ~ collectionCloneAddress ~ txReceipt.logs[0]",
+      txReceipt.logs
+    );
     const log = iface.parseLog(txReceipt.logs[0]);
-    ({ implementation } = log.args);
+    console.log("🚀 ~ file: kcollection-clone.ts ~ line 54 ~ collectionCloneAddress ~ log", log);
+
+    // ({ templateName } = txReceipt.logs[0].address);
   }
 
   // console.log("collectionCloneAddress", implementation);
-  return implementation;
+  return txReceipt.logs[0].address;
 };
 
 const collectionClone = async (

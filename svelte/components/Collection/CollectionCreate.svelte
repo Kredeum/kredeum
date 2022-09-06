@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
+  import type { TransactionResponse } from "@ethersproject/providers";
 
   import { ethers } from "ethers";
 
@@ -17,6 +18,7 @@
   import { metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
+  import { setDefautCollectionPrice, setDefautCollectionRoyalty } from "@lib/nft/kautomarket";
 
   // up to parent
   export let chainId: number;
@@ -31,8 +33,13 @@
   let collectionName = "";
   let collectionSymbol = "";
 
-  let inputCollectionDefaultPrice: string;
   let collectionDefaultPrice: string;
+
+  let inputCollectionDefaultPrice: string;
+  let inputCollectionDefaultRoyaltyAmount: string;
+  let inputCollectionDefaultRoyaltiesReceiver: string;
+
+  let defaultPriceTxHash: string;
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
@@ -95,6 +102,41 @@
             collection = collectionCreated;
 
             dispatch("collection", { collection: collectionCreated.address });
+          }
+          if (template === "OpenNFTsV4/automarket") {
+            if (inputCollectionDefaultPrice) {
+              console.log(
+                "🚀 ~ file: CollectionCreate.svelte ~ line 112 ~ createCollection ~ collectionCreated.address",
+                collectionCreated.address
+              );
+              const txRespYield = setDefautCollectionPrice(
+                chainId,
+                collectionCreated.address,
+                inputCollectionDefaultPrice,
+                $metamaskSigner
+              );
+
+              const txResp = (await txRespYield.next()).value;
+              if (txResp) {
+                defaultPriceTxHash = txResp.hash;
+                const txReceipt = (await txRespYield.next()).value;
+              }
+            }
+            if (inputCollectionDefaultRoyaltiesReceiver && inputCollectionDefaultRoyaltyAmount) {
+              const txRespYield = setDefautCollectionRoyalty(
+                chainId,
+                collectionCreated.address,
+                inputCollectionDefaultRoyaltiesReceiver,
+                inputCollectionDefaultRoyaltyAmount,
+                $metamaskSigner
+              );
+
+              const txResp = (await txRespYield.next()).value;
+              if (txResp) {
+                defaultPriceTxHash = txResp.hash;
+                const txReceipt = (await txRespYield.next()).value;
+              }
+            }
           }
         }
       }
@@ -167,7 +209,29 @@
             <div class="section">
               <span class="label label-big">Default collection price (Eth)</span>
               <div class="form-field">
-                <input type="text" placeholder="0" bind:value={inputCollectionDefaultPrice} id="price-nft" />
+                <input type="text" placeholder="0" bind:value={inputCollectionDefaultPrice} id="mint-price-nft" />
+              </div>
+            </div>
+            <div class="section">
+              <span class="label label-big">Default collection royalty Ammount (%)</span>
+              <div class="form-field">
+                <input
+                  type="text"
+                  placeholder="0"
+                  bind:value={inputCollectionDefaultRoyaltyAmount}
+                  id="royalty-amount-nft"
+                />
+              </div>
+            </div>
+            <div class="section">
+              <span class="label label-big">Default collection royalties receiver address</span>
+              <div class="form-field">
+                <input
+                  type="text"
+                  placeholder=""
+                  bind:value={inputCollectionDefaultRoyaltiesReceiver}
+                  id="royalties-reveiver-nft"
+                />
               </div>
             </div>
           {/if}

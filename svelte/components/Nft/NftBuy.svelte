@@ -36,7 +36,7 @@
   let open = false;
 
   const openBuyModal = () => {
-    open = true;
+    nftPrice === "0" ? (open = false) : (open = true);
   };
 
   const closeBuyModal = () => {
@@ -69,8 +69,11 @@
   };
 </script>
 
-<span on:click={() => openBuyModal()} class="btn btn-small btn-outline" title="Buy this nft"
-  ><i class="fa fa-shopping-cart" /> Buy</span
+<a
+  on:click={() => openBuyModal()}
+  href="#buy-nft-{tokenID}"
+  class="btn btn-small btn-outline {nftPrice === '0' ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart" aria-disabled={nftPrice === "0"} /> Buy</a
 >
 
 {#if open}

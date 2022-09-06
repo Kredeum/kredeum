@@ -15,7 +15,7 @@ const buyNftResponse = async (
 ): Promise<TransactionResponse | undefined> => {
   // console.log("transferNftResponse", chainId, address, tokenID, destinationAddress);
 
-  let txResp: TransactionResponse | undefined = null;
+  let txResp: TransactionResponse | undefined = undefined;
   const network = getNetwork(chainId);
 
   if (!(chainId && address && tokenID && network && buyer)) return txResp;

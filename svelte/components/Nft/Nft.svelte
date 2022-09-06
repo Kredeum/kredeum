@@ -6,8 +6,6 @@
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import { getEthersConverterLink } from "@lib/nft/kautomarket";
-
   import {
     explorerCollectionUrl,
     explorerAddressLink,
@@ -124,14 +122,9 @@
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
-                  <a
-                    class="link overflow-ellipsis"
-                    href={getEthersConverterLink(chainId, $nft.price)}
-                    title={ethers.utils.formatEther($nft.price)}
-                    target="_blank"
-                  >
+                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
                     {ethers.utils.formatEther($nft.price)} Eth
-                  </a>
+                  </span>
                 </div>
               </li>
             {/if}
@@ -282,11 +275,5 @@
   .btn-burn:hover {
     color: white;
     background: red;
-  }
-
-  a.kre-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
   }
 </style>

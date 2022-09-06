@@ -161,7 +161,7 @@
               <div class="kre-modal-block">
                 {#if !approved}
                   <div class="titre">
-                    <i class="fas fa-angle-right" /> You have to approuve this NFT #{tokenID} to be sold
+                    <i class="fas fa-angle-right" /> You have to approuve this NFT #{tokenID} to be sellable
                   </div>
                   {#if failApprove}
                     <div class="section">
@@ -184,7 +184,7 @@
                       >
                     </div>
                   {:else}
-                    <div class="section">xoblo xoxo lbobloxo blobxoxo</div>
+                    <div class="section">Do you want to approve this Nft</div>
                     <div class="txtright">
                       <button class="btn btn-default btn-sell" type="submit" on:click={() => setApproved()}
                         >Approve</button
