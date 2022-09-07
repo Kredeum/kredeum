@@ -118,7 +118,7 @@
             </div>
           </li>
           {#if $nft.collection?.supports?.IOpenMarketable}
-            {#if $nft.price || $nft.price === "0"}
+            {#if parseInt($nft.price) >= 0}
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
@@ -186,10 +186,10 @@
               aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift" /> Transfer</a
             >
           {/if}
-          {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable}
+          {#if $nft.owner === account && $nft.collection.supports?.IOpenMarketable}
             <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
           {/if}
-          {#if $nft.owner !== account && $nft.collection?.supports?.IOpenMarketable}
+          {#if $nft.owner !== account && $nft.collection.supports?.IOpenMarketable}
             <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
           {/if}
           {#if $nft.owner === account}

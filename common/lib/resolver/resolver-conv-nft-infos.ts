@@ -7,13 +7,13 @@ import { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/contracts/interfaces/IOp
 
 const resolverConvNftInfos = (
   chainId: number,
-  collectionOrigin: CollectionType,
+  collection: CollectionType,
   nftInfos: IERCNftInfos.NftInfosStructOutput,
   openNFTsInfos: IOpenNFTsInfos.OpenNFTsNftInfosStructOutput
 ): NftType => {
   // console.log("resolverConvNftInfos  IN", chainId, nftInfos, account);
 
-  const address = getChecksumAddress(collectionOrigin.address);
+  const address = getChecksumAddress(collection.address);
   const tokenID = String(nftInfos[0]);
   const tokenURI = nftInfos[1] || "";
   const owner = getChecksumAddress(nftInfos[2]) || "";
@@ -23,8 +23,6 @@ const resolverConvNftInfos = (
   const price = openNFTsInfos[0].toString() || "0";
   const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
   const royaltyAmount = openNFTsInfos[2].toString() || "0";
-
-  const collection = collectionOrigin;
 
   const nft: NftType = {
     chainId,
