@@ -9,6 +9,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
   import { ethers } from "ethers";
+  import { nftStore } from "@stores/nft/nft";
   // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
@@ -28,12 +29,14 @@
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+
   ///////////////////////////////////////////////////////////
 
   let open = false;
 
   const openBuyModal = () => {
-    open = true;
+    nftPrice === "0" ? (open = false) : (open = true);
   };
 
   const closeBuyModal = () => {
@@ -59,13 +62,18 @@
       }
       buying = false;
 
-      $refreshCollectionList += 1;
+      await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+      // $refreshCollectionList += 1;
+      // $refreshNftsList += 1;
     }
   };
 </script>
 
-<span on:click={() => openBuyModal()} class="btn btn-small btn-outline" title="Buy this nft"
-  ><i class="fa fa-shopping-cart" /> Buy</span
+<a
+  on:click={() => openBuyModal()}
+  href="#buy-nft-{tokenID}"
+  class="btn btn-small btn-outline {nftPrice === '0' ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart" aria-disabled={nftPrice === "0"} /> Buy</a
 >
 
 {#if open}

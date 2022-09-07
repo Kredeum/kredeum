@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { constants } from "ethers";
 
 import type { NftType, CollectionType } from "@lib/common/ktypes";
 import { getChainName, getChecksumAddress } from "@lib/common/kconfig";
@@ -24,10 +24,6 @@ const resolverConvNftInfos = (
   const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
   const royaltyAmount = openNFTsInfos[2].toString() || "0";
 
-  const collectionName = collection.name || "";
-  const collectionSymbol = collection.symbol || "";
-  const burnable = collection.supports?.IOpenNFTsV4;
-
   const nft: NftType = {
     chainId,
     address,
@@ -39,9 +35,7 @@ const resolverConvNftInfos = (
     price,
     royaltyReceiver,
     royaltyAmount,
-    collectionName,
-    collectionSymbol,
-    burnable
+    collection
   };
 
   // console.log("resolverConvNftInfos OUT", nft);

@@ -32,7 +32,8 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getDefaultCollPrice } from "@lib/nft/kautomarket";
+  import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
+  import { ethers } from "ethers";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
@@ -60,7 +61,10 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+
   let nftMintingPrice: string;
+  let nftDefaultRoyaltiesAmount: string;
+  let nftDefaultRoyaltyReceiver: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -92,7 +96,12 @@
 
   $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
+    nftMintingPrice = ethers.utils.formatEther(await getDefaultCollPrice(chainId, address, $metamaskSigner));
+    const { receiver, fraction } = await getDefaultCollRoyaltyInfos(chainId, address, $metamaskSigner);
+    nftDefaultRoyaltiesAmount = fraction.toString();
+    nftDefaultRoyaltyReceiver = receiver;
+    console.log("🚀 ~ file: NftMint.svelte ~ line 102 ~ handleDefaultAutomarketValues ~ fraction", fraction.toString());
+    console.log("🚀 ~ file: NftMint.svelte ~ line 102 ~ handleDefaultAutomarketValues ~ receiver", receiver);
   };
 
   /////////////////////////////////////////////////
@@ -346,6 +355,20 @@
               {#if nftMintingPrice}
                 <div class="section">
                   <span class="label label-big">NFT minting price : {nftMintingPrice} (Eth)</span>
+                </div>
+              {/if}
+              {#if nftDefaultRoyaltiesAmount}
+                <div class="section">
+                  <span class="label label-big"
+                    >Collection default royalty percentage : {parseInt(nftDefaultRoyaltiesAmount) / 100} %</span
+                  >
+                </div>
+              {/if}
+              {#if nftDefaultRoyaltyReceiver}
+                <div class="section">
+                  <span class="label label-big"
+                    >Collection default royalty receiver address : {nftDefaultRoyaltyReceiver}</span
+                  >
                 </div>
               {/if}
 

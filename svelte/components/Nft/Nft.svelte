@@ -1,7 +1,11 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-
   import type { NftType } from "@lib/common/ktypes";
+
+  import { constants, ethers } from "ethers";
+  import { metamaskChainId } from "@main/metamask";
+  import { nftStore } from "@stores/nft/nft";
+
   import {
     explorerCollectionUrl,
     explorerAddressLink,
@@ -14,21 +18,14 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
 
   import { shortcode } from "@helpers/shortcodes";
-  import { nftStore } from "@stores/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
-
-  import { getEthersConverterLink } from "@lib/nft/kautomarket";
+  import NftSetRoyalties from "./NftSetRoyalties.svelte";
 
   // import NftClaim from "./NftClaim.svelte";
-
-  import { metamaskChainId } from "@main/metamask";
-  import { constants, ethers } from "ethers";
-  // import { collectionGetContract } from "@lib/collection/kcollection-get";
-  // import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -50,6 +47,9 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
+    if (!$nft?.collection?.supports) {
+      await nftStore.refreshSubList(chainId, address, account);
+    }
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
@@ -117,53 +117,56 @@
               </a>
             </div>
           </li>
-          {#if $nft.price || $nft.price === "0"}
-            <li>
-              <div class="flex"><span class="label">Nft Price</span></div>
-              <div class="flex">
-                <a
-                  class="link overflow-ellipsis"
-                  href={getEthersConverterLink(chainId, $nft.price)}
-                  title={ethers.utils.formatEther($nft.price)}
-                  target="_blank"
-                >
-                  {ethers.utils.formatEther($nft.price)} Eth
-                </a>
-              </div>
-            </li>
-          {/if}
-          {#if $nft.royaltyAmount}
-            <li>
-              <div class="flex"><span class="label">Nft Royalties Amount</span></div>
-              <div class="flex">
-                {#if $nft.royaltyAmount === "0"}
-                  <span class="overflow-ellipsis" title={$nft.royaltyAmount}
-                    >{$nft.price === "0.0" ? "Set price to calculate royalties" : "No royalties amount setted"}</span
-                  >
-                {:else}
-                  <a
-                    href={getEthersConverterLink(chainId, $nft.price)}
-                    class="link overflow-ellipsis"
-                    title={$nft.royaltyAmount}
-                    target="_blank"
-                  >
-                    {$nft.royaltyAmount} Eth
-                  </a>
-                {/if}
-              </div>
-            </li>
-          {/if}
-          {#if $nft.royaltyReceiver}
-            <li>
-              <div class="flex"><span class="label">Nft Royalties receiver</span></div>
-              <div class="flex">
-                <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                  {$nft.royaltyReceiver === constants.AddressZero
-                    ? "No receiver setted for Royalties"
-                    : $nft.royaltyReceiver}
-                </span>
-              </div>
-            </li>
+          {#if $nft.collection?.supports?.IOpenMarketable}
+            {#if parseInt($nft.price) >= 0}
+              <li>
+                <div class="flex"><span class="label">Nft Price</span></div>
+                <div class="flex">
+                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
+                    {ethers.utils.formatEther($nft.price)} Eth
+                  </span>
+                </div>
+              </li>
+            {/if}
+            {#if $nft.royaltyAmount}
+              <li>
+                <div class="flex"><span class="label">Nft Royalties Amount</span></div>
+                <div class="flex">
+                  {#if $nft.royaltyAmount === "0"}
+                    <span class="overflow-ellipsis" title={$nft.royaltyAmount}>No royalties amount setted</span>
+                  {:else}
+                    <span
+                      class="link overflow-ellipsis"
+                      title={`${parseInt($nft.royaltyAmount) / 100} %`}
+                      target="_blank"
+                    >
+                      {parseInt($nft.royaltyAmount) / 100} %
+                    </span>
+                  {/if}
+                </div>
+              </li>
+            {/if}
+            {#if $nft.royaltyReceiver}
+              <li>
+                <div class="flex"><span class="label">Nft Royalties receiver</span></div>
+                <div class="flex">
+                  <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
+                    {$nft.royaltyReceiver === constants.AddressZero
+                      ? "No receiver setted for Royalties"
+                      : $nft.royaltyReceiver}
+                  </span>
+                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
+                    <NftSetRoyalties
+                      {chainId}
+                      {address}
+                      {tokenID}
+                      nftRoyaltiesAmount={$nft.royaltyAmount}
+                      receiver={$nft.royaltyReceiver}
+                    />
+                  {/if}
+                </div>
+              </li>
+            {/if}
           {/if}
         </ul>
 
@@ -181,13 +184,13 @@
               aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift" /> Transfer</a
             >
           {/if}
-          {#if $nft.owner === account}
+          {#if $nft.owner === account && $nft.collection.supports?.IOpenMarketable}
             <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
           {/if}
-          {#if $nft.owner !== account}
+          {#if $nft.owner !== account && $nft.collection.supports?.IOpenMarketable}
             <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
           {/if}
-          {#if $nft.burnable && $nft.owner === account}
+          {#if $nft.owner === account}
             <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
               ><i class="fa fa-fire" /> Burn</a
             >
@@ -200,10 +203,12 @@
           {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
-                Sell
+                Sell on OpenSea
               </a>
             {:else}
-              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
+              <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-buy" title="Buy" target="_blank">
+                Buy on OpenSea
+              </a>
             {/if}
           {/if}
         </div>
@@ -268,11 +273,5 @@
   .btn-burn:hover {
     color: white;
     background: red;
-  }
-
-  a.kre-disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-    pointer-events: none;
   }
 </style>

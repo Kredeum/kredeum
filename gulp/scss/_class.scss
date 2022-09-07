@@ -434,3 +434,9 @@ $sides: (top, bottom, left, right);
 .a-simul-cursor {
   cursor: pointer;
 }
+
+.kre-disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  pointer-events: none;
+}

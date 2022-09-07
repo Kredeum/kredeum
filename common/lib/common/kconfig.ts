@@ -434,7 +434,7 @@ const nftExplorerLink = (nft: NftType, n?: number): string =>
 const nftOpenSeaUrl = (chainId: number, nft: NftType): string =>
   `${getOpenSea(chainId)}/${nft?.address}/${nft?.tokenID}`;
 
-const nftName = (nft: NftType): string => nft?.name || `${nft?.collectionName || DEFAULT_NAME} #${nft?.tokenID}`;
+const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
 
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 

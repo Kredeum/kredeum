@@ -135,8 +135,6 @@ type NftType = {
   approved?: string;
   chainName?: string;
   name?: string;
-  collectionName?: string;
-  collectionSymbol?: string;
   description?: string;
   tokenJson?: NftMetadata;
   metadata?: NftMetadata | unknown;
@@ -156,7 +154,7 @@ type NftType = {
   price?: string;
   royaltyAmount?: string;
   royaltyReceiver?: string;
-  burnable?: boolean;
+  collection?: CollectionType;
 } & storageType;
 
 export type {

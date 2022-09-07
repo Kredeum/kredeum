@@ -38,6 +38,7 @@
   let setted = false;
   let failSetPrice = false;
 
+  let inputError: string;
   let setPriceInput: string;
   let newNftPrice: string;
 
@@ -107,27 +108,31 @@
   };
 
   const setNewTokenPrice = async () => {
-    settingTokenPrice = true;
-    const txResp = await setTokenPrice(chainId, address, tokenID, newNftPrice, $metamaskSigner);
+    if (setPriceInput) {
+      settingTokenPrice = true;
+      const txResp = await setTokenPrice(chainId, address, tokenID, newNftPrice, $metamaskSigner);
 
-    if (txResp) {
-      setPriceTxHash = txResp.hash;
+      if (txResp) {
+        setPriceTxHash = txResp.hash;
 
-      const txReceipt = await txResp.wait();
-      explorerTxLog(chainId, txResp);
+        const txReceipt = await txResp.wait();
+        explorerTxLog(chainId, txResp);
 
-      const blockTx = txReceipt.blockNumber;
-      do {
-        await sleep(1000);
-      } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+        const blockTx = txReceipt.blockNumber;
+        do {
+          await sleep(1000);
+        } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
 
-      setted = Boolean(txReceipt.status);
-      await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-      await nftSubListRefresh(chainId, address, $metamaskAccount);
+        setted = Boolean(txReceipt.status);
+        await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+        await nftSubListRefresh(chainId, address, $metamaskAccount);
 
-      $refreshCollectionList += 1;
+        $refreshCollectionList += 1;
+      } else {
+        failSetPrice = true;
+      }
     } else {
-      failSetPrice = true;
+      inputError = "Please enter a valid price";
     }
 
     settingTokenPrice = false;
@@ -156,7 +161,7 @@
               <div class="kre-modal-block">
                 {#if !approved}
                   <div class="titre">
-                    <i class="fas fa-angle-right" /> You have to approuve this NFT #{tokenID} to be sold
+                    <i class="fas fa-angle-right" /> You have to approuve this NFT #{tokenID} to be sellable
                   </div>
                   {#if failApprove}
                     <div class="section">
@@ -179,7 +184,7 @@
                       >
                     </div>
                   {:else}
-                    <div class="section">xoblo xoxo lbobloxo blobxoxo</div>
+                    <div class="section">Do you want to approve this Nft</div>
                     <div class="txtright">
                       <button class="btn btn-default btn-sell" type="submit" on:click={() => setApproved()}
                         >Approve</button
@@ -234,7 +239,11 @@
                   {:else}
                     <div class="section">
                       From {ethers.utils.formatEther(nftPrice)} Eth to
-                      <input type="text" bind:value={setPriceInput} disabled={settingTokenPrice} id="set-price-nft" /> Eth
+                      <input type="text" bind:value={setPriceInput} disabled={settingTokenPrice} id="set-price-nft" />
+                      Eth
+                      {#if inputError}
+                        <span class="c-red">Please enter a valid price</span>
+                      {/if}
                     </div>
                     <div class="txtright">
                       <button class="btn btn-default btn-sell" type="submit" on:click={() => setNewTokenPrice()}
