@@ -157,7 +157,7 @@
                       ? "No receiver setted for Royalties"
                       : $nft.royaltyReceiver}
                   </span>
-                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable}
+                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}

@@ -33,6 +33,7 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
+  import { ethers } from "ethers";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {nodeUrl}? {batchId}? />
@@ -95,7 +96,7 @@
 
   $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    nftMintingPrice = await getDefaultCollPrice(chainId, address, $metamaskSigner);
+    nftMintingPrice = ethers.utils.formatEther(await getDefaultCollPrice(chainId, address, $metamaskSigner));
     const { receiver, fraction } = await getDefaultCollRoyaltyInfos(chainId, address, $metamaskSigner);
     nftDefaultRoyaltiesAmount = fraction.toString();
     nftDefaultRoyaltyReceiver = receiver;

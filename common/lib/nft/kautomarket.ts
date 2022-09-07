@@ -177,7 +177,7 @@ async function* setDefautCollectionPrice(
   // console.log("contract", contract);
 
   if (collection.supports?.IOpenMarketable && !collection.open && account === collection.owner) {
-    txResp = await (contract as OpenNFTsV4).setDefaultPrice(ethers.utils.parseEther(defaultPrice));
+    txResp = await (contract as OpenNFTsV4).setDefaultPrice(defaultPrice);
   }
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);

@@ -34,12 +34,17 @@
   let collectionSymbol = "";
 
   let collectionDefaultPrice: string;
+  let settingDefaultPrice = false;
+  let defaultPriceTxHash: string = null;
+  let defaultPriceSetted = false;
+
+  let settingRoyaltyInfo = false;
+  let royaltiesTxHash: string = null;
+  let defaultRoyaltyInfoSetted = false;
 
   let inputCollectionDefaultPrice: string;
   let inputCollectionDefaultRoyaltyAmount: string;
   let inputCollectionDefaultRoyaltiesReceiver: string;
-
-  let defaultPriceTxHash: string;
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
@@ -109,10 +114,13 @@
                 "🚀 ~ file: CollectionCreate.svelte ~ line 112 ~ createCollection ~ collectionCreated.address",
                 collectionCreated.address
               );
+
+              settingDefaultPrice = true;
+
               const txRespYield = setDefautCollectionPrice(
                 chainId,
                 collectionCreated.address,
-                inputCollectionDefaultPrice,
+                collectionDefaultPrice,
                 $metamaskSigner
               );
 
@@ -121,21 +129,26 @@
                 defaultPriceTxHash = txResp.hash;
                 const txReceipt = (await txRespYield.next()).value;
               }
+              settingDefaultPrice = false;
+              defaultPriceSetted = true;
             }
-            if (inputCollectionDefaultRoyaltiesReceiver && inputCollectionDefaultRoyaltyAmount) {
+            if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
+              settingRoyaltyInfo = true;
               const txRespYield = setDefautCollectionRoyalty(
                 chainId,
                 collectionCreated.address,
                 inputCollectionDefaultRoyaltiesReceiver,
-                inputCollectionDefaultRoyaltyAmount,
+                Math.floor(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
                 $metamaskSigner
               );
 
               const txResp = (await txRespYield.next()).value;
               if (txResp) {
-                defaultPriceTxHash = txResp.hash;
+                royaltiesTxHash = txResp.hash;
                 const txReceipt = (await txRespYield.next()).value;
               }
+              settingRoyaltyInfo = false;
+              defaultRoyaltyInfoSetted = true;
             }
           }
         }
@@ -151,6 +164,16 @@
       collectionCreated = null;
       collectionName = "";
       collectionSymbol = "";
+      inputCollectionDefaultPrice = "";
+      inputCollectionDefaultRoyaltyAmount = "";
+      inputCollectionDefaultRoyaltiesReceiver = "";
+      collectionDefaultPrice = "";
+      settingDefaultPrice = false;
+      defaultPriceTxHash = null;
+      defaultPriceSetted = false;
+      settingRoyaltyInfo = false;
+      royaltiesTxHash = null;
+      defaultRoyaltyInfoSetted = false;
     }
   };
 </script>
@@ -169,7 +192,70 @@
                 >{collectionCreated?.name}</a
               >' created!
             </div>
+            <div class="section">
+              <div class="flex">
+                <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
+                  >{textShort(cloningTxHash)}</a
+                >
+              </div>
+            </div>
           </div>
+          {#if settingDefaultPrice}
+            <div class="titre">
+              <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
+                collectionDefaultPrice
+              )} Eth
+            </div>
+            <div class="section">
+              {#if defaultPriceTxHash}
+                Wait till completed, it may take one minute or more.
+              {:else}
+                Sign the transaction
+              {/if}
+            </div>
+          {:else if defaultPriceSetted}
+            <div class="titre">
+              <i class="fas fa-check fa-left c-green" />
+              default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
+            </div>
+            <div class="section">
+              <div class="flex">
+                <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
+                  >{textShort(defaultPriceTxHash)}</a
+                >
+              </div>
+            </div>
+            {#if settingRoyaltyInfo}
+              <div>
+                <div class="titre">
+                  <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
+                </div>
+                <div class="section">
+                  Fraction : {inputCollectionDefaultRoyaltyAmount} %<br />
+                  Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+                </div>
+                {#if royaltiesTxHash}
+                  Wait till completed, it may take one minute or more.
+                {:else}
+                  Sign the transaction
+                {/if}
+              </div>
+            {:else if defaultRoyaltyInfoSetted}
+              <div class="titre">
+                <i class="fas fa-check fa-left c-green" />
+                default Nft Royalty info setted to :<br />
+              </div>
+              <div class="section">
+                Fraction : {inputCollectionDefaultRoyaltyAmount} %<br />
+                Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+                <div class="flex">
+                  <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
+                    >{textShort(royaltiesTxHash)}</a
+                  >
+                </div>
+              </div>
+            {/if}
+          {/if}
         {:else if cloning}
           <div class="titre">
             <i class="fas fa-sync fa-left c-green" />Creating new Collection...
@@ -240,9 +326,23 @@
             <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>
           </div>
         {/if}
-        {#if cloningTxHash}
+        {#if cloningTxHash && !collectionCreated}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
+          </div>
+        {/if}
+        {#if defaultPriceTxHash && !defaultPriceSetted}
+          <div class="flex">
+            <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
+              >{textShort(defaultPriceTxHash)}</a
+            >
+          </div>
+        {/if}
+        {#if royaltiesTxHash && !defaultRoyaltyInfoSetted}
+          <div class="flex">
+            <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
+              >{textShort(royaltiesTxHash)}</a
+            >
           </div>
         {/if}
       </div>
