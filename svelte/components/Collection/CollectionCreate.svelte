@@ -138,7 +138,7 @@
                 chainId,
                 collectionCreated.address,
                 inputCollectionDefaultRoyaltiesReceiver,
-                Math.floor(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
+                Math.round(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
                 $metamaskSigner
               );
 

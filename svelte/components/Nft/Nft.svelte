@@ -133,9 +133,7 @@
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
                   {#if $nft.royaltyAmount === "0"}
-                    <span class="overflow-ellipsis" title={$nft.royaltyAmount}
-                      >{$nft.price === "0.0" ? "Set price to calculate royalties" : "No royalties amount setted"}</span
-                    >
+                    <span class="overflow-ellipsis" title={$nft.royaltyAmount}>No royalties amount setted</span>
                   {:else}
                     <span
                       class="link overflow-ellipsis"
