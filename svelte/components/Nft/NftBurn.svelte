@@ -33,7 +33,7 @@
     burning = 0;
   };
 
-  // BURNING STATE
+  // BURNING STATES
   //
   //  STATE 0 Start
   //    |
@@ -88,9 +88,9 @@
     burning = S3_SIGN_TX;
 
     const txResp = (await txRespYield.next()).value;
-    
+
     burning = S4_SENT_TX;
-    
+
     burnTxHash = txResp?.hash;
     if (!burnTxHash) return _error(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
 
@@ -133,9 +133,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => burnConfirm()}
-              >Yes, I want to burn</button
-            >
+            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}>Yes, I want to burn</button>
           </div>
         {:else if burning == S2_CONFIRM_TRANSFER}
           <div class="section">
@@ -150,7 +148,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => burnConfirm()}
+            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}
               >Yes, I want to transfer it</button
             >
           </div>
@@ -172,6 +170,7 @@
             </div>
           </div>
         {/if}
+
         {#if burnTxHash}
           <div class="flex">
             <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank"
