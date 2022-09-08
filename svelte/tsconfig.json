@@ -31,6 +31,9 @@
       ],
       "@utils/*": [
         "common/utils/*"
+      ],
+      "tslib": [
+        "svelte/node_modules/tslib/tslib.d.ts"
       ]
     }
   },
