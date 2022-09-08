@@ -3,7 +3,7 @@
   // import { getContext } from "svelte";
   // import { Writable } from "svelte/store";
 
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
@@ -20,13 +20,13 @@
   let transfering: number;
   let transfered: boolean;
   let transferTxHash: string;
-  let error: string;
+  let transferError: string;
 
   let destinationAddress = "";
 
-  const _error = (err: string): void => {
-    error = err;
-    console.error(error);
+  const _transferError = (err: string): void => {
+    transferError = err;
+    console.error(transferError);
     transfering = 0;
   };
 
@@ -43,55 +43,51 @@
   //  STATE 1
   //  Confirm Transfer
   //    |
-  //  STATE 3
+  //  STATE 2
   // Ask for signature
-  //    |
-  //  STATE 4  Sending TX
   //    |
   //  TEST TxResp --> ERROR sending TX
   //    |
-  //  STATE 5 Display TX Hash
+  //  STATE 4 Display TX Hash
   //    |
   //  TEST TxReceipt --> ERROR inside TX
   //    |
-  //  STATE 6 End TX & Refresh
+  //  STATE 5 End TX & Refresh
   //    |
   //  CLICK Close
   //    |
   //  STATE 0 popup closed
 
   // STATES : S0 -S6
-  const S1_CONFIRM_TRANSFER = 1;
+  const S1_CONFIRM = 1;
   const S2_SIGN_TX = 2;
-  const S3_SENT_TX = 3;
-  const S4_WAIT_TX = 4;
-  const S5_TRANSFERED = 5;
+  const S3_WAIT_TX = 3;
+  const S4_TRANSFERED = 4;
 
   const transferInit = async () => {
     transferTxHash = null;
 
-    transfering = S1_CONFIRM_TRANSFER;
+    transfering = S1_CONFIRM;
   };
 
   const transferConfirm = async () => {
-    const txRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
+    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
 
     transfering = S2_SIGN_TX;
 
-    const txResp = (await txRespYield.next()).value;
+    const transferTxResp = (await transferTxRespYield.next()).value;
+    transferTxHash = transferTxResp?.hash;
+    if (!transferTxHash)
+      return _transferError(`ERROR while sending transaction... ${JSON.stringify(transferTxResp, null, 2)}`);
 
-    transfering = S3_SENT_TX;
+    explorerTxLog(chainId, transferTxResp);
+    transfering = S3_WAIT_TX;
 
-    transferTxHash = txResp?.hash;
-    if (!transferTxHash) return _error(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
+    const txReceipt = (await transferTxRespYield.next()).value;
 
-    transfering = S4_WAIT_TX;
+    if (!Boolean(txReceipt.status)) return _transferError(`ERROR returned by transaction ${txReceipt}`);
 
-    const txReceipt = (await txRespYield.next()).value;
-
-    if (!Boolean(txReceipt.status)) return _error(`ERROR returned by transaction ${txReceipt}`);
-
-    transfering = S5_TRANSFERED;
+    transfering = S4_TRANSFERED;
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
   };
@@ -108,12 +104,11 @@
     <div class="modal-body">
       <div>
         <div class="titre">
-          <i class="fas fa-gift" /> Transfer NFT #{tokenID} 
+          <i class="fas fa-gift" /> Transfer NFT #{tokenID}
         </div>
-        {#if transfering == S1_CONFIRM_TRANSFER}
-
-        <div class="section">To what address ?</div>
-        <div class="section">
+        {#if transfering == S1_CONFIRM}
+          <div class="section">To what address ?</div>
+          <div class="section">
             <div class="form-field">
               <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
             </div>
@@ -124,11 +119,9 @@
           </div>
         {:else if transfering == S2_SIGN_TX}
           <div class="section">Please, sign the transaction</div>
-        {:else if transfering == S3_SENT_TX}
-          <div class="section">Sending transaction...</div>
-        {:else if transfering == S4_WAIT_TX}
+        {:else if transfering == S3_WAIT_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
-        {:else if transfering == S5_TRANSFERED}
+        {:else if transfering == S4_TRANSFERED}
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />

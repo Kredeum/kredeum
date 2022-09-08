@@ -46,8 +46,6 @@
   //  STATE 3
   // Ask for signature
   //    |
-  //  STATE 4  Sending TX
-  //    |
   //  TEST TxResp --> ERROR sending TX
   //    |
   //  STATE 5 Display TX Hash
@@ -65,9 +63,8 @@
   const S1_CONFIRM_BURN = 1;
   const S2_CONFIRM_TRANSFER = 2;
   const S3_SIGN_TX = 3;
-  const S4_SENT_TX = 4;
-  const S5_WAIT_TX = 5;
-  const S6_BURNED = 6;
+  const S4_WAIT_TX = 4;
+  const S5_BURNED = 5;
 
   const burnInit = async () => {
     burnable = false;
@@ -88,19 +85,16 @@
     burning = S3_SIGN_TX;
 
     const txResp = (await txRespYield.next()).value;
-
-    burning = S4_SENT_TX;
-
     burnTxHash = txResp?.hash;
     if (!burnTxHash) return _error(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
 
-    burning = S5_WAIT_TX;
+    burning = S4_WAIT_TX;
 
     const txReceipt = (await txRespYield.next()).value;
 
     if (!Boolean(txReceipt.status)) return _error(`ERROR returned by transaction ${txReceipt}`);
 
-    burning = S6_BURNED;
+    burning = S5_BURNED;
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
     $refreshCollectionList += 1;
@@ -154,11 +148,9 @@
           </div>
         {:else if burning == S3_SIGN_TX}
           <div class="section">Please, sign the transaction</div>
-        {:else if burning == S4_SENT_TX}
-          <div class="section">Sending transaction...</div>
-        {:else if burning == S5_WAIT_TX}
+        {:else if burning == S4_WAIT_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
-        {:else if burning == S6_BURNED}
+        {:else if burning == S5_BURNED}
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />

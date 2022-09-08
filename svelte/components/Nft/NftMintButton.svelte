@@ -4,7 +4,7 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { nftMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import {  nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
   import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
   import { collectionStore } from "@stores/collection/collection";
@@ -30,6 +30,14 @@
 
   let account: string;
   let address: Readable<string>;
+
+  const nftMintTexts = [
+    "Mint",
+    "Wait till Image stored on decentralized storage",
+    "Wait till Metadata stored on decentralized storage",
+    "Please, sign the transaction",
+    "Wait till transaction completed, it may take one minute or more..."
+  ];
 
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);

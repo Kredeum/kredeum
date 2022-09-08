@@ -6,7 +6,7 @@
   import { collectionStore } from "stores/collection/collection";
   import { metamaskChainId, metamaskSigner } from "main/metamask";
 
-  import { nftMintTexts, nftMint1SwarmImage, nftMint2SwarmJson } from "lib/knft-mint";
+  import {  nftMint1SwarmImage, nftMint2SwarmJson } from "lib/knft-mint";
 
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
   import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
@@ -50,6 +50,15 @@
   let mintingError: string;
   /////////////////////////////////////////////////
   let open = false;
+
+  const nftMintTexts = [
+    "Mint",
+    "Wait till Image stored on decentralized storage",
+    "Wait till Metadata stored on decentralized storage",
+    "Please, sign the transaction",
+    "Wait till transaction completed, it may take one minute or more...",
+  ];
+
 
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {

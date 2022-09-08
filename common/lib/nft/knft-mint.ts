@@ -50,14 +50,6 @@ const _mintedNft = async (
     owner: minterAddress
   });
 
-const nftMintTexts = [
-  "Mint",
-  "Wait till Image stored on decentralized storage",
-  "Wait till Metadata stored on decentralized storage",
-  "Please, sign the transaction",
-  "Wait till transaction completed, it may take one minute or more..."
-];
-
 // GET minting tx response
 const nftMint3TxResponse = async (
   chainId: number,
@@ -194,7 +186,6 @@ const nftClaim4 = async (
 };
 
 export {
-  nftMintTexts,
   nftMint1IpfsImage,
   nftMint2IpfsJson,
   nftMint1SwarmImage,

@@ -1,14 +1,13 @@
 <script lang="ts">
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
-  import type { NftType } from "@lib/common/ktypes";
-
-  import { getContext } from "svelte";
+  import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
+  import { fade } from "svelte/transition";
+  import { ethers } from "ethers";
 
-  import { metamaskChainId, metamaskSigner, metamaskProvider } from "@main/metamask";
-
+  import type { NftType } from "@lib/common/ktypes";
+  import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
   import {
-    nftMintTexts,
     nftMint1IpfsImage,
     nftMint2IpfsJson,
     nftMint1SwarmImage,
@@ -26,23 +25,19 @@
     storageLinkToUrlHttp,
     sleep
   } from "@lib/common/kconfig";
-  /////////////////////////////////////////////////
-  import CollectionList from "../Collection/CollectionList.svelte";
 
-  import { fade } from "svelte/transition";
+  import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
-  import { ethers } from "ethers";
+  import CollectionList from "../Collection/CollectionList.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftMint {storage} {nodeUrl}? {batchId}? />
-  // Mint NFT button with Ipfs | Swarm storage (button + mint modal)
+  //  <NftMint {storage} {gateway}? {key}? />
+  // Mint NFT with defined storage type and optionnal gateway/key
   /////////////////////////////////////////////////
   export let storage: string;
-
-  export let nodeUrl: string = undefined;
-  export let batchId: string = undefined;
+  export let gateway: string = undefined;
+  export let key: string = undefined;
 
   // Context for refreshCollectionList & refreshNftsList & refreshing
   ///////////////////////////////////////////////////////////
@@ -52,8 +47,9 @@
   ///////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////
-  let chainId: number;
-  let account: string;
+  $: chainId = $metamaskChainId;
+  $: account = $metamaskAccount;
+
   let address: string;
 
   let files: FileList;
@@ -71,27 +67,17 @@
 
   let minting: number;
   let mintingTxResp: TransactionResponse;
+  let mintingTxHash: string;
   let mintedNft: NftType;
   let mintingError: string;
   /////////////////////////////////////////////////
   let open = false;
 
   $: mintedNft && open === false && handleResetAfterMint();
-  const handleResetAfterMint = () => {
-    files = null;
-    file = null;
-    image = null;
-    nftTitle = null;
-    nftDescription = null;
-    mintReset();
-  };
+  const handleResetAfterMint = () => {};
 
   const openMintModal = () => {
     open = true;
-  };
-
-  const closeMintModal = () => {
-    open = false;
   };
 
   $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
@@ -105,19 +91,8 @@
   };
 
   /////////////////////////////////////////////////
-  // ON network or account change
-  $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
-  const handleChange = async () => {
-    chainId = $metamaskChainId;
-
-    account = await $metamaskSigner.getAddress();
-    // console.log("handleChange", $metamaskChainId, account);
-  };
-
-  /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
   const fileload = () => {
-    mintReset();
     file = null;
 
     if (files) {
@@ -133,196 +108,128 @@
     }
   };
 
-  /////////////////////////////////////////////////
-  const mintReset = (): void => {
-    storageImg = null;
-    storageJson = null;
+  const _mintingError = (err: string): void => {
+    mintingError = err;
+    console.error(mintingError);
     minting = 0;
-    mintingTxResp = null;
-    mintedNft = null;
-    mintingError = null;
   };
 
-  /////////////////////////////////////////////////
-  const mint = async (): Promise<NftType> => {
-    mintReset();
+  // MINTING STATES
+  //
+  //  STATE 0 Start
+  //    |
+  //  STATE 1 Confirm MINT
+  //    |
+  //  STATE 2 Store Image
+  //    |
+  //  STATE 3 Store Metadata
+  //    |
+  //  STATE 4
+  // Ask for signature
+  //    |
+  //  STATE 4  Sending TX
+  //    |
+  //  TEST TxResp --> ERROR sending TX
+  //    |
+  //  STATE 5 Display TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside TX
+  //    |
+  //  STATE 6 End TX & Refresh
+  //    |
+  //  CLICK Close
+  //    |
+  //  STATE 0 popup closed
 
-    if (image) {
-      minting = 1;
+  // STATES : S0 -S6
+  const S0_START = 0;
+  const S1_CONFIRM = 1;
+  const S2_STORE_IMAGE = 2;
+  const S3_STORE_METADATA = 3;
+  const S4_SIGN_TX = 4;
+  const S5_WAIT_TX = 6;
+  const S6_MINTED = 7;
 
-      storageImg =
-        "ipfs" === storage
-          ? await nftMint1IpfsImage(image)
-          : "swarm" === storage
-          ? await nftMint1SwarmImage(file, nftTitle, file.type, nodeUrl, batchId, file.size)
-          : "";
+  const nftMintTexts = [
+    "Start",
+    "Mint",
+    "Wait till Image stored on decentralized storage",
+    "Wait till Metadata stored on decentralized storage",
+    "Please, sign the transaction",
+    "Wait till transaction completed, it may take one minute or more...",
+    "Minted"
+  ];
 
-      if (storageImg) {
-        minting = 2;
-
-        storageJson =
-          "ipfs" === storage
-            ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
-            : "swarm" === storage
-            ? swarmGatewayUrl(
-                await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, nodeUrl, batchId)
-              )
-            : "";
-
-        if (storageJson) {
-          minting = 3;
-
-          mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
-
-          explorerTxLog(chainId, mintingTxResp);
-
-          if (mintingTxResp) {
-            minting = 4;
-
-            mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, account);
-            // console.log("mintedNft", mintedNft);
-
-            if (mintedNft) {
-              minting = 5;
-
-              $refreshCollectionList += 1;
-
-              const mintingTxReceipt = await mintingTxResp.wait();
-              console.info("mintingTxReceipt", mintingTxReceipt);
-              const blockTx = mintingTxReceipt.blockNumber;
-
-              do {
-                $refreshing = true;
-                await sleep(1000);
-              } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
-
-              $refreshNftsList += 1;
-            } else {
-              mintingError = "Problem with sent transaction.";
-            }
-          } else {
-            mintingError = "Problem while sending transaction.";
-          }
-        } else {
-          mintingError = `Problem while archiving metadata on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
-        }
-      } else {
-        mintingError = `Problem while archiving image on ${storage.charAt(0).toUpperCase() + storage.slice(1)}.`;
-      }
-    } else {
-      mintingError = "Missing NFT file. Sorry can't mint.";
-    }
-    if (mintingError) {
-      console.error("ERROR", mintingError);
-    }
-
-    return mintedNft;
+  const mintInit = () => {
+    minting = S1_CONFIRM;
   };
+
+  const mintConfirm = async () => {
+    if (!image) return _mintingError("ERROR no image");
+
+    minting = S2_STORE_IMAGE;
+
+    storageImg =
+      "ipfs" === storage
+        ? await nftMint1IpfsImage(image)
+        : "swarm" === storage
+        ? await nftMint1SwarmImage(file, nftTitle, file.type, gateway, key, file.size)
+        : "";
+
+    if (!storageImg) return _mintingError("ERROR image not stored");
+
+    minting = S3_STORE_METADATA;
+
+    storageJson =
+      "ipfs" === storage
+        ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
+        : "swarm" === storage
+        ? swarmGatewayUrl(await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, gateway, key))
+        : "";
+
+    if (!storageJson) return _mintingError("ERROR metadata not stored");
+
+    minting = S4_SIGN_TX;
+
+    mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
+    mintingTxHash = mintingTxResp?.hash;
+    if (!mintingTxResp)
+      return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
+
+    explorerTxLog(chainId, mintingTxResp);
+    minting = S5_WAIT_TX;
+
+    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, account);
+    // console.log("mintedNft", mintedNft);
+
+    if (!mintedNft) return _mintingError(`ERROR returned by transaction ${mintedNft}`);
+
+    minting = S6_MINTED;
+
+    $refreshCollectionList += 1;
+    $refreshNftsList += 1;
+  };
+
+  onMount(() => {
+    mintInit();
+  });
 </script>
 
-<span on:click={() => openMintModal()} class="btn btn-default" title="Mint NFT">Mint NFT</span>
+<span on:click={() => (open = true)} class="btn btn-default" title="Mint NFT">Mint NFT</span>
 
 {#if open}
   <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
-    <div
-      use:clickOutside={() => {
-        closeMintModal();
-      }}
-    >
+    <div use:clickOutside={() => (open = true)}>
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
-          <a href="./#" on:click={closeMintModal} title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <a href="./#" on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
           <div class="mint-modal-body">
             <div class="titre">
-              <i class="fas fa-plus fa-left c-green" />Mint NFT
+              <i class="fas fa-plus fa-left c-green" />Mint NFT ({minting})
             </div>
 
-            {#if minting}
-              <div class="media media-photo">
-                <img src={image} alt="nft" />
-              </div>
-
-              <ul class="steps process">
-                {#if mintedNft}
-                  <li class="complete">
-                    <div class="flex">
-                      <span class="titre"
-                        >NFT Minted, congrats!
-                        <i class="fas fa-check fa-left c-green" />
-                      </span>
-                    </div>
-                    <div class="flex">
-                      <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
-                        >{nftUrl(mintedNft, 6)}</a
-                      >
-                    </div>
-                  </li>
-                {:else}
-                  <li>
-                    <div class="flex">
-                      <span class="titre">
-                        {#if mintingError}
-                          Minting Error
-                          <i class="fa fa-times fa-left" />
-                        {:else}
-                          Minting NFT
-                          <i class="fas fa-spinner fa-left c-green refresh" />
-                        {/if}
-                      </span>
-                    </div>
-                    <div class="flex">
-                      <span class="t-light">
-                        {#if mintingError}
-                          {mintingError}
-                        {:else if 1 <= minting && minting <= 5}
-                          {nftMintTexts[minting]}
-                        {/if}
-                      </span>
-                    </div>
-                  </li>
-                {/if}
-
-                <li class={minting >= 2 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Image link</span></div>
-                  <div class="flex">
-                    {#if storageImg}
-                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
-                        >{textShort(storageImg, 15)}</a
-                      >
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 3 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Metadata link</span></div>
-                  <div class="flex">
-                    {#if storageJson}
-                      <a class="link" href={storageLinkToUrlHttp(storageJson)} target="_blank"
-                        >{textShort(storageJson, 15)}</a
-                      >
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 4 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Transaction</span></div>
-                  <div class="flex">
-                    {#if mintingTxResp}
-                      <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
-                        >{textShort(mintingTxResp.hash, 15)}</a
-                      >
-                    {/if}
-                  </div>
-                </li>
-                <li class={minting >= 5 ? "complete" : ""}>
-                  <div class="flex"><span class="label">Token ID</span></div>
-                  <div class="flex">
-                    {#if mintedNft}
-                      <strong>{mintedNft?.tokenID}</strong>
-                    {/if}
-                  </div>
-                </li>
-              </ul>
-            {:else}
+            {#if minting == S1_CONFIRM}
               <div class="section">
                 <span class="label label-big">NFT file</span>
                 <div class="box-file">
@@ -432,15 +339,96 @@
                 <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
               </div>
               <div class="txtright">
-                <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+                <button class="btn btn-default btn-sell" on:click={mintConfirm}>Mint NFT</button>
               </div>
-              {#if mintingError}
-                <div class="section">
-                  <p class="txtright errormsg">
-                    {mintingError}
-                  </p>
+            {:else if minting >= S2_STORE_IMAGE && minting <= S6_MINTED}
+              <div class="media media-photo">
+                <img src={image} alt="nft" />
+              </div>
+
+              <ul class="steps process">
+                {#if !mintedNft}
+                  <li>
+                    <div class="flex">
+                      <span class="titre">
+                        {#if mintingError}
+                          Minting Error
+                          <i class="fa fa-times fa-left" />
+                        {:else}
+                          Minting NFT
+                          <i class="fas fa-spinner fa-left c-green refresh" />
+                        {/if}
+                      </span>
+                    </div>
+                    <div class="flex">
+                      <span class="t-light">
+                        {#if mintingError}
+                          {mintingError}
+                        {:else}
+                          {nftMintTexts[minting]}
+                        {/if}
+                      </span>
+                    </div>
+                  </li>
+                {/if}
+
+                <li class={minting > S2_STORE_IMAGE ? "complete" : ""}>
+                  <div class="flex"><span class="label">Image link</span></div>
+                  <div class="flex">
+                    {#if minting > S2_STORE_IMAGE}
+                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank"
+                        >{textShort(storageImg, 15)}</a
+                      >
+                    {/if}
+                  </div>
+                </li>
+                <li class={minting > S3_STORE_METADATA ? "complete" : ""}>
+                  <div class="flex"><span class="label">Metadata link</span></div>
+                  <div class="flex">
+                    {#if minting > S3_STORE_METADATA}
+                      <a class="link" href={storageLinkToUrlHttp(storageJson)} target="_blank"
+                        >{textShort(storageJson, 15)}</a
+                      >
+                    {/if}
+                  </div>
+                </li>
+                <li class={minting >= S5_WAIT_TX ? "complete" : ""}>
+                  <div class="flex"><span class="label">Transaction</span></div>
+                  <div class="flex">
+                    {#if minting >= S5_WAIT_TX}
+                      <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"
+                        >{textShort(mintingTxResp.hash, 15)}</a
+                      >
+                    {/if}
+                  </div>
+                </li>
+                <li class={minting == S6_MINTED ? "complete" : ""}>
+                  <div class="flex"><span class="label">Token ID</span></div>
+                  <div class="flex">
+                    {#if minting == S6_MINTED}
+                      <strong>{mintedNft?.tokenID}</strong>
+                    {/if}
+                  </div>
+                </li>
+              </ul>
+            {:else if minting == S6_MINTED}
+              <li class="complete">
+                <div class="flex">
+                  <span class="titre"
+                    >NFT Minted, congrats!
+                    <i class="fas fa-check fa-left c-green" />
+                  </span>
                 </div>
-              {/if}
+                <div class="flex">
+                  <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
+                </div>
+              </li>
+            {:else if mintingError}
+              <div class="section">
+                <p class="txtright errormsg">
+                  {mintingError}
+                </p>
+              </div>
             {/if}
           </div>
         </div>
