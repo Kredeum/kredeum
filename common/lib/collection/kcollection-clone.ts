@@ -36,9 +36,10 @@ const collectionCloneReceipt = async (txResp: TransactionResponse): Promise<Tran
 };
 
 const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
-  let clone = "";
+  let address = "";
+  // let clone = "";
 
-  console.log("txReceipt", txReceipt);
+  // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
     const abi = [
       "event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol, bool[] options)"
@@ -46,11 +47,13 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
     const iface = new ethers.utils.Interface(abi);
     const logs = txReceipt.logs.filter((item) => item.address == txReceipt.to);
     const log = iface.parseLog(logs[0]);
-    ({ clone } = log.args);
+    // ({ clone } = log.args);
+    address = log.args[1] as string;
   }
 
-  // console.log("collectionCloneAddress", clone);
-  return clone;
+  // console.log("collectionCloneAddress", address);
+  return address;
+  // return clone;
 };
 
 const collectionClone = async (

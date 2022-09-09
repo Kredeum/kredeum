@@ -154,7 +154,7 @@ async function* setDefautCollectionPrice(
   defaultPrice: string,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log("transferNft", chainId, address, tokenID, to);
+  // console.log("setdefaultcollprice", chainId, address, defaultPrice, signer);
 
   let txResp: TransactionResponse | undefined;
 

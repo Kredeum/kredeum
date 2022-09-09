@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
-  import type { TransactionResponse } from "@ethersproject/providers";
 
   import { ethers } from "ethers";
 
@@ -28,20 +27,16 @@
 
   let cloning: number;
   let cloneError: string;
-  let cloningTxHash: string = null;
-  let collectionCreated: CollectionType = null;
 
   let collectionName = "";
   let collectionSymbol = "";
-
   let collectionDefaultPrice: string;
-  let settingDefaultPrice = false;
-  let defaultPriceTxHash: string = null;
-  let defaultPriceSetted = false;
 
-  let settingRoyaltyInfo = false;
+  let collectionCreated: CollectionType = null;
+
+  let cloningTxHash: string = null;
+  let defaultPriceTxHash: string = null;
   let royaltiesTxHash: string = null;
-  let defaultRoyaltyInfoSetted = false;
 
   let inputCollectionDefaultPrice: string;
   let inputCollectionDefaultRoyaltyAmount: string;
@@ -117,7 +112,6 @@
   //  STATE 0 popup closed
 
   // STATES : S0 -S8
-  const S0_START = 0;
   const S1_CONFIRM = 1;
   const S2_SIGN_CLONE_TX = 2;
   const S3_WAIT_CLONE_TX = 3;
@@ -135,9 +129,8 @@
   };
 
   const _cloneConfirm = async () => {
-    const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
-
     cloning = S2_SIGN_CLONE_TX;
+    const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
 
     if (!txResp) return _cloneError("ERROR collectionClone no txResp");
 
@@ -165,12 +158,11 @@
 
     if (template === "OpenNFTsV4/automarket") {
       if (inputCollectionDefaultPrice) {
-        settingDefaultPrice = true;
         cloning = S4_SIGN_PRICE_TX;
 
         const txRespYield = setDefautCollectionPrice(
           chainId,
-          collectionCreated.address,
+          collection.address,
           collectionDefaultPrice,
           $metamaskSigner
         );
@@ -179,18 +171,15 @@
 
         if (!txResp) return _cloneError("ERROR collectionPrice no txResp");
 
+        explorerTxLog(chainId, txResp);
+        defaultPriceTxHash = txResp.hash;
+
         cloning = S5_WAIT_PRICE_TX;
 
-        defaultPriceTxHash = txResp.hash;
         const txReceipt = (await txRespYield.next()).value;
-
-        settingDefaultPrice = false;
-        defaultPriceSetted = true;
       }
 
       if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
-        settingRoyaltyInfo = true;
-
         cloning = S6_SIGN_ROYALTIES_TX;
 
         const txRespYield = setDefautCollectionRoyalty(
@@ -204,6 +193,8 @@
         const txResp = (await txRespYield.next()).value;
 
         if (!txResp) return _cloneError("ERROR collectionRoyalties no txResp");
+
+        explorerTxLog(chainId, txResp);
         royaltiesTxHash = txResp.hash;
 
         cloning = S7_WAIT_ROYALTIES_TX;
@@ -211,9 +202,6 @@
         const txReceipt = (await txRespYield.next()).value;
 
         cloning = S8_MINTED;
-
-        settingRoyaltyInfo = false;
-        defaultRoyaltyInfoSetted = true;
       }
     }
     $refreshCollectionList += 1;
@@ -229,12 +217,10 @@
       inputCollectionDefaultRoyaltyAmount = "";
       inputCollectionDefaultRoyaltiesReceiver = "";
       collectionDefaultPrice = "";
-      settingDefaultPrice = false;
       defaultPriceTxHash = null;
-      defaultPriceSetted = false;
-      settingRoyaltyInfo = false;
       royaltiesTxHash = null;
-      defaultRoyaltyInfoSetted = false;
+      cloneError = null;
+      cloning = S1_CONFIRM;
     }
   };
 
@@ -307,23 +293,21 @@
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
           </div>
-        {:else if cloning == S2_SIGN_CLONE_TX}
+        {/if}
+        {#if cloning >= S2_SIGN_CLONE_TX && cloning < S4_SIGN_PRICE_TX}
+          <div class="titre">
+            <i class="fas fa-sync fa-left c-green" />Creating new Collection...
+          </div>
+        {/if}
+        {#if cloning == S2_SIGN_CLONE_TX}
           <div class="section">Please, sign the transaction</div>
         {:else if cloning == S3_WAIT_CLONE_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
-        {:else if cloning == S4_SIGN_PRICE_TX}
-          ---
-        {:else if cloning == S5_WAIT_PRICE_TX}
-          ---
-        {:else if cloning == S6_SIGN_ROYALTIES_TX}
-          ---
-        {:else if cloning == S7_WAIT_ROYALTIES_TX}
-          ---
-        {:else if cloning == S8_MINTED}
-          ---
+          <div class="flex">
+            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
+          </div>
         {/if}
-
-        {#if collectionCreated}
+        {#if cloning > S3_WAIT_CLONE_TX}
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
@@ -339,157 +323,81 @@
               </div>
             </div>
           </div>
-          {#if settingDefaultPrice}
-            <div class="titre">
-              <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
-                collectionDefaultPrice
-              )} Eth
-            </div>
-            <div class="section">
-              {#if defaultPriceTxHash}
-                Wait till completed, it may take one minute or more.
-              {:else}
-                Sign the transaction
-              {/if}
-            </div>
-          {:else if defaultPriceSetted}
-            <div class="titre">
-              <i class="fas fa-check fa-left c-green" />
-              default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
-            </div>
-            <div class="section">
-              <div class="flex">
-                <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
-                  >{textShort(defaultPriceTxHash)}</a
-                >
-              </div>
-            </div>
-            {#if settingRoyaltyInfo}
-              <div>
-                <div class="titre">
-                  <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
-                </div>
-                <div class="section">
-                  Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
-                  Receiver : {inputCollectionDefaultRoyaltiesReceiver}
-                </div>
-                {#if royaltiesTxHash}
-                  Wait till completed, it may take one minute or more.
-                {:else}
-                  Sign the transaction
-                {/if}
-              </div>
-            {:else if defaultRoyaltyInfoSetted}
-              <div class="titre">
-                <i class="fas fa-check fa-left c-green" />
-                default Nft Royalty info setted to :<br />
-              </div>
-              <div class="section">
-                Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
-                Receiver : {inputCollectionDefaultRoyaltiesReceiver}
-                <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
-                    >{textShort(royaltiesTxHash)}</a
-                  >
-                </div>
-              </div>
-            {/if}
-          {/if}
-        {:else if cloning}
-          <div class="titre">
-            <i class="fas fa-sync fa-left c-green" />Creating new Collection...
-          </div>
-          <div class="section">
-            {#if cloningTxHash}
-              Wait till completed, it may take one minute or more.
-            {:else}
-              Sign the transaction
-            {/if}
-          </div>
-        {:else}
-          <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Name your Collection
-          </div>
-
-          <div class="section">
-            <div class="form-field">
-              <input type="text" placeholder="My NFTs collection" bind:value={collectionName} />
-            </div>
-          </div>
-
-          <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
-          </div>
-
-          <div class="section">
-            <div class="form-field">
-              <input type="text" placeholder="MYNFT" bind:value={collectionSymbol} />
-            </div>
-          </div>
-
-          <div class="section">
-            <CollectionTemplates bind:template />
-          </div>
-          {#if template === "OpenNFTsV4/automarket"}
-            <div class="section">
-              <span class="label label-big">Default collection price (Eth)</span>
-              <div class="form-field">
-                <input type="text" placeholder="0" bind:value={inputCollectionDefaultPrice} id="mint-price-nft" />
-              </div>
-            </div>
-            <div class="section">
-              <span class="label label-big">Default collection royalty Ammount (%)</span>
-              <div class="form-field">
-                <input
-                  type="text"
-                  placeholder="0"
-                  bind:value={inputCollectionDefaultRoyaltyAmount}
-                  id="royalty-amount-nft"
-                />
-              </div>
-            </div>
-            <div class="section">
-              <span class="label label-big">Default collection royalties receiver address</span>
-              <div class="form-field">
-                <input
-                  type="text"
-                  placeholder=""
-                  bind:value={inputCollectionDefaultRoyaltiesReceiver}
-                  id="royalties-reveiver-nft"
-                />
-              </div>
-            </div>
-          {/if}
-
-          <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
-          </div>
         {/if}
 
-        {#if cloningTxHash && !collectionCreated}
-          <div class="flex">
-            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
+        {#if cloning >= S4_SIGN_PRICE_TX && cloning < S6_SIGN_ROYALTIES_TX}
+          <div class="titre">
+            <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
+              collectionDefaultPrice
+            )} Eth
           </div>
         {/if}
-
-        {#if defaultPriceTxHash && !defaultPriceSetted}
+        {#if cloning == S4_SIGN_PRICE_TX}
+          <div class="section">Please, sign the transaction</div>
+        {:else if cloning == S5_WAIT_PRICE_TX}
+          <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
               >{textShort(defaultPriceTxHash)}</a
             >
           </div>
         {/if}
+        {#if cloning >= S6_SIGN_ROYALTIES_TX}
+          <div class="titre">
+            <i class="fas fa-check fa-left c-green" />
+            default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
+          </div>
+          <div class="section">
+            <div class="flex">
+              <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
+                >{textShort(defaultPriceTxHash)}</a
+              >
+            </div>
+          </div>
+        {/if}
 
-        {#if royaltiesTxHash && !defaultRoyaltyInfoSetted}
+        {#if cloning >= S6_SIGN_ROYALTIES_TX && cloning < S8_MINTED}
+          <div>
+            <div class="titre">
+              <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
+            </div>
+            <div class="section">
+              Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
+              Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+            </div>
+          </div>
+        {/if}
+        {#if cloning == S6_SIGN_ROYALTIES_TX}
+          <div class="section">Sign the transaction</div>
+        {:else if cloning == S7_WAIT_ROYALTIES_TX}
+          <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
               >{textShort(royaltiesTxHash)}</a
             >
           </div>
+        {:else if cloning == S8_MINTED}
+          <div class="titre">
+            <i class="fas fa-check fa-left c-green" />
+            default Nft Royalty info setted to :<br />
+          </div>
+          <div class="section">
+            Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
+            Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+            <div class="flex">
+              <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
+                >{textShort(royaltiesTxHash)}</a
+              >
+            </div>
+          </div>
         {/if}
 
         {#if cloneError}
-          <div class="section">{cloneError}</div>
+          <div class="section">
+            <div class="form-field kre-warning-msg">
+              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{cloneError}</p>
+            </div>
+          </div>
         {/if}
       </div>
     </div>

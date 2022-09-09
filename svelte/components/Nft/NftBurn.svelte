@@ -118,7 +118,7 @@
           <div class="section">Checking contract...</div>
         {:else if burning == S1_CONFIRM_BURN}
           <div class="section">
-            <div class="form-field kre-burn-warning">
+            <div class="form-field kre-warning-msg">
               <p>
                 <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to burn this NFT #{tokenID}
               </p>
@@ -131,7 +131,7 @@
           </div>
         {:else if burning == S2_CONFIRM_TRANSFER}
           <div class="section">
-            <div class="form-field kre-burn-warning">
+            <div class="form-field kre-warning-msg">
               <p>
                 <i class="fas fa-exclamation-triangle fa-left c-red" /> This NFT #{tokenID} can't be burned!
               </p>
@@ -177,11 +177,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .kre-burn-warning {
-    background-color: rgba(255, 0, 0, 0.07);
-    border-radius: 6px;
-    padding: 15px 30px;
-  }
-</style>
