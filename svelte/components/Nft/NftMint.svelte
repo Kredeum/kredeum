@@ -3,7 +3,7 @@
   import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
-  import { ethers } from "ethers";
+  import { utils } from "ethers";
 
   import type { NftType } from "@lib/common/ktypes";
   import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
@@ -25,11 +25,13 @@
     storageLinkToUrlHttp,
     sleep
   } from "@lib/common/kconfig";
+  import { collectionGet } from "@lib/collection/kcollection-get";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
+  import Collection from "../Collection/Collection.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />
@@ -48,7 +50,6 @@
 
   /////////////////////////////////////////////////
   $: chainId = $metamaskChainId;
-  $: account = $metamaskAccount;
 
   let address: string;
 
@@ -80,14 +81,14 @@
     open = true;
   };
 
-  $: chainId && address && $metamaskSigner && handleDefaultAutomarketValues();
+  $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    nftMintingPrice = ethers.utils.formatEther(await getDefaultCollPrice(chainId, address, $metamaskSigner));
-    const { receiver, fraction } = await getDefaultCollRoyaltyInfos(chainId, address, $metamaskSigner);
-    nftDefaultRoyaltiesAmount = fraction.toString();
-    nftDefaultRoyaltyReceiver = receiver;
-    console.log("🚀 ~ file: NftMint.svelte ~ line 102 ~ handleDefaultAutomarketValues ~ fraction", fraction.toString());
-    console.log("🚀 ~ file: NftMint.svelte ~ line 102 ~ handleDefaultAutomarketValues ~ receiver", receiver);
+    const collection = await collectionGet(chainId, address, $metamaskProvider);
+    console.log("handleDefaultAutomarketValues", collection);
+
+    nftMintingPrice = utils.formatEther(collection.price);
+    nftDefaultRoyaltiesAmount = collection.fee.toString();
+    nftDefaultRoyaltyReceiver = collection.receiver;
   };
 
   /////////////////////////////////////////////////
@@ -127,8 +128,6 @@
   //  STATE 4
   // Ask for signature
   //    |
-  //  STATE 4  Sending TX
-  //    |
   //  TEST TxResp --> ERROR sending TX
   //    |
   //  STATE 5 Display TX Hash
@@ -147,8 +146,8 @@
   const S2_STORE_IMAGE = 2;
   const S3_STORE_METADATA = 3;
   const S4_SIGN_TX = 4;
-  const S5_WAIT_TX = 6;
-  const S6_MINTED = 7;
+  const S5_WAIT_TX = 5;
+  const S6_MINTED = 6;
 
   const nftMintTexts = [
     "Start",
@@ -182,9 +181,11 @@
 
     storageJson =
       "ipfs" === storage
-        ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, account, image)
+        ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
         : "swarm" === storage
-        ? swarmGatewayUrl(await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, account, image, gateway, key))
+        ? swarmGatewayUrl(
+            await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
+          )
         : "";
 
     if (!storageJson) return _mintingError("ERROR metadata not stored");
@@ -199,7 +200,7 @@
     explorerTxLog(chainId, mintingTxResp);
     minting = S5_WAIT_TX;
 
-    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, account);
+    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, $metamaskAccount);
     // console.log("mintedNft", mintedNft);
 
     if (!mintedNft) return _mintingError(`ERROR returned by transaction ${mintedNft}`);
@@ -336,7 +337,7 @@
 
               <div class="section">
                 <span class="label label-big">Add to an existing address ?</span>
-                <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
+                <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
               <div class="txtright">
                 <button class="btn btn-default btn-sell" on:click={mintConfirm}>Mint NFT</button>

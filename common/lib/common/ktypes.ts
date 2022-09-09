@@ -1,3 +1,5 @@
+import { BigNumber } from "ethers";
+
 type Address = string;
 
 type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0";
@@ -56,6 +58,9 @@ type CollectionType = {
   version?: number;
   template?: string;
   open?: boolean;
+  price?: BigNumber;
+  receiver?: string;
+  fee?: BigNumber;
 };
 
 type CollectionSupports = {

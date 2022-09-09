@@ -89,13 +89,11 @@ const collectionBurnable = async (
   address: string,
   signerOrProvider: Signer | Provider
 ): Promise<string> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  const { collection } = await collectionGetContract(chainId, address, signerOrProvider);
   let burnFunction = "";
 
-  if (collection.supports.IOpenNFTsV4) {
+  if (collection.supports?.IOpenNFTsV4) {
     burnFunction = "burn";
-  } else if (collection.supports.IOpenNFTsV3) {
-    if (await contract.burnable()) burnFunction = "burnOpenNFT";
   }
 
   return burnFunction;

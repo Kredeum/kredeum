@@ -10,7 +10,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { getApproved, setApproveToken, approveNftReceipt, setTokenPrice } from "@lib/nft/kautomarket";
+  import { getApproved, setApproveToken, setTokenPrice } from "@lib/nft/kautomarket";
   import { ethers } from "ethers";
   // import { formatEther } from "ethers/lib/utils";
 
@@ -97,7 +97,7 @@
     if (txResp) {
       approveTxHash = txResp.hash;
 
-      const txReceipt = await approveNftReceipt(txResp);
+      const txReceipt = await txResp.wait();
 
       approved = Boolean(txReceipt.status) ? "approved" : "";
     } else {

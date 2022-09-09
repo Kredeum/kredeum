@@ -22,14 +22,14 @@
   let burning: number = 0;
   let burnable: boolean;
   let burnTxHash: string;
-  let error: string;
+  let burnError: string;
 
   // Context for refreshCollectionList
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
 
-  const _error = (err: string): void => {
-    error = err;
-    console.error(error);
+  const _burnError = (err: string): void => {
+    burnError = err;
+    console.error(burnError);
     burning = 0;
   };
 
@@ -78,7 +78,7 @@
   };
 
   const burnConfirm = async () => {
-    let txRespYield = burnable
+    const txRespYield = burnable
       ? burnNft(chainId, address, tokenID, $metamaskSigner)
       : transferNft(chainId, address, tokenID, $metamaskSigner, AddressdEaD);
 
@@ -86,13 +86,13 @@
 
     const txResp = (await txRespYield.next()).value;
     burnTxHash = txResp?.hash;
-    if (!burnTxHash) return _error(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
+    if (!burnTxHash) return _burnError(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
 
     burning = S4_WAIT_TX;
 
     const txReceipt = (await txRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _error(`ERROR returned by transaction ${txReceipt}`);
+    if (!Boolean(txReceipt.status)) return _burnError(`ERROR returned by transaction ${txReceipt}`);
 
     burning = S5_BURNED;
 
@@ -170,8 +170,8 @@
             >
           </div>
         {/if}
-        {#if error}
-          <div class="section">{error}</div>
+        {#if burnError}
+          <div class="section">{burnError}</div>
         {/if}
       </div>
     </div>

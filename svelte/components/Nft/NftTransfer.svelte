@@ -1,7 +1,7 @@
 <script lang="ts">
+  // import type { Writable } from "svelte/store";
   import { onMount } from "svelte";
   // import { getContext } from "svelte";
-  // import { Writable } from "svelte/store";
 
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
@@ -10,15 +10,15 @@
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <NftTransfer {chainId} {address} {tokenID} />
-  // Display NFT
+  // <NftTransfer {chainId} {address} {tokenID} />
+  // Transfer NFT
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  /////////////////////////////////////////////////
 
   let transfering: number;
-  let transfered: boolean;
   let transferTxHash: string;
   let transferError: string;
 
@@ -48,17 +48,17 @@
   //    |
   //  TEST TxResp --> ERROR sending TX
   //    |
-  //  STATE 4 Display TX Hash
+  //  STATE 3 Display TX Hash
   //    |
   //  TEST TxReceipt --> ERROR inside TX
   //    |
-  //  STATE 5 End TX & Refresh
+  //  STATE 4 End TX & Refresh
   //    |
   //  CLICK Close
   //    |
   //  STATE 0 popup closed
 
-  // STATES : S0 -S6
+  // STATES : S0-S4
   const S1_CONFIRM = 1;
   const S2_SIGN_TX = 2;
   const S3_WAIT_TX = 3;
@@ -140,6 +140,9 @@
               >{textShort(transferTxHash)}</a
             >
           </div>
+        {/if}
+        {#if transferError}
+          <div class="section">{transferError}</div>
         {/if}
       </div>
     </div>

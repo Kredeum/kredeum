@@ -1,24 +1,24 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import AccountConnect from "../Account/AccountConnect.svelte";
-
   import type { NftType } from "@lib/common/ktypes";
-  import {  nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
   import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
+
+  import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
+  import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
   // <NftMintButton {src} {metadata} {alt} {pid} {width} {display} />
   // Nft Mint Button
   /////////////////////////////////////////////////
   export let src: string;
+  export let metadata: string = "{}";
   export let alt: string = undefined;
   export let pid: string = undefined;
-  export let metadata: string = "{}";
   export let width = 100;
   export let display = false;
   /////////////////////////////////////////////////
@@ -28,7 +28,6 @@
 
   let ipfsImage: string;
 
-  let account: string;
   let address: Readable<string>;
 
   const nftMintTexts = [
@@ -42,10 +41,7 @@
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
-    account = await $metamaskSigner.getAddress();
-    // console.log("handleChange", $metamaskChainId, account);
-
-    address = collectionStore.getDefaultSubStore($metamaskChainId, true, account);
+    address = collectionStore.getDefaultSubStore($metamaskChainId, true, $metamaskAccount);
     // console.log("handleChange ~ address", $address);
   };
 

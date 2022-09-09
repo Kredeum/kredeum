@@ -10,12 +10,12 @@ interface IOpenNFTsInfos is IERCNftInfos {
         bool open;
         uint256 price;
         address receiver;
-        uint96 fraction;
+        uint96 fee;
     }
 
     struct OpenNFTsNftInfos {
         uint256 price;
         address receiver;
-        uint96 fraction;
+        uint96 fee;
     }
 }

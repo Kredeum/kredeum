@@ -4,7 +4,7 @@
 
   import { ethers } from "ethers";
 
-  import { getContext } from "svelte";
+  import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
 
   import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
@@ -26,7 +26,8 @@
 
   let template: string = undefined;
 
-  let cloning = false;
+  let cloning: number;
+  let cloneError: string;
   let cloningTxHash: string = null;
   let collectionCreated: CollectionType = null;
 
@@ -70,91 +71,151 @@
 
   const dispatch = createEventDispatcher();
 
-  const createCollection = async () => {
-    // console.log(createCollection createCollection");
-    cloning = true;
+  const _cloneError = (err: string): void => {
+    cloneError = err;
+    console.error(cloneError);
+    cloning = 0;
+  };
+
+  // CREATING STATES
+  //
+  //  STATE 0 Start
+  //    |
+  //  STATE 1 Confirm Clone
+  //    |
+  //  STATE 2
+  // Ask for Clone signature
+  //    |
+  //  TEST TxResp --> ERROR sending Clone TX
+  //    |
+  //  STATE 3 Wait TX & display Clone TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside Clone TX
+  //    |
+  //  STATE 4
+  // Ask for Price signature
+  //    |
+  //  TEST TxResp --> ERROR sending Price TX
+  //    |
+  //  STATE 5 Wait TX & display Price TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside Price TX
+  //    |
+  //  STATE 6
+  // Ask for Royalties signature
+  //    |
+  //  TEST TxResp --> ERROR sending Royalties TX
+  //    |
+  //  STATE 7 Wait TX & display Royalties TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside Royalties TX
+  //    |
+  //  STATE 8 End TX & Refresh
+  //    |
+  //  CLICK Close
+  //    |
+  //  STATE 0 popup closed
+
+  // STATES : S0 -S8
+  const S0_START = 0;
+  const S1_CONFIRM = 1;
+  const S2_SIGN_CLONE_TX = 2;
+  const S3_WAIT_CLONE_TX = 3;
+  const S4_SIGN_PRICE_TX = 4;
+  const S5_WAIT_PRICE_TX = 5;
+  const S6_SIGN_ROYALTIES_TX = 6;
+  const S7_WAIT_ROYALTIES_TX = 7;
+  const S8_MINTED = 8;
+
+  const _cloneInit = async () => {
     cloningTxHash = null;
     collectionCreated = null;
 
-    if (!$metamaskSigner) console.error("ERROR createCollection not signer");
-    else {
-      const txResp = await collectionCloneResponse(
-        chainId,
-        collectionName,
-        collectionSymbol,
-        template,
-        $metamaskSigner
-      );
+    cloning = S1_CONFIRM;
+  };
 
-      if (!txResp) console.error("ERROR createCollection no txResp");
-      else {
-        explorerTxLog(chainId, txResp);
+  const _cloneConfirm = async () => {
+    const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
 
-        cloningTxHash = txResp.hash;
-        const txReceipt = await collectionCloneReceipt(txResp);
+    cloning = S2_SIGN_CLONE_TX;
 
-        if (!txReceipt.status) console.error("ERROR createCollection bad status");
-        else {
-          collectionCreated = {
-            chainId: chainId,
-            name: collectionName,
-            address: collectionCloneAddress(txReceipt),
-            owner: await $metamaskSigner.getAddress()
-          };
+    if (!txResp) return _cloneError("ERROR collectionClone no txResp");
 
-          if (!collectionCreated) console.error("ERROR createCollection no collection created");
-          else {
-            collection = collectionCreated;
+    explorerTxLog(chainId, txResp);
+    cloningTxHash = txResp.hash;
 
-            dispatch("collection", { collection: collectionCreated.address });
-          }
-          if (template === "OpenNFTsV4/automarket") {
-            if (inputCollectionDefaultPrice) {
-              console.log(
-                "🚀 ~ file: CollectionCreate.svelte ~ line 112 ~ createCollection ~ collectionCreated.address",
-                collectionCreated.address
-              );
+    cloning = S3_WAIT_CLONE_TX;
 
-              settingDefaultPrice = true;
+    const txReceipt = await collectionCloneReceipt(txResp);
 
-              const txRespYield = setDefautCollectionPrice(
-                chainId,
-                collectionCreated.address,
-                collectionDefaultPrice,
-                $metamaskSigner
-              );
+    if (!txReceipt.status) return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(txReceipt, null, 2)}`);
 
-              const txResp = (await txRespYield.next()).value;
-              if (txResp) {
-                defaultPriceTxHash = txResp.hash;
-                const txReceipt = (await txRespYield.next()).value;
-              }
-              settingDefaultPrice = false;
-              defaultPriceSetted = true;
-            }
-            if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
-              settingRoyaltyInfo = true;
-              const txRespYield = setDefautCollectionRoyalty(
-                chainId,
-                collectionCreated.address,
-                inputCollectionDefaultRoyaltiesReceiver,
-                Math.round(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
-                $metamaskSigner
-              );
+    collectionCreated = {
+      chainId: chainId,
+      name: collectionName,
+      address: collectionCloneAddress(txReceipt),
+      owner: await $metamaskSigner.getAddress()
+    };
 
-              const txResp = (await txRespYield.next()).value;
-              if (txResp) {
-                royaltiesTxHash = txResp.hash;
-                const txReceipt = (await txRespYield.next()).value;
-              }
-              settingRoyaltyInfo = false;
-              defaultRoyaltyInfoSetted = true;
-            }
-          }
-        }
+    if (!collectionCreated) return _cloneError("ERROR collectionClone no collection created");
+
+    collection = collectionCreated;
+
+    dispatch("collection", { collection: collectionCreated.address });
+
+    if (template === "OpenNFTsV4/automarket") {
+      if (inputCollectionDefaultPrice) {
+        settingDefaultPrice = true;
+        cloning = S4_SIGN_PRICE_TX;
+
+        const txRespYield = setDefautCollectionPrice(
+          chainId,
+          collectionCreated.address,
+          collectionDefaultPrice,
+          $metamaskSigner
+        );
+
+        const txResp = (await txRespYield.next()).value;
+
+        if (!txResp) return _cloneError("ERROR collectionPrice no txResp");
+
+        cloning = S5_WAIT_PRICE_TX;
+
+        defaultPriceTxHash = txResp.hash;
+        const txReceipt = (await txRespYield.next()).value;
+
+        settingDefaultPrice = false;
+        defaultPriceSetted = true;
+      }
+
+      if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
+        settingRoyaltyInfo = true;
+
+        cloning = S6_SIGN_ROYALTIES_TX;
+
+        const txRespYield = setDefautCollectionRoyalty(
+          chainId,
+          collectionCreated.address,
+          inputCollectionDefaultRoyaltiesReceiver,
+          Math.round(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
+          $metamaskSigner
+        );
+
+        const txResp = (await txRespYield.next()).value;
+
+        if (!txResp) return _cloneError("ERROR collectionRoyalties no txResp");
+        royaltiesTxHash = txResp.hash;
+
+        cloning = S7_WAIT_ROYALTIES_TX;
+
+        const txReceipt = (await txRespYield.next()).value;
+
+        cloning = S8_MINTED;
+
+        settingRoyaltyInfo = false;
+        defaultRoyaltyInfoSetted = true;
       }
     }
-    cloning = false;
     $refreshCollectionList += 1;
   };
 
@@ -176,6 +237,10 @@
       defaultRoyaltyInfoSetted = false;
     }
   };
+
+  onMount(() => {
+    _cloneInit();
+  });
 </script>
 
 <div id="kredeum-create-collection">
@@ -184,6 +249,26 @@
 
     <div class="modal-body">
       <div>
+        {#if cloning == S0_START}
+          ---
+        {:else if cloning == S1_CONFIRM}
+          ---
+        {:else if cloning == S2_SIGN_CLONE_TX}
+          ---
+        {:else if cloning == S3_WAIT_CLONE_TX}
+          ---
+        {:else if cloning == S4_SIGN_PRICE_TX}
+          ---
+        {:else if cloning == S5_WAIT_PRICE_TX}
+          ---
+        {:else if cloning == S6_SIGN_ROYALTIES_TX}
+          ---
+        {:else if cloning == S7_WAIT_ROYALTIES_TX}
+          ---
+        {:else if cloning == S8_MINTED}
+          ---
+        {/if}
+
         {#if collectionCreated}
           <div>
             <div class="titre">
@@ -231,7 +316,7 @@
                   <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
                 </div>
                 <div class="section">
-                  Fraction : {inputCollectionDefaultRoyaltyAmount} %<br />
+                  Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
                   Receiver : {inputCollectionDefaultRoyaltiesReceiver}
                 </div>
                 {#if royaltiesTxHash}
@@ -246,7 +331,7 @@
                 default Nft Royalty info setted to :<br />
               </div>
               <div class="section">
-                Fraction : {inputCollectionDefaultRoyaltyAmount} %<br />
+                Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
                 Receiver : {inputCollectionDefaultRoyaltiesReceiver}
                 <div class="flex">
                   <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
@@ -323,14 +408,16 @@
           {/if}
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={createCollection}>Create</button>
+            <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
           </div>
         {/if}
+
         {#if cloningTxHash && !collectionCreated}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
           </div>
         {/if}
+
         {#if defaultPriceTxHash && !defaultPriceSetted}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
@@ -338,12 +425,17 @@
             >
           </div>
         {/if}
+
         {#if royaltiesTxHash && !defaultRoyaltyInfoSetted}
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
               >{textShort(royaltiesTxHash)}</a
             >
           </div>
+        {/if}
+
+        {#if cloneError}
+          <div class="section">{cloneError}</div>
         {/if}
       </div>
     </div>

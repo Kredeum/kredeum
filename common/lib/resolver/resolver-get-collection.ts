@@ -86,10 +86,11 @@ const resolverGetCollectionList = async (
       [collectionInfos[0][index], collectionInfos[1][index]],
       account
     );
+    // console.log("collection", collection);
     collections.set(collectionKey(chainId, collection.address), collection);
   }
 
-  // console.log(`resolverGetCollectionList ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`resolverGetCollectionList ${chainId} ${account}\n`, collections);
   return collections;
 };
 
