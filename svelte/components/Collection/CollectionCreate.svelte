@@ -249,14 +249,68 @@
 
     <div class="modal-body">
       <div>
-        {#if cloning == S0_START}
-          ---
-        {:else if cloning == S1_CONFIRM}
-          ---
+        {#if cloning == S1_CONFIRM}
+          <div class="titre">
+            <i class="fas fa-plus fa-left c-green" />Name your Collection
+          </div>
+
+          <div class="section">
+            <div class="form-field">
+              <input type="text" placeholder="My NFTs collection" bind:value={collectionName} />
+            </div>
+          </div>
+
+          <div class="titre">
+            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
+          </div>
+
+          <div class="section">
+            <div class="form-field">
+              <input type="text" placeholder="MYNFT" bind:value={collectionSymbol} />
+            </div>
+          </div>
+
+          <div class="section">
+            <CollectionTemplates bind:template />
+          </div>
+          {#if template === "OpenNFTsV4/automarket"}
+            <div class="section">
+              <span class="label label-big">Default collection price (Eth)</span>
+              <div class="form-field">
+                <input type="text" placeholder="0" bind:value={inputCollectionDefaultPrice} id="mint-price-nft" />
+              </div>
+            </div>
+            <div class="section">
+              <span class="label label-big">Default collection royalty Ammount (%)</span>
+              <div class="form-field">
+                <input
+                  type="text"
+                  placeholder="0"
+                  bind:value={inputCollectionDefaultRoyaltyAmount}
+                  id="royalty-amount-nft"
+                />
+              </div>
+            </div>
+            <div class="section">
+              <span class="label label-big">Default collection royalties receiver address</span>
+              <div class="form-field">
+                <input
+                  type="text"
+                  placeholder=""
+                  bind:value={inputCollectionDefaultRoyaltiesReceiver}
+                  id="royalties-reveiver-nft"
+                />
+              </div>
+            </div>
+          {/if}
+
+          <div class="txtright">
+            <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
+          </div>
         {:else if cloning == S2_SIGN_CLONE_TX}
-          ---
+          <div class="section">Please, sign the transaction</div>
         {:else if cloning == S3_WAIT_CLONE_TX}
-          ---
+          <div class="section">Wait till completed, it may take one minute or more.</div>
         {:else if cloning == S4_SIGN_PRICE_TX}
           ---
         {:else if cloning == S5_WAIT_PRICE_TX}

@@ -63,7 +63,7 @@
   },
   "window.zoomLevel": 0,
   "workbench.activityBar.visible": true,
-  "workbench.colorTheme": "Solarized Light",
+  "workbench.colorTheme": "Visual Studio Dark",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC"
