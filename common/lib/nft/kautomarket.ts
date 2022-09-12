@@ -104,41 +104,80 @@ const setTokenRoyaltyInfos = async (
   return txResp;
 };
 
-const setApproveToken = async (
+async function* setTokenApprove(
   chainId: number,
   address: string,
   tokenID: string,
   signer: Signer
-): Promise<TransactionResponse | undefined> => {
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  // console.log("transferNft", chainId, address, tokenID, to);
+
+  if (!(chainId && address && tokenID && signer)) return {};
+
   const { contract, collection } = await collectionGetContract(chainId, address, signer);
+  // console.log("contract", contract);
+
   if (!collection.supports?.IOpenMarketable) return;
+
   const txResp: TransactionResponse | undefined = await (contract as IERC721).approve(address, tokenID);
 
+  if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
-  return txResp || undefined;
-};
+  yield txResp;
+  yield await txResp.wait();
+}
 
-const setTokenPrice = async (
+async function* setCollectionApproval(
+  chainId: number,
+  address: string,
+  approval: boolean,
+  signer: Signer
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  // console.log("transferNft", chainId, address, tokenID, to);
+
+  if (!(chainId && address && approval && signer)) return {};
+
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+  // console.log("contract", contract);
+
+  if (!collection.supports?.IOpenMarketable) return;
+
+  const txResp: TransactionResponse | undefined = await (contract as IERC721).setApprovalForAll(address, approval);
+
+  if (!txResp) return {};
+  explorerTxLog(chainId, txResp);
+
+  yield txResp;
+  yield await txResp.wait();
+}
+
+async function* setTokenPrice(
   chainId: number,
   address: string,
   tokenID: string,
   tokenPrice: string,
   signer: Signer
-): Promise<TransactionResponse | undefined> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
 
-  if (!collection.supports?.IOpenMarketable) return;
+  if (!(chainId && address && tokenID && tokenPrice && signer)) return {};
+
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+  // console.log("contract", contract);
+  if (!collection.supports?.IOpenMarketable) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256)"](
     BigNumber.from(tokenID),
     tokenPrice
   );
 
+  if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
-  return txResp;
-};
+  yield txResp;
+  yield await txResp.wait();
+}
 
 const getEthersConverterLink = (chainId: number, price: string) => {
   let url = "";
@@ -215,7 +254,8 @@ export {
   setDefautCollectionPrice,
   setDefautCollectionRoyalty,
   getApproved,
-  setApproveToken,
+  setTokenApprove,
+  setCollectionApproval,
   setTokenPrice,
   getEthersConverterLink
 };

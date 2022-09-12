@@ -1,7 +1,5 @@
 <script lang="ts">
-  // import type { Writable } from "svelte/store";
   import { onMount } from "svelte";
-  // import { getContext } from "svelte";
 
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
@@ -29,12 +27,6 @@
     console.error(transferError);
     transfering = 0;
   };
-
-  // Context for refreshCollectionList & refreshNftsList
-  ///////////////////////////////////////////////////////////
-  // let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  // let refreshNftsList: Writable<number> = getContext("refreshNftsList");
-  ///////////////////////////////////////////////////////////
 
   // TRANSFERING STATES
   //
@@ -142,7 +134,11 @@
           </div>
         {/if}
         {#if transferError}
-          <div class="section">{transferError}</div>
+          <div class="section">
+            <div class="form-field kre-warning-msg">
+              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{transferError}</p>
+            </div>
+          </div>
         {/if}
       </div>
     </div>

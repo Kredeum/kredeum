@@ -171,7 +171,11 @@
           </div>
         {/if}
         {#if burnError}
-          <div class="section">{burnError}</div>
+          <div class="section">
+            <div class="form-field kre-warning-msg">
+              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{burnError}</p>
+            </div>
+          </div>
         {/if}
       </div>
     </div>

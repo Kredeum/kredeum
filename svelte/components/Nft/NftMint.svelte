@@ -6,7 +6,6 @@
   import { utils } from "ethers";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { getDefaultCollPrice, getDefaultCollRoyaltyInfos } from "@lib/nft/kautomarket";
   import {
     nftMint1IpfsImage,
     nftMint2IpfsJson,
@@ -31,7 +30,6 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
-  import Collection from "../Collection/Collection.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />
@@ -76,10 +74,6 @@
 
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {};
-
-  const openMintModal = () => {
-    open = true;
-  };
 
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
@@ -220,7 +214,7 @@
 
 {#if open}
   <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
-    <div use:clickOutside={() => (open = true)}>
+    <div use:clickOutside={() => (open = false)}>
       <div id="kredeum-create-nft">
         <div class="mint-modal-content">
           <a href="./#" on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></a>
@@ -426,9 +420,9 @@
               </li>
             {:else if mintingError}
               <div class="section">
-                <p class="txtright errormsg">
-                  {mintingError}
-                </p>
+                <div class="form-field kre-warning-msg">
+                  <p><i class="fas fa-exclamation-triangle fa-left c-red" />{mintingError}</p>
+                </div>
               </div>
             {/if}
           </div>
