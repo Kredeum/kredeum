@@ -81,17 +81,23 @@ const getApproved = async (
   return approved;
 };
 
-const setTokenRoyaltyInfos = async (
+async function* setTokenRoyaltyInfos(
   chainId: number,
   address: string,
   tokenID: string,
-  fee: number,
+  fee: string,
   receiver: string,
   signer: Signer
-): Promise<TransactionResponse | undefined> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  // console.log("setTokenRoyaltyInfos", chainId, address, tokenID, fee, receiver, signer);
 
-  if (!collection.supports?.IOpenMarketable) return;
+  if (!(chainId && address && tokenID && fee && receiver && signer)) return {};
+
+  const account = await signer.getAddress();
+
+  const { contract, collection } = await collectionGetContract(chainId, address, signer);
+  // console.log("contract", contract);
+  if (!collection.supports?.IOpenMarketable && !collection.open && account === collection.owner) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenRoyalty(
     BigNumber.from(tokenID),
@@ -99,10 +105,12 @@ const setTokenRoyaltyInfos = async (
     fee
   );
 
+  if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
-  return txResp;
-};
+  yield txResp;
+  yield await txResp.wait();
+}
 
 async function* setTokenApprove(
   chainId: number,
