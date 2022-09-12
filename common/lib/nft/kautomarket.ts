@@ -81,6 +81,22 @@ const getApproved = async (
   return approved;
 };
 
+const isApprovedForAll = async (
+  chainId: number,
+  address: string,
+  account: string,
+  signerOrProvider: Signer | Provider
+): Promise<boolean> => {
+  let isApprovedForAll = false;
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+
+  if (collection.supports?.IOpenMarketable) {
+    isApprovedForAll = await (contract as IERC721).isApprovedForAll(account, address);
+  }
+
+  return isApprovedForAll;
+};
+
 async function* setTokenRoyaltyInfos(
   chainId: number,
   address: string,
@@ -262,6 +278,7 @@ export {
   setDefautCollectionPrice,
   setDefautCollectionRoyalty,
   getApproved,
+  isApprovedForAll,
   setTokenApprove,
   setCollectionApproval,
   setTokenPrice,

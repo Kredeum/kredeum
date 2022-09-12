@@ -1,10 +1,10 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { metamaskSigner } from "@main/metamask";
+  import { metamaskSigner, metamaskAccount, metamaskProvider } from "@main/metamask";
   import { explorerAddressUrl, explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
-  import { setCollectionApproval } from "@lib/nft/kautomarket";
+  import { isApprovedForAll, setCollectionApproval } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
   //  <CollectionSetApproval {chainId} {address} />
@@ -14,6 +14,8 @@
   export let address: string;
   export let approval: boolean;
   /////////////////////////////////////////////////
+
+  let approvedForAll = false;
 
   let collectionApproving: number;
   let collectionApproveTxHash: string;
@@ -55,8 +57,13 @@
 
   const collectionApproveInit = async () => {
     collectionApproveTxHash = null;
+    approvedForAll = await isApprovedForAll(chainId, address, $metamaskAccount, $metamaskProvider);
 
-    collectionApproving = S1_CONFIRM;
+    if (approvedForAll) {
+      collectionApproving = S4_APPROVEDED;
+    } else {
+      collectionApproving = S1_CONFIRM;
+    }
   };
 
   onMount(() => {
@@ -97,7 +104,7 @@
 {/if}
 {#if collectionApproving >= S2_SIGN_TX && collectionApproving < S4_APPROVEDED}
   <div class="titre">
-    <i class="fas fa-sync fa-left c-green" />Approving NFTs of the collection...
+    <p><i class="fas fa-sync fa-left c-green" />Approving NFTs of the collection...</p>
   </div>
 {/if}
 
