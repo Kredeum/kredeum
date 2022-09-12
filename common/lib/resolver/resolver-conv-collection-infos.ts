@@ -1,4 +1,4 @@
-import { constants } from "ethers";
+import { constants, BigNumber } from "ethers";
 
 import type { CollectionType } from "@lib/common/ktypes";
 import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/kconfig";
@@ -44,6 +44,9 @@ const resolverConvOpenNFTsCollectionInfos = (
   collection.version = Number(collectionInfos[1][0] || -1);
   collection.template = collectionInfos[1][1] || "";
   collection.open = collectionInfos[1][2] || false;
+  collection.price = BigNumber.from(collectionInfos[1][3] || 0);
+  collection.receiver = collectionInfos[1][4] || constants.AddressZero;
+  collection.fee = BigNumber.from(collectionInfos[1][5] || 0);
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
   return collection;

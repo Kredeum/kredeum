@@ -21,9 +21,10 @@ const collectionGetContract = async (
   const signerAddress = Signer.isSigner(signerOrProvider) ? await signerOrProvider.getAddress() : "";
 
   let contract = contractsCache.get(collectionKey(chainId, address, signerAddress));
-  let abi: Array<string> = [];
 
   if (!contract) {
+    let abi: Array<string> = [];
+
     for (const [key, support] of Object.entries(collection.supports || {})) {
       if (support) {
         const abiKey = abis[key as ABIS];
@@ -83,4 +84,26 @@ const collectionKey = (chainId: number, address: string, account?: string): stri
 const collectionDefaultKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
-export { collectionGet, collectionMerge, collectionGetContract, collectionKey, collectionDefaultKey };
+const collectionBurnable = async (
+  chainId: number,
+  address: string,
+  signerOrProvider: Signer | Provider
+): Promise<string> => {
+  const { collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  let burnFunction = "";
+
+  if (collection.supports?.IOpenNFTsV4) {
+    burnFunction = "burn";
+  }
+
+  return burnFunction;
+};
+
+export {
+  collectionGet,
+  collectionMerge,
+  collectionGetContract,
+  collectionKey,
+  collectionDefaultKey,
+  collectionBurnable
+};

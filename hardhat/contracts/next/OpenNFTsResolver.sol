@@ -15,9 +15,26 @@ import "../interfaces/IAll.sol";
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](11);
 
+    uint8 constant IERC_2981 = 10;
+    uint8 constant IERC_LENGTH = 11;
+
+    uint8 constant IOPEN_NFTS = IERC_LENGTH + 0;
+    uint8 constant IOPEN_CHECKER = IERC_LENGTH + 1;
+    uint8 constant IOPEN_CLONEABLE = IERC_LENGTH + 2;
+    uint8 constant IOPEN_MARKETABLE = IERC_LENGTH + 3;
+    uint8 constant IOPEN_PAUSEABLE = IERC_LENGTH + 4;
+
+    uint8 constant IOPEN_NFTS_V0 = IERC_LENGTH + 5;
+    uint8 constant IOPEN_NFTS_V1 = IERC_LENGTH + 6;
+    uint8 constant IOPEN_NFTS_V2 = IERC_LENGTH + 7;
+    uint8 constant IOPEN_NFTS_V3 = IERC_LENGTH + 8;
+    uint8 constant IOPEN_NFTS_V4 = IERC_LENGTH + 9;
+    uint8 constant IOPEN_BOUND = IERC_LENGTH + 10;
+
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
         OpenRegistry._setRegisterer(registerer_);
+        
         /// 0xffffffff :  O Invalid
         /// 0x01ffc9a7 :  1 ERC165
         /// 0x80ac58cd :  2 ERC721
@@ -30,18 +47,18 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         /// 0x7f5828d0 :  9 ERC173
         /// 0x2a55205a : 10 ERC2981
 
-        _interfaceIds[0] = type(IOpenNFTs).interfaceId; //       11+0  = 11
-        _interfaceIds[1] = type(IOpenChecker).interfaceId; //    11+1  = 12
-        _interfaceIds[2] = type(IOpenCloneable).interfaceId; //  11+2  = 13
-        _interfaceIds[3] = type(IOpenMarketable).interfaceId; // 11+3  = 14
-        _interfaceIds[4] = type(IOpenPauseable).interfaceId; //  11+4  = 15
+        _interfaceIds[IOPEN_NFTS - IERC_LENGTH] = type(IOpenNFTs).interfaceId;
+        _interfaceIds[IOPEN_CHECKER - IERC_LENGTH] = type(IOpenChecker).interfaceId;
+        _interfaceIds[IOPEN_CLONEABLE - IERC_LENGTH] = type(IOpenCloneable).interfaceId;
+        _interfaceIds[IOPEN_MARKETABLE - IERC_LENGTH] = type(IOpenMarketable).interfaceId;
+        _interfaceIds[IOPEN_PAUSEABLE - IERC_LENGTH] = type(IOpenPauseable).interfaceId;
 
-        _interfaceIds[5] = type(IOpenNFTsV0).interfaceId; //     11+5  = 16
-        _interfaceIds[6] = type(IOpenNFTsV1).interfaceId; //     11+6  = 17
-        _interfaceIds[7] = type(IOpenNFTsV2).interfaceId; //     11+7  = 18
-        _interfaceIds[8] = type(IOpenNFTsV3).interfaceId; //     11+8  = 19
-        _interfaceIds[9] = type(IOpenNFTsV4).interfaceId; //     11+9  = 20
-        _interfaceIds[10] = type(IOpenBound).interfaceId; //     11+10 = 21
+        _interfaceIds[IOPEN_NFTS_V0 - IERC_LENGTH] = type(IOpenNFTsV0).interfaceId;
+        _interfaceIds[IOPEN_NFTS_V1 - IERC_LENGTH] = type(IOpenNFTsV1).interfaceId;
+        _interfaceIds[IOPEN_NFTS_V2 - IERC_LENGTH] = type(IOpenNFTsV2).interfaceId;
+        _interfaceIds[IOPEN_NFTS_V3 - IERC_LENGTH] = type(IOpenNFTsV3).interfaceId;
+        _interfaceIds[IOPEN_NFTS_V4 - IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
+        _interfaceIds[IOPEN_BOUND - IERC_LENGTH] = type(IOpenBound).interfaceId;
     }
 
     function getOpenNFTsNftsInfos(
@@ -169,14 +186,12 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         uint256 tokenID,
         bool[] memory supported
     ) internal view returns (OpenNFTsNftInfos memory nftInfos) {
-        if (supported[10]) {
-            // ERC2981
+        if (supported[IERC_2981]) {
             uint256 fee;
             (nftInfos.receiver, fee) = IERC2981(collection).royaltyInfo(tokenID, 10000);
-            nftInfos.fraction = uint96(fee);
+            nftInfos.fee = uint96(fee);
         }
-        if (supported[14]) {
-            // OpenMarketable
+        if (supported[IOPEN_MARKETABLE]) {
             nftInfos.price = IOpenMarketable(payable(collection)).tokenPrice(tokenID);
         }
     }
@@ -186,30 +201,24 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         view
         returns (OpenNFTsCollectionInfos memory collInfos)
     {
-        if (supported[13]) {
-            // OpenCloneable
+        if (supported[IOPEN_CLONEABLE]) {
             collInfos.version = IOpenCloneable(collection).version(); // 4
             collInfos.template = IOpenCloneable(collection).template(); // OpenNFTsV4 or OpenBound
             collInfos.open = IOpenNFTsV4(collection).open();
-        } else if (supported[19]) {
-            // OpenNFTsV3
+        } else if (supported[IOPEN_NFTS_V3]) {
             collInfos.version = 3;
             collInfos.template = "OpenNFTsV3";
             collInfos.open = IOpenNFTsV3(collection).open();
-        } else if (supported[18]) {
-            // OpenNFTsV2
+        } else if (supported[IOPEN_NFTS_V2]) {
             collInfos.version = 2;
-        } else if (supported[17]) {
-            // OpenNFTsV1
+        } else if (supported[IOPEN_NFTS_V1]) {
             collInfos.version = 1;
-        } else if (supported[16]) {
-            // OpenNFTsV0
+        } else if (supported[IOPEN_NFTS_V0]) {
             collInfos.version = 0;
         }
 
-        if (supported[14]) {
-            // OpenMarketable
-            (collInfos.receiver, collInfos.fraction) = IOpenMarketable(payable(collection)).getDefaultRoyaltyInfo();
+        if (supported[IOPEN_MARKETABLE]) {
+            (collInfos.receiver, collInfos.fee) = IOpenMarketable(payable(collection)).getDefaultRoyaltyInfo();
             collInfos.price = IOpenMarketable(payable(collection)).defaultPrice();
         }
     }

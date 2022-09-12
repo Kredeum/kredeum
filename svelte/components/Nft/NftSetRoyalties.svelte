@@ -1,20 +1,16 @@
 <script lang="ts">
-  import { nftStore } from "@stores/nft/nft";
-  import { nftSubListRefresh } from "@stores/nft/nftSubList";
-  import { explorerTxUrl, explorerTxLog, sleep, textShort } from "@lib/common/kconfig";
-
-  import { metamaskChainId, metamaskProvider, metamaskSigner, metamaskAccount } from "@main/metamask";
-
-  import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
+  import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
+  import { metamaskSigner } from "@main/metamask";
+  import { nftStore } from "@stores/nft/nft";
+  import { explorerTxUrl, explorerTxLog, sleep, textShort } from "@lib/common/kconfig";
+
   import { setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
-  import { ethers } from "ethers";
 
   /////////////////////////////////////////////////
-  //  <NftTransfer {chainId} {address} {tokenID} />
+  //  <NftSetRoyalties {chainId} {address} {tokenID} {nftRoyaltiesAmount} receiver />
   // Display NFT
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -23,45 +19,24 @@
   export let nftRoyaltiesAmount: string;
   export let receiver: string;
 
-  // Context for refreshCollectionList
-  ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  ///////////////////////////////////////////////////////////
-
   let setRoyaltyReceiverInput: string;
-  let settingTokenRoyaltyReceiver: boolean = false;
-
-  let inputReceiverError: string;
-
-  let setRoyaltiesAmountTxHash: string = null;
-  let settingTokenRoyaltiesAmount: boolean = false;
-  let failSetRoyaltiesAmount = false;
-  let setted = false;
-
-  let inputError: string;
   let setRoyaltiesAmountInput: string;
   let newNftRoyaltiesAmount: string;
 
+  let royaltyInfoSetting: number;
+  let setRoyaltyInfoTxHash: string;
+  let setRoyaltyInfoError: string;
+
   let open = false;
 
-  $: setted && open === false && handleResetAfterSetRoyaltiesAmount();
+  $: S4_ROYALTIES_SETTED && open === false && handleResetAfterSetRoyaltiesAmount();
   const handleResetAfterSetRoyaltiesAmount = () => {
-    setRoyaltiesAmountTxHash = null;
-    settingTokenRoyaltiesAmount = false;
-    setted = false;
-    failSetRoyaltiesAmount = false;
+    setRoyaltyInfoTxHash = null;
+    setRoyaltyInfoError = null;
     setRoyaltiesAmountInput = null;
+    setRoyaltyReceiverInput = null;
     newNftRoyaltiesAmount = null;
-  };
-
-  /////////////////////////////////////////////////
-
-  const openSetRoyaltiesModal = () => {
-    open = true;
-  };
-
-  const closeSetRoyaltiesModal = () => {
-    open = false;
+    royaltyInfoSetting = S1_CONFIRM;
   };
 
   /////////////////////////////////////////////////
@@ -69,152 +44,160 @@
   const handleRoyaltiesAmount = () => {
     setRoyaltiesAmountInput = setRoyaltiesAmountInput.replace(/[^0-9.,]/g, "");
     let formatedInputRoyaltiesAmount = setRoyaltiesAmountInput.replace(/[,]/g, ".");
-    // const decimals = formatedInputRoyaltiesAmount.split(".")[1];
-    // if (decimals?.length > 18) {
-    //   setRoyaltiesAmountInput = setRoyaltiesAmountInput.slice(0, -1);
-    //   formatedInputRoyaltiesAmount = formatedInputRoyaltiesAmount.slice(0, -1);
-    // }
 
     if (setRoyaltiesAmountInput) newNftRoyaltiesAmount = (Number(formatedInputRoyaltiesAmount) * 100).toString();
   };
 
-  const setNewTokenRoyaltyInfos = async () => {
-    if (setRoyaltiesAmountInput) {
-      settingTokenRoyaltiesAmount = true;
-      const txResp = await setTokenRoyaltyInfos(
-        chainId,
-        address,
-        tokenID,
-        Number(newNftRoyaltiesAmount),
-        $metamaskAccount,
-        $metamaskSigner
+  /////////////////////////////////////////////////
+
+  const _setRoyaltyInfoError = (err: string): void => {
+    setRoyaltyInfoError = err;
+    console.error(setRoyaltyInfoError);
+    royaltyInfoSetting = 0;
+  };
+
+  // SETTING ROYALTY INFO STATES
+  //
+  //  STATE 0 Start
+  //    |
+  //  STATE 1
+  //  Confirm Set royalty info
+  //    |
+  //  STATE 2
+  // Ask for signature
+  //    |
+  //  TEST TxResp --> ERROR sending TX
+  //    |
+  //  STATE 3 Display TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside TX
+  //    |
+  //  STATE 4 End TX & Refresh
+  //    |
+  //  CLICK Close
+  //    |
+  //  STATE 0 popup closed
+
+  // STATES : S0-S4
+  const S1_CONFIRM = 1;
+  const S2_SIGN_TX = 2;
+  const S3_WAIT_TX = 3;
+  const S4_ROYALTIES_SETTED = 4;
+
+  const setRoyaltyInfoInit = async () => {
+    setRoyaltyInfoTxHash = null;
+
+    royaltyInfoSetting = S1_CONFIRM;
+  };
+
+  const setRoyaltyInfoConfirm = async () => {
+    const setRoyaltyInfoTxRespYield = setTokenRoyaltyInfos(
+      chainId,
+      address,
+      tokenID,
+      newNftRoyaltiesAmount,
+      setRoyaltyReceiverInput,
+      $metamaskSigner
+    );
+
+    royaltyInfoSetting = S2_SIGN_TX;
+
+    const setRoyaltyInfoTxResp = (await setRoyaltyInfoTxRespYield.next()).value;
+    setRoyaltyInfoTxHash = setRoyaltyInfoTxResp?.hash;
+    if (!setRoyaltyInfoTxHash)
+      return _setRoyaltyInfoError(
+        `ERROR while sending transaction... ${JSON.stringify(setRoyaltyInfoTxResp, null, 2)}`
       );
 
-      if (txResp) {
-        setRoyaltiesAmountTxHash = txResp.hash;
+    explorerTxLog(chainId, setRoyaltyInfoTxResp);
+    royaltyInfoSetting = S3_WAIT_TX;
 
-        const txReceipt = await txResp.wait();
-        explorerTxLog(chainId, txResp);
+    const txReceipt = (await setRoyaltyInfoTxRespYield.next()).value;
 
-        const blockTx = txReceipt.blockNumber;
-        do {
-          await sleep(1000);
-        } while ((await $metamaskProvider.getBlockNumber()) <= blockTx);
+    if (!Boolean(txReceipt.status)) return _setRoyaltyInfoError(`ERROR returned by transaction ${txReceipt}`);
 
-        setted = Boolean(txReceipt.status);
-        await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-        await nftSubListRefresh(chainId, address, $metamaskAccount);
+    royaltyInfoSetting = S4_ROYALTIES_SETTED;
 
-        $refreshCollectionList += 1;
-      } else {
-        failSetRoyaltiesAmount = true;
-      }
-    } else {
-      inputError = "Please enter a valid RoyaltiesAmount";
-    }
-
-    settingTokenRoyaltiesAmount = false;
-    setRoyaltiesAmountInput = null;
+    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
-  /////////////////////////////////////////////////
+
+  onMount(() => {
+    setRoyaltyInfoInit();
+  });
 </script>
 
-<span on:click={openSetRoyaltiesModal} class="btn btn-small btn-outline" title="Sell this NFT">
-  <!-- <i class="fa fa-comment-dollar" />  -->
+<span on:click={() => (open = true)} class="btn btn-small btn-outline" title="Set royalty infos for this NFT">
   Set royalties infos
 </span>
 
 {#if open}
-  <div id="kre-price-nft" class="modal-window" transition:fade>
-    <div
-      use:clickOutside={() => {
-        closeSetRoyaltiesModal();
-      }}
-    >
-      <div id="kredeum-buy-nft">
+  <div id="kre-royalty-nft" class="modal-window" transition:fade>
+    <div use:clickOutside={() => (open = false)}>
+      <div id="kredeum-set-royalty-nft">
         <div class="modal-content">
-          <span on:click={closeSetRoyaltiesModal} title="Close" class="modal-close"><i class="fa fa-times" /></span>
+          <span on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></span>
 
           <div class="modal-body">
             <div>
-              <div class="kre-modal-block">
-                {#if !setted}
-                  <div class="titre">
-                    <p><i class="fas fa-angle-right" /> Set this NFT #{tokenID} RoyaltiesAmount</p>
-                  </div>
+              {#if royaltyInfoSetting == S1_CONFIRM}
+                <div class="titre">
+                  <p><i class="fas fa-angle-right" /> Set this NFT #{tokenID} RoyaltiesAmount</p>
+                </div>
 
-                  {#if failSetRoyaltiesAmount}
-                    <div class="section">
-                      <div class="kre-warning-msg">
-                        <i class="fas fa-exclamation-triangle fa-left c-red" />
-                        Setting RoyaltiesAmount process failed !
-                      </div>
-                    </div>
-                  {:else if settingTokenRoyaltiesAmount}
-                    <div class="section">
-                      <i class="fas fa-sync fa-left c-green" />Setting NFT RoyaltiesAmount to {ethers.utils.formatEther(
-                        newNftRoyaltiesAmount
-                      )}
-                      Eth...<br />
+                <div class="section">
+                  From {receiver} address to :
+                  <input type="text" bind:value={setRoyaltyReceiverInput} id="set-receiver-nft" />
+                </div>
 
-                      {#if setRoyaltiesAmountTxHash}
-                        Wait till completed, it may take one minute or more.
-                      {:else}
-                        Sign the transaction
-                      {/if}
-                    </div>
-                    <div class="txtright">
-                      <span class="btn btn-small btn-outline" title="wait until the end of transaction">
-                        <i class="fas fa-spinner fa-left c-green refresh" /> wait</span
-                      >
-                    </div>
-                  {:else}
-                    <div class="section">
-                      From {receiver} address to :
-                      <input
-                        type="text"
-                        bind:value={setRoyaltyReceiverInput}
-                        disabled={settingTokenRoyaltyReceiver}
-                        id="set-receiver-nft"
-                      />
-                      Eth
-                      {#if inputReceiverError}
-                        <span class="c-red">Please enter a valid Ethereum address</span>
-                      {/if}
-                    </div>
+                <div class="section">
+                  From {Number(nftRoyaltiesAmount) / 100} % to
+                  <input type="text" bind:value={setRoyaltiesAmountInput} id="set-price-nft" />
+                  %
+                </div>
+                <div class="txtright">
+                  <button class="btn btn-default btn-sell" type="submit" on:click={() => setRoyaltyInfoConfirm()}
+                    >Set Royalty infos</button
+                  >
+                </div>
+              {/if}
 
-                    <div class="section">
-                      From {Number(nftRoyaltiesAmount) / 100} % to
-                      <input
-                        type="text"
-                        bind:value={setRoyaltiesAmountInput}
-                        disabled={settingTokenRoyaltiesAmount}
-                        id="set-price-nft"
-                      />
-                      Eth
-                      {#if inputError}
-                        <span class="c-red">Please enter a valid royalties amount</span>
-                      {/if}
-                    </div>
-                    <div class="txtright">
-                      <button class="btn btn-default btn-sell" type="submit" on:click={() => setNewTokenRoyaltyInfos()}
-                        >Set Royalty infos</button
-                      >
-                    </div>
-                  {/if}
-                {:else}
-                  <div class="titre">
-                    <p><i class="fas fa-check fa-left c-green" /> NFT #{tokenID} RoyaltiesAmount setted !</p>
+              {#if royaltyInfoSetting >= S2_SIGN_TX && royaltyInfoSetting < S4_ROYALTIES_SETTED}
+                <div class="titre">
+                  <p><i class="fas fa-sync fa-left c-green" />Setting NFT RoyaltiesAmount to :</p>
+                </div>
+                <div class="section">
+                  Fee : {Number(newNftRoyaltiesAmount) / 100} %<br />
+                  Receiver : {setRoyaltyReceiverInput}
+                </div>
+              {/if}
+
+              {#if royaltyInfoSetting == S2_SIGN_TX}
+                <div class="section">Please, sign the transaction</div>
+              {:else if royaltyInfoSetting == S3_WAIT_TX}
+                <div class="section">Wait till completed, it may take one minute or more.</div>
+              {/if}
+
+              {#if royaltyInfoSetting == S4_ROYALTIES_SETTED}
+                <div class="titre">
+                  <p><i class="fas fa-check fa-left c-green" /> NFT #{tokenID} Royalty Info setted !</p>
+                </div>
+              {/if}
+
+              {#if setRoyaltyInfoTxHash}
+                <div class="flex">
+                  <a class="link" href={explorerTxUrl(chainId, setRoyaltyInfoTxHash)} target="_blank"
+                    >{textShort(setRoyaltyInfoTxHash)}</a
+                  >
+                </div>
+              {/if}
+
+              {#if setRoyaltyInfoError}
+                <div class="section">
+                  <div class="form-field kre-warning-msg">
+                    <p><i class="fas fa-exclamation-triangle fa-left c-red" />{setRoyaltyInfoError}</p>
                   </div>
-                {/if}
-                {#if setRoyaltiesAmountTxHash}
-                  <div class="flex">
-                    <a class="link" href={explorerTxUrl($metamaskChainId, setRoyaltiesAmountTxHash)} target="_blank"
-                      >{textShort(setRoyaltiesAmountTxHash)}</a
-                    >
-                  </div>
-                {/if}
-              </div>
+                </div>
+              {/if}
             </div>
           </div>
         </div>
@@ -229,19 +212,9 @@
     opacity: 1;
   }
 
-  .kre-modal-block {
-    border-bottom: 1px solid lightgray;
-    padding-bottom: 30px;
-  }
-
-  #kre-price-nft {
+  #kre-royalty-nft {
     z-index: 1000;
     pointer-events: auto;
-  }
-
-  .kre-warning-msg {
-    background-color: rgba(255, 0, 0, 0.07);
-    border-radius: 6px;
-    padding: 15px 30px;
+    text-align: left;
   }
 </style>
