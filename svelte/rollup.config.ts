@@ -58,13 +58,13 @@ const toRollupConfig = function (component: string): RollupOptions {
     input: ["main/app.ts"],
     output: [
       {
-        sourcemap: !production,
+        sourcemap: true,
         format: "iife",
         name: component.replace(/-/g, "_"),
         file: `../web/dapp/assets/${component}.js`
       },
       {
-        sourcemap: !production,
+        sourcemap: true,
         format: "iife",
         name: component.replace(/-/g, "_"),
         file: `../wordpress/plugins/kredeum-nfts/lib/js/${component}.js`
@@ -92,7 +92,7 @@ const toRollupConfig = function (component: string): RollupOptions {
         dedupe: ["svelte"],
         preferBuiltins: false
       }),
-      typescript({ sourceMap: !production, inlineSources: !production }),
+      typescript({ sourceMap: true, inlineSources: !production }),
       builtins(),
       json(),
       commonjs(),

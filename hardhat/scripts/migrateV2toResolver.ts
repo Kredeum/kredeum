@@ -6,8 +6,8 @@ import type { NetworkType } from "@lib/common/ktypes";
 import { getExplorer } from "@lib/common/kconfig";
 import { resolverFilterCollectionsAddress } from "@lib/resolver/resolver-get-collection";
 
-import abiINFTsFactory2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiICloneFactory2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiINFTsFactoryV2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiICloneFactoryV2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 
 import abiIOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 
@@ -35,7 +35,7 @@ const main = async () => {
 
   const nftsFactoryV2: NFTsFactoryV2 = new ethers.Contract(
     network.nftsFactoryV2 || "",
-    abiINFTsFactory2.concat(abiICloneFactory2),
+    abiINFTsFactoryV2.concat(abiICloneFactoryV2),
     provider
   ) as unknown as NFTsFactoryV2;
 

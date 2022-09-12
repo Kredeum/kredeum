@@ -5,7 +5,7 @@ import "./OpenNFTs.t.sol";
 
 contract OpenNFTsBuyTest is OpenNFTsOldTest {
     function testBuyOk() public {
-        changePrank(minter);
+        changePrank(owner);
         IERC721(op).setApprovalForAll(address(op), true);
 
         op.setTokenRoyalty(tokenID0, tester, 100);
@@ -13,16 +13,16 @@ contract OpenNFTsBuyTest is OpenNFTsOldTest {
 
         changePrank(buyer);
         deal(buyer, 10 ether);
-        uint256 balMinter = minter.balance;
+        uint256 balOwner = owner.balance;
 
-        assertEq(op.ownerOf(tokenID0), minter);
+        assertEq(op.ownerOf(tokenID0), owner);
         op.buy{value: 1.5 ether}(tokenID0);
         assertEq(op.ownerOf(tokenID0), buyer);
 
         assertEq(buyer.balance, 9 ether);
         assertEq(address(op).balance, 0 ether);
         assertEq(tester.balance, 0.01 ether);
-        assertEq(minter.balance, balMinter + 0.99 ether);
+        assertEq(owner.balance, balOwner + 0.99 ether);
     }
 
     function testFailBuyTwice() public {

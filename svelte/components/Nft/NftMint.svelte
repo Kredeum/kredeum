@@ -21,8 +21,7 @@
     explorerTxLog,
     explorerNftUrl,
     nftUrl,
-    storageLinkToUrlHttp,
-    sleep
+    storageLinkToUrlHttp
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
 
@@ -39,11 +38,10 @@
   export let gateway: string = undefined;
   export let key: string = undefined;
 
-  // Context for refreshCollectionList & refreshNftsList & refreshing
+  // Context for refreshCollectionList & refreshNftsList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshNftsList: Writable<number> = getContext("refreshNftsList");
-  let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
   /////////////////////////////////////////////////
@@ -66,7 +64,6 @@
 
   let minting: number;
   let mintingTxResp: TransactionResponse;
-  let mintingTxHash: string;
   let mintedNft: NftType;
   let mintingError: string;
   /////////////////////////////////////////////////
@@ -134,8 +131,7 @@
   //    |
   //  STATE 0 popup closed
 
-  // STATES : S0 -S6
-  const S0_START = 0;
+  // STATES : S1-S6
   const S1_CONFIRM = 1;
   const S2_STORE_IMAGE = 2;
   const S3_STORE_METADATA = 3;
@@ -187,7 +183,6 @@
     minting = S4_SIGN_TX;
 
     mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
-    mintingTxHash = mintingTxResp?.hash;
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 

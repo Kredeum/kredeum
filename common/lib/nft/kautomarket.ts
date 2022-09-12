@@ -59,7 +59,7 @@ const getDefaultCollRoyaltyInfos = async (
 
   if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: BigNumber.from(0) };
 
-  const royaltyInfostest = await (contract as IOpenMarketable).getDefaultRoyaltyInfo();
+  const royaltyInfostest = await (contract as IOpenMarketable).getDefaultRoyalty();
 
   return { receiver: royaltyInfostest[0], fee: royaltyInfostest[1] };
 };

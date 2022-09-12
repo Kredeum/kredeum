@@ -28,9 +28,7 @@ import "../interfaces/IOpenNFTsV3.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IOpenBound.sol";
 
-import "../interfaces/ICloneFactory.sol";
 import "../interfaces/ICloneFactoryV2.sol";
-import "../interfaces/INFTsFactory.sol";
 import "../interfaces/INFTsFactoryV2.sol";
 import "../interfaces/IOpenNFTsFactoryV3.sol";
 
@@ -51,7 +49,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @return interfacesIds : Array of all interfaceIds
     function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         uint256 i;
-        uint256 imax = 29;
+        uint256 imax = 27;
 
         interfacesIds = new bytes4[](imax);
 
@@ -82,9 +80,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = type(IOpenNFTsV4).interfaceId;
         interfacesIds[i++] = type(IOpenBound).interfaceId;
 
-        interfacesIds[i++] = bytes4(0xf73a622c); // ICloneFactory
         interfacesIds[i++] = bytes4(0xcfc6c434); // ICloneFactoryV2
-        interfacesIds[i++] = bytes4(0x74618347); // INFTsFactory
         interfacesIds[i++] = bytes4(0x78f5e5c2); // INFTsFactoryV2
         interfacesIds[i++] = type(IOpenNFTsFactoryV3).interfaceId; // IOpenNFTsFactoryV3
 

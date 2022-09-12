@@ -44,6 +44,10 @@
     {
       "filePath": "hardhat/node_modules/OpenNFTs",
       "group": "Default"
+    },
+    {
+      "filePath": "svelte/rollup.config.ts",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/dapp/",

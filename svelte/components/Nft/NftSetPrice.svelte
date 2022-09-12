@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
 
   import { metamaskSigner } from "@main/metamask";
-  import { explorerTxLog, explorerTxUrl, sleep, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
   import { setTokenPrice } from "@lib/nft/kautomarket";
@@ -72,7 +72,7 @@
   });
 
   const setPriceConfirm = async () => {
-    const tokenSetPriceTxRespYield = await setTokenPrice(chainId, address, tokenID, tokenNewPrice, $metamaskSigner);
+    const tokenSetPriceTxRespYield =  setTokenPrice(chainId, address, tokenID, tokenNewPrice, $metamaskSigner);
 
     tokenPriceSetting = S2_SIGN_TX;
 

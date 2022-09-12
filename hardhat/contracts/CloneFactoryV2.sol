@@ -8,7 +8,7 @@ import "./interfaces/ICloneFactoryV2.sol";
 
 /// @title Abstract Clone Factory V2
 /// @notice Generic Clone Factory to clone Templates
-/// @dev CloneFactory is ICloneFactory and Ownable
+/// @dev CloneFactory is ICloneFactoryV2 and Ownable
 abstract contract CloneFactoryV2 is ICloneFactoryV2, Ownable {
     /// @notice Implementations addresses
     address[] public implementations;

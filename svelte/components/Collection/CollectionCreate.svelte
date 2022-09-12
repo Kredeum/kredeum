@@ -183,6 +183,9 @@
         cloning = S6_WAIT_PRICE_TX;
 
         const txReceipt = (await txRespYield.next()).value;
+
+        if (!txReceipt.status)
+          return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(txReceipt, null, 2)}`);
       }
     }
 
@@ -207,6 +210,9 @@
       cloning = S8_WAIT_ROYALTIES_TX;
 
       const txReceipt = (await txRespYield.next()).value;
+
+      if (!txReceipt.status)
+        return _cloneError(`ERROR collectionRoyalties bad status ${JSON.stringify(txReceipt, null, 2)}`);
 
       cloning = S9_MINTED;
     }

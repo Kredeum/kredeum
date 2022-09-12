@@ -15,26 +15,26 @@ import "../interfaces/IAll.sol";
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](11);
 
-    uint8 constant IERC_2981 = 10;
-    uint8 constant IERC_LENGTH = 11;
+    uint8 private constant _IERC_2981 = 10;
+    uint8 private constant _IERC_LENGTH = 11;
 
-    uint8 constant IOPEN_NFTS = IERC_LENGTH + 0;
-    uint8 constant IOPEN_CHECKER = IERC_LENGTH + 1;
-    uint8 constant IOPEN_CLONEABLE = IERC_LENGTH + 2;
-    uint8 constant IOPEN_MARKETABLE = IERC_LENGTH + 3;
-    uint8 constant IOPEN_PAUSEABLE = IERC_LENGTH + 4;
+    uint8 private constant _IOPEN_NFTS = _IERC_LENGTH + 0;
+    uint8 private constant _IOPEN_CHECKER = _IERC_LENGTH + 1;
+    uint8 private constant _IOPEN_CLONEABLE = _IERC_LENGTH + 2;
+    uint8 private constant _IOPEN_MARKETABLE = _IERC_LENGTH + 3;
+    uint8 private constant _IOPEN_PAUSEABLE = _IERC_LENGTH + 4;
 
-    uint8 constant IOPEN_NFTS_V0 = IERC_LENGTH + 5;
-    uint8 constant IOPEN_NFTS_V1 = IERC_LENGTH + 6;
-    uint8 constant IOPEN_NFTS_V2 = IERC_LENGTH + 7;
-    uint8 constant IOPEN_NFTS_V3 = IERC_LENGTH + 8;
-    uint8 constant IOPEN_NFTS_V4 = IERC_LENGTH + 9;
-    uint8 constant IOPEN_BOUND = IERC_LENGTH + 10;
+    uint8 private constant _IOPEN_NFTS_V0 = _IERC_LENGTH + 5;
+    uint8 private constant _IOPEN_NFTS_V1 = _IERC_LENGTH + 6;
+    uint8 private constant _IOPEN_NFTS_V2 = _IERC_LENGTH + 7;
+    uint8 private constant _IOPEN_NFTS_V3 = _IERC_LENGTH + 8;
+    uint8 private constant _IOPEN_NFTS_V4 = _IERC_LENGTH + 9;
+    uint8 private constant _IOPEN_BOUND = _IERC_LENGTH + 10;
 
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
         OpenRegistry._setRegisterer(registerer_);
-        
+
         /// 0xffffffff :  O Invalid
         /// 0x01ffc9a7 :  1 ERC165
         /// 0x80ac58cd :  2 ERC721
@@ -47,18 +47,18 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         /// 0x7f5828d0 :  9 ERC173
         /// 0x2a55205a : 10 ERC2981
 
-        _interfaceIds[IOPEN_NFTS - IERC_LENGTH] = type(IOpenNFTs).interfaceId;
-        _interfaceIds[IOPEN_CHECKER - IERC_LENGTH] = type(IOpenChecker).interfaceId;
-        _interfaceIds[IOPEN_CLONEABLE - IERC_LENGTH] = type(IOpenCloneable).interfaceId;
-        _interfaceIds[IOPEN_MARKETABLE - IERC_LENGTH] = type(IOpenMarketable).interfaceId;
-        _interfaceIds[IOPEN_PAUSEABLE - IERC_LENGTH] = type(IOpenPauseable).interfaceId;
+        _interfaceIds[_IOPEN_NFTS - _IERC_LENGTH] = type(IOpenNFTs).interfaceId;
+        _interfaceIds[_IOPEN_CHECKER - _IERC_LENGTH] = type(IOpenChecker).interfaceId;
+        _interfaceIds[_IOPEN_CLONEABLE - _IERC_LENGTH] = type(IOpenCloneable).interfaceId;
+        _interfaceIds[_IOPEN_MARKETABLE - _IERC_LENGTH] = type(IOpenMarketable).interfaceId;
+        _interfaceIds[_IOPEN_PAUSEABLE - _IERC_LENGTH] = type(IOpenPauseable).interfaceId;
 
-        _interfaceIds[IOPEN_NFTS_V0 - IERC_LENGTH] = type(IOpenNFTsV0).interfaceId;
-        _interfaceIds[IOPEN_NFTS_V1 - IERC_LENGTH] = type(IOpenNFTsV1).interfaceId;
-        _interfaceIds[IOPEN_NFTS_V2 - IERC_LENGTH] = type(IOpenNFTsV2).interfaceId;
-        _interfaceIds[IOPEN_NFTS_V3 - IERC_LENGTH] = type(IOpenNFTsV3).interfaceId;
-        _interfaceIds[IOPEN_NFTS_V4 - IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
-        _interfaceIds[IOPEN_BOUND - IERC_LENGTH] = type(IOpenBound).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V0 - _IERC_LENGTH] = type(IOpenNFTsV0).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V1 - _IERC_LENGTH] = type(IOpenNFTsV1).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V2 - _IERC_LENGTH] = type(IOpenNFTsV2).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V3 - _IERC_LENGTH] = type(IOpenNFTsV3).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V4 - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
+        _interfaceIds[_IOPEN_BOUND - _IERC_LENGTH] = type(IOpenBound).interfaceId;
     }
 
     function getOpenNFTsNftsInfos(
@@ -186,12 +186,12 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         uint256 tokenID,
         bool[] memory supported
     ) internal view returns (OpenNFTsNftInfos memory nftInfos) {
-        if (supported[IERC_2981]) {
+        if (supported[_IERC_2981]) {
             uint256 fee;
             (nftInfos.receiver, fee) = IERC2981(collection).royaltyInfo(tokenID, 10000);
             nftInfos.fee = uint96(fee);
         }
-        if (supported[IOPEN_MARKETABLE]) {
+        if (supported[_IOPEN_MARKETABLE]) {
             nftInfos.price = IOpenMarketable(payable(collection)).tokenPrice(tokenID);
         }
     }
@@ -201,24 +201,24 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         view
         returns (OpenNFTsCollectionInfos memory collInfos)
     {
-        if (supported[IOPEN_CLONEABLE]) {
+        if (supported[_IOPEN_CLONEABLE]) {
             collInfos.version = IOpenCloneable(collection).version(); // 4
             collInfos.template = IOpenCloneable(collection).template(); // OpenNFTsV4 or OpenBound
             collInfos.open = IOpenNFTsV4(collection).open();
-        } else if (supported[IOPEN_NFTS_V3]) {
+        } else if (supported[_IOPEN_NFTS_V3]) {
             collInfos.version = 3;
             collInfos.template = "OpenNFTsV3";
             collInfos.open = IOpenNFTsV3(collection).open();
-        } else if (supported[IOPEN_NFTS_V2]) {
+        } else if (supported[_IOPEN_NFTS_V2]) {
             collInfos.version = 2;
-        } else if (supported[IOPEN_NFTS_V1]) {
+        } else if (supported[_IOPEN_NFTS_V1]) {
             collInfos.version = 1;
-        } else if (supported[IOPEN_NFTS_V0]) {
+        } else if (supported[_IOPEN_NFTS_V0]) {
             collInfos.version = 0;
         }
 
-        if (supported[IOPEN_MARKETABLE]) {
-            (collInfos.receiver, collInfos.fee) = IOpenMarketable(payable(collection)).getDefaultRoyaltyInfo();
+        if (supported[_IOPEN_MARKETABLE]) {
+            (collInfos.receiver, collInfos.fee) = IOpenMarketable(payable(collection)).getDefaultRoyalty();
             collInfos.price = IOpenMarketable(payable(collection)).defaultPrice();
         }
     }

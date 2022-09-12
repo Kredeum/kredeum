@@ -64,7 +64,7 @@
   });
 
   const approveCollectionConfirm = async () => {
-    const collectionApproveTxRespYield = await setCollectionApproval(chainId, address, approval, $metamaskSigner);
+    const collectionApproveTxRespYield = setCollectionApproval(chainId, address, approval, $metamaskSigner);
 
     collectionApproving = S2_SIGN_TX;
 

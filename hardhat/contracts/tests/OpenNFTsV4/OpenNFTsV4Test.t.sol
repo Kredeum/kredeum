@@ -36,7 +36,7 @@ contract OpenNFTsV4Test is
 {
     function constructorTest(address owner)
         public
-        override (
+        override(
             ERC721TransferableTest,
             ERC173Test,
             ERC2981Test,
@@ -54,7 +54,7 @@ contract OpenNFTsV4Test is
         return constructorTest(owner, true);
     }
 
-    function constructorTest(address owner, bool init) public override (OpenNFTsV4InitializeTest) returns (address) {
+    function constructorTest(address owner, bool init) public override(OpenNFTsV4InitializeTest) returns (address) {
         changePrank(owner);
         bool[] memory options = new bool[](1);
         options[0] = true;
@@ -69,7 +69,7 @@ contract OpenNFTsV4Test is
 
     function mintTest(address collection, address minter)
         public
-        override (
+        override(
             OpenNFTsV4BuyTest,
             OpenNFTsTest,
             OpenNFTsBurnTest,
@@ -85,21 +85,27 @@ contract OpenNFTsV4Test is
         return (OpenNFTsV4(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override (OpenNFTsTest, OpenNFTsBurnTest) {
+    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
         changePrank(OpenNFTsV4(payable(collection)).ownerOf(tokenID));
         OpenNFTsV4(payable(collection)).burn(tokenID);
     }
 
-    function setPriceTest(address collection, uint256 tokenID, uint256 price) public {
+    function setPriceTest(
+        address collection,
+        uint256 tokenID,
+        uint256 price
+    ) public {
+        // changePrank(OpenNFTsV4(payable(collection)).ownerOf(tokenID));
         OpenNFTsV4(payable(collection)).setTokenPrice(tokenID, price);
     }
 
-    function setRoyaltyTest(address collection, address receiver, uint96 fee)
-        public
-        override (ERC2981Test, OpenMarketableTest)
-        returns (uint256 tokenID)
-    {
-        (tokenID,) = mintTest(collection, receiver);
+    function setRoyaltyTest(
+        address collection,
+        address receiver,
+        uint96 fee
+    ) public override(ERC2981Test, OpenMarketableTest) returns (uint256 tokenID) {
+        changePrank(OpenNFTsV4(payable(collection)).owner());
+        (tokenID, ) = (OpenNFTsV4(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
         OpenNFTsV4(payable(collection)).setTokenRoyalty(tokenID, receiver, fee);
     }
 

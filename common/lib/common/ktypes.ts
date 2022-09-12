@@ -84,9 +84,7 @@ type CollectionSupports = {
   IOpenMarketable?: boolean;
   IOpenPauseable?: boolean;
 
-  ICloneFactory?: boolean;
   ICloneFactoryV2?: boolean;
-  INFTsFactory?: boolean;
   INFTsFactoryV2?: boolean;
   IOpenNFTsFactoryV3?: boolean;
 

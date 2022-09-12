@@ -24,12 +24,9 @@ import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
 
-import "./ICloneFactory.sol";
 import "./ICloneFactoryV2.sol";
-import "./INFTsFactory.sol";
 import "./INFTsFactoryV2.sol";
 import "./IOpenNFTsFactoryV3.sol";
-
 import "./IOpenNFTsV0.sol";
 import "./IOpenNFTsV1.sol";
 import "./IOpenNFTsV2.sol";

@@ -71,7 +71,7 @@
   });
 
   const approveConfirm = async () => {
-    const tokenApproveTxRespYield = await setTokenApprove(chainId, address, tokenID, $metamaskSigner);
+    const tokenApproveTxRespYield = setTokenApprove(chainId, address, tokenID, $metamaskSigner);
 
     tokenApproving = S2_SIGN_TX;
 

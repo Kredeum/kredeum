@@ -72,7 +72,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = await buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
 
     buying = S2_SIGN_TX;
 

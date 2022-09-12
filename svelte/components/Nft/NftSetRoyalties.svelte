@@ -5,7 +5,7 @@
 
   import { metamaskSigner } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
-  import { explorerTxUrl, explorerTxLog, sleep, textShort } from "@lib/common/kconfig";
+  import { explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
 
   import { setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
 
