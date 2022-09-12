@@ -1,64 +1,37 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { Signer } from "@ethersproject/abstract-signer";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { getNetwork } from "../common/kconfig";
 import { explorerTxLog } from "../common/kconfig";
 
-import { BigNumber } from "ethers";
-
-const buyNftResponse = async (
+async function* buyNft(
   chainId: number,
   address: string,
   tokenID: string,
-  buyer: JsonRpcSigner,
-  nftPrice: string
-): Promise<TransactionResponse | undefined> => {
-  // console.log("transferNftResponse", chainId, address, tokenID, destinationAddress);
+  nftPrice: string,
+  buyer: Signer
+): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  // console.log("setTokenPrice", chainId, address, tokenID, nftPrice, signer);
 
-  let txResp: TransactionResponse | undefined = undefined;
-  const network = getNetwork(chainId);
-
-  if (!(chainId && address && tokenID && network && buyer)) return txResp;
+  if (!(chainId && address && tokenID && nftPrice && buyer)) return {};
 
   const { contract, collection } = await collectionGetContract(chainId, address, buyer);
+  // console.log("contract", contract);
+  if (!collection.supports?.IOpenMarketable) return {};
 
-  if (collection.supports?.IOpenNFTsV4) {
-    const buyFunction = contract["buy(uint256)"] as {
-      (tokenID: BigNumber, paymentSent: { value: BigNumber }): Promise<TransactionResponse>;
-    };
+  const buyFunction = contract["buy(uint256)"] as {
+    (tokenID: string, paymentSent: { value: string }): Promise<TransactionResponse>;
+  };
 
-    try {
-      txResp = await buyFunction(BigNumber.from(tokenID), {
-        value: BigNumber.from(nftPrice)
-      });
-      explorerTxLog(chainId, txResp);
-    } catch (e) {
-      console.error("ERROR During buying", e);
-    }
-  }
+  const txResp: TransactionResponse | undefined = await buyFunction(tokenID, {
+    value: nftPrice
+  });
 
-  return txResp;
-};
-
-const buyNftReceipt = async (txResp: TransactionResponse): Promise<TransactionReceipt> => {
-  return await txResp.wait();
-};
-
-const buyNft = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  owner: JsonRpcSigner,
-  nftPrice: string
-): Promise<TransactionReceipt | undefined> => {
-  // console.log("transferNft", chainId, address, tokenID, destinationAddress);
-
-  const txResp = await buyNftResponse(chainId, address, tokenID, owner, nftPrice);
+  if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
-  const txReceipt = txResp && (await buyNftReceipt(txResp));
+  yield txResp;
+  yield await txResp.wait();
+}
 
-  return txReceipt;
-};
-
-export { buyNft, buyNftResponse, buyNftReceipt };
+export { buyNft };
