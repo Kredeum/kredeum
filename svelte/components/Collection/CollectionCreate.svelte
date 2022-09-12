@@ -100,15 +100,18 @@
   //  TEST TxReceipt --> ERROR inside Price TX
   //    |
   //  STATE 7
+  // Defaut collection price setted
+  //    |
+  //  STATE 8
   // Ask for Royalties signature
   //    |
   //  TEST TxResp --> ERROR sending Royalties TX
   //    |
-  //  STATE 8 Wait TX & display Royalties TX Hash
+  //  STATE 9 Wait TX & display Royalties TX Hash
   //    |
   //  TEST TxReceipt --> ERROR inside Royalties TX
   //    |
-  //  STATE 9 End TX & Refresh
+  //  STATE 10 End TX & Refresh
   //    |
   //  CLICK Close
   //    |
@@ -121,9 +124,10 @@
   const S4_COLL_CREATED = 4;
   const S5_SIGN_PRICE_TX = 5;
   const S6_WAIT_PRICE_TX = 6;
-  const S7_SIGN_ROYALTIES_TX = 7;
-  const S8_WAIT_ROYALTIES_TX = 8;
-  const S9_MINTED = 9;
+  const S7_PRICE_SETTED = 7;
+  const S8_SIGN_ROYALTIES_TX = 8;
+  const S9_WAIT_ROYALTIES_TX = 9;
+  const S10_MINTED = 10;
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -183,11 +187,13 @@
         cloning = S6_WAIT_PRICE_TX;
 
         const txReceipt = (await txRespYield.next()).value;
+
+        cloning = S7_PRICE_SETTED;
       }
     }
 
     if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
-      cloning = S7_SIGN_ROYALTIES_TX;
+      cloning = S8_SIGN_ROYALTIES_TX;
 
       const txRespYield = setDefautCollectionRoyalty(
         chainId,
@@ -204,11 +210,11 @@
       explorerTxLog(chainId, txResp);
       royaltiesTxHash = txResp.hash;
 
-      cloning = S8_WAIT_ROYALTIES_TX;
+      cloning = S9_WAIT_ROYALTIES_TX;
 
       const txReceipt = (await txRespYield.next()).value;
 
-      cloning = S9_MINTED;
+      cloning = S10_MINTED;
     }
 
     $refreshCollectionList += 1;
@@ -332,16 +338,16 @@
           </div>
         {/if}
 
-        {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_SIGN_ROYALTIES_TX}
+        {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_PRICE_SETTED && inputCollectionDefaultPrice}
           <div class="titre">
             <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
               collectionDefaultPrice
             )} Eth
           </div>
         {/if}
-        {#if cloning == S5_SIGN_PRICE_TX}
+        {#if cloning == S5_SIGN_PRICE_TX && inputCollectionDefaultPrice}
           <div class="section">Please, sign the transaction</div>
-        {:else if cloning == S6_WAIT_PRICE_TX}
+        {:else if cloning == S6_WAIT_PRICE_TX && inputCollectionDefaultPrice}
           <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
@@ -349,7 +355,7 @@
             >
           </div>
         {/if}
-        {#if cloning >= S7_SIGN_ROYALTIES_TX}
+        {#if cloning >= S7_PRICE_SETTED && inputCollectionDefaultPrice}
           <div class="titre">
             <i class="fas fa-check fa-left c-green" />
             default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
@@ -363,7 +369,7 @@
           </div>
         {/if}
 
-        {#if cloning >= S7_SIGN_ROYALTIES_TX && cloning < S9_MINTED}
+        {#if cloning >= S8_SIGN_ROYALTIES_TX && cloning < S10_MINTED}
           <div>
             <div class="titre">
               <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
@@ -374,16 +380,16 @@
             </div>
           </div>
         {/if}
-        {#if cloning == S7_SIGN_ROYALTIES_TX}
+        {#if cloning == S8_SIGN_ROYALTIES_TX}
           <div class="section">Sign the transaction</div>
-        {:else if cloning == S8_WAIT_ROYALTIES_TX}
+        {:else if cloning == S9_WAIT_ROYALTIES_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
               >{textShort(royaltiesTxHash)}</a
             >
           </div>
-        {:else if cloning == S9_MINTED}
+        {:else if cloning == S10_MINTED}
           <div class="titre">
             <i class="fas fa-check fa-left c-green" />
             default Nft Royalty info setted to :<br />
