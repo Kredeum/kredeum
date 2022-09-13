@@ -6,7 +6,7 @@ import { getNonce } from "@utils/getNonce";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
-const contractName = "OpenNFTsFactoryV3";
+const contractName = "OpenFactoryV3";
 
 const deployFunction: DeployFunction = async function (hre): Promise<void> {
   const deployer = await hre.ethers.getNamedSigner("deployer");
@@ -22,7 +22,7 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
 
   // Deterministic expect for these networks
   // if (!["avalanche", "fuji"].includes(hre.network.name)) {
-  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 OpenNFTsFactoryV3");
+  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 OpenFactoryV3");
   // }
 
   const deployResult = await hre.deployments.deploy(contractName, deployOptions);

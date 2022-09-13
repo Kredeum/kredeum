@@ -7,11 +7,7 @@
   import { Writable } from "svelte/store";
 
   import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
-  import {
-    collectionCloneResponse,
-    collectionCloneReceipt,
-    collectionCloneAddress
-  } from "@lib/collection/kcollection-clone";
+  import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
   import { metamaskSigner } from "@main/metamask";
@@ -100,15 +96,18 @@
   //  TEST TxReceipt --> ERROR inside Price TX
   //    |
   //  STATE 7
+  // Defaut collection price setted
+  //    |
+  //  STATE 8
   // Ask for Royalties signature
   //    |
   //  TEST TxResp --> ERROR sending Royalties TX
   //    |
-  //  STATE 8 Wait TX & display Royalties TX Hash
+  //  STATE 9 Wait TX & display Royalties TX Hash
   //    |
   //  TEST TxReceipt --> ERROR inside Royalties TX
   //    |
-  //  STATE 9 End TX & Refresh
+  //  STATE 10 End TX & Refresh
   //    |
   //  CLICK Close
   //    |
@@ -121,9 +120,10 @@
   const S4_COLL_CREATED = 4;
   const S5_SIGN_PRICE_TX = 5;
   const S6_WAIT_PRICE_TX = 6;
-  const S7_SIGN_ROYALTIES_TX = 7;
-  const S8_WAIT_ROYALTIES_TX = 8;
-  const S9_MINTED = 9;
+  const S7_PRICE_SETTED = 7;
+  const S8_SIGN_ROYALTIES_TX = 8;
+  const S9_WAIT_ROYALTIES_TX = 9;
+  const S10_MINTED = 10;
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -134,23 +134,26 @@
 
   const _cloneConfirm = async () => {
     cloning = S2_SIGN_CLONE_TX;
-    const txResp = await collectionCloneResponse(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
+    const cloneTxRespYield = collectionClone(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
 
-    if (!txResp) return _cloneError("ERROR collectionClone no txResp");
+    const cloneTxResp = (await cloneTxRespYield.next()).value;
 
-    explorerTxLog(chainId, txResp);
-    cloningTxHash = txResp.hash;
+    if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
+
+    explorerTxLog(chainId, cloneTxResp);
+    cloningTxHash = cloneTxResp.hash;
 
     cloning = S3_WAIT_CLONE_TX;
 
-    const txReceipt = await collectionCloneReceipt(txResp);
+    const cloneTxReceipt = (await cloneTxRespYield.next()).value;
 
-    if (!txReceipt.status) return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(txReceipt, null, 2)}`);
+    if (!cloneTxReceipt.status)
+      return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(cloneTxReceipt, null, 2)}`);
 
     collectionCreated = {
       chainId: chainId,
       name: collectionName,
-      address: collectionCloneAddress(txReceipt),
+      address: collectionCloneAddress(cloneTxReceipt),
       owner: await $metamaskSigner.getAddress()
     };
 
@@ -166,33 +169,35 @@
       if (inputCollectionDefaultPrice) {
         cloning = S5_SIGN_PRICE_TX;
 
-        const txRespYield = setDefautCollectionPrice(
+        const setDefaultPriceTxRespYield = setDefautCollectionPrice(
           chainId,
           collection.address,
           collectionDefaultPrice,
           $metamaskSigner
         );
 
-        const txResp = (await txRespYield.next()).value;
+        const setDefaultPriceTxResp = (await setDefaultPriceTxRespYield.next()).value;
 
-        if (!txResp) return _cloneError("ERROR collectionPrice no txResp");
+        if (!setDefaultPriceTxResp) return _cloneError("ERROR collectionPrice no setDefaultPriceTxResp");
 
-        explorerTxLog(chainId, txResp);
-        defaultPriceTxHash = txResp.hash;
+        explorerTxLog(chainId, setDefaultPriceTxResp);
+        defaultPriceTxHash = setDefaultPriceTxResp.hash;
 
         cloning = S6_WAIT_PRICE_TX;
 
-        const txReceipt = (await txRespYield.next()).value;
+        const setDefaultPriceTxReceipt = (await setDefaultPriceTxRespYield.next()).value;
 
-        if (!txReceipt.status)
-          return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(txReceipt, null, 2)}`);
+        if (!setDefaultPriceTxReceipt.status)
+          return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(setDefaultPriceTxReceipt, null, 2)}`);
+
+        cloning = S7_PRICE_SETTED;
       }
     }
 
     if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
-      cloning = S7_SIGN_ROYALTIES_TX;
+      cloning = S8_SIGN_ROYALTIES_TX;
 
-      const txRespYield = setDefautCollectionRoyalty(
+      const setDefaultRoyaltyTxRespYield = setDefautCollectionRoyalty(
         chainId,
         collectionCreated.address,
         inputCollectionDefaultRoyaltiesReceiver,
@@ -200,21 +205,21 @@
         $metamaskSigner
       );
 
-      const txResp = (await txRespYield.next()).value;
+      const setDefaultRoyaltyTxResp = (await setDefaultRoyaltyTxRespYield.next()).value;
 
-      if (!txResp) return _cloneError("ERROR collectionRoyalties no txResp");
+      if (!setDefaultRoyaltyTxResp) return _cloneError("ERROR collectionRoyalties no setDefaultRoyaltyTxResp");
 
-      explorerTxLog(chainId, txResp);
-      royaltiesTxHash = txResp.hash;
+      explorerTxLog(chainId, setDefaultRoyaltyTxResp);
+      royaltiesTxHash = setDefaultRoyaltyTxResp.hash;
 
-      cloning = S8_WAIT_ROYALTIES_TX;
+      cloning = S9_WAIT_ROYALTIES_TX;
 
-      const txReceipt = (await txRespYield.next()).value;
+      const setDefaultRpyaltyReceipt = (await setDefaultRoyaltyTxRespYield.next()).value;
 
-      if (!txReceipt.status)
-        return _cloneError(`ERROR collectionRoyalties bad status ${JSON.stringify(txReceipt, null, 2)}`);
+      if (!setDefaultRpyaltyReceipt.status)
+        return _cloneError(`ERROR collectionRoyalties bad status ${JSON.stringify(setDefaultRpyaltyReceipt, null, 2)}`);
 
-      cloning = S9_MINTED;
+      cloning = S10_MINTED;
     }
 
     $refreshCollectionList += 1;
@@ -338,16 +343,16 @@
           </div>
         {/if}
 
-        {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_SIGN_ROYALTIES_TX}
+        {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_PRICE_SETTED && inputCollectionDefaultPrice}
           <div class="titre">
             <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
               collectionDefaultPrice
             )} Eth
           </div>
         {/if}
-        {#if cloning == S5_SIGN_PRICE_TX}
+        {#if cloning == S5_SIGN_PRICE_TX && inputCollectionDefaultPrice}
           <div class="section">Please, sign the transaction</div>
-        {:else if cloning == S6_WAIT_PRICE_TX}
+        {:else if cloning == S6_WAIT_PRICE_TX && inputCollectionDefaultPrice}
           <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
@@ -355,7 +360,7 @@
             >
           </div>
         {/if}
-        {#if cloning >= S7_SIGN_ROYALTIES_TX}
+        {#if cloning >= S7_PRICE_SETTED && inputCollectionDefaultPrice}
           <div class="titre">
             <i class="fas fa-check fa-left c-green" />
             default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
@@ -369,7 +374,7 @@
           </div>
         {/if}
 
-        {#if cloning >= S7_SIGN_ROYALTIES_TX && cloning < S9_MINTED}
+        {#if cloning >= S8_SIGN_ROYALTIES_TX && cloning < S10_MINTED}
           <div>
             <div class="titre">
               <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
@@ -380,16 +385,16 @@
             </div>
           </div>
         {/if}
-        {#if cloning == S7_SIGN_ROYALTIES_TX}
+        {#if cloning == S8_SIGN_ROYALTIES_TX}
           <div class="section">Sign the transaction</div>
-        {:else if cloning == S8_WAIT_ROYALTIES_TX}
+        {:else if cloning == S9_WAIT_ROYALTIES_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
             <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
               >{textShort(royaltiesTxHash)}</a
             >
           </div>
-        {:else if cloning == S9_MINTED}
+        {:else if cloning == S10_MINTED}
           <div class="titre">
             <i class="fas fa-check fa-left c-green" />
             default Nft Royalty info setted to :<br />

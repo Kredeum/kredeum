@@ -24,6 +24,8 @@ const resolverConvNftInfos = (
   const royaltyReceiver = openNFTsInfos[1] || constants.AddressZero;
   const royaltyAmount = openNFTsInfos[2].toString() || "0";
 
+  const burnable = collection.supports?.IOpenMarketable;
+
   const nft: NftType = {
     chainId,
     address,

@@ -9,14 +9,14 @@ import { ipfsGatewayUrl, explorerTxLog, getExplorer, getOpenMulti, storageLinkTo
 import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 
-import { nftMint1IpfsImage, nftMint2IpfsJson } from "@lib/nft/knft-mint-ipfs";
-import { nftMint1SwarmImage, nftMint2SwarmJson } from "@lib/nft/knft-mint-swarm";
+import { nftIpfsImage, nftIpfsJson } from "@lib/nft/storage/knft-ipfs";
+import { nftSwarmImage, nftSwarmJson } from "@lib/nft/storage/knft-swarm";
 
 import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3 } from "@soltypes/contracts/interfaces/IOpenNFTsV3";
-import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
+import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -64,45 +64,45 @@ const nftMint3TxResponse = async (
 
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
-  const { contract, collection } = await collectionGetContract(chainId, address, minter.provider);
-  // console.log("nftMint3TxResponse collection", collection);
+  const { contract, collection } = await collectionGetContract(chainId, address, minter);
+  console.log("nftMint3TxResponse collection", collection);
 
   let txResp: TransactionResponse | undefined;
-  const connectedContract = contract.connect(minter);
-  // console.log("connectedContract", connectedContract);
 
-  if (collection.supports?.IOpenNFTsV4) {
-    const openNFTsV4 = connectedContract as OpenNFTsV4;
-    const defaultPrice = String(await openNFTsV4.defaultPrice());
+  if (collection.supports?.IOpenMarketable || collection.supports?.IOpenNFTsV4) {
+    const openAutoMarket = contract as OpenAutoMarket;
+    console.log("openAutoMarket", openAutoMarket);
+    const defaultPrice = String(await openAutoMarket.defaultPrice());
 
-    // console.log("defaultPrice", defaultPrice);
-
-    const minterAddress = await minter.getAddress();
-    txResp = await openNFTsV4["mint(address,string,uint256,address,uint96)"](
-      minterAddress,
-      tokenURI,
-      0,
-      collection.receiver || constants.AddressZero,
-      collection.fee || 0,
-      {
-        value: defaultPrice,
-        type: 2
-      }
-    );
-
-    // console.log("OpenNFTsV4 AFTER");
+    if (defaultPrice == "0") {
+      txResp = await openAutoMarket["mint(string)"](tokenURI);
+    } else {
+      // console.log("defaultPrice", defaultPrice);
+      txResp = await openAutoMarket["mint(address,string,uint256,address,uint96)"](
+        minterAddress,
+        tokenURI,
+        defaultPrice,
+        ethers.constants.AddressZero,
+        0,
+        {
+          value: defaultPrice,
+          type: 2
+        }
+      );
+      // console.log("OpenAutoMarket AFTER");
+    }
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
-    txResp = await (connectedContract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV2) {
     // console.log("IOpenNFTsV2");
-    txResp = await (connectedContract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV1) {
     // console.log("IOpenNFTsV1");
-    txResp = await (connectedContract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV0) {
     // console.log("IOpenNFTsV0");
-    txResp = await (connectedContract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
   }
@@ -185,10 +185,10 @@ const nftClaim4 = async (
 };
 
 export {
-  nftMint1IpfsImage,
-  nftMint2IpfsJson,
-  nftMint1SwarmImage,
-  nftMint2SwarmJson,
+  nftIpfsImage,
+  nftIpfsJson,
+  nftSwarmImage,
+  nftSwarmJson,
   nftMint3TxResponse,
   nftClaim3TxResponse,
   nftMint4,

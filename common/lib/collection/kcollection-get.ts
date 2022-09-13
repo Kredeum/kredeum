@@ -41,7 +41,7 @@ const collectionGetContract = async (
     contractsCache.set(collectionKey(chainId, address, signerAddress), contract);
   }
 
-  // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`);
+  console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`, contract, collection);
   return { contract, collection };
 };
 

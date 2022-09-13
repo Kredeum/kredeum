@@ -7,10 +7,10 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import {
-    nftMint1IpfsImage,
-    nftMint2IpfsJson,
-    nftMint1SwarmImage,
-    nftMint2SwarmJson,
+    nftIpfsImage,
+    nftIpfsJson,
+    nftSwarmImage,
+    nftSwarmJson,
     nftMint3TxResponse,
     nftMint4
   } from "@lib/nft/knft-mint";
@@ -160,9 +160,9 @@
 
     storageImg =
       "ipfs" === storage
-        ? await nftMint1IpfsImage(image)
+        ? await nftIpfsImage(image)
         : "swarm" === storage
-        ? await nftMint1SwarmImage(file, nftTitle, file.type, gateway, key, file.size)
+        ? await nftSwarmImage(file, nftTitle, file.type, gateway, key, file.size)
         : "";
 
     if (!storageImg) return _mintingError("ERROR image not stored");
@@ -171,10 +171,10 @@
 
     storageJson =
       "ipfs" === storage
-        ? await nftMint2IpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
+        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
         : "swarm" === storage
         ? swarmGatewayUrl(
-            await nftMint2SwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
+            await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
           )
         : "";
 

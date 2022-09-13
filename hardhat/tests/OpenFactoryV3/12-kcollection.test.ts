@@ -3,14 +3,14 @@ import type { JsonRpcSigner } from "@ethersproject/providers";
 import { expect } from "chai";
 import { collectionClone } from "@lib/collection/kcollection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
-import type { OpenNFTsFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
+import type { OpenFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
 
 const { provider, getContract, getNamedSigners } = ethers;
 
 describe.skip("12 Clone collection", function () {
   let jsonRpcSigner: JsonRpcSigner;
   let chainId: number;
-  let nftsFactoryV3: OpenNFTsFactoryV3;
+  let nftsFactoryV3: OpenFactoryV3;
 
   before(async () => {
     chainId = Number(await getChainId());
@@ -19,9 +19,9 @@ describe.skip("12 Clone collection", function () {
     jsonRpcSigner = provider.getSigner(deployer.address);
 
     if ((await provider.getNetwork()).chainId == 31337) {
-      await deployments.fixture(["OpenNFTsV4", "OpenNFTsFactoryV3"]);
+      await deployments.fixture(["OpenNFTsV4", "OpenFactoryV3"]);
     }
-    nftsFactoryV3 = (await getContract("OpenNFTsFactoryV3", deployer)) as unknown as OpenNFTsFactoryV3;
+    nftsFactoryV3 = (await getContract("OpenFactoryV3", deployer)) as unknown as OpenFactoryV3;
     const openNFTsV4 = (await getContract("OpenNFTsV4")) as unknown as OpenNFTsV4;
     await nftsFactoryV3.setTemplate("OpenNFTsV4", openNFTsV4.address);
   });

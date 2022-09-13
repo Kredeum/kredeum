@@ -1,13 +1,13 @@
 import type { NftType } from "@lib/common/ktypes";
 
-import NftStorage from "@lib/common/knft-storage";
+import NftStorage from "@lib/nft/storage/knft-storage";
 import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/kconfig";
 
 let nftStorage: NftStorage;
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET ipfs image link
-const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
+const nftIpfsImage = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
   const ipfsImage = `ipfs://${await nftStorage.pinUrl(image)}`;
 
@@ -16,7 +16,7 @@ const nftMint1IpfsImage = async (image: string, key = ""): Promise<string> => {
 };
 
 // GET ipfs metadata url
-const nftMint2IpfsJson = async (
+const nftIpfsJson = async (
   name = DEFAULT_NAME,
   nftDescription = "",
   ipfs = "",
@@ -24,7 +24,7 @@ const nftMint2IpfsJson = async (
   image = "",
   metadata = "{}"
 ): Promise<string> => {
-  // console.log("nftMint2IpfsJson", name, ipfs, address, image, metadata);
+  // console.log("nftIpfsJson", name, ipfs, address, image, metadata);
 
   const json = {
     name,
@@ -43,4 +43,4 @@ const nftMint2IpfsJson = async (
   return ipfsJson;
 };
 
-export { nftMint1IpfsImage, nftMint2IpfsJson };
+export { nftIpfsImage, nftIpfsJson };

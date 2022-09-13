@@ -86,13 +86,14 @@ type CollectionSupports = {
 
   ICloneFactoryV2?: boolean;
   INFTsFactoryV2?: boolean;
-  IOpenNFTsFactoryV3?: boolean;
+  IOpenFactoryV3?: boolean;
 
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;
   IOpenNFTsV2?: boolean;
   IOpenNFTsV3?: boolean;
   IOpenNFTsV4?: boolean;
+  IOpenAutoMarket?: boolean;
   IOpenBound?: boolean;
 };
 

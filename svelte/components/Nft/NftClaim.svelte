@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { NftType } from "@lib/common/ktypes";
-  import NftStorage from "@lib/common/knft-storage";
+  import NftStorage from "@lib/nft/storage/knft-storage";
   import {
     getOpenMulti,
     explorerTxLog,

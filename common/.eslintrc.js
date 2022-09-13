@@ -31,7 +31,7 @@ module.exports = {
     "@typescript-eslint/no-unsafe-return": "warn",
     "@typescript-eslint/ban-types": "warn",
     "@typescript-eslint/require-await": "warn",
-    indent: ["error", 2],
+    indent: ["off", 2],
     semi: ["error", "always"],
     quotes: ["error", "double"],
     "no-global-assign": [

@@ -1,3 +1,5 @@
+import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
+
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
@@ -79,6 +81,22 @@ const getApproved = async (
   }
 
   return approved;
+};
+
+const isApprovedForAll = async (
+  chainId: number,
+  address: string,
+  account: string,
+  signerOrProvider: Signer | Provider
+): Promise<boolean> => {
+  let isApprovedForAll = false;
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+
+  if (collection.supports?.IOpenMarketable) {
+    isApprovedForAll = await (contract as IERC721).isApprovedForAll(account, address);
+  }
+
+  return isApprovedForAll;
 };
 
 async function* setTokenRoyaltyInfos(
@@ -175,7 +193,9 @@ async function* setTokenPrice(
   // console.log("contract", contract);
   if (!collection.supports?.IOpenMarketable) return {};
 
-  const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256)"](
+  if (!collection.supports?.IOpenMarketable) return;
+
+  const txResp: TransactionResponse | undefined = await (contract as OpenAutoMarket)["setTokenPrice(uint256,uint256)"](
     BigNumber.from(tokenID),
     tokenPrice
   );
@@ -262,6 +282,7 @@ export {
   setDefautCollectionPrice,
   setDefautCollectionRoyalty,
   getApproved,
+  isApprovedForAll,
   setTokenApprove,
   setCollectionApproval,
   setTokenPrice,

@@ -72,7 +72,7 @@
   });
 
   const setPriceConfirm = async () => {
-    const tokenSetPriceTxRespYield =  setTokenPrice(chainId, address, tokenID, tokenNewPrice, $metamaskSigner);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, tokenNewPrice, $metamaskSigner);
 
     tokenPriceSetting = S2_SIGN_TX;
 

@@ -3,19 +3,19 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../next/OpenNFTsFactoryV3.sol";
+import "../../next/OpenFactoryV3.sol";
 import "../../next/OpenNFTsResolver.sol";
 import "../../next/OpenNFTsV4.sol";
 
 import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
-import "./OpenNFTsFactoryV3CloneTest.t.sol";
+import "./OpenFactoryV3CloneTest.t.sol";
 
-contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
-    function constructorTest(address owner) public override(ERC173Test, OpenNFTsFactoryV3CloneTest) returns (address) {
+contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
+    function constructorTest(address owner) public override(ERC173Test, OpenFactoryV3CloneTest) returns (address) {
         changePrank(owner);
 
         // FACTORY
-        OpenNFTsFactoryV3 factory = new OpenNFTsFactoryV3(owner);
+        OpenFactoryV3 factory = new OpenFactoryV3(owner);
 
         // RESOLVER
         OpenNFTsResolver resolver = new OpenNFTsResolver(owner, address(factory));
@@ -26,7 +26,7 @@ contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
         options[0] = true;
 
         OpenNFTsV4 _template = new OpenNFTsV4();
-        _template.initialize("OpenERC721Test", "OPTEST", owner, 0, address(0), 0, options);
+        _template.initialize("OpenFactoryV3Test", "OPTEST", owner, options);
 
         // TEMPLATE
         factory.setTemplate("OpenNFTsV4", address(_template));
@@ -36,6 +36,6 @@ contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
 
     function setUp() public {
         setUpERC173();
-        setUpOpenNFTsFactoryV3Clone();
+        setUpOpenFactoryV3Clone();
     }
 }

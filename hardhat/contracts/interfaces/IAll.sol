@@ -26,7 +26,7 @@ import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
 
 import "./ICloneFactoryV2.sol";
 import "./INFTsFactoryV2.sol";
-import "./IOpenNFTsFactoryV3.sol";
+import "./IOpenFactoryV3.sol";
 import "./IOpenNFTsV0.sol";
 import "./IOpenNFTsV1.sol";
 import "./IOpenNFTsV2.sol";

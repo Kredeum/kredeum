@@ -27,7 +27,8 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
   /// : 18 IOpenNFTsV2
   /// : 19 IOpenNFTsV3
   /// : 20 IOpenNFTsV4
-  /// : 21 IOpenBound
+  /// : 21 IOpenAutoMarket
+  /// : 22 IOpenBound
 
   if (!(checks && checks.length == 22)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
@@ -58,12 +59,13 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
     IOpenNFTsV2: checks[i++],
     IOpenNFTsV3: checks[i++],
     IOpenNFTsV4: checks[i++],
+    IOpenAutoMarket: checks[i++],
     IOpenBound: checks[i++]
   };
   // console.log("resolverConvSupports", address, supports);
 
   // assert IERC165 to be always true and check 0xffffffff to be false
-  if (!(supports.IERC165 && !checks[0] && i == 22)) throw "ERROR resolverConvSupports";
+  if (!(supports.IERC165 && !checks[0] && i == 23)) throw "ERROR resolverConvSupports";
   for (const key in supports) {
     if (!supports[key as ABIS]) delete supports[key as ABIS];
   }

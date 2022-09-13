@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { nftMint1IpfsImage, nftMint2IpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftIpfsImage, nftIpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
   import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
 
@@ -66,12 +66,12 @@
     if (src && $address) {
       minting = 1;
 
-      ipfsImage = await nftMint1IpfsImage(src);
+      ipfsImage = await nftIpfsImage(src);
       // console.log("ipfsImage", ipfsImage);
 
       minting = 2;
 
-      const ipfsJson = await nftMint2IpfsJson(alt, ipfsImage, signerAddress, src, metadata);
+      const ipfsJson = await nftIpfsJson(alt, ipfsImage, signerAddress, src, metadata);
       // console.log("json", ipfsJson);
 
       minting = 3;

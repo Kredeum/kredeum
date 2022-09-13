@@ -7,48 +7,21 @@ import "../../next/OpenNFTsV4.sol";
 
 import "./OpenNFTsV4InitializeTest.t.sol";
 import "./OpenNFTsV4SupportsTest.t.sol";
-import "./OpenNFTsV4BuyTest.t.sol";
 import "./OpenNFTsV4MintTest.t.sol";
 
 import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
-
-import "OpenNFTs/contracts/tests/units/ERC721TransferableTest.t.sol";
 import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
-import "OpenNFTs/contracts/tests/units/ERC2981Test.t.sol";
-import "OpenNFTs/contracts/tests/units/OpenNFTsBurnTest.t.sol";
-import "OpenNFTs/contracts/tests/units/OpenNFTsSetupTest.t.sol";
-import "OpenNFTs/contracts/tests/units/OpenPauseableTest.t.sol";
-import "OpenNFTs/contracts/tests/units/OpenMarketableTest.t.sol";
 
 contract OpenNFTsV4Test is
-    ERC721TransferableTest,
+    ERC721FullTest,
     ERC173Test,
-    ERC2981Test,
     OpenNFTsV4InitializeTest,
-    OpenNFTsV4SupportsTest,
-    OpenNFTsV4BuyTest,
     OpenNFTsV4MintTest,
-    OpenNFTsTest,
-    OpenNFTsBurnTest,
-    OpenNFTsSetupTest,
-    OpenPauseableTest,
-    OpenMarketableTest
+    OpenNFTsV4SupportsTest
 {
     function constructorTest(address owner)
         public
-        override(
-            ERC721TransferableTest,
-            ERC173Test,
-            ERC2981Test,
-            OpenNFTsTest,
-            OpenNFTsV4SupportsTest,
-            OpenNFTsV4BuyTest,
-            OpenNFTsV4MintTest,
-            OpenNFTsBurnTest,
-            OpenNFTsSetupTest,
-            OpenPauseableTest,
-            OpenMarketableTest
-        )
+        override(ERC721FullTest, ERC173Test, OpenNFTsV4SupportsTest, OpenNFTsV4MintTest)
         returns (address)
     {
         return constructorTest(owner, true);
@@ -61,7 +34,7 @@ contract OpenNFTsV4Test is
 
         OpenNFTsV4 collection = new OpenNFTsV4();
         if (init) {
-            collection.initialize("OpenERC721Test", "OPTEST", owner, 0, address(0), 0, options);
+            collection.initialize("OpenNFTsV4Test", "OPTEST", owner, options);
         }
 
         return address(collection);
@@ -69,58 +42,24 @@ contract OpenNFTsV4Test is
 
     function mintTest(address collection, address minter)
         public
-        override(
-            OpenNFTsV4BuyTest,
-            OpenNFTsTest,
-            OpenNFTsBurnTest,
-            OpenNFTsSetupTest,
-            ERC2981Test,
-            OpenPauseableTest,
-            OpenMarketableTest,
-            ERC721TransferableTest
-        )
+        override(ERC721FullTest)
         returns (uint256, string memory)
     {
         changePrank(minter);
-        return (OpenNFTsV4(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
+        return (OpenNFTsV4(collection).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
-        changePrank(OpenNFTsV4(payable(collection)).ownerOf(tokenID));
-        OpenNFTsV4(payable(collection)).burn(tokenID);
-    }
-
-    function setPriceTest(
-        address collection,
-        uint256 tokenID,
-        uint256 price
-    ) public {
-        // changePrank(OpenNFTsV4(payable(collection)).ownerOf(tokenID));
-        OpenNFTsV4(payable(collection)).setTokenPrice(tokenID, price);
-    }
-
-    function setRoyaltyTest(
-        address collection,
-        address receiver,
-        uint96 fee
-    ) public override(ERC2981Test, OpenMarketableTest) returns (uint256 tokenID) {
-        changePrank(OpenNFTsV4(payable(collection)).owner());
-        (tokenID, ) = (OpenNFTsV4(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
-        OpenNFTsV4(payable(collection)).setTokenRoyalty(tokenID, receiver, fee);
+    function burnTest(address collection, uint256 tokenID) public override(ERC721FullTest) {
+        console.log("burnTest ~ tokenID", tokenID);
+        changePrank(OpenNFTsV4(collection).ownerOf(tokenID));
+        OpenNFTsV4(collection).burn(tokenID);
     }
 
     function setUp() public {
+        setUpERC721Full("OpenNFTsV4Test", "OPTEST");
         setUpERC173();
-        setUpERC2981();
-        setUpPausable();
-        setUpMarketable();
-        setUpOpenNFTs("OpenERC721Test", "OPTEST");
-        setUpERC721Transferable();
-        setUpOpenNFTsBurn();
-        setUpOpenNFTsBuy();
-        setUpOpenNFTsMint();
-        setUpOpenNFTsSetup();
         setUpOpenNFTsV4Initialize();
+        setUpOpenNFTsV4Mint();
         setUpOpenNFTsV4Supports();
     }
 }

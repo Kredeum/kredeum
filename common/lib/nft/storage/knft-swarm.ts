@@ -5,7 +5,7 @@ import { swarmUploadFile } from "@lib/common/kbeejs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET Swarm image link
-const nftMint1SwarmImage = async (
+const nftSwarmImage = async (
   file: File,
   nftTitle: string,
   contentType: string,
@@ -21,7 +21,7 @@ const nftMint1SwarmImage = async (
 };
 
 // GET Swarm metadata url
-const nftMint2SwarmJson = async (
+const nftSwarmJson = async (
   name = DEFAULT_NAME,
   nftDescription = "",
   swarm = "",
@@ -31,7 +31,7 @@ const nftMint2SwarmJson = async (
   nodeUrl?: string,
   batchId?: string
 ): Promise<string> => {
-  // console.log("nftMint2IpfsJson", name, swarm, address, image, metadata);
+  // console.log("nftIpfsJson", name, swarm, address, image, metadata);
 
   const json = {
     name,
@@ -56,4 +56,4 @@ const nftMint2SwarmJson = async (
   return swarmJson;
 };
 
-export { nftMint1SwarmImage, nftMint2SwarmJson };
+export { nftSwarmImage, nftSwarmJson };

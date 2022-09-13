@@ -19,7 +19,7 @@
       }
     ],
     [
-      "OpenNFTsV4/automarket",
+      "OpenAutoMarket/ownable",
       {
         name: "AutoMarket",
         description: "AutoMarket NFTs Collection, sell your NFTs with royalties",
@@ -28,10 +28,7 @@
     ]
   ]);
 
-  const _templateSet = (tmpl: string): void => {
-    console.info("_templateSet", tmpl, template);
-    template = tmpl;
-  };
+  $: console.log("template", template);
 </script>
 
 <div class="section">
@@ -47,7 +44,7 @@
         data-toggle="tooltip"
         title={value.description}
         checked={key == template}
-        on:click={() => _templateSet(key)}
+        on:click={() => (template = key)}
       />
       <label class="field" for="collection-type-{key}"><i class="fas fa-{value.icon}" />{value.name}</label>
     {/each}
@@ -55,9 +52,7 @@
   <div class="description">
     <p>
       <i>
-        {#if templates.get(template)}
-          {templates.get(template).description}
-        {/if}
+        {templates.get(template)?.description || ""}
       </i>
     </p>
   </div>
