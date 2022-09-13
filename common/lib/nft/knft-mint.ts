@@ -1,5 +1,5 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { ethers, BigNumber, Contract } from "ethers";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt, Log } from "@ethersproject/providers";
+import { ethers, BigNumber, Contract, constants } from "ethers";
 
 import type { NftType } from "@lib/common/ktypes";
 import type { IOpenMulti } from "@soltypes/contracts/interfaces";
@@ -23,13 +23,15 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
   // console.log("txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID);"];
+    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
     const iface = new ethers.utils.Interface(abi);
-    const log = iface.parseLog(txReceipt.logs[0]);
-    ({ tokenID } = log.args);
+    const eventTopic = iface.getEventTopic("Transfer");
+    const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+    const log = iface.parseLog(logs[0]);
+    tokenID = log.args[2] as string;
   }
 
-  // const tokenID = res.events[0].args[2].toString();
+  // console.log("tokenID", tokenID);
   return tokenID.toString();
 };
 
@@ -73,25 +75,22 @@ const nftMint3TxResponse = async (
     const openNFTsV4 = connectedContract as OpenNFTsV4;
     const defaultPrice = String(await openNFTsV4.defaultPrice());
 
-    if (defaultPrice == "0") {
-      txResp = await openNFTsV4["mint(string)"](tokenURI);
-    } else {
-      // console.log("defaultPrice", defaultPrice);
-      const txOptions = {
+    // console.log("defaultPrice", defaultPrice);
+
+    const minterAddress = await minter.getAddress();
+    txResp = await openNFTsV4["mint(address,string,uint256,address,uint96)"](
+      minterAddress,
+      tokenURI,
+      0,
+      collection.receiver || constants.AddressZero,
+      collection.fee || 0,
+      {
         value: defaultPrice,
         type: 2
-      };
-      const minterAddress = await minter.getAddress();
-      txResp = await openNFTsV4["mint(address,string,uint256,address,uint96)"](
-        minterAddress,
-        tokenURI,
-        defaultPrice,
-        ethers.constants.AddressZero,
-        0,
-        txOptions
-      );
-      // console.log("OpenNFTsV4 AFTER");
-    }
+      }
+    );
+
+    // console.log("OpenNFTsV4 AFTER");
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
     txResp = await (connectedContract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);

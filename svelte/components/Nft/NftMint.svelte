@@ -216,7 +216,7 @@
 
           <div class="mint-modal-body">
             <div class="titre">
-              <i class="fas fa-plus fa-left c-green" />Mint NFT ({minting})
+              <i class="fas fa-plus fa-left c-green" />Mint NFT
             </div>
 
             {#if minting == S1_CONFIRM}
