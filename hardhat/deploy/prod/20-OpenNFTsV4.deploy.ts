@@ -30,7 +30,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const nftsFactoryV3: OpenFactoryV3 = await getContract("OpenFactoryV3", deployer);
 
     nonce = await getNonce(deployer, contractName, "initialize");
-    await (await openNFTsV4.initialize("OpenNFTsV4", "ONFT", deployer.address, [true])).wait();
+    await (await openNFTsV4["initialize(string,string,address,bool[])"]("OpenNFTsV4", "ONFT", deployer.address, [true])).wait();
 
     nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();

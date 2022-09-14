@@ -31,7 +31,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
     nonce = await getNonce(deployer, contractName, "initialize");
     await (
-      await openAutoMarket.initialize("OpenAutoMarket", "OMKT", deployer.address, 0, deployer.address, 0, [true])
+      await openAutoMarket["initialize(string,string,address,uint256,address,uint96,bool[])"]("OpenAutoMarket", "OMKT", deployer.address, 0, deployer.address, 0, [true])
     ).wait();
 
     nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");

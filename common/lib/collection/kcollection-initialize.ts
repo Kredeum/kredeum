@@ -3,7 +3,7 @@ import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@et
 import { explorerTxLog } from "@lib/common/kconfig";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
-import { collectionGet } from "./kcollection-get";
+import { collectionGetContract } from "./kcollection-get";
 
 import { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 import { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
@@ -40,11 +40,12 @@ async function* collectionInitializeOpenNFTsV4(
   const [template, config] = templateConfig.split("/");
   if (template != "OpenNFTsV4") return;
 
-  const contract = await collectionGet(chainId, address, cloner);
+  const { contract } = await collectionGetContract(chainId, address, cloner);
+  const openNFTsV4: OpenNFTsV4 = contract as OpenNFTsV4;
 
   const { _name, _symbol } = await _getN(chainId, name, symbol, cloner);
   const options: boolean[] = [config == "generic"];
-  const txResp = await (contract as unknown as OpenNFTsV4).initialize(_name, _symbol, clonerAddress, options);
+  const txResp = await openNFTsV4["initialize(string,string,address,bool[])"](_name, _symbol, clonerAddress, options);
 
   explorerTxLog(chainId, txResp);
   yield txResp;
@@ -67,10 +68,11 @@ async function* collectionInitializeOpenAutoMarket(
   const [template] = templateConfig.split("/");
   if (template != "OpenAutoMarket") return;
 
-  const contract = await collectionGet(chainId, address, cloner);
+  const { contract } = await collectionGetContract(chainId, address, cloner);
+  const openAutoMarket: OpenAutoMarket = contract as OpenAutoMarket;
 
   const { _name, _symbol } = await _getN(chainId, name, symbol, cloner);
-  const txResp = await (contract as unknown as OpenAutoMarket).initialize(
+  const txResp = await openAutoMarket["initialize(string,string,address,uint256,address,uint96,bool[])"](
     _name,
     _symbol,
     clonerAddress,
