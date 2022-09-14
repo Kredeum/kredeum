@@ -28,7 +28,7 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
 
         // TEMPLATE OpenNFTsV4
         OpenNFTsV4 _openNFTsV4 = new OpenNFTsV4();
-        _openNFTsV4.initialize("OpenFactoryV3Test", "OPTEST", owner, options);
+        _openNFTsV4.initialize("OpenNFTsV4 for OpenFactoryV3Test", "OPTEST", owner, options);
         factory.setTemplate("OpenNFTsV4", address(_openNFTsV4));
 
         // TEMPLATE OpenAutoMarket

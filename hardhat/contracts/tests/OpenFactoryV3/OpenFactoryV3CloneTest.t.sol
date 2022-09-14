@@ -27,7 +27,9 @@ abstract contract OpenFactoryV3CloneTest is Test {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", options);
+        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", abi.encode(options));
+
+        assertTrue(OpenNFTsV4(_clone).initialized());
         assertEq(OpenNFTsV4(_clone).name(), "NFT test");
     }
 
@@ -35,7 +37,19 @@ abstract contract OpenFactoryV3CloneTest is Test {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenAutoMarket", options);
+        _clone = OpenFactoryV3(_factory).clone(
+            "NFT test",
+            "NFT",
+            "OpenAutoMarket",
+            abi.encode(42000000000, _tester, 420, options)
+        );
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
+        assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");
+
+        assertEq(OpenAutoMarket(payable(_clone)).defaultPrice(), 42000000000);
+
+        (address receiver, uint96 fee) = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
+        assertEq(receiver, _tester);
+        assertEq(fee, 420);
     }
 }

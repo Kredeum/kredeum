@@ -37,7 +37,7 @@ pragma solidity ^0.8.9;
 import "OpenNFTs/contracts/OpenERC/OpenERC721Metadata.sol";
 import "OpenNFTs/contracts/OpenERC/OpenERC721Enumerable.sol";
 import "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
-import "OpenNFTs/contracts/OpenNFTs/OpenCloneable.sol";
+import "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 
 /// @title OpenNFTs smartcontract
@@ -59,15 +59,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         string memory name_,
         string memory symbol_,
         address owner_,
-        bool[] memory options
-    ) external override(IOpenNFTsV4) {
+        bool[] memory options_
+    ) public override(IOpenNFTsV4) {
         tokenIdNext = 1;
 
         OpenCloneable._initialize("OpenNFTsV4", 4);
         OpenERC721Metadata._initialize(name_, symbol_);
         OpenERC173._initialize(owner_);
 
-        open = options[0];
+        open = options_[0];
     }
 
     function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
@@ -87,6 +87,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     /// @param tokenID tokenID of NFT to burn
     function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
+    }
+
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address owner_,
+        bytes memory params_
+    ) public override(OpenCloneable) {
+        initialize(name_, symbol_, owner_, abi.decode(params_, (bool[])));
     }
 
     function supportsInterface(bytes4 interfaceId)

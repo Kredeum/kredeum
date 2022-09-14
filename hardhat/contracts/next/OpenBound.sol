@@ -34,7 +34,7 @@ pragma solidity ^0.8.9;
 
 import "OpenNFTs/contracts/OpenERC/OpenERC721.sol";
 import "OpenNFTs/contracts/OpenNFTs/OpenPauseable.sol";
-import "OpenNFTs/contracts/OpenNFTs/OpenCloneable.sol";
+import "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
 import "OpenNFTs/contracts/OpenResolver/OpenChecker.sol";
 
 import "OpenNFTs/contracts/interfaces/IERC721.sol";
@@ -74,7 +74,7 @@ contract OpenBound is
         string memory symbol_,
         address owner_,
         uint256 maxSupply_
-    ) external override(IOpenBound) {
+    ) public override(IOpenBound) {
         OpenCloneable._initialize("OpenBound", 1);
         OpenERC173._initialize(owner_);
 
@@ -142,6 +142,15 @@ contract OpenBound is
 
     function getTokenID(address addr, uint256 cid) external pure override(IOpenBound) returns (uint256 tokenID) {
         tokenID = _tokenID(addr, cid);
+    }
+
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address owner_,
+        bytes memory params_
+    ) public override(OpenCloneable) {
+        initialize(name_, symbol_, owner_, abi.decode(params_, (uint256)));
     }
 
     /// IERC165

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.9;
 
 interface IOpenFactoryV3 {
-    event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol, bool[] options);
+    event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol);
 
     event SetResolver(address indexed resolver);
 
@@ -16,7 +16,7 @@ interface IOpenFactoryV3 {
         string memory name,
         string memory symbol,
         string memory templateName,
-        bool[] memory options
+        bytes memory params
     ) external returns (address);
 
     function template(string memory templateName) external view returns (address);

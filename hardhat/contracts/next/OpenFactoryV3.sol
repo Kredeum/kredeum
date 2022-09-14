@@ -1,22 +1,49 @@
 // SPDX-License-Identifier: MIT
+//
+// Derived from Kredeum NFTs
+// https://github.com/Kredeum/kredeum
+//
+//       ___           ___         ___           ___                    ___           ___                     ___
+//      /  /\         /  /\       /  /\         /__/\                  /__/\         /  /\        ___        /  /\
+//     /  /::\       /  /::\     /  /:/_        \  \:\                 \  \:\       /  /:/_      /  /\      /  /:/_
+//    /  /:/\:\     /  /:/\:\   /  /:/ /\        \  \:\                 \  \:\     /  /:/ /\    /  /:/     /  /:/ /\
+//   /  /:/  \:\   /  /:/~/:/  /  /:/ /:/_   _____\__\:\            _____\__\:\   /  /:/ /:/   /  /:/     /  /:/ /::\
+//  /__/:/ \__\:\ /__/:/ /:/  /__/:/ /:/ /\ /__/::::::::\          /__/::::::::\ /__/:/ /:/   /  /::\    /__/:/ /:/\:\
+//  \  \:\ /  /:/ \  \:\/:/   \  \:\/:/ /:/ \  \:\~~\~~\/          \  \:\~~\~~\/ \  \:\/:/   /__/:/\:\   \  \:\/:/~/:/
+//   \  \:\  /:/   \  \::/     \  \::/ /:/   \  \:\  ~~~            \  \:\  ~~~   \  \::/    \__\/  \:\   \  \::/ /:/
+//    \  \:\/:/     \  \:\      \  \:\/:/     \  \:\                 \  \:\        \  \:\         \  \:\   \__\/ /:/
+//     \  \::/       \  \:\      \  \::/       \  \:\                 \  \:\        \  \:\         \__\/     /__/:/
+//      \__\/         \__\/       \__\/         \__\/                  \__\/         \__\/                   \__\/
+//
+//
+//   OpenERC165
+//   (supports)
+//       |
+//       ———————————————————————
+//       |        |            |
+//       |   OpenERC173    OpenCloner
+//       |    (ownable)        |
+//       |        |            |
+//       ———————————————————————
+//       |
+// OpenFactoryV3 —— IOpenFactoryV3
+//
 pragma solidity ^0.8.9;
 
 import "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
+import "OpenNFTs/contracts/OpenCloner/OpenCloner.sol";
+
 import "OpenNFTs/contracts/interfaces/IERC165.sol";
 import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenRegistry.sol";
 import "../interfaces/IOpenFactoryV3.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IOpenAutoMarket.sol";
-import "./OpenNFTsResolver.sol";
 
-/// @title NFTsFactory smartcontract
-/// @dev is CloneFactory
-/// @notice Templates are OPEN_NFTS contracts
-/// @notice Implementations are ERC721 contracts (including OPEN_NFTS clones)
-/// @notice Factory can clone OPEN_NFTs templates to implementations
-/// @notice Factory can also add ERC721 contracts to implementations
-contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
+/// @title OpenFactory smartcontract
+/// @notice Factory for NFTs contracts: ERC721 or ERC1155 
+/// @notice Create new NFTs Collections smartcontracts by cloning templates 
+contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
     /// @notice Named Templates
 
     mapping(string => uint256) private _numTemplates;
@@ -36,18 +63,15 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
         string memory name,
         string memory symbol,
         string memory templateName,
-        bool[] memory options
+        bytes memory params
     ) external override(IOpenFactoryV3) returns (address clone_) {
-        clone_ = _clone(template(templateName));
+        clone_ = clone(template(templateName));
 
-        if (_same(templateName, "OpenNFTsV4")) {
-            IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, options);
-        } else if (_same(templateName, "OpenAutoMarket")) {
-            IOpenAutoMarket(clone_).initialize(name, symbol, msg.sender, 0, address(0), 0, options);
-        }
+        IOpenCloneable(clone_).initialize(name, symbol, msg.sender, params);
+
         IOpenRegistry(nftsResolver).addAddress(clone_);
 
-        emit Clone(templateName, clone_, name, symbol, options);
+        emit Clone(templateName, clone_, name, symbol);
     }
 
     function countTemplates() external view override(IOpenFactoryV3) returns (uint256 count) {
@@ -83,6 +107,10 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
         emit SetTemplate(templateName_, template_, num);
     }
 
+    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC173, OpenCloner) returns (bool) {
+        return interfaceId == type(IOpenFactoryV3).interfaceId || super.supportsInterface(interfaceId);
+    }
+
     /// @notice Get Template
     /// @param  templateName : template name
     /// @return template_ : template address
@@ -92,24 +120,5 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
 
         template_ = templates[num - 1];
         require(template_ != address(0), "No Template");
-    }
-
-    /// @notice Clone template (via EIP-1167)
-    /// @param  template_ : template address
-    /// @return clone_ : clone address
-    function _clone(address template_) private returns (address clone_) {
-        // solhint-disable-next-line no-inline-assembly
-        assembly {
-            let ptr := mload(0x40)
-            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)
-            mstore(add(ptr, 0x14), shl(0x60, template_))
-            mstore(add(ptr, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000)
-            clone_ := create(0, ptr, 0x37)
-        }
-        assert(clone_ != address(0));
-    }
-
-    function _same(string memory a, string memory b) private pure returns (bool) {
-        return keccak256(bytes(a)) == keccak256(bytes(b));
     }
 }
