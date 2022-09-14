@@ -3,7 +3,7 @@
   import type { NftType } from "@lib/common/ktypes";
   import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
-  import { nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftMint, nftMint4 } from "@lib/nft/knft-mint";
 
   import NetworkList from "../components/Network/NetworkList.svelte";
   import { nftStore } from "@stores/nft/nft";
@@ -37,7 +37,7 @@
       let copyingError: string;
 
       if ($nft.tokenURI) {
-        const txResp = await nftMint3TxResponse(chainId, address, $nft.tokenURI, $metamaskSigner);
+        const txResp = await nftMint(chainId, address, $nft.tokenURI, $metamaskSigner);
         explorerTxLog(chainId, txResp);
 
         if (txResp) {

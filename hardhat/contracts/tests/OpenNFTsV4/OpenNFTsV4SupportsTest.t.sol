@@ -36,9 +36,10 @@ abstract contract OpenNFTsV4SupportsTest is Test {
     }
 
     function testOpenNFTsV4CheckSupportedInterfaces() public {
-        bytes4[8] memory ids = [
+        bytes4[9] memory ids = [
             type(IOpenCloneable).interfaceId,
             type(IOpenMarketable).interfaceId,
+            type(IOpenAutoMarket).interfaceId,
             type(IOpenNFTs).interfaceId,
             type(IOpenNFTsV4).interfaceId,
             type(IOpenPauseable).interfaceId,
@@ -46,9 +47,9 @@ abstract contract OpenNFTsV4SupportsTest is Test {
             type(IERC721TokenReceiver).interfaceId,
             0xffffffff
         ];
-        bool[8] memory expected = [true, false, false, true, false, false, false, false];
+        bool[9] memory expected = [true, false, false, false, true, false, false, false, false];
 
-        bytes4[] memory interfaceIds = new bytes4[](8);
+        bytes4[] memory interfaceIds = new bytes4[](9);
         for (uint256 i = 0; i < ids.length; i++) {
             interfaceIds[i] = ids[i];
         }

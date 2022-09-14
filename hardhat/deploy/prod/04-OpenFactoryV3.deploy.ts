@@ -8,8 +8,8 @@ import { getNonce } from "@utils/getNonce";
 
 const contractName = "OpenFactoryV3";
 
-const deployFunction: DeployFunction = async function (hre): Promise<void> {
-  const deployer = await hre.ethers.getNamedSigner("deployer");
+const deployFunction: DeployFunction = async function ({ ethers, network, deployments }): Promise<void> {
+  const deployer = await ethers.getNamedSigner("deployer");
 
   let nonce = await getNonce(deployer, contractName, "deploy", true);
   const deployArgs = [deployer.address];
@@ -21,15 +21,15 @@ const deployFunction: DeployFunction = async function (hre): Promise<void> {
   };
 
   // Deterministic expect for these networks
-  // if (!["avalanche", "fuji"].includes(hre.network.name)) {
-  //   deployOptions.salt = hre.ethers.utils.hashMessage("01 OpenFactoryV3");
+  // if (!["avalanche", "fuji"].includes(network.name)) {
+  //   deployOptions.salt = ethers.utils.hashMessage("01 OpenFactoryV3");
   // }
 
-  const deployResult = await hre.deployments.deploy(contractName, deployOptions);
+  const deployResult = await deployments.deploy(contractName, deployOptions);
   // const deployResult = await checkGasDeploy(hre, contractName, deployOptions);
 
   if (deployResult.newlyDeployed) {
-    await setNetwork(hre.network.name, "nftsFactoryV3", deployResult.address);
+    await setNetwork(network.name, "nftsFactoryV3", deployResult.address);
 
     nonce = await getNonce(deployer, contractName, "end");
   }

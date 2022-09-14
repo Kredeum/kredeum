@@ -17,6 +17,7 @@ import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3 } from "@soltypes/contracts/interfaces/IOpenNFTsV3";
 import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -53,44 +54,38 @@ const _mintedNft = async (
   });
 
 // GET minting tx response
-const nftMint3TxResponse = async (
+const nftMint = async (
   chainId: number,
   address: string,
   tokenURI: string,
   minter: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
-  // console.log("nftMint3TxResponse", chainId, address, tokenURI, minterAddress);
+  // console.log("nftMint", chainId, address, tokenURI, minterAddress);
 
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
   const { contract, collection } = await collectionGetContract(chainId, address, minter);
-  console.log("nftMint3TxResponse collection", collection);
+  console.log("nftMint contract", contract);
+  console.log("nftMint collection", collection);
 
   let txResp: TransactionResponse | undefined;
 
-  if (collection.supports?.IOpenMarketable || collection.supports?.IOpenNFTsV4) {
-    const openAutoMarket = contract as OpenAutoMarket;
-    console.log("openAutoMarket", openAutoMarket);
-    const defaultPrice = String(await openAutoMarket.defaultPrice());
 
-    if (defaultPrice == "0") {
-      txResp = await openAutoMarket["mint(string)"](tokenURI);
-    } else {
-      // console.log("defaultPrice", defaultPrice);
-      txResp = await openAutoMarket["mint(address,string,uint256,address,uint96)"](
-        minterAddress,
-        tokenURI,
-        defaultPrice,
-        ethers.constants.AddressZero,
-        0,
-        {
-          value: defaultPrice,
-          type: 2
-        }
-      );
-      // console.log("OpenAutoMarket AFTER");
-    }
+  if (collection.supports?.IOpenMarketable) {
+    txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
+      minterAddress,
+      tokenURI,
+      0,
+      collection.receiver || constants.AddressZero,
+      collection.fee || 0,
+      {
+        value: collection.price,
+        type: 2
+      }
+    );
+  } else if (collection.supports?.IOpenNFTsV4) {
+    txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
     txResp = await (contract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
@@ -184,13 +179,4 @@ const nftClaim4 = async (
   return nft;
 };
 
-export {
-  nftIpfsImage,
-  nftIpfsJson,
-  nftSwarmImage,
-  nftSwarmJson,
-  nftMint3TxResponse,
-  nftClaim3TxResponse,
-  nftMint4,
-  nftClaim4
-};
+export { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftClaim3TxResponse, nftMint4, nftClaim4 };

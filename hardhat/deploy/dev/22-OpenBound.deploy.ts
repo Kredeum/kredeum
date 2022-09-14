@@ -1,6 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import { writeFile } from "fs/promises";
-import type { IOpenFactoryV3, IOpenBound } from "@soltypes/contracts/interfaces";
+import type { OpenFactoryV3 } from "@soltypes/contracts/next/OpenFactoryV3";
+import type { OpenBound } from "@soltypes/contracts/next/OpenBound";
 
 import type { NetworkType } from "@lib/common/ktypes";
 import networks from "@config/networks.handlebars.json";
@@ -32,16 +33,15 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
       ).catch((err) => console.log(err));
     }
 
-    const openBound = (await getContract(contractName, deployer)) as unknown as IOpenBound;
+    const openBound: OpenBound = await getContract(contractName, deployer);
     await (await openBound.initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
 
-    const nftsFactoryV3 = (await getContract("OpenFactoryV3", deployer)) as unknown as IOpenFactoryV3;
-    // TODO  await (await (nftsFactoryV3 as IOpenFactoryV3).implementationsAdd([deployResult.address])).wait();
-    await (await nftsFactoryV3.setTemplate("OpenBound", deployResult.address)).wait();
+    const nftsFactoryV3: OpenFactoryV3 = await getContract("OpenFactoryV3", deployer);
+    await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
   }
 };
 
-deployFunction.dependencies = ["OpenFactoryV3"];
+deployFunction.dependencies = ["OpenNFTsResolver", "OpenFactoryV3"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 

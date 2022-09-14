@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { nftIpfsImage, nftIpfsJson, nftMint3TxResponse, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
   import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
 
@@ -76,7 +76,7 @@
 
       minting = 3;
 
-      const mintingTxResp = await nftMint3TxResponse($metamaskChainId, $address, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint($metamaskChainId, $address, ipfsJson, $metamaskSigner);
       explorerTxLog($metamaskChainId, mintingTxResp);
 
       minting = 4;

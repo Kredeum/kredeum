@@ -11,7 +11,7 @@
     nftIpfsJson,
     nftSwarmImage,
     nftSwarmJson,
-    nftMint3TxResponse,
+    nftMint,
     nftMint4
   } from "@lib/nft/knft-mint";
   import {
@@ -182,7 +182,7 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint3TxResponse(chainId, address, storageJson, $metamaskSigner);
+    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner);
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 

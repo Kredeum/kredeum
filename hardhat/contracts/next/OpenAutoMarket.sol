@@ -115,7 +115,6 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {
         return
             interfaceId == type(IOpenAutoMarket).interfaceId ||
-            interfaceId == type(IOpenNFTsOld).interfaceId ||
             super.supportsInterface(interfaceId);
     }
 }

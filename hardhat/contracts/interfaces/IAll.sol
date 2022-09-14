@@ -32,4 +32,5 @@ import "./IOpenNFTsV1.sol";
 import "./IOpenNFTsV2.sol";
 import "./IOpenNFTsV3.sol";
 import "./IOpenNFTsV4.sol";
+import "./IOpenAutoMarket.sol";
 import "./IOpenBound.sol";

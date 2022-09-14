@@ -36,9 +36,10 @@ abstract contract OpenAutoMarketSupportsTest is Test {
     }
 
     function testOpenAutoMarketCheckSupportedInterfaces() public {
-        bytes4[8] memory ids = [
+        bytes4[9] memory ids = [
             type(IOpenCloneable).interfaceId,
             type(IOpenMarketable).interfaceId,
+            type(IOpenAutoMarket).interfaceId,
             type(IOpenNFTs).interfaceId,
             type(IOpenAutoMarket).interfaceId,
             type(IOpenPauseable).interfaceId,
@@ -46,9 +47,9 @@ abstract contract OpenAutoMarketSupportsTest is Test {
             type(IERC721TokenReceiver).interfaceId,
             0xffffffff
         ];
-        bool[8] memory expected = [true, true, true, true, true, false, false, false];
+        bool[9] memory expected = [true, true, true, true, true, true, false, false, false];
 
-        bytes4[] memory interfaceIds = new bytes4[](8);
+        bytes4[] memory interfaceIds = new bytes4[](9);
         for (uint256 i = 0; i < ids.length; i++) {
             interfaceIds[i] = ids[i];
         }

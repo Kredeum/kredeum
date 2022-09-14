@@ -30,7 +30,7 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
   /// : 21 IOpenAutoMarket
   /// : 22 IOpenBound
 
-  if (!(checks && checks.length == 22)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
+  if (!(checks && checks.length == 23)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
   let i = 1;
   const supports: CollectionSupports = {

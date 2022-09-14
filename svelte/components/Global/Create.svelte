@@ -15,7 +15,7 @@
   // const create = () => ($currentAction = "create");
 </script>
 
-<a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Mint</a>
+<a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Create</a>
 
 <!-- Modal create -->
 <div class="modal-window" id="create-modal">
@@ -30,8 +30,8 @@
       <div class="txtcenter">
         <!-- <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
         <NftMint {storage} />
-        <span class="or">Or</span>
-        <a href="#add-collection" class="btn btn-second" title="Add a new collection">Add a new collection</a>
+        <span class="or">or</span>
+        <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
       </div>
     </div>
   </div>

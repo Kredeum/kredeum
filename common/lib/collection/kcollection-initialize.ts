@@ -64,7 +64,7 @@ async function* collectionInitializeOpenAutoMarket(
     `collectionInitializeOpenAutoMarket ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
   );
 
-  const [template, ] = templateConfig.split("/");
+  const [template] = templateConfig.split("/");
   if (template != "OpenAutoMarket") return;
 
   const contract = await collectionGet(chainId, address, cloner);

@@ -11,7 +11,7 @@ const nftIpfsImage = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
   const ipfsImage = `ipfs://${await nftStorage.pinUrl(image)}`;
 
-  // console.log("nftMint ipfs image", ipfsImage);
+  // console.log("nftIpfsImage", ipfsImage);
   return ipfsImage;
 };
 
@@ -39,7 +39,7 @@ const nftIpfsJson = async (
   const ipfsCid = await nftStorage.pinJson(json);
   const ipfsJson = `ipfs://${ipfsCid}`;
 
-  // console.log("nftMint ipfs metadata", ipfsJson);
+  // console.log("nftIpfsJson", ipfsJson);
   return ipfsJson;
 };
 

@@ -3,7 +3,9 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../interfaces/IOpenFactoryV3.sol";
+import "../../next/OpenFactoryV3.sol";
+import "../../next/OpenNFTsV4.sol";
+import "../../next/OpenAutoMarket.sol";
 
 abstract contract OpenFactoryV3CloneTest is Test {
     address private _factory;
@@ -21,10 +23,19 @@ abstract contract OpenFactoryV3CloneTest is Test {
         _factory = constructorTest(_owner);
     }
 
-    function testOpenFactoryV3Clone() public {
+    function testOpenFactoryV3CloneOpenNFTsV4() public {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        IOpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", options);
+        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", options);
+        assertEq(OpenNFTsV4(_clone).name(), "NFT test");
+    }
+
+    function testOpenFactoryV3CloneOpenAutoMarket() public {
+        bool[] memory options = new bool[](1);
+        options[0] = true;
+
+        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenAutoMarket", options);
+        assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
     }
 }

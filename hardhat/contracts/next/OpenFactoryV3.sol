@@ -7,6 +7,7 @@ import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenRegistry.sol";
 import "../interfaces/IOpenFactoryV3.sol";
 import "../interfaces/IOpenNFTsV4.sol";
+import "../interfaces/IOpenAutoMarket.sol";
 import "./OpenNFTsResolver.sol";
 
 /// @title NFTsFactory smartcontract
@@ -39,6 +40,11 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
     ) external override(IOpenFactoryV3) returns (address clone_) {
         clone_ = _clone(template(templateName));
 
+        if (_same(templateName, "OpenNFTsV4")) {
+            IOpenNFTsV4(clone_).initialize(name, symbol, msg.sender, options);
+        } else if (_same(templateName, "OpenAutoMarket")) {
+            IOpenAutoMarket(clone_).initialize(name, symbol, msg.sender, 0, address(0), 0, options);
+        }
         IOpenRegistry(nftsResolver).addAddress(clone_);
 
         emit Clone(templateName, clone_, name, symbol, options);
@@ -101,5 +107,9 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173 {
             clone_ := create(0, ptr, 0x37)
         }
         assert(clone_ != address(0));
+    }
+
+    function _same(string memory a, string memory b) private pure returns (bool) {
+        return keccak256(bytes(a)) == keccak256(bytes(b));
     }
 }

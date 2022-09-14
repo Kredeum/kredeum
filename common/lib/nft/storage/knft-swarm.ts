@@ -16,7 +16,7 @@ const nftSwarmImage = async (
   const swarmImage = `swarm://${await swarmUploadFile(file, nftTitle, contentType, nodeUrl, batchId, fileSize)}`;
   console.info("🚀 ~ swarm image uploaded Ref :", swarmImage);
 
-  // console.log("nftMint swarm image", ipfsImage);
+  // console.log("nftSwarmImage", ipfsImage);
   return swarmImage;
 };
 
@@ -31,7 +31,7 @@ const nftSwarmJson = async (
   nodeUrl?: string,
   batchId?: string
 ): Promise<string> => {
-  // console.log("nftIpfsJson", name, swarm, address, image, metadata);
+  // console.log("nftSwarmJson", name, swarm, address, image, metadata);
 
   const json = {
     name,
@@ -51,7 +51,7 @@ const nftSwarmJson = async (
     batchId
   )}`;
 
-  console.info("nftMint swarm metadata", swarmJson);
+  console.info("nftSwarmJson", swarmJson);
 
   return swarmJson;
 };

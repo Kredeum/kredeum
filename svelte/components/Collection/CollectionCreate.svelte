@@ -251,11 +251,17 @@
   <div class="modal-content">
     <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
-    <div class="modal-body">
+      
+      <div class="modal-body">
+
+        <div class="titre">
+        <i class="fas fa-plus fa-left c-green" />Create Collection ({cloning})
+      </div>
+
       <div>
         {#if cloning == S1_CONFIRM}
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Name your Collection
+            Name your Collection
           </div>
 
           <div class="section">
@@ -265,7 +271,7 @@
           </div>
 
           <div class="titre">
-            <i class="fas fa-plus fa-left c-green" />Attach a Symbol to your Collection
+            Attach a Symbol to your Collection
           </div>
 
           <div class="section">
