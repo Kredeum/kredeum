@@ -61,8 +61,33 @@
 {#if $nft}
   <div class="row krd-nft-solo">
     <div class="col col-xs-12 col-sm-4 col-md-3">
-      <div class="card-krd">
+      <div class="card-krd kre-media">
         <MediaPreview nft={$nft} />
+      </div>
+      <div class="kre-action-buttons">
+        {#if $nft.owner === account}
+          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+          >
+
+          <a
+            href="#transfert-nft-{tokenID}"
+            class="btn-transfer-modal {$nft.price && $nft.price !== '0' ? 'kre-disabled' : ''}"
+            title="Make a gift"
+            aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift fa-left" /> TRANSFER</a
+          >
+
+          <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"><i class="fa fa-fire fa-left" /> BURN</a
+          >
+        {/if}
+
+        {#if $nft.collection?.supports?.IOpenMarketable}
+          {#if $nft.owner === account}
+            <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
+          {:else}
+            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+          {/if}
+        {/if}
       </div>
     </div>
 
@@ -176,29 +201,6 @@
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if}
-          {#if $nft.owner === account}
-            <a
-              href="#transfert-nft-{tokenID}"
-              class="btn btn-small btn-outline {$nft.price && $nft.price !== '0' ? 'kre-disabled' : ''}"
-              title="Make a gift"
-              aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift" /> Transfer</a
-            >
-          {/if}
-          {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable}
-            <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
-          {/if}
-          {#if $nft.owner !== account && $nft.collection?.supports?.IOpenMarketable}
-            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
-          {/if}
-          {#if $nft.owner === account}
-            <a href="#burn-nft-{tokenID}" class="btn btn-small btn-outline btn-burn" title="Burn Nft"
-              ><i class="fa fa-fire" /> Burn</a
-            >
-          {/if}
-
-          <!-- <a href="#claim-nft-{tokenID}" class="btn btn-small btn-default" title="Claim NFT on antoher network">
-            <i class="fas fa-exclamation" /> Claim</a
-          > -->
 
           {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
@@ -264,14 +266,42 @@
     width: 100%;
   }
 
-  .btn-burn {
-    color: red;
-    border-color: red;
-    float: right;
+  .kre-media {
+    max-height: 19vw;
   }
 
-  .btn-burn:hover {
-    color: white;
-    background: red;
+  .kre-action-buttons {
+    width: 100%;
+    margin-top: 13px;
+  }
+
+  :global(.kre-action-buttons button.btn-sell-modal, .kre-action-buttons a.btn-transfer-modal, .kre-action-buttons
+      a.btn-burn-modal, .kre-action-buttons a.btn-shortcod-modal, .kre-action-buttons a.btn-buy-modal) {
+    width: 100%;
+    border-radius: 6px;
+    margin-bottom: 8px;
+    background-color: white;
+    border: 1px solid #e8e8e8;
+    font-weight: 700;
+    font-size: 16px;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    padding: 15px;
+    cursor: pointer;
+    text-decoration: none;
+    color: black;
+  }
+
+  .btn-burn-modal {
+    color: red !important;
+    /* border-color: red !important; */
+    /* float: right; */
+  }
+
+  .btn-burn-modal:hover {
+    /* color: white !important; */
+    /* background: red !important; */
+    border-color: red !important;
   }
 </style>

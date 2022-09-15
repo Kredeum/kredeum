@@ -19,9 +19,7 @@
   let open = false;
 </script>
 
-<span on:click={() => (open = true)} class="btn btn-small btn-outline" title="Sell this NFT">
-  <i class="fa fa-comment-dollar" /> Sell
-</span>
+<button on:click={() => (open = true)} class="btn-sell-modal" title="Sell this NFT"> SELL </button>
 
 {#if open}
   <div id="kre-sell-nft" class="modal-window" transition:fade>
@@ -32,9 +30,7 @@
 
           <div class="modal-body">
             <div>
-              <div class="kre-modal-block">
-                <NftTokenApprove {chainId} {address} {tokenID} />
-              </div>
+              <NftTokenApprove {chainId} {address} {tokenID} />
               <div class="kre-modal-block">
                 <NftSetPrice {chainId} {address} {tokenID} {nftPrice} />
               </div>
@@ -58,5 +54,16 @@
   #kre-sell-nft {
     z-index: 1000;
     pointer-events: auto;
+  }
+
+  .btn-sell-modal {
+    background-color: #192247 !important;
+    color: white !important;
+  }
+
+  .btn-sell-modal:hover {
+    background-color: white !important;
+    color: #192247 !important;
+    border-color: #192247 !important;
   }
 </style>

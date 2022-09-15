@@ -34,7 +34,7 @@
   };
 </script>
 
-<div id="media-{cssSmall}-{nft?.tokenID}" class="media {cssMedia} media-{mediaType}{gridScale}">
+<div id="media-{cssSmall}-{nft?.tokenID}" class="media {cssSmall} {cssMedia} media-{mediaType}{gridScale}">
   {#if nft?.animation_url}
     <MediaDisplayAudio
       {mediaSrc}
@@ -54,5 +54,9 @@
 <style>
   .media {
     width: 100%;
+  }
+
+  :global(.media:not(.full) img, .media:not(.full) video) {
+    max-height: calc(19vw - 40px);
   }
 </style>

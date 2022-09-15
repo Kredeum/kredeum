@@ -92,7 +92,7 @@ const collectionBurnable = async (
   const { collection } = await collectionGetContract(chainId, address, signerOrProvider);
   let burnFunction = "";
 
-  if (collection.supports?.IOpenNFTsV4) {
+  if (collection.version === 4) {
     burnFunction = "burn";
   }
 

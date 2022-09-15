@@ -23,13 +23,15 @@
     width: 85%;
     top: 50%;
     transform: translate(-50%, -50%);
-    min-height: 600px;
+    // min-height: 600px;
+    min-height: 380px;
     min-width: 700px;
   }
 
   .modal-content {
     max-height: calc(100vh - 50px);
-    min-height: 500px;
+    // min-height: 500px;
+    min-height: 380px;
     padding: 60px;
   }
 

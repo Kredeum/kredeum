@@ -241,6 +241,10 @@ select {
   margin-bottom: 30px;
 }
 
+.kre-section-small {
+  margin-bottom: 10px;
+}
+
 .box-file {
   background: rgba($grey-blue, 0.1);
   color: $grey-blue;
@@ -448,6 +452,11 @@ $sides: (top, bottom, left, right);
 }
 
 .kre-modal-block {
-  border-bottom: 1px solid lightgray;
-  padding-bottom: 30px;
+  border-top: 1px solid lightgray;
+  padding-top: 30px;
+}
+
+.main-krd .content header input[type="text"].kre-field-outline {
+  border: 1px solid #eaeff8;
+  border-radius: 6px;
 }

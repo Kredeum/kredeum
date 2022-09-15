@@ -68,21 +68,6 @@ contract OpenBound is
 
     string private constant _BASE_URI = "ipfs://";
 
-    /// IOpenBound
-    function initialize(
-        string memory name_,
-        string memory symbol_,
-        address owner_,
-        uint256 maxSupply_
-    ) public override(IOpenBound) {
-        OpenCloneable._initialize("OpenBound", 1);
-        OpenERC173._initialize(owner_);
-
-        name = name_;
-        symbol = symbol_;
-        maxSupply = maxSupply_;
-    }
-
     function mint(uint256 cid) external override(IOpenBound) onlyWhenNotPaused returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, cid);
     }
@@ -142,6 +127,21 @@ contract OpenBound is
 
     function getTokenID(address addr, uint256 cid) external pure override(IOpenBound) returns (uint256 tokenID) {
         tokenID = _tokenID(addr, cid);
+    }
+
+    /// IOpenBound
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address owner_,
+        uint256 maxSupply_
+    ) public override(IOpenBound) {
+        OpenCloneable._initialize("OpenBound", 1);
+        OpenERC173._initialize(owner_);
+
+        name = name_;
+        symbol = symbol_;
+        maxSupply = maxSupply_;
     }
 
     function initialize(

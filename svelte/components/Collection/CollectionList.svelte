@@ -103,7 +103,7 @@
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{mintable ? '8' : '3'}">
+  <div class="col col-xs-12 col-sm-{mintable ? '12' : '3'}">
     {#if label}
       <span class="label"
         >Collection

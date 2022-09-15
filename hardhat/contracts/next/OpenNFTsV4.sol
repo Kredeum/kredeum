@@ -55,21 +55,6 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         _;
     }
 
-    function initialize(
-        string memory name_,
-        string memory symbol_,
-        address owner_,
-        bool[] memory options_
-    ) public override(IOpenNFTsV4) {
-        tokenIdNext = 1;
-
-        OpenCloneable._initialize("OpenNFTsV4", 4);
-        OpenERC721Metadata._initialize(name_, symbol_);
-        OpenERC173._initialize(owner_);
-
-        open = options_[0];
-    }
-
     function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, tokenURI_);
     }
@@ -87,6 +72,21 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
     /// @param tokenID tokenID of NFT to burn
     function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
+    }
+
+    function initialize(
+        string memory name_,
+        string memory symbol_,
+        address owner_,
+        bool[] memory options_
+    ) public override(IOpenNFTsV4) {
+        tokenIdNext = 1;
+
+        OpenCloneable._initialize("OpenNFTsV4", 4);
+        OpenERC721Metadata._initialize(name_, symbol_);
+        OpenERC173._initialize(owner_);
+
+        open = options_[0];
     }
 
     function initialize(

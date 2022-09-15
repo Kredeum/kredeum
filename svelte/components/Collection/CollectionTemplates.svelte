@@ -32,7 +32,7 @@
 </script>
 
 <div class="section">
-  <span class="label label-big">Collection type</span>
+  <div class="titre">Choose your Collection type</div>
   <div class="box-fields">
     {#each [...templates] as [key, value]}
       <input

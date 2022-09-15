@@ -71,7 +71,6 @@ const nftMint = async (
 
   let txResp: TransactionResponse | undefined;
 
-
   if (collection.supports?.IOpenMarketable) {
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,

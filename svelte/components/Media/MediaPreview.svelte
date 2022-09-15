@@ -90,6 +90,7 @@
 
   .media-zoom .media {
     position: relative;
+    max-height: calc(19vw - 40px);
   }
 
   .media-zoom .media .zoom-hover::after {

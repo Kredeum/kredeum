@@ -41,8 +41,8 @@ import "../interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IOpenAutoMarket.sol";
 
 /// @title OpenFactory smartcontract
-/// @notice Factory for NFTs contracts: ERC721 or ERC1155 
-/// @notice Create new NFTs Collections smartcontracts by cloning templates 
+/// @notice Factory for NFTs contracts: ERC721 or ERC1155
+/// @notice Create new NFTs Collections smartcontracts by cloning templates
 contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
     /// @notice Named Templates
 

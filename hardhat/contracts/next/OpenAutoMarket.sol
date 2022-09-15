@@ -79,6 +79,10 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         delete tokenPrice[tokenID];
     }
 
+    function mint(string memory tokenURI) external override(IOpenAutoMarket) returns (uint256 tokenID) {
+        tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
+    }
+
     function initialize(
         string memory name_,
         string memory symbol_,
@@ -93,10 +97,6 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
 
         OpenMarketable._setDefaultPrice(defaultPrice_);
         OpenMarketable._setDefaultRoyalty(receiver_, fee_);
-    }
-
-    function mint(string memory tokenURI) external override(IOpenAutoMarket) returns (uint256 tokenID) {
-        tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
     }
 
     function mint(

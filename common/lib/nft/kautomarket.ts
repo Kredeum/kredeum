@@ -1,12 +1,11 @@
 import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
+import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
+import type { IERC2981, IERC721 } from "@soltypes/index";
 
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { BigNumber, constants } from "ethers";
-
-import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
-import type { IERC2981, IERC721 } from "@soltypes/index";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
@@ -195,7 +194,7 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp: TransactionResponse | undefined = await (contract as OpenAutoMarket)["setTokenPrice(uint256,uint256)"](
+  const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenPrice(
     BigNumber.from(tokenID),
     tokenPrice
   );
@@ -221,21 +220,15 @@ async function* setDefautCollectionPrice(
   defaultPrice: string,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log("setdefaultcollprice", chainId, address, defaultPrice, signer);
-
-  let txResp: TransactionResponse | undefined;
-
-  if (!(chainId && address && defaultPrice && signer)) return txResp;
-
-  const account = await signer.getAddress();
+  console.log("setDefautCollectionPrice", chainId, address, defaultPrice, signer);
+  if (!(chainId && address && defaultPrice && signer)) return;
 
   const { contract, collection } = await collectionGetContract(chainId, address, signer);
-  // console.log("contract", contract);
+  console.log("setDefautCollectionPrice", collection);
 
-  if (collection.supports?.IOpenMarketable && !collection.open && account === collection.owner) {
-    txResp = await (contract as IOpenMarketable).setDefaultPrice(defaultPrice);
-  }
-  if (!txResp) return {};
+  if (!collection.supports?.IOpenMarketable) return;
+
+  const txResp = await (contract as OpenAutoMarket).setDefaultPrice(defaultPrice);
   explorerTxLog(chainId, txResp);
 
   yield txResp;

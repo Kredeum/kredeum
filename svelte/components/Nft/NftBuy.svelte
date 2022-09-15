@@ -98,8 +98,8 @@
     if (nftPrice !== "0") open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn btn-small btn-outline {nftPrice === '0' ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart" aria-disabled={nftPrice === "0"} /> Buy</a
+  class="btn-buy-modal {nftPrice === '0' ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice === "0"} /> Buy</a
 >
 
 {#if open}
@@ -178,5 +178,16 @@
   #kre-buy-nft {
     z-index: 1000;
     pointer-events: auto;
+  }
+
+  .btn-buy-modal {
+    background-color: #192247 !important;
+    color: white !important;
+  }
+
+  .btn-buy-modal:hover {
+    background-color: white !important;
+    color: #192247 !important;
+    border-color: #192247 !important;
   }
 </style>

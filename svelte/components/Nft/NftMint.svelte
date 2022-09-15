@@ -3,17 +3,10 @@
   import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
-  import { utils } from "ethers";
+  import { constants, utils } from "ethers";
 
   import type { NftType } from "@lib/common/ktypes";
-  import {
-    nftIpfsImage,
-    nftIpfsJson,
-    nftSwarmImage,
-    nftSwarmJson,
-    nftMint,
-    nftMint4
-  } from "@lib/nft/knft-mint";
+  import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
   import {
     textShort,
     swarmGatewayUrl,
@@ -98,6 +91,12 @@
 
       file = files[0];
     }
+  };
+
+  const resetFileImg = () => {
+    files = null;
+    image = "";
+    file = null;
   };
 
   const _mintingError = (err: string): void => {
@@ -221,56 +220,6 @@
 
             {#if minting == S1_CONFIRM}
               <div class="section">
-                <span class="label label-big">NFT file</span>
-                <div class="box-file">
-                  {#if image}
-                    <div class="media media-photo mt-20">
-                      <img src={image} alt="nft" />
-                    </div>
-                  {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
-                  {/if}
-                </div>
-              </div>
-              <div class="section">
-                <span class="label label-big">NFT title</span>
-                <div class="form-field">
-                  <input type="text" placeholder="My NFT title" bind:value={nftTitle} id="title-nft" />
-                </div>
-              </div>
-              <div class="section">
-                <span class="label label-big">NFT description</span>
-                <div class="form-field">
-                  <input
-                    type="text"
-                    placeholder="My NFT description"
-                    bind:value={nftDescription}
-                    id="description-nft"
-                  />
-                </div>
-              </div>
-              {#if nftMintingPrice}
-                <div class="section">
-                  <span class="label label-big">NFT minting price : {nftMintingPrice} (Eth)</span>
-                </div>
-              {/if}
-              {#if nftDefaultRoyaltiesAmount}
-                <div class="section">
-                  <span class="label label-big"
-                    >Collection default royalty percentage : {parseInt(nftDefaultRoyaltiesAmount) / 100} %</span
-                  >
-                </div>
-              {/if}
-              {#if nftDefaultRoyaltyReceiver}
-                <div class="section">
-                  <span class="label label-big"
-                    >Collection default royalty receiver address : {nftDefaultRoyaltyReceiver}</span
-                  >
-                </div>
-              {/if}
-
-              <div class="section">
-                <span class="label label-big">Media type</span>
                 <div class="box-fields">
                   <input
                     class="box-field"
@@ -325,9 +274,72 @@
               </div>
 
               <div class="section">
-                <span class="label label-big">Add to an existing address ?</span>
+                <!-- <span class="label label-big">NFT file</span> -->
+                <div class="box-file">
+                  {#if image}
+                    <div class="media media-photo">
+                      <img src={image} alt="nft" />
+                      <span class="kre-delete-file" on:click={resetFileImg}
+                        ><i class="fa fa-trash" aria-hidden="true" /></span
+                      >
+                    </div>
+                  {:else}
+                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                  {/if}
+                </div>
+              </div>
+              <div class="kre-section-small">
+                <!-- <span class="label label-big">NFT title</span> -->
+                <div class="form-field">
+                  <input
+                    type="text"
+                    class=" kre-field-outline"
+                    placeholder="add a title"
+                    bind:value={nftTitle}
+                    id="title-nft"
+                  />
+                </div>
+              </div>
+              <div class="kre-section-small">
+                <!-- <span class="label label-big">NFT description</span> -->
+                <div class="form-field">
+                  <input
+                    type="text"
+                    class=" kre-field-outline"
+                    placeholder="add a description"
+                    bind:value={nftDescription}
+                    id="description-nft"
+                  />
+                </div>
+              </div>
+              <div class="kre-section-small kre-mint-collection">
+                <!-- <span class="label label-big">Add to an existing address ?</span> -->
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
+
+              {#if Number(nftMintingPrice) > 0 || Number(nftDefaultRoyaltiesAmount) > 0}
+                <div class="section kre-mint-automarket">
+                  {#if Number(nftMintingPrice) > 0}
+                    <div>
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">Mint price</span>
+                      <span class="kre-market-info-value label-big kre-no-wrap-title">{nftMintingPrice} (Eth)</span>
+                    </div>
+                  {/if}
+                  {#if Number(nftDefaultRoyaltiesAmount) > 0}
+                    <div>
+                      <span class="kre-market-info-title label-big">royalties</span>
+                      <span class="kre-market-info-value label-big">{parseInt(nftDefaultRoyaltiesAmount) / 100} %</span>
+                    </div>
+                  {/if}
+                  {#if nftDefaultRoyaltyReceiver !== constants.AddressZero}
+                    <div>
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
+                      <span class="kre-market-info-value label-big overflow-ellipsis">{nftDefaultRoyaltyReceiver}</span>
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+
               <div class="txtright">
                 <button class="btn btn-default btn-sell" on:click={mintConfirm}>Mint NFT</button>
               </div>
@@ -438,5 +450,81 @@
 
   .mint-modal-body {
     overflow-y: auto;
+  }
+
+  .box-file {
+    position: relative;
+    border-radius: 34px;
+  }
+
+  .media-photo img {
+    width: 33%;
+    border-radius: 15px;
+  }
+
+  .kre-delete-file {
+    background-color: #192146;
+    border-radius: 50%;
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    cursor: pointer;
+  }
+
+  .kre-delete-file i {
+    color: white;
+    margin: auto;
+  }
+
+  .kre-mint-automarket {
+    display: flex;
+    border: 1px solid #eaeff8;
+    border-radius: 6px;
+    /* overflow: hidden; */
+    width: 100%;
+  }
+
+  .kre-mint-automarket div {
+    padding: 20px;
+    max-width: 58%;
+    overflow: hidden;
+    flex-grow: 1;
+  }
+
+  .kre-mint-automarket div:not(:first-of-type) {
+    border-left: 1px solid #eaeff8;
+  }
+
+  .kre-no-wrap-title {
+    white-space: nowrap;
+  }
+
+  .kre-market-info-title {
+    color: #5b5b5b;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
+
+  .kre-market-info-value {
+    color: #5b5b5b;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+
+  :global(.modal-window .select-wrapper div.select-trigger) {
+    border: 1px solid #eaeff8;
+    border-radius: 6px;
+  }
+
+  :global(.kre-mint-collection div.col) {
+    padding-left: 0;
+    padding-right: 0;
   }
 </style>
