@@ -395,7 +395,7 @@
                   </div>
                 </li>
                 <li class={minting >= S5_WAIT_TX ? "complete" : ""}>
-                  <div class="flex"><span class="label">Transaction</span></div>
+                  <div class="flex"><span class="label">Transaction link</span></div>
                   <div class="flex">
                     {#if minting >= S5_WAIT_TX}
                       <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank"

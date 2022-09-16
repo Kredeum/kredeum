@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ethers } from "ethers";
+  import { constants, ethers } from "ethers";
 
   import { onMount } from "svelte";
 
@@ -72,7 +72,14 @@
   });
 
   const setPriceConfirm = async () => {
-    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, tokenNewPrice, $metamaskSigner);
+    const tokenSetPriceTxRespYield = setTokenPrice(
+      chainId,
+      address,
+      tokenID,
+      tokenNewPrice,
+      $metamaskSigner,
+      2
+    );
 
     tokenPriceSetting = S2_SIGN_TX;
 

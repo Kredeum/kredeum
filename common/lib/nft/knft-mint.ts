@@ -26,10 +26,16 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   if (txReceipt.logs) {
     const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
     const iface = new ethers.utils.Interface(abi);
+   
     const eventTopic = iface.getEventTopic("Transfer");
     const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
-    const log = iface.parseLog(logs[0]);
-    tokenID = log.args[2] as string;
+
+    if (logs.length == 0) {
+      console.error("ERROR no topics", txReceipt);
+    } else {
+      const log = iface.parseLog(logs[0]);
+      tokenID = log.args[2] as string;
+    }
   }
 
   // console.log("tokenID", tokenID);

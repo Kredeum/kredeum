@@ -190,11 +190,11 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     ) internal view returns (OpenNFTsNftInfos memory nftInfos) {
         if (supported[_IERC_2981]) {
             uint256 fee;
-            (nftInfos.receiver, fee) = IERC2981(collection).royaltyInfo(tokenID, 10000);
+            (nftInfos.receiver, fee) = IOpenMarketable(payable(collection)).getTokenRoyalty(tokenID);
             nftInfos.fee = uint96(fee);
         }
         if (supported[_IOPEN_MARKETABLE]) {
-            nftInfos.price = IOpenMarketable(payable(collection)).tokenPrice(tokenID);
+            nftInfos.price = IOpenMarketable(payable(collection)).getTokenPrice(tokenID);
         }
     }
 
@@ -221,7 +221,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
 
         if (supported[_IOPEN_MARKETABLE]) {
             (collInfos.receiver, collInfos.fee) = IOpenMarketable(payable(collection)).getDefaultRoyalty();
-            collInfos.price = IOpenMarketable(payable(collection)).defaultPrice();
+            collInfos.price = IOpenMarketable(payable(collection)).getDefaultPrice();
         }
     }
 }

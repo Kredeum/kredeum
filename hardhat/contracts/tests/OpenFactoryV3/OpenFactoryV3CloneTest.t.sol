@@ -46,7 +46,7 @@ abstract contract OpenFactoryV3CloneTest is Test {
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
         assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");
 
-        assertEq(OpenAutoMarket(payable(_clone)).defaultPrice(), 42000000000);
+        assertEq(OpenAutoMarket(payable(_clone)).getDefaultPrice(), 42000000000);
 
         (address receiver, uint96 fee) = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
         assertEq(receiver, _tester);

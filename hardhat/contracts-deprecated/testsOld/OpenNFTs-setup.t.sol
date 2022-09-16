@@ -25,7 +25,7 @@ contract OpenNFTsSetupTest is OpenNFTsOldTest {
     }
 
     function testPrice() public {
-        assertEq(op.tokenPrice(1), 0);
+        assertEq(op.getTokenPrice(1), 0);
     }
 
     function testRoyalties() public {

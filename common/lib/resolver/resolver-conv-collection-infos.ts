@@ -26,6 +26,7 @@ const resolverConvCollectionInfos = (
   if (collectionInfos[6][2]) {
     // ERC721
     collection.balancesOf = new Map([[account, Number(collectionInfos[5])]]);
+    // collection.approved = true;
   }
 
   // console.log("resolverConvCollectionInfos OUT", collection);

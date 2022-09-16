@@ -52,15 +52,15 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
 
   console.log("collectionCloneAddress ~ txReceipt", txReceipt);
   if (txReceipt.logs) {
-    const abi = [
-      "event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"
-    ];
+    const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
     const iface = new utils.Interface(abi);
+    
     const eventTopic = iface.getEventTopic("Clone");
     const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+
     if (logs.length == 0) {
       console.error("ERROR no topics", txReceipt);
-    }else{
+    } else {
       const log = iface.parseLog(logs[0]);
       clone = log.args[1] as string;
     }

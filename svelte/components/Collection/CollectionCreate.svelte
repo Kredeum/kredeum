@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
 
-  import { ethers } from "ethers";
+  import { BigNumber, constants, ethers, utils } from "ethers";
 
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
@@ -26,7 +26,6 @@
 
   let collectionName = "";
   let collectionSymbol = "";
-  let collectionDefaultPrice: string;
 
   let collectionCreated: CollectionType = null;
 
@@ -34,31 +33,23 @@
   let defaultPriceTxHash: string = null;
   let royaltiesTxHash: string = null;
 
-  let inputCollectionDefaultPrice: string;
-  let inputCollectionDefaultRoyaltyAmount: string;
-  let inputCollectionDefaultRoyaltiesReceiver: string;
+  let inputPrice: string;
+  let inputFee: string;
+  let inputReceiver: string;
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
 
-  $: inputCollectionDefaultPrice && handlePrice();
-  /// manage ethers input with 18 decimals
-  const handlePrice = () => {
-    inputCollectionDefaultPrice = inputCollectionDefaultPrice.replace(/[^0-9.,]/g, "");
-    let formatedInputPrice = inputCollectionDefaultPrice.replace(/[,]/g, ".");
-    const decimals = formatedInputPrice.split(".")[1];
-    if (decimals?.length > 18) {
-      inputCollectionDefaultPrice = inputCollectionDefaultPrice.slice(0, -1);
-      formatedInputPrice = formatedInputPrice.slice(0, -1);
-    }
+  $: if (inputPrice) {
+    let price = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
 
-    // const priceToConvert = inputPrice.replace(/[,]/g, ".").replace(/[^0-9.]/g, "");
-    if (inputCollectionDefaultPrice) collectionDefaultPrice = ethers.utils.parseEther(formatedInputPrice).toString();
+    do price = price.slice(0, -1);
+    while (price.split(".")[1]?.length > 18);
 
-    console.log("collectionDefaultPrice : ", collectionDefaultPrice, " Wei");
-  };
+    inputPrice = price;
+  }
 
   const dispatch = createEventDispatcher();
 
@@ -137,15 +128,33 @@
     cloning = S1_CONFIRM;
   };
 
+  const _validFee = (fee: string): boolean => Number(fee) >= 0 && Number(fee) <= 10000;
+  const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
+  const _validPriceNotZero = (price: string): boolean => Number(price) > 0;
+  const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
+
   const _cloneConfirm = async () => {
     if (
-      (inputCollectionDefaultRoyaltiesReceiver && !inputCollectionDefaultRoyaltyAmount) ||
-      (!inputCollectionDefaultRoyaltiesReceiver && inputCollectionDefaultRoyaltyAmount)
+      (_validAddressNotZero(inputReceiver) && !_validFeeNotZero(inputFee)) ||
+      (!_validAddressNotZero(inputReceiver) && _validFeeNotZero(inputFee))
     )
       return _cloneError("Royalties amount and Royalty receiver must be declared together");
+    console.log("const_cloneConfirm= ~ inputFee", inputFee);
 
     cloning = S2_SIGN_CLONE_TX;
-    const cloneTxRespYield = collectionClone(chainId, collectionName, collectionSymbol, template, $metamaskSigner);
+    const cloneTxRespYield = collectionClone(
+      chainId,
+      collectionName,
+      collectionSymbol,
+      template,
+      $metamaskSigner,
+      ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
+      inputReceiver,
+      BigNumber.from(Math.round(Number(inputFee) * 100))
+    );
+    //   defaultPrice: BigNumber = BigNumber.from(0),
+    // receiver: string = constants.AddressZero,
+    // fee: BigNumber = BigNumber.from(0)
 
     const cloneTxResp = (await cloneTxRespYield.next()).value;
 
@@ -173,64 +182,64 @@
 
     cloning = S4_COLL_CREATED;
 
-    if (template === "OpenAutoMarket/ownable") {
-      if (inputCollectionDefaultPrice) {
-        cloning = S5_SIGN_PRICE_TX;
+    // if (template === "OpenAutoMarket/ownable") {
+    //   if (_validPriceNotZero(inputPrice)) {
+    //     cloning = S5_SIGN_PRICE_TX;
 
-        const setDefaultPriceTxRespYield = setDefautCollectionPrice(
-          chainId,
-          collection.address,
-          collectionDefaultPrice,
-          $metamaskSigner
-        );
+    //     const setDefaultPriceTxRespYield = setDefautCollectionPrice(
+    //       chainId,
+    //       collection.address,
+    //       ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
+    //       $metamaskSigner
+    //     );
 
-        const setDefaultPriceTxResp = (await setDefaultPriceTxRespYield.next()).value;
+    //     const setDefaultPriceTxResp = (await setDefaultPriceTxRespYield.next()).value;
 
-        if (!setDefaultPriceTxResp) return _cloneError("ERROR collectionPrice no setDefaultPriceTxResp");
+    //     if (!setDefaultPriceTxResp) return _cloneError("ERROR collectionPrice no setDefaultPriceTxResp");
 
-        explorerTxLog(chainId, setDefaultPriceTxResp);
-        defaultPriceTxHash = setDefaultPriceTxResp.hash;
+    //     explorerTxLog(chainId, setDefaultPriceTxResp);
+    //     defaultPriceTxHash = setDefaultPriceTxResp.hash;
 
-        cloning = S6_WAIT_PRICE_TX;
+    //     cloning = S6_WAIT_PRICE_TX;
 
-        const setDefaultPriceTxReceipt = (await setDefaultPriceTxRespYield.next()).value;
+    //     const setDefaultPriceTxReceipt = (await setDefaultPriceTxRespYield.next()).value;
 
-        if (!setDefaultPriceTxReceipt.status)
-          return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(setDefaultPriceTxReceipt, null, 2)}`);
+    //     if (!setDefaultPriceTxReceipt.status)
+    //       return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(setDefaultPriceTxReceipt, null, 2)}`);
 
-        cloning = S7_PRICE_SETTED;
-      }
+    //     cloning = S7_PRICE_SETTED;
+    //   }
 
-      if (inputCollectionDefaultRoyaltiesReceiver || inputCollectionDefaultRoyaltyAmount) {
-        cloning = S8_SIGN_ROYALTIES_TX;
+    //   if (inputReceiver || _validFeeNotZero(inputFee)) {
+    //     cloning = S8_SIGN_ROYALTIES_TX;
 
-        const setDefaultRoyaltyTxRespYield = setDefautCollectionRoyalty(
-          chainId,
-          collectionCreated.address,
-          inputCollectionDefaultRoyaltiesReceiver,
-          Math.round(Number(inputCollectionDefaultRoyaltyAmount) * 100).toString(),
-          $metamaskSigner
-        );
+    //     const setDefaultRoyaltyTxRespYield = setDefautCollectionRoyalty(
+    //       chainId,
+    //       collectionCreated.address,
+    //       inputReceiver,
+    //       BigNumber.from(inputFee).mul(100),
+    //       $metamaskSigner
+    //     );
 
-        const setDefaultRoyaltyTxResp = (await setDefaultRoyaltyTxRespYield.next()).value;
+    //     const setDefaultRoyaltyTxResp = (await setDefaultRoyaltyTxRespYield.next()).value;
 
-        if (!setDefaultRoyaltyTxResp) return _cloneError("ERROR collectionRoyalties no setDefaultRoyaltyTxResp");
+    //     if (!setDefaultRoyaltyTxResp) return _cloneError("ERROR collectionRoyalties no setDefaultRoyaltyTxResp");
 
-        explorerTxLog(chainId, setDefaultRoyaltyTxResp);
-        royaltiesTxHash = setDefaultRoyaltyTxResp.hash;
+    //     explorerTxLog(chainId, setDefaultRoyaltyTxResp);
+    //     royaltiesTxHash = setDefaultRoyaltyTxResp.hash;
 
-        cloning = S9_WAIT_ROYALTIES_TX;
+    //     cloning = S9_WAIT_ROYALTIES_TX;
 
-        const setDefaultRpyaltyReceipt = (await setDefaultRoyaltyTxRespYield.next()).value;
+    //     const setDefaultRpyaltyReceipt = (await setDefaultRoyaltyTxRespYield.next()).value;
 
-        if (!setDefaultRpyaltyReceipt.status)
-          return _cloneError(
-            `ERROR collectionRoyalties bad status ${JSON.stringify(setDefaultRpyaltyReceipt, null, 2)}`
-          );
+    //     if (!setDefaultRpyaltyReceipt.status)
+    //       return _cloneError(
+    //         `ERROR collectionRoyalties bad status ${JSON.stringify(setDefaultRpyaltyReceipt, null, 2)}`
+    //       );
 
-        cloning = S10_MINTED;
-      }
-    }
+    //     cloning = S10_MINTED;
+    //   }
+    // }
 
     $refreshCollectionList += 1;
   };
@@ -241,10 +250,9 @@
       collectionCreated = null;
       collectionName = "";
       collectionSymbol = "";
-      inputCollectionDefaultPrice = "";
-      inputCollectionDefaultRoyaltyAmount = "";
-      inputCollectionDefaultRoyaltiesReceiver = "";
-      collectionDefaultPrice = "";
+      inputPrice = "";
+      inputFee = "0";
+      inputReceiver = "";
       defaultPriceTxHash = null;
       royaltiesTxHash = null;
       cloneError = null;
@@ -299,7 +307,7 @@
                   type="text"
                   class=" kre-field-outline"
                   placeholder="0"
-                  bind:value={inputCollectionDefaultPrice}
+                  bind:value={inputPrice}
                   id="mint-price-nft"
                 />
               </div>
@@ -311,7 +319,7 @@
                   type="text"
                   class=" kre-field-outline"
                   placeholder="0"
-                  bind:value={inputCollectionDefaultRoyaltyAmount}
+                  bind:value={inputFee}
                   id="royalty-amount-nft"
                 />
               </div>
@@ -323,7 +331,7 @@
                   type="text"
                   class=" kre-field-outline"
                   placeholder="Ethereum receiver address"
-                  bind:value={inputCollectionDefaultRoyaltiesReceiver}
+                  bind:value={inputReceiver}
                   id="royalties-reveiver-nft"
                 />
               </div>
@@ -364,13 +372,13 @@
             </div>
           </div>
         {/if}
-
-        {#if cloning >= S5_SIGN_PRICE_TX && inputCollectionDefaultPrice}
+        <!-- 
+        {#if cloning >= S5_SIGN_PRICE_TX && inputPrice}
           <div class="kre-modal-block">
             {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_PRICE_SETTED}
               <div class="titre">
                 <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
-                  collectionDefaultPrice
+                  inputPrice
                 )} Eth
               </div>
             {/if}
@@ -387,7 +395,7 @@
             {#if cloning >= S7_PRICE_SETTED}
               <div class="titre">
                 <i class="fas fa-check fa-left c-green" />
-                default Nft minting price setted to {ethers.utils.formatEther(collectionDefaultPrice)} Eth for this collection
+                default Nft minting price setted to {ethers.utils.formatEther(inputPrice)} Eth for this collection
               </div>
               <div class="section">
                 <div class="flex">
@@ -408,8 +416,8 @@
                   <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
                 </div>
                 <div class="section">
-                  Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
-                  Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+                  Fee : {inputFee} %<br />
+                  Receiver : {inputReceiver}
                 </div>
               </div>
             {/if}
@@ -428,8 +436,8 @@
                 default Nft Royalty info setted to :<br />
               </div>
               <div class="section">
-                Fee : {inputCollectionDefaultRoyaltyAmount} %<br />
-                Receiver : {inputCollectionDefaultRoyaltiesReceiver}
+                Fee : {inputFee} %<br />
+                Receiver : {inputReceiver}
                 <div class="flex">
                   <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
                     >{textShort(royaltiesTxHash)}</a
@@ -438,7 +446,7 @@
               </div>
             {/if}
           </div>
-        {/if}
+        {/if} -->
 
         {#if cloneError}
           <div class="section">

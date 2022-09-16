@@ -30,12 +30,14 @@
 
           <div class="modal-body">
             <div>
-              <NftTokenApprove {chainId} {address} {tokenID} />
-              <div class="kre-modal-block">
-                <NftSetPrice {chainId} {address} {tokenID} {nftPrice} />
+              <div >
+                <NftTokenApprove {chainId} {address} {tokenID} />
               </div>
               <div class="kre-modal-block">
                 <CollectionSetApproval {chainId} {address} approval={true} />
+              </div>
+              <div class="kre-modal-block">
+                <NftSetPrice {chainId} {address} {tokenID} {nftPrice} />
               </div>
             </div>
           </div>

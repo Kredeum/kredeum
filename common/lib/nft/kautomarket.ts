@@ -5,7 +5,7 @@ import type { IERC2981, IERC721 } from "@soltypes/index";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber, constants } from "ethers";
+import { BigNumber, BigNumberish, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
@@ -20,7 +20,7 @@ const getNftPrice = async (
 
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
   if (collection.supports?.IOpenMarketable)
-    price = await (contract as IOpenMarketable).tokenPrice(BigNumber.from(tokenID));
+    price = await (contract as IOpenMarketable).getTokenPrice(BigNumber.from(tokenID));
 
   return price;
 };
@@ -48,7 +48,7 @@ const getDefaultCollPrice = async (
 ): Promise<BigNumber> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).defaultPrice() : BigNumber.from(0);
+  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getDefaultPrice() : BigNumber.from(0);
 };
 
 const getDefaultCollRoyaltyInfos = async (
@@ -182,9 +182,12 @@ async function* setTokenPrice(
   address: string,
   tokenID: string,
   tokenPrice: string,
-  signer: Signer
+  signer: Signer,
+  approveType = 0
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
+
+  let txResp;
 
   if (!(chainId && address && tokenID && tokenPrice && signer)) return {};
 
@@ -194,10 +197,16 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenPrice(
-    BigNumber.from(tokenID),
-    tokenPrice
-  );
+  if (approveType == 0) {
+    txResp = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256)"](BigNumber.from(tokenID), tokenPrice);
+  } else {
+    txResp = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256,address,uint8)"](
+      BigNumber.from(tokenID),
+      tokenPrice,
+      collection.address,
+      approveType
+    );
+  }
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
@@ -217,7 +226,7 @@ const getEthersConverterLink = (chainId: number, price: string) => {
 async function* setDefautCollectionPrice(
   chainId: number,
   address: string,
-  defaultPrice: string,
+  defaultPrice: BigNumber,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   console.log("setDefautCollectionPrice", chainId, address, defaultPrice, signer);
@@ -239,7 +248,7 @@ async function* setDefautCollectionRoyalty(
   chainId: number,
   address: string,
   defaultRoyaltiesReceiver: string,
-  defaultRoyaltyAmount: string,
+  defaultRoyaltyAmount: BigNumber,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
@@ -254,10 +263,7 @@ async function* setDefautCollectionRoyalty(
   // console.log("contract", contract);
 
   if (collection.supports?.IOpenMarketable && !collection.open && account === collection.owner) {
-    txResp = await (contract as IOpenMarketable).setDefaultRoyalty(
-      defaultRoyaltiesReceiver,
-      BigNumber.from(defaultRoyaltyAmount)
-    );
+    txResp = await (contract as IOpenMarketable).setDefaultRoyalty(defaultRoyaltiesReceiver, defaultRoyaltyAmount);
   }
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
