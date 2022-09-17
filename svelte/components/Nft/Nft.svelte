@@ -70,11 +70,8 @@
             ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
           >
 
-          <a
-            href="#transfert-nft-{tokenID}"
-            class="btn-transfer-modal {$nft.price && $nft.price !== '0' ? 'kre-disabled' : ''}"
-            title="Make a gift"
-            aria-disabled={$nft.price && $nft.price !== "0"}><i class="fa fa-gift fa-left" /> TRANSFER</a
+          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+            ><i class="fa fa-gift fa-left" /> TRANSFER</a
           >
 
           <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"><i class="fa fa-fire fa-left" /> BURN</a

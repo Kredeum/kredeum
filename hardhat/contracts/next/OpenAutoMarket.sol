@@ -57,6 +57,12 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         _;
     }
 
+    function transfer(address to, uint256 tokenID) external override(IOpenAutoMarket) existsToken(tokenID) {
+        setTokenPrice(tokenID, 0);
+
+        safeTransferFrom(msg.sender, to, tokenID);
+    }
+
     function buy(uint256 tokenID) external payable override(IOpenAutoMarket) existsToken(tokenID) {
         /// Get token price
         uint256 price = _tokenPrice[tokenID];
@@ -72,8 +78,11 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         assert(from != address(0));
         require(from != msg.sender, "Already token owner!");
 
+        /// This AutoMarket approves msg.sender (requires AutoMarket isAprovedForAll)
+        this.approve(msg.sender, tokenID);
+
         /// Transfer token
-        this.safeTransferFrom{value: msg.value}(from, msg.sender, tokenID, "");
+        safeTransferFrom(from, msg.sender, tokenID);
 
         /// Reset token price (to be eventualy defined by new owner)
         delete _tokenPrice[tokenID];

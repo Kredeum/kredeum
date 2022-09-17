@@ -5,6 +5,7 @@ import { explorerTxLog } from "@lib/common/kconfig";
 
 import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
 import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
+import type { IOpenAutoMarket } from "@soltypes/contracts/interfaces/IOpenAutoMarket";
 
 async function* transferNft(
   chainId: number,
@@ -24,7 +25,9 @@ async function* transferNft(
   // console.log("contract", contract);
 
   let txResp: TransactionResponse | undefined;
-  if (collection.supports?.IERC721) {
+  if (collection.supports?.IOpenAutoMarket) {
+    txResp = await (contract as IOpenAutoMarket).transfer(to, tokenID);
+  } else if (collection.supports?.IERC721) {
     txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](fromAddress, to, tokenID);
   } else if (collection.supports?.IERC1155) {
     txResp = await (contract as IERC1155).safeTransferFrom(fromAddress, to, tokenID, 1, "0x00");
