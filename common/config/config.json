@@ -6,5 +6,9 @@
   "storage": "ipfs",
   "ipfsGateway": "https://ipfs.io/ipfs/",
   "swarmGateway": "https://api.gateway.ethswarm.org/bzz/",
+  "treasury": {
+    "account": "0xb09Ae31E045Bb9d8D74BB6624FeEB18B3Af72A8e",
+    "fee": 90
+  },
   "env": {}
 }

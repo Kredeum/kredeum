@@ -2,15 +2,7 @@
 pragma solidity 0.8.9;
 
 interface IOpenAutoMarket {
-    function initialize(
-        string memory name,
-        string memory symbol,
-        address owner,
-        uint256 defaultPrice,
-        address receiver,
-        uint96 fee,
-        bool[] memory options
-    ) external;
+
 
     function mint(string memory tokenURI) external returns (uint256 tokenID);
 

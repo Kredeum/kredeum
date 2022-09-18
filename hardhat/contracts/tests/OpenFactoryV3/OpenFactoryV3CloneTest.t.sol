@@ -8,14 +8,13 @@ import "../../next/OpenNFTsV4.sol";
 import "../../next/OpenAutoMarket.sol";
 
 abstract contract OpenFactoryV3CloneTest is Test {
-    address private _factory;
-    address private _template;
-    address private _clone;
-    address private _owner = address(0x1);
-    address private _minter = address(0x12);
-    address private _buyer = address(0x13);
-    address private _tester = address(0x4);
-    uint256 private _tokenID0;
+    address internal _factory;
+    address internal _template;
+    address internal _clone;
+    address internal _owner = address(0x1);
+    address internal _minter = address(0x12);
+    address internal _buyer = address(0x13);
+    address internal _tester = address(0x4);
 
     function constructorTest(address owner_) public virtual returns (address);
 
@@ -41,7 +40,7 @@ abstract contract OpenFactoryV3CloneTest is Test {
             "NFT test",
             "NFT",
             "OpenAutoMarket",
-            abi.encode(42000000000, _tester, 420, options)
+            abi.encode(42000000000, _tester, 420, _owner, 90, options)
         );
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
         assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");

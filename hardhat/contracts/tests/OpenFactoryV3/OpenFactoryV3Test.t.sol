@@ -33,7 +33,12 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
 
         // TEMPLATE OpenAutoMarket
         OpenAutoMarket _openAutoMarket = new OpenAutoMarket();
-        _openAutoMarket.initialize("OpenFactoryV3Test", "OPTEST", owner, 0, address(0), 0, options);
+        IOpenCloneable(_openAutoMarket).initialize(
+            "OpenFactoryV3Test",
+            "OPTESTOPTEST",
+            owner,
+            abi.encode(0, address(0), 0, address(0), 0, options)
+        );
         factory.setTemplate("OpenAutoMarket", address(_openAutoMarket));
 
         return address(factory);

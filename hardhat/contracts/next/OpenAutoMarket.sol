@@ -92,22 +92,6 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
     }
 
-    function initialize(
-        string memory name_,
-        string memory symbol_,
-        address owner_,
-        uint256 defaultPrice_,
-        address receiver_,
-        uint96 fee_,
-        bool[] memory options
-    ) public override(IOpenAutoMarket) {
-        OpenNFTs._initialize(name_, symbol_, owner_);
-        open = options[0];
-
-        OpenMarketable._setDefaultPrice(defaultPrice_);
-        OpenMarketable._setDefaultRoyalty(receiver_, fee_);
-    }
-
     function mint(
         address minter_,
         string memory tokenURI_,
@@ -127,11 +111,17 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         address owner_,
         bytes memory params_
     ) public virtual override(OpenCloneable) {
-        (uint256 defaultPrice_, address receiver_, uint96 fee_, bool[] memory options_) = abi.decode(
-            params_,
-            (uint256, address, uint96, bool[])
-        );
-        initialize(name_, symbol_, owner_, defaultPrice_, receiver_, fee_, options_);
+        (
+            uint256 defaultPrice_,
+            address receiver_,
+            uint96 fee_,
+            address treasury_,
+            uint96 treasuryFee_,
+            bool[] memory options_
+        ) = abi.decode(params_, (uint256, address, uint96, address, uint96, bool[]));
+
+        open = options_[0];
+        OpenNFTs._initialize(name_, symbol_, owner_, defaultPrice_, receiver_, fee_, treasury_, treasuryFee_);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {

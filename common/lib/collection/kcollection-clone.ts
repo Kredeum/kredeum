@@ -4,6 +4,8 @@ import { BigNumber, utils, constants } from "ethers";
 import { explorerTxLog } from "@lib/common/kconfig";
 import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
+import config from "@config/config.json";
+
 
 async function* collectionClone(
   chainId: number,
@@ -24,16 +26,16 @@ async function* collectionClone(
   const _name = name || `Open NFTs #${n}`;
   const _symbol = symbol || `NFT#${n}`;
 
-  const [template, config] = templateConfig.split("/");
-  const options: boolean[] = [config == "generic"];
+  const [template, conf] = templateConfig.split("/");
+  const options: boolean[] = [conf == "generic"];
   let optionsBytes = "";
 
   if (template == "OpenNFTsV4") {
     optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
   } else if (template == "OpenAutoMarket") {
-    optionsBytes = utils.defaultAbiCoder.encode(
-      ["uint256", "address", "uint96", "bool[]"],
-      [defaultPrice, receiver, fee, options]
+     optionsBytes = utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "address", "uint96", "bool[]"],
+      [defaultPrice, receiver, fee, config.treasury.account, config.treasury.fee, options]
     );
   } else {
     console.error("ERROR unknown template", template);

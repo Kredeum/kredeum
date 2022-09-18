@@ -34,6 +34,9 @@ contract OpenAutoMarketTest is
     OpenPauseableTest,
     OpenMarketableTest
 {
+    uint256 internal nn = 42;
+
+
     function constructorTest(address owner)
         public
         override(
@@ -61,7 +64,12 @@ contract OpenAutoMarketTest is
 
         OpenAutoMarket collection = new OpenAutoMarket();
         if (init) {
-            collection.initialize("OpenERC721Test", "OPTEST", owner, 0, address(0), 0, options);
+            IOpenCloneable(collection).initialize(
+                "OpenERC721Test",
+                "OPTEST",
+                owner,
+                abi.encode(0, address(0), 0, makeAddr("treasury"), 90, options)
+            );
         }
 
         return address(collection);
