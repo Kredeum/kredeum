@@ -2,8 +2,6 @@
 pragma solidity 0.8.9;
 
 interface IOpenAutoMarket {
-
-
     function mint(string memory tokenURI) external returns (uint256 tokenID);
 
     function mint(

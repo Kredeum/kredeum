@@ -19,14 +19,14 @@ const resolverConvCollectionInfos = (
   const name: string = collectionInfos[2] || DEFAULT_NAME;
   const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
   const totalSupply = Number(collectionInfos[4]);
-  const supports = resolverConvSupports(collectionInfos[6]);
+  const supports = resolverConvSupports(collectionInfos[7]);
 
   const collection: CollectionType = { chainId, chainName, address, owner, name, symbol, totalSupply, supports };
 
-  if (collectionInfos[6][2]) {
+  if (collectionInfos[7][2]) {
     // ERC721
     collection.balancesOf = new Map([[account, Number(collectionInfos[5])]]);
-    // collection.approved = true;
+    collection.approvedForAll = new Map([[account, Boolean(collectionInfos[6])]]);
   }
 
   // console.log("resolverConvCollectionInfos OUT", collection);

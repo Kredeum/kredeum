@@ -51,6 +51,7 @@ type CollectionType = {
   symbol?: string;
   totalSupply?: number;
   balancesOf?: Map<string, number>;
+  approvedForAll?: Map<string, boolean>;
   supports?: CollectionSupports;
   chainName?: string;
   startBlock?: number;
