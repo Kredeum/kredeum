@@ -1,22 +1,13 @@
 <script lang="ts">
   import { NftType } from "@lib/common/ktypes";
 
-  import { BigNumber, ethers, utils } from "ethers";
-
   import { onMount } from "svelte";
-
-  import { config, getNetwork } from "@lib/common/kconfig";
-  // import config from "@config/config.json";
 
   import { metamaskSigner } from "@main/metamask";
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
-  import { isApprovedForAll, setTokenPrice } from "@lib/nft/kautomarket";
-
-  import InputEther from "../Global/InputEther.svelte";
-  import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import { parseEther } from "ethers/lib/utils";
+  import { setTokenPrice } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />

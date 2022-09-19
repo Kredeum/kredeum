@@ -10,9 +10,9 @@
   export let nft: NftType;
   export let price: string = "";
 
-  let sellerIncome;
-  let receiverFeeAmount;
-  let kredeumFeeAmunt;
+  let sellerIncome: BigNumber;
+  let receiverFeeAmount: BigNumber;
+  let kredeumFeeAmunt: BigNumber;
 
   $: price && handleSellIncomes();
   const handleSellIncomes = () => {

@@ -13,7 +13,7 @@
   import { metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import { setDefautCollectionPrice, setDefautCollectionRoyalty } from "@lib/nft/kautomarket";
+  // import { setDefautCollectionPrice, setDefautCollectionRoyalty } from "@lib/nft/kautomarket";
 
   // up to parent
   export let chainId: number;
@@ -30,8 +30,8 @@
   let collectionCreated: CollectionType = null;
 
   let cloningTxHash: string = null;
-  let defaultPriceTxHash: string = null;
-  let royaltiesTxHash: string = null;
+  // let defaultPriceTxHash: string = null;
+  // let royaltiesTxHash: string = null;
 
   let inputPrice: string = "0";
   let inputFee: string = "0";
@@ -114,12 +114,12 @@
   const S2_SIGN_CLONE_TX = 2;
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
-  const S5_SIGN_PRICE_TX = 5;
-  const S6_WAIT_PRICE_TX = 6;
-  const S7_PRICE_SETTED = 7;
-  const S8_SIGN_ROYALTIES_TX = 8;
-  const S9_WAIT_ROYALTIES_TX = 9;
-  const S10_MINTED = 10;
+  // const S5_SIGN_PRICE_TX = 5;
+  // const S6_WAIT_PRICE_TX = 6;
+  // const S7_PRICE_SETTED = 7;
+  // const S8_SIGN_ROYALTIES_TX = 8;
+  // const S9_WAIT_ROYALTIES_TX = 9;
+  // const S10_MINTED = 10;
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -130,7 +130,7 @@
 
   const _validFee = (fee: string): boolean => Number(fee) >= 0 && Number(fee) <= 10000;
   const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
-  const _validPriceNotZero = (price: string): boolean => Number(price) > 0;
+  // const _validPriceNotZero = (price: string): boolean => Number(price) > 0;
   const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
 
   const _cloneConfirm = async () => {
@@ -253,8 +253,8 @@
       inputPrice = "";
       inputFee = "0";
       inputReceiver = "";
-      defaultPriceTxHash = null;
-      royaltiesTxHash = null;
+      // defaultPriceTxHash = null;
+      // royaltiesTxHash = null;
       cloneError = null;
       cloning = S1_CONFIRM;
     }

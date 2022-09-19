@@ -1,12 +1,9 @@
 <script lang="ts">
   import { NftType } from "@lib/common/ktypes";
 
-  import { BigNumber, ethers, utils } from "ethers";
+  import { utils } from "ethers";
 
   import { onMount } from "svelte";
-
-  import { config, getNetwork } from "@lib/common/kconfig";
-  // import config from "@config/config.json";
 
   import { metamaskSigner } from "@main/metamask";
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
@@ -16,7 +13,6 @@
 
   import InputEther from "../Global/InputEther.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import { parseEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />

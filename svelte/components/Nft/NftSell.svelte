@@ -4,11 +4,9 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { metamaskAccount } from "@main/metamask";
-
   import NftSetPrice from "./NftSetPrice.svelte";
   import NftWithdraw from "./NftWithdraw.svelte";
-  import { addressSame, getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
+  import { getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
   // import NftTokenApprove from "./NftTokenApprove.svelte";
   // import CollectionSetApproval from "../Collection/CollectionSetApproval.svelte";
 
