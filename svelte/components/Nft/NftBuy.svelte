@@ -126,7 +126,8 @@
               {#if buying == S1_CONFIRM}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nft.price)} Eth ?
+                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nft.price)}
+                    {getNetwork(chainId).nativeCurrency.symbol} with Kredeum AutoMarket smartcontract ?
                   </p>
                 </div>
                 <IncomesPreview {nft} />

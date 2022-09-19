@@ -28,23 +28,56 @@
 
   onMount(() => {
     if (!price) price = nft.price;
+    handleSellIncomes();
   });
 </script>
 
 {#if (Number(nft.price) > 0 || Number(price) > 0) && sellerIncome && receiverFeeAmount && kredeumFeeAmunt}
   <div class="section">
     <span class="label">Sell Incomes preview</span>
-    <p>
-      {utils.formatEther(sellerIncome)}
-      {getNetwork(nft.chainId).nativeCurrency.symbol} for the Seller : {nft.owner}
-    </p>
-    <p>
-      {utils.formatEther(receiverFeeAmount)}
-      {getNetwork(nft.chainId).nativeCurrency.symbol} for the Royalty receiver : {nft.royaltyReceiver}
-    </p>
-    <p>
-      {utils.formatEther(kredeumFeeAmunt)}
-      {getNetwork(nft.chainId).nativeCurrency.symbol} for your obliged Kredeum Nfts Factory :)
-    </p>
+    <ul class="steps">
+      <li>
+        <div>
+          <p>
+            {utils.formatEther(sellerIncome)}
+            {getNetwork(nft.chainId).nativeCurrency.symbol} send to Seller :
+          </p>
+          <p>{nft.owner}</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p>
+            {utils.formatEther(receiverFeeAmount)}
+            {getNetwork(nft.chainId).nativeCurrency.symbol} ({Number(nft.royaltyAmount) / 100} %) Royalty send to receiver
+            :
+          </p>
+          <p>{nft.royaltyReceiver}</p>
+        </div>
+      </li>
+      <li>
+        <div>
+          <p>
+            {utils.formatEther(kredeumFeeAmunt)}
+            {getNetwork(nft.chainId).nativeCurrency.symbol} ({config.treasury.fee / 100} %)
+          </p>
+          <p>Send to your obliged Kredeum Nfts Factory :)</p>
+        </div>
+      </li>
+    </ul>
   </div>
 {/if}
+
+<style>
+  .steps {
+    margin-top: 0;
+  }
+
+  .steps p {
+    margin: 0;
+  }
+
+  .steps p:last-child {
+    color: rgba(30, 30, 67, 0.4);
+  }
+</style>

@@ -79,6 +79,10 @@
     if (Number(nft.price) > 0) tokenNewPrice = utils.formatEther(nft.price);
   };
 
+  $: if (nft) {
+    tokenSetPriceInit();
+  }
+
   onMount(() => {
     tokenSetPriceInit();
   });
@@ -115,7 +119,7 @@
 
 {#if tokenPriceSetting == S1_CONFIRM}
   <div class="titre">
-    <p><i class="fas fa-angle-right" /> List item #{tokenID} for sale</p>
+    <p><i class="fas fa-angle-right" /> List item #{tokenID} for sale with Kredeum AutoMarket smartcontract</p>
   </div>
 
   <div class="section">

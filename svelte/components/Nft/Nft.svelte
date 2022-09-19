@@ -67,9 +67,11 @@
       </div>
       <div class="kre-action-buttons">
         {#if $nft.owner === account}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
-          >
+          {#if "wordpress" === platform}
+            <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+              ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+            >
+          {/if}
 
           <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
             ><i class="fa fa-gift fa-left" /> TRANSFER</a
@@ -175,9 +177,11 @@
                 <div class="flex"><span class="label">Nft Royalties receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {$nft.royaltyReceiver === constants.AddressZero
-                      ? "No receiver setted for Royalties"
-                      : $nft.royaltyReceiver}
+                    {#if $nft.royaltyReceiver === constants.AddressZero}
+                      No receiver setted for Royalties
+                    {:else}
+                      {@html explorerAddressLink(chainId, $nft.royaltyReceiver, 15)}
+                    {/if}
                   </span>
                   {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
                     <NftSetRoyalties
@@ -195,11 +199,11 @@
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
-          {#if "wordpress" === platform}
+          <!-- {#if "wordpress" === platform}
             <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
-          {/if}
+          {/if} -->
 
           <!-- {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
@@ -294,5 +298,6 @@
 
   .btn-burn-modal:hover {
     border-color: red !important;
+    color: red !important;
   }
 </style>

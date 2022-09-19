@@ -107,7 +107,9 @@
   <div class="kre-modal-block">
     {#if tokenWithdrawing == S1_CONFIRM}
       <div class="titre">
-        <p><i class="fas fa-angle-right" /> Withdraw this Nft #{tokenID} from sale</p>
+        <p>
+          <i class="fas fa-angle-right" /> Withdraw this Nft #{tokenID} from sale with Kredeum AutoMarket smartcontract
+        </p>
       </div>
 
       <div class="txtright">

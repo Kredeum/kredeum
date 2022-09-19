@@ -14,7 +14,8 @@
     explorerTxLog,
     explorerNftUrl,
     nftUrl,
-    storageLinkToUrlHttp
+    storageLinkToUrlHttp,
+    getNetwork
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
 
@@ -274,7 +275,7 @@
               </div>
 
               <div class="section">
-                <!-- <span class="label label-big">NFT file</span> -->
+                <span class="titre">NFT file</span>
                 <div class="box-file">
                   {#if image}
                     <div class="media media-photo">
@@ -289,7 +290,7 @@
                 </div>
               </div>
               <div class="kre-section-small">
-                <!-- <span class="label label-big">NFT title</span> -->
+                <span class="titre">NFT title</span>
                 <div class="form-field">
                   <input
                     type="text"
@@ -301,7 +302,7 @@
                 </div>
               </div>
               <div class="kre-section-small">
-                <!-- <span class="label label-big">NFT description</span> -->
+                <span class="titre">NFT description</span>
                 <div class="form-field">
                   <input
                     type="text"
@@ -313,7 +314,7 @@
                 </div>
               </div>
               <div class="kre-section-small kre-mint-collection">
-                <!-- <span class="label label-big">Add to an existing address ?</span> -->
+                <span class="titre">Add to an existing collection</span>
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
@@ -322,7 +323,9 @@
                   {#if Number(nftMintingPrice) > 0}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Mint price</span>
-                      <span class="kre-market-info-value label-big kre-no-wrap-title">{nftMintingPrice} (Eth)</span>
+                      <span class="kre-market-info-value label-big kre-no-wrap-title"
+                        >{nftMintingPrice} ({getNetwork(chainId).nativeCurrency.symbol})</span
+                      >
                     </div>
                   {/if}
                   {#if Number(nftDefaultRoyaltiesAmount) > 0}

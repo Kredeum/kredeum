@@ -33,8 +33,8 @@
   let defaultPriceTxHash: string = null;
   let royaltiesTxHash: string = null;
 
-  let inputPrice: string;
-  let inputFee: string;
+  let inputPrice: string = "0";
+  let inputFee: string = "0";
   let inputReceiver: string;
 
   // Context for refreshCollectionList
@@ -149,7 +149,7 @@
       template,
       $metamaskSigner,
       ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
-      inputReceiver,
+      inputReceiver || constants.AddressZero,
       BigNumber.from(Math.round(Number(inputFee) * 100))
     );
     //   defaultPrice: BigNumber = BigNumber.from(0),
@@ -301,7 +301,7 @@
 
           {#if template === "OpenAutoMarket/ownable"}
             <div class="section">
-              <div class="titre">Default mint price (Eth)</div>
+              <div class="titre">Mint price (Eth)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -313,7 +313,7 @@
               </div>
             </div>
             <div class="section">
-              <div class="titre">Default royalties (%)</div>
+              <div class="titre">Royalties (%)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -325,7 +325,7 @@
               </div>
             </div>
             <div class="section">
-              <div class="titre">Default royalty receiver</div>
+              <div class="titre">Royalty receiver</div>
               <div class="form-field">
                 <input
                   type="text"
