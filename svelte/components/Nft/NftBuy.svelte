@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { NftType } from "@lib/common/ktypes";
+
   import { utils } from "ethers";
 
   import { onMount } from "svelte";
@@ -7,9 +9,19 @@
 
   import { metamaskSigner } from "@main/metamask";
   import { buyNft } from "@lib/nft/kbuy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    explorerTxLog,
+    textShort,
+    getNetwork,
+    getOpenSea,
+    nftOpenSeaUrl
+  } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
+
+  import IncomesPreview from "../Global/IncomesPreview.svelte";
 
   /////////////////////////////////////////////////
   //  <NftBuy {chainId} {address} {tokenID} {nftPrice} />
@@ -18,7 +30,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let nftPrice: string;
+  export let nft: NftType;
   ///////////////////////////////////////////////////////////
 
   let buying: number;
@@ -72,7 +84,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+    const buyTxRespYield = buyNft(chainId, address, tokenID, nft.price, $metamaskSigner);
 
     buying = S2_SIGN_TX;
 
@@ -95,11 +107,11 @@
 
 <a
   on:click={() => {
-    if (nftPrice !== "0") open = true;
+    if (nft.price !== "0") open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {nftPrice === '0' ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice === "0"} /> Buy</a
+  class="btn-buy-modal {nft.price === '0' ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nft.price === "0"} /> Buy</a
 >
 
 {#if open}
@@ -114,18 +126,29 @@
               {#if buying == S1_CONFIRM}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nftPrice)} Eth ?
+                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nft.price)} Eth ?
                   </p>
                 </div>
+                <IncomesPreview {nft} />
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
+                {#if getOpenSea(chainId)}
+                  <div class="kre-modal-block">
+                    <div class="txtright">
+                      <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank">
+                        Buy on OpenSea
+                      </a>
+                    </div>
+                  </div>
+                {/if}
               {/if}
 
               {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-sync fa-left c-green" />buying NFT #{tokenID} for {utils.formatEther(nftPrice)} Eth...
+                    <i class="fas fa-sync fa-left c-green" />buying NFT #{tokenID} for {utils.formatEther(nft.price)}
+                    {getNetwork(nft.chainId).nativeCurrency.symbol}...
                   </p>
                 </div>
               {/if}

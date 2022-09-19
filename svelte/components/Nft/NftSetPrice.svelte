@@ -1,15 +1,22 @@
 <script lang="ts">
-  import { constants, ethers } from "ethers";
+  import { NftType } from "@lib/common/ktypes";
+
+  import { BigNumber, ethers, utils } from "ethers";
 
   import { onMount } from "svelte";
+
+  import { config, getNetwork } from "@lib/common/kconfig";
+  // import config from "@config/config.json";
 
   import { metamaskSigner } from "@main/metamask";
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice } from "@lib/nft/kautomarket";
+  import { isApprovedForAll, setTokenPrice } from "@lib/nft/kautomarket";
 
   import InputEther from "../Global/InputEther.svelte";
+  import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import { parseEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />
@@ -18,9 +25,10 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let nftPrice: string;
+  export let nft: NftType;
   /////////////////////////////////////////////////
 
+  let collectionApproved: boolean = false;
   let tokenNewPrice: string;
 
   let tokenPriceSetting: number;
@@ -65,6 +73,10 @@
     tokenSetPriceTxHash = null;
 
     tokenPriceSetting = S1_CONFIRM;
+
+    collectionApproved = await isApprovedForAll(chainId, address, nft.collection.owner, $metamaskSigner);
+
+    if (Number(nft.price) > 0) tokenNewPrice = utils.formatEther(nft.price);
   };
 
   onMount(() => {
@@ -76,7 +88,7 @@
       chainId,
       address,
       tokenID,
-      tokenNewPrice,
+      utils.parseEther(tokenNewPrice).toString(),
       $metamaskSigner,
       2
     );
@@ -103,21 +115,36 @@
 
 {#if tokenPriceSetting == S1_CONFIRM}
   <div class="titre">
-    <p><i class="fas fa-angle-right" /> Set this NFT #{tokenID} price</p>
+    <p><i class="fas fa-angle-right" /> List item #{tokenID} for sale</p>
   </div>
+
   <div class="section">
-    From {ethers.utils.formatEther(nftPrice)} Eth to
-    <InputEther bind:etherParsed={tokenNewPrice} />
+    <InputEther {chainId} bind:inputPrice={tokenNewPrice} nftPrice={nft.price} />
+  </div>
+
+  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice).toString() : nft?.price} />
+
+  <div class="section">
+    <div class="form-field kre-warning-msg">
+      <p>
+        <i class="fas fa-exclamation-triangle fa-left c-red" />
+        {#if !collectionApproved}
+          By Completing listing you will Approve all your tokens in this collection
+        {:else}
+          Nfts of this collection are approved for sale
+        {/if}
+      </p>
+    </div>
   </div>
   <div class="txtright">
-    <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm()}>Set price</button>
+    <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm()}>Complete Listing</button>
   </div>
 {/if}
 
 {#if tokenPriceSetting >= S2_SIGN_TX && tokenPriceSetting < S4_PRICE_SETTED}
   <div class="titre">
     <p>
-      <i class="fas fa-sync fa-left c-green" />Setting NFT price to {ethers.utils.formatEther(tokenNewPrice)}
+      <i class="fas fa-sync fa-left c-green" />Setting NFT price to {tokenNewPrice}
       Eth...
     </p>
   </div>

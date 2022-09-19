@@ -12,7 +12,8 @@
     kredeumNftUrl,
     getOpenSea,
     nftOpenSeaUrl,
-    addressSame
+    addressSame,
+    getNetwork
   } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -80,9 +81,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
+            <NftSell {chainId} {address} {tokenID} nft={$nft} />
           {:else}
-            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+            <NftBuy {chainId} {address} {tokenID} nft={$nft} />
           {/if}
         {/if}
       </div>
@@ -145,7 +146,8 @@
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {ethers.utils.formatEther($nft.price)} Eth
+                    {ethers.utils.formatEther($nft.price)}
+                    {getNetwork(chainId).nativeCurrency.symbol}
                   </span>
                 </div>
               </li>
@@ -199,7 +201,7 @@
             >
           {/if}
 
-          {#if getOpenSea(chainId)}
+          <!-- {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell on OpenSea
@@ -209,7 +211,7 @@
                 Buy on OpenSea
               </a>
             {/if}
-          {/if}
+          {/if} -->
         </div>
       </div>
     </div>
@@ -290,15 +292,7 @@
     color: black;
   }
 
-  .btn-burn-modal {
-    color: red !important;
-    /* border-color: red !important; */
-    /* float: right; */
-  }
-
   .btn-burn-modal:hover {
-    /* color: white !important; */
-    /* background: red !important; */
     border-color: red !important;
   }
 </style>
