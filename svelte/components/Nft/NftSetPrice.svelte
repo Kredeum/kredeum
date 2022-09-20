@@ -6,7 +6,7 @@
   import { onMount } from "svelte";
 
   import { metamaskSigner } from "@main/metamask";
-  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
   import { isApprovedForAll, setTokenPrice } from "@lib/nft/kautomarket";
@@ -129,10 +129,18 @@
       <p>
         <i class="fas fa-exclamation-triangle fa-left c-red" />
         {#if !collectionApproved}
-          By Completing listing you will Approve all your tokens in this collection
+          By Completing listing you will Approve all your tokens in this collection to be salable
         {:else}
           Nfts of this collection are approved for sale
         {/if}
+        <a
+          class="link overflow-ellipsis"
+          href={explorerCollectionUrl(chainId, address)}
+          title={address}
+          target="_blank"
+        >
+          {address}
+        </a>
       </p>
     </div>
   </div>

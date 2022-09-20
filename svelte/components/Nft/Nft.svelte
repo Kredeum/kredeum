@@ -102,7 +102,7 @@
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
             <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
-              <strong> <a href={kredeumNftUrl(chainId, $nft)}>#{tokenID}</a></strong>
+              <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
             </div>
           </li>
           <li>
@@ -161,11 +161,7 @@
                   {#if $nft.royaltyAmount === "0"}
                     <span class="overflow-ellipsis" title={$nft.royaltyAmount}>No royalties amount setted</span>
                   {:else}
-                    <span
-                      class="link overflow-ellipsis"
-                      title={`${parseInt($nft.royaltyAmount) / 100} %`}
-                      target="_blank"
-                    >
+                    <span class="overflow-ellipsis" title={`${parseInt($nft.royaltyAmount) / 100} %`} target="_blank">
                       {parseInt($nft.royaltyAmount) / 100} %
                     </span>
                   {/if}
@@ -278,6 +274,15 @@
     margin-top: 13px;
   }
 
+  .kre-blue-link {
+    color: #192247;
+    transition: all 300ms ease-in-out;
+  }
+
+  .kre-blue-link:hover {
+    color: #3acf6e;
+  }
+
   :global(.kre-action-buttons button.btn-sell-modal, .kre-action-buttons a.btn-transfer-modal, .kre-action-buttons
       a.btn-burn-modal, .kre-action-buttons a.btn-shortcod-modal, .kre-action-buttons a.btn-buy-modal) {
     width: 100%;
@@ -294,6 +299,10 @@
     cursor: pointer;
     text-decoration: none;
     color: black;
+  }
+
+  :global(.kre-action-buttons a.btn-transfer-modal:hover) {
+    border: 1px solid #192247;
   }
 
   .btn-burn-modal:hover {

@@ -15,7 +15,8 @@
     explorerNftUrl,
     nftUrl,
     storageLinkToUrlHttp,
-    getNetwork
+    getNetwork,
+    config
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
 
@@ -340,6 +341,10 @@
                       <span class="kre-market-info-value label-big overflow-ellipsis">{nftDefaultRoyaltyReceiver}</span>
                     </div>
                   {/if}
+                  <div>
+                    <span class="kre-market-info-title label-big kre-no-wrap-title">Kredeum fees</span>
+                    <span class="kre-market-info-value label-big overflow-ellipsis">{config.treasury.fee / 100} %</span>
+                  </div>
                 </div>
               {/if}
 
