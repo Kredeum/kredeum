@@ -179,7 +179,7 @@
                       {@html explorerAddressLink(chainId, $nft.royaltyReceiver, 15)}
                     {/if}
                   </span>
-                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
+                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}
@@ -187,7 +187,7 @@
                       nftRoyaltiesAmount={$nft.royaltyAmount}
                       receiver={$nft.royaltyReceiver}
                     />
-                  {/if}
+                  {/if} -->
                 </div>
               </li>
             {/if}

@@ -16,7 +16,9 @@
     nftUrl,
     storageLinkToUrlHttp,
     getNetwork,
-    config
+    config,
+    explorerAddressLink,
+    explorerAddressUrl
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
 
@@ -338,7 +340,11 @@
                   {#if nftDefaultRoyaltyReceiver !== constants.AddressZero}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis">{nftDefaultRoyaltyReceiver}</span>
+                      <span class="kre-market-info-value label-big overflow-ellipsis">
+                        <a href={explorerAddressUrl(chainId, nftDefaultRoyaltyReceiver)} class="link"
+                          >{nftDefaultRoyaltyReceiver}</a
+                        >
+                      </span>
                     </div>
                   {/if}
                   <div>
@@ -524,6 +530,10 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
+  }
+
+  .kre-market-info-value a {
+    text-decoration: none;
   }
 
   :global(.modal-window .select-wrapper div.select-trigger) {
