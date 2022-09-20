@@ -36,7 +36,6 @@ contract OpenAutoMarketTest is
 {
     uint256 internal nn = 42;
 
-
     function constructorTest(address owner)
         public
         override(
@@ -68,7 +67,7 @@ contract OpenAutoMarketTest is
                 "OpenERC721Test",
                 "OPTEST",
                 owner,
-                abi.encode(0, address(0), 0, makeAddr("treasury"), 90, options)
+                abi.encode(abi.encode(0, address(0), 0, options), makeAddr("treasury"), 90)
             );
         }
 

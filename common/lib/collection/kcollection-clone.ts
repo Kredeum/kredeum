@@ -6,7 +6,6 @@ import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 import config from "@config/config.json";
 
-
 async function* collectionClone(
   chainId: number,
   name: string,
@@ -33,9 +32,9 @@ async function* collectionClone(
   if (template == "OpenNFTsV4") {
     optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
   } else if (template == "OpenAutoMarket") {
-     optionsBytes = utils.defaultAbiCoder.encode(
-      ["uint256", "address", "uint96", "address", "uint96", "bool[]"],
-      [defaultPrice, receiver, fee, config.treasury.account, config.treasury.fee, options]
+    optionsBytes = utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "bool[]"],
+      [defaultPrice, receiver, fee, options]
     );
   } else {
     console.error("ERROR unknown template", template);
@@ -56,7 +55,7 @@ const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
   if (txReceipt.logs) {
     const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
     const iface = new utils.Interface(abi);
-    
+
     const eventTopic = iface.getEventTopic("Clone");
     const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
 

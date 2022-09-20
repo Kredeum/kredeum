@@ -16,7 +16,7 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
         changePrank(owner);
 
         // FACTORY
-        OpenFactoryV3 factory = new OpenFactoryV3(owner);
+        OpenFactoryV3 factory = new OpenFactoryV3(owner, makeAddr("treasury"), 90);
 
         // RESOLVER
         OpenNFTsResolver resolver = new OpenNFTsResolver(owner, address(factory));
@@ -37,7 +37,7 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
             "OpenFactoryV3Test",
             "OPTESTOPTEST",
             owner,
-            abi.encode(0, address(0), 0, address(0), 0, options)
+            abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
         );
         factory.setTemplate("OpenAutoMarket", address(_openAutoMarket));
 

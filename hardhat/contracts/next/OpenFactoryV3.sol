@@ -51,8 +51,16 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
 
     address public nftsResolver;
 
-    constructor(address initialOwner) {
-        OpenERC173._transferOwnership(initialOwner);
+    address private _treasury;
+    uint96 private _treasuryFee;
+
+    constructor(
+        address initialOwner_,
+        address treasury_,
+        uint96 treasuryFee_
+    ) {
+        OpenERC173._transferOwnership(initialOwner_);
+        setTreasury(treasury_, treasuryFee_);
     }
 
     /// @notice clone template
@@ -67,7 +75,7 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
     ) external override(IOpenFactoryV3) returns (address clone_) {
         clone_ = clone(template(templateName));
 
-        IOpenCloneable(clone_).initialize(name, symbol, msg.sender, params);
+        IOpenCloneable(clone_).initialize(name, symbol, msg.sender, abi.encode(params, _treasury, _treasuryFee));
 
         IOpenRegistry(nftsResolver).addAddress(clone_);
 
@@ -76,6 +84,11 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
 
     function countTemplates() external view override(IOpenFactoryV3) returns (uint256 count) {
         count = templates.length;
+    }
+
+    function setTreasury(address treasury_, uint96 treasuryFee_) public override(IOpenFactoryV3) onlyOwner {
+        _treasury = treasury_;
+        _treasuryFee = treasuryFee_;
     }
 
     function setResolver(address resolver_) public override(IOpenFactoryV3) onlyOwner {

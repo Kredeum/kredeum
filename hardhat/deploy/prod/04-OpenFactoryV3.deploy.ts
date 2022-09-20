@@ -1,8 +1,8 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 
-import type { OpenNFTsResolver } from "@soltypes/contracts/next/OpenNFTsResolver";
 import { setNetwork } from "@utils/setNetwork";
 import { getNonce } from "@utils/getNonce";
+import config from "@config/config.json";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
@@ -12,7 +12,7 @@ const deployFunction: DeployFunction = async function ({ ethers, network, deploy
   const deployer = await ethers.getNamedSigner("deployer");
 
   let nonce = await getNonce(deployer, contractName, "deploy", true);
-  const deployArgs = [deployer.address];
+  const deployArgs = [deployer.address, config.treasury.account, config.treasury.fee];
   const deployOptions: Create2DeployOptions = {
     from: deployer.address,
     args: deployArgs,

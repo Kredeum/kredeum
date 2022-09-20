@@ -10,6 +10,8 @@ interface IOpenFactoryV3 {
 
     function setResolver(address resolver) external;
 
+    function setTreasury(address treasury, uint96 treasuryFee) external;
+
     function setTemplate(string memory templateName, address template) external;
 
     function clone(

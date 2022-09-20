@@ -111,17 +111,18 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         address owner_,
         bytes memory params_
     ) public virtual override(OpenCloneable) {
-        (
-            uint256 defaultPrice_,
-            address receiver_,
-            uint96 fee_,
-            address treasury_,
-            uint96 treasuryFee_,
-            bool[] memory options_
-        ) = abi.decode(params_, (uint256, address, uint96, address, uint96, bool[]));
+        (bytes memory subparams_, address treasury_, uint96 treasuryFee_) = abi.decode(
+            params_,
+            (bytes, address, uint96)
+        );
+
+        (uint256 defaultPrice_, address receiver_, uint96 receiverFee_, bool[] memory options_) = abi.decode(
+            subparams_,
+            (uint256, address, uint96, bool[])
+        );
 
         open = options_[0];
-        OpenNFTs._initialize(name_, symbol_, owner_, defaultPrice_, receiver_, fee_, treasury_, treasuryFee_);
+        OpenNFTs._initialize(name_, symbol_, owner_, defaultPrice_, receiver_, receiverFee_, treasury_, treasuryFee_);
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {

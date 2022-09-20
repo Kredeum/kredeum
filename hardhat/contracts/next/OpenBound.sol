@@ -150,7 +150,9 @@ contract OpenBound is
         address owner_,
         bytes memory params_
     ) public override(OpenCloneable) {
-        initialize(name_, symbol_, owner_, abi.decode(params_, (uint256)));
+        (bytes memory subparams_, , ) = abi.decode(params_, (bytes, address, uint96));
+
+        initialize(name_, symbol_, owner_, abi.decode(subparams_, (uint256)));
     }
 
     /// IERC165

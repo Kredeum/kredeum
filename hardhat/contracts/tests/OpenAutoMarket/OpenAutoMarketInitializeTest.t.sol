@@ -15,7 +15,7 @@ abstract contract OpenAutoMarketInitializeTest is Test {
     address private _buyer = address(0x13);
     address private _tester = address(0x4);
     bool[] private _options = new bool[](1);
-        
+
     function constructorTest(address owner_, bool init_) public virtual returns (address);
 
     function setUpOpenAutoMarketInitialize() public {
@@ -29,34 +29,64 @@ abstract contract OpenAutoMarketInitializeTest is Test {
             "OpenAutoMarketTest",
             "TEST",
             _owner,
-            abi.encode(0, address(0), 0, address(0), 0, _options)
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
         );
         assertEq(IERC721Metadata(_collection).name(), "OpenAutoMarketTest");
     }
 
     function testInitializeSymbol() public {
-        IOpenCloneable(_collection).initialize("OpenAutoMarketTest", "TEST", _owner,  abi.encode(0, address(0), 0, address(0), 0, _options));
+        IOpenCloneable(_collection).initialize(
+            "OpenAutoMarketTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
         assertEq(IERC721Metadata(_collection).symbol(), "TEST");
     }
 
     function testInitializeOwner() public {
-        IOpenCloneable(_collection).initialize("OpenAutoMarketTest", "TEST", _owner,  abi.encode(0, address(0), 0, address(0), 0, _options));
+        IOpenCloneable(_collection).initialize(
+            "OpenAutoMarketTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
         assertEq(IERC173(_collection).owner(), _owner);
     }
 
     function testInitializeOpen() public {
-        IOpenCloneable(_collection).initialize("OpenAutoMarketTest", "TEST", _owner,  abi.encode(0, address(0), 0, address(0), 0, _options));
+        IOpenCloneable(_collection).initialize(
+            "OpenAutoMarketTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
         assertEq(IOpenAutoMarket(_collection).open(), true);
     }
 
     function testInitializeNotOpen() public {
         _options[0] = false;
-        IOpenCloneable(_collection).initialize("OpenAutoMarketTest", "TEST", _owner,  abi.encode(0, address(0), 0, address(0), 0, _options));
+        IOpenCloneable(_collection).initialize(
+            "OpenAutoMarketTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
         assertEq(IOpenAutoMarket(_collection).open(), false);
     }
 
     function testFailInitializeTwice() public {
-        IOpenCloneable(_collection).initialize("OpenAutoMarketTest", "TEST", _owner,  abi.encode(0, address(0), 0, address(0), 0, _options));
-        IOpenCloneable(_collection).initialize("OpenNFTsOldTestTwice", "OPTEST2", _tester,  abi.encode(0, address(0), 0, address(0), 0, _options));
+        IOpenCloneable(_collection).initialize(
+            "OpenAutoMarketTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
+        IOpenCloneable(_collection).initialize(
+            "OpenNFTsOldTestTwice",
+            "OPTEST2",
+            _tester,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
     }
 }

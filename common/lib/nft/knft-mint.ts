@@ -26,7 +26,7 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   if (txReceipt.logs) {
     const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
     const iface = new ethers.utils.Interface(abi);
-   
+
     const eventTopic = iface.getEventTopic("Transfer");
     const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
 
@@ -78,16 +78,14 @@ const nftMint = async (
   let txResp: TransactionResponse | undefined;
 
   if (collection.supports?.IOpenMarketable) {
+    const value = collection.open ? collection.price : 0;
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,
       tokenURI,
       0,
       collection.receiver || constants.AddressZero,
       collection.fee || 0,
-      {
-        value: collection.price,
-        type: 2
-      }
+      { value, type: 2 }
     );
   } else if (collection.supports?.IOpenNFTsV4) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);

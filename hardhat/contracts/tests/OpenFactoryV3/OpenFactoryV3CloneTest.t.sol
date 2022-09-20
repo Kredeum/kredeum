@@ -40,7 +40,7 @@ abstract contract OpenFactoryV3CloneTest is Test {
             "NFT test",
             "NFT",
             "OpenAutoMarket",
-            abi.encode(42000000000, _tester, 420, _owner, 90, options)
+            abi.encode(42000000000, _tester, 420, options)
         );
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
         assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");

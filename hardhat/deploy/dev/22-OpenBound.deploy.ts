@@ -34,7 +34,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     }
 
     const openBound: OpenBound = await getContract(contractName, deployer);
-    await (await openBound.initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
+    // await (await openBound.initialize(contractName, "BOUND", deployer.address, maxSupply)).wait();
 
     const nftsFactoryV3: OpenFactoryV3 = await getContract("OpenFactoryV3", deployer);
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
