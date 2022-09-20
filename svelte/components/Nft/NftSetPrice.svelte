@@ -124,26 +124,24 @@
 
   <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice).toString() : nft?.price} />
 
+  {#if !collectionApproved}
   <div class="section">
     <div class="form-field kre-warning-msg">
       <p>
-        <i class="fas fa-exclamation-triangle fa-left c-red" />
-        {#if !collectionApproved}
-          By Completing listing you will Approve all your tokens in this collection to be salable
-        {:else}
-          Nfts of this collection are approved for sale
-        {/if}
-        <a
+          By Completing listing you approve all your tokens in this collection to be saleable
+          <a
           class="link overflow-ellipsis"
           href={explorerCollectionUrl(chainId, address)}
           title={address}
           target="_blank"
-        >
+          >
           {address}
         </a>
       </p>
     </div>
   </div>
+  {/if}
+
   <div class="txtright">
     <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm()}>Complete Listing</button>
   </div>
@@ -153,7 +151,7 @@
   <div class="titre">
     <p>
       <i class="fas fa-sync fa-left c-green" />Setting NFT price to {tokenNewPrice}
-      Eth...
+      ETH...
     </p>
   </div>
 {/if}

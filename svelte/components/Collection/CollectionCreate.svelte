@@ -300,8 +300,8 @@
           </div>
 
           {#if template === "OpenAutoMarket/ownable"}
-            <div class="section">
-              <div class="titre">Mint price (Eth)</div>
+            <!-- <div class="section">
+              <div class="titre">Mint price (ETH)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -311,7 +311,7 @@
                   id="mint-price-nft"
                 />
               </div>
-            </div>
+            </div> -->
             <div class="section">
               <div class="titre">Royalties (%)</div>
               <div class="form-field">
@@ -379,7 +379,7 @@
               <div class="titre">
                 <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
                   inputPrice
-                )} Eth
+                )} ETH
               </div>
             {/if}
             {#if cloning == S5_SIGN_PRICE_TX}
@@ -395,7 +395,7 @@
             {#if cloning >= S7_PRICE_SETTED}
               <div class="titre">
                 <i class="fas fa-check fa-left c-green" />
-                default Nft minting price setted to {ethers.utils.formatEther(inputPrice)} Eth for this collection
+                default Nft minting price setted to {ethers.utils.formatEther(inputPrice)} ETH for this collection
               </div>
               <div class="section">
                 <div class="flex">

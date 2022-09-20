@@ -348,7 +348,7 @@
                     </div>
                   {/if}
                   <div>
-                    <span class="kre-market-info-title label-big kre-no-wrap-title">Kredeum fees</span>
+                    <span class="kre-market-info-title label-big kre-no-wrap-title">fees</span>
                     <span class="kre-market-info-value label-big overflow-ellipsis">{config.treasury.fee / 100} %</span>
                   </div>
                 </div>
