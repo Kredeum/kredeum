@@ -120,6 +120,11 @@
     await nftStore.refreshSubList(chainId, address, $metamaskAccount);
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
+
+  const setPriceZeroConfirm = async () => {
+    tokenNewPrice = "0";
+    setPriceConfirm();
+  };
 </script>
 
 {#if tokenPriceSetting == S1_CONFIRM}
@@ -148,6 +153,11 @@
 
   <div class="txtright">
     <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm()}>Complete Listing</button>
+    <button
+      class="btn btn-default {Number(tokenNewPrice) == 0 && nft.price.gt(0) ? 'btn-remove-red' : 'btn-remove'}"
+      type="submit"
+      on:click={() => setPriceZeroConfirm()}>Remove</button
+    >
   </div>
 {/if}
 
@@ -191,3 +201,19 @@
     </div>
   </div>
 {/if}
+
+<style>
+  .btn-remove-red {
+    opacity: 1;
+    background-color: red;
+  }
+
+  .btn-remove {
+    background-color: red;
+    opacity: 0.3;
+  }
+
+  .btn-remove:hover {
+    opacity: 1;
+  }
+</style>

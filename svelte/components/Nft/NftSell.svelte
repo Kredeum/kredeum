@@ -42,8 +42,6 @@
               </div> -->
               <NftSetPrice {chainId} {address} {tokenID} {nft} />
 
-              <NftWithdraw {chainId} {address} {tokenID} {nft} />
-
               {#if getOpenSea(chainId)}
                 <div class="kre-modal-block">
                   <div class="txtright">
