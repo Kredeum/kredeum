@@ -96,7 +96,7 @@
       chainId,
       address,
       tokenID,
-      utils.parseEther(tokenNewPrice).toString(),
+      utils.parseEther(tokenNewPrice),
       $metamaskSigner
     );
 

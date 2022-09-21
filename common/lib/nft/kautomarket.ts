@@ -183,7 +183,7 @@ async function* setTokenPrice(
   chainId: number,
   address: string,
   tokenID: string,
-  tokenPrice: string,
+  tokenPrice: BigNumber,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
@@ -196,7 +196,7 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), BigNumber.from(tokenPrice));
+  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), tokenPrice);
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);

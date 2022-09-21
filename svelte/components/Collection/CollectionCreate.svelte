@@ -30,6 +30,7 @@
 
   let cloningTxHash: string = null;
 
+  let autoMarketGeneric = false;
   let inputPrice: string = "0";
   let inputFee: string = "";
   let inputReceiver: string;
@@ -47,6 +48,15 @@
 
     inputPrice = price;
   }
+
+  // $: autoMarketGeneric && handleTemplates();
+  // const handleTemplates = () => {
+  //   autoMarketGeneric ? (template = "OpenAutoMarket/generic") : (template = "OpenAutoMarket/generic");
+  // };
+
+  $: console.log("template", template);
+  $: console.log("autoMarketGeneric", autoMarketGeneric);
+  $: autoMarketGeneric ? (template = "OpenAutoMarket/generic") : (template = "OpenAutoMarket/ownable");
 
   const dispatch = createEventDispatcher();
 
@@ -140,7 +150,7 @@
       $metamaskSigner,
       ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
       inputReceiver || constants.AddressZero,
-      BigNumber.from(Math.round(Number(inputFee) * 100)) || BigNumber.from(0)
+      BigNumber.from(Math.round(Number(inputFee) || 0) * 100)
     );
     //   defaultPrice: BigNumber = BigNumber.from(0),
     // receiver: string = constants.AddressZero,
@@ -207,6 +217,14 @@
         {#if cloning == S1_CONFIRM}
           <CollectionTemplates bind:template />
 
+          {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
+            <div class="section">
+              <div class="form-field">
+                <input type="checkbox" class="" bind:checked={autoMarketGeneric} /> I want my collection to be generic
+              </div>
+            </div>
+          {/if}
+
           <div class="titre">Name your Collection</div>
 
           <div class="section">
@@ -228,8 +246,8 @@
             </div>
           </div>
 
-          {#if template === "OpenAutoMarket/ownable"}
-            <!-- <div class="section">
+          {#if template === "OpenAutoMarket/generic"}
+            <div class="section">
               <div class="titre">Mint price (ETH)</div>
               <div class="form-field">
                 <input
@@ -240,7 +258,9 @@
                   id="mint-price-nft"
                 />
               </div>
-            </div> -->
+            </div>
+          {/if}
+          {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
             <div class="section">
               <div class="titre">Royalties (%)</div>
               <div class="form-field">
