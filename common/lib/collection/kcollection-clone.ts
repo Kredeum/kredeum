@@ -26,12 +26,14 @@ async function* collectionClone(
   const _symbol = symbol || `NFT#${n}`;
 
   const [template, conf] = templateConfig.split("/");
-  const options: boolean[] = [conf == "generic"];
+  let options: boolean[];
   let optionsBytes = "";
 
   if (template == "OpenNFTsV4") {
+    options = [conf == "generic"];
     optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
   } else if (template == "OpenAutoMarket") {
+    options = [conf == "generic", false];
     optionsBytes = utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
       [defaultPrice, receiver, fee, options]
@@ -39,7 +41,7 @@ async function* collectionClone(
   } else {
     console.error("ERROR unknown template", template);
   }
-  // console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, options, optionsBytes);
+  // console.log("collectionCloneResponse nftsFactoryV3.clone", _name, _symbol, template, optionsBytes);
   const txResp = await nftsFactoryV3["clone(string,string,string,bytes)"](_name, _symbol, template, optionsBytes);
 
   explorerTxLog(chainId, txResp);

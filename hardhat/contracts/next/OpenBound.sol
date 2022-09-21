@@ -129,21 +129,6 @@ contract OpenBound is
         tokenID = _tokenID(addr, cid);
     }
 
-    /// IOpenBound
-    function initialize(
-        string memory name_,
-        string memory symbol_,
-        address owner_,
-        uint256 maxSupply_
-    ) public override(IOpenBound) {
-        OpenCloneable._initialize("OpenBound", 1);
-        OpenERC173._initialize(owner_);
-
-        name = name_;
-        symbol = symbol_;
-        maxSupply = maxSupply_;
-    }
-
     function initialize(
         string memory name_,
         string memory symbol_,
@@ -151,8 +136,13 @@ contract OpenBound is
         bytes memory params_
     ) public override(OpenCloneable) {
         (bytes memory subparams_, , ) = abi.decode(params_, (bytes, address, uint96));
+        maxSupply = abi.decode(subparams_, (uint256));
 
-        initialize(name_, symbol_, owner_, abi.decode(subparams_, (uint256)));
+        OpenCloneable._initialize("OpenBound", maxSupply);
+        OpenERC173._initialize(owner_);
+
+        name = name_;
+        symbol = symbol_;
     }
 
     /// IERC165

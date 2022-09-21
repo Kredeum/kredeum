@@ -33,8 +33,9 @@ abstract contract OpenFactoryV3CloneTest is Test {
     }
 
     function testOpenFactoryV3CloneOpenAutoMarket() public {
-        bool[] memory options = new bool[](1);
+        bool[] memory options = new bool[](2);
         options[0] = true;
+        options[1] = false;
 
         _clone = OpenFactoryV3(_factory).clone(
             "NFT test",

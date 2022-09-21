@@ -58,8 +58,9 @@ contract OpenAutoMarketTest is
 
     function constructorTest(address owner, bool init) public override(OpenAutoMarketInitializeTest) returns (address) {
         changePrank(owner);
-        bool[] memory options = new bool[](1);
+        bool[] memory options = new bool[](2);
         options[0] = true;
+        options[1] = false;
 
         OpenAutoMarket collection = new OpenAutoMarket();
         if (init) {

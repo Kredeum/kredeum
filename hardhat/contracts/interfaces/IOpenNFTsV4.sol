@@ -2,13 +2,6 @@
 pragma solidity 0.8.9;
 
 interface IOpenNFTsV4 {
-    function initialize(
-        string memory name,
-        string memory symbol,
-        address owner,
-        bool[] memory options
-    ) external;
-
     function mint(string memory tokenURI) external returns (uint256 tokenID);
 
     function mint(address minter, string memory tokenURI) external returns (uint256 tokenID);

@@ -33,7 +33,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     nonce = await getNonce(deployer, contractName, "initialize");
     const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [0, deployer.address, 0, [true]]
+      [0, deployer.address, 0, [true, false]]
     );
     const optionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["bytes", "address", "uint96"],

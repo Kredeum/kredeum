@@ -23,12 +23,13 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
         factory.setResolver(address(resolver));
 
         // OPEN_NFTS
-        bool[] memory options = new bool[](1);
+        bool[] memory options = new bool[](2);
         options[0] = true;
+        options[1] = false;
 
         // TEMPLATE OpenNFTsV4
         OpenNFTsV4 _openNFTsV4 = new OpenNFTsV4();
-        _openNFTsV4.initialize("OpenNFTsV4 for OpenFactoryV3Test", "OPTEST", owner, options);
+        _openNFTsV4.initialize("OpenNFTsV4 for OpenFactoryV3Test", "OPTEST", owner, abi.encode(abi.encode(options), address(0), 0));
         factory.setTemplate("OpenNFTsV4", address(_openNFTsV4));
 
         // TEMPLATE OpenAutoMarket

@@ -2,13 +2,6 @@
 pragma solidity ^0.8.9;
 
 interface IOpenBound {
-    function initialize(
-        string memory name,
-        string memory symbol,
-        address owner,
-        uint256 maxSupply
-    ) external;
-
     function mint(uint256 tokenID) external returns (uint256);
 
     function claim(uint256 tokenID, uint256 cid) external;

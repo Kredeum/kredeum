@@ -34,7 +34,7 @@ contract OpenNFTsV4Test is
 
         OpenNFTsV4 collection = new OpenNFTsV4();
         if (init) {
-            collection.initialize("OpenNFTsV4Test", "OPTEST", owner, options);
+            collection.initialize("OpenNFTsV4Test", "OPTEST", owner, abi.encode(abi.encode(options), address(0), 0));
         }
 
         return address(collection);

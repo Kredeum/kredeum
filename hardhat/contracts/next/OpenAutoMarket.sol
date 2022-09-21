@@ -49,6 +49,7 @@ import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
 contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
+    bool public minimum;
 
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
@@ -58,8 +59,6 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
     }
 
     function transfer(address to, uint256 tokenID) external override(IOpenAutoMarket) existsToken(tokenID) {
-        setTokenPrice(tokenID, 0);
-
         safeTransferFrom(msg.sender, to, tokenID);
     }
 
@@ -122,7 +121,18 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         );
 
         open = options_[0];
-        OpenNFTs._initialize(name_, symbol_, owner_, defaultPrice_, receiver_, receiverFee_, treasury_, treasuryFee_);
+
+        OpenNFTs._initialize(
+            name_,
+            symbol_,
+            owner_,
+            defaultPrice_,
+            receiver_,
+            receiverFee_,
+            treasury_,
+            treasuryFee_,
+            options_[1] 
+        );
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {

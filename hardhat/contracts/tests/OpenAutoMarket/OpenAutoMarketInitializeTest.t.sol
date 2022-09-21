@@ -14,7 +14,7 @@ abstract contract OpenAutoMarketInitializeTest is Test {
     address private _minter = address(0x12);
     address private _buyer = address(0x13);
     address private _tester = address(0x4);
-    bool[] private _options = new bool[](1);
+    bool[] private _options = new bool[](2);
 
     function constructorTest(address owner_, bool init_) public virtual returns (address);
 
@@ -22,6 +22,7 @@ abstract contract OpenAutoMarketInitializeTest is Test {
         _collection = constructorTest(_owner, false);
 
         _options[0] = true;
+        _options[1] = false;
     }
 
     function testInitializeName() public {
