@@ -64,6 +64,7 @@ const nftMint = async (
   chainId: number,
   address: string,
   tokenURI: string,
+  price: string,
   minter: JsonRpcSigner
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
@@ -82,7 +83,7 @@ const nftMint = async (
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,
       tokenURI,
-      0,
+      price || 0,
       collection.royaltyAccount || constants.AddressZero,
       collection.royaltyFee || 0,
       { value, type: 2 }

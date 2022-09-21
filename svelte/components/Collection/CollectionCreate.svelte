@@ -30,7 +30,6 @@
 
   let cloningTxHash: string = null;
 
-  let autoMarketGeneric = false;
   let inputPrice: string = "0";
   let inputFee: string = "";
   let inputReceiver: string;
@@ -48,15 +47,6 @@
 
     inputPrice = price;
   }
-
-  // $: autoMarketGeneric && handleTemplates();
-  // const handleTemplates = () => {
-  //   autoMarketGeneric ? (template = "OpenAutoMarket/generic") : (template = "OpenAutoMarket/generic");
-  // };
-
-  $: console.log("template", template);
-  $: console.log("autoMarketGeneric", autoMarketGeneric);
-  $: autoMarketGeneric ? (template = "OpenAutoMarket/generic") : (template = "OpenAutoMarket/ownable");
 
   const dispatch = createEventDispatcher();
 
@@ -216,14 +206,6 @@
       <div>
         {#if cloning == S1_CONFIRM}
           <CollectionTemplates bind:template />
-
-          {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
-            <div class="section">
-              <div class="form-field">
-                <input type="checkbox" class="" bind:checked={autoMarketGeneric} /> I want my collection to be generic
-              </div>
-            </div>
-          {/if}
 
           <div class="titre">Name your Collection</div>
 

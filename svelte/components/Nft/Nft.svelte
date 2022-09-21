@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
 
-  import { constants, ethers } from "ethers";
+  import { constants, ethers, utils } from "ethers";
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
@@ -13,7 +13,7 @@
     // getOpenSea,
     // nftOpenSeaUrl,
     // addressSame,
-    getNetwork
+    getCurrency
   } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -57,6 +57,7 @@
   };
 
   $: console.info("Nft", $nft);
+  $: console.log("price", $nft?.price);
 </script>
 
 {#if $nft}
@@ -83,9 +84,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} nft={$nft} />
+            <NftSell nft={$nft} />
           {:else}
-            <NftBuy {chainId} {address} {tokenID} nft={$nft} />
+            <NftBuy nft={$nft} />
           {/if}
         {/if}
       </div>
@@ -143,13 +144,13 @@
             </div>
           </li>
           {#if $nft.collection?.supports?.IOpenMarketable}
-            {#if $nft.price?.gte(0)}
+            {#if $nft?.price?._isBigNumber && $nft?.price?.gte(0)}
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {ethers.utils.formatEther($nft.price)}
-                    {getNetwork(chainId).nativeCurrency.symbol}
+                    {utils.formatEther($nft.price)}
+                    {getCurrency(chainId)}
                   </span>
                 </div>
               </li>
@@ -158,17 +159,13 @@
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royaltyFee.eq(0)}
+                  {#if $nft?.royaltyFee?._isBigNumber && $nft?.royaltyFee?.eq(0)}
                     <span class="overflow-ellipsis" title={String($nft.royaltyFee.toNumber() / 100)}
                       >No royalties amount setted</span
                     >
                   {:else}
-                    <span
-                      class="link overflow-ellipsis"
-                      title={`${$nft.royaltyFee.toNumber() / 100} %`}
-                      target="_blank"
-                    >
-                      {$nft.royaltyFee.toNumber() / 100} %
+                    <span class="link overflow-ellipsis" title={`${Number($nft.royaltyFee) / 100} %`} target="_blank">
+                      {Number($nft.royaltyFee) / 100} %
                     </span>
                   {/if}
                 </div>
@@ -185,7 +182,7 @@
                       {@html explorerAddressLink(chainId, $nft.royaltyAccount, 15)}
                     {/if}
                   </span>
-                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
+                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee.eq(0) && $nft.royaltyAccount === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}

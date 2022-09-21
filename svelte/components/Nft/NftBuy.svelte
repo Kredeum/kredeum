@@ -16,7 +16,8 @@
     textShort,
     getNetwork,
     getOpenSea,
-    nftOpenSeaUrl
+    nftOpenSeaUrl,
+    getCurrency
   } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
@@ -24,12 +25,9 @@
   import IncomesPreview from "../Global/IncomesPreview.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftBuy {chainId} {address} {tokenID} {nftPrice} />
+  //  <NftBuy {nft} />
   // Display NFT
   /////////////////////////////////////////////////
-  export let chainId: number;
-  export let address: string;
-  export let tokenID: string;
   export let nft: NftType;
   ///////////////////////////////////////////////////////////
 
@@ -84,7 +82,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nft.price.toString(), $metamaskSigner);
+    const buyTxRespYield = buyNft(nft.chainId, nft.address, nft.tokenID, nft.price, $metamaskSigner);
 
     buying = S2_SIGN_TX;
 
@@ -92,7 +90,7 @@
     buyTxHash = buyTxResp?.hash;
     if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
 
-    explorerTxLog(chainId, buyTxResp);
+    explorerTxLog(nft.chainId, buyTxResp);
     buying = S3_WAIT_TX;
 
     const txReceipt = (await buyTxRespYield.next()).value;
@@ -101,17 +99,18 @@
 
     buying = S4_BUYED;
 
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    await nftStore.refreshOne(nft.chainId, nft.address, nft.tokenID).catch(console.error);
   };
 </script>
 
 <a
   on:click={() => {
-    if (!nft.price.isZero()) open = true;
+    if (!nft.price.eq(0)) open = true;
   }}
-  href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {nft.price.isZero() ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nft.price.isZero()} /> Buy</a
+  href="#buy-nft-{nft.tokenID}"
+  class="btn-buy-modal {nft?.price?._isBigNumber && nft?.price?.eq(0) ? 'kre-disabled' : ''}"
+  title="Buy this nft"
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={nft?.price?._isBigNumber && nft?.price?.eq(0)} /> Buy</a
 >
 
 {#if open}
@@ -126,18 +125,23 @@
               {#if buying == S1_CONFIRM}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nft.price)}
-                    {getNetwork(chainId).nativeCurrency.symbol} using Kredeum AutoMarket smartcontract ?
+                    <i class="fas fa-shopping-cart" /> Buy this NFT #{nft.tokenID} for {utils.formatEther(nft.price)}
+                    {getCurrency(nft.chainId)} using AutoMarket smartcontract ?
                   </p>
                 </div>
                 <IncomesPreview {nft} />
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
-                {#if getOpenSea(chainId)}
+                {#if getOpenSea(nft.chainId)}
                   <div class="kre-modal-block">
                     <div class="txtright">
-                      <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank">
+                      <a
+                        href={nftOpenSeaUrl(nft.chainId, nft)}
+                        class="btn btn-small btn-buy"
+                        title="Buy"
+                        target="_blank"
+                      >
                         Buy on OpenSea
                       </a>
                     </div>
@@ -148,8 +152,10 @@
               {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-sync fa-left c-green" />buying NFT #{tokenID} for {utils.formatEther(nft.price)}
-                    {getNetwork(nft.chainId).nativeCurrency.symbol}...
+                    <i class="fas fa-sync fa-left c-green" />buying NFT #{nft.tokenID} for {utils.formatEther(
+                      nft.price
+                    )}
+                    {getNetwork(nft.chainId)}...
                   </p>
                 </div>
               {/if}
@@ -164,8 +170,14 @@
                 <div class="titre">
                   <p>
                     <i class="fas fa-check fa-left c-green" /> NFT
-                    <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                      >#{tokenID}</a
+                    <a
+                      class="link"
+                      href="{explorerNftUrl(nft.chainId, {
+                        chainId: nft.chainId,
+                        address: nft.address,
+                        tokenID: nft.tokenID
+                      })}}"
+                      target="_blank">#{nft.tokenID}</a
                     >
                     buyed!
                   </p>
@@ -174,7 +186,8 @@
 
               {#if buyTxHash}
                 <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a>
+                  <a class="link" href={explorerTxUrl(nft.chainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a
+                  >
                 </div>
               {/if}
 

@@ -76,7 +76,7 @@
 
       minting = 3;
 
-      const mintingTxResp = await nftMint($metamaskChainId, $address, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint($metamaskChainId, $address, ipfsJson, "0", $metamaskSigner);
       explorerTxLog($metamaskChainId, mintingTxResp);
 
       minting = 4;

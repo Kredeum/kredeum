@@ -1,6 +1,8 @@
 <script lang="ts">
   import { NftType } from "@lib/common/ktypes";
 
+  import { BigNumber } from "ethers";
+
   import { onMount } from "svelte";
 
   import { metamaskSigner } from "@main/metamask";
@@ -72,7 +74,7 @@
   });
 
   const withdrawConfirm = async () => {
-    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, "0", $metamaskSigner);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, BigNumber.from(0), $metamaskSigner);
 
     tokenWithdrawing = S2_SIGN_TX;
 

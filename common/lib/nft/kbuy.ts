@@ -3,12 +3,13 @@ import type { Signer } from "@ethersproject/abstract-signer";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerTxLog } from "../common/kconfig";
+import { BigNumber } from "ethers";
 
 async function* buyNft(
   chainId: number,
   address: string,
   tokenID: string,
-  nftPrice: string,
+  nftPrice: BigNumber,
   buyer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, nftPrice, signer);
@@ -24,7 +25,7 @@ async function* buyNft(
   };
 
   const txResp: TransactionResponse | undefined = await buyFunction(tokenID, {
-    value: nftPrice
+    value: nftPrice.toString()
   });
 
   if (!txResp) return {};

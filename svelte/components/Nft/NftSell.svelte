@@ -5,18 +5,12 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import NftSetPrice from "./NftSetPrice.svelte";
-  import NftWithdraw from "./NftWithdraw.svelte";
   import { getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
-  // import NftTokenApprove from "./NftTokenApprove.svelte";
-  // import CollectionSetApproval from "../Collection/CollectionSetApproval.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftSell {chainId} {address} {tokenID} {nftPrice} />
+  //  <NftSell {nft} />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
-  export let chainId: number;
-  export let address: string;
-  export let tokenID: string;
   export let nft: NftType;
   /////////////////////////////////////////////////
 
@@ -34,19 +28,18 @@
 
           <div class="modal-body">
             <div>
-              <!-- <div >
-                <NftTokenApprove {chainId} {address} {tokenID} />
-              </div>
-              <div class="kre-modal-block">
-                <CollectionSetApproval {chainId} {address} approval={true} />
-              </div> -->
-              <NftSetPrice {chainId} {address} {tokenID} {nft} />
+              <NftSetPrice {nft} />
 
-              {#if getOpenSea(chainId)}
+              {#if getOpenSea(nft.chainId)}
                 <div class="kre-modal-block">
                   <div class="txtright">
                     <!-- {#if addressSame(nft.owner, $metamaskAccount)} -->
-                    <a href={nftOpenSeaUrl(chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
+                    <a
+                      href={nftOpenSeaUrl(nft.chainId, nft)}
+                      class="btn btn-small btn-sell"
+                      title="Sell"
+                      target="_blank"
+                    >
                       Sell on OpenSea
                       <!-- </a>
                     {:else}

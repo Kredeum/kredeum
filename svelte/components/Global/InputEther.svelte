@@ -1,7 +1,7 @@
 <script lang="ts">
   import { utils } from "ethers";
 
-  import { getNetwork } from "@lib/common/kconfig";
+  import { getCurrency } from "@lib/common/kconfig";
 
   /////////////////////////////////////////////////
   //  <InputEther {input} />
@@ -28,14 +28,14 @@
   }
 </script>
 
-<div class="kre-input-container" data-currency-symbol={getNetwork(chainId).nativeCurrency.symbol}>
+<div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>
   <input
     type="text"
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
-    placeholder={utils.formatEther(nftPrice)}
-    style={`--input-padding:${getNetwork(chainId).nativeCurrency.symbol.length};`}
+    placeholder={utils.formatEther(nftPrice) || "0"}
+    style={`--input-padding:${getCurrency(chainId).length};`}
   />
 </div>
 {#if inputError}

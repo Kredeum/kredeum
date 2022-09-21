@@ -463,6 +463,8 @@ const nftListKey = (chainId: number, address: string, account?: string): string 
   `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
   addressSame,
@@ -498,6 +500,7 @@ export {
   getOpenSea,
   getCreate,
   getExplorer,
+  getCurrency,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,

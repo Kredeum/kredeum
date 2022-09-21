@@ -37,7 +37,7 @@
       let copyingError: string;
 
       if ($nft.tokenURI) {
-        const txResp = await nftMint(chainId, address, $nft.tokenURI, $metamaskSigner);
+        const txResp = await nftMint(chainId, address, $nft.tokenURI, "0", $metamaskSigner);
         explorerTxLog(chainId, txResp);
 
         if (txResp) {

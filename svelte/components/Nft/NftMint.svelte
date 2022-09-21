@@ -15,9 +15,9 @@
     explorerNftUrl,
     nftUrl,
     storageLinkToUrlHttp,
-    getNetwork,
     config,
-    explorerAddressUrl
+    explorerAddressUrl,
+    getCurrency
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
@@ -26,6 +26,7 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
+  import InputEther from "../Global/InputEther.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />
@@ -51,6 +52,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
+  let nftPrice = "";
 
   /////////////////////////////////////////////////
   let storageImg: string;
@@ -179,7 +181,13 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner);
+    mintingTxResp = await nftMint(
+      chainId,
+      address,
+      storageJson,
+      utils.parseEther(nftPrice).toString(),
+      $metamaskSigner
+    );
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -315,26 +323,33 @@
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
+              {#if !collection?.open}
+                <div class="kre-section-small">
+                  <span class="titre">NFT price</span>
+                  <InputEther {chainId} bind:inputPrice={nftPrice} nftPrice={"0"} />
+                </div>
+              {/if}
+
               {#if collection?.price?.gt(0) || collection?.royaltyFee?.gt(0)}
                 <div class="section kre-mint-automarket">
                   {#if collection?.price?.gt(0)}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Mint price</span>
                       <span class="kre-market-info-value label-big kre-no-wrap-title"
-                        >{utils.formatEther(collection?.price)} ({getNetwork(chainId).nativeCurrency.symbol})</span
+                        >{utils.formatEther(collection?.price)} ({getCurrency(chainId)})</span
                       >
                     </div>
                   {/if}
                   {#if collection?.royaltyFee?.gt(0)}
                     <div>
                       <span class="kre-market-info-title label-big">royalties</span>
-                      <span class="kre-market-info-value label-big">{collection?.royaltyFee.toNumber() / 100} %</span>
+                      <span class="kre-market-info-value label-big">{Number(collection?.royaltyFee) / 100} %</span>
                     </div>
                   {/if}
                   {#if collection?.royaltyAccount !== constants.AddressZero}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis"
+                      <span class="kre-market-info-value label-big"
                         ><a href={explorerAddressUrl(chainId, collection?.royaltyAccount)} class="link"
                           >{collection?.royaltyAccount}</a
                         ></span
@@ -501,6 +516,10 @@
     max-width: 58%;
     overflow: hidden;
     flex-grow: 1;
+  }
+
+  .kre-mint-automarket div:last-child {
+    min-width: 5em;
   }
 
   .kre-mint-automarket div:not(:first-of-type) {
