@@ -17,7 +17,6 @@
     storageLinkToUrlHttp,
     getNetwork,
     config,
-    explorerAddressLink,
     explorerAddressUrl
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
@@ -335,7 +334,10 @@
                   {#if collection?.royaltyAccount !== constants.AddressZero}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis">{collection?.royaltyAccount}</span
+                      <span class="kre-market-info-value label-big overflow-ellipsis"
+                        ><a href={explorerAddressUrl(chainId, collection?.royaltyAccount)} class="link"
+                          >{collection?.royaltyAccount}</a
+                        ></span
                       >
                     </div>
                   {/if}

@@ -1,7 +1,7 @@
 <script lang="ts">
   import { NftType } from "@lib/common/ktypes";
 
-  import { BigNumber, utils } from "ethers";
+  import { utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";

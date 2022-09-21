@@ -179,9 +179,11 @@
                 <div class="flex"><span class="label">Nft Royalties receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {$nft.royaltyAccount === constants.AddressZero
-                      ? "No receiver setted for Royalties"
-                      : $nft.royaltyAccount}
+                    {#if $nft.royaltyAccount === constants.AddressZero}
+                      "No receiver setted for Royalties"
+                    {:else}
+                      {@html explorerAddressLink(chainId, $nft.royaltyAccount, 15)}
+                    {/if}
                   </span>
                   <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
                     <NftSetRoyalties
