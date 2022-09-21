@@ -305,7 +305,8 @@
   }
 
   :global(.kre-action-buttons a.btn-transfer-modal:hover) {
-    border: 1px solid #192247;
+    background-color: #3acf6e;
+    color: white;
   }
 
   .btn-burn-modal:hover {

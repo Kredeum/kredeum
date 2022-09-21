@@ -5,7 +5,7 @@
 
   import { onMount } from "svelte";
 
-  import { config, getNetwork } from "@lib/common/kconfig";
+  import { config, getCurrency } from "@lib/common/kconfig";
 
   export let nft: NftType;
   export let price: BigNumber = null;
@@ -21,18 +21,12 @@
     sellerIncome = price.sub(kredeumFeeAmount.add(receiverFeeAmount));
   };
 
-  // $: nft && handleNftChanges();
-  // const handleNftChanges = () => {
-  //   price = nft.price;
-  // };
-
   onMount(() => {
     if (!price) price = nft.price;
     handleSellIncomes();
   });
 </script>
 
-<!-- {#if (Number(nft.price) > 0 || Number(price) > 0) && sellerIncome && receiverFeeAmount && kredeumFeeAmount} -->
 <div class="section">
   <span class="label">Price splitted as follows</span>
   <ul class="steps">
@@ -40,7 +34,7 @@
       <div>
         <p>
           {utils.formatEther(sellerIncome)}
-          {getNetwork(nft.chainId).nativeCurrency.symbol} to seller
+          {getCurrency(nft.chainId)} to seller
         </p>
         <p>{nft.owner}</p>
       </div>
@@ -49,7 +43,7 @@
       <div>
         <p>
           {utils.formatEther(receiverFeeAmount)}
-          {getNetwork(nft.chainId).nativeCurrency.symbol} ({Number(nft.royaltyFee) / 100} %) royalties to creator
+          {getCurrency(nft.chainId)} ({Number(nft.royaltyFee) / 100} %) royalties to creator
         </p>
         <p>{nft.royaltyAccount}</p>
       </div>
@@ -58,7 +52,7 @@
       <div>
         <p>
           {utils.formatEther(kredeumFeeAmount)}
-          {getNetwork(nft.chainId).nativeCurrency.symbol} ({config.treasury.fee / 100} %) fees
+          {getCurrency(nft.chainId)} ({config.treasury.fee / 100} %) fees
         </p>
         <p>Send to your obliged Kredeum Nfts Factory :)</p>
       </div>
@@ -66,7 +60,6 @@
   </ul>
 </div>
 
-<!-- {/if} -->
 <style>
   .steps {
     margin-top: 0;
