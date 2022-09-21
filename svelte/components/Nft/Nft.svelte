@@ -10,9 +10,10 @@
     explorerCollectionUrl,
     explorerAddressLink,
     kredeumNftUrl,
-    getOpenSea,
-    nftOpenSeaUrl,
-    addressSame
+    // getOpenSea,
+    // nftOpenSeaUrl,
+    // addressSame,
+    getNetwork
   } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -66,9 +67,11 @@
       </div>
       <div class="kre-action-buttons">
         {#if $nft.owner === account}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
-          >
+          {#if "wordpress" === platform}
+            <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+              ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+            >
+          {/if}
 
           <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
             ><i class="fa fa-gift fa-left" /> TRANSFER</a
@@ -80,9 +83,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
+            <NftSell {chainId} {address} {tokenID} nft={$nft} />
           {:else}
-            <NftBuy {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
+            <NftBuy {chainId} {address} {tokenID} nft={$nft} />
           {/if}
         {/if}
       </div>
@@ -99,7 +102,7 @@
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
             <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
-              <strong> <a href={kredeumNftUrl(chainId, $nft)}>#{tokenID}</a></strong>
+              <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
             </div>
           </li>
           <li>
@@ -145,7 +148,8 @@
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {ethers.utils.formatEther($nft.price)} Eth
+                    {ethers.utils.formatEther($nft.price)}
+                    {getNetwork(chainId).nativeCurrency.symbol}
                   </span>
                 </div>
               </li>
@@ -173,7 +177,7 @@
                       ? "No receiver setted for Royalties"
                       : $nft.royaltyAccount}
                   </span>
-                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee.eq(0) && $nft.royaltyAccount === constants.AddressZero}
+                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}
@@ -181,7 +185,7 @@
                       nftRoyaltyFee={$nft.royaltyFee}
                       receiver={$nft.royaltyAccount}
                     />
-                  {/if}
+                  {/if} -->
                 </div>
               </li>
             {/if}
@@ -189,13 +193,13 @@
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
-          {#if "wordpress" === platform}
+          <!-- {#if "wordpress" === platform}
             <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
-          {/if}
+          {/if} -->
 
-          {#if getOpenSea(chainId)}
+          <!-- {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell on OpenSea
@@ -205,7 +209,7 @@
                 Buy on OpenSea
               </a>
             {/if}
-          {/if}
+          {/if} -->
         </div>
       </div>
     </div>
@@ -268,6 +272,15 @@
     margin-top: 13px;
   }
 
+  .kre-blue-link {
+    color: #192247;
+    transition: all 300ms ease-in-out;
+  }
+
+  .kre-blue-link:hover {
+    color: #3acf6e;
+  }
+
   :global(.kre-action-buttons button.btn-sell-modal, .kre-action-buttons a.btn-transfer-modal, .kre-action-buttons
       a.btn-burn-modal, .kre-action-buttons a.btn-shortcod-modal, .kre-action-buttons a.btn-buy-modal) {
     width: 100%;
@@ -286,15 +299,12 @@
     color: black;
   }
 
-  .btn-burn-modal {
-    color: red !important;
-    /* border-color: red !important; */
-    /* float: right; */
+  :global(.kre-action-buttons a.btn-transfer-modal:hover) {
+    border: 1px solid #192247;
   }
 
   .btn-burn-modal:hover {
-    /* color: white !important; */
-    /* background: red !important; */
     border-color: red !important;
+    color: red !important;
   }
 </style>

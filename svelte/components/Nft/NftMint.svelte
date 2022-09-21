@@ -14,7 +14,11 @@
     explorerTxLog,
     explorerNftUrl,
     nftUrl,
-    storageLinkToUrlHttp
+    storageLinkToUrlHttp,
+    getNetwork,
+    config,
+    explorerAddressLink,
+    explorerAddressUrl
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
@@ -269,7 +273,7 @@
               </div>
 
               <div class="section">
-                <!-- <span class="label label-big">NFT file</span> -->
+                <span class="titre">NFT file</span>
                 <div class="box-file">
                   {#if image}
                     <div class="media media-photo">
@@ -284,7 +288,7 @@
                 </div>
               </div>
               <div class="kre-section-small">
-                <!-- <span class="label label-big">NFT title</span> -->
+                <span class="titre">NFT title</span>
                 <div class="form-field">
                   <input
                     type="text"
@@ -296,7 +300,7 @@
                 </div>
               </div>
               <div class="kre-section-small">
-                <!-- <span class="label label-big">NFT description</span> -->
+                <span class="titre">NFT description</span>
                 <div class="form-field">
                   <input
                     type="text"
@@ -308,7 +312,7 @@
                 </div>
               </div>
               <div class="kre-section-small kre-mint-collection">
-                <!-- <span class="label label-big">Add to an existing address ?</span> -->
+                <span class="titre">Add to an existing collection</span>
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
@@ -318,7 +322,7 @@
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Mint price</span>
                       <span class="kre-market-info-value label-big kre-no-wrap-title"
-                        >{utils.formatEther(collection?.price)} (Eth)</span
+                        >{utils.formatEther(collection?.price)} ({getNetwork(chainId).nativeCurrency.symbol})</span
                       >
                     </div>
                   {/if}
@@ -331,9 +335,14 @@
                   {#if collection?.royaltyAccount !== constants.AddressZero}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis">{collection?.royaltyAccount}</span>
+                      <span class="kre-market-info-value label-big overflow-ellipsis">{collection?.royaltyAccount}</span
+                      >
                     </div>
                   {/if}
+                  <div>
+                    <span class="kre-market-info-title label-big kre-no-wrap-title">fees</span>
+                    <span class="kre-market-info-value label-big overflow-ellipsis">{config.treasury.fee / 100} %</span>
+                  </div>
                 </div>
               {/if}
 
@@ -513,6 +522,10 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
+  }
+
+  .kre-market-info-value a {
+    text-decoration: none;
   }
 
   :global(.modal-window .select-wrapper div.select-trigger) {

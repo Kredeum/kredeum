@@ -30,8 +30,8 @@
 
   let cloningTxHash: string = null;
 
-  let inputPrice: string;
-  let inputFee: string;
+  let inputPrice: string = "0";
+  let inputFee: string = "";
   let inputReceiver: string;
 
   // Context for refreshCollectionList
@@ -112,7 +112,6 @@
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
 
-
   const _cloneInit = async () => {
     cloningTxHash = null;
     collectionCreated = null;
@@ -140,8 +139,8 @@
       template,
       $metamaskSigner,
       ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
-      inputReceiver,
-      BigNumber.from(Math.round(Number(inputFee) * 100))
+      inputReceiver || constants.AddressZero,
+      BigNumber.from(Math.round(Number(inputFee) * 100)) || BigNumber.from(0)
     );
     //   defaultPrice: BigNumber = BigNumber.from(0),
     // receiver: string = constants.AddressZero,
@@ -230,8 +229,8 @@
           </div>
 
           {#if template === "OpenAutoMarket/ownable"}
-            <div class="section">
-              <div class="titre">Default mint price (Eth)</div>
+            <!-- <div class="section">
+              <div class="titre">Mint price (ETH)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -241,9 +240,9 @@
                   id="mint-price-nft"
                 />
               </div>
-            </div>
+            </div> -->
             <div class="section">
-              <div class="titre">Default royalties (%)</div>
+              <div class="titre">Royalties (%)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -255,7 +254,7 @@
               </div>
             </div>
             <div class="section">
-              <div class="titre">Default royalty receiver</div>
+              <div class="titre">Royalty receiver</div>
               <div class="form-field">
                 <input
                   type="text"

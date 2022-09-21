@@ -136,7 +136,8 @@ const addressSame = (a: string, b: string): boolean => a?.toLowerCase() === b?.t
 
 const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 
-const urlToLink = (url: string, label?: string): string => `<a href="${url}" target="_blank">${label || url}</a>`;
+const urlToLink = (url: string, label?: string): string =>
+  `<a href="${url}" class="link" target="_blank">${label || url}</a>`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
