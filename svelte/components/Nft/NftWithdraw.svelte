@@ -72,7 +72,7 @@
   });
 
   const withdrawConfirm = async () => {
-    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, "0", $metamaskSigner, 2);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, "0", $metamaskSigner);
 
     tokenWithdrawing = S2_SIGN_TX;
 

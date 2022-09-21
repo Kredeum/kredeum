@@ -8,7 +8,7 @@
   import { config, getNetwork } from "@lib/common/kconfig";
 
   export let nft: NftType;
-  export let price: string = "";
+  export let price: BigNumber = null;
 
   let sellerIncome: BigNumber = BigNumber.from(0);
   let receiverFeeAmount: BigNumber = BigNumber.from(0);
@@ -16,9 +16,9 @@
 
   $: price && handleSellIncomes();
   const handleSellIncomes = () => {
-    kredeumFeeAmount = BigNumber.from(price).mul(config.treasury.fee).div(10000);
-    receiverFeeAmount = BigNumber.from(price).mul(BigNumber.from(nft.royaltyAmount)).div(10000);
-    sellerIncome = BigNumber.from(price).sub(kredeumFeeAmount.add(receiverFeeAmount));
+    kredeumFeeAmount = price.mul(config.treasury.fee).div(10000);
+    receiverFeeAmount = price.mul(nft.royaltyFee).div(10000);
+    sellerIncome = price.sub(kredeumFeeAmount.add(receiverFeeAmount));
   };
 
   // $: nft && handleNftChanges();
@@ -49,9 +49,9 @@
       <div>
         <p>
           {utils.formatEther(receiverFeeAmount)}
-          {getNetwork(nft.chainId).nativeCurrency.symbol} ({Number(nft.royaltyAmount) / 100} %) royalties to creator
+          {getNetwork(nft.chainId).nativeCurrency.symbol} ({Number(nft.royaltyFee) / 100} %) royalties to creator
         </p>
-        <p>{nft.royaltyReceiver}</p>
+        <p>{nft.royaltyAccount}</p>
       </div>
     </li>
     <li>

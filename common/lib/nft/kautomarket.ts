@@ -196,7 +196,7 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), tokenPrice);
+  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), BigNumber.from(tokenPrice));
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);

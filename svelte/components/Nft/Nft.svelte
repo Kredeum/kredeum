@@ -24,7 +24,7 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
-  import NftSetRoyalties from "./NftSetRoyalties.svelte";
+  // import NftSetRoyalties from "./NftSetRoyalties.svelte";
 
   // import NftClaim from "./NftClaim.svelte";
 
@@ -159,10 +159,16 @@
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
                   {#if $nft.royaltyFee.eq(0)}
-                    <span class="overflow-ellipsis" title={String($nft.royaltyFee)}>No royalties amount setted</span>
+                    <span class="overflow-ellipsis" title={String($nft.royaltyFee.toNumber() / 100)}
+                      >No royalties amount setted</span
+                    >
                   {:else}
-                    <span class="link overflow-ellipsis" title={`${$nft.royaltyFee.div(100)} %`} target="_blank">
-                      {$nft.royaltyFee.div(100)} %
+                    <span
+                      class="link overflow-ellipsis"
+                      title={`${$nft.royaltyFee.toNumber() / 100} %`}
+                      target="_blank"
+                    >
+                      {$nft.royaltyFee.toNumber() / 100} %
                     </span>
                   {/if}
                 </div>

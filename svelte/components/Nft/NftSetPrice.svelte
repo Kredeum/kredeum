@@ -9,11 +9,10 @@
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getNetwork, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
-  import { isApprovedForAll, setTokenPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice } from "@lib/nft/kautomarket";
 
   import InputEther from "../Global/InputEther.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import Account from "../Account/Account.svelte";
   import { collectionStore } from "@stores/collection/collection";
 
   /////////////////////////////////////////////////
@@ -129,10 +128,10 @@
   </div>
 
   <div class="section">
-    <InputEther {chainId} bind:inputPrice={tokenNewPrice} nftPrice={nft.price} />
+    <InputEther {chainId} bind:inputPrice={tokenNewPrice} nftPrice={nft.price.toString()} />
   </div>
 
-  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice).toString() : nft?.price} />
+  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : nft?.price} />
 
   {#if !collectionApproved}
     <div class="section">
@@ -174,7 +173,7 @@
       {getNetwork(chainId).nativeCurrency.symbol} !
     </p>
   </div>
-  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice).toString() : nft?.price} />
+  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : nft?.price} />
 {/if}
 
 {#if tokenSetPriceTxHash}

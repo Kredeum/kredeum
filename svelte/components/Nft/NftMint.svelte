@@ -329,7 +329,7 @@
                   {#if collection?.royaltyFee?.gt(0)}
                     <div>
                       <span class="kre-market-info-title label-big">royalties</span>
-                      <span class="kre-market-info-value label-big">{collection?.royaltyFee.div(100)} %</span>
+                      <span class="kre-market-info-value label-big">{collection?.royaltyFee.toNumber() / 100} %</span>
                     </div>
                   {/if}
                   {#if collection?.royaltyAccount !== constants.AddressZero}

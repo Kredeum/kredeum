@@ -1,7 +1,7 @@
 <script lang="ts">
   import { NftType } from "@lib/common/ktypes";
 
-  import { utils } from "ethers";
+  import { BigNumber, utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
@@ -84,7 +84,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nft.price, $metamaskSigner);
+    const buyTxRespYield = buyNft(chainId, address, tokenID, nft.price.toString(), $metamaskSigner);
 
     buying = S2_SIGN_TX;
 
@@ -107,11 +107,11 @@
 
 <a
   on:click={() => {
-    if (nft.price !== "0") open = true;
+    if (!nft.price.isZero()) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {nft.price === '0' ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nft.price === "0"} /> Buy</a
+  class="btn-buy-modal {nft.price.isZero() ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nft.price.isZero()} /> Buy</a
 >
 
 {#if open}
