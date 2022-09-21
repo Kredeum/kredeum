@@ -6,7 +6,7 @@
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
@@ -231,7 +231,7 @@
 
           {#if template === "OpenAutoMarket/generic"}
             <div class="section">
-              <div class="titre">Mint price (ETH)</div>
+              <div class="titre">Mint price ({getCurrency(chainId)})</div>
               <InputEther {chainId} bind:inputPrice nftPrice={"0"} />
               <!-- <div class="form-field">
                 <input
