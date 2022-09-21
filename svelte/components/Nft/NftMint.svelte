@@ -185,7 +185,7 @@
       chainId,
       address,
       storageJson,
-      utils.parseEther(nftPrice).toString(),
+      utils.parseEther(nftPrice || "0").toString(),
       $metamaskSigner
     );
     if (!mintingTxResp)

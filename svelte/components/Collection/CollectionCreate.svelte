@@ -13,6 +13,7 @@
   import { metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
+  import InputEther from "../Global/InputEther.svelte";
 
   // up to parent
   export let chainId: number;
@@ -231,7 +232,8 @@
           {#if template === "OpenAutoMarket/generic"}
             <div class="section">
               <div class="titre">Mint price (ETH)</div>
-              <div class="form-field">
+              <InputEther {chainId} bind:inputPrice nftPrice={"0"} />
+              <!-- <div class="form-field">
                 <input
                   type="text"
                   class=" kre-field-outline"
@@ -239,7 +241,7 @@
                   bind:value={inputPrice}
                   id="mint-price-nft"
                 />
-              </div>
+              </div> -->
             </div>
           {/if}
           {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
