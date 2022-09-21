@@ -323,7 +323,7 @@
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
-              {#if !collection?.open}
+              {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
                 <div class="kre-section-small">
                   <span class="titre">NFT price</span>
                   <InputEther {chainId} bind:inputPrice={nftPrice} nftPrice={"0"} />
