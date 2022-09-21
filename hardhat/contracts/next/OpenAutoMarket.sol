@@ -96,12 +96,12 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         string memory tokenURI_,
         uint256 tokenPrice_,
         address receiver_,
-        uint96 fee_
+        uint96 receiverFee_
     ) public payable override(IOpenAutoMarket) onlyMinter onlyWhenNotPaused returns (uint256 tokenID) {
         tokenID = OpenNFTs.mint(minter_, tokenURI_);
 
-        OpenMarketable._setTokenPrice(tokenID, tokenPrice_);
-        OpenMarketable._setTokenRoyalty(tokenID, receiver_, fee_);
+        if (tokenPrice_ > 0) OpenMarketable._setTokenPrice(tokenID, tokenPrice_, address(this), Approve.All);
+        if (receiverFee_ > 0) OpenMarketable._setTokenRoyalty(tokenID, receiver_, receiverFee_);
     }
 
     function initialize(
@@ -119,7 +119,6 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
             subparams_,
             (uint256, address, uint96, bool[])
         );
-
         open = options_[0];
 
         OpenNFTs._initialize(
@@ -131,7 +130,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
             receiverFee_,
             treasury_,
             treasuryFee_,
-            options_[1] 
+            options_[1]
         );
     }
 

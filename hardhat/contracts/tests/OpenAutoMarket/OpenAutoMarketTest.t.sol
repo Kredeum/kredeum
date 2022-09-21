@@ -60,7 +60,7 @@ contract OpenAutoMarketTest is
         changePrank(owner);
         bool[] memory options = new bool[](2);
         options[0] = true;
-        options[1] = false;
+        options[1] = true;
 
         OpenAutoMarket collection = new OpenAutoMarket();
         if (init) {

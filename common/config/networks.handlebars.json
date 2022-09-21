@@ -300,15 +300,15 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0x6283DFffa6C5c74569B449BDF21e7624760B258A",
+    "openNFTs": "0xBd0Bb11c1e5dFF488E81f20cAfC5002E67835F1D",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0x50A5F0608EEac3c13205E8b0CD0bd6b5c65Af617",
-    "nftsFactoryV3": "0xAFC5c9EaCcB330e4CA78555aF79338FD0689de25"
+    "nftsResolver": "0xe32C5011e387f17de1a76b2Ef86FD396ED2639B1",
+    "nftsFactoryV3": "0x90D58eF2dA3b02474161Ce32ddD3D1C89DcD796D"
   },
   {
     "chainId": 80001,
@@ -468,9 +468,9 @@
     "nftsFactory": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "nftsFactoryV2": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
     "testnet": true,
-    "nftsResolver": "0xbfB60950de35B0EC02F67E3729925AD872707dAd",
-    "nftsFactoryV3": "0x8D135C725C8A5541A8D47C0f187f2BE53b3DFf41",
-    "openNFTs": "0xC308A8c2fbDea84D1028F906cf966492B14645a0"
+    "nftsResolver": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
+    "nftsFactoryV3": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
+    "openNFTs": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67"
   },
   {
     "chainId": 31337,

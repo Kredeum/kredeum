@@ -32,6 +32,7 @@ abstract contract OpenAutoMarketMintTest is Test {
     }
 
     function testOpenAutoMarketMint5() public {
+        changePrank(_minter);
         IOpenAutoMarket(_collection).mint(_minter, _TOKEN_URI, 10000, address(_minter), 100);
     }
 

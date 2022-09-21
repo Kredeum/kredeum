@@ -17,6 +17,7 @@
     storageLinkToUrlHttp
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
+  import { CollectionType } from "@lib/common/ktypes";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
@@ -48,9 +49,6 @@
   let nftTitle: string = "";
   let nftDescription: string = "";
 
-  let nftMintingPrice: string;
-  let nftDefaultRoyaltiesAmount: string;
-  let nftDefaultRoyaltyReceiver: string;
   /////////////////////////////////////////////////
   let storageImg: string;
   let storageJson: string;
@@ -65,14 +63,11 @@
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {};
 
+  let collection: CollectionType;
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    const collection = await collectionGet(chainId, address, $metamaskProvider);
+    collection = await collectionGet(chainId, address, $metamaskProvider);
     console.log("handleDefaultAutomarketValues", collection);
-
-    nftMintingPrice = utils.formatEther(collection.price);
-    nftDefaultRoyaltiesAmount = collection.fee.toString();
-    nftDefaultRoyaltyReceiver = collection.receiver;
   };
 
   /////////////////////////////////////////////////
@@ -317,24 +312,26 @@
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
-              {#if Number(nftMintingPrice) > 0 || Number(nftDefaultRoyaltiesAmount) > 0}
+              {#if collection?.price?.gt(0) || collection?.royaltyFee?.gt(0)}
                 <div class="section kre-mint-automarket">
-                  {#if Number(nftMintingPrice) > 0}
+                  {#if collection?.price?.gt(0)}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Mint price</span>
-                      <span class="kre-market-info-value label-big kre-no-wrap-title">{nftMintingPrice} (Eth)</span>
+                      <span class="kre-market-info-value label-big kre-no-wrap-title"
+                        >{utils.formatEther(collection?.price)} (Eth)</span
+                      >
                     </div>
                   {/if}
-                  {#if Number(nftDefaultRoyaltiesAmount) > 0}
+                  {#if collection?.royaltyFee?.gt(0)}
                     <div>
                       <span class="kre-market-info-title label-big">royalties</span>
-                      <span class="kre-market-info-value label-big">{parseInt(nftDefaultRoyaltiesAmount) / 100} %</span>
+                      <span class="kre-market-info-value label-big">{collection?.royaltyFee.div(100)} %</span>
                     </div>
                   {/if}
-                  {#if nftDefaultRoyaltyReceiver !== constants.AddressZero}
+                  {#if collection?.royaltyAccount !== constants.AddressZero}
                     <div>
                       <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis">{nftDefaultRoyaltyReceiver}</span>
+                      <span class="kre-market-info-value label-big overflow-ellipsis">{collection?.royaltyAccount}</span>
                     </div>
                   {/if}
                 </div>

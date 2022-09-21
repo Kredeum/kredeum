@@ -4,6 +4,7 @@ import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 import type { OpenFactoryV3 } from "@soltypes/contracts/next/OpenFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
+import { constants } from "ethers";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
@@ -30,7 +31,13 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const nftsFactoryV3: OpenFactoryV3 = await getContract("OpenFactoryV3", deployer);
 
     nonce = await getNonce(deployer, contractName, "initialize");
-    await (await openNFTsV4["initialize(string,string,address,bool[])"]("OpenNFTsV4", "ONFT", deployer.address, [true])).wait();
+
+    const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(["bool[]"], [[true]]);
+    const optionsBytes = ethers.utils.defaultAbiCoder.encode(
+      ["bytes", "address", "uint96"],
+      [subOptionsBytes, constants.AddressZero, 0]
+    );
+    await (await openNFTsV4.initialize("OpenNFTsV4", "ONFT", deployer.address, optionsBytes)).wait();
 
     nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();

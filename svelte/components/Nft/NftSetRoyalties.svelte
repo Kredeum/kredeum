@@ -9,6 +9,8 @@
 
   import { setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
 
+  import { BigNumber } from "ethers";
+
   /////////////////////////////////////////////////
   //  <NftSetRoyalties {chainId} {address} {tokenID} {nftRoyaltiesAmount} receiver />
   // Display NFT
@@ -16,7 +18,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let nftRoyaltiesAmount: string;
+  export let nftRoyaltyFee: BigNumber;
   export let receiver: string;
 
   let setRoyaltyReceiverInput: string;
@@ -150,7 +152,7 @@
                 </div>
 
                 <div class="section">
-                  From {Number(nftRoyaltiesAmount) / 100} % to
+                  From {nftRoyaltyFee.div(100)} % to
                   <input type="text" bind:value={setRoyaltiesAmountInput} id="set-price-nft" />
                   %
                 </div>

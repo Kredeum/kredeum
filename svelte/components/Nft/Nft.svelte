@@ -80,9 +80,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} nftPrice={$nft.price} />
+            <NftSell {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
           {:else}
-            <NftBuy {chainId} {address} {tokenID} nftPrice={$nft?.price} />
+            <NftBuy {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
           {/if}
         {/if}
       </div>
@@ -140,7 +140,7 @@
             </div>
           </li>
           {#if $nft.collection?.supports?.IOpenMarketable}
-            {#if parseInt($nft.price) >= 0}
+            {#if $nft.price?.gte(0)}
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
@@ -150,40 +150,36 @@
                 </div>
               </li>
             {/if}
-            {#if $nft.royaltyAmount}
+            {#if $nft.royaltyFee}
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royaltyAmount === "0"}
-                    <span class="overflow-ellipsis" title={$nft.royaltyAmount}>No royalties amount setted</span>
+                  {#if $nft.royaltyFee.eq(0)}
+                    <span class="overflow-ellipsis" title={String($nft.royaltyFee)}>No royalties amount setted</span>
                   {:else}
-                    <span
-                      class="link overflow-ellipsis"
-                      title={`${parseInt($nft.royaltyAmount) / 100} %`}
-                      target="_blank"
-                    >
-                      {parseInt($nft.royaltyAmount) / 100} %
+                    <span class="link overflow-ellipsis" title={`${$nft.royaltyFee.div(100)} %`} target="_blank">
+                      {$nft.royaltyFee.div(100)} %
                     </span>
                   {/if}
                 </div>
               </li>
             {/if}
-            {#if $nft.royaltyReceiver}
+            {#if $nft.royaltyAccount}
               <li>
                 <div class="flex"><span class="label">Nft Royalties receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {$nft.royaltyReceiver === constants.AddressZero
+                    {$nft.royaltyAccount === constants.AddressZero
                       ? "No receiver setted for Royalties"
-                      : $nft.royaltyReceiver}
+                      : $nft.royaltyAccount}
                   </span>
-                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyAmount === "0" && $nft.royaltyReceiver === constants.AddressZero}
+                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee.eq(0) && $nft.royaltyAccount === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}
                       {tokenID}
-                      nftRoyaltiesAmount={$nft.royaltyAmount}
-                      receiver={$nft.royaltyReceiver}
+                      nftRoyaltyFee={$nft.royaltyFee}
+                      receiver={$nft.royaltyAccount}
                     />
                   {/if}
                 </div>

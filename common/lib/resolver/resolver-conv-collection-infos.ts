@@ -38,16 +38,19 @@ const resolverConvOpenNFTsCollectionInfos = (
   collectionInfos: [IERCNftInfos.CollectionInfosStructOutput, IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput],
   account = constants.AddressZero
 ): CollectionType => {
-  // console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
+  console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
   const collection = resolverConvCollectionInfos(chainId, collectionInfos[0], account);
 
-  collection.version = Number(collectionInfos[1][0] || -1);
-  collection.template = collectionInfos[1][1] || "";
-  collection.open = collectionInfos[1][2] || false;
-  collection.price = BigNumber.from(collectionInfos[1][3] || 0);
-  collection.receiver = collectionInfos[1][4] || constants.AddressZero;
-  collection.fee = BigNumber.from(collectionInfos[1][5] || 0);
+  const collectionOpenNFTsInfos = collectionInfos[1];
+
+  collection.version = Number(collectionOpenNFTsInfos[0] || -1);
+  collection.template = collectionOpenNFTsInfos[1] || "";
+  collection.open = collectionOpenNFTsInfos[2] || false;
+  collection.price = BigNumber.from(collectionOpenNFTsInfos[3] || 0);
+  collection.royaltyAccount = collectionOpenNFTsInfos[4][0] || constants.AddressZero;
+  collection.royaltyFee = BigNumber.from(collectionOpenNFTsInfos[4][1] || 0);
+  collection.royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
   return collection;

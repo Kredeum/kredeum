@@ -13,7 +13,6 @@
   import { metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import { setDefautCollectionPrice, setDefautCollectionRoyalty } from "@lib/nft/kautomarket";
 
   // up to parent
   export let chainId: number;
@@ -30,8 +29,6 @@
   let collectionCreated: CollectionType = null;
 
   let cloningTxHash: string = null;
-  let defaultPriceTxHash: string = null;
-  let royaltiesTxHash: string = null;
 
   let inputPrice: string;
   let inputFee: string;
@@ -114,12 +111,7 @@
   const S2_SIGN_CLONE_TX = 2;
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
-  const S5_SIGN_PRICE_TX = 5;
-  const S6_WAIT_PRICE_TX = 6;
-  const S7_PRICE_SETTED = 7;
-  const S8_SIGN_ROYALTIES_TX = 8;
-  const S9_WAIT_ROYALTIES_TX = 9;
-  const S10_MINTED = 10;
+
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -130,7 +122,6 @@
 
   const _validFee = (fee: string): boolean => Number(fee) >= 0 && Number(fee) <= 10000;
   const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
-  const _validPriceNotZero = (price: string): boolean => Number(price) > 0;
   const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
 
   const _cloneConfirm = async () => {
@@ -182,65 +173,6 @@
 
     cloning = S4_COLL_CREATED;
 
-    // if (template === "OpenAutoMarket/ownable") {
-    //   if (_validPriceNotZero(inputPrice)) {
-    //     cloning = S5_SIGN_PRICE_TX;
-
-    //     const setDefaultPriceTxRespYield = setDefautCollectionPrice(
-    //       chainId,
-    //       collection.address,
-    //       ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
-    //       $metamaskSigner
-    //     );
-
-    //     const setDefaultPriceTxResp = (await setDefaultPriceTxRespYield.next()).value;
-
-    //     if (!setDefaultPriceTxResp) return _cloneError("ERROR collectionPrice no setDefaultPriceTxResp");
-
-    //     explorerTxLog(chainId, setDefaultPriceTxResp);
-    //     defaultPriceTxHash = setDefaultPriceTxResp.hash;
-
-    //     cloning = S6_WAIT_PRICE_TX;
-
-    //     const setDefaultPriceTxReceipt = (await setDefaultPriceTxRespYield.next()).value;
-
-    //     if (!setDefaultPriceTxReceipt.status)
-    //       return _cloneError(`ERROR collectionPrice bad status ${JSON.stringify(setDefaultPriceTxReceipt, null, 2)}`);
-
-    //     cloning = S7_PRICE_SETTED;
-    //   }
-
-    //   if (inputReceiver || _validFeeNotZero(inputFee)) {
-    //     cloning = S8_SIGN_ROYALTIES_TX;
-
-    //     const setDefaultRoyaltyTxRespYield = setDefautCollectionRoyalty(
-    //       chainId,
-    //       collectionCreated.address,
-    //       inputReceiver,
-    //       BigNumber.from(inputFee).mul(100),
-    //       $metamaskSigner
-    //     );
-
-    //     const setDefaultRoyaltyTxResp = (await setDefaultRoyaltyTxRespYield.next()).value;
-
-    //     if (!setDefaultRoyaltyTxResp) return _cloneError("ERROR collectionRoyalties no setDefaultRoyaltyTxResp");
-
-    //     explorerTxLog(chainId, setDefaultRoyaltyTxResp);
-    //     royaltiesTxHash = setDefaultRoyaltyTxResp.hash;
-
-    //     cloning = S9_WAIT_ROYALTIES_TX;
-
-    //     const setDefaultRpyaltyReceipt = (await setDefaultRoyaltyTxRespYield.next()).value;
-
-    //     if (!setDefaultRpyaltyReceipt.status)
-    //       return _cloneError(
-    //         `ERROR collectionRoyalties bad status ${JSON.stringify(setDefaultRpyaltyReceipt, null, 2)}`
-    //       );
-
-    //     cloning = S10_MINTED;
-    //   }
-    // }
-
     $refreshCollectionList += 1;
   };
 
@@ -253,8 +185,6 @@
       inputPrice = "";
       inputFee = "0";
       inputReceiver = "";
-      defaultPriceTxHash = null;
-      royaltiesTxHash = null;
       cloneError = null;
       cloning = S1_CONFIRM;
     }
@@ -372,81 +302,6 @@
             </div>
           </div>
         {/if}
-        <!-- 
-        {#if cloning >= S5_SIGN_PRICE_TX && inputPrice}
-          <div class="kre-modal-block">
-            {#if cloning >= S5_SIGN_PRICE_TX && cloning < S7_PRICE_SETTED}
-              <div class="titre">
-                <i class="fas fa-sync fa-left c-green" />Setting default Nft minting price for this collection to {ethers.utils.formatEther(
-                  inputPrice
-                )} Eth
-              </div>
-            {/if}
-            {#if cloning == S5_SIGN_PRICE_TX}
-              <div class="section">Please, sign the transaction</div>
-            {:else if cloning == S6_WAIT_PRICE_TX}
-              <div class="section">Wait till completed, it may take one minute or more.</div>
-              <div class="flex">
-                <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
-                  >{textShort(defaultPriceTxHash)}</a
-                >
-              </div>
-            {/if}
-            {#if cloning >= S7_PRICE_SETTED}
-              <div class="titre">
-                <i class="fas fa-check fa-left c-green" />
-                default Nft minting price setted to {ethers.utils.formatEther(inputPrice)} Eth for this collection
-              </div>
-              <div class="section">
-                <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, defaultPriceTxHash)} target="_blank"
-                    >{textShort(defaultPriceTxHash)}</a
-                  >
-                </div>
-              </div>
-            {/if}
-          </div>
-        {/if}
-
-        {#if cloning >= S8_SIGN_ROYALTIES_TX}
-          <div class="kre-modal-block">
-            {#if cloning >= S8_SIGN_ROYALTIES_TX && cloning < S10_MINTED}
-              <div>
-                <div class="titre">
-                  <i class="fas fa-sync fa-left c-green" />Setting default royalty infos for this collection to :
-                </div>
-                <div class="section">
-                  Fee : {inputFee} %<br />
-                  Receiver : {inputReceiver}
-                </div>
-              </div>
-            {/if}
-            {#if cloning == S8_SIGN_ROYALTIES_TX}
-              <div class="section">Sign the transaction</div>
-            {:else if cloning == S9_WAIT_ROYALTIES_TX}
-              <div class="section">Wait till completed, it may take one minute or more.</div>
-              <div class="flex">
-                <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
-                  >{textShort(royaltiesTxHash)}</a
-                >
-              </div>
-            {:else if cloning == S10_MINTED}
-              <div class="titre">
-                <i class="fas fa-check fa-left c-green" />
-                default Nft Royalty info setted to :<br />
-              </div>
-              <div class="section">
-                Fee : {inputFee} %<br />
-                Receiver : {inputReceiver}
-                <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, royaltiesTxHash)} target="_blank"
-                    >{textShort(royaltiesTxHash)}</a
-                  >
-                </div>
-              </div>
-            {/if}
-          </div>
-        {/if} -->
 
         {#if cloneError}
           <div class="section">

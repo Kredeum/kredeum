@@ -83,8 +83,8 @@ const nftMint = async (
       minterAddress,
       tokenURI,
       0,
-      collection.receiver || constants.AddressZero,
-      collection.fee || 0,
+      collection.royaltyAccount || constants.AddressZero,
+      collection.royaltyFee || 0,
       { value, type: 2 }
     );
   } else if (collection.supports?.IOpenNFTsV4) {

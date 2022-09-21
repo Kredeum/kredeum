@@ -59,9 +59,10 @@ type CollectionType = {
   version?: number;
   template?: string;
   open?: boolean;
+  royaltyAccount?: string;
+  royaltyFee?: BigNumber;
+  royaltyMinimum?: BigNumber;
   price?: BigNumber;
-  receiver?: string;
-  fee?: BigNumber;
 };
 
 type CollectionSupports = {
@@ -156,9 +157,10 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
-  price?: string;
-  royaltyAmount?: string;
-  royaltyReceiver?: string;
+  royaltyAccount?: string;
+  royaltyFee?: BigNumber;
+  royaltyMinimum?: BigNumber;
+  price?: BigNumber;
   collection?: CollectionType;
 } & storageType;
 

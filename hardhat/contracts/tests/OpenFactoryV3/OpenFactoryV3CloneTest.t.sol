@@ -7,7 +7,7 @@ import "../../next/OpenFactoryV3.sol";
 import "../../next/OpenNFTsV4.sol";
 import "../../next/OpenAutoMarket.sol";
 
-abstract contract OpenFactoryV3CloneTest is Test {
+abstract contract OpenFactoryV3CloneTest is Test, IOpenReceiverInfos {
     address internal _factory;
     address internal _template;
     address internal _clone;
@@ -48,8 +48,8 @@ abstract contract OpenFactoryV3CloneTest is Test {
 
         assertEq(OpenAutoMarket(payable(_clone)).getDefaultPrice(), 42000000000);
 
-        (address receiver, uint96 fee) = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
-        assertEq(receiver, _tester);
-        assertEq(fee, 420);
+        ReceiverInfos memory receiver = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
+        assertEq(receiver.account, _tester);
+        assertEq(receiver.fee, 420);
     }
 }

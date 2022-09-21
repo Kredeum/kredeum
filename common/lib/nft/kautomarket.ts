@@ -5,7 +5,7 @@ import type { IERC2981, IERC721 } from "@soltypes/index";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber, BigNumberish, constants } from "ethers";
+import { BigNumber, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
@@ -48,7 +48,9 @@ const getDefaultCollPrice = async (
 ): Promise<BigNumber> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getDefaultPrice() : BigNumber.from(0);
+  return collection.supports?.IOpenMarketable
+    ? await (contract as IOpenMarketable).getDefaultPrice()
+    : BigNumber.from(0);
 };
 
 const getDefaultCollRoyaltyInfos = async (
@@ -182,12 +184,9 @@ async function* setTokenPrice(
   address: string,
   tokenID: string,
   tokenPrice: string,
-  signer: Signer,
-  approveType = 0
+  signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
-
-  let txResp;
 
   if (!(chainId && address && tokenID && tokenPrice && signer)) return {};
 
@@ -197,16 +196,7 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  if (approveType == 0) {
-    txResp = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256)"](BigNumber.from(tokenID), tokenPrice);
-  } else {
-    txResp = await (contract as IOpenMarketable)["setTokenPrice(uint256,uint256,address,uint8)"](
-      BigNumber.from(tokenID),
-      tokenPrice,
-      collection.address,
-      approveType
-    );
-  }
+  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), tokenPrice);
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);

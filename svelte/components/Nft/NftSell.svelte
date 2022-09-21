@@ -2,9 +2,7 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import NftTokenApprove from "./NftTokenApprove.svelte";
   import NftSetPrice from "./NftSetPrice.svelte";
-  import CollectionSetApproval from "../Collection/CollectionSetApproval.svelte";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} {nftPrice} />
