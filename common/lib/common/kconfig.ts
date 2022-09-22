@@ -136,7 +136,8 @@ const addressSame = (a: string, b: string): boolean => a?.toLowerCase() === b?.t
 
 const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 
-const urlToLink = (url: string, label?: string): string => `<a href="${url}" target="_blank">${label || url}</a>`;
+const urlToLink = (url: string, label?: string): string =>
+  `<a href="${url}" class="link" target="_blank">${label || url}</a>`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -313,14 +314,14 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   explorerUrl(chainId, `/tx/${tx}`);
 
-// LOG TX URL
-const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>
-  explorerTxHashLog(chainId, tx?.hash);
-
 // LOG TX.HASH URL
 const explorerTxHashLog = (chainId: number, txHash = ""): void =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
   console.log(explorerTxUrl(chainId, txHash));
+
+// LOG TX URL
+const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>
+  explorerTxHashLog(chainId, tx?.hash);
 
 // OPEN_NFTS URL
 const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
@@ -462,6 +463,8 @@ const nftListKey = (chainId: number, address: string, account?: string): string 
   `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
   addressSame,
@@ -497,6 +500,7 @@ export {
   getOpenSea,
   getCreate,
   getExplorer,
+  getCurrency,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,

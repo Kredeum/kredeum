@@ -6,17 +6,22 @@
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
   import { metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
+  import InputEther from "../Global/InputEther.svelte";
 
-  // up to parent
+  ///////////////////////////////////////////////////////////
+  // <CollectionCreate chainId collection
+  ///////////////////////////////////////////////////////////
   export let chainId: number;
+  // export let account: string;
   export let collection: CollectionType = undefined;
+  ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
 
@@ -30,8 +35,8 @@
 
   let cloningTxHash: string = null;
 
-  let inputPrice: string;
-  let inputFee: string;
+  let inputPrice: string = "0";
+  let inputFee: string = "";
   let inputReceiver: string;
 
   // Context for refreshCollectionList
@@ -112,7 +117,6 @@
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
 
-
   const _cloneInit = async () => {
     cloningTxHash = null;
     collectionCreated = null;
@@ -130,7 +134,6 @@
       (!_validAddressNotZero(inputReceiver) && _validFeeNotZero(inputFee))
     )
       return _cloneError("Royalties amount and Royalty receiver must be declared together");
-    console.log("const_cloneConfirm= ~ inputFee", inputFee);
 
     cloning = S2_SIGN_CLONE_TX;
     const cloneTxRespYield = collectionClone(
@@ -139,9 +142,9 @@
       collectionSymbol,
       template,
       $metamaskSigner,
-      ethers.utils.parseEther(inputPrice) || BigNumber.from(0),
-      inputReceiver,
-      BigNumber.from(Math.round(Number(inputFee) * 100))
+      ethers.utils.parseEther(inputPrice) || 0,
+      inputReceiver || constants.AddressZero,
+      Math.round((Number(inputFee) || 0) * 100)
     );
     //   defaultPrice: BigNumber = BigNumber.from(0),
     // receiver: string = constants.AddressZero,
@@ -229,21 +232,9 @@
             </div>
           </div>
 
-          {#if template === "OpenAutoMarket/ownable"}
+          {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
             <div class="section">
-              <div class="titre">Default mint price (Eth)</div>
-              <div class="form-field">
-                <input
-                  type="text"
-                  class=" kre-field-outline"
-                  placeholder="0"
-                  bind:value={inputPrice}
-                  id="mint-price-nft"
-                />
-              </div>
-            </div>
-            <div class="section">
-              <div class="titre">Default royalties (%)</div>
+              <div class="titre">Royalties (%)</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -255,7 +246,7 @@
               </div>
             </div>
             <div class="section">
-              <div class="titre">Default royalty receiver</div>
+              <div class="titre">Royalty receiver</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -268,6 +259,22 @@
             </div>
           {/if}
 
+          {#if template === "OpenAutoMarket/generic"}
+            <div class="section">
+              <div class="titre">Mint price ({getCurrency(chainId)})</div>
+              <InputEther {chainId} bind:inputPrice nftPrice={"0"} />
+              <!-- <div class="form-field">
+              <input
+                type="text"
+                class=" kre-field-outline"
+                placeholder="0"
+                bind:value={inputPrice}
+                id="mint-price-nft"
+              />
+            </div> -->
+            </div>
+          {/if}
+            
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
           </div>

@@ -1,10 +1,9 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber, utils, constants } from "ethers";
+import { utils, constants, BigNumberish } from "ethers";
 
 import { explorerTxLog } from "@lib/common/kconfig";
 import { factoryGetContract } from "@lib/common/kfactory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
-import config from "@config/config.json";
 
 async function* collectionClone(
   chainId: number,
@@ -12,11 +11,11 @@ async function* collectionClone(
   symbol: string,
   templateConfig: string,
   cloner: JsonRpcSigner,
-  defaultPrice: BigNumber = BigNumber.from(0),
-  receiver: string = constants.AddressZero,
-  fee: BigNumber = BigNumber.from(0)
+  defaultPrice: BigNumberish = 0,
+  royaltyReceiver: string = constants.AddressZero,
+  royaltyFee = 0
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  console.log(`collectionClone ${chainId} '${templateConfig}' ${await cloner.getAddress()}`);
+  // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${defaultPrice.toString()}  ${royaltyFee}  `);
 
   const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 
@@ -36,7 +35,7 @@ async function* collectionClone(
     options = [conf == "generic", false];
     optionsBytes = utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [defaultPrice, receiver, fee, options]
+      [defaultPrice, royaltyReceiver, royaltyFee, options]
     );
   } else {
     console.error("ERROR unknown template", template);

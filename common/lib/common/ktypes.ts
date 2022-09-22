@@ -60,7 +60,7 @@ type CollectionType = {
   template?: string;
   open?: boolean;
   royaltyAccount?: string;
-  royaltyFee?: BigNumber;
+  royaltyFee?: number;
   royaltyMinimum?: BigNumber;
   price?: BigNumber;
 };
@@ -158,7 +158,7 @@ type NftType = {
   nid?: string;
   contentType?: string;
   royaltyAccount?: string;
-  royaltyFee?: BigNumber;
+  royaltyFee?: number;
   royaltyMinimum?: BigNumber;
   price?: BigNumber;
   collection?: CollectionType;

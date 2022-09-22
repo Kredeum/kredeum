@@ -21,7 +21,7 @@ const resolverConvNftInfos = (
   const chainName = getChainName(chainId) || "";
 
   const royaltyAccount = openNFTsInfos[1][0] || constants.AddressZero;
-  const royaltyFee = BigNumber.from(openNFTsInfos[1][1]);
+  const royaltyFee = Number(openNFTsInfos[1][1]);
   const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
   const price = BigNumber.from(openNFTsInfos[0] || "0");
 

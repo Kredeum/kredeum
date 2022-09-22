@@ -1,11 +1,11 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt, Log } from "@ethersproject/providers";
-import { ethers, BigNumber, Contract, constants } from "ethers";
+import { ethers, BigNumber, Contract, constants, BigNumberish } from "ethers";
 
 import type { NftType } from "@lib/common/ktypes";
 import type { IOpenMulti } from "@soltypes/contracts/interfaces";
 import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
-import { ipfsGatewayUrl, explorerTxLog, getExplorer, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/kconfig";
+import { ipfsGatewayUrl, explorerTxLog, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/kconfig";
 import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 
@@ -64,7 +64,8 @@ const nftMint = async (
   chainId: number,
   address: string,
   tokenURI: string,
-  minter: JsonRpcSigner
+  minter: JsonRpcSigner,
+  price: BigNumberish = 0
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
   // console.log("nftMint", chainId, address, tokenURI, minterAddress);
@@ -82,7 +83,7 @@ const nftMint = async (
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,
       tokenURI,
-      0,
+      price,
       collection.royaltyAccount || constants.AddressZero,
       collection.royaltyFee || 0,
       { value, type: 2 }

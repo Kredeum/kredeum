@@ -299,7 +299,7 @@ select {
     color: $grey-blue;
     i {
       display: inline-block;
-      vertical-align: middle;
+      vertical-align: baseline;
       margin-right: 5px;
     }
   }
@@ -453,10 +453,23 @@ $sides: (top, bottom, left, right);
 
 .kre-modal-block {
   border-top: 1px solid lightgray;
+  margin-top: 30px;
   padding-top: 30px;
 }
 
 .main-krd .content header input[type="text"].kre-field-outline {
   border: 1px solid #eaeff8;
   border-radius: 6px;
+}
+
+.kre-field-outline {
+  border: 1px solid #eaeff8;
+  border-radius: 6px;
+  background: #fff;
+  color: #1e1e43;
+  font-size: 15px;
+  height: 50px;
+  outline: 0;
+  padding-left: 25px;
+  width: 100%;
 }

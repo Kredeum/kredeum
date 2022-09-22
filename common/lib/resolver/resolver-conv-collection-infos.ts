@@ -49,7 +49,7 @@ const resolverConvOpenNFTsCollectionInfos = (
   collection.open = collectionOpenNFTsInfos[2] || false;
   collection.price = BigNumber.from(collectionOpenNFTsInfos[3] || 0);
   collection.royaltyAccount = collectionOpenNFTsInfos[4][0] || constants.AddressZero;
-  collection.royaltyFee = BigNumber.from(collectionOpenNFTsInfos[4][1] || 0);
+  collection.royaltyFee = Number(collectionOpenNFTsInfos[4][1] || 0);
   collection.royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);

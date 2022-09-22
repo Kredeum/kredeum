@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
 
-  import { constants, ethers } from "ethers";
+  import { BigNumber, constants, ethers, utils } from "ethers";
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
@@ -10,9 +10,10 @@
     explorerCollectionUrl,
     explorerAddressLink,
     kredeumNftUrl,
-    getOpenSea,
-    nftOpenSeaUrl,
-    addressSame
+    // getOpenSea,
+    // nftOpenSeaUrl,
+    // addressSame,
+    getCurrency
   } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -23,7 +24,7 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
-  import NftSetRoyalties from "./NftSetRoyalties.svelte";
+  // import NftSetRoyalties from "./NftSetRoyalties.svelte";
 
   // import NftClaim from "./NftClaim.svelte";
 
@@ -47,7 +48,7 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    if (!$nft?.collection?.supports) {
+    if (!$nft.collection?.supports) {
       await nftStore.refreshSubList(chainId, address, account);
     }
 
@@ -56,6 +57,7 @@
   };
 
   $: console.info("Nft", $nft);
+
 </script>
 
 {#if $nft}
@@ -66,9 +68,11 @@
       </div>
       <div class="kre-action-buttons">
         {#if $nft.owner === account}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
-          >
+          {#if "wordpress" === platform}
+            <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+              ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+            >
+          {/if}
 
           <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
             ><i class="fa fa-gift fa-left" /> TRANSFER</a
@@ -80,9 +84,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
+            <NftSell nft={$nft} />
           {:else}
-            <NftBuy {chainId} {address} {tokenID} nftPrice={String($nft?.price) || "0"} />
+            <NftBuy nft={$nft} />
           {/if}
         {/if}
       </div>
@@ -99,7 +103,7 @@
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
             <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
-              <strong> <a href={kredeumNftUrl(chainId, $nft)}>#{tokenID}</a></strong>
+              <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
             </div>
           </li>
           <li>
@@ -140,12 +144,13 @@
             </div>
           </li>
           {#if $nft.collection?.supports?.IOpenMarketable}
-            {#if $nft.price?.gte(0)}
+            {#if constants.Zero.lte($nft.price || 0)}
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {ethers.utils.formatEther($nft.price)} Eth
+                    {utils.formatEther($nft.price)}
+                    {getCurrency(chainId)}
                   </span>
                 </div>
               </li>
@@ -154,11 +159,11 @@
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royaltyFee.eq(0)}
-                    <span class="overflow-ellipsis" title={String($nft.royaltyFee)}>No royalties amount setted</span>
+                  {#if $nft.royaltyFee == 0}
+                    <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
                   {:else}
-                    <span class="link overflow-ellipsis" title={`${$nft.royaltyFee.div(100)} %`} target="_blank">
-                      {$nft.royaltyFee.div(100)} %
+                    <span class="link overflow-ellipsis" title={`${$nft.royaltyFee / 100} %`} target="_blank">
+                      {$nft.royaltyFee / 100} %
                     </span>
                   {/if}
                 </div>
@@ -169,11 +174,13 @@
                 <div class="flex"><span class="label">Nft Royalties receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {$nft.royaltyAccount === constants.AddressZero
-                      ? "No receiver setted for Royalties"
-                      : $nft.royaltyAccount}
+                    {#if $nft.royaltyAccount === constants.AddressZero}
+                      "No receiver setted for Royalties"
+                    {:else}
+                      {@html explorerAddressLink(chainId, $nft.royaltyAccount, 15)}
+                    {/if}
                   </span>
-                  {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee.eq(0) && $nft.royaltyAccount === constants.AddressZero}
+                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee == 0 && $nft.royaltyAccount === constants.AddressZero}
                     <NftSetRoyalties
                       {chainId}
                       {address}
@@ -181,7 +188,7 @@
                       nftRoyaltyFee={$nft.royaltyFee}
                       receiver={$nft.royaltyAccount}
                     />
-                  {/if}
+                  {/if} -->
                 </div>
               </li>
             {/if}
@@ -189,13 +196,13 @@
         </ul>
 
         <div class="p-t-40 p-b-40 grid-buttons">
-          {#if "wordpress" === platform}
+          <!-- {#if "wordpress" === platform}
             <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
-          {/if}
+          {/if} -->
 
-          {#if getOpenSea(chainId)}
+          <!-- {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell on OpenSea
@@ -205,7 +212,7 @@
                 Buy on OpenSea
               </a>
             {/if}
-          {/if}
+          {/if} -->
         </div>
       </div>
     </div>
@@ -268,6 +275,15 @@
     margin-top: 13px;
   }
 
+  .kre-blue-link {
+    color: #192247;
+    transition: all 300ms ease-in-out;
+  }
+
+  .kre-blue-link:hover {
+    color: #3acf6e;
+  }
+
   :global(.kre-action-buttons button.btn-sell-modal, .kre-action-buttons a.btn-transfer-modal, .kre-action-buttons
       a.btn-burn-modal, .kre-action-buttons a.btn-shortcod-modal, .kre-action-buttons a.btn-buy-modal) {
     width: 100%;
@@ -286,15 +302,13 @@
     color: black;
   }
 
-  .btn-burn-modal {
-    color: red !important;
-    /* border-color: red !important; */
-    /* float: right; */
+  :global(.kre-action-buttons a.btn-transfer-modal:hover) {
+    background-color: #3acf6e;
+    color: white;
   }
 
   .btn-burn-modal:hover {
-    /* color: white !important; */
-    /* background: red !important; */
     border-color: red !important;
+    color: red !important;
   }
 </style>

@@ -5,7 +5,7 @@ import type { IERC2981, IERC721 } from "@soltypes/index";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber, constants } from "ethers";
+import { BigNumber, BigNumberish, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
@@ -183,8 +183,8 @@ async function* setTokenPrice(
   chainId: number,
   address: string,
   tokenID: string,
-  tokenPrice: string,
-  signer: Signer
+  signer: Signer,
+  tokenPrice: BigNumberish = 0
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
 
@@ -196,7 +196,7 @@ async function* setTokenPrice(
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp = await (contract as IOpenMarketable).setTokenPrice(BigNumber.from(tokenID), tokenPrice);
+  const txResp = await (contract as IOpenMarketable).setTokenPrice(tokenID, tokenPrice);
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
@@ -238,7 +238,7 @@ async function* setDefautCollectionRoyalty(
   chainId: number,
   address: string,
   defaultRoyaltiesReceiver: string,
-  defaultRoyaltyAmount: BigNumber,
+  defaultRoyaltyAmount: BigNumberish,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
