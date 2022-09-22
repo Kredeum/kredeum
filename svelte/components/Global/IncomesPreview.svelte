@@ -54,7 +54,7 @@
           {utils.formatEther(kredeumFeeAmount)}
           {getCurrency(nft.chainId)} ({config.treasury.fee / 100} %) fees to Kredeum protocol
         </p>
-        <p></p>
+        <p />
       </div>
     </li>
   </ul>

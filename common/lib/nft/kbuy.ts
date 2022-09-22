@@ -3,7 +3,7 @@ import type { Signer } from "@ethersproject/abstract-signer";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerTxLog } from "../common/kconfig";
-import {  BigNumberish } from "ethers";
+import { BigNumberish } from "ethers";
 
 async function* buyNft(
   chainId: number,

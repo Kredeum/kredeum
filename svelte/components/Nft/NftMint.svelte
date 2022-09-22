@@ -72,7 +72,7 @@
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
     collection = await collectionGet(chainId, address, $metamaskProvider);
-    console.log("handleDefaultAutomarketValues", collection);
+    // console.log("handleDefaultAutomarketValues", collection);
   };
 
   /////////////////////////////////////////////////

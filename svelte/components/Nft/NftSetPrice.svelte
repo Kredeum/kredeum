@@ -77,7 +77,7 @@
     if (nft.price.gt(0)) tokenNewPrice = utils.formatEther(nft.price);
   };
 
-  $: console.log(collectionApproved);
+  // $: console.log(collectionApproved);
 
   $: if (nft) {
     collectionApproved = [...nft.collection?.approvedForAll].filter((approved) => approved[0] === $metamaskAccount)[0]
@@ -140,7 +140,7 @@
     <div class="section">
       <div class="form-field kre-warning-msg">
         <p>
-          By completing this listing you allow this AutoMarket collection to manage the exchange of your NFTs 
+          By completing this listing you allow this AutoMarket collection to manage the exchange of your NFTs
           <a class="link" href={explorerCollectionUrl(nft.chainId, nft.address)} title={nft.address} target="_blank">
             {nft.address}
           </a>

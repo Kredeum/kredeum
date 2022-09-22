@@ -18,7 +18,7 @@
   $: if (chainId && address && account) _refresh(chainId, address, account);
   const _refresh = async (_chainId: number, _address: string, _account: string): Promise<void> => {
     refreshing = true;
-    console.log(`REFRESH NFT LIST ${i++} collection://${_chainId}/${_address}${_account ? "@" + _account : ""}`);
+    // console.log(`REFRESH NFT LIST ${i++} collection://${_chainId}/${_address}${_account ? "@" + _account : ""}`);
     await nftStore.refreshSubList(_chainId, _address, _account);
     refreshing = false;
   };
@@ -27,7 +27,7 @@
   $: if (chainId && address) _get(chainId, address);
   const _get = (_chainId: number, _address: string) => {
     nfts = nftStore.getSubListStore(chainId, address);
-    console.log(`CURRENT NFT LIST ${j++} collection://${_chainId}/${_address}\n`, $nfts);
+    // console.log(`CURRENT NFT LIST ${j++} collection://${_chainId}/${_address}\n`, $nfts);
   };
 </script>
 

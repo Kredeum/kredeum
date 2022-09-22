@@ -23,7 +23,7 @@ const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(c
 // GET NFTsFactory Contract
 const factoryGetContract = async (chainId: number, signerOrProvider: Signer | Provider): Promise<OpenFactoryV3> => {
   const signerAddress = Signer.isSigner(signerOrProvider) ? await signerOrProvider.getAddress() : "";
-  console.log("factoryGetContract ~ signerAddress", signerAddress);
+  // console.log("factoryGetContract ~ signerAddress", signerAddress);
 
   let nftsFactory = nftsFactoriesCache.get(_nftsFactoryKey(chainId, signerAddress));
 

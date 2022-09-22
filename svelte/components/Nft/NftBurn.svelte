@@ -135,7 +135,7 @@
               <p>
                 <i class="fas fa-exclamation-triangle fa-left c-red" /> This NFT #{tokenID} can't be burned!
               </p>
-              <p>But you can get rid of it anyway, by transfering it unusable "dEaD address"</p>
+              <p>But you can get rid of it anyway, by transfering it to an unusable "dEaD address"</p>
               <p>{AddressdEaD}</p>
               <p>This operation is irreversible !!!</p>
             </div>

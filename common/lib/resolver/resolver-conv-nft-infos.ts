@@ -16,29 +16,34 @@ const resolverConvNftInfos = (
   const address = getChecksumAddress(collection.address);
   const tokenID = String(nftInfos[0]);
   const tokenURI = nftInfos[1] || "";
-  const owner = getChecksumAddress(nftInfos[2]) || "";
-  const approved = getChecksumAddress(nftInfos[3]) || "";
   const chainName = getChainName(chainId) || "";
-
-  const royaltyAccount = openNFTsInfos[1][0] || constants.AddressZero;
-  const royaltyFee = Number(openNFTsInfos[1][1]);
-  const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
-  const price = BigNumber.from(openNFTsInfos[0] || "0");
-
+  
   const nft: NftType = {
     chainId,
     address,
     tokenID,
     tokenURI,
-    owner,
-    approved,
     chainName,
-    royaltyAccount,
-    royaltyFee,
-    royaltyMinimum,
-    price,
     collection
   };
+
+  const owner = getChecksumAddress(nftInfos[2]) || "";
+  if (owner && owner != constants.AddressZero) nft.owner = owner;
+
+  const approved = getChecksumAddress(nftInfos[3]);
+  if (approved && approved != constants.AddressZero) nft.approved = approved;
+
+  const royaltyAccount = openNFTsInfos[1][0];
+  if (royaltyAccount && royaltyAccount != constants.AddressZero) nft.royaltyAccount = royaltyAccount;  
+
+  const royaltyFee = Number(openNFTsInfos[1][1]);
+  if (royaltyFee > 0) nft.royaltyFee = royaltyFee;
+
+  const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
+  if (royaltyMinimum.gt(0)) nft.royaltyMinimum = royaltyMinimum;
+
+  const price = BigNumber.from(openNFTsInfos[0] || "0");
+  if (price.gt(0)) nft.price = price;
 
   // console.log("resolverConvNftInfos OUT", nft);
   return nft;

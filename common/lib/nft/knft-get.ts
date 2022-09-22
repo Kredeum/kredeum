@@ -42,13 +42,13 @@ const nftGet = async (
   // console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
   nft = await resolverGetNft(chainId, collection, tokenID, signerOrProvider);
-  console.log("nft", nft);
+  // console.log("nft", nft);
 
   nft.nid = nftKey(chainId, address, tokenID);
 
   const nftRet = withMetadata ? await nftGetMetadata(nft) : nft;
 
-  console.log("nftGet", nftRet);
+  // console.log("nftGet", nftRet);
   return nftRet;
 };
 

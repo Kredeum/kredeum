@@ -33,9 +33,9 @@ async function* collectionInitializeOpenNFTsV4(
   cloner: JsonRpcSigner
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   const clonerAddress = await cloner.getAddress();
-  console.log(
-    `collectionInitializeOpenNFTsV4 ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
-  );
+  // console.log(
+  //   `collectionInitializeOpenNFTsV4 ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
+  // );
 
   const [template, config] = templateConfig.split("/");
   if (template != "OpenNFTsV4") return;
@@ -61,9 +61,9 @@ async function* collectionInitializeOpenAutoMarket(
   cloner: JsonRpcSigner
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   const clonerAddress = await cloner.getAddress();
-  console.log(
-    `collectionInitializeOpenAutoMarket ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
-  );
+  // console.log(
+  //   `collectionInitializeOpenAutoMarket ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
+  // );
 
   const [template] = templateConfig.split("/");
   if (template != "OpenAutoMarket") return;

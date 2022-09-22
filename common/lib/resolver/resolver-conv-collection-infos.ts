@@ -15,15 +15,19 @@ const resolverConvCollectionInfos = (
 
   const chainName = getChainName(chainId);
   const address: string = getChecksumAddress(collectionInfos[0]);
-  const owner: string = getChecksumAddress(collectionInfos[1]);
   const name: string = collectionInfos[2] || DEFAULT_NAME;
   const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
-  const totalSupply = Number(collectionInfos[4]);
   const supports = resolverConvSupports(collectionInfos[7]);
 
-  const collection: CollectionType = { chainId, chainName, address, owner, name, symbol, totalSupply, supports };
+  const collection: CollectionType = { chainId, chainName, address, name, symbol, supports };
 
-  if (collectionInfos[7][2]) {
+  const totalSupply = Number(collectionInfos[4]);
+  if (totalSupply > 0) collection.totalSupply = totalSupply;
+
+  const owner: string = getChecksumAddress(collectionInfos[1]);
+  if (owner && owner != constants.AddressZero) collection.owner = owner;
+
+  if (collectionInfos[7][2] && account != constants.AddressZero) {
     // ERC721
     collection.balancesOf = new Map([[account, Number(collectionInfos[5])]]);
     collection.approvedForAll = new Map([[account, Boolean(collectionInfos[6])]]);
@@ -38,19 +42,32 @@ const resolverConvOpenNFTsCollectionInfos = (
   collectionInfos: [IERCNftInfos.CollectionInfosStructOutput, IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput],
   account = constants.AddressZero
 ): CollectionType => {
-  console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
+  // console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
   const collection = resolverConvCollectionInfos(chainId, collectionInfos[0], account);
 
   const collectionOpenNFTsInfos = collectionInfos[1];
 
-  collection.version = Number(collectionOpenNFTsInfos[0] || -1);
-  collection.template = collectionOpenNFTsInfos[1] || "";
-  collection.open = collectionOpenNFTsInfos[2] || false;
-  collection.price = BigNumber.from(collectionOpenNFTsInfos[3] || 0);
-  collection.royaltyAccount = collectionOpenNFTsInfos[4][0] || constants.AddressZero;
-  collection.royaltyFee = Number(collectionOpenNFTsInfos[4][1] || 0);
-  collection.royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
+  const open = collectionOpenNFTsInfos[2];
+  if (open) collection.open = open;
+
+  const version = Number(collectionOpenNFTsInfos[0]);
+  if (version > 0) collection.version = version;
+
+  const template = collectionOpenNFTsInfos[1] || "";
+  if (template) collection.template = template;
+
+  const price = BigNumber.from(collectionOpenNFTsInfos[3] || 0);
+  if (price.gt(0)) collection.price = price;
+
+  const royaltyAccount = collectionOpenNFTsInfos[4][0];
+  if (royaltyAccount && royaltyAccount != constants.AddressZero) collection.royaltyAccount = royaltyAccount;
+
+  const royaltyFee = Number(collectionOpenNFTsInfos[4][1]);
+  if (royaltyFee > 0) collection.royaltyFee = royaltyFee;
+
+  const royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
+  if (royaltyMinimum.gt(0)) collection.royaltyMinimum = royaltyMinimum;
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
   return collection;

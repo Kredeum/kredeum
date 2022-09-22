@@ -112,8 +112,9 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 };
 
 // CONSTANT
-const IPFS_GATEWAY = config.ipfsGateway;
-const SWARM_GATEWAY = config.swarmGateway;
+const IPFS_GATEWAY_DOMAIN = config.storage.ipfs.gatewayDomain;
+const IPFS_GATEWAY = config.storage.ipfs.gateway;
+const SWARM_GATEWAY = config.storage.swarm.gateway;
 
 const textShort = (s: string, n = 16, p = n): string => {
   const ipfsStr: string = s?.toString() || "";
@@ -199,6 +200,13 @@ const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 // => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GATEWAY}${ipfsLinkToCid(ipfs)}` : "");
+
+// const ipfsGatewayUrl = (ipfs: string | undefined): string =>
+//   ipfs
+//     ? IPFS_GATEWAY_DOMAIN
+//       ? `https://${ipfsLinkToCid(ipfs)}.${IPFS_GATEWAY_DOMAIN}`
+//       : `${IPFS_GATEWAY}${ipfsLinkToCid(ipfs)}`
+//     : "";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624

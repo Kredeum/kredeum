@@ -219,11 +219,11 @@ async function* setDefautCollectionPrice(
   defaultPrice: BigNumber,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  console.log("setDefautCollectionPrice", chainId, address, defaultPrice, signer);
+  // console.log("setDefautCollectionPrice", chainId, address, defaultPrice, signer);
   if (!(chainId && address && defaultPrice && signer)) return;
 
   const { contract, collection } = await collectionGetContract(chainId, address, signer);
-  console.log("setDefautCollectionPrice", collection);
+  // console.log("setDefautCollectionPrice", collection);
 
   if (!collection.supports?.IOpenMarketable) return;
 

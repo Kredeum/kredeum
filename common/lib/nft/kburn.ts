@@ -14,7 +14,7 @@ async function* burnNft(
   signer: JsonRpcSigner
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   const account = await signer.getAddress();
-  console.log("burnNft", chainId, address, tokenID, account);
+  // console.log("burnNft", chainId, address, tokenID, account);
 
   if (!(chainId && address && tokenID && account)) return {};
 

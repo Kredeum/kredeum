@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
 
-  import { BigNumber, constants, ethers, utils } from "ethers";
+  import { constants, ethers, utils } from "ethers";
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
@@ -57,7 +57,6 @@
   };
 
   $: console.info("Nft", $nft);
-
 </script>
 
 {#if $nft}

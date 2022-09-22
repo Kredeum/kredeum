@@ -7,7 +7,6 @@
 
   import NetworkList from "../components/Network/NetworkList.svelte";
   import { nftStore } from "@stores/nft/nft";
-  import { BigNumber } from "ethers";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} />

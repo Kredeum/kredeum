@@ -34,7 +34,7 @@
   };
 
   onMount(() => {
-    console.log("NFT", $nft);
+    console.info("NFT", $nft);
   });
 </script>
 

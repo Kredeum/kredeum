@@ -73,8 +73,8 @@ const nftMint = async (
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
   const { contract, collection } = await collectionGetContract(chainId, address, minter);
-  console.log("nftMint contract", contract);
-  console.log("nftMint collection", collection);
+  // console.log("nftMint contract", contract);
+  // console.log("nftMint collection", collection);
 
   let txResp: TransactionResponse | undefined;
 

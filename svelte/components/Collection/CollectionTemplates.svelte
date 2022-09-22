@@ -46,7 +46,7 @@
 
   $: template = templateMerge(templateName(template), generic ? "generic" : "ownable");
 
-$: console.log("template", template);
+  $: console.log("template", template);
 </script>
 
 <div class="section">

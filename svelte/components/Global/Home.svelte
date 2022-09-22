@@ -26,7 +26,7 @@
   // storage : file storage used : ipfs, swarm or arweave
   // platform : app container : dapp or wordpress
   ////////////////////////////////////////////////////////////////////
-  export let storage: string = config.storage;
+  export let storage: string = config.storage.type;
   export let platform: string = "dapp";
   ////////////////////////////////////////////////////////////////////
 

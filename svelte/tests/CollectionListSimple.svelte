@@ -34,7 +34,7 @@
     refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
     refreshing = false;
-    console.log("COLLECTIONS", $collections);
+    console.info("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
     collectionStore.refreshDefault(chainId, account);

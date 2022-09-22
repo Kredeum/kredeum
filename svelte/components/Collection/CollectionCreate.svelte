@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
 
-  import { BigNumber, constants, ethers, utils } from "ethers";
+  import { constants, ethers, utils } from "ethers";
 
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
@@ -274,7 +274,7 @@
             </div> -->
             </div>
           {/if}
-            
+
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
           </div>

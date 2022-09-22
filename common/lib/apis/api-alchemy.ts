@@ -26,7 +26,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
     chainId,
     `/getNFTs?owner=${account}&withMetadata=true`
   )) as AlchemyCollectionsAnswer;
-  // console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
+  console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
 
   const totalCount = AlchemyCollectionsAnswer.totalCount;
   const ownedNfts = AlchemyCollectionsAnswer.ownedNfts;
@@ -43,7 +43,6 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
     const count = Number(previousCollection?.balancesOf?.get(account) || 0);
     const collection = {
       chainId,
-      owner: account,
       address,
       balancesOf: new Map([[account, count + 1]])
     };

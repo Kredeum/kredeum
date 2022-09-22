@@ -14,7 +14,6 @@
     explorerTxUrl,
     explorerTxLog,
     textShort,
-    getNetwork,
     getOpenSea,
     nftOpenSeaUrl,
     getCurrency
