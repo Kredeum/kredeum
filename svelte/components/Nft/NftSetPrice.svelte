@@ -1,11 +1,12 @@
 <script lang="ts">
+  import { Readable } from "svelte/store";
   import { NftType } from "@lib/common/ktypes";
 
-  import { utils } from "ethers";
+  import { BigNumber, utils } from "ethers";
 
   import { onMount } from "svelte";
 
-  import { metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskAccount } from "@main/metamask";
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
@@ -16,10 +17,12 @@
   import { collectionStore } from "@stores/collection/collection";
 
   /////////////////////////////////////////////////
-  //  <NftSetPrice {nft} />
+  //  <NftSetPrice {chainId} {address} {tokenID} />
   // Set  NFT Price
   /////////////////////////////////////////////////
-  export let nft: NftType;
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
   /////////////////////////////////////////////////
 
   let collectionApproved: boolean = false;
@@ -28,6 +31,23 @@
   let tokenPriceSetting: number;
   let tokenSetPriceTxHash: string;
   let tokenSetPriceError: string;
+
+  let nft: Readable<NftType>;
+
+  // HANDLE CHANGE : on truthy chainId and address, and whatever account
+  $: chainId && address && tokenID && $metamaskChainId && handleChange();
+  const handleChange = async (): Promise<void> => {
+    // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
+
+    // STATE VIEW : sync get Nft
+    nft = nftStore.getOneStore(chainId, address, tokenID);
+    // if (!$nft.collection?.supports) {
+    //   await nftStore.refreshSubList(chainId, address, $nft.owner);
+    // }
+
+    // ACTION : async refresh Nft
+    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+  };
 
   const _tokenSetPriceError = (err: string): void => {
     tokenSetPriceError = err;
@@ -68,14 +88,14 @@
 
     tokenPriceSetting = S1_CONFIRM;
 
-    if (nft.price.gt(0)) tokenNewPrice = utils.formatEther(nft.price);
+    if ($nft?.price?.gt(0)) tokenNewPrice = utils.formatEther($nft?.price);
   };
 
   // $: console.log(collectionApproved);
 
   $: if (nft) {
-    collectionApproved = [...nft.collection?.approvedForAll].filter((approved) => approved[0] === $metamaskAccount)[0]
-      ? [...nft.collection?.approvedForAll].filter((approved) => approved[0] === $metamaskAccount)[0][1]
+    collectionApproved = [...$nft.collection?.approvedForAll].filter((approved) => approved[0] === $metamaskAccount)[0]
+      ? [...$nft.collection?.approvedForAll].filter((approved) => approved[0] === $metamaskAccount)[0][1]
       : false;
   }
 
@@ -85,9 +105,9 @@
 
   const setPriceConfirm = async () => {
     const tokenSetPriceTxRespYield = setTokenPrice(
-      nft.chainId,
-      nft.address,
-      nft.tokenID,
+      chainId,
+      address,
+      tokenID,
       $metamaskSigner,
       utils.parseEther(tokenNewPrice)
     );
@@ -99,7 +119,7 @@
     if (!tokenSetPriceTxHash)
       return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);
 
-    explorerTxLog(nft.chainId, tokenSetPriceTxResp);
+    explorerTxLog(chainId, tokenSetPriceTxResp);
     tokenPriceSetting = S3_WAIT_TX;
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
@@ -108,9 +128,9 @@
 
     tokenPriceSetting = S4_PRICE_SETTED;
 
-    collectionStore.refreshOne(nft.chainId, nft.address, $metamaskAccount).catch(console.error);
-    await nftStore.refreshSubList(nft.chainId, nft.address, $metamaskAccount);
-    await nftStore.refreshOne(nft.chainId, nft.address, nft.tokenID).catch(console.error);
+    collectionStore.refreshOne(chainId, address, $metamaskAccount).catch(console.error);
+    await nftStore.refreshSubList(chainId, address, $metamaskAccount);
+    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
   const setPriceZeroConfirm = async () => {
@@ -121,22 +141,27 @@
 
 {#if tokenPriceSetting == S1_CONFIRM}
   <div class="titre">
-    <p><i class="fas fa-angle-right" /> List item #{nft.tokenID} for sale using AutoMarket smartcontract</p>
+    <p><i class="fas fa-angle-right" /> List item #{tokenID} for sale using AutoMarket smartcontract</p>
   </div>
 
   <div class="section">
-    <InputEther chainId={nft.chainId} bind:inputPrice={tokenNewPrice} />
+    <InputEther {chainId} bind:inputPrice={tokenNewPrice} />
   </div>
 
-  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : nft?.price} />
+  <IncomesPreview
+    {chainId}
+    {address}
+    {tokenID}
+    price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : BigNumber.from(0)}
+  />
 
   {#if !collectionApproved}
     <div class="section">
       <div class="form-field kre-warning-msg">
         <p>
           By completing this listing you allow this AutoMarket collection to manage the exchange of your NFTs
-          <a class="link" href={explorerCollectionUrl(nft.chainId, nft.address)} title={nft.address} target="_blank">
-            {nft.address}
+          <a class="link" href={explorerCollectionUrl(chainId, address)} title={address} target="_blank">
+            {address}
           </a>
         </p>
       </div>
@@ -146,7 +171,7 @@
   <div class="txtright">
     <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm()}>Complete Listing</button>
     <button
-      class="btn btn-default {Number(tokenNewPrice) == 0 && nft.price.gt(0) ? 'btn-remove-red' : 'btn-remove'}"
+      class="btn btn-default {Number(tokenNewPrice) == 0 && $nft.price?.gt(0) ? 'btn-remove-red' : 'btn-remove'}"
       type="submit"
       on:click={() => setPriceZeroConfirm()}>Remove</button
     >
@@ -157,7 +182,7 @@
   <div class="titre">
     <p>
       <i class="fas fa-sync fa-left c-green" />Setting NFT price to {tokenNewPrice}
-      {getCurrency(nft.chainId)}...
+      {getCurrency(chainId)}...
     </p>
   </div>
 {/if}
@@ -171,16 +196,16 @@
 {#if tokenPriceSetting == S4_PRICE_SETTED}
   <div class="titre">
     <p>
-      <i class="fas fa-check fa-left c-green" /> NFT #{nft.tokenID} Price setted to {tokenNewPrice}
-      {getCurrency(nft.chainId)} !
+      <i class="fas fa-check fa-left c-green" /> NFT #{tokenID} Price setted to {tokenNewPrice}
+      {getCurrency(chainId)} !
     </p>
   </div>
-  <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : nft?.price} />
+  <IncomesPreview {chainId} {address} {tokenID} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : $nft?.price} />
 {/if}
 
 {#if tokenSetPriceTxHash}
   <div class="flex">
-    <a class="link" href={explorerTxUrl(nft.chainId, tokenSetPriceTxHash)} target="_blank"
+    <a class="link" href={explorerTxUrl(chainId, tokenSetPriceTxHash)} target="_blank"
       >{textShort(tokenSetPriceTxHash)}</a
     >
   </div>

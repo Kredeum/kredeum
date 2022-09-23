@@ -181,7 +181,13 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, utils.parseEther(nftFuturPrice) || 0);
+    mintingTxResp = await nftMint(
+      chainId,
+      address,
+      storageJson,
+      $metamaskSigner,
+      utils.parseEther(nftFuturPrice || "0")
+    );
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -327,7 +333,7 @@
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big">royalties</span>
-                    <span class="kre-market-info-value label-big">{collection.royaltyFee / 100} %</span>
+                    <!-- <span class="kre-market-info-value label-big">{collection.royaltyFee / 100} %</span> -->
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">royalties receiver</span>

@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/ktypes";
-
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
@@ -8,10 +6,12 @@
   import { getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
 
   /////////////////////////////////////////////////
-  //  <NftSell {nft} />
+  //  <NftSell {chainId} {address} {tokenID} />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
-  export let nft: NftType;
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
   /////////////////////////////////////////////////
 
   let open = false;
@@ -28,14 +28,14 @@
 
           <div class="modal-body">
             <div>
-              <NftSetPrice {nft} />
+              <NftSetPrice {chainId} {address} {tokenID} />
 
-              {#if getOpenSea(nft.chainId)}
+              {#if getOpenSea(chainId)}
                 <div class="kre-modal-block">
                   <div class="txtright">
                     <!-- {#if addressSame(nft.owner, $metamaskAccount)} -->
                     <a
-                      href={nftOpenSeaUrl(nft.chainId, nft)}
+                      href={nftOpenSeaUrl(chainId, { chainId: chainId, address: address, tokenID: tokenID })}
                       class="btn btn-small btn-sell"
                       title="Sell"
                       target="_blank"

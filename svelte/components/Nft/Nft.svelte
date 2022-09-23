@@ -48,7 +48,7 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    if (!$nft.collection?.supports) {
+    if (!$nft?.collection?.supports) {
       await nftStore.refreshSubList(chainId, address, account);
     }
 
@@ -83,9 +83,9 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell nft={$nft} />
+            <NftSell {chainId} {address} {tokenID} />
           {:else}
-            <NftBuy nft={$nft} />
+            <NftBuy {chainId} {address} {tokenID} />
           {/if}
         {/if}
       </div>
@@ -147,8 +147,8 @@
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
-                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {utils.formatEther($nft.price)}
+                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price || 0)} target="_blank">
+                    {utils.formatEther($nft.price || 0)}
                     {getCurrency(chainId)}
                   </span>
                 </div>

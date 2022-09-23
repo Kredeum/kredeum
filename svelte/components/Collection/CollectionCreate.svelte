@@ -10,7 +10,7 @@
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
-  import { metamaskSigner } from "@main/metamask";
+  import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputEther from "../Global/InputEther.svelte";
@@ -129,11 +129,11 @@
   const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
 
   const _cloneConfirm = async () => {
-    if (
-      (_validAddressNotZero(inputReceiver) && !_validFeeNotZero(inputFee)) ||
-      (!_validAddressNotZero(inputReceiver) && _validFeeNotZero(inputFee))
-    )
-      return _cloneError("Royalties amount and Royalty receiver must be declared together");
+    // if (
+    //   (_validAddressNotZero(inputReceiver) && !_validFeeNotZero(inputFee)) ||
+    //   (!_validAddressNotZero(inputReceiver) && _validFeeNotZero(inputFee))
+    // )
+    //   return _cloneError("Royalties amount and Royalty receiver must be declared together");
 
     cloning = S2_SIGN_CLONE_TX;
     const cloneTxRespYield = collectionClone(
@@ -142,8 +142,8 @@
       collectionSymbol,
       template,
       $metamaskSigner,
-      ethers.utils.parseEther(inputPrice) || 0,
-      inputReceiver || constants.AddressZero,
+      ethers.utils.parseEther(inputPrice || "0"),
+      inputReceiver || $metamaskAccount,
       Math.round((Number(inputFee) || 0) * 100)
     );
     //   defaultPrice: BigNumber = BigNumber.from(0),
@@ -186,7 +186,7 @@
       collectionName = "";
       collectionSymbol = "";
       inputPrice = "";
-      inputFee = "0";
+      inputFee = "";
       inputReceiver = "";
       cloneError = null;
       cloning = S1_CONFIRM;
@@ -251,7 +251,7 @@
                 <input
                   type="text"
                   class=" kre-field-outline"
-                  placeholder="Ethereum receiver address"
+                  placeholder={$metamaskAccount}
                   bind:value={inputReceiver}
                   id="royalties-reveiver-nft"
                 />
@@ -316,11 +316,11 @@
               <p><i class="fas fa-exclamation-triangle fa-left c-red" />{cloneError}</p>
             </div>
           </div>
-          <div class="txtright">
+          <!-- <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={_resetError}
               ><i class="fas fa-chevron-left fa-left" />Back</button
             >
-          </div>
+          </div> -->
         {/if}
       </div>
     </div>
