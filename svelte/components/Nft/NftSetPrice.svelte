@@ -22,7 +22,6 @@
   export let nft: NftType;
   /////////////////////////////////////////////////
 
-  // let collectionApproved;
   let collectionApproved: boolean = false;
   let tokenNewPrice: string;
 
@@ -68,11 +67,6 @@
     tokenSetPriceTxHash = null;
 
     tokenPriceSetting = S1_CONFIRM;
-
-    // collectionApproved = await isApprovedForAll(nft.chainId, nft.address, nft.collection.owner, $metamaskSigner);
-    // collectionApproved = [...nft.collection?.approvedForAll].filter(
-    //   (approved) => approved[0] === $metamaskAccount
-    // )[0][1];
 
     if (nft.price.gt(0)) tokenNewPrice = utils.formatEther(nft.price);
   };
@@ -131,7 +125,7 @@
   </div>
 
   <div class="section">
-    <InputEther chainId={nft.chainId} bind:inputPrice={tokenNewPrice} nftPrice={nft.price.toString()} />
+    <InputEther chainId={nft.chainId} bind:inputPrice={tokenNewPrice} />
   </div>
 
   <IncomesPreview {nft} price={tokenNewPrice ? utils.parseEther(tokenNewPrice) : nft?.price} />

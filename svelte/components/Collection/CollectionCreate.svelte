@@ -35,7 +35,7 @@
 
   let cloningTxHash: string = null;
 
-  let inputPrice: string = "0";
+  let inputPrice: string = "";
   let inputFee: string = "";
   let inputReceiver: string;
 
@@ -262,7 +262,7 @@
           {#if template === "OpenAutoMarket/generic"}
             <div class="section">
               <div class="titre">Mint price ({getCurrency(chainId)})</div>
-              <InputEther {chainId} bind:inputPrice nftPrice={"0"} />
+              <InputEther {chainId} bind:inputPrice />
               <!-- <div class="form-field">
               <input
                 type="text"

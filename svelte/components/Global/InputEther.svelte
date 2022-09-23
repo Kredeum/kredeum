@@ -1,16 +1,13 @@
 <script lang="ts">
-  import { utils } from "ethers";
-
   import { getCurrency } from "@lib/common/kconfig";
 
   /////////////////////////////////////////////////
-  //  <InputEther {input} />
+  //  <InputEther {chainId} {input} />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
-  // export let etherParsed = "";
   export let chainId: number;
   export let inputPrice = "";
-  export let nftPrice = "";
+  /////////////////////////////////////////////////
 
   let inputError: string;
 
@@ -22,10 +19,6 @@
 
     inputPrice = price;
   }
-
-  $: if (nftPrice) {
-    Number(nftPrice) > 0 ? (inputPrice = utils.formatEther(nftPrice)) : (inputPrice = "");
-  }
 </script>
 
 <div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>
@@ -34,7 +27,7 @@
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
-    placeholder={utils.formatEther(nftPrice) || "0"}
+    placeholder={inputPrice || "0"}
     style={`--input-padding:${getCurrency(chainId).length};`}
   />
 </div>

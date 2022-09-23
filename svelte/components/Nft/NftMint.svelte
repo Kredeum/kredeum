@@ -52,7 +52,7 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
-  let nftPrice = "";
+  let nftFuturPrice = "";
 
   /////////////////////////////////////////////////
   let storageImg: string;
@@ -181,7 +181,7 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, BigNumber.from(nftPrice || 0));
+    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, utils.parseEther(nftFuturPrice) || 0);
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -322,7 +322,7 @@
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">mint price</span>
                     <span class="kre-market-info-value label-big kre-no-wrap-title"
-                      >{utils.formatEther(collection?.price)} ({getCurrency(chainId)})</span
+                      >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
                     >
                   </div>
                   <div>
@@ -347,7 +347,7 @@
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
                 <div class="kre-section-small">
                   <span class="titre">NFT price</span>
-                  <InputEther {chainId} bind:inputPrice={nftPrice} nftPrice={"0"} />
+                  <InputEther {chainId} bind:inputPrice={nftFuturPrice} />
                 </div>
               {/if}
 
