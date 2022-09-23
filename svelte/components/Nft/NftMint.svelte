@@ -333,7 +333,7 @@
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big">royalties</span>
-                    <!-- <span class="kre-market-info-value label-big">{collection.royaltyFee / 100} %</span> -->
+                    <span class="kre-market-info-value label-big">{collection.royaltyFee / 100} %</span>
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">royalties receiver</span>

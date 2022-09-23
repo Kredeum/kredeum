@@ -41,9 +41,6 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    // if (!$nft.collection?.supports) {
-    //   await nftStore.refreshSubList(chainId, address, $nft.owner);
-    // }
 
     // ACTION : async refresh Nft
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);

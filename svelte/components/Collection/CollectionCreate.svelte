@@ -61,10 +61,10 @@
     cloning = 0;
   };
 
-  const _resetError = (): void => {
-    _cloneInit();
-    cloneError = null;
-  };
+  // const _resetError = (): void => {
+  //   _cloneInit();
+  //   cloneError = null;
+  // };
 
   // CREATING STATES
   //
@@ -125,8 +125,8 @@
   };
 
   const _validFee = (fee: string): boolean => Number(fee) >= 0 && Number(fee) <= 10000;
-  const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
-  const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
+  // const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
+  // const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
 
   const _cloneConfirm = async () => {
     // if (
