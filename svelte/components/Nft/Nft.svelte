@@ -24,8 +24,6 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
-  // import NftSetRoyalties from "./NftSetRoyalties.svelte";
-
   // import NftClaim from "./NftClaim.svelte";
 
   /////////////////////////////////////////////////
@@ -48,12 +46,9 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    if (!$nft.collection?.supports) {
-      await nftStore.refreshSubList(chainId, address, account);
-    }
 
     // ACTION : async refresh Nft
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
   $: console.info("Nft", $nft);
@@ -83,9 +78,16 @@
 
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell nft={$nft} />
+            <NftSell {chainId} {address} {tokenID} />
           {:else}
-            <NftBuy nft={$nft} />
+            <NftBuy
+              {chainId}
+              {address}
+              {tokenID}
+              nftPrice={$nft.price}
+              nftOwner={$nft.owner}
+              nftRoyalty={$nft.royalty}
+            />
           {/if}
         {/if}
       </div>
@@ -147,47 +149,37 @@
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
-                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price)} target="_blank">
-                    {utils.formatEther($nft.price)}
+                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price || 0)} target="_blank">
+                    {utils.formatEther($nft.price || 0)}
                     {getCurrency(chainId)}
                   </span>
                 </div>
               </li>
             {/if}
-            {#if $nft.royaltyFee}
+            {#if $nft.royalty}
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royaltyFee == 0}
+                  {#if $nft.royalty.fee == 0}
                     <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
                   {:else}
-                    <span class="link overflow-ellipsis" title={`${$nft.royaltyFee / 100} %`} target="_blank">
-                      {$nft.royaltyFee / 100} %
+                    <span class="link overflow-ellipsis" title={`${$nft.royalty.fee / 100} %`} target="_blank">
+                      {$nft.royalty.fee / 100} %
                     </span>
                   {/if}
                 </div>
               </li>
-            {/if}
-            {#if $nft.royaltyAccount}
+
               <li>
                 <div class="flex"><span class="label">Nft Royalties receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {#if $nft.royaltyAccount === constants.AddressZero}
+                    {#if $nft.royalty.account === constants.AddressZero}
                       "No receiver setted for Royalties"
                     {:else}
-                      {@html explorerAddressLink(chainId, $nft.royaltyAccount, 15)}
+                      {@html explorerAddressLink(chainId, $nft.royalty.account, 15)}
                     {/if}
                   </span>
-                  <!-- {#if $nft.owner === account && $nft.collection?.supports?.IOpenMarketable && $nft.royaltyFee == 0 && $nft.royaltyAccount === constants.AddressZero}
-                    <NftSetRoyalties
-                      {chainId}
-                      {address}
-                      {tokenID}
-                      nftRoyaltyFee={$nft.royaltyFee}
-                      receiver={$nft.royaltyAccount}
-                    />
-                  {/if} -->
                 </div>
               </li>
             {/if}

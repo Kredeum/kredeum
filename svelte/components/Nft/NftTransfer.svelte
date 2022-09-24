@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { onMount } from "svelte";
+  import { onMount, getContext } from "svelte";
+  import { Writable } from "svelte/store";
 
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
@@ -15,6 +16,12 @@
   export let address: string;
   export let tokenID: string;
   /////////////////////////////////////////////////
+
+  // Context for refreshCollectionList & refreshNftsList
+  ///////////////////////////////////////////////////////////
+  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  ///////////////////////////////////////////////////////////
 
   let transfering: number;
   let transferTxHash: string;
@@ -82,6 +89,9 @@
     transfering = S4_TRANSFERED;
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
+
+    $refreshCollectionList += 1;
+    $refreshNftsList += 1;
   };
 
   onMount(() => {

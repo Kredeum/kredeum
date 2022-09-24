@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
 
-  import { constants, ethers, utils } from "ethers";
+  import { BigNumber } from "ethers";
 
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
@@ -10,10 +10,10 @@
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
-  import { metamaskSigner } from "@main/metamask";
+  import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import InputEther from "../Global/InputEther.svelte";
+  import InputPrice from "../Global/InputPrice.svelte";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate chainId collection
@@ -35,7 +35,7 @@
 
   let cloningTxHash: string = null;
 
-  let inputPrice: string = "0";
+  let price: BigNumber;
   let inputFee: string = "";
   let inputReceiver: string;
 
@@ -43,15 +43,6 @@
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   ///////////////////////////////////////////////////////////
-
-  $: if (inputPrice) {
-    let price = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
-
-    do price = price.slice(0, -1);
-    while (price.split(".")[1]?.length > 18);
-
-    inputPrice = price;
-  }
 
   const dispatch = createEventDispatcher();
 
@@ -61,10 +52,10 @@
     cloning = 0;
   };
 
-  const _resetError = (): void => {
-    _cloneInit();
-    cloneError = null;
-  };
+  // const _resetError = (): void => {
+  //   _cloneInit();
+  //   cloneError = null;
+  // };
 
   // CREATING STATES
   //
@@ -124,16 +115,8 @@
     cloning = S1_CONFIRM;
   };
 
-  const _validFee = (fee: string): boolean => Number(fee) >= 0 && Number(fee) <= 10000;
-  const _validFeeNotZero = (fee: string): boolean => _validFee(fee) && Number(fee) > 0;
-  const _validAddressNotZero = (addr: string): boolean => utils.isAddress(addr) && addr != constants.AddressZero;
-
+ 
   const _cloneConfirm = async () => {
-    if (
-      (_validAddressNotZero(inputReceiver) && !_validFeeNotZero(inputFee)) ||
-      (!_validAddressNotZero(inputReceiver) && _validFeeNotZero(inputFee))
-    )
-      return _cloneError("Royalties amount and Royalty receiver must be declared together");
 
     cloning = S2_SIGN_CLONE_TX;
     const cloneTxRespYield = collectionClone(
@@ -142,13 +125,10 @@
       collectionSymbol,
       template,
       $metamaskSigner,
-      ethers.utils.parseEther(inputPrice) || 0,
-      inputReceiver || constants.AddressZero,
+      price,
+      inputReceiver || $metamaskAccount,
       Math.round((Number(inputFee) || 0) * 100)
     );
-    //   defaultPrice: BigNumber = BigNumber.from(0),
-    // receiver: string = constants.AddressZero,
-    // fee: BigNumber = BigNumber.from(0)
 
     const cloneTxResp = (await cloneTxRespYield.next()).value;
 
@@ -185,8 +165,8 @@
       collectionCreated = null;
       collectionName = "";
       collectionSymbol = "";
-      inputPrice = "";
-      inputFee = "0";
+      price = BigNumber.from(0);
+      inputFee = "";
       inputReceiver = "";
       cloneError = null;
       cloning = S1_CONFIRM;
@@ -251,7 +231,7 @@
                 <input
                   type="text"
                   class=" kre-field-outline"
-                  placeholder="Ethereum receiver address"
+                  placeholder={$metamaskAccount}
                   bind:value={inputReceiver}
                   id="royalties-reveiver-nft"
                 />
@@ -262,16 +242,7 @@
           {#if template === "OpenAutoMarket/generic"}
             <div class="section">
               <div class="titre">Mint price ({getCurrency(chainId)})</div>
-              <InputEther {chainId} bind:inputPrice nftPrice={"0"} />
-              <!-- <div class="form-field">
-              <input
-                type="text"
-                class=" kre-field-outline"
-                placeholder="0"
-                bind:value={inputPrice}
-                id="mint-price-nft"
-              />
-            </div> -->
+              <InputPrice {chainId} bind:price />
             </div>
           {/if}
 
@@ -315,11 +286,6 @@
             <div class="form-field kre-warning-msg">
               <p><i class="fas fa-exclamation-triangle fa-left c-red" />{cloneError}</p>
             </div>
-          </div>
-          <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={_resetError}
-              ><i class="fas fa-chevron-left fa-left" />Back</button
-            >
           </div>
         {/if}
       </div>

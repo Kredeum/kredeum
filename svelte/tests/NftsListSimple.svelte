@@ -9,8 +9,8 @@
   export let address: string;
   export let account: string = undefined;
 
-  let i = 1;
-  let j = 1;
+  // let i = 1;
+  // let j = 1;
   let nfts: Readable<Map<string, NftType>>;
   let refreshing: boolean;
 

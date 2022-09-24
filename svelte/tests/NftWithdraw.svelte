@@ -12,8 +12,8 @@
   import { setTokenPrice } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
-  //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />
-  // Set Approval parameter for NFT
+  //  <NftWithDraw {chainId} {address} {tokenID} />
+  // Withdraw approval
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;

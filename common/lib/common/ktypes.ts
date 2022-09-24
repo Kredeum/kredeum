@@ -43,6 +43,12 @@ type NetworkType = {
   eip1559?: boolean;
 };
 
+type ReceiverType = {
+  account?: string;
+  fee?: number;
+  minimum?: BigNumber;
+};
+
 type CollectionType = {
   chainId: number;
   address: string;
@@ -59,9 +65,7 @@ type CollectionType = {
   version?: number;
   template?: string;
   open?: boolean;
-  royaltyAccount?: string;
-  royaltyFee?: number;
-  royaltyMinimum?: BigNumber;
+  royalty?: ReceiverType;
   price?: BigNumber;
 };
 
@@ -157,19 +161,18 @@ type NftType = {
   minter?: string;
   nid?: string;
   contentType?: string;
-  royaltyAccount?: string;
-  royaltyFee?: number;
-  royaltyMinimum?: BigNumber;
+  royalty?: ReceiverType;
   price?: BigNumber;
   collection?: CollectionType;
 } & storageType;
 
 export type {
-  NftType,
-  AbiType,
   NetworkType,
-  NetworkWriteableFieldsType,
+  NftType,
   CollectionType,
+  ReceiverType,
+  AbiType,
+  NetworkWriteableFieldsType,
   Address,
   CollectionSupports,
   ABIS,

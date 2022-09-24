@@ -9,6 +9,7 @@ import { BigNumber, BigNumberish, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
+import { ReceiverType } from "@lib/common/ktypes";
 
 const getNftPrice = async (
   chainId: number,
@@ -25,14 +26,31 @@ const getNftPrice = async (
   return price;
 };
 
+const getNftRoyalty = async (
+  chainId: number,
+  address: string,
+  tokenID: string,
+  signerOrProvider: Signer | Provider
+): Promise<ReceiverType> => {
+  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+
+  if (!collection.supports?.IOpenMarketable) return { account: constants.AddressZero, fee: 0 };
+
+  const receiver = await (contract as IOpenMarketable).getTokenRoyalty(tokenID);
+
+  return { account: receiver.account, fee: Number(receiver.fee), minimum: receiver.minimum };
+};
+
+// EIP-2981 royaltyInfo : https://eips.ethereum.org/EIPS/eip-2981
 const getNftRoyaltyInfo = async (
   chainId: number,
   address: string,
   tokenID: string,
   nftPrice: string,
   signerOrProvider: Signer | Provider
-): Promise<{ receiver: string; royaltyAmount: BigNumber } | undefined> => {
+): Promise<{ receiver: string; royaltyAmount: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+
   if (!collection.supports?.IOpenMarketable)
     return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
 
@@ -264,6 +282,7 @@ async function* setDefautCollectionRoyalty(
 
 export {
   getNftPrice,
+  getNftRoyalty,
   getNftRoyaltyInfo,
   getDefaultCollPrice,
   getDefaultCollRoyaltyInfos,

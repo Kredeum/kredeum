@@ -11,6 +11,7 @@ import { factoryGetTemplateAddress } from "@lib/common/kfactory-get";
 import networks from "@config/networks.json";
 import config from "@config/config.json";
 
+const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
@@ -440,8 +441,8 @@ const nftsBalanceAndName = (collection: CollectionType, account: string): string
 const nftExplorerLink = (nft: NftType, n?: number): string =>
   urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftOpenSeaUrl = (chainId: number, nft: NftType): string =>
-  `${getOpenSea(chainId)}/${nft?.address}/${nft?.tokenID}`;
+const nftOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
 
 const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
 
@@ -544,6 +545,7 @@ export {
   textShort,
   urlToLink,
   config,
+  MAX_FEE,
   DEFAULT_NAME,
   DEFAULT_SYMBOL,
   SWARM_GATEWAY

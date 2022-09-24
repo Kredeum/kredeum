@@ -79,13 +79,15 @@ const nftMint = async (
   let txResp: TransactionResponse | undefined;
 
   if (collection.supports?.IOpenMarketable) {
-    const value = collection.open ? collection.price : 0;
+    const notMine = collection.owner != (await minter.getAddress());
+    const value = collection.open && notMine ? collection.price : 0;
+
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,
       tokenURI,
       price,
-      collection.royaltyAccount || constants.AddressZero,
-      collection.royaltyFee || 0,
+      collection.royalty?.account || constants.AddressZero,
+      collection.royalty?.fee || 0,
       { value, type: 2 }
     );
   } else if (collection.supports?.IOpenNFTsV4) {

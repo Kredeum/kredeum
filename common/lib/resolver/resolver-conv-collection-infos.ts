@@ -1,6 +1,6 @@
 import { constants, BigNumber } from "ethers";
 
-import type { CollectionType } from "@lib/common/ktypes";
+import type { CollectionType, ReceiverType } from "@lib/common/ktypes";
 import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/kconfig";
 import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
 
@@ -45,6 +45,7 @@ const resolverConvOpenNFTsCollectionInfos = (
   // console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
   const collection = resolverConvCollectionInfos(chainId, collectionInfos[0], account);
+  const royalty: ReceiverType = {};
 
   const collectionOpenNFTsInfos = collectionInfos[1];
 
@@ -61,13 +62,15 @@ const resolverConvOpenNFTsCollectionInfos = (
   if (price.gt(0)) collection.price = price;
 
   const royaltyAccount = collectionOpenNFTsInfos[4][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) collection.royaltyAccount = royaltyAccount;
+  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(collectionOpenNFTsInfos[4][1]);
-  if (royaltyFee > 0) collection.royaltyFee = royaltyFee;
+  if (royaltyFee > 0) royalty.fee = royaltyFee;
 
   const royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
-  if (royaltyMinimum.gt(0)) collection.royaltyMinimum = royaltyMinimum;
+  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+
+  if (Object.keys(royalty).length > 0) collection.royalty = royalty;
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
   return collection;

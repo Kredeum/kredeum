@@ -16,7 +16,6 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
   import CollectionList from "../Collection/CollectionList.svelte";
-  // import CollectionListSimple from "../../tests/CollectionListSimple.svelte";
 
   import { urlHash2RefNFT } from "@helpers/urlHash";
   import type { RefNFT } from "@helpers/refNft";

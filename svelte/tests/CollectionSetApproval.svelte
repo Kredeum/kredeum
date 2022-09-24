@@ -57,13 +57,10 @@
 
   const collectionApproveInit = async () => {
     collectionApproveTxHash = null;
+
     approvedForAll = await isApprovedForAll(chainId, address, $metamaskAccount, $metamaskProvider);
 
-    if (approvedForAll) {
-      collectionApproving = S4_APPROVEDED;
-    } else {
-      collectionApproving = S1_CONFIRM;
-    }
+    collectionApproving = approvedForAll ? S4_APPROVEDED : S1_CONFIRM;
   };
 
   onMount(() => {

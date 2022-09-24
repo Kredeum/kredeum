@@ -57,14 +57,11 @@
 
   const tokenApproveInit = async () => {
     tokenApproveTxHash = null;
+
     approved = await getApproved(chainId, address, tokenID, $metamaskProvider);
     const approvedForAll = await isApprovedForAll(chainId, address, $metamaskAccount, $metamaskProvider);
 
-    if (approved || approvedForAll) {
-      tokenApproving = S4_APPROVEDED;
-    } else {
-      tokenApproving = S1_CONFIRM;
-    }
+    tokenApproving = approved || approvedForAll ? S4_APPROVEDED : S1_CONFIRM;
   };
 
   onMount(() => {

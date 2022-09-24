@@ -24,8 +24,11 @@
   let burnTxHash: string;
   let burnError: string;
 
-  // Context for refreshCollectionList
+  // Context for refreshCollectionList & refreshNftsList
+  ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  ///////////////////////////////////////////////////////////
 
   const _burnError = (err: string): void => {
     burnError = err;
@@ -98,6 +101,7 @@
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
     $refreshCollectionList += 1;
+    $refreshNftsList += 1;
   };
 
   onMount(() => {

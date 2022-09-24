@@ -1,6 +1,6 @@
 import { BigNumber, constants } from "ethers";
 
-import type { NftType, CollectionType } from "@lib/common/ktypes";
+import type { NftType, CollectionType, ReceiverType } from "@lib/common/ktypes";
 import { getChainName, getChecksumAddress } from "@lib/common/kconfig";
 
 import { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/contracts/interfaces/IOpenNFTsResolver";
@@ -17,7 +17,7 @@ const resolverConvNftInfos = (
   const tokenID = String(nftInfos[0]);
   const tokenURI = nftInfos[1] || "";
   const chainName = getChainName(chainId) || "";
-  
+
   const nft: NftType = {
     chainId,
     address,
@@ -26,6 +26,7 @@ const resolverConvNftInfos = (
     chainName,
     collection
   };
+  const royalty: ReceiverType = {};
 
   const owner = getChecksumAddress(nftInfos[2]) || "";
   if (owner && owner != constants.AddressZero) nft.owner = owner;
@@ -34,16 +35,18 @@ const resolverConvNftInfos = (
   if (approved && approved != constants.AddressZero) nft.approved = approved;
 
   const royaltyAccount = openNFTsInfos[1][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) nft.royaltyAccount = royaltyAccount;  
+  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(openNFTsInfos[1][1]);
-  if (royaltyFee > 0) nft.royaltyFee = royaltyFee;
+  if (royaltyFee > 0) royalty.fee = royaltyFee;
 
   const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
-  if (royaltyMinimum.gt(0)) nft.royaltyMinimum = royaltyMinimum;
+  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
 
   const price = BigNumber.from(openNFTsInfos[0] || "0");
   if (price.gt(0)) nft.price = price;
+
+  if (Object.keys(royalty).length > 0) nft.royalty = royalty;
 
   // console.log("resolverConvNftInfos OUT", nft);
   return nft;

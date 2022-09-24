@@ -1,31 +1,35 @@
 <script lang="ts">
-  import { utils } from "ethers";
-
   import { getCurrency } from "@lib/common/kconfig";
+  import { BigNumber, utils } from "ethers";
+  import { formatEther } from "ethers/lib/utils";
+  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
-  //  <InputEther {input} />
+  //  <InputPrice {chainId} {price} />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
-  // export let etherParsed = "";
   export let chainId: number;
-  export let inputPrice = "";
-  export let nftPrice = "";
+  export let price: BigNumber = BigNumber.from(0);
+  /////////////////////////////////////////////////
 
   let inputError: string;
+  let inputPrice: string;
 
   $: if (inputPrice) {
-    let price = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
+    let tmpPrice = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
 
-    do price = price.slice(0, -1);
-    while (price.split(".")[1]?.length > 18);
+    do tmpPrice = tmpPrice.slice(0, -1);
+    while (tmpPrice.split(".")[1]?.length > 18);
 
-    inputPrice = price;
+    inputPrice = tmpPrice;
+    price = utils.parseEther(inputPrice);
   }
 
-  $: if (nftPrice) {
-    Number(nftPrice) > 0 ? (inputPrice = utils.formatEther(nftPrice)) : (inputPrice = "");
-  }
+  onMount(() => {
+    console.log("onMount ~ price", price);
+    inputPrice = formatEther(price);
+    console.log("onMount ~ inputPrice", inputPrice);
+  });
 </script>
 
 <div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>
@@ -34,10 +38,11 @@
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
-    placeholder={utils.formatEther(nftPrice) || "0"}
+    placeholder={inputPrice || "0"}
     style={`--input-padding:${getCurrency(chainId).length};`}
   />
 </div>
+
 {#if inputError}
   <span class="c-red">Please enter a valid price</span>
 {/if}

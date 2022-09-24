@@ -26,7 +26,7 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
-  import InputEther from "../Global/InputEther.svelte";
+  import InputPrice from "../Global/InputPrice.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />
@@ -52,7 +52,6 @@
   let image: string;
   let nftTitle: string = "";
   let nftDescription: string = "";
-  let nftPrice = "";
 
   /////////////////////////////////////////////////
   let storageImg: string;
@@ -64,6 +63,7 @@
   let mintingError: string;
   /////////////////////////////////////////////////
   let open = false;
+  let price: BigNumber;
 
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {};
@@ -181,7 +181,7 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, BigNumber.from(nftPrice || 0));
+    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, price);
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -215,7 +215,7 @@
 
           <div class="mint-modal-body">
             <div class="titre">
-              <i class="fas fa-plus fa-left c-green" />Mint NFT
+              <i class="fas fa-plus fa-left c-green" />Mint NFT ({minting})
             </div>
 
             {#if minting == S1_CONFIRM}
@@ -317,23 +317,23 @@
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
-              {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royaltyFee || 0)}
+              {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
                 <div class="section kre-mint-automarket">
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">mint price</span>
                     <span class="kre-market-info-value label-big kre-no-wrap-title"
-                      >{utils.formatEther(collection?.price)} ({getCurrency(chainId)})</span
+                      >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
                     >
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big">royalties</span>
-                    <span class="kre-market-info-value label-big">{collection.royaltyFee / 100} %</span>
+                    <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
                   </div>
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">royalties receiver</span>
                     <span class="kre-market-info-value label-big"
-                      ><a href={explorerAddressUrl(chainId, collection.royaltyAccount)} class="link"
-                        >{collection.royaltyAccount}</a
+                      ><a href={explorerAddressUrl(chainId, collection.royalty?.account)} class="link"
+                        >{collection.royalty?.account}</a
                       ></span
                     >
                   </div>
@@ -347,7 +347,7 @@
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
                 <div class="kre-section-small">
                   <span class="titre">NFT price</span>
-                  <InputEther {chainId} bind:inputPrice={nftPrice} nftPrice={"0"} />
+                  <InputPrice {chainId} bind:price />
                 </div>
               {/if}
 
