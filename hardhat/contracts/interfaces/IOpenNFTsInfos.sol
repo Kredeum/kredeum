@@ -9,6 +9,7 @@ interface IOpenNFTsInfos is IERCNftInfos, IOpenReceiverInfos {
         uint256 version;
         string template;
         bool open;
+        bool minimal;
         uint256 price;
         ReceiverInfos receiver;
     }

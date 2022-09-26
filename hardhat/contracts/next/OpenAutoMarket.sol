@@ -49,7 +49,6 @@ import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
 contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
-    bool public minimum;
 
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection

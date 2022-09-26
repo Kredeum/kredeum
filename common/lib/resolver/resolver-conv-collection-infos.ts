@@ -52,23 +52,23 @@ const resolverConvOpenNFTsCollectionInfos = (
   const open = collectionOpenNFTsInfos[2];
   if (open) collection.open = open;
 
+  const minimal = collectionOpenNFTsInfos[3];
+  if (minimal) collection.minimal = minimal;
+
   const version = Number(collectionOpenNFTsInfos[0]);
   if (version > 0) collection.version = version;
 
   const template = collectionOpenNFTsInfos[1] || "";
   if (template) collection.template = template;
 
-  const price = BigNumber.from(collectionOpenNFTsInfos[3] || 0);
+  const price = BigNumber.from(collectionOpenNFTsInfos[4] || 0);
   if (price.gt(0)) collection.price = price;
 
-  const royaltyAccount = collectionOpenNFTsInfos[4][0];
+  const royaltyAccount = collectionOpenNFTsInfos[5][0];
   if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
 
-  const royaltyFee = Number(collectionOpenNFTsInfos[4][1]);
+  const royaltyFee = Number(collectionOpenNFTsInfos[5][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;
-
-  const royaltyMinimum = BigNumber.from(collectionOpenNFTsInfos[4][2] || 0);
-  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
 
   if (Object.keys(royalty).length > 0) collection.royalty = royalty;
 

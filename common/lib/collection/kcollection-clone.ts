@@ -13,7 +13,8 @@ async function* collectionClone(
   cloner: JsonRpcSigner,
   mintPrice: BigNumberish = 0,
   royaltyReceiver: string = constants.AddressZero,
-  royaltyFee = 0
+  royaltyFee = 0,
+  minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${mintPrice.toString()}  ${royaltyFee}  `);
 
@@ -25,6 +26,8 @@ async function* collectionClone(
   const _symbol = symbol || `NFT#${n}`;
 
   const [template, conf] = templateConfig.split("/");
+  // console.log("template name", template);
+  // console.log("template conf", conf);
   let options: boolean[];
   let optionsBytes = "";
 
@@ -32,7 +35,8 @@ async function* collectionClone(
     options = [conf == "generic"];
     optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
   } else if (template == "OpenAutoMarket") {
-    options = [conf == "generic", false];
+    options = [conf == "generic", minimum];
+    // console.log("options", options);
     optionsBytes = utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
       [mintPrice, royaltyReceiver, royaltyFee, options]

@@ -1,5 +1,6 @@
 <script lang="ts">
   export let template = "OpenNFTsV4/ownable";
+  export let minRoyalty = false;
 
   let generic = false;
 
@@ -74,9 +75,18 @@
 
   <div class="section">
     <div class="form-field">
-      <input type="checkbox" class="" bind:checked={generic} /> I want my collection to be generic
+      <input type="checkbox" id="kre-coll-conf" class="" bind:checked={generic} />
+      <label for="kre-coll-conf">I want my collection to be generic</label>
     </div>
   </div>
+  {#if templateName(template) === "OpenAutoMarket"}
+    <div class="section">
+      <div class="form-field">
+        <input type="checkbox" id="kre-min-royalty" class="" bind:checked={minRoyalty} />
+        <label for="kre-min-royalty">With minimum royalty</label>
+      </div>
+    </div>
+  {/if}
 
   <div class="description">
     <p>

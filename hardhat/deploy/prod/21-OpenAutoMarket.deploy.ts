@@ -33,14 +33,20 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     nonce = await getNonce(deployer, contractName, "initialize");
     const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [0, deployer.address, 0, [true, false]]
+      [0, deployer.address, 0, [true, true]]
     );
     const optionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["bytes", "address", "uint96"],
       [subOptionsBytes, config.treasury.account, config.treasury.fee]
     );
 
-    await (await openAutoMarket.initialize("OpenAutoMarket", "OMKT", deployer.address, optionsBytes)).wait();
+    const txResp = await openAutoMarket.initialize("OpenAutoMarket", "OMKT", deployer.address, optionsBytes, {
+      gasLimit: 400_000
+    });
+    console.log(txResp.hash);
+
+    const txReceipt = await txResp.wait();
+    console.log(txReceipt.status);
 
     nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
