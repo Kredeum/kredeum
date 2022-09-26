@@ -83,8 +83,8 @@
     nftPrice = currentPrice;
     onSale = currentPrice.gt(0);
 
-    const approvedForAll =  $nft.collection?.approvedForAll;
-    collectionApproved =  approvedForAll.size > 0 ? approvedForAll.get($metamaskAccount) : false;
+    const approvedForAll = $nft.collection?.approvedForAll;
+    collectionApproved = approvedForAll.size > 0 ? approvedForAll.get($metamaskAccount) : false;
 
     tokenSetPriceInit();
   });
@@ -214,11 +214,6 @@
 {/if}
 
 <style>
-  .btn-remove-red {
-    opacity: 1;
-    background-color: red;
-  }
-
   .btn-remove {
     background-color: red;
     opacity: 0.3;

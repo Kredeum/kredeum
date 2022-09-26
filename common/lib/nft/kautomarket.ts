@@ -5,10 +5,10 @@ import type { IERC2981, IERC721 } from "@soltypes/index";
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber, BigNumberish, constants } from "ethers";
+import { BigNumber, BigNumberish, constants, utils } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerUrl, explorerTxLog } from "@lib/common/kconfig";
+import { explorerUrl, explorerTxLog, MAX_FEE } from "@lib/common/kconfig";
 import { ReceiverType } from "@lib/common/ktypes";
 
 const getNftPrice = async (
@@ -278,6 +278,12 @@ async function* setDefautCollectionRoyalty(
   yield await txResp.wait();
 }
 
+const getRoyaltyAmount = (fee = 0, price: BigNumber = BigNumber.from(0)): BigNumber =>
+  price.mul(Math.round(fee)).div(MAX_FEE);
+
+const max = (royaltyAmount: BigNumber, minimumRoyalty: BigNumber): BigNumber =>
+  royaltyAmount.gt(minimumRoyalty) ? royaltyAmount : minimumRoyalty;
+
 export {
   getNftPrice,
   getNftRoyalty,
@@ -292,5 +298,7 @@ export {
   setTokenApprove,
   setCollectionApproval,
   setTokenPrice,
-  getEthersConverterLink
+  getEthersConverterLink,
+  getRoyaltyAmount,
+  max
 };

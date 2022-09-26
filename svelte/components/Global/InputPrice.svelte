@@ -27,7 +27,7 @@
 
   onMount(() => {
     console.log("onMount ~ price", price);
-    inputPrice = formatEther(price);
+    inputPrice = price?.gt(0) ? formatEther(price) : "";
     console.log("onMount ~ inputPrice", inputPrice);
   });
 </script>

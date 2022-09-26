@@ -21,6 +21,7 @@
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
+  import { getRoyaltyAmount, max } from "@lib/nft/kautomarket";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
@@ -329,6 +330,16 @@
                     <span class="kre-market-info-title label-big">royalties</span>
                     <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
                   </div>
+                  {#if collection.royalty.minimum}
+                    <div>
+                      <span class="kre-market-info-title label-big">Royalty amount</span>
+                      <span class="kre-market-info-value label-big"
+                        >{max(getRoyaltyAmount(collection.royalty?.fee, price), collection.royalty.minimum)} ({getCurrency(
+                          chainId
+                        )})</span
+                      >
+                    </div>
+                  {/if}
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">royalties receiver</span>
                     <span class="kre-market-info-value label-big"

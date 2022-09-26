@@ -1,12 +1,13 @@
 <script lang="ts">
   import type { CollectionType } from "@lib/common/ktypes";
 
-  import { BigNumber } from "ethers";
+  import { BigNumber, utils } from "ethers";
 
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
 
   import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
+  import { getRoyaltyAmount } from "@lib/nft/kautomarket";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
 
   import { createEventDispatcher } from "svelte";
@@ -14,6 +15,7 @@
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
+  import { parseEther } from "ethers/lib/utils";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate chainId collection
@@ -24,6 +26,7 @@
   ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
+  let minRoyalty: boolean;
 
   let cloning: number;
   let cloneError: string;
@@ -115,9 +118,7 @@
     cloning = S1_CONFIRM;
   };
 
- 
   const _cloneConfirm = async () => {
-
     cloning = S2_SIGN_CLONE_TX;
     const cloneTxRespYield = collectionClone(
       chainId,
@@ -127,7 +128,8 @@
       $metamaskSigner,
       price,
       inputReceiver || $metamaskAccount,
-      Math.round((Number(inputFee) || 0) * 100)
+      Math.round((Number(inputFee) || 0) * 100),
+      minRoyalty
     );
 
     const cloneTxResp = (await cloneTxRespYield.next()).value;
@@ -173,6 +175,9 @@
     }
   };
 
+  const templateName = (template: string) => template?.split("/")[0];
+  const templateConf = (template: string) => template?.split("/")[1];
+
   onMount(() => {
     _cloneInit();
   });
@@ -189,7 +194,7 @@
 
       <div>
         {#if cloning == S1_CONFIRM}
-          <CollectionTemplates bind:template />
+          <CollectionTemplates bind:template bind:minRoyalty />
 
           <div class="titre">Name your Collection</div>
 
@@ -212,7 +217,7 @@
             </div>
           </div>
 
-          {#if template === "OpenAutoMarket/ownable" || template === "OpenAutoMarket/generic"}
+          {#if templateName(template) === "OpenAutoMarket"}
             <div class="section">
               <div class="titre">Royalties (%)</div>
               <div class="form-field">
@@ -239,11 +244,18 @@
             </div>
           {/if}
 
-          {#if template === "OpenAutoMarket/generic"}
+          {#if templateName(template) === "OpenAutoMarket" && (templateConf(template) === "generic" || minRoyalty)}
             <div class="section">
               <div class="titre">Mint price ({getCurrency(chainId)})</div>
               <InputPrice {chainId} bind:price />
             </div>
+            {#if minRoyalty}
+              <div class="section">
+                <div class="titre">Minimum Royalty ({getCurrency(chainId)})</div>
+                {utils.formatEther(getRoyaltyAmount(Number(inputFee) * 100, price))}
+                {getCurrency(chainId)}
+              </div>
+            {/if}
           {/if}
 
           <div class="txtright">
