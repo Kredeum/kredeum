@@ -120,6 +120,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
             (uint256, address, uint96, bool[])
         );
         open = options_[0];
+        minimum = options_[1];
 
         OpenNFTs._initialize(
             name_,
