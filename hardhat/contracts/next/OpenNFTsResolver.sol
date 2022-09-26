@@ -219,7 +219,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
 
         if (supported[_IOPEN_MARKETABLE]) {
             collInfos.receiver = IOpenMarketable(payable(collection)).getDefaultRoyalty();
-            collInfos.price = IOpenMarketable(payable(collection)).getDefaultPrice();
+            collInfos.price = IOpenMarketable(payable(collection)).getMintPrice();
         }
     }
 }

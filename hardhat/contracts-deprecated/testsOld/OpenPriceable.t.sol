@@ -38,10 +38,10 @@ contract OpenMarketableTest is OpenNFTsOldTest {
         assertEq(op.getTokenPrice(tokenID0), price);
     }
 
-    function testFailSetDefaultPriceTooExpensive(uint256 price) public {
+    function testFailSetMintPriceTooExpensive(uint256 price) public {
         vm.assume(price > 2**128);
         changePrank(owner);
-        op.setDefaultPrice(price);
+        op.setMintPrice(price);
     }
 
     function testFailSetTokenPriceTooExpensive(uint256 price) public {

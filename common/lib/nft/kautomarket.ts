@@ -66,9 +66,7 @@ const getDefaultCollPrice = async (
 ): Promise<BigNumber> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  return collection.supports?.IOpenMarketable
-    ? await (contract as IOpenMarketable).getDefaultPrice()
-    : BigNumber.from(0);
+  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : BigNumber.from(0);
 };
 
 const getDefaultCollRoyaltyInfos = async (
@@ -234,18 +232,18 @@ const getEthersConverterLink = (chainId: number, price: string) => {
 async function* setDefautCollectionPrice(
   chainId: number,
   address: string,
-  defaultPrice: BigNumber,
+  mintPrice: BigNumber,
   signer: Signer
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log("setDefautCollectionPrice", chainId, address, defaultPrice, signer);
-  if (!(chainId && address && defaultPrice && signer)) return;
+  // console.log("setDefautCollectionPrice", chainId, address, mintPrice, signer);
+  if (!(chainId && address && mintPrice && signer)) return;
 
   const { contract, collection } = await collectionGetContract(chainId, address, signer);
   // console.log("setDefautCollectionPrice", collection);
 
   if (!collection.supports?.IOpenMarketable) return;
 
-  const txResp = await (contract as OpenAutoMarket).setDefaultPrice(defaultPrice);
+  const txResp = await (contract as OpenAutoMarket).setMintPrice(mintPrice);
   explorerTxLog(chainId, txResp);
 
   yield txResp;

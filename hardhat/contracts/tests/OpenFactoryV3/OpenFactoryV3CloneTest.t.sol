@@ -46,7 +46,7 @@ abstract contract OpenFactoryV3CloneTest is Test, IOpenReceiverInfos {
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
         assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");
 
-        assertEq(OpenAutoMarket(payable(_clone)).getDefaultPrice(), 42000000000);
+        assertEq(OpenAutoMarket(payable(_clone)).getMintPrice(), 42000000000);
 
         ReceiverInfos memory receiver = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
         assertEq(receiver.account, _tester);

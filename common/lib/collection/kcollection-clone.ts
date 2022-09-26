@@ -11,11 +11,11 @@ async function* collectionClone(
   symbol: string,
   templateConfig: string,
   cloner: JsonRpcSigner,
-  defaultPrice: BigNumberish = 0,
+  mintPrice: BigNumberish = 0,
   royaltyReceiver: string = constants.AddressZero,
   royaltyFee = 0
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${defaultPrice.toString()}  ${royaltyFee}  `);
+  // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${mintPrice.toString()}  ${royaltyFee}  `);
 
   const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 
@@ -35,7 +35,7 @@ async function* collectionClone(
     options = [conf == "generic", false];
     optionsBytes = utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [defaultPrice, royaltyReceiver, royaltyFee, options]
+      [mintPrice, royaltyReceiver, royaltyFee, options]
     );
   } else {
     console.error("ERROR unknown template", template);

@@ -115,7 +115,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
             (bytes, address, uint96)
         );
 
-        (uint256 defaultPrice_, address receiver_, uint96 receiverFee_, bool[] memory options_) = abi.decode(
+        (uint256 mintPrice_, address receiver_, uint96 receiverFee_, bool[] memory options_) = abi.decode(
             subparams_,
             (uint256, address, uint96, bool[])
         );
@@ -125,7 +125,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
             name_,
             symbol_,
             owner_,
-            defaultPrice_,
+            mintPrice_,
             receiver_,
             receiverFee_,
             treasury_,
