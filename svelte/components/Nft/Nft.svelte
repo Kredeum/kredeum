@@ -15,6 +15,7 @@
     // addressSame,
     getCurrency
   } from "@lib/common/kconfig";
+  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -57,6 +58,8 @@
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
+
+  // $: console.log(utils.formatEther(getMinPrice($nft.royalty.minimum)));
 
   $: console.info("Nft", $nft);
 </script>

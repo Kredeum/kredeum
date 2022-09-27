@@ -30,15 +30,7 @@ async function* transferNft(
   if (collection.supports?.IOpenAutoMarket) {
     if (collection.minimal) {
       const [, minimumRoyalty] = await (contract as OpenAutoMarket).royaltyInfo(tokenID, BigNumber.from(0));
-
-      const transferFunction = contract["transfer(address,uint256)"] as {
-        (to: string, tokenID: BigNumber, paymentSent: { value: string }): Promise<TransactionResponse>;
-      };
-      console.log("🚀 ~ file: ktransfer.ts ~ line 36 ~ transferFunction ~ to", to);
-      console.log("🚀 ~ file: ktransfer.ts ~ line 36 ~ transferFunction ~ tokenID", tokenID);
-      console.log("🚀 ~ file: ktransfer.ts ~ line 41 ~ minimumRoyalty", minimumRoyalty.toString());
-
-      txResp = await transferFunction(to, BigNumber.from(tokenID), { value: minimumRoyalty.toString() });
+      txResp = await (contract as OpenAutoMarket).transfer(to, tokenID, { value: minimumRoyalty });
     } else {
       txResp = await (contract as IOpenAutoMarket).transfer(to, tokenID);
     }
