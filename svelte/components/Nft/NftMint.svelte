@@ -275,7 +275,7 @@
               </div>
 
               <div class="section">
-                <span class="titre">NFT file</span>
+                <div class="titre">NFT file</div>
                 <div class="box-file">
                   {#if image}
                     <div class="media media-photo">
@@ -289,8 +289,8 @@
                   {/if}
                 </div>
               </div>
-              <div class="kre-section-small">
-                <span class="titre">NFT title</span>
+              <div class="section">
+                <div class="titre">NFT title</div>
                 <div class="form-field">
                   <input
                     type="text"
@@ -301,8 +301,8 @@
                   />
                 </div>
               </div>
-              <div class="kre-section-small">
-                <span class="titre">NFT description</span>
+              <div class="section">
+                <div class="titre">NFT description</div>
                 <div class="form-field">
                   <input
                     type="text"
@@ -313,33 +313,47 @@
                   />
                 </div>
               </div>
-              <div class="kre-section-small kre-mint-collection">
-                <span class="titre">Add to an existing collection</span>
+              <div class="section kre-mint-collection">
+                <div class="titre">Add to an existing collection</div>
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
               {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
                 <div class="section kre-mint-automarket">
-                  <div>
-                    <span class="kre-market-info-title label-big kre-no-wrap-title">mint price</span>
-                    <span class="kre-market-info-value label-big kre-no-wrap-title"
-                      >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
-                    >
-                  </div>
-                  <div>
-                    <span class="kre-market-info-title label-big">royalties</span>
-                    <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
-                  </div>
-                  {#if collection.royalty.minimum}
+                  <div class="kre-flex">
                     <div>
-                      <span class="kre-market-info-title label-big">Royalty amount</span>
-                      <span class="kre-market-info-value label-big"
-                        >{bigNumberMax(getRoyaltyAmount(collection.royalty?.fee, price), collection.royalty.minimum)} ({getCurrency(
-                          chainId
-                        )})</span
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">mint price</span>
+                      <span class="kre-market-info-value label-big kre-no-wrap-title"
+                        >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
                       >
                     </div>
-                  {/if}
+                    <div>
+                      <span class="kre-market-info-title label-big">royalties</span>
+                      <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
+                    </div>
+                    <div>
+                      <span class="kre-market-info-title label-big">Royalty amount</span>
+                      <span class="kre-market-info-value label-big">
+                        {#if collection.minimal}
+                          {utils.formatEther(
+                            bigNumberMax(
+                              getRoyaltyAmount(collection.royalty?.fee, price || BigNumber.from(0)),
+                              getRoyaltyAmount(collection.royalty?.fee, collection.price)
+                            )
+                          )}
+                        {:else}
+                          utils.formatEther(getRoyaltyAmount(collection.royalty?.fee, price || BigNumber.from(0)))
+                        {/if}
+                        ({getCurrency(chainId)})
+                      </span>
+                    </div>
+                    <div class="kre-treasury-fee">
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">fees</span>
+                      <span class="kre-market-info-value label-big overflow-ellipsis"
+                        >{config.treasury.fee / 100} %</span
+                      >
+                    </div>
+                  </div>
                   <div>
                     <span class="kre-market-info-title label-big kre-no-wrap-title">royalties receiver</span>
                     <span class="kre-market-info-value label-big"
@@ -348,16 +362,12 @@
                       ></span
                     >
                   </div>
-                  <div>
-                    <span class="kre-market-info-title label-big kre-no-wrap-title">fees</span>
-                    <span class="kre-market-info-value label-big overflow-ellipsis">{config.treasury.fee / 100} %</span>
-                  </div>
                 </div>
               {/if}
 
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
-                <div class="kre-section-small">
-                  <span class="titre">NFT price</span>
+                <div class="section">
+                  <div class="titre">NFT price</div>
                   <InputPrice {chainId} bind:price />
                 </div>
               {/if}
@@ -503,26 +513,31 @@
   }
 
   .kre-mint-automarket {
-    display: flex;
     border: 1px solid #eaeff8;
     border-radius: 6px;
-    /* overflow: hidden; */
     width: 100%;
   }
 
-  .kre-mint-automarket div {
+  .kre-mint-automarket div.kre-flex div {
     padding: 20px;
-    max-width: 58%;
+    max-width: 25%;
     overflow: hidden;
     flex-grow: 1;
+    border-left: 1px solid #eaeff8;
   }
 
-  .kre-mint-automarket div:last-child {
+  .kre-mint-automarket div.kre-flex {
+    border-bottom: 1px solid #eaeff8;
+  }
+
+  .kre-treasury-fee {
     min-width: 5em;
   }
 
-  .kre-mint-automarket div:not(:first-of-type) {
-    border-left: 1px solid #eaeff8;
+  .kre-mint-automarket > div:last-child {
+    padding: 20px;
+    max-width: 58%;
+    overflow: hidden;
   }
 
   .kre-no-wrap-title {

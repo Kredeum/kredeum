@@ -15,7 +15,6 @@
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
-  import { parseEther } from "ethers/lib/utils";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate chainId collection
@@ -55,11 +54,6 @@
     cloning = 0;
   };
 
-  // const _resetError = (): void => {
-  //   _cloneInit();
-  //   cloneError = null;
-  // };
-
   // CREATING STATES
   //
   //  STATE 0 Start
@@ -77,29 +71,6 @@
   //    |
   //  STATE 4
   // Collection Created
-  //    |
-  //  STATE 5
-  // Ask for Price signature
-  //    |
-  //  TEST TxResp --> ERROR sending Price TX
-  //    |
-  //  STATE 6 Wait TX & display Price TX Hash
-  //    |
-  //  TEST TxReceipt --> ERROR inside Price TX
-  //    |
-  //  STATE 7
-  // Defaut collection price setted
-  //    |
-  //  STATE 8
-  // Ask for Royalties signature
-  //    |
-  //  TEST TxResp --> ERROR sending Royalties TX
-  //    |
-  //  STATE 9 Wait TX & display Royalties TX Hash
-  //    |
-  //  TEST TxReceipt --> ERROR inside Royalties TX
-  //    |
-  //  STATE 10 End TX & Refresh
   //    |
   //  CLICK Close
   //    |

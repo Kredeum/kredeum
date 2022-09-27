@@ -9,7 +9,7 @@
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice, validPrice } from "@lib/nft/kautomarket";
 
   import InputPrice from "../Global/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
@@ -32,10 +32,16 @@
   let tokenSetPriceTxHash: string;
   let tokenSetPriceError: string;
 
+  let inputError: string;
+
   const _tokenSetPriceError = (err: string): void => {
     tokenSetPriceError = err;
     console.error(tokenSetPriceError);
     tokenPriceSetting = 0;
+  };
+
+  const _inputPriceError = (err: string): void => {
+    inputError = err;
   };
 
   // TOKEN PRICE SETTING STATES
@@ -89,8 +95,11 @@
     tokenSetPriceInit();
   });
 
+  $: !validPrice(nftPrice, $nft?.royalty?.minimum) ? _inputPriceError("Price too low !") : (inputError = "");
+
   const setPriceConfirm = async (price: BigNumber) => {
-    if (price.eq(currentPrice)) return _tokenSetPriceError("Price unchanged !");
+    if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
+    if (!validPrice(price, $nft.royalty.minimum)) return _inputPriceError("Price too low !");
 
     const tokenSetPriceTxRespYield = setTokenPrice($nft.chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
@@ -124,11 +133,11 @@
   </div>
 
   <div class="section">
-    <InputPrice chainId={$nft.chainId} bind:price={nftPrice} />
+    <InputPrice chainId={$nft.chainId} bind:price={nftPrice} {inputError} />
   </div>
 
   <div class="section">
-    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} nftRoyalty={$nft.royalty} {nftPrice} />
+    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
   </div>
 
   {#if !collectionApproved}
@@ -193,7 +202,7 @@
   </div>
 
   <div class="section">
-    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} nftRoyalty={$nft.royalty} {nftPrice} />
+    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
   </div>
 {/if}
 

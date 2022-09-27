@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BigNumber, utils } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
@@ -107,11 +107,11 @@
 
 <a
   on:click={() => {
-    if (nftPrice.gt(0)) open = true;
+    if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal kre-disabled={nftPrice.eq(0)}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice.eq(0)} /> Buy</a
+  class="btn-buy-modal {constants.Zero.eq(nftPrice || 0) ? 'kre-disabled' : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> Buy</a
 >
 
 {#if open}

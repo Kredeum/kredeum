@@ -8,7 +8,7 @@ import { TransactionResponse, TransactionReceipt } from "@ethersproject/provider
 import { BigNumber, BigNumberish, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerUrl, explorerTxLog, MAX_FEE } from "@lib/common/kconfig";
+import { explorerUrl, explorerTxLog, MAX_FEE, config } from "@lib/common/kconfig";
 import { ReceiverType } from "@lib/common/ktypes";
 
 const getNftPrice = async (
@@ -281,6 +281,10 @@ async function* setDefautCollectionRoyalty(
 const getRoyaltyAmount = (fee = 0, price: BigNumber = BigNumber.from(0)): BigNumber =>
   price.mul(Math.round(fee)).div(MAX_FEE);
 
+const validPrice = (price: BigNumber = BigNumber.from(0), minRoyaltyAmount: BigNumber = BigNumber.from(0)) =>
+  constants.Zero.lte(price.sub(price.mul(config.treasury.fee).div(10000)).sub(minRoyaltyAmount)) ||
+  constants.Zero.eq(0);
+
 const bigNumberMax = (a: BigNumber, b: BigNumber): BigNumber => (a.gt(b) ? a : b);
 
 export {
@@ -299,5 +303,6 @@ export {
   setTokenPrice,
   getEthersConverterLink,
   getRoyaltyAmount,
+  validPrice,
   bigNumberMax
 };

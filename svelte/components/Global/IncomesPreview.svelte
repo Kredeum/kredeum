@@ -4,6 +4,7 @@
   import { BigNumber, constants, utils } from "ethers";
 
   import { config, getCurrency, MAX_FEE } from "@lib/common/kconfig";
+  import { bigNumberMax } from "@lib/nft/kautomarket";
 
   //////////////////////////////////////////////////////
   //  <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />
@@ -23,7 +24,11 @@
   $: if (nftPrice) {
     kredeumFeeAmount = nftPrice.mul(config.treasury.fee).div(10000);
 
-    if (nftRoyalty.fee) receiverFeeAmount = nftPrice.mul(nftRoyalty.fee).div(MAX_FEE);
+    if (nftRoyalty.fee)
+      receiverFeeAmount = bigNumberMax(
+        nftPrice.mul(nftRoyalty.fee).div(MAX_FEE),
+        nftRoyalty.minimum || BigNumber.from(0)
+      );
 
     sellerIncome = nftPrice.sub(kredeumFeeAmount.add(receiverFeeAmount));
   }
@@ -45,7 +50,12 @@
       <div>
         <p>
           {utils.formatEther(receiverFeeAmount || 0)}
-          {currency} ({nftRoyalty.fee / 100} %) royalties to creator
+          {currency} royalties to creator
+          {#if constants.Zero.lt(nftRoyalty.minimum || BigNumber.from(0))}
+            ( min {utils.formatEther(nftRoyalty.minimum || 0)} {currency} )
+          {:else}
+            ({nftRoyalty.fee / 100} %)
+          {/if}
         </p>
         <p>{nftRoyalty.account}</p>
       </div>

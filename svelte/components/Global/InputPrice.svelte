@@ -5,14 +5,14 @@
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
-  //  <InputPrice {chainId} {price} />
+  //  <InputPrice {chainId} {price} {inputError}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
   export let price: BigNumber = BigNumber.from(0);
+  export let inputError = "";
   /////////////////////////////////////////////////
 
-  let inputError: string;
   let inputPrice: string;
 
   $: if (inputPrice) {
@@ -44,7 +44,7 @@
 </div>
 
 {#if inputError}
-  <span class="c-red">Please enter a valid price</span>
+  <span class="c-red">{inputError}</span>
 {/if}
 
 <style>

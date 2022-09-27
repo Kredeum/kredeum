@@ -96,3 +96,30 @@
     </p>
   </div>
 </div>
+
+<style>
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+  }
+  input[type="checkbox"]:checked {
+    background-color: #3acf6e;
+    margin: 0px;
+    position: relative;
+  }
+  input[type="checkbox"]:checked:before {
+    font-family: "Font Awesome";
+    /* content: "X"; */
+    content: "\f00c";
+    display: block;
+    color: grey;
+    font-size: 13px;
+    position: absolute;
+  }
+</style>
