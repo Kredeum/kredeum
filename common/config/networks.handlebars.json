@@ -300,7 +300,7 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0x4f365Ecf6F7b3b8676C25bE8fE120C04C64B035f",
+    "openNFTs": "0xF0E95F2884C0Ff19051544b2b62BEd8169001a39",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
