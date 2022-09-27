@@ -43,10 +43,11 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const txResp = await openAutoMarket.initialize("OpenAutoMarket", "OMKT", deployer.address, optionsBytes, {
       gasLimit: 400_000
     });
-    console.log(txResp.hash);
+    // console.log(txResp.hash);
 
-    const txReceipt = await txResp.wait();
-    console.log(txReceipt.status);
+    await txResp.wait();
+    // const txReceipt = await txResp.wait();
+    // console.log(txReceipt.status);
 
     nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();

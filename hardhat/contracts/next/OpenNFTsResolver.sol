@@ -191,6 +191,8 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         if (supported[_IOPEN_MARKETABLE]) {
             nftInfos.receiver = IOpenMarketable(payable(collection)).getTokenRoyalty(tokenID);
             nftInfos.price = IOpenMarketable(payable(collection)).getTokenPrice(tokenID);
+        } else if (supported[_IERC_2981]) {
+            (nftInfos.receiver.account, ) = IERC2981(payable(collection)).royaltyInfo(tokenID, 1);
         }
     }
 
