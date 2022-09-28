@@ -3,20 +3,20 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../next/OpenFactoryV3.sol";
+import "../../next/OpenNFTsFactoryV3.sol";
 import "../../next/OpenNFTsResolver.sol";
 import "../../next/OpenNFTsV4.sol";
 import "../../next/OpenAutoMarket.sol";
 
 import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
-import "./OpenFactoryV3CloneTest.t.sol";
+import "./OpenNFTsFactoryV3CloneTest.t.sol";
 
-contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
-    function constructorTest(address owner) public override(ERC173Test, OpenFactoryV3CloneTest) returns (address) {
+contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
+    function constructorTest(address owner) public override(ERC173Test, OpenNFTsFactoryV3CloneTest) returns (address) {
         changePrank(owner);
 
         // FACTORY
-        OpenFactoryV3 factory = new OpenFactoryV3(owner, makeAddr("treasury"), 90);
+        OpenNFTsFactoryV3 factory = new OpenNFTsFactoryV3(owner, makeAddr("treasury"), 90);
 
         // RESOLVER
         OpenNFTsResolver resolver = new OpenNFTsResolver(owner, address(factory));
@@ -29,13 +29,18 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
 
         // TEMPLATE OpenNFTsV4
         OpenNFTsV4 _openNFTsV4 = new OpenNFTsV4();
-        _openNFTsV4.initialize("OpenNFTsV4 for OpenFactoryV3Test", "OPTEST", owner, abi.encode(abi.encode(options), address(0), 0));
+        _openNFTsV4.initialize(
+            "OpenNFTsV4 for OpenNFTsFactoryV3Test",
+            "OPTEST",
+            owner,
+            abi.encode(abi.encode(options), address(0), 0)
+        );
         factory.setTemplate("OpenNFTsV4", address(_openNFTsV4));
 
         // TEMPLATE OpenAutoMarket
         OpenAutoMarket _openAutoMarket = new OpenAutoMarket();
         IOpenCloneable(_openAutoMarket).initialize(
-            "OpenFactoryV3Test",
+            "OpenNFTsFactoryV3Test",
             "OPTESTOPTEST",
             owner,
             abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
@@ -47,6 +52,6 @@ contract OpenFactoryV3Test is ERC173Test, OpenFactoryV3CloneTest {
 
     function setUp() public {
         setUpERC173();
-        setUpOpenFactoryV3Clone();
+        setUpOpenNFTsFactoryV3Clone();
     }
 }

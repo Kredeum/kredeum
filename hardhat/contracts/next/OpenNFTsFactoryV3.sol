@@ -26,7 +26,7 @@
 //       |        |            |
 //       ———————————————————————
 //       |
-// OpenFactoryV3 —— IOpenFactoryV3
+// OpenNFTsFactoryV3 —— IOpenNFTsFactoryV3
 //
 pragma solidity ^0.8.9;
 
@@ -36,14 +36,14 @@ import "OpenNFTs/contracts/OpenCloner/OpenCloner.sol";
 import "OpenNFTs/contracts/interfaces/IERC165.sol";
 import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
 import "OpenNFTs/contracts/interfaces/IOpenRegistry.sol";
-import "../interfaces/IOpenFactoryV3.sol";
+import "../interfaces/IOpenNFTsFactoryV3.sol";
 import "../interfaces/IOpenNFTsV4.sol";
 import "../interfaces/IOpenAutoMarket.sol";
 
-/// @title OpenFactory smartcontract
+/// @title OpenNFTsFactoryV3 smartcontract
 /// @notice Factory for NFTs contracts: ERC721 or ERC1155
 /// @notice Create new NFTs Collections smartcontracts by cloning templates
-contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
+contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
     /// @notice Named Templates
 
     mapping(string => uint256) private _numTemplates;
@@ -72,7 +72,7 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
         string memory symbol,
         string memory templateName,
         bytes memory params
-    ) external override(IOpenFactoryV3) returns (address clone_) {
+    ) external override(IOpenNFTsFactoryV3) returns (address clone_) {
         clone_ = clone(template(templateName));
 
         IOpenCloneable(clone_).initialize(name, symbol, msg.sender, abi.encode(params, _treasury, _treasuryFee));
@@ -82,16 +82,16 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
         emit Clone(templateName, clone_, name, symbol);
     }
 
-    function countTemplates() external view override(IOpenFactoryV3) returns (uint256 count) {
+    function countTemplates() external view override(IOpenNFTsFactoryV3) returns (uint256 count) {
         count = templates.length;
     }
 
-    function setTreasury(address treasury_, uint96 treasuryFee_) public override(IOpenFactoryV3) onlyOwner {
+    function setTreasury(address treasury_, uint96 treasuryFee_) public override(IOpenNFTsFactoryV3) onlyOwner {
         _treasury = treasury_;
         _treasuryFee = treasuryFee_;
     }
 
-    function setResolver(address resolver_) public override(IOpenFactoryV3) onlyOwner {
+    function setResolver(address resolver_) public override(IOpenNFTsFactoryV3) onlyOwner {
         nftsResolver = resolver_;
 
         emit SetResolver(nftsResolver);
@@ -100,7 +100,7 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
     /// @notice Set Template by Name
     /// @param templateName_ Name of the template
     /// @param template_ Address of the template
-    function setTemplate(string memory templateName_, address template_) public override(IOpenFactoryV3) onlyOwner {
+    function setTemplate(string memory templateName_, address template_) public override(IOpenNFTsFactoryV3) onlyOwner {
         require(IERC165(template_).supportsInterface(type(IOpenCloneable).interfaceId), "Not OpenCloneable");
         require(IOpenCloneable(template_).initialized(), "Not initialized");
         require(template_.code.length != 45, "Clone not valid template");
@@ -121,13 +121,13 @@ contract OpenFactoryV3 is IOpenFactoryV3, OpenERC173, OpenCloner {
     }
 
     function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC173, OpenCloner) returns (bool) {
-        return interfaceId == type(IOpenFactoryV3).interfaceId || super.supportsInterface(interfaceId);
+        return interfaceId == type(IOpenNFTsFactoryV3).interfaceId || super.supportsInterface(interfaceId);
     }
 
     /// @notice Get Template
     /// @param  templateName : template name
     /// @return template_ : template address
-    function template(string memory templateName) public view override(IOpenFactoryV3) returns (address template_) {
+    function template(string memory templateName) public view override(IOpenNFTsFactoryV3) returns (address template_) {
         uint256 num = _numTemplates[templateName];
         require(num >= 1, "Invalid Template");
 

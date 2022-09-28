@@ -15,6 +15,7 @@
     // addressSame,
     getCurrency
   } from "@lib/common/kconfig";
+  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -46,6 +47,19 @@
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    ///////////////////////////////////////////////////////////////
+    // TODO Update nftstore.refreshOne to get collection supports ?
+    //
+    // REASON OF THIS FIX => on first direct Nft.svelte page load
+    // from hash in url, $nft.collection doesn't have supports.
+    //
+    // On second load, $nft.collection.supports are hydratated
+    ///////////////////////////////////////////////////////////////
+    if (!$nft?.collection?.supports) {
+      await nftStore.refreshSubList(chainId, address, account);
+    }
+    ///////////////////////////////////////////////////////////////
 
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
@@ -149,7 +163,15 @@
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
-                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price || 0)} target="_blank">
+                  <span
+                    class="overflow-ellipsis {$nft.royalty?.minimum &&
+                    $nft.price?.lt(getMinPrice($nft.royalty?.minimum)) &&
+                    !$nft.price?.eq(0)
+                      ? 'c-red'
+                      : ''}"
+                    title={ethers.utils.formatEther($nft.price || 0)}
+                    target="_blank"
+                  >
                     {utils.formatEther($nft.price || 0)}
                     {getCurrency(chainId)}
                   </span>
@@ -171,7 +193,7 @@
               </li>
 
               <li>
-                <div class="flex"><span class="label">Nft Royalties receiver</span></div>
+                <div class="flex"><span class="label">Nft Royalty receiver</span></div>
                 <div class="flex">
                   <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
                     {#if $nft.royalty.account === constants.AddressZero}

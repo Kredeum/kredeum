@@ -1,42 +1,58 @@
 <script lang="ts">
+  import { BigNumber, BigNumberish, constants, utils } from "ethers";
+  const { formatEther } = utils;
+  import { onMount } from "svelte";
+
   import { ReceiverType } from "@lib/common/ktypes";
+  import { config, getCurrency } from "@lib/common/kconfig";
+  import { getMax, getReceiverAmount } from "@lib/nft/kautomarket";
 
-  import { BigNumber, constants, utils } from "ethers";
-
-  import { config, getCurrency, MAX_FEE } from "@lib/common/kconfig";
-
-  //////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////
   //  <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />
   // Display NFT Price prepartion according to it price
-  //////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////
   export let chainId: number;
   export let nftOwner: string;
   export let nftPrice: BigNumber;
   export let nftRoyalty: ReceiverType;
-  //////////////////////////////////////////////////////
+  //////////////////////////////////////////////////////////////////////////
 
   let currency: string = getCurrency(chainId);
-  let sellerIncome: BigNumber = constants.Zero;
+  let minimal: boolean = false;
+
+  let sellerAmount: BigNumber = constants.Zero;
   let receiverFeeAmount: BigNumber = constants.Zero;
-  let kredeumFeeAmount: BigNumber = constants.Zero;
+  let treasuryFeeAmount: BigNumber = constants.Zero;
+  let minimalRoyaltyAmount: BigNumber = constants.Zero;
 
-  $: if (nftPrice) {
-    kredeumFeeAmount = nftPrice.mul(config.treasury.fee).div(10000);
+  const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${currency}`;
 
-    if (nftRoyalty.fee) receiverFeeAmount = nftPrice.mul(nftRoyalty.fee).div(MAX_FEE);
+  $: handleCalculation(nftPrice);
+  const handleCalculation = (price: BigNumberish): void => {
+    treasuryFeeAmount = getReceiverAmount(price, config.treasury.fee);
+    receiverFeeAmount = getReceiverAmount(price, nftRoyalty.fee);
 
-    sellerIncome = nftPrice.sub(kredeumFeeAmount.add(receiverFeeAmount));
-  }
+    minimal = minimalRoyaltyAmount.gt(receiverFeeAmount);
+    if (minimal) receiverFeeAmount = minimalRoyaltyAmount;
+
+    sellerAmount = BigNumber.from(price).sub(treasuryFeeAmount).sub(receiverFeeAmount);
+    sellerAmount = getMax(sellerAmount, 0);
+  };
+
+  onMount(() => {
+    nftPrice = BigNumber.from(nftPrice);
+
+    minimalRoyaltyAmount = BigNumber.from(nftRoyalty.minimum || 0);
+  });
 </script>
 
 <div>
-  <span class="label">Price of {utils.formatEther(nftPrice || 0)} {currency} splitted as follows</span>
+  <span class="label">Price of {displayEther(nftPrice)} splitted as follows</span>
   <ul class="steps">
     <li>
       <div>
-        <p>
-          {utils.formatEther(sellerIncome || 0)}
-          {currency} to seller
+        <p class={sellerAmount.lt(0) ? "c-red" : ""}>
+          {displayEther(sellerAmount)} to seller
         </p>
         <p>{nftOwner}</p>
       </div>
@@ -44,8 +60,12 @@
     <li>
       <div>
         <p>
-          {utils.formatEther(receiverFeeAmount || 0)}
-          {currency} ({nftRoyalty.fee / 100} %) royalties to creator
+          {displayEther(receiverFeeAmount)} royalty to receiver
+          {#if minimal}
+            (minimal royalty)
+          {:else}
+            ({nftRoyalty.fee / 100} %)
+          {/if}
         </p>
         <p>{nftRoyalty.account}</p>
       </div>
@@ -53,8 +73,7 @@
     <li>
       <div>
         <p>
-          {utils.formatEther(kredeumFeeAmount || 0)}
-          {currency} ({config.treasury.fee / 100} %) fees to Kredeum protocol
+          {displayEther(treasuryFeeAmount)} fee to protocol ({config.treasury.fee / 100} %)
         </p>
         <p />
       </div>

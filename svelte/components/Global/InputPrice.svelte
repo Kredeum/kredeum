@@ -5,14 +5,14 @@
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
-  //  <InputPrice {chainId} {price} />
+  //  <InputPrice {chainId} {price} {inputError}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
   export let price: BigNumber = BigNumber.from(0);
+  export let inputError = "";
   /////////////////////////////////////////////////
 
-  let inputError: string;
   let inputPrice: string;
 
   $: if (inputPrice) {
@@ -26,9 +26,7 @@
   }
 
   onMount(() => {
-    console.log("onMount ~ price", price);
-    inputPrice = price?.gt(0) ? formatEther(price) : "";
-    console.log("onMount ~ inputPrice", inputPrice);
+    inputPrice = price.gt(0) ? formatEther(price) : "0.0";
   });
 </script>
 
@@ -38,13 +36,13 @@
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
-    placeholder={inputPrice || "0"}
+    placeholder={inputPrice}
     style={`--input-padding:${getCurrency(chainId).length};`}
   />
 </div>
 
 {#if inputError}
-  <span class="c-red">Please enter a valid price</span>
+  <span class="c-red"><i class="fas fa-exclamation-triangle fa-left c-red" /> {inputError}</span>
 {/if}
 
 <style>

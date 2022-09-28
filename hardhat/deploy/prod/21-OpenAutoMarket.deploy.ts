@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
 import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
-import type { OpenFactoryV3 } from "@soltypes/contracts/next/OpenFactoryV3";
+import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
 import config from "@config/config.json";
@@ -28,7 +28,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     await setNetwork(network.name, "openNFTs", deployResult.address);
 
     const openAutoMarket: OpenAutoMarket = await getContract(contractName, deployer);
-    const nftsFactoryV3: OpenFactoryV3 = await getContract("OpenFactoryV3", deployer);
+    const nftsFactoryV3: OpenNFTsFactoryV3 = await getContract("OpenNFTsFactoryV3", deployer);
 
     nonce = await getNonce(deployer, contractName, "initialize");
     const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
@@ -49,14 +49,14 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     // const txReceipt = await txResp.wait();
     // console.log(txReceipt.status);
 
-    nonce = await getNonce(deployer, "OpenFactoryV3", "setTemplate");
+    nonce = await getNonce(deployer, "OpenNFTsFactoryV3", "setTemplate");
     await (await nftsFactoryV3.setTemplate(contractName, deployResult.address)).wait();
 
     nonce = await getNonce(deployer, contractName, "end");
   }
 };
 
-deployFunction.dependencies = ["OpenFactoryV3", "OpenNFTsResolver"];
+deployFunction.dependencies = ["OpenNFTsFactoryV3", "OpenNFTsResolver"];
 deployFunction.tags = [contractName];
 deployFunction.id = contractName;
 

@@ -6,6 +6,8 @@ import { explorerTxLog } from "@lib/common/kconfig";
 import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
 import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
 import type { IOpenAutoMarket } from "@soltypes/contracts/interfaces/IOpenAutoMarket";
+import { OpenAutoMarket } from "@soltypes/contracts/next";
+import { constants } from "ethers";
 
 async function* transferNft(
   chainId: number,
@@ -26,7 +28,14 @@ async function* transferNft(
 
   let txResp: TransactionResponse | undefined;
   if (collection.supports?.IOpenAutoMarket) {
-    txResp = await (contract as IOpenAutoMarket).transfer(to, tokenID);
+    let minimumRoyalty = constants.Zero;
+
+    if (collection.minimal) {
+      [, , minimumRoyalty] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);
+    }
+    // console.log("minimumRoyalty", minimumRoyalty);
+
+    txResp = await (contract as IOpenAutoMarket).gift(to, tokenID, { value: String(minimumRoyalty) });
   } else if (collection.supports?.IERC721) {
     txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](fromAddress, to, tokenID);
   } else if (collection.supports?.IERC1155) {

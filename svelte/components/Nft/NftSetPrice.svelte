@@ -1,20 +1,18 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/ktypes";
-
-  import { BigNumber, constants } from "ethers";
-
+  import type { Readable } from "svelte/store";
   import { onMount } from "svelte";
+  import { BigNumber, BigNumberish, constants } from "ethers";
+  import { formatEther } from "ethers/lib/utils";
+
+  import type { NftType } from "@lib/common/ktypes";
+  import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
+  import {   setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
-  import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice } from "@lib/nft/kautomarket";
 
   import InputPrice from "../Global/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import type { Readable } from "svelte/store";
-  import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -28,14 +26,20 @@
   let nftPrice: BigNumber;
   let collectionApproved: boolean = false;
 
-  let tokenPriceSetting: number;
+  let tokenSettingPrice: number;
   let tokenSetPriceTxHash: string;
   let tokenSetPriceError: string;
+
+  let inputError: string;
 
   const _tokenSetPriceError = (err: string): void => {
     tokenSetPriceError = err;
     console.error(tokenSetPriceError);
-    tokenPriceSetting = 0;
+    tokenSettingPrice = 0;
+  };
+
+  const _inputPriceError = (err: string): void => {
+    inputError = err;
   };
 
   // TOKEN PRICE SETTING STATES
@@ -69,15 +73,28 @@
   const tokenSetPriceInit = async () => {
     tokenSetPriceTxHash = null;
 
-    tokenPriceSetting = S1_CONFIRM;
+    tokenSettingPrice = S1_CONFIRM;
   };
 
   let nft: Readable<NftType>;
   let onSale: boolean;
   let currentPrice: BigNumber;
+  let minimalRoyaltyAmount: BigNumber = constants.Zero;
+
+  $: minimalPriceHandler(nftPrice);
+  const minimalPriceHandler = (nftPrice: BigNumber): void => {
+    inputError = isValidPrice(nftPrice, $nft?.royalty?.minimum)
+      ? ""
+      : `Price lower than minimum royalty plus fee !
+         you should set a price at least double of minimal royalty, i.e. ${displayEther(minimalRoyaltyAmount.mul(2))}`;
+  };
+
+  const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency($nft.chainId)}`;
 
   onMount(() => {
     nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    minimalRoyaltyAmount = BigNumber.from($nft.royalty?.minimum || 0);
 
     currentPrice = BigNumber.from($nft.price || 0);
     nftPrice = currentPrice;
@@ -89,12 +106,17 @@
     tokenSetPriceInit();
   });
 
-  const setPriceConfirm = async (price: BigNumber) => {
-    if (price.eq(currentPrice)) return _tokenSetPriceError("Price unchanged !");
+  const tokenSetPriceConfirm = async (price: BigNumber) => {
+    console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
 
+    if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
+
+    if (!isValidPrice(price, $nft.royalty.minimum)) return _inputPriceError("Price too low !");
+
+    nftPrice = price;
     const tokenSetPriceTxRespYield = setTokenPrice($nft.chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
-    tokenPriceSetting = S2_SIGN_TX;
+    tokenSettingPrice = S2_SIGN_TX;
 
     const tokenSetPriceTxResp = (await tokenSetPriceTxRespYield.next()).value;
     tokenSetPriceTxHash = tokenSetPriceTxResp?.hash;
@@ -102,33 +124,33 @@
       return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);
 
     explorerTxLog($nft.chainId, tokenSetPriceTxResp);
-    tokenPriceSetting = S3_WAIT_TX;
+    tokenSettingPrice = S3_WAIT_TX;
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
 
     if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
 
-    tokenPriceSetting = S4_PRICE_SETTED;
+    tokenSettingPrice = S4_PRICE_SETTED;
 
     await nftStore.refreshOne($nft.chainId, $nft.address, $nft.tokenID).catch(console.error);
   };
 </script>
 
 <div class="titre">
-  <i class="fas fa-plus fa-left c-green" />SELL ({tokenPriceSetting})
+  <i class="fas fa-plus fa-left c-green" />SELL ({tokenSettingPrice})
 </div>
 
-{#if tokenPriceSetting == S1_CONFIRM}
+{#if tokenSettingPrice == S1_CONFIRM}
   <div class="section">
     <p><i class="fas fa-angle-right" /> List item #{$nft.tokenID} for sale using AutoMarket smartcontract</p>
   </div>
 
   <div class="section">
-    <InputPrice chainId={$nft.chainId} bind:price={nftPrice} />
+    <InputPrice chainId={$nft.chainId} bind:price={nftPrice} {inputError} />
   </div>
 
   <div class="section">
-    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} nftRoyalty={$nft.royalty} {nftPrice} />
+    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
   </div>
 
   {#if !collectionApproved}
@@ -146,12 +168,12 @@
 
   <div class="txtright">
     {#if onSale}
-      <button class="btn btn-default  btn-remove" type="submit" on:click={() => setPriceConfirm(constants.Zero)}
+      <button class="btn btn-default  btn-remove" type="submit" on:click={() => tokenSetPriceConfirm(constants.Zero)}
         >Remove from Sale</button
       >
     {/if}
 
-    <button class="btn btn-default btn-sell" type="submit" on:click={() => setPriceConfirm(nftPrice)}>
+    <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(nftPrice)}>
       {#if onSale}
         Modify Listing
       {:else}
@@ -161,40 +183,50 @@
   </div>
 {/if}
 
-{#if tokenPriceSetting >= S2_SIGN_TX && tokenPriceSetting < S4_PRICE_SETTED}
+{#if tokenSettingPrice >= S2_SIGN_TX && tokenSettingPrice < S4_PRICE_SETTED}
   <div class="titre">
     <p>
       <i class="fas fa-sync fa-left c-green" />
       {#if onSale}
-        Removing NFT from sale...
+        {#if nftPrice.eq(0)}
+          Removing NFT from sale...
+        {:else}
+          Modifying NFT price to {displayEther(nftPrice)}...
+        {/if}
       {:else}
-        Setting NFT price to {formatEther(nftPrice)} {getCurrency($nft.chainId)}...
+        Setting NFT price to {displayEther(nftPrice)}...
       {/if}
     </p>
   </div>
 {/if}
 
-{#if tokenPriceSetting == S2_SIGN_TX}
+{#if tokenSettingPrice == S2_SIGN_TX}
   <div class="section">Please, sign the transaction</div>
-{:else if tokenPriceSetting == S3_WAIT_TX}
+{:else if tokenSettingPrice == S3_WAIT_TX}
   <div class="section">Wait till completed, it may take one minute or more.</div>
 {/if}
 
-{#if tokenPriceSetting == S4_PRICE_SETTED}
+{#if tokenSettingPrice == S4_PRICE_SETTED}
   <div class="titre">
     <p>
       <i class="fas fa-check fa-left c-green" />
       {#if onSale}
-        NFT #{$nft.tokenID} removed from sale...
+        {#if nftPrice.eq(0)}
+          NFT #{$nft.tokenID} removed from sale...
+        {:else}
+          NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice)}
+        {/if}
       {:else}
-        NFT #{$nft.tokenID} Price setted to {formatEther(nftPrice)} {getCurrency($nft.chainId)} !
+        NFT #{$nft.tokenID} Price setted to {displayEther(nftPrice)}
       {/if}
     </p>
   </div>
 
-  <div class="section">
-    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} nftRoyalty={$nft.royalty} {nftPrice} />
-  </div>
+  {#if nftPrice.gt(0)}
+    <div class="section">
+      <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
+    </div>
+  {/if}
 {/if}
 
 {#if tokenSetPriceTxHash}

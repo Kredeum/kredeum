@@ -1,28 +1,24 @@
 <script lang="ts">
-  import type { CollectionType } from "@lib/common/ktypes";
-
+  import type { Writable } from "svelte/store";
   import { BigNumber, utils } from "ethers";
+  import { getContext, onMount, createEventDispatcher } from "svelte";
 
-  import { getContext, onMount } from "svelte";
-  import { Writable } from "svelte/store";
-
+  import type { CollectionType } from "@lib/common/ktypes";
   import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
-  import { getRoyaltyAmount } from "@lib/nft/kautomarket";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
+  import { getReceiverAmount } from "@lib/nft/kautomarket";
 
-  import { createEventDispatcher } from "svelte";
   import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
-  import { parseEther } from "ethers/lib/utils";
 
   ///////////////////////////////////////////////////////////
-  // <CollectionCreate chainId collection
+  // <CollectionCreate {chainId} {collection} />
   ///////////////////////////////////////////////////////////
   export let chainId: number;
-  // export let account: string;
   export let collection: CollectionType = undefined;
+  // export let account: string;
   ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
@@ -55,11 +51,6 @@
     cloning = 0;
   };
 
-  // const _resetError = (): void => {
-  //   _cloneInit();
-  //   cloneError = null;
-  // };
-
   // CREATING STATES
   //
   //  STATE 0 Start
@@ -78,38 +69,17 @@
   //  STATE 4
   // Collection Created
   //    |
-  //  STATE 5
-  // Ask for Price signature
-  //    |
-  //  TEST TxResp --> ERROR sending Price TX
-  //    |
-  //  STATE 6 Wait TX & display Price TX Hash
-  //    |
-  //  TEST TxReceipt --> ERROR inside Price TX
-  //    |
-  //  STATE 7
-  // Defaut collection price setted
-  //    |
-  //  STATE 8
-  // Ask for Royalties signature
-  //    |
-  //  TEST TxResp --> ERROR sending Royalties TX
-  //    |
-  //  STATE 9 Wait TX & display Royalties TX Hash
-  //    |
-  //  TEST TxReceipt --> ERROR inside Royalties TX
-  //    |
-  //  STATE 10 End TX & Refresh
-  //    |
   //  CLICK Close
   //    |
   //  STATE 0 popup closed
 
-  // STATES : S0 -S8
+  // STATES : S1 - S4
   const S1_CONFIRM = 1;
   const S2_SIGN_CLONE_TX = 2;
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
+
+  $: minimumRoyalty = utils.formatEther(getReceiverAmount(price, Number(inputFee) * 100));
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -120,6 +90,7 @@
 
   const _cloneConfirm = async () => {
     cloning = S2_SIGN_CLONE_TX;
+
     const cloneTxRespYield = collectionClone(
       chainId,
       collectionName,
@@ -131,9 +102,7 @@
       Math.round((Number(inputFee) || 0) * 100),
       minRoyalty
     );
-
     const cloneTxResp = (await cloneTxRespYield.next()).value;
-
     if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
 
     explorerTxLog(chainId, cloneTxResp);
@@ -142,7 +111,6 @@
     cloning = S3_WAIT_CLONE_TX;
 
     const cloneTxReceipt = (await cloneTxRespYield.next()).value;
-
     if (!cloneTxReceipt.status)
       return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(cloneTxReceipt, null, 2)}`);
 
@@ -219,7 +187,7 @@
 
           {#if templateName(template) === "OpenAutoMarket"}
             <div class="section">
-              <div class="titre">Royalties (%)</div>
+              <div class="titre">Royalty</div>
               <div class="form-field">
                 <input
                   type="text"
@@ -246,13 +214,14 @@
 
           {#if templateName(template) === "OpenAutoMarket" && (templateConf(template) === "generic" || minRoyalty)}
             <div class="section">
-              <div class="titre">Mint price ({getCurrency(chainId)})</div>
+              <div class="titre">Mint price</div>
               <InputPrice {chainId} bind:price />
             </div>
+
             {#if minRoyalty}
               <div class="section">
-                <div class="titre">Minimum Royalty ({getCurrency(chainId)})</div>
-                {utils.formatEther(getRoyaltyAmount(Number(inputFee) * 100, price))}
+                <div class="titre">Minimum Royalty</div>
+                {minimumRoyalty}
                 {getCurrency(chainId)}
               </div>
             {/if}
@@ -262,11 +231,13 @@
             <button class="btn btn-default btn-sell" type="submit" on:click={_cloneConfirm}>Create</button>
           </div>
         {/if}
+
         {#if cloning >= S2_SIGN_CLONE_TX && cloning < S4_COLL_CREATED}
           <div class="titre">
             <i class="fas fa-sync fa-left c-green" />Creating new Collection...
           </div>
         {/if}
+
         {#if cloning == S2_SIGN_CLONE_TX}
           <div class="section">Please, sign the transaction</div>
         {:else if cloning == S3_WAIT_CLONE_TX}
@@ -275,6 +246,7 @@
             <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
           </div>
         {/if}
+
         {#if cloning > S3_WAIT_CLONE_TX}
           <div>
             <div class="titre">

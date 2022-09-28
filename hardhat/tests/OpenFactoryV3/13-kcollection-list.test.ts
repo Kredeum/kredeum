@@ -1,5 +1,5 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import type { OpenNFTsV4, OpenFactoryV3 } from "@soltypes/contracts/next";
+import type { OpenNFTsV4, OpenNFTsFactoryV3 } from "@soltypes/contracts/next";
 
 import type { NetworkType } from "@lib/common/ktypes";
 
@@ -25,7 +25,7 @@ describe.skip("13 List contracts lib", function () {
     type: 2
   };
   let configNetwork: NetworkType | undefined;
-  let nftsFactory: OpenFactoryV3;
+  let nftsFactory: OpenNFTsFactoryV3;
   let openNFTsV4: OpenNFTsV4;
 
   let network: string;
@@ -48,20 +48,20 @@ describe.skip("13 List contracts lib", function () {
     const { deployer } = await ethers.getNamedSigners();
 
     if (chainId === 31337) {
-      await deployments.fixture(["OpenNFTsV4", "OpenFactoryV3"]);
+      await deployments.fixture(["OpenNFTsV4", "OpenNFTsFactoryV3"]);
     }
 
     openNFTsV4 = (await ethers.getContract("OpenNFTsV4", signer)) as unknown as OpenNFTsV4;
     expect(openNFTsV4.address).to.be.properAddress;
     // TODO await ((await openNFTsV4.mint(artist, "", txOptions)) as TransactionResponse).wait();
 
-    nftsFactory = (await ethers.getContract("OpenFactoryV3", signer)) as unknown as OpenFactoryV3;
+    nftsFactory = (await ethers.getContract("OpenNFTsFactoryV3", signer)) as unknown as OpenNFTsFactoryV3;
     expect(nftsFactory.address).to.be.properAddress;
 
     await nftsFactory.connect(deployer).setTemplate("generic", openNFTsV4.address);
   });
 
-  it("List with OpenFactoryV3", async function () {
+  it("List with OpenNFTsFactoryV3", async function () {
     if (chainId !== 31337) {
       // console.log((await nftsFactory.implementationsCount()).toString());
       // console.log(await nftsFactory.balancesOf(owner));

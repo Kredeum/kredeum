@@ -12,7 +12,7 @@ interface IOpenAutoMarket {
         uint96 fee
     ) external payable returns (uint256 tokenID);
 
-    function transfer(address to, uint256 tokenID) external;
+    function gift(address to, uint256 tokenID) external payable;
 
     function buy(uint256 tokenID) external payable;
 

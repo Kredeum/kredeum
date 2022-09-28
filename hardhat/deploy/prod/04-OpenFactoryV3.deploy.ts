@@ -6,7 +6,7 @@ import config from "@config/config.json";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
-const contractName = "OpenFactoryV3";
+const contractName = "OpenNFTsFactoryV3";
 
 const deployFunction: DeployFunction = async function ({ ethers, network, deployments }): Promise<void> {
   const deployer = await ethers.getNamedSigner("deployer");
@@ -22,7 +22,7 @@ const deployFunction: DeployFunction = async function ({ ethers, network, deploy
 
   // Deterministic expect for these networks
   // if (!["avalanche", "fuji"].includes(network.name)) {
-  //   deployOptions.salt = ethers.utils.hashMessage("01 OpenFactoryV3");
+  //   deployOptions.salt = ethers.utils.hashMessage("01 OpenNFTsFactoryV3");
   // }
 
   const deployResult = await deployments.deploy(contractName, deployOptions);

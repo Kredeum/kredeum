@@ -93,7 +93,7 @@ type CollectionSupports = {
 
   ICloneFactoryV2?: boolean;
   INFTsFactoryV2?: boolean;
-  IOpenFactoryV3?: boolean;
+  IOpenNFTsFactoryV3?: boolean;
 
   IOpenNFTsV0?: boolean;
   IOpenNFTsV1?: boolean;

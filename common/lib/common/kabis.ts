@@ -31,7 +31,7 @@ import abiIOpenBound from "@abis/contracts/interfaces/IOpenBound.sol/IOpenBound.
 
 import abiICloneFactoryV2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
 import abiINFTsFactoryV2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiIOpenFactoryV3 from "@abis/contracts/interfaces/IOpenFactoryV3.sol/IOpenFactoryV3.json";
+import abiIOpenNFTsFactoryV3 from "@abis/contracts/interfaces/IOpenNFTsFactoryV3.sol/IOpenNFTsFactoryV3.json";
 
 import abiIOpenNFTsOld from "@abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
 import abiIOpenNFTsV3Old from "@abis/contracts/interfaces/IOpenNFTsV3.old.sol/IOpenNFTsV3.json";
@@ -67,7 +67,7 @@ const abis = {
 
   ICloneFactoryV2: abiICloneFactoryV2,
   INFTsFactoryV2: abiINFTsFactoryV2,
-  IOpenFactoryV3: abiIOpenFactoryV3,
+  IOpenNFTsFactoryV3: abiIOpenNFTsFactoryV3,
 
   IOpenNFTsOld: abiIOpenNFTsOld,
   IOpenNFTsV3Old: abiIOpenNFTsV3Old

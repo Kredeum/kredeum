@@ -1,9 +1,10 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
-  import { clickOutside } from "@helpers/clickOutside";
 
-  import NftSetPrice from "./NftSetPrice.svelte";
   import { getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
+
+  import { clickOutside } from "@helpers/clickOutside";
+  import NftSetPrice from "./NftSetPrice.svelte";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />

@@ -274,11 +274,11 @@
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
     "eip1559": true,
-    "openNFTs": "0x17b5cC29c8fEE4A7f4a9a4D3aA89CEeceb1e2127",
+    "openNFTs": "0xEaf624Ea9ba942CA9D3e65888e9EC30e904229C3",
     "create": true,
     "testnet": true,
-    "nftsResolver": "0x8D135C725C8A5541A8D47C0f187f2BE53b3DFf41",
-    "nftsFactoryV3": "0xF6169393986b38e57D61187051c3F5B554796f83"
+    "nftsResolver": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "nftsFactoryV3": "0xBda19424590E3DB9DF04091F7510F487eD19E037"
   },
   {
     "chainId": 5,
@@ -300,15 +300,15 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0xB6895f00eB372B322F9a4926CeDB6438fF84426B",
+    "openNFTs": "0xfD247F84404891fcE4c7F5d6b0fC103Ed2037f57",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0xE6A18B3c5eE881eA73372f324DE08f25b8698956",
-    "nftsFactoryV3": "0x7A6390228b4517479E54E75816e824a6122C6c6b"
+    "nftsResolver": "0x798d804A566be41dA06e12A4052808C9Fb767e77",
+    "nftsFactoryV3": "0x57E0347DCcF76cC3a55c9C2257D8c123D5d8e343"
   },
   {
     "chainId": 80001,

@@ -57,7 +57,9 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         _;
     }
 
-    function transfer(address to, uint256 tokenID) external override(IOpenAutoMarket) existsToken(tokenID) {
+    function gift(address to, uint256 tokenID) external payable override(IOpenAutoMarket) existsToken(tokenID) {
+        setTokenPrice(tokenID, 0);
+
         safeTransferFrom(msg.sender, to, tokenID);
     }
 

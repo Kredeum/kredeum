@@ -8,7 +8,7 @@ import { TransactionResponse, TransactionReceipt } from "@ethersproject/provider
 import { BigNumber, BigNumberish, constants } from "ethers";
 
 import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerUrl, explorerTxLog, MAX_FEE } from "@lib/common/kconfig";
+import { explorerUrl, explorerTxLog, MAX_FEE, config } from "@lib/common/kconfig";
 import { ReceiverType } from "@lib/common/ktypes";
 
 const getNftPrice = async (
@@ -278,10 +278,22 @@ async function* setDefautCollectionRoyalty(
   yield await txResp.wait();
 }
 
-const getRoyaltyAmount = (fee = 0, price: BigNumber = BigNumber.from(0)): BigNumber =>
-  price.mul(Math.round(fee)).div(MAX_FEE);
+const getReceiverAmount = (price: BigNumberish = 0, fee = 0): BigNumber => BigNumber.from(price).mul(fee).div(MAX_FEE);
 
-const bigNumberMax = (a: BigNumber, b: BigNumber): BigNumber => (a.gt(b) ? a : b);
+const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 0): boolean =>
+  BigNumber.from(price).eq(0) ||
+  BigNumber.from(price).sub(getReceiverAmount(price, config.treasury.fee)).sub(minRoyaltyAmount).gt(0);
+
+const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
+  BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);
+
+const getMinPrice = (minRoyalty: BigNumberish = 0): BigNumber => {
+  if (MAX_FEE == config.treasury.fee) throw Error("Invalid treasury fee");
+  else
+    return BigNumber.from(minRoyalty)
+      .mul(MAX_FEE)
+      .div(MAX_FEE - config.treasury.fee);
+};
 
 export {
   getNftPrice,
@@ -298,6 +310,8 @@ export {
   setCollectionApproval,
   setTokenPrice,
   getEthersConverterLink,
-  getRoyaltyAmount,
-  bigNumberMax
+  getReceiverAmount,
+  isValidPrice,
+  getMax,
+  getMinPrice
 };

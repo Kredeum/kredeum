@@ -9,7 +9,7 @@
       "OpenNFTsV4/ownable",
       {
         name: "OpenNFTs",
-        description: "Ownable NFTs Collection: own your Collection, only you can Mint NFTs",
+        description: "Ownable OpenNFTs Collection: own your NFT Collection, only you can Mint NFTs",
         icon: "user"
       }
     ],
@@ -17,7 +17,7 @@
       "OpenNFTsV4/generic",
       {
         name: "OpenNFTs Generic",
-        description: "Generic NFTs Collection: anyone can Mint NFTs",
+        description: "Generic OpenNFTs Collection: anyone can Mint NFTs in this collection!",
         icon: "building"
       }
     ],
@@ -25,7 +25,8 @@
       "OpenAutoMarket/ownable",
       {
         name: "AutoMarket",
-        description: "AutoMarket NFTs Collection, sell your NFTs with royalties",
+        description:
+          "AutoMarket ownable OpenNFTs Collection: own your collection, mint and sell your NFTs with royalties",
         icon: "dollar-sign"
       }
     ],
@@ -33,8 +34,7 @@
       "OpenAutoMarket/generic",
       {
         name: "AutoMarket Generic",
-        description:
-          "AutoMarket generic NFTs Collection, let anyone mint in your NFTs with default mint price & royalties",
+        description: "AutoMarket generic OpenNFTs Collection: anyone can mint, sell or buy NFTs, with royalties",
         icon: "dollar-sign"
       }
     ]
@@ -96,3 +96,30 @@
     </p>
   </div>
 </div>
+
+<style>
+  input[type="checkbox"] {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    -ms-appearance: none;
+    -border-radius: 4px;
+    height: 15px;
+    width: 15px;
+    background: #fff;
+    border: 1px solid #ccc;
+  }
+  input[type="checkbox"]:checked {
+    background-color: #3acf6e;
+    margin: 0px;
+    position: relative;
+  }
+  input[type="checkbox"]:checked:before {
+    font-family: "Font Awesome";
+    /* content: "X"; */
+    content: "\f00c";
+    display: block;
+    color: grey;
+    font-size: 13px;
+    position: absolute;
+  }
+</style>

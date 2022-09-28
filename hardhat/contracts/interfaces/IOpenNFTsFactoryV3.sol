@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-interface IOpenFactoryV3 {
+interface IOpenNFTsFactoryV3 {
     event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol);
 
     event SetResolver(address indexed resolver);

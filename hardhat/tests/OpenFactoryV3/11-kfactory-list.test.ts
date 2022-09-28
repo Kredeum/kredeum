@@ -1,11 +1,11 @@
-import type { OpenFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
+import type { OpenNFTsFactoryV3, OpenNFTsV4 } from "@soltypes/contracts/next";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { BigNumber, Signer } from "ethers";
 
 describe.skip("11 NFTs Factory contract", function () {
-  let nftsFactoryV3: OpenFactoryV3;
+  let nftsFactoryV3: OpenNFTsFactoryV3;
   let openNFTsV4: OpenNFTsV4;
   let owner: string;
   let signer: Signer;
@@ -22,12 +22,12 @@ describe.skip("11 NFTs Factory contract", function () {
     const { deployer } = await ethers.getNamedSigners();
 
     if ((await ethers.provider.getNetwork()).chainId === 31337) {
-      await deployments.fixture(["OpenNFTsV4", "OpenFactoryV3"]);
+      await deployments.fixture(["OpenNFTsV4", "OpenNFTsFactoryV3"]);
     }
     openNFTsV4 = (await ethers.getContract("OpenNFTsV4", signer)) as unknown as OpenNFTsV4;
     expect(openNFTsV4.address).to.be.properAddress;
 
-    nftsFactoryV3 = (await ethers.getContract("OpenFactoryV3", signer)) as unknown as OpenFactoryV3;
+    nftsFactoryV3 = (await ethers.getContract("OpenNFTsFactoryV3", signer)) as unknown as OpenNFTsFactoryV3;
     expect(nftsFactoryV3.address).to.be.properAddress;
 
     await nftsFactoryV3.connect(deployer).setTemplate("generic", openNFTsV4.address);

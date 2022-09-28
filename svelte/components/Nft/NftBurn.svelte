@@ -19,7 +19,7 @@
   export let tokenID: string;
   /////////////////////////////////////////////////
 
-  let burning: number = 0;
+  let burning: number;
   let burnable: boolean;
   let burnTxHash: string;
   let burnError: string;
@@ -33,7 +33,7 @@
   const _burnError = (err: string): void => {
     burnError = err;
     console.error(burnError);
-    burning = 0;
+    burning = S1_CONFIRM_BURN;
   };
 
   // BURNING STATES
@@ -111,7 +111,9 @@
 
 <div id="kredeum-burn-nft">
   <div class="modal-content">
-    <a href="./#" title="Close" on:click={() => (burning = S0_START)} class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" title="Close" on:click={() => (burning = S1_CONFIRM_BURN)} class="modal-close"
+      ><i class="fa fa-times" /></a
+    >
 
     <div class="modal-body">
       <div class="titre">

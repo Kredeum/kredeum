@@ -3,11 +3,11 @@ pragma solidity 0.8.9;
 
 import "forge-std/Test.sol";
 
-import "../../next/OpenFactoryV3.sol";
+import "../../next/OpenNFTsFactoryV3.sol";
 import "../../next/OpenNFTsV4.sol";
 import "../../next/OpenAutoMarket.sol";
 
-abstract contract OpenFactoryV3CloneTest is Test, IOpenReceiverInfos {
+abstract contract OpenNFTsFactoryV3CloneTest is Test, IOpenReceiverInfos {
     address internal _factory;
     address internal _template;
     address internal _clone;
@@ -18,26 +18,26 @@ abstract contract OpenFactoryV3CloneTest is Test, IOpenReceiverInfos {
 
     function constructorTest(address owner_) public virtual returns (address);
 
-    function setUpOpenFactoryV3Clone() public {
+    function setUpOpenNFTsFactoryV3Clone() public {
         _factory = constructorTest(_owner);
     }
 
-    function testOpenFactoryV3CloneOpenNFTsV4() public {
+    function testOpenNFTsFactoryV3CloneOpenNFTsV4() public {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        _clone = OpenFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", abi.encode(options));
+        _clone = OpenNFTsFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", abi.encode(options));
 
         assertTrue(OpenNFTsV4(_clone).initialized());
         assertEq(OpenNFTsV4(_clone).name(), "NFT test");
     }
 
-    function testOpenFactoryV3CloneOpenAutoMarket() public {
+    function testOpenNFTsFactoryV3CloneOpenAutoMarket() public {
         bool[] memory options = new bool[](2);
         options[0] = true;
         options[1] = false;
 
-        _clone = OpenFactoryV3(_factory).clone(
+        _clone = OpenNFTsFactoryV3(_factory).clone(
             "NFT test",
             "NFT",
             "OpenAutoMarket",
