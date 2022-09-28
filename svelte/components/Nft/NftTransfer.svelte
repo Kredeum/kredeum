@@ -1,8 +1,14 @@
 <script lang="ts">
+  import type { NftType } from "@lib/common/ktypes";
+  import type { Readable } from "svelte/store";
+
+  import { constants } from "ethers";
+  import { formatEther } from "ethers/lib/utils";
+
   import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
@@ -94,8 +100,17 @@
     $refreshNftsList += 1;
   };
 
+  let nft: Readable<NftType>;
+  let transferWarning = "";
+
   onMount(() => {
     transferInit();
+
+    nft = nftStore.getOneStore(chainId, address, tokenID);
+
+    $nft?.collection?.minimal && constants.Zero.lt($nft.royalty.minimum)
+      ? (transferWarning = formatEther($nft.royalty.minimum))
+      : (transferWarning = "");
   });
 </script>
 
@@ -113,6 +128,21 @@
           <div class="section">
             <div class="form-field">
               <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
+            </div>
+          </div>
+
+          <div class="section">
+            <div class="form-field kre-warning-msg">
+              {#if transferWarning}
+                <p>
+                  <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to transfer this NFT
+                  #{tokenID} wich have a {transferWarning}
+                  {getCurrency(chainId)} minimum royalty amount setted. That means that even for transfer, you will have
+                  to pay {transferWarning}
+                  {getCurrency(chainId)}
+                </p>
+              {/if}
+              <p>Processing the transfer will set the price of this NFT #{tokenID} to 0 {getCurrency(chainId)}</p>
             </div>
           </div>
 

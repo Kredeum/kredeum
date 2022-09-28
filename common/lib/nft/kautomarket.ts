@@ -283,11 +283,14 @@ const getRoyaltyAmount = (fee = 0, price: BigNumber = BigNumber.from(0)): BigNum
 
 const validPrice = (price: BigNumber = BigNumber.from(0), minRoyaltyAmount: BigNumber = BigNumber.from(0)) =>
   constants.Zero.lte(price.sub(price.mul(config.treasury.fee).div(10000)).sub(minRoyaltyAmount)) ||
-  constants.Zero.eq(0);
+  constants.Zero.eq(price);
 
 const bigNumberMax = (a: BigNumber, b: BigNumber): BigNumber => (a.gt(b) ? a : b);
 
-const getMinPrice = (minRoyalty: BigNumber) => minRoyalty.mul(MAX_FEE).div(MAX_FEE - config.treasury.fee);
+const getMinPrice = (minRoyalty: BigNumber = BigNumber.from(0)) => {
+  console.log("🚀 ~ file: kautomarket.ts ~ line 291 ~ minRoyalty", minRoyalty.toString());
+  return minRoyalty.mul(MAX_FEE).div(MAX_FEE - config.treasury.fee);
+};
 
 export {
   getNftPrice,

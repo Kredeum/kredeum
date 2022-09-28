@@ -20,6 +20,7 @@
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
   import { ReceiverType } from "@lib/common/ktypes";
+  import { getMinPrice } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftBuy {chainId} {address} {tokenID}  {nftOwner} {nftPrice} {nftRoyalty} />
@@ -36,6 +37,8 @@
   let buying: number;
   let buyTxHash: string;
   let buyError: string;
+
+  let minimumPrice: BigNumber;
 
   let open = false;
 
@@ -81,6 +84,11 @@
 
   onMount(() => {
     buyInit();
+
+    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftPrice.lt(getMinPrice(nftRoyalty.minimum))) {
+      minimumPrice = getMinPrice(nftRoyalty.minimum);
+      nftPrice = minimumPrice;
+    }
   });
 
   const buyConfirm = async () => {
@@ -130,6 +138,19 @@
                     {getCurrency(chainId)} using AutoMarket smartcontract ?
                   </p>
                 </div>
+                {#if minimumPrice}
+                  <div class="section">
+                    <div class="form-field kre-warning-msg">
+                      <p>
+                        <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull this NFT #{tokenID} price is
+                        setted to low because of minimum royalty. if you choose to buy it overall you will pay {utils.formatEther(
+                          minimumPrice
+                        )}
+                        {getCurrency(chainId)} for it
+                      </p>
+                    </div>
+                  </div>
+                {/if}
                 <div class="section">
                   <IncomesPreview {chainId} {nftPrice} {nftOwner} {nftRoyalty} />
                 </div>

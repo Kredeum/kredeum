@@ -39,7 +39,7 @@
   <ul class="steps">
     <li>
       <div>
-        <p>
+        <p class={constants.Zero.gt(sellerIncome) ? "c-red" : ""}>
           {utils.formatEther(sellerIncome || 0)}
           {currency} to seller
         </p>

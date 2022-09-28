@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
 
-  import { constants, ethers, utils } from "ethers";
+  import { BigNumber, constants, ethers, utils } from "ethers";
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
@@ -48,18 +48,22 @@
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    //////////////////////////////////////////////////////////
-    // Update nftstore.refreshOne to get collection supports ?
-    //////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////
+    // TODO Update nftstore.refreshOne to get collection supports ?
+    //
+    // REASON OF THIS FIX => on first direct Nft.svelte page load
+    // from hash in url, $nft.collection doesn't have supports.
+    //
+    // On second load, $nft.collection.supports are hydratated
+    ///////////////////////////////////////////////////////////////
     if (!$nft?.collection?.supports) {
       await nftStore.refreshSubList(chainId, address, account);
     }
+    ///////////////////////////////////////////////////////////////
 
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
-
-  // $: console.log(utils.formatEther(getMinPrice($nft.royalty.minimum)));
 
   $: console.info("Nft", $nft);
 </script>
@@ -159,7 +163,15 @@
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
                 <div class="flex">
-                  <span class="overflow-ellipsis" title={ethers.utils.formatEther($nft.price || 0)} target="_blank">
+                  <span
+                    class="overflow-ellipsis {$nft.royalty?.minimum._isBigNumber &&
+                    $nft.price?.lt(getMinPrice($nft.royalty?.minimum)) &&
+                    !$nft.price?.eq(0)
+                      ? 'c-red'
+                      : ''}"
+                    title={ethers.utils.formatEther($nft.price || 0)}
+                    target="_blank"
+                  >
                     {utils.formatEther($nft.price || 0)}
                     {getCurrency(chainId)}
                   </span>

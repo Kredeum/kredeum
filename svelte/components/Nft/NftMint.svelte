@@ -21,7 +21,7 @@
   } from "@lib/common/kconfig";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
-  import { bigNumberMax, getRoyaltyAmount } from "@lib/nft/kautomarket";
+  import { bigNumberMax, getMinPrice, getRoyaltyAmount } from "@lib/nft/kautomarket";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
@@ -65,6 +65,21 @@
   /////////////////////////////////////////////////
   let open = false;
   let price: BigNumber;
+  let inputPriceError = "";
+
+  let minRoyalty: BigNumber;
+
+  $: minRoyalty = getRoyaltyAmount(collection?.royalty?.fee, collection?.price);
+
+  $: price && handlePriceError();
+  const handlePriceError = () => {
+    collection?.minimal && constants.Zero.lt(price) && price?.lt(getMinPrice(minRoyalty))
+      ? (inputPriceError = `Price to low because of minimum Royalty, minimum price you should set is ${utils.formatEther(
+          getMinPrice(minRoyalty)
+        )} or 0 ${getCurrency(chainId)} 
+            `)
+      : (inputPriceError = "");
+  };
 
   $: mintedNft && open === false && handleResetAfterMint();
   const handleResetAfterMint = () => {};
@@ -338,7 +353,7 @@
                           {utils.formatEther(
                             bigNumberMax(
                               getRoyaltyAmount(collection.royalty?.fee, price || BigNumber.from(0)),
-                              getRoyaltyAmount(collection.royalty?.fee, collection.price)
+                              minRoyalty
                             )
                           )}
                         {:else}
@@ -368,7 +383,7 @@
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
                 <div class="section">
                   <div class="titre">NFT price</div>
-                  <InputPrice {chainId} bind:price />
+                  <InputPrice {chainId} bind:price inputError={inputPriceError} />
                 </div>
               {/if}
 

@@ -44,7 +44,7 @@
 </div>
 
 {#if inputError}
-  <span class="c-red">{inputError}</span>
+  <span class="c-red"><i class="fas fa-exclamation-triangle fa-left c-red" /> {inputError}</span>
 {/if}
 
 <style>

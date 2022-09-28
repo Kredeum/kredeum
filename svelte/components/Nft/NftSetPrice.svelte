@@ -1,7 +1,9 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/ktypes";
+  import type { Readable } from "svelte/store";
+  import type { NftType } from "@lib/common/ktypes";
 
   import { BigNumber, constants } from "ethers";
+  import { formatEther } from "ethers/lib/utils";
 
   import { onMount } from "svelte";
 
@@ -9,12 +11,10 @@
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice, validPrice } from "@lib/nft/kautomarket";
+  import { getMinPrice, setTokenPrice, validPrice } from "@lib/nft/kautomarket";
 
   import InputPrice from "../Global/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import type { Readable } from "svelte/store";
-  import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -92,10 +92,26 @@
     const approvedForAll = $nft.collection?.approvedForAll;
     collectionApproved = approvedForAll.size > 0 ? approvedForAll.get($metamaskAccount) : false;
 
+    if ($nft.collection.minimal) {
+      !validPrice(nftPrice, $nft?.royalty?.minimum)
+        ? _inputPriceError(
+            `Price too low because minimum royalty is activated ! minimum price you should set is ${formatEther(
+              getMinPrice($nft.royalty.minimum)
+            )} ${getCurrency(chainId)}
+            `
+          )
+        : (inputError = "");
+    }
+
     tokenSetPriceInit();
   });
 
-  $: !validPrice(nftPrice, $nft?.royalty?.minimum) ? _inputPriceError("Price too low !") : (inputError = "");
+  $: !validPrice(nftPrice, $nft?.royalty?.minimum)
+    ? _inputPriceError(`Price too low because minimum royalty is activated ! minimum price you should set is ${formatEther(
+        getMinPrice($nft.royalty.minimum)
+      )} ${getCurrency(chainId)}
+            `)
+    : (inputError = "");
 
   const setPriceConfirm = async (price: BigNumber) => {
     if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
