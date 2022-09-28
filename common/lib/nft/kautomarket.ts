@@ -288,7 +288,6 @@ const validPrice = (price: BigNumber = BigNumber.from(0), minRoyaltyAmount: BigN
 const bigNumberMax = (a: BigNumber, b: BigNumber): BigNumber => (a.gt(b) ? a : b);
 
 const getMinPrice = (minRoyalty: BigNumber = BigNumber.from(0)) => {
-  console.log("🚀 ~ file: kautomarket.ts ~ line 291 ~ minRoyalty", minRoyalty.toString());
   return minRoyalty.mul(MAX_FEE).div(MAX_FEE - config.treasury.fee);
 };
 

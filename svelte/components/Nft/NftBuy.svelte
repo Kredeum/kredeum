@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { ReceiverType } from "@lib/common/ktypes";
   import { BigNumber, constants, utils } from "ethers";
 
   import { onMount } from "svelte";
@@ -16,11 +17,10 @@
     nftOpenSeaUrl,
     getCurrency
   } from "@lib/common/kconfig";
+  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import { ReceiverType } from "@lib/common/ktypes";
-  import { getMinPrice } from "@lib/nft/kautomarket";
 
   /////////////////////////////////////////////////
   //  <NftBuy {chainId} {address} {tokenID}  {nftOwner} {nftPrice} {nftRoyalty} />
