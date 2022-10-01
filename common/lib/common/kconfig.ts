@@ -17,9 +17,12 @@ const DEFAULT_SYMBOL = "NFT";
 
 const isProviderOnChainId = async (chainId: number, signerOrProvider: Signer | Provider): Promise<boolean> => {
   const provider = Signer.isSigner(signerOrProvider) ? signerOrProvider.provider : signerOrProvider;
-  let ok = false;
 
-  if (provider) ok = chainId === (await provider.getNetwork()).chainId;
+  const providerChainId = provider ? (await provider.getNetwork()).chainId : 0;
+
+  const ok = chainId == providerChainId;
+
+  if (!ok) console.error("Bad chainId", chainId, providerChainId);
 
   return ok;
 };

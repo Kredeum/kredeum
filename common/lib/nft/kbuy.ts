@@ -4,6 +4,7 @@ import type { Signer } from "@ethersproject/abstract-signer";
 import { collectionGetContract } from "@lib/collection/kcollection-get";
 import { explorerTxLog } from "../common/kconfig";
 import { BigNumberish } from "ethers";
+import { IOpenAutoMarket } from "@soltypes/index";
 
 async function* buyNft(
   chainId: number,
@@ -18,14 +19,10 @@ async function* buyNft(
 
   const { contract, collection } = await collectionGetContract(chainId, address, buyer);
   // console.log("contract", contract);
-  if (!collection.supports?.IOpenMarketable) return {};
+  if (!collection.supports?.IOpenAutoMarket) return {};
 
-  const buyFunction = contract["buy(uint256)"] as {
-    (tokenID: string, paymentSent: { value: string }): Promise<TransactionResponse>;
-  };
-
-  const txResp: TransactionResponse | undefined = await buyFunction(tokenID, {
-    value: nftPrice.toString()
+  const txResp: TransactionResponse | undefined = await (contract as IOpenAutoMarket).buy(tokenID, {
+    value: String(nftPrice)
   });
 
   if (!txResp) return {};

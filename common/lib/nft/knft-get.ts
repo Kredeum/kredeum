@@ -2,7 +2,7 @@ import type { Provider } from "@ethersproject/abstract-provider";
 import type { Signer } from "@ethersproject/abstract-signer";
 
 import type { CollectionType, NftType } from "@lib/common/ktypes";
-import { collectionGetContract } from "@lib/collection/kcollection-get";
+import { collectionGet, collectionGetContract } from "@lib/collection/kcollection-get";
 
 import { nftKey } from "@lib/common/kconfig";
 import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
@@ -40,6 +40,8 @@ const nftGet = async (
   let nft: NftType = { chainId, address, tokenID };
   if (!(chainId && address && tokenID && signerOrProvider)) return nft;
   // console.log(`nftGet ${nftKey(chainId, address, tokenID)} ${String(withMetadata)}\n`);
+
+  if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address, signerOrProvider);
 
   nft = await resolverGetNft(chainId, collection, tokenID, signerOrProvider);
   // console.log("nft", nft);
