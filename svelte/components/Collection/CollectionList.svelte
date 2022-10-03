@@ -46,9 +46,9 @@
     console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
-    $refreshing = true;
+    if (!txt) $refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
-    $refreshing = false;
+    if (!txt) $refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections

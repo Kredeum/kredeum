@@ -115,11 +115,15 @@
   }
   input[type="checkbox"]:checked:before {
     font-family: "Font Awesome";
-    /* content: "X"; */
     content: "\f00c";
     display: block;
     color: grey;
     font-size: 13px;
     position: absolute;
+  }
+
+  :global(.admin-bar input[type="checkbox"]:checked:before) {
+    margin: 0;
+    top: 50%;
   }
 </style>
