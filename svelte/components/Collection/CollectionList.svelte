@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  import { Readable, writable } from "svelte/store";
   import type { CollectionType } from "@lib/common/ktypes";
 
   import { getContext } from "svelte";
@@ -25,7 +25,7 @@
   // Context for refreshCollectionList & refreshing
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshing: Writable<boolean> = getContext("refreshing");
+  let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
   let open: boolean = false;
@@ -46,9 +46,9 @@
     console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
-    if (!txt) $refreshing = true;
+    $refreshing = true;
     await collectionStore.refreshSubList(chainId, account, mintable);
-    if (!txt) $refreshing = false;
+    $refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections
