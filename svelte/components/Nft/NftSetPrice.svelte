@@ -6,7 +6,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-  import {   setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";

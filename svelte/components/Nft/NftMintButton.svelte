@@ -71,7 +71,7 @@
 
       minting = 2;
 
-      const ipfsJson = await nftIpfsJson(alt, ipfsImage, signerAddress, src, metadata);
+      const ipfsJson = await nftIpfsJson(alt, alt, ipfsImage, signerAddress, src, metadata);
       // console.log("json", ipfsJson);
 
       minting = 3;
