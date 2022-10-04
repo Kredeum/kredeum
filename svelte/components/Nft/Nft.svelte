@@ -48,19 +48,6 @@
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    ///////////////////////////////////////////////////////////////
-    // TODO Update nftstore.refreshOne to get collection supports ?
-    //
-    // REASON OF THIS FIX => on first direct Nft.svelte page load
-    // from hash in url, $nft.collection doesn't have supports.
-    //
-    // On second load, $nft.collection.supports are hydratated
-    ///////////////////////////////////////////////////////////////
-    if (!$nft?.collection?.supports) {
-      await nftStore.refreshSubList(chainId, address, account);
-    }
-    ///////////////////////////////////////////////////////////////
-
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
