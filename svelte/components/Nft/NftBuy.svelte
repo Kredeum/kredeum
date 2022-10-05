@@ -92,24 +92,28 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+    try {
+      const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
 
-    buying = S2_SIGN_TX;
+      buying = S2_SIGN_TX;
 
-    const buyTxResp = (await buyTxRespYield.next()).value;
-    buyTxHash = buyTxResp?.hash;
-    if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
+      const buyTxResp = (await buyTxRespYield.next()).value;
+      buyTxHash = buyTxResp?.hash;
+      if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
 
-    explorerTxLog(chainId, buyTxResp);
-    buying = S3_WAIT_TX;
+      explorerTxLog(chainId, buyTxResp);
+      buying = S3_WAIT_TX;
 
-    const txReceipt = (await buyTxRespYield.next()).value;
+      const txReceipt = (await buyTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
+      if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
 
-    buying = S4_BUYED;
+      buying = S4_BUYED;
 
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+      await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    } catch (e) {
+      console.log("error : ", e.error.message);
+    }
   };
 </script>
 

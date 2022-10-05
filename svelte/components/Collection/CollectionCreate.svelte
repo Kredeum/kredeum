@@ -105,15 +105,8 @@
       minRoyalty
     );
 
-    let cloneTxResp;
-    try {
-      cloneTxResp = (await cloneTxRespYield.next()).value;
-    } catch (error) {
-      // if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
-
-      console.log("const_cloneConfirm= ~ error", error);
-      cloneError = error.message;
-    }
+    let cloneTxResp = (await cloneTxRespYield.next()).value;
+    if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
 
     explorerTxLog(chainId, cloneTxResp);
     cloningTxHash = cloneTxResp.hash;
