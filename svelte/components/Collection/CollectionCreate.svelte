@@ -104,8 +104,8 @@
       Math.round((Number(inputFee) || 0) * 100),
       minRoyalty
     );
+    const cloneTxResp = (await cloneTxRespYield.next()).value;
 
-    let cloneTxResp = (await cloneTxRespYield.next()).value;
     if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
 
     explorerTxLog(chainId, cloneTxResp);
@@ -154,7 +154,6 @@
   });
 </script>
 
-<CatchError error={cloneError} />
 <div id="kredeum-create-collection">
   <div class="modal-content">
     <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
