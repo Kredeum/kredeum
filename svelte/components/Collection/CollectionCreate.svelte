@@ -12,6 +12,8 @@
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
+  import CatchError from "../Global/CatchError.svelte";
+  import { error } from "console";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -102,8 +104,16 @@
       Math.round((Number(inputFee) || 0) * 100),
       minRoyalty
     );
-    const cloneTxResp = (await cloneTxRespYield.next()).value;
-    if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
+
+    let cloneTxResp;
+    try {
+      cloneTxResp = (await cloneTxRespYield.next()).value;
+    } catch (error) {
+      // if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
+
+      console.log("const_cloneConfirm= ~ error", error);
+      cloneError = error.message;
+    }
 
     explorerTxLog(chainId, cloneTxResp);
     cloningTxHash = cloneTxResp.hash;
@@ -151,6 +161,7 @@
   });
 </script>
 
+<CatchError error={cloneError} />
 <div id="kredeum-create-collection">
   <div class="modal-content">
     <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
