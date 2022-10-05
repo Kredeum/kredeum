@@ -4,6 +4,7 @@
   import { BigNumber, constants, utils } from "ethers";
   import { onMount, getContext } from "svelte";
   import { fade } from "svelte/transition";
+  import { clickOutside } from "@helpers/clickOutside";
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
@@ -24,7 +25,6 @@
   } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
-  import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
