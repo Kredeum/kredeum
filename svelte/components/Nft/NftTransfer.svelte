@@ -2,7 +2,7 @@
   import type { NftType } from "@lib/common/ktypes";
   import type { Readable } from "svelte/store";
 
-  import { constants } from "ethers";
+  import { BigNumber, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
   import { onMount, getContext } from "svelte";
@@ -34,6 +34,8 @@
   let transferError: string;
 
   let destinationAddress = "";
+
+  let nftRoyaltyMinimum: BigNumber;
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -108,8 +110,10 @@
 
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    $nft?.collection?.minimal && $nft.royalty.minimum && constants.Zero.lt($nft.royalty.minimum)
-      ? (transferWarning = formatEther($nft.royalty.minimum))
+    nftRoyaltyMinimum = $nft.royalty.minimum;
+
+    $nft?.collection?.minimal && nftRoyaltyMinimum && constants.Zero.lt(nftRoyaltyMinimum)
+      ? (transferWarning = formatEther(nftRoyaltyMinimum))
       : (transferWarning = "");
   });
 </script>
@@ -131,18 +135,18 @@
             </div>
           </div>
 
-          <div class="section">
-            <div class="form-field kre-warning-msg">
-              {#if transferWarning}
+          {#if transferWarning}
+            <div class="section">
+              <div class="form-field kre-warning-msg">
                 <p>
                   <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to transfer this NFT
                   #{tokenID} which requires minimum royalty payment. That means you have, in any case, to pay the minimal
                   royalty amount of {transferWarning}
                   {getCurrency(chainId)} to transfer it.
                 </p>
-              {/if}
+              </div>
             </div>
-          </div>
+          {/if}
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={transferConfirm}>Transfer</button>

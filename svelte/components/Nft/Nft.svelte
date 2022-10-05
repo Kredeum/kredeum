@@ -39,6 +39,8 @@
 
   let nft: Readable<NftType>;
 
+  let nftRoyaltyFeeAmount: number;
+
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
@@ -51,6 +53,8 @@
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
+
+  $: nftRoyaltyFeeAmount = $nft.royalty?.fee;
 
   $: console.info("Nft", $nft);
 </script>
@@ -169,11 +173,11 @@
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royalty.fee == 0 || !$nft.royalty.fee}
+                  {#if nftRoyaltyFeeAmount == 0 || !nftRoyaltyFeeAmount}
                     <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
                   {:else}
-                    <span class="link overflow-ellipsis" title={`${$nft.royalty.fee / 100} %`} target="_blank">
-                      {$nft.royalty.fee / 100} %
+                    <span class="link overflow-ellipsis" title={`${nftRoyaltyFeeAmount / 100} %`} target="_blank">
+                      {nftRoyaltyFeeAmount / 100} %
                     </span>
                   {/if}
                 </div>
@@ -233,7 +237,7 @@
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label">Create a link to Opensea</span></div>
+            <div class="flex"><span class="label">View on Opensea</span></div>
             <div class="flex">
               <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
                 >Copy</a
