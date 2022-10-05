@@ -11,10 +11,10 @@
 </script>
 
 {#if error}
-  <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
+  <div id="kre-catch-error" class="modal-window" transition:fade>
     <div use:clickOutside={() => (error = "")}>
       <div id="kredeum-create-nft">
-        <div class="mint-modal-content">
+        <div class="modal-content">
           <span on:click={() => (error = "")} title="Close" class="modal-close"><i class="fa fa-times" /></span>
 
           <div class="modal-body">
