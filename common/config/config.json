@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "0.15.1",
+    "latest": "0.16.0",
     "stable": "0.13.2"
   },
   "storage": {
@@ -10,7 +10,8 @@
       "gatewayDomain": "ipfs.nftstorage.link"
     },
     "swarm": {
-      "gateway": "https://api.gateway.ethswarm.org/bzz/"    }
+      "gateway": "https://api.gateway.ethswarm.org/bzz/"
+    }
   },
   "treasury": {
     "account": "0xb09Ae31E045Bb9d8D74BB6624FeEB18B3Af72A8e",

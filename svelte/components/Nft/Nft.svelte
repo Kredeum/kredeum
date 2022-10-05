@@ -169,7 +169,7 @@
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royalty.fee == 0}
+                  {#if $nft.royalty.fee == 0 || !$nft.royalty.fee}
                     <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
                   {:else}
                     <span class="link overflow-ellipsis" title={`${$nft.royalty.fee / 100} %`} target="_blank">
@@ -233,7 +233,7 @@
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label">Sell direclty on Opensea</span></div>
+            <div class="flex"><span class="label">Create a link to Opensea</span></div>
             <div class="flex">
               <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
                 >Copy</a

@@ -4,7 +4,14 @@
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
   import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
-  import { explorerTxLog, ipfsGatewayLink, urlToLink, nftOpenSeaUrl, getOpenSea } from "@lib/common/kconfig";
+  import {
+    explorerTxLog,
+    ipfsGatewayLink,
+    urlToLink,
+    nftOpenSeaUrl,
+    getOpenSea,
+    kredeumNftUrl
+  } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
@@ -52,7 +59,7 @@
 
   const view = (e: Event): void => {
     e.preventDefault();
-    location.href = nftGetImageLink(mintedNft);
+    location.href = `./admin.php?page=nfts/${kredeumNftUrl($metamaskChainId, mintedNft)}`;
   };
 
   const mint = async (e: Event): Promise<NftType> => {

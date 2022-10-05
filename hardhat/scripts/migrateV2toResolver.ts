@@ -83,7 +83,7 @@ const main = async () => {
         gasLimit
       });
 
-      console.log(getExplorer(chainId) + "/tx/" + tx.hash || "");
+      console.log(`${getExplorer(chainId)}/tx/${tx.hash}` || "");
       await tx.wait();
       console.log("END      Migration !");
 

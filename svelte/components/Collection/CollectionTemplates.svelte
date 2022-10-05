@@ -122,7 +122,7 @@
     position: absolute;
   }
 
-  :global(.admin-bar input[type="checkbox"]:checked:before) {
+  :global(.admin-bar .modal-body input[type="checkbox"]:checked:before) {
     margin: 0;
     top: 50%;
   }

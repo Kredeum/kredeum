@@ -389,7 +389,7 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
 
 // KREDEUM NFT URL
 const kredeumNftUrl = (chainId: number, nft: NftType): string =>
-  `./#/${getChainName(nft.chainId)}/${nft?.address}/${nft?.tokenID}`;
+  `#/${getChainName(nft.chainId)}/${nft?.address}/${nft?.tokenID}`;
 
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: NftType): string => {
