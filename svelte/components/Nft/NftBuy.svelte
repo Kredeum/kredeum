@@ -3,6 +3,8 @@
   import { BigNumber, constants, utils } from "ethers";
 
   import { onMount } from "svelte";
+  import { getContext } from "svelte";
+  import { Writable } from "svelte/store";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
@@ -41,6 +43,11 @@
   let minimumPrice: BigNumber;
 
   let open = false;
+
+  // Context for catchError component
+  ///////////////////////////////////////////////////////////
+  let catchError: Writable<string> = getContext("catchError");
+  ///////////////////////////////////////////////////////////
 
   const _buyError = (err: string): void => {
     buyError = err;
@@ -85,7 +92,7 @@
   onMount(() => {
     buyInit();
 
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftPrice.lt(getMinPrice(nftRoyalty.minimum))) {
+    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && getMinPrice(nftRoyalty.minimum).gt(nftPrice)) {
       minimumPrice = getMinPrice(nftRoyalty.minimum);
       nftPrice = minimumPrice;
     }
@@ -93,26 +100,36 @@
 
   const buyConfirm = async () => {
     try {
-      const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+      const buyTxRespYield = buyNft(
+        chainId,
+        address,
+        tokenID,
+        /* BigNumber.from(1) /**/ /**/ nftPrice /**/,
+        $metamaskSigner
+      );
 
       buying = S2_SIGN_TX;
 
       const buyTxResp = (await buyTxRespYield.next()).value;
       buyTxHash = buyTxResp?.hash;
-      if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
+      // if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
+      if (!buyTxHash) $catchError = `ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`;
 
       explorerTxLog(chainId, buyTxResp);
       buying = S3_WAIT_TX;
 
       const txReceipt = (await buyTxRespYield.next()).value;
 
-      if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
+      // if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
 
       buying = S4_BUYED;
 
       await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
     } catch (e) {
       console.log("error : ", e.error.message);
+      buyInit();
+      open = false;
+      $catchError = e.error.message;
     }
   };
 </script>
@@ -216,13 +233,13 @@
                 </div>
               {/if}
 
-              {#if buyError}
+              <!-- {#if buyError}
                 <div class="section">
                   <div class="form-field kre-warning-msg">
                     <p><i class="fas fa-exclamation-triangle fa-left c-red" />{buyError}</p>
                   </div>
                 </div>
-              {/if}
+              {/if} -->
             </div>
           </div>
         </div>

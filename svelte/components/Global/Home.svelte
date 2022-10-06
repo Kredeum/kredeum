@@ -16,6 +16,7 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
   import CollectionList from "../Collection/CollectionList.svelte";
+  import CatchError from "../Global/CatchError.svelte";
 
   import { urlHash2RefNFT } from "@helpers/urlHash";
   import type { RefNFT } from "@helpers/refNft";
@@ -46,6 +47,13 @@
 
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
+  ////////////////////////////////////////////////////////////////////
+
+  ////////////////////////////////////////////////////////////////////
+  // Context for catchError component
+  ////////////////////////////////////////////////////////////////////
+  let catchError: Writable<string> = writable("");
+  setContext("catchError", catchError);
   ////////////////////////////////////////////////////////////////////
 
   onMount(() => {
@@ -88,6 +96,7 @@
     {#if chainId && account && address}
       <Content {chainId} {address} bind:tokenID {account} {platform} />
     {/if}
+    <CatchError catchError={$catchError} />
   </span>
 </HomeLayout>
 
