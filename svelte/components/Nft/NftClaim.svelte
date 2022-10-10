@@ -1,4 +1,5 @@
 <script lang="ts">
+  import type { Readable, Writable } from "svelte/store";
   import type { NftType } from "@lib/common/ktypes";
   import NftStorage from "@lib/nft/storage/knft-storage";
   import {
@@ -7,12 +8,13 @@
     explorerNftUrl,
     explorerTxUrl,
     textShort,
-    storageLinkToUrlHttp
+    storageLinkToUrlHttp,
+    METAMASK_ACTION_REJECTED
   } from "@lib/common/kconfig";
   import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/knft-mint";
   import { cidToInt } from "@lib/common/kcid";
 
-  import type { Readable } from "svelte/store";
+  import { getContext } from "svelte";
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
 
@@ -42,25 +44,36 @@
 
   $: console.info("NftClaim", $nft);
 
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
+  ///////////////////////////////////////////////////////////
+
+  const _claimingError = (err: string): void => {
+    $catchError;
+    console.error(err);
+    claimTxHash = null;
+    claiming = false;
+    claimed = false;
+  };
+
   const claim = async () => {
     if ($metamaskSigner && $nft) {
       claimTxHash = null;
       claiming = true;
       claimed = false;
-      let claimingError: string;
 
       const targetAddress = getOpenMulti(targetChainId);
       // console.log("claim", targetChainId, targetAddress);
 
       try {
-        if (!$nft.tokenURI) claimingError = "No metadata found on this NFT";
+        if (!$nft.tokenURI) _claimingError("No metadata found on this NFT");
         else {
           // console.log("claim", $nft.tokenURI);
 
           nftStorage ||= new NftStorage();
           const cid = await nftStorage.pinUrl(storageLinkToUrlHttp($nft.tokenURI));
 
-          if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
+          if (!cid.startsWith("bafkrei")) _claimingError(`Not CID V1 raw ${cid}`);
           else {
             // console.log("cidToInt(cid)", cidToInt(cid));
             const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
@@ -72,11 +85,12 @@
             claimed = true;
           }
         }
-      } catch (error) {
-        claimingError = "Problem with transaction\n" + String(error.message || "");
+      } catch (e) {
+        if (e.code !== METAMASK_ACTION_REJECTED) {
+          _claimingError(e.error.message || "");
+        }
       }
       claiming = false;
-      claimingError && console.error(claimingError);
     }
   };
 </script>

@@ -3,7 +3,7 @@
   import { Writable } from "svelte/store";
 
   import { burnNft, AddressdEaD } from "@lib/nft/kburn";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, textShort, METAMASK_ACTION_REJECTED } from "@lib/common/kconfig";
   import { collectionBurnable } from "@lib/collection/kcollection-get";
   import { transferNft } from "@lib/nft/ktransfer";
 
@@ -22,18 +22,19 @@
   let burning: number;
   let burnable: boolean;
   let burnTxHash: string;
-  let burnError: string;
 
   // Context for refreshCollectionList & refreshNftsList
-  ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   ///////////////////////////////////////////////////////////
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
+  ///////////////////////////////////////////////////////////
 
   const _burnError = (err: string): void => {
-    burnError = err;
-    console.error(burnError);
-    burning = S1_CONFIRM_BURN;
+    $catchError = err;
+    console.error(err);
+    burnInit();
   };
 
   // BURNING STATES
@@ -81,27 +82,36 @@
   };
 
   const burnConfirm = async () => {
-    const txRespYield = burnable
-      ? burnNft(chainId, address, tokenID, $metamaskSigner)
-      : transferNft(chainId, address, tokenID, $metamaskSigner, AddressdEaD);
+    try {
+      const txRespYield = burnable
+        ? burnNft(chainId, address, tokenID, $metamaskSigner)
+        : transferNft(chainId, address, tokenID, $metamaskSigner, AddressdEaD);
 
-    burning = S3_SIGN_TX;
+      burning = S3_SIGN_TX;
 
-    const txResp = (await txRespYield.next()).value;
-    burnTxHash = txResp?.hash;
-    if (!burnTxHash) return _burnError(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
+      const txResp = (await txRespYield.next()).value;
+      burnTxHash = txResp?.hash;
+      if (!burnTxHash) return _burnError(`ERROR while sending transaction... ${JSON.stringify(txResp, null, 2)}`);
 
-    burning = S4_WAIT_TX;
+      burning = S4_WAIT_TX;
 
-    const txReceipt = (await txRespYield.next()).value;
+      const txReceipt = (await txRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _burnError(`ERROR returned by transaction ${txReceipt}`);
+      if (!Boolean(txReceipt.status)) return _burnError(`ERROR returned by transaction ${txReceipt}`);
 
-    burning = S5_BURNED;
+      burning = S5_BURNED;
 
-    nftStore.nftRemoveOne(chainId, address, tokenID);
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+      nftStore.nftRemoveOne(chainId, address, tokenID);
+      $refreshCollectionList += 1;
+      $refreshNftsList += 1;
+    } catch (e) {
+      console.log("error : ", e.code);
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _burnError(e.error.message || "");
+      }
+      burnInit();
+    }
   };
 
   onMount(() => {
@@ -174,13 +184,6 @@
             <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank"
               >{textShort(burnTxHash)}</a
             >
-          </div>
-        {/if}
-        {#if burnError}
-          <div class="section">
-            <div class="form-field kre-warning-msg">
-              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{burnError}</p>
-            </div>
           </div>
         {/if}
       </div>

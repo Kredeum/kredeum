@@ -22,7 +22,7 @@
           <div class="section">
             <div class="form-field kre-warning-msg">
               <p>
-                <i class="fas fa-exclamation-triangle fa-left c-red" /> Error : {catchError}
+                <i class="fas fa-exclamation-triangle fa-left c-red" /> Problem with transaction : {catchError}
               </p>
             </div>
           </div>

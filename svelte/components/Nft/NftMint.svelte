@@ -220,7 +220,7 @@
     } catch (e) {
       // check if user cancelled transaction
       if (e.code !== METAMASK_ACTION_REJECTED) {
-        _mintingError(e.error.message);
+        _mintingError(e.error.message || "");
       }
       mintInit();
     }

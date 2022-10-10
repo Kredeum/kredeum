@@ -8,7 +8,14 @@
   import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/kconfig";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    textShort,
+    explorerTxLog,
+    getCurrency,
+    METAMASK_ACTION_REJECTED
+  } from "@lib/common/kconfig";
   import { transferNft } from "@lib/nft/ktransfer";
 
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
@@ -24,21 +31,22 @@
   /////////////////////////////////////////////////
 
   // Context for refreshCollectionList & refreshNftsList
-  ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  ///////////////////////////////////////////////////////////
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
   ///////////////////////////////////////////////////////////
 
   let transfering: number;
   let transferTxHash: string;
-  let transferError: string;
 
   let destinationAddress = "";
 
   const _transferError = (err: string): void => {
-    transferError = err;
-    console.error(transferError);
-    transfering = 0;
+    $catchError = err;
+    console.error(err);
+    transferInit();
   };
 
   // TRANSFERING STATES
@@ -76,28 +84,37 @@
   };
 
   const transferConfirm = async () => {
-    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
+    try {
+      const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
 
-    transfering = S2_SIGN_TX;
+      transfering = S2_SIGN_TX;
 
-    const transferTxResp = (await transferTxRespYield.next()).value;
-    transferTxHash = transferTxResp?.hash;
-    if (!transferTxHash)
-      return _transferError(`ERROR while sending transaction... ${JSON.stringify(transferTxResp, null, 2)}`);
+      const transferTxResp = (await transferTxRespYield.next()).value;
+      transferTxHash = transferTxResp?.hash;
+      if (!transferTxHash)
+        return _transferError(`ERROR while sending transaction... ${JSON.stringify(transferTxResp, null, 2)}`);
 
-    explorerTxLog(chainId, transferTxResp);
-    transfering = S3_WAIT_TX;
+      explorerTxLog(chainId, transferTxResp);
+      transfering = S3_WAIT_TX;
 
-    const txReceipt = (await transferTxRespYield.next()).value;
+      const txReceipt = (await transferTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _transferError(`ERROR returned by transaction ${txReceipt}`);
+      if (!Boolean(txReceipt.status)) return _transferError(`ERROR returned by transaction ${txReceipt}`);
 
-    transfering = S4_TRANSFERED;
+      transfering = S4_TRANSFERED;
 
-    nftStore.nftRemoveOne(chainId, address, tokenID);
+      nftStore.nftRemoveOne(chainId, address, tokenID);
 
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+      $refreshCollectionList += 1;
+      $refreshNftsList += 1;
+    } catch (e) {
+      console.log("error : ", e.code);
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _transferError(e.error.message || "");
+      }
+      transferInit();
+    }
   };
 
   let nft: Readable<NftType>;
@@ -169,13 +186,6 @@
             <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank"
               >{textShort(transferTxHash)}</a
             >
-          </div>
-        {/if}
-        {#if transferError}
-          <div class="section">
-            <div class="form-field kre-warning-msg">
-              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{transferError}</p>
-            </div>
           </div>
         {/if}
       </div>

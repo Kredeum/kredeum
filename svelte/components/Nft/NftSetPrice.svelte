@@ -1,12 +1,19 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-  import { onMount } from "svelte";
+  import type { Readable, Writable } from "svelte/store";
+  import { onMount, getContext } from "svelte";
   import { BigNumber, BigNumberish, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-  import {   setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
+  import {
+    explorerCollectionUrl,
+    explorerTxLog,
+    explorerTxUrl,
+    getCurrency,
+    textShort,
+    METAMASK_ACTION_REJECTED
+  } from "@lib/common/kconfig";
+  import { setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
@@ -28,14 +35,17 @@
 
   let tokenSettingPrice: number;
   let tokenSetPriceTxHash: string;
-  let tokenSetPriceError: string;
 
   let inputError: string;
 
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
+  ///////////////////////////////////////////////////////////
+
   const _tokenSetPriceError = (err: string): void => {
-    tokenSetPriceError = err;
-    console.error(tokenSetPriceError);
-    tokenSettingPrice = 0;
+    $catchError = err;
+    console.error(err);
+    tokenSetPriceInit;
   };
 
   const _inputPriceError = (err: string): void => {
@@ -107,32 +117,43 @@
   });
 
   const tokenSetPriceConfirm = async (price: BigNumber) => {
-    console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
+    try {
+      console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
 
-    if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
+      if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
 
-    if (!isValidPrice(price, $nft.royalty.minimum)) return _inputPriceError("Price too low !");
+      if (!isValidPrice(price, $nft.royalty.minimum)) return _inputPriceError("Price too low !");
 
-    nftPrice = price;
-    const tokenSetPriceTxRespYield = setTokenPrice($nft.chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
+      nftPrice = price;
+      const tokenSetPriceTxRespYield = setTokenPrice($nft.chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
-    tokenSettingPrice = S2_SIGN_TX;
+      tokenSettingPrice = S2_SIGN_TX;
 
-    const tokenSetPriceTxResp = (await tokenSetPriceTxRespYield.next()).value;
-    tokenSetPriceTxHash = tokenSetPriceTxResp?.hash;
-    if (!tokenSetPriceTxHash)
-      return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);
+      const tokenSetPriceTxResp = (await tokenSetPriceTxRespYield.next()).value;
+      tokenSetPriceTxHash = tokenSetPriceTxResp?.hash;
+      if (!tokenSetPriceTxHash)
+        return _tokenSetPriceError(
+          `ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`
+        );
 
-    explorerTxLog($nft.chainId, tokenSetPriceTxResp);
-    tokenSettingPrice = S3_WAIT_TX;
+      explorerTxLog($nft.chainId, tokenSetPriceTxResp);
+      tokenSettingPrice = S3_WAIT_TX;
 
-    const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
+      const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
+      if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
 
-    tokenSettingPrice = S4_PRICE_SETTED;
+      tokenSettingPrice = S4_PRICE_SETTED;
 
-    await nftStore.refreshOne($nft.chainId, $nft.address, $nft.tokenID).catch(console.error);
+      await nftStore.refreshOne($nft.chainId, $nft.address, $nft.tokenID).catch(console.error);
+    } catch (e) {
+      console.log("error : ", e.code);
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _tokenSetPriceError(e.error.message || "");
+      }
+      tokenSetPriceInit();
+    }
   };
 </script>
 
@@ -234,14 +255,6 @@
     <a class="link" href={explorerTxUrl($nft.chainId, tokenSetPriceTxHash)} target="_blank"
       >{textShort(tokenSetPriceTxHash)}</a
     >
-  </div>
-{/if}
-
-{#if tokenSetPriceError}
-  <div class="section">
-    <div class="form-field kre-warning-msg">
-      <p><i class="fas fa-exclamation-triangle fa-left c-red" />{tokenSetPriceError}</p>
-    </div>
   </div>
 {/if}
 
