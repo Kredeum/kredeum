@@ -4,7 +4,14 @@
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/ktypes";
-  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
+  import {
+    explorerTxLog,
+    explorerTxUrl,
+    explorerAddressUrl,
+    textShort,
+    getCurrency,
+    METAMASK_ACTION_REJECTED
+  } from "@lib/common/kconfig";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
   import { getReceiverAmount } from "@lib/nft/kautomarket";
 
@@ -12,8 +19,6 @@
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Global/InputPrice.svelte";
-  import CatchError from "../Global/CatchError.svelte";
-  import { error } from "console";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -27,7 +32,6 @@
   let minRoyalty: boolean;
 
   let cloning: number;
-  let cloneError: string;
 
   let collectionName = "";
   let collectionSymbol = "";
@@ -41,16 +45,18 @@
   let inputReceiver: string;
 
   // Context for refreshCollectionList
-  ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  ///////////////////////////////////////////////////////////
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
   ///////////////////////////////////////////////////////////
 
   const dispatch = createEventDispatcher();
 
   const _cloneError = (err: string): void => {
-    cloneError = err;
-    console.error(cloneError);
-    cloning = 0;
+    $catchError = err;
+    console.error(err);
+    _cloneInit();
   };
 
   // CREATING STATES
@@ -91,45 +97,53 @@
   };
 
   const _cloneConfirm = async () => {
-    cloning = S2_SIGN_CLONE_TX;
+    try {
+      cloning = S2_SIGN_CLONE_TX;
 
-    const cloneTxRespYield = collectionClone(
-      chainId,
-      collectionName,
-      collectionSymbol,
-      template,
-      $metamaskSigner,
-      price,
-      inputReceiver || $metamaskAccount,
-      Math.round((Number(inputFee) || 0) * 100),
-      minRoyalty
-    );
-    const cloneTxResp = (await cloneTxRespYield.next()).value;
+      const cloneTxRespYield = collectionClone(
+        chainId,
+        collectionName,
+        collectionSymbol,
+        template,
+        $metamaskSigner,
+        price,
+        inputReceiver || $metamaskAccount,
+        Math.round((Number(inputFee) || 0) * 100),
+        minRoyalty
+      );
+      const cloneTxResp = (await cloneTxRespYield.next()).value;
 
-    if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
+      if (!cloneTxResp) return _cloneError("ERROR collectionClone no cloneTxResp");
 
-    explorerTxLog(chainId, cloneTxResp);
-    cloningTxHash = cloneTxResp.hash;
+      explorerTxLog(chainId, cloneTxResp);
+      cloningTxHash = cloneTxResp.hash;
 
-    cloning = S3_WAIT_CLONE_TX;
+      cloning = S3_WAIT_CLONE_TX;
 
-    const cloneTxReceipt = (await cloneTxRespYield.next()).value;
-    if (!cloneTxReceipt.status)
-      return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(cloneTxReceipt, null, 2)}`);
+      const cloneTxReceipt = (await cloneTxRespYield.next()).value;
+      if (!cloneTxReceipt.status)
+        return _cloneError(`ERROR collectionClone bad status ${JSON.stringify(cloneTxReceipt, null, 2)}`);
 
-    collectionCreated = {
-      chainId: chainId,
-      name: collectionName,
-      address: collectionCloneAddress(cloneTxReceipt),
-      owner: await $metamaskSigner.getAddress()
-    };
-    collection = collectionCreated;
+      collectionCreated = {
+        chainId: chainId,
+        name: collectionName,
+        address: collectionCloneAddress(cloneTxReceipt),
+        owner: await $metamaskSigner.getAddress()
+      };
+      collection = collectionCreated;
 
-    dispatch("collection", { collection: collectionCreated.address });
+      dispatch("collection", { collection: collectionCreated.address });
 
-    cloning = S4_COLL_CREATED;
+      cloning = S4_COLL_CREATED;
 
-    $refreshCollectionList += 1;
+      $refreshCollectionList += 1;
+    } catch (e) {
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _cloneError(e.error.message);
+      }
+      _cloneInit();
+    }
   };
 
   const resetCollMint = () => {
@@ -141,7 +155,6 @@
       price = BigNumber.from(0);
       inputFee = "";
       inputReceiver = "";
-      cloneError = null;
       cloning = S1_CONFIRM;
     }
   };
@@ -264,14 +277,6 @@
                   >{textShort(cloningTxHash)}</a
                 >
               </div>
-            </div>
-          </div>
-        {/if}
-
-        {#if cloneError}
-          <div class="section">
-            <div class="form-field kre-warning-msg">
-              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{cloneError}</p>
             </div>
           </div>
         {/if}

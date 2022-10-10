@@ -47,7 +47,6 @@
 
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
-  ////////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////
   // Context for catchError component
@@ -96,7 +95,8 @@
     {#if chainId && account && address}
       <Content {chainId} {address} bind:tokenID {account} {platform} />
     {/if}
-    <CatchError catchError={$catchError} />
+
+    <CatchError bind:catchError={$catchError} />
   </span>
 </HomeLayout>
 

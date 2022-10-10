@@ -17,7 +17,8 @@
     textShort,
     getOpenSea,
     nftOpenSeaUrl,
-    getCurrency
+    getCurrency,
+    METAMASK_ACTION_REJECTED
   } from "@lib/common/kconfig";
   import { getMinPrice } from "@lib/nft/kautomarket";
 
@@ -38,21 +39,20 @@
 
   let buying: number;
   let buyTxHash: string;
-  let buyError: string;
 
   let minimumPrice: BigNumber;
 
   let open = false;
 
   // Context for catchError component
-  ///////////////////////////////////////////////////////////
   let catchError: Writable<string> = getContext("catchError");
   ///////////////////////////////////////////////////////////
 
   const _buyError = (err: string): void => {
-    buyError = err;
-    console.error(buyError);
-    buying = 0;
+    $catchError = err;
+    console.error(err);
+    open = false;
+    buyInit();
   };
 
   // BUYING STATES
@@ -112,24 +112,25 @@
 
       const buyTxResp = (await buyTxRespYield.next()).value;
       buyTxHash = buyTxResp?.hash;
-      // if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
-      if (!buyTxHash) $catchError = `ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`;
+      if (!buyTxHash) return _buyError(`ERROR while sending transaction... ${JSON.stringify(buyTxResp, null, 2)}`);
 
       explorerTxLog(chainId, buyTxResp);
       buying = S3_WAIT_TX;
 
       const txReceipt = (await buyTxRespYield.next()).value;
 
-      // if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
+      if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
 
       buying = S4_BUYED;
 
       await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
     } catch (e) {
-      console.log("error : ", e.error.message);
+      console.log("error : ", e.code);
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _buyError(e.error.message);
+      }
       buyInit();
-      open = false;
-      $catchError = e.error.message;
     }
   };
 </script>
@@ -232,14 +233,6 @@
                   <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a>
                 </div>
               {/if}
-
-              <!-- {#if buyError}
-                <div class="section">
-                  <div class="form-field kre-warning-msg">
-                    <p><i class="fas fa-exclamation-triangle fa-left c-red" />{buyError}</p>
-                  </div>
-                </div>
-              {/if} -->
             </div>
           </div>
         </div>

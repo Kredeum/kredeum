@@ -21,7 +21,8 @@
     storageLinkToUrlHttp,
     config,
     explorerAddressUrl,
-    getCurrency
+    getCurrency,
+    METAMASK_ACTION_REJECTED
   } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
@@ -41,7 +42,10 @@
   // Context for refreshCollectionList & refreshNftsList
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
   let refreshNftsList: Writable<number> = getContext("refreshNftsList");
-  /////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  // Context for catchError component
+  let catchError: Writable<string> = getContext("catchError");
+  ///////////////////////////////////////////////////////////
 
   let address: string;
 
@@ -58,7 +62,6 @@
   let minting: number;
   let mintingTxResp: TransactionResponse;
   let mintedNft: NftType;
-  let mintingError: string;
 
   /////////////////////////////////////////////////
   let open = false;
@@ -116,9 +119,9 @@
   };
 
   const _mintingError = (err: string): void => {
-    mintingError = err;
-    console.error(mintingError);
-    minting = 0;
+    $catchError = err;
+    console.error(err);
+    mintInit();
   };
 
   // MINTING STATES
@@ -169,50 +172,58 @@
   };
 
   const mintConfirm = async () => {
-    if (!image) return _mintingError("ERROR no image");
+    try {
+      if (!image) return _mintingError("ERROR no image");
 
-    minting = S2_STORE_IMAGE;
+      minting = S2_STORE_IMAGE;
 
-    storageImg =
-      "ipfs" === storage
-        ? await nftIpfsImage(image)
-        : "swarm" === storage
-        ? await nftSwarmImage(file, nftTitle, file.type, gateway, key, file.size)
-        : "";
+      storageImg =
+        "ipfs" === storage
+          ? await nftIpfsImage(image)
+          : "swarm" === storage
+          ? await nftSwarmImage(file, nftTitle, file.type, gateway, key, file.size)
+          : "";
 
-    if (!storageImg) return _mintingError("ERROR image not stored");
+      if (!storageImg) return _mintingError("ERROR image not stored");
 
-    minting = S3_STORE_METADATA;
+      minting = S3_STORE_METADATA;
 
-    storageJson =
-      "ipfs" === storage
-        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
-        : "swarm" === storage
-        ? swarmGatewayUrl(
-            await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
-          )
-        : "";
+      storageJson =
+        "ipfs" === storage
+          ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
+          : "swarm" === storage
+          ? swarmGatewayUrl(
+              await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
+            )
+          : "";
 
-    if (!storageJson) return _mintingError("ERROR metadata not stored");
+      if (!storageJson) return _mintingError("ERROR metadata not stored");
 
-    minting = S4_SIGN_TX;
+      minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, price);
-    if (!mintingTxResp)
-      return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
+      mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, price);
+      if (!mintingTxResp)
+        return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
-    explorerTxLog(chainId, mintingTxResp);
-    minting = S5_WAIT_TX;
+      explorerTxLog(chainId, mintingTxResp);
+      minting = S5_WAIT_TX;
 
-    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, $metamaskAccount);
-    // console.log("mintedNft", mintedNft);
+      mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, $metamaskAccount);
+      // console.log("mintedNft", mintedNft);
 
-    if (!mintedNft) return _mintingError(`ERROR returned by transaction ${mintedNft}`);
+      if (!mintedNft) return _mintingError(`ERROR returned by transaction ${mintedNft}`);
 
-    minting = S6_MINTED;
+      minting = S6_MINTED;
 
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+      $refreshCollectionList += 1;
+      $refreshNftsList += 1;
+    } catch (e) {
+      // check if user cancelled transaction
+      if (e.code !== METAMASK_ACTION_REJECTED) {
+        _mintingError(e.error.message);
+      }
+      mintInit();
+    }
   };
 
   onMount(() => {
@@ -395,22 +406,13 @@
                   <li>
                     <div class="flex">
                       <span class="titre">
-                        {#if mintingError}
-                          Minting Error
-                          <i class="fa fa-times fa-left" />
-                        {:else}
-                          Minting NFT
-                          <i class="fas fa-spinner fa-left c-green refresh" />
-                        {/if}
+                        Minting NFT
+                        <i class="fas fa-spinner fa-left c-green refresh" />
                       </span>
                     </div>
                     <div class="flex">
                       <span class="t-light">
-                        {#if mintingError}
-                          {mintingError}
-                        {:else}
-                          {nftMintTexts[minting]}
-                        {/if}
+                        {nftMintTexts[minting]}
                       </span>
                     </div>
                   </li>
@@ -467,12 +469,6 @@
                   <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
                 </div>
               </li>
-            {:else if mintingError}
-              <div class="section">
-                <div class="form-field kre-warning-msg">
-                  <p><i class="fas fa-exclamation-triangle fa-left c-red" />{mintingError}</p>
-                </div>
-              </div>
             {/if}
           </div>
         </div>

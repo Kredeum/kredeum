@@ -1,31 +1,19 @@
 <script lang="ts">
-  import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
   import { clickOutside } from "@helpers/clickOutside";
   import { fade } from "svelte/transition";
 
   ///////////////////////////////////////////////////////////
-  // <CollectionCreate {chainId} {collection} />
+  // <CatchError {catchError} />
   // Catch error and display it in modal
   ///////////////////////////////////////////////////////////
-
-  // Context for catchError component
-  ///////////////////////////////////////////////////////////
-  let catchError: Writable<string> = getContext("catchError");
-  ///////////////////////////////////////////////////////////
-
-  // export let catchError: string;
-
-  // let error = "";
-
-  // $: error = catchError;
+  export let catchError = "";
 </script>
 
-{#if $catchError}
+{#if catchError}
   <div id="kre-catch-error" class="modal-window" transition:fade>
-    <div use:clickOutside={() => ($catchError = "")}>
+    <div use:clickOutside={() => (catchError = "")}>
       <div class="modal-content">
-        <span on:click={() => ($catchError = "")} title="Close" class="modal-close"><i class="fa fa-times" /></span>
+        <span on:click={() => (catchError = "")} title="Close" class="modal-close"><i class="fa fa-times" /></span>
 
         <div class="modal-body">
           <div class="titre">
@@ -34,7 +22,7 @@
           <div class="section">
             <div class="form-field kre-warning-msg">
               <p>
-                <i class="fas fa-exclamation-triangle fa-left c-red" /> Error : {$catchError}
+                <i class="fas fa-exclamation-triangle fa-left c-red" /> Error : {catchError}
               </p>
             </div>
           </div>

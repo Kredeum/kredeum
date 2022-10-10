@@ -15,6 +15,8 @@ const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
+const METAMASK_ACTION_REJECTED = "ACTION_REJECTED";
+
 const isProviderOnChainId = async (chainId: number, signerOrProvider: Signer | Provider): Promise<boolean> => {
   const provider = Signer.isSigner(signerOrProvider) ? signerOrProvider.provider : signerOrProvider;
 
@@ -551,5 +553,6 @@ export {
   MAX_FEE,
   DEFAULT_NAME,
   DEFAULT_SYMBOL,
+  METAMASK_ACTION_REJECTED,
   SWARM_GATEWAY
 };
