@@ -87,7 +87,7 @@
         }
       } catch (e) {
         if (e.code !== METAMASK_ACTION_REJECTED) {
-          _claimingError(e.error.message || "");
+          _claimingError(e.error?.message || e.message || "");
         }
       }
       claiming = false;

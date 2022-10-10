@@ -100,7 +100,7 @@
 
   const buyConfirm = async () => {
     try {
-      const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+      const buyTxRespYield = buyNft(chainId, address, tokenID, /*nftPrice*/ BigNumber.from(1), $metamaskSigner);
 
       buying = S2_SIGN_TX;
 
@@ -119,10 +119,9 @@
 
       await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
     } catch (e) {
-      console.log("error : ", e.code);
       // check if user cancelled transaction
       if (e.code !== METAMASK_ACTION_REJECTED) {
-        _buyError(e.error.message || "");
+        _buyError(e.error?.message || e.message || "");
       }
       buyInit();
     }

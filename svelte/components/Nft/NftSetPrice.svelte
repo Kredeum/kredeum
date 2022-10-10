@@ -147,10 +147,9 @@
 
       await nftStore.refreshOne($nft.chainId, $nft.address, $nft.tokenID).catch(console.error);
     } catch (e) {
-      console.log("error : ", e.code);
       // check if user cancelled transaction
       if (e.code !== METAMASK_ACTION_REJECTED) {
-        _tokenSetPriceError(e.error.message || "");
+        _tokenSetPriceError(e.error?.message || e.message || "");
       }
       tokenSetPriceInit();
     }

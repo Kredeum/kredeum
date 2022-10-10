@@ -105,10 +105,9 @@
       $refreshCollectionList += 1;
       $refreshNftsList += 1;
     } catch (e) {
-      console.log("error : ", e.code);
       // check if user cancelled transaction
       if (e.code !== METAMASK_ACTION_REJECTED) {
-        _burnError(e.error.message || "");
+        _burnError(e.error?.message || e.message || "");
       }
       burnInit();
     }
