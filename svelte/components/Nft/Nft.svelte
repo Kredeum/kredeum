@@ -165,6 +165,7 @@
                 <div class="flex">
                   <span
                     class="overflow-ellipsis {$nft.royalty?.minimum &&
+                    $nft.price &&
                     getMinPrice($nft.royalty?.minimum)?.gt($nft.price) &&
                     !$nft.price?.eq(0)
                       ? 'c-red'
