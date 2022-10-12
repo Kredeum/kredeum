@@ -56,7 +56,29 @@ const resolverConvOpenNFTsCollectionInfos = (
   if (minimal) collection.minimal = minimal;
 
   const version = Number(collectionOpenNFTsInfos[0]);
-  if (version > 0) collection.version = version;
+  if (version >= 2) collection.version = version;
+  else {
+    const openNFTsV0AddressesMatic = [
+      "0xF6d53C7e96696391Bb8e73bE75629B37439938AF",
+      "0x792f8e3C36Ac3c1C6D62ECc44a88cA1317fEce93"
+    ];
+    const openNFTsV1AddressesMatic = [
+      "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
+      "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0"
+    ];
+    const openNFTsV1AddresseMainnet = "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471";
+    const openNFTsV1AddresseBsc = "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9";
+
+    if (chainId == 137 && openNFTsV1AddressesMatic.includes(collection.address)) {
+      collection.version = 1;
+    } else if (chainId == 137 && openNFTsV0AddressesMatic.includes(collection.address)) {
+      collection.version = 0;
+    } else if (chainId == 1 && openNFTsV1AddresseMainnet == collection.address) {
+      collection.version = 1;
+    } else if (chainId == 56 && openNFTsV1AddresseBsc == collection.address) {
+      collection.version = 1;
+    }
+  }
 
   const template = collectionOpenNFTsInfos[1] || "";
   if (template) collection.template = template;

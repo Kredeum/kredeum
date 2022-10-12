@@ -36,7 +36,7 @@ import "../interfaces/IOpenNFTsFactoryV3.sol";
 import "../interfaces/IOpenNFTsResolver.sol";
 
 import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
-import {IOpenNFTsV3 as IOpenNFTsV3Old} from "../interfaces/IOpenNFTsV3.old.sol";
+import "../interfaces/IOpenNFTsV3Plus.sol";
 
 import "../interfaces/IInterfacesIds.sol";
 
@@ -77,7 +77,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = bytes4(0x4b68d431); // IOpenNFTsV0
         interfacesIds[i++] = bytes4(0xeacabe14); // IOpenNFTsV1
         interfacesIds[i++] = bytes4(0xd94a1db2); // IOpenNFTsV2
-        interfacesIds[i++] = bytes4(0x5f5f00ef); // IOpenNFTsV3
+        interfacesIds[i++] = bytes4(0x5c838d8b); // IOpenNFTsV3
         interfacesIds[i++] = type(IOpenNFTsV4).interfaceId;
         interfacesIds[i++] = type(IOpenAutoMarket).interfaceId;
         interfacesIds[i++] = type(IOpenBound).interfaceId;
@@ -87,7 +87,7 @@ contract InterfacesIds is IInterfacesIds {
         interfacesIds[i++] = type(IOpenNFTsFactoryV3).interfaceId; // IOpenNFTsFactoryV3
 
         interfacesIds[i++] = bytes4(0x03dc8d64); // IOpenNFTsOld
-        interfacesIds[i++] = bytes4(0x5c838d8b); // IOpenNFTsV3Old
+        interfacesIds[i++] = bytes4(0x5f5f00ef); // IOpenNFTsV3Plus
 
         interfacesIds[i++] = type(IInterfacesIds).interfaceId;
 
