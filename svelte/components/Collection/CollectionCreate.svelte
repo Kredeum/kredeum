@@ -187,8 +187,8 @@
 
           {#if templateName(template) === "OpenAutoMarket"}
             <div class="section">
-              <div class="titre">Royalty</div>
-              <div class="form-field">
+              <div class="titre">Royalty (%)</div>
+              <div class="form-field kre-field-percent">
                 <input
                   type="text"
                   class=" kre-field-outline"
@@ -203,7 +203,7 @@
               <div class="form-field">
                 <input
                   type="text"
-                  class=" kre-field-outline"
+                  class="kre-field-outline"
                   placeholder={$metamaskAccount}
                   bind:value={inputReceiver}
                   id="royalties-reveiver-nft"
@@ -276,3 +276,17 @@
     </div>
   </div>
 </div>
+
+<style>
+  .kre-field-percent {
+    position: relative;
+  }
+  .kre-field-percent::before {
+    content: "%";
+    color: #1e1e43;
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+</style>

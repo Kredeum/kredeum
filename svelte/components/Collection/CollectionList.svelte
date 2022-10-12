@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  import { Readable, writable } from "svelte/store";
   import type { CollectionType } from "@lib/common/ktypes";
 
   import { getContext } from "svelte";
@@ -25,7 +25,7 @@
   // Context for refreshCollectionList & refreshing
   ///////////////////////////////////////////////////////////
   let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshing: Writable<boolean> = getContext("refreshing");
+  let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
   let open: boolean = false;

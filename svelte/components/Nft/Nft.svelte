@@ -39,6 +39,8 @@
 
   let nft: Readable<NftType>;
 
+  let nftRoyaltyFeeAmount: number;
+
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
@@ -48,22 +50,11 @@
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    ///////////////////////////////////////////////////////////////
-    // TODO Update nftstore.refreshOne to get collection supports ?
-    //
-    // REASON OF THIS FIX => on first direct Nft.svelte page load
-    // from hash in url, $nft.collection doesn't have supports.
-    //
-    // On second load, $nft.collection.supports are hydratated
-    ///////////////////////////////////////////////////////////////
-    if (!$nft?.collection?.supports) {
-      await nftStore.refreshSubList(chainId, address, account);
-    }
-    ///////////////////////////////////////////////////////////////
-
     // ACTION : async refresh Nft
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
+
+  $: nftRoyaltyFeeAmount = $nft.royalty?.fee;
 
   $: console.info("Nft", $nft);
 </script>
@@ -182,11 +173,11 @@
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
                 <div class="flex">
-                  {#if $nft.royalty.fee == 0}
+                  {#if nftRoyaltyFeeAmount == 0 || !nftRoyaltyFeeAmount}
                     <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
                   {:else}
-                    <span class="link overflow-ellipsis" title={`${$nft.royalty.fee / 100} %`} target="_blank">
-                      {$nft.royalty.fee / 100} %
+                    <span class="link overflow-ellipsis" title={`${nftRoyaltyFeeAmount / 100} %`} target="_blank">
+                      {nftRoyaltyFeeAmount / 100} %
                     </span>
                   {/if}
                 </div>
@@ -246,7 +237,7 @@
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label">Sell direclty on Opensea</span></div>
+            <div class="flex"><span class="label">View on Opensea</span></div>
             <div class="flex">
               <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
                 >Copy</a

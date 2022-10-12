@@ -36,11 +36,11 @@
                   <div class="txtright">
                     <a
                       href={nftOpenSeaUrl(chainId, { chainId, address, tokenID })}
-                      class="btn btn-small btn-sell"
+                      class="btn btn-sell"
                       title="Sell"
                       target="_blank"
                     >
-                      Sell on OpenSea
+                      View on OpenSea
                     </a>
                   </div>
                 </div>

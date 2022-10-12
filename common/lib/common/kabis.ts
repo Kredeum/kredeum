@@ -34,7 +34,7 @@ import abiINFTsFactoryV2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INF
 import abiIOpenNFTsFactoryV3 from "@abis/contracts/interfaces/IOpenNFTsFactoryV3.sol/IOpenNFTsFactoryV3.json";
 
 import abiIOpenNFTsOld from "@abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
-import abiIOpenNFTsV3Old from "@abis/contracts/interfaces/IOpenNFTsV3.old.sol/IOpenNFTsV3.json";
+import abiIOpenNFTsV3Plus from "@abis/contracts/interfaces/IOpenNFTsV3Plus.sol/IOpenNFTsV3Plus.json";
 
 const abis = {
   IERC165: abiIERC165,
@@ -70,7 +70,7 @@ const abis = {
   IOpenNFTsFactoryV3: abiIOpenNFTsFactoryV3,
 
   IOpenNFTsOld: abiIOpenNFTsOld,
-  IOpenNFTsV3Old: abiIOpenNFTsV3Old
+  IOpenNFTsV3Plus: abiIOpenNFTsV3Plus
 };
 
 export { abis };

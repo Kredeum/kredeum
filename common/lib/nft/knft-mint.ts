@@ -15,7 +15,7 @@ import { nftSwarmImage, nftSwarmJson } from "@lib/nft/storage/knft-swarm";
 import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
-import type { IOpenNFTsV3 } from "@soltypes/contracts/interfaces/IOpenNFTsV3";
+import type { IOpenNFTsV3Plus } from "@soltypes/contracts/interfaces/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
 
@@ -94,7 +94,7 @@ const nftMint = async (
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
-    txResp = await (contract as IOpenNFTsV3).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV3plus).mintOpenNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV2) {
     // console.log("IOpenNFTsV2");
     txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);

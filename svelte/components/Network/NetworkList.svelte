@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, networks } from "@lib/common/kconfig";
+  import { getChainName, getNetwork, networks } from "@lib/common/kconfig";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import { metamaskSwitchChain } from "@helpers/metamask";
@@ -82,8 +82,7 @@
               <Network chainId={nwk.chainId} txt={true} />
             </span>
           {/each}
-          <!-- {#if getNetwork(chainId)?.testnet} -->
-          {#if true}
+          {#if getNetwork(chainId)?.testnet}
             {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
               <span
                 class="custom-option {nwk.chainId == chainId && 'selected'}"

@@ -307,7 +307,7 @@
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0x798d804A566be41dA06e12A4052808C9Fb767e77",
+    "nftsResolver": "0x970E1f3b24888B7dDfa9C4D32b8c3fb6B97c8512",
     "nftsFactoryV3": "0x57E0347DCcF76cC3a55c9C2257D8c123D5d8e343"
   },
   {

@@ -27,15 +27,21 @@ if (!process.env.ENVIR) {
 const production = process.env.ENVIR == "PROD";
 console.info("production", production);
 
-const envKeys = () => {
-  return Object.keys(process.env).reduce(
-    (envValues, envValue) => ({
-      ...envValues,
-      [`process.env.${envValue}`]: JSON.stringify(process.env[envValue])
-    }),
-    {}
-  );
-};
+const envKeysValues = {};
+for (const envKey of [
+  "INFURA_API_KEY",
+  "ALCHEMY_API_KEY",
+  "ALCHEMY_API_KEY_POLYGON",
+  "COVALENT_API_KEY",
+  "MORALIS_SERVER_URL",
+  "MORALIS_APP_ID",
+  "NFT_STORAGE_KEY",
+  "GIT_BRANCH",
+  "GIT_SHORT"
+]) {
+  envKeysValues[`process.env.${envKey}`] = `"${process.env[envKey] || ""}"`;
+}
+// console.log("envKeysValues", JSON.stringify(envKeysValues, null, 2));
 
 /////////////////////////////////////////////////////////////////////////
 // Fix "Missing Export 'Buffer' is not exported by node-resolve:empty.js"
@@ -84,7 +90,7 @@ const toRollupConfig = function (component: string): RollupOptions {
       }),
       replace({
         preventAssignment: true,
-        values: envKeys()
+        values: envKeysValues
       }),
       addSyntheticNamedExportsToSkippedNodeImports(),
       nodeResolve({

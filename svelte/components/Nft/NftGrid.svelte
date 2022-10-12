@@ -10,7 +10,6 @@
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
   export let nft: NftType;
-  export let account: string = undefined;
 
   let displayMode: string = "grid";
 
@@ -24,15 +23,6 @@
 
     <div class="caption">
       <h3>{nftName(nft)}</h3>
-      {#if getOpenSea(nft.chainId)}
-        {#if addressSame(nft.owner, account)}
-          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
-            Sell
-          </a>
-        {:else}
-          <a href={nftOpenSeaUrl(nft.chainId, nft)} class="btn btn-small btn-buy" title="Buy" target="_blank"> Buy </a>
-        {/if}
-      {/if}
     </div>
   </div>
 </div>

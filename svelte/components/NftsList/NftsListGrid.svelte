@@ -7,13 +7,11 @@
   //  <NftsListGrid {account} {nfts} />
   // Display NFTs List in Grid mode
   /////////////////////////////////////////////////
-  export let account: string = undefined;
-
   export let nfts: Readable<Map<string, NftType>>;
 </script>
 
 <div class="row grid-krd">
   {#each [...$nfts.values()] as nft}
-    <NftGrid {nft} {account} />
+    <NftGrid {nft} />
   {/each}
 </div>
