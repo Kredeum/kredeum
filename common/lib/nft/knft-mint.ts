@@ -94,7 +94,7 @@ const nftMint = async (
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
-    txResp = await (contract as IOpenNFTsV3plus).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV2) {
     // console.log("IOpenNFTsV2");
     txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);

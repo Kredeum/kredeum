@@ -1,8 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.9;
 
-interface IOpenNFTsV3Plus
- {
+interface IOpenNFTsV3Plus {
     function initialize(
         string memory name,
         string memory symbol,
