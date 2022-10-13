@@ -1,6 +1,8 @@
 <script lang="ts">
   import { getShortAddress, blockscanUrl, getEnsName } from "@lib/common/kconfig";
 
+  import CopyRefItem from "../Global/CopyRefItem.svelte";
+
   /////////////////////////////////////////////////
   // <AccountConnect {account} {txt} />
   // Display Account
@@ -20,7 +22,7 @@
   Address
   {accountEns}
 {:else}
-  <span class="label"
+  <span class="label kre-copy-ref-container"
     >Address
     <a
       class="info-button"
@@ -29,7 +31,9 @@
       title="&#009;Owner address (click to view account in explorer )&#013;{accountEns}"
       ><i class="fas fa-info-circle" /></a
     >
+    <CopyRefItem copyData={account} />
   </span>
+
   <div class="form-field">
     <input type="text" value={getShortAddress(accountEns, 10)} />
   </div>
