@@ -239,6 +239,7 @@
   #kre-buy-nft {
     z-index: 1000;
     pointer-events: auto;
+    color: #1e1e43;
   }
 
   .btn-buy-modal {
