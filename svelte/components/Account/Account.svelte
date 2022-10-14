@@ -22,7 +22,7 @@
   Address
   {accountEns}
 {:else}
-  <span class="label kre-copy-ref-container"
+  <span class="label"
     >Address
     <a
       class="info-button"
