@@ -26,6 +26,7 @@
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
   // import NftClaim from "./NftClaim.svelte";
+  import CopyRefItem from "../Global/CopyRefItem.svelte";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -110,11 +111,15 @@
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
             <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
               <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
+              <CopyRefItem copyData={tokenID} />
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
-            <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
+            <div class="flex">
+              {@html explorerAddressLink(chainId, $nft.owner, 15)}
+              <CopyRefItem copyData={$nft.owner} />
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">collection @</span></div>
@@ -127,6 +132,7 @@
               >
                 {address}
               </a>
+              <CopyRefItem copyData={address} />
             </div>
           </li>
           <li>

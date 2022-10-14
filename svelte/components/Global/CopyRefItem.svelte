@@ -15,5 +15,6 @@
 <style>
   .copy-ref {
     vertical-align: baseline;
+    color: grey;
   }
 </style>
