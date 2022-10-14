@@ -133,7 +133,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}>Yes, I want to burn</button>
+            <button class="btn btn-default btn-burn" type="submit" on:click={burnConfirm}>Yes, I want to burn</button>
           </div>
         {:else if burning == S2_CONFIRM_TRANSFER}
           <div class="section">
@@ -148,7 +148,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}
+            <button class="btn btn-default btn-burn" type="submit" on:click={burnConfirm}
               >Yes, I want to transfer it</button
             >
           </div>
@@ -187,3 +187,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .btn-burn {
+    background-color: red;
+    font-weight: 900;
+  }
+</style>

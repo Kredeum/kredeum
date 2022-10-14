@@ -32,6 +32,7 @@
   export let nftOwner: string;
   export let nftPrice: BigNumber;
   export let nftRoyalty: ReceiverType;
+  export let display = "dapp";
   ///////////////////////////////////////////////////////////
 
   let buying: number;
@@ -85,7 +86,7 @@
   onMount(() => {
     buyInit();
 
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftPrice.lt(getMinPrice(nftRoyalty.minimum))) {
+    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && getMinPrice(nftRoyalty.minimum).gt(nftPrice)) {
       minimumPrice = getMinPrice(nftRoyalty.minimum);
       nftPrice = minimumPrice;
     }
@@ -118,8 +119,10 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {constants.Zero.eq(nftPrice || 0) ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> Buy</a
+  class="{display === 'dapp' ? 'btn-buy-modal' : 'btn btn-default btn-buy-shortcode'} {constants.Zero.eq(nftPrice || 0)
+    ? 'kre-disabled'
+    : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY</a
 >
 
 {#if open}
@@ -243,7 +246,8 @@
     color: white !important;
   }
 
-  .btn-buy-modal:hover {
+  .btn-buy-modal,
+  .btn-buy-shortcode:hover {
     background-color: #3acf6e !important;
   }
 </style>

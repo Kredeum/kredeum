@@ -7,6 +7,8 @@ import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
+import BuyShortcodeEntry from "../components/Wordpress/BuyShortcodeEntry.svelte";
+
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
 
@@ -38,6 +40,18 @@ let kredeumHome: Home;
   if (target) {
     kredeumHome = new Home({ target, props: _props(target) });
   }
+}
+
+const kredeumBuyButton: Array<BuyShortcodeEntry> = [];
+{
+  // Kredeum Mint button components
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-wp-shortcode-buy");
+  targets?.forEach((target, i) => {
+    kredeumBuyButton[i] = new BuyShortcodeEntry({
+      target,
+      props: _props(target)
+    });
+  });
 }
 
 const kredeumMintButton: Array<NftMintButton> = [];
@@ -73,4 +87,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, kredeumBuyButton, kredeumCollectionList, network };

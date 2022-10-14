@@ -49,6 +49,14 @@
         &nbsp;
       </option>
     {/each}
+    {#if getNetwork(chainId)?.testnet}
+      {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as _network}
+        <option value={_network.chainId} selected={_network.chainId == chainId}>
+          <Network chainId={_network.chainId} {txt} />
+          &nbsp;
+        </option>
+      {/each}
+    {/if}
   </select>
 {:else}
   <div class="col col-xs-12 col-sm-3">

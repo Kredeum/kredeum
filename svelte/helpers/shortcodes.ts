@@ -10,4 +10,13 @@ const shortcode = async (_nft: NftType) => {
   console.info("Copied");
 };
 
-export { shortcode };
+const shortcodeBuy = async (_nft: NftType) => {
+  const data = `[kredeum_buy_automarket chainid="${_nft.chainId}" address="${_nft.address}" tokenids="${
+    _nft.tokenID
+  }"]${nftName(_nft)}[/kredeum_buy_automarket]`;
+
+  await navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
+  console.info("Copied");
+};
+
+export { shortcode, shortcodeBuy };

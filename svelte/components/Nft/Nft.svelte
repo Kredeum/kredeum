@@ -19,7 +19,7 @@
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode } from "@helpers/shortcodes";
+  import { shortcode, shortcodeBuy } from "@helpers/shortcodes";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
@@ -233,11 +233,22 @@
           <i class="fas fa-code fa-left c-green" />
           Shortcodes
         </div>
-        <p>Click on the Copy Button to copy the shortcode in your clipboard and then paste it in a WordPress page.</p>
+        <p>Click on the COPY button to copy the shortcode in your clipboard and then paste it in a WordPress page.</p>
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label">View on Opensea</span></div>
+            <div class="flex"><span class="label">SELL on your WordPress site</span></div>
+            <div class="flex">
+              <a
+                on:click|preventDefault={() => shortcodeBuy($nft)}
+                class="btn btn-small btn-outline"
+                href="."
+                title="Copy">Copy</a
+              >
+            </div>
+          </li>
+          <li>
+            <div class="flex"><span class="label">VIEW on OpenSea</span></div>
             <div class="flex">
               <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
                 >Copy</a

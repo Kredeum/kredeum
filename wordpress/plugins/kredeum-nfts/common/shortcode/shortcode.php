@@ -52,3 +52,36 @@ add_shortcode(
 		return $o;
 	}
 );
+
+/**
+ * Get buy shortcode
+ * Will display buy nfts vards.
+ *
+ * @param array  $atts    Shortcode attributes. Default empty.
+ * @param string $content Shortcode content. Default null.
+ * @param string $tag     Shortcode tag (name). Default empty.
+ * @return string Shortcode output.
+ *
+ * @package kredeum/nfts
+ */
+add_shortcode(
+	'kredeum_buy_automarket',
+	function ( $atts = array(), $content = null, $tag = '' ) {
+		// Normalize attribute keys, lowercase.
+		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
+
+		// Override default attributes with user attributes.
+		$args = shortcode_atts(
+			array(
+				'chainid'  => '',
+				'address'  => '',
+				'tokenids' => '',
+			),
+			$atts
+		);
+
+		$o  = '<div class="kre-wp-shortcode-buy" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenids="' . $args['tokenids'] . '">';
+		$o .= '</div>';
+		return $o;
+	}
+);

@@ -101,7 +101,7 @@
     onSale = currentPrice.gt(0);
 
     const approvedForAll = $nft.collection?.approvedForAll;
-    collectionApproved = approvedForAll.size > 0 ? approvedForAll.get($metamaskAccount) : false;
+    collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;
 
     tokenSetPriceInit();
   });
