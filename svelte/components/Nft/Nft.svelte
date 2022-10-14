@@ -54,7 +54,7 @@
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  $: nftRoyaltyFeeAmount = $nft.royalty?.fee;
+  $: nftRoyaltyFeeAmount = $nft?.royalty?.fee;
 
   $: console.info("Nft", $nft);
 </script>
