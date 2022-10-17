@@ -110,7 +110,7 @@
 
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    nftRoyaltyMinimum = $nft.royalty?.minimum || constants.Zero;
+    nftRoyaltyMinimum = $nft?.royalty?.minimum || constants.Zero;
 
     $nft?.collection?.minimal && nftRoyaltyMinimum && constants.Zero.lt(nftRoyaltyMinimum)
       ? (transferWarning = formatEther(nftRoyaltyMinimum))

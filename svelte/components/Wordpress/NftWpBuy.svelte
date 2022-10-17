@@ -57,7 +57,7 @@
       <div class="kre-action-buttons">
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} display={"shortcode"} />
+            <NftSell {chainId} {address} {tokenID} platform={"shortcode"} />
           {:else if BigNumber.from($nft.price || 0)}
             <NftBuy
               {chainId}
@@ -66,7 +66,7 @@
               nftPrice={$nft.price}
               nftOwner={$nft.owner}
               nftRoyalty={$nft.royalty}
-              display={"shortcode"}
+              platform={"shortcode"}
             />
           {/if}
         {/if}

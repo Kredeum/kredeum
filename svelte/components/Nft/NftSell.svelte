@@ -13,7 +13,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let display = "dapp";
+  export let platform = "dapp";
   /////////////////////////////////////////////////
 
   let open = false;
@@ -21,7 +21,7 @@
 
 <button
   on:click={() => (open = true)}
-  class={display === "dapp" ? "btn-sell-modal" : "btn btn-default  btn-sell"}
+  class={platform === "dapp" ? "btn-sell-modal" : "btn btn-default  btn-sell"}
   title="Sell this NFT"
 >
   SELL

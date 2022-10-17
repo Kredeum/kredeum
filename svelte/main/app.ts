@@ -7,7 +7,8 @@ import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
-import BuyShortcodeEntry from "../components/Wordpress/BuyShortcodeEntry.svelte";
+// import BuyShortcodeEntry from "../components/Wordpress/BuyShortcodeEntry.svelte";
+import TestNftBuy from "../tests/TestBuy/TestNftBuy.svelte";
 
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
@@ -22,6 +23,8 @@ const _props = (target: HTMLElement): Props => {
 
     if (attrName === "chainid") {
       attrName = "chainId";
+    } else if (attrName === "tokenid") {
+      attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
       attrName = null;
     }
@@ -42,12 +45,12 @@ let kredeumHome: Home;
   }
 }
 
-const kredeumBuyButton: Array<BuyShortcodeEntry> = [];
+const testBuyButton: Array<TestNftBuy> = [];
 {
-  // Kredeum Mint button components
-  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-wp-shortcode-buy");
+  // Kredeum buy nft components
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-buy-front");
   targets?.forEach((target, i) => {
-    kredeumBuyButton[i] = new BuyShortcodeEntry({
+    testBuyButton[i] = new TestNftBuy({
       target,
       props: _props(target)
     });
@@ -87,4 +90,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumBuyButton, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, testBuyButton, kredeumCollectionList, network };
