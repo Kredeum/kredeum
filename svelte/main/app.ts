@@ -7,6 +7,8 @@ import NftMintButton from "../components/Nft/NftMintButton.svelte";
 import NetworkList from "../components/Network/NetworkList.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
+import AutoMarketButton from "../components/Global/AutomarketButton.svelte";
+
 type Props = Record<string, string>;
 type Attr = { name: string; value: string };
 
@@ -20,6 +22,8 @@ const _props = (target: HTMLElement): Props => {
 
     if (attrName === "chainid") {
       attrName = "chainId";
+    } else if (attrName === "tokenid") {
+      attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
       attrName = null;
     }
@@ -38,6 +42,18 @@ let kredeumHome: Home;
   if (target) {
     kredeumHome = new Home({ target, props: _props(target) });
   }
+}
+
+const AutoMarketButtons: Array<AutoMarketButton> = [];
+{
+  // Kredeum buy nft components
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-buy-front");
+  targets?.forEach((target, i) => {
+    AutoMarketButtons[i] = new AutoMarketButton({
+      target,
+      props: _props(target)
+    });
+  });
 }
 
 const kredeumMintButton: Array<NftMintButton> = [];
@@ -73,4 +89,4 @@ let network: NetworkList;
   }
 }
 
-export { kredeumHome, kredeumMintButton, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, AutoMarketButtons, kredeumCollectionList, network };

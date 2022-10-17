@@ -13,12 +13,19 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  export let platform = "dapp";
   /////////////////////////////////////////////////
 
   let open = false;
 </script>
 
-<button on:click={() => (open = true)} class="btn-sell-modal" title="Sell this NFT"> SELL </button>
+<button
+  on:click={() => (open = true)}
+  class={platform === "dapp" ? "btn-sell-modal" : "btn btn-default  btn-sell"}
+  title="Sell this NFT"
+>
+  SELL
+</button>
 
 {#if open}
   <div id="kre-sell-nft" class="modal-window" transition:fade>
@@ -62,6 +69,7 @@
   #kre-sell-nft {
     z-index: 1000;
     pointer-events: auto;
+    color: #1e1e43;
   }
 
   .btn-sell-modal {
