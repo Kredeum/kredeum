@@ -43,7 +43,7 @@
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networks.filter((nw) => nw.mainnet) as _network}
+    {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as _network}
       <option value={_network.chainId} selected={_network.chainId == chainId}>
         <Network chainId={_network.chainId} {txt} />
         &nbsp;

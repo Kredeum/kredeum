@@ -394,6 +394,9 @@ const kredeumNftUrl = (chainId: number, nft: NftType): string =>
 const kredeumNftHttp = (chainId: number, nft: NftType): string =>
   `${config.domain.latest}/${kredeumNftUrl(chainId, nft)}`;
 
+const kredeumNftWpUrl = (chainId: number, nft: NftType): string =>
+  `./admin.php?page=nfts/${kredeumNftUrl(chainId, nft)}`;
+
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
@@ -497,6 +500,7 @@ export {
   explorerCollectionLink,
   kredeumNftUrl,
   kredeumNftHttp,
+  kredeumNftWpUrl,
   explorerUrl,
   explorerNftUrl,
   explorerAccountUrl,

@@ -65,7 +65,7 @@ add_shortcode(
  * @package kredeum/nfts
  */
 add_shortcode(
-	'kredeum_buy_automarket',
+	'kredeum_automarket_button',
 	function ( $atts = array(), $content = null, $tag = '' ) {
 		// Normalize attribute keys, lowercase.
 		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
@@ -73,14 +73,14 @@ add_shortcode(
 		// Override default attributes with user attributes.
 		$args = shortcode_atts(
 			array(
-				'chainid'  => '',
-				'address'  => '',
-				'tokenids' => '',
+				'chainid' => '',
+				'address' => '',
+				'tokenid' => '',
 			),
 			$atts
 		);
 
-		$o  = '<div class="kre-wp-shortcode-buy" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenids="' . $args['tokenids'] . '">';
+		$o  = '<div class="kre-buy-front" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '" platform="buy-external">';
 		$o .= '</div>';
 		return $o;
 	}

@@ -10,7 +10,7 @@ import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 // import BuyShortcodeEntry from "../components/Wordpress/BuyShortcodeEntry.svelte";
 import TestNftBuy from "../tests/TestBuy/TestNftBuy.svelte";
 
-type Props = Record<string, string>;
+type Props = Record<string, string | number>;
 type Attr = { name: string; value: string };
 
 // convert HTML attributes to SVELTE props
@@ -21,8 +21,10 @@ const _props = (target: HTMLElement): Props => {
   Array.from(target?.attributes || []).forEach((attr: Attr): void => {
     let attrName = attr?.name;
 
+    let value: string | number = attr.value;
     if (attrName === "chainid") {
       attrName = "chainId";
+      value = Number(value);
     } else if (attrName === "tokenid") {
       attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
@@ -30,7 +32,7 @@ const _props = (target: HTMLElement): Props => {
     }
 
     if (attrName) {
-      props[attrName] = attr.value;
+      props[attrName] = value;
     }
   });
   return props;

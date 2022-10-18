@@ -3,7 +3,14 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import { explorerTxLog, ipfsGatewayLink, urlToLink, getOpenSea, kredeumNftUrl } from "@lib/common/kconfig";
+  import {
+    explorerTxLog,
+    ipfsGatewayLink,
+    urlToLink,
+    getOpenSea,
+    kredeumNftUrl,
+    kredeumNftWpUrl
+  } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
@@ -46,12 +53,12 @@
 
   const sell = (e: Event): void => {
     e.preventDefault();
-    location.href = `./admin.php?page=nfts/${kredeumNftUrl($metamaskChainId, mintedNft)}`;
+    location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
   };
 
   const view = (e: Event): void => {
     e.preventDefault();
-    location.href = `./admin.php?page=nfts/${kredeumNftUrl($metamaskChainId, mintedNft)}`;
+    location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
   };
 
   const mint = async (e: Event): Promise<NftType> => {
@@ -100,11 +107,7 @@
   {#if $metamaskSigner}
     {#if minting}
       {#if mintedNft}
-        {#if getOpenSea($metamaskChainId)}
-          <button on:click={sell} class="btn btn-small btn-sell" title="Sell on OpenSea">SELL NFT</button>
-        {:else}
-          <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
-        {/if}
+        <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
       {:else if 1 <= minting && minting <= 5}
         <div>
           <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
