@@ -20,12 +20,13 @@
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode, getAutoMarketWidgetCode, autoMarketWidget } from "@helpers/shortcodes";
+  import { shortcode, shortcodeBuy, getAutoMarketWidgetCode, autoMarketWidget } from "@helpers/shortcodes";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
+  import { formatEther } from "ethers/lib/utils";
   // import NftClaim from "./NftClaim.svelte";
 
   /////////////////////////////////////////////////
@@ -82,7 +83,7 @@
 
         {#if platform === "buy-external"}
           <div class="kre-buy-infos">
-            <div class="overflow-ellipsis kre-buy-link">
+            <div class="overflow-ellipsis">
               <strong>
                 <a href={kredeumNftHttp(chainId, $nft)} target="_blank" class="kre-blue-link">{$nft.name} #{tokenID}</a>
               </strong>
@@ -262,6 +263,17 @@
               <div class="flex">
                 <a
                   on:click|preventDefault={() => autoMarketWidget($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+            <li>
+              <div class="flex"><span class="label">SELL on your WordPress site</span></div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => shortcodeBuy($nft)}
                   class="btn btn-small btn-outline"
                   href="."
                   title="Copy">Copy</a

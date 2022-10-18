@@ -119,7 +119,9 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="{platform === 'dapp' ? 'btn-buy-modal' : 'btn btn-default btn-buy-shortcode'} {constants.Zero.eq(nftPrice || 0)
+  class="{platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'} {constants.Zero.eq(
+    nftPrice || 0
+  )
     ? 'kre-disabled'
     : ''}"
   title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY</a
@@ -160,7 +162,7 @@
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
-                {#if getOpenSea(chainId) && platform === "dapp"}
+                {#if getOpenSea(chainId) && platform !== "buy-external"}
                   <div class="kre-modal-block">
                     <div class="txtright">
                       <a

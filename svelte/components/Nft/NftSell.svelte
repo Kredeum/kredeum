@@ -21,7 +21,7 @@
 
 <button
   on:click={() => (open = true)}
-  class={platform === "dapp" ? "btn-sell-modal" : "btn btn-default  btn-sell"}
+  class={platform === "buy-external" ? "btn btn-default  btn-sell" : "btn-sell-modal"}
   title="Sell this NFT"
 >
   SELL

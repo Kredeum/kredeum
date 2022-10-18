@@ -38,4 +38,13 @@ const autoMarketWidget = (_nft: NftType) => {
   copyToClipboard(data);
 };
 
-export { shortcode, getAutoMarketWidgetCode, autoMarketWidget };
+const shortcodeBuy = async (_nft: NftType) => {
+  const data = `[kredeum_automarket_button chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${
+    _nft.tokenID
+  }"]${nftName(_nft)}[/kredeum_automarket_button]`;
+
+  await navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
+  console.info("Copied");
+};
+
+export { shortcode, getAutoMarketWidgetCode, autoMarketWidget, shortcodeBuy };
