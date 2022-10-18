@@ -8,11 +8,12 @@
 
   $: if (!displayData) displayData = copyData;
 
-  const copyToClipboard = async (data, e): Promise<void> => {
+  const copyToClipboard = async (data: string, e: Event): Promise<void> => {
     await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
-    e.target.classList.add("copied");
+    const target = e.target as Element;
+    target.classList.add("copied");
     setTimeout(() => {
-      e.target.classList.remove("copied");
+      target.classList.remove("copied");
     }, 1000);
   };
 </script>
