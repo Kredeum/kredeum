@@ -236,50 +236,55 @@
       </div>
     {/if}
   </div>
-{/if}
 
-<!-- Modal Shortcodes -->
-<div id="schortcodes" class="modal-window">
-  <div>
-    <div class="modal-content">
-      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
-      <div class="modal-body">
-        <div class="titre">
-          <i class="fas fa-code fa-left c-green" />
-          Shortcodes
-        </div>
-        <p>Click on the COPY button to copy the shortcode in your clipboard and then paste it in a WordPress page.</p>
+  <!-- Modal Shortcodes -->
+  <div id="schortcodes" class="modal-window">
+    <div>
+      <div class="modal-content">
+        <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+        <div class="modal-body">
+          <div class="titre">
+            <i class="fas fa-code fa-left c-green" />
+            Shortcodes
+          </div>
+          <p>
+            Click on the COPY button to copy the shortcode in your clipboard and then paste it in a Web page or
+            WordPress page.
+          </p>
 
-        <ul class="steps">
-          <li>
-            {#if $nft}
+          <ul class="steps">
+            <li>
               <div class="kre-buy-widget-textarea"><textarea value={getAutoMarketWidgetCode($nft)} /></div>
-            {/if}
-            <div class="flex">
-              <span class="label">SELL on your website by copying this buy widget</span>
-            </div>
-            <div class="flex">
-              <a
-                on:click|preventDefault={() => autoMarketWidget($nft)}
-                class="btn btn-small btn-outline"
-                href="."
-                title="Copy">Copy</a
-              >
-            </div>
-          </li>
-          <li>
-            <div class="flex"><span class="label">VIEW on OpenSea</span></div>
-            <div class="flex">
-              <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
-                >Copy</a
-              >
-            </div>
-          </li>
-        </ul>
+
+              <div class="flex">
+                <span class="label">SELL on your website by copying this buy widget</span>
+              </div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => autoMarketWidget($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+            <li>
+              <div class="flex"><span class="label">VIEW on OpenSea</span></div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => shortcode($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   </div>
-</div>
+{/if}
 
 <!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">
