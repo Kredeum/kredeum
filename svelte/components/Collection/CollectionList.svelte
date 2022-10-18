@@ -11,6 +11,8 @@
   import { collectionStore } from "@stores/collection/collection";
   import { clickOutside } from "@helpers/clickOutside";
 
+  import CopyRefItem from "../Global/CopyRefItem.svelte";
+
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} />
   //  Collection List
@@ -103,7 +105,7 @@
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{mintable ? '12' : '3'}">
+  <div class="col col-xs-12 col-sm-{mintable ? '12' : '3'} kre-copy-ref-container">
     {#if label}
       <span class="label"
         >Collection
@@ -116,6 +118,7 @@
       {_collectionUrl(address)}"
             target="_blank"><i class="fas fa-info-circle" /></a
           >
+          <CopyRefItem copyData={address} />
         {/if}
       </span>
     {/if}
