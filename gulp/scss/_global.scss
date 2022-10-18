@@ -30,7 +30,7 @@ html *::after {
   }
 }
 
-body:has(:not(.automarket-button)) {
+body.kredeum {
   font-family: $font-family;
   font-size: $font-size-base;
   line-height: $line-height-base;

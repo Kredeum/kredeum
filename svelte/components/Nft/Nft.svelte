@@ -20,7 +20,7 @@
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode, autoMarketWidget } from "@helpers/shortcodes";
+  import { shortcode, getAutoMarketWidgetCode, autoMarketWidget } from "@helpers/shortcodes";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
@@ -61,8 +61,8 @@
 </script>
 
 {#if $nft}
-  <div class="row krd-nft-solo">
-    <div class="col col-xs-12 col-sm-4 col-md-3 {platform === 'buy-external' ? 'kre-buy-external-card' : ''}">
+  <div class="{platform === 'buy-external' ? '' : 'row'} krd-nft-solo">
+    <div class={platform === "buy-external" ? "kre-buy-external-card" : "col col-xs-12 col-sm-4 col-md-3"}>
       <div class="card-krd kre-media">
         <MediaPreview nft={$nft} />
       </div>
@@ -252,7 +252,12 @@
 
         <ul class="steps">
           <li>
-            <div class="flex"><span class="label">SELL on your website with buy widget</span></div>
+            {#if $nft}
+              <div class="kre-buy-widget-textarea"><textarea value={getAutoMarketWidgetCode($nft)} /></div>
+            {/if}
+            <div class="flex">
+              <span class="label">SELL on your website by copying this buy widget</span>
+            </div>
             <div class="flex">
               <a
                 on:click|preventDefault={() => autoMarketWidget($nft)}
@@ -340,6 +345,20 @@
   .btn-burn-modal:hover {
     border-color: red !important;
     color: red !important;
+  }
+
+  .kre-buy-widget-textarea {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .kre-buy-widget-textarea textarea {
+    width: 100%;
+    height: 4em;
+    border: 1px solid rgba(30, 30, 67, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 8px;
   }
 
   /* Buy front CSS */

@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { onMount } from "svelte";
-
-  import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
+  import { metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { getChainName } from "@lib/common/kconfig";
 
+  import AccountConnect from "../Account/AccountConnect.svelte";
   import Nft from "../../components/Nft/Nft.svelte";
 
   export let chainId: number;
@@ -13,11 +12,6 @@
   export let platform: string;
 
   $: account = $metamaskAccount;
-
-  onMount(async () => {
-    chainId = Number(chainId);
-    await metamaskInit();
-  });
 
   $: chainId > 0 && $metamaskChainId && $metamaskChainId !== chainId && handleChainId();
   const handleChainId = async (): Promise<void> => {
@@ -33,6 +27,22 @@
   };
 </script>
 
-<div class="automarket-button">
-  <Nft {chainId} {address} {tokenID} {account} {platform} />
-</div>
+{#if $metamaskSigner}
+  <div class="automarket-button">
+    <Nft {chainId} {address} {tokenID} {account} {platform} />
+  </div>
+{:else}
+  <AccountConnect bind:account {platform} />
+{/if}
+
+<style>
+  :global(.kre-buy-front) {
+    width: 300px;
+  }
+
+  .automarket-button {
+    font-family: "Work Sans", Arial, sans-serif;
+    line-height: 1.3;
+    font-size: 16px;
+  }
+</style>
