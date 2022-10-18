@@ -248,8 +248,8 @@
             Shortcodes
           </div>
           <p>
-            Click on the COPY button to copy the shortcode in your clipboard and then paste it in a Web page or
-            WordPress page.
+            Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
+            shortcodes to paste them in a WordPress page.
           </p>
 
           <ul class="steps">
