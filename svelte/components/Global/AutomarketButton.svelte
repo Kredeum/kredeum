@@ -33,6 +33,6 @@
   };
 </script>
 
-<div>
+<div class="automarket-button">
   <Nft {chainId} {address} {tokenID} {account} {platform} />
 </div>

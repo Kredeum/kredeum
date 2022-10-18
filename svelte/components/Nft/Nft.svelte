@@ -62,7 +62,7 @@
 
 {#if $nft}
   <div class="row krd-nft-solo">
-    <div class="col col-xs-12 col-sm-4 col-md-3">
+    <div class="col col-xs-12 col-sm-4 col-md-3 {platform === 'buy-external' ? 'kre-buy-external-card' : ''}">
       <div class="card-krd kre-media">
         <MediaPreview nft={$nft} />
       </div>
@@ -82,7 +82,7 @@
 
         {#if platform === "buy-external"}
           <div class="kre-buy-infos">
-            <div class="overflow-ellipsis">
+            <div class="overflow-ellipsis kre-buy-link">
               <strong>
                 <a href={kredeumNftHttp(chainId, $nft)} target="_blank" class="kre-blue-link">{$nft.name} #{tokenID}</a>
               </strong>
@@ -343,12 +343,23 @@
   }
 
   /* Buy front CSS */
+  .kre-buy-external-card {
+    box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+    padding-bottom: 15px;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+
   .kre-buy-external-buttons {
     padding: 0 20px;
   }
 
+  .kre-action-buttons.kre-buy-external-buttons {
+    margin: 0;
+  }
+
   .kre-buy-infos {
-    margin: 15px 0 !important;
+    margin: 0 0 15px 0;
     color: #192247;
   }
 
@@ -356,6 +367,9 @@
     text-decoration: none;
   }
 
+  .kre-buy-link {
+    font-size: 16px;
+  }
   .kre-buy-price {
     font-size: 20px;
     margin-top: 5px;
