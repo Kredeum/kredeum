@@ -12,6 +12,7 @@
   /////////////////////////////////////////////////
   export let account: string = undefined;
   export let txt: boolean = undefined;
+  export let platform = "dapp";
 
   let metamaskNotInstalled = false;
 
@@ -36,7 +37,7 @@
     <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
   {/if}
 {:else}
-  <div class="col col-xs-12 col-sm-3">
+  <div class={platform === "dapp" ? "col col-xs-12 col-sm-3" : ""}>
     {#if account}
       <Account {account} {txt} />
     {:else if metamaskNotInstalled}
