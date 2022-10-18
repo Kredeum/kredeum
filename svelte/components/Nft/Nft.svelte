@@ -26,7 +26,6 @@
   import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
-  import { formatEther } from "ethers/lib/utils";
   // import NftClaim from "./NftClaim.svelte";
 
   /////////////////////////////////////////////////
@@ -83,7 +82,7 @@
 
         {#if platform === "buy-external"}
           <div class="kre-buy-infos">
-            <div class="overflow-ellipsis">
+            <div class="overflow-ellipsis kre-buy-link">
               <strong>
                 <a href={kredeumNftHttp(chainId, $nft)} target="_blank" class="kre-blue-link">{$nft.name} #{tokenID}</a>
               </strong>

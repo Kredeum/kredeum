@@ -3,14 +3,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import {
-    explorerTxLog,
-    ipfsGatewayLink,
-    urlToLink,
-    getOpenSea,
-    kredeumNftUrl,
-    kredeumNftWpUrl
-  } from "@lib/common/kconfig";
+  import { explorerTxLog, ipfsGatewayLink, urlToLink, kredeumNftWpUrl } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
@@ -51,10 +44,10 @@
     // console.log("handleChange ~ address", $address);
   };
 
-  const sell = (e: Event): void => {
-    e.preventDefault();
-    location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
-  };
+  // const sell = (e: Event): void => {
+  //   e.preventDefault();
+  //   location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
+  // };
 
   const view = (e: Event): void => {
     e.preventDefault();
