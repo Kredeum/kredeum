@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { metamaskInit } from "@helpers/metamask";
-  import { metamaskAccount, metamaskSigner } from "@main/metamask";
+  import { metamaskAccount } from "@main/metamask";
 
   import Nft from "../../components/Nft/Nft.svelte";
 

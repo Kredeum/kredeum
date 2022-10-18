@@ -3,7 +3,6 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import { nftGetImageLink } from "@lib/nft/knft-get-metadata";
   import {
     explorerTxLog,
     ipfsGatewayLink,
