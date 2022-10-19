@@ -32,6 +32,7 @@
   export let nftOwner: string;
   export let nftPrice: BigNumber;
   export let nftRoyalty: ReceiverType;
+  export let platform = "dapp";
   ///////////////////////////////////////////////////////////
 
   let buying: number;
@@ -85,7 +86,7 @@
   onMount(() => {
     buyInit();
 
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftPrice.lt(getMinPrice(nftRoyalty.minimum))) {
+    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && getMinPrice(nftRoyalty.minimum).gt(nftPrice)) {
       minimumPrice = getMinPrice(nftRoyalty.minimum);
       nftPrice = minimumPrice;
     }
@@ -118,8 +119,12 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {constants.Zero.eq(nftPrice || 0) ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> Buy</a
+  class="{platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'} {constants.Zero.eq(
+    nftPrice || 0
+  )
+    ? 'kre-disabled'
+    : ''}"
+  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY</a
 >
 
 {#if open}
@@ -157,7 +162,7 @@
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
-                {#if getOpenSea(chainId)}
+                {#if getOpenSea(chainId) && platform !== "buy-external"}
                   <div class="kre-modal-block">
                     <div class="txtright">
                       <a
@@ -236,6 +241,7 @@
   #kre-buy-nft {
     z-index: 1000;
     pointer-events: auto;
+    color: #1e1e43;
   }
 
   .btn-buy-modal {
@@ -243,7 +249,8 @@
     color: white !important;
   }
 
-  .btn-buy-modal:hover {
+  .btn-buy-modal,
+  .btn-buy-shortcode:hover {
     background-color: #3acf6e !important;
   }
 </style>

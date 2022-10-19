@@ -13,13 +13,14 @@
     // getOpenSea,
     // nftOpenSeaUrl,
     // addressSame,
-    getCurrency
+    getCurrency,
+    kredeumNftHttp
   } from "@lib/common/kconfig";
   import { getMinPrice } from "@lib/nft/kautomarket";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode } from "@helpers/shortcodes";
+  import { shortcode, shortcodeBuy, getAutoMarketWidgetCode, autoMarketWidget } from "@helpers/shortcodes";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
@@ -55,24 +56,22 @@
     nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
-  $: nftRoyaltyFeeAmount = $nft.royalty?.fee;
+  $: nftRoyaltyFeeAmount = $nft?.royalty?.fee;
 
   $: console.info("Nft", $nft);
 </script>
 
 {#if $nft}
-  <div class="row krd-nft-solo">
-    <div class="col col-xs-12 col-sm-4 col-md-3">
+  <div class="{platform === 'buy-external' ? '' : 'row'} krd-nft-solo">
+    <div class={platform === "buy-external" ? "kre-buy-external-card" : "col col-xs-12 col-sm-4 col-md-3"}>
       <div class="card-krd kre-media">
         <MediaPreview nft={$nft} />
       </div>
-      <div class="kre-action-buttons">
-        {#if $nft.owner === account}
-          {#if "wordpress" === platform}
-            <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-              ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
-            >
-          {/if}
+      <div class="kre-action-buttons {platform === 'buy-external' ? 'kre-buy-external-buttons' : ''}">
+        {#if $nft.owner === account && platform !== "buy-external"}
+          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+          >
 
           <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
             ><i class="fa fa-gift fa-left" /> TRANSFER</a
@@ -82,9 +81,22 @@
           >
         {/if}
 
+        {#if platform === "buy-external"}
+          <div class="kre-buy-infos">
+            <div class="overflow-ellipsis kre-buy-link">
+              <strong>
+                <a href={kredeumNftHttp(chainId, $nft)} target="_blank" class="kre-blue-link">{$nft.name} #{tokenID}</a>
+              </strong>
+            </div>
+            <div class="overflow-ellipsis kre-buy-price">
+              <strong>{utils.formatEther($nft.price || 0)} {getCurrency(chainId)}</strong>
+            </div>
+          </div>
+        {/if}
+
         {#if $nft.collection?.supports?.IOpenMarketable}
           {#if $nft.owner === account}
-            <NftSell {chainId} {address} {tokenID} />
+            <NftSell {chainId} {address} {tokenID} {platform} />
           {:else}
             <NftBuy
               {chainId}
@@ -93,18 +105,20 @@
               nftPrice={$nft.price}
               nftOwner={$nft.owner}
               nftRoyalty={$nft.royalty}
+              {platform}
             />
           {/if}
         {/if}
       </div>
     </div>
 
-    <div class="col col-xs-12 col-sm-8 col-md-9">
-      <div class="card-krd">
-        <h3>{$nft.name}</h3>
-        <p>
-          {$nft.description}
-        </p>
+    {#if platform !== "buy-external"}
+      <div class="col col-xs-12 col-sm-8 col-md-9">
+        <div class="card-krd">
+          <h3>{$nft.name}</h3>
+          <p>
+            {$nft.description}
+          </p>
 
         <ul class="steps">
           <li>
@@ -221,14 +235,14 @@
           {/if}
         </ul>
 
-        <div class="p-t-40 p-b-40 grid-buttons">
-          <!-- {#if "wordpress" === platform}
+          <div class="p-t-40 p-b-40 grid-buttons">
+            <!-- {#if "wordpress" === platform}
             <a href="#schortcodes" class="btn btn-small btn-outline" title="Get shortcode"
               ><i class="fa fa-code" /><span>Get shortcode</span></a
             >
           {/if} -->
 
-          <!-- {#if getOpenSea(chainId)}
+            <!-- {#if getOpenSea(chainId)}
             {#if addressSame($nft.owner, account)}
               <a href={nftOpenSeaUrl(chainId, $nft)} class="btn btn-small btn-sell" title="Sell" target="_blank">
                 Sell on OpenSea
@@ -239,38 +253,71 @@
               </a>
             {/if}
           {/if} -->
+          </div>
+        </div>
+      </div>
+    {/if}
+  </div>
+
+  <!-- Modal Shortcodes -->
+  <div id="schortcodes" class="modal-window">
+    <div>
+      <div class="modal-content">
+        <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+        <div class="modal-body">
+          <div class="titre">
+            <i class="fas fa-code fa-left c-green" />
+            Shortcodes
+          </div>
+          <p>
+            Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
+            shortcodes to paste them in a WordPress page.
+          </p>
+
+          <ul class="steps">
+            <li>
+              <div class="kre-buy-widget-textarea"><textarea value={getAutoMarketWidgetCode($nft)} /></div>
+
+              <div class="flex">
+                <span class="label">SELL on your website by copying this buy widget</span>
+              </div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => autoMarketWidget($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+            <li>
+              <div class="flex"><span class="label">SELL on your WordPress site</span></div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => shortcodeBuy($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+            <li>
+              <div class="flex"><span class="label">VIEW on OpenSea</span></div>
+              <div class="flex">
+                <a
+                  on:click|preventDefault={() => shortcode($nft)}
+                  class="btn btn-small btn-outline"
+                  href="."
+                  title="Copy">Copy</a
+                >
+              </div>
+            </li>
+          </ul>
         </div>
       </div>
     </div>
   </div>
 {/if}
-
-<!-- Modal Shortcodes -->
-<div id="schortcodes" class="modal-window">
-  <div>
-    <div class="modal-content">
-      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
-      <div class="modal-body">
-        <div class="titre">
-          <i class="fas fa-code fa-left c-green" />
-          Shortcodes
-        </div>
-        <p>Click on the Copy Button to copy the shortcode in your clipboard and then paste it in a WordPress page.</p>
-
-        <ul class="steps">
-          <li>
-            <div class="flex"><span class="label">View on Opensea</span></div>
-            <div class="flex">
-              <a on:click|preventDefault={() => shortcode($nft)} class="btn btn-small btn-outline" href="." title="Copy"
-                >Copy</a
-              >
-            </div>
-          </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
 
 <!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">
@@ -347,5 +394,52 @@
 
   :global(.kre-flex-align-center .copy-ref) {
     margin-left: 15px;
+  }
+
+  .kre-buy-widget-textarea {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .kre-buy-widget-textarea textarea {
+    width: 100%;
+    height: 4em;
+    border: 1px solid rgba(30, 30, 67, 0.1);
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 6px;
+    padding: 8px;
+  }
+
+  /* Buy front CSS */
+  .kre-buy-external-card {
+    box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+    padding-bottom: 15px;
+    border-radius: 6px;
+    background-color: #fff;
+  }
+
+  .kre-buy-external-buttons {
+    padding: 0 20px;
+  }
+
+  .kre-action-buttons.kre-buy-external-buttons {
+    margin: 0;
+  }
+
+  .kre-buy-infos {
+    margin: 0 0 15px 0;
+    color: #192247;
+  }
+
+  .kre-buy-infos a {
+    text-decoration: none;
+  }
+
+  .kre-buy-link {
+    font-size: 16px;
+  }
+  .kre-buy-price {
+    font-size: 20px;
+    margin-top: 5px;
   }
 </style>
