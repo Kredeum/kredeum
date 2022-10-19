@@ -171,3 +171,14 @@
     }
   }
 }
+
+.kre-copy-ref-container .copy-ref {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 100ms ease-in-out;
+}
+
+.kre-copy-ref-container:hover .copy-ref {
+  visibility: visible;
+  opacity: 1;
+}

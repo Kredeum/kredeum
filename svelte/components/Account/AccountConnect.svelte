@@ -36,7 +36,7 @@
     <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
   {/if}
 {:else}
-  <div class="col col-xs-12 col-sm-3">
+  <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
     {#if account}
       <Account {account} {txt} />
     {:else if metamaskNotInstalled}

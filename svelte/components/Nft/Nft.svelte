@@ -26,6 +26,7 @@
   import NftBurn from "./NftBurn.svelte";
   import NftSell from "./NftSell.svelte";
   // import NftClaim from "./NftClaim.svelte";
+  import CopyRefItem from "../Global/CopyRefItem.svelte";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -108,34 +109,43 @@
         <ul class="steps">
           <li>
             <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-            <div class="flex overflow-ellipsis" title="Token ID #{tokenID}">
-              <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
+            <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
+              <div class="overflow-ellipsis">
+                <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
+              </div>
+              <CopyRefItem copyData={tokenID} />
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">Owner</span></div>
-            <div class="flex">{@html explorerAddressLink(chainId, $nft.owner, 15)}</div>
+            <div class="flex kre-flex-align-center">
+              <div class="overflow-ellipsis">
+                {@html explorerAddressLink(chainId, $nft.owner, 15)}
+              </div>
+              <CopyRefItem copyData={$nft.owner} />
+            </div>
           </li>
           <li>
             <div class="flex"><span class="label">collection @</span></div>
-            <div class="flex">
-              <a
-                class="link overflow-ellipsis"
-                href={explorerCollectionUrl(chainId, address)}
-                title={address}
-                target="_blank"
-              >
-                {address}
-              </a>
+            <div class="flex kre-flex-align-center">
+              <div class="overflow-ellipsis">
+                <a class="link" href={explorerCollectionUrl(chainId, address)} title={address} target="_blank">
+                  {address}
+                </a>
+              </div>
+              <CopyRefItem copyData={address} />
             </div>
           </li>
           <li>
             <div class="flex"><span class="label">Metadata</span></div>
-            <div class="flex">
+            <div class="flex kre-flex-align-center">
               {#if $nft.tokenURI}
-                <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
-                  >{$nft.tokenURI}</a
-                >
+                <div class="overflow-ellipsis">
+                  <a class="link overflow-ellipsis" href={$nft.tokenURI} title={$nft.ipfsJson} target="_blank"
+                    >{$nft.tokenURI}</a
+                  >
+                </div>
+                <CopyRefItem copyData={$nft.tokenURI} />
               {:else}
                 NO metadata
               {/if}
@@ -143,56 +153,68 @@
           </li>
           <li>
             <div class="flex"><span class="label">Image</span></div>
-            <div class="flex">
-              <a class="link overflow-ellipsis" href={$nft.image} title={$nft.ipfs} target="_blank">
-                {$nft.image || ""}
-              </a>
+            <div class="flex kre-flex-align-center">
+              <div class="overflow-ellipsis">
+                <a class="link" href={$nft.image} title={$nft.ipfs} target="_blank">
+                  {$nft.image || ""}
+                </a>
+              </div>
+              <CopyRefItem copyData={$nft.image || ""} />
             </div>
           </li>
           {#if $nft.collection?.supports?.IOpenMarketable}
             {#if constants.Zero.lte($nft.price || 0)}
               <li>
                 <div class="flex"><span class="label">Nft Price</span></div>
-                <div class="flex">
-                  <span
-                    class="overflow-ellipsis {$nft.royalty?.minimum &&
-                    $nft.price?.lt(getMinPrice($nft.royalty?.minimum)) &&
-                    !$nft.price?.eq(0)
-                      ? 'c-red'
-                      : ''}"
-                    title={ethers.utils.formatEther($nft.price || 0)}
-                    target="_blank"
-                  >
-                    {utils.formatEther($nft.price || 0)}
-                    {getCurrency(chainId)}
-                  </span>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <span
+                      class={$nft.royalty?.minimum &&
+                      $nft.price?.lt(getMinPrice($nft.royalty?.minimum)) &&
+                      !$nft.price?.eq(0)
+                        ? "c-red"
+                        : ""}
+                      title={ethers.utils.formatEther($nft.price || 0)}
+                      target="_blank"
+                    >
+                      {utils.formatEther($nft.price || 0)}
+                      {getCurrency(chainId)}
+                    </span>
+                  </div>
+                  <CopyRefItem copyData={utils.formatEther($nft.price || 0)} />
                 </div>
               </li>
             {/if}
             {#if $nft.royalty}
               <li>
                 <div class="flex"><span class="label">Nft Royalties Amount</span></div>
-                <div class="flex">
-                  {#if nftRoyaltyFeeAmount == 0 || !nftRoyaltyFeeAmount}
-                    <span class="overflow-ellipsis" title="no royalties">No royalties amount setted</span>
-                  {:else}
-                    <span class="link overflow-ellipsis" title={`${nftRoyaltyFeeAmount / 100} %`} target="_blank">
-                      {nftRoyaltyFeeAmount / 100} %
-                    </span>
-                  {/if}
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    {#if nftRoyaltyFeeAmount == 0 || !nftRoyaltyFeeAmount}
+                      <span title="no royalties">No royalties amount setted</span>
+                    {:else}
+                      <span class="link" title={`${nftRoyaltyFeeAmount / 100} %`} target="_blank">
+                        {nftRoyaltyFeeAmount / 100} %
+                      </span>
+                    {/if}
+                  </div>
+                  <CopyRefItem copyData={String(nftRoyaltyFeeAmount / 100)} />
                 </div>
               </li>
 
               <li>
                 <div class="flex"><span class="label">Nft Royalty receiver</span></div>
-                <div class="flex">
-                  <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
-                    {#if $nft.royalty.account === constants.AddressZero}
-                      "No receiver setted for Royalties"
-                    {:else}
-                      {@html explorerAddressLink(chainId, $nft.royalty.account, 15)}
-                    {/if}
-                  </span>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <span class="overflow-ellipsis" title="Receiver of the royalties" target="_blank">
+                      {#if $nft.royalty.account === constants.AddressZero}
+                        "No receiver setted for Royalties"
+                      {:else}
+                        {@html explorerAddressLink(chainId, $nft.royalty.account, 15)}
+                      {/if}
+                    </span>
+                  </div>
+                  <CopyRefItem copyData={$nft.royalty.account || ""} />
                 </div>
               </li>
             {/if}
@@ -314,5 +336,16 @@
   .btn-burn-modal:hover {
     border-color: red !important;
     color: red !important;
+  }
+
+  .kre-flex-align-center {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    position: relative;
+  }
+
+  :global(.kre-flex-align-center .copy-ref) {
+    margin-left: 15px;
   }
 </style>

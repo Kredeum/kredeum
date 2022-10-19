@@ -8,6 +8,8 @@
 
   import Network from "./Network.svelte";
 
+  import CopyRefItem from "../Global/CopyRefItem.svelte";
+
   /////////////////////////////////////////////////
   // <NetworkList bind:{chainId} {txt} {label} />
   // Select Network via a list box
@@ -51,7 +53,7 @@
     {/each}
   </select>
 {:else}
-  <div class="col col-xs-12 col-sm-3">
+  <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
     {#if label}
       <span class="label"
         >Network
@@ -62,6 +64,7 @@
           title="&#009; NFTs Factory address (click to view in explorer )
         {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >
+        <CopyRefItem copyData={resolverGetAddress(chainId)} />
       </span>
     {/if}
 
