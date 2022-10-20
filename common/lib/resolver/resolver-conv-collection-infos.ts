@@ -92,6 +92,9 @@ const resolverConvOpenNFTsCollectionInfos = (
   const royaltyFee = Number(collectionOpenNFTsInfos[5][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;
 
+  const royaltyMinimum = collectionOpenNFTsInfos[5][2];
+  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+
   if (Object.keys(royalty).length > 0) collection.royalty = royalty;
 
   // console.log("resolverConvOpenNFTsCollectionInfos collection OUT", collection);
