@@ -17,7 +17,7 @@ const getNftPrice = async (
   tokenID: string,
   signerOrProvider: Signer | Provider
 ): Promise<BigNumber> => {
-  let price = BigNumber.from(0);
+  let price = constants.Zero;
 
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
   if (collection.supports?.IOpenMarketable)
@@ -51,8 +51,7 @@ const getNftRoyaltyInfo = async (
 ): Promise<{ receiver: string; royaltyAmount: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  if (!collection.supports?.IOpenMarketable)
-    return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: constants.Zero };
 
   const [receiver, royaltyAmount] = await (contract as IERC2981).royaltyInfo(tokenID, nftPrice);
 
@@ -66,7 +65,7 @@ const getDefaultCollPrice = async (
 ): Promise<BigNumber> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : BigNumber.from(0);
+  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : constants.Zero;
 };
 
 const getDefaultCollRoyaltyInfos = async (
@@ -76,7 +75,7 @@ const getDefaultCollRoyaltyInfos = async (
 ): Promise<{ receiver: string; fee: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: constants.Zero };
 
   const royaltyInfostest = await (contract as IOpenMarketable).getDefaultRoyalty();
 

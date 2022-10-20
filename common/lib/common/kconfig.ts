@@ -6,7 +6,7 @@ import { collectionKey } from "@lib/collection/kcollection-get";
 import { collectionListKey } from "@lib/collection/kcollection-list";
 
 import { Fragment, Interface } from "@ethersproject/abi";
-import { providers, utils, BigNumber } from "ethers";
+import { providers, utils, BigNumber, constants } from "ethers";
 import { factoryGetTemplateAddress } from "@lib/common/kfactory-get";
 import networks from "@config/networks.json";
 import config from "@config/config.json";
@@ -458,7 +458,7 @@ const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescr
 const interfaceId = (abi: Array<string>): string => {
   const iface = new Interface(abi);
 
-  let id = BigNumber.from(0);
+  let id = constants.Zero;
   iface.fragments.forEach((f: Fragment): void => {
     if (f.type === "function") {
       id = id.xor(BigNumber.from(iface.getSighash(f)));

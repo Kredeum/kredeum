@@ -74,9 +74,9 @@
   $: price && handlePriceError();
   const handlePriceError = () => {
     collection?.minimal && constants.Zero.lt(price) && price?.lt(getMinPrice(minRoyalty))
-      ? (inputPriceError = `Price to low because of minimum Royalty, minimum price you should set is ${utils.formatEther(
-          getMinPrice(minRoyalty)
-        )} or 0 ${getCurrency(chainId)} 
+      ? (inputPriceError = `Price to low, minimum price should be set  ${utils.formatEther(
+          getMinPrice(minRoyalty).mul(2)
+        )} ${getCurrency(chainId)} 
             `)
       : (inputPriceError = "");
   };
@@ -420,7 +420,7 @@
                   <div class="flex"><span class="label">Image link</span></div>
                   <div class="flex">
                     {#if minting > S2_STORE_IMAGE}
-                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank" rel="noreferrer" 
+                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank" rel="noreferrer"
                         >{textShort(storageImg, 15)}</a
                       >
                     {/if}
@@ -430,7 +430,7 @@
                   <div class="flex"><span class="label">Metadata link</span></div>
                   <div class="flex">
                     {#if minting > S3_STORE_METADATA}
-                      <a class="link" href={storageLinkToUrlHttp(storageJson)} target="_blank" rel="noreferrer" 
+                      <a class="link" href={storageLinkToUrlHttp(storageJson)} target="_blank" rel="noreferrer"
                         >{textShort(storageJson, 15)}</a
                       >
                     {/if}
@@ -440,7 +440,7 @@
                   <div class="flex"><span class="label">Transaction link</span></div>
                   <div class="flex">
                     {#if minting >= S5_WAIT_TX}
-                      <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank" rel="noreferrer" 
+                      <a class="link" href={explorerTxUrl(chainId, mintingTxResp.hash)} target="_blank" rel="noreferrer"
                         >{textShort(mintingTxResp.hash, 15)}</a
                       >
                     {/if}
@@ -464,7 +464,9 @@
                   </span>
                 </div>
                 <div class="flex">
-                  <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank" rel="noreferrer" >{nftUrl(mintedNft, 6)}</a>
+                  <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank" rel="noreferrer"
+                    >{nftUrl(mintedNft, 6)}</a
+                  >
                 </div>
               </li>
             {:else if mintingError}

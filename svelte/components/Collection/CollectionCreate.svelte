@@ -44,7 +44,7 @@
 
   let cloningTxHash: string = null;
 
-  let inputMintPrice = BigNumber.from(0);
+  let inputMintPrice = constants.Zero;
 
   let inputFee = "";
   let inputFeeNumber = 0;
@@ -73,10 +73,14 @@
 
     if (isAddress(tmpReceiver)) tmpReceiver = getChecksumAddress(tmpReceiver);
 
-    inputReceiver = tmpReceiver || $metamaskAccount;
+    inputReceiver = tmpReceiver != constants.AddressZero ? tmpReceiver : $metamaskAccount || constants.AddressZero;
   };
 
-  const invalidInputParams = (): boolean => !(isAddress(inputReceiver) && isNumeric(inputFee));
+  const invalidInputParams = (): boolean => {
+    console.log("invalidInputParams ~ inputFee", inputFee);
+    console.log("invalidInputParams ~ inputReceiver", inputReceiver);
+    return !(isAddress(inputReceiver) && isNumeric(inputFee));
+  };
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
@@ -127,9 +131,9 @@
 
     collectionName = "";
     collectionSymbol = "";
-    inputMintPrice = BigNumber.from(0);
+    inputMintPrice = constants.Zero;
     inputFee = "";
-    inputReceiver = "";
+    inputReceiver = constants.AddressZero;
     cloneError = null;
 
     cloning = S1_CONFIRM;

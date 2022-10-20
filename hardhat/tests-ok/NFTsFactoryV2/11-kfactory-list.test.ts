@@ -2,7 +2,7 @@ import type { NFTsFactoryV2, OpenNFTsV3 } from "@soltypes/contracts";
 
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
-import { BigNumber, Signer } from "ethers";
+import { constants, Signer } from "ethers";
 
 describe("11 NFTs Factory contract", function () {
   let nftsFactoryV2: NFTsFactoryV2;
@@ -10,7 +10,7 @@ describe("11 NFTs Factory contract", function () {
   let owner: string;
   let signer: Signer;
   const txOptions = {
-    value: BigNumber.from(0),
+    value: constants.Zero,
     maxFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     maxPriorityFeePerGas: ethers.utils.parseUnits("50", "gwei"),
     type: 2

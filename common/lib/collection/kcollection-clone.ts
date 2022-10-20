@@ -16,7 +16,8 @@ async function* collectionClone(
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${mintPrice.toString()}  ${royaltyFee}  `);
+  console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig} ${await cloner.getAddress()}`);
+  console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
 
   const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 

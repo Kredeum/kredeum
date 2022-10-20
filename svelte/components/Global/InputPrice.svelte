@@ -1,15 +1,14 @@
 <script lang="ts">
   import { getCurrency, isNumeric } from "@lib/common/kconfig";
-  import { BigNumber, utils } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
-  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   //  <InputPrice {chainId} {price} {inputError}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let price: BigNumber = BigNumber.from(0);
+  export let price: BigNumber = constants.Zero;
   export let inputError = "";
   /////////////////////////////////////////////////
 
