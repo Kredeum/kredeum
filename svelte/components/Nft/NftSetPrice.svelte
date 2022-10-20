@@ -23,7 +23,6 @@
   export let tokenID: string;
   /////////////////////////////////////////////////
 
-  let nftPrice: BigNumber;
   let collectionApproved: boolean = false;
 
   let tokenSettingPrice: number;
@@ -77,30 +76,32 @@
   };
 
   let nft: Readable<NftType>;
-  let onSale: boolean;
-  let currentPrice: BigNumber;
-  let minimalRoyaltyAmount: BigNumber = constants.Zero;
+  let inputPrice: BigNumber;
 
-  $: minimalPriceHandler(nftPrice);
-  const minimalPriceHandler = (nftPrice: BigNumber): void => {
-    inputError = isValidPrice(nftPrice, $nft?.royalty?.minimum)
+  $: nftPrice = BigNumber.from($nft?.price || 0);
+  $: nftOwner = String($nft?.owner || "");
+  $: nftRoyalty = $nft?.royalty || {};
+  $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
+
+  $: onSale = nftPrice.gt(0);
+
+  $: console.log("input price", String(inputPrice));
+
+  $: minimalPriceHandler(inputPrice);
+  const minimalPriceHandler = (inputPrice: BigNumber): void => {
+    inputError = isValidPrice(inputPrice, nftRoyaltyMinimum)
       ? ""
-      : `Price lower than minimum royalty plus fee !
-         you should set a price at least double of minimal royalty, i.e. ${displayEther(minimalRoyaltyAmount.mul(2))}`;
+      : `Price to low compared to minimum royalty!
+         Set a price at least double of minimal royalty, i.e. ${displayEther(nftRoyaltyMinimum.mul(2))}`;
   };
 
-  const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency($nft.chainId)}`;
+  const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
 
   onMount(() => {
     nft = nftStore.getOneStore(chainId, address, tokenID);
+    inputPrice = BigNumber.from($nft?.price || 0);
 
-    minimalRoyaltyAmount = BigNumber.from($nft.royalty?.minimum || 0);
-
-    currentPrice = BigNumber.from($nft.price || 0);
-    nftPrice = currentPrice;
-    onSale = currentPrice.gt(0);
-
-    const approvedForAll = $nft.collection?.approvedForAll;
+    const approvedForAll = $nft?.collection?.approvedForAll;
     collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;
 
     tokenSetPriceInit();
@@ -109,12 +110,11 @@
   const tokenSetPriceConfirm = async (price: BigNumber) => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
 
-    if (price.eq(currentPrice)) return _inputPriceError("Price unchanged !");
+    if (price.eq(nftPrice)) return _inputPriceError("Price unchanged !");
 
-    if (!isValidPrice(price, $nft.royalty.minimum)) return _inputPriceError("Price too low !");
+    if (!isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
 
-    nftPrice = price;
-    const tokenSetPriceTxRespYield = setTokenPrice($nft.chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
     tokenSettingPrice = S2_SIGN_TX;
 
@@ -123,7 +123,7 @@
     if (!tokenSetPriceTxHash)
       return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);
 
-    explorerTxLog($nft.chainId, tokenSetPriceTxResp);
+    explorerTxLog(chainId, tokenSetPriceTxResp);
     tokenSettingPrice = S3_WAIT_TX;
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
@@ -132,7 +132,7 @@
 
     tokenSettingPrice = S4_PRICE_SETTED;
 
-    await nftStore.refreshOne($nft.chainId, $nft.address, $nft.tokenID).catch(console.error);
+    await nftStore.refreshOne(chainId, $nft.address, $nft.tokenID).catch(console.error);
   };
 </script>
 
@@ -146,11 +146,11 @@
   </div>
 
   <div class="section">
-    <InputPrice chainId={$nft.chainId} bind:price={nftPrice} {inputError} />
+    <InputPrice {chainId} bind:price={inputPrice} {inputError} />
   </div>
 
   <div class="section">
-    <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
+    <IncomesPreview {chainId} {nftOwner} nftPrice={inputPrice} {nftRoyalty} />
   </div>
 
   {#if !collectionApproved}
@@ -158,7 +158,13 @@
       <div class="form-field kre-warning-msg">
         <p>
           By completing this listing you allow this AutoMarket collection to manage the exchange of your NFTs
-          <a class="link" href={explorerCollectionUrl($nft.chainId, $nft.address)} title={$nft.address} target="_blank">
+          <a
+            class="link"
+            href={explorerCollectionUrl(chainId, $nft.address)}
+            title={$nft.address}
+            target="_blank"
+            rel="noreferrer"
+          >
             {$nft.address}
           </a>
         </p>
@@ -173,7 +179,7 @@
       >
     {/if}
 
-    <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(nftPrice)}>
+    <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(inputPrice)}>
       {#if onSale}
         Modify Listing
       {:else}
@@ -188,13 +194,13 @@
     <p>
       <i class="fas fa-sync fa-left c-green" />
       {#if onSale}
-        {#if nftPrice.eq(0)}
+        {#if inputPrice.eq(0)}
           Removing NFT from sale...
         {:else}
-          Modifying NFT price to {displayEther(nftPrice)}...
+          Modifying NFT price to {displayEther(inputPrice)}...
         {/if}
       {:else}
-        Setting NFT price to {displayEther(nftPrice)}...
+        Setting NFT price to {displayEther(inputPrice)}...
       {/if}
     </p>
   </div>
@@ -224,14 +230,14 @@
 
   {#if nftPrice.gt(0)}
     <div class="section">
-      <IncomesPreview chainId={$nft.chainId} nftOwner={$nft.owner} {nftPrice} nftRoyalty={$nft.royalty} />
+      <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />
     </div>
   {/if}
 {/if}
 
 {#if tokenSetPriceTxHash}
   <div class="flex">
-    <a class="link" href={explorerTxUrl($nft.chainId, tokenSetPriceTxHash)} target="_blank"
+    <a class="link" href={explorerTxUrl(chainId, tokenSetPriceTxHash)} target="_blank" rel="noreferrer"
       >{textShort(tokenSetPriceTxHash)}</a
     >
   </div>

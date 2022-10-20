@@ -170,6 +170,7 @@
                         class="btn btn-small btn-buy"
                         title="Buy"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         Buy on OpenSea
                       </a>
@@ -204,7 +205,8 @@
                         address: address,
                         tokenID: tokenID
                       })}}"
-                      target="_blank">#{tokenID}</a
+                      target="_blank"
+                      rel="noreferrer">#{tokenID}</a
                     >
                     buyed!
                   </p>
@@ -213,7 +215,9 @@
 
               {#if buyTxHash}
                 <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a>
+                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank" rel="noreferrer"
+                    >{textShort(buyTxHash)}</a
+                  >
                 </div>
               {/if}
 

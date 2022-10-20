@@ -281,8 +281,7 @@ async function* setDefautCollectionRoyalty(
 const getReceiverAmount = (price: BigNumberish = 0, fee = 0): BigNumber => BigNumber.from(price).mul(fee).div(MAX_FEE);
 
 const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 0): boolean =>
-  BigNumber.from(price).eq(0) ||
-  BigNumber.from(price).sub(getReceiverAmount(price, config.treasury.fee)).sub(minRoyaltyAmount).gt(0);
+  BigNumber.from(price).gt(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount));
 
 const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
   BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);

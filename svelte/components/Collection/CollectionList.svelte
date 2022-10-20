@@ -116,7 +116,8 @@
             href={_explorerCollectionUrl(address)}
             title="&#009;  Collection address (click to view in explorer)&#013;
       {_collectionUrl(address)}"
-            target="_blank"><i class="fas fa-info-circle" /></a
+            target="_blank"
+            rel="noreferrer"><i class="fas fa-info-circle" /></a
           >
           <CopyRefItem copyData={address} />
         {/if}

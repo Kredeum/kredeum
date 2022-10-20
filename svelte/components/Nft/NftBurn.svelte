@@ -161,8 +161,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               {burnable ? "burned" : "transfered"}!
             </div>
@@ -171,7 +174,7 @@
 
         {#if burnTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank"
+            <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank" rel="noreferrer"
               >{textShort(burnTxHash)}</a
             >
           </div>

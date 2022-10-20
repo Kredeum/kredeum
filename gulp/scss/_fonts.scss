@@ -1,50 +1,41 @@
 /* Font en local */
 
 @font-face {
-  font-family: 'Work sans';
-  src: url('#{$urlDossierFont}/worksans-bold-webfont.woff2') format('woff2'),
-     url('#{$urlDossierFont}/worksans-bold-webfont.woff') format('woff');
+  font-family: "Work sans";
+  src: url("#{$urlDossierFont}/worksans-bold-webfont.woff2") format("woff2"), url("#{$urlDossierFont}/worksans-bold-webfont.woff") format("woff");
   font-weight: 700;
   font-style: normal;
-
 }
 
 @font-face {
-  font-family: 'Work sans';
-  src: url('#{$urlDossierFont}/worksans-medium-webfont.woff2') format('woff2'),
-     url('#{$urlDossierFont}/worksans-medium-webfont.woff') format('woff');
+  font-family: "Work sans";
+  src: url("#{$urlDossierFont}/worksans-medium-webfont.woff2") format("woff2"), url("#{$urlDossierFont}/worksans-medium-webfont.woff") format("woff");
   font-weight: 500;
   font-style: normal;
-
 }
 
 @font-face {
-  font-family: 'Work sans';
-  src: url('#{$urlDossierFont}/worksans-regular-webfont.woff2') format('woff2'),
-     url('#{$urlDossierFont}/worksans-regular-webfont.woff') format('woff');
+  font-family: "Work sans";
+  src: url("#{$urlDossierFont}/worksans-regular-webfont.woff2") format("woff2"), url("#{$urlDossierFont}/worksans-regular-webfont.woff") format("woff");
   font-weight: normal;
   font-style: normal;
-
 }
 
-@import '_font-awesome';
+@import "_font-awesome";
 
 @font-face {
-    font-family: 'Font Awesome';
-    font-style: normal;
-    font-weight: 900;
-    src: url('#{$urlDossierFont}/fa-solid-900.eot');
-    src: url('#{$urlDossierFont}/fa-solid-900.eot?#iefix') format('embedded-opentype'),
-    url('#{$urlDossierFont}/fa-solid-900.woff2') format('woff2'),
-    url('#{$urlDossierFont}/fa-solid-900.woff') format('woff'),
-    url('#{$urlDossierFont}/fa-solid-900.ttf') format('truetype'),
-    url('#{$urlDossierFont}/fa-solid-900.svg#fontawesome') format('svg');
-  }
+  font-family: "Font Awesome";
+  font-style: normal;
+  font-weight: 900;
+  src: url("#{$urlDossierFont}/fa-solid-900.eot");
+  src: url("#{$urlDossierFont}/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("#{$urlDossierFont}/fa-solid-900.woff2") format("woff2"),
+    url("#{$urlDossierFont}/fa-solid-900.woff") format("woff"), url("#{$urlDossierFont}/fa-solid-900.ttf") format("truetype"), url("#{$urlDossierFont}/fa-solid-900.svg#fontawesome") format("svg");
+}
 
-  .fa,
-  .fas {
-    font-family: 'Font Awesome';
-    font-weight: 900;
-    display: inline-block;
-    vertical-align: middle;
-  }
+.fa,
+.fas {
+  font-family: "Font Awesome";
+  font-weight: 900;
+  display: inline-block;
+  vertical-align: middle;
+}

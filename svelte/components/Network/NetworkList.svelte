@@ -69,6 +69,7 @@
           class="info-button"
           href={resolverGetExplorerUrl(chainId)}
           target="_blank"
+          rel="noreferrer"
           title="&#009; NFTs Factory address (click to view in explorer )
         {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >

@@ -160,8 +160,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               transfered!
             </div>
@@ -170,7 +173,7 @@
 
         {#if transferTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank"
+            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank" rel="noreferrer"
               >{textShort(transferTxHash)}</a
             >
           </div>

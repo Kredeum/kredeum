@@ -1,7 +1,5 @@
 import { BigNumber } from "ethers";
 
-type Address = string;
-
 type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0";
 type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
 type AbiType = { abi: Array<string>; interfaceId?: string };
@@ -174,7 +172,6 @@ export type {
   ReceiverType,
   AbiType,
   NetworkWriteableFieldsType,
-  Address,
   CollectionSupports,
   ABIS,
   NftMetadata,

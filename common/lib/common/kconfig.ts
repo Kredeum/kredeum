@@ -1,4 +1,4 @@
-import type { Address, NetworkType, CollectionType, NftType } from "@lib/common/ktypes";
+import type { NetworkType, CollectionType, NftType } from "@lib/common/ktypes";
 import type { Provider, TransactionResponse } from "@ethersproject/abstract-provider";
 import { Signer } from "@ethersproject/abstract-signer";
 
@@ -30,17 +30,9 @@ const isProviderOnChainId = async (chainId: number, signerOrProvider: Signer | P
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-const getChecksumAddress = (address: Address | string | undefined): Address => {
-  if (!address) return "";
+const isAddress = (address = ""): boolean => utils.isAddress(address);
 
-  let addr = address;
-  try {
-    addr = utils.getAddress(String(address));
-  } catch (e) {
-    console.error("getChecksumAddress ERROR on @ '" + addr + "'");
-  }
-  return addr;
-};
+const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : "");
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
@@ -85,7 +77,7 @@ const getChainName = (chainId: number): string =>
   chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
 
 // nft url : nft://chainName/collectionAddress/tokenID
-const nftUrl3 = (chainId: number, address: Address, tokenID = "", n = 999): string => {
+const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
 
   if (!(chainId && address && tokenID && network)) return "";
@@ -142,7 +134,9 @@ const addressSame = (a: string, b: string): boolean => a?.toLowerCase() === b?.t
 const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 
 const urlToLink = (url: string, label?: string): string =>
-  `<a href="${url}" class="link" target="_blank">${label || url}</a>`;
+  `<a href="${url}" class="link" target="_blank" rel="noreferrer">${label || url}</a>`;
+
+const isNumeric = (stringNum: string): boolean => !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -214,7 +208,7 @@ const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GAT
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => gateway link <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank">bafk...cek624</a>
+// => gateway link <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank" rel="noreferrer">bafk...cek624</a>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs), textShort(ipfs));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -507,6 +501,8 @@ export {
   explorerNftLink,
   explorerOpenNFTsUrl,
   isTestnet,
+  isAddress,
+  isNumeric,
   getChainId,
   isProviderOnChainId,
   getChainName,

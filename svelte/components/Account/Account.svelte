@@ -28,6 +28,7 @@
       class="info-button"
       href={blockscanUrl(`/address/${account}`)}
       target="_blank"
+      rel="noreferrer"
       title="&#009;Owner address (click to view account in explorer )&#013;{accountEns}"
       ><i class="fas fa-info-circle" /></a
     >

@@ -46,6 +46,7 @@
                       class="btn btn-sell"
                       title="Sell"
                       target="_blank"
+                      rel="noreferrer"
                     >
                       View on OpenSea
                     </a>

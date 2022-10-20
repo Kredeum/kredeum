@@ -3,7 +3,6 @@ import { Signer } from "@ethersproject/abstract-signer";
 
 import { Contract } from "ethers";
 
-import type { Address } from "@lib/common/ktypes";
 import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
 
 import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
@@ -41,7 +40,7 @@ const factoryGetTemplateAddress = async (
   chainId: number,
   template: string,
   signerOrProvider: Signer | Provider
-): Promise<Address> => {
+): Promise<string> => {
   // console.log("factoryGetTemplateAddress", chainId, template);
 
   const nftsFactory = await factoryGetContract(chainId, signerOrProvider);

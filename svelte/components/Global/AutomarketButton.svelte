@@ -13,7 +13,7 @@
 
   $: account = $metamaskAccount;
 
-  $: chainId > 0 && $metamaskChainId && $metamaskChainId !== chainId && handleChainId();
+  $: chainId > 0 && $metamaskChainId > 0 && $metamaskChainId !== chainId && handleChainId();
   const handleChainId = async (): Promise<void> => {
     try {
       const messageSwitchTo = `Switch to ${getChainName(chainId)}`;

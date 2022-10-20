@@ -47,7 +47,8 @@
         href={nftGetImageLink(nft)}
         title="&#009;{nftDescription(nft)} 
                 NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
-        target="_blank"><i class="fas fa-info-circle" /></a
+        target="_blank"
+        rel="noreferrer"><i class="fas fa-info-circle" /></a
       >
     </div>
   </div>

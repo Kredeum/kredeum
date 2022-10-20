@@ -92,8 +92,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               claimed!
             </div>
@@ -122,7 +125,9 @@
         {/if}
         {#if claimTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl(chainId, claimTxHash)} target="_blank">{textShort(claimTxHash)}</a>
+            <a class="link" href={explorerTxUrl(chainId, claimTxHash)} target="_blank" rel="noreferrer"
+              >{textShort(claimTxHash)}</a
+            >
           </div>
         {/if}
       </div>

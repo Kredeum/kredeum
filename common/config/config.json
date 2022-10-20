@@ -15,7 +15,7 @@
   },
   "domain": {
     "stable": "https://beta.kredeum.com",
-    "latest": "https://integ.kredeum.com"
+    "latest": "https://alpha.kredeum.com"
   },
   "treasury": {
     "account": "0xb09Ae31E045Bb9d8D74BB6624FeEB18B3Af72A8e",

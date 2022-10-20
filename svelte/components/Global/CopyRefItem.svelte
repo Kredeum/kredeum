@@ -6,7 +6,7 @@
   export let copyData: string;
   export let displayData = "";
 
-  $: if (!displayData) displayData = copyData;
+  $: displayData ||= copyData;
 
   const copyToClipboard = async (data: string, e: Event): Promise<void> => {
     await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));

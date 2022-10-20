@@ -39,7 +39,7 @@ add_shortcode(
 		// var_dump($args['image']); .
 
 		$o  = '<div>';
-		$o .= ' <a href="https://opensea.io/assets/' . $args['chain'] . '/' . $args['collection'] . '/' . $args['tokenid'] . '" target="_blank">';
+		$o .= ' <a href="https://opensea.io/assets/' . $args['chain'] . '/' . $args['collection'] . '/' . $args['tokenid'] . '" target="_blank" rel="noreferrer">';
 		$o .= ' <button class="kredeum-sell btn btn-small btn-sell"';
 		$o .= ' collection="' . $args['collection'] . '"';
 		$o .= ' tokenid="' . $args['tokenid'] . '">';

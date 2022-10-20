@@ -1,5 +1,5 @@
 <div class="logo">
-  <a href="https://www.kredeum.com" target="_blank" alt="Kredeum website" title="Kredeum website"
+  <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" alt="Kredeum website" title="Kredeum website"
     ><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
   >
 </div>
@@ -24,6 +24,7 @@
   class="discord-link"
   href="https://discord.gg/Vz5AyU2Nfx"
   target="_blank"
+  rel="noreferrer"
   alt="Discord Kredeum"
   title="Discord Kredeum"><i class="icon-discord" /></a
 >
