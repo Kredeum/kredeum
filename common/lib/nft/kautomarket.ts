@@ -294,6 +294,12 @@ const getMinPrice = (minRoyalty: BigNumberish = 0): BigNumber => {
       .div(MAX_FEE - config.treasury.fee);
 };
 
+const reduceDecimals = (value: string, decimals: number): string => {
+  return value.includes(".") && value.split(".").length === 2
+    ? `${value.split(".")[0]}.${value.split(".")[1].slice(0, -(value.split(".")[1].length - decimals))}`
+    : "";
+};
+
 export {
   getNftPrice,
   getNftRoyalty,
@@ -312,5 +318,6 @@ export {
   getReceiverAmount,
   isValidPrice,
   getMax,
-  getMinPrice
+  getMinPrice,
+  reduceDecimals
 };
