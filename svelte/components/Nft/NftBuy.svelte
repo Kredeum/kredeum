@@ -124,7 +124,9 @@
   )
     ? 'kre-disabled'
     : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY</a
+  title="Buy this nft"
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY (
+  <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong> )</a
 >
 
 {#if open}
