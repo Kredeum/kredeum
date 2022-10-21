@@ -20,7 +20,14 @@
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
-  import { shortcode, shortcodeBuy, getAutoMarketWidgetCode, autoMarketWidget } from "@helpers/shortcodes";
+  import {
+    getShortcodeOpenSeaCode,
+    shortcode,
+    getShortcodeBuyCode,
+    shortcodeBuy,
+    getAutoMarketWidgetCode,
+    autoMarketWidget
+  } from "@helpers/shortcodes";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
@@ -283,6 +290,7 @@
               </div>
             </li>
             <li>
+              <div class="kre-buy-widget-textarea"><textarea value={getShortcodeBuyCode($nft)} /></div>
               <div class="flex"><span class="label">SELL on your WordPress site</span></div>
               <div class="flex">
                 <a
@@ -294,6 +302,7 @@
               </div>
             </li>
             <li>
+              <div class="kre-buy-widget-textarea"><textarea value={getShortcodeOpenSeaCode($nft)} /></div>
               <div class="flex"><span class="label">VIEW on OpenSea</span></div>
               <div class="flex">
                 <a

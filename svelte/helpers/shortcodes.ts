@@ -6,18 +6,20 @@ const copyToClipboard = (data: string): void => {
   console.info("Copied");
 };
 
-const shortcode = async (_nft: NftType) => {
-  const data = `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${_nft.tokenID}" cid="${
+const getShortcodeOpenSeaCode = (_nft: NftType): string =>
+  `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${_nft.tokenID}" cid="${
     _nft.image
   }" image=50]${nftName(_nft)}[/kredeum_sell]`;
 
-  await navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
-  console.info("Copied");
+const shortcode = (_nft: NftType) => {
+  const data = getShortcodeOpenSeaCode(_nft);
+
+  copyToClipboard(data);
 };
 
 const getAutoMarketWidgetCode = (
   _nft: NftType
-) => `<div class="kre-buy-front" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="buy-external">
+): string => `<div class="kre-buy-front" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="buy-external">
 <script defer src="${config.domain.latest}/assets/kredeum-nfts.js"></script>
 <script>
 var newLink = document.createElement("link");
@@ -38,13 +40,22 @@ const autoMarketWidget = (_nft: NftType) => {
   copyToClipboard(data);
 };
 
-const shortcodeBuy = async (_nft: NftType) => {
-  const data = `[kredeum_automarket_button chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${
-    _nft.tokenID
-  }"]${nftName(_nft)}[/kredeum_automarket_button]`;
+const getShortcodeBuyCode = (_nft: NftType): string =>
+  `[kredeum_automarket_button chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}"]${nftName(
+    _nft
+  )}[/kredeum_automarket_button]`;
 
-  await navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
-  console.info("Copied");
+const shortcodeBuy = (_nft: NftType) => {
+  const data = getShortcodeBuyCode(_nft);
+
+  copyToClipboard(data);
 };
 
-export { shortcode, getAutoMarketWidgetCode, autoMarketWidget, shortcodeBuy };
+export {
+  getShortcodeOpenSeaCode,
+  shortcode,
+  getAutoMarketWidgetCode,
+  autoMarketWidget,
+  getShortcodeBuyCode,
+  shortcodeBuy
+};
