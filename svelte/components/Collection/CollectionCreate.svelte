@@ -21,7 +21,8 @@
   import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import InputPrice from "../Global/InputPrice.svelte";
+  import InputPrice from "../InputFields/InputPrice.svelte";
+  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -67,14 +68,6 @@
   // price = utils.parseEther(inputPrice);
 
   let inputReceiver = "";
-  $: inputReceiver && handleInputReceiver();
-  const handleInputReceiver = () => {
-    let tmpReceiver = inputReceiver.replace(/[^x0-9A-Fa-f]/gi, "");
-
-    if (isAddress(tmpReceiver)) tmpReceiver = getChecksumAddress(tmpReceiver);
-
-    inputReceiver = tmpReceiver != constants.AddressZero ? tmpReceiver : $metamaskAccount || constants.AddressZero;
-  };
 
   const invalidInputParams = (): boolean => {
     console.log("invalidInputParams ~ inputFee", inputFee);
@@ -133,7 +126,7 @@
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
     inputFee = "";
-    inputReceiver = constants.AddressZero;
+    inputReceiver = $metamaskAccount || constants.AddressZero;
     cloneError = null;
 
     cloning = S1_CONFIRM;
@@ -240,13 +233,7 @@
             <div class="section">
               <div class="titre">Royalty receiver</div>
               <div class="form-field">
-                <input
-                  type="text"
-                  class="kre-field-outline"
-                  placeholder={$metamaskAccount}
-                  bind:value={inputReceiver}
-                  id="royalties-reveiver-nft"
-                />
+                <InputEthAddress bind:ethAddress={inputReceiver} />
               </div>
             </div>
           {/if}

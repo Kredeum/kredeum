@@ -11,7 +11,7 @@
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import InputPrice from "../Global/InputPrice.svelte";
+  import InputPrice from "../InputFields/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
 
   /////////////////////////////////////////////////

@@ -27,7 +27,7 @@
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
-  import InputPrice from "../Global/InputPrice.svelte";
+  import InputPrice from "../InputFields/InputPrice.svelte";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />

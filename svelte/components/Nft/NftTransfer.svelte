@@ -14,6 +14,8 @@
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
+  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
   // Transfer NFT
@@ -131,7 +133,7 @@
           <div class="section">To what address ?</div>
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
+              <InputEthAddress bind:ethAddress={destinationAddress} placeholder={"destinator address"} />
             </div>
           </div>
 
