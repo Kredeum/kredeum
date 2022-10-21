@@ -278,7 +278,7 @@
               <div class="kre-buy-widget-textarea"><textarea value={getAutoMarketWidgetCode($nft)} /></div>
 
               <div class="flex">
-                <span class="label">SELL on your website by copying this buy widget</span>
+                <span class="label">SELL on your website with this buy snippet</span>
               </div>
               <div class="flex">
                 <a
@@ -291,7 +291,7 @@
             </li>
             <li>
               <div class="kre-buy-widget-textarea"><textarea value={getShortcodeBuyCode($nft)} /></div>
-              <div class="flex"><span class="label">SELL on your WordPress site</span></div>
+              <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
               <div class="flex">
                 <a
                   on:click|preventDefault={() => shortcodeBuy($nft)}
@@ -303,7 +303,9 @@
             </li>
             <li>
               <div class="kre-buy-widget-textarea"><textarea value={getShortcodeOpenSeaCode($nft)} /></div>
-              <div class="flex"><span class="label">VIEW on OpenSea</span></div>
+              <div class="flex">
+                <span class="label">VIEW on OpenSea from your wordpress site with this shortcode</span>
+              </div>
               <div class="flex">
                 <a
                   on:click|preventDefault={() => shortcode($nft)}
