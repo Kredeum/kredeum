@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let template = "OpenNFTsV4/ownable";
-  export let minRoyalty = false;
+  export let template = "OpenAutoMarket/ownable";
+  export let minRoyalty = true;
 
   let generic = false;
 

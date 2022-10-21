@@ -32,7 +32,7 @@
   ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
-  let minRoyalty: boolean = false;
+  let minRoyalty: boolean = true;
 
   let cloning: number;
   let cloneError: string;

@@ -174,7 +174,7 @@
 
   <div class="txtright">
     {#if onSale}
-      <button class="btn btn-default  btn-remove" type="submit" on:click={() => tokenSetPriceConfirm(constants.Zero)}
+      <button class="btn btn-default btn-remove" type="submit" on:click={() => tokenSetPriceConfirm(constants.Zero)}
         >Remove from Sale</button
       >
     {/if}
