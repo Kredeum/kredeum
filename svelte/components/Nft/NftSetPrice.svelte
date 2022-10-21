@@ -6,7 +6,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-  import { setTokenPrice, isValidPrice, getMinPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice, isValidPrice, getMinPrice, reduceDecimals } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
@@ -94,7 +94,10 @@
     inputError = isValidPrice(inputPrice, nftRoyaltyMinimum)
       ? ""
       : `Price to low compared to minimum royalty!
-         Set a price at least double of minimal royalty, i.e. ${displayEther(nftRoyaltyMinimum.mul(2))}`;
+         Set a price at least double of minimal royalty, i.e. ${reduceDecimals(
+           displayEther(nftRoyaltyMinimum.mul(2)),
+           5
+         )}`;
   };
 
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
