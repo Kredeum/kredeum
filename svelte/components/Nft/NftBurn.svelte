@@ -117,8 +117,8 @@
 
     <div class="modal-body">
       <div class="titre">
-        <i class="fas fa-fire" /> Burn this NFT #{tokenID}
-        {burning <= S3_SIGN_TX ? "Forever ?" : ""}
+        <i class="fas fa-fire" /> Burn this NFT #{tokenID} Forever
+        {burning <= S3_SIGN_TX ? " ?" : ""}
       </div>
       <div>
         {#if burning == S0_START}
