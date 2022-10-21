@@ -6,7 +6,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-  import { setTokenPrice, isValidPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice, isValidPrice, getMinPrice } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
@@ -82,6 +82,8 @@
   $: nftOwner = String($nft?.owner || "");
   $: nftRoyalty = $nft?.royalty || {};
   $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
+
+  $: if (nftRoyaltyMinimum) inputPrice = getMinPrice(nftRoyaltyMinimum).mul(2);
 
   $: onSale = nftPrice.gt(0);
 
