@@ -102,9 +102,13 @@
 
   onMount(() => {
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    $nft?.royalty?.minimum && $nft?.royalty?.minimum.gt($nft.price || constants.Zero)
-      ? (inputPrice = $nft?.royalty?.minimum.mul(2))
-      : (inputPrice = BigNumber.from($nft?.price || 0));
+
+    nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
+    nftPrice = BigNumber.from($nft?.price || 0);
+
+    nftRoyaltyMinimum.gt($nft.price || constants.Zero)
+      ? (inputPrice = nftRoyaltyMinimum.mul(2))
+      : (inputPrice = nftPrice);
 
     const approvedForAll = $nft?.collection?.approvedForAll;
     collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;
