@@ -83,8 +83,6 @@
   $: nftRoyalty = $nft?.royalty || {};
   $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
 
-  $: if (nftRoyaltyMinimum) inputPrice = getMinPrice(nftRoyaltyMinimum).mul(2);
-
   $: onSale = nftPrice.gt(0);
 
   $: console.log("input price", String(inputPrice));
@@ -104,7 +102,9 @@
 
   onMount(() => {
     nft = nftStore.getOneStore(chainId, address, tokenID);
-    inputPrice = BigNumber.from($nft?.price || 0);
+    $nft?.royalty?.minimum && $nft?.royalty?.minimum.gt($nft.price || constants.Zero)
+      ? (inputPrice = $nft?.royalty?.minimum.mul(2))
+      : (inputPrice = BigNumber.from($nft?.price || 0));
 
     const approvedForAll = $nft?.collection?.approvedForAll;
     collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;
