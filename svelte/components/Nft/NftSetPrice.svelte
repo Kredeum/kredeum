@@ -115,11 +115,10 @@
 
   const tokenSetPriceConfirm = async (price: BigNumber) => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
-    if (price.eq(constants.Zero)) inputPrice = price;
 
     if (price.eq(nftPrice)) return _inputPriceError("Price unchanged !");
 
-    if (!isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
+    if (price.eq(inputPrice) && !isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
 
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
