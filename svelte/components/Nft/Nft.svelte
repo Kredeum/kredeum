@@ -407,9 +407,11 @@
     width: 100%;
     height: 4em;
     border: 1px solid rgba(30, 30, 67, 0.1);
-    background-color: rgba(0, 0, 0, 0.1);
+    background-color: rgba(105, 104, 104, 0.1);
     border-radius: 6px;
     padding: 8px;
+    color: rgba(30, 30, 67, 0.4);
+    font-weight: 300;
   }
 
   /* Buy front CSS */
