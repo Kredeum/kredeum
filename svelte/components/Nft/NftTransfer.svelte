@@ -39,6 +39,9 @@
 
   let nftRoyaltyMinimum: BigNumber;
 
+  $: nftRoyaltyMinimum = $nft?.royalty?.minimum || constants.Zero;
+  $: nftRoyaltyMinimum.gt(0) ? (transferWarning = formatEther(nftRoyaltyMinimum)) : (transferWarning = "");
+
   const _transferError = (err: string): void => {
     transferError = err;
     console.error(transferError);
@@ -111,12 +114,6 @@
     transferInit();
 
     nft = nftStore.getOneStore(chainId, address, tokenID);
-
-    nftRoyaltyMinimum = $nft?.royalty?.minimum || constants.Zero;
-
-    $nft?.collection?.minimal && nftRoyaltyMinimum && constants.Zero.lt(nftRoyaltyMinimum)
-      ? (transferWarning = formatEther(nftRoyaltyMinimum))
-      : (transferWarning = "");
   });
 </script>
 

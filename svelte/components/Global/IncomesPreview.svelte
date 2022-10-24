@@ -18,7 +18,7 @@
   //////////////////////////////////////////////////////////////////////////
 
   let currency: string = getCurrency(chainId);
-  let minimal: boolean = false;
+  let minimum: boolean = false;
 
   let sellerAmount: BigNumber = constants.Zero;
   let receiverFeeAmount: BigNumber = constants.Zero;
@@ -33,8 +33,8 @@
     treasuryFeeAmount = getReceiverAmount(price, config.treasury.fee);
     receiverFeeAmount = getReceiverAmount(price, nftRoyalty.fee);
 
-    minimal = nftRoyaltyMinimum.gt(receiverFeeAmount.add(treasuryFeeAmount));
-    if (minimal) {
+    minimum = nftRoyaltyMinimum.gt(receiverFeeAmount.add(treasuryFeeAmount));
+    if (minimum) {
       receiverFeeAmount = nftRoyaltyMinimum;
     }
 
@@ -59,8 +59,8 @@
       <div>
         <p>
           {displayEther(receiverFeeAmount)} royalty to receiver
-          {#if minimal}
-            (minimal royalty)
+          {#if minimum}
+            (minimum royalty)
           {:else}
             ({nftRoyalty.fee / 100} %)
           {/if}

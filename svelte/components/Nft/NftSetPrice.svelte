@@ -6,7 +6,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
-  import { setTokenPrice, isValidPrice, getMinPrice, reduceDecimals } from "@lib/nft/kautomarket";
+  import { setTokenPrice, isValidPrice, reduceDecimals } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
@@ -93,8 +93,7 @@
       ? ""
       : `Price to low compared to minimum royalty!
          Set a price at least double of minimal royalty, i.e. ${reduceDecimals(
-           displayEther(nftRoyaltyMinimum.mul(2)),
-           5
+           displayEther(nftRoyaltyMinimum.mul(2))
          )}`;
   };
 
@@ -118,6 +117,7 @@
 
   const tokenSetPriceConfirm = async (price: BigNumber) => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
+    if (price.eq(constants.Zero)) inputPrice = price;
 
     if (price.eq(nftPrice)) return _inputPriceError("Price unchanged !");
 
@@ -232,7 +232,7 @@
           NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice)}
         {/if}
       {:else}
-        NFT #{$nft.tokenID} Price setted to {displayEther(nftPrice)}
+        NFT #{$nft.tokenID} removed from sale...
       {/if}
     </p>
   </div>

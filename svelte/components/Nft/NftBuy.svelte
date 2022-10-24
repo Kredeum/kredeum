@@ -17,7 +17,6 @@
     nftOpenSeaUrl,
     getCurrency
   } from "@lib/common/kconfig";
-  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
@@ -86,8 +85,8 @@
   onMount(() => {
     buyInit();
 
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && getMinPrice(nftRoyalty.minimum).gt(nftPrice)) {
-      minimumPrice = getMinPrice(nftRoyalty.minimum);
+    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftRoyalty.minimum.mul(2).gt(nftPrice)) {
+      minimumPrice = nftRoyalty.minimum.mul(2);
       nftPrice = minimumPrice;
     }
   });
@@ -126,7 +125,12 @@
     : ''}"
   title="Buy this nft"
   ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY (
-  <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong> )</a
+  {#if nftPrice.gt(0)}
+    <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
+  {:else}
+    <strong>Not on sale</strong>
+  {/if}
+  )</a
 >
 
 {#if open}

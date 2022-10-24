@@ -16,7 +16,6 @@
     getCurrency,
     kredeumNftHttp
   } from "@lib/common/kconfig";
-  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 
@@ -69,7 +68,7 @@
   $: nftRoyaltyAccount = String(nftRoyalty?.account || constants.AddressZero);
   $: nftRoyaltyFee = Number(nftRoyalty?.fee || 0);
   $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
-  $: nftMinPrice = getMinPrice(nftRoyaltyMinimum);
+  $: nftMinPrice = nftRoyaltyMinimum.mul(2);
 
   $: console.info("Nft", $nft);
 </script>

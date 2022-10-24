@@ -280,24 +280,24 @@ async function* setDefautCollectionRoyalty(
 const getReceiverAmount = (price: BigNumberish = 0, fee = 0): BigNumber => BigNumber.from(price).mul(fee).div(MAX_FEE);
 
 const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 0): boolean =>
-  BigNumber.from(price).gt(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount)) ||
+  BigNumber.from(price).gte(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount)) ||
   BigNumber.from(price).eq(constants.Zero);
 
 const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
   BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);
 
-const getMinPrice = (minRoyalty: BigNumberish = 0): BigNumber => {
-  if (MAX_FEE == config.treasury.fee) throw Error("Invalid treasury fee");
-  else
-    return BigNumber.from(minRoyalty)
-      .mul(MAX_FEE)
-      .div(MAX_FEE - config.treasury.fee);
+/////////////////////////////////////////////////////////////////////
+// strig value of decimal number                    : "0.00153486726"
+// strig value reduiced (defaul 5 decimals)         : "0.00153"
+/////////////////////////////////////////////////////////////////////
+const reduceDecimals = (value: string, decimals = 5): string => {
+  let reducedDecimal = "";
+  if (value.includes(".") && value.split(".").length === 2) {
+    const intDec: Array<string> = value.split(".");
+    reducedDecimal = `${intDec[0]}.${intDec[1].slice(0, -(intDec.length - decimals))}`;
+  }
+  return reducedDecimal;
 };
-
-const reduceDecimals = (value: string, decimals: number): string =>
-  value.includes(".") && value.split(".").length === 2
-    ? `${value.split(".")[0]}.${value.split(".")[1].slice(0, -(value.split(".")[1].length - decimals))}`
-    : "";
 
 export {
   getNftPrice,
@@ -317,6 +317,5 @@ export {
   getReceiverAmount,
   isValidPrice,
   getMax,
-  getMinPrice,
   reduceDecimals
 };

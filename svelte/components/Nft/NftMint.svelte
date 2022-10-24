@@ -9,7 +9,7 @@
   import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
-  import { getMax, getMinPrice, getReceiverAmount, reduceDecimals } from "@lib/nft/kautomarket";
+  import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/kautomarket";
   import {
     textShort,
     swarmGatewayUrl,
@@ -73,12 +73,11 @@
 
   $: price && handlePriceError();
   const handlePriceError = () => {
-    console.log("priceerror", typeof utils.formatEther(getMinPrice(minRoyalty).mul(2)));
+    console.log("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
-    collection?.minimal && constants.Zero.lt(price) && price?.lt(getMinPrice(minRoyalty))
+    collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
       ? (inputPriceError = `Price to low, minimum price should be set to ${reduceDecimals(
-          utils.formatEther(getMinPrice(minRoyalty).mul(2)),
-          5
+          utils.formatEther(minRoyalty.mul(2))
         )} ${getCurrency(chainId)} 
             `)
       : (inputPriceError = "");
