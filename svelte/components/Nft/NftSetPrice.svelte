@@ -91,8 +91,8 @@
   const minimalPriceHandler = (inputPrice: BigNumber): void => {
     inputError = isValidPrice(inputPrice, nftRoyaltyMinimum)
       ? ""
-      : `Price to low compared to minimum royalty!
-         Set a price at least double of minimal royalty, i.e. ${reduceDecimals(
+      : `Price too low compared to minimum royalty!
+         You should set a price at least double of minimal royalty, i.e. ${reduceDecimals(
            displayEther(nftRoyaltyMinimum.mul(2))
          )}`;
   };

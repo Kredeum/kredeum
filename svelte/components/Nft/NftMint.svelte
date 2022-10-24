@@ -76,7 +76,7 @@
     console.log("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
     collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
-      ? (inputPriceError = `Price to low, minimum price should be set to ${reduceDecimals(
+      ? (inputPriceError = `Price too low, minimum price should be set to ${reduceDecimals(
           utils.formatEther(minRoyalty.mul(2))
         )} ${getCurrency(chainId)} 
             `)
