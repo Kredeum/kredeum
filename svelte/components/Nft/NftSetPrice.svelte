@@ -105,9 +105,7 @@
     nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
     nftPrice = BigNumber.from($nft?.price || 0);
 
-    nftRoyaltyMinimum.gt($nft.price || constants.Zero)
-      ? (inputPrice = nftRoyaltyMinimum.mul(2))
-      : (inputPrice = nftPrice);
+    inputPrice = nftPrice.lt(nftRoyaltyMinimum) ? nftRoyaltyMinimum.mul(2) : nftPrice;
 
     const approvedForAll = $nft?.collection?.approvedForAll;
     collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;

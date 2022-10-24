@@ -280,8 +280,7 @@ async function* setDefautCollectionRoyalty(
 const getReceiverAmount = (price: BigNumberish = 0, fee = 0): BigNumber => BigNumber.from(price).mul(fee).div(MAX_FEE);
 
 const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 0): boolean =>
-  BigNumber.from(price).gte(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount)) ||
-  BigNumber.from(price).eq(constants.Zero);
+  BigNumber.from(price).gte(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount));
 
 const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
   BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);
@@ -291,12 +290,11 @@ const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
 // strig value reduiced (defaul 5 decimals)         : "0.00153"
 /////////////////////////////////////////////////////////////////////
 const reduceDecimals = (value: string, decimals = 5): string => {
-  let reducedDecimal = "";
-  if (value.includes(".") && value.split(".").length === 2) {
-    const intDec: Array<string> = value.split(".");
-    reducedDecimal = `${intDec[0]}.${intDec[1].slice(0, -(intDec.length - decimals))}`;
-  }
-  return reducedDecimal;
+  const intgDecm: Array<string> = value.split(".");
+  const intg = intgDecm.length >= 1 ? intgDecm[0] : "";
+  const decm = intgDecm.length >= 2 ? intgDecm[1] : "";
+
+  return decm.length > decimals ? `${intg}.${decm.slice(0, decimals - decm.length)}` : value;
 };
 
 export {

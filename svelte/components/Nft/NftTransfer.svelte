@@ -40,7 +40,7 @@
   let nftRoyaltyMinimum: BigNumber;
 
   $: nftRoyaltyMinimum = $nft?.royalty?.minimum || constants.Zero;
-  $: nftRoyaltyMinimum.gt(0) ? (transferWarning = formatEther(nftRoyaltyMinimum)) : (transferWarning = "");
+  $: transferWarning = nftRoyaltyMinimum.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -108,7 +108,6 @@
   };
 
   let nft: Readable<NftType>;
-  let transferWarning = "";
 
   onMount(() => {
     transferInit();
