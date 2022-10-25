@@ -14,7 +14,8 @@
     // nftOpenSeaUrl,
     // addressSame,
     getCurrency,
-    kredeumNftHttp
+    kredeumNftHttp,
+    getNetwork
   } from "@lib/common/kconfig";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -34,6 +35,8 @@
   import NftSell from "./NftSell.svelte";
   // import NftClaim from "./NftClaim.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import Collection from "../Collection/Collection.svelte";
+  import { OpenBoundSupportsTest__factory } from "@soltypes/index";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -273,46 +276,50 @@
           </p>
 
           <ul class="steps">
-            <li>
-              <div class="flex">
-                <span class="label">SELL on your website with this buy snippet</span>
-              </div>
-              <div class="flex kre-buy-widget-textarea">
-                <textarea value={getAutoMarketWidgetCode($nft)} />
-                <a
-                  on:click|preventDefault={() => autoMarketWidget($nft)}
-                  class="btn btn-small btn-outline"
-                  href="."
-                  title="Copy">Copy</a
-                >
-              </div>
-            </li>
-            <li>
-              <div class="kre-buy-widget-textarea"><textarea value={getShortcodeBuyCode($nft)} /></div>
-              <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
-              <div class="flex">
-                <a
-                  on:click|preventDefault={() => shortcodeBuy($nft)}
-                  class="btn btn-small btn-outline"
-                  href="."
-                  title="Copy">Copy</a
-                >
-              </div>
-            </li>
-            <li>
-              <div class="kre-buy-widget-textarea"><textarea value={getShortcodeOpenSeaCode($nft)} /></div>
-              <div class="flex">
-                <span class="label">VIEW on OpenSea from your wordpress site with this shortcode</span>
-              </div>
-              <div class="flex">
-                <a
-                  on:click|preventDefault={() => shortcode($nft)}
-                  class="btn btn-small btn-outline"
-                  href="."
-                  title="Copy">Copy</a
-                >
-              </div>
-            </li>
+            {#if $nft.collection.supports.IOpenAutoMarket}
+              <li>
+                <div class="flex">
+                  <span class="label">SELL on your website with this buy snippet</span>
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <textarea value={getAutoMarketWidgetCode($nft)} />
+                  <a
+                    on:click|preventDefault={() => autoMarketWidget($nft)}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="Copy">Copy</a
+                  >
+                </div>
+              </li>
+              <li>
+                <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
+                <div class="flex kre-buy-widget-textarea">
+                  <textarea value={getShortcodeBuyCode($nft)} />
+                  <a
+                    on:click|preventDefault={() => shortcodeBuy($nft)}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="Copy">Copy</a
+                  >
+                </div>
+              </li>
+            {/if}
+            {#if getNetwork($metamaskChainId)?.openSea}
+              <li>
+                <div class="flex">
+                  <span class="label">VIEW on OpenSea from your wordpress site with this shortcode</span>
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <textarea value={getShortcodeOpenSeaCode($nft)} />
+                  <a
+                    on:click|preventDefault={() => shortcode($nft)}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="Copy">Copy</a
+                  >
+                </div>
+              </li>
+            {/if}
           </ul>
         </div>
       </div>
@@ -376,7 +383,8 @@
     color: black;
   }
 
-  :global(.kre-action-buttons a.btn-transfer-modal:hover) {
+  :global(.kre-action-buttons a.btn-transfer-modal:hover, .kre-action-buttons
+      a.btn-shortcod-modal:hover, .kre-action-buttons a.btn-shortcod-modal:hover i) {
     background-color: #3acf6e;
     color: white;
   }
@@ -397,7 +405,7 @@
     margin-left: 15px;
   }
 
-  .flex {
+  #schortcodes .flex {
     width: 100%;
   }
 
@@ -421,6 +429,8 @@
   .kre-buy-widget-textarea a {
     margin-left: 15px;
     height: 3em;
+    line-height: 1em;
+    padding: 1em 1.2em;
   }
 
   /* Buy front CSS */

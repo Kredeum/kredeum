@@ -71,6 +71,7 @@
 
   const tokenSetPriceInit = async () => {
     tokenSetPriceTxHash = null;
+    removingFromSale = false;
 
     tokenSettingPrice = S1_CONFIRM;
   };
@@ -97,6 +98,8 @@
          )}`;
   };
 
+  let removingFromSale = false;
+
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
 
   onMount(() => {
@@ -113,13 +116,17 @@
     tokenSetPriceInit();
   });
 
-  const tokenSetPriceConfirm = async (price: BigNumber) => {
+  const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
 
     if (price.eq(nftPrice)) return _inputPriceError("Price unchanged !");
 
-    if (price.eq(inputPrice) && !isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
+    if (!isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
 
+    await tokenSetPriceTx(price);
+  };
+
+  const tokenSetPriceTx = async (price: BigNumber): Promise<void> => {
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
 
     tokenSettingPrice = S2_SIGN_TX;
@@ -139,6 +146,11 @@
     tokenSettingPrice = S4_PRICE_SETTED;
 
     await nftStore.refreshOne(chainId, $nft.address, $nft.tokenID).catch(console.error);
+  };
+
+  const removeFromSale = async (): Promise<void> => {
+    removingFromSale = true;
+    await tokenSetPriceTx(constants.Zero);
   };
 </script>
 
@@ -180,9 +192,7 @@
 
   <div class="txtright">
     {#if onSale}
-      <button class="btn btn-default btn-remove" type="submit" on:click={() => tokenSetPriceConfirm(constants.Zero)}
-        >Remove from Sale</button
-      >
+      <button class="btn btn-default btn-remove" type="submit" on:click={removeFromSale}>Remove from Sale</button>
     {/if}
 
     <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(inputPrice)}>
@@ -200,7 +210,7 @@
     <p>
       <i class="fas fa-sync fa-left c-green" />
       {#if onSale}
-        {#if inputPrice.eq(0)}
+        {#if removingFromSale}
           Removing NFT from sale...
         {:else}
           Modifying NFT price to {displayEther(inputPrice)}...
@@ -222,19 +232,15 @@
   <div class="titre">
     <p>
       <i class="fas fa-check fa-left c-green" />
-      {#if onSale}
-        {#if nftPrice.eq(0)}
-          NFT #{$nft.tokenID} removed from sale...
-        {:else}
-          NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice)}
-        {/if}
-      {:else}
+      {#if removingFromSale}
         NFT #{$nft.tokenID} removed from sale...
+      {:else}
+        NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice)}
       {/if}
     </p>
   </div>
 
-  {#if nftPrice.gt(0)}
+  {#if !removingFromSale}
     <div class="section">
       <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />
     </div>
