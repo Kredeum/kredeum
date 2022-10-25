@@ -14,12 +14,12 @@ auto_detect_solc=true
 [fmt]
 number_underscore = 'thousands'
 
-# [rpc_endpoints]
-# mainnet = "${MAINNET_RPC_URL}"
-# goerli = "${GOERLI_RPC_URL}"
+[rpc_endpoints]
+mainnet = "${MAINNET_RPC_URL}"
+goerli = "${GOERLI_RPC_URL}"
 
-# [etherscan]
-# goerli = { key = "${ETHERSCAN_API_KEY}" }
+[etherscan]
+goerli = { key = "${ETHERSCAN_API_KEY}" }
 
 
 

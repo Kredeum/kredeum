@@ -289,7 +289,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "ETH",
+      "symbol": "GOETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -300,7 +300,7 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0x1D75C5A5A8525679346092e62fd7280500F3EB20",
+    "openNFTs": "0x50Fb2719C3E711E51ae6023e8522516Bcd4260D9",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,

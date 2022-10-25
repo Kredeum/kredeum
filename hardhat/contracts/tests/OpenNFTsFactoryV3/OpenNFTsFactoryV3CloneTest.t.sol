@@ -26,7 +26,12 @@ abstract contract OpenNFTsFactoryV3CloneTest is Test, IOpenReceiverInfos {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        _clone = OpenNFTsFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", abi.encode(options));
+        _clone = OpenNFTsFactoryV3(_factory).clone(
+            "NFT test",
+            "NFT",
+            "OpenNFTsV4",
+            abi.encode(0, address(0), 0, options)
+        );
 
         assertTrue(OpenNFTsV4(_clone).initialized());
         assertEq(OpenNFTsV4(_clone).name(), "NFT test");

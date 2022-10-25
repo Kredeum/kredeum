@@ -47,7 +47,7 @@
 
   let inputMintPrice = constants.Zero;
 
-  let inputFee = "";
+  let inputFee = "0";
   let inputFeeNumber = 0;
   $: inputFee && handleInputFee();
   const handleInputFee = () => {
@@ -125,7 +125,7 @@
     collectionName = "";
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
-    inputFee = "";
+    inputFee = "0";
     inputReceiver = $metamaskAccount || constants.AddressZero;
     cloneError = null;
 

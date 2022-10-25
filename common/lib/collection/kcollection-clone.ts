@@ -34,7 +34,10 @@ async function* collectionClone(
 
   if (template == "OpenNFTsV4") {
     options = [conf == "generic"];
-    optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
+    optionsBytes = utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "bool[]"],
+      [0, constants.AddressZero, 0, options]
+    );
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];
     // console.log("options", options);

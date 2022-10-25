@@ -32,11 +32,15 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
     nonce = await getNonce(deployer, contractName, "initialize");
 
-    const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(["bool[]"], [[true]]);
+    const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "bool[]"],
+      [0, deployer.address, 0, [[true]]]
+    );
     const optionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["bytes", "address", "uint96"],
       [subOptionsBytes, constants.AddressZero, 0]
     );
+
     await (await openNFTsV4.initialize("OpenNFTsV4", "ONFT", deployer.address, optionsBytes)).wait();
 
     nonce = await getNonce(deployer, "OpenNFTsFactoryV3", "setTemplate");

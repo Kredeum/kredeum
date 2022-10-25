@@ -23,7 +23,7 @@ abstract contract OpenNFTsV4InitializeTest is Test {
         _collection = constructorTest(_owner, false);
 
         _options[0] = true;
-        _optionsEncoded = abi.encode(abi.encode(_options), address(0), 0);
+        _optionsEncoded = abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0);
     }
 
     function testInitializeName() public {
@@ -48,7 +48,12 @@ abstract contract OpenNFTsV4InitializeTest is Test {
 
     function testInitializeNotOpen() public {
         _options[0] = false;
-        IOpenCloneable(_collection).initialize("OpenNFTsV4InitializeTest", "TEST", _owner, abi.encode(abi.encode(_options), address(0), 0));
+        IOpenCloneable(_collection).initialize(
+            "OpenNFTsV4InitializeTest",
+            "TEST",
+            _owner,
+            abi.encode(abi.encode(0, address(0), 0, _options), address(0), 0)
+        );
         assertEq(IOpenNFTsV4(_collection).open(), false);
     }
 
