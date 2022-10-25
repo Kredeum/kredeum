@@ -17,7 +17,7 @@ const getNftPrice = async (
   tokenID: string,
   signerOrProvider: Signer | Provider
 ): Promise<BigNumber> => {
-  let price = BigNumber.from(0);
+  let price = constants.Zero;
 
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
   if (collection.supports?.IOpenMarketable)
@@ -51,8 +51,7 @@ const getNftRoyaltyInfo = async (
 ): Promise<{ receiver: string; royaltyAmount: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  if (!collection.supports?.IOpenMarketable)
-    return { receiver: constants.AddressZero, royaltyAmount: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: constants.Zero };
 
   const [receiver, royaltyAmount] = await (contract as IERC2981).royaltyInfo(tokenID, nftPrice);
 
@@ -66,7 +65,7 @@ const getDefaultCollPrice = async (
 ): Promise<BigNumber> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : BigNumber.from(0);
+  return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : constants.Zero;
 };
 
 const getDefaultCollRoyaltyInfos = async (
@@ -76,7 +75,7 @@ const getDefaultCollRoyaltyInfos = async (
 ): Promise<{ receiver: string; fee: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
 
-  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: BigNumber.from(0) };
+  if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: constants.Zero };
 
   const royaltyInfostest = await (contract as IOpenMarketable).getDefaultRoyalty();
 
@@ -281,18 +280,21 @@ async function* setDefautCollectionRoyalty(
 const getReceiverAmount = (price: BigNumberish = 0, fee = 0): BigNumber => BigNumber.from(price).mul(fee).div(MAX_FEE);
 
 const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 0): boolean =>
-  BigNumber.from(price).eq(0) ||
-  BigNumber.from(price).sub(getReceiverAmount(price, config.treasury.fee)).sub(minRoyaltyAmount).gt(0);
+  BigNumber.from(price).gte(getReceiverAmount(price, config.treasury.fee).add(minRoyaltyAmount));
 
 const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
   BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);
 
-const getMinPrice = (minRoyalty: BigNumberish = 0): BigNumber => {
-  if (MAX_FEE == config.treasury.fee) throw Error("Invalid treasury fee");
-  else
-    return BigNumber.from(minRoyalty)
-      .mul(MAX_FEE)
-      .div(MAX_FEE - config.treasury.fee);
+/////////////////////////////////////////////////////////////////////
+// strig value of decimal number                    : "0.00153486726"
+// strig value reduiced (defaul 5 decimals)         : "0.00153"
+/////////////////////////////////////////////////////////////////////
+const reduceDecimals = (value: string, decimals = 5): string => {
+  const intgDecm: Array<string> = value.split(".");
+  const intg = intgDecm.length >= 1 ? intgDecm[0] : "";
+  const decm = intgDecm.length >= 2 ? intgDecm[1] : "";
+
+  return decm.length > decimals ? `${intg}.${decm.slice(0, decimals - decm.length)}` : value;
 };
 
 export {
@@ -313,5 +315,5 @@ export {
   getReceiverAmount,
   isValidPrice,
   getMax,
-  getMinPrice
+  reduceDecimals
 };

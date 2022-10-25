@@ -81,15 +81,15 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         bytes memory params_
     ) public override(OpenCloneable) {
         (bytes memory subparams_, , ) = abi.decode(params_, (bytes, address, uint96));
-        bool[] memory options = abi.decode(subparams_, (bool[]));
+
+        (, , , bool[] memory options_) = abi.decode(subparams_, (uint256, address, uint96, bool[]));
+        open = options_[0];
 
         tokenIdNext = 1;
 
         OpenCloneable._initialize("OpenNFTsV4", 4);
         OpenERC721Metadata._initialize(name_, symbol_);
         OpenERC173._initialize(owner_);
-
-        open = options[0];
     }
 
     function supportsInterface(bytes4 interfaceId)

@@ -14,6 +14,8 @@
   import { metamaskChainId, metamaskSigner } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
+  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
   // Transfer NFT
@@ -36,6 +38,9 @@
   let destinationAddress = "";
 
   let nftRoyaltyMinimum: BigNumber;
+
+  $: nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
+  $: transferWarning = nftRoyaltyMinimum?.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -103,18 +108,11 @@
   };
 
   let nft: Readable<NftType>;
-  let transferWarning = "";
 
   onMount(() => {
     transferInit();
 
     nft = nftStore.getOneStore(chainId, address, tokenID);
-
-    nftRoyaltyMinimum = $nft.royalty.minimum;
-
-    $nft?.collection?.minimal && nftRoyaltyMinimum && constants.Zero.lt(nftRoyaltyMinimum)
-      ? (transferWarning = formatEther(nftRoyaltyMinimum))
-      : (transferWarning = "");
   });
 </script>
 
@@ -131,7 +129,7 @@
           <div class="section">To what address ?</div>
           <div class="section">
             <div class="form-field">
-              <input type="text" placeholder="destinator address" bind:value={destinationAddress} />
+              <InputEthAddress bind:ethAddress={destinationAddress} placeholder={"destinator address"} />
             </div>
           </div>
 
@@ -141,7 +139,7 @@
                 <p>
                   <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to transfer this NFT
                   #{tokenID} which requires minimum royalty payment. That means you have, in any case, to pay the minimal
-                  royalty amount of {transferWarning}
+                  Royalty amount of {transferWarning}
                   {getCurrency(chainId)} to transfer it.
                 </p>
               </div>
@@ -160,8 +158,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               transfered!
             </div>
@@ -170,7 +171,7 @@
 
         {#if transferTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank"
+            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank" rel="noreferrer"
               >{textShort(transferTxHash)}</a
             >
           </div>

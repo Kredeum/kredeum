@@ -18,32 +18,30 @@
   //////////////////////////////////////////////////////////////////////////
 
   let currency: string = getCurrency(chainId);
-  let minimal: boolean = false;
+  let minimum: boolean = false;
 
   let sellerAmount: BigNumber = constants.Zero;
   let receiverFeeAmount: BigNumber = constants.Zero;
   let treasuryFeeAmount: BigNumber = constants.Zero;
-  let minimalRoyaltyAmount: BigNumber = constants.Zero;
 
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${currency}`;
 
   $: handleCalculation(nftPrice);
   const handleCalculation = (price: BigNumberish): void => {
+    const nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
+
     treasuryFeeAmount = getReceiverAmount(price, config.treasury.fee);
     receiverFeeAmount = getReceiverAmount(price, nftRoyalty.fee);
 
-    minimal = minimalRoyaltyAmount.gt(receiverFeeAmount);
-    if (minimal) receiverFeeAmount = minimalRoyaltyAmount;
+    minimum = nftRoyaltyMinimum.gt(receiverFeeAmount.add(treasuryFeeAmount));
+    if (minimum) {
+      receiverFeeAmount = nftRoyaltyMinimum;
+    }
 
-    sellerAmount = BigNumber.from(price).sub(treasuryFeeAmount).sub(receiverFeeAmount);
-    sellerAmount = getMax(sellerAmount, 0);
+    sellerAmount = nftPrice.sub(receiverFeeAmount.add(treasuryFeeAmount));
   };
 
-  onMount(() => {
-    nftPrice = BigNumber.from(nftPrice);
-
-    minimalRoyaltyAmount = BigNumber.from(nftRoyalty.minimum || 0);
-  });
+  $: console.log("IncomesPreview ~ nftRoyalty", nftRoyalty);
 </script>
 
 <div>
@@ -60,9 +58,9 @@
     <li>
       <div>
         <p>
-          {displayEther(receiverFeeAmount)} royalty to receiver
-          {#if minimal}
-            (minimal royalty)
+          {displayEther(receiverFeeAmount)} Royalty to receiver
+          {#if minimum}
+            (minimum royalty)
           {:else}
             ({nftRoyalty.fee / 100} %)
           {/if}

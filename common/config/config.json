@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "0.16.3",
+    "latest": "0.16.4",
     "stable": "0.13.2"
   },
   "storage": {
@@ -12,6 +12,10 @@
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz/"
     }
+  },
+  "domain": {
+    "stable": "https://beta.kredeum.com",
+    "latest": "https://alpha.kredeum.com"
   },
   "treasury": {
     "account": "0xb09Ae31E045Bb9d8D74BB6624FeEB18B3Af72A8e",

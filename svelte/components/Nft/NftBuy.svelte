@@ -17,7 +17,6 @@
     nftOpenSeaUrl,
     getCurrency
   } from "@lib/common/kconfig";
-  import { getMinPrice } from "@lib/nft/kautomarket";
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
@@ -32,13 +31,12 @@
   export let nftOwner: string;
   export let nftPrice: BigNumber;
   export let nftRoyalty: ReceiverType;
+  export let platform = "dapp";
   ///////////////////////////////////////////////////////////
 
   let buying: number;
   let buyTxHash: string;
   let buyError: string;
-
-  let minimumPrice: BigNumber;
 
   let open = false;
 
@@ -84,11 +82,6 @@
 
   onMount(() => {
     buyInit();
-
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftPrice.lt(getMinPrice(nftRoyalty.minimum))) {
-      minimumPrice = getMinPrice(nftRoyalty.minimum);
-      nftPrice = minimumPrice;
-    }
   });
 
   const buyConfirm = async () => {
@@ -118,9 +111,15 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="btn-buy-modal {constants.Zero.eq(nftPrice || 0) ? 'kre-disabled' : ''}"
-  title="Buy this nft"><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> Buy</a
->
+  class="btn-buy {platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
+  title="Buy this NFT"
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} />
+  {#if nftPrice.gt(0)}
+    BUY <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
+  {:else}
+    <strong>Not on sale</strong>
+  {/if}
+</a>
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
@@ -138,33 +137,21 @@
                     {getCurrency(chainId)} using AutoMarket smartcontract ?
                   </p>
                 </div>
-                {#if minimumPrice}
-                  <div class="section">
-                    <div class="form-field kre-warning-msg">
-                      <p>
-                        <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull this NFT #{tokenID} price is
-                        setted to low because of minimum royalty. if you choose to buy it overall you will pay {utils.formatEther(
-                          minimumPrice
-                        )}
-                        {getCurrency(chainId)} for it
-                      </p>
-                    </div>
-                  </div>
-                {/if}
                 <div class="section">
                   <IncomesPreview {chainId} {nftPrice} {nftOwner} {nftRoyalty} />
                 </div>
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
-                {#if getOpenSea(chainId)}
+                {#if getOpenSea(chainId) && platform !== "buy-external"}
                   <div class="kre-modal-block">
                     <div class="txtright">
                       <a
                         href={nftOpenSeaUrl(chainId, { address, tokenID })}
-                        class="btn btn-small btn-buy"
+                        class="btn btn-small"
                         title="Buy"
                         target="_blank"
+                        rel="noreferrer"
                       >
                         Buy on OpenSea
                       </a>
@@ -199,7 +186,8 @@
                         address: address,
                         tokenID: tokenID
                       })}}"
-                      target="_blank">#{tokenID}</a
+                      target="_blank"
+                      rel="noreferrer">#{tokenID}</a
                     >
                     buyed!
                   </p>
@@ -208,7 +196,9 @@
 
               {#if buyTxHash}
                 <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank">{textShort(buyTxHash)}</a>
+                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank" rel="noreferrer"
+                    >{textShort(buyTxHash)}</a
+                  >
                 </div>
               {/if}
 
@@ -236,6 +226,11 @@
   #kre-buy-nft {
     z-index: 1000;
     pointer-events: auto;
+    color: #1e1e43;
+  }
+
+  .btn-buy strong {
+    margin-left: 0.5em;
   }
 
   .btn-buy-modal {
@@ -243,7 +238,8 @@
     color: white !important;
   }
 
-  .btn-buy-modal:hover {
+  .btn-buy-modal,
+  .btn-buy-shortcode:hover {
     background-color: #3acf6e !important;
   }
 </style>

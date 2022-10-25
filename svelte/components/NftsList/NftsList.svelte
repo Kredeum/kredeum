@@ -74,7 +74,8 @@
         href={explorerCollectionUrl(chainId, address)}
         title="&#009;Collection address (click to view in explorer)&#013;
       {collectionKey(chainId, address)}"
-        target="_blank"><i class="fas fa-info-circle" /></a
+        target="_blank"
+        rel="noreferrer"><i class="fas fa-info-circle" /></a
       >
     </div>
     <div class="col col-xs-12">

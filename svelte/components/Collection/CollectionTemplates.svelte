@@ -1,6 +1,6 @@
 <script lang="ts">
-  export let template = "OpenNFTsV4/ownable";
-  export let minRoyalty = false;
+  export let template = "OpenAutoMarket/ownable";
+  export let minRoyalty = true;
 
   let generic = false;
 
@@ -9,7 +9,7 @@
       "OpenNFTsV4/ownable",
       {
         name: "OpenNFTs",
-        description: "Ownable OpenNFTs Collection: own your NFT Collection, only you can Mint NFTs",
+        description: "OpenNFTs ownable Collection: own your NFT Collection, only you can Mint NFTs",
         icon: "user"
       }
     ],
@@ -17,7 +17,7 @@
       "OpenNFTsV4/generic",
       {
         name: "OpenNFTs Generic",
-        description: "Generic OpenNFTs Collection: anyone can Mint NFTs in this collection!",
+        description: "OpenNFTs generic Collection: anyone can Mint NFTs in this collection!",
         icon: "building"
       }
     ],
@@ -45,7 +45,7 @@
   const templateName = (templateKey: string) => templateSplit(templateKey)[0];
   const templateConfig = (templateKey: string) => templateSplit(templateKey)[1];
 
-  $: template = templateMerge(templateName(template), generic ? "generic" : "ownable");
+  $: template = templateMerge(templateName(template), templateName(template) == "OpenNFTsV4" ? "generic" : "ownable");
 
   $: console.log("template", template);
 </script>
@@ -73,7 +73,7 @@
     {/each}
   </div>
 
-  <div class="section">
+  <!-- <div class="section">
     <div class="form-field">
       <input type="checkbox" id="kre-coll-conf" class="" bind:checked={generic} />
       <label for="kre-coll-conf">I want my collection to be generic</label>
@@ -83,10 +83,10 @@
     <div class="section">
       <div class="form-field">
         <input type="checkbox" id="kre-min-royalty" class="" bind:checked={minRoyalty} />
-        <label for="kre-min-royalty">With minimum royalty</label>
+        <label for="kre-min-royalty">With minimum Royalty</label>
       </div>
     </div>
-  {/if}
+  {/if} -->
 
   <div class="description">
     <p>

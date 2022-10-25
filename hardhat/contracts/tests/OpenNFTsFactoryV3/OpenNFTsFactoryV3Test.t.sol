@@ -33,7 +33,7 @@ contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
             "OpenNFTsV4 for OpenNFTsFactoryV3Test",
             "OPTEST",
             owner,
-            abi.encode(abi.encode(options), address(0), 0)
+            abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
         );
         factory.setTemplate("OpenNFTsV4", address(_openNFTsV4));
 

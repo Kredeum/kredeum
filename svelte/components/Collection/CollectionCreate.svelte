@@ -1,17 +1,28 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { BigNumber, utils } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/ktypes";
-  import { explorerTxLog, explorerTxUrl, explorerAddressUrl, textShort, getCurrency } from "@lib/common/kconfig";
+  import {
+    explorerTxLog,
+    explorerTxUrl,
+    explorerAddressUrl,
+    textShort,
+    getCurrency,
+    isNumeric,
+    getChecksumAddress,
+    isAddress,
+    MAX_FEE
+  } from "@lib/common/kconfig";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
   import { getReceiverAmount } from "@lib/nft/kautomarket";
 
   import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import InputPrice from "../Global/InputPrice.svelte";
+  import InputPrice from "../InputFields/InputPrice.svelte";
+  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -22,7 +33,7 @@
   ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
-  let minRoyalty: boolean;
+  let minRoyalty: boolean = true;
 
   let cloning: number;
   let cloneError: string;
@@ -34,9 +45,35 @@
 
   let cloningTxHash: string = null;
 
-  let price: BigNumber;
-  let inputFee: string = "";
-  let inputReceiver: string;
+  let inputMintPrice = constants.Zero;
+
+  let inputFee = "0";
+  let inputFeeNumber = 0;
+  $: inputFee && handleInputFee();
+  const handleInputFee = () => {
+    // fee ~ 333.22 is from 0 to 10_000 base points (= 0.01%)
+    let tmpFee = "X" + inputFee.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
+
+    do tmpFee = tmpFee.slice(0, -1);
+    while (tmpFee.split(".")[1]?.length > 2);
+
+    do tmpFee = tmpFee.slice(1);
+    while (tmpFee.split(".")[0]?.length > 2);
+
+    inputFee = tmpFee;
+    if (isNumeric(inputFee)) inputFeeNumber = Math.min(Math.round(Number(tmpFee) * 100), MAX_FEE);
+  };
+
+  // inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
+  // price = utils.parseEther(inputPrice);
+
+  let inputReceiver = "";
+
+  const invalidInputParams = (): boolean => {
+    console.log("invalidInputParams ~ inputFee", inputFee);
+    console.log("invalidInputParams ~ inputReceiver", inputReceiver);
+    return !(isAddress(inputReceiver) && isNumeric(inputFee));
+  };
 
   // Context for refreshCollectionList
   ///////////////////////////////////////////////////////////
@@ -79,16 +116,25 @@
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
 
-  $: minimumRoyalty = utils.formatEther(getReceiverAmount(price, Number(inputFee) * 100));
+  $: minimumRoyalty = utils.formatEther(getReceiverAmount(inputMintPrice, inputFeeNumber));
 
   const _cloneInit = async () => {
     cloningTxHash = null;
     collectionCreated = null;
 
+    collectionName = "";
+    collectionSymbol = "";
+    inputMintPrice = constants.Zero;
+    inputFee = "0";
+    inputReceiver = $metamaskAccount || constants.AddressZero;
+    cloneError = null;
+
     cloning = S1_CONFIRM;
   };
 
   const _cloneConfirm = async () => {
+    if (invalidInputParams()) return _cloneError("ERROR invalid parameters");
+
     cloning = S2_SIGN_CLONE_TX;
 
     const cloneTxRespYield = collectionClone(
@@ -97,9 +143,9 @@
       collectionSymbol,
       template,
       $metamaskSigner,
-      price,
-      inputReceiver || $metamaskAccount,
-      Math.round((Number(inputFee) || 0) * 100),
+      inputMintPrice,
+      inputReceiver,
+      inputFeeNumber,
       minRoyalty
     );
     const cloneTxResp = (await cloneTxRespYield.next()).value;
@@ -129,20 +175,6 @@
     $refreshCollectionList += 1;
   };
 
-  const resetCollMint = () => {
-    if (collectionCreated) {
-      cloningTxHash = null;
-      collectionCreated = null;
-      collectionName = "";
-      collectionSymbol = "";
-      price = BigNumber.from(0);
-      inputFee = "";
-      inputReceiver = "";
-      cloneError = null;
-      cloning = S1_CONFIRM;
-    }
-  };
-
   const templateName = (template: string) => template?.split("/")[0];
   const templateConf = (template: string) => template?.split("/")[1];
 
@@ -153,7 +185,7 @@
 
 <div id="kredeum-create-collection">
   <div class="modal-content">
-    <a href="./#" on:click={resetCollMint} title="Close" class="modal-close"><i class="fa fa-times" /></a>
+    <a href="./#" on:click={_cloneInit} title="Close" class="modal-close"><i class="fa fa-times" /></a>
 
     <div class="modal-body">
       <div class="titre">
@@ -187,35 +219,29 @@
 
           {#if templateName(template) === "OpenAutoMarket"}
             <div class="section">
-              <div class="titre">Royalty (%)</div>
+              <div class="titre">Royalty Fee (%)</div>
               <div class="form-field kre-field-percent">
                 <input
                   type="text"
                   class=" kre-field-outline"
-                  placeholder="0"
+                  placeholder="00.00"
                   bind:value={inputFee}
                   id="royalty-amount-nft"
                 />
               </div>
             </div>
             <div class="section">
-              <div class="titre">Royalty receiver</div>
+              <div class="titre">Royalty Receiver</div>
               <div class="form-field">
-                <input
-                  type="text"
-                  class="kre-field-outline"
-                  placeholder={$metamaskAccount}
-                  bind:value={inputReceiver}
-                  id="royalties-reveiver-nft"
-                />
+                <InputEthAddress bind:ethAddress={inputReceiver} />
               </div>
             </div>
           {/if}
 
           {#if templateName(template) === "OpenAutoMarket" && (templateConf(template) === "generic" || minRoyalty)}
             <div class="section">
-              <div class="titre">Mint price</div>
-              <InputPrice {chainId} bind:price />
+              <div class="titre">Recommended Price</div>
+              <InputPrice {chainId} bind:price={inputMintPrice} />
             </div>
 
             {#if minRoyalty}
@@ -243,7 +269,9 @@
         {:else if cloning == S3_WAIT_CLONE_TX}
           <div class="section">Wait till completed, it may take one minute or more.</div>
           <div class="flex">
-            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank">{textShort(cloningTxHash)}</a>
+            <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank" rel="noreferrer"
+              >{textShort(cloningTxHash)}</a
+            >
           </div>
         {/if}
 
@@ -251,13 +279,16 @@
           <div>
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
-              Collection '<a class="link" href={explorerAddressUrl(chainId, collectionCreated.address)} target="_blank"
-                >{collectionCreated?.name}</a
+              Collection '<a
+                class="link"
+                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                target="_blank"
+                rel="noreferrer">{collectionCreated?.name}</a
               >' created!
             </div>
             <div class="section">
               <div class="flex">
-                <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank"
+                <a class="link" href={explorerTxUrl(chainId, cloningTxHash)} target="_blank" rel="noreferrer"
                   >{textShort(cloningTxHash)}</a
                 >
               </div>

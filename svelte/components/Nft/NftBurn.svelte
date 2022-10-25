@@ -117,7 +117,8 @@
 
     <div class="modal-body">
       <div class="titre">
-        <i class="fas fa-fire" /> Burn this NFT #{tokenID} Forever ?
+        <i class="fas fa-fire" /> Burn this NFT #{tokenID} Forever
+        {burning <= S3_SIGN_TX ? " ?" : ""}
       </div>
       <div>
         {#if burning == S0_START}
@@ -133,7 +134,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}>Yes, I want to burn</button>
+            <button class="btn btn-default btn-burn" type="submit" on:click={burnConfirm}>Yes, I want to burn</button>
           </div>
         {:else if burning == S2_CONFIRM_TRANSFER}
           <div class="section">
@@ -148,7 +149,7 @@
           </div>
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={burnConfirm}
+            <button class="btn btn-default btn-burn" type="submit" on:click={burnConfirm}
               >Yes, I want to transfer it</button
             >
           </div>
@@ -161,8 +162,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               {burnable ? "burned" : "transfered"}!
             </div>
@@ -171,7 +175,7 @@
 
         {#if burnTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank"
+            <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank" rel="noreferrer"
               >{textShort(burnTxHash)}</a
             >
           </div>
@@ -187,3 +191,10 @@
     </div>
   </div>
 </div>
+
+<style>
+  .btn-burn {
+    background-color: red;
+    font-weight: 900;
+  }
+</style>

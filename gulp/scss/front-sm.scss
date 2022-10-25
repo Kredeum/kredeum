@@ -4,6 +4,7 @@
   li {
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
 
     .flex {
       flex: 0 0 auto;

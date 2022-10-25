@@ -1,33 +1,29 @@
 <script lang="ts">
-  import { getCurrency } from "@lib/common/kconfig";
-  import { BigNumber, utils } from "ethers";
+  import { getCurrency, isNumeric } from "@lib/common/kconfig";
+  import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
-  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   //  <InputPrice {chainId} {price} {inputError}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let price: BigNumber = BigNumber.from(0);
+  export let price: BigNumber = constants.Zero;
   export let inputError = "";
   /////////////////////////////////////////////////
 
-  let inputPrice: string;
+  let inputPrice = price.gt(0) ? formatEther(price) : "0.0";
 
-  $: if (inputPrice) {
+  $: inputPrice && handleInputPrice();
+  const handleInputPrice = () => {
     let tmpPrice = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
 
     do tmpPrice = tmpPrice.slice(0, -1);
     while (tmpPrice.split(".")[1]?.length > 18);
 
-    inputPrice = tmpPrice;
+    inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
     price = utils.parseEther(inputPrice);
-  }
-
-  onMount(() => {
-    inputPrice = price.gt(0) ? formatEther(price) : "0.0";
-  });
+  };
 </script>
 
 <div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>

@@ -16,7 +16,8 @@ async function* collectionClone(
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  // console.log(`collectionClone ${chainId}  '${templateConfig}'  ${mintPrice.toString()}  ${royaltyFee}  `);
+  console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig} ${await cloner.getAddress()}`);
+  console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
 
   const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
 
@@ -33,7 +34,10 @@ async function* collectionClone(
 
   if (template == "OpenNFTsV4") {
     options = [conf == "generic"];
-    optionsBytes = utils.defaultAbiCoder.encode(["bool[]"], [options]);
+    optionsBytes = utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "bool[]"],
+      [0, constants.AddressZero, 0, options]
+    );
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];
     // console.log("options", options);

@@ -45,12 +45,20 @@
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networks.filter((nw) => nw.mainnet) as _network}
+    {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as _network}
       <option value={_network.chainId} selected={_network.chainId == chainId}>
         <Network chainId={_network.chainId} {txt} />
         &nbsp;
       </option>
     {/each}
+    {#if getNetwork(chainId)?.testnet}
+      {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as _network}
+        <option value={_network.chainId} selected={_network.chainId == chainId}>
+          <Network chainId={_network.chainId} {txt} />
+          &nbsp;
+        </option>
+      {/each}
+    {/if}
   </select>
 {:else}
   <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
@@ -61,6 +69,7 @@
           class="info-button"
           href={resolverGetExplorerUrl(chainId)}
           target="_blank"
+          rel="noreferrer"
           title="&#009; NFTs Factory address (click to view in explorer )
         {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
         >
