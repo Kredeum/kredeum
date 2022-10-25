@@ -39,8 +39,8 @@
 
   let nftRoyaltyMinimum: BigNumber;
 
-  $: nftRoyaltyMinimum = $nft?.royalty?.minimum || constants.Zero;
-  $: transferWarning = nftRoyaltyMinimum.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
+  $: nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
+  $: transferWarning = nftRoyaltyMinimum?.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -139,7 +139,7 @@
                 <p>
                   <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to transfer this NFT
                   #{tokenID} which requires minimum royalty payment. That means you have, in any case, to pay the minimal
-                  royalty amount of {transferWarning}
+                  Royalty amount of {transferWarning}
                   {getCurrency(chainId)} to transfer it.
                 </p>
               </div>

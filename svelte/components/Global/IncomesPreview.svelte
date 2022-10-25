@@ -58,7 +58,7 @@
     <li>
       <div>
         <p>
-          {displayEther(receiverFeeAmount)} royalty to receiver
+          {displayEther(receiverFeeAmount)} Royalty to receiver
           {#if minimum}
             (minimum royalty)
           {:else}

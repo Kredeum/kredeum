@@ -219,7 +219,7 @@
 
           {#if templateName(template) === "OpenAutoMarket"}
             <div class="section">
-              <div class="titre">Royalty (%)</div>
+              <div class="titre">Royalty Fee (%)</div>
               <div class="form-field kre-field-percent">
                 <input
                   type="text"
@@ -231,7 +231,7 @@
               </div>
             </div>
             <div class="section">
-              <div class="titre">Royalty receiver</div>
+              <div class="titre">Royalty Receiver</div>
               <div class="form-field">
                 <InputEthAddress bind:ethAddress={inputReceiver} />
               </div>
@@ -240,7 +240,7 @@
 
           {#if templateName(template) === "OpenAutoMarket" && (templateConf(template) === "generic" || minRoyalty)}
             <div class="section">
-              <div class="titre">Mint price</div>
+              <div class="titre">Recommended Price</div>
               <InputPrice {chainId} bind:price={inputMintPrice} />
             </div>
 

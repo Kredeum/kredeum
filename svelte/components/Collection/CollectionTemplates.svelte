@@ -83,7 +83,7 @@
     <div class="section">
       <div class="form-field">
         <input type="checkbox" id="kre-min-royalty" class="" bind:checked={minRoyalty} />
-        <label for="kre-min-royalty">With minimum royalty</label>
+        <label for="kre-min-royalty">With minimum Royalty</label>
       </div>
     </div>
   {/if} -->

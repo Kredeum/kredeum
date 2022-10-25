@@ -38,8 +38,6 @@
   let buyTxHash: string;
   let buyError: string;
 
-  let minimumPrice: BigNumber;
-
   let open = false;
 
   const _buyError = (err: string): void => {
@@ -84,11 +82,6 @@
 
   onMount(() => {
     buyInit();
-
-    if (nftRoyalty.minimum && constants.Zero.lt(nftPrice) && nftRoyalty.minimum.mul(2).gt(nftPrice)) {
-      minimumPrice = nftRoyalty.minimum.mul(2);
-      nftPrice = minimumPrice;
-    }
   });
 
   const buyConfirm = async () => {
@@ -118,20 +111,17 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="{platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'} {constants.Zero.eq(
-    nftPrice || 0
-  )
+  class="{platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'} {nftPrice.eq(0)})
     ? 'kre-disabled'
     : ''}"
-  title="Buy this nft"
-  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} /> BUY (
+  title="Buy this NFT"
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} />
   {#if nftPrice.gt(0)}
-    <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
+    BUY&nbsp&nbsp;&nbsp;<strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
   {:else}
     <strong>Not on sale</strong>
   {/if}
-  )</a
->
+</a>
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
@@ -149,19 +139,6 @@
                     {getCurrency(chainId)} using AutoMarket smartcontract ?
                   </p>
                 </div>
-                {#if minimumPrice}
-                  <div class="section">
-                    <div class="form-field kre-warning-msg">
-                      <p>
-                        <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull this NFT #{tokenID} price is
-                        setted to low because of minimum royalty. if you choose to buy it overall you will pay {utils.formatEther(
-                          minimumPrice
-                        )}
-                        {getCurrency(chainId)} for it
-                      </p>
-                    </div>
-                  </div>
-                {/if}
                 <div class="section">
                   <IncomesPreview {chainId} {nftPrice} {nftOwner} {nftRoyalty} />
                 </div>

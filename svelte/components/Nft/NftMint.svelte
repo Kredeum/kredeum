@@ -76,7 +76,7 @@
     console.log("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
     collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
-      ? (inputPriceError = `Price too low, minimum price should be set to ${reduceDecimals(
+      ? (inputPriceError = `Price too low, minimum price should be set above ${reduceDecimals(
           utils.formatEther(minRoyalty.mul(2))
         )} ${getCurrency(chainId)} 
             `)
@@ -92,6 +92,8 @@
     collection = await collectionGet(chainId, address, $metamaskProvider);
     // console.log("handleDefaultAutomarketValues", collection);
   };
+
+  $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
 
   /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
@@ -331,7 +333,7 @@
                 </div>
               </div>
               <div class="section kre-mint-collection">
-                <div class="titre">Add to an existing collection</div>
+                <div class="titre">Add to an existing Collection</div>
                 <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
               </div>
 
@@ -339,17 +341,13 @@
                 <div class="section kre-mint-automarket">
                   <div class="kre-flex">
                     <div>
-                      <span class="kre-market-info-title label-big kre-no-wrap-title">mint price</span>
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">{prefixPrice} Price</span>
                       <span class="kre-market-info-value label-big kre-no-wrap-title"
                         >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
                       >
                     </div>
                     <div>
-                      <span class="kre-market-info-title label-big">royalty</span>
-                      <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
-                    </div>
-                    <div>
-                      <span class="kre-market-info-title label-big">royalty amount</span>
+                      <span class="kre-market-info-title label-big">Minimum Royalty</span>
                       <span class="kre-market-info-value label-big">
                         {#if collection.minimal}
                           {utils.formatEther(getMax(getReceiverAmount(price, collection.royalty?.fee), minRoyalty))}
@@ -359,15 +357,19 @@
                         ({getCurrency(chainId)})
                       </span>
                     </div>
+                    <div>
+                      <span class="kre-market-info-title label-big">Royalty Fee</span>
+                      <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
+                    </div>
                     <div class="kre-treasury-fee">
-                      <span class="kre-market-info-title label-big kre-no-wrap-title">fee</span>
+                      <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
                       <span class="kre-market-info-value label-big overflow-ellipsis"
                         >{config.treasury.fee / 100} %</span
                       >
                     </div>
                   </div>
                   <div>
-                    <span class="kre-market-info-title label-big kre-no-wrap-title">royalty receiver</span>
+                    <span class="kre-market-info-title label-big kre-no-wrap-title">Royalty Receiver</span>
                     <span class="kre-market-info-value label-big"
                       ><a href={explorerAddressUrl(chainId, collection.royalty?.account)} class="link"
                         >{collection.royalty?.account}</a
@@ -379,7 +381,7 @@
 
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
                 <div class="section">
-                  <div class="titre">NFT price</div>
+                  <div class="titre">NFT Sell Price</div>
                   <InputPrice {chainId} bind:price inputError={inputPriceError} />
                 </div>
               {/if}
