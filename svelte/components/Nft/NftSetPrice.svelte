@@ -102,10 +102,10 @@
   onMount(() => {
     nft = nftStore.getOneStore(chainId, address, tokenID);
 
-    nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
     nftPrice = BigNumber.from($nft?.price || 0);
+    let recommendedPrice = BigNumber.from($nft.collection?.price || 0);
 
-    inputPrice = nftPrice.lt(nftRoyaltyMinimum) ? nftRoyaltyMinimum.mul(2) : nftPrice;
+    inputPrice = nftPrice.lt(recommendedPrice) ? recommendedPrice : nftPrice;
 
     const approvedForAll = $nft?.collection?.approvedForAll;
     collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;

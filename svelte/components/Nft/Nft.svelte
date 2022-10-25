@@ -274,12 +274,11 @@
 
           <ul class="steps">
             <li>
-              <div class="kre-buy-widget-textarea"><textarea value={getAutoMarketWidgetCode($nft)} /></div>
-
               <div class="flex">
                 <span class="label">SELL on your website with this buy snippet</span>
               </div>
-              <div class="flex">
+              <div class="flex kre-buy-widget-textarea">
+                <textarea value={getAutoMarketWidgetCode($nft)} />
                 <a
                   on:click|preventDefault={() => autoMarketWidget($nft)}
                   class="btn btn-small btn-outline"
@@ -398,9 +397,14 @@
     margin-left: 15px;
   }
 
-  .kre-buy-widget-textarea {
+  .flex {
     width: 100%;
-    margin-bottom: 15px;
+  }
+
+  .kre-buy-widget-textarea {
+    display: flex;
+    flex-wrap: nowrap;
+    margin-top: 15px;
   }
 
   .kre-buy-widget-textarea textarea {
@@ -412,6 +416,11 @@
     padding: 8px;
     color: rgba(30, 30, 67, 0.4);
     font-weight: 300;
+  }
+
+  .kre-buy-widget-textarea a {
+    margin-left: 15px;
+    height: 3em;
   }
 
   /* Buy front CSS */

@@ -111,13 +111,11 @@
     if (constants.Zero.lt(nftPrice || 0)) open = true;
   }}
   href="#buy-nft-{tokenID}"
-  class="{platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'} {nftPrice.eq(0)})
-    ? 'kre-disabled'
-    : ''}"
+  class="btn-buy {platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
   title="Buy this NFT"
   ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} />
   {#if nftPrice.gt(0)}
-    BUY&nbsp&nbsp;&nbsp;<strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
+    BUY <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
   {:else}
     <strong>Not on sale</strong>
   {/if}
@@ -150,7 +148,7 @@
                     <div class="txtright">
                       <a
                         href={nftOpenSeaUrl(chainId, { address, tokenID })}
-                        class="btn btn-small btn-buy"
+                        class="btn btn-small"
                         title="Buy"
                         target="_blank"
                         rel="noreferrer"
@@ -229,6 +227,10 @@
     z-index: 1000;
     pointer-events: auto;
     color: #1e1e43;
+  }
+
+  .btn-buy strong {
+    margin-left: 0.5em;
   }
 
   .btn-buy-modal {
