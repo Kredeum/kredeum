@@ -35,8 +35,6 @@
   import NftSell from "./NftSell.svelte";
   // import NftClaim from "./NftClaim.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import Collection from "../Collection/Collection.svelte";
-  import { OpenBoundSupportsTest__factory } from "@soltypes/index";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />

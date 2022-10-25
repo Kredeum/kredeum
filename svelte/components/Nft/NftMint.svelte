@@ -341,23 +341,6 @@
                 <div class="section kre-mint-automarket">
                   <div class="kre-flex">
                     <div>
-                      <span class="kre-market-info-title label-big kre-no-wrap-title">{prefixPrice} Price</span>
-                      <span class="kre-market-info-value label-big kre-no-wrap-title"
-                        >{utils.formatEther(collection?.price || 0)} ({getCurrency(chainId)})</span
-                      >
-                    </div>
-                    <div>
-                      <span class="kre-market-info-title label-big">Minimum Royalty</span>
-                      <span class="kre-market-info-value label-big">
-                        {#if collection.minimal}
-                          {utils.formatEther(getMax(getReceiverAmount(price, collection.royalty?.fee), minRoyalty))}
-                        {:else}
-                          {utils.formatEther(getReceiverAmount(price, collection.royalty?.fee))}
-                        {/if}
-                        ({getCurrency(chainId)})
-                      </span>
-                    </div>
-                    <div>
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
                       <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
                     </div>
@@ -368,14 +351,6 @@
                       >
                     </div>
                   </div>
-                  <div>
-                    <span class="kre-market-info-title label-big kre-no-wrap-title">Royalty Receiver</span>
-                    <span class="kre-market-info-value label-big"
-                      ><a href={explorerAddressUrl(chainId, collection.royalty?.account)} class="link"
-                        >{collection.royalty?.account}</a
-                      ></span
-                    >
-                  </div>
                 </div>
               {/if}
 
@@ -383,6 +358,16 @@
                 <div class="section">
                   <div class="titre">NFT Sell Price</div>
                   <InputPrice {chainId} bind:price inputError={inputPriceError} />
+                </div>
+
+                <div class="section">
+                  <div class="titre">Royalty amount</div>
+                  {#if collection.minimal}
+                    {utils.formatEther(getMax(getReceiverAmount(price, collection.royalty?.fee), minRoyalty))}
+                  {:else}
+                    {utils.formatEther(getReceiverAmount(price, collection.royalty?.fee))}
+                  {/if}
+                  ({getCurrency(chainId)})
                 </div>
               {/if}
 
@@ -536,24 +521,14 @@
 
   .kre-mint-automarket div.kre-flex div {
     padding: 20px;
-    max-width: 25%;
+    max-width: 50%;
     overflow: hidden;
     flex-grow: 1;
     border-left: 1px solid #eaeff8;
   }
 
-  .kre-mint-automarket div.kre-flex {
-    border-bottom: 1px solid #eaeff8;
-  }
-
   .kre-treasury-fee {
     min-width: 5em;
-  }
-
-  .kre-mint-automarket > div:last-child {
-    padding: 20px;
-    max-width: 58%;
-    overflow: hidden;
   }
 
   .kre-no-wrap-title {
@@ -573,10 +548,6 @@
     font-size: 11px;
     font-weight: 700;
     letter-spacing: 1px;
-  }
-
-  .kre-market-info-value a {
-    text-decoration: none;
   }
 
   :global(.modal-window .select-wrapper div.select-trigger) {
