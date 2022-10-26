@@ -115,12 +115,12 @@
       "active": true
     },
     "openSea": "https://opensea.io/assets/matic",
-    "openNFTs": "0x09d5c2d1964b1697E419E3FD1bF4Da5Cf818592c",
+    "openNFTs": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
     "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsResolver": "0xE70C0F4d5D67A1704664017472DEA57E7692A6c9",
+    "nftsResolver": "0xF26c7bC92e43d6A8200B154D4d0E45dF1DdeB915",
     "nftsFactoryV3": "0x2a1036F570B75116e6e5E1B7e0Af4cdaD01De7C3"
   },
   {

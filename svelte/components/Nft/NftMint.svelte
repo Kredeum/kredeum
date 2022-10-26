@@ -342,7 +342,12 @@
                   <div class="kre-flex">
                     <div>
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
-                      <span class="kre-market-info-value label-big">{collection.royalty?.fee / 100} %</span>
+                      <span class="kre-market-info-value label-big"
+                        >{collection.royalty?.fee / 100} %
+                        {#if collection.royalty?.minimum.gt(0)}
+                          or a minimum of {utils.formatEther(collection.royalty?.minimum)} {getCurrency(chainId)}
+                        {/if}
+                      </span>
                     </div>
                     <div class="kre-treasury-fee">
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
@@ -367,7 +372,7 @@
                   {:else}
                     {utils.formatEther(getReceiverAmount(price, collection.royalty?.fee))}
                   {/if}
-                  ({getCurrency(chainId)})
+                  {getCurrency(chainId)}
                 </div>
               {/if}
 
