@@ -90,7 +90,7 @@
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
     collection = await collectionGet(chainId, address, $metamaskProvider);
-    // console.log("handleDefaultAutomarketValues", collection);
+    price = BigNumber.from(collection?.price || 0);
   };
 
   $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
