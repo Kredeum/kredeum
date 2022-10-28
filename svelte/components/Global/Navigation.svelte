@@ -17,6 +17,12 @@
     <ul>
       <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
     </ul>
+
+    <ul>
+      <li>
+        <a href="https://beta.kredeum.com" class="link-alpha">Back to beta NFTs&nbsp;Factory</a>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -28,3 +34,12 @@
   alt="Discord Kredeum"
   title="Discord Kredeum"><i class="icon-discord" /></a
 >
+
+<style>
+  .link-alpha {
+    text-decoration: none;
+  }
+  .link-alpha:hover {
+    color: #3acf6e !important;
+  }
+</style>

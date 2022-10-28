@@ -24,7 +24,7 @@ specifiers:
   findup-sync: ^5.0.0
   fs-extra: ^10.1.0
   handlebars: ^4.7.7
-  hardhat: ^2.12.0
+  hardhat: ^2.12.1
   hardhat-deploy-ethers: 0.3.0-beta.13
   moralis: ^1.11.0
   multiformats: ^9.9.0
@@ -64,8 +64,8 @@ devDependencies:
   findup-sync: 5.0.0
   fs-extra: 10.1.0
   handlebars: 4.7.7
-  hardhat: 2.12.0_typescript@4.8.4
-  hardhat-deploy-ethers: 0.3.0-beta.13_rio3alvrwqjfrtzrxzvizw4x7e
+  hardhat: 2.12.1_typescript@4.8.4
+  hardhat-deploy-ethers: 0.3.0-beta.13_7xpfxxes66h7k4h7d32usr4owu
   moralis: 1.11.0
   semaphore-async-await: 1.5.1
   tsconfig-paths: 4.1.0
@@ -1328,8 +1328,8 @@ packages:
       '@types/node': 17.0.45
     dev: true
 
-  /@types/semver/7.3.12:
-    resolution: {integrity: sha512-WwA1MW0++RfXmCr12xeYOOC5baSC9mSb0ZqCquFzKhcoF4TvHu5MKOuXsncgZcpVFhB1pXd5hZmM0ryAoCp12A==}
+  /@types/semver/7.3.13:
+    resolution: {integrity: sha512-21cFJr9z3g5dW8B0CVI9g2O9beqaThGQ6ZFBqHfwhzLDKUxaqTIy3vnfah/UPkfOiF2pLq+tGz+W8RyCskuslw==}
     dev: false
 
   /@typescript-eslint/eslint-plugin/5.41.0_huremdigmcnkianavgfk3x6iou:
@@ -1439,7 +1439,7 @@ packages:
       eslint: ^6.0.0 || ^7.0.0 || ^8.0.0
     dependencies:
       '@types/json-schema': 7.0.11
-      '@types/semver': 7.3.12
+      '@types/semver': 7.3.13
       '@typescript-eslint/scope-manager': 5.41.0
       '@typescript-eslint/types': 5.41.0
       '@typescript-eslint/typescript-estree': 5.41.0_typescript@4.8.4
@@ -2740,18 +2740,18 @@ packages:
       uglify-js: 3.17.4
     dev: true
 
-  /hardhat-deploy-ethers/0.3.0-beta.13_rio3alvrwqjfrtzrxzvizw4x7e:
+  /hardhat-deploy-ethers/0.3.0-beta.13_7xpfxxes66h7k4h7d32usr4owu:
     resolution: {integrity: sha512-PdWVcKB9coqWV1L7JTpfXRCI91Cgwsm7KLmBcwZ8f0COSm1xtABHZTyz3fvF6p42cTnz1VM0QnfDvMFlIRkSNw==}
     peerDependencies:
       ethers: ^5.0.0
       hardhat: ^2.0.0
     dependencies:
       ethers: 5.7.2
-      hardhat: 2.12.0_typescript@4.8.4
+      hardhat: 2.12.1_typescript@4.8.4
     dev: true
 
-  /hardhat/2.12.0_typescript@4.8.4:
-    resolution: {integrity: sha512-mNJFbVG479HwOzxiaLxobyvED2M1aEAuPPYhEo1+88yicMDSTrU2JIS7vV+V0GSNQKaDoiHCmV6bcKjiljT/dQ==}
+  /hardhat/2.12.1_typescript@4.8.4:
+    resolution: {integrity: sha512-ihqYoaAKMceVWRcc3VddftFM7Q4/WL5Xan8nrklfDRwwST0W1rWWEE8SrxGikW58IJdREsC/HXVHs0zKfYpiCA==}
     engines: {node: ^14.0.0 || ^16.0.0 || ^18.0.0}
     hasBin: true
     peerDependencies:
