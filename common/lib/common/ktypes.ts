@@ -133,6 +133,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   animation_url?: string;
+  properties?: properties;
 } & storageType;
 
 type NftType = {
@@ -163,11 +164,21 @@ type NftType = {
   royalty?: ReceiverType;
   price?: BigNumber;
   collection?: CollectionType;
+  properties?: properties;
 } & storageType;
+
+type Property = {
+  name: string;
+  value: string;
+  display_value: string;
+};
+
+type properties = { [k: string]: Property };
 
 export type {
   NetworkType,
   NftType,
+  properties,
   CollectionType,
   ReceiverType,
   AbiType,

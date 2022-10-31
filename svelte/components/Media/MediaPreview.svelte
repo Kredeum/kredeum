@@ -1,7 +1,7 @@
 <script lang="ts">
+  import type { NftMetadata, NftType } from "@lib/common/ktypes";
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
-  import type { NftMetadata, NftType } from "@lib/common/ktypes";
 
   import { clickOutside } from "@helpers/clickOutside";
   import { fade } from "svelte/transition";
@@ -18,7 +18,7 @@
 
   let open = false;
   let metadatas: NftMetadata;
-  $: metadatas = nft?.metadata;
+  $: metadatas = nft?.metadata as NftMetadata;
 
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
 </script>
