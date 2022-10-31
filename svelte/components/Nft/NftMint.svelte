@@ -1,11 +1,12 @@
 <script lang="ts">
+  import type { NftType, properties } from "@lib/common/ktypes";
+
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { Writable } from "svelte/store";
   import { BigNumber, constants, utils } from "ethers";
   import { onMount, getContext } from "svelte";
   import { fade } from "svelte/transition";
 
-  import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
   import { collectionGet } from "@lib/collection/kcollection-get";
   import { CollectionType } from "@lib/common/ktypes";
@@ -28,6 +29,7 @@
 
   import CollectionList from "../Collection/CollectionList.svelte";
   import InputPrice from "../InputFields/InputPrice.svelte";
+  import NftProperties from "./NftProperties.svelte";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {storage} {gateway}? {key}? />
@@ -61,6 +63,9 @@
   let mintingError: string;
 
   /////////////////////////////////////////////////
+  let properties: properties;
+  /////////////////////////////////////////////////
+
   let open = false;
   let price: BigNumber;
   let inputPriceError = "";
@@ -190,7 +195,7 @@
 
     storageJson =
       "ipfs" === storage
-        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image)
+        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, properties)
         : "swarm" === storage
         ? swarmGatewayUrl(
             await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
@@ -375,6 +380,8 @@
                   {getCurrency(chainId)}
                 </div>
               {/if}
+
+              <NftProperties bind:properties />
 
               <div class="txtright">
                 <button class="btn btn-default btn-sell" on:click={mintConfirm}>Mint NFT</button>

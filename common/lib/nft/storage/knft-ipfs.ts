@@ -1,4 +1,4 @@
-import type { NftType } from "@lib/common/ktypes";
+import type { NftType, properties } from "@lib/common/ktypes";
 
 import NftStorage from "@lib/nft/storage/knft-storage";
 import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/kconfig";
@@ -22,6 +22,7 @@ const nftIpfsJson = async (
   ipfs = "",
   address = "",
   image = "",
+  properties: properties = {},
   metadata = "{}"
 ): Promise<string> => {
   // console.log("nftIpfsJson", name, ipfs, address, image, metadata);
@@ -35,6 +36,7 @@ const nftIpfsJson = async (
     minter: address
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
+  if (Object.keys(properties)?.length > 0) json.properties = properties;
 
   const ipfsCid = await nftStorage.pinJson(json);
   const ipfsJson = `ipfs://${ipfsCid}`;

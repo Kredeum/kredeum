@@ -90,6 +90,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
             nft.swarm = nftMetadata.swarm || swarmGetLink(nft.image);
 
           if (!nft.animation_url && nftMetadata.animation_url) nft.animation_url = nftMetadata.animation_url;
+          if (!nft.properties && nftMetadata.properties) nft.properties = nftMetadata.properties;
         }
       }
     } catch (e) {
