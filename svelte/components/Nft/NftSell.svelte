@@ -1,8 +1,6 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { getOpenSea, nftOpenSeaUrl } from "@lib/common/kconfig";
-
   import { clickOutside } from "@helpers/clickOutside";
   import NftSetPrice from "./NftSetPrice.svelte";
 
@@ -37,22 +35,6 @@
           <div class="modal-body">
             <div>
               <NftSetPrice {chainId} {address} {tokenID} />
-
-              {#if getOpenSea(chainId)}
-                <div class="kre-modal-block">
-                  <div class="txtright">
-                    <a
-                      href={nftOpenSeaUrl(chainId, { chainId, address, tokenID })}
-                      class="btn btn-sell"
-                      title="Sell"
-                      target="_blank"
-                      rel="noreferrer"
-                    >
-                      View on OpenSea
-                    </a>
-                  </div>
-                </div>
-              {/if}
             </div>
           </div>
         </div>
