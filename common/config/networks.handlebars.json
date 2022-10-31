@@ -142,12 +142,13 @@
     "covalent": {
       "active": true
     },
-    "openNFTs": "0xd719d8bA14F7EA708b42fFA0903d430F1B1c88a9",
+    "openNFTs": "0x2ac5247d5D3f88F3129Fc65E2867DCDb894bf2fC",
     "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
     "nftsFactoryV2": "0x016fa6b76Fb24e651806455e58710d48880226f9",
     "create": true,
     "mainnet": true,
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x9a5642c32e4115fEb205dC0057cE087eB97c202c",
+    "nftsResolver": "0xc12d57A1B9f15E7893D0818f02A28dD20Ee5cBc0"
   },
   {
     "chainId": 100,
@@ -164,17 +165,19 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
+      "https://gnosisscan.io/",
       "https://blockscout.com/xdai/mainnet"
     ],
     "hardhatOptions": {
       "gasPrice": 80000000000
     },
-    "openNFTs": "0xF6169393986b38e57D61187051c3F5B554796f83",
+    "openNFTs": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
     "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "nftsResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF"
   },
   {
     "chainId": 250,
@@ -195,12 +198,13 @@
     "covalent": {
       "active": true
     },
-    "openNFTs": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
+    "openNFTs": "0x1f63086f424412321559C2CA2449374e90F1f8Ed",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x2558bEFfC5b6520F68b2A6a22185a48B3c8D7610",
+    "nftsResolver": "0x9fe67971255298DeE0e3Fb06E2dE615C424A692E"
   },
   {
     "chainId": 56,

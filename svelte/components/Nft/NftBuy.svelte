@@ -143,21 +143,6 @@
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
                 </div>
-                {#if getOpenSea(chainId) && platform !== "buy-external"}
-                  <div class="kre-modal-block">
-                    <div class="txtright">
-                      <a
-                        href={nftOpenSeaUrl(chainId, { address, tokenID })}
-                        class="btn btn-small"
-                        title="Buy"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        Buy on OpenSea
-                      </a>
-                    </div>
-                  </div>
-                {/if}
               {/if}
 
               {#if buying >= S2_SIGN_TX && buying < S4_BUYED}

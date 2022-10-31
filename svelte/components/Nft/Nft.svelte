@@ -305,7 +305,7 @@
             {#if getNetwork($metamaskChainId)?.openSea}
               <li>
                 <div class="flex">
-                  <span class="label">VIEW on OpenSea from your wordpress site with this shortcode</span>
+                  <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
                 </div>
                 <div class="flex kre-buy-widget-textarea">
                   <textarea value={getShortcodeOpenSeaCode($nft)} />

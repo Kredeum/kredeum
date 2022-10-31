@@ -18,7 +18,7 @@
     "latest": "https://alpha.kredeum.com"
   },
   "treasury": {
-    "account": "0xb09Ae31E045Bb9d8D74BB6624FeEB18B3Af72A8e",
+    "account": "0x47e2382D9e1e985BA1F4064E7D8d753Fab99F209",
     "fee": 90
   },
   "env": {}

@@ -1,0 +1,523 @@
+{
+  "address": "0x9a5642c32e4115fEb205dC0057cE087eB97c202c",
+  "abi": [
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "initialOwner_",
+          "type": "address"
+        },
+        {
+          "internalType": "address",
+          "name": "treasury_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint96",
+          "name": "treasuryFee_",
+          "type": "uint96"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "constructor"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "templateName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "clone",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        }
+      ],
+      "name": "Clone",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "previousOwner",
+          "type": "address"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "OwnershipTransferred",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "resolver",
+          "type": "address"
+        }
+      ],
+      "name": "SetResolver",
+      "type": "event"
+    },
+    {
+      "anonymous": false,
+      "inputs": [
+        {
+          "indexed": true,
+          "internalType": "string",
+          "name": "templateName",
+          "type": "string"
+        },
+        {
+          "indexed": true,
+          "internalType": "address",
+          "name": "template",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "index",
+          "type": "uint256"
+        }
+      ],
+      "name": "SetTemplate",
+      "type": "event"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "name",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "symbol",
+          "type": "string"
+        },
+        {
+          "internalType": "string",
+          "name": "templateName",
+          "type": "string"
+        },
+        {
+          "internalType": "bytes",
+          "name": "params",
+          "type": "bytes"
+        }
+      ],
+      "name": "clone",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "clone_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "template_",
+          "type": "address"
+        }
+      ],
+      "name": "clone",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "clone_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "countTemplates",
+      "outputs": [
+        {
+          "internalType": "uint256",
+          "name": "count",
+          "type": "uint256"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "nftsResolver",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [],
+      "name": "owner",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "resolver_",
+          "type": "address"
+        }
+      ],
+      "name": "setResolver",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "templateName_",
+          "type": "string"
+        },
+        {
+          "internalType": "address",
+          "name": "template_",
+          "type": "address"
+        }
+      ],
+      "name": "setTemplate",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "treasury_",
+          "type": "address"
+        },
+        {
+          "internalType": "uint96",
+          "name": "treasuryFee_",
+          "type": "uint96"
+        }
+      ],
+      "name": "setTreasury",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "bytes4",
+          "name": "interfaceId",
+          "type": "bytes4"
+        }
+      ],
+      "name": "supportsInterface",
+      "outputs": [
+        {
+          "internalType": "bool",
+          "name": "",
+          "type": "bool"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "string",
+          "name": "templateName",
+          "type": "string"
+        }
+      ],
+      "name": "template",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "template_",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "uint256",
+          "name": "",
+          "type": "uint256"
+        }
+      ],
+      "name": "templates",
+      "outputs": [
+        {
+          "internalType": "address",
+          "name": "",
+          "type": "address"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        {
+          "internalType": "address",
+          "name": "newOwner",
+          "type": "address"
+        }
+      ],
+      "name": "transferOwnership",
+      "outputs": [],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    }
+  ],
+  "transactionHash": "0x965bdc0cade14e8bd4f7e369b230a5d9e81bbfe5e2e484a972ab2a2d38b670cd",
+  "receipt": {
+    "to": null,
+    "from": "0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c",
+    "contractAddress": "0x9a5642c32e4115fEb205dC0057cE087eB97c202c",
+    "transactionIndex": 6,
+    "gasUsed": "927699",
+    "logsBloom": "0x00000000000000000000000000000000000000000000000000800000000010000000000000000000000000000000000200000000000000000000000000000000000000000004000040000000000000000001000000000000000000000000000000000000020000000000000000000800000000000000000000000000000000400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000040000000000000000000000000000000000200000000000000020000000000000000000000000000000000000000000000000000000000000000000",
+    "blockHash": "0x9cf7bfdc47e97c9295a465c7c65189f62736e49174c199a2cfcef72d38d85a9c",
+    "transactionHash": "0x965bdc0cade14e8bd4f7e369b230a5d9e81bbfe5e2e484a972ab2a2d38b670cd",
+    "logs": [
+      {
+        "transactionIndex": 6,
+        "blockNumber": 21786077,
+        "transactionHash": "0x965bdc0cade14e8bd4f7e369b230a5d9e81bbfe5e2e484a972ab2a2d38b670cd",
+        "address": "0x9a5642c32e4115fEb205dC0057cE087eB97c202c",
+        "topics": [
+          "0x8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e0",
+          "0x0000000000000000000000000000000000000000000000000000000000000000",
+          "0x0000000000000000000000006eebae27d69fa80f0e4c0e973a2fed218a56880c"
+        ],
+        "data": "0x",
+        "logIndex": 23,
+        "blockHash": "0x9cf7bfdc47e97c9295a465c7c65189f62736e49174c199a2cfcef72d38d85a9c"
+      }
+    ],
+    "blockNumber": 21786077,
+    "cumulativeGasUsed": "2031817",
+    "status": 1,
+    "byzantium": true
+  },
+  "args": [
+    "0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c",
+    "0x47e2382D9e1e985BA1F4064E7D8d753Fab99F209",
+    90
+  ],
+  "numDeployments": 1,
+  "solcInputHash": "9e80473bc7bc14006887fc6ef0e30584",
+  "metadata": "{\"compiler\":{\"version\":\"0.8.9+commit.e5eed63a\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"initialOwner_\",\"type\":\"address\"},{\"internalType\":\"address\",\"name\":\"treasury_\",\"type\":\"address\"},{\"internalType\":\"uint96\",\"name\":\"treasuryFee_\",\"type\":\"uint96\"}],\"stateMutability\":\"nonpayable\",\"type\":\"constructor\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"string\",\"name\":\"templateName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"clone\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"indexed\":false,\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"}],\"name\":\"Clone\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"previousOwner\",\"type\":\"address\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"OwnershipTransferred\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"address\",\"name\":\"resolver\",\"type\":\"address\"}],\"name\":\"SetResolver\",\"type\":\"event\"},{\"anonymous\":false,\"inputs\":[{\"indexed\":true,\"internalType\":\"string\",\"name\":\"templateName\",\"type\":\"string\"},{\"indexed\":true,\"internalType\":\"address\",\"name\":\"template\",\"type\":\"address\"},{\"indexed\":false,\"internalType\":\"uint256\",\"name\":\"index\",\"type\":\"uint256\"}],\"name\":\"SetTemplate\",\"type\":\"event\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"name\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"symbol\",\"type\":\"string\"},{\"internalType\":\"string\",\"name\":\"templateName\",\"type\":\"string\"},{\"internalType\":\"bytes\",\"name\":\"params\",\"type\":\"bytes\"}],\"name\":\"clone\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"clone_\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"template_\",\"type\":\"address\"}],\"name\":\"clone\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"clone_\",\"type\":\"address\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"countTemplates\",\"outputs\":[{\"internalType\":\"uint256\",\"name\":\"count\",\"type\":\"uint256\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"nftsResolver\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[],\"name\":\"owner\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"resolver_\",\"type\":\"address\"}],\"name\":\"setResolver\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"templateName_\",\"type\":\"string\"},{\"internalType\":\"address\",\"name\":\"template_\",\"type\":\"address\"}],\"name\":\"setTemplate\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"treasury_\",\"type\":\"address\"},{\"internalType\":\"uint96\",\"name\":\"treasuryFee_\",\"type\":\"uint96\"}],\"name\":\"setTreasury\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"bytes4\",\"name\":\"interfaceId\",\"type\":\"bytes4\"}],\"name\":\"supportsInterface\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"string\",\"name\":\"templateName\",\"type\":\"string\"}],\"name\":\"template\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"template_\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"uint256\",\"name\":\"\",\"type\":\"uint256\"}],\"name\":\"templates\",\"outputs\":[{\"internalType\":\"address\",\"name\":\"\",\"type\":\"address\"}],\"stateMutability\":\"view\",\"type\":\"function\"},{\"inputs\":[{\"internalType\":\"address\",\"name\":\"newOwner\",\"type\":\"address\"}],\"name\":\"transferOwnership\",\"outputs\":[],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{\"clone(address)\":{\"params\":{\"template_\":\": template address\"},\"returns\":{\"clone_\":\": clone address\"}},\"clone(string,string,string,bytes)\":{\"params\":{\"name\":\"name of Clone collection\",\"symbol\":\"symbol of Clone collection\"},\"returns\":{\"clone_\":\"Address of Clone collection\"}},\"setTemplate(string,address)\":{\"params\":{\"templateName_\":\"Name of the template\",\"template_\":\"Address of the template\"}},\"template(string)\":{\"params\":{\"templateName\":\": template name\"},\"returns\":{\"template_\":\": template address\"}}},\"title\":\"OpenNFTsFactoryV3 smartcontract\",\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{\"clone(address)\":{\"notice\":\"Clone template (via EIP-1167)\"},\"clone(string,string,string,bytes)\":{\"notice\":\"clone template\"},\"setTemplate(string,address)\":{\"notice\":\"Set Template by Name\"},\"template(string)\":{\"notice\":\"Get Template\"}},\"notice\":\"Factory for NFTs contracts: ERC721 or ERC1155Create new NFTs Collections smartcontracts by cloning templates\",\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/next/OpenNFTsFactoryV3.sol\":\"OpenNFTsFactoryV3\"},\"evmVersion\":\"london\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\",\"useLiteralContent\":true},\"optimizer\":{\"enabled\":true,\"runs\":200},\"remappings\":[]},\"sources\":{\"OpenNFTs/contracts/OpenCloner/OpenCloner.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// EIP-1167: Minimal Proxy Contract\\n// https://eips.ethereum.org/EIPS/eip-1167\\n//\\n// Derived from OpenZeppelin Contracts (proxy/Clones.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/proxy/Clones.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//\\n//   OpenERC165\\n//        |\\n//   OpenCloner \\u2014\\u2014 IOpenCloner\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenCloner.sol\\\";\\nimport \\\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\\\";\\n\\nabstract contract OpenCloner is IOpenCloner, OpenERC165 {\\n    /// @notice Clone template (via EIP-1167)\\n    /// @param  template_ : template address\\n    /// @return clone_ : clone address\\n    function clone(address template_) public virtual returns (address clone_) {\\n        // solhint-disable-next-line no-inline-assembly\\n        assembly {\\n            let ptr := mload(0x40)\\n            mstore(ptr, 0x3d602d80600a3d3981f3363d3d373d3d3d363d73000000000000000000000000)\\n            mstore(add(ptr, 0x14), shl(0x60, template_))\\n            mstore(\\n                add(ptr, 0x28), 0x5af43d82803e903d91602b57fd5bf30000000000000000000000000000000000\\n            )\\n            clone_ := create(0, ptr, 0x37)\\n        }\\n        assert(clone_ != address(0));\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId)\\n        public\\n        view\\n        virtual\\n        override (OpenERC165)\\n        returns (bool)\\n    {\\n        return interfaceId == type(IOpenCloner).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n}\\n\",\"keccak256\":\"0x2934301dfbef230ff49c5291d532f40dbea7b199c577229f1b2907b6177c8a76\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// EIP-165: Standard Interface Detection\\n// https://eips.ethereum.org/EIPS/eip-165\\n//\\n// Derived from OpenZeppelin Contracts (utils/introspection/ERC165.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/utils/introspection/ERC165.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//  OpenERC165 \\u2014\\u2014 IERC165\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IERC165.sol\\\";\\n\\nabstract contract OpenERC165 is IERC165 {\\n    function supportsInterface(bytes4 interfaceId) public view virtual returns (bool) {\\n        return interfaceId == 0x01ffc9a7; //  type(IERC165).interfaceId\\n    }\\n}\\n\",\"keccak256\":\"0xf1b8812210275ed77b96c117225cdff6dd3ca5684ed3fe671afda8faf71bac80\",\"license\":\"MIT\"},\"OpenNFTs/contracts/OpenERC/OpenERC173.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// EIP-173: Contract Ownership Standard\\n// https://eips.ethereum.org/EIPS/eip-173\\n//\\n// Derived from OpenZeppelin Contracts (access/Ownable.sol)\\n// https://github.com/OpenZeppelin/openzeppelin-contracts/tree/master/contracts/access/Ownable.sol\\n//\\n//       ___           ___         ___           ___              ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\            /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\           \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\      _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\    /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/    \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~      \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\           \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/            \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//  OpenERC165\\n//       |\\n//  OpenERC173 \\u2014\\u2014 IERC173\\n//\\npragma solidity 0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenERC/OpenERC165.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IERC173.sol\\\";\\n\\nabstract contract OpenERC173 is IERC173, OpenERC165 {\\n    bool private _openERC173Initialized;\\n    address private _owner;\\n\\n    modifier onlyOwner() {\\n        require(_owner == msg.sender, \\\"Not owner\\\");\\n        _;\\n    }\\n\\n    function transferOwnership(address newOwner) external override (IERC173) onlyOwner {\\n        _transferOwnership(newOwner);\\n    }\\n\\n    function owner() public view override (IERC173) returns (address) {\\n        return _owner;\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId)\\n        public\\n        view\\n        virtual\\n        override (OpenERC165)\\n        returns (bool)\\n    {\\n        return interfaceId == 0x7f5828d0 || super.supportsInterface(interfaceId);\\n    }\\n\\n    function _initialize(address owner_) internal {\\n        require(_openERC173Initialized == false, \\\"Already initialized\\\");\\n        _openERC173Initialized = true;\\n\\n        _transferOwnership(owner_);\\n    }\\n\\n    function _transferOwnership(address newOwner) internal {\\n        address oldOwner = _owner;\\n        _owner = newOwner;\\n        emit OwnershipTransferred(oldOwner, newOwner);\\n    }\\n}\\n\",\"keccak256\":\"0xeaa767265a7f2805563fa0830dac552b6c55b5660499fbeba8609fadc4bc2e7e\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC165.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IERC165 {\\n    function supportsInterface(bytes4 interfaceId) external view returns (bool);\\n}\\n\",\"keccak256\":\"0xd91f944d2ad53e9c795a855167e495d4b533648a349fcb913e631cfe7b4013b7\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IERC173.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IERC173 {\\n    event OwnershipTransferred(address indexed previousOwner, address indexed newOwner);\\n\\n    function transferOwnership(address newOwner) external;\\n\\n    function owner() external view returns (address currentOwner);\\n}\\n\",\"keccak256\":\"0x82d41cc520f5c9057e7bfc07873e3b9529792141e18dd5983bd882939879b9ef\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenCloneable.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IOpenCloneable {\\n    function initialize(\\n        string memory name,\\n        string memory symbol,\\n        address owner,\\n        bytes memory params\\n    ) external;\\n\\n    function initialized() external view returns (bool);\\n\\n    function template() external view returns (string memory);\\n\\n    function version() external view returns (uint256);\\n\\n    function parent() external view returns (address);\\n}\\n\",\"keccak256\":\"0xdfe05d618575b64ab5bfc944249e4a824949f576ee1e4ed8d3036b7a21ebeb62\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenCloner.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IOpenCloner {\\n    function clone(address template) external returns (address);\\n}\\n\",\"keccak256\":\"0x32bc035bae03fb2aca0807be679ca8b25ca1a8959ba9a9fc07d494e570c59f00\",\"license\":\"MIT\"},\"OpenNFTs/contracts/interfaces/IOpenRegistry.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IOpenRegistry {\\n    function setRegisterer(address registerer) external;\\n\\n    function removeAddress(address addr) external;\\n\\n    function addAddress(address addr) external;\\n\\n    function addAddresses(address[] memory addrs) external;\\n\\n    function getAddresses() external view returns (address[] memory);\\n\\n    function registerer() external view returns (address);\\n\\n    function countAddresses() external view returns (uint256);\\n\\n    function isRegistered(address addr) external view returns (bool registered);\\n}\\n\",\"keccak256\":\"0x79c45f2de6f608b1fed916aa54290f5ba34e67232e50304a16e4ee3a9279f742\",\"license\":\"MIT\"},\"contracts/interfaces/IOpenAutoMarket.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IOpenAutoMarket {\\n    function mint(string memory tokenURI) external returns (uint256 tokenID);\\n\\n    function mint(\\n        address minter,\\n        string memory tokenURI,\\n        uint256 price,\\n        address receiver,\\n        uint96 fee\\n    ) external payable returns (uint256 tokenID);\\n\\n    function gift(address to, uint256 tokenID) external payable;\\n\\n    function buy(uint256 tokenID) external payable;\\n\\n    function open() external view returns (bool);\\n}\\n\",\"keccak256\":\"0x82f3b8f6daaac6fb199e4b7e7bc67c64c23e6559bc6390cc1c6970833eefc9d4\",\"license\":\"MIT\"},\"contracts/interfaces/IOpenNFTsFactoryV3.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity ^0.8.9;\\n\\ninterface IOpenNFTsFactoryV3 {\\n    event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol);\\n\\n    event SetResolver(address indexed resolver);\\n\\n    event SetTemplate(string indexed templateName, address indexed template, uint256 index);\\n\\n    function setResolver(address resolver) external;\\n\\n    function setTreasury(address treasury, uint96 treasuryFee) external;\\n\\n    function setTemplate(string memory templateName, address template) external;\\n\\n    function clone(\\n        string memory name,\\n        string memory symbol,\\n        string memory templateName,\\n        bytes memory params\\n    ) external returns (address);\\n\\n    function template(string memory templateName) external view returns (address);\\n\\n    function templates(uint256 num) external view returns (address);\\n\\n    function countTemplates() external view returns (uint256);\\n}\\n\",\"keccak256\":\"0xdcdc486fe27a456f8fbf1fa51c1ddb0df5dc5b872359e6fbdd00e985f2e29b6e\",\"license\":\"MIT\"},\"contracts/interfaces/IOpenNFTsV4.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\npragma solidity 0.8.9;\\n\\ninterface IOpenNFTsV4 {\\n    function mint(string memory tokenURI) external returns (uint256 tokenID);\\n\\n    function mint(address minter, string memory tokenURI) external returns (uint256 tokenID);\\n\\n    function burn(uint256 tokenID) external;\\n\\n    function open() external view returns (bool);\\n}\\n\",\"keccak256\":\"0xdfd006aba290d23d098b222b5b8c59d1a98f462e7ac20d2d4aa35b82ff0d3b76\",\"license\":\"MIT\"},\"contracts/next/OpenNFTsFactoryV3.sol\":{\"content\":\"// SPDX-License-Identifier: MIT\\n//\\n// Derived from Kredeum NFTs\\n// https://github.com/Kredeum/kredeum\\n//\\n//       ___           ___         ___           ___                    ___           ___                     ___\\n//      /  /\\\\         /  /\\\\       /  /\\\\         /__/\\\\                  /__/\\\\         /  /\\\\        ___        /  /\\\\\\n//     /  /::\\\\       /  /::\\\\     /  /:/_        \\\\  \\\\:\\\\                 \\\\  \\\\:\\\\       /  /:/_      /  /\\\\      /  /:/_\\n//    /  /:/\\\\:\\\\     /  /:/\\\\:\\\\   /  /:/ /\\\\        \\\\  \\\\:\\\\                 \\\\  \\\\:\\\\     /  /:/ /\\\\    /  /:/     /  /:/ /\\\\\\n//   /  /:/  \\\\:\\\\   /  /:/~/:/  /  /:/ /:/_   _____\\\\__\\\\:\\\\            _____\\\\__\\\\:\\\\   /  /:/ /:/   /  /:/     /  /:/ /::\\\\\\n//  /__/:/ \\\\__\\\\:\\\\ /__/:/ /:/  /__/:/ /:/ /\\\\ /__/::::::::\\\\          /__/::::::::\\\\ /__/:/ /:/   /  /::\\\\    /__/:/ /:/\\\\:\\\\\\n//  \\\\  \\\\:\\\\ /  /:/ \\\\  \\\\:\\\\/:/   \\\\  \\\\:\\\\/:/ /:/ \\\\  \\\\:\\\\~~\\\\~~\\\\/          \\\\  \\\\:\\\\~~\\\\~~\\\\/ \\\\  \\\\:\\\\/:/   /__/:/\\\\:\\\\   \\\\  \\\\:\\\\/:/~/:/\\n//   \\\\  \\\\:\\\\  /:/   \\\\  \\\\::/     \\\\  \\\\::/ /:/   \\\\  \\\\:\\\\  ~~~            \\\\  \\\\:\\\\  ~~~   \\\\  \\\\::/    \\\\__\\\\/  \\\\:\\\\   \\\\  \\\\::/ /:/\\n//    \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\      \\\\  \\\\:\\\\/:/     \\\\  \\\\:\\\\                 \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\  \\\\:\\\\   \\\\__\\\\/ /:/\\n//     \\\\  \\\\::/       \\\\  \\\\:\\\\      \\\\  \\\\::/       \\\\  \\\\:\\\\                 \\\\  \\\\:\\\\        \\\\  \\\\:\\\\         \\\\__\\\\/     /__/:/\\n//      \\\\__\\\\/         \\\\__\\\\/       \\\\__\\\\/         \\\\__\\\\/                  \\\\__\\\\/         \\\\__\\\\/                   \\\\__\\\\/\\n//\\n//\\n//   OpenERC165\\n//   (supports)\\n//       |\\n//       \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\n//       |        |            |\\n//       |   OpenERC173    OpenCloner\\n//       |    (ownable)        |\\n//       |        |            |\\n//       \\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\u2014\\n//       |\\n// OpenNFTsFactoryV3 \\u2014\\u2014 IOpenNFTsFactoryV3\\n//\\npragma solidity ^0.8.9;\\n\\nimport \\\"OpenNFTs/contracts/OpenERC/OpenERC173.sol\\\";\\nimport \\\"OpenNFTs/contracts/OpenCloner/OpenCloner.sol\\\";\\n\\nimport \\\"OpenNFTs/contracts/interfaces/IERC165.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenCloneable.sol\\\";\\nimport \\\"OpenNFTs/contracts/interfaces/IOpenRegistry.sol\\\";\\nimport \\\"../interfaces/IOpenNFTsFactoryV3.sol\\\";\\nimport \\\"../interfaces/IOpenNFTsV4.sol\\\";\\nimport \\\"../interfaces/IOpenAutoMarket.sol\\\";\\n\\n/// @title OpenNFTsFactoryV3 smartcontract\\n/// @notice Factory for NFTs contracts: ERC721 or ERC1155\\n/// @notice Create new NFTs Collections smartcontracts by cloning templates\\ncontract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {\\n    /// @notice Named Templates\\n\\n    mapping(string => uint256) private _numTemplates;\\n    address[] public templates;\\n\\n    address public nftsResolver;\\n\\n    address private _treasury;\\n    uint96 private _treasuryFee;\\n\\n    constructor(\\n        address initialOwner_,\\n        address treasury_,\\n        uint96 treasuryFee_\\n    ) {\\n        OpenERC173._transferOwnership(initialOwner_);\\n        setTreasury(treasury_, treasuryFee_);\\n    }\\n\\n    /// @notice clone template\\n    /// @param name name of Clone collection\\n    /// @param symbol symbol of Clone collection\\n    /// @return clone_ Address of Clone collection\\n    function clone(\\n        string memory name,\\n        string memory symbol,\\n        string memory templateName,\\n        bytes memory params\\n    ) external override(IOpenNFTsFactoryV3) returns (address clone_) {\\n        clone_ = clone(template(templateName));\\n\\n        IOpenCloneable(clone_).initialize(name, symbol, msg.sender, abi.encode(params, _treasury, _treasuryFee));\\n\\n        IOpenRegistry(nftsResolver).addAddress(clone_);\\n\\n        emit Clone(templateName, clone_, name, symbol);\\n    }\\n\\n    function countTemplates() external view override(IOpenNFTsFactoryV3) returns (uint256 count) {\\n        count = templates.length;\\n    }\\n\\n    function setTreasury(address treasury_, uint96 treasuryFee_) public override(IOpenNFTsFactoryV3) onlyOwner {\\n        _treasury = treasury_;\\n        _treasuryFee = treasuryFee_;\\n    }\\n\\n    function setResolver(address resolver_) public override(IOpenNFTsFactoryV3) onlyOwner {\\n        nftsResolver = resolver_;\\n\\n        emit SetResolver(nftsResolver);\\n    }\\n\\n    /// @notice Set Template by Name\\n    /// @param templateName_ Name of the template\\n    /// @param template_ Address of the template\\n    function setTemplate(string memory templateName_, address template_) public override(IOpenNFTsFactoryV3) onlyOwner {\\n        require(IERC165(template_).supportsInterface(type(IOpenCloneable).interfaceId), \\\"Not OpenCloneable\\\");\\n        require(IOpenCloneable(template_).initialized(), \\\"Not initialized\\\");\\n        require(template_.code.length != 45, \\\"Clone not valid template\\\");\\n\\n        uint256 num = _numTemplates[templateName_];\\n        if (num >= 1) {\\n            templates[num - 1] = template_;\\n        } else {\\n            templates.push(template_);\\n            num = templates.length;\\n\\n            _numTemplates[templateName_] = num;\\n        }\\n\\n        IOpenRegistry(nftsResolver).addAddress(template_);\\n\\n        emit SetTemplate(templateName_, template_, num);\\n    }\\n\\n    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC173, OpenCloner) returns (bool) {\\n        return interfaceId == type(IOpenNFTsFactoryV3).interfaceId || super.supportsInterface(interfaceId);\\n    }\\n\\n    /// @notice Get Template\\n    /// @param  templateName : template name\\n    /// @return template_ : template address\\n    function template(string memory templateName) public view override(IOpenNFTsFactoryV3) returns (address template_) {\\n        uint256 num = _numTemplates[templateName];\\n        require(num >= 1, \\\"Invalid Template\\\");\\n\\n        template_ = templates[num - 1];\\n        require(template_ != address(0), \\\"No Template\\\");\\n    }\\n}\\n\",\"keccak256\":\"0x46e2262646c413ef91d9c012b2cb7b3f298a8953ecc101d14434dc97d819b255\",\"license\":\"MIT\"}},\"version\":1}",
+  "bytecode": "0x60806040523480156200001157600080fd5b506040516200108b3803806200108b833981016040819052620000349162000145565b6200004a836200005f60201b620009911760201c565b620000568282620000b8565b5050506200019f565b600080546001600160a01b03838116610100818102610100600160a81b0319851617855560405193049190911692909183917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a35050565b60005461010090046001600160a01b03163314620001085760405162461bcd60e51b81526020600482015260096024820152682737ba1037bbb732b960b91b604482015260640160405180910390fd5b6001600160601b0316600160a01b026001600160a01b0390911617600455565b80516001600160a01b03811681146200014057600080fd5b919050565b6000806000606084860312156200015b57600080fd5b620001668462000128565b9250620001766020850162000128565b60408501519092506001600160601b03811681146200019457600080fd5b809150509250925092565b610edc80620001af6000396000f3fe608060405234801561001057600080fd5b50600436106100b45760003560e01c806370e141951161007157806370e14195146101585780638124b78e1461016b578063848ec03c1461017e5780638da5cb5b14610191578063bc525652146101a7578063f2fde38b146101ba57600080fd5b806301ffc9a7146100b957806307caa21e146100e15780631ada40fb146100f65780632cad0014146101075780634b55ae53146101325780634e543b2614610145575b600080fd5b6100cc6100c7366004610a3f565b6101cd565b60405190151581526020015b60405180910390f35b6100f46100ef366004610b33565b6101f8565b005b6002546040519081526020016100d8565b61011a610115366004610b81565b61059d565b6040516001600160a01b0390911681526020016100d8565b6100f4610140366004610c42565b610723565b6100f4610153366004610c85565b610772565b61011a610166366004610ca0565b6107eb565b61011a610179366004610c85565b6108c8565b60035461011a906001600160a01b031681565b60005461010090046001600160a01b031661011a565b61011a6101b5366004610cdd565b61092c565b6100f46101c8366004610c85565b610956565b60006001600160e01b0319821663f80f604360e01b14806101f257506101f2826109ea565b92915050565b60005461010090046001600160a01b031633146102305760405162461bcd60e51b815260040161022790610cf6565b60405180910390fd5b6040516301ffc9a760e01b81526350130d5360e01b60048201526001600160a01b038216906301ffc9a79060240160206040518083038186803b15801561027657600080fd5b505afa15801561028a573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102ae9190610d19565b6102ee5760405162461bcd60e51b81526020600482015260116024820152704e6f74204f70656e436c6f6e6561626c6560781b6044820152606401610227565b806001600160a01b031663158ef93e6040518163ffffffff1660e01b815260040160206040518083038186803b15801561032757600080fd5b505afa15801561033b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061035f9190610d19565b61039d5760405162461bcd60e51b815260206004820152600f60248201526e139bdd081a5b9a5d1a585b1a5e9959608a1b6044820152606401610227565b806001600160a01b03163b602d14156103f85760405162461bcd60e51b815260206004820152601860248201527f436c6f6e65206e6f742076616c69642074656d706c61746500000000000000006044820152606401610227565b600060018360405161040a9190610d6b565b90815260200160405180910390205490506001811061047457816002610431600184610d87565b8154811061044157610441610dac565b9060005260206000200160006101000a8154816001600160a01b0302191690836001600160a01b031602179055506104e7565b50600280546001808201835560008390527f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace90910180546001600160a01b0319166001600160a01b0385161790559054604051909182916104d6908690610d6b565b908152604051908190036020019020555b600354604051630e3ab68760e21b81526001600160a01b038481166004830152909116906338eada1c90602401600060405180830381600087803b15801561052e57600080fd5b505af1158015610542573d6000803e3d6000fd5b50505050816001600160a01b03168360405161055e9190610d6b565b604051908190038120838252907f9a1bc68d29ae4a678ea14888c65dd019ada583b85f33e2483dae925e470d0d709060200160405180910390a3505050565b60006105ab610179846107eb565b6004546040519192506001600160a01b0380841692631eb40e21928992899233926105ef928a9290821691600160a01b90046001600160601b031690602001610dee565b6040516020818303038152906040526040518563ffffffff1660e01b815260040161061d9493929190610e2a565b600060405180830381600087803b15801561063757600080fd5b505af115801561064b573d6000803e3d6000fd5b5050600354604051630e3ab68760e21b81526001600160a01b03858116600483015290911692506338eada1c9150602401600060405180830381600087803b15801561069657600080fd5b505af11580156106aa573d6000803e3d6000fd5b50505050846040516106bc9190610d6b565b6040518091039020816001600160a01b0316846040516106dc9190610d6b565b60405180910390207f58689b2920c59f090416ecf8b77869a3026ebcdf93291be87ff14cc7739565e9876040516107139190610e7d565b60405180910390a4949350505050565b60005461010090046001600160a01b031633146107525760405162461bcd60e51b815260040161022790610cf6565b6001600160601b0316600160a01b026001600160a01b0390911617600455565b60005461010090046001600160a01b031633146107a15760405162461bcd60e51b815260040161022790610cf6565b600380546001600160a01b0319166001600160a01b0383169081179091556040517ff811902d0aa96fa0dd89bebe8fc3818fa2132b9437abc92ed35639cc82da6d7c90600090a250565b6000806001836040516107fe9190610d6b565b908152602001604051809103902054905060018110156108535760405162461bcd60e51b815260206004820152601060248201526f496e76616c69642054656d706c61746560801b6044820152606401610227565b6002610860600183610d87565b8154811061087057610870610dac565b6000918252602090912001546001600160a01b03169150816108c25760405162461bcd60e51b815260206004820152600b60248201526a4e6f2054656d706c61746560a81b6044820152606401610227565b50919050565b6000604051733d602d80600a3d3981f3363d3d373d3d3d363d7360601b81528260601b60148201526e5af43d82803e903d91602b57fd5bf360881b60288201526037816000f09150506001600160a01b03811661092757610927610e90565b919050565b6002818154811061093c57600080fd5b6000918252602090912001546001600160a01b0316905081565b60005461010090046001600160a01b031633146109855760405162461bcd60e51b815260040161022790610cf6565b61098e81610991565b50565b600080546001600160a01b03838116610100818102610100600160a81b0319851617855560405193049190911692909183917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a35050565b60006001600160e01b031982166340925bc760e11b14806101f257506101f28260006307f5828d60e41b6001600160e01b0319831614806101f257506001600160e01b031982166301ffc9a760e01b146101f2565b600060208284031215610a5157600080fd5b81356001600160e01b031981168114610a6957600080fd5b9392505050565b634e487b7160e01b600052604160045260246000fd5b600067ffffffffffffffff80841115610aa157610aa1610a70565b604051601f8501601f19908116603f01168101908282118183101715610ac957610ac9610a70565b81604052809350858152868686011115610ae257600080fd5b858560208301376000602087830101525050509392505050565b600082601f830112610b0d57600080fd5b610a6983833560208501610a86565b80356001600160a01b038116811461092757600080fd5b60008060408385031215610b4657600080fd5b823567ffffffffffffffff811115610b5d57600080fd5b610b6985828601610afc565b925050610b7860208401610b1c565b90509250929050565b60008060008060808587031215610b9757600080fd5b843567ffffffffffffffff80821115610baf57600080fd5b610bbb88838901610afc565b95506020870135915080821115610bd157600080fd5b610bdd88838901610afc565b94506040870135915080821115610bf357600080fd5b610bff88838901610afc565b93506060870135915080821115610c1557600080fd5b508501601f81018713610c2757600080fd5b610c3687823560208401610a86565b91505092959194509250565b60008060408385031215610c5557600080fd5b610c5e83610b1c565b915060208301356001600160601b0381168114610c7a57600080fd5b809150509250929050565b600060208284031215610c9757600080fd5b610a6982610b1c565b600060208284031215610cb257600080fd5b813567ffffffffffffffff811115610cc957600080fd5b610cd584828501610afc565b949350505050565b600060208284031215610cef57600080fd5b5035919050565b6020808252600990820152682737ba1037bbb732b960b91b604082015260600190565b600060208284031215610d2b57600080fd5b81518015158114610a6957600080fd5b60005b83811015610d56578181015183820152602001610d3e565b83811115610d65576000848401525b50505050565b60008251610d7d818460208701610d3b565b9190910192915050565b600082821015610da757634e487b7160e01b600052601160045260246000fd5b500390565b634e487b7160e01b600052603260045260246000fd5b60008151808452610dda816020860160208601610d3b565b601f01601f19169290920160200192915050565b606081526000610e016060830186610dc2565b6001600160a01b03949094166020830152506001600160601b0391909116604090910152919050565b608081526000610e3d6080830187610dc2565b8281036020840152610e4f8187610dc2565b6001600160a01b038616604085015283810360608501529050610e728185610dc2565b979650505050505050565b602081526000610a696020830184610dc2565b634e487b7160e01b600052600160045260246000fdfea2646970667358221220b789d70d42ff77ad7a60329fa29dcc48e3af8378d53e1d89f8a5809c8bd6f59d64736f6c63430008090033",
+  "deployedBytecode": "0x608060405234801561001057600080fd5b50600436106100b45760003560e01c806370e141951161007157806370e14195146101585780638124b78e1461016b578063848ec03c1461017e5780638da5cb5b14610191578063bc525652146101a7578063f2fde38b146101ba57600080fd5b806301ffc9a7146100b957806307caa21e146100e15780631ada40fb146100f65780632cad0014146101075780634b55ae53146101325780634e543b2614610145575b600080fd5b6100cc6100c7366004610a3f565b6101cd565b60405190151581526020015b60405180910390f35b6100f46100ef366004610b33565b6101f8565b005b6002546040519081526020016100d8565b61011a610115366004610b81565b61059d565b6040516001600160a01b0390911681526020016100d8565b6100f4610140366004610c42565b610723565b6100f4610153366004610c85565b610772565b61011a610166366004610ca0565b6107eb565b61011a610179366004610c85565b6108c8565b60035461011a906001600160a01b031681565b60005461010090046001600160a01b031661011a565b61011a6101b5366004610cdd565b61092c565b6100f46101c8366004610c85565b610956565b60006001600160e01b0319821663f80f604360e01b14806101f257506101f2826109ea565b92915050565b60005461010090046001600160a01b031633146102305760405162461bcd60e51b815260040161022790610cf6565b60405180910390fd5b6040516301ffc9a760e01b81526350130d5360e01b60048201526001600160a01b038216906301ffc9a79060240160206040518083038186803b15801561027657600080fd5b505afa15801561028a573d6000803e3d6000fd5b505050506040513d601f19601f820116820180604052508101906102ae9190610d19565b6102ee5760405162461bcd60e51b81526020600482015260116024820152704e6f74204f70656e436c6f6e6561626c6560781b6044820152606401610227565b806001600160a01b031663158ef93e6040518163ffffffff1660e01b815260040160206040518083038186803b15801561032757600080fd5b505afa15801561033b573d6000803e3d6000fd5b505050506040513d601f19601f8201168201806040525081019061035f9190610d19565b61039d5760405162461bcd60e51b815260206004820152600f60248201526e139bdd081a5b9a5d1a585b1a5e9959608a1b6044820152606401610227565b806001600160a01b03163b602d14156103f85760405162461bcd60e51b815260206004820152601860248201527f436c6f6e65206e6f742076616c69642074656d706c61746500000000000000006044820152606401610227565b600060018360405161040a9190610d6b565b90815260200160405180910390205490506001811061047457816002610431600184610d87565b8154811061044157610441610dac565b9060005260206000200160006101000a8154816001600160a01b0302191690836001600160a01b031602179055506104e7565b50600280546001808201835560008390527f405787fa12a823e0f2b7631cc41b3ba8828b3321ca811111fa75cd3aa3bb5ace90910180546001600160a01b0319166001600160a01b0385161790559054604051909182916104d6908690610d6b565b908152604051908190036020019020555b600354604051630e3ab68760e21b81526001600160a01b038481166004830152909116906338eada1c90602401600060405180830381600087803b15801561052e57600080fd5b505af1158015610542573d6000803e3d6000fd5b50505050816001600160a01b03168360405161055e9190610d6b565b604051908190038120838252907f9a1bc68d29ae4a678ea14888c65dd019ada583b85f33e2483dae925e470d0d709060200160405180910390a3505050565b60006105ab610179846107eb565b6004546040519192506001600160a01b0380841692631eb40e21928992899233926105ef928a9290821691600160a01b90046001600160601b031690602001610dee565b6040516020818303038152906040526040518563ffffffff1660e01b815260040161061d9493929190610e2a565b600060405180830381600087803b15801561063757600080fd5b505af115801561064b573d6000803e3d6000fd5b5050600354604051630e3ab68760e21b81526001600160a01b03858116600483015290911692506338eada1c9150602401600060405180830381600087803b15801561069657600080fd5b505af11580156106aa573d6000803e3d6000fd5b50505050846040516106bc9190610d6b565b6040518091039020816001600160a01b0316846040516106dc9190610d6b565b60405180910390207f58689b2920c59f090416ecf8b77869a3026ebcdf93291be87ff14cc7739565e9876040516107139190610e7d565b60405180910390a4949350505050565b60005461010090046001600160a01b031633146107525760405162461bcd60e51b815260040161022790610cf6565b6001600160601b0316600160a01b026001600160a01b0390911617600455565b60005461010090046001600160a01b031633146107a15760405162461bcd60e51b815260040161022790610cf6565b600380546001600160a01b0319166001600160a01b0383169081179091556040517ff811902d0aa96fa0dd89bebe8fc3818fa2132b9437abc92ed35639cc82da6d7c90600090a250565b6000806001836040516107fe9190610d6b565b908152602001604051809103902054905060018110156108535760405162461bcd60e51b815260206004820152601060248201526f496e76616c69642054656d706c61746560801b6044820152606401610227565b6002610860600183610d87565b8154811061087057610870610dac565b6000918252602090912001546001600160a01b03169150816108c25760405162461bcd60e51b815260206004820152600b60248201526a4e6f2054656d706c61746560a81b6044820152606401610227565b50919050565b6000604051733d602d80600a3d3981f3363d3d373d3d3d363d7360601b81528260601b60148201526e5af43d82803e903d91602b57fd5bf360881b60288201526037816000f09150506001600160a01b03811661092757610927610e90565b919050565b6002818154811061093c57600080fd5b6000918252602090912001546001600160a01b0316905081565b60005461010090046001600160a01b031633146109855760405162461bcd60e51b815260040161022790610cf6565b61098e81610991565b50565b600080546001600160a01b03838116610100818102610100600160a81b0319851617855560405193049190911692909183917f8be0079c531659141344cd1fd0a4f28419497f9722a3daafe3b4186f6b6457e091a35050565b60006001600160e01b031982166340925bc760e11b14806101f257506101f28260006307f5828d60e41b6001600160e01b0319831614806101f257506001600160e01b031982166301ffc9a760e01b146101f2565b600060208284031215610a5157600080fd5b81356001600160e01b031981168114610a6957600080fd5b9392505050565b634e487b7160e01b600052604160045260246000fd5b600067ffffffffffffffff80841115610aa157610aa1610a70565b604051601f8501601f19908116603f01168101908282118183101715610ac957610ac9610a70565b81604052809350858152868686011115610ae257600080fd5b858560208301376000602087830101525050509392505050565b600082601f830112610b0d57600080fd5b610a6983833560208501610a86565b80356001600160a01b038116811461092757600080fd5b60008060408385031215610b4657600080fd5b823567ffffffffffffffff811115610b5d57600080fd5b610b6985828601610afc565b925050610b7860208401610b1c565b90509250929050565b60008060008060808587031215610b9757600080fd5b843567ffffffffffffffff80821115610baf57600080fd5b610bbb88838901610afc565b95506020870135915080821115610bd157600080fd5b610bdd88838901610afc565b94506040870135915080821115610bf357600080fd5b610bff88838901610afc565b93506060870135915080821115610c1557600080fd5b508501601f81018713610c2757600080fd5b610c3687823560208401610a86565b91505092959194509250565b60008060408385031215610c5557600080fd5b610c5e83610b1c565b915060208301356001600160601b0381168114610c7a57600080fd5b809150509250929050565b600060208284031215610c9757600080fd5b610a6982610b1c565b600060208284031215610cb257600080fd5b813567ffffffffffffffff811115610cc957600080fd5b610cd584828501610afc565b949350505050565b600060208284031215610cef57600080fd5b5035919050565b6020808252600990820152682737ba1037bbb732b960b91b604082015260600190565b600060208284031215610d2b57600080fd5b81518015158114610a6957600080fd5b60005b83811015610d56578181015183820152602001610d3e565b83811115610d65576000848401525b50505050565b60008251610d7d818460208701610d3b565b9190910192915050565b600082821015610da757634e487b7160e01b600052601160045260246000fd5b500390565b634e487b7160e01b600052603260045260246000fd5b60008151808452610dda816020860160208601610d3b565b601f01601f19169290920160200192915050565b606081526000610e016060830186610dc2565b6001600160a01b03949094166020830152506001600160601b0391909116604090910152919050565b608081526000610e3d6080830187610dc2565b8281036020840152610e4f8187610dc2565b6001600160a01b038616604085015283810360608501529050610e728185610dc2565b979650505050505050565b602081526000610a696020830184610dc2565b634e487b7160e01b600052600160045260246000fdfea2646970667358221220b789d70d42ff77ad7a60329fa29dcc48e3af8378d53e1d89f8a5809c8bd6f59d64736f6c63430008090033",
+  "devdoc": {
+    "kind": "dev",
+    "methods": {
+      "clone(address)": {
+        "params": {
+          "template_": ": template address"
+        },
+        "returns": {
+          "clone_": ": clone address"
+        }
+      },
+      "clone(string,string,string,bytes)": {
+        "params": {
+          "name": "name of Clone collection",
+          "symbol": "symbol of Clone collection"
+        },
+        "returns": {
+          "clone_": "Address of Clone collection"
+        }
+      },
+      "setTemplate(string,address)": {
+        "params": {
+          "templateName_": "Name of the template",
+          "template_": "Address of the template"
+        }
+      },
+      "template(string)": {
+        "params": {
+          "templateName": ": template name"
+        },
+        "returns": {
+          "template_": ": template address"
+        }
+      }
+    },
+    "title": "OpenNFTsFactoryV3 smartcontract",
+    "version": 1
+  },
+  "userdoc": {
+    "kind": "user",
+    "methods": {
+      "clone(address)": {
+        "notice": "Clone template (via EIP-1167)"
+      },
+      "clone(string,string,string,bytes)": {
+        "notice": "clone template"
+      },
+      "setTemplate(string,address)": {
+        "notice": "Set Template by Name"
+      },
+      "template(string)": {
+        "notice": "Get Template"
+      }
+    },
+    "notice": "Factory for NFTs contracts: ERC721 or ERC1155Create new NFTs Collections smartcontracts by cloning templates",
+    "version": 1
+  },
+  "storageLayout": {
+    "storage": [
+      {
+        "astId": 5174,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "_openERC173Initialized",
+        "offset": 0,
+        "slot": "0",
+        "type": "t_bool"
+      },
+      {
+        "astId": 5176,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "_owner",
+        "offset": 1,
+        "slot": "0",
+        "type": "t_address"
+      },
+      {
+        "astId": 20252,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "_numTemplates",
+        "offset": 0,
+        "slot": "1",
+        "type": "t_mapping(t_string_memory_ptr,t_uint256)"
+      },
+      {
+        "astId": 20255,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "templates",
+        "offset": 0,
+        "slot": "2",
+        "type": "t_array(t_address)dyn_storage"
+      },
+      {
+        "astId": 20257,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "nftsResolver",
+        "offset": 0,
+        "slot": "3",
+        "type": "t_address"
+      },
+      {
+        "astId": 20259,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "_treasury",
+        "offset": 0,
+        "slot": "4",
+        "type": "t_address"
+      },
+      {
+        "astId": 20261,
+        "contract": "contracts/next/OpenNFTsFactoryV3.sol:OpenNFTsFactoryV3",
+        "label": "_treasuryFee",
+        "offset": 20,
+        "slot": "4",
+        "type": "t_uint96"
+      }
+    ],
+    "types": {
+      "t_address": {
+        "encoding": "inplace",
+        "label": "address",
+        "numberOfBytes": "20"
+      },
+      "t_array(t_address)dyn_storage": {
+        "base": "t_address",
+        "encoding": "dynamic_array",
+        "label": "address[]",
+        "numberOfBytes": "32"
+      },
+      "t_bool": {
+        "encoding": "inplace",
+        "label": "bool",
+        "numberOfBytes": "1"
+      },
+      "t_mapping(t_string_memory_ptr,t_uint256)": {
+        "encoding": "mapping",
+        "key": "t_string_memory_ptr",
+        "label": "mapping(string => uint256)",
+        "numberOfBytes": "32",
+        "value": "t_uint256"
+      },
+      "t_string_memory_ptr": {
+        "encoding": "bytes",
+        "label": "string",
+        "numberOfBytes": "32"
+      },
+      "t_uint256": {
+        "encoding": "inplace",
+        "label": "uint256",
+        "numberOfBytes": "32"
+      },
+      "t_uint96": {
+        "encoding": "inplace",
+        "label": "uint96",
+        "numberOfBytes": "12"
+      }
+    }
+  }
+}
