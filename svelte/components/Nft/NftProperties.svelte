@@ -27,7 +27,7 @@
 
   const removeField = (i: number): void => {
     if (attributes.length > 1) {
-      attributes = attributes.filter((e, index) => i !== index);
+      attributes = attributes.filter((_, index) => i !== index);
     } else {
       attributes[i] = { name: "", value: "" };
     }
