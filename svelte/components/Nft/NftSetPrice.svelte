@@ -5,7 +5,15 @@
   import { formatEther } from "ethers/lib/utils";
 
   import type { NftType } from "@lib/common/ktypes";
-  import { explorerCollectionUrl, explorerTxLog, explorerTxUrl, getCurrency, textShort } from "@lib/common/kconfig";
+  import {
+    explorerCollectionUrl,
+    explorerTxLog,
+    explorerTxUrl,
+    getCurrency,
+    getOpenSea,
+    nftOpenSeaUrl,
+    textShort
+  } from "@lib/common/kconfig";
   import { setTokenPrice, isValidPrice, reduceDecimals } from "@lib/nft/kautomarket";
 
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
@@ -190,6 +198,22 @@
     </div>
   {/if}
 
+  {#if getOpenSea(chainId)}
+    <div class="kre-modal-block">
+      <div class="txt-left">
+        <a
+          href={nftOpenSeaUrl(chainId, { chainId, address, tokenID })}
+          class="btn btn-second"
+          title="Sell"
+          target="_blank"
+          rel="noreferrer"
+        >
+          View on OpenSea
+        </a>
+      </div>
+    </div>
+  {/if}
+
   <div class="txtright">
     {#if onSale}
       <button class="btn btn-default btn-remove" type="submit" on:click={removeFromSale}>Remove from Sale</button>
@@ -271,5 +295,9 @@
 
   .btn-remove:hover {
     opacity: 1;
+  }
+
+  .txt-left {
+    float: left;
   }
 </style>
