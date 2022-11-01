@@ -29,10 +29,11 @@
     "eip1559": true,
     "create": true,
     "mainnet": true,
-    "openNFTs": "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471",
+    "openNFTs": "0xd23B0B6752EcA26a37066Ae9E562060930610619",
     "nftsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
+    "nftsResolver": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D"
   },
   {
     "chainId": 42161,
@@ -55,15 +56,16 @@
     },
     "create": true,
     "mainnet": true,
-    "openNFTs": "0x8a324A30C8ca1E9CFcea267C2116968cAacEd1D6",
+    "openNFTs": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
+    "nftsResolver": "0x88A9B09B081CA46daEa53f170d8da27490a16b82"
   },
   {
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
-      "https://optimism-mainnet.infura.io/v3/v3/{{env.INFURA_API_KEY}}",
+      "https://optimism-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
@@ -78,11 +80,12 @@
     "covalent": {
       "active": false
     },
-    "openNFTs": "0x353e747242CD4806Cb18D70a42cEa01512b18A3B",
+    "openNFTs": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "nftsFactoryV2": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "create": true,
     "mainnet": true,
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x57BDf6E59C2652D349f7022beB8D1B7458CA09EB",
+    "nftsResolver": "0xD53e7aa446e4615DEC602c1D0d024425256f631a"
   },
   {
     "chainId": 137,
@@ -227,12 +230,13 @@
     "covalent": {
       "active": true
     },
-    "openNFTs": "0x57bdf6e59c2652d349f7022beb8d1b7458ca09eb",
+    "openNFTs": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "mainnet": true,
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "0x7B5E42Ab37Bf962413a2B062fE7373141e643f46",
+    "nftsResolver": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE"
   },
   {
     "chainId": 97,
