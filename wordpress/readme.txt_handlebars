@@ -3,7 +3,7 @@ Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, ipfs
 Requires at least: 5.0
-Tested up to: 6.0.2
+Tested up to: 6.0.3
 Stable tag: {{version.stable}}
 Requires PHP: 7.3
 License: GPLv3 or later
@@ -63,7 +63,15 @@ You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can 
 
 
 == Changelog ==
-= 0.13.0 (latest/stable) =
+= 0.17.0 (latest/stable) =
+* New version available on all 8 networks : 
+*   Ethereum Mainnet / Arbitrum / Optimism / Matic - Polygon 
++   Avalanche / xDai - Gnosis chain / Fantom / Bsc
+
+= 0.16.9 =
+* Complete new version with AutoMarket template! available on Matic only 
+
+= 0.13.0 =
 * New Grid mode
 * WP plugin now uses latest Dapp version 
 
