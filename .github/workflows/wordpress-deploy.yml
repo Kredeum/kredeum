@@ -10,11 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Cache Composer packages
         id: composer-cache
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/wordpress/vendor
           key: ${{ runner.os }}-php-${{ hashFiles('**/composer.lock') }}
@@ -22,19 +22,19 @@ jobs:
             ${{ runner.os }}-php-
 
       - name: Cache pnpm modules
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ~/.pnpm-store
           key: pnpm-modules-${{ hashFiles('**/pnpm-lock.yaml') }}
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.0.1
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 6.30.0
+          version: 7.14.1
           run_install: true
 
       - name: Build
-        run: pnpm run install-build-all
+        run: pnpm run install-all && pnpm run build-all
         env:
           ENVIR: PROD
           NODE_DEBUG: false
