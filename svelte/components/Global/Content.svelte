@@ -41,11 +41,11 @@
 </script>
 
 <!-- {tokenID} -->
-<div on:click={(evt) => handleClick(evt)}>
+<div on:click={(evt) => handleClick(evt)} on:keydown={(evt) => handleClick(evt)}>
   {#if tokenID !== ""}
     <h2 class="m-b-20 return">
       <i class="fa fa-arrow-left fa-left" />
-      <span on:click={handleChange} class="link">Return to collection</span>
+      <span on:click={handleChange} on:keydown={handleChange} class="link">Return to collection</span>
     </h2>
 
     <Nft {chainId} {address} {tokenID} {account} {platform} />

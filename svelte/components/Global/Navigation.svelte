@@ -28,12 +28,3 @@
   alt="Discord Kredeum"
   title="Discord Kredeum"><i class="icon-discord" /></a
 >
-
-<style>
-  .link-alpha {
-    text-decoration: none;
-  }
-  .link-alpha:hover {
-    color: #3acf6e !important;
-  }
-</style>

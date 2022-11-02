@@ -70,8 +70,11 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a class="link" href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}" target="_blank"
-                >#{tokenID}</a
+              <a
+                class="link"
+                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                target="_blank"
+                rel="noreferrer">#{tokenID}</a
               >
               copied!
             </div>
@@ -100,7 +103,9 @@
         {/if}
         {#if copyTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl(chainId, copyTxHash)} target="_blank">{textShort(copyTxHash)}</a>
+            <a class="link" href={explorerTxUrl(chainId, copyTxHash)} target="_blank" rel="noreferrer"
+              >{textShort(copyTxHash)}</a
+            >
           </div>
         {/if}
       </div>

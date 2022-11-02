@@ -31,6 +31,9 @@
 
   let open = false;
 
+  const handleClose = () => (open = false);
+  const handleOpen = () => (open = true);
+
   $: S4_ROYALTIES_SETTED && open === false && handleResetAfterSetRoyaltiesAmount();
   const handleResetAfterSetRoyaltiesAmount = () => {
     setRoyaltyInfoTxHash = null;
@@ -128,7 +131,12 @@
   });
 </script>
 
-<span on:click={() => (open = true)} class="btn btn-small btn-outline" title="Set royalty infos for this NFT">
+<span
+  on:click={handleOpen}
+  on:keydown={handleOpen}
+  class="btn btn-small btn-outline"
+  title="Set royalty infos for this NFT"
+>
   Set royalties infos
 </span>
 
@@ -137,7 +145,9 @@
     <div use:clickOutside={() => (open = false)}>
       <div id="kredeum-set-royalty-nft">
         <div class="modal-content">
-          <span on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></span>
+          <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
+            ><i class="fa fa-times" /></span
+          >
 
           <div class="modal-body">
             <div>
@@ -187,7 +197,7 @@
 
               {#if setRoyaltyInfoTxHash}
                 <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, setRoyaltyInfoTxHash)} target="_blank"
+                  <a class="link" href={explorerTxUrl(chainId, setRoyaltyInfoTxHash)} target="_blank" rel="noreferrer"
                     >{textShort(setRoyaltyInfoTxHash)}</a
                   >
                 </div>

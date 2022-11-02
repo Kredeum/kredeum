@@ -94,7 +94,9 @@
   <div class="titre">
     <p><i class="fas fa-angle-right" /> Do you want to approuve all NFTs of this collection to be sellable</p>
   </div>
-  <div class="section"><a class="link" href={explorerAddressUrl(chainId, address)} target="_blank">{address}</a></div>
+  <div class="section">
+    <a class="link" href={explorerAddressUrl(chainId, address)} target="_blank" rel="noreferrer">{address}</a>
+  </div>
   <div class="txtright">
     <button class="btn btn-default btn-sell" type="submit" on:click={() => approveCollectionConfirm()}>Approve</button>
   </div>
@@ -115,7 +117,8 @@
   <div>
     <div class="titre">
       <i class="fas fa-check fa-left c-green" />
-      Nfts of collection <a class="link" href={explorerAddressUrl(chainId, address)} target="_blank">{address}</a> approved
+      Nfts of collection
+      <a class="link" href={explorerAddressUrl(chainId, address)} target="_blank" rel="noreferrer">{address}</a> approved
       for sale !
     </div>
   </div>
@@ -123,7 +126,7 @@
 
 {#if collectionApproveTxHash}
   <div class="flex">
-    <a class="link" href={explorerTxUrl(chainId, collectionApproveTxHash)} target="_blank"
+    <a class="link" href={explorerTxUrl(chainId, collectionApproveTxHash)} target="_blank" rel="noreferrer"
       >{textShort(collectionApproveTxHash)}</a
     >
   </div>

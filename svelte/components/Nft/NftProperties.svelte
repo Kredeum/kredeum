@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { properties } from "@lib/common/ktypes";
+  import type { Properties } from "@lib/common/ktypes";
 
   /////////////////////////////////////////////////
   // <NftProperties {properties} />
   // Set Nft properties
   /////////////////////////////////////////////////
-  export let properties: properties;
+  export let properties: Properties;
 
   let attributes = [{ name: "", value: "" }];
 

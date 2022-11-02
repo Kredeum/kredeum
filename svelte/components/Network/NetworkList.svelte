@@ -39,6 +39,8 @@
     await metamaskSwitchChain(_chainId);
     chainId = _chainId;
   };
+
+  const handleToggleOpen = () => (open = !open);
 </script>
 
 {#if txt}
@@ -77,7 +79,12 @@
       </span>
     {/if}
 
-    <div class="select-wrapper select-network" use:clickOutside={() => (open = false)} on:click={() => (open = !open)}>
+    <div
+      class="select-wrapper select-network"
+      use:clickOutside={() => (open = false)}
+      on:click={handleToggleOpen}
+      on:keydown={handleToggleOpen}
+    >
       <div class="select" class:open>
         <div class="select-trigger">
           <Network {chainId} {txt} />
@@ -90,6 +97,7 @@
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
               on:click={(evt) => _switchChain(nwk.chainId, evt)}
+              on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
             >
               <Network chainId={nwk.chainId} txt={true} />
             </span>
@@ -100,6 +108,7 @@
                 class="custom-option {nwk.chainId == chainId && 'selected'}"
                 data-value={getChainName(nwk.chainId)}
                 on:click={(evt) => _switchChain(nwk.chainId, evt)}
+                on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
               >
                 <Network chainId={nwk.chainId} txt={true} />
               </span>

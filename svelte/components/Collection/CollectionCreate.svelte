@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { BigNumber, constants, utils } from "ethers";
+  import { constants, utils } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/ktypes";
@@ -11,7 +11,6 @@
     textShort,
     getCurrency,
     isNumeric,
-    getChecksumAddress,
     isAddress,
     MAX_FEE
   } from "@lib/common/kconfig";

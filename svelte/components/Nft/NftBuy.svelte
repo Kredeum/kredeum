@@ -8,15 +8,7 @@
 
   import { metamaskSigner } from "@main/metamask";
   import { buyNft } from "@lib/nft/kbuy";
-  import {
-    explorerNftUrl,
-    explorerTxUrl,
-    explorerTxLog,
-    textShort,
-    getOpenSea,
-    nftOpenSeaUrl,
-    getCurrency
-  } from "@lib/common/kconfig";
+  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/kconfig";
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
@@ -104,6 +96,8 @@
 
     await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
+
+  const handleClose = () => (open = false);
 </script>
 
 <a
@@ -126,7 +120,9 @@
     <div use:clickOutside={() => (open = false)}>
       <div id="kredeum-buy-nft">
         <div class="modal-content">
-          <span on:click={() => (open = false)} title="Close" class="modal-close"><i class="fa fa-times" /></span>
+          <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
+            ><i class="fa fa-times" /></span
+          >
 
           <div class="modal-body">
             <div>

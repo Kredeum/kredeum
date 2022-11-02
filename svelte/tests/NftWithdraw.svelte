@@ -132,7 +132,7 @@
 
     {#if tokenWithdrawTxHash}
       <div class="flex">
-        <a class="link" href={explorerTxUrl(chainId, tokenWithdrawTxHash)} target="_blank"
+        <a class="link" href={explorerTxUrl(chainId, tokenWithdrawTxHash)} target="_blank" rel="noreferrer"
           >{textShort(tokenWithdrawTxHash)}</a
         >
       </div>
