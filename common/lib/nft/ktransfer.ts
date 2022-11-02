@@ -6,7 +6,7 @@ import { explorerTxLog } from "@lib/common/kconfig";
 import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
 import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
 import type { IOpenAutoMarket } from "@soltypes/contracts/interfaces/IOpenAutoMarket";
-import { OpenAutoMarket } from "@soltypes/contracts/next";
+import { OpenAutoMarket } from "@soltypes/contracts";
 import { constants } from "ethers";
 
 async function* transferNft(

@@ -5,8 +5,8 @@ import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 import { collectionGetContract } from "./kcollection-get";
 
-import { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
-import { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
+import { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
+import { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
 // import { OpenBound } from "@soltypes/contracts/next/OpenBound";
 
 const _getN = async (

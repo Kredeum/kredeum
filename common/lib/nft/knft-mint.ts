@@ -16,8 +16,8 @@ import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3Plus } from "@soltypes/contracts/interfaces/IOpenNFTsV3Plus";
-import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
-import type { OpenNFTsV4 } from "@soltypes/contracts/next/OpenNFTsV4";
+import type { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

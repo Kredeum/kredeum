@@ -1,4 +1,4 @@
-import type { OpenAutoMarket } from "@soltypes/contracts/next/OpenAutoMarket";
+import type { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
 import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@soltypes/index";
 

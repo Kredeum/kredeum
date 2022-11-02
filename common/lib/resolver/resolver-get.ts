@@ -4,8 +4,8 @@ import { Contract } from "ethers";
 
 import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
 
-import type { OpenNFTsResolver } from "@soltypes/contracts/next/OpenNFTsResolver";
-import abiOpenNFTsResolver from "@abis/contracts/next/OpenNFTsResolver.sol/OpenNFTsResolver.json";
+import type { OpenNFTsResolver } from "@soltypes/contracts/OpenNFTsResolver";
+import abiOpenNFTsResolver from "@abis/contracts/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 
 const _nftsResolverKey = (chainId: number, account: string): string => String(chainId).concat(account);
 

@@ -5,8 +5,8 @@ import { Contract } from "ethers";
 
 import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
 
-import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/next/OpenNFTsFactoryV3";
-import abiOpenNFTsFactoryV3 from "@abis/contracts/next/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
+import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/OpenNFTsFactoryV3";
+import abiOpenNFTsFactoryV3 from "@abis/contracts/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
 
 const _nftsFactoryKey = (chainId: number, account: string): string => String(chainId).concat(account);
 
