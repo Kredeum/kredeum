@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NftType, properties } from "@lib/common/ktypes";
+  import type { NftType, Properties } from "@lib/common/ktypes";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { Writable } from "svelte/store";
@@ -63,7 +63,7 @@
   let mintingError: string;
 
   /////////////////////////////////////////////////
-  let properties: properties;
+  let properties: Properties;
   /////////////////////////////////////////////////
 
   let open = false;
