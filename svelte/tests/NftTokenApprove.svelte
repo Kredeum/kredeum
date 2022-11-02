@@ -121,7 +121,8 @@
 
 {#if tokenApproveTxHash}
   <div class="flex">
-    <a class="link" href={explorerTxUrl(chainId, tokenApproveTxHash)} target="_blank">{textShort(tokenApproveTxHash)}</a
+    <a class="link" href={explorerTxUrl(chainId, tokenApproveTxHash)} target="_blank" rel="noreferrer"
+      >{textShort(tokenApproveTxHash)}</a
     >
   </div>
 {/if}

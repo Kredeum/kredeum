@@ -56,7 +56,7 @@
       }}
     >
       <div class="modal-content">
-        <span on:click{handleClose} on:keydown{handleClose} title="Close" class="modal-close krd-pointer">
+        <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close krd-pointer">
           <i class="fa fa-times" /></span
         >
         <div class="modal-body">

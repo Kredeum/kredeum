@@ -20,7 +20,6 @@
     nftUrl,
     storageLinkToUrlHttp,
     config,
-    explorerAddressUrl,
     getCurrency
   } from "@lib/common/kconfig";
 
@@ -195,7 +194,7 @@
 
     storageJson =
       "ipfs" === storage
-        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, properties)
+        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, "", properties)
         : "swarm" === storage
         ? swarmGatewayUrl(
             await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
@@ -227,9 +226,11 @@
   onMount(() => {
     mintInit();
   });
+
+  const handleOpen = () => (open = true);
 </script>
 
-<span on:click={() => (open = true)} class="btn btn-default" title="Mint NFT">Mint NFT</span>
+<span on:click={handleOpen} on:keydown={handleOpen} class="btn btn-default" title="Mint NFT">Mint NFT</span>
 
 {#if open}
   <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
@@ -304,7 +305,7 @@
                   {#if image}
                     <div class="media media-photo">
                       <img src={image} alt="nft" />
-                      <span class="kre-delete-file" on:click={resetFileImg}
+                      <span class="kre-delete-file" on:click={resetFileImg} on:keydown={resetFileImg}
                         ><i class="fa fa-trash" aria-hidden="true" /></span
                       >
                     </div>
@@ -349,7 +350,7 @@
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
                       <span class="kre-market-info-value label-big"
                         >{collection.royalty?.fee / 100} %
-                        {#if collection.royalty?.minimum.gt(0)}
+                        {#if collection.royalty?.minimum?.gt(0)}
                           or a minimum of {utils.formatEther(collection.royalty?.minimum)} {getCurrency(chainId)}
                         {/if}
                       </span>

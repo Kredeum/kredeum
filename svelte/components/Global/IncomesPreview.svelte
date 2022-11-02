@@ -1,11 +1,10 @@
 <script lang="ts">
   import { BigNumber, BigNumberish, constants, utils } from "ethers";
   const { formatEther } = utils;
-  import { onMount } from "svelte";
 
   import { ReceiverType } from "@lib/common/ktypes";
   import { config, getCurrency } from "@lib/common/kconfig";
-  import { getMax, getReceiverAmount } from "@lib/nft/kautomarket";
+  import { getReceiverAmount } from "@lib/nft/kautomarket";
 
   //////////////////////////////////////////////////////////////////////////
   //  <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />

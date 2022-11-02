@@ -61,7 +61,12 @@
     </div>
   </div>
 
-  <div id="more-{nft?.tokenID || ''}" class="table-col more" on:click={() => moreToggle()}>
+  <div
+    id="more-{nft?.tokenID || ''}"
+    class="table-col more"
+    on:click={() => moreToggle()}
+    on:keydown={() => moreToggle()}
+  >
     <div class="table-col-content txtright">
       <div class="more-button"><i class="fas fa-chevron-down" /></div>
     </div>

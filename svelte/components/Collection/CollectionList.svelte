@@ -76,6 +76,8 @@
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
   const _collectionUrl = (collection: string): string => collectionKey(chainId, collection);
+
+  const handleToggleOpen = () => (open = !open);
 </script>
 
 {#if txt}
@@ -126,7 +128,8 @@
     <div
       class="select-wrapper select-storeCollection"
       use:clickOutside={() => (open = false)}
-      on:click={() => (open = !open)}
+      on:click={handleToggleOpen}
+      on:keydown={handleToggleOpen}
     >
       <div class="select" class:open>
         {#if $collections?.size > 0}
@@ -142,6 +145,7 @@
                 class="custom-option {coll.address == address ? 'selected' : ''}"
                 data-value={coll.address}
                 on:click={() => _setCollection(coll.address)}
+                on:keydown={() => _setCollection(coll.address)}
               >
                 <Collection chainId={coll.chainId} address={coll.address} {account} />
               </span>

@@ -2,7 +2,7 @@
   import type { NftType } from "@lib/common/ktypes";
   import type { Readable } from "svelte/store";
 
-  import { BigNumber, constants } from "ethers";
+  import { BigNumber } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
   import { onMount, getContext } from "svelte";
