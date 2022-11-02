@@ -17,8 +17,16 @@
   export let alt: string = nft.name || "media";
 
   let open = false;
-  let metadatas: NftMetadata;
-  $: metadatas = nft?.metadata as NftMetadata;
+  let metadatas: NftMetadata | undefined;
+  $: metadatas = nft?.metadata;
+
+  const handleClose = () => (open = false);
+  const handlemetadatas = () =>
+    !metadatas?.animation_url
+      ? (open = true)
+      : $toPlayTokenID !== nft.tokenID
+      ? ($toPlayTokenID = nft.tokenID)
+      : ($toPlayTokenID = "");
 
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
 </script>
@@ -30,12 +38,8 @@
       class="krd-pointer {nft.contentType?.startsWith('video') || metadatas?.animation_url
         ? 'no-zoom-hover'
         : 'zoom-hover'}"
-      on:click={() =>
-        !metadatas?.animation_url
-          ? (open = true)
-          : $toPlayTokenID !== nft.tokenID
-          ? ($toPlayTokenID = nft.tokenID)
-          : ($toPlayTokenID = "")}
+      on:click={handlemetadatas}
+      on:keydown={handlemetadatas}
     >
       <i class="fas fa-search" />
       <MediaDisplay {nft} displayMode={"preview"} {alt} />
@@ -52,7 +56,7 @@
       }}
     >
       <div class="modal-content">
-        <span on:click={() => (open = false)} title="Close" class="modal-close krd-pointer">
+        <span on:click{handleClose} on:keydown{handleClose} title="Close" class="modal-close krd-pointer">
           <i class="fa fa-times" /></span
         >
         <div class="modal-body">
