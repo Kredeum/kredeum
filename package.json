@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "all": "pnpm run clean-all && pnpm install && pnpm install-all && pnpm run build-all && pnpm run check-all",
-    "install-dapp": "npm run install:common && npm run install:contracts && npm run foundry:install && npm run install:gulp && npm run install:svelte",
+    "install-dapp": "npm run install:common && npm run install:contracts && npm run install:gulp && npm run install:svelte",
     "build-dapp": "npm run build:common && npm run build:contracts && npm run build:gulp && npm run build:svelte",
     "install-build-all": "npm install && npm run install-all && npm run build-all",
     "install-all": "npm-run-all install:*",
@@ -15,8 +15,7 @@
     "build-all": "npm-run-all build:*",
     "check-all": "npm-run-all check:*",
     "install:common": "cd common && pnpm install",
-    "install:contracts": "cd contracts && pnpm install",
-    "install:foundry": "cd contracts && pnpm foundry:install",
+    "install:contracts": "cd contracts && pnpm install && pnpm foundry:install",
     "install:gulp": "cd gulp && pnpm install",
     "install:svelte": "cd svelte && pnpm install",
     "install:wordpress": "cd wordpress && pnpm install",
