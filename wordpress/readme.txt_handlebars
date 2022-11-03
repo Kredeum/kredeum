@@ -1,7 +1,7 @@
-=== Kredeum NFTs, The easiest way to sell your content to NFTs Marketplaces ===
+=== Kredeum NFTs, The easiest way to sell your NFTs directly on your wordpress site ===
 Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
-Tags: nft, blockchain, ethereum, ipfs
+Tags: nft, blockchain, ethereum, polygon, ipfs
 Requires at least: 5.0
 Tested up to: 6.0.3
 Stable tag: {{version.stable}}
@@ -9,42 +9,44 @@ Requires PHP: 7.3
 License: GPLv3 or later
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
-Convert, archive & sell your content (media, texts, …) to NFTs Marketplaces in an easy and fast way.
+Sell your NFTs directly on your wordpress site in an easy and fast way.
 
 == Description ==
 
 The Wordpress Kredeum NTFs plugin allows you to:
-* Store all your medias in IPFS (decentralised storage technology), protecting your medias to be lost in case of any hosting server issues. 
-* Create your own NFT collections
+* Store all your medias in IPFS (decentralised storage technology) for free, protecting your medias to be lost in case of any hosting server issues.
+* Create your own NFT collections (Basic = OpenNFTs, Royalties = AutoMarket)
 * Create your own NFTs
-* Associate your collections / NFTs to one of these blockchains: [Polygon / Matic blockchain](https://matic.network/), Bsc (Binance Smart Chain), Fantom, Avalanche for a transaction cheap cost, Ethereum (soon) 
-* Add in one click your Kredeum NFTs to the OpenSea NFT marketplace [OpenSea](https://opensea.io/)
+* Associate your collections / NFTs to one of these blockchains: mainnet Ethereum, Matic, Arbitrum, Optimism, xDAI, BSC (Binance Smart Chain), Fantom or Avalanche networks
 * Add a sell NFT shortcode button in your pages / posts
-* Sell your media NFTs on OpenSea NFT marketplace
+* Sell your NFTs directly on your wordpress site
+* Add a View NFT shortcode button in your pages / posts to redirect to OpenSea NFT marketplace [OpenSea](https://opensea.io/)
 
 Please don’t hesitate to contact us if you have any questions by email contact@kredeum.com or by joining us on Discord https://discord.gg/Vz5AyU2Nfx
 
 == Useful links / docs ==
 
 * [Read Kredeum NFTs documentation, installation and user guide](https://docs.kredeum.tech/)
-* [Watch Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=gRhz99FiEUs)
+* [Watch Baic Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=gRhz99FiEUs)
+* [Watch AutoMarket Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=2c5XAWlqfkI)
 
 == Pre-requirements ==
 
 1. Need to install Metamask extension on your chrome browser + create Metamask account: https://metamask.io/download.html
-2. Buy native cryptocurrency Polygon / Matic, Fantom, Avalanche, BSC for cheap transactions or Ethereum (soon) and transfer your new tokens to your Metamask account. Careful native cryptocurrencies are different from Ethereum tokens. You can use bridges to buy native cryptocurrencies like [Polygon bridge](https://wallet.polygon.technology) or [direct onramp solutions](https://global.transak.com/)
+2. Buy native cryptocurrency Ethereum, Matic, Arbitrum, Optimism, xDAI, BSC (Binance Smart Chain), Fantom or Avalanche and transfer your new tokens to your Metamask account. Careful native cryptocurrencies are different from Ethereum tokens. You can use bridges to buy native cryptocurrencies like [Polygon bridge](https://wallet.polygon.technology) or [direct onramp solutions](https://global.transak.com/)
 
 == How can you create your own collections? ==
 
-1. In the back-office, go to NFTs > “NFTs Kredeum” page
-2. Click on “Mint” button
-3. Click on “Add a new collection”
+1. In the back-office, go to NFTs > “My NFTs” page
+2. Click on Create button
+3. Click on “Create collection”
+4. Define the type of collection you wish as described here https://docs.kredeum.tech/sell-your-nfts-on-your-sites
 
 == How can you create your own NFTs? ==
 
 Option 1
-1. In the back-office, go to NFTs > “NFTs Kredeum” page
-2. Click on “Mint” button
+1. In the back-office, go to NFTs > “My NFTs” page
+2. Click on Create button
 3. Click on “Mint NFT”
 
 Option 2
@@ -52,14 +54,20 @@ Option 2
 
 == How can you sell one of your wordpress media? ==
 
-1. In the back-office, go to NFTs > “NFTs Kredeum” page
-2. Click on Sell button to be redirected to OpenSea NFT page and configure your NFT price / availability
-3. Click on Copy NFT shortcode and paste it in your worpdress posts / pages
-4. Kredeum NFT shortcode is a button that redirect users to the dedicated OpenSea NFT page
+1. In the back-office, go to NFTs > “My NFTs” page
+2. Select a network and a collection
+3. Click on a NFT
+4. (if AutoMarket Collection) Click on "Sell", define a price and click it on "Modify Listing"
+5. Click on "Get Shortcode"
+6. (if AutoMarket Collection) Click on "Copy" for "SELL ON YOUR WORDPRESS SITE WITH THIS SHORTCODE"
+7. (if Basic collection) Click on "Copy" for "VIEW ON OPENSEA FROM YOUR WORDPRESS SITE WITH THIS SHORTCODE"
+8. Paste the shortcode inside your posts or pages
+9. Users can now buy your NFTs directly on your wordpress for all your AutoMarket NFTs!
 
 == Are NFTs accessible outside my wordpress back-office site ? ==
 
-You can access them with our [Kredeum DAPP](https://beta.kredeum.com/). You can even create them directly in our DAPP.
+You can access them with our [Kredeum DAPP](https://beta.kredeum.com/).
+You can even add your NFTs in any websites you want by using Kredeum "Buy snippet" as described https://docs.kredeum.tech/sell-your-nfts-on-your-sites. The "Buy snippet" is accessible in the wordpress back-office > "NFTs" item menu > “My NFTs” page > NFT > "Get Shortcode" > "SELL ON YOUR WEBSITE WITH THIS BUY SNIPPET" !
 
 
 == Changelog ==
