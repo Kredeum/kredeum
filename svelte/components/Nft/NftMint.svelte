@@ -97,7 +97,7 @@
     price = BigNumber.from(collection?.price || 0);
   };
 
-  $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
+  // $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
 
   /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}

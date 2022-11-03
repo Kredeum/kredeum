@@ -274,7 +274,7 @@
           </p>
 
           <ul class="steps">
-            {#if $nft.collection.supports.IOpenAutoMarket}
+            {#if nftMarketable}
               <li>
                 <div class="flex">
                   <span class="label">SELL on your website with this buy snippet</span>

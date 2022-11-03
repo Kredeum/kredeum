@@ -193,7 +193,7 @@
 
       <div>
         {#if cloning == S1_CONFIRM}
-          <CollectionTemplates bind:template bind:minRoyalty />
+          <CollectionTemplates bind:template />
 
           <div class="titre">Name your Collection</div>
 

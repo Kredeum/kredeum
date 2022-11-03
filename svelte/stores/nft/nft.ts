@@ -44,13 +44,18 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
   const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
   // console.log("nftRefresh ~ _coll", _coll);
 
-  // const _nftOld = get(nftListStore).get(nftGetKey(chainId, address, tokenID));
-  const _nftLib = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
+  if (_coll.supports?.IERC1155) return;
+  try {
+    // const _nftOld = get(nftListStore).get(nftGetKey(chainId, address, tokenID));
+    const _nftLib = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
 
-  // Object.assign(_nftLib, _nftOld);
+    // Object.assign(_nftLib, _nftOld);
 
-  console.log("nftRefresh _nftLib", _nftLib);
-  nftSetOne(_nftLib);
+    console.log("nftRefresh _nftLib", _nftLib);
+    nftSetOne(_nftLib);
+  } catch (err) {
+    console.error("nftRefresh", err);
+  }
 };
 
 // STATE VIEW : GET one Nft

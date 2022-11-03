@@ -1,8 +1,8 @@
 <script lang="ts">
   export let template = "OpenAutoMarket/ownable";
-  export let minRoyalty = true;
+  // export let minRoyalty = true;
 
-  let generic = false;
+  // let generic = false;
 
   const templates = new Map([
     [
@@ -98,7 +98,7 @@
 </div>
 
 <style>
-  input[type="checkbox"] {
+  /* input[type="checkbox"] {
     -webkit-appearance: none;
     -moz-appearance: none;
     -ms-appearance: none;
@@ -120,7 +120,7 @@
     color: grey;
     font-size: 13px;
     position: absolute;
-  }
+  } */
 
   :global(.admin-bar .modal-body input[type="checkbox"]:checked:before) {
     margin: 0;

@@ -41,7 +41,7 @@
 </script>
 
 <!-- {tokenID} -->
-<div on:click={(evt) => handleClick(evt)} on:keydown={(evt) => handleClick(evt)}>
+<div on:click={handleClick} on:keydown={handleClick}>
   {#if tokenID !== ""}
     <h2 class="m-b-20 return">
       <i class="fa fa-arrow-left fa-left" />

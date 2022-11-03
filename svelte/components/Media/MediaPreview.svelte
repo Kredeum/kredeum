@@ -21,12 +21,13 @@
   $: metadatas = nft?.metadata;
 
   const handleClose = () => (open = false);
-  const handlemetadatas = () =>
-    !metadatas?.animation_url
-      ? (open = true)
-      : $toPlayTokenID !== nft.tokenID
-      ? ($toPlayTokenID = nft.tokenID)
-      : ($toPlayTokenID = "");
+  const handlemetadatas = () => {
+    if (metadatas?.animation_url) {
+      $toPlayTokenID = $toPlayTokenID !== nft.tokenID ? nft.tokenID : "";
+    } else {
+      open = true;
+    }
+  };
 
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
 </script>
