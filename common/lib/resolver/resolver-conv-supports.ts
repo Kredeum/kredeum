@@ -37,8 +37,8 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
     IERC165: checks[i++],
 
     IERC721: checks[i++],
-    IERC721Enumerable: checks[i++],
     IERC721Metadata: checks[i++],
+    IERC721Enumerable: checks[i++],
     IERC721TokenReceiver: checks[i++],
 
     IERC1155: checks[i++],
