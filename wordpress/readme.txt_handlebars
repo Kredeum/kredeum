@@ -71,7 +71,10 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-= 0.17.1 (latest/stable) =
+= 0.17.2 (latest/stable) =
+* Fix one bug : some collections did'nt display 
+
+= 0.17.1 =
 * Various fixes 
 
 = 0.17.0 =
