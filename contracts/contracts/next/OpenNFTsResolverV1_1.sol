@@ -6,13 +6,13 @@
 //        |
 //  OpenNFTsResolver —— IOpenNFTsResolver
 //
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 import "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";
-import "../contracts/interfaces/IOpenNFTsResolver.sol";
-import "../contracts/interfaces/IAll.sol";
+import "../interfaces/IOpenNFTsResolver.sol";
+import "../interfaces/IAll.sol";
 
-contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
+contract OpenNFTsResolverV1_1 is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](12);
 
     uint8 private constant _IERC_2981 = 10;
@@ -68,7 +68,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         view
         override (IOpenNFTsResolver)
         returns (
-            NftInfos[] memory nftInfos,
+            NftInfos[] memory nftsInfos,
             OpenNFTsNftInfos[] memory openNTFsNftInfos,
             CollectionInfos memory collectionInfos,
             uint256 count,
@@ -77,11 +77,11 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     {
         collectionInfos = OpenGetter._getCollectionInfos(collection, account, _interfaceIds);
 
-        (nftInfos, count, total) = OpenGetter.getNftsInfos(collection, account, limit, offset);
+        (nftsInfos, count, total) = OpenGetter.getNftsInfos(collection, account, limit, offset);
 
-        openNTFsNftInfos = new OpenNFTsNftInfos[](nftInfos.length);
-        for (uint256 i = 0; i < nftInfos.length; i++) {
-            openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, nftInfos[i].tokenID, collectionInfos.supported);
+        openNTFsNftInfos = new OpenNFTsNftInfos[](nftsInfos.length);
+        for (uint256 i = 0; i < nftsInfos.length; i++) {
+            openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, nftsInfos[i].tokenID, collectionInfos.supported);
         }
     }
 
@@ -90,14 +90,14 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         view
         override (IOpenNFTsResolver)
         returns (
-            NftInfos[] memory nftInfos,
+            NftInfos[] memory nftsInfos,
             OpenNFTsNftInfos[] memory openNTFsNftInfos,
             CollectionInfos memory collectionInfos
         )
     {
         collectionInfos = OpenGetter._getCollectionInfos(collection, address(0), _interfaceIds);
 
-        nftInfos = OpenGetter.getNftsInfos(collection, tokenIDs, account);
+        nftsInfos = OpenGetter.getNftsInfos(collection, tokenIDs, account);
         openNTFsNftInfos = new OpenNFTsNftInfos[](tokenIDs.length);
         for (uint256 i = 0; i < tokenIDs.length; i++) {
             openNTFsNftInfos[i] = _getOpenNFTsNftInfos(collection, tokenIDs[i], collectionInfos.supported);
@@ -171,13 +171,13 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function _getOpenNFTsNftInfos(address collection, uint256 tokenID, bool[] memory supported)
         internal
         view
-        returns (OpenNFTsNftInfos memory nftInfos)
+        returns (OpenNFTsNftInfos memory openNftInfos)
     {
         if (supported[_IOPEN_MARKETABLE]) {
-            nftInfos.receiver = IOpenMarketable(payable(collection)).getTokenRoyalty(tokenID);
-            nftInfos.price = IOpenMarketable(payable(collection)).getTokenPrice(tokenID);
+            openNftInfos.receiver = IOpenMarketable(payable(collection)).getTokenRoyalty(tokenID);
+            openNftInfos.price = IOpenMarketable(payable(collection)).getTokenPrice(tokenID);
         } else if (supported[_IERC_2981]) {
-            (nftInfos.receiver.account,) = IERC2981(payable(collection)).royaltyInfo(tokenID, 1);
+            (openNftInfos.receiver.account,) = IERC2981(payable(collection)).royaltyInfo(tokenID, 1);
         }
     }
 

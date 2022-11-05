@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -12,7 +12,11 @@ import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
 import "./OpenNFTsFactoryV3CloneTest.t.sol";
 
 contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
-    function constructorTest(address owner) public override(ERC173Test, OpenNFTsFactoryV3CloneTest) returns (address) {
+    function constructorTest(address owner)
+        public
+        override (ERC173Test, OpenNFTsFactoryV3CloneTest)
+        returns (address)
+    {
         changePrank(owner);
 
         // FACTORY

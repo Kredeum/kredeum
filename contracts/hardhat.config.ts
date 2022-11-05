@@ -92,13 +92,16 @@ const config: HardhatUserConfig = {
   solidity: {
     compilers: [
       {
-        version: "0.8.9",
+        version: "0.8.17",
         settings: {
           optimizer: {
             enabled: true,
             runs: 200
           }
         }
+      },
+      {
+        version: "0.8.9"
       },
       {
         version: "0.8.7"
@@ -115,7 +118,7 @@ const config: HardhatUserConfig = {
     deployments: "../common/deployments",
     tests: "tests",
     imports: "lib",
-    cache: "cache",
+    cache: "cache-hardhat",
     artifacts: "artifacts"
   },
 

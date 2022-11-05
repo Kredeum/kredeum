@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -21,13 +21,13 @@ contract OpenNFTsV4Test is
 {
     function constructorTest(address owner)
         public
-        override(ERC721FullTest, ERC173Test, OpenNFTsV4SupportsTest, OpenNFTsV4MintTest)
+        override (ERC721FullTest, ERC173Test, OpenNFTsV4SupportsTest, OpenNFTsV4MintTest)
         returns (address)
     {
         return constructorTest(owner, true);
     }
 
-    function constructorTest(address owner, bool init) public override(OpenNFTsV4InitializeTest) returns (address) {
+    function constructorTest(address owner, bool init) public override (OpenNFTsV4InitializeTest) returns (address) {
         changePrank(owner);
         bool[] memory options = new bool[](1);
         options[0] = true;
@@ -35,10 +35,7 @@ contract OpenNFTsV4Test is
         OpenNFTsV4 collection = new OpenNFTsV4();
         if (init) {
             collection.initialize(
-                "OpenNFTsV4Test",
-                "OPTEST",
-                owner,
-                abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
+                "OpenNFTsV4Test", "OPTEST", owner, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
             );
         }
 
@@ -47,14 +44,14 @@ contract OpenNFTsV4Test is
 
     function mintTest(address collection, address minter)
         public
-        override(ERC721FullTest)
+        override (ERC721FullTest)
         returns (uint256, string memory)
     {
         changePrank(minter);
         return (OpenNFTsV4(collection).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override(ERC721FullTest) {
+    function burnTest(address collection, uint256 tokenID) public override (ERC721FullTest) {
         console.log("burnTest ~ tokenID", tokenID);
         changePrank(OpenNFTsV4(collection).ownerOf(tokenID));
         OpenNFTsV4(collection).burn(tokenID);

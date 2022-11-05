@@ -3,7 +3,8 @@ node_modules
 
 # SOLIDITY
 artifacts
-cache
+cache-hardhat
+cache-forge
 docs
 out
 

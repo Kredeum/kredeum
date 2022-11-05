@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -26,12 +26,8 @@ abstract contract OpenNFTsFactoryV3CloneTest is Test, IOpenReceiverInfos {
         bool[] memory options = new bool[](1);
         options[0] = true;
 
-        _clone = OpenNFTsFactoryV3(_factory).clone(
-            "NFT test",
-            "NFT",
-            "OpenNFTsV4",
-            abi.encode(0, address(0), 0, options)
-        );
+        _clone =
+            OpenNFTsFactoryV3(_factory).clone("NFT test", "NFT", "OpenNFTsV4", abi.encode(0, address(0), 0, options));
 
         assertTrue(OpenNFTsV4(_clone).initialized());
         assertEq(OpenNFTsV4(_clone).name(), "NFT test");
@@ -43,15 +39,12 @@ abstract contract OpenNFTsFactoryV3CloneTest is Test, IOpenReceiverInfos {
         options[1] = false;
 
         _clone = OpenNFTsFactoryV3(_factory).clone(
-            "NFT test",
-            "NFT",
-            "OpenAutoMarket",
-            abi.encode(42000000000, _tester, 420, options)
+            "NFT test", "NFT", "OpenAutoMarket", abi.encode(42_000_000_000, _tester, 420, options)
         );
         assertEq(OpenAutoMarket(payable(_clone)).name(), "NFT test");
         assertEq(OpenAutoMarket(payable(_clone)).symbol(), "NFT");
 
-        assertEq(OpenAutoMarket(payable(_clone)).getMintPrice(), 42000000000);
+        assertEq(OpenAutoMarket(payable(_clone)).getMintPrice(), 42_000_000_000);
 
         ReceiverInfos memory receiver = OpenAutoMarket(payable(_clone)).getDefaultRoyalty();
         assertEq(receiver.account, _tester);

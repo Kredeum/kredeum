@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "OpenNFTs/contracts/interfaces/IERC165.sol";
 
@@ -48,7 +48,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice Main and only function to calculate Interface Ids
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
-    function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
+    function ids() external pure override (IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         uint256 i;
         uint256 imax = 28;
 

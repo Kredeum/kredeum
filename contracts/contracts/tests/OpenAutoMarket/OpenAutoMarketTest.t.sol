@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -38,7 +38,7 @@ contract OpenAutoMarketTest is
 
     function constructorTest(address owner)
         public
-        override(
+        override (
             ERC721TransferableTest,
             ERC173Test,
             ERC2981Test,
@@ -56,7 +56,11 @@ contract OpenAutoMarketTest is
         return constructorTest(owner, true);
     }
 
-    function constructorTest(address owner, bool init) public override(OpenAutoMarketInitializeTest) returns (address) {
+    function constructorTest(address owner, bool init)
+        public
+        override (OpenAutoMarketInitializeTest)
+        returns (address)
+    {
         changePrank(owner);
         bool[] memory options = new bool[](2);
         options[0] = true;
@@ -77,7 +81,7 @@ contract OpenAutoMarketTest is
 
     function mintTest(address collection, address minter)
         public
-        override(
+        override (
             OpenAutoMarketBuyTest,
             OpenNFTsTest,
             OpenNFTsBurnTest,
@@ -93,27 +97,23 @@ contract OpenAutoMarketTest is
         return (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
+    function burnTest(address collection, uint256 tokenID) public override (OpenNFTsTest, OpenNFTsBurnTest) {
         changePrank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
         OpenAutoMarket(payable(collection)).burn(tokenID);
     }
 
-    function setPriceTest(
-        address collection,
-        uint256 tokenID,
-        uint256 price
-    ) public {
+    function setPriceTest(address collection, uint256 tokenID, uint256 price) public {
         // changePrank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
         OpenAutoMarket(payable(collection)).setTokenPrice(tokenID, price);
     }
 
-    function setRoyaltyTest(
-        address collection,
-        address receiver,
-        uint96 fee
-    ) public override(ERC2981Test, OpenMarketableTest) returns (uint256 tokenID) {
+    function setRoyaltyTest(address collection, address receiver, uint96 fee)
+        public
+        override (ERC2981Test, OpenMarketableTest)
+        returns (uint256 tokenID)
+    {
         changePrank(OpenAutoMarket(payable(collection)).owner());
-        (tokenID, ) = (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
+        (tokenID,) = (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
         OpenAutoMarket(payable(collection)).setTokenRoyalty(tokenID, receiver, fee);
     }
 

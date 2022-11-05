@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -19,6 +19,7 @@ contract OpenProof is
     OwnableUpgradeable
 {
     using CountersUpgradeable for CountersUpgradeable.Counter;
+
     CountersUpgradeable.Counter private _tokenIds;
 
     event Attest(address indexed to, uint256 indexed tokenId);
@@ -34,11 +35,7 @@ contract OpenProof is
     /// @param symbol symbol of the NFT Collection
     /// @param owner owner of the NFT Collection
     // solhint-disable-next-line comprehensive-interface
-    function initialize(
-        string memory name,
-        string memory symbol,
-        address owner
-    ) external initializer {
+    function initialize(string memory name, string memory symbol, address owner) external initializer {
         __Ownable_init();
         __ERC721_init(name, symbol);
         transferOwnership(owner);
@@ -49,7 +46,7 @@ contract OpenProof is
     /// @param jsonURI json URI of NFT metadata
     function mintOpenProof(address to, string memory jsonURI)
         external
-        override(IOpenProof)
+        override (IOpenProof)
         onlyMinter
         returns (uint256 tokenId)
     {
@@ -66,7 +63,7 @@ contract OpenProof is
     function tokenURI(uint256 tokenId)
         public
         view
-        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
+        override (ERC721Upgradeable, ERC721URIStorageUpgradeable)
         returns (string memory tokenURI_)
     {
         tokenURI_ = super.tokenURI(tokenId);
@@ -77,24 +74,22 @@ contract OpenProof is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        override (ERC721Upgradeable, ERC721EnumerableUpgradeable)
         returns (bool)
     {
-        return
-            interfaceId == type(IERC173).interfaceId ||
-            interfaceId == type(IERC4973).interfaceId ||
-            super.supportsInterface(interfaceId);
+        return interfaceId == type(IERC173).interfaceId || interfaceId == type(IERC4973).interfaceId
+            || super.supportsInterface(interfaceId);
     }
 
     function _afterTokenTransfer(
         address, // from,
         address to,
         uint256 tokenId
-    ) internal override(ERC721Upgradeable) {
+    ) internal override (ERC721Upgradeable) {
         emit Attest(to, tokenId);
     }
 
-    function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+    function _burn(uint256 tokenId) internal override (ERC721Upgradeable, ERC721URIStorageUpgradeable) {
         super._burn(tokenId);
     }
 
@@ -102,7 +97,7 @@ contract OpenProof is
         address from,
         address, // to,
         uint256 // tokenId
-    ) internal pure override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+    ) internal pure override (ERC721Upgradeable, ERC721EnumerableUpgradeable) {
         require(from == address(0), "Non transferable NFT");
     }
 }

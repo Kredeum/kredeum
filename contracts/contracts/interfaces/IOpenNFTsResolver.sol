@@ -1,15 +1,10 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 import "../interfaces/IOpenNFTsInfos.sol";
 
 interface IOpenNFTsResolver is IOpenNFTsInfos {
-    function getOpenNFTsNftsInfos(
-        address collection,
-        address account,
-        uint256 limit,
-        uint256 offset
-    )
+    function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)
         external
         view
         returns (
@@ -20,11 +15,7 @@ interface IOpenNFTsResolver is IOpenNFTsInfos {
             uint256 total
         );
 
-    function getOpenNFTsNftsInfos(
-        address collection,
-        uint256[] memory tokenIDs,
-        address account
-    )
+    function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs, address account)
         external
         view
         returns (
@@ -33,11 +24,7 @@ interface IOpenNFTsResolver is IOpenNFTsInfos {
             CollectionInfos memory collectionInfos
         );
 
-    function getOpenNFTsNftInfos(
-        address collection,
-        uint256 tokenID,
-        address account
-    )
+    function getOpenNFTsNftInfos(address collection, uint256 tokenID, address account)
         external
         view
         returns (

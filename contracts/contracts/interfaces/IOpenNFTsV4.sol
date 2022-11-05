@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 interface IOpenNFTsV4 {
     function mint(string memory tokenURI) external returns (uint256 tokenID);

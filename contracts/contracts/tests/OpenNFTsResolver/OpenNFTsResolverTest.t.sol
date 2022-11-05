@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -24,7 +24,7 @@ contract OpenNFTsResolverTest is
 {
     function constructorTest(address owner)
         public
-        override(
+        override (
             OpenResolverTest,
             OpenGetterTest,
             OpenCheckerTest,

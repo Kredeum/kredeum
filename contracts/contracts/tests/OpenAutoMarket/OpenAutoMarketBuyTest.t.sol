@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "forge-std/Test.sol";
 
@@ -23,11 +23,10 @@ abstract contract OpenAutoMarketBuyTest is Test {
     function setUpOpenNFTsBuy() public {
         _collection = payable(constructorTest(_owner));
 
-        (_tokenID0, ) = mintTest(_collection, _owner);
+        (_tokenID0,) = mintTest(_collection, _owner);
     }
 
     function testBuyOk() public {
-
         changePrank(_owner);
         IERC721(_collection).setApprovalForAll(_collection, true);
 
@@ -44,8 +43,8 @@ abstract contract OpenAutoMarketBuyTest is Test {
         assertEq(_buyer.balance, 9 ether);
         assertEq(_collection.balance, 0 ether);
         assertEq(_tester.balance, 0.01 ether);
-        assertEq(_owner.balance,  0.981 ether);
-        assertEq(makeAddr("treasury").balance,  0.009 ether);
+        assertEq(_owner.balance, 0.981 ether);
+        assertEq(makeAddr("treasury").balance, 0.009 ether);
     }
 
     function testFailBuyTwice() public {

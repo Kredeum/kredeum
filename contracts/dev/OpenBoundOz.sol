@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -28,20 +28,16 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
         _;
     }
 
-    constructor(
-        string memory name,
-        string memory symbol,
-        uint256 maxSupply_
-    ) ERC721(name, symbol) {
+    constructor(string memory name, string memory symbol, uint256 maxSupply_) ERC721(name, symbol) {
         maxSupply = maxSupply_;
     }
 
-    function togglePause() external override(IOpenPauseable) onlyOwner {
+    function togglePause() external override (IOpenPauseable) onlyOwner {
         paused = !paused;
         emit SetPaused(paused, msg.sender);
     }
 
-    function burn(uint256 tokenID) external override(IOpenBoundOz) {
+    function burn(uint256 tokenID) external override (IOpenBoundOz) {
         address owner = ownerOf(tokenID);
         require(owner == msg.sender, "Not owner");
 
@@ -61,7 +57,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
         delete _tokenOfOwner[owner];
     }
 
-    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256) {
+    function tokenByIndex(uint256 index) external view override (IERC721Enumerable) returns (uint256) {
         require(index < _tokens.length, "Invalid index");
 
         return _tokens[index];
@@ -70,7 +66,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
     function tokenOfOwnerByIndex(address owner, uint256 index)
         external
         view
-        override(IERC721Enumerable)
+        override (IERC721Enumerable)
         returns (uint256)
     {
         require(index == 0 && balanceOf(owner) == 1, "Invalid index");
@@ -78,7 +74,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
         return _tokenOfOwner[owner];
     }
 
-    function mint(uint256 cid) public override(IOpenBoundOz) whenNotPaused returns (uint256) {
+    function mint(uint256 cid) public override (IOpenBoundOz) whenNotPaused returns (uint256) {
         require((maxSupply == 0) || totalSupply() < maxSupply, "Max supply reached");
         require(balanceOf(msg.sender) == 0, "Already minted or claimed");
 
@@ -94,39 +90,36 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
         return tokenID;
     }
 
-    function claim(uint256 tokenID, uint256 cid) public override(IOpenBoundOz) whenNotPaused {
+    function claim(uint256 tokenID, uint256 cid) public override (IOpenBoundOz) whenNotPaused {
         require(tokenID == getMyTokenID(cid), "Not owner");
         mint(cid);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override(ERC721) returns (bool) {
-        return
-            interfaceId == type(IOpenBoundOz).interfaceId ||
-            interfaceId == type(IOpenPauseable).interfaceId ||
-            interfaceId == type(IERC173).interfaceId ||
-            interfaceId == type(IERC721Enumerable).interfaceId ||
-            super.supportsInterface(interfaceId);
+    function supportsInterface(bytes4 interfaceId) public view override (ERC721) returns (bool) {
+        return interfaceId == type(IOpenBoundOz).interfaceId || interfaceId == type(IOpenPauseable).interfaceId
+            || interfaceId == type(IERC173).interfaceId || interfaceId == type(IERC721Enumerable).interfaceId
+            || super.supportsInterface(interfaceId);
     }
 
-    function getMyTokenID(uint256 cid) public view override(IOpenBoundOz) returns (uint256) {
+    function getMyTokenID(uint256 cid) public view override (IOpenBoundOz) returns (uint256) {
         return getTokenID(cid, msg.sender);
     }
 
-    function getCID(uint256 tokenID) public view override(IOpenBoundOz) returns (uint256) {
+    function getCID(uint256 tokenID) public view override (IOpenBoundOz) returns (uint256) {
         return _cidOfToken[tokenID];
     }
 
-    function totalSupply() public view override(IERC721Enumerable) returns (uint256) {
+    function totalSupply() public view override (IERC721Enumerable) returns (uint256) {
         return _tokens.length;
     }
 
-    function tokenURI(uint256 tokenID) public view override(ERC721) returns (string memory) {
+    function tokenURI(uint256 tokenID) public view override (ERC721) returns (string memory) {
         require(_exists(tokenID), "NFT doesn't exists");
 
         return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(getCID(tokenID))));
     }
 
-    function getTokenID(uint256 cid, address addr) public pure override(IOpenBoundOz) returns (uint256) {
+    function getTokenID(uint256 cid, address addr) public pure override (IOpenBoundOz) returns (uint256) {
         return _tokenID(cid, addr);
     }
 
@@ -138,7 +131,7 @@ contract OpenBoundOz is ERC721, IOpenBoundOz, IERC721Enumerable, IOpenPauseable,
         address from,
         address to,
         uint256 // tokenId
-    ) internal pure override(ERC721) {
+    ) internal pure override (ERC721) {
         require(from == address(0) || to == address(0), "Non transferable NFT");
     }
 }

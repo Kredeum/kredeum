@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 interface IOpenNFTsFactoryV3 {
     event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol);
@@ -14,12 +14,9 @@ interface IOpenNFTsFactoryV3 {
 
     function setTemplate(string memory templateName, address template) external;
 
-    function clone(
-        string memory name,
-        string memory symbol,
-        string memory templateName,
-        bytes memory params
-    ) external returns (address);
+    function clone(string memory name, string memory symbol, string memory templateName, bytes memory params)
+        external
+        returns (address);
 
     function template(string memory templateName) external view returns (address);
 

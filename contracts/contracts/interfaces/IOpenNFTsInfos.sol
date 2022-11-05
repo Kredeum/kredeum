@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 import "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
 import "OpenNFTs/contracts/interfaces/IOpenReceiverInfos.sol";

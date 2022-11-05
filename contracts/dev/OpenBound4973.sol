@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.9;
+pragma solidity 0.8.17;
 
 import "../interfaces/IOpenBound4973.sol";
 import "OpenNFTs/contracts/interfaces/IERC4973.sol";
@@ -33,17 +33,17 @@ contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, 
         owner = msg.sender;
     }
 
-    function transferOwnership(address newOwner) external override(IERC173) {
+    function transferOwnership(address newOwner) external override (IERC173) {
         address oldOwner = owner;
         owner = newOwner;
         emit OwnershipTransferred(oldOwner, newOwner);
     }
 
-    function ownerOf(uint256 tokenID) external view override(IERC4973) returns (address nftOwner) {
+    function ownerOf(uint256 tokenID) external view override (IERC4973) returns (address nftOwner) {
         nftOwner = _owners[tokenID];
     }
 
-    function tokenByIndex(uint256 index) external view override(IERC721Enumerable) returns (uint256 tokenID) {
+    function tokenByIndex(uint256 index) external view override (IERC721Enumerable) returns (uint256 tokenID) {
         require(index < _tokens.length, "Invalid index");
         tokenID = _tokens[index];
         // require(_exists(tokenID), "NFT doesn't exists");
@@ -52,7 +52,7 @@ contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, 
     function tokenOfOwnerByIndex(address addr, uint256 index)
         external
         view
-        override(IERC721Enumerable)
+        override (IERC721Enumerable)
         returns (uint256 tokenID)
     {
         require(index < _tokens.length, "Invalid index");
@@ -60,11 +60,11 @@ contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, 
         // require(_exists(tokenID), "NFT doesn't exists");
     }
 
-    function mint(uint256 tokenID) public override(IOpenBound4973) {
+    function mint(uint256 tokenID) public override (IOpenBound4973) {
         _mint(msg.sender, tokenID);
     }
 
-    function mint(address addr, uint256 tokenID) public override(IOpenBound4973) onlyOwner {
+    function mint(address addr, uint256 tokenID) public override (IOpenBound4973) onlyOwner {
         _mint(addr, tokenID);
     }
 
@@ -75,7 +75,7 @@ contract OpenBound4973 is IOpenBound4973, IERC4973, IERC173, IERC721Enumerable, 
     //     emit Revoke(address(0), tokenID);
     // }
 
-    function tokenURI(uint256 tokenId) public view override(IERC721Metadata) returns (string memory) {
+    function tokenURI(uint256 tokenId) public view override (IERC721Metadata) returns (string memory) {
         require(_exists(tokenId), "NFT doesn't exists");
 
         return string(abi.encodePacked(_BASE_URI, Bafkrey.uint256ToCid(tokenId)));

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.9;
+pragma solidity ^0.8.17;
 
 interface INFTsFactoryV2 {
     struct NftData {
@@ -11,12 +11,9 @@ interface INFTsFactoryV2 {
         uint256 totalSupply;
     }
 
-    function clone(
-        string memory name,
-        string memory symbol,
-        string memory templateName,
-        bool[] memory options
-    ) external returns (address);
+    function clone(string memory name, string memory symbol, string memory templateName, bool[] memory options)
+        external
+        returns (address);
 
     function balancesOf(address owner) external view returns (NftData[] memory);
 }
