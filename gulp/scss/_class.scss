@@ -310,6 +310,9 @@ select {
     background: $couleur1;
     color: $white;
   }
+  .box-field:disabled + label {
+    opacity: 0.5;
+  }
 }
 
 .tag,

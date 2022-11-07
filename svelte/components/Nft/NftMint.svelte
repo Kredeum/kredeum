@@ -100,6 +100,19 @@
   // $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
 
   /////////////////////////////////////////////////
+  let inputMediaType = "image";
+
+  const imageSupport = "image/png, image/jpeg, image/webp, image/svg+xml, image/bmp, image/x-icon";
+  const gifSupport = "image/gif";
+
+  let acceptedMediaType = imageSupport;
+
+  $: inputMediaType && handleMediaTypes();
+  const handleMediaTypes = () => {
+    acceptedMediaType = inputMediaType === "image" ? imageSupport : inputMediaType === "gif" ? gifSupport : "";
+  };
+
+  /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
   const fileload = () => {
     file = null;
@@ -251,21 +264,31 @@
                     class="box-field"
                     id="create-type-video"
                     name="media-type"
-                    type="checkbox"
-                    value="Video"
+                    type="radio"
+                    value="video"
                     disabled
                   />
                   <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
                   <input
+                    bind:group={inputMediaType}
                     class="box-field"
                     id="create-type-picture"
                     name="media-type"
-                    type="checkbox"
-                    value="Picture"
-                    checked
+                    type="radio"
+                    value="image"
                   />
                   <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
+
+                  <input
+                    bind:group={inputMediaType}
+                    class="box-field"
+                    id="create-type-gif"
+                    name="media-type"
+                    type="radio"
+                    value="gif"
+                  />
+                  <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
 
                   <input
                     class="box-field"
@@ -310,7 +333,14 @@
                       >
                     </div>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      bind:files
+                      on:change={fileload}
+                      accept={acceptedMediaType}
+                    />
                   {/if}
                 </div>
               </div>
