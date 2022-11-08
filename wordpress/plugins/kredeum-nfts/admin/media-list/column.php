@@ -34,11 +34,11 @@ add_action(
 		}
 
 		if ( 'kre-nft' === $name ) {
-			$nid = "";
+			$nid = '';
 			if ( $post->_kre_nid ) {
 				$nid = $post->_kre_nid;
 			}
-			
+
 			$metadata = get_metadata( 'post', $post->ID );
 
 			printf(
