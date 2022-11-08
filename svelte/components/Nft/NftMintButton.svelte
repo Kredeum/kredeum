@@ -3,7 +3,7 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import { explorerTxLog, ipfsGatewayLink, urlToLink, kredeumNftWpUrl } from "@lib/common/kconfig";
+  import { explorerTxLog, ipfsGatewayLink, urlToLink, kredeumNftWpUrl, ipfsLinkToCid } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
@@ -28,6 +28,8 @@
   let ipfsImage: string;
 
   let address: Readable<string>;
+
+  let refThis: HTMLElement;
 
   const nftMintTexts = [
     "Mint",
@@ -83,6 +85,13 @@
       mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, ipfsJson, signerAddress);
       // console.log("mintedNft", mintedNft);
 
+      // Dispacth "token" event to be catched in wordpress/plugins/kredeum-nfts/admin/ajax/ajax.js
+      const event = new CustomEvent("token", {
+        detail: { nid: mintedNft.nid, pid: pid, cid: ipfsLinkToCid(mintedNft.ipfs) },
+        bubbles: true
+      });
+      refThis.dispatchEvent(event);
+
       minting = 5;
     } else {
       console.error("KredeumNftsMint ERROR : no src or collection address, impossible to mint!", src, $address);
@@ -92,7 +101,7 @@
   };
 </script>
 
-<main id="kredeum-mint">
+<main id="kredeum-mint" bind:this={refThis}>
   {#if display && src}
     <img {src} {alt} {width} /><br />
   {/if}

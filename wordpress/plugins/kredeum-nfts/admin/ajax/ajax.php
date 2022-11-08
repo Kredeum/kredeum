@@ -28,10 +28,13 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-token', 'security' );
 
-		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
+		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) && isset( $_POST['cid'] ) ) {
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			 add_post_meta( $pid, '_kre_nid', $nid, true );
+			$cid = sanitize_text_field( wp_unslash( $_POST['cid'] ) );
+			add_post_meta( $pid, '_kre_nid', $nid, true );
+			update_post_meta( $pid, '_kre_cid', $cid );
+
 		};
 
 		echo esc_html( "wp_ajax_token $pid $nid" );
