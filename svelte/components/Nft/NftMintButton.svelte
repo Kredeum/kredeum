@@ -3,7 +3,14 @@
 
   import type { NftType } from "@lib/common/ktypes";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import { explorerTxLog, ipfsGatewayLink, urlToLink, kredeumNftWpUrl, ipfsLinkToCid } from "@lib/common/kconfig";
+  import {
+    explorerTxLog,
+    ipfsGatewayLink,
+    urlToLink,
+    kredeumNftWpUrl,
+    ipfsLinkToCid,
+    nidTokredeumNftWPUrl
+  } from "@lib/common/kconfig";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";
@@ -18,6 +25,7 @@
   export let metadata: string = "{}";
   export let alt: string = undefined;
   export let pid: string = undefined;
+  export let nid: string = undefined;
   export let width = 100;
   export let display = false;
   /////////////////////////////////////////////////
@@ -46,10 +54,10 @@
     // console.log("handleChange ~ address", $address);
   };
 
-  // const sell = (e: Event): void => {
-  //   e.preventDefault();
-  //   location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
-  // };
+  const nftLink = (e: Event): void => {
+    e.preventDefault();
+    location.href = nidTokredeumNftWPUrl(nid);
+  };
 
   const view = (e: Event): void => {
     e.preventDefault();
@@ -118,6 +126,8 @@
           <em>{nftMintTexts[minting]}</em>
         </div>
       {/if}
+    {:else if nid}
+      <button on:click={nftLink} class="btn btn-small btn-sell" title="View in Explorer">NFT LINK</button>
     {:else}
       <button id="mint-button-{pid || '0'}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
     {/if}
@@ -142,6 +152,17 @@
     background-color: #2a81de;
     border: 0px;
     margin: 10px;
+    padding: 8px 15px;
+    border-radius: 360px;
+    border: none;
+    width: fit-content;
+    transition: all 300ms ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
   }
   button.btn-mint {
     background-color: #2a81de;
@@ -155,6 +176,10 @@
     cursor: pointer;
   }
   button.btn-sell {
-    background-color: #36d06f;
+    background-color: #3acf6e;
+  }
+
+  button.btn-sell:hover {
+    background-color: #2aac57;
   }
 </style>
