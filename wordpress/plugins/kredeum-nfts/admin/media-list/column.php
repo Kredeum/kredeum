@@ -35,7 +35,20 @@ add_action(
 
 		if ( 'kre-nft' === $name ) {
 			if ( $post->_kre_nid ) {
-				printf( '<a href="/wp-admin/admin.php?page=nfts/#/' . esc_attr( str_replace( 'nft://', '', $post->_kre_nid ) ) . '" nid=' . esc_attr( $post->_kre_nid ) . '>NFT link</a>' );
+				$styles = "text-decoration: none;
+				padding: 8px 15px;
+				border-radius: 360px;
+				border: none;
+				color: white;
+				background-color: #3acf6e;
+				width: fit-content;
+				transition: all 300ms ease-in-out;
+				display: inline-block;
+				vertical-align: middle;
+				text-transform: uppercase;
+				font-weight: bold;
+				font-size: 12px;";
+				printf( '<a style="' . $styles . '" href="/wp-admin/admin.php?page=nfts/#/' . esc_attr( str_replace( 'nft://', '', $post->_kre_nid ) ) . '" nid=' . esc_attr( $post->_kre_nid ) . '>NFT link</a>' );
 			} else {
 
 				$metadata = get_metadata( 'post', $post->ID );

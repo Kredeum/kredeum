@@ -32,7 +32,7 @@ add_action(
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
 			$cid = sanitize_text_field( wp_unslash( $_POST['cid'] ) );
-			add_post_meta( $pid, '_kre_nid', $nid, true );
+			update_post_meta( $pid, '_kre_nid', $nid );
 			update_post_meta( $pid, '_kre_cid', $cid );
 
 		};
