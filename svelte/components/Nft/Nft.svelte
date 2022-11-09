@@ -193,6 +193,19 @@
                 <CopyRefItem copyData={$nft.image || ""} />
               </div>
             </li>
+            {#if $nft.animation_url}
+              <li>
+                <div class="flex"><span class="label">Media</span></div>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <a class="link" href={$nft.animation_url} title={$nft.ipfs} target="_blank" rel="noreferrer">
+                      {$nft.animation_url || ""}
+                    </a>
+                  </div>
+                  <CopyRefItem copyData={$nft.animation_url || ""} />
+                </div>
+              </li>
+            {/if}
             {#if nftMarketable}
               {#if nftPrice.gt(0)}
                 <li>
