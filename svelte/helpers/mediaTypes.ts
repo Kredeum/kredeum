@@ -10,7 +10,7 @@ const SUPPORTED_MEDIATYPES = {
     format: "image/gif"
   },
   audio: {
-    label: ".mp3, .wav, .ogg, .aac",
+    label: ".mp3, .wav, .ogg, .oga, .aac",
     format: "audio/mpeg, audio/wav, audio/x-wav, audio/ogg, .aac"
   }
 };
