@@ -117,6 +117,7 @@
   $: inputMediaType && handleMediaTypes();
   const handleMediaTypes = async () => {
     resetFileImg();
+    resetFileAudio();
     acceptedImgTypes = getSupportedImage(inputMediaType);
 
     if (inputMediaType === "audio") {
@@ -166,6 +167,11 @@
     files = null;
     image = "";
     file = null;
+  };
+
+  const resetFileAudio = () => {
+    audioFile = null;
+    audio = "";
   };
 
   const _mintingError = (err: string): void => {
