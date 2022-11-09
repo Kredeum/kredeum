@@ -93,20 +93,20 @@
 
   .krd-play-audio-button {
     position: absolute;
-    bottom: 12px;
-    left: 2%;
+    bottom: 9px;
+    left: 0;
     background-color: transparent;
     color: white;
     border: none;
-    font-size: 2.8rem;
+    font-size: 3.5rem;
   }
 
   .krd-play-audio-button i {
     position: absolute;
     bottom: 0;
-    left: 0;
     background-color: lightgray;
     border-radius: 50%;
+    cursor: pointer;
   }
 
   .krd-play-audio-list-button {

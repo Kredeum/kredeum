@@ -306,9 +306,18 @@ select {
       margin-right: 5px;
     }
   }
+  .box-field:hover + label {
+    background: $grey-blue;
+    color: $white;
+  }
   .box-field:checked + label {
     background: $couleur1;
     color: $white;
+  }
+  .box-field:disabled + label {
+    opacity: 0.3;
+    background: rgba($grey-blue, 0.1);
+    color: inherit;
   }
 }
 
@@ -479,4 +488,14 @@ $sides: (top, bottom, left, right);
 
 .kre-flex {
   display: flex;
+}
+
+.kre-baseline {
+  align-items: baseline;
+}
+
+.kre-input-helper {
+  font-size: small;
+  color: $grey-blue;
+  margin: 5px 15px;
 }
