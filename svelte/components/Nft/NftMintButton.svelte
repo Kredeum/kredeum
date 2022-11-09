@@ -120,14 +120,16 @@
         <button on:click={view} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
       {:else if 1 <= minting && minting <= 5}
         <div>
-          <button id="mint-button" class="btn btn-small btn-minting">MINTING {minting}...</button>
+          <button id="mint-button" class="btn btn-small btn-minting"
+            >MINTING {minting}/{nftMintTexts.length - 1}...</button
+          >
         </div>
         <div>
           <em>{nftMintTexts[minting]}</em>
         </div>
       {/if}
     {:else if nid}
-      <button on:click={nftLink} class="btn btn-small btn-sell" title="View in Explorer">NFT LINK</button>
+      <button on:click={nftLink} class="btn btn-small btn-sell" title="View in Explorer">VIEW NFT</button>
     {:else}
       <button id="mint-button-{pid || '0'}" on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
     {/if}
