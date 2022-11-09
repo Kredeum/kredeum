@@ -34,22 +34,23 @@ add_action(
 		}
 
 		if ( 'kre-nft' === $name ) {
+			$nid = '';
 			if ( $post->_kre_nid ) {
-				printf( '<a href="/wp-admin/admin.php?page=nfts" nid=' . esc_attr( $post->_kre_nid ) . '>NFT link</a>' );
-			} else {
-
-				$metadata = get_metadata( 'post', $post->ID );
-
-				printf(
-					'<div class="kredeum-nfts-mint"'
-					// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
-					// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
-					. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
-					. ' pid="' . esc_attr( $post->ID ) . '"'
-					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
-					. ' alt="' . esc_attr( $post->post_title ) . '"/>'
-				);
+				$nid = $post->_kre_nid;
 			}
+
+			$metadata = get_metadata( 'post', $post->ID );
+
+			printf(
+				'<div class="kredeum-nfts-mint"'
+				// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
+				// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
+				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
+				. ' pid="' . esc_attr( $post->ID ) . '"'
+				. ' nid="' . esc_attr( $nid ) . '"'
+				. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
+				. ' alt="' . esc_attr( $post->post_title ) . '"/>'
+			);
 		}
 	}
 );

@@ -390,6 +390,8 @@ const kredeumNftHttp = (chainId: number, nft: NftType): string => `${config.doma
 const kredeumNftWpUrl = (chainId: number, nft: NftType): string =>
   `./admin.php?page=nfts/${kredeumNftUrl(chainId, nft)}`;
 
+const nidTokredeumNftWPUrl = (nid: string): string => `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
+
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
@@ -522,6 +524,7 @@ export {
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  nidTokredeumNftWPUrl,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,

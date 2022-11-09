@@ -1,4 +1,4 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt, Log } from "@ethersproject/providers";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { ethers, BigNumber, Contract, constants, BigNumberish } from "ethers";
 
 import type { NftType } from "@lib/common/ktypes";
