@@ -1,5 +1,6 @@
 <script lang="ts">
   import type { NftType, Properties } from "@lib/common/ktypes";
+  import type { Mediatype } from "@helpers/mediaTypes";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { Writable } from "svelte/store";
@@ -22,12 +23,14 @@
     config,
     getCurrency
   } from "@lib/common/kconfig";
+  import { getSupportedImage } from "@helpers/mediaTypes";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
   import InputPrice from "../InputFields/InputPrice.svelte";
+  import InputAudioMint from "../InputFields/InputAudioMint.svelte";
   import NftProperties from "./NftProperties.svelte";
 
   ////////////////////////////////////////////////////////////////
@@ -49,11 +52,21 @@
   let files: FileList;
   let file: File;
   let image: string;
+
+  let audioFile: File;
+  let audio: string;
+
   let nftTitle: string = "";
   let nftDescription: string = "";
 
+  let defaultAudioCoverImg = "./assets/images/Cover.png";
+
+  let inputMediaType: Mediatype = "image";
+  let acceptedImgTypes = "";
+
   /////////////////////////////////////////////////
   let storageImg: string;
+  let animation_url: string;
   let storageJson: string;
 
   let minting: number;
@@ -100,6 +113,34 @@
   // $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
 
   /////////////////////////////////////////////////
+  // Set supported input field for image file
+  $: inputMediaType && handleMediaTypes();
+  const handleMediaTypes = async () => {
+    resetFileImg();
+    resetFileAudio();
+    acceptedImgTypes = getSupportedImage(inputMediaType);
+
+    if (inputMediaType === "audio") {
+      const resp = await fetch(defaultAudioCoverImg);
+      const blob = await resp.blob();
+      let reader = new FileReader();
+      reader.readAsDataURL(blob);
+      reader.onload = (e) => {
+        image = e.target.result.toString();
+      };
+
+      file = new File([blob], "audio cover", { lastModified: new Date().getTime(), type: blob.type });
+    }
+  };
+
+  /////////////////////////////////////////////////
+  $: audioFile && handleAudioFileName();
+  const handleAudioFileName = () => {
+    nftTitle = nftTitle || subFileExtension(audioFile.name);
+    nftDescription = nftDescription || subFileExtension(audioFile.name);
+  };
+
+  /////////////////////////////////////////////////
   // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
   const fileload = () => {
     file = null;
@@ -107,8 +148,11 @@
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
-      nftTitle = nftTitle || files[0].name;
-      nftDescription = nftDescription || files[0].name;
+
+      if (inputMediaType === "image" || "gif") {
+        nftTitle = nftTitle || subFileExtension(files[0].name);
+        nftDescription = nftDescription || subFileExtension(files[0].name);
+      }
       reader.onload = (e) => {
         image = e.target.result.toString();
       };
@@ -117,10 +161,17 @@
     }
   };
 
+  const subFileExtension = (name: string) => name.replace(/.[^.]+$/, "");
+
   const resetFileImg = () => {
     files = null;
     image = "";
     file = null;
+  };
+
+  const resetFileAudio = () => {
+    audioFile = null;
+    audio = "";
   };
 
   const _mintingError = (err: string): void => {
@@ -165,7 +216,7 @@
   const nftMintTexts = [
     "Start",
     "Mint",
-    "Wait till Image stored on decentralized storage",
+    "Wait till media(s) stored on decentralized storage",
     "Wait till Metadata stored on decentralized storage",
     "Please, sign the transaction",
     "Wait till transaction completed, it may take one minute or more...",
@@ -178,6 +229,7 @@
 
   const mintConfirm = async () => {
     if (!image) return _mintingError("ERROR no image");
+    if (!audio && inputMediaType === "audio") return _mintingError("ERROR no audio file");
 
     minting = S2_STORE_IMAGE;
 
@@ -190,14 +242,44 @@
 
     if (!storageImg) return _mintingError("ERROR image not stored");
 
+    if (inputMediaType === "audio")
+      animation_url =
+        "ipfs" === storage
+          ? await nftIpfsImage(audio)
+          : "swarm" === storage
+          ? await nftSwarmImage(audioFile, nftTitle, audioFile.type, gateway, key, audioFile.size)
+          : "";
+
+    if (!animation_url && inputMediaType === "audio") return _mintingError("ERROR audio file not stored");
+
     minting = S3_STORE_METADATA;
 
     storageJson =
       "ipfs" === storage
-        ? await nftIpfsJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, "", properties)
+        ? await nftIpfsJson(
+            nftTitle,
+            nftDescription,
+            storageImg,
+            $metamaskAccount,
+            image,
+            "",
+            properties,
+            animation_url
+          )
         : "swarm" === storage
         ? swarmGatewayUrl(
-            await nftSwarmJson(nftTitle, nftDescription, storageImg, $metamaskAccount, image, gateway, key)
+            await nftSwarmJson(
+              nftTitle,
+              nftDescription,
+              storageImg,
+              $metamaskAccount,
+              image,
+              "",
+              properties,
+              animation_url,
+              gateway,
+              key
+            )
           )
         : "";
 
@@ -248,24 +330,44 @@
               <div class="section">
                 <div class="box-fields">
                   <input
-                    class="box-field"
-                    id="create-type-video"
-                    name="media-type"
-                    type="checkbox"
-                    value="Video"
-                    disabled
-                  />
-                  <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
-
-                  <input
+                    bind:group={inputMediaType}
                     class="box-field"
                     id="create-type-picture"
                     name="media-type"
-                    type="checkbox"
-                    value="Picture"
-                    checked
+                    type="radio"
+                    value="image"
                   />
                   <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
+
+                  <input
+                    bind:group={inputMediaType}
+                    class="box-field"
+                    id="create-type-gif"
+                    name="media-type"
+                    type="radio"
+                    value="gif"
+                  />
+                  <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
+
+                  <input
+                    bind:group={inputMediaType}
+                    class="box-field"
+                    id="create-type-music"
+                    name="media-type"
+                    type="radio"
+                    value="audio"
+                  />
+                  <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
+
+                  <input
+                    class="box-field"
+                    id="create-type-video"
+                    name="media-type"
+                    type="radio"
+                    value="video"
+                    disabled
+                  />
+                  <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
                   <input
                     class="box-field"
@@ -279,16 +381,6 @@
 
                   <input
                     class="box-field"
-                    id="create-type-music"
-                    name="media-type"
-                    type="checkbox"
-                    value="Music"
-                    disabled
-                  />
-                  <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
-
-                  <input
-                    class="box-field"
                     id="create-type-web"
                     name="media-type"
                     type="checkbox"
@@ -299,8 +391,12 @@
                 </div>
               </div>
 
+              {#if inputMediaType === "audio"}
+                <InputAudioMint bind:audioFile bind:audio />
+              {/if}
+
               <div class="section">
-                <div class="titre">NFT file</div>
+                <div class="titre">NFT image file</div>
                 <div class="box-file">
                   {#if image}
                     <div class="media media-photo">
@@ -310,10 +406,20 @@
                       >
                     </div>
                   {:else}
-                    <input type="file" id="file" name="file" bind:files on:change={fileload} />
+                    <div class="kre-flex kre-baseline">
+                      <input
+                        type="file"
+                        id="file"
+                        name="file"
+                        bind:files
+                        on:change={fileload}
+                        accept={acceptedImgTypes}
+                      />
+                    </div>
                   {/if}
                 </div>
               </div>
+
               <div class="section">
                 <div class="titre">NFT title</div>
                 <div class="form-field">
@@ -428,6 +534,18 @@
                     {/if}
                   </div>
                 </li>
+                {#if inputMediaType === "audio"}
+                  <li class={minting > S2_STORE_IMAGE ? "complete" : ""}>
+                    <div class="flex"><span class="label">Audio link</span></div>
+                    <div class="flex">
+                      {#if minting > S2_STORE_IMAGE}
+                        <a class="link" href={storageLinkToUrlHttp(animation_url)} target="_blank" rel="noreferrer"
+                          >{textShort(animation_url, 15)}</a
+                        >
+                      {/if}
+                    </div>
+                  </li>
+                {/if}
                 <li class={minting > S3_STORE_METADATA ? "complete" : ""}>
                   <div class="flex"><span class="label">Metadata link</span></div>
                   <div class="flex">
@@ -503,6 +621,14 @@
     border-radius: 34px;
   }
 
+  input[type="file"]:disabled {
+    opacity: 0.5;
+  }
+
+  input:disabled + label {
+    cursor: not-allowed;
+  }
+
   .media-photo img {
     width: 33%;
     border-radius: 15px;
@@ -571,5 +697,11 @@
   :global(.kre-mint-collection div.col) {
     padding-left: 0;
     padding-right: 0;
+  }
+
+  /* WP Fix */
+  :global(.admin-bar .modal-body .kre-no-cover label) {
+    transform: translateY(-3px);
+    display: inline-block;
   }
 </style>

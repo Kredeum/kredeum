@@ -24,7 +24,8 @@ const nftIpfsJson = async (
   address = "",
   image = "",
   metadata = "{}",
-  properties: Properties = {}
+  properties: Properties = {},
+  animation_url = ""
 ): Promise<string> => {
   // console.log("nftIpfsJson", name, ipfs, address, image, metadata);
 
@@ -38,6 +39,7 @@ const nftIpfsJson = async (
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
   if (Object.keys(properties).length > 0) json.properties = properties;
+  if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
 
   const ipfsJsonCid = await nftStorage.pinJson(json);
   const ipfsJson = ipfsJsonCid && `ipfs://${ipfsJsonCid}`;

@@ -1,4 +1,4 @@
-import type { NftType } from "@lib/common/ktypes";
+import type { NftType, Properties } from "@lib/common/ktypes";
 
 import { swarmGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/kconfig";
 import { swarmUploadFile } from "@lib/common/kbeejs";
@@ -28,6 +28,8 @@ const nftSwarmJson = async (
   address = "",
   image = "",
   metadata = "{}",
+  properties: Properties = {},
+  animation_url = "",
   nodeUrl?: string,
   batchId?: string
 ): Promise<string> => {
@@ -42,6 +44,8 @@ const nftSwarmJson = async (
     minter: address
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
+  if (Object.keys(properties).length > 0) json.properties = properties;
+  if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
 
   const swarmJson = `swarm://${await swarmUploadFile(
     JSON.stringify(json, null, 2),

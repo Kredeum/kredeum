@@ -452,16 +452,20 @@
     overflow: hidden;
   }
 
+  .titre {
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .section .titre {
+    margin-bottom: 5px;
+  }
+
   .modal-content {
     // overflow: hidden; TO DISCUSS WITH BAPTISTE !!!
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-
-  .titre {
-    font-weight: bold;
-    margin-bottom: 30px;
   }
 
   video {
@@ -506,16 +510,20 @@
     overflow: hidden;
   }
 
+  .titre {
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .section .titre {
+    margin-bottom: 5px;
+  }
+
   .mint-modal-content {
     overflow: hidden;
     display: flex;
     flex-direction: column;
     width: 100%;
-  }
-
-  .titre {
-    font-weight: bold;
-    margin-bottom: 30px;
   }
 
   video {
