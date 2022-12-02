@@ -31,6 +31,8 @@
   import CollectionList from "../Collection/CollectionList.svelte";
   import InputPrice from "../InputFields/InputPrice.svelte";
   import InputAudioMint from "../InputFields/InputAudioMint.svelte";
+  import InputVideoMint from "../InputFields/InputVideoMint.svelte";
+  import MediaDisplayVideo from "../Media/MediaDisplayVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
 
   ////////////////////////////////////////////////////////////////
@@ -101,7 +103,23 @@
   };
 
   $: mintedNft && open === false && handleResetAfterMint();
-  const handleResetAfterMint = () => {};
+  const handleResetAfterMint = () => {
+    resetFileImg();
+    resetFileAudio();
+    mintInit();
+    inputMediaType = "image";
+    nftTitle = "";
+    nftDescription = "";
+    storageImg = "";
+    animation_url = "";
+    storageJson = "";
+    mintedNft = null;
+    price = constants.Zero;
+    properties = null;
+    inputPriceError = "";
+    mintingTxResp = null;
+    mintingError = "";
+  };
 
   let collection: CollectionType;
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
@@ -134,14 +152,25 @@
   };
 
   /////////////////////////////////////////////////
-  $: audioFile && handleAudioFileName();
-  const handleAudioFileName = () => {
-    nftTitle = nftTitle || subFileExtension(audioFile.name);
-    nftDescription = nftDescription || subFileExtension(audioFile.name);
+  // Set nftTitle & description
+  $: (file || audioFile) && handleFileName();
+  const handleFileName = () => {
+    let name = "";
+
+    if (inputMediaType === "audio" && audioFile?.name) {
+      name = subFileExtension(audioFile.name);
+    } else if (file?.name) {
+      name = subFileExtension(file.name);
+    }
+
+    nftTitle ||= name;
+    nftDescription ||= name;
   };
 
+  const subFileExtension = (name: string) => name.replace(/.[^.]+$/, "");
+
   /////////////////////////////////////////////////
-  // ON modal AFTER upload get file & nftTitle & image to DISPLAY {image}
+  // ON modal AFTER upload get file & image to DISPLAY {image}
   const fileload = () => {
     file = null;
 
@@ -149,10 +178,6 @@
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
 
-      if (inputMediaType === "image" || "gif") {
-        nftTitle = nftTitle || subFileExtension(files[0].name);
-        nftDescription = nftDescription || subFileExtension(files[0].name);
-      }
       reader.onload = (e) => {
         image = e.target.result.toString();
       };
@@ -161,12 +186,10 @@
     }
   };
 
-  const subFileExtension = (name: string) => name.replace(/.[^.]+$/, "");
-
   const resetFileImg = () => {
     files = null;
-    image = "";
     file = null;
+    image = "";
   };
 
   const resetFileAudio = () => {
@@ -228,7 +251,7 @@
   };
 
   const mintConfirm = async () => {
-    if (!image) return _mintingError("ERROR no image");
+    if (!image) return _mintingError(`ERROR no media file`);
     if (!audio && inputMediaType === "audio") return _mintingError("ERROR no audio file");
 
     minting = S2_STORE_IMAGE;
@@ -360,12 +383,12 @@
                   <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
                   <input
+                    bind:group={inputMediaType}
                     class="box-field"
                     id="create-type-video"
                     name="media-type"
                     type="radio"
                     value="video"
-                    disabled
                   />
                   <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
@@ -395,30 +418,36 @@
                 <InputAudioMint bind:audioFile bind:audio />
               {/if}
 
-              <div class="section">
-                <div class="titre">NFT image file</div>
-                <div class="box-file">
-                  {#if image}
-                    <div class="media media-photo">
-                      <img src={image} alt="nft" />
-                      <span class="kre-delete-file" on:click={resetFileImg} on:keydown={resetFileImg}
-                        ><i class="fa fa-trash" aria-hidden="true" /></span
-                      >
-                    </div>
-                  {:else}
-                    <div class="kre-flex kre-baseline">
-                      <input
-                        type="file"
-                        id="file"
-                        name="file"
-                        bind:files
-                        on:change={fileload}
-                        accept={acceptedImgTypes}
-                      />
-                    </div>
-                  {/if}
+              {#if inputMediaType === "video"}
+                <InputVideoMint bind:videoFile={file} bind:video={image} />
+              {/if}
+
+              {#if inputMediaType !== "video"}
+                <div class="section">
+                  <div class="titre">NFT image file</div>
+                  <div class="box-file">
+                    {#if image}
+                      <div class="media media-photo">
+                        <img src={image} alt="nft" />
+                        <span class="kre-delete-file" on:click={resetFileImg} on:keydown={resetFileImg}
+                          ><i class="fa fa-trash" aria-hidden="true" /></span
+                        >
+                      </div>
+                    {:else}
+                      <div class="kre-flex kre-baseline">
+                        <input
+                          type="file"
+                          id="file"
+                          name="file"
+                          bind:files
+                          on:change={fileload}
+                          accept={acceptedImgTypes}
+                        />
+                      </div>
+                    {/if}
+                  </div>
                 </div>
-              </div>
+              {/if}
 
               <div class="section">
                 <div class="titre">NFT title</div>
@@ -495,7 +524,11 @@
               </div>
             {:else if minting >= S2_STORE_IMAGE && minting <= S6_MINTED}
               <div class="media media-photo">
-                <img src={image} alt="nft" />
+                {#if inputMediaType === "video"}
+                  <MediaDisplayVideo mediaSrc={image} small={true} />
+                {:else}
+                  <img src={image} alt="nft" />
+                {/if}
               </div>
 
               <ul class="steps process">
@@ -525,7 +558,7 @@
                 {/if}
 
                 <li class={minting > S2_STORE_IMAGE ? "complete" : ""}>
-                  <div class="flex"><span class="label">Image link</span></div>
+                  <div class="flex"><span class="label">Media link</span></div>
                   <div class="flex">
                     {#if minting > S2_STORE_IMAGE}
                       <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank" rel="noreferrer"
@@ -629,7 +662,7 @@
     cursor: not-allowed;
   }
 
-  .media-photo img {
+  .media-photo {
     width: 33%;
     border-radius: 15px;
   }
