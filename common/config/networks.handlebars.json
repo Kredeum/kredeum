@@ -39,7 +39,7 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
-      "https: //arb-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://arb-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_ARBITRUM}}",
       "https://arbitrum-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {

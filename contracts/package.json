@@ -75,7 +75,7 @@
   "scripts": {
     "build": "hardhat typechain && hardhat compile && hardhat docgen",
     "check": "npm run prettier && npm run solhint && npm run eslint",
-    "clean": "forge clean && rm -rf artifacts cache node_modules docs lib/forge-std out",
+    "clean": "forge clean && rm -rf artifacts cache node_modules docs out",
     "eslint": "eslint hardhat.config.ts **/*.ts --ignore-pattern types --fix --quiet",
     "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && export PATH=$PATH:$HOME/.foundry/bin &&  foundryup && npm run foundry:init && npm run foundry:update",
     "foundry:init": "forge init --force --no-commit && rm -rf **/Counter*.sol",

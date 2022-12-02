@@ -13,26 +13,10 @@ if (!process.env.ENVIR) {
   }
 }
 
-const envKeys = [
-  "ENVIR",
-  "ALCHEMY_API_KEY",
-  "INFURA_API_KEY",
-  "ETHERSCAN_API_KEY_ETHEREUM",
-  "ETHERSCAN_API_KEY_FANTOM",
-  "ETHERSCAN_API_KEY_POLYGON",
-  "ETHERSCAN_API_KEY_AVALANCHE",
-  "ETHERSCAN_API_KEY_BINANCE",
-  "ETHERSCAN_API_KEY_ARBITRUM",
-  "ETHERSCAN_API_KEY_OPTIMISM",
-  "ALCHEMY_API_KEY_POLYGON"
-];
-
-const processEnv = Object.assign({}, ...envKeys.map((key: string) => ({ [key]: process.env[key] })));
-
 const runHandlebars = async (pathIN: string, pathOUT: string): Promise<void> => {
   const template = Handlebars.compile(String(await readFile(pathIN)));
 
-  config.env = processEnv;
+  config.env = process.env;
   // console.log(config);
 
   const result = template(config);
