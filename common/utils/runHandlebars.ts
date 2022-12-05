@@ -9,7 +9,7 @@ import findupSync from "findup-sync";
 if (!process.env.ENVIR) {
   dotenv.config({ path: findupSync(".env") || "" });
   if (!process.env.ENVIR) {
-    throw new Error("HARDHAT : ENV variable ENVIR not set!");
+    throw new Error("ENV variable ENVIR not set!");
   }
 }
 
