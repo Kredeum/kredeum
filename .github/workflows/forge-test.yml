@@ -1,0 +1,37 @@
+name: Kredeum NFTs forge TEST
+
+on: ["push", "pull_request"]
+
+jobs:
+  check:
+    name: Kredeum NFTs
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: CHECKOUT kredeum nfts
+
+        uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: INSTALL foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
+
+      - name: INSTALL node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: INSTALL node modules
+        working-directory: contracts
+        run: npm install --legacy-peer-deps
+
+      - name: BUILD forge
+        working-directory: contracts
+        run: forge build
+
+      - name: TEST forge
+        working-directory: contracts
+        run: forge test -vvv

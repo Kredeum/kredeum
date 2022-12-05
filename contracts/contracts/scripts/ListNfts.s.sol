@@ -11,14 +11,14 @@ import "../interfaces/IOpenNFTsInfos.sol";
 // }
 
 contract OpenNFTsResolverScript is Script {
-    bytes4 private constant _IERC721_Enumerable = 0x780e9d63;
-    address openNFTsResolverAddress = 0xf3E782b62Fd79e6d7794547A488b8905A716A324;
+    bytes4 private constant _IERC721_ENUMERABLE = 0x780e9d63;
+    address private _openNFTsResolverAddress = 0xf3E782b62Fd79e6d7794547A488b8905A716A324;
 
-    OpenNFTsResolver openNFTsResolver;
+    OpenNFTsResolver private _openNFTsResolver;
 
     function setUp() public {
-        openNFTsResolver = OpenNFTsResolver(openNFTsResolverAddress);
-        console.log("openNFTsResolverAddress", openNFTsResolverAddress);
+        _openNFTsResolver = OpenNFTsResolver(_openNFTsResolverAddress);
+        console.log("_openNFTsResolverAddress", _openNFTsResolverAddress);
     }
 
     function run(address collectionAddress) public {
@@ -33,9 +33,9 @@ contract OpenNFTsResolverScript is Script {
         // (
         //     IERCNftInfos.CollectionInfos memory collectionInfos,
         //     IOpenNFTsInfos.OpenNFTsCollectionInfos memory openNTFscollectionInfos
-        // ) = openNFTsResolver.getOpenNFTsCollectionInfos(collectionAddress, msg.sender);
+        // ) = _openNFTsResolver.getOpenNFTsCollectionInfos(collectionAddress, msg.sender);
 
-        if (IERC165(collectionAddress).supportsInterface(_IERC721_Enumerable)) {
+        if (IERC165(collectionAddress).supportsInterface(_IERC721_ENUMERABLE)) {
             totalSupply = IERC721Enumerable(collectionAddress).totalSupply();
         } else {
             console.log("Not ERC721 Enumerable");
