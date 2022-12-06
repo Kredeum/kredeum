@@ -7,7 +7,7 @@
 
   import { onMount } from "svelte";
 
-  import Nft from "./Nft.svelte";
+  import Nft from "./NftOld.svelte";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {more}? {platform}? />

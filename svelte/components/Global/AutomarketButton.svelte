@@ -4,7 +4,7 @@
   import { getChainName } from "@lib/common/kconfig";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import Nft from "../../components/Nft/Nft.svelte";
+  import Nft from "../Nft/NftOld.svelte";
 
   export let chainId: number;
   export let address: string;
