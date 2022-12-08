@@ -20,6 +20,6 @@
   "devDependencies": {
     "cypress": "^9.7.0",
     "cypress-file-upload": "^5.0.8",
-    "tsconfig-paths": "^4.1.0"
+    "tsconfig-paths": "^4.1.1"
   }
 }
