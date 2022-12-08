@@ -1,5 +1,5 @@
-import type { NftType, NftMetadata } from "@lib/common/ktypes";
-import { fetchJson } from "@lib/common/kfetch";
+import type { NftType, NftMetadata } from "@lib/common/types";
+import { fetchJson } from "@lib/common/fetch";
 import {
   ipfsGetLink,
   ipfsGatewayUrl,
@@ -8,7 +8,7 @@ import {
   getNetwork,
   getChecksumAddress,
   nftKey
-} from "@lib/common/kconfig";
+} from "@lib/common/config";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();

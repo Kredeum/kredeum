@@ -1,14 +1,13 @@
 <script lang="ts">
-  import { ReceiverType } from "@lib/common/ktypes";
+  import { ReceiverType } from "@lib/common/types";
   import { BigNumber, constants, utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { metamaskSigner } from "@main/metamask";
-  import { buyNft } from "@lib/nft/kbuy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/kconfig";
+  import { buyNft } from "@lib/nft/nft-buy";
+  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
@@ -77,7 +76,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice, $metamaskSigner);
+    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice);
 
     buying = S2_SIGN_TX;
 

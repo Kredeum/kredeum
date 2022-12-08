@@ -1,7 +1,7 @@
 import { expect } from "chai";
 import { ethers, deployments } from "hardhat";
 import { Signer } from "ethers";
-import { interfaceId } from "@lib/common/kconfig";
+import { interfaceId } from "@lib/common/config";
 
 import type { OpenProof } from "@soltypes/contracts/dev";
 

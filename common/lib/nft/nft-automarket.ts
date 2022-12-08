@@ -2,37 +2,26 @@ import type { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
 import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@soltypes/index";
 
-import type { Provider } from "@ethersproject/abstract-provider";
-import type { Signer } from "@ethersproject/abstract-signer";
 import { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { BigNumber, BigNumberish, constants } from "ethers";
 
-import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerUrl, explorerTxLog, MAX_FEE, config } from "@lib/common/kconfig";
-import { ReceiverType } from "@lib/common/ktypes";
+import { collectionGetContract } from "@lib/collection/collection-get";
+import { explorerUrl, explorerTxLog, MAX_FEE, config } from "@lib/common/config";
+import { ReceiverType } from "@lib/common/types";
+import { providerGetAccount, providerGetSigner } from "@lib/common/provider-get";
 
-const getNftPrice = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  signerOrProvider: Signer | Provider
-): Promise<BigNumber> => {
+const getNftPrice = async (chainId: number, address: string, tokenID: string): Promise<BigNumber> => {
   let price = constants.Zero;
 
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  const { contract, collection } = await collectionGetContract(chainId, address);
   if (collection.supports?.IOpenMarketable)
     price = await (contract as IOpenMarketable).getTokenPrice(BigNumber.from(tokenID));
 
   return price;
 };
 
-const getNftRoyalty = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  signerOrProvider: Signer | Provider
-): Promise<ReceiverType> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+const getNftRoyalty = async (chainId: number, address: string, tokenID: string): Promise<ReceiverType> => {
+  const { contract, collection } = await collectionGetContract(chainId, address);
 
   if (!collection.supports?.IOpenMarketable) return { account: constants.AddressZero, fee: 0 };
 
@@ -46,10 +35,9 @@ const getNftRoyaltyInfo = async (
   chainId: number,
   address: string,
   tokenID: string,
-  nftPrice: string,
-  signerOrProvider: Signer | Provider
+  nftPrice: string
 ): Promise<{ receiver: string; royaltyAmount: BigNumber }> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  const { contract, collection } = await collectionGetContract(chainId, address);
 
   if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, royaltyAmount: constants.Zero };
 
@@ -58,22 +46,17 @@ const getNftRoyaltyInfo = async (
   return { receiver, royaltyAmount };
 };
 
-const getDefaultCollPrice = async (
-  chainId: number,
-  address: string,
-  signerOrProvider: Signer | Provider
-): Promise<BigNumber> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+const getDefaultCollPrice = async (chainId: number, address: string): Promise<BigNumber> => {
+  const { contract, collection } = await collectionGetContract(chainId, address);
 
   return collection.supports?.IOpenMarketable ? await (contract as IOpenMarketable).getMintPrice() : constants.Zero;
 };
 
 const getDefaultCollRoyaltyInfos = async (
   chainId: number,
-  address: string,
-  signerOrProvider: Signer | Provider
+  address: string
 ): Promise<{ receiver: string; fee: BigNumber }> => {
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  const { contract, collection } = await collectionGetContract(chainId, address);
 
   if (!collection.supports?.IOpenMarketable) return { receiver: constants.AddressZero, fee: constants.Zero };
 
@@ -82,14 +65,9 @@ const getDefaultCollRoyaltyInfos = async (
   return { receiver: royaltyInfostest[0], fee: royaltyInfostest[1] };
 };
 
-const getApproved = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  signerOrProvider: Signer | Provider
-): Promise<string> => {
+const getApproved = async (chainId: number, address: string, tokenID: string): Promise<string> => {
   let approved = "";
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+  const { contract, collection } = await collectionGetContract(chainId, address);
 
   if (collection.supports?.IOpenMarketable) {
     approved = await (contract as IERC721).getApproved(tokenID);
@@ -99,20 +77,20 @@ const getApproved = async (
   return approved;
 };
 
-const isApprovedForAll = async (
-  chainId: number,
-  address: string,
-  account: string,
-  signerOrProvider: Signer | Provider
-): Promise<boolean> => {
-  let isApprovedForAll = false;
-  const { contract, collection } = await collectionGetContract(chainId, address, signerOrProvider);
+const isApprovedForAll = async (chainId: number, address: string, account?: string): Promise<boolean> => {
+  const signer = await providerGetSigner();
+  if (!signer) return false;
 
-  if (collection.supports?.IOpenMarketable) {
-    isApprovedForAll = await (contract as IERC721).isApprovedForAll(account, address);
-  }
+  account ||= await providerGetAccount();
+  if (!account) return false;
 
-  return isApprovedForAll;
+  const { contract, collection } = await collectionGetContract(chainId, address);
+  if (!collection.supports?.IERC721) return false;
+
+  const approvedForAll = await (contract.connect(signer) as IERC721)
+    .isApprovedForAll(account, address);
+
+  return approvedForAll;
 };
 
 async function* setTokenRoyaltyInfos(
@@ -120,8 +98,7 @@ async function* setTokenRoyaltyInfos(
   address: string,
   tokenID: string,
   fee: string,
-  receiver: string,
-  signer: Signer
+  receiver: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenRoyaltyInfos", chainId, address, tokenID, fee, receiver, signer);
 
@@ -149,8 +126,7 @@ async function* setTokenRoyaltyInfos(
 async function* setTokenApprove(
   chainId: number,
   address: string,
-  tokenID: string,
-  signer: Signer
+  tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
@@ -173,8 +149,7 @@ async function* setTokenApprove(
 async function* setCollectionApproval(
   chainId: number,
   address: string,
-  approval: boolean,
-  signer: Signer
+  approval: boolean
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
@@ -198,7 +173,6 @@ async function* setTokenPrice(
   chainId: number,
   address: string,
   tokenID: string,
-  signer: Signer,
   tokenPrice: BigNumberish = 0
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice, signer);
@@ -231,8 +205,7 @@ const getEthersConverterLink = (chainId: number, price: string) => {
 async function* setDefautCollectionPrice(
   chainId: number,
   address: string,
-  mintPrice: BigNumber,
-  signer: Signer
+  mintPrice: BigNumber
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setDefautCollectionPrice", chainId, address, mintPrice, signer);
   if (!(chainId && address && mintPrice && signer)) return;
@@ -253,8 +226,7 @@ async function* setDefautCollectionRoyalty(
   chainId: number,
   address: string,
   defaultRoyaltiesReceiver: string,
-  defaultRoyaltyAmount: BigNumberish,
-  signer: Signer
+  defaultRoyaltyAmount: BigNumberish
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 

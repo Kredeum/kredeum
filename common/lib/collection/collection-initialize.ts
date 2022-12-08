@@ -1,9 +1,9 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { explorerTxLog } from "@lib/common/kconfig";
+import { explorerTxLog } from "@lib/common/config";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
-import { collectionGetContract } from "./kcollection-get";
+import { collectionGetContract } from "./collection-get";
 
 import { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
 import { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";

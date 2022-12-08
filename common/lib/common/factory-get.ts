@@ -1,14 +1,10 @@
-import type { Provider } from "@ethersproject/abstract-provider";
-import { Signer } from "@ethersproject/abstract-signer";
-
 import { Contract } from "ethers";
 
-import { getNetwork, explorerContractUrl } from "@lib/common/kconfig";
+import { getNetwork, explorerContractUrl } from "@lib/common/config";
 
 import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/OpenNFTsFactoryV3";
 import abiOpenNFTsFactoryV3 from "@abis/contracts/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
-
-const _nftsFactoryKey = (chainId: number, account: string): string => String(chainId).concat(account);
+import { providerGetFallback } from "./provider-get";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<string, Contract> = new Map();
@@ -20,15 +16,16 @@ const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nfts
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));
 
 // GET NFTsFactory Contract
-const factoryGetContract = async (chainId: number, signerOrProvider: Signer | Provider): Promise<OpenNFTsFactoryV3> => {
-  const signerAddress = Signer.isSigner(signerOrProvider) ? await signerOrProvider.getAddress() : "";
+const factoryGetContract = async (chainId: number): Promise<OpenNFTsFactoryV3> => {
   // console.log("factoryGetContract ~ signerAddress", signerAddress);
 
-  let nftsFactory = nftsFactoriesCache.get(_nftsFactoryKey(chainId, signerAddress));
+  let nftsFactory = nftsFactoriesCache.get(String(chainId));
 
   if (!nftsFactory) {
-    nftsFactory = new Contract(factoryGetAddress(chainId), abiOpenNFTsFactoryV3, signerOrProvider);
-    nftsFactoriesCache.set(_nftsFactoryKey(chainId, signerAddress), nftsFactory);
+    const provider = await providerGetFallback(chainId);
+
+    nftsFactory = new Contract(factoryGetAddress(chainId), abiOpenNFTsFactoryV3, provider);
+    nftsFactoriesCache.set(String(chainId), nftsFactory);
   }
 
   // console.log("factoryGetContract", chainId, nftsFactory);
@@ -36,14 +33,10 @@ const factoryGetContract = async (chainId: number, signerOrProvider: Signer | Pr
 };
 
 // GET OpenNFTs default template via onchain call
-const factoryGetTemplateAddress = async (
-  chainId: number,
-  template: string,
-  signerOrProvider: Signer | Provider
-): Promise<string> => {
+const factoryGetTemplateAddress = async (chainId: number, template: string): Promise<string> => {
   // console.log("factoryGetTemplateAddress", chainId, template);
 
-  const nftsFactory = await factoryGetContract(chainId, signerOrProvider);
+  const nftsFactory = await factoryGetContract(chainId);
   const templateAddress = await nftsFactory.templates(template);
 
   // console.log("factoryGetTemplateAddress", chainId, template, templateAddress);

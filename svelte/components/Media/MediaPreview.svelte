@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NftMetadata, NftType } from "@lib/common/ktypes";
+  import type { NftMetadata, NftType } from "@lib/common/types";
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 

@@ -1,7 +1,7 @@
 import type { JsonRpcSigner } from "@ethersproject/providers";
 
 import { expect } from "chai";
-import { collectionClone } from "@lib/collection/kcollection-clone";
+import { collectionClone } from "@lib/collection/collection-clone";
 import { ethers, getChainId, deployments } from "hardhat";
 import type { OpenNFTsFactoryV3, OpenNFTsV4 } from "@soltypes/contracts";
 

@@ -1,9 +1,6 @@
-import type { Provider } from "@ethersproject/abstract-provider";
-import type { Signer } from "@ethersproject/abstract-signer";
-
-import type { CollectionType } from "@lib/common/ktypes";
-import { getNetwork } from "@lib/common/kconfig";
-import { collectionMerge } from "@lib/collection/kcollection-get";
+import type { CollectionType } from "@lib/common/types";
+import { getNetwork } from "@lib/common/config";
+import { collectionMerge } from "@lib/collection/collection-get";
 
 import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
 import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";
@@ -34,7 +31,6 @@ const collectionListMerge = (
 
 const collectionList = async (
   chainId: number,
-  signerOrProvider: Signer | Provider,
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
@@ -64,12 +60,12 @@ const collectionList = async (
 
     const lengthBefore = collectionsApi.size;
     // console.log("collectionsApi  BEFORE", collectionsApi);
-    collectionsApi = await resolverFilterCollections(chainId, collectionsApi, signerOrProvider);
+    collectionsApi = await resolverFilterCollections(chainId, collectionsApi);
     // console.log("collectionsApi   AFTER", collectionsApi);
     const removed = lengthBefore - collectionsApi.size;
     if (removed > 0) console.info("collectionList collectionsApi removed", removed);
 
-    collectionsResolver = await resolverGetCollectionList(chainId, signerOrProvider, account);
+    collectionsResolver = await resolverGetCollectionList(chainId, account);
     // console.log("collectionList collectionsResolver", collectionsResolver);
 
     // MERGE collectionsApi and collectionsResolver

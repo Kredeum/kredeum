@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/common/ktypes";
+  import type { NftType } from "@lib/common/types";
 
   import { constants, ethers, utils, BigNumber } from "ethers";
   import { metamaskChainId } from "@main/metamask";
@@ -16,7 +16,7 @@
     getCurrency,
     kredeumNftHttp,
     getNetwork
-  } from "@lib/common/kconfig";
+  } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
 

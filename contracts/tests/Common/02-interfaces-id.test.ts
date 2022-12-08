@@ -4,9 +4,9 @@ import type { Signer } from "@ethersproject/abstract-signer";
 import type { InterfacesIds } from "@soltypes/contracts/dev/InterfacesIds";
 
 import { ethers, deployments } from "hardhat";
-import { interfaceId } from "@lib/common/kconfig";
+import { interfaceId } from "@lib/common/config";
 
-import { abis } from "@lib/common/kabis";
+import { abis } from "@lib/common/abis";
 
 const setup = deployments.createFixture(async (): Promise<{ contract: InterfacesIds; signer: Signer }> => {
   await deployments.fixture("InterfacesIds");

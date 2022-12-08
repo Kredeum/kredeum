@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/ktypes";
-  import NftStorage from "@lib/nft/storage/knft-storage";
+  import type { NftType } from "@lib/common/types";
+  import NftStorage from "@lib/nft/storage/nft-storage";
   import {
     getOpenMulti,
     explorerTxLog,
@@ -8,9 +8,9 @@
     explorerTxUrl,
     textShort,
     storageLinkToUrlHttp
-  } from "@lib/common/kconfig";
-  import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/knft-mint";
-  import { cidToInt } from "@lib/common/kcid";
+  } from "@lib/common/config";
+  import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/nft-mint";
+  import { cidToInt } from "@lib/common/cid";
 
   import type { Readable } from "svelte/store";
   import { nftStore } from "@stores/nft/nft";

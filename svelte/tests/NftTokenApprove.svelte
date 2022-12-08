@@ -1,10 +1,9 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { metamaskProvider, metamaskAccount, metamaskSigner } from "@main/metamask";
-  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
-  import { getApproved, isApprovedForAll, setTokenApprove } from "@lib/nft/kautomarket";
+  import { getApproved, isApprovedForAll, setTokenApprove } from "@lib/nft/nft-automarket";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />
@@ -58,8 +57,8 @@
   const tokenApproveInit = async () => {
     tokenApproveTxHash = null;
 
-    approved = await getApproved(chainId, address, tokenID, $metamaskProvider);
-    const approvedForAll = await isApprovedForAll(chainId, address, $metamaskAccount, $metamaskProvider);
+    approved = await getApproved(chainId, address, tokenID);
+    const approvedForAll = await isApprovedForAll(chainId, address);
 
     tokenApproving = approved || approvedForAll ? S4_APPROVEDED : S1_CONFIRM;
   };
@@ -69,7 +68,7 @@
   });
 
   const approveConfirm = async () => {
-    const tokenApproveTxRespYield = setTokenApprove(chainId, address, tokenID, $metamaskSigner);
+    const tokenApproveTxRespYield = setTokenApprove(chainId, address, tokenID);
 
     tokenApproving = S2_SIGN_TX;
 

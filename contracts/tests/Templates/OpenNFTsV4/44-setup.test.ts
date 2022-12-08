@@ -13,7 +13,7 @@ import abiIERC721 from "@abis/OpenNFTs/contracts/interfaces/IERC721.sol/IERC721.
 import abiIERC721Enumerable from "@abis/OpenNFTs/contracts/interfaces/IERC721Enumerable.sol/IERC721Enumerable.json";
 import abiIERC721Metadata from "@abis/OpenNFTs/contracts/interfaces/IERC721Metadata.sol/IERC721Metadata.json";
 
-import { interfaceId } from "@lib/common/kconfig";
+import { interfaceId } from "@lib/common/config";
 
 const { provider, getNamedSigner, getContract } = ethers;
 
@@ -40,7 +40,7 @@ describe("OpenNFTsV4", () => {
   });
 
   describe("Setup", () => {
-    beforeEach(async () => {});
+    beforeEach(async () => { });
 
     it("Should be deployed", () => {
       expect(deployer.address).to.be.properAddress;

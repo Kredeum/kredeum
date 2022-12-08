@@ -1,11 +1,11 @@
 <script lang="ts">
   import { Readable, writable } from "svelte/store";
-  import type { CollectionType } from "@lib/common/ktypes";
+  import type { CollectionType } from "@lib/common/types";
 
   import { getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { collectionKey, explorerCollectionUrl } from "@lib/common/kconfig";
+  import { collectionKey, explorerCollectionUrl } from "@lib/common/config";
 
   import Collection from "../Collection/Collection.svelte";
   import { collectionStore } from "@stores/collection/collection";

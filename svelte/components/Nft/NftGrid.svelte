@@ -1,7 +1,7 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/ktypes";
+  import type { NftType } from "@lib/common/types";
 
-  import { nftName } from "@lib/common/kconfig";
+  import { nftName } from "@lib/common/config";
 
   import MediaDisplay from "../Media/MediaDisplay.svelte";
 

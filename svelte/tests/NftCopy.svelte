@@ -1,9 +1,9 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/common/ktypes";
-  import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import type { NftType } from "@lib/common/types";
+  import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
   import { metamaskSigner, metamaskAccount } from "@main/metamask";
-  import { nftMint, nftMint4 } from "@lib/nft/knft-mint";
+  import { nftMint, nftMint4 } from "@lib/nft/nft-mint";
 
   import NetworkList from "../components/Network/NetworkList.svelte";
   import { nftStore } from "@stores/nft/nft";

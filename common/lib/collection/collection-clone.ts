@@ -1,8 +1,8 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import { utils, constants, BigNumberish } from "ethers";
 
-import { explorerTxLog } from "@lib/common/kconfig";
-import { factoryGetContract } from "@lib/common/kfactory-get";
+import { explorerTxLog } from "@lib/common/config";
+import { factoryGetContract } from "@lib/common/factory-get";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 async function* collectionClone(

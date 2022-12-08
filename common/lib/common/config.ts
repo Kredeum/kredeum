@@ -1,31 +1,16 @@
-import type { NetworkType, CollectionType, NftType } from "@lib/common/ktypes";
-import type { Provider, TransactionResponse } from "@ethersproject/abstract-provider";
-import { Signer } from "@ethersproject/abstract-signer";
+import type { NetworkType, CollectionType, NftType } from "@lib/common/types";
 
-import { collectionKey } from "@lib/collection/kcollection-get";
-import { collectionListKey } from "@lib/collection/kcollection-list";
+import { collectionKey } from "@lib/collection/collection-get";
+import { collectionListKey } from "@lib/collection/collection-list";
 
 import { Fragment, Interface } from "@ethersproject/abi";
-import { providers, utils, BigNumber, constants } from "ethers";
-import { factoryGetTemplateAddress } from "@lib/common/kfactory-get";
+import { utils, BigNumber, constants } from "ethers";
 import networks from "@config/networks.json";
 import config from "@config/config.json";
 
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
-
-const isProviderOnChainId = async (chainId: number, signerOrProvider: Signer | Provider): Promise<boolean> => {
-  const provider = Signer.isSigner(signerOrProvider) ? signerOrProvider.provider : signerOrProvider;
-
-  const providerChainId = provider ? (await provider.getNetwork()).chainId : 0;
-
-  const ok = chainId == providerChainId;
-
-  if (!ok) console.error("Bad chainId", chainId, providerChainId);
-
-  return ok;
-};
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -58,19 +43,6 @@ const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || 
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
 const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
-
-const getEnsName = async (address: string): Promise<string> => {
-  let name = "";
-  try {
-    const ensProvider: Provider = new providers.JsonRpcProvider(
-      `https://mainnet.infura.io/v3/${process.env.INFURA_API_KEY || ""}`
-    );
-    name = (await ensProvider.lookupAddress(address)) || "";
-  } catch (e) {
-    console.error("NO ENS found");
-  }
-  return name || address || "";
-};
 
 // GET chain Name
 const getChainName = (chainId: number): string =>
@@ -329,11 +301,6 @@ const explorerTxHashLog = (chainId: number, txHash = ""): void =>
 const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>
   explorerTxHashLog(chainId, tx?.hash);
 
-// OPEN_NFTS URL
-const explorerOpenNFTsUrl = async (chainId: number, provider: Provider): Promise<string> =>
-  // https://etherscan.io/address/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471#readContract
-  explorerContractUrl(chainId, await factoryGetTemplateAddress(chainId, "OpenNFTsV4", provider));
-
 // ACCOUNT URL
 const explorerAccountUrl = (chainId: number, address: string): string => {
   let url = "";
@@ -500,12 +467,10 @@ export {
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
-  explorerOpenNFTsUrl,
   isTestnet,
   isAddress,
   isNumeric,
   getChainId,
-  isProviderOnChainId,
   getChainName,
   getShortAddress,
   getChecksumAddress,
@@ -513,7 +478,6 @@ export {
   getNftsResolver,
   getDefaultOpenNFTs,
   getOpenMulti,
-  getEnsName,
   getOpenSea,
   getCreate,
   getExplorer,

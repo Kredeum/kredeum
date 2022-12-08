@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/ktypes";
+  import { NftType } from "@lib/common/types";
 
   import { constants } from "ethers";
 
   import { onMount } from "svelte";
 
-  import { metamaskSigner } from "@main/metamask";
-  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/kconfig";
+  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice } from "@lib/nft/kautomarket";
+  import { setTokenPrice } from "@lib/nft/nft-automarket";
 
   /////////////////////////////////////////////////
   //  <NftWithDraw {chainId} {address} {tokenID} />
@@ -74,7 +73,7 @@
   });
 
   const withdrawConfirm = async () => {
-    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, $metamaskSigner, 0);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, address, tokenID, 0);
 
     tokenWithdrawing = S2_SIGN_TX;
 

@@ -1,8 +1,6 @@
-import type { CollectionType, NftType } from "@lib/common/ktypes";
-import type { Provider } from "@ethersproject/abstract-provider";
-import type { Signer } from "@ethersproject/abstract-signer";
+import type { CollectionType, NftType } from "@lib/common/types";
 
-import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
+import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
 
 import { alchemyGet, alchemyNftList } from "@lib/apis/api-alchemy";
@@ -10,8 +8,8 @@ import { covalentGet, covalentNftList } from "@lib/apis/api-covalent";
 import { thegraphGet, thegraphNftList } from "@lib/apis/api-thegraph";
 import { moralisGet, moralisNftList } from "@lib/apis/api-moralis";
 
-import { getNetwork } from "@lib/common/kconfig";
-import { FETCH_LIMIT } from "@lib/common/kfetch";
+import { getNetwork } from "@lib/common/config";
+import { FETCH_LIMIT } from "@lib/common/fetch";
 
 // Merge 2 nfts list into 1
 const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType>): Map<string, NftType> => {
@@ -30,7 +28,6 @@ const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType
 const nftListTokenIds = async (
   chainId: number,
   address: string,
-  signerOrProvider: Signer | Provider,
   collection: CollectionType,
   account?: string,
   limit: number = FETCH_LIMIT
@@ -58,7 +55,7 @@ const nftListTokenIds = async (
       console.error("No NFTs found:-(");
     }
 
-    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, signerOrProvider, account, limit));
+    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, account, limit));
   }
   // console.log("nftListTokenIds", nfts);
 
@@ -97,21 +94,13 @@ const _nftListWithMetadata = async (
 const nftList = async (
   chainId: number,
   address: string,
-  signerOrProvider: Signer | Provider,
   collection: CollectionType,
   account?: string,
   limit: number = FETCH_LIMIT
 ): Promise<Map<string, NftType>> => {
   // console.log("nftList", chainId, collection, account, limit);
 
-  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(
-    chainId,
-    address,
-    signerOrProvider,
-    collection,
-    account,
-    limit
-  );
+  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(chainId, address, collection, account, limit);
   const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, account, limit);
 
   // console.log("nftList", nftsWithMetadata);

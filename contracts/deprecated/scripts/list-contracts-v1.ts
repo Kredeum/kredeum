@@ -28,8 +28,7 @@ const _s = (n: number): string => (n > 1 ? "s" : " ");
 const logCollection = async (
   chainId: number,
   nftsFactory: NFTsFactory,
-  max: number,
-  signerOrProvider: Signer | Provider
+  max: number
 ) => {
   for (let index = 0; index < max; index++) {
     const collectionAddress = await nftsFactory.implementations(index);
@@ -39,8 +38,9 @@ const logCollection = async (
     if (collectionAddress === nftsFactory.address) {
       output += " is NFTsFactory";
     } else {
-      const collectionObject = await collectionGet(chainId, collectionAddress, signerOrProvider);
-      const collection = new Contract(collectionAddress, abiNFT, signerOrProvider);
+      const collectionObject = await collectionGet(chainId, collectionAddress);
+      const collection = new Contract(collectionAddress, abiNFT);
+      const collection.connect(signer);
       const { supports } = collectionObject;
 
       if (collection) {

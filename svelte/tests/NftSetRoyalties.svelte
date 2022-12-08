@@ -3,11 +3,10 @@
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import { metamaskSigner } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
-  import { explorerTxUrl, explorerTxLog, textShort } from "@lib/common/kconfig";
+  import { explorerTxUrl, explorerTxLog, textShort } from "@lib/common/config";
 
-  import { setTokenRoyaltyInfos } from "@lib/nft/kautomarket";
+  import { setTokenRoyaltyInfos } from "@lib/nft/nft-automarket";
 
   import { BigNumber } from "ethers";
 
@@ -101,8 +100,7 @@
       address,
       tokenID,
       newNftRoyaltiesAmount,
-      setRoyaltyReceiverInput,
-      $metamaskSigner
+      setRoyaltyReceiverInput
     );
 
     royaltyInfoSetting = S2_SIGN_TX;

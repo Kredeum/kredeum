@@ -1,9 +1,8 @@
+import type { CollectionType, NftType } from "@lib/common/types";
+import { collectionGet, collectionGetContract } from "@lib/collection/collection-get";
 
-import type { CollectionType, NftType } from "@lib/common/ktypes";
-import { collectionGet, collectionGetContract } from "@lib/collection/kcollection-get";
-
-import { nftKey } from "@lib/common/kconfig";
-import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
+import { nftKey } from "@lib/common/config";
+import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNft } from "@lib/resolver/resolver-get-nft";
 import { providerGetFallback } from "@lib/common/provider-get";
 

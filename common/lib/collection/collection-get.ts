@@ -1,27 +1,22 @@
-import type { Provider } from "@ethersproject/abstract-provider";
-import { Signer } from "@ethersproject/abstract-signer";
 import { Contract } from "ethers";
 
-import type { CollectionType, ABIS } from "@lib/common/ktypes";
-import { isProviderOnChainId } from "@lib/common/kconfig";
-import { abis } from "@lib/common/kabis";
+import type { CollectionType, ABIS } from "@lib/common/types";
+import { abis } from "@lib/common/abis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
+import { providerGetSigner } from "@lib/common/provider-get";
 
 // Cache contracts(chainId,address)
 const contractsCache: Map<string, Contract> = new Map();
 
 const collectionGetContract = async (
   chainId: number,
-  address: string,
-  signerOrProvider: Signer | Provider
+  address: string
 ): Promise<{ contract: Contract; collection: CollectionType }> => {
   // console.log(`collectionGetContract  IN ${collectionKey(chainId, address)}\n`);
 
-  const collection = await collectionGet(chainId, address, signerOrProvider);
-  const signerAddress = Signer.isSigner(signerOrProvider) ? await signerOrProvider.getAddress() : "";
+  const collection = await collectionGet(chainId, address);
 
-  let contract = contractsCache.get(collectionKey(chainId, address, signerAddress));
-
+  let contract = contractsCache.get(collectionKey(chainId, address));
   if (!contract) {
     let abi: Array<string> = [];
 
@@ -37,8 +32,8 @@ const collectionGetContract = async (
         }
       }
     }
-    contract = new Contract(address, abi, signerOrProvider);
-    contractsCache.set(collectionKey(chainId, address, signerAddress), contract);
+    contract = new Contract(address, abi);
+    contractsCache.set(collectionKey(chainId, address), contract);
   }
 
   // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`, contract, collection);
@@ -56,20 +51,14 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   return collMerged;
 };
 
-const collectionGet = async (
-  chainId: number,
-  address: string,
-  signerOrProvider: Signer | Provider,
-  account?: string
-): Promise<CollectionType> => {
+const collectionGet = async (chainId: number, address: string, account?: string): Promise<CollectionType> => {
   // console.log(`collectionGet ${collectionKey(chainId, address, account)}\n`);
   let collection: CollectionType = { chainId, address };
 
-  if (!(chainId && address && signerOrProvider && (await isProviderOnChainId(chainId, signerOrProvider))))
-    return collection;
+  if (!(chainId && address)) return collection;
 
   try {
-    collection = await resolverGetCollection(chainId, address, signerOrProvider, account);
+    collection = await resolverGetCollection(chainId, address, account);
   } catch (e) {
     console.error(`ERROR collectionGet  ${collectionKey(chainId, address, account)}\n`, e);
   }
@@ -84,19 +73,10 @@ const collectionKey = (chainId: number, address: string, account?: string): stri
 const collectionDefaultKey = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
-const collectionBurnable = async (
-  chainId: number,
-  address: string,
-  signerOrProvider: Signer | Provider
-): Promise<string> => {
-  const { collection } = await collectionGetContract(chainId, address, signerOrProvider);
-  let burnFunction = "";
+const collectionBurnable = async (chainId: number, address: string): Promise<string> => {
+  const { collection } = await collectionGetContract(chainId, address);
 
-  if (collection.version === 4) {
-    burnFunction = "burn";
-  }
-
-  return burnFunction;
+  return (collection.version === 4) ? "burn" : "";
 };
 
 export {

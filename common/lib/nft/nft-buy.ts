@@ -1,8 +1,7 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { Signer } from "@ethersproject/abstract-signer";
 
-import { collectionGetContract } from "@lib/collection/kcollection-get";
-import { explorerTxLog } from "../common/kconfig";
+import { collectionGetContract } from "@lib/collection/collection-get";
+import { explorerTxLog } from "../common/config";
 import { BigNumberish } from "ethers";
 import { IOpenAutoMarket } from "@soltypes/index";
 
@@ -10,8 +9,7 @@ async function* buyNft(
   chainId: number,
   address: string,
   tokenID: string,
-  nftPrice: BigNumberish,
-  buyer: Signer
+  nftPrice: BigNumberish
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 

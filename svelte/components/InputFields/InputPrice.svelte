@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCurrency, isNumeric } from "@lib/common/kconfig";
+  import { getCurrency, isNumeric } from "@lib/common/config";
   import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
