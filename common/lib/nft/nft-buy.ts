@@ -13,11 +13,10 @@ async function* buyNft(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 
-  if (!(chainId && address && tokenID && nftPrice && buyer)) return {};
+  if (!(chainId && address && tokenID && nftPrice)) return {};
 
-  const { contract, collection } = await collectionGetContract(chainId, address, buyer);
-  // console.log("contract", contract);
-  if (!collection.supports?.IOpenAutoMarket) return {};
+  const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
+  if (!(contract && signer && collection.supports?.IOpenAutoMarket)) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenAutoMarket).buy(tokenID, {
     value: String(nftPrice)

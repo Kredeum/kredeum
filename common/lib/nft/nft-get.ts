@@ -17,11 +17,9 @@ const nftGet = async (
 
   if (!(chainId && address && tokenID)) return { chainId, address, tokenID };
 
-  const provider = await providerGetFallback(chainId);
+  if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address);
 
-  if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address, provider);
-
-  const nft = await resolverGetNft(chainId, collection, tokenID, provider);
+  const nft = await resolverGetNft(chainId, collection, tokenID);
   // console.log("nft", nft);
 
   nft.nid = nftKey(chainId, address, tokenID);

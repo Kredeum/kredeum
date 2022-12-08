@@ -1,23 +1,35 @@
-import { Contract } from "ethers";
+import { Contract, Signer } from "ethers";
 
 import type { CollectionType, ABIS } from "@lib/common/types";
 import { abis } from "@lib/common/abis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
-import { providerGetSigner } from "@lib/common/provider-get";
+import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 
-// Cache contracts(chainId,address)
+// Cache contracts(chainId,address,getSigner)
 const contractsCache: Map<string, Contract> = new Map();
+// Cache signers(chainId,address)
+const signersCache: Map<string, string> = new Map();
+
+const collectionContractKey = (chainId: number, address: string, getSigner: boolean): string =>
+  collectionKey(chainId, address) + (getSigner ? "/signer" : "/provider");
 
 const collectionGetContract = async (
   chainId: number,
-  address: string
-): Promise<{ contract: Contract; collection: CollectionType }> => {
+  address: string,
+  getSigner = false
+): Promise<{ contract: Contract; collection: CollectionType; signer?: string }> => {
   // console.log(`collectionGetContract  IN ${collectionKey(chainId, address)}\n`);
 
   const collection = await collectionGet(chainId, address);
 
-  let contract = contractsCache.get(collectionKey(chainId, address));
+  let signer = "";
+  let contract = contractsCache.get(collectionContractKey(chainId, address, getSigner));
+  if (contract && getSigner) {
+    signer = signersCache.get(collectionKey(chainId, address)) || "";
+  }
+
   if (!contract) {
+
     let abi: Array<string> = [];
 
     for (const [key, support] of Object.entries(collection.supports || {})) {
@@ -32,12 +44,19 @@ const collectionGetContract = async (
         }
       }
     }
-    contract = new Contract(address, abi);
-    contractsCache.set(collectionKey(chainId, address), contract);
+    const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
+    contract = new Contract(address, abi, signerOrProvider);
+
+    contractsCache.set(collectionContractKey(chainId, address, getSigner), contract);
+
+    if (getSigner) {
+      signer = await (signerOrProvider as Signer)?.getAddress();
+      signersCache.set(collectionKey(chainId, address), signer);
+    }
   }
 
   // console.log(`collectionGetContract OUT ${collectionKey(chainId, address)}\n`, contract, collection);
-  return { contract, collection };
+  return signer ? { contract, collection, signer } : { contract, collection };
 };
 
 // Merge 2 collections into 1 (twice the same collection but with different metadata)

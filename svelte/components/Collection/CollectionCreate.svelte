@@ -15,7 +15,7 @@
     MAX_FEE
   } from "@lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket";
+  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   import { metamaskAccount, metamaskSigner } from "@main/metamask";
 

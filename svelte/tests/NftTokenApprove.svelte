@@ -3,7 +3,10 @@
 
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
-  import { getApproved, isApprovedForAll, setTokenApprove } from "@lib/nft/nft-automarket";
+  import { getApproved, isApprovedForAll } from "@lib/nft/nft-automarket-get";
+  import { setTokenApprove } from "@lib/nft/nft-automarket-set";
+
+  import config from "@config/networks.json";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />
@@ -13,8 +16,6 @@
   export let address: string;
   export let tokenID: string;
   /////////////////////////////////////////////////
-
-  let approved = "";
 
   let tokenApproving: number;
   let tokenApproveTxHash: string;
@@ -57,7 +58,7 @@
   const tokenApproveInit = async () => {
     tokenApproveTxHash = null;
 
-    approved = await getApproved(chainId, address, tokenID);
+    const approved = await getApproved(chainId, address, tokenID);
     const approvedForAll = await isApprovedForAll(chainId, address);
 
     tokenApproving = approved || approvedForAll ? S4_APPROVEDED : S1_CONFIRM;

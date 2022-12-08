@@ -72,9 +72,8 @@ const nftMint = async (
 
   if (!(chainId && address && tokenURI && minterAddress)) return;
 
-  const { contract, collection } = await collectionGetContract(chainId, address, minter);
-  // console.log("nftMint contract", contract);
-  // console.log("nftMint collection", collection);
+  const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
+  if (!(contract && signer)) return;
 
   let txResp: TransactionResponse | undefined;
 
@@ -112,27 +111,6 @@ const nftMint = async (
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
   // }
-  explorerTxLog(chainId, txResp);
-
-  return txResp;
-};
-
-// GET claiming tx response
-// similar to mint3
-const nftClaim3TxResponse = async (
-  chainId: number,
-  address: string,
-  tokenID: string,
-  owner: JsonRpcSigner
-): Promise<TransactionResponse | null> => {
-  // console.log(`nftClaimResponse ${nftKey(chainId, address, tokenID)}`);
-  const openMultiAddress = getOpenMulti(chainId);
-  if (!(chainId && address && tokenID && owner && openMultiAddress)) return null;
-
-  const openMulti = new Contract(openMultiAddress, abiIOpenMulti, owner);
-  // console.log("openMulti", openMulti);
-
-  const txResp = await (openMulti as IOpenMulti).claim(BigNumber.from(tokenID));
   explorerTxLog(chainId, txResp);
 
   return txResp;
@@ -185,4 +163,4 @@ const nftClaim4 = async (
   return nft;
 };
 
-export { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftClaim3TxResponse, nftMint4, nftClaim4 };
+export { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4, nftClaim4 };

@@ -9,7 +9,6 @@ import {
   collectionGet as collectionLib
 } from "@lib/collection/collection-get";
 
-import { metamaskProvider } from "@main/metamask";
 import { jsonMapStringify } from "@helpers/jsonMap";
 import { collectionListStore } from "@stores/collection/collectionList";
 import { collectionSubListStore, collectionSubListRefresh } from "@stores/collection/collectionSubList";
@@ -41,7 +40,7 @@ const collectionSetOne = (collection: CollectionType): void => {
 // ACTIONS : REFRESH one Collection, for an optionnal account
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   if (!(chainId && address)) return;
-  const collection = await collectionLib(chainId, address, get(metamaskProvider), account);
+  const collection = await collectionLib(chainId, address, account);
 
   collectionSetOne(collection);
 };

@@ -9,7 +9,7 @@ import { ethers } from "ethers";
 // Cache providers (chainId)
 const _providersCache: Map<string, Array<Provider>> = new Map();
 
-const providerGetWindow = async (chainId?: number): Promise<Web3Provider | undefined> => {
+const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
   const externalProvider = (window as { ethereum?: ExternalProvider })?.ethereum || undefined;
   if (!externalProvider) return undefined;
 
@@ -24,11 +24,12 @@ const providerGetWindow = async (chainId?: number): Promise<Web3Provider | undef
   return provider;
 };
 
-const providerGetSigner = async (accountOrIndex?: string | number): Promise<Signer | undefined> => {
-  const provider = await providerGetWindow();
+const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 0): Promise<Signer | undefined> => {
+  const provider = await providerGetWindow(chainId);
 
   return provider && provider.getSigner(accountOrIndex);
 };
+
 
 const providerGetAccount = async (): Promise<string> => {
   const provider = await providerGetWindow();
@@ -58,8 +59,14 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
   }
 
   // console.log("providerGetFallback", providers);
-  console.log(`providerGetFallback #${providers.length}`);
+  console.log(`providerGetFallback #${chainId} #${providers.length}`);
   return new ethers.providers.FallbackProvider(providers);
 };
 
-export { providerGetFallback, providerGetWindow, providerGetSigner, providerGetAccount };
+
+const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {
+  return await (getSigner ? providerGetSigner(chainId) : providerGetFallback(chainId));
+};
+
+
+export { providerGetFallback, providerGetWindow, providerGetSigner, providerGetAccount, providerGetSignerOrProvider };

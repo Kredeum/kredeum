@@ -4,7 +4,7 @@
 
   import { ReceiverType } from "@lib/common/types";
   import { config, getCurrency } from "@lib/common/config";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket";
+  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   //////////////////////////////////////////////////////////////////////////
   //  <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />

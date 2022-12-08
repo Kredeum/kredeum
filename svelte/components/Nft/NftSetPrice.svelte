@@ -14,9 +14,10 @@
     nftOpenSeaUrl,
     textShort
   } from "@lib/common/config";
-  import { setTokenPrice, isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket";
+  import { isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
-  import {  metamaskAccount } from "@main/metamask";
+  import { metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputPrice from "../InputFields/InputPrice.svelte";

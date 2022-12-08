@@ -7,16 +7,17 @@ import { collectionGetContract } from "./collection-get";
 
 import { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
 import { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
-// import { OpenBound } from "@soltypes/contracts/next/OpenBound";
+import { constants, ethers } from "ethers";
+import { providerGetSigner } from "@lib/common/provider-get";
+import config from "@config/config.json";
 
 const _getN = async (
   chainId: number,
   name: string,
-  symbol: string,
-  cloner: JsonRpcSigner
+  symbol: string
 ): Promise<{ _name: string; _symbol: string }> => {
   let n = 0;
-  if (!(name && symbol)) n = (await resolverGetCount(chainId, cloner)) + 1;
+  if (!(name && symbol)) n = (await resolverGetCount(chainId)) + 1;
 
   const _name = name || `Open AutoMarket #${n}`;
   const _symbol = symbol || `NFT#${n}`;
@@ -40,12 +41,21 @@ async function* collectionInitializeOpenNFTsV4(
   const [template, config] = templateConfig.split("/");
   if (template != "OpenNFTsV4") return;
 
-  const { contract } = await collectionGetContract(chainId, address, cloner);
-  const openNFTsV4: OpenNFTsV4 = contract as OpenNFTsV4;
+  const { contract, signer } = await collectionGetContract(chainId, address, true);
+  if (!(contract && signer)) return;
 
-  const { _name, _symbol } = await _getN(chainId, name, symbol, cloner);
+  const { _name, _symbol } = await _getN(chainId, name, symbol);
   const options: boolean[] = [config == "generic"];
-  const txResp = await openNFTsV4["initialize(string,string,address,bool[])"](_name, _symbol, clonerAddress, options);
+  const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
+    ["uint256", "address", "uint96", "bool[]"],
+    [0, signer, 0, options]
+  );
+  const optionsBytes = ethers.utils.defaultAbiCoder.encode(
+    ["bytes", "address", "uint96"],
+    [subOptionsBytes, constants.AddressZero, 0]
+  );
+
+  const txResp = (await (contract as OpenNFTsV4).initialize(_name, _symbol, clonerAddress, optionsBytes)) as TransactionResponse;
 
   explorerTxLog(chainId, txResp);
   yield txResp;
@@ -57,10 +67,9 @@ async function* collectionInitializeOpenAutoMarket(
   address: string,
   name: string,
   symbol: string,
-  templateConfig: string,
-  cloner: JsonRpcSigner
+  templateConfig: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  const clonerAddress = await cloner.getAddress();
+
   // console.log(
   //   `collectionInitializeOpenAutoMarket ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
   // );
@@ -68,19 +77,20 @@ async function* collectionInitializeOpenAutoMarket(
   const [template] = templateConfig.split("/");
   if (template != "OpenAutoMarket") return;
 
-  const { contract } = await collectionGetContract(chainId, address, cloner);
-  const openAutoMarket: OpenAutoMarket = contract as OpenAutoMarket;
+  const { contract, signer } = await collectionGetContract(chainId, address, true);
+  if (!(contract && signer)) return;
 
-  const { _name, _symbol } = await _getN(chainId, name, symbol, cloner);
-  const txResp = await openAutoMarket["initialize(string,string,address,uint256,address,uint96,bool[])"](
-    _name,
-    _symbol,
-    clonerAddress,
-    0,
-    clonerAddress,
-    0,
-    [false]
+  const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
+    ["uint256", "address", "uint96", "bool[]"],
+    [0, signer, 0, [true, true]]
   );
+  const optionsBytes = ethers.utils.defaultAbiCoder.encode(
+    ["bytes", "address", "uint96"],
+    [subOptionsBytes, config.treasury.account, config.treasury.fee]
+  );
+
+  const { _name, _symbol } = await _getN(chainId, name, symbol);
+  const txResp = await (contract as OpenAutoMarket).initialize(_name, _symbol, signer, optionsBytes) as TransactionResponse;
 
   explorerTxLog(chainId, txResp);
   yield txResp;

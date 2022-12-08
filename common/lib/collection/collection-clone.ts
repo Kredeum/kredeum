@@ -10,19 +10,18 @@ async function* collectionClone(
   name: string,
   symbol: string,
   templateConfig: string,
-  cloner: JsonRpcSigner,
   mintPrice: BigNumberish = 0,
   royaltyReceiver: string = constants.AddressZero,
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig} ${await cloner.getAddress()}`);
+  console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
   console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
 
-  const nftsFactoryV3 = await factoryGetContract(chainId, cloner);
+  const nftsFactoryV3 = await factoryGetContract(chainId);
 
   let n = 0;
-  if (!(name && symbol)) n = (await resolverGetCount(chainId, cloner.provider)) + 1;
+  if (!(name && symbol)) n = (await resolverGetCount(chainId)) + 1;
   const _name = name || `Open NFTs #${n}`;
   const _symbol = symbol || `NFT#${n}`;
 

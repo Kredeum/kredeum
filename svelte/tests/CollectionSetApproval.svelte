@@ -3,7 +3,8 @@
 
   import { explorerAddressUrl, explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
-  import { isApprovedForAll, setCollectionApproval } from "@lib/nft/nft-automarket";
+  import { isApprovedForAll } from "@lib/nft/nft-automarket-get";
+  import { setCollectionApproval } from "@lib/nft/nft-automarket-set";
 
   /////////////////////////////////////////////////
   //  <CollectionSetApproval {chainId} {address} />

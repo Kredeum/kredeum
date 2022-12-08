@@ -6,7 +6,7 @@
   import { nftStore } from "@stores/nft/nft";
   import { explorerTxUrl, explorerTxLog, textShort } from "@lib/common/config";
 
-  import { setTokenRoyaltyInfos } from "@lib/nft/nft-automarket";
+  import { setTokenRoyaltyInfos } from "@lib/nft/nft-automarket-set";
 
   import { BigNumber } from "ethers";
 

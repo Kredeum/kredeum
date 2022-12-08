@@ -4,7 +4,7 @@ import { getNetwork, explorerContractUrl } from "@lib/common/config";
 
 import type { OpenNFTsResolver } from "@soltypes/contracts/OpenNFTsResolver";
 import abiOpenNFTsResolver from "@abis/contracts/OpenNFTsResolver.sol/OpenNFTsResolver.json";
-import { providerGetFallback } from "@lib/common/provider-get";
+import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<string, Contract> = new Map();
@@ -22,14 +22,15 @@ const resolverGetCount = async (chainId: number): Promise<number> => {
 };
 
 // GET openNFTsResolver Contract
-const resolverGetContract = async (chainId: number): Promise<OpenNFTsResolver> => {
+const resolverGetContract = async (chainId: number, signer = false): Promise<OpenNFTsResolver> => {
   // console.log("resolverGetContract", chainId);
-
-  const provider = await providerGetFallback(chainId);
 
   let nftsResolver = _nftsResolversCache.get(String(chainId));
   if (!nftsResolver) {
-    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, provider);
+    const signerOrProvider = await providerGetSignerOrProvider(chainId, signer);
+
+    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, signerOrProvider);
+
     _nftsResolversCache.set(String(chainId), nftsResolver);
   }
 

@@ -8,7 +8,7 @@
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
-  import { setTokenPrice } from "@lib/nft/nft-automarket";
+  import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   /////////////////////////////////////////////////
   //  <NftWithDraw {chainId} {address} {tokenID} />

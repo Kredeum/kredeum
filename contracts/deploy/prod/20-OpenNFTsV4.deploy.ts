@@ -34,7 +34,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
     const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [0, deployer.address, 0, [[true]]]
+      [0, deployer.address, 0, [true]]
     );
     const optionsBytes = ethers.utils.defaultAbiCoder.encode(
       ["bytes", "address", "uint96"],
