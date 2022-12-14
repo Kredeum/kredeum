@@ -11,17 +11,17 @@ const _fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchR
   let json: FetchResponse;
   if (url) {
     try {
-      // console.log(url, config);
+      // console.log("_fetchJson", url, config);
       const res = await fetch(url, config);
-      // console.log(res);
+      // console.log("_fetchJson", res);
 
       json = (await res.json()) as FetchResponse;
     } catch (e) {
       json = { error: e };
-      console.error("OpenNFTs.fetchJson ERROR", e, url, json);
+      console.error("fetchJson ERROR", e, url, config);
     }
   } else {
-    const e = "OpenNFTs.fetchJson URL not defined";
+    const e = "fetchJson URL not defined";
     console.error(e);
     json = { error: e };
   }
@@ -34,7 +34,11 @@ const fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchRe
   await _fetchJson(storageLinkToUrlHttp(url), config);
 
 const fetchGQL = async (url: string, query: string): Promise<unknown> => {
-  const config = { method: "POST", body: JSON.stringify({ query: query }) };
+  const config = {
+    method: "POST",
+    body: JSON.stringify({ query: query }),
+    headers: { Accept: "application/json" }
+  };
 
   const answerGQL = await _fetchJson(url, config);
 

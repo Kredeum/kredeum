@@ -17,34 +17,33 @@ const thegraphNftList = async (
 
   if (network && collection) {
     const collectionAddress = collection.address.toLowerCase();
-    const whereOwner = account ? `where: { account: "${account.toLowerCase()}" }` : "";
+    const whereOwner = account ? `owner: "${account.toLowerCase()}"` : "";
 
     const query = `{
-      tokenContract( id: "${collectionAddress}" ) {
-        tokens( first:${limit} ${whereOwner} ) {
+      tokens( first:${limit} where: {contract: "${collectionAddress}" ${whereOwner} } ) {
+        id
+        owner{
           id
-          account{
-            id
-          }
-          tokenID
-          tokenURI
         }
+        tokenID
+        tokenURI
       }
     }`;
     type NftsGQL = {
       tokenID: string;
       tokenURI: string;
-      account: { id: string };
+      owner: { id: string };
     };
     type AnswerNftsGQL = {
-      tokenContract: { nfts: Array<NftsGQL> };
+      tokens: Array<NftsGQL>;
     };
-    // console.log(query);
+    // console.log("thegraphNftList", query);
     const answerGQL = (await thegraphFetch(chainId, query)) as AnswerNftsGQL;
-    const nftsJson: Array<NftsGQL> = answerGQL?.tokenContract?.nfts || [];
+    // const answerGQL = (await thegraphRelayFetch(chainId, query)) as AnswerNftsGQL;
+    const nftsJson: Array<NftsGQL> = answerGQL?.tokens || [];
     // console.log(nftsJson[0]);
     // console.log("thegraphNftList nbTokens", nftsJson.length);
-    // console.log(nftsJson);
+    // console.log("thegraphNftList", nftsJson);
 
     for (let index = 0; index < Math.min(nftsJson.length, limit); index++) {
       const _token = nftsJson[index];
@@ -57,7 +56,7 @@ const thegraphNftList = async (
           address: getChecksumAddress(collection.address),
           tokenID,
           tokenURI: _token.tokenURI,
-          owner: getChecksumAddress(_token.account?.id),
+          owner: getChecksumAddress(_token.owner?.id),
           nid: nftKey(chainId, collection.address, tokenID)
           // metadata: _token.metadata && JSON.parse(_token.metadata),
           // name: _token.name,
@@ -82,22 +81,24 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
 
   if (account) {
     const query = `
-        {
-          ownerPerTokenContracts(
-            where: {
-              owner: "${account.toLowerCase()}"
-              }
-          ) {
-            contract {
-              id
-              name
-              symbol
-              numTokens
-            }
+    {
+      ownerPerTokenContracts(
+        where: {
+          owner: "${account.toLowerCase()}"
+        }
+        ) {
+          contract {
+            id
+            name
+            symbol
             numTokens
           }
+          numTokens
         }
-    `;
+      }
+      `;
+    // console.log("thegraphCollectionList", query);
+
     type AnswerCollectionsGQL = {
       ownerPerTokenContracts: Array<{
         contract: { id: string; name: string; symbol: string; numTokens: number };
@@ -107,6 +108,7 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
     const answerGQL = (await thegraphFetch(chainId, query)) as AnswerCollectionsGQL;
     const currentContracts = answerGQL?.ownerPerTokenContracts || [];
     // console.log(currentContracts[0]);
+    // console.log("thegraphCollectionList", currentContracts);
 
     for (let index = 0; index < currentContracts.length; index++) {
       const currentContractResponse = currentContracts[index];
@@ -138,8 +140,11 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
 const thegraphFetch = async (chainId: number, query: string): Promise<unknown> =>
   await fetchGQL(thegraphGetUrl(chainId), query);
 
+const thegraphRelayFetch = async (chainId: number, query: string): Promise<unknown> =>
+  await fetchGQL(`http://127.0.0.1:4004/${thegraphGetUrl(chainId)}`, query);
+
 const thegraphGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.subgraph?.active);
 const thegraphGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.subgraph?.active && getNetwork(chainId)?.subgraph?.url) || "";
 
-export { thegraphCollectionList, thegraphGet, thegraphNftList, thegraphGetUrl, thegraphFetch };
+export { thegraphCollectionList, thegraphGet, thegraphNftList, thegraphGetUrl, thegraphFetch, thegraphRelayFetch };

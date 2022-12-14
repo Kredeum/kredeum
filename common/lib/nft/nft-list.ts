@@ -40,12 +40,12 @@ const nftListTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    if (alchemyGet(chainId)) {
-      nftsOwner = await alchemyNftList(chainId, collection, account, limit);
-      // console.log("nftListTokenIds alchemyNftList", nftsOwner);
-    } else if (thegraphGet(chainId)) {
+    if (thegraphGet(chainId)) {
       nftsOwner = await thegraphNftList(chainId, collection, account, limit);
       // console.log("nftListTokenIds thegraphNftList", nftsOwner);
+    } else if (alchemyGet(chainId)) {
+      nftsOwner = await alchemyNftList(chainId, collection, account, limit);
+      // console.log("nftListTokenIds alchemyNftList", nftsOwner);
     } else if (moralisGet(chainId)) {
       nftsOwner = await moralisNftList(chainId, collection, account, limit);
     } else if (covalentGet(chainId)) {

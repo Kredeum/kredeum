@@ -25,17 +25,18 @@ const nftSubListRefresh = async (chainId: number, address: string, account: stri
     collection = $collectionList.get(key);
   }
 
-  if (collection?.supports?.IERC721Enumerable) {
-    const { nfts } = await resolverGetNfts(chainId, collection, account);
-    // console.log("nftSubListRefresh Enumerable ~ nNFTs", Number(count));
+  // if (collection?.supports?.IERC721Enumerable) {
+  //   const { nfts } = await resolverGetNfts(chainId, collection, get(metamaskProvider), account);
+  //   // console.log("nftSubListRefresh Enumerable ~ nNFTs", Number(count));
 
-    for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
-  } else {
-    const nftsTokenIds = await nftListTokenIds(chainId, collection.address, collection, account);
+  //   for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
+  // } else
+  {
+    const nftsTokenIds = await nftListTokenIds(chainId, collection.address, get(metamaskProvider), collection, account);
     // console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
-    for await (const _nft of nftsTokenIds.values()) {
-      nftStore.setOne(await nftGetMetadata(_nft));
+    for await (const nft of nftsTokenIds.values()) {
+      nftStore.setOne(await nftGetMetadata(nft));
     }
   }
 };

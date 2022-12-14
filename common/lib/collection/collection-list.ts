@@ -44,12 +44,12 @@ const collectionList = async (
     let collectionsResolver: Map<string, CollectionType> = new Map();
 
     // GET user collections
-    if (alchemyGet(chainId)) {
-      collectionsApi = await alchemyCollectionList(chainId, account);
-      // console.log("collectionList alchemyCollectionList", collectionsApi);
-    } else if (thegraphGet(chainId)) {
+    if (thegraphGet(chainId)) {
       collectionsApi = await thegraphCollectionList(chainId, account);
       // console.log("collectionList thegraphCollectionList", collectionsApi);
+    } else if (alchemyGet(chainId)) {
+      collectionsApi = await alchemyCollectionList(chainId, account);
+      // console.log("collectionList alchemyCollectionList", collectionsApi);
     } else if (moralisGet(chainId)) {
       collectionsApi = await moralisCollectionList(chainId, account);
       // console.log("collectionList moralisCollectionList", collectionsApi);
