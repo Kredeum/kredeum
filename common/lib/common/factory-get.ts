@@ -2,8 +2,8 @@ import { Contract } from "ethers";
 
 import { getNetwork, explorerContractUrl } from "@lib/common/config";
 
-import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/OpenNFTsFactoryV3";
-import abiOpenNFTsFactoryV3 from "@abis/contracts/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
+import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
+import abiOpenNFTsFactoryV3 from "@abis/src/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
 import { providerGetSignerOrProvider } from "./provider-get";
 
 // Cache nftsFactory(chainId)

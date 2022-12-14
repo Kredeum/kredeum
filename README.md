@@ -5,9 +5,9 @@
 Before installation, you need "node" and "pnpm" installed and a ".env" file setup
 (_go to [pre-installation instructions](#pre-installation)_)
 
-### Building Dapp and Plugin : `npm run build`
+### Building Dapp and Plugin : `pnpm run build`
 
-### Running the Dapp : `npm run dapp`
+### Running the Dapp : `pnpm run dapp`
 
 ### Running the Plugin :
 

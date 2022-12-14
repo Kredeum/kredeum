@@ -29,7 +29,6 @@ const collectionGetContract = async (
   }
 
   if (!contract) {
-
     let abi: Array<string> = [];
 
     for (const [key, support] of Object.entries(collection.supports || {})) {
@@ -95,7 +94,7 @@ const collectionDefaultKey = (chainId: number, account: string): string =>
 const collectionBurnable = async (chainId: number, address: string): Promise<string> => {
   const { collection } = await collectionGetContract(chainId, address);
 
-  return (collection.version === 4) ? "burn" : "";
+  return collection.version === 4 ? "burn" : "";
 };
 
 export {

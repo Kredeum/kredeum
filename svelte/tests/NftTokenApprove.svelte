@@ -6,7 +6,7 @@
   import { getApproved, isApprovedForAll } from "@lib/nft/nft-automarket-get";
   import { setTokenApprove } from "@lib/nft/nft-automarket-set";
 
-  import config from "@config/networks.json";
+  // import config from "@config/networks.json";
 
   /////////////////////////////////////////////////
   //  <NftTokenApprove {chainId} {address} {tokenID} {nftPrice} />

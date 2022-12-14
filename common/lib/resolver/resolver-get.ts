@@ -2,8 +2,8 @@ import { Contract } from "ethers";
 
 import { getNetwork, explorerContractUrl } from "@lib/common/config";
 
-import type { OpenNFTsResolver } from "@soltypes/contracts/OpenNFTsResolver";
-import abiOpenNFTsResolver from "@abis/contracts/OpenNFTsResolver.sol/OpenNFTsResolver.json";
+import type { OpenNFTsResolver } from "@soltypes/src/OpenNFTsResolver";
+import abiOpenNFTsResolver from "@abis/src/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 
 // Cache nftsResolver contract (chainId)

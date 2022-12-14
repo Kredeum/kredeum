@@ -1,7 +1,7 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
-import type { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
-import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/OpenNFTsFactoryV3";
+import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
+import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
 import config from "@config/config.json";

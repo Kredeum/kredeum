@@ -126,7 +126,6 @@ const config: HardhatUserConfig = {
     {
       runOnCompile: true,
       clear: true,
-      only: ["src"],
       flat: false,
       spacing: 2,
       format: "minimal",

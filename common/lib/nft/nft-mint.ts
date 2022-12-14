@@ -1,23 +1,21 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { ethers, BigNumber, Contract, constants, BigNumberish } from "ethers";
+import { ethers, constants, BigNumberish } from "ethers";
 
 import type { NftType } from "@lib/common/types";
-import type { IOpenMulti } from "@soltypes/contracts/interfaces";
-import abiIOpenMulti from "@abis/contracts/interfaces/IOpenMulti.sol/IOpenMulti.json";
 
-import { ipfsGatewayUrl, explorerTxLog, getOpenMulti, storageLinkToUrlHttp } from "@lib/common/config";
+import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp } from "@lib/common/config";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
 import { nftIpfsImage, nftIpfsJson } from "@lib/nft/storage/nft-ipfs";
 import { nftSwarmImage, nftSwarmJson } from "@lib/nft/storage/nft-swarm";
 
-import type { IOpenNFTsV0 } from "@soltypes/contracts/interfaces/IOpenNFTsV0";
-import type { IOpenNFTsV1 } from "@soltypes/contracts/interfaces/IOpenNFTsV1";
-import type { IOpenNFTsV2 } from "@soltypes/contracts/interfaces/IOpenNFTsV2";
-import type { IOpenNFTsV3Plus } from "@soltypes/contracts/interfaces/IOpenNFTsV3Plus";
-import type { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
-import type { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
+import type { IOpenNFTsV0 } from "@soltypes/src/interfaces/IOpenNFTsV0";
+import type { IOpenNFTsV1 } from "@soltypes/src/interfaces/IOpenNFTsV1";
+import type { IOpenNFTsV2 } from "@soltypes/src/interfaces/IOpenNFTsV2";
+import type { IOpenNFTsV3Plus } from "@soltypes/src/interfaces/IOpenNFTsV3Plus";
+import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

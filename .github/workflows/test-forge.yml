@@ -1,6 +1,6 @@
 name: Kredeum NFTs forge TEST
 
-on: ["push", "pull_request"]
+on: push
 
 jobs:
   check:

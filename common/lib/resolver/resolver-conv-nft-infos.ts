@@ -3,7 +3,7 @@ import { BigNumber, constants } from "ethers";
 import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
 import { getChainName, getChecksumAddress } from "@lib/common/config";
 
-import { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/contracts/interfaces/IOpenNFTsResolver";
+import { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/src/interfaces/IOpenNFTsResolver";
 
 const resolverConvNftInfos = (
   chainId: number,

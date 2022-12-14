@@ -21,20 +21,20 @@ import abiIOpenCloneable from "@abis/OpenNFTs/contracts/interfaces/IOpenCloneabl
 import abiIOpenMarketable from "@abis/OpenNFTs/contracts/interfaces/IOpenMarketable.sol/IOpenMarketable.json";
 import abiIOpenPauseable from "@abis/OpenNFTs/contracts/interfaces/IOpenPauseable.sol/IOpenPauseable.json";
 
-import abiIOpenNFTsV0 from "@abis/contracts/interfaces/IOpenNFTsV0.sol/IOpenNFTsV0.json";
-import abiIOpenNFTsV1 from "@abis/contracts/interfaces/IOpenNFTsV1.sol/IOpenNFTsV1.json";
-import abiIOpenNFTsV2 from "@abis/contracts/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
-import abiIOpenNFTsV3 from "@abis/contracts/interfaces/IOpenNFTsV3.sol/IOpenNFTsV3.json";
-import abiIOpenNFTsV4 from "@abis/contracts/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
-import abiIOpenAutoMarket from "@abis/contracts/interfaces/IOpenAutoMarket.sol/IOpenAutoMarket.json";
-import abiIOpenBound from "@abis/contracts/interfaces/IOpenBound.sol/IOpenBound.json";
+import abiIOpenNFTsV0 from "@abis/src/interfaces/IOpenNFTsV0.sol/IOpenNFTsV0.json";
+import abiIOpenNFTsV1 from "@abis/src/interfaces/IOpenNFTsV1.sol/IOpenNFTsV1.json";
+import abiIOpenNFTsV2 from "@abis/src/interfaces/IOpenNFTsV2.sol/IOpenNFTsV2.json";
+import abiIOpenNFTsV3 from "@abis/src/interfaces/IOpenNFTsV3.sol/IOpenNFTsV3.json";
+import abiIOpenNFTsV4 from "@abis/src/interfaces/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+import abiIOpenAutoMarket from "@abis/src/interfaces/IOpenAutoMarket.sol/IOpenAutoMarket.json";
+import abiIOpenBound from "@abis/src/interfaces/IOpenBound.sol/IOpenBound.json";
 
-import abiICloneFactoryV2 from "@abis/contracts/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
-import abiINFTsFactoryV2 from "@abis/contracts/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
-import abiIOpenNFTsFactoryV3 from "@abis/contracts/interfaces/IOpenNFTsFactoryV3.sol/IOpenNFTsFactoryV3.json";
+import abiICloneFactoryV2 from "@abis/src/interfaces/ICloneFactoryV2.sol/ICloneFactoryV2.json";
+import abiINFTsFactoryV2 from "@abis/src/interfaces/INFTsFactoryV2.sol/INFTsFactoryV2.json";
+import abiIOpenNFTsFactoryV3 from "@abis/src/interfaces/IOpenNFTsFactoryV3.sol/IOpenNFTsFactoryV3.json";
 
-import abiIOpenNFTsOld from "@abis/contracts/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
-import abiIOpenNFTsV3Plus from "@abis/contracts/interfaces/IOpenNFTsV3Plus.sol/IOpenNFTsV3Plus.json";
+import abiIOpenNFTsOld from "@abis/src/interfaces/IOpenNFTs.old.sol/IOpenNFTs.json";
+import abiIOpenNFTsV3Plus from "@abis/src/interfaces/IOpenNFTsV3Plus.sol/IOpenNFTsV3Plus.json";
 
 const abis = {
   IERC165: abiIERC165,

@@ -5,17 +5,13 @@ import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 import { collectionGetContract } from "./collection-get";
 
-import { OpenNFTsV4 } from "@soltypes/contracts/OpenNFTsV4";
-import { OpenAutoMarket } from "@soltypes/contracts/OpenAutoMarket";
+import { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
+import { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import { constants, ethers } from "ethers";
-import { providerGetSigner } from "@lib/common/provider-get";
+
 import config from "@config/config.json";
 
-const _getN = async (
-  chainId: number,
-  name: string,
-  symbol: string
-): Promise<{ _name: string; _symbol: string }> => {
+const _getN = async (chainId: number, name: string, symbol: string): Promise<{ _name: string; _symbol: string }> => {
   let n = 0;
   if (!(name && symbol)) n = (await resolverGetCount(chainId)) + 1;
 
@@ -55,7 +51,12 @@ async function* collectionInitializeOpenNFTsV4(
     [subOptionsBytes, constants.AddressZero, 0]
   );
 
-  const txResp = (await (contract as OpenNFTsV4).initialize(_name, _symbol, clonerAddress, optionsBytes)) as TransactionResponse;
+  const txResp = (await (contract as OpenNFTsV4).initialize(
+    _name,
+    _symbol,
+    clonerAddress,
+    optionsBytes
+  )) as TransactionResponse;
 
   explorerTxLog(chainId, txResp);
   yield txResp;
@@ -69,7 +70,6 @@ async function* collectionInitializeOpenAutoMarket(
   symbol: string,
   templateConfig: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-
   // console.log(
   //   `collectionInitializeOpenAutoMarket ${chainId} '${address}' '${name}' '${symbol}' '${templateConfig}' ${clonerAddress}`
   // );
@@ -90,7 +90,12 @@ async function* collectionInitializeOpenAutoMarket(
   );
 
   const { _name, _symbol } = await _getN(chainId, name, symbol);
-  const txResp = await (contract as OpenAutoMarket).initialize(_name, _symbol, signer, optionsBytes) as TransactionResponse;
+  const txResp = (await (contract as OpenAutoMarket).initialize(
+    _name,
+    _symbol,
+    signer,
+    optionsBytes
+  )) as TransactionResponse;
 
   explorerTxLog(chainId, txResp);
   yield txResp;

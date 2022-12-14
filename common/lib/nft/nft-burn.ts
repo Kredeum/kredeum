@@ -11,7 +11,6 @@ async function* burnNft(
   address: string,
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-
   const signer = await providerGetSigner();
   if (!signer) return {};
 
