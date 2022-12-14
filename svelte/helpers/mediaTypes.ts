@@ -1,4 +1,4 @@
-type Mediatype = "image" | "gif" | "audio";
+type Mediatype = "image" | "gif" | "audio" | "video";
 
 const SUPPORTED_MEDIATYPES = {
   image: {
@@ -12,6 +12,10 @@ const SUPPORTED_MEDIATYPES = {
   audio: {
     label: ".mp3, .wav, .ogg, .oga, .aac",
     format: "audio/mpeg, audio/wav, audio/x-wav, audio/ogg, .aac"
+  },
+  video: {
+    label: ".mp4, .webm",
+    format: "video/mp4, video/webm"
   }
 };
 

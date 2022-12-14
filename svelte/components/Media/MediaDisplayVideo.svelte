@@ -3,7 +3,7 @@
   import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
-  //  <DisplayVideo {mediaSrc} {tokenID} {displayMode}? {paused}? {small}? />
+  //  <MediaDisplayVideo {mediaSrc} {tokenID}? {displayMode}? {paused}? {small}? {controls}? {muted}? />
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let mediaSrc: string;
@@ -11,6 +11,8 @@
   export let displayMode: string = "list";
   export let paused: boolean = true;
   export let small: boolean = false;
+  export let controls: boolean = false;
+  export let muted: boolean = false;
 
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
   $: paused = $toPlayTokenID !== tokenID;
@@ -38,7 +40,7 @@
     </button>
   {:else if "list" === displayMode}
     <!-- svelte-ignore a11y-media-has-caption -->
-    <video autoplay={false} playsinline style="border-radius: initial;">
+    <video autoplay={false} playsinline style="border-radius: initial;" {controls} {muted}>
       <source src={mediaSrc} type="video/mp4" /></video
     >
   {:else}
