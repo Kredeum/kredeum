@@ -12,7 +12,7 @@ import "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";
 import "../interfaces/IOpenNFTsResolver.sol";
 import "../interfaces/IAll.sol";
 
-contract OpenNFTsResolverV1_1 is IOpenNFTsResolver, OpenResolver {
+contract OpenNFTsResolverV11 is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](12);
 
     uint8 private constant _IERC_2981 = 10;

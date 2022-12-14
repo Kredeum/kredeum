@@ -141,7 +141,6 @@
       collectionName,
       collectionSymbol,
       template,
-      $metamaskSigner,
       inputMintPrice,
       inputReceiver,
       inputFeeNumber,

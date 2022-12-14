@@ -9,7 +9,7 @@
     textShort,
     storageLinkToUrlHttp
   } from "@lib/common/config";
-  import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/nft-mint";
+  import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
   import type { Readable } from "svelte/store";
@@ -63,7 +63,7 @@
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {
             // console.log("cidToInt(cid)", cidToInt(cid));
-            const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
+            const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
             explorerTxLog(chainId, txResp);
 
             const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);

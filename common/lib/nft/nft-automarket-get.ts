@@ -87,7 +87,6 @@ const isApprovedForAll = async (chainId: number, address: string, account?: stri
   return await (contract as IERC721).isApprovedForAll(account, address);
 };
 
-
 const getEthersConverterLink = (chainId: number, price: string) => {
   let url = "";
   // https://etherscan.io/unitconverter?wei=0.0326

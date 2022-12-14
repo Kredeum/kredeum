@@ -30,7 +30,6 @@ const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 
   return provider && provider.getSigner(accountOrIndex);
 };
 
-
 const providerGetAccount = async (): Promise<string> => {
   const provider = await providerGetWindow();
   let account = "";
@@ -63,10 +62,8 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
   return new ethers.providers.FallbackProvider(providers);
 };
 
-
 const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {
   return await (getSigner ? providerGetSigner(chainId) : providerGetFallback(chainId));
 };
-
 
 export { providerGetFallback, providerGetWindow, providerGetSigner, providerGetAccount, providerGetSignerOrProvider };

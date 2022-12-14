@@ -58,7 +58,7 @@ const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): strin
     "nft://" +
     (network
       ? network.chainName +
-      (address ? "/" + (getShortAddress(address, n) + (tokenID ? "/" + textShort(tokenID, 8) : "")) : "")
+        (address ? "/" + (getShortAddress(address, n) + (tokenID ? "/" + textShort(tokenID, 8) : "")) : "")
       : "");
   // console.log("nftUrl3", chainId, _contract, _tokenId, plus, ret);
   return ret;
@@ -72,8 +72,8 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
     "/?chainId=" +
     (network
       ? network.chainName +
-      "&collection=" +
-      (nft ? `${nft?.address}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
+        "&collection=" +
+        (nft ? `${nft?.address}` + "&tokenID=" + (nft ? `${nft?.tokenID}` : "") : "")
       : "");
   // console.log("normalizedSoloNftUrl", chainId, collection, _tokenId, plus, ret);
 
@@ -81,7 +81,7 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 };
 
 // CONSTANT
-const IPFS_GATEWAY_DOMAIN = config.storage.ipfs.gatewayDomain;
+// const IPFS_GATEWAY_DOMAIN = config.storage.ipfs.gatewayDomain;
 const IPFS_GATEWAY = config.storage.ipfs.gateway;
 const SWARM_GATEWAY = config.storage.swarm.gateway;
 
@@ -265,8 +265,8 @@ const storageLinkToUrlHttp = (link: string): string =>
   link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
     ? ipfsLinkToUrlHttp(link)
     : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-      ? swarmLinkToUrlHttp(link)
-      : link;
+    ? swarmLinkToUrlHttp(link)
+    : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

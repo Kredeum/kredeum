@@ -8,10 +8,10 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules types abis config/networks.json",
-    "build": "npm run build-networks",
+    "build": "pnpm run build-networks",
     "build-networks": "npx ts-node scripts/build-networks",
     "tests": "echo tests",
-    "check": "npm run prettier && npm run eslint",
+    "check": "pnpm run prettier && pnpm run eslint",
     "eslint": "eslint lib/**/*.ts --fix --quiet",
     "prettier": "prettier lib/**/*.ts --write --loglevel error"
   },

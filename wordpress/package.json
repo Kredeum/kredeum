@@ -8,10 +8,10 @@
     "postinstall": "composer install --prefer-dist --no-progress",
     "build-plugins": "npx ts-node build-plugins",
     "build-vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
-    "build": "npm run build-plugins && npm run build-vendor",
+    "build": "pnpm run build-plugins && pnpm run build-vendor",
     "fix": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
     "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
-    "check": "npm run fix && npm run format",
+    "check": "pnpm run fix && pnpm run format",
     "tests": "cypress run"
   },
   "keywords": [],

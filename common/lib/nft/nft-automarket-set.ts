@@ -23,7 +23,7 @@ async function* setTokenRoyaltyInfos(
   if (!(contract && signer)) return {};
 
   // console.log("contract", contract);
-  if (!(collection.supports?.IOpenMarketable && (collection.open && signer === collection.owner))) return {};
+  if (!(collection.supports?.IOpenMarketable && collection.open && signer === collection.owner)) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenRoyalty(
     BigNumber.from(tokenID),
@@ -102,7 +102,6 @@ async function* setTokenPrice(
   yield await txResp.wait();
 }
 
-
 async function* setDefautCollectionPrice(
   chainId: number,
   address: string,
@@ -134,7 +133,7 @@ async function* setDefautCollectionRoyalty(
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
 
-  if (!(collection.supports?.IOpenMarketable && (collection.royalty && signer === collection.owner))) return {};
+  if (!(collection.supports?.IOpenMarketable && collection.royalty && signer === collection.owner)) return {};
 
   const txResp = await (contract as IOpenMarketable).setDefaultRoyalty(defaultRoyaltiesReceiver, defaultRoyaltyAmount);
   if (!txResp) return {};
@@ -143,7 +142,6 @@ async function* setDefautCollectionRoyalty(
   yield txResp;
   yield await txResp.wait();
 }
-
 
 export {
   setTokenRoyaltyInfos,
