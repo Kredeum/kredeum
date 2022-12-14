@@ -79,8 +79,8 @@
         "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && export PATH=$PATH:$HOME/.foundry/bin &&  foundryup && npm run foundry:init && npm run foundry:update",
         "foundry:init": "forge init --force --no-commit && rm -rf **/Counter*.sol",
         "foundry:update": "git submodule update --recursive",
-        "prettier": "prettier contracts/**/*.sol **/*.ts --write --plugin prettier-plugin-solidity --loglevel error",
-        "solhint": "solhint --fix contracts/**/*.sol",
+        "prettier": "prettier src/**/*.sol **/*.ts --write --plugin prettier-plugin-solidity --loglevel error",
+        "solhint": "solhint --fix src/**/*.sol",
         "tests": "hardhat test"
     },
     "version": "1.0.0"
