@@ -7,8 +7,7 @@ const copyToClipboard = (data: string): void => {
 };
 
 const getShortcodeOpenSeaCode = (_nft: NftType): string =>
-  `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${_nft.tokenID}" cid="${
-    _nft.image
+  `[kredeum_sell chain="${_nft.chainName}" collection="${_nft.address}" tokenid="${_nft.tokenID}" cid="${_nft.image
   }" image=50]${nftName(_nft)}[/kredeum_sell]`;
 
 const shortcode = (_nft: NftType) => {
@@ -40,13 +39,12 @@ const autoMarketWidget = (_nft: NftType) => {
   copyToClipboard(data);
 };
 
-const getShortcodeBuyCode = (_nft: NftType): string =>
-  `[kredeum_automarket_button chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}"]${nftName(
-    _nft
-  )}[/kredeum_automarket_button]`;
+const getShortcodeBuyCode = (chainId: number, address: string, tokenID?: string): string =>
+  `[kredeum_automarket_button chainid="${chainId}" address="${address}" ${tokenID ? `tokenid="${tokenID}"` : ""}]
+  [/kredeum_automarket_button]`;
 
-const shortcodeBuy = (_nft: NftType) => {
-  const data = getShortcodeBuyCode(_nft);
+const shortcodeBuy = (chainId: number, address: string, tokenID?: string) => {
+  const data = getShortcodeBuyCode(chainId, address, tokenID);
 
   copyToClipboard(data);
 };
