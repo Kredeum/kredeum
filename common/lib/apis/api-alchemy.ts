@@ -1,9 +1,9 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/common/ktypes";
-import type { FetchResponse } from "@lib/common/kfetch";
-import { fetchJson, FETCH_LIMIT } from "@lib/common/kfetch";
-import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/common/kconfig";
+import type { CollectionType, NftType } from "@lib/common/types";
+import type { FetchResponse } from "@lib/common/fetch";
+import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
+import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/common/config";
 
 const alchemyCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollectionList ${collectionListKey(chainId, account)}\n`);

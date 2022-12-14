@@ -2,7 +2,7 @@
   import { onMount, setContext } from "svelte";
   import { Writable, writable } from "svelte/store";
 
-  import { getCreate, config } from "@lib/common/kconfig";
+  import { getCreate, config } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";

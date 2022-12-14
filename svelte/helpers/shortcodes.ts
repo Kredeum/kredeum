@@ -1,5 +1,5 @@
-import type { NftType } from "@lib/common/ktypes";
-import { nftName, config } from "@lib/common/kconfig";
+import type { NftType } from "@lib/common/types";
+import { nftName, config } from "@lib/common/config";
 
 const copyToClipboard = (data: string): void => {
   navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));

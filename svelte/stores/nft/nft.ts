@@ -1,10 +1,8 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { NftType } from "@lib/common/ktypes";
-import { nftGet as nftLib } from "@lib/nft/knft-get";
-
-import { metamaskProvider } from "@main/metamask";
+import type { NftType } from "@lib/common/types";
+import { nftGet as nftLib } from "@lib/nft/nft-get";
 
 import { nftListStore } from "./nftList";
 import { nftSubListStore, nftSubListRefresh } from "./nftSubList";
@@ -35,19 +33,19 @@ const nftSetOne = (nft: NftType): void => {
 
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
-  // console.log("nftRefresh", chainId, address, tokenID);
+  console.log("nftRefresh", chainId, address, tokenID);
 
   if (!(chainId && address && tokenID)) return;
-  // const key = nftGetKey(chainId, address, tokenID);
-  // console.log("nftRefresh ~ key", key);
+  const key = nftGetKey(chainId, address, tokenID);
+  console.log("nftRefresh ~ key", key);
 
   const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
-  // console.log("nftRefresh ~ _coll", _coll);
+  console.log("nftRefresh ~ _coll", _coll);
 
-  if (_coll.supports?.IERC1155) return;
+  // if (_coll?.supports?.IERC1155) return;
   try {
     // const _nftOld = get(nftListStore).get(nftGetKey(chainId, address, tokenID));
-    const _nftLib = await nftLib(chainId, address, tokenID, get(metamaskProvider), _coll, true);
+    const _nftLib = await nftLib(chainId, address, tokenID, _coll, true);
 
     // Object.assign(_nftLib, _nftOld);
 

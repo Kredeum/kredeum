@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NftType, Properties } from "@lib/common/ktypes";
+  import type { NftType, Properties } from "@lib/common/types";
   import type { Mediatype } from "@helpers/mediaTypes";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
@@ -8,10 +8,10 @@
   import { onMount, getContext } from "svelte";
   import { fade } from "svelte/transition";
 
-  import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
-  import { collectionGet } from "@lib/collection/kcollection-get";
-  import { CollectionType } from "@lib/common/ktypes";
-  import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/kautomarket";
+  import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { collectionGet } from "@lib/collection/collection-get";
+  import { CollectionType } from "@lib/common/types";
+  import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import {
     textShort,
     swarmGatewayUrl,
@@ -22,7 +22,7 @@
     storageLinkToUrlHttp,
     config,
     getCurrency
-  } from "@lib/common/kconfig";
+  } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
@@ -106,7 +106,7 @@
   let collection: CollectionType;
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    collection = await collectionGet(chainId, address, $metamaskProvider);
+    collection = await collectionGet(chainId, address);
     price = BigNumber.from(collection?.price || 0);
   };
 

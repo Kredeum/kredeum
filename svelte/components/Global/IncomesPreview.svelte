@@ -2,9 +2,9 @@
   import { BigNumber, BigNumberish, constants, utils } from "ethers";
   const { formatEther } = utils;
 
-  import { ReceiverType } from "@lib/common/ktypes";
-  import { config, getCurrency } from "@lib/common/kconfig";
-  import { getReceiverAmount } from "@lib/nft/kautomarket";
+  import { ReceiverType } from "@lib/common/types";
+  import { config, getCurrency } from "@lib/common/config";
+  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   //////////////////////////////////////////////////////////////////////////
   //  <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />

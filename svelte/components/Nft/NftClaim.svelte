@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/ktypes";
-  import NftStorage from "@lib/nft/storage/knft-storage";
+  import type { NftType } from "@lib/common/types";
+  import NftStorage from "@lib/nft/storage/nft-storage";
   import {
     getOpenMulti,
     explorerTxLog,
@@ -8,9 +8,9 @@
     explorerTxUrl,
     textShort,
     storageLinkToUrlHttp
-  } from "@lib/common/kconfig";
-  import { nftClaim3TxResponse, nftClaim4 } from "@lib/nft/knft-mint";
-  import { cidToInt } from "@lib/common/kcid";
+  } from "@lib/common/config";
+  import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
+  import { cidToInt } from "@lib/common/cid";
 
   import type { Readable } from "svelte/store";
   import { nftStore } from "@stores/nft/nft";
@@ -63,7 +63,7 @@
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {
             // console.log("cidToInt(cid)", cidToInt(cid));
-            const txResp = await nftClaim3TxResponse(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
+            const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
             explorerTxLog(chainId, txResp);
 
             const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);

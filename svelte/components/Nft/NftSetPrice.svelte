@@ -4,7 +4,7 @@
   import { BigNumber, BigNumberish, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
-  import type { NftType } from "@lib/common/ktypes";
+  import type { NftType } from "@lib/common/types";
   import {
     explorerCollectionUrl,
     explorerTxLog,
@@ -13,10 +13,11 @@
     getOpenSea,
     nftOpenSeaUrl,
     textShort
-  } from "@lib/common/kconfig";
-  import { setTokenPrice, isValidPrice, reduceDecimals } from "@lib/nft/kautomarket";
+  } from "@lib/common/config";
+  import { isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
-  import { metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputPrice from "../InputFields/InputPrice.svelte";
@@ -135,7 +136,7 @@
   };
 
   const tokenSetPriceTx = async (price: BigNumber): Promise<void> => {
-    const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, $metamaskSigner, price);
+    const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, price);
 
     tokenSettingPrice = S2_SIGN_TX;
 

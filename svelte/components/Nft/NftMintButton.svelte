@@ -1,8 +1,8 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { NftType } from "@lib/common/ktypes";
-  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/knft-mint";
+  import type { NftType } from "@lib/common/types";
+  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import {
     explorerTxLog,
     ipfsGatewayLink,
@@ -10,7 +10,7 @@
     kredeumNftWpUrl,
     ipfsLinkToCid,
     nidTokredeumNftWPUrl
-  } from "@lib/common/kconfig";
+  } from "@lib/common/config";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { collectionStore } from "@stores/collection/collection";

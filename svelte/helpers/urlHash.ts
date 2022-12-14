@@ -1,4 +1,4 @@
-import { getChainName, getChainId } from "@lib/common/kconfig";
+import { getChainName, getChainId } from "@lib/common/config";
 
 import type { RefNFT } from "@helpers/refNft";
 

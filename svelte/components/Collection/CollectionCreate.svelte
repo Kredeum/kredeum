@@ -3,7 +3,7 @@
   import { constants, utils } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
-  import type { CollectionType } from "@lib/common/ktypes";
+  import type { CollectionType } from "@lib/common/types";
   import {
     explorerTxLog,
     explorerTxUrl,
@@ -13,9 +13,9 @@
     isNumeric,
     isAddress,
     MAX_FEE
-  } from "@lib/common/kconfig";
-  import { collectionClone, collectionCloneAddress } from "@lib/collection/kcollection-clone";
-  import { getReceiverAmount } from "@lib/nft/kautomarket";
+  } from "@lib/common/config";
+  import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
+  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   import { metamaskAccount, metamaskSigner } from "@main/metamask";
 
@@ -141,7 +141,6 @@
       collectionName,
       collectionSymbol,
       template,
-      $metamaskSigner,
       inputMintPrice,
       inputReceiver,
       inputFeeNumber,

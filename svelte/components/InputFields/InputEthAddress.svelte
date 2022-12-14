@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getChecksumAddress, isAddress } from "@lib/common/kconfig";
+  import { getChecksumAddress, isAddress } from "@lib/common/config";
   import { constants } from "ethers";
 
   /////////////////////////////////////////////////

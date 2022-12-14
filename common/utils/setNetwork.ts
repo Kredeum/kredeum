@@ -1,4 +1,4 @@
-import type { NetworkType, NetworkWriteableFieldsType } from "@lib/common/ktypes";
+import type { NetworkType, NetworkWriteableFieldsType } from "@lib/common/types";
 import networks from "@config/networks.handlebars.json";
 import { buildNetworks } from "@utils/buildNetworks";
 
@@ -7,7 +7,7 @@ import { writeFile } from "fs/promises";
 const setNetwork = async (chainName: string, key: NetworkWriteableFieldsType, value: string): Promise<void> => {
   const index = networks.findIndex((nw) => nw.chainName === chainName);
   const network: NetworkType = networks[index];
-  
+
   if (network[key] != value) {
     network[key] = value;
 

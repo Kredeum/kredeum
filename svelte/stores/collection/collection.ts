@@ -1,15 +1,14 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { CollectionType } from "@lib/common/ktypes";
+import type { CollectionType } from "@lib/common/types";
 import {
   collectionKey,
   collectionDefaultKey,
   collectionMerge,
   collectionGet as collectionLib
-} from "@lib/collection/kcollection-get";
+} from "@lib/collection/collection-get";
 
-import { metamaskProvider } from "@main/metamask";
 import { jsonMapStringify } from "@helpers/jsonMap";
 import { collectionListStore } from "@stores/collection/collectionList";
 import { collectionSubListStore, collectionSubListRefresh } from "@stores/collection/collectionSubList";
@@ -41,7 +40,7 @@ const collectionSetOne = (collection: CollectionType): void => {
 // ACTIONS : REFRESH one Collection, for an optionnal account
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   if (!(chainId && address)) return;
-  const collection = await collectionLib(chainId, address, get(metamaskProvider), account);
+  const collection = await collectionLib(chainId, address, account);
 
   collectionSetOne(collection);
 };

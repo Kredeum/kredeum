@@ -2,12 +2,13 @@
   import { getContext, onMount } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { burnNft, AddressdEaD } from "@lib/nft/kburn";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/kconfig";
-  import { collectionBurnable } from "@lib/collection/kcollection-get";
-  import { transferNft } from "@lib/nft/ktransfer";
+  import { burnNft, AddressdEaD } from "@lib/nft/nft-burn";
+  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
+  import { collectionBurnable } from "@lib/collection/collection-get";
+  import { transferNft } from "@lib/nft/nft-transfer";
+  import { metamaskAccount } from "@main/metamask";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
+  import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
@@ -75,15 +76,15 @@
 
     burning = S0_START;
 
-    burnable = Boolean(await collectionBurnable(chainId, address, $metamaskSigner));
+    burnable = Boolean(await collectionBurnable(chainId, address));
 
     burning = burnable ? S1_CONFIRM_BURN : S2_CONFIRM_TRANSFER;
   };
 
   const burnConfirm = async () => {
     const txRespYield = burnable
-      ? burnNft(chainId, address, tokenID, $metamaskSigner)
-      : transferNft(chainId, address, tokenID, $metamaskSigner, AddressdEaD);
+      ? burnNft(chainId, address, tokenID)
+      : transferNft(chainId, address, tokenID, $metamaskAccount, AddressdEaD);
 
     burning = S3_SIGN_TX;
 

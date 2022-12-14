@@ -1,6 +1,6 @@
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
-import type { OpenProof } from "@soltypes/contracts/dev/OpenProof";
+import type { OpenProof } from "@soltypes/src/dev/OpenProof";
 
 const contractName = "OpenProof";
 

@@ -13,13 +13,13 @@
     "codegen": "cd thegraph && graph codegen",
     "graph-build": "cd thegraph && graph build",
     "build": "npx ts-node build-yaml",
-    "build2": "npm run yaml && npm run codegen && npm run graph-build",
+    "build2": "pnpm run yaml && pnpm run codegen && pnpm run graph-build",
     "check": "prettier --no-error-on-unmatched-pattern **/*ts  **/*.yaml **/*.graphql --write",
     "tests": "mocha --experimental-json-modules tests/*.mjs",
-    "predeploy": "npm run clean && npm run yaml && npm run codegen && npm run build && npm run check",
-    "predeploy-matic": "NETWORK=matic npm run predeploy",
-    "deploy": "npm run predeploy && cd thegraph && graph deploy zapaz/eip721-${NETWORK:-mumbai} --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token $THEGRAPH_KEY",
-    "deploy-matic": "NETWORK=matic npm run deploy"
+    "predeploy": "pnpm run clean && pnpm run yaml && pnpm run codegen && pnpm run build && pnpm run check",
+    "predeploy-matic": "NETWORK=matic pnpm run predeploy",
+    "deploy": "pnpm run predeploy && cd thegraph && graph deploy zapaz/eip721-${NETWORK:-mumbai} --ipfs https://api.thegraph.com/ipfs/ --node https://api.thegraph.com/deploy/ --access-token $THEGRAPH_KEY",
+    "deploy-matic": "NETWORK=matic pnpm run deploy"
   },
   "keywords": [],
   "author": "",
@@ -27,6 +27,6 @@
   "devDependencies": {
     "@graphprotocol/graph-cli": "^0.20.1",
     "@graphprotocol/graph-ts": "^0.20.1",
-    "tsconfig-paths": "^4.1.0"
+    "tsconfig-paths": "^4.1.1"
   }
 }

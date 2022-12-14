@@ -3,7 +3,7 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/kconfig";
+import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
 
 import { urlHash2RefNFT } from "@helpers/urlHash";
 import { metamaskChainId, metamaskAccount, metamaskProvider, metamaskSigner } from "@main/metamask";

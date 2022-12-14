@@ -1,12 +1,11 @@
 import type { Readable } from "svelte/store";
 import { get, derived } from "svelte/store";
 
-import type { NftType } from "@lib/common/ktypes";
+import type { NftType } from "@lib/common/types";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
-import { nftGetMetadata } from "@lib/nft/knft-get-metadata";
-import { nftListTokenIds } from "@lib/nft/knft-list";
+import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
+import { nftListTokenIds } from "@lib/nft/nft-list";
 
-import { metamaskProvider } from "@main/metamask";
 import { collectionStore } from "@stores/collection/collection";
 import { collectionListStore } from "@stores/collection/collectionList";
 
@@ -27,12 +26,12 @@ const nftSubListRefresh = async (chainId: number, address: string, account: stri
   }
 
   if (collection?.supports?.IERC721Enumerable) {
-    const { nfts } = await resolverGetNfts(chainId, collection, get(metamaskProvider), account);
+    const { nfts } = await resolverGetNfts(chainId, collection, account);
     // console.log("nftSubListRefresh Enumerable ~ nNFTs", Number(count));
 
     for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
   } else {
-    const nftsTokenIds = await nftListTokenIds(chainId, collection.address, get(metamaskProvider), collection, account);
+    const nftsTokenIds = await nftListTokenIds(chainId, collection.address, collection, account);
     // console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nftsTokenIds.size);
 
     for await (const _nft of nftsTokenIds.values()) {

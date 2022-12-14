@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getShortAddress, blockscanUrl, getEnsName } from "@lib/common/kconfig";
+  import { ensGetName } from "@lib/common/ens-get";
+  import { getShortAddress, blockscanUrl } from "@lib/common/config";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
 
@@ -11,7 +12,7 @@
   export let txt: boolean = undefined;
 
   let accountEns: string;
-  const _getEnsName = async (_account: string): Promise<string> => (accountEns = await getEnsName(_account));
+  const _getEnsName = async (_account: string): Promise<string> => (accountEns = await ensGetName(_account));
   $: if (account) {
     accountEns = account;
     _getEnsName(account).catch(console.error);

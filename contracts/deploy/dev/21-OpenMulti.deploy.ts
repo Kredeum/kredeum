@@ -3,7 +3,7 @@ import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 import { writeFile } from "fs/promises";
 import networks from "@config/networks.handlebars.json";
 
-import type { NFTsFactoryV2 } from "@soltypes/contracts";
+import type { NFTsFactoryV2 } from "@soltypes/src";
 
 const contractName = "OpenMulti";
 

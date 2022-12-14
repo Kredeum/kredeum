@@ -5,7 +5,7 @@
       "group": "Default"
     },
     {
-      "filePath": "hardhat/contracts/new",
+      "filePath": "contracts/src/new",
       "group": "Default"
     },
     {
@@ -13,7 +13,7 @@
       "group": "Default"
     },
     {
-      "filePath": "hardhat/contracts",
+      "filePath": "contracts/src",
       "group": "Default"
     },
     {
@@ -25,7 +25,7 @@
       "group": "Default"
     },
     {
-      "filePath": "hardhat/hardhat.config.ts",
+      "filePath": "contracts/hardhat.config.ts",
       "group": "Default"
     },
     {
@@ -41,11 +41,19 @@
       "group": "Default"
     },
     {
-      "filePath": "hardhat/node_modules/OpenNFTs",
+      "filePath": "contracts/node_modules/OpenNFTs",
       "group": "Default"
     },
     {
       "filePath": "svelte/rollup.config.ts",
+      "group": "Default"
+    },
+    {
+      "filePath": "contracts/foundry.toml",
+      "group": "Default"
+    },
+    {
+      "filePath": "contracts/remappings.txt",
       "group": "Default"
     }
   ],
@@ -57,10 +65,10 @@
   "phpsab.standard": "WordPress",
   "slither.hiddenDetectors": [],
   "slither.solcPath": "",
-  "solidity.compileUsingRemoteVersion": "v0.8.9+commit.e5eed63a",
+  "solidity.compileUsingRemoteVersion": "v0.8.17+commit.8df45f5f",
   "solidity.defaultCompiler": "remote",
   "solidity.linter": "solhint",
-  "solidity.packageDefaultDependenciesDirectory": "hardhat/node_modules",
+  "solidity.packageDefaultDependenciesDirectory": "lib",
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },

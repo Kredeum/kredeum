@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Properties } from "@lib/common/ktypes";
+  import type { Properties } from "@lib/common/types";
 
   /////////////////////////////////////////////////
   // <NftProperties {properties} />

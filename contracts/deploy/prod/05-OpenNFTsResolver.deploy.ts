@@ -1,6 +1,6 @@
 import type { DeployFunction } from "hardhat-deploy/types";
 
-import type { OpenNFTsFactoryV3 } from "@soltypes/contracts/OpenNFTsFactoryV3";
+import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
 import { setNetwork } from "@utils/setNetwork";
 import { getNonce } from "@utils/getNonce";
 

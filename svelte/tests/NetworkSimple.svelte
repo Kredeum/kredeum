@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getChainName } from "@lib/common/kconfig";
+  import { getChainName } from "@lib/common/config";
   export let chainId: number;
 </script>
 

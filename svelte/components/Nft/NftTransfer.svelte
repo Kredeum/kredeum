@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/ktypes";
+  import type { NftType } from "@lib/common/types";
   import type { Readable } from "svelte/store";
 
   import { BigNumber } from "ethers";
@@ -8,10 +8,10 @@
   import { onMount, getContext } from "svelte";
   import { Writable } from "svelte/store";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/kconfig";
-  import { transferNft } from "@lib/nft/ktransfer";
+  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
+  import { transferNft } from "@lib/nft/nft-transfer";
 
-  import { metamaskChainId, metamaskSigner } from "@main/metamask";
+  import { metamaskChainId, metamaskAccount } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputEthAddress from "../InputFields/InputEthAddress.svelte";
@@ -83,7 +83,7 @@
   };
 
   const transferConfirm = async () => {
-    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskSigner, destinationAddress);
+    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskAccount, destinationAddress);
 
     transfering = S2_SIGN_TX;
 
