@@ -1,0 +1,9 @@
+packages:
+  - 'common/**'
+  - 'gulp/**'
+  - 'svelte/**'
+  - 'contracts/**'
+  - '!contracts/lib/**'
+  - '!swarm/**'
+  - 'thegraph/**'
+  - 'wordpress/**'

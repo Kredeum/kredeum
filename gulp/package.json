@@ -5,9 +5,7 @@
   "main": "gulpfile.js",
   "scripts": {
     "clean": "rm -rf node_modules",
-    "build": "gulp",
-    "check": "echo check",
-    "tests": "echo tests"
+    "build": "gulp"
   },
   "keywords": [],
   "author": "",
