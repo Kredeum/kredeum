@@ -1,3 +1,4 @@
+import type { WindowEthereumProvider, WindowExternalProvider } from "@lib/common/types";
 import type { EthereumProvider } from "hardhat/types";
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
@@ -129,14 +130,14 @@ const metamaskConnect = (): void => {
 const metamaskInit = async (): Promise<boolean> => {
   if (!get(metamaskChainId)) {
     console.info("metamaskInit");
-    ethereumProvider = (await detectEthereumProvider()) as EthereumProvider;
+    ethereumProvider = await detectEthereumProvider();
 
     if (ethereumProvider) {
       metamaskInstalled = true;
 
-      if (ethereumProvider !== window.ethereum) alert(metamaskMultipleWallets);
+      if (ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
 
-      const ethersProvider = new ethers.providers.Web3Provider(window.ethereum, "any");
+      const ethersProvider = new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any");
       metamaskProvider.set(ethersProvider);
 
       let _chainId: number;

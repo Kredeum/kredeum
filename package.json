@@ -3,14 +3,15 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "all": "pnpm clean-all && pnpm install-all && pnpm build-all && pnpm check-all",
+    "all": "pnpm clean-all && pnpm install-all && pnpm build-all && pnpm format-all && pnpm check-all && pnpm tests-all",
     "clean-all": "pnpm -r clean",
     "install-foundry": "pnpm -F contracts install:foundry",
     "install-wordpress": "pnpm -F wordpress install:wordpress",
     "install-all": "pnpm install && pnpm install-foundry && pnpm install-wordpress",
     "build-all": "pnpm build1 && pnpm build2 && pnpm build3 && pnpm build4",
-    "check-all": "pnpm install-wordpress && pnpm -r check",
-    "test-all": "pnpm -r test",
+    "format-all": "pnpm -r format",
+    "check-all": "pnpm -r check",
+    "tests-all": "pnpm -r tests",
     "build1": "pnpm -F common build",
     "build2": "pnpm -F contracts -F gulp build",
     "build3": "pnpm -F svelte build",
@@ -22,7 +23,7 @@
   "author": "kredeum",
   "license": "MIT",
   "engines": {
-    "node": "^18",
+    "node": "^16",
     "pnpm": "^7"
   }
 }

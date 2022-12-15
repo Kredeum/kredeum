@@ -3,7 +3,6 @@
 
   import type { CollectionType } from "@lib/common/types";
   import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
-  // import { collectionKey } from "@lib/common/config";
 
   import { collectionStore } from "@stores/collection/collection";
 
@@ -21,7 +20,7 @@
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    // console.log(`COLLECTION CHANGE #${i++} ${collectionKey(chainId, address, account)}`);
+    // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);

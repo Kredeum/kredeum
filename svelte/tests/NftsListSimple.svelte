@@ -3,7 +3,7 @@
   import type { NftType } from "@lib/common/types";
 
   import NftSimple from "./NftSimple.svelte";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftSubListRefresh, nftSubListStore } from "@stores/nft/nftSubList";
 
   export let chainId: number;
   export let address: string;
@@ -19,14 +19,14 @@
   const _refresh = async (_chainId: number, _address: string, _account: string): Promise<void> => {
     refreshing = true;
     // console.log(`REFRESH NFT LIST ${i++} collection://${_chainId}/${_address}${_account ? "@" + _account : ""}`);
-    await nftStore.refreshSubList(_chainId, _address, _account);
+    await nftSubListRefresh(_chainId, _address, _account);
     refreshing = false;
   };
 
   // STATE VIEW : NFT list
   $: if (chainId && address) _get(chainId, address);
   const _get = (_chainId: number, _address: string) => {
-    nfts = nftStore.getSubListStore(chainId, address);
+    nfts = nftSubListStore(chainId, address);
     // console.log(`CURRENT NFT LIST ${j++} collection://${_chainId}/${_address}\n`, $nfts);
   };
 </script>

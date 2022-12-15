@@ -1,6 +1,6 @@
 <script lang="ts">
+  import type { Writable } from "svelte/store";
   import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
   // <RefreshButton />

@@ -1,8 +1,9 @@
 <script lang="ts">
-  import { BigNumber, BigNumberish, constants, utils } from "ethers";
+  import type { BigNumberish } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
   const { formatEther } = utils;
 
-  import { ReceiverType } from "@lib/common/types";
+  import type { ReceiverType } from "@lib/common/types";
   import { config, getCurrency } from "@lib/common/config";
   import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 

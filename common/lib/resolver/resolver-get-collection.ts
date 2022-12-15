@@ -1,9 +1,9 @@
 import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/common/types";
-import { collectionKey } from "@lib/common/config";
 import { resolverConvOpenNFTsCollectionInfos } from "@lib/resolver/resolver-conv-collection-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
+import { keyCollection } from "@lib/common/keys";
 
 const resolverGetCollection = async (
   chainId: number,
@@ -36,7 +36,7 @@ const resolverFilterCollections = async (
   const checks = await resolverAreCollections(chainId, collectionsAddress);
 
   for (let i = 0; i < checks.length; i++) {
-    if (!checks[i]) collections.delete(collectionKey(chainId, collectionsAddress[i]));
+    if (!checks[i]) collections.delete(keyCollection(chainId, collectionsAddress[i]));
   }
 
   return collections;
@@ -57,7 +57,7 @@ const resolverGetCollectionList = async (
   chainId: number,
   account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`resolverGetCollectionList ${collectionListKey(chainId, account)}\n`, chainId, account);
+  // console.log(`resolverGetCollectionList ${keyCollectionList(chainId, account)}\n`, chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
@@ -77,7 +77,7 @@ const resolverGetCollectionList = async (
       account
     );
     // console.log("collection", collection);
-    collections.set(collectionKey(chainId, collection.address), collection);
+    collections.set(keyCollection(chainId, collection.address), collection);
   }
 
   // console.log(`resolverGetCollectionList ${chainId} ${account}\n`, collections);

@@ -6,9 +6,9 @@ import {
   swarmGetLink,
   swarmGatewayUrl,
   getNetwork,
-  getChecksumAddress,
-  nftKey
+  getChecksumAddress
 } from "@lib/common/config";
+import { keyNft } from "@lib/common/keys";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -38,7 +38,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   } catch (e) {
     console.error("ERROR nftGetContentType", e, url, nft);
   }
-  // console.log(`nftGetContentType ${nftKey(chainId, address, tokenID)}\n`, url, contentType);
+  // console.log(`nftGetContentType ${keyNft(chainId, address, tokenID)}\n`, url, contentType);
 
   return contentType;
 };
@@ -99,10 +99,10 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   }
 
   nft.chainName ||= network.chainName;
-  nft.nid ||= nftKey(chainId, address, tokenID);
+  nft.nid ||= keyNft(chainId, address, tokenID);
   nft.contentType ||= await nftGetContentType(nft);
 
-  // console.log(`nftGetMetadata ${nftKey(chainId, address, tokenID)}\n`, nft);
+  // console.log(`nftGetMetadata ${keyNft(chainId, address, tokenID)}\n`, nft);
   return nft;
 };
 

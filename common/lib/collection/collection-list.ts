@@ -34,7 +34,7 @@ const collectionList = async (
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`);
+  // console.log(`collectionList ${keyCollectionList(chainId, account)}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -80,11 +80,8 @@ const collectionList = async (
     );
   }
 
-  // console.log(`collectionList ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`collectionList ${keyCollectionList(chainId, account)}\n`, collections);
   return collections;
 };
 
-const collectionListKey = (chainId: number, account?: string, mintable = false): string =>
-  `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
-
-export { collectionList, collectionListMerge, collectionListKey };
+export { collectionList, collectionListMerge };

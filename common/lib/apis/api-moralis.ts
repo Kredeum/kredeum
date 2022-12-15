@@ -4,17 +4,11 @@ import type Moralis from "moralis";
 import type { operations } from "moralis/types/generated/web3Api";
 
 import type { CollectionType, NftType } from "@lib/common/types";
-import {
-  getNetwork,
-  nftKey,
-  collectionKey,
-  nftListKey,
-  collectionListKey,
-  getChecksumAddress
-} from "@lib/common/config";
+import { getNetwork, getChecksumAddress } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
 
 import { utils } from "ethers";
+import { keyCollection, keyNft } from "@lib/common/keys";
 
 const moralisListAll = async (
   chainId: number,
@@ -67,8 +61,8 @@ const moralisListAll = async (
       symbol: nftMoralis.symbol,
       balancesOf
     };
-    nfts.set(nftKey(nft.chainId, nft.address, nft.tokenID), nft);
-    collections.set(collectionKey(nft.chainId, nft.address), collection);
+    nfts.set(keyNft(nft.chainId, nft.address, nft.tokenID), nft);
+    collections.set(keyCollection(nft.chainId, nft.address), collection);
   }
 
   // console.log("moralisListAll OUT", nfts.length);
@@ -85,14 +79,14 @@ const moralisNftList = async (
 ): Promise<Map<string, NftType>> => {
   const nfts = (await moralisListAll(chainId, account || "", limit)).nfts;
 
-  // console.log(`moralisNftList OUT ${nftListKey(chainId, collection.address)}\n`, nfts);
+  // console.log(`moralisNftList OUT ${keyNftList(chainId, collection.address)}\n`, nfts);
   return nfts;
 };
 
 const moralisCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   const collections = (await moralisListAll(chainId, account || "")).collections;
 
-  // console.log(`moralisCollectionList OUT ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`moralisCollectionList OUT ${keyCollectionList(chainId, account)}\n`, collections);
   return collections;
 };
 

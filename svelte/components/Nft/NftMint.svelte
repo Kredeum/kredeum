@@ -8,9 +8,9 @@
   import { onMount, getContext } from "svelte";
   import { fade } from "svelte/transition";
 
+  import type { CollectionType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
-  import { CollectionType } from "@lib/common/types";
   import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import {
     textShort,

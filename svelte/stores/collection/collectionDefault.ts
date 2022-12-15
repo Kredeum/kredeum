@@ -2,8 +2,8 @@ import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
 import { getNetwork } from "@lib/common/config";
-import { collectionDefaultKey } from "@lib/collection/collection-get";
 import { collectionStore } from "./collection";
+import { keyCollectionDefault } from "@lib/common/keys";
 
 // UTILITY : GET OpenNFTs default template
 const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
@@ -41,7 +41,7 @@ const collectionDefaultSetOne = (
   collectionStore.refreshOne(chainId, address, account).catch(console.error);
 
   update(($collectionDefault: Map<string, [string, string]>): Map<string, [string, string]> => {
-    const key = collectionDefaultKey(chainId, account);
+    const key = keyCollectionDefault(chainId, account);
 
     let addressDefault: string;
     let addressMintable: string;
@@ -66,7 +66,7 @@ const collectionDefaultSetOne = (
 // ACTIONS : REFRESH default Collection, for an optionnal account
 const collectionDefaultRefresh = (chainId: number, account?: string): void => {
   if (!chainId) return;
-  const key = collectionDefaultKey(chainId, account);
+  const key = keyCollectionDefault(chainId, account);
 
   let [addressDefault, addressMintable] = get(collectionDefaultStore).get(key) || ["", ""];
   if (!addressMintable) {
@@ -82,7 +82,7 @@ const collectionDefaultRefresh = (chainId: number, account?: string): void => {
 
 // STATE VIEW : GET default Collection
 const collectionDefaultSubStore = (chainId: number, mintable: boolean = false, account?: string): Readable<string> => {
-  const key = collectionDefaultKey(chainId, account);
+  const key = keyCollectionDefault(chainId, account);
   // console.log(`collectionDefaultGetStore ${key} ${String(mintable)}`);
 
   return derived(collectionDefaultStore, ($collectionDefaultStore): string => {
@@ -102,6 +102,6 @@ export {
   collectionDefaultSubStore,
   collectionDefaultSetOne,
   collectionDefaultRefresh,
-  collectionDefaultKey,
+  keyCollectionDefault,
   collectionDefaultGetOpenNFTs
 };

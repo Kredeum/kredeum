@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ReceiverType } from "@lib/common/types";
+  import type { ReceiverType } from "@lib/common/types";
   import { BigNumber, constants, utils } from "ethers";
 
   import { onMount } from "svelte";

@@ -1,13 +1,11 @@
+import type { TransactionResponse } from "@ethersproject/abstract-provider";
+import { utils, BigNumber, constants } from "ethers";
+import { Fragment, Interface } from "@ethersproject/abi";
+
 import type { NetworkType, CollectionType, NftType } from "@lib/common/types";
 
-import { collectionKey } from "@lib/collection/collection-get";
-import { collectionListKey } from "@lib/collection/collection-list";
-
-import { Fragment, Interface } from "@ethersproject/abi";
-import { utils, BigNumber, constants } from "ethers";
 import networks from "@config/networks.json";
 import config from "@config/config.json";
-import { TransactionResponse } from "@ethersproject/abstract-provider";
 
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
@@ -437,12 +435,6 @@ const interfaceId = (abi: Array<string>): string => {
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const nftKey = (chainId: number, address: string, tokenID: string, account?: string): string =>
-  `nft://${String(chainId)}/${address}/${tokenID}${account ? "@" + account : ""}`;
-
-const nftListKey = (chainId: number, address: string, account?: string): string =>
-  `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -499,10 +491,6 @@ export {
   storageGatewayUrl,
   storageLinkToUrlHttp,
   interfaceId,
-  collectionKey,
-  collectionListKey,
-  nftKey,
-  nftListKey,
   nftUrl3,
   nftUrl,
   nftDescription,

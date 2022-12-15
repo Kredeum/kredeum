@@ -38,10 +38,10 @@ jobs:
           run_install: true
 
       - name: Install plugin
-        run: pnpm run wp-install && ls -la wordpress/vendor/bin
+        run: pnpm wp-install && ls -la wordpress/vendor/bin
 
       - name: Build plugin
-        run: pnpm run wp-build
+        run: pnpm wp-build
         env:
           ENVIR: PROD
           NODE_DEBUG: false
@@ -50,7 +50,7 @@ jobs:
           NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
 
       - name: Check plugin
-        run: pnpm run wp-check
+        run: pnpm wp-check
 
       - name: Deploy plugin
         uses: nk-o/action-wordpress-plugin-deploy@master

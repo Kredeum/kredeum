@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/types";
+  import type { NftType } from "@lib/common/types";
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";

@@ -5,7 +5,6 @@ import type { NftType } from "@lib/common/types";
 import { nftGet as nftLib } from "@lib/nft/nft-get";
 
 import { nftListStore } from "./nftList";
-import { nftSubListStore, nftSubListRefresh } from "./nftSubList";
 
 import { collectionStore } from "../collection/collection";
 
@@ -73,7 +72,7 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
   });
 };
 
-export {};
+export { };
 
 export const nftStore = {
   getKey: nftGetKey,
@@ -82,8 +81,5 @@ export const nftStore = {
   setOne: nftSetOne,
   nftRemoveOne,
 
-  getListStore: nftListStore,
-
-  getSubListStore: nftSubListStore,
-  refreshSubList: nftSubListRefresh
+  getListStore: nftListStore
 };

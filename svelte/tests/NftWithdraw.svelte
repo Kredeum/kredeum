@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { NftType } from "@lib/common/types";
+  import type { NftType } from "@lib/common/types";
 
   import { constants } from "ethers";
 

@@ -5,8 +5,8 @@
   import { BigNumber } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
+  import type { Writable } from "svelte/store";
   import { onMount, getContext } from "svelte";
-  import { Writable } from "svelte/store";
 
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";

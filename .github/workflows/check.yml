@@ -13,15 +13,17 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: 18
+          node-version: 16
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
           version: 7.18.2
-          run_install: true
 
-      - name: Check sources
+      - name: Install all packages
+        run: pnpm install-all
+
+      - name: Check all sources
         run: pnpm check-all
         env:
           ENVIR: PROD

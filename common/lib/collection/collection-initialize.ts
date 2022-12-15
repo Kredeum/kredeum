@@ -5,8 +5,8 @@ import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 import { collectionGetContract } from "./collection-get";
 
-import { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
-import { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
+import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import { constants, ethers } from "ethers";
 
 import config from "@config/config.json";

@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
-  import { Writable } from "svelte/store";
+  import type { Writable } from "svelte/store";
 
   import { burnNft, AddressdEaD } from "@lib/nft/nft-burn";
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
