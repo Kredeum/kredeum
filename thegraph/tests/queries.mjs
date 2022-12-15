@@ -43,7 +43,7 @@ describe("Subgraph Queries", async function () {
     expect(nft.metadata.length).to.be.gte(2);
   });
 
-  it("NFT should have name, description and image as in metadata", async function () {
+  it.skip("NFT should have name, description and image as in metadata", async function () {
     const metadata = JSON.parse(nft.metadata);
     expect(metadata.name).to.be.equal(nft.name);
     expect(metadata.image).to.be.equal(nft.image);
