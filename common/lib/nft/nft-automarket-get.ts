@@ -1,11 +1,11 @@
 import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@soltypes/index";
+import type { BigNumberish } from "ethers";
+import { BigNumber, constants } from "ethers";
 
-import { BigNumber, BigNumberish, constants } from "ethers";
-
+import type { ReceiverType } from "@lib/common/types";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerUrl, MAX_FEE, config } from "@lib/common/config";
-import { ReceiverType } from "@lib/common/types";
 import { providerGetAccount, providerGetFallback } from "@lib/common/provider-get";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string): Promise<BigNumber> => {

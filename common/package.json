@@ -8,8 +8,8 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules types abis config/networks.json",
-    "format": "prettier lib/**/*.ts --write --loglevel error",
-    "check": "eslint lib/**/*.ts --fix --quiet",
+    "format": "prettier lib/**/*.ts --write --list-different --loglevel log",
+    "check": "eslint lib/**/*.ts",
     "build": "npx ts-node scripts/build-networks"
   },
   "keywords": [],
@@ -47,7 +47,6 @@
     "hardhat": "^2.12.4",
     "hardhat-deploy-ethers": "0.3.0-beta.13",
     "moralis": "^1.11.0",
-    "semaphore-async-await": "^1.5.1",
     "tsconfig-paths": "^4.1.1"
   }
 }

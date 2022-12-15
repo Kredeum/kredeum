@@ -1,8 +1,10 @@
 import { BigNumber } from "ethers";
 
 import type { CollectionType, NftType } from "@lib/common/types";
-import { getChecksumAddress, getNetwork, collectionKey, nftKey } from "@lib/common/config";
+import { getChecksumAddress, getNetwork } from "@lib/common/config";
+
 import { fetchGQL, FETCH_LIMIT } from "@lib/common/fetch";
+import { keyCollection, keyNft } from "@lib/common/keys";
 
 const thegraphNftList = async (
   chainId: number,
@@ -58,13 +60,13 @@ const thegraphNftList = async (
           tokenID,
           tokenURI: _token.tokenURI,
           owner: getChecksumAddress(_token.account?.id),
-          nid: nftKey(chainId, collection.address, tokenID)
+          nid: keyNft(chainId, collection.address, tokenID)
           // metadata: _token.metadata && JSON.parse(_token.metadata),
           // name: _token.name,
           // description: _token.description,
           // image: _token.image
         };
-        // console.log("thegraphNftList nftKey", nft.nid, nft);
+        // console.log("thegraphNftList keyNft", nft.nid, nft);
         nfts.set(nft.nid, nft);
       }
     }
@@ -75,7 +77,7 @@ const thegraphNftList = async (
 };
 
 const thegraphCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`thegraphCollectionList ${collectionListKey(chainId, account)}\n`);
+  // console.log(`thegraphCollectionList ${keyCollectionList(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const network = getNetwork(chainId);
@@ -127,11 +129,11 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
           totalSupply
         };
         collection.balancesOf = new Map([[account, balanceOf]]);
-        collections.set(collectionKey(chainId, address), collection);
+        collections.set(keyCollection(chainId, address), collection);
       }
     }
   }
-  // console.log(`thegraphCollectionList ${collectionListKey(chainId, account)}\n`, collections);
+  // console.log(`thegraphCollectionList ${keyCollectionList(chainId, account)}\n`, collections);
   return collections;
 };
 

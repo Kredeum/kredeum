@@ -1,5 +1,6 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { ethers, constants, BigNumberish } from "ethers";
+import type { BigNumberish } from "ethers";
+import { ethers, constants } from "ethers";
 
 import type { NftType } from "@lib/common/types";
 

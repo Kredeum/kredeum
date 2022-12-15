@@ -1,8 +1,9 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { ExternalProvider, Web3Provider } from "@ethersproject/providers";
+import type { Web3Provider } from "@ethersproject/providers";
 import type { Signer } from "ethers";
 
+import type { WindowExternalProvider } from "./types";
 import { getNetwork } from "@lib/common/config";
 import { ethers } from "ethers";
 
@@ -10,7 +11,7 @@ import { ethers } from "ethers";
 const _providersCache: Map<string, Array<Provider>> = new Map();
 
 const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
-  const externalProvider = (window as { ethereum?: ExternalProvider })?.ethereum || undefined;
+  const externalProvider = (window as WindowExternalProvider).ethereum || undefined;
   if (!externalProvider) return undefined;
 
   const provider = new ethers.providers.Web3Provider(externalProvider, "any");

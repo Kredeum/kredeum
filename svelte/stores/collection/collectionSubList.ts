@@ -1,11 +1,11 @@
 import type { Readable } from "svelte/store";
-import { derived, get } from "svelte/store";
+import { derived } from "svelte/store";
 
 import type { CollectionType } from "@lib/common/types";
-// import { collectionListKey } from "@lib/common/config";
 import { collectionList as collectionListLib } from "@lib/collection/collection-list";
 
 import { collectionStore } from "@stores/collection/collection";
+import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
 
 // STATE VIEW : GET Collection fitered list
 const collectionSubListStore = (
@@ -13,13 +13,13 @@ const collectionSubListStore = (
   account?: string,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
-  // console.log(`collectionSubListStore ${collectionListKey(chainId, account, mintable)}\n`);
+  // console.log(`collectionSubListStore ${keyCollectionList(chainId, account, mintable)}\n`);
 
   return derived(
-    [collectionStore.getListStore, collectionStore.getDefaultStore],
+    [collectionStore.getListStore, collectionDefaultStore],
     ([$collectionListStore, $collectionDefaultStore]) => {
       const [collectionDefault, collectionMintableDefault] = $collectionDefaultStore.get(
-        collectionStore.getDefaultKey(chainId, account)
+        keyCollectionDefault(chainId, account)
       ) || ["", ""];
 
       const collections = new Map(
@@ -80,7 +80,7 @@ const collectionSubListRefresh = async (chainId: number, account?: string, minta
   for (const collectionObject of collectionListFromLib.values()) {
     collectionStore.setOne(collectionObject);
   }
-  // console.log(`collectionSubListRefresh ${collectionListKey(chainId, account, mintable)}\n`, collectionListFromLib);
+  // console.log(`collectionSubListRefresh ${keyCollectionList(chainId, account, mintable)}\n`, collectionListFromLib);
 };
 
 export { collectionSubListStore, collectionSubListRefresh };

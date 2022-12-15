@@ -52,7 +52,7 @@
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
-    // console.log(`NFTDETAIL CHANGE #${i++} ${nftKey(chainId, address, tokenID)}`);
+    // console.log(`NFTDETAIL CHANGE #${i++} ${keyNft(chainId, address, tokenID)}`);
 
     // STATE VIEW : sync get Nft
     nft = nftStore.getOneStore(chainId, address, tokenID);

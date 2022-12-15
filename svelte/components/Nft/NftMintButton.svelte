@@ -13,9 +13,9 @@
   } from "@lib/common/config";
 
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
-  import { collectionStore } from "@stores/collection/collection";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
+  import { collectionDefaultSubStore } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
   // <NftMintButton {src} {metadata} {alt} {pid} {width} {display} />
@@ -50,7 +50,7 @@
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
-    address = collectionStore.getDefaultSubStore($metamaskChainId, true, $metamaskAccount);
+    address = collectionDefaultSubStore($metamaskChainId, true, $metamaskAccount);
     // console.log("handleChange ~ address", $address);
   };
 

@@ -2,8 +2,9 @@
   import type { Readable } from "svelte/store";
 
   import type { CollectionType } from "@lib/common/types";
-  import { collectionStore } from "@stores/collection/collection";
   import CollectionSimple from "./CollectionSimple.svelte";
+  import { collectionSubListRefresh, collectionSubListStore } from "@stores/collection/collectionSubList";
+  import { collectionDefaultRefresh, collectionDefaultSetOne } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} {refreshing} />
@@ -22,28 +23,28 @@
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollectionList(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
-    collections = collectionStore.getSubListStore(chainId, account, mintable);
+    collections = collectionSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
     // collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
 
     // ACTION : async refresh Collections
     refreshing = true;
-    await collectionStore.refreshSubList(chainId, account, mintable);
+    await collectionSubListRefresh(chainId, account, mintable);
     refreshing = false;
     console.info("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
-    collectionStore.refreshDefault(chainId, account);
+    collectionDefaultRefresh(chainId, account);
   };
 
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string): void => {
     address = collection;
-    collectionStore.setDefaultOne(chainId, collection, mintable, account);
+    collectionDefaultSetOne(chainId, collection, mintable, account);
   };
 </script>
 

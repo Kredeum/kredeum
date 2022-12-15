@@ -2,18 +2,19 @@
   import type { Readable } from "svelte/store";
   import type { CollectionType, NftType } from "@lib/common/types";
 
+  import type { Writable } from "svelte/store";
   import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, collectionKey } from "@lib/common/config";
+  import { explorerCollectionUrl } from "@lib/common/config";
 
-  import { nftStore } from "@stores/nft/nft";
   import { collectionStore } from "@stores/collection/collection";
 
   import NftsListDisplayMode from "./NftsListDisplayMode.svelte";
 
   import NftsListLines from "./NftsListLines.svelte";
   import NftsListGrid from "./NftsListGrid.svelte";
+  import { keyCollection } from "@lib/common/keys";
+  import { nftSubListRefresh, nftSubListStore } from "@stores/nft/nftSubList";
 
   /////////////////////////////////////////////////
   // <NftList {chainId} {address} {account} {refreshing} {platform}? />
@@ -40,14 +41,14 @@
   // HANDLE CHANGE : on truthy chainId, address and account, and whatever refresh
   $: $refreshNftsList, chainId && address && account && handleChange();
   const handleChange = async (): Promise<void> => {
-    // console.log(`NFT LIST CHANGE #${i++} ${nftListKey(chainId, address, account)}`);
+    // console.log(`NFT LIST CHANGE #${i++} ${keyNftList(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOneStore(chainId, address);
     console.info("COLLECTION cached", $collection);
 
     // STATE VIEW : sync get NFT list
-    nfts = nftStore.getSubListStore(chainId, address, account);
+    nfts = nftSubListStore(chainId, address, account);
     console.info("NFTS cached", $nfts);
 
     // ACTION : async refresh COLLECTION
@@ -56,7 +57,7 @@
 
     // ACTION : async refresh NFT list
     $refreshing = true;
-    await nftStore.refreshSubList(chainId, address, account);
+    await nftSubListRefresh(chainId, address, account);
     $refreshing = false;
     console.info("NFTS refreshed", $nfts);
   };
@@ -73,7 +74,7 @@
         class="info-button"
         href={explorerCollectionUrl(chainId, address)}
         title="&#009;Collection address (click to view in explorer)&#013;
-      {collectionKey(chainId, address)}"
+      {keyCollection(chainId, address)}"
         target="_blank"
         rel="noreferrer"><i class="fas fa-info-circle" /></a
       >

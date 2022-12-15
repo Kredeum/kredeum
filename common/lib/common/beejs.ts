@@ -1,4 +1,5 @@
-import { Bee, Data, FileData } from "@ethersphere/bee-js";
+import type { Data, FileData } from "@ethersphere/bee-js";
+import { Bee } from "@ethersphere/bee-js";
 import { swarmLinkToCid, swarmServer, SWARM_GATEWAY } from "@lib/common/config";
 
 const getBee = (nodeUrl: string): Bee => {

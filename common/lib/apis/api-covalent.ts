@@ -1,10 +1,11 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/common/types";
-import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/common/config";
-import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import type { FetchResponse } from "@lib/common/fetch";
+import type { CollectionType, NftType } from "@lib/common/types";
+import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
+import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
+import { keyCollection, keyNft } from "@lib/common/keys";
 
 const covalentFetch = async (path: string): Promise<unknown> => {
   const loginPass = `${process.env.COVALENT_API_KEY || ""}`;
@@ -24,7 +25,7 @@ const covalentFetch = async (path: string): Promise<unknown> => {
 };
 
 const covalentCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`covalentCollectionList ${collectionListKey(chainId, account)}\n`);
+  // console.log(`covalentCollectionList ${keyCollectionList(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
@@ -73,12 +74,12 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
         symbol
       };
       collection.balancesOf = new Map([[account, balanceOf]]);
-      collections.set(collectionKey(chainId, address), collection);
+      collections.set(keyCollection(chainId, address), collection);
     }
   }
 
   // console.log(
-  //   `covalentCollectionList ${collectionListKey(chainId, account)}\n`,
+  //   `covalentCollectionList ${keyCollectionList(chainId, account)}\n`,
   //   collections.size,
   //   path,
   //   collections
@@ -136,9 +137,9 @@ const covalentNftList = async (
               external_data: _token.external_data,
               owner: getChecksumAddress(_token.account || account),
               minter: getChecksumAddress(_token.original_owner),
-              nid: nftKey(chainId, collection.address, tokenID)
+              nid: keyNft(chainId, collection.address, tokenID)
             };
-            // console.log("covalentNftList nftKey(", nft.nid, nft);
+            // console.log("covalentNftList keyNft(", nft.nid, nft);
             nfts.set(nft.nid, nft);
           }
         }

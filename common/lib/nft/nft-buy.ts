@@ -1,9 +1,9 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { BigNumberish } from "ethers";
 
+import type { IOpenAutoMarket } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "../common/config";
-import { BigNumberish } from "ethers";
-import { IOpenAutoMarket } from "@soltypes/index";
 
 async function* buyNft(
   chainId: number,

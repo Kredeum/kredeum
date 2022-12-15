@@ -1,7 +1,8 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import { onMount } from "svelte";
-  import { BigNumber, BigNumberish, constants } from "ethers";
+  import type { BigNumberish } from "ethers";
+  import { BigNumber, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
   import type { NftType } from "@lib/common/types";

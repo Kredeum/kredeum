@@ -78,7 +78,7 @@ export default {
       inlineSources: !production,
     }),
 
-    // In dev mode, call `pnpm run start` once
+    // In dev mode, call `pnpm start` once
     // the bundle has been generated
     !production && serve(),
 
@@ -86,8 +86,8 @@ export default {
     // browser on changes when not in production
     !production && livereload("public"),
 
-    // If we're building for production (pnpm run build
-    // instead of pnpm run dev), minify
+    // If we're building for production (pnpm build
+    // instead of pnpm dev), minify
     production && terser(),
   ],
   watch: {

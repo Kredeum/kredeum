@@ -107,11 +107,11 @@ const toRollupConfig = function (component: string): RollupOptions {
     watch: {
       clearScreen: false
     },
-    onwarn: function (warning: { code: string; message: string }): void {
-      if (warning.code === "THIS_IS_UNDEFINED" || warning.code === "CIRCULAR_DEPENDENCY") {
-        return;
-      }
-      console.warn(warning.message);
+    onwarn: (warning: { code: string; message: string }): void => {
+      if (warning.code === "THIS_IS_UNDEFINED") return;
+      if (warning.code === "CIRCULAR_DEPENDENCY") return;
+
+      console.warn(warning.code, warning.message);
     }
   };
 };

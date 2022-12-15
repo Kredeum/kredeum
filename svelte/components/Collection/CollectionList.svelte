@@ -1,17 +1,24 @@
 <script lang="ts">
-  import { Readable, writable } from "svelte/store";
+  import type { Readable } from "svelte/store";
+  import { writable } from "svelte/store";
   import type { CollectionType } from "@lib/common/types";
 
   import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
+  import type { Writable } from "svelte/store";
 
-  import { collectionKey, explorerCollectionUrl } from "@lib/common/config";
+  import { explorerCollectionUrl } from "@lib/common/config";
 
   import Collection from "../Collection/Collection.svelte";
-  import { collectionStore } from "@stores/collection/collection";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import { keyCollection } from "@lib/common/keys";
+  import { collectionSubListRefresh, collectionSubListStore } from "@stores/collection/collectionSubList";
+  import {
+    collectionDefaultRefresh,
+    collectionDefaultSetOne,
+    collectionDefaultSubStore
+  } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
   // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} />
@@ -38,23 +45,23 @@
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: $refreshCollectionList, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    // console.log(`COLLECTION LIST CHANGE #${i++} ${collectionListKey(chainId, account, mintable)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollectionList(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
-    collections = collectionStore.getSubListStore(chainId, account, mintable);
+    collections = collectionSubListStore(chainId, account, mintable);
 
     // STATE VIEW : sync get default Collection
-    collectionDefault = collectionStore.getDefaultSubStore(chainId, mintable, account);
+    collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
     console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
     $refreshing = true;
-    await collectionStore.refreshSubList(chainId, account, mintable);
+    await collectionSubListRefresh(chainId, account, mintable);
     $refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections
-    collectionStore.refreshDefault(chainId, account);
+    collectionDefaultRefresh(chainId, account);
   };
 
   // $: $collectionDefault && logDefault();
@@ -69,13 +76,13 @@
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string, mintable_ = mintable): void => {
     address = collection;
-    collectionStore.setDefaultOne(chainId, collection, mintable_, account);
+    collectionDefaultSetOne(chainId, collection, mintable_, account);
   };
 
   // UTILITIES
   const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
   const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
-  const _collectionUrl = (collection: string): string => collectionKey(chainId, collection);
+  const _collectionUrl = (collection: string): string => keyCollection(chainId, collection);
 
   const handleToggleOpen = () => (open = !open);
 </script>
@@ -94,7 +101,7 @@
         {/each}
       </select>
       <p>
-        {collectionKey(chainId, address)}
+        {keyCollection(chainId, address)}
       </p>
     {:else}
       <p>

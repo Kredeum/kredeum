@@ -3,10 +3,11 @@ import { BigNumber } from "ethers";
 import type { CollectionType, NftType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { getChecksumAddress, getNetwork, getChainName, collectionKey, nftKey } from "@lib/common/config";
+import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
+import { keyCollectionList, keyNft } from "@lib/common/keys";
 
 const alchemyCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`alchemyCollectionList ${collectionListKey(chainId, account)}\n`);
+  // console.log(`alchemyCollectionList ${keyCollectionList(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
@@ -37,7 +38,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
     // console.log("alchemyCollectionList", ownedNft);
 
     const address = getChecksumAddress(ownedNft.contract?.address);
-    const collKey = collectionKey(chainId, address);
+    const collKey = keyCollectionList(chainId, address);
 
     const previousCollection = collections.get(collKey);
     const count = Number(previousCollection?.balancesOf?.get(account) || 0);
@@ -97,7 +98,7 @@ const alchemyNftList = async (
         address: getChecksumAddress(collection.address),
         tokenID,
         tokenURI: ownedNft.tokenUri?.gateway,
-        nid: nftKey(chainId, collection.address, tokenID),
+        nid: keyNft(chainId, collection.address, tokenID),
         owner: getChecksumAddress(account)
       };
       nfts.set(nft.nid, nft);

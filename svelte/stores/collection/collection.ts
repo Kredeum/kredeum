@@ -1,24 +1,16 @@
 import type { Readable } from "svelte/store";
-import { derived, get } from "svelte/store";
+import { derived } from "svelte/store";
 
 import type { CollectionType } from "@lib/common/types";
 import {
-  collectionKey,
-  collectionDefaultKey,
   collectionMerge,
   collectionGet as collectionLib
 } from "@lib/collection/collection-get";
 
 import { jsonMapStringify } from "@helpers/jsonMap";
 import { collectionListStore } from "@stores/collection/collectionList";
-import { collectionSubListStore, collectionSubListRefresh } from "@stores/collection/collectionSubList";
-import {
-  collectionDefaultStore,
-  collectionDefaultSubStore,
-  collectionDefaultSetOne,
-  collectionDefaultRefresh,
-  collectionDefaultGetOpenNFTs
-} from "@stores/collection/collectionDefault";
+
+import { keyCollection } from "@lib/common/keys";
 
 // STATE CHANGER : SET one Collection
 const collectionSetOne = (collection: CollectionType): void => {
@@ -26,7 +18,7 @@ const collectionSetOne = (collection: CollectionType): void => {
   if (!(chainId && address)) return;
 
   collectionListStore.update(($collectionList: Map<string, CollectionType>): Map<string, CollectionType> => {
-    const key = collectionKey(chainId, address);
+    const key = keyCollection(chainId, address);
     const newColl = collectionMerge($collectionList.get(key), collection);
 
     if (typeof localStorage !== "undefined") {
@@ -48,27 +40,17 @@ const collectionRefresh = async (chainId: number, address: string, account?: str
 // TODO : add account param, to get balanceOf account, each time
 // STATE VIEW : GET one Collection
 const collectionGetStore = (chainId: number, address: string): Readable<CollectionType> => {
-  const key = collectionKey(chainId, address);
+  const key = keyCollection(chainId, address);
   // console.log(`collectionGetStore ${key}`);
 
   return derived(collectionListStore, ($collectionListStore) => $collectionListStore.get(key));
 };
 
 export const collectionStore = {
-  getKey: collectionKey,
+  getKey: keyCollection,
   getOneStore: collectionGetStore,
   refreshOne: collectionRefresh,
   setOne: collectionSetOne,
 
-  getListStore: collectionListStore,
-
-  getSubListStore: collectionSubListStore,
-  refreshSubList: collectionSubListRefresh,
-
-  getDefaultStore: collectionDefaultStore,
-  getDefaultSubStore: collectionDefaultSubStore,
-  getDefaultKey: collectionDefaultKey,
-  getDefaultOpenNFTs: collectionDefaultGetOpenNFTs,
-  refreshDefault: collectionDefaultRefresh,
-  setDefaultOne: collectionDefaultSetOne
+  getListStore: collectionListStore
 };

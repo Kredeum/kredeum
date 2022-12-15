@@ -1,5 +1,6 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { utils, constants, BigNumberish } from "ethers";
+import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { BigNumberish } from "ethers";
+import { utils, constants } from "ethers";
 
 import { explorerTxLog } from "@lib/common/config";
 import { factoryGetContract } from "@lib/common/factory-get";

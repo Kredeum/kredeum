@@ -1,6 +1,6 @@
 <script lang="ts">
   import { getContext } from "svelte";
-  import { Writable } from "svelte/store";
+  import type { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
   //  <MediaDisplayVideo {mediaSrc} {tokenID}? {displayMode}? {paused}? {small}? {controls}? {muted}? />

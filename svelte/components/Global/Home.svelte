@@ -1,6 +1,7 @@
 <script lang="ts">
+  import type { Writable } from "svelte/store";
+  import { writable } from "svelte/store";
   import { onMount, setContext } from "svelte";
-  import { Writable, writable } from "svelte/store";
 
   import { getCreate, config } from "@lib/common/config";
 
