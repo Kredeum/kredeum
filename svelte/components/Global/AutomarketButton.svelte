@@ -1,10 +1,15 @@
 <script lang="ts">
+  import { NftType } from "@lib/common/types";
   import { metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
   import { getChainName } from "@lib/common/config";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import Nft from "../Nft/NftOld.svelte";
+  import { onMount } from "svelte";
+
+  import { collectionGetContract } from "@lib/collection/collection-get";
+  import { nftGet } from "@lib/nft/nft-get";
 
   export let chainId: number;
   export let address: string;
@@ -25,16 +30,25 @@
       console.log(error.message);
     }
   };
+
+  onMount(async () => {
+    // const { contract, collection } = await collectionGetContract(chainId, address);
+    // const _nftLib = await nftGet(chainId, address, tokenID, collection, true);
+    const _nftLib = (await nftGet(chainId, address, tokenID, { chainId, address }, true)) as NftType;
+    console.log("onMount ~ _nftLib", _nftLib.metadata?.image);
+  });
 </script>
 
-{#if $metamaskSigner}
-  <div class="automarket-button">
-    <Nft {chainId} {address} {tokenID} {account} {platform} />
-  </div>
-{:else}
-  <AccountConnect bind:account {platform} />
-{/if}
+<!-- {#if $metamaskSigner} -->
+<div class="automarket-button">
+  <Nft {chainId} {address} {tokenID} {account} {platform} />
+</div>
 
+<!-- {:else} -->
+
+<AccountConnect bind:account {platform} />
+
+<!-- {/if} -->
 <style>
   :global(.kre-buy-front) {
     width: 300px;

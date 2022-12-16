@@ -50,7 +50,8 @@
 
   // let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
+  $: account, $metamaskChainId, chainId && address && tokenID && handleChange();
+  // $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
   const handleChange = async (): Promise<void> => {
     // console.log(`NFTDETAIL CHANGE #${i++} ${keyNft(chainId, address, tokenID)}`);
 
@@ -376,13 +377,8 @@
     color: #3acf6e;
   }
 
-  :global(
-      .kre-action-buttons button.btn-sell-modal,
-      .kre-action-buttons a.btn-transfer-modal,
-      .kre-action-buttons a.btn-burn-modal,
-      .kre-action-buttons a.btn-shortcod-modal,
-      .kre-action-buttons a.btn-buy-modal
-    ) {
+  :global(.kre-action-buttons button.btn-sell-modal, .kre-action-buttons a.btn-transfer-modal, .kre-action-buttons
+      a.btn-burn-modal, .kre-action-buttons a.btn-shortcod-modal, .kre-action-buttons a.btn-buy-modal) {
     width: 100%;
     border-radius: 6px;
     margin-bottom: 8px;
@@ -399,11 +395,8 @@
     color: black;
   }
 
-  :global(
-      .kre-action-buttons a.btn-transfer-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover i
-    ) {
+  :global(.kre-action-buttons a.btn-transfer-modal:hover, .kre-action-buttons
+      a.btn-shortcod-modal:hover, .kre-action-buttons a.btn-shortcod-modal:hover i) {
     background-color: #3acf6e;
     color: white;
   }
