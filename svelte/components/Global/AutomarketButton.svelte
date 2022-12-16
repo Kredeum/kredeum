@@ -18,25 +18,25 @@
 
   $: account = $metamaskAccount;
 
-  $: chainId > 0 && $metamaskChainId > 0 && $metamaskChainId !== chainId && handleChainId();
-  const handleChainId = async (): Promise<void> => {
-    try {
-      const messageSwitchTo = `Switch to ${getChainName(chainId)}`;
+  // $: chainId > 0 && $metamaskChainId > 0 && $metamaskChainId !== chainId && handleChainId();
+  // const handleChainId = async (): Promise<void> => {
+  //   try {
+  //     const messageSwitchTo = `Switch to ${getChainName(chainId)}`;
 
-      if (confirm(messageSwitchTo)) {
-        await metamaskSwitchChain(chainId);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
+  //     if (confirm(messageSwitchTo)) {
+  //       await metamaskSwitchChain(chainId);
+  //     }
+  //   } catch (error) {
+  //     console.log(error.message);
+  //   }
+  // };
 
-  onMount(async () => {
-    // const { contract, collection } = await collectionGetContract(chainId, address);
-    // const _nftLib = await nftGet(chainId, address, tokenID, collection, true);
-    const _nftLib = (await nftGet(chainId, address, tokenID, { chainId, address }, true)) as NftType;
-    console.log("onMount ~ _nftLib", _nftLib.metadata?.image);
-  });
+  // onMount(async () => {
+  // const { contract, collection } = await collectionGetContract(chainId, address);
+  // const _nftLib = await nftGet(chainId, address, tokenID, collection, true);
+  // const _nftLib = (await nftGet(chainId, address, tokenID, { chainId, address }, true)) as NftType;
+  // console.log("onMount ~ _nftLib", _nftLib.metadata?.image);
+  // });
 </script>
 
 <!-- {#if $metamaskSigner} -->
@@ -46,7 +46,7 @@
 
 <!-- {:else} -->
 
-<AccountConnect bind:account {platform} />
+<!-- <AccountConnect bind:account {platform} /> -->
 
 <!-- {/if} -->
 <style>
