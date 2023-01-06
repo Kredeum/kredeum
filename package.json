@@ -11,6 +11,7 @@
     "build-all": "pnpm build1 && pnpm build2 && pnpm build3 && pnpm build4",
     "format-all": "pnpm -r format",
     "check-all": "pnpm -r check",
+    "update-all": "pnpm -r update",
     "tests-all": "pnpm -r tests",
     "build1": "pnpm -F common build",
     "build2": "pnpm -F contracts -F gulp build",
@@ -23,7 +24,14 @@
   "author": "kredeum",
   "license": "MIT",
   "engines": {
-    "node": "^16",
+    "node": "^16||^18",
     "pnpm": "^7"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "@nomiclabs/hardhat-ethers": "0.3.0-beta.13"
+      }
+    }
   }
 }
