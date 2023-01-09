@@ -1,6 +1,6 @@
 import { storageLinkToUrlHttp } from "@lib/common/config";
 
-const FETCH_LIMIT = 10;
+const FETCH_LIMIT = 100;
 
 type FetchResponse = {
   data?: unknown;
