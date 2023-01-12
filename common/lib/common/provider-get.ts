@@ -60,7 +60,11 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
 
   // console.log("providerGetFallback", providers);
   console.log(`providerGetFallback #${chainId} #${providers.length}`);
-  return new ethers.providers.FallbackProvider(providers);
+
+  const provider: Provider = new ethers.providers.FallbackProvider(providers);
+  // console.log("providerGetFallback ~ provider", provider);
+
+  return provider;
 };
 
 const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {

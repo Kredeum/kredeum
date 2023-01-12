@@ -19,7 +19,7 @@ async function* collectionClone(
   console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
   console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
 
-  const nftsFactoryV3 = await factoryGetContract(chainId);
+  const nftsFactoryV3 = await factoryGetContract(chainId, true);
 
   let n = 0;
   if (!(name && symbol)) n = (await resolverGetCount(chainId)) + 1;
