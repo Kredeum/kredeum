@@ -321,15 +321,15 @@
       "active": false
     },
     "eip1559": true,
-    "openNFTs": "0x50Fb2719C3E711E51ae6023e8522516Bcd4260D9",
+    "openNFTs": "0xD0677855CA6eb922577D302c9ab8f54a842CCd3E",
     "nftsFactory": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
     "nftsFactoryV2": "0xBda19424590E3DB9DF04091F7510F487eD19E037",
     "create": true,
     "testnet": true,
     "openMulti": "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0",
     "openBound": "0xae9159De1FB5dE80093130a0c8fb07A42BfD9E15",
-    "nftsResolver": "0xf3E782b62Fd79e6d7794547A488b8905A716A324",
-    "nftsFactoryV3": "0x57E0347DCcF76cC3a55c9C2257D8c123D5d8e343"
+    "nftsResolver": "0x5b9Ac72384f1d22530b9648026f5A58E265d7c61",
+    "nftsFactoryV3": "0x46ECf060a1a459f46feB4B2dCAcEaB7589784315"
   },
   {
     "chainId": 80001,
@@ -360,15 +360,15 @@
     "hardhatOptions": {
       "live": true
     },
-    "openNFTs": "0x3b892DA3A7e482BD281D8AD9522FA7D1CE80Cf70",
+    "openNFTs": "0x4cB8BC23b85D9794EdA90A00B59651a05cff4035",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "nftsResolver": "0x4195Ec6379a142919602C49bEE11138C776E8687",
+    "nftsResolver": "0xee6E3d63f29bd82abb2B8E4704105Fb3420fDfc5",
     "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a",
-    "nftsFactoryV3": "0xd0F024512e8ff0b368227922c1373C189C0B0BF2"
+    "nftsFactoryV3": "0xefD7421b14FDE39aDB5Ba9968f29557d942C42c4"
   },
   {
     "chainId": 4002,
@@ -458,5 +458,22 @@
     },
     "blockExplorerUrls": [],
     "nftsFactoryV3": ""
+  },
+  {
+    "chainId": 1422,
+    "chainName": "polygonzktestnet",
+    "rpcUrls": [
+      " https://rpc.public.zkevm-test.net"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.public.zkevm-test.net"
+    ],
+    "mainnet": false,
+    "nftsFactoryV3": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf"
   }
 ]
