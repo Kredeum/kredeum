@@ -65,7 +65,7 @@ contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
     /// @return clone_ Address of Clone collection
     function clone(string memory name, string memory symbol, string memory templateName, bytes memory params)
         external
-        override (IOpenNFTsFactoryV3)
+        override(IOpenNFTsFactoryV3)
         returns (address clone_)
     {
         clone_ = clone(template(templateName));
@@ -77,16 +77,16 @@ contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
         emit Clone(templateName, clone_, name, symbol);
     }
 
-    function countTemplates() external view override (IOpenNFTsFactoryV3) returns (uint256 count) {
+    function countTemplates() external view override(IOpenNFTsFactoryV3) returns (uint256 count) {
         count = templates.length;
     }
 
-    function setTreasury(address treasury_, uint96 treasuryFee_) public override (IOpenNFTsFactoryV3) onlyOwner {
+    function setTreasury(address treasury_, uint96 treasuryFee_) public override(IOpenNFTsFactoryV3) onlyOwner {
         _treasury = treasury_;
         _treasuryFee = treasuryFee_;
     }
 
-    function setResolver(address resolver_) public override (IOpenNFTsFactoryV3) onlyOwner {
+    function setResolver(address resolver_) public override(IOpenNFTsFactoryV3) onlyOwner {
         nftsResolver = resolver_;
 
         emit SetResolver(nftsResolver);
@@ -97,7 +97,7 @@ contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
     /// @param template_ Address of the template
     function setTemplate(string memory templateName_, address template_)
         public
-        override (IOpenNFTsFactoryV3)
+        override(IOpenNFTsFactoryV3)
         onlyOwner
     {
         require(IERC165(template_).supportsInterface(type(IOpenCloneable).interfaceId), "Not OpenCloneable");
@@ -123,7 +123,7 @@ contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
         public
         view
         virtual
-        override (OpenERC173, OpenCloner)
+        override(OpenERC173, OpenCloner)
         returns (bool)
     {
         return interfaceId == type(IOpenNFTsFactoryV3).interfaceId || super.supportsInterface(interfaceId);
@@ -135,7 +135,7 @@ contract OpenNFTsFactoryV3 is IOpenNFTsFactoryV3, OpenERC173, OpenCloner {
     function template(string memory templateName)
         public
         view
-        override (IOpenNFTsFactoryV3)
+        override(IOpenNFTsFactoryV3)
         returns (address template_)
     {
         uint256 num = _numTemplates[templateName];

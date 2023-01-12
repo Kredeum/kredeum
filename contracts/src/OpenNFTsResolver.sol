@@ -80,7 +80,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)
         external
         view
-        override (IOpenNFTsResolver)
+        override(IOpenNFTsResolver)
         returns (
             NftInfos[] memory nftInfos,
             OpenNFTsNftInfos[] memory openNTFsNftInfos,
@@ -102,7 +102,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs, address account)
         external
         view
-        override (IOpenNFTsResolver)
+        override(IOpenNFTsResolver)
         returns (
             NftInfos[] memory nftInfos,
             OpenNFTsNftInfos[] memory openNTFsNftInfos,
@@ -121,7 +121,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function getOpenNFTsNftInfos(address collection, uint256 tokenID, address account)
         external
         view
-        override (IOpenNFTsResolver)
+        override(IOpenNFTsResolver)
         returns (
             NftInfos memory nftInfos,
             OpenNFTsNftInfos memory openNTFsNftInfos,
@@ -137,7 +137,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function getOpenNFTsCollectionsInfos(address account)
         external
         view
-        override (IOpenNFTsResolver)
+        override(IOpenNFTsResolver)
         returns (
             CollectionInfos[] memory collectionsInfos,
             OpenNFTsCollectionInfos[] memory openNFTsCollectionsInfos,
@@ -171,14 +171,14 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     function getOpenNFTsCollectionInfos(address collection, address account)
         external
         view
-        override (IOpenNFTsResolver)
+        override(IOpenNFTsResolver)
         returns (CollectionInfos memory collectionInfos, OpenNFTsCollectionInfos memory openNTFscollectionInfos)
     {
         collectionInfos = OpenGetter._getCollectionInfos(collection, account, _interfaceIds);
         openNTFscollectionInfos = _getOpenNFTsCollectionInfos(collection, collectionInfos.supported);
     }
 
-    function supportsInterface(bytes4 interfaceId) public view override (OpenResolver) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view override(OpenResolver) returns (bool) {
         return interfaceId == type(IOpenNFTsResolver).interfaceId || super.supportsInterface(interfaceId);
     }
 

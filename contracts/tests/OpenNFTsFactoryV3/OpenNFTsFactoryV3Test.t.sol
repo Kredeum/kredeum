@@ -12,11 +12,7 @@ import "OpenNFTs/tests//units/ERC173Test.t.sol";
 import "./OpenNFTsFactoryV3CloneTest.t.sol";
 
 contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
-    function constructorTest(address owner)
-        public
-        override (ERC173Test, OpenNFTsFactoryV3CloneTest)
-        returns (address)
-    {
+    function constructorTest(address owner) public override(ERC173Test, OpenNFTsFactoryV3CloneTest) returns (address) {
         changePrank(owner);
 
         // FACTORY

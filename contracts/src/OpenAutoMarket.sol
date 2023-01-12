@@ -55,18 +55,18 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
 
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
-    modifier onlyMinter() override (OpenNFTs) {
+    modifier onlyMinter() override(OpenNFTs) {
         require(open || (owner() == msg.sender), "Not minter");
         _;
     }
 
-    function gift(address to, uint256 tokenID) external payable override (IOpenAutoMarket) existsToken(tokenID) {
+    function gift(address to, uint256 tokenID) external payable override(IOpenAutoMarket) existsToken(tokenID) {
         setTokenPrice(tokenID, 0);
 
         safeTransferFrom(msg.sender, to, tokenID);
     }
 
-    function buy(uint256 tokenID) external payable override (IOpenAutoMarket) existsToken(tokenID) {
+    function buy(uint256 tokenID) external payable override(IOpenAutoMarket) existsToken(tokenID) {
         /// Get token price
         uint256 price = _tokenPrice[tokenID];
 
@@ -91,14 +91,14 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         delete _tokenPrice[tokenID];
     }
 
-    function mint(string memory tokenURI) external override (IOpenAutoMarket) returns (uint256 tokenID) {
+    function mint(string memory tokenURI) external override(IOpenAutoMarket) returns (uint256 tokenID) {
         tokenID = mint(msg.sender, tokenURI, 0, address(0), 0);
     }
 
     function mint(address minter_, string memory tokenURI_, uint256 tokenPrice_, address receiver_, uint96 receiverFee_)
         public
         payable
-        override (IOpenAutoMarket)
+        override(IOpenAutoMarket)
         onlyMinter
         onlyWhenNotPaused
         returns (uint256 tokenID)
@@ -112,7 +112,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
     function initialize(string memory name_, string memory symbol_, address owner_, bytes memory params_)
         public
         virtual
-        override (OpenCloneable)
+        override(OpenCloneable)
     {
         (bytes memory subparams_, address treasury_, uint96 treasuryFee_) =
             abi.decode(params_, (bytes, address, uint96));
@@ -126,7 +126,7 @@ contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
         );
     }
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override (OpenNFTs) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenNFTs) returns (bool) {
         return interfaceId == type(IOpenAutoMarket).interfaceId || super.supportsInterface(interfaceId);
     }
 }

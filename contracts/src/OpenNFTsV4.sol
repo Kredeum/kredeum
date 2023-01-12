@@ -56,13 +56,13 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         _;
     }
 
-    function mint(string memory tokenURI_) external override (IOpenNFTsV4) returns (uint256 tokenID) {
+    function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, tokenURI_);
     }
 
     function mint(address minter, string memory tokenURI_)
         external
-        override (IOpenNFTsV4)
+        override(IOpenNFTsV4)
         onlyOwner
         returns (uint256 tokenID)
     {
@@ -71,13 +71,13 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override (IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
     }
 
     function initialize(string memory name_, string memory symbol_, address owner_, bytes memory params_)
         public
-        override (OpenCloneable)
+        override(OpenCloneable)
     {
         (bytes memory subparams_,,) = abi.decode(params_, (bytes, address, uint96));
 
@@ -95,7 +95,7 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         public
         view
         virtual
-        override (OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable)
+        override(OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable)
         returns (bool)
     {
         return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
@@ -109,18 +109,18 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
 
     function _mint(address minter, string memory tokenURI, uint256 tokenID)
         internal
-        override (OpenERC721Enumerable, OpenERC721Metadata)
+        override(OpenERC721Enumerable, OpenERC721Metadata)
     {
         super._mint(minter, tokenURI, tokenID);
     }
 
-    function _burn(uint256 tokenID) internal override (OpenERC721Enumerable, OpenERC721Metadata) {
+    function _burn(uint256 tokenID) internal override(OpenERC721Enumerable, OpenERC721Metadata) {
         super._burn(tokenID);
     }
 
     function _transferFromBefore(address from, address to, uint256 tokenID)
         internal
-        override (OpenERC721, OpenERC721Enumerable)
+        override(OpenERC721, OpenERC721Enumerable)
     {
         super._transferFromBefore(from, to, tokenID);
     }

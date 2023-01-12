@@ -38,7 +38,7 @@ contract OpenAutoMarketTest is
 
     function constructorTest(address owner)
         public
-        override (
+        override(
             ERC721TransferableTest,
             ERC173Test,
             ERC2981Test,
@@ -58,7 +58,7 @@ contract OpenAutoMarketTest is
 
     function constructorTest(address owner, bool init)
         public
-        override (OpenAutoMarketInitializeTest)
+        override(OpenAutoMarketInitializeTest)
         returns (address)
     {
         changePrank(owner);
@@ -81,7 +81,7 @@ contract OpenAutoMarketTest is
 
     function mintTest(address collection, address minter)
         public
-        override (
+        override(
             OpenAutoMarketBuyTest,
             OpenNFTsTest,
             OpenNFTsBurnTest,
@@ -97,7 +97,7 @@ contract OpenAutoMarketTest is
         return (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
-    function burnTest(address collection, uint256 tokenID) public override (OpenNFTsTest, OpenNFTsBurnTest) {
+    function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
         changePrank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
         OpenAutoMarket(payable(collection)).burn(tokenID);
     }
@@ -109,7 +109,7 @@ contract OpenAutoMarketTest is
 
     function setRoyaltyTest(address collection, address receiver, uint96 fee)
         public
-        override (ERC2981Test, OpenMarketableTest)
+        override(ERC2981Test, OpenMarketableTest)
         returns (uint256 tokenID)
     {
         changePrank(OpenAutoMarket(payable(collection)).owner());
