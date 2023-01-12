@@ -6,7 +6,7 @@
   "storage": {
     "type": "ipfs",
     "ipfs": {
-      "gateway": "https://ipfs.io/ipfs/",
+      "gateway": "https://nftstorage.link/ipfs/",
       "gatewayDomain": "ipfs.nftstorage.link"
     },
     "swarm": {

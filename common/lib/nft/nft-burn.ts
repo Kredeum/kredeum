@@ -11,15 +11,11 @@ async function* burnNft(
   address: string,
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  const signer = await providerGetSigner();
-  if (!signer) return {};
-
   // console.log("burnNft", chainId, address, tokenID);
 
   if (!(chainId && address && tokenID)) return {};
 
-  const { contract } = await collectionGetContract(chainId, address);
-  contract.connect(signer);
+  const { contract } = await collectionGetContract(chainId, address, true);
 
   const burnFunction = await collectionBurnable(chainId, address);
   if (!burnFunction) return {};

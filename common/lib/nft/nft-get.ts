@@ -1,5 +1,5 @@
 import type { CollectionType, NftType } from "@lib/common/types";
-import { collectionGet, collectionGetContract } from "@lib/collection/collection-get";
+import { collectionGet } from "@lib/collection/collection-get";
 
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNft } from "@lib/resolver/resolver-get-nft";
@@ -29,4 +29,4 @@ const nftGet = async (
   return nftRet;
 };
 
-export { nftGet, collectionGetContract };
+export { nftGet };

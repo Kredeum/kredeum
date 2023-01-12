@@ -96,10 +96,10 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
-      "https://polygon-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_POLYGON}}",
       "https://polygon-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://polygon-rpc.com/",
       "https://rpc.ankr.com/polygon",
-      "https://polygon-rpc.com/"
+      "https://polygon-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_POLYGON}}"
     ],
     "nativeCurrency": {
       "name": "Matic",
