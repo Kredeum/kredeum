@@ -196,7 +196,7 @@
     "chainName": "fantom",
     "rpcUrls": [
       "https://rpc.ftm.tools/",
-      "https: //rpc.ankr.com/fantom",
+      "https://rpc.ankr.com/fantom",
       "https://rpcapi.fantom.network"
     ],
     "nativeCurrency": {
@@ -280,6 +280,8 @@
     "chainId": 11155111,
     "chainName": "sepolia",
     "rpcUrls": [
+      "https://sepolia.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://rpc.ankr.com/eth_sepolia",
       "https://rpc.sepolia.org"
     ],
     "nativeCurrency": {
@@ -288,24 +290,22 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "https://sepolia.infura.io/v3/{{env.INFURA_API_KEY}}",
       "https://sepolia.etherscan.io"
     ],
     "etherscan": {
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
     "eip1559": true,
-    "openNFTs": "0xEaf624Ea9ba942CA9D3e65888e9EC30e904229C3",
+    "openNFTs": "0xC7f3C65ccf9071fac39bB1EAEA44Df6a01dd8B8E",
     "create": true,
     "testnet": true,
-    "nftsResolver": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
-    "nftsFactoryV3": "0xBda19424590E3DB9DF04091F7510F487eD19E037"
+    "nftsResolver": "0x1CcC83c7419E56cbb56022A199c72E27f30DCfd2",
+    "nftsFactoryV3": "0x7fb2A7d44FeDDC7b7B55D3794C5dc4A5F1E3fBdd"
   },
   {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
-      "https://rpc.ankr.com/eth_goerli",
       "https://goerli.infura.io/v3/{{env.INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
