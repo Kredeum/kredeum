@@ -9,7 +9,7 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  // import BreadCrumb from "./BreadCrumb.svelte";
+  import BreadCrumb from "./BreadCrumb.svelte";
 
   import Content from "../Global/Content.svelte";
 
@@ -67,7 +67,7 @@
       <Create {chainId} {storage} />
     {/if}
 
-    <!-- <BreadCrumb {refNFT} /> -->
+    <BreadCrumb {refNFT} />
 
     <div class="row alignbottom">
       <AccountConnect bind:account />
@@ -76,9 +76,8 @@
 
       {#if chainId}
         <CollectionList {chainId} {account} bind:address />
-        <!-- <CollectionListSimple {chainId} {account} bind:address /> -->
 
-        {#if account && address}
+        {#if address}
           <NftsListRefresh />
         {/if}
       {/if}
@@ -86,7 +85,7 @@
   </span>
 
   <span slot="content">
-    {#if chainId && account && address}
+    {#if chainId && address}
       <Content {chainId} {address} bind:tokenID {account} {platform} />
     {/if}
   </span>

@@ -12,28 +12,11 @@
   export let platform: string;
 
   $: account = $metamaskAccount;
-
-  $: chainId > 0 && $metamaskChainId > 0 && $metamaskChainId !== chainId && handleChainId();
-  const handleChainId = async (): Promise<void> => {
-    try {
-      const messageSwitchTo = `Switch to ${getChainName(chainId)}`;
-
-      if (confirm(messageSwitchTo)) {
-        await metamaskSwitchChain(chainId);
-      }
-    } catch (error) {
-      console.log(error.message);
-    }
-  };
 </script>
 
-{#if $metamaskSigner}
   <div class="automarket-button">
     <Nft {chainId} {address} {tokenID} {account} {platform} />
   </div>
-{:else}
-  <AccountConnect bind:account {platform} />
-{/if}
 
 <style>
   :global(.kre-buy-front) {

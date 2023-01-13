@@ -6,7 +6,7 @@ import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
 import AutoMarketButton from "../components/Global/AutomarketButton.svelte";
 
-type Props = Record<string, string | number>;
+type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
 
 // convert HTML attributes to SVELTE props
@@ -39,18 +39,21 @@ let kredeumHome: Home;
   // Kredeum Dapp component
   const target: HTMLElement = document.querySelector("#kredeum-app");
   if (target) {
-    kredeumHome = new Home({ target, props: _props(target) });
+    kredeumHome = new Home({
+      target,
+      props: _props(target) as { storage?: string; platform?: string }
+    });
   }
 }
 
-const AutoMarketButtons: Array<AutoMarketButton> = [];
+const autoMarketButtons: Array<AutoMarketButton> = [];
 {
   // Kredeum buy nft components
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kre-buy-front");
   targets?.forEach((target, i) => {
-    AutoMarketButtons[i] = new AutoMarketButton({
+    autoMarketButtons[i] = new AutoMarketButton({
       target,
-      props: _props(target)
+      props: _props(target) as { chainId: number; address: string; tokenID: string; platform: string }
     });
   });
 }
@@ -62,7 +65,15 @@ const kredeumMintButton: Array<NftMintButton> = [];
   targets?.forEach((target, i) => {
     kredeumMintButton[i] = new NftMintButton({
       target,
-      props: _props(target)
+      props: _props(target) as {
+        src: string;
+        metadata?: string;
+        alt?: string;
+        pid?: string;
+        nid?: string;
+        width?: number;
+        display?: boolean;
+      }
     });
   });
 }
@@ -74,7 +85,7 @@ let kredeumCollectionList: CollectionChoice;
   if (target) {
     kredeumCollectionList = new CollectionChoice({
       target,
-      props: _props(target)
+      props: _props(target) as { address?: string; txt?: boolean }
     });
   }
 }
@@ -84,8 +95,11 @@ let network: NetworkList;
   // Kredeum Metamask component
   const target: HTMLElement = document.querySelector("#kredeum-metamask");
   if (target) {
-    network = new NetworkList({ target, props: _props(target) });
+    network = new NetworkList({
+      target,
+      props: _props(target) as { chainId?: number; txt?: boolean; label?: boolean }
+    });
   }
 }
 
-export { kredeumHome, kredeumMintButton, AutoMarketButtons, kredeumCollectionList, network };
+export { kredeumHome, kredeumMintButton, autoMarketButtons, kredeumCollectionList, network };

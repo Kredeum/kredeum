@@ -3,6 +3,7 @@
   import type { NftType } from "@lib/common/types";
 
   import { nftStore } from "@stores/nft/nft";
+  import { keyNft } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
   // <Nft {chainId} {address} {tokenID} />
