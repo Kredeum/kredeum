@@ -1,6 +1,6 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
 
-  "include": ["src/**/*"],
+  "include": ["src/**/*", "common/lib/common/beejs.ts"],
   "exclude": ["node_modules/*", "public/*"]
 }

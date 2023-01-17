@@ -9,7 +9,7 @@
   import { fade } from "svelte/transition";
 
   import type { CollectionType } from "@lib/common/types";
-  import { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftIpfsImage, nftIpfsJson,  nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
   import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import {
@@ -97,7 +97,7 @@
     collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
       ? (inputPriceError = `Price too low, minimum price should be set above ${reduceDecimals(
           utils.formatEther(minRoyalty.mul(2))
-        )} ${getCurrency(chainId)} 
+        )} ${getCurrency(chainId)}
             `)
       : (inputPriceError = "");
   };
@@ -256,22 +256,12 @@
 
     minting = S2_STORE_IMAGE;
 
-    storageImg =
-      "ipfs" === storage
-        ? await nftIpfsImage(image)
-        : "swarm" === storage
-        ? await nftSwarmImage(file, nftTitle, file.type, gateway, key, file.size)
-        : "";
+    storageImg = await nftIpfsImage(image);
 
     if (!storageImg) return _mintingError("ERROR image not stored");
 
     if (inputMediaType === "audio")
-      animation_url =
-        "ipfs" === storage
-          ? await nftIpfsImage(audio)
-          : "swarm" === storage
-          ? await nftSwarmImage(audioFile, nftTitle, audioFile.type, gateway, key, audioFile.size)
-          : "";
+      animation_url = await nftIpfsImage(audio);
 
     if (!animation_url && inputMediaType === "audio") return _mintingError("ERROR audio file not stored");
 

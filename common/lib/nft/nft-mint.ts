@@ -9,7 +9,6 @@ import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
 import { nftIpfsImage, nftIpfsJson } from "@lib/nft/storage/nft-ipfs";
-import { nftSwarmImage, nftSwarmJson } from "@lib/nft/storage/nft-swarm";
 
 import type { IOpenNFTsV0 } from "@soltypes/src/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/src/interfaces/IOpenNFTsV1";
@@ -162,4 +161,4 @@ const nftClaim4 = async (
   return nft;
 };
 
-export { nftIpfsImage, nftIpfsJson, nftSwarmImage, nftSwarmJson, nftMint, nftMint4, nftClaim4 };
+export { nftIpfsImage, nftIpfsJson, nftMint, nftMint4, nftClaim4 };
