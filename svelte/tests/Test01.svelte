@@ -12,14 +12,15 @@
   import Metamask from "../tests/Metamask.svelte";
 
   let account: string;
+  let signer: string;
   let chainId: number;
   let address: string;
 </script>
 
 <div>
-  <BreadCrumb display={true} />
+  <BreadCrumb display={true} bind:account />
 
-  <Metamask bind:account />
+  <Metamask bind:signer />
   <!-- <Metamask /> -->
   <!-- <AccountConnect bind:account /> -->
   <NetworkList bind:chainId />

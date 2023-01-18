@@ -11,7 +11,7 @@
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
-  import { metamaskChainId, metamaskAccount } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputEthAddress from "../InputFields/InputEthAddress.svelte";
@@ -83,7 +83,7 @@
   };
 
   const transferConfirm = async () => {
-    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskAccount, destinationAddress);
+    const transferTxRespYield = transferNft(chainId, address, tokenID, $metamaskSignerAddress, destinationAddress);
 
     transfering = S2_SIGN_TX;
 

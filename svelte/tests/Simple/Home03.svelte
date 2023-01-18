@@ -1,0 +1,47 @@
+<script lang="ts">
+  import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
+  import MetamaskSimple from "./Network/MetamaskSimple.svelte";
+  import CollectionListSimple from "./Collection/CollectionListSimple.svelte";
+
+  /////////////////////////////////////////////////////////////////////////
+  // Home03 : chainId and account sync between Url and Metamask
+  // Dipslay BreadCrumb
+  // Display list of collections on chainId for account
+  /////////////////////////////////////////////////////////////////////////
+
+  let chainId;
+  let account;
+  let signer;
+  let init = true;
+  $: console.log("Home03 chainId CHANGE", chainId);
+  $: console.log("Home03 account CHANGE", account);
+  $: console.log("Home03 signer CHANGE", signer);
+  $: console.log("Home03 init CHANGE", init);
+
+  $: signer && handleSigner();
+  const handleSigner = () => {
+    console.log("Home03 handleSigner", init, account, signer);
+    if (init) {
+      account ||= signer;
+      init = false;
+    } else account = signer;
+  };
+</script>
+
+<div>
+  <p>
+    <BreadCrumbSimple bind:chainId bind:account />
+  </p>
+  <p>
+    <CollectionListSimple bind:chainId {account} />
+  </p>
+  <p>
+    <MetamaskSimple bind:chainId bind:signer />
+  </p>
+</div>
+
+<style>
+  div {
+    padding: 30px;
+  }
+</style>

@@ -9,13 +9,13 @@
 namespace KredeumNFTs;
 
 /**
- * Enqueue kredeum's js and styles if the kredeum_automarket_button shortcode is being used.
+ * Enqueue kredeum's js and styles if the kredeum_nft_automarket shortcode is being used.
  */
 add_action(
 	'wp_enqueue_scripts',
 	function () {
 		global $post;
-		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'kredeum_automarket_button' ) ) {
+		if ( is_a( $post, 'WP_Post' ) && has_shortcode( $post->post_content, 'kredeum_nft_automarket' ) ) {
 			wp_enqueue_script( 'kredeum_nfts', KREDEUM_NFTS_PLUGIN_URL . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
 			wp_register_style( 'kredeum_nfts_css', KREDEUM_NFTS_PLUGIN_URL . 'lib/js/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
 			wp_enqueue_style( 'kredeum_nfts_css' );

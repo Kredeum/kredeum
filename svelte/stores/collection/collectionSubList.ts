@@ -3,6 +3,7 @@ import { derived } from "svelte/store";
 
 import type { CollectionType } from "@lib/common/types";
 import { collectionList as collectionListLib } from "@lib/collection/collection-list";
+import { collectionGet as collectionLib } from "@lib/collection/collection-get";
 
 import { collectionStore } from "@stores/collection/collection";
 import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
@@ -11,9 +12,10 @@ import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefaul
 const collectionSubListStore = (
   chainId: number,
   account?: string,
+  address?: string,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
-  // console.log(`collectionSubListStore ${keyCollectionList(chainId, account, mintable)}\n`);
+  // console.log(`collectionSubListStore ${keyCollectionList(chainId, account, address, mintable)}\n`);
 
   return derived(
     [collectionStore.getListStore, collectionDefaultStore],
@@ -31,6 +33,9 @@ const collectionSubListStore = (
             // NETWORK
             const okNetwork = coll.chainId === chainId;
 
+            // ADDRESS
+            const okAddress = coll.address === address;
+
             // BALANCE
             const okBalance = (coll.balancesOf?.get(account) || 0) > 0;
 
@@ -46,41 +51,41 @@ const collectionSubListStore = (
             // DEFAULT
             const okDefault = coll.address == collectionDefault || okMintableDefault;
 
-            // GENERIC FILTER
-            const okFilter = okOwner || okBalance || okDefault;
+            // FILTER
+            const okFilter = (okAddress || okOwner || okBalance || okDefault) && (!mintable || okMintable);
 
             // IERC1155
             // const okIrc1155 = coll.supports?.IERC1155;
 
-            const ok = okParams && okNetwork && okFilter && (!mintable || okMintable);
-
-            // if (mintable) {
-            //   console.log("collectionListGet Mintable", ok, okParams, okNetwork, okMintable, coll);
-            // } else {
-            //   console.log("collectionListGet", ok, okParams, okNetwork, okNotMintable);
-            //   console.log("collectionListGet NotMintable", okNotMintable, okOwner, okBalance, okDefault);
-            // }
-
-            return ok;
+            return okParams && okNetwork && okFilter;
           })
 
           // SORT PER SUPPLY DESC
           .sort(([, a], [, b]) => (b.balancesOf?.get(account) || 0) - (a.balancesOf?.get(account) || 0))
       );
+      // console.log("collectionSubListStore collections", collections);
       return collections;
     }
   );
 };
 
 // ACTIONS : Refresh all Collections from one nework, from an optional account
-const collectionSubListRefresh = async (chainId: number, account?: string, mintable = false): Promise<void> => {
+const collectionSubListRefresh = async (
+  chainId: number,
+  account?: string,
+  address?: string,
+  mintable = false
+): Promise<void> => {
   if (!chainId) return;
 
-  const collectionListFromLib = await collectionListLib(chainId, account, mintable);
-  for (const collectionObject of collectionListFromLib.values()) {
+  const colls = await collectionListLib(chainId, account, mintable);
+  for (const collectionObject of colls.values()) {
     collectionStore.setOne(collectionObject);
   }
-  // console.log(`collectionSubListRefresh ${keyCollectionList(chainId, account, mintable)}\n`, collectionListFromLib);
+  if (!colls.has(address)) {
+    collectionStore.setOne(await collectionLib(chainId, address));
+  }
+  // console.log(`collectionSubListRefresh ${keyCollectionList(chainId, account, mintable)}\n`, colls);
 };
 
 export { collectionSubListStore, collectionSubListRefresh };

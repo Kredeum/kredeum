@@ -7,7 +7,7 @@
 
   import { onMount } from "svelte";
 
-  import Nft from "./NftOld.svelte";
+  import NftOld from "./NftOld.svelte";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {account}? {more}? {platform}? />
@@ -45,7 +45,7 @@
       <a
         class="info-button"
         href={nftGetImageLink(nft)}
-        title="&#009;{nftDescription(nft)} 
+        title="&#009;{nftDescription(nft)}
                 NFT address (click to view in explorer)&#013.{nftUrl(nft)}"
         target="_blank"
         rel="noreferrer"><i class="fas fa-info-circle" /></a
@@ -73,7 +73,7 @@
   </div>
 
   <div id="more-detail-{nft?.tokenID || ''}" class="detail">
-    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
+    <NftOld chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
   </div>
 </div>
 

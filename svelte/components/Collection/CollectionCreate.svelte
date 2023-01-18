@@ -17,7 +17,7 @@
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
   import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
-  import { metamaskAccount, metamaskSigner } from "@main/metamask";
+  import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../InputFields/InputPrice.svelte";
@@ -125,7 +125,7 @@
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
     inputFee = "0";
-    inputReceiver = $metamaskAccount || constants.AddressZero;
+    inputReceiver = $metamaskSignerAddress || constants.AddressZero;
     cloneError = null;
 
     cloning = S1_CONFIRM;

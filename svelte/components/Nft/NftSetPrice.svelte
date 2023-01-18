@@ -18,7 +18,7 @@
   import { isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
-  import { metamaskAccount } from "@main/metamask";
+  import { metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputPrice from "../InputFields/InputPrice.svelte";
@@ -121,7 +121,7 @@
     inputPrice = nftPrice.lt(recommendedPrice) ? recommendedPrice : nftPrice;
 
     const approvedForAll = $nft?.collection?.approvedForAll;
-    collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskAccount) : false;
+    collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskSignerAddress) : false;
 
     tokenSetPriceInit();
   });

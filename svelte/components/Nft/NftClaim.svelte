@@ -14,7 +14,7 @@
 
   import type { Readable } from "svelte/store";
   import { nftStore } from "@stores/nft/nft";
-  import { metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
 
   import NetworkList from "../Network/NetworkList.svelte";
 
@@ -66,7 +66,13 @@
             const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
             explorerTxLog(chainId, txResp);
 
-            const mintedNft = await nftClaim4(targetChainId, targetAddress, txResp, $nft.tokenURI, $metamaskAccount);
+            const mintedNft = await nftClaim4(
+              targetChainId,
+              targetAddress,
+              txResp,
+              $nft.tokenURI,
+              $metamaskSignerAddress
+            );
             console.log("mintedNft", mintedNft);
 
             claimed = true;

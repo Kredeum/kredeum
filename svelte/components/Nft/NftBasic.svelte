@@ -9,6 +9,7 @@
 
 <Nft {chainId} {address} {tokenID} let:nft>
   {#if nft}
+    {console.log("nft nft", nft)}
     <p>
       REF nft://{chainId}/{address}/{tokenID}@{nft.owner}
     </p>
@@ -38,9 +39,5 @@
       {/if}
     </p>
     <hr />
-  {:else}
-    <p>
-      LOADING... nft://{chainId}/{address}/{tokenID}
-    </p>
   {/if}
 </Nft>

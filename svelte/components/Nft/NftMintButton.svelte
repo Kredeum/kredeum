@@ -12,7 +12,7 @@
     nidTokredeumNftWPUrl
   } from "@lib/common/config";
 
-  import { metamaskChainId, metamaskAccount, metamaskSigner } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import { collectionDefaultSubStore } from "@stores/collection/collectionDefault";
@@ -50,7 +50,7 @@
   // ON network or account change
   $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
   const handleChange = async () => {
-    address = collectionDefaultSubStore($metamaskChainId, true, $metamaskAccount);
+    address = collectionDefaultSubStore($metamaskChainId, true, $metamaskSignerAddress);
     // console.log("handleChange ~ address", $address);
   };
 

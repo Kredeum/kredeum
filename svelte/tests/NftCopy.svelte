@@ -2,7 +2,7 @@
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/types";
   import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
-  import { metamaskSigner, metamaskAccount } from "@main/metamask";
+  import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
   import { nftMint, nftMint4 } from "@lib/nft/nft-mint";
 
   import NetworkList from "../components/Network/NetworkList.svelte";
@@ -41,7 +41,7 @@
         explorerTxLog(chainId, txResp);
 
         if (txResp) {
-          const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskAccount);
+          const mintedNft = await nftMint4(chainId, address, txResp, $nft.tokenURI, $metamaskSignerAddress);
           if (mintedNft) {
             copied = true;
           } else {

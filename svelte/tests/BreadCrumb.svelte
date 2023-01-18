@@ -4,7 +4,7 @@
   import { refNFT2UrlHash, refNFT2Breadcrumb } from "@helpers/refNft";
   import { urlHash2RefNFT } from "@helpers/urlHash";
 
-  import { metamaskChainId, metamaskAccount } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";
 
   export let display = false;
@@ -23,7 +23,7 @@
     chainId: $metamaskChainId,
     // address: $currentCollection,
     // tokenID: $currentTokenID,
-    account: $metamaskAccount,
+    account: $metamaskSignerAddress,
     action: $currentAction
   };
 

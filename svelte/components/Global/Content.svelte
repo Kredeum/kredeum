@@ -2,7 +2,7 @@
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
 
-  import Nft from "../Nft/NftOld.svelte";
+  import NftOld from "../Nft/NftOld.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
 
   ////////////////////////////////////////////////////////////////////
@@ -48,7 +48,7 @@
       <span on:click={handleChange} on:keydown={handleChange} class="link">Return to collection</span>
     </h2>
 
-    <Nft {chainId} {address} {tokenID} {account} {platform} />
+    <NftOld {chainId} {address} {tokenID} {account} {platform} />
   {:else}
     <NftsList {chainId} {address} {account} {platform} />
   {/if}

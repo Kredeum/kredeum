@@ -3,7 +3,7 @@
 
   import type { CollectionType } from "@lib/common/types";
 
-  // import { collectionStore } from "@stores/collection/collection";
+  import { collectionStore } from "@stores/collection/collection";
 
   /////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />
@@ -14,22 +14,19 @@
   export let account: string = undefined;
 
   let collection: Readable<CollectionType>;
+  // $: console.log("collection", account, $collection);
 
-  // let i = 1;
-  // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
-    // STATE VIEW : sync get Collection
-    // collection = collectionStore.getOneStore(chainId, address);
-    // ACTION : async refresh Collection
-    // collectionStore.refreshOne(chainId, address, account).catch(console.error);
+    collection = collectionStore.getOneStore(chainId, address);
+    collectionStore.refreshOne(chainId, address, account).catch(console.error);
   };
 </script>
 
 <div>
   <strong>
     {#if $collection}
+      {$collection.balancesOf?.get(account) || "?"}
       {$collection.name || "No name"} -
       {$collection.address}
     {:else}

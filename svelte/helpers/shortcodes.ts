@@ -19,16 +19,16 @@ const shortcode = (_nft: NftType) => {
 
 const getAutoMarketWidgetCode = (
   _nft: NftType
-): string => `<div class="kre-buy-front" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="buy-external">
-<script defer src="${config.domain}/assets/kredeum-nfts.js"></script>
+): string => `<div class="kredeum-nft-automarket" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="buy-external">
+<script defer src="./assets/kredeum-nfts.js"></script>
 <script>
 var newLink = document.createElement("link");
-newLink.href = "${config.domain}/assets/kredeum-nfts.css";
+newLink.href = "./assets/kredeum-nfts.css";
 newLink.rel = "stylesheet";
 newLink.type = "text/css";
 document.getElementsByTagName("head")[0].appendChild(newLink);
 var newLink2 = document.createElement("link");
-newLink2.href = "${config.domain}/assets/css/front.css";
+newLink2.href = "./assets/css/front.css";
 newLink2.rel = "stylesheet";
 newLink2.type = "text/css";
 document.getElementsByTagName("head")[0].appendChild(newLink2);
@@ -41,9 +41,9 @@ const autoMarketWidget = (_nft: NftType) => {
 };
 
 const getShortcodeBuyCode = (_nft: NftType): string =>
-  `[kredeum_automarket_button chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}"]${nftName(
+  `[kredeum_nft_automarket chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}"]${nftName(
     _nft
-  )}[/kredeum_automarket_button]`;
+  )}[/kredeum_nft_automarket]`;
 
 const shortcodeBuy = (_nft: NftType) => {
   const data = getShortcodeBuyCode(_nft);

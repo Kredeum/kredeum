@@ -38,8 +38,6 @@
   });
 </script>
 
-chainIdNft={$metamaskChainId}
-
 {#if nft}
   <p>
     NAME <strong>{$nft.name}</strong> : DESCRIPTION {$nft.description}
@@ -69,6 +67,6 @@ chainIdNft={$metamaskChainId}
   <hr />
 {:else}
   <p>
-    LOADING... nft://{chainId}/{address}/{tokenID}
+    LOADING NFT...
   </p>
 {/if}

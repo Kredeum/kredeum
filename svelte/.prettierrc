@@ -5,7 +5,7 @@
   "tabWidth": 2,
   "trailingComma": "none",
   "semi": true,
-  "proseWrap": "always",
+  "proseWrap": "preserve",
   "plugins": [
     "./node_modules/prettier-plugin-svelte"
   ],

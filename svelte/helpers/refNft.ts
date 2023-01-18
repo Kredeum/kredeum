@@ -28,22 +28,23 @@ const refNFT2Caip = (refNFT: RefNFT) => {
   );
 };
 
-// > mainnet > coll:Ox123 > nft:0x456 > id:8910 > action:mint @ user:0x1213
+// > mainnet > Ox123 > #234 > mint @ 0x1213
 const refNFT2Breadcrumb = (refNFT: RefNFT) => {
   const { account, chainId, address, tokenID, action } = refNFT || {};
   const chainName = getChainName(chainId);
 
   return (
-    "> " +
+    "<pre>> " +
     (chainName
       ? address
         ? tokenID
-          ? `${chainName} > coll:${address} > nft:${tokenID}`
-          : `${chainName} > coll:${address}`
+          ? `${chainName} > ${address} > #${tokenID} `
+          : `${chainName} > ${address} `
         : `${chainName}`
       : "Home") +
-    (action ? `/ action:${action}` : "") +
-    (account ? ` @ user:${account}` : "")
+    (action ? `> ${action}` : "") +
+    (account ? `| @${account}` : "") +
+    "</pre>"
   );
 };
 

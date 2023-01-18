@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   import { metamaskInit, metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "@helpers/metamask";
-  import { metamaskAccount } from "@main/metamask";
+  import { metamaskSignerAddress } from "@main/metamask";
 
   import Account from "./Account.svelte";
 
@@ -16,7 +16,7 @@
 
   let metamaskNotInstalled = false;
 
-  $: account = $metamaskAccount;
+  $: account = $metamaskSignerAddress;
 
   const _metamaskConnect = (evt?: Event) => {
     evt.preventDefault();

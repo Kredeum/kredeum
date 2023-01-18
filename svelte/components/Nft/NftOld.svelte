@@ -19,6 +19,7 @@
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
+  import Nft from "./Nft.svelte";
 
   import {
     getShortcodeOpenSeaCode,
@@ -35,6 +36,7 @@
   import NftSell from "./NftSell.svelte";
   // import NftClaim from "./NftClaim.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import { keyNft } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -46,297 +48,284 @@
   export let account: string = undefined;
   export let platform: string = undefined;
 
-  let nft: Readable<NftType>;
+  const nftOwner = (nft: NftType): string => String(nft?.owner || "");
+  const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
+  const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || constants.AddressZero);
+  const nftRoyalty = (nft: NftType): Object => nft?.royalty || {};
 
-  // let i = 1;
-  // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: account, chainId && address && tokenID && $metamaskChainId && handleChange();
-  const handleChange = async (): Promise<void> => {
-    // console.log(`NFTDETAIL CHANGE #${i++} ${keyNft(chainId, address, tokenID)}`);
-
-    // STATE VIEW : sync get Nft
-    nft = nftStore.getOneStore(chainId, address, tokenID);
-
-    // ACTION : async refresh Nft
-    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-  };
-
-  $: nftPrice = BigNumber.from($nft?.price || 0);
-  $: nftOwner = String($nft?.owner || "");
-  $: nftMarketable = Boolean($nft?.collection?.supports?.IOpenMarketable);
-
-  $: nftRoyalty = $nft?.royalty || {};
-  $: nftRoyaltyAccount = String(nftRoyalty?.account || constants.AddressZero);
-  $: nftRoyaltyFee = Number(nftRoyalty?.fee || 0);
-  $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
-  $: nftMinPrice = nftRoyaltyMinimum.mul(2);
-
-  $: console.info("Nft", $nft);
+  const nftRoyaltyFee = (nft: NftType): number => Number(nft?.royalty?.fee || 0);
+  const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
+  const nftMinPrice = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).mul(2);
+  const nftRoyaltyMinimum = (nft: NftType): BigNumber => BigNumber.from(nft?.royalty?.minimum || 0);
 </script>
 
-{#if $nft}
-  <div class="{platform === 'buy-external' ? '' : 'row'} krd-nft-solo">
-    <div class={platform === "buy-external" ? "kre-buy-external-card" : "col col-xs-12 col-sm-4 col-md-3"}>
-      <div class="card-krd kre-media">
-        <MediaPreview nft={$nft} />
-      </div>
-      <div class="kre-action-buttons {platform === 'buy-external' ? 'kre-buy-external-buttons' : ''}">
-        {#if nftOwner === account && platform !== "buy-external"}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
-          >
+<Nft {chainId} {address} {tokenID} let:nft>
+  {#if nft}
+    <div class="{platform === 'buy-external' ? '' : 'row'} krd-nft-solo">
+      <div class={platform === "buy-external" ? "kre-buy-external-card" : "col col-xs-12 col-sm-4 col-md-3"}>
+        <div class="card-krd kre-media">
+          <MediaPreview {nft} />
+        </div>
+        <div class="kre-action-buttons {platform === 'buy-external' ? 'kre-buy-external-buttons' : ''}">
+          {#if nftOwner(nft) === account && platform !== "buy-external"}
+            <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+              ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+            >
 
-          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
-            ><i class="fa fa-gift fa-left" /> TRANSFER</a
-          >
+            <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+              ><i class="fa fa-gift fa-left" /> TRANSFER</a
+            >
 
-          <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"><i class="fa fa-fire fa-left" /> BURN</a
-          >
-        {/if}
-
-        {#if platform === "buy-external"}
-          <div class="kre-buy-infos">
-            <div class="overflow-ellipsis kre-buy-link">
-              <strong>
-                <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
-                  >{$nft.name} #{tokenID}</a
-                >
-              </strong>
-            </div>
-            <div class="overflow-ellipsis kre-buy-price">
-              <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
-            </div>
-          </div>
-        {/if}
-
-        {#if nftMarketable}
-          {#if nftOwner === account}
-            <NftSell {chainId} {address} {tokenID} {platform} />
-          {:else}
-            <NftBuy {chainId} {address} {tokenID} {nftPrice} {nftOwner} {nftRoyalty} {platform} />
+            <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"
+              ><i class="fa fa-fire fa-left" /> BURN</a
+            >
           {/if}
-        {/if}
-      </div>
-    </div>
 
-    {#if platform !== "buy-external"}
-      <div class="col col-xs-12 col-sm-8 col-md-9">
-        <div class="card-krd">
-          <h3>{$nft.name}</h3>
-          <p>
-            {$nft.description}
-          </p>
-
-          <ul class="steps">
-            <li>
-              <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-              <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
-                <div class="overflow-ellipsis">
-                  <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
-                </div>
-                <CopyRefItem copyData={tokenID} />
-              </div>
-            </li>
-            <li>
-              <div class="flex"><span class="label">Owner</span></div>
-              <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis">
-                  {@html explorerAddressLink(chainId, nftOwner, 15)}
-                </div>
-                <CopyRefItem copyData={nftOwner} />
-              </div>
-            </li>
-            <li>
-              <div class="flex"><span class="label">collection @</span></div>
-              <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis">
-                  <a
-                    class="link"
-                    href={explorerCollectionUrl(chainId, address)}
-                    title={address}
-                    target="_blank"
-                    rel="noreferrer"
+          {#if platform === "buy-external"}
+            <div class="kre-buy-infos">
+              <div class="overflow-ellipsis kre-buy-link">
+                <strong>
+                  <a href={kredeumNftHttp(chainId, nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
+                    >{nft.name} #{tokenID}</a
                   >
-                    {address}
-                  </a>
-                </div>
-                <CopyRefItem copyData={address} />
+                </strong>
               </div>
-            </li>
-            <li>
-              <div class="flex"><span class="label">Metadata</span></div>
-              <div class="flex kre-flex-align-center">
-                {#if $nft.tokenURI}
-                  <div class="overflow-ellipsis">
-                    <a
-                      class="link overflow-ellipsis"
-                      href={$nft.tokenURI}
-                      title={$nft.ipfsJson}
-                      target="_blank"
-                      rel="noreferrer">{$nft.tokenURI}</a
-                    >
-                  </div>
-                  <CopyRefItem copyData={$nft.tokenURI} />
-                {:else}
-                  NO metadata
-                {/if}
+              <div class="overflow-ellipsis kre-buy-price">
+                <strong>{utils.formatEther(nftPrice(nft))} {getCurrency(chainId)}</strong>
               </div>
-            </li>
-            <li>
-              <div class="flex"><span class="label">Image</span></div>
-              <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis">
-                  <a class="link" href={$nft.image} title={$nft.ipfs} target="_blank" rel="noreferrer">
-                    {$nft.image || ""}
-                  </a>
-                </div>
-                <CopyRefItem copyData={$nft.image || ""} />
-              </div>
-            </li>
-            {#if $nft.animation_url}
+            </div>
+          {/if}
+
+          {#if nftMarketable}
+            {#if nftOwner(nft) === account}
+              <NftSell {chainId} {address} {tokenID} {platform} />
+            {:else}
+              <NftBuy
+                {chainId}
+                {address}
+                {tokenID}
+                nftPrice={nftPrice(nft)}
+                nftOwner={nftOwner(nft)}
+                nftRoyalty={nftRoyalty(nft)}
+                {platform}
+              />
+            {/if}
+          {/if}
+        </div>
+      </div>
+
+      {#if platform !== "buy-external"}
+        <div class="col col-xs-12 col-sm-8 col-md-9">
+          <div class="card-krd">
+            <h3>{nft.name}</h3>
+            <p>
+              {nft.description}
+            </p>
+
+            <ul class="steps">
               <li>
-                <div class="flex"><span class="label">Media</span></div>
+                <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
+                <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
+                  <div class="overflow-ellipsis">
+                    <strong> <a href={kredeumNftUrl(chainId, nft)} class="kre-blue-link">#{tokenID}</a></strong>
+                  </div>
+                  <CopyRefItem copyData={tokenID} />
+                </div>
+              </li>
+              <li>
+                <div class="flex"><span class="label">Owner</span></div>
                 <div class="flex kre-flex-align-center">
                   <div class="overflow-ellipsis">
-                    <a class="link" href={$nft.animation_url} title={$nft.ipfs} target="_blank" rel="noreferrer">
-                      {$nft.animation_url || ""}
+                    {@html explorerAddressLink(chainId, nftOwner(nft), 15)}
+                  </div>
+                  <CopyRefItem copyData={nftOwner(nft)} />
+                </div>
+              </li>
+              <li>
+                <div class="flex"><span class="label">collection @</span></div>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <a
+                      class="link"
+                      href={explorerCollectionUrl(chainId, address)}
+                      title={address}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {address}
                     </a>
                   </div>
-                  <CopyRefItem copyData={$nft.animation_url || ""} />
+                  <CopyRefItem copyData={address} />
                 </div>
               </li>
-            {/if}
-            {#if nftMarketable}
-              {#if nftPrice.gt(0)}
+              <li>
+                <div class="flex"><span class="label">Metadata</span></div>
+                <div class="flex kre-flex-align-center">
+                  {#if nft.tokenURI}
+                    <div class="overflow-ellipsis">
+                      <a
+                        class="link overflow-ellipsis"
+                        href={nft.tokenURI}
+                        title={nft.ipfsJson}
+                        target="_blank"
+                        rel="noreferrer">{nft.tokenURI}</a
+                      >
+                    </div>
+                    <CopyRefItem copyData={nft.tokenURI} />
+                  {:else}
+                    NO metadata
+                  {/if}
+                </div>
+              </li>
+              <li>
+                <div class="flex"><span class="label">Image</span></div>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <a class="link" href={nft.image} title={nft.ipfs} target="_blank" rel="noreferrer">
+                      {nft.image || ""}
+                    </a>
+                  </div>
+                  <CopyRefItem copyData={nft.image || ""} />
+                </div>
+              </li>
+              {#if nft.animation_url}
                 <li>
-                  <div class="flex"><span class="label">Nft Price</span></div>
+                  <div class="flex"><span class="label">Media</span></div>
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
-                      <span
-                        class={nftPrice.lt(nftMinPrice) ? "c-red" : ""}
-                        title={ethers.utils.formatEther(nftPrice)}
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {utils.formatEther(nftPrice)}
-                        {getCurrency(chainId)}
-                      </span>
+                      <a class="link" href={nft.animation_url} title={nft.ipfs} target="_blank" rel="noreferrer">
+                        {nft.animation_url || ""}
+                      </a>
                     </div>
-                    <CopyRefItem copyData={utils.formatEther(nftPrice)} />
+                    <CopyRefItem copyData={nft.animation_url || ""} />
                   </div>
                 </li>
               {/if}
-              {#if nftRoyalty}
-                <li>
-                  <div class="flex"><span class="label">Nft Royalties Amount</span></div>
-                  <div class="flex kre-flex-align-center">
-                    <div class="overflow-ellipsis">
-                      {#if nftRoyaltyFee > 0}
-                        <span class="link" title={`${nftRoyaltyFee / 100} %`} rel="noreferrer">
-                          {nftRoyaltyFee / 100} %
+              {#if nftMarketable}
+                {#if nftPrice(nft).gt(0)}
+                  <li>
+                    <div class="flex"><span class="label">Nft Price</span></div>
+                    <div class="flex kre-flex-align-center">
+                      <div class="overflow-ellipsis">
+                        <span
+                          class={nftPrice(nft).lt(nftMinPrice(nft)) ? "c-red" : ""}
+                          title={ethers.utils.formatEther(nftPrice(nft))}
+                        >
+                          {utils.formatEther(nftPrice(nft))}
+                          {getCurrency(chainId)}
                         </span>
-                      {:else}
-                        <span title="no royalties">No royalties amount setted</span>
-                      {/if}
+                      </div>
+                      <CopyRefItem copyData={utils.formatEther(nftPrice(nft))} />
                     </div>
-                    <CopyRefItem copyData={String(nftRoyaltyFee / 100)} />
+                  </li>
+                {/if}
+                {#if nftRoyalty}
+                  <li>
+                    <div class="flex"><span class="label">Nft Royalties Amount</span></div>
+                    <div class="flex kre-flex-align-center">
+                      <div class="overflow-ellipsis">
+                        {#if nftRoyaltyFee(nft) > 0}
+                          <span class="link" title={`${nftRoyaltyFee(nft) / 100} %`}>
+                            {nftRoyaltyFee(nft) / 100} %
+                          </span>
+                        {:else}
+                          <span title="no royalties">No royalties amount setted</span>
+                        {/if}
+                      </div>
+                      <CopyRefItem copyData={String(nftRoyaltyFee(nft) / 100)} />
+                    </div>
+                  </li>
+
+                  <li>
+                    <div class="flex"><span class="label">Nft Royalty receiver</span></div>
+                    <div class="flex kre-flex-align-center">
+                      <div class="overflow-ellipsis">
+                        <span class="overflow-ellipsis" title="Receiver of the royalties">
+                          {#if nftRoyaltyAccount(nft) === constants.AddressZero}
+                            "No receiver setted for Royalties"
+                          {:else}
+                            {@html explorerAddressLink(chainId, nftRoyaltyAccount(nft), 15)}
+                          {/if}
+                        </span>
+                      </div>
+                      <CopyRefItem copyData={nftRoyaltyAccount(nft)} />
+                    </div>
+                  </li>
+                {/if}
+              {/if}
+            </ul>
+          </div>
+        </div>
+      {/if}
+    </div>
+
+    <!-- Modal Shortcodes -->
+    <div id="schortcodes" class="modal-window">
+      <div>
+        <div class="modal-content">
+          <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+          <div class="modal-body">
+            <div class="titre">
+              <i class="fas fa-code fa-left c-green" />
+              Shortcodes
+            </div>
+            <p>
+              Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
+              shortcodes to paste them in a WordPress page.
+            </p>
+
+            <ul class="steps">
+              {#if nftMarketable}
+                <li>
+                  <div class="flex">
+                    <span class="label">SELL on your website with this buy snippet</span>
+                  </div>
+                  <div class="flex kre-buy-widget-textarea">
+                    <textarea value={getAutoMarketWidgetCode(nft)} />
+                    <a
+                      on:click|preventDefault={() => autoMarketWidget(nft)}
+                      class="btn btn-small btn-outline"
+                      href="."
+                      title="Copy">Copy</a
+                    >
                   </div>
                 </li>
-
                 <li>
-                  <div class="flex"><span class="label">Nft Royalty receiver</span></div>
-                  <div class="flex kre-flex-align-center">
-                    <div class="overflow-ellipsis">
-                      <span
-                        class="overflow-ellipsis"
-                        title="Receiver of the royalties"
-                        target="_blank"
-                        rel="noreferrer"
-                      >
-                        {#if nftRoyaltyAccount === constants.AddressZero}
-                          "No receiver setted for Royalties"
-                        {:else}
-                          {@html explorerAddressLink(chainId, nftRoyaltyAccount, 15)}
-                        {/if}
-                      </span>
-                    </div>
-                    <CopyRefItem copyData={nftRoyaltyAccount} />
+                  <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
+                  <div class="flex kre-buy-widget-textarea">
+                    <textarea value={getShortcodeBuyCode(nft)} />
+                    <a
+                      on:click|preventDefault={() => shortcodeBuy(nft)}
+                      class="btn btn-small btn-outline"
+                      href="."
+                      title="Copy">Copy</a
+                    >
                   </div>
                 </li>
               {/if}
-            {/if}
-          </ul>
-        </div>
-      </div>
-    {/if}
-  </div>
-
-  <!-- Modal Shortcodes -->
-  <div id="schortcodes" class="modal-window">
-    <div>
-      <div class="modal-content">
-        <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
-        <div class="modal-body">
-          <div class="titre">
-            <i class="fas fa-code fa-left c-green" />
-            Shortcodes
+              {#if getNetwork($metamaskChainId)?.openSea}
+                <li>
+                  <div class="flex">
+                    <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
+                  </div>
+                  <div class="flex kre-buy-widget-textarea">
+                    <textarea value={getShortcodeOpenSeaCode(nft)} />
+                    <a
+                      on:click|preventDefault={() => shortcode(nft)}
+                      class="btn btn-small btn-outline"
+                      href="."
+                      title="Copy">Copy</a
+                    >
+                  </div>
+                </li>
+              {/if}
+            </ul>
           </div>
-          <p>
-            Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
-            shortcodes to paste them in a WordPress page.
-          </p>
-
-          <ul class="steps">
-            {#if nftMarketable}
-              <li>
-                <div class="flex">
-                  <span class="label">SELL on your website with this buy snippet</span>
-                </div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={getAutoMarketWidgetCode($nft)} />
-                  <a
-                    on:click|preventDefault={() => autoMarketWidget($nft)}
-                    class="btn btn-small btn-outline"
-                    href="."
-                    title="Copy">Copy</a
-                  >
-                </div>
-              </li>
-              <li>
-                <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={getShortcodeBuyCode($nft)} />
-                  <a
-                    on:click|preventDefault={() => shortcodeBuy($nft)}
-                    class="btn btn-small btn-outline"
-                    href="."
-                    title="Copy">Copy</a
-                  >
-                </div>
-              </li>
-            {/if}
-            {#if getNetwork($metamaskChainId)?.openSea}
-              <li>
-                <div class="flex">
-                  <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
-                </div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={getShortcodeOpenSeaCode($nft)} />
-                  <a
-                    on:click|preventDefault={() => shortcode($nft)}
-                    class="btn btn-small btn-outline"
-                    href="."
-                    title="Copy">Copy</a
-                  >
-                </div>
-              </li>
-            {/if}
-          </ul>
         </div>
       </div>
     </div>
-  </div>
-{/if}
+  {/if}
+</Nft>
 
 <!-- Modal transfer nft -->
 <div id="transfert-nft-{tokenID}" class="modal-window">

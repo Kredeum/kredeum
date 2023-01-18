@@ -48,7 +48,7 @@
     // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollectionList(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
-    collections = collectionSubListStore(chainId, account, mintable);
+    collections = collectionSubListStore(chainId, account, null, mintable);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
@@ -56,7 +56,7 @@
 
     // ACTION : async refresh Collections
     $refreshing = true;
-    await collectionSubListRefresh(chainId, account, mintable);
+    await collectionSubListRefresh(chainId, account, null, mintable);
     $refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 

@@ -7,7 +7,7 @@ import { get } from "svelte/store";
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
 
 import { urlHash2RefNFT } from "@helpers/urlHash";
-import { metamaskChainId, metamaskAccount, metamaskProvider, metamaskSigner } from "@main/metamask";
+import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
 
 let ethereumProvider: EthereumProvider;
 let metamaskInstalled = false;
@@ -89,9 +89,9 @@ const handleAccountsSync = (accounts: Array<string>): void => {
 
   if (accounts?.length === 0) {
     metamaskConnect();
-  } else if (accounts[0] !== String(get(metamaskAccount))) {
+  } else if (accounts[0] !== String(get(metamaskSignerAddress))) {
     metamaskSigner.set(get(metamaskProvider).getSigner(0));
-    metamaskAccount.set(getChecksumAddress(accounts[0]));
+    metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
   }
 };
 

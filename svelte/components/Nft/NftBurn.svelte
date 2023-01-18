@@ -6,7 +6,7 @@
   import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
   import { collectionBurnable } from "@lib/collection/collection-get";
   import { transferNft } from "@lib/nft/nft-transfer";
-  import { metamaskAccount } from "@main/metamask";
+  import { metamaskSignerAddress } from "@main/metamask";
 
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
@@ -84,7 +84,7 @@
   const burnConfirm = async () => {
     const txRespYield = burnable
       ? burnNft(chainId, address, tokenID)
-      : transferNft(chainId, address, tokenID, $metamaskAccount, AddressdEaD);
+      : transferNft(chainId, address, tokenID, $metamaskSignerAddress, AddressdEaD);
 
     burning = S3_SIGN_TX;
 

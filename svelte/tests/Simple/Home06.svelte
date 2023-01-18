@@ -1,0 +1,58 @@
+<script lang="ts">
+  import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
+  import NetworkSelectSimple from "./Network/NetworkSelectSimple.svelte";
+  import MetamaskSimple from "./Network/MetamaskSimple.svelte";
+  import CollectionSelectSimple from "./Collection/CollectionSelectSimple.svelte";
+  import NftSelectSimple from "./Nft/NftSelectSimple.svelte";
+  import NftSimple from "./Nft/NftSimple.svelte";
+
+  ///////////////////////////////////////////////////////////////////////////////////////
+  // Home05 : chainId, address and account sync between Url, NetworkSelect and Metamask
+  // Dipslay BreadCrumb
+  // Display Network Selector and Collection Selector
+  // Display Nft list for chainId, address and account
+  ///////////////////////////////////////////////////////////////////////////////////////
+
+  let chainId: number;
+  let address: string;
+  let tokenID: string;
+  let account: string;
+  let signer: string;
+  let init = true;
+
+  $: signer && handleSigner();
+  const handleSigner = () => {
+    if (init) {
+      account ||= signer;
+      init = false;
+    } else account = signer;
+  };
+</script>
+
+<div>
+  <p>
+    <BreadCrumbSimple bind:chainId bind:address bind:tokenID bind:account />
+  </p>
+  <p>
+    <NetworkSelectSimple bind:chainId />
+  </p>
+  <p>
+    <CollectionSelectSimple {chainId} bind:address {account} />
+  </p>
+  <p>
+    <NftSelectSimple {chainId} {address} {account} bind:tokenID />
+  </p>
+  <p>
+    <NftSimple {chainId} {address} {tokenID} />
+  </p>
+  <p>
+    <MetamaskSimple bind:chainId bind:signer />
+  </p>
+</div>
+
+<style>
+  div {
+    width: 800px;
+    padding: 30px;
+  }
+</style>

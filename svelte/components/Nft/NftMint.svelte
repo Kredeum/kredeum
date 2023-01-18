@@ -9,7 +9,7 @@
   import { fade } from "svelte/transition";
 
   import type { CollectionType } from "@lib/common/types";
-  import { nftIpfsImage, nftIpfsJson,  nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
   import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import {
@@ -25,7 +25,7 @@
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
-  import { metamaskChainId, metamaskAccount, metamaskSigner, metamaskProvider } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../Collection/CollectionList.svelte";
@@ -128,7 +128,7 @@
     price = BigNumber.from(collection?.price || 0);
   };
 
-  // $: prefixPrice = collection?.owner == $metamaskAccount ? "Recommended" : "Mint";
+  // $: prefixPrice = collection?.owner == $metamaskSignerAddress ? "Recommended" : "Mint";
 
   /////////////////////////////////////////////////
   // Set supported input field for image file
@@ -260,8 +260,7 @@
 
     if (!storageImg) return _mintingError("ERROR image not stored");
 
-    if (inputMediaType === "audio")
-      animation_url = await nftIpfsImage(audio);
+    if (inputMediaType === "audio") animation_url = await nftIpfsImage(audio);
 
     if (!animation_url && inputMediaType === "audio") return _mintingError("ERROR audio file not stored");
 
@@ -273,7 +272,7 @@
             nftTitle,
             nftDescription,
             storageImg,
-            $metamaskAccount,
+            $metamaskSignerAddress,
             image,
             "",
             properties,
@@ -285,7 +284,7 @@
               nftTitle,
               nftDescription,
               storageImg,
-              $metamaskAccount,
+              $metamaskSignerAddress,
               image,
               "",
               properties,
@@ -307,7 +306,7 @@
     explorerTxLog(chainId, mintingTxResp);
     minting = S5_WAIT_TX;
 
-    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, $metamaskAccount);
+    mintedNft = await nftMint4(chainId, address, mintingTxResp, storageJson, $metamaskSignerAddress);
     // console.log("mintedNft", mintedNft);
 
     if (!mintedNft) return _mintingError(`ERROR returned by transaction ${mintedNft}`);
@@ -465,7 +464,7 @@
               </div>
               <div class="section kre-mint-collection">
                 <div class="titre">Add to an existing Collection</div>
-                <CollectionList {chainId} bind:address account={$metamaskAccount} mintable={true} label={false} />
+                <CollectionList {chainId} bind:address account={$metamaskSignerAddress} mintable={true} label={false} />
               </div>
 
               {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
@@ -490,7 +489,7 @@
                 </div>
               {/if}
 
-              {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskAccount}
+              {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskSignerAddress}
                 <div class="section">
                   <div class="titre">NFT Sell Price</div>
                   <InputPrice {chainId} bind:price inputError={inputPriceError} />
