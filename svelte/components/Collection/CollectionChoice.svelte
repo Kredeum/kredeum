@@ -1,7 +1,7 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkList from "../Network/NetworkList.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import NetworkSelect from "../Network/NetworkListSelect.svelte";
+  import CollectionList from "../CollectionList/CollectionList.svelte";
 
   /////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />
@@ -15,10 +15,10 @@
 </script>
 
 <p>
-  <AccountConnect bind:account {txt} />
+  <AccountConnect bind:signer={account} {txt} />
 </p>
 <p>
-  <NetworkList bind:chainId {txt} />
+  <NetworkSelect bind:chainId {txt} />
 </p>
 
 {#if chainId && account}

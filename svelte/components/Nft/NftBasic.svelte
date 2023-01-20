@@ -1,6 +1,6 @@
 <script lang="ts">
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
-  import Nft from "./Nft.svelte";
+  import Nft from "./NftData.svelte";
 
   export let chainId: number;
   export let address: string;

@@ -1,6 +1,7 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
+  import {  providerSetFallback } from "@lib/common/provider-get";
 
   ////////////////////////////////////////////////////////////////
   // Home02 : chainId and account sync between Url and Metamask
@@ -16,6 +17,7 @@
   $: console.log("Home02 signer CHANGE", signer);
   $: console.log("Home02 init CHANGE", init);
 
+  $: providerSetFallback(chainId);
   $: signer && handleSigner();
   const handleSigner = () => {
     console.log("Home02 handleSigner", init, account, signer);

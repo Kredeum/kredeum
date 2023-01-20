@@ -1,15 +1,17 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import NftSimple from "./Nft/NftSimple.svelte";
+  import {  providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
   // Home07 : chainId, address, tokenID
-  // Dipslay Nft
+  // Dipslay NftSimple
   ///////////////////////////////////////////////////////////////////////////////////////
 
   let chainId: number;
   let address: string;
   let tokenID: string;
+  $: providerSetFallback(chainId);
 </script>
 
 <div>

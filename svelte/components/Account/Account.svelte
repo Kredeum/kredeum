@@ -5,23 +5,24 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
 
   /////////////////////////////////////////////////
-  // <AccountConnect {account} {txt} />
+  // <Account {account} {txt} />
   // Display Account
   /////////////////////////////////////////////////
   export let account: string;
   export let txt: boolean = undefined;
 
-  let accountEns: string;
-  const _getEnsName = async (_account: string): Promise<string> => (accountEns = await ensGetName(_account));
-  $: if (account) {
-    accountEns = account;
-    _getEnsName(account).catch(console.error);
-  }
+  let accountName: string;
+
+  $: account && handleAccount();
+  const handleAccount = async (): Promise<void> => {
+    accountName = account;
+    accountName = await ensGetName(account);
+  };
 </script>
 
 {#if txt}
   Address
-  {accountEns}
+  {accountName}
 {:else}
   <span class="label"
     >Address
@@ -30,13 +31,13 @@
       href={blockscanUrl(`/address/${account}`)}
       target="_blank"
       rel="noreferrer"
-      title="&#009;Owner address (click to view account in explorer )&#013;{accountEns}"
+      title="&#009;Owner address (click to view account in explorer )&#013;{accountName}"
       ><i class="fas fa-info-circle" /></a
     >
     <CopyRefItem copyData={account} />
   </span>
 
   <div class="form-field">
-    <input type="text" value={getShortAddress(accountEns, 10)} />
+    <input type="text" value={getShortAddress(accountName, 10)} />
   </div>
 {/if}

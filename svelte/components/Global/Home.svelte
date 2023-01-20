@@ -1,58 +1,58 @@
 <script lang="ts">
-  import type { Writable } from "svelte/store";
-  import { writable } from "svelte/store";
-  import { onMount, setContext } from "svelte";
+  import { getCreate } from "@lib/common/config";
 
-  import { getCreate, config } from "@lib/common/config";
-
-  import Create from "../Global/Create.svelte";
-  import Navigation from "../Global/Navigation.svelte";
-  import HomeLayout from "../Global/HomeLayout.svelte";
-  import Title from "../Global/Title.svelte";
+  import Create from "./Create.svelte";
+  import Navigation from "./Navigation.svelte";
+  import HomeLayout from "./HomeLayout.svelte";
+  import Title from "./Title.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
 
-  import Content from "../Global/Content.svelte";
-
-  import NetworkList from "../Network/NetworkList.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NftsListRefresh from "../NftsList/NftsListRefresh.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
-
-  import { urlHash2RefNFT } from "@helpers/urlHash";
-  import type { RefNFT } from "@helpers/refNft";
+  // import NetworkList from "../Network/NetworkList.svelte";
+  import NetworkListSelect from "../Network/NetworkListSelect.svelte";
+  import CollectionSelect from "../CollectionList/CollectionListSelect.svelte";
+  import NftsList from "../NftsList/NftsList.svelte";
+  import Nft from "../Nft/Nft.svelte";
+  import { providerSetFallback } from "@lib/common/provider-get";
 
   ////////////////////////////////////////////////////////////////////
-  // <Home {storage} {platform}/>
-  // storage : file storage used : ipfs, swarm or arweave
-  // platform : app container : dapp or wordpress
-  ////////////////////////////////////////////////////////////////////
-  export let storage: string = config.storage.type;
-  export let platform: string = "dapp";
+  // <HomeNew />
   ////////////////////////////////////////////////////////////////////
 
   let chainId: number;
   let address: string;
   let tokenID: string;
   let account: string;
-  let refNFT: RefNFT;
+  let signer: string;
+  let init = true;
+  $: console.log("Home chainId", chainId);
+  $: console.log("Home address", address);
+  $: console.log("Home tokenID", tokenID);
+  $: console.log("Home account", account);
+  $: console.log("Home signer", signer);
 
-  ////////////////////////////////////////////////////////////////////
-  // Context for refreshCollectionList & refreshNftsList & refreshing
-  ////////////////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = writable(1);
-  setContext("refreshCollectionList", refreshCollectionList);
+  $: signer && handleSigner();
+  const handleSigner = () => {
+    if (init) {
+      account ||= signer;
+      init = false;
+    } else account = signer;
+  };
 
-  let refreshNftsList: Writable<number> = writable(1);
-  setContext("refreshNftsList", refreshNftsList);
+  $: chainId && handleChainId();
+  const handleChainId = async () => {
+    resetAddress();
+    resetTokenID();
+    await providerSetFallback(chainId);
+  };
 
-  let refreshing: Writable<boolean> = writable(false);
-  setContext("refreshing", refreshing);
-  ////////////////////////////////////////////////////////////////////
+  $: address && handleAddress();
+  const handleAddress = async () => {
+    resetTokenID();
+  };
 
-  onMount(() => {
-    refNFT = urlHash2RefNFT(window.location.hash);
-    ({ chainId, address, tokenID } = refNFT);
-  });
+  const resetAddress = () => (address = undefined);
+  const resetTokenID = () => (tokenID = undefined);
 </script>
 
 <HomeLayout>
@@ -63,30 +63,38 @@
   <span slot="header">
     <Title />
 
-    {#if account && getCreate(chainId)}
-      <Create {chainId} {storage} />
+    {#if signer}
+      {#if getCreate(chainId)}
+        <Create {chainId} />
+      {/if}
     {/if}
 
-    <BreadCrumb {refNFT} />
+    <BreadCrumb bind:chainId bind:address bind:tokenID bind:account />
 
     <div class="row alignbottom">
-      <AccountConnect bind:account />
+      <AccountConnect bind:signer />
 
-      <NetworkList bind:chainId />
+      <!-- <NetworkList {chainId} /> -->
+      <NetworkListSelect bind:chainId />
 
       {#if chainId}
-        <CollectionList {chainId} {account} bind:address />
-
-        {#if address}
-          <NftsListRefresh />
-        {/if}
+        <CollectionSelect {chainId} bind:address {account} />
       {/if}
     </div>
   </span>
 
   <span slot="content">
     {#if chainId && address}
-      <Content {chainId} {address} bind:tokenID {account} {platform} />
+      {#if tokenID}
+        <h2 class="m-b-20 return">
+          <i class="fa fa-arrow-left fa-left" />
+          <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
+        </h2>
+
+        <Nft {chainId} {address} {tokenID} />
+      {:else}
+        <NftsList {chainId} {address} {account} bind:tokenID />
+      {/if}
     {/if}
   </span>
 </HomeLayout>

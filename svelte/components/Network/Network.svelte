@@ -9,6 +9,7 @@
   export let txt = false;
 
   const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "");
+  $: console.log("<Network chainId", chainId, getChainName(chainId));
 </script>
 
 {#if txt}

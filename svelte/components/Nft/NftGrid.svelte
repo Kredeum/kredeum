@@ -1,31 +1,28 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
-
   import { nftName } from "@lib/common/config";
-
   import MediaDisplay from "../Media/MediaDisplay.svelte";
+  import NftData from "./NftData.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftGrid {nft} {account}  />
+  // <NftGrid {chainId} {address} {tokenID} />
   // Display NFT card for Grid mode
   /////////////////////////////////////////////////
-  export let nft: NftType;
-
-  let displayMode: string = "grid";
-
-  // $: console.log("NftGrid", nft);
-  ///////////////////////////////////////////////////////////////////////////////
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
 </script>
 
-<div class="col col-xs-12 col-sm-4 col-md-3 col-lg-2">
-  <div class="grid-card-krd" data-tokenid={nft?.tokenID || ""}>
-    <MediaDisplay {nft} {displayMode} />
+<NftData {chainId} {address} {tokenID} let:nft>
+  {#if nft}
+    <div class="grid-card-krd" data-tokenid={nft.tokenID || ""}>
+      <MediaDisplay {nft} displayMode="grid" />
 
-    <div class="caption">
-      <h3>{nftName(nft)}</h3>
+      <div class="caption">
+        <h3>{nftName(nft)}</h3>
+      </div>
     </div>
-  </div>
-</div>
+  {/if}
+</NftData>
 
 <style>
   .grid-card-krd h3 {

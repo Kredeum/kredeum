@@ -28,7 +28,7 @@
   import { metamaskChainId, metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import CollectionList from "../CollectionList/CollectionList.svelte";
   import InputPrice from "../InputFields/InputPrice.svelte";
   import InputAudioMint from "../InputFields/InputAudioMint.svelte";
   import InputVideoMint from "../InputFields/InputVideoMint.svelte";

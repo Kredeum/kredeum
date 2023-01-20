@@ -15,6 +15,7 @@ const resolverGetCollection = async (
   const nftsResolver = await resolverGetContract(chainId);
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionInfos(address, account);
+  // console.log("collectionInfos", collectionInfos);
 
   return resolverConvOpenNFTsCollectionInfos(chainId, collectionInfos, account);
 };

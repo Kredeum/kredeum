@@ -2,8 +2,9 @@
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import NetworkSelectSimple from "./Network/NetworkSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionSelectSimple from "./Collection/CollectionSelectSimple.svelte";
-  import NftListSimple from "./Nft/NftListSimple.svelte";
+  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import NftListSimple from "./NftList/NftListSimple.svelte";
+  import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
   // Home05 : chainId, address and account sync between Url, NetworkSelect and Metamask
@@ -18,6 +19,7 @@
   let signer;
   let init = true;
 
+  $: providerSetFallback(chainId);
   $: signer && handleSigner();
   const handleSigner = () => {
     if (init) {
@@ -35,7 +37,7 @@
     <NetworkSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionSelectSimple {chainId} bind:address {account} />
+    <CollectionListSelectSimple {chainId} bind:address {account} />
   </p>
   <p>
     <NftListSimple {chainId} {address} {account} />

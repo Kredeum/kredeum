@@ -40,7 +40,7 @@ const refNFT2Breadcrumb = (refNFT: RefNFT) => {
         ? tokenID
           ? `${chainName} > ${address} > #${tokenID} `
           : `${chainName} > ${address} `
-        : `${chainName}`
+        : `${chainName} `
       : "Home") +
     (action ? `> ${action}` : "") +
     (account ? `| @${account}` : "") +

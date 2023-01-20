@@ -20,7 +20,7 @@
   $: console.log("BreadCrumbSimple account CHANGE", account);
 
   // change url on chainId, address or account change
-  $: window.location.hash = refNFT2UrlHash({ chainId, address, tokenID, account });
+  $: window.location.hash = refNFT2UrlHash({ chainId, address, tokenID });
 
   // change chainId or address on url change
   $: ({ chainId, address, tokenID, account } = urlHash2RefNFT(window.location.hash));

@@ -9,8 +9,8 @@
   //  <Create {chainId} {storage} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
-  export let chainId: number;
-  export let storage: string;
+  export let chainId: number ;
+  export let storage: string = undefined;
 
   // const create = () => ($currentAction = "create");
 </script>

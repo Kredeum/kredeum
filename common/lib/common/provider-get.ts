@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import type { Provider } from "@ethersproject/abstract-provider";
-import type { Web3Provider } from "@ethersproject/providers";
+import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/providers";
 import type { Signer } from "ethers";
 
 import type { WindowExternalProvider } from "./types";
-import { getNetwork } from "@lib/common/config";
+import { getNetwork, sleep } from "@lib/common/config";
 import { ethers } from "ethers";
 
-// Cache providers (chainId)
-const _providersCache: Map<string, Array<Provider>> = new Map();
+// Cache providers per chainId
+const _providersPerChainId: Map<number, Provider> = new Map();
 
 const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
   const externalProvider = (window as WindowExternalProvider).ethereum || undefined;
@@ -43,32 +43,61 @@ const providerGetAccount = async (): Promise<string> => {
   return account;
 };
 
-const providerGetFallback = async (chainId: number): Promise<Provider> => {
-  const providers: Array<Provider> = _providersCache.get(String(chainId)) || [];
-  if (providers.length == 0) {
+const providerSetFallback = async (chainId: number): Promise<boolean> => {
+  console.log("providerSetFallback START", chainId);
+  if (!chainId) return false;
+
+  let provider: Provider | undefined = _providersPerChainId.get(chainId);
+  if (!provider) {
+    const providers: Array<FallbackProviderConfig> = [];
     const providerWindow = await providerGetWindow(chainId);
     const network = getNetwork(chainId);
 
-    if (providerWindow) providers.push(providerWindow);
-    if (network?.rpcUrls[0]) providers.push(new ethers.providers.JsonRpcProvider(network?.rpcUrls[0]));
-    if (network?.rpcUrls[1]) providers.push(new ethers.providers.JsonRpcProvider(network?.rpcUrls[1]));
+    if (providerWindow) providers.push({ provider: providerWindow, priority: 1, weight: 1 });
+    if (network?.rpcUrls[0])
+      providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[0]), priority: 2, weight: 1 });
+    if (network?.rpcUrls[1])
+      providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[1]), priority: 3, weight: 1 });
 
     if (providers.length == 0) throw Error(`No provider found for this network! #${chainId}`);
+    console.log(`providerSetFallback #${chainId} #${providers.length}`);
 
-    _providersCache.set(String(chainId), providers);
+    provider = new ethers.providers.FallbackProvider(providers, 1);
+    _providersPerChainId.set(chainId, provider);
   }
 
-  // console.log("providerGetFallback", providers);
-  console.log(`providerGetFallback #${chainId} #${providers.length}`);
+  const ok = Boolean(provider);
+  console.log("providerSetFallback END", ok);
 
-  const provider: Provider = new ethers.providers.FallbackProvider(providers);
-  // console.log("providerGetFallback ~ provider", provider);
+  return ok;
+};
 
-  return provider;
+const providerGetFallback = async (chainId: number): Promise<Provider> => {
+  // console.log("providerGetFallback START");
+  let provider: Provider | undefined;
+  let i = 0;
+  // 500 * 20 = 10s
+  while (i++ < 500) {
+    provider = _providersPerChainId.get(chainId);
+    if (provider) break;
+
+    await sleep(20);
+    console.log("providerGetFallback sleep", i);
+  }
+
+  // console.log("providerGetFallback OK !", (await provider?.getBlockNumber()) || 0);
+  return provider as Provider;
 };
 
 const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {
   return await (getSigner ? providerGetSigner(chainId) : providerGetFallback(chainId));
 };
 
-export { providerGetFallback, providerGetWindow, providerGetSigner, providerGetAccount, providerGetSignerOrProvider };
+export {
+  providerSetFallback,
+  providerGetFallback,
+  providerGetWindow,
+  providerGetSigner,
+  providerGetAccount,
+  providerGetSignerOrProvider
+};

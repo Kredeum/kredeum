@@ -4,8 +4,8 @@
   import { getChainName } from "@lib/common/config";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NftOld from "./NftOld.svelte";
-  import Nft from "./Nft.svelte";
+  import NftOld from "./Nft.svelte";
+  import Nft from "./NftData.svelte";
   import NftBasic from "./NftBasic.svelte";
 
   export let chainId: number;

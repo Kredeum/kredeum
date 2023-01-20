@@ -16,7 +16,7 @@
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
 
-  import NetworkList from "../Network/NetworkList.svelte";
+  import NetworkSelect from "../Network/NetworkListSelect.svelte";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -123,7 +123,7 @@
             <i class="fas fa-exclamation" /> Claim this NFT on another network ? #{tokenID}
           </div>
 
-          <NetworkList bind:chainId={targetChainId} />
+          <NetworkSelect bind:chainId={targetChainId} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>

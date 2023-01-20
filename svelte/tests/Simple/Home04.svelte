@@ -2,7 +2,8 @@
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import NetworkSelectSimple from "./Network/NetworkSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionSelectSimple from "./Collection/CollectionSelectSimple.svelte";
+  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
   // Home04 : chainId, address and account sync between Url, NetworkSelect and Metamask
@@ -16,6 +17,7 @@
   let signer;
   let init = true;
 
+  $: providerSetFallback(chainId);
   $: signer && handleSigner();
   const handleSigner = () => {
     if (init) {
@@ -27,13 +29,13 @@
 
 <div>
   <p>
-    <BreadCrumbSimple bind:chainId bind:account  />
+    <BreadCrumbSimple bind:chainId bind:account />
   </p>
   <p>
     <NetworkSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionSelectSimple bind:chainId bind:address {account} />
+    <CollectionListSelectSimple bind:chainId bind:address {account} />
   </p>
   <p>
     <MetamaskSimple bind:chainId bind:signer />
