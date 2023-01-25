@@ -1,12 +1,9 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/common/types";
-
   import { nftStore } from "@stores/nft/nft";
   import { keyNft } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
-  // <Nft {chainId} {address} {tokenID} />
+  // <NftData {chainId} {address} {tokenID} />
   // NFT data
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -14,17 +11,8 @@
   export let tokenID: string;
   /////////////////////////////////////////////////
 
-  let nft: Readable<NftType>;
-
-  // HANDLE CHANGE : on truthy chainId and address, and whatever account
-  $: chainId && address && tokenID && handleNftNew();
-  const handleNftNew = async (): Promise<void> => {
-    // STATE VIEW : sync get Nft
-    nft = nftStore.getOneStore(chainId, address, tokenID);
-
-    // ACTION : async refresh Nft
-    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
-  };
+  // GET NFT
+  $: nft = nftStore.getAndRefresh(chainId, address, tokenID);
 
   let i = 0;
   $: console.log(`NFT CHANGE #${++i} ${keyNft(chainId, address, tokenID)}`);
@@ -32,7 +20,5 @@
 </script>
 
 <slot nft={$nft}>
-  <p>
-    LOADING NFT...
-  </p>
+  <p>LOADING NFT...</p>
 </slot>

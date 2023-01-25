@@ -13,12 +13,9 @@ const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}`;
 
 const nftSetOne = (nft: NftType): void => {
-  if (!nft) return;
-  // console.log("nftSetOne", nft);
-
-  const { chainId, address, tokenID } = nft;
-  if (!(chainId && address && tokenID)) return;
   // console.log("nftSetOne", chainId, address, tokenID);
+  const { chainId, address, tokenID } = nft || {};
+  if (!(chainId && address && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
@@ -33,8 +30,8 @@ const nftSetOne = (nft: NftType): void => {
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
   console.log("nftRefresh", chainId, address, tokenID);
-
   if (!(chainId && address && tokenID)) return;
+
   const key = nftGetKey(chainId, address, tokenID);
   console.log("nftRefresh ~ key", key);
 
@@ -61,6 +58,8 @@ const nftGetStore = (chainId: number, address: string, tokenID: string): Readabl
 
 // Remove one nft from store & localstorage
 const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
+  if (!(chainId && address && tokenID)) return;
+
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const keyToRemove = nftGetKey(chainId, address, tokenID);
 
@@ -72,14 +71,24 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
   });
 };
 
-export { };
+const nftGetAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
+  if (!(chainId && address && tokenID)) return;
+
+  // STATE VIEW : sync read cache
+  const nft = nftGetStore(chainId, address, tokenID);
+
+  // ACTION : async refresh from lib onchain data
+  nftRefresh(chainId, address, tokenID).catch(console.error);
+
+  return nft;
+};
 
 export const nftStore = {
   getKey: nftGetKey,
   getOneStore: nftGetStore,
   refreshOne: nftRefresh,
+  getAndRefresh: nftGetAndRefresh,
   setOne: nftSetOne,
   nftRemoveOne,
-
   getListStore: nftListStore
 };
