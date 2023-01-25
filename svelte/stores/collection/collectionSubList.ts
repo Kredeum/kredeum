@@ -18,7 +18,7 @@ const collectionSubListStore = (
   // console.log(`collectionSubListStore ${keyCollectionList(chainId, account, address, mintable)}\n`);
 
   return derived(
-    [collectionStore.getListStore, collectionDefaultStore],
+    [collectionStore.getList, collectionDefaultStore],
     ([$collectionListStore, $collectionDefaultStore]) => {
       const [collectionDefault, collectionMintableDefault] = $collectionDefaultStore.get(
         keyCollectionDefault(chainId, account)

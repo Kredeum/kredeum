@@ -29,6 +29,15 @@
     getAutoMarketWidgetCode,
     autoMarketWidget
   } from "@helpers/shortcodes";
+  import {
+    nftOwner,
+    nftMarketable,
+    nftRoyaltyAccount,
+    nftRoyalty,
+    nftRoyaltyFee,
+    nftPrice,
+    nftMinPrice
+  } from "@helpers/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBuy from "./NftBuy.svelte";
@@ -47,16 +56,6 @@
   export let tokenID: string;
   export let account: string = undefined;
   export let platform: string = undefined;
-
-  const nftOwner = (nft: NftType): string => String(nft?.owner || "");
-  const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
-  const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || constants.AddressZero);
-  const nftRoyalty = (nft: NftType): Object => nft?.royalty || {};
-
-  const nftRoyaltyFee = (nft: NftType): number => Number(nft?.royalty?.fee || 0);
-  const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
-  const nftMinPrice = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).mul(2);
-  const nftRoyaltyMinimum = (nft: NftType): BigNumber => BigNumber.from(nft?.royalty?.minimum || 0);
 </script>
 
 <NftData {chainId} {address} {tokenID} let:nft>
@@ -96,19 +95,11 @@
             </div>
           {/if}
 
-          {#if nftMarketable}
+          {#if nftMarketable(nft)}
             {#if nftOwner(nft) === account}
               <NftSell {chainId} {address} {tokenID} {platform} />
             {:else}
-              <NftBuy
-                {chainId}
-                {address}
-                {tokenID}
-                nftPrice={nftPrice(nft)}
-                nftOwner={nftOwner(nft)}
-                nftRoyalty={nftRoyalty(nft)}
-                {platform}
-              />
+              <NftBuy {chainId} {address} {tokenID} {platform} />
             {/if}
           {/if}
         </div>

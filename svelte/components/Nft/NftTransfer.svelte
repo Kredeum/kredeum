@@ -112,7 +112,7 @@
   onMount(() => {
     transferInit();
 
-    nft = nftStore.getOneStore(chainId, address, tokenID);
+    nft = nftStore.getOne(chainId, address, tokenID);
   });
 </script>
 

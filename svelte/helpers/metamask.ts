@@ -6,7 +6,7 @@ import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
 
-import { urlHash2RefNFT } from "@helpers/urlHash";
+import { urlHash2RefNFT } from "@helpers/breadcrumb";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
 
 let ethereumProvider: EthereumProvider;

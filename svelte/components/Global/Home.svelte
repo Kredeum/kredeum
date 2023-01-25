@@ -24,31 +24,36 @@
   let tokenID: string;
   let account: string;
   let signer: string;
-  let init = true;
-  $: console.log("Home chainId", chainId);
-  $: console.log("Home address", address);
-  $: console.log("Home tokenID", tokenID);
-  $: console.log("Home account", account);
-  $: console.log("Home signer", signer);
+
+  let chainIdFirst = true;
+  let addressFirst = true;
+  let signerFirst = true;
 
   $: signer && handleSigner();
   const handleSigner = () => {
-    if (init) {
+    if (signerFirst) {
+      signerFirst = false;
       account ||= signer;
-      init = false;
     } else account = signer;
   };
 
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    resetAddress();
-    resetTokenID();
+    if (chainIdFirst) {
+      chainIdFirst = false;
+    } else {
+      resetAddress();
+    }
     await providerSetFallback(chainId);
   };
 
   $: address && handleAddress();
   const handleAddress = async () => {
-    resetTokenID();
+    if (addressFirst) {
+      addressFirst = false;
+    } else {
+      resetTokenID();
+    }
   };
 
   const resetAddress = () => (address = undefined);
@@ -69,7 +74,7 @@
       {/if}
     {/if}
 
-    <BreadCrumb bind:chainId bind:address bind:tokenID bind:account />
+    <BreadCrumb bind:chainId bind:address bind:tokenID bind:account {signer} display={true} />
 
     <div class="row alignbottom">
       <AccountConnect bind:signer />
@@ -91,7 +96,7 @@
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
         </h2>
 
-        <Nft {chainId} {address} {tokenID} />
+        <Nft {chainId} {address} {tokenID} {account} />
       {:else}
         <NftsList {chainId} {address} {account} bind:tokenID />
       {/if}

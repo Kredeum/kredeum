@@ -20,7 +20,7 @@ const nftSubListStore = (
 ): Readable<Map<string, NftType>> => {
   // console.log(`nftSubListStore ${keyNftList(chainId, address, account, tokenID)}\n`);
 
-  return derived(nftStore.getListStore, ($nftListStore) => {
+  return derived(nftStore.getList, ($nftListStore) => {
     if (!(chainId && address)) return new Map() as Map<string, NftType>;
 
     const nfts = new Map(

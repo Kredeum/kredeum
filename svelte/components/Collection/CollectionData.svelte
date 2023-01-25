@@ -23,16 +23,13 @@
     // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
-    collection = collectionStore.getOneStore(chainId, address);
+    collection = collectionStore.getOne(chainId, address);
 
     // ACTION : async refresh Collection
     collectionStore.refreshOne(chainId, address, account).catch(console.error);
   };
 </script>
 
-
 <slot collection={$collection}>
-  <p>
-    LOADING COLLECTION...
-  </p>
+  <p>LOADING COLLECTION...</p>
 </slot>

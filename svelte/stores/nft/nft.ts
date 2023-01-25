@@ -35,7 +35,7 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
   const key = nftGetKey(chainId, address, tokenID);
   console.log("nftRefresh ~ key", key);
 
-  const _coll = get(collectionStore.getListStore).get(collectionStore.getKey(chainId, address));
+  const _coll = get(collectionStore.getList).get(collectionStore.getKey(chainId, address));
   console.log("nftRefresh ~ _coll", _coll);
 
   // if (_coll?.supports?.IERC1155) return;
@@ -85,10 +85,10 @@ const nftGetAndRefresh = (chainId: number, address: string, tokenID: string): Re
 
 export const nftStore = {
   getKey: nftGetKey,
-  getOneStore: nftGetStore,
+  getOne: nftGetStore,
   refreshOne: nftRefresh,
   getAndRefresh: nftGetAndRefresh,
   setOne: nftSetOne,
   nftRemoveOne,
-  getListStore: nftListStore
+  getList: nftListStore
 };

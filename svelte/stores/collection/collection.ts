@@ -2,10 +2,7 @@ import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
 import type { CollectionType } from "@lib/common/types";
-import {
-  collectionMerge,
-  collectionGet as collectionLib
-} from "@lib/collection/collection-get";
+import { collectionMerge, collectionGet as collectionLib } from "@lib/collection/collection-get";
 
 import { jsonMapStringify } from "@helpers/jsonMap";
 import { collectionListStore } from "@stores/collection/collectionList";
@@ -46,11 +43,24 @@ const collectionGetStore = (chainId: number, address: string): Readable<Collecti
   return derived(collectionListStore, ($collectionListStore) => $collectionListStore.get(key));
 };
 
+const collectionGetAndRefresh = (chainId: number, address: string): Readable<CollectionType> => {
+  if (!(chainId && address)) return;
+
+  // STATE VIEW : sync read cache
+  const collection = collectionGetStore(chainId, address);
+
+  // ACTION : async refresh from lib onchain data
+  collectionRefresh(chainId, address).catch(console.error);
+
+  return collection;
+};
+
 export const collectionStore = {
   getKey: keyCollection,
-  getOneStore: collectionGetStore,
+  getOne: collectionGetStore,
   refreshOne: collectionRefresh,
+  getAndRefresh: collectionGetAndRefresh,
   setOne: collectionSetOne,
 
-  getListStore: collectionListStore
+  getList: collectionListStore
 };

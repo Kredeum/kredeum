@@ -1,15 +1,13 @@
 <script lang="ts">
-  import type { RefNFT } from "@helpers/refNft";
-
-  import { refNFT2UrlHash, refNFT2Breadcrumb } from "@helpers/refNft";
-  import { urlHash2RefNFT } from "@helpers/urlHash";
+  import type { RefBreadcrumb } from "@helpers/breadcrumb";
+  import { urlHash2RefNFT, ref2UrlHash, ref2Breadcrumb } from "@helpers/breadcrumb";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";
 
   export let display = false;
 
-  let refNFT: RefNFT;
+  let refBreadcrumb: RefBreadcrumb;
 
   // INITIAL urlHash values
   const { /*address, tokenID,*/ action } = urlHash2RefNFT(window.location.hash);
@@ -18,8 +16,8 @@
   // $currentTokenID = tokenID;
   $currentAction = action;
 
-  // Refresh NFT ref
-  $: refNFT = {
+  // Refresh ref breadcrumb
+  $: refBreadcrumb = {
     chainId: $metamaskChainId,
     // address: $currentCollection,
     // tokenID: $currentTokenID,
@@ -28,9 +26,9 @@
   };
 
   // Refresh browser url hash
-  $: window.location.hash = refNFT2UrlHash(refNFT);
+  $: window.location.hash = ref2UrlHash(refBreadcrumb);
 </script>
 
 {#if display}
-  <p>{refNFT2Breadcrumb(refNFT)}</p>
+  <p>{ref2Breadcrumb(refBreadcrumb)}</p>
 {/if}

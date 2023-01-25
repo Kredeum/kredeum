@@ -1,8 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { metamaskInit, metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "@helpers/metamask";
-  import { metamaskInit } from "@helpers/metamask";
-  import { metamaskSignerAddress } from "@main/metamask";
   import { metamaskSignerAddress } from "@main/metamask";
   import Account from "./Account.svelte";
 
@@ -18,7 +16,7 @@
 
   // change signer on memataskAccount change
   $: signer = $metamaskSignerAddress;
-  $: console.log("AccountConnect signer CHANGE", signer);
+  $: signer && console.log("AccountConnect signer CHANGE", signer);
 
   const _metamaskConnect = (evt?: Event) => {
     evt.preventDefault();

@@ -1,9 +1,5 @@
 <script lang="ts">
-  import type { RefNFT } from "@helpers/refNft";
-
-  import { onMount } from "svelte";
-  import { refNFT2UrlHash, refNFT2Breadcrumb } from "@helpers/refNft";
-  import { urlHash2RefNFT } from "@helpers/urlHash";
+  import { urlHash2RefNFT, ref2UrlHash, ref2Breadcrumb } from "@helpers/breadcrumb";
 
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />
@@ -13,17 +9,20 @@
   export let address: string = undefined;
   export let tokenID: string = undefined;
   export let account: string = undefined;
+  export let signer: string = undefined;
+  export let display: boolean = false;
 
-  $: console.log("BreadCrumbSimple chainId CHANGE", chainId);
-  $: console.log("BreadCrumbSimple address CHANGE", address);
-  $: console.log("BreadCrumbSimple tokenID CHANGE", tokenID);
-  $: console.log("BreadCrumbSimple account CHANGE", account);
+  $: console.log("BREADCRUMB", ref2Breadcrumb({ chainId, address, tokenID, account, signer }));
 
   // change url on chainId, address or account change
-  $: window.location.hash = refNFT2UrlHash({ chainId, address, tokenID });
+  $: window.location.hash = ref2UrlHash({ chainId, address, tokenID });
 
   // change chainId or address on url change
   $: ({ chainId, address, tokenID, account } = urlHash2RefNFT(window.location.hash));
 </script>
 
-<p>{@html refNFT2Breadcrumb({ chainId, address, tokenID, account })}</p>
+{#if display}
+  <pre>
+    {ref2Breadcrumb({ chainId, address, tokenID, account, signer })}
+  </pre>
+{/if}

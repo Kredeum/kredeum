@@ -11,14 +11,12 @@
 
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    collection = collectionStore.getOneStore(chainId, address);
+    collection = collectionStore.getOne(chainId, address);
     collectionStore.refreshOne(chainId, address, account).catch(console.error);
   };
   $: console.log("collection", account, $collection);
 </script>
 
 <slot collection={$collection}>
-  <p>
-    LOADING COLLECTION...
-  </p>
+  <p>LOADING COLLECTION...</p>
 </slot>

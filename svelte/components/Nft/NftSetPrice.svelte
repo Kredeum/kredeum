@@ -15,6 +15,7 @@
     nftOpenSeaUrl,
     textShort
   } from "@lib/common/config";
+
   import { isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
@@ -23,6 +24,7 @@
 
   import InputPrice from "../InputFields/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionPrice, nftCollectionApproved } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -89,22 +91,15 @@
   let nft: Readable<NftType>;
   let inputPrice: BigNumber;
 
-  $: nftPrice = BigNumber.from($nft?.price || 0);
-  $: nftOwner = String($nft?.owner || "");
-  $: nftRoyalty = $nft?.royalty || {};
-  $: nftRoyaltyMinimum = BigNumber.from(nftRoyalty?.minimum || 0);
-
-  $: onSale = nftPrice.gt(0);
-
   $: console.log("input price", String(inputPrice));
 
   $: minimalPriceHandler(inputPrice);
   const minimalPriceHandler = (inputPrice: BigNumber): void => {
-    inputError = isValidPrice(inputPrice, nftRoyaltyMinimum)
+    inputError = isValidPrice(inputPrice, nftRoyaltyMinimum($nft))
       ? ""
       : `Price too low compared to minimum royalty!
          You should set a price at least double of minimal royalty, i.e. ${reduceDecimals(
-           displayEther(nftRoyaltyMinimum.mul(2))
+           displayEther(nftRoyaltyMinimum($nft).mul(2))
          )}`;
   };
 
@@ -113,25 +108,24 @@
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
 
   onMount(() => {
-    nft = nftStore.getOneStore(chainId, address, tokenID);
+    nft = nftStore.getOne(chainId, address, tokenID);
 
-    nftPrice = BigNumber.from($nft?.price || 0);
-    let recommendedPrice = BigNumber.from($nft.collection?.price || 0);
+    const nftMinimumPrice = nftRoyaltyMinimum($nft);
+    inputPrice = nftPrice($nft).lt(nftMinimumPrice) ? nftMinimumPrice : nftPrice($nft);
 
-    inputPrice = nftPrice.lt(recommendedPrice) ? recommendedPrice : nftPrice;
-
-    const approvedForAll = $nft?.collection?.approvedForAll;
-    collectionApproved = approvedForAll?.size > 0 ? approvedForAll.get($metamaskSignerAddress) : false;
+    collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
 
     tokenSetPriceInit();
   });
 
   const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
+    console.log("tokenSetPriceConfirm ~ nftPrice($nft)", displayEther(nftPrice($nft)));
+    console.log("tokenSetPriceConfirm ~ $nft", $nft);
 
-    if (price.eq(nftPrice)) return _inputPriceError("Price unchanged !");
+    if (price.eq(nftPrice($nft))) return _inputPriceError("Price unchanged !");
 
-    if (!isValidPrice(price, nftRoyaltyMinimum)) return _inputPriceError("Price too low !");
+    if (!isValidPrice(price, nftRoyaltyMinimum($nft))) return _inputPriceError("Price too low !");
 
     await tokenSetPriceTx(price);
   };
@@ -178,7 +172,7 @@
   </div>
 
   <div class="section">
-    <IncomesPreview {chainId} {nftOwner} nftPrice={inputPrice} {nftRoyalty} />
+    <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={inputPrice} nftRoyalty={nftRoyalty($nft)} />
   </div>
 
   {#if !collectionApproved}
@@ -217,12 +211,12 @@
   {/if}
 
   <div class="txtright">
-    {#if onSale}
+    {#if nftOnSale($nft)}
       <button class="btn btn-default btn-remove" type="submit" on:click={removeFromSale}>Remove from Sale</button>
     {/if}
 
     <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(inputPrice)}>
-      {#if onSale}
+      {#if nftOnSale($nft)}
         Modify Listing
       {:else}
         Complete Listing
@@ -235,7 +229,7 @@
   <div class="titre">
     <p>
       <i class="fas fa-sync fa-left c-green" />
-      {#if onSale}
+      {#if nftOnSale($nft)}
         {#if removingFromSale}
           Removing NFT from sale...
         {:else}
@@ -261,14 +255,14 @@
       {#if removingFromSale}
         NFT #{$nft.tokenID} removed from sale...
       {:else}
-        NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice)}
+        NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice($nft))}
       {/if}
     </p>
   </div>
 
   {#if !removingFromSale}
     <div class="section">
-      <IncomesPreview {chainId} {nftOwner} {nftPrice} {nftRoyalty} />
+      <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={nftPrice($nft)} nftRoyalty={nftRoyalty($nft)} />
     </div>
   {/if}
 {/if}

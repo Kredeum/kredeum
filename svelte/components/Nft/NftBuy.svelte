@@ -1,10 +1,10 @@
 <script lang="ts">
-  import type { ReceiverType } from "@lib/common/types";
-  import { BigNumber, constants, utils } from "ethers";
+  import { constants, utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
+  import { nftOwner, nftPrice, nftRoyalty } from "@helpers/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
@@ -13,17 +13,17 @@
   import IncomesPreview from "../Global/IncomesPreview.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftBuy {chainId} {address} {tokenID}  {nftOwner} {nftPrice} {nftRoyalty} />
+  //  <NftBuy {chainId} {address} {tokenID} {platform} />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let nftOwner: string;
-  export let nftPrice: BigNumber;
-  export let nftRoyalty: ReceiverType;
   export let platform = "dapp";
   ///////////////////////////////////////////////////////////
+
+  // GET NFT & COLLECTION
+  $: nft = nftStore.getAndRefresh(chainId, address, tokenID);
 
   let buying: number;
   let buyTxHash: string;
@@ -76,7 +76,7 @@
   });
 
   const buyConfirm = async () => {
-    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice);
+    const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice($nft));
 
     buying = S2_SIGN_TX;
 
@@ -93,22 +93,20 @@
 
     buying = S4_BUYED;
 
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
   };
 
   const handleClose = () => (open = false);
 </script>
 
 <a
-  on:click={() => {
-    if (constants.Zero.lt(nftPrice || 0)) open = true;
-  }}
+  on:click={() => (open = nftPrice($nft).gt(0))}
   href="#buy-nft-{tokenID}"
   class="btn-buy {platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
   title="Buy this NFT"
-  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice || 0)} />
-  {#if nftPrice.gt(0)}
-    BUY <strong>{utils.formatEther(nftPrice)} {getCurrency(chainId)}</strong>
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice($nft) || 0)} />
+  {#if nftPrice($nft).gt(0)}
+    BUY <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
   {:else}
     <strong>Not on sale</strong>
   {/if}
@@ -128,12 +126,18 @@
               {#if buying == S1_CONFIRM}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nftPrice)}
+                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
                     {getCurrency(chainId)} using AutoMarket smartcontract ?
                   </p>
                 </div>
+
                 <div class="section">
-                  <IncomesPreview {chainId} {nftPrice} {nftOwner} {nftRoyalty} />
+                  <IncomesPreview
+                    {chainId}
+                    nftOwner={nftOwner($nft)}
+                    nftPrice={nftPrice($nft)}
+                    nftRoyalty={nftRoyalty($nft)}
+                  />
                 </div>
                 <div class="txtright">
                   <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
@@ -143,7 +147,9 @@
               {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
                 <div class="titre">
                   <p>
-                    <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(nftPrice)}
+                    <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(
+                      nftPrice($nft)
+                    )}
                     {getCurrency(chainId)}...
                   </p>
                 </div>
