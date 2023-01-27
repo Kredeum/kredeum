@@ -1,8 +1,6 @@
 <script lang="ts">
-  import type { RefBreadcrumb } from "@helpers/breadcrumbrumb";
   import { urlHash2RefNFT, ref2UrlHash, ref2Breadcrumb } from "@helpers/breadcrumb";
 
-@helpers/breadcrumb
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />
   // Get/Set chainId from url

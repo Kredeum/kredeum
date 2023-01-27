@@ -14,7 +14,6 @@
   import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import {
     textShort,
-    swarmGatewayUrl,
     explorerTxUrl,
     explorerTxLog,
     explorerNftUrl,
@@ -25,7 +24,7 @@
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
-  import { metamaskChainId, metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
+  import {  metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../CollectionList/CollectionList.svelte";
@@ -36,12 +35,10 @@
   import NftProperties from "./NftProperties.svelte";
 
   ////////////////////////////////////////////////////////////////
-  //  <NftMint {storage} {gateway}? {key}? />
+  //  <NftMint {chainId} />
   // Mint NFT with defined storage type and optionnal gateway/key
   ////////////////////////////////////////////////////////////////
-  export let storage: string;
-  export let gateway: string = undefined;
-  export let key: string = undefined;
+  export let chainId: number;
   ////////////////////////////////////////////////////////////////
 
   // Context for refreshCollectionList & refreshNftsList
@@ -80,13 +77,11 @@
   let properties: Properties;
   /////////////////////////////////////////////////
 
-  let open = false;
+
   let price: BigNumber;
   let inputPriceError = "";
 
   let minRoyalty: BigNumber;
-
-  $: chainId = $metamaskChainId;
 
   $: minRoyalty = getReceiverAmount(collection?.price, collection?.royalty?.fee);
 
@@ -266,34 +261,16 @@
 
     minting = S3_STORE_METADATA;
 
-    storageJson =
-      "ipfs" === storage
-        ? await nftIpfsJson(
-            nftTitle,
-            nftDescription,
-            storageImg,
-            $metamaskSignerAddress,
-            image,
-            "",
-            properties,
-            animation_url
-          )
-        : "swarm" === storage
-        ? swarmGatewayUrl(
-            await nftSwarmJson(
-              nftTitle,
-              nftDescription,
-              storageImg,
-              $metamaskSignerAddress,
-              image,
-              "",
-              properties,
-              animation_url,
-              gateway,
-              key
-            )
-          )
-        : "";
+    storageJson = await nftIpfsJson(
+      nftTitle,
+      nftDescription,
+      storageImg,
+      $metamaskSignerAddress,
+      image,
+      "",
+      properties,
+      animation_url
+    );
 
     if (!storageJson) return _mintingError("ERROR metadata not stored");
 
@@ -321,6 +298,7 @@
     mintInit();
   });
 
+  let open = false;
   const handleOpen = () => (open = true);
 </script>
 

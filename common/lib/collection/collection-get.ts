@@ -76,7 +76,9 @@ const collectionGet = async (chainId: number, address: string, account?: string)
   try {
     collection = await resolverGetCollection(chainId, address, account);
   } catch (e) {
-    console.error(`ERROR collectionGet  ${keyCollection(chainId, address, account)}\n`, e);
+    if (e.reason == "Not ERC165")
+      console.info(`COLLECTION NOT ERC165 ${keyCollection(chainId, address, account)}`);
+    else console.error(`ERROR collectionGet ${e.reason} ${keyCollection(chainId, address, account)}\n`, e);
   }
   // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`, collection);
   return collection;

@@ -80,7 +80,7 @@ add_shortcode(
 			$atts
 		);
 
-		$o  = '<div class="kredeum-nft-automarket" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '" platform="buy-external">';
+		$o  = '<div class="kredeum-nft-automarket" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '" platform="wordpress">';
 		$o .= '</div>';
 		return $o;
 	}

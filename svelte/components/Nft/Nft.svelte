@@ -1,34 +1,19 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/common/types";
-
-  import { constants, ethers, utils, BigNumber } from "ethers";
-  import { metamaskChainId } from "@main/metamask";
-  import { nftStore } from "@stores/nft/nft";
+  import { constants, ethers, utils } from "ethers";
 
   import {
     explorerCollectionUrl,
     explorerAddressLink,
     kredeumNftUrl,
-    // getOpenSea,
-    // nftOpenSeaUrl,
-    // addressSame,
     getCurrency,
-    kredeumNftHttp,
-    getNetwork
+    kredeumNftHttp
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
+  import NftExchange from "./NftExchange.svelte";
   import NftData from "./NftData.svelte";
 
-  import {
-    getShortcodeOpenSeaCode,
-    shortcode,
-    getShortcodeBuyCode,
-    shortcodeBuy,
-    getAutoMarketWidgetCode,
-    autoMarketWidget
-  } from "@helpers/shortcodes";
+  import { getShortcodeBuyCode, shortcodeBuy } from "@helpers/shortcodes";
   import {
     nftOwner,
     nftMarketable,
@@ -40,12 +25,8 @@
   } from "@helpers/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
-  import NftBuy from "./NftBuy.svelte";
   import NftBurn from "./NftBurn.svelte";
-  import NftSell from "./NftSell.svelte";
-  // import NftClaim from "./NftClaim.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { keyNft } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
@@ -60,13 +41,13 @@
 
 <NftData {chainId} {address} {tokenID} let:nft>
   {#if nft}
-    <div class="{platform === 'buy-external' ? '' : 'row'} krd-nft-solo">
-      <div class={platform === "buy-external" ? "kre-buy-external-card" : "col col-xs-12 col-sm-4 col-md-3"}>
+    <div class="{platform === 'wordpress' ? '' : 'row'} krd-nft-solo">
+      <div class={platform === "wordpress" ? "kre-wordpress-card" : "col col-xs-12 col-sm-4 col-md-3"}>
         <div class="card-krd kre-media">
           <MediaPreview {nft} />
         </div>
-        <div class="kre-action-buttons {platform === 'buy-external' ? 'kre-buy-external-buttons' : ''}">
-          {#if nftOwner(nft) === account && platform !== "buy-external"}
+        <div class="kre-action-buttons {platform === 'wordpress' ? 'kre-wordpress-buttons' : ''}">
+          {#if nftOwner(nft) === account && platform !== "wordpress"}
             <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
               ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
             >
@@ -80,7 +61,7 @@
             >
           {/if}
 
-          {#if platform === "buy-external"}
+          {#if platform === "wordpress"}
             <div class="kre-buy-infos">
               <div class="overflow-ellipsis kre-buy-link">
                 <strong>
@@ -95,17 +76,11 @@
             </div>
           {/if}
 
-          {#if nftMarketable(nft)}
-            {#if nftOwner(nft) === account}
-              <NftSell {chainId} {address} {tokenID} {platform} />
-            {:else}
-              <NftBuy {chainId} {address} {tokenID} {platform} />
-            {/if}
-          {/if}
+          <NftExchange {chainId} {address} {tokenID} {platform} />
         </div>
       </div>
 
-      {#if platform !== "buy-external"}
+      {#if platform !== "wordpress"}
         <div class="col col-xs-12 col-sm-8 col-md-9">
           <div class="card-krd">
             <h3>{nft.name}</h3>
@@ -258,16 +233,17 @@
           <div class="modal-body">
             <div class="titre">
               <i class="fas fa-code fa-left c-green" />
-              Shortcodes
+              WordPress Shortcode
             </div>
-            <p>
+            <p>Click on the COPY button to copy in your clipboard the shortcode to paste it in a WordPress page.</p>
+            <!-- <p>
               Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
               shortcodes to paste them in a WordPress page.
-            </p>
+            </p> -->
 
             <ul class="steps">
               {#if nftMarketable}
-                <li>
+                <!-- <li>
                   <div class="flex">
                     <span class="label">SELL on your website with this buy snippet</span>
                   </div>
@@ -280,7 +256,7 @@
                       title="Copy">Copy</a
                     >
                   </div>
-                </li>
+                </li> -->
                 <li>
                   <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
                   <div class="flex kre-buy-widget-textarea">
@@ -294,7 +270,7 @@
                   </div>
                 </li>
               {/if}
-              {#if getNetwork($metamaskChainId)?.openSea}
+              <!-- {#if getNetwork($metamaskChainId)?.openSea}
                 <li>
                   <div class="flex">
                     <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
@@ -309,7 +285,7 @@
                     >
                   </div>
                 </li>
-              {/if}
+              {/if} -->
             </ul>
           </div>
         </div>
@@ -433,18 +409,18 @@
   }
 
   /* Buy front CSS */
-  .kre-buy-external-card {
+  .kre-wordpress-card {
     box-shadow: 0 0 20px rgb(0 0 0 / 10%);
     padding-bottom: 15px;
     border-radius: 6px;
     background-color: #fff;
   }
 
-  .kre-buy-external-buttons {
+  .kre-wordpress-buttons {
     padding: 0 20px;
   }
 
-  .kre-action-buttons.kre-buy-external-buttons {
+  .kre-action-buttons.kre-wordpress-buttons {
     margin: 0;
   }
 

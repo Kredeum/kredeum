@@ -10,6 +10,7 @@ import { collectionStore } from "@stores/collection/collection";
 import { collectionListStore } from "@stores/collection/collectionList";
 
 import { nftStore } from "./nft";
+import { keyNftList } from "@lib/common/keys";
 
 // STATE VIEW : GET Collection fitered list
 const nftSubListStore = (
@@ -18,7 +19,7 @@ const nftSubListStore = (
   account?: string,
   tokenID?: string
 ): Readable<Map<string, NftType>> => {
-  // console.log(`nftSubListStore ${keyNftList(chainId, address, account, tokenID)}\n`);
+  console.log(`nftSubListStore ${keyNftList(chainId, address, account)}\n`);
 
   return derived(nftStore.getList, ($nftListStore) => {
     if (!(chainId && address)) return new Map() as Map<string, NftType>;
@@ -35,7 +36,7 @@ const nftSubListStore = (
         const okAddress = nft.address === address;
 
         // TOKENID
-        const okTokenID = nft.tokenID === tokenID;
+        const okTokenID = !tokenID || nft.tokenID === tokenID;
 
         // OWNER
         const okOwner = nft.owner === account;
@@ -46,7 +47,7 @@ const nftSubListStore = (
         return okParams && okNetwork && okAddress && okFilter;
       })
     );
-    // console.log("nftSubListStore nfts", nfts);
+    console.log("nftSubListStore nfts", nfts);
     return nfts;
   });
 };
@@ -59,7 +60,7 @@ const nftSubListRefresh = async (
   tokenID?: string
 ): Promise<void> => {
   if (!(chainId && address)) return;
-  // console.log("nftSubListRefresh", chainId, address, account);
+  console.log("nftSubListRefresh", chainId, address, account);
 
   const key = collectionStore.getKey(chainId, address);
 
@@ -74,17 +75,16 @@ const nftSubListRefresh = async (
   let nfts: Map<string, NftType>;
   if (collection?.supports?.IERC721Enumerable) {
     ({ nfts } = await nftListLib(chainId, collection, account));
-    // console.log("nftSubListRefresh Enumerable ~ nNFTs", Number(count));
-
-    for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
   } else {
     nfts = await nftListTokenIds(chainId, collection.address, collection, account);
-    // console.log("nftSubListRefresh nbTokenIds ~ nNFTs", nfts.size);
-
-    for await (const nft of nfts.values()) {
-      nftStore.setOne(await nftGetMetadata(nft));
-    }
   }
+  console.log("nftSubListRefresh Enumerable ~ nNFTs", nfts.size);
+
+  for (const [, nft] of nfts) {
+    nftStore.setOne(await nftGetMetadata(nft));
+    console.log("nftSubListRefresh Enumerable ~ nftGetMetadata(nft) ", await nftGetMetadata(nft));
+  }
+
   // add targeted tokenID if not in list
   if (tokenID && !nfts.has(nftStore.getKey(chainId, address, tokenID))) {
     const nft = await nftLib(chainId, collection, tokenID);

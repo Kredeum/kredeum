@@ -11,9 +11,10 @@
 
   import { nftStore } from "@stores/nft/nft";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftBuy {chainId} {address} {tokenID} {platform} />
+  //  <NftBuy {chainId} {address} {tokenID} {platform}? />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -30,6 +31,7 @@
   let buyError: string;
 
   let open = false;
+  let signer: string = undefined;
 
   const _buyError = (err: string): void => {
     buyError = err;
@@ -101,10 +103,10 @@
 
 <a
   on:click={() => (open = nftPrice($nft).gt(0))}
-  href="#buy-nft-{tokenID}"
-  class="btn-buy {platform === 'buy-external' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
+  href={window.location.hash}
+  class="btn-buy {platform === 'wordpress' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
   title="Buy this NFT"
-  ><i class="fa fa-shopping-cart fa-left" aria-disabled={constants.Zero.eq(nftPrice($nft) || 0)} />
+  ><i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
   {#if nftPrice($nft).gt(0)}
     BUY <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
   {:else}
@@ -114,89 +116,94 @@
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
-    <div use:clickOutside={() => (open = false)}>
-      <div id="kredeum-buy-nft">
-        <div class="modal-content">
-          <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
-            ><i class="fa fa-times" /></span
-          >
+    <div class="modal-content"  use:clickOutside={handleClose}>
+      <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
+        ><i class="fa fa-times" /></span
+      >
 
-          <div class="modal-body">
-            <div>
-              {#if buying == S1_CONFIRM}
-                <div class="titre">
-                  <p>
-                    <i class="fas fa-shopping-cart" /> Buy this NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
-                    {getCurrency(chainId)} using AutoMarket smartcontract ?
-                  </p>
-                </div>
+      <div class="modal-body">
+        <div>
+          {#if buying == S1_CONFIRM}
+            <div class="titre">
+              <p>
+                <i class="fas fa-shopping-cart" /> BUY
+              </p>
+            </div>
 
-                <div class="section">
-                  <IncomesPreview
-                    {chainId}
-                    nftOwner={nftOwner($nft)}
-                    nftPrice={nftPrice($nft)}
-                    nftRoyalty={nftRoyalty($nft)}
-                  />
-                </div>
-                <div class="txtright">
-                  <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
-                </div>
-              {/if}
+            <div class="section">
+              <p>
+                <i class="fas fa-angle-right" /> Buy this NFT #{tokenID} for
+                {utils.formatEther(nftPrice($nft))}
+                {getCurrency(chainId)} ?
+              </p>
+            </div>
 
-              {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
-                <div class="titre">
-                  <p>
-                    <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(
-                      nftPrice($nft)
-                    )}
-                    {getCurrency(chainId)}...
-                  </p>
-                </div>
-              {/if}
-
-              {#if buying == S2_SIGN_TX}
-                <div class="section">Please, sign the transaction</div>
-              {:else if buying == S3_WAIT_TX}
-                <div class="section">Wait till completed, it may take one minute or more.</div>
-              {/if}
-
-              {#if buying == S4_BUYED}
-                <div class="titre">
-                  <p>
-                    <i class="fas fa-check fa-left c-green" /> NFT
-                    <a
-                      class="link"
-                      href="{explorerNftUrl(chainId, {
-                        chainId: chainId,
-                        address: address,
-                        tokenID: tokenID
-                      })}}"
-                      target="_blank"
-                      rel="noreferrer">#{tokenID}</a
-                    >
-                    buyed!
-                  </p>
-                </div>
-              {/if}
-
-              {#if buyTxHash}
-                <div class="flex">
-                  <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank" rel="noreferrer"
-                    >{textShort(buyTxHash)}</a
-                  >
-                </div>
-              {/if}
-
-              {#if buyError}
-                <div class="section">
-                  <div class="form-field kre-warning-msg">
-                    <p><i class="fas fa-exclamation-triangle fa-left c-red" />{buyError}</p>
-                  </div>
-                </div>
+            <div class="section">
+              <IncomesPreview
+                {chainId}
+                nftOwner={nftOwner($nft)}
+                nftPrice={nftPrice($nft)}
+                nftRoyalty={nftRoyalty($nft)}
+              />
+            </div>
+            <div class="txtright">
+              {#if signer}
+                <button class="btn btn-default btn-sell" type="submit" on:click={() => buyConfirm()}>Buy</button>
+              {:else}
+                <AccountConnect bind:signer />
               {/if}
             </div>
-          </div>
+          {/if}
+
+          {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
+            <div class="titre">
+              <p>
+                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
+                {getCurrency(chainId)}...
+              </p>
+            </div>
+          {/if}
+
+          {#if buying == S2_SIGN_TX}
+            <div class="section">Please, sign the transaction</div>
+          {:else if buying == S3_WAIT_TX}
+            <div class="section">Wait till completed, it may take one minute or more.</div>
+          {/if}
+
+          {#if buying == S4_BUYED}
+            <div class="titre">
+              <p>
+                <i class="fas fa-check fa-left c-green" /> NFT
+                <a
+                  class="link"
+                  href="{explorerNftUrl(chainId, {
+                    chainId: chainId,
+                    address: address,
+                    tokenID: tokenID
+                  })}}"
+                  target="_blank"
+                  rel="noreferrer">#{tokenID}</a
+                >
+                buyed!
+              </p>
+            </div>
+          {/if}
+
+          {#if buyTxHash}
+            <div class="flex">
+              <a class="link" href={explorerTxUrl(chainId, buyTxHash)} target="_blank" rel="noreferrer"
+                >{textShort(buyTxHash)}</a
+              >
+            </div>
+          {/if}
+
+          {#if buyError}
+            <div class="section">
+              <div class="form-field kre-warning-msg">
+                <p><i class="fas fa-exclamation-triangle fa-left c-red" />{buyError}</p>
+              </div>
+            </div>
+          {/if}
         </div>
       </div>
     </div>

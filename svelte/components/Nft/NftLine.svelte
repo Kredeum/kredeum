@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
   import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@lib/common/config";
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 

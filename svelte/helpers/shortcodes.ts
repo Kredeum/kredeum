@@ -1,5 +1,5 @@
 import type { NftType } from "@lib/common/types";
-import { nftName, config } from "@lib/common/config";
+import { nftName } from "@lib/common/config";
 
 const copyToClipboard = (data: string): void => {
   navigator.clipboard.writeText(data).catch(() => console.info("Not copied"));
@@ -19,7 +19,7 @@ const shortcode = (_nft: NftType) => {
 
 const getAutoMarketWidgetCode = (
   _nft: NftType
-): string => `<div class="kredeum-nft-automarket" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="buy-external">
+): string => `<div class="kredeum-nft-automarket" chainid="${_nft.chainId}" address="${_nft.address}" tokenID="${_nft.tokenID}" platform="wordpress">
 <script defer src="./assets/kredeum-nfts.js"></script>
 <script>
 var newLink = document.createElement("link");

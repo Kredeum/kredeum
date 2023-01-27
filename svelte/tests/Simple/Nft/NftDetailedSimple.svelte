@@ -1,13 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-
-  import type { NftType } from "@lib/common/types";
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
-  import { onMount } from "svelte";
-
-  import { nftStore } from "@stores/nft/nft";
-
-  import { metamaskChainId } from "@main/metamask";
   import NftDataSimple from "./NftDataSimple.svelte";
 
   /////////////////////////////////////////////////

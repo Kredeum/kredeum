@@ -3,6 +3,10 @@
 
   import { clickOutside } from "@helpers/clickOutside";
   import NftSetPrice from "./NftSetPrice.svelte";
+  import { nftPrice } from "@helpers/nft";
+  import { nftStore } from "@stores/nft/nft";
+  import { getCurrency } from "@lib/common/config";
+  import { utils } from "ethers";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />
@@ -16,15 +20,22 @@
 
   let open = false;
 
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+
   const handleClose = () => (open = false);
 </script>
 
 <button
   on:click={() => (open = true)}
-  class={platform === "buy-external" ? "btn btn-default  btn-sell" : "btn-sell-modal"}
+  class={platform === "wordpress" ? "btn btn-default  btn-sell" : "btn-sell-modal"}
   title="Sell this NFT"
 >
-  SELL
+  <i class="fa fa-dollar-sign fa-left" />
+  {#if nftPrice($nft).gt(0)}
+    ON SALE &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+  {:else}
+    SELL
+  {/if}
 </button>
 
 {#if open}

@@ -1,24 +1,25 @@
 <script lang="ts">
   import { getCreate } from "@lib/common/config";
 
-  import Create from "./Create.svelte";
-  import Navigation from "./Navigation.svelte";
-  import HomeLayout from "./HomeLayout.svelte";
-  import Title from "./Title.svelte";
-  import BreadCrumb from "./BreadCrumb.svelte";
+  import Create from "../Global/Create.svelte";
+  import Navigation from "../Global/Navigation.svelte";
+  import HomeLayout from "../Global/HomeLayout.svelte";
+  import Title from "../Global/Title.svelte";
+  import BreadCrumb from "../Global/BreadCrumb.svelte";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkList from "../Network/NetworkList.svelte";
   import NetworkListSelect from "../Network/NetworkListSelect.svelte";
-  import CollectionSelect from "../CollectionList/CollectionListSelect.svelte";
+  import CollectionListSelect from "../CollectionList/CollectionListSelect.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
+  import { onMount } from "svelte";
+  import { initDapp } from "@helpers/initDapp";
 
   ////////////////////////////////////////////////////////////////////
-  // <HomeNew />
+  // <Home />
   ////////////////////////////////////////////////////////////////////
-
   let chainId: number;
   let address: string;
   let tokenID: string;
@@ -31,33 +32,33 @@
 
   $: signer && handleSigner();
   const handleSigner = () => {
-    if (signerFirst) {
-      signerFirst = false;
-      account ||= signer;
-    } else account = signer;
+    if (signerFirst) signerFirst = false;
+    else account = signer;
   };
 
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    if (chainIdFirst) {
-      chainIdFirst = false;
-    } else {
-      resetAddress();
-    }
+    if (chainIdFirst) chainIdFirst = false;
+    else resetAddress();
+
     await providerSetFallback(chainId);
   };
 
   $: address && handleAddress();
   const handleAddress = async () => {
-    if (addressFirst) {
-      addressFirst = false;
-    } else {
-      resetTokenID();
-    }
+    if (addressFirst) addressFirst = false;
+    else resetTokenID();
   };
 
   const resetAddress = () => (address = undefined);
   const resetTokenID = () => (tokenID = undefined);
+
+  onMount(async () => {
+    const data = await initDapp();
+    console.log("Home", data);
+
+    ({ chainId, address, tokenID, account, signer } = data);
+  });
 </script>
 
 <HomeLayout>
@@ -77,13 +78,19 @@
     <BreadCrumb bind:chainId bind:address bind:tokenID bind:account {signer} display={true} />
 
     <div class="row alignbottom">
-      <AccountConnect bind:signer />
+      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <AccountConnect bind:signer />
+      </div>
 
       <!-- <NetworkList {chainId} /> -->
-      <NetworkListSelect bind:chainId />
+      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <NetworkListSelect bind:chainId />
+      </div>
 
       {#if chainId}
-        <CollectionSelect {chainId} bind:address {account} />
+        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+          <CollectionListSelect {chainId} bind:address {account} />
+        </div>
       {/if}
     </div>
   </span>

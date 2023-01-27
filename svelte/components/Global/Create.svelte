@@ -6,13 +6,12 @@
   import NftMint from "../Nft/NftMint.svelte";
 
   /////////////////////////////////////////////////
-  //  <Create {chainId} {storage} />
+  //  <Create {chainId} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
   export let chainId: number ;
-  export let storage: string = undefined;
 
-  // const create = () => ($currentAction = "create");
+;
 </script>
 
 <a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Create</a>
@@ -29,7 +28,7 @@
 
       <div class="txtcenter">
         <!-- <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
-        <NftMint {storage} />
+        <NftMint {chainId}  />
         <span class="or">or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
       </div>

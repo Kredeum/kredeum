@@ -1,12 +1,13 @@
 // import Home from "../tests/Simple/Home08.svelte";
 // import Home from "../tests/Test02.svelte";
+// import Home from "../tests/Init.svelte";
 // import Home from "../components/Global/HomeOld.svelte";
-import Home from "../components/Global/Home.svelte";
+import Home from "../components/Main/Home.svelte";
 import NftMintButton from "../components/Nft/NftMintButton.svelte";
-import NetworkSelect from "../components/Network/NetworkListSelect.svelte";
+import NetworkListSelect from "../components/Network/NetworkListSelect.svelte";
 import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
 
-import NftAutoMarket from "../components/Nft/NftAutomarket.svelte";
+import NftAutoMarket from "../components/Main/NftAutomarket.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
@@ -92,12 +93,12 @@ let kredeumCollectionList: CollectionChoice;
   }
 }
 
-let network: NetworkSelect;
+let network: NetworkListSelect;
 {
   // Kredeum Metamask component
   const target: HTMLElement = document.querySelector("#kredeum-metamask");
   if (target) {
-    network = new NetworkSelect({
+    network = new NetworkListSelect({
       target,
       props: _props(target) as { chainId?: number; txt?: boolean; label?: boolean }
     });

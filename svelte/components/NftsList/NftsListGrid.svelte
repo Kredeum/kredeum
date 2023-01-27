@@ -11,7 +11,7 @@
   export let tokenID: string = undefined;
   export let account: string = undefined;
 
-  $: console.log("tokenID", tokenID);
+  $: tokenID && console.log("tokenID", tokenID);
 </script>
 
 <NftsListData {chainId} {address} {account} let:nfts>

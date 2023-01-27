@@ -9,7 +9,7 @@
   // Display Account
   /////////////////////////////////////////////////
   export let account: string;
-  export let txt: boolean = undefined;
+  export let txt = false;
 
   let accountName: string;
 

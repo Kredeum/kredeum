@@ -1,6 +1,6 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkSelect from "../Network/NetworkListSelect.svelte";
+  import NetworkListSelect from "../Network/NetworkListSelect.svelte";
   import CollectionList from "../CollectionList/CollectionList.svelte";
 
   /////////////////////////////////////////////////
@@ -10,18 +10,29 @@
   export let address: string = undefined;
   export let txt = true;
 
-  let account: string;
   let chainId: number;
+  let account: string;
+  let signer: string;
+
+  let signerFirst = true;
+
+  $: signer && handleSigner();
+  const handleSigner = () => {
+    if (signerFirst) {
+      signerFirst = false;
+      account ||= signer;
+    } else account = signer;
+  };
 </script>
 
 <p>
-  <AccountConnect bind:signer={account} {txt} />
+  <AccountConnect bind:signer {txt} />
 </p>
 <p>
-  <NetworkSelect bind:chainId {txt} />
+  <NetworkListSelect bind:chainId {txt} />
 </p>
 
-{#if chainId && account}
+{#if chainId && signer}
   <p>
     <CollectionList {chainId} {account} bind:address {txt} mintable={true} />
   </p>

@@ -1,10 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { writable } from "svelte/store";
   import type { CollectionType } from "@lib/common/types";
-
-  import { getContext } from "svelte";
-  import type { Writable } from "svelte/store";
 
   import { explorerCollectionUrl } from "@lib/common/config";
 
@@ -21,7 +17,7 @@
   } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////////////////////
-  // <CollectionSelect {chainId} bind:address {account} />
+  // <CollectionListSelect {chainId} bind:address {account} />
   // Collection Select address on a network for an account
   /////////////////////////////////////////////////////////////////
   export let chainId: number;
@@ -112,62 +108,60 @@
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{mintable ? '12' : '3'} kre-copy-ref-container">
-    {#if label}
-      <span class="label"
-        >Collection
-        <!-- {#if $refreshing}...{/if} -->
-        {#if address}
-          <a
-            class="info-button"
-            href={_explorerCollectionUrl(address)}
-            title="&#009;  Collection address (click to view in explorer)&#013;
+  {#if label}
+    <span class="label"
+      >Collection
+      <!-- {#if $refreshing}...{/if} -->
+      {#if address}
+        <a
+          class="info-button"
+          href={_explorerCollectionUrl(address)}
+          title="&#009;  Collection address (click to view in explorer)&#013;
       {_collectionUrl(address)}"
-            target="_blank"
-            rel="noreferrer"><i class="fas fa-info-circle" /></a
-          >
-          <CopyRefItem copyData={address} />
-        {/if}
-      </span>
-    {/if}
-    <div
-      class="select-wrapper select-storeCollection"
-      use:clickOutside={() => (open = false)}
-      on:click={handleToggleOpen}
-      on:keydown={handleToggleOpen}
-    >
-      <div class="select" class:open>
-        {#if $collections?.size > 0}
-          <div class="select-trigger">
-            <span>
-              <Collection {chainId} {address} {account} />
+          target="_blank"
+          rel="noreferrer"><i class="fas fa-info-circle" /></a
+        >
+        <CopyRefItem copyData={address} />
+      {/if}
+    </span>
+  {/if}
+  <div
+    class="select-wrapper select-storeCollection"
+    use:clickOutside={() => (open = false)}
+    on:click={handleToggleOpen}
+    on:keydown={handleToggleOpen}
+  >
+    <div class="select" class:open>
+      {#if $collections?.size > 0}
+        <div class="select-trigger">
+          <span>
+            <Collection {chainId} {address} {account} />
+          </span>
+        </div>
+        <div class="custom-options">
+          {#each [...$collections] as [key, coll]}
+            <span
+              id={key}
+              class="custom-option {coll.address == address ? 'selected' : ''}"
+              data-value={coll.address}
+              on:click={() => _setCollection(coll.address)}
+              on:keydown={() => _setCollection(coll.address)}
+            >
+              <Collection chainId={coll.chainId} address={coll.address} {account} />
             </span>
-          </div>
-          <div class="custom-options">
-            {#each [...$collections] as [key, coll]}
-              <span
-                id={key}
-                class="custom-option {coll.address == address ? 'selected' : ''}"
-                data-value={coll.address}
-                on:click={() => _setCollection(coll.address)}
-                on:keydown={() => _setCollection(coll.address)}
-              >
-                <Collection chainId={coll.chainId} address={coll.address} {account} />
-              </span>
-            {/each}
-          </div>
-        {:else}
-          <div class="select-trigger">
-            <em>
-              <!-- {#if $refreshing}
+          {/each}
+        </div>
+      {:else}
+        <div class="select-trigger">
+          <em>
+            <!-- {#if $refreshing}
                 Refreshing collections...
               {:else}
               {/if} -->
-              NO Collection found !
-            </em>
-          </div>
-        {/if}
-      </div>
+            NO Collection found !
+          </em>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}

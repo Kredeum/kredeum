@@ -1,15 +1,10 @@
 <script lang="ts">
-  import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, getNetwork, networks } from "@lib/common/config";
-  import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
-
+  import {  getNetwork, networks } from "@lib/common/config";
   import Network from "./Network.svelte";
-
-  import CopyRefItem from "../Global/CopyRefItem.svelte";
-
+  
   /////////////////////////////////////////////////
-  // <NetworkSelect bind:{chainId} {txt} {label} />
-  // Select Network via a list box
+  // <NetworkList {chainId}  />
+  // List Networks
   /////////////////////////////////////////////////
   export let chainId: number;
 </script>

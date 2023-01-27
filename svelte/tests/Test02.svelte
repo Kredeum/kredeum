@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
 
   // import Nft from "../components/Nft/Nft.svelte";
-  import NftBasic from "../components/Nft/NftBasic.svelte";
+  import NftBasic from "./NftBasic.svelte";
   import { metamaskInit } from "@helpers/metamask";
 
   onMount(async () => {

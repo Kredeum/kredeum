@@ -10,41 +10,36 @@
   /////////////////////////////////////////////////
   export let signer: string = undefined;
   export let txt: boolean = undefined;
-  export let platform = "dapp";
 
-  let metamaskNotInstalled = false;
+  let metamaskInstalled: boolean;
 
   // change signer on memataskAccount change
   $: signer = $metamaskSignerAddress;
-  $: signer && console.log("AccountConnect signer CHANGE", signer);
+  $:  console.log("AccountConnect signer CHANGE", signer);
 
+  const classMetamask = txt ? "" : "btn btn-light btn-metamask";
+  const _metamaskInstall = () => window.location.replace("https://metamask.io/download/");
   const _metamaskConnect = (evt?: Event) => {
     evt.preventDefault();
     metamaskConnect();
   };
 
-  // metamask init
-  onMount(async () => await metamaskInit());
+  // Metamask init
+  // onMount(async () => ({installed: metamaskInstalled} = await metamaskInit()));
 </script>
 
-{#if txt}
-  {#if signer}
-    <Account account={signer} {txt} />
-  {:else if metamaskNotInstalled}
-    {metamaskInstallMessage}
-  {:else}
-    <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
-  {/if}
+{#if signer}
+  <Account account={signer} {txt} />
 {:else}
-  <div class={platform === "dapp" ? "col col-xs-12 col-sm-3 kre-copy-ref-container" : ""}>
-    {#if signer}
-      <Account account={signer} {txt} />
-    {:else if metamaskNotInstalled}
-      <div class="btn btn-light btn-metamask">
-        {metamaskInstallMessage}
-      </div>
+  <div class={classMetamask}>
+    {#if metamaskInstalled}
+      <span on:click={_metamaskConnect} on:keydown={_metamaskConnect}>
+        {metamaskConnectMessage}
+      </span>
     {:else}
-      <a href="." on:click={_metamaskConnect} class="btn btn-light btn-metamask">{metamaskConnectMessage}</a>
+      <span on:click={_metamaskInstall} on:keydown={_metamaskInstall}>
+        {metamaskInstallMessage}
+      </span>
     {/if}
   </div>
 {/if}

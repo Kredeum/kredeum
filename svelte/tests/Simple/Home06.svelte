@@ -1,14 +1,14 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
-  import NetworkSelectSimple from "./Network/NetworkSelectSimple.svelte";
+  import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
   import NftListSelectSimple from "./NftList/NftListSelectSimple.svelte";
   import NftSimple from "./Nft/NftSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
-  // Home06 : chainId, address and account sync between Url, NetworkSelect and Metamask
+  // Home06 : chainId, address and account sync between Url, NetworkListSelect and Metamask
   // Dipslay BreadCrumb
   // Display Network Selector and Collection Selector
   // Display Nft list for chainId, address and account
@@ -36,10 +36,10 @@
     <BreadCrumbSimple bind:chainId bind:address bind:tokenID bind:account />
   </p>
   <p>
-    <NetworkSelectSimple bind:chainId />
+    <NetworkListSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionSelectSimple {chainId} bind:address {account} />
+    <CollectionListSelectSimple {chainId} bind:address {account} />
   </p>
   <p>
     <NftListSelectSimple {chainId} {address} {account} bind:tokenID />

@@ -1,10 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-
-  import type { CollectionType } from "@lib/common/types";
   import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
-
-  import { collectionStore } from "@stores/collection/collection";
   import CollectionData from "./CollectionData.svelte";
 
   /////////////////////////////////////////////////

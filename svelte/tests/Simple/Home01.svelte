@@ -1,15 +1,15 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
-  import NetworkSelectSimple from "./Network/NetworkSelectSimple.svelte";
+  import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
 
   ////////////////////////////////////////////////////////////////
-  // Home01 : chainId sync between Url, NetworkSelect and Metamask
+  // Home01 : chainId sync between Url, NetworkListSelect and Metamask
   // Dipslay BreadCrumb
   // Display Network Selector
   ////////////////////////////////////////////////////////////////
 
-  let chainId;
+  let chainId: number;
   $: console.log("Home01 chainId CHANGE", chainId);
 </script>
 
@@ -18,7 +18,7 @@
     <BreadCrumbSimple bind:chainId />
   </p>
   <p>
-    <NetworkSelectSimple bind:chainId />
+    <NetworkListSelectSimple bind:chainId />
   </p>
   <p>
     <MetamaskSimple bind:chainId />

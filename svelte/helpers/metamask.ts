@@ -5,15 +5,13 @@ import { ethers } from "ethers";
 import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
-
-import { urlHash2RefNFT } from "@helpers/breadcrumb";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
 
 let ethereumProvider: EthereumProvider;
 let metamaskInstalled = false;
 
 const metamaskConnectMessage = "Connect to Metamask";
-const metamaskInstallMessage = "Please install MetaMask extension to connect";
+const metamaskInstallMessage = "Install MetaMask to connect";
 const metamaskMultipleWallets = "Do you have multiple wallets installed?";
 
 let targetChain = false;
@@ -127,7 +125,16 @@ const metamaskConnect = (): void => {
     });
 };
 
-const metamaskInit = async (): Promise<boolean> => {
+const metamaskInit = async (): Promise<{
+  installed: boolean;
+  chainId: number;
+  signer: string;
+  accounts: Array<string>;
+}> => {
+  let chainId = 0;
+  let signer = "";
+  let accounts: Array<string> = [];
+
   if (!get(metamaskChainId)) {
     console.info("metamaskInit");
     ethereumProvider = await detectEthereumProvider();
@@ -140,25 +147,19 @@ const metamaskInit = async (): Promise<boolean> => {
       const ethersProvider = new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any");
       metamaskProvider.set(ethersProvider);
 
-      let _chainId: number;
       try {
         // GET chainId from node connected to
-        _chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as number;
+        chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as number;
       } catch (err) {
         console.error("Metamask ERROR eth_chainId", err);
       }
 
-      // IF chainId requested in url is different THEN switch chain on metamask
-      const { chainId: _urlChainId } = urlHash2RefNFT();
-      if (_urlChainId > 0 && _urlChainId != _chainId) {
-        _chainId = _urlChainId;
-        await metamaskSwitchChain(_urlChainId);
-      }
-      await handleChainId(Number(_chainId));
+      await handleChainId(Number(chainId));
 
       try {
-        const _accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
-        handleAccountsSync(_accounts);
+        accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
+        if (accounts.length > 0) signer = accounts[0];
+        handleAccountsSync(accounts);
       } catch (err) {
         console.error("Metamask ERROR eth_accounts", err);
       }
@@ -171,7 +172,7 @@ const metamaskInit = async (): Promise<boolean> => {
     }
   }
 
-  return metamaskInstalled;
+  return { installed: metamaskInstalled, chainId, signer, accounts };
 };
 
 export { metamaskInit, metamaskConnect, metamaskSwitchChain, metamaskConnectMessage, metamaskInstallMessage };

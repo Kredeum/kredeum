@@ -24,7 +24,7 @@
 
   // Context for refreshNftsList & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  // let refreshNftsList: Writable<number> = getContext("refreshNftsList");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 

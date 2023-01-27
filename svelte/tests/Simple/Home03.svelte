@@ -10,10 +10,11 @@
   // Display list of collections on chainId for account
   /////////////////////////////////////////////////////////////////////////
 
-  let chainId;
-  let account;
-  let signer;
+  let chainId: number;
+  let account: string;
+  let signer: string;
   let init = true;
+
   $: console.log("Home03 chainId CHANGE", chainId);
   $: console.log("Home03 account CHANGE", account);
   $: console.log("Home03 signer CHANGE", signer);

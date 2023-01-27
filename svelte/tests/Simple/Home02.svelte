@@ -8,10 +8,11 @@
   // Dipslay BreadCrumb
   ////////////////////////////////////////////////////////////////
 
-  let chainId;
-  let account;
-  let signer;
+  let chainId: number;
+  let account: string;
+  let signer: string;
   let init = true;
+
   $: console.log("Home02 chainId CHANGE", chainId);
   $: console.log("Home02 account CHANGE", account);
   $: console.log("Home02 signer CHANGE", signer);

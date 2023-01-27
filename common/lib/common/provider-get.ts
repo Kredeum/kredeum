@@ -7,6 +7,8 @@ import type { WindowExternalProvider } from "./types";
 import { getNetwork, sleep } from "@lib/common/config";
 import { ethers } from "ethers";
 
+let _providerSetting = false;
+
 // Cache providers per chainId
 const _providersPerChainId: Map<number, Provider> = new Map();
 
@@ -44,6 +46,8 @@ const providerGetAccount = async (): Promise<string> => {
 };
 
 const providerSetFallback = async (chainId: number): Promise<boolean> => {
+  _providerSetting = true;
+
   console.log("providerSetFallback START", chainId);
   if (!chainId) return false;
 
@@ -67,25 +71,33 @@ const providerSetFallback = async (chainId: number): Promise<boolean> => {
   }
 
   const ok = Boolean(provider);
-  console.log("providerSetFallback END", ok);
+  console.log("providerSetFallback END", chainId, ok ? "OK" : "KO");
 
+  _providerSetting = false;
   return ok;
 };
 
 const providerGetFallback = async (chainId: number): Promise<Provider> => {
-  // console.log("providerGetFallback START");
+  console.log("providerGetFallback START", chainId);
   let provider: Provider | undefined;
+
   let i = 0;
+  const ms = 20;
+  const max = 500;
   // 500 * 20 = 10s
-  while (i++ < 500) {
+  while (i++ < max) {
     provider = _providersPerChainId.get(chainId);
     if (provider) break;
 
-    await sleep(20);
-    console.log("providerGetFallback sleep", i);
+    if (_providerSetting) {
+      await sleep(ms);
+      i > 10 && console.log("providerGetFallback SLEEP", i);
+    } else {
+      await providerSetFallback(chainId);
+    }
   }
 
-  // console.log("providerGetFallback OK !", (await provider?.getBlockNumber()) || 0);
+  console.log("providerGetFallback END", chainId, (provider ? "OK" : "KO"));
   return provider as Provider;
 };
 

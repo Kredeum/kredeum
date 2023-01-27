@@ -3,11 +3,11 @@
   import NetworkSimple from "./NetworkSimple.svelte";
 
   /////////////////////////////////////////////////
-  // <NetworkSelectSimple bind:{chainId}  />
+  // <NetworkListSelectSimple bind:{chainId}  />
   // Select Network via a list box
   /////////////////////////////////////////////////
   export let chainId: number = undefined;
-  $: console.log("NetworkSelectSimple chainId CHANGE", chainId);
+  $: console.log("NetworkListSelectSimple chainId CHANGE", chainId);
 
   interface SwitchEventTarget extends EventTarget {
     value: number;

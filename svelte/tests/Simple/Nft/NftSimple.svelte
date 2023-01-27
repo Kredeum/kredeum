@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
-  import type { NftType } from "@lib/common/types";
   import NftDataSimple from "./NftDataSimple.svelte";
 
   export let chainId: number;

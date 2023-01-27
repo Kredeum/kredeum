@@ -8,7 +8,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
 
   /////////////////////////////////////////////////
-  // <NetworkSelect bind:{chainId} {txt} {label} />
+  // <NetworkListSelect bind:{chainId} {txt} {label} />
   // Select Network via a list box
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -30,10 +30,6 @@
   };
 
   const handleToggleOpen = () => (open = !open);
-
-  const _log = (nw) => {
-    console.log("NETWORK SELECT", nw);
-  };
 </script>
 
 {#if txt}
@@ -56,35 +52,45 @@
     {/if}
   </select>
 {:else}
-  <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-    {#if label}
-      <span class="label"
-        >Network
-        <a
-          class="info-button"
-          href={resolverGetExplorerUrl(chainId)}
-          target="_blank"
-          rel="noreferrer"
-          title="&#009; NFTs Factory address (click to view in explorer )
+  {#if label}
+    <span class="label"
+      >Network
+      <a
+        class="info-button"
+        href={resolverGetExplorerUrl(chainId)}
+        target="_blank"
+        rel="noreferrer"
+        title="&#009; NFTs Factory address (click to view in explorer )
         {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
-        >
-        <CopyRefItem copyData={resolverGetAddress(chainId)} />
-      </span>
-    {/if}
+      >
+      <CopyRefItem copyData={resolverGetAddress(chainId)} />
+    </span>
+  {/if}
 
-    <div
-      class="select-wrapper select-network"
-      use:clickOutside={() => (open = false)}
-      on:click={handleToggleOpen}
-      on:keydown={handleToggleOpen}
-    >
-      <div class="select" class:open>
-        <div class="select-trigger">
-          <Network {chainId} {txt} />
-        </div>
+  <div
+    class="select-wrapper select-network"
+    use:clickOutside={() => (open = false)}
+    on:click={handleToggleOpen}
+    on:keydown={handleToggleOpen}
+  >
+    <div class="select" class:open>
+      <div class="select-trigger">
+        <Network {chainId} {txt} />
+      </div>
 
-        <div class="custom-options">
-          {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as nwk}
+      <div class="custom-options">
+        {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as nwk}
+          <span
+            class="custom-option {nwk.chainId == chainId && 'selected'}"
+            data-value={getChainName(nwk.chainId)}
+            on:click={(evt) => _switchChain(nwk.chainId, evt)}
+            on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
+          >
+            <Network chainId={nwk.chainId} txt={true} />
+          </span>
+        {/each}
+        {#if getNetwork(chainId)?.testnet}
+          {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
             <span
               class="custom-option {nwk.chainId == chainId && 'selected'}"
               data-value={getChainName(nwk.chainId)}
@@ -94,19 +100,7 @@
               <Network chainId={nwk.chainId} txt={true} />
             </span>
           {/each}
-          {#if getNetwork(chainId)?.testnet}
-            {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
-              <span
-                class="custom-option {nwk.chainId == chainId && 'selected'}"
-                data-value={getChainName(nwk.chainId)}
-                on:click={(evt) => _switchChain(nwk.chainId, evt)}
-                on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
-              >
-                <Network chainId={nwk.chainId} txt={true} />
-              </span>
-            {/each}
-          {/if}
-        </div>
+        {/if}
       </div>
     </div>
   </div>

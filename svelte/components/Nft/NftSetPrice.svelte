@@ -24,7 +24,7 @@
 
   import InputPrice from "../InputFields/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionPrice, nftCollectionApproved } from "@helpers/nft";
+  import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -134,9 +134,14 @@
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, price);
 
     tokenSettingPrice = S2_SIGN_TX;
+    console.log("tokenSetPriceTx ~ tokenSettingPrice", tokenSettingPrice);
 
     const tokenSetPriceTxResp = (await tokenSetPriceTxRespYield.next()).value;
+    console.log("tokenSetPriceTx ~ tokenSetPriceTxResp", tokenSetPriceTxResp);
+
     tokenSetPriceTxHash = tokenSetPriceTxResp?.hash;
+    console.log("tokenSetPriceTx ~ tokenSetPriceTxHash", tokenSetPriceTxHash);
+
     if (!tokenSetPriceTxHash)
       return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);
 
@@ -159,7 +164,8 @@
 </script>
 
 <div class="titre">
-  <i class="fas fa-plus fa-left c-green" />SELL ({tokenSettingPrice})
+  <i class="fas fa-plus fa-left c-green" />SELL -
+  {#if nftPrice($nft).eq(0)}Set{:else}Modify{/if} Price
 </div>
 
 {#if tokenSettingPrice == S1_CONFIRM}

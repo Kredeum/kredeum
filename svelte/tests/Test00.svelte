@@ -3,12 +3,12 @@
   import { getCreate } from "@lib/common/config";
 
   import BreadCrumb from "./BreadCrumb.svelte";
-  import Metamask from "../tests/Metamask.svelte";
+  import MetamaskSimple from "../tests/Simple/Network/MetamaskSimple.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
-  // import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionList from "../components/Collection/CollectionList.svelte";
+  // import NetworkListSelect from "../Network/NetworkListSelect.svelte";
+  import CollectionList from "../components/CollectionList/CollectionList.svelte";
   // import NftsList from "./NftsList.svelte";
   // import NftsListGet from "../Nft/NftsListGet.svelte";
   // import RefreshButton from "../Nft/NftsListRefresh.svelte";
@@ -44,11 +44,11 @@
   <div>
     <!-- <Home /> -->
 
-    <Metamask bind:account bind:chainId />
+    <MetamaskSimple bind:signer={account} bind:chainId />
 
     <!-- <AccountConnect bind:account /> -->
 
-    <!-- <NetworkSelect bind:chainId /> -->
+    <!-- <NetworkListSelect bind:chainId /> -->
 
     {#if chainId && account}
       <CollectionList {chainId} {account} bind:address mintable={true} />

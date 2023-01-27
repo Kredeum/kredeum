@@ -7,7 +7,7 @@
 
 <CollectionListDataSimple {chainId} {account} let:collections>
   {#if collections}
-    {#each [...collections] as [key, coll]}
+    {#each [...collections] as [, coll]}
       <p>
         {coll?.name || "No name"} -
         {coll?.address}
