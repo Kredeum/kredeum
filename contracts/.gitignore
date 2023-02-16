@@ -15,3 +15,6 @@ out
 .DS_Store
 
 broadcast
+
+.certora*
+.zip*
