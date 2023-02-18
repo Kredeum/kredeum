@@ -158,7 +158,7 @@ const metamaskInit = async (): Promise<{
 
       try {
         accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
-        if (accounts.length > 0) signer = accounts[0];
+        if (accounts.length > 0) signer = getChecksumAddress(accounts[0]);
         handleAccountsSync(accounts);
       } catch (err) {
         console.error("Metamask ERROR eth_accounts", err);

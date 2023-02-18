@@ -23,15 +23,16 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
     ownedNfts?: Array<AlchemyCollection>;
     totalCount: number;
   };
-  const AlchemyCollectionsAnswer = (await alchemyFetch(
+  const alchemyCollectionsAnswer = (await alchemyFetch(
     chainId,
     `/getNFTs?owner=${account}&withMetadata=true`
   )) as AlchemyCollectionsAnswer;
-  console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
+  // console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
+  if (!alchemyCollectionsAnswer) return collections;
 
-  const totalCount = AlchemyCollectionsAnswer.totalCount;
-  const ownedNfts = AlchemyCollectionsAnswer.ownedNfts;
-  if (!(ownedNfts && totalCount >= 0)) return collections;
+  const totalCount = alchemyCollectionsAnswer.totalCount || 0;
+  const ownedNfts = alchemyCollectionsAnswer.ownedNfts;
+  if (!(ownedNfts && totalCount > 0)) return collections;
 
   for (let index = 0; index < Math.min(100, totalCount); index++) {
     const ownedNft = ownedNfts[index];

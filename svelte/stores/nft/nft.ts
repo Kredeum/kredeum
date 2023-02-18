@@ -71,7 +71,7 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
   });
 };
 
-const nftGetAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
+const nftGetStoreAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
   if (!(chainId && address && tokenID)) return;
 
   // STATE VIEW : sync read cache
@@ -87,7 +87,7 @@ export const nftStore = {
   getKey: nftGetKey,
   getOne: nftGetStore,
   refreshOne: nftRefresh,
-  getAndRefresh: nftGetAndRefresh,
+  getOneAndRefresh: nftGetStoreAndRefresh,
   setOne: nftSetOne,
   nftRemoveOne,
   getList: nftListStore

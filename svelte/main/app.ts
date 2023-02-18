@@ -1,13 +1,10 @@
 // import Home from "../tests/Simple/Home08.svelte";
 // import Home from "../tests/Test02.svelte";
-// import Home from "../tests/Init.svelte";
-// import Home from "../components/Global/HomeOld.svelte";
 import Home from "../components/Main/Home.svelte";
-import NftMintButton from "../components/Nft/NftMintButton.svelte";
-import NetworkListSelect from "../components/Network/NetworkListSelect.svelte";
-import CollectionChoice from "../components/Collection/CollectionChoice.svelte";
-
+import CollectionChoice from "../components/Main/CollectionChoice.svelte";
 import NftAutoMarket from "../components/Main/NftAutomarket.svelte";
+import NftMintButton from "../components/Main/CollectionChoice.svelte";
+import NetworkListSelect from "../components/Main/NetworkListSelect.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };

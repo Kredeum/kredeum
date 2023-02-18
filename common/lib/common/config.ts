@@ -15,8 +15,10 @@ const DEFAULT_SYMBOL = "NFT";
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
 const isAddress = (address = ""): boolean => utils.isAddress(address);
+const isAccount = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
 
-const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : "");
+const getChecksumAddress = (address = ""): string =>
+  isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
@@ -462,6 +464,7 @@ export {
   explorerNftLink,
   isTestnet,
   isAddress,
+  isAccount,
   isNumeric,
   getChainId,
   getChainName,

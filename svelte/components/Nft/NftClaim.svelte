@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
   import NftStorage from "@lib/nft/storage/nft-storage";
   import {
     getOpenMulti,
@@ -12,11 +11,10 @@
   import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
-  import type { Readable } from "svelte/store";
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
 
-  import NetworkListSelect from "../Network/NetworkListSelect.svelte";
+  import NetworkListSelect from "../Main/NetworkListSelect.svelte";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -25,6 +23,8 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  ///////////////////////////////////////////////////////////
 
   let targetChainId = chainId;
   let claimTxHash: string = null;
@@ -32,13 +32,6 @@
   let claimed = false;
 
   let nftStorage: NftStorage;
-
-  let nft: Readable<NftType>;
-  $: chainId && address && tokenID && handleChange();
-  const handleChange = (): void => {
-    // STATE VIEW : sync get Nft
-    nft = nftStore.getOne(chainId, address, tokenID);
-  };
 
   $: console.info("NftClaim", $nft);
 

@@ -4,6 +4,7 @@
   import type { CollectionType } from "@lib/common/types";
 
   import { collectionStore } from "@stores/collection/collection";
+  import { keyCollection } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
   // <CollectionData {chainId} {address} {account}? />
@@ -15,11 +16,11 @@
 
   let collection: Readable<CollectionType>;
 
-  // let i = 1;
+  let i = 1;
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
+    console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOne(chainId, address);

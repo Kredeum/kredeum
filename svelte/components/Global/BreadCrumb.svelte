@@ -15,7 +15,7 @@
   $: console.log("BREADCRUMB", ref2Breadcrumb({ chainId, address, tokenID, account, signer }));
 
   // change url on chainId, address or account change
-  $: window.location.hash = ref2UrlHash({ chainId, address, tokenID });
+  $: window.location.hash = ref2UrlHash({ chainId, address, tokenID, account });
 
   // change chainId or address on url change
   $: ({ chainId, address, tokenID, account } = urlHash2RefNFT(window.location.hash));

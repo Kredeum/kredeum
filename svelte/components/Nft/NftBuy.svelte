@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { constants, utils } from "ethers";
+  import {  utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
@@ -22,9 +22,8 @@
   export let tokenID: string;
   export let platform = "dapp";
   ///////////////////////////////////////////////////////////
-
-  // GET NFT & COLLECTION
-  $: nft = nftStore.getAndRefresh(chainId, address, tokenID);
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  ///////////////////////////////////////////////////////////
 
   let buying: number;
   let buyTxHash: string;
@@ -116,7 +115,7 @@
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
-    <div class="modal-content"  use:clickOutside={handleClose}>
+    <div class="modal-content" use:clickOutside={handleClose}>
       <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
         ><i class="fa fa-times" /></span
       >

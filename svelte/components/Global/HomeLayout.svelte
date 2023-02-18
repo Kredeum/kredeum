@@ -4,14 +4,12 @@
   </nav>
 
   <main class="main-krd">
-    <div id="kredeum-list">
-      <section class="content">
-        <header>
-          <slot name="header" />
-        </header>
+    <section class="content">
+      <header>
+        <slot name="header" />
+      </header>
 
-        <slot name="content" />
-      </section>
-    </div>
+      <slot name="content" />
+    </section>
   </main>
 </div>

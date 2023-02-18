@@ -1,6 +1,6 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkListSelect from "../Network/NetworkListSelect.svelte";
+  import NetworkListSelect from "./NetworkListSelect.svelte";
   import CollectionList from "../CollectionList/CollectionList.svelte";
 
   /////////////////////////////////////////////////

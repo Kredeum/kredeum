@@ -10,7 +10,7 @@ const resolverGetCollection = async (
   address: string,
   account = constants.AddressZero
 ): Promise<CollectionType> => {
-  // console.log("resolverGetCollection", address);
+  console.log("resolverGetCollection", chainId, address, account);
 
   const nftsResolver = await resolverGetContract(chainId);
 

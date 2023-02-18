@@ -1,7 +1,4 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
-  import type { Readable } from "svelte/store";
-
   import { BigNumber } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
@@ -23,6 +20,8 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  /////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   // Context for refreshCollectionList & refreshNftsList
@@ -107,12 +106,8 @@
     $refreshNftsList += 1;
   };
 
-  let nft: Readable<NftType>;
-
   onMount(() => {
     transferInit();
-
-    nft = nftStore.getOne(chainId, address, tokenID);
   });
 </script>
 

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { NftMetadata, NftType } from "@lib/common/types";
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
@@ -7,23 +6,27 @@
   import { fade } from "svelte/transition";
 
   import MediaDisplay from "./MediaDisplay.svelte";
+  import { nftStore } from "@stores/nft/nft";
+  import { nftMediaAnimationUrl, nftMediaContentType } from "@helpers/nft";
 
   /////////////////////////////////////////////////
-  //  <MediaPreview {nft} {displayMode}? {alt}? />
+  // <MediaPreview {chainId} {address} {tokenID} {displayMode}?  />
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
+  /////////////////////////////////////////////////////////////////
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  /////////////////////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
-  export let nft: NftType;
-  export let alt: string = nft.name || "media";
 
   let open = false;
-  let metadatas: NftMetadata | undefined;
-  $: metadatas = nft?.metadata;
 
   const handleClose = () => (open = false);
-  const handlemetadatas = () => {
-    if (metadatas?.animation_url) {
-      $toPlayTokenID = $toPlayTokenID !== nft.tokenID ? nft.tokenID : "";
+  const handleMetadata = () => {
+    if (nftMediaContentType($nft)) {
+      $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
     } else {
       open = true;
     }
@@ -36,14 +39,14 @@
 <div class="media-zoom">
   <div class="media">
     <span
-      class="krd-pointer {nft.contentType?.startsWith('video') || metadatas?.animation_url
+      class="krd-pointer {nftMediaContentType($nft) === 'video' || nftMediaAnimationUrl($nft)
         ? 'no-zoom-hover'
         : 'zoom-hover'}"
-      on:click={handlemetadatas}
-      on:keydown={handlemetadatas}
+      on:click={handleMetadata}
+      on:keydown={handleMetadata}
     >
       <i class="fas fa-search" />
-      <MediaDisplay {nft} displayMode={"preview"} {alt} />
+      <MediaDisplay {chainId} {address} {tokenID} displayMode="preview" />
     </span>
   </div>
 </div>
@@ -61,7 +64,7 @@
           <i class="fa fa-times" /></span
         >
         <div class="modal-body">
-          <MediaDisplay {nft} displayMode={"preview"} small={false} {alt} />
+          <MediaDisplay {chainId} {address} {tokenID} displayMode="preview" small={false} />
         </div>
       </div>
     </div>

@@ -1,53 +1,44 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
-  import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";
   import MediaDisplayVideo from "./MediaDisplayVideo.svelte";
   import MediaDisplayAudio from "./MediaDisplayAudio.svelte";
+  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@helpers/nft";
+  import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <MediaDisplay {nft} {displayMode}? {small}? {alt}? />
+  //  <MediaDisplay {chainId} {address} {tokenID} {displayMode}? {small}? {alt}? />
   // Display a media according to its type and entering parameters
   /////////////////////////////////////////////////
-  export let nft: NftType;
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  /////////////////////////////////////////////////
   export let displayMode: string = "list";
   export let small: boolean = true;
-  export let alt: string = nft.name || "media";
+  /////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  /////////////////////////////////////////////////
 
-  let cssSmall: string = small ? "small" : "full";
-  let cssMedia: string = "list" === displayMode ? "media-small" : "media-grid";
-  let gridScale: string = "grid" === displayMode ? " a-simul-cursor" : "";
-
-  let mediaType: string = "image";
-  // let mediaSubtype: string = "jpeg";
-  let mediaSrc: string = "";
-
-  $: nft && handleChange();
-  const handleChange = (): void => {
-    const mediaContentType = nft.contentType?.split("/");
-    mediaType = mediaContentType?.[0];
-    if (mediaType === "text") mediaType = "image";
-    // mediaSubtype = mediaContentType[1];
-    mediaSrc = nftGetImageLink(nft);
-    alt = mediaType;
-  };
+  let cssSmall = small ? "small" : "full";
+  let cssMedia = "list" === displayMode ? "media-small" : "media-grid";
+  let gridScale = "grid" === displayMode ? " a-simul-cursor" : "";
 </script>
 
-<div id="media-{cssSmall}-{nft?.tokenID}" class="media {cssSmall} {cssMedia} media-{mediaType}{gridScale}">
-  {#if nft?.animation_url}
+<div id="media-{cssSmall}-{tokenID}" class="media {cssSmall} {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
+  {#if nftMediaAnimationUrl($nft)}
     <MediaDisplayAudio
-      {mediaSrc}
-      animation_url={nft?.animation_url}
+      animation_url={nftMediaAnimationUrl($nft)}
+      mediaSrc={nftMediaSrc($nft)}
+      alt={nftMediaAlt($nft)}
       {displayMode}
-      {alt}
-      tokenID={nft.tokenID}
+      {tokenID}
       {small}
     />
-  {:else if "image" === mediaType}
-    <MediaDisplayImage {mediaSrc} {alt} />
-  {:else if "video" === mediaType}
-    <MediaDisplayVideo {mediaSrc} {displayMode} tokenID={nft.tokenID} {small} />
+  {:else if nftMediaContentType($nft) === "image"}
+    <MediaDisplayImage mediaSrc={nftMediaSrc($nft)} alt={nftMediaAlt($nft)} />
+  {:else if nftMediaContentType($nft) === "video"}
+    <MediaDisplayVideo mediaSrc={nftMediaSrc($nft)} {displayMode} {tokenID} {small} />
   {/if}
 </div>
 

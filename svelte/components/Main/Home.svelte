@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCreate } from "@lib/common/config";
+  import {  getCreate } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -9,7 +9,7 @@
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkList from "../Network/NetworkList.svelte";
-  import NetworkListSelect from "../Network/NetworkListSelect.svelte";
+  import NetworkListSelect from "./NetworkListSelect.svelte";
   import CollectionListSelect from "../CollectionList/CollectionListSelect.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
   import Nft from "../Nft/Nft.svelte";
@@ -55,7 +55,7 @@
 
   onMount(async () => {
     const data = await initDapp();
-    console.log("Home", data);
+    console.log("<Home ", data);
 
     ({ chainId, address, tokenID, account, signer } = data);
   });

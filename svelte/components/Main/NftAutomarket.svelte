@@ -1,6 +1,5 @@
 <script lang="ts">
   import { initSnippet } from "@helpers/initSnippet";
-  import { metamaskInit } from "@helpers/metamask";
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
 

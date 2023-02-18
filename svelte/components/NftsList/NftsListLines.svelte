@@ -25,7 +25,9 @@
     </div>
     {#if nfts?.size > 0}
       {#each [...nfts.values()] as nft}
-        <NftLine chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
+        {#if nft.owner === account}
+          <NftLine chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {account} {platform} />
+        {/if}
       {/each}
     {/if}
   </div>

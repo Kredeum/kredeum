@@ -17,10 +17,11 @@
   export let tokenID: string;
   export let platform = "dapp";
   /////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  /////////////////////////////////////////////////
 
   let open = false;
 
-  $: nft = nftStore.getOne(chainId, address, tokenID);
 
   const handleClose = () => (open = false);
 </script>

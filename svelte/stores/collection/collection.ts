@@ -28,6 +28,8 @@ const collectionSetOne = (collection: CollectionType): void => {
 
 // ACTIONS : REFRESH one Collection, for an optionnal account
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
+  console.log(`collectionRefresh '${chainId}' '${address}' '${account}'`);
+
   if (!(chainId && address)) return;
   const collection = await collectionLib(chainId, address, account);
 
@@ -59,7 +61,7 @@ export const collectionStore = {
   getKey: keyCollection,
   getOne: collectionGetStore,
   refreshOne: collectionRefresh,
-  getAndRefresh: collectionGetAndRefresh,
+  getOneAndRefresh: collectionGetAndRefresh,
   setOne: collectionSetOne,
 
   getList: collectionListStore

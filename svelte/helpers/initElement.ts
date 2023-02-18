@@ -1,12 +1,12 @@
 import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
 import { ref2Breadcrumb } from "@helpers/breadcrumb";
 import { providerSetFallback } from "@lib/common/provider-get";
+import {  isAccount } from "@lib/common/config";
+import { constants } from "ethers";
 
 let done = false;
 
-const initElement = async (chainId: number, address: string, tokenID: string, account?: string) => {
-  console.log("INIT START", { chainId, address, tokenID, account });
-
+const initElement = async (chainId: number, address: string, tokenID: string, account = constants.AddressZero) => {
   if (done) return;
 
   console.log("INIT DOING");
@@ -31,7 +31,7 @@ const initElement = async (chainId: number, address: string, tokenID: string, ac
   await providerSetFallback(chainId);
 
   // SET account as signer is not already setted from url
-  if (signer) account ||= signer;
+  if (signer && !isAccount(account)) account = signer;
 
   // SET chainId to mainnet if not setted
   chainId ||= 1;
