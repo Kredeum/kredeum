@@ -140,8 +140,8 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
 const thegraphFetch = async (chainId: number, query: string): Promise<unknown> =>
   await fetchGQL(thegraphGetUrl(chainId), query);
 
-const thegraphGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.subgraph?.active);
+const thegraphActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.subgraph?.active);
 const thegraphGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.subgraph?.active && getNetwork(chainId)?.subgraph?.url) || "";
 
-export { thegraphCollectionList, thegraphGet, thegraphNftList, thegraphGetUrl, thegraphFetch };
+export { thegraphCollectionList, thegraphActive, thegraphNftList, thegraphGetUrl, thegraphFetch };

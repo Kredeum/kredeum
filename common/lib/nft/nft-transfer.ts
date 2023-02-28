@@ -18,7 +18,7 @@ async function* transferNft(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && tokenID && to && from)) return {};
+  if (!(chainId && address && address != constants.AddressZero && tokenID && to && from)) return {};
   // console.log("transferNft from", fromAddress);
 
   const { contract, collection } = await collectionGetContract(chainId, address, true);

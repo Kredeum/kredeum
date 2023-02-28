@@ -8,9 +8,26 @@
 //
 pragma solidity ^0.8.17;
 
-import "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";
-import "../interfaces/IOpenNFTsResolver.sol";
-import "../interfaces/IAll.sol";
+import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
+import {OpenResolver} from "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";
+import {OpenRegistry} from "OpenNFTs/contracts/OpenResolver/OpenRegistry.sol";
+import {OpenGetter} from "OpenNFTs/contracts/OpenResolver/OpenGetter.sol";
+
+import {IERC2981} from "OpenNFTs/contracts/interfaces/IERC2981.sol";
+import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
+import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
+import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+
+import {IOpenNFTsResolver} from "src/interfaces/IOpenNFTsResolver.sol";
+import {IOpenNFTsV0} from "src/interfaces/IOpenNFTsV0.sol";
+import {IOpenNFTsV1} from "src/interfaces/IOpenNFTsV1.sol";
+import {IOpenNFTsV2} from "src/interfaces/IOpenNFTsV2.sol";
+import {IOpenNFTsV3} from "src/interfaces/IOpenNFTsV3.sol";
+import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
+import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
+import {IOpenBound} from "src/interfaces/IOpenBound.sol";
 
 contract OpenNFTsResolverV4 is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](12);

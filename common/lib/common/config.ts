@@ -53,7 +53,7 @@ const getChainName = (chainId: number): string =>
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
 
-  if (!(chainId && address && tokenID && network)) return "";
+  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network

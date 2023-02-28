@@ -3,10 +3,10 @@ import type { CollectionType, NftType } from "@lib/common/types";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
 
-import { alchemyGet, alchemyNftList } from "@lib/apis/api-alchemy";
-import { covalentGet, covalentNftList } from "@lib/apis/api-covalent";
-import { thegraphGet, thegraphNftList } from "@lib/apis/api-thegraph";
-import { moralisGet, moralisNftList } from "@lib/apis/api-moralis";
+import { alchemyActive, alchemyNftList } from "@lib/apis/api-alchemy";
+import { covalentActive, covalentNftList } from "@lib/apis/api-covalent";
+import { thegraphActive, thegraphNftList } from "@lib/apis/api-thegraph";
+import { moralisActive, moralisNftList } from "@lib/apis/api-moralis";
 
 import { getNetwork } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
@@ -40,15 +40,15 @@ const nftListTokenIds = async (
   const network = getNetwork(chainId);
 
   if (network) {
-    if (alchemyGet(chainId)) {
+    if (alchemyActive(chainId)) {
       nftsOwner = await alchemyNftList(chainId, collection, account, limit);
       // console.log("nftListTokenIds alchemyNftList", nftsOwner);
-    } else if (thegraphGet(chainId)) {
+    } else if (thegraphActive(chainId)) {
       nftsOwner = await thegraphNftList(chainId, collection, account, limit);
       // console.log("nftListTokenIds thegraphNftList", nftsOwner);
-    } else if (moralisGet(chainId)) {
+    } else if (moralisActive(chainId)) {
       nftsOwner = await moralisNftList(chainId, collection, account, limit);
-    } else if (covalentGet(chainId)) {
+    } else if (covalentActive(chainId)) {
       nftsOwner = await covalentNftList(chainId, collection, account, limit);
       // console.log("nftListTokenIds covalentNftList", nftsOwner);
     } else {

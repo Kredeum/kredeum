@@ -7,9 +7,8 @@ import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
 
-const covalentFetch = async (path: string): Promise<unknown> => {
-  const loginPass = `${process.env.COVALENT_API_KEY || ""}`;
-  const url = `https://api.covalenthq.com/v1${path}&key=${loginPass}`;
+const covalentFetch = async (chainId: number, path: string): Promise<unknown> => {
+  const urlPath = covalentUrlPath(chainId, path);
   const config = {
     method: "GET",
     headers: {
@@ -18,7 +17,7 @@ const covalentFetch = async (path: string): Promise<unknown> => {
     }
   };
 
-  const answerCov: FetchResponse = await fetchJson(url, config);
+  const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
   if (answerCov.error) console.error("covalentFetch ERROR", answerCov.error);
   return answerCov?.data;
@@ -51,7 +50,7 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
   };
-  const answerCollectionsCov = (await covalentFetch(path)) as AnswerCollectionsCov;
+  const answerCollectionsCov = (await covalentFetch(chainId, path)) as AnswerCollectionsCov;
 
   const collectionsCov = answerCollectionsCov?.items;
   if (collectionsCov?.length) {
@@ -118,7 +117,7 @@ const covalentNftList = async (
     };
 
     try {
-      const nftsJson = ((await covalentFetch(path)) as AnswerNftsCov)?.items;
+      const nftsJson = ((await covalentFetch(chainId, path)) as AnswerNftsCov)?.items;
       if (nftsJson?.[0]) {
         const tokens = nftsJson[0].nft_data;
 
@@ -154,6 +153,12 @@ const covalentNftList = async (
   return nfts;
 };
 
-const covalentGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
 
-export { covalentCollectionList, covalentNftList, covalentGet, covalentFetch };
+const covalentUrlPath = (chainId: number, path: string): string => {
+  const covalent = getNetwork(chainId)?.covalent;
+  if (!(covalent && covalent.active && covalent.url && covalent.key)) return "";
+  return `${covalent.url}${path}&key=${covalent.key}`;
+};
+
+export { covalentCollectionList, covalentNftList, covalentActive, covalentFetch };

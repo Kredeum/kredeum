@@ -29,8 +29,8 @@ type NetworkType = {
   hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
-  moralis?: { active: boolean; url?: string };
-  covalent?: { active: boolean };
+  moralis?: { active: boolean; url?: string; id?: string };
+  covalent?: { active: boolean; url?: string; key?: string };
   mainnet?: boolean;
   testnet?: boolean;
   create?: boolean;

@@ -5,7 +5,7 @@ const initVersion = () => {
   const VERSION = "version";
   const version = config.version.latest;
   const branch = process.env.GIT_BRANCH || "HEAD";
-  const detail =  `v${version} (${branch} #${process.env.GIT_SHORT})`;
+  const detail = `v${version} (${branch} #${process.env.GIT_SHORT})`;
 
   console.info(`INIT VERSION Kredeum NFTs Factory ${detail}`);
 

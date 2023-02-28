@@ -1,5 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
+import { BigNumberish } from "ethers";
+import { constants } from "ethers";
 
 import type { IOpenAutoMarket } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
@@ -13,7 +14,7 @@ async function* buyNft(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 
-  if (!(chainId && address && tokenID && nftPrice)) return {};
+  if (!(chainId && address && address != constants.AddressZero && tokenID && nftPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenAutoMarket)) return {};

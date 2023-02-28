@@ -51,7 +51,6 @@ const ref2Caip = (refBreadcrumb: RefBreadcrumb) => {
 const ref2Breadcrumb = (refBreadcrumb: RefBreadcrumb) => {
   const { address, tokenID, account, signer, action, chainName } = _extract(refBreadcrumb);
 
-
   return (
     "> " +
     (chainName

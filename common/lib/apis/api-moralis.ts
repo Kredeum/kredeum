@@ -39,7 +39,10 @@ const moralisListAll = async (
   const nftsMoralist = await moralis.Web3API.account.getNFTs(options);
   // console.log("moralisListAll ~ nftsMoralist", nftsMoralist);
 
+  let l = 0;
   for (const nftMoralis of nftsMoralist.result || []) {
+    if (++l > limit) break;
+
     // console.log("moralisCollectionList ~ nftMoralis", nftMoralis);
     const address = getChecksumAddress(nftMoralis.token_address);
     const owner = getChecksumAddress(account);
@@ -90,8 +93,8 @@ const moralisCollectionList = async (chainId: number, account: string): Promise<
   return collections;
 };
 
-const moralisGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.moralis?.active);
+const moralisActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.moralis?.active);
 const moralisGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.moralis?.active && getNetwork(chainId)?.moralis?.url) || "";
 
-export { moralisCollectionList, moralisGet, moralisNftList, moralisGetUrl, moralisListAll };
+export { moralisCollectionList, moralisActive, moralisNftList, moralisGetUrl, moralisListAll };

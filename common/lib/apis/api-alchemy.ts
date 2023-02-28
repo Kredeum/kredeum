@@ -111,31 +111,25 @@ const alchemyNftList = async (
 };
 
 const alchemyFetch = async (chainId: number, path: string): Promise<unknown> => {
-  let alchemyKey = "";
-  const alchemyUrl = alchemyGetUrl(chainId);
+  const url = alchemyUrl(chainId);
+  if (!(chainId && url && path)) return;
 
-  if (chainId === 1) alchemyKey = `${process.env.ALCHEMY_API_KEY || ""}`;
-  else if (chainId === 137) alchemyKey = `${process.env.ALCHEMY_API_KEY_POLYGON || ""}`;
+  const urlPath = `${alchemyUrl(chainId)}${path}`;
+  console.log("alchemyFetch ~ urlPath", urlPath);
 
-  if (!(chainId && alchemyUrl && alchemyKey && path)) return;
-
-  const url = `${alchemyUrl}/${alchemyKey}${path}`;
-  // console.log("alchemyFetch ~ url", url);
   const config = {
     method: "GET",
     headers: { Accept: "application/json" }
   };
-
-  const alchemyAnswer: FetchResponse = await fetchJson(url, config);
+  const alchemyAnswer: FetchResponse = await fetchJson(urlPath, config);
   // console.log("alchemyFetch ~ alchemyAnswer", alchemyAnswer);
 
   if (alchemyAnswer.error) console.error("alchemyFetch ERROR", alchemyAnswer.error);
   return alchemyAnswer;
 };
 
-const alchemyGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.alchemy?.active);
+const alchemyActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.alchemy?.active);
 
-const alchemyGetUrl = (chainId: number): string =>
-  (getNetwork(chainId)?.alchemy?.active && getNetwork(chainId)?.alchemy?.url) || "";
+const alchemyUrl = (chainId: number): string => (alchemyActive(chainId) && getNetwork(chainId)?.alchemy?.url) || "";
 
-export { alchemyGet, alchemyGetUrl, alchemyFetch, alchemyNftList, alchemyCollectionList };
+export { alchemyActive, alchemyFetch, alchemyNftList, alchemyCollectionList };

@@ -1,44 +1,44 @@
 // SPDX-License-Identifier: MIT
 pragma solidity 0.8.17;
 
-import "OpenNFTs/contracts/interfaces/IERC165.sol";
+import {IERC165} from "OpenNFTs/contracts/interfaces/IERC165.sol";
 
-import "OpenNFTs/contracts/interfaces/IERC721.sol";
-import "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
-import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
-import "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
+import {IERC721} from "OpenNFTs/contracts/interfaces/IERC721.sol";
+import {IERC721Metadata} from "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
+import {IERC721Enumerable} from "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
+import {IERC721TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
 
-import "OpenNFTs/contracts/interfaces/IERC1155.sol";
-import "OpenNFTs/contracts/interfaces/IERC1155MetadataURI.sol";
-import "OpenNFTs/contracts/interfaces/IERC1155TokenReceiver.sol";
+import {IERC1155} from "OpenNFTs/contracts/interfaces/IERC1155.sol";
+import {IERC1155MetadataURI} from "OpenNFTs/contracts/interfaces/IERC1155MetadataURI.sol";
+import {IERC1155TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC1155TokenReceiver.sol";
 
-import "OpenNFTs/contracts/interfaces/IERC173.sol";
-import "OpenNFTs/contracts/interfaces/IERC2981.sol";
+import {IERC173} from "OpenNFTs/contracts/interfaces/IERC173.sol";
+import {IERC2981} from "OpenNFTs/contracts/interfaces/IERC2981.sol";
 
-import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
-import "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
-import "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
-import "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
+import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
+import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
 
-import "../interfaces/IOpenNFTsV0.sol";
-import "../interfaces/IOpenNFTsV1.sol";
-import "../interfaces/IOpenNFTsV2.sol";
-import "../interfaces/IOpenNFTsV3.sol";
-import "../interfaces/IOpenNFTsV4.sol";
-import "../interfaces/IOpenAutoMarket.sol";
-import "../interfaces/IOpenBound.sol";
+import {IOpenNFTsV0} from "src/interfaces/IOpenNFTsV0.sol";
+import {IOpenNFTsV1} from "src/interfaces/IOpenNFTsV1.sol";
+import {IOpenNFTsV2} from "src/interfaces/IOpenNFTsV2.sol";
+import {IOpenNFTsV3} from "src/interfaces/IOpenNFTsV3.sol";
+import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
+import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
+import {IOpenBound} from "src/interfaces/IOpenBound.sol";
 
-import "../interfaces/ICloneFactoryV2.sol";
-import "../interfaces/INFTsFactoryV2.sol";
-import "../interfaces/IOpenNFTsFactoryV3.sol";
+import {ICloneFactoryV2} from "src/interfaces/ICloneFactoryV2.sol";
+import {INFTsFactoryV2} from "src/interfaces/INFTsFactoryV2.sol";
+import {IOpenNFTsFactoryV3} from "src/interfaces/IOpenNFTsFactoryV3.sol";
 
-import "../interfaces/IOpenNFTsResolver.sol";
+import {IOpenNFTsResolver} from "src/interfaces/IOpenNFTsResolver.sol";
 
-import {IOpenNFTs as IOpenNFTsOld} from "../interfaces/IOpenNFTs.old.sol";
-import "../interfaces/IOpenNFTsV3Plus.sol";
+import {IOpenNFTs as IOpenNFTsOld} from "src/interfaces/IOpenNFTs.old.sol";
+import {IOpenNFTsV3Plus} from "src/interfaces/IOpenNFTsV3Plus.sol";
 
-import "../interfaces/IInterfacesIds.sol";
+import {IInterfacesIds} from "src/interfaces/IInterfacesIds.sol";
 
 /// @title InterfaceIds calculation
 /// @author zapaz.eth
@@ -48,7 +48,7 @@ contract InterfacesIds is IInterfacesIds {
     /// @notice Main and only function to calculate Interface Ids
     /// @notice No params
     /// @return interfacesIds : Array of all interfaceIds
-    function ids() external pure override (IInterfacesIds) returns (bytes4[] memory interfacesIds) {
+    function ids() external pure override(IInterfacesIds) returns (bytes4[] memory interfacesIds) {
         uint256 i;
         uint256 imax = 28;
 

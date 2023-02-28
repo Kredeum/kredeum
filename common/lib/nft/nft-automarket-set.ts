@@ -7,6 +7,7 @@ import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IO
 import type { IERC721 } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "@lib/common/config";
+import { constants } from "ethers";
 
 async function* setTokenRoyaltyInfos(
   chainId: number,
@@ -17,7 +18,7 @@ async function* setTokenRoyaltyInfos(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenRoyaltyInfos", chainId, address, tokenID, fee, receiver);
 
-  if (!(chainId && address && tokenID && fee && receiver)) return {};
+  if (!(chainId && address && address != constants.AddressZero && tokenID && fee && receiver)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return {};
@@ -45,7 +46,7 @@ async function* setTokenApprove(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && tokenID)) return {};
+  if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IERC721)) return {};
@@ -66,7 +67,7 @@ async function* setCollectionApproval(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && approval)) return {};
+  if (!(chainId && address && address != constants.AddressZero && approval)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IERC721)) return;
@@ -88,7 +89,7 @@ async function* setTokenPrice(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice);
 
-  if (!(chainId && address && tokenID && tokenPrice)) return {};
+  if (!(chainId && address && address != constants.AddressZero && tokenID && tokenPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
@@ -108,7 +109,7 @@ async function* setDefautCollectionPrice(
   mintPrice: BigNumber
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setDefautCollectionPrice", chainId, address, mintPrice);
-  if (!(chainId && address && mintPrice)) return;
+  if (!(chainId && address && address != constants.AddressZero && mintPrice)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
@@ -128,7 +129,8 @@ async function* setDefautCollectionRoyalty(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && defaultRoyaltyAmount && defaultRoyaltiesReceiver)) return {};
+  if (!(chainId && address && address != constants.AddressZero && defaultRoyaltyAmount && defaultRoyaltiesReceiver))
+    return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};

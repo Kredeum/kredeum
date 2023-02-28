@@ -29,12 +29,6 @@ console.info("production", production);
 
 const envKeysValues = {};
 for (const envKey of [
-  "INFURA_API_KEY",
-  "ALCHEMY_API_KEY",
-  "ALCHEMY_API_KEY_POLYGON",
-  "COVALENT_API_KEY",
-  "MORALIS_SERVER_URL",
-  "MORALIS_APP_ID",
   "NFT_STORAGE_KEY",
   "GIT_BRANCH",
   "GIT_SHORT"

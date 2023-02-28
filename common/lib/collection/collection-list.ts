@@ -2,10 +2,10 @@ import type { CollectionType } from "@lib/common/types";
 import { getNetwork } from "@lib/common/config";
 import { collectionMerge } from "@lib/collection/collection-get";
 
-import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
-import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";
-import { thegraphGet, thegraphCollectionList } from "@lib/apis/api-thegraph";
-import { moralisGet, moralisCollectionList } from "@lib/apis/api-moralis";
+import { alchemyActive, alchemyCollectionList } from "@lib/apis/api-alchemy";
+import { covalentActive, covalentCollectionList } from "@lib/apis/api-covalent";
+import { thegraphActive, thegraphCollectionList } from "@lib/apis/api-thegraph";
+import { moralisActive, moralisCollectionList } from "@lib/apis/api-moralis";
 import { resolverFilterCollections, resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
 
 // Merge 2 collections list into 1
@@ -44,16 +44,16 @@ const collectionList = async (
     let collectionsResolver: Map<string, CollectionType> = new Map();
 
     // GET user collections
-    if (alchemyGet(chainId)) {
+    if (alchemyActive(chainId)) {
       collectionsApi = await alchemyCollectionList(chainId, account);
       // console.log("collectionList alchemyCollectionList", collectionsApi);
-    } else if (thegraphGet(chainId)) {
+    } else if (thegraphActive(chainId)) {
       collectionsApi = await thegraphCollectionList(chainId, account);
       // console.log("collectionList thegraphCollectionList", collectionsApi);
-    } else if (moralisGet(chainId)) {
+    } else if (moralisActive(chainId)) {
       collectionsApi = await moralisCollectionList(chainId, account);
       // console.log("collectionList moralisCollectionList", collectionsApi);
-    } else if (covalentGet(chainId)) {
+    } else if (covalentActive(chainId)) {
       collectionsApi = await covalentCollectionList(chainId, account);
       // console.log("collectionList covalentCollectionList", collectionsApi);
     }

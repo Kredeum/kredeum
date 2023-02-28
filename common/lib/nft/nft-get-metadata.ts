@@ -9,6 +9,7 @@ import {
   getChecksumAddress
 } from "@lib/common/config";
 import { keyNft } from "@lib/common/keys";
+import { constants } from "ethers";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -23,7 +24,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   const url = nftGetImageLink(nft);
 
   let contentType = "text";
-  if (!(chainId && address && tokenID && url)) return contentType;
+  if (!(chainId && address && address != constants.AddressZero && tokenID && url)) return contentType;
 
   contentType = contentTypesCache.get(url) || "";
   if (contentType) return contentType;
@@ -48,7 +49,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   const { chainId, address, tokenID } = nft || {};
   const network = getNetwork(chainId);
-  if (!(chainId && address && tokenID && network)) return nft;
+  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return nft;
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {

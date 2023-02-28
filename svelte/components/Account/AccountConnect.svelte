@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "@helpers/metamask";
+  import { metamaskConnect, metamaskConnectMessage, metamaskInstallMessage } from "@helpers/metamask";
   import { metamaskSignerAddress } from "@main/metamask";
   import Account from "./Account.svelte";
 
@@ -14,7 +14,7 @@
 
   // change signer on memataskAccount change
   $: signer = $metamaskSignerAddress;
-  $:  console.log("AccountConnect signer CHANGE", signer);
+  $: console.log("AccountConnect signer CHANGE", signer);
 
   const classMetamask = txt ? "" : "btn btn-light btn-metamask";
   const _metamaskInstall = () => window.location.replace("https://metamask.io/download/");
@@ -22,9 +22,6 @@
     evt.preventDefault();
     metamaskConnect();
   };
-
-  // Metamask init
-  // onMount(async () => ({installed: metamaskInstalled} = await metamaskInit()));
 </script>
 
 {#if signer}

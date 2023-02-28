@@ -40,7 +40,7 @@ const resolverGetNfts = async (
   account = constants.AddressZero,
   limit = FETCH_LIMIT
 ): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
-  // console.log("resolverGetNfts", chainId, collection, account, limit);
+  console.log("resolverGetNfts", chainId, collection, account, limit);
   const nfts: Map<string, NftType> = new Map();
 
   const nftsResolver = await resolverGetContract(chainId);
@@ -73,7 +73,7 @@ const resolverGetNftsForTokenIds = async (
   tokenIDs: BigNumber[],
   account = constants.AddressZero
 ): Promise<Map<string, NftType>> => {
-  // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
+  console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
 
   const nfts: Map<string, NftType> = new Map();
 

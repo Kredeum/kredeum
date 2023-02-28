@@ -12,6 +12,8 @@ import { collectionListStore } from "@stores/collection/collectionList";
 import { nftStore } from "./nft";
 import { keyNftList } from "@lib/common/keys";
 
+import { constants } from "ethers";
+
 // STATE VIEW : GET Collection fitered list
 const nftSubListStore = (
   chainId: number,
@@ -22,7 +24,7 @@ const nftSubListStore = (
   console.log(`nftSubListStore ${keyNftList(chainId, address, account)}\n`);
 
   return derived(nftStore.getList, ($nftListStore) => {
-    if (!(chainId && address)) return new Map() as Map<string, NftType>;
+    if (!(chainId && address && address != constants.AddressZero)) return new Map() as Map<string, NftType>;
 
     const nfts = new Map(
       [...$nftListStore].filter(([, nft]) => {
@@ -59,7 +61,7 @@ const nftSubListRefresh = async (
   account?: string,
   tokenID?: string
 ): Promise<void> => {
-  if (!(chainId && address)) return;
+  if (!(chainId && address && address != constants.AddressZero)) return;
   console.log("nftSubListRefresh", chainId, address, account);
 
   const key = collectionStore.getKey(chainId, address);

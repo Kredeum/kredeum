@@ -1,5 +1,6 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
+import { constants } from "ethers";
 
 import type { CollectionType } from "@lib/common/types";
 import { collectionMerge, collectionGet as collectionLib } from "@lib/collection/collection-get";
@@ -12,7 +13,7 @@ import { keyCollection } from "@lib/common/keys";
 // STATE CHANGER : SET one Collection
 const collectionSetOne = (collection: CollectionType): void => {
   const { chainId, address } = collection || {};
-  if (!(chainId && address)) return;
+  if (!(chainId && address && address != constants.AddressZero)) return;
 
   collectionListStore.update(($collectionList: Map<string, CollectionType>): Map<string, CollectionType> => {
     const key = keyCollection(chainId, address);
@@ -30,7 +31,7 @@ const collectionSetOne = (collection: CollectionType): void => {
 const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
   console.log(`collectionRefresh '${chainId}' '${address}' '${account}'`);
 
-  if (!(chainId && address)) return;
+  if (!(chainId && address && address != constants.AddressZero)) return;
   const collection = await collectionLib(chainId, address, account);
 
   collectionSetOne(collection);
@@ -46,7 +47,7 @@ const collectionGetStore = (chainId: number, address: string): Readable<Collecti
 };
 
 const collectionGetAndRefresh = (chainId: number, address: string): Readable<CollectionType> => {
-  if (!(chainId && address)) return;
+  if (!(chainId && address && address != constants.AddressZero)) return;
 
   // STATE VIEW : sync read cache
   const collection = collectionGetStore(chainId, address);

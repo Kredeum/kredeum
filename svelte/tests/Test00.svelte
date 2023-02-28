@@ -3,7 +3,7 @@
   import { getCreate } from "@lib/common/config";
 
   import BreadCrumb from "./BreadCrumb.svelte";
-  import MetamaskSimple from "../tests/Simple/Network/MetamaskSimple.svelte";
+  import MetamaskSimple from "./Simple/Network/MetamaskSimple.svelte";
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";

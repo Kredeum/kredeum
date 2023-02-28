@@ -23,6 +23,7 @@ import {OpenERC721Metadata} from "OpenNFTs/contracts/OpenERC/OpenERC721Metadata.
 import {OpenERC721Enumerable} from "OpenNFTs/contracts/OpenERC/OpenERC721Enumerable.sol";
 import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
 import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
+
 import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
 
 /// @title OpenNFTs smartcontract
@@ -85,11 +86,11 @@ contract OpenNFTsV5 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    // function _mint(address minter, string memory tokenURI) internal returns (uint256 tokenID) {
-    //     tokenID = tokenIdNext++;
+    function _mint(address minter, string memory tokenURI) internal returns (uint256 tokenID) {
+        tokenID = tokenIdNext++;
 
-    //     _mint(minter, tokenURI, tokenID);
-    // }
+        _mint(minter, tokenURI, tokenID);
+    }
 
     function _mint(address minter, string memory tokenURI, uint256 tokenID)
         internal

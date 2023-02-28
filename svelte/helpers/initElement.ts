@@ -1,7 +1,7 @@
 import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
 import { ref2Breadcrumb } from "@helpers/breadcrumb";
 import { providerSetFallback } from "@lib/common/provider-get";
-import {  isAccount } from "@lib/common/config";
+import { isAccount } from "@lib/common/config";
 import { constants } from "ethers";
 
 let done = false;
