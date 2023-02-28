@@ -6,11 +6,11 @@
   "storage": {
     "type": "ipfs",
     "ipfs": {
-      "gateway": "https://nftstorage.link/ipfs/",
+      "gateway": "https://nftstorage.link/ipfs",
       "gatewayDomain": "ipfs.nftstorage.link"
     },
     "swarm": {
-      "gateway": "https://api.gateway.ethswarm.org/bzz/"
+      "gateway": "https://api.gateway.ethswarm.org/bzz"
     }
   },
   "domain": "https://beta.kredeum.com",
