@@ -2,7 +2,7 @@
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import MediaDisplayImage from "./MediaDisplayImage.svelte";
+  import MediaImage from "./MediaImage.svelte";
   /////////////////////////////////////////////////
   //  <DisplayAudio {src} {animation_url} {mode}? {alt}? {index}? {small}? {paused}? />
   // Display a player audio with its cover image according to its entering parameters
@@ -25,7 +25,7 @@
 </script>
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
-  <MediaDisplayImage {src} {alt} />
+  <MediaImage {src} {alt} />
 </div>
 {#if small}
   {#if "list" === mode}

@@ -20,8 +20,8 @@
   import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import InputPrice from "../InputFields/InputPrice.svelte";
-  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+  import InputPrice from "../Input/InputPrice.svelte";
+  import InputEthAddress from "../Input/InputEthAddress.svelte";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -74,9 +74,9 @@
     return !(isAddress(inputReceiver) && isNumeric(inputFee));
   };
 
-  // Context for refreshCollectionList
+  // Context for refreshCollections
   ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshCollections: Writable<number> = getContext("refreshCollections");
   ///////////////////////////////////////////////////////////
 
   const dispatch = createEventDispatcher();
@@ -170,7 +170,7 @@
 
     cloning = S4_COLL_CREATED;
 
-    $refreshCollectionList += 1;
+    $refreshCollections += 1;
   };
 
   const templateName = (template: string) => template?.split("/")[0];

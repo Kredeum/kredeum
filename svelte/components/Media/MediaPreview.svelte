@@ -1,7 +1,7 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import MediaDisplay from "./MediaDisplay.svelte";
+  import Media from "./Media.svelte";
   import { nftStore } from "@stores/nft/nft";
   import { clickOutside } from "@helpers/clickOutside";
   import { nftMediaAnimationUrl, nftMediaContentType } from "@helpers/nft";
@@ -24,13 +24,9 @@
 
 <div class="media-zoom">
   <div class="media">
-    <span
-      class="krd-pointer zoom-hover"
-      on:click={popupToggle}
-      on:keydown={popupToggle}
-    >
+    <span class="krd-pointer zoom-hover" on:click={popupToggle} on:keydown={popupToggle}>
       <i class="fas fa-search" />
-      <MediaDisplay {chainId} {address} {tokenID} mode="preview" />
+      <Media {chainId} {address} {tokenID} mode="preview" />
     </span>
   </div>
 </div>
@@ -44,7 +40,7 @@
           <i class="fa fa-times" />
         </span>
         <div class="modal-body">
-          <MediaDisplay {chainId} {address} {tokenID} mode="preview" small={false} />
+          <Media {chainId} {address} {tokenID} mode="preview" small={false} />
         </div>
       </div>
     </div>

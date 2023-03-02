@@ -4,10 +4,10 @@ import type { CollectionType, NftType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
-import { keyCollectionList, keyNft } from "@lib/common/keys";
+import { keyCollections, keyNft } from "@lib/common/keys";
 
-const alchemyCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`alchemyCollectionList ${keyCollectionList(chainId, account)}\n`);
+const alchemyCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+  // console.log(`alchemyCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
@@ -36,10 +36,10 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
 
   for (let index = 0; index < Math.min(100, totalCount); index++) {
     const ownedNft = ownedNfts[index];
-    // console.log("alchemyCollectionList", ownedNft);
+    // console.log("alchemyCollections", ownedNft);
 
     const address = getChecksumAddress(ownedNft.contract?.address);
-    const collKey = keyCollectionList(chainId, address);
+    const collKey = keyCollections(chainId, address);
 
     const previousCollection = collections.get(collKey);
     const count = Number(previousCollection?.balancesOf?.get(account) || 0);
@@ -51,7 +51,7 @@ const alchemyCollectionList = async (chainId: number, account: string): Promise<
 
     collections.set(collKey, collection);
   }
-  // console.log("alchemyCollectionList OUT", collections);
+  // console.log("alchemyCollections OUT", collections);
   return collections;
 };
 
@@ -132,4 +132,4 @@ const alchemyActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?
 
 const alchemyUrl = (chainId: number): string => (alchemyActive(chainId) && getNetwork(chainId)?.alchemy?.url) || "";
 
-export { alchemyActive, alchemyFetch, alchemyNftList, alchemyCollectionList };
+export { alchemyActive, alchemyFetch, alchemyNftList, alchemyCollections };

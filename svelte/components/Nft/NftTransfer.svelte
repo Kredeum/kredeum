@@ -11,7 +11,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+  import InputEthAddress from "../Input/InputEthAddress.svelte";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
@@ -24,10 +24,10 @@
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
-  // Context for refreshCollectionList & refreshNftsList
+  // Context for refreshCollections & refreshNfts
   ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  let refreshCollections: Writable<number> = getContext("refreshCollections");
+  let refreshNfts: Writable<number> = getContext("refreshNfts");
   ///////////////////////////////////////////////////////////
 
   let transfering: number;
@@ -102,8 +102,8 @@
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
 
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+    $refreshCollections += 1;
+    $refreshNfts += 1;
   };
 
   onMount(() => {

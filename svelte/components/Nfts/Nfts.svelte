@@ -4,10 +4,10 @@
 
   import { explorerCollectionUrl } from "@lib/common/config";
 
-  import NftsListDisplayMode from "./NftsListDisplayMode.svelte";
+  import NftsDisplayMode from "./NftsDisplayMode.svelte";
 
-  import NftsListLines from "./NftsListLines.svelte";
-  import NftsListGrid from "./NftsListGrid.svelte";
+  import NftsLines from "./NftsLines.svelte";
+  import NftsGrid from "./NftsGrid.svelte";
   import { keyCollection } from "@lib/common/keys";
   import CollectionData from "../Collection/CollectionData.svelte";
 
@@ -22,9 +22,9 @@
 
   export let platform: string = "dapp";
 
-  // Context for refreshNftsList & refreshing
+  // Context for refreshNfts & refreshing
   ///////////////////////////////////////////////////////////
-  // let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  // let refreshNfts: Writable<number> = getContext("refreshNfts");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
@@ -49,14 +49,14 @@
         >
       </div>
       <div class="col col-xs-12">
-        <NftsListDisplayMode bind:mode />
+        <NftsDisplayMode bind:mode />
       </div>
     </div>
 
     {#if "list" === mode}
-      <NftsListLines {chainId} {address} {account} {platform} />
+      <NftsLines {chainId} {address} {account} {platform} />
     {:else if "grid" === mode}
-      <NftsListGrid {chainId} {address} {account} bind:tokenID />
+      <NftsGrid {chainId} {address} {account} bind:tokenID />
     {/if}
   {/if}
 </CollectionData>

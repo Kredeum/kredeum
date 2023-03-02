@@ -2,7 +2,7 @@
   import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@lib/common/config";
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 
-  import MediaDisplay from "../Media/MediaDisplay.svelte";
+  import Media from "../Media/Media.svelte";
 
   import { onMount } from "svelte";
 
@@ -44,7 +44,7 @@
   >
     <div id="media-{tokenID || ''}" class="table-col">
       <div class="table-col-content">
-        <MediaDisplay {chainId} {address} {tokenID} {mode} />
+        <Media {chainId} {address} {tokenID} {mode} />
 
         <strong>{nftName($nft)}</strong>
         <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>

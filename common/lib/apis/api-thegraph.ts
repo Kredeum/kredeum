@@ -76,8 +76,8 @@ const thegraphNftList = async (
   return nfts;
 };
 
-const thegraphCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`thegraphCollectionList ${keyCollectionList(chainId, account)}\n`);
+const thegraphCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+  // console.log(`thegraphCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const network = getNetwork(chainId);
@@ -133,7 +133,7 @@ const thegraphCollectionList = async (chainId: number, account: string): Promise
       }
     }
   }
-  // console.log(`thegraphCollectionList ${keyCollectionList(chainId, account)}\n`, collections);
+  // console.log(`thegraphCollections ${keyCollections(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -144,4 +144,4 @@ const thegraphActive = (chainId: number): boolean => Boolean(getNetwork(chainId)
 const thegraphGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.subgraph?.active && getNetwork(chainId)?.subgraph?.url) || "";
 
-export { thegraphCollectionList, thegraphActive, thegraphNftList, thegraphGetUrl, thegraphFetch };
+export { thegraphCollections, thegraphActive, thegraphNftList, thegraphGetUrl, thegraphFetch };

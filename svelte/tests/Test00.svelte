@@ -7,11 +7,11 @@
 
   // import Home from "./HomeView.svelte";
   // import AccountConnect from "../Account/AccountConnect.svelte";
-  // import NetworkListSelect from "../Network/NetworkListSelect.svelte";
-  import CollectionList from "../components/CollectionList/CollectionList.svelte";
-  // import NftsList from "./NftsList.svelte";
-  // import NftsListGet from "../Nft/NftsListGet.svelte";
-  // import RefreshButton from "../Nft/NftsListRefresh.svelte";
+  // import NetworksSelect from "../Network/NetworksSelect.svelte";
+  import Collections from "../components/Collection/Collections.svelte";
+  // import Nfts from "./Nfts.svelte";
+  // import NftsGet from "../Nft/NftsGet.svelte";
+  // import RefreshButton from "../Nft/NftsRefresh.svelte";
   // import { metamaskInit } from "@helpers/metamask";
   // import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   // import Create from "./Create.svelte";
@@ -48,10 +48,10 @@
 
     <!-- <AccountConnect bind:account /> -->
 
-    <!-- <NetworkListSelect bind:chainId /> -->
+    <!-- <NetworksSelect bind:chainId /> -->
 
     {#if chainId && account}
-      <CollectionList {chainId} {account} bind:address mintable={true} />
+      <Collections {chainId} {account} bind:address mintable={true} />
     {/if}
   </div>
 
@@ -59,7 +59,7 @@
     <RefreshButton {refreshing} bind:refresh />
 
     {#if chainId && address}
-      <NftsListGet {chainId} {address} {account} bind:refreshing {refresh} />
+      <NftsGet {chainId} {address} {account} bind:refreshing {refresh} />
     {/if}
   </div> -->
 </main>

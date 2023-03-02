@@ -4,11 +4,11 @@ import type { OpenNFTsV4, OpenNFTsFactoryV3 } from "@soltypes/contracts";
 import type { NetworkType } from "@lib/common/types";
 
 import { collectionList } from "@lib/collection/collection-list";
-import { resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
-import { covalentCollectionList } from "@lib/apis/api-covalent";
-import { thegraphCollectionList } from "@lib/apis/api-thegraph";
+import { resolverGetCollections } from "@lib/resolver/resolver-get-collection";
+import { covalentCollections } from "@lib/apis/api-covalent";
+import { thegraphCollections } from "@lib/apis/api-thegraph";
 
-thegraphCollectionList;
+thegraphCollections;
 
 import { expect } from "chai";
 import { getNetwork } from "@lib/common/config";
@@ -66,7 +66,7 @@ describe.skip("13 List contracts lib", function () {
       // console.log((await nftsFactory.implementationsCount()).toString());
       // console.log(await nftsFactory.balancesOf(owner));
       // console.log(await collectionListFromFactory(chainId, owner, ethers.provider));
-      expect((await resolverGetCollectionList(chainId, ethers.provider, owner)).size).to.be.gte(1);
+      expect((await resolverGetCollections(chainId, ethers.provider, owner)).size).to.be.gte(1);
     }
   });
 
@@ -78,13 +78,13 @@ describe.skip("13 List contracts lib", function () {
 
   it("List with The Graph", async function () {
     if (configNetwork?.subgraph) {
-      expect((await thegraphCollectionList(chainId, owner)).size).to.be.gte(1);
+      expect((await thegraphCollections(chainId, owner)).size).to.be.gte(1);
     }
   });
 
   it("With Covalent", async function () {
     if (configNetwork?.covalent) {
-      expect((await covalentCollectionList(chainId, artist)).size).to.be.gte(1);
+      expect((await covalentCollections(chainId, artist)).size).to.be.gte(1);
     }
   });
 });

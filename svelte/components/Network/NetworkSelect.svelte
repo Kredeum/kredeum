@@ -8,7 +8,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
 
   /////////////////////////////////////////////////
-  // <NetworkListSelect bind:{chainId} {txt} {label} />
+  // <NetworksSelect bind:{chainId} {txt} {label} />
   // Select Network via a list box
   /////////////////////////////////////////////////
   export let chainId: number;

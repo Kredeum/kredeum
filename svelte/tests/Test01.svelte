@@ -2,12 +2,12 @@
   // import type { Readable } from "svelte/store";
 
   // import AccountConnect from "../components/Account/AccountConnect.svelte";
-  import NetworkList from "../components/Network/NetworkList.svelte";
+  import Networks from "../../components/Network/Networks.svelte
   // import NftMintButton from "../Nft/NftMintButton.svelte";
-  // import NftsList from "../components/Nft/NftsList.svelte";
-  import NftsListSimple from "./Simple/NftList/NftListSimple.svelte";
-  // import CollectionList from "../components/Collection/CollectionList.svelte";
-  import CollectionSelectSimple from "../tests/Simple/CollectionList/CollectionSelectSimple.svelte";
+  // import Nfts from "../components/Nft/Nfts.svelte";
+  import NftsSimple from "./Simple/NftList/NftListSimple.svelte";
+  // import Collections from "../components/Collection/Collections.svelte";
+  import CollectionSelectSimple from "../tests/Simple/Collections/CollectionSelectSimple.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
   import MetamaskSimple from "../tests/Simple/Network/MetamaskSimple.svelte";
 
@@ -23,13 +23,13 @@
   <MetamaskSimple bind:signer />
   <!-- <MetamaskSimple /> -->
   <!-- <AccountConnect bind:account /> -->
-  <NetworkList {chainId} />
+  <Networks {chainId} />
 
   <!-- <NftMintButton /> -->
-  <!-- <CollectionList {chainId} bind:address {account} mintable={false} /> -->
+  <!-- <Collections {chainId} bind:address {account} mintable={false} /> -->
   <CollectionSelectSimple {chainId} bind:address {account} />
 
-  <NftsListSimple {chainId} {address} {account} />
+  <NftsSimple {chainId} {address} {account} />
 </div>
 
 <style>

@@ -1,10 +1,10 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
-  import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
+  import NetworksSelectSimple from "./Network/NetworksSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
 
   ////////////////////////////////////////////////////////////////
-  // Home01 : chainId sync between Url, NetworkListSelect and Metamask
+  // Home01 : chainId sync between Url, NetworksSelect and Metamask
   // Dipslay BreadCrumb
   // Display Network Selector
   ////////////////////////////////////////////////////////////////
@@ -18,7 +18,7 @@
     <BreadCrumbSimple bind:chainId />
   </p>
   <p>
-    <NetworkListSelectSimple bind:chainId />
+    <NetworksSelectSimple bind:chainId />
   </p>
   <p>
     <MetamaskSimple bind:chainId />

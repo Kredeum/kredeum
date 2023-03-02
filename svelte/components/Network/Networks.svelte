@@ -1,9 +1,9 @@
 <script lang="ts">
   import {  getNetwork, networks } from "@lib/common/config";
   import Network from "./Network.svelte";
-  
+
   /////////////////////////////////////////////////
-  // <NetworkList {chainId}  />
+  // <Networks {chainId}  />
   // List Networks
   /////////////////////////////////////////////////
   export let chainId: number;

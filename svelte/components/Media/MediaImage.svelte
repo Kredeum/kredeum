@@ -1,6 +1,6 @@
 <script lang="ts">
   /////////////////////////////////////////////////
-  //  <MediaDisplayImage {src} {alt}? {height}? />
+  //  <MediaImage {src} {alt}? {height}? />
   // Display Image
   /////////////////////////////////////////////////
   export let src: string;

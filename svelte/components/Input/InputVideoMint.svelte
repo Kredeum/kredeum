@@ -1,7 +1,7 @@
 <script lang="ts">
   import { SUPPORTED_MEDIATYPES } from "@helpers/mediaTypes";
 
-  import MediaDisplayVideo from "../Media/MediaDisplayVideo.svelte";
+  import MediaVideo from "../Media/MediaVideo.svelte";
 
   ////////////////////////////////////////////////////////////////
   //  <InputVideoMint {videoFile} {video} />
@@ -39,7 +39,7 @@
   <div class="box-file">
     {#if video}
       <div class="kre-video-mint">
-        <MediaDisplayVideo src={video} mode="list" small={true} controls={true} muted={true} />
+        <MediaVideo src={video} mode="list" small={true} controls={true} muted={true} />
 
         <span class="kre-delete-file" on:click={resetFileVideo} on:keydown={resetFileVideo}
           ><i class="fa fa-trash" aria-hidden="true" /></span

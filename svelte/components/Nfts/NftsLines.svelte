@@ -1,7 +1,7 @@
 <script lang="ts">
   import { getOpenSea } from "@lib/common/config";
   import NftLine from "../Nft/NftLine.svelte";
-  import NftsListData from "./NftsListData.svelte";
+  import NftsData from "./NftsData.svelte";
 
   /////////////////////////////////////////////////
   //  <NftListLines {chainId} {address} {account} {platform}? />
@@ -13,7 +13,7 @@
   export let platform = undefined;
 </script>
 
-<NftsListData {chainId} {address} {account} let:nfts>
+<NftsData {chainId} {address} {account} let:nfts>
   <div class="table">
     <div class="table-row table-head hidden-xs">
       <div class="table-col"><span class="label">Media</span></div>
@@ -31,4 +31,4 @@
       {/each}
     {/if}
   </div>
-</NftsListData>
+</NftsData>

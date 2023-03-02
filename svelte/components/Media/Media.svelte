@@ -1,12 +1,12 @@
 <script lang="ts">
-  import MediaDisplayImage from "./MediaDisplayImage.svelte";
-  import MediaDisplayVideo from "./MediaDisplayVideo.svelte";
-  import MediaDisplayAudio from "./MediaDisplayAudio.svelte";
+  import MediaImage from "./MediaImage.svelte";
+  import MediaVideo from "./MediaVideo.svelte";
+  import MediaAudio from "./MediaAudio.svelte";
   import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@helpers/nft";
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <MediaDisplay {chainId} {address} {tokenID} {mode}? {small}? {alt}? />
+  //  <Media {chainId} {address} {tokenID} {mode}? {small}? {alt}? />
   // Display a media according to its type and entering parameters
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -26,7 +26,7 @@
 
 <div id="media-{cssSmall}-{tokenID}" class="media {cssSmall} {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
   {#if nftMediaAnimationUrl($nft)}
-    <MediaDisplayAudio
+    <MediaAudio
       animation_url={nftMediaAnimationUrl($nft)}
       src={nftMediaSrc($nft)}
       alt={nftMediaAlt($nft)}
@@ -35,9 +35,9 @@
       {small}
     />
   {:else if nftMediaContentType($nft) === "image"}
-    <MediaDisplayImage src={nftMediaSrc($nft)} alt={nftMediaAlt($nft)} />
+    <MediaImage src={nftMediaSrc($nft)} alt={nftMediaAlt($nft)} />
   {:else if nftMediaContentType($nft) === "video"}
-    <MediaDisplayVideo src={nftMediaSrc($nft)} {mode} {tokenID} {small} />
+    <MediaVideo src={nftMediaSrc($nft)} {mode} {tokenID} {small} />
   {/if}
 </div>
 

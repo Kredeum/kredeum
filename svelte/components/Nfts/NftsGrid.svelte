@@ -1,9 +1,9 @@
 <script lang="ts">
-  import NftsListData from "./NftsListData.svelte";
+  import NftsData from "./NftsData.svelte";
   import NftGrid from "../Nft/NftGrid.svelte";
 
   /////////////////////////////////////////////////
-  // <NftsListGrid {chainId} {address} {account} />
+  // <NftsGrid {chainId} {address} {account} />
   // Display NFTs List in Grid mode
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -14,7 +14,7 @@
   $: tokenID && console.log("tokenID", tokenID);
 </script>
 
-<NftsListData {chainId} {address} {account} let:nfts>
+<NftsData {chainId} {address} {account} let:nfts>
   <div class="row grid-krd">
     {#if nfts?.size > 0}
       {#each [...nfts.values()] as nft}
@@ -26,4 +26,4 @@
       {/each}
     {/if}
   </div>
-</NftsListData>
+</NftsData>

@@ -2,7 +2,7 @@
   import { initSnippet } from "@helpers/initSnippet";
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
-  import NftsListGrid from "../NftsList/NftsListGrid.svelte";
+  import NftsGrid from "../Nfts/NftsGrid.svelte";
   import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
 
   /////////////////////////////////////////////////////////////////
@@ -32,7 +32,7 @@
 </script>
 
 <div class="nft-automarket">
-    {#each [...$nfts] as [key, nft]}
-      <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
-    {/each}
+  {#each [...$nfts] as [key, nft]}
+    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
+  {/each}
 </div>

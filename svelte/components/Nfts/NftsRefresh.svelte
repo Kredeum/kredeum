@@ -7,16 +7,16 @@
   // Display Network
   /////////////////////////////////////////////////
 
-  // Context for refreshCollectionList & refreshNftsList & refreshing
+  // Context for refreshCollections & refreshNfts & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
+  let refreshCollections: Writable<number> = getContext("refreshCollections");
+  let refreshNfts: Writable<number> = getContext("refreshNfts");
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
   const refreshAll = () => {
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+    $refreshCollections += 1;
+    $refreshNfts += 1;
   };
 </script>
 

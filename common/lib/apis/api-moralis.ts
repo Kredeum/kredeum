@@ -43,7 +43,7 @@ const moralisListAll = async (
   for (const nftMoralis of nftsMoralist.result || []) {
     if (++l > limit) break;
 
-    // console.log("moralisCollectionList ~ nftMoralis", nftMoralis);
+    // console.log("moralisCollections ~ nftMoralis", nftMoralis);
     const address = getChecksumAddress(nftMoralis.token_address);
     const owner = getChecksumAddress(account);
     const balancesOf: Map<string, number> = new Map();
@@ -86,10 +86,10 @@ const moralisNftList = async (
   return nfts;
 };
 
-const moralisCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+const moralisCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   const collections = (await moralisListAll(chainId, account || "")).collections;
 
-  // console.log(`moralisCollectionList OUT ${keyCollectionList(chainId, account)}\n`, collections);
+  // console.log(`moralisCollections OUT ${keyCollections(chainId, account)}\n`, collections);
   return collections;
 };
 
@@ -97,4 +97,4 @@ const moralisActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?
 const moralisGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.moralis?.active && getNetwork(chainId)?.moralis?.url) || "";
 
-export { moralisCollectionList, moralisActive, moralisNftList, moralisGetUrl, moralisListAll };
+export { moralisCollections, moralisActive, moralisNftList, moralisGetUrl, moralisListAll };

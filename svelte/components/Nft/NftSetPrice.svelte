@@ -22,7 +22,7 @@
   import { metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import InputPrice from "../InputFields/InputPrice.svelte";
+  import InputPrice from "../Input/InputPrice.svelte";
   import IncomesPreview from "../Global/IncomesPreview.svelte";
   import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
 

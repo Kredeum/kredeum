@@ -3,7 +3,7 @@
   import type { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
-  //  <MediaDisplayVideo {src} {tokenID}? {mode}? {paused}? {small}? {controls}? {muted}? />
+  //  <MediaVideo {src} {tokenID}? {mode}? {paused}? {small}? {controls}? {muted}? />
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let src: string;

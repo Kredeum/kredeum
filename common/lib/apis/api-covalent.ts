@@ -23,8 +23,8 @@ const covalentFetch = async (chainId: number, path: string): Promise<unknown> =>
   return answerCov?.data;
 };
 
-const covalentCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`covalentCollectionList ${keyCollectionList(chainId, account)}\n`);
+const covalentCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+  // console.log(`covalentCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
@@ -55,7 +55,7 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
   const collectionsCov = answerCollectionsCov?.items;
   if (collectionsCov?.length) {
     // console.log(collectionsCov[0]);
-    // console.log("covalentCollectionList nbContracts", collectionsCov.length);
+    // console.log("covalentCollections nbContracts", collectionsCov.length);
 
     for (let index = 0; index < collectionsCov.length; index++) {
       const collectionCov: CollectionCov = collectionsCov[index];
@@ -78,7 +78,7 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
   }
 
   // console.log(
-  //   `covalentCollectionList ${keyCollectionList(chainId, account)}\n`,
+  //   `covalentCollections ${keyCollections(chainId, account)}\n`,
   //   collections.size,
   //   path,
   //   collections
@@ -161,4 +161,4 @@ const covalentUrlPath = (chainId: number, path: string): string => {
   return `${covalent.url}${path}&key=${covalent.key}`;
 };
 
-export { covalentCollectionList, covalentNftList, covalentActive, covalentFetch };
+export { covalentCollections, covalentNftList, covalentActive, covalentFetch };

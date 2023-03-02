@@ -1,7 +1,7 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionListSimple from "./CollectionList/CollectionListSimple.svelte";
+  import CollectionsSimple from "./Collections/CollectionsSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   /////////////////////////////////////////////////////////////////////////
@@ -36,7 +36,7 @@
     <BreadCrumbSimple bind:chainId bind:account />
   </p>
   <p>
-    <CollectionListSimple bind:chainId {account} />
+    <CollectionsSimple bind:chainId {account} />
   </p>
   <p>
     <MetamaskSimple bind:chainId bind:signer />

@@ -8,10 +8,10 @@
   import BreadCrumb from "../Global/BreadCrumb.svelte";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
-  // import NetworkList from "../Network/NetworkList.svelte";
+  // import Networks from "../Network/Networks.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionSelect from "../CollectionList/CollectionSelect.svelte";
-  import NftsList from "../NftsList/NftsList.svelte";
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
+  import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount } from "svelte";
@@ -82,7 +82,7 @@
         <AccountConnect bind:signer />
       </div>
 
-      <!-- <NetworkList {chainId} /> -->
+      <!-- <Networks {chainId} /> -->
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
         <NetworkSelect bind:chainId />
       </div>
@@ -105,7 +105,7 @@
 
         <Nft {chainId} {address} {tokenID} {account} />
       {:else}
-        <NftsList {chainId} {address} {account} bind:tokenID />
+        <Nfts {chainId} {address} {account} bind:tokenID />
       {/if}
     {/if}
   </span>

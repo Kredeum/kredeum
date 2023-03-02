@@ -8,7 +8,7 @@
 
   import { explorerCollectionUrl } from "@lib/common/config";
 
-  import Collection from "../Collection/Collection.svelte";
+  import Collection from "./Collection.svelte";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
@@ -21,7 +21,7 @@
   } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
-  // <CollectionList chainId} bind:{address} {account} {mintable} {label} {txt} />
+  // <Collections chainId} bind:{address} {account} {mintable} {label} {txt} />
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
@@ -31,9 +31,9 @@
   export let label: boolean = true;
   export let txt: boolean = false;
 
-  // Context for refreshCollectionList & refreshing
+  // Context for refreshCollections & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
+  let refreshCollections: Writable<number> = getContext("refreshCollections");
   let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
@@ -43,9 +43,9 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshCollectionList, mintable, chainId && account && handleChangeCollection();
+  $: $refreshCollections, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollectionList(chainId, account, mintable)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, null, mintable);

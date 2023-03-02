@@ -89,7 +89,7 @@ const _nftListWithMetadata = async (
 };
 
 // const nftListCache = (chainId?: number, collection?: string, account?: string): Map<string, NftType> =>
-//   storeNftsList(chainId, collection, account);
+//   storeNfts(chainId, collection, account);
 
 const nftList = async (
   chainId: number,

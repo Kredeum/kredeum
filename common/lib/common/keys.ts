@@ -8,7 +8,7 @@ const keyCollection = (chainId: number, address: string, account?: string): stri
 const keyCollectionDefault = (chainId: number, account: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
-const keyCollectionList = (chainId: number, account?: string, mintable = false): string =>
+const keyCollections = (chainId: number, account?: string, mintable = false): string =>
   `collectionList${mintable ? "Mintable" : ""}://${String(chainId)}${account ? "@" + account : ""}`;
 
 const keyNft = (chainId: number, address: string, tokenID: string, account?: string): string =>
@@ -17,4 +17,4 @@ const keyNft = (chainId: number, address: string, tokenID: string, account?: str
 const keyNftList = (chainId: number, address: string, account?: string): string =>
   `nftList://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
-export { keyNft, keyNftList, keyCollection, keyCollectionDefault, keyCollectionList, keyCollectionContract };
+export { keyNft, keyNftList, keyCollection, keyCollectionDefault, keyCollections, keyCollectionContract };
