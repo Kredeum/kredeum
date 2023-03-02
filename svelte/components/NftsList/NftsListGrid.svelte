@@ -18,11 +18,11 @@
   <div class="row grid-krd">
     {#if nfts?.size > 0}
       {#each [...nfts.values()] as nft}
-        {#if nft.owner === account}
+        <!-- {#if nft.owner === account} -->
           <div class="col col-xs-12 col-sm-4 col-md-3 col-lg-2" on:mousedown={() => (tokenID = nft.tokenID)}>
-            <NftGrid chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
+            <NftGrid chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID}  />
           </div>
-        {/if}
+        <!-- {/if} -->
       {/each}
     {/if}
   </div>

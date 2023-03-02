@@ -36,7 +36,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  export let platform: string = undefined;
+  export let platform: string = "wordpress";
   /////////////////////////////////////////////////////////////
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
@@ -317,7 +317,7 @@
   }
 
   .kre-media {
-    max-height: 19vw;
+    max-height: 33vh;
   }
 
   .kre-action-buttons {

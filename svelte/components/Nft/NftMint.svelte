@@ -24,7 +24,7 @@
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
-  import {  metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
+  import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionList from "../CollectionList/CollectionList.svelte";
@@ -76,7 +76,6 @@
   /////////////////////////////////////////////////
   let properties: Properties;
   /////////////////////////////////////////////////
-
 
   let price: BigNumber;
   let inputPriceError = "";
@@ -492,7 +491,7 @@
             {:else if minting >= S2_STORE_IMAGE && minting <= S6_MINTED}
               <div class="media media-photo">
                 {#if inputMediaType === "video"}
-                  <MediaDisplayVideo mediaSrc={image} small={true} />
+                  <MediaDisplayVideo src={image} small={true} />
                 {:else}
                   <img src={image} alt="nft" />
                 {/if}

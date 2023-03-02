@@ -15,8 +15,8 @@ const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}`;
 
 const nftSetOne = (nft: NftType): void => {
-  // console.log("nftSetOne", chainId, address, tokenID);
   const { chainId, address, tokenID } = nft || {};
+  // console.log("nftSetOne", chainId, address, tokenID);
   if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {

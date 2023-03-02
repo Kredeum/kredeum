@@ -1,5 +1,5 @@
 <script lang="ts">
-  import {  getCreate } from "@lib/common/config";
+  import { getCreate } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -9,8 +9,8 @@
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworkList from "../Network/NetworkList.svelte";
-  import NetworkListSelect from "./NetworkListSelect.svelte";
-  import CollectionListSelect from "../CollectionList/CollectionListSelect.svelte";
+  import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import CollectionSelect from "../CollectionList/CollectionSelect.svelte";
   import NftsList from "../NftsList/NftsList.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
@@ -18,7 +18,7 @@
   import { initDapp } from "@helpers/initDapp";
 
   ////////////////////////////////////////////////////////////////////
-  // <Home />
+  // <Dapp />
   ////////////////////////////////////////////////////////////////////
   let chainId: number;
   let address: string;
@@ -55,7 +55,7 @@
 
   onMount(async () => {
     const data = await initDapp();
-    console.log("<Home ", data);
+    console.log("<Dapp ", data);
 
     ({ chainId, address, tokenID, account, signer } = data);
   });
@@ -84,12 +84,12 @@
 
       <!-- <NetworkList {chainId} /> -->
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <NetworkListSelect bind:chainId />
+        <NetworkSelect bind:chainId />
       </div>
 
       {#if chainId}
         <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-          <CollectionListSelect {chainId} bind:address {account} />
+          <CollectionSelect {chainId} bind:address {account} />
         </div>
       {/if}
     </div>

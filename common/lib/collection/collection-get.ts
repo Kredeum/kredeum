@@ -16,12 +16,11 @@ const collectionGetContract = async (
   chainId: number,
   address: string,
   getSigner = false
-): Promise<{ contract?: Contract; collection?: CollectionType; signer?: string }> => {
+): Promise<{ contract?: Contract; collection: CollectionType; signer?: string }> => {
   // console.log(`collectionGetContract  IN ${keyCollection(chainId, address)}\n`);
 
-  if (!(chainId && address && address != constants.AddressZero)) return {};
-
   const collection = await collectionGet(chainId, address);
+  if (!(chainId && address && address != constants.AddressZero)) return { collection };
 
   let signer = "";
   let contract = contractsCache.get(keyCollectionContract(chainId, address, getSigner));

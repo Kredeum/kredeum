@@ -20,7 +20,7 @@
 </script>
 
 <div class="nft-automarket">
-  <Nft {chainId} {address} {tokenID} platform="wordpress" />
+  <Nft {chainId} {address} {tokenID} {platform} />
 </div>
 
 <style>

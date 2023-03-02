@@ -3,12 +3,12 @@
   import type { Writable } from "svelte/store";
 
   /////////////////////////////////////////////////
-  //  <MediaDisplayVideo {mediaSrc} {tokenID}? {displayMode}? {paused}? {small}? {controls}? {muted}? />
+  //  <MediaDisplayVideo {src} {tokenID}? {mode}? {paused}? {small}? {controls}? {muted}? />
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
-  export let mediaSrc: string;
+  export let src: string;
   export let tokenID: string = undefined;
-  export let displayMode: string = "list";
+  export let mode: string = "list";
   export let paused: boolean = true;
   export let small: boolean = false;
   export let controls: boolean = false;
@@ -23,30 +23,22 @@
 </script>
 
 {#if small}
-  {#if "grid" === displayMode}
-    <video
-      autoplay={false}
-      src={mediaSrc}
-      preload="metadata"
-      loop
-      playsinline
-      style="border-radius: initial;"
-      bind:paused
-    >
+  {#if "grid" === mode}
+    <video autoplay={false} {src} preload="metadata" loop playsinline style="border-radius: initial;" bind:paused>
       <track kind="captions" />
     </video>
     <button on:click={playVideo} class="video-play-button">
       <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
     </button>
-  {:else if "list" === displayMode}
+  {:else if "list" === mode}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={false} playsinline style="border-radius: initial;" {controls} {muted}>
-      <source src={mediaSrc} type="video/mp4" /></video
+      <source {src} type="video/mp4" /></video
     >
   {:else}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={true} preload="metadata" controls loop playsinline muted style="border-radius: initial;">
-      <source src={mediaSrc} type="video/mp4" /></video
+      <source {src} type="video/mp4" /></video
     >
   {/if}
 {:else}
@@ -60,7 +52,7 @@
     preload="metadata"
     style="border-radius: initial;"
   >
-    <source src={mediaSrc} type="video/mp4" /></video
+    <source {src} type="video/mp4" /></video
   >
 {/if}
 

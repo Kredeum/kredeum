@@ -4,13 +4,13 @@
 
   import MediaDisplayImage from "./MediaDisplayImage.svelte";
   /////////////////////////////////////////////////
-  //  <DisplayAudio {mediaSrc} {animation_url} {displayMode}? {alt}? {index}? {small}? {paused}? />
+  //  <DisplayAudio {src} {animation_url} {mode}? {alt}? {index}? {small}? {paused}? />
   // Display a player audio with its cover image according to its entering parameters
   /////////////////////////////////////////////////
-  export let mediaSrc: string;
+  export let src: string;
   export let tokenID: string = undefined;
   export let animation_url: string;
-  export let displayMode: string = "list";
+  export let mode: string = "list";
   export let alt: string = "Cover image";
   export let small: boolean = true;
   export let paused: boolean = true;
@@ -18,17 +18,17 @@
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
   $: paused = $toPlayTokenID !== tokenID;
   const playAudio = () => {
-    if ("preview" !== displayMode) {
+    if ("preview" !== mode) {
       $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
     }
   };
 </script>
 
 <div class="audio-cover-image {small ? '' : 'audioDeployed'}">
-  <MediaDisplayImage {mediaSrc} {alt} />
+  <MediaDisplayImage {src} {alt} />
 </div>
 {#if small}
-  {#if "list" === displayMode}
+  {#if "list" === mode}
     <audio preload="none" bind:paused src={animation_url}>
       <track kind="captions" />
       Your browser does not support the

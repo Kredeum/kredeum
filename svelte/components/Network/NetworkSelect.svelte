@@ -3,7 +3,7 @@
   import { getChainName, getNetwork, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
-  import Network from "../Network/Network.svelte";
+  import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
 

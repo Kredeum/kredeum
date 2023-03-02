@@ -23,7 +23,7 @@
   $: nft = nftStore.getOne(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 
-  let displayMode: string = "list";
+  let mode: string = "list";
 
   // let i = 1;
   const moreToggle = (id: string): void => {
@@ -35,56 +35,54 @@
   onMount(() => more == -1 && moreToggle("-1"));
 </script>
 
+{#if $nft}
+  <div
+    id="table-drop-{tokenID || ''}"
+    class="table-row table-drop"
+    class:closed={!more}
+    style="height: {more ? `${more}px` : 'auto'};"
+  >
+    <div id="media-{tokenID || ''}" class="table-col">
+      <div class="table-col-content">
+        <MediaDisplay {chainId} {address} {tokenID} {mode} />
 
-  {#if $nft}
-    <div
-      id="table-drop-{tokenID || ''}"
-      class="table-row table-drop"
-      class:closed={!more}
-      style="height: {more ? `${more}px` : 'auto'};"
-    >
-      <div id="media-{tokenID || ''}" class="table-col">
-        <div class="table-col-content">
-          <MediaDisplay {chainId} {address} {tokenID} {displayMode} />
-
-          <strong>{nftName($nft)}</strong>
-          <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>
-          <a
-            class="info-button"
-            href={nftGetImageLink($nft)}
-            title="&#009;{nftDescription($nft)}
+        <strong>{nftName($nft)}</strong>
+        <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>
+        <a
+          class="info-button"
+          href={nftGetImageLink($nft)}
+          title="&#009;{nftDescription($nft)}
                 NFT address (click to view in explorer)&#013.{nftUrl($nft)}"
-            target="_blank"
-            rel="noreferrer"><i class="fas fa-info-circle" /></a
-          >
-        </div>
-      </div>
-
-      <div id="marketplace-{tokenID || ''}" class="table-col">
-        <div class="table-col-content">
-          <span id="token-id-{tokenID || ''}" title="  #{tokenID}">
-            &nbsp;&nbsp;<strong>#{textShort(tokenID)}</strong>
-          </span>
-        </div>
-      </div>
-
-      <div
-        id="more-{tokenID || ''}"
-        class="table-col more"
-        on:click={() => moreToggle(tokenID)}
-        on:keydown={() => moreToggle(tokenID)}
-      >
-        <div class="table-col-content txtright">
-          <div class="more-button"><i class="fas fa-chevron-down" /></div>
-        </div>
-      </div>
-
-      <div id="more-detail-{tokenID || ''}" class="detail">
-        <Nft chainId={chainId} address={address} tokenID={tokenID} {account} {platform} />
+          target="_blank"
+          rel="noreferrer"><i class="fas fa-info-circle" /></a
+        >
       </div>
     </div>
-  {/if}
 
+    <div id="marketplace-{tokenID || ''}" class="table-col">
+      <div class="table-col-content">
+        <span id="token-id-{tokenID || ''}" title="  #{tokenID}">
+          &nbsp;&nbsp;<strong>#{textShort(tokenID)}</strong>
+        </span>
+      </div>
+    </div>
+
+    <div
+      id="more-{tokenID || ''}"
+      class="table-col more"
+      on:click={() => moreToggle(tokenID)}
+      on:keydown={() => moreToggle(tokenID)}
+    >
+      <div class="table-col-content txtright">
+        <div class="more-button"><i class="fas fa-chevron-down" /></div>
+      </div>
+    </div>
+
+    <div id="more-detail-{tokenID || ''}" class="detail">
+      <Nft {chainId} {address} {tokenID} {account} {platform} />
+    </div>
+  </div>
+{/if}
 
 <style>
   .detail {

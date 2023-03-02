@@ -135,12 +135,12 @@ class Settings {
 
 			case 'kmetamask':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<div id="kredeum-metamask" txt="true"/>' );
+				printf( '<div id="kredeum-network-select" txt="true"/>' );
 				break;
 
 			case 'kcollections':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<div id="kredeum-select-collection" txt="true" filter="true" />' );
+				printf( '<div id="kredeum-collection-choice" txt="true" filter="true" />' );
 				break;
 
 			case 'text':

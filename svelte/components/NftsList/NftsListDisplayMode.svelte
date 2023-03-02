@@ -1,11 +1,11 @@
 <script lang="ts">
-  export let displayMode: string = "grid";
+  export let mode: string = "grid";
 </script>
 
 <div id="displayListMode" class="col col-xs-12 col-sm-5">
   <div class="box-fields">
     <input
-      bind:group={displayMode}
+      bind:group={mode}
       class="box-field"
       id="display-grid-type"
       name="nfts-display-type"
@@ -15,7 +15,7 @@
     <label class="field" for="display-grid-type"><i class="fas fa-th" /></label>
 
     <input
-      bind:group={displayMode}
+      bind:group={mode}
       class="box-field"
       id="display-list-type"
       name="nfts-display-type"

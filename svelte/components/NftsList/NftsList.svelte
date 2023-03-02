@@ -28,7 +28,7 @@
   let refreshing: Writable<boolean> = getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
-  let displayMode: string = "grid";
+  let mode: string = "grid";
 </script>
 
 <CollectionData {chainId} {address} {account} let:collection>
@@ -49,13 +49,13 @@
         >
       </div>
       <div class="col col-xs-12">
-        <NftsListDisplayMode bind:displayMode />
+        <NftsListDisplayMode bind:mode />
       </div>
     </div>
 
-    {#if "list" === displayMode}
+    {#if "list" === mode}
       <NftsListLines {chainId} {address} {account} {platform} />
-    {:else if "grid" === displayMode}
+    {:else if "grid" === mode}
       <NftsListGrid {chainId} {address} {account} bind:tokenID />
     {/if}
   {/if}

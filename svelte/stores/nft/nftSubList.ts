@@ -14,7 +14,7 @@ import { keyNftList } from "@lib/common/keys";
 
 import { constants } from "ethers";
 
-// STATE VIEW : GET Collection fitered list
+// STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
   chainId: number,
   address: string,
@@ -94,4 +94,21 @@ const nftSubListRefresh = async (
   }
 };
 
-export { nftSubListStore, nftSubListRefresh };
+const nftSubListGetStoreAndRefresh = (
+  chainId: number,
+  address: string,
+  account?: string,
+  tokenID?: string
+): Readable<Map<string, NftType>> => {
+  if (!(chainId && address && address != constants.AddressZero)) return;
+
+  // STATE VIEW : sync read cache
+  const nfts = nftSubListStore(chainId, address, account, tokenID);
+
+  // ACTION : async refresh from lib onchain data
+  nftSubListRefresh(chainId, address, account, tokenID).catch(console.error);
+
+  return nfts;
+};
+
+export { nftSubListStore, nftSubListRefresh, nftSubListGetStoreAndRefresh };

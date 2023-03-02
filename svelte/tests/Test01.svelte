@@ -7,7 +7,7 @@
   // import NftsList from "../components/Nft/NftsList.svelte";
   import NftsListSimple from "./Simple/NftList/NftListSimple.svelte";
   // import CollectionList from "../components/Collection/CollectionList.svelte";
-  import CollectionListSelectSimple from "../tests/Simple/CollectionList/CollectionListSelectSimple.svelte";
+  import CollectionSelectSimple from "../tests/Simple/CollectionList/CollectionSelectSimple.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
   import MetamaskSimple from "../tests/Simple/Network/MetamaskSimple.svelte";
 
@@ -27,7 +27,7 @@
 
   <!-- <NftMintButton /> -->
   <!-- <CollectionList {chainId} bind:address {account} mintable={false} /> -->
-  <CollectionListSelectSimple {chainId} bind:address {account} />
+  <CollectionSelectSimple {chainId} bind:address {account} />
 
   <NftsListSimple {chainId} {address} {account} />
 </div>

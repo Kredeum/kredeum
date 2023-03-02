@@ -17,7 +17,7 @@
   } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////////////////////
-  // <CollectionListSelect {chainId} bind:address {account} />
+  // <CollectionSelect {chainId} bind:address {account} />
   // Collection Select address on a network for an account
   /////////////////////////////////////////////////////////////////
   export let chainId: number;

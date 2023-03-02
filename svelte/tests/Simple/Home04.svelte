@@ -2,7 +2,7 @@
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import CollectionSelectSimple from "./CollectionList/CollectionSelectSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -35,7 +35,7 @@
     <NetworkListSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionListSelectSimple bind:chainId bind:address {account} />
+    <CollectionSelectSimple bind:chainId bind:address {account} />
   </p>
   <p>
     <MetamaskSimple bind:chainId bind:signer />

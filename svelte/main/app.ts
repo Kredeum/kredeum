@@ -1,10 +1,11 @@
-// import Home from "../tests/Simple/Home08.svelte";
-// import Home from "../tests/Test02.svelte";
-import Home from "../components/Main/Home.svelte";
+// import Dapp from "../tests/Simple/Home08.svelte";
+// import Dapp from "../tests/Test02.svelte";
+import Dapp from "../components/Main/Dapp.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
 import NftAutoMarket from "../components/Main/NftAutomarket.svelte";
-import NftMintButton from "../components/Main/CollectionChoice.svelte";
-import NetworkListSelect from "../components/Main/NetworkListSelect.svelte";
+import AutoMarket from "../components/Main/Automarket.svelte";
+import NftMintButton from "../components/Main/NftMintButton.svelte";
+import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
@@ -21,6 +22,8 @@ const _props = (target: HTMLElement): Props => {
     if (attrName === "chainid") {
       attrName = "chainId";
       value = Number(value);
+    } else if (attrName === "tokenids") {
+      attrName = "tokenIDs";
     } else if (attrName === "tokenid") {
       attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
@@ -34,72 +37,66 @@ const _props = (target: HTMLElement): Props => {
   return props;
 };
 
-let kredeumHome: Home;
 {
-  // Kredeum Dapp component
-  const target: HTMLElement = document.querySelector("#kredeum-app");
+  // Kredeum Dapp component (Dapp)
+  const target: HTMLElement = document.querySelector("#kredeum-dapp");
+  if (target) new Dapp({ target });
+}
+
+type AutoMarketPropsType = { chainId: number; address: string; tokenIDs: string; platform?: string };
+{
+  // Kredeum AutoMarket (Multiple NFTs)
+  const target: HTMLElement = document.querySelector("#kredeum-automarket");
   if (target) {
-    kredeumHome = new Home({
-      target,
-      props: _props(target) as { storage?: string; platform?: string }
-    });
+    const props = _props(target) as AutoMarketPropsType;
+    new AutoMarket({ target, props });
   }
 }
 
-const nftAutoMarket: Array<NftAutoMarket> = [];
+type NftAutoMarketPropsType = { chainId: number; address: string; tokenID: string; platform?: string };
 {
-  // Kredeum buy nft components
+  // Kredeum NFT AutoMarket (One NFT)
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nft-automarket");
-  targets?.forEach((target, i) => {
-    nftAutoMarket[i] = new NftAutoMarket({
-      target,
-      props: _props(target) as { chainId: number; address: string; tokenID: string; platform: string }
-    });
-  });
-}
-
-const kredeumMintButton: Array<NftMintButton> = [];
-{
-  // Kredeum Mint button components
-  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nfts-mint");
-  targets?.forEach((target, i) => {
-    kredeumMintButton[i] = new NftMintButton({
-      target,
-      props: _props(target) as {
-        src: string;
-        metadata?: string;
-        alt?: string;
-        pid?: string;
-        nid?: string;
-        width?: number;
-        display?: boolean;
-      }
-    });
-  });
-}
-
-let kredeumCollectionList: CollectionChoice;
-{
-  // Kredeum List Collections component
-  const target: HTMLElement = document.querySelector("#kredeum-select-collection");
-  if (target) {
-    kredeumCollectionList = new CollectionChoice({
-      target,
-      props: _props(target) as { address?: string; txt?: boolean }
-    });
+  for (const target of targets) {
+    const props = _props(target) as NftAutoMarketPropsType;
+    new NftAutoMarket({ target, props });
   }
 }
 
-let network: NetworkListSelect;
+type NftMintButtonPropsType = {
+  src: string;
+  metadata?: string;
+  alt?: string;
+  pid?: string;
+  nid?: string;
+  width?: number;
+  display?: boolean;
+};
+{
+  // Kredeum Mint Button
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nft-mint-button");
+  targets?.forEach((target) => {
+    const props = _props(target) as NftMintButtonPropsType;
+    new NftMintButton({ target, props });
+  });
+}
+
+type CollectionChoicePropsType = { address?: string; txt?: boolean };
+{
+  // Kredeum List Collections
+  const target: HTMLElement = document.querySelector("#kredeum-collection-choice");
+  if (target) {
+    const props = _props(target) as CollectionChoicePropsType;
+    new CollectionChoice({ target, props });
+  }
+}
+
+type NetworkSelectPropsType = { chainId: number; txt?: boolean; label?: boolean };
 {
   // Kredeum Metamask component
-  const target: HTMLElement = document.querySelector("#kredeum-metamask");
+  const target: HTMLElement = document.querySelector("#kredeum-network-select");
   if (target) {
-    network = new NetworkListSelect({
-      target,
-      props: _props(target) as { chainId?: number; txt?: boolean; label?: boolean }
-    });
+    const props = _props(target) as NetworkSelectPropsType;
+    new NetworkSelect({ target, props });
   }
 }
-
-export { kredeumHome, kredeumMintButton, nftAutoMarket, kredeumCollectionList, network };

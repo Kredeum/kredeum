@@ -17,7 +17,7 @@
 
 {#if $nft}
   <div class="grid-card-krd" data-tokenid={tokenID || ""}>
-    <MediaDisplay {chainId} {address} {tokenID} displayMode="grid" />
+    <MediaDisplay {chainId} {address} {tokenID} mode="grid" />
     <div class="caption">
       <h3>{nftName($nft)}</h3>
     </div>

@@ -42,7 +42,7 @@ add_action(
 			$metadata = get_metadata( 'post', $post->ID );
 
 			printf(
-				'<div class="kredeum-nfts-mint"'
+				'<div class="kredeum-nft-mint-button"'
 				// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
 				// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'

@@ -21,18 +21,18 @@ function _ajax(data) {
 
 jQuery(document).ready(function () {
   // ACTION MINT_TOKEN
-  document.addEventListener('token', (e) => {
+  document.addEventListener("token", (e) => {
     _ajax({
       action: "token",
       nid: e.detail.nid,
       pid: e.detail.pid,
-      cid: e.detail.cid
+      cid: e.detail.cid,
     });
-  })
+  });
 
-  // const targets = document.querySelectorAll(".kredeum-nfts-mint");
+  // const targets = document.querySelectorAll(".kredeum-nft-mint-button");
   // console.log("targets", targets)
-  
+
   // targets?.forEach(function (kredeumNftsMint) {
   //   if (kredeumNftsMint.$on) {
   //     kredeumNftsMint.$on("token", function (e) {
@@ -46,13 +46,13 @@ jQuery(document).ready(function () {
   //   }
   // });
 
-  const kredeumNfts = document.querySelector("#kredeum-app");
+  const kredeumNfts = document.querySelector("#kredeum-dapp");
   if (kredeumNfts?.$on) {
     // ACTION CREATE_COLLECTION
     kredeumNfts.$on("collection", function (e) {
       _ajax({
         action: "collection",
-        collection: e.detail.collection
+        collection: e.detail.collection,
       });
     });
 
@@ -60,7 +60,7 @@ jQuery(document).ready(function () {
     kredeumNfts.$on("import", function (e) {
       _ajax({
         action: "import",
-        nft: JSON.stringify(e.detail.nft)
+        nft: JSON.stringify(e.detail.nft),
       });
     });
   }

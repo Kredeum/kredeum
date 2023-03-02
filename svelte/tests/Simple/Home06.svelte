@@ -2,7 +2,7 @@
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import CollectionSelectSimple from "./CollectionList/CollectionSelectSimple.svelte";
   import NftListSelectSimple from "./NftList/NftListSelectSimple.svelte";
   import NftSimple from "./Nft/NftSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
@@ -39,7 +39,7 @@
     <NetworkListSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionListSelectSimple {chainId} bind:address {account} />
+    <CollectionSelectSimple {chainId} bind:address {account} />
   </p>
   <p>
     <NftListSelectSimple {chainId} {address} {account} bind:tokenID />
