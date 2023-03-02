@@ -1,4 +1,4 @@
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
@@ -27,13 +27,9 @@ const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType
 
 const nftListTokenIds = async (
   chainId: number,
-  address: string,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  // console.log("nftListTokenIds", chainId, collection.address, account, limit);
-
   let nfts: Map<string, NftType> = new Map();
   let nftsOwner: Map<string, NftType> = new Map();
   let nftsKredeum: Map<string, NftType> = new Map();
@@ -41,21 +37,18 @@ const nftListTokenIds = async (
 
   if (network) {
     if (alchemyActive(chainId)) {
-      nftsOwner = await alchemyNftList(chainId, collection, account, limit);
-      // console.log("nftListTokenIds alchemyNftList", nftsOwner);
+      nftsOwner = await alchemyNftList(chainId, collection, filter);
     } else if (thegraphActive(chainId)) {
-      nftsOwner = await thegraphNftList(chainId, collection, account, limit);
-      // console.log("nftListTokenIds thegraphNftList", nftsOwner);
-    } else if (moralisActive(chainId)) {
-      nftsOwner = await moralisNftList(chainId, collection, account, limit);
+      nftsOwner = await thegraphNftList(chainId, collection, filter);
     } else if (covalentActive(chainId)) {
-      nftsOwner = await covalentNftList(chainId, collection, account, limit);
-      // console.log("nftListTokenIds covalentNftList", nftsOwner);
+      nftsOwner = await covalentNftList(chainId, collection, filter);
+    } else if (moralisActive(chainId)) {
+      nftsOwner = await moralisNftList(chainId, collection, filter);
     } else {
       console.error("No NFTs found:-(");
     }
 
-    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, account, limit));
+    ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, filter));
   }
   // console.log("nftListTokenIds", nfts);
 
@@ -67,23 +60,23 @@ const nftListTokenIds = async (
 
 const _nftListWithMetadata = async (
   nfts: Map<string, NftType>,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
+  const limit = filter.limit || FETCH_LIMIT;
   // console.log("_nftListWithMetadata", chainId, collection);
 
   const nftsWithMetadata: Map<string, NftType> = new Map();
-
   const nftsFromIds = [...nfts.values()];
 
-  for (let index = 0; index < Math.min(nftsFromIds.length, limit); index++) {
-    const nft = await nftGetMetadata(nftsFromIds[index]);
-    // console.log("_nftListWithMetadata nid", nft.nid, nft);
-    if (nft) {
-      nftsWithMetadata.set(nft.nid || "", nft);
-    }
-  }
+  let index = 0;
+  for (const nftFromIds of nftsFromIds) {
+    if (index++ >= limit) break;
 
+    const nft = await nftGetMetadata(nftFromIds);
+
+    if (nft) nftsWithMetadata.set(nft.nid || "", nft);
+  }
+  
   // console.log(`_nftListWithMetadata from ${collection}`, nftsWithMetadata);
   return nftsWithMetadata;
 };
@@ -93,15 +86,13 @@ const _nftListWithMetadata = async (
 
 const nftList = async (
   chainId: number,
-  address: string,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
   // console.log("nftList", chainId, collection, account, limit);
 
-  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(chainId, address, collection, account, limit);
-  const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, account, limit);
+  const nftsTokenIds: Map<string, NftType> = await nftListTokenIds(chainId, collection, filter);
+  const nftsWithMetadata: Map<string, NftType> = await _nftListWithMetadata(nftsTokenIds, filter);
 
   // console.log("nftList", nftsWithMetadata);
 

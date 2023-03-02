@@ -9,7 +9,7 @@ let done = false;
 const initElement = async (chainId: number, address: string, tokenID: string, account = constants.AddressZero) => {
   if (done) return;
 
-  console.log("INIT DOING");
+  console.log("INIT START");
   done = true;
 
   // GET datas from Metamask (after init and if installed)
@@ -36,7 +36,7 @@ const initElement = async (chainId: number, address: string, tokenID: string, ac
   // SET chainId to mainnet if not setted
   chainId ||= 1;
 
-  console.log("INIT END", ref2Breadcrumb({ chainId, address, tokenID, account, signer }));
+  console.log("INIT  END ", ref2Breadcrumb({ chainId, address, tokenID, account, signer }));
   return { chainId, address, tokenID, account, signer };
 };
 

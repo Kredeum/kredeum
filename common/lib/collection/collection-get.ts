@@ -73,7 +73,7 @@ const collectionGet = async (chainId: number, address: string, account?: string)
   let collection: CollectionType = { chainId, address };
   if (!(chainId && address && address != constants.AddressZero)) return collection;
 
-  console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
+  // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
 
   type TxError = { reason: string };
   try {

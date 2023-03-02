@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { owner } from "@main/network";
   import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
 
   ////////////////////////////////////////////////////////////////////////
@@ -8,8 +9,12 @@
   export let chainId: number;
   export let address: string;
   export let account: string = undefined;
+  export let offset = 0;
+  export let limit = 18;
+
   ////////////////////////////////////////////////////////////////////////
-  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, account);
+  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { owner: account, offset, limit });
+  // $: nfts = nftSubListGetStoreAndRefresh(chainId, address, {  offset, limit });
   ////////////////////////////////////////////////////////////////////////
 </script>
 

@@ -7,7 +7,7 @@ const initVersion = () => {
   const branch = process.env.GIT_BRANCH || "HEAD";
   const detail = `v${version} (${branch} #${process.env.GIT_SHORT})`;
 
-  console.info(`INIT VERSION Kredeum NFTs Factory ${detail}`);
+  console.info(`VERSION Kredeum NFTs Factory ${detail}`);
 
   if (typeof localStorage !== "undefined") {
     const versionOld = localStorage.getItem(VERSION);

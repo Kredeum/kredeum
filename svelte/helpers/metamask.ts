@@ -67,7 +67,7 @@ const handleChainIdSync = (_chainId: number): void => {
   handleChainId(_chainId).catch(console.error);
 };
 const handleChainId = async (_chainId: number): Promise<void> => {
-  console.info(`handleChainId ${_chainId}`);
+  // console.info(`handleChainId ${_chainId}`);
 
   if (_chainId && _chainId != get(metamaskChainId)) {
     const _network = getNetwork(_chainId);
@@ -83,7 +83,7 @@ const handleChainId = async (_chainId: number): Promise<void> => {
 };
 
 const handleAccountsSync = (accounts: Array<string>): void => {
-  console.info("handleAccountsSync", accounts);
+  // console.info("handleAccountsSync", accounts);
 
   if (accounts?.length === 0) {
     metamaskConnect();
@@ -136,7 +136,7 @@ const metamaskInit = async (): Promise<{
   let accounts: Array<string> = [];
 
   if (!get(metamaskChainId)) {
-    console.info("metamaskInit");
+    // console.info("metamaskInit");
     ethereumProvider = await detectEthereumProvider();
 
     if (ethereumProvider) {

@@ -36,7 +36,7 @@
   export let address: string;
   export let tokenID: string;
   export let account: string = undefined;
-  export let platform: string = "wordpress";
+  export let platform: string = undefined; // "wordpress";
   /////////////////////////////////////////////////////////////
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////

@@ -31,7 +31,7 @@ const nftSetOne = (nft: NftType): void => {
 
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
-  console.log("nftRefresh", chainId, address, tokenID);
+  // console.log("nftRefresh", chainId, address, tokenID);
   if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
 
   const key = nftGetKey(chainId, address, tokenID);

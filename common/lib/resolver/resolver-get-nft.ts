@@ -1,6 +1,6 @@
 import { BigNumber, constants } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionType, NftType, CollectionFilterType } from "@lib/common/types";
 import { nftUrl } from "@lib/common/config";
 import { resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
@@ -33,14 +33,17 @@ const resolverGetNft = async (
   return resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos, openNFTsinfos]);
 };
 
-// GET NFTs Infos from Resolver for account
+// GET NFTs Infos from Resolver for owner
 const resolverGetNfts = async (
   chainId: number,
   collection: CollectionType,
-  account = constants.AddressZero,
-  limit = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
-  console.log("resolverGetNfts", chainId, collection, account, limit);
+  const owner = filter.owner || constants.AddressZero;
+  const limit = filter.limit || FETCH_LIMIT;
+  const offset = filter.offset || 0;
+
+  // console.log("resolverGetNfts", chainId, collection, filter.owner, filter.limit, filter.offset);
   const nfts: Map<string, NftType> = new Map();
 
   const nftsResolver = await resolverGetContract(chainId);
@@ -48,9 +51,9 @@ const resolverGetNfts = async (
 
   const res = await nftsResolver["getOpenNFTsNftsInfos(address,address,uint256,uint256)"](
     collection.address,
-    account,
+    owner,
     limit,
-    0
+    offset
   );
   // console.log("resolverGetNfts nftsResolver.getNftsInfos for Account", res);
 
@@ -73,7 +76,7 @@ const resolverGetNftsForTokenIds = async (
   tokenIDs: BigNumber[],
   account = constants.AddressZero
 ): Promise<Map<string, NftType>> => {
-  console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
+  // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
 
   const nfts: Map<string, NftType> = new Map();
 

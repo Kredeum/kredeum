@@ -13,7 +13,7 @@ const nftGet = async (
   collection: CollectionType = { chainId, address },
   withMetadata = false
 ): Promise<NftType> => {
-  console.log(`nftGet ${keyNft(chainId, address, tokenID)} ${String(withMetadata)}\n`);
+  // console.log(`nftGet ${keyNft(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
   if (!(chainId && address && address != constants.AddressZero && tokenID)) return { chainId, address, tokenID };
 

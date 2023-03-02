@@ -3,11 +3,11 @@
 import type Moralis from "moralis";
 import type { operations } from "moralis/types/generated/web3Api";
 
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import { getNetwork, getChecksumAddress } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
 
-import { utils } from "ethers";
+import { constants, utils } from "ethers";
 import { keyCollection, keyNft } from "@lib/common/keys";
 
 const moralisListAll = async (
@@ -33,15 +33,17 @@ const moralisListAll = async (
   // console.log("moralisListAll ~ moralis.start");
 
   // Get NFTs for user
-  const options = { chain: utils.hexValue(chainId), address: account } as operations["getNFTs"]["parameters"]["query"] &
-    operations["getNFTs"]["parameters"]["path"];
+  const options = {
+    chain: utils.hexValue(chainId),
+    address: account
+  } as operations["getNFTs"]["parameters"]["query"] & operations["getNFTs"]["parameters"]["path"];
 
   const nftsMoralist = await moralis.Web3API.account.getNFTs(options);
   // console.log("moralisListAll ~ nftsMoralist", nftsMoralist);
 
-  let l = 0;
+  let index = 0;
   for (const nftMoralis of nftsMoralist.result || []) {
-    if (++l > limit) break;
+    if (index++ >= limit) break;
 
     // console.log("moralisCollections ~ nftMoralis", nftMoralis);
     const address = getChecksumAddress(nftMoralis.token_address);
@@ -77,10 +79,11 @@ const moralisListAll = async (
 const moralisNftList = async (
   chainId: number,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const nfts = (await moralisListAll(chainId, account || "", limit)).nfts;
+  const owner = filter.owner || constants.AddressZero;
+  const limit = filter.limit || FETCH_LIMIT;
+  const nfts = (await moralisListAll(chainId, owner, limit)).nfts;
 
   // console.log(`moralisNftList OUT ${keyNftList(chainId, collection.address)}\n`, nfts);
   return nfts;

@@ -12,7 +12,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenIDs: string = "";
-  export let platform: string = undefined;
+  // export let platform: string = undefined;
   /////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////

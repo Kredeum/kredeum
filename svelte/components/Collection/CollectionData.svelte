@@ -20,7 +20,7 @@
   // HANDLE CHANGE : on truthy chainId and address, and whatever account
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
+    // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
     collection = collectionStore.getOne(chainId, address);

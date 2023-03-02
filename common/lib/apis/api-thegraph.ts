@@ -1,6 +1,6 @@
-import { BigNumber } from "ethers";
+import { BigNumber, constants } from "ethers";
 
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionType, CollectionFilterType, NftType } from "@lib/common/types";
 import { getChecksumAddress, getNetwork } from "@lib/common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "@lib/common/fetch";
@@ -9,21 +9,22 @@ import { keyCollection, keyNft } from "@lib/common/keys";
 const thegraphNftList = async (
   chainId: number,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  // console.log("thegraphNftList", chainId, collection.address, account, limit);
+  const owner = filter.owner || constants.AddressZero;
+  const limit = filter.limit || FETCH_LIMIT;
+  const offset = filter.offset || 0;
+  const address = getChecksumAddress(collection.address);
+  console.log("thegraphNftList", chainId, address, owner, limit);
 
   const nfts: Map<string, NftType> = new Map();
-  const network = getNetwork(chainId);
+  if (!(chainId && address && thegraphActive(chainId))) return nfts;
 
-  if (network && collection) {
-    const collectionAddress = collection.address.toLowerCase();
-    const whereOwner = account ? `where: { account: "${account.toLowerCase()}" }` : "";
-
-    const query = `{
-      tokenContract( id: "${collectionAddress}" ) {
-        tokens( first:${limit} ${whereOwner} ) {
+  const whereOwner = owner == constants.AddressZero ? "" : `where: { account: "${owner.toLowerCase()}" }`;
+  const skip = offset == 0 ? "" : `skip: "${offset}"`;
+  const query = `{
+      tokenContract( id: "${address.toLowerCase()}" ) {
+        tokens( first:${limit} ${skip} ${whereOwner} ) {
           id
           account{
             id
@@ -33,46 +34,33 @@ const thegraphNftList = async (
         }
       }
     }`;
-    type NftsGQL = {
-      tokenID: string;
-      tokenURI: string;
-      account: { id: string };
-    };
-    type AnswerNftsGQL = {
-      tokenContract: { nfts: Array<NftsGQL> };
-    };
-    // console.log(query);
-    const answerGQL = (await thegraphFetch(chainId, query)) as AnswerNftsGQL;
-    const nftsJson: Array<NftsGQL> = answerGQL?.tokenContract?.nfts || [];
-    // console.log(nftsJson[0]);
-    // console.log("thegraphNftList nbTokens", nftsJson.length);
-    // console.log(nftsJson);
+  type NftsGQL = {
+    tokenID: string;
+    tokenURI: string;
+    account: { id: string };
+  };
+  type AnswerNftsGQL = {
+    tokenContract: { nfts: Array<NftsGQL> };
+  };
+  // console.log(query);
+  const answerGQL = (await thegraphFetch(chainId, query)) as AnswerNftsGQL;
+  const nftsJson: Array<NftsGQL> = answerGQL?.tokenContract?.nfts || [];
+  // console.log(nftsJson[0]);
+  // console.log("thegraphNftList nbTokens", nftsJson.length);
+  // console.log(nftsJson);
 
-    for (let index = 0; index < Math.min(nftsJson.length, limit); index++) {
-      const _token = nftsJson[index];
+  let index = 0;
+  for (const nft of nftsJson) {
+    if (index++ >= limit) break;
 
-      if (index < limit) {
-        const tokenID = BigNumber.from(_token.tokenID).toString();
+    const tokenID = BigNumber.from(nft.tokenID).toString();
+    const nid = keyNft(chainId, address, tokenID);
+    const tokenURI = nft.tokenURI;
+    const owner = getChecksumAddress(nft.account?.id);
 
-        const nft = {
-          chainId,
-          address: getChecksumAddress(collection.address),
-          tokenID,
-          tokenURI: _token.tokenURI,
-          owner: getChecksumAddress(_token.account?.id),
-          nid: keyNft(chainId, collection.address, tokenID)
-          // metadata: _token.metadata && JSON.parse(_token.metadata),
-          // name: _token.name,
-          // description: _token.description,
-          // image: _token.image
-        };
-        // console.log("thegraphNftList keyNft", nft.nid, nft);
-        nfts.set(nft.nid, nft);
-      }
-    }
+    nfts.set(nid, { chainId, address, tokenID, tokenURI, owner, nid });
   }
-  // console.log("thegraphNftList", nfts.length);
-  // console.log("thegraphNftList", nfts);
+  console.log("thegraphNftList", nfts.size, nfts);
   return nfts;
 };
 
@@ -110,8 +98,7 @@ const thegraphCollections = async (chainId: number, account: string): Promise<Ma
     const currentContracts = answerGQL?.ownerPerTokenContracts || [];
     // console.log(currentContracts[0]);
 
-    for (let index = 0; index < currentContracts.length; index++) {
-      const currentContractResponse = currentContracts[index];
+    for (const currentContractResponse of currentContracts) {
       const { contract, numTokens } = currentContractResponse;
       const { id, name, symbol, numTokens: numTokensTotal } = contract;
       const totalSupply = Number(numTokensTotal);

@@ -107,6 +107,8 @@ type CollectionSupports = {
   IOpenBound?: boolean;
 };
 
+type CollectionFilterType = { owner?: string; tokenIDs?: Array<string>; offset?: number; limit?: number };
+
 ///////////////////////////////////////////////////
 // Exclusives storage parameters for Ipfs | Swarm
 ///////////////////////////////////////////////////
@@ -187,10 +189,11 @@ export type {
   NftType,
   Properties,
   CollectionType,
+  CollectionSupports,
+  CollectionFilterType,
   ReceiverType,
   AbiType,
   NetworkWriteableFieldsType,
-  CollectionSupports,
   ABIS,
   NftMetadata,
   IOpenNFTsKeys,

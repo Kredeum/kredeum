@@ -22,8 +22,6 @@ async function* transferNft(
   // console.log("transferNft from", fromAddress);
 
   const { contract, collection } = await collectionGetContract(chainId, address, true);
-  console.log("contract", contract);
-  console.log("collection", collection);
 
   let txResp: TransactionResponse | undefined;
   if (collection.supports?.IOpenAutoMarket) {
