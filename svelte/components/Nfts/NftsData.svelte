@@ -8,12 +8,14 @@
   ////////////////////////////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
+  export let tokenIDs: string = undefined;
+  export let tokenID: string = undefined;
   export let account: string = undefined;
   export let offset = 0;
   export let limit = 18;
 
   ////////////////////////////////////////////////////////////////////////
-  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { owner: account, offset, limit });
+  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { tokenIDs, owner: account, offset, limit });
   // $: nfts = nftSubListGetStoreAndRefresh(chainId, address, {  offset, limit });
   ////////////////////////////////////////////////////////////////////////
 </script>

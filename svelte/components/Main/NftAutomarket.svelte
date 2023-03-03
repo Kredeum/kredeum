@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { initSnippet } from "@helpers/initSnippet";
+  import { initSnippet } from "@helpers/init";
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
 

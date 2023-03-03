@@ -1,4 +1,4 @@
-import { getChainName, getChainId, getChecksumAddress, isAddress } from "@lib/common/config";
+import { getChainName, getChainId, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { constants } from "ethers";
 
 type RefBreadcrumb = {
@@ -26,7 +26,7 @@ const _extract = (refBreadcrumb: RefBreadcrumb): RefBreadcrumb => {
   action ||= "";
   address = getChecksumAddress(address);
   signer = getChecksumAddress(signer);
-  account = isAddress(account) ? getChecksumAddress(account) : signer;
+  account = isAddressNotZero(account) ? getChecksumAddress(account) : signer;
   const chainName = getChainName(chainId) || "";
 
   return { chainId, address, tokenID, account, signer, action, chainName };

@@ -5,7 +5,8 @@ import { abis } from "@lib/common/abis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@lib/common/keys";
-import { getChecksumAddress } from "@lib/common/config";
+import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
+import { isAddress } from "ethers/lib/utils";
 
 // Cache contracts(chainId,address,getSigner)
 const contractsCache: Map<string, Contract> = new Map();
@@ -69,11 +70,16 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   return collMerged;
 };
 
-const collectionGet = async (chainId: number, address: string, account?: string): Promise<CollectionType> => {
+const collectionGet = async (
+  chainId: number,
+  address: string,
+  account = constants.AddressZero
+): Promise<CollectionType> => {
   let collection: CollectionType = { chainId, address };
-  if (!(chainId && address && address != constants.AddressZero)) return collection;
+  if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
 
-  // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
+  console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
+  console.log(`collectionGet ${account}\n`);
 
   type TxError = { reason: string };
   try {

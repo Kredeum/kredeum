@@ -13,6 +13,7 @@ import { nftStore } from "./nft";
 import { keyNftList } from "@lib/common/keys";
 
 import { constants } from "ethers";
+import { tokenIdSelected, tokenIdSplit } from "@lib/common/config";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
@@ -41,7 +42,7 @@ const nftSubListStore = (
       const okOwner = filter.owner && nft.owner === filter.owner;
 
       // TOKENID
-      const okTokenIDs = Array.isArray(filter.tokenIDs) && filter.tokenIDs.includes(nft.tokenID);
+      const okTokenIDs = tokenIdSelected(filter.tokenIDs, nft.tokenID);
 
       // FILTER
       const okFilter = okOwner || okTokenIDs;
@@ -89,12 +90,11 @@ const nftSubListRefresh = async (chainId: number, address: string, filter?: Coll
   for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
 
   // add targeted tokenIDs if not in list
-  if (Array.isArray(filter?.tokenIDs)) {
-    for (const tokenID of filter.tokenIDs) {
-      if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
-        const nft = await nftLib(chainId, collection, tokenID);
-        nftStore.setOne(await nftGetMetadata(nft));
-      }
+  for (const tokenID of tokenIdSplit(filter.tokenIDs)) {
+    console.log("nftSubListRefresh tokenID", tokenID);
+    if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
+      const nft = await nftLib(chainId, collection, tokenID);
+      nftStore.setOne(await nftGetMetadata(nft));
     }
   }
 };

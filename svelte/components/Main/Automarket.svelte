@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { initSnippet } from "@helpers/initSnippet";
+  import { initSnippet } from "@helpers/init";
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
   import NftsGrid from "../Nfts/NftsGrid.svelte";
@@ -12,27 +12,18 @@
   export let chainId: number;
   export let address: string;
   export let tokenIDs: string = "";
-  // export let platform: string = undefined;
+  export let platform: string = undefined;
   /////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////
-  $: nfts = nftSubListGetStoreAndRefresh(chainId, address);
+  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { tokenIDs });
   ////////////////////////////////////////////////////////////////////////
 
-  let tokenIDsArrray: Array<string> = [];
-
-  // Metamask init
-  onMount(async () => {
-    initSnippet(chainId, address, tokenIDs);
-
-    if (tokenIDs) {
-      tokenIDsArrray = tokenIDs.split(",");
-    }
-  });
+  onMount(async () => initSnippet(chainId, address, tokenIDs));
 </script>
 
 <div class="nft-automarket">
   {#each [...$nfts] as [key, nft]}
-    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
+    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {platform} />
   {/each}
 </div>

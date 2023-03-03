@@ -1,6 +1,7 @@
 // import Dapp from "../tests/Simple/Home08.svelte";
 // import Dapp from "../tests/Test02.svelte";
-import Dapp from "../components/Main/Dapp.svelte";
+import Dapp from "../components/Main/Dapp2.svelte";
+// import Dapp from "../components/Main/Dapp.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
 import NftAutoMarket from "../components/Main/NftAutomarket.svelte";
 import AutoMarket from "../components/Main/Automarket.svelte";

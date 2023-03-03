@@ -15,7 +15,7 @@
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount } from "svelte";
-  import { initDapp } from "@helpers/initDapp";
+  import { initDapp } from "@helpers/init";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />

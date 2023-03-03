@@ -18,11 +18,14 @@
   $: window.location.hash = ref2UrlHash({ chainId, address, tokenID, account });
 
   // change chainId or address on url change
-  $: ({ chainId, address, tokenID, account } = urlHash2RefNFT(window.location.hash));
+  $: handleUrlChange(window.location.hash);
+  const handleUrlChange = (hash: string) => {
+    ({ chainId, address, tokenID, account } = urlHash2RefNFT(hash));
+  };
 </script>
 
 {#if display}
-  <pre>
+  <p>
     {ref2Breadcrumb({ chainId, address, tokenID, account, signer })}
-  </pre>
+  </p>
 {/if}

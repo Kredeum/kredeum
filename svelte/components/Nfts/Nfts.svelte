@@ -17,6 +17,7 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
+  export let tokenIDs: string = undefined;
   export let tokenID: string = undefined;
   export let account: string = undefined;
 
@@ -56,7 +57,7 @@
     {#if "list" === mode}
       <NftsLines {chainId} {address} {account} {platform} />
     {:else if "grid" === mode}
-      <NftsGrid {chainId} {address} {account} bind:tokenID />
+      <NftsGrid {chainId} {address} {account} {tokenIDs} bind:tokenID />
     {/if}
   {/if}
 </CollectionData>

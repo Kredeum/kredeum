@@ -11,11 +11,18 @@ const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
+const tokenIdSplit = (tokenIDs: string): Array<string> => {
+  const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
+  const tokenIDsArray = tokenIDsSanitize ? tokenIDsSanitize.split(",") : [];
+  return tokenIDsArray;
+};
+const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean => tokenIdSplit(tokenIDs).includes(tokenID);
+
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
 const isAddress = (address = ""): boolean => utils.isAddress(address);
-const isAccount = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
+const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
 
 const getChecksumAddress = (address = ""): string =>
   isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
@@ -442,6 +449,8 @@ const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.sym
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  tokenIdSplit,
+  tokenIdSelected,
   addressSame,
   collectionName,
   collectionSymbol,
@@ -464,7 +473,7 @@ export {
   explorerNftLink,
   isTestnet,
   isAddress,
-  isAccount,
+  isAddressNotZero,
   isNumeric,
   getChainId,
   getChainName,

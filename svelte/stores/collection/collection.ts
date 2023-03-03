@@ -28,10 +28,10 @@ const collectionSetOne = (collection: CollectionType): void => {
 };
 
 // ACTIONS : REFRESH one Collection, for an optionnal account
-const collectionRefresh = async (chainId: number, address: string, account?: string): Promise<void> => {
+const collectionRefresh = async (chainId: number, address: string, account = constants.AddressZero): Promise<void> => {
   // console.log(`collectionRefresh '${chainId}' '${address}' '${account}'`);
 
-  if (!(chainId && address && address != constants.AddressZero)) return;
+  if (!(chainId && address)) return;
   const collection = await collectionLib(chainId, address, account);
 
   collectionSetOne(collection);
