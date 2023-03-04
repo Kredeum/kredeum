@@ -11,12 +11,14 @@ const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
-const tokenIdSplit = (tokenIDs: string): Array<string> => {
+const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
   const tokenIDsArray = tokenIDsSanitize ? tokenIDsSanitize.split(",") : [];
   return tokenIDsArray;
 };
-const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean => tokenIdSplit(tokenIDs).includes(tokenID);
+const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "*" ? -1 : tokenIdSplit(tokenIDs).length);
+const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
+  tokenIDs === "*" || tokenIdSplit(tokenIDs).includes(tokenID);
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -450,6 +452,7 @@ const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.sym
 
 export {
   tokenIdSplit,
+  tokenIdCount,
   tokenIdSelected,
   addressSame,
   collectionName,

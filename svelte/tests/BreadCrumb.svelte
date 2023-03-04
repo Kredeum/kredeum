@@ -1,16 +1,16 @@
 <script lang="ts">
-  import type { RefBreadcrumb } from "@helpers/breadcrumb";
-  import { urlHash2RefNFT, ref2UrlHash, ref2Breadcrumb } from "@helpers/breadcrumb";
+  import type { RefPageType } from "@helpers/refPage";
+  import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb } from "@helpers/refPage";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";
 
   export let display = false;
 
-  let refBreadcrumb: RefBreadcrumb;
+  let refBreadcrumb: RefPageType;
 
   // INITIAL urlHash values
-  const { /*address, tokenID,*/ action } = urlHash2RefNFT(window.location.hash);
+  const { /*address, tokenID,*/ action } = refPageFromUrlHash(window.location.hash);
   // console.log("INITIAL urlHash values", address, tokenID, action);
   // $currentCollection = address;
   // $currentTokenID = tokenID;
@@ -26,9 +26,9 @@
   };
 
   // Refresh browser url hash
-  $: window.location.hash = ref2UrlHash(refBreadcrumb);
+  $: window.location.hash = refPage2UrlHash(refBreadcrumb);
 </script>
 
 {#if display}
-  <p>{ref2Breadcrumb(refBreadcrumb)}</p>
+  <p>{refPage2Breadcrumb(refBreadcrumb)}</p>
 {/if}

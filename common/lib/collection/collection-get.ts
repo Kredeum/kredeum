@@ -78,8 +78,8 @@ const collectionGet = async (
   let collection: CollectionType = { chainId, address };
   if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
 
-  console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
-  console.log(`collectionGet ${account}\n`);
+  // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
+  // console.log(`collectionGet ${account}\n`);
 
   type TxError = { reason: string };
   try {

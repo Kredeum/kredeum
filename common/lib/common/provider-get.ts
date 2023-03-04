@@ -46,11 +46,10 @@ const providerGetAccount = async (): Promise<string> => {
   return account;
 };
 
-const providerSetFallback = async (chainId: number): Promise<boolean> => {
+const providerSetFallback = async (chainId: number): Promise<void> => {
   _providerSetting = true;
 
   // console.log("providerSetFallback START", chainId);
-  if (!chainId) return false;
 
   let provider: Provider | undefined = _providersPerChainId.get(chainId);
   if (!provider) {
@@ -64,18 +63,15 @@ const providerSetFallback = async (chainId: number): Promise<boolean> => {
     if (network?.rpcUrls[1])
       providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[1]), priority: 3, weight: 1 });
 
-    if (providers.length == 0) throw Error(`No provider found for this network! #${chainId}`);
     // console.info(`providerSetFallback #${chainId} #${providers.length}`);
 
     provider = new ethers.providers.FallbackProvider(providers, 1);
+    if (!provider) throw Error(`No provider found for this network! #${chainId}`);
+
     _providersPerChainId.set(chainId, provider);
   }
 
-  const ok = Boolean(provider);
-  // console.log("providerSetFallback END", chainId, ok ? "OK" : "KO");
-
   _providerSetting = false;
-  return ok;
 };
 
 const providerGetFallback = async (chainId: number): Promise<Provider> => {

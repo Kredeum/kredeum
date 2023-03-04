@@ -7,8 +7,7 @@ import { get } from "svelte/store";
 import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
 
-let ethereumProvider: EthereumProvider;
-let metamaskInstalled = false;
+let _ethereumProvider: EthereumProvider;
 
 const metamaskConnectMessage = "Connect to Metamask";
 const metamaskInstallMessage = "Install MetaMask to connect";
@@ -52,7 +51,7 @@ const addEthereumChain = (_chainId: number): void => {
         };
 
         // add new chain to metamask
-        ethereumProvider
+        _ethereumProvider
           .request({
             method: "wallet_addEthereumChain",
             params: [params]
@@ -83,14 +82,33 @@ const handleChainId = async (_chainId: number): Promise<void> => {
 };
 
 const handleAccountsSync = (accounts: Array<string>): void => {
+  handleAccounts(accounts).catch(console.error);
+};
+const handleAccounts = async (accounts: Array<string>): Promise<void> => {
   // console.info("handleAccountsSync", accounts);
 
-  if (accounts?.length === 0) {
-    metamaskConnect();
-  } else if (accounts[0] !== String(get(metamaskSignerAddress))) {
+  if (accounts?.length === 0) accounts = await metamaskConnect();
+
+  if (accounts[0] && accounts[0] !== String(get(metamaskSignerAddress))) {
     metamaskSigner.set(get(metamaskProvider).getSigner(0));
     metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
   }
+};
+
+const metamaskConnect = async (): Promise<Array<string>> => {
+  console.info("metamaskConnect");
+  let accounts: Array<string>;
+
+  try {
+    accounts = (await _ethereumProvider.request({ method: "eth_requestAccounts" })) as Array<string>;
+  } catch (err) {
+    if ((err as { code: number }).code === 4001) {
+      alert(metamaskConnectMessage);
+    } else {
+      console.error("Metamask ERROR eth_requestAccounts", err);
+    }
+  }
+  return accounts;
 };
 
 const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
@@ -98,7 +116,7 @@ const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
 
   if (_chainId > 0 && _chainId != Number(get(metamaskChainId))) {
     try {
-      await ethereumProvider.request({
+      await _ethereumProvider.request({
         method: "wallet_switchEthereumChain",
         params: [{ chainId: numberToHexString(_chainId) }]
       });
@@ -108,48 +126,25 @@ const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
   }
 };
 
-const metamaskConnect = (): void => {
-  console.info("metamaskConnect");
+const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthereumProvider());
 
-  ethereumProvider
-    .request({
-      method: "eth_requestAccounts"
-    })
-    .then(handleAccountsSync)
-    .catch((err: { code: number }) => {
-      if (err.code === 4001) {
-        alert(metamaskConnectMessage);
-      } else {
-        console.error("Metamask ERROR eth_requestAccounts", err);
-      }
-    });
-};
-
-const metamaskInit = async (): Promise<{
-  installed: boolean;
-  chainId: number;
-  signer: string;
-  accounts: Array<string>;
-}> => {
+const metamaskInit = async (): Promise<void> => {
   let chainId = 0;
-  let signer = "";
   let accounts: Array<string> = [];
 
   if (!get(metamaskChainId)) {
     // console.info("metamaskInit");
-    ethereumProvider = await detectEthereumProvider();
+    _ethereumProvider = await detectEthereumProvider();
 
-    if (ethereumProvider) {
-      metamaskInstalled = true;
-
-      if (ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
+    if (_ethereumProvider) {
+      if (_ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
 
       const ethersProvider = new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any");
       metamaskProvider.set(ethersProvider);
 
       try {
         // GET chainId from node connected to
-        chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as number;
+        chainId = (await _ethereumProvider.request({ method: "eth_chainId" })) as number;
       } catch (err) {
         console.error("Metamask ERROR eth_chainId", err);
       }
@@ -157,22 +152,26 @@ const metamaskInit = async (): Promise<{
       await handleChainId(Number(chainId));
 
       try {
-        accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
-        if (accounts.length > 0) signer = getChecksumAddress(accounts[0]);
+        accounts = (await _ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
         handleAccountsSync(accounts);
       } catch (err) {
         console.error("Metamask ERROR eth_accounts", err);
       }
 
-      ethereumProvider.on("chainChanged", handleChainIdSync);
+      _ethereumProvider.on("chainChanged", handleChainIdSync);
 
-      ethereumProvider.on("accountsChanged", handleAccountsSync);
+      _ethereumProvider.on("accountsChanged", handleAccountsSync);
     } else {
       console.info(metamaskInstallMessage);
     }
   }
-
-  return { installed: metamaskInstalled, chainId, signer, accounts };
 };
 
-export { metamaskInit, metamaskConnect, metamaskSwitchChain, metamaskConnectMessage, metamaskInstallMessage };
+export {
+  metamaskInstalled,
+  metamaskInit,
+  metamaskConnect,
+  metamaskSwitchChain,
+  metamaskConnectMessage,
+  metamaskInstallMessage
+};

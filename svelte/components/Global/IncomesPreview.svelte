@@ -41,7 +41,7 @@
     sellerAmount = nftPrice.sub(receiverFeeAmount.add(treasuryFeeAmount));
   };
 
-  $: console.log("IncomesPreview ~ nftRoyalty", nftRoyalty);
+  // $: console.log("IncomesPreview ~ nftRoyalty", nftRoyalty);
 </script>
 
 <div>

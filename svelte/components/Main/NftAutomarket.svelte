@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { initSnippet } from "@helpers/init";
+  import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
 
@@ -7,7 +7,7 @@
   // <NftAutomarket {chainId} {address} {tokenID} {platform}? />
   // Display NFT solo
   /////////////////////////////////////////////////////////////////
-  export let chainId: number;
+  export let chainId = 1;
   export let address: string;
   export let tokenID: string;
   export let platform: string = undefined;
@@ -15,8 +15,7 @@
 
   $: console.log(platform);
 
-  // Metamask init
-  onMount(async () => initSnippet(chainId, address, tokenID));
+  onMount(() => providerSetFallback(chainId).catch(console.error));
 </script>
 
 <div class="nft-automarket">

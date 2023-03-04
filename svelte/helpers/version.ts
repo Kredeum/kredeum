@@ -1,7 +1,7 @@
 import semverSatisfies from "semver/functions/satisfies";
 import { config } from "@lib/common/config";
 
-const initVersion = () => {
+const versionGet = () => {
   const VERSION = "version";
   const version = config.version.latest;
   const branch = process.env.GIT_BRANCH || "HEAD";
@@ -22,4 +22,4 @@ const initVersion = () => {
   return { branch, detail };
 };
 
-export { initVersion };
+export { versionGet };

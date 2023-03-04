@@ -1,7 +1,7 @@
 // import Dapp from "../tests/Simple/Home08.svelte";
 // import Dapp from "../tests/Test02.svelte";
-import Dapp from "../components/Main/Dapp2.svelte";
-// import Dapp from "../components/Main/Dapp.svelte";
+// import Dapp from "../components/Main/Dapp2.svelte";
+import Dapp from "../components/Main/Dapp.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
 import NftAutoMarket from "../components/Main/NftAutomarket.svelte";
 import AutoMarket from "../components/Main/Automarket.svelte";
@@ -23,8 +23,6 @@ const _props = (target: HTMLElement): Props => {
     if (attrName === "chainid") {
       attrName = "chainId";
       value = Number(value);
-    } else if (attrName === "tokenids") {
-      attrName = "tokenIDs";
     } else if (attrName === "tokenid") {
       attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
@@ -44,7 +42,7 @@ const _props = (target: HTMLElement): Props => {
   if (target) new Dapp({ target });
 }
 
-type AutoMarketPropsType = { chainId: number; address: string; tokenIDs: string; platform?: string };
+type AutoMarketPropsType = { chainId: number; address: string; tokenID: string; platform?: string };
 {
   // Kredeum AutoMarket (Multiple NFTs)
   const target: HTMLElement = document.querySelector("#kredeum-automarket");

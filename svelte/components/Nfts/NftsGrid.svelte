@@ -8,14 +8,13 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
-  export let tokenIDs: string = undefined;
   export let tokenID: string = undefined;
   export let account: string = undefined;
 
   $: tokenID && console.log("tokenID", tokenID);
 </script>
 
-<NftsData {chainId} {address} {account} {tokenIDs} let:nfts>
+<NftsData {chainId} {address} {account} {tokenID} let:nfts>
   <div class="row grid-krd">
     {#if nfts?.size > 0}
       {#each [...nfts.values()] as nft}

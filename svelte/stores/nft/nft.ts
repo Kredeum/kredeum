@@ -9,6 +9,7 @@ import { nftListStore } from "./nftList";
 import { collectionStore } from "../collection/collection";
 
 import { constants } from "ethers";
+import { isAddressNotZero } from "@lib/common/config";
 
 // UTILITY
 const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
@@ -32,7 +33,7 @@ const nftSetOne = (nft: NftType): void => {
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
   // console.log("nftRefresh", chainId, address, tokenID);
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
+  if (!(chainId && isAddressNotZero(address) && tokenID)) return;
 
   const key = nftGetKey(chainId, address, tokenID);
   // console.log("nftRefresh ~ key", key);

@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
+import { getChecksumAddress, getNetwork, getChainName, isAddressNotZero } from "@lib/common/config";
 import { keyCollections, keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
 
@@ -13,7 +13,7 @@ const alchemyCollections = async (chainId: number, account: string): Promise<Map
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
 
-  if (!(chainId && chainName && account)) return collections;
+  if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 
   type AlchemyCollection = {
     contract: { address: string };

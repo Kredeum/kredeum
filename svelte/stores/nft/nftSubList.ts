@@ -13,7 +13,7 @@ import { nftStore } from "./nft";
 import { keyNftList } from "@lib/common/keys";
 
 import { constants } from "ethers";
-import { tokenIdSelected, tokenIdSplit } from "@lib/common/config";
+import { isAddressNotZero, tokenIdSelected, tokenIdSplit } from "@lib/common/config";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
@@ -21,12 +21,14 @@ const nftSubListStore = (
   address: string,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-  // console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
-  // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
+  console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
+  console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
 
   return derived(nftStore.getList, ($nftListStore) => {
     let nftsMap = new Map() as Map<string, NftType>;
     if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
+
+    const okAll = filter.tokenID === "*";
 
     const nfts = [...$nftListStore].filter(([, nft]) => {
       // const okParams = chainId > 0;
@@ -42,10 +44,10 @@ const nftSubListStore = (
       const okOwner = filter.owner && nft.owner === filter.owner;
 
       // TOKENID
-      const okTokenIDs = tokenIdSelected(filter.tokenIDs, nft.tokenID);
+      const okTokenID = tokenIdSelected(filter.tokenID, nft.tokenID);
 
       // FILTER
-      const okFilter = okOwner || okTokenIDs;
+      const okFilter = okAll || okOwner || okTokenID;
 
       const ok = okParams && okNetwork && okAddress && okFilter;
 
@@ -65,8 +67,12 @@ const nftSubListStore = (
 };
 
 // ACTIONS : REFRESH all filtered NFTs from one collection
-const nftSubListRefresh = async (chainId: number, address: string, filter?: CollectionFilterType): Promise<void> => {
-  if (!(chainId && address && address != constants.AddressZero)) return;
+const nftSubListRefresh = async (
+  chainId: number,
+  address: string,
+  filter: CollectionFilterType = {}
+): Promise<void> => {
+  if (!(chainId && isAddressNotZero(address))) return;
   // console.log(`nftSubListRefresh ${keyNftList(chainId, address)}\n`);
   // console.log(`nftSubListRefresh ${JSON.stringify(filter, null, 2)}\n`);
 
@@ -89,14 +95,16 @@ const nftSubListRefresh = async (chainId: number, address: string, filter?: Coll
 
   for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
 
-  // add targeted tokenIDs if not in list
-  for (const tokenID of tokenIdSplit(filter.tokenIDs)) {
-    console.log("nftSubListRefresh tokenID", tokenID);
-    if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
-      const nft = await nftLib(chainId, collection, tokenID);
-      nftStore.setOne(await nftGetMetadata(nft));
+  // add targeted tokenID if not in list
+  if (filter.tokenID != "*") {
+    for (const tokenID of tokenIdSplit(filter.tokenID)) {
+      console.log("nftSubListRefresh tokenID", tokenID);
+      if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
+        const nft = await nftLib(chainId, collection, tokenID);
+        nftStore.setOne(await nftGetMetadata(nft));
+      }
     }
-  }
+  }// else search all tokenID !
 };
 
 const nftSubListGetStoreAndRefresh = (

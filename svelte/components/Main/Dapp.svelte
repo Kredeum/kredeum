@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCreate } from "@lib/common/config";
+  import { getCreate, isAddressNotZero, tokenIdCount } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -14,8 +14,9 @@
   import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
-  import { onMount } from "svelte";
-  import { initDapp } from "@helpers/init";
+  import { onMount, tick } from "svelte";
+  import { refPage2UrlHash, refPageFromUrlHash } from "@helpers/refPage";
+  import { metamaskInit, metamaskInstalled } from "@helpers/metamask";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -26,38 +27,77 @@
   let account: string;
   let signer: string;
 
-  let chainIdFirst = true;
-  let addressFirst = true;
-  let signerFirst = true;
+  let initalized = false;
 
-  $: signer && handleSigner();
-  const handleSigner = () => {
-    if (signerFirst) signerFirst = false;
-    else account = signer;
-  };
+  $: nftCount = tokenIdCount(tokenID);
 
+  $: accountDefined = isAddressNotZero(account);
+  $: collectionDefined = chainId > 0 && isAddressNotZero(address);
+  let connectionNeeded: boolean;
+
+  // RESET nework on chainId change
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    if (chainIdFirst) chainIdFirst = false;
-    else resetAddress();
-
-    await providerSetFallback(chainId);
+    console.log("handleChainId", initalized, chainId);
+    if (initalized) {
+      resetAddress();
+      await providerSetFallback(chainId);
+    }
   };
-
-  $: address && handleAddress();
+  // RESET tokenID on collection change
+  $: isAddressNotZero(address) && handleAddress();
   const handleAddress = async () => {
-    if (addressFirst) addressFirst = false;
-    else resetTokenID();
+    console.log("handleAddress", initalized, address);
+    if (initalized) {
+      resetTokenID();
+    }
+  };
+  // SET account on signer change
+  $: isAddressNotZero(signer) && handleSigner();
+  const handleSigner = async () => {
+    console.log("handleSigner", initalized, signer);
+    if (initalized) {
+      account = signer;
+    }
+  };
+  // SET URL HASH on chainId, address or account change
+  $: handleRefChange({ chainId, address, tokenID, account, signer });
+  const handleRefChange = (ref) => {
+    if (initalized) {
+      console.info("<Dapp set refHash", ref);
+      window.location.hash = refPage2UrlHash(ref);
+    }
   };
 
   const resetAddress = () => (address = undefined);
-  const resetTokenID = () => (tokenID = undefined);
+  const resetTokenID = () => (tokenID = isAddressNotZero(account) ? "" : "*");
 
   onMount(async () => {
-    const data = await initDapp();
-    console.log("<Dapp ", data);
+    // GET optionnal params from URL HASH
+    const refHash = refPageFromUrlHash(window.location.hash);
+    ({ chainId, address, tokenID, account } = refHash);
+    console.info("<Dapp get refHash", refHash);
 
-    ({ chainId, address, tokenID, account, signer } = data);
+    // Process reactivity on 'collectionDefined' and 'accountDefined'
+    // Before 'connectionNeeded' assignment
+    await tick();
+
+    // NO 'metamask' connection needed when one collection or when account is defined
+    connectionNeeded = !(collectionDefined || accountDefined);
+    console.log("connectionNeeded", connectionNeeded);
+
+    // SET network to mainnet if not already set
+    chainId ||= 1;
+
+    // SET network provider (works without 'metamask')
+    providerSetFallback(chainId).catch(console.error);
+
+    // Process reactivity on 'chainId'
+    // Before 'initialized' set to true
+    await tick();
+
+    // INITIALIZATION ended
+    initalized = true;
   });
 </script>
 
@@ -67,37 +107,39 @@
   </span>
 
   <span slot="header">
-    <Title />
+    {#if connectionNeeded}
+      <Title />
 
-    {#if signer}
-      {#if getCreate(chainId)}
-        <Create {chainId} />
+      {#if signer}
+        {#if getCreate(chainId)}
+          <Create {chainId} />
+        {/if}
       {/if}
-    {/if}
 
-    <BreadCrumb bind:chainId bind:address bind:tokenID bind:account {signer} display={true} />
+      <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} />
 
-    <div class="row alignbottom">
-      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <AccountConnect bind:signer />
-      </div>
-
-      <!-- <Networks {chainId} /> -->
-      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <NetworkSelect bind:chainId />
-      </div>
-
-      {#if chainId}
+      <div class="row alignbottom">
         <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-          <CollectionSelect {chainId} bind:address {account} />
+          <AccountConnect bind:signer />
         </div>
-      {/if}
-    </div>
+
+        <!-- <Networks {chainId} /> -->
+        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+          <NetworkSelect bind:chainId />
+        </div>
+
+        {#if chainId}
+          <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+            <CollectionSelect {chainId} bind:address {account} />
+          </div>
+        {/if}
+      </div>
+    {/if}
   </span>
 
   <span slot="content">
-    {#if chainId && address}
-      {#if tokenID}
+    {#if collectionDefined}
+      {#if nftCount == 1}
         <h2 class="m-b-20 return">
           <i class="fa fa-arrow-left fa-left" />
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
