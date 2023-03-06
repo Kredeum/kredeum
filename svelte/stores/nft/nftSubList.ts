@@ -21,8 +21,8 @@ const nftSubListStore = (
   address: string,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-  console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
-  console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
+  // console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
+  // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
 
   return derived(nftStore.getList, ($nftListStore) => {
     let nftsMap = new Map() as Map<string, NftType>;

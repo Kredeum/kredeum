@@ -27,7 +27,7 @@
   const _metamaskInstall = () => window.location.replace("https://metamask.io/download/");
   const _metamaskConnect = async (evt?: Event) => {
     evt.preventDefault();
-    await metamaskInit();
+    await metamaskConnect();
   };
 
   onMount(async () => (_metamaskInstalled = await metamaskInstalled()));

@@ -6,6 +6,7 @@
   import BreadCrumb from "../Global/BreadCrumb.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
   import { constants } from "ethers";
+  import { metamaskInit } from "@helpers/metamask";
 
   /////////////////////////////////////////////////////////////////
   // <NftAutomarket {chainId} {address} {tokenID} {platform}? />
@@ -25,12 +26,12 @@
     const refParams: RefPageType = { chainId, address, tokenID };
     console.log("<NftAutomarket refParams:", refParams);
 
-    providerSetFallback(chainId).catch(console.error);
+    await metamaskInit();
+    await providerSetFallback(chainId);
   });
 </script>
 
 <div class="nft-automarket">
-  <BreadCrumb {chainId} {address} {tokenID} display={true} />
   {#each [...$nfts] as [key, nft]}
     <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {platform} />
   {/each}

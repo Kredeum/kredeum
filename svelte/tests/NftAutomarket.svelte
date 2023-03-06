@@ -1,7 +1,7 @@
 <script lang="ts">
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount } from "svelte";
-  import Nft from "../Nft/Nft.svelte";
+  import Nft from "../components/Nft/Nft.svelte";
 
   /////////////////////////////////////////////////////////////////
   // <NftAutomarket {chainId} {address} {tokenID} {platform}? />

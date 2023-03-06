@@ -32,6 +32,8 @@ const getChecksumAddress = (address = ""): string =>
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
 
+const isNetwork = (chainId: number | string): boolean => networksMap.has(Number(chainId));
+
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 //  GET nftsResolver address
@@ -475,6 +477,7 @@ export {
   explorerAccountUrl,
   explorerNftLink,
   isTestnet,
+  isNetwork,
   isAddress,
   isAddressNotZero,
   isNumeric,

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCreate, isAddressNotZero, tokenIdCount } from "@lib/common/config";
+  import { getCreate, isAddressNotZero, isNetwork, tokenIdCount } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -15,8 +15,10 @@
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount, tick } from "svelte";
-  import { refPage2UrlHash, refPageFromUrlHash } from "@helpers/refPage";
-  import { metamaskInit, metamaskInstalled } from "@helpers/metamask";
+  import { refPageFromUrlHash, RefPageType } from "@helpers/refPage";
+  import { metamaskConnect, metamaskInit, metamaskInstalled, metamaskSwitchChain } from "@helpers/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import { constants } from "ethers";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -31,42 +33,44 @@
 
   $: nftCount = tokenIdCount(tokenID);
 
-  $: accountDefined = isAddressNotZero(account);
-  $: collectionDefined = chainId > 0 && isAddressNotZero(address);
-  let connectionNeeded: boolean;
+  let withMetamask: boolean;
+  const collectionDefined = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
 
-  // RESET nework on chainId change
+  // SET chainId on memataskChainId change
+  $: $metamaskChainId && handleMetamaskChainId();
+  const handleMetamaskChainId = () => {
+    if (initalized) chainId = $metamaskChainId;
+  };
+
+  // SET nework on chainId change
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    console.log("handleChainId", initalized, chainId);
+    console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);
+
     if (initalized) {
+      if (chainId != $metamaskChainId) setNetwork();
       resetAddress();
-      await providerSetFallback(chainId);
+      resetTokenID();
     }
   };
+  const setNetwork = async () => {
+    if (withMetamask) await metamaskSwitchChain(chainId);
+    await providerSetFallback(chainId);
+  };
+
   // RESET tokenID on collection change
   $: isAddressNotZero(address) && handleAddress();
   const handleAddress = async () => {
-    console.log("handleAddress", initalized, address);
-    if (initalized) {
-      resetTokenID();
-    }
+    console.log("<Dapp handleAddress", initalized, address);
+
+    if (initalized) resetTokenID();
   };
   // SET account on signer change
   $: isAddressNotZero(signer) && handleSigner();
   const handleSigner = async () => {
-    console.log("handleSigner", initalized, signer);
-    if (initalized) {
-      account = signer;
-    }
-  };
-  // SET URL HASH on chainId, address or account change
-  $: handleRefChange({ chainId, address, tokenID, account, signer });
-  const handleRefChange = (ref) => {
-    if (initalized) {
-      console.info("<Dapp set refHash", ref);
-      window.location.hash = refPage2UrlHash(ref);
-    }
+    console.log("<Dapp handleSigner", initalized, signer);
+
+    if (initalized) account = signer;
   };
 
   const resetAddress = () => (address = undefined);
@@ -74,30 +78,27 @@
 
   onMount(async () => {
     // GET optionnal params from URL HASH
-    const refHash = refPageFromUrlHash(window.location.hash);
-    ({ chainId, address, tokenID, account } = refHash);
-    console.info("<Dapp get refHash", refHash);
+    const _refHash = refPageFromUrlHash(window.location.hash);
+    // console.log("<Dapp get _refHash", _refHash);
 
-    // Process reactivity on 'collectionDefined' and 'accountDefined'
-    // Before 'connectionNeeded' assignment
-    await tick();
+    // NO 'metamask' connection needed when one collection or one account is defined
+    withMetamask = !(collectionDefined(_refHash) || isAddressNotZero(_refHash.account));
 
-    // NO 'metamask' connection needed when one collection or when account is defined
-    connectionNeeded = !(collectionDefined || accountDefined);
-    console.log("connectionNeeded", connectionNeeded);
+    // init Metamask
+    await metamaskInit();
 
-    // SET network to mainnet if not already set
-    chainId ||= 1;
+    chainId = _refHash.chainId || $metamaskChainId || 1;
+    address = _refHash.address;
+    tokenID = _refHash.tokenID;
+    account = isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress || constants.AddressZero;
 
-    // SET network provider (works without 'metamask')
-    providerSetFallback(chainId).catch(console.error);
+    // SET network
+    await setNetwork();
 
-    // Process reactivity on 'chainId'
-    // Before 'initialized' set to true
-    await tick();
-
-    // INITIALIZATION ended
+    // INITIALIZATION end
     initalized = true;
+
+    console.info("<Dapp initialized", { chainId, address, tokenID, account, $metamaskSignerAddress, $metamaskChainId});
   });
 </script>
 
@@ -107,7 +108,7 @@
   </span>
 
   <span slot="header">
-    {#if connectionNeeded}
+    {#if withMetamask}
       <Title />
 
       {#if signer}
@@ -116,7 +117,7 @@
         {/if}
       {/if}
 
-      <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} />
+      <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
 
       <div class="row alignbottom">
         <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
@@ -138,7 +139,7 @@
   </span>
 
   <span slot="content">
-    {#if collectionDefined}
+    {#if collectionDefined({ chainId, address })}
       {#if nftCount == 1}
         <h2 class="m-b-20 return">
           <i class="fa fa-arrow-left fa-left" />

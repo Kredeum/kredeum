@@ -68,11 +68,7 @@
 
   let inputReceiver = "";
 
-  const invalidInputParams = (): boolean => {
-    console.log("invalidInputParams ~ inputFee", inputFee);
-    console.log("invalidInputParams ~ inputReceiver", inputReceiver);
-    return !(isAddress(inputReceiver) && isNumeric(inputFee));
-  };
+  const invalidInputParams = (): boolean => !(isAddress(inputReceiver) && isNumeric(inputFee));
 
   // Context for refreshCollections
   ///////////////////////////////////////////////////////////

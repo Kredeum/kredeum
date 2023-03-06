@@ -1,8 +1,8 @@
 <script lang="ts">
-  import HomeLayout from "../Global/HomeLayout.svelte";
-  import BreadCrumb from "../Global/BreadCrumb.svelte";
-  import Nfts from "../Nfts/Nfts.svelte";
-  import Nft from "../Nft/Nft.svelte";
+  import HomeLayout from "../components/Global/HomeLayout.svelte";
+  import BreadCrumb from "../components/Global/BreadCrumb.svelte";
+  import Nfts from "../components/Nfts/Nfts.svelte";
+  import Nft from "../components/Nft/Nft.svelte";
   import { tokenIdCount } from "@lib/common/config";
   import { refPage2UrlHash, refPageFromUrlHash } from "@helpers/refPage";
   import { onMount } from "svelte";
