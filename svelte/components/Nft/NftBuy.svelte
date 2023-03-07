@@ -10,7 +10,7 @@
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
-  import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
@@ -140,12 +140,7 @@
             </div>
 
             <div class="section">
-              <IncomesPreview
-                {chainId}
-                nftOwner={nftOwner($nft)}
-                nftPrice={nftPrice($nft)}
-                nftRoyalty={nftRoyalty($nft)}
-              />
+              <NftIncomes nft={$nft} />
             </div>
             <div class="txtright">
               {#if signer}

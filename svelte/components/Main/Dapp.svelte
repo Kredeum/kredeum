@@ -5,7 +5,7 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  // import BreadCrumb from "../Global/BreadCrumb.svelte";
+  import BreadCrumb from "../Global/BreadCrumb.svelte";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import Networks from "../Network/Networks.svelte";
@@ -15,8 +15,8 @@
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount } from "svelte";
-  import { refPageFromUrlHash, RefPageType } from "@helpers/refPage";
-  import {  metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
+  import { refPage2UrlHash, refPageFromUrlHash, RefPageType } from "@helpers/refPage";
+  import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { constants } from "ethers";
 
@@ -33,7 +33,6 @@
 
   $: nftCount = tokenIdCount(tokenID);
 
-  let withMetamask: boolean;
   const collectionDefined = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
 
   // SET chainId on memataskChainId change
@@ -54,7 +53,7 @@
     }
   };
   const setNetwork = async () => {
-    if (withMetamask) await metamaskSwitchChain(chainId);
+    await metamaskSwitchChain(chainId);
     await providerSetFallback(chainId);
   };
 
@@ -73,23 +72,26 @@
     if (initalized) account = signer;
   };
 
+  // SET URL HASH on chainId, address or account change
+  // $: handleRefChange({ chainId, address, tokenID });
+  // const handleRefChange = (ref) => initalized && (window.location.hash = refPage2UrlHash(ref));
+
+  // $: window.location.hash = refPage2UrlHash({ chainId, address, tokenID });
+
   const resetAddress = () => (address = undefined);
-  const resetTokenID = () => (tokenID = isAddressNotZero(account) ? "" : "*");
+  const resetTokenID = () => (tokenID = "");
 
   onMount(async () => {
     // GET optionnal params from URL HASH
     const _refHash = refPageFromUrlHash(window.location.hash);
-    // console.log("<Dapp get _refHash", _refHash);
-
-    // NO 'metamask' connection needed when one collection or one account is defined
-    withMetamask = !(collectionDefined(_refHash) || isAddressNotZero(_refHash.account));
+    console.log("<Dapp get _refHash", _refHash);
 
     // init Metamask
     await metamaskInit();
 
     chainId = _refHash.chainId || $metamaskChainId || 1;
     address = _refHash.address;
-    tokenID = _refHash.tokenID;
+    tokenID = _refHash.tokenID || "";
     account = isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress || constants.AddressZero;
 
     // SET network
@@ -98,7 +100,7 @@
     // INITIALIZATION end
     initalized = true;
 
-    console.info("<Dapp initialized", { chainId, address, tokenID, account, $metamaskSignerAddress, $metamaskChainId});
+    console.info("<Dapp initialized", { chainId, address, tokenID, account, $metamaskSignerAddress, $metamaskChainId });
   });
 </script>
 
@@ -108,34 +110,32 @@
   </span>
 
   <span slot="header">
-    {#if withMetamask}
-      <Title />
+    <Title />
 
-      {#if signer}
-        {#if getCreate(chainId)}
-          <Create {chainId} />
-        {/if}
+    {#if signer}
+      {#if getCreate(chainId)}
+        <Create {chainId} />
       {/if}
-
-      <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
-
-      <div class="row alignbottom">
-        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-          <AccountConnect bind:signer />
-        </div>
-
-        <!-- <Networks {chainId} /> -->
-        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-          <NetworkSelect bind:chainId />
-        </div>
-
-        {#if chainId}
-          <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-            <CollectionSelect {chainId} bind:address {account} />
-          </div>
-        {/if}
-      </div>
     {/if}
+
+    <BreadCrumb {chainId} {address} {tokenID} {account} {signer} />
+
+    <div class="row alignbottom">
+      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <AccountConnect bind:signer />
+      </div>
+
+      <!-- <Networks {chainId} /> -->
+      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <NetworkSelect bind:chainId />
+      </div>
+
+      {#if chainId}
+        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+          <CollectionSelect {chainId} bind:address {account} />
+        </div>
+      {/if}
+    </div>
   </span>
 
   <span slot="content">

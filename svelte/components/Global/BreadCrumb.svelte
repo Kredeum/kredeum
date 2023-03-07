@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { refPage2Breadcrumb } from "@helpers/refPage";
+  import { refPage2Breadcrumb, refPage2UrlHash } from "@helpers/refPage";
 
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />

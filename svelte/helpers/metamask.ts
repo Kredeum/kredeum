@@ -15,34 +15,9 @@ const metamaskMultipleWallets = "Do you have multiple wallets installed?";
 
 let _open = true;
 
-const _addEthereumChain = (_chainId: number): void => {
-  console.info("_addEthereumChain", _chainId, _open);
+const metamaskConnected = (): boolean => isAddressNotZero(get(metamaskSignerAddress));
 
-  // no need to add default ethereum chain 1
-  if (!(_chainId > 1 && _open)) return;
-  _open = false;
-
-  const _network = getNetwork(_chainId);
-  if (_network) {
-    // add new chain to metamask
-    _ethereumProvider
-      .request({
-        method: "wallet_addEthereumChain",
-        params: [
-          {
-            chainId: numberToHexString(_network.chainId),
-            blockExplorerUrls: _network.blockExplorerUrls,
-            chainName: _network.chainName,
-            iconUrls: [],
-            nativeCurrency: _network.nativeCurrency,
-            rpcUrls: _network.rpcUrls
-          }
-        ]
-      })
-      .catch((err) => console.error("Metamask ERROR wallet_addEthereumChain", err));
-  }
-  _open = true;
-};
+const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthereumProvider());
 
 const _handleChainId = (_chainId: number): void => {
   if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId))) return;
@@ -59,11 +34,9 @@ const _handleAccounts = (accounts: Array<string>): void => {
   metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
 };
 
-const metamaskConnected = (): boolean => isAddressNotZero(get(metamaskSignerAddress));
-
-const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthereumProvider());
-
 const metamaskConnect = async (): Promise<void> => {
+  if (!_ethereumProvider) return;
+
   console.info("metamaskConnect");
 
   try {
@@ -74,21 +47,6 @@ const metamaskConnect = async (): Promise<void> => {
     } else {
       console.error("Metamask ERROR eth_requestAccounts", err);
     }
-  }
-};
-
-const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
-  if (!(_chainId > 0 && _chainId != get(metamaskChainId))) return;
-
-  console.info(`metamaskSwitchChain ${_chainId}`);
-
-  try {
-    await _ethereumProvider.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: numberToHexString(_chainId) }]
-    });
-  } catch (err) {
-    if ((err as { code: number }).code === 4902) _addEthereumChain(_chainId);
   }
 };
 
@@ -118,6 +76,50 @@ const metamaskInit = async (): Promise<void> => {
     _ethereumProvider.on("accountsChanged", _handleAccounts);
   } else {
     console.info(metamaskInstallMessage);
+  }
+};
+
+const _addEthereumChain = (_chainId: number): void => {
+  // no need to add default ethereum chain 1
+  if (!(isNetwork(_chainId) && _chainId != 1 && _open && _ethereumProvider)) return;
+  _open = false;
+
+  console.info("_addEthereumChain", _chainId, _open);
+
+  const _network = getNetwork(_chainId);
+  if (_network) {
+    // add new chain to metamask
+    _ethereumProvider
+      .request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: numberToHexString(_network.chainId),
+            blockExplorerUrls: _network.blockExplorerUrls,
+            chainName: _network.chainName,
+            iconUrls: [],
+            nativeCurrency: _network.nativeCurrency,
+            rpcUrls: _network.rpcUrls
+          }
+        ]
+      })
+      .catch((err) => console.error("Metamask ERROR wallet_addEthereumChain", err));
+  }
+  _open = true;
+};
+
+const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
+  if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId) && _ethereumProvider)) return;
+
+  console.info(`metamaskSwitchChain ${_chainId}`);
+
+  try {
+    await _ethereumProvider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: numberToHexString(_chainId) }]
+    });
+  } catch (err) {
+    if ((err as { code: number }).code === 4902) _addEthereumChain(_chainId);
   }
 };
 

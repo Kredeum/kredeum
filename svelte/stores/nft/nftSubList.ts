@@ -28,7 +28,7 @@ const nftSubListStore = (
     let nftsMap = new Map() as Map<string, NftType>;
     if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
 
-    const okAll = filter.tokenID === "*";
+    const okAll = filter.tokenID === "";
 
     const nfts = [...$nftListStore].filter(([, nft]) => {
       // const okParams = chainId > 0;
@@ -96,7 +96,7 @@ const nftSubListRefresh = async (
   for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
 
   // add targeted tokenID if not in list
-  if (filter.tokenID != "*") {
+  if (filter.tokenID != "") {
     for (const tokenID of tokenIdSplit(filter.tokenID)) {
       console.log("nftSubListRefresh tokenID", tokenID);
       if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {

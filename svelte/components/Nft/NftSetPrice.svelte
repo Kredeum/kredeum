@@ -23,7 +23,7 @@
   import { nftStore } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
-  import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import NftIncomes from "./NftIncomes.svelte";
   import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
 
   /////////////////////////////////////////////////
@@ -179,7 +179,7 @@
   </div>
 
   <div class="section">
-    <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={inputPrice} nftRoyalty={nftRoyalty($nft)} />
+    <NftIncomes nft={$nft} price={inputPrice} />
   </div>
 
   {#if !collectionApproved}
@@ -269,7 +269,7 @@
 
   {#if !removingFromSale}
     <div class="section">
-      <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={nftPrice($nft)} nftRoyalty={nftRoyalty($nft)} />
+      <NftIncomes nft={$nft} />
     </div>
   {/if}
 {/if}

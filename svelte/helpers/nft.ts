@@ -2,6 +2,7 @@ import type { ReceiverType, NftType } from "@lib/common/types";
 import { BigNumber, constants } from "ethers";
 import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 
+const nftChainId = (nft: NftType): number => Number(nft?.chainId || 1);
 const nftOwner = (nft: NftType): string => String(nft?.owner || "");
 
 const nftOnSale = (nft: NftType): boolean => nftPrice(nft).gt(0);
@@ -27,6 +28,7 @@ const nftMediaAlt = (nft: NftType): string => {
 };
 
 export {
+  nftChainId,
   nftOwner,
   nftOnSale,
   nftPrice,
