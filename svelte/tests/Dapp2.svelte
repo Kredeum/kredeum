@@ -7,9 +7,8 @@
   import { refPage2UrlHash, refPageFromUrlHash } from "@helpers/refPage";
   import { onMount } from "svelte";
   import { constants } from "ethers";
-  import { metamaskSignerAddress } from "@main/metamask";
   import { providerSetFallback } from "@lib/common/provider-get";
-  import { metamaskInit, metamaskInstalled } from "@helpers/metamask";
+  import { metamaskInstalled } from "@helpers/metamask";
 
   let chainId: number;
   let address: string;

@@ -2,7 +2,6 @@
   import {
     metamaskConnect,
     metamaskConnectMessage,
-    metamaskInit,
     metamaskInstalled,
     metamaskInstallMessage
   } from "@helpers/metamask";

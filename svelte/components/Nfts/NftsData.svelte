@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { owner } from "@main/network";
   import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
 
   ////////////////////////////////////////////////////////////////////////

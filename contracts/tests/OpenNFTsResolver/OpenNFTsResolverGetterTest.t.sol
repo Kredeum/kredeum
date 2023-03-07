@@ -38,7 +38,7 @@ abstract contract OpenNFTsResolverGetterTest is Test {
         _resolver.getOpenNFTsNftInfos(_collection, 1, _random);
     }
 
-    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public  {
+    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public {
         vm.expectRevert("Invalid token ID");
         _resolver.getOpenNFTsNftInfos(_collection, 9, _random);
     }

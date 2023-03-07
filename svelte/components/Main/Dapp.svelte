@@ -5,7 +5,7 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  import BreadCrumb from "../Global/BreadCrumb.svelte";
+  // import BreadCrumb from "../Global/BreadCrumb.svelte";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import Networks from "../Network/Networks.svelte";
@@ -14,9 +14,9 @@
   import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
-  import { onMount, tick } from "svelte";
+  import { onMount } from "svelte";
   import { refPageFromUrlHash, RefPageType } from "@helpers/refPage";
-  import { metamaskConnect, metamaskInit, metamaskInstalled, metamaskSwitchChain } from "@helpers/metamask";
+  import {  metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { constants } from "ethers";
 

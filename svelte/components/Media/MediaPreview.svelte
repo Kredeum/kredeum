@@ -2,9 +2,7 @@
   import { fade } from "svelte/transition";
 
   import Media from "./Media.svelte";
-  import { nftStore } from "@stores/nft/nft";
   import { clickOutside } from "@helpers/clickOutside";
-  import { nftMediaAnimationUrl, nftMediaContentType } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   // <MediaPreview {chainId} {address} {tokenID} />
@@ -15,8 +13,7 @@
   export let address: string;
   export let tokenID: string;
   /////////////////////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
-  /////////////////////////////////////////////////
+
 
   let popupOpen = false;
   const popupToggle = () => (popupOpen = !popupOpen);

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CollectionsDataSimple from "./CollectionsDataSimple.svelte";
+  import CollectionsDataSimple from "./CollectionListDataSimple.svelte";
 
   export let chainId: number;
   export let account: string = undefined;
@@ -7,7 +7,7 @@
 
 <CollectionsDataSimple {chainId} {account} let:collections>
   {#if collections}
-    {#each [...collections] as [ coll]}
+    {#each [...collections.values()] as coll}
       <p>
         {coll?.name || "No name"} -
         {coll?.address}

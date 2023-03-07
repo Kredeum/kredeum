@@ -76,7 +76,7 @@ const _nftListWithMetadata = async (
 
     if (nft) nftsWithMetadata.set(nft.nid || "", nft);
   }
-  
+
   // console.log(`_nftListWithMetadata from ${collection}`, nftsWithMetadata);
   return nftsWithMetadata;
 };

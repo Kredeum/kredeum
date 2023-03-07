@@ -1,8 +1,8 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
-  import NetworksSelectSimple from "./Network/NetworksSelectSimple.svelte";
+  import NetworksSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionSelectSimple from "./Collections/CollectionSelectSimple.svelte";
+  import CollectionSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////

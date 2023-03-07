@@ -2,14 +2,14 @@
   // import type { Readable } from "svelte/store";
 
   // import AccountConnect from "../components/Account/AccountConnect.svelte";
-  import Networks from "../../components/Network/Networks.svelte
+  import Networks from "../components/Network/Networks.svelte";
   // import NftMintButton from "../Nft/NftMintButton.svelte";
   // import Nfts from "../components/Nft/Nfts.svelte";
   import NftsSimple from "./Simple/NftList/NftListSimple.svelte";
   // import Collections from "../components/Collection/Collections.svelte";
-  import CollectionSelectSimple from "../tests/Simple/Collections/CollectionSelectSimple.svelte";
+  import CollectionSelectSimple from "./Simple/CollectionList/CollectionListSelectSimple.svelte";
   import BreadCrumb from "./BreadCrumb.svelte";
-  import MetamaskSimple from "../tests/Simple/Network/MetamaskSimple.svelte";
+  import MetamaskSimple from "./Simple/Network/MetamaskSimple.svelte";
 
   let account: string;
   let signer: string;
@@ -29,7 +29,7 @@
   <!-- <Collections {chainId} bind:address {account} mintable={false} /> -->
   <CollectionSelectSimple {chainId} bind:address {account} />
 
-  <NftsSimple {chainId} {address} {account} />
+  <NftsSimple {chainId} {address} />
 </div>
 
 <style>

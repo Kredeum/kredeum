@@ -1,12 +1,11 @@
 <script lang="ts">
   import NftListDataSimple from "./NftListDataSimple.svelte";
-  
+
   export let chainId: number;
   export let address: string;
-  export let account: string = undefined;
 </script>
 
-<NftListDataSimple {chainId} {address} {account} let:nfts>
+<NftListDataSimple {chainId} {address} let:nfts>
   {#if nfts}
     {#if nfts.size > 0}
       {#each [...nfts.values()] as nft}

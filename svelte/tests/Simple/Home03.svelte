@@ -1,7 +1,7 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionsSimple from "./Collections/CollectionsSimple.svelte";
+  import CollectionsSimple from "./CollectionList/CollectionListSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   /////////////////////////////////////////////////////////////////////////

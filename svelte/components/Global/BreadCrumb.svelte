@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb } from "@helpers/refPage";
-  import { onMount } from "svelte";
+  import { refPage2Breadcrumb } from "@helpers/refPage";
 
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CollectionsDataSimple from "./CollectionsDataSimple.svelte";
+  import CollectionsDataSimple from "./CollectionListDataSimple.svelte";
   import CollectionSimple from "../Collection/CollectionSimple.svelte";
 
   export let chainId: number;
