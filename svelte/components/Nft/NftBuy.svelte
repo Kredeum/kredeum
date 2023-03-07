@@ -100,9 +100,10 @@
   onMount(buyInit);
 </script>
 
-<div
+<button
   on:click={handleCLick}
   on:keyup={handleCLick}
+  type="button"
   class="btn-buy {platform === 'wordpress' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
   title="Buy this NFT"
 >
@@ -112,7 +113,7 @@
   {:else}
     <strong>Not on sale</strong>
   {/if}
-</div>
+</button>
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>

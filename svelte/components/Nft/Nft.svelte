@@ -336,6 +336,7 @@
 
   :global(
       .kre-action-buttons button.btn-sell-modal,
+      .kre-action-buttons button.btn-buy-modal,
       .kre-action-buttons a.btn-transfer-modal,
       .kre-action-buttons a.btn-burn-modal,
       .kre-action-buttons a.btn-shortcod-modal,
