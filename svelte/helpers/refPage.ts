@@ -59,7 +59,7 @@ const refPage2Breadcrumb = (refBreadcrumb: RefPageType) => {
           ? `${chainName} > ${address} > #${tokenID} `
           : `${chainName} > ${address} `
         : `${chainName} `
-      : "Home") +
+      : "Home ") +
     (action ? `> ${action}` : "") +
     (account != constants.AddressZero ? `| @${account}` : "") +
     (signer != constants.AddressZero && signer != account ? ` != @${signer}` : "")

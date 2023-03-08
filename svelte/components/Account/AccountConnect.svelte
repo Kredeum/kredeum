@@ -20,7 +20,7 @@
 
   // change signer on memataskAccount change
   $: signer = $metamaskSignerAddress;
-  $: signer && console.log("ACCOUNT CHANGE", signer);
+  // $: signer && console.log("SIGNER CHANGE", signer);
 
   const classMetamask = txt ? "" : "btn btn-light btn-metamask";
   const _metamaskInstall = () => window.location.replace("https://metamask.io/download/");

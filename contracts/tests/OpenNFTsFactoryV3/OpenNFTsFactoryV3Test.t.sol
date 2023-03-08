@@ -8,7 +8,7 @@ import "src/OpenNFTsResolver.sol";
 import "src/OpenNFTsV4.sol";
 import "src/OpenAutoMarket.sol";
 
-import "OpenNFTs/tests//units/ERC173Test.t.sol";
+import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
 import "./OpenNFTsFactoryV3CloneTest.t.sol";
 
 contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {

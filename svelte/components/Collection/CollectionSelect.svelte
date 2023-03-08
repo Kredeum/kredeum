@@ -2,13 +2,16 @@
   import type { Readable } from "svelte/store";
   import type { CollectionType } from "@lib/common/types";
 
+  import { getContext } from "svelte";
+  import type { Writable } from "svelte/store";
+
   import { explorerCollectionUrl } from "@lib/common/config";
 
   import Collection from "./Collection.svelte";
   import { clickOutside } from "@helpers/clickOutside";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { keyCollection, keyCollections } from "@lib/common/keys";
+  import { keyCollection } from "@lib/common/keys";
   import { collectionSubListRefresh, collectionSubListStore } from "@stores/collection/collectionSubList";
   import {
     collectionDefaultRefresh,
@@ -16,50 +19,49 @@
     collectionDefaultSubStore
   } from "@stores/collection/collectionDefault";
 
-  /////////////////////////////////////////////////////////////////
-  // <CollectionSelect {chainId} bind:address {account} />
-  // Collection Select address on a network for an account
-  /////////////////////////////////////////////////////////////////
+  /////////////////////////////////////////////////
+  // <CollectionSelect chainId} bind:{address} {account} {mintable}  bind:{refreshing} {label} {txt} />
+  //  Collection List
+  /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string = undefined;
   export let account: string = undefined;
   export let mintable: boolean = false;
   export let label: boolean = true;
   export let txt: boolean = false;
+  export let refreshing: boolean = false;
 
-  // Context for refreshCollections & refreshing
-  ///////////////////////////////////////////////////////////
-  // let refreshCollections: Writable<number> = getContext("refreshCollections");
-  // let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
-  ///////////////////////////////////////////////////////////
+  let refreshAll: Writable<number> = getContext("refreshAll");
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
+  // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  // $: $refreshCollections,
-  $: mintable, chainId && account && handleChangeCollection();
-  let i: number = 0;
+  $: $refreshAll, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, null, mintable);
+    console.info("COLLECTIONS cached", $collections);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
-    console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
-    // $refreshing = true;
+    refreshing = true;
     await collectionSubListRefresh(chainId, account, null, mintable);
-    // $refreshing = false;
+    refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections
     collectionDefaultRefresh(chainId, account);
   };
+
+  // $: $collectionDefault && logDefault();
+  // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
 
   // Current Collection is already defined, or is defined in url, or is default collection
   $: $collectionDefault && account && handleChangeAddress();
@@ -85,7 +87,7 @@
   <p>
     {#if $collections?.size > 0}
       Collection
-      <!-- {#if $refreshing}...{/if} -->
+      {#if refreshing}...{/if}
 
       <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [key, coll]}
@@ -99,11 +101,11 @@
       </p>
     {:else}
       <p>
-        <!-- {#if $refreshing}
+        {#if refreshing}
           Refreshing collections...
         {:else}
-        {/if} -->
-        NO Collection found !
+          NO Collection found !
+        {/if}
       </p>
     {/if}
   </p>
@@ -111,7 +113,7 @@
   {#if label}
     <span class="label"
       >Collection
-      <!-- {#if $refreshing}...{/if} -->
+      {#if refreshing}...{/if}
       {#if address}
         <a
           class="info-button"
@@ -154,11 +156,11 @@
       {:else}
         <div class="select-trigger">
           <em>
-            <!-- {#if $refreshing}
-                Refreshing collections...
-              {:else}
-              {/if} -->
-            NO Collection found !
+            {#if refreshing}
+              Refreshing collections...
+            {:else}
+              NO Collection found !
+            {/if}
           </em>
         </div>
       {/if}

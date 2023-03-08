@@ -1,6 +1,6 @@
 <script lang="ts">
-  import {  getNetwork, networks } from "@lib/common/config";
-  import Network from "./Network.svelte";
+  import { getNetwork, networks } from "@lib/common/config";
+  import Network from "../components/Network/Network.svelte";
 
   /////////////////////////////////////////////////
   // <Networks {chainId}  />

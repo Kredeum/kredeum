@@ -1,7 +1,7 @@
 <script lang="ts">
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import Collections from "../Collection/Collections.svelte";
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
 
   /////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />
@@ -34,6 +34,6 @@
 
 {#if chainId && signer}
   <p>
-    <Collections {chainId} {account} bind:address {txt} mintable={true} />
+    <CollectionSelect {chainId} {account} bind:address {txt} mintable={true} />
   </p>
 {/if}

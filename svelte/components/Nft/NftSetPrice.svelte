@@ -24,7 +24,7 @@
 
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
-  import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
+  import { nftPrice, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />

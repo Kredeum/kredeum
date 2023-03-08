@@ -10,7 +10,7 @@ import { collectionStore } from "@stores/collection/collection";
 import { collectionListStore } from "@stores/collection/collectionList";
 
 import { nftStore } from "./nft";
-import { keyNftList } from "@lib/common/keys";
+// import { keyNftList } from "@lib/common/keys";
 
 import { constants } from "ethers";
 import { isAddressNotZero, tokenIdSelected, tokenIdSplit } from "@lib/common/config";
@@ -28,8 +28,6 @@ const nftSubListStore = (
     let nftsMap = new Map() as Map<string, NftType>;
     if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
 
-    const okAll = filter.tokenID === "";
-
     const nfts = [...$nftListStore].filter(([, nft]) => {
       // const okParams = chainId > 0;
       const okParams = chainId > 0 && Boolean(address);
@@ -41,15 +39,12 @@ const nftSubListStore = (
       const okAddress = nft.address === address;
 
       // OWNER
-      const okOwner = filter.owner && nft.owner === filter.owner;
+      const okOwner = !filter.owner || nft.owner === filter.owner;
 
       // TOKENID
       const okTokenID = tokenIdSelected(filter.tokenID, nft.tokenID);
 
-      // FILTER
-      const okFilter = okAll || okOwner || okTokenID;
-
-      const ok = okParams && okNetwork && okAddress && okFilter;
+      const ok = okParams && okNetwork && okAddress && okOwner && okTokenID;
 
       return ok;
     });

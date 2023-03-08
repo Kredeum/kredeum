@@ -5,7 +5,7 @@
   import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
   import { nftMint, nftMint4 } from "@lib/nft/nft-mint";
 
-  import Networks from "../components/Network/Networks.svelte";
+  import Networks from "../components/Network/NetworkSelect.svelte";
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////

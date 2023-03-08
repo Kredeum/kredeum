@@ -29,13 +29,13 @@
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <Nft {chainId} {address} {tokenID} {account}? {platform}? />
+  //  <Nft {chainId} {address} {tokenID} {owner}? {platform}? />
   // Display NFT solo
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let account: string = undefined;
+  export let owner: string = undefined;
   export let platform: string = undefined; // "wordpress";
   /////////////////////////////////////////////////////////////
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
@@ -49,7 +49,7 @@
         <MediaPreview {chainId} {address} {tokenID} />
       </div>
       <div class="kre-action-buttons {platform === 'wordpress' ? 'kre-wordpress-buttons' : ''}">
-        {#if nftOwner($nft) === account && platform !== "wordpress"}
+        {#if nftOwner($nft) === owner && platform !== "wordpress"}
           <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
             ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
           >

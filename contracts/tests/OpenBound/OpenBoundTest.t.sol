@@ -7,11 +7,11 @@ import "src/next/OpenBound.sol";
 
 import "./OpenBoundSupportsTest.t.sol";
 
-import "OpenNFTs/tests//sets/OpenNFTsTest.t.sol";
+import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
 
-import "OpenNFTs/tests//units/ERC173Test.t.sol";
-import "OpenNFTs/tests//units/ERC721NonTransferableTest.t.sol";
-import "OpenNFTs/tests//units/OpenPauseableTest.t.sol";
+import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
+import "OpenNFTs/contracts/tests/units/ERC721NonTransferableTest.t.sol";
+import "OpenNFTs/contracts/tests/units/OpenPauseableTest.t.sol";
 
 contract OpenBoundTest is
     OpenNFTsTest,

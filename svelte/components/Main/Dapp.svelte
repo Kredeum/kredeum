@@ -6,6 +6,9 @@
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
   import BreadCrumb from "../Global/BreadCrumb.svelte";
+  import ButtonAll from "../Global/ButtonAll.svelte";
+  import ButtonMore from "../Global/ButtonMore.svelte";
+  import ButtonRefresh from "../Global/ButtonRefresh.svelte";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   // import Networks from "../Network/Networks.svelte";
@@ -14,11 +17,12 @@
   import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
-  import { onMount } from "svelte";
-  import { refPage2UrlHash, refPageFromUrlHash, RefPageType } from "@helpers/refPage";
+  import { onMount, setContext } from "svelte";
+  import { refPageFromUrlHash, RefPageType } from "@helpers/refPage";
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { constants } from "ethers";
+  import { writable, Writable } from "svelte/store";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -28,12 +32,26 @@
   let tokenID: string;
   let account: string;
   let signer: string;
+  let owner: string;
 
   let initalized = false;
+  let refreshingCollections = false;
+  let refreshingNfts = false;
+  let all = false;
+  let page = 1;
+  let end = true;
 
-  $: nftCount = tokenIdCount(tokenID);
+  let refreshAll: Writable<number> = writable(1);
+  setContext("refreshAll", refreshAll);
 
   const collectionDefined = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
+  const getOwner = () => {
+    owner = all ? null : account;
+  };
+
+  $: refresh = refreshingCollections || refreshingNfts;
+  $: nftCount = tokenIdCount(tokenID);
+  $: account, all, getOwner();
 
   // SET chainId on memataskChainId change
   $: $metamaskChainId && handleMetamaskChainId();
@@ -44,7 +62,7 @@
   // SET nework on chainId change
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);
+    // console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);
 
     if (initalized) {
       if (chainId != $metamaskChainId) setNetwork();
@@ -60,14 +78,14 @@
   // RESET tokenID on collection change
   $: isAddressNotZero(address) && handleAddress();
   const handleAddress = async () => {
-    console.log("<Dapp handleAddress", initalized, address);
+    // console.log("<Dapp handleAddress", initalized, address);
 
     if (initalized) resetTokenID();
   };
   // SET account on signer change
   $: isAddressNotZero(signer) && handleSigner();
   const handleSigner = async () => {
-    console.log("<Dapp handleSigner", initalized, signer);
+    // console.log("<Dapp handleSigner", initalized, signer);
 
     if (initalized) account = signer;
   };
@@ -79,12 +97,17 @@
   // $: window.location.hash = refPage2UrlHash({ chainId, address, tokenID });
 
   const resetAddress = () => (address = undefined);
-  const resetTokenID = () => (tokenID = "");
+  const resetTokenID = () => {
+    all = false;
+    tokenID = "";
+    getOwner();
+    console.log("OWNER resetTokenID 2", owner, all, account);
+  };
 
   onMount(async () => {
     // GET optionnal params from URL HASH
     const _refHash = refPageFromUrlHash(window.location.hash);
-    console.log("<Dapp get _refHash", _refHash);
+    // console.log("<Dapp get _refHash", _refHash);
 
     // init Metamask
     await metamaskInit();
@@ -118,7 +141,7 @@
       {/if}
     {/if}
 
-    <BreadCrumb {chainId} {address} {tokenID} {account} {signer} />
+    <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} />
 
     <div class="row alignbottom">
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
@@ -130,11 +153,19 @@
         <NetworkSelect bind:chainId />
       </div>
 
-      {#if chainId}
-        <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-          <CollectionSelect {chainId} bind:address {account} />
-        </div>
-      {/if}
+      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <CollectionSelect {chainId} bind:address {account} bind:refreshing={refreshingCollections} />
+      </div>
+
+      <div class="col col-sm-3">
+        <ButtonAll bind:all />
+
+        <ButtonRefresh {refresh} />
+
+        {#if !end}
+          <ButtonMore bind:page   />
+        {/if}
+      </div>
     </div>
   </span>
 
@@ -145,10 +176,9 @@
           <i class="fa fa-arrow-left fa-left" />
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
         </h2>
-
-        <Nft {chainId} {address} {tokenID} {account} />
+        <Nft {chainId} {address} {tokenID} owner={account} />
       {:else}
-        <Nfts {chainId} {address} {account} bind:tokenID />
+        <Nfts {chainId} {address} bind:tokenID {owner} {page} bind:end bind:refreshing={refreshingNfts} />
       {/if}
     {/if}
   </span>

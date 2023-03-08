@@ -27,7 +27,7 @@
   import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import Collections from "../Collection/Collections.svelte";
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputAudioMint from "../Input/InputAudioMint.svelte";
   import InputVideoMint from "../Input/InputVideoMint.svelte";
@@ -41,10 +41,7 @@
   export let chainId: number;
   ////////////////////////////////////////////////////////////////
 
-  // Context for refreshCollections & refreshNfts
-  let refreshCollections: Writable<number> = getContext("refreshCollections");
-  let refreshNfts: Writable<number> = getContext("refreshNfts");
-  /////////////////////////////////////////////////
+  let refreshAll: Writable<number> = getContext("refreshAll");
 
   let address: string;
 
@@ -289,8 +286,7 @@
 
     minting = S6_MINTED;
 
-    $refreshCollections += 1;
-    $refreshNfts += 1;
+    $refreshAll += 1;
   };
 
   onMount(() => {
@@ -441,7 +437,13 @@
               </div>
               <div class="section kre-mint-collection">
                 <div class="titre">Add to an existing Collection</div>
-                <Collections {chainId} bind:address account={$metamaskSignerAddress} mintable={true} label={false} />
+                <CollectionSelect
+                  {chainId}
+                  bind:address
+                  account={$metamaskSignerAddress}
+                  mintable={true}
+                  label={false}
+                />
               </div>
 
               {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}

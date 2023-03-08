@@ -24,12 +24,7 @@
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
-  // Context for refreshCollections & refreshNfts
-  ///////////////////////////////////////////////////////////
-  let refreshCollections: Writable<number> = getContext("refreshCollections");
-  let refreshNfts: Writable<number> = getContext("refreshNfts");
-  ///////////////////////////////////////////////////////////
-
+  let refreshAll: Writable<number> = getContext("refreshAll");
   let transfering: number;
   let transferTxHash: string;
   let transferError: string;
@@ -102,8 +97,7 @@
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
 
-    $refreshCollections += 1;
-    $refreshNfts += 1;
+    $refreshAll += 1;
   };
 
   onMount(() => {

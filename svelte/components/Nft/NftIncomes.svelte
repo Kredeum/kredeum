@@ -1,14 +1,13 @@
 <script lang="ts">
   import type { BigNumberish } from "ethers";
-  import { BigNumber, constants, utils } from "ethers";
+  import { BigNumber, utils } from "ethers";
   const { formatEther } = utils;
 
-  import type { NftType, ReceiverType } from "@lib/common/types";
+  import type { NftType } from "@lib/common/types";
   import { config, getCurrency } from "@lib/common/config";
   import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
-  import { nftChainId, nftOwner, nftPrice, nftRoyaltyFee, nftRoyaltyAccount, nftRoyaltyMinimum } from "@helpers/nft";
-  import { onMount } from "svelte";
+  import { nftChainId, nftOwner, nftRoyaltyFee, nftRoyaltyAccount, nftRoyaltyMinimum } from "@helpers/nft";
 
   //////////////////////////////////////////////////////////////////////////
   //  <NftIncomes {nft} {price} />

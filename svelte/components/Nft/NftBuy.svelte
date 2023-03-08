@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import { nftOwner, nftPrice, nftRoyalty } from "@helpers/nft";
+  import {  nftPrice } from "@helpers/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";

@@ -1,18 +1,14 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { writable } from "svelte/store";
   import type { CollectionType } from "@lib/common/types";
-
-  import { getContext } from "svelte";
-  import type { Writable } from "svelte/store";
 
   import { explorerCollectionUrl } from "@lib/common/config";
 
-  import Collection from "./Collection.svelte";
+  import Collection from "../components/Collection/Collection.svelte";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { keyCollection } from "@lib/common/keys";
+  import CopyRefItem from "../components/Global/CopyRefItem.svelte";
+  import { keyCollection, keyCollections } from "@lib/common/keys";
   import { collectionSubListRefresh, collectionSubListStore } from "@stores/collection/collectionSubList";
   import {
     collectionDefaultRefresh,
@@ -20,10 +16,10 @@
     collectionDefaultSubStore
   } from "@stores/collection/collectionDefault";
 
-  /////////////////////////////////////////////////
-  // <Collections chainId} bind:{address} {account} {mintable} {label} {txt} />
-  //  Collection List
-  /////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
+  // <CollectionSelect {chainId} bind:address {account} />
+  // Collection Select address on a network for an account
+  /////////////////////////////////////////////////////////////////
   export let chainId: number;
   export let address: string = undefined;
   export let account: string = undefined;
@@ -33,19 +29,20 @@
 
   // Context for refreshCollections & refreshing
   ///////////////////////////////////////////////////////////
-  let refreshCollections: Writable<number> = getContext("refreshCollections");
-  let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
+  // let refreshCollections: Writable<number> = getContext("refreshCollections");
+  // let refreshing: Writable<boolean> = txt ? writable(false) : getContext("refreshing");
   ///////////////////////////////////////////////////////////
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
-  // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshCollections, mintable, chainId && account && handleChangeCollection();
+  // $: $refreshCollections,
+  $: mintable, chainId && account && handleChangeCollection();
+  let i: number = 0;
   const handleChangeCollection = async (): Promise<void> => {
-    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
+    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, null, mintable);
@@ -55,17 +52,14 @@
     console.info("COLLECTIONS cached", $collections);
 
     // ACTION : async refresh Collections
-    $refreshing = true;
+    // $refreshing = true;
     await collectionSubListRefresh(chainId, account, null, mintable);
-    $refreshing = false;
+    // $refreshing = false;
     console.info("COLLECTIONS refreshed", $collections);
 
     // ACTION : sync refresh default Collections
     collectionDefaultRefresh(chainId, account);
   };
-
-  // $: $collectionDefault && logDefault();
-  // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
 
   // Current Collection is already defined, or is defined in url, or is default collection
   $: $collectionDefault && account && handleChangeAddress();
@@ -91,7 +85,7 @@
   <p>
     {#if $collections?.size > 0}
       Collection
-      {#if $refreshing}...{/if}
+      <!-- {#if $refreshing}...{/if} -->
 
       <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [key, coll]}
@@ -105,71 +99,69 @@
       </p>
     {:else}
       <p>
-        {#if $refreshing}
+        <!-- {#if $refreshing}
           Refreshing collections...
         {:else}
-          NO Collection found !
-        {/if}
+        {/if} -->
+        NO Collection found !
       </p>
     {/if}
   </p>
 {:else}
-  <div class="col col-xs-12 col-sm-{mintable ? '12' : '3'} kre-copy-ref-container">
-    {#if label}
-      <span class="label"
-        >Collection
-        {#if $refreshing}...{/if}
-        {#if address}
-          <a
-            class="info-button"
-            href={_explorerCollectionUrl(address)}
-            title="&#009;  Collection address (click to view in explorer)&#013;
+  {#if label}
+    <span class="label"
+      >Collection
+      <!-- {#if $refreshing}...{/if} -->
+      {#if address}
+        <a
+          class="info-button"
+          href={_explorerCollectionUrl(address)}
+          title="&#009;  Collection address (click to view in explorer)&#013;
       {_collectionUrl(address)}"
-            target="_blank"
-            rel="noreferrer"><i class="fas fa-info-circle" /></a
-          >
-          <CopyRefItem copyData={address} />
-        {/if}
-      </span>
-    {/if}
-    <div
-      class="select-wrapper select-storeCollection"
-      use:clickOutside={() => (open = false)}
-      on:click={handleToggleOpen}
-      on:keydown={handleToggleOpen}
-    >
-      <div class="select" class:open>
-        {#if $collections?.size > 0}
-          <div class="select-trigger">
-            <span>
-              <Collection {chainId} {address} {account} />
+          target="_blank"
+          rel="noreferrer"><i class="fas fa-info-circle" /></a
+        >
+        <CopyRefItem copyData={address} />
+      {/if}
+    </span>
+  {/if}
+  <div
+    class="select-wrapper select-storeCollection"
+    use:clickOutside={() => (open = false)}
+    on:click={handleToggleOpen}
+    on:keydown={handleToggleOpen}
+  >
+    <div class="select" class:open>
+      {#if $collections?.size > 0}
+        <div class="select-trigger">
+          <span>
+            <Collection {chainId} {address} {account} />
+          </span>
+        </div>
+        <div class="custom-options">
+          {#each [...$collections] as [key, coll]}
+            <span
+              id={key}
+              class="custom-option {coll.address == address ? 'selected' : ''}"
+              data-value={coll.address}
+              on:click={() => _setCollection(coll.address)}
+              on:keydown={() => _setCollection(coll.address)}
+            >
+              <Collection chainId={coll.chainId} address={coll.address} {account} />
             </span>
-          </div>
-          <div class="custom-options">
-            {#each [...$collections] as [key, coll]}
-              <span
-                id={key}
-                class="custom-option {coll.address == address ? 'selected' : ''}"
-                data-value={coll.address}
-                on:click={() => _setCollection(coll.address)}
-                on:keydown={() => _setCollection(coll.address)}
-              >
-                <Collection chainId={coll.chainId} address={coll.address} {account} />
-              </span>
-            {/each}
-          </div>
-        {:else}
-          <div class="select-trigger">
-            <em>
-              {#if $refreshing}
+          {/each}
+        </div>
+      {:else}
+        <div class="select-trigger">
+          <em>
+            <!-- {#if $refreshing}
                 Refreshing collections...
               {:else}
-                NO Collection found !
-              {/if}
-            </em>
-          </div>
-        {/if}
-      </div>
+              {/if} -->
+            NO Collection found !
+          </em>
+        </div>
+      {/if}
     </div>
   </div>
 {/if}

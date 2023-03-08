@@ -10,13 +10,13 @@
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <NftLine {nft} {account}? {more}? {platform}? />
+  //  <NftLine {nft} {owner}? {more}? {platform}? />
   // Display NFT line
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let account: string = undefined;
+  export let owner: string = undefined;
   export let platform: string = undefined;
   export let more = 0;
   ///////////////////////////////////////////////////////////
@@ -79,7 +79,7 @@
     </div>
 
     <div id="more-detail-{tokenID || ''}" class="detail">
-      <Nft {chainId} {address} {tokenID} {account} {platform} />
+      <Nft {chainId} {address} {tokenID} {owner} {platform} />
     </div>
   </div>
 {/if}

@@ -10,11 +10,10 @@
   export let tokenID: string = undefined;
   export let account: string = undefined;
   export let offset = 0;
-  export let limit = 18;
+  export let limit = 12;
 
   ////////////////////////////////////////////////////////////////////////
   $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { tokenID, owner: account, offset, limit });
-  // $: nfts = nftSubListGetStoreAndRefresh(chainId, address, {  offset, limit });
   ////////////////////////////////////////////////////////////////////////
 </script>
 
