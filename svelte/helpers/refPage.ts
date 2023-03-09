@@ -1,15 +1,6 @@
+import type { RefPageType } from "@lib/common/types";
 import { getChainName, getChainId, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { constants } from "ethers";
-
-type RefPageType = {
-  chainId?: number;
-  address?: string;
-  tokenID?: string;
-  account?: string;
-  signer?: string;
-  action?: string;
-  chainName?: string;
-};
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number;

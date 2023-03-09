@@ -2,10 +2,11 @@
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
   import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
-  import { RefPageType } from "@helpers/refPage";
+
   import { providerSetFallback } from "@lib/common/provider-get";
   import { constants } from "ethers";
   import { metamaskInit } from "@helpers/metamask";
+  import { RefPageType } from "@lib/common/types";
 
   /////////////////////////////////////////////////////////////////
   // <NftAutomarket {chainId} {address} {tokenID} {platform}? />

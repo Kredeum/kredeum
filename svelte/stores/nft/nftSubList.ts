@@ -13,7 +13,7 @@ import { nftStore } from "./nft";
 // import { keyNftList } from "@lib/common/keys";
 
 import { constants } from "ethers";
-import { isAddressNotZero, tokenIdSelected, tokenIdSplit } from "@lib/common/config";
+import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@lib/common/config";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
@@ -52,7 +52,7 @@ const nftSubListStore = (
     const offset = filter?.offset || 0;
     if (offset >= nfts.length) return nftsMap;
 
-    let limit = filter?.limit || 6;
+    let limit = filter?.limit || PAGE_SIZE;
     if (offset + limit > nfts.length) limit = nfts.length - offset;
 
     nftsMap = new Map(nfts.slice(offset, limit));
@@ -99,7 +99,7 @@ const nftSubListRefresh = async (
         nftStore.setOne(await nftGetMetadata(nft));
       }
     }
-  }// else search all tokenID !
+  } // else search all tokenID !
 };
 
 const nftSubListGetStoreAndRefresh = (

@@ -182,6 +182,18 @@ type Property = {
 
 type Properties = { [k: string]: Property };
 
+
+type RefPageType = {
+  chainId?: number;
+  address?: string;
+  tokenID?: string;
+  account?: string;
+  signer?: string;
+  action?: string;
+  chainName?: string;
+};
+
+
 export type {
   WindowEthereumProvider,
   WindowExternalProvider,
@@ -197,5 +209,6 @@ export type {
   ABIS,
   NftMetadata,
   IOpenNFTsKeys,
-  IErcKeys
+  IErcKeys,
+  RefPageType
 };

@@ -1,6 +1,6 @@
 <script lang="ts">
-  import type { RefPageType } from "@helpers/refPage";
-  import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb } from "@helpers/refPage";
+
+  import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb, RefPageType } from "@helpers/refPage";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable, Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, isAddressNotZero } from "@lib/common/config";
+  import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@lib/common/config";
 
   import NftsDisplayMode from "./NftsDisplayMode.svelte";
 
@@ -14,8 +14,7 @@
 
   import { CollectionType, NftType } from "@lib/common/types";
   import { getContext } from "svelte";
-
-  const PAGE_SIZE = 12;
+  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   // <Nfts {chainId} {address} {tokenID?} {account?} {page?}  {refreshing?}/>
@@ -25,23 +24,43 @@
   export let address: string;
   export let tokenID: string = undefined;
   export let owner: string = undefined;
-  export let page = 1;
-  export let refreshing: boolean = false;
+  export let page: number = undefined;
+  export let end: boolean = undefined;
+  export let refreshing: boolean = undefined;
   export let platform: string = undefined;
-  export let end: boolean = false;
+  export const more = () => page++;
   ////////////////////////////////////////////////////////////////////////
 
+  let mode: string = "grid";
   let refreshAll: Writable<number> = getContext("refreshAll");
   let collection: Readable<CollectionType>;
   let nfts: Readable<Map<string, NftType>>;
 
-  $: ownerSupply =
+  const getOwnerSupply = (): number =>
     isAddressNotZero(owner) && $collection?.balancesOf?.has(owner) ? $collection.balancesOf.get(owner) : -1;
-  $: totalSupply = $collection?.hasOwnProperty("totalSupply") ? $collection.totalSupply : -1;
-  $: maxSupply = isAddressNotZero(owner) ? ownerSupply : totalSupply;
+  const getTotalSupply = (): number => ($collection?.hasOwnProperty("totalSupply") ? $collection.totalSupply : -1);
+  const getMaxSupply = () => (isAddressNotZero(owner) ? getOwnerSupply() : getTotalSupply());
 
-  $: $refreshAll, tokenID, owner, page > 0 && chainId && isAddressNotZero(address) && refresh();
+  let displayOwnerSupply: string = "";
+  $: owner, $collection, handleDisplayOwnerSupply();
+  const handleDisplayOwnerSupply = (): string =>
+    (displayOwnerSupply = isAddressNotZero(owner) ? (getOwnerSupply() >= 0 ? String(getOwnerSupply()) : "?") : "");
 
+  let displayTotalSupply: string = "";
+  $: $collection, handleDisplayTotalSupply();
+  const handleDisplayTotalSupply = (): string =>
+    (displayTotalSupply = getTotalSupply() >= 0 ? String(getTotalSupply()) : "?");
+
+  $: isCollection({ chainId, address }) && resetNfts();
+  const resetNfts = () => {
+    console.log("<Nfts resetNfts:", resetNfts);
+    refreshing = false;
+    end = false;
+    nfts = null;
+    page = 1;
+  };
+
+  $: $refreshAll, tokenID, owner, page > 0 && isCollection({ chainId, address }) && refresh();
   const refresh = async () => {
     collection = collectionStore.getOne(chainId, address);
     console.info("NFTS cached collection", $collection);
@@ -50,6 +69,7 @@
     let offset = 0;
 
     let limit = page * PAGE_SIZE;
+    let maxSupply = getMaxSupply();
     if (0 < maxSupply && maxSupply < limit) limit = maxSupply;
 
     if (limit > offset) {
@@ -63,6 +83,7 @@
     // await tick();
 
     limit = page * PAGE_SIZE;
+    maxSupply = getMaxSupply();
     if (0 < maxSupply && maxSupply < limit) limit = maxSupply;
 
     offset = Math.max(limit - PAGE_SIZE, 0);
@@ -71,8 +92,8 @@
     // console.log("NFTS collection:", $collection);
     // console.log("NFTS collection has totalSupply", $collection?.hasOwnProperty("totalSupply"));
 
-    // console.log("NFTS ownerSupply:", ownerSupply);
-    // console.log("NFTS totalSupply:", totalSupply);
+    // console.log("NFTS ownerSupply:", getOwnerSupply());
+    // console.log("NFTS totalSupply:", getTotalSupply());
     // console.log("NFTS maxSupply:", maxSupply);
     // console.log("NFTS page:", page);
     // console.log("NFTS limit:", limit);
@@ -90,16 +111,19 @@
     console.info("NFTS refreshed params", chainId, address, { tokenID, owner, offset, limit });
   };
 
-  let mode: string = "grid";
+  $: console.log("NFTS from", chainId, "/", address, "/", tokenID, "@", owner);
 
-  $: console.log("NFTS from", chainId, address, tokenID, owner);
+  onMount(async () => {
+    resetNfts();
+    await refresh();
+  });
 </script>
 
 <div class="row alignbottom">
   <div class="col col-xs-12">
     <h2>Collection '{$collection?.name}'</h2>
-    {#if owner}{ownerSupply >= 0 ? ownerSupply : "0"} / {/if}
-    {totalSupply >= 0 ? totalSupply : "?"}
+    {#if owner}{displayOwnerSupply} / {/if}
+    {displayTotalSupply}
     {$collection?.symbol || "NFT"}
     {#if refreshing}...{/if}
     <a

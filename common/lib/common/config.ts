@@ -2,11 +2,12 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { NetworkType, CollectionType, NftType } from "@lib/common/types";
+import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
 
+const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
@@ -23,6 +24,8 @@ const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
+const isCollection = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
+
 const isAddress = (address = ""): boolean => utils.isAddress(address);
 const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
 
@@ -32,7 +35,7 @@ const getChecksumAddress = (address = ""): string =>
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
 
-const isNetwork = (chainId: number | string): boolean => networksMap.has(Number(chainId));
+const isNetwork = (chainId: number | string | undefined): boolean => networksMap.has(Number(chainId));
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
@@ -477,6 +480,7 @@ export {
   explorerAccountUrl,
   explorerNftLink,
   isTestnet,
+  isCollection,
   isNetwork,
   isAddress,
   isAddressNotZero,
@@ -525,6 +529,7 @@ export {
   textShort,
   urlToLink,
   config,
+  PAGE_SIZE,
   MAX_FEE,
   DEFAULT_NAME,
   DEFAULT_SYMBOL,
