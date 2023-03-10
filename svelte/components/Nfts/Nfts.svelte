@@ -4,6 +4,7 @@
   import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@lib/common/config";
 
   import NftsDisplayMode from "./NftsDisplayMode.svelte";
+  import ButtonMore from "../Global/ButtonMore.svelte";
 
   import NftsLines from "./NftsLines.svelte";
   import NftsGrid from "./NftsGrid.svelte";
@@ -25,9 +26,9 @@
   export let tokenID: string = undefined;
   export let owner: string = undefined;
   export let page: number = undefined;
-  export let end: boolean = undefined;
   export let refreshing: boolean = undefined;
   export let platform: string = undefined;
+  export let end: boolean = undefined;
   export const more = () => page++;
   ////////////////////////////////////////////////////////////////////////
 
@@ -55,13 +56,14 @@
   const resetNfts = () => {
     console.log("<Nfts resetNfts:", resetNfts);
     refreshing = false;
-    end = false;
     nfts = null;
     page = 1;
   };
 
   $: $refreshAll, tokenID, owner, page > 0 && isCollection({ chainId, address }) && refresh();
   const refresh = async () => {
+    end = true;
+
     collection = collectionStore.getOne(chainId, address);
     console.info("NFTS cached collection", $collection);
 
@@ -145,3 +147,11 @@
 {:else}
   <NftsLines {chainId} nfts={$nfts} {owner} {platform} />
 {/if}
+
+<div class="row">
+  <div class="col col-sm">
+    {#if !end}
+      <button class="btn btn-default" on:click={more} title="      Click to View more NFTs">Display more NFTs...</button>
+    {/if}
+  </div>
+</div>

@@ -5,17 +5,16 @@
   import Navigation from "../Global/Navigation.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
   import Title from "../Global/Title.svelte";
-  import BreadCrumb from "../Global/BreadCrumb.svelte";
   import ButtonOwner from "../Global/ButtonOwner.svelte";
-  import ButtonMore from "../Global/ButtonMore.svelte";
   import ButtonRefresh from "../Global/ButtonRefresh.svelte";
-
   import AccountConnect from "../Account/AccountConnect.svelte";
-  // import Networks from "../Network/Networks.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
+  // import BreadCrumb from "../Global/BreadCrumb.svelte";
+  // import Networks from "../Network/Networks.svelte";
+
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount, setContext } from "svelte";
   import { refPage2UrlHash, refPageFromUrlHash } from "@helpers/refPage";
@@ -35,9 +34,6 @@
   let account: string;
   let owner: string;
   let signer: string;
-
-  let end: boolean;
-  let morePage: () => number;
 
   let initalized = false;
   let refreshingCollections = false;
@@ -99,7 +95,6 @@
   };
   const resetTokenID = () => {
     owner = account;
-    end = false;
     tokenID = "";
     console.log("<Dapp resetTokenID");
   };
@@ -162,9 +157,6 @@
           <ButtonOwner {account} bind:owner />
         {/if}
         <ButtonRefresh {refresh} />
-        {#if !end}
-          <ButtonMore more={morePage} />
-        {/if}
       </div>
     </div>
   </span>
@@ -178,7 +170,7 @@
         </h2>
         <Nft {chainId} {address} {tokenID} {owner} />
       {:else}
-        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} bind:more={morePage} bind:end />
+        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} />
       {/if}
     {/if}
   </span>
