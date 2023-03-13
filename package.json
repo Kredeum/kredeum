@@ -24,7 +24,7 @@
   "author": "kredeum",
   "license": "MIT",
   "engines": {
-    "node": "^16||^18",
+    "node": "^18",
     "pnpm": "^7"
   },
   "pnpm": {

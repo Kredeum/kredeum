@@ -16,7 +16,7 @@ async function* transferNft(
   from: string,
   to: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  console.log("transferNft", chainId, address, tokenID, to);
+  // console.log("transferNft", chainId, address, tokenID, to);
 
   if (!(chainId && address && address != constants.AddressZero && tokenID && to && from)) return {};
   // console.log("transferNft from", fromAddress);
@@ -34,7 +34,7 @@ async function* transferNft(
 
     txResp = await (contract as IOpenAutoMarket).gift(to, tokenID, { value: String(minimumRoyalty) });
   } else if (collection.supports?.IERC721) {
-    console.log("transferNft IERC721 safeTransferFrom", from, to, tokenID);
+    // console.log("transferNft IERC721 safeTransferFrom", from, to, tokenID);
     txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](from, to, tokenID);
   } else if (collection.supports?.IERC1155) {
     txResp = await (contract as IERC1155).safeTransferFrom(from, to, tokenID, 1, "0x00");

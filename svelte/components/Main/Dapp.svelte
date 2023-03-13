@@ -55,7 +55,7 @@
   // SET nework on chainId change
   $: chainId && handleChainId();
   const handleChainId = async () => {
-    console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);
+    // console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);
 
     if (initalized) {
       setNetwork();
@@ -72,7 +72,7 @@
   // RESET tokenID on collection change
   $: isAddressNotZero(address) && handleAddress();
   const handleAddress = async () => {
-    console.log("<Dapp handleAddress", initalized, address);
+    // console.log("<Dapp handleAddress", initalized, address);
 
     if (initalized) resetTokenID();
   };
@@ -91,12 +91,12 @@
   const resetAddress = () => {
     address = null;
     resetTokenID();
-    console.log("<Dapp resetAddress", owner);
+    // console.log("<Dapp resetAddress", owner);
   };
   const resetTokenID = () => {
     owner = account;
     tokenID = "";
-    console.log("<Dapp resetTokenID");
+    // console.log("<Dapp resetTokenID");
   };
 
   onMount(async () => {

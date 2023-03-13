@@ -94,7 +94,7 @@ const covalentNftList = async (
   const owner = filter.owner || constants.AddressZero;
   const limit = filter.limit || FETCH_LIMIT;
   const address = getChecksumAddress(collection.address);
-  console.log("covalentNftList", chainId, address, owner, limit);
+  // console.log("covalentNftList", chainId, address, owner, limit);
 
   const nfts: Map<string, NftType> = new Map();
   if (!(chainId && address && covalentActive(chainId))) return nfts;

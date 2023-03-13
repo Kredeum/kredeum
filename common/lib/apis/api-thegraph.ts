@@ -60,7 +60,7 @@ const thegraphNftList = async (
 
     nfts.set(nid, { chainId, address, tokenID, tokenURI, owner, nid });
   }
-  console.log("thegraphNftList", nfts.size, nfts);
+  // console.log("thegraphNftList", nfts.size, nfts);
   return nfts;
 };
 

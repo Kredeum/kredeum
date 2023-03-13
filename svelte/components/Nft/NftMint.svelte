@@ -83,7 +83,7 @@
 
   $: price && handlePriceError();
   const handlePriceError = () => {
-    console.log("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
+    console.info("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
     collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
       ? (inputPriceError = `Price too low, minimum price should be set above ${reduceDecimals(

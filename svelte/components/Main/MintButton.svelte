@@ -1,5 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
+  import { onMount } from "svelte";
+  import { metamaskInit } from "@helpers/metamask";
 
   import type { NftType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
@@ -18,8 +20,8 @@
   import { collectionDefaultSubStore } from "@stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
-  // <NftMintButton {src} {metadata} {alt} {pid} {width} {display} />
-  // Nft Mint Button
+  // <MintButton {src} {metadata} {alt} {pid} {width} {display} />
+  // Mint Button
   /////////////////////////////////////////////////
   export let src: string;
   export let metadata: string = "{}";
@@ -28,6 +30,7 @@
   export let nid: string = undefined;
   export let width = 100;
   export let display = false;
+  export let txt = true;
   /////////////////////////////////////////////////
 
   let mintedNft: NftType;
@@ -107,6 +110,8 @@
 
     return mintedNft;
   };
+
+  onMount(async () => await metamaskInit());
 </script>
 
 <main id="kredeum-mint" bind:this={refThis}>
@@ -135,7 +140,7 @@
     {/if}
   {:else}
     <small>
-      <br /><AccountConnect />
+      <br /><AccountConnect {txt}/>
     </small>
   {/if}
 

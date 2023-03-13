@@ -93,7 +93,7 @@ const nftSubListRefresh = async (
   // add targeted tokenID if not in list
   if (filter.tokenID != "") {
     for (const tokenID of tokenIdSplit(filter.tokenID)) {
-      console.log("nftSubListRefresh tokenID", tokenID);
+      // console.log("nftSubListRefresh tokenID", tokenID);
       if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
         const nft = await nftLib(chainId, collection, tokenID);
         nftStore.setOne(await nftGetMetadata(nft));

@@ -24,7 +24,7 @@
 
   onMount(async () => {
     const refParams: RefPageType = { chainId, address, tokenID };
-    console.log("<NftAutomarket refParams:", refParams);
+    // console.log("<NftAutomarket refParams:", refParams);
 
     await metamaskInit();
     await providerSetFallback(chainId);

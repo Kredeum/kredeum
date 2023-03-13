@@ -3,7 +3,7 @@
 
   // import AccountConnect from "../components/Account/AccountConnect.svelte";
   import Networks from "./Networks.svelte";
-  // import NftMintButton from "../Nft/NftMintButton.svelte";
+  // import MintButton from "../Nft/MintButton.svelte";
   // import Nfts from "../components/Nft/Nfts.svelte";
   import NftsSimple from "./Simple/NftList/NftListSimple.svelte";
   // import CollectionSelect from "../components/Collection/CollectionSelect.svelte";
@@ -25,7 +25,7 @@
   <!-- <AccountConnect bind:account /> -->
   <Networks {chainId} />
 
-  <!-- <NftMintButton /> -->
+  <!-- <MintButton /> -->
   <!-- <CollectionSelect {chainId} bind:address {account} mintable={false} /> -->
   <CollectionSelectSimple {chainId} bind:address {account} />
 

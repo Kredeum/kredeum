@@ -1,28 +1,29 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+  import { metamaskInit } from "@helpers/metamask";
+  import { metamaskChainId } from "@main/metamask";
+
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
 
-  /////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />
   // Choose Collection, after Account Connect and Network choose
-  /////////////////////////////////////////////////
+  /////////////////////////////////////////////////////////////////
   export let address: string = undefined;
   export let txt = true;
+  /////////////////////////////////////////////////////////////////
 
   let chainId: number;
-  let account: string;
   let signer: string;
 
-  let signerFirst = true;
+  // $: console.log("<CollectionChoice", chainId, signer, "=>", address);
 
-  $: signer && handleSigner();
-  const handleSigner = () => {
-    if (signerFirst) {
-      signerFirst = false;
-      account ||= signer;
-    } else account = signer;
-  };
+  onMount(async () => {
+    await metamaskInit();
+    chainId = $metamaskChainId;
+  });
 </script>
 
 <p>
@@ -34,6 +35,6 @@
 
 {#if chainId && signer}
   <p>
-    <CollectionSelect {chainId} {account} bind:address {txt} mintable={true} />
+    <CollectionSelect {chainId} account={signer} bind:address {txt} mintable={true} />
   </p>
 {/if}

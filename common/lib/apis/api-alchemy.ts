@@ -64,7 +64,7 @@ const alchemyNftList = async (
   const owner = filter.owner || constants.AddressZero;
   const limit = filter.limit || FETCH_LIMIT;
   const address = getChecksumAddress(collection.address);
-  console.log("alchemyNftList", chainId, address, owner, limit);
+  // console.log("alchemyNftList", chainId, address, owner, limit);
 
   const nfts: Map<string, NftType> = new Map();
   if (!(chainId && address && alchemyActive(chainId))) return nfts;
@@ -112,7 +112,7 @@ const alchemyNftList = async (
     }
   }
 
-  console.log("alchemyNftList", nfts);
+  // console.log("alchemyNftList", nfts);
   return nfts;
 };
 

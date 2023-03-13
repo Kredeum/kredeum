@@ -140,7 +140,7 @@ class Settings {
 
 			case 'kcollections':
 				wp_nonce_field( 'ajax-address', 'knonce' );
-				printf( '<div id="kredeum-collection-choice" txt="true" filter="true" />' );
+				printf( '<div id="kredeum-collection-choice" txt="true" />' );
 				break;
 
 			case 'text':

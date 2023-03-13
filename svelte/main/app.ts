@@ -4,7 +4,7 @@
 import Dapp from "../components/Main/Dapp.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
 import AutoMarket from "../components/Main/Automarket.svelte";
-import NftMintButton from "../components/Main/NftMintButton.svelte";
+import MintButton from "../components/Main/MintButton.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 
 type Props = Record<string, string | number | boolean>;
@@ -51,7 +51,7 @@ type AutoMarketPropsType = { chainId: number; address: string; tokenID: string; 
   }
 }
 
-type NftMintButtonPropsType = {
+type MintButtonPropsType = {
   src: string;
   metadata?: string;
   alt?: string;
@@ -62,10 +62,10 @@ type NftMintButtonPropsType = {
 };
 {
   // Kredeum Mint Button
-  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-nft-mint-button");
+  const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-mint-button");
   targets?.forEach((target) => {
-    const props = _props(target) as NftMintButtonPropsType;
-    new NftMintButton({ target, props });
+    const props = _props(target) as MintButtonPropsType;
+    new MintButton({ target, props });
   });
 }
 

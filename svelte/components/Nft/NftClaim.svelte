@@ -66,7 +66,7 @@
               $nft.tokenURI,
               $metamaskSignerAddress
             );
-            console.log("mintedNft", mintedNft);
+            console.info("mintedNft", mintedNft);
 
             claimed = true;
           }

@@ -34,6 +34,12 @@
 
 {#if signer}
   <Account account={signer} {txt} />
+{:else if txt}
+  {#if _metamaskInstalled}
+    <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
+  {:else}
+    <a href="." on:click={_metamaskInstall}>{metamaskInstallMessage}</a>
+  {/if}
 {:else}
   <div class={classMetamask}>
     {#if _metamaskInstalled}

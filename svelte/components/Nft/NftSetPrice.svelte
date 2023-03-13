@@ -120,9 +120,9 @@
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
 
   const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
-    console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
-    console.log("tokenSetPriceConfirm ~ nftPrice($nft)", displayEther(nftPrice($nft)));
-    console.log("tokenSetPriceConfirm ~ $nft", $nft);
+    // console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
+    // console.log("tokenSetPriceConfirm ~ nftPrice($nft)", displayEther(nftPrice($nft)));
+    // console.log("tokenSetPriceConfirm ~ $nft", $nft);
 
     if (price.eq(nftPrice($nft))) return _inputPriceError("Price unchanged !");
 
@@ -135,13 +135,13 @@
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, price);
 
     tokenSettingPrice = S2_SIGN_TX;
-    console.log("tokenSetPriceTx ~ tokenSettingPrice", tokenSettingPrice);
+    // console.log("tokenSetPriceTx ~ tokenSettingPrice", tokenSettingPrice);
 
     const tokenSetPriceTxResp = (await tokenSetPriceTxRespYield.next()).value;
-    console.log("tokenSetPriceTx ~ tokenSetPriceTxResp", tokenSetPriceTxResp);
+    // console.log("tokenSetPriceTx ~ tokenSetPriceTxResp", tokenSetPriceTxResp);
 
     tokenSetPriceTxHash = tokenSetPriceTxResp?.hash;
-    console.log("tokenSetPriceTx ~ tokenSetPriceTxHash", tokenSetPriceTxHash);
+    // console.log("tokenSetPriceTx ~ tokenSetPriceTxHash", tokenSetPriceTxHash);
 
     if (!tokenSetPriceTxHash)
       return _tokenSetPriceError(`ERROR while sending transaction... ${JSON.stringify(tokenSetPriceTxResp, null, 2)}`);

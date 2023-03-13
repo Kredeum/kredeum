@@ -78,7 +78,7 @@
       nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
     }
     console.info("NFTS cached", $nfts);
-    console.info("NFTS cached params", chainId, address, { tokenID, owner, offset, limit });
+    // console.log("NFTS cached params", chainId, address, { tokenID, owner, offset, limit });
 
     refreshing = true;
     await collectionStore.refreshOne(chainId, address, owner);
@@ -110,7 +110,7 @@
     refreshing = false;
 
     console.info("NFTS refreshed", $nfts);
-    console.info("NFTS refreshed params", chainId, address, { tokenID, owner, offset, limit });
+    // console.log("NFTS refreshed params", chainId, address, { tokenID, owner, offset, limit });
   };
 
   $: console.log("NFTS from", chainId, "/", address, "/", tokenID, "@", owner);

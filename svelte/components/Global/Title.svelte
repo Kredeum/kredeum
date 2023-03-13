@@ -6,8 +6,10 @@
   // Dapp Title
   /////////////////////////////////////////////////
   const { detail, branch } = versionGet();
+
+  const branchDisplay = branch == "HEAD" ? "": `(${branch})`;
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">
-  My NFTs Factory ({branch})
+  My NFTs Factory {branchDisplay}
 </h1>

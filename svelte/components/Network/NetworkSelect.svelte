@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, getNetwork, networks } from "@lib/common/config";
+  import { getChainName, getNetwork, isTestnet, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import Network from "./Network.svelte";
@@ -36,20 +36,12 @@
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as _network}
-      <option value={_network.chainId} selected={_network.chainId == chainId}>
-        <Network chainId={_network.chainId} {txt} />
+    {#each networks.filter((nw) => nw.nftsResolver && (nw.mainnet || (isTestnet(chainId) && nw.testnet))) as nwk}
+      <option value={nwk.chainId} selected={nwk.chainId == chainId}>
+        <Network chainId={nwk.chainId} {txt} />
         &nbsp;
       </option>
     {/each}
-    {#if getNetwork(chainId)?.testnet}
-      {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as _network}
-        <option value={_network.chainId} selected={_network.chainId == chainId}>
-          <Network chainId={_network.chainId} {txt} />
-          &nbsp;
-        </option>
-      {/each}
-    {/if}
   </select>
 {:else}
   {#if label}
@@ -79,28 +71,16 @@
       </div>
 
       <div class="custom-options">
-        {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as nwk}
+        {#each networks.filter((nw) => nw.nftsResolver && (nw.mainnet || (isTestnet(chainId) && nw.testnet))) as nwk}
           <span
             class="custom-option {nwk.chainId == chainId && 'selected'}"
             data-value={getChainName(nwk.chainId)}
             on:click={(evt) => _switchChain(nwk.chainId, evt)}
             on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
           >
-            <Network chainId={nwk.chainId} txt={true} />
+            <Network chainId={nwk.chainId} />
           </span>
         {/each}
-        {#if getNetwork(chainId)?.testnet}
-          {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
-            <span
-              class="custom-option {nwk.chainId == chainId && 'selected'}"
-              data-value={getChainName(nwk.chainId)}
-              on:click={(evt) => _switchChain(nwk.chainId, evt)}
-              on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
-            >
-              <Network chainId={nwk.chainId} txt={true} />
-            </span>
-          {/each}
-        {/if}
       </div>
     </div>
   </div>

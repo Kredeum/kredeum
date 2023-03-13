@@ -21,6 +21,6 @@
     ]
   },
   "files": [
-    "build-plugins.ts"
+    "build-plugin.ts"
   ]
 }
