@@ -13,12 +13,12 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 7.18.2
+          version: 7.29.1
 
       - name: Install all packages
         run: pnpm install-all
@@ -28,6 +28,11 @@ jobs:
         env:
           ENVIR: PROD
           NODE_DEBUG: false
-          INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
-          COVALENT_API_KEY: ${{ secrets.COVALENT_API_KEY }}
-          NFT_STORAGE_KEY: ${{ secrets.NFT_STORAGE_KEY }}
+          DEPLOYER_PRIVATE_KEY: KEY
+          INFURA_API_KEY: KEY
+          ALCHEMY_API_KEY: KEY
+          ALCHEMY_API_KEY_POLYGON: KEY
+          ALCHEMY_API_KEY_ARBITRUM: KEY
+          ALCHEMY_API_KEY_OPTIMISM: KEY
+          COVALENT_API_KEY: KEY
+          NFT_STORAGE_KEY: KEY
