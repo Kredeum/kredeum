@@ -1,6 +1,8 @@
 name: CHECK sources
-on: push
-
+on:
+  push:
+    branches:
+      - none
 jobs:
   check:
     name: Check sources
