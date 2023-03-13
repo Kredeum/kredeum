@@ -16,8 +16,8 @@ async function* collectionClone(
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
-  console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
-  console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
+  // console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
+  // console.log(`collectionClone ${String(mintPrice)} ${royaltyReceiver} ${royaltyFee} ${String(minimum)}`);
 
   const nftsFactoryV3 = await factoryGetContract(chainId, true);
 
@@ -60,7 +60,7 @@ async function* collectionClone(
 const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
   let clone = "";
 
-  console.log("collectionCloneAddress ~ txReceipt", txReceipt);
+  // console.log("collectionCloneAddress ~ txReceipt", txReceipt);
   if (txReceipt.logs) {
     const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
     const iface = new utils.Interface(abi);

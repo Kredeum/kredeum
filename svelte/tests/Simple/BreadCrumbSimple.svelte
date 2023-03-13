@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { urlHash2RefNFT, ref2UrlHash, ref2Breadcrumb } from "@helpers/breadcrumb";
+  import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb } from "@helpers/refPage";
 
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />
@@ -16,10 +16,10 @@
   $: console.log("BreadCrumbSimple account CHANGE", account);
 
   // change url on chainId, address or account change
-  $: window.location.hash = ref2UrlHash({ chainId, address, tokenID });
+  $: window.location.hash = refPage2UrlHash({ chainId, address, tokenID });
 
   // change chainId or address on url change
-  $: ({ chainId, address, tokenID, account } = urlHash2RefNFT(window.location.hash));
+  $: ({ chainId, address, tokenID, account } = refPageFromUrlHash(window.location.hash));
 </script>
 
-<p>{@html ref2Breadcrumb({ chainId, address, tokenID, account })}</p>
+<p>{@html refPage2Breadcrumb({ chainId, address, tokenID, account })}</p>

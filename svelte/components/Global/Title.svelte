@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { initVersion } from "@helpers/initVersion";
+  import { versionGet } from "@helpers/version";
 
   /////////////////////////////////////////////////
   // <Title />
   // Dapp Title
   /////////////////////////////////////////////////
-  const { detail, branch } = initVersion();
+  const { detail, branch } = versionGet();
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">

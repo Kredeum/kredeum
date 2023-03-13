@@ -1,7 +1,4 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
-  import type { Readable } from "svelte/store";
-
   import { BigNumber } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
@@ -14,7 +11,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+  import InputEthAddress from "../Input/InputEthAddress.svelte";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
@@ -24,13 +21,10 @@
   export let address: string;
   export let tokenID: string;
   /////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  /////////////////////////////////////////////////
 
-  // Context for refreshCollectionList & refreshNftsList
-  ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
-  ///////////////////////////////////////////////////////////
-
+  let refreshAll: Writable<number> = getContext("refreshAll");
   let transfering: number;
   let transferTxHash: string;
   let transferError: string;
@@ -103,16 +97,11 @@
 
     nftStore.nftRemoveOne(chainId, address, tokenID);
 
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+    $refreshAll += 1;
   };
-
-  let nft: Readable<NftType>;
 
   onMount(() => {
     transferInit();
-
-    nft = nftStore.getOne(chainId, address, tokenID);
   });
 </script>
 

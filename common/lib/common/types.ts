@@ -29,8 +29,8 @@ type NetworkType = {
   hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   alchemy?: { url?: string; active: boolean };
-  moralis?: { active: boolean; url?: string };
-  covalent?: { active: boolean };
+  moralis?: { active: boolean; url?: string; id?: string };
+  covalent?: { active: boolean; url?: string; key?: string };
   mainnet?: boolean;
   testnet?: boolean;
   create?: boolean;
@@ -107,6 +107,8 @@ type CollectionSupports = {
   IOpenBound?: boolean;
 };
 
+type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number };
+
 ///////////////////////////////////////////////////
 // Exclusives storage parameters for Ipfs | Swarm
 ///////////////////////////////////////////////////
@@ -180,6 +182,18 @@ type Property = {
 
 type Properties = { [k: string]: Property };
 
+
+type RefPageType = {
+  chainId?: number;
+  address?: string;
+  tokenID?: string;
+  account?: string;
+  signer?: string;
+  action?: string;
+  chainName?: string;
+};
+
+
 export type {
   WindowEthereumProvider,
   WindowExternalProvider,
@@ -187,12 +201,14 @@ export type {
   NftType,
   Properties,
   CollectionType,
+  CollectionSupports,
+  CollectionFilterType,
   ReceiverType,
   AbiType,
   NetworkWriteableFieldsType,
-  CollectionSupports,
   ABIS,
   NftMetadata,
   IOpenNFTsKeys,
-  IErcKeys
+  IErcKeys,
+  RefPageType
 };

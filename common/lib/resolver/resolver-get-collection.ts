@@ -10,12 +10,11 @@ const resolverGetCollection = async (
   address: string,
   account = constants.AddressZero
 ): Promise<CollectionType> => {
-  // console.log("resolverGetCollection", address);
+  // console.log("resolverGetCollection", chainId, address, account);
 
   const nftsResolver = await resolverGetContract(chainId);
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionInfos(address, account);
-  // console.log("collectionInfos", collectionInfos);
 
   return resolverConvOpenNFTsCollectionInfos(chainId, collectionInfos, account);
 };
@@ -54,21 +53,21 @@ const resolverAreCollections = async (chainId: number, collections: Array<string
   return checks;
 };
 
-const resolverGetCollectionList = async (
+const resolverGetCollections = async (
   chainId: number,
   account = constants.AddressZero
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`resolverGetCollectionList ${keyCollectionList(chainId, account)}\n`, chainId, account);
+  // console.log(`resolverGetCollections ${keyCollections(chainId, account)}\n`, chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = await resolverGetContract(chainId);
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
-  // console.log("resolverGetCollectionList openNFTsStructOutput", collectionInfos);
+  // console.log("resolverGetCollections openNFTsStructOutput", collectionInfos);
 
   if (collectionInfos[0].length !== collectionInfos[1].length) {
-    console.error("ERROR resolverGetCollectionList", collectionInfos);
+    console.error("ERROR resolverGetCollections", collectionInfos);
   }
 
   for (let index = 0; index < collectionInfos[0].length; index++) {
@@ -81,12 +80,12 @@ const resolverGetCollectionList = async (
     collections.set(keyCollection(chainId, collection.address), collection);
   }
 
-  // console.log(`resolverGetCollectionList ${chainId} ${account}\n`, collections);
+  // console.log(`resolverGetCollections ${chainId} ${account}\n`, collections);
   return collections;
 };
 
 export {
-  resolverGetCollectionList,
+  resolverGetCollections,
   resolverGetCollection,
   resolverAreCollections,
   resolverFilterCollections,

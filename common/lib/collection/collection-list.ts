@@ -2,11 +2,11 @@ import type { CollectionType } from "@lib/common/types";
 import { getNetwork } from "@lib/common/config";
 import { collectionMerge } from "@lib/collection/collection-get";
 
-import { alchemyGet, alchemyCollectionList } from "@lib/apis/api-alchemy";
-import { covalentGet, covalentCollectionList } from "@lib/apis/api-covalent";
-import { thegraphGet, thegraphCollectionList } from "@lib/apis/api-thegraph";
-import { moralisGet, moralisCollectionList } from "@lib/apis/api-moralis";
-import { resolverFilterCollections, resolverGetCollectionList } from "@lib/resolver/resolver-get-collection";
+import { alchemyActive, alchemyCollections } from "@lib/apis/api-alchemy";
+import { covalentActive, covalentCollections } from "@lib/apis/api-covalent";
+import { thegraphActive, thegraphCollections } from "@lib/apis/api-thegraph";
+import { moralisActive, moralisCollections } from "@lib/apis/api-moralis";
+import { resolverFilterCollections, resolverGetCollections } from "@lib/resolver/resolver-get-collection";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (
@@ -34,7 +34,7 @@ const collectionList = async (
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionList ${keyCollectionList(chainId, account)}\n`);
+  // console.log(`collectionList ${keyCollections(chainId, account)}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -44,18 +44,18 @@ const collectionList = async (
     let collectionsResolver: Map<string, CollectionType> = new Map();
 
     // GET user collections
-    if (alchemyGet(chainId)) {
-      collectionsApi = await alchemyCollectionList(chainId, account);
-      // console.log("collectionList alchemyCollectionList", collectionsApi);
-    } else if (thegraphGet(chainId)) {
-      collectionsApi = await thegraphCollectionList(chainId, account);
-      // console.log("collectionList thegraphCollectionList", collectionsApi);
-    } else if (moralisGet(chainId)) {
-      collectionsApi = await moralisCollectionList(chainId, account);
-      // console.log("collectionList moralisCollectionList", collectionsApi);
-    } else if (covalentGet(chainId)) {
-      collectionsApi = await covalentCollectionList(chainId, account);
-      // console.log("collectionList covalentCollectionList", collectionsApi);
+    if (alchemyActive(chainId)) {
+      collectionsApi = await alchemyCollections(chainId, account);
+      // console.log("collectionList alchemyCollections", collectionsApi);
+    } else if (thegraphActive(chainId)) {
+      collectionsApi = await thegraphCollections(chainId, account);
+      // console.log("collectionList thegraphCollections", collectionsApi);
+    } else if (moralisActive(chainId)) {
+      collectionsApi = await moralisCollections(chainId, account);
+      // console.log("collectionList moralisCollections", collectionsApi);
+    } else if (covalentActive(chainId)) {
+      collectionsApi = await covalentCollections(chainId, account);
+      // console.log("collectionList covalentCollections", collectionsApi);
     }
 
     const lengthBefore = collectionsApi.size;
@@ -65,7 +65,7 @@ const collectionList = async (
     const removed = lengthBefore - collectionsApi.size;
     if (removed > 0) console.info("collectionList collectionsApi removed", removed);
 
-    collectionsResolver = await resolverGetCollectionList(chainId, account);
+    collectionsResolver = await resolverGetCollections(chainId, account);
     // console.log("collectionList collectionsResolver", collectionsResolver);
 
     // MERGE collectionsApi and collectionsResolver
@@ -80,7 +80,7 @@ const collectionList = async (
     );
   }
 
-  // console.log(`collectionList ${keyCollectionList(chainId, account)}\n`, collections);
+  // console.log(`collectionList ${keyCollections(chainId, account)}\n`, collections);
   return collections;
 };
 

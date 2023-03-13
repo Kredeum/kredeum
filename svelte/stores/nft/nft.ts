@@ -8,14 +8,17 @@ import { nftListStore } from "./nftList";
 
 import { collectionStore } from "../collection/collection";
 
+import { constants } from "ethers";
+import { isAddressNotZero } from "@lib/common/config";
+
 // UTILITY
 const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}`;
 
 const nftSetOne = (nft: NftType): void => {
-  // console.log("nftSetOne", chainId, address, tokenID);
   const { chainId, address, tokenID } = nft || {};
-  if (!(chainId && address && tokenID)) return;
+  // console.log("nftSetOne", chainId, address, tokenID);
+  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
@@ -29,8 +32,8 @@ const nftSetOne = (nft: NftType): void => {
 
 // ACTIONS : REFRESH one Nft, for an optionnal account
 const nftRefresh = async (chainId: number, address: string, tokenID: string): Promise<void> => {
-  console.log("nftRefresh", chainId, address, tokenID);
-  if (!(chainId && address && tokenID)) return;
+  // console.log("nftRefresh", chainId, address, tokenID);
+  if (!(chainId && isAddressNotZero(address) && tokenID)) return;
 
   const key = nftGetKey(chainId, address, tokenID);
   // console.log("nftRefresh ~ key", key);
@@ -58,7 +61,7 @@ const nftGetStore = (chainId: number, address: string, tokenID: string): Readabl
 
 // Remove one nft from store & localstorage
 const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
-  if (!(chainId && address && tokenID)) return;
+  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const keyToRemove = nftGetKey(chainId, address, tokenID);
@@ -71,8 +74,8 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
   });
 };
 
-const nftGetAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
-  if (!(chainId && address && tokenID)) return;
+const nftGetStoreAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
+  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
 
   // STATE VIEW : sync read cache
   const nft = nftGetStore(chainId, address, tokenID);
@@ -87,7 +90,7 @@ export const nftStore = {
   getKey: nftGetKey,
   getOne: nftGetStore,
   refreshOne: nftRefresh,
-  getAndRefresh: nftGetAndRefresh,
+  getOneAndRefresh: nftGetStoreAndRefresh,
   setOne: nftSetOne,
   nftRemoveOne,
   getList: nftListStore

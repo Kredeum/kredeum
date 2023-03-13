@@ -1,7 +1,7 @@
 <script lang="ts">
   import { nftName } from "@lib/common/config";
-  import MediaDisplay from "../Media/MediaDisplay.svelte";
-  import NftData from "./NftData.svelte";
+  import { nftStore } from "@stores/nft/nft";
+  import Media from "../Media/Media.svelte";
 
   /////////////////////////////////////////////////
   // <NftGrid {chainId} {address} {tokenID} />
@@ -10,19 +10,19 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  ///////////////////////////////////////////////////////////
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  ///////////////////////////////////////////////////////////
 </script>
 
-<NftData {chainId} {address} {tokenID} let:nft>
-  {#if nft}
-    <div class="grid-card-krd" data-tokenid={nft.tokenID || ""}>
-      <MediaDisplay {nft} displayMode="grid" />
-
-      <div class="caption">
-        <h3>{nftName(nft)}</h3>
-      </div>
+{#if $nft}
+  <div class="grid-card-krd" data-tokenid={tokenID || ""}>
+    <Media {chainId} {address} {tokenID} mode="grid" />
+    <div class="caption">
+      <h3>{nftName($nft)}</h3>
     </div>
-  {/if}
-</NftData>
+  </div>
+{/if}
 
 <style>
   .grid-card-krd h3 {

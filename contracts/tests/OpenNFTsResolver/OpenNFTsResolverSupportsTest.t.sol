@@ -9,7 +9,7 @@ import "src/interfaces/IOpenNFTsResolver.sol";
 import "src/OpenNFTsResolver.sol";
 
 abstract contract OpenNFTsResolverSupportsTest is Test {
-    OpenNFTsResolver private _resolver;
+    address private _resolver;
     address private _collection;
     address private _owner = address(0x1);
     address private _minter = address(0x12);
@@ -20,15 +20,13 @@ abstract contract OpenNFTsResolverSupportsTest is Test {
     function constructorTest(address owner_) public virtual returns (address);
 
     function setUpOpenNFTsResolverSupports() public {
-        _collection = constructorTest(_owner);
-
-        _resolver = new OpenNFTsResolver(_owner, address(this));
+        _resolver = constructorTest(_owner);
     }
 
     function testOpenNFTsResolverCheckErcInterfaces() public {
         bool[11] memory expected = [false, true, false, false, false, false, false, false, false, true, false];
 
-        bool[] memory checks = IOpenChecker(_resolver).checkErcInterfaces(_collection);
+        bool[] memory checks = IOpenChecker(_resolver).checkErcInterfaces(_resolver);
 
         for (uint256 i = 0; i < expected.length; i++) {
             assertEq(checks[i], expected[i]);
@@ -53,7 +51,7 @@ abstract contract OpenNFTsResolverSupportsTest is Test {
             interfaceIds[i] = ids[i];
         }
 
-        bool[] memory checks = IOpenChecker(_resolver).checkSupportedInterfaces(_collection, false, interfaceIds);
+        bool[] memory checks = IOpenChecker(_resolver).checkSupportedInterfaces(_resolver, false, interfaceIds);
 
         for (uint256 i = 0; i < ids.length; i++) {
             console.log("testOpenNFTsResolverCheckErcInterfaces ~ i", i);

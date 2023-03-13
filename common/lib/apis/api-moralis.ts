@@ -3,11 +3,11 @@
 import type Moralis from "moralis";
 import type { operations } from "moralis/types/generated/web3Api";
 
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import { getNetwork, getChecksumAddress } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
 
-import { utils } from "ethers";
+import { constants, utils } from "ethers";
 import { keyCollection, keyNft } from "@lib/common/keys";
 
 const moralisListAll = async (
@@ -33,14 +33,19 @@ const moralisListAll = async (
   // console.log("moralisListAll ~ moralis.start");
 
   // Get NFTs for user
-  const options = { chain: utils.hexValue(chainId), address: account } as operations["getNFTs"]["parameters"]["query"] &
-    operations["getNFTs"]["parameters"]["path"];
+  const options = {
+    chain: utils.hexValue(chainId),
+    address: account
+  } as operations["getNFTs"]["parameters"]["query"] & operations["getNFTs"]["parameters"]["path"];
 
   const nftsMoralist = await moralis.Web3API.account.getNFTs(options);
   // console.log("moralisListAll ~ nftsMoralist", nftsMoralist);
 
+  let index = 0;
   for (const nftMoralis of nftsMoralist.result || []) {
-    // console.log("moralisCollectionList ~ nftMoralis", nftMoralis);
+    if (index++ >= limit) break;
+
+    // console.log("moralisCollections ~ nftMoralis", nftMoralis);
     const address = getChecksumAddress(nftMoralis.token_address);
     const owner = getChecksumAddress(account);
     const balancesOf: Map<string, number> = new Map();
@@ -74,24 +79,25 @@ const moralisListAll = async (
 const moralisNftList = async (
   chainId: number,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const nfts = (await moralisListAll(chainId, account || "", limit)).nfts;
+  const owner = filter.owner || constants.AddressZero;
+  const limit = filter.limit || FETCH_LIMIT;
+  const nfts = (await moralisListAll(chainId, owner, limit)).nfts;
 
   // console.log(`moralisNftList OUT ${keyNftList(chainId, collection.address)}\n`, nfts);
   return nfts;
 };
 
-const moralisCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+const moralisCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   const collections = (await moralisListAll(chainId, account || "")).collections;
 
-  // console.log(`moralisCollectionList OUT ${keyCollectionList(chainId, account)}\n`, collections);
+  // console.log(`moralisCollections OUT ${keyCollections(chainId, account)}\n`, collections);
   return collections;
 };
 
-const moralisGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.moralis?.active);
+const moralisActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.moralis?.active);
 const moralisGetUrl = (chainId: number): string =>
   (getNetwork(chainId)?.moralis?.active && getNetwork(chainId)?.moralis?.url) || "";
 
-export { moralisCollectionList, moralisGet, moralisNftList, moralisGetUrl, moralisListAll };
+export { moralisCollections, moralisActive, moralisNftList, moralisGetUrl, moralisListAll };

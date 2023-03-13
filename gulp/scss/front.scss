@@ -1,7 +1,7 @@
 @import "_variables";
 @import "_global";
 
-#kredeum-app.wordpress {
+#kredeum-dapp.wordpress {
   .nav-krd {
     display: none;
   }
@@ -122,16 +122,12 @@
           }
         }
 
-        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism",
-          "xdai", "arbitrum";
+        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "xdai", "arbitrum";
 
         @each $name in $names {
           [data-value="#{$name}"],
           .#{$name} {
-            background: url("../images/icon-#{$name}.png")
-              no-repeat
-              left
-              center;
+            background: url("../images/icon-#{$name}.png") no-repeat left center;
           }
         }
 

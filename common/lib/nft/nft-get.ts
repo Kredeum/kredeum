@@ -4,6 +4,7 @@ import { collectionGet } from "@lib/collection/collection-get";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { resolverGetNft } from "@lib/resolver/resolver-get-nft";
 import { keyNft } from "@lib/common/keys";
+import { constants } from "ethers";
 
 const nftGet = async (
   chainId: number,
@@ -12,9 +13,9 @@ const nftGet = async (
   collection: CollectionType = { chainId, address },
   withMetadata = false
 ): Promise<NftType> => {
-  console.log(`nftGet ${keyNft(chainId, address, tokenID)} ${String(withMetadata)}\n`);
+  // console.log(`nftGet ${keyNft(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
-  if (!(chainId && address && tokenID)) return { chainId, address, tokenID };
+  if (!(chainId && address && address != constants.AddressZero && tokenID)) return { chainId, address, tokenID };
 
   if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address);
 

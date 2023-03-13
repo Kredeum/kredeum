@@ -13,10 +13,10 @@
 
   import Content from "../../svelte/components/Global/Content.svelte";
 
-  import NetworkSelect from "../../svelte/components/Network/NetworkListSelect.svelte";
+  import NetworkSelect from "../../svelte/components/Network/NetworksSelect.svelte";
   import AccountConnect from "../../svelte/components/Account/AccountConnect.svelte";
-  import NftsListRefresh from "../../svelte/components/NftsList/NftsListRefresh.svelte";
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import NftsRefresh from "../../svelte/components/Nfts/NftsRefresh.svelte";
+  import Collections from "../Collection/Collections.svelte";
 
   import type { RefBreadcrumb } from "@helpers/breadcrumb";
   import { urlHash2RefNFT, refBreadcrumb } from "@helpers/breadcrumb";
@@ -37,13 +37,13 @@
   let refBreadcrumb: RefBreadcrumb;
 
   ////////////////////////////////////////////////////////////////////
-  // Context for refreshCollectionList & refreshNftsList & refreshing
+  // Context for refreshCollections & refreshNfts & refreshing
   ////////////////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = writable(1);
-  setContext("refreshCollectionList", refreshCollectionList);
+  let refreshCollections: Writable<number> = writable(1);
+  setContext("refreshCollections", refreshCollections);
 
-  let refreshNftsList: Writable<number> = writable(1);
-  setContext("refreshNftsList", refreshNftsList);
+  let refreshNfts: Writable<number> = writable(1);
+  setContext("refreshNfts", refreshNfts);
 
   let refreshing: Writable<boolean> = writable(false);
   setContext("refreshing", refreshing);
@@ -75,10 +75,10 @@
       <NetworkSelect bind:chainId />
 
       {#if chainId}
-        <CollectionList {chainId} {account} bind:address />
+        <Collections {chainId} {account} bind:address />
 
         {#if address}
-          <NftsListRefresh />
+          <NftsRefresh />
         {/if}
       {/if}
     </div>

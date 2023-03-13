@@ -15,7 +15,7 @@ const collectionSubListStore = (
   address?: string,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
-  // console.log(`collectionSubListStore ${keyCollectionList(chainId, account, address, mintable)}\n`);
+  // console.log(`collectionSubListStore ${keyCollections(chainId, account, address, mintable)}\n`);
 
   return derived(
     [collectionStore.getList, collectionDefaultStore],
@@ -85,7 +85,7 @@ const collectionSubListRefresh = async (
   if (!colls.has(address)) {
     collectionStore.setOne(await collectionLib(chainId, address));
   }
-  // console.log(`collectionSubListRefresh ${keyCollectionList(chainId, account, mintable)}\n`, colls);
+  // console.log(`collectionSubListRefresh ${keyCollections(chainId, account, mintable)}\n`, colls);
 };
 
 export { collectionSubListStore, collectionSubListRefresh };

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.17;
 
-import "../interfaces/IOpenNFTsInfos.sol";
+import {IOpenNFTsInfos} from "src/interfaces/IOpenNFTsInfos.sol";
 
 interface IOpenNFTsResolver is IOpenNFTsInfos {
     function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)

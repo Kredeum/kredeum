@@ -14,10 +14,11 @@
   export let tokenID: string;
   export let platform: string = undefined;
   /////////////////////////////////////////////////////////////////
-
   $: nft = nftStore.getOne(chainId, address, tokenID);
-  $: console.log("<NftExchange nft", $nft);
-  $: console.log("<NftExchange nftOwner", nftOwner($nft), $metamaskSignerAddress);
+  /////////////////////////////////////////////////////////////////
+
+  // $: console.log("<NftExchange nft", $nft);
+  // $: console.log("<NftExchange nftOwner", nftOwner($nft), $metamaskSignerAddress);
 </script>
 
 {#if nftMarketable($nft)}

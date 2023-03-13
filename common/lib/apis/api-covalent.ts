@@ -1,15 +1,14 @@
-import { BigNumber } from "ethers";
+import { BigNumber, constants } from "ethers";
 
 import type { FetchResponse } from "@lib/common/fetch";
-import type { CollectionType, NftType } from "@lib/common/types";
+import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
 
-const covalentFetch = async (path: string): Promise<unknown> => {
-  const loginPass = `${process.env.COVALENT_API_KEY || ""}`;
-  const url = `https://api.covalenthq.com/v1${path}&key=${loginPass}`;
+const covalentFetch = async (chainId: number, path: string): Promise<unknown> => {
+  const urlPath = covalentUrlPath(chainId, path);
   const config = {
     method: "GET",
     headers: {
@@ -18,14 +17,14 @@ const covalentFetch = async (path: string): Promise<unknown> => {
     }
   };
 
-  const answerCov: FetchResponse = await fetchJson(url, config);
+  const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
   if (answerCov.error) console.error("covalentFetch ERROR", answerCov.error);
   return answerCov?.data;
 };
 
-const covalentCollectionList = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`covalentCollectionList ${keyCollectionList(chainId, account)}\n`);
+const covalentCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+  // console.log(`covalentCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
@@ -51,12 +50,12 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
   };
-  const answerCollectionsCov = (await covalentFetch(path)) as AnswerCollectionsCov;
+  const answerCollectionsCov = (await covalentFetch(chainId, path)) as AnswerCollectionsCov;
 
   const collectionsCov = answerCollectionsCov?.items;
   if (collectionsCov?.length) {
     // console.log(collectionsCov[0]);
-    // console.log("covalentCollectionList nbContracts", collectionsCov.length);
+    // console.log("covalentCollections nbContracts", collectionsCov.length);
 
     for (let index = 0; index < collectionsCov.length; index++) {
       const collectionCov: CollectionCov = collectionsCov[index];
@@ -79,7 +78,7 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
   }
 
   // console.log(
-  //   `covalentCollectionList ${keyCollectionList(chainId, account)}\n`,
+  //   `covalentCollections ${keyCollections(chainId, account)}\n`,
   //   collections.size,
   //   path,
   //   collections
@@ -90,70 +89,75 @@ const covalentCollectionList = async (chainId: number, account: string): Promise
 const covalentNftList = async (
   chainId: number,
   collection: CollectionType,
-  account?: string,
-  limit: number = FETCH_LIMIT
+  filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  // console.log("covalentNftList", chainId, collection, account, limit);
+  const owner = filter.owner || constants.AddressZero;
+  const limit = filter.limit || FETCH_LIMIT;
+  const address = getChecksumAddress(collection.address);
+  console.log("covalentNftList", chainId, address, owner, limit);
 
   const nfts: Map<string, NftType> = new Map();
-  const network = getNetwork(chainId);
+  if (!(chainId && address && covalentActive(chainId))) return nfts;
 
-  if (network && collection && account) {
-    const match = `{contract_address:"${getChecksumAddress(collection.address)}"}`;
-    const path =
-      `/${Number(chainId)}/address/${account}/balances_v2/` +
-      "?nft=true&no-nft-fetch=false" +
-      // `&limit=${limit}` + // not working with match...
-      `&match=${encodeURIComponent(match)}`;
+  const match = `{contract_address:"${getChecksumAddress(collection.address)}"}`;
+  const path =
+    `/${Number(chainId)}/address/${owner}/balances_v2/` +
+    "?nft=true&no-nft-fetch=false" +
+    // `&limit=${limit}` + // not working with match...
+    `&match=${encodeURIComponent(match)}`;
 
-    type NftsCov = {
-      token_id: string;
-      token_url: string;
-      account: string;
-      external_data: string;
-      original_owner: string;
-    };
-    type AnswerNftsCov = {
-      items?: [{ nft_data: [NftsCov] }];
-    };
+  type NftsCov = {
+    token_id: string;
+    token_url: string;
+    account: string;
+    external_data: string;
+    original_owner: string;
+  };
+  type AnswerNftsCov = {
+    items?: [{ nft_data: [NftsCov] }];
+  };
 
-    try {
-      const nftsJson = ((await covalentFetch(path)) as AnswerNftsCov)?.items;
-      if (nftsJson?.[0]) {
-        const tokens = nftsJson[0].nft_data;
+  try {
+    const nftsJson = ((await covalentFetch(chainId, path)) as AnswerNftsCov)?.items;
+    if (nftsJson?.[0]) {
+      const tokens = nftsJson[0].nft_data;
 
-        for (let index = 0; index < Math.min(tokens.length, limit); index++) {
-          const _token = tokens[index];
-          // console.log("covalentNftList TOKEN", _token);
+      let index = 0;
+      for (const _token of tokens) {
+        if (index++ >= limit) break;
 
-          if (index < limit) {
-            const tokenID = BigNumber.from(_token.token_id).toString();
+        const tokenID = BigNumber.from(_token.token_id).toString();
 
-            const nft = {
-              chainId,
-              address: getChecksumAddress(collection.address),
-              tokenID,
-              tokenURI: _token.token_url,
-              external_data: _token.external_data,
-              owner: getChecksumAddress(_token.account || account),
-              minter: getChecksumAddress(_token.original_owner),
-              nid: keyNft(chainId, collection.address, tokenID)
-            };
-            // console.log("covalentNftList keyNft(", nft.nid, nft);
-            nfts.set(nft.nid, nft);
-          }
-        }
+        const nft = {
+          chainId,
+          address: getChecksumAddress(collection.address),
+          tokenID,
+          tokenURI: _token.token_url,
+          external_data: _token.external_data,
+          owner: getChecksumAddress(_token.account || owner),
+          minter: getChecksumAddress(_token.original_owner),
+          nid: keyNft(chainId, collection.address, tokenID)
+        };
+        // console.log("covalentNftList keyNft(", nft.nid, nft);
+        nfts.set(nft.nid, nft);
       }
-    } catch (e) {
-      console.error("ERROR covalentNftList", e);
     }
+  } catch (e) {
+    console.error("ERROR covalentNftList", e);
   }
+
   // console.log("covalentNftList", nfts.length);
   // console.log("covalentNftList", nfts);
 
   return nfts;
 };
 
-const covalentGet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
 
-export { covalentCollectionList, covalentNftList, covalentGet, covalentFetch };
+const covalentUrlPath = (chainId: number, path: string): string => {
+  const covalent = getNetwork(chainId)?.covalent;
+  if (!(covalent && covalent.active && covalent.url && covalent.key)) return "";
+  return `${covalent.url}${path}&key=${covalent.key}`;
+};
+
+export { covalentCollections, covalentNftList, covalentActive, covalentFetch };

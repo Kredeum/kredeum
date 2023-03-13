@@ -20,8 +20,8 @@
   import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
-  import InputPrice from "../InputFields/InputPrice.svelte";
-  import InputEthAddress from "../InputFields/InputEthAddress.svelte";
+  import InputPrice from "../Input/InputPrice.svelte";
+  import InputEthAddress from "../Input/InputEthAddress.svelte";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -44,10 +44,15 @@
 
   let cloningTxHash: string = null;
 
-  let inputMintPrice = constants.Zero;
+  let refreshAll: Writable<number> = getContext("refreshAll");
 
+  let inputMintPrice = constants.Zero;
+  let inputReceiver = "";
   let inputFee = "0";
   let inputFeeNumber = 0;
+
+  const dispatch = createEventDispatcher();
+
   $: inputFee && handleInputFee();
   const handleInputFee = () => {
     // fee ~ 333.22 is from 0 to 10_000 base points (= 0.01%)
@@ -63,29 +68,13 @@
     if (isNumeric(inputFee)) inputFeeNumber = Math.min(Math.round(Number(tmpFee) * 100), MAX_FEE);
   };
 
-  // inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
-  // price = utils.parseEther(inputPrice);
-
-  let inputReceiver = "";
-
-  const invalidInputParams = (): boolean => {
-    console.log("invalidInputParams ~ inputFee", inputFee);
-    console.log("invalidInputParams ~ inputReceiver", inputReceiver);
-    return !(isAddress(inputReceiver) && isNumeric(inputFee));
-  };
-
-  // Context for refreshCollectionList
-  ///////////////////////////////////////////////////////////
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  ///////////////////////////////////////////////////////////
-
-  const dispatch = createEventDispatcher();
-
   const _cloneError = (err: string): void => {
     cloneError = err;
     console.error(cloneError);
     cloning = 0;
   };
+
+  const invalidInputParams = (): boolean => !(isAddress(inputReceiver) && isNumeric(inputFee));
 
   // CREATING STATES
   //
@@ -170,15 +159,13 @@
 
     cloning = S4_COLL_CREATED;
 
-    $refreshCollectionList += 1;
+    $refreshAll += 1;
   };
 
   const templateName = (template: string) => template?.split("/")[0];
   const templateConf = (template: string) => template?.split("/")[1];
 
-  onMount(() => {
-    _cloneInit();
-  });
+  onMount(() => _cloneInit());
 </script>
 
 <div id="kredeum-create-collection">

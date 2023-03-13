@@ -5,7 +5,7 @@
   import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
   import { nftMint, nftMint4 } from "@lib/nft/nft-mint";
 
-  import NetworkList from "../components/Network/NetworkList.svelte";
+  import Networks from "../components/Network/NetworkSelect.svelte";
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
@@ -95,7 +95,7 @@
             <i class="fas fa-exclamation" /> Claim this NFT #{tokenID} on another network ?
           </div>
 
-          <NetworkList bind:chainId/>
+          <Networks bind:chainId />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={() => copy()}>Claim</button>

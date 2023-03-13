@@ -5,7 +5,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { ReceiverType } from "@lib/common/types";
 import { collectionGetContract } from "@lib/collection/collection-get";
-import { explorerUrl, MAX_FEE, config } from "@lib/common/config";
+import { explorerUrl, MAX_FEE, config, isAddressNotZero } from "@lib/common/config";
 import { providerGetAccount, providerGetFallback } from "@lib/common/provider-get";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string): Promise<BigNumber> => {
@@ -78,8 +78,8 @@ const getApproved = async (chainId: number, address: string, tokenID: string): P
 };
 
 const isApprovedForAll = async (chainId: number, address: string, account?: string): Promise<boolean> => {
-  account ||= await providerGetAccount();
-  if (!account) return false;
+  if (!(account && isAddressNotZero(account))) account = await providerGetAccount();
+  if (!isAddressNotZero(account)) return false;
 
   const { contract, collection } = await collectionGetContract(chainId, address);
   if (!(contract && collection.supports?.IERC721)) return false;

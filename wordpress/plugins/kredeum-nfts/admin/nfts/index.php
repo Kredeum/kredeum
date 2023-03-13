@@ -18,7 +18,7 @@ add_action(
 			function () {
 				wp_nonce_field( 'ajax-kredeum-nfts', 'knonce' );
 					printf(
-						'<div id="kredeum-app"'
+						'<div id="kredeum-dapp"'
 						. ( boolval( KREDEUM_BETA ) ? ' beta="true"' : '' )
 						. ' platform="wordpress"'
 						. ' class="wordpress"'

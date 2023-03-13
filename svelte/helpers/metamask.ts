@@ -4,175 +4,131 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, getNetwork, networks } from "@lib/common/config";
+import { numberToHexString, getChecksumAddress, getNetwork, isNetwork, isAddressNotZero } from "@lib/common/config";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
 
-let ethereumProvider: EthereumProvider;
-let metamaskInstalled = false;
+let _ethereumProvider: EthereumProvider;
 
 const metamaskConnectMessage = "Connect to Metamask";
 const metamaskInstallMessage = "Install MetaMask to connect";
 const metamaskMultipleWallets = "Do you have multiple wallets installed?";
 
-let targetChain = false;
+let _open = true;
 
-const addEthereumChain = (_chainId: number): void => {
-  if (_chainId) {
-    console.info("addEthereumChain", _chainId);
+const metamaskConnected = (): boolean => isAddressNotZero(get(metamaskSignerAddress));
 
-    if (targetChain) {
-      console.warn("Already connecting network...");
-    }
-    targetChain = true;
+const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthereumProvider());
 
-    // no need to add default ethereum chain
-    if (_chainId !== 1) {
-      const _network = getNetwork(_chainId);
-      if (_network) {
-        // EIP-3085 fields only or fails
-        type EthereumChainParameter = {
-          chainId: string;
-          blockExplorerUrls?: string[];
-          chainName?: string;
-          iconUrls?: string[];
-          nativeCurrency?: {
-            name: string;
-            symbol: string;
-            decimals: number;
-          };
-          rpcUrls?: string[];
-        };
-        const params: EthereumChainParameter = {
-          chainId: numberToHexString(_network.chainId),
-          blockExplorerUrls: _network.blockExplorerUrls,
-          chainName: _network.chainName,
-          iconUrls: [],
-          nativeCurrency: _network.nativeCurrency,
-          rpcUrls: _network.rpcUrls
-        };
+const _handleChainId = (_chainId: number): void => {
+  if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId))) return;
+  // console.log("_handleChainId:", _chainId);
 
-        // add new chain to metamask
-        ethereumProvider
-          .request({
-            method: "wallet_addEthereumChain",
-            params: [params]
-          })
-          .catch((err) => console.error("Metamask ERROR wallet_addEthereumChain", err));
-      }
-    }
-  }
+  metamaskChainId.set(_chainId);
 };
 
-const handleChainIdSync = (_chainId: number): void => {
-  handleChainId(_chainId).catch(console.error);
+const _handleAccounts = (accounts: Array<string>): void => {
+  if (accounts?.length === 0) return;
+  // console.log("_handleAccounts:", accounts);
+
+  metamaskSigner.set(get(metamaskProvider).getSigner(0));
+  metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
 };
-const handleChainId = async (_chainId: number): Promise<void> => {
-  console.info(`handleChainId ${_chainId}`);
 
-  if (_chainId && _chainId != get(metamaskChainId)) {
-    const _network = getNetwork(_chainId);
+const metamaskConnect = async (): Promise<void> => {
+  if (!_ethereumProvider) return;
 
-    if (_network) {
-      // SAVE chainId in Svelte store $metamaskChainId
-      metamaskChainId.set(Number(_network.chainId));
+  console.info("metamaskConnect");
+
+  try {
+    await _ethereumProvider.request({ method: "eth_requestAccounts" });
+  } catch (err) {
+    if ((err as { code: number }).code === 4001) {
+      alert(metamaskConnectMessage);
     } else {
-      // chainId not accepted : switch to first accepted chainId
-      await metamaskSwitchChain(networks[0].chainId);
+      console.error("Metamask ERROR eth_requestAccounts", err);
     }
   }
 };
 
-const handleAccountsSync = (accounts: Array<string>): void => {
-  console.info("handleAccountsSync", accounts);
+const metamaskInit = async (): Promise<void> => {
+  if (get(metamaskChainId)) return;
 
-  if (accounts?.length === 0) {
-    metamaskConnect();
-  } else if (accounts[0] !== String(get(metamaskSignerAddress))) {
-    metamaskSigner.set(get(metamaskProvider).getSigner(0));
-    metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
+  _ethereumProvider = await detectEthereumProvider();
+  if (_ethereumProvider) {
+    // SET provider
+    if (_ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
+    metamaskProvider.set(new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any"));
+
+    // Handle chainId on init then later on "chainChanged"
+    try {
+      _handleChainId(Number(await _ethereumProvider.request({ method: "eth_chainId" })));
+    } catch (err) {
+      console.error("Metamask ERROR eth_chainId", err);
+    }
+    _ethereumProvider.on("chainChanged", _handleChainId);
+
+    // Handle accounts on init then later on "accountsChanged"
+    try {
+      _handleAccounts((await _ethereumProvider.request({ method: "eth_accounts" })) as Array<string>);
+    } catch (err) {
+      console.error("Metamask ERROR eth_accounts", err);
+    }
+    _ethereumProvider.on("accountsChanged", _handleAccounts);
+  } else {
+    console.info(metamaskInstallMessage);
   }
+};
+
+const _addEthereumChain = (_chainId: number): void => {
+  // no need to add default ethereum chain 1
+  if (!(isNetwork(_chainId) && _chainId != 1 && _open && _ethereumProvider)) return;
+  _open = false;
+
+  console.info("_addEthereumChain", _chainId, _open);
+
+  const _network = getNetwork(_chainId);
+  if (_network) {
+    // add new chain to metamask
+    _ethereumProvider
+      .request({
+        method: "wallet_addEthereumChain",
+        params: [
+          {
+            chainId: numberToHexString(_network.chainId),
+            blockExplorerUrls: _network.blockExplorerUrls,
+            chainName: _network.chainName,
+            iconUrls: [],
+            nativeCurrency: _network.nativeCurrency,
+            rpcUrls: _network.rpcUrls
+          }
+        ]
+      })
+      .catch((err) => console.error("Metamask ERROR wallet_addEthereumChain", err));
+  }
+  _open = true;
 };
 
 const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
+  if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId) && _ethereumProvider)) return;
+
   console.info(`metamaskSwitchChain ${_chainId}`);
 
-  if (_chainId > 0 && _chainId != Number(get(metamaskChainId))) {
-    try {
-      await ethereumProvider.request({
-        method: "wallet_switchEthereumChain",
-        params: [{ chainId: numberToHexString(_chainId) }]
-      });
-    } catch (err) {
-      if ((err as { code: number }).code === 4902) addEthereumChain(_chainId);
-    }
-  }
-};
-
-const metamaskConnect = (): void => {
-  console.info("metamaskConnect");
-
-  ethereumProvider
-    .request({
-      method: "eth_requestAccounts"
-    })
-    .then(handleAccountsSync)
-    .catch((err: { code: number }) => {
-      if (err.code === 4001) {
-        alert(metamaskConnectMessage);
-      } else {
-        console.error("Metamask ERROR eth_requestAccounts", err);
-      }
+  try {
+    await _ethereumProvider.request({
+      method: "wallet_switchEthereumChain",
+      params: [{ chainId: numberToHexString(_chainId) }]
     });
-};
-
-const metamaskInit = async (): Promise<{
-  installed: boolean;
-  chainId: number;
-  signer: string;
-  accounts: Array<string>;
-}> => {
-  let chainId = 0;
-  let signer = "";
-  let accounts: Array<string> = [];
-
-  if (!get(metamaskChainId)) {
-    console.info("metamaskInit");
-    ethereumProvider = await detectEthereumProvider();
-
-    if (ethereumProvider) {
-      metamaskInstalled = true;
-
-      if (ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
-
-      const ethersProvider = new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any");
-      metamaskProvider.set(ethersProvider);
-
-      try {
-        // GET chainId from node connected to
-        chainId = (await ethereumProvider.request({ method: "eth_chainId" })) as number;
-      } catch (err) {
-        console.error("Metamask ERROR eth_chainId", err);
-      }
-
-      await handleChainId(Number(chainId));
-
-      try {
-        accounts = (await ethereumProvider.request({ method: "eth_accounts" })) as Array<string>;
-        if (accounts.length > 0) signer = accounts[0];
-        handleAccountsSync(accounts);
-      } catch (err) {
-        console.error("Metamask ERROR eth_accounts", err);
-      }
-
-      ethereumProvider.on("chainChanged", handleChainIdSync);
-
-      ethereumProvider.on("accountsChanged", handleAccountsSync);
-    } else {
-      console.info(metamaskInstallMessage);
-    }
+  } catch (err) {
+    if ((err as { code: number }).code === 4902) _addEthereumChain(_chainId);
   }
-
-  return { installed: metamaskInstalled, chainId, signer, accounts };
 };
 
-export { metamaskInit, metamaskConnect, metamaskSwitchChain, metamaskConnectMessage, metamaskInstallMessage };
+export {
+  metamaskConnected,
+  metamaskInstalled,
+  metamaskInit,
+  metamaskConnect,
+  metamaskSwitchChain,
+  metamaskConnectMessage,
+  metamaskInstallMessage
+};

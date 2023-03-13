@@ -5,9 +5,10 @@ import type {
   TransactionResponse
 } from "@ethersproject/abstract-provider";
 
-type Error = {
+type TxError = {
   error: string;
 }
+
 task("tx", "Prints the detail for the transaction hash")
   .addPositionalParam("hash", "The transaction's hash")
   .setAction(async (taskArgs: { hash: string }, { ethers }) => {
@@ -31,7 +32,7 @@ Confirmations: ${receipt.confirmations}`);
           const txReq: TransactionRequest = txResp as TransactionRequest;
           await ethers.provider.call(txReq, txResp.blockNumber);
         } catch (e: unknown) {
-          console.error("\n", (e as Error).error);
+          console.error("\n", (e as TxError).error);
         }
       }
     }

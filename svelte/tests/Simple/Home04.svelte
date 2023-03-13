@@ -1,12 +1,12 @@
 <script lang="ts">
   import BreadCrumbSimple from "./BreadCrumbSimple.svelte";
-  import NetworkListSelectSimple from "./Network/NetworkListSelectSimple.svelte";
+  import NetworksSelectSimple from "./Network/NetworkListSelectSimple.svelte";
   import MetamaskSimple from "./Network/MetamaskSimple.svelte";
-  import CollectionListSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
+  import CollectionSelectSimple from "./CollectionList/CollectionListSelectSimple.svelte";
   import { providerSetFallback } from "@lib/common/provider-get";
 
   ///////////////////////////////////////////////////////////////////////////////////////
-  // Home04 : chainId, address and account sync between Url, NetworkListSelect and Metamask
+  // Home04 : chainId, address and account sync between Url, NetworksSelect and Metamask
   // Dipslay BreadCrumb
   // Display Network Selector and Collection Selector for account and network (selected)
   ///////////////////////////////////////////////////////////////////////////////////////
@@ -32,10 +32,10 @@
     <BreadCrumbSimple bind:chainId bind:account />
   </p>
   <p>
-    <NetworkListSelectSimple bind:chainId />
+    <NetworksSelectSimple bind:chainId />
   </p>
   <p>
-    <CollectionListSelectSimple bind:chainId bind:address {account} />
+    <CollectionSelectSimple bind:chainId bind:address {account} />
   </p>
   <p>
     <MetamaskSimple bind:chainId bind:signer />

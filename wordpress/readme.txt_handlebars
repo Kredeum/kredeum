@@ -71,29 +71,39 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-= 0.17.2 (latest/stable) =
-* Fix one bug : some collections did'nt display 
+= 0.18.1 (latest) =
+* New improved UI to view only your NFTs or all NFTs from collection
+* New AutoMarket Shortcode for WordPress: publish your own marketplace with one Copy & Paste !
+
+= 0.17.2 =
+* Fix one bug : some collections did'nt display
 
 = 0.17.1 =
-* Various fixes 
+* Various fixes
 
 = 0.17.0 =
-* New version available on all 8 networks : 
-*   Ethereum Mainnet / Arbitrum / Optimism / Matic - Polygon 
+* New version available on all 8 networks :
+*   Ethereum Mainnet / Arbitrum / Optimism / Matic - Polygon
 *   Avalanche / xDai - Gnosis chain / Fantom / Bsc
 
 = 0.16.9 =
-* Complete new version with AutoMarket template! available on Matic only 
+* Complete new version with AutoMarket template! available on Matic only
+
+= 0.13.2 (stable) =
+* Various small improvments
+
+= 0.13.1 =
+* Optimism deployment
 
 = 0.13.0 =
 * New Grid mode
-* WP plugin now uses latest Dapp version 
+* WP plugin now uses latest Dapp version
 
 = 0.12.1 =
-* Fix Mint button in WordPress media library, when media not already archived on IPFS  
+* Fix Mint button in WordPress media library, when media not already archived on IPFS
 
 = 0.12.0 =
-* New version with better performance, better ERC1155 compatibility  
+* New version with better performance, better ERC1155 compatibility
 
 = 0.11.1 =
 * Bug fixes and performance improvements
@@ -106,7 +116,7 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 * Fix Minting bug without good NFT_STORAGE API KEY
 
 = 0.10.3 =
-* Fix and Reset the option to define your own NFT Storage key (or leave default to use a common key) 
+* Fix and Reset the option to define your own NFT Storage key (or leave default to use a common key)
 
 = 0.10.2 =
 * Better support for ERC1155 NFTs
@@ -120,7 +130,7 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 = 0.9.16 =
 * New deployment on xDai, in order to get POAP or GitCoin Kudos collections
-* Better links on new NFTs page on Etherscan explorer 
+* Better links on new NFTs page on Etherscan explorer
 * Fix bug : NFT panel closing while loading new NFTs after refresh or first loading
 
 = 0.9.15 =
@@ -128,11 +138,11 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 = 0.9.13 =
 * Fix bug while creation collection from previous v0.9.11 version
- 
+
 = 0.9.11 =
 * Deployment of new version on Ethereum Mainnet
 * New Sell Button to generate WP shortcode to insert in FrontEnd Pages
- 
+
 = 0.9.10 =
 * New design
 * Personalized collections
@@ -178,11 +188,11 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 = 0.7.1 =
 * Access all your NFTs on the blockchain you are connected to, in "NFTs" page
-* One NFT collection is defined per blockchain to Mint your NFT, but now a new listbox allows you to access your NFTs in other ERC721 collections (if you have some !) 
+* One NFT collection is defined per blockchain to Mint your NFT, but now a new listbox allows you to access your NFTs in other ERC721 collections (if you have some !)
 * In addition to existing Matic/Polygon network (and Mumbai/Polygon tesnet), these blockchains are now supported :
 - Ethereum mainnet
 - Fantom
-- Binance Smart Chain (BSC) 
+- Binance Smart Chain (BSC)
 - Kovan testnet
 
 = 0.5.2 =

@@ -4,8 +4,9 @@ import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/provid
 import type { Signer } from "ethers";
 
 import type { WindowExternalProvider } from "./types";
-import { getNetwork, sleep } from "@lib/common/config";
+import { getChecksumAddress, getNetwork, sleep } from "@lib/common/config";
 import { ethers } from "ethers";
+import { constants } from "ethers";
 
 let _providerSetting = false;
 
@@ -35,21 +36,20 @@ const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 
 
 const providerGetAccount = async (): Promise<string> => {
   const provider = await providerGetWindow();
-  let account = "";
+  let account = constants.AddressZero;
 
   if (provider) {
     const accounts = await provider.listAccounts();
-    if (accounts.length > 0) account = accounts[0];
+    if (accounts.length > 0) account = getChecksumAddress(accounts[0]);
   }
 
   return account;
 };
 
-const providerSetFallback = async (chainId: number): Promise<boolean> => {
+const providerSetFallback = async (chainId: number): Promise<void> => {
   _providerSetting = true;
 
-  console.log("providerSetFallback START", chainId);
-  if (!chainId) return false;
+  // console.log("providerSetFallback START", chainId);
 
   let provider: Provider | undefined = _providersPerChainId.get(chainId);
   if (!provider) {
@@ -63,22 +63,19 @@ const providerSetFallback = async (chainId: number): Promise<boolean> => {
     if (network?.rpcUrls[1])
       providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[1]), priority: 3, weight: 1 });
 
-    if (providers.length == 0) throw Error(`No provider found for this network! #${chainId}`);
-    console.log(`providerSetFallback #${chainId} #${providers.length}`);
+    // console.info(`providerSetFallback #${chainId} #${providers.length}`);
 
     provider = new ethers.providers.FallbackProvider(providers, 1);
+    if (!provider) throw Error(`No provider found for this network! #${chainId}`);
+
     _providersPerChainId.set(chainId, provider);
   }
 
-  const ok = Boolean(provider);
-  console.log("providerSetFallback END", chainId, ok ? "OK" : "KO");
-
   _providerSetting = false;
-  return ok;
 };
 
 const providerGetFallback = async (chainId: number): Promise<Provider> => {
-  console.log("providerGetFallback START", chainId);
+  // console.log("providerGetFallback START", chainId);
   let provider: Provider | undefined;
 
   let i = 0;
@@ -91,13 +88,13 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
 
     if (_providerSetting) {
       await sleep(ms);
-      i > 10 && console.log("providerGetFallback SLEEP", i);
+      i > 10 && console.info("providerGetFallback SLEEP", i);
     } else {
       await providerSetFallback(chainId);
     }
   }
 
-  console.log("providerGetFallback END", chainId, (provider ? "OK" : "KO"));
+  // console.log("providerGetFallback END", chainId, (provider ? "OK" : "KO"));
   return provider as Provider;
 };
 

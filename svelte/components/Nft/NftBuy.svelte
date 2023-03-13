@@ -1,16 +1,16 @@
 <script lang="ts">
-  import { constants, utils } from "ethers";
+  import { utils } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import { nftOwner, nftPrice, nftRoyalty } from "@helpers/nft";
+  import {  nftPrice } from "@helpers/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
-  import IncomesPreview from "../Global/IncomesPreview.svelte";
+  import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
@@ -22,9 +22,8 @@
   export let tokenID: string;
   export let platform = "dapp";
   ///////////////////////////////////////////////////////////
-
-  // GET NFT & COLLECTION
-  $: nft = nftStore.getAndRefresh(chainId, address, tokenID);
+  $: nft = nftStore.getOne(chainId, address, tokenID);
+  ///////////////////////////////////////////////////////////
 
   let buying: number;
   let buyTxHash: string;
@@ -73,10 +72,6 @@
     buying = S1_CONFIRM;
   };
 
-  onMount(() => {
-    buyInit();
-  });
-
   const buyConfirm = async () => {
     const buyTxRespYield = buyNft(chainId, address, tokenID, nftPrice($nft));
 
@@ -99,24 +94,30 @@
   };
 
   const handleClose = () => (open = false);
+
+  const handleCLick = () => (open = nftPrice($nft).gt(0));
+
+  onMount(buyInit);
 </script>
 
-<a
-  on:click={() => (open = nftPrice($nft).gt(0))}
-  href={window.location.hash}
+<button
+  on:click={handleCLick}
+  on:keyup={handleCLick}
+  type="button"
   class="btn-buy {platform === 'wordpress' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
   title="Buy this NFT"
-  ><i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
+>
+  <i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
   {#if nftPrice($nft).gt(0)}
     BUY <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
   {:else}
     <strong>Not on sale</strong>
   {/if}
-</a>
+</button>
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
-    <div class="modal-content"  use:clickOutside={handleClose}>
+    <div class="modal-content" use:clickOutside={handleClose}>
       <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
         ><i class="fa fa-times" /></span
       >
@@ -139,12 +140,7 @@
             </div>
 
             <div class="section">
-              <IncomesPreview
-                {chainId}
-                nftOwner={nftOwner($nft)}
-                nftPrice={nftPrice($nft)}
-                nftRoyalty={nftRoyalty($nft)}
-              />
+              <NftIncomes nft={$nft} />
             </div>
             <div class="txtright">
               {#if signer}

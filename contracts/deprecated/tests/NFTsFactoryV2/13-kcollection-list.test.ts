@@ -4,10 +4,10 @@ import type { NetworkType } from "@lib/common/ktypes";
 
 import { collectionList, collectionListFromFactory } from "@lib/collection/kcollection-list";
 
-import { covalentCollectionList } from "@lib/apis/api-covalent";
-import { thegraphCollectionList } from "@lib/apis/api-thegraph";
+import { covalentCollections } from "@lib/apis/api-covalent";
+import { thegraphCollections } from "@lib/apis/api-thegraph";
 
-thegraphCollectionList;
+thegraphCollections;
 
 import { expect } from "chai";
 import { getNetwork } from "@lib/common/kconfig";
@@ -77,13 +77,13 @@ describe("13 List contracts lib", function () {
 
   it("List with The Graph", async function () {
     if (configNetwork?.subgraph) {
-      expect((await thegraphCollectionList(chainId, owner)).size).to.be.gte(1);
+      expect((await thegraphCollections(chainId, owner)).size).to.be.gte(1);
     }
   });
 
   it("With Covalent", async function () {
     if (configNetwork?.covalent) {
-      expect((await covalentCollectionList(chainId, artist)).size).to.be.gte(1);
+      expect((await covalentCollections(chainId, artist)).size).to.be.gte(1);
     }
   });
 });

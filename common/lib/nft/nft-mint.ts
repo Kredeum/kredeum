@@ -68,7 +68,7 @@ const nftMint = async (
   const minterAddress = await minter.getAddress();
   // console.log("nftMint", chainId, address, tokenURI, minterAddress);
 
-  if (!(chainId && address && tokenURI && minterAddress)) return;
+  if (!(chainId && address && address != constants.AddressZero && tokenURI && minterAddress)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return;
@@ -122,7 +122,7 @@ const nftMint4 = async (
   metadataCid: string,
   minter: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && txResponse && metadataCid && minter)) return null;
+  if (!(chainId && address && address != constants.AddressZero && txResponse && metadataCid && minter)) return null;
 
   const txReceipt = await txResponse.wait();
   // console.log("txReceipt", txReceipt);
@@ -147,7 +147,7 @@ const nftClaim4 = async (
   tokenID: string,
   owner: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && txResponse && tokenID && owner)) return null;
+  if (!(chainId && address && address != constants.AddressZero && txResponse && tokenID && owner)) return null;
 
   // console.log("nftClaim", chainId, address, tokenID, destinationAddress);
 

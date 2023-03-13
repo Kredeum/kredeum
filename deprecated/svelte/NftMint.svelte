@@ -7,7 +7,7 @@
 
   import { metamaskSigner } from "main/metamask";
 
-  import CollectionList from "../../../svelte/components/Collection/CollectionList.svelte";
+  import Collections from "../../../svelte/components/Collection/Collections.svelte";
 
   /////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -261,7 +261,7 @@
 
         <div class="section">
           <span class="label label-big">Add to an existing address ?</span>
-          <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
+          <Collections {chainId} bind:address {account} mintable={true} label={false} />
         </div>
         <div class="txtright">
           <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>

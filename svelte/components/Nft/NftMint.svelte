@@ -24,14 +24,14 @@
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
-  import {  metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
+  import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
 
-  import CollectionList from "../CollectionList/CollectionList.svelte";
-  import InputPrice from "../InputFields/InputPrice.svelte";
-  import InputAudioMint from "../InputFields/InputAudioMint.svelte";
-  import InputVideoMint from "../InputFields/InputVideoMint.svelte";
-  import MediaDisplayVideo from "../Media/MediaDisplayVideo.svelte";
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
+  import InputPrice from "../Input/InputPrice.svelte";
+  import InputAudioMint from "../Input/InputAudioMint.svelte";
+  import InputVideoMint from "../Input/InputVideoMint.svelte";
+  import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
 
   ////////////////////////////////////////////////////////////////
@@ -41,10 +41,7 @@
   export let chainId: number;
   ////////////////////////////////////////////////////////////////
 
-  // Context for refreshCollectionList & refreshNftsList
-  let refreshCollectionList: Writable<number> = getContext("refreshCollectionList");
-  let refreshNftsList: Writable<number> = getContext("refreshNftsList");
-  /////////////////////////////////////////////////
+  let refreshAll: Writable<number> = getContext("refreshAll");
 
   let address: string;
 
@@ -76,7 +73,6 @@
   /////////////////////////////////////////////////
   let properties: Properties;
   /////////////////////////////////////////////////
-
 
   let price: BigNumber;
   let inputPriceError = "";
@@ -290,8 +286,7 @@
 
     minting = S6_MINTED;
 
-    $refreshCollectionList += 1;
-    $refreshNftsList += 1;
+    $refreshAll += 1;
   };
 
   onMount(() => {
@@ -442,7 +437,13 @@
               </div>
               <div class="section kre-mint-collection">
                 <div class="titre">Add to an existing Collection</div>
-                <CollectionList {chainId} bind:address account={$metamaskSignerAddress} mintable={true} label={false} />
+                <CollectionSelect
+                  {chainId}
+                  bind:address
+                  account={$metamaskSignerAddress}
+                  mintable={true}
+                  label={false}
+                />
               </div>
 
               {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
@@ -492,7 +493,7 @@
             {:else if minting >= S2_STORE_IMAGE && minting <= S6_MINTED}
               <div class="media media-photo">
                 {#if inputMediaType === "video"}
-                  <MediaDisplayVideo mediaSrc={image} small={true} />
+                  <MediaVideo src={image} small={true} />
                 {:else}
                   <img src={image} alt="nft" />
                 {/if}

@@ -39,9 +39,11 @@
   },
   "include": [
     "**/*.ts",
+    "**/*.svelte",
     "../common/lib/**/*.ts"
   ],
   "exclude": [
+    "tests/**",
     "node_modules"
   ]
 }

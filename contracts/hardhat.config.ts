@@ -33,9 +33,7 @@ if (!process.env.ENVIR) {
   }
 }
 
-const { DEPLOYER_PRIVATE_KEY, ETHERSCAN_API_KEY_ETHEREUM } = process.env;
-
-const accountsRandom = [DEPLOYER_PRIVATE_KEY || ""];
+const accountsRandom = [process.env.DEPLOYER_PRIVATE_KEY || ""];
 for (let i = 0; i < 5; i++) accountsRandom.push(Wallet.createRandom().privateKey);
 const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((account) => ({
   privateKey: account || "",
@@ -50,7 +48,7 @@ const apiKeyConfig = (): string => {
   const networkName: string = process.argv[networkParamIndex + 1];
   const network = networks.find((item) => item.chainName === networkName);
 
-  process.env.ETHERSCAN_API_KEY = network?.etherscanApiKey || ETHERSCAN_API_KEY_ETHEREUM || "";
+  process.env.ETHERSCAN_API_KEY = network?.etherscanApiKey || "";
   return process.env.ETHERSCAN_API_KEY;
 };
 

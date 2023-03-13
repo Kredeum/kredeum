@@ -66,16 +66,16 @@ const resolverConvOpenNFTsCollectionInfos = (
       "0xbEaAb0f00D236862527dcF5a88dF3CEd043ab253",
       "0xC9D75c6dC5A75315ff68A4CB6fba5c53aBed82d0"
     ];
-    const openNFTsV1AddresseMainnet = "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471";
-    const openNFTsV1AddresseBsc = "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9";
+    const openNFTsV1AddressMainnet = "0x82a398243EBc2CB26a4A21B9427EC6Db8c224471";
+    const openNFTsV1AddressBsc = "0xd9C43494D2b3B5Ae86C57d12eB7683956472d5E9";
 
     if (chainId == 137 && openNFTsV1AddressesMatic.includes(collection.address)) {
       collection.version = 1;
     } else if (chainId == 137 && openNFTsV0AddressesMatic.includes(collection.address)) {
       collection.version = 0;
-    } else if (chainId == 1 && openNFTsV1AddresseMainnet == collection.address) {
+    } else if (chainId == 1 && openNFTsV1AddressMainnet == collection.address) {
       collection.version = 1;
-    } else if (chainId == 56 && openNFTsV1AddresseBsc == collection.address) {
+    } else if (chainId == 56 && openNFTsV1AddressBsc == collection.address) {
       collection.version = 1;
     }
   }

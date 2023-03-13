@@ -1,5 +1,5 @@
 <script lang="ts">
-  import CollectionListDataSimple from "./CollectionListDataSimple.svelte";
+  import CollectionsDataSimple from "./CollectionListDataSimple.svelte";
   import CollectionSimple from "../Collection/CollectionSimple.svelte";
 
   export let chainId: number;
@@ -9,7 +9,7 @@
   const _setCollectionFromEvent = (evt: Event) => (address = (evt.target as HTMLInputElement).value);
 </script>
 
-<CollectionListDataSimple {chainId} {account} let:collections>
+<CollectionsDataSimple {chainId} {account} let:collections>
   {#if collections}
     <select on:change={_setCollectionFromEvent}>
       {#each [...collections] as [key, coll]}
@@ -19,4 +19,4 @@
       {/each}
     </select>
   {/if}
-</CollectionListDataSimple>
+</CollectionsDataSimple>

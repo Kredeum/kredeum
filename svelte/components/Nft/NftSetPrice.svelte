@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import { onMount } from "svelte";
+
   import type { BigNumberish } from "ethers";
   import { BigNumber, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
@@ -22,9 +22,9 @@
   import { metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
-  import InputPrice from "../InputFields/InputPrice.svelte";
-  import IncomesPreview from "../Global/IncomesPreview.svelte";
-  import { nftOwner, nftPrice, nftRoyalty, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
+  import InputPrice from "../Input/InputPrice.svelte";
+  import NftIncomes from "./NftIncomes.svelte";
+  import { nftPrice, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -33,7 +33,20 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  /////////////////////////////////////////////////
+  ///////////////////////////////////////////////////////////
+  let nft: Readable<NftType>;
+  $: chainId && address && tokenID && handleNft();
+  const handleNft = () => {
+    nft = nftStore.getOne(chainId, address, tokenID);
+
+    const nftMinimumPrice = nftRoyaltyMinimum($nft);
+    inputPrice = nftPrice($nft).lt(nftMinimumPrice) ? nftMinimumPrice : nftPrice($nft);
+
+    collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
+
+    tokenSetPriceInit();
+  };
+  ///////////////////////////////////////////////////////////
 
   let collectionApproved: boolean = false;
 
@@ -88,7 +101,6 @@
     tokenSettingPrice = S1_CONFIRM;
   };
 
-  let nft: Readable<NftType>;
   let inputPrice: BigNumber;
 
   $: console.log("input price", String(inputPrice));
@@ -106,17 +118,6 @@
   let removingFromSale = false;
 
   const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
-
-  onMount(() => {
-    nft = nftStore.getOne(chainId, address, tokenID);
-
-    const nftMinimumPrice = nftRoyaltyMinimum($nft);
-    inputPrice = nftPrice($nft).lt(nftMinimumPrice) ? nftMinimumPrice : nftPrice($nft);
-
-    collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
-
-    tokenSetPriceInit();
-  });
 
   const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
     console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
@@ -178,7 +179,7 @@
   </div>
 
   <div class="section">
-    <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={inputPrice} nftRoyalty={nftRoyalty($nft)} />
+    <NftIncomes nft={$nft} price={inputPrice} />
   </div>
 
   {#if !collectionApproved}
@@ -268,7 +269,7 @@
 
   {#if !removingFromSale}
     <div class="section">
-      <IncomesPreview {chainId} nftOwner={nftOwner($nft)} nftPrice={nftPrice($nft)} nftRoyalty={nftRoyalty($nft)} />
+      <NftIncomes nft={$nft} />
     </div>
   {/if}
 {/if}

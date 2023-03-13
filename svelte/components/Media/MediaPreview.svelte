@@ -1,67 +1,43 @@
 <script lang="ts">
-  import type { NftMetadata, NftType } from "@lib/common/types";
-  import { getContext } from "svelte";
-  import type { Writable } from "svelte/store";
-
-  import { clickOutside } from "@helpers/clickOutside";
   import { fade } from "svelte/transition";
 
-  import MediaDisplay from "./MediaDisplay.svelte";
+  import Media from "./Media.svelte";
+  import { clickOutside } from "@helpers/clickOutside";
 
   /////////////////////////////////////////////////
-  //  <MediaPreview {nft} {displayMode}? {alt}? />
+  // <MediaPreview {chainId} {address} {tokenID} />
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
-  /////////////////////////////////////////////////
-  export let nft: NftType;
-  export let alt: string = nft.name || "media";
+  /////////////////////////////////////////////////////////////////
+  export let chainId: number;
+  export let address: string;
+  export let tokenID: string;
+  /////////////////////////////////////////////////////////////////
 
-  let open = false;
-  let metadatas: NftMetadata | undefined;
-  $: metadatas = nft?.metadata;
 
-  const handleClose = () => (open = false);
-  const handlemetadatas = () => {
-    if (metadatas?.animation_url) {
-      $toPlayTokenID = $toPlayTokenID !== nft.tokenID ? nft.tokenID : "";
-    } else {
-      open = true;
-    }
-  };
-
-  let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
+  let popupOpen = false;
+  const popupToggle = () => (popupOpen = !popupOpen);
 </script>
 
-<!-- <div class="grid-detail-krd"> -->
 <div class="media-zoom">
   <div class="media">
-    <span
-      class="krd-pointer {nft.contentType?.startsWith('video') || metadatas?.animation_url
-        ? 'no-zoom-hover'
-        : 'zoom-hover'}"
-      on:click={handlemetadatas}
-      on:keydown={handlemetadatas}
-    >
+    <span class="krd-pointer zoom-hover" on:click={popupToggle} on:keydown={popupToggle}>
       <i class="fas fa-search" />
-      <MediaDisplay {nft} displayMode={"preview"} {alt} />
+      <Media {chainId} {address} {tokenID} mode="preview" />
     </span>
   </div>
 </div>
 
 <!-- Modal Zoom -->
-{#if open}
+{#if popupOpen}
   <div id="zoom" class="modal-window" transition:fade>
-    <div
-      use:clickOutside={() => {
-        open = false;
-      }}
-    >
+    <div use:clickOutside={popupToggle}>
       <div class="modal-content">
-        <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close krd-pointer">
-          <i class="fa fa-times" /></span
-        >
+        <span on:click={popupToggle} on:keydown={popupToggle} title="Close" class="modal-close krd-pointer">
+          <i class="fa fa-times" />
+        </span>
         <div class="modal-body">
-          <MediaDisplay {nft} displayMode={"preview"} small={false} {alt} />
+          <Media {chainId} {address} {tokenID} mode="preview" small={false} />
         </div>
       </div>
     </div>
@@ -79,23 +55,13 @@
     cursor: pointer;
   }
 
-  .no-zoom-hover {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .krd-pointer.no-zoom-hover i.fas {
-    display: none;
-  }
-
   .media {
     width: 100%;
   }
 
   .media-zoom .media {
     position: relative;
-    max-height: calc(19vw - 40px);
+    max-height: calc(33vh - 40px);
   }
 
   .media-zoom .media .zoom-hover::after {

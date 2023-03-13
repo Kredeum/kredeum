@@ -8,10 +8,10 @@ import "./OpenNFTsResolverSupportsTest.t.sol";
 import "./OpenNFTsResolverGetterTest.t.sol";
 
 import "OpenNFTs/contracts/interfaces/ITest.sol";
-import "OpenNFTs/tests//units/OpenResolverTest.t.sol";
-import "OpenNFTs/tests//units/OpenCheckerTest.t.sol";
-import "OpenNFTs/tests//units/OpenGetterTest.t.sol";
-import "OpenNFTs/tests//units/OpenRegistryTest.t.sol";
+import "OpenNFTs/contracts/tests/units/OpenResolverTest.t.sol";
+import "OpenNFTs/contracts/tests/units/OpenCheckerTest.t.sol";
+import "OpenNFTs/contracts/tests/units/OpenGetterTest.t.sol";
+import "OpenNFTs/contracts/tests/units/OpenRegistryTest.t.sol";
 
 contract OpenNFTsResolverTest is
     ITest,

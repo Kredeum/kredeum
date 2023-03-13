@@ -12,7 +12,7 @@
   import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
   /////////////////////////////////////////////////
-  import CollectionList from "../Collection/CollectionList.svelte";
+  import Collections from "../Collection/Collections.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
   /////////////////////////////////////////////////
   import { fade } from "svelte/transition";
@@ -435,7 +435,7 @@
 
               <div class="section">
                 <span class="label label-big">Add to an existing address ?</span>
-                <CollectionList {chainId} bind:address {account} mintable={true} label={false} />
+                <Collections {chainId} bind:address {account} mintable={true} label={false} />
               </div>
               <div class="txtright">
                 <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>

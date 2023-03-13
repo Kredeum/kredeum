@@ -46,8 +46,6 @@
   const templateConfig = (templateKey: string) => templateSplit(templateKey)[1];
 
   $: template = templateMerge(templateName(template), templateName(template) == "OpenNFTsV4" ? "generic" : "ownable");
-
-  $: console.log("template", template);
 </script>
 
 <div class="section">

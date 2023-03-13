@@ -2,24 +2,40 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { NetworkType, CollectionType, NftType } from "@lib/common/types";
+import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
 
+const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
+const tokenIdSplit = (tokenIDs = ""): Array<string> => {
+  const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
+  const tokenIDsArray = tokenIDsSanitize ? tokenIDsSanitize.split(",") : [];
+  return tokenIDsArray;
+};
+const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "" ? -1 : tokenIdSplit(tokenIDs).length);
+const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
+  tokenIDs === "" || tokenIdSplit(tokenIDs).includes(tokenID);
+
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
 
-const isAddress = (address = ""): boolean => utils.isAddress(address);
+const isCollection = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
 
-const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : "");
+const isAddress = (address = ""): boolean => utils.isAddress(address);
+const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
+
+const getChecksumAddress = (address = ""): string =>
+  isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
+
+const isNetwork = (chainId: number | string | undefined): boolean => networksMap.has(Number(chainId));
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
@@ -51,7 +67,7 @@ const getChainName = (chainId: number): string =>
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
 
-  if (!(chainId && address && tokenID && network)) return "";
+  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network
@@ -80,8 +96,8 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 
 // CONSTANT
 // const IPFS_GATEWAY_DOMAIN = config.storage.ipfs.gatewayDomain;
-const IPFS_GATEWAY = config.storage.ipfs.gateway;
-const SWARM_GATEWAY = config.storage.swarm.gateway;
+const IPFS_GATEWAY = config.storage.ipfs.gateway.replace(/\/$/, "");
+const SWARM_GATEWAY = config.storage.swarm.gateway.replace(/\/$/, "");
 
 const textShort = (s: string, n = 16, p = n): string => {
   const ipfsStr: string = s?.toString() || "";
@@ -168,7 +184,7 @@ const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 // => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GATEWAY}${ipfsLinkToCid(ipfs)}` : "");
+const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GATEWAY}/${ipfsLinkToCid(ipfs)}` : "");
 
 // const ipfsGatewayUrl = (ipfs: string | undefined): string =>
 //   ipfs
@@ -237,7 +253,7 @@ const swarmLinkToCid = (swarm: string): string => swarm.replace(/^swarm:\/\//, "
 // => gateway url https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const swarmGatewayUrl = (swarm: string | undefined): string =>
-  swarm ? `${SWARM_GATEWAY}${swarmLinkToCid(swarm)}` : "";
+  swarm ? `${SWARM_GATEWAY}/${swarmLinkToCid(swarm)}` : "";
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -440,6 +456,9 @@ const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.sym
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  tokenIdSplit,
+  tokenIdCount,
+  tokenIdSelected,
   addressSame,
   collectionName,
   collectionSymbol,
@@ -461,7 +480,10 @@ export {
   explorerAccountUrl,
   explorerNftLink,
   isTestnet,
+  isCollection,
+  isNetwork,
   isAddress,
+  isAddressNotZero,
   isNumeric,
   getChainId,
   getChainName,
@@ -507,6 +529,7 @@ export {
   textShort,
   urlToLink,
   config,
+  PAGE_SIZE,
   MAX_FEE,
   DEFAULT_NAME,
   DEFAULT_SYMBOL,
