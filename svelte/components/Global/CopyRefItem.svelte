@@ -1,4 +1,6 @@
 <script lang="ts">
+  import { copyToClipboard } from "@lib/common/config";
+
   /////////////////////////////////////////////////
   // <CopyRefItem {copyData} />
   //  Display icon to copy reference
@@ -8,20 +10,22 @@
 
   $: displayData ||= copyData;
 
-  const copyToClipboard = async (data: string, e: Event): Promise<void> => {
-    await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
-    const target = e.target as Element;
-    target.classList.add("copied");
-    setTimeout(() => {
-      target.classList.remove("copied");
-    }, 1000);
+  const copyToClipboardWithAnimation = async (data: string, evt: Event): Promise<void> => {
+    await copyToClipboard(data);
+    if (evt) {
+      const target = evt.target as Element;
+      target.classList.add("copied");
+      setTimeout(() => {
+        target.classList.remove("copied");
+      }, 1000);
+    }
   };
 </script>
 
 <i
   class="fa fa-clone copy-ref"
   data-display={displayData}
-  on:click|preventDefault={(e) => copyToClipboard(copyData, e)}
+  on:click|preventDefault={(e) => copyToClipboardWithAnimation(copyData, e)}
   aria-hidden="true"
 />
 

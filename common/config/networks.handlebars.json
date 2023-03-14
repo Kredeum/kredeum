@@ -16,6 +16,7 @@
       "https://etherscan.io"
     ],
     "openSea": "https://opensea.io/assets",
+    "blur": "https://blur.io/asset",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/wighawag/eip721-subgraph",
       "active": true

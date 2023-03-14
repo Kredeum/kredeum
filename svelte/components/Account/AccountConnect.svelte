@@ -38,7 +38,7 @@
   {#if _metamaskInstalled}
     <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
   {:else}
-    <a href="." on:click={_metamaskInstall}>{metamaskInstallMessage}</a>
+    <a href="https://metamask.io/download/" target="_blank">{metamaskInstallMessage}</a>
   {/if}
 {:else}
   <div class={classMetamask}>

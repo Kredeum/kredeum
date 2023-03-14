@@ -12,6 +12,9 @@ const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 
+const copyToClipboard = async (data: string): Promise<void> =>
+  await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
+
 const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
   const tokenIDsArray = tokenIDsSanitize ? tokenIDsSanitize.split(",") : [];
@@ -53,6 +56,17 @@ const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplo
 
 // GET OpenSea
 const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
+// GET OpenSea Url
+const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
+
+// GET Blur
+const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
+// GET Blur Url
+const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `https://beta.kredeum.com/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
@@ -427,9 +441,6 @@ const nftsBalanceAndName = (collection: CollectionType, account: string): string
 const nftExplorerLink = (nft: NftType, n?: number): string =>
   urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
-
 const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
 
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
@@ -456,6 +467,7 @@ const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.sym
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  copyToClipboard,
   tokenIdSplit,
   tokenIdCount,
   tokenIdSelected,
@@ -493,7 +505,11 @@ export {
   getNftsResolver,
   getDefaultOpenNFTs,
   getOpenMulti,
+  getBlur,
+  getBlurUrl,
+  getDappUrl,
   getOpenSea,
+  getOpenSeaUrl,
   getCreate,
   getExplorer,
   getCurrency,
@@ -521,7 +537,6 @@ export {
   nftName,
   nftsSupply,
   nftsBalanceAndName,
-  nftOpenSeaUrl,
   networks,
   normalizedSoloNftUrl,
   numberToHexString,

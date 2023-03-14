@@ -9,7 +9,7 @@
   import {  nftMint1SwarmImage, nftMint2SwarmJson } from "lib/knft-mint";
 
   import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
-  import { urlToLink, nftOpenSeaUrl, getNetwork } from "lib/kconfig";
+  import { urlToLink, getOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
   /////////////////////////////////////////////////
   import Collections from "../Collection/Collections.svelte";
@@ -77,7 +77,7 @@
 
   const sell = (e: Event): void => {
     e.preventDefault();
-    location.href = nftOpenSeaUrl($metamaskChainId, mintedNft);
+    location.href = getOpenSeaUrl($metamaskChainId, mintedNft);
   };
 
   const view = (e: Event): void => {

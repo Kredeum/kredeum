@@ -35,6 +35,7 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
+  blur?: string;
   openSea?: string;
   openMulti?: string;
   openBound?: string;

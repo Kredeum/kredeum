@@ -6,13 +6,20 @@
     explorerAddressLink,
     kredeumNftUrl,
     getCurrency,
-    kredeumNftHttp
+    kredeumNftHttp,
+    getBlur,
+    getOpenSea,
+    copyToClipboard,
+    getOpenSeaUrl,
+    getBlurUrl,
+    getDappUrl,
+    textShort
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
   import NftExchange from "./NftExchange.svelte";
 
-  import { getShortcodeBuyCode, shortcodeBuy } from "@helpers/shortcodes";
+  import { shortcodeAutoMarket } from "@helpers/shortcode";
   import {
     nftOwner,
     nftMarketable,
@@ -27,6 +34,7 @@
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
+  import { widgetAutoMarket } from "@helpers/widget";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? {platform}? />
@@ -41,6 +49,28 @@
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
 
+  let nftLink = "";
+  let nftLinkDone = "";
+  const copyDappLink = () => (nftLink = getDappUrl(chainId, { address, tokenID }));
+  const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
+  const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
+
+  let automarketCode = "";
+  const copyShortcodeAutoMarket = () => (automarketCode = shortcodeAutoMarket($nft));
+  const codeWidgetAutoMarket = () => (automarketCode = widgetAutoMarket($nft));
+
+  const copyCodeToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(automarketCode);
+    const automarketCodeDone = automarketCode;
+    automarketCode = `Done!  ${label} copied to your clipboard...`;
+    setTimeout(() => (automarketCode = automarketCodeDone), 3000);
+  };
+  const copyLinkToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(nftLink);
+    nftLinkDone = `Done!  ${label} copied to your clipboard...`;
+    setTimeout(() => (nftLinkDone = ""), 3000);
+  };
+
   $: console.info("NFT", $nft);
 </script>
 
@@ -53,7 +83,7 @@
       <div class="kre-action-buttons {platform === 'wordpress' ? 'kre-wordpress-buttons' : ''}">
         {#if nftOwner($nft) === owner && platform !== "wordpress"}
           <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+            ><i class="fas fa-share fa-left c-green" /> SHARE</a
           >
 
           <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
@@ -170,7 +200,7 @@
                 </div>
               </li>
             {/if}
-            {#if nftMarketable}
+            {#if nftMarketable($nft)}
               {#if nftPrice($nft).gt(0)}
                 <li>
                   <div class="flex"><span class="label">Nft Price</span></div>
@@ -235,60 +265,82 @@
         <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
         <div class="modal-body">
           <div class="titre">
-            <i class="fas fa-code fa-left c-green" />
-            WordPress Shortcode
+            <i class="fas fa-share fa-left c-green" />
+            SHARE this NFT
           </div>
-          <p>Click on the COPY button to copy in your clipboard the shortcode to paste it in a WordPress page.</p>
-          <!-- <p>
-              Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
-              shortcodes to paste them in a WordPress page.
-            </p> -->
 
           <ul class="steps">
-            {#if nftMarketable}
-              <!-- <li>
-                  <div class="flex">
-                    <span class="label">SELL on your website with this buy snippet</span>
-                  </div>
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={getAutoMarketWidgetCode($nft)} />
-                    <a
-                      on:click|preventDefault={() => autoMarketWidget($nft)}
-                      class="btn btn-small btn-outline"
-                      href="."
-                      title="Copy">Copy</a
-                    >
-                  </div>
-                </li> -->
-              <li>
-                <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={getShortcodeBuyCode($nft)} />
+            <li>
+              <div class="flex"><span class="label">COPY TO SHARE LINK TO THIS NFT</span></div>
+              <div class="flex kre-buy-widget-textarea">
+                <a
+                  on:mouseover={copyDappLink}
+                  on:focus={copyDappLink}
+                  on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Dapp link")}
+                  class="btn btn-small btn-outline"
+                  href={getDappUrl(chainId, { address, tokenID })}
+                  target="_blank">COPY DAPP LINK</a
+                >
+                {#if getOpenSea(chainId)}
                   <a
-                    on:click|preventDefault={() => shortcodeBuy($nft)}
+                    on:mouseover={copyOpenSeaLink}
+                    on:focus={copyOpenSeaLink}
+                    on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "OpenSea link")}
+                    class="btn btn-small btn-outline"
+                    href={getOpenSeaUrl(chainId, { address, tokenID })}
+                    target="_blank"
+                  >
+                    COPY OPENSEA LINK</a
+                  >
+                {/if}
+                {#if getBlur(chainId)}
+                  <a
+                    on:mouseover={copyBlurLink}
+                    on:focus={copyBlurLink}
+                    on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Blur link")}
+                    class="btn btn-small btn-outline"
+                    href={getBlurUrl(chainId, { address, tokenID })}
+                    target="_blank">COPY BLUR LINK</a
+                  >
+                {/if}
+              </div>
+              <div class="flex kre-buy-widget-textarea">
+                {#if nftLinkDone}
+                  <p>{nftLinkDone}</p>
+                {:else}
+                  <a href={nftLink} target="_blank">{textShort(nftLink, 24)}</a>
+                {/if}
+              </div>
+            </li>
+
+            {#if nftMarketable($nft)}
+              <li>
+                <div class="flex">
+                  <span class="label">COPY TO INTEGRATE THIS NFT IN WORDPRESS OR HTML PAGE</span>
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <a
+                    on:mouseover={copyShortcodeAutoMarket}
+                    on:focus={copyShortcodeAutoMarket}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
-                    title="Copy">Copy</a
+                    title="shortcodeAutoMarket($nft)">COPY WORDPRESS SHORTCODE</a
                   >
+                  <a
+                    on:mouseover={codeWidgetAutoMarket}
+                    on:focus={codeWidgetAutoMarket}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "HTML widget")}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="View">COPY HTML WIDGET</a
+                  >
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <textarea value={automarketCode} />
                 </div>
               </li>
             {/if}
-            <!-- {#if getNetwork($metamaskChainId)?.openSea}
-                <li>
-                  <div class="flex">
-                    <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
-                  </div>
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={getShortcodeOpenSeaCode($nft)} />
-                    <a
-                      on:click|preventDefault={() => shortcode($nft)}
-                      class="btn btn-small btn-outline"
-                      href="."
-                      title="Copy">Copy</a
-                    >
-                  </div>
-                </li>
-              {/if} -->
           </ul>
         </div>
       </div>

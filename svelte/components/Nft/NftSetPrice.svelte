@@ -12,7 +12,7 @@
     explorerTxUrl,
     getCurrency,
     getOpenSea,
-    nftOpenSeaUrl,
+    getOpenSeaUrl,
     textShort
   } from "@lib/common/config";
 
@@ -205,7 +205,7 @@
     <div class="kre-modal-block">
       <div class="txt-left">
         <a
-          href={nftOpenSeaUrl(chainId, { chainId, address, tokenID })}
+          href={getOpenSeaUrl(chainId, { chainId, address, tokenID })}
           class="btn btn-second"
           title="Sell"
           target="_blank"
