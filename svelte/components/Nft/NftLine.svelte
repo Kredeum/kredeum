@@ -23,8 +23,6 @@
   $: nft = nftStore.getOne(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 
-  let mode: string = "list";
-
   // let i = 1;
   const moreToggle = (id: string): void => {
     more = more > 0 ? 0 : (document.getElementById(`more-detail-${id || ""}`)?.offsetHeight || 0) + 70;
@@ -44,7 +42,7 @@
   >
     <div id="media-{tokenID || ''}" class="table-col">
       <div class="table-col-content">
-        <Media {chainId} {address} {tokenID} {mode} />
+        <Media {chainId} {address} {tokenID} mode="line"/>
 
         <strong>{nftName($nft)}</strong>
         <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>
@@ -79,7 +77,7 @@
     </div>
 
     <div id="more-detail-{tokenID || ''}" class="detail">
-      <Nft {chainId} {address} {tokenID} {owner} {platform} />
+      <Nft {chainId} {address} {tokenID} {owner} {platform} details={true} mode="preview" />
     </div>
   </div>
 {/if}

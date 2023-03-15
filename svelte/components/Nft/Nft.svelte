@@ -35,6 +35,8 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
   import { widgetAutoMarket } from "@helpers/widget";
+  import { onMount } from "svelte";
+  import { NftType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? {platform}? />
@@ -44,7 +46,9 @@
   export let address: string;
   export let tokenID: string;
   export let owner: string = undefined;
-  export let platform: string = undefined; // "wordpress";
+  export let platform: string = undefined;
+  export let mode: string = undefined;
+  export let details: boolean = undefined;
   /////////////////////////////////////////////////////////////
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
@@ -71,41 +75,43 @@
     setTimeout(() => (nftLinkDone = ""), 3000);
   };
 
-  $: console.info("NFT", $nft);
+  let once = true;
+  $: once && $nft && logNft();
+  const logNft = () => {
+    console.info("NFT", $nft);
+    once = false;
+  };
 </script>
 
 {#if $nft}
-  <div class="{platform === 'wordpress' ? '' : 'row'} krd-nft-solo">
-    <div class={platform === "wordpress" ? "kre-wordpress-card" : "col col-xs-12 col-sm-4 col-md-3"}>
+  <div class="{platform == 'dapp' ? 'row' : ''} kre-nft-solo">
+    <div class={platform == "dapp" ? "col col-xs-12 col-sm-4 col-md-3" : "kre-web-card"}>
       <div class="card-krd kre-media">
-        <MediaPreview {chainId} {address} {tokenID} />
+        <MediaPreview {chainId} {address} {tokenID} {mode} />
       </div>
-      <div class="kre-action-buttons {platform === 'wordpress' ? 'kre-wordpress-buttons' : ''}">
-        {#if nftOwner($nft) === owner && platform !== "wordpress"}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
+
+      <div class="kre-action-buttons {platform == 'dapp' ? '' : 'kre-web-buttons'}">
+        {#if details}
+          <a href="#schortcodes" title="Share" class="btn-share-modal"
             ><i class="fas fa-share fa-left c-green" /> SHARE</a
           >
 
-          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
-            ><i class="fa fa-gift fa-left" /> TRANSFER</a
-          >
+          {#if nftOwner($nft) === owner}
+            <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+              ><i class="fa fa-gift fa-left" /> TRANSFER</a
+            >
 
-          <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"><i class="fa fa-fire fa-left" /> BURN</a
-          >
-        {/if}
-
-        {#if platform === "wordpress"}
-          <div class="kre-buy-infos">
-            <div class="overflow-ellipsis kre-buy-link">
-              <strong>
-                <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
-                  >{$nft.name} #{tokenID}</a
-                >
-              </strong>
-            </div>
-            <div class="overflow-ellipsis kre-buy-price">
-              <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
-            </div>
+            <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"
+              ><i class="fa fa-fire fa-left" /> BURN</a
+            >
+          {/if}
+        {:else}
+          <div class="overflow-ellipsis kre-description-link">
+            <strong>
+              <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
+                >{$nft.name} #{tokenID}</a
+              >
+            </strong>
           </div>
         {/if}
 
@@ -113,7 +119,7 @@
       </div>
     </div>
 
-    {#if platform !== "wordpress"}
+    {#if details}
       <div class="col col-xs-12 col-sm-8 col-md-9">
         <div class="card-krd">
           <h3>{$nft.name}</h3>
@@ -366,7 +372,7 @@
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
 <style>
-  .krd-nft-solo {
+  .kre-nft-solo {
     width: 100%;
   }
 
@@ -393,7 +399,7 @@
       .kre-action-buttons button.btn-buy-modal,
       .kre-action-buttons a.btn-transfer-modal,
       .kre-action-buttons a.btn-burn-modal,
-      .kre-action-buttons a.btn-shortcod-modal,
+      .kre-action-buttons a.btn-share-modal,
       .kre-action-buttons a.btn-buy-modal
     ) {
     width: 100%;
@@ -414,8 +420,8 @@
 
   :global(
       .kre-action-buttons a.btn-transfer-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover i
+      .kre-action-buttons a.btn-share-modal:hover,
+      .kre-action-buttons a.btn-share-modal:hover i
     ) {
     background-color: #3acf6e;
     color: white;
@@ -466,35 +472,26 @@
   }
 
   /* Buy front CSS */
-  .kre-wordpress-card {
+  .kre-web-card {
     box-shadow: 0 0 20px rgb(0 0 0 / 10%);
     padding-bottom: 15px;
     border-radius: 6px;
     background-color: #fff;
   }
 
-  .kre-wordpress-buttons {
+  .kre-web-buttons {
     padding: 0 20px;
   }
 
-  .kre-action-buttons.kre-wordpress-buttons {
+  .kre-action-buttons.kre-web-buttons {
     margin: 0;
   }
 
-  .kre-buy-infos {
-    margin: 0 0 15px 0;
-    color: #192247;
-  }
-
-  .kre-buy-infos a {
+  .kre-description-link a {
     text-decoration: none;
   }
 
-  .kre-buy-link {
+  .kre-description-link {
     font-size: 16px;
-  }
-  .kre-buy-price {
-    font-size: 20px;
-    margin-top: 5px;
   }
 </style>

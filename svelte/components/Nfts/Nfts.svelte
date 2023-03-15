@@ -143,7 +143,7 @@
 </div>
 
 {#if mode === "grid"}
-  <NftsGrid nfts={$nfts} bind:tokenID />
+  <NftsGrid nfts={$nfts} bind:tokenID {owner} platform="web" />
 {:else}
   <NftsLines {chainId} nfts={$nfts} {owner} {platform} />
 {/if}

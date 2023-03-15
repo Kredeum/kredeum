@@ -12,16 +12,15 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  /////////////////////////////////////////////////
-  export let mode: string = "list";
-  export let small: boolean = true;
+  export let mode: string = undefined;
+  export let small: boolean = undefined;
   /////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   let cssSmall = small ? "small" : "full";
-  let cssMedia = "list" === mode ? "media-small" : "media-grid";
-  let gridScale = "grid" === mode ? " a-simul-cursor" : "";
+  let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "" : "media-grid";
+  let gridScale = mode === "grid" ? " a-simul-cursor" : "";
 </script>
 
 <div id="media-{cssSmall}-{tokenID}" class="media {cssSmall} {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
@@ -44,6 +43,10 @@
 <style>
   .media {
     width: 100%;
+  }
+
+  .media-grid {
+    aspect-ratio: 1;
   }
 
   :global(.media:not(.full) img, .media:not(.full) video) {

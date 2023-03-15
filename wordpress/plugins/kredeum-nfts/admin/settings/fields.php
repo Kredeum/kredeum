@@ -13,14 +13,14 @@ namespace KredeumNFTs\Settings;
 function fields() {
 	return array(
 
-    array(
-      'uid'     => 'select_collection',
-      'label'   => 'Connect Metamask and select Network and Collection to Mint',
-      'section' => 'first_section',
-      'type'    => 'kcollections',
-      'default' => '',
-    ),
-    
+		array(
+			'uid'     => 'select_collection',
+			'label'   => 'Connect Metamask and select Network and Collection to Mint',
+			'section' => 'first_section',
+			'type'    => 'kcollections',
+			'default' => '',
+		),
+
 		array(
 			'uid'     => 'ipfs_auto',
 			'label'   => 'IPFS_AUTO',

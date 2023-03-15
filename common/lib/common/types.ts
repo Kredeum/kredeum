@@ -183,7 +183,6 @@ type Property = {
 
 type Properties = { [k: string]: Property };
 
-
 type RefPageType = {
   chainId?: number;
   address?: string;
@@ -193,7 +192,6 @@ type RefPageType = {
   action?: string;
   chainName?: string;
 };
-
 
 export type {
   WindowEthereumProvider,

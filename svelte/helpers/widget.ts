@@ -17,5 +17,4 @@ const widgetAutoMarket = (
     document.getElementsByTagName("head")[0].appendChild(newLink2);
     </script></div>`;
 
-
 export { widgetAutoMarket };

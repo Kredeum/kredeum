@@ -15,25 +15,24 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let platform = "dapp";
+  export let platform: string;
   /////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   let open = false;
 
-
   const handleClose = () => (open = false);
 </script>
 
 <button
   on:click={() => (open = true)}
-  class={platform === "wordpress" ? "btn btn-default  btn-sell" : "btn-sell-modal"}
+  class={platform === "dapp" ? "btn-sell-modal" : "btn btn-default btn-sell"}
   title="Sell this NFT"
 >
   <i class="fa fa-dollar-sign fa-left" />
   {#if nftPrice($nft).gt(0)}
-    ON SALE &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+    ON SALE
   {:else}
     SELL
   {/if}
@@ -69,6 +68,10 @@
     z-index: 1000;
     pointer-events: auto;
     color: #1e1e43;
+  }
+
+  button.btn-sell {
+    font-weight: 900;
   }
 
   .btn-sell-modal {

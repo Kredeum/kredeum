@@ -19,7 +19,7 @@ const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.coll
 const nftCollectionApproved = (nft: NftType, address: string): boolean =>
   Boolean(nft?.collection?.approvedForAll?.get(address) || false);
 
-const nftMediaContentType = (nft: NftType): string => nft.contentType?.split("/")[0];
+const nftMediaContentType = (nft: NftType): string => nft?.contentType?.split("/")[0];
 const nftMediaAnimationUrl = (nft: NftType): string => nft?.animation_url;
 const nftMediaSrc = (nft: NftType): string => nftGetImageLink(nft);
 const nftMediaAlt = (nft: NftType): string => {

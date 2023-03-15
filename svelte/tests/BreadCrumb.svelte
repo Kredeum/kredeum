@@ -1,5 +1,4 @@
 <script lang="ts">
-
   import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb, RefPageType } from "@helpers/refPage";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";

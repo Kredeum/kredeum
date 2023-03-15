@@ -15,7 +15,7 @@
   export let chainId: number = 1;
   export let address: string = constants.AddressZero;
   export let tokenID: string = "";
-  export let platform: string = undefined;
+  export let platform: string = "web";
   /////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////

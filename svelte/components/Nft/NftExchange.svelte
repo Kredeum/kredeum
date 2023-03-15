@@ -1,9 +1,11 @@
 <script lang="ts">
-  import { nftMarketable, nftOwner } from "@helpers/nft";
+  import { nftMarketable, nftOwner, nftPrice } from "@helpers/nft";
   import NftBuy from "./NftBuy.svelte";
   import NftSell from "./NftSell.svelte";
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSignerAddress } from "@main/metamask";
+  import { utils } from "ethers";
+  import { getCurrency } from "@lib/common/config";
 
   /////////////////////////////////////////////////////////////////
   //  <NftExchange {chainId} {address} {tokenID} {platform}? />
@@ -22,9 +24,22 @@
 </script>
 
 {#if nftMarketable($nft)}
-  {#if nftOwner($nft) === $metamaskSignerAddress}
-    <NftSell {chainId} {address} {tokenID} {platform} />
-  {:else}
-    <NftBuy {chainId} {address} {tokenID} {platform} />
-  {/if}
+  <div class="kre-buy-infos">
+    <div class="overflow-ellipsis kre-buy-price">
+      <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+    </div>
+
+    {#if nftOwner($nft) === $metamaskSignerAddress}
+      <NftSell {chainId} {address} {tokenID} {platform} />
+    {:else}
+      <NftBuy {chainId} {address} {tokenID} {platform} />
+    {/if}
+  </div>
 {/if}
+
+<style>
+  .kre-buy-price {
+    font-size: 20px;
+    margin-top: 5px;
+  }
+</style>

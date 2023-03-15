@@ -4,7 +4,7 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import {  nftPrice } from "@helpers/nft";
+  import { nftPrice } from "@helpers/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
   import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
@@ -104,14 +104,14 @@
   on:click={handleCLick}
   on:keyup={handleCLick}
   type="button"
-  class="btn-buy {platform === 'wordpress' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
+  class="btn-buy {platform === 'web' ? 'btn btn-default btn-buy-web' : 'btn-buy-modal'}"
   title="Buy this NFT"
 >
   <i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
   {#if nftPrice($nft).gt(0)}
-    BUY <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+    BUY
   {:else}
-    <strong>Not on sale</strong>
+    <strong>NOT ON SALE</strong>
   {/if}
 </button>
 
@@ -228,7 +228,7 @@
   }
 
   .btn-buy-modal,
-  .btn-buy-shortcode:hover {
+  .btn-buy-web:hover {
     background-color: #3acf6e !important;
   }
 </style>

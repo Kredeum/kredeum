@@ -28,6 +28,7 @@
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
   ////////////////////////////////////////////////////////////////////
+  const platform = "dapp";
   let chainId: number;
   let address: string;
   let tokenID: string;
@@ -168,9 +169,9 @@
           <i class="fa fa-arrow-left fa-left" />
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
         </h2>
-        <Nft {chainId} {address} {tokenID} {owner} />
+        <Nft {chainId} {address} {tokenID} {owner} {platform} details={true} mode="preview"/>
       {:else}
-        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} />
+        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} {platform} />
       {/if}
     {/if}
   </span>

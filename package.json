@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "all": "pnpm clean-all && pnpm install-all && pnpm build-all && pnpm format-all && pnpm check-all && pnpm tests-all",
-    "clean-all": "pnpm -r clean",
+    "clean-all": "rm pnpm-lock.yaml && pnpm -r clean",
     "install-foundry": "pnpm -F contracts install:foundry",
     "install-wordpress": "pnpm -F wordpress install:wordpress",
     "install-all": "pnpm install && pnpm install-foundry && pnpm install-wordpress",
