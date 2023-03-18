@@ -23,7 +23,7 @@
 </script>
 
 {#if small}
-  {#if mode === "grid"}
+  {#if mode.startsWith("grid")}
     <video autoplay={false} {src} preload="metadata" loop playsinline style="border-radius: initial;" bind:paused>
       <track kind="captions" />
     </video>

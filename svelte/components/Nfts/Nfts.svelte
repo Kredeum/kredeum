@@ -27,12 +27,11 @@
   export let owner: string = undefined;
   export let page: number = undefined;
   export let refreshing: boolean = undefined;
-  export let platform: string = undefined;
   export let end: boolean = undefined;
+  export let mode: string = undefined; // modes => grid3 grid4 line
   export const more = () => page++;
   ////////////////////////////////////////////////////////////////////////
 
-  let mode: string = "grid";
   let refreshAll: Writable<number> = getContext("refreshAll");
   let collection: Readable<CollectionType>;
   let nfts: Readable<Map<string, NftType>>;
@@ -54,13 +53,13 @@
 
   $: isCollection({ chainId, address }) && resetNfts();
   const resetNfts = () => {
-    console.log("<Nfts resetNfts:", resetNfts);
+    console.log("<Nfts resetNfts");
     refreshing = false;
     nfts = null;
     page = 1;
   };
 
-  $: $refreshAll, tokenID, owner, page > 0 && isCollection({ chainId, address }) && refresh();
+  $: $refreshAll, owner, page > 0 && isCollection({ chainId, address }) && refresh();
   const refresh = async () => {
     end = true;
 
@@ -75,10 +74,10 @@
     if (0 < maxSupply && maxSupply < limit) limit = maxSupply;
 
     if (limit > offset) {
-      nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
+      nfts = nftSubListStore(chainId, address, { owner, offset, limit });
     }
     console.info("NFTS cached", $nfts);
-    // console.log("NFTS cached params", chainId, address, { tokenID, owner, offset, limit });
+    // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;
     await collectionStore.refreshOne(chainId, address, owner);
@@ -91,29 +90,18 @@
     offset = Math.max(limit - PAGE_SIZE, 0);
     if (0 < maxSupply && maxSupply < offset) offset = maxSupply;
 
-    // console.log("NFTS collection:", $collection);
-    // console.log("NFTS collection has totalSupply", $collection?.hasOwnProperty("totalSupply"));
-
-    // console.log("NFTS ownerSupply:", getOwnerSupply());
-    // console.log("NFTS totalSupply:", getTotalSupply());
-    // console.log("NFTS maxSupply:", maxSupply);
-    // console.log("NFTS page:", page);
-    // console.log("NFTS limit:", limit);
-    // console.log("NFTS offset:", offset);
-    // console.log("NFTS end:", end);
-
     if (limit > offset) {
-      await nftSubListRefresh(chainId, address, { tokenID, owner, offset, limit });
+      await nftSubListRefresh(chainId, address, { owner, offset, limit });
     }
     end = $nfts.size < page * PAGE_SIZE;
 
     refreshing = false;
 
     console.info("NFTS refreshed", $nfts);
-    // console.log("NFTS refreshed params", chainId, address, { tokenID, owner, offset, limit });
+    // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
-  $: console.log("NFTS from", chainId, "/", address, "/", tokenID, "@", owner);
+  $: console.log("NFTS from", chainId, "/", address, "@", owner);
 
   onMount(async () => {
     resetNfts();
@@ -137,21 +125,24 @@
       rel="noreferrer"><i class="fas fa-info-circle" /></a
     >
   </div>
-  <div class="col col-xs-12">
-    <NftsDisplayMode bind:mode />
-  </div>
+  {#if mode !== "grid3"}
+    <div class="col col-xs-12">
+      <NftsDisplayMode bind:mode />
+    </div>
+  {/if}
 </div>
 
-{#if mode === "grid"}
-  <NftsGrid nfts={$nfts} bind:tokenID {owner} platform="web" />
+{#if mode === "line"}
+  <NftsLines nfts={$nfts} {owner} {mode} />
 {:else}
-  <NftsLines {chainId} nfts={$nfts} {owner} {platform} />
+  <NftsGrid nfts={$nfts} bind:tokenID {owner} {mode} />
 {/if}
 
 <div class="row">
   <div class="col col-sm">
     {#if !end}
-      <button class="btn btn-default" on:click={more} title="      Click to View more NFTs">Display more NFTs...</button>
+      <button class="btn btn-default" on:click={more} title="      Click to View more NFTs">Display more NFTs...</button
+      >
     {/if}
   </div>
 </div>

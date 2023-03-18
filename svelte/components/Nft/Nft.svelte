@@ -19,7 +19,7 @@
   import MediaPreview from "../Media/MediaPreview.svelte";
   import NftExchange from "./NftExchange.svelte";
 
-  import { shortcodeAutoMarket } from "@helpers/shortcode";
+  import { shortcodeOpenSky } from "@helpers/shortcode";
   import {
     nftOwner,
     nftMarketable,
@@ -34,19 +34,18 @@
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
-  import { widgetAutoMarket } from "@helpers/widget";
+  import { widgetOpenSky } from "@helpers/widget";
   import { onMount } from "svelte";
   import { NftType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
-  //  <Nft {chainId} {address} {tokenID} {owner}? {platform}? />
+  //  <Nft {chainId} {address} {tokenID} {owner}? />
   // Display NFT solo
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
   export let owner: string = undefined;
-  export let platform: string = undefined;
   export let mode: string = undefined;
   export let details: boolean = undefined;
   /////////////////////////////////////////////////////////////
@@ -59,15 +58,15 @@
   const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
-  let automarketCode = "";
-  const copyShortcodeAutoMarket = () => (automarketCode = shortcodeAutoMarket($nft));
-  const codeWidgetAutoMarket = () => (automarketCode = widgetAutoMarket($nft));
+  let openSkyCode = "";
+  const copyShortcodeOpenSky = () => (openSkyCode = shortcodeOpenSky($nft));
+  const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
 
   const copyCodeToClipboard = (evt: Event, label?: string) => {
-    copyToClipboard(automarketCode);
-    const automarketCodeDone = automarketCode;
-    automarketCode = `Done!  ${label} copied to your clipboard...`;
-    setTimeout(() => (automarketCode = automarketCodeDone), 3000);
+    copyToClipboard(openSkyCode);
+    const openSkyCodeDone = openSkyCode;
+    openSkyCode = `Done!  ${label} copied to your clipboard...`;
+    setTimeout(() => (openSkyCode = openSkyCodeDone), 3000);
   };
   const copyLinkToClipboard = (evt: Event, label?: string) => {
     copyToClipboard(nftLink);
@@ -84,13 +83,13 @@
 </script>
 
 {#if $nft}
-  <div class="{platform == 'dapp' ? 'row' : ''} kre-nft-solo">
-    <div class={platform == "dapp" ? "col col-xs-12 col-sm-4 col-md-3" : "kre-web-card"}>
+  <div class="{mode == 'detail' ? 'row' : ''} kre-nft-solo">
+    <div class={mode == "detail" ? "col col-xs-12 col-sm-4 col-md-3" : "kre-web-card"}>
       <div class="card-krd kre-media">
         <MediaPreview {chainId} {address} {tokenID} {mode} />
       </div>
 
-      <div class="kre-action-buttons {platform == 'dapp' ? '' : 'kre-web-buttons'}">
+      <div class="kre-action-buttons {mode == 'detail' ? '' : 'kre-web-buttons'}">
         {#if details}
           <a href="#schortcodes" title="Share" class="btn-share-modal"
             ><i class="fas fa-share fa-left c-green" /> SHARE</a
@@ -115,7 +114,7 @@
           </div>
         {/if}
 
-        <NftExchange {chainId} {address} {tokenID} {platform} />
+        <NftExchange {chainId} {address} {tokenID} {mode} />
       </div>
     </div>
 
@@ -326,16 +325,16 @@
                 </div>
                 <div class="flex kre-buy-widget-textarea">
                   <a
-                    on:mouseover={copyShortcodeAutoMarket}
-                    on:focus={copyShortcodeAutoMarket}
+                    on:mouseover={copyShortcodeOpenSky}
+                    on:focus={copyShortcodeOpenSky}
                     on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
                     title="shortcodeAutoMarket($nft)">COPY WORDPRESS SHORTCODE</a
                   >
                   <a
-                    on:mouseover={codeWidgetAutoMarket}
-                    on:focus={codeWidgetAutoMarket}
+                    on:mouseover={codeWidgetOpenSky}
+                    on:focus={codeWidgetOpenSky}
                     on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "HTML widget")}
                     class="btn btn-small btn-outline"
                     href="."
@@ -343,7 +342,7 @@
                   >
                 </div>
                 <div class="flex kre-buy-widget-textarea">
-                  <textarea value={automarketCode} />
+                  <textarea value={openSkyCode} />
                 </div>
               </li>
             {/if}
@@ -395,7 +394,7 @@
   }
 
   :global(
-      .kre-action-buttons button.btn-sell-modal,
+      .kre-action-buttons button.btn-detail,
       .kre-action-buttons button.btn-buy-modal,
       .kre-action-buttons a.btn-transfer-modal,
       .kre-action-buttons a.btn-burn-modal,

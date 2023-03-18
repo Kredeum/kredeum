@@ -14,13 +14,13 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftBuy {chainId} {address} {tokenID} {platform}? />
+  //  <NftBuy {chainId} {address} {tokenID} {mode}? />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let platform = "dapp";
+  export let mode: string = undefined;
   ///////////////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
@@ -95,25 +95,34 @@
 
   const handleClose = () => (open = false);
 
-  const handleCLick = () => (open = nftPrice($nft).gt(0));
-
+  const handleCLick = (evt: Event) => {
+    console.log("handleCLick ~ evt:", evt);
+    evt.preventDefault();
+    open = nftPrice($nft).gt(0);
+  };
   onMount(buyInit);
 </script>
 
-<button
-  on:click={handleCLick}
-  on:keyup={handleCLick}
-  type="button"
-  class="btn-buy {platform === 'web' ? 'btn btn-default btn-buy-web' : 'btn-buy-modal'}"
-  title="Buy this NFT"
->
-  <i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
-  {#if nftPrice($nft).gt(0)}
+{#if nftPrice($nft).gt(0)}
+  <button
+    on:click={handleCLick}
+    on:keyup={handleCLick}
+    type="button"
+    class="btn-buy {mode === 'detail' ? 'btn-buy-modal' : 'btn btn-default btn-buy-web'}"
+    title="Buy this NFT"
+  >
+    <i class="fa fa-shopping-cart fa-left" />
     BUY
-  {:else}
-    <strong>NOT ON SALE</strong>
-  {/if}
-</button>
+    {#if mode === "detail"}
+      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+    {/if}
+  </button>
+{:else}
+  <button type="button" class="btn btn-disable" title="NFT not on sale">
+    <i class="fa fa-shopping-cart fa-left" />
+    NOT ON SALE
+  </button>
+{/if}
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
@@ -218,8 +227,8 @@
     color: #1e1e43;
   }
 
-  .btn-buy strong {
-    margin-left: 0.5em;
+  .btn-disable {
+    cursor: not-allowed;
   }
 
   .btn-buy-modal {

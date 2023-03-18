@@ -22,7 +22,7 @@ const tokenIdSplit = (tokenIDs = ""): Array<string> => {
 };
 const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "" ? -1 : tokenIdSplit(tokenIDs).length);
 const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
-  tokenIDs === "" || tokenIdSplit(tokenIDs).includes(tokenID);
+  !tokenIDs || tokenIdSplit(tokenIDs).includes(tokenID);
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));

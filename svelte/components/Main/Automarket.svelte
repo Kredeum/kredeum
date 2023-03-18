@@ -9,13 +9,12 @@
   import { RefPageType } from "@lib/common/types";
 
   /////////////////////////////////////////////////////////////////
-  // <NftAutomarket {chainId} {address} {tokenID} {platform}? />
+  // <NftAutomarket {chainId} {address} {tokenID} />
   // Display NFT solo
   /////////////////////////////////////////////////////////////////
   export let chainId: number = 1;
   export let address: string = constants.AddressZero;
   export let tokenID: string = "";
-  export let platform: string = "web";
   /////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////
@@ -33,6 +32,6 @@
 
 <div class="nft-automarket">
   {#each [...$nfts.values()] as nft}
-    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {platform} />
+    <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} />
   {/each}
 </div>

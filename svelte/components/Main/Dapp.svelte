@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCreate, isAddressNotZero, isNetwork, tokenIdCount } from "@lib/common/config";
+  import { getCreate, isAddressNotZero, isCollection, isNetwork, tokenIdCount } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -28,7 +28,6 @@
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
   ////////////////////////////////////////////////////////////////////
-  const platform = "dapp";
   let chainId: number;
   let address: string;
   let tokenID: string;
@@ -41,8 +40,6 @@
   let refreshingNfts = false;
   let refreshAll: Writable<number> = writable(1);
   setContext("refreshAll", refreshAll);
-
-  const collectionDefined = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
 
   $: refresh = refreshingCollections || refreshingNfts;
   $: nftCount = tokenIdCount(tokenID);
@@ -163,15 +160,15 @@
   </span>
 
   <span slot="content">
-    {#if collectionDefined({ chainId, address })}
+    {#if isCollection({ chainId, address })}
       {#if nftCount == 1}
         <h2 class="m-b-20 return">
           <i class="fa fa-arrow-left fa-left" />
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>
         </h2>
-        <Nft {chainId} {address} {tokenID} {owner} {platform} details={true} mode="preview"/>
+        <Nft {chainId} {address} {tokenID} {owner} details={true} mode="detail" />
       {:else}
-        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} {platform} />
+        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} mode="grid6" />
       {/if}
     {/if}
   </span>

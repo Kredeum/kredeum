@@ -15,7 +15,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let platform: string;
+  export let mode: string = undefined;
   /////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
@@ -27,12 +27,15 @@
 
 <button
   on:click={() => (open = true)}
-  class={platform === "dapp" ? "btn-sell-modal" : "btn btn-default btn-sell"}
+  class={mode == "detail" ? "btn-detail" : "btn btn-default btn-sell"}
   title="Sell this NFT"
 >
   <i class="fa fa-dollar-sign fa-left" />
   {#if nftPrice($nft).gt(0)}
     ON SALE
+    {#if mode === "detail"}
+      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+    {/if}
   {:else}
     SELL
   {/if}
@@ -74,12 +77,12 @@
     font-weight: 900;
   }
 
-  .btn-sell-modal {
+  .btn-detail {
     background-color: #192247 !important;
     color: white !important;
   }
 
-  .btn-sell-modal:hover {
+  .btn-detail:hover {
     background-color: #3acf6e !important;
   }
 </style>

@@ -8,13 +8,13 @@
   import { getCurrency } from "@lib/common/config";
 
   /////////////////////////////////////////////////////////////////
-  //  <NftExchange {chainId} {address} {tokenID} {platform}? />
+  //  <NftExchange {chainId} {address} {tokenID} {mode}? />
   // Display NFT solo
   /////////////////////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let platform: string = undefined;
+  export let mode: string = undefined;
   /////////////////////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////////
@@ -24,21 +24,25 @@
 </script>
 
 {#if nftMarketable($nft)}
-  <div class="kre-buy-infos">
-    <div class="overflow-ellipsis kre-buy-price">
-      <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+  {#if mode !== "detail"}
+    <div class="overflow-ellipsis price">
+      {#if nftPrice($nft).gt(0)}
+        <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      {:else}
+        &nbsp;
+      {/if}
     </div>
+  {/if}
 
-    {#if nftOwner($nft) === $metamaskSignerAddress}
-      <NftSell {chainId} {address} {tokenID} {platform} />
-    {:else}
-      <NftBuy {chainId} {address} {tokenID} {platform} />
-    {/if}
-  </div>
+  {#if nftOwner($nft) === $metamaskSignerAddress}
+    <NftSell {chainId} {address} {tokenID} {mode} />
+  {:else}
+    <NftBuy {chainId} {address} {tokenID} {mode} />
+  {/if}
 {/if}
 
 <style>
-  .kre-buy-price {
+  .price {
     font-size: 20px;
     margin-top: 5px;
   }

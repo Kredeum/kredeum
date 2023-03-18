@@ -13,17 +13,15 @@
   export let address: string;
   export let tokenID: string;
   export let mode: string = undefined;
-  export let small: boolean = undefined;
   /////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
-  let cssSmall = small ? "small" : "full";
   let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "" : "media-grid";
-  let gridScale = mode === "grid" ? " a-simul-cursor" : "";
+  let gridScale = mode.startsWith("grid") ? " a-simul-cursor" : "";
 </script>
 
-<div id="media-{cssSmall}-{tokenID}" class="media {cssSmall} {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
+<div id="media-{mode}-{tokenID}" class="media  {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
   {#if nftMediaAnimationUrl($nft)}
     <MediaAudio
       animation_url={nftMediaAnimationUrl($nft)}
@@ -31,12 +29,11 @@
       alt={nftMediaAlt($nft)}
       {mode}
       {tokenID}
-      {small}
     />
   {:else if nftMediaContentType($nft) === "image"}
     <MediaImage src={nftMediaSrc($nft)} alt={nftMediaAlt($nft)} />
   {:else if nftMediaContentType($nft) === "video"}
-    <MediaVideo src={nftMediaSrc($nft)} {mode} {tokenID} {small} />
+    <MediaVideo src={nftMediaSrc($nft)} {mode} {tokenID} />
   {/if}
 </div>
 

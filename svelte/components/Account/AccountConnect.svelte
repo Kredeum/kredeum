@@ -10,7 +10,7 @@
   import Account from "./Account.svelte";
 
   /////////////////////////////////////////////////
-  // <AccountConnect bind:{signer} {txt}? {platform}? />
+  // <AccountConnect bind:{signer} {txt}?? />
   // Get Signer from Metamask (or compatible)
   /////////////////////////////////////////////////
   export let signer: string = undefined;

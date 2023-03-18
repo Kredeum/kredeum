@@ -19,7 +19,7 @@ namespace KredeumNFTs\Shortcode;
  * @package kredeum/nfts
  */
 add_shortcode(
-	'kredeum_automarket',
+	'kredeum_opensky',
 	function ( $atts = array(), $content = null, $tag = '' ) {
 		// Normalize attribute keys, lowercase.
 		$atts = array_change_key_case( (array) $atts, CASE_LOWER );
@@ -34,7 +34,7 @@ add_shortcode(
 			$atts
 		);
 
-		$o  = '<div id="kredeum-automarket" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '" platform="wordpress">';
+		$o  = '<div id="kredeum-opensky" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '">';
 		$o .= '</div>';
 		return $o;
 	}

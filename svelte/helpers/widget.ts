@@ -1,8 +1,8 @@
 import type { NftType } from "@lib/common/types";
 
-const widgetAutoMarket = (
+const widgetOpenSky = (
   _nft: NftType
-): string => `<div id="kredeum-automarket" chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}" platform="wordpress">
+): string => `<div id="kredeum-opensky" chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}">
     <script defer src="./assets/kredeum-nfts.js"></script>
     <script>
     var newLink = document.createElement("link");
@@ -17,4 +17,4 @@ const widgetAutoMarket = (
     document.getElementsByTagName("head")[0].appendChild(newLink2);
     </script></div>`;
 
-export { widgetAutoMarket };
+export { widgetOpenSky };
