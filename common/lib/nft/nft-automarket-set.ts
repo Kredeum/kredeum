@@ -36,7 +36,7 @@ async function* setTokenRoyaltyInfos(
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setTokenApprove(

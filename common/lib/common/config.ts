@@ -443,6 +443,8 @@ const nftExplorerLink = (nft: NftType, n?: number): string =>
 
 const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
 
+const nftCollectionName = (nft: NftType): string => `${nft?.collection?.name || DEFAULT_NAME}`;
+
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 
 const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescription(nft), n, 0);
@@ -535,6 +537,7 @@ export {
   nftDescriptionShort,
   nftExplorerLink,
   nftName,
+  nftCollectionName,
   nftsSupply,
   nftsBalanceAndName,
   networks,

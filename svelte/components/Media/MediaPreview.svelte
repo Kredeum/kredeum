@@ -37,7 +37,7 @@
           <i class="fa fa-times" />
         </span>
         <div class="modal-body">
-          <Media {chainId} {address} {tokenID} mode="zoom" small={false} />
+          <Media {chainId} {address} {tokenID} mode="zoom" />
         </div>
       </div>
     </div>

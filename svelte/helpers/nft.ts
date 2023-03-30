@@ -1,13 +1,19 @@
 import type { ReceiverType, NftType } from "@lib/common/types";
+import { config } from "@lib/common/config";
+
 import { BigNumber, constants } from "ethers";
 import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
+import { feeAmount } from "./collection";
 
 const nftChainId = (nft: NftType): number => Number(nft?.chainId || 1);
 const nftOwner = (nft: NftType): string => String(nft?.owner || "");
 
 const nftOnSale = (nft: NftType): boolean => nftPrice(nft).gt(0);
 const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
-const nftMinPrice = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).mul(2);
+const nftPriceMin = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).mul(2);
+
+const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean =>
+  price >= feeAmount(price, config?.treasury?.fee || 0).add(nftRoyaltyMinimum(nft));
 
 const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
 const nftRoyalty = (nft: NftType): ReceiverType => nft?.royalty || null;
@@ -32,7 +38,8 @@ export {
   nftOwner,
   nftOnSale,
   nftPrice,
-  nftMinPrice,
+  nftPriceValid,
+  nftPriceMin,
   nftMarketable,
   nftRoyalty,
   nftRoyaltyAccount,

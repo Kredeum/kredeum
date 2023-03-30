@@ -27,7 +27,7 @@
     nftRoyalty,
     nftRoyaltyFee,
     nftPrice,
-    nftMinPrice
+    nftPriceMin
   } from "@helpers/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
@@ -35,7 +35,6 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
-  import { onMount } from "svelte";
   import { NftType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
@@ -59,7 +58,7 @@
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
   let openSkyCode = "";
-  const copyShortcodeOpenSky = () => (openSkyCode = shortcodeOpenSky($nft));
+  const copyShortcodeOpenSky = (all=false) => (openSkyCode = shortcodeOpenSky($nft, all));
   const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
 
   const copyCodeToClipboard = (evt: Event, label?: string) => {
@@ -212,7 +211,7 @@
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
                       <span
-                        class={nftPrice($nft).lt(nftMinPrice($nft)) ? "c-red" : ""}
+                        class={nftPrice($nft).lt(nftPriceMin($nft)) ? "c-red" : ""}
                         title={ethers.utils.formatEther(nftPrice($nft))}
                       >
                         {utils.formatEther(nftPrice($nft))}
@@ -325,24 +324,24 @@
                 </div>
                 <div class="flex kre-buy-widget-textarea">
                   <a
-                    on:mouseover={copyShortcodeOpenSky}
-                    on:focus={copyShortcodeOpenSky}
-                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress shortcode")}
+                    on:mouseover={() => copyShortcodeOpenSky()}
+                    on:focus={() => copyShortcodeOpenSky()}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress NFT shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
-                    title="shortcodeAutoMarket($nft)">COPY WORDPRESS SHORTCODE</a
+                    title="shortcodeAutoMarket($nft)">COPY NFT SHORTCODE</a
                   >
                   <a
-                    on:mouseover={codeWidgetOpenSky}
-                    on:focus={codeWidgetOpenSky}
-                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "HTML widget")}
+                    on:mouseover={() => copyShortcodeOpenSky(true)}
+                    on:focus={() => copyShortcodeOpenSky(true)}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress Collection shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
-                    title="View">COPY HTML WIDGET</a
+                    title="shortcodeAutoMarket($nft, true)">COPY COLLECTION SHORTCODE</a
                   >
-                </div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={openSkyCode} />
+                  <div class="flex kre-buy-widget-textarea">
+                    <textarea value={openSkyCode} />
+                  </div>
                 </div>
               </li>
             {/if}

@@ -5,6 +5,8 @@
   import { BigNumber, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
+  import { nftCollectionPrice, nftPriceMin, nftPriceValid } from "@helpers/nft";
+
   import type { NftType } from "@lib/common/types";
   import {
     explorerCollectionUrl,
@@ -16,7 +18,7 @@
     textShort
   } from "@lib/common/config";
 
-  import { isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { getMax, isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@main/metamask";
@@ -39,8 +41,7 @@
   const handleNft = () => {
     nft = nftStore.getOne(chainId, address, tokenID);
 
-    const nftMinimumPrice = nftRoyaltyMinimum($nft);
-    inputPrice = nftPrice($nft).lt(nftMinimumPrice) ? nftMinimumPrice : nftPrice($nft);
+    inputPrice = getMax(nftPrice($nft) || nftCollectionPrice($nft), nftPriceMin($nft));
 
     collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
 
@@ -107,7 +108,7 @@
 
   $: minimalPriceHandler(inputPrice);
   const minimalPriceHandler = (inputPrice: BigNumber): void => {
-    inputError = isValidPrice(inputPrice, nftRoyaltyMinimum($nft))
+    inputError = nftPriceValid($nft, inputPrice)
       ? ""
       : `Price too low compared to minimum royalty!
          You should set a price at least double of minimal royalty, i.e. ${reduceDecimals(
@@ -126,7 +127,7 @@
 
     if (price.eq(nftPrice($nft))) return _inputPriceError("Price unchanged !");
 
-    if (!isValidPrice(price, nftRoyaltyMinimum($nft))) return _inputPriceError("Price too low !");
+    if (!nftPriceValid($nft, price)) return _inputPriceError("Price too low !");
 
     await tokenSetPriceTx(price);
   };

@@ -17,9 +17,9 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.7.0",
+    "cypress": "^12.9.0",
     "cypress-file-upload": "^5.0.8",
     "ts-node": "^10.9.1",
-    "tsconfig-paths": "^4.1.2"
+    "tsconfig-paths": "^4.2.0"
   }
 }

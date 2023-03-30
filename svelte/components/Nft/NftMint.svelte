@@ -33,6 +33,7 @@
   import InputVideoMint from "../Input/InputVideoMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
+  import { collectionPriceInputInvalid, collectionRoyaltyMinimum } from "@helpers/collection";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -85,12 +86,14 @@
   const handlePriceError = () => {
     console.info("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
-    collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
-      ? (inputPriceError = `Price too low, minimum price should be set above ${reduceDecimals(
-          utils.formatEther(minRoyalty.mul(2))
-        )} ${getCurrency(chainId)}
-            `)
-      : (inputPriceError = "");
+    if (collectionPriceInputInvalid(collection, price)) {
+      console.log("handlePrice ~ price:", price);
+      console.log("handlePrice ~ collection:", collection);
+      inputPriceError = `Price too low, minimum price should be set above
+        ${reduceDecimals(utils.formatEther(collectionRoyaltyMinimum(collection).mul(2)))} ${getCurrency(chainId)}`;
+    } else {
+      inputPriceError = "";
+    }
   };
 
   $: mintedNft && open === false && handleResetAfterMint();

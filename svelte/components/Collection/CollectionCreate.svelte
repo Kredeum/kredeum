@@ -22,6 +22,7 @@
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
+  import { feeAmount } from "@helpers/collection";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -103,8 +104,6 @@
   const S2_SIGN_CLONE_TX = 2;
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
-
-  $: minimumRoyalty = utils.formatEther(getReceiverAmount(inputMintPrice, inputFeeNumber));
 
   const _cloneInit = async () => {
     cloningTxHash = null;
@@ -232,7 +231,7 @@
             {#if minRoyalty}
               <div class="section">
                 <div class="titre">Minimum Royalty</div>
-                {minimumRoyalty}
+                {utils.formatEther(feeAmount(inputMintPrice, inputFeeNumber))}
                 {getCurrency(chainId)}
               </div>
             {/if}

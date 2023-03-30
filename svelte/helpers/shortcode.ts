@@ -1,10 +1,17 @@
 import type { NftType } from "@lib/common/types";
-import { nftName } from "@lib/common/config";
+import { nftName, nftCollectionName } from "@lib/common/config";
 
-
-const shortcodeOpenSky = (_nft: NftType): string =>
-  `[kredeum_opensky chainid="${_nft.chainId}" address="${_nft.address}" tokenid="${_nft.tokenID}"]
-    ${nftName(_nft)}
+const shortcodeOpenSkyCollection = (nft: NftType): string => `
+  [kredeum_opensky chainid="${nft.chainId}" address="${nft.address}"]
+      ${nftCollectionName(nft)}
   [/kredeum_opensky]`;
 
-export {  shortcodeOpenSky };
+const shortcodeOpenSkyNFT = (nft: NftType): string => `
+  [kredeum_opensky chainid="${nft.chainId}" address="${nft.address}" tokenid="${nft.tokenID}"]
+      ${nftName(nft)}
+  [/kredeum_opensky]`;
+
+const shortcodeOpenSky = (nft: NftType, coll: boolean): string =>
+  coll ? shortcodeOpenSkyCollection(nft) : shortcodeOpenSkyNFT(nft);
+
+export { shortcodeOpenSky, shortcodeOpenSkyNFT, shortcodeOpenSkyCollection };
