@@ -87,8 +87,8 @@
     console.info("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
 
     if (collectionPriceInputInvalid(collection, price)) {
-      console.log("handlePrice ~ price:", price);
-      console.log("handlePrice ~ collection:", collection);
+      // console.log("handlePrice ~ price:", price);
+      // console.log("handlePrice ~ collection:", collection);
       inputPriceError = `Price too low, minimum price should be set above
         ${reduceDecimals(utils.formatEther(collectionRoyaltyMinimum(collection).mul(2)))} ${getCurrency(chainId)}`;
     } else {

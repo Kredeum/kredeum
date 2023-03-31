@@ -20,7 +20,7 @@
     accountName = await ensGetName(account);
     accountAvatar = await ensGetAvatar(accountName);
 
-    console.log("address name avatar =>", account, accountName, accountAvatar);
+    // console.log("address name avatar =>", account, accountName, accountAvatar);
   };
 </script>
 

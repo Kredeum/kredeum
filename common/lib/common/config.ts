@@ -324,7 +324,7 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
 // LOG TX.HASH URL
 const explorerTxHashLog = (chainId: number, txHash = ""): void =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
-  console.log(explorerTxUrl(chainId, txHash));
+  console.info(explorerTxUrl(chainId, txHash));
 
 // LOG TX URL
 const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>

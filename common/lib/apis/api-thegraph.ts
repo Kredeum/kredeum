@@ -15,7 +15,7 @@ const thegraphNftList = async (
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
   const address = getChecksumAddress(collection.address);
-  console.log("thegraphNftList", chainId, address, owner, limit);
+  // console.log("thegraphNftList", chainId, address, owner, limit);
 
   const nfts: Map<string, NftType> = new Map();
   if (!(chainId && address && thegraphActive(chainId))) return nfts;

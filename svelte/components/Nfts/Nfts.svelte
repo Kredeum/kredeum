@@ -53,7 +53,7 @@
 
   $: isCollection({ chainId, address }) && resetNfts();
   const resetNfts = () => {
-    console.log("<Nfts resetNfts");
+    // console.log("<Nfts resetNfts");
     refreshing = false;
     nfts = null;
     page = 1;
@@ -101,7 +101,7 @@
     // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
-  $: console.log("NFTS from", chainId, "/", address, "@", owner);
+  $: console.info("NFTS from", chainId, "/", address, "@", owner);
 
   onMount(async () => {
     resetNfts();

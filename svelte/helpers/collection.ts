@@ -25,12 +25,12 @@ const collectionPriceValid = (coll: CollectionType, price: BigNumber = BigNumber
   );
 
 const collectionPriceInputInvalid = (coll: CollectionType, inputPrice: BigNumber = BigNumber.from(0)): boolean => {
-  console.log("collectionPriceInputInvalid:", coll, inputPrice);
-  console.log("collectionMinimal(coll) :", collectionMinimal(coll));
-  console.log(
-    "collectionPriceInputInvalid ~ feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n:",
-    feeAmount(inputPrice, config.treasury.fee).add(collectionRoyaltyMinimum(coll)).mul(2)
-  );
+  // console.log("collectionPriceInputInvalid:", coll, inputPrice);
+  // console.log("collectionMinimal(coll) :", collectionMinimal(coll));
+  // console.log(
+  //   "collectionPriceInputInvalid ~ feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n:",
+  //   feeAmount(inputPrice, config.treasury.fee).add(collectionRoyaltyMinimum(coll)).mul(2)
+  // );
   return (
     collectionMinimal(coll) &&
     inputPrice.lt(0) &&

@@ -96,7 +96,7 @@
   const handleClose = () => (open = false);
 
   const handleCLick = (evt: Event) => {
-    console.log("handleCLick ~ evt:", evt);
+    // console.log("handleCLick ~ evt:", evt);
     evt.preventDefault();
     open = nftPrice($nft).gt(0);
   };

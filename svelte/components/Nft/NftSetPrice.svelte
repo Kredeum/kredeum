@@ -104,7 +104,7 @@
 
   let inputPrice: BigNumber;
 
-  $: console.log("input price", String(inputPrice));
+  $: console.info("input price", String(inputPrice));
 
   $: minimalPriceHandler(inputPrice);
   const minimalPriceHandler = (inputPrice: BigNumber): void => {
