@@ -3,13 +3,14 @@
   import type { Writable } from "svelte/store";
 
   import { burnNft, AddressdEaD } from "@lib/nft/nft-burn";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
+  import { explorerTxUrl, textShort } from "@lib/common/config";
   import { collectionBurnable } from "@lib/collection/collection-get";
   import { transferNft } from "@lib/nft/nft-transfer";
   import { metamaskSignerAddress } from "@main/metamask";
 
   import { metamaskChainId } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
+  import { nftExplorerUrl } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   // <NftBurn {chainId} {address} {tokenID} />
@@ -159,11 +160,8 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a
-                class="link"
-                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
-                target="_blank"
-                rel="noreferrer">#{tokenID}</a
+              <a class="link" href="{nftExplorerUrl({ chainId, address, tokenID })}}" target="_blank" rel="noreferrer"
+                >#{tokenID}</a
               >
               {burnable ? "burned" : "transfered"}!
             </div>

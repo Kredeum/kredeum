@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { getChecksumAddress, isAddress } from "@lib/common/config";
-  import { constants } from "ethers";
+  import { getChecksumAddress } from "@lib/common/config";
+  import { ZeroAddress, isAddress } from "ethers";
 
   /////////////////////////////////////////////////
   //  <InputEthAddress {ethAddress} {placeholder} {inputError}? />
@@ -17,7 +17,7 @@
 
     if (isAddress(tmpEthAddress)) tmpEthAddress = getChecksumAddress(tmpEthAddress);
 
-    ethAddress = tmpEthAddress != constants.AddressZero ? tmpEthAddress : constants.AddressZero;
+    ethAddress = tmpEthAddress != ZeroAddress ? tmpEthAddress : ZeroAddress;
   };
 </script>
 

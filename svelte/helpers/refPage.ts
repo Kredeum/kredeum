@@ -1,6 +1,6 @@
 import type { RefPageType } from "@lib/common/types";
 import { getChainName, getChainId, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number;
@@ -30,7 +30,7 @@ const refPage2Caip = (refBreadcrumb: RefPageType) => {
   const { chainId, address, tokenID } = _extract(refBreadcrumb);
 
   return chainId
-    ? address != constants.AddressZero
+    ? address != ZeroAddress
       ? tokenID
         ? `eip155:${chainId}/erc721:${address}/${tokenID}`
         : `eip155:${chainId}/erc721:${address}`
@@ -45,15 +45,15 @@ const refPage2Breadcrumb = (refBreadcrumb: RefPageType) => {
   return (
     "> " +
     (chainName
-      ? address != constants.AddressZero
+      ? address != ZeroAddress
         ? tokenID
           ? `${chainName} > ${address} > #${tokenID} `
           : `${chainName} > ${address} `
         : `${chainName} `
       : "Home ") +
     (action ? `> ${action}` : "") +
-    (account != constants.AddressZero ? `| @${account}` : "") +
-    (signer != constants.AddressZero && signer != account ? ` != @${signer}` : "")
+    (account != ZeroAddress ? `| @${account}` : "") +
+    (signer != ZeroAddress && signer != account ? ` != @${signer}` : "")
   );
 };
 
@@ -64,14 +64,14 @@ const refPage2UrlHash = (refBreadcrumb: RefPageType) => {
   return (
     "/" +
     (chainName
-      ? address != constants.AddressZero
+      ? address != ZeroAddress
         ? tokenID
           ? `${chainName}/${address}/${tokenID}`
           : `${chainName}/${address}`
         : `${chainName}`
       : "") +
     (action ? `/${action}` : "") +
-    (account != constants.AddressZero ? `@${account}` : "")
+    (account != ZeroAddress ? `@${account}` : "")
   );
 };
 

@@ -1,71 +1,87 @@
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import type { Provider } from "@ethersproject/abstract-provider";
-import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/providers";
-import type { Signer } from "ethers";
+import {
+  FallbackProvider,
+  JsonRpcProvider,
+  Signer,
+  Provider,
+  ZeroAddress,
+  AbstractProvider,
+  Eip1193Provider
+} from "ethers";
+import { BrowserProvider } from "ethers";
+import type { FallbackProviderConfig } from "ethers/types/providers/provider-fallback";
 
-import type { WindowExternalProvider } from "./types";
-import { getChecksumAddress, getNetwork, sleep } from "@lib/common/config";
-import { ethers } from "ethers";
-import { constants } from "ethers";
+import type { WindowEthereumProvider } from "@lib/common/types";
+import { getChecksumAddress, getNetworkRpcUrls, sleep } from "@lib/common/config";
 
 let _providerSetting = false;
 
 // Cache providers per chainId
 const _providersPerChainId: Map<number, Provider> = new Map();
 
-const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
-  const externalProvider = (window as WindowExternalProvider).ethereum || undefined;
-  if (!externalProvider) return undefined;
+const providerGetChainId = async (provider: AbstractProvider): Promise<number> => {
+  const chainId = Number((await provider.getNetwork()).chainId);
+  console.log("providerGetChainId", chainId);
+  return chainId;
+};
 
-  const provider = new ethers.providers.Web3Provider(externalProvider, "any");
+const providerGetWindow = async (): Promise<BrowserProvider | undefined> => {
+  // console.log("providerGetWindow");
+
+  const windowEthereumProvider = (window as WindowEthereumProvider).ethereum || undefined;
+  if (!windowEthereumProvider) return undefined;
+
+  const provider = new BrowserProvider(windowEthereumProvider as Eip1193Provider, "any");
   if (!provider) return undefined;
 
-  if (chainId) {
-    const providerChainId = (await provider.getNetwork()).chainId;
-    if (providerChainId != chainId) return undefined;
-  }
-
+  // console.log("providerGetWindow", provider);
   return provider;
 };
 
-const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 0): Promise<Signer | undefined> => {
-  const provider = await providerGetWindow(chainId);
+const providerGetSigner = async (chainId?: number): Promise<Signer | undefined> => {
+  // console.log("providerGetSigner");
+  const provider: BrowserProvider | undefined = await providerGetWindow();
+  const providerChainId = Number((await provider?.getNetwork())?.chainId);
 
-  return provider && provider.getSigner(accountOrIndex);
+  if (chainId && chainId != providerChainId) {
+    throw Error(`signer on wrong networtk ${chainId} != ${providerChainId} `);
+  }
+
+  return (await provider?.getSigner(0)) as Signer | undefined;
 };
 
 const providerGetAccount = async (): Promise<string> => {
-  const provider = await providerGetWindow();
-  let account = constants.AddressZero;
+  // console.log("providerGetAccount");
+  const signer = await providerGetSigner();
+  if (!signer) return ZeroAddress;
 
-  if (provider) {
-    const accounts = await provider.listAccounts();
-    if (accounts.length > 0) account = getChecksumAddress(accounts[0]);
-  }
+  const account = getChecksumAddress(await signer.getAddress());
 
+  // console.log("providerGetAccount ~ account:", account);
   return account;
 };
 
 const providerSetFallback = async (chainId: number): Promise<void> => {
+  console.log("providerSetFallback", chainId);
   _providerSetting = true;
 
   // console.log("providerSetFallback START", chainId);
 
   let provider: Provider | undefined = _providersPerChainId.get(chainId);
   if (!provider) {
-    const providers: Array<FallbackProviderConfig> = [];
-    const providerWindow = await providerGetWindow(chainId);
-    const network = getNetwork(chainId);
+    const providers: Array<AbstractProvider | FallbackProviderConfig> = [];
 
-    if (providerWindow) providers.push({ provider: providerWindow, priority: 1, weight: 1 });
-    if (network?.rpcUrls[0])
-      providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[0]), priority: 2, weight: 1 });
-    if (network?.rpcUrls[1])
-      providers.push({ provider: new ethers.providers.JsonRpcProvider(network?.rpcUrls[1]), priority: 3, weight: 1 });
+    const providerWindow = await providerGetWindow();
+    const providerWindowChainId = providerWindow && (await providerGetChainId(providerWindow));
+    if (providerWindow && providerWindowChainId === chainId)
+      providers.push({ provider: providerWindow, priority: 1, weight: 1 });
+
+    const rpcUrls = getNetworkRpcUrls(chainId);
+    if (rpcUrls[0]) providers.push({ provider: new JsonRpcProvider(rpcUrls[0]), priority: 2, weight: 1 });
+    if (rpcUrls[1]) providers.push({ provider: new JsonRpcProvider(rpcUrls[1]), priority: 3, weight: 1 });
 
     // console.info(`providerSetFallback #${chainId} #${providers.length}`);
 
-    provider = new ethers.providers.FallbackProvider(providers, 1);
+    provider = new FallbackProvider(providers, "any");
     if (!provider) throw Error(`No provider found for this network! #${chainId}`);
 
     _providersPerChainId.set(chainId, provider);
@@ -98,9 +114,8 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
   return provider as Provider;
 };
 
-const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {
-  return await (getSigner ? providerGetSigner(chainId) : providerGetFallback(chainId));
-};
+const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> =>
+  getSigner ? await providerGetSigner(chainId) : await providerGetFallback(chainId);
 
 export {
   providerSetFallback,

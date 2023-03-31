@@ -1,11 +1,10 @@
-import { BigNumber, constants } from "ethers";
-
 import type { FetchResponse } from "@lib/common/fetch";
 import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
+import { ZeroAddress } from "ethers";
 
 const covalentFetch = async (chainId: number, path: string): Promise<unknown> => {
   const urlPath = covalentUrlPath(chainId, path);
@@ -45,7 +44,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
     contract_name: string;
     contract_ticker_symbol: string;
     contract_address: string;
-    balance: BigNumber;
+    balance: bigint;
   };
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
@@ -91,7 +90,7 @@ const covalentNftList = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ZeroAddress;
   const limit = filter.limit || FETCH_LIMIT;
   const address = getChecksumAddress(collection.address);
   // console.log("covalentNftList", chainId, address, owner, limit);
@@ -126,7 +125,7 @@ const covalentNftList = async (
       for (const _token of tokens) {
         if (index++ >= limit) break;
 
-        const tokenID = BigNumber.from(_token.token_id).toString();
+        const tokenID = BigInt(_token.token_id).toString();
 
         const nft = {
           chainId,

@@ -2,30 +2,38 @@
   import type { NftType, Properties } from "@lib/common/types";
   import type { Mediatype } from "@helpers/mediaTypes";
 
-  import type { TransactionResponse } from "@ethersproject/abstract-provider";
+  import type { TransactionResponse } from "ethers";
   import type { Writable } from "svelte/store";
-  import { BigNumber, constants, utils } from "ethers";
+  import { ZeroAddress, formatEther } from "ethers";
   import { onMount, getContext } from "svelte";
   import { fade } from "svelte/transition";
 
   import type { CollectionType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
-  import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { collectionPriceInputInvalid, feeAmount, reduceDecimals } from "@helpers/collection";
   import {
+    getMax,
     textShort,
     explorerTxUrl,
     explorerTxLog,
-    explorerNftUrl,
     nftUrl,
     storageLinkToUrlHttp,
     config,
     getCurrency
   } from "@lib/common/config";
+  import { nftExplorerUrl } from "@helpers/nft";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
   import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@main/metamask";
   import { clickOutside } from "@helpers/clickOutside";
+  import {
+    collectionIsAutoMarket,
+    collectionRoyaltyAmount,
+    collectionPrice,
+    collectionRoyaltyFee,
+    collectionRoyaltyMinimum
+  } from "@helpers/collection";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
@@ -75,22 +83,18 @@
   let properties: Properties;
   /////////////////////////////////////////////////
 
-  let price: BigNumber;
+  let inputPrice: bigint;
   let inputPriceError = "";
 
-  let minRoyalty: BigNumber;
+  $: inputPrice && handlePrice();
+  const handlePrice = () => {
+    console.log("handlePrice", formatEther(inputPrice));
 
-  $: minRoyalty = getReceiverAmount(collection?.price, collection?.royalty?.fee);
-
-  $: price && handlePriceError();
-  const handlePriceError = () => {
-    console.info("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
-
-    if (collectionPriceInputInvalid(collection, price)) {
-      // console.log("handlePrice ~ price:", price);
-      // console.log("handlePrice ~ collection:", collection);
+    if (collectionPriceInputInvalid(collection, inputPrice)) {
+      console.log("handlePrice ~ inputPrice:", inputPrice);
+      console.log("handlePrice ~ collection:", collection);
       inputPriceError = `Price too low, minimum price should be set above
-        ${reduceDecimals(utils.formatEther(collectionRoyaltyMinimum(collection).mul(2)))} ${getCurrency(chainId)}`;
+        ${reduceDecimals(formatEther(collectionRoyaltyMinimum(collection) * 2n))} ${getCurrency(chainId)}`;
     } else {
       inputPriceError = "";
     }
@@ -108,7 +112,7 @@
     animation_url = "";
     storageJson = "";
     mintedNft = null;
-    price = constants.Zero;
+    inputPrice = 0n;
     properties = null;
     inputPriceError = "";
     mintingTxResp = null;
@@ -119,7 +123,7 @@
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
     collection = await collectionGet(chainId, address);
-    price = BigNumber.from(collection?.price || 0);
+    inputPrice = BigInt(collectionPrice(collection) || 0);
   };
 
   // $: prefixPrice = collection?.owner == $metamaskSignerAddress ? "Recommended" : "Mint";
@@ -275,7 +279,7 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, price);
+    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, inputPrice);
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -449,15 +453,15 @@
                 />
               </div>
 
-              {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
+              {#if collectionPrice(collection) > 0n || collectionRoyaltyFee(collection) > 0}
                 <div class="section kre-mint-automarket">
                   <div class="kre-flex">
                     <div>
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
                       <span class="kre-market-info-value label-big"
                         >{collection.royalty?.fee / 100} %
-                        {#if collection.royalty?.minimum?.gt(0)}
-                          or a minimum of {utils.formatEther(collection.royalty?.minimum)} {getCurrency(chainId)}
+                        {#if collection.royalty?.minimum > 0n}
+                          or a minimum of {formatEther(collectionRoyaltyMinimum(collection))} {getCurrency(chainId)}
                         {/if}
                       </span>
                     </div>
@@ -471,18 +475,20 @@
                 </div>
               {/if}
 
-              {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskSignerAddress}
+              {#if collectionIsAutoMarket(collection) && !collection?.open && collection?.owner === $metamaskSignerAddress}
                 <div class="section">
                   <div class="titre">NFT Sell Price</div>
-                  <InputPrice {chainId} bind:price inputError={inputPriceError} />
+                  <InputPrice {chainId} bind:price={inputPrice} inputError={inputPriceError} />
                 </div>
 
                 <div class="section">
                   <div class="titre">Royalty amount</div>
                   {#if collection.minimal}
-                    {utils.formatEther(getMax(getReceiverAmount(price, collection.royalty?.fee), minRoyalty))}
+                    {formatEther(
+                      getMax(collectionRoyaltyAmount(collection, inputPrice), collectionRoyaltyMinimum(collection))
+                    )}
                   {:else}
-                    {utils.formatEther(getReceiverAmount(price, collection.royalty?.fee))}
+                    {formatEther(collectionRoyaltyAmount(collection, inputPrice))}
                   {/if}
                   {getCurrency(chainId)}
                 </div>
@@ -588,7 +594,7 @@
                   </span>
                 </div>
                 <div class="flex">
-                  <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank" rel="noreferrer"
+                  <a class="link" href={nftExplorerUrl(mintedNft)} target="_blank" rel="noreferrer"
                     >{nftUrl(mintedNft, 6)}</a
                   >
                 </div>

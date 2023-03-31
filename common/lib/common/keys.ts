@@ -1,5 +1,7 @@
-const keyCollectionContract = (chainId: number, address: string, getSigner: boolean): string =>
-  keyCollection(chainId, address) + (getSigner ? "/signer" : "/provider");
+import { ZeroAddress } from "ethers";
+
+const keyCollectionContract = (chainId: number, address: string, signer: string): string =>
+  keyCollection(chainId, address) + (signer == ZeroAddress ? "" : "@" + signer);
 
 const keyCollection = (chainId: number, address: string, account?: string): string =>
   `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;

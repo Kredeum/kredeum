@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/src/interfaces/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
@@ -28,22 +28,22 @@ const resolverConvNftInfos = (
   const royalty: ReceiverType = {};
 
   const owner = getChecksumAddress(nftInfos[2]) || "";
-  if (owner && owner != constants.AddressZero) nft.owner = owner;
+  if (owner && owner != ZeroAddress) nft.owner = owner;
 
   const approved = getChecksumAddress(nftInfos[3]);
-  if (approved && approved != constants.AddressZero) nft.approved = approved;
+  if (approved && approved != ZeroAddress) nft.approved = approved;
 
   const royaltyAccount = openNFTsInfos[1][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
+  if (royaltyAccount && royaltyAccount != ZeroAddress) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(openNFTsInfos[1][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;
 
-  const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
-  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+  const royaltyMinimum = BigInt(openNFTsInfos[1][2]);
+  if (royaltyMinimum > 0n) royalty.minimum = royaltyMinimum;
 
-  const price = BigNumber.from(openNFTsInfos[0] || "0");
-  if (price.gt(0)) nft.price = price;
+  const price = BigInt(openNFTsInfos[0] || 0);
+  if (price > 0n) nft.price = price;
 
   if (Object.keys(royalty).length > 0) nft.royalty = royalty;
 

@@ -11,7 +11,7 @@ const localNftsStoreList: Readable<Map<string, Array<string>>> = derived(nftsSto
     const owner: string = value?.owner || zeroAddress;
     if (!mapList.has(owner)) mapList.set(owner, []);
 
-    mapList.get(owner).push(value.tokenID);
+    mapList.get(owner)?.push(value.tokenID);
   }
   return mapList;
 });

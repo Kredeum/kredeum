@@ -1,7 +1,7 @@
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { TransactionResponse, TransactionReceipt } from "ethers";
 
 import { collectionGetContract, collectionBurnable } from "@lib/collection/collection-get";
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 import { explorerTxLog } from "../common/config";
 
 const AddressdEaD = "0x000000000000000000000000000000000000dEaD";
@@ -12,7 +12,7 @@ async function* burnNft(
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("burnNft", chainId, address, tokenID);
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return {};
 
   const { contract } = await collectionGetContract(chainId, address, true);
   if (!contract) return {};

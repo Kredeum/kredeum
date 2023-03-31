@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { utils } from "ethers";
+  import { formatEther } from "ethers";
 
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
@@ -7,7 +7,8 @@
   import { nftPrice } from "@helpers/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
+  import { explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
+  import { nftExplorerUrl } from "@helpers/nft";
 
   import { nftStore } from "@stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
@@ -98,12 +99,12 @@
   const handleCLick = (evt: Event) => {
     // console.log("handleCLick ~ evt:", evt);
     evt.preventDefault();
-    open = nftPrice($nft).gt(0);
+    open = nftPrice($nft) > 0n;
   };
   onMount(buyInit);
 </script>
 
-{#if nftPrice($nft).gt(0)}
+{#if nftPrice($nft) > 0n}
   <button
     on:click={handleCLick}
     on:keyup={handleCLick}
@@ -114,7 +115,7 @@
     <i class="fa fa-shopping-cart fa-left" />
     BUY
     {#if mode === "detail"}
-      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      &nbsp; <strong>{formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
     {/if}
   </button>
 {:else}
@@ -143,7 +144,7 @@
             <div class="section">
               <p>
                 <i class="fas fa-angle-right" /> Buy this NFT #{tokenID} for
-                {utils.formatEther(nftPrice($nft))}
+                {formatEther(nftPrice($nft))}
                 {getCurrency(chainId)} ?
               </p>
             </div>
@@ -163,7 +164,7 @@
           {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
             <div class="titre">
               <p>
-                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
+                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {formatEther(nftPrice($nft))}
                 {getCurrency(chainId)}...
               </p>
             </div>
@@ -179,15 +180,8 @@
             <div class="titre">
               <p>
                 <i class="fas fa-check fa-left c-green" /> NFT
-                <a
-                  class="link"
-                  href="{explorerNftUrl(chainId, {
-                    chainId: chainId,
-                    address: address,
-                    tokenID: tokenID
-                  })}}"
-                  target="_blank"
-                  rel="noreferrer">#{tokenID}</a
+                <a class="link" href="{nftExplorerUrl({ chainId, address, tokenID })}}" target="_blank" rel="noreferrer"
+                  >#{tokenID}</a
                 >
                 buyed!
               </p>

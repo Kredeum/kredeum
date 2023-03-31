@@ -1,4 +1,4 @@
-import { Contract, Signer, constants } from "ethers";
+import { Contract, Provider, Signer, Typed, ZeroAddress } from "ethers";
 
 import type { CollectionType, ABIS } from "@lib/common/types";
 import { abis } from "@lib/common/abis";
@@ -6,12 +6,10 @@ import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@lib/common/keys";
 import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
-import { isAddress } from "ethers/lib/utils";
+import { isAddress } from "ethers";
 
 // Cache contracts(chainId,address,getSigner)
 const contractsCache: Map<string, Contract> = new Map();
-// Cache signers(chainId,address)
-const signersCache: Map<string, string> = new Map();
 
 const collectionGetContract = async (
   chainId: number,
@@ -19,16 +17,20 @@ const collectionGetContract = async (
   getSigner = false
 ): Promise<{ contract?: Contract; collection: CollectionType; signer?: string }> => {
   // console.log(`collectionGetContract  IN ${keyCollection(chainId, address)}\n`);
+  let signerOrProvider: Signer | Provider | undefined;
+  let signer: string = ZeroAddress;
 
   const collection = await collectionGet(chainId, address);
-  if (!(chainId && address && address != constants.AddressZero)) return { collection };
+  if (!(chainId && address && address != ZeroAddress)) return { collection };
 
-  let signer = "";
-  let contract = contractsCache.get(keyCollectionContract(chainId, address, getSigner));
-  if (contract && getSigner) {
-    signer = signersCache.get(keyCollection(chainId, address)) || "";
+  if (getSigner) {
+    signerOrProvider = (await providerGetSignerOrProvider(chainId, true)) as Signer;
+    signer = getChecksumAddress(await signerOrProvider?.getAddress());
   }
+  // console.log("signerOrProvider1:", signerOrProvider);
+  // console.log("collectionGetContract:", signer);
 
+  let contract = contractsCache.get(keyCollectionContract(chainId, address, signer));
   if (!contract) {
     let abi: Array<string> = [];
 
@@ -44,19 +46,14 @@ const collectionGetContract = async (
         }
       }
     }
-    const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
+    signerOrProvider ||= await providerGetSignerOrProvider(chainId);
     contract = new Contract(address, abi, signerOrProvider);
 
-    contractsCache.set(keyCollectionContract(chainId, address, getSigner), contract);
-
-    if (getSigner) {
-      signer = getChecksumAddress(await (signerOrProvider as Signer)?.getAddress());
-      signersCache.set(keyCollection(chainId, address), signer);
-    }
+    contractsCache.set(keyCollectionContract(chainId, address, signer), contract);
   }
 
-  // console.log(`collectionGetContract OUT ${keyCollection(chainId, address)}\n`, contract, collection);
-  return signer ? { contract, collection, signer } : { contract, collection };
+  // console.log(`collectionGetContract OUT ${keyCollectionContract(chainId, address, signer)}\n`, collection, contract);
+  return { contract, collection, signer };
 };
 
 // Merge 2 collections into 1 (twice the same collection but with different metadata)
@@ -70,11 +67,7 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   return collMerged;
 };
 
-const collectionGet = async (
-  chainId: number,
-  address: string,
-  account = constants.AddressZero
-): Promise<CollectionType> => {
+const collectionGet = async (chainId: number, address: string, account = ZeroAddress): Promise<CollectionType> => {
   let collection: CollectionType = { chainId, address };
   if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
 

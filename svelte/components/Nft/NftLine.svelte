@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@lib/common/config";
+  import { nftUrl, textShort } from "@lib/common/config";
   import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
 
   import Media from "../Media/Media.svelte";
@@ -8,6 +8,7 @@
 
   import Nft from "./Nft.svelte";
   import { nftStore } from "@stores/nft/nft";
+  import { nftDescription, nftDescriptionShort, nftName } from "@helpers/nft";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {owner}? {more}? {mode}? />
@@ -42,7 +43,7 @@
   >
     <div id="media-{tokenID || ''}" class="table-col">
       <div class="table-col-content">
-        <Media {chainId} {address} {tokenID} {mode}/>
+        <Media {chainId} {address} {tokenID} {mode} />
 
         <strong>{nftName($nft)}</strong>
         <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>

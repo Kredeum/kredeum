@@ -1,17 +1,16 @@
 <script lang="ts">
-  import { BigNumber } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
-
   import type { Writable } from "svelte/store";
   import { onMount, getContext } from "svelte";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
+  import {  explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
+  import { nftExplorerUrl } from "@helpers/nft";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
+  import { formatEther } from "ethers";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
@@ -31,10 +30,10 @@
 
   let destinationAddress = "";
 
-  let nftRoyaltyMinimum: BigNumber;
+  let nftRoyaltyMinimum: bigint;
 
-  $: nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
-  $: transferWarning = nftRoyaltyMinimum?.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
+  $: nftRoyaltyMinimum = BigInt($nft?.royalty?.minimum || 0);
+  $: transferWarning = nftRoyaltyMinimum > 0n ? formatEther(nftRoyaltyMinimum) : "";
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -149,7 +148,7 @@
               NFT
               <a
                 class="link"
-                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
+                href="{nftExplorerUrl( { chainId, address, tokenID })}}"
                 target="_blank"
                 rel="noreferrer">#{tokenID}</a
               >

@@ -4,7 +4,7 @@ import { derived, get, writable } from "svelte/store";
 import { getNetwork } from "@lib/common/config";
 import { collectionStore } from "./collection";
 import { keyCollectionDefault } from "@lib/common/keys";
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 // UTILITY : GET OpenNFTs default template
 const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
@@ -36,7 +36,7 @@ const collectionDefaultSetOne = (
 ): void => {
   // console.log("collectionDefaultSetOne", chainId, address, account);
 
-  if (!(chainId && address && address != constants.AddressZero)) return;
+  if (!(chainId && address && address != ZeroAddress)) return;
 
   // Refresh default Collection (async)
   collectionStore.refreshOne(chainId, address, account).catch(console.error);

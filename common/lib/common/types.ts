@@ -1,9 +1,6 @@
-import type { ExternalProvider } from "@ethersproject/providers";
 import type { EthereumProvider } from "hardhat/types";
-import { BigNumber } from "ethers";
 
 type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumProvider };
-type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider };
 
 type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0";
 type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
@@ -50,7 +47,7 @@ type NetworkType = {
 type ReceiverType = {
   account?: string;
   fee?: number;
-  minimum?: BigNumber;
+  minimum?: bigint;
 };
 
 type CollectionType = {
@@ -71,7 +68,7 @@ type CollectionType = {
   open?: boolean;
   minimal?: boolean;
   royalty?: ReceiverType;
-  price?: BigNumber;
+  price?: bigint;
 };
 
 type CollectionSupports = {
@@ -170,7 +167,7 @@ type NftType = {
   nid?: string;
   contentType?: string;
   royalty?: ReceiverType;
-  price?: BigNumber;
+  price?: bigint;
   collection?: CollectionType;
   properties?: Properties;
 } & storageType;
@@ -195,7 +192,6 @@ type RefPageType = {
 
 export type {
   WindowEthereumProvider,
-  WindowExternalProvider,
   NetworkType,
   NftType,
   Properties,

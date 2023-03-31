@@ -6,7 +6,7 @@
   import { nftPrice } from "@helpers/nft";
   import { nftStore } from "@stores/nft/nft";
   import { getCurrency } from "@lib/common/config";
-  import { utils } from "ethers";
+  import { formatEther } from "ethers";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />
@@ -31,10 +31,10 @@
   title="Sell this NFT"
 >
   <i class="fa fa-dollar-sign fa-left" />
-  {#if nftPrice($nft).gt(0)}
+  {#if nftPrice($nft) > 0n}
     ON SALE
     {#if mode === "detail"}
-      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      &nbsp; <strong>{formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
     {/if}
   {:else}
     SELL

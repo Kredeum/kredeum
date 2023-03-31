@@ -1,18 +1,17 @@
 <script lang="ts">
   import { getCurrency, isNumeric } from "@lib/common/config";
-  import { BigNumber, constants, utils } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
+  import { ZeroAddress, formatEther, parseEther } from "ethers";
 
   /////////////////////////////////////////////////
   //  <InputPrice {chainId} {price} {inputError}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let price: BigNumber = constants.Zero;
+  export let price: bigint = 0n;
   export let inputError = "";
   /////////////////////////////////////////////////
 
-  let inputPrice = price.gt(0) ? formatEther(price) : "0.0";
+  let inputPrice = price > 0n ? formatEther(price) : "0.0";
 
   $: inputPrice && handleInputPrice();
   const handleInputPrice = () => {
@@ -22,7 +21,7 @@
     while (tmpPrice.split(".")[1]?.length > 18);
 
     inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
-    price = utils.parseEther(inputPrice);
+    price = parseEther(inputPrice);
   };
 </script>
 

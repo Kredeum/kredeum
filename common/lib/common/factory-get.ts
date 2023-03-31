@@ -30,7 +30,7 @@ const factoryGetContract = async (chainId: number, getSigner = false): Promise<O
   }
 
   // console.log("factoryGetContract", chainId, nftsFactory);
-  return nftsFactory as OpenNFTsFactoryV3;
+  return nftsFactory as unknown as OpenNFTsFactoryV3;
 };
 
 // GET OpenNFTs default template via onchain call

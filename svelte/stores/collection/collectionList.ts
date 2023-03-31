@@ -2,7 +2,7 @@ import { writable } from "svelte/store";
 
 import type { CollectionType } from "@lib/common/types";
 
-import { jsonMapParse } from "@helpers/jsonMap";
+import { jsonPlusParse } from "@helpers/jsonPlus";
 
 // LOADER : LOAD Collections from localStorage
 const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
@@ -12,7 +12,7 @@ const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {
     const key = localStorage.key(index);
 
     if (key?.startsWith("collection://")) {
-      collections.set(key, jsonMapParse(localStorage.getItem(key) || "") as CollectionType);
+      collections.set(key, jsonPlusParse(localStorage.getItem(key) || "") as CollectionType);
     }
   }
   // console.log("collectionListLoadLocalStorage", collections);

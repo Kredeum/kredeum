@@ -1,13 +1,8 @@
 <script lang="ts">
   import NftStorage from "@lib/nft/storage/nft-storage";
-  import {
-    getOpenMulti,
-    explorerTxLog,
-    explorerNftUrl,
-    explorerTxUrl,
-    textShort,
-    storageLinkToUrlHttp
-  } from "@lib/common/config";
+  import { getOpenMulti, explorerTxLog, explorerTxUrl, textShort, storageLinkToUrlHttp } from "@lib/common/config";
+  import { nftExplorerUrl } from "@helpers/nft";
+
   import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
@@ -91,11 +86,8 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a
-                class="link"
-                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
-                target="_blank"
-                rel="noreferrer">#{tokenID}</a
+              <a class="link" href="{nftExplorerUrl({ chainId, address, tokenID })}}" target="_blank" rel="noreferrer"
+                >#{tokenID}</a
               >
               claimed!
             </div>

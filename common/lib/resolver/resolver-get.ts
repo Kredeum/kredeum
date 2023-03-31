@@ -35,7 +35,7 @@ const resolverGetContract = async (chainId: number, signer = false): Promise<Ope
   }
 
   // console.log("resolverGetContract", nftsResolver);
-  return nftsResolver as OpenNFTsResolver;
+  return nftsResolver as unknown as OpenNFTsResolver;
 };
 
 export { resolverGetAddress, resolverGetExplorerUrl, resolverGetCount, resolverGetContract };

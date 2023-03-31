@@ -1,4 +1,4 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "ethers";
 
 import { explorerTxLog } from "@lib/common/config";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
@@ -7,7 +7,7 @@ import { collectionGetContract } from "./collection-get";
 
 import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
-import { constants, ethers } from "ethers";
+import { ZeroAddress, AbiCoder } from "ethers";
 
 import config from "@config/config.json";
 
@@ -40,18 +40,14 @@ async function* collectionInitializeOpenNFTsV4(
   const { contract, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return;
 
+  const abiCoder = AbiCoder.defaultAbiCoder();
+
   const { _name, _symbol } = await _getN(chainId, name, symbol);
   const options: boolean[] = [config == "generic"];
-  const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
-    ["uint256", "address", "uint96", "bool[]"],
-    [0, signer, 0, options]
-  );
-  const optionsBytes = ethers.utils.defaultAbiCoder.encode(
-    ["bytes", "address", "uint96"],
-    [subOptionsBytes, constants.AddressZero, 0]
-  );
+  const subOptionsBytes = abiCoder.encode(["uint256", "address", "uint96", "bool[]"], [0, signer, 0, options]);
+  const optionsBytes = abiCoder.encode(["bytes", "address", "uint96"], [subOptionsBytes, ZeroAddress, 0]);
 
-  const txResp = (await (contract as OpenNFTsV4).initialize(
+  const txResp = (await (contract as unknown as OpenNFTsV4).initialize(
     _name,
     _symbol,
     clonerAddress,
@@ -77,20 +73,19 @@ async function* collectionInitializeOpenAutoMarket(
   const [template] = templateConfig.split("/");
   if (template != "OpenAutoMarket") return;
 
+  const abiCoder = AbiCoder.defaultAbiCoder();
+
   const { contract, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return;
 
-  const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
-    ["uint256", "address", "uint96", "bool[]"],
-    [0, signer, 0, [true, true]]
-  );
-  const optionsBytes = ethers.utils.defaultAbiCoder.encode(
+  const subOptionsBytes = abiCoder.encode(["uint256", "address", "uint96", "bool[]"], [0, signer, 0, [true, true]]);
+  const optionsBytes = abiCoder.encode(
     ["bytes", "address", "uint96"],
     [subOptionsBytes, config.treasury.account, config.treasury.fee]
   );
 
   const { _name, _symbol } = await _getN(chainId, name, symbol);
-  const txResp = (await (contract as OpenAutoMarket).initialize(
+  const txResp = (await (contract as unknown as OpenAutoMarket).initialize(
     _name,
     _symbol,
     signer,
@@ -103,6 +98,6 @@ async function* collectionInitializeOpenAutoMarket(
 }
 
 // collectionInitializeOpenBound
-// txResp = await (contract as unknown as OpenBound).initialize(_name, _symbol, clonerAddress, 1);
+// txResp = await (contract as unknown as unknown as OpenBound).initialize(_name, _symbol, clonerAddress, 1);
 
 export { collectionInitializeOpenNFTsV4, collectionInitializeOpenAutoMarket };

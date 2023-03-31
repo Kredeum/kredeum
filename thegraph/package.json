@@ -25,7 +25,7 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.9.4",
+    "typescript": "^5.0.2",
     "@types/node": "^18.11.15",
     "ts-node": "^10.9.1",
     "@graphprotocol/graph-cli": "^0.20.1",

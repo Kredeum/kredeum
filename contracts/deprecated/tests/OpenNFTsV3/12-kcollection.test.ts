@@ -1,4 +1,4 @@
-import type { JsonRpcSigner } from "@ethersproject/providers";
+import type { JsonRpcSigner } from "ethers";
 
 import { expect } from "chai";
 import { collectionClone } from "@lib/collection/collection-clone";

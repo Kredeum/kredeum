@@ -1,5 +1,6 @@
 import { task } from "hardhat/config";
 import "@nomiclabs/hardhat-waffle";
+import { parseUnits } from "ethers";
 
 task("nfts-drop", "drop all NFTs owned on a contract")
   .addPositionalParam("contract", "Address of NFT contract")
@@ -25,8 +26,8 @@ task("nfts-drop", "drop all NFTs owned on a contract")
       console.log("tokenId", tokenId.toString(), await nftContract.tokenURI(tokenId));
 
       const txSend = await nftContract.safeTransferFrom(_taskArgs.owner, random, tokenId, {
-        gasLimit: ethers.utils.parseUnits("200", "kwei"),
-        gasPrice: ethers.utils.parseUnits("20", "gwei")
+        gasLimit: parseUnits("200", "kwei"),
+        gasPrice: parseUnits("20", "gwei")
       });
       console.log(
         // "https://polygonscan.com/tx/" +

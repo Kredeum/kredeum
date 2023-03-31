@@ -12,7 +12,7 @@ import { collectionListStore } from "@stores/collection/collectionList";
 import { nftStore } from "./nft";
 // import { keyNftList } from "@lib/common/keys";
 
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@lib/common/config";
 
 // STATE VIEW : GET Collection filtered list of NFTs
@@ -22,11 +22,11 @@ const nftSubListStore = (
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
   // console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
-  // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
+  // console.log(`nftSubListStore ${jsonPlusStringify(filter, null, 2)}\n`);
 
   return derived(nftStore.getList, ($nftListStore) => {
     let nftsMap = new Map() as Map<string, NftType>;
-    if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
+    if (!(chainId && address && address != ZeroAddress)) return nftsMap;
 
     const nfts = [...$nftListStore].filter(([, nft]) => {
       // const okParams = chainId > 0;
@@ -69,7 +69,7 @@ const nftSubListRefresh = async (
 ): Promise<void> => {
   if (!(chainId && isAddressNotZero(address))) return;
   // console.log(`nftSubListRefresh ${keyNftList(chainId, address)}\n`);
-  // console.log(`nftSubListRefresh ${JSON.stringify(filter, null, 2)}\n`);
+  // console.log(`nftSubListRefresh ${jsonPlusStringify(filter, null, 2)}\n`);
 
   const key = collectionStore.getKey(chainId, address);
 
@@ -107,7 +107,7 @@ const nftSubListGetStoreAndRefresh = (
   address: string,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-  if (!(chainId && address && address != constants.AddressZero)) return;
+  if (!(chainId && address && address != ZeroAddress)) return;
 
   // STATE VIEW : sync read cache
   const nfts = nftSubListStore(chainId, address, filter);

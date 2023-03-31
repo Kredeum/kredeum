@@ -22,7 +22,7 @@ const deployFunction: DeployFunction = async function ({ ethers, network, deploy
 
   // Deterministic expect for these networks
   // if (!["avalanche", "fuji"].includes(network.name)) {
-  //   deployOptions.salt = ethers.utils.hashMessage("01 OpenNFTsFactoryV3");
+  // deployOptions.salt = hashMessage("01 OpenNFTsFactoryV3");
   // }
 
   const deployResult = await deployments.deploy(contractName, deployOptions);

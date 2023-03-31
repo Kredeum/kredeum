@@ -4,7 +4,7 @@ import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
-import { constants } from "ethers";
+import { AbiCoder, ZeroAddress } from "ethers";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
@@ -23,6 +23,7 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
   };
 
   const deployResult: DeployResult = await deployments.deploy(contractName, deployOptions);
+  const abiCoder = AbiCoder.defaultAbiCoder();
 
   if (deployResult.newlyDeployed) {
     await setNetwork(network.name, "openNFTs", deployResult.address);
@@ -32,14 +33,11 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
 
     nonce = await getNonce(deployer, contractName, "initialize");
 
-    const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
+    const subOptionsBytes = abiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
       [0, deployer.address, 0, [true]]
     );
-    const optionsBytes = ethers.utils.defaultAbiCoder.encode(
-      ["bytes", "address", "uint96"],
-      [subOptionsBytes, constants.AddressZero, 0]
-    );
+    const optionsBytes = abiCoder.encode(["bytes", "address", "uint96"], [subOptionsBytes, ZeroAddress, 0]);
 
     await (await openNFTsV4.initialize("OpenNFTsV4", "ONFT", deployer.address, optionsBytes)).wait();
 

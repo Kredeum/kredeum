@@ -1,40 +1,36 @@
 import type { CollectionType } from "@lib/common/types";
 
 import { config, MAX_FEE } from "@lib/common/config";
-import { BigNumber, constants } from "ethers";
-const ZeroAddress = constants.AddressZero;
+import { ZeroAddress } from "ethers";
 
-const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
+const collectionPrice = (coll: CollectionType): bigint => coll?.price || 0n;
 const collectionMinimal = (coll: CollectionType): boolean => Boolean(coll?.minimal);
 const collectionRoyaltyAccount = (coll: CollectionType): string => coll?.royalty?.account || ZeroAddress;
 const collectionRoyaltyFee = (coll: CollectionType): number => Number(coll?.royalty?.fee || 0);
-const collectionRoyaltyMinimum = (coll: CollectionType): BigNumber => coll?.royalty?.minimum || BigNumber.from(0);
+const collectionRoyaltyMinimum = (coll: CollectionType): bigint => coll?.royalty?.minimum || 0n;
 const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenAutoMarket);
 const collectionOpenOrOwner = (coll: CollectionType, owner: string): boolean =>
   Boolean(coll?.owner === owner || coll?.open);
 
-const feeAmount = (price: BigNumber = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+const feeAmount = (price = 0n, fee = 0): bigint => (price * BigInt(fee)) / BigInt(MAX_FEE);
 
-const collectionRoyaltyAmount = (coll: CollectionType, price: BigNumber = BigNumber.from(0)): BigNumber =>
+const collectionRoyaltyAmount = (coll: CollectionType, price = 0n): bigint =>
   feeAmount(price || collectionPrice(coll), collectionRoyaltyFee(coll));
 
-const collectionPriceValid = (coll: CollectionType, price: BigNumber = BigNumber.from(0)): boolean =>
-  !(
-    collectionMinimal(coll) &&
-    price.lt(BigNumber.from(feeAmount(price, config.treasury.fee)).add(collectionRoyaltyMinimum(coll)))
-  );
+const collectionPriceValid = (coll: CollectionType, price = 0n): boolean =>
+  !(collectionMinimal(coll) && price < feeAmount(price, config.treasury.fee) + collectionRoyaltyMinimum(coll));
 
-const collectionPriceInputInvalid = (coll: CollectionType, inputPrice: BigNumber = BigNumber.from(0)): boolean => {
-  // console.log("collectionPriceInputInvalid:", coll, inputPrice);
-  // console.log("collectionMinimal(coll) :", collectionMinimal(coll));
-  // console.log(
-  //   "collectionPriceInputInvalid ~ feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n:",
-  //   feeAmount(inputPrice, config.treasury.fee).add(collectionRoyaltyMinimum(coll)).mul(2)
-  // );
+const collectionPriceInputInvalid = (coll: CollectionType, inputPrice = 0n): boolean => {
+  console.log("collectionPriceInputInvalid:", coll, inputPrice);
+  console.log("collectionMinimal(coll) :", collectionMinimal(coll));
+  console.log(
+    "collectionPriceInputInvalid ~ feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n:",
+    feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n
+  );
   return (
     collectionMinimal(coll) &&
-    inputPrice.lt(0) &&
-    inputPrice.lt(feeAmount(inputPrice, config.treasury.fee).div(collectionRoyaltyMinimum(coll)).mul(2))
+    0 < inputPrice &&
+    inputPrice < feeAmount(inputPrice, config.treasury.fee) + collectionRoyaltyMinimum(coll) * 2n
   );
 };
 /////////////////////////////////////////////////////////////////////

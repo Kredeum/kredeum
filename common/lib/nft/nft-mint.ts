@@ -1,6 +1,5 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
-import { ethers, constants } from "ethers";
+import type { JsonRpcSigner, TransactionResponse, TransactionReceipt, Log } from "ethers";
+import { ethers, ZeroAddress, Interface } from "ethers";
 
 import type { NftType } from "@lib/common/types";
 
@@ -18,23 +17,25 @@ import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
+  console.log("txReceipt", txReceipt);
+  if (!txReceipt.logs) return "";
+
   let tokenID = "";
 
-  // console.log("txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
-    const iface = new ethers.utils.Interface(abi);
+  const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
+  const iface = new Interface(abi);
 
-    const eventTopic = iface.getEventTopic("Transfer");
-    const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+  const evt = iface.getEvent("Transfer");
+  const logs = txReceipt.logs.filter((_log) => _log.topics[0] == evt?.topicHash);
+  if (logs.length == 0) return "";
 
-    if (logs.length == 0) {
-      console.error("ERROR no topics", txReceipt);
-    } else {
-      const log = iface.parseLog(logs[0]);
-      tokenID = log.args[2] as string;
-    }
-  }
+  const log: Log = logs[0];
+  console.log("log:", log);
+
+  if (log.topics.length < 4) return "";
+  console.log("log.topics:", log.topics);
+
+  tokenID = log.topics[3];
 
   // console.log("tokenID", tokenID);
   return tokenID.toString();
@@ -63,12 +64,12 @@ const nftMint = async (
   address: string,
   tokenURI: string,
   minter: JsonRpcSigner,
-  price: BigNumberish = 0
+  price = 0n
 ): Promise<TransactionResponse | undefined> => {
   const minterAddress = await minter.getAddress();
   // console.log("nftMint", chainId, address, tokenURI, minterAddress);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenURI && minterAddress)) return;
+  if (!(chainId && address && address != ZeroAddress && tokenURI && minterAddress)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return;
@@ -79,35 +80,35 @@ const nftMint = async (
     const notMine = collection.owner != (await minter.getAddress());
     const value = collection.open && notMine ? collection.price : 0;
 
-    txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
+    txResp = await (contract as unknown as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minterAddress,
       tokenURI,
       price,
-      collection.royalty?.account || constants.AddressZero,
+      collection.royalty?.account || ZeroAddress,
       collection.royalty?.fee || 0,
       { value, type: 2 }
     );
   } else if (collection.supports?.IOpenNFTsV4) {
-    txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
+    txResp = await (contract as unknown as OpenNFTsV4)["mint(string)"](tokenURI);
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
-    txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (contract as unknown as IOpenNFTsV3Plus).mintOpenNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV2) {
     // console.log("IOpenNFTsV2");
-    txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as unknown as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV1) {
     // console.log("IOpenNFTsV1");
-    txResp = await (contract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as unknown as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
   } else if (collection.supports?.IOpenNFTsV0) {
     // console.log("IOpenNFTsV0");
-    txResp = await (contract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
+    txResp = await (contract as unknown as IOpenNFTsV0).addUser(minterAddress, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
   }
 
   // else if (collection.supports?.IOpenBound) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
-  // txResp = await (contract as IOpenBound).mint(cid);
+  // txResp = await (contract as unknown as IOpenBound).mint(cid);
   // }
   explorerTxLog(chainId, txResp);
 
@@ -122,14 +123,14 @@ const nftMint4 = async (
   metadataCid: string,
   minter: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && address != constants.AddressZero && txResponse && metadataCid && minter)) return null;
+  if (!(chainId && address && address != ZeroAddress && txResponse && metadataCid && minter)) return null;
 
   const txReceipt = await txResponse.wait();
   // console.log("txReceipt", txReceipt);
+  if (!txReceipt) return null;
 
   const tokenID = _mintTokenID(txReceipt);
   // console.log("tokenID", tokenID);
-
   if (!(Number(tokenID) >= 0)) return null;
 
   const nft = await _mintedNft(chainId, address, tokenID, storageLinkToUrlHttp(metadataCid), minter);
@@ -147,7 +148,7 @@ const nftClaim4 = async (
   tokenID: string,
   owner: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && address != constants.AddressZero && txResponse && tokenID && owner)) return null;
+  if (!(chainId && address && address != ZeroAddress && txResponse && tokenID && owner)) return null;
 
   // console.log("nftClaim", chainId, address, tokenID, destinationAddress);
 

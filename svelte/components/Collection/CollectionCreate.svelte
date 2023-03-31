@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { constants, utils } from "ethers";
+  import { ZeroAddress, isAddress, formatEther } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/types";
@@ -11,11 +11,11 @@
     textShort,
     getCurrency,
     isNumeric,
-    isAddress,
     MAX_FEE
   } from "@lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
+  import { feeAmount } from "@helpers/collection";
+  import { templateType } from "@helpers/templates";
 
   import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
@@ -47,7 +47,7 @@
 
   let refreshAll: Writable<number> = getContext("refreshAll");
 
-  let inputMintPrice = constants.Zero;
+  let inputMintPrice = 0n;
   let inputReceiver = "";
   let inputFee = "0";
   let inputFeeNumber = 0;
@@ -111,9 +111,9 @@
 
     collectionName = "";
     collectionSymbol = "";
-    inputMintPrice = constants.Zero;
+    inputMintPrice = 0n;
     inputFee = "0";
-    inputReceiver = $metamaskSignerAddress || constants.AddressZero;
+    inputReceiver = $metamaskSignerAddress || ZeroAddress;
     cloneError = null;
 
     cloning = S1_CONFIRM;
@@ -161,9 +161,6 @@
     $refreshAll += 1;
   };
 
-  const templateName = (template: string) => template?.split("/")[0];
-  const templateConf = (template: string) => template?.split("/")[1];
-
   onMount(() => _cloneInit());
 </script>
 
@@ -201,7 +198,7 @@
             </div>
           </div>
 
-          {#if templateName(template) === "OpenAutoMarket"}
+          {#if templateType(template) === "OpenAutoMarket"}
             <div class="section">
               <div class="titre">Royalty Fee (%)</div>
               <div class="form-field kre-field-percent">
@@ -222,7 +219,7 @@
             </div>
           {/if}
 
-          {#if templateName(template) === "OpenAutoMarket" && (templateConf(template) === "generic" || minRoyalty)}
+          {#if templateType(template) === "OpenAutoMarket"}
             <div class="section">
               <div class="titre">Recommended Price</div>
               <InputPrice {chainId} bind:price={inputMintPrice} />
@@ -231,7 +228,7 @@
             {#if minRoyalty}
               <div class="section">
                 <div class="titre">Minimum Royalty</div>
-                {utils.formatEther(feeAmount(inputMintPrice, inputFeeNumber))}
+                {formatEther(feeAmount(inputMintPrice, inputFeeNumber))}
                 {getCurrency(chainId)}
               </div>
             {/if}

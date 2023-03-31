@@ -1,24 +1,23 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { BigNumberish } from "ethers";
-  import { BigNumber, constants } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
-
-  import { nftCollectionPrice, nftPriceMin, nftPriceValid } from "@helpers/nft";
+  import { ZeroAddress } from "ethers";
+  import { displayEther } from "@helpers/common";
 
   import type { NftType } from "@lib/common/types";
   import {
     explorerCollectionUrl,
     explorerTxLog,
     explorerTxUrl,
-    getCurrency,
+    getMax,
     getOpenSea,
     getOpenSeaUrl,
     textShort
   } from "@lib/common/config";
 
-  import { getMax, isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { nftCollectionPrice, nftPriceMin, nftPriceValid } from "@helpers/nft";
+  import { reduceDecimals } from "@helpers/collection";
+
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@main/metamask";
@@ -37,10 +36,12 @@
   export let tokenID: string;
   ///////////////////////////////////////////////////////////
   let nft: Readable<NftType>;
+
   $: chainId && address && tokenID && handleNft();
   const handleNft = () => {
     nft = nftStore.getOne(chainId, address, tokenID);
 
+    // set default input price to current price (or collection price) AND greater than minPrice
     inputPrice = getMax(nftPrice($nft) || nftCollectionPrice($nft), nftPriceMin($nft));
 
     collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
@@ -101,38 +102,33 @@
 
     tokenSettingPrice = S1_CONFIRM;
   };
-
-  let inputPrice: BigNumber;
-
-  $: console.info("input price", String(inputPrice));
+  let inputPrice: bigint;
 
   $: minimalPriceHandler(inputPrice);
-  const minimalPriceHandler = (inputPrice: BigNumber): void => {
+  const minimalPriceHandler = (inputPrice: bigint): void => {
     inputError = nftPriceValid($nft, inputPrice)
       ? ""
       : `Price too low compared to minimum royalty!
          You should set a price at least double of minimal royalty, i.e. ${reduceDecimals(
-           displayEther(nftRoyaltyMinimum($nft).mul(2))
+           displayEther(chainId, nftRoyaltyMinimum($nft) * 2n)
          )}`;
   };
 
   let removingFromSale = false;
 
-  const displayEther = (price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
-
-  const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
-    // console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(price));
-    // console.log("tokenSetPriceConfirm ~ nftPrice($nft)", displayEther(nftPrice($nft)));
+  const tokenSetPriceConfirm = async (price: bigint): Promise<void> => {
+    // console.log("tokenSetPriceConfirm ~ tokenSetPriceConfirm", displayEther(chainId,price));
+    // console.log("tokenSetPriceConfirm ~ nftPrice($nft)", displayEther(chainId,nftPrice($nft)));
     // console.log("tokenSetPriceConfirm ~ $nft", $nft);
 
-    if (price.eq(nftPrice($nft))) return _inputPriceError("Price unchanged !");
+    if (price == nftPrice($nft)) return _inputPriceError("Price unchanged !");
 
     if (!nftPriceValid($nft, price)) return _inputPriceError("Price too low !");
 
     await tokenSetPriceTx(price);
   };
 
-  const tokenSetPriceTx = async (price: BigNumber): Promise<void> => {
+  const tokenSetPriceTx = async (price: bigint): Promise<void> => {
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, $nft.tokenID, price);
 
     tokenSettingPrice = S2_SIGN_TX;
@@ -161,13 +157,13 @@
 
   const removeFromSale = async (): Promise<void> => {
     removingFromSale = true;
-    await tokenSetPriceTx(constants.Zero);
+    await tokenSetPriceTx(0n);
   };
 </script>
 
 <div class="titre">
   <i class="fas fa-plus fa-left c-green" />SELL -
-  {#if nftPrice($nft).eq(0)}Set{:else}Modify{/if} Price
+  {#if nftPrice($nft) == 0n}Set{:else}Modify{/if} Price
 </div>
 
 {#if tokenSettingPrice == S1_CONFIRM}
@@ -220,7 +216,7 @@
 
   <div class="txtright">
     {#if nftOnSale($nft)}
-      <button class="btn btn-default btn-remove" type="submit" on:click={removeFromSale}>Remove from Sale</button>
+      <button class="btn btn-default btn-remove" type="submit" on:click={removeFromSale}>Withdraw from Sale</button>
     {/if}
 
     <button class="btn btn-default btn-sell" type="submit" on:click={() => tokenSetPriceConfirm(inputPrice)}>
@@ -241,10 +237,10 @@
         {#if removingFromSale}
           Removing NFT from sale...
         {:else}
-          Modifying NFT price to {displayEther(inputPrice)}...
+          Modifying NFT price to {displayEther(chainId, inputPrice)}...
         {/if}
       {:else}
-        Setting NFT price to {displayEther(inputPrice)}...
+        Setting NFT price to {displayEther(chainId, inputPrice)}...
       {/if}
     </p>
   </div>
@@ -263,7 +259,7 @@
       {#if removingFromSale}
         NFT #{$nft.tokenID} removed from sale...
       {:else}
-        NFT #{$nft.tokenID} Price modified to {displayEther(nftPrice($nft))}
+        NFT #{$nft.tokenID} Price modified to {displayEther(chainId, nftPrice($nft))}
       {/if}
     </p>
   </div>

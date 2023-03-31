@@ -22,7 +22,7 @@
 
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
-  import { constants } from "ethers";
+  import { ZeroAddress } from "ethers";
   import { writable, Writable } from "svelte/store";
 
   ////////////////////////////////////////////////////////////////////
@@ -108,7 +108,7 @@
     chainId = _refHash.chainId || $metamaskChainId || 1;
     address = _refHash.address;
     tokenID = _refHash.tokenID || "";
-    account = isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress || constants.AddressZero;
+    account = isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress || ZeroAddress;
 
     // SET network
     await setNetwork();

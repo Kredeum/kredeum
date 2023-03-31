@@ -5,6 +5,7 @@ import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
 import { setNetwork } from "@utils/setNetwork";
 import config from "@config/config.json";
+import { AbiCoder } from "ethers";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";
 
@@ -30,12 +31,14 @@ const deployFunction: DeployFunction = async function ({ deployments, network, e
     const openAutoMarket: OpenAutoMarket = await getContract(contractName, deployer);
     const nftsFactoryV3: OpenNFTsFactoryV3 = await getContract("OpenNFTsFactoryV3", deployer);
 
+    const abiCoder = AbiCoder.defaultAbiCoder();
+
     nonce = await getNonce(deployer, contractName, "initialize");
-    const subOptionsBytes = ethers.utils.defaultAbiCoder.encode(
+    const subOptionsBytes = abiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
       [0, deployer.address, 0, [true, true]]
     );
-    const optionsBytes = ethers.utils.defaultAbiCoder.encode(
+    const optionsBytes = abiCoder.encode(
       ["bytes", "address", "uint96"],
       [subOptionsBytes, config.treasury.account, config.treasury.fee]
     );

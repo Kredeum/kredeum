@@ -1,11 +1,11 @@
-import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import { utils, BigNumber, constants } from "ethers";
-import { Fragment, Interface } from "@ethersproject/abi";
+import { FunctionFragment, getAddress, hexlify, TransactionResponse } from "ethers";
+import { ZeroAddress, Fragment, Interface, isAddress } from "ethers";
 
 import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
+import { HexString } from "ethers/types/utils/data";
 
 const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
@@ -29,18 +29,18 @@ const networksMap = new Map(networks.map((network) => [network.chainId, network]
 
 const isCollection = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
 
-const isAddress = (address = ""): boolean => utils.isAddress(address);
-const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
+const isAddressNotZero = (account = ""): boolean => isAddress(account) && account != ZeroAddress;
 
-const getChecksumAddress = (address = ""): string =>
-  isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
+const getChecksumAddress = (address = ""): string => (isAddress(address) ? getAddress(address) : ZeroAddress);
 
 const getChainId = (chainName: string): number | undefined =>
   networks.find((nw) => nw.chainName === chainName)?.chainId;
 
-const isNetwork = (chainId: number | string | undefined): boolean => networksMap.has(Number(chainId));
+const isNetwork = (chainId: number | undefined): boolean => networksMap.has(Number(chainId));
 
-const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
+const getNetwork = (chainId: number): NetworkType | undefined => networksMap.get(Number(chainId));
+
+const getNetworkRpcUrls = (chainId: number): Array<string> => getNetwork(chainId)?.rpcUrls || [];
 
 //  GET nftsResolver address
 const getNftsResolver = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
@@ -71,7 +71,7 @@ const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
-const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
+const isTestnet = (chainId: number): boolean => Boolean(getNetwork(chainId)?.testnet);
 
 // GET chain Name
 const getChainName = (chainId: number): string =>
@@ -81,7 +81,7 @@ const getChainName = (chainId: number): string =>
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
   const network = getNetwork(chainId);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return "";
+  if (!(chainId && address && address != ZeroAddress && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network
@@ -132,7 +132,7 @@ const sleep = (ms: number): Promise<void> => new Promise((resolve) => setTimeout
 
 const addressSame = (a: string, b: string): boolean => a?.toLowerCase() === b?.toLowerCase();
 
-const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
+const numberToHexString = (num = 0): HexString => "0x" + Number(num).toString(16);
 
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" class="link" target="_blank" rel="noreferrer">${label || url}</a>`;
@@ -388,20 +388,6 @@ const kredeumNftWpUrl = (chainId: number, nft: NftType): string =>
 
 const nidTokredeumNftWPUrl = (nid: string): string => `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
 
-// NFT URL
-const explorerNftUrl = (chainId: number, nft: NftType): string => {
-  let url = "";
-  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
-    // https://blockscout.com/xdai/mainnet/token/0x22C1f6050E56d2876009903609a2cC3fEf83B415/instance/3249859/metadata
-    url = explorerUrl(chainId, `/tokens/${nft?.address}/instance/${nft?.tokenID}/metadata`);
-    url = explorerUrl(chainId, `/token/${nft?.address}/instance/${nft?.tokenID}/metadata`);
-  } else {
-    // https://etherscan.io/token/0x82a398243EBc2CB26a4A21B9427EC6Db8c224471?a=1
-    url = explorerUrl(chainId, `/token/${nft?.address}?a=${nft?.tokenID}`);
-  }
-  return url;
-};
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // EXPLORER LINK helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -413,9 +399,6 @@ const explorerAddressLink = (chainId: number, address: string, n?: number): stri
 
 const explorerTxLink = (chainId: number, tx: string): string =>
   urlToLink(explorerTxUrl(chainId, tx), getShortAddress(tx));
-
-const explorerNftLink = (chainId: number, nft: NftType, label?: string): string =>
-  urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
@@ -437,35 +420,25 @@ const nftsBalanceAndName = (collection: CollectionType, account: string): string
   return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
 };
 
-// NFT helpers
-const nftExplorerLink = (nft: NftType, n?: number): string =>
-  urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
-
-const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
-
-const nftCollectionName = (nft: NftType): string => `${nft?.collection?.name || DEFAULT_NAME}`;
-
-const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
-
-const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescription(nft), n, 0);
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const interfaceId = (abi: Array<string>): string => {
   const iface = new Interface(abi);
 
-  let id = constants.Zero;
-  iface.fragments.forEach((f: Fragment): void => {
-    if (f.type === "function") {
-      id = id.xor(BigNumber.from(iface.getSighash(f)));
+  let id = 0n;
+  iface.fragments.forEach((fragment: Fragment): void => {
+    if (fragment.type === "function") {
+      id = id ^ BigInt((fragment as FunctionFragment).selector);
     }
   });
-  return utils.hexlify(id);
+  return hexlify(id.toString(16));
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
+const getMax = (a = 0n, b = 0n): bigint => (a > b ? a : b);
+const getMin = (a = 0n, b = 0n): bigint => (a < b ? a : b);
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
+const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency?.symbol;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
@@ -490,13 +463,10 @@ export {
   kredeumNftHttp,
   kredeumNftWpUrl,
   explorerUrl,
-  explorerNftUrl,
   explorerAccountUrl,
-  explorerNftLink,
   isTestnet,
   isCollection,
   isNetwork,
-  isAddress,
   isAddressNotZero,
   isNumeric,
   getChainId,
@@ -504,6 +474,7 @@ export {
   getShortAddress,
   getChecksumAddress,
   getNetwork,
+  getNetworkRpcUrls,
   getNftsResolver,
   getDefaultOpenNFTs,
   getOpenMulti,
@@ -533,11 +504,6 @@ export {
   interfaceId,
   nftUrl3,
   nftUrl,
-  nftDescription,
-  nftDescriptionShort,
-  nftExplorerLink,
-  nftName,
-  nftCollectionName,
   nftsSupply,
   nftsBalanceAndName,
   networks,
@@ -546,6 +512,8 @@ export {
   sleep,
   textShort,
   urlToLink,
+  getMax,
+  getMin,
   config,
   PAGE_SIZE,
   MAX_FEE,

@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 import type { CollectionType, CollectionFilterType, NftType } from "@lib/common/types";
 import { getChecksumAddress, getNetwork } from "@lib/common/config";
@@ -11,7 +11,7 @@ const thegraphNftList = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ZeroAddress;
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
   const address = getChecksumAddress(collection.address);
@@ -20,7 +20,7 @@ const thegraphNftList = async (
   const nfts: Map<string, NftType> = new Map();
   if (!(chainId && address && thegraphActive(chainId))) return nfts;
 
-  const whereOwner = owner == constants.AddressZero ? "" : `where: { account: "${owner.toLowerCase()}" }`;
+  const whereOwner = owner == ZeroAddress ? "" : `where: { account: "${owner.toLowerCase()}" }`;
   const skip = offset == 0 ? "" : `skip: "${offset}"`;
   const query = `{
       tokenContract( id: "${address.toLowerCase()}" ) {
@@ -53,7 +53,7 @@ const thegraphNftList = async (
   for (const nft of nftsJson) {
     if (index++ >= limit) break;
 
-    const tokenID = BigNumber.from(nft.tokenID).toString();
+    const tokenID = BigInt(nft.tokenID).toString();
     const nid = keyNft(chainId, address, tokenID);
     const tokenURI = nft.tokenURI;
     const owner = getChecksumAddress(nft.account?.id);

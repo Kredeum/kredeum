@@ -1,58 +1,16 @@
 <script lang="ts">
+  import { templates, templateDescription, templateMerge, templateSubType, templateType } from "@helpers/templates";
+
   export let template = "OpenAutoMarket/ownable";
-  // export let minRoyalty = true;
 
-  // let generic = false;
-
-  const templates = new Map([
-    [
-      "OpenNFTsV4/ownable",
-      {
-        name: "OpenNFTs",
-        description: "OpenNFTs ownable Collection: own your NFT Collection, only you can Mint NFTs",
-        icon: "user"
-      }
-    ],
-    [
-      "OpenNFTsV4/generic",
-      {
-        name: "OpenNFTs Generic",
-        description: "OpenNFTs generic Collection: anyone can Mint NFTs in this collection!",
-        icon: "building"
-      }
-    ],
-    [
-      "OpenAutoMarket/ownable",
-      {
-        name: "AutoMarket",
-        description:
-          "AutoMarket ownable OpenNFTs Collection: own your collection, mint and sell your NFTs with royalties",
-        icon: "dollar-sign"
-      }
-    ],
-    [
-      "OpenAutoMarket/generic",
-      {
-        name: "AutoMarket Generic",
-        description: "AutoMarket generic OpenNFTs Collection: anyone can mint, sell or buy NFTs, with royalties",
-        icon: "dollar-sign"
-      }
-    ]
-  ]);
-
-  const templateMerge = (templateName: string, templateConfig: string) => `${templateName}/${templateConfig}`;
-  const templateSplit = (templateKey: string) => templateKey.split("/");
-  const templateName = (templateKey: string) => templateSplit(templateKey)[0];
-  const templateConfig = (templateKey: string) => templateSplit(templateKey)[1];
-
-  $: template = templateMerge(templateName(template), templateName(template) == "OpenNFTsV4" ? "generic" : "ownable");
+  $: template = templateMerge(templateType(template), templateType(template) == "OpenNFTsV4" ? "generic" : "ownable");
 </script>
 
 <div class="section">
   <div class="titre">Choose your Collection type</div>
   <div class="box-fields">
     {#each [...templates] as [templateKey, templateValue]}
-      {#if templateConfig(templateKey) === "ownable"}
+      {#if templateSubType(templateKey) === "ownable"}
         <input
           class="box-field collection-type"
           id="collection-type-{templateKey}"
@@ -61,7 +19,7 @@
           value={templateValue.name}
           data-toggle="tooltip"
           title={templateValue.description}
-          checked={templateName(templateKey) == templateName(template)}
+          checked={templateType(templateKey) == templateType(template)}
           on:click={() => (template = templateKey)}
         />
         <label class="field" for="collection-type-{templateKey}"
@@ -77,7 +35,7 @@
       <label for="kre-coll-conf">I want my collection to be generic</label>
     </div>
   </div>
-  {#if templateName(template) === "OpenAutoMarket"}
+  {#if templateType(template) === "OpenAutoMarket"}
     <div class="section">
       <div class="form-field">
         <input type="checkbox" id="kre-min-royalty" class="" bind:checked={minRoyalty} />
@@ -89,7 +47,7 @@
   <div class="description">
     <p>
       <i>
-        {templates.get(template)?.description || ""}
+        {templateDescription(template)}
       </i>
     </p>
   </div>

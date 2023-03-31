@@ -95,7 +95,7 @@
   };
 </script>
 
-{#if constants.Zero.lt(nft.price || 0)}
+{#if constants.Zero < (nft.price || 0)}
   <div class="kre-modal-block">
     {#if tokenWithdrawing == S1_CONFIRM}
       <div class="titre">

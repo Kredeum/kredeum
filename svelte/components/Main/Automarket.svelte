@@ -4,7 +4,7 @@
   import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
 
   import { providerSetFallback } from "@lib/common/provider-get";
-  import { constants } from "ethers";
+  import { ZeroAddress } from "ethers";
   import { metamaskInit } from "@helpers/metamask";
   import { RefPageType } from "@lib/common/types";
 
@@ -13,7 +13,7 @@
   // Display NFT solo
   /////////////////////////////////////////////////////////////////
   export let chainId: number = 1;
-  export let address: string = constants.AddressZero;
+  export let address: string = ZeroAddress;
   export let tokenID: string = "";
   /////////////////////////////////////////////////////////////////
 

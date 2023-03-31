@@ -1,4 +1,4 @@
-import { JSONValueKind, store, Bytes, BigInt } from "@graphprotocol/graph-ts";
+import { JSONValueKind, store, Bytes } from "@graphprotocol/graph-ts";
 import { Transfer, EIP721 } from "../generated/EIP721/EIP721";
 import {
   Token,

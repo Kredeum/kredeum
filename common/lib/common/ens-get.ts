@@ -1,11 +1,9 @@
-import type { Provider } from "@ethersproject/abstract-provider";
-import { providers } from "ethers";
 import { getNetwork } from "@lib/common/config";
-import { EnsResolver, JsonRpcProvider } from "@ethersproject/providers";
+import { EnsResolver, JsonRpcProvider } from "ethers";
 
 const rpcUrl: string = getNetwork(1)?.rpcUrls[0] || "";
 
-const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(rpcUrl);
+const ensProvider: JsonRpcProvider = new JsonRpcProvider(rpcUrl);
 
 const ensResolver = async (address: string): Promise<EnsResolver | null> => await ensProvider.getResolver(address);
 

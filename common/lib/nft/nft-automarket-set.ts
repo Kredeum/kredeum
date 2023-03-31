@@ -1,13 +1,11 @@
-import type { BigNumberish } from "ethers";
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
+import { TransactionResponse, TransactionReceipt, ContractTransactionResponse } from "ethers";
 
 import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
 import type { IERC721 } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "@lib/common/config";
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 async function* setTokenRoyaltyInfos(
   chainId: number,
@@ -18,7 +16,7 @@ async function* setTokenRoyaltyInfos(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenRoyaltyInfos", chainId, address, tokenID, fee, receiver);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && fee && receiver)) return {};
+  if (!(chainId && address && address != ZeroAddress && tokenID && fee && receiver)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return {};
@@ -26,8 +24,8 @@ async function* setTokenRoyaltyInfos(
   // console.log("contract", contract);
   if (!(collection.supports?.IOpenMarketable && collection.open && signer === collection.owner)) return {};
 
-  const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenRoyalty(
-    BigNumber.from(tokenID),
+  const txResp: TransactionResponse | undefined = await (contract as unknown as IOpenMarketable).setTokenRoyalty(
+    BigInt(tokenID),
     receiver,
     fee
   );
@@ -46,18 +44,18 @@ async function* setTokenApprove(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IERC721)) return {};
 
-  const txResp = await (contract as IERC721).approve(address, tokenID);
+  const txResp = await (contract as unknown as IERC721).approve(address, tokenID);
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setCollectionApproval(
@@ -67,82 +65,91 @@ async function* setCollectionApproval(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && approval)) return {};
+  if (!(chainId && address && address != ZeroAddress && approval)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IERC721)) return;
 
-  const txResp: TransactionResponse | undefined = await (contract as IERC721).setApprovalForAll(address, approval);
+  const txResp: TransactionResponse | undefined = await (contract as unknown as IERC721).setApprovalForAll(
+    address,
+    approval
+  );
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setTokenPrice(
   chainId: number,
   address: string,
   tokenID: string,
-  tokenPrice: BigNumberish = 0
+  tokenPrice = 0n
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return {};
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice);
-
-  if (!(chainId && address && address != constants.AddressZero && tokenID && tokenPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
 
-  const txResp = await (contract as IOpenMarketable).setTokenPrice(tokenID, tokenPrice);
+  let txResp: ContractTransactionResponse | undefined;
+  try {
+    txResp = (await contract.setTokenPrice(tokenID, tokenPrice)) as ContractTransactionResponse;
+  } catch (e) {
+    console.error(e);
+  }
 
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setDefautCollectionPrice(
   chainId: number,
   address: string,
-  mintPrice: BigNumber
+  mintPrice: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setDefautCollectionPrice", chainId, address, mintPrice);
-  if (!(chainId && address && address != constants.AddressZero && mintPrice)) return;
+  if (!(chainId && address && address != ZeroAddress && mintPrice)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
 
-  const txResp = await (contract as OpenAutoMarket).setMintPrice(mintPrice);
+  const txResp = await (contract as unknown as OpenAutoMarket).setMintPrice(mintPrice);
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setDefautCollectionRoyalty(
   chainId: number,
   address: string,
   defaultRoyaltiesReceiver: string,
-  defaultRoyaltyAmount: BigNumberish
+  defaultRoyaltyAmount: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && defaultRoyaltyAmount && defaultRoyaltiesReceiver))
-    return {};
+  if (!(chainId && address && address != ZeroAddress && defaultRoyaltyAmount && defaultRoyaltiesReceiver)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
 
   if (!(collection.supports?.IOpenMarketable && collection.royalty && signer === collection.owner)) return {};
 
-  const txResp = await (contract as IOpenMarketable).setDefaultRoyalty(defaultRoyaltiesReceiver, defaultRoyaltyAmount);
+  const txResp = await (contract as unknown as IOpenMarketable).setDefaultRoyalty(
+    defaultRoyaltiesReceiver,
+    defaultRoyaltyAmount
+  );
   if (!txResp) return {};
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 export {

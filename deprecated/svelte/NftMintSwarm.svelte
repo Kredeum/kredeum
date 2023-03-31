@@ -8,7 +8,7 @@
 
   import {  nftMint1SwarmImage, nftMint2SwarmJson } from "lib/knft-mint";
 
-  import { textShort, swarmGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
+  import { textShort, swarmGatewayUrl, explorerTxUrl, nftExplorerUrl, nftUrl } from "lib/kconfig";
   import { urlToLink, getOpenSeaUrl, getNetwork } from "lib/kconfig";
   import { nftGetImageLink } from "lib/knft-get-metadata";
   /////////////////////////////////////////////////
@@ -282,7 +282,7 @@
                       </span>
                     </div>
                     <div class="flex">
-                      <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank"
+                      <a class="link" href={nftExplorerUrl(chainId, mintedNft)} target="_blank"
                         >{nftUrl(mintedNft, 6)}</a
                       >
                     </div>

@@ -1,6 +1,5 @@
-import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
-import { utils, constants } from "ethers";
+import type { TransactionResponse, TransactionReceipt, Log } from "ethers";
+import { AbiCoder, ZeroAddress, Interface } from "ethers";
 
 import { explorerTxLog } from "@lib/common/config";
 import { factoryGetContract } from "@lib/common/factory-get";
@@ -11,8 +10,8 @@ async function* collectionClone(
   name: string,
   symbol: string,
   templateConfig: string,
-  mintPrice: BigNumberish = 0,
-  royaltyReceiver: string = constants.AddressZero,
+  mintPrice = 0n,
+  royaltyReceiver: string = ZeroAddress,
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
@@ -31,17 +30,16 @@ async function* collectionClone(
   // console.log("template conf", conf);
   let options: boolean[];
   let optionsBytes = "";
+  const abiCoder = AbiCoder.defaultAbiCoder();
 
   if (template == "OpenNFTsV4") {
     options = [conf == "generic"];
-    optionsBytes = utils.defaultAbiCoder.encode(
-      ["uint256", "address", "uint96", "bool[]"],
-      [0, constants.AddressZero, 0, options]
-    );
+
+    optionsBytes = abiCoder.encode(["uint256", "address", "uint96", "bool[]"], [0, ZeroAddress, 0, options]);
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];
     // console.log("options", options);
-    optionsBytes = utils.defaultAbiCoder.encode(
+    optionsBytes = abiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
       [mintPrice, royaltyReceiver, royaltyFee, options]
     );
@@ -58,23 +56,22 @@ async function* collectionClone(
 }
 
 const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
+  // console.log("collectionCloneAddress ~ txReceipt", txReceipt);
+  if (!txReceipt.logs) return "";
+
   let clone = "";
 
-  // console.log("collectionCloneAddress ~ txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
-    const iface = new utils.Interface(abi);
+  const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
+  const iface: Interface = new Interface(abi);
 
-    const eventTopic = iface.getEventTopic("Clone");
-    const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+  const evt = iface.getEvent("Clone");
+  const logs = txReceipt.logs.filter((_log) => _log.topics[0] == evt?.topicHash);
+  if (logs.length == 0) return "";
 
-    if (logs.length == 0) {
-      console.error("ERROR no topics", txReceipt);
-    } else {
-      const log = iface.parseLog(logs[0]);
-      clone = log.args[1] as string;
-    }
-  }
+  const log: Log = logs[0];
+  if (log.topics.length < 3) return "";
+
+  clone = log.topics[2];
 
   // console.log("collectionCloneAddress", clone);
   return clone;

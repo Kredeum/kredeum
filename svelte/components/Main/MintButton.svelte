@@ -140,7 +140,7 @@
     {/if}
   {:else}
     <small>
-      <br /><AccountConnect {txt}/>
+      <br /><AccountConnect {txt} />
     </small>
   {/if}
 

@@ -1,4 +1,4 @@
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 import type { CollectionType } from "@lib/common/types";
 import { resolverConvOpenNFTsCollectionInfos } from "@lib/resolver/resolver-conv-collection-infos";
@@ -8,7 +8,7 @@ import { keyCollection } from "@lib/common/keys";
 const resolverGetCollection = async (
   chainId: number,
   address: string,
-  account = constants.AddressZero
+  account = ZeroAddress
 ): Promise<CollectionType> => {
   // console.log("resolverGetCollection", chainId, address, account);
 
@@ -53,10 +53,7 @@ const resolverAreCollections = async (chainId: number, collections: Array<string
   return checks;
 };
 
-const resolverGetCollections = async (
-  chainId: number,
-  account = constants.AddressZero
-): Promise<Map<string, CollectionType>> => {
+const resolverGetCollections = async (chainId: number, account = ZeroAddress): Promise<Map<string, CollectionType>> => {
   // console.log(`resolverGetCollections ${keyCollections(chainId, account)}\n`, chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();

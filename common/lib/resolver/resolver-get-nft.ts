@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { ZeroAddress } from "ethers";
 
 import type { CollectionType, NftType, CollectionFilterType } from "@lib/common/types";
 import { nftUrl } from "@lib/common/config";
@@ -22,7 +22,7 @@ const resolverGetNft = async (
   chainId: number,
   collection: CollectionType,
   tokenID: string,
-  account = constants.AddressZero
+  account = ZeroAddress
 ): Promise<NftType> => {
   // console.log("resolverGetNft", collection.address);
 
@@ -38,8 +38,8 @@ const resolverGetNfts = async (
   chainId: number,
   collection: CollectionType,
   filter: CollectionFilterType = {}
-): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
-  const owner = filter.owner || constants.AddressZero;
+): Promise<{ nfts: Map<string, NftType>; count: bigint; total: bigint }> => {
+  const owner = filter.owner || ZeroAddress;
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
 
@@ -73,8 +73,8 @@ const resolverGetNfts = async (
 const resolverGetNftsForTokenIds = async (
   chainId: number,
   collection: CollectionType,
-  tokenIDs: BigNumber[],
-  account = constants.AddressZero
+  tokenIDs: bigint[],
+  account = ZeroAddress
 ): Promise<Map<string, NftType>> => {
   // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
 

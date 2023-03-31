@@ -12,13 +12,13 @@
 
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
-  import { constants } from "ethers";
+  import { ZeroAddress } from "ethers";
   import { writable, Writable } from "svelte/store";
 
   ////////////////////////////////////////////////////////////////////
   // <OpenSky />
   export let chainId: number = 1;
-  export let address: string = constants.AddressZero;
+  export let address: string = ZeroAddress;
   export let tokenID: string = "";
   ////////////////////////////////////////////////////////////////////
 

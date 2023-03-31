@@ -7,7 +7,7 @@ import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/
 import { getNetwork, getChecksumAddress } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
 
-import { constants, utils } from "ethers";
+import { toBeHex, ZeroAddress } from "ethers";
 import { keyCollection, keyNft } from "@lib/common/keys";
 
 const moralisListAll = async (
@@ -34,7 +34,7 @@ const moralisListAll = async (
 
   // Get NFTs for user
   const options = {
-    chain: utils.hexValue(chainId),
+    chain: toBeHex(chainId),
     address: account
   } as operations["getNFTs"]["parameters"]["query"] & operations["getNFTs"]["parameters"]["path"];
 
@@ -81,7 +81,7 @@ const moralisNftList = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ZeroAddress;
   const limit = filter.limit || FETCH_LIMIT;
   const nfts = (await moralisListAll(chainId, owner, limit)).nfts;
 

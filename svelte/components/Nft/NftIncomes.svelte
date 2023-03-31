@@ -1,20 +1,20 @@
 <script lang="ts">
-  import type { BigNumberish } from "ethers";
-  import { BigNumber, utils } from "ethers";
-  const { formatEther } = utils;
+  import type {} from "ethers";
+  import { formatEther } from "ethers";
 
   import type { NftType } from "@lib/common/types";
   import { config, getCurrency } from "@lib/common/config";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
+  import { feeAmount } from "@helpers/collection";
 
   import { nftChainId, nftOwner, nftRoyaltyFee, nftRoyaltyAccount, nftRoyaltyMinimum } from "@helpers/nft";
+  import { displayEther } from "@helpers/common";
 
   //////////////////////////////////////////////////////////////////////////
   //  <NftIncomes {nft} {price} />
   // Display NFT Price prepartion according to it price
   //////////////////////////////////////////////////////////////////////////
   export let nft: NftType;
-  export let price: BigNumber = undefined;
+  export let price: bigint = undefined;
   //////////////////////////////////////////////////////////////////////////
 
   const treasuryFee = config.treasury.fee;
@@ -25,44 +25,42 @@
   const royaltyMinimum = nftRoyaltyMinimum(nft);
   const owner = nftOwner(nft);
 
-  let sellerAmount = BigNumber.from(0);
-  let receiverFeeAmount = BigNumber.from(0);
-  let treasuryFeeAmount = BigNumber.from(0);
+  let sellerAmount = 0n;
+  let receiverFeeAmount = 0n;
+  let treasuryFeeAmount = 0n;
   let minimum = false;
 
   $: price, handlePrice();
+  $: chainId = nftChainId(nft);
 
   const handlePrice = () => {
-    // price == sellerAmount + receiverFeeAmount + treasuryFeeAmount
-    if (price == undefined) price = nft.price;
+    price ||= nft?.price || 0n;
+    treasuryFeeAmount = feeAmount(price, treasuryFee);
+    receiverFeeAmount = feeAmount(price, royaltyFee);
 
-    treasuryFeeAmount = getReceiverAmount(price, treasuryFee);
-    receiverFeeAmount = getReceiverAmount(price, royaltyFee);
-
-    minimum = royaltyMinimum.gt(receiverFeeAmount.add(treasuryFeeAmount));
+    minimum = royaltyMinimum > receiverFeeAmount + treasuryFeeAmount;
     if (minimum) receiverFeeAmount = royaltyMinimum;
 
-    sellerAmount = price.sub(receiverFeeAmount).sub(treasuryFeeAmount);
+    sellerAmount = price - (receiverFeeAmount + treasuryFeeAmount);
   };
 
-  const displayEther = (wei: BigNumberish): string => `${formatEther(wei)} ${currency}`;
   $: console.info(
     "<NftIncomes",
-    displayEther(sellerAmount),
-    displayEther(receiverFeeAmount),
-    displayEther(treasuryFeeAmount),
+    displayEther(chainId, sellerAmount),
+    displayEther(chainId, receiverFeeAmount),
+    displayEther(chainId, treasuryFeeAmount),
     price,
     nft
   );
 </script>
 
 <div>
-  <span class="label">Price of {displayEther(price)} splitted as follows</span>
+  <span class="label">Price of {displayEther(chainId, price)} splitted as follows</span>
   <ul class="steps">
     <li>
       <div>
-        <p class={sellerAmount.lt(0) ? "c-red" : ""}>
-          {displayEther(sellerAmount)} to seller
+        <p class={sellerAmount < 0 ? "c-red" : ""}>
+          {displayEther(chainId, sellerAmount)} to seller
         </p>
         <p>{owner}</p>
       </div>
@@ -70,7 +68,7 @@
     <li>
       <div>
         <p>
-          {displayEther(receiverFeeAmount)} Royalty to receiver
+          {displayEther(chainId, receiverFeeAmount)} Royalty to receiver
           {#if minimum}
             (minimum royalty)
           {:else}
@@ -83,7 +81,7 @@
     <li>
       <div>
         <p>
-          {displayEther(treasuryFeeAmount)} fee to protocol ({treasuryFee / 100} %)
+          {displayEther(chainId, treasuryFeeAmount)} fee to protocol ({treasuryFee / 100} %)
         </p>
         <p />
       </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { constants, ethers, utils } from "ethers";
+  import { ZeroAddress, ethers, formatEther } from "ethers";
 
   import {
     explorerCollectionUrl,
@@ -34,8 +34,7 @@
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
-  import { widgetOpenSky } from "@helpers/widget";
-  import { NftType } from "@lib/common/types";
+  // import { widgetOpenSky } from "@helpers/widget";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -58,8 +57,8 @@
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
   let openSkyCode = "";
-  const copyShortcodeOpenSky = (all=false) => (openSkyCode = shortcodeOpenSky($nft, all));
-  const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
+  const copyShortcodeOpenSky = (all = false) => (openSkyCode = shortcodeOpenSky($nft, all));
+  // const codeWidgetOpenSky = (all = false) => (openSkyCode = widgetOpenSky($nft, all));
 
   const copyCodeToClipboard = (evt: Event, label?: string) => {
     copyToClipboard(openSkyCode);
@@ -205,20 +204,20 @@
               </li>
             {/if}
             {#if nftMarketable($nft)}
-              {#if nftPrice($nft).gt(0)}
+              {#if nftPrice($nft) > 0n}
                 <li>
                   <div class="flex"><span class="label">Nft Price</span></div>
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
                       <span
-                        class={nftPrice($nft).lt(nftPriceMin($nft)) ? "c-red" : ""}
-                        title={ethers.utils.formatEther(nftPrice($nft))}
+                        class={nftPrice($nft) < nftPriceMin($nft) ? "c-red" : ""}
+                        title={ethers.formatEther(nftPrice($nft))}
                       >
-                        {utils.formatEther(nftPrice($nft))}
+                        {formatEther(nftPrice($nft))}
                         {getCurrency(chainId)}
                       </span>
                     </div>
-                    <CopyRefItem copyData={utils.formatEther(nftPrice($nft))} />
+                    <CopyRefItem copyData={formatEther(nftPrice($nft))} />
                   </div>
                 </li>
               {/if}
@@ -244,7 +243,7 @@
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
                       <span class="overflow-ellipsis" title="Receiver of the royalties">
-                        {#if nftRoyaltyAccount($nft) === constants.AddressZero}
+                        {#if nftRoyaltyAccount($nft) === ZeroAddress}
                           "No receiver setted for Royalties"
                         {:else}
                           {@html explorerAddressLink(chainId, nftRoyaltyAccount($nft), 15)}
@@ -320,28 +319,36 @@
             {#if nftMarketable($nft)}
               <li>
                 <div class="flex">
-                  <span class="label">COPY TO INTEGRATE THIS NFT IN WORDPRESS OR HTML PAGE</span>
+                  <span class="label">COPY TO INTEGRATE THIS NFT OR ALL THE COLLECTION IN WORDPRESS</span>
                 </div>
                 <div class="flex kre-buy-widget-textarea">
                   <a
-                    on:mouseover={() => copyShortcodeOpenSky()}
-                    on:focus={() => copyShortcodeOpenSky()}
+                  on:mouseover={()=>copyShortcodeOpenSky()}
+                  on:focus={()=>copyShortcodeOpenSky()}
                     on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress NFT shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
                     title="shortcodeAutoMarket($nft)">COPY NFT SHORTCODE</a
                   >
                   <a
-                    on:mouseover={() => copyShortcodeOpenSky(true)}
-                    on:focus={() => copyShortcodeOpenSky(true)}
+                    on:mouseover={()=>copyShortcodeOpenSky(true)}
+                    on:focus={()=>copyShortcodeOpenSky(true)}
                     on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress Collection shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
                     title="shortcodeAutoMarket($nft, true)">COPY COLLECTION SHORTCODE</a
                   >
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={openSkyCode} />
-                  </div>
+                  <!-- <a
+                    on:mouseover={codeWidgetOpenSky}
+                    on:focus={codeWidgetOpenSky}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "HTML widget")}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="View">COPY HTML WIDGET</a
+                  > -->
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <textarea value={openSkyCode} />
                 </div>
               </li>
             {/if}
@@ -364,11 +371,6 @@
   <NftBurn {chainId} {address} {tokenID} />
 </div>
 
-<!-- Modal claim nft -->
-
-<!-- <div id="claim-nft-{tokenID}" class="modal-window">
-  <NftClaim {chainId} {address} {tokenID} />
-</div> -->
 <style>
   .kre-nft-solo {
     width: 100%;

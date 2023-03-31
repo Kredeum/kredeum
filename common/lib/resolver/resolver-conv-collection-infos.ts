@@ -1,4 +1,4 @@
-import { constants, BigNumber } from "ethers";
+import { ZeroAddress } from "ethers";
 
 import type { IOpenNFTsInfos, IERCNftInfos } from "@soltypes/src/OpenNFTsResolver";
 
@@ -9,7 +9,7 @@ import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
 const resolverConvCollectionInfos = (
   chainId: number,
   collectionInfos: IERCNftInfos.CollectionInfosStructOutput,
-  account = constants.AddressZero
+  account = ZeroAddress
 ): CollectionType => {
   // console.log("resolverConvCollectionInfos  IN", chainId, collectionInfos, account);
 
@@ -25,9 +25,9 @@ const resolverConvCollectionInfos = (
   if (totalSupply > 0) collection.totalSupply = totalSupply;
 
   const owner: string = getChecksumAddress(collectionInfos[1]);
-  if (owner && owner != constants.AddressZero) collection.owner = owner;
+  if (owner && owner != ZeroAddress) collection.owner = owner;
 
-  if (collectionInfos[7][2] && account != constants.AddressZero) {
+  if (collectionInfos[7][2] && account != ZeroAddress) {
     // ERC721
     collection.balancesOf = new Map([[account, Number(collectionInfos[5])]]);
     collection.approvedForAll = new Map([[account, Boolean(collectionInfos[6])]]);
@@ -40,7 +40,7 @@ const resolverConvCollectionInfos = (
 const resolverConvOpenNFTsCollectionInfos = (
   chainId: number,
   collectionInfos: [IERCNftInfos.CollectionInfosStructOutput, IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput],
-  account = constants.AddressZero
+  account = ZeroAddress
 ): CollectionType => {
   // console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
@@ -83,17 +83,17 @@ const resolverConvOpenNFTsCollectionInfos = (
   const template = collectionOpenNFTsInfos[1] || "";
   if (template) collection.template = template;
 
-  const price = BigNumber.from(collectionOpenNFTsInfos[4] || 0);
-  if (price.gt(0)) collection.price = price;
+  const price = BigInt(collectionOpenNFTsInfos[4] || 0);
+  if (price > 0n) collection.price = price;
 
   const royaltyAccount = collectionOpenNFTsInfos[5][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
+  if (royaltyAccount && royaltyAccount != ZeroAddress) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(collectionOpenNFTsInfos[5][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;
 
   const royaltyMinimum = collectionOpenNFTsInfos[5][2];
-  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+  if (royaltyMinimum > 0n) royalty.minimum = royaltyMinimum;
 
   if (Object.keys(royalty).length > 0) collection.royalty = royalty;
 

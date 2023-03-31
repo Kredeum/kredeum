@@ -3,7 +3,7 @@
 
   import type { NftType } from "lib/ktypes";
   import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint, nftMint4 } from "lib/knft-mint";
-  import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
+  import { textShort, ipfsGatewayUrl, explorerTxUrl, nftExplorerUrl, nftUrl } from "lib/kconfig";
 
   import { metamaskSigner } from "main/metamask";
 
@@ -143,7 +143,7 @@
                 </span>
               </div>
               <div class="flex">
-                <a class="link" href={explorerNftUrl(chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
+                <a class="link" href={nftExplorerUrl(chainId, mintedNft)} target="_blank">{nftUrl(mintedNft, 6)}</a>
               </div>
             </li>
           {:else}

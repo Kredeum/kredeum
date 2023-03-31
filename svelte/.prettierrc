@@ -1,11 +1,12 @@
 {
+  "parser": "babel-ts",
   "printWidth": 120,
   "singleQuote": false,
   "useTabs": false,
   "tabWidth": 2,
   "trailingComma": "none",
   "semi": true,
-  "proseWrap": "preserve",
+  "proseWrap": "never",
   "plugins": [
     "./node_modules/prettier-plugin-svelte"
   ],

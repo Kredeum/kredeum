@@ -16,4 +16,3 @@
   // metamask init
   onMount(async () => await metamaskInit());
 </script>
-

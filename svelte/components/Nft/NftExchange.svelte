@@ -4,7 +4,7 @@
   import NftSell from "./NftSell.svelte";
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSignerAddress } from "@main/metamask";
-  import { utils } from "ethers";
+  import { formatEther } from "ethers";
   import { getCurrency } from "@lib/common/config";
 
   /////////////////////////////////////////////////////////////////
@@ -26,8 +26,8 @@
 {#if nftMarketable($nft)}
   {#if mode !== "detail"}
     <div class="overflow-ellipsis price">
-      {#if nftPrice($nft).gt(0)}
-        <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      {#if nftPrice($nft) > 0n}
+        <strong>{formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
       {:else}
         &nbsp;
       {/if}

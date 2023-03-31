@@ -160,7 +160,7 @@
                 </div>
 
                 <div class="section">
-                  From {nftRoyaltyFee.div(100)} % to
+                  From {nftRoyaltyFee / 100} % to
                   <input type="text" bind:value={setRoyaltiesAmountInput} id="set-price-nft" />
                   %
                 </div>

@@ -326,11 +326,11 @@
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
     "eip1559": true,
-    "openNFTs": "0xC7f3C65ccf9071fac39bB1EAEA44Df6a01dd8B8E",
+    "openNFTs": "0x051A23bA9385A7c3a85170b389E7eEE88f794686",
     "create": true,
     "testnet": true,
-    "nftsResolver": "0x1CcC83c7419E56cbb56022A199c72E27f30DCfd2",
-    "nftsFactoryV3": "0x7fb2A7d44FeDDC7b7B55D3794C5dc4A5F1E3fBdd"
+    "nftsResolver": "0xFf8D2c6d19Ab9A41220AcA2F8685cB31a48E2748",
+    "nftsFactoryV3": "0x14533d672cB51a9c5CC9c92aC3f30A9791b407db"
   },
   {
     "chainId": 5,

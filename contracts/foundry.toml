@@ -14,8 +14,9 @@ number_underscore = "thousands"
 
 [rpc_endpoints]
 # mainnet = "${MAINNET_RPC_URL}"
-# goerli = "${GOERLI_RPC_URL}"
-#matic = "${MATIC_RPC_URL}"
+# matic   = "${MATIC_RPC_URL}"
+# goerli  = "${GOERLI_RPC_URL}"
+# sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
 
 [etherscan]
 goerli = { key = "${ETHERSCAN_API_KEY}" }

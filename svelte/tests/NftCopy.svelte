@@ -1,9 +1,10 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/types";
-  import { explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
+  import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
   import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
   import { nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftExplorerUrl } from "@helpers/nft";
 
   import Networks from "../components/Network/NetworkSelect.svelte";
   import { nftStore } from "@stores/nft/nft";
@@ -70,11 +71,8 @@
             <div class="titre">
               <i class="fas fa-check fa-left c-green" />
               NFT
-              <a
-                class="link"
-                href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
-                target="_blank"
-                rel="noreferrer">#{tokenID}</a
+              <a class="link" href="{nftExplorerUrl({ chainId, address, tokenID })}}" target="_blank" rel="noreferrer"
+                >#{tokenID}</a
               >
               copied!
             </div>

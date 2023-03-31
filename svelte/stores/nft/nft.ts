@@ -8,8 +8,9 @@ import { nftListStore } from "./nftList";
 
 import { collectionStore } from "../collection/collection";
 
-import { constants } from "ethers";
+import { ZeroAddress } from "ethers";
 import { isAddressNotZero } from "@lib/common/config";
+import { jsonPlusStringify } from "@helpers/jsonPlus";
 
 // UTILITY
 const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
@@ -18,13 +19,13 @@ const nftGetKey = (chainId: number, address: string, tokenID: string): string =>
 const nftSetOne = (nft: NftType): void => {
   const { chainId, address, tokenID } = nft || {};
   // console.log("nftSetOne", chainId, address, tokenID);
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = nftGetKey(chainId, address, tokenID);
 
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem(key, JSON.stringify(nft));
+      localStorage.setItem(key, jsonPlusStringify(nft));
     }
     return $nftListStore.set(key, nft);
   });
@@ -35,7 +36,7 @@ const nftRefresh = async (chainId: number, address: string, tokenID: string): Pr
   // console.log("nftRefresh", chainId, address, tokenID);
   if (!(chainId && isAddressNotZero(address) && tokenID)) return;
 
-  const key = nftGetKey(chainId, address, tokenID);
+  // const key = nftGetKey(chainId, address, tokenID);
   // console.log("nftRefresh ~ key", key);
 
   const _coll = get(collectionStore.getList).get(collectionStore.getKey(chainId, address));
@@ -61,7 +62,7 @@ const nftGetStore = (chainId: number, address: string, tokenID: string): Readabl
 
 // Remove one nft from store & localstorage
 const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return;
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const keyToRemove = nftGetKey(chainId, address, tokenID);
@@ -75,7 +76,7 @@ const nftRemoveOne = (chainId: number, address: string, tokenID: string) => {
 };
 
 const nftGetStoreAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return;
+  if (!(chainId && address && address != ZeroAddress && tokenID)) return;
 
   // STATE VIEW : sync read cache
   const nft = nftGetStore(chainId, address, tokenID);
