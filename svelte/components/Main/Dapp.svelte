@@ -42,7 +42,6 @@
   setContext("refreshAll", refreshAll);
 
   $: refresh = refreshingCollections || refreshingNfts;
-  $: nftCount = tokenIdCount(tokenID);
 
   // SET chainId on memataskChainId change
   $: $metamaskChainId && handleMetamaskChainId();
@@ -116,7 +115,7 @@
     // INITIALIZATION end
     initalized = true;
 
-    console.info("<Dapp initialized", { chainId, address, tokenID, account, $metamaskSignerAddress, $metamaskChainId });
+    // console.log("<Dapp initialized", { chainId, address, tokenID, account, $metamaskSignerAddress, $metamaskChainId });
   });
 </script>
 
@@ -161,7 +160,7 @@
 
   <span slot="content">
     {#if isCollection({ chainId, address })}
-      {#if nftCount == 1}
+      {#if tokenIdCount(tokenID) == 1}
         <h2 class="m-b-20 return">
           <i class="fa fa-arrow-left fa-left" />
           <span on:click={resetTokenID} on:keydown={resetTokenID} class="link">Back to collection</span>

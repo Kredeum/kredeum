@@ -40,14 +40,16 @@
     // SET network
     await setNetwork();
 
-    console.info("<OpenSky initialized", { chainId, address });
+    // console.info("<OpenSky initialized", { chainId, address, tokenID });
   });
 </script>
 
 <main class="main-krd">
   {#if isCollection({ chainId, address })}
-    <Nfts {chainId} {address} {tokenID} bind:refreshing={refreshingNfts} mode="grid3" />
-  {:else}
-    No collection here
+    {#if tokenIdCount(tokenID) == 1}
+      <Nft {chainId} {address} {tokenID} details={false} mode="detail" />
+    {:else}
+      <Nfts {chainId} {address} {tokenID} bind:refreshing={refreshingNfts} mode="grid3" />
+    {/if}
   {/if}
 </main>

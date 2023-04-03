@@ -46,6 +46,7 @@
   };
 
   const displayEther = (wei: BigNumberish): string => `${formatEther(wei)} ${currency}`;
+
   $: console.info(
     "<NftIncomes",
     displayEther(sellerAmount),

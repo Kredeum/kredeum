@@ -27,7 +27,7 @@ async function* transferNft(
   if (collection.supports?.IOpenAutoMarket) {
     let minimumRoyalty = constants.Zero;
 
-    if (collection.minimal) {
+    if (collection.royaltyEnforcement) {
       [, , minimumRoyalty] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);
     }
     // console.log("minimumRoyalty", minimumRoyalty);

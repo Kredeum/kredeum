@@ -27,7 +27,8 @@
     nftRoyalty,
     nftRoyaltyFee,
     nftPrice,
-    nftPriceMin
+    nftRoyaltyAndFeeMinimum,
+    nftPriceValid
   } from "@helpers/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
@@ -58,7 +59,7 @@
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
   let openSkyCode = "";
-  const copyShortcodeOpenSky = (all=false) => (openSkyCode = shortcodeOpenSky($nft, all));
+  const copyShortcodeOpenSky = (all = false) => (openSkyCode = shortcodeOpenSky($nft, all));
   const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
 
   const copyCodeToClipboard = (evt: Event, label?: string) => {
@@ -210,10 +211,7 @@
                   <div class="flex"><span class="label">Nft Price</span></div>
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
-                      <span
-                        class={nftPrice($nft).lt(nftPriceMin($nft)) ? "c-red" : ""}
-                        title={ethers.utils.formatEther(nftPrice($nft))}
-                      >
+                      <span class={nftPriceValid($nft) ? "" : "c-red"} title={utils.formatEther(nftPrice($nft))}>
                         {utils.formatEther(nftPrice($nft))}
                         {getCurrency(chainId)}
                       </span>
@@ -339,10 +337,8 @@
                     href="."
                     title="shortcodeAutoMarket($nft, true)">COPY COLLECTION SHORTCODE</a
                   >
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={openSkyCode} />
-                  </div>
                 </div>
+                <div class="flex kre-buy-widget-textarea"><textarea value={openSkyCode} /></div>
               </li>
             {/if}
           </ul>

@@ -1,11 +1,11 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { BigNumberish } from "ethers";
+  import { BigNumberish, utils } from "ethers";
   import { BigNumber, constants } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
-  import { nftCollectionPrice, nftPriceMin, nftPriceValid } from "@helpers/nft";
+  import { nftCollectionPrice, nftPriceValid, nftRoyaltyAndFeeMinimum } from "@helpers/nft";
 
   import type { NftType } from "@lib/common/types";
   import {
@@ -18,7 +18,7 @@
     textShort
   } from "@lib/common/config";
 
-  import { getMax, isValidPrice, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { getMax, isValidPrice } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@main/metamask";
@@ -27,6 +27,7 @@
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
   import { nftPrice, nftRoyaltyMinimum, nftOnSale, nftCollectionApproved } from "@helpers/nft";
+  import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -37,15 +38,17 @@
   export let tokenID: string;
   ///////////////////////////////////////////////////////////
   let nft: Readable<NftType>;
+
   $: chainId && address && tokenID && handleNft();
-  const handleNft = () => {
+  const handleNft = async () => {
     nft = nftStore.getOne(chainId, address, tokenID);
-
-    inputPrice = getMax(nftPrice($nft) || nftCollectionPrice($nft), nftPriceMin($nft));
-
-    collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
-
+    await refreshNft();
     tokenSetPriceInit();
+  };
+  const refreshNft = async () => {
+    await nftStore.refreshOne(chainId, address, tokenID);
+    inputPrice = getMax(nftPrice($nft) || nftCollectionPrice($nft), nftRoyaltyAndFeeMinimum($nft));
+    collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
   };
   ///////////////////////////////////////////////////////////
 
@@ -55,7 +58,7 @@
   let tokenSetPriceTxHash: string;
   let tokenSetPriceError: string;
 
-  let inputError: string;
+  let inputPriceError: string;
 
   const _tokenSetPriceError = (err: string): void => {
     tokenSetPriceError = err;
@@ -64,7 +67,7 @@
   };
 
   const _inputPriceError = (err: string): void => {
-    inputError = err;
+    inputPriceError = err;
   };
 
   // TOKEN PRICE SETTING STATES
@@ -106,14 +109,19 @@
 
   $: console.info("input price", String(inputPrice));
 
-  $: minimalPriceHandler(inputPrice);
-  const minimalPriceHandler = (inputPrice: BigNumber): void => {
-    inputError = nftPriceValid($nft, inputPrice)
-      ? ""
-      : `Price too low compared to minimum royalty!
-         You should set a price at least double of minimal royalty, i.e. ${reduceDecimals(
-           displayEther(nftRoyaltyMinimum($nft).mul(2))
-         )}`;
+  $: inputPrice && minimalPriceHandler();
+  const minimalPriceHandler = (): void => {
+    console.log("minimalPriceHandler inputPrice", formatEther(inputPrice), inputPrice);
+    console.log("minimalPriceHandler  nft price", $nft.price);
+    console.log("minimalPriceHandler       nft", $nft);
+
+    if (!nftPriceValid($nft, inputPrice)) {
+      const minPrice = nftRoyaltyAndFeeMinimum($nft);
+      inputPriceError = `Price too low, minimum price should be set above
+        ${utils.formatEther(minPrice)} ${getCurrency(chainId)}`;
+    } else {
+      inputPriceError = "";
+    }
   };
 
   let removingFromSale = false;
@@ -156,7 +164,7 @@
 
     tokenSettingPrice = S4_PRICE_SETTED;
 
-    await nftStore.refreshOne(chainId, $nft.address, $nft.tokenID).catch(console.error);
+    await refreshNft();
   };
 
   const removeFromSale = async (): Promise<void> => {
@@ -176,7 +184,7 @@
   </div>
 
   <div class="section">
-    <InputPrice {chainId} bind:price={inputPrice} {inputError} />
+    <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />
   </div>
 
   <div class="section">

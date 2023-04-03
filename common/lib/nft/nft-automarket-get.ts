@@ -103,18 +103,6 @@ const isValidPrice = (price: BigNumberish = 0, minRoyaltyAmount: BigNumberish = 
 const getMax = (a: BigNumberish = 0, b: BigNumberish = 0): BigNumber =>
   BigNumber.from(a).gt(b) ? BigNumber.from(a) : BigNumber.from(b);
 
-/////////////////////////////////////////////////////////////////////
-// strig value of decimal number                    : "0.00153486726"
-// strig value reduiced (defaul 5 decimals)         : "0.00153"
-/////////////////////////////////////////////////////////////////////
-const reduceDecimals = (value: string, decimals = 5): string => {
-  const intgDecm: Array<string> = value.split(".");
-  const intg = intgDecm.length >= 1 ? intgDecm[0] : "";
-  const decm = intgDecm.length >= 2 ? intgDecm[1] : "";
-
-  return decm.length > decimals ? `${intg}.${decm.slice(0, decimals - decm.length)}` : value;
-};
-
 export {
   getNftPrice,
   getNftRoyalty,
@@ -126,6 +114,5 @@ export {
   getEthersConverterLink,
   getReceiverAmount,
   isValidPrice,
-  getMax,
-  reduceDecimals
+  getMax
 };

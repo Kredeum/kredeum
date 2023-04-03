@@ -10,16 +10,22 @@ const nftOwner = (nft: NftType): string => String(nft?.owner || "");
 
 const nftOnSale = (nft: NftType): boolean => nftPrice(nft).gt(0);
 const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
-const nftPriceMin = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).mul(2);
-
-const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean =>
-  price >= feeAmount(price, config?.treasury?.fee || 0).add(nftRoyaltyMinimum(nft));
-
-const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
 const nftRoyalty = (nft: NftType): ReceiverType => nft?.royalty || null;
 const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || constants.AddressZero);
 const nftRoyaltyFee = (nft: NftType): number => Number(nft?.royalty?.fee || 0);
+
+const nftRoyaltyAmount = (nft: NftType): BigNumber => feeAmount(nft?.price, nft?.royalty?.fee);
 const nftRoyaltyMinimum = (nft: NftType): BigNumber => BigNumber.from(nft?.royalty?.minimum || 0);
+
+const nftFeeAmount = (nft: NftType): BigNumber => feeAmount(nft?.price, config?.treasury?.fee);
+const nftFeeMinimum = (nft: NftType): BigNumber => feeAmount(nftRoyaltyMinimum(nft), config?.treasury?.fee);
+
+const nftRoyaltyAndFeeAmount = (nft: NftType): BigNumber => nftRoyaltyAmount(nft).add(nftFeeAmount(nft));
+const nftRoyaltyAndFeeMinimum = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).add(nftFeeMinimum(nft));
+
+const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean => price.gte(nftRoyaltyAndFeeMinimum(nft));
+
+const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
 
 const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.collection?.price || 0);
 const nftCollectionApproved = (nft: NftType, address: string): boolean =>
@@ -38,13 +44,17 @@ export {
   nftOwner,
   nftOnSale,
   nftPrice,
-  nftPriceValid,
-  nftPriceMin,
-  nftMarketable,
   nftRoyalty,
   nftRoyaltyAccount,
   nftRoyaltyFee,
+  nftRoyaltyAmount,
   nftRoyaltyMinimum,
+  nftFeeAmount,
+  nftFeeMinimum,
+  nftRoyaltyAndFeeAmount,
+  nftRoyaltyAndFeeMinimum,
+  nftPriceValid,
+  nftMarketable,
   nftCollectionPrice,
   nftCollectionApproved,
   nftMediaContentType,

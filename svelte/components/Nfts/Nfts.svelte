@@ -64,7 +64,7 @@
     end = true;
 
     collection = collectionStore.getOne(chainId, address);
-    console.info("NFTS cached collection", $collection);
+    // console.log("NFTS cached collection", $collection);
 
     // await tick();
     let offset = 0;
@@ -76,7 +76,7 @@
     if (limit > offset) {
       nfts = nftSubListStore(chainId, address, { owner, offset, limit });
     }
-    console.info("NFTS cached", $nfts);
+    // console.log("NFTS cached", $nfts);
     // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;
@@ -97,11 +97,11 @@
 
     refreshing = false;
 
-    console.info("NFTS refreshed", $nfts);
+    console.info("NFTS", $nfts);
     // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
-  $: console.info("NFTS from", chainId, "/", address, "@", owner);
+  // $: console.log("NFTS from", chainId, "/", address, "@", owner);
 
   onMount(async () => {
     resetNfts();

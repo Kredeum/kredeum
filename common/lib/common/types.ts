@@ -69,8 +69,8 @@ type CollectionType = {
   version?: number;
   template?: string;
   open?: boolean;
-  minimal?: boolean;
   royalty?: ReceiverType;
+  royaltyEnforcement?: boolean;
   price?: BigNumber;
 };
 

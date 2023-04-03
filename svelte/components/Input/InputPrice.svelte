@@ -4,12 +4,12 @@
   import { formatEther } from "ethers/lib/utils";
 
   /////////////////////////////////////////////////
-  //  <InputPrice {chainId} {price} {inputError}? />
+  //  <InputPrice {chainId} {price} {error}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
   export let price: BigNumber = constants.Zero;
-  export let inputError = "";
+  export let error = "";
   /////////////////////////////////////////////////
 
   let inputPrice = price.gt(0) ? formatEther(price) : "0.0";
@@ -37,8 +37,8 @@
   />
 </div>
 
-{#if inputError}
-  <span class="c-red"><i class="fas fa-exclamation-triangle fa-left c-red" /> {inputError}</span>
+{#if error}
+  <span class="c-red"><i class="fas fa-exclamation-triangle fa-left c-red" /> {error}</span>
 {/if}
 
 <style>
