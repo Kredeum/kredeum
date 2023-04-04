@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nftMarketable, nftOwner, nftPrice } from "@helpers/nft";
+  import { nftMarketable, nftOwner, nftPrice } from "@lib/nft/nft";
   import NftBuy from "./NftBuy.svelte";
   import NftSell from "./NftSell.svelte";
   import { nftStore } from "@stores/nft/nft";

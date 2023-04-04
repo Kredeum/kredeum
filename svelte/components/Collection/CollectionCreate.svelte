@@ -12,17 +12,17 @@
     getCurrency,
     isNumeric,
     isAddress,
-    MAX_FEE
+    MAX_FEE,
+    displayEther
   } from "@lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
-  import { feeAmount } from "@helpers/collection";
+  import { feeAmount } from "@lib/common/config";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -231,8 +231,7 @@
             {#if minRoyalty}
               <div class="section">
                 <div class="titre">Minimum Royalty</div>
-                {utils.formatEther(feeAmount(inputMintPrice, inputFeeNumber))}
-                {getCurrency(chainId)}
+                {displayEther(chainId, feeAmount(inputMintPrice, inputFeeNumber))}
               </div>
             {/if}
           {/if}

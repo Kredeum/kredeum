@@ -2,7 +2,7 @@
   import MediaImage from "./MediaImage.svelte";
   import MediaVideo from "./MediaVideo.svelte";
   import MediaAudio from "./MediaAudio.svelte";
-  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@helpers/nft";
+  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@lib/nft/nft";
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////

@@ -13,7 +13,8 @@
     getOpenSeaUrl,
     getBlurUrl,
     getDappUrl,
-    textShort
+    textShort,
+    displayEther
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -29,7 +30,7 @@
     nftPrice,
     nftRoyaltyAndFeeMinimum,
     nftPriceValid
-  } from "@helpers/nft";
+  } from "@lib/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBurn from "./NftBurn.svelte";
@@ -212,8 +213,7 @@
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
                       <span class={nftPriceValid($nft) ? "" : "c-red"} title={utils.formatEther(nftPrice($nft))}>
-                        {utils.formatEther(nftPrice($nft))}
-                        {getCurrency(chainId)}
+                        {displayEther(chainId, nftPrice($nft))}
                       </span>
                     </div>
                     <CopyRefItem copyData={utils.formatEther(nftPrice($nft))} />

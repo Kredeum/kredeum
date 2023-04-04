@@ -5,6 +5,7 @@ import { constants } from "ethers";
 import type { IOpenAutoMarket } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "../common/config";
+import { collectionIsAutoMarket } from "@lib/collection/collection";
 
 async function* buyNft(
   chainId: number,
@@ -17,7 +18,7 @@ async function* buyNft(
   if (!(chainId && address && address != constants.AddressZero && tokenID && nftPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IOpenAutoMarket)) return {};
+  if (!(contract && signer && collectionIsAutoMarket(collection))) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenAutoMarket).buy(tokenID, {
     value: String(nftPrice)

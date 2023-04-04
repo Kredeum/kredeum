@@ -3,9 +3,9 @@
 
   import { clickOutside } from "@helpers/clickOutside";
   import NftSetPrice from "./NftSetPrice.svelte";
-  import { nftPrice } from "@helpers/nft";
+  import { nftPrice } from "@lib/nft/nft";
   import { nftStore } from "@stores/nft/nft";
-  import { getCurrency } from "@lib/common/config";
+  import { displayEther, getCurrency } from "@lib/common/config";
   import { utils } from "ethers";
 
   /////////////////////////////////////////////////
@@ -34,7 +34,7 @@
   {#if nftPrice($nft).gt(0)}
     ON SALE
     {#if mode === "detail"}
-      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      &nbsp; <strong>{displayEther(chainId, nftPrice($nft))}</strong>
     {/if}
   {:else}
     SELL

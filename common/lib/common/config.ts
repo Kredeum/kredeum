@@ -1,11 +1,12 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import { utils, BigNumber, constants } from "ethers";
+import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
 import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
+import { formatEther } from "ethers/lib/utils";
 
 const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
@@ -465,10 +466,25 @@ const interfaceId = (abi: Array<string>): string => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
+const getCurrency = (chainId: number): string => getNetwork(chainId)?.nativeCurrency.symbol || "";
+
+const displayEther = (chainId: number, price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const treasuryAccount = (): string => config?.treasury?.account || constants.AddressZero;
+const treasuryFee = (): number => config?.treasury?.fee || 0;
+const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price, treasuryFee());
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  feeAmount,
+  treasuryFee,
+  treasuryAccount,
+  treasuryAmount,
+  displayEther,
   copyToClipboard,
   tokenIdSplit,
   tokenIdCount,

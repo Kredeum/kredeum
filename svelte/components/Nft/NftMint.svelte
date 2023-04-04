@@ -11,7 +11,7 @@
   import type { CollectionType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
-  import { getMax, getReceiverAmount } from "@lib/nft/nft-automarket-get";
+  import { getMax } from "@lib/nft/nft-automarket-get";
   import {
     textShort,
     explorerTxUrl,
@@ -20,7 +20,10 @@
     nftUrl,
     storageLinkToUrlHttp,
     config,
-    getCurrency
+    getCurrency,
+    displayEther,
+    treasuryFee,
+    feeAmount
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
@@ -33,7 +36,14 @@
   import InputVideoMint from "../Input/InputVideoMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
-  import { collectionPriceValid, collectionRoyaltyAndFeeMinimum, collectionRoyaltyMinimum } from "@helpers/collection";
+  import {
+    collectionPriceValid,
+    collectionRoyaltyAndFeeAmount,
+    collectionRoyaltyAndFeeMinimum,
+    collectionRoyaltyEnforcement,
+    collectionRoyaltyFee,
+    collectionRoyaltyMinimum
+  } from "@lib/collection/collection";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -78,16 +88,13 @@
   let inputPrice: BigNumber;
   let inputPriceError = "";
 
-  let minRoyalty: BigNumber;
-
-  $: minRoyalty = getReceiverAmount(collection?.price, collection?.royalty?.fee);
-
   $: inputPrice && minimalPriceHandler();
   const minimalPriceHandler = () => {
     if (!collectionPriceValid(collection, inputPrice)) {
       const minPrice = collectionRoyaltyAndFeeMinimum(collection);
-      inputPriceError = `Price too low, should be above ${utils.formatEther(minPrice)} ${getCurrency(
-        chainId
+      inputPriceError = `Price too low, should be above ${displayEther(
+        chainId,
+        minPrice
       )} (mimimal royalty + protocol fees)`;
     } else {
       inputPriceError = "";
@@ -453,17 +460,15 @@
                     <div>
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
                       <span class="kre-market-info-value label-big"
-                        >{collection.royalty?.fee / 100} %
-                        {#if collection.royalty?.minimum?.gt(0)}
-                          or a minimum of {utils.formatEther(collection.royalty?.minimum)} {getCurrency(chainId)}
+                        >{collectionRoyaltyFee(collection) / 100} %
+                        {#if collectionRoyaltyMinimum(collection).gt(0)}
+                          or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
                         {/if}
                       </span>
                     </div>
                     <div class="kre-treasury-fee">
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis"
-                        >{config.treasury.fee / 100} %</span
-                      >
+                      <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100} %</span>
                     </div>
                   </div>
                 </div>
@@ -477,12 +482,17 @@
 
                 <div class="section">
                   <div class="titre">Royalty amount</div>
-                  {#if collection.royaltyEnforcement}
-                    {utils.formatEther(getMax(getReceiverAmount(inputPrice, collection.royalty?.fee), minRoyalty))}
+                  {#if collectionRoyaltyEnforcement(collection)}
+                    {displayEther(
+                      chainId,
+                      getMax(
+                        collectionRoyaltyAndFeeAmount(collection, inputPrice),
+                        collectionRoyaltyAndFeeMinimum(collection)
+                      )
+                    )}
                   {:else}
-                    {utils.formatEther(getReceiverAmount(inputPrice, collection.royalty?.fee))}
+                    {displayEther(chainId, collectionRoyaltyAndFeeAmount(collection, inputPrice))}
                   {/if}
-                  {getCurrency(chainId)}
                 </div>
               {/if}
 

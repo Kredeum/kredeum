@@ -1,13 +1,15 @@
 import type { CollectionType } from "@lib/common/types";
 
-import { config, MAX_FEE } from "@lib/common/config";
 import { BigNumber, constants } from "ethers";
-const ZeroAddress = constants.AddressZero;
+import { feeAmount, treasuryAmount } from "@lib/common/config";
 
-const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+const ZeroAddress = constants.AddressZero;
 
 const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
 const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenAutoMarket);
+const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenMarketable);
+const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.IERC721);
+const collectionIsERC1155 = (coll: CollectionType): boolean => Boolean(coll?.supports?.IERC1155);
 const collectionOpenOrOwner = (coll: CollectionType, owner: string): boolean =>
   Boolean(coll?.owner === owner || coll?.open);
 
@@ -19,13 +21,10 @@ const collectionRoyaltyAmount = (coll: CollectionType, price = BigNumber.from(0)
   feeAmount(price || collectionPrice(coll), collectionRoyaltyFee(coll));
 const collectionRoyaltyMinimum = (coll: CollectionType): BigNumber => coll?.royalty?.minimum || BigNumber.from(0);
 
-const collectionFeeAmount = (coll: CollectionType, price = BigNumber.from(0)): BigNumber =>
-  feeAmount(price, config.treasury.fee);
-const collectionFeeMinimum = (coll: CollectionType): BigNumber =>
-  collectionFeeAmount(coll, collectionRoyaltyMinimum(coll));
+const collectionFeeMinimum = (coll: CollectionType): BigNumber => treasuryAmount(collectionRoyaltyMinimum(coll));
 
 const collectionRoyaltyAndFeeAmount = (coll: CollectionType, price = BigNumber.from(0)): BigNumber =>
-  collectionRoyaltyAmount(coll, price).add(collectionFeeAmount(coll, price));
+  collectionRoyaltyAmount(coll, price).add(feeAmount(price));
 const collectionRoyaltyAndFeeMinimum = (coll: CollectionType): BigNumber =>
   collectionRoyaltyMinimum(coll).add(collectionFeeMinimum(coll));
 
@@ -33,9 +32,11 @@ const collectionPriceValid = (coll: CollectionType, price = BigNumber.from(0)): 
   !collectionRoyaltyEnforcement(coll) || price.gte(collectionRoyaltyAndFeeMinimum(coll));
 
 export {
-  feeAmount,
   collectionPrice,
+  collectionIsERC721,
+  collectionIsERC1155,
   collectionIsAutoMarket,
+  collectionIsOpenMarketable,
   collectionOpenOrOwner,
   collectionRoyaltyAccount,
   collectionRoyaltyFee,

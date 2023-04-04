@@ -1,6 +1,6 @@
 import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { explorerTxLog } from "@lib/common/config";
+import { explorerTxLog, treasuryAccount, treasuryFee } from "@lib/common/config";
 import { resolverGetCount } from "@lib/resolver/resolver-get";
 
 import { collectionGetContract } from "./collection-get";
@@ -8,8 +8,6 @@ import { collectionGetContract } from "./collection-get";
 import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import { constants, ethers } from "ethers";
-
-import config from "@config/config.json";
 
 const _getN = async (chainId: number, name: string, symbol: string): Promise<{ _name: string; _symbol: string }> => {
   let n = 0;
@@ -86,7 +84,7 @@ async function* collectionInitializeOpenAutoMarket(
   );
   const optionsBytes = ethers.utils.defaultAbiCoder.encode(
     ["bytes", "address", "uint96"],
-    [subOptionsBytes, config.treasury.account, config.treasury.fee]
+    [subOptionsBytes, treasuryAccount(), treasuryFee()]
   );
 
   const { _name, _symbol } = await _getN(chainId, name, symbol);

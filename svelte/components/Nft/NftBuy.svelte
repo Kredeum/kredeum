@@ -4,10 +4,17 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import { nftPrice } from "@helpers/nft";
+  import { nftPrice } from "@lib/nft/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    explorerTxLog,
+    textShort,
+    getCurrency,
+    displayEther
+  } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
@@ -114,7 +121,7 @@
     <i class="fa fa-shopping-cart fa-left" />
     BUY
     {#if mode === "detail"}
-      &nbsp; <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+      &nbsp; <strong>{displayEther(chainId, nftPrice($nft))}</strong>
     {/if}
   </button>
 {:else}
@@ -143,8 +150,7 @@
             <div class="section">
               <p>
                 <i class="fas fa-angle-right" /> Buy this NFT #{tokenID} for
-                {utils.formatEther(nftPrice($nft))}
-                {getCurrency(chainId)} ?
+                {displayEther(chainId, nftPrice($nft))} ?
               </p>
             </div>
 
@@ -163,8 +169,8 @@
           {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
             <div class="titre">
               <p>
-                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
-                {getCurrency(chainId)}...
+                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for
+                {displayEther(chainId, nftPrice($nft))}
               </p>
             </div>
           {/if}
