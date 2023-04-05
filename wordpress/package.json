@@ -10,15 +10,12 @@
     "install:wordpress": "pnpm install:composer && pnpm install:vendor",
     "build": "npx ts-node build-plugin",
     "check": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
-    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress",
-    "tests:cypress": "cypress run"
+    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --ignore=loco-translate --extensions=php --standard=WordPress"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "cypress": "^12.9.0",
-    "cypress-file-upload": "^5.0.8",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0"
   }
