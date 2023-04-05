@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCurrency, isNumeric } from "@lib/common/config";
+  import { displayEther, getCurrency, isNumeric } from "@lib/common/config";
   import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
@@ -12,10 +12,18 @@
   export let error = "";
   /////////////////////////////////////////////////
 
-  let inputPrice = price.gt(0) ? formatEther(price) : "0.0";
+  let inputPrice = "0.0";
 
+  // set inputPrice on price change
+  $: price && handlePrice();
+  const handlePrice = () => {
+    inputPrice = price.gt(0) ? formatEther(price) : "0.0";
+  };
+
+  // handle inputPrice on input change
   $: inputPrice && handleInputPrice();
   const handleInputPrice = () => {
+    // console.log("handleInputPrice", inputPrice);
     let tmpPrice = inputPrice.replace(/[^0-9.,]/g, "").replace(/[,]/g, ".") + "X";
 
     do tmpPrice = tmpPrice.slice(0, -1);
@@ -24,6 +32,8 @@
     inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
     price = utils.parseEther(inputPrice);
   };
+
+  // $: console.log("<InputPrice", String(price), String(inputPrice));
 </script>
 
 <div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>

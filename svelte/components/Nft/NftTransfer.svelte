@@ -5,13 +5,21 @@
   import type { Writable } from "svelte/store";
   import { onMount, getContext } from "svelte";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, getCurrency } from "@lib/common/config";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    textShort,
+    explorerTxLog,
+    getCurrency,
+    displayEther
+  } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
   import { nftStore } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
+  import { nftRoyaltyMinimum } from "@lib/nft/nft";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
@@ -30,11 +38,6 @@
   let transferError: string;
 
   let destinationAddress = "";
-
-  let nftRoyaltyMinimum: BigNumber;
-
-  $: nftRoyaltyMinimum = BigNumber.from($nft?.royalty?.minimum || 0);
-  $: transferWarning = nftRoyaltyMinimum?.gt(0) ? formatEther(nftRoyaltyMinimum) : "";
 
   const _transferError = (err: string): void => {
     transferError = err;
@@ -122,14 +125,13 @@
             </div>
           </div>
 
-          {#if transferWarning}
+          {#if nftRoyaltyMinimum($nft).gt(0)}
             <div class="section">
               <div class="form-field kre-warning-msg">
                 <p>
                   <i class="fas fa-exclamation-triangle fa-left c-red" /> Be carefull, you're about to transfer this NFT
                   #{tokenID} which requires minimum royalty payment. That means you have, in any case, to pay the minimal
-                  Royalty amount of {transferWarning}
-                  {getCurrency(chainId)} to transfer it.
+                  Royalty amount of {displayEther(chainId, nftRoyaltyMinimum($nft))} to transfer it.
                 </p>
               </div>
             </div>

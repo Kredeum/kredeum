@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { constants, utils } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/types";
@@ -47,10 +47,10 @@
 
   let refreshAll: Writable<number> = getContext("refreshAll");
 
-  let inputMintPrice = constants.Zero;
-  let inputReceiver = "";
-  let inputFee = "0";
-  let inputFeeNumber = 0;
+  let inputMintPrice: BigNumber;
+  let inputReceiver: string;
+  let inputFee: string;
+  let inputFeeNumber: number;
 
   const dispatch = createEventDispatcher();
 
@@ -112,8 +112,9 @@
     collectionName = "";
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
-    inputFee = "0";
     inputReceiver = $metamaskSignerAddress || constants.AddressZero;
+    inputFee = "0";
+    inputFeeNumber = 0;
     cloneError = null;
 
     cloning = S1_CONFIRM;

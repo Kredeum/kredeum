@@ -37,6 +37,7 @@
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
   import {
+    collectionPrice,
     collectionPriceValid,
     collectionRoyaltyAndFeeAmount,
     collectionRoyaltyAndFeeMinimum,
@@ -123,8 +124,10 @@
   let collection: CollectionType;
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
+    // console.log("handleDefaultAutomarketValues", address);
     collection = await collectionGet(chainId, address);
-    inputPrice = BigNumber.from(collection?.price || 0);
+    inputPrice = collectionPrice(collection);
+    // console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
   // $: prefixPrice = collection?.owner == $metamaskSignerAddress ? "Recommended" : "Mint";
@@ -444,7 +447,7 @@
                 </div>
               </div>
               <div class="section kre-mint-collection">
-                <div class="titre">Add to an existing Collection</div>
+                <div class="titre">Add to existing Collection</div>
                 <CollectionSelect
                   {chainId}
                   bind:address
@@ -454,7 +457,7 @@
                 />
               </div>
 
-              {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
+              {#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
                 <div class="section kre-mint-automarket">
                   <div class="kre-flex">
                     <div>
