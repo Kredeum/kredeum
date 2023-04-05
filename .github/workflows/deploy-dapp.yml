@@ -19,9 +19,9 @@ jobs:
           node-version: 16
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2.2.4
+        uses: pnpm/action-setup@v2
         with:
-          version: 7.18.2
+          version: 8.1.1
           run_install: true
 
       - name: Build dapp
@@ -29,7 +29,6 @@ jobs:
         env:
           ENVIR: PROD
           NODE_DEBUG: false
-          DEPLOYER_PRIVATE_KEY: ${{ secrets.DEPLOYER_PRIVATE_KEY }}
           INFURA_API_KEY: ${{ secrets.INFURA_API_KEY }}
           ALCHEMY_API_KEY: ${{ secrets.ALCHEMY_API_KEY }}
           ALCHEMY_API_KEY_POLYGON: ${{ secrets.ALCHEMY_API_KEY_POLYGON }}
