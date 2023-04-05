@@ -6,13 +6,21 @@
     explorerAddressLink,
     kredeumNftUrl,
     getCurrency,
-    kredeumNftHttp
+    kredeumNftHttp,
+    getBlur,
+    getOpenSea,
+    copyToClipboard,
+    getOpenSeaUrl,
+    getBlurUrl,
+    getDappUrl,
+    textShort,
+    displayEther
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
   import NftExchange from "./NftExchange.svelte";
 
-  import { getShortcodeBuyCode, shortcodeBuy } from "@helpers/shortcodes";
+  import { shortcodeOpenSky } from "@helpers/shortcode";
   import {
     nftOwner,
     nftMarketable,
@@ -20,70 +28,98 @@
     nftRoyalty,
     nftRoyaltyFee,
     nftPrice,
-    nftMinPrice
-  } from "@helpers/nft";
+    nftRoyaltyAndFeeMinimum,
+    nftPriceValid
+  } from "@lib/nft/nft";
 
   import NftTransfer from "./NftTransfer.svelte";
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStore } from "@stores/nft/nft";
+  import { widgetOpenSky } from "@helpers/widget";
+  import { NftType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
-  //  <Nft {chainId} {address} {tokenID} {owner}? {platform}? />
+  //  <Nft {chainId} {address} {tokenID} {owner}? />
   // Display NFT solo
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
   export let owner: string = undefined;
-  export let platform: string = undefined; // "wordpress";
+  export let mode: string = undefined;
+  export let details: boolean = undefined;
   /////////////////////////////////////////////////////////////
   $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
 
-  $: console.info("NFT", $nft);
+  let nftLink = "";
+  let nftLinkDone = "";
+  const copyDappLink = () => (nftLink = getDappUrl(chainId, { address, tokenID }));
+  const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
+  const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
+
+  let openSkyCode = "";
+  const copyShortcodeOpenSky = (all = false) => (openSkyCode = shortcodeOpenSky($nft, all));
+  const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
+
+  const copyCodeToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(openSkyCode);
+    const openSkyCodeDone = openSkyCode;
+    openSkyCode = `Done!  ${label} copied to your clipboard...`;
+    setTimeout(() => (openSkyCode = openSkyCodeDone), 3000);
+  };
+  const copyLinkToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(nftLink);
+    nftLinkDone = `Done!  ${label} copied to your clipboard...`;
+    setTimeout(() => (nftLinkDone = ""), 3000);
+  };
+
+  let once = true;
+  $: once && $nft && logNft();
+  const logNft = () => {
+    console.info("NFT", $nft);
+    once = false;
+  };
 </script>
 
 {#if $nft}
-  <div class="{platform === 'wordpress' ? '' : 'row'} krd-nft-solo">
-    <div class={platform === "wordpress" ? "kre-wordpress-card" : "col col-xs-12 col-sm-4 col-md-3"}>
+  <div class="{mode == 'detail' ? 'row' : ''} kre-nft-solo">
+    <div class={mode == "detail" ? "col col-xs-12 col-sm-4 col-md-3" : "kre-web-card"}>
       <div class="card-krd kre-media">
-        <MediaPreview {chainId} {address} {tokenID} />
+        <MediaPreview {chainId} {address} {tokenID} {mode} />
       </div>
-      <div class="kre-action-buttons {platform === 'wordpress' ? 'kre-wordpress-buttons' : ''}">
-        {#if nftOwner($nft) === owner && platform !== "wordpress"}
-          <a href="#schortcodes" title="Get shortcode" class="btn-shortcod-modal"
-            ><i class="fas fa-code fa-left c-green" /> GET SHORTCODE</a
+
+      <div class="kre-action-buttons {mode == 'detail' ? '' : 'kre-web-buttons'}">
+        {#if details}
+          <a href="#schortcodes" title="Share" class="btn-share-modal"
+            ><i class="fas fa-share fa-left c-green" /> SHARE</a
           >
 
-          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
-            ><i class="fa fa-gift fa-left" /> TRANSFER</a
-          >
+          {#if nftOwner($nft) === owner}
+            <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+              ><i class="fa fa-gift fa-left" /> TRANSFER</a
+            >
 
-          <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"><i class="fa fa-fire fa-left" /> BURN</a
-          >
-        {/if}
-
-        {#if platform === "wordpress"}
-          <div class="kre-buy-infos">
-            <div class="overflow-ellipsis kre-buy-link">
-              <strong>
-                <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
-                  >{$nft.name} #{tokenID}</a
-                >
-              </strong>
-            </div>
-            <div class="overflow-ellipsis kre-buy-price">
-              <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
-            </div>
+            <a href="#burn-nft-{tokenID}" title="Burn Nft" class="btn-burn-modal"
+              ><i class="fa fa-fire fa-left" /> BURN</a
+            >
+          {/if}
+        {:else}
+          <div class="overflow-ellipsis kre-description-link">
+            <strong>
+              <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
+                >{$nft.name} #{tokenID}</a
+              >
+            </strong>
           </div>
         {/if}
 
-        <NftExchange {chainId} {address} {tokenID} {platform} />
+        <NftExchange {chainId} {address} {tokenID} {mode} />
       </div>
     </div>
 
-    {#if platform !== "wordpress"}
+    {#if details}
       <div class="col col-xs-12 col-sm-8 col-md-9">
         <div class="card-krd">
           <h3>{$nft.name}</h3>
@@ -170,18 +206,14 @@
                 </div>
               </li>
             {/if}
-            {#if nftMarketable}
+            {#if nftMarketable($nft)}
               {#if nftPrice($nft).gt(0)}
                 <li>
                   <div class="flex"><span class="label">Nft Price</span></div>
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
-                      <span
-                        class={nftPrice($nft).lt(nftMinPrice($nft)) ? "c-red" : ""}
-                        title={ethers.utils.formatEther(nftPrice($nft))}
-                      >
-                        {utils.formatEther(nftPrice($nft))}
-                        {getCurrency(chainId)}
+                      <span class={nftPriceValid($nft) ? "" : "c-red"} title={utils.formatEther(nftPrice($nft))}>
+                        {displayEther(chainId, nftPrice($nft))}
                       </span>
                     </div>
                     <CopyRefItem copyData={utils.formatEther(nftPrice($nft))} />
@@ -235,60 +267,80 @@
         <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
         <div class="modal-body">
           <div class="titre">
-            <i class="fas fa-code fa-left c-green" />
-            WordPress Shortcode
+            <i class="fas fa-share fa-left c-green" />
+            SHARE this NFT
           </div>
-          <p>Click on the COPY button to copy in your clipboard the shortcode to paste it in a WordPress page.</p>
-          <!-- <p>
-              Click on the COPY button to copy in your clipboard the snippet and paste it in any html page or the
-              shortcodes to paste them in a WordPress page.
-            </p> -->
 
           <ul class="steps">
-            {#if nftMarketable}
-              <!-- <li>
-                  <div class="flex">
-                    <span class="label">SELL on your website with this buy snippet</span>
-                  </div>
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={getAutoMarketWidgetCode($nft)} />
-                    <a
-                      on:click|preventDefault={() => autoMarketWidget($nft)}
-                      class="btn btn-small btn-outline"
-                      href="."
-                      title="Copy">Copy</a
-                    >
-                  </div>
-                </li> -->
-              <li>
-                <div class="flex"><span class="label">SELL on your WordPress site with this shortcode</span></div>
-                <div class="flex kre-buy-widget-textarea">
-                  <textarea value={getShortcodeBuyCode($nft)} />
+            <li>
+              <div class="flex"><span class="label">COPY TO SHARE LINK TO THIS NFT</span></div>
+              <div class="flex kre-buy-widget-textarea">
+                <a
+                  on:mouseover={copyDappLink}
+                  on:focus={copyDappLink}
+                  on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Dapp link")}
+                  class="btn btn-small btn-outline"
+                  href={getDappUrl(chainId, { address, tokenID })}
+                  target="_blank">COPY DAPP LINK</a
+                >
+                {#if getOpenSea(chainId)}
                   <a
-                    on:click|preventDefault={() => shortcodeBuy($nft)}
+                    on:mouseover={copyOpenSeaLink}
+                    on:focus={copyOpenSeaLink}
+                    on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "OpenSea link")}
+                    class="btn btn-small btn-outline"
+                    href={getOpenSeaUrl(chainId, { address, tokenID })}
+                    target="_blank"
+                  >
+                    COPY OPENSEA LINK</a
+                  >
+                {/if}
+                {#if getBlur(chainId)}
+                  <a
+                    on:mouseover={copyBlurLink}
+                    on:focus={copyBlurLink}
+                    on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Blur link")}
+                    class="btn btn-small btn-outline"
+                    href={getBlurUrl(chainId, { address, tokenID })}
+                    target="_blank">COPY BLUR LINK</a
+                  >
+                {/if}
+              </div>
+              <div class="flex kre-buy-widget-textarea">
+                {#if nftLinkDone}
+                  <p>{nftLinkDone}</p>
+                {:else}
+                  <a href={nftLink} target="_blank">{textShort(nftLink, 24)}</a>
+                {/if}
+              </div>
+            </li>
+
+            {#if nftMarketable($nft)}
+              <li>
+                <div class="flex">
+                  <span class="label">COPY TO INTEGRATE THIS NFT IN WORDPRESS OR HTML PAGE</span>
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <a
+                    on:mouseover={() => copyShortcodeOpenSky()}
+                    on:focus={() => copyShortcodeOpenSky()}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress NFT shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
-                    title="Copy">Copy</a
+                    title="shortcodeAutoMarket($nft)">COPY NFT SHORTCODE</a
+                  >
+                  <a
+                    on:mouseover={() => copyShortcodeOpenSky(true)}
+                    on:focus={() => copyShortcodeOpenSky(true)}
+                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress Collection shortcode")}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="shortcodeAutoMarket($nft, true)">COPY COLLECTION SHORTCODE</a
                   >
                 </div>
+                <div class="flex kre-buy-widget-textarea"><textarea value={openSkyCode} /></div>
               </li>
             {/if}
-            <!-- {#if getNetwork($metamaskChainId)?.openSea}
-                <li>
-                  <div class="flex">
-                    <span class="label">View on OpenSea from your wordpress site with this shortcode</span>
-                  </div>
-                  <div class="flex kre-buy-widget-textarea">
-                    <textarea value={getShortcodeOpenSeaCode($nft)} />
-                    <a
-                      on:click|preventDefault={() => shortcode($nft)}
-                      class="btn btn-small btn-outline"
-                      href="."
-                      title="Copy">Copy</a
-                    >
-                  </div>
-                </li>
-              {/if} -->
           </ul>
         </div>
       </div>
@@ -314,7 +366,7 @@
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
 <style>
-  .krd-nft-solo {
+  .kre-nft-solo {
     width: 100%;
   }
 
@@ -337,11 +389,11 @@
   }
 
   :global(
-      .kre-action-buttons button.btn-sell-modal,
+      .kre-action-buttons button.btn-detail,
       .kre-action-buttons button.btn-buy-modal,
       .kre-action-buttons a.btn-transfer-modal,
       .kre-action-buttons a.btn-burn-modal,
-      .kre-action-buttons a.btn-shortcod-modal,
+      .kre-action-buttons a.btn-share-modal,
       .kre-action-buttons a.btn-buy-modal
     ) {
     width: 100%;
@@ -362,8 +414,8 @@
 
   :global(
       .kre-action-buttons a.btn-transfer-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover,
-      .kre-action-buttons a.btn-shortcod-modal:hover i
+      .kre-action-buttons a.btn-share-modal:hover,
+      .kre-action-buttons a.btn-share-modal:hover i
     ) {
     background-color: #3acf6e;
     color: white;
@@ -414,35 +466,26 @@
   }
 
   /* Buy front CSS */
-  .kre-wordpress-card {
+  .kre-web-card {
     box-shadow: 0 0 20px rgb(0 0 0 / 10%);
     padding-bottom: 15px;
     border-radius: 6px;
     background-color: #fff;
   }
 
-  .kre-wordpress-buttons {
+  .kre-web-buttons {
     padding: 0 20px;
   }
 
-  .kre-action-buttons.kre-wordpress-buttons {
+  .kre-action-buttons.kre-web-buttons {
     margin: 0;
   }
 
-  .kre-buy-infos {
-    margin: 0 0 15px 0;
-    color: #192247;
-  }
-
-  .kre-buy-infos a {
+  .kre-description-link a {
     text-decoration: none;
   }
 
-  .kre-buy-link {
+  .kre-description-link {
     font-size: 16px;
-  }
-  .kre-buy-price {
-    font-size: 20px;
-    margin-top: 5px;
   }
 </style>

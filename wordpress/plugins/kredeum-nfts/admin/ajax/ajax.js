@@ -10,11 +10,11 @@ ajaxResponse = false;
 
 function _ajax(data) {
   data.security = document.querySelector("#knonce")?.getAttribute("value");
-  console.log("AJAX CALL", data);
+  console.info("AJAX CALL", data);
   ajaxResponse = false;
 
   jQuery.post(ajaxurl, data, function (response) {
-    console.log("AJAX RESPONSE", response);
+    console.info("AJAX RESPONSE", response);
     ajaxResponse = true;
   });
 }

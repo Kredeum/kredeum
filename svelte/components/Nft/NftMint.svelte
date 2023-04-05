@@ -11,7 +11,7 @@
   import type { CollectionType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
-  import { getMax, getReceiverAmount, reduceDecimals } from "@lib/nft/nft-automarket-get";
+  import { getMax } from "@lib/nft/nft-automarket-get";
   import {
     textShort,
     explorerTxUrl,
@@ -20,7 +20,10 @@
     nftUrl,
     storageLinkToUrlHttp,
     config,
-    getCurrency
+    getCurrency,
+    displayEther,
+    treasuryFee,
+    feeAmount
   } from "@lib/common/config";
   import { getSupportedImage } from "@helpers/mediaTypes";
 
@@ -33,6 +36,15 @@
   import InputVideoMint from "../Input/InputVideoMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
+  import {
+    collectionPrice,
+    collectionPriceValid,
+    collectionRoyaltyAndFeeAmount,
+    collectionRoyaltyAndFeeMinimum,
+    collectionRoyaltyEnforcement,
+    collectionRoyaltyFee,
+    collectionRoyaltyMinimum
+  } from "@lib/collection/collection";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -74,23 +86,20 @@
   let properties: Properties;
   /////////////////////////////////////////////////
 
-  let price: BigNumber;
+  let inputPrice: BigNumber;
   let inputPriceError = "";
 
-  let minRoyalty: BigNumber;
-
-  $: minRoyalty = getReceiverAmount(collection?.price, collection?.royalty?.fee);
-
-  $: price && handlePriceError();
-  const handlePriceError = () => {
-    console.info("priceerror", typeof utils.formatEther(minRoyalty.mul(2)));
-
-    collection?.minimal && constants.Zero.lt(price) && price?.lt(minRoyalty.mul(2))
-      ? (inputPriceError = `Price too low, minimum price should be set above ${reduceDecimals(
-          utils.formatEther(minRoyalty.mul(2))
-        )} ${getCurrency(chainId)}
-            `)
-      : (inputPriceError = "");
+  $: inputPrice && minimalPriceHandler();
+  const minimalPriceHandler = () => {
+    if (!collectionPriceValid(collection, inputPrice)) {
+      const minPrice = collectionRoyaltyAndFeeMinimum(collection);
+      inputPriceError = `Price too low, should be above ${displayEther(
+        chainId,
+        minPrice
+      )} (mimimal royalty + protocol fees)`;
+    } else {
+      inputPriceError = "";
+    }
   };
 
   $: mintedNft && open === false && handleResetAfterMint();
@@ -105,7 +114,7 @@
     animation_url = "";
     storageJson = "";
     mintedNft = null;
-    price = constants.Zero;
+    inputPrice = constants.Zero;
     properties = null;
     inputPriceError = "";
     mintingTxResp = null;
@@ -115,8 +124,10 @@
   let collection: CollectionType;
   $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
+    // console.log("handleDefaultAutomarketValues", address);
     collection = await collectionGet(chainId, address);
-    price = BigNumber.from(collection?.price || 0);
+    inputPrice = collectionPrice(collection);
+    // console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
   // $: prefixPrice = collection?.owner == $metamaskSignerAddress ? "Recommended" : "Mint";
@@ -272,7 +283,7 @@
 
     minting = S4_SIGN_TX;
 
-    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, price);
+    mintingTxResp = await nftMint(chainId, address, storageJson, $metamaskSigner, inputPrice);
     if (!mintingTxResp)
       return _mintingError(`ERROR while sending transaction... ${JSON.stringify(mintingTxResp, null, 2)}`);
 
@@ -436,7 +447,7 @@
                 </div>
               </div>
               <div class="section kre-mint-collection">
-                <div class="titre">Add to an existing Collection</div>
+                <div class="titre">Add to existing Collection</div>
                 <CollectionSelect
                   {chainId}
                   bind:address
@@ -446,23 +457,21 @@
                 />
               </div>
 
-              {#if constants.Zero.lt(collection?.price || 0) || constants.Zero.lt(collection?.royalty?.fee || 0)}
+              {#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
                 <div class="section kre-mint-automarket">
                   <div class="kre-flex">
                     <div>
                       <span class="kre-market-info-title label-big">Royalty Fee</span>
                       <span class="kre-market-info-value label-big"
-                        >{collection.royalty?.fee / 100} %
-                        {#if collection.royalty?.minimum?.gt(0)}
-                          or a minimum of {utils.formatEther(collection.royalty?.minimum)} {getCurrency(chainId)}
+                        >{collectionRoyaltyFee(collection) / 100} %
+                        {#if collectionRoyaltyMinimum(collection).gt(0)}
+                          or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
                         {/if}
                       </span>
                     </div>
                     <div class="kre-treasury-fee">
                       <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
-                      <span class="kre-market-info-value label-big overflow-ellipsis"
-                        >{config.treasury.fee / 100} %</span
-                      >
+                      <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100} %</span>
                     </div>
                   </div>
                 </div>
@@ -471,17 +480,22 @@
               {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskSignerAddress}
                 <div class="section">
                   <div class="titre">NFT Sell Price</div>
-                  <InputPrice {chainId} bind:price inputError={inputPriceError} />
+                  <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />
                 </div>
 
                 <div class="section">
                   <div class="titre">Royalty amount</div>
-                  {#if collection.minimal}
-                    {utils.formatEther(getMax(getReceiverAmount(price, collection.royalty?.fee), minRoyalty))}
+                  {#if collectionRoyaltyEnforcement(collection)}
+                    {displayEther(
+                      chainId,
+                      getMax(
+                        collectionRoyaltyAndFeeAmount(collection, inputPrice),
+                        collectionRoyaltyAndFeeMinimum(collection)
+                      )
+                    )}
                   {:else}
-                    {utils.formatEther(getReceiverAmount(price, collection.royalty?.fee))}
+                    {displayEther(chainId, collectionRoyaltyAndFeeAmount(collection, inputPrice))}
                   {/if}
-                  {getCurrency(chainId)}
                 </div>
               {/if}
 

@@ -10,7 +10,7 @@
   export let src: string;
   export let tokenID: string = undefined;
   export let animation_url: string;
-  export let mode: string = "list";
+  export let mode: string = "line";
   export let alt: string = "Cover image";
   export let small: boolean = true;
   export let paused: boolean = true;
@@ -18,7 +18,7 @@
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
   $: paused = $toPlayTokenID !== tokenID;
   const playAudio = () => {
-    if ("preview" !== mode) {
+    if (mode === "zoom") {
       $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
     }
   };
@@ -28,13 +28,13 @@
   <MediaImage {src} {alt} />
 </div>
 {#if small}
-  {#if "list" === mode}
+  {#if mode === "line"}
     <audio preload="none" bind:paused src={animation_url}>
       <track kind="captions" />
       Your browser does not support the
       <code>audio</code> element.
     </audio>
-    <button on:click={playAudio} class="krd-play-audio-button krd-play-audio-list-button">
+    <button on:click={playAudio} class="krd-play-audio-button krd-play-audio-line-button">
       <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
     </button>
   {:else}
@@ -109,13 +109,13 @@
     cursor: pointer;
   }
 
-  .krd-play-audio-list-button {
+  .krd-play-audio-line-button {
     top: 65px;
     left: 35px;
     bottom: unset;
   }
 
-  .krd-play-audio-list-button i {
+  .krd-play-audio-line-button i {
     border: 1px solid lightgray;
   }
 </style>

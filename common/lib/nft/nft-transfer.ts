@@ -8,6 +8,12 @@ import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155"
 import type { IOpenAutoMarket } from "@soltypes/src/interfaces/IOpenAutoMarket";
 import type { OpenAutoMarket } from "@soltypes/src";
 import { constants } from "ethers";
+import {
+  collectionIsAutoMarket,
+  collectionIsERC1155,
+  collectionIsERC721,
+  collectionRoyaltyEnforcement
+} from "@lib/collection/collection";
 
 async function* transferNft(
   chainId: number,
@@ -24,19 +30,19 @@ async function* transferNft(
   const { contract, collection } = await collectionGetContract(chainId, address, true);
 
   let txResp: TransactionResponse | undefined;
-  if (collection.supports?.IOpenAutoMarket) {
+  if (collectionIsAutoMarket(collection)) {
     let minimumRoyalty = constants.Zero;
 
-    if (collection.minimal) {
+    if (collectionRoyaltyEnforcement(collection)) {
       [, , minimumRoyalty] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);
     }
     // console.log("minimumRoyalty", minimumRoyalty);
 
     txResp = await (contract as IOpenAutoMarket).gift(to, tokenID, { value: String(minimumRoyalty) });
-  } else if (collection.supports?.IERC721) {
+  } else if (collectionIsERC721(collection)) {
     // console.log("transferNft IERC721 safeTransferFrom", from, to, tokenID);
     txResp = await (contract as IERC721)["safeTransferFrom(address,address,uint256)"](from, to, tokenID);
-  } else if (collection.supports?.IERC1155) {
+  } else if (collectionIsERC1155(collection)) {
     txResp = await (contract as IERC1155).safeTransferFrom(from, to, tokenID, 1, "0x00");
   }
   if (!txResp) return {};

@@ -8,6 +8,7 @@ import type { IERC721 } from "@soltypes/index";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "@lib/common/config";
 import { constants } from "ethers";
+import { collectionIsERC721, collectionIsOpenMarketable } from "@lib/collection/collection";
 
 async function* setTokenRoyaltyInfos(
   chainId: number,
@@ -24,7 +25,7 @@ async function* setTokenRoyaltyInfos(
   if (!(contract && signer)) return {};
 
   // console.log("contract", contract);
-  if (!(collection.supports?.IOpenMarketable && collection.open && signer === collection.owner)) return {};
+  if (!(collectionIsOpenMarketable(collection) && collection.open && signer === collection.owner)) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenRoyalty(
     BigNumber.from(tokenID),
@@ -36,7 +37,7 @@ async function* setTokenRoyaltyInfos(
   explorerTxLog(chainId, txResp);
 
   yield txResp;
-  yield await txResp.wait();
+  yield (await txResp.wait()) || {};
 }
 
 async function* setTokenApprove(
@@ -49,7 +50,7 @@ async function* setTokenApprove(
   if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IERC721)) return {};
+  if (!(contract && signer && collectionIsERC721(collection))) return {};
 
   const txResp = await (contract as IERC721).approve(address, tokenID);
 
@@ -70,7 +71,7 @@ async function* setCollectionApproval(
   if (!(chainId && address && address != constants.AddressZero && approval)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IERC721)) return;
+  if (!(contract && signer && collectionIsERC721(collection))) return;
 
   const txResp: TransactionResponse | undefined = await (contract as IERC721).setApprovalForAll(address, approval);
 
@@ -92,7 +93,7 @@ async function* setTokenPrice(
   if (!(chainId && address && address != constants.AddressZero && tokenID && tokenPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
+  if (!(contract && signer && collectionIsOpenMarketable(collection))) return {};
 
   const txResp = await (contract as IOpenMarketable).setTokenPrice(tokenID, tokenPrice);
 
@@ -112,7 +113,7 @@ async function* setDefautCollectionPrice(
   if (!(chainId && address && address != constants.AddressZero && mintPrice)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
+  if (!(contract && signer && collectionIsOpenMarketable(collection))) return {};
 
   const txResp = await (contract as OpenAutoMarket).setMintPrice(mintPrice);
   explorerTxLog(chainId, txResp);
@@ -133,9 +134,9 @@ async function* setDefautCollectionRoyalty(
     return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer && collection.supports?.IOpenMarketable)) return {};
+  if (!(contract && signer)) return {};
 
-  if (!(collection.supports?.IOpenMarketable && collection.royalty && signer === collection.owner)) return {};
+  if (!(collectionIsOpenMarketable(collection) && signer === collection.owner)) return {};
 
   const txResp = await (contract as IOpenMarketable).setDefaultRoyalty(defaultRoyaltiesReceiver, defaultRoyaltyAmount);
   if (!txResp) return {};

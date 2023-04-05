@@ -1,11 +1,11 @@
 // import Dapp from "../tests/Simple/Home08.svelte";
 // import Dapp from "../tests/Test02.svelte";
 // import Dapp from "../tests/Dapp2.svelte";
-import Dapp from "../components/Main/Dapp.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
-import AutoMarket from "../components/Main/Automarket.svelte";
 import MintButton from "../components/Main/MintButton.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
+import OpenSky from "../components/Main/OpenSky.svelte";
+import Dapp from "../components/Main/Dapp.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
@@ -41,13 +41,13 @@ const _props = (target: HTMLElement): Props => {
   if (target) new Dapp({ target });
 }
 
-type AutoMarketPropsType = { chainId: number; address: string; tokenID: string; platform?: string };
+type OpenSkyPropsType = { chainId: number; address: string; tokenID: string };
 {
-  // Kredeum AutoMarket (Multiple NFTs)
-  const target: HTMLElement = document.querySelector("#kredeum-automarket");
+  // Kredeum OpenSky (Multiple NFTs)
+  const target: HTMLElement = document.querySelector("#kredeum-opensky");
   if (target) {
-    const props = _props(target) as AutoMarketPropsType;
-    new AutoMarket({ target, props });
+    const props = _props(target) as OpenSkyPropsType;
+    new OpenSky({ target, props });
   }
 }
 

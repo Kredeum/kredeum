@@ -12,7 +12,7 @@
   export let signer: string = undefined;
   export let display: boolean = false;
 
-  $: console.log("BREADCRUMB", refPage2Breadcrumb({ chainId, address, tokenID, account, signer }));
+  $: console.info("BREADCRUMB", refPage2Breadcrumb({ chainId, address, tokenID, account, signer }));
 </script>
 
 {#if display}

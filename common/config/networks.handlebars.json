@@ -16,6 +16,7 @@
       "https://etherscan.io"
     ],
     "openSea": "https://opensea.io/assets",
+    "blur": "https://blur.io/asset",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/wighawag/eip721-subgraph",
       "active": true
@@ -154,6 +155,36 @@
     "nftsFactoryV3": "0x2a1036F570B75116e6e5E1B7e0Af4cdaD01De7C3"
   },
   {
+    "chainId": 100,
+    "chainName": "gnosis",
+    "rpcUrls": [
+      "https://rpc.ankr.com/gnosis",
+      "https://rpc.gnosischain.com",
+      "https://rpc.xdaichain.com",
+      "https://xdai.poanetwork.dev/",
+      "https://dai.poa.network/"
+    ],
+    "nativeCurrency": {
+      "name": "xDAI",
+      "symbol": "xDAI",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://gnosisscan.io/",
+      "https://blockscout.com/xdai/mainnet"
+    ],
+    "hardhatOptions": {
+      "gasPrice": 80000000000
+    },
+    "openNFTs": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
+    "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
+    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
+    "create": true,
+    "mainnet": true,
+    "nftsFactoryV3": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
+    "nftsResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF"
+  },
+  {
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": [
@@ -183,36 +214,6 @@
     "mainnet": true,
     "nftsFactoryV3": "0x9a5642c32e4115fEb205dC0057cE087eB97c202c",
     "nftsResolver": "0xc12d57A1B9f15E7893D0818f02A28dD20Ee5cBc0"
-  },
-  {
-    "chainId": 100,
-    "chainName": "xdai",
-    "rpcUrls": [
-      "https://rpc.ankr.com/gnosis",
-      "https://rpc.gnosischain.com",
-      "https://rpc.xdaichain.com",
-      "https://xdai.poanetwork.dev/",
-      "https://dai.poa.network/"
-    ],
-    "nativeCurrency": {
-      "name": "xDAI",
-      "symbol": "xDAI",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://gnosisscan.io/",
-      "https://blockscout.com/xdai/mainnet"
-    ],
-    "hardhatOptions": {
-      "gasPrice": 80000000000
-    },
-    "openNFTs": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
-    "nftsFactory": "0x86246ba8F7b25B1650BaF926E42B66Ec18D96000",
-    "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
-    "create": true,
-    "mainnet": true,
-    "nftsFactoryV3": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",
-    "nftsResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF"
   },
   {
     "chainId": 250,
@@ -325,11 +326,11 @@
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
     "eip1559": true,
-    "openNFTs": "0xC7f3C65ccf9071fac39bB1EAEA44Df6a01dd8B8E",
+    "openNFTs": "0x3b011a741FA534b0E340D74141eAE66d2e0964d8",
     "create": true,
     "testnet": true,
-    "nftsResolver": "0x1CcC83c7419E56cbb56022A199c72E27f30DCfd2",
-    "nftsFactoryV3": "0x7fb2A7d44FeDDC7b7B55D3794C5dc4A5F1E3fBdd"
+    "nftsResolver": "0xd9c713c25B2a5B2A5121f60E6e077eA84Eca7F73",
+    "nftsFactoryV3": "0x06bc799f4662459E0927b4eF79981eC300095793"
   },
   {
     "chainId": 5,

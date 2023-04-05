@@ -12,7 +12,7 @@
   // Select Network via a list box
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let txt: boolean = undefined;
+  export let txt: boolean = false;
   export let label = true;
 
   let open = false;
@@ -67,7 +67,7 @@
   >
     <div class="select" class:open>
       <div class="select-trigger">
-        <Network {chainId} {txt} />
+        <Network {chainId} txt={false} />
       </div>
 
       <div class="custom-options">
@@ -78,7 +78,7 @@
             on:click={(evt) => _switchChain(nwk.chainId, evt)}
             on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
           >
-            <Network chainId={nwk.chainId} />
+            <Network chainId={nwk.chainId} txt={true} />
           </span>
         {/each}
       </div>

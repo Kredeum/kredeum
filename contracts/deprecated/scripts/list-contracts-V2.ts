@@ -65,7 +65,7 @@ const logCollection = async (chainId: number, nftsFactory: NFTsFactoryV2, max: n
 };
 
 const main = async (): Promise<void> => {
-  const logNetworks = ["mainnet", "arbitrum", "optimism", "matic", "avalanche", "xdai", "fantom", "bsc"];
+  const logNetworks = ["mainnet", "arbitrum", "optimism", "matic", "avalanche", "gnosis", "fantom", "bsc"];
 
   for await (const network of networks.filter((nw) => logNetworks.includes(nw.chainName))) {
     if (network.mainnet && network.nftsFactoryV2) {

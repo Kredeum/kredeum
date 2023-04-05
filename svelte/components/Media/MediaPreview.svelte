@@ -12,8 +12,8 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
+  export let mode: string = undefined;
   /////////////////////////////////////////////////////////////////
-
 
   let popupOpen = false;
   const popupToggle = () => (popupOpen = !popupOpen);
@@ -23,7 +23,7 @@
   <div class="media">
     <span class="krd-pointer zoom-hover" on:click={popupToggle} on:keydown={popupToggle}>
       <i class="fas fa-search" />
-      <Media {chainId} {address} {tokenID} mode="preview" />
+      <Media {chainId} {address} {tokenID} {mode} />
     </span>
   </div>
 </div>
@@ -37,7 +37,7 @@
           <i class="fa fa-times" />
         </span>
         <div class="modal-body">
-          <Media {chainId} {address} {tokenID} mode="preview" small={false} />
+          <Media {chainId} {address} {tokenID} mode="zoom" />
         </div>
       </div>
     </div>

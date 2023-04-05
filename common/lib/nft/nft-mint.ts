@@ -16,6 +16,7 @@ import type { IOpenNFTsV2 } from "@soltypes/src/interfaces/IOpenNFTsV2";
 import type { IOpenNFTsV3Plus } from "@soltypes/src/interfaces/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
+import { collectionIsOpenMarketable, collectionRoyaltyAccount, collectionRoyaltyFee } from "@lib/collection/collection";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -75,7 +76,7 @@ const nftMint = async (
 
   let txResp: TransactionResponse | undefined;
 
-  if (collection.supports?.IOpenMarketable) {
+  if (collectionIsOpenMarketable(collection)) {
     const notMine = collection.owner != (await minter.getAddress());
     const value = collection.open && notMine ? collection.price : 0;
 
@@ -83,8 +84,8 @@ const nftMint = async (
       minterAddress,
       tokenURI,
       price,
-      collection.royalty?.account || constants.AddressZero,
-      collection.royalty?.fee || 0,
+      collectionRoyaltyAccount(collection),
+      collectionRoyaltyFee(collection),
       { value, type: 2 }
     );
   } else if (collection.supports?.IOpenNFTsV4) {

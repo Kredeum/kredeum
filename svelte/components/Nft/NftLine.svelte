@@ -10,20 +10,18 @@
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  //  <NftLine {nft} {owner}? {more}? {platform}? />
+  //  <NftLine {nft} {owner}? {more}? {mode}? />
   // Display NFT line
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
   export let owner: string = undefined;
-  export let platform: string = undefined;
+  export let mode: string = undefined;
   export let more = 0;
   ///////////////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
-
-  let mode: string = "list";
 
   // let i = 1;
   const moreToggle = (id: string): void => {
@@ -44,7 +42,7 @@
   >
     <div id="media-{tokenID || ''}" class="table-col">
       <div class="table-col-content">
-        <Media {chainId} {address} {tokenID} {mode} />
+        <Media {chainId} {address} {tokenID} {mode}/>
 
         <strong>{nftName($nft)}</strong>
         <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>
@@ -79,7 +77,7 @@
     </div>
 
     <div id="more-detail-{tokenID || ''}" class="detail">
-      <Nft {chainId} {address} {tokenID} {owner} {platform} />
+      <Nft {chainId} {address} {tokenID} {owner} details={true} mode="detail" />
     </div>
   </div>
 {/if}

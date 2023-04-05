@@ -11,7 +11,6 @@ import "@nomiclabs/hardhat-ethers";
 import "@nomiclabs/hardhat-waffle";
 import "hardhat-deploy";
 import "hardhat-deploy-ethers";
-import "hardhat-docgen";
 import "hardhat-change-network";
 import "hardhat-abi-exporter";
 import "hardhat-gas-reporter";
@@ -139,12 +138,6 @@ const config: HardhatUserConfig = {
   mocha: {
     timeout: 200_000,
     bail: true
-  },
-
-  docgen: {
-    path: "docs",
-    clear: true,
-    runOnCompile: false
   },
 
   gasReporter: {

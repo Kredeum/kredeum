@@ -1,16 +1,20 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import { utils, BigNumber, constants } from "ethers";
+import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
 import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
+import { formatEther } from "ethers/lib/utils";
 
 const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
+
+const copyToClipboard = async (data: string): Promise<void> =>
+  await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
 
 const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
@@ -19,7 +23,7 @@ const tokenIdSplit = (tokenIDs = ""): Array<string> => {
 };
 const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "" ? -1 : tokenIdSplit(tokenIDs).length);
 const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
-  tokenIDs === "" || tokenIdSplit(tokenIDs).includes(tokenID);
+  !tokenIDs || tokenIdSplit(tokenIDs).includes(tokenID);
 
 // const networks = networksJson as Array<NetworkType>;
 const networksMap = new Map(networks.map((network) => [network.chainId, network]));
@@ -53,6 +57,17 @@ const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplo
 
 // GET OpenSea
 const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
+// GET OpenSea Url
+const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
+
+// GET Blur
+const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
+// GET Blur Url
+const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  `https://beta.kredeum.com/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
@@ -310,7 +325,7 @@ const explorerTxUrl = (chainId: number, tx: string): string =>
 // LOG TX.HASH URL
 const explorerTxHashLog = (chainId: number, txHash = ""): void =>
   // https://etherscan.io/tx/0xf7a974c93ee811863ce31e642880d9c5883995f8492783227f92fa43c2bee177
-  console.log(explorerTxUrl(chainId, txHash));
+  console.info(explorerTxUrl(chainId, txHash));
 
 // LOG TX URL
 const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): void =>
@@ -427,10 +442,9 @@ const nftsBalanceAndName = (collection: CollectionType, account: string): string
 const nftExplorerLink = (nft: NftType, n?: number): string =>
   urlToLink(explorerNftUrl(nft?.chainId, nft), nftUrl(nft, n));
 
-const nftOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
-
 const nftName = (nft: NftType): string => nft?.name || `${nft?.collection?.name || DEFAULT_NAME} #${nft?.tokenID}`;
+
+const nftCollectionName = (nft: NftType): string => `${nft?.collection?.name || DEFAULT_NAME}`;
 
 const nftDescription = (nft: NftType): string => (nft?.name != nft?.description && nft?.description) || nftName(nft);
 
@@ -452,10 +466,26 @@ const interfaceId = (abi: Array<string>): string => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const getCurrency = (chainId: number) => getNetwork(chainId)?.nativeCurrency.symbol;
+const getCurrency = (chainId: number): string => getNetwork(chainId)?.nativeCurrency.symbol || "";
+
+const displayEther = (chainId: number, price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const treasuryAccount = (): string => config?.treasury?.account || constants.AddressZero;
+const treasuryFee = (): number => config?.treasury?.fee || 0;
+const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price, treasuryFee());
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  feeAmount,
+  treasuryFee,
+  treasuryAccount,
+  treasuryAmount,
+  displayEther,
+  copyToClipboard,
   tokenIdSplit,
   tokenIdCount,
   tokenIdSelected,
@@ -493,7 +523,11 @@ export {
   getNftsResolver,
   getDefaultOpenNFTs,
   getOpenMulti,
+  getBlur,
+  getBlurUrl,
+  getDappUrl,
   getOpenSea,
+  getOpenSeaUrl,
   getCreate,
   getExplorer,
   getCurrency,
@@ -519,9 +553,9 @@ export {
   nftDescriptionShort,
   nftExplorerLink,
   nftName,
+  nftCollectionName,
   nftsSupply,
   nftsBalanceAndName,
-  nftOpenSeaUrl,
   networks,
   normalizedSoloNftUrl,
   numberToHexString,

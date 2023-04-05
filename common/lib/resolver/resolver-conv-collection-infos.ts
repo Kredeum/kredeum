@@ -53,7 +53,7 @@ const resolverConvOpenNFTsCollectionInfos = (
   if (open) collection.open = open;
 
   const minimal = collectionOpenNFTsInfos[3];
-  if (minimal) collection.minimal = minimal;
+  if (minimal) collection.royaltyEnforcement = minimal;
 
   const version = Number(collectionOpenNFTsInfos[0]);
   if (version >= 2) collection.version = version;

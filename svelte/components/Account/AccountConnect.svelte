@@ -10,7 +10,7 @@
   import Account from "./Account.svelte";
 
   /////////////////////////////////////////////////
-  // <AccountConnect bind:{signer} {txt}? {platform}? />
+  // <AccountConnect bind:{signer} {txt}?? />
   // Get Signer from Metamask (or compatible)
   /////////////////////////////////////////////////
   export let signer: string = undefined;
@@ -38,7 +38,7 @@
   {#if _metamaskInstalled}
     <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>
   {:else}
-    <a href="." on:click={_metamaskInstall}>{metamaskInstallMessage}</a>
+    <a href="https://metamask.io/download/" target="_blank">{metamaskInstallMessage}</a>
   {/if}
 {:else}
   <div class={classMetamask}>

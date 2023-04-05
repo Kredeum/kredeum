@@ -45,7 +45,7 @@
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, null, mintable);
-    console.info("COLLECTIONS cached", $collections);
+    // console.log("COLLECTIONS cached", $collections);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
@@ -54,7 +54,7 @@
     refreshing = true;
     await collectionSubListRefresh(chainId, account, null, mintable);
     refreshing = false;
-    console.info("COLLECTIONS refreshed", $collections);
+    console.info("COLLECTIONS", $collections);
 
     // ACTION : sync refresh default Collections
     collectionDefaultRefresh(chainId, account);

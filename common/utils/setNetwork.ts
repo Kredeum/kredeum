@@ -12,7 +12,7 @@ const setNetwork = async (chainName: string, key: NetworkWriteableFieldsType, va
     network[key] = value;
 
     await writeFile(`${__dirname}/../config/networks.handlebars.json`, JSON.stringify(networks, null, 2)).catch((err) =>
-      console.log(err)
+      console.error(err)
     );
     await buildNetworks();
 

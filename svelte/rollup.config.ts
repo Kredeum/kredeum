@@ -9,6 +9,7 @@ import replace from "@rollup/plugin-replace";
 // import _css from "rollup-plugin-css-only";
 import _postcss from "rollup-plugin-postcss";
 import _builtins from "rollup-plugin-node-builtins";
+import image from "@rollup/plugin-image";
 
 import typescript from "@rollup/plugin-typescript";
 import sveltePreprocess from "svelte-preprocess";
@@ -28,11 +29,7 @@ const production = process.env.ENVIR == "PROD";
 console.info("production", production);
 
 const envKeysValues = {};
-for (const envKey of [
-  "NFT_STORAGE_KEY",
-  "GIT_BRANCH",
-  "GIT_SHORT"
-]) {
+for (const envKey of ["NFT_STORAGE_KEY", "GIT_BRANCH", "GIT_SHORT"]) {
   envKeysValues[`process.env.${envKey}`] = `"${process.env[envKey] || ""}"`;
 }
 // console.log("envKeysValues", JSON.stringify(envKeysValues, null, 2));
@@ -94,6 +91,7 @@ const toRollupConfig = function (component: string): RollupOptions {
       }),
       typescript({ sourceMap: true, inlineSources: !production }),
       builtins(),
+      image(),
       json(),
       commonjs(),
       production && terser()

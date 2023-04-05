@@ -19,7 +19,6 @@ add_action(
 				wp_nonce_field( 'ajax-kredeum-nfts', 'knonce' );
 					printf(
 						'<div id="kredeum-dapp"'
-						. ' platform="wordpress"'
 						. ' class="wordpress"'
 						. '></div>'
 					);

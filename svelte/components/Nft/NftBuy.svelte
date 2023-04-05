@@ -4,23 +4,30 @@
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@helpers/clickOutside";
-  import {  nftPrice } from "@helpers/nft";
+  import { nftPrice } from "@lib/nft/nft";
 
   import { buyNft } from "@lib/nft/nft-buy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, getCurrency } from "@lib/common/config";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    explorerTxLog,
+    textShort,
+    getCurrency,
+    displayEther
+  } from "@lib/common/config";
 
   import { nftStore } from "@stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
 
   /////////////////////////////////////////////////
-  //  <NftBuy {chainId} {address} {tokenID} {platform}? />
+  //  <NftBuy {chainId} {address} {tokenID} {mode}? />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  export let platform = "dapp";
+  export let mode: string = undefined;
   ///////////////////////////////////////////////////////////
   $: nft = nftStore.getOne(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
@@ -95,25 +102,34 @@
 
   const handleClose = () => (open = false);
 
-  const handleCLick = () => (open = nftPrice($nft).gt(0));
-
+  const handleCLick = (evt: Event) => {
+    // console.log("handleCLick ~ evt:", evt);
+    evt.preventDefault();
+    open = nftPrice($nft).gt(0);
+  };
   onMount(buyInit);
 </script>
 
-<button
-  on:click={handleCLick}
-  on:keyup={handleCLick}
-  type="button"
-  class="btn-buy {platform === 'wordpress' ? 'btn btn-default btn-buy-shortcode' : 'btn-buy-modal'}"
-  title="Buy this NFT"
->
-  <i class="fa fa-shopping-cart fa-left" aria-disabled={nftPrice($nft).eq(0)} />
-  {#if nftPrice($nft).gt(0)}
-    BUY <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
-  {:else}
-    <strong>Not on sale</strong>
-  {/if}
-</button>
+{#if nftPrice($nft).gt(0)}
+  <button
+    on:click={handleCLick}
+    on:keyup={handleCLick}
+    type="button"
+    class="btn-buy {mode === 'detail' ? 'btn-buy-modal' : 'btn btn-default btn-buy-web'}"
+    title="Buy this NFT"
+  >
+    <i class="fa fa-shopping-cart fa-left" />
+    BUY
+    {#if mode === "detail"}
+      &nbsp; <strong>{displayEther(chainId, nftPrice($nft))}</strong>
+    {/if}
+  </button>
+{:else}
+  <button type="button" class="btn btn-disable" title="NFT not on sale">
+    <i class="fa fa-shopping-cart fa-left" />
+    NOT ON SALE
+  </button>
+{/if}
 
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
@@ -134,8 +150,7 @@
             <div class="section">
               <p>
                 <i class="fas fa-angle-right" /> Buy this NFT #{tokenID} for
-                {utils.formatEther(nftPrice($nft))}
-                {getCurrency(chainId)} ?
+                {displayEther(chainId, nftPrice($nft))} ?
               </p>
             </div>
 
@@ -154,8 +169,8 @@
           {#if buying >= S2_SIGN_TX && buying < S4_BUYED}
             <div class="titre">
               <p>
-                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for {utils.formatEther(nftPrice($nft))}
-                {getCurrency(chainId)}...
+                <i class="fas fa-sync fa-left c-green" />Buying NFT #{tokenID} for
+                {displayEther(chainId, nftPrice($nft))}
               </p>
             </div>
           {/if}
@@ -218,8 +233,8 @@
     color: #1e1e43;
   }
 
-  .btn-buy strong {
-    margin-left: 0.5em;
+  .btn-disable {
+    cursor: not-allowed;
   }
 
   .btn-buy-modal {
@@ -228,7 +243,7 @@
   }
 
   .btn-buy-modal,
-  .btn-buy-shortcode:hover {
+  .btn-buy-web:hover {
     background-color: #3acf6e !important;
   }
 </style>

@@ -1,39 +1,60 @@
 <script lang="ts">
-  export let mode: string = "grid";
+  import { onMount } from "svelte";
+
+  ////////////////////////////////////////////////////////////////////////
+  // <NftsDisplayMode {mode} />
+  // Select Nfts display mode   gird3 grid4 grid6
+  ////////////////////////////////////////////////////////////////////////
+  export let mode: string = undefined;
+
+  let modeGrid6: boolean;
+
+  onMount(() => (modeGrid6 = mode === "grid6"));
+  ////////////////////////////////////////////////////////////////////////
 </script>
 
-<div id="displayListMode" class="col col-xs-12 col-sm-5">
+<div id="displayMode" class="col col-xs-12 col-sm-5">
   <div class="box-fields">
     <input
       bind:group={mode}
       class="box-field"
-      id="display-grid-type"
+      id="display-line-type"
       name="nfts-display-type"
       type="radio"
-      value="grid"
+      value="line"
     />
-    <label class="field" for="display-grid-type"><i class="fas fa-th" /></label>
+    <label class="field" for="display-line-type"><i class="fas fa-list" /></label>
 
     <input
       bind:group={mode}
       class="box-field"
-      id="display-list-type"
+      id="display-grid4-type"
       name="nfts-display-type"
       type="radio"
-      value="list"
+      value="grid4"
     />
-    <label class="field" for="display-list-type"><i class="fas fa-list" /></label>
+    <label class="field" for="display-grid4-type"><i class="fas fa-th-large" /></label>
+
+    <input
+      bind:group={mode}
+      class="box-field"
+      id="display-grid6-type"
+      name="nfts-display-type"
+      type="radio"
+      value="grid6"
+    />
+    <label class="field" for="display-grid6-type"><i class="fas fa-th" /></label>
   </div>
 </div>
 
 <style>
-  #displayListMode {
+  #displayMode {
     float: right;
     text-align: right;
     padding: 0;
   }
 
-  #displayListMode .box-fields .field i {
+  #displayMode .box-fields .field i {
     margin: 0;
   }
 </style>

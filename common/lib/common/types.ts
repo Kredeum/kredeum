@@ -35,6 +35,7 @@ type NetworkType = {
   testnet?: boolean;
   create?: boolean;
   admin?: string;
+  blur?: string;
   openSea?: string;
   openMulti?: string;
   openBound?: string;
@@ -68,8 +69,8 @@ type CollectionType = {
   version?: number;
   template?: string;
   open?: boolean;
-  minimal?: boolean;
   royalty?: ReceiverType;
+  royaltyEnforcement?: boolean;
   price?: BigNumber;
 };
 
@@ -182,7 +183,6 @@ type Property = {
 
 type Properties = { [k: string]: Property };
 
-
 type RefPageType = {
   chainId?: number;
   address?: string;
@@ -192,7 +192,6 @@ type RefPageType = {
   action?: string;
   chainName?: string;
 };
-
 
 export type {
   WindowEthereumProvider,

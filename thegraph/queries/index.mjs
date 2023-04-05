@@ -23,5 +23,5 @@ const url = process.argv[3] || "https://api.thegraph.com/subgraphs/name/zapaz/ei
 const query = fs.readFileSync(queryFile, "utf8");
 
 _graphQL(url, query).then((res) => {
-  console.log(JSON.stringify(res, null, "  "));
+  console.info(JSON.stringify(res, null, "  "));
 });

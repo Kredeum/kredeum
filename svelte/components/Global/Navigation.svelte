@@ -1,6 +1,10 @@
+<script>
+  import logo from "../Images/logo-kredeum.svg";
+</script>
+
 <div class="logo">
   <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" alt="Kredeum website" title="Kredeum website"
-    ><img src="assets/images/logo-kredeum.svg" alt="Logo Kredeum" /></a
+    ><img src={logo} alt="Logo Kredeum" /></a
   >
 </div>
 

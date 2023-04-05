@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { constants, utils } from "ethers";
+  import { BigNumber, constants, utils } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@lib/common/types";
@@ -12,16 +12,17 @@
     getCurrency,
     isNumeric,
     isAddress,
-    MAX_FEE
+    MAX_FEE,
+    displayEther
   } from "@lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
-  import { getReceiverAmount } from "@lib/nft/nft-automarket-get";
 
   import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
+  import { feeAmount } from "@lib/common/config";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} />
@@ -46,10 +47,10 @@
 
   let refreshAll: Writable<number> = getContext("refreshAll");
 
-  let inputMintPrice = constants.Zero;
-  let inputReceiver = "";
-  let inputFee = "0";
-  let inputFeeNumber = 0;
+  let inputMintPrice: BigNumber;
+  let inputReceiver: string;
+  let inputFee: string;
+  let inputFeeNumber: number;
 
   const dispatch = createEventDispatcher();
 
@@ -104,8 +105,6 @@
   const S3_WAIT_CLONE_TX = 3;
   const S4_COLL_CREATED = 4;
 
-  $: minimumRoyalty = utils.formatEther(getReceiverAmount(inputMintPrice, inputFeeNumber));
-
   const _cloneInit = async () => {
     cloningTxHash = null;
     collectionCreated = null;
@@ -113,8 +112,9 @@
     collectionName = "";
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
-    inputFee = "0";
     inputReceiver = $metamaskSignerAddress || constants.AddressZero;
+    inputFee = "0";
+    inputFeeNumber = 0;
     cloneError = null;
 
     cloning = S1_CONFIRM;
@@ -232,8 +232,7 @@
             {#if minRoyalty}
               <div class="section">
                 <div class="titre">Minimum Royalty</div>
-                {minimumRoyalty}
-                {getCurrency(chainId)}
+                {displayEther(chainId, feeAmount(inputMintPrice, inputFeeNumber))}
               </div>
             {/if}
           {/if}

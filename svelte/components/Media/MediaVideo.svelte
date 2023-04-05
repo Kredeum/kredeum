@@ -8,7 +8,7 @@
   /////////////////////////////////////////////////
   export let src: string;
   export let tokenID: string = undefined;
-  export let mode: string = "list";
+  export let mode: string = undefined;
   export let paused: boolean = true;
   export let small: boolean = false;
   export let controls: boolean = false;
@@ -23,14 +23,14 @@
 </script>
 
 {#if small}
-  {#if "grid" === mode}
+  {#if mode.startsWith("grid")}
     <video autoplay={false} {src} preload="metadata" loop playsinline style="border-radius: initial;" bind:paused>
       <track kind="captions" />
     </video>
     <button on:click={playVideo} class="video-play-button">
       <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
     </button>
-  {:else if "list" === mode}
+  {:else if mode === "line"}
     <!-- svelte-ignore a11y-media-has-caption -->
     <video autoplay={false} playsinline style="border-radius: initial;" {controls} {muted}>
       <source {src} type="video/mp4" /></video
