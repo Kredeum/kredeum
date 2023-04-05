@@ -25,20 +25,23 @@ import dotenv from "dotenv";
 import findupSync from "findup-sync";
 import networks from "@config/networks.json";
 
-if (!process.env.ENVIR) {
+const validEnv = (): boolean => "ENVIR" in process.env;
+
+if (!validEnv()) {
   dotenv.config({ path: findupSync(".env") || "" });
-  if (!process.env.ENVIR) {
+  if (!validEnv()) {
     throw new Error("HARDHAT : ENV variable ENVIR not set!");
   }
 }
 
-const accountsRandom = [process.env.DEPLOYER_PRIVATE_KEY || ""];
-for (let i = 0; i < 5; i++) accountsRandom.push(Wallet.createRandom().privateKey);
-const accountsHardhat: HardhatNetworkAccountUserConfig[] = accountsRandom.map((account) => ({
+const accounts: Array<string> = [];
+for (let i = 0; i < 5; i++) accounts.push(Wallet.createRandom().privateKey);
+const accountsHardhat: HardhatNetworkAccountUserConfig[] = accounts.map((account) => ({
   privateKey: account || "",
   balance: "2000000000000000000000"
 }));
-const accounts = accountsRandom;
+if (process.env.DEPLOYER_PRIVATE_KEY) accounts.unshift(process.env.DEPLOYER_PRIVATE_KEY);
+// console.log("accounts:", accounts);
 
 const apiKeyConfig = (): string => {
   if (process.env.ETHERSCAN_API_KEY) return process.env.ETHERSCAN_API_KEY;
