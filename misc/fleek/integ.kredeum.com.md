@@ -14,4 +14,4 @@ Deploy previews: Don’t build deploy previews for pull requests
 
 ## Docker
 
-Docker Image Name: `gplane/pnpm:node16`
+Docker Image Name: `gplane/pnpm:8-node18`

@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "1.0.0",
+    "latest": "1.0.1",
     "stable": "0.18.3"
   },
   "storage": {
@@ -13,7 +13,7 @@
       "gateway": "https://api.gateway.ethswarm.org/bzz"
     }
   },
-  "domain": "https://beta.kredeum.com",
+  "domain": "https://app.kredeum.com",
   "treasury": {
     "account": "0x47e2382D9e1e985BA1F4064E7D8d753Fab99F209",
     "fee": 90

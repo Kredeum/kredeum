@@ -67,7 +67,7 @@ const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
 const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `https://beta.kredeum.com/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+  `https://${config.domain}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
