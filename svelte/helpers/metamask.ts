@@ -19,11 +19,12 @@ const metamaskConnected = (): boolean => isAddressNotZero(get(metamaskSignerAddr
 
 const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthereumProvider());
 
-const _handleChainId = (_chainId: number): void => {
-  if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId))) return;
-  // console.log("_handleChainId:", _chainId);
-
-  metamaskChainId.set(_chainId);
+const _handleChainId = (_chainId: string): void => {
+  const newChainId = Number(_chainId);
+  if (!(isNetwork(newChainId) && newChainId != get(metamaskChainId))) return;
+  console.log("_handleChainId:", _chainId, newChainId);
+// 
+  metamaskChainId.set(newChainId);
 };
 
 const _handleAccounts = (accounts: Array<string>): void => {
