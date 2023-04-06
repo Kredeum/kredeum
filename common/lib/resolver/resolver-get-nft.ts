@@ -24,7 +24,7 @@ const resolverGetNft = async (
   tokenID: string,
   account = constants.AddressZero
 ): Promise<NftType> => {
-  // console.log("resolverGetNft", collection.address);
+  // console.log("resolverGetNft", chainId, collection.address, tokenID, account);
 
   const nftsResolver = await resolverGetContract(chainId);
 
