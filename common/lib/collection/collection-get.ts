@@ -37,8 +37,9 @@ const collectionGetContract = async (
         const abiKey = abis[key as ABIS];
 
         if (abiKey) {
+          const keyAbi = key == "IOpenNFTsV3" ? "IOpenNFTsV3Plus" : key;
           // console.log("collectionGetContract", key, abiKey);
-          abi = abi.concat(abis[key as ABIS]);
+          abi = abi.concat(abis[keyAbi as ABIS]);
         } else {
           console.error("collectionGetContract ERROR", key);
         }
