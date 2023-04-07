@@ -17,7 +17,7 @@
   export let tokenID: string;
   export let mode: string = undefined;
   /////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   let open = false;

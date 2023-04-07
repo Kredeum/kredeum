@@ -2,18 +2,20 @@ import type { Readable } from "svelte/store";
 import { get, derived } from "svelte/store";
 
 import type { CollectionFilterType, NftType } from "@lib/common/types";
-import { resolverGetNfts as nftListLib, resolverGetNft as nftLib } from "@lib/resolver/resolver-get-nft";
+import { resolverGetNfts as nftListLib } from "@lib/resolver/resolver-get-nft";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { nftListTokenIds } from "@lib/nft/nft-list";
 
-import { collectionStore } from "@stores/collection/collection";
+import {  collectionStoreRefresh } from "@stores/collection/collection";
 import { collectionListStore } from "@stores/collection/collectionList";
 
-import { nftStore } from "./nft";
-// import { keyNftList } from "@lib/common/keys";
+import { nftStoreSet } from "./nft";
 
 import { constants } from "ethers";
 import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@lib/common/config";
+import { nftGet } from "@lib/nft/nft-get";
+import { keyCollection, keyNft } from "@lib/common/keys";
+import { nftListStore } from "./nftList";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
@@ -24,7 +26,7 @@ const nftSubListStore = (
   // console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
   // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
 
-  return derived(nftStore.getList, ($nftListStore) => {
+  return derived(nftListStore, ($nftListStore) => {
     let nftsMap = new Map() as Map<string, NftType>;
     if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
 
@@ -62,22 +64,22 @@ const nftSubListStore = (
 };
 
 // ACTIONS : REFRESH all filtered NFTs from one collection
-const nftSubListRefresh = async (
+const nftSubListStoreRefresh = async (
   chainId: number,
   address: string,
   filter: CollectionFilterType = {}
 ): Promise<void> => {
   if (!(chainId && isAddressNotZero(address))) return;
-  // console.log(`nftSubListRefresh ${keyNftList(chainId, address)}\n`);
-  // console.log(`nftSubListRefresh ${JSON.stringify(filter, null, 2)}\n`);
+  // console.log(`nftSubListStoreRefresh ${keyNftList(chainId, address)}\n`);
+  // console.log(`nftSubListStoreRefresh ${JSON.stringify(filter, null, 2)}\n`);
 
-  const key = collectionStore.getKey(chainId, address);
+  const key = keyCollection(chainId, address);
 
   const $collectionList = get(collectionListStore);
   let collection = $collectionList.get(key);
 
   if (!collection?.supports) {
-    await collectionStore.refreshOne(chainId, address);
+    await collectionStoreRefresh(chainId, address);
     collection = $collectionList.get(key);
   }
 
@@ -88,21 +90,19 @@ const nftSubListRefresh = async (
     nfts = await nftListTokenIds(chainId, collection, filter);
   }
 
-  for (const [, nft] of nfts) nftStore.setOne(await nftGetMetadata(nft));
-
   // add targeted tokenID if not in list
   if (filter.tokenID != "") {
     for (const tokenID of tokenIdSplit(filter.tokenID)) {
-      // console.log("nftSubListRefresh tokenID", tokenID);
-      if (!nfts.has(nftStore.getKey(chainId, address, tokenID))) {
-        const nft = await nftLib(chainId, collection, tokenID);
-        nftStore.setOne(await nftGetMetadata(nft));
-      }
+      const nftKey = keyNft(chainId, address, tokenID);
+      // console.log("nftSubListStoreRefresh tokenID", tokenID);
+      if (!nfts.has(nftKey)) nfts.set(nftKey, await nftGet(chainId, address, tokenID, collection));
     }
   } // else search all tokenID !
+
+  for (const [, nft] of nfts) nftStoreSet(await nftGetMetadata(nft));
 };
 
-const nftSubListGetStoreAndRefresh = (
+const nftSubListStoreAndRefresh = (
   chainId: number,
   address: string,
   filter?: CollectionFilterType
@@ -113,9 +113,9 @@ const nftSubListGetStoreAndRefresh = (
   const nfts = nftSubListStore(chainId, address, filter);
 
   // ACTION : async refresh from lib onchain data
-  nftSubListRefresh(chainId, address, filter).catch(console.error);
+  nftSubListStoreRefresh(chainId, address, filter).catch(console.error);
 
   return nfts;
 };
 
-export { nftSubListStore, nftSubListRefresh, nftSubListGetStoreAndRefresh };
+export { nftSubListStore, nftSubListStoreRefresh, nftSubListStoreAndRefresh };

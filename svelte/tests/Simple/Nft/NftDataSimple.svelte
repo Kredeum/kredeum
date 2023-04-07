@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { NftType } from "@lib/common/types";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStore, nftStoreRefresh } from "@stores/nft/nft";
 
   export let chainId: number;
   export let address: string;
@@ -11,8 +11,8 @@
 
   $: chainId && address && tokenID && handleChange();
   const handleChange = (): void => {
-    nft = nftStore.getOne(chainId, address, tokenID);
-    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    nft = nftStore(chainId, address, tokenID);
+    nftStoreRefresh(chainId, address, tokenID).catch(console.error);
   };
   $: console.info("NFT", $nft);
 </script>

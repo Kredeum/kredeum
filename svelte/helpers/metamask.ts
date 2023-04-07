@@ -21,9 +21,11 @@ const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthe
 
 const _handleChainId = (_chainId: string): void => {
   const newChainId = Number(_chainId);
+
   if (!(isNetwork(newChainId) && newChainId != get(metamaskChainId))) return;
+
   console.log("_handleChainId:", _chainId, newChainId);
-// 
+
   metamaskChainId.set(newChainId);
 };
 
@@ -62,7 +64,7 @@ const metamaskInit = async (): Promise<void> => {
 
     // Handle chainId on init then later on "chainChanged"
     try {
-      _handleChainId(Number(await _ethereumProvider.request({ method: "eth_chainId" })));
+      _handleChainId(String(await _ethereumProvider.request({ method: "eth_chainId" })));
     } catch (err) {
       console.error("Metamask ERROR eth_chainId", err);
     }

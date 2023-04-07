@@ -16,38 +16,58 @@ const alchemyCollections = async (chainId: number, account: string): Promise<Map
   if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 
   type AlchemyCollection = {
-    contract: { address: string };
-    id: { tokenId: string };
-    balance: string;
+    address: string;
+    contractDeployer: string;
+    numDistinctTokensOwned: number;
+    totalBalance: number;
+
+    totalSupply?: number;
+    name: string;
+    symbol: string;
+    tokenType: string;
+
+    title: string;
+    tokenId: string;
+    isSpam: boolean;
   };
   type AlchemyCollectionsAnswer = {
-    ownedNfts?: Array<AlchemyCollection>;
+    contracts?: Array<AlchemyCollection>;
     totalCount: number;
   };
-  const alchemyCollectionsAnswer = (await alchemyFetch(
-    chainId,
-    `/getNFTs?owner=${account}&withMetadata=true`
-  )) as AlchemyCollectionsAnswer;
-  // console.log("AlchemyCollectionsAnswer", AlchemyCollectionsAnswer);
+
+  const req = `/getContractsForOwner?owner=${account}&pageSize=100`;
+  // const req = `/getContractsForOwner?owner=${account}&pageSize=100&includeFilters=["AIRDROP"]`;
+
+  const alchemyCollectionsAnswer = (await alchemyFetch(chainId, req)) as AlchemyCollectionsAnswer;
   if (!alchemyCollectionsAnswer) return collections;
 
   const totalCount = alchemyCollectionsAnswer.totalCount || 0;
-  const ownedNfts = alchemyCollectionsAnswer.ownedNfts;
-  if (!(ownedNfts && totalCount > 0)) return collections;
+  const contracts = alchemyCollectionsAnswer.contracts;
+  if (!(contracts && totalCount > 0)) return collections;
 
   let index = 0;
-  for (const ownedNft of ownedNfts) {
+  for (const contract of contracts) {
+    // console.log("alchemyCollections ~ contract:", contract);
     if (index++ >= 100) break;
 
-    const address = getChecksumAddress(ownedNft.contract?.address);
-    const collKey = keyCollections(chainId, address);
+    const address = getChecksumAddress(contract.address);
+    const count = contract.numDistinctTokensOwned || 0;
+    const owner = getChecksumAddress(contract.contractDeployer);
+    const name = contract.name || contract.title || "";
+    const symbol = contract.symbol || "";
+    const totalSupply = contract.totalSupply || 0;
 
-    const previousCollection = collections.get(collKey);
-    const count = Number(previousCollection?.balancesOf?.get(account) || 0);
+    const collKey = keyCollections(chainId, address);
+    // console.log("alchemyCollections ~ collKey:", collKey);
+
     const collection = {
       chainId,
       address,
-      balancesOf: new Map([[account, count + 1]])
+      owner,
+      name,
+      symbol,
+      totalSupply,
+      balancesOf: new Map([[account, count]])
     };
 
     collections.set(collKey, collection);
@@ -85,10 +105,9 @@ const alchemyNftList = async (
   };
 
   if (owner == constants.AddressZero) {
-    const alchemyAnswerNftsCollection = (await alchemyFetch(
-      chainId,
-      `/getNFTsForCollection?contractAddress=${collection.address}&limit=${limit}&withMetadata=true`
-    )) as AlchemyAnwserNftsCollection;
+    const req = `/getNFTsForCollection?contractAddress=${collection.address}&limit=${limit}&withMetadata=true`;
+
+    const alchemyAnswerNftsCollection = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsCollection;
 
     for (const collectionNft of alchemyAnswerNftsCollection.nfts) {
       const tokenID = BigNumber.from(collectionNft.id?.tokenId).toString();
@@ -98,10 +117,9 @@ const alchemyNftList = async (
       nfts.set(nid, { chainId, address, tokenID, tokenURI, nid });
     }
   } else {
-    const alchemyAnswerNftsOwner = (await alchemyFetch(
-      chainId,
-      `/getNFTs?owner=${owner}&contractAddresses[]=${collection.address}&pageSize=${limit}&withMetadata=true`
-    )) as AlchemyAnwserNftsOwner;
+    const req = `/getNFTs?owner=${owner}&contractAddresses[]=${collection.address}&pageSize=${limit}&withMetadata=true`;
+
+    const alchemyAnswerNftsOwner = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsOwner;
 
     for (const ownedNft of alchemyAnswerNftsOwner.ownedNfts) {
       const tokenID = BigNumber.from(ownedNft.id?.tokenId).toString();
@@ -128,7 +146,7 @@ const alchemyFetch = async (chainId: number, path: string): Promise<unknown> => 
     headers: { Accept: "application/json" }
   };
   const alchemyAnswer: FetchResponse = await fetchJson(urlPath, config);
-  // console.log("alchemyFetch ~ alchemyAnswer", alchemyAnswer);
+  // console.log("alchemyFetch ~ alchemyAnswer", urlPath, alchemyAnswer);
 
   if (alchemyAnswer.error) console.error("alchemyFetch ERROR", alchemyAnswer.error);
   return alchemyAnswer;

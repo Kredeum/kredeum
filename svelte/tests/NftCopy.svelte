@@ -24,7 +24,7 @@
   $: chainId && address && tokenID && handleChange();
   const handleChange = (): void => {
     // STATE VIEW : sync get Nft
-    nft = nftStore.getOne(chainId, address, tokenID);
+    nft = nftStore(chainId, address, tokenID);
   };
 
   // $: console.log("NftClaim", $nft);

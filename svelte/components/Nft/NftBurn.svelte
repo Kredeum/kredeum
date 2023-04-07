@@ -2,14 +2,14 @@
   import { getContext, onMount } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { burnNft, AddressdEaD } from "@lib/nft/nft-burn";
-  import { explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
+  import { burnNft } from "@lib/nft/nft-burn";
+  import { ADDRESS_DEAD, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
   import { collectionBurnable } from "@lib/collection/collection-get";
   import { transferNft } from "@lib/nft/nft-transfer";
   import { metamaskSignerAddress } from "@main/metamask";
 
   import { metamaskChainId } from "@main/metamask";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStoreRemove } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
   // <NftBurn {chainId} {address} {tokenID} />
@@ -80,7 +80,7 @@
   const burnConfirm = async () => {
     const txRespYield = burnable
       ? burnNft(chainId, address, tokenID)
-      : transferNft(chainId, address, tokenID, $metamaskSignerAddress, AddressdEaD);
+      : transferNft(chainId, address, tokenID, $metamaskSignerAddress, ADDRESS_DEAD);
 
     burning = S3_SIGN_TX;
 
@@ -96,7 +96,7 @@
 
     burning = S5_BURNED;
 
-    nftStore.nftRemoveOne(chainId, address, tokenID);
+    nftStoreRemove(chainId, address, tokenID);
 
     $refreshAll += 1;
   };
@@ -140,7 +140,7 @@
                 <i class="fas fa-exclamation-triangle fa-left c-red" /> This NFT #{tokenID} can't be burned!
               </p>
               <p>But you can get rid of it anyway, by transfering it to an unusable "dEaD address"</p>
-              <p>{AddressdEaD}</p>
+              <p>{ADDRESS_DEAD}</p>
               <p>This operation is irreversible !!!</p>
             </div>
           </div>

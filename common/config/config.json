@@ -1,7 +1,7 @@
 {
   "version": {
-    "latest": "1.0.4",
-    "stable": "1.0.4"
+    "latest": "1.1.0",
+    "stable": "1.1.0"
   },
   "storage": {
     "type": "ipfs",
@@ -13,7 +13,7 @@
       "gateway": "https://api.gateway.ethswarm.org/bzz"
     }
   },
-  "domain": "https://app.kredeum.com",
+  "base": "https://app.kredeum.com",
   "treasury": {
     "account": "0x47e2382D9e1e985BA1F4064E7D8d753Fab99F209",
     "fee": 90

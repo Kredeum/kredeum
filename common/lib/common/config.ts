@@ -12,6 +12,9 @@ const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
+const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
+const ADDRESS_ONE = "0x0000000000000000000000000000000000000001";
+const ADDRESS_DEAD = "0x000000000000000000000000000000000000dEaD";
 
 const copyToClipboard = async (data: string): Promise<void> =>
   await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
@@ -66,8 +69,10 @@ const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
 // GET Blur Url
 const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+
+  // GET Dapp Url
 const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `https://${config.domain}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+  `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
@@ -378,17 +383,6 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
   return url;
 };
 
-// KREDEUM NFT URL
-const kredeumNftUrl = (chainId: number, nft: NftType): string =>
-  `#/${getChainName(nft.chainId)}/${nft?.address}/${nft?.tokenID}`;
-
-const kredeumNftHttp = (chainId: number, nft: NftType): string => `${config.domain}/${kredeumNftUrl(chainId, nft)}`;
-
-const kredeumNftWpUrl = (chainId: number, nft: NftType): string =>
-  `./admin.php?page=nfts/${kredeumNftUrl(chainId, nft)}`;
-
-const nidTokredeumNftWPUrl = (nid: string): string => `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
-
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
@@ -502,9 +496,6 @@ export {
   explorerTxLink,
   explorerCollectionUrl,
   explorerCollectionLink,
-  kredeumNftUrl,
-  kredeumNftHttp,
-  kredeumNftWpUrl,
   explorerUrl,
   explorerNftUrl,
   explorerAccountUrl,
@@ -537,7 +528,6 @@ export {
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
-  nidTokredeumNftWPUrl,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
@@ -563,6 +553,9 @@ export {
   textShort,
   urlToLink,
   config,
+  ADDRESS_ZERO,
+  ADDRESS_ONE,
+  ADDRESS_DEAD,
   PAGE_SIZE,
   MAX_FEE,
   DEFAULT_NAME,

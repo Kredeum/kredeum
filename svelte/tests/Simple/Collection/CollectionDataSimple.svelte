@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
   import type { CollectionType } from "@lib/common/types";
-  import { collectionStore } from "@stores/collection/collection";
+  import { collectionStore, collectionStoreRefresh } from "@stores/collection/collection";
 
   export let chainId: number;
   export let address: string;
@@ -11,8 +11,8 @@
 
   $: account, chainId && address && handleChange();
   const handleChange = (): void => {
-    collection = collectionStore.getOne(chainId, address);
-    collectionStore.refreshOne(chainId, address, account).catch(console.error);
+    collection = collectionStore(chainId, address);
+    collectionStoreRefresh(chainId, address, account).catch(console.error);
   };
   $: console.log("collection", account, $collection);
 </script>

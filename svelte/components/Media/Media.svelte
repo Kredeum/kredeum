@@ -14,14 +14,14 @@
   export let tokenID: string;
   export let mode: string = undefined;
   /////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "" : "media-grid";
   let gridScale = mode.startsWith("grid") ? " a-simul-cursor" : "";
 </script>
 
-<div id="media-{mode}-{tokenID}" class="media  {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
+<div id="media-{mode}-{tokenID}" class="media {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
   {#if nftMediaAnimationUrl($nft)}
     <MediaAudio
       animation_url={nftMediaAnimationUrl($nft)}

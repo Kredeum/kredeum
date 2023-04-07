@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import Nft from "../Nft/Nft.svelte";
-  import { nftSubListGetStoreAndRefresh } from "@stores/nft/nftSubList";
+  import { nftSubListStoreAndRefresh } from "@stores/nft/nftSubList";
 
   import { providerSetFallback } from "@lib/common/provider-get";
   import { constants } from "ethers";
@@ -18,7 +18,7 @@
   /////////////////////////////////////////////////////////////////
 
   ////////////////////////////////////////////////////////////////////////
-  $: nfts = nftSubListGetStoreAndRefresh(chainId, address, { tokenID });
+  $: nfts = nftSubListStoreAndRefresh(chainId, address, { tokenID });
   ////////////////////////////////////////////////////////////////////////
 
   onMount(async () => {

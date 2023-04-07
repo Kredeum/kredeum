@@ -3,7 +3,7 @@
 
   import type { CollectionType } from "@lib/common/types";
 
-  import { collectionStore } from "@stores/collection/collection";
+  import { collectionStore, collectionStoreRefresh } from "@stores/collection/collection";
   // import { keyCollection } from "@lib/common/keys";
 
   /////////////////////////////////////////////////
@@ -23,10 +23,10 @@
     // console.log(`COLLECTION CHANGE #${i++} ${keyCollection(chainId, address, account)}`);
 
     // STATE VIEW : sync get Collection
-    collection = collectionStore.getOne(chainId, address);
+    collection = collectionStore(chainId, address);
 
     // ACTION : async refresh Collection
-    collectionStore.refreshOne(chainId, address, account).catch(console.error);
+    collectionStoreRefresh(chainId, address, account).catch(console.error);
   };
 </script>
 

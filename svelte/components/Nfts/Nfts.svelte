@@ -10,8 +10,8 @@
   import NftsGrid from "./NftsGrid.svelte";
   import { keyCollection } from "@lib/common/keys";
 
-  import { nftSubListRefresh, nftSubListStore } from "@stores/nft/nftSubList";
-  import { collectionStore } from "@stores/collection/collection";
+  import { nftSubListStoreRefresh, nftSubListStore } from "@stores/nft/nftSubList";
+  import { collectionStore, collectionStoreRefresh } from "@stores/collection/collection";
 
   import { CollectionType, NftType } from "@lib/common/types";
   import { getContext } from "svelte";
@@ -63,7 +63,7 @@
   const refresh = async () => {
     end = true;
 
-    collection = collectionStore.getOne(chainId, address);
+    collection = collectionStore(chainId, address);
     // console.log("NFTS cached collection", $collection);
 
     // await tick();
@@ -80,7 +80,7 @@
     // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;
-    await collectionStore.refreshOne(chainId, address, owner);
+    await collectionStoreRefresh(chainId, address, owner);
     // await tick();
 
     limit = page * PAGE_SIZE;
@@ -91,7 +91,7 @@
     if (0 < maxSupply && maxSupply < offset) offset = maxSupply;
 
     if (limit > offset) {
-      await nftSubListRefresh(chainId, address, { owner, offset, limit });
+      await nftSubListStoreRefresh(chainId, address, { owner, offset, limit });
     }
     end = $nfts.size < page * PAGE_SIZE;
 

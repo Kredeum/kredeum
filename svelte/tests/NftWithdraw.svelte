@@ -7,7 +7,7 @@
 
   import { explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStoreRefresh } from "@stores/nft/nft";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   /////////////////////////////////////////////////
@@ -91,7 +91,7 @@
 
     tokenWithdrawing = S4_WITHDRAWED;
 
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    await nftStoreRefresh(chainId, address, tokenID).catch(console.error);
   };
 </script>
 

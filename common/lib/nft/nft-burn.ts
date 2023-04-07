@@ -4,8 +4,6 @@ import { collectionGetContract, collectionBurnable } from "@lib/collection/colle
 import { constants } from "ethers";
 import { explorerTxLog } from "../common/config";
 
-const AddressdEaD = "0x000000000000000000000000000000000000dEaD";
-
 async function* burnNft(
   chainId: number,
   address: string,
@@ -28,4 +26,4 @@ async function* burnNft(
   yield await txResp.wait();
 }
 
-export { burnNft, AddressdEaD };
+export { burnNft };
