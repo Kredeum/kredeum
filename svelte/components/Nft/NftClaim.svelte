@@ -23,7 +23,7 @@
   export let chainId: number;
   export let address: string;
   export let tokenID: string;
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 
   let targetChainId = chainId;

@@ -2,7 +2,7 @@ import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
 import { getNetwork } from "@lib/common/config";
-import { collectionStore } from "./collection";
+import { collectionStore, collectionStoreRefresh } from "./collection";
 import { keyCollectionDefault } from "@lib/common/keys";
 import { constants } from "ethers";
 
@@ -39,7 +39,7 @@ const collectionDefaultSetOne = (
   if (!(chainId && address && address != constants.AddressZero)) return;
 
   // Refresh default Collection (async)
-  collectionStore.refreshOne(chainId, address, account).catch(console.error);
+  collectionStoreRefresh(chainId, address, account).catch(console.error);
 
   update(($collectionDefault: Map<string, [string, string]>): Map<string, [string, string]> => {
     const key = keyCollectionDefault(chainId, account);

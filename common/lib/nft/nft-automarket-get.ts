@@ -5,7 +5,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { ReceiverType } from "@lib/common/types";
 import { collectionGetContract } from "@lib/collection/collection-get";
-import { explorerUrl, MAX_FEE, isAddressNotZero, treasuryFee, feeAmount } from "@lib/common/config";
+import { explorerUrl, isAddressNotZero } from "@lib/common/config";
 import { providerGetAccount, providerGetFallback } from "@lib/common/provider-get";
 import { collectionIsERC721, collectionIsOpenMarketable } from "@lib/collection/collection";
 

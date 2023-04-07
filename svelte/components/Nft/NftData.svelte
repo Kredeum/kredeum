@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStoreAndRefresh } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////////////////
   // <NftData {chainId} {address} {tokenID} />
@@ -13,7 +13,7 @@
   /////////////////////////////////////////////////////////////
   // GET NFT
   /////////////////////////////////////////////////////////////
-  $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
+  $: nft = nftStoreAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
 </script>
 

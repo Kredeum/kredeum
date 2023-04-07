@@ -7,7 +7,7 @@
   /////////////////////////////////////////////////
   const { detail, branch } = versionGet();
 
-  const branchDisplay = branch == "HEAD" ? "": `(${branch})`;
+  const branchDisplay = branch == "HEAD" || branch == "main" ? "" : `(${branch})`;
 </script>
 
 <h1 title="Kredeum NFTs Factory {detail}">

@@ -5,6 +5,7 @@ import { nftUrl } from "@lib/common/config";
 import { resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
 import { FETCH_LIMIT } from "@lib/common/fetch";
+import { collectionIsERC1155 } from "@lib/collection/collection";
 
 // COLLECTION
 // name
@@ -24,13 +25,21 @@ const resolverGetNft = async (
   tokenID: string,
   account = constants.AddressZero
 ): Promise<NftType> => {
-  // console.log("resolverGetNft", collection.address);
+  // console.log("resolverGetNft", chainId, collection.address, tokenID, account);
+  // console.log("resolverGetNft", account);
+  let nft = { chainId, address: collection.address, tokenID };
+
+  // ERC115 bug fixed with new resolver on matic / 137
+  if (account === constants.AddressZero && collectionIsERC1155(collection) && chainId != 137)
+    throw Error("ERROR : BUG ERC1155 with zero address");
 
   const nftsResolver = await resolverGetContract(chainId);
 
   const [nftInfos, openNFTsinfos] = await nftsResolver.getOpenNFTsNftInfos(collection.address, tokenID, account);
 
-  return resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos, openNFTsinfos]);
+  nft = resolverConvOpenNFTsNftInfos(chainId, collection, [nftInfos, openNFTsinfos]);
+
+  return nft;
 };
 
 // GET NFTs Infos from Resolver for owner

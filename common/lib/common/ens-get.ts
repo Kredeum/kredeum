@@ -1,4 +1,3 @@
-import type { Provider } from "@ethersproject/abstract-provider";
 import { providers } from "ethers";
 import { getNetwork } from "@lib/common/config";
 import { EnsResolver, JsonRpcProvider } from "@ethersproject/providers";

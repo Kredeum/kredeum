@@ -16,7 +16,7 @@
     displayEther
   } from "@lib/common/config";
 
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStore, nftStoreRefresh } from "@stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
 
@@ -29,7 +29,7 @@
   export let tokenID: string;
   export let mode: string = undefined;
   ///////////////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 
   let buying: number;
@@ -97,7 +97,7 @@
 
     buying = S4_BUYED;
 
-    nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    nftStoreRefresh(chainId, address, tokenID).catch(console.error);
   };
 
   const handleClose = () => (open = false);

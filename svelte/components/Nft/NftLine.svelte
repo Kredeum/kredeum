@@ -20,7 +20,7 @@
   export let mode: string = undefined;
   export let more = 0;
   ///////////////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 
   // let i = 1;
@@ -42,7 +42,7 @@
   >
     <div id="media-{tokenID || ''}" class="table-col">
       <div class="table-col-content">
-        <Media {chainId} {address} {tokenID} {mode}/>
+        <Media {chainId} {address} {tokenID} {mode} />
 
         <strong>{nftName($nft)}</strong>
         <span id="description-short-{tokenID || ''}" class:hidden={more}>{nftDescriptionShort($nft, 64)} </span>

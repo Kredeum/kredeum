@@ -21,7 +21,7 @@
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@main/metamask";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStoreAndRefresh, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
@@ -36,11 +36,11 @@
   export let address: string;
   export let tokenID: string;
   ///////////////////////////////////////////////////////////
-  $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
+  $: nft = nftStoreAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
 
   const handleNft = async (refresh = false) => {
-    if (refresh) await nftStore.refreshOne(chainId, address, tokenID);
+    if (refresh) await nftStoreRefresh(chainId, address, tokenID);
 
     priceInput = getMax(nftPrice($nft) || nftCollectionPrice($nft), nftRoyaltyAndFeeMinimum($nft));
     collectionApproved = nftCollectionApproved($nft, $metamaskSignerAddress);
@@ -49,8 +49,8 @@
 
   let collectionApproved: boolean = false;
 
-  let tokenSettingPrice: number ;
-  let tokenSetPriceTxHash: string ;
+  let tokenSettingPrice: number;
+  let tokenSetPriceTxHash: string;
   let tokenSetPriceError: string;
   let removingFromSale = false;
   let inputPriceError: string;

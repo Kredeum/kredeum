@@ -121,7 +121,7 @@
 
     royaltyInfoSetting = S4_ROYALTIES_SETTED;
 
-    await nftStore.refreshOne(chainId, address, tokenID).catch(console.error);
+    await nftStoreRefresh(chainId, address, tokenID).catch(console.error);
   };
 
   onMount(() => {

@@ -13,7 +13,7 @@
   export let tokenID: string;
   export let owner: string = undefined;
   ///////////////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////
 </script>
 

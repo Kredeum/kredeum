@@ -19,15 +19,17 @@ const nftGet = async (
 
   if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address);
 
-  const nft = await resolverGetNft(chainId, collection, tokenID);
+  let nft = await resolverGetNft(chainId, collection, tokenID);
   // console.log("nft", nft);
+
+  nft = withMetadata ? await nftGetMetadata(nft) : nft;
 
   nft.nid = keyNft(chainId, address, tokenID);
 
-  const nftRet = withMetadata ? await nftGetMetadata(nft) : nft;
+  nft.collection = collection;
 
-  // console.log("nftGet", nftRet);
-  return nftRet;
+  // console.log("nftGet", nft);
+  return nft;
 };
 
 export { nftGet };

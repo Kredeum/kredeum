@@ -5,14 +5,7 @@
 
   import type { NftType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
-  import {
-    explorerTxLog,
-    ipfsGatewayLink,
-    urlToLink,
-    kredeumNftWpUrl,
-    ipfsLinkToCid,
-    nidTokredeumNftWPUrl
-  } from "@lib/common/config";
+  import { explorerTxLog, ipfsGatewayLink, urlToLink, ipfsLinkToCid, getDappUrl } from "@lib/common/config";
 
   import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@main/metamask";
 
@@ -59,12 +52,12 @@
 
   const nftLink = (e: Event): void => {
     e.preventDefault();
-    location.href = nidTokredeumNftWPUrl(nid);
+    location.href = `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
   };
 
   const view = (e: Event): void => {
     e.preventDefault();
-    location.href = kredeumNftWpUrl($metamaskChainId, mintedNft);
+    location.href = `./admin.php?page=nfts/${getDappUrl($metamaskChainId, mintedNft)}`;
   };
 
   const mint = async (e: Event): Promise<NftType> => {
@@ -140,7 +133,7 @@
     {/if}
   {:else}
     <small>
-      <br /><AccountConnect {txt}/>
+      <br /><AccountConnect {txt} />
     </small>
   {/if}
 

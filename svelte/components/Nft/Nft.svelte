@@ -4,15 +4,13 @@
   import {
     explorerCollectionUrl,
     explorerAddressLink,
-    kredeumNftUrl,
     getCurrency,
-    kredeumNftHttp,
+    getDappUrl,
     getBlur,
     getOpenSea,
     copyToClipboard,
     getOpenSeaUrl,
     getBlurUrl,
-    getDappUrl,
     textShort,
     displayEther
   } from "@lib/common/config";
@@ -35,9 +33,11 @@
   import NftTransfer from "./NftTransfer.svelte";
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStoreAndRefresh } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
   import { NftType } from "@lib/common/types";
+  import NftBuy from "./NftBuy.svelte";
+  import { Readable } from "svelte/store";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -50,7 +50,7 @@
   export let mode: string = undefined;
   export let details: boolean = undefined;
   /////////////////////////////////////////////////////////////
-  $: nft = nftStore.getOneAndRefresh(chainId, address, tokenID);
+  $: nft = nftStoreAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
 
   let nftLink = "";
@@ -108,7 +108,7 @@
         {:else}
           <div class="overflow-ellipsis kre-description-link">
             <strong>
-              <a href={kredeumNftHttp(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
+              <a href={getDappUrl(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
                 >{$nft.name} #{tokenID}</a
               >
             </strong>
@@ -132,7 +132,7 @@
               <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
               <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
                 <div class="overflow-ellipsis">
-                  <strong> <a href={kredeumNftUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
+                  <strong> <a href={getDappUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
                 </div>
                 <CopyRefItem copyData={tokenID} />
               </div>

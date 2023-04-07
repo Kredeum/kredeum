@@ -16,7 +16,7 @@
   import { transferNft } from "@lib/nft/nft-transfer";
 
   import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
-  import { nftStore } from "@stores/nft/nft";
+  import { nftStore, nftStoreRemove } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
   import { nftRoyaltyMinimum } from "@lib/nft/nft";
@@ -29,7 +29,7 @@
   export let address: string;
   export let tokenID: string;
   /////////////////////////////////////////////////
-  $: nft = nftStore.getOne(chainId, address, tokenID);
+  $: nft = nftStore(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
   let refreshAll: Writable<number> = getContext("refreshAll");
@@ -98,7 +98,7 @@
 
     transfering = S4_TRANSFERED;
 
-    nftStore.nftRemoveOne(chainId, address, tokenID);
+    nftStoreRemove(chainId, address, tokenID);
 
     $refreshAll += 1;
   };
