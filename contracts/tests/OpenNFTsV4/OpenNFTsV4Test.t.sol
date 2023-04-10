@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
@@ -9,8 +9,8 @@ import "./OpenNFTsV4InitializeTest.t.sol";
 import "./OpenNFTsV4SupportsTest.t.sol";
 import "./OpenNFTsV4MintTest.t.sol";
 
-import "OpenNFTs/contracts/tests/sets/OpenNFTsTest.t.sol";
-import "OpenNFTs/contracts/tests/units/ERC173Test.t.sol";
+import "OpenNFTs/tests/sets/OpenNFTsTest.t.sol";
+import "OpenNFTs/tests/units/ERC173Test.t.sol";
 
 contract OpenNFTsV4Test is
     ERC721FullTest,

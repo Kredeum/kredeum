@@ -4,7 +4,7 @@ test = "tests"
 script = "scripts"
 out = "out"
 libs = ["lib"]
-solc = "0.8.17"
+solc = "0.8.19"
 cache_path  = "cache-forge"
 fs_permissions = [{ access = "read-write", path = "./"}]
 

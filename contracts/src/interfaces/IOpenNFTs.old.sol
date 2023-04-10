@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.19;
 
 interface IOpenNFTs {
     function initialize(string memory name, string memory symbol, address owner, bool[] memory options) external;

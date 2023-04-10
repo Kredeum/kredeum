@@ -11,7 +11,7 @@
 //                     |
 //            OpenERC721EnumerableOz
 //
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "OpenNFTsOpenERC/OpenERC721.sol";
 import "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
@@ -29,25 +29,25 @@ abstract contract OpenERC721EnumerableOz is IERC721Enumerable, OpenERC721 {
     // Mapping from token id to position in the allTokens array
     mapping(uint256 => uint256) private _allTokensIndex;
 
-    function supportsInterface(bytes4 interfaceId) public view virtual override (OpenERC721) returns (bool) {
+    function supportsInterface(bytes4 interfaceId) public view virtual override(OpenERC721) returns (bool) {
         return interfaceId == 0x780e9d63 || super.supportsInterface(interfaceId);
     }
 
     function tokenOfOwnerByIndex(address owner, uint256 index)
         public
         view
-        override (IERC721Enumerable)
+        override(IERC721Enumerable)
         returns (uint256)
     {
         require(index < OpenERC721.balanceOf(owner), "Invalid index!");
         return _ownedTokens[owner][index];
     }
 
-    function totalSupply() public view override (IERC721Enumerable) returns (uint256) {
+    function totalSupply() public view override(IERC721Enumerable) returns (uint256) {
         return _allTokens.length;
     }
 
-    function tokenByIndex(uint256 index) public view override (IERC721Enumerable) returns (uint256) {
+    function tokenByIndex(uint256 index) public view override(IERC721Enumerable) returns (uint256) {
         require(index < OpenERC721EnumerableOz.totalSupply(), "Invalid index!");
         return _allTokens[index];
     }

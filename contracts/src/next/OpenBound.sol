@@ -30,7 +30,7 @@
 //      |
 //  OpenBound --- IOpenBound --- IERC721Enumerable --- IERC721Metadata
 //
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.19;
 
 import {OpenERC721} from "OpenNFTs/contracts/OpenERC/OpenERC721.sol";
 import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
