@@ -1,6 +1,42 @@
 {
   "extends": "@tsconfig/svelte/tsconfig.json",
-
-  "include": ["src/**/*", "common/lib/common/beejs.ts"],
+  "compilerOptions": {
+    "rootDir": "..",
+    "resolveJsonModule": true,
+    "downlevelIteration": true,
+    "esModuleInterop": true,
+    "importsNotUsedAsValues": "remove",
+    "baseUrl": "..",
+    "paths": {
+      "@stores/*": [
+        "svelte/stores/*"
+      ],
+      "@helpers/*": [
+        "svelte/helpers/*"
+      ],
+      "@main/*": [
+        "svelte/main/*"
+      ],
+      "@lib/*": [
+        "common/lib/*"
+      ],
+      "@config/*": [
+        "common/config/*"
+      ],
+      "@soltypes/*": [
+        "common/types/*"
+      ],
+      "@abis/*": [
+        "common/abis/*"
+      ],
+      "@utils/*": [
+        "common/utils/*"
+      ],
+      "tslib": [
+        "svelte/node_modules/tslib/tslib.d.ts"
+      ]
+    }
+  },
+  "include": ["src/**/*", "common-from/lib/common/beejs.ts", "../common/lib/**/*.ts"],
   "exclude": ["node_modules/*", "public/*"]
 }

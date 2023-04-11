@@ -5,7 +5,8 @@ import { swarmLinkToCid, swarmServer, SWARM_GATEWAY } from "@lib/common/config";
 const getBee = (nodeUrl: string): Bee => {
   return new Bee(nodeUrl ? nodeUrl : swarmServer(SWARM_GATEWAY));
 };
-const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
+const krdbatchId =
+  "0000000000000000000000000000000000000000000000000000000000000000";
 
 const swarmUploadFile = async (
   file: File | string,
@@ -17,22 +18,33 @@ const swarmUploadFile = async (
 ): Promise<string> => {
   const bee: Bee = getBee(nodeUrl);
 
-  const result = await bee.uploadFile(batchId ? batchId : krdbatchId, file, fileName, {
-    pin: nodeUrl ? true : false,
-    size: fileSize || undefined,
-    contentType: contentType
-  });
+  const result = await bee.uploadFile(
+    batchId ? batchId : krdbatchId,
+    file,
+    fileName,
+    {
+      pin: nodeUrl ? true : false,
+      size: fileSize || undefined,
+      contentType: contentType,
+    }
+  );
 
   return result.reference;
 };
 
-const swarmDownloadFile = async (fileReference: string, nodeUrl = ""): Promise<FileData<Data>> => {
+const swarmDownloadFile = async (
+  fileReference: string,
+  nodeUrl = ""
+): Promise<FileData<Data>> => {
   const bee: Bee = getBee(nodeUrl);
 
   return await bee.downloadFile(fileReference);
 };
 
-const swarmGetContentType = async (fileReference: string, nodeUrl = ""): Promise<string> => {
+const swarmGetContentType = async (
+  fileReference: string,
+  nodeUrl = ""
+): Promise<string> => {
   const bee: Bee = getBee(nodeUrl);
 
   if (fileReference.startsWith(SWARM_GATEWAY)) {
