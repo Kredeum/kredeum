@@ -47,5 +47,8 @@
     "tsconfig-paths": "^4.2.0",
     "typechain": "^8.1.1",
     "typescript": "^4.9.5"
+  },
+  "dependencies": {
+    "@ethersphere/bee-js": "^5.2.0"
   }
 }
