@@ -4,7 +4,7 @@
     "stable": "1.1.0"
   },
   "storage": {
-    "type": "ipfs",
+    "type": "swarm",
     "ipfs": {
       "gateway": "https://nftstorage.link/ipfs",
       "gatewayDomain": "ipfs.nftstorage.link"

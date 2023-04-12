@@ -5,6 +5,7 @@
 
   import type { NftType } from "@lib/common/types";
   import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftStorageImage } from "@lib/nft/storage/nst-storage-selector";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, ipfsLinkToCid, getDappUrl } from "@lib/common/config";
 
   import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@main/metamask";
@@ -66,12 +67,14 @@
     ipfsImage = null;
     mintedNft = null;
 
+    console.log("hello!");
+
     const signerAddress = await $metamaskSigner.getAddress();
 
     if (src && $address) {
       minting = 1;
 
-      ipfsImage = await nftIpfsImage(src);
+      ipfsImage = await nftStorageImage(src);
       // console.log("ipfsImage", ipfsImage);
 
       minting = 2;
