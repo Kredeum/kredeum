@@ -28,7 +28,7 @@
                 "@types/readline-sync": "^1.4.4",
                 "@typescript-eslint/eslint-plugin": "^5.57.1",
                 "@typescript-eslint/parser": "^5.57.1",
-                "OpenNFTs": "github:Kredeum/OpenNFTs",
+                "OpenNFTs": "github:Kredeum/OpenNFTs#v0.10.1",
                 "chai": "^4.3.7",
                 "css-loader": "^6.7.3",
                 "dotenv": "^16.0.3",

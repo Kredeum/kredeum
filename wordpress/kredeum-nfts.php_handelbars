@@ -79,6 +79,9 @@ require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/front/automarket.php';
 
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post/postedit.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post/postfront.php';
+
 // require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/post/bottom.php'; .
 
 add_action(
