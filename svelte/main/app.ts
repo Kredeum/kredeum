@@ -1,11 +1,11 @@
 // import Dapp from "../tests/Simple/Home08.svelte";
 // import Dapp from "../tests/Test02.svelte";
-// import Dapp from "../tests/Dapp2.svelte";
-import CollectionChoice from "../components/Main/CollectionChoice.svelte";
+import Dapp from "../tests/MintTest01.svelte";
+import CollectionChoice from "../tests/CollectionChoice.svelte";
 import MintButton from "../components/Main/MintButton.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 import OpenSky from "../components/Main/OpenSky.svelte";
-import Dapp from "../components/Main/Dapp.svelte";
+// import Dapp from "../components/Main/Dapp.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
