@@ -4,7 +4,7 @@
   import { metamaskInit } from "@helpers/metamask";
 
   import type { NftType } from "@lib/common/types";
-  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftImageUri, nftTokenUri, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { explorerTxLog, ipfsGatewayLink, urlToLink, ipfsLinkToCid, getDappUrl } from "@lib/common/config";
 
   import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@main/metamask";
@@ -29,7 +29,7 @@
   let mintedNft: NftType;
   let minting: number;
 
-  let ipfsImage: string;
+  let imageUri: string;
 
   let address: Readable<string>;
 
@@ -63,7 +63,7 @@
   const mint = async (e: Event): Promise<NftType> => {
     e.preventDefault();
     // console.log("collection", collection);
-    ipfsImage = null;
+    imageUri = null;
     mintedNft = null;
 
     const signerAddress = await $metamaskSigner.getAddress();
@@ -71,22 +71,22 @@
     if (src && $address) {
       minting = 1;
 
-      ipfsImage = await nftIpfsImage(src);
-      // console.log("ipfsImage", ipfsImage);
+      imageUri = await nftImageUri(src);
+      // console.log("imageUri", imageUri);
 
       minting = 2;
 
-      const ipfsJson = await nftIpfsJson(alt, alt, ipfsImage, signerAddress, src, metadata);
-      // console.log("json", ipfsJson);
+      const tokenUri = await nftTokenUri(alt, alt, imageUri, signerAddress, src, metadata);
+      // console.log("json", tokenUri);
 
       minting = 3;
 
-      const mintingTxResp = await nftMint($metamaskChainId, $address, ipfsJson, $metamaskSigner);
+      const mintingTxResp = await nftMint($metamaskChainId, $address, tokenUri, $metamaskSigner);
       explorerTxLog($metamaskChainId, mintingTxResp);
 
       minting = 4;
 
-      mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, ipfsJson, signerAddress);
+      mintedNft = await nftMint4($metamaskChainId, $address, mintingTxResp, tokenUri, signerAddress);
       // console.log("mintedNft", mintedNft);
 
       // Dispacth "token" event to be catched in wordpress/plugins/kredeum-nfts/admin/ajax/ajax.js
@@ -141,7 +141,7 @@
     <small>
       <br />{urlToLink(src, `${src}@${alt}`)}
 
-      <br />{ipfsGatewayLink(ipfsImage)}
+      <br />{ipfsGatewayLink(imageUri)}
     </small>
   {/if}
 </main>

@@ -9,7 +9,7 @@
   import { fade } from "svelte/transition";
 
   import type { CollectionType } from "@lib/common/types";
-  import { nftIpfsImage, nftIpfsJson, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import { nftImageUri, nftTokenUri, nftMint, nftMint4 } from "@lib/nft/nft-mint";
   import { collectionGet } from "@lib/collection/collection-get";
   import { getMax } from "@lib/nft/nft-automarket-get";
   import {
@@ -258,17 +258,17 @@
 
     minting = S2_STORE_IMAGE;
 
-    storageImg = await nftIpfsImage(image);
+    storageImg = await nftImageUri(image);
 
     if (!storageImg) return _mintingError("ERROR image not stored");
 
-    if (inputMediaType === "audio") animation_url = await nftIpfsImage(audio);
+    if (inputMediaType === "audio") animation_url = await nftImageUri(audio);
 
     if (!animation_url && inputMediaType === "audio") return _mintingError("ERROR audio file not stored");
 
     minting = S3_STORE_METADATA;
 
-    storageJson = await nftIpfsJson(
+    storageJson = await nftTokenUri(
       nftTitle,
       nftDescription,
       storageImg,
