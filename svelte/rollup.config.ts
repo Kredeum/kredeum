@@ -57,12 +57,14 @@ const toRollupConfig = function (component: string): RollupOptions {
       {
         sourcemap: true,
         format: "iife",
+        manualChunks: () => "main",
         name: component.replace(/-/g, "_"),
         file: `../web/dapp/assets/${component}.js`
       },
       {
         sourcemap: true,
         format: "iife",
+        manualChunks: () => "main",
         name: component.replace(/-/g, "_"),
         file: `../wordpress/plugins/kredeum-nfts/lib/js/${component}.js`
       }
