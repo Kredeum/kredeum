@@ -3,7 +3,7 @@
   // import NftMint from "../Nft/NftMint.svelte";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
-  import NftMint from "../Nft/NftMint.svelte";
+  import NftMintPopup from "../Nft/NftMintPopup.svelte";
 
   /////////////////////////////////////////////////
   //  <Create {chainId} />
@@ -27,8 +27,7 @@
       </div>
 
       <div class="txtcenter">
-        <!-- <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a> -->
-        <NftMint {chainId}  />
+        <a href="#create-nft" class="btn btn-default" title="Mint NFT">Mint NFT</a>
         <span class="or">or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
       </div>
@@ -37,9 +36,9 @@
 </div>
 
 <!-- SubModal create NFT -->
-<!-- <div id="create-nft" class="modal-window">
-  <NftMint {chainId} />
-</div> -->
+<div id="create-nft" class="modal-window">
+  <NftMintPopup {chainId} />
+</div>
 
 <!-- SubModal create collection -->
 <div id="add-collection" class="modal-window">
