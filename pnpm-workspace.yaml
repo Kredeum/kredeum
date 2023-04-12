@@ -4,6 +4,6 @@ packages:
   - "svelte/**"
   - "wordpress/**"
   - "contracts/**"
-  - "swarm/**"
+  - "!swarm/**"
   - "!contracts/lib/**"
   - "!thegraph/**"
