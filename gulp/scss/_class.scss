@@ -115,35 +115,6 @@ body:not(.page) .info-button {
   }
 }
 
-select {
-  appearance: none;
-  width: 100%;
-  border: 0;
-  outline: 0;
-  font-size: 15px;
-  padding-left: 25px;
-  background: $white url("../images/chevron.svg") no-repeat right 20px center;
-  color: $couleur1;
-  border-radius: 360px;
-  cursor: pointer;
-  height: 50px;
-  &.custom {
-    color: $grey-blue;
-    border: 1px solid rgba($grey-blue, 0.3);
-    @include border-radius();
-    width: 100%;
-    background-position: 95% 50%;
-    padding: 20px 50px 20px 15px;
-    height: auto;
-  }
-  &:focus {
-    outline: none;
-  }
-  &::-ms-expand {
-    display: none;
-  }
-}
-
 .return {
   .link {
     text-decoration: none;

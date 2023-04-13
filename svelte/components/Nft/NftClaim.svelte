@@ -8,7 +8,7 @@
     textShort,
     storageLinkToUrlHttp
   } from "@lib/common/config";
-  import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
+  import { nftMint, nftClaimed } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
   import { nftStore } from "@stores/nft/nft";
@@ -59,7 +59,7 @@
             const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
             explorerTxLog(chainId, txResp);
 
-            const mintedNft = await nftClaim4(
+            const mintedNft = await nftClaimed(
               targetChainId,
               targetAddress,
               txResp,

@@ -11,7 +11,7 @@
   // <NetworksSelect bind:{chainId} {txt} {label} />
   // Select Network via a list box
   /////////////////////////////////////////////////
-  export let chainId: number;
+  export let chainId: number = 0;
   export let txt: boolean = false;
   export let label = true;
 

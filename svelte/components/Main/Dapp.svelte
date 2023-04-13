@@ -129,7 +129,7 @@
 
     {#if signer}
       {#if getCreate(chainId)}
-        <Create {chainId} />
+        <Create {chainId} {signer} />
       {/if}
     {/if}
 

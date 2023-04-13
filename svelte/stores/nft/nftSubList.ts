@@ -23,7 +23,7 @@ const nftSubListStore = (
   address: string,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-  // console.log(`nftSubListStore ${keyNftList(chainId, address)}\n`);
+  // console.log(`nftSubListStore ${keyCollection(chainId, address)}\n`);
   // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
 
   return derived(nftListStore, ($nftListStore) => {
@@ -70,7 +70,7 @@ const nftSubListStoreRefresh = async (
   filter: CollectionFilterType = {}
 ): Promise<void> => {
   if (!(chainId && isAddressNotZero(address))) return;
-  // console.log(`nftSubListStoreRefresh ${keyNftList(chainId, address)}\n`);
+  // console.log(`nftSubListStoreRefresh ${keyCollection(chainId, address)}\n`);
   // console.log(`nftSubListStoreRefresh ${JSON.stringify(filter, null, 2)}\n`);
 
   const key = keyCollection(chainId, address);

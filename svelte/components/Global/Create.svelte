@@ -1,17 +1,17 @@
 <script lang="ts">
   // import { currentAction } from "@main/current";
   // import NftMint from "../Nft/NftMint.svelte";
+  import { metamaskSigner } from "@main/metamask";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
 
   /////////////////////////////////////////////////
-  //  <Create {chainId} />
+  //  <Create {chainId} {signer} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
-  export let chainId: number ;
-
-;
+  export let chainId: number = undefined;
+  export let signer: string = undefined;
 </script>
 
 <a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Create</a>
@@ -37,10 +37,10 @@
 
 <!-- SubModal create NFT -->
 <div id="create-nft" class="modal-window">
-  <NftMintPopup {chainId} />
+  <NftMintPopup {chainId} {signer} />
 </div>
 
-<!-- SubModal create collection -->
+<!-- SubModal create collection  -->
 <div id="add-collection" class="modal-window">
-  <CollectionCreate {chainId} />
+  <CollectionCreate {chainId} {signer}/>
 </div>

@@ -34,7 +34,7 @@
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@stores/nft/nft";
-  import { widgetOpenSky } from "@helpers/widget";
+  import { widgetOpenSky } from "@stores/nft/widget";
   import { NftType } from "@lib/common/types";
   import NftBuy from "./NftBuy.svelte";
   import { Readable } from "svelte/store";
