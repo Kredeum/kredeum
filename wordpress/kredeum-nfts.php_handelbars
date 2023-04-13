@@ -73,7 +73,7 @@ if ( is_admin() ) {
 add_action(
 	'wp_enqueue_scripts', 
 	function ( ) {
-		if (is_single()) {
+		if (is_single() || is_category() || is_archive() || is_home()) {
 			global $post;
 			$nft_contract_address = get_post_meta($post->ID, '_krd_text_field', true);
 	
@@ -82,9 +82,9 @@ add_action(
 				wp_enqueue_script('mnftc-script', plugin_dir_url(__FILE__) . 'admin/post/js/mnftc-script.js', array('web3', 'jquery'), '1.0.0', true);
 	
 				// Pass data from PHP to JavaScript
-				wp_localize_script('mnftc-script', 'nftData', array(
-					'nftContractAddress' => $nft_contract_address,
-				));
+				//wp_localize_script('mnftc-script', 'nftData', array(
+				//	'nftContractAddress' => $nft_contract_address,
+				//));
 			}
 		}
 	}

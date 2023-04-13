@@ -1,13 +1,16 @@
 // mnftc-script.js
 
 jQuery(document).ready(function($) {
+    console.log("ready");
     if (typeof window.ethereum !== 'undefined') {
         const web3 = new Web3(window.ethereum);
         console.log('Web3 provider found:', web3.currentProvider);
-        const nftContractAddress = nftData.nftContractAddress;
-        console.log('NFT contract address:', nftContractAddress);
+        //const nftContractAddress = nftData.nftContractAddress;
+        //console.log('NFT contract address:', nftContractAddress);
 
-        async function checkNftOwnership() {
+        async function checkNftOwnership(element) {
+          const nftContractAddress = element.getAttribute('krd-collection-id');
+          console.log(nftContractAddress);
             try {
                 const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
                 const userAddress = accounts[0];
@@ -38,6 +41,7 @@ jQuery(document).ready(function($) {
                   ];
                   
                   const nftContract = new web3.eth.Contract(contractABI, nftContractAddress);
+                  console.log("nftContract: ", nftContract);
                   
                   nftContract.methods.balanceOf(userAddress).call((error, balance) => {
                     if (error) {
@@ -48,11 +52,11 @@ jQuery(document).ready(function($) {
                     if (balance > 0) {
                       // The user owns at least one NFT from the collection
                       console.log('User owns at least one NFT from the collection');
-                      $('#nft-owner-content').show();
+                      $('#krd-nft-access-' + nftContractAddress + ' #nft-owner-content').show();
                     } else {
                       // The user doesn't own any NFT from the collection
                       console.log('User does not own any NFT from the collection');
-                      $('#nft-error-message').show();
+                      $('#krd-nft-access-' + nftContractAddress + ' #nft-error-message').show();
                     }
                   });
             } catch (error) {
@@ -60,9 +64,36 @@ jQuery(document).ready(function($) {
             }
         }
 
-        checkNftOwnership();
+        async function checkMetaMaskConnection() {
+          try {
+              // Get the user's accounts
+              const accounts = await window.ethereum.request({ method: 'eth_accounts' });
+
+              // Check if any accounts are connected
+              if (accounts.length > 0) {
+                  console.log('MetaMask is connected. Account:', accounts[0]);
+                  document.querySelectorAll('.krd-collection-id').forEach(element => {
+                    //const nftContractAddress = element.getAttribute('krd-collection-id');                    
+                    //console.log(`Element's krd-collection-id value: ${nftContractAddress}`);
+                    //checkNftOwnership(`${nftContractAddress}`);
+                    checkNftOwnership(element);                    
+                  });
+              } else {
+                  console.log('MetaMask is installed but not connected.');
+                  $('.metamask-notconnected-message').show();
+                  await window.ethereum.request({ method: 'eth_requestAccounts' });
+              }
+          } catch (error) {
+              console.error('Error fetching accounts:', error);
+          }
+       }
+
+       // Call the function to check MetaMask connection
+       checkMetaMaskConnection();
+
     } else {
         // Display an error message if no Web3 provider is found
-        $('#nft-error-message').html('Please install MetaMask or another Web3 provider to view this content.').show();
+        console.log('MetaMask is not installed.');
+        $('.metamask-notinstalled-message').show();
     }
 });
