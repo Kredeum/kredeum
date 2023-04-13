@@ -70,7 +70,7 @@ const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
 const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
-  // GET Dapp Url
+// GET Dapp Url
 const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
@@ -295,12 +295,12 @@ const storageGatewayUrl = (link: string): string =>
 // ipfs or swarm ( uri | http uri )
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageLinkToUrlHttp = (link: string): string =>
-  link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
-    ? ipfsLinkToUrlHttp(link)
-    : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+const storageLinkToUrlHttp = (link: string): string => {
+  if (!link) return "";
+  if (link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)) return ipfsLinkToUrlHttp(link);
+  if (link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)) return swarmLinkToUrlHttp(link);
+  return link;
+};
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

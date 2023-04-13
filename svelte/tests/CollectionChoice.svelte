@@ -3,9 +3,9 @@
   import { metamaskInit } from "@helpers/metamask";
   import { metamaskChainId } from "@main/metamask";
 
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionSelect from "../Collection/CollectionSelect.svelte";
+  import AccountConnect from "../components/Account/AccountConnect.svelte";
+  import NetworkSelect from "../components/Network/NetworkSelect.svelte";
+  import CollectionSelect from "../components/Collection/CollectionSelect.svelte";
 
   /////////////////////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />

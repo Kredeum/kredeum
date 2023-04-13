@@ -2,7 +2,7 @@
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
 
   import type { NftType } from "lib/ktypes";
-  import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint, nftMint4 } from "lib/knft-mint";
+  import { nftIpfsMintTexts, nftMint1IpfsImage, nftMint2IpfsJson, nftMint, nftMinted } from "lib/knft-mint";
   import { textShort, ipfsGatewayUrl, explorerTxUrl, explorerNftUrl, nftUrl } from "lib/kconfig";
 
   import { metamaskSigner } from "main/metamask";
@@ -91,7 +91,7 @@
           if (mintingTxResp) {
             minting = 4;
 
-            mintedNft = await nftMint4(chainId, address, mintingTxResp, ipfsJson, account);
+            mintedNft = await nftMinted(chainId, address, mintingTxResp, ipfsJson, account);
             // console.log("mintedNft", mintedNft);
 
             if (mintedNft) {

@@ -15,6 +15,7 @@
   /////////////////////////////////////////////////
   export let signer: string = undefined;
   export let txt: boolean = undefined;
+  export let label: boolean = undefined;
 
   let _metamaskInstalled: boolean;
 
@@ -33,7 +34,7 @@
 </script>
 
 {#if signer}
-  <Account account={signer} {txt} />
+  <Account account={signer} {txt} {label}/>
 {:else if txt}
   {#if _metamaskInstalled}
     <a href="." on:click={_metamaskConnect}>{metamaskConnectMessage}</a>

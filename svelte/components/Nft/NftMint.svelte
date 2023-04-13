@@ -1,82 +1,92 @@
 <script lang="ts">
-  import type { JsonRpcSigner } from "@ethersproject/providers";
-
-  import type { NftType } from "@lib/common/types";
-  import { nftImageUri, nftTokenUri, nftMint, nftMint4 } from "@lib/nft/nft-mint";
+  import type { NftType, Properties } from "@lib/common/types";
+  import { nftImageUri, nftTokenUri, nftMint, nftMinted } from "@lib/nft/nft-mint";
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
+  import { nftStoreSet } from "@stores/nft/nft";
+
+  import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
 
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
-  // Mint one nft on collection chainId/address from src image with metadata
-  // tokenID, returned to caller
+  // Nft Minted by signer on chainId/address by signer from src image
+  // with name, description and whatever metadata (as json string)
+  // mining status return to caller
+  // nft minted returned to caller
   /////////////////////////////////////////////////
   export let src: string;
   export let chainId: number;
   export let address: string;
-  export let signer: JsonRpcSigner;
-  export let nft: NftType = undefined;
+  export let signer: string;
   export let name: string = undefined;
   export let description: string = undefined;
   export let metadata: string = undefined;
-  export let ref: string = "uniq";
+  export let audio: string = undefined;
+  export let properties: Properties = undefined;
+  /////////////////////////////////////////////////
+  export let minting: number = S0_START;
+
+  export let imageUri: string = undefined; // defined after STATE 1
+  export let tokenUri: string = undefined; // defined after STATE 2
+  export let audioUri: string = undefined; // defined after STATE 2
+  export let txHash: string = undefined; // defined after STATE 3
+  export let nft: NftType = undefined; // defined after STATE 4
   /////////////////////////////////////////////////
 
-  let imageUri: string;
-  let minting: number = 0;
+  const _mintingError = (err: string): void => {
+    console.error(err);
+    return null;
+  };
 
-  const nftMintTexts = [
-    "Mint",
-    "Wait till Image stored on decentralized storage",
-    "Wait till Metadata stored on decentralized storage",
-    "Please, sign the transaction",
-    "Wait till transaction completed, it may take one minute or more..."
-  ];
+  // MINTING STATES
+  //
+  //  STATE 0 Start
+  //    |
+  //  STATE 1 Store Image
+  //    |
+  //  STATE 2 Store Metadata
+  //    |
+  //  STATE 3
+  // Ask for signature
+  //    |
+  //  TEST TxResp --> ERROR sending TX
+  //    |
+  //  STATE 4 Display TX Hash
+  //    |
+  //  TEST TxReceipt --> ERROR inside TX
+  //    |
+  //  STATE 5 End TX & Set NFT in Store
+  //
 
-  const view = (e: Event): string => (location.href = getDappUrl(chainId, nft));
+  export const mint = async (): Promise<void> => {
+    if (!src) return _mintingError(`<NftMint ERROR : no image`);
 
-  const mint = async (e: Event): Promise<void> => {
-    const signerAddress = await signer.getAddress();
+    if (!(chainId && isAddressNotZero(address)))
+      _mintingError(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
 
-    if (!(chainId && isAddressNotZero(address) && src && isAddressNotZero(signerAddress))) {
-      console.error("<NftMint ERROR : no collection or image", chainId, address, src, signerAddress);
-      return null;
-    }
+    if (!isAddressNotZero(signer)) _mintingError(`<NftMint ERROR : no signer`);
 
-    minting = 1;
+    minting = S1_STORE_IMAGE;
 
     imageUri = await nftImageUri(src);
-    console.info("imageUri", imageUri);
+    if (audio) {
+      audioUri = await nftImageUri(audio);
+    }
 
-    minting = 2;
+    minting = S2_STORE_METADATA;
 
-    const tokenUri = await nftTokenUri(name, description, imageUri, signerAddress, src, metadata);
-    console.info("tokenUri", tokenUri);
+    tokenUri = await nftTokenUri(name, description, imageUri, signer, src, metadata, properties, audioUri);
 
-    minting = 3;
+    minting = S3_SIGN_TX;
 
     const mintingTxResp = await nftMint(chainId, address, tokenUri, signer);
-    explorerTxLog(chainId, mintingTxResp);
+    txHash = mintingTxResp?.hash;
 
-    minting = 4;
+    minting = S4_WAIT_TX;
 
-    nft = await nftMint4(chainId, address, mintingTxResp, tokenUri, signerAddress);
-    console.info("nft #${nft.tokenID}", nft);
+    nft = await nftMinted(chainId, address, mintingTxResp, tokenUri, signer);
 
-    minting = 5;
+    nftStoreSet(nft);
+
+    minting = S5_MINTED;
   };
 </script>
-
-<div id="mint-{ref}">
-  {#if minting === 0}
-    <button on:click={mint} class="btn btn-small btn-mint"> MINT NFT </button>
-  {:else if 1 <= minting && minting <= 4}
-    <button class="btn btn-small btn-minting">
-      MINTING {minting}/4...
-    </button>
-    <em>{nftMintTexts[minting]}</em>
-  {:else if minting === 5}
-    <button on:click={view} class="btn btn-small btn-view" title="View in Explorer"> VIEW NFT </button>
-  {:else}
-    <em>Error minting #{minting}</em>
-  {/if}
-</div>
