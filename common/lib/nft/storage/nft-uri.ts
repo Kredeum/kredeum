@@ -5,7 +5,7 @@ import { nftSwarmImageUri, nftSwarmTokenUri } from "./nft-swarm";
 import { nftIpfsImageUri, nftIpfsTokenUri } from "./nft-ipfs";
 
 // temporary
-const _storage = "ipfs";
+const _storage = "swarm";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
