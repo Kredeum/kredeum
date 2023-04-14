@@ -6,12 +6,24 @@ import { swarmUploadFile } from "@lib/common/beejs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Switch src to file
-const srcToFileType = async (src: string): Promise<File> => {
+const _srcToFileType = async (src: string): Promise<File> => {
   const blob = await fetch(src).then((r) => r.blob());
   const file = new File([blob], DEFAULT_NAME, { type: blob.type });
   console.log("file", file);
 
   return file;
+};
+
+///////////////////////////////////////////////////////////////////////////////////
+// Switch Data URI image to file
+const _dataURItoFile = async (imageB64: string) => {
+  const contentType: string = imageB64.split(";")[0].split(":")[1];
+  const response = await fetch(imageB64);
+  const arrayBuffer = await response.arrayBuffer();
+  const byteArray = new Uint8Array(arrayBuffer);
+  const blob = new Blob([byteArray], { type: contentType });
+
+  return new File([blob], DEFAULT_NAME, { type: contentType });
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -21,8 +33,13 @@ const srcToFileType = async (src: string): Promise<File> => {
 // key : Swarm batchID (batch of stamps)
 const nftSwarmImageUri = async (image: string | File, key = ""): Promise<string> => {
   let file: string | File = image;
-  if (typeof image === "string" && image.startsWith("http")) {
-    file = await srcToFileType(image);
+
+  if (typeof image === "string") {
+    if (image.startsWith("http")) {
+      file = await _srcToFileType(image);
+    } else if (image.startsWith("data:")) {
+      file = await _dataURItoFile(image);
+    }
   } else if (image instanceof File) {
     file = image;
   }
