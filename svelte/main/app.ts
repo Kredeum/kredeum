@@ -44,7 +44,7 @@ const _props = (target: HTMLElement): Props => {
 type OpenSkyPropsType = { chainId: number; address: string; tokenID: string };
 {
   // Kredeum OpenSky (Multiple NFTs)
-  const target: HTMLElement = document.querySelector("#kredeum-opensky");
+  const target: HTMLElement = document.querySelector("#kredeum-opensky, #kredeum-automarket");
   if (target) {
     const props = _props(target) as OpenSkyPropsType;
     new OpenSky({ target, props });
