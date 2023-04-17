@@ -5,7 +5,7 @@
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
  *  IPFS 2 columns filter

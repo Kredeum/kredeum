@@ -5,7 +5,7 @@
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
  * IPFS bulk archive action
@@ -13,7 +13,7 @@ namespace KredeumNFTs\Ipfs;
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$bulk_actions['archive'] = __( 'Archive to IPFS', 'kredeum-nfts' );
+		$bulk_actions['archive'] = __( 'Archive to Decentralized storage', 'kredeum-nfts' );
 		return $bulk_actions;
 	}
 );
