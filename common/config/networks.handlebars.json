@@ -333,6 +333,26 @@
     "nftsFactoryV3": "0x06bc799f4662459E0927b4eF79981eC300095793"
   },
   {
+    "chainId": 41,
+    "chainName": "telostestnet",
+    "rpcUrls": [
+      "https://testnet.telos.net/evm"
+    ],
+    "nativeCurrency": {
+      "name": "TELOS",
+      "symbol": "TLOS",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.teloscan.io/"
+    ],
+    "eip1559": false,
+    "create": true,
+    "testnet": true,
+    "nftsFactoryV3": "0x715D41B9aBfA225874F8A065192eda47af130304",
+    "openNFTs": "0xa99bDe465f40D9Af9980eED89Ed2940137be1a50"
+  },
+  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
@@ -397,15 +417,15 @@
     "hardhatOptions": {
       "live": true
     },
-    "openNFTs": "0x4cB8BC23b85D9794EdA90A00B59651a05cff4035",
+    "openNFTs": "0x400C702cb811ECDabe1dff41BDd82B0C3a84bF9f",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "nftsResolver": "0xee6E3d63f29bd82abb2B8E4704105Fb3420fDfc5",
+    "nftsResolver": "0x7FE6fA7ddE3A942E69ff9E3fab7a3df5aCff6b0B",
     "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a",
-    "nftsFactoryV3": "0xefD7421b14FDE39aDB5Ba9968f29557d942C42c4"
+    "nftsFactoryV3": "0x3819eBFb133F0bee8B5c4645BD2656Ed2838fA0C"
   },
   {
     "chainId": 4002,
