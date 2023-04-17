@@ -4,13 +4,28 @@ import { DEFAULT_NAME } from "@lib/common/config";
 import { nftSwarmImageUri, nftSwarmTokenUri } from "./nft-swarm";
 import { nftIpfsImageUri, nftIpfsTokenUri } from "./nft-ipfs";
 
-// temporary
-const _storage = "swarm";
+const _nftStorageGet = (): string => {
+  let storage = "";
+
+  if (typeof localStorage !== "undefined") {
+    storage = localStorage.getItem("storage") || "";
+  }
+
+  return storage || "ipfs";
+};
+
+const _nftStorageSet = (storage: string): void => {
+  if (typeof localStorage !== "undefined") {
+    localStorage.setItem("storage", storage);
+  }
+};
+
+_nftStorageSet("swarm");
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
 const nftImageUri = async (image: string, key = ""): Promise<string> => {
-  const nftImageUriFunc = _storage == "ipfs" ? nftIpfsImageUri : nftSwarmImageUri;
+  const nftImageUriFunc = _nftStorageGet() == "ipfs" ? nftIpfsImageUri : nftSwarmImageUri;
   return nftImageUriFunc(image, key);
 };
 
@@ -25,7 +40,7 @@ const nftTokenUri = async (
   properties: Properties = {},
   animation_url = ""
 ): Promise<string> => {
-  const nftTokenUriFunc = _storage == "ipfs" ? nftIpfsTokenUri : nftSwarmTokenUri;
+  const nftTokenUriFunc = _nftStorageGet() == "ipfs" ? nftIpfsTokenUri : nftSwarmTokenUri;
   return nftTokenUriFunc(name, nftDescription, imageUri, address, image, metadata, properties, animation_url);
 };
 
