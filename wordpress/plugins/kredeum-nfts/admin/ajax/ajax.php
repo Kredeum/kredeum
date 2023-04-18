@@ -28,12 +28,12 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-token', 'security' );
 
-		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) && isset( $_POST['cid'] ) ) {
+		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) && isset( $_POST['uri'] ) ) {
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			$cid = sanitize_text_field( wp_unslash( $_POST['cid'] ) );
+			$uri = sanitize_text_field( wp_unslash( $_POST['uri'] ) );
 			update_post_meta( $pid, '_kre_nid', $nid );
-			update_post_meta( $pid, '_kre_cid', $cid );
+			update_post_meta( $pid, '_kre_uri', $uri );
 
 		};
 

@@ -36,7 +36,7 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/import.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/multipart.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/multipart.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/nft-storage.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/swarm/swarm-bee.php';
 
@@ -58,7 +58,7 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function ( $hook ) {
-			if ( 'nfts_page_ipfs_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
+			if ( 'nfts_page_storage_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
 				wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_css' );
@@ -82,7 +82,7 @@ define( 'SWARM_GATEWAY', 'https://api.gateway.ethswarm.org/bzz/' );
 define( 'SWARM_NODE_URL', get_option( 'SWARM_NODE_URL', '' ) ? get_option( 'SWARM_NODE_URL', '' ) : SWARM_SERVER );
 define( 'SWARM_BATCH_ID', get_option( 'SWARM_BATCH_ID', '' ) ? get_option( 'SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/cid.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/uri.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/link.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/links.php';
 

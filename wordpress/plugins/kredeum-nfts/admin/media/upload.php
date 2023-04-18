@@ -1,6 +1,6 @@
 <?php
 /**
- * IPFS auto upload
+ * Decentralized Storage auto upload
  *
  * @package kredeum/nfts
  */
@@ -8,8 +8,8 @@
 namespace KredeumNFTs\Storage;
 
 /**
- * IPFS new action
- * archive IPFS on media upload
+ * Decentralized Storage new action
+ * archive Decentralized Storage on media upload
  */
 if ( STORAGE_AUTO ) {
 	add_action(

@@ -21,7 +21,7 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = 'ipfs_settings';
+	private $slug = 'storage_settings';
 
 	/**
 	 * Constructor
@@ -82,7 +82,7 @@ class Settings {
 			case 'first_section':
 				echo wp_kses(
 					'<p>' .
-					__( 'Setup here your IPFS options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
+					__( 'Setup here your Decentralized Storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
 					'</p><p>' .
 					__( 'For any help read the', 'kredeum-nfts' ) .
 					' <a href="https://docs.kredeum.tech/user-guide" target="_blank" rel="noreferrer" >' .

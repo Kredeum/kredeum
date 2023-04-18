@@ -1,7 +1,7 @@
 === Kredeum NFTs, the easiest way to sell your NFTs directly on your WordPress site ===
 Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
-Tags: nft, blockchain, ethereum, polygon, ipfs
+Tags: nft, blockchain, ethereum, polygon, ipfs, Swarm
 Requires at least: 5.0
 Tested up to: 6.2
 Stable tag: {{version.stable}}
@@ -14,7 +14,7 @@ Sell your NFTs directly on your WordPress site in an easy and fast way.
 == Description ==
 
 The Wordpress Kredeum NTFs plugin allows you to:
-* Store all your medias in IPFS (decentralized storage technology) for free, protecting your medias to be lost in case of any hosting server issues.
+* Store all your medias in IPFS or Swarm (decentralized storage technology) for free, protecting your medias to be lost in case of any hosting server issues.
 * Create your own NFT collections (Basic = OpenNFTs, Royalties = AutoMarket)
 * Create your own NFTs
 * Associate your collections / NFTs to one of these blockchains: mainnet Ethereum, Matic / Polygon, Arbitrum, Optimism, xDAI, BSC / Binance Smart Chain, Fantom or Avalanche networks

@@ -1,11 +1,11 @@
 <?php
 /**
- *  Add IPFS content at bottom of post
+ *  Add Decentralized Storage content at bottom of post
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 add_filter(
 	'the_content',

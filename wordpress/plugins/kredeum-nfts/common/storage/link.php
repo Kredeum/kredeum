@@ -1,6 +1,6 @@
 <?php
 /**
- * Public IPFS LINK function
+ * Public Decentralized Storage LINK function
  *
  * @package kredeum/nfts
  */
@@ -8,28 +8,28 @@
 namespace KredeumNFTs\Storage;
 
 /**
- * Return IPFS url
+ * Return Decentralized Storage url
  *
- * @param string $cid file CID.
- * @return string cid with path
+ * @param string $uri file URI.
+ * @return string uri with path
  */
-function url( $cid ) {
-	return $cid ? IPFS_GATEWAY . $cid : '';
+function url( $uri ) {
+	return $uri ? IPFS_GATEWAY . $uri : '';
 }
 
 /**
- * Return IPFS link
+ * Return Decentralized Storage link
  *
- * @param string $cid : file CID.
+ * @param string $uri : file URI.
  * @param string $text : text for the link.
- * @return string html link to CID with text
+ * @return string html link to URI with text
  */
-function link( $cid, $text = '' ) {
+function link( $uri, $text = '' ) {
 	if ( ! $text ) {
-		$text = $cid;
+		$text = $uri;
 	}
-	$url = esc_url( url( $cid ) );
+	$url = esc_url( url( $uri ) );
 	$txt = esc_html( $text );
 
-	return $cid ? "<a href='$url'>$txt</a>" : '';
+	return $uri ? "<a href='$url'>$txt</a>" : '';
 }

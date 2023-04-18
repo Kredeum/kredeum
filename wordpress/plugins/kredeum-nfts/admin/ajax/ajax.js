@@ -26,7 +26,7 @@ jQuery(document).ready(function () {
       action: "token",
       nid: e.detail.nid,
       pid: e.detail.pid,
-      cid: e.detail.cid,
+      uri: e.detail.uri,
     });
   });
 

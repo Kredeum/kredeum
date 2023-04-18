@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall IPFS
+ * Uninstall Kredeum NFTs
  *
  * @package kredeum/nfts
  */

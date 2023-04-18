@@ -13,7 +13,7 @@ namespace KredeumNFTs\Storage;
  *
  * @param string $attachment_id Id attachment file.
  *
- * @return string CID hash
+ * @return string URI hash
  */
 function swarm_add_and_pin( $attachment_id ) {
 	if ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) ) {
