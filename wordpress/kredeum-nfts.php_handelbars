@@ -73,10 +73,12 @@ if ( is_admin() ) {
 }
 
 // IPFS.
+define( 'IPFS_URI', 'ipfs://' );
 define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
 define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
 
 // SWARM.
+define( 'SWARM_URI', 'swarm://' );
 define( 'SWARM_SERVER', 'https://api.gateway.ethswarm.org' );
 define( 'SWARM_GATEWAY', 'https://api.gateway.ethswarm.org/bzz/' );
 define( 'SWARM_NODE_URL', get_option( 'SWARM_NODE_URL', '' ) ? get_option( 'SWARM_NODE_URL', '' ) : SWARM_SERVER );

@@ -14,7 +14,16 @@ namespace KredeumNFTs\Storage;
  * @return string uri with path
  */
 function url( $uri ) {
-	return $uri ? IPFS_GATEWAY . $uri : '';
+	$url = '';
+	if ($uri) {
+		if (strpos($uri, IPFS_URI) === 0) {
+			$url = IPFS_GATEWAY . str_replace(IPFS_URI, '', $uri);
+		} elseif (strpos($uri, SWARM_URI) === 0) {
+			$url = SWARM_GATEWAY . str_replace(SWARM_URI, '', $uri);
+		}
+	}
+	
+	return $url;
 }
 
 /**
