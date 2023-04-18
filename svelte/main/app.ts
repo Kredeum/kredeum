@@ -1,6 +1,5 @@
 import CollectionChoice from "../tests/CollectionChoice.svelte";
-// import MintButton from "../components/Main/MintButtonWp.svelte";
-import MintButton from "../components/Main/MintPopup.svelte";
+import MintButtonWp from "../components/Main/MintButtonWp.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 import OpenSky from "../components/Main/OpenSky.svelte";
 
@@ -53,21 +52,19 @@ type OpenSkyPropsType = { chainId: number; address: string; tokenID: string };
   }
 }
 
-type MintButtonPropsType = {
+type MintButtonWpPropsType = {
   src: string;
   metadata?: string;
   alt?: string;
   pid?: string;
   nid?: string;
-  width?: number;
-  display?: boolean;
 };
 {
   // Kredeum Mint Button
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-mint-button");
   targets?.forEach((target) => {
-    const props = _props(target) as MintButtonPropsType;
-    new MintButton({ target, props });
+    const props = _props(target) as MintButtonWpPropsType;
+    new MintButtonWp({ target, props });
   });
 }
 

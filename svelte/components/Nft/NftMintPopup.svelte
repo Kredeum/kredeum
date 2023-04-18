@@ -62,7 +62,14 @@
   ////////////////////////////////////////////////////////////////
   export let chainId: number = undefined;
   export let signer: string = undefined;
+  export let nft: NftType = undefined;
+  export let toggle: () => boolean = undefined;
+  export let src: string = undefined;
+  export let name: string = undefined;
+  export let description: string = undefined;
+  export let metadata: string = undefined;
   ////////////////////////////////////////////////////////////////
+
   let account: string;
 
   let refreshAll: Writable<number> = getContext("refreshAll");
@@ -71,13 +78,9 @@
 
   let files: FileList;
   let file: File;
-  let src: string;
 
   let audioFile: File;
   let audio: string;
-
-  let name: string = "";
-  let description: string = "";
 
   let defaultAudioCoverImg = "./assets/images/Cover.png";
 
@@ -96,7 +99,6 @@
   let tokenUri: string;
   let audioUri: string;
   let txHash: string;
-  let nft: NftType;
   /////////////////////////////////////////////////
 
   let inputPrice: BigNumber;
@@ -183,7 +185,6 @@
   const resetFileImg = () => {
     files = null;
     file = null;
-    src = "";
   };
 
   const resetFileAudio = () => {
@@ -199,6 +200,7 @@
 
   onMount(async () => {
     account = signer;
+    console.log("<NftMintPopup onmount src", src);
   });
 </script>
 
@@ -223,7 +225,7 @@
 <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
   <div id="kredeum-create-nft">
     <div class="mint-modal-content">
-      <a href="./#" title="Close" class="modal-close"><i class="fa fa-times" /></a>
+      <span on:click={toggle} on:keydown={toggle} title="Close" class="btn modal-close"><i class="fa fa-times" /></span>
 
       <div class="mint-modal-body">
         <div class="titre">
@@ -390,7 +392,7 @@
           <NftProperties bind:properties />
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" on:click={mint}>Mint NFT</button>
+            <button class="btn btn-default btn-sell" on:click|preventDefault={mint}>Mint NFT</button>
           </div>
         {:else if S0_START < minting && minting <= S5_MINTED}
           <div class="media media-photo">

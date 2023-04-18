@@ -30,22 +30,6 @@ jQuery(document).ready(function () {
     });
   });
 
-  // const targets = document.querySelectorAll(".kredeum-nft-mint-button");
-  // console.log("targets", targets)
-
-  // targets?.forEach(function (kredeumNftsMint) {
-  //   if (kredeumNftsMint.$on) {
-  //     kredeumNftsMint.$on("token", function (e) {
-  //       console.log("token ! ", e.detail);
-  //       _ajax({
-  //         action: "token",
-  //         nid: e.detail.nid,
-  //         pid: kredeumNftsMint.pid
-  //       });
-  //     });
-  //   }
-  // });
-
   const kredeumNfts = document.querySelector("#kredeum-dapp");
   if (kredeumNfts?.$on) {
     // ACTION CREATE_COLLECTION

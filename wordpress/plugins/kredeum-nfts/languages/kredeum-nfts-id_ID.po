@@ -56,8 +56,8 @@ msgid "https://www.kredeum.com"
 msgstr "https://www.kredeum.com"
 
 #: admin/media-list/column.php:17
-msgid "IPFS Archive"
-msgstr ""
+msgid "Archive"
+msgstr "Archive"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"

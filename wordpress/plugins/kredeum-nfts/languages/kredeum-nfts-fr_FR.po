@@ -85,15 +85,15 @@ msgstr ""
 msgid "https://docs.kredeum.tech"
 msgstr "https://docs.kredeum.tech"
 
-# 
-# 
+#
+#
 #. Author URI of the plugin
 msgid "https://www.kredeum.com"
 msgstr "https://www.kredeum.com"
 
 #: admin/media-list/column.php:17
-msgid "IPFS Archive"
-msgstr "Archive IPFS"
+msgid "Archive"
+msgstr "Archive"
 
 #. Author of the plugin
 msgid "Kredeum <alain@kredeum.com>"

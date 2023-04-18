@@ -16,7 +16,7 @@
   /////////////////////////////////////////////////////////////////
 
   let popupOpen = false;
-  const popupToggle = () => (popupOpen = !popupOpen);
+  const popupToggle = (): boolean => (popupOpen = !popupOpen);
 </script>
 
 <div class="media-zoom">

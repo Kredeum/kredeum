@@ -1,82 +1,98 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
   import { onMount } from "svelte";
   import { metamaskInit } from "@helpers/metamask";
 
-  import type { NftType } from "@lib/common/types";
-  import { ipfsLinkToCid } from "@lib/common/config";
+  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import NftMintPopup from "../Nft/NftMintPopup.svelte";
+  import { getDappUrl, ipfsLinkToCid } from "@lib/common/config";
+  import { NftType } from "@lib/common/types";
 
-  import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@main/metamask";
-
-  import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionSelect from "../Collection/CollectionSelect.svelte";
-
-  import NftMintButton from "../Nft/NftMintButton.svelte";
-
-  /////////////////////////////////////////////////
-  // <MintButton {src} {metadata} {alt} {pid} {width} {display} />
-  // Mint Button
-  /////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+  // <MintButtonWp  />
+  // Main Mint popup
+  ////////////////////////////////////////////////////////////////
   export let src: string;
   export let metadata: string = undefined;
   export let alt: string = undefined;
   export let pid: string = undefined;
   export let nid: string = undefined;
-  export let width = 100;
-  export let display = false;
-  export let txt = true;
   /////////////////////////////////////////////////
 
+  let open = false;
+  const toggle = (): boolean => (open = !open);
   let nft: NftType = undefined;
-  let address: string;
   let refThis: HTMLElement;
-  let chainId: number;
-  let signer: string;
 
-  // ON network or account change
-  $: $metamaskChainId && $metamaskSigner && handleChange().catch(console.error);
-  const handleChange = async () => {
-    chainId = $metamaskChainId;
-    signer = $metamaskSignerAddress;
-    // console.log("handleChange ~ address", $address);
-  };
+  $: chainId = $metamaskChainId;
+  $: signer = $metamaskSignerAddress;
 
   $: nft && handleNft();
-  const handleNft = () => {
-    console.log("handleNft", handleNft);
-    // Dispacth "token" event to be catched in wordpress/plugins/kredeum-nfts/admin/ajax/ajax.js
-    const detail = { nid: nft.nid, pid: pid, cid: ipfsLinkToCid(nft.ipfs) };
+  const handleNft = (): void => {
+    // Dispacth "token" event to be catched
+    // in wordpress/plugins/kredeum-nfts/admin/ajax/ajax.js
+    nid = nft.nid;
+    const detail = { nid, pid };
     const event = new CustomEvent("token", { detail, bubbles: true });
 
-    console.log("handleNft ~ detail:", detail);
+    console.log("handleNft dispatchEvent", detail);
     refThis.dispatchEvent(event);
   };
 
   const view = (evt: Event): void => {
-    evt.preventDefault();
     location.href = `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
   };
 
-  let mint = () => Promise<void>;
-  const _mint = async (evt: Event): Promise<void> => {
-    evt.preventDefault();
-    await mint();
-  };
-
-  onMount(async () => await metamaskInit());
+  onMount(async () => {
+    await metamaskInit();
+  });
 </script>
 
-<main id="kredeum-mint" bind:this={refThis}>
-  {#if display && src}
-    <img {src} {alt} {width} /><br />
-  {/if}
+<div bind:this={refThis}>
+  <div class="kredeum-button">
+    {#if nid}
+      <button on:click|preventDefault={view} class="btn btn-small btn-view"> VIEW NFT </button>
+    {:else}
+      <button on:click|preventDefault={toggle} class="btn btn-small btn-mint"> MINT NFT </button>
+    {/if}
+  </div>
 
-  {#if src && chainId && address && signer}
-    <NftMintButton {src} {chainId} {address} {signer} {metadata} bind:nft bind:mint />
-  {:else}
-    <p><AccountConnect {txt} label={false} /></p>
-    <p><NetworkSelect {txt} label={false} bind:chainId /></p>
-    <p><CollectionSelect {txt} label={false} mintable={true} {chainId} bind:address account={signer} /></p>
+  {#if open}
+    <NftMintPopup {chainId} {signer} {src} name={alt} description={alt} {metadata} {toggle} bind:nft />
   {/if}
-</main>
+</div>
+
+<style>
+  .kredeum-button {
+    padding: 20px;
+  }
+  button.btn {
+    color: white;
+    background-color: #2a81de;
+    border: 0px;
+    margin: 10px;
+    padding: 8px 15px;
+    border-radius: 360px;
+    border: none;
+    width: fit-content;
+    transition: all 300ms ease-in-out;
+    display: inline-block;
+    vertical-align: middle;
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 12px;
+    cursor: pointer;
+  }
+  button.btn-mint {
+    background-color: #2a81de;
+  }
+  button.btn-mint:hover {
+    background-color: black;
+    cursor: pointer;
+  }
+  button.btn-view {
+    background-color: #3acf6e;
+  }
+  button.btn-view:hover {
+    background-color: #2aac57;
+  }
+</style>

@@ -44,7 +44,7 @@
   onMount(async () => await metamaskInit());
 </script>
 
-<main id="kredeum-mint">
+<div class="kredeum-mint">
   {#if src && chainId && address && signer}
     <NftMint
       {src}
@@ -74,10 +74,10 @@
       <em>Error minting #{minting}</em>
     {/if}
   {/if}
-</main>
+</div>
 
 <style>
-  main {
+  .kredeum-mint {
     padding: 20px;
   }
 
