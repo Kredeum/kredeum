@@ -13,7 +13,7 @@ namespace KredeumNFTs\Settings;
 function fields() {
 	$fields = array(
 		array(
-			'uid'     => 'select_collection',
+			'uid'     => '_kre_select_collection',
 			'label'   => 'Connect Metamask and select Network and Collection to Mint',
 			'section' => 'first_section',
 			'type'    => 'kcollections',
@@ -21,7 +21,7 @@ function fields() {
 		),
 
 		array(
-			'uid'     => 'storage_auto',
+			'uid'     => '_kre_storage_auto',
 			'label'   => 'STORAGE_AUTO',
 			'default' => '1',
 			'section' => 'first_section',
@@ -31,7 +31,7 @@ function fields() {
 		),
 
 		array(
-			'uid'     => 'storage_choice',
+			'uid'     => '_kre_storage_choice',
 			'label'   => 'STORAGE_CHOICE',
 			'default' => '1',
 			'section' => 'first_section',
@@ -47,7 +47,7 @@ function fields() {
 				array_push(
 					$fields, 
 					array(
-						'uid'         => 'nft_storage_key',
+						'uid'         => '_kre_nft_storage_key',
 						'label'       => 'NFT_STORAGE_KEY',
 						'section'     => 'first_section',
 						'type'        => 'textarea',
@@ -61,7 +61,7 @@ function fields() {
 				array_push(
 					$fields, 
 					array(
-						'uid'         => 'swarm_node_url',
+						'uid'         => '_kre_swarm_node_url',
 						'label'       => 'SWARM_NODE_URL',
 						'section'     => 'first_section',
 						'type'        => 'text',
@@ -70,7 +70,7 @@ function fields() {
 						'helper'      => __( 'Enter your own Swarm Bee node Url (ex: http://localhost:1633), or leave blank to use Swarm free(limited) Gateway', 'kredeum-nfts' ),
 					),
 					array(
-						'uid'         => 'swarm_batch_id',
+						'uid'         => '_kre_swarm_batch_id',
 						'label'       => 'SWARM_BATCH_ID',
 						'section'     => 'first_section',
 						'type'        => 'text',

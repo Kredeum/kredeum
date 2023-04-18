@@ -18,8 +18,9 @@ $wpdb->query( $wpdb->prepare( 'DELETE FROM %1s WHERE meta_key LIKE %s', _get_met
 /**
  * Clear settings
  */
-delete_option( 'storage_auto' );
-delete_option( 'storage_choice' );
-delete_option( 'kredeum_beta' );
-delete_option( 'nft_storage_key' );
-delete_option( 'select_collection' );
+delete_option( '_kre_storage_auto' );
+delete_option( '_kre_storage_choice' );
+delete_option( '_kre_select_collection' );
+delete_option( '_kre_nft_storage_key' );
+delete_option( '_kre_swarm_node_url' );
+delete_option( '_kre_swarm_batch_id' );

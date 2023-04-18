@@ -25,8 +25,8 @@ define( 'KREDEUM_NFTS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 if ( is_admin() ) {
 	define( 'IPFS_CID_VERSION', '1' );
-	define( 'STORAGE_AUTO', get_option( 'STORAGE_AUTO', array( '' ) )[0] );
-	define( 'STORAGE_CHOICE', get_option( 'STORAGE_CHOICE', array( '' ) )[0] );
+	define( 'STORAGE_AUTO', get_option( '_KRE_STORAGE_AUTO', array( '' ) )[0] );
+	define( 'STORAGE_CHOICE', get_option( '_KRE_STORAGE_CHOICE', array( '' ) )[0] );
 	define( 'IPFS_API', get_option( 'IPFS_API', array( '' ) )[0] );
 	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
 	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
@@ -75,14 +75,14 @@ if ( is_admin() ) {
 // IPFS.
 define( 'IPFS_URI', 'ipfs://' );
 define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
-define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
+define( 'NFT_STORAGE_KEY', get_option( '_KRE_NFT_STORAGE_KEY', '' ) ? get_option( '_KRE_NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
 
 // SWARM.
 define( 'SWARM_URI', 'swarm://' );
 define( 'SWARM_SERVER', 'https://api.gateway.ethswarm.org' );
 define( 'SWARM_GATEWAY', 'https://api.gateway.ethswarm.org/bzz/' );
-define( 'SWARM_NODE_URL', get_option( 'SWARM_NODE_URL', '' ) ? get_option( 'SWARM_NODE_URL', '' ) : SWARM_SERVER );
-define( 'SWARM_BATCH_ID', get_option( 'SWARM_BATCH_ID', '' ) ? get_option( 'SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
+define( 'SWARM_NODE_URL', get_option( '_KRE_SWARM_NODE_URL', '' ) ? get_option( '_KRE_SWARM_NODE_URL', '' ) : SWARM_SERVER );
+define( 'SWARM_BATCH_ID', get_option( '_KRE_SWARM_BATCH_ID', '' ) ? get_option( '_KRE_SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/uri.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/link.php';
