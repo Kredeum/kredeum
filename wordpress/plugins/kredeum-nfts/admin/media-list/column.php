@@ -13,7 +13,7 @@ namespace KredeumNFTs\Storage;
 add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
-		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
+		$columns['kre-nft'] = __( 'Kredeum NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
 		$columns['kre-cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
 		return $columns;
 	}

@@ -38,6 +38,7 @@ function insert( $post_id ) {
 				}
 				break;
 			case "SWARM":
+				//TODO if defined
 				$cid = swarm_add_and_pin( $post_id );
 				break;
 		}
