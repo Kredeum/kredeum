@@ -424,7 +424,7 @@ const uriShort = (uri: string) => {
 
 const uriToUrl = (uri: string) => {
   const [storage, hash] = uri.split("://");
-  if (!(storage && hash && hash.length > 20)) return uri;
+  if (!(storage && hash)) return uri;
 
   const configStorage = config.storage[storage as "swarm" | "ipfs"];
   if (!configStorage.gateway) return uri;

@@ -16,7 +16,7 @@ add_action(
 	function () {
 		add_meta_box(
 			'storage_link_box',
-			'DEC STORAGE',
+			'STORAGE',
 			function ( $post ) {
 				$uri = $post->_kre_uri;
 				if ( $uri ) {
