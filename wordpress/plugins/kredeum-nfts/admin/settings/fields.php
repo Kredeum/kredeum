@@ -36,16 +36,19 @@ function fields() {
 			'default' => '1',
 			'section' => 'first_section',
 			'type'    => 'select',
-			'options' => array( 'IPFS' => __( 'IPFS', 'kredeum-nfts' ), 'SWARM' => __( 'Swarm', 'kredeum-nfts' ) ),
+			'options' => array(
+				'IPFS'  => __( 'IPFS', 'kredeum-nfts' ),
+				'SWARM' => __( 'Swarm', 'kredeum-nfts' ),
+			),
 			'helper'  => __( 'Choose on witch decentralized storage you want to upload your files', 'kredeum-nfts' ),
 		),
 	);
-	
-	if (defined('STORAGE_CHOICE')) {
-		switch (STORAGE_CHOICE) {
-			case "IPFS":
+
+	if ( defined( 'STORAGE_CHOICE' ) ) {
+		switch ( STORAGE_CHOICE ) {
+			case 'IPFS':
 				array_push(
-					$fields, 
+					$fields,
 					array(
 						'uid'         => '_kre_nft_storage_key',
 						'label'       => 'NFT_STORAGE_KEY',
@@ -57,9 +60,9 @@ function fields() {
 					),
 				);
 				break;
-			case "SWARM":
+			case 'SWARM':
 				array_push(
-					$fields, 
+					$fields,
 					array(
 						'uid'         => '_kre_swarm_node_url',
 						'label'       => 'SWARM_NODE_URL',
@@ -82,6 +85,6 @@ function fields() {
 				break;
 		}
 	}
-	
+
 	 return $fields;
 }

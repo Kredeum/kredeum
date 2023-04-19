@@ -29,7 +29,7 @@ add_action(
 
 		if ( 'kre-uri' === $name ) {
 			if ( $post->_kre_uri ) {
-				echo wp_kses( link( $post->_kre_uri, shortUri( $post->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
+				echo wp_kses( link( $post->_kre_uri, short_uri( $post->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 

@@ -15,14 +15,14 @@ namespace KredeumNFTs\Storage;
  */
 function url( $uri ) {
 	$url = '';
-	if ($uri) {
-		if (strpos($uri, IPFS_URI) === 0) {
-			$url = IPFS_GATEWAY . str_replace(IPFS_URI, '', $uri);
-		} elseif (strpos($uri, SWARM_URI) === 0) {
-			$url = SWARM_GATEWAY . str_replace(SWARM_URI, '', $uri);
+	if ( $uri ) {
+		if ( strpos( $uri, IPFS_URI ) === 0 ) {
+			$url = IPFS_GATEWAY . str_replace( IPFS_URI, '', $uri );
+		} elseif ( strpos( $uri, SWARM_URI ) === 0 ) {
+			$url = SWARM_GATEWAY . str_replace( SWARM_URI, '', $uri );
 		}
 	}
-	
+
 	return $url;
 }
 
@@ -32,14 +32,14 @@ function url( $uri ) {
  * @param string $uri file URI.
  * @return string uri short
  */
-function shortUri(string $uri) {
-    $regEx = '/('. STORAGE_CHOICES .'):\/\/(.{8}).*(.{8})/';
-    if (preg_match($regEx, $uri, $matches)) {
-        $begin = $matches[1] . '://' . $matches[2];
-        $end = $matches[3];
-        return $begin . '...' . $end;
-    }
-    return $uri;
+function short_uri( string $uri ) {
+	$reg_ex = '/(' . STORAGE_CHOICES . '):\/\/(.{8}).*(.{8})/';
+	if ( preg_match( $reg_ex, $uri, $matches ) ) {
+		$begin = $matches[1] . '://' . $matches[2];
+		$end   = $matches[3];
+		return $begin . '...' . $end;
+	}
+	return $uri;
 }
 
 /**
