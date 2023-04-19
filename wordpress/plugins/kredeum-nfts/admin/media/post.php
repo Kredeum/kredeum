@@ -15,8 +15,8 @@ add_action(
 	'add_meta_boxes_attachment',
 	function () {
 		add_meta_box(
-			'ipfs_link_box',
-			'IPFS',
+			'storage_link_box',
+			'DEC STORAGE',
 			function ( $post ) {
 				$uri = $post->_kre_uri;
 				if ( $uri ) {
