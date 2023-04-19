@@ -8,42 +8,16 @@
     "importsNotUsedAsValues": "remove",
     "baseUrl": "..",
     "paths": {
-      "@stores/*": [
-        "svelte/stores/*"
-      ],
-      "@helpers/*": [
-        "svelte/helpers/*"
-      ],
-      "@main/*": [
-        "svelte/main/*"
-      ],
-      "@lib/*": [
-        "common/lib/*"
-      ],
-      "@config/*": [
-        "common/config/*"
-      ],
-      "@soltypes/*": [
-        "common/types/*"
-      ],
-      "@abis/*": [
-        "common/abis/*"
-      ],
-      "@utils/*": [
-        "common/utils/*"
-      ],
-      "tslib": [
-        "svelte/node_modules/tslib/tslib.d.ts"
-      ]
+      "@stores/*": ["svelte/stores/*"],
+      "@helpers/*": ["svelte/helpers/*"],
+      "@lib/*": ["common/lib/*"],
+      "@config/*": ["common/config/*"],
+      "@soltypes/*": ["common/types/*"],
+      "@abis/*": ["common/abis/*"],
+      "@utils/*": ["common/utils/*"],
+      "tslib": ["svelte/node_modules/tslib/tslib.d.ts"]
     }
   },
-  "include": [
-    "**/*.ts",
-    "**/*.svelte",
-    "../common/lib/**/*.ts"
-  ],
-  "exclude": [
-    "tests/**",
-    "node_modules"
-  ]
+  "include": ["**/*.ts", "**/*.svelte", "../common/lib/**/*.ts"],
+  "exclude": ["tests/**", "node_modules"]
 }

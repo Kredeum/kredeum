@@ -1,6 +1,6 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import Nft from "../Nft/Nft.svelte";
+  import Nft from "../components/Nft/Nft.svelte";
   import { nftSubListStoreAndRefresh } from "@stores/nft/nftSubList";
 
   import { providerSetFallback } from "@lib/common/provider-get";

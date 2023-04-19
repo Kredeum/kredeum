@@ -7,6 +7,16 @@
 
 namespace KredeumNFTs\Shortcode;
 
+/**
+ * Add Shortcode Callback
+ *
+ * @param array  $atts    Shortcode attributes.
+ * @param string $content Shortcode content. Default null.
+ * @param string $tag     Shortcode tag (name). Default empty.
+ * @return string Shortcode output.
+ *
+ * @package kredeum/nfts
+ */
 function add_shortcode_callback( $atts = array(), $content = null, $tag = '' ) {
 	// Normalize attribute keys, lowercase.
 	$atts = array_change_key_case( (array) $atts, CASE_LOWER );

@@ -8,11 +8,11 @@
     textShort,
     storageLinkToUrlHttp
   } from "@lib/common/config";
-  import { nftMint, nftClaim4 } from "@lib/nft/nft-mint";
+  import { nftMint, nftClaimed } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
   import { nftStore } from "@stores/nft/nft";
-  import { metamaskSigner, metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
 
@@ -56,10 +56,10 @@
           if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
           else {
             // console.log("cidToInt(cid)", cidToInt(cid));
-            const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSigner);
+            const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSignerAddress);
             explorerTxLog(chainId, txResp);
 
-            const mintedNft = await nftClaim4(
+            const mintedNft = await nftClaimed(
               targetChainId,
               targetAddress,
               txResp,
