@@ -412,6 +412,40 @@ const explorerTxLink = (chainId: number, tx: string): string =>
 const explorerNftLink = (chainId: number, nft: NftType, label?: string): string =>
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
+const shortUri = (uri: string) => {
+  const regEx = new RegExp(`(${config.storage.choices as string})://(.{8}).*(.{8})`);
+  const matches = uri.match(regEx);
+  if (matches) {
+    const begin = `${matches[1]}://${matches[2]}`;
+    const end = matches[3];
+    return `${begin}...${end}`;
+  }
+  return uri;
+};
+
+const getImageUri = (nft: NftType): string =>
+  nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image ? nft.image : "";
+
+const uriToLink = (uri: string) => {
+  const regEx = new RegExp(`(${config.storage.choices as string})://(\\w+)`);
+
+  const match = regEx.exec(uri);
+  console.log("uriToLink ~ match:", match);
+  if (match) {
+    const [, protocol, hash] = match;
+    switch (protocol) {
+      case "ipfs":
+        return `${config.storage.ipfs.gateway}/${hash}`;
+      case "swarm":
+        return `${config.storage.swarm.gateway}/${hash}`;
+      default:
+        return uri;
+    }
+  } else {
+    return uri;
+  }
+};
+
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -522,12 +556,14 @@ export {
   getCreate,
   getExplorer,
   getCurrency,
+  getImageUri,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  shortUri,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
@@ -552,6 +588,7 @@ export {
   sleep,
   textShort,
   urlToLink,
+  uriToLink,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,

@@ -27,6 +27,22 @@ function url( $uri ) {
 }
 
 /**
+ * Return Short uri text
+ *
+ * @param string $uri file URI.
+ * @return string uri short
+ */
+function shortUri(string $uri) {
+    $regEx = '/('. STORAGE_CHOICES .'):\/\/(.{8}).*(.{8})/';
+    if (preg_match($regEx, $uri, $matches)) {
+        $begin = $matches[1] . '://' . $matches[2];
+        $end = $matches[3];
+        return $begin . '...' . $end;
+    }
+    return $uri;
+}
+
+/**
  * Return Decentralized Storage link
  *
  * @param string $uri : file URI.

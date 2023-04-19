@@ -12,7 +12,10 @@
     getOpenSeaUrl,
     getBlurUrl,
     textShort,
-    displayEther
+    displayEther,
+    shortUri,
+    getImageUri,
+    uriToLink
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -170,10 +173,10 @@
                   <div class="overflow-ellipsis">
                     <a
                       class="link overflow-ellipsis"
-                      href={$nft.tokenURI}
-                      title={$nft.ipfsJson}
+                      href={uriToLink($nft.tokenURI)}
+                      title={$nft.tokenURI}
                       target="_blank"
-                      rel="noreferrer">{$nft.tokenURI}</a
+                      rel="noreferrer">{shortUri($nft.tokenURI)}</a
                     >
                   </div>
                   <CopyRefItem copyData={$nft.tokenURI} />
@@ -186,8 +189,8 @@
               <div class="flex"><span class="label">Image</span></div>
               <div class="flex kre-flex-align-center">
                 <div class="overflow-ellipsis">
-                  <a class="link" href={$nft.image} title={$nft.ipfs} target="_blank" rel="noreferrer">
-                    {$nft.image || ""}
+                  <a class="link" href={$nft.image} title={getImageUri($nft)} target="_blank" rel="noreferrer">
+                    {shortUri(getImageUri($nft)) || ""}
                   </a>
                 </div>
                 <CopyRefItem copyData={$nft.image || ""} />

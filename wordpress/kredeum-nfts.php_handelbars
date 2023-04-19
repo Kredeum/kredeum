@@ -72,6 +72,9 @@ if ( is_admin() ) {
 	);
 }
 
+
+define( 'STORAGE_CHOICES', 'ipfs|swarm' );
+
 // IPFS.
 define( 'IPFS_URI', 'ipfs://' );
 define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );

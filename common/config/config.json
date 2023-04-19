@@ -4,9 +4,10 @@
     "stable": "1.1.0"
   },
   "storage": {
+    "choices": "ipfs|swarm",
     "type": "ipfs",
     "ipfs": {
-      "gateway": "http://dappnode.local:8080/ipfs",
+      "gateway": "https://ipfs.io/ipfs",
       "gatewayDomain": "ipfs.nftstorage.link"
     },
     "swarm": {
