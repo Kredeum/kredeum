@@ -9,7 +9,6 @@
                 "@ethersproject/address": "^5.7.0",
                 "@ethersproject/bytes": "^5.7.0",
                 "@ethersproject/contracts": "^5.7.0",
-                "@ethersproject/hardware-wallets": "^5.7.0",
                 "@ethersproject/providers": "^5.7.2",
                 "@ipld/dag-pb": "^2.1.18",
                 "@nomiclabs/hardhat-ethers": "npm:hardhat-deploy-ethers@0.3.0-beta.13",

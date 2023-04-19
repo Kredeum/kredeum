@@ -23,7 +23,6 @@
     "@ethersproject/address": "^5.7.0",
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
-    "@ethersproject/hardware-wallets": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ipld/dag-pb": "^2.1.18",
     "@typechain/ethers-v5": "^10.2.0",
