@@ -5,7 +5,7 @@ import { abis } from "@lib/common/abis";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@lib/common/keys";
-import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
+import { explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { isAddress } from "ethers/lib/utils";
 
 // Cache contracts(chainId,address,getSigner)
@@ -78,21 +78,15 @@ const collectionGet = async (
 ): Promise<CollectionType> => {
   let collection: CollectionType = { chainId, address };
   if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
-
-  // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`);
-  // console.log(`collectionGet ${account}\n`);
+  // console.log(`collectionGet ${explorerAddressUrl(chainId, address)}`);
 
   type TxError = { reason: string };
   try {
     collection = await resolverGetCollection(chainId, address, account);
   } catch (err: unknown) {
-    if ((err as TxError).reason == "Not ERC165")
-      console.info(`COLLECTION NOT ERC165 ${keyCollection(chainId, address, account)}`);
-    else
-      console.error(
-        `ERROR collectionGet ${(err as TxError).reason} ${keyCollection(chainId, address, account)}\n`,
-        err
-      );
+    const reason = (err as TxError).reason || "No explicit reason";
+    console.error(`ERROR collectionGet: ${reason} => ${explorerAddressUrl(chainId, address)}\n`);
+    // console.log( err);
   }
   // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`, collection);
   return collection;
