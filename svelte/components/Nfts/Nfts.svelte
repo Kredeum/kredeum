@@ -74,7 +74,7 @@
     if (0 < maxSupply && maxSupply < limit) limit = maxSupply;
 
     if (limit > offset) {
-      nfts = nftSubListStore(chainId, address, { owner, offset, limit });
+      nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
     }
     // console.log("NFTS cached", $nfts);
     // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
