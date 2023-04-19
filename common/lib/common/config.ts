@@ -413,6 +413,29 @@ const explorerNftLink = (chainId: number, nft: NftType, label?: string): string 
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// URIs helpers
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const uriShort = (uri: string) => {
+  const [storage, hash] = uri.split("://");
+  if (!(storage && hash && hash.length > 20)) return uri;
+
+  return `${storage}://${hash.slice(0, 8)}...${hash.slice(-8)}`;
+};
+
+const uriToUrl = (uri: string) => {
+  const [storage, hash] = uri.split("://");
+  if (!(storage && hash && hash.length > 20)) return uri;
+
+  const configStorage = config.storage[storage as "swarm" | "ipfs"];
+  if (!configStorage.gateway) return uri;
+
+  return `${configStorage.gateway}/${hash}`;
+};
+
+const uriGetImage = (nft: NftType): string => (nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image || "");
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const collectionName = (collection: CollectionType): string => collection?.name || DEFAULT_NAME;
@@ -522,12 +545,14 @@ export {
   getCreate,
   getExplorer,
   getCurrency,
+  uriGetImage,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  uriShort,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
@@ -552,6 +577,7 @@ export {
   sleep,
   textShort,
   urlToLink,
+  uriToUrl,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,
