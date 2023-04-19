@@ -188,6 +188,10 @@
     files = null;
     file = null;
   };
+  const deleteFileImg = () => {
+    resetFileImg();
+    src = null;
+  };
 
   const resetFileAudio = () => {
     audioFile = null;
@@ -300,7 +304,7 @@
                 {#if src}
                   <div class="media media-photo">
                     <img {src} alt="nft" />
-                    <span class="kre-delete-file" on:click={resetFileImg} on:keydown={resetFileImg}
+                    <span class="kre-delete-file" on:click={deleteFileImg} on:keydown={deleteFileImg}
                       ><i class="fa fa-trash" aria-hidden="true" /></span
                     >
                   </div>

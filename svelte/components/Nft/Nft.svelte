@@ -1,10 +1,9 @@
 <script lang="ts">
-  import { constants, ethers, utils } from "ethers";
+  import { constants, utils } from "ethers";
 
   import {
     explorerCollectionUrl,
     explorerAddressLink,
-    getCurrency,
     getDappUrl,
     getBlur,
     getOpenSea,
@@ -26,7 +25,6 @@
     nftRoyalty,
     nftRoyaltyFee,
     nftPrice,
-    nftRoyaltyAndFeeMinimum,
     nftPriceValid
   } from "@lib/nft/nft";
 
@@ -34,10 +32,7 @@
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@stores/nft/nft";
-  import { widgetOpenSky } from "@stores/nft/widget";
-  import { NftType } from "@lib/common/types";
-  import NftBuy from "./NftBuy.svelte";
-  import { Readable } from "svelte/store";
+  import { widgetOpenSky } from "@helpers/widget";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -52,6 +47,7 @@
   /////////////////////////////////////////////////////////////
   $: nft = nftStoreAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
+  $: console.info("NFT", $nft);
 
   let nftLink = "";
   let nftLinkDone = "";
@@ -59,27 +55,28 @@
   const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
-  let openSkyCode = "";
-  const copyShortcodeOpenSky = (all = false) => (openSkyCode = shortcodeOpenSky($nft, all));
-  const codeWidgetOpenSky = () => (openSkyCode = widgetOpenSky($nft));
-
-  const copyCodeToClipboard = (evt: Event, label?: string) => {
-    copyToClipboard(openSkyCode);
-    const openSkyCodeDone = openSkyCode;
-    openSkyCode = `Done!  ${label} copied to your clipboard...`;
-    setTimeout(() => (openSkyCode = openSkyCodeDone), 3000);
-  };
   const copyLinkToClipboard = (evt: Event, label?: string) => {
-    copyToClipboard(nftLink);
+    copyToClipboard(nftLink).catch(console.error);
     nftLinkDone = `Done!  ${label} copied to your clipboard...`;
     setTimeout(() => (nftLinkDone = ""), 3000);
   };
 
-  let once = true;
-  $: once && $nft && logNft();
-  const logNft = () => {
-    console.info("NFT", $nft);
-    once = false;
+  let openSkyShortcode = "";
+  let openSkyWidget = "";
+  const copyShortcodeOpenSky = (all = false) => (openSkyShortcode = shortcodeOpenSky($nft, all));
+  const copyWidgetOpenSky = (all = false) => (openSkyWidget = widgetOpenSky($nft, all));
+
+  const copyShortcodeToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(openSkyShortcode).catch(console.error);
+    const openSkyShortcodeDone = openSkyShortcode;
+    openSkyShortcode = `Done!  ${label} shortcode copied to your clipboard...`;
+    setTimeout(() => (openSkyShortcode = openSkyShortcodeDone), 3000);
+  };
+  const copyWidgetToClipboard = (evt: Event, label?: string) => {
+    copyToClipboard(openSkyWidget).catch(console.error);
+    const openSkyWidgetDone = openSkyWidget;
+    openSkyWidget = `Done!  ${label} widget copied to your clipboard...`;
+    setTimeout(() => (openSkyWidget = openSkyWidgetDone), 3000);
   };
 </script>
 
@@ -318,13 +315,13 @@
             {#if nftMarketable($nft)}
               <li>
                 <div class="flex">
-                  <span class="label">COPY TO INTEGRATE THIS NFT IN WORDPRESS OR HTML PAGE</span>
+                  <span class="label">COPY TO INTEGRATE THIS NFT OR COLLECTION IN WORDPRESS</span>
                 </div>
                 <div class="flex kre-buy-widget-textarea">
                   <a
                     on:mouseover={() => copyShortcodeOpenSky()}
                     on:focus={() => copyShortcodeOpenSky()}
-                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress NFT shortcode")}
+                    on:click|preventDefault={(evt) => copyShortcodeToClipboard(evt, "WordPress NFT shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
                     title="shortcodeAutoMarket($nft)">COPY NFT SHORTCODE</a
@@ -332,13 +329,37 @@
                   <a
                     on:mouseover={() => copyShortcodeOpenSky(true)}
                     on:focus={() => copyShortcodeOpenSky(true)}
-                    on:click|preventDefault={(evt) => copyCodeToClipboard(evt, "WordPress Collection shortcode")}
+                    on:click|preventDefault={(evt) => copyShortcodeToClipboard(evt, "WordPress Collection shortcode")}
                     class="btn btn-small btn-outline"
                     href="."
                     title="shortcodeAutoMarket($nft, true)">COPY COLLECTION SHORTCODE</a
                   >
                 </div>
-                <div class="flex kre-buy-widget-textarea"><textarea value={openSkyCode} /></div>
+                <div class="flex kre-buy-widget-textarea"><textarea value={openSkyShortcode} /></div>
+              </li>
+              <li>
+                <div class="flex">
+                  <span class="label">COPY TO INTEGRATE THIS NFT OR COLLECTION IN AN HTML PAGE</span>
+                </div>
+                <div class="flex kre-buy-widget-textarea">
+                  <a
+                    on:mouseover={() => copyWidgetOpenSky()}
+                    on:focus={() => copyWidgetOpenSky()}
+                    on:click|preventDefault={(evt) => copyWidgetToClipboard(evt, "WordPress NFT shortcode")}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="shortcodeAutoMarket($nft)">COPY NFT WIDGET</a
+                  >
+                  <a
+                    on:mouseover={() => copyWidgetOpenSky(true)}
+                    on:focus={() => copyWidgetOpenSky(true)}
+                    on:click|preventDefault={(evt) => copyWidgetToClipboard(evt, "WordPress Collection shortcode")}
+                    class="btn btn-small btn-outline"
+                    href="."
+                    title="shortcodeAutoMarket($nft, true)">COPY COLLECTION WIDGET</a
+                  >
+                </div>
+                <div class="flex kre-buy-widget-textarea"><textarea value={openSkyWidget} /></div>
               </li>
             {/if}
           </ul>
