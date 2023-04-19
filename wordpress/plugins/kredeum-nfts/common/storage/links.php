@@ -1,14 +1,14 @@
 <?php
 /**
- * Public IPFS LINKS function
+ * Public Storage LINKS function
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * List IPFS links
+ * List Storage links
  * caution : all medias included in the post are not attached :-(
  *
  * @return string links
@@ -19,8 +19,8 @@ function links() {
 	$attachments = get_attached_media( '' );
 	foreach ( $attachments as $attachment ) {
 		$file = get_attached_file_meta( $attachment->ID );
-		if ( $file->cid ) {
-			$ret .= '<li>' . link( $file->cid, $file->filename ) . '</li>';
+		if ( $file->uri ) {
+			$ret .= '<li>' . link( $file->uri, $file->filename ) . '</li>';
 			$n++;
 		}
 	}

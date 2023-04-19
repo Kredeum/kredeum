@@ -1,6 +1,6 @@
 <?php
 /**
- * Uninstall IPFS
+ * Uninstall Kredeum NFTs
  *
  * @package kredeum/nfts
  */
@@ -10,15 +10,12 @@ defined( 'WP_UNINSTALL_PLUGIN' ) || die( esc_html( __( 'Not allowed', 'kredeum-n
 
 /**
  * Clear database data
-*/
+ */
 global $wpdb;
 $wpdb->query( $wpdb->prepare( 'DELETE FROM %1s WHERE meta_key LIKE %s', _get_meta_table( 'post' ), '_kre_%' ) );
 
 
 /**
  * Clear settings
-*/
-delete_option( 'ipfs_auto' );
-delete_option( 'kredeum_beta' );
-delete_option( 'nft_storage_key' );
-delete_option( 'select_collection' );
+ */
+$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '_kre_%'");

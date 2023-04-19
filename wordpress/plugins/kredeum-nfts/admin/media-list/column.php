@@ -1,35 +1,35 @@
 <?php
 /**
- * IPFS columns
+ * Storage columns
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- *  IPFS 2 columns filter
+ *  Storage 2 columns filter
  */
 add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
-		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
-		$columns['kre-cid'] = __( 'Archive', 'kredeum-nfts' );
+		$columns['kre-nft'] = __( 'Kredeum NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
+		$columns['kre-uri'] = __( 'Archive', 'kredeum-nfts' );
 		return $columns;
 	}
 );
 
 /**
- *  IPFS 2 columns action
+ *  Storage 2 columns action
  */
 add_action(
 	'manage_media_custom_column',
 	function ( $name ) {
 		global $post;
 
-		if ( 'kre-cid' === $name ) {
-			if ( $post->_kre_cid ) {
-				echo wp_kses( link( $post->_kre_cid, substr( $post->_kre_cid, 0, 12 ) . '...' ), array( 'a' => array( 'href' => array() ) ) );
+		if ( 'kre-uri' === $name ) {
+			if ( $post->_kre_uri ) {
+				echo wp_kses( link( $post->_kre_uri, short_uri( $post->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 

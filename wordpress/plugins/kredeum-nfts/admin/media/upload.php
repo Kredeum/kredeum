@@ -1,17 +1,17 @@
 <?php
 /**
- * IPFS auto upload
+ * Storage auto upload
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * IPFS new action
- * archive IPFS on media upload
+ * Storage new action
+ * archive Storage on media upload
  */
-if ( IPFS_AUTO ) {
+if ( STORAGE_AUTO ) {
 	add_action(
 		'add_attachment',
 		function ( $post_id ) {

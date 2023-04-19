@@ -1,27 +1,27 @@
 <?php
 /**
- * IPFS meta_boxes
+ * Storage meta_boxes
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * IPFS meta_boxes action
- * affiche box avec CID
+ * Storage meta_boxes action
+ * affiche box avec URI
  */
 add_action(
 	'add_meta_boxes_attachment',
 	function () {
 		add_meta_box(
-			'ipfs_link_box',
-			'IPFS',
+			'storage_link_box',
+			'STORAGE',
 			function ( $post ) {
-				$cid = $post->_kre_cid;
-				if ( $cid ) {
+				$uri = $post->_kre_uri;
+				if ( $uri ) {
 					echo esc_html( __( 'Archive link', 'kredeum-nfts' ) ) . ' : ' .
-					wp_kses( link( $cid ), array( 'a' => array( 'href' => array() ) ) );
+					wp_kses( link( $uri ), array( 'a' => array( 'href' => array() ) ) );
 				}
 			}
 		);
@@ -29,15 +29,15 @@ add_action(
 );
 
 /**
- * IPFS fileds filter
+ * Storage fileds filter
  */
 add_filter(
 	'attachment_fields_to_edit',
 	function ( $form_fields, $post ) {
 		$file = get_attached_file_meta( $post->ID );
 
-		if ( ! $file->cid ) {
-			$form_fields['_kre_cid'] = array(
+		if ( ! $file->uri ) {
+			$form_fields['_kre_uri'] = array(
 				'label' => __( 'Archive to IPFS' ),
 				'value' => '',
 				'input' => 'html',
@@ -52,7 +52,7 @@ add_filter(
 );
 
 /**
- * IPFS edit attachement action
+ * Storage edit attachement action
  */
 add_action(
 	'edit_attachment',
