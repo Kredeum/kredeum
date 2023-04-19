@@ -19,11 +19,11 @@ function url( $uri ) {
 	$hash    = $parts[1];
 
 	if ( 'ipfs' === $storage ) {
-		return IPFS_GATEWAY . $hash;
+		return IPFS_GATEWAY . '/' . $hash;
 	}
 
 	if ( 'swarm' === $storage ) {
-		return SWARM_GATEWAY . $hash;
+		return SWARM_GATEWAY . '/' . $hash;
 	}
 }
 
