@@ -20,7 +20,7 @@
   import { getMax } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
-  import { metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSignerAddress } from "@stores/metamask";
   import { nftStoreAndRefresh, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";

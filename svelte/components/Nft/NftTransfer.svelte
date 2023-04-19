@@ -15,7 +15,7 @@
   } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import { nftStore, nftStoreRemove } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";

@@ -14,7 +14,7 @@ add_filter(
 	'manage_media_columns',
 	function ( $columns ) {
 		$columns['kre-nft'] = __( 'KREDEUM NFTs', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
-		$columns['kre-cid'] = __( 'IPFS Archive', 'kredeum-nfts' );
+		$columns['kre-cid'] = __( 'Archive', 'kredeum-nfts' );
 		return $columns;
 	}
 );
@@ -43,8 +43,6 @@ add_action(
 
 			printf(
 				'<div class="kredeum-mint-button" txt="true"'
-				// . ' ipfs="' . esc_url( url( $post->_kre_cid ) ) . '"'
-				// . ' cid="' . esc_url( $post->_kre_cid ) . '"'
 				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
 				. ' pid="' . esc_attr( $post->ID ) . '"'
 				. ' nid="' . esc_attr( $nid ) . '"'

@@ -17,19 +17,17 @@
   } from "@lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@lib/collection/collection-clone";
 
-  import { metamaskSignerAddress, metamaskSigner } from "@main/metamask";
-
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
   import { feeAmount } from "@lib/common/config";
 
   ///////////////////////////////////////////////////////////
-  // <CollectionCreate {chainId} {collection} />
+  // <CollectionCreate {chainId} {collection} {signer} />
   ///////////////////////////////////////////////////////////
-  export let chainId: number;
+  export let chainId: number = undefined;
   export let collection: CollectionType = undefined;
-  // export let account: string;
+  export let signer: string = undefined;
   ///////////////////////////////////////////////////////////
 
   let template: string = undefined;
@@ -112,7 +110,7 @@
     collectionName = "";
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
-    inputReceiver = $metamaskSignerAddress || constants.AddressZero;
+    inputReceiver = signer || constants.AddressZero;
     inputFee = "0";
     inputFeeNumber = 0;
     cloneError = null;
@@ -151,7 +149,7 @@
       chainId: chainId,
       name: collectionName,
       address: collectionCloneAddress(cloneTxReceipt),
-      owner: await $metamaskSigner.getAddress()
+      owner: signer
     };
     collection = collectionCreated;
 

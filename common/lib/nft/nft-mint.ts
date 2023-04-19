@@ -1,4 +1,4 @@
-import type { JsonRpcSigner, TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
+import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { BigNumberish } from "ethers";
 import { ethers, constants } from "ethers";
 
@@ -8,7 +8,7 @@ import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp } from "@lib/common
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
-import { nftIpfsImage, nftIpfsJson } from "@lib/nft/storage/nft-ipfs";
+import { nftImageUri, nftTokenUri } from "@lib/nft/storage/nft-uri";
 
 import type { IOpenNFTsV0 } from "@soltypes/src/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/src/interfaces/IOpenNFTsV1";
@@ -46,16 +46,16 @@ const _mintedNft = async (
   address: string,
   tokenID: string,
   urlJson: string,
-  minterAddress: string
+  minter: string
 ): Promise<NftType> =>
   await nftGetMetadata({
     chainId,
     address,
     tokenID,
     tokenURI: urlJson,
-    creator: minterAddress,
-    minter: minterAddress,
-    owner: minterAddress
+    creator: minter,
+    minter: minter,
+    owner: minter
   });
 
 // GET minting tx response
@@ -63,25 +63,24 @@ const nftMint = async (
   chainId: number,
   address: string,
   tokenURI: string,
-  minter: JsonRpcSigner,
+  minter: string,
   price: BigNumberish = 0
 ): Promise<TransactionResponse | undefined> => {
-  const minterAddress = await minter.getAddress();
-  // console.log("nftMint", chainId, address, tokenURI, minterAddress);
+  // console.log("nftMint", chainId, address, tokenURI, minter);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenURI && minterAddress)) return;
+  if (!(chainId && address && address != constants.AddressZero && tokenURI && minter)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
-  if (!(contract && signer)) return;
+  if (!(contract && signer === minter)) return;
 
   let txResp: TransactionResponse | undefined;
 
   if (collectionIsOpenMarketable(collection)) {
-    const notMine = collection.owner != (await minter.getAddress());
+    const notMine = collection.owner != minter;
     const value = collection.open && notMine ? collection.price : 0;
 
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
-      minterAddress,
+      minter,
       tokenURI,
       price,
       collectionRoyaltyAccount(collection),
@@ -92,16 +91,16 @@ const nftMint = async (
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
   } else if (collection.supports?.IOpenNFTsV3) {
     // console.log("IOpenNFTsV3");
-    txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
   } else if (collection.supports?.IOpenNFTsV2) {
     // console.log("IOpenNFTsV2");
-    txResp = await (contract as IOpenNFTsV2).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV2).mintNFT(minter, tokenURI);
   } else if (collection.supports?.IOpenNFTsV1) {
     // console.log("IOpenNFTsV1");
-    txResp = await (contract as IOpenNFTsV1).mintNFT(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV1).mintNFT(minter, tokenURI);
   } else if (collection.supports?.IOpenNFTsV0) {
     // console.log("IOpenNFTsV0");
-    txResp = await (contract as IOpenNFTsV0).addUser(minterAddress, tokenURI);
+    txResp = await (contract as IOpenNFTsV0).addUser(minter, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
   }
@@ -116,7 +115,7 @@ const nftMint = async (
 };
 
 // GET minting tx receipt
-const nftMint4 = async (
+const nftMinted = async (
   chainId: number,
   address: string,
   txResponse: TransactionResponse,
@@ -134,14 +133,14 @@ const nftMint4 = async (
   if (!(Number(tokenID) >= 0)) return null;
 
   const nft = await _mintedNft(chainId, address, tokenID, storageLinkToUrlHttp(metadataCid), minter);
-  // console.log("nftMint4", nft);
+  // console.log("nftMinted", nft);
 
   return nft;
 };
 
 // GET claiming tx receipt
 // similar to mint4
-const nftClaim4 = async (
+const nftClaimed = async (
   chainId: number,
   address: string,
   txResponse: TransactionResponse,
@@ -157,9 +156,9 @@ const nftClaim4 = async (
   // console.log("txReceipt", txReceipt);
 
   const nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(tokenID), owner);
-  // console.log("nftClaim4", nft);
+  // console.log("nftClaimed", nft);
 
   return nft;
 };
 
-export { nftIpfsImage, nftIpfsJson, nftMint, nftMint4, nftClaim4 };
+export { nftImageUri, nftTokenUri, nftMint, nftMinted, nftClaimed };

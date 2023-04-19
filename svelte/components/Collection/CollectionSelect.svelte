@@ -18,6 +18,7 @@
     collectionDefaultSetOne,
     collectionDefaultSubStore
   } from "@stores/collection/collectionDefault";
+  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   // <CollectionSelect chainId} bind:{address} {account} {mintable}  bind:{refreshing} {label} {txt} />
@@ -27,8 +28,8 @@
   export let address: string = undefined;
   export let account: string = undefined;
   export let mintable: boolean = false;
-  export let label: boolean = true;
   export let txt: boolean = false;
+  export let label: boolean = true;
   export let refreshing: boolean = false;
 
   let refreshAll: Writable<number> = getContext("refreshAll");
@@ -37,15 +38,15 @@
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
-  // let i: number = 0;
+  let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: $refreshAll, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollections(chainId, account, mintable)}`);
+    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, null, mintable);
-    // console.log("COLLECTIONS cached", $collections);
+    console.log("COLLECTIONS cached", $collections);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
@@ -86,8 +87,7 @@
 {#if txt}
   <p>
     {#if $collections?.size > 0}
-      Collection
-      {#if refreshing}...{/if}
+      {#if label}Collection{#if refreshing}...{/if}{/if}
 
       <select on:change={_setCollectionFromEvent}>
         {#each [...$collections] as [key, coll]}
@@ -96,9 +96,9 @@
           </option>
         {/each}
       </select>
-      <p>
-        {keyCollection(chainId, address)}
-      </p>
+      {#if label}
+        <p>{keyCollection(chainId, address, account)}</p>
+      {/if}
     {:else}
       <p>
         {#if refreshing}

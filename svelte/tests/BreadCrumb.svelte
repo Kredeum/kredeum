@@ -1,8 +1,8 @@
 <script lang="ts">
   import { refPageFromUrlHash, refPage2UrlHash, refPage2Breadcrumb, RefPageType } from "@helpers/refPage";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
-  import { /*currentCollection, currentTokenID,*/ currentAction } from "@main/current";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
+  import { /*currentCollection, currentTokenID,*/ currentAction } from "@stores/current";
 
   export let display = false;
 

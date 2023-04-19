@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { metamaskInit } from "@helpers/metamask";
-  import { metamaskChainId } from "@main/metamask";
+  import { metamaskChainId } from "@stores/metamask";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";

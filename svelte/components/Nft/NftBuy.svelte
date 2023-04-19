@@ -134,9 +134,7 @@
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
     <div class="modal-content" use:clickOutside={handleClose}>
-      <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
-        ><i class="fa fa-times" /></span
-      >
+      <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"><i class="fa fa-times" /></span>
 
       <div class="modal-body">
         <div>

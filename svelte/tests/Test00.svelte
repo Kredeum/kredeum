@@ -13,7 +13,7 @@
   // import NftsGet from "../Nft/NftsGet.svelte";
   // import RefreshButton from "../Nft/NftsRefresh.svelte";
   // import { metamaskInit } from "@helpers/metamask";
-  // import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  // import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   // import Create from "./Create.svelte";
   // import NftDetail from "./NftDetail.svelte";
   // import NftMint from "../Nft/NftMint.svelte";

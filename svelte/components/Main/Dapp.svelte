@@ -21,7 +21,7 @@
   import { RefPageType } from "@lib/common/types";
 
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import { constants } from "ethers";
   import { writable, Writable } from "svelte/store";
 
@@ -129,7 +129,7 @@
 
     {#if signer}
       {#if getCreate(chainId)}
-        <Create {chainId} />
+        <Create {chainId} {signer} />
       {/if}
     {/if}
 

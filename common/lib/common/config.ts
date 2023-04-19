@@ -280,7 +280,7 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
 // Swarm API Gateway : https://api.gateway.ethswarm.org/bzz/
 // => Swarm serveur node Url https://api.gateway.ethswarm.org
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz\/$/, "");
+const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz$/, "");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,12 +295,12 @@ const storageGatewayUrl = (link: string): string =>
 // ipfs or swarm ( uri | http uri )
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageLinkToUrlHttp = (link: string): string =>
-  link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
-    ? ipfsLinkToUrlHttp(link)
-    : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+const storageLinkToUrlHttp = (link: string): string => {
+  if (!link) return "";
+  if (link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)) return ipfsLinkToUrlHttp(link);
+  if (link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)) return swarmLinkToUrlHttp(link);
+  return link;
+};
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

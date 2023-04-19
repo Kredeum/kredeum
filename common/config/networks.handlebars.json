@@ -367,6 +367,7 @@
     "blockExplorerUrls": [
       "https://goerli.etherscan.io"
     ],
+    "openSea": "https://testnets.opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
       "active": false
@@ -404,6 +405,7 @@
       "https://mumbai.polygonscan.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
+    "openSea": "https://testnets.opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
