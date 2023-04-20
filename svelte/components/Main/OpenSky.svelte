@@ -47,7 +47,7 @@
 <section>
   {#if isCollection({ chainId, address })}
     {#if tokenIdCount(tokenID) == 1}
-      <Nft {chainId} {address} {tokenID} details={false} mode="" />
+      <Nft {chainId} {address} {tokenID} details={false} mode="uniq" />
     {:else}
       <Nfts {chainId} {address} {tokenID} bind:refreshing={refreshingNfts} mode="grid3" />
     {/if}

@@ -6,6 +6,7 @@
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
   import { getDappUrl, ipfsLinkToCid } from "@lib/common/config";
   import { NftType } from "@lib/common/types";
+  import { nftStorageSet } from "@lib/nft/storage/nft-uri";
 
   ////////////////////////////////////////////////////////////////
   // <MintButtonWp  />
@@ -16,6 +17,7 @@
   export let alt: string = undefined;
   export let pid: string = undefined;
   export let nid: string = undefined;
+  export let storage: string = "";
   /////////////////////////////////////////////////
 
   let open = false;
@@ -39,10 +41,13 @@
   };
 
   const view = (evt: Event): void => {
-    location.href = `./admin.php?page=nfts/#/${nid.replace("nft://", "")}`;
+    location.href = `./admin.php?page=nfts/#${nid.replace("nft://", "")}`;
   };
 
   onMount(async () => {
+    // SET storage type IPFS / Swarm or ArWeave
+    if (storage) nftStorageSet(storage);
+
     await metamaskInit();
   });
 </script>
