@@ -74,7 +74,7 @@ if ( is_admin() ) {
 
 // IPFS.
 define( 'IPFS_GATEWAY', '{{storage.ipfs.gateway}}' );
-define( 'NFT_STORAGE_KEY', get_option( '_KRE_NFT_STORAGE_KEY', '' ) ? get_option( '_KRE_NFT_STORAGE_KEY', '' ) : '{{storage.ipfs.nftstoragekey}}' );
+define( 'NFT_STORAGE_KEY', get_option( '_KRE_NFT_STORAGE_KEY', '' ) ? get_option( '_KRE_NFT_STORAGE_KEY', '' ) : '{{storage.ipfs.nftStorageKey}}' );
 
 // SWARM.
 define( 'SWARM_GATEWAY', '{{storage.swarm.gateway}}' );
