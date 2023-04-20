@@ -1,4 +1,5 @@
 <script>
+  import config from "@config/config.json";
   import logo from "../Images/logo-kredeum.svg";
 </script>
 
@@ -17,11 +18,19 @@
     <span />
   </label>
 
-  <div class="nav">
+  <nav>
     <ul>
-      <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
+      <li class="active">
+        <a href={config.base}>
+          <i class="fas fa-columns" />
+          <p>
+            Kredeum<br />
+            Dapp
+          </p>
+        </a>
+      </li>
     </ul>
-  </div>
+  </nav>
 </div>
 
 <a

@@ -18,32 +18,39 @@
 }
 
 .nav-krd {
-  ul {
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    margin-top: 40px;
+  nav {
+    ul {
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      margin-top: 40px;
 
-    li:not(:last-child) {
-      margin-bottom: 30px;
-    }
-
-    li {
-      color: $white;
-
-      a {
-        color: rgba($white, 0.4);
-        display: block;
+      li:not(:last-child) {
+        margin-bottom: 30px;
       }
 
-      &.active {
+      li {
+        color: $white;
+
         a {
-          color: $white;
+          color: rgba($white, 0.4);
+          display: block;
+          text-decoration: none;
         }
-      }
 
-      i {
-        font-size: 20px;
+        &.active {
+          a {
+            color: $white;
+
+            &:hover {
+              color: $green;
+            }
+          }
+        }
+
+        i {
+          font-size: 20px;
+        }
       }
     }
   }
