@@ -85,6 +85,5 @@ function fields() {
 				break;
 		}
 	}
-
-	 return $fields;
+	return $fields;
 }

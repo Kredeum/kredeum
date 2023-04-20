@@ -1,14 +1,17 @@
 import type { NftType } from "@lib/common/types";
+import config from "@config/config.json";
 
-const widgetOpenSkyScript = `<script defer src="./assets/kredeum-nfts.js"></script>
+const basePathAsset = `${config.base}/assets`;
+
+const widgetOpenSkyScript = `<script defer src="${basePathAsset}/kredeum-nfts.js"></script>
 <script>
   var newLink = document.createElement("link");
-  newLink.href = "./assets/kredeum-nfts.css";
+  newLink.href = "${basePathAsset}/kredeum-nfts.css";
   newLink.rel = "stylesheet";
   newLink.type = "text/css";
   document.getElementsByTagName("head")[0].appendChild(newLink);
   var newLink2 = document.createElement("link");
-  newLink2.href = "./assets/css/front.css";
+  newLink2.href = "${basePathAsset}/css/front.css";
   newLink2.rel = "stylesheet";
   newLink2.type = "text/css";
   document.getElementsByTagName("head")[0].appendChild(newLink2);
