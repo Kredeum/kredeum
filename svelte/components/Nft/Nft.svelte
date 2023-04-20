@@ -390,10 +390,6 @@
   <NftClaim {chainId} {address} {tokenID} />
 </div> -->
 <style>
-  .kre-nft-solo {
-    width: 100%;
-  }
-
   .kre-media {
     max-height: 33vh;
   }
@@ -487,14 +483,6 @@
     height: 3em;
     line-height: 1em;
     padding: 1em 1.2em;
-  }
-
-  /* Buy front CSS */
-  .kre-web-card {
-    box-shadow: 0 0 20px rgb(0 0 0 / 10%);
-    padding-bottom: 15px;
-    border-radius: 6px;
-    background-color: #fff;
   }
 
   .kre-web-buttons {
