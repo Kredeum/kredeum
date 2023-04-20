@@ -18,4 +18,4 @@ $wpdb->query( $wpdb->prepare( 'DELETE FROM %1s WHERE meta_key LIKE %s', _get_met
 /**
  * Clear settings
  */
-$wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE '_kre_%'");
+$wpdb->query( "DELETE FROM $wpdb->options WHERE option_name LIKE '_kre_%'" );
