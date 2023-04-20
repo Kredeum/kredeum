@@ -8,10 +8,9 @@
   },
   "scripts": {
     "clean": "rm -rf node_modules types abis config/networks.json",
-    "postinstall": "echo '{}' > config/config.json",
     "format": "prettier lib/**/*.ts --write --list-different --loglevel log",
     "check": "eslint lib/**/*.ts",
-    "build": "npx ts-node build-handlebars"
+    "build": "npx ts-node build-config && npx ts-node build-others"
   },
   "keywords": [],
   "author": "",
