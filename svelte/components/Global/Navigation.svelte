@@ -24,12 +24,14 @@
   <nav>
     <ul>
       <li class="active">
-        <a href={branch !== "main" ? config.base : "."}>
+        <a href={config.base}>
           <i class="fas fa-columns" />
+          {#if branch !== "main" }
           <p>
-            Kredeum<br />
-            Dapp
+            stable<br/>
+            version
           </p>
+          {/if}
         </a>
       </li>
     </ul>
