@@ -32,12 +32,12 @@ function upsert( $post_id ) {
 function insert( $post_id ) {
 	if ( defined( 'STORAGE_CHOICE' ) ) {
 		switch ( STORAGE_CHOICE ) {
-			case 'IPFS':
+			case 'ipfs':
 				if ( defined( 'NFT_STORAGE_KEY' ) ) {
 					$uri = 'ipfs://' . nft_storage_add_and_pin( $post_id );
 				}
 				break;
-			case 'SWARM':
+			case 'swarm':
 				if ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) ) {
 					$uri = 'swarm://' . swarm_add_and_pin( $post_id );
 				}

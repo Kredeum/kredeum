@@ -1932,7 +1932,7 @@ packages:
       lodash: 4.17.21
       semver: 6.3.0
       table: 6.8.1
-      undici: 5.21.2
+      undici: 5.22.0
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -2240,14 +2240,6 @@ packages:
       antlr4ts: 0.5.0-alpha.4
     dev: true
 
-  /@trufflesuite/bigint-buffer@1.1.10:
-    resolution: {integrity: sha512-pYIQC5EcMmID74t26GCC67946mgTJFiLXOT/BYozgrd4UEY2JHEGLhWi9cMiQCt5BSqFEvKkCHNnoj82SRjiEw==}
-    engines: {node: '>= 14.0.0'}
-    requiresBuild: true
-    dependencies:
-      node-gyp-build: 4.4.0
-    dev: true
-
   /@trufflesuite/bigint-buffer@1.1.9:
     resolution: {integrity: sha512-bdM5cEGCOhDSwminryHJbRmXc1x7dPKg6Pqns3qyTwFlxsqUgxE29lsERS3PlIW1HTjoIGMUqsk1zQQwST1Yxw==}
     engines: {node: '>= 10.0.0'}
@@ -2527,10 +2519,6 @@ packages:
     resolution: {integrity: sha512-Da66lEIFeIz9ltsdMZcpQvmrmmoqrfju8pm1BH8WbYjZSwUgCwXLb9C+9XYogwBITnbsSaMdVPb2ekf7TV+03w==}
     dependencies:
       '@types/node': 18.15.11
-    dev: true
-
-  /@types/seedrandom@3.0.1:
-    resolution: {integrity: sha512-giB9gzDeiCeloIXDgzFBCgjj1k4WxcDrZtGl6h1IqmUPlxF+Nx8Ve+96QCyDZ/HseB/uvDsKbpib9hU5cU53pw==}
     dev: true
 
   /@types/semver@7.3.13:
@@ -2831,18 +2819,6 @@ packages:
       level-concat-iterator: 2.0.1
       level-supports: 1.0.1
       xtend: 4.0.2
-    dev: true
-
-  /abstract-leveldown@7.2.0:
-    resolution: {integrity: sha512-DnhQwcFEaYsvYDnACLZhMmCWd3rkOeEvglpa4q5i/5Jlm3UIsWaxVzuXvDLFCSCWRO3yy2/+V/G7FusFgejnfQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      buffer: 6.0.3
-      catering: 2.1.1
-      is-buffer: 2.0.5
-      level-concat-iterator: 3.1.0
-      level-supports: 2.1.0
-      queue-microtask: 1.2.3
     dev: true
 
   /acorn-import-assertions@1.8.0(acorn@8.8.2):
@@ -3368,7 +3344,7 @@ packages:
       postcss: ^8.1.0
     dependencies:
       browserslist: 4.21.5
-      caniuse-lite: 1.0.30001480
+      caniuse-lite: 1.0.30001481
       fraction.js: 4.2.0
       normalize-range: 0.1.2
       picocolors: 1.0.0
@@ -3700,7 +3676,7 @@ packages:
     engines: {node: ^6 || ^7 || ^8 || ^9 || ^10 || ^11 || ^12 || >=13.7}
     hasBin: true
     dependencies:
-      caniuse-lite: 1.0.30001480
+      caniuse-lite: 1.0.30001481
       electron-to-chromium: 1.4.368
       node-releases: 2.0.10
       update-browserslist-db: 1.0.11(browserslist@4.21.5)
@@ -3887,13 +3863,13 @@ packages:
     resolution: {integrity: sha512-bsTwuIg/BZZK/vreVTYYbSWoe2F+71P7K5QGEX+pT250DZbfU1MQ5prOKpPR+LL6uWKK3KMwMCAS74QB3Um1uw==}
     dependencies:
       browserslist: 4.21.5
-      caniuse-lite: 1.0.30001480
+      caniuse-lite: 1.0.30001481
       lodash.memoize: 4.1.2
       lodash.uniq: 4.5.0
     dev: true
 
-  /caniuse-lite@1.0.30001480:
-    resolution: {integrity: sha512-q7cpoPPvZYgtyC4VaBSN0Bt+PJ4c4EYRf0DrduInOz2SkFpHD5p3LnvEpqBp7UnJn+8x1Ogl1s38saUxe+ihQQ==}
+  /caniuse-lite@1.0.30001481:
+    resolution: {integrity: sha512-KCqHwRnaa1InZBtqXzP98LPg0ajCVujMKjqKDhZEthIpAsJl/YEIa3YvXjGXPVqzZVguccuu7ga9KOE1J9rKPQ==}
     dev: true
 
   /case@1.6.3:
@@ -5181,8 +5157,8 @@ packages:
       once: 1.4.0
     dev: true
 
-  /enhanced-resolve@5.12.0:
-    resolution: {integrity: sha512-QHTXI/sZQmko1cbDoNAa3mJ5qhWUUNAq3vR0/YiD379fWQrcfuoX1+HW2S0MTt7XmoPLapdaDKUtelUSPic7hQ==}
+  /enhanced-resolve@5.13.0:
+    resolution: {integrity: sha512-eyV8f0y1+bzyfh8xAwW/WTSZpLbjhqc4ne9eGSH4Zo2ejdyiNG9pU6mf9DG8a7+Auk6MFTlNOT4Y2y/9k8GKVg==}
     engines: {node: '>=10.13.0'}
     dependencies:
       graceful-fs: 4.2.11
@@ -5388,7 +5364,7 @@ packages:
       eslint-plugin-import: '*'
     dependencies:
       debug: 4.3.4(supports-color@8.1.1)
-      enhanced-resolve: 5.12.0
+      enhanced-resolve: 5.13.0
       eslint: 8.38.0
       eslint-module-utils: 2.8.0(@typescript-eslint/parser@5.59.0)(eslint-import-resolver-node@0.3.7)(eslint-import-resolver-typescript@3.5.5)(eslint@8.38.0)
       eslint-plugin-import: 2.27.5(@typescript-eslint/parser@5.59.0)(eslint-import-resolver-typescript@3.5.5)(eslint@8.38.0)
@@ -6593,15 +6569,6 @@ packages:
   /ganache@7.4.3:
     resolution: {integrity: sha512-RpEDUiCkqbouyE7+NMXG26ynZ+7sGiODU84Kz+FVoXUnQ4qQM4M8wif3Y4qUCt+D/eM1RVeGq0my62FPD6Y1KA==}
     hasBin: true
-    dependencies:
-      '@trufflesuite/bigint-buffer': 1.1.10
-      '@types/bn.js': 5.1.1
-      '@types/lru-cache': 5.1.1
-      '@types/seedrandom': 3.0.1
-      emittery: 0.10.0
-      keccak: 3.0.2
-      leveldown: 6.1.0
-      secp256k1: 4.0.3
     optionalDependencies:
       bufferutil: 4.0.5
       utf-8-validate: 5.0.7
@@ -7374,7 +7341,7 @@ packages:
       ts-node: 10.9.1(@types/node@18.15.11)(typescript@4.9.5)
       tsort: 0.0.1
       typescript: 4.9.5
-      undici: 5.21.2
+      undici: 5.22.0
       uuid: 8.3.2
       ws: 7.5.9
     transitivePeerDependencies:
@@ -8255,6 +8222,10 @@ packages:
     resolution: {integrity: sha512-VLghIWNM6ELQzo7zwmcg0NmTVyWKYjvIeM83yjp0wRDTmUnrM678fQbcKBo6n2CJEF0szoG//ytg+TKla89ALQ==}
     dev: true
 
+  /isarray@2.0.5:
+    resolution: {integrity: sha512-xHjhDr3cNBK0BzdUJSPXZntQUx/mwMS5Rw4A7lPJ90XGAO6ISP/ePDNuo0vhqOZU+UD5JoodwCAAoZQd3FeAKw==}
+    dev: true
+
   /isbuffer@0.0.0:
     resolution: {integrity: sha512-xU+NoHp+YtKQkaM2HsQchYn0sltxMxew0HavMfHbjnucBoTSGbw745tL+Z7QBANleWM1eEQMenEpi174mIeS4g==}
     dev: true
@@ -8457,16 +8428,6 @@ packages:
       node-gyp-build: 4.6.0
     dev: true
 
-  /keccak@3.0.2:
-    resolution: {integrity: sha512-PyKKjkH53wDMLGrvmRGSNWgmSxZOUqbnXwKL9tmgbFYA1iAYqW21kfR7mZXV0MlESiefxQQE9X9fTa3X+2MPDQ==}
-    engines: {node: '>=10.0.0'}
-    requiresBuild: true
-    dependencies:
-      node-addon-api: 2.0.2
-      node-gyp-build: 4.6.0
-      readable-stream: 3.6.2
-    dev: true
-
   /keccak@3.0.3:
     resolution: {integrity: sha512-JZrLIAJWuZxKbCilMpNz5Vj7Vtb4scDG3dMXLOsbzBmQGyjwE61BbW7bJkfKKCShXiQZt3T6sBgALRtmd+nZaQ==}
     engines: {node: '>=10.0.0'}
@@ -8593,13 +8554,6 @@ packages:
     engines: {node: '>=6'}
     dev: true
 
-  /level-concat-iterator@3.1.0:
-    resolution: {integrity: sha512-BWRCMHBxbIqPxJ8vHOvKUsaO0v1sLYZtjN3K2iZJsRBYtp+ONsY6Jfi6hy9K3+zolgQRryhIn2NRZjZnWJ9NmQ==}
-    engines: {node: '>=10'}
-    dependencies:
-      catering: 2.1.1
-    dev: true
-
   /level-errors@2.0.1:
     resolution: {integrity: sha512-UVprBJXite4gPS+3VznfgDSU8PTRuVX0NXwoWW50KLxd2yw4Y1t2JUR5In1itQnudZqRMT9DlAM3Q//9NCjCFw==}
     engines: {node: '>=6'}
@@ -8695,11 +8649,6 @@ packages:
       xtend: 4.0.2
     dev: true
 
-  /level-supports@2.1.0:
-    resolution: {integrity: sha512-E486g1NCjW5cF78KGPrMDRBYzPuueMZ6VBXHT6gC7A8UYWGiM14fGgp+s/L1oFfDWSPV/+SFkYCmZ0SiESkRKA==}
-    engines: {node: '>=10'}
-    dev: true
-
   /level-supports@4.0.1:
     resolution: {integrity: sha512-PbXpve8rKeNcZ9C1mUicC9auIYFyGpkV9/i6g76tLgANwWhtG2v7I4xNBUlkn3lE2/dZF3Pi0ygYGtLc4RXXdA==}
     engines: {node: '>=12'}
@@ -8728,16 +8677,6 @@ packages:
     dependencies:
       browser-level: 1.0.1
       classic-level: 1.3.0
-    dev: true
-
-  /leveldown@6.1.0:
-    resolution: {integrity: sha512-8C7oJDT44JXxh04aSSsfcMI8YiaGRhOFI9/pMEL7nWJLVsWajDPTRxsSHTM2WcTVY5nXM+SuRHzPPi0GbnDX+w==}
-    engines: {node: '>=10.12.0'}
-    requiresBuild: true
-    dependencies:
-      abstract-leveldown: 7.2.0
-      napi-macros: 2.0.0
-      node-gyp-build: 4.6.0
     dev: true
 
   /levelup@0.18.6:
@@ -9533,10 +9472,6 @@ packages:
       - supports-color
     dev: true
 
-  /napi-macros@2.0.0:
-    resolution: {integrity: sha512-A0xLykHtARfueITVDernsAWdtIMbOJgKgcluwENp3AlsKN/PloyO10HtmoqnFAQAcxPkgZN7wdfPfEd0zNGxbg==}
-    dev: true
-
   /napi-macros@2.2.2:
     resolution: {integrity: sha512-hmEVtAGYzVQpCKdbQea4skABsdXW4RUh5t5mJ2zzqowJS2OyXZTU1KhDVFhx+NlWZ4ap9mqR9TcDO3LTTttd+g==}
     dev: true
@@ -9580,7 +9515,7 @@ packages:
   /node-environment-flags@1.0.6:
     resolution: {integrity: sha512-5Evy2epuL+6TM0lCQGpFIj6KwiEsGh1SrHUhTbNX+sLbBtjidPZFAnVK9y5yU1+h//RitLbRHTIMyxQPtxMdHw==}
     dependencies:
-      object.getownpropertydescriptors: 2.1.5
+      object.getownpropertydescriptors: 2.1.6
       semver: 5.7.1
     dev: true
 
@@ -9610,11 +9545,6 @@ packages:
     hasBin: true
     dev: true
     optional: true
-
-  /node-gyp-build@4.4.0:
-    resolution: {integrity: sha512-amJnQCcgtRVw9SvoebO3BKGESClrfXGCUTX9hSn1OuGQTQBOZmVd0Z0OlecpuRksKvbsUqALE8jls/ErClAPuQ==}
-    hasBin: true
-    dev: true
 
   /node-gyp-build@4.6.0:
     resolution: {integrity: sha512-NTZVKn9IylLwUzaKjkas1e4u2DLNcV4rdYagA4PWdPwW87Bi7z+BznyKSRwS/761tV/lzCGXplWsiaMjLqP2zQ==}
@@ -9813,14 +9743,15 @@ packages:
       isobject: 3.0.1
     dev: true
 
-  /object.getownpropertydescriptors@2.1.5:
-    resolution: {integrity: sha512-yDNzckpM6ntyQiGTik1fKV1DcVDRS+w8bvpWNCBanvH5LfRX9O8WTHqQzG4RZwRAM4I0oU7TV11Lj5v0g20ibw==}
+  /object.getownpropertydescriptors@2.1.6:
+    resolution: {integrity: sha512-lq+61g26E/BgHv0ZTFgRvi7NMEPuAxLkFU7rukXjc/AlwH4Am5xXVnIXy3un1bg/JPbXHrixRkK1itUzzPiIjQ==}
     engines: {node: '>= 0.8'}
     dependencies:
       array.prototype.reduce: 1.0.5
       call-bind: 1.0.2
       define-properties: 1.2.0
       es-abstract: 1.21.2
+      safe-array-concat: 1.0.0
     dev: true
 
   /object.map@1.0.1:
@@ -11482,6 +11413,16 @@ packages:
       mri: 1.2.0
     dev: true
 
+  /safe-array-concat@1.0.0:
+    resolution: {integrity: sha512-9dVEFruWIsnie89yym+xWTAYASdpw3CJV7Li/6zBewGf9z2i1j31rP6jnY0pHEO4QZh6N0K11bFjWmdR8UGdPQ==}
+    engines: {node: '>=0.4'}
+    dependencies:
+      call-bind: 1.0.2
+      get-intrinsic: 1.2.0
+      has-symbols: 1.0.3
+      isarray: 2.0.5
+    dev: true
+
   /safe-buffer@5.1.2:
     resolution: {integrity: sha512-Gd2UZBJDkXlY7GbJxfsE8/nvKkUEU1G38c1siN6QP6a9PT9MmHB8GnpscSmMJSoF8LOIrt8ud/wPtojys4G6+g==}
     dev: true
@@ -13123,9 +13064,9 @@ packages:
       undertaker-registry: 1.0.1
     dev: true
 
-  /undici@5.21.2:
-    resolution: {integrity: sha512-f6pTQ9RF4DQtwoWSaC42P/NKlUjvezVvd9r155ohqkwFNRyBKM3f3pcty3ouusefNRyM25XhIQEbeQ46sZDJfQ==}
-    engines: {node: '>=12.18'}
+  /undici@5.22.0:
+    resolution: {integrity: sha512-fR9RXCc+6Dxav4P9VV/sp5w3eFiSdOjJYsbtWfd4s5L5C4ogyuVpdKIVHeW0vV1MloM65/f7W45nR9ZxwVdyiA==}
+    engines: {node: '>=14.0'}
     dependencies:
       busboy: 1.6.0
     dev: true
@@ -13267,7 +13208,7 @@ packages:
       define-properties: 1.2.0
       es-abstract: 1.21.2
       has-symbols: 1.0.3
-      object.getownpropertydescriptors: 2.1.5
+      object.getownpropertydescriptors: 2.1.6
     dev: true
     optional: true
 
@@ -13441,7 +13382,7 @@ packages:
       acorn-import-assertions: 1.8.0(acorn@8.8.2)
       browserslist: 4.21.5
       chrome-trace-event: 1.0.3
-      enhanced-resolve: 5.12.0
+      enhanced-resolve: 5.13.0
       es-module-lexer: 1.2.1
       eslint-scope: 5.1.1
       events: 3.3.0

@@ -37,8 +37,8 @@ function fields() {
 			'section' => 'first_section',
 			'type'    => 'select',
 			'options' => array(
-				'IPFS'  => __( 'IPFS', 'kredeum-nfts' ),
-				'SWARM' => __( 'Swarm', 'kredeum-nfts' ),
+				'ipfs'  => __( 'IPFS', 'kredeum-nfts' ),
+				'swarm' => __( 'Swarm', 'kredeum-nfts' ),
 			),
 			'helper'  => __( 'Choose on witch decentralized storage you want to upload your files', 'kredeum-nfts' ),
 		),
@@ -46,7 +46,7 @@ function fields() {
 
 	if ( defined( 'STORAGE_CHOICE' ) ) {
 		switch ( STORAGE_CHOICE ) {
-			case 'IPFS':
+			case 'ipfs':
 				array_push(
 					$fields,
 					array(
@@ -60,7 +60,7 @@ function fields() {
 					),
 				);
 				break;
-			case 'SWARM':
+			case 'swarm':
 				array_push(
 					$fields,
 					array(
