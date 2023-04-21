@@ -41,9 +41,8 @@ function fields() {
 				'swarm' => __( 'Swarm', 'kredeum-nfts' ),
 			),
 			'helper'  => __( 'Choose on witch decentralized storage you want to upload your files', 'kredeum-nfts' ),
-			'class'   => 'kre-storage-row',
 		),
-		
+
 		array(
 			'uid'         => '_kre_nft_storage_key',
 			'label'       => 'NFT_STORAGE_KEY',
@@ -54,7 +53,7 @@ function fields() {
 			'helper'      => __( 'Enter your own NFT Storage Key, or leave blank to use common key', 'kredeum-nfts' ),
 			'class'       => 'kre-ipfs-storage kre-storage-option',
 		),
-		
+
 		array(
 			'uid'         => '_kre_swarm_node_url',
 			'label'       => 'SWARM_NODE_URL',

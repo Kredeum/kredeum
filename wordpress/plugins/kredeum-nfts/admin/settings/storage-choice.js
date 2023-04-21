@@ -1,6 +1,6 @@
 window.onload = (e) => {
-    const displayOption = (Element) => {
-        document.querySelectorAll(`.kre-${el.value}-storage`).forEach(box => {
+    const displayOption = (storage) => {
+        document.querySelectorAll(`.kre-${storage}-storage`).forEach(box => {
             box.style.display = 'table-row';
         });
     }
