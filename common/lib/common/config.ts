@@ -427,7 +427,7 @@ const uriToUrl = (uri: string) => {
   if (!(storage && hash)) return uri;
 
   const configStorage = config.storage[storage as "swarm" | "ipfs"];
-  if (!configStorage.gateway) return uri;
+  if (!configStorage?.gateway) return uri;
 
   return `${configStorage.gateway}/${hash}`;
 };
