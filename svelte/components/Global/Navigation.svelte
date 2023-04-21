@@ -1,5 +1,9 @@
 <script>
+  import config from "@config/config.json";
+  import { versionGet } from "@helpers/version";
   import logo from "../Images/logo-kredeum.svg";
+
+  const { branch } = versionGet();
 </script>
 
 <div class="logo">
@@ -17,11 +21,21 @@
     <span />
   </label>
 
-  <div class="nav">
+  <nav>
     <ul>
-      <li class="active"><a href="."><i class="fas fa-columns" /></a></li>
+      <li class="active">
+        <a href={config.base}>
+          <i class="fas fa-columns" />
+          {#if branch !== "main" }
+          <p>
+            stable<br/>
+            version
+          </p>
+          {/if}
+        </a>
+      </li>
     </ul>
-  </div>
+  </nav>
 </div>
 
 <a
