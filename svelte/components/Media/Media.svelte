@@ -46,7 +46,7 @@
     aspect-ratio: 1;
   }
 
-  /* :global(.media:not(.full) img, .media:not(.full) video) {
+  :global(.media:not(.full) img, .media:not(.full) video) {
     max-height: calc(33vh - 40px);
-  } */
+  }
 </style>
