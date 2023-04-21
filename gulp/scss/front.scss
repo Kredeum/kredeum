@@ -1,6 +1,12 @@
 @import "_variables";
 @import "_global";
 
+.wp-admin {
+  .kre-storage-option {
+    display: none;
+  }
+}
+
 #kredeum-dapp.wordpress {
   .nav-krd {
     display: none;
