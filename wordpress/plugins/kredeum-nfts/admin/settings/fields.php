@@ -41,7 +41,6 @@ function fields() {
 				'swarm' => __( 'Swarm', 'kredeum-nfts' ),
 			),
 			'helper'  => __( 'Choose on witch decentralized storage you want to upload your files', 'kredeum-nfts' ),
-			'class'   => 'kre-storage-row',
 		),
 
 		array(

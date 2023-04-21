@@ -67,7 +67,7 @@ if ( is_admin() ) {
 				wp_register_style( 'kredeum_nfts_front_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_front_css' );
 			}
-			if('nfts_page_storage_settings' === $hook) {
+			if ( 'nfts_page_storage_settings' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts_js', plugin_dir_url( __FILE__ ) . 'admin/settings/storage-choice.js', array(), KREDEUM_NFTS_VERSION, true );
 			}
 		},
