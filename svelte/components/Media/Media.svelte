@@ -17,7 +17,7 @@
   $: nft = nftStore(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
-  let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "" : "media-grid";
+  let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "full" : "media-grid";
   let gridScale = mode.startsWith("grid") ? " a-simul-cursor" : "";
 </script>
 
