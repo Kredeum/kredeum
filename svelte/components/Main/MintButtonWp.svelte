@@ -41,7 +41,7 @@
   };
 
   const view = (evt: Event): void => {
-    location.href = `./admin.php?page=nfts/#${nid.replace("nft://", "")}`;
+    location.href = `./admin.php?page=nfts#/${nid.replace("nft://", "")}`;
   };
 
   onMount(async () => {

@@ -34,6 +34,8 @@
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
   import {
+    collectionIsAutoMarket,
+    collectionOpenOrOwner,
     collectionPrice,
     collectionPriceValid,
     collectionRoyaltyAndFeeAmount,
@@ -238,7 +240,7 @@
           <i class="fas fa-plus fa-left c-green" />Mint NFT
         </div>
 
-        {#if minting == S0_START}
+        {#if minting === S0_START}
           <div class="section">
             <div class="box-fields">
               <input
@@ -373,7 +375,7 @@
             </div>
           {/if}
 
-          {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskSignerAddress}
+          {#if collectionIsAutoMarket(collection) && collectionOpenOrOwner(collection, $metamaskSignerAddress)}
             <div class="section">
               <div class="titre">NFT Sell Price</div>
               <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />
