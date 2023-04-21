@@ -67,7 +67,29 @@ if ( is_admin() ) {
 		},
 		110
 	);
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post/postedit.php';
 }
+
+add_action(
+	'wp_enqueue_scripts', 
+	function ( ) {
+		if (is_single() || is_category() || is_archive() || is_home()) {
+			global $post;
+			$nft_contract_address = get_post_meta($post->ID, '_krd_text_field', true);
+	
+			if (!empty($nft_contract_address)) {
+				wp_enqueue_script('web3', 'https://cdn.jsdelivr.net/npm/web3@1.5.3/dist/web3.min.js', array(), '1.5.3', true);
+				wp_enqueue_script('mnftc-script', plugin_dir_url(__FILE__) . 'admin/post/js/mnftc-script.js', array('web3', 'jquery'), '1.0.0', true);
+	
+				// Pass data from PHP to JavaScript
+				//wp_localize_script('mnftc-script', 'nftData', array(
+				//	'nftContractAddress' => $nft_contract_address,
+				//));
+			}
+		}
+	}
+);
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post/postfront.php';
 
 define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
 define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
