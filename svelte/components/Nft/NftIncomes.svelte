@@ -24,9 +24,7 @@
   let minimum = false;
   let price = BigNumber.from(0);
 
-  // $: console.log("<NftIncomes", nft);
-
-  $: priceInput, handlePrice();
+  $: priceInput, nft && handlePrice();
   const handlePrice = () => {
     price = priceInput == null ? nftPrice(nft) : priceInput;
 

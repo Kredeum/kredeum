@@ -53,24 +53,32 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
+    let metadataJson = "";
+
     if (!nft.ipfsJson) {
       const ipfsJson = ipfsGetLink(nft.tokenURI);
-      if (ipfsJson) nft.ipfsJson = ipfsJson;
+      if (ipfsJson) {
+        nft.ipfsJson = ipfsJson;
+        metadataJson = ipfsJson;
+      }
     }
     if (!nft.swarmJson) {
       const swarmJson = swarmGetLink(nft.tokenURI);
-      if (swarmJson) nft.swarmJson = swarmJson;
+      if (swarmJson) {
+        nft.swarmJson = swarmJson;
+        metadataJson = swarmJson;
+      }
     }
 
     try {
-      // nft.ipfsJson = ipfs://...cid... : metadata URI found on IPFS
+      // metadataJson = ipfs://...cid... : metadata URI found on IPFS   OU swarm://
       // nft.tokenURI : default metadata URI
-      const tokenURIAnswer = await fetchJson(nft.ipfsJson || nft.tokenURI);
+      const tokenURIAnswer = await fetchJson(nft.tokenURI || metadataJson);
       if (tokenURIAnswer.error) {
         console.error("ERROR nftGetMetadata tokenURIAnswer.error ", tokenURIAnswer.error);
       } else {
         const nftMetadata = tokenURIAnswer as NftMetadata;
-        // console.log("nftGetMetadata", nft.tokenURI, nft.ipfsJson, nftMetadata);
+        // console.log("nftGetMetadata", nft.tokenURI, metadataJson, nftMetadata);
 
         if (nftMetadata) {
           nft.metadata = nftMetadata;
