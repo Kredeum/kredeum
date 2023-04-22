@@ -65,7 +65,7 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   const collMerged: CollectionType = Object.assign({ chainId: 1, address: "" }, col1 || {}, col2 || {});
 
   // collection.balancesOf is a Map => needs specific merge
-  if (col1?.balancesOf && col2?.balancesOf) {
+  if (col1?.balancesOf instanceof Map && col2?.balancesOf instanceof Map) {
     collMerged.balancesOf = new Map([...col1.balancesOf, ...col2.balancesOf]);
   }
   return collMerged;

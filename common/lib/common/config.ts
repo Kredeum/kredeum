@@ -451,7 +451,8 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 const nftsSupply = (nfts: Map<string, NftType>): number => nfts.size || 0;
 
 const nftsBalanceAndName = (collection: CollectionType, account: string): string => {
-  const bal = collection?.balancesOf?.get(account) || 0;
+  const balancesOf = collection?.balancesOf || null;
+  const bal = balancesOf instanceof Map ? Number(balancesOf.get(account)) : 0;
   return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
 };
 

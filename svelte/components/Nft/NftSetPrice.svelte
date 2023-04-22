@@ -21,7 +21,7 @@
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@stores/metamask";
-  import { nftStoreAndRefresh, nftStoreRefresh } from "@stores/nft/nft";
+  import { nftStoreAndRefresh, nftStoreRefresh, nftStoreSet } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
@@ -137,14 +137,19 @@
     explorerTxLog(chainId, tokenSetPriceTxResp);
 
     tokenSettingPrice = S3_WAIT_TX;
+    // console.log("tokenSetPriceTx S3", tokenSettingPrice);
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
 
     if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
 
     tokenSettingPrice = S4_PRICE_SETTED;
+    // console.log("tokenSetPriceTx S4", tokenSettingPrice);
 
-    await handleNft(true);
+    // Set price to nft in store, as onchain data not yet updated
+    // TODO : make some nsfStoreRemoveAndRefresh() ?
+    $nft.price = price;
+    nftStoreSet($nft);
   };
 
   const removeFromSale = async (): Promise<void> => {
