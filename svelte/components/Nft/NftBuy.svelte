@@ -125,7 +125,12 @@
     {/if}
   </button>
 {:else}
-  <button type="button" class="btn btn-disable" title="NFT not on sale">
+  <button
+    type="button"
+    class="{mode === 'detail' ? 'kre-btn-detail' : 'btn'} kre-btn-disable"
+    aria-disabled="true"
+    title="NFT not on sale"
+  >
     <i class="fa fa-shopping-cart fa-left" />
     NOT ON SALE
   </button>
@@ -231,10 +236,6 @@
     z-index: 1000;
     pointer-events: auto;
     color: #1e1e43;
-  }
-
-  .btn-disable {
-    cursor: not-allowed;
   }
 
   .btn-buy-modal {
