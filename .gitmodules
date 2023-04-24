@@ -4,6 +4,7 @@
 [submodule "contracts/lib/OpenNFTs"]
 	path = contracts/lib/OpenNFTs
 	url = https://github.com/kredeum/OpenNFTs
+  tag = v0.11.0
 [submodule "contracts/lib/openzeppelin-contracts-upgradeable"]
 	path = contracts/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
