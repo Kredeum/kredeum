@@ -70,7 +70,7 @@ const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
 const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
-  // GET Dapp Url
+// GET Dapp Url
 const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
