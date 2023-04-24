@@ -211,6 +211,17 @@ body:not(.page) .info-button {
   @include border-radius();
 }
 
+.kre-nft-solo {
+  margin-bottom: 30px;
+}
+
+.kre-web-card {
+  box-shadow: 0 0 20px rgb(0 0 0 / 10%);
+  padding-bottom: 1.5rem;
+  @include border-radius();
+  background-color: $white;
+}
+
 .section {
   margin-bottom: 30px;
 }
