@@ -1,9 +1,10 @@
 <script lang="ts">
+  import type { BigNumber } from "ethers";
+  
   import type { NftType, Properties } from "@lib/common/types";
   import { nftImageUri, nftTokenUri, nftMint, nftMinted } from "@lib/nft/nft-mint";
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
   import { nftStoreSet } from "@stores/nft/nft";
-
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
 
   /////////////////////////////////////////////////
@@ -17,6 +18,7 @@
   export let chainId: number;
   export let address: string;
   export let signer: string;
+  export let price: BigNumber = undefined;
   export let name: string = undefined;
   export let description: string = undefined;
   export let metadata: string = undefined;
@@ -78,7 +80,7 @@
 
     minting = S3_SIGN_TX;
 
-    const mintingTxResp = await nftMint(chainId, address, tokenUri, signer);
+    const mintingTxResp = await nftMint(chainId, address, tokenUri, signer, price);
     txHash = mintingTxResp?.hash;
 
     minting = S4_WAIT_TX;

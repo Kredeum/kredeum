@@ -79,6 +79,7 @@
   let refreshAll: Writable<number> = getContext("refreshAll");
 
   let address: string;
+  let price: BigNumber;
 
   let files: FileList;
   let file: File;
@@ -117,6 +118,7 @@
         minPrice
       )} (mimimal royalty + protocol fees)`;
     } else {
+      price = inputPrice;
       inputPriceError = "";
     }
   };
@@ -217,6 +219,7 @@
   {chainId}
   {address}
   {signer}
+  {price}
   {properties}
   {name}
   {description}
