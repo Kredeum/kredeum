@@ -408,7 +408,7 @@
         {:else if S0_START < minting && minting <= S5_MINTED}
           <div class="media media-photo">
             {#if inputMediaType === "video"}
-              <MediaVideo {src} mode="line" small={true} controls={true} />
+              <MediaVideo {src} mode="line" />
             {:else}
               <img {src} alt="nft" />
             {/if}

@@ -4,7 +4,7 @@
 
   import MediaImage from "./MediaImage.svelte";
   /////////////////////////////////////////////////
-  //  <DisplayAudio {src} {animation_url} {mode}? {alt}? {index}? {paused}? />
+  //  <DisplayAudio {src} {tokenID} {animation_url} {mode}? {alt}? {paused}? />
   // Display a player audio with its cover image according to its entering parameters
   /////////////////////////////////////////////////
   export let src: string;
@@ -49,13 +49,45 @@
   </audio>
   <button
     on:click|stopPropagation={togglePlayAudio}
-    class="krd-play-audio-button {mode === 'line' && 'krd-play-audio-line-button'}"
+    class="kre-play-media-button {mode === 'line' && 'kre-play-media-line-button'}"
   >
     <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
   </button>
 {/if}
 
 <style>
+  .kre-play-media-button {
+    position: absolute;
+    bottom: 2%;
+    right: 2%;
+    background-color: transparent;
+    color: white;
+    border: none;
+    font-size: 2.7rem;
+  }
+
+  .kre-play-media-button i {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background-color: lightgray;
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .kre-play-media-line-button {
+    top: 65px;
+    left: 35px;
+    bottom: unset;
+    width: 2.3rem;
+    font-size: 2.3rem;
+  }
+
+  .kre-play-media-line-button i {
+    border: 1px solid lightgray;
+  }
+
+  /* Specific for audio */
   audio::-webkit-media-controls-enclosure {
     border-radius: 6px;
     background-color: rgba(0, 0, 0, 0.5);
@@ -84,32 +116,4 @@
       background-color: rgba(0, 0, 0, 1);
     }
   } */
-
-  .krd-play-audio-button {
-    position: absolute;
-    bottom: 9px;
-    left: 0;
-    background-color: transparent;
-    color: white;
-    border: none;
-    font-size: 3.5rem;
-  }
-
-  .krd-play-audio-button i {
-    position: absolute;
-    bottom: 0;
-    background-color: lightgray;
-    border-radius: 50%;
-    cursor: pointer;
-  }
-
-  .krd-play-audio-line-button {
-    top: 65px;
-    left: 35px;
-    bottom: unset;
-  }
-
-  .krd-play-audio-line-button i {
-    border: 1px solid lightgray;
-  }
 </style>
