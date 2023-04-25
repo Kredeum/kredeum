@@ -41,6 +41,9 @@
   let refreshAll: Writable<number> = writable(1);
   setContext("refreshAll", refreshAll);
 
+  let toPlayTokenID: Writable<string> = writable("");
+  setContext("toPlayTokenID", toPlayTokenID);
+
   $: refresh = refreshingCollections || refreshingNfts;
 
   // SET chainId on memataskChainId change

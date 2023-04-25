@@ -20,30 +20,32 @@
     paused = !paused;
     $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
   };
+  $: console.log("playAudio ~ mode:", mode);
 </script>
 
-{#if small}
-  {#if mode.startsWith("grid")}
-    <video autoplay={false} {src} preload="metadata" loop playsinline style="border-radius: initial;" bind:paused>
-      <track kind="captions" />
-    </video>
-    <button on:click={playVideo} class="video-play-button">
-      <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
-    </button>
-  {:else if mode === "line"}
-    <!-- svelte-ignore a11y-media-has-caption -->
-    <video autoplay={false} playsinline style="border-radius: initial;" {controls} {muted}>
-      <source {src} type="video/mp4" /></video
-    >
-  {:else}
-    <!-- svelte-ignore a11y-media-has-caption -->
-    <video autoplay={true} preload="metadata" controls loop playsinline muted style="border-radius: initial;">
-      <source {src} type="video/mp4" /></video
-    >
-  {/if}
+<!-- {#if small} -->
+{#if mode.startsWith("grid")}
+  <video autoplay={false} {src} preload="metadata" loop playsinline style="border-radius: initial;" bind:paused>
+    <track kind="captions" />
+  </video>
+  <button on:click|stopPropagation={playVideo} class="video-play-button">
+    <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />
+  </button>
+{:else if mode === "line"}
+  <!-- svelte-ignore a11y-media-has-caption -->
+  <video autoplay={false} playsinline style="border-radius: initial;" {controls} {muted}>
+    <source {src} type="video/mp4" /></video
+  >
 {:else}
   <!-- svelte-ignore a11y-media-has-caption -->
-  <video
+  <video autoplay={true} preload="metadata" controls loop playsinline muted style="border-radius: initial;">
+    <source {src} type="video/mp4" /></video
+  >
+{/if}
+
+<!-- {:else} -->
+<!-- svelte-ignore a11y-media-has-caption -->
+<!-- <video
     autoplay={true}
     controls
     controlslist="nodownload"
@@ -54,7 +56,7 @@
   >
     <source {src} type="video/mp4" /></video
   >
-{/if}
+{/if} -->
 
 <style>
   .video-play-button {
