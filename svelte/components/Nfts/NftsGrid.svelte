@@ -23,7 +23,7 @@
 <div class="row grid-krd">
   {#if nfts?.size > 0}
     {#each [...nfts.values()] as nft}
-      <div class={colClass(mode)} on:click={() => (tokenID = nft.tokenID)}>
+      <div class={colClass(mode)} on:click={() => (tokenID = nft.tokenID)} on:keydown={() => (tokenID = nft.tokenID)}>
         <Nft chainId={nft.chainId} address={nft.address} tokenID={nft.tokenID} {owner} {mode} />
       </div>
     {/each}

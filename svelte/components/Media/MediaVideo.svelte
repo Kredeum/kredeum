@@ -53,25 +53,6 @@
 {/if}
 
 <style>
-  /* .video-play-button {
-    position: absolute;
-    bottom: 2%;
-    right: 2%;
-    background-color: transparent;
-    color: white;
-    border: none;
-    font-size: 4rem;
-  }
-
-  .video-play-button i {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    background-color: lightgray;
-    border-radius: 50%;
-  } */
-
-  /*  */
   .kre-play-media-button {
     position: absolute;
     bottom: 2%;

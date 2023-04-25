@@ -10,7 +10,7 @@
   import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  // <MediaPreview {chainId} {address} {tokenID} />
+  // <MediaPreview {chainId} {address} {tokenID} {mode}? />
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
   /////////////////////////////////////////////////////////////////
