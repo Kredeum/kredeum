@@ -1,11 +1,16 @@
 <script lang="ts">
-  import { fade } from "svelte/transition";
+  import type { Writable } from "svelte/store";
+  import { getContext } from "svelte";
 
   import Media from "./Media.svelte";
+  import { fade } from "svelte/transition";
+
   import { clickOutside } from "@helpers/clickOutside";
+  import { nftMediaAnimationUrl, nftMediaContentType } from "@lib/nft/nft";
+  import { nftStore } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
-  // <MediaPreview {chainId} {address} {tokenID} />
+  // <MediaPreview {chainId} {address} {tokenID} {mode}? />
   // Display a clickable preview of media opening a zoom modal with full media
   // Modal closing by clickoutside
   /////////////////////////////////////////////////////////////////
@@ -14,14 +19,25 @@
   export let tokenID: string;
   export let mode: string = undefined;
   /////////////////////////////////////////////////////////////////
+  let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");
+
+  $: nft = nftStore(chainId, address, tokenID);
+  $: isAnimationMedia = nftMediaContentType($nft) === "video" || nftMediaAnimationUrl($nft) !== "";
 
   let popupOpen = false;
-  const popupToggle = (): boolean => (popupOpen = !popupOpen);
+  const popupToggle = (): void => {
+    if (toPlayTokenID) $toPlayTokenID = "";
+    popupOpen = !popupOpen;
+  };
 </script>
 
 <div class="media-zoom">
   <div class="media">
-    <span class="krd-pointer zoom-hover" on:click={popupToggle} on:keydown={popupToggle}>
+    <span
+      class="krd-pointer {isAnimationMedia ? 'no-zoom-hover' : 'zoom-hover'}"
+      on:click={popupToggle}
+      on:keydown={popupToggle}
+    >
       <i class="fas fa-search" />
       <Media {chainId} {address} {tokenID} {mode} />
     </span>
@@ -91,5 +107,9 @@
   .media-zoom .media .zoom-hover:hover::after,
   .media-zoom .media .zoom-hover:hover .fas {
     opacity: 1;
+  }
+
+  .krd-pointer.no-zoom-hover i.fas {
+    display: none;
   }
 </style>

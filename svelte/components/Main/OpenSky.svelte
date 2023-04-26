@@ -26,6 +26,9 @@
   let refreshAll: Writable<number> = writable(1);
   setContext("refreshAll", refreshAll);
 
+  let toPlayTokenID: Writable<string> = writable("");
+  setContext("toPlayTokenID", toPlayTokenID);
+
   const setNetwork = async () => {
     if (chainId != $metamaskChainId) {
       await metamaskSwitchChain(chainId);
