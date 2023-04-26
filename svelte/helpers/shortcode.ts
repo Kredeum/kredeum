@@ -9,7 +9,7 @@ const shortcodeOpenSkyNft = (nft: NftType): string =>
     nft
   )}[/kredeum_opensky]`;
 
-const shortcodeOpenSky = (nft: NftType, coll: boolean): string =>
+const shortcodeOpenSky = (nft: NftType, coll = false): string =>
   coll ? shortcodeOpenSkyCollection(nft) : shortcodeOpenSkyNft(nft);
 
 export { shortcodeOpenSky, shortcodeOpenSkyNft, shortcodeOpenSkyCollection };
