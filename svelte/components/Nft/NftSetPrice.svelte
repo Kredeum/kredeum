@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  import { Readable } from "svelte/store";
 
   import { BigNumber, constants } from "ethers";
 
@@ -21,7 +21,7 @@
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
   import { metamaskSignerAddress } from "@stores/metamask";
-  import { nftStoreAndRefresh, nftStoreRefresh, nftStoreSet } from "@stores/nft/nft";
+  import { nftStoreAndRefresh, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
@@ -146,10 +146,7 @@
     tokenSettingPrice = S4_PRICE_SETTED;
     // console.log("tokenSetPriceTx S4", tokenSettingPrice);
 
-    // Set price to nft in store, as onchain data not yet updated
-    // TODO : make some nsfStoreRemoveAndRefresh() ?
-    $nft.price = price;
-    nftStoreSet($nft);
+    nftStoreRefresh(chainId, address, tokenID);
   };
 
   const removeFromSale = async (): Promise<void> => {
