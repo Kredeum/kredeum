@@ -76,8 +76,6 @@
 
   let account: string;
 
-  let refreshAll: Writable<number> = getContext("refreshAll");
-
   let address: string;
   let price: BigNumber;
 

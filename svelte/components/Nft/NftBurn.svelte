@@ -25,8 +25,6 @@
   let burnTxHash: string;
   let burnError: string;
 
-  let refreshAll: Writable<number> = getContext("refreshAll");
-
   const _burnError = (err: string): void => {
     burnError = err;
     console.error(burnError);
@@ -97,8 +95,6 @@
     burning = S5_BURNED;
 
     nftStoreRemove(chainId, address, tokenID);
-
-    $refreshAll += 1;
   };
 
   onMount(() => {
