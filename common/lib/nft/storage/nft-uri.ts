@@ -1,6 +1,6 @@
 import type { Properties } from "@lib/common/types";
 
-import { DEFAULT_NAME } from "@lib/common/config";
+import { DEFAULT_NAME, isTestnet } from "@lib/common/config";
 import { nftSwarmImageUri, nftSwarmTokenUri } from "./nft-swarm";
 import { nftIpfsImageUri, nftIpfsTokenUri } from "./nft-ipfs";
 
@@ -14,13 +14,14 @@ const nftStorageSet = (storage: string): void => {
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
-const nftImageUri = async (image: string, key = ""): Promise<string> => {
-  const nftImageUriFunc = nftStorageGet() == "ipfs" ? nftIpfsImageUri : nftSwarmImageUri;
+const nftImageUri = async (chainId: number, image: string, key = ""): Promise<string> => {
+  const nftImageUriFunc = nftStorageGet() == "swarm" && isTestnet(chainId) ? nftSwarmImageUri : nftIpfsImageUri;
   return nftImageUriFunc(image, key);
 };
 
 // GET  metadata uri
 const nftTokenUri = async (
+  chainId: number,
   name = DEFAULT_NAME,
   nftDescription = "",
   imageUri = "",
@@ -30,7 +31,7 @@ const nftTokenUri = async (
   properties: Properties = {},
   animation_url = ""
 ): Promise<string> => {
-  const nftTokenUriFunc = nftStorageGet() == "ipfs" ? nftIpfsTokenUri : nftSwarmTokenUri;
+  const nftTokenUriFunc = nftStorageGet() == "swarm" && isTestnet(chainId) ? nftSwarmTokenUri : nftIpfsTokenUri;
   return nftTokenUriFunc(name, nftDescription, imageUri, address, image, metadata, properties, animation_url);
 };
 

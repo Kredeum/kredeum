@@ -1,8 +1,9 @@
 <script lang="ts">
   import type { BigNumber } from "ethers";
-  
+
   import type { NftType, Properties } from "@lib/common/types";
-  import { nftImageUri, nftTokenUri, nftMint, nftMinted } from "@lib/nft/nft-mint";
+  import { nftMint, nftMinted } from "@lib/nft/nft-mint";
+  import { nftImageUri, nftTokenUri } from "@lib/nft/storage/nft-uri";
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
   import { nftStoreSet } from "@stores/nft/nft";
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
@@ -69,14 +70,14 @@
 
     minting = S1_STORE_IMAGE;
 
-    imageUri = await nftImageUri(src);
+    imageUri = await nftImageUri(chainId, src);
     if (audio) {
-      audioUri = await nftImageUri(audio);
+      audioUri = await nftImageUri(chainId, audio);
     }
 
     minting = S2_STORE_METADATA;
 
-    tokenUri = await nftTokenUri(name, description, imageUri, signer, src, metadata, properties, audioUri);
+    tokenUri = await nftTokenUri(chainId, name, description, imageUri, signer, src, metadata, properties, audioUri);
 
     minting = S3_SIGN_TX;
 
