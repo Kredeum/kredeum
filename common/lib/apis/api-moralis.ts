@@ -85,7 +85,7 @@ const moralisNftList = async (
   const limit = filter.limit || FETCH_LIMIT;
   const nfts = (await moralisListAll(chainId, owner, limit)).nfts;
 
-  // console.log(`moralisNftList OUT ${keyNftList(chainId, collection.address)}\n`, nfts);
+  // console.log(`moralisNftList OUT ${keyCollection(chainId, collection.address)}\n`, nfts);
   return nfts;
 };
 

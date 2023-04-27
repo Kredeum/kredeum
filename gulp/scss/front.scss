@@ -1,6 +1,12 @@
 @import "_variables";
 @import "_global";
 
+.wp-admin {
+  .kre-storage-option {
+    display: none;
+  }
+}
+
 #kredeum-dapp.wordpress {
   .nav-krd {
     display: none;
@@ -11,39 +17,46 @@
 
     h1 {
       background: url("../images/logo-kredeum-bl.svg") no-repeat left center;
-      padding: 10px 0 10px 50px;
-      background-size: 40px auto;
+      background-size: contain;
+      padding: 15px 0 15px 50px;
     }
   }
 }
 
 .nav-krd {
-  ul {
-    padding: 0;
-    margin: 0;
-    text-align: center;
-    margin-top: 40px;
+  nav {
+    ul {
+      padding: 0;
+      margin: 0;
+      text-align: center;
+      margin-top: 40px;
 
-    li:not(:last-child) {
-      margin-bottom: 30px;
-    }
-
-    li {
-      color: $white;
-
-      a {
-        color: rgba($white, 0.4);
-        display: block;
+      li:not(:last-child) {
+        margin-bottom: 30px;
       }
 
-      &.active {
+      li {
+        color: $white;
+
         a {
-          color: $white;
+          color: rgba($white, 0.4);
+          display: block;
+          text-decoration: none;
         }
-      }
 
-      i {
-        font-size: 20px;
+        &.active {
+          a {
+            color: $white;
+
+            &:hover {
+              color: $green;
+            }
+          }
+        }
+
+        i {
+          font-size: 20px;
+        }
       }
     }
   }
@@ -65,7 +78,6 @@
 .media {
   @include border-radius;
   overflow: hidden;
-  display: inline-block;
   vertical-align: middle;
   width: 100%;
 
@@ -122,12 +134,16 @@
           }
         }
 
-        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism", "gnosis", "arbitrum";
+        $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism",
+          "gnosis", "arbitrum";
 
         @each $name in $names {
           [data-value="#{$name}"],
           .#{$name} {
-            background: url("../images/icon-#{$name}.png") no-repeat left center;
+            background: url("../images/icon-#{$name}.png")
+              no-repeat
+              left
+              center;
           }
         }
 
@@ -232,6 +248,10 @@
         position: relative;
       }
 
+      .kre-media-line {
+        display: inline-block;
+      }
+
       .detail {
         position: absolute;
         left: 0;
@@ -261,12 +281,6 @@
           opacity: 0;
           visibility: hidden;
         }
-      }
-    }
-
-    .grid-krd {
-      .col {
-        margin-bottom: 30px;
       }
     }
 
@@ -529,6 +543,16 @@
 
 .titre i {
   vertical-align: baseline;
+}
+
+// OpenSky Buy front CSS
+#kredeum-opensky,
+#kredeum-automarket {
+  width: fit-content;
+
+  .kre-nft-solo {
+    max-width: 25rem;
+  }
 }
 
 // TO DISCUSS WITH BAPTISTE !!!

@@ -280,7 +280,7 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
 // Swarm API Gateway : https://api.gateway.ethswarm.org/bzz/
 // => Swarm serveur node Url https://api.gateway.ethswarm.org
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz\/$/, "");
+const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz$/, "");
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -295,12 +295,12 @@ const storageGatewayUrl = (link: string): string =>
 // ipfs or swarm ( uri | http uri )
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageLinkToUrlHttp = (link: string): string =>
-  link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)
-    ? ipfsLinkToUrlHttp(link)
-    : link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)
-    ? swarmLinkToUrlHttp(link)
-    : link;
+const storageLinkToUrlHttp = (link: string): string => {
+  if (!link) return "";
+  if (link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)) return ipfsLinkToUrlHttp(link);
+  if (link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)) return swarmLinkToUrlHttp(link);
+  return link;
+};
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -413,6 +413,29 @@ const explorerNftLink = (chainId: number, nft: NftType, label?: string): string 
   urlToLink(explorerNftUrl(chainId, nft), label || nftName(nft));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+// URIs helpers
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+const uriShort = (uri: string) => {
+  const [storage, hash] = uri.split("://");
+  if (!(storage && hash && hash.length > 20)) return uri;
+
+  return `${storage}://${hash.slice(0, 8)}...${hash.slice(-8)}`;
+};
+
+const uriToUrl = (uri: string) => {
+  const [storage, hash] = uri.split("://");
+  if (!(storage && hash)) return uri;
+
+  const configStorage = config.storage[storage as "swarm" | "ipfs"];
+  if (!configStorage?.gateway) return uri;
+
+  return `${configStorage.gateway}/${hash}`;
+};
+
+const uriGetImage = (nft: NftType): string => (nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image || "");
+/////////////////////////////////////////////////////////////////////////////////////////////////////
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const collectionName = (collection: CollectionType): string => collection?.name || DEFAULT_NAME;
@@ -428,7 +451,8 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 const nftsSupply = (nfts: Map<string, NftType>): number => nfts.size || 0;
 
 const nftsBalanceAndName = (collection: CollectionType, account: string): string => {
-  const bal = collection?.balancesOf?.get(account) || 0;
+  const balancesOf = collection?.balancesOf || null;
+  const bal = balancesOf instanceof Map ? Number(balancesOf.get(account)) : 0;
   return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
 };
 
@@ -522,12 +546,14 @@ export {
   getCreate,
   getExplorer,
   getCurrency,
+  uriGetImage,
   ipfsLinkToUrlHttp,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,
   ipfsGatewayUrl,
   ipfsGatewayLink,
+  uriShort,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
@@ -552,6 +578,7 @@ export {
   sleep,
   textShort,
   urlToLink,
+  uriToUrl,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,

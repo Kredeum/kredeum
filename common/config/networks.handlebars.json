@@ -3,8 +3,8 @@
     "chainId": 1,
     "chainName": "mainnet",
     "rpcUrls": [
-      "https://mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://eth-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY}}",
+      "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://rpc.ankr.com/eth"
     ],
     "nativeCurrency": {
@@ -22,18 +22,18 @@
       "active": true
     },
     "alchemy": {
-      "url": "https://eth-mainnet.g.alchemy.com/nft/v2/{{env.ALCHEMY_API_KEY}}",
+      "url": "https://eth-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "moralis": {
-      "url": "{{env.MORALIS_SERVER_URL}}",
-      "id": "{{env.MORALIS_APP_ID}}",
+      "url": "{{MORALIS_SERVER_URL}}",
+      "id": "{{MORALIS_APP_ID}}",
       "active": false
     },
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "eip1559": true,
     "create": true,
@@ -48,8 +48,8 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
-      "https://arbitrum-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://arb-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
       "https://rpc.ankr.com/arbitrum"
     ],
     "nativeCurrency": {
@@ -61,15 +61,15 @@
       "https://arbiscan.io",
       "https://explorer.arbitrum.io"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_ARBITRUM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_ARBITRUM}}",
     "alchemy": {
-      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{env.ALCHEMY_API_KEY_ARBITRUM}}",
+      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
       "active": true
     },
     "covalent": {
       "active": false,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
     "mainnet": true,
@@ -82,8 +82,8 @@
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
-      "https://optimism-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://opt-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_OPTIMISM}}",
+      "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
       "https://rpc.ankr.com/optimism",
       "https://mainnet.optimism.io"
     ],
@@ -95,15 +95,15 @@
     "blockExplorerUrls": [
       "https://optimistic.etherscan.io"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_OPTIMISM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_OPTIMISM}}",
     "alchemy": {
-      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{env.ALCHEMY_API_KEY_OPTIMISM}}",
+      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
       "active": true
     },
     "covalent": {
       "active": false,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "nftsFactoryV2": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
@@ -116,8 +116,8 @@
     "chainId": 137,
     "chainName": "matic",
     "rpcUrls": [
-      "https://polygon-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://polygon-mainnet.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_POLYGON}}",
+      "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_POLYGON}}",
       "https://polygon-rpc.com/",
       "https://rpc.ankr.com/polygon"
     ],
@@ -130,20 +130,20 @@
       "https://polygonscan.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_POLYGON}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
       "active": false
     },
     "alchemy": {
-      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{env.ALCHEMY_API_KEY_POLYGON}}",
+      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_POLYGON}}",
       "active": true
     },
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openSea": "https://opensea.io/assets/matic",
     "openNFTs": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
@@ -188,7 +188,7 @@
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": [
-      "https://avalanche-mainnet.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.ankr.com/avalanche",
       "https://api.avax.network/ext/bc/C/rpc"
     ],
@@ -201,11 +201,11 @@
       "https://snowtrace.io",
       "https://cchain.explorer.avax.network"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_AVALANCHE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "0x2ac5247d5D3f88F3129Fc65E2867DCDb894bf2fC",
     "nftsFactory": "0x0ED91009756b1d684F2D953f56cF84373D8CEB25",
@@ -231,11 +231,11 @@
     "blockExplorerUrls": [
       "https://ftmscan.com"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_FANTOM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "0x1f63086f424412321559C2CA2449374e90F1f8Ed",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
@@ -263,11 +263,11 @@
     "blockExplorerUrls": [
       "https://bscscan.com"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_BINANCE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
     "nftsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
@@ -294,11 +294,11 @@
     "blockExplorerUrls": [
       "https://testnet.bscscan.com/"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_BINANCE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "0x3f46967bAa872fb0D03A8C21c95D1D73CB01bb8F",
     "nftsFactoryV2": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf",
@@ -310,7 +310,7 @@
     "chainId": 11155111,
     "chainName": "sepolia",
     "rpcUrls": [
-      "https://sepolia.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.ankr.com/eth_sepolia",
       "https://rpc.sepolia.org"
     ],
@@ -326,18 +326,38 @@
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
     "eip1559": true,
-    "openNFTs": "0x3b011a741FA534b0E340D74141eAE66d2e0964d8",
+    "openNFTs": "0xa4fAd5416618Deb6c0218b1F41497841727A9C63",
     "create": true,
     "testnet": true,
     "nftsResolver": "0xd9c713c25B2a5B2A5121f60E6e077eA84Eca7F73",
     "nftsFactoryV3": "0x06bc799f4662459E0927b4eF79981eC300095793"
   },
   {
+    "chainId": 41,
+    "chainName": "telostestnet",
+    "rpcUrls": [
+      "https://testnet.telos.net/evm"
+    ],
+    "nativeCurrency": {
+      "name": "TELOS",
+      "symbol": "TLOS",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.teloscan.io/"
+    ],
+    "eip1559": false,
+    "create": true,
+    "testnet": true,
+    "nftsFactoryV3": "0x715D41B9aBfA225874F8A065192eda47af130304",
+    "openNFTs": "0xa99bDe465f40D9Af9980eED89Ed2940137be1a50"
+  },
+  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
-      "https://goerli.infura.io/v3/{{env.INFURA_API_KEY}}",
-      "https://eth-goerli.g.alchemy.com/v2/{{env.ALCHEMY_API_KEY_GOERLI}}"
+      "https://goerli.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://eth-goerli.g.alchemy.com/v2/{{ALCHEMY_API_KEY_GOERLI}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -347,12 +367,13 @@
     "blockExplorerUrls": [
       "https://goerli.etherscan.io"
     ],
+    "openSea": "https://testnets.opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
       "active": false
     },
     "alchemy": {
-      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{env.ALCHEMY_API_KEY_GOERLI}}",
+      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_GOERLI}}",
       "active": true
     },
     "eip1559": true,
@@ -370,7 +391,7 @@
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
-      "https://polygon-mumbai.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://polygon-mumbai.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.ankr.com/polygon_mumbai",
       "https://matic-mumbai.chainstacklabs.com",
       "https://rpc-mumbai.maticvigil.com/v1"
@@ -384,6 +405,7 @@
       "https://mumbai.polygonscan.com",
       "https://polygon-explorer-mumbai.chainstacklabs.com"
     ],
+    "openSea": "https://testnets.opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
@@ -391,21 +413,21 @@
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_POLYGON}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "hardhatOptions": {
       "live": true
     },
-    "openNFTs": "0x4cB8BC23b85D9794EdA90A00B59651a05cff4035",
+    "openNFTs": "0x400C702cb811ECDabe1dff41BDd82B0C3a84bF9f",
     "nftsFactory": "0x89bB80B13Eee16ed88DF4357009856CbAd8ba035",
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
     "testnet": true,
     "openMulti": "0x32F7186d9cFaEbBDCC9db82d30eE1883ce83cfCf",
-    "nftsResolver": "0xee6E3d63f29bd82abb2B8E4704105Fb3420fDfc5",
+    "nftsResolver": "0x7FE6fA7ddE3A942E69ff9E3fab7a3df5aCff6b0B",
     "openBound": "0x54a89e6DA78f9476790F8156860D9B01827bc59a",
-    "nftsFactoryV3": "0xefD7421b14FDE39aDB5Ba9968f29557d942C42c4"
+    "nftsFactoryV3": "0x3819eBFb133F0bee8B5c4645BD2656Ed2838fA0C"
   },
   {
     "chainId": 4002,
@@ -422,11 +444,11 @@
     "blockExplorerUrls": [
       "https://testnet.ftmscan.com"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_FANTOM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
     "covalent": {
       "active": false,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "nftsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "create": true,
@@ -437,7 +459,7 @@
     "chainId": 43113,
     "chainName": "fuji",
     "rpcUrls": [
-      "https://avalanche-fuji.infura.io/v3/{{env.INFURA_API_KEY}}",
+      "https://avalanche-fuji.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.ankr.com/avalanche_fuji",
       "https://api.avax-test.network/ext/bc/C/rpc"
     ],
@@ -450,11 +472,11 @@
       "https://testnet.snowtrace.io",
       "https://cchain.explorer.avax-test.network"
     ],
-    "etherscanApiKey": "{{env.ETHERSCAN_API_KEY_AVALANCHE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",
-      "key": "{{env.COVALENT_API_KEY}}"
+      "key": "{{COVALENT_API_KEY}}"
     },
     "openNFTs": "",
     "nftsFactory": "0xC308A8c2fbDea84D1028F906cf966492B14645a0",

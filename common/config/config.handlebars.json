@@ -1,13 +1,13 @@
 {
   "version": {
-    "latest": "1.1.0",
+    "latest": "1.1.2",
     "stable": "1.1.0"
   },
   "storage": {
     "type": "ipfs",
     "ipfs": {
       "gateway": "https://nftstorage.link/ipfs",
-      "gatewayDomain": "ipfs.nftstorage.link"
+      "nftStorageKey": "{{NFT_STORAGE_KEY}}"
     },
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz"

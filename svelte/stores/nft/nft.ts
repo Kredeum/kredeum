@@ -35,13 +35,12 @@ const nftStoreRefresh = async (chainId: number, address: string, tokenID: string
   // console.log("nftStoreRefresh ~ _coll", _coll);
 
   try {
-    const _nftOld = get(nftListStore).get(keyNft(chainId, address, tokenID));
+    const _nftOld = get(nftListStore).get(keyNft(chainId, address, tokenID)) || {};
     const _nftLib = await nftGet(chainId, address, tokenID, _coll, true);
 
-    Object.assign(_nftLib, _nftOld);
+    const _nftNew = Object.assign(_nftOld, _nftLib);
 
-    // console.log("nftStoreRefresh _nftLib", _nftLib);
-    nftStoreSet(_nftLib);
+    nftStoreSet(_nftNew);
   } catch (err) {
     console.info("nftStoreRefresh known", err);
   }

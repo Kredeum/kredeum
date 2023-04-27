@@ -28,13 +28,10 @@ add_action(
 	function () {
 		check_ajax_referer( 'ajax-token', 'security' );
 
-		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) && isset( $_POST['cid'] ) ) {
+		if ( isset( $_POST['pid'] ) && isset( $_POST['nid'] ) ) {
 			$pid = sanitize_text_field( wp_unslash( $_POST['pid'] ) );
 			$nid = sanitize_text_field( wp_unslash( $_POST['nid'] ) );
-			$cid = sanitize_text_field( wp_unslash( $_POST['cid'] ) );
 			update_post_meta( $pid, '_kre_nid', $nid );
-			update_post_meta( $pid, '_kre_cid', $cid );
-
 		};
 
 		echo esc_html( "wp_ajax_token $pid $nid" );
@@ -72,7 +69,7 @@ add_action(
 		if ( isset( $_POST['collection'] ) ) {
 
 			$collection = sanitize_text_field( wp_unslash( $_POST['collection'] ) );
-			update_option( 'select_collection', $collection );
+			update_option( '_kre_select_collection', $collection );
 		}
 
 		wp_die();

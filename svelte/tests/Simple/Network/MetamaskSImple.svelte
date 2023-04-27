@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
 
   /////////////////////////////////////////////////
   // <MetamaskSimple bind:{chainId}  />

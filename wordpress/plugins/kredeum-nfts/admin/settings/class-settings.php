@@ -21,7 +21,7 @@ class Settings {
 	 *
 	 * @var string $slug Settings slug
 	 */
-	private $slug = 'ipfs_settings';
+	private $slug = 'storage_settings';
 
 	/**
 	 * Constructor
@@ -82,7 +82,7 @@ class Settings {
 			case 'first_section':
 				echo wp_kses(
 					'<p>' .
-					__( 'Setup here your IPFS options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
+					__( 'Setup here your Storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
 					'</p><p>' .
 					__( 'For any help read the', 'kredeum-nfts' ) .
 					' <a href="https://docs.kredeum.tech/user-guide" target="_blank" rel="noreferrer" >' .
@@ -146,11 +146,24 @@ class Settings {
 			case 'text':
 			case 'password':
 			case 'number':
-				printf( '<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" size="60"/><br/>', esc_html( $arguments['uid'] ), esc_html( $arguments['type'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) );
+				printf(
+					'<input name="%1$s" id="%1$s" type="%2$s" placeholder="%3$s" value="%4$s" size="60"/><br/>',
+					esc_html( $arguments['uid'] ),
+					esc_html( $arguments['type'] ),
+					esc_html( $arguments['placeholder'] ),
+					esc_html( $value )
+				);
 				break;
 
 			case 'textarea':
-				esc_html( printf( '<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="60">%3$s</textarea><br/>', esc_html( $arguments['uid'] ), esc_html( $arguments['placeholder'] ), esc_html( $value ) ) );
+				esc_html(
+					printf(
+						'<textarea name="%1$s" id="%1$s" placeholder="%2$s" rows="5" cols="60">%3$s</textarea><br/>',
+						esc_html( $arguments['uid'] ),
+						esc_html( $arguments['placeholder'] ),
+						esc_html( $value )
+					)
+				);
 				break;
 
 			case 'select':
@@ -189,7 +202,15 @@ class Settings {
 					$iterator       = 0;
 					foreach ( $arguments['options'] as $key => $label ) {
 						$iterator++;
-						$options_markup .= sprintf( '<label for="%1$s_%6$s"><input id="%1$s_%6$s" name="%1$s[]" type="%2$s" value="%3$s" %4$s /> %5$s</label><br/>', $arguments['uid'], $arguments['type'], $key, checked( $value[ array_search( $key, $value, true ) ], $key, false ), $label, $iterator );
+						$options_markup .= sprintf(
+							'<label for="%1$s_%6$s"><input id="%1$s_%6$s" name="%1$s[]" type="%2$s" value="%3$s" %4$s /> %5$s</label><br/>',
+							$arguments['uid'],
+							$arguments['type'],
+							$key,
+							checked( $value[ array_search( $key, $value, true ) ], $key, false ),
+							$label,
+							$iterator
+						);
 					}
 					printf( '<fieldset>%s</fieldset>', esc_html( $options_markup ) );
 				}

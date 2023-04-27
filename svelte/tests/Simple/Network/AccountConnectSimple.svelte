@@ -1,7 +1,7 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { metamaskInit } from "@helpers/metamask";
-  import { metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSignerAddress } from "@stores/metamask";
 
   /////////////////////////////////////////////////
   // <AccountConnect bind:{signer}  />
@@ -16,4 +16,3 @@
   // metamask init
   onMount(async () => await metamaskInit());
 </script>
-

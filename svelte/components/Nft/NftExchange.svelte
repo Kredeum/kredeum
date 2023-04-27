@@ -3,7 +3,7 @@
   import NftBuy from "./NftBuy.svelte";
   import NftSell from "./NftSell.svelte";
   import { nftStore } from "@stores/nft/nft";
-  import { metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSignerAddress } from "@stores/metamask";
   import { utils } from "ethers";
   import { getCurrency } from "@lib/common/config";
 

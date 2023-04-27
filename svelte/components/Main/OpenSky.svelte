@@ -11,7 +11,7 @@
   import { RefPageType } from "@lib/common/types";
 
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import { constants } from "ethers";
   import { writable, Writable } from "svelte/store";
 
@@ -25,6 +25,9 @@
   let refreshingNfts = false;
   let refreshAll: Writable<number> = writable(1);
   setContext("refreshAll", refreshAll);
+
+  let toPlayTokenID: Writable<string> = writable("");
+  setContext("toPlayTokenID", toPlayTokenID);
 
   const setNetwork = async () => {
     if (chainId != $metamaskChainId) {
@@ -44,12 +47,12 @@
   });
 </script>
 
-<main class="main-krd">
+<section>
   {#if isCollection({ chainId, address })}
     {#if tokenIdCount(tokenID) == 1}
-      <Nft {chainId} {address} {tokenID} details={false} mode="detail" />
+      <Nft {chainId} {address} {tokenID} details={false} mode="uniq" />
     {:else}
       <Nfts {chainId} {address} {tokenID} bind:refreshing={refreshingNfts} mode="grid3" />
     {/if}
   {/if}
-</main>
+</section>

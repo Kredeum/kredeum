@@ -1,11 +1,12 @@
-// import Dapp from "../tests/Simple/Home08.svelte";
-// import Dapp from "../tests/Test02.svelte";
-// import Dapp from "../tests/Dapp2.svelte";
 import CollectionChoice from "../components/Main/CollectionChoice.svelte";
-import MintButton from "../components/Main/MintButton.svelte";
+import MintButtonWp from "../components/Main/MintButtonWp.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 import OpenSky from "../components/Main/OpenSky.svelte";
+
 import Dapp from "../components/Main/Dapp.svelte";
+// import Dapp from "../components/Main/MintPopup.svelte";
+// import Dapp from "../tests/NftMintTest.svelte";
+// import Dapp from "../tests/NftMintButtonTest.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };
@@ -44,28 +45,26 @@ const _props = (target: HTMLElement): Props => {
 type OpenSkyPropsType = { chainId: number; address: string; tokenID: string };
 {
   // Kredeum OpenSky (Multiple NFTs)
-  const target: HTMLElement = document.querySelector("#kredeum-opensky");
+  const target: HTMLElement = document.querySelector("#kredeum-opensky, #kredeum-automarket");
   if (target) {
     const props = _props(target) as OpenSkyPropsType;
     new OpenSky({ target, props });
   }
 }
 
-type MintButtonPropsType = {
+type MintButtonWpPropsType = {
   src: string;
   metadata?: string;
   alt?: string;
   pid?: string;
   nid?: string;
-  width?: number;
-  display?: boolean;
 };
 {
   // Kredeum Mint Button
   const targets: NodeListOf<HTMLElement> = document.querySelectorAll(".kredeum-mint-button");
   targets?.forEach((target) => {
-    const props = _props(target) as MintButtonPropsType;
-    new MintButton({ target, props });
+    const props = _props(target) as MintButtonWpPropsType;
+    new MintButtonWp({ target, props });
   });
 }
 

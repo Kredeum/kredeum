@@ -1,6 +1,6 @@
 import type { NetworkType, NetworkWriteableFieldsType } from "@lib/common/types";
 import networks from "@config/networks.handlebars.json";
-import { buildNetworks } from "@utils/buildNetworks";
+import { runHandlebarsEnv } from "@utils/runHandlebarsEnv";
 
 import { writeFile } from "fs/promises";
 
@@ -14,7 +14,7 @@ const setNetwork = async (chainName: string, key: NetworkWriteableFieldsType, va
     await writeFile(`${__dirname}/../config/networks.handlebars.json`, JSON.stringify(networks, null, 2)).catch((err) =>
       console.error(err)
     );
-    await buildNetworks();
+    await runHandlebarsEnv("common/config/networks.handlebars.json", "common/config/networks.json");
 
     // console.info(`deployed new ${key} address => ${value}`);
   }

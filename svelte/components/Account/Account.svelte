@@ -10,6 +10,7 @@
   /////////////////////////////////////////////////
   export let account: string;
   export let txt = false;
+  export let label = true;
 
   let accountName: string = "";
   let accountAvatar: string = "";
@@ -25,7 +26,7 @@
 </script>
 
 {#if txt}
-  Address
+  {#if label}Address{/if}
   {accountName}
 {:else}
   <span class="label"

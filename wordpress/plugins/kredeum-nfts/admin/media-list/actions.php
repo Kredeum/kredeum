@@ -1,25 +1,25 @@
 <?php
 /**
- * IPFS archive
+ * Storage archive
  *
  * @package kredeum/nfts
  */
 
-namespace KredeumNFTs\Ipfs;
+namespace KredeumNFTs\Storage;
 
 /**
- * IPFS bulk archive action
+ * Storage bulk archive action
  */
 add_filter(
 	'bulk_actions-upload',
 	function ( $bulk_actions ) {
-		$bulk_actions['archive'] = __( 'Archive to IPFS', 'kredeum-nfts' );
+		$bulk_actions['archive'] = __( 'Archive to Storage', 'kredeum-nfts' );
 		return $bulk_actions;
 	}
 );
 
 /**
- * IPFS bulk archive bulk action
+ * Storage bulk archive bulk action
  */
 add_filter(
 	'handle_bulk_actions-upload',
@@ -30,9 +30,9 @@ add_filter(
 		if ( 'archive' === $action ) {
 			foreach ( $post_ids as $post_id ) {
 				$file = get_attached_file_meta( $post_id );
-				$cid  = insert( $post_id );
-				if ( $file->cid ) {
-					if ( $file->cid === $cid ) {
+				$uri  = insert( $post_id );
+				if ( $file->uri ) {
+					if ( $file->uri === $uri ) {
 						$nu++;
 					} else {
 						$nm++;
@@ -52,7 +52,7 @@ add_filter(
 );
 
 /**
- * IPFS bulk archive notice
+ * Storage bulk archive notice
  */
 add_action(
 	'admin_notices',
@@ -62,7 +62,7 @@ add_action(
 			printf(
 				'<div id="message" class="notice notice-success is-dismissible"><p>'
 				// translators: %s = $archived_count = number of medias archived.
-				. esc_html( _n( '%s media archived to IPFS', '%s medias archived to IPFS', $archived_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s media archived to Storage', '%s medias archived to Storage', $archived_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $archived_count ),
 			);
@@ -73,7 +73,7 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice notice-warning is-dismissible"><p>'
 				// translators: %s = $modified_count = number of medias modified.
-				. esc_html( _n( '%s IPFS media link modified', '%s IPFS medias links modified', $modified_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s Storage media link modified', '%s Storage medias links modified', $modified_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $modified_count )
 			);
@@ -84,7 +84,7 @@ add_action(
 			// translators: must explain %1 %2.
 				'<div id="message" class="notice is-dismissible"><p>'
 				// translators: %s = $unchanged_count = number of medias unchanged.
-				. esc_html( _n( '%s IPFS media link unchanged', '%s IPFS medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
+				. esc_html( _n( '%s Storage media link unchanged', '%s Storage medias links unchanged', $unchanged_count, 'kredeum-nfts' ) )
 				. '</p></div>',
 				esc_html( $unchanged_count )
 			);

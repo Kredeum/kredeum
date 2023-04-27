@@ -26,7 +26,7 @@ const _extract = (refBreadcrumb: RefPageType): RefPageType => {
 // CAIP-22 : erc721 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-22.md
 // CAIP-29 : erc1155 : https://github.com/ChainAgnostic/CAIPs/blob/master/CAIPs/caip-29.md
 // eip155:1/erc721:Ox123/0x456
-const refPage2Caip = (refBreadcrumb: RefPageType) => {
+const refPage2Caip = (refBreadcrumb: RefPageType): string => {
   const { chainId, address, tokenID } = _extract(refBreadcrumb);
 
   return chainId
@@ -39,7 +39,7 @@ const refPage2Caip = (refBreadcrumb: RefPageType) => {
 };
 
 // > mainnet > Ox123 > #234 > mint @ 0x1213
-const refPage2Breadcrumb = (refBreadcrumb: RefPageType) => {
+const refPage2Breadcrumb = (refBreadcrumb: RefPageType): string => {
   const { address, tokenID, account, signer, action, chainName } = _extract(refBreadcrumb);
 
   return (
@@ -58,7 +58,7 @@ const refPage2Breadcrumb = (refBreadcrumb: RefPageType) => {
 };
 
 // /mainnet/Ox123/0x456/8910/mint@0x1213
-const refPage2UrlHash = (refBreadcrumb: RefPageType) => {
+const refPage2UrlHash = (refBreadcrumb: RefPageType): string => {
   const { address, tokenID, account, action, chainName } = _extract(refBreadcrumb);
 
   return (

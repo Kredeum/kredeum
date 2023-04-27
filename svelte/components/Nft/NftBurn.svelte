@@ -6,9 +6,9 @@
   import { ADDRESS_DEAD, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
   import { collectionBurnable } from "@lib/collection/collection-get";
   import { transferNft } from "@lib/nft/nft-transfer";
-  import { metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSignerAddress } from "@stores/metamask";
 
-  import { metamaskChainId } from "@main/metamask";
+  import { metamaskChainId } from "@stores/metamask";
   import { nftStoreRemove } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
@@ -24,8 +24,6 @@
   let burnable: boolean;
   let burnTxHash: string;
   let burnError: string;
-
-  let refreshAll: Writable<number> = getContext("refreshAll");
 
   const _burnError = (err: string): void => {
     burnError = err;
@@ -97,8 +95,6 @@
     burning = S5_BURNED;
 
     nftStoreRemove(chainId, address, tokenID);
-
-    $refreshAll += 1;
   };
 
   onMount(() => {

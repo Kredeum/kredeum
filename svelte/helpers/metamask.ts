@@ -5,7 +5,7 @@ import { ethers } from "ethers";
 import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, getNetwork, isNetwork, isAddressNotZero } from "@lib/common/config";
-import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@main/metamask";
+import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@stores/metamask";
 
 let _ethereumProvider: EthereumProvider;
 

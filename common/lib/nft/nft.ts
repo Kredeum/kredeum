@@ -39,11 +39,13 @@ const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean => pric
 const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
 
 const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.collection?.price || 0);
-const nftCollectionApproved = (nft: NftType, address: string): boolean =>
-  Boolean(nft?.collection?.approvedForAll?.get(address) || false);
+const nftCollectionApproved = (nft: NftType, address: string): boolean => {
+  const approvedForAll = nft?.collection?.approvedForAll || null;
+  return approvedForAll instanceof Map ? Boolean(approvedForAll.get(address)) : false;
+};
 
-const nftMediaContentType = (nft: NftType): string => nft?.contentType?.split("/")[0];
-const nftMediaAnimationUrl = (nft: NftType): string => nft?.animation_url;
+const nftMediaContentType = (nft: NftType): string => nft?.contentType?.split("/")[0] || "";
+const nftMediaAnimationUrl = (nft: NftType): string => nft?.animation_url || "";
 const nftMediaSrc = (nft: NftType): string => nftGetImageLink(nft);
 const nftMediaAlt = (nft: NftType): string => {
   const contentType = nftMediaContentType(nft);

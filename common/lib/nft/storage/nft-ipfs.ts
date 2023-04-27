@@ -6,34 +6,34 @@ import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/config";
 let nftStorage: NftStorage;
 
 ///////////////////////////////////////////////////////////////////////////////////
-// GET ipfs image link
-const nftIpfsImage = async (image: string, key = ""): Promise<string> => {
+// GET ipfs image uri
+const nftIpfsImageUri = async (image: string, key = ""): Promise<string> => {
   nftStorage = nftStorage || new NftStorage(key);
   const ipfsImageCid = await nftStorage.pinUrl(image);
-  const ipfsImage = ipfsImageCid && `ipfs://${ipfsImageCid}`;
+  const ipfsImageUri = ipfsImageCid && `ipfs://${ipfsImageCid}`;
 
-  // console.log("nftIpfsImage", ipfsImage);
-  return ipfsImage;
+  // console.log("nftIpfsImageUri", ipfsImageUri);
+  return ipfsImageUri;
 };
 
-// GET ipfs metadata url
-const nftIpfsJson = async (
+// GET ipfs metadata uri
+const nftIpfsTokenUri = async (
   name = DEFAULT_NAME,
   nftDescription = "",
-  ipfs = "",
+  imageUri = "",
   address = "",
   image = "",
   metadata = "{}",
   properties: Properties = {},
   animation_url = ""
 ): Promise<string> => {
-  // console.log("nftIpfsJson", name, ipfs, address, image, metadata);
+  // console.log("nftIpfsTokenUri", name, imageUri, address, image, metadata);
 
   const json = {
     name,
     description: nftDescription || name || "",
-    image: ipfsGatewayUrl(ipfs),
-    ipfs,
+    image: ipfsGatewayUrl(imageUri),
+    ipfs: imageUri,
     origin: textShort(image, 140),
     minter: address
   } as NftType;
@@ -42,10 +42,10 @@ const nftIpfsJson = async (
   if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
 
   const ipfsJsonCid = await nftStorage.pinJson(json);
-  const ipfsJson = ipfsJsonCid && `ipfs://${ipfsJsonCid}`;
+  const ipfsTokenUri = ipfsJsonCid && `ipfs://${ipfsJsonCid}`;
 
-  // console.log("nftIpfsJson", ipfsJson);
-  return ipfsJson;
+  // console.log("nftIpfsTokenUri", ipfsTokenUri);
+  return ipfsTokenUri;
 };
 
-export { nftIpfsImage, nftIpfsJson };
+export { nftIpfsImageUri, nftIpfsTokenUri };

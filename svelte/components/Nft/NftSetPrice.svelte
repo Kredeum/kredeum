@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Readable } from "svelte/store";
+  import { Readable } from "svelte/store";
 
   import { BigNumber, constants } from "ethers";
 
@@ -20,7 +20,7 @@
   import { getMax } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
 
-  import { metamaskSignerAddress } from "@main/metamask";
+  import { metamaskSignerAddress } from "@stores/metamask";
   import { nftStoreAndRefresh, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
@@ -137,14 +137,16 @@
     explorerTxLog(chainId, tokenSetPriceTxResp);
 
     tokenSettingPrice = S3_WAIT_TX;
+    // console.log("tokenSetPriceTx S3", tokenSettingPrice);
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
 
     if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
 
     tokenSettingPrice = S4_PRICE_SETTED;
+    // console.log("tokenSetPriceTx S4", tokenSettingPrice);
 
-    await handleNft(true);
+    nftStoreRefresh(chainId, address, tokenID);
   };
 
   const removeFromSale = async (): Promise<void> => {

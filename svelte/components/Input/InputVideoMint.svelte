@@ -39,7 +39,7 @@
   <div class="box-file">
     {#if video}
       <div class="kre-video-mint">
-        <MediaVideo src={video} mode="line" small={true} controls={true} muted={true} />
+        <MediaVideo src={video} mode="line" />
 
         <span class="kre-delete-file" on:click={resetFileVideo} on:keydown={resetFileVideo}
           ><i class="fa fa-trash" aria-hidden="true" /></span

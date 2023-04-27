@@ -6,6 +6,9 @@ import { feeAmount, treasuryAmount } from "@lib/common/config";
 const ZeroAddress = constants.AddressZero;
 
 const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
+const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");
+const collectionOpen = (coll: CollectionType): boolean => Boolean(coll?.open);
+
 const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenAutoMarket);
 const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenMarketable);
 const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.IERC721);
@@ -32,6 +35,8 @@ const collectionPriceValid = (coll: CollectionType, price = BigNumber.from(0)): 
   !collectionRoyaltyEnforcement(coll) || price.gte(collectionRoyaltyAndFeeMinimum(coll));
 
 export {
+  collectionOwner,
+  collectionOpen,
   collectionPrice,
   collectionIsERC721,
   collectionIsERC1155,

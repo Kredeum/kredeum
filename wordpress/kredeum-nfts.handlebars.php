@@ -25,7 +25,8 @@ define( 'KREDEUM_NFTS_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
 
 if ( is_admin() ) {
 	define( 'IPFS_CID_VERSION', '1' );
-	define( 'IPFS_AUTO', get_option( 'IPFS_AUTO', array( '' ) )[0] );
+	define( 'STORAGE_AUTO', get_option( '_KRE_STORAGE_AUTO', array( '' ) )[0] );
+	define( 'STORAGE_CHOICE', get_option( '_KRE_STORAGE_CHOICE', array( '' ) )[0] );
 	define( 'IPFS_API', get_option( 'IPFS_API', array( '' ) )[0] );
 	define( 'IPFS_CLUSTER_API', get_option( 'IPFS_CLUSTER_API', array( '' ) )[0] );
 	define( 'IPFS_PINNING_API', get_option( 'IPFS_PINNING_API', array( '' ) )[0] );
@@ -34,10 +35,12 @@ if ( is_admin() ) {
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ajax/ajax.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/import.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/multipart.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/nft-storage.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/ipfs/query.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/import.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/multipart.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/nft-storage.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/swarm/swarm-bee.php';
+
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/query.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/post.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media/upload.php';
@@ -55,26 +58,35 @@ if ( is_admin() ) {
 	add_action(
 		'admin_enqueue_scripts',
 		function ( $hook ) {
-			if ( 'nfts_page_ipfs_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
+			if ( 'nfts_page_storage_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
 				wp_enqueue_script( 'kredeum_nfts', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.js', array(), KREDEUM_NFTS_VERSION, true );
 				wp_register_style( 'kredeum_nfts_css', plugin_dir_url( __FILE__ ) . 'lib/js/kredeum-nfts.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_css' );
 			}
-			if ( 'toplevel_page_nfts' === $hook ) {
+			if ( 'nfts_page_storage_settings' === $hook || 'toplevel_page_nfts' === $hook || 'upload.php' === $hook ) {
 				wp_register_style( 'kredeum_nfts_front_css', plugin_dir_url( __FILE__ ) . 'lib/css/front.css', KREDEUM_NFTS_VERSION, true );
 				wp_enqueue_style( 'kredeum_nfts_front_css' );
+			}
+			if ( 'nfts_page_storage_settings' === $hook ) {
+				wp_enqueue_script( 'kredeum_nfts_js', plugin_dir_url( __FILE__ ) . 'admin/settings/storage-choice.js', array(), KREDEUM_NFTS_VERSION, true );
 			}
 		},
 		110
 	);
 }
 
-define( 'IPFS_GATEWAY', 'https://ipfs.io/ipfs/' );
-define( 'NFT_STORAGE_KEY', get_option( 'NFT_STORAGE_KEY', '' ) ? get_option( 'NFT_STORAGE_KEY', '' ) : 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweEVkYzMzMjZEODc3OGU5QWVhMGZGMzc0MmEyRERGRDREM0E0NTYzNTciLCJpc3MiOiJuZnQtc3RvcmFnZSIsImlhdCI6MTYyMTAwMjI3ODIzNywibmFtZSI6Im9wZW4tbmZ0cyJ9.EJeI37e2D9k09coXLIz8IgqFi85gHlLteE-ETMcRt8I' );
+// IPFS.
+define( 'IPFS_GATEWAY', '{{storage.ipfs.gateway}}' );
+define( 'NFT_STORAGE_KEY', get_option( '_KRE_NFT_STORAGE_KEY', '' ) ? get_option( '_KRE_NFT_STORAGE_KEY', '' ) : '{{storage.ipfs.nftStorageKey}}' );
 
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/cid.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/link.php';
-require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/ipfs/links.php';
+// SWARM.
+define( 'SWARM_GATEWAY', '{{storage.swarm.gateway}}' );
+define( 'SWARM_NODE_URL', get_option( '_KRE_SWARM_NODE_URL', '' ) ? get_option( '_KRE_SWARM_NODE_URL', '' ) : str_replace( '/bzz', '', SWARM_GATEWAY ) );
+define( 'SWARM_BATCH_ID', get_option( '_KRE_SWARM_BATCH_ID', '' ) ? get_option( '_KRE_SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
+
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/uri.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/link.php';
+require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/links.php';
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/shortcode/shortcode.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'public/front/automarket.php';

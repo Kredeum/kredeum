@@ -15,8 +15,8 @@
   } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@main/metamask";
-  import { nftStore, nftStoreRemove } from "@stores/nft/nft";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
+  import { nftStore, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
   import { nftRoyaltyMinimum } from "@lib/nft/nft";
@@ -32,7 +32,6 @@
   $: nft = nftStore(chainId, address, tokenID);
   /////////////////////////////////////////////////
 
-  let refreshAll: Writable<number> = getContext("refreshAll");
   let transfering: number;
   let transferTxHash: string;
   let transferError: string;
@@ -98,9 +97,7 @@
 
     transfering = S4_TRANSFERED;
 
-    nftStoreRemove(chainId, address, tokenID);
-
-    $refreshAll += 1;
+    nftStoreRefresh(chainId, address, tokenID);
   };
 
   onMount(() => {
