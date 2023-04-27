@@ -71,7 +71,14 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-= 1.1.0 (stable/latest) =
+= 1.1.3 (latest) =
+* New Mint button in WP media list, with lot of available parameters
+* New OpenSky NFT shortcode, to integrate your NFT with SELL/BUY button in any WP page
+* New OpenSky Collection shortcode, to integrate your NFT collection with SELL/BUY button in any WP page
+* With HTML widget also, to integrate in any webpage
+* Swarm storage added (as an alternative to IPFS)
+
+= 1.1.0 (stable) =
 * Various fixes after v1.0
 
 = 1.0.4  =
