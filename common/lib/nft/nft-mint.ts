@@ -8,8 +8,6 @@ import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp } from "@lib/common
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
-import { nftImageUri, nftTokenUri } from "@lib/nft/storage/nft-uri";
-
 import type { IOpenNFTsV0 } from "@soltypes/src/interfaces/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@soltypes/src/interfaces/IOpenNFTsV1";
 import type { IOpenNFTsV2 } from "@soltypes/src/interfaces/IOpenNFTsV2";
@@ -161,4 +159,4 @@ const nftClaimed = async (
   return nft;
 };
 
-export { nftImageUri, nftTokenUri, nftMint, nftMinted, nftClaimed };
+export { nftMint, nftMinted, nftClaimed };
