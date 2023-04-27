@@ -15,8 +15,8 @@ const resolverConvCollectionInfos = (
 
   const chainName = getChainName(chainId);
   const address: string = getChecksumAddress(collectionInfos[0]);
-  const name: string = collectionInfos[2];
-  const symbol: string = collectionInfos[3];
+  const name: string = collectionInfos[2] || DEFAULT_NAME;
+  const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;
   const supports = resolverConvSupports(collectionInfos[7]);
 
   const collection: CollectionType = { chainId, chainName, address, name, symbol, supports };
@@ -24,7 +24,8 @@ const resolverConvCollectionInfos = (
   const totalSupply = Number(collectionInfos[4]);
   if (totalSupply > 0) collection.totalSupply = totalSupply;
 
-  collection.owner = getChecksumAddress(collectionInfos[1]);
+  const owner: string = getChecksumAddress(collectionInfos[1]);
+  if (owner && owner != constants.AddressZero) collection.owner = owner;
 
   if (collectionInfos[7][2] && account != constants.AddressZero) {
     // ERC721
