@@ -344,13 +344,14 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "https://testnet.teloscan.io/"
+      "https://testnet.teloscan.io"
     ],
     "eip1559": false,
     "create": true,
     "testnet": true,
     "nftsFactoryV3": "0x715D41B9aBfA225874F8A065192eda47af130304",
-    "openNFTs": "0xa99bDe465f40D9Af9980eED89Ed2940137be1a50"
+    "openNFTs": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",
+    "nftsResolver": "0x051A23bA9385A7c3a85170b389E7eEE88f794686"
   },
   {
     "chainId": 5,
