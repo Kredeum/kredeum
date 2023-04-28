@@ -44,6 +44,8 @@ const getChainId = (chainName: string): number | undefined =>
 
 const isNetwork = (chainId: number | string | undefined): boolean => networksMap.has(Number(chainId));
 
+const isEip1559 = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.eip1559);
+
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 //  GET nftsResolver address
@@ -524,6 +526,7 @@ export {
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
+  isEip1559,
   isTestnet,
   isCollection,
   isNetwork,
