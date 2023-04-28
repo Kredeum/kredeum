@@ -17,6 +17,7 @@
     "build2": "pnpm -F contracts -F gulp build",
     "build3": "pnpm -F svelte build",
     "build4": "pnpm -F wordpress build",
+    "build-contracts": "pnpm build1 && pnpm build2",
     "build-dapp": "pnpm build1 && pnpm build2 && pnpm build3",
     "build-wp-plugin": "pnpm install-wordpress && pnpm build1 && pnpm build2 && pnpm build3 && pnpm build4"
   },

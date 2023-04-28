@@ -523,20 +523,45 @@
     "nftsFactoryV3": ""
   },
   {
-    "chainId": 1422,
-    "chainName": "polygonzktestnet",
+    "chainId": 1101,
+    "chainName": "polygonzkevm",
     "rpcUrls": [
-      " https://rpc.public.zkevm-test.net"
+      "https://zkevm-rpc.com",
+      "https://rpc.ankr.com/polygon_zkevm"
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "ETH",
+      "symbol": "zkETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
+      "https://zkevm.polygonscan.com/"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "mainnet": true,
+    "create": true,
+    "nftsFactoryV3": "0x432390f20c4Cc1074189Be686dC0f7c55f4D7a4f"
+  },
+  {
+    "chainId": 1442,
+    "chainName": "polygonzkevmtestnet",
+    "rpcUrls": [
+      "https://rpc.public.zkevm-test.net"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zktETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet-zkevm.polygonscan.com",
       "https://explorer.public.zkevm-test.net"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
     "mainnet": false,
-    "nftsFactoryV3": "0x79F74cB4cE9FA902AC603DfEb7D04b03F3575EBf"
+    "create": true,
+    "nftsFactoryV3": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "nftsResolver": "0x636BeA69422e087eA87Ae6A98300065C11826b2C",
+    "openNFTs": "0xbfB60950de35B0EC02F67E3729925AD872707dAd"
   }
 ]
