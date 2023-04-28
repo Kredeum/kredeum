@@ -1,10 +1,10 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
+import type { BigNumberish, Overrides, PayableOverrides } from "ethers";
 import { ethers, constants } from "ethers";
 
 import type { NftType } from "@lib/common/types";
 
-import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp } from "@lib/common/config";
+import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp, isEip1559 } from "@lib/common/config";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
@@ -76,6 +76,8 @@ const nftMint = async (
   if (collectionIsOpenMarketable(collection)) {
     const notMine = collection.owner != minter;
     const value = collection.open && notMine ? collection.price : 0;
+    const overrides: PayableOverrides = { value };
+    if (isEip1559(chainId)) overrides.type = 2;
 
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minter,
@@ -83,7 +85,7 @@ const nftMint = async (
       price,
       collectionRoyaltyAccount(collection),
       collectionRoyaltyFee(collection),
-      { value, type: 2 }
+      overrides
     );
   } else if (collection.supports?.IOpenNFTsV4) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
