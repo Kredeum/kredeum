@@ -83,6 +83,22 @@ const config: HardhatUserConfig = {
 
   networks: networksFromConfig(),
 
+  etherscan: {
+    apiKey: {
+      polygonzkevm: "94I2BANNPMZ16DWA43DFWZKAG16SYYQCIG"
+    },
+    customChains: [
+      {
+        network: "polygonzkevm",
+        chainId: 1101,
+        urls: {
+          apiURL: "https://api-zkevm.polygonscan.com/api",
+          browserURL: "https://zkevm.polygonscan.com/"
+        }
+      }
+    ]
+  },
+
   verify: {
     etherscan: {
       apiKey: apiKeyConfig()
