@@ -185,6 +185,28 @@
     "nftsResolver": "0xfa44e688bD672b46dcF70CFD467cE10139d3d8DF"
   },
   {
+    "chainId": 1101,
+    "chainName": "polygonzkevm",
+    "rpcUrls": [
+      "https://zkevm-rpc.com",
+      "https://rpc.ankr.com/polygon_zkevm"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zkETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://zkevm.polygonscan.com/"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "mainnet": true,
+    "create": true,
+    "nftsFactoryV3": "0x432390f20c4Cc1074189Be686dC0f7c55f4D7a4f",
+    "nftsResolver": "0xF5bD742333e052b28f17dAeF849fe44A88948e72",
+    "openNFTs": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef"
+  },
+  {
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": [
@@ -522,26 +544,6 @@
     },
     "blockExplorerUrls": [],
     "nftsFactoryV3": ""
-  },
-  {
-    "chainId": 1101,
-    "chainName": "polygonzkevm",
-    "rpcUrls": [
-      "https://zkevm-rpc.com",
-      "https://rpc.ankr.com/polygon_zkevm"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "zkETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://zkevm.polygonscan.com/"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "mainnet": true,
-    "create": true,
-    "nftsFactoryV3": "0x432390f20c4Cc1074189Be686dC0f7c55f4D7a4f"
   },
   {
     "chainId": 1442,

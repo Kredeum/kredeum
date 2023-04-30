@@ -135,7 +135,7 @@
         }
 
         $names: "matic", "mainnet", "bsc", "fantom", "avalanche", "optimism",
-          "gnosis", "arbitrum";
+          "gnosis", "arbitrum", "polygonzkevm";
 
         @each $name in $names {
           [data-value="#{$name}"],
