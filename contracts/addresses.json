@@ -1,0 +1,41 @@
+{
+  "1": {
+    "OpenNFTs": "0xd23B0B6752EcA26a37066Ae9E562060930610619",
+    "OpenNFTsFactory": "0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039",
+    "OpenNFTsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
+    "OpenNFTsFactoryV3": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
+    "OpenNFTsResolver": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D",
+    "OpenNFTsV4": "0xc12d57A1B9f15E7893D0818f02A28dD20Ee5cBc0",
+    "OpenAutoMarket": "0xd23B0B6752EcA26a37066Ae9E562060930610619"
+  },
+  "5": {
+    "OpenNFTsFactoryV3": "0x14b44806e069084935c7ca073102f7f9a449ef1a",
+    "OpenNFTsResolver": "0x04b2d24c3b48551a7718f3da22c2a55fc1c48f5c",
+    "OpenNFTsV4": "0x06bc799f4662459e0927b4ef79981ec300095793",
+    "OpenAutoMarket": "0xbd10c1bb5e8935a2ace2dfc1249229d837e79f67"
+  },
+  "137": {
+    "OpenNFTsFactoryV3": "",
+    "OpenNFTsResolver": "",
+    "OpenNFTsV4": "",
+    "OpenAutoMarket": ""
+  },
+  "80001": {
+    "OpenNFTsFactoryV3": "0xc197a09695625d998eb2dc33675b929b9f026b25",
+    "OpenNFTsResolver": "0x78e6da4fbfc2653a76485df46df070b120e36761",
+    "OpenNFTsV4": "0x7d245ee5b041e29e8d71f359b18aae83168576ef",
+    "OpenAutoMarket": "0x14b44806e069084935c7ca073102f7f9a449ef1a"
+  },
+  "11155111": {
+    "OpenNFTsFactoryV3": "0x867b44f29f3e87412a1fccc34ace1f016a4ce565",
+    "OpenNFTsResolver": "0x478e460732cb61a1765854bdcbb11c14e02ebc84",
+    "OpenNFTsV4": "0xcf58755c41ab83385da179ef2b87e9b7cbd86ac1",
+    "OpenAutoMarket": "0x86e6192737046f2cece119acaf857068caab5ac4"
+  },
+  "31337": {
+    "OpenNFTsFactoryV3": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
+    "OpenNFTsResolver": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
+    "OpenNFTsV4": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
+    "OpenAutoMarket": "0x0165878a594ca255338adfa4d48449f69242eb8f"
+  }
+}
