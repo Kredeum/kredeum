@@ -19,6 +19,7 @@ sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
 goerli = "https://goerli.infura.io/v3/${INFURA_API_KEY}"
 mumbai = "https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}"
 telostestnet = "https://testnet.telos.net/evm"
+anvil = "http://127.0.0.1:8545"
 
 [etherscan]
 goerli = { key = "${ETHERSCAN_API_KEY}" }

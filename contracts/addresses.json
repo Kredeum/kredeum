@@ -9,10 +9,10 @@
     "OpenAutoMarket": "0xd23B0B6752EcA26a37066Ae9E562060930610619"
   },
   "5": {
-    "OpenNFTsFactoryV3": "0x14b44806e069084935c7ca073102f7f9a449ef1a",
-    "OpenNFTsResolver": "0x04b2d24c3b48551a7718f3da22c2a55fc1c48f5c",
-    "OpenNFTsV4": "0x06bc799f4662459e0927b4ef79981ec300095793",
-    "OpenAutoMarket": "0xbd10c1bb5e8935a2ace2dfc1249229d837e79f67"
+    "OpenNFTsFactoryV3": "0x14b44806e069084935c7ca073102F7f9A449eF1A",
+    "OpenNFTsResolver": "0x04b2D24C3b48551a7718f3dA22c2A55FC1C48f5c",
+    "OpenNFTsV4": "0x06bc799f4662459E0927b4eF79981eC300095793",
+    "OpenAutoMarket": "0xBD10C1BB5e8935a2acE2dFC1249229D837e79F67"
   },
   "137": {
     "OpenNFTsFactoryV3": "",
@@ -21,21 +21,21 @@
     "OpenAutoMarket": ""
   },
   "80001": {
-    "OpenNFTsFactoryV3": "0xc197a09695625d998eb2dc33675b929b9f026b25",
-    "OpenNFTsResolver": "0x78e6da4fbfc2653a76485df46df070b120e36761",
-    "OpenNFTsV4": "0x7d245ee5b041e29e8d71f359b18aae83168576ef",
-    "OpenAutoMarket": "0x14b44806e069084935c7ca073102f7f9a449ef1a"
+    "OpenNFTsFactoryV3": "0xC197A09695625d998EB2DC33675B929b9f026B25",
+    "OpenNFTsResolver": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",
+    "OpenNFTsV4": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
+    "OpenAutoMarket": "0x14b44806e069084935c7ca073102F7f9A449eF1A"
   },
   "11155111": {
-    "OpenNFTsFactoryV3": "0x867b44f29f3e87412a1fccc34ace1f016a4ce565",
-    "OpenNFTsResolver": "0x478e460732cb61a1765854bdcbb11c14e02ebc84",
-    "OpenNFTsV4": "0xcf58755c41ab83385da179ef2b87e9b7cbd86ac1",
-    "OpenAutoMarket": "0x86e6192737046f2cece119acaf857068caab5ac4"
+    "OpenNFTsFactoryV3": "0x867B44f29F3e87412A1FCcc34acE1F016A4CE565",
+    "OpenNFTsResolver": "0x478E460732Cb61A1765854BDcBB11C14e02ebC84",
+    "OpenNFTsV4": "0xcf58755c41Ab83385da179ef2B87e9B7cbD86Ac1",
+    "OpenAutoMarket": "0x86e6192737046F2CECE119AcaF857068Caab5aC4"
   },
   "31337": {
-    "OpenNFTsFactoryV3": "0x5fbdb2315678afecb367f032d93f642f64180aa3",
-    "OpenNFTsResolver": "0xe7f1725e7734ce288f8367e1bb143e90bb3f0512",
-    "OpenNFTsV4": "0xcf7ed3acca5a467e9e704c703e8d87f634fb0fc9",
-    "OpenAutoMarket": "0x0165878a594ca255338adfa4d48449f69242eb8f"
+    "OpenNFTsFactoryV3": "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+    "OpenNFTsResolver": "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
+    "OpenNFTsV4": "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+    "OpenAutoMarket": "0x0165878A594ca255338adfa4d48449f69242Eb8F"
   }
 }
