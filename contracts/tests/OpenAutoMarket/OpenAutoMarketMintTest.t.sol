@@ -24,19 +24,20 @@ abstract contract OpenAutoMarketMintTest is Test {
 
     function setUpOpenNFTsMint() public {
         _collection = payable(constructorTest(_owner));
-        changePrank(_minter);
     }
 
     function testOpenAutoMarketMint1() public {
+        vm.prank(_minter);
         IOpenAutoMarket(_collection).mint(_TOKEN_URI);
     }
 
     function testOpenAutoMarketMint5() public {
-        changePrank(_minter);
+        vm.prank(_minter);
         IOpenAutoMarket(_collection).mint(_minter, _TOKEN_URI, 10_000, address(_minter), 100);
     }
 
     function testOpenAutoMarketMint2() public {
+        vm.prank(_minter);
         IOpenNFTs(_collection).mint(_minter, _TOKEN_URI);
     }
 }

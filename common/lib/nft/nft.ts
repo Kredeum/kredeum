@@ -36,7 +36,7 @@ const nftRoyaltyAndFeeMinimum = (nft: NftType): BigNumber => nftRoyaltyMinimum(n
 
 const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean => price.gte(nftRoyaltyAndFeeMinimum(nft));
 
-const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.IOpenMarketable);
+const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.get("IOpenMarketable"));
 
 const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.collection?.price || 0);
 const nftCollectionApproved = (nft: NftType, address: string): boolean => {

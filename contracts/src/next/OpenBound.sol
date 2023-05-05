@@ -3,19 +3,6 @@
 // Derived from Kredeum NFTs
 // https://github.com/Kredeum/kredeum
 //
-//       ___           ___         ___           ___                    ___           ___                     ___
-//      /  /\         /  /\       /  /\         /__/\                  /__/\         /  /\        ___        /  /\
-//     /  /::\       /  /::\     /  /:/_        \  \:\                 \  \:\       /  /:/_      /  /\      /  /:/_
-//    /  /:/\:\     /  /:/\:\   /  /:/ /\        \  \:\                 \  \:\     /  /:/ /\    /  /:/     /  /:/ /\
-//   /  /:/  \:\   /  /:/~/:/  /  /:/ /:/_   _____\__\:\            _____\__\:\   /  /:/ /:/   /  /:/     /  /:/ /::\
-//  /__/:/ \__\:\ /__/:/ /:/  /__/:/ /:/ /\ /__/::::::::\          /__/::::::::\ /__/:/ /:/   /  /::\    /__/:/ /:/\:\
-//  \  \:\ /  /:/ \  \:\/:/   \  \:\/:/ /:/ \  \:\~~\~~\/          \  \:\~~\~~\/ \  \:\/:/   /__/:/\:\   \  \:\/:/~/:/
-//   \  \:\  /:/   \  \::/     \  \::/ /:/   \  \:\  ~~~            \  \:\  ~~~   \  \::/    \__\/  \:\   \  \::/ /:/
-//    \  \:\/:/     \  \:\      \  \:\/:/     \  \:\                 \  \:\        \  \:\         \  \:\   \__\/ /:/
-//     \  \::/       \  \:\      \  \::/       \  \:\                 \  \:\        \  \:\         \__\/     /__/:/
-//      \__\/         \__\/       \__\/         \__\/                  \__\/         \__\/                   \__\/
-//
-//
 //  OpenERC165 (supports)
 //      |
 //      ———————————————————————————————————————————————
@@ -45,7 +32,7 @@ import {IERC721Metadata} from "OpenNFTs/contracts/interfaces/IERC721Metadata.sol
 import {Bafkrey} from "OpenNFTs/contracts/libraries/Bafkrey.sol";
 
 import {IOpenBound} from "src/interfaces/IOpenBound.sol";
-import {IOpenNFTs as IOpenNFTsOld} from "src/interfaces/IOpenNFTs.old.sol";
+import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";
 
 /// @title OpenBound smartcontract
 /// limited to one nft per address

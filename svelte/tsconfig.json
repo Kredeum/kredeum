@@ -12,10 +12,10 @@
       "@helpers/*": ["svelte/helpers/*"],
       "@lib/*": ["common/lib/*"],
       "@config/*": ["common/config/*"],
-      "@soltypes/*": ["common/types/*"],
-      "@abis/*": ["common/abis/*"],
       "@utils/*": ["common/utils/*"],
       "tslib": ["svelte/node_modules/tslib/tslib.d.ts"],
+      "@soltypes/*": ["contracts/types/*"],
+      "@abis/*": ["contracts/out/*"],
       "@contracts/*": ["contracts/*"]
     }
   },

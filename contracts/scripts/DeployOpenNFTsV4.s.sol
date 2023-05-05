@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import {DeployLib} from "./DeployLib.sol";
 import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";

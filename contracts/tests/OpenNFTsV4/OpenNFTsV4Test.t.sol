@@ -28,7 +28,7 @@ contract OpenNFTsV4Test is
     }
 
     function constructorTest(address owner, bool init) public override(OpenNFTsV4InitializeTest) returns (address) {
-        changePrank(owner);
+        vm.prank(owner);
         bool[] memory options = new bool[](1);
         options[0] = true;
 
@@ -47,13 +47,13 @@ contract OpenNFTsV4Test is
         override(ERC721FullTest)
         returns (uint256, string memory)
     {
-        changePrank(minter);
+        vm.prank(minter);
         return (OpenNFTsV4(collection).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override(ERC721FullTest) {
         console.log("burnTest ~ tokenID", tokenID);
-        changePrank(OpenNFTsV4(collection).ownerOf(tokenID));
+        vm.prank(OpenNFTsV4(collection).ownerOf(tokenID));
         OpenNFTsV4(collection).burn(tokenID);
     }
 

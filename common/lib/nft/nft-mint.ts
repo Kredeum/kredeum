@@ -1,5 +1,5 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish, Overrides, PayableOverrides } from "ethers";
+import type { BigNumberish, PayableOverrides } from "ethers";
 import { ethers, constants } from "ethers";
 
 import type { NftType } from "@lib/common/types";
@@ -8,12 +8,12 @@ import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp, isEip1559 } from "
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
-import type { IOpenNFTsV0 } from "@soltypes/src/interfaces/IOpenNFTsV0";
-import type { IOpenNFTsV1 } from "@soltypes/src/interfaces/IOpenNFTsV1";
-import type { IOpenNFTsV2 } from "@soltypes/src/interfaces/IOpenNFTsV2";
-import type { IOpenNFTsV3Plus } from "@soltypes/src/interfaces/IOpenNFTsV3Plus";
-import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
-import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
+import type { IOpenNFTsV0 } from "@soltypes/IOpenNFTsV0";
+import type { IOpenNFTsV1 } from "@soltypes/IOpenNFTsV1";
+import type { IOpenNFTsV2 } from "@soltypes/IOpenNFTsV2";
+import type { IOpenNFTsV3Plus } from "@soltypes/IOpenNFTsV3Plus";
+import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@soltypes/OpenNFTsV4";
 import { collectionIsOpenMarketable, collectionRoyaltyAccount, collectionRoyaltyFee } from "@lib/collection/collection";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
@@ -87,25 +87,25 @@ const nftMint = async (
       collectionRoyaltyFee(collection),
       overrides
     );
-  } else if (collection.supports?.IOpenNFTsV4) {
+  } else if (collection.supports?.get("IOpenNFTsV4")) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
-  } else if (collection.supports?.IOpenNFTsV3) {
+  } else if (collection.supports?.get("IOpenNFTsV3")) {
     // console.log("IOpenNFTsV3");
     txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
-  } else if (collection.supports?.IOpenNFTsV2) {
+  } else if (collection.supports?.get("IOpenNFTsV2")) {
     // console.log("IOpenNFTsV2");
     txResp = await (contract as IOpenNFTsV2).mintNFT(minter, tokenURI);
-  } else if (collection.supports?.IOpenNFTsV1) {
+  } else if (collection.supports?.get("IOpenNFTsV1")) {
     // console.log("IOpenNFTsV1");
     txResp = await (contract as IOpenNFTsV1).mintNFT(minter, tokenURI);
-  } else if (collection.supports?.IOpenNFTsV0) {
+  } else if (collection.supports?.get("IOpenNFTsV0")) {
     // console.log("IOpenNFTsV0");
     txResp = await (contract as IOpenNFTsV0).addUser(minter, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
   }
 
-  // else if (collection.supports?.IOpenBound) {
+  // else if (collection.supports?.get("IOpenBound")) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
   // }

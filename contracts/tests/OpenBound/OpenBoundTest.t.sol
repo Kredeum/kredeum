@@ -27,10 +27,10 @@ contract OpenBoundTest is
         override(OpenNFTsTest, ERC173Test, ERC721NonTransferableTest, OpenPauseableTest, OpenBoundSupportsTest)
         returns (address)
     {
-        changePrank(owner);
         uint256 maxSupply = 10;
 
         OpenBound collection = new OpenBound();
+        vm.prank(owner);
         collection.initialize("OpenBound", "BOUND", owner, abi.encode(abi.encode(maxSupply), address(0), 0));
 
         return address(collection);
@@ -41,14 +41,15 @@ contract OpenBoundTest is
         override(OpenNFTsTest, OpenPauseableTest, ERC721NonTransferableTest)
         returns (uint256, string memory)
     {
-        changePrank(minter);
+        vm.prank(minter);
         uint256 tokenID = OpenBound(payable(collection)).mint(_cid++);
+
         string memory tokenURI = OpenBound(payable(collection)).tokenURI(tokenID);
         return (tokenID, tokenURI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, ERC721NonTransferableTest) {
-        changePrank(OpenBound(payable(collection)).ownerOf(tokenID));
+        vm.prank(OpenBound(payable(collection)).ownerOf(tokenID));
         OpenBound(payable(collection)).burn(tokenID);
     }
 

@@ -34,8 +34,6 @@ contract OpenNFTsResolverTest is
         )
         returns (address)
     {
-        changePrank(owner);
-
         OpenNFTsResolver smartcontract = new OpenNFTsResolver(owner, owner);
 
         return address(smartcontract);

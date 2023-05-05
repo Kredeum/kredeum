@@ -13,7 +13,7 @@ import "./OpenNFTsFactoryV3CloneTest.t.sol";
 
 contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
     function constructorTest(address owner) public override(ERC173Test, OpenNFTsFactoryV3CloneTest) returns (address) {
-        changePrank(owner);
+        vm.startPrank(owner);
 
         // FACTORY
         OpenNFTsFactoryV3 factory = new OpenNFTsFactoryV3(owner, makeAddr("treasury"), 90);
@@ -46,6 +46,8 @@ contract OpenNFTsFactoryV3Test is ERC173Test, OpenNFTsFactoryV3CloneTest {
             abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
         );
         factory.setTemplate("OpenAutoMarket", address(_openAutoMarket));
+
+        vm.stopPrank();
 
         return address(factory);
     }

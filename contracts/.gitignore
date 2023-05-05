@@ -7,6 +7,7 @@ cache-hardhat
 cache-forge
 docs
 out
+types
 
 # ENV
 **/*.env
@@ -19,5 +20,5 @@ broadcast
 .certora*
 .zip*
 
-# buikld config
+# build config
 config.json

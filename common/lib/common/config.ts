@@ -6,7 +6,7 @@ import type { NetworkType, CollectionType, NftType, RefPageType, AddressesType }
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
-import addresses from "@contracts/addresses.json";
+import addressesRaw from "@contracts/addresses.json";
 
 import { formatEther } from "ethers/lib/utils";
 
@@ -51,12 +51,13 @@ const isEip1559 = (chainId: number | string): boolean => Boolean(getNetwork(chai
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-const _addresses = JSON.parse(JSON.stringify(addresses));
+const addresses = JSON.parse(JSON.stringify(addressesRaw));
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
-const getAddresses = (chainId: number | string): AddressesType | undefined => _addresses[String(chainId)];
+const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
 //  GET OpenMulti address
-const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getOpenMulti = (chainId: number): string => ""; // getNetwork(chainId)?.openMulti || "";
 
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";

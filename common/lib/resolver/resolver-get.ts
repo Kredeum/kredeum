@@ -1,9 +1,9 @@
-import { Contract } from "ethers";
+import { Contract, ContractInterface } from "ethers";
 
-import { getNetwork, explorerContractUrl, getAddresses } from "@lib/common/config";
+import { explorerContractUrl, getAddresses } from "@lib/common/config";
 
-import type { OpenNFTsResolver } from "@soltypes/src/OpenNFTsResolver";
-import abiOpenNFTsResolver from "@abis/src/OpenNFTsResolver.sol/OpenNFTsResolver.json";
+import type { OpenNFTsResolver } from "@soltypes/OpenNFTsResolver";
+import abiOpenNFTsResolver from "@abis/OpenNFTsResolver.sol/OpenNFTsResolver.json";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 
 // Cache nftsResolver contract (chainId)
@@ -29,7 +29,11 @@ const resolverGetContract = async (chainId: number, signer = false): Promise<Ope
   if (!nftsResolver) {
     const signerOrProvider = await providerGetSignerOrProvider(chainId, signer);
 
-    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, signerOrProvider);
+    nftsResolver = new Contract(
+      resolverGetAddress(chainId),
+      abiOpenNFTsResolver as unknown as ContractInterface,
+      signerOrProvider
+    );
 
     _nftsResolversCache.set(String(chainId), nftsResolver);
   }

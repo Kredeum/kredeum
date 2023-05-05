@@ -61,13 +61,13 @@ contract OpenAutoMarketTest is
         override(OpenAutoMarketInitializeTest)
         returns (address)
     {
-        changePrank(owner);
         bool[] memory options = new bool[](2);
         options[0] = true;
         options[1] = true;
 
         OpenAutoMarket collection = new OpenAutoMarket();
         if (init) {
+            vm.prank(owner);
             IOpenCloneable(collection).initialize(
                 "OpenERC721Test",
                 "OPTEST",
@@ -93,17 +93,17 @@ contract OpenAutoMarketTest is
         )
         returns (uint256, string memory)
     {
-        changePrank(minter);
+        vm.prank(minter);
         return (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
     }
 
     function burnTest(address collection, uint256 tokenID) public override(OpenNFTsTest, OpenNFTsBurnTest) {
-        changePrank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
+        vm.prank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
         OpenAutoMarket(payable(collection)).burn(tokenID);
     }
 
     function setPriceTest(address collection, uint256 tokenID, uint256 price) public {
-        // changePrank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
+        vm.prank(OpenAutoMarket(payable(collection)).ownerOf(tokenID));
         OpenAutoMarket(payable(collection)).setTokenPrice(tokenID, price);
     }
 
@@ -112,9 +112,10 @@ contract OpenAutoMarketTest is
         override(ERC2981Test, OpenMarketableTest)
         returns (uint256 tokenID)
     {
-        changePrank(OpenAutoMarket(payable(collection)).owner());
+        vm.startPrank(OpenAutoMarket(payable(collection)).owner());
         (tokenID,) = (OpenAutoMarket(payable(collection)).mint(_TOKEN_URI), _TOKEN_URI);
         OpenAutoMarket(payable(collection)).setTokenRoyalty(tokenID, receiver, fee);
+        vm.stopPrank();
     }
 
     function setUp() public {

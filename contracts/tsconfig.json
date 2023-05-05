@@ -11,7 +11,7 @@
       "@utils/*": ["common/utils/*"],
       "@config/*": ["common/config/*"],
       "@soltypes/*": ["common/types/*"],
-      "@abis/*": ["common/abis/*"],
+      "@abis/*": ["contracts/out/*"],
       "@contracts/*": ["contracts/*"]
     }
   },

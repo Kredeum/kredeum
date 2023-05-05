@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity 0.8.19;
 
 import "forge-std/Test.sol";
 import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
@@ -7,7 +7,7 @@ import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
 contract ListCollections is Test {
     string constant ADDRESSES_FILE = "./addresses.json";
 
-    function readResolverAddress() public returns (address) {
+    function readResolverAddress() public view returns (address) {
         return abi.decode(
             vm.parseJson(
                 vm.readFile(ADDRESSES_FILE), string.concat(".", vm.toString(block.chainid), ".OpenNFTsResolver")
@@ -16,7 +16,7 @@ contract ListCollections is Test {
         );
     }
 
-    function testFirst() public {
+    function runtestFirst() public view {
         OpenNFTsResolver openNFTsResolver = OpenNFTsResolver(readResolverAddress());
         console.log("run ~ openNFTsResolver: %s", address(openNFTsResolver));
 

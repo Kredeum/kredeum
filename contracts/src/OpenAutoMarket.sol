@@ -46,7 +46,7 @@ import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
 import {OpenMarketable} from "OpenNFTs/contracts/OpenNFTs/OpenMarketable.sol";
 
 import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
-import {IOpenNFTs as IOpenNFTsOld} from "src/interfaces/IOpenNFTs.old.sol";
+import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";
 
 /// @title OpenNFTs smartcontract
 contract OpenAutoMarket is IOpenAutoMarket, OpenNFTs {
