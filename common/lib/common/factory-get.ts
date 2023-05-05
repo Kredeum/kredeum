@@ -1,6 +1,6 @@
 import { Contract } from "ethers";
 
-import { getNetwork, explorerContractUrl } from "@lib/common/config";
+import { getNetwork, explorerContractUrl, getAddresses } from "@lib/common/config";
 
 import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
 import abiOpenNFTsFactoryV3 from "@abis/src/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
@@ -10,7 +10,7 @@ import { providerGetSignerOrProvider } from "./provider-get";
 const nftsFactoriesCache: Map<string, Contract> = new Map();
 
 //  GET NFTsFactory address
-const factoryGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsFactoryV3 || "";
+const factoryGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsFactoryV3 || "";
 
 // GET NFTsFactory explorer URL
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));

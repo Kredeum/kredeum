@@ -10,13 +10,16 @@ type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" 
 type AbiType = { abi: Array<string>; interfaceId?: string };
 type ABIS = IErcKeys | IOpenNFTsKeys;
 
-type NetworkWriteableFieldsType =
-  | "openNFTs"
-  | "nftsFactory"
-  | "nftsFactoryV2"
-  | "nftsFactoryV3"
-  | "nftsResolver"
-  | "openBound";
+type AddressesType = {
+  OpenNFTs: string;
+  OpenNFTsV4: string;
+  OpenNFTsResolver: string;
+  OpenNFTsAutoMarket: string;
+  OpenNFTsFactoryV3: string;
+  OpenNFTsFactoryV2?: string;
+  OpenNFTsFactory?: string;
+  OpenNFTsBound?: string;
+};
 
 type NetworkType = {
   chainId: number;
@@ -37,13 +40,6 @@ type NetworkType = {
   admin?: string;
   blur?: string;
   openSea?: string;
-  openMulti?: string;
-  openBound?: string;
-  openNFTs?: string;
-  nftsFactory?: string;
-  nftsFactoryV2?: string;
-  nftsFactoryV3?: string;
-  nftsResolver?: string;
   eip1559?: boolean;
 };
 
@@ -197,6 +193,7 @@ export type {
   WindowEthereumProvider,
   WindowExternalProvider,
   NetworkType,
+  AddressesType,
   NftType,
   Properties,
   CollectionType,

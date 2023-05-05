@@ -11,7 +11,8 @@
       "@lib/*": ["lib/*"],
       "@abis/*": ["abis/*"],
       "@config/*": ["config/*"],
-      "@soltypes/*": ["types/*"]
+      "@soltypes/*": ["types/*"],
+      "@contracts/*": ["../contracts/*"]
     }
   },
   "include": ["**/*.ts", "../deprecated/lib/collection-initialize.ts"],
