@@ -41,7 +41,7 @@ const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.suppor
 const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.collection?.price || 0);
 const nftCollectionApproved = (nft: NftType, address: string): boolean => {
   const approvedForAll = nft?.collection?.approvedForAll || null;
-  return approvedForAll instanceof Map ? Boolean(approvedForAll.get(address)) : false;
+  return approvedForAll instanceof Map ? approvedForAll.has(address) : false;
 };
 
 const nftMediaContentType = (nft: NftType): string => nft?.contentType?.split("/")[0] || "";

@@ -1,36 +1,22 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2022",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": "..",
     "paths": {
-      "@lib/*": [
-        "common/lib/*"
-      ],
-      "@utils/*": [
-        "common/utils/*"
-      ],
-      "@config/*": [
-        "common/config/*"
-      ],
-      "@soltypes/*": [
-        "common/types/*"
-      ],
-      "@scripts/*": [
-        "hardhat/scripts/*"
-      ],
-      "@abis/*": [
-        "common/abis/*",
-      ]
+      "@lib/*": ["common/lib/*"],
+      "@utils/*": ["common/utils/*"],
+      "@config/*": ["common/config/*"],
+      "@soltypes/*": ["common/types/*"],
+      "@abis/*": ["common/abis/*"]
     }
   },
-  "include": [
-    "**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules"],
+  "ts-node": {
+    "require": ["tsconfig-paths/register"]
+  }
 }

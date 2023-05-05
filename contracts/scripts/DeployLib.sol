@@ -2,21 +2,9 @@
 pragma solidity 0.8.17;
 
 import "forge-std/Script.sol";
-import {DeployCommon} from "./DeployCommon.sol";
+import {OpenNFTsCommon} from "./OpenNFTsCommon.sol";
 
-contract DeployLib is Script, DeployCommon {
-    function writeAddress(string memory name, address addr) public {
-        string memory path = string.concat(".", vm.toString(block.chainid), ".", name);
-        vm.writeJson(vm.toString(addr), ADDRESSES_FILE, path);
-    }
-
-    function readAddress(string memory name) public view returns (address) {
-        string memory jsonFile = vm.readFile(ADDRESSES_FILE);
-        string memory path = string.concat(".", vm.toString(block.chainid), ".", name);
-
-        return abi.decode(vm.parseJson(jsonFile, path), (address));
-    }
-
+contract DeployLib is Script, OpenNFTsCommon {
     function isDeployed(string memory name) public view returns (bool deployed, address addr, bytes memory code) {
         addr = readAddress(name);
         code = vm.getDeployedCode(string.concat(name, ".sol:", name));

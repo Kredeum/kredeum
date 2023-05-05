@@ -16,10 +16,7 @@ contract DeployOpenAutoMarket is DeployLib {
         options[0] = true;
         options[1] = true;
         OpenAutoMarket(openAutoMarket).initialize(
-            "OpenAutoMarket",
-            "OMKT",
-            deployer,
-            abi.encode(abi.encode(0, deployer, 0, options), treasuryAccount, treasuryFee)
+            "OpenAutoMarket", "OMKT", deployer, abi.encode(abi.encode(0, deployer, 0, options), address(0), 0)
         );
 
         OpenNFTsFactoryV3(openNFTsFactoryV3).setTemplate("OpenAutoMarket", openAutoMarket);
