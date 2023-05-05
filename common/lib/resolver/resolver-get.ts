@@ -1,6 +1,6 @@
 import { Contract } from "ethers";
 
-import { getNetwork, explorerContractUrl } from "@lib/common/config";
+import { getNetwork, explorerContractUrl, getAddresses } from "@lib/common/config";
 
 import type { OpenNFTsResolver } from "@soltypes/src/OpenNFTsResolver";
 import abiOpenNFTsResolver from "@abis/src/OpenNFTsResolver.sol/OpenNFTsResolver.json";
@@ -10,7 +10,7 @@ import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 const _nftsResolversCache: Map<string, Contract> = new Map();
 
 //  GET openNFTsResolver address
-const resolverGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
+const resolverGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsResolver || "";
 
 // GET openNFTsResolver explorer URL
 const resolverGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, resolverGetAddress(chainId));

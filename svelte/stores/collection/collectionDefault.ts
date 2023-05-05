@@ -1,13 +1,13 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { getNetwork } from "@lib/common/config";
+import { getAddresses, getNetwork } from "@lib/common/config";
 import { collectionStore, collectionStoreRefresh } from "./collection";
 import { keyCollectionDefault } from "@lib/common/keys";
 import { constants } from "ethers";
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenNFTs || "";
 
 // LOADER : LOAD Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {

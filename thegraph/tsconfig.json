@@ -1,26 +1,18 @@
 {
   "compilerOptions": {
-    "target": "es2018",
+    "target": "es2020",
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
     "resolveJsonModule": true,
     "baseUrl": "..",
     "paths": {
-      "@config/*": [
-        "common/config/*"
-      ],
-      "@utils/*": [
-        "common/utils/*"
-      ]
+      "@config/*": ["common/config/*"],
+      "@utils/*": ["common/utils/*"]
     }
   },
   "ts-node": {
-    "require": [
-      "tsconfig-paths/register"
-    ]
+    "require": ["tsconfig-paths/register"]
   },
-  "files": [
-    "build-yaml.ts"
-  ]
+  "files": ["build-yaml.ts"]
 }
