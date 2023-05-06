@@ -3,8 +3,8 @@ import { Contract, ContractInterface } from "ethers";
 import { explorerContractUrl, getAddresses } from "@lib/common/config";
 
 import type { OpenNFTsFactoryV3 } from "@soltypes/OpenNFTsFactoryV3";
-import abiOpenNFTsFactoryV3 from "@abis/OpenNFTsFactoryV3.sol/OpenNFTsFactoryV3.json";
-import { providerGetSignerOrProvider } from "./provider-get";
+import { providerGetSignerOrProvider } from "@lib/common/provider-get";
+import { getAbi } from "@lib/common/artifacts";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<string, Contract> = new Map();
@@ -26,7 +26,7 @@ const factoryGetContract = async (chainId: number, getSigner = false): Promise<O
 
     nftsFactory = new Contract(
       factoryGetAddress(chainId),
-      abiOpenNFTsFactoryV3 as unknown as ContractInterface,
+      getAbi("OpenNFTsFactoryV3") as ContractInterface,
       signerOrProvider
     );
 

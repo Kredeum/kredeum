@@ -2,7 +2,7 @@ import { Contract, Signer, constants } from "ethers";
 
 import type { CollectionType } from "@lib/common/types";
 import type { JsonFragment } from "@ethersproject/abi";
-import { abis } from "@lib/common/abis";
+import { getAbi } from "@lib/common/artifacts";
 import { resolverGetCollection } from "@lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@lib/common/keys";
@@ -35,13 +35,12 @@ const collectionGetContract = async (
 
     for (const [key, support] of Object.entries(collection.supports || {})) {
       if (support) {
-        const abiKey = abis.get(key) as JsonFragment;
+        const abiKey = getAbi(key) as JsonFragment;
 
         if (abiKey) {
           const keyAbi = key == "IOpenNFTsV3" ? "IOpenNFTsV3Plus" : key;
           // console.log("collectionGetContract", key, abiKey);
-          const abip = abis.get(keyAbi) as JsonFragment;
-          abi = abi.concat(abip);
+          abi = abi.concat(getAbi(keyAbi) as JsonFragment);
         } else {
           console.error("collectionGetContract ERROR", key);
         }
