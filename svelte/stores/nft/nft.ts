@@ -10,6 +10,7 @@ import { constants } from "ethers";
 import { isAddressNotZero } from "@lib/common/config";
 import { keyCollection, keyNft } from "@lib/common/keys";
 import { collectionListStore } from "@stores/collection/collectionList";
+import { jsonMapStringify } from "@helpers/jsonMap";
 
 const nftStoreSet = (nft: NftType): void => {
   const { chainId, address, tokenID } = nft || {};
@@ -20,7 +21,7 @@ const nftStoreSet = (nft: NftType): void => {
     const key = keyNft(chainId, address, tokenID);
 
     if (typeof localStorage !== "undefined") {
-      localStorage.setItem(key, JSON.stringify(nft));
+      localStorage.setItem(key, jsonMapStringify(nft));
     }
     return $nftListStore.set(key, nft);
   });
