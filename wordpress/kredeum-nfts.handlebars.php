@@ -77,12 +77,12 @@ if ( is_admin() ) {
 
 // IPFS.
 define( 'IPFS_GATEWAY', '{{storage.ipfs.gateway}}' );
-define( 'NFT_STORAGE_KEY', get_option( '_KRE_NFT_STORAGE_KEY', '' ) ? get_option( '_KRE_NFT_STORAGE_KEY', '' ) : '{{storage.ipfs.nftStorageKey}}' );
+define( 'NFT_STORAGE_KEY', get_option( '_KRE_IPFS_STORAGE_KEY', '' ) ? get_option( '_KRE_IPFS_STORAGE_KEY', '' ) : '{{storage.ipfs.nftStorageKey}}' );
 
 // SWARM.
 define( 'SWARM_GATEWAY', '{{storage.swarm.gateway}}' );
-define( 'SWARM_NODE_URL', get_option( '_KRE_SWARM_NODE_URL', '' ) ? get_option( '_KRE_SWARM_NODE_URL', '' ) : str_replace( '/bzz', '', SWARM_GATEWAY ) );
-define( 'SWARM_BATCH_ID', get_option( '_KRE_SWARM_BATCH_ID', '' ) ? get_option( '_KRE_SWARM_BATCH_ID', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
+define( 'SWARM_ENDPOINT', get_option( '_KRE_SWARM_ENDPOINT', '' ) ? get_option( '_KRE_SWARM_ENDPOINT', '' ) : str_replace( '/bzz', '', SWARM_GATEWAY ) );
+define( 'SWARM_BATCH_ID', get_option( '_KRE_SWARM_STORAGE_KEY', '' ) ? get_option( '_KRE_SWARM_STORAGE_KEY', '' ) : '0000000000000000000000000000000000000000000000000000000000000000' );
 
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/uri.php';
 require_once KREDEUM_NFTS_PLUGIN_PATH . 'common/storage/link.php';

@@ -48,7 +48,7 @@ add_action(
 				. ' nid="' . esc_attr( $nid ) . '"'
 				. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 				. ' alt="' . esc_attr( $post->post_title ) . '"'
-				. ' storage="' . ( defined( 'STORAGE_CHOICE' ) ? esc_attr( STORAGE_CHOICE ) : '' ) . '"/>'
+				. '/>'
 			);
 		}
 	}

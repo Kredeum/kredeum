@@ -1,4 +1,4 @@
-import type { NftType, Properties } from "@lib/common/types";
+import type { NftType, Properties, StorageOptionType } from "@lib/common/types";
 
 import { DEFAULT_NAME, textShort, ipfsGatewayUrl, swarmGatewayUrl } from "@lib/common/config";
 
@@ -18,7 +18,10 @@ const _srcToFileType = async (src: string): Promise<File> => {
 // Params
 // image
 // key : Swarm batchID (batch of stamps)
-const nftSwarmImageUri = async (image: string | File, key = ""): Promise<string> => {
+const nftSwarmImageUri = async (
+  image: string | File,
+  storageOption: StorageOptionType = { default: "swarm" }
+): Promise<string> => {
   let file: string | File = image;
 
   if (typeof image === "string" && (image.startsWith("http") || image.startsWith("data:"))) {
@@ -27,7 +30,7 @@ const nftSwarmImageUri = async (image: string | File, key = ""): Promise<string>
     file = image;
   }
 
-  const swarmImageUri = `swarm://${await swarmUploadFile(file, key)}`;
+  const swarmImageUri = `swarm://${await swarmUploadFile(file, storageOption)}`;
 
   return swarmImageUri;
 };
@@ -41,7 +44,8 @@ const nftSwarmTokenUri = async (
   image = "",
   metadata = "{}",
   properties: Properties = {},
-  animation_url = ""
+  animation_url = "",
+  storageOption: StorageOptionType = { default: "swarm" }
 ): Promise<string> => {
   const json = {
     name,
@@ -55,7 +59,7 @@ const nftSwarmTokenUri = async (
   if (Object.keys(properties).length > 0) json.properties = properties;
   if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
 
-  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2), storageOption)}`;
 
   return swarmTokenUri;
 };

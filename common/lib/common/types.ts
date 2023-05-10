@@ -131,6 +131,21 @@ type swarmType = {
 type storageType = XOR<ipfsType, swarmType>;
 
 ///////////////////////////////////////////////////
+// Upload storage Options parameters for Ipfs | Swarm | arweave
+///////////////////////////////////////////////////
+type OptionType = {
+  apiEndpoint: string;
+  apiKey: string;
+  gateway: string;
+};
+
+type StorageOptionType = {
+  default: string;
+  ipfs?: OptionType;
+  swarm?: OptionType;
+  arweave?: OptionType;
+};
+///////////////////////////////////////////////////
 
 type NftMetadata = {
   name?: string;
@@ -207,6 +222,8 @@ export type {
   NetworkWriteableFieldsType,
   ABIS,
   NftMetadata,
+  OptionType,
+  StorageOptionType,
   IOpenNFTsKeys,
   IErcKeys,
   RefPageType

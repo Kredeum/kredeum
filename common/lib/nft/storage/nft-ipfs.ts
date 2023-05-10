@@ -1,4 +1,4 @@
-import type { NftType, Properties } from "@lib/common/types";
+import type { NftType, Properties, StorageOptionType } from "@lib/common/types";
 
 import NftStorage from "@lib/nft/storage/nft-storage";
 import { ipfsGatewayUrl, textShort, DEFAULT_NAME } from "@lib/common/config";
@@ -7,8 +7,11 @@ let nftStorage: NftStorage;
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET ipfs image uri
-const nftIpfsImageUri = async (image: string, key = ""): Promise<string> => {
-  nftStorage = nftStorage || new NftStorage(key);
+const nftIpfsImageUri = async (
+  image: string,
+  storageOption: StorageOptionType = { default: "ipfs" }
+): Promise<string> => {
+  nftStorage = nftStorage || new NftStorage(storageOption?.ipfs?.apiKey || "");
   const ipfsImageCid = await nftStorage.pinUrl(image);
   const ipfsImageUri = ipfsImageCid && `ipfs://${ipfsImageCid}`;
 
@@ -25,7 +28,8 @@ const nftIpfsTokenUri = async (
   image = "",
   metadata = "{}",
   properties: Properties = {},
-  animation_url = ""
+  animation_url = "",
+  storageOption: StorageOptionType = { default: "ipfs" }
 ): Promise<string> => {
   // console.log("nftIpfsTokenUri", name, imageUri, address, image, metadata);
 

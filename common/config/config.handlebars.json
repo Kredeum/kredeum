@@ -10,6 +10,8 @@
       "nftStorageKey": "{{NFT_STORAGE_KEY}}"
     },
     "swarm": {
+      "apiEndpoint": "{{SWARM_END_POINT}}",
+      "apiKey": "{{GATEWAY_SWARM_BATCH_ID}}",
       "gateway": "https://api.gateway.ethswarm.org/bzz"
     }
   },

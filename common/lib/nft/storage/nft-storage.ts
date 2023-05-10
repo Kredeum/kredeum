@@ -1,7 +1,9 @@
+import { config } from "@lib/common/config";
+
 import Ipfs from "@lib/common/ipfs";
 
 const nftStorageEndpoint = "https://api.nft.storage";
-const keyDefault: string = process.env.NFT_STORAGE_KEY || "";
+const keyDefault: string = config.storage.ipfs.nftStorageKey || "";
 
 type NftStorageResponse = {
   ok: boolean;
