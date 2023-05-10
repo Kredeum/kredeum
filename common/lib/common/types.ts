@@ -9,11 +9,11 @@ type AddressesType = {
   OpenNFTs: string;
   OpenNFTsV4: string;
   OpenNFTsResolver: string;
-  OpenNFTsAutoMarket: string;
   OpenNFTsFactoryV3: string;
   OpenNFTsFactoryV2?: string;
   OpenNFTsFactory?: string;
-  OpenNFTsBound?: string;
+  OpenAutoMarket: string;
+  OpenBound?: string;
 };
 
 type NetworkType = {

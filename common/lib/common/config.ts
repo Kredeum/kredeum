@@ -56,8 +56,7 @@ const addresses = JSON.parse(JSON.stringify(addressesRaw));
 const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
 //  GET OpenMulti address
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const getOpenMulti = (chainId: number): string => ""; // getNetwork(chainId)?.openMulti || "";
+const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
 
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
@@ -542,7 +541,7 @@ export {
   getChecksumAddress,
   getNetwork,
   getAddresses,
-  getOpenMulti,
+  getOpenBound,
   getBlur,
   getBlurUrl,
   getDappUrl,

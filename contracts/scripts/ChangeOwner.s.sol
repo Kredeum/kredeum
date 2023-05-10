@@ -1,13 +1,14 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.19;
 
+import {DeployLite} from "forge-deploy-lite/DeployLite.sol";
+
 import "forge-std/Script.sol";
 import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";
 import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
-import {OpenNFTsCommon} from "./OpenNFTsCommon.sol";
 import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
 
-contract ChangeOwner is Script, OpenNFTsCommon {
+contract ChangeOwner is Script, DeployLite {
     OpenNFTsFactoryV3 openFactory;
     address openNFTsFactoryV3;
     address openFactoryOwner;
@@ -74,7 +75,7 @@ contract ChangeOwner is Script, OpenNFTsCommon {
         }
 
         if (openAutoMarketOwner == deployer) {
-            console.log("OpenNFTsAutoMarket owner change from @%s to @%s", openAutoMarketOwner, newOwner);
+            console.log("OpenAutoMarket owner change from @%s to @%s", openAutoMarketOwner, newOwner);
             OpenERC173(openAutoMarket).transferOwnership(newOwner);
         }
 

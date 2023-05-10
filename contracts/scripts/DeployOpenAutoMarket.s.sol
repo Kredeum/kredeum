@@ -1,11 +1,12 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.19;
 
-import {DeployLib} from "./DeployLib.sol";
+import {DeployLite} from "forge-deploy-lite/DeployLite.sol";
+
 import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";
 import {OpenAutoMarket} from "src/OpenAutoMarket.sol";
 
-contract DeployOpenAutoMarket is DeployLib {
+contract DeployOpenAutoMarket is DeployLite {
     function deployOpenAutoMarket() public returns (address openAutoMarket) {
         address openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
 
