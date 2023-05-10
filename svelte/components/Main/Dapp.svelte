@@ -140,7 +140,7 @@
     <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
 
     <div class="row alignbottom">
-      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+      <div id="kre-web3modal" class="col col-xs-12 col-sm-3 kre-copy-ref-container">
         <!-- <AccountConnect bind:signer /> -->
         <Web3Modal bind:account bind:chainId />
       </div>
