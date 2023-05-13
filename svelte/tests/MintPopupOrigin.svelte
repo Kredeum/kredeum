@@ -18,7 +18,6 @@
     explorerTxLog,
     explorerNftUrl,
     nftUrl,
-    storageLinkToUrlHttp,
     config,
     getCurrency,
     displayEther,
@@ -45,6 +44,7 @@
     collectionRoyaltyFee,
     collectionRoyaltyMinimum
   } from "@lib/collection/collection";
+  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {chainId} />

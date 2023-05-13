@@ -38,7 +38,7 @@ function insert( $post_id ) {
 				}
 				break;
 			case 'swarm':
-				if ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) ) {
+				if ( defined( 'SWARM_ENDPOINT' ) && defined( 'SWARM_BATCH_ID' ) ) {
 					$uri = 'swarm://' . swarm_add_and_pin( $post_id );
 				}
 				break;

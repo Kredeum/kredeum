@@ -4,7 +4,6 @@
   import { metamaskInit } from "@helpers/metamask";
 
   import type { NftType } from "@lib/common/types";
-  import { ipfsLinkToCid } from "@lib/common/config";
 
   import { metamaskChainId, metamaskSignerAddress, metamaskSigner } from "@stores/metamask";
 
@@ -13,6 +12,7 @@
   import CollectionSelect from "../components/Collection/CollectionSelect.svelte";
 
   import NftMintButton from "../components/Nft/NftMintButton.svelte";
+  import { ipfsLinkToCid } from "@lib/nft/storage/ipfs";
 
   /////////////////////////////////////////////////
   // <MintButton {src} {metadata} {alt} {pid} {width} {display} />

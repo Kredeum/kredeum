@@ -29,7 +29,7 @@ const production = process.env.ENVIR == "PROD";
 console.info("production", production);
 
 const envKeysValues = {};
-for (const envKey of ["NFT_STORAGE_KEY", "GIT_BRANCH", "GIT_SHORT"]) {
+for (const envKey of ["GIT_BRANCH", "GIT_SHORT"]) {
   envKeysValues[`process.env.${envKey}`] = `"${process.env[envKey] || ""}"`;
 }
 // console.log("envKeysValues", JSON.stringify(envKeysValues, null, 2));

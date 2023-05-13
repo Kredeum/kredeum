@@ -117,18 +117,36 @@ type Without<T> = { [P in keyof T]?: undefined };
 type XOR<T, U> = (Without<T> & U) | (Without<U> & T);
 
 ////////
-type ipfsType = {
+type IpfsMetadataType = {
   ipfs?: string;
   ipfsJson?: string;
 };
 
-type swarmType = {
+type SwarmMetadataType = {
   swarm?: string;
   swarmJson?: string;
 };
 
 ////////
-type storageType = XOR<ipfsType, swarmType>;
+type StorageMetadataType = XOR<IpfsMetadataType, SwarmMetadataType>;
+
+///////////////////////////////////////////////////
+// Upload storage Options parameters for Ipfs | Swarm | arweave
+///////////////////////////////////////////////////
+type StorageParamsType = {
+  apiEndpoint: string;
+  apiKey: string;
+  gateway: string;
+};
+
+type StorageConfigType = {
+  default: string;
+  ipfs?: StorageParamsType;
+  swarm?: StorageParamsType;
+  arweave?: StorageParamsType;
+};
+
+type StorageType = "ipfs" | "swarm" | "arweave";
 
 ///////////////////////////////////////////////////
 
@@ -142,7 +160,7 @@ type NftMetadata = {
   image_url?: string;
   animation_url?: string;
   properties?: Properties;
-} & storageType;
+} & StorageMetadataType;
 
 type NftType = {
   chainId: number;
@@ -173,7 +191,7 @@ type NftType = {
   price?: BigNumber;
   collection?: CollectionType;
   properties?: Properties;
-} & storageType;
+} & StorageMetadataType;
 
 type Property = {
   name: string;
@@ -207,6 +225,9 @@ export type {
   NetworkWriteableFieldsType,
   ABIS,
   NftMetadata,
+  StorageType,
+  StorageParamsType,
+  StorageConfigType,
   IOpenNFTsKeys,
   IErcKeys,
   RefPageType

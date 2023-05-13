@@ -17,7 +17,7 @@
     explorerTxUrl,
     explorerNftUrl,
     nftUrl,
-    storageLinkToUrlHttp,
+
     displayEther,
     treasuryFee,
     getDappUrl
@@ -56,6 +56,7 @@
   } from "@helpers/nftMint";
   import NftMint from "./NftMint.svelte";
   import { metamaskInit } from "@helpers/metamask";
+  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
