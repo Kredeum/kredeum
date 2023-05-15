@@ -16,7 +16,7 @@ contract DeployOpenAutoMarket is DeployLite {
         bool[] memory options = new bool[](2);
         options[0] = true;
         options[1] = true;
-        OpenAutoMarket(openAutoMarket).initialize(
+        OpenAutoMarket(payable(openAutoMarket)).initialize(
             "OpenAutoMarket", "OMKT", deployer, abi.encode(abi.encode(0, deployer, 0, options), address(0), 0)
         );
 

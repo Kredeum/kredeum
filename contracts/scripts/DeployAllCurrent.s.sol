@@ -9,7 +9,7 @@ import {DeployOpenNFTsV4} from "./DeployOpenNFTsV4.s.sol";
 import {DeployOpenAutoMarket} from "./DeployOpenAutoMarket.s.sol";
 import {DeployOpenBound} from "./DeployOpenBound.s.sol";
 
-contract DeployAll is
+contract DeployAllCurrent is
     DeployOpenNFTsFactoryV3,
     DeployOpenNFTsResolver,
     DeployOpenNFTsV4,
@@ -26,6 +26,5 @@ contract DeployAll is
         deploy("OpenNFTsResolver");
         deploy("OpenNFTsV4");
         deploy("OpenAutoMarket");
-        deploy("OpenBound");
     }
 }

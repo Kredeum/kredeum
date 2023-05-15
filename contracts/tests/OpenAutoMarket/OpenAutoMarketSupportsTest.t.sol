@@ -3,10 +3,14 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/tests/interfaces/IAll.sol";
-import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import "src/interfaces/IOpenAutoMarket.sol";
-import "src/OpenNFTsResolver.sol";
+import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
+import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
+import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
+import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
+import {IERC721TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
 
 abstract contract OpenAutoMarketSupportsTest is Test {
     OpenNFTsResolver private _resolver;
@@ -36,20 +40,19 @@ abstract contract OpenAutoMarketSupportsTest is Test {
     }
 
     function testOpenAutoMarketCheckSupportedInterfaces() public {
-        bytes4[9] memory ids = [
+        bytes4[8] memory ids = [
             type(IOpenCloneable).interfaceId,
             type(IOpenMarketable).interfaceId,
             type(IOpenAutoMarket).interfaceId,
             type(IOpenNFTs).interfaceId,
-            type(IOpenAutoMarket).interfaceId,
             type(IOpenPauseable).interfaceId,
             type(IOpenChecker).interfaceId,
             type(IERC721TokenReceiver).interfaceId,
             0xffffffff
         ];
-        bool[9] memory expected = [true, true, true, true, true, true, false, false, false];
+        bool[8] memory expected = [true, true, true, true, true, false, false, false];
 
-        bytes4[] memory interfaceIds = new bytes4[](9);
+        bytes4[] memory interfaceIds = new bytes4[](8);
         for (uint256 i = 0; i < ids.length; i++) {
             interfaceIds[i] = ids[i];
         }

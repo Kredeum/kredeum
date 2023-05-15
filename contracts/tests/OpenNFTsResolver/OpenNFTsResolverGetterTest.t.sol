@@ -3,11 +3,10 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/tests/interfaces/IAll.sol";
-import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import "src/interfaces/IOpenNFTsResolver.sol";
-import "src/OpenNFTsResolver.sol";
-import "src/OpenNFTsV4.sol";
+import {IERCNftInfos} from "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
+import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
+import {OpenNFTsV4} from "src/OpenNFTsV4.sol";
+import {IOpenNFTsInfos} from "src/interfaces/IOpenNFTsInfos.sol";
 
 abstract contract OpenNFTsResolverGetterTest is Test {
     OpenNFTsResolver private _resolver;
@@ -33,8 +32,24 @@ abstract contract OpenNFTsResolverGetterTest is Test {
         vm.stopPrank();
     }
 
-    function testOpenNFTsResolverGetter(address account) public view {
+    function testOpenNFTsResolverGetterGetOpenNFTsCollectionsInfos0(address account) public view {
         _resolver.getOpenNFTsCollectionsInfos(account);
+    }
+
+    function testOpenNFTsResolverGetterGetOpenNFTsCollectionsInfos() public view {
+        (
+            IERCNftInfos.CollectionInfos[] memory collectionsInfos,
+            IOpenNFTsInfos.OpenNFTsCollectionInfos[] memory openNFTsCollectionsInfos,
+            uint256 count,
+            uint256 total
+        ) = _resolver.getOpenNFTsCollectionsInfos(_owner);
+        uint256 len = collectionsInfos.length;
+
+        console.log("collectionsInfos: %s %s %s", len, count, total);
+        for (uint256 i = 0; i < len; i++) {
+            console.log("collectionsInfos[%s]: %s", i, collectionsInfos[i].name, collectionsInfos[i].collection);
+            console.log("openNFTsCollectionsInfos[%s]: %s", i, openNFTsCollectionsInfos[i].template);
+        }
     }
 
     function testOpenNFTsResolverGetOpenNFTsNftInfos1() public view {

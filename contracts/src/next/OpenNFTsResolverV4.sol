@@ -204,8 +204,11 @@ contract OpenNFTsResolverV4 is IOpenNFTsResolver, OpenResolver {
         returns (OpenNFTsCollectionInfos memory collInfos)
     {
         if (supported[_IOPEN_CLONEABLE]) {
-            collInfos.version = IOpenCloneable(collection).version(); // 4
-            collInfos.template = IOpenCloneable(collection).template(); // OpenNFTsV4 or OpenBound
+            collInfos.version = IOpenCloneable(collection).version();
+            collInfos.template = IOpenCloneable(collection).template();
+        }
+
+        if (supported[_IOPEN_NFTS_V4]) {
             collInfos.open = IOpenNFTsV4(collection).open();
         } else if (supported[_IOPEN_NFTS_V3]) {
             collInfos.version = 3;

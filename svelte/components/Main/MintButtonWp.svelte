@@ -5,7 +5,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
   import { NftType } from "@lib/common/types";
-  import { nftStorageSet } from "@lib/nft/storage/nft-uri";
+  import { storageConfigSet } from "@lib/nft/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   // <MintButtonWp  />
@@ -45,7 +45,7 @@
 
   onMount(async () => {
     // SET storage type IPFS / Swarm or ArWeave
-    if (storage) nftStorageSet(storage);
+    if (storage) storageConfigSet({ default: storage });
 
     await metamaskInit();
   });

@@ -145,7 +145,7 @@
 
       <!-- <Networks {chainId} /> -->
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <NetworkSelect bind:chainId />
+        <NetworkSelect bind:chainId label={true} />
       </div>
 
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">

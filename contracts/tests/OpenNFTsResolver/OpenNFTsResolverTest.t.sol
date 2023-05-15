@@ -7,14 +7,13 @@ import "src/OpenNFTsResolver.sol";
 import "./OpenNFTsResolverSupportsTest.t.sol";
 import "./OpenNFTsResolverGetterTest.t.sol";
 
-import "OpenNFTs/tests/interfaces/ITest.sol";
 import "OpenNFTs/tests/units/OpenResolverTest.t.sol";
 import "OpenNFTs/tests/units/OpenCheckerTest.t.sol";
 import "OpenNFTs/tests/units/OpenGetterTest.t.sol";
 import "OpenNFTs/tests/units/OpenRegistryTest.t.sol";
 
 contract OpenNFTsResolverTest is
-    ITest,
+    Test,
     OpenResolverTest,
     OpenCheckerTest,
     OpenGetterTest,
@@ -39,7 +38,7 @@ contract OpenNFTsResolverTest is
         return address(smartcontract);
     }
 
-    function setUp() public override {
+    function setUp() public {
         setUpOpenResolver();
         setUpOpenRegistry();
         setUpOpenChecker();

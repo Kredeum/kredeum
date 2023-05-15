@@ -57,6 +57,7 @@ const getAddresses = (chainId: number | string): AddressesType | undefined => ad
 
 //  GET OpenMulti address
 const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
+const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
@@ -365,6 +366,7 @@ export {
   getNetwork,
   getAddresses,
   getOpenBound,
+  hasOpenBound,
   getBlur,
   getBlurUrl,
   getDappUrl,
@@ -384,12 +386,12 @@ export {
   nftCollectionName,
   nftsSupply,
   nftsBalanceAndName,
-  networks,
   normalizedSoloNftUrl,
   numberToHexString,
   sleep,
   textShort,
   urlToLink,
+  networks,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,

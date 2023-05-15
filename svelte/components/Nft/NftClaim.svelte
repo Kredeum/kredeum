@@ -112,7 +112,7 @@
             <i class="fas fa-hand-holding-usd" /> Claim this NFT #{textShort(tokenID, 4)} on another network ?
           </div>
 
-          <NetworkSelect bind:chainId={targetChainId} />
+          <NetworkSelect bind:chainId={targetChainId} label={true} bound={true} />
 
           <div class="txtright">
             <button class="btn btn-default btn-sell" type="submit" on:click={claim}>Claim</button>

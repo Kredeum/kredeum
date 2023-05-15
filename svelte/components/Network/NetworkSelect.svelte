@@ -1,18 +1,20 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, getNetwork, isTestnet, networks } from "@lib/common/config";
+  import { getChainName, hasOpenBound, isTestnet, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import { NetworkType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
-  // <NetworksSelect bind:{chainId} {txt} {label} />
+  // <NetworkSelect bind:{chainId} {txt} {label} />
   // Select Network via a list box
   /////////////////////////////////////////////////
   export let chainId: number = 0;
   export let txt: boolean = false;
+  export let bound: boolean = undefined;
   export let label = true;
 
   let open = false;
@@ -30,13 +32,21 @@
   };
 
   const handleToggleOpen = () => (open = !open);
+
+  // All mainnet networks
+  // and testnet networks if current chain is testnet
+  // that hasOpenBound if bound is true
+  const networksFilter = (): Array<NetworkType> =>
+    networks.filter(
+      (nw: NetworkType) => (nw.mainnet || (isTestnet(chainId) && nw.testnet)) && (!bound || hasOpenBound(chainId))
+    );
 </script>
 
 {#if txt}
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networks.filter((nw) => nw.mainnet || (isTestnet(chainId) && nw.testnet)) as nwk}
+    {#each networksFilter() as nwk}
       <option value={nwk.chainId} selected={nwk.chainId == chainId}>
         <Network chainId={nwk.chainId} {txt} />
         &nbsp;
@@ -71,7 +81,7 @@
       </div>
 
       <div class="custom-options">
-        {#each networks.filter((nw) => nw.mainnet || (isTestnet(chainId) && nw.testnet)) as nwk}
+        {#each networksFilter() as nwk}
           <span
             class="custom-option {nwk.chainId == chainId && 'selected'}"
             data-value={getChainName(nwk.chainId)}
