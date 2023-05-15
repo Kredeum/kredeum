@@ -6,7 +6,7 @@ import { resolverGetNfts as nftListLib } from "@lib/resolver/resolver-get-nft";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { nftListTokenIds } from "@lib/nft/nft-list";
 
-import {  collectionStoreRefresh } from "@stores/collection/collection";
+import { collectionStoreRefresh } from "@stores/collection/collection";
 import { collectionListStore } from "@stores/collection/collectionList";
 
 import { nftStoreSet } from "./nft";
@@ -84,7 +84,7 @@ const nftSubListStoreRefresh = async (
   }
 
   let nfts: Map<string, NftType>;
-  if (collection?.supports?.IERC721Enumerable) {
+  if (collection?.supports?.get("IERC721Enumerable")) {
     ({ nfts } = await nftListLib(chainId, collection, filter));
   } else {
     nfts = await nftListTokenIds(chainId, collection, filter);

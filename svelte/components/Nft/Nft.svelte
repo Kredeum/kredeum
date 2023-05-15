@@ -29,6 +29,7 @@
     nftPriceValid
   } from "@lib/nft/nft";
 
+  import NftClaim from "./NftClaim.svelte";
   import NftTransfer from "./NftTransfer.svelte";
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
@@ -96,7 +97,11 @@
           >
 
           {#if nftOwner($nft) === owner}
-            <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+          <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
+            ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
+          >
+
+          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
               ><i class="fa fa-gift fa-left" /> TRANSFER</a
             >
 
@@ -384,10 +389,10 @@
 </div>
 
 <!-- Modal claim nft -->
-
-<!-- <div id="claim-nft-{tokenID}" class="modal-window">
+<div id="claim-nft-{tokenID}" class="modal-window">
   <NftClaim {chainId} {address} {tokenID} />
-</div> -->
+</div>
+
 <style>
   .kre-media {
     max-height: 33vh;
@@ -410,7 +415,9 @@
   :global(
       .kre-action-buttons button.btn-detail,
       .kre-action-buttons button.btn-buy-modal,
+      .kre-action-buttons button.btn-claim-modal,
       .kre-action-buttons a.btn-transfer-modal,
+      .kre-action-buttons a.btn-claim-modal,
       .kre-action-buttons a.btn-burn-modal,
       .kre-action-buttons a.btn-share-modal,
       .kre-action-buttons a.btn-buy-modal
@@ -432,6 +439,7 @@
   }
 
   :global(
+      .kre-action-buttons a.btn-claim-modal:hover,
       .kre-action-buttons a.btn-transfer-modal:hover,
       .kre-action-buttons a.btn-share-modal:hover,
       .kre-action-buttons a.btn-share-modal:hover i

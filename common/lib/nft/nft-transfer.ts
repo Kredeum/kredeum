@@ -3,10 +3,10 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerTxLog } from "@lib/common/config";
 
-import type { IERC721 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC721";
-import type { IERC1155 } from "@soltypes/OpenNFTs/contracts/interfaces/IERC1155";
-import type { IOpenAutoMarket } from "@soltypes/src/interfaces/IOpenAutoMarket";
-import type { OpenAutoMarket } from "@soltypes/src";
+import type { IERC721 } from "@soltypes/IERC721";
+import type { IERC1155 } from "@soltypes/IERC1155";
+import type { IOpenAutoMarket } from "@soltypes/IOpenAutoMarket";
+import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
 import { constants } from "ethers";
 import {
   collectionIsAutoMarket,

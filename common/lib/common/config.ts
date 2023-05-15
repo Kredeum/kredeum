@@ -2,10 +2,12 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
+import type { NetworkType, CollectionType, NftType, RefPageType, AddressesType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
+import addressesRaw from "@contracts/addresses.json";
+
 import { formatEther } from "ethers/lib/utils";
 
 const PAGE_SIZE = 12;
@@ -48,20 +50,20 @@ const isEip1559 = (chainId: number | string): boolean => Boolean(getNetwork(chai
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
-//  GET nftsResolver address
-const getNftsResolver = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
-
-//  GET default OpenNFTs address
-const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const addresses = JSON.parse(JSON.stringify(addressesRaw));
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
 //  GET OpenMulti address
-const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
+const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
 
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
 
 // GET OpenSea
 const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
+
 // GET OpenSea Url
 const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
@@ -361,9 +363,8 @@ export {
   getShortAddress,
   getChecksumAddress,
   getNetwork,
-  getNftsResolver,
-  getDefaultOpenNFTs,
-  getOpenMulti,
+  getAddresses,
+  getOpenBound,
   getBlur,
   getBlurUrl,
   getDappUrl,

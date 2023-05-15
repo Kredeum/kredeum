@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
@@ -24,18 +24,20 @@ abstract contract OpenNFTsV4MintTest is Test {
 
     function setUpOpenNFTsV4Mint() public {
         _collection = constructorTest(_owner);
-        changePrank(_minter);
     }
 
     function testOpenNFTsV4Mint1() public {
+        vm.prank(_owner);
         IOpenNFTsV4(_collection).mint(_TOKEN_URI);
     }
 
     function testOpenNFTsV4Mint5() public {
+        vm.prank(_owner);
         IOpenNFTsV4(_collection).mint(_minter, _TOKEN_URI);
     }
 
     function testOpenNFTsV4Mint2() public {
+        vm.prank(_owner);
         IOpenNFTs(_collection).mint(_minter, _TOKEN_URI);
     }
 }

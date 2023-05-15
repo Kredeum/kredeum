@@ -1,6 +1,6 @@
 import { BigNumber, constants } from "ethers";
 
-import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/src/interfaces/IOpenNFTsResolver";
+import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
 import { getChainName, getChecksumAddress } from "@lib/common/config";
 

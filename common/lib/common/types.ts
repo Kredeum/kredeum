@@ -5,18 +5,16 @@ import { BigNumber } from "ethers";
 type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumProvider };
 type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider };
 
-type IOpenNFTsKeys = "IOpenNFTsV4" | "IOpenNFTsV3" | "IOpenNFTsV2" | "IOpenNFTsV1" | "IOpenNFTsV0";
-type IErcKeys = "IERC165" | "IERC721" | "IERC721Metadata" | "IERC721Enumerable" | "IERC1155" | "IERC1155MetadataURI";
-type AbiType = { abi: Array<string>; interfaceId?: string };
-type ABIS = IErcKeys | IOpenNFTsKeys;
-
-type NetworkWriteableFieldsType =
-  | "openNFTs"
-  | "nftsFactory"
-  | "nftsFactoryV2"
-  | "nftsFactoryV3"
-  | "nftsResolver"
-  | "openBound";
+type AddressesType = {
+  OpenNFTs: string;
+  OpenNFTsV4: string;
+  OpenNFTsResolver: string;
+  OpenNFTsFactoryV3: string;
+  OpenNFTsFactoryV2?: string;
+  OpenNFTsFactory?: string;
+  OpenAutoMarket: string;
+  OpenBound?: string;
+};
 
 type NetworkType = {
   chainId: number;
@@ -37,13 +35,6 @@ type NetworkType = {
   admin?: string;
   blur?: string;
   openSea?: string;
-  openMulti?: string;
-  openBound?: string;
-  openNFTs?: string;
-  nftsFactory?: string;
-  nftsFactoryV2?: string;
-  nftsFactoryV3?: string;
-  nftsResolver?: string;
   eip1559?: boolean;
 };
 
@@ -62,7 +53,7 @@ type CollectionType = {
   totalSupply?: number;
   balancesOf?: Map<string, number>;
   approvedForAll?: Map<string, boolean>;
-  supports?: CollectionSupports;
+  supports?: Map<string, boolean>;
   chainName?: string;
   startBlock?: number;
   description?: string;
@@ -72,40 +63,6 @@ type CollectionType = {
   royalty?: ReceiverType;
   royaltyEnforcement?: boolean;
   price?: BigNumber;
-};
-
-type CollectionSupports = {
-  IERC165?: boolean;
-
-  IERC721?: boolean;
-  IERC721Metadata?: boolean;
-  IERC721Enumerable?: boolean;
-  IERC721TokenReceiver?: boolean;
-
-  IERC1155?: boolean;
-  IERC1155MetadataURI?: boolean;
-  IERC1155TokenReceiver?: boolean;
-
-  IERC173?: boolean;
-  IERC2981?: boolean;
-
-  IOpenNFTs?: boolean;
-  IOpenChecker?: boolean;
-  IOpenCloneable?: boolean;
-  IOpenMarketable?: boolean;
-  IOpenPauseable?: boolean;
-
-  ICloneFactoryV2?: boolean;
-  INFTsFactoryV2?: boolean;
-  IOpenNFTsFactoryV3?: boolean;
-
-  IOpenNFTsV0?: boolean;
-  IOpenNFTsV1?: boolean;
-  IOpenNFTsV2?: boolean;
-  IOpenNFTsV3?: boolean;
-  IOpenNFTsV4?: boolean;
-  IOpenAutoMarket?: boolean;
-  IOpenBound?: boolean;
 };
 
 type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number };
@@ -215,20 +172,15 @@ export type {
   WindowEthereumProvider,
   WindowExternalProvider,
   NetworkType,
+  AddressesType,
   NftType,
   Properties,
   CollectionType,
-  CollectionSupports,
   CollectionFilterType,
   ReceiverType,
-  AbiType,
-  NetworkWriteableFieldsType,
-  ABIS,
   NftMetadata,
   StorageType,
   StorageParamsType,
   StorageConfigType,
-  IOpenNFTsKeys,
-  IErcKeys,
   RefPageType
 };

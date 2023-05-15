@@ -477,7 +477,7 @@
                 </div>
               {/if}
 
-              {#if collection?.supports?.IOpenAutoMarket && !collection?.open && collection?.owner === $metamaskSignerAddress}
+              {#if collection?.supports?.get("IOpenAutoMarket") && !collection?.open && collection?.owner === $metamaskSignerAddress}
                 <div class="section">
                   <div class="titre">NFT Sell Price</div>
                   <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />

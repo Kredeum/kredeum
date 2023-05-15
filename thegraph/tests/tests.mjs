@@ -1,4 +1,4 @@
-// npx mocha tests.mjs  --experimental-json-modules
+// pnpx mocha tests.mjs  --experimental-json-modules
 import { expect } from "chai";
 
 describe("Subgraph Tests", async function () {

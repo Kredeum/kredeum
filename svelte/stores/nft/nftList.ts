@@ -1,6 +1,7 @@
 import { writable } from "svelte/store";
 
 import type { NftType } from "@lib/common/types";
+import { jsonMapParse } from "@helpers/jsonMap";
 
 // LOADER : LOAD Nfts from localStorage
 const nftListLoadLocalStorage = (): Map<string, NftType> => {
@@ -10,7 +11,7 @@ const nftListLoadLocalStorage = (): Map<string, NftType> => {
     const key = localStorage.key(index);
 
     if (key?.startsWith("nft://")) {
-      nfts.set(key, JSON.parse(localStorage.getItem(key)) as NftType);
+      nfts.set(key, jsonMapParse(localStorage.getItem(key)) as NftType);
     }
   }
   // console.log("nftListLoadLocalStorage", nfts);

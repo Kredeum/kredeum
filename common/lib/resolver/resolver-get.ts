@@ -1,16 +1,16 @@
-import { Contract } from "ethers";
+import { Contract, ContractInterface } from "ethers";
 
-import { getNetwork, explorerContractUrl } from "@lib/common/config";
+import { explorerContractUrl, getAddresses } from "@lib/common/config";
 
-import type { OpenNFTsResolver } from "@soltypes/src/OpenNFTsResolver";
-import abiOpenNFTsResolver from "@abis/src/OpenNFTsResolver.sol/OpenNFTsResolver.json";
+import type { OpenNFTsResolver } from "@soltypes/OpenNFTsResolver";
+import { getAbi } from "@lib/common/artifacts";
 import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<string, Contract> = new Map();
 
 //  GET openNFTsResolver address
-const resolverGetAddress = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
+const resolverGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsResolver || "";
 
 // GET openNFTsResolver explorer URL
 const resolverGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, resolverGetAddress(chainId));
@@ -29,7 +29,12 @@ const resolverGetContract = async (chainId: number, signer = false): Promise<Ope
   if (!nftsResolver) {
     const signerOrProvider = await providerGetSignerOrProvider(chainId, signer);
 
-    nftsResolver = new Contract(resolverGetAddress(chainId), abiOpenNFTsResolver, signerOrProvider);
+    nftsResolver = new Contract(
+      resolverGetAddress(chainId),
+      getAbi("OpenNFTsResolver") as ContractInterface,
+      signerOrProvider
+    );
+    // console.log("resolverGetContract ~ nftsResolver:", nftsResolver);
 
     _nftsResolversCache.set(String(chainId), nftsResolver);
   }

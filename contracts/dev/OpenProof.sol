@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "@openzeppelin/contracts-upgradeable/access/OwnableUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/token/ERC721/ERC721Upgradeable.sol";
@@ -46,7 +46,7 @@ contract OpenProof is
     /// @param jsonURI json URI of NFT metadata
     function mintOpenProof(address to, string memory jsonURI)
         external
-        override (IOpenProof)
+        override(IOpenProof)
         onlyMinter
         returns (uint256 tokenId)
     {
@@ -63,7 +63,7 @@ contract OpenProof is
     function tokenURI(uint256 tokenId)
         public
         view
-        override (ERC721Upgradeable, ERC721URIStorageUpgradeable)
+        override(ERC721Upgradeable, ERC721URIStorageUpgradeable)
         returns (string memory tokenURI_)
     {
         tokenURI_ = super.tokenURI(tokenId);
@@ -74,7 +74,7 @@ contract OpenProof is
     function supportsInterface(bytes4 interfaceId)
         public
         view
-        override (ERC721Upgradeable, ERC721EnumerableUpgradeable)
+        override(ERC721Upgradeable, ERC721EnumerableUpgradeable)
         returns (bool)
     {
         return interfaceId == type(IERC173).interfaceId || interfaceId == type(IERC4973).interfaceId
@@ -85,11 +85,11 @@ contract OpenProof is
         address, // from,
         address to,
         uint256 tokenId
-    ) internal override (ERC721Upgradeable) {
+    ) internal override(ERC721Upgradeable) {
         emit Attest(to, tokenId);
     }
 
-    function _burn(uint256 tokenId) internal override (ERC721Upgradeable, ERC721URIStorageUpgradeable) {
+    function _burn(uint256 tokenId) internal override(ERC721Upgradeable, ERC721URIStorageUpgradeable) {
         super._burn(tokenId);
     }
 
@@ -97,7 +97,7 @@ contract OpenProof is
         address from,
         address, // to,
         uint256 // tokenId
-    ) internal pure override (ERC721Upgradeable, ERC721EnumerableUpgradeable) {
+    ) internal pure override(ERC721Upgradeable, ERC721EnumerableUpgradeable) {
         require(from == address(0), "Non transferable NFT");
     }
 }

@@ -36,7 +36,7 @@
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networks.filter((nw) => nw.nftsResolver && (nw.mainnet || (isTestnet(chainId) && nw.testnet))) as nwk}
+    {#each networks.filter((nw) => nw.mainnet || (isTestnet(chainId) && nw.testnet)) as nwk}
       <option value={nwk.chainId} selected={nwk.chainId == chainId}>
         <Network chainId={nwk.chainId} {txt} />
         &nbsp;
@@ -71,7 +71,7 @@
       </div>
 
       <div class="custom-options">
-        {#each networks.filter((nw) => nw.nftsResolver && (nw.mainnet || (isTestnet(chainId) && nw.testnet))) as nwk}
+        {#each networks.filter((nw) => nw.mainnet || (isTestnet(chainId) && nw.testnet)) as nwk}
           <span
             class="custom-option {nwk.chainId == chainId && 'selected'}"
             data-value={getChainName(nwk.chainId)}

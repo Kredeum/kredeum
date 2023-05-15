@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/contracts/interfaces/IAll.sol";
+import "OpenNFTs/tests/interfaces/IAll.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "src/interfaces/IOpenNFTsV4.sol";
 import "src/OpenNFTsResolver.sol";

@@ -1,6 +1,4 @@
-import type { CollectionSupports, ABIS } from "@lib/common/types";
-
-const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
+const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
   /// 0xffffffff :  O Invalid
   /// 0x01ffc9a7 :  1 ERC165
   ///
@@ -33,7 +31,7 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
   if (!(checks && checks.length == 23)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
   let i = 1;
-  const supports: CollectionSupports = {
+  const supportsObject = {
     IERC165: checks[i++],
 
     IERC721: checks[i++],
@@ -62,12 +60,14 @@ const resolverConvSupports = (checks: Array<boolean>): CollectionSupports => {
     IOpenAutoMarket: checks[i++],
     IOpenBound: checks[i++]
   };
+  const supports = new Map(Object.entries(supportsObject));
+
   // console.log("resolverConvSupports", address, supports);
 
   // assert IERC165 to be always true and check 0xffffffff to be false
-  if (!(supports.IERC165 && !checks[0] && i == 23)) throw "ERROR resolverConvSupports";
-  for (const key in supports) {
-    if (!supports[key as ABIS]) delete supports[key as ABIS];
+  if (!(supports.get("IERC165") && !checks[0] && i == 23)) throw "ERROR resolverConvSupports";
+  for (const [key, value] of supports) {
+    if (!value) supports.delete(key);
   }
 
   return supports;

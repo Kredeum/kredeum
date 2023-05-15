@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 interface IOpenAutoMarket {
     function mint(string memory tokenURI) external returns (uint256 tokenID);

@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
@@ -27,16 +27,16 @@ abstract contract OpenAutoMarketBuyTest is Test {
     }
 
     function testBuyOk() public {
-        changePrank(_owner);
+        vm.startPrank(_owner);
         IERC721(_collection).setApprovalForAll(_collection, true);
-
         IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
         IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
+        vm.stopPrank();
 
-        changePrank(_buyer);
         deal(_buyer, 10 ether);
 
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _owner);
+        vm.prank(_buyer);
         IOpenAutoMarket(_collection).buy{value: 1.5 ether}(_tokenID0);
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _buyer);
 
@@ -51,30 +51,31 @@ abstract contract OpenAutoMarketBuyTest is Test {
         IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
         IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
 
-        changePrank(_buyer);
         deal(_buyer, 10 ether);
 
+        vm.startPrank(_buyer);
         IOpenAutoMarket(_collection).buy{value: 1 ether}(_tokenID0);
         IOpenAutoMarket(_collection).buy{value: 1 ether}(_tokenID0);
+        vm.stopPrank();
     }
 
     function testFailBuyNotEnoughFunds() public {
         IOpenMarketable(_collection).setTokenRoyalty(_tokenID0, _tester, 100);
         IOpenMarketable(_collection).setTokenPrice(_tokenID0, 1 ether);
 
-        changePrank(_buyer);
         deal(_buyer, 10 ether);
 
+        vm.prank(_buyer);
         IOpenAutoMarket(_collection).buy{value: 0.5 ether}(_tokenID0);
     }
 
     function testFailBuyNotToSell() public {
         IOpenMarketable(_collection).setTokenPrice(_tokenID0, 0);
 
-        changePrank(_buyer);
         deal(_buyer, 10 ether);
-
         assertEq(IERC721(_collection).ownerOf(_tokenID0), _owner);
+
+        vm.prank(_buyer);
         IOpenAutoMarket(_collection).buy{value: 1 ether}(_tokenID0);
     }
 }

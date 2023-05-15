@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/contracts/interfaces/IAll.sol";
+import "OpenNFTs/tests/interfaces/IAll.sol";
 import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
 import "src/interfaces/IOpenNFTsResolver.sol";
 import "src/OpenNFTsResolver.sol";
@@ -24,10 +24,13 @@ abstract contract OpenNFTsResolverGetterTest is Test {
         bool[] memory options = new bool[](1);
         options[0] = true;
         _collection = address(new OpenNFTsV4());
+
+        vm.startPrank(_owner);
         OpenNFTsV4(_collection).initialize(
             "OpenNFTsV4Test", "OPTEST", _owner, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
         );
         OpenNFTsV4(_collection).mint(_TOKEN_URI);
+        vm.stopPrank();
     }
 
     function testOpenNFTsResolverGetter(address account) public view {
@@ -38,7 +41,7 @@ abstract contract OpenNFTsResolverGetterTest is Test {
         _resolver.getOpenNFTsNftInfos(_collection, 1, _random);
     }
 
-    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public {
+    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public view {
         _resolver.getOpenNFTsNftInfos(_collection, 9, _random);
     }
 }

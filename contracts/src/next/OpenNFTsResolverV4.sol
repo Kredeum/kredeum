@@ -6,7 +6,7 @@
 //        |
 //  OpenNFTsResolver —— IOpenNFTsResolver
 //
-pragma solidity ^0.8.17;
+pragma solidity ^0.8.19;
 
 import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
 import {OpenResolver} from "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";

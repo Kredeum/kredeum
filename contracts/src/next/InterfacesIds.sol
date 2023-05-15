@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import {IERC165} from "OpenNFTs/contracts/interfaces/IERC165.sol";
 
@@ -35,7 +35,7 @@ import {IOpenNFTsFactoryV3} from "src/interfaces/IOpenNFTsFactoryV3.sol";
 
 import {IOpenNFTsResolver} from "src/interfaces/IOpenNFTsResolver.sol";
 
-import {IOpenNFTs as IOpenNFTsOld} from "src/interfaces/IOpenNFTs.old.sol";
+import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";
 import {IOpenNFTsV3Plus} from "src/interfaces/IOpenNFTsV3Plus.sol";
 
 import {IInterfacesIds} from "src/interfaces/IInterfacesIds.sol";
