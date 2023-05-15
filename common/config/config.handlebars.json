@@ -1,21 +1,24 @@
 {
   "version": {
-    "latest": "1.1.4",
+    "latest": "1.2.0",
     "stable": "1.1.4"
   },
   "storage": {
-    "type": "ipfs",
+    "default": "ipfs",
     "ipfs": {
       "gateway": "https://nftstorage.link/ipfs",
-      "nftStorageKey": "{{NFT_STORAGE_KEY}}"
+      "apiEndpoint": "https://api.nft.storage",
+      "apiKey": "{{NFT_STORAGE_KEY}}"
     },
     "swarm": {
-      "gateway": "https://api.gateway.ethswarm.org/bzz"
+      "gateway": "https://api.gateway.ethswarm.org/bzz",
+      "apiEndpoint": "{{SWARM_ENDPOINT}}",
+      "apiKey": "{{SWARM_BATCH_ID}}"
     }
   },
   "base": "https://app.kredeum.com",
   "treasury": {
-    "account": "0x47e2382D9e1e985BA1F4064E7D8d753Fab99F209",
+    "account": "{{TREASURY_ACCOUNT}}",
     "fee": 90
   },
   "env": {}

@@ -4,7 +4,6 @@
 
   import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
-  import { getDappUrl, ipfsLinkToCid } from "@lib/common/config";
   import { NftType } from "@lib/common/types";
   import { nftStorageSet } from "@lib/nft/storage/nft-uri";
 
@@ -17,7 +16,7 @@
   export let alt: string = undefined;
   export let pid: string = undefined;
   export let nid: string = undefined;
-  export let storage: string = "";
+  export let storage: string = undefined;
   /////////////////////////////////////////////////
 
   let open = false;

@@ -12,9 +12,7 @@
     getBlurUrl,
     textShort,
     displayEther,
-    uriShort,
-    uriGetImage,
-    uriToUrl
+    uriShort
   } from "@lib/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
@@ -36,6 +34,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
+  import { storageUriGetImage, storageUriToUrl } from "@lib/nft/storage/storage";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -170,7 +169,7 @@
                   <div class="overflow-ellipsis">
                     <a
                       class="link overflow-ellipsis"
-                      href={uriToUrl($nft.tokenURI)}
+                      href={storageUriToUrl($nft.tokenURI)}
                       title={$nft.tokenURI}
                       target="_blank"
                       rel="noreferrer">{uriShort($nft.tokenURI)}</a
@@ -186,8 +185,8 @@
               <div class="flex"><span class="label">Image</span></div>
               <div class="flex kre-flex-align-center">
                 <div class="overflow-ellipsis">
-                  <a class="link" href={$nft.image} title={uriGetImage($nft)} target="_blank" rel="noreferrer">
-                    {uriShort(uriGetImage($nft)) || ""}
+                  <a class="link" href={$nft.image} title={storageUriGetImage($nft)} target="_blank" rel="noreferrer">
+                    {uriShort(storageUriGetImage($nft)) || ""}
                   </a>
                 </div>
                 <CopyRefItem copyData={$nft.image || ""} />

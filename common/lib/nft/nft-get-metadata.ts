@@ -1,15 +1,10 @@
 import type { NftType, NftMetadata } from "@lib/common/types";
 import { fetchJson } from "@lib/common/fetch";
-import {
-  ipfsGetLink,
-  ipfsGatewayUrl,
-  swarmGetLink,
-  swarmGatewayUrl,
-  getNetwork,
-  getChecksumAddress
-} from "@lib/common/config";
+import { getNetwork, getChecksumAddress } from "@lib/common/config";
 import { keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
+import { swarmGatewayUrl, swarmGetLink } from "./storage/swarm";
+import { ipfsGatewayUrl, ipfsGetLink } from "./storage/ipfs";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();

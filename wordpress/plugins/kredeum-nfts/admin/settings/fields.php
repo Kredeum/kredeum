@@ -44,7 +44,7 @@ function fields() {
 		),
 
 		array(
-			'uid'         => '_kre_nft_storage_key',
+			'uid'         => '_kre_ipfs_storage_key',
 			'label'       => 'NFT_STORAGE_KEY',
 			'section'     => 'first_section',
 			'type'        => 'textarea',
@@ -55,8 +55,8 @@ function fields() {
 		),
 
 		array(
-			'uid'         => '_kre_swarm_node_url',
-			'label'       => 'SWARM_NODE_URL',
+			'uid'         => '_kre_swarm_endpoint',
+			'label'       => 'SWARM_ENDPOINT',
 			'section'     => 'first_section',
 			'type'        => 'text',
 			'placeholder' => 'Your Swarm Bee node URL',
@@ -65,7 +65,7 @@ function fields() {
 			'class'       => 'kre-swarm-storage kre-storage-option',
 		),
 		array(
-			'uid'         => '_kre_swarm_batch_id',
+			'uid'         => '_kre_swarm_storage_key',
 			'label'       => 'SWARM_BATCH_ID',
 			'section'     => 'first_section',
 			'type'        => 'text',

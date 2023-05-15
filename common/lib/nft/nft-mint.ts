@@ -1,10 +1,10 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish, Overrides, PayableOverrides } from "ethers";
+import type { BigNumberish, PayableOverrides } from "ethers";
 import { ethers, constants } from "ethers";
 
 import type { NftType } from "@lib/common/types";
 
-import { ipfsGatewayUrl, explorerTxLog, storageLinkToUrlHttp, isEip1559 } from "@lib/common/config";
+import { explorerTxLog, isEip1559 } from "@lib/common/config";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
@@ -15,6 +15,8 @@ import type { IOpenNFTsV3Plus } from "@soltypes/src/interfaces/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@soltypes/src/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
 import { collectionIsOpenMarketable, collectionRoyaltyAccount, collectionRoyaltyFee } from "@lib/collection/collection";
+import { storageLinkToUrlHttp } from "./storage/storage";
+import { ipfsGatewayUrl } from "./storage/ipfs";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

@@ -1,13 +1,6 @@
 <script lang="ts">
-  import NftStorage from "@lib/nft/storage/nft-storage";
-  import {
-    getOpenMulti,
-    explorerTxLog,
-    explorerNftUrl,
-    explorerTxUrl,
-    textShort,
-    storageLinkToUrlHttp
-  } from "@lib/common/config";
+  import NftStorage from "@lib/nft/storage/nftstorage";
+  import { getOpenMulti, explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
   import { nftMint, nftClaimed } from "@lib/nft/nft-mint";
   import { cidToInt } from "@lib/common/cid";
 
@@ -15,6 +8,7 @@
   import { metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
