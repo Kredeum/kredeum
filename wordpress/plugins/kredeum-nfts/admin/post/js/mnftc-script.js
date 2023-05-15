@@ -51,8 +51,20 @@ jQuery(document).ready(function($) {
                   
                     if (balance > 0) {
                       // The user owns at least one NFT from the collection
-                      console.log('User owns at least one NFT from the collection');
-                      $('#krd-nft-access-' + nftContractAddress + ' #nft-owner-content').show();
+                      //console.log('User owns at least one NFT from the collection');
+
+                      console.log('User owns at least one NFT from the collection'); 
+                      let Text = $('#krd-nft-access-' + nftContractAddress + ' #nft-owner-content #nft-owner-content-in').html();
+                      //console.log("content:", Text);
+                      
+                      try {
+                        let decodedText = decodeURIComponent(escape(atob(Text)));
+                        $('#krd-nft-access-' + nftContractAddress + ' #nft-owner-content #nft-owner-content-in').html(decodedText);
+                        $('#krd-nft-access-' + nftContractAddress + ' #nft-owner-content').show();
+                        //console.log("decodedText:", decodedText);
+                      } catch (error) {
+                        console.error("Error decoding the string:", error);
+                      }
                     } else {
                       // The user doesn't own any NFT from the collection
                       console.log('User does not own any NFT from the collection');

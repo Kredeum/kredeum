@@ -22,10 +22,11 @@ add_filter(
             global $post;
             $nft_contract_address = get_post_meta($post->ID, '_krd_text_field', true);
             if (!empty($nft_contract_address)) {
+                $content = base64_encode($content);
                 $content = "<div id='krd-nft-access-" . $nft_contract_address . "' class='krd-collection-id' krd-collection-id='" . $nft_contract_address . "'>" .
-                "<div id='nft-owner-content' style='display: none;'>" . 
+                "<div id='nft-owner-content' style='display: none;'><div id='nft-owner-content-in'>" . 
                 $content . 
-                "<br><a href='https://app.kredeum.com/#/matic/" . $nft_contract_address . "' target='_blank'>Link to your NFT allowing access to this content.</a>" .
+                "</div><br><a href='https://app.kredeum.com/#/matic/" . $nft_contract_address . "' target='_blank'>Link to your NFT allowing access to this content.</a>" .
                 "</div>";
                 $content .= "<div id='nft-error-message' style='display: none;'>" .
                 "You don't own any NFT to access this content. Please purchase one to view this content" .
