@@ -1,3 +1,5 @@
+import { ContractInterface } from "ethers";
+
 import artifactIERC165 from "@artifacts/IERC165.sol/IERC165.json";
 
 import artifactIERC721 from "@artifacts/IERC721.sol/IERC721.json";
@@ -81,8 +83,8 @@ const artifactsObject = {
 
 const artifactsMap = new Map(Object.entries(artifactsObject));
 
-const getAbi = (interfaceName: string) => {
-  return artifactsMap.get(interfaceName)?.abi || {};
+const getAbi = (interfaceName: string): ContractInterface => {
+  return artifactsMap.get(interfaceName)?.abi || "";
 };
 
 const getArtifact = (interfaceName: string) => {

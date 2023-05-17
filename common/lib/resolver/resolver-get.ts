@@ -29,11 +29,7 @@ const resolverGetContract = async (chainId: number, signer = false): Promise<Ope
   if (!nftsResolver) {
     const signerOrProvider = await providerGetSignerOrProvider(chainId, signer);
 
-    nftsResolver = new Contract(
-      resolverGetAddress(chainId),
-      getAbi("OpenNFTsResolver") as ContractInterface,
-      signerOrProvider
-    );
+    nftsResolver = new Contract(resolverGetAddress(chainId), getAbi("OpenNFTsResolver"), signerOrProvider);
     // console.log("resolverGetContract ~ nftsResolver:", nftsResolver);
 
     _nftsResolversCache.set(String(chainId), nftsResolver);

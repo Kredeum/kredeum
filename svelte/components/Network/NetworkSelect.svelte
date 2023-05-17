@@ -38,7 +38,9 @@
   // that hasOpenBound if bound is true
   const networksFilter = (): Array<NetworkType> =>
     networks.filter(
-      (nw: NetworkType) => (nw.mainnet || (isTestnet(chainId) && nw.testnet)) && (!bound || hasOpenBound(chainId))
+      (nw: NetworkType) =>
+        //(nw.mainnet || (isTestnet(chainId) && nw.testnet)) &&
+        !bound || hasOpenBound(nw.chainId)
     );
 </script>
 

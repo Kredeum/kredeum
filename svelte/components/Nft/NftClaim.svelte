@@ -1,14 +1,16 @@
 <script lang="ts">
   import NftStorage from "@lib/nft/storage/nftstorage";
   import { getOpenBound, explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
-  import { nftMint, nftClaimed } from "@lib/nft/nft-mint";
+  import { nftClaim, nftClaimed } from "@lib/nft/nft-claim";
   import { cidToInt } from "@lib/common/cid";
 
   import { nftStore } from "@stores/nft/nft";
-  import { metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
   import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { metamaskSwitchChain } from "@helpers/metamask";
+  import { providerSetFallback } from "@lib/common/provider-get";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -30,6 +32,15 @@
 
   $: claimingError && console.error(claimingError);
 
+  // CHANGE network on targetChainId change
+  $: targetChainId && handleChainId();
+  const handleChainId = async () => {
+    // console.log("<NftClaim targetChainId", targetChainId, $metamaskChainId);
+    if (targetChainId != $metamaskChainId) {
+      await metamaskSwitchChain(targetChainId);
+    }
+  };
+
   const claim = async () => {
     claimTxHash = null;
     claiming = true;
@@ -48,15 +59,16 @@
 
     nftStorage ||= new NftStorage();
     const cid = await nftStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
+    console.log("claim ~ cid:", cid);
 
     if (!cid.startsWith("bafkrei")) {
       claimingError = `Not CID V1 raw ${cid}`;
       return;
     }
+    const targetTokenID = cidToInt(cid);
+    console.log("claim ~ targetTokenID", targetTokenID);
 
-    console.log("cidToInt(cid)", cidToInt(cid));
-
-    const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSignerAddress);
+    const txResp = await nftClaim(targetChainId, targetAddress, targetTokenID, cid, $metamaskSignerAddress);
     if (!txResp) {
       claimingError = `No Mint tx response`;
       return;

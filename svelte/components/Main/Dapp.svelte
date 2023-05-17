@@ -47,12 +47,12 @@
   $: refresh = refreshingCollections || refreshingNfts;
 
   // SET chainId on memataskChainId change
-  $: $metamaskChainId && handleMetamaskChainId();
+  // $: $metamaskChainId && handleMetamaskChainId();
   const handleMetamaskChainId = () => {
     if (initalized) chainId = $metamaskChainId;
   };
 
-  // SET nework on chainId change
+  // SET network on chainId change
   $: chainId && handleChainId();
   const handleChainId = async () => {
     // console.log("<Dapp handleChainId", initalized, chainId, $metamaskChainId);

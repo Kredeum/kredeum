@@ -24,11 +24,7 @@ const factoryGetContract = async (chainId: number, getSigner = false): Promise<O
   if (!nftsFactory) {
     const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
 
-    nftsFactory = new Contract(
-      factoryGetAddress(chainId),
-      getAbi("OpenNFTsFactoryV3") as ContractInterface,
-      signerOrProvider
-    );
+    nftsFactory = new Contract(factoryGetAddress(chainId), getAbi("OpenNFTsFactoryV3"), signerOrProvider);
 
     nftsFactoriesCache.set(String(chainId), nftsFactory);
   }

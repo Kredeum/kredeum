@@ -16,7 +16,6 @@ import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/OpenNFTsV4";
 import { collectionIsOpenMarketable, collectionRoyaltyAccount, collectionRoyaltyFee } from "@lib/collection/collection";
 import { storageLinkToUrlHttp } from "./storage/storage";
-import { ipfsGatewayUrl } from "./storage/ipfs";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -140,27 +139,4 @@ const nftMinted = async (
   return nft;
 };
 
-// GET claiming tx receipt
-// similar to mint4
-const nftClaimed = async (
-  chainId: number,
-  address: string,
-  txResponse: TransactionResponse,
-  tokenID: string,
-  owner: string
-): Promise<NftType | null> => {
-  if (!(chainId && address && address != constants.AddressZero && txResponse && tokenID && owner)) return null;
-
-  // console.log("nftClaim", chainId, address, tokenID, destinationAddress);
-
-  await txResponse.wait();
-  // const txReceipt =
-  // console.log("txReceipt", txReceipt);
-
-  const nft = await _mintedNft(chainId, address, tokenID, ipfsGatewayUrl(tokenID), owner);
-  // console.log("nftClaimed", nft);
-
-  return nft;
-};
-
-export { nftMint, nftMinted, nftClaimed };
+export { nftMint, nftMinted };
