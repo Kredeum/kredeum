@@ -65,10 +65,10 @@
       claimingError = `Not CID V1 raw ${cid}`;
       return;
     }
-    const targetTokenID = cidToInt(cid);
-    console.log("claim ~ targetTokenID", targetTokenID);
+    const cidInt = cidToInt(cid);
+    console.log("claim ~ cidInt", cidInt);
 
-    const txResp = await nftClaim(targetChainId, targetAddress, targetTokenID, cid, $metamaskSignerAddress);
+    const txResp = await nftClaim(targetChainId, targetAddress, cidInt,   $metamaskSignerAddress);
     if (!txResp) {
       claimingError = `No Mint tx response`;
       return;

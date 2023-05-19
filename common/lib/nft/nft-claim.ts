@@ -64,13 +64,12 @@ const _mintedNft = async (
 const nftClaim = async (
   chainId: number,
   address: string,
-  tokenID: string,
-  cid: string,
+  cid: BigNumber,
   claimer: string
 ): Promise<TransactionResponse | undefined> => {
-  console.log("nftClaim", chainId, address, tokenID, cid, claimer);
+  console.log("nftClaim", chainId, address, cid, claimer);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && cid && claimer)) return;
+  if (!(chainId && address && address != constants.AddressZero && cid && claimer)) return;
 
   const signer = (await providerGetSignerOrProvider(chainId, true)) as Signer;
   const signerAddress = await signer.getAddress();
