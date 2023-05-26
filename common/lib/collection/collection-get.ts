@@ -33,16 +33,20 @@ const collectionGetContract = async (
   if (!contract) {
     let abi: Array<JsonFragment> = [];
 
-    for (const [key, support] of Object.entries(collection.supports || {})) {
-      if (support) {
-        const abiKey = getAbi(key) as JsonFragment;
+    console.log("collection.supports:", collection.supports);
+    if (collection.supports?.entries()) {
+      for (const [key, support] of collection.supports.entries()) {
+        if (support) {
+          const abiKey = getAbi(key) as JsonFragment;
+          console.log("abiKey:", abiKey);
 
-        if (abiKey) {
-          const keyAbi = key == "IOpenNFTsV3" ? "IOpenNFTsV3Plus" : key;
-          // console.log("collectionGetContract", key, abiKey);
-          abi = abi.concat(getAbi(keyAbi) as JsonFragment);
-        } else {
-          console.error("collectionGetContract ERROR", key);
+          if (abiKey) {
+            const keyAbi = key == "IOpenNFTsV3" ? "IOpenNFTsV3Plus" : key;
+            // console.log("collectionGetContract", key, abiKey);
+            abi = abi.concat(getAbi(keyAbi) as JsonFragment);
+          } else {
+            console.error("collectionGetContract ERROR", key);
+          }
         }
       }
     }
