@@ -10,7 +10,7 @@
     "clean": "rm -rf node_modules types abis config/networks.json",
     "format": "prettier lib/**/*.ts --write --list-different --loglevel log",
     "check": "eslint lib/**/*.ts",
-    "build": "npx ts-node build-config && npx ts-node build-others"
+    "build": "pnpx ts-node build-config && pnpx ts-node build-others"
   },
   "keywords": [],
   "author": "",

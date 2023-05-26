@@ -16,13 +16,13 @@ jobs:
       - name: Install node
         uses: actions/setup-node@v3
         with:
-          node-version: 16
+          node-version: 18
 
       - name: Install pnpm
-        uses: pnpm/action-setup@v2
+        uses: pnpm/action-setup@v2.2.4
         with:
-          version: 8.1.1
-          run_install: true
+          version: 8.5.1
+
 
       - name: Build wp plugin
         run: pnpm build-wp-plugin

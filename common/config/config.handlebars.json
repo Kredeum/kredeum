@@ -12,8 +12,8 @@
     },
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
-      "apiEndpoint": "{{SWARM_ENDPOINT}}",
-      "apiKey": "{{SWARM_BATCH_ID}}"
+      "apiEndpoint": "http://localhost:1633",
+      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000"
     }
   },
   "base": "https://app.kredeum.com",
