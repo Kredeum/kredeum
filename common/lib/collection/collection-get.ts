@@ -8,6 +8,7 @@ import { providerGetSignerOrProvider } from "@lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@lib/common/keys";
 import { explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { isAddress } from "ethers/lib/utils";
+import { collectionSupports } from "./collection";
 
 // Cache contracts(chainId,address,getSigner)
 const contractsCache: Map<string, Contract> = new Map();
@@ -33,7 +34,7 @@ const collectionGetContract = async (
   if (!contract) {
     let abi: Array<JsonFragment> = [];
 
-    for (const [key, support] of Object.entries(collection.supports || {})) {
+    for (const [key, support] of collectionSupports(collection).entries()) {
       if (support) {
         const abiKey = getAbi(key) as JsonFragment;
 

@@ -14,7 +14,12 @@ import type { IOpenNFTsV2 } from "@soltypes/IOpenNFTsV2";
 import type { IOpenNFTsV3Plus } from "@soltypes/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@soltypes/OpenNFTsV4";
-import { collectionIsOpenMarketable, collectionRoyaltyAccount, collectionRoyaltyFee } from "@lib/collection/collection";
+import {
+  collectionIsOpenMarketable,
+  collectionRoyaltyAccount,
+  collectionRoyaltyFee,
+  collectionSupports
+} from "@lib/collection/collection";
 import { storageLinkToUrlHttp } from "./storage/storage";
 import { ipfsGatewayUrl } from "./storage/ipfs";
 
@@ -89,25 +94,25 @@ const nftMint = async (
       collectionRoyaltyFee(collection),
       overrides
     );
-  } else if (collection.supports?.get("IOpenNFTsV4")) {
+  } else if (collectionSupports(collection).get("IOpenNFTsV4")) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
-  } else if (collection.supports?.get("IOpenNFTsV3")) {
+  } else if (collectionSupports(collection).get("IOpenNFTsV3")) {
     // console.log("IOpenNFTsV3");
     txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
-  } else if (collection.supports?.get("IOpenNFTsV2")) {
+  } else if (collectionSupports(collection).get("IOpenNFTsV2")) {
     // console.log("IOpenNFTsV2");
     txResp = await (contract as IOpenNFTsV2).mintNFT(minter, tokenURI);
-  } else if (collection.supports?.get("IOpenNFTsV1")) {
+  } else if (collectionSupports(collection).get("IOpenNFTsV1")) {
     // console.log("IOpenNFTsV1");
     txResp = await (contract as IOpenNFTsV1).mintNFT(minter, tokenURI);
-  } else if (collection.supports?.get("IOpenNFTsV0")) {
+  } else if (collectionSupports(collection).get("IOpenNFTsV0")) {
     // console.log("IOpenNFTsV0");
     txResp = await (contract as IOpenNFTsV0).addUser(minter, tokenURI);
   } else {
     console.error("Not IOpenNFTsVx");
   }
 
-  // else if (collection.supports?.get("IOpenBound")) {
+  // else if (collectionSupports(collection).get("IOpenBound")) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
   // txResp = await (contract as IOpenBound).mint(cid);
   // }

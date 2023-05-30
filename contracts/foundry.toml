@@ -34,6 +34,7 @@ anvil = "http://127.0.0.1:8545"
 
 [etherscan]
 goerli = { key = "${ETHERSCAN_API_KEY}" }
+sepolia = { key = "${ETHERSCAN_API_KEY}" }
 
 
 

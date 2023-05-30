@@ -9,6 +9,9 @@ const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigN
 const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");
 const collectionOpen = (coll: CollectionType): boolean => Boolean(coll?.open);
 
+const collectionSupports = (coll: CollectionType): Map<string, boolean> =>
+  coll?.supports || (new Map() as Map<string, boolean>);
+
 const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IOpenAutoMarket"));
 const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IOpenMarketable"));
 const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IERC721"));
@@ -48,6 +51,7 @@ export {
   collectionRoyaltyEnforcement,
   collectionRoyaltyAmount,
   collectionRoyaltyMinimum,
+  collectionSupports,
   collectionFeeMinimum,
   collectionRoyaltyAndFeeAmount,
   collectionRoyaltyAndFeeMinimum,

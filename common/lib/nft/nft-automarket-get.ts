@@ -7,7 +7,7 @@ import type { ReceiverType } from "@lib/common/types";
 import { collectionGetContract } from "@lib/collection/collection-get";
 import { explorerUrl, isAddressNotZero } from "@lib/common/config";
 import { providerGetAccount, providerGetFallback } from "@lib/common/provider-get";
-import { collectionIsERC721, collectionIsOpenMarketable } from "@lib/collection/collection";
+import { collectionIsERC721, collectionIsOpenMarketable, collectionSupports } from "@lib/collection/collection";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string): Promise<BigNumber> => {
   let price = constants.Zero;
@@ -45,7 +45,7 @@ const getNftRoyaltyInfo = async (
   if (!provider) return royalty;
 
   const { contract, collection } = await collectionGetContract(chainId, address);
-  if (!collection.supports?.get("IERC2981")) return royalty;
+  if (!collectionSupports(collection).get("IERC2981")) return royalty;
 
   [royalty.receiver, royalty.royaltyAmount] = await (contract as IERC2981).royaltyInfo(tokenID, nftPrice);
 
