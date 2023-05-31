@@ -120,6 +120,8 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 };
 
 const textShort = (str: string, n = 16, p = n): string => {
+  if (!str) return "";
+
   const l: number = str.length || 0;
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
