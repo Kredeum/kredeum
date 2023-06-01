@@ -19,6 +19,26 @@ const storageConfigSet = (storageConfig: StorageConfigType): void => {
   }
 };
 
+// Merge two nested objects
+const deepMerge = (obj1: StorageConfigType, obj2: StorageConfigType) => {
+  // Create a new object that combines the properties of both input objects
+  const merged: StorageConfigType = {
+    ...obj1,
+    ...obj2
+  };
+
+  // Loop through the properties of the merged object
+  for (const key of Object.keys(merged)) {
+    // Check if the property is an object
+    if (typeof merged[key] === "object" && merged[key] !== null) {
+      // If the property is an object, recursively merge the objects
+      merged[key] = deepMerge(obj1[key], obj2[key]);
+    }
+  }
+
+  return merged;
+};
+
 // GET storage config FROM localStorage or config.json
 const storageConfigGet = (): StorageConfigType => {
   if (_storageConfig) return _storageConfig;
@@ -32,7 +52,7 @@ const storageConfigGet = (): StorageConfigType => {
     const parseStorage = JSON.parse(locStorage) as StorageConfigType;
     if (!parseStorage) break local;
 
-    Object.assign(_storageConfig, parseStorage);
+    _storageConfig = deepMerge(_storageConfig, parseStorage);
   }
 
   // console.log("storageConfigGet ~ _storageConfig:", _storageConfig);
@@ -51,6 +71,7 @@ const storageParamsGet = (type: StorageType): StorageParamsType | undefined => {
 
 const storageParamsValid = (storageParams: StorageParamsType | undefined): boolean =>
   Boolean(storageParams?.apiKey && storageParams?.apiEndpoint && storageParams?.gateway);
+// Boolean(storageParams?.apiKey && storageParams?.apiEndpoint);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const storageGatewayUrl = (link: string): string =>

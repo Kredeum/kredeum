@@ -12,7 +12,7 @@
     },
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
-      "apiEndpoint": "http://localhost:1633",
+      "apiEndpoint": "https://api.gateway.ethswarm.org",
       "apiKey": "0000000000000000000000000000000000000000000000000000000000000000"
     }
   },
