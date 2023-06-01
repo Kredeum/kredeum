@@ -71,7 +71,6 @@ const storageParamsGet = (type: StorageType): StorageParamsType | undefined => {
 
 const storageParamsValid = (storageParams: StorageParamsType | undefined): boolean =>
   Boolean(storageParams?.apiKey && storageParams?.apiEndpoint && storageParams?.gateway);
-// Boolean(storageParams?.apiKey && storageParams?.apiEndpoint);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const storageGatewayUrl = (link: string): string =>
