@@ -1,21 +1,18 @@
-import type { StorageParamsType } from "@lib/common/types";
-
 import { Bee } from "@ethersphere/bee-js";
 import { DEFAULT_NAME } from "@lib/common/config";
-import { storageParamsGet } from "@lib/nft/storage/storage";
 import { swarmApiEndpoint, swarmApiKey, SWARM_PUBLIC_ENDPOINT, SWARM_ZERO_APIKEY } from "@lib/nft/storage/swarm";
 
-const getBee = (nodeUrl: string): Bee => {
-  return new Bee(nodeUrl ? nodeUrl : SWARM_PUBLIC_ENDPOINT);
-};
+// const getBee = (nodeUrl: string): Bee => {
+//   return new Bee(nodeUrl ? nodeUrl : SWARM_PUBLIC_ENDPOINT);
+// };
 
 const swarmUploadFile = async (file: File | string): Promise<string> => {
-  const batchId = swarmApiKey();
   const nodeUrl = swarmApiEndpoint();
+  const batchId = swarmApiKey();
   // console.log("swarmUploadFile ~ batchId:", batchId);
   // console.log("swarmUploadFile ~ nodeUrl:", nodeUrl);
 
-  const bee: Bee = getBee(nodeUrl);
+  const bee: Bee = new Bee(nodeUrl);
 
   const isFile = file instanceof File;
   const isUserBatchID = batchId && batchId !== SWARM_ZERO_APIKEY;
