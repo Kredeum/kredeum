@@ -31,8 +31,10 @@ window.onload = (e) => {
 
     const apiEndpoint = document.querySelector(`#_kre_${type}_endpoint`)?.value?.trim();
     const apiKey = document.querySelector(`#_kre_${type}_storage_key`)?.value?.trim();
-    const storageFieldsParams = {"apiEndpoint": apiEndpoint, "apiKey": apiKey};
-    if (apiEndpoint || apiKey) storageConfig[type] = { ...storageFieldsParams };
+    if (apiEndpoint || apiKey) {
+      const storageFieldsParams = {"apiEndpoint": apiEndpoint ? apiEndpoint : undefined, "apiKey": apiKey ? apiKey : undefined};
+      storageConfig[type] = { ...storageFieldsParams };
+    } 
     else delete storageConfig[type];
 
     localStorage.setItem("storage", JSON.stringify(storageConfig));

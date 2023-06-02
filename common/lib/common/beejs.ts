@@ -9,8 +9,8 @@ const getBee = (nodeUrl: string): Bee => {
 const swarmUploadFile = async (file: File | string): Promise<string> => {
   const nodeUrl = swarmApiEndpoint();
   const batchId = swarmApiKey();
-  // console.log("swarmUploadFile ~ batchId:", batchId);
   // console.log("swarmUploadFile ~ nodeUrl:", nodeUrl);
+  // console.log("swarmUploadFile ~ batchId:", batchId);
 
   const bee: Bee = getBee(nodeUrl);
 
