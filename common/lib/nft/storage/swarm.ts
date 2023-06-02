@@ -67,8 +67,7 @@ const swarmGateway = (): string => storageParamsGet("swarm")?.gateway.replace(/\
 const swarmApiEndpoint = (): string => storageParamsGet("swarm")?.apiEndpoint.replace(/\/$/, "") || "";
 const swarmApiKey = (): string => storageParamsGet("swarm")?.apiKey || "";
 
-const SWARM_PUBLIC_ENDPOINT = config.storage.swarm.apiEndpoint;
-const SWARM_ZERO_APIKEY = config.storage.swarm.apiKey;
+const SWARM_ZERO_APIKEY = "0000000000000000000000000000000000000000000000000000000000000000";
 
 // TEST if swarm config or params are valid
 const swarmConfigValid = (chainId: number): boolean => storageDefault() == "swarm" && swarmParamsValid(chainId);
@@ -78,7 +77,6 @@ const swarmParamsValid = (chainId: number): boolean => {
   if (!(swarmParams && storageParamsValid(swarmParams))) return false;
   if (isTestnet(chainId)) return true;
 
-  if (swarmParams.apiEndpoint === SWARM_PUBLIC_ENDPOINT) return false;
   if (swarmParams.apiKey === SWARM_ZERO_APIKEY) return false;
 
   return true;
@@ -144,7 +142,6 @@ export {
   swarmImageUri,
   swarmTokenUri,
   SWARM_ZERO_APIKEY,
-  SWARM_PUBLIC_ENDPOINT,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
