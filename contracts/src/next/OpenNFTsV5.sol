@@ -21,13 +21,21 @@ pragma solidity ^0.8.9;
 import {OpenERC721} from "OpenNFTs/contracts/OpenERC/OpenERC721.sol";
 import {OpenERC721Metadata} from "OpenNFTs/contracts/OpenERC/OpenERC721Metadata.sol";
 import {OpenERC721Enumerable} from "OpenNFTs/contracts/OpenERC/OpenERC721Enumerable.sol";
+import {OpenERC721TokenReceiver} from "OpenNFTs/contracts/OpenERC/OpenERC721TokenReceiver.sol";
 import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
 import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
 
-import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
+import {IOpenNFTsV5} from "src/interfaces/IOpenNFTsV5.sol";
 
 /// @title OpenNFTs smartcontract
-contract OpenNFTsV5 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable {
+contract OpenNFTsV5 is
+    IOpenNFTsV5,
+    OpenERC721Metadata,
+    OpenERC721Enumerable,
+    OpenERC173,
+    OpenCloneable,
+    OpenERC721TokenReceiver
+{
     /// @notice tokenID of next minted NFT
     uint256 public tokenIdNext;
 
@@ -41,13 +49,13 @@ contract OpenNFTsV5 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         _;
     }
 
-    function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
+    function mint(string memory tokenURI_) external override(IOpenNFTsV5) returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, tokenURI_);
     }
 
     function mint(address minter, string memory tokenURI_)
         external
-        override(IOpenNFTsV4)
+        override(IOpenNFTsV5)
         onlyOwner
         returns (uint256 tokenID)
     {
@@ -56,8 +64,17 @@ contract OpenNFTsV5 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
+    function burn(uint256 tokenID) external override(IOpenNFTsV5) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
+    }
+
+    function onERC721Received(address, address, uint256, bytes calldata)
+        external
+        pure
+        override(OpenERC721TokenReceiver)
+        returns (bytes4)
+    {
+        revert("Not accepting NFT");
     }
 
     function initialize(string memory name_, string memory symbol_, address owner_, bytes memory params_)
@@ -83,7 +100,7 @@ contract OpenNFTsV5 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         override(OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable)
         returns (bool)
     {
-        return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
+        return interfaceId == type(IOpenNFTsV5).interfaceId || super.supportsInterface(interfaceId);
     }
 
     function _mint(address minter, string memory tokenURI) internal returns (uint256 tokenID) {
