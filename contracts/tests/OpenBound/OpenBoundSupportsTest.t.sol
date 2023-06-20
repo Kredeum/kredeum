@@ -1,10 +1,17 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/contracts/interfaces/IAll.sol";
-import "src/interfaces/IOpenBound.sol";
+import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
+import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
+import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
+import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
+import {IERC721TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
+
 import "src/OpenNFTsResolver.sol";
 
 abstract contract OpenBoundSupportsTest is Test {

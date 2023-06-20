@@ -1,4 +1,4 @@
-import type { IOpenMarketable } from "@soltypes/OpenNFTs/contracts/interfaces/IOpenMarketable";
+import type { IOpenMarketable } from "@soltypes/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@soltypes/index";
 import type { BigNumberish } from "ethers";
 import { BigNumber, constants } from "ethers";
@@ -45,7 +45,7 @@ const getNftRoyaltyInfo = async (
   if (!provider) return royalty;
 
   const { contract, collection } = await collectionGetContract(chainId, address);
-  if (!collection.supports?.IERC2981) return royalty;
+  if (!collection.supports?.get("IERC2981")) return royalty;
 
   [royalty.receiver, royalty.royaltyAmount] = await (contract as IERC2981).royaltyInfo(tokenID, nftPrice);
 

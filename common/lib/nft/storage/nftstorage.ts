@@ -1,7 +1,5 @@
 import Ipfs from "@lib/common/ipfs";
-
-const nftStorageEndpoint = "https://api.nft.storage";
-const keyDefault: string = process.env.NFT_STORAGE_KEY || "";
+import { ipfsApiEndpoint, ipfsApiKey } from "./ipfs";
 
 type NftStorageResponse = {
   ok: boolean;
@@ -14,9 +12,9 @@ type NftStorageResponse = {
 class NftStorage extends Ipfs {
   key: string;
 
-  constructor(key?: string) {
-    super(nftStorageEndpoint);
-    this.key = key || keyDefault;
+  constructor() {
+    super(ipfsApiEndpoint());
+    this.key = ipfsApiKey();
   }
 
   async pin(buffer: Blob | string): Promise<string> {

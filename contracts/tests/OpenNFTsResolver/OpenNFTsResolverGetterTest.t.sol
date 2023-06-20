@@ -1,13 +1,12 @@
 // SPDX-License-Identifier: MITs
-pragma solidity 0.8.17;
+pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import "OpenNFTs/contracts/interfaces/IAll.sol";
-import "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import "src/interfaces/IOpenNFTsResolver.sol";
-import "src/OpenNFTsResolver.sol";
-import "src/OpenNFTsV4.sol";
+import {IERCNftInfos} from "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
+import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
+import {OpenNFTsV4} from "src/OpenNFTsV4.sol";
+import {IOpenNFTsInfos} from "src/interfaces/IOpenNFTsInfos.sol";
 
 abstract contract OpenNFTsResolverGetterTest is Test {
     OpenNFTsResolver private _resolver;
@@ -24,21 +23,40 @@ abstract contract OpenNFTsResolverGetterTest is Test {
         bool[] memory options = new bool[](1);
         options[0] = true;
         _collection = address(new OpenNFTsV4());
+
+        vm.startPrank(_owner);
         OpenNFTsV4(_collection).initialize(
             "OpenNFTsV4Test", "OPTEST", _owner, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
         );
         OpenNFTsV4(_collection).mint(_TOKEN_URI);
+        vm.stopPrank();
     }
 
-    function testOpenNFTsResolverGetter(address account) public view {
+    function testOpenNFTsResolverGetterGetOpenNFTsCollectionsInfos0(address account) public view {
         _resolver.getOpenNFTsCollectionsInfos(account);
+    }
+
+    function testOpenNFTsResolverGetterGetOpenNFTsCollectionsInfos() public view {
+        (
+            IERCNftInfos.CollectionInfos[] memory collectionsInfos,
+            IOpenNFTsInfos.OpenNFTsCollectionInfos[] memory openNFTsCollectionsInfos,
+            uint256 count,
+            uint256 total
+        ) = _resolver.getOpenNFTsCollectionsInfos(_owner);
+        uint256 len = collectionsInfos.length;
+
+        console.log("collectionsInfos: %s %s %s", len, count, total);
+        for (uint256 i = 0; i < len; i++) {
+            console.log("collectionsInfos[%s]: %s", i, collectionsInfos[i].name, collectionsInfos[i].collection);
+            console.log("openNFTsCollectionsInfos[%s]: %s", i, openNFTsCollectionsInfos[i].template);
+        }
     }
 
     function testOpenNFTsResolverGetOpenNFTsNftInfos1() public view {
         _resolver.getOpenNFTsNftInfos(_collection, 1, _random);
     }
 
-    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public {
+    function testOpenNFTsResolverGetOpenNFTsNftInfos9() public view {
         _resolver.getOpenNFTsNftInfos(_collection, 9, _random);
     }
 }

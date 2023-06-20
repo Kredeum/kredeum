@@ -15,7 +15,7 @@ namespace KredeumNFTs\Storage;
  * @return string CID hash
  */
 function nft_storage_add_and_pin_dir( $attachment_id ) {
-	$api = new \RestClient( array( 'base_url' => 'https://api.nft.storage' ) );
+	$api = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
 
 	$file     = file_get_contents( get_attached_file( $attachment_id ) );
 	$filename = get_attached_file_meta( $attachment_id )->filename;
@@ -55,7 +55,7 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	 * @return string CID hash
 	 */
 function nft_storage_add_and_pin( $attachment_id ) {
-	$api = new \RestClient( array( 'base_url' => 'https://api.nft.storage' ) );
+	$api = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
 
 	$file     = file_get_contents( get_attached_file( $attachment_id ) );
 	$filename = get_attached_file_meta( $attachment_id )->filename;

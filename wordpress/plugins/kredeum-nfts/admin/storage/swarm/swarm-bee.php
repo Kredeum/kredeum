@@ -15,14 +15,14 @@ namespace KredeumNFTs\Storage;
  * @return string URI hash
  */
 function swarm_add_and_pin( $attachment_id ) {
-	if ( defined( 'SWARM_NODE_URL' ) && defined( 'SWARM_BATCH_ID' ) ) {
+	if ( defined( 'SWARM_ENDPOINT' ) && defined( 'SWARM_BATCH_ID' ) ) {
 		$swarm_pin = false;
 
 		if ( SWARM_BATCH_ID !== '0000000000000000000000000000000000000000000000000000000000000000' ) {
 			$swarm_pin = true;
 		}
 
-		$swarm_api = new \RestClient( array( 'base_url' => SWARM_NODE_URL ) );
+		$swarm_api = new \RestClient( array( 'base_url' => SWARM_ENDPOINT ) );
 
 		$file         = file_get_contents( get_attached_file( $attachment_id ) );
 		$filename     = get_attached_file_meta( $attachment_id )->filename;
@@ -38,7 +38,7 @@ function swarm_add_and_pin( $attachment_id ) {
 	}
 
 	// var_dump($result->decode_response()->reference);
-	// var_dump(SWARM_NODE_URL);
+	// var_dump(SWARM_ENDPOINT);
 	// var_dump($result->info->http_code);
 	// die();
 	// .

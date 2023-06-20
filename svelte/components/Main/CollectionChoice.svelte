@@ -27,10 +27,10 @@
 </script>
 
 <p>
-  <AccountConnect bind:signer {txt} />
+  <AccountConnect bind:signer {txt} label={true} />
 </p>
 <p>
-  <NetworkSelect bind:chainId {txt} />
+  <NetworkSelect bind:chainId {txt} label={true}/>
 </p>
 
 {#if chainId && signer}

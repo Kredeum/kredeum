@@ -1,14 +1,23 @@
-import { Bee } from "@ethersphere/bee-js";
-import { DEFAULT_NAME, swarmServer, SWARM_GATEWAY } from "@lib/common/config";
+import type { StorageParamsType } from "@lib/common/types";
 
-// const DEFAULT_NODE_URL = "http://localhost:1633";
-const KRD_BATCH_ID = "0000000000000000000000000000000000000000000000000000000000000000";
+import { Bee } from "@ethersphere/bee-js";
+import { DEFAULT_NAME, config } from "@lib/common/config";
+import { storageParamsGet } from "@lib/nft/storage/storage";
+
+const KRD_BATCH_ID = config.storage.swarm.apiKey;
 
 const getBee = (nodeUrl: string): Bee => {
-  return new Bee(nodeUrl ? nodeUrl : swarmServer(SWARM_GATEWAY));
+  return new Bee(nodeUrl ? nodeUrl : config.storage.swarm.apiEndpoint);
 };
 
-const swarmUploadFile = async (file: File | string, batchId = "", nodeUrl = ""): Promise<string> => {
+// const swarmUploadFile = async (file: File | string, batchId = "", nodeUrl = ""): Promise<string> => {
+const swarmUploadFile = async (file: File | string): Promise<string> => {
+  const swarmStorage: StorageParamsType | undefined = storageParamsGet("swarm");
+  const batchId = swarmStorage?.apiKey;
+  const nodeUrl = swarmStorage?.apiEndpoint || "";
+  // console.log("swarmUploadFile ~ batchId:", batchId);
+  // console.log("swarmUploadFile ~ nodeUrl:", nodeUrl);
+
   const bee: Bee = getBee(nodeUrl);
 
   const isFile = file instanceof File;

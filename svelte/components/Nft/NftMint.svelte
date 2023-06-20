@@ -3,7 +3,7 @@
 
   import type { NftType, Properties } from "@lib/common/types";
   import { nftMint, nftMinted } from "@lib/nft/nft-mint";
-  import { nftImageUri, nftTokenUri } from "@lib/nft/storage/nft-uri";
+  import { nftImageUri, nftTokenUri } from "@lib/nft/nft-uri";
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
   import { nftStoreSet } from "@stores/nft/nft";
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";

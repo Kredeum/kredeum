@@ -1,9 +1,9 @@
 import type { DeployFunction, DeployResult } from "hardhat-deploy/types";
 
-import type { OpenNFTsV4 } from "@soltypes/src/OpenNFTsV4";
-import type { OpenNFTsFactoryV3 } from "@soltypes/src/OpenNFTsFactoryV3";
+import type { OpenNFTsV4 } from "@soltypes/OpenNFTsV4";
+import type { OpenNFTsFactoryV3 } from "@soltypes/OpenNFTsFactoryV3";
 import { getNonce } from "@utils/getNonce";
-import { setNetwork } from "@utils/setNetwork";
+import { setNetwork } from "@contracts/deprecated/scripts/setNetwork";
 import { constants } from "ethers";
 
 // import { checkGasDeploy, checkGasMethod } from "@scripts/checkGas";

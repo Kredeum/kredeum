@@ -1,4 +1,4 @@
-import { storageLinkToUrlHttp } from "@lib/common/config";
+import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
 const FETCH_LIMIT = 100;
 

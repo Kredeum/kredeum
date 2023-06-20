@@ -9,10 +9,10 @@ const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigN
 const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");
 const collectionOpen = (coll: CollectionType): boolean => Boolean(coll?.open);
 
-const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenAutoMarket);
-const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.IOpenMarketable);
-const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.IERC721);
-const collectionIsERC1155 = (coll: CollectionType): boolean => Boolean(coll?.supports?.IERC1155);
+const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IOpenAutoMarket"));
+const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IOpenMarketable"));
+const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IERC721"));
+const collectionIsERC1155 = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IERC1155"));
 const collectionOpenOrOwner = (coll: CollectionType, owner: string): boolean =>
   Boolean(coll?.owner === owner || coll?.open);
 

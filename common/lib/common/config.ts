@@ -2,10 +2,12 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { NetworkType, CollectionType, NftType, RefPageType } from "@lib/common/types";
+import type { NetworkType, CollectionType, NftType, RefPageType, AddressesType } from "@lib/common/types";
 
 import networks from "@config/networks.json";
 import config from "@config/config.json";
+import addressesRaw from "@contracts/addresses.json";
+
 import { formatEther } from "ethers/lib/utils";
 
 const PAGE_SIZE = 12;
@@ -48,20 +50,21 @@ const isEip1559 = (chainId: number | string): boolean => Boolean(getNetwork(chai
 
 const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
-//  GET nftsResolver address
-const getNftsResolver = (chainId: number): string => getNetwork(chainId)?.nftsResolver || "";
-
-//  GET default OpenNFTs address
-const getDefaultOpenNFTs = (chainId: number): string => getNetwork(chainId)?.openNFTs || "";
+// eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+const addresses = JSON.parse(JSON.stringify(addressesRaw));
+// eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
+const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
 //  GET OpenMulti address
-const getOpenMulti = (chainId: number): string => getNetwork(chainId)?.openMulti || "";
+const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
+const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
 // GET explorer
 const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
 
 // GET OpenSea
 const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
+
 // GET OpenSea Url
 const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
@@ -116,14 +119,7 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
   return ret;
 };
 
-// CONSTANT
-// const IPFS_GATEWAY_DOMAIN = config.storage.ipfs.gatewayDomain;
-const IPFS_GATEWAY = config.storage.ipfs.gateway.replace(/\/$/, "");
-const SWARM_GATEWAY = config.storage.swarm.gateway.replace(/\/$/, "");
-
-const textShort = (s: string, n = 16, p = n): string => {
-  const ipfsStr: string = s?.toString() || "";
-  const str: string = ipfsLinkToCid(ipfsStr);
+const textShort = (str: string, n = 16, p = n): string => {
   const l: number = str.length || 0;
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
@@ -147,163 +143,6 @@ const urlToLink = (url: string, label?: string): string =>
 
 const isNumeric = (stringNum: string): boolean => !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// IPFS helpers
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGetLink = (uri: string | undefined): string => {
-  if (!uri) return "";
-
-  let ipfsLink = "";
-  let cid = "";
-
-  if (uri.startsWith("Qm") || uri.startsWith("ba")) {
-    cid = uri;
-  } else if (uri.startsWith("ipfs://")) {
-    if (uri.startsWith("ipfs://ipfs/")) {
-      cid = uri.replace(/^ipfs:\/\/(ipfs\/)/, "");
-    } else {
-      ipfsLink = uri;
-    }
-  } else {
-    // find cid in uri
-    const res = uri.match(/^.*\/ipfs\/(.*)$/i);
-    cid = (res && res[1]) || "";
-    // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
-  }
-  if (cid) {
-    // reconstruct ipfs uri
-    ipfsLink = ipfsCidToLink(cid);
-  }
-  // console.log("ipfsGetLink", uri, "=>", ipfsLink, cid);
-  return ipfsLink;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// http uri : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => gateway url : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsLinkToUrlHttp = (link: string): string => (link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsCidToLink = (cid: string): string => (cid ? `ipfs://${cid}` : "");
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${IPFS_GATEWAY}/${ipfsLinkToCid(ipfs)}` : "");
-
-// const ipfsGatewayUrl = (ipfs: string | undefined): string =>
-//   ipfs
-//     ? IPFS_GATEWAY_DOMAIN
-//       ? `https://${ipfsLinkToCid(ipfs)}.${IPFS_GATEWAY_DOMAIN}`
-//       : `${IPFS_GATEWAY}${ipfsLinkToCid(ipfs)}`
-//     : "";
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
-// => gateway link <a href="https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624" target="_blank" rel="noreferrer">bafk...cek624</a>
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs), textShort(ipfs));
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// SWARM HELPERS
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// uri : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => Swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmGetLink = (uri: string | undefined): string => {
-  if (!uri) return "";
-
-  let swarmLink = "";
-  let cid = "";
-
-  if (uri.startsWith("swarm://")) {
-    swarmLink = uri;
-  } else if (uri.startsWith(SWARM_GATEWAY)) {
-    // find cid in uri
-    cid = uri.replace(SWARM_GATEWAY, "");
-
-    // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
-  }
-  if (cid) {
-    // reconstruct ipfs uri
-    swarmLink = swarmCidToLink(cid);
-  }
-
-  return swarmLink;
-};
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// http link : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => gateway url : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmLinkToUrlHttp = (link: string): string => (link.startsWith("swarm://") ? swarmGatewayUrl(link) : link);
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-// cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmCidToLink = (cid: string): string => (cid ? `swarm://${cid}` : "");
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmLinkToCid = (swarm: string): string => swarm.replace(/^swarm:\/\//, "");
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Swarm reference : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => gateway url https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmGatewayUrl = (swarm: string | undefined): string =>
-  swarm ? `${SWARM_GATEWAY}/${swarmLinkToCid(swarm)}` : "";
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Swarm API Gateway : https://api.gateway.ethswarm.org/bzz/
-// => Swarm serveur node Url https://api.gateway.ethswarm.org
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz$/, "");
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Storage cid from ipfs or swarm
-// => gataway url of ipfs or swarm
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageGatewayUrl = (link: string): string =>
-  link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link.startsWith("swarm://") ? swarmGatewayUrl(link) : link;
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// ipfs or swarm ( uri | http uri )
-// => gateway url for ipfs or swarm
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageLinkToUrlHttp = (link: string): string => {
-  if (!link) return "";
-  if (link.startsWith("ipfs://") || link.startsWith(IPFS_GATEWAY)) return ipfsLinkToUrlHttp(link);
-  if (link.startsWith("swarm://") || link.startsWith(SWARM_GATEWAY)) return swarmLinkToUrlHttp(link);
-  return link;
-};
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // EXPLORER URL helpers
@@ -424,19 +263,6 @@ const uriShort = (uri: string) => {
   return `${storage}://${hash.slice(0, 8)}...${hash.slice(-8)}`;
 };
 
-const uriToUrl = (uri: string) => {
-  const [storage, hash] = uri.split("://");
-  if (!(storage && hash)) return uri;
-
-  const configStorage = config.storage[storage as "swarm" | "ipfs"];
-  if (!configStorage?.gateway) return uri;
-
-  return `${configStorage.gateway}/${hash}`;
-};
-
-const uriGetImage = (nft: NftType): string => (nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image || "");
-/////////////////////////////////////////////////////////////////////////////////////////////////////
-
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // COLLECTION helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -538,9 +364,9 @@ export {
   getShortAddress,
   getChecksumAddress,
   getNetwork,
-  getNftsResolver,
-  getDefaultOpenNFTs,
-  getOpenMulti,
+  getAddresses,
+  getOpenBound,
+  hasOpenBound,
   getBlur,
   getBlurUrl,
   getDappUrl,
@@ -549,22 +375,7 @@ export {
   getCreate,
   getExplorer,
   getCurrency,
-  uriGetImage,
-  ipfsLinkToUrlHttp,
-  ipfsCidToLink,
-  ipfsLinkToCid,
-  ipfsGetLink,
-  ipfsGatewayUrl,
-  ipfsGatewayLink,
   uriShort,
-  swarmGetLink,
-  swarmLinkToUrlHttp,
-  swarmCidToLink,
-  swarmLinkToCid,
-  swarmGatewayUrl,
-  swarmServer,
-  storageGatewayUrl,
-  storageLinkToUrlHttp,
   interfaceId,
   nftUrl3,
   nftUrl,
@@ -575,13 +386,12 @@ export {
   nftCollectionName,
   nftsSupply,
   nftsBalanceAndName,
-  networks,
   normalizedSoloNftUrl,
   numberToHexString,
   sleep,
   textShort,
   urlToLink,
-  uriToUrl,
+  networks,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,
@@ -589,6 +399,5 @@ export {
   PAGE_SIZE,
   MAX_FEE,
   DEFAULT_NAME,
-  DEFAULT_SYMBOL,
-  SWARM_GATEWAY
+  DEFAULT_SYMBOL
 };

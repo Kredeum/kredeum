@@ -4,6 +4,7 @@ import type { CollectionType } from "@lib/common/types";
 import { resolverConvOpenNFTsCollectionInfos } from "@lib/resolver/resolver-conv-collection-infos";
 import { resolverGetContract } from "@lib/resolver/resolver-get";
 import { keyCollection } from "@lib/common/keys";
+// import { keyCollections } from "@lib/common/keys";
 
 const resolverGetCollection = async (
   chainId: number,
@@ -16,7 +17,9 @@ const resolverGetCollection = async (
 
   const collectionInfos = await nftsResolver.getOpenNFTsCollectionInfos(address, account);
 
-  return resolverConvOpenNFTsCollectionInfos(chainId, collectionInfos, account);
+  const collection = resolverConvOpenNFTsCollectionInfos(chainId, collectionInfos, account);
+  // console.log("resolverGetCollection collection:", collection);
+  return collection;
 };
 
 const resolverFilterCollectionsAddress = async (
@@ -24,6 +27,7 @@ const resolverFilterCollectionsAddress = async (
   collections: Array<string>
 ): Promise<Array<string>> => {
   const checks = await resolverAreCollections(chainId, collections);
+  if (!checks) return collections;
 
   return collections.filter((coll, index) => checks[index]);
 };
@@ -34,6 +38,7 @@ const resolverFilterCollections = async (
 ): Promise<Map<string, CollectionType>> => {
   const collectionsAddress = Array.from(collections, ([, coll]) => coll.address);
   const checks = await resolverAreCollections(chainId, collectionsAddress);
+  if (!checks) return collections;
 
   for (let i = 0; i < checks.length; i++) {
     if (!checks[i]) collections.delete(keyCollection(chainId, collectionsAddress[i]));
@@ -42,12 +47,13 @@ const resolverFilterCollections = async (
   return collections;
 };
 
-const resolverAreCollections = async (chainId: number, collections: Array<string>): Promise<Array<boolean>> => {
+const resolverAreCollections = async (chainId: number, collections: Array<string>): Promise<Array<boolean> | null> => {
   // console.log("resolverAreCollections", chainId, collections);
 
   const nftsResolver = await resolverGetContract(chainId);
+  if (!nftsResolver) return null;
 
-  const checks = await nftsResolver.isCollections(collections);
+  const checks = await nftsResolver?.isCollections(collections);
   // console.log("resolverAreCollections", collections, checks);
 
   return checks;

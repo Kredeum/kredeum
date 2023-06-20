@@ -1,20 +1,16 @@
 <script lang="ts">
-  import NftStorage from "@lib/nft/storage/nft-storage";
-  import {
-    getOpenMulti,
-    explorerTxLog,
-    explorerNftUrl,
-    explorerTxUrl,
-    textShort,
-    storageLinkToUrlHttp
-  } from "@lib/common/config";
-  import { nftMint, nftClaimed } from "@lib/nft/nft-mint";
+  import NftStorage from "@lib/nft/storage/nftstorage";
+  import { getOpenBound, explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@lib/common/config";
+  import { nftClaim, nftClaimed } from "@lib/nft/nft-claim";
   import { cidToInt } from "@lib/common/cid";
 
   import { nftStore } from "@stores/nft/nft";
-  import { metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
+  import { metamaskChainId, metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { metamaskSwitchChain } from "@helpers/metamask";
+  import { providerSetFallback } from "@lib/common/provider-get";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -32,51 +28,63 @@
   let claimed = false;
 
   let nftStorage: NftStorage;
+  let claimingError = "";
 
-  $: console.info("NftClaim", $nft);
+  $: claimingError && console.error(claimingError);
+
+  // CHANGE network on targetChainId change
+  $: targetChainId && handleChainId();
+  const handleChainId = async () => {
+    // console.log("<NftClaim targetChainId", targetChainId, $metamaskChainId);
+    if (targetChainId != $metamaskChainId) {
+      await metamaskSwitchChain(targetChainId);
+    }
+  };
 
   const claim = async () => {
-    if ($metamaskSigner && $nft) {
-      claimTxHash = null;
-      claiming = true;
-      claimed = false;
-      let claimingError: string;
+    claimTxHash = null;
+    claiming = true;
+    claimed = false;
+    claimingError = "";
+    const targetAddress = getOpenBound(targetChainId);
+    const tokenURI = $nft.tokenURI;
 
-      const targetAddress = getOpenMulti(targetChainId);
-      // console.log("claim", targetChainId, targetAddress);
+    if (!$metamaskSigner) claimingError = "No signer";
+    if (!(chainId && address && tokenID)) claimingError = "No NFT";
+    if (!tokenURI) claimingError = "No metadata found on this NFT";
+    if (!targetAddress) claimingError = `No target address on target network ${targetChainId}`;
+    if (claimingError) return;
 
-      try {
-        if (!$nft.tokenURI) claimingError = "No metadata found on this NFT";
-        else {
-          // console.log("claim", $nft.tokenURI);
+    console.log("CLAIM", chainId, address, tokenID, tokenURI, targetChainId, targetAddress);
 
-          nftStorage ||= new NftStorage();
-          const cid = await nftStorage.pinUrl(storageLinkToUrlHttp($nft.tokenURI));
+    nftStorage ||= new NftStorage();
+    const cid = await nftStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
+    console.log("claim ~ cid:", cid);
 
-          if (!cid.startsWith("bafkrei")) claimingError = `Not CID V1 raw ${cid}`;
-          else {
-            // console.log("cidToInt(cid)", cidToInt(cid));
-            const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSignerAddress);
-            explorerTxLog(chainId, txResp);
-
-            const mintedNft = await nftClaimed(
-              targetChainId,
-              targetAddress,
-              txResp,
-              $nft.tokenURI,
-              $metamaskSignerAddress
-            );
-            console.info("mintedNft", mintedNft);
-
-            claimed = true;
-          }
-        }
-      } catch (error) {
-        claimingError = "Problem with transaction\n" + String(error.message || "");
-      }
-      claiming = false;
-      claimingError && console.error(claimingError);
+    if (!cid.startsWith("bafkrei")) {
+      claimingError = `Not CID V1 raw ${cid}`;
+      return;
     }
+    const cidInt = cidToInt(cid);
+    console.log("claim ~ cidInt", cidInt);
+
+    const txResp = await nftClaim(targetChainId, targetAddress, cidInt,   $metamaskSignerAddress);
+    if (!txResp) {
+      claimingError = `No Mint tx response`;
+      return;
+    }
+    explorerTxLog(chainId, txResp);
+
+    const mintedNft = await nftClaimed(targetChainId, targetAddress, txResp, tokenURI, $metamaskSignerAddress);
+    if (!mintedNft) {
+      claimingError = `No Claim tx response`;
+      return;
+    }
+    console.info("mintedNft", mintedNft);
+
+    claimed = true;
+    claiming = false;
+    claimingError && console.error(claimingError);
   };
 </script>
 
@@ -95,7 +103,7 @@
                 class="link"
                 href="{explorerNftUrl(chainId, { chainId, address, tokenID })}}"
                 target="_blank"
-                rel="noreferrer">#{tokenID}</a
+                rel="noreferrer">#{textShort(tokenID)}</a
               >
               claimed!
             </div>
@@ -113,13 +121,13 @@
           </div>
         {:else}
           <div class="titre overflow-ellipsis">
-            <i class="fas fa-exclamation" /> Claim this NFT on another network ? #{tokenID}
+            <i class="fas fa-hand-holding-usd" /> Claim this NFT #{textShort(tokenID, 4)} on another network ?
           </div>
 
-          <NetworkSelect bind:chainId={targetChainId} />
+          <NetworkSelect bind:chainId={targetChainId} label={true} bound={true} />
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" type="submit" on:click={() => claim()}>Claim</button>
+            <button class="btn btn-default btn-sell" type="submit" on:click={claim}>Claim</button>
           </div>
         {/if}
         {#if claimTxHash}

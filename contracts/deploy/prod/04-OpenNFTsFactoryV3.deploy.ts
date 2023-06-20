@@ -1,6 +1,6 @@
 import type { DeployFunction, Create2DeployOptions } from "hardhat-deploy/types";
 
-import { setNetwork } from "@utils/setNetwork";
+import { setNetwork } from "@contracts/deprecated/scripts/setNetwork";
 import { getNonce } from "@utils/getNonce";
 import config from "@config/config.json";
 

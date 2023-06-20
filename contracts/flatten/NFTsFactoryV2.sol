@@ -1256,7 +1256,7 @@ interface INFTsFactoryV2 {
     function balancesOf(address owner) external view returns (NftData[] memory);
 }
 
-// File contracts/new/interfaces/IOpenNFTs.old.sol
+// File contracts/new/interfaces/IOpenNFTsOld.sol
 interface IOpenNFTs {
     function initialize(
         string memory name,
