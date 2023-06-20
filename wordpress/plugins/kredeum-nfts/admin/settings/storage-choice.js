@@ -29,9 +29,12 @@ window.onload = (e) => {
     const storageConfig = JSON.parse(storage) || {};
     storageConfig.default = type;
 
-    const apiEndpoint = document.querySelector(`#_kre_${type}_endpoint`)?.value?.trim() || "";
-    const apiKey = document.querySelector(`#_kre_${type}_storage_key`)?.value?.trim() || "";
-    if (apiEndpoint || apiKey) storageConfig[type] = { apiEndpoint, apiKey };
+    const apiEndpoint = document.querySelector(`#_kre_${type}_endpoint`)?.value?.trim();
+    const apiKey = document.querySelector(`#_kre_${type}_storage_key`)?.value?.trim();
+    if (apiEndpoint || apiKey) {
+      const storageFieldsParams = {"apiEndpoint": apiEndpoint ? apiEndpoint : undefined, "apiKey": apiKey ? apiKey : undefined};
+      storageConfig[type] = { ...storageFieldsParams };
+    } 
     else delete storageConfig[type];
 
     localStorage.setItem("storage", JSON.stringify(storageConfig));

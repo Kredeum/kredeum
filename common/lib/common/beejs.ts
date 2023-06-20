@@ -1,32 +1,32 @@
-import type { StorageParamsType } from "@lib/common/types";
-
 import { Bee } from "@ethersphere/bee-js";
 import { DEFAULT_NAME, config } from "@lib/common/config";
-import { storageParamsGet } from "@lib/nft/storage/storage";
-
-const KRD_BATCH_ID = config.storage.swarm.apiKey;
+import { swarmApiEndpoint, swarmApiKey, SWARM_ZERO_APIKEY } from "@lib/nft/storage/swarm";
 
 const getBee = (nodeUrl: string): Bee => {
   return new Bee(nodeUrl ? nodeUrl : config.storage.swarm.apiEndpoint);
 };
 
-// const swarmUploadFile = async (file: File | string, batchId = "", nodeUrl = ""): Promise<string> => {
 const swarmUploadFile = async (file: File | string): Promise<string> => {
-  const swarmStorage: StorageParamsType | undefined = storageParamsGet("swarm");
-  const batchId = swarmStorage?.apiKey;
-  const nodeUrl = swarmStorage?.apiEndpoint || "";
-  // console.log("swarmUploadFile ~ batchId:", batchId);
+  const nodeUrl = swarmApiEndpoint();
+  const batchId = swarmApiKey();
   // console.log("swarmUploadFile ~ nodeUrl:", nodeUrl);
+  // console.log("swarmUploadFile ~ batchId:", batchId);
 
   const bee: Bee = getBee(nodeUrl);
 
   const isFile = file instanceof File;
+  const isPinnableBatchID = batchId && batchId !== SWARM_ZERO_APIKEY;
 
-  const result = await bee.uploadFile(batchId ? batchId : KRD_BATCH_ID, file, isFile ? file.name : DEFAULT_NAME, {
-    pin: nodeUrl && batchId ? true : false,
-    size: isFile ? file.size : undefined,
-    contentType: isFile ? file.type : undefined
-  });
+  const result = await bee.uploadFile(
+    isPinnableBatchID ? batchId : SWARM_ZERO_APIKEY,
+    file,
+    isFile ? file.name : DEFAULT_NAME,
+    {
+      pin: isPinnableBatchID ? true : false,
+      size: isFile ? file.size : undefined,
+      contentType: isFile ? file.type : undefined
+    }
+  );
 
   return result.reference;
 };

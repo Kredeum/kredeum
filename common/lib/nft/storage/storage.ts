@@ -32,7 +32,10 @@ const storageConfigGet = (): StorageConfigType => {
     const parseStorage = JSON.parse(locStorage) as StorageConfigType;
     if (!parseStorage) break local;
 
-    Object.assign(_storageConfig, parseStorage);
+    for (const [key, value] of Object.entries(parseStorage)) {
+      if (value && typeof value === "object") Object.assign(_storageConfig[key], value );
+      else _storageConfig[key] = value;
+    }
   }
 
   // console.log("storageConfigGet ~ _storageConfig:", _storageConfig);

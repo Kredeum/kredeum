@@ -63,17 +63,11 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
   swarm ? `${swarmGateway()}/${swarmLinkToCid(swarm)}` : "";
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// Swarm API Gateway : https://api.gateway.ethswarm.org/bzz/
-// => Swarm serveur node Url https://api.gateway.ethswarm.org
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmServer = (swarmGateway: string): string => swarmGateway.replace(/\/bzz$/, "");
-/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+const swarmGateway = (): string => storageParamsGet("swarm")?.gateway.replace(/\/$/, "") || "";
+const swarmApiEndpoint = (): string => storageParamsGet("swarm")?.apiEndpoint.replace(/\/$/, "") || "";
+const swarmApiKey = (): string => storageParamsGet("swarm")?.apiKey || "";
 
-const swarmGateway = (): string => config.storage.swarm.gateway.replace(/\/$/, "");
-
-const swarmKeyZero = "0000000000000000000000000000000000000000000000000000000000000000";
-const swarmGatewayPublic = "https://api.gateway.ethswarm.org";
+const SWARM_ZERO_APIKEY = "0000000000000000000000000000000000000000000000000000000000000000";
 
 // TEST if swarm config or params are valid
 const swarmConfigValid = (chainId: number): boolean => storageDefault() == "swarm" && swarmParamsValid(chainId);
@@ -83,8 +77,7 @@ const swarmParamsValid = (chainId: number): boolean => {
   if (!(swarmParams && storageParamsValid(swarmParams))) return false;
   if (isTestnet(chainId)) return true;
 
-  if (swarmParams.apiEndpoint === swarmGatewayPublic) return false;
-  if (swarmParams.apiKey === swarmKeyZero) return false;
+  if (swarmParams.apiKey === SWARM_ZERO_APIKEY) return false;
 
   return true;
 };
@@ -148,14 +141,15 @@ const swarmTokenUri = async (
 export {
   swarmImageUri,
   swarmTokenUri,
-  swarmKeyZero,
+  SWARM_ZERO_APIKEY,
   swarmGetLink,
   swarmLinkToUrlHttp,
   swarmCidToLink,
   swarmLinkToCid,
   swarmGatewayUrl,
   swarmGateway,
-  swarmServer,
+  swarmApiEndpoint,
+  swarmApiKey,
   swarmParamsValid,
   swarmConfigValid
 };
