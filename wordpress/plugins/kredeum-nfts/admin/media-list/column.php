@@ -53,27 +53,3 @@ add_action(
 		}
 	}
 );
-
-
-/// Posts
-function test($columns) {
-	$columns['actions'] = 'Actions';
-	return $columns;
-}
-add_filter('manage_posts_columns', function ($columns) {
-	$columns['actions'] = 'Actions';
-	return $columns;
-});
-
-// function test($columns) {
-// 	$columns['actions'] = 'Actions';
-// 	return $columns;
-// }
-// add_filter('manage_posts_columns', 'test');
-
-// function afficher_contenu_colonne_actions($column, $post_id) {
-//     if ($column === 'actions') {
-//         echo '<a href="#" class="button">Mon bouton</a>';
-//     }
-// }
-// add_action('manage_posts_custom_column', 'afficher_contenu_colonne_actions', 10, 2);
