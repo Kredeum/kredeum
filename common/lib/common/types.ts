@@ -28,6 +28,7 @@ type NetworkType = {
   etherscanApiKey?: string;
   hardhatOptions?: unknown;
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
+  infura?: { url?: string; active: boolean };
   alchemy?: { url?: string; active: boolean };
   moralis?: { active: boolean; url?: string; id?: string };
   covalent?: { active: boolean; url?: string; key?: string };
