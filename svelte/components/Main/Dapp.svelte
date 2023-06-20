@@ -14,6 +14,7 @@
   import Nft from "../Nft/Nft.svelte";
   // import BreadCrumb from "../Global/BreadCrumb.svelte";
   // import Networks from "../Network/Networks.svelte";
+  import Web3Modal from "../Account/Web3Modal.svelte";
 
   import { providerSetFallback } from "@lib/common/provider-get";
   import { onMount, setContext } from "svelte";
@@ -139,8 +140,9 @@
     <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
 
     <div class="row alignbottom">
-      <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <AccountConnect bind:signer />
+      <div id="kre-web3modal" class="col col-xs-12 col-sm-3 kre-copy-ref-container">
+        <!-- <AccountConnect bind:signer /> -->
+        <Web3Modal bind:account bind:chainId />
       </div>
 
       <!-- <Networks {chainId} /> -->

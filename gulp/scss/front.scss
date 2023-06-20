@@ -109,6 +109,11 @@
         top: 0;
       }
 
+      // Web3modal css variables
+      --w3m-button-border-radius: 360px;
+      --w3m-accent-fill-color: $color-body;
+      --w3m-accent-color: white;
+
       input[type="text"] {
         width: 100%;
         border: 0;
