@@ -1,5 +1,6 @@
 {
   "require": {
-    "tcdent/php-restclient": "^0.1.7"
+    "tcdent/php-restclient": "^0.1.7",
+    "tecnickcom/tc-lib-pdf": "^8.0"
   }
 }
