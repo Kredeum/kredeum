@@ -34,16 +34,13 @@ add_filter(
 			
             
             foreach ( $post_ids as $post_id ) {
-                $post_data = get_post($post_id);
-                $post_title = $post_data->post_title; // Get the post title
-                $post_content = apply_filters('the_content', $post_data->post_content); // Apply necessary filters to get the formatted content
-                $post_author = get_the_author_meta('display_name', $post_data->post_author); // Get the author name
+                $post = get_post($post_id);
+                $post_title = $post->post_title; // Get the post title
+                $post_content = apply_filters('the_content', $post->post_content); // Apply necessary filters to get the formatted content
+                $post_author = get_the_author_meta('display_name', $post->post_author); // Get the author name
                 $post_date = get_the_date('', $post_id); // Get the publication date
+                $post_date_full = get_the_date('Y-m-d H:i:s', $post_id); // Get the publication date
 
-				// ini_set("xdebug.var_display_max_children", '-1');
-				// ini_set("xdebug.var_display_max_data", '-1');
-				// ini_set("xdebug.var_display_max_depth", '-1');
-				// var_dump($post_content); die();
                 // Get the featured image URL
                 $featured_image_url = '';
                 if (has_post_thumbnail($post_id)) {
@@ -51,80 +48,81 @@ add_filter(
                     $image_data = wp_get_attachment_image_src($image_id, 'full');
                     $featured_image_url = $image_data[0];
                 }
-                // var_dump($post_content); die();
-				$font = 'helvetica';
-				$fontSize = 12;
-                
-                $pdf = new \TCPDF(); // Initialize TCPDF instance
-                $pdf->AddPage(); // Add a new page
-                $pdf->SetFont($font, '', $fontSize); // Set font and font size
-				// $pdf->SetMargins(0, $pdf->GetCellHeight($font, $fontSize), 0);
-                
-                $header = '<h1>' . $post_title . '</h1>';
-                if ($featured_image_url) {
-                    $header .= '<div><img src="' . $featured_image_url . '"></div>';
-                }
-                $header .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
-                $header .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
-
-                $pdf->writeHTML($header, true, false, true, false, '');
-                
-                $pdf->writeHTML($post_content, true, false, true, false, ''); // Write the HTML content to the PDF
-
-                // Output the PDF to the browser
-                // $pdf->Output('post_content.pdf', 'D'); // 'D' parameter prompts the user to download the PDF
-
-                // You can also save the PDF to a file using the following:
-                // $pdf->Output('path/to/save/page_content.pdf', 'F');
-                
-                
-                // Get the PDF content as a string
-                $pdf_content = $pdf->Output('', 'S');
-
-                // Generate a unique filename for the PDF
-                $filename = 'post_content_' . $post_id . '_' . time() . '.pdf';
-
-                // Save the PDF in the WordPress media library
-                $wp_upload_dir = wp_upload_dir(); // Retrieve the upload directory path
-                $upload_path = $wp_upload_dir['path'] . '/' . $filename; // Create the full path to the PDF
-                file_put_contents($upload_path, $pdf_content); // Save the PDF to the file
-                $attachment = array(
-                    'guid'           => $wp_upload_dir['url'] . '/' . $filename,
-                    'post_mime_type' => 'application/pdf',
-                    'post_title'     => sanitize_file_name($filename),
-                    'post_content'   => '',
-                    'post_status'    => 'inherit'
-                );
-                $attachment_id = wp_insert_attachment($attachment, $upload_path); // Insert the attachment into the media library
-
-                // Generate attachment metadata and update the attachment
-                $attachment_data = wp_generate_attachment_metadata($attachment_id, $upload_path);
-                wp_update_attachment_metadata($attachment_id, $attachment_data);
-
-                // Display the attachment URL
-                $attachment_url = wp_get_attachment_url($attachment_id);
-                // echo "PDF saved: <a href=\"$attachment_url\">$attachment_url</a>";
-				// var_dump(get_attached_file($attachment_id)); die();
 				
+				// Get previously created pdf metadata 
 				$post_metadatas = wp_get_attachment_metadata($post_id);
-				$file = get_attached_file_meta($post_metadatas['pdf_id']);
-				$uri  = insert( $attachment_id );
-				var_dump($uri);
-				var_dump($file->uri);
-				die();
-				if ( $file->uri ) {
-					if ( $file->uri === $uri ) {
-						$nu++;
-					} else {
-						$nm++;
+				$pdfFileMeta = get_attached_file_meta($post_metadatas['pdf_id']);
+				
+				// Generate a unique filename for the PDF
+                $filename = $post_title  . '_PID' . $post_id . '_' . $post_date_full . '.pdf';
+				
+				if(!$pdfFileMeta->filename || $pdfFileMeta->filename !== $filename) {
+					
+					$font = 'helvetica';
+					$fontSize = 12;
+					
+					$pdf = new \TCPDF(); // Initialize TCPDF instance
+					$pdf->AddPage(); // Add a new page
+					$pdf->SetFont($font, '', $fontSize); // Set font and font size
+					// $pdf->SetMargins(0, $pdf->GetCellHeight($font, $fontSize), 0);
+					
+					$header = '<h1>' . $post_title . '</h1>';
+					if ($featured_image_url) {
+						$header .= '<div><img src="' . $featured_image_url . '"></div>';
 					}
+					$header .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
+					$header .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
+	
+					$pdf->writeHTML($header, true, false, true, false, '');
+					
+					$pdf->writeHTML($post_content, true, false, true, false, ''); // Write the HTML content to the PDF
+	
+					// Output the PDF to the browser
+					// $pdf->Output('post_content.pdf', 'D'); // 'D' parameter prompts the user to download the PDF
+	
+					// You can also save the PDF to a file using the following:
+					// $pdf->Output('path/to/save/page_content.pdf', 'F');
+					
+					
+					// Get the PDF content as a string
+					$pdf_content = $pdf->Output('', 'S');
+	
+	
+					// Save the PDF in the WordPress media library
+					$wp_upload_dir = wp_upload_dir(); // Retrieve the upload directory path
+					$upload_path = $wp_upload_dir['path'] . '/' . $filename; // Create the full path to the PDF
+					file_put_contents($upload_path, $pdf_content); // Save the PDF to the file
+					$attachment = array(
+						'guid'           => $wp_upload_dir['url'] . '/' . $filename,
+						'post_mime_type' => 'application/pdf',
+						'post_title'     => sanitize_file_name($filename),
+						'post_content'   => '',
+						'post_status'    => 'inherit'
+					);
+					$attachment_id = wp_insert_attachment($attachment, $upload_path); // Insert the attachment into the media library
+	
+					// Generate attachment metadata and update the attachment
+					$attachment_data = wp_generate_attachment_metadata($attachment_id, $upload_path);
+					wp_update_attachment_metadata($attachment_id, $attachment_data);
+	
+					// Display the attachment URL
+					// $attachment_url = wp_get_attachment_url($attachment_id);
+					// echo "PDF saved: <a href=\"$attachment_url\">$attachment_url</a>";
+					
+					$uri  = insert( $attachment_id );
+					
+					if ( $pdfFileMeta->uri && $pdfFileMeta->uri !== $uri ) {
+						$nm++;
+					} else {
+						$na++;
+					}
+					
+					$post_metadatas = wp_get_attachment_metadata($post_id);
+					$post_metadatas['pdf_id'] = $attachment_id;
+					wp_update_attachment_metadata($post_id, $post_metadatas);
 				} else {
-					$na++;
+					$nu++;
 				}
-				
-				$post_metadatas = wp_get_attachment_metadata($post_id);
-				$post_metadatas['pdf_id'] = $attachment_id;
-				wp_update_attachment_metadata($post_id, $post_metadatas);
             }
 			
 			$redirect_url = add_query_arg( 'bulk_post_archived', $na, $redirect_url );
@@ -177,3 +175,106 @@ add_action(
 		}
 	}
 );
+
+// add_action(
+// 	'post_updated',
+// 	function ( $post_id, $post_after, $post_before ) {
+// 		var_dump('heo !'); die();
+// 		// if ( current_user_can( 'edit_posts' ) ) {
+// 		// 	if ( $post_after->post_content !== $post_before->post_content ) {
+// 		// 		$post_data = array(
+// 		// 			'ID'         => $post_id,
+// 		// 			'post_date'  => current_time( 'mysql' ),
+// 		// 			'post_date_gmt' => current_time( 'mysql', 1 )
+// 		// 		);
+// 		// 		wp_update_post( $post_data );
+// 		// 	}
+// 		// }
+// 	},
+// 	10,
+// 	3
+// );
+
+// add_action( 'post_updated', function ( $post_id, $post_after, $post_before ) {
+//     var_dump('hello!'); die();
+// }, 10, 3 );
+
+function update_post_date_on_update( $post_ID, $post, $update ) {
+	var_dump('heo !'); die();
+    // Vérifiez si l'utilisateur a la capacité de modifier l'article
+    // if ( current_user_can( 'edit_posts' ) ) {
+    //     // Vérifiez si le contenu de l'article a été modifié
+    //     if ( $post_after->post_content !== $post_before->post_content ) {
+    //         // Mettez à jour la date de modification de l'article
+    //         $post_data = array(
+    //             'ID'              => $post_ID,
+    //             'post_modified'   => current_time( 'mysql' ),
+    //             'post_modified_gmt' => current_time( 'mysql', 1 )
+    //         );
+    //         wp_update_post( $post_data );
+    //     }
+    // }
+}
+add_action( 'save_post_post', '\KredeumNFTs\Storage\update_post_date_on_update', 10, 3 );
+
+
+// add_action(
+// 	'save_post',
+// 	function ( $post_id ) {
+// 		var_dump('heo !'); die();
+// 		// Vérifiez si l'utilisateur a la capacité de modifier l'article
+// 		if ( current_user_can( 'edit_posts' ) ) {
+// 			// Mettez à jour la date de modification de l'article
+// 			$post_data = array(
+// 				'ID'              => $post_id,
+// 				'post_modified'   => current_time( 'mysql' ),
+// 				'post_modified_gmt' => current_time( 'mysql', 1 )
+// 			);
+// 			wp_update_post( $post_data );
+// 		}
+// 	}, 10, 1
+// );
+
+// function update_post_date_on_update( $post_ID, $post_after, $post_before ) {
+// 	var_dump('heo !'); die();
+//     // Vérifiez si l'utilisateur a la capacité de modifier l'article
+//     if ( current_user_can( 'edit_posts' ) ) {
+//         // Vérifiez si le contenu de l'article a été modifié
+//         if ( $post_after->post_content !== $post_before->post_content ) {
+//             // Mettez à jour la date de modification de l'article
+//             $post_data = array(
+//                 'ID'              => $post_ID,
+//                 'post_modified'   => current_time( 'mysql' ),
+//                 'post_modified_gmt' => current_time( 'mysql', 1 )
+//             );
+//             wp_update_post( $post_data );
+//         }
+//     }
+// }
+// add_action( 'post_updated', '\KredeumNFTs\update_post_date_on_update', 10, 3 );
+
+
+
+// add_filter(
+// 	'wp_insert_post_data',
+// 	function ( $data, $postarr ) {
+// 		var_dump('heo !'); die();
+// 		// Vérifiez si l'utilisateur a la capacité de modifier l'article
+// 		// if ( current_user_can( 'edit_posts' ) ) {
+// 		// 	// Vérifiez si le contenu de l'article a été modifié
+// 		// 	if ( isset( $data['post_content'] ) && isset( $postarr['ID'] ) ) {
+// 		// 		$post_id = $postarr['ID'];
+// 		// 		$post = get_post( $post_id );
+				
+// 		// 		if ( $data['post_content'] !== $post->post_content ) {
+// 		// 			// Mettez à jour la date de modification de l'article
+// 		// 			$data['post_modified'] = current_time( 'mysql' );
+// 		// 			$data['post_modified_gmt'] = current_time( 'mysql', 1 );
+// 		// 		}
+// 		// 	}
+// 		// }
+		
+// 		return $data;
+// 	}, 
+// 	10, 2
+// );
