@@ -11,7 +11,7 @@ namespace KredeumNFTs\Storage;
  *  Posts storage 2 columns filter
  */
 add_filter('manage_posts_columns', function ($columns) {
-	$columns['kre-post-nft'] = __( 'Article NFT', 'kredeum-nfts' );
+	$columns['kre-post-nft'] = __( 'NFT Article', 'kredeum-nfts' ) . wp_nonce_field( 'ajax-token', 'knonce' );
 	$columns['kre-post-uri'] = __( 'Archive', 'kredeum-nfts' );
 	return $columns;
 });

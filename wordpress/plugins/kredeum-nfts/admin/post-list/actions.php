@@ -111,10 +111,6 @@ add_filter(
 					// Generate attachment metadata and update the attachment
 					$attachment_data = wp_generate_attachment_metadata($attachment_id, $upload_path);
 					wp_update_attachment_metadata($attachment_id, $attachment_data);
-	
-					// Display the attachment URL
-					// $attachment_url = wp_get_attachment_url($attachment_id);
-					// echo "PDF saved: <a href=\"$attachment_url\">$attachment_url</a>";
 					
 					$uri  = insert( $attachment_id );
 					
