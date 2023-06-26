@@ -117,6 +117,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   animation_url?: string;
+  pdf?: string;
   properties?: Properties;
 } & StorageMetadataType;
 
