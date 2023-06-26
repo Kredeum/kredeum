@@ -66,6 +66,73 @@ add_filter(
 				// Generate a unique filename for the PDF
                 $filename = sanitize_file_name($post_title  . '_PID' . $post_id . '_' . $post_date_full . '.pdf');
 				
+				
+				///////////////////////////////////////////////////////////////////////////
+				// Chemin vers l'image source
+				$imageSourcePath = $featured_image_url;
+				
+				// Lire le contenu binaire de l'image
+				$imageSourceData = file_get_contents($imageSourcePath);
+
+				// Charger l'image source à partir de la chaîne binaire
+				$imageSource = imagecreatefromstring($imageSourceData);
+
+				// Créer une nouvelle image avec les mêmes dimensions que l'image source
+				$newImage = imagecreatetruecolor(imagesx($imageSource), imagesy($imageSource));
+
+				// Définir des couleurs pour le texte et le fond
+				$textColor = imagecolorallocate($newImage, 255, 255, 255); // Blanc
+				$backgroundColor = imagecolorallocate($newImage, 0, 0, 0); // Noir
+				
+				// Remplir l'image avec la couleur d'arrière-plan
+				imagefill($newImage, 0, 0, $backgroundColor);
+
+				// Copier l'image source sur la nouvelle image
+				imagecopy($newImage, $imageSource, 0, 130, 0, 0, imagesx($imageSource), imagesy($imageSource) + 130);
+				
+				// Ajouter la première chaîne de caractères à l'image
+				imagestring($newImage, 5, 10, 30, $post_title, $textColor);
+
+				// Ajouter la deuxième chaîne de caractères à l'image
+				imagestring($newImage, 5, 10, 60, $post_author, $textColor);
+
+				// if (extension_loaded('gd') && extension_loaded('freetype')) {
+				// 	// Votre code de génération d'image ici
+				// } else {
+				// 	var_dump('L\'extension GD ou FreeType n\'est pas activée.'); die();;
+				// }
+				
+				// $fontPath = KREDEUM_NFTS_PLUGIN_PATH . 'lib/fonts/fa-solid-900';
+
+
+				// // Ajouter la première chaîne de caractères à l'image
+				// imagettftext($newImage, 20, 0, 10, 30, $textColor, $fontPath, $post_title);
+
+				// // Ajouter la deuxième chaîne de caractères à l'image
+				// imagettftext($newImage, 20, 0, 10, 60, $textColor, $fontPath, $post_author);
+
+				// Afficher l'image générée dans le navigateur ou enregistrer l'image sur le disque
+				// header('Content-Type: image/jpeg');
+				// imagejpeg($newImage);
+				
+				$uploadDir = wp_upload_dir();
+				$kreImagesUploadPath = $uploadDir['basedir'] . '/kre-article-images';
+				
+				wp_mkdir_p($kreImagesUploadPath);
+
+				
+				// Chemin complet de l'image à enregistrer
+				$imagePath = $kreImagesUploadPath . '/' . sanitize_file_name($post_title  . '_PID' . $post_id . '_' . $post_date_full . '_img.jpg');
+
+				// Enregistrer l'image sur le disque
+				imagejpeg($newImage, $imagePath);
+
+				// Libérer la mémoire en détruisant les images créées
+				imagedestroy($imageSource);
+				imagedestroy($newImage);
+				///////////////////////////////////////////////////////////////////////////
+				
+				die();
 				if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
 					
 					$font = 'helvetica';
@@ -178,106 +245,3 @@ add_action(
 		}
 	}
 );
-
-// add_action(
-// 	'post_updated',
-// 	function ( $post_id, $post_after, $post_before ) {
-// 		var_dump('heo !'); die();
-// 		// if ( current_user_can( 'edit_posts' ) ) {
-// 		// 	if ( $post_after->post_content !== $post_before->post_content ) {
-// 		// 		$post_data = array(
-// 		// 			'ID'         => $post_id,
-// 		// 			'post_date'  => current_time( 'mysql' ),
-// 		// 			'post_date_gmt' => current_time( 'mysql', 1 )
-// 		// 		);
-// 		// 		wp_update_post( $post_data );
-// 		// 	}
-// 		// }
-// 	},
-// 	10,
-// 	3
-// );
-
-// add_action( 'post_updated', function ( $post_id, $post_after, $post_before ) {
-//     var_dump('hello!'); die();
-// }, 10, 3 );
-
-// function update_post_date_on_update( $post_ID, $post, $update ) {
-// 	var_dump('heo !'); die();
-//     // Vérifiez si l'utilisateur a la capacité de modifier l'article
-//     // if ( current_user_can( 'edit_posts' ) ) {
-//     //     // Vérifiez si le contenu de l'article a été modifié
-//     //     if ( $post_after->post_content !== $post_before->post_content ) {
-//     //         // Mettez à jour la date de modification de l'article
-//     //         $post_data = array(
-//     //             'ID'              => $post_ID,
-//     //             'post_modified'   => current_time( 'mysql' ),
-//     //             'post_modified_gmt' => current_time( 'mysql', 1 )
-//     //         );
-//     //         wp_update_post( $post_data );
-//     //     }
-//     // }
-// }
-// add_action( 'save_post_post', '\KredeumNFTs\Storage\update_post_date_on_update', 10, 3 );
-
-
-// add_action(
-// 	'save_post',
-// 	function ( $post_id ) {
-// 		var_dump('heo !'); die();
-// 		// Vérifiez si l'utilisateur a la capacité de modifier l'article
-// 		if ( current_user_can( 'edit_posts' ) ) {
-// 			// Mettez à jour la date de modification de l'article
-// 			$post_data = array(
-// 				'ID'              => $post_id,
-// 				'post_modified'   => current_time( 'mysql' ),
-// 				'post_modified_gmt' => current_time( 'mysql', 1 )
-// 			);
-// 			wp_update_post( $post_data );
-// 		}
-// 	}, 10, 1
-// );
-
-// function update_post_date_on_update( $post_ID, $post_after, $post_before ) {
-// 	var_dump('heo !'); die();
-//     // Vérifiez si l'utilisateur a la capacité de modifier l'article
-//     if ( current_user_can( 'edit_posts' ) ) {
-//         // Vérifiez si le contenu de l'article a été modifié
-//         if ( $post_after->post_content !== $post_before->post_content ) {
-//             // Mettez à jour la date de modification de l'article
-//             $post_data = array(
-//                 'ID'              => $post_ID,
-//                 'post_modified'   => current_time( 'mysql' ),
-//                 'post_modified_gmt' => current_time( 'mysql', 1 )
-//             );
-//             wp_update_post( $post_data );
-//         }
-//     }
-// }
-// add_action( 'post_updated', '\KredeumNFTs\update_post_date_on_update', 10, 3 );
-
-
-
-// add_filter(
-// 	'wp_insert_post_data',
-// 	function ( $data, $postarr ) {
-// 		var_dump('heo !'); die();
-// 		// Vérifiez si l'utilisateur a la capacité de modifier l'article
-// 		// if ( current_user_can( 'edit_posts' ) ) {
-// 		// 	// Vérifiez si le contenu de l'article a été modifié
-// 		// 	if ( isset( $data['post_content'] ) && isset( $postarr['ID'] ) ) {
-// 		// 		$post_id = $postarr['ID'];
-// 		// 		$post = get_post( $post_id );
-				
-// 		// 		if ( $data['post_content'] !== $post->post_content ) {
-// 		// 			// Mettez à jour la date de modification de l'article
-// 		// 			$data['post_modified'] = current_time( 'mysql' );
-// 		// 			$data['post_modified_gmt'] = current_time( 'mysql', 1 );
-// 		// 		}
-// 		// 	}
-// 		// }
-		
-// 		return $data;
-// 	}, 
-// 	10, 2
-// );
