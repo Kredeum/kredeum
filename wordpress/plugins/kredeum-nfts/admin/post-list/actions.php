@@ -52,19 +52,29 @@ add_filter(
 				// Get previously created pdf metadata 
 				$post_metadatas = wp_get_attachment_metadata($post_id);
 				$pdfFileMeta = get_attached_file_meta($post_metadatas['pdf_id']);
+				// var_dump(get_post($post_id));
+				// var_dump(get_post($post_metadatas['pdf_id']));
+				// var_dump(get_post_field('post_modified', $post_metadatas['pdf_id']));
+				// var_dump(strtotime(get_post_field('post_modified', $post_metadatas['pdf_id'])));
+				// var_dump(get_the_modified_date('U', $post_id));
+				// var_dump(get_the_modified_date('U', $post_metadatas['pdf_id']));
+				// die();
+				
+				$post_modified_date = get_the_modified_date('U', $post_id);
+				$pdf_modified_date = get_the_modified_date('U', $post_metadatas['pdf_id']);
 				
 				// Generate a unique filename for the PDF
                 $filename = sanitize_file_name($post_title  . '_PID' . $post_id . '_' . $post_date_full . '.pdf');
 				
-				if(!$pdfFileMeta->filename || $pdfFileMeta->filename !== $filename) {
+				if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
 					
 					$font = 'helvetica';
 					$fontSize = 12;
 					
 					$pdf = new \TCPDF(); // Initialize TCPDF instance
 					$pdf->AddPage(); // Add a new page
-					$pdf->SetFont($font, '', $fontSize); // Set font and font size
-					// $pdf->SetMargins(0, $pdf->GetCellHeight($font, $fontSize), 0);
+					$pdf->SetFont($font, '', $fontSize); // Set font and font siz
+
 					
 					$header = '<h1>' . $post_title . '</h1>';
 					if ($featured_image_url) {
@@ -94,7 +104,7 @@ add_filter(
 						'post_mime_type' => 'application/pdf',
 						'post_title'     => $filename,
 						'post_content'   => '',
-						'post_status'    => 'inherit'
+						'post_status'    => 'inherit',
 					);
 					$attachment_id = wp_insert_attachment($attachment, $upload_path); // Insert the attachment into the media library
 	
@@ -115,7 +125,6 @@ add_filter(
 						$na++;
 					}
 					
-					$post_metadatas = wp_get_attachment_metadata($post_id);
 					$post_metadatas['pdf_id'] = $attachment_id;
 					wp_update_attachment_metadata($post_id, $post_metadatas);
 				} else {

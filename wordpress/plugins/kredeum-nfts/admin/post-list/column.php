@@ -32,6 +32,25 @@ add_action(
 				echo wp_kses( '<a href="' . wp_get_attachment_url($post_metadatas['pdf_id']) . '">> view file</a>', array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
+		
+		if ($column === 'kre-post-nft') {
+			$nid = '';
+			if ( $post->_kre_nid ) {
+				$nid = $post->_kre_nid;
+			}
+
+			$metadata = get_metadata( 'post', $post->ID );
+
+			printf(
+				'<div class="kredeum-mint-button" txt="true"'
+				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
+				. ' pid="' . esc_attr( $post->ID ) . '"'
+				. ' nid="' . esc_attr( $nid ) . '"'
+				. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
+				. ' alt="' . esc_attr( $post->post_title ) . '"'
+				. '/>'
+			);
+		}
 	},
 	10,
 	2
