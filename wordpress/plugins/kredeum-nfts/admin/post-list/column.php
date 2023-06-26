@@ -21,12 +21,14 @@ add_filter('manage_posts_columns', function ($columns) {
  */
 add_action(
 	'manage_posts_custom_column',
-	function ($column, $post_id) {
-		$post_attachement_metadatas = wp_get_attachment_metadata($post_id);
+	function ($name) {
+		global $post;
+		
+		$post_attachement_metadatas = wp_get_attachment_metadata($post->ID);
 
 		$pdf_id = $post_attachement_metadatas['pdf_id'];
 		
-		if ($column === 'kre-post-uri') {
+		if ($name === 'kre-post-uri') {
 			
 			if($post_attachement_metadatas && $pdf_id) {
 				$pdf = get_post($pdf_id);
@@ -36,7 +38,7 @@ add_action(
 			}
 		}
 		
-		if ($column === 'kre-post-nft') {
+		if ($name === 'kre-post-nft') {
 			$nid = '';
 			if ( $post->_kre_nid ) {
 				$nid = $post->_kre_nid;
@@ -52,7 +54,7 @@ add_action(
 			if($post_attachement_metadatas && $pdf_id) {
 				printf(
 					'<div class="kredeum-mint-button" txt="true"'
-					. ' src="' . esc_attr( get_the_post_thumbnail_url( $post->ID) ) . '"'
+					. ' src="' . esc_attr( get_the_post_thumbnail_url( $post->ID ) ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' nid="' . esc_attr( $nid ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
