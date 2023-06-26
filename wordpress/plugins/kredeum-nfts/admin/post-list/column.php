@@ -22,14 +22,17 @@ add_filter('manage_posts_columns', function ($columns) {
 add_action(
 	'manage_posts_custom_column',
 	function ($column, $post_id) {
+		$post_attachement_metadatas = wp_get_attachment_metadata($post_id);
+
+		$pdf_id = $post_attachement_metadatas['pdf_id'];
+		
 		if ($column === 'kre-post-uri') {
-			$post_metadatas = wp_get_attachment_metadata($post_id);
 			
-			if($post_metadatas && $post_metadatas['pdf_id']) {
-				$pdf = get_post($post_metadatas['pdf_id']);
+			if($post_attachement_metadatas && $pdf_id) {
+				$pdf = get_post($pdf_id);
 				echo wp_kses( link( $pdf->_kre_uri, short_uri( $pdf->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
 				echo '<br>';
-				echo wp_kses( '<a href="' . wp_get_attachment_url($post_metadatas['pdf_id']) . '">> view file</a>', array( 'a' => array( 'href' => array() ) ) );
+				echo wp_kses( '<a href="' . wp_get_attachment_url($pdf_id) . '">> view file</a>', array( 'a' => array( 'href' => array() ) ) );
 			}
 		}
 		
@@ -40,16 +43,25 @@ add_action(
 			}
 
 			$metadata = get_metadata( 'post', $post->ID );
+			// var_dump(get_the_post_thumbnail_url( $post->ID));
+			// var_dump($post_attachement_metadatas);
+			// var_dump($metadata);
 
-			printf(
-				'<div class="kredeum-mint-button" txt="true"'
-				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
-				. ' pid="' . esc_attr( $post->ID ) . '"'
-				. ' nid="' . esc_attr( $nid ) . '"'
-				. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
-				. ' alt="' . esc_attr( $post->post_title ) . '"'
-				. '/>'
-			);
+			// die();
+			
+			if($post_attachement_metadatas && $pdf_id) {
+				printf(
+					'<div class="kredeum-mint-button" txt="true"'
+					. ' src="' . esc_attr( get_the_post_thumbnail_url( $post->ID) ) . '"'
+					. ' pid="' . esc_attr( $post->ID ) . '"'
+					. ' nid="' . esc_attr( $nid ) . '"'
+					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
+					. ' alt="' . esc_attr( $post->post_title ) . '"'
+					. ' pdf="' . esc_attr( wp_get_attachment_url($pdf_id) ) . '"'
+					. '/>'
+				);
+			}
+
 		}
 	},
 	10,
