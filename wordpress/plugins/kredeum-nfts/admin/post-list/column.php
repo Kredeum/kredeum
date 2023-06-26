@@ -27,6 +27,7 @@ add_action(
 		$post_attachement_metadatas = wp_get_attachment_metadata($post->ID);
 
 		$pdf_id = $post_attachement_metadatas['pdf_id'];
+		$pdf_coverimg_url = $post_attachement_metadatas['pdf_coverimg_url'];
 		
 		if ($name === 'kre-post-uri') {
 			
@@ -54,7 +55,7 @@ add_action(
 			if($post_attachement_metadatas && $pdf_id) {
 				printf(
 					'<div class="kredeum-mint-button" txt="true"'
-					. ' src="' . esc_attr( get_the_post_thumbnail_url( $post->ID ) ) . '"'
+					. ' src="' . esc_attr( $pdf_coverimg_url ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' nid="' . esc_attr( $nid ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'

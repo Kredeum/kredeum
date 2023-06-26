@@ -133,8 +133,8 @@ const swarmTokenUri = async (
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
   if (Object.keys(properties).length > 0) json.properties = properties;
-  if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
-  if (pdfUri) json.pdf = ipfsGatewayUrl(pdfUri);
+  if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
+  if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
   const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
 
