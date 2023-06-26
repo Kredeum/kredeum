@@ -3,7 +3,7 @@
 
   import type { NftType, Properties } from "@lib/common/types";
   import { nftMint, nftMinted } from "@lib/nft/nft-mint";
-  import { nftImageUri, nftTokenUri } from "@lib/nft/nft-uri";
+  import { nftPin, nftTokenUri } from "@lib/nft/nft-uri";
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
   import { nftStoreSet } from "@stores/nft/nft";
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
@@ -24,6 +24,7 @@
   export let description: string = undefined;
   export let metadata: string = undefined;
   export let audio: string = undefined;
+  export let pdf: string = undefined;
   export let properties: Properties = undefined;
   /////////////////////////////////////////////////
   export let minting: number = S0_START;
@@ -31,6 +32,7 @@
   export let imageUri: string = undefined; // defined after STATE 1
   export let tokenUri: string = undefined; // defined after STATE 2
   export let audioUri: string = undefined; // defined after STATE 2
+  export let pdfUri: string = undefined; // defined after STATE 2
   export let txHash: string = undefined; // defined after STATE 3
   export let nft: NftType = undefined; // defined after STATE 4
   /////////////////////////////////////////////////
@@ -70,14 +72,17 @@
 
     minting = S1_STORE_IMAGE;
 
-    imageUri = await nftImageUri(chainId, src);
+    imageUri = await nftPin(chainId, src);
     if (audio) {
-      audioUri = await nftImageUri(chainId, audio);
+      audioUri = await nftPin(chainId, audio);
+    }
+    if (pdf) {
+      pdfUri = await nftPin(chainId, pdf);
     }
 
     minting = S2_STORE_METADATA;
 
-    tokenUri = await nftTokenUri(chainId, name, description, imageUri, signer, src, metadata, properties, audioUri);
+    tokenUri = await nftTokenUri(chainId, name, description, imageUri, signer, src, metadata, properties, audioUri, pdfUri);
 
     minting = S3_SIGN_TX;
 

@@ -71,6 +71,7 @@
   export let name: string = undefined;
   export let description: string = undefined;
   export let metadata: string = undefined;
+  export let pdf: string = undefined;
   ////////////////////////////////////////////////////////////////
 
   $: console.info("<NftMintPopup metadata", metadata);
@@ -223,6 +224,7 @@
   {name}
   {description}
   {audio}
+  {pdf}
   bind:mint
   bind:minting
   bind:imageUri

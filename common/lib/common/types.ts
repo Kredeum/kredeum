@@ -137,6 +137,7 @@ type NftType = {
   image_data?: string;
   external_url?: string;
   animation_url?: string;
+  pdf?: string;
   youtube_url?: string;
   background_color?: string;
   attributes?: unknown;

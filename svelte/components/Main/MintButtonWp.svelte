@@ -16,6 +16,7 @@
   export let alt: string = undefined;
   export let pid: string = undefined;
   export let nid: string = undefined;
+  export let pdf: string = undefined;
   export let storage: string = undefined;
   /////////////////////////////////////////////////
 
@@ -61,7 +62,7 @@
   </div>
 
   {#if open}
-    <NftMintPopup {chainId} {signer} {src} name={alt} description={alt} {metadata} {toggle} bind:nft />
+    <NftMintPopup {chainId} {signer} {src} name={alt} description={alt} {metadata} {pdf} {toggle} bind:nft />
   {/if}
 </div>
 
