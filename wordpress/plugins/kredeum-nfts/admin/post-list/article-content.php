@@ -9,10 +9,18 @@ namespace KredeumNFTs\Storage;
 
 /**
  * Kredeum NFTs post html to pdf content
+ *
+ * @param string $post_title .
+ * @param string $post_author .
+ * @param string $post_date .
+ * @param string $post_content .
+ * @param string $featured_image_url url of post featured image.
+ *
+ * @return string html string to build in pdf
  */
-function html_content_get($post_title, $post_author, $post_date, $post_content, $featured_image_url) {
-       
-    return '
+function html_content_get( $post_title, $post_author, $post_date, $post_content, $featured_image_url ) {
+
+	return '
         <html>
         <head>
         <style>
@@ -97,7 +105,7 @@ function html_content_get($post_title, $post_author, $post_date, $post_content, 
                 </div>
             </div>
             <div class="content">' .
-                $post_content . '
+				$post_content . '
             </div>
         </body>
         </html>
