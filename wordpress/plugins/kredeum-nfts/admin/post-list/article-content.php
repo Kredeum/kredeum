@@ -1,6 +1,6 @@
 <?php
 /**
- * Post html
+ * Article content
  *
  * @package kredeum/nfts
  */

@@ -36,249 +36,53 @@ add_filter(
                 $post = get_post($post_id);
 
 				// Get previously created pdf metadata 
-				$post_attachment_metadatas = wp_get_attachment_metadata($post_id);
-				$pdfId = $post_attachment_metadatas['pdf_id'];
+				$pdfId = $pdf_id = $post->_kre_pdf_id;
 				$pdfFileMeta = get_attached_file_meta($pdfId);
 				
 				// Get Modified post and pdf file last modified Timestamp
 				$post_modified_date = get_the_modified_date('U', $post_id);
 				$pdf_modified_date = get_the_modified_date('U', $pdfId);
 				
-				// if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
-				if(true) {
-					$post_title = $post->post_title; // Get the post title
+				if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
+				// if(true) {
+					$post_title = $post->post_title;
 					$post_content = apply_filters('the_content', $post->post_content);
 					$post_author = get_the_author_meta('display_name', $post->post_author);
 					$post_date = get_the_date('', $post_id); 
 					$post_date_full = get_the_date('Y-m-d H:i:s', $post_id);
 					
-					// Get the featured image URL
 					$featured_image_url = '';
 					if (has_post_thumbnail($post_id)) {
-						$image_id = get_post_thumbnail_id($post_id);
-						$image_data = wp_get_attachment_image_src($image_id, 'full');
-						$featured_image_url = $image_data[0];
+						$featured_image_url = get_the_post_thumbnail_url($post_id, 'full');
 					}
 					
-					// Generate a unique filename for the PDF and image
-					$filename = sanitize_file_name($post_title  . '_PID' . $post_id . '_' . $post_date_full);
-					$pdfFilename = $filename . '.pdf';
-					$imageFilename = $filename . '_img.jpg';
-					
+					$pdfFilename = sanitize_file_name($post_title  . '_PID' . $post_id . '_' . $post_date_full . '.pdf');
 					$uploadDir = wp_upload_dir();
-					
-					///////////////////////////////////////////////////////////////////////////
-					// Create Image
-					///////////////////////////////////////////////////////////////////////////
-					// $imageSourceData = file_get_contents($featured_image_url);
-					// $imageSource = imagecreatefromstring($imageSourceData);
-
-					// // Create new image 130px higher
-					// $newImage = imagecreatetruecolor(imagesx($imageSource), imagesy($imageSource) + 130);
-
-					// $textColor = imagecolorallocate($newImage, 255, 255, 255); // Blanc
-					// $backgroundColor = imagecolorallocate($newImage, 0, 0, 0); // Noir
-					// // Black background
-					// imagefill($newImage, 0, 0, $backgroundColor);
-
-					// // Copy source image to new image
-					// imagecopy($newImage, $imageSource, 0, 130, 0, 0, imagesx($imageSource), imagesy($imageSource));
-					
-					// // Add text on image
-					// imagestring($newImage, 5, 10, 30, $post_title, $textColor);
-					// imagestring($newImage, 5, 10, 60, $post_author, $textColor);
-
-					// if (extension_loaded('gd') && extension_loaded('freetype')) {
-					// 	// Votre code de génération d'image ici
-					// } else {
-					// 	var_dump('L\'extension GD ou FreeType n\'est pas activée.'); die();;
-					// }
-					
-					// $fontPath = KREDEUM_NFTS_PLUGIN_PATH . 'lib/fonts/fa-solid-900';
-
-					// // Ajouter la première chaîne de caractères à l'image
-					// imagettftext($newImage, 20, 0, 10, 30, $textColor, $fontPath, $post_title);
-
-					// // Ajouter la deuxième chaîne de caractères à l'image
-					// imagettftext($newImage, 20, 0, 10, 60, $textColor, $fontPath, $post_author);
-
-					// Afficher l'image générée dans le navigateur ou enregistrer l'image sur le disque
-					// header('Content-Type: image/jpeg');
-					// imagejpeg($newImage);
-					
-					
-					$uploadFolderName = '/kre-article-images';
-					$kreImagesUploadPath = $uploadDir['basedir'] . $uploadFolderName;
-					$kreImagesUploadUrl = $uploadDir['baseurl'] . $uploadFolderName;
-					
-					wp_mkdir_p($kreImagesUploadPath);
-
-					$imagePath = $kreImagesUploadPath . '/' . $imageFilename;
-					$imageUrl = $kreImagesUploadUrl . '/' . $imageFilename;
-
-					// // save image 
-					// imagejpeg($newImage, $imagePath);
-					
-					// // Free memory
-					// imagedestroy($imageSource);
-					// imagedestroy($newImage);
-					
-					// $post_attachment_metadatas['pdf_coverimg_url'] = $imageUrl;
-					// wp_update_attachment_metadata($post_id, $post_attachment_metadatas);
 					
 					///////////////////////////////////////////////////////////////////////////
 					// Create pdf
 					///////////////////////////////////////////////////////////////////////////
-					// $font = 'helvetica';
-					// $fontSize = 12;
-					
-					// $pdf = new \TCPDF(); // Initialize TCPDF instance
-					// $pdf->AddPage(); // Add a new page
-					// $pdf->SetFont($font, '', $fontSize); // Set font and font siz
-
-					
-					// $header = '<h1>' . $post_title . '</h1>';
-					// if ($featured_image_url) {
-					// 	$header .= '<div><img src="' . $featured_image_url . '"></div>';
-					// }
-					// $header .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
-					// $header .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
-	
-					// $pdf->writeHTML($header, true, false, true, false, '');
-					
-					// $pdf->writeHTML($post_content, true, false, true, false, ''); // Write the HTML content to the PDF
-	
-					// // Output the PDF to the browser
-					// // $pdf->Output('post_content.pdf', 'D'); // 'D' parameter prompts the user to download the PDF
-					
-					// // Get the PDF content as a string
-					// $pdf_content = $pdf->Output('', 'S');
-	
-	
-					// // Save the PDF in the WordPress media library
-					// $upload_path = $uploadDir['path'] . '/' . $pdfFilename; // Create the full path to the PDF
-					// file_put_contents($upload_path, $pdf_content); // Save the PDF to the file
-					
 					$options = new Options();
 					$options->setIsHtml5ParserEnabled(true);
-					$options->set('isRemoteEnabled', true); // Activer le chargement de ressources distantes (facultatif)
+					$options->set('isRemoteEnabled', true);
 					$options->set('defaultFont', 'Arial');
 					$dompdf = new Dompdf($options);
-					
-					$htmlStart = '
-						<html>
-						<head>
-						<style>
-							* {
-								margin: 0;
-								padding: 0;
-								box-sizing: border-box;
-							}
-							
-							body {
-								font-family: Arial, Helvetica, sans-serif;
-								padding: 60px;
-							}
-							
-							h1 {
-								margin-bottom: 1em;
-							}
-							
-							h2, h3, h4, h5, h6 {
-								margin-bottom: 0.5em;
-							}
-							
-							ul, ol {
-								margin-bottom: 1em;
-								padding-left: 1em;
-							}
-							
-							.nftcovercontainer {
-								page-break-after: always;
-								height: 100%;
-								// margin: auto;
-							}
-							
-							.nftcover {
-								height: 580px;
-								width: 580px;
-								border: 2px solid black;
-								position: absolute;
-								top: 50%;
-								left: 50%;
-								transform: translate(-50%,-50%);
-							}
-							
-							.coverimg {
-								background-color: black;
-								width: 100%;
-								height: 350px;
-								background-repeat: no-repeat;
-								background-size: cover;
-								background-position: center;
-							}
-							
-							.nftcovertext {
-								padding: 30px;
-							}
-							
-							.content {
-								// padding: 60px;
-							}
-							
-							.content p {
-								margin-bottom: 1em;
-							}
-														
-							.content img {
-								max-width: 100%;
-								width: auto;
-								height: 200px;
-								margin-bottom: 1em;
-							}							
-						</style>
-						</head>
-						<body>';
-						
-					$htmlEnd = '</body></html>';
-					
-					$html = $htmlStart;
-					
-					$html .= '<div class="nftcovercontainer">';
-					$html .= '<div class="nftcover">';
-										
-					if ($featured_image_url) {
-						$html .= '<div class="coverimg" style="background-image: url(' . $featured_image_url . ')"></div>';
-					}
-					$html .= '<div class="nftcovertext">';
-					$html .= '<h1>' . $post_title . '</h1>';
-					$html .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
-					$html .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
-					$html .= '</div>';
-					$html .= '</div>';
-					$html .= '</div>';
-					
-					$html .= '<div class="content">';
-					$html .= $post_content;
-					$html .= '</div>';
-					$html .= $htmlEnd;
 	
-					$dompdf->loadHtml($html);
+					$dompdf->loadHtml(html_content_get($post_title, $post_author, $post_date, $post_content, $featured_image_url));
 					$dompdf->render();
 					
+					// add pages numerotation
 					$totalPages = $dompdf->getCanvas()->get_page_count();
-					
 					$dompdf->getCanvas()->page_text(280, 770, "Page {PAGE_NUM} / {PAGE_COUNT}", null, 8, array(0, 0, 0));
 					
+					// create last blank page
 					$dompdf->getCanvas()->new_page();
 					
 					$output = $dompdf->output();
 					
 					// Save the PDF in the WordPress media library
-					$upload_path = $uploadDir['path'] . '/' . $pdfFilename; // Create the full path to the PDF
-					file_put_contents($upload_path, $output); // Save the PDF to the file
-					
-					
+					$upload_path = $uploadDir['path'] . '/' . $pdfFilename;
+					file_put_contents($upload_path, $output);
 					
 					$attachment = array(
 						'guid'           => $uploadDir['url'] . '/' . $pdfFilename,
@@ -286,22 +90,20 @@ add_filter(
 						'post_title'     => $pdfFilename,
 						'post_content'   => '',
 						'post_status'    => 'inherit',
+						'post_parent'    => $post_id
 					);
-					$attachment_id = wp_insert_attachment($attachment, $upload_path); // Insert the pdf attachment into the media library
+					$attachment_id = wp_insert_attachment($attachment, $upload_path, $post_id);
 	
 					// Generate attachment metadata and update the attachment
 					$attachment_data = wp_generate_attachment_metadata($attachment_id, $upload_path);
 					wp_update_attachment_metadata($attachment_id, $attachment_data);
 					
-					$post_attachment_metadatas['pdf_id'] = $attachment_id;
-					wp_update_attachment_metadata($post_id, $post_attachment_metadatas);
-					
+					update_post_meta( $post_id, '_kre_pdf_id', $attachment_id );
+										
 					///////////////////////////////////////////////////////////////////////////
 					// Upload pdf on decentralized storage
 					///////////////////////////////////////////////////////////////////////////
-					// $uri  = insert( $attachment_id );
-					
-					
+					$uri  = insert( $attachment_id );
 					
 					if ( $pdfFileMeta->uri && $pdfFileMeta->uri !== $uri ) {
 						$nm++;
