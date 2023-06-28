@@ -172,19 +172,70 @@ add_filter(
 							* {
 								margin: 0;
 								padding: 0;
+								box-sizing: border-box;
 							}
 							
 							body {
 								font-family: Arial, Helvetica, sans-serif;
+								padding: 60px;
+							}
+							
+							h1 {
+								margin-bottom: 1em;
+							}
+							
+							h2, h3, h4, h5, h6 {
+								margin-bottom: 0.5em;
+							}
+							
+							ul, ol {
+								margin-bottom: 1em;
+								padding-left: 1em;
+							}
+							
+							.nftcovercontainer {
+								page-break-after: always;
+								height: 100%;
+								// margin: auto;
+							}
+							
+							.nftcover {
+								height: 580px;
+								width: 580px;
+								border: 2px solid black;
+								position: absolute;
+								top: 50%;
+								left: 50%;
+								transform: translate(-50%,-50%);
 							}
 							
 							.coverimg {
 								background-color: black;
+								width: 100%;
+								height: 350px;
+								background-repeat: no-repeat;
+								background-size: cover;
+								background-position: center;
 							}
 							
-							// img {
-							// 	width: 100%;
-							// }
+							.nftcovertext {
+								padding: 30px;
+							}
+							
+							.content {
+								// padding: 60px;
+							}
+							
+							.content p {
+								margin-bottom: 1em;
+							}
+														
+							.content img {
+								max-width: 100%;
+								width: auto;
+								height: 200px;
+								margin-bottom: 1em;
+							}							
 						</style>
 						</head>
 						<body>';
@@ -193,23 +244,33 @@ add_filter(
 					
 					$html = $htmlStart;
 					
-					$html .= '<div style="page-break-after: always;">';
-					
+					$html .= '<div class="nftcovercontainer">';
+					$html .= '<div class="nftcover">';
+										
 					if ($featured_image_url) {
-						$html .= '<div class="coverimg"><img width="100%" src="' . $featured_image_url . '"></div>';
+						$html .= '<div class="coverimg" style="background-image: url(' . $featured_image_url . ')"></div>';
 					}
+					$html .= '<div class="nftcovertext">';
 					$html .= '<h1>' . $post_title . '</h1>';
 					$html .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
 					$html .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
 					$html .= '</div>';
+					$html .= '</div>';
+					$html .= '</div>';
 					
-					$html .= '<div>';
+					$html .= '<div class="content">';
 					$html .= $post_content;
 					$html .= '</div>';
 					$html .= $htmlEnd;
 	
 					$dompdf->loadHtml($html);
 					$dompdf->render();
+					
+					$totalPages = $dompdf->getCanvas()->get_page_count();
+					
+					$dompdf->getCanvas()->page_text(280, 770, "Page {PAGE_NUM} / {PAGE_COUNT}", null, 8, array(0, 0, 0));
+					
+					$dompdf->getCanvas()->new_page();
 					
 					$output = $dompdf->output();
 					
