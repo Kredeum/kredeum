@@ -54,8 +54,8 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/tcdent/php-restclient/restclient.php';
-
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'vendor/autoload.php';
+	
 	$api = new \RestClient( array( 'base_url' => '' ) );
 
 	add_action(

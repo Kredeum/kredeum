@@ -7,7 +7,8 @@
 
 namespace KredeumNFTs\Storage;
 
-require_once('tcpdf/tcpdf.php');
+use Dompdf\Dompdf;
+use Dompdf\Options;
 
 /**
  * Posts bulk archive action
@@ -43,7 +44,8 @@ add_filter(
 				$post_modified_date = get_the_modified_date('U', $post_id);
 				$pdf_modified_date = get_the_modified_date('U', $pdfId);
 				
-				if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
+				// if(!$pdfFileMeta->filename || $post_modified_date > $pdf_modified_date) {
+				if(true) {
 					$post_title = $post->post_title; // Get the post title
 					$post_content = apply_filters('the_content', $post->post_content);
 					$post_author = get_the_author_meta('display_name', $post->post_author);
@@ -68,23 +70,23 @@ add_filter(
 					///////////////////////////////////////////////////////////////////////////
 					// Create Image
 					///////////////////////////////////////////////////////////////////////////
-					$imageSourceData = file_get_contents($featured_image_url);
-					$imageSource = imagecreatefromstring($imageSourceData);
+					// $imageSourceData = file_get_contents($featured_image_url);
+					// $imageSource = imagecreatefromstring($imageSourceData);
 
-					// Create new image 130px higher
-					$newImage = imagecreatetruecolor(imagesx($imageSource), imagesy($imageSource) + 130);
+					// // Create new image 130px higher
+					// $newImage = imagecreatetruecolor(imagesx($imageSource), imagesy($imageSource) + 130);
 
-					$textColor = imagecolorallocate($newImage, 255, 255, 255); // Blanc
-					$backgroundColor = imagecolorallocate($newImage, 0, 0, 0); // Noir
-					// Black background
-					imagefill($newImage, 0, 0, $backgroundColor);
+					// $textColor = imagecolorallocate($newImage, 255, 255, 255); // Blanc
+					// $backgroundColor = imagecolorallocate($newImage, 0, 0, 0); // Noir
+					// // Black background
+					// imagefill($newImage, 0, 0, $backgroundColor);
 
-					// Copy source image to new image
-					imagecopy($newImage, $imageSource, 0, 130, 0, 0, imagesx($imageSource), imagesy($imageSource));
+					// // Copy source image to new image
+					// imagecopy($newImage, $imageSource, 0, 130, 0, 0, imagesx($imageSource), imagesy($imageSource));
 					
-					// Add text on image
-					imagestring($newImage, 5, 10, 30, $post_title, $textColor);
-					imagestring($newImage, 5, 10, 60, $post_author, $textColor);
+					// // Add text on image
+					// imagestring($newImage, 5, 10, 30, $post_title, $textColor);
+					// imagestring($newImage, 5, 10, 60, $post_author, $textColor);
 
 					// if (extension_loaded('gd') && extension_loaded('freetype')) {
 					// 	// Votre code de génération d'image ici
@@ -114,48 +116,108 @@ add_filter(
 					$imagePath = $kreImagesUploadPath . '/' . $imageFilename;
 					$imageUrl = $kreImagesUploadUrl . '/' . $imageFilename;
 
-					// save image 
-					imagejpeg($newImage, $imagePath);
+					// // save image 
+					// imagejpeg($newImage, $imagePath);
 					
-					// Free memory
-					imagedestroy($imageSource);
-					imagedestroy($newImage);
+					// // Free memory
+					// imagedestroy($imageSource);
+					// imagedestroy($newImage);
 					
-					$post_attachment_metadatas['pdf_coverimg_url'] = $imageUrl;
-					wp_update_attachment_metadata($post_id, $post_attachment_metadatas);
+					// $post_attachment_metadatas['pdf_coverimg_url'] = $imageUrl;
+					// wp_update_attachment_metadata($post_id, $post_attachment_metadatas);
 					
 					///////////////////////////////////////////////////////////////////////////
 					// Create pdf
 					///////////////////////////////////////////////////////////////////////////
-					$font = 'helvetica';
-					$fontSize = 12;
+					// $font = 'helvetica';
+					// $fontSize = 12;
 					
-					$pdf = new \TCPDF(); // Initialize TCPDF instance
-					$pdf->AddPage(); // Add a new page
-					$pdf->SetFont($font, '', $fontSize); // Set font and font siz
+					// $pdf = new \TCPDF(); // Initialize TCPDF instance
+					// $pdf->AddPage(); // Add a new page
+					// $pdf->SetFont($font, '', $fontSize); // Set font and font siz
 
 					
-					$header = '<h1>' . $post_title . '</h1>';
+					// $header = '<h1>' . $post_title . '</h1>';
+					// if ($featured_image_url) {
+					// 	$header .= '<div><img src="' . $featured_image_url . '"></div>';
+					// }
+					// $header .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
+					// $header .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
+	
+					// $pdf->writeHTML($header, true, false, true, false, '');
+					
+					// $pdf->writeHTML($post_content, true, false, true, false, ''); // Write the HTML content to the PDF
+	
+					// // Output the PDF to the browser
+					// // $pdf->Output('post_content.pdf', 'D'); // 'D' parameter prompts the user to download the PDF
+					
+					// // Get the PDF content as a string
+					// $pdf_content = $pdf->Output('', 'S');
+	
+	
+					// // Save the PDF in the WordPress media library
+					// $upload_path = $uploadDir['path'] . '/' . $pdfFilename; // Create the full path to the PDF
+					// file_put_contents($upload_path, $pdf_content); // Save the PDF to the file
+					
+					$options = new Options();
+					$options->setIsHtml5ParserEnabled(true);
+					$options->set('isRemoteEnabled', true); // Activer le chargement de ressources distantes (facultatif)
+					$options->set('defaultFont', 'Arial');
+					$dompdf = new Dompdf($options);
+					
+					$htmlStart = '
+						<html>
+						<head>
+						<style>
+							* {
+								margin: 0;
+								padding: 0;
+							}
+							
+							body {
+								font-family: Arial, Helvetica, sans-serif;
+							}
+							
+							.coverimg {
+								background-color: black;
+							}
+							
+							// img {
+							// 	width: 100%;
+							// }
+						</style>
+						</head>
+						<body>';
+						
+					$htmlEnd = '</body></html>';
+					
+					$html = $htmlStart;
+					
+					$html .= '<div style="page-break-after: always;">';
+					
 					if ($featured_image_url) {
-						$header .= '<div><img src="' . $featured_image_url . '"></div>';
+						$html .= '<div class="coverimg"><img width="100%" src="' . $featured_image_url . '"></div>';
 					}
-					$header .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
-					$header .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
-	
-					$pdf->writeHTML($header, true, false, true, false, '');
+					$html .= '<h1>' . $post_title . '</h1>';
+					$html .= '<p><strong>Author:</strong> ' . $post_author . '</p>';
+					$html .= '<p><strong>Date:</strong> ' . $post_date . '</p>';
+					$html .= '</div>';
 					
-					$pdf->writeHTML($post_content, true, false, true, false, ''); // Write the HTML content to the PDF
+					$html .= '<div>';
+					$html .= $post_content;
+					$html .= '</div>';
+					$html .= $htmlEnd;
 	
-					// Output the PDF to the browser
-					// $pdf->Output('post_content.pdf', 'D'); // 'D' parameter prompts the user to download the PDF
+					$dompdf->loadHtml($html);
+					$dompdf->render();
 					
-					// Get the PDF content as a string
-					$pdf_content = $pdf->Output('', 'S');
-	
-	
+					$output = $dompdf->output();
+					
 					// Save the PDF in the WordPress media library
 					$upload_path = $uploadDir['path'] . '/' . $pdfFilename; // Create the full path to the PDF
-					file_put_contents($upload_path, $pdf_content); // Save the PDF to the file
+					file_put_contents($upload_path, $output); // Save the PDF to the file
+					
+					
 					
 					$attachment = array(
 						'guid'           => $uploadDir['url'] . '/' . $pdfFilename,
@@ -176,7 +238,7 @@ add_filter(
 					///////////////////////////////////////////////////////////////////////////
 					// Upload pdf on decentralized storage
 					///////////////////////////////////////////////////////////////////////////
-					$uri  = insert( $attachment_id );
+					// $uri  = insert( $attachment_id );
 					
 					
 					
