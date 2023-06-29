@@ -1,10 +1,10 @@
 import { Wallet } from "ethers";
 
-const pass = "pass";
-const json = "";
+const password = process.env.PASSWORD || "";
+const json = process.env.JSON || "";
 
-const wallet = Wallet.fromEncryptedJsonSync(json, pass);
+const wallet = Wallet.fromEncryptedJsonSync(json, password);
 console.log(wallet.address);
 console.log(wallet.privateKey);
-console.log(wallet.mnemonic.phrase);
-console.log(wallet.mnemonic.path);
+// console.log(wallet.mnemonic.phrase);
+// console.log(wallet.mnemonic.path);
