@@ -140,7 +140,7 @@ msgstr "ou rejoignez-nous sur"
 
 #. Description of the plugin
 msgid "Plugin to archive your medias to IPFS and mint them as NFTs"
-msgstr "Plugin pour archier vos medias sur IPFS et les minter en NFTs "
+msgstr "Plugin pour archiver vos medias sur IPFS et les minter en NFTs "
 
 #: admin/settings/class-settings.php:72
 msgid "Settings"
