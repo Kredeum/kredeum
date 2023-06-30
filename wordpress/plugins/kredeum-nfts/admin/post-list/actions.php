@@ -35,15 +35,14 @@ add_filter(
 			foreach ( $post_ids as $post_id ) {
 				$post = get_post( $post_id );
 
-				// Get previously created pdf metadata.
-				$pdf_id        = $post->_kre_pdf_id;
-				$pdf_file_meta = get_attached_file_meta( $pdf_id );
 
 				// Get Modified post and pdf file last modified Timestamp.
 				$post_modified_date = get_the_modified_date( 'U', $post_id );
-				$pdf_modified_date  = get_the_modified_date( 'U', $pdf_id );
+        $post_pdf_modified_date = get_post_meta( $post_id, '_kre_pdf_modified_date' );
 
-				if ( ! $pdf_file_meta->filename || $post_modified_date > $pdf_modified_date ) {
+				if ( ! $pdf_file_meta->filename || $post_modified_date > $post_pdf_modified_date ) {
+          update_post_meta( $post_id, '_kre_pdf_modified_date', $post_modified_date );
+
 					$post_title     = $post->post_title;
 					$post_content   = apply_filters( 'the_content', $post->post_content );
 					$post_author    = get_the_author_meta( 'display_name', $post->post_author );
@@ -73,37 +72,10 @@ add_filter(
 					// add pages numerotation.
 					$dompdf->getCanvas()->page_text( 280, 770, 'Page {PAGE_NUM} / {PAGE_COUNT}', null, 8, array( 0, 0, 0 ) );
 
-					// create last blank page.
-					$dompdf->getCanvas()->new_page();
-
 					$output = $dompdf->output();
+					$uri = insert( $output, "application/pdf", $post_id);
 
-					// Save the PDF in the WordPress media library.
-					$upload_path = $upload_dir['path'] . '/' . $pdf_filename;
-					file_put_contents( $upload_path, $output );
-
-					$attachment    = array(
-						'guid'           => $upload_dir['url'] . '/' . $pdf_filename,
-						'post_mime_type' => 'application/pdf',
-						'post_title'     => $pdf_filename,
-						'post_content'   => '',
-						'post_status'    => 'inherit',
-						'post_parent'    => $post_id,
-					);
-					$attachment_id = wp_insert_attachment( $attachment, $upload_path, $post_id );
-
-					// Generate attachment metadata and update the attachment.
-					$attachment_data = wp_generate_attachment_metadata( $attachment_id, $upload_path );
-					wp_update_attachment_metadata( $attachment_id, $attachment_data );
-
-					update_post_meta( $post_id, '_kre_pdf_id', $attachment_id );
-
-					//
-					// Upload pdf on decentralized storage.
-					//
-					$uri = insert( $attachment_id );
-
-					if ( $pdf_file_meta->uri && $pdf_file_meta->uri !== $uri ) {
+					if ( $post->uri && $post->uri !== $uri ) {
 						$nm++;
 					} else {
 						$na++;

@@ -54,21 +54,13 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	 *
 	 * @return string CID hash
 	 */
-function nft_storage_add_and_pin( $attachment_id ) {
-	$api = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
+function nft_storage_add_and_pin( $file ) {
+  if ( defined( 'NFT_STORAGE_ENDPOINT' )   ) {
+    $api = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
+    $headers = array('Authorization' => 'Bearer ' . NFT_STORAGE_KEY,);
 
-	$file     = file_get_contents( get_attached_file( $attachment_id ) );
-	$filename = get_attached_file_meta( $attachment_id )->filename;
-
-	$headers = array(
-		'Authorization' => 'Bearer ' . NFT_STORAGE_KEY,
-	);
-
-	$result = $api->post( '/upload', $file, $headers );
-
-	// var_dump($result->decode_response()->value->cid);
-	// var_dump($result->decode_response()->value->files[0]->name);
-	// .
-
-	return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->cid : $result->error;
+    $result = $api->post( '/upload', $file, $headers );
+    
+    return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->cid : $result->error;
+  }
 }

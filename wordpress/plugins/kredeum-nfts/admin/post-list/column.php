@@ -27,15 +27,8 @@ add_action(
 	function ( $name ) {
 		global $post;
 
-		$pdf_id = $post->_kre_pdf_id;
-
 		if ( 'kre-post-uri' === $name ) {
-			if ( $pdf_id ) {
-				$pdf = get_post( $pdf_id );
-				echo wp_kses( link( $pdf->_kre_uri, short_uri( $pdf->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
-				echo '<br>';
-				echo wp_kses( '<a href="' . wp_get_attachment_url( $pdf_id ) . '">> view PDF file</a>', array( 'a' => array( 'href' => array() ) ) );
-			}
+				echo wp_kses( link( $post->_kre_uri, short_uri( $post->_kre_uri ) ), array( 'a' => array( 'href' => array() ) ) );
 		}
 
 		if ( 'kre-post-nft' === $name ) {
@@ -46,7 +39,7 @@ add_action(
 
 			$metadata = get_metadata( 'post', $post->ID );
 
-			if ( $pdf_id ) {
+			if ( $post->_kre_uri ) {
 				echo(
 					'<div class="kredeum-mint-button" txt="true"'
 					. ' src="' . esc_attr( get_the_post_thumbnail_url( $post->ID ) ) . '"'
@@ -54,7 +47,7 @@ add_action(
 					. ' nid="' . esc_attr( $nid ) . '"'
 					. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
-					. ' pdf="' . esc_attr( wp_get_attachment_url( $pdf_id ) ) . '"'
+					. ' pdf="' . esc_attr( $post->_kre_uri  ) . '"'
 					. ' posttitle="' . esc_attr( $post->post_title ) . '"'
 					. ' postcontent="' . esc_attr( ( apply_filters( 'the_content', $post->post_content ) ) ) . '"'
 					. ' postauthor="' . esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ) . '"'
