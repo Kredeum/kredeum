@@ -34,14 +34,16 @@ add_filter(
 		if ( 'kre-post-archive' === $action ) {
 			foreach ( $post_ids as $post_id ) {
 				$post = get_post( $post_id );
+				
+				$post_metadatas = get_attached_file_meta($post_id);
 
 
 				// Get Modified post and pdf file last modified Timestamp.
 				$post_modified_date = get_the_modified_date( 'U', $post_id );
-        $post_pdf_modified_date = get_post_meta( $post_id, '_kre_pdf_modified_date' );
+        		$post_pdf_modified_date = intval(get_post_meta( $post_id, '_kre_pdf_modified_date' )[0]);
 
-				if ( ! $pdf_file_meta->filename || $post_modified_date > $post_pdf_modified_date ) {
-          update_post_meta( $post_id, '_kre_pdf_modified_date', $post_modified_date );
+				if ( ! $post->_kre_uri || $post_modified_date > $post_pdf_modified_date ) {
+          			update_post_meta( $post_id, '_kre_pdf_modified_date', intval($post_modified_date) );
 
 					$post_title     = $post->post_title;
 					$post_content   = apply_filters( 'the_content', $post->post_content );
@@ -75,7 +77,7 @@ add_filter(
 					$output = $dompdf->output();
 					$uri = insert( $output, "application/pdf", $post_id);
 
-					if ( $post->uri && $post->uri !== $uri ) {
+					if ( $post_metadatas->uri && $post_metadatas->uri !== $uri ) {
 						$nm++;
 					} else {
 						$na++;
