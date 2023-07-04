@@ -55,30 +55,84 @@ add_filter(
 						$featured_image_url = get_the_post_thumbnail_url( $post_id, 'full' );
 					}
 
-					//
-					// Create pdf.
-					//
-					$options = new Options();
-					$options->setIsHtml5ParserEnabled( true );
-					$options->set( 'isRemoteEnabled', true );
-					$options->set( 'defaultFont', 'Arial' );
-					$dompdf = new Dompdf( $options );
+				// 	//
+				// 	// Create pdf.
+				// 	//
+				// 	$options = new Options();
+				// 	$options->setIsHtml5ParserEnabled( true );
+				// 	$options->set( 'isRemoteEnabled', true );
+				// 	$options->set( 'defaultFont', 'Arial' );
+				// 	$dompdf = new Dompdf( $options );
 
-					$dompdf->loadHtml( html_content_get( $post_title, $post_author, $post_date, $post_content, $featured_image_url ) );
-					$dompdf->render();
+				// 	$dompdf->loadHtml( html_content_get( $post_title, $post_author, $post_date, $post_content, $featured_image_url ) );
+				// 	$dompdf->render();
 
-					// add pages numerotation.
-					$dompdf->getCanvas()->page_text( 280, 770, 'Page {PAGE_NUM} / {PAGE_COUNT}', null, 8, array( 0, 0, 0 ) );
+				// 	// add pages numerotation.
+				// 	$dompdf->getCanvas()->page_text( 280, 770, 'Page {PAGE_NUM} / {PAGE_COUNT}', null, 8, array( 0, 0, 0 ) );
 
-					// Generates pdf file
-					$output = $dompdf->output();
+				// 	// Generates pdf file
+				// 	$output = $dompdf->output();
 
-					$uri = insert( $output, 'application/pdf', $post_id );
+				// 	
 					
-					// $page = new \RestClient( array( 'base_url' => get_site_url(), 'format' => "html" ) );
-					// $result = $page->get( '/test-article-swarmer/' );
+					$client = new \RestClient();
 					
-					// if($result->info->http_code == 200) var_dump($result); die();
+					$url = get_permalink($post_id);
+					
+					$response = $client->get($url);
+					
+					if ($response->info->http_code == 200) {
+						// Récupérer le code HTML de la réponse
+						$html = $response->response;
+						
+						$html = preg_replace('/<header\b[^>]*>(.*?)<\/header>/s', '', $html);
+						$html = preg_replace('/<footer\b[^>]*>(.*?)<\/footer>/s', '', $html);
+						$html = preg_replace('/<div class="wp-block-post-comments">(.*)<\/div>/s', '', $html);
+						$html = preg_replace('/\s+srcset="[^"]*"/', '', $html);
+						
+						$pattern = '/src="http:\/\/kredeum-dev\.local\/wp-content\/uploads\/([^"]*)"/';
+						preg_match_all($pattern, $html, $matches);
+
+						$occurrences = $matches[1];
+						
+						// Initialisation du tableau de résultats
+						$imageResults = array();
+
+						// Boucle foreach pour parcourir les occurrences
+						foreach ($occurrences as $url) {
+							$client = new \RestClient();
+							$response = $client->get('http://kredeum-dev.local/wp-content/uploads/' . $url);
+							
+							if ($response->info->http_code == 200) {
+								// Récupérer le contenu de la réponse (l'image)
+								$imageData = $response->response;
+								
+								// Convertir l'image en base64
+								$base64Image = base64_encode($imageData);
+								
+								// Ajouter le résultat au tableau de résultats
+								// $imageResults[] = ltrim($base64Image, '/');
+								$imageResults[] = $base64Image;
+							}
+						}
+						// var_dump($imageResults); die();
+						
+						foreach ($imageResults as $base64Image) {
+							// Construire le motif de remplacement
+							$pattern = '/src="http:\/\/kredeum-dev\.local\/wp-content\/uploads\/[^"]*"/';
+							$replacement = 'src="data:image/jpeg;base64,' . $base64Image . '"';
+							
+							// Effectuer le remplacement dans $html
+							$html = preg_replace($pattern, $replacement, $html, 1);
+						}
+						
+						// var_dump($html); die();
+						
+						$uri = insert( $html, 'text/html', $post_id );
+						// echo($html); die();
+					}
+					
+					
 
 
 					if ( $post_metadatas->uri && $post_metadatas->uri !== $uri ) {
