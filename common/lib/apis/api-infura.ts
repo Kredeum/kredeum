@@ -1,4 +1,4 @@
-import type {  CollectionType } from "@lib/common/types";
+import type { CollectionType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson } from "@lib/common/fetch";
 import { getChecksumAddress, getNetwork, getChainName, isAddressNotZero } from "@lib/common/config";

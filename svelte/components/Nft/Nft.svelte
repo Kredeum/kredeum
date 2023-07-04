@@ -97,11 +97,11 @@
           >
 
           {#if nftOwner($nft) === owner}
-          <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
-            ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
-          >
+            <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
+              ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
+            >
 
-          <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
+            <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
               ><i class="fa fa-gift fa-left" /> TRANSFER</a
             >
 
@@ -202,11 +202,24 @@
                 <div class="flex"><span class="label">Media</span></div>
                 <div class="flex kre-flex-align-center">
                   <div class="overflow-ellipsis">
-                    <a class="link" href={$nft.animation_url} title={$nft.ipfs} target="_blank" rel="noreferrer">
+                    <a class="link" href={$nft.animation_url} title={$nft.animation_url} target="_blank" rel="noreferrer">
                       {$nft.animation_url || ""}
                     </a>
                   </div>
                   <CopyRefItem copyData={$nft.animation_url || ""} />
+                </div>
+              </li>
+            {/if}
+            {#if $nft.pdf}
+              <li>
+                <div class="flex"><span class="label">PDF</span></div>
+                <div class="flex kre-flex-align-center">
+                  <div class="overflow-ellipsis">
+                    <a class="link" href={$nft.pdf} title={$nft.pdf} target="_blank" rel="noreferrer">
+                      {$nft.pdf || ""}
+                    </a>
+                  </div>
+                  <CopyRefItem copyData={$nft.pdf || ""} />
                 </div>
               </li>
             {/if}

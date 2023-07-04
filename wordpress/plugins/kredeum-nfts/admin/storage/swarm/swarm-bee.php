@@ -10,11 +10,12 @@ namespace KredeumNFTs\Storage;
 /**
  * SWARM add and pin file with Swarm Gateway
  *
- * @param string $attachment_id Id attachment file.
+ * @param string $file File to upload.
+ * @param string $content_type .
  *
  * @return string URI hash
  */
-function swarm_add_and_pin( $attachment_id ) {
+function swarm_add_and_pin( $file, $content_type ) {
 	if ( defined( 'SWARM_ENDPOINT' ) && defined( 'SWARM_BATCH_ID' ) ) {
 		$swarm_pin = false;
 
@@ -24,10 +25,6 @@ function swarm_add_and_pin( $attachment_id ) {
 
 		$swarm_api = new \RestClient( array( 'base_url' => SWARM_ENDPOINT ) );
 
-		$file         = file_get_contents( get_attached_file( $attachment_id ) );
-		$filename     = get_attached_file_meta( $attachment_id )->filename;
-		$content_type = get_post_mime_type( $attachment_id );
-
 		$headers = array(
 			'swarm-postage-batch-id' => SWARM_BATCH_ID,
 			'swarm-pin'              => $swarm_pin,
@@ -35,13 +32,7 @@ function swarm_add_and_pin( $attachment_id ) {
 		);
 
 		$result = $swarm_api->post( '/bzz', $file, $headers );
+
+		return ( 201 === $result->info->http_code ) ? $result->decode_response()->reference : $result->error;
 	}
-
-	// var_dump($result->decode_response()->reference);
-	// var_dump(SWARM_ENDPOINT);
-	// var_dump($result->info->http_code);
-	// die();
-	// .
-
-	return ( 201 === $result->info->http_code ) ? $result->decode_response()->reference : $result->error;
 }

@@ -14,7 +14,11 @@ namespace KredeumNFTs\Storage;
  * @return string uri with path
  */
 function url( $uri ) {
-	$parts   = explode( '://', $uri );
+	$parts = explode( '://', $uri );
+
+	if ( count( $parts ) < 2 ) {
+		return $uri;
+	}
 	$storage = $parts[0];
 	$hash    = $parts[1];
 
@@ -34,9 +38,14 @@ function url( $uri ) {
  * @return string uri short
  */
 function short_uri( string $uri ) {
-	$parts   = explode( '://', $uri );
+	$parts = explode( '://', $uri );
+
+	if ( count( $parts ) < 2 ) {
+		return $uri;
+	}
 	$storage = $parts[0];
 	$hash    = $parts[1];
+
 	if ( ! ( $storage && $hash && strlen( $hash ) > 20 ) ) {
 		return $uri;
 	}
