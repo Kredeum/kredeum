@@ -135,7 +135,7 @@
   };
 
   const pdfToCoverImg = async () => {
-    src = null;
+    src = "https://api.gateway.ethswarm.org/bzz/788373ddf35f18b809d7b44ae809ff832c95fb69ea5101671b317a7049510bd6/";
   };
   const setDefaultAudioCover = () => {
     src = defaultAudioCoverImg;
@@ -338,9 +338,9 @@
             <InputVideoMint bind:videoFile={file} bind:video={src} />
           {/if}
 
-          {#if inputMediaType === "pdf"}
+          <!-- {#if inputMediaType === "pdf"}
             <InputPdfMint bind:pdfFile bind:pdf />
-          {/if}
+          {/if} -->
 
           {#if inputMediaType !== "video"}
             <div class="section">

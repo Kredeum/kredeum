@@ -72,11 +72,10 @@
 
     minting = S1_STORE_IMAGE;
 
-    if (src.endsWith(".pdf")) {
-      pdfUri = await nftPin(chainId, src);
-      imageUri = await nftPin(chainId, "https://nftstorage.link/ipfs/bafkreidhicosrbtud3gpy47dmgot7d45xyr2souoq4gemmzwxxtl5oefti");
-    } else {
-      imageUri = await nftPin(chainId, src);
+    imageUri = await nftPin(chainId, src);
+
+    if (pdf) {
+      pdfUri = pdf;
     }
 
     if (audio) {
@@ -85,7 +84,18 @@
 
     minting = S2_STORE_METADATA;
 
-    tokenUri = await nftTokenUri(chainId, name, description, imageUri, signer, src, metadata, properties, audioUri, pdfUri);
+    tokenUri = await nftTokenUri(
+      chainId,
+      name,
+      description,
+      imageUri,
+      signer,
+      src,
+      metadata,
+      properties,
+      audioUri,
+      pdfUri
+    );
 
     minting = S3_SIGN_TX;
 
