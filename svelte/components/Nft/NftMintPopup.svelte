@@ -107,6 +107,7 @@
   let imageUri: string;
   let tokenUri: string;
   let audioUri: string;
+  let pdfUri: string;
   let txHash: string;
   /////////////////////////////////////////////////
 
@@ -138,22 +139,20 @@
 
   const pdfToCoverImg = async () => {
     // src = "https://api.gateway.ethswarm.org/bzz/788373ddf35f18b809d7b44ae809ff832c95fb69ea5101671b317a7049510bd6/";
-    const response = await fetch(storageLinkToUrlHttp(pdf));
-    const arrayBuffer = await response.arrayBuffer();
-    const pdfUint8Array = new Uint8Array(arrayBuffer);
-
-    const page = await pdfjsGetPage(pdfUint8Array, 1);
-    console.log(`PDF document loaded`);
-
-    const image = await pdfjsCrop(page, 437, 437, -89, -179);
-    console.log(`PNG    image created`);
-
-    let reader = new FileReader();
-    reader.readAsDataURL(image);
-
-    reader.onload = (e) => {
-      src = e.target.result.toString();
-    };
+    // const response = await fetch(storageLinkToUrlHttp(pdf));
+    // const arrayBuffer = await response.arrayBuffer();
+    // const pdfUint8Array = new Uint8Array(arrayBuffer);
+    // const page = await pdfjsGetPage(pdfUint8Array, 1);
+    // console.log(`PDF document loaded`);
+    // const image = await pdfjsCrop(page, 437, 437, -89, -179);
+    // console.log(`PNG    image created`);
+    // let reader = new FileReader();
+    // reader.readAsDataURL(image);
+    // reader.onload = (e) => {
+    //   src = e.target.result.toString();
+    // };
+    const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
+    src = await pdfjsCrop(page, 437, 437, -89, -179);
   };
 
   const setDefaultAudioCover = () => {
@@ -277,6 +276,7 @@
   bind:imageUri
   bind:tokenUri
   bind:audioUri
+  bind:pdfUri
   bind:txHash
   bind:nft
 />
@@ -515,6 +515,19 @@
                   {#if audioUri}
                     <a class="link" href={storageLinkToUrlHttp(audioUri)} target="_blank" rel="noreferrer"
                       >{textShort(audioUri, 15)}</a
+                    >
+                  {/if}
+                </div>
+              </li>
+            {/if}
+
+            {#if inputMediaType === "pdf"}
+              <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
+                <div class="flex"><span class="label">Pdf link</span></div>
+                <div class="flex">
+                  {#if pdfUri}
+                    <a class="link" href={storageLinkToUrlHttp(pdfUri)} target="_blank" rel="noreferrer"
+                      >{textShort(pdfUri, 15)}</a
                     >
                   {/if}
                 </div>

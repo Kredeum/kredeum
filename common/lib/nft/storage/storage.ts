@@ -3,8 +3,8 @@
 // => gataway url of ipfs or swarm
 
 import { NftType, StorageConfigType, StorageParamsType, StorageType } from "@lib/common/types";
-import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp } from "./ipfs";
-import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp } from "./swarm";
+import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./ipfs";
+import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
 import config from "@config/config.json";
 
 // IN MEMORY Storage Config
@@ -33,7 +33,7 @@ const storageConfigGet = (): StorageConfigType => {
     if (!parseStorage) break local;
 
     for (const [key, value] of Object.entries(parseStorage)) {
-      if (value && typeof value === "object") Object.assign(_storageConfig[key], value );
+      if (value && typeof value === "object") Object.assign(_storageConfig[key], value);
       else _storageConfig[key] = value;
     }
   }
@@ -72,27 +72,22 @@ const storageLinkToUrlHttp = (link: string): string => {
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const storageUriToUrl = (uri: string) => {
-  const [storage, hash] = uri.split("://");
-  if (!(storage && hash)) return uri;
-
-  const configStorage = config.storage[storage as "swarm" | "ipfs"];
-  if (!configStorage?.gateway) return uri;
-
-  return `${configStorage.gateway}/${hash}`;
-};
-
 const storageUriGetImage = (nft: NftType): string => (nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image || "");
 /////////////////////////////////////////////////////////////////////////////////////////////////////
+
+const sorageLinkToUri = (link: string) => {
+  if (link.startsWith(ipfsGateway())) return ipfsGetLink(link);
+  if (link.startsWith(swarmGateway())) return swarmGetLink(link);
+};
 
 export {
   storageUriGetImage,
   storageLinkToUrlHttp,
   storageGatewayUrl,
-  storageUriToUrl,
   storageParamsGet,
   storageDefault,
   storageConfigGet,
   storageConfigSet,
-  storageParamsValid
+  storageParamsValid,
+  sorageLinkToUri
 };

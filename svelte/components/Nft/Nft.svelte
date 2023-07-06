@@ -35,7 +35,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
-  import { storageUriGetImage, storageUriToUrl } from "@lib/nft/storage/storage";
+  import { storageUriGetImage, storageLinkToUrlHttp, sorageLinkToUri } from "@lib/nft/storage/storage";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -174,7 +174,7 @@
                   <div class="overflow-ellipsis">
                     <a
                       class="link overflow-ellipsis"
-                      href={storageUriToUrl($nft.tokenURI)}
+                      href={storageLinkToUrlHttp($nft.tokenURI)}
                       title={$nft.tokenURI}
                       target="_blank"
                       rel="noreferrer">{uriShort($nft.tokenURI)}</a
@@ -202,7 +202,13 @@
                 <div class="flex"><span class="label">Media</span></div>
                 <div class="flex kre-flex-align-center">
                   <div class="overflow-ellipsis">
-                    <a class="link" href={$nft.animation_url} title={$nft.animation_url} target="_blank" rel="noreferrer">
+                    <a
+                      class="link"
+                      href={$nft.animation_url}
+                      title={$nft.animation_url}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
                       {$nft.animation_url || ""}
                     </a>
                   </div>
@@ -216,7 +222,7 @@
                 <div class="flex kre-flex-align-center">
                   <div class="overflow-ellipsis">
                     <a class="link" href={$nft.pdf} title={$nft.pdf} target="_blank" rel="noreferrer">
-                      {$nft.pdf || ""}
+                      {uriShort(sorageLinkToUri($nft.pdf)) || ""}
                     </a>
                   </div>
                   <CopyRefItem copyData={$nft.pdf || ""} />
