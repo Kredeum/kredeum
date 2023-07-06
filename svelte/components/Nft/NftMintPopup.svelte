@@ -58,6 +58,8 @@
   import { metamaskInit } from "@helpers/metamask";
   import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
+  import { pdfjsGetPage, pdfjsCrop } from "@lib/common/pdfjs";
+
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
   // Mint NFT popup: choose network and collection, upload image,
@@ -135,8 +137,25 @@
   };
 
   const pdfToCoverImg = async () => {
-    src = "https://api.gateway.ethswarm.org/bzz/788373ddf35f18b809d7b44ae809ff832c95fb69ea5101671b317a7049510bd6/";
+    // src = "https://api.gateway.ethswarm.org/bzz/788373ddf35f18b809d7b44ae809ff832c95fb69ea5101671b317a7049510bd6/";
+    const response = await fetch(storageLinkToUrlHttp(pdf));
+    const arrayBuffer = await response.arrayBuffer();
+    const pdfUint8Array = new Uint8Array(arrayBuffer);
+
+    const page = await pdfjsGetPage(pdfUint8Array, 1);
+    console.log(`PDF document loaded`);
+
+    const image = await pdfjsCrop(page, 437, 437, -89, -179);
+    console.log(`PNG    image created`);
+
+    let reader = new FileReader();
+    reader.readAsDataURL(image);
+
+    reader.onload = (e) => {
+      src = e.target.result.toString();
+    };
   };
+
   const setDefaultAudioCover = () => {
     src = defaultAudioCoverImg;
   };
@@ -144,7 +163,7 @@
   $: content_type && handleWpMediatype();
   const handleWpMediatype = async () => {
     inputMediaType = getMediaSelection(content_type);
-    if (inputMediaType === "audio" || "pdf") {
+    if (inputMediaType === "audio" || inputMediaType === "pdf") {
       if (inputMediaType === "audio") {
         audio = src;
         setDefaultAudioCover();

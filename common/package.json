@@ -41,6 +41,7 @@
     "hardhat-deploy-ethers": "0.3.0-beta.13",
     "moralis": "^1.11.0",
     "multiformats": "^9.9.0",
+    "pdfjs-dist": "^3.7.107",
     "prettier": "^2.8.8",
     "ts-node": "^10.9.1",
     "tsconfig-paths": "^4.2.0",
