@@ -30,7 +30,7 @@ add_filter(
 		if ( 'archive' === $action ) {
 			foreach ( $post_ids as $post_id ) {
 				$file = get_attached_file_meta( $post_id );
-				$uri  = insert( $post_id );
+				$uri  = insert_post( $post_id );
 				if ( $file->uri ) {
 					if ( $file->uri === $uri ) {
 						$nu++;

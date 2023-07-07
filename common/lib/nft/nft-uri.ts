@@ -1,14 +1,14 @@
 import type { Properties } from "@lib/common/types";
 
 import { DEFAULT_NAME } from "@lib/common/config";
-import { swarmConfigValid, swarmImageUri, swarmTokenUri } from "./storage/swarm";
-import { ipfsConfigValid, ipfsImageUri, ipfsTokenUri } from "./storage/ipfs";
+import { swarmConfigValid, swarmPin, swarmTokenUri } from "./storage/swarm";
+import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "./storage/ipfs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
-const nftImageUri = async (chainId: number, image: string): Promise<string> => {
-  if (ipfsConfigValid()) return ipfsImageUri(image);
-  if (swarmConfigValid(chainId)) return swarmImageUri(image);
+const nftPin = async (chainId: number, media: string): Promise<string> => {
+  if (ipfsConfigValid()) return ipfsPin(media);
+  if (swarmConfigValid(chainId)) return swarmPin(media);
   return "";
 };
 
@@ -22,15 +22,16 @@ const nftTokenUri = async (
   image = "",
   metadata = "{}",
   properties: Properties = {},
-  animation_url = ""
+  animation_url = "",
+  pdfUri = ""
 ): Promise<string> => {
   let nftTokenUriFunc;
   if (ipfsConfigValid()) nftTokenUriFunc = ipfsTokenUri;
   if (swarmConfigValid(chainId)) nftTokenUriFunc = swarmTokenUri;
 
   return nftTokenUriFunc
-    ? nftTokenUriFunc(name, nftDescription, imageUri, address, image, metadata, properties, animation_url)
+    ? nftTokenUriFunc(name, nftDescription, imageUri, address, image, metadata, properties, animation_url, pdfUri)
     : "";
 };
 
-export { nftImageUri, nftTokenUri };
+export { nftPin, nftTokenUri };

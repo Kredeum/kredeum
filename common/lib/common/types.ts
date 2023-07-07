@@ -117,6 +117,7 @@ type NftMetadata = {
   image?: string;
   image_url?: string;
   animation_url?: string;
+  pdf?: string;
   properties?: Properties;
 } & StorageMetadataType;
 
@@ -137,6 +138,7 @@ type NftType = {
   image_data?: string;
   external_url?: string;
   animation_url?: string;
+  pdf?: string;
   youtube_url?: string;
   background_color?: string;
   attributes?: unknown;

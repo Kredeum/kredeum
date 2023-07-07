@@ -1,0 +1,10 @@
+{
+  "title": "Mirror.xyz specific Metadata",
+  "type": "object",
+  "properties": {
+      "content": {
+          "type": "string",
+          "description": "json string of the content"
+      }
+  }
+}

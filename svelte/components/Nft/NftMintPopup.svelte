@@ -17,20 +17,20 @@
     explorerTxUrl,
     explorerNftUrl,
     nftUrl,
-
     displayEther,
     treasuryFee,
     getDappUrl
   } from "@lib/common/config";
-  import { getSupportedImage } from "@helpers/mediaTypes";
+  import { getSupportedImage, getMediaSelection } from "@helpers/mediaTypes";
+  import { defaultAudioCoverImg } from "@helpers/defaultCoverImage";
 
   import { metamaskSignerAddress, metamaskSigner, metamaskProvider, metamaskChainId } from "@stores/metamask";
-  import { clickOutside } from "@helpers/clickOutside";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputAudioMint from "../Input/InputAudioMint.svelte";
   import InputVideoMint from "../Input/InputVideoMint.svelte";
+  // import InputPdfMint from "../Input/InputPdfMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
   import {
@@ -58,6 +58,8 @@
   import { metamaskInit } from "@helpers/metamask";
   import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
+  import { pdfjsGetPage, pdfjsCrop } from "@lib/common/pdfjs";
+
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
   // Mint NFT popup: choose network and collection, upload image,
@@ -71,6 +73,8 @@
   export let name: string = undefined;
   export let description: string = undefined;
   export let metadata: string = undefined;
+  export let content_type: string = undefined;
+  export const external_url: string = undefined;
   ////////////////////////////////////////////////////////////////
 
   $: console.info("<NftMintPopup metadata", metadata);
@@ -86,7 +90,8 @@
   let audioFile: File;
   let audio: string;
 
-  let defaultAudioCoverImg = "./assets/images/Cover.png";
+  let pdfFile: File;
+  let pdf: string;
 
   let inputMediaType: Mediatype = "image";
   let acceptedImgTypes = "";
@@ -102,6 +107,7 @@
   let imageUri: string;
   let tokenUri: string;
   let audioUri: string;
+  let pdfUri: string;
   let txHash: string;
   /////////////////////////////////////////////////
 
@@ -131,24 +137,46 @@
     // console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
+  const pdfToCoverImg = async () => {
+    const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
+    src = await pdfjsCrop(page, 437, 437, -89, -179);
+  };
+
+  const setDefaultAudioCover = () => {
+    src = defaultAudioCoverImg;
+  };
+
+  $: content_type && handleWpMediatype();
+  const handleWpMediatype = async () => {
+    inputMediaType = getMediaSelection(content_type);
+    if (inputMediaType === "audio" || inputMediaType === "pdf") {
+      if (inputMediaType === "audio") {
+        audio = src;
+        setDefaultAudioCover();
+      }
+
+      if (inputMediaType === "pdf") {
+        pdf = src;
+        pdfToCoverImg();
+      }
+    }
+  };
+
   /////////////////////////////////////////////////
   // Set supported input field for image file
-  $: inputMediaType && handleMediaTypes();
+  $: !content_type && inputMediaType && handleMediaTypes();
   const handleMediaTypes = async () => {
-    resetFileImg();
+    deleteFileImg();
     resetFileAudio();
+    resetFilePdf();
+    console.log("inputMediaType:", inputMediaType);
     acceptedImgTypes = getSupportedImage(inputMediaType);
 
     if (inputMediaType === "audio") {
-      const resp = await fetch(defaultAudioCoverImg);
-      const blob = await resp.blob();
-      let reader = new FileReader();
-      reader.readAsDataURL(blob);
-      reader.onload = (e) => {
-        src = e.target.result.toString();
-      };
-
-      file = new File([blob], "audio cover", { lastModified: new Date().getTime(), type: blob.type });
+      setDefaultAudioCover();
+    }
+    if (inputMediaType === "pdf") {
+      pdfToCoverImg();
     }
   };
 
@@ -201,6 +229,11 @@
     audio = "";
   };
 
+  const resetFilePdf = () => {
+    pdfFile = null;
+    pdf = "";
+  };
+
   const _mintingError = (err: string): void => {
     mintingError = err;
     console.error(mintingError);
@@ -210,6 +243,7 @@
   onMount(async () => {
     account = signer;
     console.log("<NftMintPopup onmount src", src);
+    src = storageLinkToUrlHttp(src);
   });
 </script>
 
@@ -223,11 +257,13 @@
   {name}
   {description}
   {audio}
+  {pdf}
   bind:mint
   bind:minting
   bind:imageUri
   bind:tokenUri
   bind:audioUri
+  bind:pdfUri
   bind:txHash
   bind:nft
 />
@@ -285,8 +321,15 @@
               />
               <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
-              <input class="box-field" id="create-type-texte" name="media-type" type="checkbox" value="Text" disabled />
-              <label class="field" for="create-type-texte"><i class="fas fa-file-alt" />Text</label>
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-pdf"
+                name="media-type"
+                type="radio"
+                value="pdf"
+              />
+              <label class="field" for="create-type-pdf"><i class="fas fa-file-alt" />Pdf</label>
 
               <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
               <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
@@ -300,6 +343,10 @@
           {#if inputMediaType === "video"}
             <InputVideoMint bind:videoFile={file} bind:video={src} />
           {/if}
+
+          <!-- {#if inputMediaType === "pdf"}
+            <InputPdfMint bind:pdfFile bind:pdf />
+          {/if} -->
 
           {#if inputMediaType !== "video"}
             <div class="section">
@@ -455,6 +502,19 @@
                   {#if audioUri}
                     <a class="link" href={storageLinkToUrlHttp(audioUri)} target="_blank" rel="noreferrer"
                       >{textShort(audioUri, 15)}</a
+                    >
+                  {/if}
+                </div>
+              </li>
+            {/if}
+
+            {#if inputMediaType === "pdf"}
+              <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
+                <div class="flex"><span class="label">Pdf link</span></div>
+                <div class="flex">
+                  {#if pdfUri}
+                    <a class="link" href={storageLinkToUrlHttp(pdfUri)} target="_blank" rel="noreferrer"
+                      >{textShort(pdfUri, 15)}</a
                     >
                   {/if}
                 </div>

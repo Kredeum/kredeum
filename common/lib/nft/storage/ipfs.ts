@@ -92,14 +92,14 @@ const ipfsGateway = (): string => storageParamsGet("ipfs")?.gateway?.replace(/\/
 const ipfsApiEndpoint = (): string => storageParamsGet("ipfs")?.apiEndpoint.replace(/\/$/, "") || "";
 const ipfsApiKey = (): string => storageParamsGet("ipfs")?.apiKey || "";
 
-// GET ipfs image uri
-const ipfsImageUri = async (image: string): Promise<string> => {
+// GET ipfs uri from media url
+const ipfsPin = async (mediaUrl: string): Promise<string> => {
   nftStorage ||= new NftStorage();
-  const imageCid = await nftStorage.pinUrl(image);
-  const imageUri = imageCid && `ipfs://${imageCid}`;
+  const ipfsCid = await nftStorage.pinUrl(mediaUrl);
+  const ipfsUri = ipfsCid ? `ipfs://${ipfsCid}` : "";
 
-  // console.log("imageUri", imageUri);
-  return imageUri;
+  // console.log("ipfsUri", ipfsUri);
+  return ipfsUri;
 };
 
 // GET ipfs metadata uri
@@ -111,7 +111,8 @@ const ipfsTokenUri = async (
   image = "",
   metadata = "{}",
   properties: Properties = {},
-  animation_url = ""
+  animation_url = "",
+  pdfUri = ""
 ): Promise<string> => {
   // console.log("ipfsTokenUri", name, imageUri, address, image, metadata);
 
@@ -126,6 +127,7 @@ const ipfsTokenUri = async (
   if (metadata) json.metadata = JSON.parse(metadata);
   if (Object.keys(properties).length > 0) json.properties = properties;
   if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
+  if (pdfUri) json.pdf = ipfsGatewayUrl(pdfUri);
 
   const ipfsJsonCid = await nftStorage.pinJson(json);
   const ipfsTokenUri = ipfsJsonCid && `ipfs://${ipfsJsonCid}`;
@@ -135,7 +137,7 @@ const ipfsTokenUri = async (
 };
 
 export {
-  ipfsImageUri,
+  ipfsPin,
   ipfsTokenUri,
   ipfsConfigValid,
   ipfsParamsValid,

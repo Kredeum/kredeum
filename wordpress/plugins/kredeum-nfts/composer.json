@@ -1,5 +1,6 @@
 {
   "require": {
-    "tcdent/php-restclient": "^0.1.7"
+    "tcdent/php-restclient": "^0.1.7",
+    "dompdf/dompdf": "^2.0"
   }
 }

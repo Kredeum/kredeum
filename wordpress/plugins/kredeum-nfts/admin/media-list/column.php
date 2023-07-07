@@ -39,15 +39,19 @@ add_action(
 				$nid = $post->_kre_nid;
 			}
 
+			$src = $post->_kre_uri ? $post->_kre_uri : wp_get_attachment_url( $post->ID );
+
 			$metadata = get_metadata( 'post', $post->ID );
 
 			printf(
 				'<div class="kredeum-mint-button" txt="true"'
-				. ' src="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
+				. ' src="' . esc_attr( $src ) . '"'
 				. ' pid="' . esc_attr( $post->ID ) . '"'
 				. ' nid="' . esc_attr( $nid ) . '"'
 				. ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
 				. ' alt="' . esc_attr( $post->post_title ) . '"'
+				. ' content_type="' . esc_attr( get_post_mime_type( $post->ID ) ) . '"'
+				. ' external_url="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
 				. '/>'
 			);
 		}
