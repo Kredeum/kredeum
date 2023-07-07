@@ -71,6 +71,9 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
+= 1.2.0 (latest) =
+* New feature (beta) : Add blog post PDF archiving and NFT minting
+
 = 1.1.4 (stable & latest) =
 * Deployment to Polygon zkEvm
 * Fix on legacy network
