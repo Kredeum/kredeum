@@ -30,7 +30,7 @@
   import InputPrice from "../Input/InputPrice.svelte";
   import InputAudioMint from "../Input/InputAudioMint.svelte";
   import InputVideoMint from "../Input/InputVideoMint.svelte";
-  import InputPdfMint from "../Input/InputPdfMint.svelte";
+  // import InputPdfMint from "../Input/InputPdfMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
   import {
@@ -74,7 +74,7 @@
   export let description: string = undefined;
   export let metadata: string = undefined;
   export let content_type: string = undefined;
-  export let external_url: string = undefined;
+  export const external_url: string = undefined;
   ////////////////////////////////////////////////////////////////
 
   $: console.info("<NftMintPopup metadata", metadata);

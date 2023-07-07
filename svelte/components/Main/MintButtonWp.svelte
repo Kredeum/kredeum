@@ -19,10 +19,10 @@
   export let storage: string = undefined;
   export let content_type: string = undefined;
   export let external_url: string = undefined;
-  export let post_title: string = undefined;
-  export let post_content: string = undefined;
-  export let post_author: string = undefined;
-  export let post_date: string = undefined;
+  export const post_title: string = undefined;
+  export const post_content: string = undefined;
+  export const post_author: string = undefined;
+  export const post_date: string = undefined;
   /////////////////////////////////////////////////
 
   let open = false;
