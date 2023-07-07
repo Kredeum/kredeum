@@ -45,7 +45,7 @@
     <track kind="captions" />
   </video>
   <button
-    on:click|stopPropagation={togglePlayVideo}
+    on:click|preventDefault|stopPropagation={togglePlayVideo}
     class="kre-play-media-button {mode === 'line' && 'kre-play-media-line-button'}"
   >
     <i class="fa {paused ? 'fa-play-circle' : 'fa-pause-circle'} video-play-icon" />

@@ -96,18 +96,19 @@ const _srcToFileType = async (src: string): Promise<File> => {
 // Params
 // image
 // key : Swarm batchID (batch of stamps)
-const swarmImageUri = async (image: string | File): Promise<string> => {
-  let file: string | File = image;
+const swarmPin = async (media: string | File): Promise<string> => {
+  let file: string | File = media;
 
-  if (typeof image === "string" && (image.startsWith("http") || image.startsWith("data:"))) {
-    file = await _srcToFileType(image);
-  } else if (image instanceof File) {
-    file = image;
+  if (typeof media === "string" && (media.startsWith("http") || media.startsWith("data:"))) {
+    file = await _srcToFileType(media);
+  } else if (media instanceof File) {
+    file = media;
   }
 
-  const swarmImageUri = `swarm://${await swarmUploadFile(file)}`;
+  const swarmHash = await swarmUploadFile(file);
+  const swarmUri = swarmHash ? `swarm://${swarmHash}` : "";
 
-  return swarmImageUri;
+  return swarmUri;
 };
 
 // GET swarm metadata uri
@@ -119,7 +120,8 @@ const swarmTokenUri = async (
   image = "",
   metadata = "{}",
   properties: Properties = {},
-  animation_url = ""
+  animation_url = "",
+  pdfUri = ""
 ): Promise<string> => {
   const json = {
     name,
@@ -131,7 +133,8 @@ const swarmTokenUri = async (
   } as NftType;
   if (metadata) json.metadata = JSON.parse(metadata);
   if (Object.keys(properties).length > 0) json.properties = properties;
-  if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
+  if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
+  if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
   const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
 
@@ -139,7 +142,7 @@ const swarmTokenUri = async (
 };
 
 export {
-  swarmImageUri,
+  swarmPin,
   swarmTokenUri,
   SWARM_ZERO_APIKEY,
   swarmGetLink,

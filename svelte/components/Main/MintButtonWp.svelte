@@ -17,6 +17,12 @@
   export let pid: string = undefined;
   export let nid: string = undefined;
   export let storage: string = undefined;
+  export let content_type: string = undefined;
+  export let external_url: string = undefined;
+  export const post_title: string = undefined;
+  export const post_content: string = undefined;
+  export const post_author: string = undefined;
+  export const post_date: string = undefined;
   /////////////////////////////////////////////////
 
   let open = false;
@@ -61,7 +67,18 @@
   </div>
 
   {#if open}
-    <NftMintPopup {chainId} {signer} {src} name={alt} description={alt} {metadata} {toggle} bind:nft />
+    <NftMintPopup
+      {chainId}
+      {signer}
+      {src}
+      name={alt}
+      description={alt}
+      {metadata}
+      {content_type}
+      {external_url}
+      {toggle}
+      bind:nft
+    />
   {/if}
 </div>
 

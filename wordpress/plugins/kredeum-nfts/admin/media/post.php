@@ -59,7 +59,7 @@ add_action(
 	function ( $attachment_id ) {
 		if ( isset( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] )
 		&& sanitize_text_field( wp_unslash( $_REQUEST['attachments'][ $attachment_id ]['ipfs'] ) ) ) {
-			insert( $attachment_id );
+			insert_post( $attachment_id );
 		}
 	}
 );
