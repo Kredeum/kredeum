@@ -12,6 +12,13 @@ jobs:
     steps:
       - name: Checkout sources
         uses: actions/checkout@v3
+        with:
+          submodules: recursive
+
+      - name: Install Foundry
+        uses: foundry-rs/foundry-toolchain@v1
+        with:
+          version: nightly
 
       - name: Install node
         uses: actions/setup-node@v3
@@ -23,9 +30,8 @@ jobs:
         with:
           version: 8.5.1
 
-
       - name: Build wp plugin
-        run: pnpm build-wp-plugin
+        run: pnpm deploy-plugin
         env:
           ENVIR: PROD
           NODE_DEBUG: false
