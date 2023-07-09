@@ -7,6 +7,7 @@
   import { explorerTxLog, getDappUrl, isAddressNotZero } from "@lib/common/config";
   import { nftStoreSet } from "@stores/nft/nft";
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
+  import { storageIsUri } from "@lib/nft/storage/storage";
 
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
@@ -72,7 +73,11 @@
 
     minting = S1_STORE_IMAGE;
 
-    imageUri = await nftPin(chainId, src);
+    if (storageIsUri(src)) {
+      imageUri = src;
+    } else {
+      imageUri = await nftPin(chainId, src);
+    }
 
     if (pdf) {
       pdfUri = pdf;

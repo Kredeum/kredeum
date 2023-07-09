@@ -80,6 +80,10 @@ const sorageLinkToUri = (link: string) => {
   if (link.startsWith(swarmGateway())) return swarmGetLink(link);
 };
 
+const storageIsUri = (link: string) => {
+  return link.startsWith("ipfs://") || link.startsWith("swarm://");
+};
+
 export {
   storageUriGetImage,
   storageLinkToUrlHttp,
@@ -89,5 +93,6 @@ export {
   storageConfigGet,
   storageConfigSet,
   storageParamsValid,
-  sorageLinkToUri
+  sorageLinkToUri,
+  storageIsUri
 };
