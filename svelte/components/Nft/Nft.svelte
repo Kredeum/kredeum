@@ -177,7 +177,7 @@
                       href={storageLinkToUrlHttp($nft.tokenURI)}
                       title={$nft.tokenURI}
                       target="_blank"
-                      rel="noreferrer">{uriShort($nft.tokenURI)}</a
+                      rel="noreferrer">{uriShort(sorageLinkToUri($nft.tokenURI))}</a
                     >
                   </div>
                   <CopyRefItem copyData={$nft.tokenURI} />

@@ -136,7 +136,8 @@ const swarmTokenUri = async (
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
   if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
-  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  // const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  const swarmTokenUri = swarmGatewayUrl(await swarmUploadFile(JSON.stringify(json, null, 2)));
 
   return swarmTokenUri;
 };

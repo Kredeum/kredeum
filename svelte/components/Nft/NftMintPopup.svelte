@@ -56,7 +56,7 @@
   } from "@helpers/nftMint";
   import NftMint from "./NftMint.svelte";
   import { metamaskInit } from "@helpers/metamask";
-  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { sorageLinkToUri, storageLinkToUrlHttp } from "@lib/nft/storage/storage";
 
   import { pdfjsGetPage, pdfjsCrop } from "@lib/common/pdfjs";
 
@@ -526,7 +526,7 @@
               <div class="flex">
                 {#if tokenUri}
                   <a class="link" href={storageLinkToUrlHttp(tokenUri)} target="_blank" rel="noreferrer"
-                    >{textShort(tokenUri, 15)}</a
+                    >{textShort(sorageLinkToUri(tokenUri), 15)}</a
                   >
                 {/if}
               </div>
