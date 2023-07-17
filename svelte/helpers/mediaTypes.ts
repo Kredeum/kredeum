@@ -1,4 +1,4 @@
-type Mediatype = "image" | "gif" | "audio" | "video" | "pdf";
+type MediaType = "image" | "gif" | "audio" | "video" | "pdf";
 
 const SUPPORTED_MEDIATYPES = {
   image: {
@@ -23,27 +23,27 @@ const SUPPORTED_MEDIATYPES = {
   }
 };
 
-const getSupportedImage = (mediaType: Mediatype): string => {
+const getSupportedImage = (mediaType: MediaType): string => {
   return mediaType === "audio" || mediaType === "pdf"
     ? SUPPORTED_MEDIATYPES.image.format.concat(", ", SUPPORTED_MEDIATYPES.gif.format)
     : SUPPORTED_MEDIATYPES[mediaType].format;
 };
 
-const getMediaSelection = (contentType: string): Mediatype => {
-  let selectMediatype: Mediatype = "image";
+const getMediaSelection = (contentType: string): MediaType => {
+  let selectMediaType: MediaType = "image";
   const types = contentType.split("/");
-  const MIME1 = types[0];
-  const MIME2 = types[1];
+  const mimeType = types[0];
+  const mimeSubType = types[1];
 
-  if (Object.prototype.hasOwnProperty.call(SUPPORTED_MEDIATYPES, MIME1)) {
-    selectMediatype = MIME1 as Mediatype;
+  if (Object.prototype.hasOwnProperty.call(SUPPORTED_MEDIATYPES, mimeType)) {
+    selectMediaType = mimeType as MediaType;
   }
-  if (Object.prototype.hasOwnProperty.call(SUPPORTED_MEDIATYPES, MIME2)) {
-    selectMediatype = MIME2 as Mediatype;
+  if (Object.prototype.hasOwnProperty.call(SUPPORTED_MEDIATYPES, mimeSubType)) {
+    selectMediaType = mimeSubType as MediaType;
   }
 
-  return selectMediatype;
+  return selectMediaType;
 };
 
-export type { Mediatype };
+export type { MediaType };
 export { SUPPORTED_MEDIATYPES, getSupportedImage, getMediaSelection };

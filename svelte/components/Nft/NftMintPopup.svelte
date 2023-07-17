@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { NftType, Properties } from "@lib/common/types";
-  import type { Mediatype } from "@helpers/mediaTypes";
+  import type { MediaType } from "@helpers/mediaTypes";
   import type { JsonRpcSigner } from "@ethersproject/providers";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
@@ -93,7 +93,7 @@
   let pdfFile: File;
   let pdf: string;
 
-  let inputMediaType: Mediatype = "image";
+  let inputMediaType: MediaType = "image";
   let acceptedImgTypes = "";
 
   /////////////////////////////////////////////////
@@ -146,8 +146,8 @@
     src = defaultAudioCoverImg;
   };
 
-  $: content_type && handleWpMediatype();
-  const handleWpMediatype = async () => {
+  $: content_type && handleWpMediaType();
+  const handleWpMediaType = async () => {
     inputMediaType = getMediaSelection(content_type);
     if (inputMediaType === "audio" || inputMediaType === "pdf") {
       if (inputMediaType === "audio") {

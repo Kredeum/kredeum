@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { NftType, Properties } from "@lib/common/types";
-  import type { Mediatype } from "@helpers/mediaTypes";
+  import type { MediaType } from "@helpers/mediaTypes";
 
   import type { TransactionResponse } from "@ethersproject/abstract-provider";
   import type { Writable } from "svelte/store";
@@ -70,7 +70,7 @@
 
   let defaultAudioCoverImg = "./assets/images/Cover.png";
 
-  let inputMediaType: Mediatype = "image";
+  let inputMediaType: MediaType = "image";
   let acceptedImgTypes = "";
 
   /////////////////////////////////////////////////
