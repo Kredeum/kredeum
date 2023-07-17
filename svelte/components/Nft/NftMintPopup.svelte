@@ -30,7 +30,7 @@
   import InputPrice from "../Input/InputPrice.svelte";
   import InputAudioMint from "../Input/InputAudioMint.svelte";
   import InputVideoMint from "../Input/InputVideoMint.svelte";
-  // import InputPdfMint from "../Input/InputPdfMint.svelte";
+  import InputPdfMint from "../Input/InputPdfMint.svelte";
   import MediaVideo from "../Media/MediaVideo.svelte";
   import NftProperties from "./NftProperties.svelte";
   import {
@@ -56,7 +56,9 @@
   } from "@helpers/nftMint";
   import NftMint from "./NftMint.svelte";
   import { metamaskInit } from "@helpers/metamask";
-  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { storageUriToUrl } from "@lib/nft/storage/storage";
+  import { pdfCropPng } from "@lib/common/pdfjs";
+  import { ipfsGatewayUrl } from "@lib/nft/storage/ipfs";
 
   import { pdfjsGetPage, pdfjsCrop } from "@lib/common/pdfjs";
 
@@ -76,8 +78,6 @@
   export let content_type: string = undefined;
   export const external_url: string = undefined;
   ////////////////////////////////////////////////////////////////
-
-  $: console.info("<NftMintPopup metadata", metadata);
 
   let account: string;
 
@@ -114,6 +114,8 @@
   let inputPrice: BigNumber;
   let inputPriceError = "";
 
+  $: srcUrl = storageUriToUrl(src)
+
   $: inputPrice && minimalPriceHandler();
   const minimalPriceHandler = () => {
     if (!collectionPriceValid(collection, inputPrice)) {
@@ -138,10 +140,11 @@
   };
 
   const pdfToCoverImg = async () => {
-    const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
-    src = await pdfjsCrop(page, 437, 437, -89, -179);
-  };
 
+    console.log("pdfToCoverImg ~ storageUriToUrl(pdf):", storageUriToUrl(pdf));
+    console.log("pdfToCoverImg ~ pdf:", pdf);
+    src = await pdfCropPng(chainId, storageUriToUrl(pdf));
+  };
   const setDefaultAudioCover = () => {
     src = defaultAudioCoverImg;
   };
@@ -240,11 +243,16 @@
     minting = 0;
   };
 
-  onMount(async () => {
-    account = signer;
-    console.log("<NftMintPopup onmount src", src);
-    src = storageLinkToUrlHttp(src);
-  });
+  $: src, content_type, external_url, metadata, handleLog();
+  const handleLog = (): void => {
+    console.log("<NftMintPopup src:", src);
+    // src = storageUriToUrl(src);
+    console.log("<NftMintPopup content_type:", content_type);
+    console.log("<NftMintPopup external_url:", external_url);
+    console.log("<NftMintPopup metadata:", JSON.stringify(JSON.parse(metadata), null, 2));
+  };
+
+  onMount(async () => (account = signer));
 </script>
 
 <NftMint
@@ -256,6 +264,7 @@
   {properties}
   {name}
   {description}
+  {metadata}
   {audio}
   {pdf}
   bind:mint
@@ -341,7 +350,11 @@
           {/if}
 
           {#if inputMediaType === "video"}
-            <InputVideoMint bind:videoFile={file} bind:video={src} />
+            <InputVideoMint bind:videoFile={file} bind:video={srcUrl} />
+          {/if}
+
+          {#if inputMediaType === "pdf"}
+            <InputPdfMint bind:pdfFile bind:pdf />
           {/if}
 
           <!-- {#if inputMediaType === "pdf"}
@@ -354,7 +367,7 @@
               <div class="box-file">
                 {#if src}
                   <div class="media media-photo">
-                    <img {src} alt="nft" />
+                    <img src={srcUrl} alt="nft" />
                     <span class="kre-delete-file" on:click={deleteFileImg} on:keydown={deleteFileImg}
                       ><i class="fa fa-trash" aria-hidden="true" /></span
                     >
@@ -456,7 +469,7 @@
             {#if inputMediaType === "video"}
               <MediaVideo {src} mode="line" />
             {:else}
-              <img {src} alt="nft" />
+              <img src={srcUrl} alt="nft" />
             {/if}
           </div>
 
@@ -488,7 +501,7 @@
               <div class="flex"><span class="label">Media link</span></div>
               <div class="flex">
                 {#if imageUri}
-                  <a class="link" href={storageLinkToUrlHttp(imageUri)} target="_blank" rel="noreferrer"
+                  <a class="link" href={storageUriToUrl(imageUri)} target="_blank" rel="noreferrer"
                     >{textShort(imageUri, 15)}</a
                   >
                 {/if}
@@ -500,7 +513,7 @@
                 <div class="flex"><span class="label">Audio link</span></div>
                 <div class="flex">
                   {#if audioUri}
-                    <a class="link" href={storageLinkToUrlHttp(audioUri)} target="_blank" rel="noreferrer"
+                    <a class="link" href={storageUriToUrl(audioUri)} target="_blank" rel="noreferrer"
                       >{textShort(audioUri, 15)}</a
                     >
                   {/if}
@@ -525,7 +538,7 @@
               <div class="flex"><span class="label">Metadata link</span></div>
               <div class="flex">
                 {#if tokenUri}
-                  <a class="link" href={storageLinkToUrlHttp(tokenUri)} target="_blank" rel="noreferrer"
+                  <a class="link" href={storageUriToUrl(tokenUri)} target="_blank" rel="noreferrer"
                     >{textShort(tokenUri, 15)}</a
                   >
                 {/if}

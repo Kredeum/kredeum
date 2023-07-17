@@ -8,7 +8,7 @@
   import { metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { storageUriToUrl } from "@lib/nft/storage/storage";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
@@ -47,7 +47,7 @@
     console.log("CLAIM", chainId, address, tokenID, tokenURI, targetChainId, targetAddress);
 
     nftStorage ||= new NftStorage();
-    const cid = await nftStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
+    const cid = await nftStorage.pinUrl(storageUriToUrl(tokenURI));
 
     if (!cid.startsWith("bafkrei")) {
       claimingError = `Not CID V1 raw ${cid}`;

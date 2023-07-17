@@ -45,7 +45,7 @@
     collectionRoyaltyFee,
     collectionRoyaltyMinimum
   } from "@lib/collection/collection";
-  import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+  import { storageUriToUrl } from "@lib/nft/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMint {chainId} />
@@ -259,11 +259,11 @@
 
     minting = S2_STORE_IMAGE;
 
-    storageImg = await nftPin(image);
+    storageImg = await nftPin(chainId, image);
 
     if (!storageImg) return _mintingError("ERROR image not stored");
 
-    if (inputMediaType === "audio") animation_url = await nftPin(audio);
+    if (inputMediaType === "audio") animation_url = await nftPin(chainId, audio);
 
     if (!animation_url && inputMediaType === "audio") return _mintingError("ERROR audio file not stored");
 
@@ -544,7 +544,7 @@
                   <div class="flex"><span class="label">Media link</span></div>
                   <div class="flex">
                     {#if minting > S2_STORE_IMAGE}
-                      <a class="link" href={storageLinkToUrlHttp(storageImg)} target="_blank" rel="noreferrer"
+                      <a class="link" href={storageUriToUrl(storageImg)} target="_blank" rel="noreferrer"
                         >{textShort(storageImg, 15)}</a
                       >
                     {/if}
@@ -555,7 +555,7 @@
                     <div class="flex"><span class="label">Audio link</span></div>
                     <div class="flex">
                       {#if minting > S2_STORE_IMAGE}
-                        <a class="link" href={storageLinkToUrlHttp(animation_url)} target="_blank" rel="noreferrer"
+                        <a class="link" href={storageUriToUrl(animation_url)} target="_blank" rel="noreferrer"
                           >{textShort(animation_url, 15)}</a
                         >
                       {/if}
@@ -566,7 +566,7 @@
                   <div class="flex"><span class="label">Metadata link</span></div>
                   <div class="flex">
                     {#if minting > S3_STORE_METADATA}
-                      <a class="link" href={storageLinkToUrlHttp(storageJson)} target="_blank" rel="noreferrer"
+                      <a class="link" href={storageUriToUrl(storageJson)} target="_blank" rel="noreferrer"
                         >{textShort(storageJson, 15)}</a
                       >
                     {/if}

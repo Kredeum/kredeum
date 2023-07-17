@@ -20,7 +20,7 @@ import {
   collectionRoyaltyFee,
   collectionSupports
 } from "@lib/collection/collection";
-import { storageLinkToUrlHttp } from "./storage/storage";
+import { storageUriToUrl } from "./storage/storage";
 import { ipfsGatewayUrl } from "./storage/ipfs";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
@@ -139,7 +139,7 @@ const nftMinted = async (
 
   if (!(Number(tokenID) >= 0)) return null;
 
-  const nft = await _mintedNft(chainId, address, tokenID, storageLinkToUrlHttp(metadataCid), minter);
+  const nft = await _mintedNft(chainId, address, tokenID, storageUriToUrl(metadataCid), minter);
   // console.log("nftMinted", nft);
 
   return nft;

@@ -1,4 +1,4 @@
-import { storageLinkToUrlHttp } from "@lib/nft/storage/storage";
+import { storageUriToUrl } from "@lib/nft/storage/storage";
 
 const FETCH_LIMIT = 100;
 
@@ -31,7 +31,7 @@ const _fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchR
 
 // TODO rename to fetchIpfsJson , and call it when ipfs...
 const fetchJson = async (url: string, config: RequestInit = {}): Promise<FetchResponse> =>
-  await _fetchJson(storageLinkToUrlHttp(url), config);
+  await _fetchJson(storageUriToUrl(url), config);
 
 const fetchGQL = async (url: string, query: string): Promise<unknown> => {
   const config = { method: "POST", body: JSON.stringify({ query: query }) };

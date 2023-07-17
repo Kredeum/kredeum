@@ -1,24 +1,18 @@
 <script lang="ts">
-  import type { NftType } from "@lib/common/types";
-  import { metamaskChainId, metamaskSigner, metamaskSignerAddress } from "@stores/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
 
-  import NftMint from "../components/Nft/NftMint.svelte";
   import { onMount } from "svelte";
   import { metamaskInit, metamaskSwitchChain } from "@helpers/metamask";
-  import { getDappUrl } from "@lib/common/config";
   import AccountConnect from "../components/Account/AccountConnect.svelte";
   import NetworkSelect from "../components/Network/NetworkSelect.svelte";
   import CollectionSelect from "../components/Collection/CollectionSelect.svelte";
   import NftMintButton from "../components/Nft/NftMintButton.svelte";
 
-  const src = "https://www.kredeum.com/android-chrome-256x256.png";
+  const src = "https://wp.kredeum.com/wp-content/uploads/2023/06/Test-image_PID33_2023-06-30-140816.pdf";
   const name = "test";
-  const description = "test description";
-  let nft: NftType;
-  let minting: number;
+  const description = "pdf test";
   let chainId: number;
   let address: string;
-  $: signer = $metamaskSigner;
   $: account = $metamaskSignerAddress;
   $: chainId && handleChainId();
   const handleChainId = async () => {
@@ -32,8 +26,9 @@
 </script>
 
 <main>
-  {#if chainId && address && signer}
-    <NftMintButton {src} {chainId} {address} {signer} {name} {description} />
+  {chainId} / {address} / {account} / {src}
+  {#if chainId && address && account && src}
+    <NftMintButton {src} {chainId} {address} signer={account} {name} {description} />
   {:else}
     <p><AccountConnect txt={true} label={false} /></p>
     <p><NetworkSelect txt={true} label={false} bind:chainId /></p>

@@ -1,3 +1,5 @@
+import { ipfsUriToUrl } from "@lib/nft/storage/ipfs";
+
 class Ipfs {
   endpoint: string;
 
@@ -27,8 +29,15 @@ class Ipfs {
     return cid;
   }
 
+  async pinBlob(blob: Blob, options?: RequestInit): Promise<string> {
+    return await this.pin(blob, options);
+  }
+
   async pinUrl(url: string, options?: RequestInit): Promise<string> {
-    return await this.pin(await (await fetch(url)).blob(), options);
+    return await this.pinBlob(await (await fetch(url)).blob(), options);
+  }
+  async pinUri(uri: string, options?: RequestInit): Promise<string> {
+    return await this.pinUrl(ipfsUriToUrl(uri), options);
   }
 
   async addUrl(url: string, options?: RequestInit): Promise<string> {

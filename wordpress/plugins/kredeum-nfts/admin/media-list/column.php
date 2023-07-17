@@ -44,7 +44,7 @@ add_action(
 			$metadata = get_metadata( 'post', $post->ID );
 
 			printf(
-				'<div class="kredeum-mint-button" txt="true"'
+				'<div class="kredeum-mint-button"'
 				. ' src="' . esc_attr( $src ) . '"'
 				. ' pid="' . esc_attr( $post->ID ) . '"'
 				. ' nid="' . esc_attr( $nid ) . '"'

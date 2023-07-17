@@ -70,7 +70,7 @@ add_filter(
 					// add pages numerotation.
 					$dompdf->getCanvas()->page_text( 280, 770, 'Page {PAGE_NUM} / {PAGE_COUNT}', null, 8, array( 0, 0, 0 ) );
 
-					// Generates pdf file.
+					// Generates pdf file
 					$output = $dompdf->output();
 
 					$uri = insert( $output, 'application/pdf', $post_id );

@@ -3,8 +3,8 @@
 // => gataway url of ipfs or swarm
 
 import { NftType, StorageConfigType, StorageParamsType, StorageType } from "@lib/common/types";
-import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./ipfs";
-import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
+import { ipfsGateway, ipfsGatewayUrl, ipfsUriToUrl } from "./ipfs";
+import { swarmGateway, swarmGatewayUrl, swarmUriToUrl } from "./swarm";
 import config from "@config/config.json";
 
 // IN MEMORY Storage Config
@@ -64,10 +64,10 @@ const storageGatewayUrl = (link: string): string =>
 // ipfs or swarm ( uri | http uri )
 // => gateway url for ipfs or swarm
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const storageLinkToUrlHttp = (link: string): string => {
+const storageUriToUrl = (link: string): string => {
   if (!link) return "";
-  if (link.startsWith("ipfs://") || link.startsWith(ipfsGateway())) return ipfsLinkToUrlHttp(link);
-  if (link.startsWith("swarm://") || link.startsWith(swarmGateway())) return swarmLinkToUrlHttp(link);
+  if (link.startsWith("ipfs://") || link.startsWith(ipfsGateway())) return ipfsUriToUrl(link);
+  if (link.startsWith("swarm://") || link.startsWith(swarmGateway())) return swarmUriToUrl(link);
   return link;
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -82,7 +82,7 @@ const sorageLinkToUri = (link: string) => {
 
 export {
   storageUriGetImage,
-  storageLinkToUrlHttp,
+  storageUriToUrl,
   storageGatewayUrl,
   storageParamsGet,
   storageDefault,

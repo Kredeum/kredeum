@@ -49,6 +49,14 @@
     location.href = `./admin.php?page=nfts#/${nid.replace("nft://", "")}`;
   };
 
+  $: src, content_type, external_url, metadata, handleLog();
+  const handleLog = (): void => {
+    console.log("<MintButtonWp src:", src);
+    console.log("<MintButtonWp content_type:", content_type);
+    console.log("<MintButtonWp external_url:", external_url);
+    console.log("<MintButtonWp metadata:", JSON.stringify(JSON.parse(metadata), null, 2));
+  };
+
   onMount(async () => {
     // SET storage type IPFS / Swarm or ArWeave
     if (storage) storageConfigSet({ default: storage });

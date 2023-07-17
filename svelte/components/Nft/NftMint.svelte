@@ -8,6 +8,9 @@
   import { nftStoreSet } from "@stores/nft/nft";
   import { S0_START, S1_STORE_IMAGE, S2_STORE_METADATA, S3_SIGN_TX, S4_WAIT_TX, S5_MINTED } from "@helpers/nftMint";
 
+  import { pdfjsGetPage, pdfjsCrop, pdfCropPng } from "@lib/common/pdfjs";
+  import { onMount } from "svelte";
+
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
   // Nft Minted by signer on chainId/address by signer from src image
@@ -72,14 +75,15 @@
 
     minting = S1_STORE_IMAGE;
 
-    imageUri = await nftPin(chainId, src);
-
-    if (pdf) {
-      pdfUri = pdf;
-    }
-
     if (audio) {
       audioUri = await nftPin(chainId, audio);
+    }
+
+    if (pdf) {
+      pdfUri = await nftPin(chainId, src);
+      imageUri = await pdfCropPng(chainId, pdfUri);
+    } else {
+      imageUri = await nftPin(chainId, src);
     }
 
     minting = S2_STORE_METADATA;
@@ -109,5 +113,14 @@
     nftStoreSet(nft);
 
     minting = S5_MINTED;
+  };
+
+  $: src, metadata, handleLog();
+  const handleLog = (): void => {
+    console.log("<NftMint src:", src);
+    // src = storageUriToUrl(src);
+    // console.log("<NftMint content_type:", content_type);
+    // console.log("<NftMint external_url:", external_url);
+    console.log("<NftMint metadata:", JSON.stringify(JSON.parse(metadata), null, 2));
   };
 </script>

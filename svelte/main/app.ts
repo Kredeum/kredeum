@@ -3,10 +3,10 @@ import MintButtonWp from "../components/Main/MintButtonWp.svelte";
 import NetworkSelect from "../components/Network/NetworkSelect.svelte";
 import OpenSky from "../components/Main/OpenSky.svelte";
 
-import Dapp from "../components/Main/Dapp.svelte";
+// import Dapp from "../components/Main/Dapp.svelte";
 // import Dapp from "../components/Main/MintPopup.svelte";
 // import Dapp from "../tests/NftMintTest.svelte";
-// import Dapp from "../tests/NftMintButtonTest.svelte";
+import Dapp from "../tests/NftMintButtonTest.svelte";
 
 type Props = Record<string, string | number | boolean>;
 type Attr = { name: string; value: string };

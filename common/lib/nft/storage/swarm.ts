@@ -2,7 +2,7 @@ import type { NftType, Properties, StorageConfigType } from "@lib/common/types";
 
 import { DEFAULT_NAME, textShort, isTestnet } from "@lib/common/config";
 
-import { swarmUploadFile } from "@lib/common/beejs";
+import { swarmPinBlob, swarmPinUri, swarmPinUrl } from "@lib/common/beejs";
 import { ipfsGatewayUrl } from "./ipfs";
 import config from "@config/config.json";
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
@@ -41,7 +41,7 @@ const swarmGetLink = (uri: string | undefined): string => {
 // swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // => gateway url : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmLinkToUrlHttp = (link: string): string => (link.startsWith("swarm://") ? swarmGatewayUrl(link) : link);
+const swarmUriToUrl = (link: string): string => (link.startsWith("swarm://") ? swarmGatewayUrl(link) : link);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
@@ -83,29 +83,12 @@ const swarmParamsValid = (chainId: number): boolean => {
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
-// Switch src URL or dataURI to file
-const _srcToFileType = async (src: string): Promise<File> => {
-  const blob = await fetch(src).then((r) => r.blob());
-  const file = new File([blob], DEFAULT_NAME, { type: blob.type });
-
-  return file;
-};
-
-///////////////////////////////////////////////////////////////////////////////////
 // GET swarm image uri
 // Params
 // image
 // key : Swarm batchID (batch of stamps)
-const swarmPin = async (media: string | File): Promise<string> => {
-  let file: string | File = media;
-
-  if (typeof media === "string" && (media.startsWith("http") || media.startsWith("data:"))) {
-    file = await _srcToFileType(media);
-  } else if (media instanceof File) {
-    file = media;
-  }
-
-  const swarmHash = await swarmUploadFile(file);
+const swarmPin = async (media: string | Blob): Promise<string> => {
+  const swarmHash = typeof media == "string" ? await swarmPinUri(media) : await swarmPinBlob(media);
   const swarmUri = swarmHash ? `swarm://${swarmHash}` : "";
 
   return swarmUri;
@@ -136,9 +119,12 @@ const swarmTokenUri = async (
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
   if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
-  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  const blob = new Blob([JSON.stringify(json)], { type: "application/json" });
 
-  return swarmTokenUri;
+  const swarmHash = await swarmPinBlob(blob);
+  const swarmUri = `swarm://${swarmHash}`;
+
+  return swarmUri;
 };
 
 export {
@@ -146,7 +132,7 @@ export {
   swarmTokenUri,
   SWARM_ZERO_APIKEY,
   swarmGetLink,
-  swarmLinkToUrlHttp,
+  swarmUriToUrl,
   swarmCidToLink,
   swarmLinkToCid,
   swarmGatewayUrl,

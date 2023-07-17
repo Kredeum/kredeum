@@ -36,7 +36,7 @@ class NftStorage extends Ipfs {
     } else {
       console.error("NftStorage.pin", data.error);
     }
-    console.info(`NftStorage.pin => ipfs://${cid}`);
+    console.info(`NftStorage.pin => https://nftstorage.link/ipfs/${cid}`);
 
     return cid;
   }

@@ -55,7 +55,7 @@ const ipfsGetLink = (uri: string | undefined): string => {
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => gateway url : https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsLinkToUrlHttp = (link: string): string => (link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link);
+const ipfsUriToUrl = (link: string): string => (link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
@@ -74,7 +74,7 @@ const ipfsLinkToCid = (ipfs: string): string => ipfs.replace(/^ipfs:\/\//, "");
 // => bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 // => gateway url https://ipfs.io/ipfs/bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const ipfsGatewayUrl = (ipfs: string | undefined): string => (ipfs ? `${ipfsGateway()}/${ipfsLinkToCid(ipfs)}` : "");
+const ipfsGatewayUrl = (ipfs: string | undefined): string => ipfs?.replace(/^ipfs:\/\//, `${ipfsGateway()}/`) || "";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // ipfs uri : ipfs://bafkreieivwe2vhxx72iqbjibxabk5net4ah5lo3khekt6ojyn7cucek624
@@ -93,9 +93,10 @@ const ipfsApiEndpoint = (): string => storageParamsGet("ipfs")?.apiEndpoint.repl
 const ipfsApiKey = (): string => storageParamsGet("ipfs")?.apiKey || "";
 
 // GET ipfs uri from media url
-const ipfsPin = async (mediaUrl: string): Promise<string> => {
+const ipfsPin = async (media: string | Blob): Promise<string> => {
   nftStorage ||= new NftStorage();
-  const ipfsCid = await nftStorage.pinUrl(mediaUrl);
+
+  const ipfsCid = typeof media == "string" ? await nftStorage.pinUri(media) : await nftStorage.pinBlob(media);
   const ipfsUri = ipfsCid ? `ipfs://${ipfsCid}` : "";
 
   // console.log("ipfsUri", ipfsUri);
@@ -141,7 +142,7 @@ export {
   ipfsTokenUri,
   ipfsConfigValid,
   ipfsParamsValid,
-  ipfsLinkToUrlHttp,
+  ipfsUriToUrl,
   ipfsCidToLink,
   ipfsLinkToCid,
   ipfsGetLink,

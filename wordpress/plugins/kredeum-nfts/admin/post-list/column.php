@@ -41,7 +41,7 @@ add_action(
 
 			if ( $post->_kre_uri ) {
 				echo(
-					'<div class="kredeum-mint-button" txt="true"'
+					'<div class="kredeum-mint-button"'
 					. ' src="' . esc_attr( $post->_kre_uri ) . '"'
 					. ' pid="' . esc_attr( $post->ID ) . '"'
 					. ' nid="' . esc_attr( $nid ) . '"'
@@ -49,10 +49,10 @@ add_action(
 					. ' alt="' . esc_attr( $post->post_title ) . '"'
 					. ' content_type="application/pdf"'
 					. ' external_url="' . esc_attr( get_permalink() ) . '"'
-					. ' post_title="' . esc_attr( $post->post_title ) . '"'
-					. ' post_content="' . esc_attr( ( apply_filters( 'the_content', $post->post_content ) ) ) . '"'
-					. ' post_author="' . esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ) . '"'
-					. ' post_date="' . esc_attr( get_the_date( '', $post->ID ) ) . '"'
+					. ' author="' . esc_attr( get_the_author_meta( 'display_name', $post->post_author ) ) . '"'
+					. ' date="' . esc_attr( get_the_date( 'c', $post->ID ) ) . '"'
+					. ' title="' . esc_attr( $post->post_title ) . '"'
+					. ' content="' . esc_attr( ( apply_filters( 'the_content', $post->post_content ) ) ) . '"'
 					. '/>'
 				);
 			}
@@ -61,3 +61,16 @@ add_action(
 	10,
 	2
 );
+
+
+// printf(
+//   '<div class="kredeum-mint-button"'
+//   . ' src="' . esc_attr( $src ) . '"'
+//   . ' pid="' . esc_attr( $post->ID ) . '"'
+//   . ' nid="' . esc_attr( $nid ) . '"'
+//   . ' metadata="' . esc_attr( wp_json_encode( $metadata ) ) . '"'
+//   . ' alt="' . esc_attr( $post->post_title ) . '"'
+//   . ' content_type="' . esc_attr( get_post_mime_type( $post->ID ) ) . '"'
+//   . ' external_url="' . esc_attr( wp_get_attachment_url( $post->ID ) ) . '"'
+//   . '/>'
+// );
