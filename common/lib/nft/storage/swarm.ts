@@ -12,7 +12,7 @@ import { storageDefault, storageParamsGet, storageParamsValid } from "./storage"
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // uri : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => Swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
+// => Swarm uri : bzz://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const swarmGetLink = (uri: string | undefined): string => {
   if (!uri) return "";
@@ -20,7 +20,7 @@ const swarmGetLink = (uri: string | undefined): string => {
   let swarmLink = "";
   let cid = "";
 
-  if (uri.startsWith("swarm://")) {
+  if (uri.startsWith("bzz://")) {
     swarmLink = uri;
   } else if (uri.startsWith(swarmGateway())) {
     // find cid in uri
@@ -38,22 +38,22 @@ const swarmGetLink = (uri: string | undefined): string => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // http link : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
+// swarm uri : bzz://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // => gateway url : https://api.gateway.ethswarm.org/bzz/1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmLinkToUrlHttp = (link: string): string => (link.startsWith("swarm://") ? swarmGatewayUrl(link) : link);
+const swarmLinkToUrlHttp = (link: string): string => (link.startsWith("bzz://") ? swarmGatewayUrl(link) : link);
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
-// => swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
+// => swarm uri : bzz://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmCidToLink = (cid: string): string => (cid ? `swarm://${cid}` : "");
+const swarmCidToLink = (cid: string): string => (cid ? `bzz://${cid}` : "");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// swarm uri : swarm://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
+// swarm uri : bzz://1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 // => cid : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-const swarmLinkToCid = (swarm: string): string => swarm.replace(/^swarm:\/\//, "");
+const swarmLinkToCid = (swarm: string): string => swarm.replace(/^bzz:\/\//, "");
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // Swarm reference : 1fa18cf1aaee4727ecc266a86f1ef0f98b14771c7814d8cfb850a4b1c6d1359f
@@ -106,7 +106,7 @@ const swarmPin = async (media: string | File): Promise<string> => {
   }
 
   const swarmHash = await swarmUploadFile(file);
-  const swarmUri = swarmHash ? `swarm://${swarmHash}` : "";
+  const swarmUri = swarmHash ? `bzz://${swarmHash}` : "";
 
   return swarmUri;
 };
@@ -136,9 +136,9 @@ const swarmTokenUri = async (
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
   if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
-  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  const swarmTokenUriHash = await swarmUploadFile(JSON.stringify(json, null, 2));
 
-  return swarmTokenUri;
+  return swarmGatewayUrl(swarmTokenUriHash);
 };
 
 export {

@@ -13,7 +13,7 @@ const nftSwarmImage = async (
   batchId?: string,
   fileSize?: number
 ): Promise<string> => {
-  const swarmImage = `swarm://${await swarmUploadFile(file, nftTitle, contentType, nodeUrl, batchId, fileSize)}`;
+  const swarmImage = `bzz://${await swarmUploadFile(file, nftTitle, contentType, nodeUrl, batchId, fileSize)}`;
   console.info("🚀 ~ swarm image uploaded Ref :", swarmImage);
 
   // console.log("nftSwarmImage", ipfsImage);
@@ -47,7 +47,7 @@ const nftSwarmJson = async (
   if (Object.keys(properties).length > 0) json.properties = properties;
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
 
-  const swarmJson = `swarm://${await swarmUploadFile(
+  const swarmJson = `bzz://${await swarmUploadFile(
     JSON.stringify(json, null, 2),
     "swarmJson",
     "text",

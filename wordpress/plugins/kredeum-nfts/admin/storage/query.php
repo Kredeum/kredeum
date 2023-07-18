@@ -54,7 +54,7 @@ function insert( $file, $content_type, $post_id ) {
 				$uri = 'ipfs://' . nft_storage_add_and_pin( $file );
 				break;
 			case 'swarm':
-				$uri = 'swarm://' . swarm_add_and_pin( $file, $content_type );
+				$uri = 'bzz://' . swarm_add_and_pin( $file, $content_type );
 				break;
 		}
 		update_post_meta( $post_id, '_kre_uri', $uri );
