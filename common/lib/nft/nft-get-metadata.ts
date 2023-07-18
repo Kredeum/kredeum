@@ -66,7 +66,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
     }
 
     try {
-      // metadataJson = ipfs://...cid... : metadata URI found on IPFS   OU swarm://
+      // metadataJson = ipfs://...cid... : metadata URI found on IPFS   OU bzz://
       // nft.tokenURI : default metadata URI
       const tokenURIAnswer = await fetchJson(nft.tokenURI || metadataJson);
       if (tokenURIAnswer.error) {

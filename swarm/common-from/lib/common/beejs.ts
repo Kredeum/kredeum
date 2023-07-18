@@ -7,20 +7,13 @@ const getBee = (nodeUrl: string): Bee => {
 };
 const krdbatchId = "0000000000000000000000000000000000000000000000000000000000000000";
 
-const swarmUploadFile = async (
-  file: File | string,
-  fileName: string,
-  contentType: string,
-  nodeUrl = "",
-  batchId?: string,
-  fileSize?: number
-): Promise<string> => {
+const swarmUploadFile = async (file: File | string, fileName: string, contentType: string, nodeUrl = "", batchId?: string, fileSize?: number): Promise<string> => {
   const bee: Bee = getBee(nodeUrl);
 
   const result = await bee.uploadFile(batchId ? batchId : krdbatchId, file, fileName, {
     pin: nodeUrl ? true : false,
     size: fileSize || undefined,
-    contentType: contentType
+    contentType: contentType,
   });
 
   return result.reference;
@@ -37,7 +30,7 @@ const swarmGetContentType = async (fileReference: string, nodeUrl = ""): Promise
 
   if (fileReference.startsWith(SWARM_GATEWAY)) {
     fileReference = fileReference.replace(SWARM_GATEWAY, "");
-  } else if (fileReference.startsWith("swarm://")) {
+  } else if (fileReference.startsWith("bzz://")) {
     fileReference = swarmLinkToCid(fileReference);
   }
   const swarmData: FileData<Data> = await bee.downloadFile(fileReference);

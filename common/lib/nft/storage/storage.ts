@@ -57,7 +57,7 @@ const storageParamsValid = (storageParams: StorageParamsType | undefined): boole
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 const storageGatewayUrl = (link: string): string =>
-  link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link.startsWith("swarm://") ? swarmGatewayUrl(link) : link;
+  link.startsWith("ipfs://") ? ipfsGatewayUrl(link) : link.startsWith("bzz://") ? swarmGatewayUrl(link) : link;
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -67,7 +67,7 @@ const storageGatewayUrl = (link: string): string =>
 const storageLinkToUrlHttp = (link: string): string => {
   if (!link) return "";
   if (link.startsWith("ipfs://") || link.startsWith(ipfsGateway())) return ipfsLinkToUrlHttp(link);
-  if (link.startsWith("swarm://") || link.startsWith(swarmGateway())) return swarmLinkToUrlHttp(link);
+  if (link.startsWith("bzz://") || link.startsWith(swarmGateway())) return swarmLinkToUrlHttp(link);
   return link;
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
