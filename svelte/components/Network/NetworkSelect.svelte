@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, hasOpenBound, isTestnet, networks } from "@lib/common/config";
+  import { getChainName, hasOpenBound, isMainnet, isTestnet, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import Network from "./Network.svelte";
@@ -36,9 +36,11 @@
   // All mainnet networks
   // and testnet networks if current chain is testnet
   // that hasOpenBound if bound is true
+  // LATER : display L2 / TESTNET relative to L1 / MAINNET
   const networksFilter = (): Array<NetworkType> =>
     networks.filter(
-      (nw: NetworkType) => (nw.mainnet || (isTestnet(chainId) && nw.testnet)) && (!bound || hasOpenBound(chainId))
+      (nw: NetworkType) =>
+        isMainnet(nw.chainId) || (isTestnet(chainId) && isTestnet(nw.chainId) && (!bound || hasOpenBound(chainId)))
     );
 </script>
 

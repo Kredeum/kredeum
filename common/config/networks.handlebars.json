@@ -36,8 +36,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "eip1559": true,
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 42161,
@@ -67,7 +66,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "mainnet": true
+    "layer2": 1
   },
   {
     "chainId": 10,
@@ -97,7 +96,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "mainnet": true
+    "layer2": 1
   },
   {
     "chainId": 137,
@@ -137,8 +136,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "openSea": "https://opensea.io/assets/matic",
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 100,
@@ -162,8 +160,7 @@
     "hardhatOptions": {
       "gasPrice": 80000000000
     },
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 1101,
@@ -181,7 +178,7 @@
       "https://zkevm.polygonscan.com/"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "mainnet": true,
+    "layer2": 1,
     "create": true
   },
   {
@@ -207,8 +204,7 @@
       "url": "https://api.covalenthq.com/v1",
       "key": "{{COVALENT_API_KEY}}"
     },
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 250,
@@ -232,8 +228,7 @@
       "url": "https://api.covalenthq.com/v1",
       "key": "{{COVALENT_API_KEY}}"
     },
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 56,
@@ -259,8 +254,7 @@
       "url": "https://api.covalenthq.com/v1",
       "key": "{{COVALENT_API_KEY}}"
     },
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 97,
@@ -286,7 +280,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "testnet": true,
+    "linkedMainnet": 56,
     "nftsFactoryV3": ""
   },
   {
@@ -310,7 +304,7 @@
     },
     "eip1559": true,
     "create": true,
-    "testnet": true
+    "linkedMainnet": 1
   },
   {
     "chainId": 41,
@@ -328,7 +322,7 @@
     ],
     "eip1559": false,
     "create": true,
-    "testnet": true
+    "linkedMainnet": 40
   },
   {
     "chainId": 5,
@@ -356,7 +350,7 @@
     },
     "eip1559": true,
     "create": true,
-    "testnet": true
+    "linkedMainnet": 1
   },
   {
     "chainId": 80001,
@@ -391,7 +385,7 @@
       "live": true
     },
     "create": true,
-    "testnet": true
+    "linkedMainnet": 137
   },
   {
     "chainId": 4002,
@@ -415,7 +409,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "testnet": true
+    "linkedMainnet": 250
   },
   {
     "chainId": 43113,
@@ -441,7 +435,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "testnet": true
+    "linkedMainnet": 43114
   },
   {
     "chainId": 31337,
@@ -457,7 +451,7 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "testnet": true
+    "linkedMainnet": -1
   },
   {
     "chainId": 31337,
@@ -471,7 +465,8 @@
       "decimals": 18
     },
     "blockExplorerUrls": [],
-    "nftsFactoryV3": ""
+    "nftsFactoryV3": "",
+    "linkedMainnet": -2
   },
   {
     "chainId": 1442,
@@ -489,7 +484,8 @@
       "https://explorer.public.zkevm-test.net"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "mainnet": false,
+    "linkedMainnet": 1101,
+    "linkedLayer1": 5,
     "create": true
   }
 ]

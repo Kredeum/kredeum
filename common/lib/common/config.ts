@@ -82,7 +82,13 @@ const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: 
 // GET Create
 const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
 
-const isTestnet = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.testnet);
+const getLinkedMainnet = (chainId: number | string): number => getNetwork(chainId)?.linkedMainnet || 0;
+const getLinkedLayer1 = (chainId: number | string): number => getNetwork(chainId)?.linkedLayer1 || 0;
+
+const isMainnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) == 0;
+const isTestnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) != 0;
+const isLayer1 = (chainId: number | string): boolean => getLinkedLayer1(chainId) == 0;
+const isLayer2 = (chainId: number | string): boolean => getLinkedLayer1(chainId) != 0;
 
 // GET chain Name
 const getChainName = (chainId: number): string =>
@@ -355,7 +361,12 @@ export {
   explorerAccountUrl,
   explorerNftLink,
   isEip1559,
+  getLinkedMainnet,
+  getLinkedLayer1,
   isTestnet,
+  isMainnet,
+  isLayer2,
+  isLayer1,
   isCollection,
   isNetwork,
   isAddress,

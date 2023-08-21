@@ -30,8 +30,8 @@ type NetworkType = {
   alchemy?: { url?: string; active: boolean };
   moralis?: { active: boolean; url?: string; id?: string };
   covalent?: { active: boolean; url?: string; key?: string };
-  mainnet?: boolean;
-  testnet?: boolean;
+  linkedLayer1?: number;
+  linkedMainnet?: number;
   create?: boolean;
   admin?: string;
   blur?: string;
