@@ -36,8 +36,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "eip1559": true,
-    "create": true,
-    "mainnet": true
+    "create": true
   },
   {
     "chainId": 42161,
@@ -67,7 +66,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "mainnet": true
+    "linkedLayer1": 1
   },
   {
     "chainId": 10,
@@ -97,7 +96,97 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "mainnet": true
+    "linkedLayer1": 1
+  },
+  {
+    "chainId": 1101,
+    "chainName": "polygonzkevm",
+    "rpcUrls": [
+      "https://zkevm-rpc.com",
+      "https://rpc.ankr.com/polygon_zkevm"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zkETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://zkevm.polygonscan.com/"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "create": true,
+    "linkedLayer1": 1
+  },
+  {
+    "chainId": 1442,
+    "chainName": "polygonzkevmtestnet",
+    "rpcUrls": [
+      "https://rpc.public.zkevm-test.net"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zktETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet-zkevm.polygonscan.com",
+      "https://explorer.public.zkevm-test.net"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "linkedMainnet": 1101,
+    "linkedLayer1": 5,
+    "create": true
+  },
+  {
+    "chainId": 5,
+    "chainName": "goerli",
+    "rpcUrls": [
+      "https://goerli.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://eth-goerli.g.alchemy.com/v2/{{ALCHEMY_API_KEY_GOERLI}}"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "GOETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://goerli.etherscan.io"
+    ],
+    "openSea": "https://testnets.opensea.io/assets",
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
+      "active": false
+    },
+    "alchemy": {
+      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_GOERLI}}",
+      "active": true
+    },
+    "eip1559": true,
+    "create": true,
+    "linkedMainnet": 1
+  },
+  {
+    "chainId": 11155111,
+    "chainName": "sepolia",
+    "rpcUrls": [
+      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.ankr.com/eth_sepolia",
+      "https://rpc.sepolia.org"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://sepolia.etherscan.io"
+    ],
+    "etherscan": {
+      "apiUrl": "https://api-sepolia.etherscan.io/"
+    },
+    "eip1559": true,
+    "create": true,
+    "linkedMainnet": 1
   },
   {
     "chainId": 137,
@@ -137,226 +226,7 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "openSea": "https://opensea.io/assets/matic",
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 100,
-    "chainName": "gnosis",
-    "rpcUrls": [
-      "https://rpc.ankr.com/gnosis",
-      "https://rpc.gnosischain.com",
-      "https://rpc.xdaichain.com",
-      "https://xdai.poanetwork.dev/",
-      "https://dai.poa.network/"
-    ],
-    "nativeCurrency": {
-      "name": "xDAI",
-      "symbol": "xDAI",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://gnosisscan.io/",
-      "https://blockscout.com/xdai/mainnet"
-    ],
-    "hardhatOptions": {
-      "gasPrice": 80000000000
-    },
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 1101,
-    "chainName": "polygonzkevm",
-    "rpcUrls": [
-      "https://zkevm-rpc.com",
-      "https://rpc.ankr.com/polygon_zkevm"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "zkETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://zkevm.polygonscan.com/"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "mainnet": true,
     "create": true
-  },
-  {
-    "chainId": 43114,
-    "chainName": "avalanche",
-    "rpcUrls": [
-      "https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/avalanche",
-      "https://api.avax.network/ext/bc/C/rpc"
-    ],
-    "nativeCurrency": {
-      "name": "AVAX",
-      "symbol": "AVAX",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://snowtrace.io",
-      "https://cchain.explorer.avax.network"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 250,
-    "chainName": "fantom",
-    "rpcUrls": [
-      "https://rpc.ftm.tools/",
-      "https://rpc.ankr.com/fantom",
-      "https://rpcapi.fantom.network"
-    ],
-    "nativeCurrency": {
-      "name": "FTM",
-      "symbol": "FTM",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://ftmscan.com"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 56,
-    "chainName": "bsc",
-    "rpcUrls": [
-      "https://bsc-dataseed1.binance.org",
-      "https://rpc.ankr.com/bsc",
-      "https://bsc-dataseed.binance.org",
-      "https://bsc-dataseed1.defibit.io",
-      "https://bsc-dataseed1.ninicoin.io"
-    ],
-    "nativeCurrency": {
-      "name": "BNB",
-      "symbol": "BNB",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://bscscan.com"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
-    "create": true,
-    "mainnet": true
-  },
-  {
-    "chainId": 97,
-    "chainName": "bsctestnet",
-    "rpcUrls": [
-      "https://data-seed-prebsc-1-s1.binance.org:8545",
-      "https://rpc.ankr.com/bsc_testnet_chapel",
-      "https://data-seed-prebsc-2-s1.binance.org:8545",
-      "https://data-seed-prebsc-1-s2.binance.org:8545"
-    ],
-    "nativeCurrency": {
-      "name": "BNB",
-      "symbol": "BNB",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://testnet.bscscan.com/"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
-    "create": true,
-    "testnet": true,
-    "nftsFactoryV3": ""
-  },
-  {
-    "chainId": 11155111,
-    "chainName": "sepolia",
-    "rpcUrls": [
-      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/eth_sepolia",
-      "https://rpc.sepolia.org"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://sepolia.etherscan.io"
-    ],
-    "etherscan": {
-      "apiUrl": "https://api-sepolia.etherscan.io/"
-    },
-    "eip1559": true,
-    "create": true,
-    "testnet": true
-  },
-  {
-    "chainId": 41,
-    "chainName": "telostestnet",
-    "rpcUrls": [
-      "https://testnet.telos.net/evm"
-    ],
-    "nativeCurrency": {
-      "name": "TELOS",
-      "symbol": "TLOS",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://testnet.teloscan.io"
-    ],
-    "eip1559": false,
-    "create": true,
-    "testnet": true
-  },
-  {
-    "chainId": 5,
-    "chainName": "goerli",
-    "rpcUrls": [
-      "https://goerli.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://eth-goerli.g.alchemy.com/v2/{{ALCHEMY_API_KEY_GOERLI}}"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "GOETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://goerli.etherscan.io"
-    ],
-    "openSea": "https://testnets.opensea.io/assets",
-    "subgraph": {
-      "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
-      "active": false
-    },
-    "alchemy": {
-      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_GOERLI}}",
-      "active": true
-    },
-    "eip1559": true,
-    "create": true,
-    "testnet": true
   },
   {
     "chainId": 80001,
@@ -387,35 +257,54 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
-    "hardhatOptions": {
-      "live": true
-    },
     "create": true,
-    "testnet": true
+    "linkedMainnet": 137
   },
   {
-    "chainId": 4002,
-    "chainName": "fantomtestnet",
+    "chainId": 100,
+    "chainName": "gnosis",
     "rpcUrls": [
-      "https://rpc.testnet.fantom.network",
-      "https://rpc.ankr.com/fantom_testnet"
+      "https://rpc.ankr.com/gnosis",
+      "https://rpc.gnosischain.com",
+      "https://rpc.xdaichain.com",
+      "https://xdai.poanetwork.dev/",
+      "https://dai.poa.network/"
     ],
     "nativeCurrency": {
-      "name": "FTM",
-      "symbol": "FTM",
+      "name": "xDAI",
+      "symbol": "xDAI",
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "https://testnet.ftmscan.com"
+      "https://gnosisscan.io/",
+      "https://blockscout.com/xdai/mainnet"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
+    "create": true
+  },
+  {
+    "chainId": 43114,
+    "chainName": "avalanche",
+    "rpcUrls": [
+      "https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.ankr.com/avalanche",
+      "https://api.avax.network/ext/bc/C/rpc"
+    ],
+    "nativeCurrency": {
+      "name": "AVAX",
+      "symbol": "AVAX",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://snowtrace.io",
+      "https://cchain.explorer.avax.network"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
     "covalent": {
-      "active": false,
+      "active": true,
       "url": "https://api.covalenthq.com/v1",
       "key": "{{COVALENT_API_KEY}}"
     },
-    "create": true,
-    "testnet": true
+    "create": true
   },
   {
     "chainId": 43113,
@@ -441,23 +330,126 @@
       "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
-    "testnet": true
+    "linkedMainnet": 43114
   },
   {
-    "chainId": 31337,
-    "chainName": "hardhat",
+    "chainId": 250,
+    "chainName": "fantom",
     "rpcUrls": [
-      "http://127.0.0.1:8545"
+      "https://rpc.ftm.tools/",
+      "https://rpc.ankr.com/fantom",
+      "https://rpcapi.fantom.network"
     ],
     "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
+      "name": "FTM",
+      "symbol": "FTM",
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "http://localhost/explorer"
+      "https://ftmscan.com"
     ],
-    "testnet": true
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
+    "covalent": {
+      "active": true,
+      "url": "https://api.covalenthq.com/v1",
+      "key": "{{COVALENT_API_KEY}}"
+    },
+    "create": true
+  },
+  {
+    "chainId": 4002,
+    "chainName": "fantomtestnet",
+    "rpcUrls": [
+      "https://rpc.testnet.fantom.network",
+      "https://rpc.ankr.com/fantom_testnet"
+    ],
+    "nativeCurrency": {
+      "name": "FTM",
+      "symbol": "FTM",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.ftmscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
+    "covalent": {
+      "active": false,
+      "url": "https://api.covalenthq.com/v1",
+      "key": "{{COVALENT_API_KEY}}"
+    },
+    "create": true,
+    "linkedMainnet": 250
+  },
+  {
+    "chainId": 56,
+    "chainName": "bsc",
+    "rpcUrls": [
+      "https://bsc-dataseed1.binance.org",
+      "https://rpc.ankr.com/bsc",
+      "https://bsc-dataseed.binance.org",
+      "https://bsc-dataseed1.defibit.io",
+      "https://bsc-dataseed1.ninicoin.io"
+    ],
+    "nativeCurrency": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://bscscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
+    "covalent": {
+      "active": true,
+      "url": "https://api.covalenthq.com/v1",
+      "key": "{{COVALENT_API_KEY}}"
+    },
+    "create": true
+  },
+  {
+    "chainId": 97,
+    "chainName": "bsctestnet",
+    "rpcUrls": [
+      "https://data-seed-prebsc-1-s1.binance.org:8545",
+      "https://rpc.ankr.com/bsc_testnet_chapel",
+      "https://data-seed-prebsc-2-s1.binance.org:8545",
+      "https://data-seed-prebsc-1-s2.binance.org:8545"
+    ],
+    "nativeCurrency": {
+      "name": "BNB",
+      "symbol": "BNB",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.bscscan.com/"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
+    "covalent": {
+      "active": true,
+      "url": "https://api.covalenthq.com/v1",
+      "key": "{{COVALENT_API_KEY}}"
+    },
+    "create": true,
+    "linkedMainnet": 56,
+    "nftsFactoryV3": ""
+  },
+  {
+    "chainId": 41,
+    "chainName": "telostestnet",
+    "rpcUrls": [
+      "https://testnet.telos.net/evm"
+    ],
+    "nativeCurrency": {
+      "name": "TELOS",
+      "symbol": "TLOS",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.teloscan.io"
+    ],
+    "eip1559": false,
+    "create": true,
+    "linkedMainnet": 40
   },
   {
     "chainId": 31337,
@@ -470,26 +462,9 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [],
-    "nftsFactoryV3": ""
-  },
-  {
-    "chainId": 1442,
-    "chainName": "polygonzkevmtestnet",
-    "rpcUrls": [
-      "https://rpc.public.zkevm-test.net"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "zktETH",
-      "decimals": 18
-    },
     "blockExplorerUrls": [
-      "https://testnet-zkevm.polygonscan.com",
-      "https://explorer.public.zkevm-test.net"
+      "http://localhost/explorer"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "mainnet": false,
-    "create": true
+    "linkedMainnet": -1
   }
 ]

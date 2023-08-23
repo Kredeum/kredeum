@@ -1,6 +1,6 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, hasOpenBound, isTestnet, networks } from "@lib/common/config";
+  import { getChainName, hasOpenBound, isMainnet, isTestnet, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import Network from "./Network.svelte";
@@ -14,7 +14,7 @@
   /////////////////////////////////////////////////
   export let chainId: number = 0;
   export let txt: boolean = false;
-  export let bound: boolean = undefined;
+  export let bound: boolean = false;
   export let label = true;
 
   let open = false;
@@ -36,10 +36,14 @@
   // All mainnet networks
   // and testnet networks if current chain is testnet
   // that hasOpenBound if bound is true
+  // LATER : display L2 / TESTNET relative to L1 / MAINNET
   const networksFilter = (): Array<NetworkType> =>
     networks.filter(
-      (nw: NetworkType) => (nw.mainnet || (isTestnet(chainId) && nw.testnet)) && (!bound || hasOpenBound(chainId))
+      (nw: NetworkType) => (chainId > 0 && isMainnet(nw.chainId)) || (isTestnet(chainId) && isTestnet(nw.chainId)) // && (!bound || hasOpenBound(chainId))
     );
+  console.log("chainId:", chainId);
+  console.log("networks:", networks);
+  console.log("networksFilter:", networksFilter());
 </script>
 
 {#if txt}
@@ -48,7 +52,7 @@
   <select on:change={_switchChainEvt}>
     {#each networksFilter() as nwk}
       <option value={nwk.chainId} selected={nwk.chainId == chainId}>
-        <Network chainId={nwk.chainId} {txt} />
+        <Network chainId={nwk.chainId} {txt} pre={true} />
         &nbsp;
       </option>
     {/each}
@@ -77,18 +81,17 @@
   >
     <div class="select" class:open>
       <div class="select-trigger">
-        <Network {chainId} txt={false} />
+        <Network {chainId} />
       </div>
 
       <div class="custom-options">
         {#each networksFilter() as nwk}
           <span
             class="custom-option {nwk.chainId == chainId && 'selected'}"
-            data-value={getChainName(nwk.chainId)}
             on:click={(evt) => _switchChain(nwk.chainId, evt)}
             on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
           >
-            <Network chainId={nwk.chainId} txt={true} />
+            <Network chainId={nwk.chainId} pre={true} />
           </span>
         {/each}
       </div>
