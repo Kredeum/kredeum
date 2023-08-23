@@ -99,6 +99,46 @@
     "linkedLayer1": 1
   },
   {
+    "chainId": 8453,
+    "chainName": "base",
+    "rpcUrls": [
+      "https://mainnet.base.org/",
+      "https://developer-access-mainnet.base.org/"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://basescan.org",
+      "https://base.blockscout.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "create": true,
+    "linkedLayer1": 1
+  },
+  {
+    "chainId": 84531,
+    "chainName": "base-goerli",
+    "rpcUrls": [
+      "https://goerli.base.org"
+    ],
+    "nativeCurrency": {
+      "name": "Goerli Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://goerli.basescan.org",
+      "https://base-goerli.blockscout.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "create": true,
+    "linkedMainnet": 8453,
+    "linkedLayer1": 1
+  },
+  {
     "chainId": 1101,
     "chainName": "polygonzkevm",
     "rpcUrls": [

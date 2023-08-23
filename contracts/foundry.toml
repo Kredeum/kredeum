@@ -5,8 +5,8 @@ script = "scripts"
 out = "out"
 libs = ["lib"]
 solc = "0.8.19"
-cache_path  = "cache-forge"
-fs_permissions = [{ access = "read-write", path = "./"}]
+cache_path = "cache-forge"
+fs_permissions = [{ access = "read-write", path = "./" }]
 
 
 [fmt]
@@ -17,6 +17,10 @@ mainnet = "https://mainnet.infura.io/v3/${INFURA_API_KEY}"
 matic = "https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}"
 arbitrum = "https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}"
 optimism = "https://rpc.ankr.com/optimism"
+
+base = "https://base.gateway.tenderly.co"
+base2 = "https://rpc.ankr.com/base"
+
 polygonzkevm = "https://zkevm-rpc.com"
 gnosis = "https://rpc.ankr.com/gnosis"
 avalanche = "https://rpc.ankr.com/avalanche"
@@ -27,15 +31,18 @@ sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
 goerli = "https://goerli.infura.io/v3/${INFURA_API_KEY}"
 mumbai = "https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}"
 
+base-goerli = "https://goerli.base.org/"
+base-goerli2 = "https://rpc.ankr.com/base_goerli"
 
 
 telostestnet = "https://testnet.telos.net/evm"
-anvil = "http://127.0.0.1:8545"
+local = "http://127.0.0.1:8545"
 
 [etherscan]
 goerli = { key = "${ETHERSCAN_API_KEY}" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
-
+base = { key = "${ETHERSCAN_API_KEY_BASE}" }
+base-goerli = { key = "${ETHERSCAN_API_KEY_BASE}" }
 
 
 # See more config options https://github.com/foundry-rs/foundry/tree/master/config
