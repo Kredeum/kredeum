@@ -86,9 +86,9 @@ const getLinkedMainnet = (chainId: number | string): number => getNetwork(chainI
 const getLinkedLayer1 = (chainId: number | string): number => getNetwork(chainId)?.linkedLayer1 || 0;
 
 const isMainnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) == 0;
-const isTestnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) != 0;
+const isTestnet = (chainId: number | string): boolean => !isMainnet(chainId);
 const isLayer1 = (chainId: number | string): boolean => getLinkedLayer1(chainId) == 0;
-const isLayer2 = (chainId: number | string): boolean => getLinkedLayer1(chainId) != 0;
+const isLayer2 = (chainId: number | string): boolean => !isLayer1(chainId);
 
 // GET chain Name
 const getChainName = (chainId: number): string =>
