@@ -52,6 +52,13 @@
     "OpenNFTsV4": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
     "OpenAutoMarket": "0x88A9B09B081CA46daEa53f170d8da27490a16b82"
   },
+  "10200": {
+    "chainName": "chiado",
+    "OpenNFTsFactoryV3": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "OpenNFTsResolver": "0x8026cdb7B7aBB89691911ee762eD7F4511F0c2B1",
+    "OpenNFTsV4": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
+    "OpenAutoMarket": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15"
+  },
   "5": {
     "chainName": "goerli",
     "OpenNFTsFactoryV3": "0x14b44806e069084935c7ca073102F7f9A449eF1A",

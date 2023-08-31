@@ -14,7 +14,7 @@
 
   $: chainName = getChainName(chainId);
   $: mainnetName = isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : chainName;
-  $: chainLabel =  strUpFirst(chainName) + (isTestnet(chainId) ? " TESTNET" : "");
+  $: chainLabel =  strUpFirst(chainName);
   $: preLabel = pre ? (isLayer2(chainId) ? "L2 " : "") + (isTestnet(chainId) ? "TN " : "") : "";
 
   $: logoPos = pre ? (isLayer2(chainId) ? 25 : 0) + (isTestnet(chainId) ? 25 : 0) : 0;

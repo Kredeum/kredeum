@@ -322,6 +322,25 @@
     "create": true
   },
   {
+    "chainId": 10200,
+    "chainName": "chiado",
+    "rpcUrls": [
+      "https://rpc.chiadochain.net",
+      "https://rpc.chiado.gnosis.gateway.fm"
+    ],
+    "nativeCurrency": {
+      "name": "Chiado xDAI",
+      "symbol": "xDAI",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://blockscout.chiadochain.net",
+      "https://gnosis-chiado.blockscout.com"
+    ],
+    "linkedMainnet": 100,
+    "create": true
+  },
+  {
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": [
