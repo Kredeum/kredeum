@@ -15,9 +15,9 @@
   $: chainName = getChainName(chainId);
   $: mainnetName = isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : chainName;
   $: chainLabel =  strUpFirst(chainName);
-  $: preLabel = pre ? (isLayer2(chainId) ? "L2 " : "") + (isTestnet(chainId) ? "TN " : "") : "";
+  $: preLabel = pre ? (isLayer2(chainId) ? "L2 " : "") : "";
 
-  $: logoPos = pre ? (isLayer2(chainId) ? 25 : 0) + (isTestnet(chainId) ? 25 : 0) : 0;
+  $: logoPos = pre ? (isLayer2(chainId) ? 25 : 0) : 0;
 
   $: logoStyle = `background: url("./assets/images/icon-${mainnetName}.png") no-repeat ${logoPos}px center/25px; padding: 5px 0;`;
   $: spacerStyle = `margin-left: 35px;`;

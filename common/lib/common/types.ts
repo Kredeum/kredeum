@@ -32,6 +32,7 @@ type NetworkType = {
   covalent?: { active: boolean; url?: string; key?: string };
   linkedLayer1?: number;
   linkedMainnet?: number;
+  active?: boolean;
   create?: boolean;
   admin?: string;
   blur?: string;

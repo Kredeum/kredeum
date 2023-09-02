@@ -85,6 +85,12 @@ const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.cre
 const getLinkedMainnet = (chainId: number | string): number => getNetwork(chainId)?.linkedMainnet || 0;
 const getLinkedLayer1 = (chainId: number | string): number => getNetwork(chainId)?.linkedLayer1 || 0;
 
+const isActive = (chainId: number | string): boolean => {
+  const network = getNetwork(chainId);
+  if (!network) return false;
+  if ("active" in network) return network.active || false;
+  return true;
+};
 const isMainnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) == 0;
 const isTestnet = (chainId: number | string): boolean => !isMainnet(chainId);
 const isLayer1 = (chainId: number | string): boolean => getLinkedLayer1(chainId) == 0;
@@ -363,6 +369,7 @@ export {
   isEip1559,
   getLinkedMainnet,
   getLinkedLayer1,
+  isActive,
   isTestnet,
   isMainnet,
   isLayer2,

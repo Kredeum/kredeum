@@ -69,6 +69,24 @@
     "linkedLayer1": 1
   },
   {
+    "chainId": 42170,
+    "chainName": "arbitrum-nova",
+    "rpcUrls": [
+      "https://nova.arbitrum.io/rpc",
+      "https://arbitrum-nova.publicnode.com"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "AETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://nova-explorer.arbitrum.io"
+    ],
+    "linkedLayer1": 1,
+    "active": false
+  },
+  {
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
@@ -124,65 +142,6 @@
     "linkedLayer1": 1
   },
   {
-    "chainId": 84531,
-    "chainName": "base-goerli",
-    "rpcUrls": [
-      "https://goerli.base.org"
-    ],
-    "nativeCurrency": {
-      "name": "Goerli Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://goerli.basescan.org",
-      "https://base-goerli.blockscout.com"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
-    "create": true,
-    "linkedMainnet": 8453,
-    "linkedLayer1": 1
-  },
-  {
-    "chainId": 1101,
-    "chainName": "polygonzkevm",
-    "rpcUrls": [
-      "https://zkevm-rpc.com",
-      "https://rpc.ankr.com/polygon_zkevm"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "zkETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://zkevm.polygonscan.com/"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "create": true,
-    "linkedLayer1": 1
-  },
-  {
-    "chainId": 1442,
-    "chainName": "polygonzkevmtestnet",
-    "rpcUrls": [
-      "https://rpc.public.zkevm-test.net"
-    ],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "zktETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://testnet-zkevm.polygonscan.com",
-      "https://explorer.public.zkevm-test.net"
-    ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
-    "linkedMainnet": 1101,
-    "linkedLayer1": 5,
-    "create": true
-  },
-  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
@@ -210,6 +169,123 @@
     "linkedMainnet": 1
   },
   {
+    "chainId": 84531,
+    "chainName": "base-goerli",
+    "rpcUrls": [
+      "https://goerli.base.org"
+    ],
+    "nativeCurrency": {
+      "name": "Goerli Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://goerli.basescan.org",
+      "https://base-goerli.blockscout.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "create": true,
+    "linkedMainnet": 8453,
+    "linkedLayer1": 1
+  },
+  {
+    "chainId": 59140,
+    "chainName": "linea-testnet",
+    "rpcUrls": [
+      "https://rpc.goerli.linea.build",
+      "https://linea-goerli.infura.io/v3/{{INFURA_API_KEY}}"
+    ],
+    "nativeCurrency": {
+      "name": "Linea Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://goerli.lineascan.build",
+      "https://explorer.goerli.linea.build"
+    ],
+    "linkedMainnet": 59144,
+    "linkedLayer1": 1,
+    "create": true
+  },
+  {
+    "chainId": 1101,
+    "chainName": "polygon-zkevm",
+    "rpcUrls": [
+      "https://zkevm-rpc.com",
+      "https://rpc.ankr.com/polygon_zkevm"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zkETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://zkevm.polygonscan.com/"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "create": true,
+    "linkedLayer1": 1
+  },
+  {
+    "chainId": 59144,
+    "chainName": "linea",
+    "rpcUrls": [
+      "https://rpc.linea.build",
+      "https://linea-mainnet.infura.io/v3/{{INFURA_API_KEY}}"
+    ],
+    "nativeCurrency": {
+      "name": "Linea Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://lineascan.build",
+      "https://explorer.linea.build"
+    ],
+    "linkedLayer1": 1,
+    "active": false,
+    "create": true
+  },
+  {
+    "chainId": 1442,
+    "chainName": "polygon-zkevm-testnet",
+    "rpcUrls": [
+      "https://rpc.public.zkevm-test.net"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zktETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet-zkevm.polygonscan.com",
+      "https://explorer.public.zkevm-test.net"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "linkedMainnet": 1101,
+    "linkedLayer1": 5,
+    "create": true
+  },
+  {
+    "chainId": 534352,
+    "chainName": "scroll",
+    "rpcUrls": [
+      "https://rpc.scroll.io"
+    ],
+    "nativeCurrency": {
+      "name": "Scroll Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://blockscout.scroll.io"
+    ],
+    "linkedLayer1": 1,
+    "active": false,
+    "create": false
+  },
+  {
     "chainId": 11155111,
     "chainName": "sepolia",
     "rpcUrls": [
@@ -231,6 +307,81 @@
     "eip1559": true,
     "create": true,
     "linkedMainnet": 1
+  },
+  {
+    "chainId": 534351,
+    "chainName": "scroll-sepolia",
+    "rpcUrls": [
+      "https://sepolia-rpc.scroll.io/"
+    ],
+    "nativeCurrency": {
+      "name": "Scroll Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://sepolia-blockscout.scroll.io"
+    ],
+    "linkedMainnet": 534352,
+    "linkedLayer1": 1,
+    "eip1559": false,
+    "create": true
+  },
+  {
+    "chainId": 534353,
+    "chainName": "scroll-alpha-testnet",
+    "rpcUrls": [
+      "https://alpha-rpc.scroll.io/l2"
+    ],
+    "nativeCurrency": {
+      "name": "Scroll Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://alpha-blockscout.scroll.io"
+    ],
+    "linkedMainnet": 534352,
+    "linkedLayer1": 1,
+    "eip1559": false,
+    "active": false,
+    "create": true
+  },
+  {
+    "chainId": 424,
+    "chainName": "pgn",
+    "rpcUrls": [
+      "https://rpc.publicgoods.network"
+    ],
+    "nativeCurrency": {
+      "name": "PGN Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.publicgoods.network"
+    ],
+    "linkedLayer1": 1,
+    "active": false,
+    "create": false
+  },
+  {
+    "chainId": 58008,
+    "chainName": "pgn-sepolia",
+    "rpcUrls": [
+      "https://sepolia.publicgoods.network"
+    ],
+    "nativeCurrency": {
+      "name": "PGN Ether",
+      "symbol": "pgnETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.sepolia.publicgoods.network"
+    ],
+    "linkedMainnet": 424,
+    "linkedLayer1": 1,
+    "create": true
   },
   {
     "chainId": 137,
@@ -396,6 +547,42 @@
     "linkedMainnet": 43114
   },
   {
+    "chainId": 42220,
+    "chainName": "celo",
+    "rpcUrls": [
+      "https://forno.celo.org",
+      "wss://forno.celo.org/ws"
+    ],
+    "nativeCurrency": {
+      "name": "CELO",
+      "symbol": "CELO",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://celoscan.io",
+      "https://explorer.celo.org"
+    ],
+    "active": false
+  },
+  {
+    "chainId": 44787,
+    "chainName": "celo-alfajores",
+    "rpcUrls": [
+      "https://alfajores-forno.celo-testnet.org",
+      "wss://alfajores-forno.celo-testnet.org/ws"
+    ],
+    "nativeCurrency": {
+      "name": "CELO",
+      "symbol": "CELO",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://https://alfajores.celoscan.io/"
+    ],
+    "linkedMainnet": 42220,
+    "create": true
+  },
+  {
     "chainId": 250,
     "chainName": "fantom",
     "rpcUrls": [
@@ -421,7 +608,7 @@
   },
   {
     "chainId": 4002,
-    "chainName": "fantomtestnet",
+    "chainName": "fantom-testnet",
     "rpcUrls": [
       "https://rpc.testnet.fantom.network",
       "https://rpc.ankr.com/fantom_testnet"
@@ -471,7 +658,7 @@
   },
   {
     "chainId": 97,
-    "chainName": "bsctestnet",
+    "chainName": "bsc-testnet",
     "rpcUrls": [
       "https://data-seed-prebsc-1-s1.binance.org:8545",
       "https://rpc.ankr.com/bsc_testnet_chapel",
@@ -497,8 +684,26 @@
     "nftsFactoryV3": ""
   },
   {
+    "chainId": 40,
+    "chainName": "telos",
+    "rpcUrls": [
+      "https://mainnet.telos.net/evm"
+    ],
+    "nativeCurrency": {
+      "name": "TELOS",
+      "symbol": "TLOS",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://teloscan.io"
+    ],
+    "eip1559": false,
+    "create": true,
+    "active": false
+  },
+  {
     "chainId": 41,
-    "chainName": "telostestnet",
+    "chainName": "telos-testnet",
     "rpcUrls": [
       "https://testnet.telos.net/evm"
     ],
@@ -528,6 +733,6 @@
     "blockExplorerUrls": [
       "http://localhost/explorer"
     ],
-    "linkedMainnet": -1
+    "linkedMainnet": 31337
   }
 ]
