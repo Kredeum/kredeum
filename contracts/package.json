@@ -23,6 +23,7 @@
   "name": "contracts",
   "scripts": {
     "all": "  pnpm install && pnpm install-all && pnpm build && pnpm check && pnpm tests",
+    "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && export PATH=$PATH:$HOME/.foundry/bin &&  foundryup && pnpm foundry:init && pnpm foundry:update",
     "build": "pnpm run build:forge && pnpm run build:typechain",
     "build:forge": "forge build",
     "build:typechain": "pnpx typechain --target ethers-v5 --out-dir types out/**/*.json",
@@ -33,6 +34,8 @@
     "deploy:All": "forge script scripts/DeployAllCurrrent.s.sol:DeployAllCurrrent",
     "format": "pnpm format:solidity",
     "format:solidity": "forge fmt",
+    "foundry:init": "forge init --force --no-commit && rm -rf **/Counter*.sol",
+    "foundry:update": "git submodule update --recursive",
     "foundry:types": "pnpx typechain --out-dir types --target ethers-v5  out/**/*.json",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"

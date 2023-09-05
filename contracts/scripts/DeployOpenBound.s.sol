@@ -10,7 +10,10 @@ contract DeployOpenBound is DeployLite {
     function deployOpenBound() public returns (address openBound) {
         (bool factoryDeployed, address openNFTsFactoryV3,) = isDeployed("OpenNFTsFactoryV3");
 
-        vm.startBroadcast();
+        require(deployer == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(), "Deployer must be OpenNFTsFactoryV3 owner !");
+
+        vm.startBroadcast(deployer);
+
         openBound = address(new OpenBound());
 
         OpenBound(openBound).initialize("OpenBound", "BOUND", deployer, abi.encode(abi.encode(0), address(0), 0));

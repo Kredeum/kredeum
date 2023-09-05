@@ -10,7 +10,9 @@ contract DeployOpenNFTsV5 is DeployLite {
     function deployOpenNFTsV5() public returns (address openNFTsV5) {
         address openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
 
-        vm.startBroadcast();
+        require(deployer == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(), "Deployer must be OpenNFTsFactoryV3 owner !");
+
+         vm.startBroadcast(deployer);
 
         openNFTsV5 = address(new OpenNFTsV5());
 

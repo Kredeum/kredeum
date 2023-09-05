@@ -24,6 +24,7 @@ avalanche = "https://rpc.ankr.com/avalanche"
 fantom = "https://rpc.ankr.com/fantom"
 bsc = "https://rpc.ankr.com/bsc"
 scroll = "https://rpc.scroll.io"
+linea = "https://rpc.linea.build/"
 
 # TESTNETS
 goerli = "https://goerli.infura.io/v3/${INFURA_API_KEY}"
@@ -43,6 +44,7 @@ pgn-sepolia = "https://sepolia.publicgoods.network"
 gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
 base = { key = "${ETHERSCAN_API_KEY_BASE}" }
 polygon-zkevm =  { key = "${ETHERSCAN_API_KEY_POLYGON_ZKEVM}" }
+linea = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 
 # TESTNETS
 goerli = { key = "${ETHERSCAN_API_KEY}" }

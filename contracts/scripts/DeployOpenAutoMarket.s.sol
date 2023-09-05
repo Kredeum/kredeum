@@ -10,7 +10,10 @@ contract DeployOpenAutoMarket is DeployLite {
     function deployOpenAutoMarket() public returns (address openAutoMarket) {
         address openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
 
-        vm.startBroadcast();
+        require(deployer == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(), "Deployer must be OpenNFTsFactoryV3 owner !");
+
+        vm.startBroadcast(deployer);
+
         openAutoMarket = address(new OpenAutoMarket());
 
         bool[] memory options = new bool[](2);
