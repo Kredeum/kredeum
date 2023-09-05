@@ -1,6 +1,11 @@
 import type { ExternalProvider } from "@ethersproject/providers";
-import type { EthereumProvider } from "hardhat/types";
+
 import { BigNumber } from "ethers";
+
+type _handleChainId = (chainId: string) => void;
+type _handleAccounts = (accounts: Array<string>) => void;
+type _onFunction = (label: string, func: _handleChainId | _handleAccounts) => void;
+type EthereumProvider = ExternalProvider & { on?: _onFunction };
 
 type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumProvider };
 type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider };
@@ -28,7 +33,6 @@ type NetworkType = {
   subgraph?: { url?: string; startBlock?: number; active?: boolean };
   infura?: { url?: string; active: boolean };
   alchemy?: { url?: string; active: boolean };
-  moralis?: { active: boolean; url?: string; id?: string };
   covalent?: { active: boolean; url?: string; key?: string };
   linkedLayer1?: number;
   linkedMainnet?: number;
@@ -173,6 +177,8 @@ type RefPageType = {
 };
 
 export type {
+  ExternalProvider,
+  EthereumProvider,
   WindowEthereumProvider,
   WindowExternalProvider,
   NetworkType,

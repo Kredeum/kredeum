@@ -6,6 +6,7 @@ import { resolverGetNfts } from "@lib/resolver/resolver-get-nft";
 import { alchemyActive, alchemyNftList } from "@lib/apis/api-alchemy";
 import { covalentActive, covalentNftList } from "@lib/apis/api-covalent";
 import { thegraphActive, thegraphNftList } from "@lib/apis/api-thegraph";
+import { moralisActive, moralisNftList } from "@lib/apis/api-moralis";
 
 import { getNetwork } from "@lib/common/config";
 import { FETCH_LIMIT } from "@lib/common/fetch";
@@ -41,6 +42,8 @@ const nftListTokenIds = async (
       nftsOwner = await thegraphNftList(chainId, collection, filter);
     } else if (covalentActive(chainId)) {
       nftsOwner = await covalentNftList(chainId, collection, filter);
+    } else if (moralisActive(chainId)) {
+      nftsOwner = await moralisNftList(chainId, collection, filter);
     } else {
       console.error("No NFTs found:-(");
     }
@@ -99,6 +102,7 @@ const nftList = async (
 export {
   nftList,
   nftListTokenIds,
+  moralisNftList as nftListMoralis,
   alchemyNftList as nftListAlcheme,
   thegraphNftList as nftListThegraph,
   covalentNftList as nftListCovalent

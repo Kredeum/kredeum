@@ -25,11 +25,6 @@
       "url": "https://eth-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
-    "moralis": {
-      "url": "{{MORALIS_SERVER_URL}}",
-      "id": "{{MORALIS_APP_ID}}",
-      "active": false
-    },
     "covalent": {
       "active": true,
       "url": "https://api.covalenthq.com/v1",

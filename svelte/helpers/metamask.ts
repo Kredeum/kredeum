@@ -1,5 +1,6 @@
-import type { WindowEthereumProvider, WindowExternalProvider } from "@lib/common/types";
-import type { EthereumProvider } from "hardhat/types";
+import type { EthereumProvider, WindowEthereumProvider, WindowExternalProvider } from "@lib/common/types";
+import type {} from "@ethersproject/providers";
+
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get } from "svelte/store";

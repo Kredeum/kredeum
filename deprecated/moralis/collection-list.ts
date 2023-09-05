@@ -5,6 +5,7 @@ import { collectionMerge } from "@lib/collection/collection-get";
 import { alchemyActive, alchemyCollections } from "@lib/apis/api-alchemy";
 import { covalentActive, covalentCollections } from "@lib/apis/api-covalent";
 import { thegraphActive, thegraphCollections } from "@lib/apis/api-thegraph";
+import { moralisActive, moralisCollections } from "@lib/apis/api-moralis";
 import { resolverFilterCollections, resolverGetCollections } from "@lib/resolver/resolver-get-collection";
 // import { infuraActive, infuraCollections } from "@lib/apis/api-infura";
 
@@ -50,6 +51,9 @@ const collectionList = async (
     } else if (thegraphActive(chainId)) {
       collectionsApi = await thegraphCollections(chainId, account);
       // console.log("collectionList thegraphCollections", collectionsApi);
+    } else if (moralisActive(chainId)) {
+      collectionsApi = await moralisCollections(chainId, account);
+      // console.log("collectionList moralisCollections", collectionsApi);
     } else if (covalentActive(chainId)) {
       collectionsApi = await covalentCollections(chainId, account);
       // console.log("collectionList covalentCollections", collectionsApi);

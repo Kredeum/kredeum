@@ -1,0 +1,41 @@
+[
+  {
+    "chainId": 1,
+    "chainName": "mainnet",
+    "rpcUrls": [
+      "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
+      "https://rpc.ankr.com/eth"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://etherscan.io"
+    ],
+    "openSea": "https://opensea.io/assets",
+    "blur": "https://blur.io/asset",
+    "subgraph": {
+      "url": "https://api.thegraph.com/subgraphs/name/wighawag/eip721-subgraph",
+      "active": true
+    },
+    "alchemy": {
+      "url": "https://eth-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
+      "active": true
+    },
+    "moralis": {
+      "url": "{{MORALIS_SERVER_URL}}",
+      "id": "{{MORALIS_APP_ID}}",
+      "active": false
+    },
+    "covalent": {
+      "active": true,
+      "url": "https://api.covalenthq.com/v1",
+      "key": "{{COVALENT_API_KEY}}"
+    },
+    "eip1559": true,
+    "create": true
+  }
+]
