@@ -253,7 +253,7 @@
                           {nftRoyaltyFee($nft) / 100} %
                         </span>
                       {:else}
-                        <span title="no royalties">No royalties amount setted</span>
+                        <span title="no royalties">No royalties amount settled</span>
                       {/if}
                     </div>
                     <CopyRefItem copyData={String(nftRoyaltyFee($nft) / 100)} />
@@ -266,7 +266,7 @@
                     <div class="overflow-ellipsis">
                       <span class="overflow-ellipsis" title="Receiver of the royalties">
                         {#if nftRoyaltyAccount($nft) === constants.AddressZero}
-                          "No receiver setted for Royalties"
+                          "No receiver settled for Royalties"
                         {:else}
                           {@html explorerAddressLink(chainId, nftRoyaltyAccount($nft), 15)}
                         {/if}
