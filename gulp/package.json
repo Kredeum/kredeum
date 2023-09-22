@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "-": "^0.0.1",
-    "autoprefixer": "^10.4.15",
+    "autoprefixer": "^10.4.16",
     "cssnano": "^6.0.1",
     "del": "^6.1.1",
     "dotenv": "^16.3.1",
@@ -27,7 +27,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.29",
-    "sass": "^1.66.1"
+    "postcss": "^8.4.30",
+    "sass": "^1.68.0"
   }
 }

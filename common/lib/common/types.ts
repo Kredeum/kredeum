@@ -137,7 +137,7 @@ type NftType = {
   name?: string;
   description?: string;
   tokenJson?: NftMetadata;
-  metadata?: NftMetadata | unknown;
+  metadata?: NftMetadata;
   image?: string;
   image_url?: string;
   image_data?: string;

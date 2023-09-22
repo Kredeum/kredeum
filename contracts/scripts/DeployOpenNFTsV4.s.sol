@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: MITs
 pragma solidity 0.8.19;
 
-import {DeployLite} from "forge-deploy-lite/DeployLite.sol";
+import {DeployLite} from "forge-deploy-lite/DeployLite.s.sol";
 
 import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";
 import {OpenNFTsV4} from "src/OpenNFTsV4.sol";
