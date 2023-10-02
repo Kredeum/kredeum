@@ -106,6 +106,13 @@
     "OpenNFTsV4": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
     "chainName": "chiado"
   },
+  "17000": {
+    "OpenAutoMarket": "0x6CD3204B3C1CF737489C4BC2760bAAf2886f4dC1",
+    "OpenNFTsFactoryV3": "0xaBC576652433154Ab5F9cF1A2F4f0457d7690cc6",
+    "OpenNFTsResolver": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
+    "OpenNFTsV4": "0x1524E69d35961dee5Ab066269efb6c4992367019",
+    "chainName": "holesky"
+  },
   "31337": {
     "OpenAutoMarket": "0x62c20Aa1e0272312BC100b4e23B4DC1Ed96dD7D1",
     "OpenBound": "0x4ed7c70F96B99c776995fB64377f0d4aB3B0e1C1",
