@@ -77,6 +77,16 @@
     "OpenNFTsV4": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D",
     "chainName": "fantom"
   },
+  "424": {
+    "chainName": "pgn"
+  },
+  "999": {
+    "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
+    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
+    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenNFTsV4": "0x49757e957c54525f517f458aF1aECe2704dAc959",
+    "chainName": "zora-testnet"
+  },
   "1101": {
     "OpenAutoMarket": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
     "OpenNFTs": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
@@ -157,6 +167,9 @@
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "linea-testnet"
   },
+  "59144": {
+    "chainName": "linea"
+  },
   "80001": {
     "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
     "OpenNFTs": "0x14b44806e069084935c7ca073102F7f9A449eF1A",
@@ -179,12 +192,18 @@
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "scroll-sepolia"
   },
+  "534352": {
+    "chainName": "scroll"
+  },
   "534353": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "scroll-alpha-testnet"
+  },
+  "7777777": {
+    "chainName": "zora"
   },
   "11155111": {
     "OpenAutoMarket": "0x8354Ef7b78012151c276f51F8d19147FF8C47288",

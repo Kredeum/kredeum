@@ -181,7 +181,7 @@
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
     "create": true,
     "linkedMainnet": 8453,
-    "linkedLayer1": 1
+    "linkedLayer1": 5
   },
   {
     "chainId": 59140,
@@ -200,7 +200,7 @@
       "https://explorer.goerli.linea.build"
     ],
     "linkedMainnet": 59144,
-    "linkedLayer1": 1,
+    "linkedLayer1": 5,
     "create": true
   },
   {
@@ -318,7 +318,7 @@
       "https://sepolia-blockscout.scroll.io"
     ],
     "linkedMainnet": 534352,
-    "linkedLayer1": 1,
+    "linkedLayer1": 11155111,
     "eip1559": false,
     "create": true
   },
@@ -337,9 +337,45 @@
       "https://alpha-blockscout.scroll.io"
     ],
     "linkedMainnet": 534352,
-    "linkedLayer1": 1,
+    "linkedLayer1": 5,
     "eip1559": false,
     "active": false,
+    "create": true
+  },
+  {
+    "chainId": 7777777,
+    "chainName": "zora",
+    "rpcUrls": [
+      "https://rpc.zora.energy"
+    ],
+    "nativeCurrency": {
+      "name": "Zora Ether",
+      "symbol": "zETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.zora.energy"
+    ],
+    "linkedLayer1": 1,
+    "active": false,
+    "create": true
+  },
+  {
+    "chainId": 999,
+    "chainName": "zora-goerli",
+    "rpcUrls": [
+      "https://testnet.rpc.zora.energy"
+    ],
+    "nativeCurrency": {
+      "name": "Zora Ether",
+      "symbol": "zETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet.explorer.zora.energy"
+    ],
+    "linkedMainnet": 7777777,
+    "linkedLayer1": 5,
     "create": true
   },
   {
@@ -375,7 +411,7 @@
       "https://explorer.sepolia.publicgoods.network"
     ],
     "linkedMainnet": 424,
-    "linkedLayer1": 1,
+    "linkedLayer1": 11155111,
     "create": true
   },
   {

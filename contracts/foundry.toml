@@ -25,6 +25,9 @@ fantom = "https://rpc.ankr.com/fantom"
 bsc = "https://rpc.ankr.com/bsc"
 scroll = "https://rpc.scroll.io"
 linea = "https://rpc.linea.build/"
+pgn = "https://rpc.publicgoods.network"
+zora = "https://rpc.zora.energy"
+mantle = "https://rpc.ankr.com/mantle"
 
 # TESTNETS
 goerli = "https://goerli.infura.io/v3/${INFURA_API_KEY}"
@@ -40,6 +43,8 @@ polygon-zkevm-testnet = "https://rpc.public.zkevm-test.net"
 scroll-alpha-testnet = "https://alpha-rpc.scroll.io/l2"
 scroll-sepolia = "https://sepolia-rpc.scroll.io/"
 pgn-sepolia = "https://sepolia.publicgoods.network"
+zora-goerli = "https://testnet.rpc.zora.co"
+mantle-testnet = "https://rpc.testnet.mantle.xyz"
 
 [etherscan]
 gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
@@ -50,12 +55,13 @@ linea = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 # TESTNETS
 goerli = { key = "${ETHERSCAN_API_KEY}" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
-holesky = { key = "${ETHERSCAN_API_KEY}" }
+holesky = { key = "${ETHERSCAN_API_KEY}", url = "https://api-holesky.etherscan.io/api" }
 
 linea-testnet = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 base-goerli = { key = "${ETHERSCAN_API_KEY_BASE}" }
 chiado = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
 polygon-zkevm-testnet =  { key = "${ETHERSCAN_API_KEY_POLYGON_ZKEVM}" }
+
 #
 
 

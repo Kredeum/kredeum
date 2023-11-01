@@ -27,7 +27,7 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.30",
-    "sass": "^1.68.0"
+    "postcss": "^8.4.31",
+    "sass": "^1.69.5"
   }
 }

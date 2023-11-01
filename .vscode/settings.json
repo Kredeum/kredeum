@@ -55,6 +55,10 @@
     {
       "filePath": "contracts/remappings.txt",
       "group": "Default"
+    },
+    {
+      "filePath": "contracts/addresses.json",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/",
