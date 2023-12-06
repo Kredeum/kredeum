@@ -13,7 +13,8 @@
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
       "apiEndpoint": "https://api.gateway.ethswarm.org",
-      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000"
+      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000",
+      "autoswarmUrl": "http://localhost:5173"
     }
   },
   "base": "https://app.kredeum.com",
