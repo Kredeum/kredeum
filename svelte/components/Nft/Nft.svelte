@@ -5,6 +5,7 @@
     explorerCollectionUrl,
     explorerAddressLink,
     getDappUrl,
+    getAutoswarmUrl,
     getBlur,
     getOpenSea,
     copyToClipboard,
@@ -55,6 +56,7 @@
   let nftLink = "";
   let nftLinkDone = "";
   const copyDappLink = () => (nftLink = getDappUrl(chainId, { address, tokenID }));
+  const copyAutoswarmLink = () => (nftLink = getAutoswarmUrl(chainId, { address, tokenID }));
   const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
   const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
 
@@ -305,6 +307,14 @@
                   class="btn btn-small btn-outline"
                   href={getDappUrl(chainId, { address, tokenID })}
                   target="_blank">COPY DAPP LINK</a
+                >
+                <a
+                  on:mouseover={copyAutoswarmLink}
+                  on:focus={copyAutoswarmLink}
+                  on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Autoswarm link")}
+                  class="btn btn-small btn-outline"
+                  href={getAutoswarmUrl(chainId, { address, tokenID })}
+                  target="_blank">COPY AUTOSWARM LINK</a
                 >
                 {#if getOpenSea(chainId)}
                   <a
