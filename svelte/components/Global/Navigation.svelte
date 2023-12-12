@@ -2,6 +2,7 @@
   import config from "@config/config.json";
   import { versionGet } from "@helpers/version";
   import logo from "../Images/logo-kredeum.svg";
+  import SetStorageConfig from "./SetStorageConfig.svelte";
 
   const { branch } = versionGet();
 </script>
@@ -15,7 +16,7 @@
 <div class="menu">
   <input id="burger" type="checkbox" />
 
-  <label for="burger">
+  <label class="burger" for="burger">
     <span />
     <span />
     <span />
@@ -34,6 +35,7 @@
           {/if}
         </a>
       </li>
+      <li><SetStorageConfig /></li>
     </ul>
   </nav>
 </div>

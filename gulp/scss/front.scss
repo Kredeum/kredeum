@@ -111,7 +111,7 @@
     header {
       margin-bottom: 50px;
 
-      h1 + .btn {
+      h1+.btn {
         position: absolute;
         right: 0;
         top: 0;
@@ -198,7 +198,7 @@
           height: 100%;
         }
 
-        & + strong {
+        &+strong {
           display: inline-block;
           vertical-align: middle;
         }
@@ -321,6 +321,7 @@
           }
 
           &:hover {
+
             &::after,
             .fas {
               opacity: 1;
@@ -398,7 +399,7 @@
         margin-bottom: 0;
       }
 
-      & + .flex {
+      &+.flex {
         .t-light {
           opacity: 0.5;
         }
@@ -407,7 +408,7 @@
   }
 }
 
-// Modal
+// Modal with target anchor
 .modal-window {
   position: fixed;
   background-color: rgba($couleur1, 0.7);
@@ -428,7 +429,7 @@
     pointer-events: auto;
   }
 
-  & > div {
+  &>div {
     max-width: 800px;
     @include border-radius();
     position: absolute;
@@ -460,6 +461,50 @@
   }
 }
 
+// Global Svelte toggle Modal
+.kre-modal-window {
+  position: fixed;
+  background-color: rgba($couleur1, 0.7);
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 999;
+  pointer-events: auto;
+  color: $color-body;
+
+  &>div {
+    max-width: 800px;
+    @include border-radius();
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: $white;
+    overflow: hidden;
+  }
+
+  .titre {
+    font-weight: bold;
+    margin-bottom: 30px;
+  }
+
+  .section .titre {
+    margin-bottom: 5px;
+  }
+
+  .modal-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 60px;
+
+    .modal-body {
+      text-align: left;
+    }
+  }
+}
+
 .modal-close,
 .modal-return {
   color: rgba($couleur1, 0.4);
@@ -486,7 +531,7 @@
   pointer-events: auto;
   transition: all 300ms ease-in-out;
 
-  & > div {
+  &>div {
     max-width: 800px;
     @include border-radius();
     position: absolute;
@@ -560,6 +605,7 @@
 .modal-window {
   .modal-content {
     .modal-body {
+
       .media-video,
       .media-image {
         width: 100%;

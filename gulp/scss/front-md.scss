@@ -17,6 +17,7 @@
   position: fixed;
   top: 0;
   left: 0;
+  z-index: 10;
 
   .logo {
     border-bottom: 1px solid rgba($white, 0.15);
@@ -29,10 +30,10 @@
   }
 
   .menu {
-    input {
+    input#burger {
       display: none;
 
-      & + label {
+      &+label.burger {
         display: none;
       }
     }
