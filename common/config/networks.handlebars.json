@@ -187,8 +187,8 @@
     "chainId": 59140,
     "chainName": "linea-testnet",
     "rpcUrls": [
-      "https://rpc.goerli.linea.build",
-      "https://linea-goerli.infura.io/v3/{{INFURA_API_KEY}}"
+      "https://linea-goerli.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.goerli.linea.build"
     ],
     "nativeCurrency": {
       "name": "Linea Ether",
@@ -226,8 +226,8 @@
     "chainId": 59144,
     "chainName": "linea",
     "rpcUrls": [
-      "https://rpc.linea.build",
-      "https://linea-mainnet.infura.io/v3/{{INFURA_API_KEY}}"
+      "https://linea-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.linea.build"
     ],
     "nativeCurrency": {
       "name": "Linea Ether",
@@ -586,6 +586,7 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
+      "https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://celoscan.io",
       "https://explorer.celo.org"
     ],
@@ -595,6 +596,7 @@
     "chainId": 44787,
     "chainName": "celo-alfajores",
     "rpcUrls": [
+      "https://celo-alfajores.infura.io/v3/{{INFURA_API_KEY}}",
       "https://alfajores-forno.celo-testnet.org",
       "wss://alfajores-forno.celo-testnet.org/ws"
     ],
