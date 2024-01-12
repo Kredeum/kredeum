@@ -22,5 +22,9 @@
     "account": "{{TREASURY_ACCOUNT}}",
     "fee": 90
   },
+  "covalent": {
+    "url": "https://api.covalenthq.com/v1",
+    "key": "{{COVALENT_API_KEY}}"
+  },
   "env": {}
 }

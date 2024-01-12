@@ -6,9 +6,16 @@ import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
+import config from "@config/config.json";
 
-const covalentFetch = async (chainId: number, path: string): Promise<unknown> => {
-  const urlPath = covalentUrlPath(chainId, path);
+const _covalentUrlPath = (chainId: number, path: string): string => {
+  const covalent =  config?.covalent;
+  if (!(covalent && covalent.url && covalent.key)) return "";
+  return `${covalent.url}/${Number(chainId)}/${path}&key=${covalent.key}`;
+};
+
+const _covalentFetch = async (chainId: number, path: string): Promise<unknown> => {
+  const urlPath = _covalentUrlPath(chainId, path);
   const config = {
     method: "GET",
     headers: {
@@ -16,30 +23,32 @@ const covalentFetch = async (chainId: number, path: string): Promise<unknown> =>
       Accept: "application/json"
     }
   };
+  console.info("_covalentFetch <==", urlPath, "\n", config);
 
   const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
-  if (answerCov.error) console.error("covalentFetch ERROR", answerCov.error);
+  if (answerCov.error) console.error("_covalentFetch ERROR", answerCov.error);
+
+  console.info("_covalentFetch ==>", answerCov?.data);
   return answerCov?.data;
 };
 
 const covalentCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`covalentCollections ${keyCollections(chainId, account)}\n`);
+  // console.log(`covalentCollections ${keyCollection(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = getChainName(chainId);
 
   if (!(chainId && chainName && account)) return collections;
 
-  const match =
-    // eslint-disable-next-line quotes
-    '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
+  // const match =
+  // eslint-disable-next-line quotes
+  // '{$or:[{supports_erc:{$elemmatch:"erc721"}},{supports_erc:{$elemmatch:"erc1155"}}]}';
+  // const path =
+  //   `address/${account}/balances_v2/` + "?nft=true" + "&no-nft-fetch=false" + `&match=${encodeURIComponent(match)}`;
 
   const path =
-    `/${Number(chainId)}/address/${account}/balances_v2/` +
-    "?nft=true" +
-    "&no-nft-fetch=false" +
-    `&match=${encodeURIComponent(match)}`;
+    `address/${account}/balances_nft/?no-spam=true&no-nft-asset-metadata=true&with-uncached=true`;
 
   type CollectionCov = {
     contract_name: string;
@@ -50,7 +59,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
   };
-  const answerCollectionsCov = (await covalentFetch(chainId, path)) as AnswerCollectionsCov;
+  const answerCollectionsCov = (await _covalentFetch(chainId, path)) as AnswerCollectionsCov;
 
   const collectionsCov = answerCollectionsCov?.items;
   if (collectionsCov?.length) {
@@ -101,7 +110,7 @@ const covalentNftList = async (
 
   const match = `{contract_address:"${getChecksumAddress(collection.address)}"}`;
   const path =
-    `/${Number(chainId)}/address/${owner}/balances_v2/` +
+    `address/${owner}/balances_v2/` +
     "?nft=true&no-nft-fetch=false" +
     // `&limit=${limit}` + // not working with match...
     `&match=${encodeURIComponent(match)}`;
@@ -118,7 +127,7 @@ const covalentNftList = async (
   };
 
   try {
-    const nftsJson = ((await covalentFetch(chainId, path)) as AnswerNftsCov)?.items;
+    const nftsJson = ((await _covalentFetch(chainId, path)) as AnswerNftsCov)?.items;
     if (nftsJson?.[0]) {
       const tokens = nftsJson[0].nft_data;
 
@@ -154,10 +163,4 @@ const covalentNftList = async (
 
 const covalentActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
 
-const covalentUrlPath = (chainId: number, path: string): string => {
-  const covalent = getNetwork(chainId)?.covalent;
-  if (!(covalent && covalent.active && covalent.url && covalent.key)) return "";
-  return `${covalent.url}${path}&key=${covalent.key}`;
-};
-
-export { covalentCollections, covalentNftList, covalentActive, covalentFetch };
+export { covalentCollections, covalentNftList, covalentActive, _covalentFetch };

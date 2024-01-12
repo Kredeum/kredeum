@@ -25,11 +25,6 @@
       "url": "https://eth-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "eip1559": true,
     "create": true
   },
@@ -54,11 +49,6 @@
     "alchemy": {
       "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
       "active": true
-    },
-    "covalent": {
-      "active": false,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
     "linkedLayer1": 1
@@ -102,11 +92,6 @@
     "alchemy": {
       "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
       "active": true
-    },
-    "covalent": {
-      "active": false,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
     },
     "create": true,
     "linkedLayer1": 1
@@ -442,11 +427,6 @@
       "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_POLYGON}}",
       "active": true
     },
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "openSea": "https://opensea.io/assets/matic",
     "create": true
   },
@@ -472,11 +452,6 @@
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
-    },
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
     },
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "create": true,
@@ -540,11 +515,6 @@
       "https://cchain.explorer.avax.network"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true
   },
   {
@@ -565,11 +535,6 @@
       "https://cchain.explorer.avax-test.network"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true,
     "linkedMainnet": 43114
   },
@@ -628,11 +593,6 @@
       "https://ftmscan.com"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true
   },
   {
@@ -651,11 +611,6 @@
       "https://testnet.ftmscan.com"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
-    "covalent": {
-      "active": false,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true,
     "linkedMainnet": 250
   },
@@ -678,11 +633,6 @@
       "https://bscscan.com"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true
   },
   {
@@ -703,11 +653,6 @@
       "https://testnet.bscscan.com/"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
-    "covalent": {
-      "active": true,
-      "url": "https://api.covalenthq.com/v1",
-      "key": "{{COVALENT_API_KEY}}"
-    },
     "create": true,
     "linkedMainnet": 56,
     "nftsFactoryV3": ""
