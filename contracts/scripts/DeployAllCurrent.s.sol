@@ -8,12 +8,7 @@ import {DeployOpenNFTsResolver} from "./deploy/DeployOpenNFTsResolver.s.sol";
 import {DeployOpenNFTsV4} from "./deploy/DeployOpenNFTsV4.s.sol";
 import {DeployOpenAutoMarket} from "./deploy/DeployOpenAutoMarket.s.sol";
 
-contract DeployAllCurrent is
-    DeployOpenNFTsFactoryV3,
-    DeployOpenNFTsResolver,
-    DeployOpenNFTsV4,
-    DeployOpenAutoMarket
-{
+contract DeployAllCurrent is DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket {
     function run()
         public
         override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket)

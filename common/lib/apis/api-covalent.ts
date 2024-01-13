@@ -9,7 +9,7 @@ import { keyCollection, keyNft } from "@lib/common/keys";
 import config from "@config/config.json";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {
-  const covalent =  config?.covalent;
+  const covalent = config?.covalent;
   if (!(covalent && covalent.url && covalent.key)) return "";
   return `${covalent.url}/${Number(chainId)}/${path}&key=${covalent.key}`;
 };
@@ -47,8 +47,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
   // const path =
   //   `address/${account}/balances_v2/` + "?nft=true" + "&no-nft-fetch=false" + `&match=${encodeURIComponent(match)}`;
 
-  const path =
-    `address/${account}/balances_nft/?no-spam=true&no-nft-asset-metadata=true&with-uncached=true`;
+  const path = `address/${account}/balances_nft/?no-spam=true&no-nft-asset-metadata=true&with-uncached=true`;
 
   type CollectionCov = {
     contract_name: string;
