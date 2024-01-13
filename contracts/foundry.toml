@@ -6,8 +6,10 @@ out = "out"
 libs = ["lib"]
 solc = "0.8.19"
 cache_path = "cache-forge"
-fs_permissions = [{ access = "read-write", path = "./" }]
-
+fs_permissions = [
+  { access = "read-write", path = "./addresses.json" },
+  { access = "read-write", path = "./out" },
+]
 
 [fmt]
 number_underscore = "thousands"
@@ -38,13 +40,13 @@ base-goerli = "https://goerli.base.org/"
 linea-testnet = "https://rpc.goerli.linea.build/"
 telos-testnet = "https://testnet.telos.net/evm"
 chiado = "https://rpc.chiadochain.net"
-local = "http://127.0.0.1:8545"
 polygon-zkevm-testnet = "https://rpc.public.zkevm-test.net"
 scroll-alpha-testnet = "https://alpha-rpc.scroll.io/l2"
 scroll-sepolia = "https://sepolia-rpc.scroll.io/"
 pgn-sepolia = "https://sepolia.publicgoods.network"
 zora-goerli = "https://testnet.rpc.zora.co"
 mantle-testnet = "https://rpc.testnet.mantle.xyz"
+anvil = "http://127.0.0.1:8545"
 
 [etherscan]
 gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }

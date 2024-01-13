@@ -17,14 +17,14 @@ import {IOpenNFTsV2} from "src/interfaces/IOpenNFTsV2.sol";
 import {IOpenNFTsV3} from "src/interfaces/IOpenNFTsV3.sol";
 import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
 
-import {OpenERC173, OpenRegistry, OpenResolver, OpenGetter} from "OpenNFTs/contracts/OpenResolver/OpenResolver.sol";
-import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
-import {IERC2981} from "OpenNFTs/contracts/interfaces/IERC2981.sol";
-import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
-import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
-import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
-import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
+import {OpenERC173, OpenRegistry, OpenResolver, OpenGetter} from "@opennfts/contracts/OpenResolver/OpenResolver.sol";
+import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
+import {IERC2981} from "@opennfts/contracts/interfaces/IERC2981.sol";
+import {IOpenNFTs} from "@opennfts/contracts/interfaces/IOpenNFTs.sol";
+import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenChecker} from "@opennfts/contracts/interfaces/IOpenChecker.sol";
+import {IOpenPauseable} from "@opennfts/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
 
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     bytes4[] private _interfaceIds = new bytes4[](12);

@@ -1,25 +1,25 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {IERC165} from "OpenNFTs/contracts/interfaces/IERC165.sol";
+import {IERC165} from "@opennfts/contracts/interfaces/IERC165.sol";
 
-import {IERC721} from "OpenNFTs/contracts/interfaces/IERC721.sol";
-import {IERC721Metadata} from "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
-import {IERC721Enumerable} from "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
-import {IERC721TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
+import {IERC721} from "@opennfts/contracts/interfaces/IERC721.sol";
+import {IERC721Metadata} from "@opennfts/contracts/interfaces/IERC721Metadata.sol";
+import {IERC721Enumerable} from "@opennfts/contracts/interfaces/IERC721Enumerable.sol";
+import {IERC721TokenReceiver} from "@opennfts/contracts/interfaces/IERC721TokenReceiver.sol";
 
-import {IERC1155} from "OpenNFTs/contracts/interfaces/IERC1155.sol";
-import {IERC1155MetadataURI} from "OpenNFTs/contracts/interfaces/IERC1155MetadataURI.sol";
-import {IERC1155TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC1155TokenReceiver.sol";
+import {IERC1155} from "@opennfts/contracts/interfaces/IERC1155.sol";
+import {IERC1155MetadataURI} from "@opennfts/contracts/interfaces/IERC1155MetadataURI.sol";
+import {IERC1155TokenReceiver} from "@opennfts/contracts/interfaces/IERC1155TokenReceiver.sol";
 
-import {IERC173} from "OpenNFTs/contracts/interfaces/IERC173.sol";
-import {IERC2981} from "OpenNFTs/contracts/interfaces/IERC2981.sol";
+import {IERC173} from "@opennfts/contracts/interfaces/IERC173.sol";
+import {IERC2981} from "@opennfts/contracts/interfaces/IERC2981.sol";
 
-import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
-import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
-import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
-import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
-import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenNFTs} from "@opennfts/contracts/interfaces/IOpenNFTs.sol";
+import {IOpenChecker} from "@opennfts/contracts/interfaces/IOpenChecker.sol";
+import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenPauseable} from "@opennfts/contracts/interfaces/IOpenPauseable.sol";
 
 import {IOpenNFTsV0} from "src/interfaces/IOpenNFTsV0.sol";
 import {IOpenNFTsV1} from "src/interfaces/IOpenNFTsV1.sol";

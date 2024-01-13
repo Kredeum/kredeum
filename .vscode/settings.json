@@ -59,6 +59,10 @@
     {
       "filePath": "contracts/addresses.json",
       "group": "Default"
+    },
+    {
+      "filePath": "contracts/scripts",
+      "group": "Default"
     }
   ],
   "liveServer.settings.root": "/web/",

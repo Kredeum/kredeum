@@ -41,9 +41,9 @@
 //
 pragma solidity ^0.8.9;
 
-import {OpenNFTs} from "OpenNFTs/contracts/OpenNFTs/OpenNFTs.sol";
-import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
-import {OpenMarketable} from "OpenNFTs/contracts/OpenNFTs/OpenMarketable.sol";
+import {OpenNFTs} from "@opennfts/contracts/OpenNFTs/OpenNFTs.sol";
+import {OpenCloneable} from "@opennfts/contracts/OpenCloner/OpenCloneable.sol";
+import {OpenMarketable} from "@opennfts/contracts/OpenNFTs/OpenMarketable.sol";
 
 import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
 import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";

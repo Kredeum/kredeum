@@ -30,11 +30,11 @@
 //
 pragma solidity ^0.8.9;
 
-import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
-import {OpenCloner} from "OpenNFTs/contracts/OpenCloner/OpenCloner.sol";
-import {IERC165} from "OpenNFTs/contracts/interfaces/IERC165.sol";
-import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
-import {IOpenRegistry} from "OpenNFTs/contracts/interfaces/IOpenRegistry.sol";
+import {OpenERC173} from "@opennfts/contracts/OpenERC/OpenERC173.sol";
+import {OpenCloner} from "@opennfts/contracts/OpenCloner/OpenCloner.sol";
+import {IERC165} from "@opennfts/contracts/interfaces/IERC165.sol";
+import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenRegistry} from "@opennfts/contracts/interfaces/IOpenRegistry.sol";
 
 import {IOpenNFTsFactoryV3} from "src/interfaces/IOpenNFTsFactoryV3.sol";
 import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";

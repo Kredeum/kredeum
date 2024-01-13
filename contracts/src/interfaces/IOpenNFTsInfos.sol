@@ -1,8 +1,8 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {IERCNftInfos} from "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
-import {IOpenReceiverInfos} from "OpenNFTs/contracts/interfaces/IOpenReceiverInfos.sol";
+import {IERCNftInfos} from "@opennfts/contracts/interfaces/IERCNftInfos.sol";
+import {IOpenReceiverInfos} from "@opennfts/contracts/interfaces/IOpenReceiverInfos.sol";
 
 interface IOpenNFTsInfos is IERCNftInfos, IOpenReceiverInfos {
     struct OpenNFTsCollectionInfos {

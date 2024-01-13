@@ -3,14 +3,14 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import {IOpenCloneable} from "OpenNFTs/contracts/interfaces/IOpenCloneable.sol";
-import {IOpenMarketable} from "OpenNFTs/contracts/interfaces/IOpenMarketable.sol";
+import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
+import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
 import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
-import {IOpenNFTs} from "OpenNFTs/contracts/interfaces/IOpenNFTs.sol";
+import {IOpenNFTs} from "@opennfts/contracts/interfaces/IOpenNFTs.sol";
 import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
-import {IOpenPauseable} from "OpenNFTs/contracts/interfaces/IOpenPauseable.sol";
-import {IOpenChecker} from "OpenNFTs/contracts/interfaces/IOpenChecker.sol";
-import {IERC721TokenReceiver} from "OpenNFTs/contracts/interfaces/IERC721TokenReceiver.sol";
+import {IOpenPauseable} from "@opennfts/contracts/interfaces/IOpenPauseable.sol";
+import {IOpenChecker} from "@opennfts/contracts/interfaces/IOpenChecker.sol";
+import {IERC721TokenReceiver} from "@opennfts/contracts/interfaces/IERC721TokenReceiver.sol";
 
 import "src/interfaces/IOpenNFTsResolver.sol";
 import "src/OpenNFTsResolver.sol";

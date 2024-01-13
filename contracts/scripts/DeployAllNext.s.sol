@@ -3,11 +3,11 @@ pragma solidity 0.8.19;
 
 import "forge-std/Script.sol";
 
-import {DeployOpenNFTsFactoryV3} from "./DeployOpenNFTsFactoryV3.s.sol";
-import {DeployOpenNFTsResolverV4} from "./DeployOpenNFTsResolverV4.s.sol";
-import {DeployOpenNFTsV5} from "./DeployOpenNFTsV5.s.sol";
-import {DeployOpenAutoMarket} from "./DeployOpenAutoMarket.s.sol";
-import {DeployOpenBound} from "./DeployOpenBound.s.sol";
+import {DeployOpenNFTsFactoryV3} from "./deploy/DeployOpenNFTsFactoryV3.s.sol";
+import {DeployOpenNFTsResolverV4} from "./deploy/DeployOpenNFTsResolverV4.s.sol";
+import {DeployOpenNFTsV5} from "./deploy/DeployOpenNFTsV5.s.sol";
+import {DeployOpenAutoMarket} from "./deploy/DeployOpenAutoMarket.s.sol";
+import {DeployOpenBound} from "./deploy/DeployOpenBound.s.sol";
 
 contract DeployAllNext is
     DeployOpenNFTsFactoryV3,

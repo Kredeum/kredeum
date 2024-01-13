@@ -16,17 +16,17 @@
 //
 pragma solidity ^0.8.19;
 
-import {OpenERC721} from "OpenNFTs/contracts/OpenERC/OpenERC721.sol";
-import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
+import {OpenERC721} from "@opennfts/contracts/OpenERC/OpenERC721.sol";
+import {OpenERC173} from "@opennfts/contracts/OpenERC/OpenERC173.sol";
 
-import {OpenPauseable} from "OpenNFTs/contracts/OpenNFTs/OpenPauseable.sol";
-import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
-import {OpenChecker} from "OpenNFTs/contracts/OpenResolver/OpenChecker.sol";
+import {OpenPauseable} from "@opennfts/contracts/OpenNFTs/OpenPauseable.sol";
+import {OpenCloneable} from "@opennfts/contracts/OpenCloner/OpenCloneable.sol";
+import {OpenChecker} from "@opennfts/contracts/OpenResolver/OpenChecker.sol";
 
-import {IERC721} from "OpenNFTs/contracts/interfaces/IERC721.sol";
-import {IERC721Enumerable} from "OpenNFTs/contracts/interfaces/IERC721Enumerable.sol";
-import {IERC721Metadata} from "OpenNFTs/contracts/interfaces/IERC721Metadata.sol";
-import {Bafkrey} from "OpenNFTs/contracts/libraries/Bafkrey.sol";
+import {IERC721} from "@opennfts/contracts/interfaces/IERC721.sol";
+import {IERC721Enumerable} from "@opennfts/contracts/interfaces/IERC721Enumerable.sol";
+import {IERC721Metadata} from "@opennfts/contracts/interfaces/IERC721Metadata.sol";
+import {Bafkrey} from "@opennfts/contracts/libraries/Bafkrey.sol";
 
 import {IOpenBound} from "src/interfaces/IOpenBound.sol";
 import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";

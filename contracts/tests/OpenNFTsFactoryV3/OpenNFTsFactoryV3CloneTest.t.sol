@@ -7,7 +7,7 @@ import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";
 import {OpenNFTsV4} from "src/OpenNFTsV4.sol";
 import {OpenAutoMarket} from "src/OpenAutoMarket.sol";
 
-import {IOpenReceiverInfos} from "OpenNFTs/contracts/interfaces/IOpenReceiverInfos.sol";
+import {IOpenReceiverInfos} from "@opennfts/contracts/interfaces/IOpenReceiverInfos.sol";
 
 abstract contract OpenNFTsFactoryV3CloneTest is Test, IOpenReceiverInfos {
     address internal _factory;

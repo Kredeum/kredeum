@@ -1,6 +1,6 @@
+forge-std/=lib/forge-std/src/
+ds-test/=lib/forge-std/lib/ds-test/src/
 @openzeppelin/contracts/=lib/openzeppelin-contracts/contracts/
 @openzeppelin/contracts-upgradeable/=lib/openzeppelin-contracts-upgradeable/contracts/
-OpenNFTs/contracts/=lib/OpenNFTs/contracts/
-ds-test/=lib/forge-std/lib/ds-test/src/
-forge-std/=lib/forge-std/src/
-forge-deploy-lite/=lib/forge-deploy-lite/script/
+@opennfts/contracts/=lib/OpenNFTs/contracts/
+@forge-deploy-lite/=lib/forge-deploy-lite/script/

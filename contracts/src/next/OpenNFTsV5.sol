@@ -18,12 +18,12 @@
 //
 pragma solidity ^0.8.9;
 
-import {OpenERC721} from "OpenNFTs/contracts/OpenERC/OpenERC721.sol";
-import {OpenERC721Metadata} from "OpenNFTs/contracts/OpenERC/OpenERC721Metadata.sol";
-import {OpenERC721Enumerable} from "OpenNFTs/contracts/OpenERC/OpenERC721Enumerable.sol";
-import {OpenERC721TokenReceiver} from "OpenNFTs/contracts/OpenERC/OpenERC721TokenReceiver.sol";
-import {OpenERC173} from "OpenNFTs/contracts/OpenERC/OpenERC173.sol";
-import {OpenCloneable} from "OpenNFTs/contracts/OpenCloner/OpenCloneable.sol";
+import {OpenERC721} from "@opennfts/contracts/OpenERC/OpenERC721.sol";
+import {OpenERC721Metadata} from "@opennfts/contracts/OpenERC/OpenERC721Metadata.sol";
+import {OpenERC721Enumerable} from "@opennfts/contracts/OpenERC/OpenERC721Enumerable.sol";
+import {OpenERC721TokenReceiver} from "@opennfts/contracts/OpenERC/OpenERC721TokenReceiver.sol";
+import {OpenERC173} from "@opennfts/contracts/OpenERC/OpenERC173.sol";
+import {OpenCloneable} from "@opennfts/contracts/OpenCloner/OpenCloneable.sol";
 
 import {IOpenNFTsV5} from "src/interfaces/IOpenNFTsV5.sol";
 

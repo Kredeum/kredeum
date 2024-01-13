@@ -3,28 +3,26 @@ pragma solidity 0.8.19;
 
 import "forge-std/Script.sol";
 
-import {DeployOpenNFTsFactoryV3} from "./DeployOpenNFTsFactoryV3.s.sol";
-import {DeployOpenNFTsResolver} from "./DeployOpenNFTsResolver.s.sol";
-import {DeployOpenNFTsV4} from "./DeployOpenNFTsV4.s.sol";
-import {DeployOpenAutoMarket} from "./DeployOpenAutoMarket.s.sol";
-import {DeployOpenBound} from "./DeployOpenBound.s.sol";
+import {DeployOpenNFTsFactoryV3} from "./deploy/DeployOpenNFTsFactoryV3.s.sol";
+import {DeployOpenNFTsResolver} from "./deploy/DeployOpenNFTsResolver.s.sol";
+import {DeployOpenNFTsV4} from "./deploy/DeployOpenNFTsV4.s.sol";
+import {DeployOpenAutoMarket} from "./deploy/DeployOpenAutoMarket.s.sol";
 
 contract DeployAllCurrent is
     DeployOpenNFTsFactoryV3,
     DeployOpenNFTsResolver,
     DeployOpenNFTsV4,
-    DeployOpenAutoMarket,
-    DeployOpenBound
+    DeployOpenAutoMarket
 {
     function run()
         public
-        override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket, DeployOpenBound)
+        override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket)
     {
         console.log("chainId %s  msg.sender @%s", block.chainid, msg.sender);
 
-        deploy("OpenNFTsFactoryV3");
-        deploy("OpenNFTsResolver");
-        deploy("OpenNFTsV4");
-        deploy("OpenAutoMarket");
+        deployOpenNFTsFactoryV3();
+        // deployOpenNFTsResolver();
+        // deployOpenNFTsV4();
+        // deployOpenAutoMarket();
     }
 }

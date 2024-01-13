@@ -3,7 +3,7 @@ pragma solidity ^0.8.19;
 
 import "forge-std/Test.sol";
 
-import {IERCNftInfos} from "OpenNFTs/contracts/interfaces/IERCNftInfos.sol";
+import {IERCNftInfos} from "@opennfts/contracts/interfaces/IERCNftInfos.sol";
 import {OpenNFTsResolver} from "src/OpenNFTsResolver.sol";
 import {OpenNFTsV4} from "src/OpenNFTsV4.sol";
 import {IOpenNFTsInfos} from "src/interfaces/IOpenNFTsInfos.sol";
