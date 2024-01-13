@@ -13,7 +13,7 @@
   "devDependencies": {
     "-": "^0.0.1",
     "autoprefixer": "^10.4.16",
-    "cssnano": "^6.0.1",
+    "cssnano": "^6.0.3",
     "del": "^6.1.1",
     "dotenv": "^16.3.1",
     "gulp": "^4.0.2",
@@ -22,12 +22,12 @@
     "gulp-newer": "^1.4.0",
     "gulp-noop": "^1.0.1",
     "gulp-plumber": "^1.2.1",
-    "gulp-postcss": "^9.0.1",
+    "gulp-postcss": "^9.1.0",
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.31",
-    "sass": "^1.69.5"
+    "postcss": "^8.4.33",
+    "sass": "^1.69.7"
   }
 }

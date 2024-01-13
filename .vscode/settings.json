@@ -77,7 +77,6 @@
     "avoid-sha3": "warn"
   },
   "window.zoomLevel": 0,
-  "workbench.activityBar.visible": true,
   "workbench.colorTheme": "Default Light+",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
