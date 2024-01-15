@@ -9,14 +9,6 @@
     "OpenNFTsV4": "0xc12d57A1B9f15E7893D0818f02A28dD20Ee5cBc0",
     "chainName": "mainnet"
   },
-  "5": {
-    "OpenAutoMarket": "0x56DF6Ae816eaA7db209E517d836938BeC7c7f394",
-    "OpenNFTs": "0xBD10C1BB5e8935a2acE2dFC1249229D837e79F67",
-    "OpenNFTsFactoryV3": "0x92Ec7Ce1c957049741a6f64837C12662002Aaa6E",
-    "OpenNFTsResolver": "0x9905AE59B97a76b7216F917BfD55267bAfAb898e",
-    "OpenNFTsV4": "0xf37736c1AcDb14f337f616C4FBcD27C2C2F16cb7",
-    "chainName": "goerli"
-  },
   "10": {
     "OpenAutoMarket": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "OpenBound": "0xF6169393986b38e57D61187051c3F5B554796f83",
@@ -26,24 +18,6 @@
     "OpenNFTsResolver": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
     "OpenNFTsV4": "0x5E03Acd53d5D3A834278014D91F0AFD36f8147Ce",
     "chainName": "optimism"
-  },
-  "41": {
-    "OpenAutoMarket": "",
-    "OpenNFTs": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",
-    "OpenNFTsFactoryV3": "0x715D41B9aBfA225874F8A065192eda47af130304",
-    "OpenNFTsResolver": "0x051A23bA9385A7c3a85170b389E7eEE88f794686",
-    "OpenNFTsV4": "",
-    "chainName": "telos-testnet"
-  },
-  "56": {
-    "OpenAutoMarket": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
-    "OpenNFTs": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
-    "OpenNFTsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
-    "OpenNFTsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
-    "OpenNFTsFactoryV3": "0x7B5E42Ab37Bf962413a2B062fE7373141e643f46",
-    "OpenNFTsResolver": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
-    "OpenNFTsV4": "0xd719d8bA14F7EA708b42fFA0903d430F1B1c88a9",
-    "chainName": "bsc"
   },
   "100": {
     "OpenAutoMarket": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
@@ -55,17 +29,57 @@
     "OpenNFTsV4": "0xD53e7aa446e4615DEC602c1D0d024425256f631a",
     "chainName": "gnosis"
   },
+  "10200": {
+    "OpenAutoMarket": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
+    "OpenNFTsFactoryV3": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "OpenNFTsResolver": "0x8026cdb7B7aBB89691911ee762eD7F4511F0c2B1",
+    "OpenNFTsV4": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
+    "chainName": "chiado"
+  },
+  "1101": {
+    "OpenAutoMarket": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
+    "OpenNFTs": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
+    "OpenNFTsFactoryV3": "0x432390f20c4Cc1074189Be686dC0f7c55f4D7a4f",
+    "OpenNFTsResolver": "0xF5bD742333e052b28f17dAeF849fe44A88948e72",
+    "OpenNFTsV4": "0xC197A09695625d998EB2DC33675B929b9f026B25",
+    "chainName": "polygon-zkevm"
+  },
+  "11155111": {
+    "OpenAutoMarket": "0x8354Ef7b78012151c276f51F8d19147FF8C47288",
+    "OpenBound": "0xDEFC7b6D06545034bECbdd52dA3C97C2c5D8027c",
+    "OpenNFTs": "0x86e6192737046F2CECE119AcaF857068Caab5aC4",
+    "OpenNFTsFactoryV3": "0xf37736c1AcDb14f337f616C4FBcD27C2C2F16cb7",
+    "OpenNFTsResolver": "0xF916d2e42E1E539Eb082Fc063Ef265070210A905",
+    "OpenNFTsResolverV4": "0x4654eE5DB559C148b7EFa7bDA82a55b9024A104b",
+    "OpenNFTsV4": "0x56DF6Ae816eaA7db209E517d836938BeC7c7f394",
+    "OpenNFTsV5": "0xbcf413781931cb99ad6Fe55dF963e3f0718fbd4E",
+    "chainName": "sepolia"
+  },
   "137": {
-    "OpenAutoMarket": "0x62c20Aa1e0272312BC100b4e23B4DC1Ed96dD7D1",
+    "OpenAutoMarket": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
     "OpenBound": "0xE82984f872B68B6B369D5700654F229ba6f57c42",
     "OpenNFTs": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
     "OpenNFTsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
     "OpenNFTsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
     "OpenNFTsFactoryV3": "0x2a1036F570B75116e6e5E1B7e0Af4cdaD01De7C3",
     "OpenNFTsResolver": "0x14533d672cb51a9c5cc9c92ac3f30a9791b407db",
-    "OpenNFTsV4": "0xBb2180ebd78ce97360503434eD37fcf4a1Df61c3",
-    "chainName": "matic",
-    "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02"
+    "OpenNFTsV4": "0x7d91951DfFf9bb016E0Fa21eBB14AA6A7615e79C",
+    "nftsFactory": "0x3157Ac677F6F273b75E99A2216CD078E22E9be02",
+    "chainName": "polygon"
+  },
+  "1442": {
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "polygon-zkevm-testnet"
+  },
+  "17000": {
+    "OpenAutoMarket": "0x6CD3204B3C1CF737489C4BC2760bAAf2886f4dC1",
+    "OpenNFTsFactoryV3": "0xaBC576652433154Ab5F9cF1A2F4f0457d7690cc6",
+    "OpenNFTsResolver": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
+    "OpenNFTsV4": "0x1524E69d35961dee5Ab066269efb6c4992367019",
+    "chainName": "holesky"
   },
   "250": {
     "OpenAutoMarket": "0x1f63086f424412321559C2CA2449374e90F1f8Ed",
@@ -77,54 +91,16 @@
     "OpenNFTsV4": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D",
     "chainName": "fantom"
   },
-  "424": {
-    "chainName": "pgn"
-  },
-  "999": {
-    "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
-    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
-    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "OpenNFTsV4": "0x49757e957c54525f517f458aF1aECe2704dAc959",
-    "chainName": "zora-testnet"
-  },
-  "1101": {
-    "OpenAutoMarket": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
-    "OpenNFTs": "0x7d245ee5b041E29e8d71f359b18AaE83168576ef",
-    "OpenNFTsFactoryV3": "0x432390f20c4Cc1074189Be686dC0f7c55f4D7a4f",
-    "OpenNFTsResolver": "0xF5bD742333e052b28f17dAeF849fe44A88948e72",
-    "OpenNFTsV4": "0xC197A09695625d998EB2DC33675B929b9f026B25",
-    "chainName": "polygon-zkevm"
-  },
-  "1442": {
-    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
-    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "chainName": "polygon-zkevm-testnet"
-  },
-  "8453": {
-    "OpenAutoMarket": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
-    "OpenNFTsFactoryV3": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsResolver": "0x1524E69d35961dee5Ab066269efb6c4992367019",
-    "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
-    "chainName": "base"
-  },
-  "10200": {
-    "OpenAutoMarket": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
-    "OpenNFTsFactoryV3": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
-    "OpenNFTsResolver": "0x8026cdb7B7aBB89691911ee762eD7F4511F0c2B1",
-    "OpenNFTsV4": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
-    "chainName": "chiado"
-  },
-  "17000": {
-    "OpenAutoMarket": "0x6CD3204B3C1CF737489C4BC2760bAAf2886f4dC1",
-    "OpenNFTsFactoryV3": "0xaBC576652433154Ab5F9cF1A2F4f0457d7690cc6",
-    "OpenNFTsResolver": "0xdb7f48EDceC2F198B4d8b164856D821279C35F15",
-    "OpenNFTsV4": "0x1524E69d35961dee5Ab066269efb6c4992367019",
-    "chainName": "holesky"
-  },
   "31337": {
     "chainName": "local"
+  },
+  "41": {
+    "OpenAutoMarket": "",
+    "OpenNFTs": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",
+    "OpenNFTsFactoryV3": "0x715D41B9aBfA225874F8A065192eda47af130304",
+    "OpenNFTsResolver": "0x051A23bA9385A7c3a85170b389E7eEE88f794686",
+    "OpenNFTsV4": "",
+    "chainName": "telos-testnet"
   },
   "42161": {
     "OpenAutoMarket": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
@@ -134,6 +110,20 @@
     "OpenNFTsResolver": "0x88A9B09B081CA46daEa53f170d8da27490a16b82",
     "OpenNFTsV4": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "chainName": "arbitrum"
+  },
+  "424": {
+    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenNFTsFactoryV3_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsResolver_last": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
+    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "chainName": "pgn"
+  },
+  "43113": {
+    "OpenAutoMarket": "0x83F063ED9eb7ecCb88570D5c5fAce3be475C9314",
+    "OpenNFTsFactoryV3": "0x062b873b47b222e313ae4e8A1977338f54B8dc11",
+    "OpenNFTsResolver": "0x5068305f8DAf969A2a2491D7A6bAc0e099128422",
+    "OpenNFTsV4": "0x3fC659dCc357eD3f53bdA6aB9AB8e856F4ff63A2",
+    "chainName": "fuji"
   },
   "43114": {
     "OpenAutoMarket": "0x2ac5247d5D3f88F3129Fc65E2867DCDb894bf2fC",
@@ -145,37 +135,13 @@
     "OpenNFTsV4": "0x98C1c1AA566C329f339488Af2F8F95D33cf1A507",
     "chainName": "avalanche"
   },
-  "58008": {
-    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
-    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "chainName": "pgn-sepolia"
-  },
-  "59140": {
-    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
-    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "chainName": "linea-testnet"
-  },
-  "59144": {
-    "chainName": "linea"
-  },
-  "80001": {
-    "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
-    "OpenNFTs": "0x14b44806e069084935c7ca073102F7f9A449eF1A",
-    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
-    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "OpenNFTsV4": "0x49757e957c54525f517f458aF1aECe2704dAc959",
-    "chainName": "mumbai"
-  },
-  "84531": {
-    "OpenAutoMarket": "0xe6199D7648223a75A278300eB5554B60A57A4694",
-    "OpenNFTsFactoryV3": "0x9c3A1af21f79799269475A27d83D85194595b4c4",
-    "OpenNFTsResolver": "0xa2833Ea5D62f0eA3f7dd75ff948f03295093b481",
-    "OpenNFTsV4": "0x6Ed9AEAb016B08255520e922de7af2df033Fb0C2",
-    "chainName": "base-goerli"
+  "5": {
+    "OpenAutoMarket": "0x56DF6Ae816eaA7db209E517d836938BeC7c7f394",
+    "OpenNFTs": "0xBD10C1BB5e8935a2acE2dFC1249229D837e79F67",
+    "OpenNFTsFactoryV3": "0x92Ec7Ce1c957049741a6f64837C12662002Aaa6E",
+    "OpenNFTsResolver": "0x9905AE59B97a76b7216F917BfD55267bAfAb898e",
+    "OpenNFTsV4": "0xf37736c1AcDb14f337f616C4FBcD27C2C2F16cb7",
+    "chainName": "goerli"
   },
   "534351": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
@@ -194,18 +160,81 @@
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "scroll-alpha-testnet"
   },
+  "56": {
+    "OpenAutoMarket": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
+    "OpenNFTs": "0x215890506F31EB0E573d7E75108C2E169c7B0EE7",
+    "OpenNFTsFactory": "0x03F9c54b5D5De9b2323d944Faa406E3F20734B67",
+    "OpenNFTsFactoryV2": "0xD5dA0F2bf1029c64460e4e1CE1fA0f88E7E39800",
+    "OpenNFTsFactoryV3": "0x7B5E42Ab37Bf962413a2B062fE7373141e643f46",
+    "OpenNFTsResolver": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
+    "OpenNFTsV4": "0xd719d8bA14F7EA708b42fFA0903d430F1B1c88a9",
+    "chainName": "bsc"
+  },
+  "58008": {
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "pgn-sepolia"
+  },
+  "59140": {
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "linea-testnet"
+  },
+  "59144": {
+    "chainName": "linea"
+  },
   "7777777": {
+    "OpenAutoMarket_last": "0xDecfCe29d183804Af824145920C121E7F485beD0",
+    "OpenNFTsFactoryV3_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsResolver_last": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
+    "OpenNFTsV4_last": "0xdeF1BB4B94beB5d7f3A921E5DADC3dD2c25016A0",
     "chainName": "zora"
   },
-  "11155111": {
-    "OpenAutoMarket": "0x8354Ef7b78012151c276f51F8d19147FF8C47288",
-    "OpenBound": "0xDEFC7b6D06545034bECbdd52dA3C97C2c5D8027c",
-    "OpenNFTs": "0x86e6192737046F2CECE119AcaF857068Caab5aC4",
-    "OpenNFTsFactoryV3": "0xf37736c1AcDb14f337f616C4FBcD27C2C2F16cb7",
-    "OpenNFTsResolver": "0xF916d2e42E1E539Eb082Fc063Ef265070210A905",
-    "OpenNFTsResolverV4": "0x4654eE5DB559C148b7EFa7bDA82a55b9024A104b",
-    "OpenNFTsV4": "0x56DF6Ae816eaA7db209E517d836938BeC7c7f394",
-    "OpenNFTsV5": "0xbcf413781931cb99ad6Fe55dF963e3f0718fbd4E",
-    "chainName": "sepolia"
+  "80001": {
+    "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
+    "OpenNFTs": "0x14b44806e069084935c7ca073102F7f9A449eF1A",
+    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
+    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenNFTsV4": "0x49757e957c54525f517f458aF1aECe2704dAc959",
+    "chainName": "mumbai"
+  },
+  "8453": {
+    "OpenAutoMarket": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
+    "OpenNFTsFactoryV3": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsResolver": "0x1524E69d35961dee5Ab066269efb6c4992367019",
+    "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "chainName": "base"
+  },
+  "84531": {
+    "OpenAutoMarket": "0xe6199D7648223a75A278300eB5554B60A57A4694",
+    "OpenNFTsFactoryV3": "0x9c3A1af21f79799269475A27d83D85194595b4c4",
+    "OpenNFTsResolver": "0xa2833Ea5D62f0eA3f7dd75ff948f03295093b481",
+    "OpenNFTsV4": "0x6Ed9AEAb016B08255520e922de7af2df033Fb0C2",
+    "chainName": "base-goerli"
+  },
+  "84532": {
+    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4_last": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "base-sepolia"
+  },
+  "999": {
+    "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
+    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
+    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenNFTsV4": "0x49757e957c54525f517f458aF1aECe2704dAc959",
+    "chainName": "zora-testnet"
+  },
+  "999999999": {
+    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "chainName": "zora-sepolia"
   }
 }

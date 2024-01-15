@@ -21,7 +21,7 @@ contract DeployOpenNFTsResolver is DeployLite, DeployOpenNFTsFactoryV3 {
         bytes memory args = abi.encode(msg.sender, openNFTsFactoryV3);
         DeployState state = deployState("OpenNFTsResolver", args);
 
-        if (state == DeployState.None || state == DeployState.Older) {
+        if (state == DeployState.None) {
             vm.startBroadcast();
 
             address openNFTsResolver = deploy("OpenNFTsResolver", args);

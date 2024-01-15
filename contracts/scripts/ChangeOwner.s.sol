@@ -38,13 +38,10 @@ contract ChangeOwner is Script, DeployLite {
     }
 
     function run() public {
-        // address newOwner = 0xBC0b437C95c7165F7d1F7C966cb2227DA52a27d7; // kredeum.eth
-        // address newOwner = 0x6eebAe27d69fa80f0E4C0E973A2Fed218A56880c;
-        address newOwner = 0x62680309dA3Cd77FDeDa85022be3058d373F750d;
-        address deployer = msg.sender;
-        console.log("chainId %s  deployer @%s  newOwner @%s", block.chainid, deployer, newOwner);
+        address newOwner = 0xD4E6d94c8F20eAc6695163Bed93D8EFfdB637cb9;
 
-        require(deployer != newOwner, "Deployer not newOwner");
+        address deployer = 0x62680309dA3Cd77FDeDa85022be3058d373F750d;
+        console.log("chainId %s  deployer @%s  newOwner @%s", block.chainid, deployer, newOwner);
 
         openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
         openFactory = OpenNFTsFactoryV3(openNFTsFactoryV3);
@@ -57,29 +54,38 @@ contract ChangeOwner is Script, DeployLite {
         console.log("%s collections  %s templates", countCollections, countTemplates);
 
         logAdressesAndOwners();
-        vm.startBroadcast();
 
-        if (openFactoryOwner == deployer) {
-            console.log("OpenNFTsFactoryV3  owner change from @%s to @%s", openFactoryOwner, newOwner);
-            openFactory.transferOwnership(newOwner);
+        // send value to pay for gas of next transactions
+        // address paymaster = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38;
+        // vm.broadcast(paymaster);
+        // deployer.call{value: 1_000_000 gwei}("");
+
+        if (deployer != newOwner) {
+            if (deployer == openFactoryOwner) {
+                console.log("OpenNFTsFactoryV3  owner change from @%s to @%s", openFactoryOwner, newOwner);
+                vm.broadcast(deployer);
+                openFactory.transferOwnership(newOwner);
+            }
+
+            if (deployer == openResolverOwner) {
+                console.log("OpenNFTsResolver   owner change from @%s to @%s", openResolverOwner, newOwner);
+                vm.broadcast(deployer);
+                OpenERC173(openResolver).transferOwnership(newOwner);
+            }
+
+            if (deployer == openNFTsV4Owner) {
+                console.log("OpenNFTsV4         owner change from @%s to @%s", openNFTsV4Owner, newOwner);
+                vm.broadcast(deployer);
+                OpenERC173(openNFTsV4).transferOwnership(newOwner);
+            }
+
+            if (deployer == openAutoMarketOwner) {
+                console.log("OpenAutoMarket     owner change from @%s to @%s", openAutoMarketOwner, newOwner);
+                vm.broadcast(deployer);
+                OpenERC173(openAutoMarket).transferOwnership(newOwner);
+            }
+
+            logAdressesAndOwners();
         }
-
-        if (openResolverOwner == deployer) {
-            console.log("OpenNFTsResolver   owner change from @%s to @%s", openResolverOwner, newOwner);
-            OpenERC173(openResolver).transferOwnership(newOwner);
-        }
-
-        if (openNFTsV4Owner == deployer) {
-            console.log("OpenNFTsV4         owner change from @%s to @%s", openNFTsV4Owner, newOwner);
-            OpenERC173(openNFTsV4).transferOwnership(newOwner);
-        }
-
-        if (openAutoMarketOwner == deployer) {
-            console.log("OpenAutoMarket owner change from @%s to @%s", openAutoMarketOwner, newOwner);
-            OpenERC173(openAutoMarket).transferOwnership(newOwner);
-        }
-
-        vm.stopBroadcast();
-        logAdressesAndOwners();
     }
 }

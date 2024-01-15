@@ -5,7 +5,7 @@ script = "scripts"
 out = "out"
 libs = ["lib"]
 solc = "0.8.19"
-cache_path = "cache-forge"
+cache_path = "cache"
 fs_permissions = [
   { access = "read-write", path = "./addresses.json" },
   { access = "read-write", path = "./out" },
@@ -16,27 +16,30 @@ number_underscore = "thousands"
 
 [rpc_endpoints]
 mainnet = "https://mainnet.infura.io/v3/${INFURA_API_KEY}"
-matic = "https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}"
+linea = "https://linea-mainnet.infura.io/v3/${INFURA_API_KEY}"
+polygon = "https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}"
+optimism = "https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}"
 arbitrum = "https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}"
-optimism = "https://rpc.ankr.com/optimism"
-base = "https://base.gateway.tenderly.co"
+avalanche = "https://avalanche-mainnet.infura.io/v3/${INFURA_API_KEY}"
+base = "https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY_BASE}"
 polygon-zkevm = "https://zkevm-rpc.com"
 gnosis = "https://rpc.ankr.com/gnosis"
-avalanche = "https://rpc.ankr.com/avalanche"
 fantom = "https://rpc.ankr.com/fantom"
 bsc = "https://rpc.ankr.com/bsc"
 scroll = "https://rpc.scroll.io"
-linea = "https://rpc.linea.build/"
 pgn = "https://rpc.publicgoods.network"
 zora = "https://rpc.zora.energy"
 mantle = "https://rpc.ankr.com/mantle"
+mode = "https://mainnet.mode.network"
 
 # TESTNETS
-goerli = "https://goerli.infura.io/v3/${INFURA_API_KEY}"
-holesky = "https://ethereum-holesky.publicnode.com"
 sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
 mumbai = "https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}"
-base-goerli = "https://goerli.base.org/"
+optimism-sepolia = "https://optimism-sepolia.infura.io/v3/${INFURA_API_KEY}"
+arbitrum-sepolia = "https://arbitrum-sepolia.infura.io/v3/${INFURA_API_KEY}"
+fuji = "https://avalanche-fuji.infura.io/v3/${INFURA_API_KEY}"
+holesky = "https://ethereum-holesky.publicnode.com"
+base-sepolia = "https://sepolia.base.org/"
 linea-testnet = "https://rpc.goerli.linea.build/"
 telos-testnet = "https://testnet.telos.net/evm"
 chiado = "https://rpc.chiadochain.net"
@@ -45,7 +48,9 @@ scroll-alpha-testnet = "https://alpha-rpc.scroll.io/l2"
 scroll-sepolia = "https://sepolia-rpc.scroll.io/"
 pgn-sepolia = "https://sepolia.publicgoods.network"
 zora-goerli = "https://testnet.rpc.zora.co"
+zora-sepolia = "https://sepolia.rpc.zora.energy"
 mantle-testnet = "https://rpc.testnet.mantle.xyz"
+mode-sepolia = "https://sepolia.mode.network"
 anvil = "http://127.0.0.1:8545"
 
 [etherscan]
@@ -60,7 +65,7 @@ sepolia = { key = "${ETHERSCAN_API_KEY}" }
 holesky = { key = "${ETHERSCAN_API_KEY}", url = "https://api-holesky.etherscan.io/api" }
 
 linea-testnet = { key = "${ETHERSCAN_API_KEY_LINEA}" }
-base-goerli = { key = "${ETHERSCAN_API_KEY_BASE}" }
+base-sepolia = { key = "${ETHERSCAN_API_KEY_BASE}" }
 chiado = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
 polygon-zkevm-testnet =  { key = "${ETHERSCAN_API_KEY_POLYGON_ZKEVM}" }
 

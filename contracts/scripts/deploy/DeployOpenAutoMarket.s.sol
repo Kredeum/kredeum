@@ -16,7 +16,7 @@ contract DeployOpenAutoMarket is DeployLite {
 
         DeployState state = deployState("OpenAutoMarket");
 
-        if (state == DeployState.None || state == DeployState.Older) {
+        if (state == DeployState.None) {
             vm.startBroadcast();
 
             address openAutoMarket = deploy("OpenAutoMarket");

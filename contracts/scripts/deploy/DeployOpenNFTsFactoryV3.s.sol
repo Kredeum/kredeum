@@ -15,7 +15,7 @@ contract DeployOpenNFTsFactoryV3 is DeployLite {
         bytes memory args = abi.encode(msg.sender, treasuryAccount, treasuryFee);
         DeployState state = deployState("OpenNFTsFactoryV3", args);
 
-        if (state == DeployState.None || state == DeployState.Older) {
+        if (state == DeployState.None) {
             vm.broadcast();
             deploy("OpenNFTsFactoryV3", args);
         }
