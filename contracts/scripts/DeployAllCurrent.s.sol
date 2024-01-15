@@ -16,8 +16,8 @@ contract DeployAllCurrent is DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, De
         console.log("chainId %s  msg.sender @%s", block.chainid, msg.sender);
 
         deployOpenNFTsFactoryV3();
-        // deployOpenNFTsResolver();
-        // deployOpenNFTsV4();
-        // deployOpenAutoMarket();
+        deployOpenNFTsResolver();
+        deployOpenNFTsV4();
+        deployOpenAutoMarket();
     }
 }
