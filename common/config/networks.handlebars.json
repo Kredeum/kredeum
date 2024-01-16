@@ -122,6 +122,25 @@
     "linkedLayer1": 1
   },
   {
+    "chainId": 5000,
+    "chainName": "mantle",
+    "rpcUrls": [
+      "https://rpc.mantle.xyz",
+      "https://rpc.ankr.com/mantle",
+      "https://1rpc.io/mantle"
+    ],
+    "nativeCurrency": {
+      "name": "Mantle",
+      "symbol": "MNT",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.mantle.xyz/"
+    ],
+    "linkedLayer1": 1,
+    "create": true
+  },
+  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": [
@@ -224,7 +243,7 @@
       "https://explorer.linea.build"
     ],
     "linkedLayer1": 1,
-    "active": false,
+    "active": true,
     "create": true
   },
   {
@@ -305,26 +324,6 @@
     "linkedMainnet": 534352,
     "linkedLayer1": 11155111,
     "eip1559": false,
-    "create": true
-  },
-  {
-    "chainId": 534353,
-    "chainName": "scroll-alpha-testnet",
-    "rpcUrls": [
-      "https://alpha-rpc.scroll.io/l2"
-    ],
-    "nativeCurrency": {
-      "name": "Scroll Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://alpha-blockscout.scroll.io"
-    ],
-    "linkedMainnet": 534352,
-    "linkedLayer1": 5,
-    "eip1559": false,
-    "active": false,
     "create": true
   },
   {
@@ -614,6 +613,7 @@
     "create": true,
     "linkedMainnet": 250
   },
+
   {
     "chainId": 56,
     "chainName": "bsc",

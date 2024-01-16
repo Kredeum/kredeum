@@ -143,6 +143,13 @@
     "OpenNFTsV4": "0xf37736c1AcDb14f337f616C4FBcD27C2C2F16cb7",
     "chainName": "goerli"
   },
+  "5000": {
+    "OpenAutoMarket": "0xAc1d836f3D8884d95AAfbddC568677d14f1729e6",
+    "OpenNFTsFactoryV3": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
+    "OpenNFTsResolver": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsV4": "0x7d23abb92F626D66709Cdf670748a27787873a0d",
+    "chainName": "mantle"
+  },
   "534351": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
@@ -151,6 +158,10 @@
     "chainName": "scroll-sepolia"
   },
   "534352": {
+    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenNFTsFactoryV3": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsResolver_last": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
+    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
     "chainName": "scroll"
   },
   "534353": {
@@ -185,6 +196,10 @@
     "chainName": "linea-testnet"
   },
   "59144": {
+    "OpenAutoMarket_last": "0xAc1d836f3D8884d95AAfbddC568677d14f1729e6",
+    "OpenNFTsFactoryV3_last": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
+    "OpenNFTsResolver_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsV4_last": "0x7d23abb92F626D66709Cdf670748a27787873a0d",
     "chainName": "linea"
   },
   "7777777": {
