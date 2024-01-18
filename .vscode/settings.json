@@ -80,8 +80,8 @@
   "solidity.solhintRules": {
     "avoid-sha3": "warn"
   },
-  "window.zoomLevel": 0,
-  "workbench.colorTheme": "Visual Studio Dark",
+  "window.zoomLevel": 1,
+  "workbench.colorTheme": "Default Dark Modern",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC",
