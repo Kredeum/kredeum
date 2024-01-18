@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { getOpenSea } from "@lib/common/config";
   import { NftType } from "@lib/common/types";
   import NftLine from "../Nft/NftLine.svelte";
 

@@ -1,8 +1,8 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { getAddresses, getNetwork } from "@lib/common/config";
-import { collectionStore, collectionStoreRefresh } from "./collection";
+import { getAddresses } from "@lib/common/config";
+import { collectionStoreRefresh } from "./collection";
 import { keyCollectionDefault } from "@lib/common/keys";
 import { constants } from "ethers";
 

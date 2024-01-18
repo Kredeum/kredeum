@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { BigNumberish } from "ethers";
   import { BigNumber, utils } from "ethers";
-  const { formatEther } = utils;
 
   import type { NftType } from "@lib/common/types";
-  import { treasuryFee, displayEther, getCurrency, feeAmount } from "@lib/common/config";
+  import { treasuryFee, displayEther, feeAmount } from "@lib/common/config";
 
   import { nftChainId, nftOwner, nftRoyaltyFee, nftRoyaltyAccount, nftRoyaltyMinimum, nftPrice } from "@lib/nft/nft";
 

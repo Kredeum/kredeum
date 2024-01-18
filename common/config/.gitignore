@@ -1,2 +1,3 @@
 config.json
-networks.json
+mainnets.json
+testnets.json

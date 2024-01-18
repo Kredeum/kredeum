@@ -5,8 +5,9 @@ import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, getNetwork, isNetwork, isAddressNotZero } from "@lib/common/config";
+import { numberToHexString, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@stores/metamask";
+import { networks } from "@lib/common/networks";
 
 let _ethereumProvider: EthereumProvider;
 
@@ -23,7 +24,7 @@ const metamaskInstalled = async (): Promise<boolean> => Boolean(await detectEthe
 const _handleChainId = (_chainId: string): void => {
   const newChainId = Number(_chainId);
 
-  if (!(isNetwork(newChainId) && newChainId != get(metamaskChainId))) return;
+  if (!(networks.has(newChainId) && newChainId != get(metamaskChainId))) return;
 
   console.log("_handleChainId:", _chainId, newChainId);
 
@@ -85,12 +86,12 @@ const metamaskInit = async (): Promise<void> => {
 
 const _addEthereumChain = (_chainId: number): void => {
   // no need to add default ethereum chain 1
-  if (!(isNetwork(_chainId) && _chainId != 1 && _open && _ethereumProvider)) return;
+  if (!(networks.has(_chainId) && _chainId != 1 && _open && _ethereumProvider)) return;
   _open = false;
 
   console.info("_addEthereumChain", _chainId, _open);
 
-  const _network = getNetwork(_chainId);
+  const _network = networks.get(_chainId);
   if (_network) {
     // add new chain to metamask
     _ethereumProvider
@@ -113,7 +114,7 @@ const _addEthereumChain = (_chainId: number): void => {
 };
 
 const metamaskSwitchChain = async (_chainId: number): Promise<void> => {
-  if (!(isNetwork(_chainId) && _chainId != get(metamaskChainId) && _ethereumProvider)) return;
+  if (!(networks.has(_chainId) && _chainId != get(metamaskChainId) && _ethereumProvider)) return;
 
   console.info(`metamaskSwitchChain ${_chainId}`);
 

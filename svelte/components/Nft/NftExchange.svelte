@@ -5,7 +5,7 @@
   import { nftStore } from "@stores/nft/nft";
   import { metamaskSignerAddress } from "@stores/metamask";
   import { utils } from "ethers";
-  import { getCurrency } from "@lib/common/config";
+  import { networks } from "@lib/common/networks";
 
   /////////////////////////////////////////////////////////////////
   //  <NftExchange {chainId} {address} {tokenID} {mode}? />
@@ -27,7 +27,7 @@
   {#if mode !== "detail"}
     <div class="overflow-ellipsis price">
       {#if nftPrice($nft).gt(0)}
-        <strong>{utils.formatEther(nftPrice($nft))} {getCurrency(chainId)}</strong>
+        <strong>{utils.formatEther(nftPrice($nft))} {networks.getCurrency(chainId)}</strong>
       {:else}
         &nbsp;
       {/if}

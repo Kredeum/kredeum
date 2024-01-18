@@ -1,11 +1,11 @@
-import type { NftType, Properties, StorageConfigType } from "@lib/common/types";
+import type { NftType, Properties } from "@lib/common/types";
 
-import { DEFAULT_NAME, textShort, isTestnet } from "@lib/common/config";
+import { DEFAULT_NAME, textShort  } from "@lib/common/config";
 
 import { swarmUploadFile } from "@lib/common/beejs";
-import { ipfsGatewayUrl } from "./ipfs";
-import config from "@config/config.json";
+
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
+import { networks } from "@lib/common/networks";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SWARM HELPERS
@@ -75,7 +75,7 @@ const swarmParamsValid = (chainId: number): boolean => {
   const swarmParams = storageParamsGet("swarm");
 
   if (!(swarmParams && storageParamsValid(swarmParams))) return false;
-  if (isTestnet(chainId)) return true;
+  if (networks.isTestnet(chainId)) return true;
 
   if (swarmParams.apiKey === SWARM_ZERO_APIKEY) return false;
 

@@ -5,14 +5,7 @@
   import type { Writable } from "svelte/store";
   import { onMount, getContext } from "svelte";
 
-  import {
-    explorerNftUrl,
-    explorerTxUrl,
-    textShort,
-    explorerTxLog,
-    getCurrency,
-    displayEther
-  } from "@lib/common/config";
+  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, displayEther } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
   import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";

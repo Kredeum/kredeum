@@ -2,13 +2,13 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { NetworkType, CollectionType, NftType, RefPageType, AddressesType } from "@lib/common/types";
+import type { CollectionType, NftType, RefPageType, AddressesType } from "@lib/common/types";
 
-import networks from "@config/networks.json";
 import config from "@config/config.json";
 import addressesRaw from "@contracts/addresses.json";
 
 import { formatEther } from "ethers/lib/utils";
+import { networks } from "./networks";
 
 const PAGE_SIZE = 12;
 const MAX_FEE = 10000;
@@ -30,25 +30,13 @@ const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "" ? -1 : token
 const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
   !tokenIDs || tokenIdSplit(tokenIDs).includes(tokenID);
 
-// const networks = networksJson as Array<NetworkType>;
-const networksMap = new Map(networks.map((network) => [network.chainId, network]));
-
-const isCollection = (refHash: RefPageType) => isNetwork(refHash.chainId) && isAddressNotZero(refHash.address);
+const isCollection = (refHash: RefPageType) => networks.has(refHash.chainId) && isAddressNotZero(refHash.address);
 
 const isAddress = (address = ""): boolean => utils.isAddress(address);
 const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
 
 const getChecksumAddress = (address = ""): string =>
   isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
-
-const getChainId = (chainName: string): number | undefined =>
-  networks.find((nw) => nw.chainName === chainName)?.chainId;
-
-const isNetwork = (chainId: number | string | undefined): boolean => networksMap.has(Number(chainId));
-
-const isEip1559 = (chainId: number | string): boolean => Boolean(getNetwork(chainId)?.eip1559);
-
-const getNetwork = (chainId: number | string): NetworkType | undefined => networksMap.get(Number(chainId));
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const addresses = JSON.parse(JSON.stringify(addressesRaw));
@@ -59,22 +47,6 @@ const getAddresses = (chainId: number | string): AddressesType | undefined => ad
 const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
 const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
-// GET explorer
-const getExplorer = (chainId: number): string => getNetwork(chainId)?.blockExplorerUrls[0] || "";
-
-// GET OpenSea
-const getOpenSea = (chainId: number): string => getNetwork(chainId)?.openSea || "";
-
-// GET OpenSea Url
-const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
-
-// GET Blur
-const getBlur = (chainId: number): string => getNetwork(chainId)?.blur || "";
-// GET Blur Url
-const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
-
 // GET Dapp Url
 const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
@@ -83,30 +55,9 @@ const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: 
 const getAutoswarmUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
   `${config.storage.swarm.autoSwarm}/${chainId}/${ref?.address}/${ref?.tokenID}`;
 
-// GET Create
-const getCreate = (chainId: number): boolean => Boolean(getNetwork(chainId)?.create);
-
-const getLinkedMainnet = (chainId: number | string): number => getNetwork(chainId)?.linkedMainnet || 0;
-const getLinkedLayer1 = (chainId: number | string): number => getNetwork(chainId)?.linkedLayer1 || 0;
-
-const isActive = (chainId: number | string): boolean => {
-  const network = getNetwork(chainId);
-  if (!network) return false;
-  if ("active" in network) return network.active || false;
-  return true;
-};
-const isMainnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) == 0;
-const isTestnet = (chainId: number | string): boolean => !isMainnet(chainId);
-const isLayer1 = (chainId: number | string): boolean => getLinkedLayer1(chainId) == 0;
-const isLayer2 = (chainId: number | string): boolean => !isLayer1(chainId);
-
-// GET chain Name
-const getChainName = (chainId: number): string =>
-  chainId > 0 ? getNetwork(chainId)?.chainName || String(chainId) : "";
-
 // nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
-  const network = getNetwork(chainId);
+  const network = networks.get(chainId);
 
   if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return "";
   const ret =
@@ -122,7 +73,7 @@ const nftUrl = (nft: NftType, n?: number): string => nftUrl3(nft.chainId, nft.ad
 
 // Build normalized url for one nft with get parameters
 const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
-  const network = getNetwork(chainId);
+  const network = networks.get(chainId);
   const ret =
     "/?chainId=" +
     (network
@@ -168,7 +119,7 @@ const isNumeric = (stringNum: string): boolean => !isNaN(Number(stringNum)) && !
 // BASIC URL
 const explorerUrl = (chainId: number, path: string): string =>
   // https://etherscan.io/gastracker
-  getExplorer(chainId) + "/" + path.replace(/^\//, "");
+  networks.getExplorer(chainId) + "/" + path.replace(/^\//, "");
 
 // GENERIC MULTICHAIN URL
 const blockscanUrl = (path: string): string =>
@@ -199,7 +150,10 @@ const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): v
 const explorerAccountUrl = (chainId: number, address: string): string => {
   let url = "";
   if (chainId > 0) {
-    if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
+    if (
+      networks.getExplorer(chainId)?.includes("chainstacklabs.com") ||
+      networks.getExplorer(chainId)?.includes("blockscout.com")
+    ) {
       // https://polygon-explorer-mumbai.chainstacklabs.com/address/0x79ae5d3FE295d81342A49aECE586716D60b37C6b/tokens
       // https://blockscout.com/xdai/mainnet/address/0x981ab0D817710d8FFFC5693383C00D985A3BDa38/tokens
       url = explorerUrl(chainId, `/address/${address}/tokens/`);
@@ -218,7 +172,10 @@ const explorerAccountUrl = (chainId: number, address: string): string => {
 // CONTRACT URL
 const explorerContractUrl = (chainId: number, address: string): string => {
   let url = "";
-  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
+  if (
+    networks.getExplorer(chainId)?.includes("chainstacklabs.com") ||
+    networks.getExplorer(chainId)?.includes("blockscout.com")
+  ) {
     // https://polygon-explorer-mumbai.chainstacklabs.com/address/0x601f2A498dAabd94cc4bBb2F04F21aff7f6D9175/contracts
     // https://blockscout.com/xdai/mainnet/address/0x22C1f6050E56d2876009903609a2cC3fEf83B415/contracts
     url = explorerUrl(chainId, `/address/${address}/contracts`);
@@ -232,7 +189,10 @@ const explorerContractUrl = (chainId: number, address: string): string => {
 // COLLECTION URL
 const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
   let url = "";
-  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
+  if (
+    networks.getExplorer(chainId)?.includes("chainstacklabs.com") ||
+    networks.getExplorer(chainId)?.includes("blockscout.com")
+  ) {
     // https://blockscout.com/xdai/mainnet/token/0x74e596525C63393f42C76987b6A66F4e52733efa
     url = explorerUrl(chainId, `/token/${collAddress}`);
   } else {
@@ -245,7 +205,10 @@ const explorerCollectionUrl = (chainId: number, collAddress = ""): string => {
 // NFT URL
 const explorerNftUrl = (chainId: number, nft: NftType): string => {
   let url = "";
-  if (getExplorer(chainId)?.includes("chainstacklabs.com") || getExplorer(chainId)?.includes("blockscout.com")) {
+  if (
+    networks.getExplorer(chainId)?.includes("chainstacklabs.com") ||
+    networks.getExplorer(chainId)?.includes("blockscout.com")
+  ) {
     // https://blockscout.com/xdai/mainnet/token/0x22C1f6050E56d2876009903609a2cC3fEf83B415/instance/3249859/metadata
     url = explorerUrl(chainId, `/tokens/${nft?.address}/instance/${nft?.tokenID}/metadata`);
     url = explorerUrl(chainId, `/token/${nft?.address}/instance/${nft?.tokenID}/metadata`);
@@ -330,9 +293,8 @@ const interfaceId = (abi: Array<string>): string => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const getCurrency = (chainId: number): string => getNetwork(chainId)?.nativeCurrency.symbol || "";
-
-const displayEther = (chainId: number, price: BigNumberish): string => `${formatEther(price)} ${getCurrency(chainId)}`;
+const displayEther = (chainId: number, price: BigNumberish): string =>
+  `${formatEther(price)} ${networks.getCurrency(chainId)}`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -370,36 +332,17 @@ export {
   explorerNftUrl,
   explorerAccountUrl,
   explorerNftLink,
-  isEip1559,
-  getLinkedMainnet,
-  getLinkedLayer1,
-  isActive,
-  isTestnet,
-  isMainnet,
-  isLayer2,
-  isLayer1,
   isCollection,
-  isNetwork,
   isAddress,
   isAddressNotZero,
   isNumeric,
-  getChainId,
-  getChainName,
   getShortAddress,
   getChecksumAddress,
-  getNetwork,
   getAddresses,
   getOpenBound,
   hasOpenBound,
-  getBlur,
-  getBlurUrl,
   getDappUrl,
   getAutoswarmUrl,
-  getOpenSea,
-  getOpenSeaUrl,
-  getCreate,
-  getExplorer,
-  getCurrency,
   uriShort,
   interfaceId,
   nftUrl3,
@@ -416,7 +359,6 @@ export {
   sleep,
   textShort,
   urlToLink,
-  networks,
   config,
   ADDRESS_ZERO,
   ADDRESS_ONE,

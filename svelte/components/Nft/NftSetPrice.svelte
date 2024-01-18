@@ -6,16 +6,7 @@
   import { nftCollectionPrice, nftPriceValid, nftRoyaltyAndFeeMinimum } from "@lib/nft/nft";
 
   import type { NftType } from "@lib/common/types";
-  import {
-    displayEther,
-    explorerCollectionUrl,
-    explorerTxLog,
-    explorerTxUrl,
-    getCurrency,
-    getOpenSea,
-    getOpenSeaUrl,
-    textShort
-  } from "@lib/common/config";
+  import { displayEther, explorerCollectionUrl, explorerTxLog, explorerTxUrl, textShort } from "@lib/common/config";
 
   import { getMax } from "@lib/nft/nft-automarket-get";
   import { setTokenPrice } from "@lib/nft/nft-automarket-set";
@@ -27,6 +18,7 @@
   import NftIncomes from "./NftIncomes.svelte";
   import { nftPrice, nftOnSale, nftCollectionApproved } from "@lib/nft/nft";
   import { onMount } from "svelte";
+  import { networks } from "@lib/common/networks";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />
@@ -197,11 +189,11 @@
     </div>
   {/if}
 
-  {#if getOpenSea(chainId)}
+  {#if networks.getOpenSea(chainId)}
     <div class="kre-modal-block">
       <div class="txt-left">
         <a
-          href={getOpenSeaUrl(chainId, { chainId, address, tokenID })}
+          href={networks.getOpenSeaUrl(chainId, { chainId, address, tokenID })}
           class="btn btn-second"
           title="Sell"
           target="_blank"

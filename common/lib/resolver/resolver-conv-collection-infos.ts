@@ -3,8 +3,9 @@ import { constants, BigNumber } from "ethers";
 import type { IOpenNFTsInfos, IERCNftInfos } from "@soltypes/OpenNFTsResolver";
 
 import type { CollectionType, ReceiverType } from "@lib/common/types";
-import { getChainName, getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
+import {  getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
+import { networks } from "@lib/common/networks";
 
 const resolverConvCollectionInfos = (
   chainId: number,
@@ -13,7 +14,7 @@ const resolverConvCollectionInfos = (
 ): CollectionType => {
   // console.log("resolverConvCollectionInfos  IN", chainId, collectionInfos, account);
 
-  const chainName = getChainName(chainId);
+  const chainName = networks.getChainName(chainId);
   const address: string = getChecksumAddress(collectionInfos[0]);
   const name: string = collectionInfos[2] || DEFAULT_NAME;
   const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;

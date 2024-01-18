@@ -12,7 +12,6 @@
     explorerTxUrl,
     explorerTxLog,
     textShort,
-    getCurrency,
     displayEther
   } from "@lib/common/config";
 

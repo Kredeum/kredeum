@@ -9,7 +9,6 @@
     explorerTxUrl,
     explorerAddressUrl,
     textShort,
-    getCurrency,
     isNumeric,
     isAddress,
     MAX_FEE,

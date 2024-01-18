@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getCreate, isAddressNotZero, isCollection, isNetwork, tokenIdCount } from "@lib/common/config";
+  import { isAddressNotZero, isCollection, tokenIdCount } from "@lib/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -24,6 +24,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
   import { constants } from "ethers";
   import { writable, Writable } from "svelte/store";
+  import { networks } from "@lib/common/networks";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -124,14 +125,14 @@
 
 <HomeLayout>
   <span slot="nav">
-    <Navigation />
+    <Navigation {chainId} />
   </span>
 
   <span slot="header">
     <Title />
 
     {#if signer}
-      {#if getCreate(chainId)}
+      {#if networks.getCreate(chainId)}
         <Create {chainId} {signer} />
       {/if}
     {/if}
@@ -145,7 +146,7 @@
 
       <!-- <Networks {chainId} /> -->
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <NetworkSelect bind:chainId label={true} />
+        <NetworkSelect bind:chainId label={true}  />
       </div>
 
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">

@@ -1,10 +1,11 @@
 import type { NftType, NftMetadata } from "@lib/common/types";
 import { fetchJson } from "@lib/common/fetch";
-import { getNetwork, getChecksumAddress } from "@lib/common/config";
+import {   getChecksumAddress } from "@lib/common/config";
 import { keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
 import { swarmGatewayUrl, swarmGetLink } from "./storage/swarm";
 import { ipfsGatewayUrl, ipfsGetLink } from "./storage/ipfs";
+import { networks } from "@lib/common/networks";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();
@@ -43,7 +44,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   // console.log("nftGetMetadata", nft);
 
   const { chainId, address, tokenID } = nft || {};
-  const network = getNetwork(chainId);
+  const network = networks.get(chainId);
   if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return nft;
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA

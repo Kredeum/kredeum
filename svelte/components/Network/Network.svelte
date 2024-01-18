@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { getChainName, getLinkedLayer1, getLinkedMainnet, isLayer1, isLayer2, isTestnet } from "@lib/common/config";
+  import { networks } from "@lib/common/networks";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />
@@ -10,14 +10,15 @@
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
   // Capitalize first letter
-  const strUpFirst = (str: string): string => (str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "");
+  const strUpFirst = (str: string | undefined): string =>
+    str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
-  $: chainName = getChainName(chainId);
-  $: mainnetName = isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : chainName;
-  $: chainLabel =  strUpFirst(chainName);
-  $: preLabel = pre ? (isLayer2(chainId) ? "L2 " : "") : "";
+  $: chainName = networks.getChainName(chainId);
+  $: mainnetName = networks.isTestnet(chainId) ? networks.getChainName(networks.getLinkedMainnet(chainId)) : chainName;
+  $: chainLabel = strUpFirst(chainName);
+  $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
 
-  $: logoPos = pre ? (isLayer2(chainId) ? 25 : 0) : 0;
+  $: logoPos = pre ? (networks.isLayer2(chainId) ? 25 : 0) : 0;
 
   $: logoStyle = `background: url("./assets/images/icon-${mainnetName}.png") no-repeat ${logoPos}px center/25px; padding: 5px 0;`;
   $: spacerStyle = `margin-left: 35px;`;

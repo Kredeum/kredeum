@@ -1,31 +1,39 @@
 import { providers } from "ethers";
-import { getNetwork } from "@lib/common/config";
-import { EnsResolver, JsonRpcProvider } from "@ethersproject/providers";
 
-const rpcUrl: string = getNetwork(1)?.rpcUrls[0] || "";
+import { JsonRpcProvider } from "@ethersproject/providers";
+import config from "@config/config.json";
 
-const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(rpcUrl);
+const ens = (() => {
+  let ensProvider: JsonRpcProvider;
 
-const ensResolver = async (address: string): Promise<EnsResolver | null> => await ensProvider.getResolver(address);
+  const getName = async (address: string): Promise<string> => {
+    ensProvider ||= new providers.JsonRpcProvider(config.ens.rpcUrl);
+    console.log("getName ~ ensProvider:", ensProvider);
+    let name = "";
 
-const ensGetName = async (address: string): Promise<string> => {
-  let name = "";
-  try {
-    name = (await ensProvider.lookupAddress(address)) || "";
-  } catch (e) {
-    console.error("ENS lookupAddress not found");
-  }
-  return name || address || "";
-};
+    try {
+      name = (await ensProvider.lookupAddress(address)) || "";
+    } catch (e) {
+      console.error("ENS lookupAddress not found");
+    }
 
-const ensGetAvatar = async (address: string): Promise<string> => {
-  let avatar = "";
-  try {
-    avatar = (await ensProvider.getAvatar(address)) || "";
-  } catch (e) {
-    console.error("ENS lookupAddress not found");
-  }
-  return avatar || "";
-};
+    return name || address || "";
+  };
 
-export { ensProvider, ensResolver, ensGetName, ensGetAvatar };
+  const getAvatar = async (address: string): Promise<string> => {
+    ensProvider ||= new providers.JsonRpcProvider(config.ens.rpcUrl);
+    let avatar = "";
+
+    try {
+      avatar = (await ensProvider.getAvatar(address)) || "";
+    } catch (e) {
+      console.error("ENS lookupAddress not found");
+    }
+
+    return avatar || "";
+  };
+
+  return { getName, getAvatar };
+})();
+
+export { ens };

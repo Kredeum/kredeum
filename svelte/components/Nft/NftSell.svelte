@@ -5,8 +5,7 @@
   import NftSetPrice from "./NftSetPrice.svelte";
   import { nftPrice } from "@lib/nft/nft";
   import { nftStore } from "@stores/nft/nft";
-  import { displayEther, getCurrency } from "@lib/common/config";
-  import { utils } from "ethers";
+  import { displayEther } from "@lib/common/config";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />

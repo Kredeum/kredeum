@@ -1,9 +1,9 @@
 <script lang="ts">
-  import { ensGetName } from "@lib/common/ens-get";
+  import { ens } from "@lib/common/ens-get";
   export let account: string;
 </script>
 
-{#await ensGetName(account)}
+{#await ens.getName(account)}
   {account}
 {:then accountEns}
   {accountEns}

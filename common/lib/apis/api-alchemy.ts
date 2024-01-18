@@ -3,15 +3,16 @@ import { BigNumber } from "ethers";
 import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { getChecksumAddress, getNetwork, getChainName, isAddressNotZero } from "@lib/common/config";
+import { getChecksumAddress,  isAddressNotZero } from "@lib/common/config";
 import { keyCollections, keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
+import { networks } from "@lib/common/networks";
 
 const alchemyCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const chainName = getChainName(chainId);
+  const chainName = networks.getChainName(chainId);
 
   if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 
@@ -152,8 +153,8 @@ const alchemyFetch = async (chainId: number, path: string): Promise<unknown> => 
   return alchemyAnswer;
 };
 
-const alchemyActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.alchemy?.active);
+const alchemyActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.alchemy?.active);
 
-const alchemyUrl = (chainId: number): string => (alchemyActive(chainId) && getNetwork(chainId)?.alchemy?.url) || "";
+const alchemyUrl = (chainId: number): string => (alchemyActive(chainId) && networks.get(chainId)?.alchemy?.url) || "";
 
 export { alchemyActive, alchemyFetch, alchemyNftList, alchemyCollections };

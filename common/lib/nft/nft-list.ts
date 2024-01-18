@@ -7,8 +7,9 @@ import { alchemyActive, alchemyNftList } from "@lib/apis/api-alchemy";
 import { covalentActive, covalentNftList } from "@lib/apis/api-covalent";
 import { thegraphActive, thegraphNftList } from "@lib/apis/api-thegraph";
 
-import { getNetwork } from "@lib/common/config";
+
 import { FETCH_LIMIT } from "@lib/common/fetch";
+import { networks } from "@lib/common/networks";
 
 // Merge 2 nfts list into 1
 const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType>): Map<string, NftType> => {
@@ -32,7 +33,7 @@ const nftListTokenIds = async (
   let nfts: Map<string, NftType> = new Map();
   let nftsOwner: Map<string, NftType> = new Map();
   let nftsKredeum: Map<string, NftType> = new Map();
-  const network = getNetwork(chainId);
+  const network = networks.get(chainId);
 
   if (network) {
     if (alchemyActive(chainId)) {

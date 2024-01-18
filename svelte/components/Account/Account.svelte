@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ensGetAvatar, ensGetName } from "@lib/common/ens-get";
+  import { ens } from "@lib/common/ens-get";
   import { getShortAddress, blockscanUrl } from "@lib/common/config";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
@@ -18,8 +18,8 @@
   $: account && handleAccount();
   const handleAccount = async (): Promise<void> => {
     accountName = account;
-    accountName = await ensGetName(account);
-    accountAvatar = await ensGetAvatar(accountName);
+    accountName = await ens.getName(account);
+    accountAvatar = await ens.getAvatar(accountName);
 
     // console.log("address name avatar =>", account, accountName, accountAvatar);
   };

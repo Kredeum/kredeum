@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "1.2.3",
+    "latest": "1.3.0",
     "stable": "1.1.4"
   },
   "storage": {
@@ -25,6 +25,9 @@
   "covalent": {
     "url": "https://api.covalenthq.com/v1",
     "key": "{{COVALENT_API_KEY}}"
+  },
+  "ens": {
+    "rpcUrl": "https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}"
   },
   "env": {}
 }

@@ -1,10 +1,11 @@
 import { BigNumber, constants } from "ethers";
 
 import type { CollectionType, CollectionFilterType, NftType } from "@lib/common/types";
-import { getChecksumAddress, getNetwork } from "@lib/common/config";
+import { getChecksumAddress } from "@lib/common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
+import { networks } from "@lib/common/networks";
 
 const thegraphNftList = async (
   chainId: number,
@@ -68,7 +69,7 @@ const thegraphCollections = async (chainId: number, account: string): Promise<Ma
   // console.log(`thegraphCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const network = getNetwork(chainId);
+const network = networks.get(chainId);
 
   if (account) {
     const query = `
@@ -127,8 +128,8 @@ const thegraphCollections = async (chainId: number, account: string): Promise<Ma
 const thegraphFetch = async (chainId: number, query: string): Promise<unknown> =>
   await fetchGQL(thegraphGetUrl(chainId), query);
 
-const thegraphActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.subgraph?.active);
+const thegraphActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.subgraph?.active);
 const thegraphGetUrl = (chainId: number): string =>
-  (getNetwork(chainId)?.subgraph?.active && getNetwork(chainId)?.subgraph?.url) || "";
+  (networks.get(chainId)?.subgraph?.active && networks.get(chainId)?.subgraph?.url) || "";
 
 export { thegraphCollections, thegraphActive, thegraphNftList, thegraphGetUrl, thegraphFetch };

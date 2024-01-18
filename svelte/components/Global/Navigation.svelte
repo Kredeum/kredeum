@@ -1,7 +1,18 @@
-<script>
+<script lang="ts">
   import config from "@config/config.json";
   import { versionGet } from "@helpers/version";
   import logo from "../Images/logo-kredeum.svg";
+  import { networks } from "@lib/common/networks";
+
+  export let chainId: number;
+
+  $: mainnets = networks.isMainnet(chainId);
+
+  const toggle = (evt?: Event) => {
+    evt.preventDefault();
+    location.href = `./#/${mainnets ? "sepolia" : "mainnet"}`;
+    location.reload();
+  };
 
   const { branch } = versionGet();
 </script>
@@ -23,17 +34,26 @@
 
   <nav>
     <ul>
-      <li class="active">
-        <a href={config.base}>
-          <i class="fas fa-columns" />
-          {#if branch !== "main" }
+      {#if branch !== "main"}
+        <li class="active">
           <p>
-            stable<br/>
-            version
+            <a href={config.base}>
+              <i class="fas fa-columns" /><br />
+              stable<br />
+              version
+            </a>
           </p>
-          {/if}
-        </a>
-      </li>
+        </li>
+        <li class="active">
+          <p>
+            <a href="." on:click={toggle}>
+              <i class="fas {mainnets ? "fa-flask" : "fa-road"}" /><br />
+              {@html mainnets ? "testnet" : "mainnet"}<br />
+              networks
+            </a>
+          </p>
+        </li>
+      {/if}
     </ul>
   </nav>
 </div>

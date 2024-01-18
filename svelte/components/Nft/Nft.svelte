@@ -6,11 +6,8 @@
     explorerAddressLink,
     getDappUrl,
     getAutoswarmUrl,
-    getBlur,
-    getOpenSea,
     copyToClipboard,
-    getOpenSeaUrl,
-    getBlurUrl,
+
     textShort,
     displayEther,
     uriShort
@@ -37,6 +34,7 @@
   import { nftStoreAndRefresh } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
   import { storageUriGetImage, storageLinkToUrlHttp, sorageLinkToUri } from "@lib/nft/storage/storage";
+  import { networks } from "@lib/common/networks";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -57,8 +55,8 @@
   let nftLinkDone = "";
   const copyDappLink = () => (nftLink = getDappUrl(chainId, { address, tokenID }));
   const copyAutoswarmLink = () => (nftLink = getAutoswarmUrl(chainId, { address, tokenID }));
-  const copyBlurLink = () => (nftLink = getBlurUrl(chainId, { address, tokenID }));
-  const copyOpenSeaLink = () => (nftLink = getOpenSeaUrl(chainId, { address, tokenID }));
+  const copyBlurLink = () => (nftLink = networks.getBlurUrl(chainId, { address, tokenID }));
+  const copyOpenSeaLink = () => (nftLink = networks.getOpenSeaUrl(chainId, { address, tokenID }));
 
   const copyLinkToClipboard = (evt: Event, label?: string) => {
     copyToClipboard(nftLink).catch(console.error);
@@ -316,25 +314,25 @@
                   href={getAutoswarmUrl(chainId, { address, tokenID })}
                   target="_blank">COPY AUTOSWARM LINK</a
                 >
-                {#if getOpenSea(chainId)}
+                {#if networks.getOpenSea(chainId)}
                   <a
                     on:mouseover={copyOpenSeaLink}
                     on:focus={copyOpenSeaLink}
                     on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "OpenSea link")}
                     class="btn btn-small btn-outline"
-                    href={getOpenSeaUrl(chainId, { address, tokenID })}
+                    href={networks.getOpenSeaUrl(chainId, { address, tokenID })}
                     target="_blank"
                   >
                     COPY OPENSEA LINK</a
                   >
                 {/if}
-                {#if getBlur(chainId)}
+                {#if networks.getBlur(chainId)}
                   <a
                     on:mouseover={copyBlurLink}
                     on:focus={copyBlurLink}
                     on:click|preventDefault={(evt) => copyLinkToClipboard(evt, "Blur link")}
                     class="btn btn-small btn-outline"
-                    href={getBlurUrl(chainId, { address, tokenID })}
+                    href={networks.getBlurUrl(chainId, { address, tokenID })}
                     target="_blank">COPY BLUR LINK</a
                   >
                 {/if}

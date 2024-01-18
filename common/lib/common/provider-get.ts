@@ -4,9 +4,10 @@ import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/provid
 import type { Signer } from "ethers";
 
 import type { WindowExternalProvider } from "./types";
-import { getChecksumAddress, getNetwork, sleep } from "@lib/common/config";
+import { getChecksumAddress, sleep } from "@lib/common/config";
 import { ethers } from "ethers";
 import { constants } from "ethers";
+import { networks } from "./networks";
 
 let _providerSetting = false;
 
@@ -55,7 +56,7 @@ const providerSetFallback = async (chainId: number): Promise<void> => {
   if (!provider) {
     const providers: Array<FallbackProviderConfig> = [];
     const providerWindow = await providerGetWindow(chainId);
-    const network = getNetwork(chainId);
+    const network = networks.get(chainId);
 
     if (providerWindow) providers.push({ provider: providerWindow, priority: 1, weight: 1 });
     if (network?.rpcUrls[0])

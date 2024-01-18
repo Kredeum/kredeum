@@ -19,8 +19,6 @@
     explorerTxLog,
     explorerNftUrl,
     nftUrl,
-    config,
-    getCurrency,
     displayEther,
     treasuryFee,
     feeAmount

@@ -2,7 +2,8 @@ import { BigNumber, constants } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
-import { getChainName, getChecksumAddress } from "@lib/common/config";
+import {   getChecksumAddress } from "@lib/common/config";
+import { networks } from "@lib/common/networks";
 
 const resolverConvNftInfos = (
   chainId: number,
@@ -15,7 +16,7 @@ const resolverConvNftInfos = (
   const address = getChecksumAddress(collection.address);
   const tokenID = String(nftInfos[0]);
   const tokenURI = nftInfos[1] || "";
-  const chainName = getChainName(chainId) || "";
+  const chainName = networks.getChainName(chainId) || "";
 
   const nft: NftType = {
     chainId,

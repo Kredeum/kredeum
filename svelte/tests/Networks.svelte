@@ -1,25 +1,18 @@
 <script lang="ts">
-  import { getNetwork, networks } from "@lib/common/config";
+  import { networks } from "@lib/common/networks";
   import Network from "../components/Network/Network.svelte";
+  import { NetworkType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
-  // <Networks {chainId}  />
+  // <Networks  />
   // List Networks
   /////////////////////////////////////////////////
-  export let chainId: number;
 </script>
 
 <div>
-  {#each networks.filter((nw) => nw.mainnet && nw.nftsResolver) as nwk}
+  {#each networks.getAll() as nwk}
     <p>
       <Network chainId={nwk.chainId} txt={true} />
     </p>
   {/each}
-  {#if getNetwork(chainId)?.testnet}
-    {#each networks.filter((nw) => nw.testnet && nw.nftsResolver) as nwk}
-      <p>
-        <Network chainId={nwk.chainId} txt={true} />
-      </p>
-    {/each}
-  {/if}
 </div>

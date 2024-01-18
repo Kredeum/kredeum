@@ -1,11 +1,11 @@
 <script lang="ts">
   import { clickOutside } from "@helpers/clickOutside";
-  import { getChainName, hasOpenBound, isActive, isMainnet, isTestnet, networks } from "@lib/common/config";
   import { resolverGetExplorerUrl, resolverGetAddress } from "@lib/resolver/resolver-get";
 
   import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import { networks } from "@lib/common/networks";
   import { NetworkType } from "@lib/common/types";
 
   /////////////////////////////////////////////////
@@ -33,16 +33,7 @@
   const handleToggleOpen = () => (open = !open);
 
   // All mainnnet (or testnets) networks
-  const networksFilter = (): Array<NetworkType> =>
-    networks.filter(
-      (nw: NetworkType) =>
-        chainId > 0 &&
-        isActive(nw.chainId) &&
-        ((isMainnet(chainId) && isMainnet(nw.chainId)) || (isTestnet(chainId) && isTestnet(nw.chainId)))
-    );
-  console.log("chainId:", chainId);
-  console.log("networks:", networks);
-  console.log("networksFilter:", networksFilter());
+  const networksFilter = (): Array<NetworkType> => networks.getAllSameType(chainId);
 </script>
 
 {#if txt}

@@ -1,7 +1,4 @@
 <script lang="ts">
-  // import { onMount } from "svelte";
-  import { getCreate } from "@lib/common/config";
-
   import BreadCrumb from "./BreadCrumb.svelte";
   import MetamaskSimple from "./Simple/Network/MetamaskSimple.svelte";
 
@@ -9,6 +6,7 @@
   // import AccountConnect from "../Account/AccountConnect.svelte";
   // import NetworksSelect from "../Network/NetworksSelect.svelte";
   import CollectionSelect from "./CollectionSelect.svelte";
+  import { networks } from "@lib/common/networks";
   // import Nfts from "./Nfts.svelte";
   // import NftsGet from "../Nft/NftsGet.svelte";
   // import RefreshButton from "../Nft/NftsRefresh.svelte";
@@ -35,7 +33,7 @@
 
     <BreadCrumb display={true} />
 
-    {#if account && getCreate(chainId)}
+    {#if account && networks.getCreate(chainId)}
       <!-- <Create {chainId} /> -->
       <!-- <NftMint {chainId} /> -->
     {/if}

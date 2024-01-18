@@ -1,11 +1,12 @@
 import type { CollectionType } from "@lib/common/types";
-import { getNetwork } from "@lib/common/config";
+
 import { collectionMerge } from "@lib/collection/collection-get";
 
 import { alchemyActive, alchemyCollections } from "@lib/apis/api-alchemy";
 import { covalentActive, covalentCollections } from "@lib/apis/api-covalent";
 import { thegraphActive, thegraphCollections } from "@lib/apis/api-thegraph";
 import { resolverFilterCollections, resolverGetCollections } from "@lib/resolver/resolver-get-collection";
+import { networks } from "@lib/common/networks";
 // import { infuraActive, infuraCollections } from "@lib/apis/api-infura";
 
 // Merge 2 collections list into 1
@@ -38,7 +39,7 @@ const collectionList = async (
 
   let collections: Map<string, CollectionType> = new Map();
 
-  const network = getNetwork(chainId);
+  const network = networks.get(chainId);
   if (network && account) {
     let collectionsApi: Map<string, CollectionType> = new Map();
     let collectionsResolver: Map<string, CollectionType> = new Map();

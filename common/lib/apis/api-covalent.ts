@@ -2,11 +2,12 @@ import { BigNumber, constants } from "ethers";
 
 import type { FetchResponse } from "@lib/common/fetch";
 import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
-import { getChecksumAddress, getNetwork, getChainName } from "@lib/common/config";
+import { getChecksumAddress } from "@lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
 import config from "@config/config.json";
+import { networks } from "@lib/common/networks";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {
   const covalent = config?.covalent;
@@ -37,7 +38,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
   // console.log(`covalentCollections ${keyCollection(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const chainName = getChainName(chainId);
+  const chainName = networks.getChainName(chainId);
 
   if (!(chainId && chainName && account)) return collections;
 
@@ -160,6 +161,6 @@ const covalentNftList = async (
   return nfts;
 };
 
-const covalentActive = (chainId: number): boolean => Boolean(getNetwork(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.covalent?.active);
 
 export { covalentCollections, covalentNftList, covalentActive, _covalentFetch };

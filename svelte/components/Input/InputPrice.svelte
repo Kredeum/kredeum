@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { displayEther, getCurrency, isNumeric } from "@lib/common/config";
+  import { isNumeric } from "@lib/common/config";
+  import { networks } from "@lib/common/networks";
   import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 
@@ -36,14 +37,14 @@
   // $: console.log("<InputPrice", String(price), String(inputPrice));
 </script>
 
-<div class="kre-input-container" data-currency-symbol={getCurrency(chainId)}>
+<div class="kre-input-container" data-currency-symbol={networks.getCurrency(chainId)}>
   <input
     type="text"
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
     placeholder={inputPrice}
-    style={`--input-padding:${getCurrency(chainId).length};`}
+    style={`--input-padding:${networks.getCurrency(chainId).length};`}
   />
 </div>
 

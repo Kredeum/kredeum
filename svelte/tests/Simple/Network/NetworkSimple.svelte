@@ -1,5 +1,6 @@
 <script lang="ts">
-  import { getChainName } from "@lib/common/config";
+  import { networks } from "@lib/common/networks";
+
   export let chainId: number;
 
   /////////////////////////////////////////////////
@@ -7,5 +8,5 @@
   /////////////////////////////////////////////////
 </script>
 
-{getChainName(chainId)} -
+{networks.getChainName(chainId)} -
 {chainId}

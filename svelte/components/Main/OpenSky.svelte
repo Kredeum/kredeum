@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isAddressNotZero, isCollection, isNetwork, tokenIdCount } from "@lib/common/config";
+  import { isAddressNotZero, isCollection, tokenIdCount } from "@lib/common/config";
 
   import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";

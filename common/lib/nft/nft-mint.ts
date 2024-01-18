@@ -4,7 +4,7 @@ import { ethers, constants } from "ethers";
 
 import type { NftType } from "@lib/common/types";
 
-import { explorerTxLog, isEip1559 } from "@lib/common/config";
+import { explorerTxLog } from "@lib/common/config";
 import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@lib/collection/collection-get";
 
@@ -22,6 +22,7 @@ import {
 } from "@lib/collection/collection";
 import { storageLinkToUrlHttp } from "./storage/storage";
 import { ipfsGatewayUrl } from "./storage/ipfs";
+import { networks } from "@lib/common/networks";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -84,7 +85,7 @@ const nftMint = async (
     const notMine = collection.owner != minter;
     const value = collection.open && notMine ? collection.price : 0;
     const overrides: PayableOverrides = { value };
-    if (isEip1559(chainId)) overrides.type = 2;
+    if (networks.isEip1559(chainId)) overrides.type = 2;
 
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
       minter,

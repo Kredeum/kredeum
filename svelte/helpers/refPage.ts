@@ -1,6 +1,7 @@
 import type { RefPageType } from "@lib/common/types";
-import { getChainName, getChainId, getChecksumAddress, isAddressNotZero } from "@lib/common/config";
+import {  getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { constants } from "ethers";
+import { networks } from "@lib/common/networks";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number;
@@ -18,7 +19,7 @@ const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   address = getChecksumAddress(address);
   signer = getChecksumAddress(signer);
   account = isAddressNotZero(account) ? getChecksumAddress(account) : signer;
-  const chainName = getChainName(chainId) || "";
+  const chainName = networks.getChainName(chainId) || "";
 
   return { chainId, address, tokenID, account, signer, action, chainName };
 };
@@ -89,10 +90,10 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   let chainId: number;
   if (Number(chain)) {
     chainId = Number(chain);
-    chainName = getChainName(chainId);
+    chainName = networks.getChainName(chainId);
   } else {
     chainName = chain;
-    chainId = getChainId(chainName);
+    chainId = networks.getChainId(chainName);
   }
 
   // console.log("refPageFromUrlHash", chainName, chainId, address, tokenID, action, account);
