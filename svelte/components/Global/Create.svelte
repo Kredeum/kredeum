@@ -13,6 +13,8 @@
   export let chainId: number = undefined;
   export let signer: string = undefined;
 
+  let collectionAddress;
+
   let open = false;
   const toggle = () => (open = !open);
 </script>
@@ -33,6 +35,16 @@
         <span on:click={toggle} on:keydown={toggle} class="btn btn-default" title="Mint NFT">Mint NFT</span>
         <span class="or">or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
+        <div class="titre add-collection-address">Add custom collection</div>
+        <div class="form-field">
+          <input
+            type="text"
+            class=" kre-field-outline"
+            placeholder="add collection address"
+            bind:value={collectionAddress}
+          />
+          <button type="submit" class="btn btn-default btn-sell" on:click|preventDefault={mint}>Add</button>
+        </div>
       </div>
     </div>
   </div>
@@ -47,3 +59,14 @@
 <div id="add-collection" class="modal-window">
   <CollectionCreate {chainId} {signer} />
 </div>
+
+<style>
+  .add-collection-address {
+    margin-top: 8rem;
+  }
+
+  .form-field {
+    display: grid;
+    grid-template-columns: auto min-content;
+  }
+</style>
