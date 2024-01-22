@@ -1,0 +1,11 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "dependsOn": ["@kredeum/gulp#build", "@kredeum/common#build", "@kredeum/contracts#deploy"],
+      "inputs": ["**/*.ts", "**/*.svelte"],
+      "outputs": ["../web/dapp/assets", "../wordpress/plugins/kredeum-nfts/lib/js"]
+    }
+  },
+  "dependsOn": ["common"]
+}

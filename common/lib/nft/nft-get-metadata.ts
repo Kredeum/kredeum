@@ -1,6 +1,6 @@
 import type { NftType, NftMetadata } from "@lib/common/types";
 import { fetchJson } from "@lib/common/fetch";
-import {   getChecksumAddress } from "@lib/common/config";
+import { getChecksumAddress } from "@lib/common/config";
 import { keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
 import { swarmGatewayUrl, swarmGetLink } from "./storage/swarm";

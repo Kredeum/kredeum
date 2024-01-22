@@ -4,11 +4,9 @@ import { JsonRpcProvider } from "@ethersproject/providers";
 import config from "@config/config.json";
 
 const ens = (() => {
-  let ensProvider: JsonRpcProvider;
+  const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(config.ens.rpcUrl);
 
   const getName = async (address: string): Promise<string> => {
-    ensProvider ||= new providers.JsonRpcProvider(config.ens.rpcUrl);
-    console.log("getName ~ ensProvider:", ensProvider);
     let name = "";
 
     try {
@@ -21,7 +19,6 @@ const ens = (() => {
   };
 
   const getAvatar = async (address: string): Promise<string> => {
-    ensProvider ||= new providers.JsonRpcProvider(config.ens.rpcUrl);
     let avatar = "";
 
     try {

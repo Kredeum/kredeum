@@ -1,5 +1,5 @@
 import type { RefPageType } from "@lib/common/types";
-import {  getChecksumAddress, isAddressNotZero } from "@lib/common/config";
+import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { constants } from "ethers";
 import { networks } from "@lib/common/networks";
 

@@ -11,8 +11,7 @@
       "@utils/*": ["common/utils/*"],
       "@config/*": ["common/config/*"],
       "@soltypes/*": ["contracts/types/*"],
-      "@artifacts/*": ["contracts/out/*"],
-      "@contracts/*": ["contracts/*"]
+      "@artifacts/*": ["contracts/out/*"]
     }
   },
   "include": ["**/*.ts"],

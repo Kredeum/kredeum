@@ -1,4 +1,6 @@
 {
+  "name": "@kredeum/contracts",
+  "version": "1.4.0",
   "author": "Kredeum",
   "description": "",
   "devDependencies": {
@@ -20,7 +22,6 @@
   "keywords": [],
   "license": "ISC",
   "main": "index.js",
-  "name": "contracts",
   "scripts": {
     "all": "  pnpm install && pnpm install-all && pnpm build && pnpm check && pnpm tests",
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && export PATH=$PATH:$HOME/.foundry/bin &&  foundryup && pnpm foundry:init && pnpm foundry:update",
@@ -46,6 +47,5 @@
     "foundry:types": "pnpx typechain --out-dir types --target ethers-v5  out/**/*.json",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"
-  },
-  "version": "2.0.0"
+  }
 }

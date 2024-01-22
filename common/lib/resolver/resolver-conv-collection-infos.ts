@@ -3,7 +3,7 @@ import { constants, BigNumber } from "ethers";
 import type { IOpenNFTsInfos, IERCNftInfos } from "@soltypes/OpenNFTsResolver";
 
 import type { CollectionType, ReceiverType } from "@lib/common/types";
-import {  getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
+import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { resolverConvSupports } from "@lib/resolver/resolver-conv-supports";
 import { networks } from "@lib/common/networks";
 

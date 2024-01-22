@@ -3,7 +3,7 @@ import { BigNumber } from "ethers";
 import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
 import type { FetchResponse } from "@lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { getChecksumAddress,  isAddressNotZero } from "@lib/common/config";
+import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
 import { keyCollections, keyNft } from "@lib/common/keys";
 import { constants } from "ethers";
 import { networks } from "@lib/common/networks";

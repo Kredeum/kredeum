@@ -2,7 +2,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
-import {   getChecksumAddress } from "@lib/common/config";
+import { getChecksumAddress } from "@lib/common/config";
 import { networks } from "@lib/common/networks";
 
 const resolverConvNftInfos = (

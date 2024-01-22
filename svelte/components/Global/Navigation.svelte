@@ -1,14 +1,14 @@
-<script lang="ts">
+<script>
   import config from "@config/config.json";
   import { versionGet } from "@helpers/version";
   import logo from "../Images/logo-kredeum.svg";
   import { networks } from "@lib/common/networks";
 
-  export let chainId: number;
+  export let chainId;
 
   $: mainnets = networks.isMainnet(chainId);
 
-  const toggle = (evt?: Event) => {
+  const toggle = (evt) => {
     evt.preventDefault();
     location.href = `./#/${mainnets ? "sepolia" : "mainnet"}`;
     location.reload();
@@ -47,7 +47,7 @@
         <li class="active">
           <p>
             <a href="." on:click={toggle}>
-              <i class="fas {mainnets ? "fa-flask" : "fa-road"}" /><br />
+              <i class="fas {mainnets ? 'fa-flask' : 'fa-road'}" /><br />
               {@html mainnets ? "testnet" : "mainnet"}<br />
               networks
             </a>

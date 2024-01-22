@@ -1,0 +1,10 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "inputs": ["src/**/*.sol"],
+      "outputs": ["out/**", "types/**"]
+    },
+    "deploy": { "dependsOn": ["build"], "outputs": ["addresses.json"] }
+  }
+}
