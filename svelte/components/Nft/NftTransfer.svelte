@@ -8,7 +8,7 @@
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, displayEther } from "@lib/common/config";
   import { transferNft } from "@lib/nft/nft-transfer";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@stores/metamask";
+  import {  metamaskSignerAddress } from "@stores/metamask";
   import { nftStore, nftStoreRefresh } from "@stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
@@ -152,7 +152,7 @@
 
         {#if transferTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, transferTxHash)} target="_blank" rel="noreferrer"
+            <a class="link" href={explorerTxUrl(chainId, transferTxHash)} target="_blank" rel="noreferrer"
               >{textShort(transferTxHash)}</a
             >
           </div>
