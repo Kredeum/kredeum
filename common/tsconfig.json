@@ -9,7 +9,6 @@
     "paths": {
       "@lib/*": ["common/lib/*"],
       "@utils/*": ["common/utils/*"],
-      "@config/*": ["common/config/*"],
       "@soltypes/*": ["contracts/types/*"],
       "@artifacts/*": ["contracts/out/*"]
     }

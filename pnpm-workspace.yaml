@@ -1,6 +1,7 @@
 packages:
-  - 'common'
-  - 'contracts'
-  - 'gulp'
-  - 'svelte'
-  - 'wordpress'
+  - config
+  - common
+  - contracts
+  - gulp
+  - svelte
+  - wordpress

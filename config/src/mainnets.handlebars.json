@@ -12,9 +12,7 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://etherscan.io"],
     "openSea": "https://opensea.io/assets",
     "blur": "https://blur.io/asset",
     "subgraph": {
@@ -65,9 +63,7 @@
       "symbol": "AETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://nova-explorer.arbitrum.io"
-    ],
+    "blockExplorerUrls": ["https://nova-explorer.arbitrum.io"],
     "linkedLayer1": 1,
     "active": false
   },
@@ -85,9 +81,7 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://optimistic.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://optimistic.etherscan.io"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_OPTIMISM}}",
     "alchemy": {
       "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
@@ -134,27 +128,20 @@
       "symbol": "MNT",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://explorer.mantle.xyz/"
-    ],
+    "blockExplorerUrls": ["https://explorer.mantle.xyz/"],
     "linkedLayer1": 1,
     "create": true
   },
   {
     "chainId": 1101,
     "chainName": "polygon-zkevm",
-    "rpcUrls": [
-      "https://zkevm-rpc.com",
-      "https://rpc.ankr.com/polygon_zkevm"
-    ],
+    "rpcUrls": ["https://zkevm-rpc.com", "https://rpc.ankr.com/polygon_zkevm"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "zkETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://zkevm.polygonscan.com/"
-    ],
+    "blockExplorerUrls": ["https://zkevm.polygonscan.com/"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
     "create": true,
     "linkedLayer1": 1
@@ -182,17 +169,13 @@
   {
     "chainId": 534352,
     "chainName": "scroll",
-    "rpcUrls": [
-      "https://rpc.scroll.io"
-    ],
+    "rpcUrls": ["https://rpc.scroll.io"],
     "nativeCurrency": {
       "name": "Scroll Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://blockscout.scroll.io"
-    ],
+    "blockExplorerUrls": ["https://blockscout.scroll.io"],
     "linkedLayer1": 1,
     "active": false,
     "create": false
@@ -200,17 +183,13 @@
   {
     "chainId": 7777777,
     "chainName": "zora",
-    "rpcUrls": [
-      "https://rpc.zora.energy"
-    ],
+    "rpcUrls": ["https://rpc.zora.energy"],
     "nativeCurrency": {
       "name": "Zora Ether",
       "symbol": "zETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://explorer.zora.energy"
-    ],
+    "blockExplorerUrls": ["https://explorer.zora.energy"],
     "linkedLayer1": 1,
     "active": false,
     "create": true
@@ -218,17 +197,13 @@
   {
     "chainId": 424,
     "chainName": "pgn",
-    "rpcUrls": [
-      "https://rpc.publicgoods.network"
-    ],
+    "rpcUrls": ["https://rpc.publicgoods.network"],
     "nativeCurrency": {
       "name": "PGN Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://explorer.publicgoods.network"
-    ],
+    "blockExplorerUrls": ["https://explorer.publicgoods.network"],
     "linkedLayer1": 1,
     "active": false,
     "create": false
@@ -308,10 +283,7 @@
   {
     "chainId": 42220,
     "chainName": "celo",
-    "rpcUrls": [
-      "https://forno.celo.org",
-      "wss://forno.celo.org/ws"
-    ],
+    "rpcUrls": ["https://forno.celo.org", "wss://forno.celo.org/ws"],
     "nativeCurrency": {
       "name": "CELO",
       "symbol": "CELO",
@@ -337,9 +309,7 @@
       "symbol": "FTM",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://ftmscan.com"
-    ],
+    "blockExplorerUrls": ["https://ftmscan.com"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
     "create": true
   },
@@ -358,26 +328,20 @@
       "symbol": "BNB",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://bscscan.com"
-    ],
+    "blockExplorerUrls": ["https://bscscan.com"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
     "create": true
   },
   {
     "chainId": 40,
     "chainName": "telos",
-    "rpcUrls": [
-      "https://mainnet.telos.net/evm"
-    ],
+    "rpcUrls": ["https://mainnet.telos.net/evm"],
     "nativeCurrency": {
       "name": "TELOS",
       "symbol": "TLOS",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://teloscan.io"
-    ],
+    "blockExplorerUrls": ["https://teloscan.io"],
     "eip1559": false,
     "create": true,
     "active": false

@@ -6,7 +6,7 @@ import { getChecksumAddress } from "@lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
 import { keyCollection, keyNft } from "@lib/common/keys";
-import config from "@config/config.json";
+import config from "@kredeum/config/dist/config.json";
 import { networks } from "@lib/common/networks";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {

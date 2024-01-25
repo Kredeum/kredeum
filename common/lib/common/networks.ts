@@ -1,6 +1,6 @@
 import type { NetworkType, NftType } from "@lib/common/types";
-import mainnetsJson from "@config/mainnets.json";
-import testnetsJson from "@config/testnets.json";
+import mainnetsJson from "@kredeum/config/dist/mainnets.json";
+import testnetsJson from "@kredeum/config/dist/testnets.json";
 
 const networks = (() => {
   const _networksMap = new Map(

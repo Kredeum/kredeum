@@ -61,6 +61,7 @@
     "format": "prettier **/*.svelte **/*.ts --write --list-different --loglevel log"
   },
   "dependencies": {
+    "@kredeum/config": "workspace:^",
     "@kredeum/contracts": "workspace:^"
   }
 }

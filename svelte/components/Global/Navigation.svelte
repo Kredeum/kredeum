@@ -1,5 +1,5 @@
 <script>
-  import config from "@config/config.json";
+  import config from "@kredeum/config/dist/config.json";
   import { versionGet } from "@helpers/version";
   import logo from "../Images/logo-kredeum.svg";
   import { networks } from "@lib/common/networks";

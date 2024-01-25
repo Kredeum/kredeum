@@ -11,7 +11,6 @@
       "@stores/*": ["svelte/stores/*"],
       "@helpers/*": ["svelte/helpers/*"],
       "@lib/*": ["common/lib/*"],
-      "@config/*": ["common/config/*"],
       "@artifacts/*": ["contracts/out/*"],
       "@soltypes/*": ["contracts/types/*"],
       "tslib": ["svelte/node_modules/tslib/tslib.d.ts"]

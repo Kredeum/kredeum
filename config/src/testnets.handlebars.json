@@ -2,17 +2,13 @@
   {
     "chainId": 5,
     "chainName": "goerli",
-    "rpcUrls": [
-      "https://goerli.infura.io/v3/{{INFURA_API_KEY}}"
-    ],
+    "rpcUrls": ["https://goerli.infura.io/v3/{{INFURA_API_KEY}}"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "GOETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://goerli.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://goerli.etherscan.io"],
     "openSea": "https://testnets.opensea.io/assets",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-goerli",
@@ -29,9 +25,7 @@
   {
     "chainId": 84531,
     "chainName": "base-goerli",
-    "rpcUrls": [
-      "https://goerli.base.org"
-    ],
+    "rpcUrls": ["https://goerli.base.org"],
     "nativeCurrency": {
       "name": "Goerli Ether",
       "symbol": "ETH",
@@ -69,9 +63,7 @@
   {
     "chainId": 1442,
     "chainName": "polygon-zkevm-testnet",
-    "rpcUrls": [
-      "https://rpc.public.zkevm-test.net"
-    ],
+    "rpcUrls": ["https://rpc.public.zkevm-test.net"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "zktETH",
@@ -99,9 +91,7 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://sepolia.etherscan.io"
-    ],
+    "blockExplorerUrls": ["https://sepolia.etherscan.io"],
     "etherscan": {
       "apiUrl": "https://api-sepolia.etherscan.io/"
     },
@@ -112,17 +102,13 @@
   {
     "chainId": 534351,
     "chainName": "scroll-sepolia",
-    "rpcUrls": [
-      "https://sepolia-rpc.scroll.io/"
-    ],
+    "rpcUrls": ["https://sepolia-rpc.scroll.io/"],
     "nativeCurrency": {
       "name": "Scroll Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://sepolia-blockscout.scroll.io"
-    ],
+    "blockExplorerUrls": ["https://sepolia-blockscout.scroll.io"],
     "linkedMainnet": 534352,
     "linkedLayer1": 11155111,
     "eip1559": false,
@@ -131,17 +117,13 @@
   {
     "chainId": 999,
     "chainName": "zora-goerli",
-    "rpcUrls": [
-      "https://testnet.rpc.zora.energy"
-    ],
+    "rpcUrls": ["https://testnet.rpc.zora.energy"],
     "nativeCurrency": {
       "name": "Zora Ether",
       "symbol": "zETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.explorer.zora.energy"
-    ],
+    "blockExplorerUrls": ["https://testnet.explorer.zora.energy"],
     "linkedMainnet": 7777777,
     "linkedLayer1": 5,
     "create": true
@@ -149,17 +131,13 @@
   {
     "chainId": 58008,
     "chainName": "pgn-sepolia",
-    "rpcUrls": [
-      "https://sepolia.publicgoods.network"
-    ],
+    "rpcUrls": ["https://sepolia.publicgoods.network"],
     "nativeCurrency": {
       "name": "PGN Ether",
       "symbol": "pgnETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://explorer.sepolia.publicgoods.network"
-    ],
+    "blockExplorerUrls": ["https://explorer.sepolia.publicgoods.network"],
     "linkedMainnet": 424,
     "linkedLayer1": 11155111,
     "create": true
@@ -244,9 +222,7 @@
       "symbol": "CELO",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://https://alfajores.celoscan.io/"
-    ],
+    "blockExplorerUrls": ["https://https://alfajores.celoscan.io/"],
     "linkedMainnet": 42220,
     "create": true
   },
@@ -262,9 +238,7 @@
       "symbol": "FTM",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.ftmscan.com"
-    ],
+    "blockExplorerUrls": ["https://testnet.ftmscan.com"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
     "create": true,
     "linkedMainnet": 250
@@ -283,9 +257,7 @@
       "symbol": "BNB",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.bscscan.com/"
-    ],
+    "blockExplorerUrls": ["https://testnet.bscscan.com/"],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
     "create": true,
     "linkedMainnet": 56,
@@ -294,17 +266,13 @@
   {
     "chainId": 41,
     "chainName": "telos-testnet",
-    "rpcUrls": [
-      "https://testnet.telos.net/evm"
-    ],
+    "rpcUrls": ["https://testnet.telos.net/evm"],
     "nativeCurrency": {
       "name": "TELOS",
       "symbol": "TLOS",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "https://testnet.teloscan.io"
-    ],
+    "blockExplorerUrls": ["https://testnet.teloscan.io"],
     "eip1559": false,
     "create": true,
     "linkedMainnet": 40
@@ -312,17 +280,13 @@
   {
     "chainId": 31337,
     "chainName": "local",
-    "rpcUrls": [
-      "http://127.0.0.1:8545"
-    ],
+    "rpcUrls": ["http://127.0.0.1:8545"],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": [
-      "http://localhost/explorer"
-    ],
+    "blockExplorerUrls": ["http://localhost/explorer"],
     "linkedMainnet": 31337,
     "create": true
   }

@@ -1,7 +1,7 @@
 import { providers } from "ethers";
 
 import { JsonRpcProvider } from "@ethersproject/providers";
-import config from "@config/config.json";
+import config from "@kredeum/config/dist/config.json";
 
 const ens = (() => {
   const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(config.ens.rpcUrl);

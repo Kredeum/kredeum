@@ -18,6 +18,3 @@ broadcast
 .certora*
 .zip*
 *.zip
-
-# build config
-config.json

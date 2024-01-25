@@ -1,5 +1,5 @@
 import type { NftType } from "@lib/common/types";
-import config from "@config/config.json";
+import config from "@kredeum/config/dist/config.json";
 
 const basePathAsset = `${config.base}/assets`;
 

@@ -1,8 +1,0 @@
-OpenNFTsV4Test:testBuy() (gas: 160303)
-OpenNFTsV4Test:testBuyNotEnoughFunds() (gas: 80422)
-OpenNFTsV4Test:testBuyNotToSell() (gas: 34856)
-OpenNFTsV4Test:testBuyTwice() (gas: 155431)
-OpenNFTsV4Test:testInterfaceIds() (gas: 15445)
-OpenNFTsV4Test:testRoyaltyInfoOverFlow() (gas: 52344)
-OpenNFTsV4Test:testSetTokenPriceNoToken() (gas: 13291)
-OpenNFTsV4Test:testSetTokenRoyaltyNoToken() (gas: 15682)
