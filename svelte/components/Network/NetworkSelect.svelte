@@ -16,7 +16,10 @@
   export let txt: boolean = false;
   export let label = true;
 
+  $: currentNetworks = networks.getAllSameType(chainId);
+
   let open = false;
+  const handleToggleOpen = () => (open = !open);
 
   interface SwitchEventTarget extends EventTarget {
     value: number;
@@ -29,18 +32,13 @@
     evt.preventDefault();
     chainId = _chainId;
   };
-
-  const handleToggleOpen = () => (open = !open);
-
-  // All mainnnet (or testnets) networks
-  const networksFilter = (): Array<NetworkType> => networks.getAllSameType(chainId);
 </script>
 
 {#if txt}
   {#if label}Network{/if}
 
   <select on:change={_switchChainEvt}>
-    {#each networksFilter() as nwk}
+    {#each currentNetworks as nwk}
       <option value={nwk.chainId} selected={nwk.chainId == chainId}>
         <Network chainId={nwk.chainId} {txt} pre={true} />
         &nbsp;
@@ -75,7 +73,7 @@
       </div>
 
       <div class="custom-options">
-        {#each networksFilter() as nwk}
+        {#each currentNetworks as nwk}
           <span
             class="custom-option {nwk.chainId == chainId && 'selected'}"
             on:click={(evt) => _switchChain(nwk.chainId, evt)}

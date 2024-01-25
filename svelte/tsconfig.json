@@ -11,12 +11,9 @@
       "@stores/*": ["svelte/stores/*"],
       "@helpers/*": ["svelte/helpers/*"],
       "@lib/*": ["common/lib/*"],
-      "@config/*": ["common/config/*"],
-      "@utils/*": ["common/utils/*"],
-      "tslib": ["svelte/node_modules/tslib/tslib.d.ts"],
-      "@soltypes/*": ["contracts/types/*"],
       "@artifacts/*": ["contracts/out/*"],
-      "@contracts/*": ["contracts/*"]
+      "@soltypes/*": ["contracts/types/*"],
+      "tslib": ["svelte/node_modules/tslib/tslib.d.ts"]
     }
   },
   "include": ["**/*.ts", "**/*.svelte", "../common/lib/**/*.ts"],

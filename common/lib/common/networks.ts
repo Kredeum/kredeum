@@ -1,6 +1,8 @@
 import type { NetworkType, NftType } from "@lib/common/types";
-import mainnetsJson from "@config/mainnets.json";
-import testnetsJson from "@config/testnets.json";
+import mainnetsJson from "@kredeum/config/dist/mainnets.json";
+import testnetsJson from "@kredeum/config/dist/testnets.json";
+
+type chainIdish = number | string | undefined;
 
 const networks = (() => {
   const _networksMap = new Map(
@@ -10,35 +12,40 @@ const networks = (() => {
   // const _getMap = (): Map<number, NetworkType> | undefined => _networksMap;
   const _getAll = (): NetworkType[] => [...(_networksMap?.values() || [])];
   const _getAllActive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => !(nw.active === false));
-  const getAllSameType = (chainId: number): NetworkType[] =>
+  const getAllSameType = (chainId: chainIdish): NetworkType[] =>
     _getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
 
-  const get = (chainId: number | string | undefined): NetworkType | undefined => _networksMap?.get(Number(chainId));
-  const getChainName = (chainId: number | string | undefined): string | undefined => get(chainId)?.chainName;
+  const get = (chainId: chainIdish): NetworkType | undefined => _networksMap?.get(Number(chainId));
+
   const getChainId = (chainName: string): number | undefined =>
     _getAll()?.find((nw: NetworkType) => nw.chainName === chainName)?.chainId;
-  const getExplorer = (chainId: number): string => get(chainId)?.blockExplorerUrls[0] || "";
-  const getOpenSea = (chainId: number): string => get(chainId)?.openSea || "";
-  const getBlur = (chainId: number): string => get(chainId)?.blur || "";
-  const getCreate = (chainId: number): boolean => Boolean(get(chainId)?.create);
-  const getLinkedMainnet = (chainId: number | string): number => get(chainId)?.linkedMainnet || 0;
-  const getLinkedLayer1 = (chainId: number | string): number => get(chainId)?.linkedLayer1 || 0;
-  const getCurrency = (chainId: number): string => get(chainId)?.nativeCurrency.symbol || "";
+  const getExplorer = (chainId: chainIdish): string => get(chainId)?.blockExplorerUrls[0] || "";
+  const getOpenSea = (chainId: chainIdish): string => get(chainId)?.openSea || "";
+  const getBlur = (chainId: chainIdish): string => get(chainId)?.blur || "";
+  const getCreate = (chainId: chainIdish): boolean => Boolean(get(chainId)?.create);
+  const getLinkedMainnet = (chainId: chainIdish): number => get(chainId)?.linkedMainnet || 0;
+  const getLinkedLayer1 = (chainId: chainIdish): number => get(chainId)?.linkedLayer1 || 0;
+  const getCurrency = (chainId: chainIdish): string => get(chainId)?.nativeCurrency.symbol || "";
   const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
     `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
   const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
     `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
-  const getRpcUrl = (chainId: number | string): string => get(chainId)?.rpcUrls[0] || "";
+  const getRpcUrl = (chainId: chainIdish): string => get(chainId)?.rpcUrls[0] || "";
 
-  const has = (chainId: number | string | undefined): boolean => _networksMap?.has(Number(chainId));
+  const has = (chainId: chainIdish): boolean => _networksMap?.has(Number(chainId));
 
-  const isActive = (chainId: number | string): boolean => get(chainId)?.active || false;
-  const isEip1559 = (chainId: number | string): boolean => Boolean(get(chainId)?.eip1559);
-  const isMainnet = (chainId: number | string): boolean => getLinkedMainnet(chainId) == 0;
-  const isTestnet = (chainId: number | string): boolean => !isMainnet(chainId);
-  const isLayer1 = (chainId: number | string): boolean => getLinkedLayer1(chainId) == 0;
-  const isLayer2 = (chainId: number | string): boolean => !isLayer1(chainId);
+  const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || false;
+  const isEip1559 = (chainId: chainIdish): boolean => Boolean(get(chainId)?.eip1559);
+  const isMainnet = (chainId: chainIdish): boolean => getLinkedMainnet(chainId) == 0;
+  const isTestnet = (chainId: chainIdish): boolean => !isMainnet(chainId);
+  const isLayer1 = (chainId: chainIdish): boolean => getLinkedLayer1(chainId) == 0;
+  const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
+
+  const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
+  const getMainnetName = (chainId: chainIdish) =>
+    isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : getChainName(chainId);
+  const getIconName = (chainId: chainIdish) => `icon-${getMainnetName(chainId)}.png`;
 
   // console.log("networks.getAll", getAll());
   // console.log("networks.getAllSameType mainnet", getAllSameType(1));
@@ -60,6 +67,7 @@ const networks = (() => {
     getOpenSea,
     getExplorer,
     getChainName,
+    getIconName,
     getLinkedMainnet,
     getLinkedLayer1,
     isLayer1,

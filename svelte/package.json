@@ -1,4 +1,6 @@
 {
+  "name": "@kredeum/svelte",
+  "version": "1.4.0",
   "author": "",
   "description": "",
   "devDependencies": {
@@ -15,9 +17,9 @@
     "@tsconfig/svelte": "^2.0.1",
     "@types/findup-sync": "^4.0.4",
     "@types/semver": "^7.5.6",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "dotenv": "^16.3.1",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "dotenv": "^16.3.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^8.10.0",
     "eslint-plugin-html": "^7.1.0",
@@ -49,7 +51,6 @@
   "keywords": [],
   "license": "ISC",
   "main": "index.js",
-  "name": "svelte",
   "scripts": {
     "build": "ENVIR=PROD GIT_SHORT=$(git rev-parse --short HEAD) rollup -c --configPlugin typescript",
     "check": "pnpm run check:svelte && pnpm run check:eslint",
@@ -59,5 +60,8 @@
     "dev": "GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) GIT_SHORT=$(git rev-parse --short HEAD) rollup -c -w --configPlugin typescript",
     "format": "prettier **/*.svelte **/*.ts --write --list-different --loglevel log"
   },
-  "version": "1.0.0"
+  "dependencies": {
+    "@kredeum/config": "workspace:^",
+    "@kredeum/contracts": "workspace:^"
+  }
 }

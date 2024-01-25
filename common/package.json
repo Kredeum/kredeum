@@ -1,16 +1,15 @@
 {
-  "name": "common",
-  "version": "2.0.0",
+  "name": "@kredeum/common",
+  "version": "1.4.0",
   "description": "",
   "main": "index.js",
   "directories": {
     "lib": "lib"
   },
   "scripts": {
-    "clean": "rm -rf node_modules types abis config/networks.json",
-    "format": "prettier lib/**/*.ts --write --list-different --loglevel log",
-    "check": "eslint lib/**/*.ts",
-    "build": "pnpx ts-node build-config && pnpx ts-node build-others"
+    "clean": "rm -rf node_modules types abis",
+    "format": "prettier lib/**/*.ts --write --list-different",
+    "check": "eslint lib/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -27,21 +26,24 @@
     "@ipld/dag-pb": "^4.0.8",
     "@types/findup-sync": "^4.0.4",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.0",
-    "@typescript-eslint/eslint-plugin": "^6.18.1",
-    "@typescript-eslint/parser": "^6.18.1",
-    "dotenv": "^16.3.1",
+    "@types/node": "^20.11.5",
+    "@typescript-eslint/eslint-plugin": "^6.19.1",
+    "@typescript-eslint/parser": "^6.19.1",
+    "dotenv": "^16.3.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
-    "handlebars": "^4.7.8",
     "multiformats": "^12.1.3",
     "pdfjs-dist": "^3.11.174",
-    "prettier": "^3.2.1",
+    "prettier": "^3.2.4",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"
+  },
+  "dependencies": {
+    "@kredeum/config": "workspace:^",
+    "@kredeum/contracts": "workspace:^"
   }
 }

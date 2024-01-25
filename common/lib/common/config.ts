@@ -4,8 +4,8 @@ import { Fragment, Interface } from "@ethersproject/abi";
 
 import type { CollectionType, NftType, RefPageType, AddressesType } from "@lib/common/types";
 
-import config from "@config/config.json";
-import addressesRaw from "@contracts/addresses.json";
+import config from "@kredeum/config/dist/config.json";
+import addressesRaw from "@kredeum/contracts/addresses.json";
 
 import { formatEther } from "ethers/lib/utils";
 import { networks } from "./networks";

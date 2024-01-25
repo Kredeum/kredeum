@@ -5,7 +5,7 @@
 import { NftType, StorageConfigType, StorageParamsType, StorageType } from "@lib/common/types";
 import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./ipfs";
 import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
-import config from "@config/config.json";
+import config from "@kredeum/config/dist/config.json";
 
 // IN MEMORY Storage Config
 let _storageConfig: StorageConfigType;

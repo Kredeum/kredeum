@@ -24,7 +24,7 @@
   import { getSupportedImage, getMediaSelection } from "@helpers/mediaTypes";
   import { defaultAudioCoverImg } from "@helpers/defaultCoverImage";
 
-  import { metamaskSignerAddress, metamaskSigner, metamaskProvider, metamaskChainId } from "@stores/metamask";
+  import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@stores/metamask";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";

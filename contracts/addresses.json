@@ -55,6 +55,13 @@
     "OpenNFTsV5": "0xbcf413781931cb99ad6Fe55dF963e3f0718fbd4E",
     "chainName": "sepolia"
   },
+  "1351057110": {
+    "OpenAutoMarket": "0xaBC576652433154Ab5F9cF1A2F4f0457d7690cc6",
+    "OpenNFTsFactoryV3": "0xECC12ab909CfaEb5989E35509218f399c8Dc4b4c",
+    "OpenNFTsResolver": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenNFTsV4": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "chainName": "chaos-testnet"
+  },
   "137": {
     "OpenAutoMarket": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
     "OpenBound": "0xE82984f872B68B6B369D5700654F229ba6f57c42",

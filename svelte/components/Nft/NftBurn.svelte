@@ -8,7 +8,6 @@
   import { transferNft } from "@lib/nft/nft-transfer";
   import { metamaskSignerAddress } from "@stores/metamask";
 
-  import { metamaskChainId } from "@stores/metamask";
   import { nftStoreRemove } from "@stores/nft/nft";
 
   /////////////////////////////////////////////////
@@ -168,7 +167,7 @@
 
         {#if burnTxHash}
           <div class="flex">
-            <a class="link" href={explorerTxUrl($metamaskChainId, burnTxHash)} target="_blank" rel="noreferrer"
+            <a class="link" href={explorerTxUrl(chainId, burnTxHash)} target="_blank" rel="noreferrer"
               >{textShort(burnTxHash)}</a
             >
           </div>

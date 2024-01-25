@@ -1,5 +1,5 @@
 {
-  "name": "thegraph",
+  "name": "@kredeum/thegraph",
   "version": "1.0.0",
   "description": "<img src=\"klogo.png\" height=\"100px\">",
   "main": "index.js",

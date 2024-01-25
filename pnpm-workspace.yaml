@@ -1,9 +1,7 @@
 packages:
-  - 'common/**'
-  - 'gulp/**'
-  - 'svelte/**'
-  - 'wordpress/**'
-  - 'contracts/**'
-  - '!contracts/lib/**'
-  - '!swarm/**'
-  - '!thegraph/**'
+  - config
+  - common
+  - contracts
+  - gulp
+  - svelte
+  - wordpress

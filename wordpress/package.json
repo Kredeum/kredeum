@@ -1,6 +1,6 @@
 {
-  "name": "wordpress",
-  "version": "1.0.0",
+  "name": "@kredeum/wordpress",
+  "version": "1.4.0",
   "description": "=== Kredeum NFTs, The easiest way to sell your content to NFTs Marketplaces === Contributors: yoannr35, alexr35, alain Donate link:  https://www.kredeum.com/ Tags: nft, blockchain, ethereum, ipfs, swarm Requires at least: 5.0 Tested up to: 5.8 Stable tag: {{version.stable}} Requires PHP: 7.0 License: GPLv3 or later License URI: https://www.gnu.org/licenses/gpl-3.0.html",
   "main": "index.js",
   "scripts": {
@@ -9,7 +9,8 @@
     "install:vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
     "install:wordpress": "pnpm install:composer && pnpm install:vendor",
     "check": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --extensions=php --standard=WordPress",
-    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress"
+    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
+    "build": "pnpx ts-node scripts/build.ts"
   },
   "keywords": [],
   "author": "",
@@ -17,5 +18,8 @@
   "devDependencies": {
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0"
+  },
+  "dependencies": {
+    "@kredeum/config": "workspace:^"
   }
 }

@@ -1,0 +1,9 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "build": {
+      "inputs": ["src/*"],
+      "outputs": ["dist/*"]
+    }
+  }
+}

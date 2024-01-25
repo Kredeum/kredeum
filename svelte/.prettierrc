@@ -6,9 +6,7 @@
   "trailingComma": "none",
   "semi": true,
   "proseWrap": "preserve",
-  "plugins": [
-    "./node_modules/prettier-plugin-svelte"
-  ],
+  "plugins": ["./node_modules/prettier-plugin-svelte"],
   "bracketSameLine": false,
   "overrides": [
     {
@@ -20,5 +18,5 @@
         "trailingComma": "none"
       }
     }
-  ]
+  ] 
 }

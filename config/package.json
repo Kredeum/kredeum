@@ -1,0 +1,19 @@
+{
+  "name": "@kredeum/config",
+  "version": "1.4.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "clean": "rm -rf node_modules dist",
+    "build": "pnpx ts-node scripts/build.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/fs-extra": "^11.0.4",
+    "@types/node": "^20.11.6",
+    "fs-extra": "^11.2.0",
+    "handlebars": "^4.7.8"
+  }
+}

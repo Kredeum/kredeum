@@ -69,7 +69,7 @@ const thegraphCollections = async (chainId: number, account: string): Promise<Ma
   // console.log(`thegraphCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-const network = networks.get(chainId);
+  const network = networks.get(chainId);
 
   if (account) {
     const query = `
