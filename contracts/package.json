@@ -34,7 +34,7 @@
     "clean:foundry": "forge clean && rm -rf cache-forge out",
     "deploy:deploy": "pnpm run deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",
     "deploy:validate": "pnpm run deploy:all --fork-url $CHAIN --sender $SENDER",
-    "deploy:testnet": "SENDER=$TESTNET_SENDER ACCOUNT=$TESTNET_ACCOUNT pnpm deploy:deploy --verify",
+    "deploy:testnet": "SENDER=$TESTNET_SENDER ACCOUNT=$TESTNET_ACCOUNT pnpm deploy:deploy",
     "deploy:mainnet": "SENDER=$MAINNET_SENDER ACCOUNT=$MAINNET_ACCOUNT pnpm deploy:deploy --verify",
     "deploy:anvil": "export CHAIN=anvil SENDER=$ANVIL_SENDER ACCOUNT=$ANVIL_ACCOUNT  && pnpm run deploy:deploy && pnpm run deploy:validate",
     "deploy:sepolia": "CHAIN=sepolia pnpm run deploy:testnet",

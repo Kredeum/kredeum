@@ -13,7 +13,7 @@
     "check-all": "pnpm -r check",
     "update-all": "pnpm -r update",
     "tests-all": "pnpm -r tests",
-    "build1": "pnpm -F common build",
+    "build1": "pnpm -F config build",
     "build2": "pnpm -F contracts -F gulp build",
     "build3": "pnpm -F svelte build",
     "build-dapp": "pnpm build1 && pnpm build2 && pnpm build3",

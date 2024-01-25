@@ -51,6 +51,7 @@ zora-goerli = "https://testnet.rpc.zora.co"
 zora-sepolia = "https://sepolia.rpc.zora.energy"
 mantle-testnet = "https://rpc.testnet.mantle.xyz"
 mode-sepolia = "https://sepolia.mode.network"
+chaos-testnet = "https://staging-v3.skalenodes.com/v1/staging-fast-active-bellatrix"
 anvil = "http://127.0.0.1:8545"
 
 [etherscan]
