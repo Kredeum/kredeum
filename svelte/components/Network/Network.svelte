@@ -14,23 +14,38 @@
     str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
   $: chainName = networks.getChainName(chainId);
-  $: iconName = networks.getIconName(chainId);
+  $: chainMainnet = networks.getMainnetName(chainId);
   $: chainLabel = strUpFirst(chainName);
   $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
-
-  $: logoPos = pre ? (networks.isLayer2(chainId) ? 25 : 0) : 0;
-
-  $: logoStyle = `background: url("./assets/images/${iconName}") no-repeat ${logoPos}px center/25px; padding: 5px 0;`;
-  $: spacerStyle = `margin-left: 35px;`;
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>
 
 {#if txt}
-  {preLabel}{chainLabel}
+  {preLabel} {chainLabel}
 {:else}
-  <span style={logoStyle}>
-    {preLabel}
-    <span style={spacerStyle}>{chainLabel}</span>
+  <span class="line">
+    {#if preLabel}
+      <span class="prelabel">{preLabel}</span>
+    {/if}
+    <span class="icon icon-{chainMainnet}" />
+    <span>{chainLabel}</span>
   </span>
 {/if}
+
+<style>
+  span.line {
+    display: flex;
+    align-items: center;
+    margin-right: 8px;
+  }
+  span.prelabel {
+    margin-right: 8px;
+  }
+  span.icon {
+    /* display: inline-block; */
+    width: 30px;
+    height: 30px;
+    margin-right: 8px;
+  }
+</style>

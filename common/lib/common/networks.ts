@@ -45,7 +45,6 @@ const networks = (() => {
   const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
   const getMainnetName = (chainId: chainIdish) =>
     isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : getChainName(chainId);
-  const getIconName = (chainId: chainIdish) => `icon-${getMainnetName(chainId)}.png`;
 
   // console.log("networks.getAll", getAll());
   // console.log("networks.getAllSameType mainnet", getAllSameType(1));
@@ -67,7 +66,7 @@ const networks = (() => {
     getOpenSea,
     getExplorer,
     getChainName,
-    getIconName,
+    getMainnetName,
     getLinkedMainnet,
     getLinkedLayer1,
     isLayer1,

@@ -1,13 +1,8 @@
 {
-  "extends": [
-    "//"
-  ],
+  "extends": ["//"],
   "pipeline": {
     "build": {
-      "outputs": [
-        "../web/dapp/**",
-        "../wordpress/plugins/kredeum-nfts/lib/**"
-      ]
+      "outputs": ["web/dapp/**/*"]
     }
   }
 }

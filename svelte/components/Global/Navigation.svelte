@@ -8,8 +8,7 @@
 
   $: mainnets = networks.isMainnet(chainId);
 
-  const toggle = (evt) => {
-    evt.preventDefault();
+  const toggle = () => {
     location.href = `./#/${mainnets ? "sepolia" : "mainnet"}`;
     location.reload();
   };
@@ -18,9 +17,9 @@
 </script>
 
 <div class="logo">
-  <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" alt="Kredeum website" title="Kredeum website"
-    ><img src={logo} alt="Logo Kredeum" /></a
-  >
+  <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" alt="Kredeum website" title="Kredeum website">
+    <img src={logo} alt="Logo Kredeum" />
+  </a>
 </div>
 
 <div class="menu">
@@ -46,7 +45,7 @@
         </li>
         <li class="active">
           <p>
-            <a href="." on:click={toggle}>
+            <a href="." on:click|preventDefault={toggle}>
               <i class="fas {mainnets ? 'fa-flask' : 'fa-road'}" /><br />
               {@html mainnets ? "testnet" : "mainnet"}<br />
               networks

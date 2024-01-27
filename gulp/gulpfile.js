@@ -22,9 +22,9 @@ if (!process.env.ENVIR) {
 }
 var production = process.env.ENVIR == "PROD";
 
-// Clean assets
+// Clean lib
 function clean() {
-  return del(["../web/dapp/", ".../wordpress/plugins/kredeum-nfts/lib/"], { force: true });
+  return del(["web/dapp/**/*"], { force: true });
 }
 
 function swallow(err) {
@@ -35,7 +35,7 @@ function swallow(err) {
 // Optimize Images
 function images() {
   return gulp
-    .src("./images/**/*")
+    .src("images/**/*")
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
@@ -51,45 +51,43 @@ function images() {
         }),
       ])
     )
-    .pipe(gulp.dest("../web/dapp/assets/images"))
-    .pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/images"));
+    .pipe(gulp.dest("web/dapp/assets/images"));
 }
 
 // CSS task
 function css() {
   return gulp
-    .src("./scss/**/*.scss")
+    .src("scss/**/*.scss")
     .pipe(!production ? sourcemaps.init() : noop())
     .pipe(plumber())
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
     .pipe(postcss([autoprefixer(), cssnano()]))
     .pipe(sourcemaps.write(".", { sourceRoot: "css-source" }))
-    .pipe(gulp.dest("../web/dapp/assets/css/"))
-    .pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/css/"));
+    .pipe(gulp.dest("web/dapp/assets/css/"));
 }
 
 function fonts() {
-  return gulp.src(["./fonts/**/*"]).pipe(gulp.dest("../web/dapp/assets/fonts/")).pipe(gulp.dest("../wordpress/plugins/kredeum-nfts/lib/fonts/"));
+  return gulp.src(["fonts/**/*"]).pipe(gulp.dest("web/dapp/assets/fonts/"));
 }
 
 // Copy html
 function htmls() {
-  return gulp.src(["./html/**/*"]).pipe(gulp.dest("../web/dapp"));
+  return gulp.src(["html/*"]).pipe(gulp.dest("web/dapp"));
 }
 
 // Transpile, concatenate and minify scripts
 function scripts() {
   return gulp
-    .src(["./js/**/*"])
+    .src(["js/**/*"])
     .pipe(plumber())
     .pipe(!production ? uglify().on("error", swallow) : noop())
-    .pipe(gulp.dest("../web/dapp/assets/js/"));
+    .pipe(gulp.dest("web/dapp/assets/js/"));
 }
 
 // Watch files
 function watchFiles() {
-  gulp.watch("./scss/**/*", css);
-  gulp.watch("./js/**/*", gulp.series(scripts));
+  gulp.watch("scss/**/*", css);
+  gulp.watch("js/**/*", gulp.series(scripts));
 }
 
 const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);

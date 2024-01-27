@@ -1,6 +1,15 @@
 @import "_variables";
 @import "_global";
 
+$names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-zkevm", "polygon", "gnosis", "avalanche", "fantom", "bsc", "scroll", "zora", "pgn", "celo", "telos", "skale", "local";
+
+@each $name in $names {
+  [data-value="#{$name}"],
+  .icon-#{$name} {
+    background: url("../images/icon-#{$name}.png") no-repeat left center/30px;
+  }
+}
+
 .wp-admin {
   .kre-storage-option {
     display: none;
@@ -128,7 +137,6 @@
         border-radius: 360px;
         height: 50px;
       }
-
 
       .clear {
         height: 50px;

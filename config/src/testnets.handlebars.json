@@ -99,17 +99,17 @@
     "create": true
   },
   {
-    "chainId": 999,
-    "chainName": "zora-goerli",
-    "rpcUrls": ["https://testnet.rpc.zora.energy"],
+    "chainId": 999999999,
+    "chainName": "zora-sepolia",
+    "rpcUrls": ["https://sepolia.rpc.zora.energy"],
     "nativeCurrency": {
       "name": "Zora Ether",
       "symbol": "zETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://testnet.explorer.zora.energy"],
+    "blockExplorerUrls": ["https://sepolia.explorer.zora.energy/"],
     "linkedMainnet": 7777777,
-    "linkedLayer1": 5,
+    "linkedLayer1": 11155111,
     "create": true
   },
   {
@@ -233,19 +233,7 @@
     "create": true,
     "linkedMainnet": 40
   },
-  {
-    "chainId": 31337,
-    "chainName": "local",
-    "rpcUrls": ["http://127.0.0.1:8545"],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["http://localhost/explorer"],
-    "linkedMainnet": 31337,
-    "create": true
-  },
+
   {
     "chainId": 1351057110,
     "chainName": "chaos-testnet",
@@ -259,5 +247,18 @@
     "eip1559": false,
     "create": true,
     "linkedMainnet": 344106930
+  },
+  {
+    "chainId": 31337,
+    "chainName": "local",
+    "rpcUrls": ["http://127.0.0.1:8545"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["http://localhost/explorer"],
+    "linkedMainnet": 31337,
+    "create": true
   }
 ]

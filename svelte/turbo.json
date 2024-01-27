@@ -4,7 +4,7 @@
     "build": {
       "dependsOn": ["@kredeum/gulp#build", "@kredeum/config#build", "@kredeum/contracts#deploy"],
       "inputs": ["**/*.ts", "**/*.svelte"],
-      "outputs": ["../web/dapp/assets", "../wordpress/plugins/kredeum-nfts/lib/js"]
+      "outputs": ["web/dapp/assets/js/*"]
     },
     "dev": {
       "dependsOn": ["@kredeum/gulp#build", "@kredeum/config#build", "@kredeum/contracts#deploy"],

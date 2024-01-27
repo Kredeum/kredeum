@@ -50,7 +50,7 @@ const addSyntheticNamedExportsToSkippedNodeImports = (): Plugin => ({
   name: "addSyntheticNamedExportsToSkippedNodeImports"
 });
 
-const toRollupConfig = function (component: string): RollupOptions {
+const toRollupConfig = function (): RollupOptions {
   return {
     input: ["main/app.ts"],
     output: [
@@ -58,15 +58,7 @@ const toRollupConfig = function (component: string): RollupOptions {
         sourcemap: true,
         format: "iife",
         manualChunks: () => "main",
-        name: component.replace(/-/g, "_"),
-        file: `../web/dapp/assets/${component}.js`
-      },
-      {
-        sourcemap: true,
-        format: "iife",
-        manualChunks: () => "main",
-        name: component.replace(/-/g, "_"),
-        file: `../wordpress/plugins/kredeum-nfts/lib/js/${component}.js`
+        file: "./web/dapp/assets/js/kredeum-nfts.js"
       }
     ],
     plugins: [
@@ -77,7 +69,7 @@ const toRollupConfig = function (component: string): RollupOptions {
           dev: !production
         }
       }),
-      // css({ output: `${component}.css` }),
+      // css({ output: `kredeum-nfts.css` }),
       postcss({
         extract: true
       }),
@@ -110,4 +102,4 @@ const toRollupConfig = function (component: string): RollupOptions {
   };
 };
 
-export default [toRollupConfig("kredeum-nfts")];
+export default [toRollupConfig()];
