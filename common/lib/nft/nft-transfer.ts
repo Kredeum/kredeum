@@ -1,19 +1,19 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
-import { explorerTxLog } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
 
 import type { IERC721 } from "@kredeum/contracts/types/IERC721";
 import type { IERC1155 } from "@kredeum/contracts/types/IERC1155";
 import type { IOpenAutoMarket } from "@kredeum/contracts/types/IOpenAutoMarket";
 import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
-import { constants } from "ethers";
 import {
   collectionIsAutoMarket,
   collectionIsERC1155,
   collectionIsERC721,
   collectionRoyaltyEnforcement
 } from "@kredeum/common/lib/collection/collection";
+import { BigNumber } from "ethers";
 
 async function* transferNft(
   chainId: number,
@@ -24,14 +24,14 @@ async function* transferNft(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && to && from)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && to && from)) return {};
   // console.log("transferNft from", fromAddress);
 
   const { contract, collection } = await collectionGetContract(chainId, address, true);
 
   let txResp: TransactionResponse | undefined;
   if (collectionIsAutoMarket(collection)) {
-    let minimumRoyalty = constants.Zero;
+    let minimumRoyalty = BigNumber.from(0);
 
     if (collectionRoyaltyEnforcement(collection)) {
       [, , minimumRoyalty] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);

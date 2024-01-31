@@ -33,10 +33,9 @@ const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
 const isCollection = (refHash: RefPageType) => networks.has(refHash.chainId) && isAddressNotZero(refHash.address);
 
 const isAddress = (address = ""): boolean => utils.isAddress(address);
-const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != constants.AddressZero;
+const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != ADDRESS_ZERO;
 
-const getChecksumAddress = (address = ""): string =>
-  isAddress(address) ? utils.getAddress(address) : constants.AddressZero;
+const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : ADDRESS_ZERO);
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const addresses = JSON.parse(JSON.stringify(addressesRaw));
@@ -59,7 +58,7 @@ const getAutoswarmUrl = (chainId: number, ref: NftType | { address: string; toke
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
   const network = networks.get(chainId);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return "";
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && network)) return "";
   const ret =
     "nft://" +
     (network
@@ -127,7 +126,7 @@ const blockscanUrl = (path: string): string =>
   "https://blockscan.com/" + path.replace(/^\//, "");
 
 // ADDRESS URL
-const explorerAddressUrl = (chainId: number, address: string): string =>
+const explorerAddressUrl = (chainId: number, address = ""): string =>
   // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039
   // https://blockscan.com/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039
   chainId > 0 ? explorerUrl(chainId, `/address/${address}`) : blockscanUrl(`/address/${address}`);
@@ -237,7 +236,7 @@ const explorerNftLink = (chainId: number, nft: NftType, label?: string): string 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // URIs helpers
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const uriShort = (uri: string) => {
+const uriShort = (uri: string): string => {
   const [storage, hash] = uri.split("://");
   if (!(storage && hash && hash.length > 20)) return uri;
 
@@ -300,7 +299,7 @@ const displayEther = (chainId: number, price: BigNumberish): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const treasuryAccount = (): string => config?.treasury?.account || constants.AddressZero;
+const treasuryAccount = (): string => config?.treasury?.account || ADDRESS_ZERO;
 const treasuryFee = (): number => config?.treasury?.fee || 0;
 const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price, treasuryFee());
 /////////////////////////////////////////////////////////////////////////////////////////////////////

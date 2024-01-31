@@ -1,126 +1,121 @@
-import type { Readable } from 'svelte/store';
-import { get, derived } from 'svelte/store';
+import type { Readable } from "svelte/store";
+import { get, derived } from "svelte/store";
 
-import type { CollectionFilterType, NftType } from '@kredeum/common/lib/common/types';
-import { resolverGetNfts as nftListLib } from '@kredeum/common/lib/resolver/resolver-get-nft';
-import { nftGetMetadata } from '@kredeum/common/lib/nft/nft-get-metadata';
-import { nftListTokenIds } from '@kredeum/common/lib/nft/nft-list';
+import type { CollectionFilterType, NftType } from "@kredeum/common/lib/common/types";
+import { resolverGetNfts as nftListLib } from "@kredeum/common/lib/resolver/resolver-get-nft";
+import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
+import { nftListTokenIds } from "@kredeum/common/lib/nft/nft-list";
 
-import { collectionStoreRefresh } from '@kredeum/sveltekit/src/lib/stores/collection/collection';
-import { collectionListStore } from '@kredeum/sveltekit/src/lib/stores/collection/collectionList';
+import { collectionStoreRefresh } from "@kredeum/sveltekit/src/lib/stores/collection/collection";
+import { collectionListStore } from "@kredeum/sveltekit/src/lib/stores/collection/collectionList";
 
-import { nftStoreSet } from './nft';
+import { nftStoreSet } from "./nft";
 
-import { constants } from 'ethers';
-import {
-	isAddressNotZero,
-	tokenIdSelected,
-	tokenIdSplit,
-	PAGE_SIZE
-} from '@kredeum/common/lib/common/config';
-import { nftGet } from '@kredeum/common/lib/nft/nft-get';
-import { keyCollection, keyNft } from '@kredeum/common/lib/common/keys';
-import { nftListStore } from './nftList';
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
+import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@kredeum/common/lib/common/config";
+import { nftGet } from "@kredeum/common/lib/nft/nft-get";
+import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
+import { nftListStore } from "./nftList";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
-	chainId: number,
-	address: string,
-	filter?: CollectionFilterType
+  chainId: number,
+  address: string,
+  filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-	// console.log(`nftSubListStore ${keyCollection(chainId, address)}\n`);
-	// console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
+  // console.log(`nftSubListStore ${keyCollection(chainId, address)}\n`);
+  // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
 
-	return derived(nftListStore, ($nftListStore) => {
-		let nftsMap = new Map() as Map<string, NftType>;
-		if (!(chainId && address && address != constants.AddressZero)) return nftsMap;
+  return derived(nftListStore, ($nftListStore) => {
+    let nftsMap = new Map() as Map<string, NftType>;
+    if (!(chainId && address && address != ADDRESS_ZERO)) return nftsMap;
 
-		const nfts = [...$nftListStore].filter(([, nft]) => {
-			// const okParams = chainId > 0;
-			const okParams = chainId > 0 && Boolean(address);
+    const nfts = [...$nftListStore].filter(([, nft]) => {
+      // const okParams = chainId > 0;
+      const okParams = chainId > 0 && Boolean(address);
 
-			// NETWORK
-			const okNetwork = nft.chainId === chainId;
+      // NETWORK
+      const okNetwork = nft.chainId === chainId;
 
-			// ADDRESS
-			const okAddress = nft.address === address;
+      // ADDRESS
+      const okAddress = nft.address === address;
 
-			// OWNER
-			const okOwner = !filter.owner || nft.owner === filter.owner;
+      // OWNER
+      const okOwner = !filter.owner || nft.owner === filter.owner;
 
-			// TOKENID
-			const okTokenID = tokenIdSelected(filter.tokenID, nft.tokenID);
+      // TOKENID
+      const okTokenID = tokenIdSelected(filter.tokenID, nft.tokenID);
 
-			const ok = okParams && okNetwork && okAddress && okOwner && okTokenID;
+      const ok = okParams && okNetwork && okAddress && okOwner && okTokenID;
 
-			return ok;
-		});
+      return ok;
+    });
 
-		const offset = filter?.offset || 0;
-		if (offset >= nfts.length) return nftsMap;
+    const offset = filter?.offset || 0;
+    if (offset >= nfts.length) return nftsMap;
 
-		let limit = filter?.limit || PAGE_SIZE;
-		if (offset + limit > nfts.length) limit = nfts.length - offset;
+    let limit = filter?.limit || PAGE_SIZE;
+    if (offset + limit > nfts.length) limit = nfts.length - offset;
 
-		nftsMap = new Map(nfts.slice(offset, limit));
-		// console.log("nftSubListStore nfts", nftsMap);
-		return nftsMap;
-	});
+    nftsMap = new Map(nfts.slice(offset, limit));
+    // console.log("nftSubListStore nfts", nftsMap);
+    return nftsMap;
+  });
 };
 
 // ACTIONS : REFRESH all filtered NFTs from one collection
 const nftSubListStoreRefresh = async (
-	chainId: number,
-	address: string,
-	filter: CollectionFilterType = {}
+  chainId: number,
+  address: string,
+  filter: CollectionFilterType = {}
 ): Promise<void> => {
-	if (!(chainId && isAddressNotZero(address))) return;
-	// console.log(`nftSubListStoreRefresh ${keyCollection(chainId, address)}\n`);
-	// console.log(`nftSubListStoreRefresh ${JSON.stringify(filter, null, 2)}\n`);
+  if (!(chainId && isAddressNotZero(address))) return;
+  // console.log(`nftSubListStoreRefresh ${keyCollection(chainId, address)}\n`);
+  // console.log(`nftSubListStoreRefresh ${JSON.stringify(filter, null, 2)}\n`);
 
-	const key = keyCollection(chainId, address);
+  const key = keyCollection(chainId, address);
 
-	const $collectionList = get(collectionListStore);
-	let collection = $collectionList.get(key);
+  const $collectionList = get(collectionListStore);
+  let collection = $collectionList.get(key);
 
-	if (!collection?.supports) {
-		await collectionStoreRefresh(chainId, address);
-		collection = $collectionList.get(key);
-	}
+  if (!collection?.supports) {
+    await collectionStoreRefresh(chainId, address);
+    collection = $collectionList.get(key);
+  }
 
-	let nfts: Map<string, NftType>;
-	if (collection?.supports?.get('IERC721Enumerable')) {
-		({ nfts } = await nftListLib(chainId, collection, filter));
-	} else {
-		nfts = await nftListTokenIds(chainId, collection, filter);
-	}
+  let nfts: Map<string, NftType>;
+  if (collection?.supports?.get("IERC721Enumerable")) {
+    ({ nfts } = await nftListLib(chainId, collection, filter));
+  } else {
+    nfts = await nftListTokenIds(chainId, collection, filter);
+  }
 
-	// add targeted tokenID if not in list
-	if (filter.tokenID != '') {
-		for (const tokenID of tokenIdSplit(filter.tokenID)) {
-			const nftKey = keyNft(chainId, address, tokenID);
-			// console.log("nftSubListStoreRefresh tokenID", tokenID);
-			if (!nfts.has(nftKey)) nfts.set(nftKey, await nftGet(chainId, address, tokenID, collection));
-		}
-	} // else search all tokenID !
+  // add targeted tokenID if not in list
+  if (filter.tokenID != "") {
+    for (const tokenID of tokenIdSplit(filter.tokenID)) {
+      const nftKey = keyNft(chainId, address, tokenID);
+      // console.log("nftSubListStoreRefresh tokenID", tokenID);
+      if (!nfts.has(nftKey)) nfts.set(nftKey, await nftGet(chainId, address, tokenID, collection));
+    }
+  } // else search all tokenID !
 
-	for (const [, nft] of nfts) nftStoreSet(await nftGetMetadata(nft));
+  for (const [, nft] of nfts) nftStoreSet(await nftGetMetadata(nft));
 };
 
 const nftSubListStoreAndRefresh = (
-	chainId: number,
-	address: string,
-	filter?: CollectionFilterType
+  chainId: number,
+  address: string,
+  filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-	if (!(chainId && address && address != constants.AddressZero)) return;
+  if (!(chainId && address && address != ADDRESS_ZERO)) return;
 
-	// STATE VIEW : sync read cache
-	const nfts = nftSubListStore(chainId, address, filter);
+  // STATE VIEW : sync read cache
+  const nfts = nftSubListStore(chainId, address, filter);
 
-	// ACTION : async refresh from lib onchain data
-	nftSubListStoreRefresh(chainId, address, filter).catch(console.error);
+  // ACTION : async refresh from lib onchain data
+  nftSubListStoreRefresh(chainId, address, filter).catch(console.error);
 
-	return nfts;
+  return nfts;
 };
 
 export { nftSubListStore, nftSubListStoreRefresh, nftSubListStoreAndRefresh };

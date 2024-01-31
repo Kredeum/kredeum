@@ -18,7 +18,7 @@
   // Display NFT Price prepartion according to it price
   //////////////////////////////////////////////////////////////////////////
   export let nft: NftType;
-  export let priceInput = null;
+  export let priceInput: BigNumber | undefined = undefined;
   //////////////////////////////////////////////////////////////////////////
 
   $: chainId = nftChainId(nft);

@@ -2,7 +2,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { FetchResponse } from "@kredeum/common/lib/common/fetch";
 import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";
-import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@kredeum/common/lib/common/config";
 import { fetchJson, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
 import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
@@ -100,7 +100,7 @@ const covalentNftList = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ADDRESS_ZERO;
   const limit = filter.limit || FETCH_LIMIT;
   const address = getChecksumAddress(collection.address);
   // console.log("covalentNftList", chainId, address, owner, limit);

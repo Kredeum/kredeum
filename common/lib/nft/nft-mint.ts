@@ -4,7 +4,7 @@ import { ethers, constants } from "ethers";
 
 import type { NftType } from "@kredeum/common/lib/common/types";
 
-import { explorerTxLog } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
 import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
 import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
 
@@ -74,7 +74,7 @@ const nftMint = async (
 ): Promise<TransactionResponse | undefined> => {
   // console.log("nftMint", chainId, address, tokenURI, minter);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenURI && minter)) return;
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenURI && minter)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer === minter)) return;
@@ -130,7 +130,7 @@ const nftMinted = async (
   metadataCid: string,
   minter: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && address != constants.AddressZero && txResponse && metadataCid && minter)) return null;
+  if (!(chainId && address && address != ADDRESS_ZERO && txResponse && metadataCid && minter)) return null;
 
   const txReceipt = await txResponse.wait();
   // console.log("txReceipt", txReceipt);
@@ -155,7 +155,7 @@ const nftClaimed = async (
   tokenID: string,
   owner: string
 ): Promise<NftType | null> => {
-  if (!(chainId && address && address != constants.AddressZero && txResponse && tokenID && owner)) return null;
+  if (!(chainId && address && address != ADDRESS_ZERO && txResponse && tokenID && owner)) return null;
 
   // console.log("nftClaim", chainId, address, tokenID, destinationAddress);
 

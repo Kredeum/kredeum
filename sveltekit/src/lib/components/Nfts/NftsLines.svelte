@@ -7,8 +7,8 @@
   // Display NFTs List
   /////////////////////////////////////////////////
   export let nfts: Map<string, NftType>;
-  export let owner: string = undefined;
-  export let mode: string = undefined;
+  export let owner: string | undefined = undefined;
+  export let mode: string | undefined = undefined;
 </script>
 
 <div class="table">

@@ -2,11 +2,11 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/providers";
 import type { Signer } from "ethers";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 
 import type { WindowExternalProvider } from "./types";
 import { getChecksumAddress, sleep } from "@kredeum/common/lib/common/config";
 import { ethers } from "ethers";
-import { constants } from "ethers";
 import { networks } from "./networks";
 
 let _providerSetting = false;
@@ -37,7 +37,7 @@ const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 
 
 const providerGetAccount = async (): Promise<string> => {
   const provider = await providerGetWindow();
-  let account = constants.AddressZero;
+  let account = ADDRESS_ZERO;
 
   if (provider) {
     const accounts = await provider.listAccounts();

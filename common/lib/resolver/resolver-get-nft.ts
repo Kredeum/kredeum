@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 
 import type { CollectionType, NftType, CollectionFilterType } from "@kredeum/common/lib/common/types";
 import { nftUrl } from "@kredeum/common/lib/common/config";
@@ -6,6 +6,8 @@ import { resolverConvOpenNFTsNftInfos } from "@kredeum/common/lib/resolver/resol
 import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";
 import { FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
 import { collectionIsERC1155 } from "@kredeum/common/lib/collection/collection";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
+
 
 // COLLECTION
 // name
@@ -23,14 +25,14 @@ const resolverGetNft = async (
   chainId: number,
   collection: CollectionType,
   tokenID: string,
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): Promise<NftType> => {
   // console.log("resolverGetNft", chainId, collection.address, tokenID, account);
   // console.log("resolverGetNft", account);
   let nft = { chainId, address: collection.address, tokenID };
 
   // ERC115 bug fixed with new resolver on matic / 137
-  if (account === constants.AddressZero && collectionIsERC1155(collection) && chainId != 137)
+  if (account === ADDRESS_ZERO && collectionIsERC1155(collection) && chainId != 137)
     throw Error("ERROR : BUG ERC1155 with zero address");
 
   const nftsResolver = await resolverGetContract(chainId);
@@ -48,7 +50,7 @@ const resolverGetNfts = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ADDRESS_ZERO;
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
 
@@ -83,7 +85,7 @@ const resolverGetNftsForTokenIds = async (
   chainId: number,
   collection: CollectionType,
   tokenIDs: BigNumber[],
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): Promise<Map<string, NftType>> => {
   // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);
 

@@ -6,8 +6,7 @@ import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import type { IOpenMarketable } from "@kredeum/contracts/types/IOpenMarketable";
 import type { IERC721 } from "@kredeum/contracts/types/index";
 import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
-import { explorerTxLog } from "@kredeum/common/lib/common/config";
-import { constants } from "ethers";
+import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
 import { collectionIsERC721, collectionIsOpenMarketable } from "@kredeum/common/lib/collection/collection";
 
 async function* setTokenRoyaltyInfos(
@@ -19,7 +18,7 @@ async function* setTokenRoyaltyInfos(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenRoyaltyInfos", chainId, address, tokenID, fee, receiver);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && fee && receiver)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && fee && receiver)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return {};
@@ -47,7 +46,7 @@ async function* setTokenApprove(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collectionIsERC721(collection))) return {};
@@ -68,7 +67,7 @@ async function* setCollectionApproval(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && approval)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && approval)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collectionIsERC721(collection))) return;
@@ -90,7 +89,7 @@ async function* setTokenPrice(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && tokenPrice)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && tokenPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collectionIsOpenMarketable(collection))) return {};
@@ -110,7 +109,7 @@ async function* setDefautCollectionPrice(
   mintPrice: BigNumber
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setDefautCollectionPrice", chainId, address, mintPrice);
-  if (!(chainId && address && address != constants.AddressZero && mintPrice)) return;
+  if (!(chainId && address && address != ADDRESS_ZERO && mintPrice)) return;
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collectionIsOpenMarketable(collection))) return {};
@@ -130,8 +129,7 @@ async function* setDefautCollectionRoyalty(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 
-  if (!(chainId && address && address != constants.AddressZero && defaultRoyaltyAmount && defaultRoyaltiesReceiver))
-    return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && defaultRoyaltyAmount && defaultRoyaltiesReceiver)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer)) return {};

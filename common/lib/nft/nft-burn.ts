@@ -1,7 +1,7 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
 import { collectionGetContract, collectionBurnable } from "@kredeum/common/lib/collection/collection-get";
-import { constants } from "ethers";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 import { explorerTxLog } from "../common/config";
 
 async function* burnNft(
@@ -10,7 +10,7 @@ async function* burnNft(
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("burnNft", chainId, address, tokenID);
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID)) return {};
 
   const { contract } = await collectionGetContract(chainId, address, true);
   if (!contract) return {};

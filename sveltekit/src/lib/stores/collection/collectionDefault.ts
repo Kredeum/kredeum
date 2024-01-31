@@ -1,10 +1,9 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { getAddresses } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getAddresses } from "@kredeum/common/lib/common/config";
 import { collectionStoreRefresh } from "./collection";
 import { keyCollectionDefault } from "@kredeum/common/lib/common/keys";
-import { constants } from "ethers";
 import {
   localStorageGet,
   localStorageKey,
@@ -24,7 +23,7 @@ const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {
     const key = localStorageKey(index);
 
     if (key?.startsWith("collectionDefault://")) {
-      collections.set(key, JSON.parse(localStorageGet(key)) as [string, string]);
+      collections.set(key, JSON.parse(localStorageGet(key) || "{}") as [string, string]);
     }
   }
   // console.log("collectionDefaultLoadLocalStorage", collections);
@@ -43,7 +42,7 @@ const collectionDefaultSetOne = (
 ): void => {
   // console.log("collectionDefaultSetOne", chainId, address, account);
 
-  if (!(chainId && address && address != constants.AddressZero)) return;
+  if (!(chainId && address && address != ADDRESS_ZERO)) return;
 
   // Refresh default Collection (async)
   collectionStoreRefresh(chainId, address, account).catch(console.error);

@@ -8,7 +8,7 @@
   // Display a player audio with its cover image according to its entering parameters
   /////////////////////////////////////////////////
   export let src: string;
-  export let tokenID: string = undefined;
+  export let tokenID: string | undefined = undefined;
   export let animation_url: string;
   export let mode: string = "line";
   export let alt: string = "Cover image";

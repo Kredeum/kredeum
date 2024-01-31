@@ -32,8 +32,9 @@ const storageConfigGet = (): StorageConfigType => {
     if (!parseStorage) break local;
 
     for (const [key, value] of Object.entries(parseStorage)) {
-      if (value && typeof value === "object") Object.assign(_storageConfig[key], value);
-      else _storageConfig[key] = value;
+      if (key == "default") _storageConfig.default = value as string;
+      else if (key == "ipfs" || key == "swarm" || key == "arweave")
+        Object.assign(_storageConfig[key] as StorageParamsType, value);
     }
   }
 
@@ -74,9 +75,11 @@ const storageLinkToUrlHttp = (link: string): string => {
 const storageUriGetImage = (nft: NftType): string => (nft.ipfs ? nft.ipfs : nft.swarm ? nft.swarm : nft.image || "");
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const sorageLinkToUri = (link: string) => {
+const storageLinkToUri = (link?: string): string => {
+  if (!link) return "";
   if (link.startsWith(ipfsGateway())) return ipfsGetLink(link);
   if (link.startsWith(swarmGateway())) return swarmGetLink(link);
+  return "";
 };
 
 export {
@@ -88,5 +91,5 @@ export {
   storageConfigGet,
   storageConfigSet,
   storageParamsValid,
-  sorageLinkToUri
+  storageLinkToUri
 };

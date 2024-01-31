@@ -15,7 +15,7 @@ const keyCollectionInverse = (key: string): CollectionType => {
   return { chainId, address };
 };
 
-const keyCollectionDefault = (chainId: number, account: string): string =>
+const keyCollectionDefault = (chainId: number, account?: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
 const keyCollectionContract = (chainId: number, address: string, getSigner: boolean): string =>

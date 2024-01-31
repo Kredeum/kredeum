@@ -2,7 +2,7 @@ import { BigNumber, constants } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";
-import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
 import { networks } from "@kredeum/common/lib/common/networks";
 
 const resolverConvNftInfos = (
@@ -29,13 +29,13 @@ const resolverConvNftInfos = (
   const royalty: ReceiverType = {};
 
   const owner = getChecksumAddress(nftInfos[2]) || "";
-  if (owner && owner != constants.AddressZero) nft.owner = owner;
+  if (owner && owner != ADDRESS_ZERO) nft.owner = owner;
 
   const approved = getChecksumAddress(nftInfos[3]);
-  if (approved && approved != constants.AddressZero) nft.approved = approved;
+  if (approved && approved != ADDRESS_ZERO) nft.approved = approved;
 
   const royaltyAccount = openNFTsInfos[1][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
+  if (royaltyAccount && royaltyAccount != ADDRESS_ZERO) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(openNFTsInfos[1][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;

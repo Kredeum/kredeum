@@ -38,7 +38,10 @@
 
   .copy-ref:hover:not(.copied)::after {
     content: attr(data-display);
-    font-family: Work Sans, Arial, sans-serif;
+    font-family:
+      Work Sans,
+      Arial,
+      sans-serif;
     font-weight: normal;
     color: rgba(30, 30, 67, 0.6);
     position: absolute;

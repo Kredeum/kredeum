@@ -4,7 +4,7 @@ import { collectionGet } from "@kredeum/common/lib/collection/collection-get";
 import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
 import { resolverGetNft } from "@kredeum/common/lib/resolver/resolver-get-nft";
 import { keyNft } from "@kredeum/common/lib/common/keys";
-import { constants } from "ethers";
+import { ADDRESS_ZERO } from "../common/config";
 
 const nftGet = async (
   chainId: number,
@@ -15,7 +15,7 @@ const nftGet = async (
 ): Promise<NftType> => {
   // console.log(`nftGet ${keyNft(chainId, address, tokenID)} ${String(withMetadata)}\n`);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID)) return { chainId, address, tokenID };
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID)) return { chainId, address, tokenID };
 
   if (Object.keys(collection).length <= 2) collection = await collectionGet(chainId, address);
 

@@ -1,9 +1,7 @@
 import type { CollectionType } from "@kredeum/common/lib/common/types";
 
-import { BigNumber, constants } from "ethers";
-import { feeAmount, treasuryAmount } from "@kredeum/common/lib/common/config";
-
-const ZeroAddress = constants.AddressZero;
+import { BigNumber } from "ethers";
+import { ADDRESS_ZERO, feeAmount, treasuryAmount } from "@kredeum/common/lib/common/config";
 
 const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
 const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");
@@ -19,7 +17,7 @@ const collectionIsERC1155 = (coll: CollectionType): boolean => Boolean(coll?.sup
 const collectionOpenOrOwner = (coll: CollectionType, owner: string): boolean =>
   Boolean(coll?.owner === owner || coll?.open);
 
-const collectionRoyaltyAccount = (coll: CollectionType): string => coll?.royalty?.account || ZeroAddress;
+const collectionRoyaltyAccount = (coll: CollectionType): string => coll?.royalty?.account || ADDRESS_ZERO;
 const collectionRoyaltyFee = (coll: CollectionType): number => Number(coll?.royalty?.fee || 0);
 const collectionRoyaltyEnforcement = (coll: CollectionType): boolean => Boolean(coll?.royaltyEnforcement);
 

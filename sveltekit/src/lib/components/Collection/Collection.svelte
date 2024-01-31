@@ -8,7 +8,7 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
-  export let account: string = undefined;
+  export let account: string | undefined = undefined;
 </script>
 
 <CollectionData {chainId} {address} {account} let:collection>

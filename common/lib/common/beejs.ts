@@ -1,8 +1,9 @@
 import { Bee } from "@ethersphere/bee-js";
+
 import { DEFAULT_NAME, config } from "@kredeum/common/lib/common/config";
 import { swarmApiEndpoint, swarmApiKey, SWARM_ZERO_APIKEY } from "@kredeum/common/lib/nft/storage/swarm";
 
-const getBee = (nodeUrl: string): Bee => {
+const getBee = (nodeUrl: string) => {
   return new Bee(nodeUrl ? nodeUrl : config.storage.swarm.apiEndpoint);
 };
 
@@ -12,7 +13,7 @@ const swarmUploadFile = async (file: File | string): Promise<string> => {
   // console.log("swarmUploadFile ~ nodeUrl:", nodeUrl);
   // console.log("swarmUploadFile ~ batchId:", batchId);
 
-  const bee: Bee = getBee(nodeUrl);
+  const bee = getBee(nodeUrl);
 
   const isFile = file instanceof File;
   const isPinnableBatchID = batchId && batchId !== SWARM_ZERO_APIKEY;

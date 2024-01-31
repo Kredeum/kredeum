@@ -6,7 +6,7 @@ import { getAbi } from "@kredeum/common/lib/common/artifacts";
 import { resolverGetCollection } from "@kredeum/common/lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@kredeum/common/lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@kredeum/common/lib/common/keys";
-import { explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
 import { isAddress } from "ethers/lib/utils";
 import { collectionSupports } from "./collection";
 
@@ -23,7 +23,7 @@ const collectionGetContract = async (
   // console.log(`collectionGetContract  IN ${keyCollection(chainId, address)}\n`);
 
   const collection = await collectionGet(chainId, address);
-  if (!(chainId && address && address != constants.AddressZero)) return { collection };
+  if (!(chainId && address && address != ADDRESS_ZERO)) return { collection };
 
   let signer = "";
   let contract = contractsCache.get(keyCollectionContract(chainId, address, getSigner));
@@ -73,11 +73,7 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   return collMerged;
 };
 
-const collectionGet = async (
-  chainId: number,
-  address: string,
-  account = constants.AddressZero
-): Promise<CollectionType> => {
+const collectionGet = async (chainId: number, address: string, account = ADDRESS_ZERO): Promise<CollectionType> => {
   let collection: CollectionType = { chainId, address };
   if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
   // console.log(`collectionGet ${explorerAddressUrl(chainId, address)}`);

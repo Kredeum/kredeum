@@ -1,10 +1,9 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumberish } from "ethers";
-import { constants } from "ethers";
+import type { BigNumberish } from "ethers";
 
 import type { IOpenAutoMarket } from "@kredeum/contracts/types/index";
 import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
-import { explorerTxLog } from "../common/config";
+import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
 import { collectionIsAutoMarket } from "@kredeum/common/lib/collection/collection";
 
 async function* buyNft(
@@ -15,7 +14,7 @@ async function* buyNft(
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 
-  if (!(chainId && address && address != constants.AddressZero && tokenID && nftPrice)) return {};
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && nftPrice)) return {};
 
   const { contract, collection, signer } = await collectionGetContract(chainId, address, true);
   if (!(contract && signer && collectionIsAutoMarket(collection))) return {};

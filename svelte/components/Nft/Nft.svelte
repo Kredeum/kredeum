@@ -7,7 +7,6 @@
     getDappUrl,
     getAutoswarmUrl,
     copyToClipboard,
-
     textShort,
     displayEther,
     uriShort
@@ -33,7 +32,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@stores/nft/nft";
   import { widgetOpenSky } from "@helpers/widget";
-  import { storageUriGetImage, storageLinkToUrlHttp, sorageLinkToUri } from "@lib/nft/storage/storage";
+  import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@lib/nft/storage/storage";
   import { networks } from "@lib/common/networks";
 
   /////////////////////////////////////////////////
@@ -222,7 +221,7 @@
                 <div class="flex kre-flex-align-center">
                   <div class="overflow-ellipsis">
                     <a class="link" href={$nft.pdf} title={$nft.pdf} target="_blank" rel="noreferrer">
-                      {uriShort(sorageLinkToUri($nft.pdf)) || ""}
+                      {uriShort(storageLinkToUri($nft.pdf))  }
                     </a>
                   </div>
                   <CopyRefItem copyData={$nft.pdf || ""} />

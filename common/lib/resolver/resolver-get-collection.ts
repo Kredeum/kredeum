@@ -1,15 +1,15 @@
-import { constants } from "ethers";
 
 import type { CollectionType } from "@kredeum/common/lib/common/types";
 import { resolverConvOpenNFTsCollectionInfos } from "@kredeum/common/lib/resolver/resolver-conv-collection-infos";
 import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";
 import { keyCollection } from "@kredeum/common/lib/common/keys";
+import { ADDRESS_ZERO } from "../common/config";
 // import { keyCollections } from "@kredeum/common/lib/common/keys";
 
 const resolverGetCollection = async (
   chainId: number,
   address: string,
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): Promise<CollectionType> => {
   // console.log("resolverGetCollection", chainId, address, account);
 
@@ -61,7 +61,7 @@ const resolverAreCollections = async (chainId: number, collections: Array<string
 
 const resolverGetCollections = async (
   chainId: number,
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`resolverGetCollections ${keyCollections(chainId, account)}\n`, chainId, account);
 

@@ -12,7 +12,8 @@
     isNumeric,
     isAddress,
     MAX_FEE,
-    displayEther
+    displayEther,
+    ADDRESS_ZERO
   } from "@kredeum/common/lib/common/config";
   import { collectionClone, collectionCloneAddress } from "@kredeum/common/lib/collection/collection-clone";
 
@@ -24,23 +25,21 @@
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} {signer} />
   ///////////////////////////////////////////////////////////
-  export let chainId: number = undefined;
-  export let collection: CollectionType = undefined;
-  export let signer: string = undefined;
+  export let chainId: number;
+  export let collection: CollectionType | undefined = undefined;
+  export let signer: string | undefined = undefined;
   ///////////////////////////////////////////////////////////
 
-  let template: string = undefined;
+  let template: string | undefined = undefined;
   let minRoyalty: boolean = true;
 
-  let cloning: number;
-  let cloneError: string;
-
+  let cloning = 0;
+  let cloneError = "";
   let collectionName = "";
   let collectionSymbol = "";
 
-  let collectionCreated: CollectionType = null;
-
-  let cloningTxHash: string = null;
+  let collectionCreated: CollectionType | undefined = undefined;
+  let cloningTxHash = "";
 
   let refreshAll: Writable<number> = getContext("refreshAll");
 
@@ -103,21 +102,23 @@
   const S4_COLL_CREATED = 4;
 
   const _cloneInit = async () => {
-    cloningTxHash = null;
-    collectionCreated = null;
+    cloningTxHash = "";
+    collectionCreated = undefined;
 
     collectionName = "";
     collectionSymbol = "";
     inputMintPrice = constants.Zero;
-    inputReceiver = signer || constants.AddressZero;
+    inputReceiver = signer || ADDRESS_ZERO;
     inputFee = "0";
     inputFeeNumber = 0;
-    cloneError = null;
+    cloneError = "";
 
     cloning = S1_CONFIRM;
   };
 
   const _cloneConfirm = async () => {
+    if (!template) return;
+
     if (invalidInputParams()) return _cloneError("ERROR invalid parameters");
 
     cloning = S2_SIGN_CLONE_TX;
@@ -159,8 +160,8 @@
     $refreshAll += 1;
   };
 
-  const templateName = (template: string) => template?.split("/")[0];
-  const templateConf = (template: string) => template?.split("/")[1];
+  const templateName = (template?: string): string => template?.split("/")[0] || "";
+  const templateConf = (template?: string): string => template?.split("/")[1] || "";
 
   onMount(() => _cloneInit());
 </script>
@@ -262,7 +263,7 @@
               <i class="fas fa-check fa-left c-green" />
               Collection '<a
                 class="link"
-                href={explorerAddressUrl(chainId, collectionCreated.address)}
+                href={explorerAddressUrl(chainId, collectionCreated?.address)}
                 target="_blank"
                 rel="noreferrer">{collectionCreated?.name}</a
               >' created!

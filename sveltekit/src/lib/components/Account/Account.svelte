@@ -45,7 +45,9 @@
   <div class="col col-xs-12 col-sm-3">
     <div class="btn btn-light">
       <div class="account">
-        {#if accountAvatar} <img src={accountAvatar} width="30px" alt="avatar" /> &nbsp;&nbsp; {/if}
+        {#if accountAvatar}
+          <img src={accountAvatar} width="30px" alt="avatar" /> &nbsp;&nbsp;
+        {/if}
         <span>
           {getShortAddress(accountName, 10)}&nbsp;&nbsp;&nbsp;&nbsp;
         </span>

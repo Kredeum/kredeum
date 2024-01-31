@@ -3,9 +3,8 @@ import { BigNumber } from "ethers";
 import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";
 import type { FetchResponse } from "@kredeum/common/lib/common/fetch";
 import { fetchJson, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
-import { getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
 import { keyCollections, keyNft } from "@kredeum/common/lib/common/keys";
-import { constants } from "ethers";
 import { networks } from "@kredeum/common/lib/common/networks";
 
 const alchemyCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
@@ -82,7 +81,7 @@ const alchemyNftList = async (
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ADDRESS_ZERO;
   const limit = filter.limit || FETCH_LIMIT;
   const address = getChecksumAddress(collection.address);
   // console.log("alchemyNftList", chainId, address, owner, limit);
@@ -105,7 +104,7 @@ const alchemyNftList = async (
     nextToken: string;
   };
 
-  if (owner == constants.AddressZero) {
+  if (owner == ADDRESS_ZERO) {
     const req = `/getNFTsForCollection?contractAddress=${collection.address}&limit=${limit}&withMetadata=true`;
 
     const alchemyAnswerNftsCollection = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsCollection;

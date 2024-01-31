@@ -2,7 +2,7 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import type { BigNumberish } from "ethers";
 import { utils, constants } from "ethers";
 
-import { explorerTxLog } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
 import { factoryGetContract } from "@kredeum/common/lib/common/factory-get";
 import { resolverGetCount } from "@kredeum/common/lib/resolver/resolver-get";
 
@@ -12,7 +12,7 @@ async function* collectionClone(
   symbol: string,
   templateConfig: string,
   mintPrice: BigNumberish = 0,
-  royaltyReceiver: string = constants.AddressZero,
+  royaltyReceiver: string = ADDRESS_ZERO,
   royaltyFee = 0,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
@@ -36,7 +36,7 @@ async function* collectionClone(
     options = [conf == "generic"];
     optionsBytes = utils.defaultAbiCoder.encode(
       ["uint256", "address", "uint96", "bool[]"],
-      [0, constants.AddressZero, 0, options]
+      [0, ADDRESS_ZERO, 0, options]
     );
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];

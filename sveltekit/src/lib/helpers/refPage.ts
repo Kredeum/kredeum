@@ -1,15 +1,15 @@
 import type { RefPageType } from "@kredeum/common/lib/common/types";
 import { getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
-import { constants } from "ethers";
 import { networks } from "@kredeum/common/lib/common/networks";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
-  let chainId: number;
-  let address: string;
-  let tokenID: string;
-  let account: string;
-  let signer: string;
-  let action: string;
+  let chainId: number | undefined;
+  let address: string | undefined;
+  let tokenID: string | undefined;
+  let account: string | undefined;
+  let signer: string | undefined;
+  let action: string | undefined;
 
   ({ chainId, address, tokenID, account, signer, action } = refBreadcrumb || {});
 
@@ -31,7 +31,7 @@ const refPage2Caip = (refBreadcrumb: RefPageType): string => {
   const { chainId, address, tokenID } = _extract(refBreadcrumb);
 
   return chainId
-    ? address != constants.AddressZero
+    ? address != ADDRESS_ZERO
       ? tokenID
         ? `eip155:${chainId}/erc721:${address}/${tokenID}`
         : `eip155:${chainId}/erc721:${address}`
@@ -46,15 +46,15 @@ const refPage2Breadcrumb = (refBreadcrumb: RefPageType): string => {
   return (
     "> " +
     (chainName
-      ? address != constants.AddressZero
+      ? address != ADDRESS_ZERO
         ? tokenID
           ? `${chainName} > ${address} > #${tokenID} `
           : `${chainName} > ${address} `
         : `${chainName} `
       : "Home ") +
     (action ? `> ${action}` : "") +
-    (account != constants.AddressZero ? `| @${account}` : "") +
-    (signer != constants.AddressZero && signer != account ? ` != @${signer}` : "")
+    (account != ADDRESS_ZERO ? `| @${account}` : "") +
+    (signer != ADDRESS_ZERO && signer != account ? ` != @${signer}` : "")
   );
 };
 
@@ -65,14 +65,14 @@ const refPage2UrlHash = (refBreadcrumb: RefPageType): string => {
   return (
     "/" +
     (chainName
-      ? address != constants.AddressZero
+      ? address != ADDRESS_ZERO
         ? tokenID
           ? `${chainName}/${address}/${tokenID}`
           : `${chainName}/${address}`
         : `${chainName}`
       : "") +
     (action ? `/${action}` : "") +
-    (account != constants.AddressZero ? `@${account}` : "")
+    (account != ADDRESS_ZERO ? `@${account}` : "")
   );
 };
 
@@ -90,10 +90,10 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   let chainId: number;
   if (Number(chain)) {
     chainId = Number(chain);
-    chainName = networks.getChainName(chainId);
+    chainName = networks.getChainName(chainId) || "";
   } else {
     chainName = chain;
-    chainId = networks.getChainId(chainName);
+    chainId = networks.getChainId(chainName) || 0;
   }
 
   // console.log("refPageFromUrlHash", chainName, chainId, address, tokenID, action, account);

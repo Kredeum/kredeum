@@ -3,14 +3,14 @@ import { constants, BigNumber } from "ethers";
 import type { IOpenNFTsInfos, IERCNftInfos } from "@kredeum/contracts/types/OpenNFTsResolver";
 
 import type { CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";
-import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL } from "@kredeum/common/lib/common/config";
+import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL, ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 import { resolverConvSupports } from "@kredeum/common/lib/resolver/resolver-conv-supports";
 import { networks } from "@kredeum/common/lib/common/networks";
 
 const resolverConvCollectionInfos = (
   chainId: number,
   collectionInfos: IERCNftInfos.CollectionInfosStructOutput,
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): CollectionType => {
   // console.log("resolverConvCollectionInfos  IN", chainId, collectionInfos, account);
 
@@ -26,9 +26,9 @@ const resolverConvCollectionInfos = (
   if (totalSupply > 0) collection.totalSupply = totalSupply;
 
   const owner: string = getChecksumAddress(collectionInfos[1]);
-  if (owner && owner != constants.AddressZero) collection.owner = owner;
+  if (owner && owner != ADDRESS_ZERO) collection.owner = owner;
 
-  if (collectionInfos[7][2] && account != constants.AddressZero) {
+  if (collectionInfos[7][2] && account != ADDRESS_ZERO) {
     // ERC721
     collection.balancesOf = new Map([[account, Number(collectionInfos[5])]]);
     collection.approvedForAll = new Map([[account, Boolean(collectionInfos[6])]]);
@@ -41,7 +41,7 @@ const resolverConvCollectionInfos = (
 const resolverConvOpenNFTsCollectionInfos = (
   chainId: number,
   collectionInfos: [IERCNftInfos.CollectionInfosStructOutput, IOpenNFTsInfos.OpenNFTsCollectionInfosStructOutput],
-  account = constants.AddressZero
+  account = ADDRESS_ZERO
 ): CollectionType => {
   // console.log("resolverConvOpenNFTsCollectionInfos openNFTs IN", collectionInfos);
 
@@ -88,7 +88,7 @@ const resolverConvOpenNFTsCollectionInfos = (
   if (price.gt(0)) collection.price = price;
 
   const royaltyAccount = collectionOpenNFTsInfos[5][0];
-  if (royaltyAccount && royaltyAccount != constants.AddressZero) royalty.account = royaltyAccount;
+  if (royaltyAccount && royaltyAccount != ADDRESS_ZERO) royalty.account = royaltyAccount;
 
   const royaltyFee = Number(collectionOpenNFTsInfos[5][1]);
   if (royaltyFee > 0) royalty.fee = royaltyFee;

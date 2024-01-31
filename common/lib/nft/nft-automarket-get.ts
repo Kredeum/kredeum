@@ -2,6 +2,7 @@ import type { IOpenMarketable } from "@kredeum/contracts/types/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@kredeum/contracts/types/index";
 import type { BigNumberish } from "ethers";
 import { BigNumber, constants } from "ethers";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 
 import type { ReceiverType } from "@kredeum/common/lib/common/types";
 import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
@@ -26,7 +27,7 @@ const getNftPrice = async (chainId: number, address: string, tokenID: string): P
 const getNftRoyalty = async (chainId: number, address: string, tokenID: string): Promise<ReceiverType> => {
   const { contract, collection } = await collectionGetContract(chainId, address);
 
-  if (!collectionIsOpenMarketable(collection)) return { account: constants.AddressZero, fee: 0 };
+  if (!collectionIsOpenMarketable(collection)) return { account: ADDRESS_ZERO, fee: 0 };
 
   const receiver = await (contract as IOpenMarketable).getTokenRoyalty(tokenID);
 
@@ -41,7 +42,7 @@ const getNftRoyaltyInfo = async (
   nftPrice: string
 ): Promise<{ receiver: string; royaltyAmount: BigNumber }> => {
   const royalty = {
-    receiver: constants.AddressZero,
+    receiver: ADDRESS_ZERO,
     royaltyAmount: constants.Zero
   };
 
@@ -68,7 +69,7 @@ const getDefaultCollRoyaltyInfos = async (
 ): Promise<{ receiver: string; fee: BigNumber }> => {
   const { contract, collection } = await collectionGetContract(chainId, address);
 
-  if (!collectionIsOpenMarketable(collection)) return { receiver: constants.AddressZero, fee: constants.Zero };
+  if (!collectionIsOpenMarketable(collection)) return { receiver: ADDRESS_ZERO, fee: constants.Zero };
 
   const royaltyInfostest = await (contract as IOpenMarketable).getDefaultRoyalty();
 
@@ -77,7 +78,7 @@ const getDefaultCollRoyaltyInfos = async (
 
 const getApproved = async (chainId: number, address: string, tokenID: string): Promise<string> => {
   const { contract, collection } = await collectionGetContract(chainId, address);
-  if (!(contract && collectionIsERC721(collection))) return constants.AddressZero;
+  if (!(contract && collectionIsERC721(collection))) return ADDRESS_ZERO;
 
   return await (contract as IERC721).getApproved(tokenID);
 };

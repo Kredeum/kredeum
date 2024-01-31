@@ -9,7 +9,7 @@
     "@typechain/ethers-v5": "^11.1.2",
     "ethers": "^5.7.2",
     "solc": "0.8.19",
-    "solhint": "^3.6.2",
+    "solhint": "^4.1.1",
     "solidity-coverage": "^0.8.6",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",

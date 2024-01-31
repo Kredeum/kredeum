@@ -1,18 +1,19 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 
 import type { CollectionType, CollectionFilterType, NftType } from "@kredeum/common/lib/common/types";
-import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
 import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
 import { networks } from "@kredeum/common/lib/common/networks";
+
 
 const thegraphNftList = async (
   chainId: number,
   collection: CollectionType,
   filter: CollectionFilterType = {}
 ): Promise<Map<string, NftType>> => {
-  const owner = filter.owner || constants.AddressZero;
+  const owner = filter.owner || ADDRESS_ZERO;
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
   const address = getChecksumAddress(collection.address);
@@ -21,7 +22,7 @@ const thegraphNftList = async (
   const nfts: Map<string, NftType> = new Map();
   if (!(chainId && address && thegraphActive(chainId))) return nfts;
 
-  const whereOwner = owner == constants.AddressZero ? "" : `where: { account: "${owner.toLowerCase()}" }`;
+  const whereOwner = owner == ADDRESS_ZERO ? "" : `where: { account: "${owner.toLowerCase()}" }`;
   const skip = offset == 0 ? "" : `skip: "${offset}"`;
   const query = `{
       tokenContract( id: "${address.toLowerCase()}" ) {

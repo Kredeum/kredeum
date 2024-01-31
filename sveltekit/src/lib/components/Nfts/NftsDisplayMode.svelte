@@ -5,7 +5,7 @@
   // <NftsDisplayMode {mode} />
   // Select Nfts display mode   gird3 grid4 grid6
   ////////////////////////////////////////////////////////////////////////
-  export let mode: string = undefined;
+  export let mode: string | undefined = undefined;
 
   let modeGrid6: boolean;
 

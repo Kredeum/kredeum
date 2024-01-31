@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { getChecksumAddress, isAddress } from "@kredeum/common/lib/common/config";
-  import { constants } from "ethers";
+  import { ADDRESS_ZERO, getChecksumAddress, isAddress } from "@kredeum/common/lib/common/config";
 
   /////////////////////////////////////////////////
   //  <InputEthAddress {ethAddress} {placeholder} {inputError}? />
@@ -17,7 +16,7 @@
 
     if (isAddress(tmpEthAddress)) tmpEthAddress = getChecksumAddress(tmpEthAddress);
 
-    ethAddress = tmpEthAddress != constants.AddressZero ? tmpEthAddress : constants.AddressZero;
+    ethAddress = tmpEthAddress != ADDRESS_ZERO ? tmpEthAddress : ADDRESS_ZERO;
   };
 </script>
 

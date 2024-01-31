@@ -7,8 +7,8 @@
   // Display a Video according to its entering parameters
   /////////////////////////////////////////////////
   export let src: string;
-  export let tokenID: string = undefined;
-  export let mode: string = undefined;
+  export let tokenID: string | undefined = undefined;
+  export let mode: string | undefined = undefined;
   export let paused: boolean = true;
 
   let toPlayTokenID: Writable<string> = getContext("toPlayTokenID");

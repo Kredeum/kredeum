@@ -1,723 +1,688 @@
 <script lang="ts">
-	import type { NftType, Properties } from '@kredeum/common/lib/common/types';
-	import type { Mediatype } from '@kredeum/sveltekit/src/lib/helpers//mediaTypes';
-	import type { JsonRpcSigner } from '@ethersproject/providers';
+  import type { NftType, Properties } from "@kredeum/common/lib/common/types";
+  import type { Mediatype } from "@kredeum/sveltekit/src/lib/helpers/mediaTypes";
 
-	import type { TransactionResponse } from '@ethersproject/abstract-provider';
-	import type { Writable } from 'svelte/store';
-	import { BigNumber, constants, utils } from 'ethers';
-	import { onMount, getContext } from 'svelte';
-	import { fade } from 'svelte/transition';
+  import { BigNumber } from "ethers";
+  import { onMount } from "svelte";
+  import { fade } from "svelte/transition";
 
-	import type { CollectionType } from '@kredeum/common/lib/common/types';
-	import { collectionGet } from '@kredeum/common/lib/collection/collection-get';
-	import { getMax } from '@kredeum/common/lib/nft/nft-automarket-get';
-	import {
-		textShort,
-		explorerTxUrl,
-		explorerNftUrl,
-		nftUrl,
-		displayEther,
-		treasuryFee,
-		getDappUrl
-	} from '@kredeum/common/lib/common/config';
-	import {
-		getSupportedImage,
-		getMediaSelection
-	} from '@kredeum/sveltekit/src/lib/helpers//mediaTypes';
-	import { defaultAudioCoverImg } from '@kredeum/sveltekit/src/lib/helpers//defaultCoverImage';
+  import type { CollectionType } from "@kredeum/common/lib/common/types";
+  import { collectionGet } from "@kredeum/common/lib/collection/collection-get";
+  import { getMax } from "@kredeum/common/lib/nft/nft-automarket-get";
+  import {
+    textShort,
+    explorerTxUrl,
+    explorerNftUrl,
+    nftUrl,
+    displayEther,
+    treasuryFee,
+    getDappUrl
+  } from "@kredeum/common/lib/common/config";
+  import { getSupportedImage, getMediaSelection } from "@kredeum/sveltekit/src/lib/helpers/mediaTypes";
+  import { defaultAudioCoverImg } from "@kredeum/sveltekit/src/lib/helpers/defaultCoverImage";
 
-	import {
-		metamaskSignerAddress,
-		metamaskSigner,
-		metamaskProvider
-	} from '@kredeum/sveltekit/src/lib/stores//metamask';
+  import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@kredeum/sveltekit/src/lib/stores/metamask";
 
-	import CollectionSelect from '../Collection/CollectionSelect.svelte';
-	import InputPrice from '../Input/InputPrice.svelte';
-	import InputAudioMint from '../Input/InputAudioMint.svelte';
-	import InputVideoMint from '../Input/InputVideoMint.svelte';
-	// import InputPdfMint from "../Input/InputPdfMint.svelte";
-	import MediaVideo from '../Media/MediaVideo.svelte';
-	import NftProperties from './NftProperties.svelte';
-	import {
-		collectionIsAutoMarket,
-		collectionOpenOrOwner,
-		collectionPrice,
-		collectionPriceValid,
-		collectionRoyaltyAndFeeAmount,
-		collectionRoyaltyAndFeeMinimum,
-		collectionRoyaltyEnforcement,
-		collectionRoyaltyFee,
-		collectionRoyaltyMinimum
-	} from '@kredeum/common/lib/collection/collection';
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
+  import InputPrice from "../Input/InputPrice.svelte";
+  import InputAudioMint from "../Input/InputAudioMint.svelte";
+  import InputVideoMint from "../Input/InputVideoMint.svelte";
+  // import InputPdfMint from "../Input/InputPdfMint.svelte";
+  import MediaVideo from "../Media/MediaVideo.svelte";
+  import NftProperties from "./NftProperties.svelte";
+  import {
+    collectionIsAutoMarket,
+    collectionOpenOrOwner,
+    collectionPrice,
+    collectionPriceValid,
+    collectionRoyaltyAndFeeAmount,
+    collectionRoyaltyAndFeeMinimum,
+    collectionRoyaltyEnforcement,
+    collectionRoyaltyFee,
+    collectionRoyaltyMinimum
+  } from "@kredeum/common/lib/collection/collection";
 
-	import {
-		S0_START,
-		S1_STORE_IMAGE,
-		S2_STORE_METADATA,
-		S3_SIGN_TX,
-		S4_WAIT_TX,
-		S5_MINTED,
-		nftMintTexts
-	} from '@kredeum/sveltekit/src/lib/helpers//nftMint';
-	import NftMint from './NftMint.svelte';
-	import { metamaskInit } from '@kredeum/sveltekit/src/lib/helpers//metamask';
-	import { storageLinkToUrlHttp } from '@kredeum/common/lib/nft/storage/storage';
+  import {
+    S0_START,
+    S1_STORE_IMAGE,
+    S2_STORE_METADATA,
+    S3_SIGN_TX,
+    S4_WAIT_TX,
+    S5_MINTED,
+    nftMintTexts
+  } from "@kredeum/sveltekit/src/lib/helpers/nftMint";
+  import NftMint from "./NftMint.svelte";
+  import { storageLinkToUrlHttp } from "@kredeum/common/lib/nft/storage/storage";
 
-	// import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/lib/common/pdfjs";
+  // import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/lib/common/pdfjs";
 
-	////////////////////////////////////////////////////////////////
-	//  <NftMintPopup {chainId} {signer} />
-	// Mint NFT popup: choose network and collection, upload image,
-	//   set price, set properties and mint
-	////////////////////////////////////////////////////////////////
-	export let chainId: number = undefined;
-	export let signer: string = undefined;
-	export let nft: NftType = undefined;
-	export let toggle: () => boolean = undefined;
-	export let src: string = undefined;
-	export let name: string = undefined;
-	export let description: string = undefined;
-	export let metadata: string = undefined;
-	export let content_type: string = undefined;
-	export const external_url: string = undefined;
-	////////////////////////////////////////////////////////////////
+  ////////////////////////////////////////////////////////////////
+  //  <NftMintPopup {chainId} {signer} />
+  // Mint NFT popup: choose network and collection, upload image,
+  //   set price, set properties and mint
+  ////////////////////////////////////////////////////////////////
+  export let chainId: number;
+  export let signer: string;
+  export let nft: NftType | undefined = undefined;
+  export let toggle: (() => boolean) | undefined = undefined;
+  export let src: string | undefined = undefined;
+  export let name: string | undefined = undefined;
+  export let description: string | undefined = undefined;
+  export let metadata: string | undefined = undefined;
+  export let content_type: string | undefined = undefined;
+  export const external_url: string | undefined = undefined;
+  ////////////////////////////////////////////////////////////////
 
-	$: console.info('<NftMintPopup metadata', metadata);
+  $: console.info("<NftMintPopup metadata", metadata);
 
-	let account: string;
+  let account: string;
 
-	let address: string;
-	let price: BigNumber;
+  let address: string;
+  let price: BigNumber;
 
-	let files: FileList;
-	let file: File;
+  let files: FileList | undefined;
+  let file: File | undefined;
 
-	let audioFile: File;
-	let audio: string;
+  let audioFile: File | undefined;
+  let audio: string | undefined;
 
-	let pdfFile: File;
-	let pdf: string;
+  let pdfFile: File | undefined;
+  let pdf: string | undefined;
 
-	let inputMediaType: Mediatype = 'image';
-	let acceptedImgTypes = '';
+  let inputMediaType: Mediatype = "image";
+  let acceptedImgTypes = "";
 
-	/////////////////////////////////////////////////
-	let mintingError: string;
+  /////////////////////////////////////////////////
+  let mintingError: string;
 
-	/////////////////////////////////////////////////
-	let properties: Properties;
-	/////////////////////////////////////////////////
-	let mint: () => Promise<void>;
-	let minting: number;
-	let imageUri: string;
-	let tokenUri: string;
-	let audioUri: string;
-	let pdfUri: string;
-	let txHash: string;
-	/////////////////////////////////////////////////
+  /////////////////////////////////////////////////
+  let properties: Properties;
+  /////////////////////////////////////////////////
+  let mint: () => Promise<void>;
+  let minting: number;
+  let imageUri: string;
+  let tokenUri: string;
+  let audioUri: string;
+  let pdfUri: string;
+  let txHash: string;
+  /////////////////////////////////////////////////
 
-	let inputPrice: BigNumber;
-	let inputPriceError = '';
+  let inputPrice: BigNumber;
+  let inputPriceError = "";
 
-	$: inputPrice && minimalPriceHandler();
-	const minimalPriceHandler = () => {
-		if (!collectionPriceValid(collection, inputPrice)) {
-			const minPrice = collectionRoyaltyAndFeeMinimum(collection);
-			inputPriceError = `Price too low, should be above ${displayEther(
-				chainId,
-				minPrice
-			)} (mimimal royalty + protocol fees)`;
-		} else {
-			price = inputPrice;
-			inputPriceError = '';
-		}
-	};
+  $: inputPrice && minimalPriceHandler();
+  const minimalPriceHandler = () => {
+    if (!(chainId && address)) return;
 
-	let collection: CollectionType;
-	$: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
-	const handleDefaultAutomarketValues = async () => {
-		// console.log("handleDefaultAutomarketValues", address);
-		collection = await collectionGet(chainId, address);
-		inputPrice = collectionPrice(collection);
-		// console.log("handleDefaultAutomarketValues", String(inputPrice));
-	};
+    if (!collectionPriceValid(collection, inputPrice)) {
+      const minPrice = collectionRoyaltyAndFeeMinimum(collection);
+      inputPriceError = `Price too low, should be above ${displayEther(
+        chainId,
+        minPrice
+      )} (mimimal royalty + protocol fees)`;
+    } else {
+      price = inputPrice;
+      inputPriceError = "";
+    }
+  };
 
-	const pdfToCoverImg = async () => {
-		// const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
-		// src = await pdfjsCrop(page, 437, 437, -89, -179);
-	};
+  let collection: CollectionType;
+  $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
+  const handleDefaultAutomarketValues = async () => {
+    if (!(chainId && address)) return;
 
-	const setDefaultAudioCover = () => {
-		src = defaultAudioCoverImg;
-	};
+    // console.log("handleDefaultAutomarketValues", address);
+    collection = await collectionGet(chainId, address);
+    inputPrice = collectionPrice(collection);
+    // console.log("handleDefaultAutomarketValues", String(inputPrice));
+  };
 
-	$: content_type && handleWpMediatype();
-	const handleWpMediatype = async () => {
-		inputMediaType = getMediaSelection(content_type);
-		if (inputMediaType === 'audio' || inputMediaType === 'pdf') {
-			if (inputMediaType === 'audio') {
-				audio = src;
-				setDefaultAudioCover();
-			}
+  const pdfToCoverImg = async () => {
+    // const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
+    // src = await pdfjsCrop(page, 437, 437, -89, -179);
+  };
 
-			if (inputMediaType === 'pdf') {
-				pdf = src;
-				pdfToCoverImg();
-			}
-		}
-	};
+  const setDefaultAudioCover = () => {
+    src = defaultAudioCoverImg;
+  };
 
-	/////////////////////////////////////////////////
-	// Set supported input field for image file
-	$: !content_type && inputMediaType && handleMediaTypes();
-	const handleMediaTypes = async () => {
-		deleteFileImg();
-		resetFileAudio();
-		resetFilePdf();
-		console.log('inputMediaType:', inputMediaType);
-		acceptedImgTypes = getSupportedImage(inputMediaType);
+  $: content_type && handleWpMediatype();
+  const handleWpMediatype = async () => {
+    if (!(content_type && src)) return;
 
-		if (inputMediaType === 'audio') {
-			setDefaultAudioCover();
-		}
-		if (inputMediaType === 'pdf') {
-			pdfToCoverImg();
-		}
-	};
+    inputMediaType = getMediaSelection(content_type);
+    if (inputMediaType === "audio" || inputMediaType === "pdf") {
+      if (inputMediaType === "audio") {
+        audio = src;
+        setDefaultAudioCover();
+      }
 
-	/////////////////////////////////////////////////
-	// Set name & description
-	$: (file || audioFile) && handleFileName();
-	const handleFileName = () => {
-		let _name = '';
+      if (inputMediaType === "pdf") {
+        pdf = src;
+        pdfToCoverImg();
+      }
+    }
+  };
 
-		if (inputMediaType === 'audio' && audioFile?.name) {
-			_name = subFileExtension(audioFile.name);
-		} else if (file?.name) {
-			_name = subFileExtension(file.name);
-		}
+  /////////////////////////////////////////////////
+  // Set supported input field for image file
+  $: !content_type && inputMediaType && handleMediaTypes();
+  const handleMediaTypes = async () => {
+    deleteFileImg();
+    resetFileAudio();
+    resetFilePdf();
+    console.log("inputMediaType:", inputMediaType);
+    acceptedImgTypes = getSupportedImage(inputMediaType);
 
-		name ||= _name;
-		description ||= _name;
-	};
+    if (inputMediaType === "audio") {
+      setDefaultAudioCover();
+    }
+    if (inputMediaType === "pdf") {
+      pdfToCoverImg();
+    }
+  };
 
-	const subFileExtension = (name: string) => name.replace(/.[^.]+$/, '');
+  /////////////////////////////////////////////////
+  // Set name & description
+  $: (file || audioFile) && handleFileName();
+  const handleFileName = () => {
+    let _name = "";
 
-	/////////////////////////////////////////////////
-	// ON modal AFTER upload get file & image to DISPLAY {src}
-	const fileload = () => {
-		file = null;
+    if (inputMediaType === "audio" && audioFile?.name) {
+      _name = subFileExtension(audioFile.name);
+    } else if (file?.name) {
+      _name = subFileExtension(file.name);
+    }
 
-		if (files) {
-			let reader = new FileReader();
-			reader.readAsDataURL(files[0]);
+    name ||= _name;
+    description ||= _name;
+  };
 
-			reader.onload = (e) => {
-				src = e.target.result.toString();
-			};
+  const subFileExtension = (name: string) => name.replace(/.[^.]+$/, "");
 
-			file = files[0];
-		}
-	};
+  /////////////////////////////////////////////////
+  // ON modal AFTER upload get file & image to DISPLAY {src}
+  const fileload = () => {
+    file = undefined;
 
-	const resetFileImg = () => {
-		files = null;
-		file = null;
-	};
-	const deleteFileImg = () => {
-		resetFileImg();
-		src = null;
-	};
+    if (files) {
+      let reader = new FileReader();
+      reader.readAsDataURL(files[0]);
 
-	const resetFileAudio = () => {
-		audioFile = null;
-		audio = '';
-	};
+      reader.onload = (e) => {
+        src = e.target?.result?.toString() || "";
+      };
 
-	const resetFilePdf = () => {
-		pdfFile = null;
-		pdf = '';
-	};
+      file = files[0];
+    }
+  };
 
-	const _mintingError = (err: string): void => {
-		mintingError = err;
-		console.error(mintingError);
-		minting = 0;
-	};
+  const resetFileImg = () => {
+    files = undefined;
+    file = undefined;
+  };
+  const deleteFileImg = () => {
+    resetFileImg();
+    src = undefined;
+  };
 
-	onMount(async () => {
-		account = signer;
-		console.log('<NftMintPopup onmount src', src);
-		src = storageLinkToUrlHttp(src);
-	});
+  const resetFileAudio = () => {
+    audioFile = undefined;
+    audio = "";
+  };
+
+  const resetFilePdf = () => {
+    pdfFile = undefined;
+    pdf = "";
+  };
+
+  const _mintingError = (err: string): void => {
+    mintingError = err;
+    console.error(mintingError);
+    minting = 0;
+  };
+
+  onMount(async () => {
+    account = signer;
+    console.log("<NftMintPopup onmount src", src);
+    if (src) src = storageLinkToUrlHttp(src);
+  });
 </script>
 
-<NftMint
-	{src}
-	{chainId}
-	{address}
-	{signer}
-	{price}
-	{properties}
-	{name}
-	{description}
-	{audio}
-	{pdf}
-	bind:mint
-	bind:minting
-	bind:imageUri
-	bind:tokenUri
-	bind:audioUri
-	bind:pdfUri
-	bind:txHash
-	bind:nft
-/>
+{#if src}
+  <NftMint
+    {src}
+    {chainId}
+    {address}
+    {signer}
+    {price}
+    {properties}
+    {name}
+    {description}
+    {audio}
+    {pdf}
+    bind:mint
+    bind:minting
+    bind:imageUri
+    bind:tokenUri
+    bind:audioUri
+    bind:pdfUri
+    bind:txHash
+    bind:nft
+  />
+{/if}
 
 <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
-	<div id="kredeum-create-nft">
-		<div class="mint-modal-content">
-			<span on:click={toggle} on:keydown={toggle} title="Close" class="btn modal-close"
-				><i class="fa fa-times" /></span
-			>
+  <div id="kredeum-create-nft">
+    <div class="mint-modal-content">
+      <span role="button" tabindex="0" on:click={toggle} on:keydown={toggle} title="Close" class="btn modal-close"
+        ><i class="fa fa-times" /></span
+      >
 
-			<div class="mint-modal-body">
-				<div class="titre">
-					<i class="fas fa-plus fa-left c-green" />Mint NFT
-				</div>
+      <div class="mint-modal-body">
+        <div class="titre">
+          <i class="fas fa-plus fa-left c-green" />Mint NFT
+        </div>
 
-				{#if minting === S0_START}
-					<div class="section">
-						<div class="box-fields">
-							<input
-								bind:group={inputMediaType}
-								class="box-field"
-								id="create-type-picture"
-								name="media-type"
-								type="radio"
-								value="image"
-							/>
-							<label class="field" for="create-type-picture"
-								><i class="fas fa-image" />Picture</label
-							>
+        {#if minting === S0_START}
+          <div class="section">
+            <div class="box-fields">
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-picture"
+                name="media-type"
+                type="radio"
+                value="image"
+              />
+              <label class="field" for="create-type-picture"><i class="fas fa-image" />Picture</label>
 
-							<input
-								bind:group={inputMediaType}
-								class="box-field"
-								id="create-type-gif"
-								name="media-type"
-								type="radio"
-								value="gif"
-							/>
-							<label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-gif"
+                name="media-type"
+                type="radio"
+                value="gif"
+              />
+              <label class="field" for="create-type-gif"><i class="fas fa-map" />Gif</label>
 
-							<input
-								bind:group={inputMediaType}
-								class="box-field"
-								id="create-type-music"
-								name="media-type"
-								type="radio"
-								value="audio"
-							/>
-							<label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-music"
+                name="media-type"
+                type="radio"
+                value="audio"
+              />
+              <label class="field" for="create-type-music"><i class="fas fa-music" />Music</label>
 
-							<input
-								bind:group={inputMediaType}
-								class="box-field"
-								id="create-type-video"
-								name="media-type"
-								type="radio"
-								value="video"
-							/>
-							<label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-video"
+                name="media-type"
+                type="radio"
+                value="video"
+              />
+              <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
-							<input
-								bind:group={inputMediaType}
-								class="box-field"
-								id="create-type-pdf"
-								name="media-type"
-								type="radio"
-								value="pdf"
-							/>
-							<label class="field" for="create-type-pdf"><i class="fas fa-file-alt" />Pdf</label>
+              <input
+                bind:group={inputMediaType}
+                class="box-field"
+                id="create-type-pdf"
+                name="media-type"
+                type="radio"
+                value="pdf"
+              />
+              <label class="field" for="create-type-pdf"><i class="fas fa-file-alt" />Pdf</label>
 
-							<input
-								class="box-field"
-								id="create-type-web"
-								name="media-type"
-								type="checkbox"
-								value="Web"
-								disabled
-							/>
-							<label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
-						</div>
-					</div>
+              <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
+              <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
+            </div>
+          </div>
 
-					{#if inputMediaType === 'audio'}
-						<InputAudioMint bind:audioFile bind:audio />
-					{/if}
+          {#if inputMediaType === "audio" && audioFile && audio}
+            <InputAudioMint bind:audioFile bind:audio />
+          {/if}
 
-					{#if inputMediaType === 'video'}
-						<InputVideoMint bind:videoFile={file} bind:video={src} />
-					{/if}
+          {#if inputMediaType === "video" && file && src}
+            <InputVideoMint bind:videoFile={file} bind:video={src} />
+          {/if}
 
-					<!-- {#if inputMediaType === "pdf"}
-            <InputPdfMint bind:pdfFile bind:pdf />
-          {/if} -->
+          {#if inputMediaType !== "video"}
+            <div class="section">
+              <div class="titre">NFT image file</div>
+              <div class="box-file">
+                {#if src}
+                  <div class="media media-photo">
+                    <img {src} alt="nft" />
+                    <span
+                      role="button"
+                      tabindex="0"
+                      class="kre-delete-file"
+                      on:click={deleteFileImg}
+                      on:keydown={deleteFileImg}><i class="fa fa-trash" aria-hidden="true" /></span
+                    >
+                  </div>
+                {:else}
+                  <div class="kre-flex kre-baseline">
+                    <input
+                      type="file"
+                      id="file"
+                      name="file"
+                      bind:files
+                      on:change={fileload}
+                      accept={acceptedImgTypes}
+                    />
+                  </div>
+                {/if}
+              </div>
+            </div>
+          {/if}
 
-					{#if inputMediaType !== 'video'}
-						<div class="section">
-							<div class="titre">NFT image file</div>
-							<div class="box-file">
-								{#if src}
-									<div class="media media-photo">
-										<img {src} alt="nft" />
-										<span
-											class="kre-delete-file"
-											on:click={deleteFileImg}
-											on:keydown={deleteFileImg}><i class="fa fa-trash" aria-hidden="true" /></span
-										>
-									</div>
-								{:else}
-									<div class="kre-flex kre-baseline">
-										<input
-											type="file"
-											id="file"
-											name="file"
-											bind:files
-											on:change={fileload}
-											accept={acceptedImgTypes}
-										/>
-									</div>
-								{/if}
-							</div>
-						</div>
-					{/if}
+          <div class="section">
+            <div class="titre">NFT title</div>
+            <div class="form-field">
+              <input
+                type="text"
+                class=" kre-field-outline"
+                placeholder="add a title"
+                bind:value={name}
+                id="title-nft"
+              />
+            </div>
+          </div>
+          <div class="section">
+            <div class="titre">NFT description</div>
+            <div class="form-field">
+              <input
+                type="text"
+                class=" kre-field-outline"
+                placeholder="add a description"
+                bind:value={description}
+                id="description-nft"
+              />
+            </div>
+          </div>
+          <div class="section kre-mint-collection">
+            <div class="titre">Add to existing Collection</div>
+            <CollectionSelect {chainId} bind:address {account} mintable={true} label={false} />
+          </div>
 
-					<div class="section">
-						<div class="titre">NFT title</div>
-						<div class="form-field">
-							<input
-								type="text"
-								class=" kre-field-outline"
-								placeholder="add a title"
-								bind:value={name}
-								id="title-nft"
-							/>
-						</div>
-					</div>
-					<div class="section">
-						<div class="titre">NFT description</div>
-						<div class="form-field">
-							<input
-								type="text"
-								class=" kre-field-outline"
-								placeholder="add a description"
-								bind:value={description}
-								id="description-nft"
-							/>
-						</div>
-					</div>
-					<div class="section kre-mint-collection">
-						<div class="titre">Add to existing Collection</div>
-						<CollectionSelect {chainId} bind:address {account} mintable={true} label={false} />
-					</div>
+          {#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
+            <div class="section kre-mint-automarket">
+              <div class="kre-flex">
+                <div>
+                  <span class="kre-market-info-title label-big">Royalty Fee</span>
+                  <span class="kre-market-info-value label-big"
+                    >{collectionRoyaltyFee(collection) / 100} %
+                    {#if collectionRoyaltyMinimum(collection).gt(0)}
+                      or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
+                    {/if}
+                  </span>
+                </div>
+                <div class="kre-treasury-fee">
+                  <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
+                  <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100} %</span>
+                </div>
+              </div>
+            </div>
+          {/if}
 
-					{#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
-						<div class="section kre-mint-automarket">
-							<div class="kre-flex">
-								<div>
-									<span class="kre-market-info-title label-big">Royalty Fee</span>
-									<span class="kre-market-info-value label-big"
-										>{collectionRoyaltyFee(collection) / 100} %
-										{#if collectionRoyaltyMinimum(collection).gt(0)}
-											or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
-										{/if}
-									</span>
-								</div>
-								<div class="kre-treasury-fee">
-									<span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span
-									>
-									<span class="kre-market-info-value label-big overflow-ellipsis"
-										>{treasuryFee() / 100} %</span
-									>
-								</div>
-							</div>
-						</div>
-					{/if}
+          {#if collectionIsAutoMarket(collection) && collectionOpenOrOwner(collection, $metamaskSignerAddress)}
+            <div class="section">
+              <div class="titre">NFT Sell Price</div>
+              <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />
+            </div>
 
-					{#if collectionIsAutoMarket(collection) && collectionOpenOrOwner(collection, $metamaskSignerAddress)}
-						<div class="section">
-							<div class="titre">NFT Sell Price</div>
-							<InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />
-						</div>
+            <div class="section">
+              <div class="titre">Royalty amount</div>
+              {#if collectionRoyaltyEnforcement(collection)}
+                {displayEther(
+                  chainId,
+                  getMax(
+                    collectionRoyaltyAndFeeAmount(collection, inputPrice),
+                    collectionRoyaltyAndFeeMinimum(collection)
+                  )
+                )}
+              {:else}
+                {displayEther(chainId, collectionRoyaltyAndFeeAmount(collection, inputPrice))}
+              {/if}
+            </div>
+          {/if}
 
-						<div class="section">
-							<div class="titre">Royalty amount</div>
-							{#if collectionRoyaltyEnforcement(collection)}
-								{displayEther(
-									chainId,
-									getMax(
-										collectionRoyaltyAndFeeAmount(collection, inputPrice),
-										collectionRoyaltyAndFeeMinimum(collection)
-									)
-								)}
-							{:else}
-								{displayEther(chainId, collectionRoyaltyAndFeeAmount(collection, inputPrice))}
-							{/if}
-						</div>
-					{/if}
+          <NftProperties bind:properties />
 
-					<NftProperties bind:properties />
+          <div class="txtright">
+            <button class="btn btn-default btn-sell" on:click|preventDefault={mint}>Mint NFT</button>
+          </div>
+        {:else if S0_START < minting && minting <= S5_MINTED}
+          <div class="media media-photo">
+            {#if inputMediaType === "video"}
+              <MediaVideo {src} mode="line" />
+            {:else}
+              <img {src} alt="nft" />
+            {/if}
+          </div>
 
-					<div class="txtright">
-						<button class="btn btn-default btn-sell" on:click|preventDefault={mint}>Mint NFT</button
-						>
-					</div>
-				{:else if S0_START < minting && minting <= S5_MINTED}
-					<div class="media media-photo">
-						{#if inputMediaType === 'video'}
-							<MediaVideo {src} mode="line" />
-						{:else}
-							<img {src} alt="nft" />
-						{/if}
-					</div>
+          <ul class="steps process">
+            <li>
+              <div class="flex">
+                <span class="titre">
+                  {#if mintingError}
+                    Minting Error
+                    <i class="fa fa-times fa-left" />
+                  {:else}
+                    Minting NFT
+                    <i class="fas fa-spinner fa-left c-green refresh" />
+                  {/if}
+                </span>
+              </div>
+              <div class="flex">
+                <span class="t-light">
+                  {#if mintingError}
+                    {mintingError}
+                  {:else}
+                    {nftMintTexts[minting]}
+                  {/if}
+                </span>
+              </div>
+            </li>
 
-					<ul class="steps process">
-						<li>
-							<div class="flex">
-								<span class="titre">
-									{#if mintingError}
-										Minting Error
-										<i class="fa fa-times fa-left" />
-									{:else}
-										Minting NFT
-										<i class="fas fa-spinner fa-left c-green refresh" />
-									{/if}
-								</span>
-							</div>
-							<div class="flex">
-								<span class="t-light">
-									{#if mintingError}
-										{mintingError}
-									{:else}
-										{nftMintTexts[minting]}
-									{/if}
-								</span>
-							</div>
-						</li>
+            <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
+              <div class="flex"><span class="label">Media link</span></div>
+              <div class="flex">
+                {#if imageUri}
+                  <a class="link" href={storageLinkToUrlHttp(imageUri)} target="_blank" rel="noreferrer"
+                    >{textShort(imageUri, 15)}</a
+                  >
+                {/if}
+              </div>
+            </li>
 
-						<li class={minting > S1_STORE_IMAGE ? 'complete' : ''}>
-							<div class="flex"><span class="label">Media link</span></div>
-							<div class="flex">
-								{#if imageUri}
-									<a
-										class="link"
-										href={storageLinkToUrlHttp(imageUri)}
-										target="_blank"
-										rel="noreferrer">{textShort(imageUri, 15)}</a
-									>
-								{/if}
-							</div>
-						</li>
+            {#if inputMediaType === "audio"}
+              <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
+                <div class="flex"><span class="label">Audio link</span></div>
+                <div class="flex">
+                  {#if audioUri}
+                    <a class="link" href={storageLinkToUrlHttp(audioUri)} target="_blank" rel="noreferrer"
+                      >{textShort(audioUri, 15)}</a
+                    >
+                  {/if}
+                </div>
+              </li>
+            {/if}
 
-						{#if inputMediaType === 'audio'}
-							<li class={minting > S1_STORE_IMAGE ? 'complete' : ''}>
-								<div class="flex"><span class="label">Audio link</span></div>
-								<div class="flex">
-									{#if audioUri}
-										<a
-											class="link"
-											href={storageLinkToUrlHttp(audioUri)}
-											target="_blank"
-											rel="noreferrer">{textShort(audioUri, 15)}</a
-										>
-									{/if}
-								</div>
-							</li>
-						{/if}
+            {#if inputMediaType === "pdf"}
+              <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
+                <div class="flex"><span class="label">Pdf link</span></div>
+                <div class="flex">
+                  {#if pdfUri}
+                    <a class="link" href={storageLinkToUrlHttp(pdfUri)} target="_blank" rel="noreferrer"
+                      >{textShort(pdfUri, 15)}</a
+                    >
+                  {/if}
+                </div>
+              </li>
+            {/if}
 
-						{#if inputMediaType === 'pdf'}
-							<li class={minting > S1_STORE_IMAGE ? 'complete' : ''}>
-								<div class="flex"><span class="label">Pdf link</span></div>
-								<div class="flex">
-									{#if pdfUri}
-										<a
-											class="link"
-											href={storageLinkToUrlHttp(pdfUri)}
-											target="_blank"
-											rel="noreferrer">{textShort(pdfUri, 15)}</a
-										>
-									{/if}
-								</div>
-							</li>
-						{/if}
+            <li class={minting > S2_STORE_METADATA ? "complete" : ""}>
+              <div class="flex"><span class="label">Metadata link</span></div>
+              <div class="flex">
+                {#if tokenUri}
+                  <a class="link" href={storageLinkToUrlHttp(tokenUri)} target="_blank" rel="noreferrer"
+                    >{textShort(tokenUri, 15)}</a
+                  >
+                {/if}
+              </div>
+            </li>
 
-						<li class={minting > S2_STORE_METADATA ? 'complete' : ''}>
-							<div class="flex"><span class="label">Metadata link</span></div>
-							<div class="flex">
-								{#if tokenUri}
-									<a
-										class="link"
-										href={storageLinkToUrlHttp(tokenUri)}
-										target="_blank"
-										rel="noreferrer">{textShort(tokenUri, 15)}</a
-									>
-								{/if}
-							</div>
-						</li>
+            <li class={minting >= S4_WAIT_TX ? "complete" : ""}>
+              <div class="flex"><span class="label">Transaction link</span></div>
+              <div class="flex">
+                {#if minting >= S4_WAIT_TX}
+                  <a class="link" href={explorerTxUrl(chainId, txHash)} target="_blank" rel="noreferrer"
+                    >{textShort(txHash, 15)}</a
+                  >
+                {/if}
+              </div>
+            </li>
 
-						<li class={minting >= S4_WAIT_TX ? 'complete' : ''}>
-							<div class="flex"><span class="label">Transaction link</span></div>
-							<div class="flex">
-								{#if minting >= S4_WAIT_TX}
-									<a
-										class="link"
-										href={explorerTxUrl(chainId, txHash)}
-										target="_blank"
-										rel="noreferrer">{textShort(txHash, 15)}</a
-									>
-								{/if}
-							</div>
-						</li>
-
-						<li class={minting == S5_MINTED ? 'complete' : ''}>
-							<div class="flex"><span class="label">Token ID</span></div>
-							<div class="flex">
-								{#if minting == S5_MINTED}
-									<a class="link" href={getDappUrl(chainId, nft)}>
-										<strong>{nft.tokenID}</strong>
-									</a>
-								{/if}
-							</div>
-						</li>
-					</ul>
-				{:else if minting == S5_MINTED}
-					<li class="complete">
-						<div class="flex">
-							<span class="titre"
-								>NFT Minted, congrats!
-								<i class="fas fa-check fa-left c-green" />
-							</span>
-						</div>
-						<div class="flex">
-							<a class="link" href={explorerNftUrl(chainId, nft)} target="_blank" rel="noreferrer"
-								>{nftUrl(nft, 6)}</a
-							>
-						</div>
-					</li>
-				{:else if mintingError}
-					<div class="section">
-						<div class="form-field kre-warning-msg">
-							<p><i class="fas fa-exclamation-triangle fa-left c-red" />{mintingError}</p>
-						</div>
-					</div>
-				{/if}
-			</div>
-		</div>
-	</div>
+            <li class={minting == S5_MINTED ? "complete" : ""}>
+              <div class="flex"><span class="label">Token ID</span></div>
+              <div class="flex">
+                {#if minting == S5_MINTED}
+                  <a class="link" href={getDappUrl(chainId, nft)}>
+                    <strong>{nft.tokenID}</strong>
+                  </a>
+                {/if}
+              </div>
+            </li>
+          </ul>
+        {:else if minting == S5_MINTED}
+          <li class="complete">
+            <div class="flex">
+              <span class="titre"
+                >NFT Minted, congrats!
+                <i class="fas fa-check fa-left c-green" />
+              </span>
+            </div>
+            <div class="flex">
+              <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank" rel="noreferrer">{nftUrl(nft, 6)}</a>
+            </div>
+          </li>
+        {:else if mintingError}
+          <div class="section">
+            <div class="form-field kre-warning-msg">
+              <p><i class="fas fa-exclamation-triangle fa-left c-red" />{mintingError}</p>
+            </div>
+          </div>
+        {/if}
+      </div>
+    </div>
+  </div>
 </div>
 
 <style>
-	#kre-create-mint-nft {
-		overflow: visible;
-		opacity: 1;
-		pointer-events: auto;
-		z-index: 1000;
-		text-align: left;
-	}
+  #kre-create-mint-nft {
+    overflow: visible;
+    opacity: 1;
+    pointer-events: auto;
+    z-index: 1000;
+    text-align: left;
+  }
 
-	.mint-modal-body {
-		overflow-y: auto;
-	}
+  .mint-modal-body {
+    overflow-y: auto;
+  }
 
-	.box-file {
-		position: relative;
-		border-radius: 34px;
-	}
+  .box-file {
+    position: relative;
+    border-radius: 34px;
+  }
 
-	input[type='file']:disabled {
-		opacity: 0.5;
-	}
+  input[type="file"]:disabled {
+    opacity: 0.5;
+  }
 
-	input:disabled + label {
-		cursor: not-allowed;
-	}
+  input:disabled + label {
+    cursor: not-allowed;
+  }
 
-	.media-photo {
-		width: 33%;
-		border-radius: 15px;
-	}
+  .media-photo {
+    width: 33%;
+    border-radius: 15px;
+  }
 
-	.kre-delete-file {
-		background-color: #192146;
-		border-radius: 50%;
-		position: absolute;
-		right: 25px;
-		top: 50%;
-		transform: translateY(-50%);
-		width: 35px;
-		height: 35px;
-		display: flex;
-		cursor: pointer;
-	}
+  .kre-delete-file {
+    background-color: #192146;
+    border-radius: 50%;
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    cursor: pointer;
+  }
 
-	.kre-delete-file i {
-		color: white;
-		margin: auto;
-	}
+  .kre-delete-file i {
+    color: white;
+    margin: auto;
+  }
 
-	.kre-mint-automarket {
-		border: 1px solid #eaeff8;
-		border-radius: 6px;
-		width: 100%;
-	}
+  .kre-mint-automarket {
+    border: 1px solid #eaeff8;
+    border-radius: 6px;
+    width: 100%;
+  }
 
-	.kre-mint-automarket div.kre-flex div {
-		padding: 20px;
-		max-width: 50%;
-		overflow: hidden;
-		flex-grow: 1;
-		border-left: 1px solid #eaeff8;
-	}
+  .kre-mint-automarket div.kre-flex div {
+    padding: 20px;
+    max-width: 50%;
+    overflow: hidden;
+    flex-grow: 1;
+    border-left: 1px solid #eaeff8;
+  }
 
-	.kre-treasury-fee {
-		min-width: 5em;
-	}
+  .kre-treasury-fee {
+    min-width: 5em;
+  }
 
-	.kre-no-wrap-title {
-		white-space: nowrap;
-	}
+  .kre-no-wrap-title {
+    white-space: nowrap;
+  }
 
-	.kre-market-info-title {
-		color: #5b5b5b;
-		font-size: 11px;
-		letter-spacing: 1px;
-		margin-bottom: 2px;
-	}
+  .kre-market-info-title {
+    color: #5b5b5b;
+    font-size: 11px;
+    letter-spacing: 1px;
+    margin-bottom: 2px;
+  }
 
-	.kre-market-info-value {
-		color: #5b5b5b;
-		display: block;
-		font-size: 11px;
-		font-weight: 700;
-		letter-spacing: 1px;
-	}
+  .kre-market-info-value {
+    color: #5b5b5b;
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
 
-	:global(.modal-window .select-wrapper div.select-trigger) {
-		border: 1px solid #eaeff8;
-		border-radius: 6px;
-	}
+  :global(.modal-window .select-wrapper div.select-trigger) {
+    border: 1px solid #eaeff8;
+    border-radius: 6px;
+  }
 
-	:global(.kre-mint-collection div.col) {
-		padding-left: 0;
-		padding-right: 0;
-	}
+  :global(.kre-mint-collection div.col) {
+    padding-left: 0;
+    padding-right: 0;
+  }
 
-	/* WP Fix */
-	:global(.admin-bar .modal-body .kre-no-cover label) {
-		transform: translateY(-3px);
-		display: inline-block;
-	}
+  /* WP Fix */
+  :global(.admin-bar .modal-body .kre-no-cover label) {
+    transform: translateY(-3px);
+    display: inline-block;
+  }
 </style>

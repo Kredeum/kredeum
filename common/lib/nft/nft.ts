@@ -1,8 +1,9 @@
 import type { ReceiverType, NftType } from "@kredeum/common/lib/common/types";
 import { MAX_FEE, feeAmount, treasuryFee } from "@kredeum/common/lib/common/config";
 
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 import { nftGetImageLink } from "@kredeum/common/lib/nft/nft-get-metadata";
+import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 
 const nftChainId = (nft: NftType): number => Number(nft?.chainId || 1);
 const nftOwner = (nft: NftType): string => String(nft?.owner || "");
@@ -10,7 +11,7 @@ const nftOwner = (nft: NftType): string => String(nft?.owner || "");
 const nftOnSale = (nft: NftType): boolean => nftPrice(nft).gt(0);
 const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
 const nftRoyalty = (nft: NftType): ReceiverType => nft?.royalty || {};
-const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || constants.AddressZero);
+const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || ADDRESS_ZERO);
 const nftRoyaltyFee = (nft: NftType): number => Number(nft?.royalty?.fee || 0);
 
 const nftRoyaltyAmount = (nft: NftType): BigNumber => feeAmount(nft?.price, nft?.royalty?.fee);

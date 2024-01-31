@@ -1,8 +1,7 @@
 import type { NftType, NftMetadata } from "@kredeum/common/lib/common/types";
 import { fetchJson } from "@kredeum/common/lib/common/fetch";
-import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
 import { keyNft } from "@kredeum/common/lib/common/keys";
-import { constants } from "ethers";
 import { swarmGatewayUrl, swarmGetLink } from "./storage/swarm";
 import { ipfsGatewayUrl, ipfsGetLink } from "./storage/ipfs";
 import { networks } from "@kredeum/common/lib/common/networks";
@@ -20,7 +19,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
   const url = nftGetImageLink(nft);
 
   let contentType = "text";
-  if (!(chainId && address && address != constants.AddressZero && tokenID && url)) return contentType;
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && url)) return contentType;
 
   contentType = contentTypesCache.get(url) || "";
   if (contentType) return contentType;
@@ -45,7 +44,7 @@ const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
 
   const { chainId, address, tokenID } = nft || {};
   const network = networks.get(chainId);
-  if (!(chainId && address && address != constants.AddressZero && tokenID && network)) return nft;
+  if (!(chainId && address && address != ADDRESS_ZERO && tokenID && network)) return nft;
 
   // ERC721 OPTIONAL METADATA => tokenURI includes METADATA
   if (nft.tokenURI) {
