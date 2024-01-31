@@ -12,7 +12,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.6",
+    "@types/node": "^20.11.13",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8"
   }

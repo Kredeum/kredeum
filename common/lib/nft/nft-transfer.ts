@@ -1,19 +1,19 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract } from "@lib/collection/collection-get";
-import { explorerTxLog } from "@lib/common/config";
+import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
+import { explorerTxLog } from "@kredeum/common/lib/common/config";
 
-import type { IERC721 } from "@soltypes/IERC721";
-import type { IERC1155 } from "@soltypes/IERC1155";
-import type { IOpenAutoMarket } from "@soltypes/IOpenAutoMarket";
-import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
+import type { IERC721 } from "@kredeum/contracts/types/IERC721";
+import type { IERC1155 } from "@kredeum/contracts/types/IERC1155";
+import type { IOpenAutoMarket } from "@kredeum/contracts/types/IOpenAutoMarket";
+import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import { constants } from "ethers";
 import {
   collectionIsAutoMarket,
   collectionIsERC1155,
   collectionIsERC721,
   collectionRoyaltyEnforcement
-} from "@lib/collection/collection";
+} from "@kredeum/common/lib/collection/collection";
 
 async function* transferNft(
   chainId: number,

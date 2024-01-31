@@ -4,7 +4,7 @@ import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/provid
 import type { Signer } from "ethers";
 
 import type { WindowExternalProvider } from "./types";
-import { getChecksumAddress, sleep } from "@lib/common/config";
+import { getChecksumAddress, sleep } from "@kredeum/common/lib/common/config";
 import { ethers } from "ethers";
 import { constants } from "ethers";
 import { networks } from "./networks";

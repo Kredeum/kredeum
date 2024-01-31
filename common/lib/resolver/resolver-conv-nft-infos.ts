@@ -1,9 +1,9 @@
 import { BigNumber, constants } from "ethers";
 
-import type { IERCNftInfos, IOpenNFTsInfos } from "@soltypes/IOpenNFTsResolver";
-import type { NftType, CollectionType, ReceiverType } from "@lib/common/types";
-import { getChecksumAddress } from "@lib/common/config";
-import { networks } from "@lib/common/networks";
+import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
+import type { NftType, CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";
+import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 const resolverConvNftInfos = (
   chainId: number,

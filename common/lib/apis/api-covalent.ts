@@ -1,13 +1,13 @@
 import { BigNumber, constants } from "ethers";
 
-import type { FetchResponse } from "@lib/common/fetch";
-import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
-import { getChecksumAddress } from "@lib/common/config";
-import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@lib/common/config";
-import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { keyCollection, keyNft } from "@lib/common/keys";
+import type { FetchResponse } from "@kredeum/common/lib/common/fetch";
+import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";
+import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@kredeum/common/lib/common/config";
+import { fetchJson, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
+import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
 import config from "@kredeum/config/dist/config.json";
-import { networks } from "@lib/common/networks";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {
   const covalent = config?.covalent;

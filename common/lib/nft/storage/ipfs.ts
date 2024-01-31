@@ -1,7 +1,7 @@
-import type { NftType, Properties } from "@lib/common/types";
+import type { NftType, Properties } from "@kredeum/common/lib/common/types";
 
-import NftStorage from "@lib/nft/storage/nftstorage";
-import { textShort, DEFAULT_NAME, urlToLink } from "@lib/common/config";
+import NftStorage from "@kredeum/common/lib/nft/storage/nftstorage";
+import { textShort, DEFAULT_NAME, urlToLink } from "@kredeum/common/lib/common/config";
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
 
 let nftStorage: NftStorage;

@@ -4,14 +4,7 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "baseUrl": "../",
-    "paths": {
-      "@lib/*": ["common/lib/*"],
-      "@utils/*": ["common/utils/*"],
-      "@soltypes/*": ["contracts/types/*"],
-      "@artifacts/*": ["contracts/out/*"]
-    }
+    "resolveJsonModule": true
   },
   "include": ["**/*.ts"],
   "ts-node": {

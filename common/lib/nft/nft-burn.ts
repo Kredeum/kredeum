@@ -1,6 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract, collectionBurnable } from "@lib/collection/collection-get";
+import { collectionGetContract, collectionBurnable } from "@kredeum/common/lib/collection/collection-get";
 import { constants } from "ethers";
 import { explorerTxLog } from "../common/config";
 

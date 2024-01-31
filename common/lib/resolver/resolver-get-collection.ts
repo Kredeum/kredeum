@@ -1,10 +1,10 @@
 import { constants } from "ethers";
 
-import type { CollectionType } from "@lib/common/types";
-import { resolverConvOpenNFTsCollectionInfos } from "@lib/resolver/resolver-conv-collection-infos";
-import { resolverGetContract } from "@lib/resolver/resolver-get";
-import { keyCollection } from "@lib/common/keys";
-// import { keyCollections } from "@lib/common/keys";
+import type { CollectionType } from "@kredeum/common/lib/common/types";
+import { resolverConvOpenNFTsCollectionInfos } from "@kredeum/common/lib/resolver/resolver-conv-collection-infos";
+import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";
+import { keyCollection } from "@kredeum/common/lib/common/keys";
+// import { keyCollections } from "@kredeum/common/lib/common/keys";
 
 const resolverGetCollection = async (
   chainId: number,

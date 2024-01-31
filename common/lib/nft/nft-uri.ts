@@ -1,6 +1,6 @@
-import type { Properties } from "@lib/common/types";
+import type { Properties } from "@kredeum/common/lib/common/types";
 
-import { DEFAULT_NAME } from "@lib/common/config";
+import { DEFAULT_NAME } from "@kredeum/common/lib/common/config";
 import { swarmConfigValid, swarmPin, swarmTokenUri } from "./storage/swarm";
 import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "./storage/ipfs";
 

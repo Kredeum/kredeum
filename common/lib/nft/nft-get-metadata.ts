@@ -1,11 +1,11 @@
-import type { NftType, NftMetadata } from "@lib/common/types";
-import { fetchJson } from "@lib/common/fetch";
-import { getChecksumAddress } from "@lib/common/config";
-import { keyNft } from "@lib/common/keys";
+import type { NftType, NftMetadata } from "@kredeum/common/lib/common/types";
+import { fetchJson } from "@kredeum/common/lib/common/fetch";
+import { getChecksumAddress } from "@kredeum/common/lib/common/config";
+import { keyNft } from "@kredeum/common/lib/common/keys";
 import { constants } from "ethers";
 import { swarmGatewayUrl, swarmGetLink } from "./storage/swarm";
 import { ipfsGatewayUrl, ipfsGetLink } from "./storage/ipfs";
-import { networks } from "@lib/common/networks";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();

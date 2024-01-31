@@ -1,11 +1,11 @@
 import { BigNumber, constants } from "ethers";
 
-import type { CollectionType, NftType, CollectionFilterType } from "@lib/common/types";
-import { nftUrl } from "@lib/common/config";
-import { resolverConvOpenNFTsNftInfos } from "@lib/resolver/resolver-conv-nft-infos";
-import { resolverGetContract } from "@lib/resolver/resolver-get";
-import { FETCH_LIMIT } from "@lib/common/fetch";
-import { collectionIsERC1155 } from "@lib/collection/collection";
+import type { CollectionType, NftType, CollectionFilterType } from "@kredeum/common/lib/common/types";
+import { nftUrl } from "@kredeum/common/lib/common/config";
+import { resolverConvOpenNFTsNftInfos } from "@kredeum/common/lib/resolver/resolver-conv-nft-infos";
+import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";
+import { FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
+import { collectionIsERC1155 } from "@kredeum/common/lib/collection/collection";
 
 // COLLECTION
 // name

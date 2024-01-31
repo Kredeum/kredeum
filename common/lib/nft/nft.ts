@@ -1,8 +1,8 @@
-import type { ReceiverType, NftType } from "@lib/common/types";
-import { MAX_FEE, feeAmount, treasuryFee } from "@lib/common/config";
+import type { ReceiverType, NftType } from "@kredeum/common/lib/common/types";
+import { MAX_FEE, feeAmount, treasuryFee } from "@kredeum/common/lib/common/config";
 
 import { BigNumber, constants } from "ethers";
-import { nftGetImageLink } from "@lib/nft/nft-get-metadata";
+import { nftGetImageLink } from "@kredeum/common/lib/nft/nft-get-metadata";
 
 const nftChainId = (nft: NftType): number => Number(nft?.chainId || 1);
 const nftOwner = (nft: NftType): string => String(nft?.owner || "");

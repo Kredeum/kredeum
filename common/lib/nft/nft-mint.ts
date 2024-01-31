@@ -2,27 +2,27 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import type { BigNumberish, PayableOverrides } from "ethers";
 import { ethers, constants } from "ethers";
 
-import type { NftType } from "@lib/common/types";
+import type { NftType } from "@kredeum/common/lib/common/types";
 
-import { explorerTxLog } from "@lib/common/config";
-import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
-import { collectionGetContract } from "@lib/collection/collection-get";
+import { explorerTxLog } from "@kredeum/common/lib/common/config";
+import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
+import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
 
-import type { IOpenNFTsV0 } from "@soltypes/IOpenNFTsV0";
-import type { IOpenNFTsV1 } from "@soltypes/IOpenNFTsV1";
-import type { IOpenNFTsV2 } from "@soltypes/IOpenNFTsV2";
-import type { IOpenNFTsV3Plus } from "@soltypes/IOpenNFTsV3Plus";
-import type { OpenAutoMarket } from "@soltypes/OpenAutoMarket";
-import type { OpenNFTsV4 } from "@soltypes/OpenNFTsV4";
+import type { IOpenNFTsV0 } from "@kredeum/contracts/types/IOpenNFTsV0";
+import type { IOpenNFTsV1 } from "@kredeum/contracts/types/IOpenNFTsV1";
+import type { IOpenNFTsV2 } from "@kredeum/contracts/types/IOpenNFTsV2";
+import type { IOpenNFTsV3Plus } from "@kredeum/contracts/types/IOpenNFTsV3Plus";
+import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
+import type { OpenNFTsV4 } from "@kredeum/contracts/types/OpenNFTsV4";
 import {
   collectionIsOpenMarketable,
   collectionRoyaltyAccount,
   collectionRoyaltyFee,
   collectionSupports
-} from "@lib/collection/collection";
+} from "@kredeum/common/lib/collection/collection";
 import { storageLinkToUrlHttp } from "./storage/storage";
 import { ipfsGatewayUrl } from "./storage/ipfs";
-import { networks } from "@lib/common/networks";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";

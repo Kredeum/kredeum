@@ -15,7 +15,7 @@
     "tests-all": "pnpm -r tests",
     "build1": "pnpm -F config build",
     "build2": "pnpm -F contracts -F gulp build",
-    "build3": "pnpm -F svelte build && pnpm -F wordpress build",
+    "build3": "pnpm -F sveltekit build && pnpm -F wordpress build",
     "build-dapp": "pnpm build1 && pnpm build2 && pnpm build3",
     "build-plugin": "pnpm build1 && pnpm build2 && pnpm build3",
     "deploy-dapp": "export PATH=$PATH:$HOME/.foundry/bin && pnpm install && pnpm install-foundry && pnpm build-dapp",
@@ -33,6 +33,6 @@
     "pnpm": "^8"
   },
   "devDependencies": {
-    "turbo": "^1.11.3"
+    "turbo": "^1.12.0"
   }
 }

@@ -1,4 +1,4 @@
-import type { NetworkType, NftType } from "@lib/common/types";
+import type { NetworkType, NftType } from "@kredeum/common/lib/common/types";
 import mainnetsJson from "@kredeum/config/dist/mainnets.json";
 import testnetsJson from "@kredeum/config/dist/testnets.json";
 

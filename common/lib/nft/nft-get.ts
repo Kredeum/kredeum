@@ -1,9 +1,9 @@
-import type { CollectionType, NftType } from "@lib/common/types";
-import { collectionGet } from "@lib/collection/collection-get";
+import type { CollectionType, NftType } from "@kredeum/common/lib/common/types";
+import { collectionGet } from "@kredeum/common/lib/collection/collection-get";
 
-import { nftGetMetadata } from "@lib/nft/nft-get-metadata";
-import { resolverGetNft } from "@lib/resolver/resolver-get-nft";
-import { keyNft } from "@lib/common/keys";
+import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
+import { resolverGetNft } from "@kredeum/common/lib/resolver/resolver-get-nft";
+import { keyNft } from "@kredeum/common/lib/common/keys";
 import { constants } from "ethers";
 
 const nftGet = async (

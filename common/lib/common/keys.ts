@@ -1,5 +1,5 @@
 import { getChecksumAddress } from "./config";
-import { CollectionType, NftType } from "./types";
+import type { CollectionType, NftType } from "./types";
 
 const keyCollection = (chainId: number, address: string, account?: string): string =>
   `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;

@@ -1,7 +1,7 @@
-import type { CollectionType } from "@lib/common/types";
+import type { CollectionType } from "@kredeum/common/lib/common/types";
 
 import { BigNumber, constants } from "ethers";
-import { feeAmount, treasuryAmount } from "@lib/common/config";
+import { feeAmount, treasuryAmount } from "@kredeum/common/lib/common/config";
 
 const ZeroAddress = constants.AddressZero;
 

@@ -1,12 +1,12 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionFilterType, CollectionType, NftType } from "@lib/common/types";
-import type { FetchResponse } from "@lib/common/fetch";
-import { fetchJson, FETCH_LIMIT } from "@lib/common/fetch";
-import { getChecksumAddress, isAddressNotZero } from "@lib/common/config";
-import { keyCollections, keyNft } from "@lib/common/keys";
+import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";
+import type { FetchResponse } from "@kredeum/common/lib/common/fetch";
+import { fetchJson, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
+import { getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
+import { keyCollections, keyNft } from "@kredeum/common/lib/common/keys";
 import { constants } from "ethers";
-import { networks } from "@lib/common/networks";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 const alchemyCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollections ${keyCollections(chainId, account)}\n`);

@@ -1,10 +1,10 @@
 import { Contract, ContractInterface } from "ethers";
 
-import { explorerContractUrl, getAddresses } from "@lib/common/config";
+import { explorerContractUrl, getAddresses } from "@kredeum/common/lib/common/config";
 
-import type { OpenNFTsFactoryV3 } from "@soltypes/OpenNFTsFactoryV3";
-import { providerGetSignerOrProvider } from "@lib/common/provider-get";
-import { getAbi } from "@lib/common/artifacts";
+import type { OpenNFTsFactoryV3 } from "@kredeum/contracts/types/OpenNFTsFactoryV3";
+import { providerGetSignerOrProvider } from "@kredeum/common/lib/common/provider-get";
+import { getAbi } from "@kredeum/common/lib/common/artifacts";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<string, Contract> = new Map();

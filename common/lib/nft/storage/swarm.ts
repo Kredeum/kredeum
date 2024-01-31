@@ -1,11 +1,11 @@
-import type { NftType, Properties } from "@lib/common/types";
+import type { NftType, Properties } from "@kredeum/common/lib/common/types";
 
-import { DEFAULT_NAME, textShort  } from "@lib/common/config";
+import { DEFAULT_NAME, textShort } from "@kredeum/common/lib/common/config";
 
-import { swarmUploadFile } from "@lib/common/beejs";
+import { swarmUploadFile } from "@kredeum/common/lib/common/beejs";
 
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
-import { networks } from "@lib/common/networks";
+import { networks } from "@kredeum/common/lib/common/networks";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SWARM HELPERS
