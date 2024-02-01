@@ -1,7 +1,7 @@
 import type { PDFDocumentProxy, PDFPageProxy } from "pdfjs-dist";
 
 import { GlobalWorkerOptions, getDocument, PageViewport } from "pdfjs-dist";
-import pdfjsWorker from "pdfjs-dist/build/pdf.worker.entry";
+import pdfjsWorker from "pdfjs-dist/build/pdf.worker";
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 GlobalWorkerOptions.workerSrc = pdfjsWorker;

@@ -54,7 +54,7 @@
   import NftMint from "./NftMint.svelte";
   import { storageLinkToUrlHttp } from "@kredeum/common/lib/nft/storage/storage";
 
-  // import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/lib/common/pdfjs";
+  import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/lib/common/pdfjs";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
@@ -138,8 +138,13 @@
   };
 
   const pdfToCoverImg = async () => {
-    // const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
-    // src = await pdfjsCrop(page, 437, 437, -89, -179);
+    if (!pdf) return;
+
+    const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
+
+    if (!page) return;
+
+    src = await pdfjsCrop(page, 437, 437, -89, -179);
   };
 
   const setDefaultAudioCover = () => {
