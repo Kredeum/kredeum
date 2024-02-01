@@ -21,7 +21,7 @@ import { nftListStore } from "./nftList";
 const nftSubListStore = (
   chainId: number,
   address: string,
-  filter?: CollectionFilterType
+  filter: CollectionFilterType = {}
 ): Readable<Map<string, NftType>> => {
   // console.log(`nftSubListStore ${keyCollection(chainId, address)}\n`);
   // console.log(`nftSubListStore ${JSON.stringify(filter, null, 2)}\n`);
@@ -44,7 +44,7 @@ const nftSubListStore = (
       const okOwner = !filter.owner || nft.owner === filter.owner;
 
       // TOKENID
-      const okTokenID = tokenIdSelected(filter.tokenID, nft.tokenID);
+      const okTokenID = tokenIdSelected(nft.tokenID, filter.tokenID);
 
       const ok = okParams && okNetwork && okAddress && okOwner && okTokenID;
 
@@ -83,10 +83,10 @@ const nftSubListStoreRefresh = async (
     collection = $collectionList.get(key);
   }
 
-  let nfts: Map<string, NftType>;
+  let nfts: Map<string, NftType> = new Map();
   if (collection?.supports?.get("IERC721Enumerable")) {
     ({ nfts } = await nftListLib(chainId, collection, filter));
-  } else {
+  } else if (collection) {
     nfts = await nftListTokenIds(chainId, collection, filter);
   }
 
@@ -107,8 +107,6 @@ const nftSubListStoreAndRefresh = (
   address: string,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
-  if (!(chainId && address && address != ADDRESS_ZERO)) return;
-
   // STATE VIEW : sync read cache
   const nfts = nftSubListStore(chainId, address, filter);
 

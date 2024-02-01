@@ -65,7 +65,6 @@
       "group": "Default"
     }
   ],
-  "liveServer.settings.root": "/web/",
   "phpsab.autoRulesetSearch": false,
   "phpsab.composerJsonPath": "wordpress/composer.json",
   "phpsab.debug": true,
@@ -85,5 +84,6 @@
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC",
-  "workbench.preferredLightColorTheme": "Kimbie Dark"
+  "workbench.preferredLightColorTheme": "Kimbie Dark",
+  "liveServer.settings.root": "/web/dapp/"
 }

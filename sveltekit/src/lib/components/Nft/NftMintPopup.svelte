@@ -459,7 +459,7 @@
           </div>
         {:else if S0_START < minting && minting <= S5_MINTED}
           <div class="media media-photo">
-            {#if inputMediaType === "video"}
+            {#if inputMediaType === "video" && src}
               <MediaVideo {src} mode="line" />
             {:else}
               <img {src} alt="nft" />
@@ -552,7 +552,7 @@
             <li class={minting == S5_MINTED ? "complete" : ""}>
               <div class="flex"><span class="label">Token ID</span></div>
               <div class="flex">
-                {#if minting == S5_MINTED}
+                {#if minting == S5_MINTED && nft}
                   <a class="link" href={getDappUrl(chainId, nft)}>
                     <strong>{nft.tokenID}</strong>
                   </a>
@@ -560,7 +560,7 @@
               </div>
             </li>
           </ul>
-        {:else if minting == S5_MINTED}
+        {:else if minting == S5_MINTED && nft}
           <li class="complete">
             <div class="flex">
               <span class="titre"

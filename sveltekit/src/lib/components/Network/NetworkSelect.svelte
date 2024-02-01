@@ -23,7 +23,7 @@
   interface SwitchEventTarget extends EventTarget {
     value: number;
   }
-  const _switchChainEvt = (evt?: Event) => {
+  const _switchChainEvt = (evt: Event) => {
     const _chainId = Number((evt.target as SwitchEventTarget).value);
     _switchChain(_chainId, evt).catch(console.error);
   };
@@ -61,6 +61,8 @@
   {/if}
 
   <div
+    role="button"
+    tabindex="0"
     class="select-wrapper select-network"
     use:clickOutside={() => (open = false)}
     on:click={handleToggleOpen}
@@ -74,6 +76,8 @@
       <div class="custom-options">
         {#each currentNetworks as nwk}
           <span
+            role="button"
+            tabindex="0"
             class="custom-option {nwk.chainId == chainId && 'selected'}"
             on:click={(evt) => _switchChain(nwk.chainId, evt)}
             on:keydown={(evt) => _switchChain(nwk.chainId, evt)}

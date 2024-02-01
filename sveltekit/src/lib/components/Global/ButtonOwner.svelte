@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { isAddressNotZero } from "@kredeum/common/lib/common/config";
+  import { ADDRESS_ZERO, isAddressNotZero } from "@kredeum/common/lib/common/config";
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
@@ -10,11 +10,12 @@
   export let owner: string;
   /////////////////////////////////////////////////
 
-  const toggleOwner = () => (owner = isAddressNotZero(owner) ? null : isAddressNotZero(account) ? account : null);
+  const toggleOwner = () =>
+    (owner = isAddressNotZero(owner) ? ADDRESS_ZERO : isAddressNotZero(account) ? account : ADDRESS_ZERO);
 
   onMount(toggleOwner);
 </script>
 
-<button class="clear" on:click={toggleOwner} title="      {owner ? 'Click to View All NFTs' : 'Click to View My NFTs'}">
-  <i class="fas fa-{owner ? 'users' : 'user'}" />
+<button class="clear" on:click={toggleOwner} title="      {isAddressNotZero(owner) ? 'Click to View All NFTs' : 'Click to View My NFTs'}">
+  <i class="fas fa-{isAddressNotZero(owner) ? 'users' : 'user'}" />
 </button>

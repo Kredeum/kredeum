@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl } from "@kredeum/common/lib/common/config";
+  import { ADDRESS_ZERO, explorerCollectionUrl } from "@kredeum/common/lib/common/config";
 
   import Collection from "./Collection.svelte";
   import { clickOutside } from "@kredeum/sveltekit/src/lib/helpers/clickOutside";
@@ -45,10 +45,10 @@
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: $refreshAll, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account)}`);
+    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account || ADDRESS_ZERO)}`);
 
     // STATE VIEW : sync get Collections
-    collections = collectionSubListStore(chainId, account, null, mintable);
+    collections = collectionSubListStore(chainId, account, undefined, mintable);
     console.log("COLLECTIONS cached", $collections);
 
     // STATE VIEW : sync get default Collection
@@ -56,7 +56,7 @@
 
     // ACTION : async refresh Collections
     refreshing = true;
-    await collectionSubListRefresh(chainId, account, null, mintable);
+    await collectionSubListRefresh(chainId, account, undefined, mintable);
     refreshing = false;
     console.info("COLLECTIONS", $collections);
 
@@ -99,7 +99,7 @@
           </option>
         {/each}
       </select>
-      {#if label}
+      {#if label && address}
         <p>{keyCollection(chainId, address, account)}</p>
       {/if}
     {:else}
@@ -131,13 +131,15 @@
     </span>
   {/if}
   <div
+    role="button"
+    tabindex="0"
     class="select-wrapper select-storeCollection"
     use:clickOutside={() => (open = false)}
     on:click={handleToggleOpen}
     on:keydown={handleToggleOpen}
   >
     <div class="select" class:open>
-      {#if $collections?.size > 0}
+      {#if address && $collections?.size > 0}
         <div class="select-trigger">
           <span>
             <Collection {chainId} {address} {account} />
@@ -146,6 +148,8 @@
         <div class="custom-options">
           {#each [...$collections] as [key, coll]}
             <span
+              role="button"
+              tabindex="0"
               id={key}
               class="custom-option {coll.address == address ? 'selected' : ''}"
               data-value={coll.address}

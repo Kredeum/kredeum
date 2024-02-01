@@ -30,7 +30,9 @@
       </div>
 
       <div class="txtcenter">
-        <span on:click={toggle} on:keydown={toggle} class="btn btn-default" title="Mint NFT">Mint NFT</span>
+        <span role="button" tabindex="0" on:click={toggle} on:keydown={toggle} class="btn btn-default" title="Mint NFT"
+          >Mint NFT</span
+        >
         <span class="or">or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
       </div>
@@ -38,12 +40,14 @@
   </div>
 </div>
 
-<!-- SubModal create NFT -->
-{#if open}
-  <NftMintPopup {chainId} {signer} {toggle} />
-{/if}
+{#if chainId && signer}
+  <!-- SubModal create NFT -->
+  {#if open}
+    <NftMintPopup {chainId} {signer} {toggle} />
+  {/if}
 
-<!-- SubModal create collection  -->
-<div id="add-collection" class="modal-window">
-  <CollectionCreate {chainId} {signer} />
-</div>
+  <!-- SubModal create collection  -->
+  <div id="add-collection" class="modal-window">
+    <CollectionCreate {chainId} {signer} />
+  </div>
+{/if}

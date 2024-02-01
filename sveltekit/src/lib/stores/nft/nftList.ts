@@ -12,7 +12,7 @@ const nftListLoadLocalStorage = (): Map<string, NftType> => {
   for (let index = 0; index < len; index++) {
     const key = localStorageKey(index);
 
-    if (key?.startsWith("nft://")) {
+    if (key && key.startsWith("nft://")) {
       nfts.set(key, jsonMapParse(localStorageGet(key)) as NftType);
     }
   }

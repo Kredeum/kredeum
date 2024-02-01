@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 
 import type { FetchResponse } from "@kredeum/common/lib/common/fetch";
 import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";

@@ -66,6 +66,8 @@
     </div>
 
     <div
+      role="button"
+      tabindex="0"
       id="more-{tokenID || ''}"
       class="table-col more"
       on:click={() => moreToggle(tokenID)}

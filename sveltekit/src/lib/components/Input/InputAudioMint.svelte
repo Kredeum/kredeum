@@ -5,20 +5,20 @@
   //  <InputAudioMint {audioFile} {audio} />
   // Upload audi file for Mint audio
   ////////////////////////////////////////////////////////////////
-  export let audioFile: File;
+  export let audioFile: File | undefined = undefined;
   export let audio: string;
   ////////////////////////////////////////////////////////////////
 
-  let files: FileList;
+  let files: FileList | undefined = undefined;
 
   const fileload = () => {
-    audioFile = null;
+    audioFile = undefined;
 
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       reader.onload = (e) => {
-        audio = e.target.result.toString();
+        audio = e.target?.result?.toString() || "";
       };
 
       audioFile = files[0];
@@ -26,8 +26,8 @@
   };
 
   const resetFileAudio = () => {
-    files = null;
-    audioFile = null;
+    files = undefined;
+    audioFile = undefined;
     audio = "";
   };
 </script>
@@ -41,7 +41,9 @@
           Your browser does not support the
           <code>audio</code> element.
         </audio>
-        <span class="kre-delete-file" on:click={resetFileAudio} on:keydown={resetFileAudio}
+        <span
+        role="button" tabindex="0"
+         class="kre-delete-file" on:click={resetFileAudio} on:keydown={resetFileAudio}
           ><i class="fa fa-trash" aria-hidden="true" /></span
         >
       </div>

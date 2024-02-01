@@ -13,10 +13,11 @@ import { collectionListStore } from "@kredeum/sveltekit/src/lib/stores/collectio
 import { jsonMapStringify } from "@kredeum/sveltekit/src/lib/helpers/jsonMap";
 import { localStorageRemove, localStorageSet } from "@kredeum/common/lib/common/local";
 
-const nftStoreSet = (nft: NftType): void => {
-  const { chainId, address, tokenID } = nft || {};
-  // console.log("nftStoreSet", chainId, address, tokenID);
+const nftStoreSet = (nft?: NftType): void => {
+  if (!nft) return;
+  const { chainId, address, tokenID } = nft;
   if (!(chainId && address && address != ADDRESS_ZERO && tokenID)) return;
+  // console.log("nftStoreSet", chainId, address, tokenID);
 
   nftListStore.update(($nftListStore: Map<string, NftType>): Map<string, NftType> => {
     const key = keyNft(chainId, address, tokenID);
@@ -49,7 +50,10 @@ const nftStoreRefresh = async (chainId: number, address: string, tokenID: string
 
 // STATE VIEW : one Nft store
 const nftStore = (chainId: number, address: string, tokenID: string): Readable<NftType> =>
-  derived(nftListStore, ($nftListStore) => $nftListStore.get(keyNft(chainId, address, tokenID)));
+  derived(
+    nftListStore,
+    ($nftListStore) => $nftListStore.get(keyNft(chainId, address, tokenID)) || (new Map() as unknown as NftType)
+  );
 
 // Remove one nft from store & localstorage
 const nftStoreRemove = (chainId: number, address: string, tokenID: string) => {
@@ -65,8 +69,6 @@ const nftStoreRemove = (chainId: number, address: string, tokenID: string) => {
 };
 
 const nftStoreAndRefresh = (chainId: number, address: string, tokenID: string): Readable<NftType> => {
-  if (!(chainId && address && address != ADDRESS_ZERO && tokenID)) return;
-
   // STATE VIEW : sync read cache
   const nft = nftStore(chainId, address, tokenID);
 

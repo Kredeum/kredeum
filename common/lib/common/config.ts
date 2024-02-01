@@ -27,7 +27,7 @@ const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   return tokenIDsArray;
 };
 const tokenIdCount = (tokenIDs: string): number => (tokenIDs === "" ? -1 : tokenIdSplit(tokenIDs).length);
-const tokenIdSelected = (tokenIDs: string, tokenID: string): boolean =>
+const tokenIdSelected = (tokenID: string, tokenIDs?: string): boolean =>
   !tokenIDs || tokenIdSplit(tokenIDs).includes(tokenID);
 
 const isCollection = (refHash: RefPageType) => networks.has(refHash.chainId) && isAddressNotZero(refHash.address);

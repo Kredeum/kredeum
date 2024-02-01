@@ -73,7 +73,7 @@
   const S4_BUYED = 4;
 
   const buyInit = () => {
-    buyTxHash = null;
+    buyTxHash = "";
 
     buying = S1_CONFIRM;
   };
@@ -138,7 +138,7 @@
 {#if open}
   <div id="kre-buy-nft" class="modal-window" transition:fade>
     <div class="modal-content" use:clickOutside={handleClose}>
-      <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
+      <span role="button" tabindex="0" on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
         ><i class="fa fa-times" /></span
       >
 

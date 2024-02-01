@@ -15,15 +15,11 @@
     <meta name="theme-color" content="#ffffff" />
 
     <link rel="stylesheet" href="%sveltekit.assets%/assets/css/front.css" />
-    <link rel="stylesheet" href="%sveltekit.assets%/assets/js/kredeum-nfts.css" />
-    <script defer src="%sveltekit.assets%/assets/js/kredeum-nfts.js"></script>
 
     %sveltekit.head%
   </head>
 
-  <body data-sveltekit-preload-data="hover">
-    <div style="display: contents">
-      <div id="kredeum-dapp">%sveltekit.body%</div>
-    </div>
+  <body class="kredeum" data-sveltekit-preload-data="hover">
+    <div id="kredeum-dapp">%sveltekit.body%</div>
   </body>
 </html>

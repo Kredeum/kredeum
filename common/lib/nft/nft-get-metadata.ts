@@ -15,7 +15,7 @@ const nftGetImageLink = (nft: NftType): string =>
 const nftGetContentType = async (nft: NftType): Promise<string> => {
   // console.log("nftGetContentType", nft);
 
-  const { chainId, address, tokenID } = nft || {};
+  const { chainId, address, tokenID } = nft;
   const url = nftGetImageLink(nft);
 
   let contentType = "text";
@@ -42,7 +42,7 @@ const nftGetContentType = async (nft: NftType): Promise<string> => {
 const nftGetMetadata = async (nft: NftType): Promise<NftType> => {
   // console.log("nftGetMetadata", nft);
 
-  const { chainId, address, tokenID } = nft || {};
+  const { chainId, address, tokenID } = nft;
   const network = networks.get(chainId);
   if (!(chainId && address && address != ADDRESS_ZERO && tokenID && network)) return nft;
 

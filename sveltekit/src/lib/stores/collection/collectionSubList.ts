@@ -80,7 +80,7 @@ const collectionSubListRefresh = async (
   for (const collectionObject of colls.values()) {
     collectionStoreSet(collectionObject);
   }
-  if (!colls.has(address)) {
+  if (address && !colls.has(address)) {
     collectionStoreSet(await collectionLib(chainId, address));
   }
   // console.log(`collectionSubListRefresh ${keyCollections(chainId, account, mintable)}\n`, colls);

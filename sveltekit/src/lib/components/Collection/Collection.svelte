@@ -14,7 +14,7 @@
 <CollectionData {chainId} {address} {account} let:collection>
   {#if collection}
     {collection.name || DEFAULT_NAME}
-    ({collection.balancesOf?.get(account) || 0}
+    ({(account && collection.balancesOf?.get(account)) || 0}
     {collection.symbol || DEFAULT_SYMBOL})
   {:else}
     Choose one collection

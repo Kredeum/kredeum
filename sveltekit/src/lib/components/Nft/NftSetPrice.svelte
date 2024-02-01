@@ -262,7 +262,7 @@
   </div>
   {#if !removingFromSale}
     <div class="section">
-      <NftIncomes nft={$nft} priceInput={null} />
+      <NftIncomes nft={$nft} />
     </div>
   {/if}
 {/if}

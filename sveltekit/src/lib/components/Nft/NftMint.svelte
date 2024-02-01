@@ -4,7 +4,7 @@
   import type { NftType, Properties } from "@kredeum/common/lib/common/types";
   import { nftMint, nftMinted } from "@kredeum/common/lib/nft/nft-mint";
   import { nftPin, nftTokenUri } from "@kredeum/common/lib/nft/nft-uri";
-  import {  isAddressNotZero } from "@kredeum/common/lib/common/config";
+  import { isAddressNotZero } from "@kredeum/common/lib/common/config";
   import { nftStoreSet } from "@kredeum/sveltekit/src/lib/stores/nft/nft";
   import {
     S0_START,
@@ -44,10 +44,7 @@
   export let nft: NftType | undefined = undefined; // defined after STATE 4
   /////////////////////////////////////////////////
 
-  const _mintingError = (err: string): void => {
-    console.error(err);
-    return null;
-  };
+  const _mintingError = (err: string): void => console.error(err);
 
   // MINTING STATES
   //
@@ -111,9 +108,11 @@
 
     minting = S4_WAIT_TX;
 
-    nft = await nftMinted(chainId, address, mintingTxResp, tokenUri, signer);
+    if (mintingTxResp) {
+      nft = await nftMinted(chainId, address, mintingTxResp, tokenUri, signer);
 
-    nftStoreSet(nft);
+      nftStoreSet(nft);
+    }
 
     minting = S5_MINTED;
   };

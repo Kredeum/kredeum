@@ -7,20 +7,20 @@
   //  <InputVideoMint {videoFile} {video} />
   // Upload video file for Mint video
   ////////////////////////////////////////////////////////////////
-  export let videoFile: File;
+  export let videoFile: File | undefined = undefined;
   export let video: string;
   ////////////////////////////////////////////////////////////////
 
-  let files: FileList;
+  let files: FileList | undefined = undefined;
 
   const fileload = () => {
-    videoFile = null;
+    videoFile = undefined;
 
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       reader.onload = (e) => {
-        video = e.target.result.toString();
+        video = e.target?.result?.toString() || "";
       };
 
       videoFile = files[0];
@@ -28,8 +28,8 @@
   };
 
   const resetFileVideo = () => {
-    files = null;
-    videoFile = null;
+    files = undefined;
+    videoFile = undefined;
     video = "";
   };
 </script>
@@ -41,7 +41,7 @@
       <div class="kre-video-mint">
         <MediaVideo src={video} mode="line" />
 
-        <span class="kre-delete-file" on:click={resetFileVideo} on:keydown={resetFileVideo}
+        <span role="button" tabindex="0" class="kre-delete-file" on:click={resetFileVideo} on:keydown={resetFileVideo}
           ><i class="fa fa-trash" aria-hidden="true" /></span
         >
       </div>

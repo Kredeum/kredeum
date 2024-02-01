@@ -1,10 +1,10 @@
-<script>
+<script lang="ts">
   import config from "@kredeum/config/dist/config.json";
   import { versionGet } from "@kredeum/sveltekit/src/lib/helpers/version";
   import logo from "../Images/logo-kredeum.svg";
   import { networks } from "@kredeum/common/lib/common/networks";
 
-  export let chainId;
+  export let chainId: number;
 
   $: mainnets = networks.isMainnet(chainId);
 
@@ -17,7 +17,7 @@
 </script>
 
 <div class="logo">
-  <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" alt="Kredeum website" title="Kredeum website">
+  <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" title="Kredeum website">
     <img src={logo} alt="Logo Kredeum" />
   </a>
 </div>
@@ -62,6 +62,5 @@
   href="https://discord.gg/Vz5AyU2Nfx"
   target="_blank"
   rel="noreferrer"
-  alt="Discord Kredeum"
   title="Discord Kredeum"><i class="icon-discord" /></a
 >

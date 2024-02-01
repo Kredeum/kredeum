@@ -34,6 +34,8 @@
 <div class="media-zoom">
   <div class="media">
     <span
+      role="button"
+      tabindex="0"
       class="krd-pointer {isAnimationMedia ? 'no-zoom-hover' : 'zoom-hover'}"
       on:click={popupToggle}
       on:keydown={popupToggle}
@@ -49,7 +51,14 @@
   <div id="zoom" class="modal-window" transition:fade>
     <div use:clickOutside={popupToggle}>
       <div class="modal-content">
-        <span on:click={popupToggle} on:keydown={popupToggle} title="Close" class="modal-close krd-pointer">
+        <span
+          role="button"
+          tabindex="0"
+          on:click={popupToggle}
+          on:keydown={popupToggle}
+          title="Close"
+          class="modal-close krd-pointer"
+        >
           <i class="fa fa-times" />
         </span>
         <div class="modal-body">

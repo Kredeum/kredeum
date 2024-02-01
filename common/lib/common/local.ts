@@ -2,7 +2,7 @@ const localStorageDefined = (): boolean => typeof localStorage !== "undefined";
 
 const _localStorage = localStorageDefined() ? localStorage : null;
 
-const localStorageGet = (field: string): string | null => _localStorage?.getItem(field) || null;
+const localStorageGet = (field: string): string => _localStorage?.getItem(field) || "";
 
 const localStorageSet = (field: string, value: string): void => _localStorage?.setItem(field, value);
 

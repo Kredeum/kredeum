@@ -1,4 +1,4 @@
-import { BigNumber, constants } from "ethers";
+import { BigNumber } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";

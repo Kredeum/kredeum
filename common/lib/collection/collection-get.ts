@@ -1,4 +1,4 @@
-import { Contract, Signer, constants } from "ethers";
+import { Contract, Signer } from "ethers";
 
 import type { CollectionType } from "@kredeum/common/lib/common/types";
 import type { JsonFragment } from "@ethersproject/abi";

@@ -5,20 +5,20 @@
   //  <InputPdfMint {pdfFile} {pdf} />
   // Upload pdf file for Mint PDF
   ////////////////////////////////////////////////////////////////
-  export let pdfFile: File;
+  export let pdfFile: File | undefined = undefined;
   export let pdf: string;
   ////////////////////////////////////////////////////////////////
 
-  let files: FileList;
+  let files: FileList | undefined = undefined;
 
   const fileload = () => {
-    pdfFile = null;
+    pdfFile = undefined;
 
     if (files) {
       let reader = new FileReader();
       reader.readAsDataURL(files[0]);
       reader.onload = (e) => {
-        pdf = e.target.result.toString();
+        pdf = e.target?.result?.toString() || "";
       };
 
       pdfFile = files[0];
@@ -26,8 +26,8 @@
   };
 
   const resetFilePdf = () => {
-    files = null;
-    pdfFile = null;
+    files = undefined;
+    pdfFile = undefined;
     pdf = "";
   };
 </script>
@@ -38,7 +38,7 @@
     {#if pdf}
       <div class="media media-photo">
         TODO Display PDF Preview
-        <span class="kre-delete-file" on:click={resetFilePdf} on:keydown={resetFilePdf}
+        <span role="button" tabindex="0" class="kre-delete-file" on:click={resetFilePdf} on:keydown={resetFilePdf}
           ><i class="fa fa-trash" aria-hidden="true" /></span
         >
       </div>

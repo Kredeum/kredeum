@@ -3,6 +3,5 @@ packages:
   - common
   - contracts
   - gulp
-  - svelte
   - sveltekit
   - wordpress

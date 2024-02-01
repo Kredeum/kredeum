@@ -19,7 +19,7 @@
   const togglePlayAudio = () => {
     paused = !paused;
     if (toPlayTokenID) {
-      $toPlayTokenID = $toPlayTokenID !== tokenID ? tokenID : "";
+      $toPlayTokenID = tokenID && $toPlayTokenID !== tokenID ? tokenID : "";
     }
   };
 

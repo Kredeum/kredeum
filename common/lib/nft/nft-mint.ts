@@ -1,6 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { BigNumberish, PayableOverrides } from "ethers";
-import { ethers, constants } from "ethers";
+import { ethers } from "ethers";
 
 import type { NftType } from "@kredeum/common/lib/common/types";
 
@@ -129,8 +129,8 @@ const nftMinted = async (
   txResponse: TransactionResponse,
   metadataCid: string,
   minter: string
-): Promise<NftType | null> => {
-  if (!(chainId && address && address != ADDRESS_ZERO && txResponse && metadataCid && minter)) return null;
+): Promise<NftType | undefined> => {
+  if (!(chainId && address && address != ADDRESS_ZERO && txResponse && metadataCid && minter)) return;
 
   const txReceipt = await txResponse.wait();
   // console.log("txReceipt", txReceipt);
@@ -138,7 +138,7 @@ const nftMinted = async (
   const tokenID = _mintTokenID(txReceipt);
   // console.log("tokenID", tokenID);
 
-  if (!(Number(tokenID) >= 0)) return null;
+  if (!(Number(tokenID) >= 0)) return;
 
   const nft = await _mintedNft(chainId, address, tokenID, storageLinkToUrlHttp(metadataCid), minter);
   // console.log("nftMinted", nft);

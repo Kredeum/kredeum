@@ -75,22 +75,12 @@ function htmls() {
   return gulp.src(["html/*"]).pipe(gulp.dest("web/dapp"));
 }
 
-// Transpile, concatenate and minify scripts
-function scripts() {
-  return gulp
-    .src(["js/**/*"])
-    .pipe(plumber())
-    .pipe(!production ? uglify().on("error", swallow) : noop())
-    .pipe(gulp.dest("web/dapp/assets/js/"));
-}
-
 // Watch files
 function watchFiles() {
   gulp.watch("scss/**/*", css);
-  gulp.watch("js/**/*", gulp.series(scripts));
 }
 
-const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);
+const build = gulp.series(clean, gulp.parallel(css, images,   htmls), fonts);
 const watch = gulp.parallel(watchFiles);
 
 exports.images = images;

@@ -1,6 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 import type { BigNumberish } from "ethers";
-import { utils, constants } from "ethers";
+import { utils } from "ethers";
 
 import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
 import { factoryGetContract } from "@kredeum/common/lib/common/factory-get";

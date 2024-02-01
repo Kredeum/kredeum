@@ -45,8 +45,13 @@
     <div use:clickOutside={() => (open = false)}>
       <div id="kredeum-sell-nft">
         <div class="modal-content">
-          <span on:click={handleClose} on:keydown={handleClose} title="Close" class="modal-close"
-            ><i class="fa fa-times" /></span
+          <span
+            role="button"
+            tabindex="0"
+            on:click={handleClose}
+            on:keydown={handleClose}
+            title="Close"
+            class="modal-close"><i class="fa fa-times" /></span
           >
 
           <div class="modal-body">

@@ -18,7 +18,7 @@
   /////////////////////////////////////////////////
 
   let cssMedia = mode === "line" ? "media-small" : mode === "zoom" ? "full" : "media-grid";
-  let gridScale = mode.startsWith("grid") ? " a-simul-cursor" : "";
+  let gridScale = mode?.startsWith("grid") ? " a-simul-cursor" : "";
 </script>
 
 <div id="media-{mode}-{tokenID}" class="media kre-media-{mode} {cssMedia} media-{nftMediaContentType($nft)}{gridScale}">
