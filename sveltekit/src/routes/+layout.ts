@@ -4,9 +4,6 @@ const prerender = true;
 const ssr = false;
 
 const load: Load = async () => {
-  console.log("typeof window:", typeof window);
-  console.log("typeof localStorage:", typeof localStorage);
-
   return {};
 };
 
