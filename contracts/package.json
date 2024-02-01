@@ -29,7 +29,7 @@
     "build:forge": "forge build",
     "build:typechain": "pnpx typechain --target ethers-v5 --out-dir types out/**/*.json",
     "check": "pnpm check:solidity",
-    "check:solidity": "solhint --fix src/**/*.sol",
+    "check:solidity": "solhint src/**/*.sol",
     "clean": "pnpm run clean:foundry && rm -rf node_modules lib types artifacts broadcast",
     "clean:foundry": "forge clean && rm -rf cache-forge out",
     "deploy:deploy": "pnpm run deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",

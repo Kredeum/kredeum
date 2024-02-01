@@ -7,7 +7,6 @@ import { fetchGQL, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
 import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
 import { networks } from "@kredeum/common/lib/common/networks";
 
-
 const thegraphNftList = async (
   chainId: number,
   collection: CollectionType,

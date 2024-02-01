@@ -8,7 +8,6 @@ import { FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
 import { collectionIsERC1155 } from "@kredeum/common/lib/collection/collection";
 import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
 
-
 // COLLECTION
 // name
 // symbol

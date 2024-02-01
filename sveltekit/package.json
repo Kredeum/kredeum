@@ -15,7 +15,6 @@
     "test:unit": "vitest"
   },
   "devDependencies": {
-
     "@ethersproject/providers": "^5.7.2",
     "@metamask/detect-provider": "^2.0.0",
     "@playwright/test": "^1.41.1",

@@ -7,6 +7,8 @@
     "lib": "lib"
   },
   "scripts": {
+    "patch:stream": "cd patch && source stream.patch.sh",
+    "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules types abis",
     "format": "prettier lib/**/*.ts --write --list-different",
     "check": "eslint lib/**/*.ts"

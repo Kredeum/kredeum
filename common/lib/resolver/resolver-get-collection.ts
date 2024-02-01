@@ -1,4 +1,3 @@
-
 import type { CollectionType } from "@kredeum/common/lib/common/types";
 import { resolverConvOpenNFTsCollectionInfos } from "@kredeum/common/lib/resolver/resolver-conv-collection-infos";
 import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";

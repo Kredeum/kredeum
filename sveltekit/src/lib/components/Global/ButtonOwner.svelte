@@ -16,6 +16,10 @@
   onMount(toggleOwner);
 </script>
 
-<button class="clear" on:click={toggleOwner} title="      {isAddressNotZero(owner) ? 'Click to View All NFTs' : 'Click to View My NFTs'}">
+<button
+  class="clear"
+  on:click={toggleOwner}
+  title="      {isAddressNotZero(owner) ? 'Click to View All NFTs' : 'Click to View My NFTs'}"
+>
   <i class="fas fa-{isAddressNotZero(owner) ? 'users' : 'user'}" />
 </button>

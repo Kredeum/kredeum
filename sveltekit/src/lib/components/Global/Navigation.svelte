@@ -57,10 +57,6 @@
   </nav>
 </div>
 
-<a
-  class="discord-link"
-  href="https://discord.gg/Vz5AyU2Nfx"
-  target="_blank"
-  rel="noreferrer"
-  title="Discord Kredeum"><i class="icon-discord" /></a
+<a class="discord-link" href="https://discord.gg/Vz5AyU2Nfx" target="_blank" rel="noreferrer" title="Discord Kredeum"
+  ><i class="icon-discord" /></a
 >

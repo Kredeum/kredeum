@@ -6,7 +6,12 @@ import { getAbi } from "@kredeum/common/lib/common/artifacts";
 import { resolverGetCollection } from "@kredeum/common/lib/resolver/resolver-get-collection";
 import { providerGetSignerOrProvider } from "@kredeum/common/lib/common/provider-get";
 import { keyCollectionContract, keyCollection } from "@kredeum/common/lib/common/keys";
-import { ADDRESS_ZERO, explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "@kredeum/common/lib/common/config";
+import {
+  ADDRESS_ZERO,
+  explorerAddressUrl,
+  getChecksumAddress,
+  isAddressNotZero
+} from "@kredeum/common/lib/common/config";
 import { isAddress } from "ethers/lib/utils";
 import { collectionSupports } from "./collection";
 

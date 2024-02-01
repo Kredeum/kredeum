@@ -41,9 +41,7 @@
           Your browser does not support the
           <code>audio</code> element.
         </audio>
-        <span
-        role="button" tabindex="0"
-         class="kre-delete-file" on:click={resetFileAudio} on:keydown={resetFileAudio}
+        <span role="button" tabindex="0" class="kre-delete-file" on:click={resetFileAudio} on:keydown={resetFileAudio}
           ><i class="fa fa-trash" aria-hidden="true" /></span
         >
       </div>

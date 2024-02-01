@@ -32,7 +32,7 @@
   /////////////////////////////////////////////////
 
   let transfering: number;
-  let transferTxHash: string= "";
+  let transferTxHash: string = "";
   let transferError: string;
 
   let destinationAddress = "";
@@ -83,7 +83,7 @@
     transfering = S2_SIGN_TX;
 
     const transferTxResp = (await transferTxRespYield.next()).value;
-    transferTxHash = transferTxResp?.hash|| "";
+    transferTxHash = transferTxResp?.hash || "";
     if (!transferTxHash)
       return _transferError(`ERROR while sending transaction... ${JSON.stringify(transferTxResp, null, 2)}`);
 
