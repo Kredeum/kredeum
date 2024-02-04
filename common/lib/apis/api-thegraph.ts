@@ -1,11 +1,11 @@
 import { BigNumber } from "ethers";
 
-import type { CollectionType, CollectionFilterType, NftType } from "@kredeum/common/lib/common/types";
-import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
+import type { CollectionType, CollectionFilterType, NftType } from "../common/types";
+import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 
-import { fetchGQL, FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
-import { keyCollection, keyNft } from "@kredeum/common/lib/common/keys";
-import { networks } from "@kredeum/common/lib/common/networks";
+import { fetchGQL, FETCH_LIMIT } from "../common/fetch";
+import { keyCollection, keyNft } from "../common/keys";
+import { networks } from "../common/networks";
 
 const thegraphNftList = async (
   chainId: number,

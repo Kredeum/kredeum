@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NftStorage from "@kredeum/common/lib/nft/storage/nftstorage";
+  import NftStorage from "@kredeum/common/lib/storage/nftstorage";
   import {
     getOpenBound,
     explorerTxLog,
@@ -14,7 +14,7 @@
   import { metamaskSigner, metamaskSignerAddress } from "@kredeum/sveltekit/src/lib/stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import { storageLinkToUrlHttp } from "@kredeum/common/lib/nft/storage/storage";
+  import { storageLinkToUrlHttp } from "@kredeum/common/lib/storage/storage";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />

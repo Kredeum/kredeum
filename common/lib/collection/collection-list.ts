@@ -1,16 +1,13 @@
-import type { CollectionType } from "@kredeum/common/lib/common/types";
+import type { CollectionType } from "../common/types";
 
-import { collectionMerge } from "@kredeum/common/lib/collection/collection-get";
+import { collectionMerge } from "../collection/collection-get";
 
-import { alchemyActive, alchemyCollections } from "@kredeum/common/lib/apis/api-alchemy";
-import { covalentActive, covalentCollections } from "@kredeum/common/lib/apis/api-covalent";
-import { thegraphActive, thegraphCollections } from "@kredeum/common/lib/apis/api-thegraph";
-import {
-  resolverFilterCollections,
-  resolverGetCollections
-} from "@kredeum/common/lib/resolver/resolver-get-collection";
-import { networks } from "@kredeum/common/lib/common/networks";
-// import { infuraActive, infuraCollections } from "@kredeum/common/lib/apis/api-infura";
+import { alchemyActive, alchemyCollections } from "../apis/api-alchemy";
+import { covalentActive, covalentCollections } from "../apis/api-covalent";
+import { thegraphActive, thegraphCollections } from "../apis/api-thegraph";
+import { resolverFilterCollections, resolverGetCollections } from "../resolver/resolver-get-collection";
+import { networks } from "../common/networks";
+// import { infuraActive, infuraCollections } from "../apis/api-infura";
 
 // Merge 2 collections list into 1
 const collectionListMerge = (

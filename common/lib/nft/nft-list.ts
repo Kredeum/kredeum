@@ -1,14 +1,14 @@
-import type { CollectionFilterType, CollectionType, NftType } from "@kredeum/common/lib/common/types";
+import type { CollectionFilterType, CollectionType, NftType } from "../common/types";
 
-import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
-import { resolverGetNfts } from "@kredeum/common/lib/resolver/resolver-get-nft";
+import { nftGetMetadata } from "../nft/nft-get-metadata";
+import { resolverGetNfts } from "../resolver/resolver-get-nft";
 
-import { alchemyActive, alchemyNftList } from "@kredeum/common/lib/apis/api-alchemy";
-import { covalentActive, covalentNftList } from "@kredeum/common/lib/apis/api-covalent";
-import { thegraphActive, thegraphNftList } from "@kredeum/common/lib/apis/api-thegraph";
+import { alchemyActive, alchemyNftList } from "../apis/api-alchemy";
+import { covalentActive, covalentNftList } from "../apis/api-covalent";
+import { thegraphActive, thegraphNftList } from "../apis/api-thegraph";
 
-import { FETCH_LIMIT } from "@kredeum/common/lib/common/fetch";
-import { networks } from "@kredeum/common/lib/common/networks";
+import { FETCH_LIMIT } from "../common/fetch";
+import { networks } from "../common/networks";
 
 // Merge 2 nfts list into 1
 const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType>): Map<string, NftType> => {

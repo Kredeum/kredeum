@@ -2,17 +2,13 @@ import type { IOpenMarketable } from "@kredeum/contracts/types/IOpenMarketable";
 import type { IERC2981, IERC721 } from "@kredeum/contracts/types/index";
 import type { BigNumberish } from "ethers";
 import { BigNumber, constants } from "ethers";
-import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO } from "../common/config";
 
-import type { ReceiverType } from "@kredeum/common/lib/common/types";
-import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
-import { explorerUrl, isAddressNotZero } from "@kredeum/common/lib/common/config";
-import { providerGetAccount, providerGetFallback } from "@kredeum/common/lib/common/provider-get";
-import {
-  collectionIsERC721,
-  collectionIsOpenMarketable,
-  collectionSupports
-} from "@kredeum/common/lib/collection/collection";
+import type { ReceiverType } from "../common/types";
+import { collectionGetContract } from "../collection/collection-get";
+import { explorerUrl, isAddressNotZero } from "../common/config";
+import { providerGetAccount, providerGetFallback } from "../common/provider-get";
+import { collectionIsERC721, collectionIsOpenMarketable, collectionSupports } from "../collection/collection";
 
 const getNftPrice = async (chainId: number, address: string, tokenID: string): Promise<BigNumber> => {
   let price = constants.Zero;

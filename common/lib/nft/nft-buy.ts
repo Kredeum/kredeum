@@ -2,9 +2,9 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import type { BigNumberish } from "ethers";
 
 import type { IOpenAutoMarket } from "@kredeum/contracts/types/index";
-import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
+import { collectionGetContract } from "../collection/collection-get";
 import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
-import { collectionIsAutoMarket } from "@kredeum/common/lib/collection/collection";
+import { collectionIsAutoMarket } from "../collection/collection";
 
 async function* buyNft(
   chainId: number,

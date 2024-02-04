@@ -5,9 +5,9 @@ import { BigNumber } from "ethers";
 import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import type { IOpenMarketable } from "@kredeum/contracts/types/IOpenMarketable";
 import type { IERC721 } from "@kredeum/contracts/types/index";
-import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
-import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
-import { collectionIsERC721, collectionIsOpenMarketable } from "@kredeum/common/lib/collection/collection";
+import { collectionGetContract } from "../collection/collection-get";
+import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
+import { collectionIsERC721, collectionIsOpenMarketable } from "../collection/collection";
 
 async function* setTokenRoyaltyInfos(
   chainId: number,

@@ -1,9 +1,9 @@
-import type { CollectionType } from "@kredeum/common/lib/common/types";
-import { resolverConvOpenNFTsCollectionInfos } from "@kredeum/common/lib/resolver/resolver-conv-collection-infos";
-import { resolverGetContract } from "@kredeum/common/lib/resolver/resolver-get";
-import { keyCollection } from "@kredeum/common/lib/common/keys";
+import type { CollectionType } from "../common/types";
+import { resolverConvOpenNFTsCollectionInfos } from "../resolver/resolver-conv-collection-infos";
+import { resolverGetContract } from "../resolver/resolver-get";
+import { keyCollection } from "../common/keys";
 import { ADDRESS_ZERO } from "../common/config";
-// import { keyCollections } from "@kredeum/common/lib/common/keys";
+// import { keyCollections } from "../common/keys";
 
 const resolverGetCollection = async (
   chainId: number,

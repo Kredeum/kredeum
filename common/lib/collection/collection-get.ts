@@ -1,17 +1,12 @@
 import { Contract, Signer } from "ethers";
 
-import type { CollectionType } from "@kredeum/common/lib/common/types";
+import type { CollectionType } from "../common/types";
 import type { JsonFragment } from "@ethersproject/abi";
-import { getAbi } from "@kredeum/common/lib/common/artifacts";
-import { resolverGetCollection } from "@kredeum/common/lib/resolver/resolver-get-collection";
-import { providerGetSignerOrProvider } from "@kredeum/common/lib/common/provider-get";
-import { keyCollectionContract, keyCollection } from "@kredeum/common/lib/common/keys";
-import {
-  ADDRESS_ZERO,
-  explorerAddressUrl,
-  getChecksumAddress,
-  isAddressNotZero
-} from "@kredeum/common/lib/common/config";
+import { getAbi } from "../common/artifacts";
+import { resolverGetCollection } from "../resolver/resolver-get-collection";
+import { providerGetSignerOrProvider } from "../common/provider-get";
+import { keyCollectionContract, keyCollection } from "../common/keys";
+import { ADDRESS_ZERO, explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "../common/config";
 import { isAddress } from "ethers/lib/utils";
 import { collectionSupports } from "./collection";
 

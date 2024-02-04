@@ -2,9 +2,9 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import type { BigNumberish } from "ethers";
 import { utils } from "ethers";
 
-import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
-import { factoryGetContract } from "@kredeum/common/lib/common/factory-get";
-import { resolverGetCount } from "@kredeum/common/lib/resolver/resolver-get";
+import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
+import { factoryGetContract } from "../common/factory-get";
+import { resolverGetCount } from "../resolver/resolver-get";
 
 async function* collectionClone(
   chainId: number,

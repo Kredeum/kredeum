@@ -1,9 +1,9 @@
 import { BigNumber } from "ethers";
 
 import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
-import type { NftType, CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";
-import { ADDRESS_ZERO, getChecksumAddress } from "@kredeum/common/lib/common/config";
-import { networks } from "@kredeum/common/lib/common/networks";
+import type { NftType, CollectionType, ReceiverType } from "../common/types";
+import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
+import { networks } from "../common/networks";
 
 const resolverConvNftInfos = (
   chainId: number,

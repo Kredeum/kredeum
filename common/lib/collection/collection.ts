@@ -1,7 +1,7 @@
-import type { CollectionType } from "@kredeum/common/lib/common/types";
+import type { CollectionType } from "../common/types";
 
 import { BigNumber } from "ethers";
-import { ADDRESS_ZERO, feeAmount, treasuryAmount } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO, feeAmount, treasuryAmount } from "../common/config";
 
 const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
 const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");

@@ -5,7 +5,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@kredeum/sveltekit/src/lib/stores/metamask";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
   import type { NftType } from "@kredeum/common/lib/common/types";
-  import { storageConfigSet } from "@kredeum/common/lib/nft/storage/storage";
+  import { storageConfigSet } from "@kredeum/common/lib/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   // <MintButtonWp  />

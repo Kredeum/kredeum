@@ -1,8 +1,8 @@
-import type { Properties } from "@kredeum/common/lib/common/types";
+import type { Properties } from "../common/types";
 
-import { DEFAULT_NAME } from "@kredeum/common/lib/common/config";
-import { swarmConfigValid, swarmPin, swarmTokenUri } from "./storage/swarm";
-import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "./storage/ipfs";
+import { DEFAULT_NAME } from "../common/config";
+import { swarmConfigValid, swarmPin, swarmTokenUri } from "../storage/swarm";
+import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "../storage/ipfs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri

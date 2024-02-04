@@ -1,7 +1,7 @@
-import type { NftType, Properties } from "@kredeum/common/lib/common/types";
+import type { NftMetadata, NftType, Properties } from "../common/types";
 
-import NftStorage from "@kredeum/common/lib/nft/storage/nftstorage";
-import { textShort, DEFAULT_NAME, urlToLink } from "@kredeum/common/lib/common/config";
+import NftStorage from "./nftstorage";
+import { textShort, DEFAULT_NAME, urlToLink } from "../common/config";
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
 
 let nftStorage: NftStorage;
@@ -124,7 +124,7 @@ const ipfsTokenUri = async (
     origin: textShort(image, 140),
     minter: address
   } as NftType;
-  if (metadata) json.metadata = JSON.parse(metadata);
+  if (metadata) json.metadata = JSON.parse(metadata) as NftMetadata;
   if (Object.keys(properties).length > 0) json.properties = properties;
   if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
   if (pdfUri) json.pdf = ipfsGatewayUrl(pdfUri);

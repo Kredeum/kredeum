@@ -1,7 +1,7 @@
 import { Bee } from "@ethersphere/bee-js";
 
-import { DEFAULT_NAME, config } from "@kredeum/common/lib/common/config";
-import { swarmApiEndpoint, swarmApiKey, SWARM_ZERO_APIKEY } from "@kredeum/common/lib/nft/storage/swarm";
+import { DEFAULT_NAME, config } from "../common/config";
+import { swarmApiEndpoint, swarmApiKey, SWARM_ZERO_APIKEY } from "../storage/swarm";
 
 const getBee = (nodeUrl: string) => {
   return new Bee(nodeUrl ? nodeUrl : config.storage.swarm.apiEndpoint);

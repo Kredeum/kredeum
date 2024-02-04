@@ -52,7 +52,7 @@
     nftMintTexts
   } from "@kredeum/sveltekit/src/lib/helpers/nftMint";
   import NftMint from "./NftMint.svelte";
-  import { storageLinkToUrlHttp } from "@kredeum/common/lib/nft/storage/storage";
+  import { storageLinkToUrlHttp } from "@kredeum/common/lib/storage/storage";
 
   import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/lib/common/pdfjs";
 

@@ -1,4 +1,4 @@
-import { storageLinkToUrlHttp } from "@kredeum/common/lib/nft/storage/storage";
+import { storageLinkToUrlHttp } from "../storage/storage";
 
 const FETCH_LIMIT = 100;
 

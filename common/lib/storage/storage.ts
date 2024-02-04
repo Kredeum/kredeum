@@ -2,11 +2,11 @@
 // Storage cid from ipfs or swarm
 // => gataway url of ipfs or swarm
 
-import { NftType, StorageConfigType, StorageParamsType, StorageType } from "@kredeum/common/lib/common/types";
+import { NftType, StorageConfigType, StorageParamsType, StorageType } from "../common/types";
 import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./ipfs";
 import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
 import config from "@kredeum/config/dist/config.json";
-import { localStorageGet, localStorageSet } from "@kredeum/common/lib/common/local";
+import { localStorageGet, localStorageSet } from "../common/local";
 
 // IN MEMORY Storage Config
 let _storageConfig: StorageConfigType;
@@ -25,7 +25,7 @@ const storageConfigGet = (): StorageConfigType => {
   _storageConfig = config.storage;
 
   local: {
-    const locStorage = localStorageGet("storage") as string;
+    const locStorage = localStorageGet("storage");
     if (!locStorage) break local;
 
     const parseStorage = JSON.parse(locStorage) as StorageConfigType;

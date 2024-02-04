@@ -2,10 +2,9 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "dependsOn": ["@kredeum/config#build"],
+      "dependsOn": ["@kredeum/common#build", "@kredeum/config#build"],
       "inputs": ["readme.handlebars.txt", "kredeum-nfts.handlebars.php"],
       "outputs": ["plugins/kredeum-nfts/readme.txt", "plugins/kredeum-nfts/kredeum-nfts.php"]
     }
-  },
-  "dependsOn": ["common"]
+  }
 }

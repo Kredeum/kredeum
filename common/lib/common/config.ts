@@ -2,7 +2,7 @@ import type { TransactionResponse } from "@ethersproject/abstract-provider";
 import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
-import type { CollectionType, NftType, RefPageType, AddressesType } from "@kredeum/common/lib/common/types";
+import type { CollectionType, NftType, RefPageType, AddressesType } from "../common/types";
 
 import config from "@kredeum/config/dist/config.json";
 import addressesRaw from "@kredeum/contracts/addresses.json";

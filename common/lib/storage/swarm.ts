@@ -1,11 +1,11 @@
-import type { NftType, Properties } from "@kredeum/common/lib/common/types";
+import type { NftMetadata, NftType, Properties } from "../common/types";
 
-import { DEFAULT_NAME, textShort } from "@kredeum/common/lib/common/config";
+import { DEFAULT_NAME, textShort } from "../common/config";
 
-import { swarmUploadFile } from "@kredeum/common/lib/common/beejs";
+import { swarmUploadFile } from "../common/beejs";
 
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
-import { networks } from "@kredeum/common/lib/common/networks";
+import { networks } from "../common/networks";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SWARM HELPERS
@@ -131,7 +131,7 @@ const swarmTokenUri = async (
     origin: textShort(image, 140),
     minter: address
   } as NftType;
-  if (metadata) json.metadata = JSON.parse(metadata);
+  if (metadata) json.metadata = JSON.parse(metadata) as NftMetadata;
   if (Object.keys(properties).length > 0) json.properties = properties;
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
   if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);

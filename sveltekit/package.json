@@ -45,7 +45,6 @@
   "type": "module",
   "dependencies": {
     "@kredeum/common": "workspace:^",
-    "@kredeum/config": "workspace:^",
-    "@kredeum/sveltekit": "workspace:^"
+    "@kredeum/config": "workspace:^"
   }
 }

@@ -45,7 +45,6 @@
     "typescript": "^5.3.3"
   },
   "dependencies": {
-    "@kredeum/common": "workspace:^",
     "@kredeum/config": "workspace:^",
     "@kredeum/contracts": "workspace:^"
   }

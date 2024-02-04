@@ -2,10 +2,10 @@
 import type { Provider } from "@ethersproject/abstract-provider";
 import type { FallbackProviderConfig, Web3Provider } from "@ethersproject/providers";
 import type { Signer } from "ethers";
-import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
+import { ADDRESS_ZERO } from "../common/config";
 
 import type { WindowExternalProvider } from "./types";
-import { getChecksumAddress, sleep } from "@kredeum/common/lib/common/config";
+import { getChecksumAddress, sleep } from "../common/config";
 import { ethers } from "ethers";
 import { networks } from "./networks";
 

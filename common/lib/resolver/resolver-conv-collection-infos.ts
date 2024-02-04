@@ -2,10 +2,10 @@ import { BigNumber } from "ethers";
 
 import type { IOpenNFTsInfos, IERCNftInfos } from "@kredeum/contracts/types/OpenNFTsResolver";
 
-import type { CollectionType, ReceiverType } from "@kredeum/common/lib/common/types";
-import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL, ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
-import { resolverConvSupports } from "@kredeum/common/lib/resolver/resolver-conv-supports";
-import { networks } from "@kredeum/common/lib/common/networks";
+import type { CollectionType, ReceiverType } from "../common/types";
+import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL, ADDRESS_ZERO } from "../common/config";
+import { resolverConvSupports } from "../resolver/resolver-conv-supports";
+import { networks } from "../common/networks";
 
 const resolverConvCollectionInfos = (
   chainId: number,

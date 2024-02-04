@@ -33,7 +33,7 @@
   import CopyRefItem from "../Global/CopyRefItem.svelte";
   import { nftStoreAndRefresh } from "@kredeum/sveltekit/src/lib/stores/nft/nft";
   import { widgetOpenSky } from "@kredeum/sveltekit/src/lib/helpers/widget";
-  import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@kredeum/common/lib/nft/storage/storage";
+  import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@kredeum/common/lib/storage/storage";
   import { networks } from "@kredeum/common/lib/common/networks";
 
   /////////////////////////////////////////////////

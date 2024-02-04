@@ -1,7 +1,7 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
 
-import { collectionGetContract, collectionBurnable } from "@kredeum/common/lib/collection/collection-get";
-import { ADDRESS_ZERO } from "@kredeum/common/lib/common/config";
+import { collectionGetContract, collectionBurnable } from "../collection/collection-get";
+import { ADDRESS_ZERO } from "../common/config";
 import { explorerTxLog } from "../common/config";
 
 async function* burnNft(

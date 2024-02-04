@@ -1,4 +1,4 @@
-import Ipfs from "@kredeum/common/lib/common/ipfs";
+import Ipfs from "../common/ipfs";
 import { ipfsApiEndpoint, ipfsApiKey } from "./ipfs";
 
 type NftStorageResponse = {

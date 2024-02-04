@@ -2,11 +2,11 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import type { BigNumberish, PayableOverrides } from "ethers";
 import { ethers } from "ethers";
 
-import type { NftType } from "@kredeum/common/lib/common/types";
+import type { NftType } from "../common/types";
 
-import { ADDRESS_ZERO, explorerTxLog } from "@kredeum/common/lib/common/config";
-import { nftGetMetadata } from "@kredeum/common/lib/nft/nft-get-metadata";
-import { collectionGetContract } from "@kredeum/common/lib/collection/collection-get";
+import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
+import { nftGetMetadata } from "../nft/nft-get-metadata";
+import { collectionGetContract } from "../collection/collection-get";
 
 import type { IOpenNFTsV0 } from "@kredeum/contracts/types/IOpenNFTsV0";
 import type { IOpenNFTsV1 } from "@kredeum/contracts/types/IOpenNFTsV1";
@@ -19,10 +19,10 @@ import {
   collectionRoyaltyAccount,
   collectionRoyaltyFee,
   collectionSupports
-} from "@kredeum/common/lib/collection/collection";
-import { storageLinkToUrlHttp } from "./storage/storage";
-import { ipfsGatewayUrl } from "./storage/ipfs";
-import { networks } from "@kredeum/common/lib/common/networks";
+} from "../collection/collection";
+import { storageLinkToUrlHttp } from "../storage/storage";
+import { ipfsGatewayUrl } from "../storage/ipfs";
+import { networks } from "../common/networks";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
