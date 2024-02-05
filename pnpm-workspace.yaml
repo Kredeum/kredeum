@@ -3,6 +3,8 @@ packages:
   - common
   - contracts
   - gulp
+  - rollup
+  - rollup-test
+  - svelte
   - sveltekit
-  - sveltekitb
   - wordpress

@@ -3,15 +3,12 @@
   "version": "1.4.0",
   "description": "",
   "main": "index.js",
-  "directories": {
-    "lib": "lib"
-  },
   "scripts": {
     "patch:stream": "cd patch && sh stream.patch.sh",
     "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules types abis",
-    "format": "prettier lib/**/*.ts --write --list-different",
-    "check": "eslint lib/**/*.ts"
+    "format": "prettier src/**/*.ts --write --list-different",
+    "check": "eslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -39,7 +36,7 @@
     "fs-extra": "^11.2.0",
     "multiformats": "^13.0.1",
     "pdfjs-dist": "^3.11.174",
-    "prettier": "^3.2.4",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.3.3"

@@ -1,0 +1,488 @@
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/@kredeum/svelte/src/helpers/version.ts:1:29
+Error: Could not find a declaration file for module 'semver/functions/satisfies'. '/Users/alain/DEV/kredeum/node_modules/.pnpm/semver@7.5.4/node_modules/semver/functions/satisfies.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/semver` if it exists or add a new declaration (.d.ts) file containing `declare module 'semver/functions/satisfies';`
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collection.ts:20:37
+Error: Argument of type 'CollectionType | undefined' is not assignable to parameter of type 'CollectionType'.
+  Type 'undefined' is not assignable to type 'CollectionType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collection.ts:45:3
+Error: Type 'Readable<CollectionType | undefined>' is not assignable to type 'Readable<CollectionType>'.
+  Type 'CollectionType | undefined' is not assignable to type 'CollectionType'.
+    Type 'undefined' is not assignable to type 'CollectionType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collection.ts:49:57
+Error: Type 'undefined' is not assignable to type 'Readable<CollectionType>'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionDefault.ts:26:39
+Error: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionDefault.ts:51:47
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionDefault.ts:75:45
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionDefault.ts:91:45
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/common/beejs.ts:1:21
+Error: Could not find a declaration file for module '@ethersphere/bee-js'. '/Users/alain/DEV/kredeum/node_modules/.pnpm/@ethersphere+bee-js@6.7.2/node_modules/@ethersphere/bee-js/dist/mjs/index.js' implicitly has an 'any' type.
+  Try `npm i --save-dev @types/ethersphere__bee-js` if it exists or add a new declaration (.d.ts) file containing `declare module '@ethersphere/bee-js';`
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage/storage.ts:35:61
+Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'StorageConfigType'.
+  No index signature with a parameter of type 'string' was found on type 'StorageConfigType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage/storage.ts:36:12
+Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'StorageConfigType'.
+  No index signature with a parameter of type 'string' was found on type 'StorageConfigType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:23:37
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:39:51
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:48:76
+Error: 'coll.version' is possibly 'undefined'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:63:52
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:63:88
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:83:18
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/collection/collectionSubList.ts:84:53
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftList.ts:16:34
+Error: Argument of type 'string | null' is not assignable to parameter of type 'string'.
+  Type 'null' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nft.ts:52:3
+Error: Type 'Readable<NftType | undefined>' is not assignable to type 'Readable<NftType>'.
+  Type 'NftType | undefined' is not assignable to type 'NftType'.
+    Type 'undefined' is not assignable to type 'NftType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nft.ts:68:68
+Error: Type 'undefined' is not assignable to type 'Readable<NftType>'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:44:24
+Error: 'filter' is possibly 'undefined'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:44:54
+Error: 'filter' is possibly 'undefined'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:47:41
+Error: 'filter' is possibly 'undefined'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:47:41
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:90:43
+Error: Argument of type 'CollectionType | undefined' is not assignable to parameter of type 'CollectionType'.
+  Type 'undefined' is not assignable to type 'CollectionType'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../stores/nft/nftSubList.ts:110:57
+Error: Type 'undefined' is not assignable to type 'Readable<Map<string, NftType>>'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/Collection.svelte:17:34
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:42:7
+Error: Type 'null' is not assignable to type 'CollectionType'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:44:7
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:107:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:108:5
+Error: Type 'null' is not assignable to type 'CollectionType'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:116:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:127:7
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:139:19
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:149:7
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:203:29
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:224:29
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:224:77
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:227:28
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:233:31
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:254:49
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:266:42
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionCreate.svelte:273:53
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionSelect.svelte:48:74
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionSelect.svelte:51:60
+Error: Argument of type 'null' is not assignable to parameter of type 'string | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionSelect.svelte:59:54
+Error: Argument of type 'null' is not assignable to parameter of type 'string | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionSelect.svelte:103:36
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Collection/CollectionSelect.svelte:143:36
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Global/ButtonOwner.svelte:13:30
+Error: Type 'string | null' is not assignable to type 'string'.
+  Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputAudioMint.svelte:15:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputAudioMint.svelte:21:17
+Error: 'e.target' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputAudioMint.svelte:21:17
+Error: 'e.target.result' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputAudioMint.svelte:29:5
+Error: Type 'null' is not assignable to type 'FileList'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputAudioMint.svelte:30:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Media/MediaVideo.svelte:18:7
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputVideoMint.svelte:17:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputVideoMint.svelte:23:17
+Error: 'e.target' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputVideoMint.svelte:23:17
+Error: 'e.target.result' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputVideoMint.svelte:31:5
+Error: Type 'null' is not assignable to type 'FileList'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputVideoMint.svelte:32:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMint.svelte:49:5
+Error: Type 'null' is not assignable to type 'void'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMint.svelte:114:5
+Error: Type 'NftType | null' is not assignable to type 'NftType | undefined'.
+  Type 'null' is not assignable to type 'NftType | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMint.svelte:114:45
+Error: Argument of type 'TransactionResponse | undefined' is not assignable to parameter of type 'TransactionResponse'.
+  Type 'undefined' is not assignable to type 'TransactionResponse'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMint.svelte:116:17
+Error: Argument of type 'NftType | undefined' is not assignable to parameter of type 'NftType'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:6:44
+Error: Cannot find module '@ethersproject/abstract-provider' or its corresponding type declarations. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:71:14
+Error: Type 'undefined' is not assignable to type '() => boolean | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:122:9
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:135:38
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:151:40
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:154:9
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:159:9
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:204:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:211:15
+Error: 'e.target' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:211:15
+Error: 'e.target.result' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:219:5
+Error: Type 'null' is not assignable to type 'FileList'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:220:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:224:5
+Error: Type 'null' is not assignable to type 'string | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:228:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:233:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:244:5
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:246:32
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:251:4
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:252:4
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:254:4
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:344:56
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:404:32
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:415:53
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:430:28
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:437:19
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:444:31
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:457:28
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:539:55
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:550:52
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:551:30
+Error: 'nft' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:566:52
+Error: Argument of type 'number | undefined' is not assignable to parameter of type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftMintPopup.svelte:566:108
+Error: Argument of type 'NftType | undefined' is not assignable to parameter of type 'NftType'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Global/Navigation.svelte:7:14
+Error: Variable 'chainId' implicitly has type 'any' in some locations where its type cannot be determined. (js)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Global/Navigation.svelte:9:36
+Error: Variable 'chainId' implicitly has an 'any' type. (js)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Global/Navigation.svelte:20:70
+Error: Object literal may only specify known properties, and '"alt"' does not exist in type 'HTMLProps<"a", HTMLAttributes<any>>'. (js)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Global/Navigation.svelte:65:3
+Error: Object literal may only specify known properties, and '"alt"' does not exist in type 'HTMLProps<"a", HTMLAttributes<any>>'. (js)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputPdfMint.svelte:15:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputPdfMint.svelte:21:15
+Error: 'e.target' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputPdfMint.svelte:21:15
+Error: 'e.target.result' is possibly 'null'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputPdfMint.svelte:29:5
+Error: Type 'null' is not assignable to type 'FileList'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Input/InputPdfMint.svelte:30:5
+Error: Type 'null' is not assignable to type 'File'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Network/NetworkSelect.svelte:27:30
+Error: 'evt' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Network/NetworkSelect.svelte:28:28
+Error: Argument of type 'Event | undefined' is not assignable to parameter of type 'Event'.
+  Type 'undefined' is not assignable to type 'Event'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Media/MediaAudio.svelte:22:7
+Error: Type 'string | undefined' is not assignable to type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Media/Media.svelte:21:19
+Error: 'mode' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftIncomes.svelte:21:14
+Error: Variable 'priceInput' implicitly has type 'any' in some locations where its type cannot be determined. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftIncomes.svelte:32:6
+Error: Variable 'priceInput' implicitly has an 'any' type. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftIncomes.svelte:34:13
+Error: Variable 'priceInput' implicitly has an 'any' type. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftIncomes.svelte:34:50
+Error: Variable 'priceInput' implicitly has an 'any' type. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftBuy.svelte:76:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftSetPrice.svelte:54:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftSetPrice.svelte:175:29
+Error: Type 'BigNumber' is not assignable to type 'null | undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftClaim.svelte:30:7
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftClaim.svelte:40:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftClaim.svelte:56:62
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftClaim.svelte:72:78
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/nft-transfer.ts:33:26
+Error: Cannot find name 'constants'.
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftTransfer.svelte:75:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftBurn.svelte:68:5
+Error: Type 'null' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/Nft.svelte:225:33
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftLine.svelte:33:17
+Error: Type 'false | void' is not assignable to type 'false | (() => any) | Promise<false>'.
+  Type 'void' is not assignable to type 'false | (() => any) | Promise<false>'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/NftsGrid.svelte:26:28
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:32:29
+Error: 'page' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:40:5
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:40:61
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:40:97
+Error: Argument of type 'string | undefined' is not assignable to parameter of type 'string'.
+  Type 'undefined' is not assignable to type 'string'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:41:40
+Error: Type 'number | undefined' is not assignable to type 'number'.
+  Type 'undefined' is not assignable to type 'number'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:58:5
+Error: Type 'null' is not assignable to type 'Readable<Map<string, NftType>>'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:62:26
+Error: 'page' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:72:17
+Error: 'page' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:86:13
+Error: 'page' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nfts/Nfts.svelte:96:24
+Error: 'page' is possibly 'undefined'. (ts)
+
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/Main/Dapp.svelte:89:28
+Error: Parameter 'ref' implicitly has an 'any' type. (ts)
+
+====================================
+svelte-check found 138 errors and 16 warnings in 38 files

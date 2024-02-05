@@ -1,0 +1,51 @@
+{
+  "name": "@kredeum/svelte",
+  "version": "0.0.1",
+  "private": true,
+  "scripts": {
+    "dev": "PUBLIC_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) PUBLIC_GIT_SHORT=$(git rev-parse --short HEAD)  vite dev",
+    "build": "PUBLIC_GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) PUBLIC_GIT_SHORT=$(git rev-parse --short HEAD)  vite build",
+    "preview": "vite preview",
+    "test": "npm run test:integration && npm run test:unit",
+    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
+    "lint": "prettier --check . && eslint .",
+    "format": "prettier --write .",
+    "test:integration": "playwright test",
+    "test:unit": "vitest"
+  },
+  "devDependencies": {
+    "@ethersproject/providers": "^5.7.2",
+    "@metamask/detect-provider": "^2.0.0",
+    "@playwright/test": "^1.41.2",
+    "@sveltejs/adapter-auto": "^3.1.1",
+    "@sveltejs/adapter-static": "^3.0.1",
+    "@sveltejs/kit": "^2.5.0",
+    "@sveltejs/vite-plugin-svelte": "^3.0.2",
+    "@types/eslint": "^8.56.2",
+    "@types/semver": "^7.5.6",
+    "@typescript-eslint/eslint-plugin": "^6.20.0",
+    "@typescript-eslint/parser": "^6.20.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-svelte": "^2.35.1",
+    "ethers": "^5.7.2",
+    "pdfjs-dist": "^4.0.379",
+    "prettier": "^3.2.5",
+    "prettier-plugin-svelte": "^3.1.2",
+    "semver": "^7.5.4",
+    "svelte": "^4.2.9",
+    "svelte-check": "^3.6.3",
+    "tslib": "^2.6.2",
+    "typescript": "^5.3.3",
+    "vite": "^5.0.12",
+    "vitest": "^1.2.2",
+    "web-streams-polyfill": "^3.3.2"
+  },
+  "type": "module",
+  "dependencies": {
+    "@kredeum/common": "workspace:^",
+    "@kredeum/config": "workspace:^",
+    "@kredeum/svelte": "workspace:^"
+  }
+}
