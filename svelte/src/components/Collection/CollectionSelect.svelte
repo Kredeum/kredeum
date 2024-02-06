@@ -1,26 +1,23 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { CollectionType } from "@kredeum/common/src/common/types";
+  import type { CollectionType } from "@common/common/types";
 
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, explorerCollectionUrl } from "@kredeum/common/src/common/config";
+  import { ADDRESS_ZERO, explorerCollectionUrl } from "@common/common/config";
 
   import Collection from "./Collection.svelte";
-  import { clickOutside } from "@kredeum/svelte/src/helpers/clickOutside";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { keyCollection } from "@kredeum/common/src/common/keys";
-  import {
-    collectionSubListRefresh,
-    collectionSubListStore
-  } from "@kredeum/svelte/src/stores/collection/collectionSubList";
+  import { keyCollection } from "@common/common/keys";
+  import { collectionSubListRefresh, collectionSubListStore } from "@svelte/stores/collection/collectionSubList";
   import {
     collectionDefaultRefresh,
     collectionDefaultSetOne,
     collectionDefaultSubStore
-  } from "@kredeum/svelte/src/stores/collection/collectionDefault";
+  } from "@svelte/stores/collection/collectionDefault";
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////

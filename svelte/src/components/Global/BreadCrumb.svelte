@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { refPage2Breadcrumb } from "@kredeum/svelte/src/helpers/refPage";
+  import { refPage2Breadcrumb } from "@svelte/helpers/refPage";
 
   /////////////////////////////////////////////////
   // <BreadCrumbSimple bind:{chainId} bind:{address} bind:{account}  />

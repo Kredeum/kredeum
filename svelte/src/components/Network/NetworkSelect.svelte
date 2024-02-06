@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { clickOutside } from "@kredeum/svelte/src/helpers/clickOutside";
-  import { resolverGetExplorerUrl, resolverGetAddress } from "@kredeum/common/src/resolver/resolver-get";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { resolverGetExplorerUrl, resolverGetAddress } from "@common/resolver/resolver-get";
 
   import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { networks } from "@kredeum/common/src/common/networks";
+  import { networks } from "@common/common/networks";
 
   /////////////////////////////////////////////////
   // <NetworkSelect bind:{chainId} {txt} {label} />

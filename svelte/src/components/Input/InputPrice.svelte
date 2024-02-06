@@ -1,6 +1,6 @@
 <script lang="ts">
-  import { isNumeric } from "@kredeum/common/src/common/config";
-  import { networks } from "@kredeum/common/src/common/networks";
+  import { isNumeric } from "@common/common/config";
+  import { networks } from "@common/common/networks";
   import { BigNumber, constants, utils } from "ethers";
   import { formatEther } from "ethers/lib/utils";
 

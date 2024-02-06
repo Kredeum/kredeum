@@ -1,11 +1,11 @@
 <script lang="ts">
-  import { nftMarketable, nftOwner, nftPrice } from "@kredeum/common/src/nft/nft";
+  import { nftMarketable, nftOwner, nftPrice } from "@common/nft/nft";
   import NftBuy from "./NftBuy.svelte";
   import NftSell from "./NftSell.svelte";
-  import { nftStore } from "@kredeum/svelte/src/stores/nft/nft";
-  import { metamaskSignerAddress } from "@kredeum/svelte/src/stores/metamask";
+  import { nftStore } from "@svelte/stores/nft/nft";
+  import { metamaskSignerAddress } from "@svelte/stores/metamask";
   import { utils } from "ethers";
-  import { networks } from "@kredeum/common/src/common/networks";
+  import { networks } from "@common/common/networks";
 
   /////////////////////////////////////////////////////////////////
   //  <NftExchange {chainId} {address} {tokenID} {mode}? />

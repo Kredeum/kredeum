@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ens } from "@kredeum/common/src/common/ens-get";
+  import { ens } from "@common/common/ens-get";
   export let account: string;
   export const accountName: string | undefined = undefined;
 </script>

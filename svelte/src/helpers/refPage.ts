@@ -1,7 +1,7 @@
-import type { RefPageType } from "@kredeum/common/src/common/types";
-import { getChecksumAddress, isAddressNotZero } from "@kredeum/common/src/common/config";
-import { networks } from "@kredeum/common/src/common/networks";
-import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
+import type { RefPageType } from "@common/common/types";
+import { getChecksumAddress, isAddressNotZero } from "@common/common/config";
+import { networks } from "@common/common/networks";
+import { ADDRESS_ZERO } from "@common/common/config";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number | undefined;

@@ -29,6 +29,7 @@
   },
   "dependencies": {
     "@kredeum/common": "workspace:^",
+    "@kredeum/rollup-test": "workspace:^",
     "@kredeum/svelte": "workspace:^"
   }
 }

@@ -1,19 +1,19 @@
 <script lang="ts">
   import type { Readable, Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@kredeum/common/src/common/config";
+  import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@common/common/config";
 
   import NftsDisplayMode from "./NftsDisplayMode.svelte";
   import ButtonMore from "../Global/ButtonMore.svelte";
 
   import NftsLines from "./NftsLines.svelte";
   import NftsGrid from "./NftsGrid.svelte";
-  import { keyCollection } from "@kredeum/common/src/common/keys";
+  import { keyCollection } from "@common/common/keys";
 
-  import { nftSubListStoreRefresh, nftSubListStore } from "@kredeum/svelte/src/stores/nft/nftSubList";
-  import { collectionStore, collectionStoreRefresh } from "@kredeum/svelte/src/stores/collection/collection";
+  import { nftSubListStoreRefresh, nftSubListStore } from "@svelte/stores/nft/nftSubList";
+  import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
 
-  import type { CollectionType, NftType } from "@kredeum/common/src/common/types";
+  import type { CollectionType, NftType } from "@common/common/types";
   import { getContext } from "svelte";
   import { onMount } from "svelte";
 
@@ -36,8 +36,8 @@
   let collection: Readable<CollectionType>;
   let nfts: Readable<Map<string, NftType>>;
 
-  const getOwnerSupply = (): number => (owner && $collection.balancesOf?.get(owner)) || -1;
-  const getTotalSupply = (): number => $collection.totalSupply || -1;
+  const getOwnerSupply = (): number => (owner && $collection?.balancesOf?.get(owner)) || -1;
+  const getTotalSupply = (): number => $collection?.totalSupply || -1;
   const getMaxSupply = () => (isAddressNotZero(owner) ? getOwnerSupply() : getTotalSupply());
 
   let displayOwnerSupply: string = "";
@@ -54,8 +54,8 @@
   const resetNfts = () => {
     // console.log("<Nfts resetNfts");
     refreshing = false;
-    $nfts = new Map();
     page = 1;
+    refresh();
   };
 
   $: $refreshAll, owner, isCollection({ chainId, address }) && refresh();
@@ -76,7 +76,7 @@
     if (limit > offset) {
       nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
     }
-    // console.log("NFTS cached", $nfts);
+    console.log("NFTS cached", $nfts);
     // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;

@@ -1,14 +1,14 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
-import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
-import type { CollectionType } from "@kredeum/common/src/common/types";
-import { collectionMerge, collectionGet as collectionLib } from "@kredeum/common/src/collection/collection-get";
+import { ADDRESS_ZERO } from "@common/common/config";
+import type { CollectionType } from "@common/common/types";
+import { collectionMerge, collectionGet as collectionLib } from "@common/collection/collection-get";
 
-import { jsonMapStringify } from "@kredeum/svelte/src/helpers/jsonMap";
-import { collectionListStore } from "@kredeum/svelte/src/stores/collection/collectionList";
+import { jsonMapStringify } from "@svelte/helpers/jsonMap";
+import { collectionListStore } from "@svelte/stores/collection/collectionList";
 
-import { keyCollection } from "@kredeum/common/src/common/keys";
-import { localStorageSet } from "@kredeum/common/src/common/local";
+import { keyCollection } from "@common/common/keys";
+import { localStorageSet } from "@common/common/local";
 
 // STATE CHANGER : SET one Collection
 const collectionStoreSet = (collection: CollectionType): void => {

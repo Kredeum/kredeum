@@ -1,17 +1,10 @@
 <script lang="ts">
   import { BigNumber, utils } from "ethers";
 
-  import type { NftType } from "@kredeum/common/src/common/types";
-  import { treasuryFee, displayEther, feeAmount } from "@kredeum/common/src/common/config";
+  import type { NftType } from "@common/common/types";
+  import { treasuryFee, displayEther, feeAmount } from "@common/common/config";
 
-  import {
-    nftChainId,
-    nftOwner,
-    nftRoyaltyFee,
-    nftRoyaltyAccount,
-    nftRoyaltyMinimum,
-    nftPrice
-  } from "@kredeum/common/src/nft/nft";
+  import { nftChainId, nftOwner, nftRoyaltyFee, nftRoyaltyAccount, nftRoyaltyMinimum, nftPrice } from "@common/nft/nft";
 
   //////////////////////////////////////////////////////////////////////////
   //  <NftIncomes {nft} {priceInput} />

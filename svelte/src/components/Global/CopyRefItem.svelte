@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { copyToClipboard } from "@kredeum/common/src/common/config";
+  import { copyToClipboard } from "@common/common/config";
 
   /////////////////////////////////////////////////
   // <CopyRefItem {copyData} />

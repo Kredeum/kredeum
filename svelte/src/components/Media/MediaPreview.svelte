@@ -5,9 +5,9 @@
   import Media from "./Media.svelte";
   import { fade } from "svelte/transition";
 
-  import { clickOutside } from "@kredeum/svelte/src/helpers/clickOutside";
-  import { nftMediaAnimationUrl, nftMediaContentType } from "@kredeum/common/src/nft/nft";
-  import { nftStore } from "@kredeum/svelte/src/stores/nft/nft";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { nftMediaAnimationUrl, nftMediaContentType } from "@common/nft/nft";
+  import { nftStore } from "@svelte/stores/nft/nft";
 
   /////////////////////////////////////////////////
   // <MediaPreview {chainId} {address} {tokenID} {mode}? />

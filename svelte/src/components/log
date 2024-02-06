@@ -34,11 +34,11 @@ Error: Argument of type 'string | undefined' is not assignable to parameter of t
 Error: Could not find a declaration file for module '@ethersphere/bee-js'. '/Users/alain/DEV/kredeum/node_modules/.pnpm/@ethersphere+bee-js@6.7.2/node_modules/@ethersphere/bee-js/dist/mjs/index.js' implicitly has an 'any' type.
   Try `npm i --save-dev @types/ethersphere__bee-js` if it exists or add a new declaration (.d.ts) file containing `declare module '@ethersphere/bee-js';`
 
-/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage/storage.ts:35:61
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage.ts:35:61
 Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'StorageConfigType'.
   No index signature with a parameter of type 'string' was found on type 'StorageConfigType'.
 
-/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage/storage.ts:36:12
+/Users/alain/DEV/kredeum/sveltekit/src/lib/components/../../../../common/lib/nft/storage.ts:36:12
 Error: Element implicitly has an 'any' type because expression of type 'string' can't be used to index type 'StorageConfigType'.
   No index signature with a parameter of type 'string' was found on type 'StorageConfigType'.
 

@@ -1,9 +1,9 @@
 import { writable } from "svelte/store";
 
-import type { CollectionType } from "@kredeum/common/src/common/types";
+import type { CollectionType } from "@common/common/types";
 
-import { jsonMapParse } from "@kredeum/svelte/src/helpers/jsonMap";
-import { localStorageGet, localStorageKey, localStorageLength } from "@kredeum/common/src/common/local";
+import { jsonMapParse } from "@svelte/helpers/jsonMap";
+import { localStorageGet, localStorageKey, localStorageLength } from "@common/common/local";
 
 // LOADER : LOAD Collections from localStorage
 const collectionListLoadLocalStorage = (): Map<string, CollectionType> => {

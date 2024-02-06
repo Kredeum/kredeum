@@ -2,8 +2,8 @@
   import MediaImage from "./MediaImage.svelte";
   import MediaVideo from "./MediaVideo.svelte";
   import MediaAudio from "./MediaAudio.svelte";
-  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@kredeum/common/src/nft/nft";
-  import { nftStore } from "@kredeum/svelte/src/stores/nft/nft";
+  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@common/nft/nft";
+  import { nftStore } from "@svelte/stores/nft/nft";
 
   /////////////////////////////////////////////////
   //  <Media {chainId} {address} {tokenID} {mode}? {small}? {alt}? />

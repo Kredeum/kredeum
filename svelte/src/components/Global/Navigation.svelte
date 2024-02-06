@@ -1,8 +1,8 @@
 <script lang="ts">
   import config from "@kredeum/config/dist/config.json";
-  import { versionGet } from "@kredeum/svelte/src/helpers/version";
+  import { versionGet } from "@svelte/helpers/version";
   import logo from "../Images/logo-kredeum.svg";
-  import { networks } from "@kredeum/common/src/common/networks";
+  import { networks } from "@common/common/networks";
 
   export let chainId: number;
 

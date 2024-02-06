@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@kredeum/common/src/common/config";
+  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
 
   import Create from "../Global/Create.svelte";
   import Navigation from "../Global/Navigation.svelte";
@@ -15,15 +15,15 @@
   // import BreadCrumb from "../Global/BreadCrumb.svelte";
   // import Networks from "../Network/Networks.svelte";
 
-  import { providerSetFallback } from "@kredeum/common/src/common/provider-get";
+  import { providerSetFallback } from "@common/common/provider-get";
   import { onMount, setContext } from "svelte";
-  import { refPage2UrlHash, refPageFromUrlHash } from "@kredeum/svelte/src/helpers/refPage";
-  import type { RefPageType } from "@kredeum/common/src/common/types";
+  import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
+  import type { RefPageType } from "@common/common/types";
 
-  import { metamaskInit, metamaskSwitchChain } from "@kredeum/svelte/src/helpers/metamask";
-  import { metamaskChainId, metamaskSignerAddress } from "@kredeum/svelte/src/stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
   import { writable, type Writable } from "svelte/store";
-  import { networks } from "@kredeum/common/src/common/networks";
+  import { networks } from "@common/common/networks";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />

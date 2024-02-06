@@ -1,5 +1,5 @@
-import type { NftType } from "@kredeum/common/src/common/types";
-import { nftName, nftCollectionName } from "@kredeum/common/src/common/config";
+import type { NftType } from "@common/common/types";
+import { nftName, nftCollectionName } from "@common/common/config";
 
 const shortcodeOpenSkyCollection = (nft: NftType): string =>
   `[kredeum_opensky chainid="${nft.chainId}" address="${nft.address}"]${nftCollectionName(nft)}[/kredeum_opensky]`;

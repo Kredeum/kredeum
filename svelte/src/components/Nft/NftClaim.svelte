@@ -1,20 +1,14 @@
 <script lang="ts">
-  import NftStorage from "@kredeum/common/src/storage/nftstorage";
-  import {
-    getOpenBound,
-    explorerTxLog,
-    explorerNftUrl,
-    explorerTxUrl,
-    textShort
-  } from "@kredeum/common/src/common/config";
-  import { nftMint, nftClaimed } from "@kredeum/common/src/nft/nft-mint";
-  import { cidToInt } from "@kredeum/common/src/common/cid";
+  import NftStorage from "@common/storage/nftstorage";
+  import { getOpenBound, explorerTxLog, explorerNftUrl, explorerTxUrl, textShort } from "@common/common/config";
+  import { nftMint, nftClaimed } from "@common/nft/nft-mint";
+  import { cidToInt } from "@common/common/cid";
 
-  import { nftStore } from "@kredeum/svelte/src/stores/nft/nft";
-  import { metamaskSigner, metamaskSignerAddress } from "@kredeum/svelte/src/stores/metamask";
+  import { nftStore } from "@svelte/stores/nft/nft";
+  import { metamaskSigner, metamaskSignerAddress } from "@svelte/stores/metamask";
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import { storageLinkToUrlHttp } from "@kredeum/common/src/storage/storage";
+  import { storageLinkToUrlHttp } from "@common/storage/storage";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />

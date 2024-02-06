@@ -1,7 +1,7 @@
 <script lang="ts">
-  // import { currentAction } from "@kredeum/svelte/src/stores/current";
+  // import { currentAction } from "@svelte/stores/current";
   // import NftMint from "../Nft/NftMint.svelte";
-  import { metamaskSigner } from "@kredeum/svelte/src/stores/metamask";
+  import { metamaskSigner } from "@svelte/stores/metamask";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   import NftMintPopup from "../Nft/NftMintPopup.svelte";

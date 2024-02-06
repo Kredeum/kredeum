@@ -2,4 +2,4 @@
   export let name  = "";
 </script>
 
-Hi {name}
+Bonjour {name}

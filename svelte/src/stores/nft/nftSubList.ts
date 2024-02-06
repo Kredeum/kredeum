@@ -1,20 +1,20 @@
 import type { Readable } from "svelte/store";
 import { get, derived } from "svelte/store";
 
-import type { CollectionFilterType, NftType } from "@kredeum/common/src/common/types";
-import { resolverGetNfts as nftListLib } from "@kredeum/common/src/resolver/resolver-get-nft";
-import { nftGetMetadata } from "@kredeum/common/src/nft/nft-get-metadata";
-import { nftListTokenIds } from "@kredeum/common/src/nft/nft-list";
+import type { CollectionFilterType, NftType } from "@common/common/types";
+import { resolverGetNfts as nftListLib } from "@common/resolver/resolver-get-nft";
+import { nftGetMetadata } from "@common/nft/nft-get-metadata";
+import { nftListTokenIds } from "@common/nft/nft-list";
 
-import { collectionStoreRefresh } from "@kredeum/svelte/src/stores/collection/collection";
-import { collectionListStore } from "@kredeum/svelte/src/stores/collection/collectionList";
+import { collectionStoreRefresh } from "@svelte/stores/collection/collection";
+import { collectionListStore } from "@svelte/stores/collection/collectionList";
 
 import { nftStoreSet } from "./nft";
 
-import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
-import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@kredeum/common/src/common/config";
-import { nftGet } from "@kredeum/common/src/nft/nft-get";
-import { keyCollection, keyNft } from "@kredeum/common/src/common/keys";
+import { ADDRESS_ZERO } from "@common/common/config";
+import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@common/common/config";
+import { nftGet } from "@common/nft/nft-get";
+import { keyCollection, keyNft } from "@common/common/keys";
 import { nftListStore } from "./nftList";
 
 // STATE VIEW : GET Collection filtered list of NFTs

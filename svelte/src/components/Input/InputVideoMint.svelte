@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SUPPORTED_MEDIATYPES } from "@kredeum/svelte/src/helpers/mediaTypes";
+  import { SUPPORTED_MEDIATYPES } from "@svelte/helpers/mediaTypes";
 
   import MediaVideo from "../Media/MediaVideo.svelte";
 

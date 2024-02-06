@@ -6,8 +6,8 @@
     metamaskConnectMessage,
     metamaskInstalled,
     metamaskInstallMessage
-  } from "@kredeum/svelte/src/helpers/metamask";
-  import { metamaskSignerAddress } from "@kredeum/svelte/src/stores/metamask";
+  } from "@svelte/helpers/metamask";
+  import { metamaskSignerAddress } from "@svelte/stores/metamask";
   import Account from "./Account.svelte";
 
   /////////////////////////////////////////////////

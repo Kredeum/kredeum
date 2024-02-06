@@ -1,6 +1,6 @@
 <script lang="ts">
   import Nft from "../Nft/Nft.svelte";
-  import type { NftType } from "@kredeum/common/src/common/types";
+  import type { NftType } from "@common/common/types";
 
   /////////////////////////////////////////////////
   //  <NftsGrid {nfts} {tokenID} {mode?}/>

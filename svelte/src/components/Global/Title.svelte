@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { versionGet } from "@kredeum/svelte/src/helpers/version";
+  import { versionGet } from "@svelte/helpers/version";
 
   /////////////////////////////////////////////////
   // <Title />

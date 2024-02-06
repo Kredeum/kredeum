@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { NftType } from "@kredeum/common/src/common/types";
+  import type { NftType } from "@common/common/types";
   import NftLine from "../Nft/NftLine.svelte";
 
   /////////////////////////////////////////////////

@@ -4,12 +4,12 @@ import svelte from "rollup-plugin-svelte";
 import sveltePreprocess from "svelte-preprocess";
 
 import json from "@rollup/plugin-json";
-import terser from "@rollup/plugin-terser";
 import typescript from "@rollup/plugin-typescript";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import postcss from "rollup-plugin-postcss";
 import image from "@rollup/plugin-image";
 import commonjs from "@rollup/plugin-commonjs";
+// import terser from "@rollup/plugin-terser";
 
 const prod = process.env.ENVIR == "PROD";
 console.log("prod", prod);
@@ -20,7 +20,7 @@ const config: RollupOptions = {
     name: "dapp",
     file: "web/js/dapp.js",
     format: "iife",
-    sourcemap: !prod,
+    // sourcemap: !prod,
   },
   plugins: [
     svelte({
@@ -35,7 +35,7 @@ const config: RollupOptions = {
     image(),
     json(),
     commonjs(),
-    prod && terser(),
+    // prod && terser(),
   ],
 };
 

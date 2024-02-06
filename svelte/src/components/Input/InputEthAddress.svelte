@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, getChecksumAddress, isAddress } from "@kredeum/common/src/common/config";
+  import { ADDRESS_ZERO, getChecksumAddress, isAddress } from "@common/common/config";
 
   /////////////////////////////////////////////////
   //  <InputEthAddress {ethAddress} {placeholder} {inputError}? />

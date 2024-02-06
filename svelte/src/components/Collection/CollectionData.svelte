@@ -1,10 +1,10 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "@kredeum/common/src/common/types";
+  import type { CollectionType } from "@common/common/types";
 
-  import { collectionStore, collectionStoreRefresh } from "@kredeum/svelte/src/stores/collection/collection";
-  // import { keyCollection } from "@kredeum/common/src/common/keys";
+  import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
+  // import { keyCollection } from "@common/common/keys";
 
   /////////////////////////////////////////////////
   // <CollectionData {chainId} {address} {account}? />

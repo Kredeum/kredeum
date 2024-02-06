@@ -1,17 +1,17 @@
 import type { Readable } from "svelte/store";
 import { derived, get } from "svelte/store";
 
-import type { NftType } from "@kredeum/common/src/common/types";
-import { nftGet } from "@kredeum/common/src/nft/nft-get";
+import type { NftType } from "@common/common/types";
+import { nftGet } from "@common/nft/nft-get";
 
 import { nftListStore } from "./nftList";
 
-import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
-import { isAddressNotZero } from "@kredeum/common/src/common/config";
-import { keyCollection, keyNft } from "@kredeum/common/src/common/keys";
-import { collectionListStore } from "@kredeum/svelte/src/stores/collection/collectionList";
-import { jsonMapStringify } from "@kredeum/svelte/src/helpers/jsonMap";
-import { localStorageRemove, localStorageSet } from "@kredeum/common/src/common/local";
+import { ADDRESS_ZERO } from "@common/common/config";
+import { isAddressNotZero } from "@common/common/config";
+import { keyCollection, keyNft } from "@common/common/keys";
+import { collectionListStore } from "@svelte/stores/collection/collectionList";
+import { jsonMapStringify } from "@svelte/helpers/jsonMap";
+import { localStorageRemove, localStorageSet } from "@common/common/local";
 
 const nftStoreSet = (nft?: NftType): void => {
   if (!nft) return;
