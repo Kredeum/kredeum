@@ -29,17 +29,19 @@
   }
 
   .menu {
-    input {
+    input#burger {
       display: none;
 
-      & + label {
+      &+label.burger {
         display: none;
       }
     }
 
     ul {
       li {
-        a {
+
+        a,
+        button.kre-nav-button {
           transition: all 300ms ease-in-out;
 
           &:hover {

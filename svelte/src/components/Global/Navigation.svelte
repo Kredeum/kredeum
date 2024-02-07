@@ -3,6 +3,7 @@
   import { versionGet } from "@svelte/helpers/version";
   import logo from "../Images/logo-kredeum.svg";
   import { networks } from "@common/common/networks";
+  import Config from "./Config.svelte";
 
   export let chainId: number;
 
@@ -51,6 +52,9 @@
               networks
             </a>
           </p>
+        </li>
+        <li class="active">
+          <Config />
         </li>
       {/if}
     </ul>
