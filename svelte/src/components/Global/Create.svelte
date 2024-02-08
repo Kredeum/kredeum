@@ -4,6 +4,7 @@
   import { metamaskSigner } from "@svelte/stores/metamask";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
+  import InputImportCollection from "../Input/InputImportCollection.svelte";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
 
   /////////////////////////////////////////////////
@@ -35,6 +36,9 @@
         >
         <span class="or">or</span>
         <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>
+        <div class="add-collection-address">
+          <InputImportCollection />
+        </div>
       </div>
     </div>
   </div>
@@ -51,3 +55,9 @@
     <CollectionCreate {chainId} {signer} />
   </div>
 {/if}
+
+<style>
+  .add-collection-address {
+    margin-top: 8rem;
+  }
+</style>
