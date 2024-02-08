@@ -9,7 +9,6 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import commonjs from "@rollup/plugin-commonjs";
 import json from "@rollup/plugin-json";
 import image from "@rollup/plugin-image";
-import replace from "@rollup/plugin-replace";
 
 import typescript from "@rollup/plugin-typescript";
 
@@ -20,12 +19,6 @@ if (!process.env.ENVIR) {
 }
 const production = process.env.ENVIR == "PROD";
 console.info("production", production);
-
-const envKeysValues = {
-  GIT_BRANCH: process.env["GIT_BRANCH"] || "",
-  GIT_SHORT: process.env["GIT_SHORT"] || ""
-};
-console.log("envKeysValues", JSON.stringify(envKeysValues, null, 2));
 
 const toRollupConfig = function (): RollupOptions {
   return {
@@ -44,10 +37,6 @@ const toRollupConfig = function (): RollupOptions {
       }),
       postcss({
         extract: true
-      }),
-      replace({
-        preventAssignment: true,
-        values: envKeysValues
       }),
       nodeResolve({
         browser: true,

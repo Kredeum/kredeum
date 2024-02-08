@@ -29,7 +29,7 @@
     "findup-sync": "^5.0.0",
     "multiformats": "^9.9.0",
     "pdfjs-dist": "^3.11.174",
-    "postcss": "^8.4.34",
+    "postcss": "^8.4.35",
     "prettier": "^3.2.5",
     "prettier-plugin-svelte": "^3.1.2",
     "rollup": "^4.9.6",
@@ -46,12 +46,12 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "build": "ENVIR=PROD GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) GIT_SHORT=$(git rev-parse --short HEAD) rollup -c --configPlugin typescript",
+    "dev": "rollup -c -w --configPlugin typescript",
+    "build": "ENVIR=PROD rollup -c --configPlugin typescript",
     "check": "pnpm run check:svelte && pnpm run check:eslint",
     "check:eslint": "eslint **/*.ts **/*.svelte",
     "check:svelte": "svelte-check",
     "clean": "rm -rf node_modules",
-    "dev": "GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) GIT_SHORT=$(git rev-parse --short HEAD) rollup -c -w --configPlugin typescript",
     "format": "prettier **/*.svelte **/*.ts --write --list-different --loglevel log"
   },
   "dependencies": {

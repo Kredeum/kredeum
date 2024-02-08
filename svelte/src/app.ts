@@ -26,7 +26,7 @@ const _props = (target: HTMLElement): Props => {
     } else if (attrName === "tokenid") {
       attrName = "tokenID";
     } else if (attrName === "id" || attrName === "class") {
-      attrName ="";
+      attrName = "";
     }
 
     if (attrName) {

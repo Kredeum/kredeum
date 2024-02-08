@@ -33,6 +33,6 @@
     "pnpm": "^8"
   },
   "devDependencies": {
-    "turbo": "^1.12.2"
+    "turbo": "^1.12.3"
   }
 }

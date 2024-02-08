@@ -1,22 +1,15 @@
 import semverSatisfies from "semver/functions/satisfies";
 import { config } from "@common/common/config";
 import { localStorageClear, localStorageGet, localStorageSet } from "@common/common/local";
-// import { env } from "$env/dynamic/public";
-
-type EnvType = {
-  PUBLIC_GIT_BRANCH: string;
-  PUBLIC_GIT_SHORT: string;
-};
 
 const versionGet = () => {
   const VERSION = "version";
-  const version = config.version.latest;
+  const version = config?.version?.latest || "";
+  const branch = config?.version?.branch || "";
+  const commit = config?.version?.commit || "";
+  const short = commit?.substr(0, 8);
 
-  // console.log("versionGet ~ env:", env);
-  // const branch = (env as EnvType).PUBLIC_GIT_BRANCH || "HEAD";
-  // const detail = `v${version} (${branch} #${(env as EnvType).PUBLIC_GIT_SHORT})`;
-  const branch = "";
-  const detail = "";
+  const detail = `v${version} (${branch} #${short})`;
 
   console.info(`VERSION Kredeum NFTs Factory ${detail}`);
   {
@@ -28,7 +21,7 @@ const versionGet = () => {
     }
   }
 
-  return { branch, detail };
+  return { version, branch, short };
 };
 
 export { versionGet };

@@ -5,7 +5,9 @@
   // <Title />
   // Dapp Title
   /////////////////////////////////////////////////
-  const { detail, branch } = versionGet();
+  const { version, branch, short } = versionGet();
+
+  const detail = `v${version} (${branch} #${short})`;
 
   const branchDisplay = branch == "HEAD" || branch == "main" ? "" : `(${branch})`;
 </script>
