@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { clickOutside } from "@helpers/clickOutside";
   import { fade } from "svelte/transition";
-  import InputConfigFields from "../../../components/Input/Config/InputConfigFields.svelte";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import InputConfigFields from "@svelte/components/Input/Config/InputConfigFields.svelte";
 
   let open = false;
   const toggle = () => (open = !open);

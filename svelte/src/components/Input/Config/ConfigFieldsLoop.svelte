@@ -34,7 +34,7 @@
 {#key defaultFields}
   {#each fieldsGroup as [key, value]}
     {#if !key.startsWith(KRE_KEY)}
-      <ConfigField bind:attributes bind:namespace bind:key />
+      C<ConfigField bind:attributes bind:namespace bind:key />D
     {/if}
   {/each}
 {/key}

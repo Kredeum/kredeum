@@ -1,7 +1,7 @@
 <script lang="ts">
-  import { StorageConfigType } from "@lib/common/types";
+  import { type StorageConfigType } from "@common/common/types";
   import type { UserConfig } from "./configTypes";
-  import config from "@config/config.json";
+  import config from "@kredeum/config/dist/config.json";
 
   import { onMount } from "svelte";
   import Config from "./Config";
@@ -207,7 +207,7 @@
   {#if attributes}
     {#each Object.entries(attributes) as [namespace, attribute]}
       {#if attribute.kre_display}
-        <div class="titre">{attribute.kre_display}</div>
+        A<div class="titre">{attribute.kre_display}</div>B
       {/if}
       {#if Object.keys(attribute).filter((key) => !key.startsWith("kre_") && key !== "default").length > 1}
         <ConfigFieldChoice bind:attributes {namespace} />

@@ -1,7 +1,7 @@
 <script lang="ts">
   import type { UserConfig } from "./configTypes";
 
-  import { clickOutside } from "@helpers/clickOutside";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
 
   export let attributes: UserConfig;
   export let namespace;
@@ -16,6 +16,8 @@
 </script>
 
 <div
+  role="button"
+  tabindex="0"
   class="select-wrapper select-network"
   use:clickOutside={() => (open = false)}
   on:click={handleToggleOpen}
@@ -29,6 +31,8 @@
     <div class="custom-options">
       {#each fieldsGroups as choice}
         <span
+          role="button"
+          tabindex="0"
           class="custom-option {choice == defaultChoice && 'selected'}"
           on:click={() => (attributes[namespace].default = choice)}
           on:keydown={() => (attributes[namespace].default = choice)}
