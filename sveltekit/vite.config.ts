@@ -3,14 +3,7 @@ import { defineConfig } from "vitest/config";
 
 export default defineConfig({
   plugins: [sveltekit()],
-  test: {
-    include: ["src/**/*.{test,spec}.{js,ts}"],
-  },
-  server: {
-    open: true,
-  },
-  build: {
-    chunkSizeWarningLimit: 2000,
-    rollupOptions: {},
-  },
+  test: { include: ["src/**/*.{test,spec}.{js,ts}"] },
+  server: { open: true },
+  build: { chunkSizeWarningLimit: 200 },
 });

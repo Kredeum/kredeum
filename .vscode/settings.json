@@ -63,6 +63,10 @@
     {
       "filePath": "contracts/scripts",
       "group": "Default"
+    },
+    {
+      "filePath": "config/src/config.handlebars.json",
+      "group": "Default"
     }
   ],
   "phpsab.autoRulesetSearch": false,

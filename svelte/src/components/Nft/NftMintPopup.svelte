@@ -54,7 +54,7 @@
   import NftMint from "./NftMint.svelte";
   import { storageLinkToUrlHttp } from "@common/storage/storage";
 
-  import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs";
+  // import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs";
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
@@ -68,12 +68,10 @@
   export let src: string | undefined = undefined;
   export let name: string | undefined = undefined;
   export let description: string | undefined = undefined;
-  export let metadata: string | undefined = undefined;
+  export const metadata: string | undefined = undefined;
   export let content_type: string | undefined = undefined;
   export const external_url: string | undefined = undefined;
   ////////////////////////////////////////////////////////////////
-
-  $: console.info("<NftMintPopup metadata", metadata);
 
   let account: string;
 
@@ -99,7 +97,7 @@
   let properties: Properties;
   /////////////////////////////////////////////////
   let mint: () => Promise<void>;
-  let minting: number;
+  let minting: number = S0_START;
   let imageUri: string;
   let tokenUri: string;
   let audioUri: string;
@@ -137,15 +135,15 @@
     // console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
-  const pdfToCoverImg = async () => {
-    if (!pdf) return;
+  // const pdfToCoverImg = async () => {
+  //   if (!pdf) return;
 
-    const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
+  //   const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
 
-    if (!page) return;
+  //   if (!page) return;
 
-    src = await pdfjsCrop(page, 437, 437, -89, -179);
-  };
+  //   src = await pdfjsCrop(page, 437, 437, -89, -179);
+  // };
 
   const setDefaultAudioCover = () => {
     src = defaultAudioCoverImg;
@@ -164,7 +162,7 @@
 
       if (inputMediaType === "pdf") {
         pdf = src;
-        pdfToCoverImg();
+        // pdfToCoverImg();
       }
     }
   };
@@ -176,14 +174,14 @@
     deleteFileImg();
     resetFileAudio();
     resetFilePdf();
-    console.log("inputMediaType:", inputMediaType);
+    // console.log("inputMediaType:", inputMediaType);
     acceptedImgTypes = getSupportedImage(inputMediaType);
 
     if (inputMediaType === "audio") {
       setDefaultAudioCover();
     }
     if (inputMediaType === "pdf") {
-      pdfToCoverImg();
+      // pdfToCoverImg();
     }
   };
 
@@ -244,12 +242,12 @@
   const _mintingError = (err: string): void => {
     mintingError = err;
     console.error(mintingError);
-    minting = 0;
+    minting = S0_START;
   };
 
   onMount(async () => {
     account = signer;
-    console.log("<NftMintPopup onmount src", src);
+    // console.log("<NftMintPopup onmount src", src);
     if (src) src = storageLinkToUrlHttp(src);
   });
 </script>
@@ -288,7 +286,6 @@
         <div class="titre">
           <i class="fas fa-plus fa-left c-green" />Mint NFT
         </div>
-
         {#if minting === S0_START}
           <div class="section">
             <div class="box-fields">

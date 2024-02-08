@@ -7,14 +7,12 @@
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",
     "verbatimModuleSyntax": false,
-    "sourceMap": false,
     "baseUrl": "..",
     "paths": {
       "@svelte/*": ["svelte/src/*"],
-      "@common/*": ["common/src/*"],
-      "tslib": ["svelte/node_modules/tslib/tslib.d.ts"]
+      "@common/*": ["common/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.svelte", "../common/src/**/*.ts"],
+  "include": ["rollup.config.ts", "src/**/*.ts", "src/**/*.svelte", "../common/src/**/*.ts"],
   "exclude": ["tests/**", "node_modules"]
 }

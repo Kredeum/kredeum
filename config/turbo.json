@@ -1,9 +1,13 @@
 {
   "extends": ["//"],
   "pipeline": {
+    "check": {
+      "inputs": ["src/**/*.json"]
+    },
     "build": {
-      "inputs": ["src/*"],
-      "outputs": ["dist/*"]
+      "dependsOn": ["check"],
+      "inputs": ["src/**/*.json"],
+      "outputs": ["dist/*.json"]
     }
   }
 }

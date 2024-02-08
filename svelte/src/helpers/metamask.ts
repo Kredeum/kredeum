@@ -25,8 +25,7 @@ const _handleChainId = (_chainId: string): void => {
 
   if (!(networks.has(newChainId) && newChainId != get(metamaskChainId))) return;
 
-  console.log("_handleChainId:", _chainId, newChainId);
-
+  // console.log("_handleChainId:", _chainId, newChainId);
   metamaskChainId.set(newChainId);
 };
 

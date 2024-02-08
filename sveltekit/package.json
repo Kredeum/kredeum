@@ -2,6 +2,8 @@
   "name": "@kredeum/sveltekit",
   "version": "0.0.1",
   "scripts": {
+    "clean": "rm -rf node_modules .svelte-kit web/dapp/_app  web/dapp/index.html",
+    "format": "prettier src/**/*.svelte src/**/*.ts --write --list-different --log-level log",
     "dev": "vite dev",
     "build": "ENVIR=PROD vite build",
     "preview": "vite preview",
@@ -9,15 +11,15 @@
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
   },
   "devDependencies": {
-    "@sveltejs/kit": "^2.5.0",
     "@sveltejs/adapter-static": "^3.0.1",
+    "@sveltejs/kit": "^2.5.0",
     "@sveltejs/vite-plugin-svelte": "^3.0.2",
-    "pdfjs-dist": "^4.0.379",
+    "prettier-plugin-svelte": "^3.1.2",
     "svelte": "^4.2.10",
     "svelte-check": "^3.6.3",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3",
-    "vite": "^5.0.12",
+    "vite": "^5.1.0",
     "vitest": "^1.2.2"
   },
   "type": "module",

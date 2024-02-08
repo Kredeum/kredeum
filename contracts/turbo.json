@@ -2,8 +2,9 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
+      "dependsOn": ["check"],
       "inputs": ["src/**/*.sol"],
-      "outputs": ["out/**", "types/**"]
+      "outputs": ["out/**/*.json", "types/**/*.ts"]
     },
     "deploy": {
       "dependsOn": ["build"],

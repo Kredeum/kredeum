@@ -43,7 +43,7 @@
     const detail = { nid, pid };
     const event = new CustomEvent("token", { detail, bubbles: true });
 
-    console.log("handleNft dispatchEvent", detail);
+    // console.log("handleNft dispatchEvent", detail);
     refThis.dispatchEvent(event);
   };
 

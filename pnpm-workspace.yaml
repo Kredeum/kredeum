@@ -1,6 +1,6 @@
 packages:
-  - config
   - common
+  - config
   - contracts
   - gulp
   - svelte

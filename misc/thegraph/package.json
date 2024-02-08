@@ -14,7 +14,7 @@
     "graph-build": "cd thegraph && graph build",
     "build": "pnpx ts-node build-yaml",
     "build2": "pnpm yaml && pnpm codegen && pnpm graph-build",
-    "format": "prettier --no-error-on-unmatched-pattern **/*.ts **/*.yaml **/*.graphql --write --list-different --loglevel log",
+    "format": "prettier --no-error-on-unmatched-pattern **/*.ts **/*.yaml **/*.graphql --write --list-different --log-level log",
     "tests": "mocha --experimental-json-modules tests/*.mjs",
     "predeploy": "pnpm clean && pnpm yaml && pnpm codegen && pnpm build && pnpm check",
     "predeploy-matic": "NETWORK=matic pnpm predeploy",

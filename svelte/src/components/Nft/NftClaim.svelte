@@ -55,7 +55,7 @@
       return;
     }
 
-    console.log("CLAIM", chainId, address, tokenID, tokenURI, targetChainId, targetAddress);
+    // console.log("CLAIM", chainId, address, tokenID, tokenURI, targetChainId, targetAddress);
 
     nftStorage ||= new NftStorage();
     const cid = await nftStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
@@ -65,7 +65,7 @@
       return;
     }
 
-    console.log("cidToInt(cid)", cidToInt(cid));
+    // console.log("cidToInt(cid)", cidToInt(cid));
 
     const txResp = await nftMint(targetChainId, targetAddress, cidToInt(cid), $metamaskSignerAddress);
     if (!txResp) {

@@ -1,7 +1,7 @@
 <script lang="ts">
   import config from "@kredeum/config/dist/config.json";
   import { versionGet } from "@svelte/helpers/version";
-  import logo from "../Images/logo-kredeum.svg";
+  import Logo from "./LogoKredeum.svelte";
   import { networks } from "@common/common/networks";
 
   export let chainId: number;
@@ -18,7 +18,7 @@
 
 <div class="logo">
   <a href="https://www.kredeum.com" target="_blank" rel="noreferrer" title="Kredeum website">
-    <img src={logo} alt="Logo Kredeum" />
+    <Logo />
   </a>
 </div>
 

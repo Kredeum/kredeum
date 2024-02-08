@@ -3,23 +3,11 @@
   "version": "1.4.0",
   "main": "index.js",
   "scripts": {
-    "all": "pnpm clean-all && pnpm install-all && pnpm build-all && pnpm format-all && pnpm check-all && pnpm tests-all",
-    "clean-all": "rm -rf node_modules web/dapp pnpm-lock.yaml && pnpm -r clean",
-    "install-foundry": "pnpm -F contracts install:foundry",
-    "install-wordpress": "pnpm -F wordpress install:wordpress",
-    "install-all": "pnpm install && pnpm install-foundry && pnpm install-wordpress",
-    "build-all": "pnpm build1 && pnpm build2 && pnpm build3",
-    "format-all": "pnpm -r format",
-    "check-all": "pnpm -r check",
-    "update-all": "pnpm -r update",
-    "tests-all": "pnpm -r tests",
-    "build1": "pnpm -F config build",
-    "build2": "pnpm -F contracts -F gulp build",
-    "build3": "pnpm -F sveltekit build && pnpm -F wordpress build",
-    "build-dapp": "pnpm build1 && pnpm build2 && pnpm build3",
-    "build-plugin": "pnpm build1 && pnpm build2 && pnpm build3",
-    "deploy-dapp": "export PATH=$PATH:$HOME/.foundry/bin && pnpm install && pnpm install-foundry && pnpm build-dapp",
-    "deploy-plugin": "pnpm install && pnpm install-wordpress && pnpm build-plugin"
+    "clean": "rm -rf node_modules pnpm-lock.yaml web/dapp **/.turbo",
+    "all": "pnpm clean && pnpm -r clean && pnpm install && turbo build",
+    "build:dapp": "turbo build -F sveltekit",
+    "deploy:dapp": "pnpm install && pnpm -F contracts install:foundry && pnpm build:dapp",
+    "deploy:plugin": "pnpm install && pnpm install-wordpress && pnpm build-plugin"
   },
   "keywords": [
     "Kredeum",

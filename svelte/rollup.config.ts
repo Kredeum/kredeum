@@ -25,7 +25,7 @@ const toRollupConfig = function (): RollupOptions {
     input: ["src/app.ts"],
     output: [
       {
-        sourcemap: true,
+        // sourcemap: true,
         format: "iife",
         file: "./web/dapp/assets/js/kredeum-nfts.js"
       }
@@ -43,7 +43,7 @@ const toRollupConfig = function (): RollupOptions {
         dedupe: ["svelte"],
         preferBuiltins: false
       }),
-      typescript(),
+      typescript( ),
       image(),
       json(),
       commonjs(),

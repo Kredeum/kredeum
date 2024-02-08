@@ -5,6 +5,7 @@
   "main": "index.ts",
   "scripts": {
     "clean": "rm -rf node_modules dist",
+    "check": "eslint src/**/*.json",
     "build": "GIT_BRANCH=$(git rev-parse --abbrev-ref HEAD) GIT_COMMIT=$(git rev-parse HEAD) pnpx ts-node scripts/build.ts"
   },
   "keywords": [],
@@ -13,6 +14,8 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.16",
+    "eslint": "^8.56.0",
+    "eslint-plugin-json": "^3.1.0",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8"
   }

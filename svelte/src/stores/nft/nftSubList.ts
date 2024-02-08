@@ -41,7 +41,7 @@ const nftSubListStore = (
       const okAddress = nft.address === address;
 
       // OWNER
-      const okOwner = !filter.owner || nft.owner === filter.owner;
+      const okOwner = !isAddressNotZero(filter.owner) || nft.owner === filter.owner;
 
       // TOKENID
       const okTokenID = tokenIdSelected(nft.tokenID, filter.tokenID);

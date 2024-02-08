@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, explorerCollectionUrl } from "@common/common/config";
+  import { ADDRESS_ZERO, explorerCollectionUrl, isAddressNotZero } from "@common/common/config";
 
   import Collection from "./Collection.svelte";
   import { clickOutside } from "@svelte/helpers/clickOutside";
@@ -42,11 +42,11 @@
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: $refreshAll, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
-    console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account || ADDRESS_ZERO)}`);
+    // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account || ADDRESS_ZERO)}`);
 
     // STATE VIEW : sync get Collections
     collections = collectionSubListStore(chainId, account, undefined, mintable);
-    console.log("COLLECTIONS cached", $collections);
+    // console.log("COLLECTIONS cached", $collections);
 
     // STATE VIEW : sync get default Collection
     collectionDefault = collectionDefaultSubStore(chainId, mintable, account);
@@ -67,11 +67,14 @@
   // Current Collection is already defined, or is defined in url, or is default collection
   $: $collectionDefault && account && handleChangeAddress();
   const handleChangeAddress = (): void => {
-    address ||= $collectionDefault;
+    console.log("handleChangeAddress ~ $collectionDefault:", $collectionDefault);
+    if (isAddressNotZero(address)) return;
+    address = $collectionDefault;
   };
 
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string, mintable_ = mintable): void => {
+    if (!isAddressNotZero(collection)) return;
     address = collection;
     collectionDefaultSetOne(chainId, collection, mintable_, account);
   };
@@ -96,7 +99,7 @@
           </option>
         {/each}
       </select>
-      {#if label && address}
+      {#if label && address && isAddressNotZero(address)}
         <p>{keyCollection(chainId, address, account)}</p>
       {/if}
     {:else}
@@ -114,11 +117,11 @@
     <span class="label"
       >Collection
       {#if refreshing}...{/if}
-      {#if address}
+      {#if address && isAddressNotZero(address)}
         <a
           class="info-button"
           href={_explorerCollectionUrl(address)}
-          title="&#009;  Collection address (click to view in explorer)&#013;
+          title="Collection address (click to view in explorer)&#013;
       {_collectionUrl(address)}"
           target="_blank"
           rel="noreferrer"><i class="fas fa-info-circle" /></a
@@ -136,7 +139,7 @@
     on:keydown={handleToggleOpen}
   >
     <div class="select" class:open>
-      {#if address && $collections?.size > 0}
+      {#if address && isAddressNotZero(address) && $collections?.size > 0}
         <div class="select-trigger">
           <span>
             <Collection {chainId} {address} {account} />
