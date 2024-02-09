@@ -1,11 +1,11 @@
 <script>
-  import { clickOutside } from "@helpers/clickOutside";
   import { fade, fly } from "svelte/transition";
   import { quintOut, bounceOut } from "svelte/easing";
 
-  import { metamaskChainId } from "@stores/metamask";
-  import { isAddress } from "@lib/common/config";
-  import { collectionStoreAndRefresh } from "@stores/collection/collection";
+  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { metamaskChainId } from "@svelte/stores/metamask";
+  import { isAddress } from "@common/common/config";
+  import { collectionStoreAndRefresh } from "@svelte/stores/collection/collection";
 
   let collectionAddress = "";
 
