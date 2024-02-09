@@ -7,7 +7,6 @@
     "clean": "rm -rf vendor node_modules plugins/kredeum-nfts/vendor plugins/kredeum-nfts/readme.txt plugins/kredeum-nfts/kredeum-nfts.php",
     "install:composer": "composer install --prefer-dist --no-progress",
     "install:vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
-    "postinstall": "pnpm install:composer && pnpm install:vendor",
     "check": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --extensions=php --standard=WordPress",
     "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
     "build": "pnpx ts-node scripts/build.ts"
