@@ -2,7 +2,9 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
+      "inputs": ["src/*"],
       "outputs": ["web/dapp/**/*"]
     }
   }
 }
+

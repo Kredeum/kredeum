@@ -1,0 +1,12 @@
+--- a/stream.js
++++ b/stream.js
+@@ -1,7 +1,6 @@
+-import { Readable as NodeReadableNative } from 'stream';
+ import { isStrictlyObject } from "./type.js";
+ import { ReadableStream } from 'web-streams-polyfill';
+-const NodeReadable = NodeReadableNative || class {};
++const NodeReadable = class {};
+ /**
+  * Validates if passed object is either browser's ReadableStream
+  * or Node's Readable.
+--

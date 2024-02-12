@@ -1,0 +1,18 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "check": {
+      "dependsOn": ["format", "@kredeum/svelte#check"],
+      "inputs": ["src/*"]
+    },
+    "dev": {
+      "dependsOn": ["check"],
+      "inputs": ["src/*"]
+    },
+    "build": {
+      "dependsOn": ["check"],
+      "inputs": ["src/*"],
+      "outputs": ["web/dapp/index.html", "web/dapp/_app/**.*"]
+    }
+  }
+}

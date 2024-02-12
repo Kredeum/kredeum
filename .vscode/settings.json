@@ -63,9 +63,12 @@
     {
       "filePath": "contracts/scripts",
       "group": "Default"
+    },
+    {
+      "filePath": "config/src/config.handlebars.json",
+      "group": "Default"
     }
   ],
-  "liveServer.settings.root": "/web/",
   "phpsab.autoRulesetSearch": false,
   "phpsab.composerJsonPath": "wordpress/composer.json",
   "phpsab.debug": true,
@@ -81,9 +84,10 @@
     "avoid-sha3": "warn"
   },
   "window.zoomLevel": 0,
-  "workbench.colorTheme": "Default Light+",
+  "workbench.colorTheme": "Night Owl Light",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC",
-  "workbench.preferredLightColorTheme": "Kimbie Dark"
+  "workbench.preferredLightColorTheme": "Kimbie Dark",
+  "liveServer.settings.root": "/web/dapp/"
 }

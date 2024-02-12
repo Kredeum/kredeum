@@ -6,16 +6,13 @@
     "downlevelIteration": true,
     "esModuleInterop": true,
     "importsNotUsedAsValues": "remove",
+    "verbatimModuleSyntax": false,
     "baseUrl": "..",
     "paths": {
-      "@stores/*": ["svelte/stores/*"],
-      "@helpers/*": ["svelte/helpers/*"],
-      "@lib/*": ["common/lib/*"],
-      "@artifacts/*": ["contracts/out/*"],
-      "@soltypes/*": ["contracts/types/*"],
-      "tslib": ["svelte/node_modules/tslib/tslib.d.ts"]
+      "@svelte/*": ["svelte/src/*"],
+      "@common/*": ["common/src/*"]
     }
   },
-  "include": ["**/*.ts", "**/*.svelte", "../common/lib/**/*.ts"],
+  "include": ["rollup.config.ts", "src/**/*.ts", "src/**/*.svelte", "../common/src/**/*.ts"],
   "exclude": ["tests/**", "node_modules"]
 }

@@ -35,7 +35,7 @@ function swallow(err) {
 // Optimize Images
 function images() {
   return gulp
-    .src("images/**/*")
+    .src("src/images/**/*")
     .pipe(
       imagemin([
         imagemin.gifsicle({ interlaced: true }),
@@ -57,7 +57,7 @@ function images() {
 // CSS task
 function css() {
   return gulp
-    .src("scss/**/*.scss")
+    .src("src/scss/**/*.scss")
     .pipe(!production ? sourcemaps.init() : noop())
     .pipe(plumber())
     .pipe(sass({ outputStyle: "expanded" }).on("error", sass.logError, swallow))
@@ -67,30 +67,20 @@ function css() {
 }
 
 function fonts() {
-  return gulp.src(["fonts/**/*"]).pipe(gulp.dest("web/dapp/assets/fonts/"));
+  return gulp.src(["src/fonts/**/*"]).pipe(gulp.dest("web/dapp/assets/fonts/"));
 }
 
 // Copy html
 function htmls() {
-  return gulp.src(["html/*"]).pipe(gulp.dest("web/dapp"));
-}
-
-// Transpile, concatenate and minify scripts
-function scripts() {
-  return gulp
-    .src(["js/**/*"])
-    .pipe(plumber())
-    .pipe(!production ? uglify().on("error", swallow) : noop())
-    .pipe(gulp.dest("web/dapp/assets/js/"));
+  return gulp.src(["src/html/*"]).pipe(gulp.dest("web/dapp"));
 }
 
 // Watch files
 function watchFiles() {
-  gulp.watch("scss/**/*", css);
-  gulp.watch("js/**/*", gulp.series(scripts));
+  gulp.watch("src/scss/**/*", css);
 }
 
-const build = gulp.series(clean, gulp.parallel(css, images, scripts, htmls), fonts);
+const build = gulp.series(clean, gulp.parallel(css, images,   htmls), fonts);
 const watch = gulp.parallel(watchFiles);
 
 exports.images = images;
