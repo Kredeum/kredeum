@@ -22,5 +22,10 @@ module.exports = {
         parser: "@typescript-eslint/parser"
       }
     }
-  ]
+  ],
+  rules: {
+    "@typescript-eslint/no-unused-vars": "warn",
+    "svelte/no-at-html-tags": "warn",
+    "no-extra-boolean-cast": "warn"
+  }
 };

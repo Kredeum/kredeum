@@ -17,6 +17,7 @@ const pdfjsGetDocument = async (data: ArrayBuffer): Promise<PDFDocumentProxy> =>
   return document;
 };
 
+// eslint-disable-next-line @typescript-eslint/no-redundant-type-constituents
 const pdfjsGetPage = async (pdfUrl: string, numPage: number): Promise<PDFPageProxy | undefined> => {
   const response = await fetch(pdfUrl);
   const pdfArrayBuffer = await response.arrayBuffer();

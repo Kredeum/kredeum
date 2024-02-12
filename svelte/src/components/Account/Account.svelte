@@ -36,8 +36,7 @@
       href={blockscanUrl(`/address/${account}`)}
       target="_blank"
       rel="noreferrer"
-      title="&#009;Owner address (click to view account in explorer )&#013;{accountName}"
-      ><i class="fas fa-info-circle" /></a
+      title="Owner address (click to view account in explorer )&#013;{accountName}"><i class="fas fa-info-circle" /></a
     >
     <CopyRefItem copyData={account} />
   </span>

@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "clean": "rm -rf node_modules",
+    "clean": "rm -rf node_modules web/dapp",
     "build": "gulp"
   },
   "keywords": [],

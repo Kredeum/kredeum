@@ -15,7 +15,7 @@ const localStorageLength = (): number => _localStorage?.length || 0;
 const localStorageRemove = (key: string): void => _localStorage?.removeItem(key);
 
 const localStorageInit = (): void => {
-  console.log("localStorageInit");
+  // console.log("localStorageInit");
   if (!localStorageGet("KEY")) localStorageSet("KEY", "KEY_DEFAULT");
 };
 

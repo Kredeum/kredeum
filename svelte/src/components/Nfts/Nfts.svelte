@@ -27,9 +27,8 @@
   export let owner: string | undefined = undefined;
   export let page: number | undefined = undefined;
   export let refreshing: boolean | undefined = undefined;
-  export let end: boolean | undefined = undefined;
   export let mode: string | undefined = undefined; // modes => grid3 grid4 line
-  export const more = () => (page ? page++ : (page = 1));
+
   ////////////////////////////////////////////////////////////////////////
 
   let refreshAll: Writable<number> = getContext("refreshAll");
@@ -58,9 +57,11 @@
     refresh();
   };
 
-  $: $refreshAll, owner, isCollection({ chainId, address }) && refresh();
+  $: moreNFTs = Math.max(getMaxSupply(), $nfts.size || 0) >= (page || 1) * PAGE_SIZE;
+  const nextPage = () => (page = page ? page + 1 : 1);
+
+  $: $refreshAll, owner, isCollection({ chainId, address }), page && refresh();
   const refresh = async () => {
-    end = true;
     page ||= 1;
 
     collection = collectionStore(chainId, address);
@@ -76,7 +77,7 @@
     if (limit > offset) {
       nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
     }
-    console.log("NFTS cached", $nfts);
+    // console.log("NFTS cached", $nfts);
     // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;
@@ -93,15 +94,29 @@
     if (limit > offset) {
       await nftSubListStoreRefresh(chainId, address, { owner, offset, limit });
     }
-    end = $nfts.size < page * PAGE_SIZE;
 
     refreshing = false;
 
     console.info("NFTS", $nfts);
-    // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
+    console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
-  // $: console.log("NFTS from", chainId, "/", address, "@", owner);
+  $: console.log(
+    "NFTS",
+    chainId,
+    "/",
+    address,
+    "@",
+    owner,
+    "page",
+    page,
+    "refreshing",
+    refreshing,
+    "$nfts.size",
+    $nfts.size,
+    "moreNFTs",
+    moreNFTs
+  );
 
   onMount(async () => {
     resetNfts();
@@ -120,7 +135,7 @@
     <a
       class="info-button"
       href={explorerCollectionUrl(chainId, address)}
-      title="&#009;Collection address (click to view in explorer)&#013;
+      title="Collection address (click to view in explorer)&#013;
       {keyCollection(chainId, address)}"
       target="_blank"
       rel="noreferrer"><i class="fas fa-info-circle" /></a
@@ -141,8 +156,9 @@
 
 <div class="row">
   <div class="col col-sm">
-    {#if !end}
-      <button class="btn btn-default" on:click={more} title="      Click to View more NFTs">Display more NFTs...</button
+    {#if moreNFTs}
+      <button class="btn btn-default" on:click={nextPage} title="      Click to View more NFTs"
+        >Display more NFTs...</button
       >
     {/if}
   </div>

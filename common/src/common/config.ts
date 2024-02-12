@@ -33,7 +33,8 @@ const tokenIdSelected = (tokenID: string, tokenIDs?: string): boolean =>
 const isCollection = (refHash: RefPageType) => networks.has(refHash.chainId) && isAddressNotZero(refHash.address);
 
 const isAddress = (address = ""): boolean => utils.isAddress(address);
-const isAddressNotZero = (account = ""): boolean => utils.isAddress(account) && account != ADDRESS_ZERO;
+const isAddressZero = (address = ""): boolean => address === ADDRESS_ZERO;
+const isAddressNotZero = (address = ""): boolean => isAddress(address) && !isAddressZero(address);
 
 const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : ADDRESS_ZERO);
 
@@ -333,6 +334,7 @@ export {
   explorerNftLink,
   isCollection,
   isAddress,
+  isAddressZero,
   isAddressNotZero,
   isNumeric,
   getShortAddress,

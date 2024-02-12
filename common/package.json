@@ -6,15 +6,15 @@
   "scripts": {
     "patch:stream": "cd patch && sh stream.patch.sh",
     "postinstall": "pnpm patch:stream",
-    "clean": "rm -rf node_modules types abis",
-    "format": "prettier src/**/*.ts --write --list-different",
-    "check": "eslint src/**/*.ts"
+    "clean": "rm -rf node_modules",
+    "format": "prettier src/**/*.ts --write --list-different --log-level log",
+    "check": "eslint src/**/*.ts --quiet"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@ethersphere/bee-js": "^6.7.2",
+    "@ethersphere/bee-js": "^6.7.3",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",
@@ -25,7 +25,7 @@
     "@ipld/dag-pb": "^4.0.8",
     "@types/findup-sync": "^4.0.4",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.16",
+    "@types/node": "^20.11.17",
     "@typescript-eslint/eslint-plugin": "^6.21.0",
     "@typescript-eslint/parser": "^6.21.0",
     "dotenv": "^16.4.1",
@@ -35,10 +35,10 @@
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
     "multiformats": "^13.0.1",
-    "pdfjs-dist": "^3.11.174",
     "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "tsconfig-paths": "^4.2.0",
+    "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },
   "dependencies": {

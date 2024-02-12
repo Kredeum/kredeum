@@ -83,8 +83,11 @@ const collectionGet = async (chainId: number, address: string, account = ADDRESS
     collection = await resolverGetCollection(chainId, address, account);
   } catch (err: unknown) {
     const reason = (err as TxError).reason || "No explicit reason";
-    console.error(`ERROR collectionGet: ${reason} => ${explorerAddressUrl(chainId, address)}\n`);
-    // console.log( err);
+    if (reason == "Not ERC165") {
+      console.warn(`Invalid NFT collection: Not ERC165 => ${explorerAddressUrl(chainId, address)}\n`);
+    } else {
+      console.error(`ERROR collectionGet: ${reason} => ${explorerAddressUrl(chainId, address)}\n`);
+    }
   }
   // console.log(`collectionGet ${keyCollection(chainId, address, account)}\n`, collection);
   return collection;
