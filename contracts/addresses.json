@@ -118,13 +118,6 @@
     "OpenNFTsV4": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "chainName": "arbitrum"
   },
-  "424": {
-    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
-    "OpenNFTsFactoryV3_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
-    "OpenNFTsResolver_last": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
-    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
-    "chainName": "pgn"
-  },
   "43113": {
     "OpenAutoMarket": "0x83F063ED9eb7ecCb88570D5c5fAce3be475C9314",
     "OpenNFTsFactoryV3": "0x062b873b47b222e313ae4e8A1977338f54B8dc11",
@@ -187,13 +180,6 @@
     "OpenNFTsResolver": "0x2b3050E1B9c592869143f04c2a6962aAb4B95FbE",
     "OpenNFTsV4": "0xd719d8bA14F7EA708b42fFA0903d430F1B1c88a9",
     "chainName": "bsc"
-  },
-  "58008": {
-    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
-    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
-    "chainName": "pgn-sepolia"
   },
   "59140": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",

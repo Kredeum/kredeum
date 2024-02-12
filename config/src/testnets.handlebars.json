@@ -113,20 +113,6 @@
     "create": true
   },
   {
-    "chainId": 58008,
-    "chainName": "pgn-sepolia",
-    "rpcUrls": ["https://sepolia.publicgoods.network"],
-    "nativeCurrency": {
-      "name": "PGN Ether",
-      "symbol": "pgnETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://explorer.sepolia.publicgoods.network"],
-    "linkedMainnet": 424,
-    "linkedLayer1": 11155111,
-    "create": true
-  },
-  {
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": ["https://polygon-mumbai.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/polygon_mumbai", "https://matic-mumbai.chainstacklabs.com", "https://rpc-mumbai.maticvigil.com/v1"],

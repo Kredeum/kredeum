@@ -164,20 +164,6 @@
     "create": true
   },
   {
-    "chainId": 424,
-    "chainName": "pgn",
-    "rpcUrls": ["https://rpc.publicgoods.network"],
-    "nativeCurrency": {
-      "name": "PGN Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://explorer.publicgoods.network"],
-    "linkedLayer1": 1,
-    "active": false,
-    "create": false
-  },
-  {
     "chainId": 137,
     "chainName": "polygon",
     "rpcUrls": [
