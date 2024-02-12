@@ -22,24 +22,26 @@
     border-bottom: 1px solid rgba($white, 0.15);
     padding: 10px 0;
 
-    svg {
+    img {
       display: block;
       margin: 0 auto;
     }
   }
 
   .menu {
-    input {
+    input#burger {
       display: none;
 
-      & + label {
+      &+label.burger {
         display: none;
       }
     }
 
     ul {
       li {
-        a {
+
+        a,
+        button.kre-nav-button {
           transition: all 300ms ease-in-out;
 
           &:hover {
