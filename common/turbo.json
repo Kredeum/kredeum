@@ -2,8 +2,8 @@
   "extends": ["//"],
   "pipeline": {
     "check": {
-      "dependsOn": ["format", "@kredeum/config#build", "@kredeum/contracts#build", "@kredeum/gulp#build"],
-      "inputs": ["src/*"]
+      "dependsOn": ["format", "@kredeum/config#build", "@kredeum/gulp#build"],
+      "inputs": ["src/*", "../contracts/addresses.json"]
     }
   }
 }

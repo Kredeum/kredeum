@@ -1,7 +1,9 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
-    "format": { "outputMode": "new-only" },
+    "format": {
+      "outputMode": "new-only"
+    },
     "check": {
       "dependsOn": ["format"],
       "outputMode": "new-only"

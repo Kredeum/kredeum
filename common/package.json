@@ -8,7 +8,7 @@
     "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules",
     "format": "prettier src/**/*.ts --write --list-different --log-level log",
-    "check": "eslint src/**/*.ts --quiet"
+    "check": "eslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",

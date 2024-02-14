@@ -6,8 +6,8 @@
       "inputs": ["src/*"]
     },
     "dev": {
-      "dependsOn": ["check"],
-      "inputs": ["src/*"]
+      "dependsOn": ["@kredeum/config#build", "@kredeum/gulp#build"],
+      "inputs": ["src/*", "../contracts/addresses.json"]
     },
     "build": {
       "dependsOn": ["check"],

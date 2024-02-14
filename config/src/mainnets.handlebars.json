@@ -22,6 +22,7 @@
     "eip1559": true,
     "create": true
   },
+
   {
     "chainId": 42161,
     "chainName": "arbitrum",
@@ -53,6 +54,7 @@
     "linkedLayer1": 1,
     "active": false
   },
+
   {
     "chainId": 10,
     "chainName": "optimism",
@@ -75,6 +77,20 @@
     },
     "create": true,
     "linkedLayer1": 1
+  },
+  {
+    "chainId": 534352,
+    "chainName": "scroll",
+    "rpcUrls": ["https://rpc.scroll.io"],
+    "nativeCurrency": {
+      "name": "Scroll Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://scrollscan.com/", "https://blockscout.scroll.io"],
+    "linkedLayer1": 1,
+    "active": true,
+    "create": true
   },
   {
     "chainId": 8453,
@@ -135,20 +151,7 @@
     "active": false,
     "create": true
   },
-  {
-    "chainId": 534352,
-    "chainName": "scroll",
-    "rpcUrls": ["https://rpc.scroll.io"],
-    "nativeCurrency": {
-      "name": "Scroll Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://scrollscan.com/", "https://blockscout.scroll.io"],
-    "linkedLayer1": 1,
-    "active": true,
-    "create": true
-  },
+
   {
     "chainId": 7777777,
     "chainName": "zora",
