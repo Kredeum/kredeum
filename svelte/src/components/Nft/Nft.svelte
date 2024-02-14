@@ -1,6 +1,6 @@
 <script lang="ts">
   import { constants, utils } from "ethers";
-  import { ADDRESS_ZERO } from "@common/common/config";
+  import { ADDRESS_ZERO, config } from "@common/common/config";
 
   import {
     explorerCollectionUrl,
@@ -53,7 +53,7 @@
 
   let nftLink = "";
   let nftLinkDone = "";
-  const copyDappLink = () => (nftLink = getDappUrl(chainId, { address, tokenID }));
+  const copyDappLink = () => ((nftLink = getDappUrl(chainId, { address, tokenID })), config.base);
   const copyAutoswarmLink = () => (nftLink = getAutoswarmUrl(chainId, { address, tokenID }));
   const copyBlurLink = () => (nftLink = networks.getBlurUrl(chainId, { address, tokenID }));
   const copyOpenSeaLink = () => (nftLink = networks.getOpenSeaUrl(chainId, { address, tokenID }));
@@ -112,9 +112,7 @@
         {:else}
           <div class="overflow-ellipsis kre-description-link">
             <strong>
-              <a href={getDappUrl(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
-                >{$nft.name} #{tokenID}</a
-              >
+              <a href={getDappUrl(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link">{$nft.name}</a>
             </strong>
           </div>
         {/if}

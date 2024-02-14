@@ -23,7 +23,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "clean": "forge clean && rm -rf cache-forge out && rm -rf node_modules lib types artifacts broadcast",
+    "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo",
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm foundry:init && pnpm foundry:update",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "$HOME/.foundry/bin/forge build",

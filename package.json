@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf node_modules pnpm-lock.yaml web/dapp **/.turbo && pnpm -r clean",
+    "clean": "rm -rf node_modules pnpm-lock.yaml .turbo web/dapp && pnpm -r clean",
     "all": "pnpm clean && pnpm install && pnpm build",
     "all:dapp": "pnpm clean && pnpm install && pnpm build:dapp",
     "all:plugin": "pnpm clean && pnpm install && pnpm build:plugin",

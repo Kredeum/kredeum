@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "clean": "rm -rf node_modules dist",
+    "clean": "rm -rf node_modules dist .turbo",
     "check": "eslint src/**/*.json",
     "build": "GIT_COMMIT=$(git rev-parse HEAD) pnpx ts-node scripts/build.ts"
   },

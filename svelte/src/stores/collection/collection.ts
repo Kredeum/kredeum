@@ -49,12 +49,16 @@ const collectionStore = (chainId: number, address: string): Readable<CollectionT
   );
 };
 
-const collectionStoreAndRefresh = (chainId: number, address: string): Readable<CollectionType> => {
+const collectionStoreAndRefresh = (
+  chainId: number,
+  address: string,
+  account = ADDRESS_ZERO
+): Readable<CollectionType> => {
   // STATE VIEW : sync read cache
   const collection = collectionStore(chainId, address);
 
   // ACTION : async refresh from lib onchain data
-  collectionStoreRefresh(chainId, address).catch(console.error);
+  collectionStoreRefresh(chainId, address, account).catch(console.error);
 
   return collection;
 };

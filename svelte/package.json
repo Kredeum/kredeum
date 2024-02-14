@@ -7,7 +7,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf node_modules web/dapp/assets/js",
+    "clean": "rm -rf node_modules web/dapp/assets/js .turbo",
     "format": "prettier src/**/*.svelte src/**/*.ts --write --list-different --log-level log",
     "dev": "rollup -c -w --configPlugin typescript",
     "build": "ENVIR=PROD rollup -c --configPlugin typescript",

@@ -3,7 +3,7 @@
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
-  // <ButtonOwner bind:{owner} />
+  // <ButtonOwner {account} bind:{owner} />
   // Select All button
   /////////////////////////////////////////////////
   export let account: string;
@@ -13,7 +13,7 @@
   const toggleOwner = () =>
     (owner = isAddressNotZero(owner) ? ADDRESS_ZERO : isAddressNotZero(account) ? account : ADDRESS_ZERO);
 
-  onMount(toggleOwner);
+  // onMount(toggleOwner);
 </script>
 
 <button

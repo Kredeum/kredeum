@@ -1,5 +1,66 @@
 [
   {
+    "chainId": 11155111,
+    "chainName": "sepolia",
+    "rpcUrls": ["https://sepolia.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/eth_sepolia", "https://rpc.sepolia.org"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://sepolia.etherscan.io"],
+    "etherscan": {
+      "apiUrl": "https://api-sepolia.etherscan.io/"
+    },
+    "eip1559": true,
+    "create": true,
+    "linkedMainnet": 1
+  },
+  {
+    "chainId": 534351,
+    "chainName": "scroll-sepolia",
+    "rpcUrls": ["https://sepolia-rpc.scroll.io/"],
+    "nativeCurrency": {
+      "name": "Scroll Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://sepolia.scrollscan.com/", "https://sepolia-blockscout.scroll.io"],
+    "linkedMainnet": 534352,
+    "linkedLayer1": 11155111,
+    "eip1559": false,
+    "create": true
+  },
+  {
+    "chainId": 84532,
+    "chainName": "base-sepolia",
+    "rpcUrls": ["https://sepolia.base.org", "https://base-sepolia.blockpi.network/v1/rpc/public"],
+    "nativeCurrency": {
+      "name": "Sepolia Ether",
+      "symbol": "sepETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://sepolia.basescan.org", "https://base-sepolia.blockscout.com"],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "create": true,
+    "linkedMainnet": 8453,
+    "linkedLayer1": 11155111
+  },
+  {
+    "chainId": 999999999,
+    "chainName": "zora-sepolia",
+    "rpcUrls": ["https://sepolia.rpc.zora.energy"],
+    "nativeCurrency": {
+      "name": "Zora Ether",
+      "symbol": "zETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://sepolia.explorer.zora.energy/"],
+    "linkedMainnet": 7777777,
+    "linkedLayer1": 11155111,
+    "create": true
+  },
+  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": ["https://goerli.infura.io/v3/{{INFURA_API_KEY}}"],
@@ -28,7 +89,7 @@
     "rpcUrls": ["https://goerli.base.org"],
     "nativeCurrency": {
       "name": "Goerli Ether",
-      "symbol": "ETH",
+      "symbol": "goeETH",
       "decimals": 18
     },
     "blockExplorerUrls": ["https://goerli.basescan.org", "https://base-goerli.blockscout.com"],
@@ -64,52 +125,6 @@
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
     "linkedMainnet": 1101,
     "linkedLayer1": 5,
-    "create": true
-  },
-  {
-    "chainId": 11155111,
-    "chainName": "sepolia",
-    "rpcUrls": ["https://sepolia.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/eth_sepolia", "https://rpc.sepolia.org"],
-    "nativeCurrency": {
-      "name": "Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://sepolia.etherscan.io"],
-    "etherscan": {
-      "apiUrl": "https://api-sepolia.etherscan.io/"
-    },
-    "eip1559": true,
-    "create": true,
-    "linkedMainnet": 1
-  },
-  {
-    "chainId": 534351,
-    "chainName": "scroll-sepolia",
-    "rpcUrls": ["https://sepolia-rpc.scroll.io/"],
-    "nativeCurrency": {
-      "name": "Scroll Ether",
-      "symbol": "ETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://sepolia-blockscout.scroll.io"],
-    "linkedMainnet": 534352,
-    "linkedLayer1": 11155111,
-    "eip1559": false,
-    "create": true
-  },
-  {
-    "chainId": 999999999,
-    "chainName": "zora-sepolia",
-    "rpcUrls": ["https://sepolia.rpc.zora.energy"],
-    "nativeCurrency": {
-      "name": "Zora Ether",
-      "symbol": "zETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://sepolia.explorer.zora.energy/"],
-    "linkedMainnet": 7777777,
-    "linkedLayer1": 11155111,
     "create": true
   },
   {

@@ -130,11 +130,7 @@
   <span slot="header">
     <Title />
 
-    {#if signer}
-      {#if networks.getCreate(chainId)}
-        <Create {chainId} {signer} />
-      {/if}
-    {/if}
+    <Create {chainId} {signer} />
 
     <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
 

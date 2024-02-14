@@ -101,23 +101,6 @@
     console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
-  $: console.log(
-    "NFTS",
-    chainId,
-    "/",
-    address,
-    "@",
-    owner,
-    "page",
-    page,
-    "refreshing",
-    refreshing,
-    "$nfts.size",
-    $nfts.size,
-    "moreNFTs",
-    moreNFTs
-  );
-
   onMount(async () => {
     resetNfts();
     await refresh();

@@ -48,12 +48,28 @@ const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBou
 const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
 // GET Dapp Url
-const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
+const getDappUrl = (
+  chainId: number,
+  ref: NftType | { address?: string; tokenID?: string } = {},
+  base = "."
+): string => {
+  let dappUrl = `${base}/#/${chainId}`;
+  if (isAddress(ref.address)) {
+    dappUrl += `/${ref.address}`;
+    if (isNumeric(ref.tokenID)) dappUrl += `/${ref.tokenID}`;
+  }
+  return dappUrl;
+};
 
 // GET Autoswarm Url
-const getAutoswarmUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${config.storage.swarm.autoSwarm}/${chainId}/${ref?.address}/${ref?.tokenID}`;
+const getAutoswarmUrl = (chainId: number, ref: NftType | { address?: string; tokenID?: string } = {}): string => {
+  let autoswarmUrl = `${config.storage.swarm.autoSwarm}/${chainId}`;
+  if (isAddress(ref.address)) {
+    autoswarmUrl += `/${ref.address}`;
+    if (isNumeric(ref.tokenID)) autoswarmUrl += `/${ref.tokenID}`;
+  }
+  return autoswarmUrl;
+};
 
 // nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
@@ -110,7 +126,8 @@ const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" class="link" target="_blank" rel="noreferrer">${label || url}</a>`;
 
-const isNumeric = (stringNum: string): boolean => !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
+const isNumeric = (stringNum: string | undefined): boolean =>
+  stringNum !== undefined && !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

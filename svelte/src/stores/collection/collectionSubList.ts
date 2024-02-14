@@ -36,7 +36,7 @@ const collectionSubListStore = (
           const okAddress = coll.address === address;
 
           // BALANCE
-          const okBalance = ((account && coll.balancesOf?.get(account)) || 0) > 0;
+          const okBalance = account && coll.balancesOf?.get(account) !== undefined;
 
           // OWNER
           const okOwner = coll.owner === account;

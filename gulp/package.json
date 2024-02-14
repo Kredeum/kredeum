@@ -4,7 +4,7 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "clean": "rm -rf node_modules web/dapp",
+    "clean": "rm -rf node_modules web/dapp .turbo",
     "build": "gulp"
   },
   "keywords": [],
@@ -15,7 +15,7 @@
     "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.3",
     "del": "^6.1.1",
-    "dotenv": "^16.4.1",
+
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
