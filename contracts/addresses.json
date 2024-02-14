@@ -158,10 +158,10 @@
     "chainName": "scroll-sepolia"
   },
   "534352": {
-    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenAutoMarket": "0x0BA18645a8AC8F8111fD8130C2dEa5155aFC872E",
     "OpenNFTsFactoryV3": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
-    "OpenNFTsResolver_last": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
-    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "OpenNFTsResolver": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
+    "OpenNFTsV4": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
     "chainName": "scroll"
   },
   "534353": {

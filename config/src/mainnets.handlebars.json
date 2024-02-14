@@ -144,10 +144,10 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://blockscout.scroll.io"],
+    "blockExplorerUrls": ["https://scrollscan.com/", "https://blockscout.scroll.io"],
     "linkedLayer1": 1,
-    "active": false,
-    "create": false
+    "active": true,
+    "create": true
   },
   {
     "chainId": 7777777,
