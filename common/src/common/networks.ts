@@ -4,6 +4,13 @@ import testnetsJson from "@kredeum/config/dist/testnets.json";
 
 type chainIdish = number | string | undefined;
 
+// Capitalize first letter
+const strUpFirst = (str: string | undefined): string =>
+  str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
+
+// Sanitize string
+const strSanitize = (str: string | undefined): string => str?.replace(/_|-/g, " ") || "";
+
 const networks = (() => {
   const _networksMap = new Map(
     [...mainnetsJson, ...testnetsJson].map((network: NetworkType) => [network.chainId, network])
@@ -43,6 +50,8 @@ const networks = (() => {
   const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
 
   const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
+  const getChainLabel = (chainId: chainIdish): string | undefined =>
+    get(chainId)?.chainLabel || strUpFirst(strSanitize(getChainName(chainId)));
   const getMainnetName = (chainId: chainIdish) =>
     isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : getChainName(chainId);
 
@@ -66,6 +75,7 @@ const networks = (() => {
     getOpenSea,
     getExplorer,
     getChainName,
+    getChainLabel,
     getMainnetName,
     getLinkedMainnet,
     getLinkedLayer1,

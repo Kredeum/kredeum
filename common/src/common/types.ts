@@ -24,6 +24,7 @@ type AddressesType = {
 type NetworkType = {
   chainId: number;
   chainName: string;
+  chainLabel?: string;
   rpcUrls: Array<string>;
   iconUrls?: Array<string>;
   nativeCurrency: { name: string; symbol: string; decimals: number };

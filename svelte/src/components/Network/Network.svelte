@@ -9,13 +9,10 @@
   export let txt = false;
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
-  // Capitalize first letter
-  const strUpFirst = (str: string | undefined): string =>
-    str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
   $: chainName = networks.getChainName(chainId);
+  $: chainLabel = networks.getChainLabel(chainId);
   $: chainMainnet = networks.getMainnetName(chainId);
-  $: chainLabel = strUpFirst(chainName);
   $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

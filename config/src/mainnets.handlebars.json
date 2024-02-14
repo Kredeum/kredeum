@@ -2,6 +2,7 @@
   {
     "chainId": 1,
     "chainName": "mainnet",
+    "chainLabel": "Ethereum",
     "rpcUrls": ["https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}", "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/eth"],
     "nativeCurrency": {
       "name": "Ether",
@@ -126,6 +127,7 @@
   {
     "chainId": 1101,
     "chainName": "polygon-zkevm",
+    "chainLabel": "Polygon zkEVM",
     "rpcUrls": ["https://zkevm-rpc.com", "https://rpc.ankr.com/polygon_zkevm"],
     "nativeCurrency": {
       "name": "Ether",
@@ -247,6 +249,7 @@
   {
     "chainId": 56,
     "chainName": "bsc",
+    "chainLabel": "Binance Smart Chain",
     "rpcUrls": ["https://bsc-dataseed1.binance.org", "https://rpc.ankr.com/bsc", "https://bsc-dataseed.binance.org", "https://bsc-dataseed1.defibit.io", "https://bsc-dataseed1.ninicoin.io"],
     "nativeCurrency": {
       "name": "BNB",
