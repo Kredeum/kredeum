@@ -101,6 +101,13 @@
   "31337": {
     "chainName": "local"
   },
+  "3441005": {
+    "OpenAutoMarket": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "chainName": "manta-pacific-testnet"
+  },
   "41": {
     "OpenAutoMarket": "",
     "OpenNFTs": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",

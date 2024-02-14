@@ -128,6 +128,20 @@
     "create": true
   },
   {
+    "chainId": 3441005,
+    "chainName": "manta-pacific-testnet",
+    "rpcUrls": ["https://manta-testnet.calderachain.xyz/http", "https://pacific-rpc.testnet.manta.network/http"],
+    "nativeCurrency": {
+      "name": "Pacific Ether",
+      "symbol": "pETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://pacific-explorer.testnet.manta.network"],
+    "create": true,
+    "linkedMainnet": 169,
+    "linkedLayer1": 5
+  },
+  {
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": ["https://polygon-mumbai.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/polygon_mumbai", "https://matic-mumbai.chainstacklabs.com", "https://rpc-mumbai.maticvigil.com/v1"],
