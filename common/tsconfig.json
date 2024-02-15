@@ -11,8 +11,5 @@
       "@svelte/*": ["svelte/src/*"]
     }
   },
-  "include": ["**/*.ts"],
-  "ts-node": {
-    "require": ["tsconfig-paths/register"]
-  }
+  "include": ["**/*.ts"]
 }

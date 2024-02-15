@@ -1,29 +1,26 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
+  import { onMount, setContext } from "svelte";
+  import { writable, type Writable } from "svelte/store";
 
-  import Create from "../Global/Create.svelte";
-  import Navigation from "../Global/Navigation.svelte";
-  import HomeLayout from "../Global/HomeLayout.svelte";
-  import Title from "../Global/Title.svelte";
+  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
+  import { providerSetFallback } from "@common/common/provider-get";
+  import { type RefPageType } from "@common/common/types";
+
+  import AccountConnect from "../Account/AccountConnect.svelte";
+  import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import ButtonOwner from "../Global/ButtonOwner.svelte";
   import ButtonRefresh from "../Global/ButtonRefresh.svelte";
-  import AccountConnect from "../Account/AccountConnect.svelte";
+  import Create from "../Global/Create.svelte";
+  import HomeLayout from "../Global/HomeLayout.svelte";
+  import Navigation from "../Global/Navigation.svelte";
+  import Title from "../Global/Title.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
-  import CollectionSelect from "../Collection/CollectionSelect.svelte";
-  import Nfts from "../Nfts/Nfts.svelte";
   import Nft from "../Nft/Nft.svelte";
-  // import BreadCrumb from "../Global/BreadCrumb.svelte";
-  // import Networks from "../Network/Networks.svelte";
-
-  import { providerSetFallback } from "@common/common/provider-get";
-  import { onMount, setContext } from "svelte";
-  import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
-  import type { RefPageType } from "@common/common/types";
+  import Nfts from "../Nfts/Nfts.svelte";
 
   import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
+  import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
   import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { writable, type Writable } from "svelte/store";
-  import { networks } from "@common/common/networks";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />

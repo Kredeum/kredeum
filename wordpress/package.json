@@ -10,15 +10,11 @@
     "install:wordpress": "pnpm install:composer && pnpm install:vendor",
     "check": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --extensions=php --standard=WordPress",
     "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
-    "build": "pnpx ts-node scripts/build.ts"
+    "build": "pnpm dlx ts-node scripts/build.ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0"
-  },
   "dependencies": {
     "@kredeum/config": "workspace:^"
   }

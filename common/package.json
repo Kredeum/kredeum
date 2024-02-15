@@ -7,8 +7,8 @@
     "patch:stream": "cd patch && sh stream.patch.sh",
     "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules .turbo",
-    "format": "prettier src/**/*.ts --write --list-different --log-level log",
-    "check": "eslint src/**/*.ts"
+    "format": "pnpm dlx prettier src/**/*.ts --write --list-different --log-level log",
+    "check": "pnpm dlx eslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -26,17 +26,10 @@
     "@types/findup-sync": "^4.0.4",
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.18",
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
-    "eslint": "^8.56.0",
-    "eslint-config-prettier": "^9.1.0",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
     "multiformats": "^13.1.0",
-    "prettier": "^3.2.5",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "tslib": "^2.6.2",
     "typescript": "^5.3.3"
   },

@@ -1,18 +1,15 @@
 <script lang="ts">
-  import { isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
-
-  import Nfts from "../Nfts/Nfts.svelte";
-  import Nft from "../Nft/Nft.svelte";
-  // import BreadCrumb from "../Global/BreadCrumb.svelte";
-  // import Networks from "../Network/Networks.svelte";
-
-  import { providerSetFallback } from "@common/common/provider-get";
   import { onMount, setContext } from "svelte";
-  import { ADDRESS_ZERO } from "@common/common/config";
+  import { writable, type Writable } from "svelte/store";
+
+  import { ADDRESS_ZERO, isCollection, tokenIdCount } from "@common/common/config";
+  import { providerSetFallback } from "@common/common/provider-get";
 
   import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
-  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { writable, type Writable } from "svelte/store";
+  import { metamaskChainId } from "@svelte/stores/metamask";
+
+  import Nft from "../Nft/Nft.svelte";
+  import Nfts from "../Nfts/Nfts.svelte";
 
   ////////////////////////////////////////////////////////////////////
   // <OpenSky />

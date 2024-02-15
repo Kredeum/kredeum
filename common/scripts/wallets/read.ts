@@ -2,7 +2,7 @@ import { Wallet } from "ethers";
 import fs from "fs";
 
 if (process.argv.length < 3) {
-  console.log("syntaxe : ts-node read.ts <file.json> [password]");
+  console.log("syntaxe : pnpm dlx ts-node read.ts <file.json> [password]");
   process.exit(1);
 }
 

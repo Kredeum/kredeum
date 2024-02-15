@@ -1,11 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
+
   import { metamaskInit } from "@svelte/helpers/metamask";
   import { metamaskChainId } from "@svelte/stores/metamask";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
-  import NetworkSelect from "../Network/NetworkSelect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
+  import NetworkSelect from "../Network/NetworkSelect.svelte";
 
   /////////////////////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />

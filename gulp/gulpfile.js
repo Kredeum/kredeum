@@ -5,18 +5,12 @@ const cssnano = require("cssnano");
 const del = require("del");
 const gulp = require("gulp");
 const imagemin = require("gulp-imagemin");
-const newer = require("gulp-newer");
 const plumber = require("gulp-plumber");
 const postcss = require("gulp-postcss");
 const sass = require("gulp-sass")(require("sass"));
-const uglify = require("gulp-uglify");
 const sourcemaps = require("gulp-sourcemaps");
 const noop = require("gulp-noop");
-const dotenv = require("dotenv");
 
-if (process.env.ENVIR === undefined) {
-  dotenv.config();
-}
 if (!process.env.ENVIR) {
   throw new Error("GULP : ENV variable ENVIR not set!");
 }

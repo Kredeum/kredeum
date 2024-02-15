@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf node_modules pnpm-lock.yaml .turbo web/dapp && pnpm -r clean",
+    "clean": "pnpm -r clean && rm -rf **/node_modules **/pnpm-lock.yaml **/.turbo web/dapp",
     "all": "pnpm clean && pnpm install && pnpm build",
     "all:dapp": "pnpm clean && pnpm install && pnpm build:dapp",
     "all:plugin": "pnpm clean && pnpm install && pnpm build:plugin",
@@ -25,6 +25,12 @@
     "pnpm": "^8"
   },
   "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "eslint": "^8.56.0",
+    "eslint-config-prettier": "^9.1.0",
+    "prettier": "^3.2.5",
+    "ts-node": "^10.9.2",
     "turbo": "^1.12.4"
   }
 }

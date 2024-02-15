@@ -1,18 +1,17 @@
 <script lang="ts">
-  import type { Readable, Writable } from "svelte/store";
-  import { getContext } from "svelte";
-  import { onMount } from "svelte";
+  import { getContext, onMount } from "svelte";
+  import { type Readable, type Writable } from "svelte/store";
 
-  import type { CollectionType, NftType } from "@common/common/types";
-  import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@common/common/config";
+  import { PAGE_SIZE, explorerCollectionUrl, isAddressNotZero, isCollection } from "@common/common/config";
   import { keyCollection } from "@common/common/keys";
+  import { type CollectionType, type NftType } from "@common/common/types";
 
-  import { nftSubListStoreRefresh, nftSubListStore } from "@svelte/stores/nft/nftSubList";
+  import { nftSubListStore, nftSubListStoreRefresh } from "@svelte/stores/nft/nftSubList";
   import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
 
   import NftsDisplayMode from "./NftsDisplayMode.svelte";
-  import NftsLines from "./NftsLines.svelte";
   import NftsGrid from "./NftsGrid.svelte";
+  import NftsLines from "./NftsLines.svelte";
 
   /////////////////////////////////////////////////
   // <Nfts {chainId} {address} {tokenID?} {account?} {page?}  {refreshing?}/>
@@ -136,7 +135,7 @@
 
 <div class="row">
   <div class="col col-sm">
-    {#if moreNFTs  }
+    {#if moreNFTs}
       <button class="btn btn-default" on:click={nextPage} title="Click to View more NFTs">Display more NFTs...</button>
     {/if}
   </div>

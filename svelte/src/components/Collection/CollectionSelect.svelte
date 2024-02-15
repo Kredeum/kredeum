@@ -18,7 +18,6 @@
     collectionDefaultSetOne,
     collectionDefaultSubStore
   } from "@svelte/stores/collection/collectionDefault";
-  import { onMount } from "svelte";
 
   /////////////////////////////////////////////////
   // <CollectionSelect chainId} bind:{address} {account} {mintable}  bind:{refreshing} {label} {txt} />

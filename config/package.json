@@ -5,8 +5,8 @@
   "main": "index.ts",
   "scripts": {
     "clean": "rm -rf node_modules dist .turbo",
-    "check": "eslint src/**/*.json",
-    "build": "GIT_COMMIT=$(git rev-parse HEAD) pnpx ts-node scripts/build.ts"
+    "check": "pnpm dlx eslint src/**/*.json",
+    "build": "GIT_COMMIT=$(git rev-parse HEAD) pnpm dlx ts-node scripts/build.ts"
   },
   "keywords": [],
   "author": "",
@@ -14,7 +14,6 @@
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
     "@types/node": "^20.11.18",
-    "eslint": "^8.56.0",
     "eslint-plugin-json": "^3.1.0",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8"

@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "clean": "rm -rf node_modules .svelte-kit web/dapp/_app  web/dapp/index.html .turbo",
-    "format": "prettier src/**/*.svelte src/**/*.ts --write --list-different --log-level log",
+    "format": "pnpm dlx prettier src/**/*.svelte src/**/*.ts --write --list-different --log-level log",
     "dev": "vite dev",
     "build": "ENVIR=PROD vite build",
     "preview": "vite preview",

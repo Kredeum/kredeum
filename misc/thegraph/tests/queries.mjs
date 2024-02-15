@@ -1,4 +1,4 @@
-// pnpx mocha queries.mjs  --experimental-json-modules
+// pnpm dlx mocha queries.mjs  --experimental-json-modules
 import fetch from "node-fetch";
 import { expect } from "chai";
 

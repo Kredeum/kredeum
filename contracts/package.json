@@ -11,8 +11,6 @@
     "solc": "0.8.19",
     "solhint": "^4.1.1",
     "solidity-coverage": "^0.8.7",
-    "ts-node": "^10.9.2",
-    "tsconfig-paths": "^4.2.0",
     "typechain": "^8.3.2",
     "typescript": "^5.3.3"
   },
@@ -27,7 +25,7 @@
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm foundry:init && pnpm foundry:update",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "$HOME/.foundry/bin/forge build",
-    "build:typechain": "pnpx typechain --target ethers-v5 --out-dir types out/**/*.json",
+    "build:typechain": "pnpm dlx typechain --target ethers-v5 --out-dir types out/**/*.json",
     "check": "pnpm check:solidity",
     "check:solidity": "solhint src/**/*.sol",
     "deploy:deploy": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",
@@ -42,7 +40,7 @@
     "format:solidity": "$HOME/.foundry/bin/forge fmt",
     "foundry:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -rf **/Counter*.sol",
     "foundry:update": "git submodule update --recursive",
-    "foundry:types": "pnpx typechain --out-dir types --target ethers-v5  out/**/*.json",
+    "foundry:types": "pnpm dlx typechain --out-dir types --target ethers-v5  out/**/*.json",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"
   }

@@ -1,11 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
-  import { metamaskInit } from "@svelte/helpers/metamask";
+
+  import { type NftType } from "@common/common/types";
+  import { storageConfigSet } from "@common/storage/storage";
 
   import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
+  import { metamaskInit } from "@svelte/helpers/metamask";
+
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
-  import type { NftType } from "@common/common/types";
-  import { storageConfigSet } from "@common/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   // <MintButtonWp  />

@@ -13,7 +13,7 @@
   const toggleOwner = () =>
     (owner = isAddressNotZero(owner) ? ADDRESS_ZERO : isAddressNotZero(account) ? account : ADDRESS_ZERO);
 
-  // onMount(toggleOwner);
+  onMount(toggleOwner);
 </script>
 
 <button

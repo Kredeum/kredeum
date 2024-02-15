@@ -15,7 +15,6 @@
     "autoprefixer": "^10.4.17",
     "cssnano": "^6.0.3",
     "del": "^6.1.1",
-
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
     "gulp-imagemin": "^7.1.0",
