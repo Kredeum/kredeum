@@ -112,7 +112,9 @@
         {:else}
           <div class="overflow-ellipsis kre-description-link">
             <strong>
-              <a href={getDappUrl(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link">{$nft.name}</a>
+              <a href={getDappUrl(chainId, $nft)} target="_blank" rel="noreferrer" class="kre-blue-link"
+                >{$nft.name || ""}</a
+              >
             </strong>
           </div>
         {/if}
@@ -124,9 +126,9 @@
     {#if details}
       <div class="col col-xs-12 col-sm-8 col-md-9">
         <div class="card-krd">
-          <h3>{$nft.name}</h3>
+          <h3>{$nft.name || ""}</h3>
           <p>
-            {$nft.description}
+            {$nft.description || ""}
           </p>
 
           <ul class="steps">
@@ -134,7 +136,7 @@
               <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
               <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
                 <div class="overflow-ellipsis">
-                  <strong> <a href={getDappUrl(chainId, $nft)} class="kre-blue-link">#{tokenID}</a></strong>
+                  <strong> <a href={getDappUrl(chainId, $nft)} class="kre-blue-link">#{tokenID || ""}</a></strong>
                 </div>
                 <CopyRefItem copyData={tokenID} />
               </div>

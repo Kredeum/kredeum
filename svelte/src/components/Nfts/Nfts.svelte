@@ -1,21 +1,18 @@
 <script lang="ts">
   import type { Readable, Writable } from "svelte/store";
+  import { getContext } from "svelte";
+  import { onMount } from "svelte";
 
+  import type { CollectionType, NftType } from "@common/common/types";
   import { explorerCollectionUrl, isAddressNotZero, isCollection, PAGE_SIZE } from "@common/common/config";
-
-  import NftsDisplayMode from "./NftsDisplayMode.svelte";
-  import ButtonMore from "../Global/ButtonMore.svelte";
-
-  import NftsLines from "./NftsLines.svelte";
-  import NftsGrid from "./NftsGrid.svelte";
   import { keyCollection } from "@common/common/keys";
 
   import { nftSubListStoreRefresh, nftSubListStore } from "@svelte/stores/nft/nftSubList";
   import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
 
-  import type { CollectionType, NftType } from "@common/common/types";
-  import { getContext } from "svelte";
-  import { onMount } from "svelte";
+  import NftsDisplayMode from "./NftsDisplayMode.svelte";
+  import NftsLines from "./NftsLines.svelte";
+  import NftsGrid from "./NftsGrid.svelte";
 
   /////////////////////////////////////////////////
   // <Nfts {chainId} {address} {tokenID?} {account?} {page?}  {refreshing?}/>
@@ -40,9 +37,9 @@
   const getMaxSupply = () => (isAddressNotZero(owner) ? getOwnerSupply() : getTotalSupply());
 
   let displayOwnerSupply: string = "";
-  $: owner, $collection, handleDisplayOwnerSupply();
+  $: $collection, isAddressNotZero(owner) && handleDisplayOwnerSupply();
   const handleDisplayOwnerSupply = (): string =>
-    (displayOwnerSupply = isAddressNotZero(owner) ? (getOwnerSupply() >= 0 ? String(getOwnerSupply()) : "?") : "");
+    (displayOwnerSupply = getOwnerSupply() >= 0 ? String(getOwnerSupply()) : "?");
 
   let displayTotalSupply: string = "";
   $: $collection, handleDisplayTotalSupply();
@@ -54,6 +51,9 @@
     // console.log("<Nfts resetNfts");
     refreshing = false;
     page = 1;
+
+    collection = collectionStore(chainId, address);
+
     refresh();
   };
 
@@ -63,9 +63,6 @@
   $: $refreshAll, owner, isCollection({ chainId, address }), page && refresh();
   const refresh = async () => {
     page ||= 1;
-
-    collection = collectionStore(chainId, address);
-    // console.log("NFTS cached collection", $collection);
 
     // await tick();
     let offset = 0;
@@ -77,12 +74,9 @@
     if (limit > offset) {
       nfts = nftSubListStore(chainId, address, { tokenID, owner, offset, limit });
     }
-    // console.log("NFTS cached", $nfts);
-    // console.log("NFTS cached params", chainId, address, {  owner, offset, limit });
 
     refreshing = true;
     await collectionStoreRefresh(chainId, address, owner);
-    // await tick();
 
     limit = page * PAGE_SIZE;
     maxSupply = getMaxSupply();
@@ -110,11 +104,14 @@
 <div class="row alignbottom">
   <div class="col col-xs-12">
     <h2>Collection '{$collection?.name}'</h2>
-    {#if owner}{displayOwnerSupply} /
+    {#if isAddressNotZero(owner)}
+      {displayOwnerSupply} /
     {/if}
     {displayTotalSupply}
     {$collection?.symbol || "NFT"}
-    {#if refreshing}...{/if}
+    {#if refreshing}
+      ...
+    {/if}
     <a
       class="info-button"
       href={explorerCollectionUrl(chainId, address)}
@@ -139,10 +136,8 @@
 
 <div class="row">
   <div class="col col-sm">
-    {#if moreNFTs}
-      <button class="btn btn-default" on:click={nextPage} title="      Click to View more NFTs"
-        >Display more NFTs...</button
-      >
+    {#if moreNFTs  }
+      <button class="btn btn-default" on:click={nextPage} title="Click to View more NFTs">Display more NFTs...</button>
     {/if}
   </div>
 </div>
