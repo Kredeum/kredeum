@@ -4,6 +4,7 @@
 $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-zkevm", "polygon", "gnosis", "avalanche", "fantom", "bsc", "scroll", "zora", "celo", "telos", "skale", "local";
 
 @each $name in $names {
+
   [data-value="#{$name}"],
   .icon-#{$name} {
     background: url("../images/icon-#{$name}.png") no-repeat left center/30px;
@@ -33,6 +34,8 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
 }
 
 .nav-krd {
+  z-index: 10;
+
   nav {
     ul {
       padding: 0;
@@ -54,7 +57,9 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
         }
 
         &.active {
-          a {
+
+          a,
+          button.kre-nav-button {
             color: $white;
 
             &:hover {
@@ -120,7 +125,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
     header {
       margin-bottom: 50px;
 
-      h1 + .btn {
+      h1+.btn {
         position: absolute;
         right: 0;
         top: 0;
@@ -206,7 +211,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
           height: 100%;
         }
 
-        & + strong {
+        &+strong {
           display: inline-block;
           vertical-align: middle;
         }
@@ -329,6 +334,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
           }
 
           &:hover {
+
             &::after,
             .fas {
               opacity: 1;
@@ -406,7 +412,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
         margin-bottom: 0;
       }
 
-      & + .flex {
+      &+.flex {
         .t-light {
           opacity: 0.5;
         }
@@ -436,7 +442,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
     pointer-events: auto;
   }
 
-  & > div {
+  &>div {
     max-width: 800px;
     @include border-radius();
     position: absolute;
@@ -494,7 +500,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
   pointer-events: auto;
   transition: all 300ms ease-in-out;
 
-  & > div {
+  &>div {
     max-width: 800px;
     @include border-radius();
     position: absolute;
@@ -568,6 +574,7 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
 .modal-window {
   .modal-content {
     .modal-body {
+
       .media-video,
       .media-image {
         width: 100%;
