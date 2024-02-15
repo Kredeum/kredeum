@@ -168,21 +168,7 @@
     "active": false,
     "create": true
   },
-  {
-    "chainId": 169,
-    "chainName": "manta-pacific",
-    "chainLabel": "Manta Pacific",
-    "rpcUrls": ["https://pacific-rpc.manta.network/http"],
-    "nativeCurrency": {
-      "name": "Pacific Ether",
-      "symbol": "pETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://pacific-explorer.manta.network"],
-    "create": true,
-    "active": false,
-    "linkedLayer1": 1
-  },
+
   {
     "chainId": 137,
     "chainName": "polygon",
@@ -300,5 +286,20 @@
     },
     "blockExplorerUrls": [""],
     "active": false
+  },
+  {
+    "chainId": 169,
+    "chainName": "manta-pacific",
+    "chainLabel": "Manta Pacific",
+    "rpcUrls": ["https://pacific-rpc.manta.network/http"],
+    "nativeCurrency": {
+      "name": "Pacific Ether",
+      "symbol": "pETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://pacific-explorer.manta.network"],
+    "create": true,
+    "active": false,
+    "linkedLayer1": 0
   }
 ]

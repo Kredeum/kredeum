@@ -127,20 +127,7 @@
     "linkedLayer1": 5,
     "create": true
   },
-  {
-    "chainId": 3441005,
-    "chainName": "manta-pacific-testnet",
-    "rpcUrls": ["https://manta-testnet.calderachain.xyz/http", "https://pacific-rpc.testnet.manta.network/http"],
-    "nativeCurrency": {
-      "name": "Pacific Ether",
-      "symbol": "pETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": ["https://pacific-explorer.testnet.manta.network"],
-    "create": true,
-    "linkedMainnet": 169,
-    "linkedLayer1": 5
-  },
+
   {
     "chainId": 80001,
     "chainName": "mumbai",
@@ -262,6 +249,20 @@
     "eip1559": false,
     "create": true,
     "linkedMainnet": 344106930
+  },
+  {
+    "chainId": 3441005,
+    "chainName": "manta-pacific-testnet",
+    "rpcUrls": ["https://manta-testnet.calderachain.xyz/http", "https://pacific-rpc.testnet.manta.network/http"],
+    "nativeCurrency": {
+      "name": "Pacific Ether",
+      "symbol": "pETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://pacific-explorer.testnet.manta.network"],
+    "create": true,
+    "linkedMainnet": 169,
+    "linkedLayer1": 0
   },
   {
     "chainId": 31337,

@@ -10,7 +10,6 @@
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  $: chainName = networks.getChainName(chainId);
   $: chainLabel = networks.getChainLabel(chainId);
   $: chainMainnet = networks.getMainnetName(chainId);
   $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";

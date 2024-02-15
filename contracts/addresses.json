@@ -81,6 +81,13 @@
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "polygon-zkevm-testnet"
   },
+  "169": {
+    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenNFTsFactoryV3_last": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
+    "OpenNFTsResolver_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "chainName": "manta-pacific"
+  },
   "17000": {
     "OpenAutoMarket": "0x6CD3204B3C1CF737489C4BC2760bAAf2886f4dC1",
     "OpenNFTsFactoryV3": "0xaBC576652433154Ab5F9cF1A2F4f0457d7690cc6",

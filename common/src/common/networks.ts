@@ -31,7 +31,7 @@ const networks = (() => {
   const getBlur = (chainId: chainIdish): string => get(chainId)?.blur || "";
   const getCreate = (chainId: chainIdish): boolean => Boolean(get(chainId)?.create);
   const getLinkedMainnet = (chainId: chainIdish): number => get(chainId)?.linkedMainnet || 0;
-  const getLinkedLayer1 = (chainId: chainIdish): number => get(chainId)?.linkedLayer1 || 0;
+  const getLinkedLayer1 = (chainId: chainIdish): number | undefined => get(chainId)?.linkedLayer1;
   const getCurrency = (chainId: chainIdish): string => get(chainId)?.nativeCurrency.symbol || "";
   const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
     `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
@@ -46,7 +46,7 @@ const networks = (() => {
   const isEip1559 = (chainId: chainIdish): boolean => Boolean(get(chainId)?.eip1559);
   const isMainnet = (chainId: chainIdish): boolean => getLinkedMainnet(chainId) == 0;
   const isTestnet = (chainId: chainIdish): boolean => !isMainnet(chainId);
-  const isLayer1 = (chainId: chainIdish): boolean => getLinkedLayer1(chainId) == 0;
+  const isLayer1 = (chainId: chainIdish): boolean => getLinkedLayer1(chainId) === undefined;
   const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
 
   const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
