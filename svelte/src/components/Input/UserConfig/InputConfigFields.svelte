@@ -14,16 +14,16 @@
   $: storageDefault = configSection.default as StorageType;
   $: storageChoices = Object.keys(configSection).filter((key) => key !== "default");
 
-  $: storageFieldsObject = configSection[storageDefault] as StorageParamsTypeEntrie;
+  $: storageFieldsObject = (storageDefault ? configSection[storageDefault] : configSection) as StorageParamsTypeEntrie;
   $: storageFieldsArray = storageFieldsObject && Object.entries(storageFieldsObject);
   //   $: console.log("storageFields:", storageFields);
 </script>
 
-{#if storageChoices.length > 0}
+{#if storageDefault}
   <InputConfigChoice bind:defaultChoice={configSection.default} choices={storageChoices} />
 {/if}
 
-{#if storageDefault && storageFieldsObject && storageFieldsArray}
+{#if storageFieldsObject && storageFieldsArray}
   {#each storageFieldsArray as [key, value]}
     <InputConfigField bind:key bind:value={storageFieldsObject[key]} />
   {/each}
