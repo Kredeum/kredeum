@@ -52,8 +52,14 @@ const getDappUrl = (chainId: number, ref: NftType | { address: string; tokenID: 
   `${config.base}/#/${chainId}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
 // GET Autoswarm Url
-const getAutoswarmUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
-  `${config.storage.swarm.autoSwarm}/${chainId}/${ref?.address}/${ref?.tokenID}`;
+const getAutoswarmUrl = (chainId: number, ref: NftType | { address?: string; tokenID?: string } = {}): string => {
+  let autoswarmUrl = `${config.autoswarm}/${chainId}`;
+  if (isAddress(ref.address)) {
+    autoswarmUrl += `/${ref.address}`;
+    if (isNumeric(ref.tokenID)) autoswarmUrl += `/${ref.tokenID}`;
+  }
+  return autoswarmUrl;
+};
 
 // nft url : nft://chainName/collectionAddress/tokenID
 const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {

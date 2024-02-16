@@ -15,8 +15,7 @@
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
       "apiEndpoint": "https://api.gateway.ethswarm.org",
-      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000",
-      "autoSwarm": "http://localhost:5173"
+      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000"
     }
   },
   "base": "https://app.kredeum.com",
@@ -24,6 +23,7 @@
     "account": "{{TREASURY_ACCOUNT}}",
     "fee": 90
   },
+  "autoswarm": "http://localhost:5173",
   "covalent": {
     "url": "https://api.covalenthq.com/v1",
     "key": "{{COVALENT_API_KEY}}"
