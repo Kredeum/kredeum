@@ -107,6 +107,11 @@ type StorageConfigType = {
   ipfs?: StorageParamsType;
   swarm?: StorageParamsType;
   arweave?: StorageParamsType;
+  errors?: StorageError;
+};
+
+type StorageError = {
+  [key in StorageType]?: Record<string, string>;
 };
 
 type StorageType = "ipfs" | "swarm" | "arweave";
