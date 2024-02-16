@@ -30,6 +30,19 @@
     }
   });
 
+  const isUrlValid = (url: string): boolean => {
+		if (!url) return false;
+		try {
+			new URL(url);
+			return true;
+		} catch (e) {
+			return false;
+		}
+	};
+
+	const isBatchIdValid = (batchId: string | undefined): boolean =>
+		Boolean(batchId?.replace(/^0x/, '').length === 64);
+
   ///////////////////////////////////////
   const localConfigGetKey = (key: string) => key.replace(`${krdNamespace}.`, "");
 
