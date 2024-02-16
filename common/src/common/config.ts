@@ -116,7 +116,8 @@ const numberToHexString = (num = 0): string => "0x" + Number(num).toString(16);
 const urlToLink = (url: string, label?: string): string =>
   `<a href="${url}" class="link" target="_blank" rel="noreferrer">${label || url}</a>`;
 
-const isNumeric = (stringNum: string): boolean => !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
+const isNumeric = (stringNum: string | undefined): boolean =>
+  stringNum !== undefined && !isNaN(Number(stringNum)) && !isNaN(parseFloat(stringNum));
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
