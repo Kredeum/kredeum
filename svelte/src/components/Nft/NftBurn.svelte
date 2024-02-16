@@ -1,6 +1,5 @@
 <script lang="ts">
-  import { getContext, onMount } from "svelte";
-  import type { Writable } from "svelte/store";
+  import { onMount } from "svelte";
 
   import { burnNft } from "@common/nft/nft-burn";
   import { ADDRESS_DEAD, explorerNftUrl, explorerTxUrl, textShort } from "@common/common/config";
@@ -89,7 +88,7 @@
 
     const txReceipt = (await txRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _burnError(`ERROR returned by transaction ${txReceipt}`);
+    if (!txReceipt.status) return _burnError(`ERROR returned by transaction ${txReceipt}`);
 
     burning = S5_BURNED;
 

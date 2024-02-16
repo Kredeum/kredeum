@@ -1,44 +1,17 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.19;
 
-import {IERC165} from "@opennfts/contracts/interfaces/IERC165.sol";
-
-import {IERC721} from "@opennfts/contracts/interfaces/IERC721.sol";
-import {IERC721Metadata} from "@opennfts/contracts/interfaces/IERC721Metadata.sol";
-import {IERC721Enumerable} from "@opennfts/contracts/interfaces/IERC721Enumerable.sol";
-import {IERC721TokenReceiver} from "@opennfts/contracts/interfaces/IERC721TokenReceiver.sol";
-
-import {IERC1155} from "@opennfts/contracts/interfaces/IERC1155.sol";
-import {IERC1155MetadataURI} from "@opennfts/contracts/interfaces/IERC1155MetadataURI.sol";
-import {IERC1155TokenReceiver} from "@opennfts/contracts/interfaces/IERC1155TokenReceiver.sol";
-
-import {IERC173} from "@opennfts/contracts/interfaces/IERC173.sol";
-import {IERC2981} from "@opennfts/contracts/interfaces/IERC2981.sol";
-
 import {IOpenNFTs} from "@opennfts/contracts/interfaces/IOpenNFTs.sol";
 import {IOpenChecker} from "@opennfts/contracts/interfaces/IOpenChecker.sol";
 import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
 import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
 import {IOpenPauseable} from "@opennfts/contracts/interfaces/IOpenPauseable.sol";
 
-import {IOpenNFTsV0} from "src/interfaces/IOpenNFTsV0.sol";
-import {IOpenNFTsV1} from "src/interfaces/IOpenNFTsV1.sol";
-import {IOpenNFTsV2} from "src/interfaces/IOpenNFTsV2.sol";
-import {IOpenNFTsV3} from "src/interfaces/IOpenNFTsV3.sol";
-import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
-import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
-import {IOpenBound} from "src/interfaces/IOpenBound.sol";
-
-import {ICloneFactoryV2} from "src/interfaces/ICloneFactoryV2.sol";
-import {INFTsFactoryV2} from "src/interfaces/INFTsFactoryV2.sol";
-import {IOpenNFTsFactoryV3} from "src/interfaces/IOpenNFTsFactoryV3.sol";
-
-import {IOpenNFTsResolver} from "src/interfaces/IOpenNFTsResolver.sol";
-
-import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";
-import {IOpenNFTsV3Plus} from "src/interfaces/IOpenNFTsV3Plus.sol";
-
-import {IInterfacesIds} from "src/interfaces/IInterfacesIds.sol";
+import {IOpenNFTsV4} from "../interfaces/IOpenNFTsV4.sol";
+import {IOpenAutoMarket} from "../interfaces/IOpenAutoMarket.sol";
+import {IOpenBound} from "../interfaces/IOpenBound.sol";
+import {IOpenNFTsFactoryV3} from "../interfaces/IOpenNFTsFactoryV3.sol";
+import {IInterfacesIds} from "../interfaces/IInterfacesIds.sol";
 
 /// @title InterfaceIds calculation
 /// @author zapaz.eth

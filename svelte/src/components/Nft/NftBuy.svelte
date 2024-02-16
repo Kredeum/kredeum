@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { utils } from "ethers";
-
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
   import { clickOutside } from "@svelte/helpers/clickOutside";
@@ -86,7 +84,7 @@
 
     const txReceipt = (await buyTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _buyError(`ERROR returned by transaction ${txReceipt}`);
+    if (!txReceipt.status) return _buyError(`ERROR returned by transaction ${txReceipt}`);
 
     buying = S4_BUYED;
 

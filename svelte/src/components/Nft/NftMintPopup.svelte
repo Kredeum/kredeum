@@ -21,7 +21,7 @@
   import { getSupportedImage, getMediaSelection } from "@svelte/helpers/mediaTypes";
   import { defaultAudioCoverImg } from "@svelte/helpers/defaultCoverImage";
 
-  import { metamaskSignerAddress, metamaskSigner, metamaskProvider } from "@svelte/stores/metamask";
+  import { metamaskSignerAddress, metamaskProvider } from "@svelte/stores/metamask";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
@@ -46,7 +46,6 @@
     S0_START,
     S1_STORE_IMAGE,
     S2_STORE_METADATA,
-    S3_SIGN_TX,
     S4_WAIT_TX,
     S5_MINTED,
     nftMintTexts
@@ -54,7 +53,7 @@
   import NftMint from "./NftMint.svelte";
   import { storageLinkToUrlHttp } from "@common/storage/storage";
 
-  // import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs";
+  // import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs"; // TODO PDFJS
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
@@ -84,8 +83,8 @@
   let audioFile: File | undefined;
   let audio: string | undefined;
 
-  let pdfFile: File | undefined;
-  let pdf: string | undefined;
+  // let pdfFile: File | undefined; // TODO PDFJS
+  // let pdf: string | undefined;
 
   let inputMediaType: Mediatype = "image";
   let acceptedImgTypes = "";
@@ -135,13 +134,10 @@
     // console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
-  // const pdfToCoverImg = async () => {
+  // const pdfToCoverImg = async () => {  // TODO PDFJS
   //   if (!pdf) return;
-
   //   const page = await pdfjsGetPage(storageLinkToUrlHttp(pdf), 1);
-
   //   if (!page) return;
-
   //   src = await pdfjsCrop(page, 437, 437, -89, -179);
   // };
 
@@ -160,10 +156,10 @@
         setDefaultAudioCover();
       }
 
-      if (inputMediaType === "pdf") {
-        pdf = src;
-        // pdfToCoverImg();
-      }
+      // if (inputMediaType === "pdf") { // TODO PDFJS
+      //   pdf = src;
+      //   pdfToCoverImg();
+      // }
     }
   };
 
@@ -173,16 +169,16 @@
   const handleMediaTypes = async () => {
     deleteFileImg();
     resetFileAudio();
-    resetFilePdf();
+    // resetFilePdf(); // TODO PDFJS
     // console.log("inputMediaType:", inputMediaType);
     acceptedImgTypes = getSupportedImage(inputMediaType);
 
     if (inputMediaType === "audio") {
       setDefaultAudioCover();
     }
-    if (inputMediaType === "pdf") {
-      // pdfToCoverImg();
-    }
+    // if (inputMediaType === "pdf") { // TODO PDFJS
+    // pdfToCoverImg();
+    // }
   };
 
   /////////////////////////////////////////////////
@@ -234,16 +230,10 @@
     audio = "";
   };
 
-  const resetFilePdf = () => {
-    pdfFile = undefined;
-    pdf = "";
-  };
-
-  const _mintingError = (err: string): void => {
-    mintingError = err;
-    console.error(mintingError);
-    minting = S0_START;
-  };
+  // const resetFilePdf = () => {// TODO PDFJS
+  // pdfFile = undefined;
+  // pdf = "";
+  // };
 
   onMount(async () => {
     account = signer;
@@ -263,7 +253,6 @@
     {name}
     {description}
     {audio}
-    {pdf}
     bind:mint
     bind:minting
     bind:imageUri
@@ -273,6 +262,7 @@
     bind:txHash
     bind:nft
   />
+  <!-- {pdf}  TODO PDFJS -->
 {/if}
 
 <div id="kre-create-mint-nft" class="mint-modal-window" transition:fade>
@@ -329,7 +319,7 @@
               />
               <label class="field" for="create-type-video"><i class="fas fa-play" />Video</label>
 
-              <input
+              <!-- <input
                 bind:group={inputMediaType}
                 class="box-field"
                 id="create-type-pdf"
@@ -337,7 +327,7 @@
                 type="radio"
                 value="pdf"
               />
-              <label class="field" for="create-type-pdf"><i class="fas fa-file-alt" />Pdf</label>
+              <label class="field" for="create-type-pdf"><i class="fas fa-file-alt" />Pdf</label> TODO PDFJS -->
 
               <input class="box-field" id="create-type-web" name="media-type" type="checkbox" value="Web" disabled />
               <label class="field" for="create-type-web"><i class="fas fa-code" />Web</label>
@@ -516,7 +506,7 @@
               </li>
             {/if}
 
-            {#if inputMediaType === "pdf"}
+            <!-- {#if inputMediaType === "pdf"}
               <li class={minting > S1_STORE_IMAGE ? "complete" : ""}>
                 <div class="flex"><span class="label">Pdf link</span></div>
                 <div class="flex">
@@ -527,7 +517,7 @@
                   {/if}
                 </div>
               </li>
-            {/if}
+             {/if} TODO PDFJS -->
 
             <li class={minting > S2_STORE_METADATA ? "complete" : ""}>
               <div class="flex"><span class="label">Metadata link</span></div>

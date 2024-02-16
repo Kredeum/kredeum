@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { constants, utils } from "ethers";
+  import { utils } from "ethers";
   import { ADDRESS_ZERO, config } from "@common/common/config";
 
   import {

@@ -1,6 +1,6 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { BigNumber, constants, utils } from "ethers";
+  import { BigNumber, constants } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@common/common/types";
@@ -41,7 +41,8 @@
   let collectionCreated: CollectionType | undefined = undefined;
   let cloningTxHash = "";
 
-  let refreshAll: Writable<number> = getContext("refreshAll");
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const refreshAll: Writable<number> = getContext("refreshAll");
 
   let inputMintPrice: BigNumber;
   let inputReceiver: string;

@@ -1,4 +1,4 @@
-import config from "../config/config.json";
+import config from "../dist/config.json";
 import Handlebars from "handlebars";
 import { readFile, writeFile } from "fs-extra";
 

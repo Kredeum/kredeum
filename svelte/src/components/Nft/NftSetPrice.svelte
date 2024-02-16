@@ -130,7 +130,7 @@
 
     const txReceipt = (await tokenSetPriceTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
+    if (!txReceipt.status) return _tokenSetPriceError(`ERROR returned by transaction ${txReceipt}`);
 
     tokenSettingPrice = S4_PRICE_SETTED;
     // console.log("tokenSetPriceTx S4", tokenSettingPrice);

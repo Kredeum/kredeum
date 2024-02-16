@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, explorerCollectionUrl, isAddressNotZero } from "@common/common/config";
+  import { explorerCollectionUrl, isAddressNotZero } from "@common/common/config";
 
   import Collection from "./Collection.svelte";
   import { clickOutside } from "@svelte/helpers/clickOutside";
@@ -37,7 +37,7 @@
   let collections: Readable<Map<string, CollectionType>>;
   let collectionDefault: Readable<string>;
 
-  let i: number = 0;
+  // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
   $: $refreshAll, mintable, chainId && account && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {

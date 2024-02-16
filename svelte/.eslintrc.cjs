@@ -25,7 +25,7 @@ module.exports = {
   ],
   rules: {
     "@typescript-eslint/no-unused-vars": "warn",
-    "svelte/no-at-html-tags": "warn",
+    "svelte/no-at-html-tags":"off",
     "no-extra-boolean-cast": "warn"
   }
 };

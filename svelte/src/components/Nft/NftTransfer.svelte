@@ -1,9 +1,5 @@
 <script lang="ts">
-  import { BigNumber } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
-
-  import type { Writable } from "svelte/store";
-  import { onMount, getContext } from "svelte";
+  import { onMount } from "svelte";
 
   import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, displayEther } from "@common/common/config";
   import { transferNft } from "@common/nft/nft-transfer";
@@ -86,7 +82,7 @@
 
     const txReceipt = (await transferTxRespYield.next()).value;
 
-    if (!Boolean(txReceipt.status)) return _transferError(`ERROR returned by transaction ${txReceipt}`);
+    if (!txReceipt.status) return _transferError(`ERROR returned by transaction ${txReceipt}`);
 
     transfering = S4_TRANSFERED;
 

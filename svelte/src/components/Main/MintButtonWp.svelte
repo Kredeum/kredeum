@@ -49,7 +49,7 @@
     refThis.dispatchEvent(event);
   };
 
-  const view = (evt: Event) => nid && (location.href = `./admin.php?page=nfts#/${nid.replace("nft://", "")}`);
+  const view = () => nid && (location.href = `./admin.php?page=nfts#/${nid.replace("nft://", "")}`);
 
   onMount(async () => {
     // SET storage type IPFS / Swarm or ArWeave

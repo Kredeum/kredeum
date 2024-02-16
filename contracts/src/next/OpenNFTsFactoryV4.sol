@@ -36,9 +36,7 @@ import {IERC165} from "@opennfts/contracts/interfaces/IERC165.sol";
 import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
 import {IOpenRegistry} from "@opennfts/contracts/interfaces/IOpenRegistry.sol";
 
-import {IOpenNFTsFactoryV3} from "src/interfaces/IOpenNFTsFactoryV3.sol";
-import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
-import {IOpenAutoMarket} from "src/interfaces/IOpenAutoMarket.sol";
+import {IOpenNFTsFactoryV3} from "../interfaces/IOpenNFTsFactoryV3.sol";
 
 /// @title OpenNFTsFactoryV3 smartcontract
 /// @notice Factory for NFTs contracts: ERC721 or ERC1155

@@ -23,13 +23,12 @@ import {OpenPauseable} from "@opennfts/contracts/OpenNFTs/OpenPauseable.sol";
 import {OpenCloneable} from "@opennfts/contracts/OpenCloner/OpenCloneable.sol";
 import {OpenChecker} from "@opennfts/contracts/OpenResolver/OpenChecker.sol";
 
-import {IERC721} from "@opennfts/contracts/interfaces/IERC721.sol";
 import {IERC721Enumerable} from "@opennfts/contracts/interfaces/IERC721Enumerable.sol";
 import {IERC721Metadata} from "@opennfts/contracts/interfaces/IERC721Metadata.sol";
 import {Bafkrey} from "@opennfts/contracts/libraries/Bafkrey.sol";
 
-import {IOpenBound} from "src/interfaces/IOpenBound.sol";
-import {IOpenNFTsOld} from "src/interfaces/IOpenNFTsOld.sol";
+import {IOpenBound} from "../interfaces/IOpenBound.sol";
+import {IOpenNFTsOld} from "../interfaces/IOpenNFTsOld.sol";
 
 /// @title OpenBound smartcontract
 /// limited to one nft per address

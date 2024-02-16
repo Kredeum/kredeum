@@ -3,7 +3,7 @@
   "version": "1.4.0",
   "main": "index.js",
   "scripts": {
-    "clean": "pnpm -r clean && rm -rf **/node_modules **/pnpm-lock.yaml **/.turbo web/dapp",
+    "clean": "pnpm -r clean && rm -rf node_modules pnpm-lock.yaml .turbo web/dapp",
     "all": "pnpm clean && pnpm install && pnpm build",
     "all:dapp": "pnpm clean && pnpm install && pnpm build:dapp",
     "all:plugin": "pnpm clean && pnpm install && pnpm build:plugin",
@@ -18,7 +18,7 @@
     "NFT",
     "Factory"
   ],
-  "author": "kredeum",
+  "author": "kredeum2",
   "license": "MIT",
   "engines": {
     "node": "^20",

@@ -7,8 +7,8 @@
     "patch:stream": "cd patch && sh stream.patch.sh",
     "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules .turbo",
-    "format": "pnpm dlx prettier src/**/*.ts --write --list-different --log-level log",
-    "check": "pnpm dlx eslint src/**/*.ts"
+    "format": "prettier src/**/*.ts --write --list-different --log-level log",
+    "check": "eslint src/**/*.ts"
   },
   "keywords": [],
   "author": "",
@@ -22,10 +22,10 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@ipld/dag-pb": "^4.0.8",
+    "@ipld/dag-pb": "^4.1.0",
     "@types/findup-sync": "^4.0.4",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.18",
+    "@types/node": "^20.11.19",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",

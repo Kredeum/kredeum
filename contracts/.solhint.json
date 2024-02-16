@@ -8,15 +8,9 @@
     "avoid-throw": "error",
     "avoid-tx-origin": "warn",
     "check-send-result": "error",
-    "custom-errors": "warn",
-    "code-complexity": [
-      "error",
-      10
-    ],
-    "compiler-version": [
-      "error",
-      "^0.8.0"
-    ],
+    "custom-errors": "off",
+    "code-complexity": ["error", 10],
+    "compiler-version": ["error", "^0.8.0"],
     "comprehensive-interface": "warn",
     "const-name-snakecase": "error",
     "constructor-syntax": "warn",
@@ -24,26 +18,15 @@
     "event-name-camelcase": "error",
     "func-name-mixedcase": "error",
     "func-param-name-mixedcase": "error",
-    "func-visibility": [
-      "error",
-      {
+    "func-visibility": [   "error",     {
         "ignoreConstructors": true
       }
     ],
-    "function-max-lines": [
-      "error",
-      60
-    ],
+    "function-max-lines": ["error", 60],
     "imports-on-top": "error",
     "mark-callable-contracts": "off",
-    "max-line-length": [
-      "error",
-      120
-    ],
-    "max-states-count": [
-      "warn",
-      15
-    ],
+    "max-line-length": ["error", 120],
+    "max-states-count": ["warn", 15],
     "modifier-name-mixedcase": "error",
     "multiple-sends": "error",
     "no-complex-fallback": "error",
@@ -60,10 +43,7 @@
         "strict": true
       }
     ],
-    "quotes": [
-      "error",
-      "double"
-    ],
+    "quotes": ["error", "double"],
     "reason-string": [
       "error",
       {

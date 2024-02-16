@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { BigNumber, utils } from "ethers";
+  import { BigNumber } from "ethers";
 
   import type { NftType } from "@common/common/types";
   import { treasuryFee, displayEther, feeAmount } from "@common/common/config";

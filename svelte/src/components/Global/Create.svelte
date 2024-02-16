@@ -1,7 +1,4 @@
 <script lang="ts">
-  // import { currentAction } from "@svelte/stores/current";
-  // import NftMint from "../Nft/NftMint.svelte";
-  import { metamaskSigner } from "@svelte/stores/metamask";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   import InputImportCollection from "../Input/InputImportCollection.svelte";

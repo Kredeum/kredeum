@@ -25,7 +25,7 @@
     "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm foundry:init && pnpm foundry:update",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "$HOME/.foundry/bin/forge build",
-    "build:typechain": "pnpm dlx typechain --target ethers-v5 --out-dir types out/**/*.json",
+    "build:typechain": "typechain --target ethers-v5 --out-dir types out/**/*.json",
     "check": "pnpm check:solidity",
     "check:solidity": "solhint src/**/*.sol",
     "deploy:deploy": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",
@@ -38,9 +38,9 @@
     "validate:only": "pnpm deploy:all --sender $SENDER",
     "format": "pnpm format:solidity",
     "format:solidity": "$HOME/.foundry/bin/forge fmt",
-    "foundry:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -rf **/Counter*.sol",
+    "foundry:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -f **/Counter*.sol",
     "foundry:update": "git submodule update --recursive",
-    "foundry:types": "pnpm dlx typechain --out-dir types --target ethers-v5  out/**/*.json",
+    "foundry:types": "typechain --out-dir types --target ethers-v5  out/**/*.json",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"
   }
