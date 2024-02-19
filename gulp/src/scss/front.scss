@@ -11,6 +11,19 @@ $names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-z
   }
 }
 
+$storageChoices: "ipfs", "swarm";
+
+@each $storageChoice in $storageChoices {
+
+  .icon-#{$storageChoice} {
+    background: url("../images/icon-#{$storageChoice}.png") no-repeat left center/20px;
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    vertical-align: middle;
+  }
+}
+
 .wp-admin {
   .kre-storage-option {
     display: none;

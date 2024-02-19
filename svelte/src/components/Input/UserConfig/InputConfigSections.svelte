@@ -44,7 +44,6 @@
 
         localConfigSet(namespace, JSON.stringify(configSection));
       });
-      console.log("saveUserConfig ~ storageConfig:", userConfig);
     }
   };
   ///////////////////////////////////////
@@ -68,17 +67,20 @@
             }
           });
           if (typeof userConfig?.[namespace]?.errors?.[key as StorageType] === "object") {
-            if (Object.keys(userConfig?.[namespace]?.errors?.[key as StorageType]).length == 0)
+            if (Object.keys(userConfig?.[namespace]?.errors?.[key as StorageType]).length == 0) {
               delete userConfig?.[namespace]?.errors?.[key as StorageType];
+              userConfig = { ...userConfig };
+            }
           }
         }
       });
     }
     if (typeof userConfig?.[namespace]?.errors === "object") {
-      if (Object.keys(userConfig?.[namespace]?.errors).length == 0) delete userConfig?.[namespace]?.errors;
+      if (Object.keys(userConfig?.[namespace]?.errors).length == 0) {
+        delete userConfig?.[namespace]?.errors;
+        userConfig = { ...userConfig };
+      }
     }
-
-    console.log("isSectionValid ~ userConfig:", userConfig);
 
     return !userConfig[namespace].errors;
   };
@@ -91,8 +93,10 @@
   };
 
   const deleteFieldError = (namespace: string, storageType: StorageType, key: string) => {
-    if (userConfig?.[namespace].errors?.[storageType as StorageType]?.[key])
+    if (userConfig?.[namespace].errors?.[storageType as StorageType]?.[key]) {
       delete userConfig?.[namespace].errors?.[storageType as StorageType]?.[key];
+      userConfig = { ...userConfig };
+    }
   };
 
   const isUrlValid = (url: string): boolean => {

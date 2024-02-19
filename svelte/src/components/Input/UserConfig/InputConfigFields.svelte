@@ -1,11 +1,10 @@
 <script lang="ts">
-  import type { StorageConfigType, StorageParamsType, StorageType } from "@common/common/types";
+  import type { StorageConfigType, StorageType } from "@common/common/types";
 
   import InputConfigChoice from "./InputConfigChoice.svelte";
   import InputConfigField from "./InputConfigField.svelte";
 
   export let configSection: StorageConfigType;
-  //   $: console.log("configSection:", configSection);
 
   interface StorageParamsTypeEntrie {
     [key: string]: string;
@@ -18,8 +17,6 @@
   $: storageFieldsArray = storageFieldsObject && Object.entries(storageFieldsObject);
 
   $: errorMessages = configSection.errors ? configSection.errors[storageDefault] : undefined;
-  $: console.log("errorMessages:", errorMessages);
-  //   $: console.log("storageFields:", storageFields);
 </script>
 
 {#if storageDefault}

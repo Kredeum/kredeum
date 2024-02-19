@@ -21,7 +21,10 @@
 >
   <div class="select" class:open>
     <div class="select-trigger">
-      <span>{defaultChoice}</span>
+      <span>
+        <span class="icon icon-{defaultChoice}" />
+        {defaultChoice}
+      </span>
     </div>
 
     <div class="custom-options">
@@ -34,9 +37,18 @@
           tabindex="-1"
           aria-selected={choice == defaultChoice ? "true" : "false"}
         >
+          <span class="icon icon-{choice}" />
           {choice}
         </span>
       {/each}
     </div>
   </div>
 </div>
+
+<style>
+  .icon {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+  }
+</style>
