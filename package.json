@@ -8,7 +8,9 @@
     "all:dapp": "pnpm clean && pnpm install && pnpm build:dapp",
     "all:plugin": "pnpm clean && pnpm install && pnpm build:plugin",
     "build": "turbo build",
+    "dev:dapp":"turbo dev -F sveltekit",
     "build:dapp": "turbo build -F sveltekit",
+    "preview:dapp": "turbo preview -F sveltekit",
     "build:plugin": "turbo build -F wordpress",
     "deploy:dapp": "pnpm install && pnpm -F contracts install:foundry && pnpm build:dapp",
     "deploy:plugin": "pnpm install && pnpm -F wordpress install:wordpress && pnpm build:plugin"

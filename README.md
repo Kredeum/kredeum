@@ -1,40 +1,43 @@
 # Kredeum NFTs
 
-## Installation
+## Instructions
 
-Before installation, you need "node" and "pnpm" installed and a ".env" file setup
-(_go to [pre-installation instructions](#pre-installation)_)
+_Before installation, you need `node`, `pnpm`, some `environment` variables and a local `WordPress` (for plugin only). For detailed instructions, check [pre-installation section](#pre-installation)._
 
-### Building Dapp :
 
-`pnpm build-dapp`
+First install npm packages:
+```
+pnpm install
+```
 
-### Building WP Plugin :
+To launch Dapp in `dev` mode:
+```
+pnpm dev:dapp
+```
 
-`pnpm build-wp-plugin`
+To build Dapp, then launch it in `production` mode:
+```
+pnpm build:dapp
+pnpm preview:dapp
+```
 
-### Running the Dapp :
-
-`pnpm dapp`
-
-### Running the Plugin :
-
-Install WordPress locally, we higly recommend [Local WP](https://localwp.com/)
-
-Then link `wordpress/kredeum-nfts` inside the plugin directory of your WordPress installation
-
-Open your WordPress BackOffice with some URL like http://localhost:8000/wp-admin/admin.php?page=nfts
+To build WP Plugin, then lauch it inside your browser:
+```
+pnpm build:plugin
+open http://localhost:8000/wp-admin/admin.php?page=nfts
+```
 
 ## Modules :
 
 Kredeum Factory is splitted in various modules listed bellow :
 
-1. svelte : Svelte UI components
-1. contracts : Solidity smartcontrats (with Hardhat & Foundry)
-1. wordpress : WordPress Kredeum NFTs Factory Plugin
-1. gulp : Static UI
-1. thegraph : The Graph subgraph to index NFTs
-1. common : Common library, config and other common datas
+1. sveltekit : SvelteKit main app (svelte)
+1. svelte : Svelte UI components (svelte)
+1. contracts : Smartcontrats (solidity)
+1. wordpress : WordPress Kredeum NFTs Factory Plugin (PHP/js)
+1. gulp : Static UI (html, css)
+1. config : Configuration files with network settings (json)
+1. common : Common libraries (typescript)
 1. misc : Other tools, datas and archives
 
 In each of these specific directories you will access more advanced commands
@@ -45,32 +48,34 @@ In each of these specific directories you will access more advanced commands
 
 ## Pre installation
 
-- **NODE** v18 :
-  Install node v18
+- **NODE** v20 :
+  Install node v20, for example via  [node download page](https://nodejs.org/en/download/) or with **brew** (on MacOS):
+  ```
+  brew install node
+  ```
 
-  - via this [download page](https://nodejs.org/en/download/)
-  - or via **brew** on MacOS : `brew install node`
+- **PNPM** package manager :
+  Install via `pnpm installation page` : https://pnpm.io/fr/installation
+  <br />
 
-- **ENV** .env environment file :
-  You have to keep these variables secure in an environmment .env file :
+- **ENV**  environment variables :
+  You have to keep these variables in your environment
 
-  - ENVIR=DEV
-  - NODE_DEBUG=false
   - INFURA_API_KEY=""
   - COVALENT_API_KEY=""
   - NFT_STORAGE_KEY=""
 
-    optional for tests and deploy :
-  - DEPLOYER_PRIVATE_KEY=""
-  - ALCHEMY_API_KEY=""
-  - ETHERSCAN_API_KEY=""
+  You can get free API_KEYs from these different providers
 
-  You can get API_KEYs free from different providers
+  You can use `.env.example` to start with, it also includes optional environment variables for deployments.  Then you can `source` or `sh` your `.env` file (to set these variables in your environment) before running `pnpm` tasks.
+  Another option can be to use [direnv](https://direnv.net/) to automatically load these variables.
+  <br />
 
-  Use .env.example to start with [Example.file](./.env.example)
+- **WORDPRESS**
+ To iInstall WordPress locally, we higly recommend [Local WP](https://localwp.com/)
 
-  _PRIVATE_KEY_0_DEPLOY is a private keys that requires some token in order to deploy smartcontracts, be carefull to not share this key on the github repo._
+Then link `wordpress/kredeum-nfts` directory of this repo to the plugin directory of your WordPress installation:
+ ```
+ ln -s /path/to/this/repo/wordpress/kredeum-nfts /path/to/your/wordpress/wp-content/plugins/kredeum-nfts
+ ```
 
-- **PNPM** package manager : [homepage](https://github.com/pnpm/pnpm)
-
-  Install latest version : [pnpm install page](https://pnpm.io/fr/installation)
