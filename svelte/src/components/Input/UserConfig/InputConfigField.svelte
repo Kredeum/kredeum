@@ -6,10 +6,12 @@
   $: isError = error ? "field-error" : "";
 </script>
 
-<div class="kre-section-small {isError}">
-  <span>{key}</span>
+<div class={isError}>
+  <div class="kre-section-small">
+    <span>{key}</span>
 
-  <input type="text" class="kre-field-outline" placeholder="Enter value" bind:value />
+    <input type="text" class="kre-field-outline" placeholder="Enter value" bind:value /><br />
+  </div>
   <p>{error}</p>
 </div>
 

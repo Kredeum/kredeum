@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { StorageConfigType, StorageType } from "@common/common/types";
-
   import config from "@kredeum/config/dist/config.json";
 
   import InputConfigFields from "./InputConfigFields.svelte";
@@ -8,11 +6,7 @@
 
   const krdNamespace = "kredeum";
 
-  interface UserConfigType {
-    [key: string]: Map<string, any>;
-  }
-
-  let userConfig: UserConfigType = {};
+  let userConfig: {[key: string]: Map<string, any>} = {};
 
   onMount(() => {
     userConfig.storage = jsonToMap(config.storage);
@@ -63,7 +57,7 @@
           Object.entries(value).forEach(([storageParamKey, storageParamValue]) => {
             if (storageParamKey === "gateway" || storageParamKey === "apiEndpoint") {
               if (!isUrlValid(storageParamValue as string)) {
-                addFieldError(namespace, key as StorageType, storageParamKey, "Bad URL");
+                addFieldError(namespace, key, storageParamKey, "Bad URL");
               }
             } else if (key === "swarm" && storageParamKey === "apiKey") {
               if (!isBatchIdValid(storageParamValue as string)) {
@@ -75,26 +69,19 @@
       });
     }
 
-    console.log("isSectionValid ~ userConfig:", userConfig);
     return !userConfig[namespace].get("errors");
   };
 
-  const addFieldError = (namespace: string, storageType: StorageType, key: string, errMessage: string) => {
+  const addFieldError = (namespace: string, storageType: string, key: string, errMessage: string) => {
     let section = userConfig[namespace];
-    if (!section.get("errors")) {
-      section.set("errors", new Map().set(storageType, new Map().set(key, errMessage)));
-    } else if (!section.get("errors").get(storageType)) {
-      section.get("errors").set(storageType, new Map().set(key, errMessage));
-    } else {
-      section.get("errors").get(storageType).set(key, errMessage);
-    }
+    let errors = section.get("errors") || new Map();
+    let storageErrors = errors.get(storageType) || new Map();
 
-    userConfig[namespace] = section;
+    storageErrors.set(key, errMessage);
+    errors.set(storageType, storageErrors);
+    section.set("errors", errors);
 
-    // if (userConfig[namespace].errors === undefined) userConfig[namespace].errors = {};
-    // if (!userConfig[namespace].errors[storageType as StorageType])
-    //   userConfig[namespace].errors[storageType as StorageType] = {};
-    // userConfig[namespace].errors[storageType as StorageType][key] = errMessage;
+    // userConfig[namespace] = section;
   };
 
   const deleteFieldErrors = () => {
