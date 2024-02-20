@@ -1,37 +1,33 @@
 <script lang="ts">
-  import type { StorageConfigType, StorageType } from "@common/common/types";
-
   import InputConfigChoice from "./InputConfigChoice.svelte";
   import InputConfigField from "./InputConfigField.svelte";
 
-  export let configSection: StorageConfigType;
+  export let configSection: Map<string, any>;
 
-  interface StorageParamsTypeEntrie {
-    [key: string]: string;
-  }
+  let defaultChoice = configSection.get("default");
+  $: storageChoices = Array.from(configSection.keys()).filter((key) => key !== "default" && key !== "errors");
+  let fields: Array<[string, string]>;
 
-  $: storageDefault = configSection.default as StorageType;
-  $: storageChoices = Object.keys(configSection).filter((key) => key !== "default" && key !== "errors");
+  $: defaultChoice, handleChoice();
+  const handleChoice = () => {
+    configSection.set("default", defaultChoice);
+    fields = defaultChoice ? Object.entries(configSection.get(defaultChoice)) : Array.from(configSection.entries());
+  };
 
-  $: storageFieldsObject = (storageDefault ? configSection[storageDefault] : configSection) as StorageParamsTypeEntrie;
-  $: storageFieldsArray = storageFieldsObject && Object.entries(storageFieldsObject);
+  $: fields && handleFieldsInput();
+  const handleFieldsInput = () => {
+    defaultChoice ? configSection.set(defaultChoice, Object.fromEntries(fields)) : (configSection = new Map(fields));
+  };
 
-  $: errorMessages = configSection.errors ? configSection.errors[storageDefault] : undefined;
+  $: errorMessages = configSection.get("errors")?.get(defaultChoice);
 </script>
 
-{#if storageDefault}
-  <InputConfigChoice bind:defaultChoice={configSection.default} choices={storageChoices} />
+{#if defaultChoice}
+  <InputConfigChoice bind:defaultChoice choices={storageChoices} />
 {/if}
 
-{#if storageFieldsObject && storageFieldsArray}
-  {#each storageFieldsArray as [key, value]}
-    <InputConfigField bind:key bind:value={storageFieldsObject[key]} />
-    <p class="field-error">{errorMessages?.[key] ?? ""}</p>
+{#if fields}
+  {#each [...fields] as [key, value]}
+    <InputConfigField bind:key bind:value error={errorMessages?.get(key) ?? ""} />
   {/each}
 {/if}
-
-<style>
-  .field-error {
-    color: red;
-  }
-</style>
