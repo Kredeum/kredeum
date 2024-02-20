@@ -44,11 +44,3 @@
     </div>
   </div>
 </div>
-
-<style>
-  .icon {
-    display: inline-block;
-    width: 20px;
-    height: 20px;
-  }
-</style>
