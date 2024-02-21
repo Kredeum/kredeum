@@ -42,6 +42,10 @@
     pointer-events: auto;
   }
 
+  .modal-window > div {
+    max-width: 940px;
+  }
+
   .modal-content {
     min-height: 360px;
   }

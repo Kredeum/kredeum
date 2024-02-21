@@ -23,4 +23,6 @@
   <InputConfigFields bind:configSection={userConfig[namespace]} />
 {/each}
 
-<button type="submit" class="btn btn-default btn-sell" on:click|preventDefault={saveUserConfig}>Save</button>
+<div class="txtright">
+  <button type="submit" class="btn btn-default btn-sell" on:click|preventDefault={saveUserConfig}>Save</button>
+</div>
