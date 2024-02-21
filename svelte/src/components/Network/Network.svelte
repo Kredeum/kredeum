@@ -1,5 +1,6 @@
 <script lang="ts">
   import { networks } from "@common/common/networks";
+  import { strUpFirst } from "@common/common/config";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />
@@ -9,9 +10,6 @@
   export let txt = false;
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
-  // Capitalize first letter
-  const strUpFirst = (str: string | undefined): string =>
-    str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
   $: chainName = networks.getChainName(chainId);
   $: chainMainnet = networks.getMainnetName(chainId);

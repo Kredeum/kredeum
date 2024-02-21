@@ -5,6 +5,7 @@
   import { quintOut } from "svelte/easing";
 
   import { ConfigInit, configCheck, configSave } from "@svelte/helpers/configHelper";
+  import { strUpFirst } from "@common/common/config";
   import InputConfigFields from "./InputConfigFields.svelte";
 
   export let open = false;
@@ -26,7 +27,7 @@
 
 {#each Object.keys(userConfig) as namespace}
   <div class="titre">
-    <i class="fas fa-plus fa-left c-green" />{namespace}
+    <i class="fas fa-plus fa-left c-green" />{strUpFirst(namespace)}
   </div>
   <InputConfigFields bind:configSection={userConfig[namespace]} />
 {/each}
