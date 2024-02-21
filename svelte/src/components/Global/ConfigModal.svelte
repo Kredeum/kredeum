@@ -21,10 +21,6 @@
       >
 
       <div class="modal-body">
-        <div class="titre">
-          <i class="fas fa-plus fa-left c-green" />Your Config
-        </div>
-
         <InputConfigSections />
       </div>
     </div>

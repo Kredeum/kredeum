@@ -17,7 +17,9 @@
 </script>
 
 {#each Object.keys(userConfig) as namespace}
-  <div class="titre">{namespace}</div>
+  <div class="titre">
+    <i class="fas fa-plus fa-left c-green" />{namespace}
+  </div>
   <InputConfigFields bind:configSection={userConfig[namespace]} />
 {/each}
 
