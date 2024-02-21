@@ -5,12 +5,13 @@
   export let configSection: Map<string, any>;
 
   let defaultChoice = configSection.get("default");
+  $: console.log("defaultChoice:", defaultChoice);
   $: storageChoices = Array.from(configSection.keys()).filter((key) => key !== "default" && key !== "errors");
   let fields: Array<[string, string]>;
 
   $: defaultChoice, handleChoice();
   const handleChoice = () => {
-    configSection.set("default", defaultChoice);
+    defaultChoice && configSection.set("default", defaultChoice);
     fields = defaultChoice ? Object.entries(configSection.get(defaultChoice)) : Array.from(configSection.entries());
   };
 

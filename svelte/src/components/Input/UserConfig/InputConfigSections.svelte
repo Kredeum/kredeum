@@ -6,7 +6,7 @@
 
   const krdNamespace = "kredeum";
 
-  let userConfig: {[key: string]: Map<string, any>} = {};
+  let userConfig: { [key: string]: Map<string, any> } = {};
 
   onMount(() => {
     userConfig.storage = jsonToMap(config.storage);
@@ -25,10 +25,13 @@
       Object.entries(localStorage)
         .filter(([namespaceKey, _]) => namespaceKey.startsWith(`${krdNamespace}.`))
         .forEach(([namespaceKey, localConfigSection]) => {
+          console.log(".forEach ~ localConfigSection:", localConfigSection);
           const namespace = localConfigGetKey(namespaceKey);
-          let localSectionObject = jsonToMap(JSON.parse(localConfigSection));
+          let localSectionMap = jsonToMap(JSON.parse(localConfigSection));
+          console.log(".forEach ~ JSON.parse(localConfigSection:", JSON.parse(localConfigSection));
+          console.log(".forEach ~ localSectionMap:", localSectionMap);
 
-          userConfig[namespace] = localSectionObject;
+          userConfig[namespace] = localSectionMap;
         });
     }
   };
@@ -36,10 +39,12 @@
   ///////////////////////////////////////
   const saveUserConfig = () => {
     if (typeof localStorage !== "undefined") {
-      Object.entries(userConfig).forEach(([namespace, configSection]) => {
-        if (!isSectionValid(namespace, configSection)) return;
+      deleteFieldErrors();
 
-        localConfigSet(namespace, mapStringify(configSection));
+      Object.entries(userConfig).forEach(([namespace, configSection]) => {
+        if (isSectionValid(namespace, configSection)) {
+          localConfigSet(namespace, mapStringify(configSection));
+        }
       });
     }
   };
@@ -49,8 +54,6 @@
 
   ///////////////////////////////////////
   const isSectionValid = (namespace: string, configSection: Map<string, any>) => {
-    deleteFieldErrors();
-
     if (namespace === "storage") {
       configSection.forEach((value, key) => {
         if (key !== "errors" && typeof value === "object") {
@@ -81,7 +84,7 @@
     errors.set(storageType, storageErrors);
     section.set("errors", errors);
 
-    // userConfig[namespace] = section;
+    userConfig[namespace] = section;
   };
 
   const deleteFieldErrors = () => {
