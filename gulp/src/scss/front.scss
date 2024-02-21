@@ -1,12 +1,11 @@
 @import "_variables";
 @import "_global";
+@import "_networks";
 
-$names: "mainnet", "arbitrum", "optimism", "base", "linea", "mantle", "polygon-zkevm", "manta-pacific", "polygon", "gnosis", "avalanche", "fantom", "bsc", "scroll", "zora", "celo", "telos", "skale", "local";
-
-@each $name in $names {
-  [data-value="#{$name}"],
-  .icon-#{$name} {
-    background: url("../images/icon-#{$name}.png") no-repeat left center/30px;
+@each $network in $networks {
+  [data-value="#{$network}"],
+  .icon-#{$network} {
+    background: url("../images/icon-#{$network}.png") no-repeat left center/30px;
   }
 }
 
