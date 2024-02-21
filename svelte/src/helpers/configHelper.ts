@@ -1,7 +1,7 @@
 import config from "@kredeum/config/dist/config.json";
 
 type UserConfig = {
-  [key: string]: ConfigSection
+  [key: string]: ConfigSection;
 }
 
 type ConfigSection = Map<
@@ -9,7 +9,9 @@ type ConfigSection = Map<
   string | object
 > | Map<"errors", SectionErrors>;
 
-type SectionErrors = Map<string, Map<string, Map<string, string>>>
+type SectionErrors = Map<string, Map<string, Map<string, string>>>;
+
+type FieldsParams = { [key: string]: string | undefined; }
 
 const krdNamespace = "kredeum";
 
@@ -24,7 +26,8 @@ const jsonToMapSection = (json: object): ConfigSection => new Map(Object.entries
 /////////////////////////////////////////
 const ConfigInit = (userConfig: UserConfig) => {
   userConfig.storage = jsonToMapSection(config.storage);
-  return localConfigImport(userConfig);
+  userConfig = localConfigImport(userConfig);
+  return configCheck(userConfig);
 }
 
 const localConfigImport = (userConfig: UserConfig) => {
@@ -47,7 +50,6 @@ const configCheck = (userConfig: UserConfig) => {
 
   Object.entries(userConfig).forEach(([namespace, configSection]) => {
     checkSection(namespace, configSection)
-
   });
 
   return userConfig
@@ -71,11 +73,15 @@ const checkSection = (namespace: string, configSection: ConfigSection) => {
     configSection.forEach((value, key) => {
       if (key !== "errors" && typeof value === "object") {
         Object.entries(value).forEach(([storageParamKey, storageParamValue]) => {
+          (value as FieldsParams)[storageParamKey] = storageParamValue.trim();
+
           if (storageParamKey === "gateway" || storageParamKey === "apiEndpoint") {
             if (!isUrlValid(storageParamValue as string)) {
               addFieldError(configSection, key, storageParamKey, "Bad URL");
             }
           } else if (key === "swarm" && storageParamKey === "apiKey") {
+            (value as FieldsParams)[storageParamKey] = `0x${storageParamValue!.replace(/^0x/, '')}`;
+
             if (!isBatchIdValid(storageParamValue as string)) {
               addFieldError(configSection, key, storageParamKey, "Invalid BatchId");
             }
