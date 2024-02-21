@@ -5,7 +5,6 @@
   export let configSection: Map<string, any>;
 
   let defaultChoice = configSection.get("default");
-  $: console.log("defaultChoice:", defaultChoice);
   $: storageChoices = Array.from(configSection.keys()).filter((key) => key !== "default" && key !== "errors");
   let fields: Array<[string, string]>;
 
@@ -29,6 +28,6 @@
 
 {#if fields}
   {#each [...fields] as [key, value]}
-    <InputConfigField bind:key bind:value error={errorMessages?.get(key) ?? ""} />
+    <InputConfigField bind:key bind:value error={errorMessages?.get(key)} />
   {/each}
 {/if}

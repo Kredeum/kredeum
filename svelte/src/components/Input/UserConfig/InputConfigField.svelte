@@ -12,7 +12,7 @@
 
     <input type="text" class="kre-field-outline" placeholder="Enter value" bind:value /><br />
   </div>
-  <p>{error}</p>
+  <p>{error || ""}</p>
 </div>
 
 <style>
