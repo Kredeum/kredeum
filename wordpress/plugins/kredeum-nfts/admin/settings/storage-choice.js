@@ -25,7 +25,7 @@ window.onload = (e) => {
     const type = document.querySelector("#_kre_storage_choice")?.value?.trim() || "";
     if (!type) return;
 
-    const storage = localStorageGet("storage") || "{}";
+    const storage = localStorageGet("kredeum.storage") || "{}";
     const storageConfig = JSON.parse(storage) || {};
     storageConfig.default = type;
 
@@ -36,6 +36,6 @@ window.onload = (e) => {
       storageConfig[type] = { ...storageFieldsParams };
     } else delete storageConfig[type];
 
-    localStorageSet("storage", JSON.stringify(storageConfig));
+    localStorageSet("kredeum.storage", JSON.stringify(storageConfig));
   });
 };

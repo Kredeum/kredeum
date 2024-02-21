@@ -1,4 +1,5 @@
 import config from "@kredeum/config/dist/config.json";
+import { localNamespace, localConfigNamespace, localStorageSet } from "@common/common/local";
 
 type UserConfig = {
   [key: string]: ConfigSection;
@@ -13,12 +14,7 @@ type SectionErrors = Map<string, Map<string, Map<string, string>>>;
 
 type FieldsParams = { [key: string]: string | undefined; }
 
-const krdNamespace = "kredeum";
-
-const localConfigGetKey = (key: string) => key.replace(`${krdNamespace}.`, "");
-
-const localConfigSet = (namespaceKey: string, value: string): void =>
-  localStorage?.setItem(`${krdNamespace}.${namespaceKey}`, value);
+const localConfigGetKey = (key: string) => key.replace(`${localNamespace}.`, "");
 
 const mapSectionStringify = (map: ConfigSection): string => JSON.stringify(Object.fromEntries(map));
 const jsonToMapSection = (json: object): ConfigSection => new Map(Object.entries(json));
@@ -33,7 +29,7 @@ const ConfigInit = (userConfig: UserConfig) => {
 const localConfigImport = (userConfig: UserConfig) => {
   if (typeof localStorage !== "undefined") {
     Object.entries(localStorage)
-      .filter(([namespaceKey,]) => namespaceKey.startsWith(`${krdNamespace}.`))
+      .filter(([namespaceKey,]) => namespaceKey.startsWith(`${localNamespace}.`))
       .forEach(([namespaceKey, localConfigSection]) => {
         const namespace = localConfigGetKey(namespaceKey);
         const localSectionMap = jsonToMapSection(JSON.parse(localConfigSection));
@@ -60,7 +56,7 @@ const configSave = (userConfig: UserConfig) => {
   if (typeof localStorage !== "undefined") {
 
     Object.entries(userConfig).forEach(([namespace, configSection]) => {
-      (!configSection.get('errors')) ? localConfigSet(namespace, mapSectionStringify(configSection)) : saveSucces = false;
+      (!configSection.get('errors')) ? localStorageSet(localConfigNamespace(namespace), mapSectionStringify(configSection)) : saveSucces = false;
     });
   }
 
