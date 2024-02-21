@@ -21,7 +21,7 @@
       >
 
       <div class="modal-body">
-        <InputConfigSections />
+        <InputConfigSections bind:open />
       </div>
     </div>
   </div>

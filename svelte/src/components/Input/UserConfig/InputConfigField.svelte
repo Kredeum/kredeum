@@ -1,6 +1,6 @@
 <script lang="ts">
   import { fade, fly } from "svelte/transition";
-  import { quintOut, bounceOut } from "svelte/easing";
+  import { bounceOut } from "svelte/easing";
 
   export let key = "";
   export let value = "";

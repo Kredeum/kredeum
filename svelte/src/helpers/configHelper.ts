@@ -22,7 +22,7 @@ const mapSectionStringify = (map: ConfigSection): string => JSON.stringify(Objec
 const jsonToMapSection = (json: object): ConfigSection => new Map(Object.entries(json));
 
 /////////////////////////////////////////
-const storageConfigInit = (userConfig: UserConfig) => {
+const ConfigInit = (userConfig: UserConfig) => {
   userConfig.storage = jsonToMapSection(config.storage);
   return localConfigImport(userConfig);
 }
@@ -42,22 +42,31 @@ const localConfigImport = (userConfig: UserConfig) => {
 };
 
 /////////////////////////////////////////
-const checkAndSave = (userConfig: UserConfig) => {
-  if (typeof localStorage !== "undefined") {
-    deleteFieldErrors(userConfig);
+const configCheck = (userConfig: UserConfig) => {
+  deleteFieldErrors(userConfig);
 
-    Object.entries(userConfig).forEach(([namespace, configSection]) => {
-      if (isSectionValid(namespace, configSection)) {
-        localConfigSet(namespace, mapSectionStringify(configSection));
-      }
-    });
-  }
+  Object.entries(userConfig).forEach(([namespace, configSection]) => {
+    checkSection(namespace, configSection)
+
+  });
 
   return userConfig
 };
 
+const configSave = (userConfig: UserConfig) => {
+  let saveSucces = true;
+  if (typeof localStorage !== "undefined") {
+
+    Object.entries(userConfig).forEach(([namespace, configSection]) => {
+      (!configSection.get('errors')) ? localConfigSet(namespace, mapSectionStringify(configSection)) : saveSucces = false;
+    });
+  }
+
+  return saveSucces
+};
+
 /////////////////////////////////////////
-const isSectionValid = (namespace: string, configSection: ConfigSection) => {
+const checkSection = (namespace: string, configSection: ConfigSection) => {
   if (namespace === "storage") {
     configSection.forEach((value, key) => {
       if (key !== "errors" && typeof value === "object") {
@@ -104,4 +113,4 @@ const addFieldError = (section: ConfigSection, storageType: string, key: string,
 const deleteFieldErrors = (userConfig: UserConfig) => Object.values(userConfig).forEach((configSection) => configSection.delete("errors"));
 
 export type { UserConfig };
-export { storageConfigInit, checkAndSave };
+export { ConfigInit, configCheck, configSave };
