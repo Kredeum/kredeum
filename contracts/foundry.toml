@@ -54,6 +54,7 @@ mantle-testnet = "https://rpc.testnet.mantle.xyz"
 mode-sepolia = "https://sepolia.mode.network"
 manta-pacific-testnet = "https://pacific-rpc.testnet.manta.network/http"
 chaos-testnet = "https://staging-v3.skalenodes.com/v1/staging-fast-active-bellatrix"
+taiko-katla = "https://rpc.katla.taiko.xyz"
 anvil = "http://127.0.0.1:8545"
 
 [etherscan]

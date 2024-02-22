@@ -301,5 +301,19 @@
     "create": true,
     "active": false,
     "linkedLayer1": 0
+  },
+  {
+    "chainId": 167000,
+    "chainName": "taiko",
+    "rpcUrls": ["https://rpc.taiko.xyz"],
+    "nativeCurrency": {
+      "name": "Taiko Ether",
+      "symbol": "tETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://explorer.taiko.xyz/"],
+    "linkedLayer1": 1,
+    "active": false,
+    "create": true
   }
 ]

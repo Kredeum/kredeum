@@ -16,6 +16,7 @@
     "create": true,
     "linkedMainnet": 1
   },
+
   {
     "chainId": 534351,
     "chainName": "scroll-sepolia",
@@ -112,6 +113,7 @@
     "linkedLayer1": 5,
     "create": true
   },
+
   {
     "chainId": 1442,
     "chainName": "polygon-zkevm-testnet",
@@ -127,7 +129,34 @@
     "linkedLayer1": 5,
     "create": true
   },
-
+  {
+    "chainId": 17000,
+    "chainName": "holesky",
+    "rpcUrls": ["https://ethereum-holesky.publicnode.com"],
+    "nativeCurrency": {
+      "name": "Holesky Ether",
+      "symbol": "hoETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://holesky.etherscan.io"],
+    "create": true,
+    "linkedMainnet": 1
+  },
+  {
+    "chainId": 167008,
+    "chainName": "taiko-katla",
+    "chainLabel": "Taiko Katla",
+    "rpcUrls": ["https://rpc.katla.taiko.xyz"],
+    "nativeCurrency": {
+      "name": "Taiko Ether",
+      "symbol": "tETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://explorer.katla.taiko.xyz/"],
+    "linkedMainnet": 167000,
+    "linkedLayer1": 17000,
+    "create": true
+  },
   {
     "chainId": 80001,
     "chainName": "mumbai",
