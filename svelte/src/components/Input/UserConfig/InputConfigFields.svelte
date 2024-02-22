@@ -3,6 +3,7 @@
   import InputConfigField from "./InputConfigField.svelte";
 
   export let configSection: Map<string, any>;
+  export let sectionTexts: { [key: string]: string | undefined } = {};
 
   let defaultChoice = configSection.get("default");
   $: storageChoices = Array.from(configSection.keys()).filter((key) => key !== "default" && key !== "errors");
@@ -24,6 +25,7 @@
 
 {#if defaultChoice}
   <InputConfigChoice bind:defaultChoice choices={storageChoices} />
+  <p>{sectionTexts[defaultChoice] || ""}</p>
 {/if}
 
 {#if fields}

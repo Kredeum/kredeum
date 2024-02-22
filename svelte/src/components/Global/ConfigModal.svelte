@@ -52,5 +52,6 @@
 
   .modal-body {
     text-align: left;
+    overflow-y: auto;
   }
 </style>

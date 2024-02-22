@@ -2,10 +2,12 @@ import { storageConfigGet } from "@common/storage/storage";
 import { localNamespace, localConfigNamespace, localStorageSet } from "@common/common/local";
 
 type UserConfig = {
-  [key: string]: ConfigSection;
+  [key: string]: ConfigSectionMap;
 }
 
-type ConfigSection = Map<
+type ConfigSectionObject = { [key: string]: string | object };
+
+type ConfigSectionMap = Map<
   string,
   string | object
 > | Map<"errors", SectionErrors>;
@@ -16,11 +18,26 @@ type FieldsParams = { [key: string]: string | undefined; }
 
 const localConfigGetKey = (key: string) => key.replace(`${localNamespace}.`, "");
 
-const mapSectionStringify = (map: ConfigSection): string => JSON.stringify(Object.fromEntries(map));
-const jsonToMapSection = (json: object): ConfigSection => new Map(Object.entries(json));
+const mapSectionStringify = (map: ConfigSectionMap): string => JSON.stringify(Object.fromEntries(map));
+const jsonToMapSection = (json: object): ConfigSectionMap => new Map(Object.entries(json));
+
+type ConfigTexts = {
+  [key: string]: {
+    description?: string;
+    [key: string]: string | undefined;
+  }
+}
+
+const configTexts: ConfigTexts = {
+  storage: {
+    description: "Select your Decentralized Storage",
+    ipfs: "Use IPFS Storage to Mint your NFTs",
+    swarm: "Use Swarm Storage to Mint your NFTs"
+  }
+}
 
 /////////////////////////////////////////
-const ConfigInit = (userConfig: UserConfig) => {
+const configInit = (userConfig: UserConfig) => {
   userConfig.storage = jsonToMapSection(storageConfigGet());
   userConfig = localConfigImport(userConfig);
   return configCheck(userConfig);
@@ -32,22 +49,26 @@ const localConfigImport = (userConfig: UserConfig) => {
       .filter(([namespaceKey,]) => namespaceKey.startsWith(`${localNamespace}.`))
       .forEach(([namespaceKey, localConfigSection]) => {
         const namespace = localConfigGetKey(namespaceKey);
+        let localConfigSectionObect = JSON.parse(localConfigSection);
 
-        const section = Object.fromEntries(userConfig[namespace]);
-        const mergedSection = deepMerge(section, JSON.parse(localConfigSection))
-        const localSectionMap = jsonToMapSection(mergedSection);
+        if (userConfig[namespace]) {
+          const section = Object.fromEntries(userConfig[namespace]);
+          localConfigSectionObect = deepMerge(section, localConfigSectionObect)
 
-        userConfig[namespace] = localSectionMap;
+        }
+        const sectionMap = jsonToMapSection(localConfigSectionObect);
+
+        userConfig[namespace] = sectionMap;
       });
   }
   return userConfig
 };
 
-const deepMerge = (target, source) => {
-  for (let key in source) {
-    if (source[key] instanceof Object && target[key] instanceof Object) {
-      target[key] = deepMerge(target[key], source[key]);
-    } else {
+const deepMerge = (target: ConfigSectionObject, source: ConfigSectionObject) => {
+  for (const key in source) {
+    if (typeof source[key] == 'object' && typeof target[key] == 'object') {
+      target[key] = deepMerge(target[key] as ConfigSectionObject, source[key] as ConfigSectionObject);
+    } else if (typeof source[key] == 'string') {
       target[key] = source[key];
     }
   }
@@ -78,7 +99,7 @@ const configSave = (userConfig: UserConfig) => {
 };
 
 /////////////////////////////////////////
-const checkSection = (namespace: string, configSection: ConfigSection) => {
+const checkSection = (namespace: string, configSection: ConfigSectionMap) => {
   if (namespace === "storage") {
     configSection.forEach((value, key) => {
       if (key !== "errors" && typeof value === "object") {
@@ -117,7 +138,7 @@ const isUrlValid = (url: string): boolean => {
 const isBatchIdValid = (batchId: string | undefined): boolean => Boolean(batchId?.replace(/^0x/, "").length === 64);
 
 ///////////////////////////////////////////////
-const addFieldError = (section: ConfigSection, storageType: string, key: string, errMessage: string) => {
+const addFieldError = (section: ConfigSectionMap, storageType: string, key: string, errMessage: string) => {
   const errors: SectionErrors = section.get("errors") as SectionErrors || new Map();
   const storageErrors = errors.get(storageType) || new Map();
 
@@ -129,4 +150,4 @@ const addFieldError = (section: ConfigSection, storageType: string, key: string,
 const deleteFieldErrors = (userConfig: UserConfig) => Object.values(userConfig).forEach((configSection) => configSection.delete("errors"));
 
 export type { UserConfig };
-export { ConfigInit, configCheck, configSave };
+export { configTexts, configInit, configCheck, configSave };

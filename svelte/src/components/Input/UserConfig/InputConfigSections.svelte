@@ -4,7 +4,7 @@
   import { fade, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
 
-  import { ConfigInit, configCheck, configSave } from "@svelte/helpers/configHelper";
+  import { configTexts, configInit, configCheck, configSave } from "@svelte/helpers/configHelper";
   import { strUpFirst } from "@common/common/config";
   import InputConfigFields from "./InputConfigFields.svelte";
 
@@ -14,7 +14,7 @@
   let saveSuccess = false;
 
   onMount(() => {
-    userConfig = ConfigInit(userConfig);
+    userConfig = configInit(userConfig);
   });
 
   const saveUserConfig = () => {
@@ -29,7 +29,8 @@
   <div class="titre">
     <i class="fas fa-plus fa-left c-green" />{strUpFirst(namespace)}
   </div>
-  <InputConfigFields bind:configSection={userConfig[namespace]} />
+  <p>{configTexts[namespace]?.description || ""}</p>
+  <InputConfigFields bind:configSection={userConfig[namespace]} sectionTexts={configTexts[namespace]} />
 {/each}
 
 <div class="kre-save-config">
