@@ -94,7 +94,7 @@ const normalizedSoloNftUrl = (chainId: number, nft: NftType): string => {
 
 // Capitalize first letter
 const strUpFirst = (str: string | undefined): string =>
-    str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
+  str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
 const textShort = (str: string, n = 16, p = n): string => {
   if (!str) return "";

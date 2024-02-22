@@ -30,6 +30,7 @@
     gap: 0px 1em;
     align-items: center;
     justify-items: right;
+    line-break: anywhere;
   }
 
   .kre-congif-field:not(.field-error) input:focus {

@@ -29,7 +29,7 @@
   <div class="titre">
     <i class="fas fa-plus fa-left c-green" />{strUpFirst(namespace)}
   </div>
-  <p>{configTexts[namespace]?.description || ""}</p>
+  <p class="kre-section-description">{configTexts[namespace]?.description || ""}</p>
   <InputConfigFields bind:configSection={userConfig[namespace]} sectionTexts={configTexts[namespace]} />
 {/each}
 
@@ -47,12 +47,17 @@
 </div>
 
 <style>
+  .kre-section-description {
+    font-weight: 500;
+  }
+
   .kre-save-config {
     display: grid;
     grid-template-columns: auto min-content;
-    grid-template-rows: 3em;
+    grid-template-rows: 4em;
     justify-items: center;
-    align-items: center;
+    align-items: start;
+    overflow: hidden;
   }
 
   .kre-success-message {
