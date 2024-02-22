@@ -1,4 +1,4 @@
-import config from "@kredeum/config/dist/config.json";
+import { storageConfigGet } from "@common/storage/storage";
 import { localNamespace, localConfigNamespace, localStorageSet } from "@common/common/local";
 
 type UserConfig = {
@@ -21,7 +21,7 @@ const jsonToMapSection = (json: object): ConfigSection => new Map(Object.entries
 
 /////////////////////////////////////////
 const ConfigInit = (userConfig: UserConfig) => {
-  userConfig.storage = jsonToMapSection(config.storage);
+  userConfig.storage = jsonToMapSection(storageConfigGet());
   userConfig = localConfigImport(userConfig);
   return configCheck(userConfig);
 }
@@ -32,13 +32,27 @@ const localConfigImport = (userConfig: UserConfig) => {
       .filter(([namespaceKey,]) => namespaceKey.startsWith(`${localNamespace}.`))
       .forEach(([namespaceKey, localConfigSection]) => {
         const namespace = localConfigGetKey(namespaceKey);
-        const localSectionMap = jsonToMapSection(JSON.parse(localConfigSection));
+
+        const section = Object.fromEntries(userConfig[namespace]);
+        const mergedSection = deepMerge(section, JSON.parse(localConfigSection))
+        const localSectionMap = jsonToMapSection(mergedSection);
 
         userConfig[namespace] = localSectionMap;
       });
   }
   return userConfig
 };
+
+const deepMerge = (target, source) => {
+  for (let key in source) {
+    if (source[key] instanceof Object && target[key] instanceof Object) {
+      target[key] = deepMerge(target[key], source[key]);
+    } else {
+      target[key] = source[key];
+    }
+  }
+  return target;
+}
 
 /////////////////////////////////////////
 const configCheck = (userConfig: UserConfig) => {
