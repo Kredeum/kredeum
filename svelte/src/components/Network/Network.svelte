@@ -1,5 +1,6 @@
 <script lang="ts">
   import { networks } from "@common/common/networks";
+  import { strUpFirst } from "@common/common/config";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />

@@ -1,3 +1,6 @@
+const localNamespace = "kredeum";
+const localConfigNamespace = (namespace: string): string => `${localNamespace}.${namespace}`;
+
 const localStorageDefined = (): boolean => typeof localStorage !== "undefined";
 
 const _localStorage = localStorageDefined() ? localStorage : null;
@@ -20,6 +23,8 @@ const localStorageInit = (): void => {
 };
 
 export {
+  localNamespace,
+  localConfigNamespace,
   localStorageDefined,
   localStorageSet,
   localStorageGet,
