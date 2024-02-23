@@ -1,6 +1,4 @@
 <script lang="ts">
-  // import type { UserConfig } from "./configTypes";
-
   import { clickOutside } from "@svelte/helpers/clickOutside";
 
   export let defaultChoice = "";

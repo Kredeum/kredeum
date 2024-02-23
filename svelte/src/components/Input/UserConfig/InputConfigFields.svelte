@@ -4,7 +4,6 @@
   import InputConfigChoice from "./InputConfigChoice.svelte";
   import InputConfigField from "./InputConfigField.svelte";
 
-  // export let configSection: Map<string, any>;
   export let configSection: ConfigSectionMap;
   export let sectionTexts: { [key: string]: string | undefined } = {};
 
@@ -30,7 +29,9 @@
 
 {#if defaultChoice}
   <InputConfigChoice bind:defaultChoice choices={storageChoices} />
-  <p>{sectionTexts[defaultChoice] || ""}</p>
+  {#if sectionTexts[defaultChoice]}
+    <p><i class="fas fa-info-circle"></i> {sectionTexts[defaultChoice]}</p>
+  {/if}
 {/if}
 
 {#if fields}

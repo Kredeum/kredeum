@@ -9,7 +9,7 @@
 
 <button class="kre-nav-button" on:click|preventDefault={toggle} on:keydown={toggle}>
   <i class="fa fa-cog" aria-hidden="true" /><br />
-  Config
+  config
 </button>
 
 {#if open}

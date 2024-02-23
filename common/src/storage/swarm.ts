@@ -65,7 +65,7 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
 
 const swarmGateway = (): string => storageParamsGet("swarm")?.gateway.replace(/\/$/, "") || "";
 const swarmApiEndpoint = (): string => storageParamsGet("swarm")?.apiEndpoint.replace(/\/$/, "") || "";
-const swarmApiKey = (): string => storageParamsGet("swarm")?.apiKey.replace(/^0x/, "") || "";
+const swarmApiKey = (): string => storageParamsGet("swarm")?.apiKey || "";
 
 const SWARM_ZERO_APIKEY = "0000000000000000000000000000000000000000000000000000000000000000";
 
