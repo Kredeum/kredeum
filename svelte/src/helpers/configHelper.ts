@@ -160,7 +160,7 @@ const isUrlValid = (url: string): boolean => {
   }
 };
 
-const isBatchIdValid = (batchId: string | undefined): boolean => Boolean(batchId?.replace(/^0x/, "").length === 64);
+const isBatchIdValid = (batchId: string | undefined): boolean => Boolean(batchId?.replace(/^0x/, "").length === 64 && /^[0-9a-fA-F]+$/.test(batchId?.replace(/^0x/, "")));
 
 ///////////////////////////////////////////////
 // Utils functions
