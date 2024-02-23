@@ -1,11 +1,13 @@
-import { storageConfigGet } from "@common/storage/storage";
+import { StorageConfigType } from "@common/common/types";
+
+import { storageConfigGet, storageConfigSet } from "@common/storage/storage";
 import { localNamespace, localConfigNamespace, localStorageSet } from "@common/common/local";
 
-type UserConfig = { [key: string]: ConfigSectionMap; };
+type UserConfig = { [key: string]: ConfigSectionMap };
 type ConfigSectionMap = Map<string, ConfigValue>;
 type ConfigValue = string | object | SectionErrors;
 type SectionErrors = Map<string, Map<string, string>>;
-type ConfigSectionObject = { [key: string]: string | object; };
+type ConfigSectionObject = { [key: string]: string | object };
 type FieldsParams = { [key: string]: string | undefined };
 type ConfigTexts = {
   [key: string]: {
@@ -77,9 +79,7 @@ const configSave = (userConfig: UserConfig) => {
   let saveSucces = true;
   if (typeof localStorage !== "undefined") {
     Object.entries(userConfig).forEach(([namespace, configSection]) => {
-      !configSection.get("errors")
-        ? localStorageSet(localConfigNamespace(namespace), mapSectionStringify(configSection))
-        : (saveSucces = false);
+      !configSection.get("errors") ? sectionSave(namespace, configSection) : (saveSucces = false);
     });
   }
 
@@ -104,7 +104,7 @@ const sectionFormatDisplay = (namespace: string, configSection: ConfigSectionMap
     });
   }
   return configSection;
-}
+};
 
 const sectionCheck = (namespace: string, configSection: ConfigSectionMap) => {
   if (namespace === "storage") {
@@ -130,6 +130,14 @@ const sectionCheck = (namespace: string, configSection: ConfigSectionMap) => {
   }
 
   return !configSection.get("errors");
+};
+
+const sectionSave = (namespace: string, configSection: ConfigSectionMap) => {
+  if (namespace === "storage") {
+    storageConfigSet(Object.fromEntries(configSection) as StorageConfigType);
+  } else {
+    localStorageSet(localConfigNamespace(namespace), mapSectionStringify(configSection));
+  }
 };
 
 ///////////////////////////////////////////////
@@ -160,7 +168,8 @@ const isUrlValid = (url: string): boolean => {
   }
 };
 
-const isBatchIdValid = (batchId: string | undefined): boolean => Boolean(batchId?.replace(/^0x/, "").length === 64 && /^[0-9a-fA-F]+$/.test(batchId?.replace(/^0x/, "")));
+const isBatchIdValid = (batchId: string | undefined): boolean =>
+  Boolean(batchId?.replace(/^0x/, "").length === 64 && /^[0-9a-fA-F]+$/.test(batchId?.replace(/^0x/, "")));
 
 ///////////////////////////////////////////////
 // Utils functions
