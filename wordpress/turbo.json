@@ -1,9 +1,21 @@
 {
   "extends": ["//"],
   "pipeline": {
+    "plusinstall": {
+      "outputs": ["vendor/**"],
+      "outputMode": "new-only"
+    },
+    "format": {
+      "dependsOn": ["plusinstall"],
+      "inputs": ["plugins/kredeum-nfts/**/*"]
+    },
+    "check": {
+      "dependsOn": ["format"],
+      "inputs": ["plugins/kredeum-nfts/**/*"]
+    },
     "build": {
-      "dependsOn": ["@kredeum/svelte#build"],
-      "inputs": ["readme.handlebars.txt", "kredeum-nfts.handlebars.php"],
+      "dependsOn": ["check", "@kredeum/svelte#build"],
+      "inputs": ["plugins/kredeum-nfts/**/*", "readme.handlebars.txt", "kredeum-nfts.handlebars.php", "!plugins/kredeum-nfts/readme.txt", "!plugins/kredeum-nfts/kredeum-nfts.php"],
       "outputs": ["plugins/kredeum-nfts/readme.txt", "plugins/kredeum-nfts/kredeum-nfts.php"]
     }
   }

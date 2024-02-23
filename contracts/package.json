@@ -1,3 +1,4 @@
+
 {
   "name": "@kredeum/contracts",
   "version": "1.4.0",
@@ -10,7 +11,7 @@
     "ethers": "^5.7.2",
     "solc": "0.8.19",
     "solhint": "^4.1.1",
-    "solidity-coverage": "^0.8.7",
+    "solidity-coverage": "^0.8.8",
     "typechain": "^8.3.2",
     "typescript": "^5.3.3"
   },
@@ -22,7 +23,8 @@
   "main": "index.js",
   "scripts": {
     "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo",
-    "install:foundry": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm foundry:init && pnpm foundry:update",
+    "postinstall": "pnpm install:foundry && pnpm forge:init && pnpm forge:update",
+    "install:foundry": "command -v forge >/dev/null 2>&1 || pnpm foundry:install",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "$HOME/.foundry/bin/forge build",
     "build:typechain": "typechain --target ethers-v5 --out-dir types out/**/*.json",
@@ -38,9 +40,9 @@
     "validate:only": "pnpm deploy:all --sender $SENDER",
     "format": "pnpm format:solidity",
     "format:solidity": "$HOME/.foundry/bin/forge fmt",
-    "foundry:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -f **/Counter*.sol",
-    "foundry:update": "git submodule update --recursive",
-    "foundry:types": "typechain --out-dir types --target ethers-v5  out/**/*.json",
+    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm forge:init",
+    "forge:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -f **/Counter*.sol",
+    "forge:update": "git submodule update --recursive",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"
   }

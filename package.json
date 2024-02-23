@@ -5,15 +5,12 @@
   "scripts": {
     "clean": "pnpm -r clean && rm -rf node_modules pnpm-lock.yaml .turbo web/dapp",
     "all": "pnpm clean && pnpm install && pnpm build",
-    "all:dapp": "pnpm clean && pnpm install && pnpm build:dapp",
-    "all:plugin": "pnpm clean && pnpm install && pnpm build:plugin",
     "build": "turbo build",
-    "dev:dapp":"turbo dev -F sveltekit",
+    "dev:dapp": "turbo dev -F sveltekit",
     "build:dapp": "turbo build -F sveltekit",
-    "preview:dapp": "turbo preview -F sveltekit",
     "build:plugin": "turbo build -F wordpress",
-    "deploy:dapp": "pnpm install && pnpm -F contracts install:foundry && pnpm build:dapp",
-    "deploy:plugin": "pnpm install && pnpm -F wordpress install:wordpress && pnpm build:plugin"
+    "deploy:dapp": "pnpm install && pnpm build:dapp",
+    "deploy:plugin": "pnpm install && pnpm build:plugin"
   },
   "keywords": [
     "Kredeum",
@@ -22,13 +19,14 @@
   ],
   "author": "kredeum2",
   "license": "MIT",
+  "packageManager": "pnpm@8.15.3",
   "engines": {
     "node": "^20",
     "pnpm": "^8"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^6.21.0",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.2",
+    "@typescript-eslint/parser": "^7.0.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "prettier": "^3.2.5",

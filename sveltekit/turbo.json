@@ -3,15 +3,15 @@
   "pipeline": {
     "check": {
       "dependsOn": ["format", "@kredeum/svelte#check"],
-      "inputs": ["src/*"]
+      "inputs": ["src/**"]
     },
     "dev": {
       "dependsOn": ["@kredeum/config#build", "@kredeum/gulp#build"],
-      "inputs": ["src/*", "../contracts/addresses.json"]
+      "inputs": ["src/**", "../contracts/addresses.json"]
     },
     "build": {
       "dependsOn": ["check", "@kredeum/gulp#build"],
-      "inputs": ["src/*"],
+      "inputs": ["src/**"],
       "outputs": ["web/dapp/index.html", "web/dapp/_app/**.*"]
     }
   }

@@ -2,7 +2,7 @@
   "extends": ["//"],
   "pipeline": {
     "build": {
-      "inputs": ["src/*", "gulpfile.js", "package.json"],
+      "inputs": ["src/**", "gulpfile.js", "package.json"],
       "outputs": ["web/dapp/favicon.ico", "web/dapp/**/*"]
     }
   }

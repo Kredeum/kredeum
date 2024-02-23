@@ -13,7 +13,7 @@
   "devDependencies": {
     "-": "^0.0.1",
     "autoprefixer": "^10.4.17",
-    "cssnano": "^6.0.3",
+    "cssnano": "^6.0.4",
     "del": "^6.1.1",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
@@ -27,6 +27,6 @@
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
     "postcss": "^8.4.35",
-    "sass": "^1.71.0"
+    "sass": "^1.71.1"
   }
 }

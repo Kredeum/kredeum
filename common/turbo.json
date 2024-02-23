@@ -3,7 +3,7 @@
   "pipeline": {
     "check": {
       "dependsOn": ["format", "@kredeum/config#build", "@kredeum/contracts#build"],
-      "inputs": ["src/*", "../contracts/addresses.json"]
+      "inputs": ["src/**", "../contracts/addresses.json"]
     }
   }
 }

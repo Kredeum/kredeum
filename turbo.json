@@ -2,23 +2,28 @@
   "$schema": "https://turbo.build/schema.json",
   "pipeline": {
     "format": {
-      "outputMode": "new-only"
+      "outputMode": "new-only",
+      "inputs": ["src/**"]
     },
     "check": {
       "dependsOn": ["format"],
-      "outputMode": "new-only"
+      "outputMode": "new-only",
+      "inputs": ["src/**"]
     },
     "build": {
       "dependsOn": ["check"],
-      "outputMode": "new-only"
+      "outputMode": "new-only",
+      "inputs": ["src/**"]
     },
     "tests": {
       "dependsOn": ["build"],
-      "cache": false
+      "cache": false,
+      "inputs": ["src/**"]
     },
     "dev": {
       "cache": false,
-      "persistent": true
+      "persistent": true,
+      "inputs": ["src/**"]
     }
   }
 }

@@ -25,7 +25,7 @@
     "@ipld/dag-pb": "^4.1.0",
     "@types/findup-sync": "^4.0.4",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.19",
+    "@types/node": "^20.11.20",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
