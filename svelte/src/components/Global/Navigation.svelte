@@ -3,6 +3,7 @@
   import { versionGet } from "@svelte/helpers/version";
   import Logo from "./LogoKredeum.svelte";
   import { networks } from "@common/common/networks";
+  import ConfigModal from "./ConfigModal.svelte";
 
   export let chainId: number;
 
@@ -51,6 +52,9 @@
               networks
             </a>
           </p>
+        </li>
+        <li class="active">
+          <ConfigModal />
         </li>
       {/if}
     </ul>

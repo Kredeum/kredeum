@@ -15,17 +15,15 @@ window.onload = (e) => {
     displayOption(event.target.value);
   });
 
-  // Storage options on localstorage
   let settingsForm = document.querySelector(".nfts_page_storage_settings form");
-  // console.log("settingsForm:", settingsForm)
 
   settingsForm.addEventListener("submit", (event) => {
-    if (!localStorageDefined()) return;
+    if (typeof localStorage === "undefined") return;
 
     const type = document.querySelector("#_kre_storage_choice")?.value?.trim() || "";
     if (!type) return;
 
-    const storage = localStorageGet("storage") || "{}";
+    const storage = localStorage.getItem("kredeum.storage") || "{}";
     const storageConfig = JSON.parse(storage) || {};
     storageConfig.default = type;
 
@@ -36,6 +34,6 @@ window.onload = (e) => {
       storageConfig[type] = { ...storageFieldsParams };
     } else delete storageConfig[type];
 
-    localStorageSet("storage", JSON.stringify(storageConfig));
+    localStorage.setItem("kredeum.storage", JSON.stringify(storageConfig));
   });
 };
