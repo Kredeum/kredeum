@@ -2,10 +2,7 @@ import { ethers, deployments, network } from "hardhat";
 import { SignerWithAddress } from "hardhat-deploy-ethers/signers";
 
 import { OpenMulti } from "@kredeum/contracts/types/dev/OpenMulti";
-import { BigNumber } from "ethers";
-
-const ten = BigNumber.from(10);
-const gwei = ten.pow(9);
+import { parseGwei } from "viem";
 
 const main = async (): Promise<string> => {
   const admin: SignerWithAddress = await ethers.getNamedSigner("admin");
@@ -21,17 +18,17 @@ const main = async (): Promise<string> => {
   console.log(
     await openMulti.functions.tokenURI(1, {
       type: 2,
-      maxPriorityFeePerGas: gwei.mul(10),
-      maxFeePerGas: gwei.mul(50),
-      gasLimit: ten.pow(7)
+      maxPriorityFeePerGas: parseGwei("10"),
+      maxFeePerGas: parseGwei("50"),
+      gasLimit: 10n ** 7n
     })
   );
   // console.log(await openMulti.tokenURI(87586))
 
   // const tx = await openMulti.claim(1, {
   //   type: 2,
-  //   maxPriorityFeePerGas: gwei.mul(2),
-  //   maxFeePerGas: gwei.mul(50),
+  //   maxPriorityFeePerGas: parseGwei('2'),
+  //   maxFeePerGas: parseGwei('50'),
   // });
   // console.log(tx);
   // console.log(await tx.wait());

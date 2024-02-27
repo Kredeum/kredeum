@@ -1,5 +1,5 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish, PayableOverrides } from "ethers";
+import type { PayableOverrides } from "ethers";
 import { ethers } from "ethers";
 
 import type { NftType } from "../common/types";
@@ -70,7 +70,7 @@ const nftMint = async (
   address: string,
   tokenURI: string,
   minter: string,
-  price: BigNumberish = 0
+  price: bigint = 0n
 ): Promise<TransactionResponse | undefined> => {
   // console.log("nftMint", chainId, address, tokenURI, minter);
 

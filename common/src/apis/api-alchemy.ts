@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import type { CollectionFilterType, CollectionType, NftType } from "../common/types";
 import type { FetchResponse } from "../common/fetch";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
@@ -110,7 +108,7 @@ const alchemyNftList = async (
     const alchemyAnswerNftsCollection = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsCollection;
 
     for (const collectionNft of alchemyAnswerNftsCollection.nfts) {
-      const tokenID = BigNumber.from(collectionNft.id?.tokenId).toString();
+      const tokenID = BigInt(collectionNft.id?.tokenId).toString();
       const nid = keyNft(chainId, collection.address, tokenID);
       const tokenURI = collectionNft.tokenUri?.gateway;
 
@@ -122,7 +120,7 @@ const alchemyNftList = async (
     const alchemyAnswerNftsOwner = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsOwner;
 
     for (const ownedNft of alchemyAnswerNftsOwner.ownedNfts) {
-      const tokenID = BigNumber.from(ownedNft.id?.tokenId).toString();
+      const tokenID = BigInt(ownedNft.id?.tokenId).toString();
       const nid = keyNft(chainId, collection.address, tokenID);
       const tokenURI = ownedNft.tokenUri?.gateway;
 

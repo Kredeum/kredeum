@@ -1,5 +1,5 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import { utils, BigNumber, constants, BigNumberish } from "ethers";
+import { utils } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
 import type { CollectionType, NftType, RefPageType, AddressesType } from "../common/types";
@@ -11,7 +11,7 @@ import { formatEther } from "ethers/lib/utils";
 import { networks } from "./networks";
 
 const PAGE_SIZE = 12;
-const MAX_FEE = 10000;
+const MAX_FEE = 10000n;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
@@ -303,10 +303,11 @@ const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescr
 const interfaceId = (abi: Array<string>): string => {
   const iface = new Interface(abi);
 
-  let id = constants.Zero;
+  let id = 0n;
   iface.fragments.forEach((f: Fragment): void => {
     if (f.type === "function") {
-      id = id.xor(BigNumber.from(iface.getSighash(f)));
+      const face = iface.getSighash(f);
+      id = id ^ BigInt(face);
     }
   });
   return utils.hexlify(id);
@@ -314,16 +315,16 @@ const interfaceId = (abi: Array<string>): string => {
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const displayEther = (chainId: number, price: BigNumberish): string =>
+const displayEther = (chainId: number, price: bigint): string =>
   `${formatEther(price)} ${networks.getCurrency(chainId)}`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+const feeAmount = (price = 0n, fee = 0n): bigint => (price * fee) / MAX_FEE;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const treasuryAccount = (): string => config?.treasury?.account || ADDRESS_ZERO;
-const treasuryFee = (): number => config?.treasury?.fee || 0;
-const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price, treasuryFee());
+const treasuryFee = (): bigint => BigInt(config?.treasury?.fee || 0);
+const treasuryAmount = (price = 0n): bigint => feeAmount(price, treasuryFee());
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {

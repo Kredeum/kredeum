@@ -1,7 +1,5 @@
 import type { ExternalProvider } from "@ethersproject/providers";
 
-import { BigNumber } from "ethers";
-
 type _handleChainId = (chainId: string) => void;
 type _handleAccounts = (accounts: Array<string>) => void;
 type _onFunction = (label: string, func: _handleChainId | _handleAccounts) => void;
@@ -47,8 +45,8 @@ type NetworkType = {
 
 type ReceiverType = {
   account?: string;
-  fee?: number;
-  minimum?: BigNumber;
+  fee?: bigint;
+  minimum?: bigint;
 };
 
 type CollectionType = {
@@ -69,7 +67,7 @@ type CollectionType = {
   open?: boolean;
   royalty?: ReceiverType;
   royaltyEnforcement?: boolean;
-  price?: BigNumber;
+  price?: bigint;
 };
 
 type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number };
@@ -154,7 +152,7 @@ type NftType = {
   nid?: string;
   contentType?: string;
   royalty?: ReceiverType;
-  price?: BigNumber;
+  price?: bigint;
   collection?: CollectionType;
   properties?: Properties;
 } & StorageMetadataType;

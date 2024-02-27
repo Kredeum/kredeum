@@ -1,5 +1,4 @@
 import { CID } from "multiformats/cid";
-import { BigNumber, utils } from "ethers";
 
 const _cidToHexa = (cid: string): string => {
   console.log(`_cidToHexa ${cid}`);
@@ -19,15 +18,15 @@ const _cidToHexa = (cid: string): string => {
 };
 
 const _cidToInt = (cid: string): string => {
-  const _cidInt = String(BigNumber.from(_cidToHexa(cid)));
+  const _cidInt = String(BigInt(_cidToHexa(cid)));
   console.log(`_cidToInt  ${_cidInt}\n`);
 
   return _cidInt;
 };
 
 const checkCid = (cid: string): void => {
-  const _cidHexa = _cidToHexa(cid);
-  const cidHexa = BigNumber.from(_cidToInt(cid)).toHexString();
+  const _cidHexa: string = _cidToHexa(cid);
+  const cidHexa: string = BigInt(_cidToInt(cid)).toString(16);
   cidHexa === _cidHexa || console.error(`${cidHexa} != ${_cidHexa}`);
 
   // _cidToInt(cid);

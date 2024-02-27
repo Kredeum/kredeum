@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import type { IOpenNFTsInfos, IERCNftInfos } from "@kredeum/contracts/types/OpenNFTsResolver";
 
 import type { CollectionType, ReceiverType } from "../common/types";
@@ -84,17 +82,17 @@ const resolverConvOpenNFTsCollectionInfos = (
   const template = collectionOpenNFTsInfos[1] || "";
   if (template) collection.template = template;
 
-  const price = BigNumber.from(collectionOpenNFTsInfos[4] || 0);
-  if (price.gt(0)) collection.price = price;
+  const price = BigInt(collectionOpenNFTsInfos[4].toString()) || 0n;
+  if (price > 0n) collection.price = price;
 
   const royaltyAccount = collectionOpenNFTsInfos[5][0];
   if (royaltyAccount && royaltyAccount != ADDRESS_ZERO) royalty.account = royaltyAccount;
 
-  const royaltyFee = Number(collectionOpenNFTsInfos[5][1]);
-  if (royaltyFee > 0) royalty.fee = royaltyFee;
+  const royaltyFee = BigInt(collectionOpenNFTsInfos[5][1].toString());
+  if (royaltyFee > 0n) royalty.fee = royaltyFee;
 
-  const royaltyMinimum = collectionOpenNFTsInfos[5][2];
-  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+  const royaltyMinimum = BigInt(collectionOpenNFTsInfos[5][2].toString());
+  if (royaltyMinimum > 0n) royalty.minimum = royaltyMinimum;
 
   if (Object.keys(royalty).length > 0) collection.royalty = royalty;
 

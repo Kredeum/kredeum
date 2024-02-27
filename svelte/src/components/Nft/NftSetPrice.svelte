@@ -1,6 +1,4 @@
 <script lang="ts">
-  import { BigNumber, constants } from "ethers";
-
   import { nftCollectionPrice, nftPriceValid, nftRoyaltyAndFeeMinimum } from "@common/nft/nft";
 
   import { displayEther, explorerCollectionUrl, explorerTxLog, explorerTxUrl, textShort } from "@common/common/config";
@@ -80,7 +78,7 @@
   const S3_WAIT_TX = 3;
   const S4_PRICE_SETTED = 4;
 
-  let priceInput = BigNumber.from(0);
+  let priceInput = 0n;
 
   const handleNft = async (refresh = false) => {
     if (refresh) await nftStoreRefresh(chainId, address, tokenID);
@@ -100,15 +98,15 @@
     }
   };
 
-  const tokenSetPriceConfirm = async (price: BigNumber): Promise<void> => {
-    if (price.eq(nftPrice($nft))) return _inputPriceError("Price unchanged !");
+  const tokenSetPriceConfirm = async (price: bigint): Promise<void> => {
+    if (price == nftPrice($nft)) return _inputPriceError("Price unchanged !");
 
     if (!nftPriceValid($nft, price)) return _inputPriceError("Price too low !");
 
     await tokenSetPriceTx(price);
   };
 
-  const tokenSetPriceTx = async (price: BigNumber): Promise<void> => {
+  const tokenSetPriceTx = async (price: bigint): Promise<void> => {
     const tokenSetPriceTxRespYield = setTokenPrice(chainId, $nft.address, tokenID, price);
 
     tokenSettingPrice = S2_SIGN_TX;
@@ -140,7 +138,7 @@
 
   const removeFromSale = async (): Promise<void> => {
     removingFromSale = true;
-    await tokenSetPriceTx(constants.Zero);
+    await tokenSetPriceTx(0n);
   };
 
   onMount(async () => {
@@ -151,7 +149,7 @@
 
 <div class="titre">
   <i class="fas fa-plus fa-left c-green" />SELL -
-  {#if nftPrice($nft).eq(0)}Set{:else}Modify{/if} Price
+  {#if nftPrice($nft) == 0n}Set{:else}Modify{/if} Price
 </div>
 
 {#if tokenSettingPrice == S1_CONFIRM}

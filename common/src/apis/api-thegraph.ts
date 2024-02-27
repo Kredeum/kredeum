@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import type { CollectionType, CollectionFilterType, NftType } from "../common/types";
 import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 
@@ -54,7 +52,7 @@ const thegraphNftList = async (
   for (const nft of nftsJson) {
     if (index++ >= limit) break;
 
-    const tokenID = BigNumber.from(nft.tokenID).toString();
+    const tokenID = BigInt(nft.tokenID).toString();
     const nid = keyNft(chainId, address, tokenID);
     const tokenURI = nft.tokenURI;
     const owner = getChecksumAddress(nft.account?.id);

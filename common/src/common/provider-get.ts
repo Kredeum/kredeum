@@ -14,7 +14,7 @@ let _providerSetting = false;
 // Cache providers per chainId
 const _providersPerChainId: Map<number, Provider> = new Map();
 
-const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
+const _providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined> => {
   const externalProvider = (window as WindowExternalProvider).ethereum || undefined;
   if (!externalProvider) return undefined;
 
@@ -29,14 +29,14 @@ const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined>
   return provider;
 };
 
-const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 0): Promise<Signer | undefined> => {
-  const provider = await providerGetWindow(chainId);
+const _providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 0): Promise<Signer | undefined> => {
+  const provider = await _providerGetWindow(chainId);
 
   return provider && provider.getSigner(accountOrIndex);
 };
 
 const providerGetAccount = async (): Promise<string> => {
-  const provider = await providerGetWindow();
+  const provider = await _providerGetWindow();
   let account = ADDRESS_ZERO;
 
   if (provider) {
@@ -55,7 +55,7 @@ const providerSetFallback = async (chainId: number): Promise<void> => {
   let provider: Provider | undefined = _providersPerChainId.get(chainId);
   if (!provider) {
     const providers: Array<FallbackProviderConfig> = [];
-    const providerWindow = await providerGetWindow(chainId);
+    const providerWindow = await _providerGetWindow(chainId);
     const network = networks.get(chainId);
 
     if (providerWindow) providers.push({ provider: providerWindow, priority: 1, weight: 1 });
@@ -100,14 +100,13 @@ const providerGetFallback = async (chainId: number): Promise<Provider> => {
 };
 
 const providerGetSignerOrProvider = async (chainId = 0, getSigner = false): Promise<Signer | Provider | undefined> => {
-  return await (getSigner ? providerGetSigner(chainId) : providerGetFallback(chainId));
+  return await (getSigner ? _providerGetSigner(chainId) : providerGetFallback(chainId));
 };
 
 export {
   providerSetFallback,
   providerGetFallback,
-  providerGetWindow,
-  providerGetSigner,
+  _providerGetWindow,
   providerGetAccount,
   providerGetSignerOrProvider
 };

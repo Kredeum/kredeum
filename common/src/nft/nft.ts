@@ -1,24 +1,23 @@
 import type { ReceiverType, NftType } from "../common/types";
 import { MAX_FEE, feeAmount, treasuryFee } from "../common/config";
 
-import { BigNumber } from "ethers";
 import { nftGetImageLink } from "../nft/nft-get-metadata";
 import { ADDRESS_ZERO } from "../common/config";
 
 const nftChainId = (nft: NftType): number => Number(nft?.chainId || 1);
 const nftOwner = (nft: NftType): string => String(nft?.owner || "");
 
-const nftOnSale = (nft: NftType): boolean => nftPrice(nft).gt(0);
-const nftPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.price || 0);
+const nftOnSale = (nft: NftType): boolean => nftPrice(nft) > 0n;
+const nftPrice = (nft: NftType): bigint => BigInt(nft?.price || 0n);
 const nftRoyalty = (nft: NftType): ReceiverType => nft?.royalty || {};
 const nftRoyaltyAccount = (nft: NftType): string => String(nft?.royalty?.account || ADDRESS_ZERO);
-const nftRoyaltyFee = (nft: NftType): number => Number(nft?.royalty?.fee || 0);
+const nftRoyaltyFee = (nft: NftType): bigint => BigInt(nft?.royalty?.fee || 0);
 
-const nftRoyaltyAmount = (nft: NftType): BigNumber => feeAmount(nft?.price, nft?.royalty?.fee);
-const nftRoyaltyMinimum = (nft: NftType): BigNumber => BigNumber.from(nft?.royalty?.minimum || 0);
+const nftRoyaltyAmount = (nft: NftType): bigint => feeAmount(nft?.price, nft?.royalty?.fee);
+const nftRoyaltyMinimum = (nft: NftType): bigint => BigInt(nft?.royalty?.minimum || 0n);
 
-const nftFeeAmount = (nft: NftType): BigNumber => feeAmount(nft?.price, treasuryFee());
-const nftFeeMinimum = (nft: NftType): BigNumber => {
+const nftFeeAmount = (nft: NftType): bigint => feeAmount(nft?.price, treasuryFee());
+const nftFeeMinimum = (nft: NftType): bigint => {
   // P = R + F // P = price // R = royalty // F = fee
   // F = P * f // f = fee %
   // Pmin = Rmin + Fmin // Pmin = price minimum // Rmin = royalty minimum // Fmin = fee minimum
@@ -27,19 +26,17 @@ const nftFeeMinimum = (nft: NftType): BigNumber => {
   // Pmin = Rmin / ( 1 - f )
   // Fmin = RMin * f / ( 1 - f )
   const f = treasuryFee();
-  return nftRoyaltyMinimum(nft)
-    .mul(f)
-    .div(MAX_FEE - f);
+  return (nftRoyaltyMinimum(nft) * f) / (MAX_FEE - f);
 };
 
-const nftRoyaltyAndFeeAmount = (nft: NftType): BigNumber => nftRoyaltyAmount(nft).add(nftFeeAmount(nft));
-const nftRoyaltyAndFeeMinimum = (nft: NftType): BigNumber => nftRoyaltyMinimum(nft).add(nftFeeMinimum(nft));
+const nftRoyaltyAndFeeAmount = (nft: NftType): bigint => nftRoyaltyAmount(nft) + nftFeeAmount(nft);
+const nftRoyaltyAndFeeMinimum = (nft: NftType): bigint => nftRoyaltyMinimum(nft) + nftFeeMinimum(nft);
 
-const nftPriceValid = (nft: NftType, price = BigNumber.from(0)): boolean => price.gte(nftRoyaltyAndFeeMinimum(nft));
+const nftPriceValid = (nft: NftType, price = 0n): boolean => price >= nftRoyaltyAndFeeMinimum(nft);
 
 const nftMarketable = (nft: NftType): boolean => Boolean(nft?.collection?.supports?.get("IOpenMarketable"));
 
-const nftCollectionPrice = (nft: NftType): BigNumber => BigNumber.from(nft?.collection?.price || 0);
+const nftCollectionPrice = (nft: NftType): bigint => BigInt(nft?.collection?.price || 0n);
 const nftCollectionApproved = (nft: NftType, address: string): boolean => {
   const approvedForAll = nft?.collection?.approvedForAll || null;
   return approvedForAll instanceof Map ? approvedForAll.has(address) : false;

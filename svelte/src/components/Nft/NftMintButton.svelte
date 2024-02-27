@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { BigNumber } from "ethers";
   import { onMount } from "svelte";
   import { metamaskInit } from "@svelte/helpers/metamask";
 
@@ -20,7 +19,7 @@
   export let chainId: number;
   export let address: string;
   export let signer: string;
-  export let price: BigNumber | undefined = undefined;
+  export let price: bigint | undefined = undefined;
   export let name: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let metadata: string | undefined = undefined;

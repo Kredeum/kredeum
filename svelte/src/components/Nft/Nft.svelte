@@ -1,5 +1,4 @@
 <script lang="ts">
-  import { utils } from "ethers";
   import { ADDRESS_ZERO, config } from "@common/common/config";
 
   import {
@@ -35,6 +34,7 @@
   import { widgetOpenSky } from "@svelte/helpers/widget";
   import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@common/storage/storage";
   import { networks } from "@common/common/networks";
+  import { formatEther } from "viem";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
@@ -230,16 +230,16 @@
               </li>
             {/if}
             {#if nftMarketable($nft)}
-              {#if nftPrice($nft).gt(0)}
+              {#if nftPrice($nft) > 0n}
                 <li>
                   <div class="flex"><span class="label">Nft Price</span></div>
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
-                      <span class={nftPriceValid($nft) ? "" : "c-red"} title={utils.formatEther(nftPrice($nft))}>
+                      <span class={nftPriceValid($nft) ? "" : "c-red"} title={formatEther(nftPrice($nft))}>
                         {displayEther(chainId, nftPrice($nft))}
                       </span>
                     </div>
-                    <CopyRefItem copyData={utils.formatEther(nftPrice($nft))} />
+                    <CopyRefItem copyData={formatEther(nftPrice($nft))} />
                   </div>
                 </li>
               {/if}
@@ -249,14 +249,14 @@
                   <div class="flex kre-flex-align-center">
                     <div class="overflow-ellipsis">
                       {#if nftRoyaltyFee($nft) > 0}
-                        <span class="link" title={`${nftRoyaltyFee($nft) / 100} %`}>
-                          {nftRoyaltyFee($nft) / 100} %
+                        <span class="link" title={`${nftRoyaltyFee($nft) / 100n} %`}>
+                          {nftRoyaltyFee($nft) / 100n} %
                         </span>
                       {:else}
                         <span title="no royalties">No royalties amount settled</span>
                       {/if}
                     </div>
-                    <CopyRefItem copyData={String(nftRoyaltyFee($nft) / 100)} />
+                    <CopyRefItem copyData={String(nftRoyaltyFee($nft) / 100n)} />
                   </div>
                 </li>
 

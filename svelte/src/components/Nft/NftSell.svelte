@@ -30,7 +30,7 @@
   title="Sell this NFT"
 >
   <i class="fa fa-dollar-sign fa-left" />
-  {#if nftPrice($nft).gt(0)}
+  {#if nftPrice($nft) > 0n}
     ON SALE
     {#if mode === "detail"}
       &nbsp; <strong>{displayEther(chainId, nftPrice($nft))}</strong>

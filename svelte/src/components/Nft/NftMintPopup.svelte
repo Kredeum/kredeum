@@ -2,7 +2,6 @@
   import type { NftType, Properties } from "@common/common/types";
   import type { Mediatype } from "@svelte/helpers/mediaTypes";
 
-  import { BigNumber } from "ethers";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
@@ -75,7 +74,7 @@
   let account: string;
 
   let address: string;
-  let price: BigNumber;
+  let price: bigint;
 
   let files: FileList | undefined;
   let file: File | undefined;
@@ -104,7 +103,7 @@
   let txHash: string;
   /////////////////////////////////////////////////
 
-  let inputPrice: BigNumber;
+  let inputPrice: bigint;
   let inputPriceError = "";
 
   $: inputPrice && minimalPriceHandler();
@@ -402,21 +401,21 @@
             <CollectionSelect {chainId} bind:address {account} mintable={true} label={false} />
           </div>
 
-          {#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
+          {#if collectionPrice(collection) > 0n || collectionRoyaltyFee(collection) > 0}
             <div class="section kre-mint-automarket">
               <div class="kre-flex">
                 <div>
                   <span class="kre-market-info-title label-big">Royalty Fee</span>
                   <span class="kre-market-info-value label-big"
-                    >{collectionRoyaltyFee(collection) / 100} %
-                    {#if collectionRoyaltyMinimum(collection).gt(0)}
+                    >{collectionRoyaltyFee(collection) / 100n} %
+                    {#if collectionRoyaltyMinimum(collection) > 0n}
                       or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
                     {/if}
                   </span>
                 </div>
                 <div class="kre-treasury-fee">
                   <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
-                  <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100} %</span>
+                  <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100n} %</span>
                 </div>
               </div>
             </div>

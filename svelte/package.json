@@ -45,7 +45,8 @@
     "svelte-check": "^3.6.4",
     "svelte-preprocess": "^5.1.3",
     "tslib": "^2.6.2",
-    "typescript": "^5.3.3"
+    "typescript": "^5.3.3",
+    "viem": "^2.7.10"
   },
   "dependencies": {
     "@kredeum/config": "workspace:^",

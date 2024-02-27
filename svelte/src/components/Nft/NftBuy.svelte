@@ -96,12 +96,12 @@
   const handleCLick = (evt: Event) => {
     // console.log("handleCLick ~ evt:", evt);
     evt.preventDefault();
-    open = nftPrice($nft).gt(0);
+    open = nftPrice($nft) > 0n;
   };
   onMount(buyInit);
 </script>
 
-{#if nftPrice($nft).gt(0)}
+{#if nftPrice($nft) > 0n}
   <button
     on:click={handleCLick}
     on:keyup={handleCLick}

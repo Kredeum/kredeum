@@ -1,12 +1,14 @@
 import type { EthereumProvider, WindowEthereumProvider, WindowExternalProvider } from "@common/common/types";
 
 import detectEthereumProvider from "@metamask/detect-provider";
-import { ethers } from "ethers";
 import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, isAddressNotZero } from "@common/common/config";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@svelte/stores/metamask";
 import { networks } from "@common/common/networks";
+import { ethers } from "ethers";
+
+// import { createWalletClient, custom } from "viem";
 
 let _ethereumProvider: EthereumProvider | null = null;
 
@@ -64,6 +66,10 @@ const metamaskInit = async (): Promise<void> => {
 
   // SET provider
   if (_ethereumProvider !== (window as WindowEthereumProvider).ethereum) alert(metamaskMultipleWallets);
+  // const client = createWalletClient({
+  //   transport: custom(window.ethereum)
+  // })
+  // metamaskProvider.set(client);
   metamaskProvider.set(new ethers.providers.Web3Provider((window as WindowExternalProvider).ethereum, "any"));
 
   // Handle chainId on init then later on "chainChanged"

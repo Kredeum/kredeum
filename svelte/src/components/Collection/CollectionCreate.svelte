@@ -1,6 +1,5 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { BigNumber, constants } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
   import type { CollectionType } from "@common/common/types";
@@ -44,10 +43,10 @@
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const refreshAll: Writable<number> = getContext("refreshAll");
 
-  let inputMintPrice: BigNumber;
+  let inputMintPrice: bigint;
   let inputReceiver: string;
   let inputFee: string;
-  let inputFeeNumber: number;
+  let inputFeeNumber: bigint;
 
   const dispatch = createEventDispatcher();
 
@@ -63,7 +62,7 @@
     while (tmpFee.split(".")[0]?.length > 2);
 
     inputFee = tmpFee;
-    if (isNumeric(inputFee)) inputFeeNumber = Math.min(Math.round(Number(tmpFee) * 100), MAX_FEE);
+    if (isNumeric(inputFee)) inputFeeNumber = BigInt(Math.min(Math.round(Number(tmpFee) * 100), Number(MAX_FEE)));
   };
 
   const _cloneError = (err: string): void => {
@@ -108,10 +107,10 @@
 
     collectionName = "";
     collectionSymbol = "";
-    inputMintPrice = constants.Zero;
+    inputMintPrice = 0n;
     inputReceiver = signer || ADDRESS_ZERO;
     inputFee = "0";
-    inputFeeNumber = 0;
+    inputFeeNumber = 0n;
     cloneError = "";
 
     cloning = S1_CONFIRM;

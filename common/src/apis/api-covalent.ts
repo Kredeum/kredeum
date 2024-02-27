@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import config from "@kredeum/config/dist/config.json";
 
 import type { FetchResponse } from "../common/fetch";
@@ -55,7 +53,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
     contract_name: string;
     contract_ticker_symbol: string;
     contract_address: string;
-    balance: BigNumber;
+    balance: bigint;
   };
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
@@ -136,7 +134,7 @@ const covalentNftList = async (
       for (const _token of tokens) {
         if (index++ >= limit) break;
 
-        const tokenID = BigNumber.from(_token.token_id).toString();
+        const tokenID = BigInt(_token.token_id).toString();
 
         const nft = {
           chainId,

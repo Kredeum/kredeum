@@ -111,7 +111,7 @@
             </div>
           </div>
 
-          {#if nftRoyaltyMinimum($nft).gt(0)}
+          {#if nftRoyaltyMinimum($nft) > 0n}
             <div class="section">
               <div class="form-field kre-warning-msg">
                 <p>

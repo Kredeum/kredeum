@@ -1,5 +1,4 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
 
 import type { IOpenAutoMarket } from "@kredeum/contracts/types/index";
 import { collectionGetContract } from "../collection/collection-get";
@@ -10,7 +9,7 @@ async function* buyNft(
   chainId: number,
   address: string,
   tokenID: string,
-  nftPrice: BigNumberish
+  nftPrice: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 

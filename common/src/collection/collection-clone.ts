@@ -1,19 +1,18 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
-import { utils } from "ethers";
 
 import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
 import { factoryGetContract } from "../common/factory-get";
 import { resolverGetCount } from "../resolver/resolver-get";
+import { utils } from "ethers";
 
 async function* collectionClone(
   chainId: number,
   name: string,
   symbol: string,
   templateConfig: string,
-  mintPrice: BigNumberish = 0,
+  mintPrice: bigint = 0n,
   royaltyReceiver: string = ADDRESS_ZERO,
-  royaltyFee = 0,
+  royaltyFee = 0n,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
