@@ -2,10 +2,9 @@ import type { NftMetadata, NftType, Properties } from "../common/types";
 
 import { DEFAULT_NAME, textShort } from "../common/config";
 
-import { swarmUploadFile } from "../common/beejs";
-
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
 import { networks } from "../common/networks";
+import { fetchBee } from "@common/common/fetchBee";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // SWARM HELPERS
@@ -25,8 +24,6 @@ const swarmGetLink = (uri: string | undefined): string => {
   } else if (uri.startsWith(swarmGateway())) {
     // find cid in uri
     cid = uri.replace(swarmGateway(), "");
-
-    // console.log("ipfsGetLink ~ uri res cid", uri, res, cid);
   }
   if (cid) {
     // reconstruct ipfs uri
@@ -64,8 +61,6 @@ const swarmGatewayUrl = (swarm: string | undefined): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const swarmGateway = (): string => storageParamsGet("swarm")?.gateway.replace(/\/$/, "") || "";
-const swarmApiEndpoint = (): string => storageParamsGet("swarm")?.apiEndpoint.replace(/\/$/, "") || "";
-const swarmApiKey = (): string => storageParamsGet("swarm")?.apiKey || "";
 
 const SWARM_ZERO_APIKEY = "0000000000000000000000000000000000000000000000000000000000000000";
 
@@ -83,12 +78,11 @@ const swarmParamsValid = (chainId: number): boolean => {
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
-// Switch src URL or dataURI to file
-const _srcToFileType = async (src: string): Promise<File> => {
+// Switch src URL or dataURL to file
+const _urlToBlob = async (src: URL | string): Promise<Blob> => {
   const blob = await fetch(src).then((r) => r.blob());
-  const file = new File([blob], DEFAULT_NAME, { type: blob.type });
 
-  return file;
+  return blob;
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -96,16 +90,10 @@ const _srcToFileType = async (src: string): Promise<File> => {
 // Params
 // image
 // key : Swarm batchID (batch of stamps)
-const swarmPin = async (media: string | File): Promise<string> => {
-  let file: string | File = media;
+const swarmPin = async (url: URL | string): Promise<string> => {
+  const blob: Blob = await _urlToBlob(url);
 
-  if (typeof media === "string" && (media.startsWith("http") || media.startsWith("data:"))) {
-    file = await _srcToFileType(media);
-  } else if (media instanceof File) {
-    file = media;
-  }
-
-  const swarmHash = await swarmUploadFile(file);
+  const swarmHash = await fetchBee.uploadBlob(blob);
   const swarmUri = swarmHash ? `swarm://${swarmHash}` : "";
 
   return swarmUri;
@@ -136,7 +124,8 @@ const swarmTokenUri = async (
   if (animation_url) json.animation_url = swarmGatewayUrl(animation_url);
   if (pdfUri) json.pdf = swarmGatewayUrl(pdfUri);
 
-  const swarmTokenUri = `swarm://${await swarmUploadFile(JSON.stringify(json, null, 2))}`;
+  const swarmHash = await fetchBee.uploadJson(JSON.stringify(json, null, 2));
+  const swarmTokenUri = `swarm://${swarmHash}`;
 
   return swarmTokenUri;
 };
@@ -151,8 +140,6 @@ export {
   swarmLinkToCid,
   swarmGatewayUrl,
   swarmGateway,
-  swarmApiEndpoint,
-  swarmApiKey,
   swarmParamsValid,
   swarmConfigValid
 };

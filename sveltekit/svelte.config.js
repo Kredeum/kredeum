@@ -14,7 +14,6 @@ const config = {
     adapter: adapter({
       pages: "web/dapp",
       assets: "web/dapp",
-      fallback: null,
       precompress: false,
       strict: true
     }),

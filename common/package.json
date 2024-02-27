@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "patch:stream": "cd patch && sh stream.patch.sh",
-    "postinstall": "pnpm patch:stream",
     "clean": "rm -rf node_modules .turbo",
     "format": "prettier src/**/*.ts --write --list-different --log-level log",
     "check": "eslint src/**/*.ts"
@@ -14,7 +12,6 @@
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@ethersphere/bee-js": "^6.7.3",
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",
