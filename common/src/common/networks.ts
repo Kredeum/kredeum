@@ -1,12 +1,9 @@
 import type { NetworkType, NftType } from "../common/types";
 import mainnetsJson from "@kredeum/config/dist/mainnets.json";
 import testnetsJson from "@kredeum/config/dist/testnets.json";
+import { strUpFirst } from "./config";
 
 type chainIdish = number | string | undefined;
-
-// Capitalize first letter
-const strUpFirst = (str: string | undefined): string =>
-  str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
 
 // Sanitize string
 const strSanitize = (str: string | undefined): string => str?.replace(/_|-/g, " ") || "";

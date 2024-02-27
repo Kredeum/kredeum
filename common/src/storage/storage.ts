@@ -6,7 +6,7 @@ import { NftType, StorageConfigType, StorageParamsType, StorageType } from "../c
 import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./ipfs";
 import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
 import config from "@kredeum/config/dist/config.json";
-import { localStorageGet, localStorageSet } from "../common/local";
+import { localConfigNamespace, localStorageGet, localStorageSet } from "../common/local";
 
 // IN MEMORY Storage Config
 let _storageConfig: StorageConfigType;
@@ -15,7 +15,7 @@ let _storageConfig: StorageConfigType;
 const storageConfigSet = (storageConfig: StorageConfigType): void => {
   _storageConfig = storageConfig;
 
-  localStorageSet("storage", JSON.stringify(storageConfig));
+  localStorageSet(localConfigNamespace("storage"), JSON.stringify(storageConfig));
 };
 
 // GET storage config FROM localStorage or config.json
@@ -25,7 +25,7 @@ const storageConfigGet = (): StorageConfigType => {
   _storageConfig = config.storage;
 
   local: {
-    const locStorage = localStorageGet("storage");
+    const locStorage = localStorageGet(localConfigNamespace("storage"));
     if (!locStorage) break local;
 
     const parseStorage = JSON.parse(locStorage) as StorageConfigType;

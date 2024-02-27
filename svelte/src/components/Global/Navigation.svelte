@@ -3,17 +3,17 @@
   import { versionGet } from "@svelte/helpers/version";
   import Logo from "./LogoKredeum.svelte";
   import { networks } from "@common/common/networks";
+  import ConfigModal from "./ConfigModal.svelte";
 
   export let chainId: number;
 
-  $: mainnets = networks.isMainnet(chainId);
+  const onProd = versionGet().branch === "main";
+  $: onMainNet = networks.isMainnet(chainId);
 
   const toggle = () => {
-    location.href = `./#/${mainnets ? "sepolia" : "mainnet"}`;
+    location.href = `./#/${onMainNet ? "sepolia" : "mainnet"}`;
     location.reload();
   };
-
-  const { branch } = versionGet();
 </script>
 
 <div class="logo">
@@ -33,22 +33,27 @@
 
   <nav>
     <ul>
-      {#if branch !== "main"}
+      <li class="active">
+        <p>
+          <a href="." on:click|preventDefault={toggle}>
+            <i class="fas {onMainNet ? 'fa-flask' : 'fa-road'}" /><br />
+            {@html onMainNet ? "testnet" : "mainnet"}<br />
+            networks
+          </a>
+        </p>
+      </li>
+      {#if !onMainNet}
+      <li class="active">
+        <ConfigModal />
+      </li>
+      {/if}
+      {#if !onProd}
         <li class="active">
           <p>
             <a href={config.base}>
               <i class="fas fa-columns" /><br />
               stable<br />
               version
-            </a>
-          </p>
-        </li>
-        <li class="active">
-          <p>
-            <a href="." on:click|preventDefault={toggle}>
-              <i class="fas {mainnets ? 'fa-flask' : 'fa-road'}" /><br />
-              {@html mainnets ? "testnet" : "mainnet"}<br />
-              networks
             </a>
           </p>
         </li>

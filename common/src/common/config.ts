@@ -21,6 +21,10 @@ const ADDRESS_DEAD = "0x000000000000000000000000000000000000dEaD";
 const copyToClipboard = async (data: string): Promise<void> =>
   await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
 
+// Capitalize first letter
+const strUpFirst = (str: string | undefined): string =>
+  str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
+
 const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
   const tokenIDsArray = tokenIDsSanitize ? tokenIDsSanitize.split(",") : [];
@@ -63,7 +67,7 @@ const getDappUrl = (
 
 // GET Autoswarm Url
 const getAutoswarmUrl = (chainId: number, ref: NftType | { address?: string; tokenID?: string } = {}): string => {
-  let autoswarmUrl = `${config.storage.swarm.autoSwarm}/${chainId}`;
+  let autoswarmUrl = `${config.autoswarm}/${chainId}`;
   if (isAddress(ref.address)) {
     autoswarmUrl += `/${ref.address}`;
     if (isNumeric(ref.tokenID)) autoswarmUrl += `/${ref.tokenID}`;
@@ -323,6 +327,7 @@ const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
+  strUpFirst,
   feeAmount,
   treasuryFee,
   treasuryAccount,
