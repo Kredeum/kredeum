@@ -55,7 +55,6 @@
     "linkedLayer1": 1,
     "active": false
   },
-
   {
     "chainId": 10,
     "chainName": "optimism",
@@ -123,6 +122,21 @@
     "blockExplorerUrls": ["https://explorer.mantle.xyz/"],
     "linkedLayer1": 1,
     "create": true
+  },
+  {
+    "chainId": 81457,
+    "chainName": "blast",
+    "chainLabel": "Blast",
+    "rpcUrls": ["https://rpc.blast.io", "https://rpc.ankr.com/blast"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://blastscan.io"],
+    "create": true,
+    "active": false,
+    "linkedLayer1": 1
   },
   {
     "chainId": 1101,

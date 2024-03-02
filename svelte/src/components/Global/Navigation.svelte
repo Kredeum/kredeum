@@ -43,9 +43,9 @@
         </p>
       </li>
       {#if !onMainNet}
-      <li class="active">
-        <ConfigModal />
-      </li>
+        <li class="active">
+          <ConfigModal />
+        </li>
       {/if}
       {#if !onProd}
         <li class="active">
