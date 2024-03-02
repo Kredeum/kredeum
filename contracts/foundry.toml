@@ -32,8 +32,10 @@ zora = "https://rpc.zora.energy"
 mantle = "https://rpc.ankr.com/mantle"
 mode = "https://mainnet.mode.network"
 manta-pacific = "https://pacific-rpc.manta.network/http"
+blast = "https://rpc.blast.io"
 
 # TESTNETS
+anvil = "http://127.0.0.1:8545"
 sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
 mumbai = "https://polygon-mumbai.infura.io/v3/${INFURA_API_KEY}"
 optimism-sepolia = "https://optimism-sepolia.infura.io/v3/${INFURA_API_KEY}"
@@ -55,7 +57,7 @@ mode-sepolia = "https://sepolia.mode.network"
 manta-pacific-testnet = "https://pacific-rpc.testnet.manta.network/http"
 chaos-testnet = "https://staging-v3.skalenodes.com/v1/staging-fast-active-bellatrix"
 taiko-katla = "https://rpc.katla.taiko.xyz"
-anvil = "http://127.0.0.1:8545"
+blast-sepolia = "https://sepolia.blast.io"
 
 [etherscan]
 gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }

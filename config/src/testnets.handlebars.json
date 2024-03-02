@@ -62,6 +62,20 @@
     "create": true
   },
   {
+    "chainId": 168587773,
+    "chainName": "blast-sepolia",
+    "rpcUrls": ["https://sepolia.blast.io"],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": ["https://testnet.blastscan.io"],
+    "create": true,
+    "linkedMainnet": 81457,
+    "linkedLayer1": 1
+  },
+  {
     "chainId": 5,
     "chainName": "goerli",
     "rpcUrls": ["https://goerli.infura.io/v3/{{INFURA_API_KEY}}"],

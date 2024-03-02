@@ -88,6 +88,13 @@
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "taiko-katla"
   },
+  "168587773": {
+    "OpenAutoMarket": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
+    "chainName": "blast-sepolia"
+  },
   "169": {
     "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
     "OpenNFTsFactoryV3_last": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
