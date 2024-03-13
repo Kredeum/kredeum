@@ -24,6 +24,7 @@
   import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
   import { writable, type Writable } from "svelte/store";
   import { networks } from "@common/common/networks";
+  import AlertModal from "../Global/AlertModal.svelte";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -128,6 +129,7 @@
   </span>
 
   <span slot="header">
+    <AlertModal />
     <Title />
 
     {#if signer}
