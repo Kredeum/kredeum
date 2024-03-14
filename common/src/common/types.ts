@@ -151,6 +151,7 @@ type NftType = {
   origin?: string;
   creator?: string;
   minter?: string;
+  pid?: string;
   nid?: string;
   contentType?: string;
   royalty?: ReceiverType;

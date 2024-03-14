@@ -179,7 +179,7 @@
     },
     "blockExplorerUrls": ["https://explorer.zora.energy"],
     "linkedLayer1": 1,
-    "active": false,
+    "active": true,
     "create": true
   },
 
