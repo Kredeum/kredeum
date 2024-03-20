@@ -16,11 +16,12 @@ import { isAddressNotZero, tokenIdSelected, tokenIdSplit, PAGE_SIZE } from "@com
 import { nftGet } from "@common/nft/nft-get";
 import { keyCollection, keyNft } from "@common/common/keys";
 import { nftListStore } from "./nftList";
+import { Address } from "viem";
 
 // STATE VIEW : GET Collection filtered list of NFTs
 const nftSubListStore = (
   chainId: number,
-  address: string,
+  address: Address,
   filter: CollectionFilterType = {}
 ): Readable<Map<string, NftType>> => {
   // console.log(`nftSubListStore ${keyCollection(chainId, address)}\n`);
@@ -66,7 +67,7 @@ const nftSubListStore = (
 // ACTIONS : REFRESH all filtered NFTs from one collection
 const nftSubListStoreRefresh = async (
   chainId: number,
-  address: string,
+  address: Address,
   filter: CollectionFilterType = {}
 ): Promise<void> => {
   if (!(chainId && isAddressNotZero(address))) return;
@@ -104,7 +105,7 @@ const nftSubListStoreRefresh = async (
 
 const nftSubListStoreAndRefresh = (
   chainId: number,
-  address: string,
+  address: Address,
   filter?: CollectionFilterType
 ): Readable<Map<string, NftType>> => {
   // STATE VIEW : sync read cache

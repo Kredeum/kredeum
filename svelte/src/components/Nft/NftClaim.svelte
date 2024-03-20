@@ -9,13 +9,14 @@
 
   import NetworkSelect from "../Network/NetworkSelect.svelte";
   import { storageLinkToUrlHttp } from "@common/storage/storage";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <NftClaim {chainId} {address} {tokenID} />
   // Display NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   $: nft = nftStore(chainId, address, tokenID);
   ///////////////////////////////////////////////////////////

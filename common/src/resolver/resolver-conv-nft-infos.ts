@@ -1,9 +1,8 @@
-import { BigNumber } from "ethers";
-
 import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "../common/types";
 import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 import { networks } from "../common/networks";
+import { Address } from "viem";
 
 const resolverConvNftInfos = (
   chainId: number,
@@ -34,16 +33,16 @@ const resolverConvNftInfos = (
   const approved = getChecksumAddress(nftInfos[3]);
   if (approved && approved != ADDRESS_ZERO) nft.approved = approved;
 
-  const royaltyAccount = openNFTsInfos[1][0];
+  const royaltyAccount = openNFTsInfos[1][0] as Address;
   if (royaltyAccount && royaltyAccount != ADDRESS_ZERO) royalty.account = royaltyAccount;
 
-  const royaltyFee = Number(openNFTsInfos[1][1]);
+  const royaltyFee = BigInt(openNFTsInfos[1][1].toString());
   if (royaltyFee > 0) royalty.fee = royaltyFee;
 
-  const royaltyMinimum = BigNumber.from(openNFTsInfos[1][2]);
-  if (royaltyMinimum.gt(0)) royalty.minimum = royaltyMinimum;
+  const royaltyMinimum = BigInt(openNFTsInfos[1][2].toString());
+  if (royaltyMinimum > 0n) royalty.minimum = royaltyMinimum;
 
-  nft.price = BigNumber.from(openNFTsInfos[0] || "0");
+  nft.price = BigInt(openNFTsInfos[0].toString() || "0");
 
   if (Object.keys(royalty).length > 0) nft.royalty = royalty;
 

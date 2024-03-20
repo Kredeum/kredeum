@@ -1,7 +1,8 @@
+import { Address } from "viem";
 import { getChecksumAddress } from "./config";
 import type { CollectionType, NftType } from "./types";
 
-const keyCollection = (chainId: number, address: string, account?: string): string =>
+const keyCollection = (chainId: number, address: Address, account?: string): string =>
   `collection://${String(chainId)}/${address}${account ? "@" + account : ""}`;
 
 const keyCollections = (chainId: number, account?: string, mintable = false): string =>
@@ -18,10 +19,10 @@ const keyCollectionInverse = (key: string): CollectionType => {
 const keyCollectionDefault = (chainId: number, account?: string): string =>
   `collectionDefault://${String(chainId)}${account ? "@" + account : ""}`;
 
-const keyCollectionContract = (chainId: number, address: string, getSigner: boolean): string =>
+const keyCollectionContract = (chainId: number, address: Address, getSigner: boolean): string =>
   keyCollection(chainId, address) + (getSigner ? "/signer" : "/provider");
 
-const keyNft = (chainId: number, address: string, tokenID: string, account?: string): string =>
+const keyNft = (chainId: number, address: Address, tokenID: string, account?: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}${account ? "@" + account : ""}`;
 
 const keyNftInverse = (key: string): NftType => {

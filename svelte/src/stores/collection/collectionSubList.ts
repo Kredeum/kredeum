@@ -8,12 +8,13 @@ import { collectionGet as collectionLib } from "@common/collection/collection-ge
 import { collectionStoreSet } from "@svelte/stores/collection/collection";
 import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
 import { collectionListStore } from "./collectionList";
+import { Address } from "viem";
 
 // STATE VIEW : GET Collection fitered list
 const collectionSubListStore = (
   chainId: number,
-  account?: string,
-  address?: string,
+  account?: Address,
+  address?: Address,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
   // console.log(`collectionSubListStore ${keyCollections(chainId, account, address, mintable)}\n`);
@@ -70,8 +71,8 @@ const collectionSubListStore = (
 // ACTIONS : Refresh all Collections from one nework, from an optional account
 const collectionSubListRefresh = async (
   chainId: number,
-  account?: string,
-  address?: string,
+  account?: Address,
+  address?: Address,
   mintable = false
 ): Promise<void> => {
   if (!chainId) return;

@@ -2,13 +2,14 @@ import type { RefPageType } from "@common/common/types";
 import { getChecksumAddress, isAddressNotZero } from "@common/common/config";
 import { networks } from "@common/common/networks";
 import { ADDRESS_ZERO } from "@common/common/config";
+import { Address } from "viem";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number | undefined;
-  let address: string | undefined;
+  let address: Address | undefined;
   let tokenID: string | undefined;
-  let account: string | undefined;
-  let signer: string | undefined;
+  let account: Address | undefined;
+  let signer: Address | undefined;
   let action: string | undefined;
 
   ({ chainId, address, tokenID, account, signer, action } = refBreadcrumb || {});

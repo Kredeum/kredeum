@@ -410,7 +410,7 @@ Error: Type 'null' is not assignable to type 'string'. (ts)
 Error: Type 'null' is not assignable to type 'string'. (ts)
 
 /Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftSetPrice.svelte:175:29
-Error: Type 'BigNumber' is not assignable to type 'null | undefined'. (ts)
+Error: Type 'bigint' is not assignable to type 'null | undefined'. (ts)
 
 /Users/alain/DEV/kredeum/sveltekit/src/lib/components/Nft/NftClaim.svelte:30:7
 Error: Type 'null' is not assignable to type 'string'. (ts)

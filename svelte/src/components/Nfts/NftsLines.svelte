@@ -1,13 +1,14 @@
 <script lang="ts">
   import type { NftType } from "@common/common/types";
   import NftLine from "../Nft/NftLine.svelte";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftsLines {chainId} {nfts} {account?} {mode?} />
   // Display NFTs List
   /////////////////////////////////////////////////
   export let nfts: Map<string, NftType>;
-  export let owner: string | undefined = undefined;
+  export let owner: Address | undefined = undefined;
   export let mode: string | undefined = undefined;
 </script>
 

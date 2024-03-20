@@ -7,6 +7,7 @@ import { covalentActive, covalentCollections } from "../apis/api-covalent";
 import { thegraphActive, thegraphCollections } from "../apis/api-thegraph";
 import { resolverFilterCollections, resolverGetCollections } from "../resolver/resolver-get-collection";
 import { networks } from "../common/networks";
+import { Address } from "viem";
 // import { infuraActive, infuraCollections } from "../apis/api-infura";
 
 // Merge 2 collections list into 1
@@ -32,7 +33,7 @@ const collectionListMerge = (
 
 const collectionList = async (
   chainId: number,
-  account?: string,
+  account?: Address,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
   // console.log(`collectionList ${keyCollections(chainId, account)}\n`);

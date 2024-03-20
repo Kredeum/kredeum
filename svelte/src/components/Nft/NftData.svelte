@@ -1,12 +1,13 @@
 <script lang="ts">
   import { nftStoreAndRefresh } from "@svelte/stores/nft/nft";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////////////////
   // <NftData {chainId} {address} {tokenID} />
   //  NFT data
   /////////////////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   /////////////////////////////////////////////////////////////
 

@@ -8,6 +8,7 @@
   import { clickOutside } from "@svelte/helpers/clickOutside";
   import { nftMediaAnimationUrl, nftMediaContentType } from "@common/nft/nft";
   import { nftStore } from "@svelte/stores/nft/nft";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <MediaPreview {chainId} {address} {tokenID} {mode}? />
@@ -15,7 +16,7 @@
   // Modal closing by clickoutside
   /////////////////////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   export let mode: string | undefined = undefined;
   /////////////////////////////////////////////////////////////////

@@ -13,11 +13,11 @@ import {
   collectionIsERC721,
   collectionRoyaltyEnforcement
 } from "../collection/collection";
-import { BigNumber } from "ethers";
+import { Address } from "viem";
 
 async function* transferNft(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
   from: string,
   to: string
@@ -31,10 +31,11 @@ async function* transferNft(
 
   let txResp: TransactionResponse | undefined;
   if (collectionIsAutoMarket(collection)) {
-    let minimumRoyalty = BigNumber.from(0);
+    let minimumRoyalty = 0n;
 
     if (collectionRoyaltyEnforcement(collection)) {
-      [, , minimumRoyalty] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);
+      const [, , min] = await (contract as OpenAutoMarket).getTokenRoyalty(tokenID);
+      minimumRoyalty = BigInt(min.toString());
     }
     // console.log("minimumRoyalty", minimumRoyalty);
 

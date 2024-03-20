@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Address } from "viem";
   import Nft from "../Nft/Nft.svelte";
   import type { NftType } from "@common/common/types";
 
@@ -8,7 +9,7 @@
   /////////////////////////////////////////////////
   export let nfts: Map<string, NftType>;
   export let tokenID: string | undefined = undefined;
-  export let owner: string | undefined = undefined;
+  export let owner: Address | undefined = undefined;
   export let mode: string | undefined = undefined;
   /////////////////////////////////////////////////
 

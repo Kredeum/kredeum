@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, getChecksumAddress, isAddress } from "@common/common/config";
+  import { ADDRESS_ZERO, getChecksumAddress, isAddressOk } from "@common/common/config";
 
   /////////////////////////////////////////////////
   //  <InputEthAddress {ethAddress} {placeholder} {inputError}? />
@@ -14,7 +14,7 @@
   const handleInputEthAddress = () => {
     let tmpEthAddress = ethAddress.replace(/[^x0-9A-Fa-f]/gi, "");
 
-    if (isAddress(tmpEthAddress)) tmpEthAddress = getChecksumAddress(tmpEthAddress);
+    if (isAddressOk(tmpEthAddress)) tmpEthAddress = getChecksumAddress(tmpEthAddress);
 
     ethAddress = tmpEthAddress != ADDRESS_ZERO ? tmpEthAddress : ADDRESS_ZERO;
   };

@@ -10,13 +10,14 @@
   import { nftStore, nftStoreRefresh } from "@svelte/stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <NftBuy {chainId} {address} {tokenID} {mode}? />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   export let mode: string | undefined = undefined;
   ///////////////////////////////////////////////////////////
@@ -96,12 +97,12 @@
   const handleCLick = (evt: Event) => {
     // console.log("handleCLick ~ evt:", evt);
     evt.preventDefault();
-    open = nftPrice($nft).gt(0);
+    open = nftPrice($nft) > 0n;
   };
   onMount(buyInit);
 </script>
 
-{#if nftPrice($nft).gt(0)}
+{#if nftPrice($nft) > 0n}
   <button
     on:click={handleCLick}
     on:keyup={handleCLick}

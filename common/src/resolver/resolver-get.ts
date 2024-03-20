@@ -1,16 +1,17 @@
-import { Contract, ContractInterface } from "ethers";
+// import { Contract, ContractInterface } from "ethers";
 
-import { explorerContractUrl, getAddresses } from "../common/config";
+import { ADDRESS_ZERO, explorerContractUrl, getAddresses } from "../common/config";
 
 import type { OpenNFTsResolver } from "@kredeum/contracts/types/OpenNFTsResolver";
 import { getAbi } from "../common/artifacts";
 import { providerGetSignerOrProvider } from "../common/provider-get";
+import { Address } from "viem";
 
 // Cache nftsResolver contract (chainId)
 const _nftsResolversCache: Map<string, Contract> = new Map();
 
 //  GET openNFTsResolver address
-const resolverGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsResolver || "";
+const resolverGetAddress = (chainId: number): Address => getAddresses(chainId)?.OpenNFTsResolver || ADDRESS_ZERO;
 
 // GET openNFTsResolver explorer URL
 const resolverGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, resolverGetAddress(chainId));

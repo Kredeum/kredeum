@@ -1,16 +1,16 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
 
 import type { IOpenAutoMarket } from "@kredeum/contracts/types/index";
 import { collectionGetContract } from "../collection/collection-get";
 import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
 import { collectionIsAutoMarket } from "../collection/collection";
+import { Address } from "viem";
 
 async function* buyNft(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
-  nftPrice: BigNumberish
+  nftPrice: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, signer, nftPrice);
 

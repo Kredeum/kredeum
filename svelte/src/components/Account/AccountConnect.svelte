@@ -9,12 +9,13 @@
   } from "@svelte/helpers/metamask";
   import { metamaskSignerAddress } from "@svelte/stores/metamask";
   import Account from "./Account.svelte";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <AccountConnect bind:{signer} {txt}? {label}? />
   // Get Signer from Metamask (or compatible)
   /////////////////////////////////////////////////
-  export let signer: string | undefined = undefined;
+  export let signer: Address | undefined = undefined;
   export let txt: boolean | undefined = undefined;
   export let label: boolean | undefined = undefined;
 

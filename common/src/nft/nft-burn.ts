@@ -3,10 +3,11 @@ import type { TransactionResponse, TransactionReceipt } from "@ethersproject/pro
 import { collectionGetContract, collectionBurnable } from "../collection/collection-get";
 import { ADDRESS_ZERO } from "../common/config";
 import { explorerTxLog } from "../common/config";
+import { Address } from "viem";
 
 async function* burnNft(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("burnNft", chainId, address, tokenID);

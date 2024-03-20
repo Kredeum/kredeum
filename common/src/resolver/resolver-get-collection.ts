@@ -3,11 +3,12 @@ import { resolverConvOpenNFTsCollectionInfos } from "../resolver/resolver-conv-c
 import { resolverGetContract } from "../resolver/resolver-get";
 import { keyCollection } from "../common/keys";
 import { ADDRESS_ZERO } from "../common/config";
+import { Address } from "viem";
 // import { keyCollections } from "../common/keys";
 
 const resolverGetCollection = async (
   chainId: number,
-  address: string,
+  address: Address,
   account = ADDRESS_ZERO
 ): Promise<CollectionType> => {
   // console.log("resolverGetCollection", chainId, address, account);

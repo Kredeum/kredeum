@@ -2,6 +2,7 @@ import type { NetworkType, NftType } from "../common/types";
 import mainnetsJson from "@kredeum/config/dist/mainnets.json";
 import testnetsJson from "@kredeum/config/dist/testnets.json";
 import { strUpFirst } from "./config";
+import { Address } from "viem";
 
 type chainIdish = number | string | undefined;
 
@@ -30,9 +31,9 @@ const networks = (() => {
   const getLinkedMainnet = (chainId: chainIdish): number => get(chainId)?.linkedMainnet || 0;
   const getLinkedLayer1 = (chainId: chainIdish): number | undefined => get(chainId)?.linkedLayer1;
   const getCurrency = (chainId: chainIdish): string => get(chainId)?.nativeCurrency.symbol || "";
-  const getOpenSeaUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  const getOpenSeaUrl = (chainId: number, ref: NftType | { address: Address; tokenID: string }): string =>
     `${getOpenSea(chainId)}/${ref?.address}/${ref?.tokenID}`;
-  const getBlurUrl = (chainId: number, ref: NftType | { address: string; tokenID: string }): string =>
+  const getBlurUrl = (chainId: number, ref: NftType | { address: Address; tokenID: string }): string =>
     `${getBlur(chainId)}/${ref?.address?.toLowerCase()}/${ref?.tokenID}`;
 
   const getRpcUrl = (chainId: chainIdish): string => get(chainId)?.rpcUrls[0] || "";

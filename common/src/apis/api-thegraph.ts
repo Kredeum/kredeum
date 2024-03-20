@@ -1,11 +1,10 @@
-import { BigNumber } from "ethers";
-
 import type { CollectionType, CollectionFilterType, NftType } from "../common/types";
 import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
 import { networks } from "../common/networks";
+import { Address } from "viem";
 
 const thegraphNftList = async (
   chainId: number,
@@ -54,7 +53,7 @@ const thegraphNftList = async (
   for (const nft of nftsJson) {
     if (index++ >= limit) break;
 
-    const tokenID = BigNumber.from(nft.tokenID).toString();
+    const tokenID = BigInt(nft.tokenID).toString();
     const nid = keyNft(chainId, address, tokenID);
     const tokenURI = nft.tokenURI;
     const owner = getChecksumAddress(nft.account?.id);
@@ -65,7 +64,7 @@ const thegraphNftList = async (
   return nfts;
 };
 
-const thegraphCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+const thegraphCollections = async (chainId: number, account: Address): Promise<Map<string, CollectionType>> => {
   // console.log(`thegraphCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();

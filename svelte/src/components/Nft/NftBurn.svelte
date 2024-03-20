@@ -8,13 +8,14 @@
   import { metamaskSignerAddress } from "@svelte/stores/metamask";
 
   import { nftStoreRemove } from "@svelte/stores/nft/nft";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftBurn {chainId} {address} {tokenID} />
   // Burn NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   /////////////////////////////////////////////////
 

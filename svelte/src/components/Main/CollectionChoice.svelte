@@ -7,17 +7,18 @@
   import AccountConnect from "../Account/AccountConnect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />
   // Choose Collection, after Account Connect and Network choose
   /////////////////////////////////////////////////////////////////
-  export let address: string | undefined = undefined;
+  export let address: Address | undefined = undefined;
   export let txt = true;
   /////////////////////////////////////////////////////////////////
 
   let chainId: number;
-  let signer: string;
+  let signer: Address;
 
   // $: console.log("<CollectionChoice", chainId, signer, "=>", address);
 

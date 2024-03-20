@@ -1,16 +1,16 @@
-import { Contract, ContractInterface } from "ethers";
 
-import { explorerContractUrl, getAddresses } from "../common/config";
+import { ADDRESS_ZERO, explorerContractUrl, getAddresses } from "../common/config";
 
 import type { OpenNFTsFactoryV3 } from "@kredeum/contracts/types/OpenNFTsFactoryV3";
 import { providerGetSignerOrProvider } from "../common/provider-get";
 import { getAbi } from "../common/artifacts";
+import { Address } from "viem";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<string, Contract> = new Map();
 
 //  GET NFTsFactory address
-const factoryGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsFactoryV3 || "";
+const factoryGetAddress = (chainId: number): Address => getAddresses(chainId)?.OpenNFTsFactoryV3 || ADDRESS_ZERO;
 
 // GET NFTsFactory explorer URL
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));

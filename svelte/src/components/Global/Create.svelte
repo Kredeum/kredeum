@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { Address } from "viem";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   import InputImportCollection from "../Input/InputImportCollection.svelte";
@@ -10,7 +11,7 @@
   // Create Collection or Nft
   /////////////////////////////////////////////////
   export let chainId: number | undefined = undefined;
-  export let signer: string | undefined = undefined;
+  export let signer: Address | undefined = undefined;
 
   let open = false;
   const toggle = () => (open = !open);

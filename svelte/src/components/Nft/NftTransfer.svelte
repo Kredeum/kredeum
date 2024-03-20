@@ -9,13 +9,14 @@
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
   import { nftRoyaltyMinimum } from "@common/nft/nft";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
   // Transfer NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   /////////////////////////////////////////////////
   $: nft = nftStore(chainId, address, tokenID);
@@ -111,7 +112,7 @@
             </div>
           </div>
 
-          {#if nftRoyaltyMinimum($nft).gt(0)}
+          {#if nftRoyaltyMinimum($nft) > 0n}
             <div class="section">
               <div class="form-field kre-warning-msg">
                 <p>

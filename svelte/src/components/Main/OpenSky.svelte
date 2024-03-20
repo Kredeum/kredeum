@@ -10,11 +10,12 @@
 
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
+  import { Address } from "viem";
 
   ////////////////////////////////////////////////////////////////////
   // <OpenSky />
   export let chainId: number = 1;
-  export let address: string = ADDRESS_ZERO;
+  export let address: Address = ADDRESS_ZERO;
   export let tokenID: string = "";
   ////////////////////////////////////////////////////////////////////
 

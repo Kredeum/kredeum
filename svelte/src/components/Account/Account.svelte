@@ -3,12 +3,13 @@
   import { getShortAddress, blockscanUrl } from "@common/common/config";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <Account {account} {txt} />
   // Display Account
   /////////////////////////////////////////////////
-  export let account: string;
+  export let account: Address;
   export let txt = false;
   export let label = true;
 

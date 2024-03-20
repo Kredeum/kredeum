@@ -1,6 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish, PayableOverrides } from "ethers";
-import { ethers } from "ethers";
+// import type { PayableOverrides } from "ethers";
+// import { ethers } from "ethers";
 
 import type { NftType } from "../common/types";
 
@@ -23,6 +23,7 @@ import {
 import { storageLinkToUrlHttp } from "../storage/storage";
 import { ipfsGatewayUrl } from "../storage/ipfs";
 import { networks } from "../common/networks";
+import { Address } from "viem";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
@@ -49,10 +50,10 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
 const _mintedNft = async (
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
   urlJson: string,
-  minter: string
+  minter: Address
 ): Promise<NftType> =>
   await nftGetMetadata({
     chainId,
@@ -67,10 +68,10 @@ const _mintedNft = async (
 // GET minting tx response
 const nftMint = async (
   chainId: number,
-  address: string,
+  address: Address,
   tokenURI: string,
   minter: string,
-  price: BigNumberish = 0
+  price: bigint = 0n
 ): Promise<TransactionResponse | undefined> => {
   // console.log("nftMint", chainId, address, tokenURI, minter);
 
@@ -84,7 +85,7 @@ const nftMint = async (
   if (collectionIsOpenMarketable(collection)) {
     const notMine = collection.owner != minter;
     const value = collection.open && notMine ? collection.price : 0;
-    const overrides: PayableOverrides = { value };
+    // const overrides: PayableOverrides = { value };
     if (networks.isEip1559(chainId)) overrides.type = 2;
 
     txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
@@ -125,10 +126,10 @@ const nftMint = async (
 // GET minting tx receipt
 const nftMinted = async (
   chainId: number,
-  address: string,
+  address: Address,
   txResponse: TransactionResponse,
   metadataCid: string,
-  minter: string
+  minter: Address
 ): Promise<NftType | undefined> => {
   if (!(chainId && address && address != ADDRESS_ZERO && txResponse && metadataCid && minter)) return;
 
@@ -150,10 +151,10 @@ const nftMinted = async (
 // similar to mint4
 const nftClaimed = async (
   chainId: number,
-  address: string,
+  address: Address,
   txResponse: TransactionResponse,
   tokenID: string,
-  owner: string
+  owner: Address
 ): Promise<NftType | null> => {
   if (!(chainId && address && address != ADDRESS_ZERO && txResponse && tokenID && owner)) return null;
 

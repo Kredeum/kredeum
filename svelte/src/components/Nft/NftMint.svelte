@@ -1,6 +1,4 @@
 <script lang="ts">
-  import type { BigNumber } from "ethers";
-
   import type { NftType, Properties } from "@common/common/types";
   import { nftMint, nftMinted } from "@common/nft/nft-mint";
   import { nftPin, nftTokenUri } from "@common/nft/nft-uri";
@@ -14,6 +12,7 @@
     S4_WAIT_TX,
     S5_MINTED
   } from "@svelte/helpers/nftMint";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
@@ -24,9 +23,9 @@
   /////////////////////////////////////////////////
   export let src: string;
   export let chainId: number;
-  export let address: string;
-  export let signer: string;
-  export let price: BigNumber | undefined = undefined;
+  export let address: Address;
+  export let signer: Address;
+  export let price: bigint | undefined = undefined;
   export let name: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let metadata: string | undefined = undefined;

@@ -21,16 +21,17 @@
   import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
   import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
   import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
+  import { Address } from "viem";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
   ////////////////////////////////////////////////////////////////////
   let chainId: number;
-  let address: string;
+  let address: Address;
   let tokenID: string;
-  let account: string;
-  let owner: string;
-  let signer: string;
+  let account: Address;
+  let owner: Address;
+  let signer: Address;
 
   let initalized = false;
   let refreshingCollections = false;

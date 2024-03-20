@@ -8,15 +8,16 @@
 
   import Nft from "./Nft.svelte";
   import { nftStore } from "@svelte/stores/nft/nft";
+  import { Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {owner}? {more}? {mode}? />
   // Display NFT line
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
-  export let owner: string | undefined = undefined;
+  export let owner: Address | undefined = undefined;
   export let mode: string | undefined = undefined;
   export let more = 0;
   ///////////////////////////////////////////////////////////

@@ -1,5 +1,4 @@
 import type { TransactionResponse } from "@ethersproject/abstract-provider";
-import { utils, BigNumber, constants, BigNumberish } from "ethers";
 import { Fragment, Interface } from "@ethersproject/abi";
 
 import type { CollectionType, NftType, RefPageType, AddressesType } from "../common/types";
@@ -7,11 +6,12 @@ import type { CollectionType, NftType, RefPageType, AddressesType } from "../com
 import config from "@kredeum/config/dist/config.json";
 import addressesRaw from "@kredeum/contracts/addresses.json";
 
-import { formatEther } from "ethers/lib/utils";
 import { networks } from "./networks";
+import { getAddress, isAddress, formatEther, toHex } from "viem";
+import { Address } from "viem";
 
 const PAGE_SIZE = 12;
-const MAX_FEE = 10000;
+const MAX_FEE = 10000n;
 const DEFAULT_NAME = "No name";
 const DEFAULT_SYMBOL = "NFT";
 const ADDRESS_ZERO = "0x0000000000000000000000000000000000000000";
@@ -36,11 +36,11 @@ const tokenIdSelected = (tokenID: string, tokenIDs?: string): boolean =>
 
 const isCollection = (refHash: RefPageType) => networks.has(refHash.chainId) && isAddressNotZero(refHash.address);
 
-const isAddress = (address = ""): boolean => utils.isAddress(address);
-const isAddressZero = (address = ""): boolean => address === ADDRESS_ZERO;
-const isAddressNotZero = (address = ""): boolean => isAddress(address) && !isAddressZero(address);
+const isAddressOk = (address = ADDRESS_ZERO): boolean => Boolean(address && isAddress(address));
+const isAddressZero = (address = ADDRESS_ZERO): boolean => address === ADDRESS_ZERO;
+const isAddressNotZero = (address = ADDRESS_ZERO): boolean => isAddressOk(address) && !isAddressZero(address);
 
-const getChecksumAddress = (address = ""): string => (isAddress(address) ? utils.getAddress(address) : ADDRESS_ZERO);
+const getChecksumAddress = (address = ADDRESS_ZERO): Address => (isAddressOk(address) ? getAddress(address) : ADDRESS_ZERO);
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const addresses = JSON.parse(JSON.stringify(addressesRaw));
@@ -48,8 +48,8 @@ const addresses = JSON.parse(JSON.stringify(addressesRaw));
 const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
 //  GET OpenMulti address
-const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
-const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
+const getOpenBound = (chainId: number): Address => getAddresses(chainId)?.OpenBound || ADDRESS_ZERO;
+const hasOpenBound = (chainId: number): boolean => isAddressOk(getOpenBound(chainId));
 
 // GET Dapp Url
 const getDappUrl = (
@@ -58,7 +58,7 @@ const getDappUrl = (
   base = "."
 ): string => {
   let dappUrl = `${base}/#/${chainId}`;
-  if (isAddress(ref.address)) {
+  if (isAddressOk(ref.address)) {
     dappUrl += `/${ref.address}`;
     if (isNumeric(ref.tokenID)) dappUrl += `/${ref.tokenID}`;
   }
@@ -67,8 +67,8 @@ const getDappUrl = (
 
 // GET Autoswarm Url
 const getAutoswarmUrl = (chainId: number, ref: NftType | { address?: string; tokenID?: string } = {}): string => {
-  let autoswarmUrl = `${config.autoswarm}/${chainId}`;
-  if (isAddress(ref.address)) {
+  let autoswarmUrl = `${config.storage.swarm.gateway}/${chainId}`;
+  if (isAddressOk(ref.address)) {
     autoswarmUrl += `/${ref.address}`;
     if (isNumeric(ref.tokenID)) autoswarmUrl += `/${ref.tokenID}`;
   }
@@ -76,7 +76,7 @@ const getAutoswarmUrl = (chainId: number, ref: NftType | { address?: string; tok
 };
 
 // nft url : nft://chainName/collectionAddress/tokenID
-const nftUrl3 = (chainId: number, address: string, tokenID = "", n = 999): string => {
+const nftUrl3 = (chainId: number, address: Address, tokenID = "", n = 999): string => {
   const network = networks.get(chainId);
 
   if (!(chainId && address && address != ADDRESS_ZERO && tokenID && network)) return "";
@@ -148,7 +148,7 @@ const blockscanUrl = (path: string): string =>
   "https://blockscan.com/" + path.replace(/^\//, "");
 
 // ADDRESS URL
-const explorerAddressUrl = (chainId: number, address = ""): string =>
+const explorerAddressUrl = (chainId: number, address = ADDRESS_ZERO): string =>
   // https://etherscan.io/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039
   // https://blockscan.com/address/0x4b7992F03906F7bBE3d48E5Fb724f52c56cFb039
   chainId > 0 ? explorerUrl(chainId, `/address/${address}`) : blockscanUrl(`/address/${address}`);
@@ -168,7 +168,7 @@ const explorerTxLog = (chainId: number, tx?: TransactionResponse | undefined): v
   explorerTxHashLog(chainId, tx?.hash);
 
 // ACCOUNT URL
-const explorerAccountUrl = (chainId: number, address: string): string => {
+const explorerAccountUrl = (chainId: number, address: Address): string => {
   let url = "";
   if (chainId > 0) {
     if (
@@ -191,7 +191,7 @@ const explorerAccountUrl = (chainId: number, address: string): string => {
 };
 
 // CONTRACT URL
-const explorerContractUrl = (chainId: number, address: string): string => {
+const explorerContractUrl = (chainId: number, address: Address): string => {
   let url = "";
   if (
     networks.getExplorer(chainId)?.includes("chainstacklabs.com") ||
@@ -246,10 +246,10 @@ const explorerNftUrl = (chainId: number, nft: NftType): string => {
 const explorerLink = (chainId: number, path: string, label: string): string =>
   urlToLink(explorerUrl(chainId, path), label);
 
-const explorerAddressLink = (chainId: number, address: string, n?: number): string =>
+const explorerAddressLink = (chainId: number, address: Address, n?: number): string =>
   urlToLink(explorerAddressUrl(chainId, address), getShortAddress(address, n));
 
-const explorerTxLink = (chainId: number, tx: string): string =>
+const explorerTxLink = (chainId: number, tx: Address): string =>
   urlToLink(explorerTxUrl(chainId, tx), getShortAddress(tx));
 
 const explorerNftLink = (chainId: number, nft: NftType, label?: string): string =>
@@ -272,7 +272,7 @@ const collectionName = (collection: CollectionType): string => collection?.name 
 
 const collectionSymbol = (collection: CollectionType): string => collection?.symbol || DEFAULT_SYMBOL;
 
-const explorerCollectionLink = (chainId: number, collAddress: string): string =>
+const explorerCollectionLink = (chainId: number, collAddress: Address): string =>
   urlToLink(explorerCollectionUrl(chainId, collAddress), getShortAddress(collAddress));
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ const explorerCollectionLink = (chainId: number, collAddress: string): string =>
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const nftsSupply = (nfts: Map<string, NftType>): number => nfts.size || 0;
 
-const nftsBalanceAndName = (collection: CollectionType, account: string): string => {
+const nftsBalanceAndName = (collection: CollectionType, account: Address): string => {
   const balancesOf = collection?.balancesOf || null;
   const bal = balancesOf instanceof Map ? Number(balancesOf.get(account)) : 0;
   return `${bal} ${collectionSymbol(collection)}${bal > 1 ? "s" : ""}`;
@@ -303,27 +303,28 @@ const nftDescriptionShort = (nft: NftType, n = 16): string => textShort(nftDescr
 const interfaceId = (abi: Array<string>): string => {
   const iface = new Interface(abi);
 
-  let id = constants.Zero;
+  let id = 0n;
   iface.fragments.forEach((f: Fragment): void => {
     if (f.type === "function") {
-      id = id.xor(BigNumber.from(iface.getSighash(f)));
+      const face = iface.getSighash(f);
+      id = id ^ BigInt(face);
     }
   });
-  return utils.hexlify(id);
+  return toHex(id);
 };
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const displayEther = (chainId: number, price: BigNumberish): string =>
+const displayEther = (chainId: number, price: bigint): string =>
   `${formatEther(price)} ${networks.getCurrency(chainId)}`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
-const feeAmount = (price = BigNumber.from(0), fee = 0): BigNumber => price.mul(fee).div(MAX_FEE);
+const feeAmount = (price = 0n, fee = 0n): bigint => (price * fee) / MAX_FEE;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const treasuryAccount = (): string => config?.treasury?.account || ADDRESS_ZERO;
-const treasuryFee = (): number => config?.treasury?.fee || 0;
-const treasuryAmount = (price = BigNumber.from(0)): BigNumber => feeAmount(price, treasuryFee());
+const treasuryFee = (): bigint => BigInt(config?.treasury?.fee || 0);
+const treasuryAmount = (price = 0n): bigint => feeAmount(price, treasuryFee());
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 export {
@@ -355,7 +356,7 @@ export {
   explorerAccountUrl,
   explorerNftLink,
   isCollection,
-  isAddress,
+  isAddressOk,
   isAddressZero,
   isAddressNotZero,
   isNumeric,

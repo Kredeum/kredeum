@@ -1,9 +1,8 @@
 import type { ExternalProvider } from "@ethersproject/providers";
-
-import { BigNumber } from "ethers";
+import { Address } from "viem";
 
 type _handleChainId = (chainId: string) => void;
-type _handleAccounts = (accounts: Array<string>) => void;
+type _handleAccounts = (accounts: Array<Address>) => void;
 type _onFunction = (label: string, func: _handleChainId | _handleAccounts) => void;
 type EthereumProvider = ExternalProvider & { on?: _onFunction };
 
@@ -11,14 +10,14 @@ type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumP
 type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider };
 
 type AddressesType = {
-  OpenNFTs: string;
-  OpenNFTsV4: string;
-  OpenNFTsResolver: string;
-  OpenNFTsFactoryV3: string;
-  OpenNFTsFactoryV2?: string;
-  OpenNFTsFactory?: string;
-  OpenAutoMarket: string;
-  OpenBound?: string;
+  OpenNFTs: Address;
+  OpenNFTsV4: Address;
+  OpenNFTsResolver: Address;
+  OpenNFTsFactoryV3: Address;
+  OpenNFTsFactoryV2?: Address;
+  OpenNFTsFactory?: Address;
+  OpenAutoMarket: Address;
+  OpenBound?: Address;
 };
 
 type NetworkType = {
@@ -46,15 +45,15 @@ type NetworkType = {
 };
 
 type ReceiverType = {
-  account?: string;
-  fee?: number;
-  minimum?: BigNumber;
+  account?: Address;
+  fee?: bigint;
+  minimum?: bigint;
 };
 
 type CollectionType = {
   chainId: number;
-  address: string;
-  owner?: string;
+  address: Address;
+  owner?: Address;
   name?: string;
   symbol?: string;
   totalSupply?: number;
@@ -69,10 +68,10 @@ type CollectionType = {
   open?: boolean;
   royalty?: ReceiverType;
   royaltyEnforcement?: boolean;
-  price?: BigNumber;
+  price?: bigint;
 };
 
-type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number };
+type CollectionFilterType = { owner?: Address; tokenID?: string; offset?: number; limit?: number };
 
 ///////////////////////////////////////////////////
 // Exclusives storage parameters for Ipfs | Swarm
@@ -117,9 +116,9 @@ type StorageType = "ipfs" | "swarm" | "arweave";
 type NftMetadata = {
   name?: string;
   description?: string;
-  creator?: string;
-  minter?: string;
-  owner?: string;
+  creator?: Address;
+  minter?: Address;
+  owner?: Address;
   image?: string;
   image_url?: string;
   animation_url?: string;
@@ -129,10 +128,10 @@ type NftMetadata = {
 
 type NftType = {
   chainId: number;
-  address: string;
+  address: Address;
   tokenID: string;
   tokenURI?: string;
-  owner?: string;
+  owner?: Address;
   approved?: string;
   chainName?: string;
   name?: string;
@@ -155,7 +154,7 @@ type NftType = {
   nid?: string;
   contentType?: string;
   royalty?: ReceiverType;
-  price?: BigNumber;
+  price?: bigint;
   collection?: CollectionType;
   properties?: Properties;
 } & StorageMetadataType;
@@ -170,10 +169,10 @@ type Properties = { [k: string]: Property };
 
 type RefPageType = {
   chainId?: number;
-  address?: string;
+  address?: Address;
   tokenID?: string;
-  account?: string;
-  signer?: string;
+  account?: Address;
+  signer?: Address;
   action?: string;
   chainName?: string;
 };

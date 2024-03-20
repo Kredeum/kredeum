@@ -5,10 +5,11 @@ import { nftGetMetadata } from "../nft/nft-get-metadata";
 import { resolverGetNft } from "../resolver/resolver-get-nft";
 import { keyNft } from "../common/keys";
 import { ADDRESS_ZERO } from "../common/config";
+import { Address } from "viem";
 
 const nftGet = async (
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
   collection: CollectionType = { chainId, address },
   withMetadata = false

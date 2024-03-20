@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import config from "@kredeum/config/dist/config.json";
 
 import type { FetchResponse } from "../common/fetch";
@@ -9,6 +7,7 @@ import { DEFAULT_NAME, DEFAULT_SYMBOL } from "../common/config";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
 import { networks } from "../common/networks";
+import { Address } from "viem";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {
   const covalent = config?.covalent;
@@ -35,7 +34,7 @@ const _covalentFetch = async (chainId: number, path: string): Promise<unknown> =
   return answerCov?.data;
 };
 
-const covalentCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+const covalentCollections = async (chainId: number, account: Address): Promise<Map<string, CollectionType>> => {
   // console.log(`covalentCollections ${keyCollection(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
@@ -55,7 +54,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
     contract_name: string;
     contract_ticker_symbol: string;
     contract_address: string;
-    balance: BigNumber;
+    balance: bigint;
   };
   type AnswerCollectionsCov = {
     items?: Array<CollectionCov>;
@@ -70,7 +69,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
     for (let index = 0; index < collectionsCov.length; index++) {
       const collectionCov: CollectionCov = collectionsCov[index];
 
-      const address: string = getChecksumAddress(collectionCov.contract_address);
+      const address: Address = getChecksumAddress(collectionCov.contract_address);
       const name = collectionCov.contract_name || DEFAULT_NAME;
       const symbol = collectionCov.contract_ticker_symbol || DEFAULT_SYMBOL;
       const balanceOf = Number(collectionCov.balance);
@@ -119,7 +118,7 @@ const covalentNftList = async (
   type NftsCov = {
     token_id: string;
     token_url: string;
-    account: string;
+    account: Address;
     external_data: string;
     original_owner: string;
   };
@@ -136,7 +135,7 @@ const covalentNftList = async (
       for (const _token of tokens) {
         if (index++ >= limit) break;
 
-        const tokenID = BigNumber.from(_token.token_id).toString();
+        const tokenID = BigInt(_token.token_id).toString();
 
         const nft = {
           chainId,

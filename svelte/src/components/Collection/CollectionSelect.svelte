@@ -4,6 +4,7 @@
 
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
+  import { Address } from "viem";
 
   import { explorerCollectionUrl, isAddressNotZero } from "@common/common/config";
 
@@ -24,8 +25,8 @@
   //  Collection List
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string | undefined = undefined;
-  export let account: string | undefined = undefined;
+  export let address: Address | undefined = undefined;
+  export let account: Address | undefined = undefined;
   export let mintable: boolean = false;
   export let txt: boolean = false;
   export let label: boolean = true;
@@ -35,7 +36,7 @@
 
   let open: boolean = false;
   let collections: Readable<Map<string, CollectionType>>;
-  let collectionDefault: Readable<string>;
+  let collectionDefault: Readable<Address>;
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
@@ -72,16 +73,16 @@
   };
 
   // STATE CHANGER : SET default Collection
-  const _setCollection = (collection: string, mintable_ = mintable): void => {
+  const _setCollection = (collection: Address, mintable_ = mintable): void => {
     if (!isAddressNotZero(collection)) return;
     address = collection;
     collectionDefaultSetOne(chainId, collection, mintable_, account);
   };
 
   // UTILITIES
-  const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value);
-  const _explorerCollectionUrl = (collection: string): string => explorerCollectionUrl(chainId, collection);
-  const _collectionUrl = (collection: string): string => keyCollection(chainId, collection);
+  const _setCollectionFromEvent = (evt: Event) => _setCollection((evt.target as HTMLInputElement).value as Address);
+  const _explorerCollectionUrl = (collection: Address): string => explorerCollectionUrl(chainId, collection);
+  const _collectionUrl = (collection: Address): string => keyCollection(chainId, collection);
 
   const handleToggleOpen = () => (open = !open);
 </script>

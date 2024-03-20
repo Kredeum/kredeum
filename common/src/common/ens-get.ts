@@ -1,16 +1,17 @@
-import { providers } from "ethers";
+// import { providers } from "ethers";
 
-import { JsonRpcProvider } from "@ethersproject/providers";
-import config from "@kredeum/config/dist/config.json";
+// import { JsonRpcProvider } from "@ethersproject/providers";
+// import config from "@kredeum/config/dist/config.json";
+import { Address } from "viem";
 
 const ens = (() => {
-  const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(config.ens.rpcUrl);
+  // const ensProvider: JsonRpcProvider = new providers.JsonRpcProvider(config.ens.rpcUrl);
 
-  const getName = async (address: string): Promise<string> => {
+  const getName = async (address: Address): Promise<string> => {
     let name = "";
 
     try {
-      name = (await ensProvider.lookupAddress(address)) || "";
+      // name = (await ensProvider.lookupAddress(address)) || "";
     } catch (e) {
       console.error("ENS lookupAddress not found");
     }
@@ -18,11 +19,11 @@ const ens = (() => {
     return name || address || "";
   };
 
-  const getAvatar = async (address: string): Promise<string> => {
-    let avatar = "";
+  const getAvatar = async (address: string | Address): Promise<string> => {
+    const avatar = "";
 
     try {
-      avatar = (await ensProvider.getAvatar(address)) || "";
+      // avatar = (await ensProvider.getAvatar(address)) || "";
     } catch (e) {
       console.error("ENS lookupAddress not found");
     }

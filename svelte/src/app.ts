@@ -4,6 +4,7 @@ import NetworkSelect from "./components/Network/NetworkSelect.svelte";
 import OpenSky from "./components/Main/OpenSky.svelte";
 
 import Dapp from "./components/Main/Dapp.svelte";
+import { Address } from "viem";
 // import Dapp from "./components/Main/MintPopup.svelte";
 // import Dapp from "../tests/NftMintTest.svelte";
 // import Dapp from "../tests/NftMintButtonTest.svelte";
@@ -42,7 +43,7 @@ const _props = (target: HTMLElement): Props => {
   if (target) new Dapp({ target });
 }
 
-type OpenSkyPropsType = { chainId: number; address: string; tokenID: string };
+type OpenSkyPropsType = { chainId: number; address: Address; tokenID: string };
 {
   // Kredeum OpenSky (Multiple NFTs)
   const target = document.querySelector("#kredeum-opensky, #kredeum-automarket");
@@ -68,7 +69,7 @@ type MintButtonWpPropsType = {
   });
 }
 
-type CollectionChoicePropsType = { address?: string; txt?: boolean };
+type CollectionChoicePropsType = { address?: Address; txt?: boolean };
 {
   // Kredeum List Collections
   const target = document.querySelector("#kredeum-collection-choice");
