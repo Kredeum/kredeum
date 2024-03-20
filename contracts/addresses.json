@@ -253,11 +253,18 @@
     "chainName": "base-goerli"
   },
   "84532": {
-    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4_last": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "base-sepolia"
+  },
+  "919": {
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "mode-sepolia"
   },
   "999": {
     "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",
@@ -267,7 +274,7 @@
     "chainName": "zora-testnet"
   },
   "999999999": {
-    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenAutoMarket": "0x5405242c013203FF278c02B1e0AA102Fff49C0cd",
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",

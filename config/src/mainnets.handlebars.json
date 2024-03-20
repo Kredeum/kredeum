@@ -3,13 +3,19 @@
     "chainId": 1,
     "chainName": "mainnet",
     "chainLabel": "Ethereum",
-    "rpcUrls": ["https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}", "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/eth"],
+    "rpcUrls": [
+      "https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
+      "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.ankr.com/eth"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://etherscan.io"],
+    "blockExplorerUrls": [
+      "https://etherscan.io"
+    ],
     "openSea": "https://opensea.io/assets",
     "blur": "https://blur.io/asset",
     "subgraph": {
@@ -23,17 +29,23 @@
     "eip1559": true,
     "create": true
   },
-
   {
     "chainId": 42161,
     "chainName": "arbitrum",
-    "rpcUrls": ["https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}", "https://rpc.ankr.com/arbitrum"],
+    "rpcUrls": [
+      "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://rpc.ankr.com/arbitrum"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "AETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://arbiscan.io", "https://explorer.arbitrum.io"],
+    "blockExplorerUrls": [
+      "https://arbiscan.io",
+      "https://explorer.arbitrum.io"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_ARBITRUM}}",
     "alchemy": {
       "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
@@ -45,13 +57,18 @@
   {
     "chainId": 42170,
     "chainName": "arbitrum-nova",
-    "rpcUrls": ["https://nova.arbitrum.io/rpc", "https://arbitrum-nova.publicnode.com"],
+    "rpcUrls": [
+      "https://nova.arbitrum.io/rpc",
+      "https://arbitrum-nova.publicnode.com"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "AETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://nova-explorer.arbitrum.io"],
+    "blockExplorerUrls": [
+      "https://nova-explorer.arbitrum.io"
+    ],
     "linkedLayer1": 1,
     "active": false
   },
@@ -69,7 +86,9 @@
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://optimistic.etherscan.io"],
+    "blockExplorerUrls": [
+      "https://optimistic.etherscan.io"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_OPTIMISM}}",
     "alchemy": {
       "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
@@ -81,13 +100,18 @@
   {
     "chainId": 534352,
     "chainName": "scroll",
-    "rpcUrls": ["https://rpc.scroll.io"],
+    "rpcUrls": [
+      "https://rpc.scroll.io"
+    ],
     "nativeCurrency": {
       "name": "Scroll Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://scrollscan.com/", "https://blockscout.scroll.io"],
+    "blockExplorerUrls": [
+      "https://scrollscan.com/",
+      "https://blockscout.scroll.io"
+    ],
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -95,13 +119,20 @@
   {
     "chainId": 8453,
     "chainName": "base",
-    "rpcUrls": ["https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_BASE}}", "https://mainnet.base.org/", "https://developer-access-mainnet.base.org/"],
+    "rpcUrls": [
+      "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_BASE}}",
+      "https://mainnet.base.org/",
+      "https://developer-access-mainnet.base.org/"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://basescan.org", "https://base.blockscout.com"],
+    "blockExplorerUrls": [
+      "https://basescan.org",
+      "https://base.blockscout.com"
+    ],
     "alchemy": {
       "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_BASE}}",
       "active": false
@@ -113,13 +144,38 @@
   {
     "chainId": 5000,
     "chainName": "mantle",
-    "rpcUrls": ["https://rpc.mantle.xyz", "https://rpc.ankr.com/mantle", "https://1rpc.io/mantle"],
+    "rpcUrls": [
+      "https://rpc.mantle.xyz",
+      "https://rpc.ankr.com/mantle",
+      "https://1rpc.io/mantle"
+    ],
     "nativeCurrency": {
       "name": "Mantle",
       "symbol": "MNT",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://explorer.mantle.xyz/"],
+    "blockExplorerUrls": [
+      "https://explorer.mantle.xyz/"
+    ],
+    "linkedLayer1": 1,
+    "create": true
+  },
+  {
+    "chainId": 34443,
+    "chainName": "mode",
+    "rpcUrls": [
+      "https://mainnet.mode.network",
+      "https://mode.drpc.org",
+      "https://1rpc.io/mode"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://explorer.mode.network/"
+    ],
     "linkedLayer1": 1,
     "create": true
   },
@@ -127,13 +183,18 @@
     "chainId": 81457,
     "chainName": "blast",
     "chainLabel": "Blast",
-    "rpcUrls": ["https://rpc.blast.io", "https://rpc.ankr.com/blast"],
+    "rpcUrls": [
+      "https://rpc.blast.io",
+      "https://rpc.ankr.com/blast"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://blastscan.io"],
+    "blockExplorerUrls": [
+      "https://blastscan.io"
+    ],
     "create": true,
     "active": false,
     "linkedLayer1": 1
@@ -142,13 +203,18 @@
     "chainId": 1101,
     "chainName": "polygon-zkevm",
     "chainLabel": "Polygon zkEVM",
-    "rpcUrls": ["https://zkevm-rpc.com", "https://rpc.ankr.com/polygon_zkevm"],
+    "rpcUrls": [
+      "https://zkevm-rpc.com",
+      "https://rpc.ankr.com/polygon_zkevm"
+    ],
     "nativeCurrency": {
       "name": "Ether",
       "symbol": "zkETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://zkevm.polygonscan.com/"],
+    "blockExplorerUrls": [
+      "https://zkevm.polygonscan.com/"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
     "create": true,
     "linkedLayer1": 1
@@ -156,33 +222,41 @@
   {
     "chainId": 59144,
     "chainName": "linea",
-    "rpcUrls": ["https://linea-mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.linea.build"],
+    "rpcUrls": [
+      "https://linea-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.linea.build"
+    ],
     "nativeCurrency": {
       "name": "Linea Ether",
       "symbol": "ETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://lineascan.build", "https://explorer.linea.build"],
+    "blockExplorerUrls": [
+      "https://lineascan.build",
+      "https://explorer.linea.build"
+    ],
     "linkedLayer1": 1,
     "active": false,
     "create": true
   },
-
   {
     "chainId": 7777777,
     "chainName": "zora",
-    "rpcUrls": ["https://rpc.zora.energy"],
+    "rpcUrls": [
+      "https://rpc.zora.energy"
+    ],
     "nativeCurrency": {
       "name": "Zora Ether",
       "symbol": "zETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://explorer.zora.energy"],
+    "blockExplorerUrls": [
+      "https://explorer.zora.energy"
+    ],
     "linkedLayer1": 1,
     "active": true,
     "create": true
   },
-
   {
     "chainId": 137,
     "chainName": "polygon",
@@ -197,7 +271,10 @@
       "symbol": "MATIC",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://polygonscan.com", "https://polygon-explorer-mainnet.chainstacklabs.com"],
+    "blockExplorerUrls": [
+      "https://polygonscan.com",
+      "https://polygon-explorer-mainnet.chainstacklabs.com"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
@@ -214,50 +291,79 @@
   {
     "chainId": 100,
     "chainName": "gnosis",
-    "rpcUrls": ["https://rpc.ankr.com/gnosis", "https://rpc.gnosischain.com", "https://rpc.xdaichain.com", "https://xdai.poanetwork.dev/", "https://dai.poa.network/"],
+    "rpcUrls": [
+      "https://rpc.ankr.com/gnosis",
+      "https://rpc.gnosischain.com",
+      "https://rpc.xdaichain.com",
+      "https://xdai.poanetwork.dev/",
+      "https://dai.poa.network/"
+    ],
     "nativeCurrency": {
       "name": "xDAI",
       "symbol": "xDAI",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://gnosisscan.io/", "https://blockscout.com/xdai/mainnet"],
+    "blockExplorerUrls": [
+      "https://gnosisscan.io/",
+      "https://blockscout.com/xdai/mainnet"
+    ],
     "create": true
   },
   {
     "chainId": 43114,
     "chainName": "avalanche",
-    "rpcUrls": ["https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://rpc.ankr.com/avalanche", "https://api.avax.network/ext/bc/C/rpc"],
+    "rpcUrls": [
+      "https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.ankr.com/avalanche",
+      "https://api.avax.network/ext/bc/C/rpc"
+    ],
     "nativeCurrency": {
       "name": "AVAX",
       "symbol": "AVAX",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://snowtrace.io", "https://cchain.explorer.avax.network"],
+    "blockExplorerUrls": [
+      "https://snowtrace.io",
+      "https://cchain.explorer.avax.network"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
     "create": true
   },
   {
     "chainId": 42220,
     "chainName": "celo",
-    "rpcUrls": ["https://forno.celo.org", "wss://forno.celo.org/ws"],
+    "rpcUrls": [
+      "https://forno.celo.org",
+      "wss://forno.celo.org/ws"
+    ],
     "nativeCurrency": {
       "name": "CELO",
       "symbol": "CELO",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}", "https://celoscan.io", "https://explorer.celo.org"],
+    "blockExplorerUrls": [
+      "https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://celoscan.io",
+      "https://explorer.celo.org"
+    ],
     "active": false
   },
   {
     "chainId": 250,
     "chainName": "fantom",
-    "rpcUrls": ["https://rpc.ftm.tools/", "https://rpc.ankr.com/fantom", "https://rpcapi.fantom.network"],
+    "rpcUrls": [
+      "https://rpc.ftm.tools/",
+      "https://rpc.ankr.com/fantom",
+      "https://rpcapi.fantom.network"
+    ],
     "nativeCurrency": {
       "name": "FTM",
       "symbol": "FTM",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://ftmscan.com"],
+    "blockExplorerUrls": [
+      "https://ftmscan.com"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
     "create": true
   },
@@ -265,53 +371,74 @@
     "chainId": 56,
     "chainName": "bsc",
     "chainLabel": "Binance Smart Chain",
-    "rpcUrls": ["https://bsc-dataseed1.binance.org", "https://rpc.ankr.com/bsc", "https://bsc-dataseed.binance.org", "https://bsc-dataseed1.defibit.io", "https://bsc-dataseed1.ninicoin.io"],
+    "rpcUrls": [
+      "https://bsc-dataseed1.binance.org",
+      "https://rpc.ankr.com/bsc",
+      "https://bsc-dataseed.binance.org",
+      "https://bsc-dataseed1.defibit.io",
+      "https://bsc-dataseed1.ninicoin.io"
+    ],
     "nativeCurrency": {
       "name": "BNB",
       "symbol": "BNB",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://bscscan.com"],
+    "blockExplorerUrls": [
+      "https://bscscan.com"
+    ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
     "create": true
   },
   {
     "chainId": 40,
     "chainName": "telos",
-    "rpcUrls": ["https://mainnet.telos.net/evm"],
+    "rpcUrls": [
+      "https://mainnet.telos.net/evm"
+    ],
     "nativeCurrency": {
       "name": "TELOS",
       "symbol": "TLOS",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://teloscan.io"],
+    "blockExplorerUrls": [
+      "https://teloscan.io"
+    ],
     "eip1559": false,
     "create": true,
     "active": false
   },
   {
-    "chainId": 344106930,
-    "chainName": "skale",
-    "rpcUrls": [""],
+    "chainId": 1564830818,
+    "chainName": "skale-calypso",
+    "rpcUrls": [
+      "https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague"
+    ],
     "nativeCurrency": {
       "name": "sFUEL",
       "symbol": "SFUEL",
       "decimals": 18
     },
-    "blockExplorerUrls": [""],
-    "active": false
+    "blockExplorerUrls": [
+      "https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/"
+    ],
+    "active": false,
+    "create": true
   },
   {
     "chainId": 169,
     "chainName": "manta-pacific",
     "chainLabel": "Manta Pacific",
-    "rpcUrls": ["https://pacific-rpc.manta.network/http"],
+    "rpcUrls": [
+      "https://pacific-rpc.manta.network/http"
+    ],
     "nativeCurrency": {
       "name": "Pacific Ether",
       "symbol": "pETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://pacific-explorer.manta.network"],
+    "blockExplorerUrls": [
+      "https://pacific-explorer.manta.network"
+    ],
     "create": true,
     "active": false,
     "linkedLayer1": 0
@@ -319,13 +446,17 @@
   {
     "chainId": 167000,
     "chainName": "taiko",
-    "rpcUrls": ["https://rpc.taiko.xyz"],
+    "rpcUrls": [
+      "https://rpc.taiko.xyz"
+    ],
     "nativeCurrency": {
       "name": "Taiko Ether",
       "symbol": "tETH",
       "decimals": 18
     },
-    "blockExplorerUrls": ["https://explorer.taiko.xyz/"],
+    "blockExplorerUrls": [
+      "https://explorer.taiko.xyz/"
+    ],
     "linkedLayer1": 1,
     "active": false,
     "create": true
