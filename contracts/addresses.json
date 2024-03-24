@@ -129,6 +129,13 @@
     "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
     "chainName": "manta-pacific-testnet"
   },
+  "34443": {
+    "OpenAutoMarket": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenNFTsFactoryV3": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
+    "OpenNFTsResolver": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsV4": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "chainName": "mode"
+  },
   "41": {
     "OpenAutoMarket": "",
     "OpenNFTs": "0x78E6DA4fBFc2653A76485df46dF070B120E36761",
