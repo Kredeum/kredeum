@@ -40,7 +40,8 @@ const isAddressOk = (address = ADDRESS_ZERO): boolean => Boolean(address && isAd
 const isAddressZero = (address = ADDRESS_ZERO): boolean => address === ADDRESS_ZERO;
 const isAddressNotZero = (address = ADDRESS_ZERO): boolean => isAddressOk(address) && !isAddressZero(address);
 
-const getChecksumAddress = (address = ADDRESS_ZERO): Address => (isAddressOk(address) ? getAddress(address) : ADDRESS_ZERO);
+const getChecksumAddress = (address = ADDRESS_ZERO): Address =>
+  isAddressOk(address) ? getAddress(address) : ADDRESS_ZERO;
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
 const addresses = JSON.parse(JSON.stringify(addressesRaw));

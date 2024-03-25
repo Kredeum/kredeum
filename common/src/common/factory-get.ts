@@ -1,4 +1,3 @@
-
 import { ADDRESS_ZERO, explorerContractUrl, getAddresses } from "../common/config";
 
 import type { OpenNFTsFactoryV3 } from "@kredeum/contracts/types/OpenNFTsFactoryV3";

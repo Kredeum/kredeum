@@ -1,17 +1,11 @@
-import { http, type Chain, type HttpTransport } from "viem";
+import { http } from "viem";
 import { arbitrum, bsc, gnosis, mainnet, optimism, polygon, sepolia } from "viem/chains";
-import { anvil } from "../constants/anvil";
+import { anvil } from "./anvil";
 
-const bzzChains = [gnosis, sepolia, anvil];
-const bzzChainsId = bzzChains.map((chain) => chain.id);
-type BzzChainIdType = (typeof bzzChainsId)[number];
+const chains = [mainnet, gnosis, polygon, bsc, arbitrum, optimism];
+const chainsId = chains.map((chain) => chain.id);
+type ChainIdsType = (typeof chainsId)[number];
 
-const nftChains = [mainnet, gnosis, polygon, bsc, arbitrum, optimism];
-const nftChainsId = nftChains.map((chain) => chain.id);
-type NftChainIdsType = (typeof nftChainsId)[number];
-
-const chains = [...new Set([...bzzChains, ...nftChains])];
-console.log("chains:", chains);
 type ChainType = (typeof chains)[number];
 
 type ChainMapType = Map<number, ChainType>;
@@ -20,7 +14,7 @@ const chainsMap: ChainMapType = new Map();
 for (const chain of chains) chainsMap.set(chain.id, chain);
 
 const chainGet = (chainId: number): ChainType => {
-  if (!chainId) throw new Error(`chainGet: chainId not defined`);
+  if (!chainId) throw new Error("chainGet: chainId not defined");
   const chain = chainsMap.get(chainId);
   if (!chain) throw new Error(`chainGet: Chain #${chainId} not found`);
 
@@ -42,7 +36,7 @@ const chainGetWithTransport = (chainId: number) => {
   if (chainId === anvil.id) {
     rpcUrl = "http://127.0.0.1:8545";
   } else if (chainId === gnosis.id) {
-    rpcUrl = 'https://rpc.ankr.com/gnosis';
+    rpcUrl = "https://rpc.ankr.com/gnosis";
     // rpcUrl = "https://gnosis.publicnode.com";
     // rpcUrl = 'https://rpc.gnosis.gateway.fm';
   } else if (chainId === sepolia.id) {
@@ -69,5 +63,5 @@ const chainGetWithTransport = (chainId: number) => {
   return { chain, transport };
 };
 
-export { bzzChains, bzzChainsId, nftChains, nftChainsId, chainsMap, chainGet, chainGetWithTransport, chainGetExplorer };
-export type { ChainMapType, BzzChainIdType, NftChainIdsType };
+export { chains, chainsId, chainsMap, chainGet, chainGetWithTransport, chainGetExplorer };
+export type { ChainMapType, ChainIdsType };

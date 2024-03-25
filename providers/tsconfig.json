@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "commonjs",
+    "strict": true,
+    "esModuleInterop": true,
+    "resolveJsonModule": true,
+    "baseUrl": "../",
+    "paths": {
+      "@common/*": ["common/src/*"],
+      "@svelte/*": ["svelte/src/*"],
+      "@providers/*": ["providers/src/*"]
+    }
+  },
+  "include": ["src/*.ts"]
+}

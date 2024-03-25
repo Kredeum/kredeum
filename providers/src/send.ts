@@ -1,7 +1,18 @@
 import "viem/window";
-import { createWalletClient, type Address, type WalletClient, type EIP1193Provider, custom, type PublicClient, type Transport, type Chain, type WalletClientConfig } from "viem";
+import {
+  createWalletClient,
+  type Address,
+  type WalletClient,
+  type EIP1193Provider,
+  custom,
+  type PublicClient,
+  type Transport,
+  type Chain,
+  type WalletClientConfig
+} from "viem";
 
-import { chainGet } from "../common/chains";
+import { callPublicClient } from "./call";
+import { chainGet } from "./chains";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // WRITE : onchain write functions via rpc, i.e. functions with walletClient
@@ -48,11 +59,12 @@ const sendWalletClient = async (bzzChainId: number): Promise<WalletClient> => {
   return _walletClients.get(bzzChainId) || _walletClientCreate(bzzChainId);
 };
 
-const sendWallet = async (bzzChainId: number): Promise<[WalletClient, Address]> => {
+const sendWallet = async (bzzChainId: number): Promise<[PublicClient, WalletClient, Address]> => {
+  const publicClient = callPublicClient(bzzChainId);
   const walletClient = await sendWalletClient(bzzChainId);
   const walletAddress = await sendWalletAddress(true);
 
-  return [ walletClient, walletAddress] as [WalletClient, Address];
+  return [publicClient, walletClient, walletAddress] as [PublicClient, WalletClient, Address];
 };
 
 const sendWalletAddress = async (force = false, n = 0): Promise<Address> => {
@@ -61,6 +73,7 @@ const sendWalletAddress = async (force = false, n = 0): Promise<Address> => {
 
 const sendWalletChainId = async (): Promise<number> => await _walletClient().getChainId();
 
-const sendWalletSwitchChain = async (bzzChainId: number): Promise<void> => await _walletClient().switchChain({ id: bzzChainId });
+const sendWalletSwitchChain = async (bzzChainId: number): Promise<void> =>
+  await _walletClient().switchChain({ id: bzzChainId });
 
 export { sendWallet, sendWalletClient, sendWalletAddress, sendWalletChainId, sendWalletSwitchChain };
