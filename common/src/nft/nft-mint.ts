@@ -22,7 +22,7 @@ import {
 } from "../collection/collection";
 import { storageLinkToUrlHttp } from "../storage/storage";
 import { ipfsGatewayUrl } from "../storage/ipfs";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {

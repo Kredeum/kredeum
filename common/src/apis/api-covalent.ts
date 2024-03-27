@@ -6,7 +6,7 @@ import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "../common/config";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const _covalentUrlPath = (chainId: number, path: string): string => {
@@ -38,7 +38,7 @@ const covalentCollections = async (chainId: number, account: Address): Promise<M
   // console.log(`covalentCollections ${keyCollection(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const chainName = networks.getChainName(chainId);
+  const chainName = networks.getName(chainId);
 
   if (!(chainId && chainName && account)) return collections;
 

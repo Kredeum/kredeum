@@ -7,7 +7,7 @@ import { ADDRESS_ZERO } from "../common/config";
 import type { WindowExternalProvider } from "./types";
 import { getChecksumAddress, sleep } from "../common/config";
 // import { ethers } from "ethers";
-import { networks } from "./networks";
+import networks from "../network/networks";
 
 let _providerSetting = false;
 

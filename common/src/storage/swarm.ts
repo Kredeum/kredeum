@@ -3,7 +3,7 @@ import type { NftMetadata, NftType, Properties } from "../common/types";
 import { DEFAULT_NAME, textShort } from "../common/config";
 
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { fetchBee } from "@common/common/fetchBee";
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

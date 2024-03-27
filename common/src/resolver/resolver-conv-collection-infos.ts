@@ -3,7 +3,7 @@ import type { IOpenNFTsInfos, IERCNftInfos } from "@kredeum/contracts/types/Open
 import type { CollectionType, ReceiverType } from "../common/types";
 import { getChecksumAddress, DEFAULT_NAME, DEFAULT_SYMBOL, ADDRESS_ZERO } from "../common/config";
 import { resolverConvSupports } from "../resolver/resolver-conv-supports";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const resolverConvCollectionInfos = (
@@ -13,7 +13,7 @@ const resolverConvCollectionInfos = (
 ): CollectionType => {
   // console.log("resolverConvCollectionInfos  IN", chainId, collectionInfos, account);
 
-  const chainName = networks.getChainName(chainId);
+  const chainName = networks.getName(chainId);
   const address: Address = getChecksumAddress(collectionInfos[0]);
   const name: string = collectionInfos[2] || DEFAULT_NAME;
   const symbol: string = collectionInfos[3] || DEFAULT_SYMBOL;

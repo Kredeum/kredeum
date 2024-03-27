@@ -13,5 +13,9 @@
   "license": "MIT",
   "devDependencies": {
     "viem": "^2.9.0"
+  },
+  "dependencies": {
+    "@kredeum/common": "workspace:^",
+    "@kredeum/config": "workspace:^"
   }
 }

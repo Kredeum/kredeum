@@ -5,7 +5,7 @@
   import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
 
   /////////////////////////////////////////////////
   // <NetworkSelect bind:{chainId} {txt} {label} />

@@ -1,6 +1,6 @@
 import type { RefPageType } from "@common/common/types";
 import { getChecksumAddress, isAddressNotZero } from "@common/common/config";
-import { networks } from "@common/common/networks";
+import networks from "@common/common/networks";
 import { ADDRESS_ZERO } from "@common/common/config";
 import { Address } from "viem";
 
@@ -20,7 +20,7 @@ const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   address = getChecksumAddress(address);
   signer = getChecksumAddress(signer);
   account = isAddressNotZero(account) ? getChecksumAddress(account) : signer;
-  const chainName = networks.getChainName(chainId) || "";
+  const chainName = networks.getName(chainId) || "";
 
   return { chainId, address, tokenID, account, signer, action, chainName };
 };
@@ -91,7 +91,7 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   let chainId: number;
   if (Number(chain)) {
     chainId = Number(chain);
-    chainName = networks.getChainName(chainId) || "";
+    chainName = networks.getName(chainId) || "";
   } else {
     chainName = chain;
     chainId = networks.getChainId(chainName) || 0;

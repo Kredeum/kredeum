@@ -13,7 +13,7 @@
   import NftIncomes from "./NftIncomes.svelte";
   import { nftPrice, nftOnSale, nftCollectionApproved } from "@common/nft/nft";
   import { onMount } from "svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
   import { Address } from "viem";
 
   /////////////////////////////////////////////////

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />
@@ -10,7 +10,7 @@
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
 
-  $: chainLabel = networks.getChainLabel(chainId);
+  $: chainLabel = networks.getLabel(chainId);
   $: chainMainnet = networks.getMainnetName(chainId);
   $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
 

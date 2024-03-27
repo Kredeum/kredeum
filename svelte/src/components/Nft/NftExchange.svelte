@@ -4,7 +4,7 @@
   import NftSell from "./NftSell.svelte";
   import { nftStore } from "@svelte/stores/nft/nft";
   import { metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
   import { Address, formatEther } from "viem";
 
   /////////////////////////////////////////////////////////////////
@@ -27,7 +27,7 @@
   {#if mode !== "detail"}
     <div class="overflow-ellipsis price">
       {#if nftPrice($nft) > 0n}
-        <strong>{formatEther(nftPrice($nft))} {networks.getCurrency(chainId)}</strong>
+        <strong>{formatEther(nftPrice($nft))} {networks.getNativeCurrency(chainId)}</strong>
       {:else}
         &nbsp;
       {/if}

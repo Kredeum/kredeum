@@ -5,7 +5,7 @@ import { get } from "svelte/store";
 
 import { numberToHexString, getChecksumAddress, isAddressNotZero } from "@common/common/config";
 import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@svelte/stores/metamask";
-import { networks } from "@common/common/networks";
+import networks from "@common/common/networks";
 
 // import { createWalletClient, custom } from "viem";
 

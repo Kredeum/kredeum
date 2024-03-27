@@ -1,7 +1,7 @@
 import type { IERCNftInfos, IOpenNFTsInfos } from "@kredeum/contracts/types/IOpenNFTsResolver";
 import type { NftType, CollectionType, ReceiverType } from "../common/types";
 import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const resolverConvNftInfos = (
@@ -15,7 +15,7 @@ const resolverConvNftInfos = (
   const address = getChecksumAddress(collection.address);
   const tokenID = String(nftInfos[0]);
   const tokenURI = nftInfos[1] || "";
-  const chainName = networks.getChainName(chainId) || "";
+  const chainName = networks.getName(chainId) || "";
 
   const nft: NftType = {
     chainId,

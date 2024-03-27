@@ -6,7 +6,7 @@ import { alchemyActive, alchemyCollections } from "../apis/api-alchemy";
 import { covalentActive, covalentCollections } from "../apis/api-covalent";
 import { thegraphActive, thegraphCollections } from "../apis/api-thegraph";
 import { resolverFilterCollections, resolverGetCollections } from "../resolver/resolver-get-collection";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 // import { infuraActive, infuraCollections } from "../apis/api-infura";
 

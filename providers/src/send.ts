@@ -12,7 +12,7 @@ import {
 } from "viem";
 
 import { callPublicClient } from "./call";
-import { chainGet } from "./chains";
+import chains from "./chains";
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 // WRITE : onchain write functions via rpc, i.e. functions with walletClient
@@ -33,16 +33,16 @@ const _walletClient = (): WalletClient => createWalletClient(_transportEthereum(
 // walletClients Map used as cache
 const _walletClients: Map<number, WalletClient> = new Map();
 
-const _walletClientCreate = (bzzChainId?: number): WalletClient => {
+const _walletClientCreate = (chainId?: number): WalletClient => {
   const transportPlusOptionalChain: WalletClientConfig<Transport, Chain> = _transportEthereum();
   let walletClient: WalletClient;
 
-  if (bzzChainId) {
-    const chain = chainGet(bzzChainId);
+  if (chainId) {
+    const chain = chains.get(chainId);
     if (chain) transportPlusOptionalChain.chain = chain;
     walletClient = createWalletClient(transportPlusOptionalChain);
 
-    _walletClients.set(bzzChainId, walletClient);
+    _walletClients.set(chainId, walletClient);
   } else {
     walletClient = _walletClient();
   }
@@ -50,18 +50,18 @@ const _walletClientCreate = (bzzChainId?: number): WalletClient => {
   return walletClient;
 };
 
-const sendWalletClient = async (bzzChainId: number): Promise<WalletClient> => {
-  // console.info('sendWalletClient ~ bzzChainId:', bzzChainId);
+const sendWalletClient = async (chainId: number): Promise<WalletClient> => {
+  // console.info('sendWalletClient ~ chainId:', chainId);
   const walletChainId = await sendWalletChainId();
 
-  if (bzzChainId !== walletChainId) await sendWalletSwitchChain(bzzChainId);
+  if (chainId !== walletChainId) await sendWalletSwitchChain(chainId);
 
-  return _walletClients.get(bzzChainId) || _walletClientCreate(bzzChainId);
+  return _walletClients.get(chainId) || _walletClientCreate(chainId);
 };
 
-const sendWallet = async (bzzChainId: number): Promise<[PublicClient, WalletClient, Address]> => {
-  const publicClient = callPublicClient(bzzChainId);
-  const walletClient = await sendWalletClient(bzzChainId);
+const sendWallet = async (chainId: number): Promise<[PublicClient, WalletClient, Address]> => {
+  const publicClient = callPublicClient(chainId);
+  const walletClient = await sendWalletClient(chainId);
   const walletAddress = await sendWalletAddress(true);
 
   return [publicClient, walletClient, walletAddress] as [PublicClient, WalletClient, Address];
@@ -73,7 +73,7 @@ const sendWalletAddress = async (force = false, n = 0): Promise<Address> => {
 
 const sendWalletChainId = async (): Promise<number> => await _walletClient().getChainId();
 
-const sendWalletSwitchChain = async (bzzChainId: number): Promise<void> =>
-  await _walletClient().switchChain({ id: bzzChainId });
+const sendWalletSwitchChain = async (chainId: number): Promise<void> =>
+  await _walletClient().switchChain({ id: chainId });
 
 export { sendWallet, sendWalletClient, sendWalletAddress, sendWalletChainId, sendWalletSwitchChain };
