@@ -1,0 +1,9 @@
+{
+  "extends": ["//"],
+  "pipeline": {
+    "check": {
+      "dependsOn": ["format"],
+      "inputs": ["src/**"]
+    }
+  }
+}

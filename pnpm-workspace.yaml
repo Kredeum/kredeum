@@ -7,4 +7,5 @@ packages:
   - sveltekit
   - wordpress
   - providers
+  - skale
   - tests

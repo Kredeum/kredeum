@@ -8,14 +8,15 @@ const config = {
   preprocess: vitePreprocess(),
 
   kit: {
-    adapter: adapter({
+    adapter: adapter( {
       pages: "web/dapp",
       assets: "web/dapp",
       precompress: false,
       strict: true
-    }),
+    } ),
     alias: {
       "@providers": "../providers/src",
+      "@skale": "../skale/src",
     }
   },
 };

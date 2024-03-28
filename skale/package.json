@@ -1,5 +1,5 @@
 {
-  "name": "@kredeum/providers",
+  "name": "@kredeum/skale",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -13,6 +13,5 @@
   "license": "MIT",
   "devDependencies": {
     "viem": "^2.9.0"
-  },
-  "dependencies": {}
+  }
 }
