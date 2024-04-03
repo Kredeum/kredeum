@@ -1,67 +1,48 @@
-import { http } from "viem";
-import { arbitrum, bsc, gnosis, mainnet, optimism, polygon, sepolia } from "viem/chains";
-import { anvil } from "./anvil";
+import { http, type Chain } from "viem";
 
-const chains = [mainnet, gnosis, polygon, bsc, arbitrum, optimism];
-const chainsId = chains.map((chain) => chain.id);
-type ChainIdsType = (typeof chainsId)[number];
+const chains = (() => {
+  let _chains: Chain[] = [];
 
-type ChainType = (typeof chains)[number];
+  const set = (chains_: Chain[]) => {
+    _chains = chains_;
+  };
 
-type ChainMapType = Map<number, ChainType>;
+  const get = (chainId: number): Chain => {
+    const _chain = _chains.find((ch) => ch.id === chainId);
+    if (!_chain) throw new Error(`Chain #${chainId} not found`);
+    return _chain;
+  };
 
-const chainsMap: ChainMapType = new Map();
-for (const chain of chains) chainsMap.set(chain.id, chain);
+  const getWithTransport = (chainId: number, rpcUrl?: string) => {
+    const chain = get(chainId);
+    const transport = http(rpcUrl);
 
-const chainGet = (chainId: number): ChainType => {
-  if (!chainId) throw new Error("chainGet: chainId not defined");
-  const chain = chainsMap.get(chainId);
-  if (!chain) throw new Error(`chainGet: Chain #${chainId} not found`);
+    return { chain, transport };
+  };
 
-  return chain;
-};
+  const getIds = _chains.map((ch) => ch.id);
 
-const chainGetExplorer = (id: number): string | undefined => {
-  const chain = chainGet(id);
-  return chain.blockExplorers.default.url;
-};
+  const getId = (chainName: string): number => {
+    const _chain = _chains.find((ch: Chain) => ch.name === chainName);
+    if (!_chain) throw new Error(`Chain '${chainName}' not found`);
+    return _chain.id;
+  };
 
-const chainGetWithTransport = (chainId: number) => {
-  const chain = chainGet(chainId);
+  const getName = (id: number): string => get(id).name;
 
-  const INFURA_API_KEY = "7e5ff61abb704742b7783199fbf36327";
+  const getNativeCurrency = (id: number): string => get(id).nativeCurrency.symbol;
 
-  let rpcUrl: string | undefined;
+  const getRpcUrl = (id: number): string => get(id).rpcUrls.default.http[0];
 
-  if (chainId === anvil.id) {
-    rpcUrl = "http://127.0.0.1:8545";
-  } else if (chainId === gnosis.id) {
-    rpcUrl = "https://rpc.ankr.com/gnosis";
-    // rpcUrl = "https://gnosis.publicnode.com";
-    // rpcUrl = 'https://rpc.gnosis.gateway.fm';
-  } else if (chainId === sepolia.id) {
-    rpcUrl = `https://sepolia.infura.io/v3/${INFURA_API_KEY}`;
-  } else if (chainId === mainnet.id) {
-    rpcUrl = `https://mainnet.infura.io/v3/${INFURA_API_KEY}`;
-    // rpcUrl = `https://rpc.ankr.com/eth`;
-  } else if (chainId === polygon.id) {
-    rpcUrl = `https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}`;
-  } else if (chainId === arbitrum.id) {
-    rpcUrl = `https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}`;
-  } else if (chainId === optimism.id) {
-    rpcUrl = `https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}`;
-  } else if (chainId === bsc.id) {
-    // rpcUrl = 'https://rpc.ankr.com/bsc';
-    rpcUrl = "https://bsc.publicnode.com";
-  } else {
-    throw new Error(`chainGetWithTransport: RPC url #${chainId} not found`);
-  }
+  const getExplorer = (id: number): string => {
+    const _blockExplorers = get(id).blockExplorers;
+    if (!_blockExplorers)
+      throw new Error(`Chain #${id} has no block explorers
+`);
+    return _blockExplorers.default.url || "";
+  };
 
-  // console.info('chainGetWithTransport ~ rpcUrl:', chainId, rpcUrl);
-  const transport = http(rpcUrl);
+  return { set, get, getWithTransport, getIds, getId, getExplorer, getName, getNativeCurrency, getRpcUrl };
+})();
 
-  return { chain, transport };
-};
-
-export { chains, chainsId, chainsMap, chainGet, chainGetWithTransport, chainGetExplorer };
-export type { ChainMapType, ChainIdsType };
+export default chains;

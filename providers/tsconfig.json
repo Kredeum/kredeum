@@ -7,10 +7,9 @@
     "resolveJsonModule": true,
     "baseUrl": "../",
     "paths": {
-      "@common/*": ["common/src/*"],
-      "@svelte/*": ["svelte/src/*"],
-      "@providers/*": ["providers/src/*"]
+      "@config/*": ["config/dist/*"],
+      "@common/*": ["common/src/common/*"]
     }
   },
-  "include": ["src/*.ts"]
+  "include": ["**/*.ts", "**/*.json"]
 }

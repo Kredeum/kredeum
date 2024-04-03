@@ -22,7 +22,7 @@ import {
 } from "../collection/collection";
 import { storageLinkToUrlHttp } from "../storage/storage";
 import { ipfsGatewayUrl } from "../storage/ipfs";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
@@ -84,7 +84,7 @@ const nftMint = async (
 
   if (collectionIsOpenMarketable(collection)) {
     const notMine = collection.owner != minter;
-    const value = collection.open && notMine ? collection.price : 0;
+    // const value = collection.open && notMine ? collection.price : 0;
     // const overrides: PayableOverrides = { value };
     if (networks.isEip1559(chainId)) overrides.type = 2;
 

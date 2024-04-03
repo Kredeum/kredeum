@@ -6,7 +6,7 @@ import type { CollectionType, NftType, RefPageType, AddressesType } from "../com
 import config from "@kredeum/config/dist/config.json";
 import addressesRaw from "@kredeum/contracts/addresses.json";
 
-import { networks } from "./networks";
+import networks from "../network/networks";
 import { getAddress, isAddress, formatEther, toHex } from "viem";
 import { Address } from "viem";
 
@@ -22,8 +22,11 @@ const copyToClipboard = async (data: string): Promise<void> =>
   await navigator.clipboard.writeText(data).catch(() => console.error("Not copied"));
 
 // Capitalize first letter
-const strUpFirst = (str: string | undefined): string =>
-  str && str.length >= 1 ? str.charAt(0).toUpperCase() + str.substring(1) : "";
+const strUpFirst = (str: string | undefined): string => {
+  if (!(str && str.length >= 1)) throw new Error("strUpFirst: no string defined");
+
+  return str.charAt(0).toUpperCase() + str.substring(1);
+};
 
 const tokenIdSplit = (tokenIDs = ""): Array<string> => {
   const tokenIDsSanitize = tokenIDs.replace(/ /g, "");
@@ -317,7 +320,7 @@ const interfaceId = (abi: Array<string>): string => {
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 const displayEther = (chainId: number, price: bigint): string =>
-  `${formatEther(price)} ${networks.getCurrency(chainId)}`;
+  `${formatEther(price)} ${networks.getNativeCurrency(chainId)}`;
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////

@@ -8,8 +8,9 @@
     "baseUrl": "../",
     "paths": {
       "@common/*": ["common/src/*"],
+      "@providers/*": ["providers/src/*"],
       "@svelte/*": ["svelte/src/*"]
     }
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts", "../providers/src/chains.ts"]
 }

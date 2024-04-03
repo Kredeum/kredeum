@@ -4,7 +4,7 @@ import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 import { keyNft } from "../common/keys";
 import { swarmGatewayUrl, swarmGetLink } from "../storage/swarm";
 import { ipfsGatewayUrl, ipfsGetLink } from "../storage/ipfs";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 
 // Cache contentType(url)
 const contentTypesCache: Map<string, string> = new Map();

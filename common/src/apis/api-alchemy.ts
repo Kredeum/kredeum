@@ -3,14 +3,14 @@ import type { FetchResponse } from "../common/fetch";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
 import { ADDRESS_ZERO, getChecksumAddress, isAddressNotZero } from "../common/config";
 import { keyCollections, keyNft } from "../common/keys";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const alchemyCollections = async (chainId: number, account: Address): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const chainName = networks.getChainName(chainId);
+  const chainName = networks.getName(chainId);
 
   if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 

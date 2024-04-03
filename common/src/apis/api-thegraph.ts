@@ -3,7 +3,7 @@ import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 import { Address } from "viem";
 
 const thegraphNftList = async (

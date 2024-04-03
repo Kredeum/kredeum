@@ -22,17 +22,18 @@
     "@ipld/dag-pb": "^4.1.0",
     "@types/findup-sync": "^4.0.5",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.30",
+    "@types/node": "^20.12.2",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
     "multiformats": "^13.1.0",
     "tslib": "^2.6.2",
     "typescript": "^5.4.3",
-    "viem": "^2.9.0"
+    "viem": "^2.9.6"
   },
   "dependencies": {
     "@kredeum/config": "workspace:^",
-    "@kredeum/contracts": "workspace:^"
+    "@kredeum/contracts": "workspace:^",
+    "@kredeum/providers": "workspace:^"
   }
 }

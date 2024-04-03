@@ -1,6 +1,6 @@
 <script lang="ts">
   import { isNumeric } from "@common/common/config";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
   import { formatEther, parseEther } from "viem";
 
   /////////////////////////////////////////////////
@@ -36,14 +36,14 @@
   // $: console.log("<InputPrice", String(price), String(inputPrice));
 </script>
 
-<div class="kre-input-container" data-currency-symbol={networks.getCurrency(chainId)}>
+<div class="kre-input-container" data-currency-symbol={networks.getNativeCurrency(chainId)}>
   <input
     type="text"
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
     placeholder={inputPrice}
-    style={`--input-padding:${networks.getCurrency(chainId).length};`}
+    style={`--input-padding:${networks.getNativeCurrency(chainId).length};`}
   />
 </div>
 

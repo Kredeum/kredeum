@@ -34,7 +34,7 @@
   import { nftStoreAndRefresh } from "@svelte/stores/nft/nft";
   import { widgetOpenSky } from "@svelte/helpers/widget";
   import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@common/storage/storage";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
   import { formatEther } from "viem";
 
   /////////////////////////////////////////////////

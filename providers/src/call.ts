@@ -1,58 +1,61 @@
 import { type Chain, type Address, type Block, type PublicClient, type Transport, createPublicClient } from "viem";
 
-import { chainGetWithTransport } from "./chains";
+import chains from "./chains";
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 // READ : onchain view functions reading the chain via rpc, i.e. functions with publicClient as parameter
 //////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// publicClients Map used as cache
-const _publicClients: Map<number, PublicClient<Transport, Chain | undefined>> = new Map();
+const call = (() => {
+  const _publicClients: Map<number, PublicClient<Transport, Chain | undefined>> = new Map();
 
-const _publicClient = (chainId: number) => {
-  const chainWithTransport = chainGetWithTransport(chainId);
-  const publicClient = createPublicClient(chainWithTransport) as PublicClient<Transport, Chain | undefined>;
+  const _publicClient = (chainId: number) => {
+    const chainWithTransport = chains.getWithTransport(chainId);
+    const publicClient = createPublicClient(chainWithTransport) as PublicClient<Transport, Chain | undefined>;
 
-  _publicClients.set(chainId, publicClient);
+    _publicClients.set(chainId, publicClient);
 
-  return publicClient;
-};
+    return publicClient;
+  };
 
-const callPublicClient = (chainId: number) => _publicClients.get(chainId) || _publicClient(chainId);
+  const getPublicClient = (chainId: number) => _publicClients.get(chainId) || _publicClient(chainId);
 
-const callBlockNumber = async (chainId: number): Promise<bigint> => {
-  const publicClient = callPublicClient(chainId);
+  const getBlockNumber = async (chainId: number): Promise<bigint> => {
+    const publicClient = getPublicClient(chainId);
 
-  return await publicClient.getBlockNumber();
-};
+    return await publicClient.getBlockNumber();
+  };
 
-const callBlock = async (chainId: number, blockNumber?: bigint): Promise<Block> => {
-  const publicClient = callPublicClient(chainId);
+  const getBlock = async (chainId: number, blockNumber?: bigint): Promise<Block> => {
+    const publicClient = getPublicClient(chainId);
 
-  const param = blockNumber ? { blockNumber } : {};
+    const param = blockNumber ? { blockNumber } : {};
 
-  return await publicClient.getBlock(param);
-};
+    return await publicClient.getBlock(param);
+  };
 
-const callEnsName = async (account: Address) => callPublicClient(1).getEnsName({ address: account });
+  const getEnsName = async (account: Address) => getPublicClient(1).getEnsName({ address: account });
 
-const callIsContract = async (chainId: number, address: Address | undefined): Promise<boolean> => {
-  if (!(address && address !== "0x0" && chainId > 0)) return false;
+  const isContract = async (chainId: number, address: Address | undefined): Promise<boolean> => {
+    if (!(address && address !== "0x0" && chainId > 0)) return false;
 
-  const publicClient = callPublicClient(chainId);
+    const publicClient = getPublicClient(chainId);
 
-  const bytecode = await publicClient.getBytecode({ address });
+    const bytecode = await publicClient.getBytecode({ address });
 
-  const isContract = (bytecode?.length || 0) > 0;
+    const _isContract = (bytecode?.length || 0) > 0;
 
-  // console.info('callIsContract', isContract, chainId, address);
-  return isContract;
-};
+    // console.info('isContract', isContract, chainId, address);
+    return _isContract;
+  };
 
-const callChainId = async (chain: Chain) => {
-  const publicClient = callPublicClient(chain.id);
+  const getChainId = async (chain: Chain) => {
+    const publicClient = getPublicClient(chain.id);
 
-  return await publicClient.getChainId();
-};
+    return await publicClient.getChainId();
+  };
 
-export { callPublicClient, callChainId, callEnsName, callIsContract, callBlock, callBlockNumber };
+  return { getPublicClient, getChainId, getEnsName, getBlock, getBlockNumber, isContract };
+})();
+
+export default call;

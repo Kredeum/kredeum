@@ -4,7 +4,7 @@
 
   import InputImportCollection from "../Input/InputImportCollection.svelte";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@common/common/networks";
 
   /////////////////////////////////////////////////
   //  <Create {chainId} {signer} />

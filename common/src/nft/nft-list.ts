@@ -8,7 +8,7 @@ import { covalentActive, covalentNftList } from "../apis/api-covalent";
 import { thegraphActive, thegraphNftList } from "../apis/api-thegraph";
 
 import { FETCH_LIMIT } from "../common/fetch";
-import { networks } from "../common/networks";
+import networks from "../network/networks";
 
 // Merge 2 nfts list into 1
 const nftsMerge = (nftList1: Map<string, NftType>, nftList2: Map<string, NftType>): Map<string, NftType> => {
