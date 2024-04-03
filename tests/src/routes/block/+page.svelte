@@ -36,3 +36,5 @@
 {/each}
 
 {chains.getName(10)}
+
+<p><a href="..">Home</a></p>
