@@ -1,12 +1,12 @@
 import { expect, test } from '@playwright/test';
 
 test('index page has expected h1', async ({ page }) => {
-	await page.goto('/');
+	await page.goto('/metamask');
 	await expect(page.getByRole('heading', { name: 'Test MetaMask Connexion' })).toBeVisible();
 });
 
 test('connexion to Metamask ok', async ({ page }) => {
-	await page.goto('/viem');
+	await page.goto('/metamask');
 	await page.click('#connect-metamask-button');
 	// const metamaskWindow = await page.waitForEvent('popup');
 
