@@ -14,9 +14,7 @@ const config = {
       precompress: false,
       strict: true
     }),
-    alias: {
-      "@providers": "../providers/src",
-    }
+    alias: {}
   },
 };
 

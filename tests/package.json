@@ -40,8 +40,5 @@
     "vitest": "^1.4.0"
   },
   "type": "module",
-  "dependencies": {
-    "@kredeum/providers": "workspace:^",
-    "@kredeum/skale": "workspace:*"
-  }
+  "dependencies": {}
 }
