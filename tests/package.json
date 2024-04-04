@@ -40,5 +40,8 @@
     "vite": "^5.2.7",
     "vitest": "^1.4.0"
   },
-  "type": "module"
+  "type": "module",
+  "dependencies": {
+    "@tenkeylabs/dappwright": "^2.8.2"
+  }
 }
