@@ -9,29 +9,17 @@ import dappwright, { type Dappwright, MetaMaskWallet } from "@tenkeylabs/dappwri
 export const test = baseTest.extend<{
 	context: BrowserContext;
 	wallet: Dappwright;
-	// globalContext: BrowserContext;
 }>({
-	// globalContext: [async ({ browserName }, use) => {
-	// 	const browserTypes = { chromium, firefox, webkit };
-	// 	const context = await browserTypes[browserName].launchPersistentContext(path.join(__dirname, 'ppp'), {});
-	// 	await use(context);
-	// 	await context.close();
-	// }, { scope: 'test' }],
-
-	// page: async ({ globalContext }, use) => {
-	// 	const page = await globalContext.newPage();
-	// 	await use(page);
-	// 	await page.close();
-	// },
-	
 
 	context: async ({ }, use) => {
 		// Launch context with extension
 		const [wallet, _, context] = await dappwright.bootstrap("", {
 			wallet: "metamask",
+			// version: "11.7.4",
 			version: MetaMaskWallet.recommendedVersion,
 			seed: "test test test test test test test test test test test junk", // Hardhat's default https://hardhat.org/hardhat-network/docs/reference#accounts
 			headless: false,
+			showTestNets: true,
 		});
 
 		// Add Hardhat as a custom network
@@ -43,6 +31,7 @@ export const test = baseTest.extend<{
 		});
 
 		await use(context);
+		await context.close();
 	},
 
 	wallet: async ({ context }, use) => {
@@ -59,13 +48,16 @@ export const test = baseTest.extend<{
 
 test("should be able to connect", async ({ wallet, page }) => {
 	// test("should be able to connect", async ({ page }) => {
+	await page.goto("http://localhost:4173/metamask");
 
 	// const [wallet, _, context] = await dappwright.bootstrap("", {
 	// 	wallet: "metamask",
 	// 	version: MetaMaskWallet.recommendedVersion,
 	// 	seed: "test test test test test test test test test test test junk", // Hardhat's default https://hardhat.org/hardhat-network/docs/reference#accounts
 	// 	headless: false,
+	// 	showTestNets: true,
 	// });
+
 
 	// // Add Hardhat as a custom network
 	// await wallet.addNetwork({
@@ -74,6 +66,7 @@ test("should be able to connect", async ({ wallet, page }) => {
 	// 	chainId: 11155111,
 	// 	symbol: "SepoliaETH",
 	// });
+
 
 	await page.goto("http://localhost:4173/metamask");
 

@@ -16,6 +16,8 @@ const config: PlaywrightTestConfig = {
 	use: {
 		// Configurez le navigateur pour qu'il ne soit pas en mode headless
 		headless: false,
+		ignoreHTTPSErrors: true,
+		acceptDownloads: true,
 	},
 	// projects: [
 	// 	{
