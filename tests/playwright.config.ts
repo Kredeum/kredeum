@@ -13,11 +13,14 @@ const config: PlaywrightTestConfig = {
 	testDir: 'tests',
 	testMatch: /(.+\.)?(test|spec)\.[jt]s/,
 	outputDir: "test-results",
+	fullyParallel: true,
+	reporter: "html",
 	use: {
 		// Configurez le navigateur pour qu'il ne soit pas en mode headless
 		headless: false,
 		ignoreHTTPSErrors: true,
 		acceptDownloads: true,
+		trace: "on-first-retry",
 	},
 	// projects: [
 	// 	{

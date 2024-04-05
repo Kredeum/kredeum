@@ -4,7 +4,7 @@ import { type Page } from "@playwright/test";
 
 import path from 'path';
 
-import dappwright, { type Dappwright, MetaMaskWallet } from "@tenkeylabs/dappwright";
+import dappwright, { type Dappwright, MetaMaskWallet, CoinbaseWallet } from "@tenkeylabs/dappwright";
 
 export const test = baseTest.extend<{
 	context: BrowserContext;
@@ -13,31 +13,33 @@ export const test = baseTest.extend<{
 
 	context: async ({ }, use) => {
 		// Launch context with extension
+		console.log('before');
 		const [wallet, _, context] = await dappwright.bootstrap("", {
-			wallet: "metamask",
+			wallet: "coinbase",
 			// version: "11.7.4",
-			version: MetaMaskWallet.recommendedVersion,
+			version: CoinbaseWallet.recommendedVersion,
 			seed: "test test test test test test test test test test test junk", // Hardhat's default https://hardhat.org/hardhat-network/docs/reference#accounts
 			headless: false,
 			showTestNets: true,
 		});
+		console.log('after');
 
 		// Add Hardhat as a custom network
-		await wallet.addNetwork({
-			networkName: "sepolia",
-			rpc: "https://sepolia.infura.io/v3/",
-			chainId: 11155111,
-			symbol: "SepoliaETH",
-		});
+		// await wallet.addNetwork({
+		// 	networkName: "sepolia",
+		// 	rpc: "https://sepolia.infura.io/v3/",
+		// 	chainId: 11155111,
+		// 	symbol: "SepoliaETH",
+		// });
 
 		await use(context);
 		await context.close();
 	},
 
 	wallet: async ({ context }, use) => {
-		const metamask = await dappwright.getWallet("metamask", context);
+		const coinbase = await dappwright.getWallet("coinbase", context);
 
-		await use(metamask);
+		await use(coinbase);
 	},
 
 });
