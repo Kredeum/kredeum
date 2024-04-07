@@ -236,7 +236,7 @@
       "https://explorer.linea.build"
     ],
     "linkedLayer1": 1,
-    "active": false,
+    "active": true,
     "create": true
   },
   {
