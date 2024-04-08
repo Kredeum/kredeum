@@ -33,11 +33,13 @@ contract DeployOpenNFTsResolver is DeployLite, DeployOpenNFTsFactoryV3 {
                 address[] memory addresses = OpenNFTsResolver(openNFTsResolverOld).getAddresses();
                 console.log("deployOpenNFTsResolver addresses to migrate:", addresses.length);
 
-                // may reverts out of gas if too much addresses...
-                try OpenNFTsResolver(openNFTsResolver).addAddresses(addresses) {
-                    console.log("deployOpenNFTsResolver migration OK");
-                } catch {
-                    console.log("deployOpenNFTsResolver migration KO");
+                if (addresses.length > 0) {
+                    // may reverts out of gas if too much addresses...
+                    try OpenNFTsResolver(openNFTsResolver).addAddresses(addresses) {
+                        console.log("deployOpenNFTsResolver migration OK");
+                    } catch {
+                        console.log("deployOpenNFTsResolver migration KO");
+                    }
                 }
             }
 

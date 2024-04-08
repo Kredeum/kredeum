@@ -246,10 +246,10 @@
     "chainName": "mumbai"
   },
   "81457": {
+    "OpenAutoMarket": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
     "OpenNFTsFactoryV3": "0xFc008F04042530Bf0bd8333FBe45470b514bD847",
-    "OpenAutoMarket_last": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
-    "OpenNFTsResolver_last": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
-    "OpenNFTsV4_last": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "OpenNFTsResolver": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsV4": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
     "chainName": "blast"
   },
   "8453": {
