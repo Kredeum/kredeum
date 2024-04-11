@@ -13,7 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.27",
+    "@types/node": "^20.12.7",
     "eslint-plugin-json": "^3.1.0",
     "fs-extra": "^11.2.0",
     "handlebars": "^4.7.8"

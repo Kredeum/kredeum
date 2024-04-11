@@ -1,33 +1,33 @@
 <script lang="ts">
   import type { Writable } from "svelte/store";
-  import { BigNumber, constants } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
-  import type { CollectionType } from "@common/common/types";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
   import {
     explorerTxLog,
     explorerTxUrl,
     explorerAddressUrl,
     textShort,
     isNumeric,
-    isAddress,
+    isAddressOk,
     MAX_FEE,
     displayEther,
     ADDRESS_ZERO
-  } from "@common/common/config";
-  import { collectionClone, collectionCloneAddress } from "@common/collection/collection-clone";
+  } from "@kredeum/common/src/common/config";
+  import { collectionClone, collectionCloneAddress } from "@kredeum/common/src/collection/collection-clone";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
-  import { feeAmount } from "@common/common/config";
+  import { feeAmount } from "@kredeum/common/src/common/config";
+  import { type Address } from "viem";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} {signer} />
   ///////////////////////////////////////////////////////////
   export let chainId: number;
   export let collection: CollectionType | undefined = undefined;
-  export let signer: string | undefined = undefined;
+  export let signer: Address | undefined = undefined;
   ///////////////////////////////////////////////////////////
 
   let template: string | undefined = undefined;
@@ -44,10 +44,10 @@
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const refreshAll: Writable<number> = getContext("refreshAll");
 
-  let inputMintPrice: BigNumber;
-  let inputReceiver: string;
+  let inputMintPrice: bigint;
+  let inputReceiver: Address;
   let inputFee: string;
-  let inputFeeNumber: number;
+  let inputFeeNumber: bigint;
 
   const dispatch = createEventDispatcher();
 
@@ -63,7 +63,7 @@
     while (tmpFee.split(".")[0]?.length > 2);
 
     inputFee = tmpFee;
-    if (isNumeric(inputFee)) inputFeeNumber = Math.min(Math.round(Number(tmpFee) * 100), MAX_FEE);
+    if (isNumeric(inputFee)) inputFeeNumber = BigInt(Math.min(Math.round(Number(tmpFee) * 100), Number(MAX_FEE)));
   };
 
   const _cloneError = (err: string): void => {
@@ -72,7 +72,7 @@
     cloning = 0;
   };
 
-  const invalidInputParams = (): boolean => !(isAddress(inputReceiver) && isNumeric(inputFee));
+  const invalidInputParams = (): boolean => !(isAddressOk(inputReceiver) && isNumeric(inputFee));
 
   // CREATING STATES
   //
@@ -108,10 +108,10 @@
 
     collectionName = "";
     collectionSymbol = "";
-    inputMintPrice = constants.Zero;
+    inputMintPrice = 0n;
     inputReceiver = signer || ADDRESS_ZERO;
     inputFee = "0";
-    inputFeeNumber = 0;
+    inputFeeNumber = 0n;
     cloneError = "";
 
     cloning = S1_CONFIRM;

@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { networks } from "@common/common/networks";
+  import networks from "@kredeum/common/src/contract/networks";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />
@@ -9,10 +9,17 @@
   export let txt = false;
   export let pre = false;
   /////////////////////////////////////////////////////////////////////////////////////////
+  let chainLabel: string;
+  let chainMainnet: string;
+  let preLabel: string;
+  /////////////////////////////////////////////////////////////////////////////////////////
 
-  $: chainLabel = networks.getChainLabel(chainId);
-  $: chainMainnet = networks.getMainnetName(chainId);
-  $: preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
+  $: chainId && handleChainId();
+  const handleChainId = () => {
+    chainLabel = networks.getLabel(chainId);
+    chainMainnet = networks.getMainnetName(chainId);
+    preLabel = pre ? (networks.isLayer2(chainId) ? "L2 " : "") : "";
+  };
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 </script>

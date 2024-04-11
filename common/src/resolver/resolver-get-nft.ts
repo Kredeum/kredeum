@@ -1,5 +1,3 @@
-import { BigNumber } from "ethers";
-
 import type { CollectionType, NftType, CollectionFilterType } from "../common/types";
 import { nftUrl } from "../common/config";
 import { resolverConvOpenNFTsNftInfos } from "../resolver/resolver-conv-nft-infos";
@@ -48,7 +46,7 @@ const resolverGetNfts = async (
   chainId: number,
   collection: CollectionType,
   filter: CollectionFilterType = {}
-): Promise<{ nfts: Map<string, NftType>; count: BigNumber; total: BigNumber }> => {
+): Promise<{ nfts: Map<string, NftType>; count: bigint; total: bigint }> => {
   const owner = filter.owner || ADDRESS_ZERO;
   const limit = filter.limit || FETCH_LIMIT;
   const offset = filter.offset || 0;
@@ -67,7 +65,9 @@ const resolverGetNfts = async (
   );
   // console.log("resolverGetNfts nftsResolver.getNftsInfos for Account", res);
 
-  const [nftsInfos, openNFTsNftsInfos, , count, total] = res;
+  const [nftsInfos, openNFTsNftsInfos, , ct, tl] = res;
+  const count = BigInt(ct.toString());
+  const total = BigInt(tl.toString());
   // console.log("resolverGetNfts nftsInfosStructOutput", nftsInfos);
 
   for (let index = 0; index < nftsInfos.length; index++) {
@@ -83,7 +83,7 @@ const resolverGetNfts = async (
 const resolverGetNftsForTokenIds = async (
   chainId: number,
   collection: CollectionType,
-  tokenIDs: BigNumber[],
+  tokenIDs: bigint[],
   account = ADDRESS_ZERO
 ): Promise<Map<string, NftType>> => {
   // console.log("resolverGetNftsFromTokenIds", chainId, collection.address);

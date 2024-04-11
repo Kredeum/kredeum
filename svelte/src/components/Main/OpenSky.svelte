@@ -2,19 +2,20 @@
   import { onMount, setContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, isCollection, tokenIdCount } from "@common/common/config";
-  import { providerSetFallback } from "@common/common/provider-get";
+  import { ADDRESS_ZERO, isCollection, tokenIdCount } from "@kredeum/common/src/common/config";
+  // import { providerSetFallback } from "@kredeum/common/src/common/provider-get";
 
-  import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
-  import { metamaskChainId } from "@svelte/stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
+  import { metamaskChainId } from "../../stores/metamask";
 
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
+  import { type Address } from "viem";
 
   ////////////////////////////////////////////////////////////////////
   // <OpenSky />
   export let chainId: number = 1;
-  export let address: string = ADDRESS_ZERO;
+  export let address: Address = ADDRESS_ZERO;
   export let tokenID: string = "";
   ////////////////////////////////////////////////////////////////////
 
@@ -28,7 +29,7 @@
   const setNetwork = async () => {
     if (chainId != $metamaskChainId) {
       await metamaskSwitchChain(chainId);
-      await providerSetFallback(chainId);
+      // await providerSetFallback(chainId);
     }
   };
 

@@ -1,19 +1,18 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish } from "ethers";
-import { utils } from "ethers";
 
 import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
 import { factoryGetContract } from "../common/factory-get";
 import { resolverGetCount } from "../resolver/resolver-get";
+import { Address, Log, decodeEventLog, encodeAbiParameters, parseAbiParameters } from "viem";
 
 async function* collectionClone(
   chainId: number,
   name: string,
   symbol: string,
   templateConfig: string,
-  mintPrice: BigNumberish = 0,
-  royaltyReceiver: string = ADDRESS_ZERO,
-  royaltyFee = 0,
+  mintPrice: bigint = 0n,
+  royaltyReceiver: Address = ADDRESS_ZERO,
+  royaltyFee = 0n,
   minimum = false
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log(`collectionClone ${chainId} ${name} ${symbol} ${templateConfig}`);
@@ -34,17 +33,21 @@ async function* collectionClone(
 
   if (template == "OpenNFTsV4") {
     options = [conf == "generic"];
-    optionsBytes = utils.defaultAbiCoder.encode(
-      ["uint256", "address", "uint96", "bool[]"],
-      [0, ADDRESS_ZERO, 0, options]
-    );
+    optionsBytes = encodeAbiParameters(parseAbiParameters("uint256, address, uint96, bool[]"), [
+      0n,
+      ADDRESS_ZERO,
+      0n,
+      options
+    ]);
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];
     // console.log("options", options);
-    optionsBytes = utils.defaultAbiCoder.encode(
-      ["uint256", "address", "uint96", "bool[]"],
-      [mintPrice, royaltyReceiver, royaltyFee, options]
-    );
+    optionsBytes = encodeAbiParameters(parseAbiParameters("uint256, address, uint96, bool[]"), [
+      mintPrice,
+      royaltyReceiver,
+      royaltyFee,
+      options
+    ]);
   } else {
     console.error("ERROR unknown template", template);
   }
@@ -57,26 +60,41 @@ async function* collectionClone(
   yield await txResp.wait();
 }
 
-const collectionCloneAddress = (txReceipt: TransactionReceipt): string => {
-  let clone = "";
-
+const collectionCloneAddress = (txReceipt: TransactionReceipt): Address => {
   // console.log("collectionCloneAddress ~ txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
-    const iface = new utils.Interface(abi);
+  // if (!txReceipt.logs) throw new Error("collectionCloneAddress: ERROR no logs");
 
-    const eventTopic = iface.getEventTopic("Clone");
-    const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+  const abi = ["event Clone(string indexed templateName, address indexed clone, string indexed name, string symbol)"];
 
-    if (logs.length == 0) {
-      console.error("ERROR no topics", txReceipt);
-    } else {
-      const log = iface.parseLog(logs[0]);
-      clone = log.args[1] as string;
-    }
-  }
+  // const iface = new utils.Interface(abi);
+  // const eventTopic = iface.getEventTopic("Clone");
+  // const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
 
-  // console.log("collectionCloneAddress", clone);
+  // if (logs.length == 0) {
+  //   console.error("ERROR no topics", txReceipt);
+  // } else {
+  //   const log = iface.parseLog(logs[0]);
+  //   clone = log.args[1] as string;
+  // }
+
+  // const logs = parseEventLogs({
+  //   abi: abi,
+  //   eventName: "Clone",
+  //   // TODO: `as unknown as Log[]` to remove when txReceipt from viem
+  //   logs: txReceipt.logs as unknown as Log[]
+  // });
+
+  // if (logs.length == 0) {
+  //   console.error("collectionCloneAddress: ERROR no topics", txReceipt);
+  //   throw new Error("collectionCloneAddress: ERROR no topics");
+  // }
+  // const topics = decodeEventLog({ abi, data: logs[0].data, topics: logs[0].topics });
+  // if (!topics.args) throw new Error("collectionCloneAddress: ERROR no args");
+
+  // const clone = topics.args[0] as Address;
+  const clone = ADDRESS_ZERO;
+
+  console.log("collectionCloneAddress", clone);
   return clone;
 };
 

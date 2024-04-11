@@ -1,16 +1,15 @@
-import { Contract, ContractInterface } from "ethers";
-
-import { explorerContractUrl, getAddresses } from "../common/config";
+import { ADDRESS_ZERO, explorerContractUrl, getAddresses } from "../common/config";
 
 import type { OpenNFTsFactoryV3 } from "@kredeum/contracts/types/OpenNFTsFactoryV3";
-import { providerGetSignerOrProvider } from "../common/provider-get";
 import { getAbi } from "../common/artifacts";
+import { type Address } from "viem";
+import { Contract } from "./types";
 
 // Cache nftsFactory(chainId)
 const nftsFactoriesCache: Map<string, Contract> = new Map();
 
 //  GET NFTsFactory address
-const factoryGetAddress = (chainId: number): string => getAddresses(chainId)?.OpenNFTsFactoryV3 || "";
+const factoryGetAddress = (chainId: number): Address => getAddresses(chainId)?.OpenNFTsFactoryV3 || ADDRESS_ZERO;
 
 // GET NFTsFactory explorer URL
 const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(chainId, factoryGetAddress(chainId));
@@ -19,22 +18,22 @@ const factoryGetExplorerUrl = (chainId: number): string => explorerContractUrl(c
 const factoryGetContract = async (chainId: number, getSigner = false): Promise<OpenNFTsFactoryV3> => {
   // console.log("factoryGetContract ~ signerAddress", signerAddress);
 
-  let nftsFactory = nftsFactoriesCache.get(String(chainId));
+  const nftsFactory: OpenNFTsFactoryV3 = undefined as unknown as OpenNFTsFactoryV3;
+  // let nftsFactory = nftsFactoriesCache.get(String(chainId));
 
-  if (!nftsFactory) {
-    const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
+  // if (!nftsFactory) {
+  //   const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
 
-    nftsFactory = new Contract(
-      factoryGetAddress(chainId),
-      getAbi("OpenNFTsFactoryV3") as ContractInterface,
-      signerOrProvider
-    );
-
-    nftsFactoriesCache.set(String(chainId), nftsFactory);
-  }
+  //   nftsFactory = new Contract(
+  //     factoryGetAddress(chainId),
+  //     getAbi("OpenNFTsFactoryV3") as ContractInterface,
+  //     signerOrProvider
+  //   );
+  // nftsFactoriesCache.set(String(chainId), nftsFactory);
+  // }
 
   // console.log("factoryGetContract", chainId, nftsFactory);
-  return nftsFactory as OpenNFTsFactoryV3;
+  return nftsFactory;
 };
 
 // GET OpenNFTs default template via onchain call

@@ -1,22 +1,21 @@
-import { BigNumber } from "ethers";
-
 import type { CollectionFilterType, CollectionType, NftType } from "../common/types";
 import type { FetchResponse } from "../common/fetch";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
 import { ADDRESS_ZERO, getChecksumAddress, isAddressNotZero } from "../common/config";
 import { keyCollections, keyNft } from "../common/keys";
-import { networks } from "../common/networks";
+import networks from "../contract/networks";
+import { type Address } from "viem";
 
-const alchemyCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
+const alchemyCollections = async (chainId: number, account: Address): Promise<Map<string, CollectionType>> => {
   // console.log(`alchemyCollections ${keyCollections(chainId, account)}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
-  const chainName = networks.getChainName(chainId);
+  const chainName = networks.getName(chainId);
 
   if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 
   type AlchemyCollection = {
-    address: string;
+    address: Address;
     contractDeployer: string;
     numDistinctTokensOwned: number;
     totalBalance: number;
@@ -110,7 +109,7 @@ const alchemyNftList = async (
     const alchemyAnswerNftsCollection = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsCollection;
 
     for (const collectionNft of alchemyAnswerNftsCollection.nfts) {
-      const tokenID = BigNumber.from(collectionNft.id?.tokenId).toString();
+      const tokenID = BigInt(collectionNft.id?.tokenId).toString();
       const nid = keyNft(chainId, collection.address, tokenID);
       const tokenURI = collectionNft.tokenUri?.gateway;
 
@@ -122,7 +121,7 @@ const alchemyNftList = async (
     const alchemyAnswerNftsOwner = (await alchemyFetch(chainId, req)) as AlchemyAnwserNftsOwner;
 
     for (const ownedNft of alchemyAnswerNftsOwner.ownedNfts) {
-      const tokenID = BigNumber.from(ownedNft.id?.tokenId).toString();
+      const tokenID = BigInt(ownedNft.id?.tokenId).toString();
       const nid = keyNft(chainId, collection.address, tokenID);
       const tokenURI = ownedNft.tokenUri?.gateway;
 

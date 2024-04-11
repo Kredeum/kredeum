@@ -1,11 +1,9 @@
 <script lang="ts">
-  import type { BigNumber } from "ethers";
-
-  import type { NftType, Properties } from "@common/common/types";
-  import { nftMint, nftMinted } from "@common/nft/nft-mint";
-  import { nftPin, nftTokenUri } from "@common/nft/nft-uri";
-  import { isAddressNotZero } from "@common/common/config";
-  import { nftStoreSet } from "@svelte/stores/nft/nft";
+  import type { NftType, Properties } from "@kredeum/common/src/common/types";
+  import { nftMint, nftMinted } from "@kredeum/common/src/nft/nft-mint";
+  import { nftPin, nftTokenUri } from "@kredeum/common/src/nft/nft-uri";
+  import { isAddressNotZero } from "@kredeum/common/src/common/config";
+  import { nftStoreSet } from "../../stores/nft/nft";
   import {
     S0_START,
     S1_STORE_IMAGE,
@@ -13,7 +11,8 @@
     S3_SIGN_TX,
     S4_WAIT_TX,
     S5_MINTED
-  } from "@svelte/helpers/nftMint";
+  } from "../../helpers/nftMint";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
@@ -24,9 +23,9 @@
   /////////////////////////////////////////////////
   export let src: string;
   export let chainId: number;
-  export let address: string;
-  export let signer: string;
-  export let price: BigNumber | undefined = undefined;
+  export let address: Address;
+  export let signer: Address;
+  export let price: bigint | undefined = undefined;
   export let name: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let metadata: string | undefined = undefined;

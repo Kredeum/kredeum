@@ -16,11 +16,7 @@ const config = {
       assets: "web/dapp",
       precompress: false,
       strict: true
-    }),
-    alias: {
-      "@common": "../common/src",
-      "@svelte": "../svelte/src"
-    }
+    })
   }
 };
 

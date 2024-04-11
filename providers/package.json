@@ -1,0 +1,20 @@
+{
+  "name": "@kredeum/providers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf node_modules .turbo",
+    "format": "prettier src/**/*.ts --write --list-different --log-level log",
+    "check": "eslint src/**/*.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "viem": "^2.9.16"
+  },
+  "dependencies": {
+    "@kredeum/config": "workspace:^"
+  }
+}

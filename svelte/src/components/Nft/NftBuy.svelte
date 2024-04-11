@@ -1,22 +1,29 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { clickOutside } from "@svelte/helpers/clickOutside";
-  import { nftPrice } from "@common/nft/nft";
+  import { clickOutside } from "../../helpers/clickOutside";
+  import { nftPrice } from "@kredeum/common/src/nft/nft";
 
-  import { buyNft } from "@common/nft/nft-buy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, displayEther } from "@common/common/config";
+  import { buyNft } from "@kredeum/common/src/nft/nft-buy";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    explorerTxLog,
+    textShort,
+    displayEther
+  } from "@kredeum/common/src/common/config";
 
-  import { nftStore, nftStoreRefresh } from "@svelte/stores/nft/nft";
+  import { nftStore, nftStoreRefresh } from "../../stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <NftBuy {chainId} {address} {tokenID} {mode}? />
   // Buy one NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   export let mode: string | undefined = undefined;
   ///////////////////////////////////////////////////////////
@@ -28,7 +35,7 @@
   let buyError: string;
 
   let open = false;
-  let signer: string | undefined = undefined;
+  let signer: Address | undefined = undefined;
 
   const _buyError = (err: string): void => {
     buyError = err;
@@ -96,12 +103,12 @@
   const handleCLick = (evt: Event) => {
     // console.log("handleCLick ~ evt:", evt);
     evt.preventDefault();
-    open = nftPrice($nft).gt(0);
+    open = nftPrice($nft) > 0n;
   };
   onMount(buyInit);
 </script>
 
-{#if nftPrice($nft).gt(0)}
+{#if nftPrice($nft) > 0n}
   <button
     on:click={handleCLick}
     on:keyup={handleCLick}

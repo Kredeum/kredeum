@@ -1,6 +1,6 @@
 import semverSatisfies from "semver/functions/satisfies";
-import { config } from "@common/common/config";
-import { localStorageClear, localStorageGet, localStorageSet } from "@common/common/local";
+import { config } from "@kredeum/common/src/common/config";
+import { localStorageClear, localStorageGet, localStorageSet } from "@kredeum/common/src/common/local";
 
 const versionGet = () => {
   const VERSION = "version";

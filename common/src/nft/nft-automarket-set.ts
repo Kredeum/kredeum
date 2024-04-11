@@ -1,6 +1,4 @@
-import type { BigNumberish } from "ethers";
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import { BigNumber } from "ethers";
 
 import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import type { IOpenMarketable } from "@kredeum/contracts/types/IOpenMarketable";
@@ -8,10 +6,11 @@ import type { IERC721 } from "@kredeum/contracts/types/index";
 import { collectionGetContract } from "../collection/collection-get";
 import { ADDRESS_ZERO, explorerTxLog } from "../common/config";
 import { collectionIsERC721, collectionIsOpenMarketable } from "../collection/collection";
+import { type Address } from "viem";
 
 async function* setTokenRoyaltyInfos(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
   fee: string,
   receiver: string
@@ -27,7 +26,7 @@ async function* setTokenRoyaltyInfos(
   if (!(collectionIsOpenMarketable(collection) && collection.open && signer === collection.owner)) return {};
 
   const txResp: TransactionResponse | undefined = await (contract as IOpenMarketable).setTokenRoyalty(
-    BigNumber.from(tokenID),
+    BigInt(tokenID),
     receiver,
     fee
   );
@@ -41,7 +40,7 @@ async function* setTokenRoyaltyInfos(
 
 async function* setTokenApprove(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
@@ -62,7 +61,7 @@ async function* setTokenApprove(
 
 async function* setCollectionApproval(
   chainId: number,
-  address: string,
+  address: Address,
   approval: boolean
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
@@ -83,9 +82,9 @@ async function* setCollectionApproval(
 
 async function* setTokenPrice(
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
-  tokenPrice: BigNumberish = 0
+  tokenPrice: bigint = 0n
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setTokenPrice", chainId, address, tokenID, tokenPrice);
 
@@ -105,8 +104,8 @@ async function* setTokenPrice(
 
 async function* setDefautCollectionPrice(
   chainId: number,
-  address: string,
-  mintPrice: BigNumber
+  address: Address,
+  mintPrice: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("setDefautCollectionPrice", chainId, address, mintPrice);
   if (!(chainId && address && address != ADDRESS_ZERO && mintPrice)) return;
@@ -123,9 +122,9 @@ async function* setDefautCollectionPrice(
 
 async function* setDefautCollectionRoyalty(
   chainId: number,
-  address: string,
+  address: Address,
   defaultRoyaltiesReceiver: string,
-  defaultRoyaltyAmount: BigNumberish
+  defaultRoyaltyAmount: bigint
 ): AsyncGenerator<TransactionResponse | TransactionReceipt | Record<string, never>> {
   // console.log("transferNft", chainId, address, tokenID, to);
 

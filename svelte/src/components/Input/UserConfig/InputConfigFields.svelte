@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { ConfigSectionMap, SectionErrors } from "@svelte/helpers/configHelper";
+  import type { ConfigSectionMap, SectionErrors } from "../../../helpers/configHelper";
 
   import InputConfigChoice from "./InputConfigChoice.svelte";
   import InputConfigField from "./InputConfigField.svelte";

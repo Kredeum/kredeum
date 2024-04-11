@@ -1,14 +1,15 @@
-import type { RefPageType } from "@common/common/types";
-import { getChecksumAddress, isAddressNotZero } from "@common/common/config";
-import { networks } from "@common/common/networks";
-import { ADDRESS_ZERO } from "@common/common/config";
+import type { RefPageType } from "@kredeum/common/src/common/types";
+import { getChecksumAddress, isAddressNotZero } from "@kredeum/common/src/common/config";
+import networks from "@kredeum/common/src/contract/networks";
+import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
+import { type Address } from "viem";
 
 const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   let chainId: number | undefined;
-  let address: string | undefined;
+  let address: Address | undefined;
   let tokenID: string | undefined;
-  let account: string | undefined;
-  let signer: string | undefined;
+  let account: Address | undefined;
+  let signer: Address | undefined;
   let action: string | undefined;
 
   ({ chainId, address, tokenID, account, signer, action } = refBreadcrumb || {});
@@ -19,7 +20,7 @@ const _extract = (refBreadcrumb: RefPageType): RefPageType => {
   address = getChecksumAddress(address);
   signer = getChecksumAddress(signer);
   account = isAddressNotZero(account) ? getChecksumAddress(account) : signer;
-  const chainName = networks.getChainName(chainId) || "";
+  const chainName = networks.getName(chainId) || "";
 
   return { chainId, address, tokenID, account, signer, action, chainName };
 };
@@ -90,7 +91,7 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   let chainId: number;
   if (Number(chain)) {
     chainId = Number(chain);
-    chainName = networks.getChainName(chainId) || "";
+    chainName = networks.getName(chainId) || "";
   } else {
     chainName = chain;
     chainId = networks.getChainId(chainName) || 0;

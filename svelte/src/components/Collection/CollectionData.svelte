@@ -1,18 +1,19 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
 
-  import type { CollectionType } from "@common/common/types";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
+  import { type Address } from "viem";
 
-  import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
-  // import { keyCollection } from "@common/common/keys";
+  import { collectionStore, collectionStoreRefresh } from "../../stores/collection/collection";
+  // import { keyCollection } from "@kredeum/common/src/common/keys";
 
   /////////////////////////////////////////////////
   // <CollectionData {chainId} {address} {account}? />
   // Display Collection
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
-  export let account: string | undefined = undefined;
+  export let address: Address;
+  export let account: Address | undefined = undefined;
 
   let collection: Readable<CollectionType>;
 

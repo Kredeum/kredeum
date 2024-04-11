@@ -1,11 +1,13 @@
 <script lang="ts">
-  import { clickOutside } from "@svelte/helpers/clickOutside";
-  import { resolverGetExplorerUrl, resolverGetAddress } from "@common/resolver/resolver-get";
+  import { clickOutside } from "../../helpers/clickOutside";
+  import { resolverGetExplorerUrl, resolverGetAddress } from "@kredeum/common/src/resolver/resolver-get";
 
   import Network from "./Network.svelte";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@kredeum/common/src/contract/networks";
+  import { type NetworkType } from "@kredeum/common/src/common/types";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NetworkSelect bind:{chainId} {txt} {label} />
@@ -14,10 +16,20 @@
   export let chainId: number = 0;
   export let txt: boolean = false;
   export let label = true;
-
-  $: currentNetworks = networks.getAllSameType(chainId);
-
+  /////////////////////////////////////////////////
+  let currentNetworks: NetworkType[] = [];
   let open = false;
+  let resolverExplorerUrl: string;
+  let resolverAddress: Address;
+  /////////////////////////////////////////////////
+
+  $: chainId && handleChainId();
+  const handleChainId = () => {
+    currentNetworks = networks.getAllSameType(chainId);
+    resolverExplorerUrl = resolverGetExplorerUrl(chainId);
+    resolverAddress = resolverGetAddress(chainId);
+  };
+
   const handleToggleOpen = () => (open = !open);
 
   interface SwitchEventTarget extends EventTarget {
@@ -50,13 +62,13 @@
       >Network
       <a
         class="info-button"
-        href={resolverGetExplorerUrl(chainId)}
+        href={resolverExplorerUrl}
         target="_blank"
         rel="noreferrer"
         title="NFTs Factory address (click to view in explorer )
-        {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
+        {resolverAddress}"><i class="fas fa-info-circle" /></a
       >
-      <CopyRefItem copyData={resolverGetAddress(chainId)} />
+      <CopyRefItem copyData={resolverAddress} />
     </span>
   {/if}
 

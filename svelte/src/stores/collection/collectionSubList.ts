@@ -1,19 +1,20 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
-import type { CollectionType } from "@common/common/types";
-import { collectionList as collectionListLib } from "@common/collection/collection-list";
-import { collectionGet as collectionLib } from "@common/collection/collection-get";
+import type { CollectionType } from "@kredeum/common/src/common/types";
+import { collectionList as collectionListLib } from "@kredeum/common/src/collection/collection-list";
+import { collectionGet as collectionLib } from "@kredeum/common/src/collection/collection-get";
 
-import { collectionStoreSet } from "@svelte/stores/collection/collection";
+import { collectionStoreSet } from "../../stores/collection/collection";
 import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
 import { collectionListStore } from "./collectionList";
+import { type Address } from "viem";
 
 // STATE VIEW : GET Collection fitered list
 const collectionSubListStore = (
   chainId: number,
-  account?: string,
-  address?: string,
+  account?: Address,
+  address?: Address,
   mintable = false
 ): Readable<Map<string, CollectionType>> => {
   // console.log(`collectionSubListStore ${keyCollections(chainId, account, address, mintable)}\n`);
@@ -70,8 +71,8 @@ const collectionSubListStore = (
 // ACTIONS : Refresh all Collections from one nework, from an optional account
 const collectionSubListRefresh = async (
   chainId: number,
-  account?: string,
-  address?: string,
+  account?: Address,
+  address?: Address,
   mintable = false
 ): Promise<void> => {
   if (!chainId) return;

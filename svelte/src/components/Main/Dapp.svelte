@@ -2,9 +2,8 @@
   import { onMount, setContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
-  import { providerSetFallback } from "@common/common/provider-get";
-  import { type RefPageType } from "@common/common/types";
+  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@kredeum/common/src/common/config";
+  import { type RefPageType } from "@kredeum/common/src/common/types";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
@@ -18,19 +17,20 @@
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
 
-  import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
-  import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
-  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
+  import { refPage2UrlHash, refPageFromUrlHash } from "../../helpers/refPage";
+  import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
+  import { type Address } from "viem";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
   ////////////////////////////////////////////////////////////////////
   let chainId: number;
-  let address: string;
+  let address: Address;
   let tokenID: string;
-  let account: string;
-  let owner: string;
-  let signer: string;
+  let account: Address;
+  let owner: Address;
+  let signer: Address;
 
   let initalized = false;
   let refreshingCollections = false;
@@ -46,7 +46,7 @@
   // SET chainId on memataskChainId change
   $: $metamaskChainId && handleMetamaskChainId();
   const handleMetamaskChainId = () => {
-    if (initalized) chainId = $metamaskChainId;
+    if (initalized) chainId = $metamaskChainId || 1;
   };
 
   // SET nework on chainId change
@@ -61,8 +61,8 @@
   };
   const setNetwork = async () => {
     if (chainId != $metamaskChainId) {
-      await metamaskSwitchChain(chainId);
-      await providerSetFallback(chainId);
+      // await metamaskSwitchChain(chainId);
+      // await providerSetFallback(chainId);
     }
   };
 

@@ -1,15 +1,14 @@
 <script lang="ts">
-  import { isNumeric } from "@common/common/config";
-  import { networks } from "@common/common/networks";
-  import { BigNumber, constants, utils } from "ethers";
-  import { formatEther } from "ethers/lib/utils";
+  import { isNumeric } from "@kredeum/common/src/common/config";
+  import networks from "@kredeum/common/src/contract/networks";
+  import { formatEther, parseEther } from "viem";
 
   /////////////////////////////////////////////////
   //  <InputPrice {chainId} {price} {error}? />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let price: BigNumber = constants.Zero;
+  export let price = 0n;
   export let error = "";
   /////////////////////////////////////////////////
 
@@ -18,7 +17,7 @@
   // set inputPrice on price change
   $: price && handlePrice();
   const handlePrice = () => {
-    inputPrice = price.gt(0) ? formatEther(price) : "0.0";
+    inputPrice = price > 0 ? formatEther(price) : "0.0";
   };
 
   // handle inputPrice on input change
@@ -31,20 +30,20 @@
     while (tmpPrice.split(".")[1]?.length > 18);
 
     inputPrice = isNumeric(tmpPrice) ? tmpPrice : "0.0";
-    price = utils.parseEther(inputPrice);
+    price = parseEther(inputPrice);
   };
 
   // $: console.log("<InputPrice", String(price), String(inputPrice));
 </script>
 
-<div class="kre-input-container" data-currency-symbol={networks.getCurrency(chainId)}>
+<div class="kre-input-container" data-currency-symbol={networks.getNativeCurrency(chainId)}>
   <input
     type="text"
     bind:value={inputPrice}
     class="kre-field-outline"
     id="set-price-nft"
     placeholder={inputPrice}
-    style={`--input-padding:${networks.getCurrency(chainId).length};`}
+    style={`--input-padding:${networks.getNativeCurrency(chainId).length};`}
   />
 </div>
 

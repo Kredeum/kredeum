@@ -1,21 +1,28 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, displayEther } from "@common/common/config";
-  import { transferNft } from "@common/nft/nft-transfer";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    textShort,
+    explorerTxLog,
+    displayEther
+  } from "@kredeum/common/src/common/config";
+  import { transferNft } from "@kredeum/common/src/nft/nft-transfer";
 
-  import { metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { nftStore, nftStoreRefresh } from "@svelte/stores/nft/nft";
+  import { metamaskSignerAddress } from "../../stores/metamask";
+  import { nftStore, nftStoreRefresh } from "../../stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
-  import { nftRoyaltyMinimum } from "@common/nft/nft";
+  import { nftRoyaltyMinimum } from "@kredeum/common/src/nft/nft";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />
   // Transfer NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   /////////////////////////////////////////////////
   $: nft = nftStore(chainId, address, tokenID);
@@ -111,7 +118,7 @@
             </div>
           </div>
 
-          {#if nftRoyaltyMinimum($nft).gt(0)}
+          {#if nftRoyaltyMinimum($nft) > 0n}
             <div class="section">
               <div class="form-field kre-warning-msg">
                 <p>

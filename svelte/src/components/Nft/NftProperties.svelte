@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { Properties } from "@common/common/types";
+  import type { Properties } from "@kredeum/common/src/common/types";
 
   /////////////////////////////////////////////////
   // <NftProperties {properties} />

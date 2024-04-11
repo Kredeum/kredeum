@@ -1,18 +1,19 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../helpers/clickOutside";
   import NftSetPrice from "./NftSetPrice.svelte";
-  import { nftPrice } from "@common/nft/nft";
-  import { nftStore } from "@svelte/stores/nft/nft";
-  import { displayEther } from "@common/common/config";
+  import { nftPrice } from "@kredeum/common/src/nft/nft";
+  import { nftStore } from "../../stores/nft/nft";
+  import { displayEther } from "@kredeum/common/src/common/config";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />
   // Set sell parameters for NFT(s)
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   export let mode: string | undefined = undefined;
   /////////////////////////////////////////////////
@@ -30,7 +31,7 @@
   title="Sell this NFT"
 >
   <i class="fa fa-dollar-sign fa-left" />
-  {#if nftPrice($nft).gt(0)}
+  {#if nftPrice($nft) > 0n}
     ON SALE
     {#if mode === "detail"}
       &nbsp; <strong>{displayEther(chainId, nftPrice($nft))}</strong>

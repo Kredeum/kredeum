@@ -1,21 +1,22 @@
 <script lang="ts">
+  import { type Address } from "viem";
   import CollectionCreate from "../Collection/CollectionCreate.svelte";
 
   import InputImportCollection from "../Input/InputImportCollection.svelte";
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@kredeum/common/src/contract/networks";
 
   /////////////////////////////////////////////////
   //  <Create {chainId} {signer} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
   export let chainId: number | undefined = undefined;
-  export let signer: string | undefined = undefined;
+  export let signer: Address | undefined = undefined;
 
   let open = false;
   const toggle = () => (open = !open);
 
-  $: mint = signer && networks.getCreate(chainId);
+  $: mint = chainId && networks.getCreate(chainId);
 </script>
 
 <a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Add</a>

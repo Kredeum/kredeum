@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../../helpers/clickOutside";
 
   export let defaultChoice = "";
   export let choices: string[];

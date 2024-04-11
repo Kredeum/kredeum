@@ -1,20 +1,21 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { burnNft } from "@common/nft/nft-burn";
-  import { ADDRESS_DEAD, explorerNftUrl, explorerTxUrl, textShort } from "@common/common/config";
-  import { collectionBurnable } from "@common/collection/collection-get";
-  import { transferNft } from "@common/nft/nft-transfer";
-  import { metamaskSignerAddress } from "@svelte/stores/metamask";
+  import { burnNft } from "@kredeum/common/src/nft/nft-burn";
+  import { ADDRESS_DEAD, explorerNftUrl, explorerTxUrl, textShort } from "@kredeum/common/src/common/config";
+  import { collectionBurnable } from "@kredeum/common/src/collection/collection-get";
+  import { transferNft } from "@kredeum/common/src/nft/nft-transfer";
+  import { metamaskSignerAddress } from "../../stores/metamask";
 
-  import { nftStoreRemove } from "@svelte/stores/nft/nft";
+  import { nftStoreRemove } from "../../stores/nft/nft";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <NftBurn {chainId} {address} {tokenID} />
   // Burn NFT
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   /////////////////////////////////////////////////
 

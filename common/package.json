@@ -20,18 +20,20 @@
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
     "@ipld/dag-pb": "^4.1.0",
-    "@types/findup-sync": "^4.0.4",
+    "@types/findup-sync": "^4.0.5",
     "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.27",
+    "@types/node": "^20.12.7",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
     "fs-extra": "^11.2.0",
     "multiformats": "^13.1.0",
     "tslib": "^2.6.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5",
+    "viem": "^2.9.16"
   },
   "dependencies": {
     "@kredeum/config": "workspace:^",
-    "@kredeum/contracts": "workspace:^"
+    "@kredeum/contracts": "workspace:^",
+    "@kredeum/providers": "workspace:^"
   }
 }

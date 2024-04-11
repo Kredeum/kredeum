@@ -1,5 +1,5 @@
 <script lang="ts">
-  import Dapp from "@svelte/components/Main/Dapp.svelte";
+  import Dapp from "@kredeum/svelte/src/components/Main/Dapp.svelte";
 </script>
 
 <Dapp />

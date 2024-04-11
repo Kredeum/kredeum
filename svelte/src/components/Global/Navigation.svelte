@@ -1,14 +1,16 @@
 <script lang="ts">
   import config from "@kredeum/config/dist/config.json";
-  import { versionGet } from "@svelte/helpers/version";
+  import { versionGet } from "../../helpers/version";
   import Logo from "./LogoKredeum.svelte";
-  import { networks } from "@common/common/networks";
+  import networks from "@kredeum/common/src/contract/networks";
   import ConfigModal from "./ConfigModal.svelte";
 
   export let chainId: number;
-
   const onProd = versionGet().branch === "main";
-  $: onMainNet = networks.isMainnet(chainId);
+  let onMainNet: boolean;
+
+  $: chainId && handleChainId();
+  const handleChainId = () => (onMainNet = networks.isMainnet(chainId));
 
   const toggle = () => {
     location.href = `./#/${onMainNet ? "sepolia" : "mainnet"}`;

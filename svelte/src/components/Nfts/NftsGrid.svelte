@@ -1,6 +1,7 @@
 <script lang="ts">
+  import { type Address } from "viem";
   import Nft from "../Nft/Nft.svelte";
-  import type { NftType } from "@common/common/types";
+  import type { NftType } from "@kredeum/common/src/common/types";
 
   /////////////////////////////////////////////////
   //  <NftsGrid {nfts} {tokenID} {mode?}/>
@@ -8,7 +9,7 @@
   /////////////////////////////////////////////////
   export let nfts: Map<string, NftType>;
   export let tokenID: string | undefined = undefined;
-  export let owner: string | undefined = undefined;
+  export let owner: Address | undefined = undefined;
   export let mode: string | undefined = undefined;
   /////////////////////////////////////////////////
 

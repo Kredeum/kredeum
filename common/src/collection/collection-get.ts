@@ -1,14 +1,13 @@
-import { Contract, Signer } from "ethers";
+// import { Contract, Signer } from "ethers";
 
-import type { CollectionType } from "../common/types";
+import type { CollectionType, Contract } from "../common/types";
 import type { JsonFragment } from "@ethersproject/abi";
 import { getAbi } from "../common/artifacts";
 import { resolverGetCollection } from "../resolver/resolver-get-collection";
-import { providerGetSignerOrProvider } from "../common/provider-get";
 import { keyCollectionContract, keyCollection } from "../common/keys";
-import { ADDRESS_ZERO, explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "../common/config";
-import { isAddress } from "ethers/lib/utils";
+import { isAddressOk, ADDRESS_ZERO, explorerAddressUrl, getChecksumAddress, isAddressNotZero } from "../common/config";
 import { collectionSupports } from "./collection";
+import { type Address } from "viem";
 
 // Cache contracts(chainId,address,getSigner)
 const contractsCache: Map<string, Contract> = new Map();
@@ -17,7 +16,7 @@ const signersCache: Map<string, string> = new Map();
 
 const collectionGetContract = async (
   chainId: number,
-  address: string,
+  address: Address,
   getSigner = false
 ): Promise<{ contract?: Contract; collection: CollectionType; signer?: string }> => {
   // console.log(`collectionGetContract  IN ${keyCollection(chainId, address)}\n`);
@@ -26,7 +25,7 @@ const collectionGetContract = async (
   if (!(chainId && address && address != ADDRESS_ZERO)) return { collection };
 
   let signer = "";
-  let contract = contractsCache.get(keyCollectionContract(chainId, address, getSigner));
+  const contract = contractsCache.get(keyCollectionContract(chainId, address, getSigner));
   if (contract && getSigner) {
     signer = signersCache.get(keyCollection(chainId, address)) || "";
   }
@@ -47,15 +46,15 @@ const collectionGetContract = async (
         }
       }
     }
-    const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
-    contract = new Contract(address, abi, signerOrProvider);
+    // const signerOrProvider = await providerGetSignerOrProvider(chainId, getSigner);
+    // contract = new Contract(address, abi, signerOrProvider);
 
-    contractsCache.set(keyCollectionContract(chainId, address, getSigner), contract);
+    // contractsCache.set(keyCollectionContract(chainId, address, getSigner), contract);
 
-    if (getSigner) {
-      signer = getChecksumAddress(await (signerOrProvider as Signer)?.getAddress());
-      signersCache.set(keyCollection(chainId, address), signer);
-    }
+    // if (getSigner) {
+    //   signer = getChecksumAddress(await (signerOrProvider as Signer)?.getAddress());
+    //   signersCache.set(keyCollection(chainId, address), signer);
+    // }
   }
 
   // console.log(`collectionGetContract OUT ${keyCollection(chainId, address)}\n`, contract, collection);
@@ -73,9 +72,9 @@ const collectionMerge = (col1: CollectionType, col2: CollectionType): Collection
   return collMerged;
 };
 
-const collectionGet = async (chainId: number, address: string, account = ADDRESS_ZERO): Promise<CollectionType> => {
+const collectionGet = async (chainId: number, address: Address, account = ADDRESS_ZERO): Promise<CollectionType> => {
   let collection: CollectionType = { chainId, address };
-  if (!(chainId && isAddressNotZero(address) && isAddress(account))) return collection;
+  if (!(chainId && isAddressNotZero(address) && isAddressOk(account))) return collection;
   // console.log(`collectionGet ${explorerAddressUrl(chainId, address)}`);
 
   type TxError = { reason: string };
@@ -95,7 +94,7 @@ const collectionGet = async (chainId: number, address: string, account = ADDRESS
   return collection;
 };
 
-const collectionBurnable = async (chainId: number, address: string): Promise<string> => {
+const collectionBurnable = async (chainId: number, address: Address): Promise<string> => {
   const { collection } = await collectionGetContract(chainId, address);
 
   return collection?.version === 4 ? "burn" : "";

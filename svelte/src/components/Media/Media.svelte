@@ -2,15 +2,16 @@
   import MediaImage from "./MediaImage.svelte";
   import MediaVideo from "./MediaVideo.svelte";
   import MediaAudio from "./MediaAudio.svelte";
-  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@common/nft/nft";
-  import { nftStore } from "@svelte/stores/nft/nft";
+  import { nftMediaAlt, nftMediaAnimationUrl, nftMediaContentType, nftMediaSrc } from "@kredeum/common/src/nft/nft";
+  import { nftStore } from "../../stores/nft/nft";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   //  <Media {chainId} {address} {tokenID} {mode}? {small}? {alt}? />
   // Display a media according to its type and entering parameters
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string;
   export let mode: string | undefined = undefined;
   /////////////////////////////////////////////////

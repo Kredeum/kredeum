@@ -1,14 +1,15 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
-import { ADDRESS_ZERO } from "@common/common/config";
-import type { CollectionType } from "@common/common/types";
-import { collectionMerge, collectionGet as collectionLib } from "@common/collection/collection-get";
+import { ADDRESS_ZERO } from "@kredeum/common/src/common/config";
+import type { CollectionType } from "@kredeum/common/src/common/types";
+import { collectionMerge, collectionGet as collectionLib } from "@kredeum/common/src/collection/collection-get";
 
-import { jsonMapStringify } from "@svelte/helpers/jsonMap";
-import { collectionListStore } from "@svelte/stores/collection/collectionList";
+import { jsonMapStringify } from "../../helpers/jsonMap";
+import { collectionListStore } from "../../stores/collection/collectionList";
 
-import { keyCollection } from "@common/common/keys";
-import { localStorageSet } from "@common/common/local";
+import { keyCollection } from "@kredeum/common/src/common/keys";
+import { localStorageSet } from "@kredeum/common/src/common/local";
+import { type Address } from "viem";
 
 // STATE CHANGER : SET one Collection
 const collectionStoreSet = (collection: CollectionType): void => {
@@ -28,7 +29,7 @@ const collectionStoreSet = (collection: CollectionType): void => {
 };
 
 // ACTIONS : REFRESH one Collection, for an optionnal account
-const collectionStoreRefresh = async (chainId: number, address: string, account = ADDRESS_ZERO): Promise<void> => {
+const collectionStoreRefresh = async (chainId: number, address: Address, account = ADDRESS_ZERO): Promise<void> => {
   // console.log(`collectionStoreRefresh '${chainId}' '${address}' '${account}'`);
 
   if (!(chainId && address)) return;
@@ -39,7 +40,7 @@ const collectionStoreRefresh = async (chainId: number, address: string, account 
 
 // TODO : add account param, to get balanceOf account, each time
 // STATE VIEW : GET one Collection
-const collectionStore = (chainId: number, address: string): Readable<CollectionType> => {
+const collectionStore = (chainId: number, address: Address): Readable<CollectionType> => {
   const key = keyCollection(chainId, address);
   // console.log(`collectionStore ${key}`);
 
@@ -51,7 +52,7 @@ const collectionStore = (chainId: number, address: string): Readable<CollectionT
 
 const collectionStoreAndRefresh = (
   chainId: number,
-  address: string,
+  address: Address,
   account = ADDRESS_ZERO
 ): Readable<CollectionType> => {
   // STATE VIEW : sync read cache

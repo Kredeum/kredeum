@@ -1,9 +1,9 @@
 import type { CollectionType } from "../common/types";
 
-import { BigNumber } from "ethers";
 import { ADDRESS_ZERO, feeAmount, treasuryAmount } from "../common/config";
+import { type Address } from "viem";
 
-const collectionPrice = (coll: CollectionType): BigNumber => coll?.price || BigNumber.from(0);
+const collectionPrice = (coll: CollectionType): bigint => coll?.price || 0n;
 const collectionOwner = (coll: CollectionType): string => String(coll?.owner || "");
 const collectionOpen = (coll: CollectionType): boolean => Boolean(coll?.open);
 
@@ -14,26 +14,26 @@ const collectionIsAutoMarket = (coll: CollectionType): boolean => Boolean(coll?.
 const collectionIsOpenMarketable = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IOpenMarketable"));
 const collectionIsERC721 = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IERC721"));
 const collectionIsERC1155 = (coll: CollectionType): boolean => Boolean(coll?.supports?.get("IERC1155"));
-const collectionOpenOrOwner = (coll: CollectionType, owner: string): boolean =>
+const collectionOpenOrOwner = (coll: CollectionType, owner: Address): boolean =>
   Boolean(coll?.owner === owner || coll?.open);
 
 const collectionRoyaltyAccount = (coll: CollectionType): string => coll?.royalty?.account || ADDRESS_ZERO;
-const collectionRoyaltyFee = (coll: CollectionType): number => Number(coll?.royalty?.fee || 0);
+const collectionRoyaltyFee = (coll: CollectionType): bigint => BigInt(coll?.royalty?.fee || 0);
 const collectionRoyaltyEnforcement = (coll: CollectionType): boolean => Boolean(coll?.royaltyEnforcement);
 
-const collectionRoyaltyAmount = (coll: CollectionType, price = BigNumber.from(0)): BigNumber =>
+const collectionRoyaltyAmount = (coll: CollectionType, price = 0n): bigint =>
   feeAmount(price || collectionPrice(coll), collectionRoyaltyFee(coll));
-const collectionRoyaltyMinimum = (coll: CollectionType): BigNumber => coll?.royalty?.minimum || BigNumber.from(0);
+const collectionRoyaltyMinimum = (coll: CollectionType): bigint => coll?.royalty?.minimum || 0n;
 
-const collectionFeeMinimum = (coll: CollectionType): BigNumber => treasuryAmount(collectionRoyaltyMinimum(coll));
+const collectionFeeMinimum = (coll: CollectionType): bigint => treasuryAmount(collectionRoyaltyMinimum(coll));
 
-const collectionRoyaltyAndFeeAmount = (coll: CollectionType, price = BigNumber.from(0)): BigNumber =>
-  collectionRoyaltyAmount(coll, price).add(feeAmount(price));
-const collectionRoyaltyAndFeeMinimum = (coll: CollectionType): BigNumber =>
-  collectionRoyaltyMinimum(coll).add(collectionFeeMinimum(coll));
+const collectionRoyaltyAndFeeAmount = (coll: CollectionType, price = 0n): bigint =>
+  collectionRoyaltyAmount(coll, price) + feeAmount(price);
+const collectionRoyaltyAndFeeMinimum = (coll: CollectionType): bigint =>
+  collectionRoyaltyMinimum(coll) + collectionFeeMinimum(coll);
 
-const collectionPriceValid = (coll: CollectionType, price = BigNumber.from(0)): boolean =>
-  !collectionRoyaltyEnforcement(coll) || price.gte(collectionRoyaltyAndFeeMinimum(coll));
+const collectionPriceValid = (coll: CollectionType, price = 0n): boolean =>
+  !collectionRoyaltyEnforcement(coll) || price >= collectionRoyaltyAndFeeMinimum(coll);
 
 export {
   collectionOwner,

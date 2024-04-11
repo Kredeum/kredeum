@@ -1,24 +1,34 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { ADDRESS_ZERO, getAddresses } from "@common/common/config";
+import { ADDRESS_ZERO, getAddresses } from "@kredeum/common/src/common/config";
 import { collectionStoreRefresh } from "./collection";
-import { keyCollectionDefault } from "@common/common/keys";
-import { localStorageGet, localStorageKey, localStorageLength, localStorageSet } from "@common/common/local";
+import { keyCollectionDefault } from "@kredeum/common/src/common/keys";
+import {
+  localStorageGet,
+  localStorageKey,
+  localStorageLength,
+  localStorageSet
+} from "@kredeum/common/src/common/local";
+import { type Address } from "viem";
+
+type CollectionDefaultType = [Address, Address];
+type CollectionDefaultMapType = Map<string, CollectionDefaultType>;
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): Address =>
+  getAddresses(chainId)?.OpenAutoMarket || ADDRESS_ZERO;
 
 // LOADER : LOAD Collections from localStorage
-const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {
-  const collections: Map<string, [string, string]> = new Map();
+const collectionDefaultLoadLocalStorage = (): CollectionDefaultMapType => {
+  const collections: CollectionDefaultMapType = new Map();
 
   const len = localStorageLength();
   for (let index = 0; index < len; index++) {
     const key = localStorageKey(index);
 
     if (key?.startsWith("collectionDefault://")) {
-      collections.set(key, JSON.parse(localStorageGet(key) || "{}") as [string, string]);
+      collections.set(key, JSON.parse(localStorageGet(key) || "{}") as CollectionDefaultType);
     }
   }
   // console.log("collectionDefaultLoadLocalStorage", collections);
@@ -31,7 +41,7 @@ const { subscribe, set, update } = writable(collectionDefaultLoadLocalStorage())
 // STATE CHANGER : SET default Collection
 const collectionDefaultSetOne = (
   chainId: number,
-  address: string = collectionDefaultGetOpenNFTs(chainId),
+  address: Address = collectionDefaultGetOpenNFTs(chainId),
   mintable: boolean = false,
   account?: string
 ): void => {
@@ -42,20 +52,20 @@ const collectionDefaultSetOne = (
   // Refresh default Collection (async)
   collectionStoreRefresh(chainId, address, account).catch(console.error);
 
-  update(($collectionDefault: Map<string, [string, string]>): Map<string, [string, string]> => {
+  update(($collectionDefault: CollectionDefaultMapType): CollectionDefaultMapType => {
     const key = keyCollectionDefault(chainId, account);
 
-    let addressDefault: string;
-    let addressMintable: string;
+    let addressDefault: Address;
+    let addressMintable: Address;
 
     if (mintable) {
       addressMintable = address;
-      [addressDefault] = $collectionDefault.get(key) || ["", ""];
+      [addressDefault] = $collectionDefault.get(key) || [ADDRESS_ZERO, ADDRESS_ZERO];
     } else {
       addressDefault = address;
-      [, addressMintable] = $collectionDefault.get(key) || ["", ""];
+      [, addressMintable] = $collectionDefault.get(key) || [ADDRESS_ZERO, ADDRESS_ZERO];
     }
-    const adresses: [string, string] = [addressDefault, addressMintable];
+    const adresses: CollectionDefaultType = [addressDefault, addressMintable];
 
     localStorageSet(key, JSON.stringify(adresses));
 
@@ -65,11 +75,11 @@ const collectionDefaultSetOne = (
 };
 
 // ACTIONS : REFRESH default Collection, for an optionnal account
-const collectionDefaultRefresh = (chainId: number, account?: string): void => {
+const collectionDefaultRefresh = (chainId: number, account?: Address): void => {
   if (!chainId) return;
   const key = keyCollectionDefault(chainId, account);
 
-  let [addressDefault, addressMintable] = get(collectionDefaultStore).get(key) || ["", ""];
+  let [addressDefault, addressMintable] = get(collectionDefaultStore).get(key) || [ADDRESS_ZERO, ADDRESS_ZERO];
   if (!addressMintable) {
     addressMintable = collectionDefaultGetOpenNFTs(chainId);
     collectionDefaultSetOne(chainId, addressMintable, true, account);
@@ -82,12 +92,16 @@ const collectionDefaultRefresh = (chainId: number, account?: string): void => {
 };
 
 // STATE VIEW : GET default Collection
-const collectionDefaultSubStore = (chainId: number, mintable: boolean = false, account?: string): Readable<string> => {
+const collectionDefaultSubStore = (
+  chainId: number,
+  mintable: boolean = false,
+  account?: Address
+): Readable<Address> => {
   const key = keyCollectionDefault(chainId, account);
   // console.log(`collectionDefaultGetStore ${key} ${String(mintable)}`);
 
-  return derived(collectionDefaultStore, ($collectionDefaultStore): string => {
-    const collDefs = $collectionDefaultStore.get(key) || ["", ""];
+  return derived(collectionDefaultStore, ($collectionDefaultStore): Address => {
+    const collDefs = $collectionDefaultStore.get(key) || [ADDRESS_ZERO, ADDRESS_ZERO];
     return mintable ? collDefs[1] : collDefs[0];
   });
 };

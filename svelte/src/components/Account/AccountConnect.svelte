@@ -6,15 +6,16 @@
     metamaskConnectMessage,
     metamaskInstalled,
     metamaskInstallMessage
-  } from "@svelte/helpers/metamask";
-  import { metamaskSignerAddress } from "@svelte/stores/metamask";
+  } from "../../helpers/metamask";
+  import { metamaskSignerAddress } from "../../stores/metamask";
   import Account from "./Account.svelte";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <AccountConnect bind:{signer} {txt}? {label}? />
   // Get Signer from Metamask (or compatible)
   /////////////////////////////////////////////////
-  export let signer: string | undefined = undefined;
+  export let signer: Address | undefined = undefined;
   export let txt: boolean | undefined = undefined;
   export let label: boolean | undefined = undefined;
 
@@ -41,7 +42,13 @@
 {:else}
   <div class={classMetamask}>
     {#if _metamaskInstalled}
-      <span id="metamaskConnect" role="button" tabindex="0" on:click|preventDefault={_metamaskConnect} on:keydown={_metamaskConnect}>
+      <span
+        id="metamaskConnect"
+        role="button"
+        tabindex="0"
+        on:click|preventDefault={_metamaskConnect}
+        on:keydown={_metamaskConnect}
+      >
         {metamaskConnectMessage}
       </span>
     {:else}

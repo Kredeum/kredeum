@@ -1,14 +1,13 @@
 <script lang="ts">
-  import type { NftType, Properties } from "@common/common/types";
-  import type { Mediatype } from "@svelte/helpers/mediaTypes";
+  import type { NftType, Properties } from "@kredeum/common/src/common/types";
+  import type { Mediatype } from "../../helpers/mediaTypes";
 
-  import { BigNumber } from "ethers";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
-  import type { CollectionType } from "@common/common/types";
-  import { collectionGet } from "@common/collection/collection-get";
-  import { getMax } from "@common/nft/nft-automarket-get";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
+  import { collectionGet } from "@kredeum/common/src/collection/collection-get";
+  import { getMax } from "@kredeum/common/src/nft/nft-automarket-get";
   import {
     textShort,
     explorerTxUrl,
@@ -17,11 +16,11 @@
     displayEther,
     treasuryFee,
     getDappUrl
-  } from "@common/common/config";
-  import { getSupportedImage, getMediaSelection } from "@svelte/helpers/mediaTypes";
-  import { defaultAudioCoverImg } from "@svelte/helpers/defaultCoverImage";
+  } from "@kredeum/common/src/common/config";
+  import { getSupportedImage, getMediaSelection } from "../../helpers/mediaTypes";
+  import { defaultAudioCoverImg } from "../../helpers/defaultCoverImage";
 
-  import { metamaskSignerAddress, metamaskProvider } from "@svelte/stores/metamask";
+  import { metamaskSignerAddress, metamaskProvider } from "../../stores/metamask";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
@@ -40,7 +39,8 @@
     collectionRoyaltyEnforcement,
     collectionRoyaltyFee,
     collectionRoyaltyMinimum
-  } from "@common/collection/collection";
+  } from "@kredeum/common/src/collection/collection";
+  import { type Address } from "viem";
 
   import {
     S0_START,
@@ -49,11 +49,11 @@
     S4_WAIT_TX,
     S5_MINTED,
     nftMintTexts
-  } from "@svelte/helpers/nftMint";
+  } from "../../helpers/nftMint";
   import NftMint from "./NftMint.svelte";
-  import { storageLinkToUrlHttp } from "@common/storage/storage";
+  import { storageLinkToUrlHttp } from "@kredeum/common/src/storage/storage";
 
-  // import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs"; // TODO PDFJS
+  // import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/src/common/pdfjs"; // TODO PDFJS
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />
@@ -61,7 +61,7 @@
   //   set price, set properties and mint
   ////////////////////////////////////////////////////////////////
   export let chainId: number;
-  export let signer: string;
+  export let signer: Address;
   export let nft: NftType | undefined = undefined;
   export let toggle: (() => boolean) | undefined = undefined;
   export let src: string | undefined = undefined;
@@ -72,10 +72,10 @@
   export const external_url: string | undefined = undefined;
   ////////////////////////////////////////////////////////////////
 
-  let account: string;
+  let account: Address;
 
-  let address: string;
-  let price: BigNumber;
+  let address: Address;
+  let price: bigint;
 
   let files: FileList | undefined;
   let file: File | undefined;
@@ -104,7 +104,7 @@
   let txHash: string;
   /////////////////////////////////////////////////
 
-  let inputPrice: BigNumber;
+  let inputPrice: bigint;
   let inputPriceError = "";
 
   $: inputPrice && minimalPriceHandler();
@@ -402,21 +402,21 @@
             <CollectionSelect {chainId} bind:address {account} mintable={true} label={false} />
           </div>
 
-          {#if collectionPrice(collection).gt(0) || collectionRoyaltyFee(collection) > 0}
+          {#if collectionPrice(collection) > 0n || collectionRoyaltyFee(collection) > 0}
             <div class="section kre-mint-automarket">
               <div class="kre-flex">
                 <div>
                   <span class="kre-market-info-title label-big">Royalty Fee</span>
                   <span class="kre-market-info-value label-big"
-                    >{collectionRoyaltyFee(collection) / 100} %
-                    {#if collectionRoyaltyMinimum(collection).gt(0)}
+                    >{collectionRoyaltyFee(collection) / 100n} %
+                    {#if collectionRoyaltyMinimum(collection) > 0n}
                       or a minimum of {displayEther(chainId, collectionRoyaltyMinimum(collection))}
                     {/if}
                   </span>
                 </div>
                 <div class="kre-treasury-fee">
                   <span class="kre-market-info-title label-big kre-no-wrap-title">Protocol Fee</span>
-                  <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100} %</span>
+                  <span class="kre-market-info-value label-big overflow-ellipsis">{treasuryFee() / 100n} %</span>
                 </div>
               </div>
             </div>

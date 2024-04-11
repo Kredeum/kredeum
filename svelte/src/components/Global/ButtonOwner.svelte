@@ -1,13 +1,14 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, isAddressNotZero } from "@common/common/config";
+  import { ADDRESS_ZERO, isAddressNotZero } from "@kredeum/common/src/common/config";
   import { onMount } from "svelte";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <ButtonOwner {account} bind:{owner} />
   // Select All button
   /////////////////////////////////////////////////
-  export let account: string;
-  export let owner: string;
+  export let account: Address;
+  export let owner: Address;
   /////////////////////////////////////////////////
 
   const toggleOwner = () =>

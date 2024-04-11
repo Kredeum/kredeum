@@ -1,14 +1,15 @@
 <script lang="ts">
-  import { nftSubListStoreAndRefresh } from "@svelte/stores/nft/nftSubList";
+  import { nftSubListStoreAndRefresh } from "../../stores/nft/nftSubList";
+  import { type Address } from "viem";
 
   ////////////////////////////////////////////////////////////////////////
   // <NftListData {chainId} {address} {account} />
   // List Nfts from collection owned by account or address
   ////////////////////////////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string | undefined = undefined;
-  export let account: string | undefined = undefined;
+  export let account: Address | undefined = undefined;
   export let offset = 0;
   export let limit = 12;
 

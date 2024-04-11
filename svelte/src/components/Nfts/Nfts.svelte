@@ -2,25 +2,26 @@
   import { getContext, onMount } from "svelte";
   import { type Readable, type Writable } from "svelte/store";
 
-  import { PAGE_SIZE, explorerCollectionUrl, isAddressNotZero, isCollection } from "@common/common/config";
-  import { keyCollection } from "@common/common/keys";
-  import { type CollectionType, type NftType } from "@common/common/types";
+  import { PAGE_SIZE, explorerCollectionUrl, isAddressNotZero, isCollection } from "@kredeum/common/src/common/config";
+  import { keyCollection } from "@kredeum/common/src/common/keys";
+  import { type CollectionType, type NftType } from "@kredeum/common/src/common/types";
 
-  import { nftSubListStore, nftSubListStoreRefresh } from "@svelte/stores/nft/nftSubList";
-  import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
+  import { nftSubListStore, nftSubListStoreRefresh } from "../../stores/nft/nftSubList";
+  import { collectionStore, collectionStoreRefresh } from "../../stores/collection/collection";
 
   import NftsDisplayMode from "./NftsDisplayMode.svelte";
   import NftsGrid from "./NftsGrid.svelte";
   import NftsLines from "./NftsLines.svelte";
+  import { type Address } from "viem";
 
   /////////////////////////////////////////////////
   // <Nfts {chainId} {address} {tokenID?} {account?} {page?}  {refreshing?}/>
   // List Nfts from collection owned by account
   /////////////////////////////////////////////////
   export let chainId: number;
-  export let address: string;
+  export let address: Address;
   export let tokenID: string | undefined = undefined;
-  export let owner: string | undefined = undefined;
+  export let owner: Address | undefined = undefined;
   export let page: number | undefined = undefined;
   export let refreshing: boolean | undefined = undefined;
   export let mode: string | undefined = undefined; // modes => grid3 grid4 line

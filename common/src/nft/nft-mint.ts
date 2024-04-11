@@ -1,6 +1,6 @@
 import type { TransactionResponse, TransactionReceipt } from "@ethersproject/providers";
-import type { BigNumberish, PayableOverrides } from "ethers";
-import { ethers } from "ethers";
+// import type { PayableOverrides } from "ethers";
+// import { ethers } from "ethers";
 
 import type { NftType } from "../common/types";
 
@@ -22,26 +22,27 @@ import {
 } from "../collection/collection";
 import { storageLinkToUrlHttp } from "../storage/storage";
 import { ipfsGatewayUrl } from "../storage/ipfs";
-import { networks } from "../common/networks";
+import networks from "../contract/networks";
+import { type Address } from "viem";
 
 const _mintTokenID = (txReceipt: TransactionReceipt): string => {
   let tokenID = "";
 
-  // console.log("txReceipt", txReceipt);
-  if (txReceipt.logs) {
-    const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
-    const iface = new ethers.utils.Interface(abi);
+  // // console.log("txReceipt", txReceipt);
+  // if (txReceipt.logs) {
+  //   const abi = ["event Transfer(address indexed from, address indexed to, uint256 indexed tokenID)"];
+  //   // const iface = new ethers.utils.Interface(abi);
 
-    const eventTopic = iface.getEventTopic("Transfer");
-    const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
+  //   // const eventTopic = iface.getEventTopic("Transfer");
+  //   const logs = txReceipt.logs.filter((_log) => _log.topics[0] == eventTopic);
 
-    if (logs.length == 0) {
-      console.error("ERROR no topics", txReceipt);
-    } else {
-      const log = iface.parseLog(logs[0]);
-      tokenID = log.args[2] as string;
-    }
-  }
+  //   if (logs.length == 0) {
+  //     console.error("ERROR no topics", txReceipt);
+  //   } else {
+  //     const log = iface.parseLog(logs[0]);
+  //     tokenID = log.args[2] as string;
+  //   }
+  // }
 
   // console.log("tokenID", tokenID);
   return tokenID.toString();
@@ -49,10 +50,10 @@ const _mintTokenID = (txReceipt: TransactionReceipt): string => {
 
 const _mintedNft = async (
   chainId: number,
-  address: string,
+  address: Address,
   tokenID: string,
   urlJson: string,
-  minter: string
+  minter: Address
 ): Promise<NftType> =>
   await nftGetMetadata({
     chainId,
@@ -67,10 +68,10 @@ const _mintedNft = async (
 // GET minting tx response
 const nftMint = async (
   chainId: number,
-  address: string,
+  address: Address,
   tokenURI: string,
   minter: string,
-  price: BigNumberish = 0
+  price: bigint = 0n
 ): Promise<TransactionResponse | undefined> => {
   // console.log("nftMint", chainId, address, tokenURI, minter);
 
@@ -81,37 +82,37 @@ const nftMint = async (
 
   let txResp: TransactionResponse | undefined;
 
-  if (collectionIsOpenMarketable(collection)) {
-    const notMine = collection.owner != minter;
-    const value = collection.open && notMine ? collection.price : 0;
-    const overrides: PayableOverrides = { value };
-    if (networks.isEip1559(chainId)) overrides.type = 2;
+  // if (collectionIsOpenMarketable(collection)) {
+  //   const notMine = collection.owner != minter;
+  //   // const value = collection.open && notMine ? collection.price : 0;
+  //   // const overrides: PayableOverrides = { value };
+  //   if (networks.isEip1559(chainId)) overrides.type = 2;
 
-    txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
-      minter,
-      tokenURI,
-      price,
-      collectionRoyaltyAccount(collection),
-      collectionRoyaltyFee(collection),
-      overrides
-    );
-  } else if (collectionSupports(collection).get("IOpenNFTsV4")) {
-    txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
-  } else if (collectionSupports(collection).get("IOpenNFTsV3")) {
-    // console.log("IOpenNFTsV3");
-    txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
-  } else if (collectionSupports(collection).get("IOpenNFTsV2")) {
-    // console.log("IOpenNFTsV2");
-    txResp = await (contract as IOpenNFTsV2).mintNFT(minter, tokenURI);
-  } else if (collectionSupports(collection).get("IOpenNFTsV1")) {
-    // console.log("IOpenNFTsV1");
-    txResp = await (contract as IOpenNFTsV1).mintNFT(minter, tokenURI);
-  } else if (collectionSupports(collection).get("IOpenNFTsV0")) {
-    // console.log("IOpenNFTsV0");
-    txResp = await (contract as IOpenNFTsV0).addUser(minter, tokenURI);
-  } else {
-    console.error("Not IOpenNFTsVx");
-  }
+  //   txResp = await (contract as OpenAutoMarket)["mint(address,string,uint256,address,uint96)"](
+  //     minter,
+  //     tokenURI,
+  //     price,
+  //     collectionRoyaltyAccount(collection),
+  //     collectionRoyaltyFee(collection),
+  //     overrides
+  //   );
+  // } else if (collectionSupports(collection).get("IOpenNFTsV4")) {
+  //   txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
+  // } else if (collectionSupports(collection).get("IOpenNFTsV3")) {
+  //   // console.log("IOpenNFTsV3");
+  //   txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
+  // } else if (collectionSupports(collection).get("IOpenNFTsV2")) {
+  //   // console.log("IOpenNFTsV2");
+  //   txResp = await (contract as IOpenNFTsV2).mintNFT(minter, tokenURI);
+  // } else if (collectionSupports(collection).get("IOpenNFTsV1")) {
+  //   // console.log("IOpenNFTsV1");
+  //   txResp = await (contract as IOpenNFTsV1).mintNFT(minter, tokenURI);
+  // } else if (collectionSupports(collection).get("IOpenNFTsV0")) {
+  //   // console.log("IOpenNFTsV0");
+  //   txResp = await (contract as IOpenNFTsV0).addUser(minter, tokenURI);
+  // } else {
+  //   console.error("Not IOpenNFTsVx");
+  // }
 
   // else if (collectionSupports(collection).get("IOpenBound")) {
   // OpenBound  = mint(cid) OR claim(tokenId, cid)
@@ -125,10 +126,10 @@ const nftMint = async (
 // GET minting tx receipt
 const nftMinted = async (
   chainId: number,
-  address: string,
+  address: Address,
   txResponse: TransactionResponse,
   metadataCid: string,
-  minter: string
+  minter: Address
 ): Promise<NftType | undefined> => {
   if (!(chainId && address && address != ADDRESS_ZERO && txResponse && metadataCid && minter)) return;
 
@@ -150,10 +151,10 @@ const nftMinted = async (
 // similar to mint4
 const nftClaimed = async (
   chainId: number,
-  address: string,
+  address: Address,
   txResponse: TransactionResponse,
   tokenID: string,
-  owner: string
+  owner: Address
 ): Promise<NftType | null> => {
   if (!(chainId && address && address != ADDRESS_ZERO && txResponse && tokenID && owner)) return null;
 

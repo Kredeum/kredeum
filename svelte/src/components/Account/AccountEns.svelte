@@ -1,6 +1,7 @@
 <script lang="ts">
-  import { ens } from "@common/common/ens-get";
-  export let account: string;
+  import { type Address } from "viem";
+  import { ens } from "@kredeum/common/src/common/ens-get";
+  export let account: Address;
   export const accountName: string | undefined = undefined;
 </script>
 
