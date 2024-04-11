@@ -407,6 +407,24 @@
     "linkedMainnet": 1564830818
   },
   {
+    "chainId": 974399131,
+    "chainName": "calypso-testnet",
+    "rpcUrls": [
+      "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
+    ],
+    "nativeCurrency": {
+      "name": "sFUEL",
+      "symbol": "SFUEL",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
+    ],
+    "eip1559": false,
+    "create": true,
+    "linkedMainnet": 1564830818
+  },
+  {
     "chainId": 3441005,
     "chainName": "manta-pacific-testnet",
     "rpcUrls": [
