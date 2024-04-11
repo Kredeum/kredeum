@@ -41,7 +41,7 @@
 {:else}
   <div class={classMetamask}>
     {#if _metamaskInstalled}
-      <span role="button" tabindex="0" on:click|preventDefault={_metamaskConnect} on:keydown={_metamaskConnect}>
+      <span id="metamaskConnect" role="button" tabindex="0" on:click|preventDefault={_metamaskConnect} on:keydown={_metamaskConnect}>
         {metamaskConnectMessage}
       </span>
     {:else}
