@@ -44,6 +44,7 @@
   "type": "module",
   "dependencies": {
     "@kredeum/common": "workspace:^",
-    "@kredeum/providers": "workspace:^"
+    "@kredeum/providers": "workspace:^",
+    "@kredeum/skale": "workspace:*"
   }
 }

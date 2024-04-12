@@ -7,3 +7,4 @@ packages:
   - sveltekit
   - wordpress
   - providers
+  - skale
