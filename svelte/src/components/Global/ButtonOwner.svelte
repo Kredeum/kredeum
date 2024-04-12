@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ADDRESS_ZERO, isAddressNotZero } from "@common/common/config";
+  import { ADDRESS_ZERO, isAddressNotZero } from "@kredeum/common/src/common/config";
   import { onMount } from "svelte";
 
   /////////////////////////////////////////////////

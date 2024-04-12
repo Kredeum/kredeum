@@ -1,14 +1,14 @@
 <script lang="ts">
-  import type { NftType, Properties } from "@common/common/types";
-  import type { Mediatype } from "@svelte/helpers/mediaTypes";
+  import type { NftType, Properties } from "@kredeum/common/src/common/types";
+  import type { Mediatype } from "../../helpers/mediaTypes";
 
   import { BigNumber } from "ethers";
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
 
-  import type { CollectionType } from "@common/common/types";
-  import { collectionGet } from "@common/collection/collection-get";
-  import { getMax } from "@common/nft/nft-automarket-get";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
+  import { collectionGet } from "@kredeum/common/src/collection/collection-get";
+  import { getMax } from "@kredeum/common/src/nft/nft-automarket-get";
   import {
     textShort,
     explorerTxUrl,
@@ -17,11 +17,11 @@
     displayEther,
     treasuryFee,
     getDappUrl
-  } from "@common/common/config";
-  import { getSupportedImage, getMediaSelection } from "@svelte/helpers/mediaTypes";
-  import { defaultAudioCoverImg } from "@svelte/helpers/defaultCoverImage";
+  } from "@kredeum/common/src/common/config";
+  import { getSupportedImage, getMediaSelection } from "../../helpers/mediaTypes";
+  import { defaultAudioCoverImg } from "../../helpers/defaultCoverImage";
 
-  import { metamaskSignerAddress, metamaskProvider } from "@svelte/stores/metamask";
+  import { metamaskSignerAddress, metamaskProvider } from "../../stores/metamask";
 
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
@@ -40,7 +40,7 @@
     collectionRoyaltyEnforcement,
     collectionRoyaltyFee,
     collectionRoyaltyMinimum
-  } from "@common/collection/collection";
+  } from "@kredeum/common/src/collection/collection";
 
   import {
     S0_START,
@@ -49,11 +49,11 @@
     S4_WAIT_TX,
     S5_MINTED,
     nftMintTexts
-  } from "@svelte/helpers/nftMint";
+  } from "../../helpers/nftMint";
   import NftMint from "./NftMint.svelte";
-  import { storageLinkToUrlHttp } from "@common/storage/storage";
+  import { storageLinkToUrlHttp } from "@kredeum/common/src/storage/storage";
 
-  // import { pdfjsGetPage, pdfjsCrop } from "@common/common/pdfjs"; // TODO PDFJS
+  // import { pdfjsGetPage, pdfjsCrop } from "@kredeum/common/src/common/pdfjs"; // TODO PDFJS
 
   ////////////////////////////////////////////////////////////////
   //  <NftMintPopup {chainId} {signer} />

@@ -1,13 +1,13 @@
 <script lang="ts">
   import type { BigNumber } from "ethers";
   import { onMount } from "svelte";
-  import { metamaskInit } from "@svelte/helpers/metamask";
+  import { metamaskInit } from "../../helpers/metamask";
 
-  import type { NftType, Properties } from "@common/common/types";
+  import type { NftType, Properties } from "@kredeum/common/src/common/types";
   import NftMint from "./NftMint.svelte";
 
-  import { S0_START, S5_MINTED, nftMintTexts } from "@svelte/helpers/nftMint";
-  import { getDappUrl } from "@common/common/config";
+  import { S0_START, S5_MINTED, nftMintTexts } from "../../helpers/nftMint";
+  import { getDappUrl } from "@kredeum/common/src/common/config";
 
   /////////////////////////////////////////////////
   // <NftMintButton {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />

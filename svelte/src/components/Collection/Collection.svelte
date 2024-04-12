@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@common/common/config";
+  import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@kredeum/common/src/common/config";
   import CollectionData from "./CollectionData.svelte";
 
   /////////////////////////////////////////////////

@@ -19,7 +19,7 @@ contract ChangeOwner is Script, DeployLite {
     address openNFTsV4Owner;
     address openAutoMarketOwner;
 
-    function logAdressesAndOwners() public {
+    function logAddressesAndOwners() public {
         console.log(" ");
 
         openFactoryOwner = openFactory.owner();
@@ -53,7 +53,7 @@ contract ChangeOwner is Script, DeployLite {
         uint256 countCollections = OpenNFTsResolver(openResolver).countAddresses();
         console.log("%s collections  %s templates", countCollections, countTemplates);
 
-        logAdressesAndOwners();
+        logAddressesAndOwners();
 
         // send value to pay for gas of next transactions
         // address paymaster = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38;
@@ -85,7 +85,7 @@ contract ChangeOwner is Script, DeployLite {
                 OpenERC173(openAutoMarket).transferOwnership(newOwner);
             }
 
-            logAdressesAndOwners();
+            logAddressesAndOwners();
         }
     }
 }

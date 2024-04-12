@@ -37,9 +37,9 @@ export const test = base.extend<{
 
 		// setup metamask
 		await metamask.initialSetup(chromium, {
-			secretWordsOrPrivateKey: 'test test test test test test test test test test test junk',
-			network: 'optimism',
-			password: 'Tester@1234',
+			secretWordsOrPrivateKey: process.env.METAMASK_PRIVATE_KEY || 'test test test test test test test test test test test junk',
+			network: 'sepolia',
+			password: 'test@kredeum',
 			enableAdvancedSettings: true
 		});
 

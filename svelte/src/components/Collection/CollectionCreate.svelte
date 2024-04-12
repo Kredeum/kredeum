@@ -3,7 +3,7 @@
   import { BigNumber, constants } from "ethers";
   import { getContext, onMount, createEventDispatcher } from "svelte";
 
-  import type { CollectionType } from "@common/common/types";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
   import {
     explorerTxLog,
     explorerTxUrl,
@@ -14,13 +14,13 @@
     MAX_FEE,
     displayEther,
     ADDRESS_ZERO
-  } from "@common/common/config";
-  import { collectionClone, collectionCloneAddress } from "@common/collection/collection-clone";
+  } from "@kredeum/common/src/common/config";
+  import { collectionClone, collectionCloneAddress } from "@kredeum/common/src/collection/collection-clone";
 
   import CollectionTemplates from "./CollectionTemplates.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputEthAddress from "../Input/InputEthAddress.svelte";
-  import { feeAmount } from "@common/common/config";
+  import { feeAmount } from "@kredeum/common/src/common/config";
 
   ///////////////////////////////////////////////////////////
   // <CollectionCreate {chainId} {collection} {signer} />

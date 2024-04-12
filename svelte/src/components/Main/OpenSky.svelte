@@ -2,11 +2,11 @@
   import { onMount, setContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, isCollection, tokenIdCount } from "@common/common/config";
-  import { providerSetFallback } from "@common/common/provider-get";
+  import { ADDRESS_ZERO, isCollection, tokenIdCount } from "@kredeum/common/src/common/config";
+  import { providerSetFallback } from "@kredeum/common/src/common/provider-get";
 
-  import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
-  import { metamaskChainId } from "@svelte/stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
+  import { metamaskChainId } from "../../stores/metamask";
 
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";

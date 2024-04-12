@@ -1,5 +1,7 @@
 {
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "pipeline": {
     "plusinstall": {
       "outputs": ["vendor/**"],

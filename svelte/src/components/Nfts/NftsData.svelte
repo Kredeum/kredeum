@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nftSubListStoreAndRefresh } from "@svelte/stores/nft/nftSubList";
+  import { nftSubListStoreAndRefresh } from "../../stores/nft/nftSubList";
 
   ////////////////////////////////////////////////////////////////////////
   // <NftListData {chainId} {address} {account} />

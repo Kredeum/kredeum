@@ -7,7 +7,9 @@
     "dev": "vite dev",
     "build": "ENVIR=PROD vite build",
     "preview": "vite preview",
-    "check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
+    "check": "pnpm run check:eslint && pnpm run check:svelte",
+    "check:eslint": "eslint src/**/*.ts src/**/*.svelte",
+    "check:svelte": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
     "check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
     "test:chromium": "playwright install chromium",
     "test": "playwright test"
@@ -23,11 +25,14 @@
     "svelte-check": "^3.6.9",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
+    "viem": "^2.9.16",
     "vite": "^5.2.8",
-    "vitest": "^1.4.0"
+    "vitest": "^1.5.0"
   },
   "type": "module",
   "dependencies": {
+    "@kredeum/common": "workspace:^",
+    "@kredeum/providers": "workspace:^",
     "@kredeum/svelte": "workspace:^"
   }
 }

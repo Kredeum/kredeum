@@ -1,11 +1,11 @@
 <script lang="ts">
-  import type { UserConfig } from "@svelte/helpers/configHelper";
+  import type { UserConfig } from "../../../helpers/configHelper";
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { quintOut } from "svelte/easing";
 
-  import { configTexts, configInit, configCheck, configSave } from "@svelte/helpers/configHelper";
-  import { strUpFirst } from "@common/common/config";
+  import { configTexts, configInit, configCheck, configSave } from "../../../helpers/configHelper";
+  import { strUpFirst } from "@kredeum/common/src/common/config";
   import InputConfigFields from "./InputConfigFields.svelte";
 
   export let open = false;

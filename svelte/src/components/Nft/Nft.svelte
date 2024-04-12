@@ -1,6 +1,6 @@
 <script lang="ts">
   import { utils } from "ethers";
-  import { ADDRESS_ZERO, config } from "@common/common/config";
+  import { ADDRESS_ZERO, config } from "@kredeum/common/src/common/config";
 
   import {
     explorerCollectionUrl,
@@ -11,12 +11,12 @@
     textShort,
     displayEther,
     uriShort
-  } from "@common/common/config";
+  } from "@kredeum/common/src/common/config";
 
   import MediaPreview from "../Media/MediaPreview.svelte";
   import NftExchange from "./NftExchange.svelte";
 
-  import { shortcodeOpenSky } from "@svelte/helpers/shortcode";
+  import { shortcodeOpenSky } from "../../helpers/shortcode";
   import {
     nftOwner,
     nftMarketable,
@@ -25,16 +25,16 @@
     nftRoyaltyFee,
     nftPrice,
     nftPriceValid
-  } from "@common/nft/nft";
+  } from "@kredeum/common/src/nft/nft";
 
   import NftClaim from "./NftClaim.svelte";
   import NftTransfer from "./NftTransfer.svelte";
   import NftBurn from "./NftBurn.svelte";
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { nftStoreAndRefresh } from "@svelte/stores/nft/nft";
-  import { widgetOpenSky } from "@svelte/helpers/widget";
-  import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@common/storage/storage";
-  import { networks } from "@common/common/networks";
+  import { nftStoreAndRefresh } from "../../stores/nft/nft";
+  import { widgetOpenSky } from "../../helpers/widget";
+  import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@kredeum/common/src/storage/storage";
+  import { networks } from "@kredeum/common/src/common/networks";
 
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />

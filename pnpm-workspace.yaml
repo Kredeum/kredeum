@@ -6,3 +6,4 @@ packages:
   - svelte
   - sveltekit
   - wordpress
+  - providers

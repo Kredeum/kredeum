@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { SUPPORTED_MEDIATYPES } from "@svelte/helpers/mediaTypes";
+  import { SUPPORTED_MEDIATYPES } from "../../helpers/mediaTypes";
 
   ////////////////////////////////////////////////////////////////
   //  <InputPdfMint {pdfFile} {pdf} />

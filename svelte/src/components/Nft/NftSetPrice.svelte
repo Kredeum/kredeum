@@ -1,21 +1,27 @@
 <script lang="ts">
   import { BigNumber, constants } from "ethers";
 
-  import { nftCollectionPrice, nftPriceValid, nftRoyaltyAndFeeMinimum } from "@common/nft/nft";
+  import { nftCollectionPrice, nftPriceValid, nftRoyaltyAndFeeMinimum } from "@kredeum/common/src/nft/nft";
 
-  import { displayEther, explorerCollectionUrl, explorerTxLog, explorerTxUrl, textShort } from "@common/common/config";
+  import {
+    displayEther,
+    explorerCollectionUrl,
+    explorerTxLog,
+    explorerTxUrl,
+    textShort
+  } from "@kredeum/common/src/common/config";
 
-  import { getMax } from "@common/nft/nft-automarket-get";
-  import { setTokenPrice } from "@common/nft/nft-automarket-set";
+  import { getMax } from "@kredeum/common/src/nft/nft-automarket-get";
+  import { setTokenPrice } from "@kredeum/common/src/nft/nft-automarket-set";
 
-  import { metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { nftStoreAndRefresh, nftStoreRefresh } from "@svelte/stores/nft/nft";
+  import { metamaskSignerAddress } from "../../stores/metamask";
+  import { nftStoreAndRefresh, nftStoreRefresh } from "../../stores/nft/nft";
 
   import InputPrice from "../Input/InputPrice.svelte";
   import NftIncomes from "./NftIncomes.svelte";
-  import { nftPrice, nftOnSale, nftCollectionApproved } from "@common/nft/nft";
+  import { nftPrice, nftOnSale, nftCollectionApproved } from "@kredeum/common/src/nft/nft";
   import { onMount } from "svelte";
-  import { networks } from "@common/common/networks";
+  import { networks } from "@kredeum/common/src/common/networks";
 
   /////////////////////////////////////////////////
   //  <NftSetPrice {chainId} {address} {tokenID} />

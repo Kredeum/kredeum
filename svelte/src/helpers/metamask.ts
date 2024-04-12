@@ -1,12 +1,16 @@
-import type { EthereumProvider, WindowEthereumProvider, WindowExternalProvider } from "@common/common/types";
+import type {
+  EthereumProvider,
+  WindowEthereumProvider,
+  WindowExternalProvider
+} from "@kredeum/common/src/common/types";
 
 import detectEthereumProvider from "@metamask/detect-provider";
 import { ethers } from "ethers";
 import { get } from "svelte/store";
 
-import { numberToHexString, getChecksumAddress, isAddressNotZero } from "@common/common/config";
-import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "@svelte/stores/metamask";
-import { networks } from "@common/common/networks";
+import { numberToHexString, getChecksumAddress, isAddressNotZero } from "@kredeum/common/src/common/config";
+import { metamaskChainId, metamaskSignerAddress, metamaskProvider, metamaskSigner } from "../stores/metamask";
+import { networks } from "@kredeum/common/src/common/networks";
 
 let _ethereumProvider: EthereumProvider | null = null;
 

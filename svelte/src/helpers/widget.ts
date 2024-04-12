@@ -1,4 +1,4 @@
-import type { NftType } from "@common/common/types";
+import type { NftType } from "@kredeum/common/src/common/types";
 import config from "@kredeum/config/dist/config.json";
 
 const basePathAsset = `${config.base}/assets`;

@@ -2,9 +2,9 @@
   import { onMount, setContext } from "svelte";
   import { writable, type Writable } from "svelte/store";
 
-  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@common/common/config";
-  import { providerSetFallback } from "@common/common/provider-get";
-  import { type RefPageType } from "@common/common/types";
+  import { ADDRESS_ZERO, isAddressNotZero, isCollection, tokenIdCount } from "@kredeum/common/src/common/config";
+  import { providerSetFallback } from "@kredeum/common/src/common/provider-get";
+  import { type RefPageType } from "@kredeum/common/src/common/types";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
@@ -18,9 +18,9 @@
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
 
-  import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
-  import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
-  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
+  import { refPage2UrlHash, refPageFromUrlHash } from "../../helpers/refPage";
+  import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />

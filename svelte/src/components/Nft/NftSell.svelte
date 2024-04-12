@@ -1,11 +1,11 @@
 <script lang="ts">
   import { fade } from "svelte/transition";
 
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../helpers/clickOutside";
   import NftSetPrice from "./NftSetPrice.svelte";
-  import { nftPrice } from "@common/nft/nft";
-  import { nftStore } from "@svelte/stores/nft/nft";
-  import { displayEther } from "@common/common/config";
+  import { nftPrice } from "@kredeum/common/src/nft/nft";
+  import { nftStore } from "../../stores/nft/nft";
+  import { displayEther } from "@kredeum/common/src/common/config";
 
   /////////////////////////////////////////////////
   //  <NftSell {chainId} {address} {tokenID} />

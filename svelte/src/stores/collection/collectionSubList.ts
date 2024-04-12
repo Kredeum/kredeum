@@ -1,13 +1,13 @@
 import type { Readable } from "svelte/store";
 import { derived } from "svelte/store";
 
-import type { CollectionType } from "@common/common/types";
-import { collectionList as collectionListLib } from "@common/collection/collection-list";
-import { collectionGet as collectionLib } from "@common/collection/collection-get";
+import type { CollectionType } from "@kredeum/common/src/common/types";
+import { collectionList as collectionListLib } from "@kredeum/common/src/collection/collection-list";
+import { collectionGet as collectionLib } from "@kredeum/common/src/collection/collection-get";
 
-import { collectionStoreSet } from "@svelte/stores/collection/collection";
-import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
+import { collectionStoreSet } from "./collection";
 import { collectionListStore } from "./collectionList";
+import { keyCollectionDefault, collectionDefaultStore } from "./collectionDefault";
 
 // STATE VIEW : GET Collection fitered list
 const collectionSubListStore = (

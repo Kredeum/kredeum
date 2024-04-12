@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { nftStoreAndRefresh } from "@svelte/stores/nft/nft";
+  import { nftStoreAndRefresh } from "../../stores/nft/nft";
 
   /////////////////////////////////////////////////////////////
   // <NftData {chainId} {address} {tokenID} />
