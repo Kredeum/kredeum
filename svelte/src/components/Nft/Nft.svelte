@@ -126,15 +126,15 @@
     {#if details}
       <div class="col col-xs-12 col-sm-8 col-md-9">
         <div class="card-krd">
-          <h3>{$nft.name || ""}</h3>
-          <p>
+          <h3 id="nftName">{$nft.name || ""}</h3>
+          <p id="nftDescription">
             {$nft.description || ""}
           </p>
 
           <ul class="steps">
             <li>
               <div class="flex"><span class="label"><strong>Token ID</strong></span></div>
-              <div class="flex kre-flex-align-center" title="Token ID #{tokenID}">
+              <div class="flex kre-flex-align-center" title="Token ID #{tokenID}" id="nftTokenID">
                 <div class="overflow-ellipsis">
                   <strong> <a href={getDappUrl(chainId, $nft)} class="kre-blue-link">#{tokenID || ""}</a></strong>
                 </div>
@@ -144,7 +144,7 @@
             <li>
               <div class="flex"><span class="label">Owner</span></div>
               <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis">
+                <div class="overflow-ellipsis" id="nftOwner">
                   {@html explorerAddressLink(chainId, nftOwner($nft), 15)}
                 </div>
                 <CopyRefItem copyData={nftOwner($nft)} />
@@ -153,7 +153,7 @@
             <li>
               <div class="flex"><span class="label">collection @</span></div>
               <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis">
+                <div class="overflow-ellipsis"  id="nftCollection">
                   <a
                     class="link"
                     href={explorerCollectionUrl(chainId, address)}

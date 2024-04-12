@@ -18,7 +18,7 @@
   $: mint = signer && networks.getCreate(chainId);
 </script>
 
-<a href="#create-modal" class="btn btn-default" title="Mint"><i class="fas fa-plus fa-left" />Add</a>
+<a href="#create-modal" class="btn btn-default" title="Mint" id="addPopup"><i class="fas fa-plus fa-left" />Add</a>
 
 <!-- Modal create -->
 <div class="modal-window" id="create-modal">
@@ -27,7 +27,7 @@
 
     <div class="modal-body">
       {#if mint}
-        <div class="titre">
+        <div class="titre" id="addTitle">
           <i class="fas fa-plus fa-left c-green" />What do you want to do ?
         </div>
 
@@ -38,7 +38,8 @@
             on:click={toggle}
             on:keydown={toggle}
             class="btn btn-default"
-            title="Mint NFT">Mint NFT</span
+            title="Mint NFT"
+            id="mintPopup">Mint NFT</span
           >
           <span class="or">or</span>
           <a href="#add-collection" class="btn btn-second" title="Add a new collection">Create Collection</a>

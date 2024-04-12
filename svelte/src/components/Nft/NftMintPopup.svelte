@@ -447,7 +447,7 @@
           <NftProperties bind:properties />
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" on:click|preventDefault={mint}>Mint NFT</button>
+            <button class="btn btn-default btn-sell" on:click|preventDefault={mint} id="mintNft">Mint NFT</button>
           </div>
         {:else if S0_START < minting && minting <= S5_MINTED}
           <div class="media media-photo">
@@ -555,7 +555,7 @@
         {:else if minting == S5_MINTED && nft}
           <li class="complete">
             <div class="flex">
-              <span class="titre"
+              <span class="titre" id="mintSuccess"
                 >NFT Minted, congrats!
                 <i class="fas fa-check fa-left c-green" />
               </span>
