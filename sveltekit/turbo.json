@@ -10,7 +10,7 @@
       "inputs": ["src/**", "../contracts/addresses.json"]
     },
     "build": {
-      "dependsOn": ["check", "@kredeum/gulp#build"],
+      "dependsOn": ["check", "@kredeum/gulp#build", "@kredeum/skale#build"],
       "inputs": ["src/**"],
       "outputs": ["web/dapp/index.html", "web/dapp/_app/**.*"]
     }
