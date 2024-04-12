@@ -70,7 +70,6 @@ linea = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 goerli = { key = "${ETHERSCAN_API_KEY}" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
 holesky = { key = "${ETHERSCAN_API_KEY}", url = "https://api-holesky.etherscan.io/api" }
-calypso-testnet = { key = "non-applicable", url = "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com" }
 
 linea-testnet = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 base-sepolia = { key = "${ETHERSCAN_API_KEY_BASE}" }

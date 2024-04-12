@@ -15,6 +15,8 @@
     S5_MINTED
   } from "../../helpers/nftMint";
 
+  import { receiveFunds } from "@kredeum/skale";
+
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
   // Nft Minted by signer on chainId/address by signer from src image
@@ -67,53 +69,61 @@
   //
 
   export const mint = async (): Promise<void> => {
-    if (!src) return _mintingError(`<NftMint ERROR : no image`);
+    try {
+      if (!src) throw new Error(`<NftMint ERROR : no image`);
 
-    if (!(chainId && isAddressNotZero(address)))
-      _mintingError(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
+      if (!(chainId && isAddressNotZero(address)))
+        throw new Error(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
 
-    if (!isAddressNotZero(signer)) _mintingError(`<NftMint ERROR : no signer`);
+      if (!isAddressNotZero(signer)) throw new Error(`<NftMint ERROR : no signer`);
 
-    minting = S1_STORE_IMAGE;
+      await receiveFunds(signer as `0x${string}`, chainId);
 
-    imageUri = await nftPin(chainId, src);
+      minting = S1_STORE_IMAGE;
 
-    if (pdf) {
-      pdfUri = pdf;
+      imageUri = await nftPin(chainId, src);
+
+      if (pdf) {
+        pdfUri = pdf;
+      }
+
+      if (audio) {
+        audioUri = await nftPin(chainId, audio);
+      }
+
+      minting = S2_STORE_METADATA;
+
+      tokenUri = await nftTokenUri(
+        chainId,
+        name,
+        description,
+        imageUri,
+        signer,
+        src,
+        metadata,
+        properties,
+        audioUri,
+        pdfUri
+      );
+
+      minting = S3_SIGN_TX;
+
+      const mintingTxResp = await nftMint(chainId, address, tokenUri, signer, price);
+      txHash = mintingTxResp?.hash;
+
+      minting = S4_WAIT_TX;
+
+      if (mintingTxResp) {
+        nft = await nftMinted(chainId, address, mintingTxResp, tokenUri, signer);
+
+        nftStoreSet(nft);
+      }
+
+      minting = S5_MINTED;
+    } catch (error) {
+      if (error instanceof Error) {
+        _mintingError(error.message);
+      }
     }
-
-    if (audio) {
-      audioUri = await nftPin(chainId, audio);
-    }
-
-    minting = S2_STORE_METADATA;
-
-    tokenUri = await nftTokenUri(
-      chainId,
-      name,
-      description,
-      imageUri,
-      signer,
-      src,
-      metadata,
-      properties,
-      audioUri,
-      pdfUri
-    );
-
-    minting = S3_SIGN_TX;
-
-    const mintingTxResp = await nftMint(chainId, address, tokenUri, signer, price);
-    txHash = mintingTxResp?.hash;
-
-    minting = S4_WAIT_TX;
-
-    if (mintingTxResp) {
-      nft = await nftMinted(chainId, address, mintingTxResp, tokenUri, signer);
-
-      nftStoreSet(nft);
-    }
-
-    minting = S5_MINTED;
   };
 </script>

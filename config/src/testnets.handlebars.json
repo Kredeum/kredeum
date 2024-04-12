@@ -421,7 +421,7 @@
       "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
     ],
     "eip1559": false,
-    "create": true,
+    "create": false,
     "linkedMainnet": 1564830818
   },
   {
