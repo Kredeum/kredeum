@@ -16,6 +16,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@kredeum/config": "workspace:^"
+    "@kredeum/config": "workspace:^",
+    "@kredeum/web3donate: "workspace:^"
   }
 }
