@@ -3,7 +3,9 @@
 	"version": "0.0.1",
 	"scripts": {
 		"dev": "vite dev",
-		"build": "vite build && npm run package",
+		"build": "vite -c vite.webcomponents.config.js build",
+		"build:esm": "vite -c vite.esmModule.config.js build",
+		"build:svelte": "vite build && npm run package",
 		"preview": "vite preview",
 		"package": "svelte-kit sync && svelte-package && publint",
 		"prepublishOnly": "npm run package",

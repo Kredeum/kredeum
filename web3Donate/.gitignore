@@ -2,6 +2,8 @@
 node_modules
 /build
 /dist
+/dist-js-web3Donate
+/dist-esm-web3Donate
 /.svelte-kit
 /package
 .env

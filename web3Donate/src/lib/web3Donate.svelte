@@ -1,3 +1,5 @@
 <script lang="ts">
-	export let receiverAddress;
+	export let receiveraddress = 'Me';
 </script>
+
+<h2>Donate to {receiveraddress}</h2>

@@ -1,5 +1,12 @@
 # Kredeum NFTs
 
+```
+pnpm build
+
+npx vite -c vite.webcomponents.config.js build
+```
+
+
 ## Instructions
 
 _Before installation, you need `node`, `pnpm`, some `environment` variables and a local `WordPress` (for plugin only). For detailed instructions, check [pre-installation section](#pre-installation)._
