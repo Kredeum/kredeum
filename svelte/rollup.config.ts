@@ -27,6 +27,7 @@ const toRollupConfig = function (): RollupOptions {
       {
         // sourcemap: true,
         format: "iife",
+        experimentalMinChunkSize: 100_000,
         file: "./web/dapp/assets/js/kredeum-nfts.js"
       }
     ],
@@ -43,7 +44,7 @@ const toRollupConfig = function (): RollupOptions {
         dedupe: ["svelte"],
         preferBuiltins: false
       }),
-      typescript( ),
+      typescript(),
       image(),
       json(),
       commonjs(),
