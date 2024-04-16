@@ -334,11 +334,11 @@
             </div>
           </div>
 
-          {#if inputMediaType === "audio" && audioFile && audio}
+          {#if inputMediaType === "audio"}
             <InputAudioMint bind:audioFile bind:audio />
           {/if}
 
-          {#if inputMediaType === "video" && file && src}
+          {#if inputMediaType === "video"}
             <InputVideoMint bind:videoFile={file} bind:video={src} />
           {/if}
 

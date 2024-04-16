@@ -8,7 +8,7 @@
   // Upload video file for Mint video
   ////////////////////////////////////////////////////////////////
   export let videoFile: File | undefined = undefined;
-  export let video: string;
+  export let video: string | undefined;
   ////////////////////////////////////////////////////////////////
 
   let files: FileList | undefined = undefined;
