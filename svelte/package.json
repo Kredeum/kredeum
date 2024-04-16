@@ -34,7 +34,6 @@
     "eslint-plugin-svelte": "^2.37.0",
     "ethers": "^5.7.2",
     "findup-sync": "^5.0.0",
-    "multiformats": "^9.9.0",
     "postcss": "^8.4.38",
     "prettier-plugin-svelte": "^3.2.2",
     "rollup": "^4.14.1",
