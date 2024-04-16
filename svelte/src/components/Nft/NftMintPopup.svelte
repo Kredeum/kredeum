@@ -465,6 +465,9 @@
                   {#if mintingError}
                     Minting Error
                     <i class="fa fa-times fa-left" />
+                  {:else if minting == S5_MINTED && nft}
+                    NFT Minted, congrats!
+                    <i class="fas fa-check fa-left c-green" />
                   {:else}
                     Minting NFT
                     <i class="fas fa-spinner fa-left c-green refresh" />
@@ -552,18 +555,6 @@
               </div>
             </li>
           </ul>
-        {:else if minting == S5_MINTED && nft}
-          <li class="complete">
-            <div class="flex">
-              <span class="titre"
-                >NFT Minted, congrats!
-                <i class="fas fa-check fa-left c-green" />
-              </span>
-            </div>
-            <div class="flex">
-              <a class="link" href={explorerNftUrl(chainId, nft)} target="_blank" rel="noreferrer">{nftUrl(nft, 6)}</a>
-            </div>
-          </li>
         {:else if mintingError}
           <div class="section">
             <div class="form-field kre-warning-msg">
