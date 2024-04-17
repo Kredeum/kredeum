@@ -14,18 +14,18 @@ contract DeployOpenNFTsV4 is DeployLite {
             msg.sender == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(), "Deployer must be OpenNFTsFactoryV3 owner !"
         );
 
-        DeployState state = deployState("OpenNFTsV4Skale");
+        // DeployState state = deployState("OpenNFTsV4Skale");
 
-        if (state == DeployState.None) {
+        if (true) {
             vm.startBroadcast(msg.sender);
 
-            address openNFTsV4Skale = deploy("OpenNFTsV4Skale");
+            address openNFTsV4Skale = readAddress("OpenNFTsV4Skale");
 
-            bool[] memory options = new bool[](1);
-            options[0] = true;
-            OpenNFTsV4Skale(openNFTsV4Skale).initialize(
-                "OpenNFTsV4Skale", "ONFTSKL", msg.sender, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
-            );
+            // bool[] memory options = new bool[](1);
+            // options[0] = true;
+            // OpenNFTsV4Skale(openNFTsV4Skale).initialize(
+            //     "OpenNFTsV4Skale", "ONFTSKL", msg.sender, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
+            // );
 
             OpenNFTsFactoryV3(openNFTsFactoryV3).setTemplate("OpenNFTsV4Skale", openNFTsV4Skale);
 
