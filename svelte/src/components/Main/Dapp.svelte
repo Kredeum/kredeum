@@ -21,6 +21,7 @@
   import { metamaskInit, metamaskSwitchChain } from "@svelte/helpers/metamask";
   import { refPage2UrlHash, refPageFromUrlHash } from "@svelte/helpers/refPage";
   import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
+  import AlertModal from "../Global/AlertModal.svelte";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
@@ -125,6 +126,7 @@
   </span>
 
   <span slot="header">
+    <AlertModal />
     <Title />
 
     <Create {chainId} {signer} />
