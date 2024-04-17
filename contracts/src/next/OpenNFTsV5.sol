@@ -42,11 +42,23 @@ contract OpenNFTsV5 is
     /// @notice Mint NFT allowed to everyone or only collection owner
     bool public open;
 
+    uint256 public tokenUriMaxLength = type(uint256).max;
+    uint256 public cooldownPeriod = type(uint256).max;
+    mapping(address => uint256) public cooldown;
+
     /// @notice onlyOpenOrOwner, either everybody in open collection,
     /// @notice either only owner in specific collection
     modifier onlyMinter() {
         require(open || (owner() == msg.sender), "Not minter");
         _;
+    }
+
+    function setTokenUriMaxLength(uint256 tokenUriMaxLength_) external onlyOwner {
+        tokenUriMaxLength = tokenUriMaxLength_;
+    }
+
+    function setCooldownPeriod(uint256 cooldownPeriod_) external onlyOwner {
+        cooldownPeriod = cooldownPeriod_;
     }
 
     function mint(string memory tokenURI_) external override(IOpenNFTsV5) returns (uint256 tokenID) {
@@ -113,6 +125,13 @@ contract OpenNFTsV5 is
         internal
         override(OpenERC721Enumerable, OpenERC721Metadata)
     {
+        uint256 now = block.timestamp;
+
+        require(bytes(tokenURI).length <= tokenUriMaxLength, "TokenURI too long");
+        require(cooldown[msg.sender] < now, "Mint cooldown");
+
+        cooldown[msg.sender] = now + cooldownPeriod;
+
         super._mint(minter, tokenURI, tokenID);
     }
 
