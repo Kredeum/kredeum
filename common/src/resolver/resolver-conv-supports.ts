@@ -28,6 +28,8 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
   /// : 21 IOpenAutoMarket
   /// : 22 IOpenBound
 
+  /// : 23 IOpenNFTsV4Skale
+
   if (!(checks && checks.length == 23)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
   let i = 1;
@@ -60,7 +62,7 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
     IOpenAutoMarket: checks[i++],
     IOpenBound: checks[i++],
 
-    IOpenNFTsV4Skale: checks[i++]
+    // IOpenNFTsV4Skale: checks[i++]
   };
   const supports = new Map(Object.entries(supportsObject));
 
