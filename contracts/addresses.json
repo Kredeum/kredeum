@@ -66,6 +66,7 @@
     "OpenNFTsFactoryV3": "0x0e4B980c44feF474e650BfdE5020aAA7aCAe6f06",
     "OpenNFTsResolver": "0x9ffa4fa32d2ac629b8F39Cb226a5dC3508D1e78d",
     "OpenNFTsV4": "0x37C3aAbb1C9c3c344BbD5801AefDaf40180Be070",
+    "OpenNFTsV4Skale_last": "0x5daa072F2A30C92de35e421167413caEa9670617",
     "chainName": "calypso-testnet"
   },
   "137": {
