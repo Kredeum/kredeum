@@ -14,6 +14,7 @@
     S4_WAIT_TX,
     S5_MINTED
   } from "../../helpers/nftMint";
+  import { dispatchAlert } from "../../helpers/alertsMsg";
 
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
@@ -44,7 +45,10 @@
   export let nft: NftType | undefined = undefined; // defined after STATE 4
   /////////////////////////////////////////////////
 
-  const _mintingError = (err: string): void => console.error(err);
+  const _mintingError = (err: string): void => {
+    console.error(err);
+    dispatchAlert("error", "Minting Error", err);
+  };
 
   // MINTING STATES
   //
@@ -72,9 +76,9 @@
     if (!src) return _mintingError(`<NftMint ERROR : no image`);
 
     if (!(chainId && isAddressNotZero(address)))
-      _mintingError(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
+      return _mintingError(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
 
-    if (!isAddressNotZero(signer)) _mintingError(`<NftMint ERROR : no signer`);
+    if (!isAddressNotZero(signer)) return _mintingError(`<NftMint ERROR : no signer`);
 
     minting = S1_STORE_IMAGE;
 
@@ -117,5 +121,7 @@
     }
 
     minting = S5_MINTED;
+
+    dispatchAlert("success", "NFT Minted", "Congratulation, your NFT have been Minted !!");
   };
 </script>
