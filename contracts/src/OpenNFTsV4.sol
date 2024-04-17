@@ -56,13 +56,13 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         _;
     }
 
-    function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
+    function mint(string memory tokenURI_) external override(IOpenNFTsV4) virtual returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, tokenURI_);
     }
 
     function mint(address minter, string memory tokenURI_)
         external
-        override(IOpenNFTsV4)
+        override(IOpenNFTsV4) virtual
         onlyOwner
         returns (uint256 tokenID)
     {
@@ -101,14 +101,14 @@ contract OpenNFTsV4 is IOpenNFTsV4, OpenERC721Metadata, OpenERC721Enumerable, Op
         return interfaceId == type(IOpenNFTsV4).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    function _mint(address minter, string memory tokenURI) internal returns (uint256 tokenID) {
+    function _mint(address minter, string memory tokenURI) internal virtual returns (uint256 tokenID) {
         tokenID = tokenIdNext++;
 
         _mint(minter, tokenURI, tokenID);
     }
 
     function _mint(address minter, string memory tokenURI, uint256 tokenID)
-        internal
+        internal virtual
         override(OpenERC721Enumerable, OpenERC721Metadata)
     {
         super._mint(minter, tokenURI, tokenID);

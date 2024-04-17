@@ -125,12 +125,12 @@ contract OpenNFTsV5 is
         internal
         override(OpenERC721Enumerable, OpenERC721Metadata)
     {
-        uint256 now = block.timestamp;
+        uint256 currentTimestamp = block.timestamp;
 
         require(bytes(tokenURI).length <= tokenUriMaxLength, "TokenURI too long");
-        require(cooldown[msg.sender] < now, "Mint cooldown");
+        require(cooldown[msg.sender] < currentTimestamp, "Mint cooldown");
 
-        cooldown[msg.sender] = now + cooldownPeriod;
+        cooldown[msg.sender] = currentTimestamp + cooldownPeriod;
 
         super._mint(minter, tokenURI, tokenID);
     }
