@@ -16,6 +16,7 @@ import {IOpenNFTsV1} from "src/interfaces/IOpenNFTsV1.sol";
 import {IOpenNFTsV2} from "src/interfaces/IOpenNFTsV2.sol";
 import {IOpenNFTsV3} from "src/interfaces/IOpenNFTsV3.sol";
 import {IOpenNFTsV4} from "src/interfaces/IOpenNFTsV4.sol";
+import {IOpenNFTsV4Skale} from "src/interfaces/IOpenNFTsV4Skale.sol";
 
 import {OpenERC173, OpenRegistry, OpenResolver, OpenGetter} from "@opennfts/contracts/OpenResolver/OpenResolver.sol";
 import {IOpenMarketable} from "@opennfts/contracts/interfaces/IOpenMarketable.sol";
@@ -46,6 +47,8 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     uint8 private constant _IOPEN_AUTOMARKET = _IERC_LENGTH + 10;
     uint8 private constant _IOPEN_BOUND = _IERC_LENGTH + 11;
 
+    uint8 private constant _IOPEN_NFTS_V4_SKALE = _IERC_LENGTH + 12;
+
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
         OpenRegistry._setRegisterer(registerer_);
@@ -75,6 +78,8 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         _interfaceIds[_IOPEN_NFTS_V4 - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
         _interfaceIds[_IOPEN_AUTOMARKET - _IERC_LENGTH] = type(IOpenAutoMarket).interfaceId;
         _interfaceIds[_IOPEN_BOUND - _IERC_LENGTH] = type(IOpenBound).interfaceId;
+
+        _interfaceIds[_IOPEN_NFTS_V4_SKALE - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
     }
 
     function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)

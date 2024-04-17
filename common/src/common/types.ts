@@ -13,6 +13,7 @@ type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalP
 type AddressesType = {
   OpenNFTs: string;
   OpenNFTsV4: string;
+  OpenNFTsV4Skale: string;
   OpenNFTsResolver: string;
   OpenNFTsFactoryV3: string;
   OpenNFTsFactoryV2?: string;

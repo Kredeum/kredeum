@@ -58,7 +58,9 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
     IOpenNFTsV3: checks[i++],
     IOpenNFTsV4: checks[i++],
     IOpenAutoMarket: checks[i++],
-    IOpenBound: checks[i++]
+    IOpenBound: checks[i++],
+
+    IOpenNFTsV4Skale: checks[i++]
   };
   const supports = new Map(Object.entries(supportsObject));
 

@@ -50,10 +50,12 @@ contract OpenNFTsV4Skale is IOpenNFTsV4Skale, OpenNFTsV4 {
         tokenID = _mint(msg.sender, tokenURI_);
     }
 
-    function mint(
-        address minter,
-        string memory tokenURI_
-    ) external override(IOpenNFTsV4Skale, OpenNFTsV4) onlyOwner returns (uint256 tokenID) {
+    function mint(address minter, string memory tokenURI_)
+        external
+        override(IOpenNFTsV4Skale, OpenNFTsV4)
+        onlyOwner
+        returns (uint256 tokenID)
+    {
         tokenID = _mint(minter, tokenURI_);
     }
 

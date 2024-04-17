@@ -14,6 +14,7 @@ import type { IOpenNFTsV2 } from "@kredeum/contracts/types/IOpenNFTsV2";
 import type { IOpenNFTsV3Plus } from "@kredeum/contracts/types/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@kredeum/contracts/types/OpenNFTsV4";
+import type { OpenNFTsV4Skale } from "@kredeum/contracts/types/OpenNFTsV4Skale";
 import {
   collectionIsOpenMarketable,
   collectionRoyaltyAccount,
@@ -97,6 +98,8 @@ const nftMint = async (
     );
   } else if (collectionSupports(collection).get("IOpenNFTsV4")) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
+  } else if (collectionSupports(collection).get("IOpenNFTsV4Skale")) {
+    txResp = await (contract as OpenNFTsV4Skale)["mint(string)"](tokenURI);
   } else if (collectionSupports(collection).get("IOpenNFTsV3")) {
     // console.log("IOpenNFTsV3");
     txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);

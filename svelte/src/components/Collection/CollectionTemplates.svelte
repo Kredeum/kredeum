@@ -22,6 +22,14 @@
       }
     ],
     [
+      "OpenNFTsV4Skale/generic",
+      {
+        name: "Skale OpenNFTs Generic",
+        description: "OpenNFTs generic Skale Collection: anyone can Mint NFTs in this collection!",
+        icon: "building"
+      }
+    ],
+    [
       "OpenAutoMarket/ownable",
       {
         name: "AutoMarket",
@@ -45,7 +53,10 @@
   const templateName = (templateKey: string) => templateSplit(templateKey)[0];
   const templateConfig = (templateKey: string) => templateSplit(templateKey)[1];
 
-  $: template = templateMerge(templateName(template), templateName(template) == "OpenNFTsV4" ? "generic" : "ownable");
+  $: template = templateMerge(
+    templateName(template),
+    templateName(template) == ("OpenNFTsV4" || "OpenNFTsV4Skale") ? "generic" : "ownable"
+  );
 </script>
 
 <div class="section">

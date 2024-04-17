@@ -38,6 +38,12 @@ async function* collectionClone(
       ["uint256", "address", "uint96", "bool[]"],
       [0, ADDRESS_ZERO, 0, options]
     );
+  } else if (template == "OpenNFTsV4Skale") {
+    options = [conf == "generic"];
+    optionsBytes = utils.defaultAbiCoder.encode(
+      ["uint256", "address", "uint96", "bool[]"],
+      [0, ADDRESS_ZERO, 0, options]
+    );
   } else if (template == "OpenAutoMarket") {
     options = [conf == "generic", minimum];
     // console.log("options", options);

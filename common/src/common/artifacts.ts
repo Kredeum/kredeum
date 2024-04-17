@@ -26,6 +26,7 @@ import artifactIOpenNFTsV1 from "@kredeum/contracts/out/IOpenNFTsV1.sol/IOpenNFT
 import artifactIOpenNFTsV2 from "@kredeum/contracts/out/IOpenNFTsV2.sol/IOpenNFTsV2.json";
 import artifactIOpenNFTsV3 from "@kredeum/contracts/out/IOpenNFTsV3.sol/IOpenNFTsV3.json";
 import artifactIOpenNFTsV4 from "@kredeum/contracts/out/IOpenNFTsV4.sol/IOpenNFTsV4.json";
+import artifactIOpenNFTsV4Skale from "@kredeum/contracts/out/IOpenNFTsV4Skale.sol/IOpenNFTsV4Skale.json";
 import artifactIOpenAutoMarket from "@kredeum/contracts/out/IOpenAutoMarket.sol/IOpenAutoMarket.json";
 import artifactIOpenBound from "@kredeum/contracts/out/IOpenBound.sol/IOpenBound.json";
 
@@ -65,6 +66,7 @@ const artifactsObject = {
   IOpenNFTsV2: artifactIOpenNFTsV2,
   IOpenNFTsV3: artifactIOpenNFTsV3,
   IOpenNFTsV4: artifactIOpenNFTsV4,
+  IOpenNFTsV4Skale: artifactIOpenNFTsV4Skale,
   IOpenAutoMarket: artifactIOpenAutoMarket,
   IOpenBound: artifactIOpenBound,
 
