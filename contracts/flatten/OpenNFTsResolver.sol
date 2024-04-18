@@ -170,6 +170,20 @@ interface IOpenNFTsV4 {
     function open() external view returns (bool);
 }
 
+interface IOpenNFTsV4Skale {
+    function setTokenUriMaxLength(uint256 tokenUriMaxLength_) external;
+
+    function setCooldownPeriod(uint256 cooldownPeriod_) external;
+
+    function mint(string memory tokenURI) external returns (uint256 tokenID);
+
+    function mint(address minter, string memory tokenURI) external returns (uint256 tokenID);
+
+    function burn(uint256 tokenID) external;
+
+    function open() external view returns (bool);
+}
+
 //
 // Derived from OpenZeppelin Contracts (utils/introspection/ERC165Ckecker.sol)
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/introspection/ERC165Checker.sol
@@ -957,7 +971,7 @@ interface IOpenCloneable {
 }
 
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
-    bytes4[] private _interfaceIds = new bytes4[](12);
+    bytes4[] private _interfaceIds = new bytes4[](13);
 
     uint8 private constant _IERC_2981 = 10;
     uint8 private constant _IERC_LENGTH = 11;
@@ -975,6 +989,8 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     uint8 private constant _IOPEN_NFTS_V4 = _IERC_LENGTH + 9;
     uint8 private constant _IOPEN_AUTOMARKET = _IERC_LENGTH + 10;
     uint8 private constant _IOPEN_BOUND = _IERC_LENGTH + 11;
+
+    uint8 private constant _IOPEN_NFTS_V4_SKALE = _IERC_LENGTH + 12;
 
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
@@ -1005,9 +1021,16 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         _interfaceIds[_IOPEN_NFTS_V4 - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
         _interfaceIds[_IOPEN_AUTOMARKET - _IERC_LENGTH] = type(IOpenAutoMarket).interfaceId;
         _interfaceIds[_IOPEN_BOUND - _IERC_LENGTH] = type(IOpenBound).interfaceId;
+
+        _interfaceIds[_IOPEN_NFTS_V4_SKALE - _IERC_LENGTH] = type(IOpenNFTsV4Skale).interfaceId;
     }
 
-    function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)
+    function getOpenNFTsNftsInfos(
+        address collection,
+        address account,
+        uint256 limit,
+        uint256 offset
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -1029,7 +1052,11 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         }
     }
 
-    function getOpenNFTsNftsInfos(address collection, uint256[] memory tokenIDs, address account)
+    function getOpenNFTsNftsInfos(
+        address collection,
+        uint256[] memory tokenIDs,
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -1048,7 +1075,11 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         }
     }
 
-    function getOpenNFTsNftInfos(address collection, uint256 tokenID, address account)
+    function getOpenNFTsNftInfos(
+        address collection,
+        uint256 tokenID,
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -1064,7 +1095,9 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         openNTFsNftInfos = _getOpenNFTsNftInfos(collection, tokenID, collectionInfos.supported);
     }
 
-    function getOpenNFTsCollectionsInfos(address account)
+    function getOpenNFTsCollectionsInfos(
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -1091,14 +1124,19 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         for (uint256 i = 0; i < total; i++) {
             if (collectionsInfosAll[i].balanceOf > 0 || collectionsInfosAll[i].owner == account) {
                 collectionsInfos[j] = collectionsInfosAll[i];
-                openNFTsCollectionsInfos[j] =
-                    _getOpenNFTsCollectionInfos(collectionsInfosAll[i].collection, collectionsInfosAll[i].supported);
+                openNFTsCollectionsInfos[j] = _getOpenNFTsCollectionInfos(
+                    collectionsInfosAll[i].collection,
+                    collectionsInfosAll[i].supported
+                );
                 j++;
             }
         }
     }
 
-    function getOpenNFTsCollectionInfos(address collection, address account)
+    function getOpenNFTsCollectionInfos(
+        address collection,
+        address account
+    )
         external
         view
         override(IOpenNFTsResolver)
@@ -1112,24 +1150,23 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         return interfaceId == type(IOpenNFTsResolver).interfaceId || super.supportsInterface(interfaceId);
     }
 
-    function _getOpenNFTsNftInfos(address collection, uint256 tokenID, bool[] memory supported)
-        internal
-        view
-        returns (OpenNFTsNftInfos memory nftInfos)
-    {
+    function _getOpenNFTsNftInfos(
+        address collection,
+        uint256 tokenID,
+        bool[] memory supported
+    ) internal view returns (OpenNFTsNftInfos memory nftInfos) {
         if (supported[_IOPEN_MARKETABLE]) {
             nftInfos.receiver = IOpenMarketable(payable(collection)).getTokenRoyalty(tokenID);
             nftInfos.price = IOpenMarketable(payable(collection)).getTokenPrice(tokenID);
         } else if (supported[_IERC_2981]) {
-            (nftInfos.receiver.account,) = IERC2981(payable(collection)).royaltyInfo(tokenID, 1);
+            (nftInfos.receiver.account, ) = IERC2981(payable(collection)).royaltyInfo(tokenID, 1);
         }
     }
 
-    function _getOpenNFTsCollectionInfos(address collection, bool[] memory supported)
-        internal
-        view
-        returns (OpenNFTsCollectionInfos memory collInfos)
-    {
+    function _getOpenNFTsCollectionInfos(
+        address collection,
+        bool[] memory supported
+    ) internal view returns (OpenNFTsCollectionInfos memory collInfos) {
         if (supported[_IOPEN_CLONEABLE]) {
             collInfos.version = IOpenCloneable(collection).version(); // 4
             collInfos.template = IOpenCloneable(collection).template(); // OpenNFTsV4 or OpenBound
@@ -1151,4 +1188,3 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         }
     }
 }
-

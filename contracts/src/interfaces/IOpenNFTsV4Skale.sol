@@ -6,7 +6,11 @@ interface IOpenNFTsV4Skale {
 
     function setCooldownPeriod(uint256 cooldownPeriod_) external;
 
-    function mint(string memory tokenURI_) external returns (uint256 tokenID);
+    function mint(string memory tokenURI) external returns (uint256 tokenID);
 
-    function mint(address minter, string memory tokenURI_) external returns (uint256 tokenID);
+    function mint(address minter, string memory tokenURI) external returns (uint256 tokenID);
+
+    function burn(uint256 tokenID) external;
+
+    function open() external view returns (bool);
 }

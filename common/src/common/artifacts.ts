@@ -66,9 +66,10 @@ const artifactsObject = {
   IOpenNFTsV2: artifactIOpenNFTsV2,
   IOpenNFTsV3: artifactIOpenNFTsV3,
   IOpenNFTsV4: artifactIOpenNFTsV4,
-  IOpenNFTsV4Skale: artifactIOpenNFTsV4Skale,
   IOpenAutoMarket: artifactIOpenAutoMarket,
   IOpenBound: artifactIOpenBound,
+
+  IOpenNFTsV4Skale: artifactIOpenNFTsV4Skale,
 
   ICloneFactoryV2: artifactICloneFactoryV2,
   INFTsFactoryV2: artifactINFTsFactoryV2,

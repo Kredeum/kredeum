@@ -28,7 +28,7 @@ import {IOpenPauseable} from "@opennfts/contracts/interfaces/IOpenPauseable.sol"
 import {IOpenCloneable} from "@opennfts/contracts/interfaces/IOpenCloneable.sol";
 
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
-    bytes4[] private _interfaceIds = new bytes4[](12);
+    bytes4[] private _interfaceIds = new bytes4[](13);
 
     uint8 private constant _IERC_2981 = 10;
     uint8 private constant _IERC_LENGTH = 11;
@@ -79,7 +79,7 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         _interfaceIds[_IOPEN_AUTOMARKET - _IERC_LENGTH] = type(IOpenAutoMarket).interfaceId;
         _interfaceIds[_IOPEN_BOUND - _IERC_LENGTH] = type(IOpenBound).interfaceId;
 
-        _interfaceIds[_IOPEN_NFTS_V4_SKALE - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
+        _interfaceIds[_IOPEN_NFTS_V4_SKALE - _IERC_LENGTH] = type(IOpenNFTsV4Skale).interfaceId;
     }
 
     function getOpenNFTsNftsInfos(address collection, address account, uint256 limit, uint256 offset)

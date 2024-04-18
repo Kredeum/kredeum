@@ -24,7 +24,7 @@ contract DeployOpenNFTsV4Skale is DeployLite {
             bool[] memory options = new bool[](1);
             options[0] = true;
             OpenNFTsV4Skale(openNFTsV4Skale).initialize(
-                "OpenNFTsV4Skale", "ONFTSKL", msg.sender, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
+                "OpenNFTsV4", "ONFTSKL", msg.sender, abi.encode(abi.encode(0, address(0), 0, options), address(0), 0)
             );
 
             OpenNFTsFactoryV3(openNFTsFactoryV3).setTemplate("OpenNFTsV4Skale", openNFTsV4Skale);
