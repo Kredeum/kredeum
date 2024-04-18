@@ -2,10 +2,10 @@
   import { DEFAULT_NAME, DEFAULT_SYMBOL } from "@kredeum/common/src/common/config";
   import CollectionData from "./CollectionData.svelte";
 
-  /////////////////////////////////////////////////
+  //////////////////////////////////////////////////
   // <Collection {chainId} {address} {account}? />
   // Display Collection
-  /////////////////////////////////////////////////
+  //////////////////////////////////////////////////
   export let chainId: number;
   export let address: string;
   export let account: string | undefined = undefined;
