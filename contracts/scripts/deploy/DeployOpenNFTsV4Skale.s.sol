@@ -6,8 +6,8 @@ import {DeployLite} from "@forge-deploy-lite/DeployLite.s.sol";
 import {OpenNFTsFactoryV3} from "src/OpenNFTsFactoryV3.sol";
 import {OpenNFTsV4Skale} from "src/OpenNFTsV4Skale.sol";
 
-contract DeployOpenNFTsV4 is DeployLite {
-    function deployOpenNFTsV4() public returns (address) {
+contract DeployOpenNFTsV4Skale is DeployLite {
+    function deployOpenNFTsV4Skale() public returns (address) {
         address openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
 
         require(
@@ -36,6 +36,6 @@ contract DeployOpenNFTsV4 is DeployLite {
     }
 
     function run() public virtual {
-        deployOpenNFTsV4();
+        deployOpenNFTsV4Skale();
     }
 }
