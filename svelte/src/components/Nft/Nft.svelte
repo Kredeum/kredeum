@@ -153,7 +153,7 @@
             <li>
               <div class="flex"><span class="label">collection @</span></div>
               <div class="flex kre-flex-align-center">
-                <div class="overflow-ellipsis"  id="nftCollection">
+                <div class="overflow-ellipsis" id="nftCollection">
                   <a
                     class="link"
                     href={explorerCollectionUrl(chainId, address)}

@@ -19,7 +19,7 @@ contract DeployOpenAutoMarket is DeployLite {
         if (state == DeployState.None) {
             vm.startBroadcast();
 
-            address openAutoMarket = deploy("OpenAutoMarket");
+            address openAutoMarket = deployLite("OpenAutoMarket", "");
 
             bool[] memory options = new bool[](2);
             options[0] = true;

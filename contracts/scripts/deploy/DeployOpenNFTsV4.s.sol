@@ -19,7 +19,7 @@ contract DeployOpenNFTsV4 is DeployLite {
         if (state == DeployState.None) {
             vm.startBroadcast(msg.sender);
 
-            address openNFTsV4 = deploy("OpenNFTsV4");
+            address openNFTsV4 = deployLite("OpenNFTsV4", "");
 
             bool[] memory options = new bool[](1);
             options[0] = true;

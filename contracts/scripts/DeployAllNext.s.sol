@@ -22,10 +22,10 @@ contract DeployAllNext is
     {
         console.log("chainId %s  msg.sender @%s", block.chainid, msg.sender);
 
-        deploy("OpenNFTsFactoryV3");
-        deploy("OpenNFTsResolverV4");
-        deploy("OpenNFTsV5");
-        deploy("OpenAutoMarket");
-        deploy("OpenBound");
+        deployOpenNFTsFactoryV3();
+        deployOpenNFTsResolverV4();
+        deployOpenNFTsV5();
+        deployOpenAutoMarket();
+        deployOpenBound();
     }
 }

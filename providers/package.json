@@ -12,7 +12,7 @@
   "author": "",
   "license": "MIT",
   "devDependencies": {
-    "viem": "^2.9.16"
+    "viem": "^2.9.21"
   },
   "dependencies": {
     "@kredeum/config": "workspace:^"
