@@ -24,7 +24,7 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
   /// : 17 IOpenNFTsV1
   /// : 18 IOpenNFTsV2
   /// : 19 IOpenNFTsV3
-  /// : 20 IOpenNFTsV4
+  /// 0xb6ea5501 : 20 IOpenNFTsV4
   /// : 21 IOpenAutoMarket
   /// : 22 IOpenBound
 
@@ -58,7 +58,7 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
     IOpenNFTsV3: checks[i++],
     IOpenNFTsV4: checks[i++],
     IOpenAutoMarket: checks[i++],
-    IOpenBound: checks[i++],
+    IOpenBound: checks[i++]
   };
   const supports = new Map(Object.entries(supportsObject));
 

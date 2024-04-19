@@ -9,10 +9,18 @@ import {DeployOpenNFTsV4} from "./deploy/DeployOpenNFTsV4.s.sol";
 import {DeployOpenNFTsV4Skale} from "./deploy/DeployOpenNFTsV4Skale.s.sol";
 import {DeployOpenAutoMarket} from "./deploy/DeployOpenAutoMarket.s.sol";
 
-contract DeployAllCurrent is DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenNFTsV4Skale,  DeployOpenAutoMarket {
+contract DeployAllCurrent is
+    DeployOpenNFTsFactoryV3,
+    DeployOpenNFTsResolver,
+    DeployOpenNFTsV4,
+    DeployOpenNFTsV4Skale,
+    DeployOpenAutoMarket
+{
     function run()
         public
-        override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenNFTsV4Skale, DeployOpenAutoMarket)
+        override(
+            DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenNFTsV4Skale, DeployOpenAutoMarket
+        )
     {
         console.log("chainId %s  msg.sender @%s", block.chainid, msg.sender);
 

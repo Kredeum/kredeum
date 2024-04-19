@@ -61,7 +61,7 @@ contract OpenNFTsV4Skale is
     uint256 public tokenUriMaxLength = type(uint256).max;
 
     /// @notice minimum time between two Mints
-    uint256 public cooldownPeriod = type(uint256).max;
+    uint256 public cooldownPeriod;
 
     /// @notice timestamp of next possible Mint per User
     mapping(address => uint256) private _cooldown;

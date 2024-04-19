@@ -23,7 +23,7 @@
 0xeacabe14 IOpenNFTsV1
 0xd94a1db2 IOpenNFTsV2
 0x5c838d8b IOpenNFTsV3
-0x IOpenNFTsV4
+0xb6ea5501 IOpenNFTsV4
 0x IOpenBound
 
 0xf73a622c ICloneFactory
