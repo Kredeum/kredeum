@@ -6,18 +6,20 @@ import "forge-std/Script.sol";
 import {DeployOpenNFTsFactoryV3} from "./deploy/DeployOpenNFTsFactoryV3.s.sol";
 import {DeployOpenNFTsResolver} from "./deploy/DeployOpenNFTsResolver.s.sol";
 import {DeployOpenNFTsV4} from "./deploy/DeployOpenNFTsV4.s.sol";
+import {DeployOpenNFTsV4Skale} from "./deploy/DeployOpenNFTsV4Skale.s.sol";
 import {DeployOpenAutoMarket} from "./deploy/DeployOpenAutoMarket.s.sol";
 
-contract DeployAllCurrent is DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket {
+contract DeployAllCurrent is DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenNFTsV4Skale,  DeployOpenAutoMarket {
     function run()
         public
-        override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenAutoMarket)
+        override(DeployOpenNFTsFactoryV3, DeployOpenNFTsResolver, DeployOpenNFTsV4, DeployOpenNFTsV4Skale, DeployOpenAutoMarket)
     {
         console.log("chainId %s  msg.sender @%s", block.chainid, msg.sender);
 
         deployOpenNFTsFactoryV3();
         deployOpenNFTsResolver();
-        deployOpenNFTsV4();
-        deployOpenAutoMarket();
+        deployOpenNFTsV4Skale();
+        // deployOpenNFTsV4();
+        // deployOpenAutoMarket();
     }
 }

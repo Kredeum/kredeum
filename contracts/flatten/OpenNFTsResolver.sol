@@ -170,20 +170,6 @@ interface IOpenNFTsV4 {
     function open() external view returns (bool);
 }
 
-interface IOpenNFTsV4Skale {
-    function setTokenUriMaxLength(uint256 tokenUriMaxLength_) external;
-
-    function setCooldownPeriod(uint256 cooldownPeriod_) external;
-
-    function mint(string memory tokenURI) external returns (uint256 tokenID);
-
-    function mint(address minter, string memory tokenURI) external returns (uint256 tokenID);
-
-    function burn(uint256 tokenID) external;
-
-    function open() external view returns (bool);
-}
-
 //
 // Derived from OpenZeppelin Contracts (utils/introspection/ERC165Ckecker.sol)
 // https://github.com/OpenZeppelin/openzeppelin-contracts/blob/master/contracts/utils/introspection/ERC165Checker.sol
@@ -971,7 +957,7 @@ interface IOpenCloneable {
 }
 
 contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
-    bytes4[] private _interfaceIds = new bytes4[](13);
+    bytes4[] private _interfaceIds = new bytes4[](12);
 
     uint8 private constant _IERC_2981 = 10;
     uint8 private constant _IERC_LENGTH = 11;
@@ -989,8 +975,6 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
     uint8 private constant _IOPEN_NFTS_V4 = _IERC_LENGTH + 9;
     uint8 private constant _IOPEN_AUTOMARKET = _IERC_LENGTH + 10;
     uint8 private constant _IOPEN_BOUND = _IERC_LENGTH + 11;
-
-    uint8 private constant _IOPEN_NFTS_V4_SKALE = _IERC_LENGTH + 12;
 
     constructor(address owner_, address registerer_) {
         OpenERC173._initialize(owner_);
@@ -1021,8 +1005,6 @@ contract OpenNFTsResolver is IOpenNFTsResolver, OpenResolver {
         _interfaceIds[_IOPEN_NFTS_V4 - _IERC_LENGTH] = type(IOpenNFTsV4).interfaceId;
         _interfaceIds[_IOPEN_AUTOMARKET - _IERC_LENGTH] = type(IOpenAutoMarket).interfaceId;
         _interfaceIds[_IOPEN_BOUND - _IERC_LENGTH] = type(IOpenBound).interfaceId;
-
-        _interfaceIds[_IOPEN_NFTS_V4_SKALE - _IERC_LENGTH] = type(IOpenNFTsV4Skale).interfaceId;
     }
 
     function getOpenNFTsNftsInfos(
