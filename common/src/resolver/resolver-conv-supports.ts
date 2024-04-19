@@ -28,9 +28,7 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
   /// : 21 IOpenAutoMarket
   /// : 22 IOpenBound
 
-  /// : 23 IOpenNFTsV4Skale
-
-  if (!(checks && checks.length == 24)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
+  if (!(checks && checks.length == 23)) throw `ERROR resolverConvSupports bad checks length ${checks?.length}`;
 
   let i = 1;
   const supportsObject = {
@@ -61,15 +59,13 @@ const resolverConvSupports = (checks: Array<boolean>): Map<string, boolean> => {
     IOpenNFTsV4: checks[i++],
     IOpenAutoMarket: checks[i++],
     IOpenBound: checks[i++],
-
-    IOpenNFTsV4Skale: checks[i++]
   };
   const supports = new Map(Object.entries(supportsObject));
 
   // console.log("resolverConvSupports", address, supports);
 
   // assert IERC165 to be always true and check 0xffffffff to be false
-  if (!(supports.get("IERC165") && !checks[0] && i == 24)) throw "ERROR resolverConvSupports";
+  if (!(supports.get("IERC165") && !checks[0] && i == 23)) throw "ERROR resolverConvSupports";
   for (const [key, value] of supports) {
     if (!value) supports.delete(key);
   }

@@ -39,10 +39,18 @@ import {OpenERC721Metadata} from "@opennfts/contracts/OpenERC/OpenERC721Metadata
 import {OpenERC721Enumerable} from "@opennfts/contracts/OpenERC/OpenERC721Enumerable.sol";
 import {OpenERC173} from "@opennfts/contracts/OpenERC/OpenERC173.sol";
 import {OpenCloneable} from "@opennfts/contracts/OpenCloner/OpenCloneable.sol";
+import {IOpenNFTsV4} from "./interfaces/IOpenNFTsV4.sol";
 import {IOpenNFTsV4Skale} from "./interfaces/IOpenNFTsV4Skale.sol";
 
 /// @title OpenNFTs smartcontract
-contract OpenNFTsV4Skale is IOpenNFTsV4Skale, OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable {
+contract OpenNFTsV4Skale is
+    IOpenNFTsV4,
+    IOpenNFTsV4Skale,
+    OpenERC721Metadata,
+    OpenERC721Enumerable,
+    OpenERC173,
+    OpenCloneable
+{
     /// @notice tokenID of next minted NFT
     uint256 public tokenIdNext;
 
@@ -77,13 +85,13 @@ contract OpenNFTsV4Skale is IOpenNFTsV4Skale, OpenERC721Metadata, OpenERC721Enum
         cooldownPeriod = cooldownPeriod_;
     }
 
-    function mint(string memory tokenURI_) external override(IOpenNFTsV4Skale) returns (uint256 tokenID) {
+    function mint(string memory tokenURI_) external override(IOpenNFTsV4) returns (uint256 tokenID) {
         tokenID = _mint(msg.sender, tokenURI_);
     }
 
     function mint(address minter, string memory tokenURI_)
         external
-        override(IOpenNFTsV4Skale)
+        override(IOpenNFTsV4)
         onlyOwner
         returns (uint256 tokenID)
     {
@@ -92,7 +100,7 @@ contract OpenNFTsV4Skale is IOpenNFTsV4Skale, OpenERC721Metadata, OpenERC721Enum
 
     /// @notice burn NFT
     /// @param tokenID tokenID of NFT to burn
-    function burn(uint256 tokenID) external override(IOpenNFTsV4Skale) onlyTokenOwnerOrApproved(tokenID) {
+    function burn(uint256 tokenID) external override(IOpenNFTsV4) onlyTokenOwnerOrApproved(tokenID) {
         _burn(tokenID);
     }
 
@@ -119,7 +127,8 @@ contract OpenNFTsV4Skale is IOpenNFTsV4Skale, OpenERC721Metadata, OpenERC721Enum
         override(OpenERC721Metadata, OpenERC721Enumerable, OpenERC173, OpenCloneable)
         returns (bool)
     {
-        return interfaceId == type(IOpenNFTsV4Skale).interfaceId || super.supportsInterface(interfaceId);
+        return (interfaceId == type(IOpenNFTsV4).interfaceId) || (interfaceId == type(IOpenNFTsV4Skale).interfaceId)
+            || super.supportsInterface(interfaceId);
     }
 
     function _mint(address minter, string memory tokenURI) internal returns (uint256 tokenID) {

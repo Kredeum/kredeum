@@ -98,8 +98,6 @@ const nftMint = async (
     );
   } else if (collectionSupports(collection).get("IOpenNFTsV4")) {
     txResp = await (contract as OpenNFTsV4)["mint(string)"](tokenURI);
-  } else if (collectionSupports(collection).get("IOpenNFTsV4Skale")) {
-    txResp = await (contract as OpenNFTsV4Skale)["mint(string)"](tokenURI);
   } else if (collectionSupports(collection).get("IOpenNFTsV3")) {
     // console.log("IOpenNFTsV3");
     txResp = await (contract as IOpenNFTsV3Plus).mintOpenNFT(minter, tokenURI);
