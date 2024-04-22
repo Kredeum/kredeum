@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { versionGet } from "@svelte/helpers/version";
+  import { versionGet } from "../../helpers/version";
 
   /////////////////////////////////////////////////
   // <Title />

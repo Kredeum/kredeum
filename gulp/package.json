@@ -12,12 +12,12 @@
   "license": "ISC",
   "devDependencies": {
     "-": "^0.0.1",
-    "autoprefixer": "^10.4.18",
-    "cssnano": "^6.1.0",
-    "del": "^6.1.1",
+    "autoprefixer": "^10.4.19",
+    "cssnano": "^6.1.2",
+    "del": "^7.1.0",
     "gulp": "^4.0.2",
     "gulp-if": "^3.0.0",
-    "gulp-imagemin": "^7.1.0",
+    "gulp-imagemin": "^9.0.0",
     "gulp-newer": "^1.4.0",
     "gulp-noop": "^1.0.1",
     "gulp-plumber": "^1.2.1",
@@ -26,7 +26,8 @@
     "gulp-sass": "^5.1.0",
     "gulp-sourcemaps": "^3.0.0",
     "gulp-uglify": "^3.0.2",
-    "postcss": "^8.4.35",
-    "sass": "^1.72.0"
-  }
+    "postcss": "^8.4.38",
+    "sass": "^1.75.0"
+  },
+  "type": "module"
 }

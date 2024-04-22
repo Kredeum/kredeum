@@ -1,8 +1,8 @@
 import { writable } from "svelte/store";
 
-import type { NftType } from "@common/common/types";
-import { jsonMapParse } from "@svelte/helpers/jsonMap";
-import { localStorageGet, localStorageKey, localStorageLength } from "@common/common/local";
+import type { NftType } from "@kredeum/common/src/common/types";
+import { jsonMapParse } from "../../helpers/jsonMap";
+import { localStorageGet, localStorageKey, localStorageLength } from "@kredeum/common/src/common/local";
 
 // LOADER : LOAD Nfts from localStorage
 const nftListLoadLocalStorage = (): Map<string, NftType> => {

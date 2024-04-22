@@ -32,7 +32,7 @@ zora = "https://rpc.zora.energy"
 mantle = "https://rpc.ankr.com/mantle"
 mode = "https://mainnet.mode.network"
 manta-pacific = "https://pacific-rpc.manta.network/http"
-blast = "https://rpc.blast.io"
+blast = "https://blast-mainnet.infura.io/v3/${INFURA_API_KEY}"
 
 # TESTNETS
 anvil = "http://127.0.0.1:8545"
@@ -56,8 +56,9 @@ mantle-testnet = "https://rpc.testnet.mantle.xyz"
 mode-sepolia = "https://sepolia.mode.network"
 manta-pacific-testnet = "https://pacific-rpc.testnet.manta.network/http"
 chaos-testnet = "https://staging-v3.skalenodes.com/v1/staging-fast-active-bellatrix"
+calypso-testnet = "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
 taiko-katla = "https://rpc.katla.taiko.xyz"
-blast-sepolia = "https://sepolia.blast.io"
+blast-sepolia = "https://blast-sepolia.infura.io/v3/${INFURA_API_KEY}"
 
 [etherscan]
 gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
@@ -69,6 +70,7 @@ linea = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 goerli = { key = "${ETHERSCAN_API_KEY}" }
 sepolia = { key = "${ETHERSCAN_API_KEY}" }
 holesky = { key = "${ETHERSCAN_API_KEY}", url = "https://api-holesky.etherscan.io/api" }
+calypso-testnet = { key = "non-applicable", url = "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com" }
 
 linea-testnet = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 base-sepolia = { key = "${ETHERSCAN_API_KEY_BASE}" }

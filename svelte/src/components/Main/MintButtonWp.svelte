@@ -1,12 +1,12 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { metamaskInit } from "@svelte/helpers/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
+  import { metamaskInit } from "../../helpers/metamask";
 
   import NftMintPopup from "../Nft/NftMintPopup.svelte";
-  import type { NftType } from "@common/common/types";
-  import { storageConfigGet, storageConfigSet } from "@common/storage/storage";
+  import type { NftType } from "@kredeum/common/src/common/types";
+  import { storageConfigGet, storageConfigSet } from "@kredeum/common/src/storage/storage";
 
   ////////////////////////////////////////////////////////////////
   // <MintButtonWp  />

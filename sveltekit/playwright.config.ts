@@ -1,19 +1,22 @@
-import { type PlaywrightTestConfig, devices } from '@playwright/test';
+import { type PlaywrightTestConfig, devices } from "@playwright/test";
 
 const config: PlaywrightTestConfig = {
-	webServer: {
-		command: 'pnpm build && pnpm preview',
-		port: 4173
-	},
+  // use: {
+  //   headless: false
+  // },
+  webServer: {
+    command: "pnpm build && pnpm preview",
+    port: 4173,
+    reuseExistingServer: false
+  },
   projects: [
-      {
-        name: 'chromium',
-        use: { ...devices['Desktop Chrome'] }
-      }
-    ],
-	testDir: 'tests',
-	testMatch: /(.+\.)?(test|spec)\.[jt]s/
+    {
+      name: "chromium",
+      use: { ...devices["Desktop Chrome"] }
+    }
+  ],
+  testDir: "tests",
+  testMatch: /(.+\.)?(test|spec)\.[jt]s/
 };
 
 export default config;
-

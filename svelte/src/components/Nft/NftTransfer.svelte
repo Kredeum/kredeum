@@ -1,14 +1,20 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { explorerNftUrl, explorerTxUrl, textShort, explorerTxLog, displayEther } from "@common/common/config";
-  import { transferNft } from "@common/nft/nft-transfer";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    textShort,
+    explorerTxLog,
+    displayEther
+  } from "@kredeum/common/src/common/config";
+  import { transferNft } from "@kredeum/common/src/nft/nft-transfer";
 
-  import { metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { nftStore, nftStoreRefresh } from "@svelte/stores/nft/nft";
+  import { metamaskSignerAddress } from "../../stores/metamask";
+  import { nftStore, nftStoreRefresh } from "../../stores/nft/nft";
 
   import InputEthAddress from "../Input/InputEthAddress.svelte";
-  import { nftRoyaltyMinimum } from "@common/nft/nft";
+  import { nftRoyaltyMinimum } from "@kredeum/common/src/nft/nft";
 
   /////////////////////////////////////////////////
   // <NftTransfer {chainId} {address} {tokenID} />

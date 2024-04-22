@@ -1,23 +1,23 @@
 <script lang="ts">
   import type { Readable } from "svelte/store";
-  import type { CollectionType } from "@common/common/types";
+  import type { CollectionType } from "@kredeum/common/src/common/types";
 
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, isAddressNotZero } from "@common/common/config";
+  import { explorerCollectionUrl, isAddressNotZero } from "@kredeum/common/src/common/config";
 
   import Collection from "./Collection.svelte";
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../helpers/clickOutside";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
-  import { keyCollection } from "@common/common/keys";
-  import { collectionSubListRefresh, collectionSubListStore } from "@svelte/stores/collection/collectionSubList";
+  import { keyCollection } from "@kredeum/common/src/common/keys";
+  import { collectionSubListRefresh, collectionSubListStore } from "../../stores/collection/collectionSubList";
   import {
     collectionDefaultRefresh,
     collectionDefaultSetOne,
     collectionDefaultSubStore
-  } from "@svelte/stores/collection/collectionDefault";
+  } from "../../stores/collection/collectionDefault";
 
   /////////////////////////////////////////////////
   // <CollectionSelect chainId} bind:{address} {account} {mintable}  bind:{refreshing} {label} {txt} />

@@ -1,5 +1,5 @@
-import { storageParamsGet } from "@common/storage/storage";
-import { SWARM_ZERO_APIKEY } from "@common/storage/swarm";
+import { storageParamsGet } from "../storage/storage";
+import { SWARM_ZERO_APIKEY } from "../storage/swarm";
 
 const fetchBee = (() => {
   const uploadBlob = async (body: Blob): Promise<string> => {

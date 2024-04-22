@@ -1,13 +1,18 @@
 import type { Readable } from "svelte/store";
 import { derived, get, writable } from "svelte/store";
 
-import { ADDRESS_ZERO, getAddresses } from "@common/common/config";
+import { ADDRESS_ZERO, getAddresses } from "@kredeum/common/src/common/config";
 import { collectionStoreRefresh } from "./collection";
-import { keyCollectionDefault } from "@common/common/keys";
-import { localStorageGet, localStorageKey, localStorageLength, localStorageSet } from "@common/common/local";
+import { keyCollectionDefault } from "@kredeum/common/src/common/keys";
+import {
+  localStorageGet,
+  localStorageKey,
+  localStorageLength,
+  localStorageSet
+} from "@kredeum/common/src/common/local";
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || getAddresses(chainId)?.OpenNFTsV4 || "";
 
 // LOADER : LOAD Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {

@@ -2,10 +2,10 @@
   import { fade, fly } from "svelte/transition";
   import { quintOut, bounceOut } from "svelte/easing";
 
-  import { clickOutside } from "@svelte/helpers/clickOutside";
-  import { metamaskChainId, metamaskSignerAddress } from "@svelte/stores/metamask";
-  import { getDappUrl, isAddressNotZero } from "@common/common/config";
-  import { collectionStore, collectionStoreRefresh } from "@svelte/stores/collection/collection";
+  import { clickOutside } from "../../helpers/clickOutside";
+  import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
+  import { getDappUrl, isAddressNotZero } from "@kredeum/common/src/common/config";
+  import { collectionStore, collectionStoreRefresh } from "../../stores/collection/collection";
 
   let collectionAddress = "";
 

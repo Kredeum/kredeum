@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../helpers/clickOutside";
   import { fade } from "svelte/transition";
   import InputConfigSections from "../Input/UserConfig/InputConfigSections.svelte";
 

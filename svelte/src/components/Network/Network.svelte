@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { networks } from "@common/common/networks";
+  import { networks } from "@kredeum/common/src/common/networks";
 
   /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   // <Network {chainId} {txt} />

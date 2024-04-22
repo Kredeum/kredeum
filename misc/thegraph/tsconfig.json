@@ -4,8 +4,7 @@
     "module": "commonjs",
     "strict": true,
     "esModuleInterop": true,
-    "resolveJsonModule": true,
-    "baseUrl": "./"
+    "resolveJsonModule": true
   },
   "files": ["build-yaml.ts"]
 }

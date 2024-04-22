@@ -1,13 +1,19 @@
 <script lang="ts">
   import { onMount } from "svelte";
   import { fade } from "svelte/transition";
-  import { clickOutside } from "@svelte/helpers/clickOutside";
-  import { nftPrice } from "@common/nft/nft";
+  import { clickOutside } from "../../helpers/clickOutside";
+  import { nftPrice } from "@kredeum/common/src/nft/nft";
 
-  import { buyNft } from "@common/nft/nft-buy";
-  import { explorerNftUrl, explorerTxUrl, explorerTxLog, textShort, displayEther } from "@common/common/config";
+  import { buyNft } from "@kredeum/common/src/nft/nft-buy";
+  import {
+    explorerNftUrl,
+    explorerTxUrl,
+    explorerTxLog,
+    textShort,
+    displayEther
+  } from "@kredeum/common/src/common/config";
 
-  import { nftStore, nftStoreRefresh } from "@svelte/stores/nft/nft";
+  import { nftStore, nftStoreRefresh } from "../../stores/nft/nft";
   import NftIncomes from "./NftIncomes.svelte";
   import AccountConnect from "../Account/AccountConnect.svelte";
 

@@ -1,4 +1,4 @@
-import type { ReceiverType, NftType } from "../common/types";
+import { type ReceiverType, type NftType } from "../common/types";
 import { MAX_FEE, feeAmount, treasuryFee } from "../common/config";
 
 import { BigNumber } from "ethers";

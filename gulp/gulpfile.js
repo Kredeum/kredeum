@@ -1,25 +1,22 @@
-"use strict";
+import gulp from "gulp";
+import imagemin , {gifsicle, mozjpeg, optipng, svgo} from 'gulp-imagemin';
 
-const autoprefixer = require("autoprefixer");
-const cssnano = require("cssnano");
-const del = require("del");
-const gulp = require("gulp");
-const imagemin = require("gulp-imagemin");
-const plumber = require("gulp-plumber");
-const postcss = require("gulp-postcss");
-const sass = require("gulp-sass")(require("sass"));
-const sourcemaps = require("gulp-sourcemaps");
-const noop = require("gulp-noop");
+import autoprefixer from "autoprefixer";
+import plumber from "gulp-plumber";
+import cssnano from "cssnano";
+import postcss from "gulp-postcss";
+import sourcemaps from "gulp-sourcemaps";
+import noop from "gulp-noop";
+
+import * as dartSass from 'sass';
+import gulpSass from 'gulp-sass';
+const sass = gulpSass(dartSass);
 
 if (!process.env.ENVIR) {
   throw new Error("GULP : ENV variable ENVIR not set!");
 }
 var production = process.env.ENVIR == "PROD";
 
-// Clean lib
-function clean() {
-  return del(["web/dapp/**/*"], { force: true });
-}
 
 function swallow(err) {
   console.error(err.message);
@@ -32,15 +29,19 @@ function images() {
     .src("src/images/**/*")
     .pipe(
       imagemin([
-        imagemin.gifsicle({ interlaced: true }),
-        imagemin.mozjpeg({ progressive: true }),
-        imagemin.optipng({ optimizationLevel: 5 }),
-        imagemin.svgo({
+        gifsicle({ interlaced: true }),
+        mozjpeg({ progressive: true }),
+        optipng({ optimizationLevel: 5 }),
+        svgo({
           plugins: [
             {
-              removeViewBox: false,
-              collapseGroups: true,
+              name: 'removeViewBox',
+              active: false
             },
+            {
+              name: 'collapseGroups',
+              active: true
+            }
           ],
         }),
       ])
@@ -69,18 +70,7 @@ function htmls() {
   return gulp.src(["src/html/*"]).pipe(gulp.dest("web/dapp"));
 }
 
-// Watch files
-function watchFiles() {
-  gulp.watch("src/scss/**/*", css);
-}
 
-const build = gulp.series(clean, gulp.parallel(css, images,   htmls), fonts);
-const watch = gulp.parallel(watchFiles);
+const build = gulp.series(gulp.parallel(css, images, htmls), fonts);
 
-exports.images = images;
-exports.css = css;
-exports.clean = clean;
-exports.build = build;
-exports.watch = watch;
-exports.fonts = fonts;
-exports.default = build;
+export default build;

@@ -9,10 +9,10 @@
     "@typechain/ethers-v5": "^11.1.2",
     "ethers": "^5.7.2",
     "solc": "0.8.19",
-    "solhint": "^4.1.1",
-    "solidity-coverage": "^0.8.11",
+    "solhint": "^4.5.4",
+    "solidity-coverage": "^0.8.12",
     "typechain": "^8.3.2",
-    "typescript": "^5.4.2"
+    "typescript": "^5.4.5"
   },
   "directories": {
     "test": "tests"
@@ -22,7 +22,7 @@
   "main": "index.js",
   "scripts": {
     "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo",
-    "postinstall": "pnpm install:foundry && pnpm forge:init && pnpm forge:update",
+    "postinstall": "pnpm install:foundry && pnpm forge:update",
     "install:foundry": "command -v forge >/dev/null 2>&1 || pnpm foundry:install",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "$HOME/.foundry/bin/forge build",
@@ -39,8 +39,7 @@
     "validate:only": "pnpm deploy:all --sender $SENDER",
     "format": "pnpm format:solidity",
     "format:solidity": "$HOME/.foundry/bin/forge fmt",
-    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm forge:init",
-    "forge:init": "$HOME/.foundry/bin/forge init --force --no-commit && rm -f **/Counter*.sol",
+    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm forge:update",
     "forge:update": "git submodule update --recursive",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"

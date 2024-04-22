@@ -11,7 +11,7 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "devDependencies": {
+  "dependencies": {
     "@ethersproject/abi": "^5.7.0",
     "@ethersproject/abstract-provider": "^5.7.0",
     "@ethersproject/abstract-signer": "^5.7.0",
@@ -19,19 +19,19 @@
     "@ethersproject/bytes": "^5.7.0",
     "@ethersproject/contracts": "^5.7.0",
     "@ethersproject/providers": "^5.7.2",
-    "@ipld/dag-pb": "^4.1.0",
-    "@types/findup-sync": "^4.0.4",
-    "@types/fs-extra": "^11.0.4",
-    "@types/node": "^20.11.27",
-    "ethers": "^5.7.2",
-    "findup-sync": "^5.0.0",
-    "fs-extra": "^11.2.0",
-    "multiformats": "^13.1.0",
-    "tslib": "^2.6.2",
-    "typescript": "^5.4.2"
-  },
-  "dependencies": {
     "@kredeum/config": "workspace:^",
-    "@kredeum/contracts": "workspace:^"
+    "@kredeum/contracts": "workspace:^",
+    "@kredeum/providers": "workspace:^",
+    "ethers": "^5.7.2",
+    "multiformats": "^13.1.0",
+    "viem": "^2.9.21"
+  },
+  "devDependencies": {
+    "@ipld/dag-pb": "^4.1.0",
+    "@types/findup-sync": "^4.0.5",
+    "@types/node": "^20.12.7",
+    "findup-sync": "^5.0.0",
+    "tslib": "^2.6.2",
+    "typescript": "^5.4.5"
   }
 }

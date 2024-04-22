@@ -1,7 +1,7 @@
-import { StorageConfigType } from "@common/common/types";
+import { StorageConfigType } from "@kredeum/common/src/common/types";
 
-import { storageConfigGet, storageConfigSet } from "@common/storage/storage";
-import { localNamespace, localConfigNamespace, localStorageSet } from "@common/common/local";
+import { storageConfigGet, storageConfigSet } from "@kredeum/common/src/storage/storage";
+import { localNamespace, localConfigNamespace, localStorageSet } from "@kredeum/common/src/common/local";
 
 type UserConfig = { [key: string]: ConfigSectionMap };
 type ConfigSectionMap = Map<string, ConfigValue>;

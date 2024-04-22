@@ -1,13 +1,13 @@
 <script lang="ts">
-  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@common/common/config";
-  import { nftGetImageLink } from "@common/nft/nft-get-metadata";
+  import { nftUrl, nftDescription, nftDescriptionShort, nftName, textShort } from "@kredeum/common/src/common/config";
+  import { nftGetImageLink } from "@kredeum/common/src/nft/nft-get-metadata";
 
   import Media from "../Media/Media.svelte";
 
   import { onMount } from "svelte";
 
   import Nft from "./Nft.svelte";
-  import { nftStore } from "@svelte/stores/nft/nft";
+  import { nftStore } from "../../stores/nft/nft";
 
   /////////////////////////////////////////////////
   //  <NftLine {nft} {owner}? {more}? {mode}? />
