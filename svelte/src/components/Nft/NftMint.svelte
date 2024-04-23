@@ -15,8 +15,6 @@
     S5_MINTED
   } from "../../helpers/nftMint";
 
-  import { receiveFunds } from "@kredeum/skale";
-
   /////////////////////////////////////////////////
   // <NftMint {src} {chainId} {address} {tokenID} {name} {description}  {metadata} />
   // Nft Minted by signer on chainId/address by signer from src image
@@ -76,8 +74,6 @@
         throw new Error(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
 
       if (!isAddressNotZero(signer)) throw new Error(`<NftMint ERROR : no signer`);
-
-      await receiveFunds(signer as `0x${string}`, chainId);
 
       minting = S1_STORE_IMAGE;
 

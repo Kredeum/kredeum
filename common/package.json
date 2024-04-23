@@ -34,6 +34,6 @@
   "dependencies": {
     "@kredeum/config": "workspace:^",
     "@kredeum/contracts": "workspace:^",
-    "@kredeum/providers": "workspace:^"
+    "@kredeum/skale": "workspace:^"
   }
 }

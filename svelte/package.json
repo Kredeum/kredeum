@@ -51,6 +51,6 @@
     "@kredeum/common": "workspace:^",
     "@kredeum/config": "workspace:^",
     "@kredeum/contracts": "workspace:^",
-    "@kredeum/skale": "workspace:*"
+    "@kredeum/skale": "workspace:^"
   }
 }

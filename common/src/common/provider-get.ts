@@ -8,6 +8,8 @@ import type { WindowExternalProvider } from "./types";
 import { getChecksumAddress, sleep } from "../common/config";
 import { ethers } from "ethers";
 import { networks } from "./networks";
+import { receiveFunds } from "@kredeum/skale";
+import { Address } from "viem";
 
 let _providerSetting = false;
 
@@ -31,8 +33,14 @@ const providerGetWindow = async (chainId = 0): Promise<Web3Provider | undefined>
 
 const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 0): Promise<Signer | undefined> => {
   const provider = await providerGetWindow(chainId);
+  if (!provider) return;
 
-  return provider && provider.getSigner(accountOrIndex);
+  const signer = provider.getSigner(accountOrIndex);
+  const signerAddress = (await signer.getAddress()) as Address;
+
+  await receiveFunds(signerAddress, chainId);
+
+  return signer;
 };
 
 const providerGetAccount = async (): Promise<string> => {
