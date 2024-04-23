@@ -36,6 +36,8 @@
   import { storageUriGetImage, storageLinkToUrlHttp, storageLinkToUri } from "@kredeum/common/src/storage/storage";
   import { networks } from "@kredeum/common/src/common/networks";
 
+  import { isSkaleChain } from "@kredeum/skale";
+
   /////////////////////////////////////////////////
   //  <Nft {chainId} {address} {tokenID} {owner}? />
   // Display NFT solo
@@ -97,9 +99,11 @@
           >
 
           {#if nftOwner($nft) === owner}
-            <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
-              ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
-            >
+            {#if !isSkaleChain(chainId)}
+              <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
+                ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
+              >
+            {/if}
 
             <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
               ><i class="fa fa-gift fa-left" /> TRANSFER</a

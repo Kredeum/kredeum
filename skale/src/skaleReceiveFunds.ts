@@ -60,7 +60,7 @@ const _rmBytesSymbol = (address: string) => address.replace(/^0x/, "");
 
 ////////////////////////////////////////////////
 const receiveFunds = async (account: Address, chainId: number): Promise<TransactionReceipt | undefined> => {
-  if (!chainsId.includes(chainId as ChainIdsType)) {
+  if (!isSkaleChain(chainId)) {
     console.info("@kredeum/Skale receiveFunds : ", "Not on a Skale chain, no sFuel to claim");
     return;
   }
@@ -110,4 +110,6 @@ const receiveFunds = async (account: Address, chainId: number): Promise<Transact
   return transactionReceipt;
 };
 
-export { receiveFunds };
+const isSkaleChain = (chainId: number) => chainsId.includes(chainId as ChainIdsType);
+
+export { receiveFunds, isSkaleChain };

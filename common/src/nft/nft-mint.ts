@@ -14,7 +14,6 @@ import type { IOpenNFTsV2 } from "@kredeum/contracts/types/IOpenNFTsV2";
 import type { IOpenNFTsV3Plus } from "@kredeum/contracts/types/IOpenNFTsV3Plus";
 import type { OpenAutoMarket } from "@kredeum/contracts/types/OpenAutoMarket";
 import type { OpenNFTsV4 } from "@kredeum/contracts/types/OpenNFTsV4";
-import type { OpenNFTsV4Skale } from "@kredeum/contracts/types/OpenNFTsV4Skale";
 import {
   collectionIsOpenMarketable,
   collectionRoyaltyAccount,

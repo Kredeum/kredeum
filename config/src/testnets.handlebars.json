@@ -404,6 +404,7 @@
     ],
     "eip1559": false,
     "create": true,
+    "active": false,
     "linkedMainnet": 1564830818
   },
   {
