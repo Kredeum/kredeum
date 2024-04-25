@@ -24,7 +24,7 @@
     "@kredeum/providers": "workspace:^",
     "ethers": "^5.7.2",
     "multiformats": "^13.1.0",
-    "viem": "^2.9.21"
+    "viem": "^2.9.26"
   },
   "devDependencies": {
     "@ipld/dag-pb": "^4.1.0",

@@ -17,23 +17,23 @@
   "devDependencies": {
     "@playwright/test": "^1.43.1",
     "@sveltejs/adapter-static": "^3.0.1",
-    "@sveltejs/kit": "^2.5.6",
+    "@sveltejs/kit": "^2.5.7",
     "@sveltejs/vite-plugin-svelte": "^3.1.0",
     "@synthetixio/synpress": "3.7.2-beta.10",
     "prettier-plugin-svelte": "^3.2.3",
     "svelte": "^4.2.15",
-    "svelte-check": "^3.6.9",
+    "svelte-check": "^3.7.0",
     "tslib": "^2.6.2",
     "typescript": "^5.4.5",
-    "viem": "^2.9.21",
-    "vite": "^5.2.9",
-    "vitest": "^1.5.0"
+    "viem": "^2.9.26",
+    "vite": "^5.2.10",
+    "vitest": "^1.5.2"
   },
   "type": "module",
   "dependencies": {
     "@kredeum/common": "workspace:^",
-    "@kredeum/providers": "workspace:^",
     "@kredeum/contracts": "workspace:^",
+    "@kredeum/providers": "workspace:^",
     "@kredeum/svelte": "workspace:^"
   }
 }

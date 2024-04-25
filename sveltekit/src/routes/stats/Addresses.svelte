@@ -1,9 +1,10 @@
 <script lang="ts">
+  import { onMount } from "svelte";
+
   import type { NetworkType } from "@kredeum/common/src/common/types";
 
   import { resolverGetExplorerUrl, resolverGetAddress } from "@kredeum/common/src/resolver/resolver-get";
   import { factoryGetExplorerUrl, factoryGetAddress } from "@kredeum/common/src/common/factory-get";
-
   import {
     getShortAddress,
     getAddressOpenNFTsTemplate,
@@ -11,37 +12,55 @@
     explorerContractUrl
   } from "@kredeum/common/src/common/config";
   import { resolverCountCollections } from "@kredeum/common/src/resolver/resolver-get-collection";
-  import { onMount } from "svelte";
+  import Network from "../../../../svelte/src/components/Network/Network.svelte";
 
-  type NetworkTypeSorted = NetworkType & { countCollection?: number };
+  type NetworkTypeWithCount = NetworkType & { countCollection?: number };
 
-  export let networks: NetworkType[];
+  ///////////////////////////////////////
+  // <Addresses networks={networks} />
+  ///////////////////////////////////////
+  export let networks: NetworkTypeWithCount[];
+  ///////////////////////////////////////
+  let total = 0;
+  let done = 0;
+  let counts = new Map<number, number>();
 
-  let networksSorted: NetworkTypeSorted[];
-
-  const countCollections = async (nw: NetworkTypeSorted): Promise<number | undefined> => {
-    nw.countCollection ||= await resolverCountCollections(nw.chainId);
-
-    return nw.countCollection;
+  const refreshCount = () => {
+    total = [...counts].reduce((tot, [k, n]) => tot + (n || 0), 0);
+    done = [...counts].filter((n) => n !== undefined).length;
+    console.log("refreshCount ~ networks:", networks);
+    if (done === networks.length) sortNetworks();
   };
 
-  onMount(async () => {
-    await Promise.all(networks.map(countCollections));
+  const countCollections = async (chainId: number): Promise<number | undefined> => {
+    let count = counts.get(chainId);
+    if (count === undefined) {
+      count = (await resolverCountCollections(chainId)) || 0;
+      counts.set(chainId, count);
+      refreshCount();
+    }
+    return count;
+  };
+
+  let networksSorted: NetworkTypeWithCount[];
+  const sortNetworks = () => {
+    console.log("sortNetworks ~ sortNetworks:", networks);
     networksSorted = [...networks].sort(
-      (a: NetworkTypeSorted, b: NetworkTypeSorted) => (b.countCollection || 0) - (a.countCollection || 0)
+      (a: NetworkTypeWithCount, b: NetworkTypeWithCount) => (counts.get(b.chainId) || 0) - (counts.get(a.chainId) || 0)
     );
-    console.log("sorted !", networksSorted);
-  });
+  };
+
+  onMount(() => {});
 </script>
 
 <table>
   <thead>
     <tr>
       <th>Chain ID</th>
-      <th>Chain Name</th>
-      <th>Collections<br />Count</th>
-      <th>OpenNFTs<br />Resolver</th>
+      <th>Chain<br />Name<br />{done}/{networks.length}</th>
+      <th>Collections<br />Count<br />{total}</th>
       <th>OpenNFTs<br />Factory</th>
+      <th>OpenNFTs<br />Resolver</th>
       <th>OpenNFTsV4<br />Template</th>
       <th>OpenAutoMarket<br />Template</th>
     </tr>
@@ -52,7 +71,7 @@
         <td>{network.chainId}</td>
         <td>{network.chainName}</td>
         <td>
-          {#await countCollections(network)}
+          {#await countCollections(network.chainId)}
             ...
           {:then count}
             {count}
@@ -62,13 +81,13 @@
         </td>
 
         <td class="addr">
-          <a href={resolverGetExplorerUrl(network.chainId)} target="_blank">
-            {getShortAddress(resolverGetAddress(network.chainId))}
+          <a href={factoryGetExplorerUrl(network.chainId)} target="_blank">
+            {getShortAddress(factoryGetAddress(network.chainId))}
           </a>
         </td>
         <td class="addr">
-          <a href={factoryGetExplorerUrl(network.chainId)} target="_blank">
-            {getShortAddress(factoryGetAddress(network.chainId))}
+          <a href={resolverGetExplorerUrl(network.chainId)} target="_blank">
+            {getShortAddress(resolverGetAddress(network.chainId))}
           </a>
         </td>
         <td class="addr">

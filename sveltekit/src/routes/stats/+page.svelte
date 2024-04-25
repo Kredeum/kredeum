@@ -1,32 +1,56 @@
 <script lang="ts">
   import Addresses from "./Addresses.svelte";
 
+  import type { NetworkType } from "@kredeum/common/src/common/types";
   import { networks } from "@kredeum/common/src/common/networks";
 
-  let activeTab = "mainnets";
+  // Manage Addresses Svelte components in Tabs with 2 states:
+  // - active (i.e. displayed) or not (only one at a time)
+  // - mounted or not (mounted one time, can't be unmounted)
+  // To avoid re-calling onchain data each time tab is reactivated
+  // To avoid calling onchain data on a tab never activated
+  type TabsMounted = { [key: string]: boolean };
+  let tabsMounted: TabsMounted = {
+    Mainnets: true,
+    OPnets: false,
+    Testnets: false,
+    Inactives: false
+  };
+  let tabActive = "Mainnets";
+
+  const getNetworks = (tab: string): NetworkType[] => {
+    if (tab === "OPnets") return networks.getAllOpMainnets();
+    if (tab === "Testnets") return networks.getAllTestnets();
+    if (tab === "Inactives") return networks.getAllInactive();
+    return networks.getAllMainnets();
+  };
+
+  $: console.log(tabsMounted);
 </script>
 
 <div class="stats">
   <h1>Kredeum NFTs Factory - Statistics</h1>
 
   <div class="tabs">
-    <button class={activeTab === "mainnets" ? "active" : ""} on:click={() => (activeTab = "mainnets")}>Mainnets</button>
-    <button class={activeTab === "opnets" ? "active" : ""} on:click={() => (activeTab = "opnets")}>OPnets</button>
-    <button class={activeTab === "testnets" ? "active" : ""} on:click={() => (activeTab = "testnets")}>Testnets</button>
-    <button class={activeTab === "inactives" ? "active" : ""} on:click={() => (activeTab = "inactives")}
-      >Inactives</button
-    >
+    {#each Object.keys(tabsMounted) as tabKey}
+      <button
+        class={tabActive === tabKey ? "active" : ""}
+        on:click={() => {
+          console.log("click", tabKey, tabsMounted);
+          tabActive = tabKey;
+          tabsMounted[tabKey] = true;
+        }}>{tabKey}</button
+      >
+    {/each}
   </div>
 
-  {#if activeTab === "mainnets"}
-    <Addresses networks={networks.getAllMainnets()} />
-    {:else if activeTab === "opnets"}
-      <Addresses networks={networks.getAllOpMainnets()} />
-  {:else if activeTab === "testnets"}
-    <Addresses networks={networks.getAllTestnets()} />
-  {:else if activeTab === "inactives"}
-    <Addresses networks={networks.getAllInactive()} />
-  {/if}
+  {#each Object.entries(tabsMounted) as [tabKey, tabMounted]}
+    {#if tabMounted}
+      <span class={tabActive === tabKey ? "" : "hidden"}>
+        <Addresses networks={getNetworks(tabKey)} />
+      </span>
+    {/if}
+  {/each}
 </div>
 
 <style>

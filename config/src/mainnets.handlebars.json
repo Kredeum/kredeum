@@ -339,8 +339,10 @@
     "chainId": 42220,
     "chainName": "celo",
     "rpcUrls": [
-      "https://forno.celo.org",
-      "wss://forno.celo.org/ws"
+      "https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
+      "https: //celo.drpc.org",
+      "https://rpc.ankr.com/celo",
+      "https://forno.celo.org"
     ],
     "nativeCurrency": {
       "name": "CELO",
@@ -348,7 +350,6 @@
       "decimals": 18
     },
     "blockExplorerUrls": [
-      "https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://celoscan.io",
       "https://explorer.celo.org"
     ],
