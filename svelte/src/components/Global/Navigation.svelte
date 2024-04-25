@@ -58,6 +58,12 @@
           </p>
         </li>
       {/if}
+      <li class="active">
+        <a href="/stats">
+          <i class="fas fa-database"></i><br />
+          stats
+        </a>
+      </li>
     </ul>
   </nav>
 </div>

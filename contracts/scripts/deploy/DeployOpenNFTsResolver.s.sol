@@ -23,8 +23,7 @@ contract DeployOpenNFTsResolver is DeployLite, DeployOpenNFTsFactoryV3 {
 
         if (state == DeployState.None) {
             vm.startBroadcast();
-
-            address openNFTsResolver = deployLite("OpenNFTsResolver", args);
+            address openNFTsResolver = deploy("OpenNFTsResolver", args);
 
             OpenNFTsFactoryV3(openNFTsFactoryV3).setResolver(openNFTsResolver);
 

@@ -29,7 +29,7 @@
     "build:typechain": "typechain --target ethers-v5 --out-dir types out/**/*.json",
     "check": "pnpm check:solidity",
     "check:solidity": "solhint src/**/*.sol",
-    "deploy:deploy": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast --with-gas-price 100000000 wei",
+    "deploy:deploy": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",
     "deploy:validate": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER",
     "deploy:testnet": "SENDER=$TESTNET_SENDER ACCOUNT=$TESTNET_ACCOUNT pnpm deploy:deploy",
     "deploy:mainnet": "SENDER=$MAINNET_SENDER ACCOUNT=$MAINNET_ACCOUNT pnpm deploy:deploy",

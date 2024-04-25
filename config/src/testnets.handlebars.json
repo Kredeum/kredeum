@@ -59,6 +59,7 @@
       "https://base-sepolia.blockscout.com"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "opstack": true,
     "create": true,
     "linkedMainnet": 8453,
     "linkedLayer1": 11155111
@@ -77,6 +78,7 @@
     "blockExplorerUrls": [
       "https://sepolia.explorer.zora.energy/"
     ],
+    "opstack": true,
     "linkedMainnet": 7777777,
     "linkedLayer1": 11155111,
     "create": true
@@ -95,6 +97,7 @@
     "blockExplorerUrls": [
       "https://testnet.blastscan.io"
     ],
+    "opstack": true,
     "create": true,
     "linkedMainnet": 81457,
     "linkedLayer1": 11155111
@@ -113,6 +116,7 @@
     "blockExplorerUrls": [
       "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/"
     ],
+    "opstack": true,
     "linkedMainnet": 34443,
     "linkedLayer1": 11155111,
     "create": true
@@ -160,6 +164,7 @@
       "https://goerli.basescan.org",
       "https://base-goerli.blockscout.com"
     ],
+    "opstack": true,
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
     "create": true,
     "linkedMainnet": 8453,
@@ -168,7 +173,7 @@
   },
   {
     "chainId": 59140,
-    "chainName": "linea-testnet",
+    "chainName": "linea-goerli",
     "rpcUrls": [
       "https://linea-goerli.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.goerli.linea.build"
@@ -185,7 +190,47 @@
     "linkedMainnet": 59144,
     "linkedLayer1": 5,
     "create": true,
-    "active": false
+    "active": true
+  },
+  {
+    "chainId": 59141,
+    "chainName": "linea-sepolia",
+    "rpcUrls": [
+      "https://linea-sepolia.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.sepolia.linea.build"
+    ],
+    "nativeCurrency": {
+      "name": "Linea Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://sepolia.lineascan.build",
+      "https://explorer.sepolia.linea.build"
+    ],
+    "linkedMainnet": 59144,
+    "linkedLayer1": 5,
+    "create": true,
+    "active": true
+  },
+  {
+    "chainId": 2442,
+    "chainName": "polygon-zkevm-cardona",
+    "rpcUrls": [
+      "https://rpc.cardona.zkevm-rpc.com"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zktETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet-zkevm.polygonscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "linkedMainnet": 1101,
+    "linkedLayer1": 11155111,
+    "create": true
   },
   {
     "chainId": 1442,
@@ -203,6 +248,7 @@
       "https://explorer.public.zkevm-test.net"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "active": false,
     "linkedMainnet": 1101,
     "linkedLayer1": 5,
     "create": true
@@ -244,6 +290,25 @@
     "create": true
   },
   {
+    "chainId": 80002,
+    "chainName": "amoy",
+    "rpcUrls": [
+      "https://polygon-amoy.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc-amoy.polygon.technology"
+    ],
+    "nativeCurrency": {
+      "name": "Matic",
+      "symbol": "tMATIC",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://amoy.polygonscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
+    "create": true,
+    "linkedMainnet": 137
+  },
+  {
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
@@ -266,6 +331,7 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
     },
+    "active": false,
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "create": true,
     "linkedMainnet": 137
@@ -352,10 +418,8 @@
     "chainId": 97,
     "chainName": "bsc-testnet",
     "rpcUrls": [
-      "https://data-seed-prebsc-1-s1.binance.org:8545",
-      "https://rpc.ankr.com/bsc_testnet_chapel",
-      "https://data-seed-prebsc-2-s1.binance.org:8545",
-      "https://data-seed-prebsc-1-s2.binance.org:8545"
+      "https://bsc-testnet-rpc.publicnode.com",
+      "https://bsc-testnet.public.blastapi.io"
     ],
     "nativeCurrency": {
       "name": "BNB",
@@ -402,6 +466,7 @@
     "blockExplorerUrls": [
       "https://staging-fast-active-bellatrix.explorer.staging-v3.skalenodes.com"
     ],
+    "active": false,
     "eip1559": false,
     "create": true,
     "linkedMainnet": 1564830818
@@ -439,6 +504,7 @@
     "blockExplorerUrls": [
       "https://pacific-explorer.testnet.manta.network"
     ],
+    "opstack": true,
     "create": true,
     "linkedMainnet": 169,
     "linkedLayer1": 0

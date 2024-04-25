@@ -15,9 +15,17 @@ const networks = (() => {
 
   // const _getMap = (): Map<number, NetworkType> | undefined => _networksMap;
   const _getAll = (): NetworkType[] => [...(_networksMap?.values() || [])];
-  const _getAllActive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => !(nw.active === false));
+  const getAllInactive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => nw.active === false);
+  const getAllActive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => !(nw.active === false));
   const getAllSameType = (chainId: chainIdish): NetworkType[] =>
-    _getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
+    getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
+
+  const getAllMainnets = (): NetworkType[] => getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId));
+
+  const getAllTestnets = (): NetworkType[] => getAllActive().filter((nw: NetworkType) => isTestnet(nw.chainId));
+
+  const getAllOpMainnets = (): NetworkType[] =>
+    getAllActive().filter((nw: NetworkType) => isOpStack(nw.chainId) && isMainnet(nw.chainId));
 
   const get = (chainId: chainIdish): NetworkType | undefined => _networksMap?.get(Number(chainId));
 
@@ -39,12 +47,13 @@ const networks = (() => {
 
   const has = (chainId: chainIdish): boolean => _networksMap?.has(Number(chainId));
 
-  const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || false;
+  const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || true;
   const isEip1559 = (chainId: chainIdish): boolean => Boolean(get(chainId)?.eip1559);
   const isMainnet = (chainId: chainIdish): boolean => getLinkedMainnet(chainId) == 0;
   const isTestnet = (chainId: chainIdish): boolean => !isMainnet(chainId);
   const isLayer1 = (chainId: chainIdish): boolean => getLinkedLayer1(chainId) === undefined;
   const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
+  const isOpStack = (chainId: chainIdish): boolean => get(chainId)?.opstack || false;
 
   const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
   const getChainLabel = (chainId: chainIdish): string | undefined =>
@@ -60,7 +69,12 @@ const networks = (() => {
     has,
     get,
 
+    getAllActive,
+    getAllInactive,
     getAllSameType,
+    getAllMainnets,
+    getAllTestnets,
+    getAllOpMainnets,
 
     getBlur,
     getBlurUrl,

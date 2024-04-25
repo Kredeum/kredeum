@@ -48,7 +48,7 @@
           <img src={accountAvatar} width="30px" alt="avatar" /> &nbsp;&nbsp;
         {/if}
         <span id="metamaskAccount">
-          {getShortAddress(accountName, 10)}&nbsp;&nbsp;&nbsp;&nbsp;
+          {getShortAddress(accountName, 8)}&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
       </div>
     </div>

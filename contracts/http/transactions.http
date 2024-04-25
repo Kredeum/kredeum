@@ -1,0 +1,12 @@
+@eth = https://api.etherscan.io/api?module=account&action=txlist&sort=asc&apikey={{$processEnv ETHERSCAN_API_KEY}}
+@op = https://api-optimistic.etherscan.io/api?module=account&action=txlist&sort=asc&apikey={{$processEnv ETHERSCAN_API_KEY_OPTIMISM}}
+
+@address = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38
+
+
+###
+GET {{op}}&address={{address}}
+
+###
+GET {{eth}}&address={{address}}
+

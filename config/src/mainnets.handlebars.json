@@ -94,6 +94,7 @@
       "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
       "active": true
     },
+    "opstack": true,
     "create": true,
     "linkedLayer1": 1
   },
@@ -137,6 +138,7 @@
       "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_BASE}}",
       "active": false
     },
+    "opstack": true,
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
     "create": true,
     "linkedLayer1": 1
@@ -145,8 +147,8 @@
     "chainId": 5000,
     "chainName": "mantle",
     "rpcUrls": [
-      "https://rpc.mantle.xyz",
       "https://rpc.ankr.com/mantle",
+      "https://rpc.mantle.xyz",
       "https://1rpc.io/mantle"
     ],
     "nativeCurrency": {
@@ -157,6 +159,7 @@
     "blockExplorerUrls": [
       "https://explorer.mantle.xyz/"
     ],
+    "opstack": true,
     "linkedLayer1": 1,
     "create": true
   },
@@ -176,6 +179,7 @@
     "blockExplorerUrls": [
       "https://explorer.mode.network/"
     ],
+    "opstack": true,
     "linkedLayer1": 1,
     "create": true
   },
@@ -195,6 +199,7 @@
     "blockExplorerUrls": [
       "https://blastscan.io"
     ],
+    "opstack": true,
     "create": true,
     "active": true,
     "linkedLayer1": 1
@@ -253,6 +258,7 @@
     "blockExplorerUrls": [
       "https://explorer.zora.energy"
     ],
+    "opstack": true,
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -372,7 +378,7 @@
     "chainName": "bsc",
     "chainLabel": "Binance Smart Chain",
     "rpcUrls": [
-      "https://bsc-dataseed1.binance.org",
+      "https://bsc-rpc.publicnode.com",
       "https://rpc.ankr.com/bsc",
       "https://bsc-dataseed.binance.org",
       "https://bsc-dataseed1.defibit.io",
@@ -439,6 +445,7 @@
     "blockExplorerUrls": [
       "https://pacific-explorer.manta.network"
     ],
+    "opstack": true,
     "create": true,
     "active": false,
     "linkedLayer1": 0
