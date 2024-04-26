@@ -12,14 +12,11 @@
     explorerContractUrl
   } from "@kredeum/common/src/common/config";
   import { resolverCountCollections } from "@kredeum/common/src/resolver/resolver-get-collection";
-  import Network from "../../../../svelte/src/components/Network/Network.svelte";
-
-  type NetworkTypeWithCount = NetworkType & { countCollection?: number };
 
   ///////////////////////////////////////
   // <Addresses networks={networks} />
   ///////////////////////////////////////
-  export let networks: NetworkTypeWithCount[];
+  export let networks: NetworkType[];
   ///////////////////////////////////////
   let total = 0;
   let done = 0;
@@ -28,7 +25,6 @@
   const refreshCount = () => {
     total = [...counts].reduce((tot, [k, n]) => tot + (n || 0), 0);
     done = [...counts].filter((n) => n !== undefined).length;
-    console.log("refreshCount ~ networks:", networks);
     if (done === networks.length) sortNetworks();
   };
 
@@ -41,13 +37,12 @@
     }
     return count;
   };
+  let refresh = 0;
 
-  let networksSorted: NetworkTypeWithCount[];
   const sortNetworks = () => {
     console.log("sortNetworks ~ sortNetworks:", networks);
-    networksSorted = [...networks].sort(
-      (a: NetworkTypeWithCount, b: NetworkTypeWithCount) => (counts.get(b.chainId) || 0) - (counts.get(a.chainId) || 0)
-    );
+    networks.sort((a: NetworkType, b: NetworkType) => (counts.get(b.chainId) || 0) - (counts.get(a.chainId) || 0));
+    refresh++;
   };
 
   onMount(() => {});
@@ -66,42 +61,44 @@
     </tr>
   </thead>
   <tbody>
-    {#each networksSorted || networks as network}
-      <tr>
-        <td>{network.chainId}</td>
-        <td>{network.chainName}</td>
-        <td>
-          {#await countCollections(network.chainId)}
-            ...
-          {:then count}
-            {count}
-          {:catch}
-            ---
-          {/await}
-        </td>
+    {#key refresh}
+      {#each networks as network}
+        <tr>
+          <td>{network.chainId}</td>
+          <td>{network.chainName}</td>
+          <td>
+            {#await countCollections(network.chainId)}
+              ...
+            {:then count}
+              {count}
+            {:catch}
+              ---
+            {/await}
+          </td>
 
-        <td class="addr">
-          <a href={factoryGetExplorerUrl(network.chainId)} target="_blank">
-            {getShortAddress(factoryGetAddress(network.chainId))}
-          </a>
-        </td>
-        <td class="addr">
-          <a href={resolverGetExplorerUrl(network.chainId)} target="_blank">
-            {getShortAddress(resolverGetAddress(network.chainId))}
-          </a>
-        </td>
-        <td class="addr">
-          <a href={explorerContractUrl(network.chainId, getAddressOpenNFTsTemplate(network.chainId))} target="_blank">
-            {getShortAddress(getAddressOpenNFTsTemplate(network.chainId))}
-          </a>
-        </td>
-        <td class="addr">
-          <a href={explorerContractUrl(network.chainId, getAddressOpenAutoMarket(network.chainId))} target="_blank">
-            {getShortAddress(getAddressOpenAutoMarket(network.chainId))}
-          </a>
-        </td>
-      </tr>
-    {/each}
+          <td class="addr">
+            <a href={factoryGetExplorerUrl(network.chainId)} target="_blank">
+              {getShortAddress(factoryGetAddress(network.chainId))}
+            </a>
+          </td>
+          <td class="addr">
+            <a href={resolverGetExplorerUrl(network.chainId)} target="_blank">
+              {getShortAddress(resolverGetAddress(network.chainId))}
+            </a>
+          </td>
+          <td class="addr">
+            <a href={explorerContractUrl(network.chainId, getAddressOpenNFTsTemplate(network.chainId))} target="_blank">
+              {getShortAddress(getAddressOpenNFTsTemplate(network.chainId))}
+            </a>
+          </td>
+          <td class="addr">
+            <a href={explorerContractUrl(network.chainId, getAddressOpenAutoMarket(network.chainId))} target="_blank">
+              {getShortAddress(getAddressOpenAutoMarket(network.chainId))}
+            </a>
+          </td>
+        </tr>
+      {/each}
+    {/key}
   </tbody>
 </table>
 

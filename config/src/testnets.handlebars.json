@@ -524,6 +524,7 @@
       "http://localhost/explorer"
     ],
     "linkedMainnet": 31337,
+    "active": false,
     "create": true
   }
 ]

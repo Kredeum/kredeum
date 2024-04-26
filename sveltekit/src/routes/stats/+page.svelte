@@ -24,8 +24,6 @@
     if (tab === "Inactives") return networks.getAllInactive();
     return networks.getAllMainnets();
   };
-
-  $: console.log(tabsMounted);
 </script>
 
 <div class="stats">
@@ -36,7 +34,6 @@
       <button
         class={tabActive === tabKey ? "active" : ""}
         on:click={() => {
-          console.log("click", tabKey, tabsMounted);
           tabActive = tabKey;
           tabsMounted[tabKey] = true;
         }}>{tabKey}</button
