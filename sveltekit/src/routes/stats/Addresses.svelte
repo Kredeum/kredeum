@@ -11,38 +11,55 @@
     getAddressOpenAutoMarket,
     explorerContractUrl
   } from "@kredeum/common/src/common/config";
-  import { resolverCountCollections } from "@kredeum/common/src/resolver/resolver-get-collection";
+  import {
+    resolverGetCollections,
+    resolverGetCollectionsAddresses,
+    resolverGetCollectionsCount
+  } from "@kredeum/common/src/resolver/resolver-get-collection";
 
   ///////////////////////////////////////
   // <Addresses networks={networks} />
   ///////////////////////////////////////
   export let networks: NetworkType[];
   ///////////////////////////////////////
+  let i = 0;
   let total = 0;
   let done = 0;
-  let counts = new Map<number, number>();
+  let refresh = 0;
+  let collectionsAllCounts: Map<number, number> = new Map();
+  let collectionsAllAddresses: Map<number, Array<string>> = new Map();
 
-  const refreshCount = () => {
-    total = [...counts].reduce((tot, [k, n]) => tot + (n || 0), 0);
-    done = [...counts].filter((n) => n !== undefined).length;
-    if (done === networks.length) sortNetworks();
-  };
-
-  const countCollections = async (chainId: number): Promise<number | undefined> => {
-    let count = counts.get(chainId);
+  const collectionsCount = async (chainId: number): Promise<number | undefined> => {
+    let count = collectionsAllCounts.get(chainId);
     if (count === undefined) {
-      count = (await resolverCountCollections(chainId)) || 0;
-      counts.set(chainId, count);
+      count = (await resolverGetCollectionsCount(chainId)) || 0;
+      collectionsAllCounts.set(chainId, count);
       refreshCount();
     }
     return count;
   };
-  let refresh = 0;
+  const collectionsAddresses = async (chainId: number): Promise<Array<string>> => {
+    let addrs = collectionsAllAddresses.get(chainId);
+    if (addrs === undefined) {
+      addrs = await resolverGetCollectionsAddresses(chainId);
+      collectionsAllAddresses.set(chainId, addrs);
+    }
+    return addrs;
+  };
+
+  const refreshCount = () => {
+    total = [...collectionsAllCounts].reduce((tot, [k, n]) => tot + (n || 0), 0);
+    done = [...collectionsAllCounts].filter((n) => n !== undefined).length;
+    if (done === networks.length) sortNetworks();
+  };
 
   const sortNetworks = () => {
     console.log("sortNetworks ~ sortNetworks:", networks);
-    networks.sort((a: NetworkType, b: NetworkType) => (counts.get(b.chainId) || 0) - (counts.get(a.chainId) || 0));
-    refresh++;
+    networks.sort(
+      (a: NetworkType, b: NetworkType) =>
+        (collectionsAllCounts.get(b.chainId) || 0) - (collectionsAllCounts.get(a.chainId) || 0)
+    );
+    // refresh++;
   };
 
   onMount(() => {});
@@ -54,6 +71,7 @@
       <th>Chain ID</th>
       <th>Chain<br />Name<br />{done}/{networks.length}</th>
       <th>Collections<br />Count<br />{total}</th>
+      <th>Collections<br />Addresses<br /></th>
       <th>OpenNFTs<br />Factory</th>
       <th>OpenNFTs<br />Resolver</th>
       <th>OpenNFTsV4<br />Template</th>
@@ -67,15 +85,24 @@
           <td>{network.chainId}</td>
           <td>{network.chainName}</td>
           <td>
-            {#await countCollections(network.chainId)}
+            {#await collectionsCount(network.chainId)}
               ...
             {:then count}
-              {count}
+            {++i}
+            {count}
             {:catch}
               ---
             {/await}
           </td>
-
+          <td>
+            {#await collectionsAddresses(network.chainId)}
+              ...
+            {:then addrs}
+              {addrs}
+            {:catch}
+              ---
+            {/await}
+          </td>
           <td class="addr">
             <a href={factoryGetExplorerUrl(network.chainId)} target="_blank">
               {getShortAddress(factoryGetAddress(network.chainId))}

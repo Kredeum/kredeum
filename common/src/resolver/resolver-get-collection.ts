@@ -89,19 +89,26 @@ const resolverGetCollections = async (
   return collections;
 };
 
-const countCollectionsCache = new Map<number, number>();
-const resolverCountCollections = async (chainId: number): Promise<number | undefined> => {
-  if (!countCollectionsCache.has(chainId)) {
+const resolverGetCollectionsAddresses = async (chainId: number): Promise<Array<string>> => {
+  const nftsResolver = await resolverGetContract(chainId);
+  return await nftsResolver.getAddresses();
+
+};
+
+const collectionsCache = new Map<number, number>();
+const resolverGetCollectionsCount = async (chainId: number): Promise<number | undefined> => {
+  if (!collectionsCache.has(chainId)) {
     const nftsResolver = await resolverGetContract(chainId);
     const countCollections = Number(await nftsResolver.countAddresses());
-    countCollectionsCache.set(chainId, countCollections);
+    collectionsCache.set(chainId, countCollections);
   }
 
-  return countCollectionsCache.get(chainId);
+  return collectionsCache.get(chainId);
 };
 
 export {
-  resolverCountCollections,
+  resolverGetCollectionsCount,
+  resolverGetCollectionsAddresses,
   resolverGetCollections,
   resolverGetCollection,
   resolverAreCollections,
