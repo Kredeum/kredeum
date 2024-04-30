@@ -46,6 +46,7 @@ const networks = (() => {
   const getRpcUrl = (chainId: chainIdish): string => get(chainId)?.rpcUrls[0] || "";
 
   const has = (chainId: chainIdish): boolean => _networksMap?.has(Number(chainId));
+  const hasPaymaster = (chainId: chainIdish): boolean => get(chainId)?.paymaster || false;
 
   const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || true;
   const isEip1559 = (chainId: chainIdish): boolean => Boolean(get(chainId)?.eip1559);
@@ -67,6 +68,7 @@ const networks = (() => {
 
   return {
     has,
+    hasPaymaster,
     get,
 
     getAllActive,

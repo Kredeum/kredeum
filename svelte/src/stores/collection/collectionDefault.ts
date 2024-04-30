@@ -12,7 +12,7 @@ import {
 } from "@kredeum/common/src/common/local";
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || getAddresses(chainId)?.OpenNFTsV4 || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || getAddresses(chainId)?.OpenNFTsV4 || getAddresses(chainId)?.OpenNFTsV4Skale || "";
 
 // LOADER : LOAD Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {

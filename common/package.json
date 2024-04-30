@@ -22,6 +22,7 @@
     "@kredeum/config": "workspace:^",
     "@kredeum/contracts": "workspace:^",
     "@kredeum/providers": "workspace:^",
+    "@kredeum/skale": "workspace:^",
     "ethers": "^5.7.2",
     "multiformats": "^13.1.0",
     "viem": "^2.9.26"
