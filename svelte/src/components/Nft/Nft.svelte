@@ -97,9 +97,11 @@
           >
 
           {#if nftOwner($nft) === owner}
-            <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
-              ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
-            >
+            {#if false}
+              <a href="#claim-nft-{tokenID}" class="btn-claim-modal" title="Claim this NFT"
+                ><i class="fa fa-hand-holding-usd fa-left" /> CLAIM</a
+              >
+            {/if}
 
             <a href="#transfert-nft-{tokenID}" class="btn-transfer-modal" title="Make a gift"
               ><i class="fa fa-gift fa-left" /> TRANSFER</a

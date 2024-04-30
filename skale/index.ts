@@ -1,1 +1,1 @@
-export { receiveFunds } from "./src/skaleReceiveFunds";
+export { receiveFunds, isSkaleChain } from "./src/skaleReceiveFunds";

@@ -6,7 +6,7 @@
   // Upload audi file for Mint audio
   ////////////////////////////////////////////////////////////////
   export let audioFile: File | undefined = undefined;
-  export let audio: string;
+  export let audio: string | undefined;
   ////////////////////////////////////////////////////////////////
 
   let files: FileList | undefined = undefined;

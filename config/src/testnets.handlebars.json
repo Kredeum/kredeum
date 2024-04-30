@@ -309,6 +309,25 @@
     "linkedMainnet": 137
   },
   {
+    "chainId": 974399131,
+    "chainName": "calypso-testnet",
+    "rpcUrls": [
+      "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
+    ],
+    "nativeCurrency": {
+      "name": "sFUEL",
+      "symbol": "SFUEL",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
+    ],
+    "eip1559": false,
+    "create": false,
+    "paymaster": true,
+    "linkedMainnet": 1564830818
+  },
+  {
     "chainId": 80001,
     "chainName": "mumbai",
     "rpcUrls": [
@@ -467,24 +486,6 @@
       "https://staging-fast-active-bellatrix.explorer.staging-v3.skalenodes.com"
     ],
     "active": false,
-    "eip1559": false,
-    "create": true,
-    "linkedMainnet": 1564830818
-  },
-  {
-    "chainId": 974399131,
-    "chainName": "calypso-testnet",
-    "rpcUrls": [
-      "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
-    ],
-    "nativeCurrency": {
-      "name": "sFUEL",
-      "symbol": "SFUEL",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
-    ],
     "eip1559": false,
     "create": true,
     "linkedMainnet": 1564830818

@@ -429,7 +429,8 @@
       "https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/"
     ],
     "active": false,
-    "create": true
+    "create": true,
+    "paymaster": true
   },
   {
     "chainId": 169,
