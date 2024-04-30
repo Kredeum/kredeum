@@ -35,7 +35,7 @@ const providerGetSigner = async (chainId = 0, accountOrIndex: string | number = 
   if (!provider) return;
 
   const signer = provider.getSigner(accountOrIndex);
-  const signerAddress = (await signer.getAddress());
+  const signerAddress = await signer.getAddress();
 
   await receiveFunds(signerAddress, chainId);
 

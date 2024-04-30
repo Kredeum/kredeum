@@ -21,7 +21,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo",
+    "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo && git restore lib",
     "postinstall": "pnpm install:foundry && pnpm forge:update",
     "install:foundry": "command -v forge >/dev/null 2>&1 || pnpm foundry:install",
     "build": "pnpm build:forge && pnpm build:typechain",
@@ -39,7 +39,7 @@
     "validate:only": "pnpm deploy:all --sender $SENDER",
     "format": "pnpm format:solidity",
     "format:solidity": "$HOME/.foundry/bin/forge fmt",
-    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup && pnpm forge:update",
+    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup",
     "forge:update": "git submodule update --recursive",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"

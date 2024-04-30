@@ -5,10 +5,10 @@ import { BigNumber } from "ethers";
 type _handleChainId = (chainId: string) => void;
 type _handleAccounts = (accounts: Array<string>) => void;
 type _onFunction = (label: string, func: _handleChainId | _handleAccounts) => void;
-type EthereumProvider = ExternalProvider & { on?: _onFunction; };
+type EthereumProvider = ExternalProvider & { on?: _onFunction };
 
-type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumProvider; };
-type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider; };
+type WindowEthereumProvider = Window & typeof globalThis & { ethereum: EthereumProvider };
+type WindowExternalProvider = Window & typeof globalThis & { ethereum: ExternalProvider };
 
 type AddressesType = {
   OpenNFTs: string;
@@ -28,14 +28,14 @@ type NetworkType = {
   chainLabel?: string;
   rpcUrls: Array<string>;
   iconUrls?: Array<string>;
-  nativeCurrency: { name: string; symbol: string; decimals: number; };
+  nativeCurrency: { name: string; symbol: string; decimals: number };
   blockExplorerUrls: Array<string>;
   etherscanApiKey?: string;
   hardhatOptions?: unknown;
-  subgraph?: { url?: string; startBlock?: number; active?: boolean; };
-  infura?: { url?: string; active: boolean; };
-  alchemy?: { url?: string; active: boolean; };
-  covalent?: { active: boolean; url?: string; key?: string; };
+  subgraph?: { url?: string; startBlock?: number; active?: boolean };
+  infura?: { url?: string; active: boolean };
+  alchemy?: { url?: string; active: boolean };
+  covalent?: { active: boolean; url?: string; key?: string };
   linkedLayer1?: number;
   linkedMainnet?: number;
   opstack?: boolean;
@@ -75,7 +75,7 @@ type CollectionType = {
   price?: BigNumber;
 };
 
-type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number; };
+type CollectionFilterType = { owner?: string; tokenID?: string; offset?: number; limit?: number };
 
 ///////////////////////////////////////////////////
 // Exclusives storage parameters for Ipfs | Swarm
@@ -169,7 +169,7 @@ type Property = {
   display_value: string;
 };
 
-type Properties = { [k: string]: Property; };
+type Properties = { [k: string]: Property };
 
 type RefPageType = {
   chainId?: number;
