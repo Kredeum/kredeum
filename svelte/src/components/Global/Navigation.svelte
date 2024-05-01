@@ -33,37 +33,48 @@
 
   <nav>
     <ul>
-      <li class="active">
-        <p>
-          <a href="." on:click|preventDefault={toggle}>
-            <i class="fas {onMainNet ? 'fa-flask' : 'fa-road'}" /><br />
-            {@html onMainNet ? "testnet" : "mainnet"}<br />
-            networks
-          </a>
-        </p>
-      </li>
-      {#if !onMainNet}
-        <li class="active">
-          <ConfigModal />
-        </li>
-      {/if}
-      {#if !onProd}
+      {#if chainId > 0}
         <li class="active">
           <p>
-            <a href={config.base}>
-              <i class="fas fa-columns" /><br />
-              stable<br />
-              version
+            <a href="." on:click|preventDefault={toggle}>
+              <i class="fas {onMainNet ? 'fa-flask' : 'fa-road'}" /><br />
+              {@html onMainNet ? "testnet" : "mainnet"}<br />
+              networks
             </a>
           </p>
         </li>
+        <!-- experimental   -->
+        {#if !onProd}
+          <!-- only on testnets -->
+          {#if !onMainNet}
+            <li class="active">
+              <ConfigModal />
+            </li>
+          {/if}
+          <li class="active">
+            <p>
+              <a href={config.base}>
+                <i class="fas fa-columns" /><br />
+                stable<br />
+                version
+              </a>
+            </p>
+          </li>
+          <li class="active">
+            <a href="/stats">
+              <i class="fas fa-database"></i><br />
+              stats
+            </a>
+          </li>
+        {/if}
+      {:else}
+        <li class="active">
+          <a href="/">
+            <i class="fas fa-home"></i><br />
+            home
+          </a>
+        </li>
       {/if}
-      <li class="active">
-        <a href="/stats">
-          <i class="fas fa-database"></i><br />
-          stats
-        </a>
-      </li>
     </ul>
   </nav>
 </div>
