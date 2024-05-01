@@ -4,9 +4,9 @@
     "chainName": "mainnet",
     "chainLabel": "Ethereum",
     "rpcUrls": [
+      "https://rpc.ankr.com/eth/{{ANKR_API_KEY}}",
       "https://eth-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
-      "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/eth"
+      "https://mainnet.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -33,9 +33,9 @@
     "chainId": 42161,
     "chainName": "arbitrum",
     "rpcUrls": [
+      "https://rpc.ankr.com/arbitrum/{{ANKR_API_KEY}}",
       "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
-      "https://rpc.ankr.com/arbitrum"
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -76,9 +76,9 @@
     "chainId": 10,
     "chainName": "optimism",
     "rpcUrls": [
+      "https://rpc.ankr.com/optimism/{{ANKR_API_KEY}}",
       "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
-      "https://rpc.ankr.com/optimism",
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
@@ -102,6 +102,7 @@
     "chainId": 534352,
     "chainName": "scroll",
     "rpcUrls": [
+      "https://rpc.ankr.com/scroll/{{ANKR_API_KEY}}",
       "https://rpc.scroll.io"
     ],
     "nativeCurrency": {
@@ -121,6 +122,7 @@
     "chainId": 8453,
     "chainName": "base",
     "rpcUrls": [
+      "https://rpc.ankr.com/base/{{ANKR_API_KEY}}",
       "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_BASE}}",
       "https://mainnet.base.org/",
       "https://developer-access-mainnet.base.org/"
@@ -147,7 +149,7 @@
     "chainId": 5000,
     "chainName": "mantle",
     "rpcUrls": [
-      "https://rpc.ankr.com/mantle",
+      "https://rpc.ankr.com/mantle/{{ANKR_API_KEY}}",
       "https://rpc.mantle.xyz",
       "https://1rpc.io/mantle"
     ],
@@ -188,8 +190,8 @@
     "chainName": "blast",
     "chainLabel": "Blast",
     "rpcUrls": [
-      "https://rpc.blast.io",
-      "https://rpc.ankr.com/blast"
+      "https://rpc.ankr.com/blast/{{ANKR_API_KEY}}",
+      "https://rpc.blast.io"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -209,8 +211,8 @@
     "chainName": "polygon-zkevm",
     "chainLabel": "Polygon zkEVM",
     "rpcUrls": [
-      "https://zkevm-rpc.com",
-      "https://rpc.ankr.com/polygon_zkevm"
+      "https://rpc.ankr.com/polygon_zkevm/{{ANKR_API_KEY}}",
+      "https://zkevm-rpc.com"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -267,10 +269,10 @@
     "chainId": 137,
     "chainName": "polygon",
     "rpcUrls": [
+      "https://rpc.ankr.com/polygon/{{ANKR_API_KEY}}",
       "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_POLYGON}}",
-      "https://polygon-rpc.com/",
-      "https://rpc.ankr.com/polygon"
+      "https://polygon-rpc.com/"
     ],
     "nativeCurrency": {
       "name": "Matic",
@@ -298,7 +300,7 @@
     "chainId": 100,
     "chainName": "gnosis",
     "rpcUrls": [
-      "https://rpc.ankr.com/gnosis",
+      "https://rpc.ankr.com/gnosis/{{ANKR_API_KEY}}",
       "https://rpc.gnosischain.com",
       "https://rpc.xdaichain.com",
       "https://xdai.poanetwork.dev/",
@@ -319,8 +321,8 @@
     "chainId": 43114,
     "chainName": "avalanche",
     "rpcUrls": [
+      "https://rpc.ankr.com/avalanche/{{ANKR_API_KEY}}",
       "https://avalanche-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/avalanche",
       "https://api.avax.network/ext/bc/C/rpc"
     ],
     "nativeCurrency": {
@@ -339,9 +341,9 @@
     "chainId": 42220,
     "chainName": "celo",
     "rpcUrls": [
+      "https://rpc.ankr.com/celo/{{ANKR_API_KEY}}",
       "https://celo-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https: //celo.drpc.org",
-      "https://rpc.ankr.com/celo",
       "https://forno.celo.org"
     ],
     "nativeCurrency": {
@@ -359,8 +361,8 @@
     "chainId": 250,
     "chainName": "fantom",
     "rpcUrls": [
+      "https://rpc.ankr.com/fantom/{{ANKR_API_KEY}}",
       "https://rpc.ftm.tools/",
-      "https://rpc.ankr.com/fantom",
       "https://rpcapi.fantom.network"
     ],
     "nativeCurrency": {
@@ -379,8 +381,8 @@
     "chainName": "bsc",
     "chainLabel": "Binance Smart Chain",
     "rpcUrls": [
+      "https://rpc.ankr.com/bsc/{{ANKR_API_KEY}}",
       "https://bsc-rpc.publicnode.com",
-      "https://rpc.ankr.com/bsc",
       "https://bsc-dataseed.binance.org",
       "https://bsc-dataseed1.defibit.io",
       "https://bsc-dataseed1.ninicoin.io"
