@@ -32,7 +32,7 @@ const networks = (() => {
 
   const getAllOpMainnetIds = (): number[] =>
     getAllActive()
-      .filter((nw: NetworkType) => isOpStack(nw.chainId) && isMainnet(nw.chainId))
+      .filter((nw: NetworkType) => (isOpStack(nw.chainId) && isMainnet(nw.chainId)) || nw.chainId == 1)
       .map((nw) => nw.chainId);
 
   const get = (chainId: chainIdish): NetworkType | undefined => _networksMap?.get(Number(chainId));

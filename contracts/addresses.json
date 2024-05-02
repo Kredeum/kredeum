@@ -62,11 +62,6 @@
     "OpenNFTsV4": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
     "chainName": "chaos-testnet"
   },
-  "974399131": {
-    "OpenNFTsResolver": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsV4Skale": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "chainName": "calypso-testnet"
-  },
   "137": {
     "OpenAutoMarket": "0x5Cf67C52eD5608B9841238bCc2bDe012263b7111",
     "OpenBound": "0xE82984f872B68B6B369D5700654F229ba6f57c42",
@@ -85,6 +80,11 @@
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "polygon-zkevm-testnet"
+  },
+  "1564830818": {
+    "OpenNFTsResolver": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsV4Skale": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "chainName": "skale-calypso"
   },
   "167008": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
@@ -330,6 +330,11 @@
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "bsc-testnet"
+  },
+  "974399131": {
+    "OpenNFTsResolver": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsV4Skale": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "chainName": "calypso-testnet"
   },
   "999": {
     "OpenAutoMarket": "0x10bdda29d9a84dC0E8C263B29734d4502a74BCF2",

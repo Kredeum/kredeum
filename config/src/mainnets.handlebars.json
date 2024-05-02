@@ -419,6 +419,7 @@
   {
     "chainId": 1564830818,
     "chainName": "skale-calypso",
+    "chainLabel": "SKALE Calypso Hub",
     "rpcUrls": [
       "https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague"
     ],
@@ -430,8 +431,8 @@
     "blockExplorerUrls": [
       "https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/"
     ],
-    "active": false,
-    "create": true,
+    "active": true,
+    "create": false,
     "paymaster": true
   },
   {
