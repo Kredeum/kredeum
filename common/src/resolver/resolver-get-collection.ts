@@ -58,6 +58,18 @@ const resolverAreCollections = async (chainId: number, collections: Array<string
   return checks;
 };
 
+const resolverGetCollectionsAddresses = async (chainId: number): Promise<string[]> => {
+  console.log(resolverGetCollectionsAddresses, chainId);
+
+  const nftsResolver = await resolverGetContract(chainId);
+
+  const addresses = await nftsResolver.getAddresses();
+  // console.log("resolverGetCollections openNFTsStructOutput", collectionInfos);
+
+  console.log(resolverGetCollectionsAddresses, chainId, addresses);
+  return addresses;
+};
+
 const resolverGetCollections = async (
   chainId: number,
   account = ADDRESS_ZERO
@@ -103,6 +115,7 @@ const resolverCountCollections = async (chainId: number): Promise<number | undef
 export {
   resolverCountCollections,
   resolverGetCollections,
+  resolverGetCollectionsAddresses,
   resolverGetCollection,
   resolverAreCollections,
   resolverFilterCollections,

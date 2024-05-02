@@ -5,7 +5,12 @@
   import { networks } from "@kredeum/common/src/common/networks";
   import ConfigModal from "./ConfigModal.svelte";
 
-  export let chainId: number;
+  ///////////////////////////////////
+  // <Navigation {chainid} {back} />
+  ///////////////////////////////////
+  export let chainId: number | undefined = undefined;
+  export let back: string | undefined = undefined;
+  ///////////////////////////////////
 
   const onProd = versionGet().branch === "main";
   $: onMainNet = networks.isMainnet(chainId);
@@ -33,7 +38,14 @@
 
   <nav>
     <ul>
-      {#if chainId > 0}
+      {#if back}
+        <li class="active">
+          <a href={back}>
+            <i class="fa fa-arrow-left"></i><br />
+            back
+          </a>
+        </li>
+      {:else}
         <li class="active">
           <p>
             <a href="." on:click|preventDefault={toggle}>
@@ -67,13 +79,6 @@
             </a>
           </li>
         {/if}
-      {:else}
-        <li class="active">
-          <a href="/">
-            <i class="fas fa-home"></i><br />
-            home
-          </a>
-        </li>
       {/if}
     </ul>
   </nav>

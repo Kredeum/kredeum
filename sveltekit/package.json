@@ -32,8 +32,6 @@
   "type": "module",
   "dependencies": {
     "@kredeum/common": "workspace:^",
-    "@kredeum/contracts": "workspace:^",
-    "@kredeum/providers": "workspace:^",
     "@kredeum/svelte": "workspace:^"
   }
 }

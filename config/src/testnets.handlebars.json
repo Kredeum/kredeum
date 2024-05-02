@@ -193,7 +193,7 @@
     "linkedMainnet": 59144,
     "linkedLayer1": 5,
     "create": true,
-    "active": true
+    "active": false
   },
   {
     "chainId": 59141,
@@ -533,6 +533,7 @@
       "http://localhost/explorer"
     ],
     "linkedMainnet": 31337,
-    "create": true
+    "create": true,
+    "active": false
   }
 ]

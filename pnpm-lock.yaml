@@ -327,12 +327,6 @@ importers:
       '@kredeum/common':
         specifier: workspace:^
         version: link:../common
-      '@kredeum/contracts':
-        specifier: workspace:^
-        version: link:../contracts
-      '@kredeum/providers':
-        specifier: workspace:^
-        version: link:../providers
       '@kredeum/svelte':
         specifier: workspace:^
         version: link:../svelte

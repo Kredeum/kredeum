@@ -16,16 +16,14 @@
   let tabsMounted: TabsMounted = {
     Mainnets: true,
     OPnets: false,
-    Testnets: false,
-    Inactives: false
+    Testnets: false
   };
   let tabActive = "Mainnets";
 
-  const getNetworks = (tab: string): NetworkType[] => {
-    if (tab === "OPnets") return networks.getAllOpMainnets();
-    if (tab === "Testnets") return networks.getAllTestnets();
-    if (tab === "Inactives") return networks.getAllInactive();
-    return networks.getAllMainnets();
+  const getChainIds = (tab: string): number[] => {
+    if (tab === "OPnets") return networks.getAllOpMainnetIds();
+    if (tab === "Testnets") return networks.getAllTestnetIds();
+    return networks.getAllMainnetIds();
   };
 
   $: console.log(tabsMounted);
@@ -33,7 +31,7 @@
 
 <HomeLayout>
   <span slot="nav">
-    <Navigation chainId={0} />
+    <Navigation back="/" />
   </span>
 
   <span slot="header">
@@ -58,7 +56,7 @@
       {#each Object.entries(tabsMounted) as [tabKey, tabMounted]}
         {#if tabMounted}
           <span class={tabActive === tabKey ? "" : "hidden"}>
-            <StatsNetworks networks={getNetworks(tabKey)} />
+            <StatsNetworks chainIds={getChainIds(tabKey)} />
           </span>
         {/if}
       {/each}
