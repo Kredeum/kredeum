@@ -107,7 +107,7 @@
     chainId = _refHash.chainId || $metamaskChainId || 1;
     address = _refHash.address || ADDRESS_ZERO;
     tokenID = _refHash.tokenID || "";
-    account = (isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress) || ADDRESS_ZERO;
+    account = _refHash.account || $metamaskSignerAddress || ADDRESS_ZERO;
 
     // SET network
     await setNetwork();

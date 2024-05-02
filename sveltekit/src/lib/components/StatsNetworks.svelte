@@ -32,7 +32,7 @@
     </tr>
   </thead>
   <tbody>
-    {#each chainIds as chainId, index}
+    {#each chainIds as chainId}
       <StatsNetworkLine {chainId} />
     {/each}
   </tbody>

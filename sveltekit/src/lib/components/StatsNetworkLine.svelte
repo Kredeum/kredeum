@@ -12,7 +12,8 @@
   import { resolverCountCollections } from "@kredeum/common/src/resolver/resolver-get-collection";
   import { networks } from "@kredeum/common/src/common/networks";
 
-  import { statsUpdate } from "../stores/statsCounts";
+  import { statsCounts, statsUpdate } from "../stores/statsCounts";
+  import { onMount } from "svelte";
 
   ///////////////////////////////////////
   // <Addresses networks={networks} />
@@ -21,10 +22,11 @@
   ///////////////////////////////////////
 
   const countCollections = async (chainId: number): Promise<number | undefined> => {
+    if ($statsCounts.has(chainId)) return $statsCounts.get(chainId);
+
     const count = await resolverCountCollections(chainId);
     if (count !== undefined) statsUpdate(chainId, count);
 
-    console.log("countCollections:", chainId, count);
     return count;
   };
 </script>
@@ -89,9 +91,11 @@
     color: #0056b3;
     text-decoration: underline;
   }
+
   .addr {
     font-family: "Courier New", monospace;
   }
+
   .addr a {
     color: #007bff;
     text-decoration: none;

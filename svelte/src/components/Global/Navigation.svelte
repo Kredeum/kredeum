@@ -58,11 +58,11 @@
         <!-- experimental   -->
         {#if !onProd}
           <!-- only on testnets -->
-          {#if !onMainNet}
+          <!-- {#if !onMainNet}
             <li class="active">
               <ConfigModal />
             </li>
-          {/if}
+          {/if} -->
           <li class="active">
             <p>
               <a href={config.base}>
