@@ -1,7 +1,7 @@
 {
   "name": "@kredeum/skale",
-  "version": "0.0.1",
-  "description": "",
+  "version": "1.0.0",
+  "description": "Skale package",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -16,6 +16,10 @@
   "author": "Kredeum",
   "license": "MIT",
   "private": false,
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "devDependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
