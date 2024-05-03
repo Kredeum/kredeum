@@ -13,8 +13,9 @@
     "build": "tsup index.ts --format cjs,esm --dts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "MIT",
+  "private": false,
   "devDependencies": {
     "tsup": "^8.0.2",
     "typescript": "^5.4.5"
