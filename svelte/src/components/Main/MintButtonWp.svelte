@@ -37,11 +37,12 @@
   $: nft && handleNft();
   const handleNft = (): void => {
     if (!nft) return;
+    nid = nft.nid;
 
     // Dispacth "token" event to be catched
     // in wordpress/plugins/kredeum-nfts/admin/ajax/ajax.js
     const detail: { nid?: string; pid?: string } = {};
-    if (nft && (nft as NftType).nid) detail.nid = (nft as NftType).nid;
+    if (nid) detail.nid = nid;
     if (pid) detail.pid = pid;
     const event = new CustomEvent("token", { detail, bubbles: true });
 
