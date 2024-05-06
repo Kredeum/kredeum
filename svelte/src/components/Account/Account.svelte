@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ens } from "@kredeum/common/src/common/ens-get";
+  import { ens } from "@kredeum/common/src/viem/ens-get";
   import { getShortAddress, blockscanUrl } from "@kredeum/common/src/common/config";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";

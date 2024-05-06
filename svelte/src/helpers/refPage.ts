@@ -84,7 +84,7 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   const [hash1, acc] = hash.split("@");
   const [, chain, addr, tokenID, action] = hash1.split("/");
   const address = getChecksumAddress(addr);
-  const account = getChecksumAddress(acc);
+  const account = acc && getChecksumAddress(acc);
 
   let chainName: string;
   let chainId: number;
@@ -98,7 +98,7 @@ const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
 
   // console.log("refPageFromUrlHash", chainName, chainId, address, tokenID, action, account);
 
-  return { chainName, chainId, address: address, tokenID, action, account: account };
+  return { chainName, chainId, address, tokenID, action, account };
 };
 
 export type { RefPageType };

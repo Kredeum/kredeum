@@ -91,7 +91,7 @@
     refreshing = false;
 
     console.info("NFTS", $nfts);
-    console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
+    // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
   };
 
   onMount(async () => {

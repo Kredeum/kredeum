@@ -108,6 +108,7 @@
     address = _refHash.address || ADDRESS_ZERO;
     tokenID = _refHash.tokenID || "";
     account = _refHash.account || $metamaskSignerAddress || ADDRESS_ZERO;
+    console.log("<Dapp account:", account, _refHash.account, $metamaskSignerAddress);
 
     // SET network
     await setNetwork();
