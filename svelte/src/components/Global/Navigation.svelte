@@ -38,6 +38,17 @@
 
   <nav>
     <ul>
+      {#if !onProd}
+        <li class="active">
+          <p>
+            <a href={config.base}>
+              <i class="fas fa-columns" /><br />
+              stable<br />
+              version
+            </a>
+          </p>
+        </li>
+      {/if}
       {#if back}
         <li class="active">
           <a href={back}>
@@ -55,23 +66,16 @@
             </a>
           </p>
         </li>
+
         <!-- experimental   -->
         {#if !onProd}
           <!-- only on testnets -->
-          <!-- {#if !onMainNet}
+          {#if !onMainNet}
             <li class="active">
               <ConfigModal />
             </li>
-          {/if} -->
-          <li class="active">
-            <p>
-              <a href={config.base}>
-                <i class="fas fa-columns" /><br />
-                stable<br />
-                version
-              </a>
-            </p>
-          </li>
+          {/if}
+
           <li class="active">
             <a href="/stats">
               <i class="fas fa-database"></i><br />
