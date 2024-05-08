@@ -1,20 +1,22 @@
 <script lang="ts">
   import StatsNetworkLine from "./StatsNetworkLine.svelte";
   import { stats, statsSort, statsSubTotal, statsSubTotalUpdated } from "$lib/stores/statsCounts";
+  import { onMount } from "svelte";
 
   ///////////////////////////////////////
-  // <Addresses networks={networks} />
+  // <Statsnetworks networks={networks} />
   ///////////////////////////////////////
   export let chainIds: number[];
   ///////////////////////////////////////
   let total = 0;
   let updated = 0;
+  let chainIdsSorted: number[] = [];
 
   $: $stats && handleStats();
   const handleStats = () => {
     updated = statsSubTotalUpdated(chainIds);
     total = statsSubTotal(chainIds);
-    chainIds = statsSort(chainIds);
+    chainIdsSorted = statsSort(chainIds);
   };
 </script>
 
@@ -31,7 +33,7 @@
     </tr>
   </thead>
   <tbody>
-    {#each chainIds as chainId}
+    {#each chainIdsSorted as chainId}
       <StatsNetworkLine {chainId} />
     {/each}
   </tbody>

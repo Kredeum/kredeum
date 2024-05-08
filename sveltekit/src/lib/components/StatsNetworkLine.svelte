@@ -16,7 +16,7 @@
   import { onMount } from "svelte";
 
   ///////////////////////////////////////
-  // <Addresses networks={networks} />
+  // <StatsNetworkLine networks={networks} />
   ///////////////////////////////////////
   export let chainId: number;
   ///////////////////////////////////////

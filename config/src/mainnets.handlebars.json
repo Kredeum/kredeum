@@ -432,6 +432,9 @@
       "https://honorable-steel-rasalhague.explorer.mainnet.skalenodes.com/"
     ],
     "active": true,
+    "covalent": {
+      "active": false
+    },
     "create": false,
     "paymaster": true
   },
@@ -452,6 +455,9 @@
     ],
     "opstack": true,
     "create": true,
+    "covalent": {
+      "active": false
+    },
     "active": false,
     "linkedLayer1": 0
   },
@@ -471,6 +477,9 @@
     ],
     "linkedLayer1": 1,
     "active": false,
+    "covalent": {
+      "active": false
+    },
     "create": true
   }
 ]

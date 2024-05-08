@@ -162,6 +162,6 @@ const covalentNftList = async (
   return nfts;
 };
 
-const covalentActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => !(networks.get(chainId)?.covalent?.active === false);
 
 export { covalentCollections, covalentNftList, covalentActive, _covalentFetch };
