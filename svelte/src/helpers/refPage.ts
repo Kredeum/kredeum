@@ -79,12 +79,13 @@ const refPage2UrlHash = (refBreadcrumb: RefPageType): string => {
 const refPageFromUrlHash = (hash = window.location.hash): RefPageType => {
   if (!hash) return {};
 
-  // HASH = #/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769/transfer@0x166d23e3db37640db80d3a576f4042bafb11886f
-  // HASH = #/chain/address/tokenID/action@account
-  const [hash1, acc] = hash.split("@");
-  const [, chain, addr, tokenID, action] = hash1.split("/");
+  // HASH = #/mainnet/0x06012c8cf97BEaD5deAe237070F9587f8E7A266d/771769@0x166d23e3db37640db80d3a576f4042bafb11886f|transfer
+  // HASH = #/chain/address/tokenID@account|action
+  const [hash1, action] = hash.split("|");
+  const [hash2, acnt] = hash1.split("@");
+  const [, chain, addr, tokenID] = hash2.split("/");
   const address = getChecksumAddress(addr);
-  const account = acc && getChecksumAddress(acc);
+  const account = acnt && getChecksumAddress(acnt);
 
   let chainName: string;
   let chainId: number;

@@ -1,5 +1,4 @@
 <script lang="ts">
-  import type { NetworkType } from "@kredeum/common/src/common/types";
   import StatsNetworkLine from "./StatsNetworkLine.svelte";
   import { stats, statsSort, statsSubTotal, statsSubTotalUpdated } from "$lib/stores/statsCounts";
 

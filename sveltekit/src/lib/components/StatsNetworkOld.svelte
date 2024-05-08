@@ -1,5 +1,5 @@
 <script lang="ts">
-  import type { CollectionType, NetworkType } from "@kredeum/common/src/common/types";
+  import type { NetworkType } from "@kredeum/common/src/common/types";
   import { networks } from "@kredeum/common/src/common/networks";
   import HomeLayout from "@kredeum/svelte/src/components/Global/HomeLayout.svelte";
   import Navigation from "@kredeum/svelte/src/components/Global/Navigation.svelte";
@@ -7,16 +7,7 @@
     resolverGetCollectionsInfos,
     resolverGetCollectionsAddresses
   } from "@kredeum/common/src/resolver/resolver-get-collection";
-  import {
-    ADDRESS_DEAD,
-    ADDRESS_ZERO,
-    explorerCollectionUrl,
-    getDappUrl,
-    getShortAddress
-  } from "@kredeum/common/src/common/config";
-  import { collectionStore } from "../../../../svelte/src/stores/collection/collection";
-  import { onMount } from "svelte";
-  import Account from "../../../../svelte/src/components/Account/Account.svelte";
+  import { ADDRESS_ZERO, explorerCollectionUrl, getDappUrl, getShortAddress } from "@kredeum/common/src/common/config";
 
   ///////////////////////////////////////
   // <StatsNetwork {chainId} />
@@ -24,16 +15,7 @@
   export let chainId: number;
   ///////////////////////////////////////
 
-  let collections: CollectionType[] = [];
-
-  onMount(async () => {
-    console.log("onMount ~ chainId:", chainId);
-    const res = await resolverGetCollectionsInfos(chainId, "0x981ab0D817710d8FFFC5693383C00D985A3BDa38");
-    console.log("onMount ~ res: ", res);
-    collections = Array.from(res.values());
-    console.log("onMount ~ collections:", collections);
-    console.log("onMount ~ network:", networks.getChainLabel(chainId));
-  });
+  resolverGetCollectionsInfos(chainId).then(console.log);
 </script>
 
 <HomeLayout>
@@ -50,29 +32,29 @@
       <caption> <h1>{networks.getChainName(chainId)} #{chainId}</h1></caption>
       <thead>
         <tr>
-          <th>name</th>
-          <th>Total </th>
+          <th>Total Supply</th>
           <th>View</th>
           <th>Collections Addresses</th>
         </tr>
       </thead>
       <tbody>
-        {#each collections as collection}
-          <tr>
-            <td>{collection.name}</td>
-            <td>{collection.totalSupply} {collection.symbol}</td>
-            <td>
-              <a href="{getDappUrl(chainId, { address: collection.address }, '')}@{ADDRESS_ZERO}" target="_blank"
-                >view collection</a
-              >
-            </td>
-            <td>
-              <a href={explorerCollectionUrl(chainId, collection.address)} target="_blank">
-                {collection.address}
-              </a>
-            </td>
-          </tr>
-        {/each}
+        {#await resolverGetCollectionsAddresses(chainId)}
+          ...
+        {:then addresses}
+          {#each addresses as address}
+            <tr>
+              <td>1</td>
+              <td> 
+                <a href="{getDappUrl(chainId, { address }, '')}@{ADDRESS_ZERO}" target="_blank">view collection</a>
+              </td>
+              <td>
+                <a href={explorerCollectionUrl(chainId, address)} target="_blank">{address}</a>
+              </td>
+            </tr>
+          {/each}
+        {:catch}
+          ---
+        {/await}
       </tbody>
     </table>
   </span>
@@ -104,7 +86,7 @@
   td {
     font-family: "Courier New", monospace;
     padding: 8px;
-    text-align: right;
+    text-align: center;
     border-bottom: 1px solid #ddd;
     width: 180px;
   }

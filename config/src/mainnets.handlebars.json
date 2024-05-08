@@ -34,8 +34,8 @@
     "chainName": "arbitrum",
     "rpcUrls": [
       "https://rpc.ankr.com/arbitrum/{{ANKR_API_KEY}}",
-      "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}"
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -77,8 +77,8 @@
     "chainName": "optimism",
     "rpcUrls": [
       "https://rpc.ankr.com/optimism/{{ANKR_API_KEY}}",
-      "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
+      "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
@@ -270,8 +270,8 @@
     "chainName": "polygon",
     "rpcUrls": [
       "https://rpc.ankr.com/polygon/{{ANKR_API_KEY}}",
-      "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_POLYGON}}",
+      "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
     "nativeCurrency": {
