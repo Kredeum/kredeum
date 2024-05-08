@@ -2,8 +2,8 @@ import type { Writable } from "svelte/store";
 import { get, writable } from "svelte/store";
 import {
   localStorageGet,
-  localStorageKey,
-  localStorageLength,
+  localStorageKeys,
+  localStorageRemove,
   localStorageSet
 } from "@kredeum/common/src/common/local";
 import { keyStats } from "@kredeum/common/src/common/keys";
@@ -14,20 +14,12 @@ type StatsCounts = Map<number, number>;
 const _statsCountLoadLocalStorage = (): StatsCounts => {
   const _statsCounts: StatsCounts = new Map();
 
-  const len = localStorageLength();
-  for (let index = 0; index < len; index++) {
-    const key = localStorageKey(index);
-
-    if (key && key.startsWith("stats://")) {
-      const chainId = Number(key.replace("stats://", ""));
-      _statsCounts.set(chainId, Number(localStorageGet(key)));
-    }
-  }
+  localStorageKeys("stats://")
+    .map((key) => _statsCounts.set(Number(key.replace("stats://", "")), Number(localStorageGet(key))));
 
   // console.log("_statsCountLoadLocalStorage", _statsCounts);
   return _statsCounts;
 };
-
 
 // STORES //
 
@@ -67,4 +59,18 @@ const statsUpdate = (chainId: number, value: number) => {
 
 const statsSort = (chainIds: number[]): number[] => chainIds.sort((a, b) => statsChain(b) - statsChain(a));
 
-export { stats, statsCounts, statsChainIds, statsSort, statsChain, statsSubTotal, statsSubTotalUpdated, statsUpdate };
+const statsClean = () =>
+  localStorageKeys("stats://")
+    .map((key) => localStorageRemove(key));
+
+export {
+  stats,
+  statsCounts,
+  statsClean,
+  statsChainIds,
+  statsSort,
+  statsChain,
+  statsSubTotal,
+  statsSubTotalUpdated,
+  statsUpdate
+};

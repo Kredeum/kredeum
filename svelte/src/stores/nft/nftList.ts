@@ -2,20 +2,14 @@ import { writable } from "svelte/store";
 
 import type { NftType } from "@kredeum/common/src/common/types";
 import { jsonMapParse } from "../../helpers/jsonMap";
-import { localStorageGet, localStorageKey, localStorageLength } from "@kredeum/common/src/common/local";
+import { localStorageGet, localStorageKeys } from "@kredeum/common/src/common/local";
 
 // LOADER : LOAD Nfts from localStorage
 const nftListLoadLocalStorage = (): Map<string, NftType> => {
   const nfts: Map<string, NftType> = new Map();
 
-  const len = localStorageLength();
-  for (let index = 0; index < len; index++) {
-    const key = localStorageKey(index);
+  localStorageKeys("nft://").map((key) => nfts.set(key, jsonMapParse(localStorageGet(key)) as NftType));
 
-    if (key && key.startsWith("nft://")) {
-      nfts.set(key, jsonMapParse(localStorageGet(key)) as NftType);
-    }
-  }
   // console.log("nftListLoadLocalStorage", nfts);
   return nfts;
 };

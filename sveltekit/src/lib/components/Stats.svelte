@@ -4,8 +4,9 @@
 
   import StatsNetworks from "./StatsNetworks.svelte";
 
-  import type { NetworkType } from "@kredeum/common/src/common/types";
   import { networks } from "@kredeum/common/src/common/networks";
+  import { statsClean } from "$lib/stores/statsCounts";
+  import { goto } from "$app/navigation";
 
   // Manage StatsNetworks Svelte components in Tabs with 2 states:
   // - active (i.e. displayed) or not (only one at a time)
@@ -24,6 +25,11 @@
     if (tab === "OPnets") return networks.getAllOpMainnetIds();
     if (tab === "Testnets") return networks.getAllTestnetIds();
     return networks.getAllMainnetIds();
+  };
+
+  const refresh = () => {
+    statsClean();
+    window.location.reload();
   };
 
   $: console.log(tabsMounted);
@@ -51,6 +57,10 @@
             }}>{tabKey}</button
           >
         {/each}
+
+        <div class="tab-right">
+          <button on:click={() => refresh()}>Refresh</button>
+        </div>
       </div>
 
       {#each Object.entries(tabsMounted) as [tabKey, tabMounted]}
@@ -67,6 +77,7 @@
 <style>
   .stats {
     margin-left: 20px;
+    width: 1024px;
   }
 
   .tabs {
@@ -83,5 +94,14 @@
 
   .tabs button.active {
     background-color: #eee;
+  }
+
+  .tab-right {
+    text-align: right;
+    width: 100%;
+  }
+
+  .tab-right button {
+    background-color: white;
   }
 </style>

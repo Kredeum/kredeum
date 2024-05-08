@@ -13,8 +13,6 @@ const localStorageClear = (): void => _localStorage?.clear();
 
 const localStorageKey = (index: number): string => _localStorage?.key(index) || "";
 
-const localStorageLength = (): number => _localStorage?.length || 0;
-
 const localStorageRemove = (key: string): void => _localStorage?.removeItem(key);
 
 const localStorageInit = (): void => {
@@ -22,8 +20,12 @@ const localStorageInit = (): void => {
   if (!localStorageGet("KEY")) localStorageSet("KEY", "KEY_DEFAULT");
 };
 
+const localStorageKeys = (startsWith: string): string[] =>
+  Object.keys(localStorage).filter((key) => key.startsWith(startsWith));
+
 export {
   localNamespace,
+  localStorageKeys,
   localConfigNamespace,
   localStorageDefined,
   localStorageSet,
@@ -32,5 +34,4 @@ export {
   localStorageInit,
   localStorageRemove,
   localStorageClear,
-  localStorageLength
 };
