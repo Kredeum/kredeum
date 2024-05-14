@@ -40,7 +40,7 @@ function fields() {
 				'ipfs'  => __( 'IPFS', 'kredeum-nfts' ),
 				'swarm' => __( 'Swarm', 'kredeum-nfts' ),
 			),
-			'helper'  => __( 'Choose on witch decentralized storage you want to upload your files', 'kredeum-nfts' ),
+			'helper'  => __( 'Choose decentralized storage (Swarm is experimental, only on testnets)', 'kredeum-nfts' ),
 		),
 
 		array(
