@@ -33,5 +33,5 @@ export {
   localStorageKey,
   localStorageInit,
   localStorageRemove,
-  localStorageClear,
+  localStorageClear
 };

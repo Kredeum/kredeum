@@ -21,8 +21,6 @@
   import { getSupportedImage, getMediaSelection } from "../../helpers/mediaTypes";
   import { defaultAudioCoverImg } from "../../helpers/defaultCoverImage";
 
-  import { metamaskSignerAddress, metamaskProvider } from "../../stores/metamask";
-
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import InputPrice from "../Input/InputPrice.svelte";
   import InputAudioMint from "../Input/InputAudioMint.svelte";
@@ -124,7 +122,7 @@
   };
 
   let collection: CollectionType;
-  $: chainId && address && $metamaskProvider && handleDefaultAutomarketValues();
+  $: chainId && address && signer && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
     if (!(chainId && address)) return;
 
@@ -422,7 +420,7 @@
             </div>
           {/if}
 
-          {#if collectionIsAutoMarket(collection) && collectionOpenOrOwner(collection, $metamaskSignerAddress)}
+          {#if collectionIsAutoMarket(collection) && collectionOpenOrOwner(collection, signer)}
             <div class="section">
               <div class="titre">NFT Sell Price</div>
               <InputPrice {chainId} bind:price={inputPrice} error={inputPriceError} />

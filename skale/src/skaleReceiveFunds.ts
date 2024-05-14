@@ -61,7 +61,7 @@ const _rmBytesSymbol = (address: string) => address.replace(/^0x/, "");
 ////////////////////////////////////////////////
 const receiveFunds = async (account: string, chainId: number): Promise<TransactionReceipt | undefined> => {
   if (!isSkaleChain(chainId)) {
-    console.info("@kredeum/Skale receiveFunds : ", "Not on a Skale chain, no sFuel to claim");
+    // console.log("@kredeum/Skale receiveFunds : ", "Not on a Skale chain, no sFuel to claim");
     return;
   }
   if (!account) throw new Error("@kredeum/Skale receiveFunds : No account provided");
@@ -100,12 +100,12 @@ const receiveFunds = async (account: string, chainId: number): Promise<Transacti
   const hash = await walletClient.sendRawTransaction({
     serializedTransaction: signedTx
   });
-  console.info("@kredeum/Skale receiveFunds - Tx ~ hash: ", `${hash} => ${scaleFaucets[chainId].explorer}/tx/${hash}`);
+  console.info("@kredeum/Skale receiveFunds - TxHash: ", `${hash} => ${scaleFaucets[chainId].explorer}/tx/${hash}`);
 
   const transactionReceipt = await publicClient.waitForTransactionReceipt({
     hash: hash
   });
-  console.info("@kredeum/Skale receiveFunds - TransactionReceipt:", transactionReceipt);
+  console.info("@kredeum/Skale receiveFunds - TxReceipt:", transactionReceipt);
 
   return transactionReceipt;
 };

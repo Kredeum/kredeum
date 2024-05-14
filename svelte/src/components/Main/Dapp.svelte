@@ -129,7 +129,9 @@
   <span slot="header">
     <Title />
 
-    <Create {chainId} />
+    {#if $metamaskSignerAddress}
+      <Create {chainId} signer={$metamaskSignerAddress} />
+    {/if}
 
     <div class="row alignbottom">
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">

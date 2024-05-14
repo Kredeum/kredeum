@@ -9,13 +9,13 @@
   //  <Create {chainId} {signer} />
   // Create Collection or Nft
   /////////////////////////////////////////////////
-  export let chainId: number | undefined = undefined;
-  export let signer: string | undefined = undefined;
+  export let chainId: number;
+  export let signer: string;
 
   let open = false;
   const toggle = () => (open = !open);
 
-  $: mint = signer && networks.getCreate(chainId);
+  $: mint = networks.getCreate(chainId);
 </script>
 
 <a href="#create-modal" class="btn btn-default" title="Mint" id="addPopup"><i class="fas fa-plus fa-left" />Add</a>
@@ -61,17 +61,15 @@
   </div>
 </div>
 
-{#if chainId && signer}
-  <!-- SubModal create NFT -->
-  {#if open}
-    <NftMintPopup {chainId} {signer} {toggle} />
-  {/if}
-
-  <!-- SubModal create collection  -->
-  <div id="add-collection" class="modal-window">
-    <CollectionCreate {chainId} {signer} />
-  </div>
+<!-- SubModal create NFT -->
+{#if open}
+  <NftMintPopup {chainId} {signer} {toggle} />
 {/if}
+
+<!-- SubModal create collection  -->
+<div id="add-collection" class="modal-window">
+  <CollectionCreate {chainId} {signer} />
+</div>
 
 <style>
   .add-collection-address {

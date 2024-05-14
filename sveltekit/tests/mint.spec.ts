@@ -18,6 +18,6 @@ test.only("mint one NFT", async ({ page }) => {
 
   await page.locator("#mintNft").click();
   await page.screenshot({ path: "./test-results/screenshot.png" });
-  await page.pause();
+  // await page.pause();
   await metamask.confirmTransaction();
 });
