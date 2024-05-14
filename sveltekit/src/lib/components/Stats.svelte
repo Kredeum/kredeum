@@ -6,8 +6,7 @@
 
   import { networks } from "@kredeum/common/src/common/networks";
   import { statsClean } from "$lib/stores/statsCounts";
-  import { goto } from "$app/navigation";
-
+ 
   // Manage StatsNetworks Svelte components in Tabs with 2 states:
   // - active (i.e. displayed) or not (only one at a time)
   // - mounted or not (mounted one time, can't be unmounted)
@@ -32,7 +31,7 @@
     window.location.reload();
   };
 
-  $: console.log(tabsMounted);
+  // $: console.log(tabsMounted);
 </script>
 
 <HomeLayout>
@@ -51,7 +50,7 @@
           <button
             class={tabActive === tabKey ? "active" : ""}
             on:click={() => {
-              console.log("click", tabKey, tabsMounted);
+              // console.log("click", tabKey, tabsMounted);
               tabActive = tabKey;
               tabsMounted[tabKey] = true;
             }}>{tabKey}</button

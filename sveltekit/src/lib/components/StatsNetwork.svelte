@@ -1,10 +1,8 @@
 <script lang="ts">
-  import type { NetworkType } from "@kredeum/common/src/common/types";
   import { networks } from "@kredeum/common/src/common/networks";
   import HomeLayout from "@kredeum/svelte/src/components/Global/HomeLayout.svelte";
   import Navigation from "@kredeum/svelte/src/components/Global/Navigation.svelte";
   import {
-    resolverGetCollectionsInfos,
     resolverGetCollectionsAddresses
   } from "@kredeum/common/src/resolver/resolver-get-collection";
   import { ADDRESS_ZERO, explorerCollectionUrl, getDappUrl, getShortAddress } from "@kredeum/common/src/common/config";
@@ -15,7 +13,7 @@
   export let chainId: number;
   ///////////////////////////////////////
 
-  resolverGetCollectionsInfos(chainId).then(console.log);
+  // resolverGetCollectionsInfos(chainId).then(console.log);
 </script>
 
 <HomeLayout>

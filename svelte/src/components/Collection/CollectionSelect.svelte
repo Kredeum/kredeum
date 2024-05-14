@@ -66,7 +66,7 @@
   // Current Collection is already defined, or is defined in url, or is default collection
   $: $collectionDefault && account && handleChangeAddress();
   const handleChangeAddress = (): void => {
-    console.log("handleChangeAddress ~ $collectionDefault:", $collectionDefault);
+    // console.log("handleChangeAddress ~ $collectionDefault:", $collectionDefault);
     if (isAddressNotZero(address)) return;
     address = $collectionDefault;
   };

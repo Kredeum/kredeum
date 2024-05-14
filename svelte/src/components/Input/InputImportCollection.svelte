@@ -30,7 +30,7 @@
       successMessage = `Collection imported: ${collectionAddress}`;
 
       const url = getDappUrl($metamaskChainId, { address: collectionAddress });
-      console.log("resolverAddCollection ~ url:", url);
+      // console.log("resolverAddCollection ~ url:", url);
       // collectionAddress = "";
       location.href = url;
       location.reload();

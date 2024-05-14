@@ -80,7 +80,7 @@
 
     account = $metamaskSignerAddress;
 
-    console.log("<Dapp handleSigner acount:", account, $metamaskSignerAddress);
+    console.info("<Dapp handleSigner acount:", account, $metamaskSignerAddress);
   };
 
   // SET URL HASH on chainId, address or account change
@@ -98,11 +98,10 @@
   onMount(async () => {
     // GET optionnal params from URL HASH
     const _refHash = refPageFromUrlHash(window.location.hash);
-    console.log("<Dapp get _refHash", JSON.stringify(_refHash));
+    // console.log("<Dapp get _refHash", JSON.stringify(_refHash));
 
     // init Metamask
     await metamaskInit();
-    console.log("<Dapp onMount $metamaskSignerAddress:", $metamaskSignerAddress);
 
     if (_refHash.chainId !== undefined) chainId = _refHash.chainId;
     if (_refHash.address !== undefined) address = _refHash.address;
@@ -110,7 +109,7 @@
     if (_refHash.account !== undefined) account = _refHash.account;
     if (_refHash.action !== undefined) action = _refHash.action;
     if (action === "view-all") all = true;
-    console.log("<Dapp onMount account:", account, _refHash.account, all);
+    console.info("<Dapp onMount account:", account, _refHash.account, all);
 
     // SET network
     await setNetwork();

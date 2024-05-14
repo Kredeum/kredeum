@@ -85,14 +85,14 @@ const resolverGetCollectionsInfos = async (
   chainId: number,
   account = ADDRESS_ZERO
 ): Promise<Map<string, CollectionType>> => {
-  console.log("resolverGetCollectionsInfos >", chainId, account);
+  // console.log("resolverGetCollectionsInfos >", chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = await resolverGetContract(chainId);
 
   const collectionsInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
-  console.log("resolverGetCollectionsInfos openNFTsStructOutput", collectionsInfos);
+  // console.log("resolverGetCollectionsInfos openNFTsStructOutput", collectionsInfos);
 
   if (collectionsInfos[0].length !== collectionsInfos[1].length) {
     console.error("ERROR resolverGetCollectionsInfos", collectionsInfos);
@@ -104,11 +104,11 @@ const resolverGetCollectionsInfos = async (
       [collectionsInfos[0][index], collectionsInfos[1][index]],
       account
     );
-    console.log("collection", collection);
+    // console.log("collection", collection);
     collections.set(keyCollection(chainId, collection.address), collection);
   }
 
-  console.log("resolverGetCollectionsInfos <", collections);
+  // console.log("resolverGetCollectionsInfos <", collections);
   return collections;
 };
 
