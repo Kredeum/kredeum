@@ -39,7 +39,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshAll, mintable, chainId && handleChangeCollection();
+  $: $refreshAll, mintable, account && chainId && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account || ADDRESS_ZERO)}`);
 

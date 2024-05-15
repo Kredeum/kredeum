@@ -35,7 +35,7 @@ const collectionList = async (
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionList ${keyCollections(chainId, account)}\n`);
+  // console.log(`collectionList ${chainId} ${account}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -55,10 +55,6 @@ const collectionList = async (
       collectionsApi = await covalentCollections(chainId, account);
       // console.log("collectionList covalentCollections", collectionsApi);
     }
-    // else if (infuraActive(chainId)) {
-    //   collectionsApi = await infuraCollections(chainId, account);
-    //   // console.log("collectionList infuraCollections", collectionsApi);
-    // }
 
     const lengthBefore = collectionsApi.size;
     // console.log("collectionsApi  BEFORE", collectionsApi);

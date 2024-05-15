@@ -49,7 +49,7 @@
   /////////////////////////////////////////////////////////////
   $: nft = nftStoreAndRefresh(chainId, address, tokenID);
   /////////////////////////////////////////////////////////////
-  // $: console.log("NFT", $nft);
+  // $: console.log("<Nft", $nft);
 
   let nftLink = "";
   let nftLinkDone = "";

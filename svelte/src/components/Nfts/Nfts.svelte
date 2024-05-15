@@ -90,8 +90,7 @@
 
     refreshing = false;
 
-    console.info("NFTS", $nfts);
-    // console.log("NFTS refreshed params", chainId, address, { owner, offset, limit });
+    console.info("<Nfts", { chainId, address, tokenID, owner, page }, "\n", $nfts);
   };
 
   onMount(async () => {

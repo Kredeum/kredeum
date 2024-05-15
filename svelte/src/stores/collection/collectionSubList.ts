@@ -74,6 +74,7 @@ const collectionSubListRefresh = async (
   address?: string,
   mintable = false
 ): Promise<void> => {
+  // console.log("collectionSubListRefresh:", chainId, account, address, mintable);
   if (!chainId) return;
 
   const colls = await collectionListLib(chainId, account, mintable);
