@@ -55,15 +55,13 @@ const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBou
 const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
 // GET Dapp Url
-const getDappUrl = (
-  chainId: number,
-  ref: NftType | { address?: string; tokenID?: string } = {},
-  base = "."
-): string => {
+const getDappUrl = (chainId: number, ref: RefPageType = {}, base = "."): string => {
   let dappUrl = `${base}/#/${chainId}`;
   if (isAddress(ref.address)) {
     dappUrl += `/${ref.address}`;
     if (isNumeric(ref.tokenID)) dappUrl += `/${ref.tokenID}`;
+    if (isAddress(ref.account)) dappUrl += `@${ref.account}`;
+    if (ref.action) dappUrl += `|${ref.action}`;
   }
   return dappUrl;
 };

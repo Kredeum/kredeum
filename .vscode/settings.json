@@ -88,6 +88,6 @@
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC",
-  "workbench.preferredLightColorTheme": "Kimbie Dark",
+  "workbench.preferredLightColorTheme": "Bluloco Light Italic",
   "liveServer.settings.root": "/web/dapp/"
 }

@@ -1,18 +1,41 @@
 {
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "pipeline": {
     "check": {
-      "dependsOn": ["format", "@kredeum/common#check"],
-      "inputs": ["src/**"]
+      "dependsOn": [
+        "format",
+        "@kredeum/common#check"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte"
+      ]
     },
     "dev": {
-      "dependsOn": ["@kredeum/config#build", "@kredeum/gulp#build"],
-      "inputs": ["src/**", "../contracts/addresses.json"]
+      "dependsOn": [
+        "@kredeum/config#build",
+        "@kredeum/gulp#build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "../contracts/addresses.json"
+      ]
     },
     "build": {
-      "dependsOn": ["check", "@kredeum/gulp#build"],
-      "inputs": ["src/**"],
-      "outputs": ["web/dapp/assets/js/*"]
+      "dependsOn": [
+        "check",
+        "@kredeum/gulp#build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte"
+      ],
+      "outputs": [
+        "web/dapp/assets/js/*"
+      ]
     }
   }
 }

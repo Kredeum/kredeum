@@ -5,7 +5,12 @@
   import { networks } from "@kredeum/common/src/common/networks";
   import ConfigModal from "./ConfigModal.svelte";
 
-  export let chainId: number;
+  ///////////////////////////////////
+  // <Navigation {chainid} {back} />
+  ///////////////////////////////////
+  export let chainId: number | undefined = undefined;
+  export let back: string | undefined = undefined;
+  ///////////////////////////////////
 
   const onProd = versionGet().branch === "main";
   $: onMainNet = networks.isMainnet(chainId);
@@ -33,20 +38,6 @@
 
   <nav>
     <ul>
-      <li class="active">
-        <p>
-          <a href="." on:click|preventDefault={toggle}>
-            <i class="fas {onMainNet ? 'fa-flask' : 'fa-road'}" /><br />
-            {@html onMainNet ? "testnet" : "mainnet"}<br />
-            networks
-          </a>
-        </p>
-      </li>
-      {#if !onMainNet}
-        <li class="active">
-          <ConfigModal />
-        </li>
-      {/if}
       {#if !onProd}
         <li class="active">
           <p>
@@ -58,12 +49,41 @@
           </p>
         </li>
       {/if}
-      <li class="active">
-        <a href="/stats">
-          <i class="fas fa-database"></i><br />
-          stats
-        </a>
-      </li>
+      {#if back}
+        <li class="active">
+          <a href={back}>
+            <i class="fa fa-arrow-left"></i><br />
+            back
+          </a>
+        </li>
+      {:else}
+        <li class="active">
+          <p>
+            <a href="." on:click|preventDefault={toggle}>
+              <i class="fas {onMainNet ? 'fa-flask' : 'fa-road'}" /><br />
+              {@html onMainNet ? "testnet" : "mainnet"}<br />
+              networks
+            </a>
+          </p>
+        </li>
+
+        <!-- experimental   -->
+        {#if !onProd}
+          <!-- only on testnets -->
+          {#if !onMainNet}
+            <li class="active">
+              <ConfigModal />
+            </li>
+          {/if}
+
+          <li class="active">
+            <a href="/stats">
+              <i class="fas fa-database"></i><br />
+              stats
+            </a>
+          </li>
+        {/if}
+      {/if}
     </ul>
   </nav>
 </div>

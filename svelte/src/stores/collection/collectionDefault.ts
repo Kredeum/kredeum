@@ -4,28 +4,21 @@ import { derived, get, writable } from "svelte/store";
 import { ADDRESS_ZERO, getAddresses } from "@kredeum/common/src/common/config";
 import { collectionStoreRefresh } from "./collection";
 import { keyCollectionDefault } from "@kredeum/common/src/common/keys";
-import {
-  localStorageGet,
-  localStorageKey,
-  localStorageLength,
-  localStorageSet
-} from "@kredeum/common/src/common/local";
+import { localStorageGet, localStorageKeys, localStorageSet } from "@kredeum/common/src/common/local";
 
 // UTILITY : GET OpenNFTs default template
-const collectionDefaultGetOpenNFTs = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || getAddresses(chainId)?.OpenNFTsV4 || getAddresses(chainId)?.OpenNFTsV4Skale || "";
+const collectionDefaultGetOpenNFTs = (chainId: number): string =>
+  getAddresses(chainId)?.OpenAutoMarket ||
+  getAddresses(chainId)?.OpenNFTsV4 ||
+  getAddresses(chainId)?.OpenNFTsV4Skale ||
+  "";
 
 // LOADER : LOAD Collections from localStorage
 const collectionDefaultLoadLocalStorage = (): Map<string, [string, string]> => {
   const collections: Map<string, [string, string]> = new Map();
 
-  const len = localStorageLength();
-  for (let index = 0; index < len; index++) {
-    const key = localStorageKey(index);
+  localStorageKeys("collectionDefault://").map((key) => collections.set(key, JSON.parse(localStorageGet(key) || "{}")));
 
-    if (key?.startsWith("collectionDefault://")) {
-      collections.set(key, JSON.parse(localStorageGet(key) || "{}") as [string, string]);
-    }
-  }
   // console.log("collectionDefaultLoadLocalStorage", collections);
   return collections;
 };

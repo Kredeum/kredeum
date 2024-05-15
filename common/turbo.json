@@ -1,9 +1,18 @@
 {
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "pipeline": {
     "check": {
-      "dependsOn": ["format", "@kredeum/config#build", "@kredeum/contracts#build"],
-      "inputs": ["src/**", "../contracts/addresses.json"]
+      "dependsOn": [
+        "format",
+        "@kredeum/config#build",
+        "@kredeum/contracts#build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "../contracts/addresses.json"
+      ]
     }
   }
 }

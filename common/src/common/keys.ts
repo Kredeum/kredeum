@@ -24,6 +24,8 @@ const keyCollectionContract = (chainId: number, address: string, getSigner: bool
 const keyNft = (chainId: number, address: string, tokenID: string, account?: string): string =>
   `nft://${String(chainId)}/${address}/${tokenID}${account ? "@" + account : ""}`;
 
+const keyStats = (chainId: number): string => `stats://${String(chainId)}`;
+
 const keyNftInverse = (key: string): NftType => {
   const [key1] = key.split("@");
   const [chId, addr, tokenID] = key1.replace("nft://", "").split("/");
@@ -38,6 +40,7 @@ export {
   keyCollectionInverse,
   keyCollectionDefault,
   keyCollectionContract,
+  keyStats,
   keyNft,
   keyNftInverse
 };

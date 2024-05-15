@@ -3,7 +3,7 @@
   "pipeline": {
     "build": {
       "inputs": ["src/**", "gulpfile.js", "package.json"],
-      "outputs": ["web/dapp/favicon.ico", "web/dapp/**/*"]
+      "outputs": ["web/dapp/favicon.ico", "web/dapp/**"]
     }
   }
 }

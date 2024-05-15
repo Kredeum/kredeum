@@ -25,13 +25,13 @@ const _covalentFetch = async (chainId: number, path: string): Promise<unknown> =
       Accept: "application/json"
     }
   };
-  console.info("_covalentFetch <==", urlPath, "\n", config);
+  // console.log("_covalentFetch <==", urlPath, "\n", config);
 
   const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
   if (answerCov.error) console.error("_covalentFetch ERROR", answerCov.error);
 
-  console.info("_covalentFetch ==>", answerCov?.data);
+  // console.log("_covalentFetch ==>", answerCov?.data);
   return answerCov?.data;
 };
 
@@ -162,6 +162,6 @@ const covalentNftList = async (
   return nfts;
 };
 
-const covalentActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => !(networks.get(chainId)?.covalent?.active === false);
 
 export { covalentCollections, covalentNftList, covalentActive, _covalentFetch };

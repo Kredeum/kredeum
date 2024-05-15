@@ -7,7 +7,7 @@ import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "../storage/ipfs";
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
 const nftPin = async (chainId: number, media: string): Promise<string> => {
-  if (ipfsConfigValid()) return ipfsPin(media);
+  if (ipfsConfigValid(chainId)) return ipfsPin(media);
   if (swarmConfigValid(chainId)) return swarmPin(media);
   return "";
 };
@@ -26,7 +26,7 @@ const nftTokenUri = async (
   pdfUri = ""
 ): Promise<string> => {
   let nftTokenUriFunc;
-  if (ipfsConfigValid()) nftTokenUriFunc = ipfsTokenUri;
+  if (ipfsConfigValid(chainId)) nftTokenUriFunc = ipfsTokenUri;
   if (swarmConfigValid(chainId)) nftTokenUriFunc = swarmTokenUri;
 
   return nftTokenUriFunc

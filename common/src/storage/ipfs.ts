@@ -84,7 +84,7 @@ const ipfsGatewayLink = (ipfs: string): string => urlToLink(ipfsGatewayUrl(ipfs)
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // TEST if ipfs config or params are valid
-const ipfsConfigValid = (): boolean => storageDefault() == "ipfs" && ipfsParamsValid();
+const ipfsConfigValid = (chainId: number): boolean => storageDefault(chainId) == "ipfs" && ipfsParamsValid();
 const ipfsParamsValid = (): boolean => storageParamsValid(storageParamsGet("ipfs"));
 
 // GET ipfs gateway

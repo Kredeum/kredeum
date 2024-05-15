@@ -20,7 +20,7 @@ const configTexts: ConfigTexts = {
   storage: {
     description: "Select your Decentralized Storage",
     ipfs: "Use IPFS Storage to Mint your NFTs",
-    swarm: "Use Swarm Storage to Mint your NFTs"
+    swarm: "Use Swarm Storage to Mint your NFTs (experimental, only on testnets)"
   }
 };
 

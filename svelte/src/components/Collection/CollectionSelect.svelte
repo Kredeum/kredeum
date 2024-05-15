@@ -5,7 +5,7 @@
   import { getContext } from "svelte";
   import type { Writable } from "svelte/store";
 
-  import { explorerCollectionUrl, isAddressNotZero } from "@kredeum/common/src/common/config";
+  import { ADDRESS_ZERO, explorerCollectionUrl, isAddressNotZero } from "@kredeum/common/src/common/config";
 
   import Collection from "./Collection.svelte";
   import { clickOutside } from "../../helpers/clickOutside";
@@ -25,7 +25,7 @@
   /////////////////////////////////////////////////
   export let chainId: number;
   export let address: string | undefined = undefined;
-  export let account: string | undefined = undefined;
+  export let account: string | undefined = ADDRESS_ZERO;
   export let mintable: boolean = false;
   export let txt: boolean = false;
   export let label: boolean = true;
@@ -39,7 +39,7 @@
 
   // let i: number = 0;
   // HANDLE CHANGE : on truthy chainId and account, and whatever mintable
-  $: $refreshAll, mintable, chainId && account && handleChangeCollection();
+  $: $refreshAll, mintable, chainId && handleChangeCollection();
   const handleChangeCollection = async (): Promise<void> => {
     // console.log(`COLLECTION LIST CHANGE #${i++} ${keyCollection(chainId, account || ADDRESS_ZERO)}`);
 
@@ -64,15 +64,16 @@
   // const logDefault = () => console.log(`handleChange ${i} ${mintable} ~ collectionDefault`, $collectionDefault);
 
   // Current Collection is already defined, or is defined in url, or is default collection
-  $: $collectionDefault && account && handleChangeAddress();
+  $: $collectionDefault && handleChangeAddress();
   const handleChangeAddress = (): void => {
-    console.log("handleChangeAddress ~ $collectionDefault:", $collectionDefault);
+    // console.log("handleChangeAddress ~ $collectionDefault:", $collectionDefault);
     if (isAddressNotZero(address)) return;
     address = $collectionDefault;
   };
 
   // STATE CHANGER : SET default Collection
   const _setCollection = (collection: string, mintable_ = mintable): void => {
+    // console.log("<CollectionSelect _setCollection", collection);
     if (!isAddressNotZero(collection)) return;
     address = collection;
     collectionDefaultSetOne(chainId, collection, mintable_, account);

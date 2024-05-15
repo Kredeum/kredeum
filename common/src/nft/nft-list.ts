@@ -42,16 +42,18 @@ const nftListTokenIds = async (
     } else if (covalentActive(chainId)) {
       nftsOwner = await covalentNftList(chainId, collection, filter);
     } else {
-      console.error("No NFTs found:-(");
+      console.error(`No NFT API found:-( on ${chainId}`);
     }
 
     ({ nfts: nftsKredeum } = await resolverGetNfts(chainId, collection, filter));
   }
-  // console.log("nftListTokenIds", nfts);
 
   // MERGE nftsOwner and nftsKredeum
   nfts = nftsMerge(nftsOwner, nftsKredeum);
 
+  if (nfts.size === 0) console.error("No NFT found:-(");
+
+  // console.log("nftListTokenIds", nfts);
   return nfts;
 };
 

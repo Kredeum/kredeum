@@ -20,12 +20,20 @@ const networks = (() => {
   const getAllSameType = (chainId: chainIdish): NetworkType[] =>
     getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
 
-  const getAllMainnets = (): NetworkType[] => getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId));
+  const getAllMainnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => isMainnet(nw.chainId))
+      .map((nw) => nw.chainId);
 
-  const getAllTestnets = (): NetworkType[] => getAllActive().filter((nw: NetworkType) => isTestnet(nw.chainId));
+  const getAllTestnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => isTestnet(nw.chainId))
+      .map((nw) => nw.chainId);
 
-  const getAllOpMainnets = (): NetworkType[] =>
-    getAllActive().filter((nw: NetworkType) => isOpStack(nw.chainId) && isMainnet(nw.chainId));
+  const getAllOpMainnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => (isOpStack(nw.chainId) && isMainnet(nw.chainId)) || nw.chainId == 1)
+      .map((nw) => nw.chainId);
 
   const get = (chainId: chainIdish): NetworkType | undefined => _networksMap?.get(Number(chainId));
 
@@ -56,9 +64,9 @@ const networks = (() => {
   const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
   const isOpStack = (chainId: chainIdish): boolean => get(chainId)?.opstack || false;
 
-  const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
-  const getChainLabel = (chainId: chainIdish): string | undefined =>
-    get(chainId)?.chainLabel || strUpFirst(strSanitize(getChainName(chainId)));
+  const getChainName = (chainId: chainIdish): string => get(chainId)?.chainName || "";
+  const getChainLabel = (chainId: chainIdish): string =>
+    get(chainId)?.chainLabel || strUpFirst(strSanitize(getChainName(chainId))) || "";
   const getMainnetName = (chainId: chainIdish) =>
     isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : getChainName(chainId);
 
@@ -74,9 +82,9 @@ const networks = (() => {
     getAllActive,
     getAllInactive,
     getAllSameType,
-    getAllMainnets,
-    getAllTestnets,
-    getAllOpMainnets,
+    getAllMainnetIds,
+    getAllTestnetIds,
+    getAllOpMainnetIds,
 
     getBlur,
     getBlurUrl,

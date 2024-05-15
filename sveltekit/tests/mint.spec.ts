@@ -16,8 +16,10 @@ test.only("mint one NFT", async ({ page }) => {
   await page.locator('input[name="file"]').click();
   await page.locator('input[name="file"]').setInputFiles("./tests/assets/klogo.png");
 
+  // await page.pause();
   await page.locator("#mintNft").click();
+
   await page.screenshot({ path: "./test-results/screenshot.png" });
-  await page.pause();
+
   await metamask.confirmTransaction();
 });
