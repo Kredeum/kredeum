@@ -25,13 +25,13 @@ const _covalentFetch = async (chainId: number, path: string): Promise<unknown> =
       Accept: "application/json"
     }
   };
-  console.info("_covalentFetch <==", urlPath, "\n", config);
+  // console.log("_covalentFetch <==", urlPath, "\n", config);
 
   const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
   if (answerCov.error) console.error("_covalentFetch ERROR", answerCov.error);
 
-  console.info("_covalentFetch ==>", answerCov?.data);
+  // console.log("_covalentFetch ==>", answerCov?.data);
   return answerCov?.data;
 };
 

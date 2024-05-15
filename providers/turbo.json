@@ -3,7 +3,7 @@
   "pipeline": {
     "check": {
       "dependsOn": ["format"],
-      "inputs": ["src/**"]
+      "inputs": ["src/**/*.ts"]
     }
   }
 }

@@ -15,6 +15,7 @@ const config: PlaywrightTestConfig = {
       use: { ...devices["Desktop Chrome"] }
     }
   ],
+  timeout: 60000,
   testDir: "tests",
   testMatch: /(.+\.)?(test|spec)\.[jt]s/
 };

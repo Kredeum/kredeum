@@ -80,7 +80,7 @@
 
     account = $metamaskSignerAddress;
 
-    console.info("<Dapp handleSigner acount:", account, $metamaskSignerAddress);
+    console.info("<Dapp handleSigner", account);
   };
 
   // SET URL HASH on chainId, address or account change
@@ -109,7 +109,7 @@
     if (_refHash.account !== undefined) account = _refHash.account;
     if (_refHash.action !== undefined) action = _refHash.action;
     if (action === "view-all") all = true;
-    console.info("<Dapp onMount account:", account, _refHash.account, all);
+    console.info("<Dapp onMount", account, all);
 
     // SET network
     await setNetwork();

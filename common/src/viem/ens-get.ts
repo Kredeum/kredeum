@@ -17,7 +17,7 @@ const ens = (() => {
       console.error("ENS lookupAddress not found");
     }
 
-    console.info("getName", address, "=>", name);
+    // console.log("getName", address, "=>", name);
     return name || address || "";
   };
 
@@ -33,7 +33,7 @@ const ens = (() => {
       console.error("ENS lookupAddress not found");
     }
 
-    console.info("getAvatar", address, "=>", avatar);
+    // console.log("getAvatar", address, "=>", avatar);
     return avatar || "";
   };
 

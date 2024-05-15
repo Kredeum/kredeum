@@ -4,8 +4,9 @@
     "chainName": "sepolia",
     "rpcUrls": [
       "https://rpc.ankr.com/eth_sepolia/{{ANKR_API_KEY}}",
-      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.sepolia.org"
+      "https://rpc.sepolia.org",
+      "https://ethereum-sepolia-rpc.publicnode.com",
+      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",

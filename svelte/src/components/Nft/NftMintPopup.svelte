@@ -16,7 +16,8 @@
     nftUrl,
     displayEther,
     treasuryFee,
-    getDappUrl
+    getDappUrl,
+    isAddress
   } from "@kredeum/common/src/common/config";
   import { getSupportedImage, getMediaSelection } from "../../helpers/mediaTypes";
   import { defaultAudioCoverImg } from "../../helpers/defaultCoverImage";
@@ -122,14 +123,12 @@
   };
 
   let collection: CollectionType;
-  $: chainId && address && signer && handleDefaultAutomarketValues();
+  $: chainId && address && handleDefaultAutomarketValues();
   const handleDefaultAutomarketValues = async () => {
-    if (!(chainId && address)) return;
-
-    // console.log("handleDefaultAutomarketValues", address);
+    console.log("handleDefaultAutomarketValues", chainId, address);
     collection = await collectionGet(chainId, address);
     inputPrice = collectionPrice(collection);
-    // console.log("handleDefaultAutomarketValues", String(inputPrice));
+    console.log("handleDefaultAutomarketValues", String(inputPrice));
   };
 
   // const pdfToCoverImg = async () => {  // TODO PDFJS
@@ -445,7 +444,14 @@
           <NftProperties bind:properties />
 
           <div class="txtright">
-            <button class="btn btn-default btn-sell" on:click|preventDefault={mint} id="mintNft">Mint NFT</button>
+            <button
+              class="btn btn-default btn-sell"
+              on:click|preventDefault={mint}
+              disabled={!isAddress(address)}
+              id="mintNft"
+            >
+              Mint NFT
+            </button>
           </div>
         {:else if S0_START < minting && minting <= S5_MINTED}
           <div class="media media-photo">

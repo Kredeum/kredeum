@@ -44,7 +44,7 @@ const _handleAccounts = (accounts: Array<string>): void => {
 const metamaskConnect = async (): Promise<void> => {
   if (!_ethereumProvider) return;
 
-  console.info("metamaskConnect");
+  // console.log("metamaskConnect");
 
   try {
     await _ethereumProvider.request!({ method: "eth_requestAccounts" });
