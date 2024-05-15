@@ -34,11 +34,14 @@ const _handleChainId = (_chainId: string): void => {
 };
 
 const _handleAccounts = (accounts: Array<string>): void => {
-  if (accounts?.length === 0) return;
   // console.log("_handleAccounts:", accounts);
 
-  metamaskSigner.set(get(metamaskProvider).getSigner(0));
-  metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
+  if (accounts.length >= 1) {
+    metamaskSigner.set(get(metamaskProvider).getSigner(0));
+    metamaskSignerAddress.set(getChecksumAddress(accounts[0]));
+  } else {
+    metamaskSignerAddress.set("");
+  }
 };
 
 const metamaskConnect = async (): Promise<void> => {

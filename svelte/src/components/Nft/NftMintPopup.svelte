@@ -12,8 +12,6 @@
   import {
     textShort,
     explorerTxUrl,
-    explorerNftUrl,
-    nftUrl,
     displayEther,
     treasuryFee,
     getDappUrl,
