@@ -13,9 +13,11 @@ contract DeployOpenNFTsResolver is DeployLite, DeployOpenNFTsFactoryV3 {
     function deployOpenNFTsResolver() public returns (address) {
         address openNFTsFactoryV3 = readAddress("OpenNFTsFactoryV3");
         address openNFTsResolverOld = readAddress("OpenNFTsResolver");
+        bool factory = openNFTsFactoryV3 != address(0);
 
         require(
-            msg.sender == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(), "Deployer must be OpenNFTsFactoryV3 owner !"
+            !factory || msg.sender == OpenNFTsFactoryV3(openNFTsFactoryV3).owner(),
+            "Deployer must be OpenNFTsFactoryV3 owner !"
         );
 
         bytes memory args = abi.encode(msg.sender, openNFTsFactoryV3);
@@ -23,10 +25,9 @@ contract DeployOpenNFTsResolver is DeployLite, DeployOpenNFTsFactoryV3 {
 
         if (state == DeployState.None) {
             vm.startBroadcast();
+            address openNFTsResolver = deploy("OpenNFTsResolver", args);
 
-            address openNFTsResolver = deployLite("OpenNFTsResolver", args);
-
-            OpenNFTsFactoryV3(openNFTsFactoryV3).setResolver(openNFTsResolver);
+            if (factory) OpenNFTsFactoryV3(openNFTsFactoryV3).setResolver(openNFTsResolver);
 
             if (openNFTsResolverOld != address(0)) {
                 // migrate addresses from old to new

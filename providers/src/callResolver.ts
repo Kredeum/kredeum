@@ -1,4 +1,4 @@
-import call from "@kredeum/providers/src/call";
+import call from "./call";
 import networks from "./networks";
 
 const callResolver = (() => {

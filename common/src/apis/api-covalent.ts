@@ -4,7 +4,7 @@ import config from "@kredeum/config/dist/config.json";
 
 import type { FetchResponse } from "../common/fetch";
 import type { CollectionFilterType, CollectionType, NftType } from "../common/types";
-import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
+import { ADDRESS_ZERO, getChecksumAddress, isAddressNotZero } from "../common/config";
 import { DEFAULT_NAME, DEFAULT_SYMBOL } from "../common/config";
 import { fetchJson, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
@@ -25,23 +25,23 @@ const _covalentFetch = async (chainId: number, path: string): Promise<unknown> =
       Accept: "application/json"
     }
   };
-  console.info("_covalentFetch <==", urlPath, "\n", config);
+  // console.log("_covalentFetch <==", urlPath, "\n", config);
 
   const answerCov: FetchResponse = await fetchJson(urlPath, config);
 
   if (answerCov.error) console.error("_covalentFetch ERROR", answerCov.error);
 
-  console.info("_covalentFetch ==>", answerCov?.data);
+  // console.log("_covalentFetch ==>", answerCov?.data);
   return answerCov?.data;
 };
 
 const covalentCollections = async (chainId: number, account: string): Promise<Map<string, CollectionType>> => {
-  // console.log(`covalentCollections ${keyCollection(chainId, account)}\n`);
+  // console.log(`covalentCollections ${chainId} ${account}\n`);
 
   const collections: Map<string, CollectionType> = new Map();
   const chainName = networks.getChainName(chainId);
 
-  if (!(chainId && chainName && account)) return collections;
+  if (!(chainId && chainName && isAddressNotZero(account))) return collections;
 
   // const match =
   // eslint-disable-next-line quotes
@@ -50,6 +50,7 @@ const covalentCollections = async (chainId: number, account: string): Promise<Ma
   //   `address/${account}/balances_v2/` + "?nft=true" + "&no-nft-fetch=false" + `&match=${encodeURIComponent(match)}`;
 
   const path = `address/${account}/balances_nft/?no-spam=true&no-nft-asset-metadata=true&with-uncached=true`;
+  // console.log("covalentCollections ~ path:", path);
 
   type CollectionCov = {
     contract_name: string;
@@ -162,6 +163,6 @@ const covalentNftList = async (
   return nfts;
 };
 
-const covalentActive = (chainId: number): boolean => Boolean(networks.get(chainId)?.covalent?.active);
+const covalentActive = (chainId: number): boolean => !(networks.get(chainId)?.covalent?.active === false);
 
 export { covalentCollections, covalentNftList, covalentActive, _covalentFetch };

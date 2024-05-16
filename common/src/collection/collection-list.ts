@@ -5,7 +5,7 @@ import { collectionMerge } from "../collection/collection-get";
 import { alchemyActive, alchemyCollections } from "../apis/api-alchemy";
 import { covalentActive, covalentCollections } from "../apis/api-covalent";
 import { thegraphActive, thegraphCollections } from "../apis/api-thegraph";
-import { resolverFilterCollections, resolverGetCollections } from "../resolver/resolver-get-collection";
+import { resolverFilterCollections, resolverGetCollectionsInfos } from "../resolver/resolver-get-collection";
 import { networks } from "../common/networks";
 // import { infuraActive, infuraCollections } from "../apis/api-infura";
 
@@ -35,7 +35,7 @@ const collectionList = async (
   account?: string,
   mintable?: boolean
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`collectionList ${keyCollections(chainId, account)}\n`);
+  // console.log(`collectionList ${chainId} ${account}\n`);
 
   let collections: Map<string, CollectionType> = new Map();
 
@@ -55,10 +55,6 @@ const collectionList = async (
       collectionsApi = await covalentCollections(chainId, account);
       // console.log("collectionList covalentCollections", collectionsApi);
     }
-    // else if (infuraActive(chainId)) {
-    //   collectionsApi = await infuraCollections(chainId, account);
-    //   // console.log("collectionList infuraCollections", collectionsApi);
-    // }
 
     const lengthBefore = collectionsApi.size;
     // console.log("collectionsApi  BEFORE", collectionsApi);
@@ -67,7 +63,7 @@ const collectionList = async (
     const removed = lengthBefore - collectionsApi.size;
     if (removed > 0) console.info("collectionList collectionsApi removed", removed);
 
-    collectionsResolver = await resolverGetCollections(chainId, account);
+    collectionsResolver = await resolverGetCollectionsInfos(chainId, account);
     // console.log("collectionList collectionsResolver", collectionsResolver);
 
     // MERGE collectionsApi and collectionsResolver

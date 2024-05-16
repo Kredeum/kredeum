@@ -65,7 +65,7 @@ const swarmGateway = (): string => storageParamsGet("swarm")?.gateway.replace(/\
 const SWARM_ZERO_APIKEY = "0000000000000000000000000000000000000000000000000000000000000000";
 
 // TEST if swarm config or params are valid
-const swarmConfigValid = (chainId: number): boolean => storageDefault() == "swarm" && swarmParamsValid(chainId);
+const swarmConfigValid = (chainId: number): boolean => storageDefault(chainId) == "swarm" && swarmParamsValid(chainId);
 const swarmParamsValid = (chainId: number): boolean => {
   const swarmParams = storageParamsGet("swarm");
 

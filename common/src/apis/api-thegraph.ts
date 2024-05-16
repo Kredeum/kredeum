@@ -1,7 +1,7 @@
 import { BigNumber } from "ethers";
 
 import type { CollectionType, CollectionFilterType, NftType } from "../common/types";
-import { ADDRESS_ZERO, getChecksumAddress } from "../common/config";
+import { ADDRESS_ZERO, getChecksumAddress, isAddressNotZero } from "../common/config";
 
 import { fetchGQL, FETCH_LIMIT } from "../common/fetch";
 import { keyCollection, keyNft } from "../common/keys";
@@ -71,7 +71,7 @@ const thegraphCollections = async (chainId: number, account: string): Promise<Ma
   const collections: Map<string, CollectionType> = new Map();
   const network = networks.get(chainId);
 
-  if (account) {
+  if (isAddressNotZero(account)) {
     const query = `
         {
           ownerPerTokenContracts(

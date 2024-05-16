@@ -1,18 +1,54 @@
 {
-  "extends": ["//"],
+  "extends": [
+    "//"
+  ],
   "pipeline": {
     "check": {
-      "dependsOn": ["format", "@kredeum/svelte#check"],
-      "inputs": ["src/**"]
+      "dependsOn": [
+        "format",
+        "@kredeum/svelte#check"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte"
+      ]
     },
     "dev": {
-      "dependsOn": ["@kredeum/config#build", "@kredeum/gulp#build"],
-      "inputs": ["src/**", "../contracts/addresses.json"]
+      "dependsOn": [
+        "@kredeum/config#build",
+        "@kredeum/gulp#build",
+        "@kredeum/skale#build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "../contracts/addresses.json"
+      ]
     },
     "build": {
-      "dependsOn": ["check", "@kredeum/gulp#build"],
-      "inputs": ["src/**"],
-      "outputs": ["web/dapp/index.html", "web/dapp/_app/**.*"]
+      "dependsOn": [
+        "check",
+        "@kredeum/config#build",
+        "@kredeum/gulp#build",
+        "@kredeum/skale#build"
+      ],
+      "inputs": [
+        "src/**/*.ts",
+        "src/**/*.svelte",
+        "../contracts/addresses.json"
+      ],
+      "outputs": [
+        "web/dapp/index.html",
+        "web/dapp/_app/**"
+      ]
+    },
+    "test": {
+      "dependsOn": [
+        "build"
+      ],
+      "inputs": [
+        "tests/**/*.ts"
+      ]
     }
   }
 }

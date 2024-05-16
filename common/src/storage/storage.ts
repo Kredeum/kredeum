@@ -7,6 +7,7 @@ import { ipfsGateway, ipfsGatewayUrl, ipfsLinkToUrlHttp, ipfsGetLink } from "./i
 import { swarmGateway, swarmGatewayUrl, swarmLinkToUrlHttp, swarmGetLink } from "./swarm";
 import config from "@kredeum/config/dist/config.json";
 import { localConfigNamespace, localStorageGet, localStorageSet } from "../common/local";
+import { networks } from "../common/networks";
 
 // IN MEMORY Storage Config
 let _storageConfig: StorageConfigType;
@@ -43,7 +44,8 @@ const storageConfigGet = (): StorageConfigType => {
 };
 
 // GET storage default
-const storageDefault = (): string => storageConfigGet().default;
+// only IPFS on Mainnets
+const storageDefault = (chainId: number): string => (networks.isMainnet(chainId) ? "ipfs" : storageConfigGet().default);
 
 // GET storage params
 const storageParamsGet = (type: StorageType): StorageParamsType | undefined => {

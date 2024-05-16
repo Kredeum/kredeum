@@ -67,6 +67,8 @@
   //
 
   export const mint = async (): Promise<void> => {
+    // console.log("<NftMint", chainId, address);
+
     if (!src) return _mintingError(`<NftMint ERROR : no image`);
 
     if (!(chainId && isAddressNotZero(address)))

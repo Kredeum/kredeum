@@ -53,7 +53,7 @@
         href={resolverGetExplorerUrl(chainId)}
         target="_blank"
         rel="noreferrer"
-        title="NFTs Factory address (click to view in explorer )
+        title="NFT Resolver address (click to view in explorer )
         {resolverGetAddress(chainId)}"><i class="fas fa-info-circle" /></a
       >
       <CopyRefItem copyData={resolverGetAddress(chainId)} />

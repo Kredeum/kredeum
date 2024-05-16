@@ -59,14 +59,17 @@ const _functionSignatureGet = (chainId: number): Address => {
 const _rmBytesSymbol = (address: string) => address.replace(/^0x/, "");
 
 ////////////////////////////////////////////////
-const receiveFunds = async (account: Address, chainId: number): Promise<TransactionReceipt | undefined> => {
-  if (!account) throw new Error("No account provided");
-  if (!chainsId.includes(chainId as ChainIdsType)) throw new Error("You Must be on a Skale chain");
+const receiveFunds = async (account: string, chainId: number): Promise<TransactionReceipt | undefined> => {
+  if (!isSkaleChain(chainId)) {
+    // console.log("@kredeum/Skale receiveFunds : ", "Not on a Skale chain, no sFuel to claim");
+    return;
+  }
+  if (!account) throw new Error("@kredeum/Skale receiveFunds : No account provided");
 
   const chain = _getChainFromId(chainId);
   const publicClient: PublicClient = createPublicClient({ chain, transport: http() });
 
-  const receiverBalance = await publicClient.getBalance({ address: account });
+  const receiverBalance = await publicClient.getBalance({ address: account as Address });
   if (receiverBalance >= _faucetThresholdGet(chainId)) return;
 
   if (!_sessionPrivateKey) {
@@ -97,14 +100,16 @@ const receiveFunds = async (account: Address, chainId: number): Promise<Transact
   const hash = await walletClient.sendRawTransaction({
     serializedTransaction: signedTx
   });
-  console.info("Tx ~ hash: ", `${hash} => ${scaleFaucets[chainId].explorer}/tx/${hash}`);
+  console.info("@kredeum/Skale receiveFunds - TxHash: ", `${hash} => ${scaleFaucets[chainId].explorer}/tx/${hash}`);
 
   const transactionReceipt = await publicClient.waitForTransactionReceipt({
     hash: hash
   });
-  console.info("TransactionReceipt:", transactionReceipt);
+  console.info("@kredeum/Skale receiveFunds - TxReceipt:", transactionReceipt);
 
   return transactionReceipt;
 };
 
-export { receiveFunds };
+const isSkaleChain = (chainId: number) => chainsId.includes(chainId as ChainIdsType);
+
+export { receiveFunds, isSkaleChain };

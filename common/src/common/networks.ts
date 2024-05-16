@@ -15,9 +15,25 @@ const networks = (() => {
 
   // const _getMap = (): Map<number, NetworkType> | undefined => _networksMap;
   const _getAll = (): NetworkType[] => [...(_networksMap?.values() || [])];
-  const _getAllActive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => !(nw.active === false));
+  const getAllInactive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => nw.active === false);
+  const getAllActive = (): NetworkType[] => _getAll().filter((nw: NetworkType) => !(nw.active === false));
   const getAllSameType = (chainId: chainIdish): NetworkType[] =>
-    _getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
+    getAllActive().filter((nw: NetworkType) => isMainnet(nw.chainId) === isMainnet(chainId));
+
+  const getAllMainnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => isMainnet(nw.chainId))
+      .map((nw) => nw.chainId);
+
+  const getAllTestnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => isTestnet(nw.chainId))
+      .map((nw) => nw.chainId);
+
+  const getAllOpMainnetIds = (): number[] =>
+    getAllActive()
+      .filter((nw: NetworkType) => (isOpStack(nw.chainId) && isMainnet(nw.chainId)) || nw.chainId == 1)
+      .map((nw) => nw.chainId);
 
   const get = (chainId: chainIdish): NetworkType | undefined => _networksMap?.get(Number(chainId));
 
@@ -38,17 +54,19 @@ const networks = (() => {
   const getRpcUrl = (chainId: chainIdish): string => get(chainId)?.rpcUrls[0] || "";
 
   const has = (chainId: chainIdish): boolean => _networksMap?.has(Number(chainId));
+  const hasPaymaster = (chainId: chainIdish): boolean => get(chainId)?.paymaster || false;
 
-  const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || false;
+  const isActive = (chainId: chainIdish): boolean => get(chainId)?.active || true;
   const isEip1559 = (chainId: chainIdish): boolean => Boolean(get(chainId)?.eip1559);
   const isMainnet = (chainId: chainIdish): boolean => getLinkedMainnet(chainId) == 0;
   const isTestnet = (chainId: chainIdish): boolean => !isMainnet(chainId);
   const isLayer1 = (chainId: chainIdish): boolean => getLinkedLayer1(chainId) === undefined;
   const isLayer2 = (chainId: chainIdish): boolean => !isLayer1(chainId);
+  const isOpStack = (chainId: chainIdish): boolean => get(chainId)?.opstack || false;
 
-  const getChainName = (chainId: chainIdish): string | undefined => get(chainId)?.chainName;
-  const getChainLabel = (chainId: chainIdish): string | undefined =>
-    get(chainId)?.chainLabel || strUpFirst(strSanitize(getChainName(chainId)));
+  const getChainName = (chainId: chainIdish): string => get(chainId)?.chainName || "";
+  const getChainLabel = (chainId: chainIdish): string =>
+    get(chainId)?.chainLabel || strUpFirst(strSanitize(getChainName(chainId))) || "";
   const getMainnetName = (chainId: chainIdish) =>
     isTestnet(chainId) ? getChainName(getLinkedMainnet(chainId)) : getChainName(chainId);
 
@@ -58,9 +76,15 @@ const networks = (() => {
 
   return {
     has,
+    hasPaymaster,
     get,
 
+    getAllActive,
+    getAllInactive,
     getAllSameType,
+    getAllMainnetIds,
+    getAllTestnetIds,
+    getAllOpMainnetIds,
 
     getBlur,
     getBlurUrl,

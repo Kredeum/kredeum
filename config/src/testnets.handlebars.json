@@ -3,9 +3,10 @@
     "chainId": 11155111,
     "chainName": "sepolia",
     "rpcUrls": [
-      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/eth_sepolia",
-      "https://rpc.sepolia.org"
+      "https://rpc.ankr.com/eth_sepolia/{{ANKR_API_KEY}}",
+      "https://rpc.sepolia.org",
+      "https://ethereum-sepolia-rpc.publicnode.com",
+      "https://sepolia.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
       "name": "Ether",
@@ -26,6 +27,7 @@
     "chainId": 534351,
     "chainName": "scroll-sepolia",
     "rpcUrls": [
+      "https://rpc.ankr.com/scroll_sepolia_testnet/{{ANKR_API_KEY}}",
       "https://sepolia-rpc.scroll.io/"
     ],
     "nativeCurrency": {
@@ -46,6 +48,7 @@
     "chainId": 84532,
     "chainName": "base-sepolia",
     "rpcUrls": [
+      "https://rpc.ankr.com/base_sepolia/{{ANKR_API_KEY}}",
       "https://sepolia.base.org",
       "https://base-sepolia.blockpi.network/v1/rpc/public"
     ],
@@ -59,6 +62,7 @@
       "https://base-sepolia.blockscout.com"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "opstack": true,
     "create": true,
     "linkedMainnet": 8453,
     "linkedLayer1": 11155111
@@ -77,6 +81,7 @@
     "blockExplorerUrls": [
       "https://sepolia.explorer.zora.energy/"
     ],
+    "opstack": true,
     "linkedMainnet": 7777777,
     "linkedLayer1": 11155111,
     "create": true
@@ -85,6 +90,7 @@
     "chainId": 168587773,
     "chainName": "blast-sepolia",
     "rpcUrls": [
+      "https://rpc.ankr.com/blast_testnet_sepolia/{{ANKR_API_KEY}}",
       "https://sepolia.blast.io"
     ],
     "nativeCurrency": {
@@ -95,6 +101,7 @@
     "blockExplorerUrls": [
       "https://testnet.blastscan.io"
     ],
+    "opstack": true,
     "create": true,
     "linkedMainnet": 81457,
     "linkedLayer1": 11155111
@@ -113,6 +120,7 @@
     "blockExplorerUrls": [
       "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com/"
     ],
+    "opstack": true,
     "linkedMainnet": 34443,
     "linkedLayer1": 11155111,
     "create": true
@@ -160,6 +168,7 @@
       "https://goerli.basescan.org",
       "https://base-goerli.blockscout.com"
     ],
+    "opstack": true,
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
     "create": true,
     "linkedMainnet": 8453,
@@ -168,7 +177,7 @@
   },
   {
     "chainId": 59140,
-    "chainName": "linea-testnet",
+    "chainName": "linea-goerli",
     "rpcUrls": [
       "https://linea-goerli.infura.io/v3/{{INFURA_API_KEY}}",
       "https://rpc.goerli.linea.build"
@@ -188,6 +197,46 @@
     "active": false
   },
   {
+    "chainId": 59141,
+    "chainName": "linea-sepolia",
+    "rpcUrls": [
+      "https://linea-sepolia.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc.sepolia.linea.build"
+    ],
+    "nativeCurrency": {
+      "name": "Linea Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://sepolia.lineascan.build",
+      "https://explorer.sepolia.linea.build"
+    ],
+    "linkedMainnet": 59144,
+    "linkedLayer1": 5,
+    "create": true,
+    "active": true
+  },
+  {
+    "chainId": 2442,
+    "chainName": "polygon-zkevm-cardona",
+    "rpcUrls": [
+      "https://rpc.cardona.zkevm-rpc.com"
+    ],
+    "nativeCurrency": {
+      "name": "Ether",
+      "symbol": "zktETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://testnet-zkevm.polygonscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "linkedMainnet": 1101,
+    "linkedLayer1": 11155111,
+    "create": true
+  },
+  {
     "chainId": 1442,
     "chainName": "polygon-zkevm-testnet",
     "rpcUrls": [
@@ -203,6 +252,7 @@
       "https://explorer.public.zkevm-test.net"
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "active": false,
     "linkedMainnet": 1101,
     "linkedLayer1": 5,
     "create": true
@@ -211,6 +261,7 @@
     "chainId": 17000,
     "chainName": "holesky",
     "rpcUrls": [
+      "https://rpc.ankr.com/eth_holesky/{{ANKR_API_KEY}}",
       "https://ethereum-holesky.publicnode.com"
     ],
     "nativeCurrency": {
@@ -229,6 +280,7 @@
     "chainName": "taiko-katla",
     "chainLabel": "Taiko Katla",
     "rpcUrls": [
+      "https://rpc.ankr.com/taiko_katla/{{ANKR_API_KEY}}",
       "https://rpc.katla.taiko.xyz"
     ],
     "nativeCurrency": {
@@ -242,6 +294,45 @@
     "linkedMainnet": 167000,
     "linkedLayer1": 17000,
     "create": true
+  },
+  {
+    "chainId": 80002,
+    "chainName": "amoy",
+    "rpcUrls": [
+      "https://rpc.ankr.com/polygon_amoy/{{ANKR_API_KEY}}",
+      "https://polygon-amoy.infura.io/v3/{{INFURA_API_KEY}}",
+      "https://rpc-amoy.polygon.technology"
+    ],
+    "nativeCurrency": {
+      "name": "Matic",
+      "symbol": "tMATIC",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://amoy.polygonscan.com"
+    ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
+    "create": true,
+    "linkedMainnet": 137
+  },
+  {
+    "chainId": 974399131,
+    "chainName": "calypso-testnet",
+    "rpcUrls": [
+      "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
+    ],
+    "nativeCurrency": {
+      "name": "sFUEL",
+      "symbol": "SFUEL",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
+    ],
+    "eip1559": false,
+    "create": false,
+    "paymaster": true,
+    "linkedMainnet": 1564830818
   },
   {
     "chainId": 80001,
@@ -266,6 +357,7 @@
       "url": "https://api.thegraph.com/subgraphs/name/zapaz/eip721-mumbai",
       "active": true
     },
+    "active": false,
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
     "create": true,
     "linkedMainnet": 137
@@ -274,6 +366,7 @@
     "chainId": 10200,
     "chainName": "chiado",
     "rpcUrls": [
+      "https://rpc.ankr.com/gnosis_testnet/{{ANKR_API_KEY}}",
       "https://rpc.chiadochain.net",
       "https://rpc.chiado.gnosis.gateway.fm"
     ],
@@ -293,8 +386,8 @@
     "chainId": 43113,
     "chainName": "fuji",
     "rpcUrls": [
+      "https://rpc.ankr.com/avalanche_fuji/{{ANKR_API_KEY}}",
       "https://avalanche-fuji.infura.io/v3/{{INFURA_API_KEY}}",
-      "https://rpc.ankr.com/avalanche_fuji",
       "https://api.avax-test.network/ext/bc/C/rpc"
     ],
     "nativeCurrency": {
@@ -333,8 +426,8 @@
     "chainId": 4002,
     "chainName": "fantom-testnet",
     "rpcUrls": [
-      "https://rpc.testnet.fantom.network",
-      "https://rpc.ankr.com/fantom_testnet"
+      "https://rpc.ankr.com/fantom_testnet/{{ANKR_API_KEY}}",
+      "https://rpc.testnet.fantom.network"
     ],
     "nativeCurrency": {
       "name": "FTM",
@@ -352,10 +445,9 @@
     "chainId": 97,
     "chainName": "bsc-testnet",
     "rpcUrls": [
-      "https://data-seed-prebsc-1-s1.binance.org:8545",
-      "https://rpc.ankr.com/bsc_testnet_chapel",
-      "https://data-seed-prebsc-2-s1.binance.org:8545",
-      "https://data-seed-prebsc-1-s2.binance.org:8545"
+      "https://rpc.ankr.com/bsc_testnet_chapel/{{ANKR_API_KEY}}",
+      "https://bsc-testnet-rpc.publicnode.com",
+      "https://bsc-testnet.public.blastapi.io"
     ],
     "nativeCurrency": {
       "name": "BNB",
@@ -402,24 +494,7 @@
     "blockExplorerUrls": [
       "https://staging-fast-active-bellatrix.explorer.staging-v3.skalenodes.com"
     ],
-    "eip1559": false,
-    "create": true,
-    "linkedMainnet": 1564830818
-  },
-  {
-    "chainId": 974399131,
-    "chainName": "calypso-testnet",
-    "rpcUrls": [
-      "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
-    ],
-    "nativeCurrency": {
-      "name": "sFUEL",
-      "symbol": "SFUEL",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com"
-    ],
+    "active": false,
     "eip1559": false,
     "create": true,
     "linkedMainnet": 1564830818
@@ -439,6 +514,7 @@
     "blockExplorerUrls": [
       "https://pacific-explorer.testnet.manta.network"
     ],
+    "opstack": true,
     "create": true,
     "linkedMainnet": 169,
     "linkedLayer1": 0
@@ -458,6 +534,7 @@
       "http://localhost/explorer"
     ],
     "linkedMainnet": 31337,
-    "create": true
+    "create": true,
+    "active": false
   }
 ]

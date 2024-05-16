@@ -3,7 +3,7 @@ Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, polygon, ipfs, swarm
 Requires at least: 5.0
-Tested up to: 6.2
+Tested up to: 6.5.3
 Stable tag: {{version.stable}}
 Requires PHP: 7.3
 License: GPLv3 or later
@@ -71,10 +71,15 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-= 1.2.0 (latest) =
-* New feature (beta) : Add blog post PDF archiving and NFT minting
+= 1.6.0 (stable & latest) =
+* New features :
+* Many new deployments, mainly EVM L2s. Available mainnets:
+*   ethereum, arbitrum, optimism, scroll, base, mantle, mode, blast, polygon-zkevm
+*   linea, zora, polygon, gnosis, avalanche, fantom, bsc, skale-calypso
+*   and many related testnets...
+* Many bug fixes and performance improvements
 
-= 1.1.4 (stable & latest) =
+= 1.1.4 =
 * Deployment to Polygon zkEvm
 * Fix on legacy network
 

@@ -47,20 +47,21 @@ const addresses = JSON.parse(JSON.stringify(addressesRaw));
 // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-return
 const getAddresses = (chainId: number | string): AddressesType | undefined => addresses[String(chainId)];
 
+const getAddressOpenNFTsTemplate = (chainId: number): string => getAddresses(chainId)?.OpenNFTsV4 || "";
+const getAddressOpenAutoMarket = (chainId: number): string => getAddresses(chainId)?.OpenAutoMarket || "";
+
 //  GET OpenMulti address
 const getOpenBound = (chainId: number): string => getAddresses(chainId)?.OpenBound || "";
 const hasOpenBound = (chainId: number): boolean => isAddress(getOpenBound(chainId));
 
 // GET Dapp Url
-const getDappUrl = (
-  chainId: number,
-  ref: NftType | { address?: string; tokenID?: string } = {},
-  base = "."
-): string => {
+const getDappUrl = (chainId: number, ref: RefPageType = {}, base = "."): string => {
   let dappUrl = `${base}/#/${chainId}`;
   if (isAddress(ref.address)) {
     dappUrl += `/${ref.address}`;
     if (isNumeric(ref.tokenID)) dappUrl += `/${ref.tokenID}`;
+    if (isAddress(ref.account)) dappUrl += `@${ref.account}`;
+    if (ref.action) dappUrl += `|${ref.action}`;
   }
   return dappUrl;
 };
@@ -113,11 +114,11 @@ const textShort = (str: string, n = 16, p = n): string => {
   return str.substring(0, n) + (l < n ? "" : "..." + (p > 0 ? str.substring(l - p, l) : ""));
 };
 
-const getShortAddress = (address: string, n = 8): string =>
+const getShortAddress = (address: string, n = 4): string =>
   address
     ? address.endsWith(".eth")
       ? textShort(address, 2 * n, 0)
-      : textShort(getChecksumAddress(address), n, n)
+      : textShort(getChecksumAddress(address), n + 2, n)
     : "?";
 
 // GENERIC helpers
@@ -362,6 +363,8 @@ export {
   getShortAddress,
   getChecksumAddress,
   getAddresses,
+  getAddressOpenNFTsTemplate,
+  getAddressOpenAutoMarket,
   getOpenBound,
   hasOpenBound,
   getDappUrl,

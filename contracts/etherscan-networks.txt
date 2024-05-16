@@ -1,0 +1,8 @@
+ [mainnet, morden, ropsten, rinkeby, goerli, kovan, holesky, sepolia, optimism, optimism-kovan, optimism-goerli, optimism-sepolia,
+ arbitrum, arbitrum-testnet, arbitrum-goerli, arbitrum-sepolia, arbitrum-nova, cronos, cronos-testnet, rsk, bsc, bsc-testnet, poa,
+ sokol, scroll, scroll-sepolia, metis, xdai, polygon, mumbai, amoy, polygon-zkevm, polygon-zkevm-testnet, fantom, fantom-testnet,
+ moonbeam, moonbeam-dev, moonriver, moonbase, dev, anvil-hardhat, evmos, evmos-testnet, chiado, oasis, emerald, emerald-testnet,
+ filecoin-mainnet, filecoin-calibration-testnet, avalanche, fuji, celo, celo-alfajores, celo-baklava, aurora, aurora-testnet, canto,
+ canto-testnet, boba, base, base-goerli, base-sepolia, syndr, syndr-sepolia, fraxtal, fraxtal-testnet, blast, blast-sepolia, linea,
+ linea-goerli, zksync, zksync-testnet, mantle, mantle-testnet, viction, zora, zora-goerli, zora-sepolia, pgn, pgn-sepolia, mode,
+ mode-sepolia, elastos, kakarot-sepolia, etherlink-testnet, degen]

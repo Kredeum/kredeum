@@ -58,39 +58,69 @@ const resolverAreCollections = async (chainId: number, collections: Array<string
   return checks;
 };
 
-const resolverGetCollections = async (
+// const resolverGetCollections = async (chainId: number): Promise<CollectionType[]> => {
+//   console.log("resolverGetCollections >", chainId);
+//   const collections: CollectionType[] = [];
+
+//   const nftsResolver = await resolverGetContract(chainId);
+//   const colls = await nftsResolver.getCo();
+
+//   console.log("resolverGetCollections <", collections);
+//   return collections;
+// };
+
+const resolverGetCollectionsAddresses = async (chainId: number): Promise<string[]> => {
+  // console.log("resolverGetCollectionsAddresses", chainId);
+
+  const nftsResolver = await resolverGetContract(chainId);
+
+  const addresses = await nftsResolver.getAddresses();
+  // console.log("resolverGetCollectionsInfos openNFTsStructOutput", collectionInfos);
+
+  // console.log("resolverGetCollectionsAddresses", chainId, addresses);
+  return addresses;
+};
+
+const resolverGetCollectionsInfos = async (
   chainId: number,
   account = ADDRESS_ZERO
 ): Promise<Map<string, CollectionType>> => {
-  // console.log(`resolverGetCollections ${keyCollections(chainId, account)}\n`, chainId, account);
+  // console.log("resolverGetCollectionsInfos >", chainId, account);
 
   const collections: Map<string, CollectionType> = new Map();
 
   const nftsResolver = await resolverGetContract(chainId);
 
-  const collectionInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
-  // console.log("resolverGetCollections openNFTsStructOutput", collectionInfos);
+  const collectionsInfos = await nftsResolver.getOpenNFTsCollectionsInfos(account);
+  // console.log("resolverGetCollectionsInfos openNFTsStructOutput", collectionsInfos);
 
-  if (collectionInfos[0].length !== collectionInfos[1].length) {
-    console.error("ERROR resolverGetCollections", collectionInfos);
+  if (collectionsInfos[0].length !== collectionsInfos[1].length) {
+    console.error("ERROR resolverGetCollectionsInfos", collectionsInfos);
   }
 
-  for (let index = 0; index < collectionInfos[0].length; index++) {
+  for (let index = 0; index < collectionsInfos[0].length; index++) {
     const collection = resolverConvOpenNFTsCollectionInfos(
       chainId,
-      [collectionInfos[0][index], collectionInfos[1][index]],
+      [collectionsInfos[0][index], collectionsInfos[1][index]],
       account
     );
     // console.log("collection", collection);
     collections.set(keyCollection(chainId, collection.address), collection);
   }
 
-  // console.log(`resolverGetCollections ${chainId} ${account}\n`, collections);
+  // console.log("resolverGetCollectionsInfos <", collections);
   return collections;
 };
 
+const resolverCountCollections = async (chainId: number): Promise<number | undefined> => {
+  const nftsResolver = await resolverGetContract(chainId);
+  return Number(await nftsResolver.countAddresses());
+};
+
 export {
-  resolverGetCollections,
+  resolverCountCollections,
+  resolverGetCollectionsInfos,
+  resolverGetCollectionsAddresses,
   resolverGetCollection,
   resolverAreCollections,
   resolverFilterCollections,

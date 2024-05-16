@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { ens } from "@kredeum/common/src/common/ens-get";
+  import { ens } from "@kredeum/common/src/viem/ens-get";
   import { getShortAddress, blockscanUrl } from "@kredeum/common/src/common/config";
 
   import CopyRefItem from "../Global/CopyRefItem.svelte";
@@ -48,7 +48,7 @@
           <img src={accountAvatar} width="30px" alt="avatar" /> &nbsp;&nbsp;
         {/if}
         <span id="metamaskAccount">
-          {getShortAddress(accountName, 10)}&nbsp;&nbsp;&nbsp;&nbsp;
+          {getShortAddress(accountName, 8)}&nbsp;&nbsp;&nbsp;&nbsp;
         </span>
       </div>
     </div>

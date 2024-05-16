@@ -84,10 +84,10 @@
     "avoid-sha3": "warn"
   },
   "window.zoomLevel": 0,
-  "workbench.colorTheme": "Night Owl Light",
+  "workbench.colorTheme": "Kiwi Light (rainglow)",
   "workbench.layoutControl.enabled": true,
   "workbench.statusBar.visible": true,
   "favorites.sortOrder": "DESC",
-  "workbench.preferredLightColorTheme": "Kimbie Dark",
+  "workbench.preferredLightColorTheme": "Bluloco Light Italic",
   "liveServer.settings.root": "/web/dapp/"
 }

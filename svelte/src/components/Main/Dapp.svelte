@@ -8,7 +8,7 @@
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
-  import ButtonOwner from "../Global/ButtonOwner.svelte";
+  import ButtonAll from "../Global/ButtonAll.svelte";
   import ButtonRefresh from "../Global/ButtonRefresh.svelte";
   import Create from "../Global/Create.svelte";
   import HomeLayout from "../Global/HomeLayout.svelte";
@@ -18,20 +18,20 @@
   import Nft from "../Nft/Nft.svelte";
   import Nfts from "../Nfts/Nfts.svelte";
 
-  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
   import { refPage2UrlHash, refPageFromUrlHash } from "../../helpers/refPage";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
   import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
 
   ////////////////////////////////////////////////////////////////////
   // <Dapp />
   ////////////////////////////////////////////////////////////////////
-  let chainId: number;
+  let chainId: number = 1;
   let address: string;
   let tokenID: string;
   let account: string;
-  let owner: string;
-  let signer: string;
+  let action: string;
 
+  let all = false;
   let initalized = false;
   let refreshingCollections = false;
   let refreshingNfts = false;
@@ -46,7 +46,7 @@
   // SET chainId on memataskChainId change
   $: $metamaskChainId && handleMetamaskChainId();
   const handleMetamaskChainId = () => {
-    if (initalized) chainId = $metamaskChainId;
+    chainId = $metamaskChainId;
   };
 
   // SET nework on chainId change
@@ -73,12 +73,14 @@
 
     if (initalized) resetTokenID();
   };
-  // SET account on signer change
-  $: isAddressNotZero(signer) && handleSigner();
+  // SET account on $metamaskSignerAddress change
+  $: isAddressNotZero($metamaskSignerAddress) && handleSigner();
   const handleSigner = async () => {
-    // console.log("<Dapp handleSigner", initalized, signer);
+    // console.log("<Dapp handleSigner", initalized, $metamaskSignerAddress);
 
-    if (initalized) account = signer;
+    account = $metamaskSignerAddress;
+
+    console.info("<Dapp handleSigner", account);
   };
 
   // SET URL HASH on chainId, address or account change
@@ -88,26 +90,26 @@
   const resetAddress = () => {
     address = ADDRESS_ZERO;
     resetTokenID();
-    // console.log("<Dapp resetAddress", owner);
   };
   const resetTokenID = () => {
-    owner = account;
     tokenID = "";
-    // console.log("<Dapp resetTokenID");
   };
 
   onMount(async () => {
     // GET optionnal params from URL HASH
     const _refHash = refPageFromUrlHash(window.location.hash);
-    // console.log("<Dapp get _refHash", _refHash);
+    // console.log("<Dapp get _refHash", JSON.stringify(_refHash));
 
     // init Metamask
     await metamaskInit();
 
-    chainId = _refHash.chainId || $metamaskChainId || 1;
-    address = _refHash.address || ADDRESS_ZERO;
-    tokenID = _refHash.tokenID || "";
-    account = (isAddressNotZero(_refHash.account) ? _refHash.account : $metamaskSignerAddress) || ADDRESS_ZERO;
+    if (_refHash.chainId !== undefined) chainId = _refHash.chainId;
+    if (_refHash.address !== undefined) address = _refHash.address;
+    if (_refHash.tokenID !== undefined) tokenID = _refHash.tokenID;
+    if (_refHash.account !== undefined) account = _refHash.account;
+    if (_refHash.action !== undefined) action = _refHash.action;
+    if (action === "view-all") all = true;
+    console.info("<Dapp onMount", account, all);
 
     // SET network
     await setNetwork();
@@ -127,13 +129,13 @@
   <span slot="header">
     <Title />
 
-    <Create {chainId} {signer} />
-
-    <!-- <BreadCrumb {chainId} {address} {tokenID} {account} {signer} display={true} /> -->
+    {#if $metamaskSignerAddress}
+      <Create {chainId} signer={$metamaskSignerAddress} />
+    {/if}
 
     <div class="row alignbottom">
       <div class="col col-xs-12 col-sm-3 kre-copy-ref-container">
-        <AccountConnect bind:signer />
+        <AccountConnect />
       </div>
 
       <!-- <Networks {chainId} /> -->
@@ -146,10 +148,10 @@
       </div>
 
       <div class="col col-sm-3">
-        {#if isAddressNotZero(account)}
-          <ButtonOwner {account} bind:owner />
-        {/if}
         <ButtonRefresh {refresh} />
+        {#if account && !(tokenIdCount(tokenID) == 1)}
+          <ButtonAll bind:all />
+        {/if}
       </div>
     </div>
   </span>
@@ -159,13 +161,20 @@
       {#if tokenIdCount(tokenID) == 1}
         <h2 class="m-b-20 return">
           <i class="fa fa-arrow-left fa-left" />
-          <span role="button" tabindex="0" on:click={resetTokenID} on:keydown={resetTokenID} class="link"
-            >Back to collection</span
-          >
+          <span role="button" tabindex="0" on:click={resetTokenID} on:keydown={resetTokenID} class="link">
+            Back to collection
+          </span>
         </h2>
-        <Nft {chainId} {address} {tokenID} {owner} details={true} mode="detail" />
+        <Nft {chainId} {address} {tokenID} owner={account} details={true} mode="detail" />
       {:else}
-        <Nfts {chainId} {address} {owner} bind:tokenID bind:refreshing={refreshingNfts} mode="grid6" />
+        <Nfts
+          {chainId}
+          {address}
+          owner={all ? undefined : account}
+          bind:tokenID
+          bind:refreshing={refreshingNfts}
+          mode="grid6"
+        />
       {/if}
     {/if}
   </span>
