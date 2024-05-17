@@ -1,7 +1,7 @@
 {
   "version": {
-    "latest": "1.6.2",
-    "stable": "1.6.2",
+    "latest": "1.1.4",
+    "stable": "1.1.4",
     "branch": "{{GIT_BRANCH}}",
     "commit": "{{GIT_COMMIT}}"
   },
