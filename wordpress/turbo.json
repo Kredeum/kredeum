@@ -9,9 +9,25 @@
       ],
       "outputMode": "new-only"
     },
+    "config": {
+      "dependsOn": [
+        "plusinstall",
+        "@kredeum/config#build"
+      ],
+      "inputs": [
+        "readme.handlebars.txt",
+        "kredeum-nfts.handlebars.php",
+        "!plugins/kredeum-nfts/readme.txt",
+        "!plugins/kredeum-nfts/kredeum-nfts.php"
+      ],
+      "outputs": [
+        "plugins/kredeum-nfts/readme.txt",
+        "plugins/kredeum-nfts/kredeum-nfts.php"
+      ]
+    },
     "format": {
       "dependsOn": [
-        "plusinstall"
+        "config"
       ],
       "inputs": [
         "plugins/kredeum-nfts/**"
@@ -31,15 +47,10 @@
         "@kredeum/svelte#build"
       ],
       "inputs": [
-        "plugins/kredeum-nfts/**",
-        "readme.handlebars.txt",
-        "kredeum-nfts.handlebars.php",
-        "!plugins/kredeum-nfts/readme.txt",
-        "!plugins/kredeum-nfts/kredeum-nfts.php"
+        "plugins/kredeum-nfts/**"
       ],
       "outputs": [
-        "plugins/kredeum-nfts/readme.txt",
-        "plugins/kredeum-nfts/kredeum-nfts.php"
+        "plugins/kredeum-nfts/assets/**"
       ]
     }
   }

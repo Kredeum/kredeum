@@ -8,17 +8,19 @@
     [
       "OpenNFTsV4/generic",
       {
-        name: "OpenNFTs Generic",
+        name: "OpenNFTs",
         description: "OpenNFTs generic Collection: anyone can Mint NFTs in this collection!",
-        icon: "building"
+        icon: "building",
+        network: "all"
       }
     ],
     [
       "OpenNFTsV4Skale/generic",
       {
-        name: "Skale OpenNFTs Generic",
+        name: "Skale OpenNFTs",
         description: "OpenNFTs generic Skale Collection: anyone can Mint NFTs in this collection!",
-        icon: "building"
+        icon: "building",
+        network: "skale"
       }
     ],
     [
@@ -27,7 +29,8 @@
         name: "AutoMarket",
         description:
           "AutoMarket ownable OpenNFTs Collection: own your collection, mint and sell your NFTs with royalties",
-        icon: "dollar-sign"
+        icon: "dollar-sign",
+        network: "all"
       }
     ]
   ]);
@@ -41,7 +44,7 @@
   <div class="titre">Choose your Collection type</div>
   <div class="box-fields">
     {#each [...templates] as [templateKey, templateValue]}
-      {#if templateConfig(templateKey) === "ownable"}
+      {#if templateValue.network === "all"}
         <input
           class="box-field collection-type"
           id="collection-type-{templateKey}"

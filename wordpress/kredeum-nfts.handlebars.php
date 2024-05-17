@@ -48,10 +48,6 @@ if ( is_admin() ) {
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/actions.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/media-list/column.php';
 
-	// require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post-list/actions.php';
-	// require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post-list/column.php';
-	// require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/post-list/article-content.php';
-
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/class-settings.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/settings/fields.php';
 

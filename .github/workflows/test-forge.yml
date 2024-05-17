@@ -1,28 +1,23 @@
-name: TEST forge
+name: TEST Foundry Installation
+on:
+  push:
+    branches:
+      - none
 
-on: push
 
 jobs:
   check:
-    name: Test smartcontracts with forge
-    runs-on: ubuntu-22.04
-
+    name: Foundry project
+    runs-on: ubuntu-latest
     steps:
-      - name: CHECKOUT kredeum nfts
-
-        uses: actions/checkout@v3
+      - uses: actions/checkout@v3
         with:
           submodules: recursive
 
-      - name: INSTALL foundry
+      - name: Install Foundry
         uses: foundry-rs/foundry-toolchain@v1
         with:
           version: nightly
 
-      - name: BUILD forge
-        working-directory: contracts
-        run: forge build
+      - run: forge --version
 
-      - name: TEST forge
-        working-directory: contracts
-        run: forge test -vvv

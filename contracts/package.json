@@ -22,10 +22,9 @@
   "main": "index.js",
   "scripts": {
     "clean": "forge clean && rm -rf cache-forge out node_modules lib types artifacts broadcast .turbo && git restore lib",
-    "postinstall": "pnpm install:foundry && pnpm forge:update",
-    "install:foundry": "command -v forge >/dev/null 2>&1 || pnpm foundry:install",
+    "postinstall": "pnpm forge:install && pnpm forge:update",
     "build": "pnpm build:forge && pnpm build:typechain",
-    "build:forge": "$HOME/.foundry/bin/forge build",
+    "build:forge": "forge build",
     "build:typechain": "typechain --target ethers-v5 --out-dir types out/**/*.json",
     "check": "pnpm check:solidity",
     "check:solidity": "solhint src/**/*.sol",
@@ -38,10 +37,12 @@
     "deploy:all": "forge script scripts/DeployAllCurrent.s.sol",
     "validate:only": "pnpm deploy:all --sender $SENDER",
     "format": "pnpm format:solidity",
-    "format:solidity": "$HOME/.foundry/bin/forge fmt",
-    "foundry:install": "curl -L https://foundry.paradigm.xyz | bash && $HOME/.foundry/bin/foundryup",
+    "format:solidity": "forge fmt",
+    "foundryup:install": "command -v foundryup >/dev/null 2>&1 || curl -L https://foundry.paradigm.xyz | bash",
+    "forge:install": "command -v forge >/dev/null 2>&1 || (pnpm foundryup:install && PATH=$PATH:$HOME/.foundry/bin && foundryup)",
     "forge:update": "git submodule update --recursive",
     "tests": "pnpm tests:forge",
     "tests:forge": "forge test"
   }
 }
+

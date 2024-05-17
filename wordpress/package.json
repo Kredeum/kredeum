@@ -8,9 +8,9 @@
     "install:composer": "composer install --prefer-dist --no-progress",
     "install:vendor": "cd plugins/kredeum-nfts && composer install --prefer-dist --no-progress",
     "plusinstall": "pnpm install:composer && pnpm install:vendor",
+    "config": "ts-node scripts/config.ts",
     "check": "vendor/bin/phpcbf plugins/kredeum-nfts --ignore=vendor --extensions=php --standard=WordPress",
-    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress",
-    "build": "ts-node scripts/build.ts"
+    "format": "vendor/bin/phpcs plugins/kredeum-nfts -n --ignore=vendor --extensions=php --standard=WordPress"
   },
   "keywords": [],
   "author": "",
