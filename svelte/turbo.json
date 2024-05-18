@@ -27,7 +27,9 @@
     "build": {
       "dependsOn": [
         "check",
-        "@kredeum/gulp#build"
+        "@kredeum/config#build",
+        "@kredeum/gulp#build",
+        "@kredeum/skale#build"
       ],
       "inputs": [
         "src/**/*.ts",

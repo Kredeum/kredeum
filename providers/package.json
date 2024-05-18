@@ -9,7 +9,7 @@
     "check": "eslint src/**/*.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "MIT",
   "devDependencies": {
     "viem": "^2.9.32"

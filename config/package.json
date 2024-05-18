@@ -9,7 +9,7 @@
     "build": "GIT_COMMIT=$(git rev-parse HEAD) ts-node scripts/build.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "ISC",
   "devDependencies": {
     "@types/fs-extra": "^11.0.4",

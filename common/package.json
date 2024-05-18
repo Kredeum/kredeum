@@ -9,7 +9,7 @@
     "check": "eslint src/**/*.ts"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "ISC",
   "dependencies": {
     "@ethersproject/abi": "^5.7.0",

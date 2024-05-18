@@ -8,7 +8,7 @@
     "build": "gulp"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "ISC",
   "devDependencies": {
     "-": "^0.0.1",

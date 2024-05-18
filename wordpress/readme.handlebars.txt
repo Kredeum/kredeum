@@ -71,8 +71,15 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
+= 1.6.4 (latest) =
+* New features :
+* Many new deployments, mainly EVM L2s. Available mainnets:
+*   ethereum, arbitrum, optimism, scroll, base, mantle, mode, blast, polygon-zkevm
+*   linea, zora, polygon, gnosis, avalanche, fantom, bsc, skale-calypso
+*   and many related testnets...
+* Many bug fixes and performance improvements
 
-= 1.1.4 (stable & latest) =
+= 1.1.4 (stable) =
 * Deployment to Polygon zkEvm
 * Fix on legacy network
 

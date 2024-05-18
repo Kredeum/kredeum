@@ -22,7 +22,7 @@
     "deploy-matic": "NETWORK=matic pnpm deploy"
   },
   "keywords": [],
-  "author": "",
+  "author": "Kredeum",
   "license": "ISC",
   "devDependencies": {
     "typescript": "^4.9.4",
