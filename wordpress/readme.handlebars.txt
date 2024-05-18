@@ -26,7 +26,7 @@ Please don’t hesitate to contact us if you have any questions by email contact
 
 == Useful links / docs ==
 
-* [Read Kredeum NFTs documentation, installation and user guide](https://docs.kredeum.tech/)
+* [Read Kredeum NFTs documentation, installation and user guide](https://docs.kredeum.com/)
 * [Watch Baic Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=gRhz99FiEUs)
 * [Watch AutoMarket Kredeum NFTs presentation on Youtube](https://www.youtube.com/watch?v=2c5XAWlqfkI)
 
@@ -40,7 +40,7 @@ Please don’t hesitate to contact us if you have any questions by email contact
 1. In the back-office, go to NFTs > “My NFTs” page
 2. Click on Create button
 3. Click on “Create collection”
-4. Define the type of collection you wish as described here https://docs.kredeum.tech/sell-your-nfts-on-your-sites
+4. Define the type of collection you wish as described here https://docs.kredeum.com/sell-your-nfts-on-your-sites
 
 == How can you create your own NFTs? ==
 
@@ -67,11 +67,11 @@ Option 2
 == Are NFTs accessible outside my wordpress back-office site ? ==
 
 You can access them with our [Kredeum DAPP](https://app.kredeum.com/).
-You can even add your NFTs in any websites you want by using Kredeum "Buy snippet" as described https://docs.kredeum.tech/sell-your-nfts-on-your-sites. The "Buy snippet" is accessible in the wordpress back-office > "NFTs" item menu > “My NFTs” page > NFT > "Get Shortcode" > "SELL ON YOUR WEBSITE WITH THIS BUY SNIPPET" !
+You can even add your NFTs in any websites you want by using Kredeum "Buy snippet" as described https://docs.kredeum.com/sell-your-nfts-on-your-sites. The "Buy snippet" is accessible in the wordpress back-office > "NFTs" item menu > “My NFTs” page > NFT > "Get Shortcode" > "SELL ON YOUR WEBSITE WITH THIS BUY SNIPPET" !
 
 
 == Changelog ==
-= 1.6.5 (latest) =
+= 1.6.6 (latest & stable) =
 * New features :
 * Many new deployments, mainly EVM L2s. Available mainnets:
 *   ethereum, arbitrum, optimism, scroll, base, mantle, mode, blast, polygon-zkevm
@@ -79,7 +79,7 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 *   and many related testnets...
 * Many bug fixes and performance improvements
 
-= 1.1.4 (stable) =
+= 1.1.4 =
 * Deployment to Polygon zkEvm
 * Fix on legacy network
 

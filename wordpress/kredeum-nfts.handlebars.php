@@ -3,7 +3,7 @@
  *
  * Plugin Name: Kredeum NFTs
  * Description: Plugin to archive your medias to Decentralized Storage and mint them as NFTs
- * Plugin URI: https://docs.kredeum.tech
+ * Plugin URI: https://docs.kredeum.com
  * Version: {{version.latest}}
  * Author: Kredeum <alain@kredeum.com>
  * Author URI: https://www.kredeum.com

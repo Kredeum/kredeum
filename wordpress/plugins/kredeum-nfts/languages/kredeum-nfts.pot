@@ -77,7 +77,7 @@ msgid "For degens ! Choose \"yes\" to use beta features..."
 msgstr ""
 
 #. URI of the plugin
-msgid "https://docs.kredeum.tech"
+msgid "https://docs.kredeum.com"
 msgstr ""
 
 #. Author URI of the plugin

@@ -82,8 +82,8 @@ msgstr ""
 "beta..."
 
 #. URI of the plugin
-msgid "https://docs.kredeum.tech"
-msgstr "https://docs.kredeum.tech"
+msgid "https://docs.kredeum.com"
+msgstr "https://docs.kredeum.com"
 
 #
 #

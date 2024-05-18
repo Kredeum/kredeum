@@ -85,11 +85,11 @@ class Settings {
 					__( 'Setup here your Storage options and connect your Metamask account with WordPress', 'kredeum-nfts' ) .
 					'</p><p>' .
 					__( 'For any help read the', 'kredeum-nfts' ) .
-					' <a href="https://docs.kredeum.tech/user-guide" target="_blank" rel="noreferrer" >' .
+					' <a href="https://docs.kredeum.com/user-guide" target="_blank" rel="noreferrer" >' .
 					__( 'User Guide', 'kredeum-nfts' ) .
 					'</a> ' .
 					__( 'and related ', 'kredeum-nfts' ) .
-					' <a href="https://docs.kredeum.tech/wordpress-setup/settings" target="_blank" rel="noreferrer" >' .
+					' <a href="https://docs.kredeum.com/wordpress-setup/settings" target="_blank" rel="noreferrer" >' .
 					__( 'Settings instructions', 'kredeum-nfts' ) .
 					'</a> ' .
 					__( 'or join us on', 'kredeum-nfts' ) .
