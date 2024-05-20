@@ -1,12 +1,13 @@
 <script lang="ts">
   import { onMount } from "svelte";
 
-  import { metamaskInit } from "../../helpers/metamask";
-  import { metamaskChainId } from "../../stores/metamask";
+  import { metamaskInit, metamaskSwitchChain } from "../../helpers/metamask";
+  import { metamaskChainId, metamaskSignerAddress } from "../../stores/metamask";
 
   import AccountConnect from "../Account/AccountConnect.svelte";
   import CollectionSelect from "../Collection/CollectionSelect.svelte";
   import NetworkSelect from "../Network/NetworkSelect.svelte";
+  import { providerSetFallback } from "common/src/common/provider-get";
 
   /////////////////////////////////////////////////////////////////
   // <CollectionChoice bind:{address} {txt} />
@@ -17,25 +18,29 @@
   /////////////////////////////////////////////////////////////////
 
   let chainId: number;
-  let signer: string;
 
-  // $: console.log("<CollectionChoice", chainId, signer, "=>", address);
+  // $: console.log("<CollectionChoice", chainId, "=>", address);
+  // SET nework on chainId change
+  $: chainId && handleChainId();
+  const handleChainId = async () => {
+    await metamaskSwitchChain(chainId);
+    await providerSetFallback(chainId);
+  };
 
   onMount(async () => {
     await metamaskInit();
     chainId = $metamaskChainId;
+    await handleChainId();
   });
 </script>
 
 <p>
-  <AccountConnect bind:signer {txt} label={true} />
+  <AccountConnect {txt} label={true} />
 </p>
 <p>
   <NetworkSelect bind:chainId {txt} label={true} />
 </p>
 
-{#if chainId && signer}
-  <p>
-    <CollectionSelect {chainId} account={signer} bind:address {txt} mintable={true} />
-  </p>
-{/if}
+<p>
+  <CollectionSelect {chainId} bind:address account={$metamaskSignerAddress} {txt} mintable={true} />
+</p>
