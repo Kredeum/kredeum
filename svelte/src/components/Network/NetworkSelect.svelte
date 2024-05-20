@@ -38,7 +38,12 @@
 
   <select on:change={_switchChainEvt}>
     {#each currentNetworks as nwk}
-      <option value={nwk.chainId} selected={nwk.chainId == chainId}>
+      <option
+        value={nwk.chainId}
+        selected={nwk.chainId == chainId}
+        on:click={(evt) => _switchChain(nwk.chainId, evt)}
+        on:keydown={(evt) => _switchChain(nwk.chainId, evt)}
+      >
         <Network chainId={nwk.chainId} {txt} pre={true} />
         &nbsp;
       </option>
