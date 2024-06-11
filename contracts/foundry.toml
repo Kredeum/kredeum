@@ -36,6 +36,7 @@ blast = "https://blast-mainnet.infura.io/v3/${INFURA_API_KEY}"
 celo = "https://forno.celo.org"
 skale-calypso = "https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague"
 taiko = "https://rpc.taiko.xyz"
+fraxtal = "https://rpc.frax.com"
 
 # TESTNETS
 sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
@@ -68,6 +69,7 @@ chaos-testnet = "https://staging-v3.skalenodes.com/v1/staging-fast-active-bellat
 calypso-testnet = "https://testnet.skalenodes.com/v1/giant-half-dual-testnet"
 taiko-katla = "https://rpc.katla.taiko.xyz"
 fantom-testnet = "https://rpc.ankr.com/fantom_testnet"
+fraxtal-testnet = "https://rpc.testnet.frax.com"
 
 anvil = "http://127.0.0.1:8545"
 

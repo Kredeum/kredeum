@@ -289,6 +289,25 @@
     "create": true
   },
   {
+    "chainId": 252,
+    "chainName": "fraxtal",
+    "rpcUrls": [
+      "https://rpc.frax.com"
+    ],
+    "nativeCurrency": {
+      "name": "Fraxtal Ether",
+      "symbol": "frxETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://fraxscan.com"
+    ],
+    "opstack": true,
+    "create": true,
+    "active": false,
+    "linkedLayer1": 1
+  },
+  {
     "chainId": 137,
     "chainName": "polygon",
     "rpcUrls": [

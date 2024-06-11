@@ -520,6 +520,25 @@
     "linkedLayer1": 0
   },
   {
+    "chainId": 2522,
+    "chainName": "fraxtal-testnet",
+    "rpcUrls": [
+      "https://rpc.testnet.frax.com"
+    ],
+    "nativeCurrency": {
+      "name": "Fraxtal Ether",
+      "symbol": "frxETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://holesky.fraxscan.com"
+    ],
+    "opstack": true,
+    "create": true,
+    "linkedMainnet": 252,
+    "linkedLayer1": 17000
+  },
+  {
     "chainId": 31337,
     "chainName": "local",
     "rpcUrls": [

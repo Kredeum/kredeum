@@ -138,6 +138,13 @@
     "OpenNFTsV4": "0x6Da66ce3C9CA569Ce692F68620166b368D1b598D",
     "chainName": "fantom"
   },
+  "2522": {
+    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3_last": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver_last": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4_last": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "fraxtal testnet"
+  },
   "31337": {
     "OpenAutoMarket": "0xd771D7C0e1EBE89C9E9F663824851BB89b926d1a",
     "OpenNFTsFactoryV3": "0x0116686E2291dbd5e317F47faDBFb43B599786Ef",
