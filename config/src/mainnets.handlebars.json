@@ -39,7 +39,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "AETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -63,7 +63,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "AETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -82,7 +82,7 @@
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
-      "name": "ETH",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -106,7 +106,7 @@
       "https://rpc.scroll.io"
     ],
     "nativeCurrency": {
-      "name": "Scroll Ether",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -216,7 +216,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "zkETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -234,7 +234,7 @@
       "https://rpc.linea.build"
     ],
     "nativeCurrency": {
-      "name": "Linea Ether",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -253,8 +253,8 @@
       "https://rpc.zora.energy"
     ],
     "nativeCurrency": {
-      "name": "Zora Ether",
-      "symbol": "zETH",
+      "name": "Ether",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -263,6 +263,29 @@
     "opstack": true,
     "linkedLayer1": 1,
     "active": true,
+    "create": true
+  },
+  {
+    "chainId": 167000,
+    "chainName": "taiko",
+    "rpcUrls": [
+      "https://rpc.taiko.xyz"
+    ],
+    "nativeCurrency": {
+      "name": "Taiko Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://taikoscan.io/",
+      "https://taikoscan.network/"
+    ],
+    "linkedLayer1": 1,
+    "active": true,
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_TAIKO}}",
+    "covalent": {
+      "active": true
+    },
     "create": true
   },
   {
@@ -446,8 +469,8 @@
       "https://pacific-rpc.manta.network/http"
     ],
     "nativeCurrency": {
-      "name": "Pacific Ether",
-      "symbol": "pETH",
+      "name": "Ether",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -460,26 +483,5 @@
     },
     "active": false,
     "linkedLayer1": 0
-  },
-  {
-    "chainId": 167000,
-    "chainName": "taiko",
-    "rpcUrls": [
-      "https://rpc.taiko.xyz"
-    ],
-    "nativeCurrency": {
-      "name": "Taiko Ether",
-      "symbol": "tETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://explorer.taiko.xyz/"
-    ],
-    "linkedLayer1": 1,
-    "active": false,
-    "covalent": {
-      "active": false
-    },
-    "create": true
   }
 ]

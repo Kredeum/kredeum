@@ -86,6 +86,13 @@
     "OpenNFTsV4Skale": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "chainName": "skale-calypso"
   },
+  "167000": {
+    "OpenAutoMarket": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
+    "OpenNFTsFactoryV3": "0x393F71f4afEDF852c589fBA06ED81a2cb3a165e4",
+    "OpenNFTsResolver": "0x4C2907b974d10458A6D4Dd5269f23B5a23DA087E",
+    "OpenNFTsV4": "0x07Fc1f455D198B518B1998dCc0EE63cB8c77491d",
+    "chainName": "taiko"
+  },
   "167008": {
     "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",

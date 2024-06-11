@@ -35,6 +35,7 @@ manta-pacific = "https://pacific-rpc.manta.network/http"
 blast = "https://blast-mainnet.infura.io/v3/${INFURA_API_KEY}"
 celo = "https://forno.celo.org"
 skale-calypso = "https://mainnet.skalenodes.com/v1/honorable-steel-rasalhague"
+taiko = "https://rpc.taiko.xyz"
 
 # TESTNETS
 sepolia = "https://sepolia.infura.io/v3/${INFURA_API_KEY}"
