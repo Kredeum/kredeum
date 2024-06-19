@@ -1,9 +1,19 @@
 {
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "build": {
-      "inputs": ["src/**", "gulpfile.js", "package.json"],
-      "outputs": ["web/dapp/favicon.ico", "web/dapp/**"]
+      "env": ["ENVIR"],
+      "inputs": [
+        "src/**",
+        "gulpfile.js",
+        "package.json"
+      ],
+      "outputs": [
+        "web/dapp/favicon.ico",
+        "web/dapp/**"
+      ]
     }
   }
 }

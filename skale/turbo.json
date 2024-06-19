@@ -1,9 +1,15 @@
 {
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "check": {
-      "dependsOn": ["format"],
-      "inputs": ["src/**/*.ts"]
+      "dependsOn": [
+        "format"
+      ],
+      "inputs": [
+        "src/**/*.ts"
+      ]
     }
   }
 }

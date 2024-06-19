@@ -114,6 +114,7 @@
       "https://scrollscan.com/",
       "https://blockscout.scroll.io"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_SCROLL}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -202,6 +203,7 @@
       "https://blastscan.io"
     ],
     "opstack": true,
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BLAST}}",
     "create": true,
     "active": true,
     "linkedLayer1": 1
@@ -242,6 +244,7 @@
       "https://lineascan.build",
       "https://explorer.linea.build"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_LINEA}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -357,6 +360,7 @@
       "https://gnosisscan.io/",
       "https://blockscout.com/xdai/mainnet"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_GNOSIS}}",
     "create": true
   },
   {
