@@ -24,15 +24,15 @@
     "@kredeum/providers": "workspace:^",
     "@kredeum/skale": "workspace:^",
     "ethers": "^5.7.2",
-    "multiformats": "^13.1.0",
-    "viem": "^2.9.32"
+    "multiformats": "^13.1.1",
+    "viem": "^2.15.1"
   },
   "devDependencies": {
-    "@ipld/dag-pb": "^4.1.0",
+    "@ipld/dag-pb": "^4.1.1",
     "@types/findup-sync": "^4.0.5",
-    "@types/node": "^20.12.8",
+    "@types/node": "^20.14.5",
     "findup-sync": "^5.0.0",
-    "tslib": "^2.6.2",
+    "tslib": "^2.6.3",
     "typescript": "^5.4.5"
   }
 }

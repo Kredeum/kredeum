@@ -139,10 +139,10 @@
     "chainName": "fantom"
   },
   "2522": {
-    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
-    "OpenNFTsFactoryV3_last": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
-    "OpenNFTsResolver_last": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
-    "OpenNFTsV4_last": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "OpenAutoMarket": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
     "chainName": "fraxtal testnet"
   },
   "31337": {
@@ -157,7 +157,14 @@
     "OpenNFTsFactoryV3": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
     "OpenNFTsResolver": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
     "OpenNFTsV4": "0xaBC41B99aE04982eCD94868a368283c1D456A55A",
-    "chainName": "manta-pacific-testnet"
+    "chainName": "manta-pacific-goerli"
+  },
+  "3441006": {
+    "OpenAutoMarket_last": "0x485ed00c43e919E02279Ca137343B2aC63EF0eF2",
+    "OpenNFTsFactoryV3_last": "0xb5c8CB0846317d82af2DbF90713716B01A2f680a",
+    "OpenNFTsResolver_last": "0x25F56b5527F5634752Fd2C85564E8d2484cAAEF3",
+    "OpenNFTsV4_last": "0xd1ca741de2d2975822ADf4646Cf0A8AE3Df51c78",
+    "chainName": "manta-pacific-sepolia"
   },
   "34443": {
     "OpenAutoMarket": "0x8536758032eBa6C451F03BC058D23Bf84337E47d",
