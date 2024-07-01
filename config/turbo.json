@@ -14,10 +14,6 @@
       ],
       "env": [
         "ALCHEMY_API_KEY",
-        "ALCHEMY_API_KEY_ARBITRUM",
-        "ALCHEMY_API_KEY_BASE",
-        "ALCHEMY_API_KEY_OPTIMISM",
-        "ALCHEMY_API_KEY_POLYGON",
         "ANKR_API_KEY",
         "COVALENT_API_KEY",
         "ETHERSCAN_API_KEY",
