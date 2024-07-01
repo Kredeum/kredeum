@@ -34,7 +34,7 @@
     "chainName": "arbitrum",
     "rpcUrls": [
       "https://rpc.ankr.com/arbitrum/{{ANKR_API_KEY}}",
-      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
@@ -48,7 +48,7 @@
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_ARBITRUM}}",
     "alchemy": {
-      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "create": true,
@@ -77,7 +77,7 @@
     "chainName": "optimism",
     "rpcUrls": [
       "https://rpc.ankr.com/optimism/{{ANKR_API_KEY}}",
-      "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
+      "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
@@ -91,7 +91,7 @@
     ],
     "etherscanApiKey": "{{ETHERSCAN_API_KEY_OPTIMISM}}",
     "alchemy": {
-      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
+      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "opstack": true,
@@ -124,7 +124,7 @@
     "chainName": "base",
     "rpcUrls": [
       "https://rpc.ankr.com/base/{{ANKR_API_KEY}}",
-      "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_BASE}}",
+      "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://mainnet.base.org/",
       "https://developer-access-mainnet.base.org/"
     ],
@@ -138,7 +138,7 @@
       "https://base.blockscout.com"
     ],
     "alchemy": {
-      "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_BASE}}",
+      "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": false
     },
     "opstack": true,
@@ -315,7 +315,7 @@
     "chainName": "polygon",
     "rpcUrls": [
       "https://rpc.ankr.com/polygon/{{ANKR_API_KEY}}",
-      "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_POLYGON}}",
+      "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
@@ -335,7 +335,7 @@
       "active": false
     },
     "alchemy": {
-      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_POLYGON}}",
+      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "openSea": "https://opensea.io/assets/matic",

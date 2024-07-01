@@ -145,7 +145,7 @@
       "active": false
     },
     "alchemy": {
-      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_GOERLI}}",
+      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": false
     },
     "eip1559": true,

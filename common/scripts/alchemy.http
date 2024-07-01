@@ -1,6 +1,6 @@
 @method = gasPrice
 @urlEth = https://eth-mainnet.alchemyapi.io/v2/{{$dotenv ALCHEMY_API_KEY}}
-@urlPol = https://polygon-mainnet.g.alchemy.com/v2/{{$dotenv ALCHEMY_API_KEY_POLYGON}}
+@urlPol = https://polygon-mainnet.g.alchemy.com/v2/{{$dotenv ALCHEMY_API_KEY}}
 @address = 0x981ab0D817710d8FFFC5693383C00D985A3BDa38
 
 ### getNFTs on mainnet from address without metadata
@@ -15,11 +15,11 @@ GET {{urlEth}}/getContractMetadata?contractAddress=0xd07dc4262BCDbf85190C01c996b
 ### getContractMetadata on mainnet collection metadata erc721
 GET {{urlEth}}/getContractMetadata?contractAddress=0xa406489360A47Af2C74fc1004316A64e469646A5
 
-### getContractMetadata on polygon collection metadata 
+### getContractMetadata on polygon collection metadata
 GET {{urlPol}}/getContractMetadata?contractAddress=0x875123bc716829Bb83a3eA2Db3AbD8BB8DCc3519
 
 
-### getContractMetadata on polygon collection metadata 
+### getContractMetadata on polygon collection metadata
 GET {{urlPol}}/getContractMetadata?contractAddress=0x76c52b2c4b2D2666663cE3318a5f35f912bd25C3
 
 
@@ -34,4 +34,4 @@ GET {{urlPol}}/getNFTs?owner={{address}}
 https://eth-mainnet.alchemyapi.io/v2/{{$dotenv ALCHEMY_API_KEY}}/getNFTs?owner=0x981ab0D817710d8FFFC5693383C00D985A3BDa38&withMetadata=false
 
 ### getNFTs
-https://polygon-mainnet.g.alchemy.com/v2/{{$dotenv ALCHEMY_API_KEY_POLYGON}}/getNFTs?owner=0x981ab0D817710d8FFFC5693383C00D985A3BDa38&withMetadata=false
+https://polygon-mainnet.g.alchemy.com/v2/{{$dotenv ALCHEMY_API_KEY}}/getNFTs?owner=0x981ab0D817710d8FFFC5693383C00D985A3BDa38&withMetadata=false
