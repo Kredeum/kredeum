@@ -1,0 +1,8 @@
+{
+  "sites": [
+    {
+      "slug": "demo-kredeum-com",
+      "distDir": "dapp"
+    }
+  ]
+}
