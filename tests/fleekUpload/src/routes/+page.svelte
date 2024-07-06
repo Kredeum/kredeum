@@ -1,2 +1,11 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { fleek } from '$lib/fleek';
+
+	onMount(async () => {
+		const projects = await fleek.projects();
+		console.log(projects);
+	});
+</script>
+
+OK

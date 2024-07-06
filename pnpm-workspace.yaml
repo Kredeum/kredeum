@@ -8,3 +8,4 @@ packages:
   - wordpress
   - providers
   - skale
+  - tests/*
