@@ -12,7 +12,8 @@
   export let back: string | undefined = undefined;
   ///////////////////////////////////
 
-  const onProd = versionGet().branch === "main";
+  const onProd = window.location.origin == config.base;
+
   $: onMainNet = networks.isMainnet(chainId);
 
   const toggle = () => {
