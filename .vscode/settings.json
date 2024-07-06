@@ -65,7 +65,7 @@
       "group": "Default"
     },
     {
-      "filePath": "config/src/config.handlebars.json",
+      "filePath": "config/src",
       "group": "Default"
     }
   ],

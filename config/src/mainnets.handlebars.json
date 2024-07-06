@@ -39,7 +39,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "AETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -63,7 +63,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "AETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -82,7 +82,7 @@
       "https://mainnet.optimism.io"
     ],
     "nativeCurrency": {
-      "name": "ETH",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -106,7 +106,7 @@
       "https://rpc.scroll.io"
     ],
     "nativeCurrency": {
-      "name": "Scroll Ether",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -114,6 +114,7 @@
       "https://scrollscan.com/",
       "https://blockscout.scroll.io"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_SCROLL}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -202,6 +203,7 @@
       "https://blastscan.io"
     ],
     "opstack": true,
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BLAST}}",
     "create": true,
     "active": true,
     "linkedLayer1": 1
@@ -216,7 +218,7 @@
     ],
     "nativeCurrency": {
       "name": "Ether",
-      "symbol": "zkETH",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -234,7 +236,7 @@
       "https://rpc.linea.build"
     ],
     "nativeCurrency": {
-      "name": "Linea Ether",
+      "name": "Ether",
       "symbol": "ETH",
       "decimals": 18
     },
@@ -242,6 +244,7 @@
       "https://lineascan.build",
       "https://explorer.linea.build"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_LINEA}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -253,8 +256,8 @@
       "https://rpc.zora.energy"
     ],
     "nativeCurrency": {
-      "name": "Zora Ether",
-      "symbol": "zETH",
+      "name": "Ether",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -264,6 +267,48 @@
     "linkedLayer1": 1,
     "active": true,
     "create": true
+  },
+  {
+    "chainId": 167000,
+    "chainName": "taiko",
+    "rpcUrls": [
+      "https://rpc.taiko.xyz"
+    ],
+    "nativeCurrency": {
+      "name": "Taiko Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://taikoscan.io/",
+      "https://taikoscan.network/"
+    ],
+    "linkedLayer1": 1,
+    "active": true,
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_TAIKO}}",
+    "covalent": {
+      "active": true
+    },
+    "create": true
+  },
+  {
+    "chainId": 252,
+    "chainName": "fraxtal",
+    "rpcUrls": [
+      "https://rpc.frax.com"
+    ],
+    "nativeCurrency": {
+      "name": "Fraxtal Ether",
+      "symbol": "frxETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://fraxscan.com"
+    ],
+    "opstack": true,
+    "create": true,
+    "active": false,
+    "linkedLayer1": 1
   },
   {
     "chainId": 137,
@@ -315,6 +360,7 @@
       "https://gnosisscan.io/",
       "https://blockscout.com/xdai/mainnet"
     ],
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY_GNOSIS}}",
     "create": true
   },
   {
@@ -446,8 +492,8 @@
       "https://pacific-rpc.manta.network/http"
     ],
     "nativeCurrency": {
-      "name": "Pacific Ether",
-      "symbol": "pETH",
+      "name": "Ether",
+      "symbol": "ETH",
       "decimals": 18
     },
     "blockExplorerUrls": [
@@ -460,26 +506,5 @@
     },
     "active": false,
     "linkedLayer1": 0
-  },
-  {
-    "chainId": 167000,
-    "chainName": "taiko",
-    "rpcUrls": [
-      "https://rpc.taiko.xyz"
-    ],
-    "nativeCurrency": {
-      "name": "Taiko Ether",
-      "symbol": "tETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://explorer.taiko.xyz/"
-    ],
-    "linkedLayer1": 1,
-    "active": false,
-    "covalent": {
-      "active": false
-    },
-    "create": true
   }
 ]

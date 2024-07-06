@@ -2,12 +2,12 @@
   "extends": [
     "//"
   ],
-  "pipeline": {
+  "tasks": {
     "plusinstall": {
       "outputs": [
         "vendor/**"
       ],
-      "outputMode": "new-only"
+      "outputLogs": "new-only"
     },
     "config": {
       "dependsOn": [

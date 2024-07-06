@@ -1,14 +1,27 @@
 {
-  "extends": ["//"],
-  "pipeline": {
+  "extends": [
+    "//"
+  ],
+  "tasks": {
     "build": {
-      "dependsOn": ["check"],
-      "inputs": ["src/**/*.sol"],
-      "outputs": ["out/**/*.json", "types/**/*.ts"]
+      "dependsOn": [
+        "check"
+      ],
+      "inputs": [
+        "src/**/*.sol"
+      ],
+      "outputs": [
+        "out/**/*.json",
+        "types/**/*.ts"
+      ]
     },
     "deploy": {
-      "dependsOn": ["build"],
-      "outputs": ["addresses.json"]
+      "dependsOn": [
+        "build"
+      ],
+      "outputs": [
+        "addresses.json"
+      ]
     }
   }
 }

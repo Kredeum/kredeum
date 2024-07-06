@@ -15,7 +15,7 @@
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
       "apiEndpoint": "https://api.gateway.ethswarm.org",
-      "apiKey": "0000000000000000000000000000000000000000000000000000000000000000"
+      "apiKey": "{{SWARM_API_KEY}}"
     }
   },
   "base": "https://app.kredeum.com",

@@ -67,15 +67,12 @@
           </p>
         </li>
 
+        <li class="active">
+          <ConfigModal />
+        </li>
+
         <!-- experimental   -->
         {#if !onProd}
-          <!-- only on testnets -->
-          {#if !onMainNet}
-            <li class="active">
-              <ConfigModal />
-            </li>
-          {/if}
-
           <li class="active">
             <a href="/stats">
               <i class="fas fa-database"></i><br />

@@ -5,10 +5,9 @@
   "scripts": {
     "clean": "pnpm -r clean && rm -rf node_modules .turbo web/dapp",
     "all": "pnpm clean && pnpm install && pnpm build",
-    "build": "turbo build",
-    "dev:dapp": "turbo dev -F sveltekit",
-    "build:dapp": "turbo build -F sveltekit",
-    "build:plugin": "turbo build -F wordpress",
+    "build": "turbo run build",
+    "build:dapp": "turbo run build --filter ./sveltekit",
+    "build:plugin": "turbo run build --filter ./wordpress",
     "deploy:dapp": "pnpm install && pnpm build:dapp",
     "deploy:plugin": "pnpm install && pnpm build:plugin"
   },
@@ -19,19 +18,19 @@
   ],
   "author": "Kredeum",
   "license": "MIT",
-  "packageManager": "pnpm@8.15.7",
+  "packageManager": "pnpm@9.4.0",
   "engines": {
     "node": "^20",
-    "pnpm": "^8"
+    "pnpm": "^9"
   },
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "^7.8.0",
-    "@typescript-eslint/parser": "^7.8.0",
+    "@typescript-eslint/eslint-plugin": "^7.13.1",
+    "@typescript-eslint/parser": "^7.13.1",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
-    "prettier": "^3.2.5",
+    "prettier": "^3.3.2",
     "ts-node": "^10.9.2",
-    "turbo": "^1.13.3"
+    "turbo": "^2.0.4"
   },
   "type": "module"
 }

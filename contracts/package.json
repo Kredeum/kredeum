@@ -9,7 +9,7 @@
     "@typechain/ethers-v5": "^11.1.2",
     "ethers": "^5.7.2",
     "solc": "0.8.19",
-    "solhint": "^4.5.4",
+    "solhint": "^5.0.1",
     "solidity-coverage": "^0.8.12",
     "typechain": "^8.3.2",
     "typescript": "^5.4.5"
@@ -25,7 +25,7 @@
     "postinstall": "pnpm forge:install && pnpm forge:update",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "forge build",
-    "build:typechain": "typechain --target ethers-v5 --out-dir types out/**/*.json",
+    "build:typechain": "typechain --target ethers-v5 --out-dir types out/**.sol/*.json",
     "check": "pnpm check:solidity",
     "check:solidity": "solhint src/**/*.sol",
     "deploy:deploy": "pnpm deploy:all --fork-url $CHAIN --sender $SENDER --account $ACCOUNT --broadcast",

@@ -258,6 +258,25 @@
     "create": true
   },
   {
+    "chainId": 3441006,
+    "chainName": "manta-pacific-sepolia",
+    "rpcUrls": [
+      "https://pacific-info.sepolia-testnet.manta.network/"
+    ],
+    "nativeCurrency": {
+      "name": "Pacific Ether",
+      "symbol": "ETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://pacific-explorer.sepolia-testnet.manta.network"
+    ],
+    "opstack": true,
+    "create": true,
+    "linkedMainnet": 169,
+    "linkedLayer1": 11155111
+  },
+  {
     "chainId": 17000,
     "chainName": "holesky",
     "rpcUrls": [
@@ -294,6 +313,25 @@
     "linkedMainnet": 167000,
     "linkedLayer1": 17000,
     "create": true
+  },
+  {
+    "chainId": 2522,
+    "chainName": "fraxtal-testnet",
+    "rpcUrls": [
+      "https://rpc.testnet.frax.com"
+    ],
+    "nativeCurrency": {
+      "name": "Fraxtal Ether",
+      "symbol": "frxETH",
+      "decimals": 18
+    },
+    "blockExplorerUrls": [
+      "https://holesky.fraxscan.com"
+    ],
+    "opstack": true,
+    "create": true,
+    "linkedMainnet": 252,
+    "linkedLayer1": 17000
   },
   {
     "chainId": 80002,
@@ -498,26 +536,6 @@
     "eip1559": false,
     "create": true,
     "linkedMainnet": 1564830818
-  },
-  {
-    "chainId": 3441005,
-    "chainName": "manta-pacific-testnet",
-    "rpcUrls": [
-      "https://manta-testnet.calderachain.xyz/http",
-      "https://pacific-rpc.testnet.manta.network/http"
-    ],
-    "nativeCurrency": {
-      "name": "Pacific Ether",
-      "symbol": "pETH",
-      "decimals": 18
-    },
-    "blockExplorerUrls": [
-      "https://pacific-explorer.testnet.manta.network"
-    ],
-    "opstack": true,
-    "create": true,
-    "linkedMainnet": 169,
-    "linkedLayer1": 0
   },
   {
     "chainId": 31337,
