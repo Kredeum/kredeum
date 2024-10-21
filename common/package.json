@@ -25,6 +25,7 @@
     "@kredeum/skale": "workspace:^",
     "ethers": "^5.7.2",
     "multiformats": "^13.1.1",
+    "pinata-web3": "^0.5.1",
     "viem": "^2.15.1"
   },
   "devDependencies": {

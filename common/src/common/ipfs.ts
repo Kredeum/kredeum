@@ -6,7 +6,7 @@ class Ipfs {
   }
 
   // eslint-disable-next-line @typescript-eslint/require-await,@typescript-eslint/no-unused-vars
-  async pin(buffer: Blob | string, options?: RequestInit): Promise<string> {
+  async pin(buffer: File | object, options?: RequestInit): Promise<string> {
     return "Ipfs.pin is abstract";
   }
 
@@ -27,8 +27,8 @@ class Ipfs {
     return cid;
   }
 
-  async pinUrl(url: string, options?: RequestInit): Promise<string> {
-    return await this.pin(await (await fetch(url)).blob(), options);
+  async pinUrl(media: File, options?: RequestInit): Promise<string> {
+    return await this.pin(media, options);
   }
 
   async addUrl(url: string, options?: RequestInit): Promise<string> {
@@ -42,8 +42,8 @@ class Ipfs {
     return await this.add(buffer, options);
   }
 
-  async pinJson(object: unknown, options?: RequestInit): Promise<string> {
-    return await this.pin(this.jsonPrepare(object), options);
+  async pinJson(object: object, options?: RequestInit): Promise<string> {
+    return await this.pin(object, options);
   }
 
   async addJson(object: unknown, options?: RequestInit): Promise<string> {

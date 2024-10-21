@@ -6,7 +6,7 @@ import { ipfsConfigValid, ipfsPin, ipfsTokenUri } from "../storage/ipfs";
 
 ///////////////////////////////////////////////////////////////////////////////////
 // GET  image uri
-const nftPin = async (chainId: number, media: string): Promise<string> => {
+const nftPin = async (chainId: number, media: File): Promise<string> => {
   if (ipfsConfigValid(chainId)) return ipfsPin(media);
   if (swarmConfigValid(chainId)) return swarmPin(media);
   return "";

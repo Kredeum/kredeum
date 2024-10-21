@@ -90,8 +90,9 @@ const _urlToBlob = async (src: URL | string): Promise<Blob> => {
 // Params
 // image
 // key : Swarm batchID (batch of stamps)
-const swarmPin = async (url: URL | string): Promise<string> => {
-  const blob: Blob = await _urlToBlob(url);
+const swarmPin = async (mediaFile: File | string): Promise<string> => {
+  // const blob: Blob = await _urlToBlob(url);
+  const blob: Blob = new Blob([new Uint8Array(await new Response(mediaFile.slice()).arrayBuffer())]);
 
   const swarmHash = await fetchBee.uploadBlob(blob);
   const swarmUri = swarmHash ? `swarm://${swarmHash}` : "";

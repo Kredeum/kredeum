@@ -1,12 +1,12 @@
 import Ipfs from "../common/ipfs";
 import { ipfsApiEndpoint, ipfsApiKey } from "./ipfs";
 
-type NftStorageResponse = {
-  ok: boolean;
-  error?: string;
-  value?: {
-    cid: string;
-  };
+import { PinataSDK } from "pinata-web3";
+
+type PinataResponse = {
+  IpfsHash: string;
+  PinSize: number;
+  Timestamp: string;
 };
 
 class NftStorage extends Ipfs {
@@ -17,26 +17,35 @@ class NftStorage extends Ipfs {
     this.key = ipfsApiKey();
   }
 
-  async pin(buffer: Blob | string): Promise<string> {
+  async pin(src: File | object): Promise<string> {
+    console.log("pin ~ src:", src);
+
+    const pinataGateway = `${this.endpoint}`;
+    const pinataJwt = this.key;
+    let response: PinataResponse;
     let cid = "";
 
-    const url = `${this.endpoint}/upload`;
-    // console.log(`NftStorage.pin <= ${url}`);
-    const resp: Response = await fetch(url, {
-      method: "POST",
-      body: buffer,
-      headers: {
-        Authorization: "Bearer " + this.key
-      }
-    });
-    const data = (await resp.json()) as NftStorageResponse;
+    ///////////////////////////////////////////////
+    try {
+      const pinata = new PinataSDK({
+        pinataJwt,
+        pinataGateway
+      });
 
-    if (data.ok) {
-      cid = data.value?.cid || "";
-    } else {
-      console.error("NftStorage.pin", data.error);
+      if (src instanceof File) {
+        response = await pinata.upload.file(src);
+        console.log("Pinata media response : ", response);
+      } else {
+        response = await pinata.upload.json(src);
+        console.log("Pinata metadata response : ", response);
+      }
+
+      cid = response.IpfsHash;
+
+      console.log("pin ~ cid:", cid);
+    } catch (error) {
+      console.error(error);
     }
-    console.info(`NftStorage.pin => ipfs://${cid}`);
 
     return cid;
   }

@@ -9,8 +9,8 @@
     "default": "ipfs",
     "ipfs": {
       "gateway": "https://nftstorage.link/ipfs",
-      "apiEndpoint": "https://api.nft.storage",
-      "apiKey": "{{NFT_STORAGE_KEY}}"
+      "apiEndpoint": "salmon-kind-salamander-437.mypinata.cloud",
+      "apiKey": "{{PINATA_API_KEY}}"
     },
     "swarm": {
       "gateway": "https://api.gateway.ethswarm.org/bzz",
