@@ -208,7 +208,6 @@
       };
 
       file = files[0];
-      // console.log("fileload ~ file:", file)
     }
   };
 

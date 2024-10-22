@@ -1,12 +1,12 @@
 import Ipfs from "../common/ipfs";
 import { ipfsApiEndpoint, ipfsApiKey } from "./ipfs";
 
-import { PinataSDK } from "pinata-web3";
-
-type PinataResponse = {
-  IpfsHash: string;
-  PinSize: number;
-  Timestamp: string;
+type NftStorageResponse = {
+  ok: boolean;
+  error?: string;
+  value?: {
+    cid: string;
+  };
 };
 
 class NftStorage extends Ipfs {
@@ -17,43 +17,26 @@ class NftStorage extends Ipfs {
     this.key = ipfsApiKey();
   }
 
-  async pin(src: File | Blob | string): Promise<string> {
-    console.log("pin ~ src:", src);
-
-    const pinataGateway = `${this.endpoint}`;
-    const pinataJwt = this.key;
-    let response: PinataResponse;
+  async pin(buffer: Blob | string): Promise<string> {
     let cid = "";
 
-    ///////////////////////////////////////////////
-    try {
-      const pinata = new PinataSDK({
-        pinataJwt,
-        pinataGateway
-      });
-
-      if (src instanceof File || src instanceof Blob) {
-        response = await pinata.upload.file(src);
-        console.log("Pinata media response : ", response);
-      } else if (typeof src === "string") {
-        try {
-          const objetJson = JSON.parse(src);
-          response = await pinata.upload.json(objetJson);
-          console.log("Pinata metadata response : ", response);
-        } catch (error) {
-          const textFile = new File([src], "text.txt", { type: "text/plain" });
-          response = await pinata.upload.file(textFile);
-        }
-      } else {
-        throw new Error("Type non reconnu par Pinata");
+    const url = `${this.endpoint}/upload`;
+    // console.log(`NftStorage.pin <= ${url}`);
+    const resp: Response = await fetch(url, {
+      method: "POST",
+      body: buffer,
+      headers: {
+        Authorization: "Bearer " + this.key
       }
+    });
+    const data = (await resp.json()) as NftStorageResponse;
 
-      cid = response.IpfsHash;
-
-      console.log("pin ~ cid:", cid);
-    } catch (error) {
-      console.error(error);
+    if (data.ok) {
+      cid = data.value?.cid || "";
+    } else {
+      console.error("NftStorage.pin", data.error);
     }
+    console.info(`NftStorage.pin => ipfs://${cid}`);
 
     return cid;
   }
