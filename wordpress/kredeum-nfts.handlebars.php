@@ -77,8 +77,7 @@ if ( is_admin() ) {
 
 // IPFS.
 define( 'IPFS_GATEWAY', '{{storage.ipfs.gateway}}' );
-define( 'NFT_STORAGE_ENDPOINT', '{{storage.ipfs.apiEndpoint}}' );
-define( 'PINATA_ENDPOINT', get_option( '_KRE_IPFS_ENDPOINT', '' ) ? get_option( '_KRE_IPFS_ENDPOINT', '' ) : '{{storage.ipfs.endpoint}}' );
+define( 'IPFS_ENDPOINT', '{{storage.ipfs.apiEndpoint}}' );
 define( 'IPFS_STORAGE_KEY', get_option( '_KRE_IPFS_STORAGE_KEY', '' ) ? get_option( '_KRE_IPFS_STORAGE_KEY', '' ) : '{{storage.ipfs.apiKey}}' );
 
 // SWARM.

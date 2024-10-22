@@ -1,8 +1,6 @@
 import Ipfs from "../common/ipfs";
 import { ipfsApiEndpoint, ipfsApiKey } from "./ipfs";
 
-import { PinataSDK } from "pinata-web3";
-
 type PinataResponse = {
   IpfsHash: string;
   PinSize: number;
@@ -18,40 +16,39 @@ class PinataStorage extends Ipfs {
   }
 
   async pin(src: File | Blob | string): Promise<string> {
-    // console.log("pin ~ src:", src);
+    console.log("pin ~ src:", src);
 
     const pinataGateway = `${this.endpoint}`;
     const pinataJwt = this.key;
+
     let response: PinataResponse;
+
     let cid = "";
 
     ///////////////////////////////////////////////
+    // see : https://docs.pinata.cloud/api-reference/endpoint/ipfs/pin-file-to-ipfs
     try {
-      const pinata = new PinataSDK({
-        pinataJwt,
-        pinataGateway
+      const data = new FormData();
+      if (typeof src === "string") {
+        src = new Blob([src], { type: "application/json" });
+      }
+      data.append("file", src);
+
+      const options = JSON.stringify({ cidVersion: 1 });
+      data.append("pinataOptions", options);
+
+      const request = await fetch(`${pinataGateway}`, {
+        method: "POST",
+        body: data,
+        headers: {
+          Authorization: "Bearer " + pinataJwt
+        }
       });
 
-      if (src instanceof File || src instanceof Blob) {
-        // Pinata doc says that blob can be passed to pinata.upload.file() function
-        // see : https://docs.pinata.cloud/web3/sdk/upload/file#file
-        // eslint-disable-next-line
-        response = await pinata.upload.file(src as File);
-        // console.log("Pinata media response : ", response);
-      } else if (typeof src === "string") {
-        try {
-          const objetJson = JSON.parse(src);
-          response = await pinata.upload.json(objetJson);
-          // console.log("Pinata metadata response : ", response);
-        } catch (error) {
-          const textFile = new File([src], "text.txt", { type: "text/plain" });
-          response = await pinata.upload.file(textFile);
-        }
-      } else {
-        throw new Error("Type non reconnu par Pinata");
+      if (request.ok) {
+        response = (await request.json()) as PinataResponse;
+        cid = response.IpfsHash;
       }
-
-      cid = response.IpfsHash;
 
       // console.log("pin ~ cid:", cid);
     } catch (error) {

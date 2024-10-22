@@ -15,7 +15,7 @@ namespace KredeumNFTs\Storage;
  * @return string CID hash
  */
 function nft_storage_add_and_pin_dir( $attachment_id ) {
-	$api = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
+	$api = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
 
 	$file     = file_get_contents( get_attached_file( $attachment_id ) );
 	$filename = get_attached_file_meta( $attachment_id )->filename;
@@ -35,14 +35,14 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 		'Content-Length' => strlen( $buffer ),
 	);
 
-	$result = $api->post( '/upload', $buffer, $headers );
+	$result = $api->post( '/', $buffer, $headers );
 
 	// var_dump($result->decode_response()->value->cid);
 	// var_dump($result->decode_response()->value->files[0]->name);
 	// .
 
 	return ( 200 === $result->info->http_code ) ?
-	$result->decode_response()->value->cid . '/' .
+	$result->decode_response()->value->IpfsHash . '/' .
 	$result->decode_response()->value->files[0]->name
 	: $result->error;
 }
@@ -59,8 +59,8 @@ function nft_storage_add_and_pin( $file ) {
 		$api     = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
 		$headers = array( 'Authorization' => 'Bearer ' . IPFS_STORAGE_KEY );
 
-		$result = $api->post( '/upload', $file, $headers );
+		$result = $api->post( '/', $file, $headers );
 
-		return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->cid : $result->error;
+		return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->IpfsHash : $result->error;
 	}
 }

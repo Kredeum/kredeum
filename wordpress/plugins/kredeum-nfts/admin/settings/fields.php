@@ -44,17 +44,6 @@ function fields() {
 		),
 
 		array(
-			'uid'         => '_kre_ipfs_endpoint',
-			'label'       => 'IPFS_ENDPOINT',
-			'section'     => 'first_section',
-			'type'        => 'text',
-			'placeholder' => 'Pinata Endpoint',
-			'default'     => '',
-			'helper'      => __( 'Enter your own Pinata Endpoint, or leave blank to use common key', 'kredeum-nfts' ),
-			'class'       => 'kre-ipfs-storage kre-storage-option',
-		),
-
-		array(
 			'uid'         => '_kre_ipfs_storage_key',
 			'label'       => 'IPFS_STORAGE_KEY',
 			'section'     => 'first_section',
