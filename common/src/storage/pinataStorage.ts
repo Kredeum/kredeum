@@ -33,7 +33,10 @@ class PinataStorage extends Ipfs {
       });
 
       if (src instanceof File || src instanceof Blob) {
-        response = await pinata.upload.file(src);
+        // Pinata doc says that blob can be passed to pinata.upload.file() function
+        // see : https://docs.pinata.cloud/web3/sdk/upload/file#file
+        // eslint-disable-next-line
+        response = await pinata.upload.file(src as File);
         // console.log("Pinata media response : ", response);
       } else if (typeof src === "string") {
         try {
