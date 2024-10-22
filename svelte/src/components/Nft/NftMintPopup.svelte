@@ -138,18 +138,6 @@
 
   const setDefaultAudioCover = () => {
     src = defaultAudioCoverImg;
-
-    const byteCharacters = atob(defaultAudioCoverImg);
-    const byteNumbers = new Array(byteCharacters.length);
-    for (let i = 0; i < byteCharacters.length; i++) {
-      byteNumbers[i] = byteCharacters.charCodeAt(i);
-    }
-    
-    const byteArray = new Uint8Array(byteNumbers);
-    
-    const blob = new Blob([byteArray], { type: 'image/png' });
-    
-    file = new File([blob], fileName, { type: 'image/png' });
   };
 
   $: content_type && handleWpMediatype();
@@ -159,7 +147,7 @@
     inputMediaType = getMediaSelection(content_type);
     if (inputMediaType === "audio" || inputMediaType === "pdf") {
       if (inputMediaType === "audio") {
-        audioFile = file;
+        audio = src;
         setDefaultAudioCover();
       }
 
@@ -253,7 +241,6 @@
 {#if src}
   <NftMint
     {src}
-    {file}
     {chainId}
     {address}
     {signer}
@@ -261,7 +248,7 @@
     {properties}
     {name}
     {description}
-    {audioFile}
+    {audio}
     bind:mint
     bind:minting
     bind:imageUri

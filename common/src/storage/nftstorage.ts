@@ -17,7 +17,7 @@ class NftStorage extends Ipfs {
     this.key = ipfsApiKey();
   }
 
-  async pin(src: File | object): Promise<string> {
+  async pin(src: File | Blob | string): Promise<string> {
     console.log("pin ~ src:", src);
 
     const pinataGateway = `${this.endpoint}`;
@@ -32,12 +32,20 @@ class NftStorage extends Ipfs {
         pinataGateway
       });
 
-      if (src instanceof File) {
+      if (src instanceof File || src instanceof Blob) {
         response = await pinata.upload.file(src);
         console.log("Pinata media response : ", response);
+      } else if (typeof src === "string") {
+        try {
+          const objetJson = JSON.parse(src);
+          response = await pinata.upload.json(objetJson);
+          console.log("Pinata metadata response : ", response);
+        } catch (error) {
+          const textFile = new File([src], "text.txt", { type: "text/plain" });
+          response = await pinata.upload.file(textFile);
+        }
       } else {
-        response = await pinata.upload.json(src);
-        console.log("Pinata metadata response : ", response);
+        throw new Error("Type non reconnu par Pinata");
       }
 
       cid = response.IpfsHash;

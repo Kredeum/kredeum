@@ -23,7 +23,6 @@
   // nft minted returned to caller
   /////////////////////////////////////////////////
   export let src: string;
-  export let file: File;
   export let chainId: number;
   export let address: string;
   export let signer: string;
@@ -31,7 +30,7 @@
   export let name: string | undefined = undefined;
   export let description: string | undefined = undefined;
   export let metadata: string | undefined = undefined;
-  export let audioFile: File | undefined = undefined;
+  export let audio: string | undefined = undefined;
   export let pdf: string | undefined = undefined;
   export let properties: Properties | undefined = undefined;
   /////////////////////////////////////////////////
@@ -70,7 +69,7 @@
   export const mint = async (): Promise<void> => {
     // console.log("<NftMint", chainId, address);
 
-    if (!src || !file) return _mintingError(`<NftMint ERROR : no image`);
+    if (!src) return _mintingError(`<NftMint ERROR : no image`);
 
     if (!(chainId && isAddressNotZero(address)))
       _mintingError(`<NftMint ERROR : no collection '${chainId}' '${address}'`);
@@ -79,18 +78,17 @@
 
     minting = S1_STORE_IMAGE;
 
-    imageUri = await nftPin(chainId, file);
+    imageUri = await nftPin(chainId, src);
 
     if (pdf) {
       pdfUri = pdf;
     }
 
-    if (audioFile) {
-      audioUri = await nftPin(chainId, audioFile);
+    if (audio) {
+      audioUri = await nftPin(chainId, audio);
     }
 
     minting = S2_STORE_METADATA;
-
 
     tokenUri = await nftTokenUri(
       chainId,

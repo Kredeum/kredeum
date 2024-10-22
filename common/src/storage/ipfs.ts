@@ -93,9 +93,9 @@ const ipfsApiEndpoint = (): string => storageParamsGet("ipfs")?.apiEndpoint.repl
 const ipfsApiKey = (): string => storageParamsGet("ipfs")?.apiKey || "";
 
 // GET ipfs uri from media url
-const ipfsPin = async (media: File): Promise<string> => {
+const ipfsPin = async (mediaUrl: string): Promise<string> => {
   nftStorage ||= new NftStorage();
-  const ipfsCid = await nftStorage.pinUrl(media);
+  const ipfsCid = await nftStorage.pinUrl(mediaUrl);
   const ipfsUri = ipfsCid ? `ipfs://${ipfsCid}` : "";
 
   // console.log("ipfsUri", ipfsUri);
