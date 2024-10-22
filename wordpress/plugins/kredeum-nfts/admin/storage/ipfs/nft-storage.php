@@ -61,8 +61,8 @@ function nft_storage_add_and_pin( $file ) {
 
 		$file_stream = fopen( $file, 'r' );
 
-		if ( !$file_stream ) {
-			die("Impossible d'ouvrir le fichier en tant que stream");
+		if ( ! $file_stream ) {
+			die( "Impossible d'ouvrir le fichier en tant que stream" );
 		}
 
 		fclose( $file_stream );
@@ -74,7 +74,7 @@ function nft_storage_add_and_pin( $file ) {
 
 		$result = $api->post( '/', $body, $headers );
 
-		var_dump( $result->decode_response() ); die();
+		// var_dump( $result->decode_response() ); die();.
 
 		return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->IpfsHash : $result->error;
 	}
