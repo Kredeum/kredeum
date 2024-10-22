@@ -55,11 +55,26 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	 * @return string CID hash
 	 */
 function nft_storage_add_and_pin( $file ) {
-	if ( defined( 'NFT_STORAGE_ENDPOINT' ) ) {
-		$api     = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
+	if ( defined( 'IPFS_ENDPOINT' ) ) {
+		$api     = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
 		$headers = array( 'Authorization' => 'Bearer ' . IPFS_STORAGE_KEY );
 
-		$result = $api->post( '/', $file, $headers );
+		$file_stream = fopen( $file, 'r' );
+
+		if ( !$file_stream ) {
+			die("Impossible d'ouvrir le fichier en tant que stream");
+		}
+
+		fclose( $file_stream );
+
+		$body = array(
+			'file'          => $file_stream,
+			'pinataOptions' => json_encode( array( 'cidVersion' => 1 ) ),
+		);
+
+		$result = $api->post( '/', $body, $headers );
+
+		var_dump( $result->decode_response() ); die();
 
 		return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->IpfsHash : $result->error;
 	}
