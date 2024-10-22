@@ -30,7 +30,7 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	);
 	$buffer   = multipart( $parts, $boundary );
 	$headers  = array(
-		'Authorization'  => 'Bearer ' . NFT_STORAGE_KEY,
+		'Authorization'  => 'Bearer ' . IPFS_STORAGE_KEY,
 		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
 		'Content-Length' => strlen( $buffer ),
 	);
@@ -57,7 +57,7 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 function nft_storage_add_and_pin( $file ) {
 	if ( defined( 'NFT_STORAGE_ENDPOINT' ) ) {
 		$api     = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );
-		$headers = array( 'Authorization' => 'Bearer ' . NFT_STORAGE_KEY );
+		$headers = array( 'Authorization' => 'Bearer ' . IPFS_STORAGE_KEY );
 
 		$result = $api->post( '/upload', $file, $headers );
 
