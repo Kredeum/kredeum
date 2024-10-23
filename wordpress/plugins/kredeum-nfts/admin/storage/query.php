@@ -51,7 +51,7 @@ function insert( $file, $content_type, $post_id ) {
 	if ( defined( 'STORAGE_CHOICE' ) ) {
 		switch ( STORAGE_CHOICE ) {
 			case 'ipfs':
-				$uri = 'ipfs://' . nft_storage_add_and_pin( $file );
+				$uri = 'ipfs://' . nft_storage_add_and_pin( $post_id );
 				break;
 			case 'swarm':
 				$uri = 'swarm://' . swarm_add_and_pin( $file, $content_type );

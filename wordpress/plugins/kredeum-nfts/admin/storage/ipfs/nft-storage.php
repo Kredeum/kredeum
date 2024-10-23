@@ -47,13 +47,13 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	: $result->error;
 }
 
-	/**
-	 * IPFS add and pin file with NFT Storage
-	 *
-	 * @param string $file file to upload.
-	 *
-	 * @return string CID hash
-	 */
+/**
+ * IPFS add and pin file with NFT Storage
+ *
+ * @param string $file file to upload.
+ *
+ * @return string CID hash
+ */
 function nft_storage_add_and_pin( $file ) {
 	if ( defined( 'NFT_STORAGE_ENDPOINT' ) ) {
 		$api     = new \RestClient( array( 'base_url' => NFT_STORAGE_ENDPOINT ) );

@@ -37,7 +37,7 @@ if ( is_admin() ) {
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/import.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/multipart.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/nft-storage.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/pinata-storage.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/swarm/swarm-bee.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/query.php';
@@ -77,8 +77,8 @@ if ( is_admin() ) {
 
 // IPFS.
 define( 'IPFS_GATEWAY', '{{storage.ipfs.gateway}}' );
-define( 'NFT_STORAGE_ENDPOINT', '{{storage.ipfs.apiEndpoint}}' );
-define( 'NFT_STORAGE_KEY', get_option( '_KRE_IPFS_STORAGE_KEY', '' ) ? get_option( '_KRE_IPFS_STORAGE_KEY', '' ) : '{{storage.ipfs.apiKey}}' );
+define( 'IPFS_ENDPOINT', '{{storage.ipfs.apiEndpoint}}' );
+define( 'IPFS_STORAGE_KEY', get_option( '_KRE_IPFS_STORAGE_KEY', '' ) ? get_option( '_KRE_IPFS_STORAGE_KEY', '' ) : '{{storage.ipfs.apiKey}}' );
 
 // SWARM.
 define( 'SWARM_GATEWAY', '{{storage.swarm.gateway}}' );

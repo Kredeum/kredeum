@@ -29,6 +29,7 @@ const toRollupConfig = function (): RollupOptions {
         format: "iife",
         experimentalMinChunkSize: 100_000,
         file: "./web/dapp/assets/js/kredeum-nfts.js"
+        // inlineDynamicImports: true
       }
     ],
     plugins: [

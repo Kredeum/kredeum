@@ -1,10 +1,10 @@
 import type { NftMetadata, NftType, Properties } from "../common/types";
 
-import NftStorage from "./nftstorage";
+import PinataStorage from "./pinataStorage";
 import { textShort, DEFAULT_NAME, urlToLink } from "../common/config";
 import { storageDefault, storageParamsGet, storageParamsValid } from "./storage";
 
-let nftStorage: NftStorage;
+let pinataStorage: PinataStorage;
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////
 // IPFS helpers
@@ -94,8 +94,8 @@ const ipfsApiKey = (): string => storageParamsGet("ipfs")?.apiKey || "";
 
 // GET ipfs uri from media url
 const ipfsPin = async (mediaUrl: string): Promise<string> => {
-  nftStorage ||= new NftStorage();
-  const ipfsCid = await nftStorage.pinUrl(mediaUrl);
+  pinataStorage ||= new PinataStorage();
+  const ipfsCid = await pinataStorage.pinUrl(mediaUrl);
   const ipfsUri = ipfsCid ? `ipfs://${ipfsCid}` : "";
 
   // console.log("ipfsUri", ipfsUri);
@@ -129,7 +129,7 @@ const ipfsTokenUri = async (
   if (animation_url) json.animation_url = ipfsGatewayUrl(animation_url);
   if (pdfUri) json.pdf = ipfsGatewayUrl(pdfUri);
 
-  const ipfsJsonCid = await nftStorage.pinJson(json);
+  const ipfsJsonCid = await pinataStorage.pinJson(json);
   const ipfsTokenUri = ipfsJsonCid && `ipfs://${ipfsJsonCid}`;
 
   // console.log("ipfsTokenUri", ipfsTokenUri);

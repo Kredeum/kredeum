@@ -36,6 +36,8 @@
         "ETHERSCAN_API_KEY_TAIKO",
         "INFURA_API_KEY",
         "NFT_STORAGE_KEY",
+        "PINATA_API_KEY",
+        "SWARM_API_KEY",
         "THEGRAPH_KEY",
         "TREASURY_ACCOUNT"
       ],
