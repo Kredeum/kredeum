@@ -20,7 +20,6 @@ class PinataStorage extends Ipfs {
     const pinataJwt = this.key;
 
     let response: PinataResponse;
-
     let cid = "";
 
     ///////////////////////////////////////////////
