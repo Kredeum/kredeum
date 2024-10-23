@@ -116,7 +116,15 @@ function nft_storage_add_and_pin( $file ) {
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
 
-		// var_dump( $err ); die();
+		// var_dump( $response ); die();
+
+		$decoded_response = json_decode($response, true);
+
+		if (isset($decoded_response['IpfsHash'])) {
+			$ipfsHash = $decoded_response['IpfsHash'];
+			var_dump( $ipfsHash ); die();
+		}
+
 		return ( ! $err ) ? $response->IpfsHash : $err;
 		///////////////////////////////////////////
 
