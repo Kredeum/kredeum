@@ -23,10 +23,10 @@ function nft_storage_add_and_pin( $file_id ) {
 		$filename     = get_attached_file_meta( $file_id )->filename;
 
 		$boundary = md5( rand() );
-		$buffer = "--{$boundary}\r\n";
-		$buffer .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . $filename . "\"\r\n";
-		$buffer .= "Content-Type: application/octet-stream\r\n\r\n";
-		$buffer .= $file_content . "\r\n";
+		$buffer   = "--{$boundary}\r\n";
+		$buffer  .= 'Content-Disposition: form-data; name="file"; filename="' . $filename . "\"\r\n";
+		$buffer  .= "Content-Type: application/octet-stream\r\n\r\n";
+		$buffer  .= $file_content . "\r\n";
 
 		$buffer .= "--{$boundary}\r\n";
 		$buffer .= "Content-Disposition: form-data; name=\"pinataOptions\"\r\n\r\n";
