@@ -16,8 +16,6 @@ class PinataStorage extends Ipfs {
   }
 
   async pin(src: File | Blob | string): Promise<string> {
-    console.log("pin ~ src:", src);
-
     const pinataGateway = `${this.endpoint}`;
     const pinataJwt = this.key;
 
@@ -37,7 +35,7 @@ class PinataStorage extends Ipfs {
       const options = JSON.stringify({ cidVersion: 1 });
       data.append("pinataOptions", options);
 
-      const request = await fetch(`${pinataGateway}`, {
+      const request = await fetch(pinataGateway, {
         method: "POST",
         body: data,
         headers: {

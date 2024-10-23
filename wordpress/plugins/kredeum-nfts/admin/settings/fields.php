@@ -48,9 +48,9 @@ function fields() {
 			'label'       => 'IPFS_STORAGE_KEY',
 			'section'     => 'first_section',
 			'type'        => 'textarea',
-			'placeholder' => 'Pinata Storage key',
+			'placeholder' => 'Pinata JWT Token',
 			'default'     => '',
-			'helper'      => __( 'Enter your own Pinata Storage Key, or leave blank to use common key', 'kredeum-nfts' ),
+			'helper'      => __( 'Enter your own Pinata JWT Token, or leave blank to use common key', 'kredeum-nfts' ),
 			'class'       => 'kre-ipfs-storage kre-storage-option',
 		),
 

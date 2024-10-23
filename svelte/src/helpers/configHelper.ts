@@ -113,8 +113,7 @@ const sectionCheck = (namespace: string, configSection: ConfigSectionMap) => {
         Object.entries(value).forEach(([storageParamKey, storageParamValue]) => {
           (value as FieldsParams)[storageParamKey] = storageParamValue.trim();
 
-          // if (storageParamKey === "gateway" || storageParamKey === "apiEndpoint") {
-          if (storageParamKey === "gateway") {
+          if (storageParamKey === "gateway" || storageParamKey === "apiEndpoint") {
             if (!isUrlValid(storageParamValue as string)) {
               addFieldError(configSection, key, storageParamKey, "Bad URL");
             }

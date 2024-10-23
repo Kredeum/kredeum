@@ -9,6 +9,7 @@ namespace KredeumNFTs\Storage;
 
 /**
  * IPFS add and pin file with Pinata
+ * See : // see : https://docs.pinata.cloud/api-reference/endpoint/ipfs/pin-file-to-ipfs
  *
  * @param string $file_id id of file to upload.
  *
