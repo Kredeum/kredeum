@@ -19,8 +19,8 @@ function nft_storage_add_and_pin( $file_id ) {
 	if ( defined( 'IPFS_ENDPOINT' ) ) {
 		$api = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
 
-		$file_content     = file_get_contents( get_attached_file( $file_id ) );
-		$filename = get_attached_file_meta( $file_id )->filename;
+		$file_content = file_get_contents( get_attached_file( $file_id ) );
+		$filename     = get_attached_file_meta( $file_id )->filename;
 
 		$boundary = md5( rand() );
 		$buffer = "--{$boundary}\r\n";
@@ -30,20 +30,18 @@ function nft_storage_add_and_pin( $file_id ) {
 
 		$buffer .= "--{$boundary}\r\n";
 		$buffer .= "Content-Disposition: form-data; name=\"pinataOptions\"\r\n\r\n";
-		$buffer .= json_encode( [
-			"cidVersion" => 1
-		] ) . "\r\n";
+		$buffer .= json_encode( array( 'cidVersion' => 1 ) ) . "\r\n";
 
 		$buffer .= "--{$boundary}--\r\n";
 
-		$headers  = array(
-			'Authorization'  => 'Bearer ' . IPFS_STORAGE_KEY,
-			'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
+		$headers = array(
+			'Authorization' => 'Bearer ' . IPFS_STORAGE_KEY,
+			'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
 		);
 
 		$result = $api->post( '/', $buffer, $headers );
 
-		// var_dump( $result->decode_response()->IpfsHash ); die();
+		// var_dump( $result->decode_response()->IpfsHash ); die();.
 
 		return ( 200 === $result->info->http_code ) ? $result->decode_response()->IpfsHash : $result->error;
 	}
