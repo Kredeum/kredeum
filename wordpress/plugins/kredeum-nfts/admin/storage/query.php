@@ -30,7 +30,7 @@ function upsert( $post_id ) {
  * @return string URI hash
  */
 function insert_post( $post_id ) {
-	$file         = get_attached_file( $post_id );
+	$file         = file_get_contents( get_attached_file( $post_id ) );
 	$content_type = get_post_mime_type( $post_id );
 
 	$uri = insert( $file, $content_type, $post_id );
@@ -51,7 +51,7 @@ function insert( $file, $content_type, $post_id ) {
 	if ( defined( 'STORAGE_CHOICE' ) ) {
 		switch ( STORAGE_CHOICE ) {
 			case 'ipfs':
-				$uri = 'ipfs://' . nft_storage_add_and_pin( $file );
+				$uri = 'ipfs://' . nft_storage_add_and_pin( $post_id );
 				break;
 			case 'swarm':
 				$uri = 'swarm://' . swarm_add_and_pin( $file, $content_type );

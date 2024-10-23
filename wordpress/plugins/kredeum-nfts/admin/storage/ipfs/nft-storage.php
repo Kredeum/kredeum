@@ -54,106 +54,36 @@ function nft_storage_add_and_pin_dir( $attachment_id ) {
 	 *
 	 * @return string CID hash
 	 */
-function nft_storage_add_and_pin( $file ) {
+function nft_storage_add_and_pin( $file_id ) {
 	if ( defined( 'IPFS_ENDPOINT' ) ) {
-		// $api     = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
-		// $headers = array( 'Authorization' => 'Bearer ' . IPFS_STORAGE_KEY );
+		$api = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
 
-		// $file_stream = fopen( $file, 'r' );
+		$file_content     = file_get_contents( get_attached_file( $file_id ) );
+		$filename = get_attached_file_meta( $file_id )->filename;
 
-		// if ( ! $file_stream ) {
-		// 	die( "Impossible d'ouvrir le fichier en tant que stream" );
-		// }
+		$boundary = md5( rand() );
+		$buffer = "--{$boundary}\r\n";
+		$buffer .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . $filename . "\"\r\n";
+		$buffer .= "Content-Type: application/octet-stream\r\n\r\n";
+		$buffer .= $file_content . "\r\n";
 
-		// fclose( $file_stream );
-
-		// $body = array(
-		// 	'file'          => $file_stream,
-		// 	'pinataOptions' => json_encode( array( 'cidVersion' => 1 ) ),
-		// );
-
-		// $result = $api->post( '/', $body, $headers );
-
-		// // var_dump( $result->decode_response() ); die();.
-
-		// return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->IpfsHash : $result->error;
-		///////////////////////////////////////////
-		// $encoded_file_content = base64_encode($file);
-
-		$boundary = md5(rand());
-		$post_fields = "--{$boundary}\r\n";
-		$post_fields .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . "\"\r\n";
-		$post_fields .= "Content-Type: application/octet-stream\r\n\r\n";
-		$post_fields .= file_get_contents($file) . "\r\n";
-
-		$post_fields .= "--{$boundary}\r\n";
-		$post_fields .= "Content-Disposition: form-data; name=\"pinataOptions\"\r\n\r\n";
-		$post_fields .= json_encode([
+		$buffer .= "--{$boundary}\r\n";
+		$buffer .= "Content-Disposition: form-data; name=\"pinataOptions\"\r\n\r\n";
+		$buffer .= json_encode( [
 			"cidVersion" => 1
-		]) . "\r\n";
+		] ) . "\r\n";
 
-		$post_fields .= "--{$boundary}--\r\n";
+		$buffer .= "--{$boundary}--\r\n";
 
-		// var_dump( $post_fields ); die();
+		$headers  = array(
+			'Authorization'  => 'Bearer ' . IPFS_STORAGE_KEY,
+			'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
+		);
 
-		$curl = curl_init();
+		$result = $api->post( '/', $buffer, $headers );
 
-		curl_setopt_array($curl, [
-			CURLOPT_URL => "https://api.pinata.cloud/pinning/pinFileToIPFS",
-			CURLOPT_RETURNTRANSFER => true,
-			CURLOPT_ENCODING => "",
-			CURLOPT_MAXREDIRS => 10,
-			CURLOPT_TIMEOUT => 30,
-			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-			CURLOPT_CUSTOMREQUEST => "POST",
-			CURLOPT_POSTFIELDS => $post_fields,
-			CURLOPT_HTTPHEADER => [
-				"Authorization: Bearer " . IPFS_STORAGE_KEY,
-				"Content-Type: multipart/form-data; boundary=" . $boundary,
-			],
-		]);
+		// var_dump( $result->decode_response()->IpfsHash ); die();
 
-		$response = curl_exec($curl);
-		$err = curl_error($curl);
-
-		// var_dump( $response ); die();
-
-		$decoded_response = json_decode($response, true);
-
-		if (isset($decoded_response['IpfsHash'])) {
-			$ipfsHash = $decoded_response['IpfsHash'];
-			var_dump( $ipfsHash ); die();
-		}
-
-		return ( ! $err ) ? $response->IpfsHash : $err;
-		///////////////////////////////////////////
-
-		// $client = new \GuzzleHttp\Client(
-	    //     [
-		//         'base_uri' => 'https://api.pinata.cloud//pinning/pinFileToIPFS',
-		//         'headers' => [
-		// 	        'pinata_api_key' => IPFS_STORAGE_KEY,
-		// 	        // 'pinata_secret_api_key' => Env::get('PINATA_SECRET_API_KEY'),
-		//         ],
-	    //     ]
-        // );
-
-		// if(file_exists($file)){
-		// 	$contents = fopen($file, 'r');
-		// } else {
-		// 	$contents = $file;
-		// }
-        // $result = json_decode($client->post('/', [
-        //     'multipart' => [
-        //         [
-        //             'name'     => 'file',
-        //             'contents' => $contents,
-	    //             'pinataMetadata' => $metadata,
-        //         ],
-        //     ]
-        // ])->getBody()->getContents(), true);
-
-		// var_dump( $result ); die();
-
+		return ( 200 === $result->info->http_code ) ? $result->decode_response()->IpfsHash : $result->error;
 	}
 }
