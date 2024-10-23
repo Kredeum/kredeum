@@ -37,7 +37,7 @@ if ( is_admin() ) {
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/import.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/multipart.php';
-	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/nft-storage.php';
+	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/ipfs/pinata-storage.php';
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/swarm/swarm-bee.php';
 
 	require_once KREDEUM_NFTS_PLUGIN_PATH . 'admin/storage/query.php';

@@ -1,6 +1,6 @@
 <?php
 /**
- * IPFS NFT STORAGE
+ * IPFS PINATA STORAGE
  *
  * @package kredeum/nfts
  */
@@ -8,52 +8,12 @@
 namespace KredeumNFTs\Storage;
 
 /**
- * IPFS add and pin file inside directory with NFT Storage
+ * IPFS add and pin file with Pinata
  *
- * @param string $attachment_id Id attachment file.
+ * @param string $file_id id of file to upload.
  *
  * @return string CID hash
  */
-function nft_storage_add_and_pin_dir( $attachment_id ) {
-	$api = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
-
-	$file     = file_get_contents( get_attached_file( $attachment_id ) );
-	$filename = get_attached_file_meta( $attachment_id )->filename;
-
-	$boundary = md5( time() );
-	$parts    = array(
-		array(
-			'type'    => 'file',
-			'name'    => $filename,
-			'content' => $file,
-		),
-	);
-	$buffer   = multipart( $parts, $boundary );
-	$headers  = array(
-		'Authorization'  => 'Bearer ' . IPFS_STORAGE_KEY,
-		'Content-Type'   => 'multipart/form-data; boundary=' . $boundary,
-		'Content-Length' => strlen( $buffer ),
-	);
-
-	$result = $api->post( '/', $buffer, $headers );
-
-	// var_dump($result->decode_response()->value->cid);
-	// var_dump($result->decode_response()->value->files[0]->name);
-	// .
-
-	return ( 200 === $result->info->http_code ) ?
-	$result->decode_response()->value->IpfsHash . '/' .
-	$result->decode_response()->value->files[0]->name
-	: $result->error;
-}
-
-	/**
-	 * IPFS add and pin file with Pinata
-	 *
-	 * @param string $file_id id of file to upload.
-	 *
-	 * @return string CID hash
-	 */
 function nft_storage_add_and_pin( $file_id ) {
 	if ( defined( 'IPFS_ENDPOINT' ) ) {
 		$api = new \RestClient( array( 'base_url' => IPFS_ENDPOINT ) );
