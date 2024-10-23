@@ -78,12 +78,13 @@ function nft_storage_add_and_pin( $file ) {
 
 		// return ( 200 === $result->info->http_code ) ? $result->decode_response()->value->IpfsHash : $result->error;
 		///////////////////////////////////////////
-		$encoded_file_content = base64_encode($file);
+		// $encoded_file_content = base64_encode($file);
 
 		$boundary = md5(rand());
 		$post_fields = "--{$boundary}\r\n";
-		$post_fields .= "Content-Disposition: form-data; name=\"file\";\r\n\r\n";
-		$post_fields .= $encoded_file_content . "\r\n";
+		$post_fields .= "Content-Disposition: form-data; name=\"file\"; filename=\"" . basename($file) . "\"\r\n";
+		$post_fields .= "Content-Type: application/octet-stream\r\n\r\n";
+		$post_fields .= file_get_contents($file) . "\r\n";
 
 		$post_fields .= "--{$boundary}\r\n";
 		$post_fields .= "Content-Disposition: form-data; name=\"pinataOptions\"\r\n\r\n";
@@ -93,7 +94,7 @@ function nft_storage_add_and_pin( $file ) {
 
 		$post_fields .= "--{$boundary}--\r\n";
 
-		var_dump( $post_fields ); die();
+		// var_dump( $post_fields ); die();
 
 		$curl = curl_init();
 
@@ -115,7 +116,8 @@ function nft_storage_add_and_pin( $file ) {
 		$response = curl_exec($curl);
 		$err = curl_error($curl);
 
-		var_dump( $response ); die();
+		// var_dump( $err ); die();
+		return ( ! $err ) ? $response->IpfsHash : $err;
 		///////////////////////////////////////////
 
 		// $client = new \GuzzleHttp\Client(

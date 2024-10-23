@@ -30,7 +30,7 @@ function upsert( $post_id ) {
  * @return string URI hash
  */
 function insert_post( $post_id ) {
-	$file         = file_get_contents( get_attached_file( $post_id ) );
+	$file         = get_attached_file( $post_id );
 	$content_type = get_post_mime_type( $post_id );
 
 	$uri = insert( $file, $content_type, $post_id );
