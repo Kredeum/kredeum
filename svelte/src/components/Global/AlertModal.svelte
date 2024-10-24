@@ -2,7 +2,7 @@
   import { onMount } from "svelte";
   import { fade, fly } from "svelte/transition";
   import { quintOut, bounceOut } from "svelte/easing";
-  import { clickOutside } from "@svelte/helpers/clickOutside";
+  import { clickOutside } from "../../helpers/clickOutside";
 
   let open = false;
   let status = "";
