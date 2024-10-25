@@ -21,7 +21,7 @@
   "license": "ISC",
   "main": "index.js",
   "scripts": {
-    "clean": "rm -rf $HOME/.foundry cache-forge out node_modules lib types artifacts broadcast .turbo && git restore lib",
+    "clean": "rm -rf $HOME/.foundry/bin cache-forge out node_modules lib types artifacts broadcast .turbo && git restore lib",
     "postinstall": "pnpm forge:install && pnpm forge:update",
     "build": "pnpm build:forge && pnpm build:typechain",
     "build:forge": "forge build",
