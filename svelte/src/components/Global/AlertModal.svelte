@@ -30,22 +30,22 @@
       });
 
       // Global Error Listener for Uncaught Exceptions
-      window.onerror = function (message, source, lineno, colno, error) {
-        // console.log("Global error:", { message, source, lineno, colno, error });
-        status = "error";
-        title = `${error?.name}`;
-        alertMsg = error?.message || "";
-        open = true;
-      };
+      // window.onerror = function (message, source, lineno, colno, error) {
+      //   // console.log("Global error:", { message, source, lineno, colno, error });
+      //   status = "error";
+      //   title = `${error?.name}`;
+      //   alertMsg = error?.message || "";
+      //   open = true;
+      // };
 
-      // Global Listener for Unhandled Promise Rejections
-      window.onunhandledrejection = function (event) {
-        console.log("Unhandled rejection:", event);
-        status = "error";
-        title = `Unhandled rejection #${event.reason.code}`;
-        alertMsg = event.reason.message;
-        open = true;
-      };
+      // // Global Listener for Unhandled Promise Rejections
+      // window.onunhandledrejection = function (event) {
+      //   console.log("Unhandled rejection:", event);
+      //   status = "error";
+      //   title = `Unhandled rejection #${event.reason.code}`;
+      //   alertMsg = event.reason.message;
+      //   open = true;
+      // };
     }
   });
 
