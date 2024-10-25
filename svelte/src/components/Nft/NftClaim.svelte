@@ -1,5 +1,5 @@
 <script lang="ts">
-  import NftStorage from "@kredeum/common/src/storage/nftstorage";
+  import PinataStorage from "@kredeum/common/src/storage/pinataStorage";
   import {
     getOpenBound,
     explorerTxLog,
@@ -31,7 +31,7 @@
   let claiming = false;
   let claimed = false;
 
-  let nftStorage: NftStorage;
+  let pinataStorage: PinataStorage;
   let claimingError = "";
 
   $: claimingError && console.error(claimingError);
@@ -63,8 +63,8 @@
 
     // console.log("CLAIM", chainId, address, tokenID, tokenURI, targetChainId, targetAddress);
 
-    nftStorage ||= new NftStorage();
-    const cid = await nftStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
+    pinataStorage ||= new PinataStorage();
+    const cid = await pinataStorage.pinUrl(storageLinkToUrlHttp(tokenURI));
 
     if (!cid.startsWith("bafkrei")) {
       claimingError = `Not CID V1 raw ${cid}`;

@@ -71,6 +71,9 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
+=1.6.8
+* Fix IPFS upload (use Pinata instead of NftStorage)
+
 = 1.6.6 (latest & stable) =
 * New features :
 * Many new deployments, mainly EVM L2s. Available mainnets:
