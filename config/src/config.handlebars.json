@@ -1,6 +1,6 @@
 {
   "version": {
-    "latest": "1.6.7",
+    "latest": "1.6.8",
     "stable": "1.6.6",
     "branch": "{{GIT_BRANCH}}",
     "commit": "{{GIT_COMMIT}}"
