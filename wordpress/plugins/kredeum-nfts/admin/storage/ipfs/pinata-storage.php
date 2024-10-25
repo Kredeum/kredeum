@@ -39,7 +39,7 @@ function nft_storage_add_and_pin( $file_id ) {
 			'Content-Type'  => 'multipart/form-data; boundary=' . $boundary,
 		);
 
-		$result = $api->post( '/', $buffer, $headers );
+		$result = $api->post( '/pinning/pinFileToIPFS', $buffer, $headers );
 
 		// var_dump( $result->decode_response()->IpfsHash ); die();.
 

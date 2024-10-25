@@ -19,7 +19,7 @@ class PinataStorage extends Ipfs {
   // see : https://docs.pinata.cloud/api-reference/endpoint/ipfs/pin-file-to-ipfs
   // ( if Pinata SDK librarie is needed : https://docs.pinata.cloud/web3/tools/pinata-sdk )
   async pin(src: File | Blob | string): Promise<string> {
-    const pinataGateway = `${this.endpoint}`;
+    const pinataEndpoint = `${this.endpoint}`;
     const pinataJwt = this.key;
 
     let response: PinataResponse;
@@ -35,7 +35,7 @@ class PinataStorage extends Ipfs {
       const options = JSON.stringify({ cidVersion: 1 });
       data.append("pinataOptions", options);
 
-      const request = await fetch(pinataGateway, {
+      const request = await fetch(`${pinataEndpoint}/pinning/pinFileToIPFS`, {
         method: "POST",
         body: data,
         headers: {
