@@ -71,8 +71,9 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-=1.6.8
+=1.6.9
 * Fix IPFS upload (use Pinata instead of NftStorage)
+* Update RCP API keys
 
 = 1.6.6 (latest & stable) =
 * New features :

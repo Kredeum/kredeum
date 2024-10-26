@@ -61,7 +61,7 @@
       "https://sepolia.basescan.org",
       "https://base-sepolia.blockscout.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "opstack": true,
     "create": true,
     "linkedMainnet": 8453,
@@ -145,7 +145,7 @@
       "active": false
     },
     "alchemy": {
-      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_GOERLI}}",
+      "url": "https://eth-goerli.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": false
     },
     "eip1559": true,
@@ -169,7 +169,7 @@
       "https://base-goerli.blockscout.com"
     ],
     "opstack": true,
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 8453,
     "linkedLayer1": 5,
@@ -231,7 +231,7 @@
     "blockExplorerUrls": [
       "https://testnet-zkevm.polygonscan.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "linkedMainnet": 1101,
     "linkedLayer1": 11155111,
     "create": true
@@ -251,7 +251,7 @@
       "https://testnet-zkevm.polygonscan.com",
       "https://explorer.public.zkevm-test.net"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "active": false,
     "linkedMainnet": 1101,
     "linkedLayer1": 5,
@@ -349,7 +349,7 @@
     "blockExplorerUrls": [
       "https://amoy.polygonscan.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 137
   },
@@ -396,7 +396,7 @@
       "active": true
     },
     "active": false,
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 137
   },
@@ -437,7 +437,7 @@
       "https://testnet.snowtrace.io",
       "https://cchain.explorer.avax-test.network"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 43114
   },
@@ -475,7 +475,7 @@
     "blockExplorerUrls": [
       "https://testnet.ftmscan.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 250
   },
@@ -495,7 +495,7 @@
     "blockExplorerUrls": [
       "https://testnet.bscscan.com/"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedMainnet": 56,
     "nftsFactoryV3": ""

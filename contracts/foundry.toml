@@ -21,7 +21,7 @@ polygon = "https://polygon-mainnet.infura.io/v3/${INFURA_API_KEY}"
 optimism = "https://optimism-mainnet.infura.io/v3/${INFURA_API_KEY}"
 arbitrum = "https://arbitrum-mainnet.infura.io/v3/${INFURA_API_KEY}"
 avalanche = "https://avalanche-mainnet.infura.io/v3/${INFURA_API_KEY}"
-base = "https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY_BASE}"
+base = "https://base-mainnet.g.alchemy.com/v2/${ALCHEMY_API_KEY}"
 polygon-zkevm = "https://zkevm-rpc.com"
 gnosis = "https://rpc.ankr.com/gnosis"
 fantom = "https://rpc.ankr.com/fantom"
@@ -74,21 +74,9 @@ fraxtal-testnet = "https://rpc.testnet.frax.com"
 anvil = "http://127.0.0.1:8545"
 
 [etherscan]
-gnosis = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
-base = { key = "${ETHERSCAN_API_KEY_BASE}" }
-polygon-zkevm =  { key = "${ETHERSCAN_API_KEY_POLYGON_ZKEVM}" }
-linea = { key = "${ETHERSCAN_API_KEY_LINEA}" }
 
-# TESTNETS
-goerli = { key = "${ETHERSCAN_API_KEY}" }
-sepolia = { key = "${ETHERSCAN_API_KEY}" }
 holesky = { key = "${ETHERSCAN_API_KEY}", url = "https://api-holesky.etherscan.io/api" }
 calypso-testnet = { key = "non-applicable", url = "https://giant-half-dual-testnet.explorer.testnet.skalenodes.com" }
-
-linea-testnet = { key = "${ETHERSCAN_API_KEY_LINEA}" }
-base-sepolia = { key = "${ETHERSCAN_API_KEY_BASE}" }
-chiado = { key = "${ETHERSCAN_API_KEY_GNOSIS}" }
-polygon-zkevm-testnet =  { key = "${ETHERSCAN_API_KEY_POLYGON_ZKEVM}" }
 
 #
 

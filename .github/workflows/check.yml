@@ -20,7 +20,7 @@ jobs:
       - name: Install pnpm
         uses: pnpm/action-setup@v2.2.4
         with:
-          version: 8.5.1
+          version: 9.4.0
 
       - name: Install all packages
         run: pnpm install-all
@@ -33,8 +33,5 @@ jobs:
           DEPLOYER_PRIVATE_KEY: KEY
           INFURA_API_KEY: KEY
           ALCHEMY_API_KEY: KEY
-          ALCHEMY_API_KEY_POLYGON: KEY
-          ALCHEMY_API_KEY_ARBITRUM: KEY
-          ALCHEMY_API_KEY_OPTIMISM: KEY
           COVALENT_API_KEY: KEY
           NFT_STORAGE_KEY: KEY

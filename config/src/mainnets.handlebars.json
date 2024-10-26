@@ -34,7 +34,7 @@
     "chainName": "arbitrum",
     "rpcUrls": [
       "https://rpc.ankr.com/arbitrum/{{ANKR_API_KEY}}",
-      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "https://arb-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://arbitrum-mainnet.infura.io/v3/{{INFURA_API_KEY}}"
     ],
     "nativeCurrency": {
@@ -46,9 +46,9 @@
       "https://arbiscan.io",
       "https://explorer.arbitrum.io"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_ARBITRUM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "alchemy": {
-      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_ARBITRUM}}",
+      "url": "https://arb-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "create": true,
@@ -77,7 +77,7 @@
     "chainName": "optimism",
     "rpcUrls": [
       "https://rpc.ankr.com/optimism/{{ANKR_API_KEY}}",
-      "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
+      "https://opt-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://optimism-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://mainnet.optimism.io"
     ],
@@ -89,9 +89,9 @@
     "blockExplorerUrls": [
       "https://optimistic.etherscan.io"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_OPTIMISM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "alchemy": {
-      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_OPTIMISM}}",
+      "url": "https://opt-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "opstack": true,
@@ -114,7 +114,7 @@
       "https://scrollscan.com/",
       "https://blockscout.scroll.io"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_SCROLL}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -124,7 +124,7 @@
     "chainName": "base",
     "rpcUrls": [
       "https://rpc.ankr.com/base/{{ANKR_API_KEY}}",
-      "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_BASE}}",
+      "https://base-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://mainnet.base.org/",
       "https://developer-access-mainnet.base.org/"
     ],
@@ -138,11 +138,11 @@
       "https://base.blockscout.com"
     ],
     "alchemy": {
-      "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_BASE}}",
+      "url": "https://base-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": false
     },
     "opstack": true,
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BASE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedLayer1": 1
   },
@@ -203,7 +203,7 @@
       "https://blastscan.io"
     ],
     "opstack": true,
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BLAST}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "active": true,
     "linkedLayer1": 1
@@ -224,7 +224,7 @@
     "blockExplorerUrls": [
       "https://zkevm.polygonscan.com/"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON_ZKEVM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true,
     "linkedLayer1": 1
   },
@@ -244,7 +244,7 @@
       "https://lineascan.build",
       "https://explorer.linea.build"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_LINEA}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "linkedLayer1": 1,
     "active": true,
     "create": true
@@ -285,7 +285,7 @@
     ],
     "linkedLayer1": 1,
     "active": true,
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_TAIKO}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "covalent": {
       "active": true
     },
@@ -315,7 +315,7 @@
     "chainName": "polygon",
     "rpcUrls": [
       "https://rpc.ankr.com/polygon/{{ANKR_API_KEY}}",
-      "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY_POLYGON}}",
+      "https://polygon-mainnet.g.alchemy.com/v2/{{ALCHEMY_API_KEY}}",
       "https://polygon-mainnet.infura.io/v3/{{INFURA_API_KEY}}",
       "https://polygon-rpc.com/"
     ],
@@ -328,14 +328,14 @@
       "https://polygonscan.com",
       "https://polygon-explorer-mainnet.chainstacklabs.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_POLYGON}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "subgraph": {
       "url": "https://api.thegraph.com/subgraphs/name/tranchien2002/eip721-matic",
       "startBlock": 16875648,
       "active": false
     },
     "alchemy": {
-      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY_POLYGON}}",
+      "url": "https://polygon-mainnet.g.alchemy.com/nft/v2/{{ALCHEMY_API_KEY}}",
       "active": true
     },
     "openSea": "https://opensea.io/assets/matic",
@@ -360,7 +360,7 @@
       "https://gnosisscan.io/",
       "https://blockscout.com/xdai/mainnet"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_GNOSIS}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true
   },
   {
@@ -380,7 +380,7 @@
       "https://snowtrace.io",
       "https://cchain.explorer.avax.network"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_AVALANCHE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true
   },
   {
@@ -419,7 +419,7 @@
     "blockExplorerUrls": [
       "https://ftmscan.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_FANTOM}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true
   },
   {
@@ -441,7 +441,7 @@
     "blockExplorerUrls": [
       "https://bscscan.com"
     ],
-    "etherscanApiKey": "{{ETHERSCAN_API_KEY_BINANCE}}",
+    "etherscanApiKey": "{{ETHERSCAN_API_KEY}}",
     "create": true
   },
   {
