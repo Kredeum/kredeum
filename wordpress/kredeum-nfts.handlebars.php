@@ -10,7 +10,7 @@
  * Text domain: kredeum-nfts
  * Domain Path: /languages
  *
- * Copyright 2020-2022 Kredeum
+ * Copyright (c) 2021-2024 Kredeum
  *
  * @package kredeum/nfts
  */

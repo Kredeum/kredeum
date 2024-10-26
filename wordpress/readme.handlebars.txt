@@ -1,7 +1,7 @@
 === Kredeum NFTs, the easiest way to sell your NFTs directly on your WordPress site ===
 Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
-Tags: nft, blockchain, ethereum, polygon, ipfs, swarm
+Tags: nft, blockchain, ethereum, ipfs, swarm
 Requires at least: 5.0
 Tested up to: 6.5.3
 Stable tag: {{version.stable}}
@@ -71,11 +71,14 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
-=1.6.9
+= 1.7.0 =
+* ...
+
+= 1.6.9 (latest & stable) =
 * Fix IPFS upload (use Pinata instead of NftStorage)
 * Update RCP API keys
 
-= 1.6.6 (latest & stable) =
+= 1.6.6 =
 * New features :
 * Many new deployments, mainly EVM L2s. Available mainnets:
 *   ethereum, arbitrum, optimism, scroll, base, mantle, mode, blast, polygon-zkevm
