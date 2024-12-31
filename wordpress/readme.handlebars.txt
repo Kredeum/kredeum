@@ -3,7 +3,7 @@ Contributors: yoannr35, alexr35, alain
 Donate link:  https://www.kredeum.com/
 Tags: nft, blockchain, ethereum, polygon, ipfs, swarm
 Requires at least: 5.0
-Tested up to: 6.5.3
+Tested up to: 6.7.1
 Stable tag: {{version.stable}}
 Requires PHP: 7.3
 License: GPLv3 or later
@@ -71,6 +71,9 @@ You can even add your NFTs in any websites you want by using Kredeum "Buy snippe
 
 
 == Changelog ==
+=1.6.10
+* Fix XSS vulnerability
+
 =1.6.9
 * Fix IPFS upload (use Pinata instead of NftStorage)
 * Update RCP API keys
