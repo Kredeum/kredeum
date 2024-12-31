@@ -31,7 +31,7 @@ function add_shortcode_callback( $atts = array(), $content = null, $tag = '' ) {
 		$atts
 	);
 
-	$o  = '<div id="' . str_replace( '_', '-', $tag ) . '" chainid="' . $args['chainid'] . '" address="' . $args['address'] . '" tokenid="' . $args['tokenid'] . '">';
+	$o  = '<div id="' . esc_attr(str_replace( '_', '-', $tag )) . '" chainid="' . esc_attr($args['chainid']) . '" address="' . esc_attr($args['address']) . '" tokenid="' . esc_attr($args['tokenid']) . '">';
 	$o .= '</div>';
 	return $o;
 };
